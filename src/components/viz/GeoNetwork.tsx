@@ -1,7 +1,8 @@
-import { useId, useMemo, useState } from 'react';
+import { useId, useMemo, useRef, useState } from 'react';
 import { STATES, type StateGeo } from '../../data/geo';
 import { TIERS, type GNode, type GEdge, type Tier, type NodeFamily, type StateCode } from '../../graph/schema';
 import { FAMILY_COLOR, FAMILY_LABEL } from './ForceGraph';
+import { useCamera, CameraControls, ExpandShell } from './camera';
 
 /**
  * The geographic network — the map and the graph as one object.
@@ -115,6 +116,24 @@ export default function GeoNetwork({
   const uid = useId().replace(/:/g, '');
   const [hover, setHover] = useState<string | null>(null);
   const [hoverFlow, setHoverFlow] = useState<string | null>(null);
+
+  /**
+   * The camera. Shared with ForceGraph, but fitting means something different
+   * here: the map's own extent IS the frame, so "fit" resets rather than
+   * computing a bounding box. Zooming into Delhi is the whole point — a dozen
+   * ministries land in a cluster narrower than the state's label.
+   */
+  const svgRef = useRef<SVGSVGElement>(null);
+  const cam = useCamera(svgRef, VIEW_W, MAP_H);
+  /** `0` means "the whole map" here, not "fit the marks" — the frame IS the extent. */
+  const onKeyDown = (ev: React.KeyboardEvent) => {
+    if (ev.key === '0') {
+      cam.fitTo(null);
+      ev.preventDefault();
+      return;
+    }
+    cam.onKeyDown(ev);
+  };
 
   const visibleEdges = useMemo(() => {
     const q = filter.query.trim().toLowerCase();
@@ -252,9 +271,31 @@ export default function GeoNetwork({
 
   return (
     <div className="relative">
+      <ExpandShell
+        expanded={cam.expanded}
+        onClose={() => cam.setExpanded(false)}
+        caption={
+          mode === 'entities'
+            ? `${placed.onMapCount} placed · ${placed.offMapCount} non-geographic · ${visibleEdges.length} relationships`
+            : `${stateFlows.length} state pairs · ${visibleEdges.length} relationships`
+        }
+      >
+      <div
+        className="relative outline-none focus-visible:ring-1 focus-visible:ring-accent"
+        style={{ height: cam.expanded ? '100%' : height }}
+        tabIndex={0}
+        onKeyDown={onKeyDown}
+        aria-label="Map viewport. Arrow keys pan, plus and minus zoom, 0 returns the whole map, f maximises."
+      >
       <svg
+        ref={svgRef}
+        data-geo=""
+        // FIXED viewBox, deliberately: these coordinates are map geometry, and a
+        // map stretched to fill its box is a lie about the country's shape. It
+        // letterboxes on purpose — the camera handles the pointer maths exactly.
         viewBox={`0 0 ${VIEW_W} ${MAP_H}`}
-        style={{ width: '100%', height }}
+        style={{ width: '100%', height: '100%', display: 'block', touchAction: 'none', cursor: cam.dragging ? 'grabbing' : 'grab' }}
+        {...cam.svgProps}
         role="img"
         aria-label={
           mode === 'state-flows'
@@ -271,6 +312,9 @@ export default function GeoNetwork({
             <path d="M 0 0 L 8 4 L 0 8 z" fill="rgba(232,228,220,0.5)" />
           </marker>
         </defs>
+
+        {/* Everything below rides the camera. */}
+        <g transform={cam.transform}>
 
         {/* ground */}
         <g>
@@ -440,6 +484,7 @@ export default function GeoNetwork({
             ))}
           </g>
         )}
+        </g>
       </svg>
 
       {/* readout */}
@@ -455,6 +500,14 @@ export default function GeoNetwork({
           )}
         </div>
       )}
+
+      <div className="absolute bottom-2 left-2 max-w-[58%] font-mono text-[10px] leading-relaxed text-text-muted bg-bg/80 px-1.5 py-0.5 rounded">
+        drag to pan · arrows or the pad to move · +/− or scroll to zoom · 0 returns the whole map · f maximises
+      </div>
+
+      <CameraControls cam={cam} onFit={() => cam.fitTo(null)} fitLabel="Back to the whole map (0)" />
+      </div>
+      </ExpandShell>
 
       {/* legend + the honesty line */}
       <div className="mt-3 space-y-2">

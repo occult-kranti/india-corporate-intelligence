@@ -22,6 +22,11 @@ import {
   Radar,
   ShieldCheck,
   Gavel,
+  Telescope,
+  Notebook,
+  Mountain,
+  Crosshair,
+  HandCoins,
 } from 'lucide-react';
 import { COMPANIES, COMPANIES_AS_OF } from '../data/companies';
 import { MINISTERS } from '../data/politics';
@@ -40,13 +45,25 @@ const navGroups: { label: string; items: { path: string; label: string; icon: ty
     ],
   },
   {
+    // The allocation registers sit together because they are the same KIND of thing —
+    // records of how public value was handed over — and the comparison across them is
+    // the point. Media is here as the coverage register: who owns the outlets that
+    // report on the other three.
+    label: 'Registers',
+    items: [
+      { path: '/tenders', label: 'Govt awards', icon: Gavel },
+      { path: '/resources', label: 'Natural resources', icon: Mountain },
+      { path: '/pmcares', label: 'PM CARES', icon: HandCoins },
+      { path: '/media', label: 'Media ownership', icon: Newspaper },
+      { path: '/allocation', label: 'Allocation graph', icon: Waypoints },
+    ],
+  },
+  {
     label: 'Power',
     items: [
       { path: '/cabinet', label: 'Union cabinet', icon: Landmark },
-      { path: '/tenders', label: 'Govt awards', icon: Gavel },
       { path: '/network', label: 'Connection graph', icon: Network },
       { path: '/atlas', label: 'Money-trail atlas', icon: GitBranch },
-      { path: '/media', label: 'Media', icon: Newspaper },
     ],
   },
   {
@@ -54,8 +71,12 @@ const navGroups: { label: string; items: { path: string; label: string; icon: ty
     items: [
       { path: '/patterns', label: 'Pattern discipline', icon: Ruler },
       { path: '/motifs', label: 'Motif engine', icon: Waypoints },
+      { path: '/prospector', label: 'Prospector', icon: Telescope },
+      { path: '/desk', label: 'Investigative desk', icon: Notebook },
+      { path: '/capture', label: 'Capture pathways', icon: Crosshair },
       { path: '/evidence', label: 'Evidence audit', icon: Scale },
       { path: '/base-rates', label: 'Base rates', icon: BookOpen },
+      { path: '/competition', label: 'Bidder counts', icon: Gavel },
       { path: '/provenance', label: 'Provenance ledger', icon: ShieldCheck },
       { path: '/method', label: 'How this is built', icon: BookOpen },
     ],

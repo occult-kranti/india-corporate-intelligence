@@ -75,6 +75,10 @@ export default function GraphExplorer({ nodes, edges, height = 620, defaultQuery
 
   const [selected, setSelected] = useState<string | null>(null);
   const [showTable, setShowTable] = useState(false);
+  // Default to a 2-hop ego view once something is selected: the whole graph is the
+  // wrong default at this density, and 2 hops is the radius at which a corporate
+  // relationship still means something.
+  const [focusHops, setFocusHops] = useState(2);
 
   // The date span actually present in the data, so the slider cannot promise a
   // range the graph does not cover.
@@ -287,11 +291,69 @@ export default function GraphExplorer({ nodes, edges, height = 620, defaultQuery
           <span>
             {nodes.length} entities · {visibleEdges.length} of {edges.length} relationships shown
           </span>
-          <span className="ml-auto">click a node for its provenance · arrow keys and Enter work</span>
+          <span className="ml-auto">
+            click a node for its provenance · <strong className="text-text-secondary">⤢ maximise</strong> or{' '}
+            <kbd className="px-1 border border-border rounded">f</kbd> for the whole window
+          </span>
         </div>
 
+        {/* Focus control. A graph this dense is a texture, not a picture, until you
+            can ask it "what is attached to THIS" — so the control sits above the
+            canvas rather than in the filter rail, and says what it will hide. */}
+        <div className="flex flex-wrap items-center gap-2 mb-2">
+          <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-text-muted">
+            focus
+          </span>
+          {[0, 1, 2, 3].map((h) => (
+            <button
+              key={h}
+              onClick={() => setFocusHops(h)}
+              disabled={h > 0 && !selected}
+              className={`font-mono text-[10.5px] px-2 py-0.5 rounded border transition-colors ${
+                focusHops === h
+                  ? 'border-accent text-accent'
+                  : h > 0 && !selected
+                    ? 'border-border text-text-muted/40 cursor-not-allowed'
+                    : 'border-border text-text-muted hover:border-border-light'
+              }`}
+              title={h === 0 ? 'Draw the whole filtered graph' : `Show only what is within ${h} hop${h === 1 ? '' : 's'} of the selected entity`}
+            >
+              {h === 0 ? 'whole graph' : `${h} hop${h === 1 ? '' : 's'}`}
+            </button>
+          ))}
+          {!selected && (
+            <span className="font-mono text-[10px] text-text-muted">
+              select an entity to focus on it
+            </span>
+          )}
+          {selected && focusHops > 0 && (
+            <button
+              onClick={() => setSelected(null)}
+              className="font-mono text-[10px] text-text-muted hover:text-accent underline underline-offset-2"
+            >
+              clear selection
+            </button>
+          )}
+        </div>
+
+        {nodes.length > 220 && focusHops === 0 && (
+          <p className="text-[12.5px] text-amber mb-2 max-w-[70ch] leading-snug">
+            {nodes.length} entities and {visibleEdges.length} relationships are drawn at once here.
+            That is more than a single frame can separate — select an entity and focus on one or
+            two hops, or narrow the filters, before reading anything off the shape of it.
+          </p>
+        )}
+
         <div className="card-surface !p-0 overflow-hidden">
-          <ForceGraph nodes={nodes} edges={edges} filter={filter} selected={selected} onSelect={setSelected} height={height} />
+          <ForceGraph
+            nodes={nodes}
+            edges={edges}
+            filter={filter}
+            selected={selected}
+            onSelect={setSelected}
+            height={height}
+            focusHops={focusHops}
+          />
         </div>
 
         {/* shape legend */}

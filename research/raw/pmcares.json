@@ -1,0 +1,698 @@
+{
+ "asOf": "2026-08-12",
+ "scope": "Documentary record of the Prime Minister's Citizen Assistance and Relief in Emergency Situations Fund (PM CARES Fund): (1) its constitution as a registered public charitable trust and the contested question of its status under the Right to Information Act 2005; (2) every Receipts and Payments Account the fund has published, with the years it has not published named explicitly; (3) announced allocations set against what the audited statements record; (4) the statutory route by which contributions became eligible CSR expenditure; and (5) the same analysis run on the Prime Minister's National Relief Fund (PMNRF) as a control. Descriptive only. No allegation of misappropriation, wrongdoing or improper intent against any person or institution is made or implied anywhere in this file. Where two official records disagree, both are carried and the disagreement is recorded rather than resolved.",
+
+ "headline": "The control result governs this file. On the two facts most often presented as PM CARES-specific - that it refuses RTI on the ground that it is not a 'public authority', and that its published accounts stop at FY2022-23 - the 1948 Prime Minister's National Relief Fund is identical, and took the RTI position first, in litigation that began in 2011 and reached a Delhi High Court Division Bench that split 1-1 on 23 May 2018, two years before PM CARES existed. Both funds are administered from the PMO by the same officers, were audited by the same firm (SARC & Associates), have both since appointed the same new firm (KKC & Associates LLP), and both publish a one-page Receipts and Payments Account with the accompanying notes withheld. Four of seven elapsed financial years are published by each. What survives the control is narrower and is set out in contested[] and control.departuresThatSurvive.",
+
+ "method": {
+  "primaryFirst": "Every financial figure in this file was read off a statement published by the fund itself on pmcares.gov.in or pmnrf.gov.in. Both funds publish their accounts as SCANNED IMAGES with no text layer (pypdf extracted 0 characters from the PM CARES FY2019-20, FY2020-21 and FY2021-22 PDFs and 69 characters from the two-page FY2022-23 PDF). Every page was therefore rasterised with pdftoppm at 200 dpi and read as an image. The trust deed (16 scanned pages, 26 MB) was read the same way at 150 dpi.",
+  "castingCheck": "Every published column was re-added programmatically against its printed total. FY2022-23 casts exactly in both directions (receipts 67,23,06,78,171 and closing balance 62,83,68,30,782 both reproduce to the rupee). FY2020-21 and FY2021-22 do not cast to the rupee against the totals as I read them: the FY2020-21 receipts components sum to Rs 1,09,90,17,32,872 against a printed total of Rs 1,09,90,17,32,873, and the FY2021-22 payments components sum to Rs 37,16,29,43,077 against a printed total of Rs 37,16,29,43,076. In both cases the discrepancy is exactly Rs 1 and is far more likely to be a single misread digit on a scanned image than an error in the statement. The PRINTED TOTALS are carried as authoritative throughout; component figures are carried with this caveat attached and are flagged componentReadFromScan: true.",
+  "unpublishedYearsProbed": "The absence of later statements was tested, not assumed. The fund's own About page indexes exactly four Receipts and Payments Accounts. The site's naming convention is Audited_Statement_YYYY_YY.pdf; requests for Audited_Statement_2023_24.pdf, Audited_Statement_2024_25.pdf and Audited_Statement_2023-24.pdf each returned HTTP 404. The About and FAQ pages both carry 'Last updated on: 10 August 2026', two days before this file's asOf.",
+  "control": "The identical retrieval was run on PMNRF - a fund nobody framed as a transparency scandal until PM CARES existed - before any conclusion was drawn about PM CARES. Its About page, its PMNRF FAQ page and its FY2022-23 Receipts and Payments Account were all fetched and read.",
+  "courts": "The Supreme Court judgment was taken from the Court's own server (api.sci.gov.in), not from a legal-database mirror; main.sci.gov.in did not resolve by DNS from this network but api.sci.gov.in served the same path. The Delhi High Court judgment in the PMNRF appeal was taken from delhihighcourt.nic.in itself. indiankanoon.org was not used.",
+  "statute": "The amendment of Schedule VII of the Companies Act 2013 was read from India Code's official consolidated text of the Act (370 pages), which carries the amendment as a numbered footnote to the Schedule. mca.gov.in returns HTTP 403 to every automated request including its static /Ministry/pdf/ paths, so the MCA circulars themselves could not be read; the notification is nonetheless established at documented tier from the statute text.",
+  "nullPolicy": "No figure, date, case number, question number or citation in this file is estimated, inferred or recalled. Anything not read off a fetched document is null with a note and a corresponding gaps[] entry. Claims sourced only to a news outlet are tiered reported and the outlet is named; no search-result snippet is cited as a source anywhere.",
+  "personsNamed": "Only people acting in a public office or a public professional capacity are named: ex officio and nominated trustees, PMO officers who signed published accounts, the signing partner of the audit firm whose name and membership number are printed on documents published by the Government, judges, ministers and Members of Parliament. The residential addresses of the two witnesses printed on the registered trust deed are deliberately not reproduced."
+ },
+
+ "entity": {
+  "legalName": "Prime Minister's Citizen Assistance and Relief in Emergency Situations Fund",
+  "shortName": "PM CARES Fund",
+  "form": "Public charitable trust, registered under the Registration Act 1908",
+  "registration": {
+   "registrationNo": "163",
+   "bookNo": "4",
+   "volNo": "1,685",
+   "pages": "141 to 155",
+   "office": "Sub Registrar VII, New Delhi",
+   "dateTime": "2020-03-27T19:11:12+05:30",
+   "firstParty": "Prime Ministers Citizen Assistance and Relief in Emergency Situations Fund through Prime Minister",
+   "secondParty": "NA",
+   "witnesses": ["Bhaskar Khulbe", "Rajeev Topno"],
+   "src": "deed"
+  },
+  "eStamps": [
+   {"certificateNo": "IN-DL40656151880688S", "issued": "2020-03-27T14:38:00+05:30", "description": "Article 64 Trust", "dutyRs": 100, "purchasedBy": "PM CARES", "src": "deed"},
+   {"certificateNo": "IN-DL42057009731875S", "issued": "2020-05-11T15:59:00+05:30", "description": "Article 64 Trust", "dutyRs": 6750, "purchasedBy": "PM CARES FUND", "src": "deed", "note": "This second e-stamp, dated 45 days after the deed was executed and registered, appears in the PDF the fund publishes as its trust deed. No instrument is attached to it in that PDF. Recorded as a gap, not as evidence of an amendment - see gaps.G09."}
+  ],
+  "pan": "AAETP3993P",
+  "panSrc": "faq",
+  "headOffice": "Prime Minister's Office, Seva Teerth, New Delhi (FAQ Q7). The same FAQ, at Q9, directs cheques to 'Under Secretary (Funds), PMO, South Block, New Delhi, Pin -110011'.",
+  "domain": "pmcares.gov.in, footer '(c) 2026 Prime Minister's Office'",
+  "settlor": "The Prime Minister of India, defined in the deed to include his successor-in-office",
+  "initialCorpusRs": 225000,
+  "auditor": {
+   "published": "SARC & Associates, Chartered Accountants, FRN 006085N; signing partner Sunil Kumar Gupta, M.No. 084884. Signed all four published statements.",
+   "current": "KKC & Associates LLP, Chartered Accountants, Mumbai, appointed by the Trustees for 3 years (pmcares.gov.in FAQ Q19, page last updated 10 August 2026).",
+   "note": "No statement audited by KKC & Associates LLP has been published for PM CARES. PMNRF's own FAQ Q7 names the same firm as its present auditor. The last published PMNRF statement (FY2022-23) is also signed by SARC & Associates.",
+   "srcs": ["faq", "pmnrf-faq", "as1920", "as2021", "as2122", "as2223", "pmnrf-rpa-2223"]
+  }
+ },
+
+ "trustees": {
+  "exOfficio": [
+   {"office": "Prime Minister of India", "role": "Chairperson (ex officio)", "deedClause": "6.2(i), 6.6"},
+   {"office": "Minister of Defence, Government of India", "role": "Trustee (ex officio)", "deedClause": "6.2(ii)"},
+   {"office": "Minister of Home Affairs, Government of India", "role": "Trustee (ex officio)", "deedClause": "6.2(iii)"},
+   {"office": "Minister of Finance, Government of India", "role": "Trustee (ex officio)", "deedClause": "6.2(iv)"}
+  ],
+  "boardStrength": "Not less than four and not more than seven (deed clause 6.1). The Chairperson may nominate three eminent persons (6.4) and may add, remove or replace any trustee by written instrument (6.7). All trustees serve pro bono (6.5). The Chairperson may modify, add to or alter any term of the deed including the Objects (18.1).",
+  "nominated": [
+   {"name": "Justice K.T. Thomas (Retd.), former Judge, Supreme Court of India", "nominatedAnnounced": "2022-09-21", "listedOnSiteAsOf": "2026-08-12", "srcs": ["pib-1861047", "faq"]},
+   {"name": "Kariya Munda, former Deputy Speaker, Lok Sabha", "nominatedAnnounced": "2022-09-21", "listedOnSiteAsOf": "2026-08-12", "srcs": ["pib-1861047", "faq"]},
+   {"name": "Ratan Tata, Chairman Emeritus, Tata Sons", "nominatedAnnounced": "2022-09-21", "listedOnSiteAsOf": null, "srcs": ["pib-1861047"], "note": "Announced as a nominated trustee in the PIB release of 21 September 2022 recording the Board meeting of 20 September 2022. He is NOT in the list of nominated trustees on pmcares.gov.in as at the page's 10 August 2026 update. Ratan Tata died on 9 October 2024, which is a complete and innocent explanation for the omission; this file draws no other inference and the date of death is not sourced to a primary record here."}
+  ],
+  "advisoryBoard": [
+   {"name": "Rajiv Mehrishi", "description": "Former Comptroller and Auditor General of India", "srcs": ["pib-1861047", "faq"]},
+   {"name": "Sudha Murthy", "description": "Former Chairperson, Infosys Foundation", "srcs": ["pib-1861047", "faq"]},
+   {"name": "Anand Shah", "description": "Co-founder of Teach for India, former CEO of Indicorps and Piramal Foundation", "srcs": ["pib-1861047", "faq"]}
+  ],
+  "administration": "Administered on an honorary basis by the Additional Secretary / Joint Secretary in charge of the PM CARES Fund in the PMO, as Secretary of the fund, assisted on an honorary basis by other designated officers in the PMO. The PMO provides administrative and secretarial support (FAQ Q6; deed clause 6.8).",
+  "signatoriesOnPublishedAccounts": [
+   {"fy": "2019-20", "names": ["Shrikar K. Pardeshi (Secretary)", "Hardik Shah (Deputy Secretary)", "Pradeep Kumar Srivastava (Under Secretary)", "Parvesh Kumar (Section Officer)"]},
+   {"fy": "2020-21", "names": ["Rohit Yadav (Secretary)", "Aishvarya Singh (Director)", "Pradeep Kumar Srivastava (Under Secretary)", "Ramesh Yadav (Section Officer)"]},
+   {"fy": "2021-22", "names": ["Arvind Shrivastava (Secretary)", "Saurabh Shukla (Director)", "Pradeep Kumar Srivastava (Under Secretary)", "Ramesh Yadav (Under Secretary)"]},
+   {"fy": "2022-23", "names": ["Arvind Shrivastava (Secretary)", "Saurabh Shukla (Director)", "Pradeep Kumar Srivastava (Under Secretary)", "Vijay Singh Negi (Section Officer)"]}
+  ],
+  "signatoryOverlapWithPMNRF": "Pradeep Kumar Srivastava (Under Secretary) and Saurabh Shukla (Director) sign both the PM CARES FY2021-22 / FY2022-23 accounts and the PMNRF FY2022-23 account. This is documented from the two published statements and is consistent with both funds being administered by the same PMO officers on an honorary basis, which both funds' own FAQs state."
+ },
+
+ "deedKeyClauses": [
+  {
+   "clause": "5.3, second paragraph",
+   "quote": "This trust is established only for the charitable purposes incorporated in these presents and for the noble causes enumerated herein. This Trust is not created by or under the Constitution of India or by any law made by the Parliament or by any State Legislature. This Trust is neither intended to be or is in fact owned, controlled or substantially financed by any Government or any instrumentality of the Government. There is no control of either the Central Government or any State Government/s, either direct or indirect, in functioning of the Trust in any manner whatsoever. The composition of the Board of Trustees consisting of holders of public office ex officio is merely for administrative convenience and for smooth succession to the trusteeship and is neither intended to be nor in fact result into any governmental control in the functioning of the Trust in any manner whatsoever.",
+   "why": "These are the exact elements of the test in section 2(h) of the RTI Act 2005 - creation by Constitution, by law of Parliament, by law of a State Legislature, or a body owned, controlled or substantially financed by government - recited in the negative in the instrument itself. The recital is in the deed as executed and registered on 27 March 2020; nothing in the published document indicates it was inserted later. Whether the drafting anticipated the statutory test is not something the record settles.",
+   "src": "deed"
+  },
+  {
+   "clause": "5.3, third paragraph",
+   "quote": "the Trust shall fully respect and will not allow any invasion of the privacy of the contributor/s by divulging their names, addresses and/or other details and the details regarding their contributions to anyone except to the tax authorities while making the full and true disclosures which will be made to the tax authorities as and when required by such authorities or required under the relevant taxing statute.",
+   "why": "The non-disclosure of donor identities is a term of the trust instrument, not an administrative choice or a litigation position. Any expectation that donor lists will be published requires this clause to be overridden.",
+   "src": "deed"
+  },
+  {"clause": "6.8", "quote": "The Prime Minister's Office (PMO) shall provide such administrative and secretarial support to the Trustees for the management and administration of the Trust, as may be required by the Trustees including coordinating with the Advisory Board.", "src": "deed"},
+  {"clause": "14.3", "quote": "The account books so signed by the Trustees shall be examined, audited and certified once in each Financial Year and the audited statements of account shall be signed in accordance with applicable law and shall be audited by one or more properly qualified independent auditor(s) who who will be appointed by the Trustees.", "why": "The deed requires an annual audit. It does not require publication of anything. This distinction matters: the absence of an FY2023-24 statement on the website establishes a publication gap, and does not by itself establish that no audit was done.", "src": "deed", "transcriptionNote": "The word 'who' is doubled in this transcription in error; the deed reads '...independent auditor(s) who will be appointed by the Trustees.'"},
+  {"clause": "5.2", "quote": "No conditional Contributions shall be accepted.", "src": "deed"},
+  {"clause": "20", "quote": "The trusts of this Trust shall be and remain irrevocable for all times.", "src": "deed"},
+  {"clause": "19.2", "quote": "If the Board of Trustees decide to dissolve the Trust, the Trustees shall identify one or more public charitable trusts or institutions with objects similar to the Objects of the Trust and transfer the entire Trust Property to such public charitable trust or institutions ... and no part of the Trust Property shall be given to the Trustees or shall revert to the Settlor.", "src": "deed"}
+ ],
+
+ "timeline": [
+  {"date": "1948-01-24", "event": "Press note by Prime Minister Jawaharlal Nehru appealing for contributions establishes the Prime Minister's National Relief Fund. PMNRF has no trust deed; its genesis in a press note rather than an instrument is the fact both Delhi High Court judges in the 2018 appeal argue from.", "srcs": ["dhc-lpa231", "pmnrf-about"], "tier": "documented"},
+  {"date": "2011", "event": "Aseem Takyar applies to the CPIO, Prime Minister's Office for details of PMNRF transactions in FY2009-10 and FY2010-11. The CPIO supplies part and invokes section 8(1)(j) for the amount, name and particulars of each recipient, beneficiary and donor.", "srcs": ["dhc-lpa231"], "tier": "documented"},
+  {"date": "2012", "event": "The Central Information Commission directs the CPIO to place details of PMNRF's institutional donors in the public domain. PMNRF files W.P.(C) 3897/2012 in the Delhi High Court.", "srcs": ["dhc-lpa231"], "tier": "documented"},
+  {"date": "2015-11-19", "event": "Single Judge of the Delhi High Court dismisses PMNRF's writ petition, finding the CIC's order balanced, but expressly refrains from a conclusive finding on whether PMNRF is a public authority.", "srcs": ["dhc-lpa231"], "tier": "documented"},
+  {"date": "2018-05-23", "event": "Delhi High Court Division Bench (S. Ravindra Bhat J and Sunil Gaur J) delivers a SPLIT verdict in LPA 231/2016, Prime Minister's National Relief Fund v. Aseem Takyar (reserved 21.09.2017, neutral citation 2018:DHC:3395-DB). Bhat J: PMNRF 'cannot but be called a public fund' and the appeal is dismissed. Gaur J: PMNRF 'is not a Public Authority within the definition of Section 2(h) of RTI Act and is thus, beyond its purview.' The question is referred to a third judge.", "srcs": ["dhc-lpa231"], "tier": "documented"},
+  {"date": "2020-03-14", "event": "COVID-19 notified as a disaster for the purpose of assistance under the SDRF. The Supreme Court records at paragraph 71 that before this notification neither NDRF nor SDRF covered biological and public health emergencies.", "srcs": ["sc-cpil-546-2020"], "tier": "documented"},
+  {"date": "2020-03-27T14:38:00+05:30", "event": "e-Stamp certificate IN-DL40656151880688S issued to 'PM CARES', Rs 100, description 'Article 64 Trust'.", "srcs": ["deed"], "tier": "documented"},
+  {"date": "2020-03-27", "event": "Deed of Trust executed at New Delhi by the Prime Minister of India as Settlor, creating a public charitable trust with an initial corpus of Rs 2,25,000. Witnesses Bhaskar Khulbe and Rajeev Topno.", "srcs": ["deed"], "tier": "documented"},
+  {"date": "2020-03-27T19:11:12+05:30", "event": "Deed registered with Sub Registrar VII, New Delhi: Registration No. 163, Book No. 4, Vol No 1,685, pages 141 to 155. Executed and registered the same day.", "srcs": ["deed"], "tier": "documented"},
+  {"date": "2020-03-28", "event": "PIB release from the Prime Minister's Office appeals for donations, states 'a public charitable trust ... has been set up. Prime Minister is the Chairman of this trust and its Members include Defence Minister, Home Minister and Finance Minister', and gives account and UPI details. Also the effective date from which contributions were later made eligible CSR expenditure.", "srcs": ["pib-1608851"], "tier": "documented"},
+  {"date": "2020-03-28", "event": "The Ministry of Corporate Affairs conveys that contributions to PM CARES would be eligible as CSR activity under the Companies Act 2013. Established here from the government's own later answer in the Lok Sabha as reported; the MCA office memorandum itself could not be read (mca.gov.in 403s).", "srcs": ["nationalherald-lsq"], "tier": "reported"},
+  {"date": "2020-03-31", "event": "First accounting period closes. Rs 30,76,62,58,096 (Rs 3,076.63 cr) received in the five days from 27 to 31 March 2020, against total payments of Rs 2,049.", "srcs": ["as1920"], "tier": "documented"},
+  {"date": "2020-05-13", "event": "PM CARES Fund Trust announces its first allocation: Rs 3,100 cr, comprising approximately Rs 2,000 cr for 50,000 'Made-in-India' ventilators, Rs 1,000 cr for the welfare of migrants, and Rs 100 cr 'as a helping hand to catalyse vaccine development, which will be utilized under the supervision of Principal Scientific Advisor'.", "srcs": ["pib-1623649"], "tier": "documented"},
+  {"date": "2020-05-26", "event": "Notification G.S.R. 313(E) inserts 'or Prime Minister's Citizen Assistance and Relief in Emergency Situations Fund (PM CARES Fund)' into item (viii) of Schedule VII of the Companies Act 2013, with effect from 28 March 2020 - retrospective by 59 days. PMNRF was already named in item (viii). Established from the footnote to Schedule VII in India Code's official text of the Act.", "srcs": ["indiacode-ca2013"], "tier": "documented"},
+  {"date": "2020-07-09", "event": "SARC & Associates sign the FY2019-20 Receipts and Payments Account (UDIN 20084884AAAAAA1274). 100 days after the year end - the fastest of the four.", "srcs": ["as1920"], "tier": "documented"},
+  {"date": "2020-08-18", "event": "Supreme Court (Ashok Bhushan, R. Subhash Reddy, M.R. Shah JJ) decides W.P.(C) 546/2020, Centre for Public Interest Litigation v. Union of India. Refuses to direct transfer of PM CARES funds to the NDRF. Holds at paragraph 67 that 'The PM CARES Fund is a public charitable trust and is not a Government fund', and at paragraph 70 that 'for public charitable trust there is no occasion for audit by the Comptroller & Auditor General of India.' The Court did NOT decide whether PM CARES is a public authority under the RTI Act; that question was not before it.", "srcs": ["sc-cpil-546-2020"], "tier": "documented"},
+  {"date": "2020-09-15", "event": "In the Monsoon Session of the 17th Lok Sabha, the Minister of State for Finance and Corporate Affairs answers 'No sir' to an unstarred question by Shri Sunil Dattatray Tatkare asking whether the fund, having been set up on 27 March 2020 by the Central Government, is thereby a public authority under section 2(h) of the RTI Act. Asked about the retrospective amendment of Schedule VII, the Ministry answered: 'The Ministry on 28.03.2020 conveyed that contribution made to PM CARES Fund would be eligible as CSR activity under the Companies Act, 2013 and subsequently, issued a gazette notification to this effect'. The question number, exact answer date and the answer PDF could not be retrieved - see gaps.G06.", "srcs": ["nationalherald-lsq"], "tier": "reported"},
+  {"date": "2021-01-05", "event": "PM CARES Fund Trust allocates Rs 201.58 cr for 162 dedicated PSA Medical Oxygen Generation Plants, capacity 154.19 MT across 32 States/UTs, procurement through Central Medical Supply Store (CMSS). Rs 137.33 cr supply and commissioning plus CMSS management fee, Rs 64.25 cr Comprehensive Annual Maintenance Contract.", "srcs": ["pib-1686271"], "tier": "documented"},
+  {"date": "2021-04-25", "event": "PM CARES gives 'in-principle approval' for 551 further PSA oxygen plants at district-headquarters government hospitals, procurement through the Ministry of Health and Family Welfare. The release states no rupee figure.", "srcs": ["pib-1713904"], "tier": "documented"},
+  {"date": "2021-05-29", "event": "PM CARES for Children announced, covering children who lost both parents, the surviving parent, legal guardian or adoptive parents to COVID-19 from 11 March 2020. Lump sum Rs 10 lakh on attaining 23 years of age, monthly stipend from 18.", "srcs": ["pib-1741528", "pib-1761718"], "tier": "documented"},
+  {"date": "2021-09-14", "event": "The Union files an affidavit in the Delhi High Court in the petitions of Samyak Gangwal, stating that PM CARES can be listed neither as 'the State' under Article 12 of the Constitution nor as a 'public authority' under the RTI Act, and that amounts in PM CARES are not transferred to the Consolidated Fund of India. Read from Scroll's report of the affidavit; the affidavit and the case record were not retrieved - see gaps.G04.", "srcs": ["scroll-affidavit"], "tier": "reported"},
+  {"date": "2021-10-07", "event": "Ministry of Women and Child Development issues detailed guidelines for PM CARES for Children. Enrolment window 11.03.2020 to 31.12.2021, later extended.", "srcs": ["pib-1761718"], "tier": "documented"},
+  {"date": "2022-01-11", "event": "SARC & Associates sign the FY2020-21 Receipts and Payments Account (UDIN 22084884AAAAAA2509 as handwritten). 286 days after the year end.", "srcs": ["as2021"], "tier": "documented"},
+  {"date": "2022-04-27", "event": "The Central Information Commission directs the CPIO of the Income Tax Department to provide documents submitted by PM CARES in its exemption application, and the file notings granting approval, to RTI applicant Girish Mittal. Order date established from the report of the judgment that later set it aside.", "srcs": ["barandbench-girish-mittal"], "tier": "reported"},
+  {"date": "2022-09-20", "event": "Prime Minister chairs a meeting of the Board of Trustees. Justice K.T. Thomas, Kariya Munda and Ratan Tata join as nominated trustees; Rajiv Mehrishi (former Comptroller and Auditor General of India), Sudha Murthy and Anand Shah are nominated to a new Advisory Board. The presentation records PM CARES for Children 'supporting 4345 children'.", "srcs": ["pib-1861047"], "tier": "documented"},
+  {"date": "2022-09-30", "event": "SARC & Associates sign the FY2021-22 Receipts and Payments Account (UDIN 22084884AXGCSU1642). 183 days after the year end.", "srcs": ["as2122"], "tier": "documented"},
+  {"date": "2023-09-29", "event": "SARC & Associates sign the PMNRF FY2022-23 Receipts and Payments Account (UDIN 23084884BHBOMF2780). 182 days after the year end. This file is uploaded to pmnrf.gov.in on 23 December 2024 per its filename - 268 days after signature.", "srcs": ["pmnrf-rpa-2223", "pmnrf-about"], "tier": "documented"},
+  {"date": "2024-01-22", "event": "Delhi High Court (Subramonium Prasad J) sets aside the CIC order of 27.04.2022 in CPIO/Dy Commissioner of Income Tax (HQ Exemption), New Delhi v. Girish Mittal, holding that the CIC has no jurisdiction to direct furnishing of information covered by section 138 of the Income Tax Act. Judgment not retrieved - see gaps.G04.", "srcs": ["barandbench-girish-mittal", "deccanherald-girish-mittal"], "tier": "reported"},
+  {"date": "2024-03-29", "event": "SARC & Associates sign the FY2022-23 Receipts and Payments Account (UDIN 24084884BKIKDZ2614). 364 days after the year end - the slowest of the four, and the last statement PM CARES has published.", "srcs": ["as2223"], "tier": "documented"},
+  {"date": "2024-12-23", "event": "PMNRF's About page is last updated, per the page itself. Its ten-year table ends at FY2022-23.", "srcs": ["pmnrf-about"], "tier": "documented"},
+  {"date": "2026-02-10", "event": "Reported that the Prime Minister's Office has told the Lok Sabha Secretariat that questions on PM CARES, PMNRF and the National Defence Fund are inadmissible, citing Rules 41(2)(viii) and 41(2)(xvii) of the Rules of Procedure and Conduct of Business in Lok Sabha, on the ground that the funds are voluntary and receive nothing from the Consolidated Fund of India. Rule 41 is the same rule Gaur J relied on in his 2018 dissent to conclude that PMNRF is not a public authority. The PMO communication itself was not retrieved and its date is not established - see gaps.G08.", "srcs": ["quint-pmo-admissibility", "leaflet-pmo-admissibility", "dhc-lpa231"], "tier": "reported"},
+  {"date": "2026-08-10", "event": "pmcares.gov.in About and FAQ pages last updated. The About page still indexes four Receipts and Payments Accounts, FY2019-20 to FY2022-23. FAQ Q19 names KKC & Associates LLP, Mumbai as the auditors appointed for 3 years.", "srcs": ["about", "faq"], "tier": "documented"}
+ ],
+
+ "financials": [
+  {
+   "fy": "2019-20",
+   "published": true,
+   "publishedUrl": "https://pmcares.gov.in/assets/donation/pdf/Audited%20Statement.PDF",
+   "statementType": "Receipts and Payments Account for the period ended 31st March, 2020",
+   "periodNote": "The trust was created on 27 March 2020, so this is a five-day period.",
+   "pages": 1,
+   "auditor": "SARC & Associates, FRN 006085N; Sunil Kumar Gupta, Partner, M.No. 084884",
+   "auditSignedOn": "2020-07-09",
+   "auditLagDays": 100,
+   "udin": "20084884AAAAAA1274",
+   "componentReadFromScan": true,
+   "receipts": {
+    "initialCorpusRs": 225000,
+    "voluntaryContributionsRs": 30758532045,
+    "foreignContributionsRs": 3967748,
+    "interestRegularAccountRs": 3532728,
+    "interestForeignContributionsAccountRs": 575,
+    "totalRs": 30766258096,
+    "totalCr": 3076.63
+   },
+   "payments": {
+    "heads": [{"head": "Service tax on Forex conversion", "amountRs": 2049}],
+    "totalRs": 2049,
+    "totalCr": 0.0002
+   },
+   "closingBalanceRs": 30766256047,
+   "closingBalanceCr": 3076.63,
+   "closingBalanceDescription": "Saving Bank Accounts with Scheduled Bank",
+   "notesReferencedButNotPublished": "Accompanying notes to the Financial Statements - 1 to 6",
+   "auditorsReportPublished": false,
+   "balanceSheetPublished": false,
+   "incomeAndExpenditurePublished": false,
+   "castsExactly": true
+  },
+  {
+   "fy": "2020-21",
+   "published": true,
+   "publishedUrl": "https://pmcares.gov.in/assets/donation/pdf/Audited_Statement_2020_21.pdf",
+   "statementType": "Receipts and Payments Account for the year ended 31st March, 2021",
+   "pages": 1,
+   "auditor": "SARC & Associates, FRN 006085N; Sunil Kumar Gupta, Partner, M.No. 084884",
+   "auditSignedOn": "2022-01-11",
+   "auditLagDays": 286,
+   "udin": "22084884AAAAAA2509",
+   "udinNote": "Handwritten on the scan; read as 22084884AAAAAA2509 but the handwriting is not fully legible. Flagged rather than asserted.",
+   "componentReadFromScan": true,
+   "openingBalanceRs": 30766256047,
+   "receipts": {
+    "voluntaryContributionsRs": 71837765567,
+    "foreignContributionsRs": 4949170376,
+    "interestRegularAccountRs": 2243280654,
+    "interestForeignContributionsAccountRs": 102757106,
+    "refundOfUnspentBalanceWithInterestFromNDMARs": 2503122,
+    "receiptsOnlyCr": 7913.55,
+    "printedTotalIncludingOpeningBalanceRs": 109901732873,
+    "printedTotalIncludingOpeningBalanceCr": 10990.17
+   },
+   "printedTotalTrap": "The Rs 10,990.17 cr figure that circulates for FY2020-21 is the printed 'Total' line, which INCLUDES the Rs 3,076.63 cr brought forward. FY2020-21 receipts alone are Rs 7,913.55 cr. Anyone adding the four published 'Total' lines to get lifetime inflow will double-count every opening balance.",
+   "payments": {
+    "heads": [
+     {"head": "Ventilators to Government Hospitals run by the Centre/States/UTs (50,000 'Made in India' Ventilators)", "amountRs": 13113384112, "amountCr": 1311.34},
+     {"head": "Funds allotted to the States & UTs for welfare of the migrants", "amountRs": 10000000000, "amountCr": 1000.00},
+     {"head": "Establishment of two 500 bedded makeshift COVID Hospitals in Muzaffarpur and Patna and 16 RT-PCR testing labs in 9 States/UT", "amountRs": 500000000, "amountCr": 50.00},
+     {"head": "Installation and operationalization of 162 Pressure Swing Adsorption (PSA) Medical Oxygen Generation Plants inside public health facilities", "amountRs": 2015838785, "amountCr": 201.58},
+     {"head": "Procurement of 6.6 crore doses of COVID-19 vaccine", "amountRs": 13928250000, "amountCr": 1392.83},
+     {"head": "Funding of two of the Autonomous Institute laboratories under Department of Biotechnology for upgradation as Central Drug Laboratory (CDL) for test and release of the batches of COVID-19 vaccine", "amountRs": 204160000, "amountCr": 20.42},
+     {"head": "Bank Charges", "amountRs": 101781, "amountCr": 0.01}
+    ],
+    "totalRs": 39761734678,
+    "totalCr": 3976.17
+   },
+   "closingBalanceRs": 70139998196,
+   "closingBalanceCr": 7014.00,
+   "notesReferencedButNotPublished": "Accompanying notes to the Financial Statements - 1 to 10",
+   "auditorsReportPublished": false,
+   "balanceSheetPublished": false,
+   "incomeAndExpenditurePublished": false,
+   "castsExactly": false,
+   "castingNote": "Payments cast exactly. Receipts components as read sum to Rs 1,09,90,17,32,872 against a printed total of Rs 1,09,90,17,32,873 - a Rs 1 difference, almost certainly a misread digit on the scan. Printed total carried."
+  },
+  {
+   "fy": "2021-22",
+   "published": true,
+   "publishedUrl": "https://pmcares.gov.in/assets/donation/pdf/Audited_Statement_2021_22.pdf",
+   "statementType": "Receipts and Payments Account for the year ended 31st March, 2022",
+   "pages": 2,
+   "auditor": "SARC & Associates, FRN 006085N; Sunil Kumar Gupta, Partner, M.No. 084884",
+   "auditSignedOn": "2022-09-30",
+   "auditLagDays": 183,
+   "udin": "22084884AXGCSU1642",
+   "componentReadFromScan": true,
+   "openingBalanceRs": 70139998196,
+   "receipts": {
+    "voluntaryContributionsRs": 18967601988,
+    "foreignContributionsRs": 401214459,
+    "interestRegularAccountRs": 1456834335,
+    "interestForeignContributionsAccountRs": 145728176,
+    "refundFromPSAInstallationRs": 185459382,
+    "refundFromTwoHospitalsAnd16RTPCRLabsRs": 14384512,
+    "refundFromAdditionalDedicatedPSAPlantsRs": 8275237,
+    "receiptsOnlyCr": 2117.95,
+    "printedTotalIncludingOpeningBalanceRs": 91319496285,
+    "printedTotalIncludingOpeningBalanceCr": 9131.95
+   },
+   "payments": {
+    "heads": [
+     {"head": "Contribution refunded during the year", "amountRs": 17224744, "amountCr": 1.72},
+     {"head": "Ventilators to Government Hospitals run by the Centre/States/UTs (50,000 'Made in India' Ventilators)", "amountRs": 8352846028, "amountCr": 835.28},
+     {"head": "To reactivate the 500 ICU bedded Sardar Vallabhbhai Patel COVID hospital at Delhi Cantt.", "amountRs": 679500000, "amountCr": 67.95},
+     {"head": "Installation of additional Dedicated Pressure Swing Adsorption (PSA) Medical Oxygen Generation Plants", "amountRs": 17031480000, "amountCr": 1703.15},
+     {"head": "Procurement of 99,986 Oxygen Concentrators", "amountRs": 5000000000, "amountCr": 500.00},
+     {"head": "Procurement of 1.5 Lakh SpO2 based oxygen control systems with Non Rebreather Masks (NRM) and 10 Lakh additional NRMs", "amountRs": 3225000000, "amountCr": 322.50},
+     {"head": "Establishment of two 500 bedded makeshift COVID hospitals, one each at Jammu and Srinagar", "amountRs": 829400000, "amountCr": 82.94},
+     {"head": "Procurement of Liquid Oxygen (LOx) equipment by Indian Oil Corporation Ltd. Through MoPNG", "amountRs": 1894000000, "amountCr": 189.40},
+     {"head": "Establishment of makeshift 500 bed Atal Bihari Vajpayee COVID hospital by DRDO at Lucknow, Uttar Pradesh", "amountRs": 131000000, "amountCr": 13.10},
+     {"head": "Bank Charges and SMS charges", "amountRs": 2492305, "amountCr": 0.25}
+    ],
+    "totalRs": 37162943076,
+    "totalCr": 3716.29
+   },
+   "closingBalanceRs": 54156553208,
+   "closingBalanceCr": 5415.66,
+   "notesReferencedButNotPublished": "Accompanying notes to the Financial Statements - 1 to 11",
+   "auditorsReportPublished": false,
+   "balanceSheetPublished": false,
+   "incomeAndExpenditurePublished": false,
+   "castsExactly": false,
+   "castingNote": "Receipts cast exactly. Payments components as read sum to Rs 37,16,29,43,077 against a printed total of Rs 37,16,29,43,076 - a Rs 1 difference, almost certainly a misread digit on the scan. Printed total carried."
+  },
+  {
+   "fy": "2022-23",
+   "published": true,
+   "publishedUrl": "https://pmcares.gov.in/assets/donation/pdf/Audited_Statement_2022_23.pdf",
+   "statementType": "Receipts and Payments Account for the year ended 31st March, 2023",
+   "pages": 2,
+   "auditor": "SARC & Associates, FRN 006085N; Sunil Kumar Gupta, Partner, M.No. 084884",
+   "auditSignedOn": "2024-03-29",
+   "auditLagDays": 364,
+   "udin": "24084884BKIKDZ2614",
+   "componentReadFromScan": true,
+   "openingBalanceRs": 54156553208,
+   "receipts": {
+    "voluntaryContributionsRs": 9096388326,
+    "foreignContributionsRs": 25722949,
+    "interestRegularAccountRs": 1543067681,
+    "interestForeignContributionsAccountRs": 160693167,
+    "refundFromVentilatorProcurementRs": 2028862043,
+    "refundFromPSAInstallationRs": 53123964,
+    "refundFromTwoHospitalsAnd16RTPCRLabsRs": 106908636,
+    "refundFromAdditionalDedicatedPSAPlantsRs": 38422959,
+    "refundReVaccine66CroreDosesRs": 3378176,
+    "refundFromSpO2AndNRMProcurementRs": 17557062,
+    "receiptsOnlyCr": 1307.41,
+    "printedTotalIncludingOpeningBalanceRs": 67230678171,
+    "printedTotalIncludingOpeningBalanceCr": 6723.07
+   },
+   "payments": {
+    "heads": [
+     {"head": "Contribution refunded during the year", "amountRs": 15123111, "amountCr": 1.51},
+     {"head": "Procurement of 99,986 Oxygen Concentrators", "amountRs": 918700000, "amountCr": 91.87},
+     {"head": "PMCARES For Children", "amountRs": 3460000000, "amountCr": 346.00},
+     {"head": "Bank Charges and SMS charges", "amountRs": 278, "amountCr": 0.00003},
+     {"head": "Legal Consultancy", "amountRs": 24000, "amountCr": 0.002}
+    ],
+    "totalRs": 4393847389,
+    "totalCr": 439.38
+   },
+   "closingBalanceRs": 62836830782,
+   "closingBalanceCr": 6283.68,
+   "notesReferencedButNotPublished": "Accompanying notes to the Financial Statements - 1 to 11",
+   "auditorsReportPublished": false,
+   "balanceSheetPublished": false,
+   "incomeAndExpenditurePublished": false,
+   "castsExactly": true,
+   "note": "The only year in which 'Legal Consultancy' appears as a head, at Rs 24,000. Bank and SMS charges fall from Rs 24.92 lakh (FY2021-22) to Rs 278."
+  },
+  {
+   "fy": "2023-24",
+   "published": false,
+   "publishedUrl": null,
+   "asOf": "2026-08-12",
+   "daysSinceYearEnd": 864,
+   "evidenceOfAbsence": "The fund's own About page (last updated 10 August 2026) indexes only FY2019-20 to FY2022-23. A request for https://pmcares.gov.in/assets/donation/pdf/Audited_Statement_2023_24.pdf - the site's own naming convention - returns HTTP 404.",
+   "note": "864 days after the year end, against the fund's own slowest previous audit turnaround of 364 days (FY2022-23). The trust deed requires an annual audit (clause 14.3) but does not require publication, so this establishes a publication gap and does not establish that no audit exists.",
+   "srcs": ["about"]
+  },
+  {
+   "fy": "2024-25",
+   "published": false,
+   "publishedUrl": null,
+   "asOf": "2026-08-12",
+   "daysSinceYearEnd": 499,
+   "evidenceOfAbsence": "Not indexed on the About page; https://pmcares.gov.in/assets/donation/pdf/Audited_Statement_2024_25.pdf returns HTTP 404.",
+   "srcs": ["about"]
+  },
+  {
+   "fy": "2025-26",
+   "published": false,
+   "publishedUrl": null,
+   "asOf": "2026-08-12",
+   "daysSinceYearEnd": 134,
+   "evidenceOfAbsence": "Not indexed on the About page. 134 days after year end, this is within the fund's fastest observed audit turnaround (100 days) but only just; its absence is not yet informative on its own.",
+   "srcs": ["about"]
+  }
+ ],
+
+ "aggregates": {
+  "asOf": "2026-08-12",
+  "coverage": "FY2019-20 to FY2022-23 only. Nothing is known from published accounts about FY2023-24 onward.",
+  "voluntaryContributionsRs": 130660287926,
+  "voluntaryContributionsCr": 13066.03,
+  "foreignContributionsRs": 5380075532,
+  "foreignContributionsCr": 538.01,
+  "totalContributionsCr": 13604.04,
+  "interestRegularAccountRs": 5246715398,
+  "interestForeignAccountRs": 409179024,
+  "totalInterestCr": 565.59,
+  "initialCorpusRs": 225000,
+  "totalPaymentsRs": 81318527192,
+  "totalPaymentsCr": 8131.85,
+  "closingBalanceAt31Mar2023Rs": 62836830782,
+  "closingBalanceAt31Mar2023Cr": 6283.68,
+  "namedDisbursementHeadsAcrossFourYears": 19,
+  "donorNamesPublished": 0,
+  "recipientNamesPublished": 0,
+  "transactionDatesPublished": 0,
+  "note": "The Rs 13,605 cr / Rs 8,131 cr figures already established in the research plan are confirmed to two decimal places and decomposed here: Rs 13,066.03 cr domestic voluntary + Rs 538.01 cr foreign = Rs 13,604.04 cr of contributions, plus Rs 565.59 cr of interest and a Rs 2.25 lakh corpus. Total payments Rs 8,131.85 cr, of which Rs 3.24 cr is contributions refunded and Rs 0.26 cr bank charges."
+ },
+
+ "disbursements": [
+  {
+   "id": "ventilators",
+   "announced": {"date": "2020-05-13", "amountCr": 2000, "amountQualifier": "approximately", "quantity": "50,000 'Made-in-India' ventilators", "src": "pib-1623649"},
+   "audited": {"fy2020-21Cr": 1311.34, "fy2021-22Cr": 835.28, "grossPaidCr": 2146.62, "refundReceivedFY2022-23Cr": 202.89, "netOfRefundCr": 1943.73},
+   "difference": "Gross cash paid exceeds the announced approximation by Rs 146.62 cr; net of the FY2022-23 refund it falls below it by Rs 56.27 cr. Both figures are carried. The announcement said 'approximately', so neither number is inconsistent with it.",
+   "unresolved": "How many ventilators were delivered, to whom, at what unit price, and against what specification, is not in any published statement. The published accounts name no manufacturer.",
+   "srcs": ["pib-1623649", "as2021", "as2122", "as2223"]
+  },
+  {
+   "id": "migrant-welfare",
+   "announced": {"date": "2020-05-13", "amountCr": 1000, "mechanism": "Lump sum to States/UTs, released to District Collector / District Magistrate / Municipal Commissioner through the State Disaster Relief Commissioner. Allocation formula: 50% weight on 2011 Census population, 40% on positive COVID-19 cases as on date, 10% equal share.", "src": "pib-1623649"},
+   "audited": {"fy2020-21Cr": 1000.00},
+   "difference": "None. The audited figure is Rs 10,00,00,00,000 exactly, matching the announcement to the rupee.",
+   "unresolved": "The State/UT-wise split was announced as formula-driven but no State-wise table appears in the release or in any published statement.",
+   "srcs": ["pib-1623649", "as2021"]
+  },
+  {
+   "id": "vaccine-development-100cr",
+   "announced": {"date": "2020-05-13", "amountCr": 100, "purpose": "'as a helping hand to catalyse vaccine development, which will be utilized under the supervision of Principal Scientific Advisor'", "src": "pib-1623649"},
+   "audited": {"fy2019-20": null, "fy2020-21": null, "fy2021-22": null, "fy2022-23": null},
+   "difference": "NO line item corresponding to vaccine development or research support appears under Payments in any of the four published Receipts and Payments Accounts. The vaccine-related heads that do appear are different things: 'Procurement of 6.6 crore doses of COVID-19 vaccine' (Rs 1,392.83 cr, FY2020-21) is purchase of doses, not development; 'Funding of two of the Autonomous Institute laboratories under Department of Biotechnology for upgradation as Central Drug Laboratory (CDL)' (Rs 20.42 cr, FY2020-21) is testing and batch release, not development.",
+   "innocentReadings": [
+    "A Receipts and Payments Account is a cash statement showing only the heads the trustees chose to name. Rs 100 cr could have been disbursed inside a head not separately captioned.",
+    "The pledge was to 'catalyse' development under the supervision of the Principal Scientific Adviser; if the intended vehicle was later superseded by the far larger dose-procurement route, non-disbursement would be a programme decision, not an accounting one.",
+    "The accompanying notes, which are not published, may account for it."
+   ],
+   "priorReporting": "That the Rs 100 cr vaccine pledge was never disbursed has been reported previously; it is recorded in this project's own research plan at P1.3. What is added here is the establishment of the absence from the primary record - across all four published statements - rather than from a report.",
+   "srcs": ["pib-1623649", "as1920", "as2021", "as2122", "as2223"]
+  },
+  {
+   "id": "psa-oxygen-162",
+   "announced": {"date": "2021-01-05", "amountCr": 201.58, "quantity": "162 PSA plants, 154.19 MT, 32 States/UTs", "procurement": "Central Medical Supply Store (CMSS), an autonomous body of MoHFW", "src": "pib-1686271"},
+   "audited": {"fy2020-21Rs": 2015838785, "fy2020-21Cr": 201.58, "refundsCr": {"fy2021-22": 18.55, "fy2022-23": 5.31}},
+   "difference": "None on the announcement. The audited figure is Rs 2,01,58,38,785 - the announced Rs 201.58 cr to the lakh. Rs 23.86 cr came back over the two following years.",
+   "srcs": ["pib-1686271", "as2021", "as2122", "as2223"]
+  },
+  {
+   "id": "psa-oxygen-551-additional",
+   "announced": {"date": "2021-04-25", "amountCr": null, "quantity": "551 PSA plants, in-principle approval", "src": "pib-1713904"},
+   "audited": {"fy2021-22Cr": 1703.15, "refundFY2022-23Cr": 3.84},
+   "difference": "The announcement carried no rupee figure, so no comparison is possible. The audited head is 'Installation of additional Dedicated Pressure Swing Adsorption (PSA) Medical Oxygen Generation Plants' at Rs 1,703.15 cr. Whether that head corresponds to the 551 plants, to a larger later number, or to some other set is NOT established by any document read here.",
+   "srcs": ["pib-1713904", "as2122", "as2223"]
+  },
+  {
+   "id": "pm-cares-for-children",
+   "announced": {"date": "2021-05-29", "amountCr": null, "entitlement": "Rs 10 lakh lump sum on attaining 23 years of age, monthly stipend from 18, education and health insurance support", "src": "pib-1741528"},
+   "audited": {"fy2021-22Cr": 0, "fy2022-23Cr": 346.00},
+   "difference": "The scheme was announced on 29 May 2021, inside FY2021-22. The FY2021-22 account records nothing against it. The first cash outflow appears in FY2022-23 at Rs 346.00 cr - a lag of about 22 months between announcement and first recorded disbursement. The innocent reading is structural: the Rs 10 lakh is payable at age 23, so the FY2022-23 outflow is almost certainly a corpus placement rather than payments to beneficiaries.",
+   "unresolved": "The relationship between Rs 346.00 cr and the 4,345 children recorded as supported at the 20 September 2022 trustee meeting is not established. Do not divide one by the other - the entitlement is not a lump sum payable now.",
+   "srcs": ["pib-1741528", "pib-1761718", "pib-1861047", "as2122", "as2223"]
+  }
+ ],
+
+ "contested": [
+  {
+   "id": "C1",
+   "question": "Is PM CARES a 'public authority' within section 2(h) of the Right to Information Act 2005?",
+   "status": "Not adjudicated by any court as to PM CARES, as at 2026-08-12, on the record retrieved here.",
+   "positionA": {
+    "holder": "The Trust, the Prime Minister's Office and the Union of India",
+    "statement": "It is not. The trust instrument itself recites that the Trust 'is not created by or under the Constitution of India or by any law made by the Parliament or by any State Legislature', is 'neither intended to be or is in fact owned, controlled or substantially financed by any Government or any instrumentality of the Government', and that the ex officio composition of the Board 'is merely for administrative convenience'. The Union told the Delhi High Court by affidavit on 14 September 2021 that the fund can be listed neither as 'the State' under Article 12 nor as a 'public authority' under the RTI Act, and that its amounts are not transferred to the Consolidated Fund of India. The Minister of State for Finance and Corporate Affairs answered 'No sir' in the Lok Sabha to the proposition that the fund's creation by the Central Government made it a public authority.",
+    "srcs": ["deed", "scroll-affidavit", "nationalherald-lsq"],
+    "tier": "documented for the deed clause; reported for the affidavit and the parliamentary answer"
+   },
+   "positionB": {
+    "holder": "RTI applicants and petitioners; and, on the analogous fund, S. Ravindra Bhat J",
+    "statement": "On the closest judicial reasoning available - Bhat J on PMNRF - 'whilst PMNRF does not receive funding from the Central or State Governments, yet, it is administered in the office of the Prime Minister in accordance with the policy which exists in the public domain ... All those seconded to the office of the fund are public servants; they have no personal stake or interest. Such a fund cannot but be called as a public fund.' Bhat J also rejected the argument that the Lok Sabha and Rajya Sabha rules of procedure, or the absence of CAG audit, could bar disclosure, because 'Section 22 of the RTI Act overrides all other laws'. Applied to PM CARES the same facts hold: the PM chairs it, three Union ministers are ex officio trustees, the PMO provides its administration, its officers administer it in their official capacity, it operates on a gov.in domain whose footer reads '(c) 2026 Prime Minister's Office', and its stated head office is the Prime Minister's Office.",
+    "srcs": ["dhc-lpa231", "deed", "faq", "about"],
+    "tier": "documented as to what Bhat J held and as to the PM CARES facts; the application of one to the other is analytic and is not a holding of any court"
+   },
+   "note": "The Supreme Court in W.P.(C) 546/2020 did not decide this. It decided that PM CARES funds need not be transferred to the NDRF, and in doing so described the fund as 'a public charitable trust and ... not a Government fund'. That characterisation was made under the Disaster Management Act 2005, not under section 2(h) of the RTI Act, and the judgment nowhere mentions section 2(h). Treating the Supreme Court as having settled the RTI question is a category error that appears on both sides of the argument.",
+   "innocentReading": "A trust that is genuinely funded only by voluntary donations, receives nothing from the Consolidated Fund, and is legally distinct from the Government can be administered by public officers for reasons of trust and continuity without becoming an organ of the State - which is precisely why one experienced judge held for it and another against it on identical facts.",
+   "killIf": "A judgment on the merits, of any court, holding that PM CARES is or is not a public authority under section 2(h).",
+   "upgradeIf": "The third-judge reference in LPA 231/2016 is decided; or the Delhi High Court decides the Samyak Gangwal petitions on the merits."
+  },
+  {
+   "id": "C2",
+   "question": "Is PMNRF a 'public authority' under section 2(h)? [the control]",
+   "status": "Split 1-1 on 23 May 2018 and referred to a third judge. The outcome of that reference is NOT established by any document read here, eight years later. This is the single most consequential unresolved legal fact in this file.",
+   "positionA": {"holder": "Sunil Gaur J", "statement": "'appellant-Trust does not owe its genesis to a decision or function of Appropriate Government and Funds of appellant-Trust do not have any government character ... PMNRF is a Trust which is neither owned, controlled or financed by the Government ... I humbly disagree with my esteemed brother and hold that appellant-PMNRF is not a \"Public Authority\" within the definition of Section 2 (h) of RTI Act and is thus, beyond its purview.'", "srcs": ["dhc-lpa231"], "tier": "documented"},
+   "positionB": {"holder": "S. Ravindra Bhat J", "statement": "'Such a fund cannot but be called as a public fund ... disclosure of the information sought by the applicant petitioner is reasonable; the impugned judgment cannot be faulted. The appeal is without merit and therefore, dismissed.'", "srcs": ["dhc-lpa231"], "tier": "documented"},
+   "referredQuestion": "Whether the Prime Minister's National Relief Fund is a 'public authority' within the meaning of Section 2(h)(d) of the Right to Information Act, 2005 and accordingly, whether information pertaining to various transactions made by the Fund can be obtained by preferring an application under the said Act?",
+   "srcs": ["dhc-lpa231"]
+  },
+  {
+   "id": "C3",
+   "question": "Is the Trust controlled by government?",
+   "status": "Both positions come from the same primary documents. Not adjudicated.",
+   "positionA": {"holder": "The trust deed", "statement": "Clause 5.3: 'There is no control of either the Central Government or any State Government/s, either direct or indirect, in functioning of the Trust in any manner whatsoever. The composition of the Board of Trustees consisting of holders of public office ex officio is merely for administrative convenience...'", "srcs": ["deed"], "tier": "documented"},
+   "positionB": {"holder": "The same deed and the fund's own website", "statement": "Deed clause 6.2: the Prime Minister and the Ministers of Defence, Home Affairs and Finance constitute the Board ex officio. Clause 6.6: the Prime Minister is Chairperson. Clause 6.7: the Chairperson alone may add, remove or replace any trustee. Clause 18.1: the Chairperson alone may modify, add to or alter any term of the deed including the Objects. Clause 6.8: the PMO provides administrative and secretarial support. FAQ Q6: the fund is administered by the Additional Secretary / Joint Secretary in charge in the PMO as Secretary of the fund, assisted by other designated PMO officers. FAQ Q7: the head office is the Prime Minister's Office. The site is on the gov.in domain and its footer reads '(c) 2026 Prime Minister's Office'.", "srcs": ["deed", "faq", "about"], "tier": "documented"},
+   "note": "This file records the tension and adjudicates nothing. It is exactly the tension a court would have to resolve, and it is the reason two judges resolved the identical question about PMNRF in opposite directions."
+  },
+  {
+   "id": "C4",
+   "question": "Was the Rs 100 cr announced for vaccine development on 13 May 2020 disbursed?",
+   "positionA": {"holder": "PM CARES Fund Trust, via PIB", "statement": "'an amount of Rs. 100 Crore will be given from PM CARES Fund as a helping hand to catalyse vaccine development, which will be utilized under the supervision of Principal Scientific Advisor.'", "srcs": ["pib-1623649"], "tier": "documented"},
+   "positionB": {"holder": "The fund's own published accounts", "statement": "No head corresponding to vaccine development or research support appears under Payments in FY2019-20, FY2020-21, FY2021-22 or FY2022-23.", "srcs": ["as1920", "as2021", "as2122", "as2223"], "tier": "documented"},
+   "note": "A documented void, not an allegation. The innocent readings are set out at disbursements.vaccine-development-100cr.innocentReadings and ship with the claim."
+  },
+  {
+   "id": "C5",
+   "question": "Are parliamentary questions on PM CARES admissible?",
+   "positionA": {"holder": "The Prime Minister's Office, as reported", "statement": "Questions on PM CARES, PMNRF and the National Defence Fund are inadmissible under Rules 41(2)(viii) and 41(2)(xvii) of the Rules of Procedure and Conduct of Business in Lok Sabha, because the funds consist of voluntary contributions and receive no allocation from the Consolidated Fund of India.", "srcs": ["quint-pmo-admissibility", "leaflet-pmo-admissibility"], "tier": "reported"},
+   "positionB": {"holder": "P.D.T. Achary, former Secretary General of the Lok Sabha, as quoted", "statement": "'The decision over admissibility rests with the Speaker alone. Also, decisions are taken on the merits of the individual question, not entire subjects, like a certain fund.'", "srcs": ["quint-pmo-admissibility"], "tier": "reported"},
+   "chronologyNote": "Rule 41 is not a new argument. It is the rule Gaur J relied on in his 2018 dissent in the PMNRF appeal to conclude that the fund is not a public authority: 'What persuades me to hold that appellant-Trust is not a \"Public Authority\" under the RTI Act is that Rule 47 of the Rules of Procedure and Conduct of Business in Rajya Sabha and Rule 41 of the Rules of Procedure and Conduct of Business in Lok Sabha prohibit questioning of Ministers in Parliament regarding matters which are not primarily the concern of the Government.' Bhat J rejected that reasoning in terms, on the ground that section 22 of the RTI Act overrides all other laws. The argument now reported to be operating in the Lok Sabha Secretariat is the argument that lost half of a split verdict.",
+   "srcs": ["dhc-lpa231", "quint-pmo-admissibility", "leaflet-pmo-admissibility"],
+   "gap": "The PMO communication itself was not retrieved. Its date is not established. See gaps.G08."
+  }
+ ],
+
+ "control": {
+  "comparator": "Prime Minister's National Relief Fund (PMNRF), established January 1948",
+  "whyThisComparator": "It is the only other relief fund administered from the Prime Minister's Office, chaired by the Prime Minister, funded entirely by voluntary contributions, exempt under section 10(23)(c), eligible for 100% deduction under section 80G, and named in item (viii) of Schedule VII of the Companies Act. PM CARES's own About page invokes it: 'This is consistent with respect to Prime Minister's National Relief Fund (PMNRF). PMNRF has also received foreign contributions as a public trust since 2011.'",
+  "resultsIdentical": [
+   {"property": "Asserts it is not a public authority under section 2(h) RTI Act", "pmcares": true, "pmnrf": true, "note": "PMNRF asserted it first, from 2011, and litigated it to a Division Bench that split 1-1 in 2018 - two years before PM CARES existed. The position is not a PM CARES innovation.", "srcs": ["dhc-lpa231", "deed", "scroll-affidavit"]},
+   {"property": "Not audited by the Comptroller and Auditor General", "pmcares": true, "pmnrf": true, "note": "The Supreme Court's explanation at paragraph 70 - 'for public charitable trust there is no occasion for audit by the Comptroller & Auditor General of India' - applies identically to both.", "srcs": ["sc-cpil-546-2020"]},
+   {"property": "Audited by SARC & Associates, FRN 006085N, Sunil Kumar Gupta signing", "pmcares": true, "pmnrf": true, "srcs": ["as2223", "pmnrf-rpa-2223"]},
+   {"property": "Has since appointed KKC & Associates LLP, Mumbai as auditor", "pmcares": true, "pmnrf": true, "note": "PM CARES FAQ Q19: 'Trustees of the Fund have appointed M/s KKC & Associates LLP Chartered Accountants, Mumbai as the auditors of PM CARES Fund for 3 years.' PMNRF FAQ Q7: 'At present, KKC & Associates LLP Chartered Accountants, Mumbai are the auditors.' No statement audited by KKC has been published by either fund.", "srcs": ["faq", "pmnrf-faq"]},
+   {"property": "Publishes only a Receipts and Payments Account, with the accompanying notes withheld", "pmcares": true, "pmnrf": true, "note": "PM CARES: notes 1-6 / 1-10 / 1-11 referenced, none published. PMNRF FY2022-23: 'Accompanying notes to the Financial Statements - 1 to 12', not published. Neither publishes an auditor's report, a balance sheet or an income and expenditure account.", "srcs": ["as1920", "as2021", "as2122", "as2223", "pmnrf-rpa-2223"]},
+   {"property": "Last published financial year is FY2022-23", "pmcares": true, "pmnrf": true, "note": "PM CARES About page last updated 10 August 2026, still four statements. PMNRF About page last updated 23 December 2024, ten-year table ending FY2022-23. FY2023-24 and FY2024-25 are unpublished for both.", "srcs": ["about", "pmnrf-about"]},
+   {"property": "Administered on an honorary basis by PMO officers; head office is the PMO", "pmcares": true, "pmnrf": true, "srcs": ["faq", "pmnrf-faq", "pmnrf-about"]},
+   {"property": "'There is no statutory period prescribed for audit ... under Income Tax Act'", "pmcares": true, "pmnrf": true, "note": "The two FAQs use near-identical wording. PM CARES Q20 adds 'However, audit will be conducted regularly'; PMNRF Q8 says 'Generally, efforts are made to complete the audit regularly.'", "srcs": ["faq", "pmnrf-faq"]},
+   {"property": "Named in item (viii) of Schedule VII, Companies Act 2013, so contributions are eligible CSR expenditure", "pmcares": true, "pmnrf": true, "note": "PMNRF has been in item (viii) since the Schedule was substituted by G.S.R. 130(E) of 27 February 2014 with effect from 1 April 2014. PM CARES was inserted alongside it. CSR eligibility for a PMO relief fund is therefore not a departure.", "srcs": ["indiacode-ca2013"]}
+  ],
+  "departuresThatSurvive": [
+   {
+    "id": "D1",
+    "departure": "PMNRF refuses PSU money; PM CARES accepts PSU CSR. This is the mechanism behind the ~100% PSU base rate, and it is stated on the two funds' own websites in terms that cannot be reconciled.",
+    "pmnrf": "'PMNRF accepts only voluntary donations by individuals and institutions. Contributions flowing out of budgetary sources of Government or from the balance sheets of the public sector undertakings are not accepted.'",
+    "pmcares": "'PM CARES Fund accepts voluntary contributions by individuals/organizations as well as contributions as part of CSR from Companies/Public Sector Undertakings (PSUs). However, contributions flowing out of budgetary sources of the PSUs are not accepted.'",
+    "significance": "PMNRF excludes PSU balance-sheet contributions entirely. PM CARES excludes only contributions from budgetary sources, and expressly admits PSU CSR - which comes off the balance sheet. The exclusion PMNRF applies is precisely the one PM CARES drops. This is a documented, sourced, load-bearing difference between the two funds and, on the searching done here, it has not been assembled anywhere as the explanation for the PSU donation base rate.",
+    "srcs": ["pmnrf-about", "faq"],
+    "tier": "documented",
+    "innocentReading": "PMNRF's rule dates from an era before section 135 CSR existed as a statutory levy. Once CSR became a 2% statutory obligation with a defined list of permitted destinations, a fund that refused CSR money would simply be refusing money that companies are compelled to spend somewhere. Admitting CSR is the ordinary consequence of being on Schedule VII, not evidence of design."
+   },
+   {
+    "id": "D2",
+    "departure": "PMNRF has no trust deed. PM CARES has one, and the section 2(h) test is recited in it in the negative.",
+    "significance": "PMNRF's genesis is a press note of 24 January 1948, which is why both judges in the 2018 appeal had to argue from a website 'Preamble' rather than an instrument. PM CARES's instrument, executed and registered on 27 March 2020, contains at clause 5.3 an express recital tracking each limb of section 2(h): not created by the Constitution, not by any law of Parliament, not by any State Legislature, not owned, controlled or substantially financed by any Government, ex officio composition 'merely for administrative convenience'. Whether that was drafting prudence or anticipation is not something the record settles, and this file asserts nothing about it.",
+    "srcs": ["deed", "dhc-lpa231"],
+    "tier": "documented",
+    "innocentReading": "Any competent draftsman settling a public charitable trust in 2020 would recite non-governmental character, because the alternative is to leave the trust's legal characterisation to be litigated later. The recital is also, on its face, simply true of the funding: no budgetary support is received."
+   },
+   {
+    "id": "D3",
+    "departure": "Scale, and the speed of it.",
+    "significance": "PM CARES received Rs 3,076.63 cr in the five days from 27 to 31 March 2020. PMNRF's total income for the whole of FY2019-20 was Rs 814.63 cr. PM CARES's five days exceed PMNRF's full year by 3.8x. In FY2020-21 PM CARES received Rs 7,913.55 cr against PMNRF's Rs 657.07 cr - 12.0x. PM CARES's closing balance at 31 March 2023, Rs 6,283.68 cr, exceeds PMNRF's Rs 5,956.50 cr, having existed for three years against PMNRF's seventy-five.",
+    "srcs": ["as1920", "as2021", "pmnrf-about"],
+    "tier": "documented"
+   },
+   {
+    "id": "D4",
+    "departure": "Audit turnaround. PM CARES's audit lag went 100 days, 286 days, 183 days, 364 days. PMNRF's FY2022-23 statement was signed in 182 days.",
+    "significance": "PMNRF, on the one comparable year, was audited in half the time. PM CARES's slowest year is its most recent published one.",
+    "srcs": ["as1920", "as2021", "as2122", "as2223", "pmnrf-rpa-2223"],
+    "tier": "documented",
+    "innocentReading": "PM CARES's FY2020-21 and FY2022-23 accounts carry many more transaction heads and more counterparties than PMNRF's, and 2020-22 was not an ordinary period for anyone's audit timetable."
+   }
+  ],
+  "verdict": "The RTI-exemption position is a CONTINUATION, not a departure. It was asserted for PMNRF from 2011, litigated from 2012, and left unresolved by a split Delhi High Court verdict in 2018 - all before PM CARES existed. So is the absence of CAG audit, the withholding of the notes to the accounts, the choice of auditor, the administration by PMO officers on an honorary basis, and the halt in publication after FY2022-23. Commentary that presents any of these as PM CARES-specific is, on this record, wrong. What is genuinely specific to PM CARES is D1 (PSU CSR admitted where PMNRF refuses PSU balance-sheet money), D2 (the section 2(h) recital written into an instrument), D3 (scale) and D4 (audit turnaround)."
+ },
+
+ "csrEligibility": {
+  "instrument": "Notification G.S.R. 313(E), dated 26th May 2020",
+  "effectFrom": "2020-03-28",
+  "retrospectivityDays": 59,
+  "effect": "Inserted 'or Prime Minister's Citizen Assistance and Relief in Emergency Situations Fund (PM CARES Fund)' after 'Prime Minister's National Relief Fund' in item (viii) of Schedule VII of the Companies Act 2013.",
+  "itemViiiAsAmended": "contribution to the Prime Minister's National Relief Fund [or Prime Minister's Citizen Assistance and Relief in Emergency Situations Fund (PM CARES Fund)] or any other fund set up by the Central Government for socio-economic development and relief and welfare of the Scheduled Castes, the Scheduled Tribes, other backward classes, minorities and women;",
+  "src": "indiacode-ca2013",
+  "tier": "documented",
+  "sourceNote": "Established from footnote 5 to Schedule VII in India Code's official consolidated text of the Companies Act 2013: 'Ins. by Notification No. G.S.R. 313(E), dated 26th May, 2020 (w.e.f. 28-03-2020).' The notification PDF itself is on mca.gov.in, which returns HTTP 403 to all automated fetching.",
+  "precisionCorrections": [
+   "PMNRF was ALREADY in item (viii), inserted when the whole of items (i) to (x) were substituted by Notification G.S.R. 130(E) dated 27 February 2014 with effect from 1 April 2014. CSR eligibility for a Prime-Minister's relief fund is therefore not new and is not a PM CARES-specific concession. PM CARES was added to an existing entry.",
+   "The retrospective effect is real and precise: notified 26 May 2020, operative from 28 March 2020 - the day of the PIB donation appeal and the day after the trust deed was registered. Contributions made from 28 March 2020 were made CSR-eligible by an instrument issued 59 days later. The FY2019-20 voluntary contributions of Rs 3,075.85 cr were received in the window 27-31 March 2020, i.e. almost entirely inside the retrospective period.",
+   "The asymmetry that matters is central versus state, not PM CARES versus PMNRF. Item (viii) is confined to funds 'set up by the Central Government'. A Chief Minister's Relief Fund is not set up by the Central Government and is not a State Disaster Management Authority, so it falls in neither item (viii) nor item (xii). Item (xii), 'disaster management, including relief, rehabilitation and reconstruction activities', was inserted by Notification G.S.R. 390(E) dated 30 May 2019 with effect from 30 May 2019 - a year before COVID - and is the head under which contributions to State Disaster Management Authorities qualify. The exclusion of CM Relief Funds is therefore a consequence of the statutory text as it stood in 2019, not a discretionary carve-out created in 2020. That does not make the exclusion uncontroversial; it makes the common framing of it inaccurate.",
+   "The MCA's own account, given in answer to a Lok Sabha question and reported at the time: 'The Ministry on 28.03.2020 conveyed that contribution made to PM CARES Fund would be eligible as CSR activity under the Companies Act, 2013 and subsequently, issued a gazette notification to this effect'. So the administrative communication preceded the statutory instrument by 59 days, and the instrument was backdated to the communication."
+  ],
+  "circularsNotRead": [
+   "MCA General Circular No. 10/2020 dated 23 March 2020 (COVID-19 spend as CSR under items (i) and (xii))",
+   "MCA Office Memorandum of 28 March 2020 (PM CARES eligible as CSR)",
+   "MCA General Circular No. 15/2020 dated 10 April 2020 (COVID-19 CSR FAQs, including the treatment of Chief Minister's Relief Funds)"
+  ],
+  "circularsNotReadReason": "mca.gov.in returns HTTP 403 to every automated request, including its static /Ministry/pdf/ paths. www.csr.gov.in also returns 403 and csr.gov.in fails TLS verification. egazette.gov.in fails TLS verification. See gaps.G07."
+ },
+
+ "denominators": {
+  "publishedFinancialYears": {"published": 4, "elapsed": 7, "range": "FY2019-20 to FY2025-26", "asOf": "2026-08-12", "note": "Elapsed = financial years whose 31 March end date precedes the asOf date."},
+  "publishedFinancialYearsPMNRF": {"published": 4, "elapsed": 7, "range": "FY2019-20 to FY2025-26", "asOf": "2026-08-12", "note": "Identical to PM CARES. This is the control."},
+  "pmoRelieffundsPublishingAfterFY2023": {"numerator": 0, "denominator": 2, "note": "Neither PM CARES nor PMNRF has published accounts for any year after FY2022-23."},
+  "namedDisbursementHeads": {"count": 19, "over": "Rs 8,131.85 cr across four years", "note": "19 captions. Zero named recipients, zero transaction dates, zero counterparties, in any published statement."},
+  "donorNamesPublished": {"numerator": 0, "denominator": "every published statement", "note": "Non-disclosure of contributor identities is a term of the trust deed (clause 5.3), not a discretionary practice."},
+  "pagesOfPublishedAccounts": {"count": 6, "note": "The entire published financial record of a fund that has received Rs 13,604.04 cr is six scanned pages: 1 + 1 + 2 + 2."},
+  "auditLagDays": {"fy2019-20": 100, "fy2020-21": 286, "fy2021-22": 183, "fy2022-23": 364, "pmnrfFy2022-23": 182, "worstObserved": 364, "fy2023-24DaysOutstanding": 864},
+  "psuDonationBaseRate": {"numerator": 38, "denominator": 38, "askedDenominator": 55, "verdict": "Non-discriminating (>=80%). 'Company X gave to PM CARES' is not a finding.", "source": "Already established in docs/RESEARCH_PLAN.md from an RTI; NOT re-derived here.", "addedHere": "The mechanism is now documented: PM CARES admits PSU CSR where PMNRF refuses PSU balance-sheet contributions outright. See control.departuresThatSurvive.D1."}
+ },
+
+ "novelty": {
+  "method": "Each candidate was searched before being written up. Searches run: (1) PMNRF accounts also stopping at FY2022-23, and the shared auditors; (2) 'KKC & Associates' with PM CARES and PMNRF; (3) PM CARES publishing only a receipts and payments account without notes, auditor's report or balance sheet; (4) the trust deed's clause 5.3 recital against the section 2(h) test; (5) the Delhi High Court PMNRF split verdict; (6) the Schedule VII amendment and the treatment of state relief funds; (7) the Rs 100 cr vaccine pledge.",
+  "alreadyReported": [
+   {"claim": "PM CARES publishes only bare receipts-and-payments statements; the accompanying notes and the auditors' observations are not published", "outlet": "The News Minute, 'Why are financial statements missing in PM CARES Fund reports?', Poonam Agarwal, 18 January 2025", "src": "thenewsminute-missing-statements", "whatIsAddedHere": "That PMNRF publishes exactly the same artefact with exactly the same omission - 'Accompanying notes to the Financial Statements - 1 to 12', unpublished - so the practice is the PMO's standing practice for both funds rather than a PM CARES-specific choice."},
+   {"claim": "The trust deed recites that the trust is not owned, controlled or substantially financed by any government", "outlet": "The Wire; Scroll.in", "whatIsAddedHere": "The clause number (5.3), the full verbatim text including the 'merely for administrative convenience' sentence, and its position in an instrument executed and registered on the same evening of 27 March 2020."},
+   {"claim": "SARC & Associates audits both PM CARES and PMNRF", "outlet": "Business Standard, Indie Journal and others, June 2020", "whatIsAddedHere": "That both funds have since moved to KKC & Associates LLP - see below."},
+   {"claim": "The Rs 100 cr vaccine-development pledge was not disbursed", "outlet": "Prior reporting; recorded in this project's own research plan at P1.3", "whatIsAddedHere": "Establishment of the absence from the primary record - no corresponding head in any of the four published Payments columns - together with the two vaccine-adjacent heads that do exist and are different things."}
+  ],
+  "notFound": [
+   {"claim": "KKC & Associates LLP, Mumbai is now the auditor of BOTH PM CARES (appointed for 3 years, per the fund's own FAQ, page last updated 10 August 2026) and PMNRF ('At present', per PMNRF's own FAQ), and NEITHER fund has published a single statement audited by that firm.", "searchesRun": ["\"KKC & Associates\" PM CARES Fund auditor appointed three years PMNRF replace SARC"], "result": "Every result returned SARC & Associates. No result mentioned KKC in connection with either fund.", "tier": "documented", "srcs": ["faq", "pmnrf-faq"]},
+   {"claim": "PMNRF's published accounts stop at the same financial year as PM CARES's - FY2022-23 - so the publication gap is common to both PMO relief funds, at 4 of 7 elapsed years each.", "searchesRun": ["PMNRF accounts also not published after 2022-23 PM CARES same auditor"], "result": "No outlet assembling the two series against each other was returned.", "tier": "documented", "srcs": ["about", "pmnrf-about"]},
+   {"claim": "The precise rule difference on PSU money - PMNRF refuses contributions 'from the balance sheets of the public sector undertakings', PM CARES accepts 'contributions as part of CSR from Companies/Public Sector Undertakings' - stated on the two funds' own current websites, and its status as the mechanism behind the ~100% PSU donation base rate.", "searchesRun": ["difference PMNRF PM CARES PSU contributions CSR balance sheets accepted refused"], "result": "Comparison pages exist (exam-preparation sites, byjus, unacademy) but none quote the two funds' own contribution rules against each other or connect the difference to the PSU donation rate.", "tier": "documented", "srcs": ["pmnrf-about", "faq"]},
+   {"claim": "The argument now reported to be operating in the Lok Sabha Secretariat on admissibility - Rule 41 of the Lok Sabha rules - is the argument that lost half of a split verdict: it is Gaur J's ratio in the 2018 PMNRF appeal, expressly rejected by Bhat J on section 22 RTI Act grounds.", "searchesRun": ["PMO Lok Sabha questions PM CARES PMNRF National Defence Fund not admissible Rule 41 directive"], "result": "Coverage of the directive exists (The Quint, The Leaflet, Indian Express as cited by them) but none connects Rule 41 back to the 2018 judgment.", "tier": "analytic on the connection; documented on both underlying facts", "srcs": ["dhc-lpa231", "quint-pmo-admissibility", "leaflet-pmo-admissibility"]},
+   {"claim": "PM CARES's audit lag by year - 100, 286, 183, 364 days - and the fact that the FY2023-24 statement is now 864 days outstanding, 2.4x the fund's own worst previous turnaround.", "result": "Not found stated as a series anywhere.", "tier": "documented", "srcs": ["as1920", "as2021", "as2122", "as2223", "about"]}
+  ],
+  "caveat": "Absence from search results is weaker evidence than absence from a comprehensive list. These claims are recorded as 'not found in the searches named', not as 'never published'."
+ },
+
+ "gaps": [
+  {"id": "G01", "gap": "Receipts and Payments Accounts for FY2023-24, FY2024-25 and FY2025-26 are not published.", "howEstablished": "The fund's own About page indexes four statements and was last updated 10 August 2026. Requests for the site's own naming convention Audited_Statement_2023_24.pdf and Audited_Statement_2024_25.pdf return HTTP 404.", "consequence": "Nothing is known from the primary record about receipts, foreign contributions, disbursements or closing balance after 31 March 2023. Every statement about PM CARES's current finances is a statement about a position 864 days old.", "control": "PMNRF is in the identical position."},
+  {"id": "G02", "gap": "The notes to the financial statements are referenced in every published statement and published in none. FY2019-20: notes 1 to 6. FY2020-21: 1 to 10. FY2021-22 and FY2022-23: 1 to 11. No auditor's report, no balance sheet and no income and expenditure account has been published for any year, although each statement says 'As per our report of even date'.", "control": "PMNRF FY2022-23 references notes 1 to 12 and publishes none of them.", "priorCoverage": "Reported by The News Minute, 18 January 2025."},
+  {"id": "G03", "gap": "No donor names, no recipient names, no counterparties and no transaction dates appear in any published statement.", "note": "Donor non-disclosure is a term of the trust instrument (deed clause 5.3), so it is not correctable by administrative decision alone. Recipient non-disclosure has no equivalent basis in the deed."},
+  {"id": "G04", "gap": "Delhi High Court case records on PM CARES could not be retrieved.", "detail": "delhihighcourt.nic.in serves judgments at /app/case_number_pdf/<neutral citation>/<file>.pdf - which is how the PMNRF judgment was obtained - but exposes no free-text judgment search: /app/free-text-search, /app/judgement and /app/judgements all return 404, and /app/get-case-type-status is captcha-gated. Without the neutral citation the PDF path cannot be constructed, and this file does not guess identifiers. Unretrieved: the PMO affidavit of 14 September 2021; the petitions of Samyak Gangwal (reported as W.P.(C) 3430/2020, NOT verified against the court record); the judgment of 22 January 2024 in CPIO/Dy Commissioner of Income Tax (HQ Exemption) v. Girish Mittal; and the status of the appeal against it.", "consequence": "The Union's litigation position is recorded here at reported tier, sourced to Scroll's account of the affidavit, not to the affidavit."},
+  {"id": "G05", "gap": "The outcome of the third-judge reference in LPA 231/2016 (PMNRF v. Aseem Takyar) is not established.", "detail": "The reference was made on 23 May 2018. No document read here records whether the third judge has answered it. This is the most consequential unresolved fact in the file: if the reference has been answered, it is the closest thing to binding authority on the question everyone is arguing about PM CARES.", "howToClose": "Delhi High Court case status for LPA 231/2016, which is captcha-gated; or a later judgment citing the answered reference."},
+  {"id": "G06", "gap": "Lok Sabha and Rajya Sabha question and answer texts could not be located.", "detail": "This is a retrieval failure with a precise shape, recorded so the next pass does not repeat it. The individual answer PDFs ARE retrievable from sansad.in at verified static paths: https://sansad.in/getFile/loksabhaquestions/annex/<lsNo><sessionNo>/AU<qno>.pdf?source=pqals (tested: .../175/AU1.pdf returns Lok Sabha unstarred Q.1 answered 2 February 2021) and https://sansad.in/getFile/annex/<rsSessionNo>/AU<qno>.pdf?source=pqars (tested: .../259/AU1.pdf returns Rajya Sabha unstarred Q.1 answered 02.02.2023). What is missing is the question NUMBER. sansad.in's question search is a client-rendered Next.js page whose data is not in __NEXT_DATA__; https://sansad.in/api_ls/question exposes only Spring Boot actuator links and eight guessed search paths all returned 404; loksabhaph.nic.in did not resolve by DNS from this network; rsdoc.nic.in returned HTTP 405 to GET. The contradiction hunt in Parliament is therefore NOT complete, and the one answer recorded (Tatkare / MoS Finance and Corporate Affairs, Monsoon Session 2020) is at reported tier.", "howToClose": "Obtain question numbers from a network where loksabhaph.nic.in resolves, or from the session-wise question lists, then fetch the PDFs at the paths above."},
+  {"id": "G07", "gap": "MCA circulars not read. mca.gov.in returns HTTP 403 to every automated request including static /Ministry/pdf/ paths; www.csr.gov.in returns 403; csr.gov.in and egazette.gov.in fail TLS certificate verification.", "mitigated": "The substantive statutory change - G.S.R. 313(E) of 26 May 2020, w.e.f. 28 March 2020 - was obtained at documented tier from India Code's official text of the Companies Act 2013. Only the circulars' own wording is missing."},
+  {"id": "G08", "gap": "The PMO communication to the Lok Sabha Secretariat on the inadmissibility of questions about PM CARES, PMNRF and the National Defence Fund was not retrieved, and its date is not established.", "detail": "Reported in February 2026 by The Quint and The Leaflet, both citing an Indian Express report. Neither quotes the communication or gives its date or file number. The Lok Sabha Bulletin Part II was not checked."},
+  {"id": "G09", "gap": "The PDF that pmcares.gov.in publishes as its trust deed contains a SECOND e-stamp certificate - IN-DL42057009731875S, 11 May 2020, Rs 6,750, 'Article 64 Trust', purchased by PM CARES FUND - with no instrument attached to it in the published file. The registered deed itself is stamped Rs 100 on 27 March 2020 and registered the same evening across pages 141 to 155.", "whatThisIsNot": "This is NOT evidence that the deed was amended. Nothing in the published document indicates any amendment, and the clause-5.3 recital appears in the registered instrument. It is an unexplained artefact and is recorded as one.", "howToClose": "The Delhi sub-registrar's index (DORIS) for Sub Registrar VII, 2020-21, or a supplementary instrument if one exists."},
+  {"id": "G10", "gap": "cag.gov.in was NOT checked in this session. No CAG report on PM CARES ventilator procurement, oxygen plants or any other head was searched for or retrieved.", "note": "The Supreme Court's position at paragraph 70 is that a public charitable trust gives 'no occasion for audit by the Comptroller & Auditor General'. That does not preclude CAG audit of the SPENDING MINISTRIES that executed PM CARES-funded procurement - MoHFW, CMSS, DRDO, IOCL through MoPNG - which is where research plan item P1.2 says the audit trail actually is. That trail is untouched here."},
+  {"id": "G11", "gap": "The relationship between the Rs 346.00 cr paid under 'PMCARES For Children' in FY2022-23 and the 4,345 children recorded as supported at the 20 September 2022 trustee meeting is not established. Do not divide one by the other: the Rs 10 lakh entitlement is payable on attaining 23 years of age, so the FY2022-23 outflow is almost certainly a corpus placement rather than beneficiary payments."},
+  {"id": "G12", "gap": "The FCRA exemption is asserted by the fund ('PM CARES Fund has received exemption from operation of all provisions of the Foreign Contribution (Regulation) Act, 2010' - FAQ Q21) but the notification granting it was not retrieved. Its number and date are unknown.", "note": "PM CARES's About page states that this is 'consistent with respect to Prime Minister's National Relief Fund (PMNRF). PMNRF has also received foreign contributions as a public trust since 2011.' PMNRF's foreign receipts are in its FAQ Q5 series, running Rs 27.88 lakh to Rs 245.04 lakh a year - against PM CARES's Rs 494.92 cr in FY2020-21 alone."}
+ ],
+
+ "rejected": [
+  {
+   "id": "R01",
+   "claim": "PM CARES was created in order to escape the RTI Act.",
+   "killedBy": "The control, and behind it the date test.",
+   "reason": "The identical position - that a PMO-administered relief trust is not a 'public authority' under section 2(h) - was taken for PMNRF, a 1948 fund, in response to an RTI application in 2011, litigated by PMNRF from 2012, and left unresolved by a Delhi High Court Division Bench that split 1-1 on 23 May 2018. PM CARES did not exist until 27 March 2020. A position maintained in court for nine years before the entity existed cannot be the entity's purpose. The narrower claim - that the trust deed recites the section 2(h) test in the negative - survives and is recorded at control.departuresThatSurvive.D2, without any assertion about why."
+  },
+  {
+   "id": "R02",
+   "claim": "PM CARES's accounts have gone dark since FY2022-23, which is a PM CARES-specific failure.",
+   "killedBy": "The control.",
+   "reason": "PMNRF's published series stops at exactly the same year. Both funds have published 4 of 7 elapsed financial years as at 2026-08-12. The base rate among comparable entities is 100%, which per the tiering table makes the property non-discriminating. What survives, and is recorded, is the quantified lag: 864 days outstanding against a worst previous turnaround of 364 days - for both funds."
+  },
+  {
+   "id": "R03",
+   "claim": "The trust deed was amended after execution to insert the 'no governmental control' recital.",
+   "killedBy": "The document.",
+   "reason": "The recital is clause 5.3 of the instrument executed on 27 March 2020 and registered the same evening at pages 141 to 155 of Book 4. Nothing in the published PDF indicates an amendment. The second e-stamp of 11 May 2020 is unexplained and is recorded as gap G09 rather than as evidence for a theory it does not support."
+  },
+  {
+   "id": "R04",
+   "claim": "Ratan Tata's nomination as a trustee in September 2022 is connected to corporate contributions to the fund.",
+   "killedBy": "No primary record, and the date test in any case.",
+   "reason": "No document read here records any contribution by any Tata entity to PM CARES - the fund publishes no donor names at all - and the nomination postdates the fund's peak inflow period by about 29 months. This is adjacency, not a link. It is a hypothesis for the pattern-prospector, not a finding, and it is named here so that it is visibly declined rather than silently omitted."
+  },
+  {
+   "id": "R05",
+   "claim": "The auditor's political sympathies bear on the audit.",
+   "killedBy": "The identity and sourcing rules.",
+   "reason": "An allegation of this kind appears in at least one outlet. It was not read, it concerns an individual's political views rather than a documented act, and this desk does not publish allegations about individuals without the primary record and the response. Declined outright. The auditor facts that ARE recorded here are those printed on documents the Government itself publishes: firm name, firm registration number, partner name, membership number, UDIN and signature date - and the material point about them is comparative, that the same firm audits PMNRF."
+  },
+  {
+   "id": "R06",
+   "claim": "PM CARES's use of the State Emblem and the gov.in domain is unlawful.",
+   "killedBy": "No primary record read.",
+   "reason": "The observable facts are recorded - the fund operates at pmcares.gov.in and its pages carry the footer '(c) 2026 Prime Minister's Office' - and they belong in contested C3 as evidence on the control question. The legal claim requires the Emblems and Names (Prevention of Improper Use) Act 1950, the domain-allotment policy, and any order on the point, none of which were retrieved. Downgraded from a claim to an observation."
+  },
+  {
+   "id": "R07",
+   "claim": "The Supreme Court settled that PM CARES is outside the RTI Act.",
+   "killedBy": "Reading the judgment.",
+   "reason": "W.P.(C) 546/2020 decides three questions, numbered 3, 4 and 5, all about the National Disaster Response Fund and the Disaster Management Act 2005. Section 2(h) of the RTI Act is not mentioned in it. The characterisation at paragraph 67 - 'a public charitable trust and ... not a Government fund' - is made in that statutory context. Both sides of the public argument cite this judgment for a proposition it does not contain."
+  },
+  {
+   "id": "R08",
+   "claim": "PM CARES received Rs 10,990 cr in FY2020-21.",
+   "killedBy": "Reading the statement rather than its bottom line.",
+   "reason": "Rs 10,990.17 cr is the printed 'Total' line, which includes the Rs 3,076.63 cr opening balance brought forward. FY2020-21 receipts alone are Rs 7,913.55 cr. Every published year's 'Total' line includes the opening balance; adding the four Total lines together double-counts three opening balances."
+  }
+ ],
+
+ "upgradeKill": [
+  {"watch": "pmcares.gov.in About page", "upgradeIf": "An FY2023-24 or later Receipts and Payments Account appears - and note whether it is signed by KKC & Associates LLP, which would be the first statement under the new auditor for either fund.", "cadence": "monthly"},
+  {"watch": "pmnrf.gov.in About page", "upgradeIf": "A PMNRF FY2023-24 statement appears WITHOUT a corresponding PM CARES one, or vice versa. That would break the control and would be the first evidence that the two funds' publication practice has diverged.", "cadence": "monthly"},
+  {"watch": "Delhi High Court, LPA 231/2016", "upgradeIf": "The third-judge reference on whether PMNRF is a public authority is answered.", "killsWhat": "If answered against PMNRF, the RTI argument about PM CARES is substantially foreclosed on authority. If answered for PMNRF, PM CARES's position becomes materially harder to sustain and this file's C1 changes tier.", "cadence": "quarterly"},
+  {"watch": "Delhi High Court, the Samyak Gangwal petitions", "upgradeIf": "Any order deciding whether PM CARES is 'the State' or a 'public authority' on the merits.", "cadence": "quarterly"},
+  {"watch": "sansad.in question archive", "upgradeIf": "Question numbers are obtained for the PM CARES answers; the answer PDFs are then directly retrievable at the paths recorded in gaps.G06 and the parliamentary contradiction hunt can be completed properly.", "cadence": "each session"},
+  {"watch": "cag.gov.in", "upgradeIf": "A CAG report covering MoHFW / CMSS ventilator or PSA-plant procurement executed with PM CARES money is published or located. This is where the audit trail for PM CARES spending actually exists, per research plan P1.2, and it was not touched here.", "cadence": "quarterly"},
+  {"watch": "Lok Sabha Bulletin Part II", "upgradeIf": "The PMO communication on admissibility, or any Speaker's ruling on it, becomes available - which would move contested C5 from reported to documented.", "cadence": "each session"}
+ ],
+
+ "sources": [
+  {"id": "about", "publisher": "PM CARES Fund (Prime Minister's Office), Government of India", "title": "About PM CARES Fund - constitution of the trust, nominated trustees, tax and CSR position, FCRA position, and the index of Receipts and Payments Accounts (Audited) by year. Page carries 'Last updated on: 10 August 2026'.", "url": "https://pmcares.gov.in/en/web/page/about_us", "retrieved": "2026-08-12", "readAs": "HTML, downloaded with curl and a Chrome user-agent; tags stripped and text read in full"},
+  {"id": "faq", "publisher": "PM CARES Fund (Prime Minister's Office), Government of India", "title": "Frequently Asked Questions - legal framework (Q4), administration by PMO officers (Q6), head office (Q7), what contributions are accepted including PSU CSR (Q8), income-tax exemption under s.10(23)(c) (Q11), CSR eligibility (Q12), PAN (Q13), auditor KKC & Associates LLP appointed for 3 years (Q19), no statutory audit period (Q20), FCRA exemption (Q21), and the 21 collection banks. Page carries 'Last updated on: 10 August 2026'.", "url": "https://pmcares.gov.in/en/web/page/faq", "retrieved": "2026-08-12", "readAs": "HTML, downloaded with curl and a Chrome user-agent; tags stripped and text read in full"},
+  {"id": "deed", "publisher": "PM CARES Fund (Prime Minister's Office), Government of India", "title": "Deed of Trust, executed at New Delhi on 27 March 2020 by the Prime Minister of India as Settlor; registered the same day with Sub Registrar VII, New Delhi (Registration No. 163, Book No. 4, Vol No 1,685, pages 141-155). Includes two e-Stamp certificates and the section 60 registration certificate.", "url": "https://pmcares.gov.in/assets/donation/pdf/Trust_Deed.pdf", "retrieved": "2026-08-12", "readAs": "PDF, 16 pages, 26 MB, downloaded with curl. The file is a SCANNED IMAGE with no text layer (pypdf extracted 0 characters from 16 pages); rasterised at 150 dpi with pdftoppm and read page by page as images. Pages read: 1-2 (e-stamps), 3-6 (deed pp.1-4), 9 (deed p.7), 12-14 (deed pp.10-12), 15 (registration certificate), 16 (deed p.13, the Schedule)."},
+  {"id": "as1920", "publisher": "PM CARES Fund (Prime Minister's Office), Government of India", "title": "Receipts and Payments Account for the period ended 31st March, 2020, audited by SARC & Associates, signed 09.07.2020, UDIN 20084884AAAAAA1274", "url": "https://pmcares.gov.in/assets/donation/pdf/Audited%20Statement.PDF", "retrieved": "2026-08-12", "readAs": "PDF, 1 page, downloaded with curl. Scanned image with no text layer (pypdf extracted 0 characters); rasterised at 200 dpi with pdftoppm and read as a page image."},
+  {"id": "as2021", "publisher": "PM CARES Fund (Prime Minister's Office), Government of India", "title": "Receipts and Payments Account for the year ended 31st March, 2021, with FY2019-20 comparatives, audited by SARC & Associates, signed 11.01.2022", "url": "https://pmcares.gov.in/assets/donation/pdf/Audited_Statement_2020_21.pdf", "retrieved": "2026-08-12", "readAs": "PDF, 1 page, downloaded with curl. Scanned image with no text layer; rasterised at 200 dpi and read as a page image."},
+  {"id": "as2122", "publisher": "PM CARES Fund (Prime Minister's Office), Government of India", "title": "Receipts and Payments Account for the year ended 31st March, 2022, with FY2020-21 comparatives, audited by SARC & Associates, signed 30.09.2022, UDIN 22084884AXGCSU1642", "url": "https://pmcares.gov.in/assets/donation/pdf/Audited_Statement_2021_22.pdf", "retrieved": "2026-08-12", "readAs": "PDF, 2 pages, downloaded with curl. Scanned image with no text layer; rasterised at 200 dpi and both pages read as images."},
+  {"id": "as2223", "publisher": "PM CARES Fund (Prime Minister's Office), Government of India", "title": "Receipts and Payments Account for the year ended 31st March, 2023, with FY2021-22 comparatives, audited by SARC & Associates, signed 29.03.2024, UDIN 24084884BKIKDZ2614", "url": "https://pmcares.gov.in/assets/donation/pdf/Audited_Statement_2022_23.pdf", "retrieved": "2026-08-12", "readAs": "PDF, 2 pages, downloaded with curl. Effectively a scanned image (pypdf extracted 69 characters from 2 pages); rasterised at 200 dpi and both pages read as images."},
+  {"id": "pmnrf-about", "publisher": "Prime Minister's National Relief Fund (Prime Minister's Office), Government of India", "title": "About PMNRF - origin in the January 1948 appeal, 'PMNRF has not been constituted by the Parliament', operation from the PMO, contribution rules (no budgetary or PSU balance-sheet money, no conditional contributions), and the ten-year Statement of Income and Expenditure with links to Receipts and Payments Accounts FY2013-14 to FY2022-23. Page carries '(Last updated as on 23-12-2024)'.", "url": "https://pmnrf.gov.in/en/about", "retrieved": "2026-08-12", "readAs": "HTML, downloaded with curl; tags stripped and text read in full"},
+  {"id": "pmnrf-faq", "publisher": "Prime Minister's National Relief Fund (Prime Minister's Office), Government of India", "title": "PMNRF FAQs - administration by the Joint Secretary to the Prime Minister on an honorary basis (Q2), disbursement at the discretion of the Prime Minister (Q3), ten-year collection, foreign-currency and disbursement tables (Q4-Q6), auditor 'At present, KKC & Associates LLP Chartered Accountants, Mumbai' (Q7), no statutory audit period (Q8), exemption under s.10(23)(c) (Q10), and the 20 collection banks.", "url": "https://pmnrf.gov.in/en/faqs/pmnrf", "retrieved": "2026-08-12", "readAs": "HTML, downloaded with curl; tags stripped and text read in full"},
+  {"id": "pmnrf-rpa-2223", "publisher": "Prime Minister's National Relief Fund (Prime Minister's Office), Government of India", "title": "PMNRF Receipts and Payments Account for the year ended 31st March, 2023, audited by SARC & Associates (FRN 006085N), Sunil Kumar Gupta signing, UDIN 23084884BHBOMF2780, dated 29.09.2023; countersigned by the Secretary PMNRF, Director Saurabh Shukla, Under Secretary Pradeep Kumar Srivastava and Section Officer Vinod Kumar Rawat. References 'Accompanying notes to the Financial Statements - 1 to 12', which are not published. Filename records upload on 23 December 2024.", "url": "https://pmnrf.gov.in/assets/uploads/downloads/PMNRF_RPA_2022_2023_23122024.pdf", "retrieved": "2026-08-12", "readAs": "PDF, 1 page, downloaded with curl and text extracted with pypdf (the extraction is OCR-quality and garbled in places; the auditor block, UDIN, date and signatory names were legible and are what is relied on here)"},
+  {"id": "dhc-lpa231", "publisher": "High Court of Delhi at New Delhi", "title": "Prime Minister's National Relief Fund v. Aseem Takyar, LPA 231/2016 & C.M. 13063/2016, reserved 21.09.2017, pronounced 23.05.2018 (S. Ravindra Bhat J and Sunil Gaur J) - split verdict on whether PMNRF is a 'public authority' under section 2(h) RTI Act, with the reference order to a third judge. Neutral citation 2018:DHC:3395-DB.", "url": "https://delhihighcourt.nic.in/app/case_number_pdf/2018:DHC:3395-DB/SRB23052018LPA2312016.pdf", "retrieved": "2026-08-12", "readAs": "PDF, 24 pages, downloaded from the Delhi High Court's own server with curl and text extracted with pypdf; the full text was read"},
+  {"id": "sc-cpil-546-2020", "publisher": "Supreme Court of India", "title": "Centre for Public Interest Litigation v. Union of India, Writ Petition (Civil) No. 546 of 2020, judgment of 18 August 2020 (Ashok Bhushan J, for the Bench) - refusal to direct transfer of PM CARES funds to the NDRF; paragraphs 67-72 on the character of the fund and on CAG audit.", "url": "https://api.sci.gov.in/supremecourt/2020/12392/12392_2020_35_1501_23456_Judgement_18-Aug-2020.pdf", "retrieved": "2026-08-12", "readAs": "PDF, 75 pages, downloaded from the Supreme Court's own server with curl and text extracted with pypdf; paragraphs 60-75 read in full and searched programmatically for every occurrence of 'CAG', 'Comptroller', 'audit' and 'charitable trust'"},
+  {"id": "indiacode-ca2013", "publisher": "India Code, Legislative Department, Ministry of Law and Justice, Government of India", "title": "The Companies Act, 2013 (No. 18 of 2013), official consolidated text - Schedule VII (see section 135), 'Activities which may be included by companies in their Corporate Social Responsibility Policies', with footnote 5: 'Ins. by Notification No. G.S.R. 313(E), dated 26th May, 2020 (w.e.f. 28-03-2020)' against the PM CARES insertion in item (viii), and footnote 1 to item (xii): 'Ins. by Notification No. G.S.R. 390(E), dated 30th May, 2019 (w.e.f. 30-5-2019)'.", "url": "https://www.indiacode.nic.in/bitstream/123456789/2114/5/A2013-18.pdf", "retrieved": "2026-08-12", "readAs": "PDF, 370 pages, downloaded with curl and text extracted with pypdf; pages 369-370 (Schedule VII and its footnotes) read in full"},
+  {"id": "pib-1608851", "publisher": "Press Information Bureau, Prime Minister's Office, Government of India", "title": "Appeal to generously donate to 'Prime Minister's Citizen Assistance and Relief in Emergency Situations Fund (PM CARES Fund)', 28 March 2020, 4:36 PM, Release ID 1608851", "url": "https://pib.gov.in/PressReleasePage.aspx?PRID=1608851", "retrieved": "2026-08-12", "readAs": "HTML, downloaded with curl -sSL --compressed and a Chrome user-agent; release body extracted and read in full"},
+  {"id": "pib-1623649", "publisher": "Press Information Bureau, Prime Minister's Office, Government of India", "title": "PM CARES Fund Trust Allocates Rs. 3100 Crore for Fight against COVID-19, 13 May 2020, 8:23 PM, Release ID 1623649 - Rs 2,000 cr ventilators, Rs 1,000 cr migrants with the allocation formula, Rs 100 cr vaccine development under the Principal Scientific Advisor", "url": "https://pib.gov.in/PressReleasePage.aspx?PRID=1623649", "retrieved": "2026-08-12", "readAs": "HTML, downloaded with curl; release body extracted and read in full"},
+  {"id": "pib-1686271", "publisher": "Press Information Bureau, Prime Minister's Office, Government of India", "title": "PM CARES Fund Trust allocates Rs.201.58 crores for installation of 162 dedicated PSA Medical Oxygen Generation Plants in public health facilities, 5 January 2021, 5:02 PM, Release ID 1686271 - includes the State/UT-wise Annexure I totalling 162", "url": "https://pib.gov.in/PressReleasePage.aspx?PRID=1686271", "retrieved": "2026-08-12", "readAs": "HTML, downloaded with curl; release body and Annexure I extracted and read in full"},
+  {"id": "pib-1713904", "publisher": "Press Information Bureau, Prime Minister's Office, Government of India", "title": "551 PSA Oxygen Generation Plants to be set up in public health facilities across the country through PM CARES, 25 April 2021, 12:16 PM, Release ID 1713904 - in-principle approval, no rupee figure stated", "url": "https://pib.gov.in/PressReleasePage.aspx?PRID=1713904", "retrieved": "2026-08-12", "readAs": "HTML, downloaded with curl; release body extracted and read in full"},
+  {"id": "pib-1741528", "publisher": "Press Information Bureau, Ministry of Women and Child Development, Government of India", "title": "PM CARES for Children Scheme, 2 August 2021, 5:02 PM, Release ID 1741528 - launched 29 May 2021, eligibility from 11 March 2020", "url": "https://pib.gov.in/PressReleasePage.aspx?PRID=1741528", "retrieved": "2026-08-12", "readAs": "HTML, downloaded with curl; release body extracted and read in full"},
+  {"id": "pib-1761718", "publisher": "Press Information Bureau, Ministry of Women and Child Development, Government of India", "title": "Government Issues Guidelines For PM Cares For Children Scheme, 7 October 2021, 1:47 PM, Release ID 1761718 - monthly stipend from 18, Rs 10 lakh on attaining 23, enrolment 29.05.2021 to 31.12.2021", "url": "https://pib.gov.in/PressReleasePage.aspx?PRID=1761718", "retrieved": "2026-08-12", "readAs": "HTML, downloaded with curl; release body extracted and read in full"},
+  {"id": "pib-1861047", "publisher": "Press Information Bureau, Prime Minister's Office, Government of India", "title": "PM chairs meeting of Board of Trustees of PM CARES Fund, 21 September 2022, 11:44 AM, Release ID 1861047 - Board meeting of 20.09.2022; Justice K.T. Thomas, Kariya Munda and Ratan Tata join as trustees; Rajiv Mehrishi, Sudha Murthy and Anand Shah nominated to the Advisory Board; PM CARES for Children 'supporting 4345 children'", "url": "https://pib.gov.in/PressReleasePage.aspx?PRID=1861047", "retrieved": "2026-08-12", "readAs": "HTML, downloaded with curl; release body extracted and read in full"},
+  {"id": "pib-2043687", "publisher": "Press Information Bureau, Ministry of Women and Child Development, Government of India", "title": "PM CARES for Children scheme ensures comprehensive care & protection of Children and enables their well being, 9 August 2024, 4:45 PM, Release ID 2043687 - records the eligibility period as 11.03.2020 to 05.05.2023", "url": "https://pib.gov.in/PressReleasePage.aspx?PRID=2043687", "retrieved": "2026-08-12", "readAs": "HTML, downloaded with curl; release body extracted and read in full"},
+  {"id": "thenewsminute-missing-statements", "publisher": "The News Minute", "title": "Why are financial statements missing in PM CARES Fund reports?, Poonam Agarwal, 18 January 2025 - establishes prior coverage of the withheld notes and auditors' observations", "url": "https://www.thenewsminute.com/news/why-are-financial-statements-missing-in-pm-cares-fund-reports", "retrieved": "2026-08-12", "readAs": "HTML, downloaded with curl; tags stripped and the article text read. SECONDARY - used only for the novelty check, not for any fact of record.", "tier": "reported"},
+  {"id": "nationalherald-lsq", "publisher": "National Herald", "title": "PM CARES Fund not a 'public authority' under RTI Act, says govt in response to question in Lok Sabha, 15 September 2020 - quotes the question of Shri Sunil Dattatray Tatkare, the answer 'No sir', and the MCA's answer on the retrospective Schedule VII amendment", "url": "https://www.nationalheraldindia.com/india/pm-cares-fund-not-a-public-authority-under-rti-act-says-govt-in-response-to-question-in-lok-sabha", "retrieved": "2026-08-12", "readAs": "HTML, downloaded with curl; tags stripped and the article text read. SECONDARY - the Lok Sabha answer PDF itself was not retrieved (gaps.G06). Note this article misstates the fund's creation date as 28 March 2020; the deed and registration certificate both say 27 March 2020.", "tier": "reported"},
+  {"id": "scroll-affidavit", "publisher": "Scroll.in", "title": "PM CARES is not a 'public authority' under the RTI Act, Centre tells Delhi High Court - records the Union's affidavit of 14 September 2021 in the petitions of Samyak Gangwal, and that PM CARES amounts are not transferred to the Consolidated Fund of India", "url": "https://scroll.in/latest/1006011/pm-cares-is-not-a-public-authority-under-the-rti-act-centre-tells-delhi-high-court", "retrieved": "2026-08-12", "readAs": "HTML, downloaded with curl; tags stripped and the article text read. SECONDARY - the affidavit and the case record were not retrieved (gaps.G04).", "tier": "reported"},
+  {"id": "barandbench-girish-mittal", "publisher": "Bar & Bench", "title": "Delhi High Court sets aside CIC order to provide RTI information on tax exemption allowed to PM Cares Fund, Prashant Jha, 22 January 2024 - names the case as CPIO/Dy Commissioner of Income Tax HQ Exemption, New Delhi v Girish Mittal before Subramonium Prasad J, and the ratio on section 138 of the Income Tax Act", "url": "https://www.barandbench.com/news/delhi-high-court-sets-aside-cic-order-provide-rti-information-tax-exemption-pm-cares-fund", "retrieved": "2026-08-12", "readAs": "HTML, downloaded with curl; tags stripped and the (paywall-truncated) article text read. SECONDARY - the judgment was not retrieved (gaps.G04).", "tier": "reported"},
+  {"id": "deccanherald-girish-mittal", "publisher": "Deccan Herald / PTI", "title": "Delhi HC sets aside CIC direction on disclosing information related to PM CARES Fund, 22 January 2024 - records that the information was sought from the CPIO of the Income Tax Department and not from PM CARES, and that the department does not treat PM CARES as an authority", "url": "https://www.deccanherald.com/india/delhi/delhi-hc-sets-aside-cic-direction-on-disclosing-information-related-to-pm-cares-fund-2859592", "retrieved": "2026-08-12", "readAs": "HTML, downloaded with curl; tags stripped and the (truncated) article text read. SECONDARY.", "tier": "reported"},
+  {"id": "quint-pmo-admissibility", "publisher": "The Quint", "title": "PMO Bars Lok Sabha Questions On PM CARES Fund, Sparks Debate, 10 February 2026 - Rules 41(2)(viii) and 41(2)(xvii); quotes P.D.T. Achary, former Secretary General of the Lok Sabha", "url": "https://www.thequint.com/news/breaking-news/pmo-bars-lok-sabha-questions-pm-cares-debate", "retrieved": "2026-08-12", "readAs": "HTML fetched and summarised by WebFetch against a specific prompt; the raw article text was not inspected. SECONDARY, and the weakest source in this file. The PMO communication itself was not retrieved (gaps.G08).", "tier": "reported"},
+  {"id": "leaflet-pmo-admissibility", "publisher": "The Leaflet", "title": "Why PMO's instructions to Lok Sabha Secretariat raises serious questions on the Speaker's autonomy, 10 February 2026 - attributes the underlying disclosure to an Indian Express report; carries no date, file number or quotation from the PMO communication", "url": "https://theleaflet.in/governance-and-policy/why-pmos-instructions-to-lok-sabha-secretariat-raises-serious-questions-on-the-speakers-autonomy", "retrieved": "2026-08-12", "readAs": "HTML fetched and summarised by WebFetch against a specific prompt; the raw article text was not inspected. SECONDARY.", "tier": "reported"}
+ ],
+
+ "unreachable": [
+  {"domain": "mca.gov.in", "behaviour": "HTTP 403 to every request including static /Ministry/pdf/ paths and the site root, with a browser user-agent and -L", "affected": "MCA General Circulars 10/2020 and 15/2020, and the OM of 28 March 2020"},
+  {"domain": "www.csr.gov.in", "behaviour": "HTTP 403", "affected": "National CSR Portal copies of the same circulars"},
+  {"domain": "csr.gov.in, egazette.gov.in", "behaviour": "TLS certificate verification failure (unable to get local issuer certificate)", "affected": "Gazette copy of G.S.R. 313(E)"},
+  {"domain": "main.sci.gov.in, digiscr.sci.gov.in, eparlib.nic.in, www.egazette.nic.in, loksabhaph.nic.in", "behaviour": "DNS resolution failure from this network", "affected": "Supreme Court judgment (recovered from api.sci.gov.in on the identical path), Lok Sabha question archive"},
+  {"domain": "verdictfinder.sci.gov.in, scr.sci.gov.in", "behaviour": "Request timed out after 120 seconds", "affected": "Supreme Court free-text judgment search"},
+  {"domain": "rsdoc.nic.in", "behaviour": "HTTP 405 to GET", "affected": "Rajya Sabha question archive"},
+  {"domain": "delhihighcourt.nic.in", "behaviour": "Serves judgment PDFs successfully at /app/case_number_pdf/<neutral citation>/<file>.pdf, but exposes no free-text judgment search (/app/free-text-search, /app/judgement, /app/judgements all 404) and gates case status behind a captcha at /app/get-case-type-status", "affected": "All PM CARES Delhi High Court records"},
+  {"domain": "sansad.in", "behaviour": "Individual question PDFs ARE retrievable at verified static paths (see gaps.G06), but the question search is a client-rendered Next.js page with no data in __NEXT_DATA__ and /api_ls/question exposes only Spring Boot actuator endpoints; eight guessed search paths returned 404", "affected": "Locating PM CARES questions by subject"}
+ ]
+}

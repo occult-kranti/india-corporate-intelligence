@@ -11,7 +11,8 @@
     "promote": "node scripts/promote.mjs",
     "validate": "node scripts/validate.mjs",
     "smoke": "node scripts/smoke.mjs",
-    "check": "npm run promote && npm run validate && npm run build && npm run smoke"
+    "viewport": "node scripts/graph-viewport.mjs",
+    "check": "npm run promote && npm run validate && npm run build && npm run smoke && npm run viewport"
   },
   "dependencies": {
     "d3-force": "^3.0.0",

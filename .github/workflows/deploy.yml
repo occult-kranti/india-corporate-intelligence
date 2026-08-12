@@ -45,6 +45,14 @@ jobs:
       - name: Headless render smoke test
         run: npm run smoke
 
+      # Measures the graph camera: no silent letterbox, a 200px drag moves the
+      # graph 200px, auto-fit clips nothing, maximise really hands over the
+      # window. Every check exists because that bug shipped past the other four
+      # gates — none of them is a type error, and smoke passes happily while the
+      # graph is unusable.
+      - name: Graph viewport gate
+        run: npm run viewport
+
       # Publishing by pushing the build to `gh-pages`, rather than via the
       # actions/deploy-pages artifact flow, because Pages on this repository is
       # already configured to serve that branch. The artifact flow would need the

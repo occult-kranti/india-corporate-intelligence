@@ -6,9 +6,11 @@ import {
 } from '../components/Editorial';
 import IndiaMap from '../components/viz/IndiaMap';
 import GeoNetwork, { type GeoFilter } from '../components/viz/GeoNetwork';
+import { ConcentrationCurve } from '../components/Domain';
 import {
   CENTRE, STATES_TENDERS, ALL_AWARDS, TENDERS_AS_OF, bidderCoverage, valueCoverage,
   winnerTally, sectorTally, transparencyScore, TRANSPARENCY_LABEL, COVERAGE_BY_STATE,
+  competitionEvidence, disclosureBySector,
   type Award,
 } from '../data/tenders';
 import { STATES, STATE_NAMES } from '../data/geo';
@@ -65,6 +67,24 @@ export default function Tenders() {
   const values = valueCoverage(awards);
   const winners = useMemo(() => winnerTally(awards), [awards]);
   const sectors = useMemo(() => sectorTally(scoped), [scoped]);
+
+  // Competitive tension — all derived, never literal, so the prose below cannot
+  // drift from the register when a row is added.
+  const evidence = useMemo(() => competitionEvidence(scoped), [scoped]);
+  const disclosure = useMemo(() => disclosureBySector(scoped), [scoped]);
+  const fullDisclosure = useMemo(
+    () => disclosure.filter((d) => d.total >= 3 && d.soleKnown === d.total),
+    [disclosure],
+  );
+  const zeroDisclosure = useMemo(
+    () => disclosure.filter((d) => d.total >= 3 && d.soleKnown === 0),
+    [disclosure],
+  );
+  const valueCov = useMemo(() => valueCoverage(scoped), [scoped]);
+  const winnerValues = useMemo(
+    () => winnerTally(scoped.filter((a) => a.valueCr != null)).map((w) => w.valueCr),
+    [scoped],
+  );
 
   /** Transparency choropleth — what each state publishes, not what it awarded. */
   const transparencyData = useMemo(() => {
@@ -284,6 +304,108 @@ export default function Tenders() {
                   <span className="font-mono text-[11px] text-text-muted">{w.count}</span>
                 </div>
               ))}
+            </div>
+          </Section>
+
+          <Section
+            title="Competitive tension, and why it cannot be measured here"
+            note="The one statistic that would settle most questions about an award — and the register that refuses to publish it"
+          >
+            <Prose>
+              <p>
+                One number decides whether an auction was an auction: <strong>how many bidders
+                showed up</strong>. It is neutral — a low count is as consistent with an
+                unattractive asset, a heavy capex threshold or a narrow qualified-bidder pool as
+                with anything else — which is exactly why it can be published without a caveat
+                wrapped around it, unlike any score attached to a company.
+              </p>
+              <p>
+                Across {evidence.total} awards in this register, a bid count is published for{' '}
+                <strong className="text-text">{evidence.bidderKnown}</strong>. Bid <em>position</em>{' '}
+                — whether the winner was the only bidder — is recoverable for{' '}
+                <strong className="text-text">{evidence.soleKnown}</strong>. So the sole-bidder rate
+                that ought to lead this page does not exist, and the honest thing is to say so
+                rather than compute it on the fraction that happens to be visible.
+              </p>
+            </Prose>
+
+            <div className="mt-5">
+              <Callout label="The missingness is not random, and its direction is known" tone="warn">
+                Disclosure tracks whether a regulator publishes a round-result document.{' '}
+                {fullDisclosure.length > 0 && (
+                  <>
+                    {fullDisclosure.map((d) => d.sector).join(', ')} disclose bid position for every
+                    award recorded here.{' '}
+                  </>
+                )}
+                {zeroDisclosure.length > 0 && (
+                  <>
+                    <strong className="text-text">
+                      {zeroDisclosure.map((d) => `${d.sector} (${d.total} awards)`).join(', ')}
+                    </strong>{' '}
+                    {zeroDisclosure.length === 1 ? 'discloses' : 'disclose'} it for none.
+                  </>
+                )}{' '}
+                A round that drew one bidder has every reason not to advertise it, and the sectors
+                with the worst disclosure are among the largest. That makes{' '}
+                {evidence.soleRateAmongKnown != null && (
+                  <>
+                    the {(evidence.soleRateAmongKnown * 100).toFixed(0)}% sole-bidder rate among the{' '}
+                    {evidence.soleKnown} disclosed awards{' '}
+                  </>
+                )}
+                a <strong className="text-text">floor on competition, not a measurement of it</strong>.
+                The bias has a known sign and an unknown size.
+              </Callout>
+            </div>
+
+            <div className="mt-5">
+              <p className="font-mono text-[10.5px] uppercase tracking-[0.14em] text-text-muted mb-3">
+                bid-position disclosure by sector
+              </p>
+              <div className="space-y-1.5">
+                {disclosure.map((d) => {
+                  const pct = d.total ? d.soleKnown / d.total : 0;
+                  return (
+                    <div key={d.sector} className="flex items-center gap-3 text-[12.5px]">
+                      <span className="w-52 shrink-0 truncate text-text-secondary" title={d.sector}>
+                        {d.sector}
+                      </span>
+                      <span className="flex-1 h-3 bg-bg-elevated rounded-sm overflow-hidden max-w-[220px]">
+                        <span
+                          className={`block h-full ${pct === 0 ? 'bg-rose/60' : pct === 1 ? 'bg-sage/60' : 'bg-amber/60'}`}
+                          style={{ width: `${pct * 100}%` }}
+                        />
+                      </span>
+                      <span className="font-mono text-[11px] text-text-muted tabular-nums">
+                        {d.soleKnown}/{d.total}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div className="mt-6">
+              <p className="font-mono text-[10.5px] uppercase tracking-[0.14em] text-text-muted mb-2">
+                concentration of awarded value
+              </p>
+              {valueCov.withValue >= 5 ? (
+                <>
+                  <ConcentrationCurve values={winnerValues} label="awarded value" />
+                  <p className="text-[13px] text-text-muted mt-2 max-w-[72ch] leading-relaxed">
+                    Computed over the {valueCov.withValue} of {valueCov.total} awards that carry a
+                    rupee value. The rest are auctions whose bid parameter was a revenue-share
+                    percentage or a per-passenger fee, for which no rupee value exists to take a
+                    share of — they are absent from this curve, not zero in it.
+                  </p>
+                </>
+              ) : (
+                <p className="text-[13.5px] text-amber">
+                  Not drawn — only {valueCov.withValue} of {valueCov.total} awards in this scope
+                  carry a rupee value, which is too few for a concentration curve to mean anything.
+                </p>
+              )}
             </div>
           </Section>
 

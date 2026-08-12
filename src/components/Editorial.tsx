@@ -113,8 +113,8 @@ export function TierLegend() {
   );
 }
 
-export function StatGrid({ items }: { items: { value: string; label: string; tone?: 'accent' | 'rose' | 'sage' | 'muted' }[] }) {
-  const tone = { accent: 'text-accent', rose: 'text-rose', sage: 'text-sage', muted: 'text-text-muted' };
+export function StatGrid({ items }: { items: { value: string; label: string; tone?: 'accent' | 'rose' | 'sage' | 'amber' | 'muted' }[] }) {
+  const tone = { accent: 'text-accent', rose: 'text-rose', sage: 'text-sage', amber: 'text-amber', muted: 'text-text-muted' };
   return (
     <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4 my-7">
       {items.map((s) => (

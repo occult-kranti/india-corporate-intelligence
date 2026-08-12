@@ -163,6 +163,71 @@ export function sectorTally(awards: Award[]): { sector: string; count: number; w
     .sort((a, b) => b.count - a.count);
 }
 
+/**
+ * Bid-disclosure coverage BY SECTOR — and this is the finding, not the plumbing.
+ *
+ * Whether a round publishes how many bids it received is not random across sectors.
+ * It tracks whether a formal regulator publishes a round-result document: spectrum
+ * (DoT/TRAI), airports (AAI) and renewables (SECI) disclose for every award in this
+ * register, while coal discloses for none of its 34 blocks — the Ministry of Coal
+ * publishes reserve price, final offer and winner, but never the number of bids.
+ *
+ * The consequence is concrete: the most basic measure of whether an auction was
+ * competitive is unavailable for the largest allocation programme in the register.
+ * That is a fact about the disclosure regime, and it is why the platform reports
+ * "not published" rather than treating a missing bid count as a zero or a gap in
+ * our own coverage.
+ */
+export function disclosureBySector(
+  awards: Award[],
+): { sector: string; total: number; soleKnown: number; bidderKnown: number }[] {
+  const m = new Map<string, { total: number; soleKnown: number; bidderKnown: number }>();
+  for (const a of awards) {
+    const e = m.get(a.sector) ?? { total: 0, soleKnown: 0, bidderKnown: 0 };
+    e.total++;
+    if (a.soleBidder != null) e.soleKnown++;
+    if (a.bidders != null) e.bidderKnown++;
+    m.set(a.sector, e);
+  }
+  return [...m.entries()]
+    .map(([sector, v]) => ({ sector, ...v }))
+    .sort((a, b) => b.total - a.total || a.sector.localeCompare(b.sector));
+}
+
+/**
+ * What the register can and cannot say about competition.
+ *
+ * `soleRateAmongKnown` is deliberately NOT presented as the sole-bidder rate. It is
+ * the rate among awards whose bid position was disclosed, and disclosure is the thing
+ * that is not random — a round with one bidder has every reason not to publish that,
+ * and the sectors with the worst disclosure are the largest ones. So the direction of
+ * the bias is known even though its size is not, which makes this a floor on
+ * competition rather than a measurement of it.
+ */
+export function competitionEvidence(awards: Award[]): {
+  total: number;
+  soleKnown: number;
+  soleCount: number;
+  soleRateAmongKnown: number | null;
+  bidderKnown: number;
+  meanBiddersWhereKnown: number | null;
+} {
+  const soleKnownArr = awards.filter((a) => a.soleBidder != null);
+  const withBidders = awards.filter((a) => a.bidders != null);
+  const soleCount = soleKnownArr.filter((a) => a.soleBidder === true).length;
+  const meanB = withBidders.length
+    ? withBidders.reduce((s, a) => s + (a.bidders ?? 0), 0) / withBidders.length
+    : null;
+  return {
+    total: awards.length,
+    soleKnown: soleKnownArr.length,
+    soleCount,
+    soleRateAmongKnown: soleKnownArr.length ? soleCount / soleKnownArr.length : null,
+    bidderKnown: withBidders.length,
+    meanBiddersWhereKnown: meanB,
+  };
+}
+
 /** Coverage keyed by state, for the transparency map. */
 export const COVERAGE_BY_STATE = new Map(states.coverage.map((c) => [c.stateCode, c]));
 

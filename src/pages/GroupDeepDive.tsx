@@ -6,6 +6,7 @@ import {
 } from '../components/Editorial';
 import WorldMap from '../components/viz/WorldMap';
 import IndiaMap from '../components/viz/IndiaMap';
+import OwnershipTree from '../components/viz/OwnershipTree';
 import {
   getDeep, entityCounts, tierCounts, identifierCoverage,
   contractsByLevel, investorsByType, statesTouched, DEEP_GROUP_IDS,
@@ -33,6 +34,25 @@ export default function GroupDeepDive() {
   const [tab, setTab] = useState<'entities' | 'contracts' | 'capital' | 'flows'>('entities');
 
   const facilities = useMemo(() => facilitiesForGroup(id), [id]);
+
+  /** Deepest holding chain in the group — derived, so the note cannot go stale. */
+  const treeDepth = useMemo(() => {
+    if (!deep) return 0;
+    const byId = new Map(deep.entities.map((e) => [e.id, e]));
+    let max = 0;
+    for (const e of deep.entities) {
+      let d = 0;
+      let cur = e;
+      const seen = new Set<string>();
+      while (cur.parent && byId.has(cur.parent) && !seen.has(cur.id)) {
+        seen.add(cur.id);
+        cur = byId.get(cur.parent)!;
+        d++;
+      }
+      max = Math.max(max, d);
+    }
+    return max;
+  }, [deep]);
 
   const stateData = useMemo(() => {
     const d: Partial<Record<StateCode, { value: number | null; detail?: string }>> = {};
@@ -182,6 +202,30 @@ export default function GroupDeepDive() {
                   <p className="text-[13.5px] text-text-muted mt-1 max-w-[70ch] leading-relaxed">{s.note}</p>
                 </div>
               ))}
+            </div>
+          </Section>
+
+          <Section
+            title="The ownership structure"
+            note={`${deep.entities.length} entities across ${treeDepth + 1} levels — depth is the structure, so depth is the axis`}
+          >
+            <Prose>
+              <p>
+                This is an indented tree rather than a network graph, and that is a deliberate
+                correction. A group structure is a strict hierarchy, and depth is the only thing
+                such data has — how many holding layers sit between a step-down vehicle and the
+                listed parent. A force layout optimises for edge length and node separation,
+                neither of which means anything here, and renders {deep.entities.length} entities
+                as a hairball in which an SPV and the flagship look alike.
+              </p>
+              <p>
+                Ownership is what the tree shows. It is not control, and it is not liability —
+                a joint venture at depth two may be less wholly owned than a subsidiary at depth
+                three, which is why the kind glyph sits beside every row.
+              </p>
+            </Prose>
+            <div className="mt-4">
+              <OwnershipTree entities={deep.entities} />
             </div>
           </Section>
 
