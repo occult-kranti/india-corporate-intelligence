@@ -61,7 +61,9 @@ const check = (name, ok, detail) => {
   if (!ok) fails.push(name);
 };
 
-const browser = await chromium.launch();
+// The environment ships a pinned Chromium; use it rather than downloading one (as smoke.mjs does).
+const PINNED = process.env.PLAYWRIGHT_CHROMIUM_PATH ?? '/opt/pw-browsers/chromium';
+const browser = await chromium.launch(existsSync(PINNED) ? { executablePath: PINNED } : {});
 const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
 
 /** Camera state, read straight off the DOM rather than from app internals. */
@@ -167,6 +169,118 @@ await page.keyboard.press('Escape');
 await page.waitForTimeout(400);
 const f5 = await camera('svg[data-tick]');
 check('Escape returns it inline', f5.rectW < 1000, `${f5.rectW}×${f5.rectH}`);
+
+// ------------------------------------------------ selection keeps the camera
+// Selecting, path-finding and maximising are not filter changes. They used to
+// re-run the layout (the filter memos were keyed on the whole URL), move every
+// node and refit the camera over the reader's pan and zoom.
+console.log('\nForceGraph — /#/atlas selection, path, keyboard focus, reproducibility');
+const passive = [];
+const onPassive = (m) => {
+  if (m.type() === 'error' && /passive/i.test(m.text())) passive.push(m.text());
+};
+page.on('console', onPassive);
+
+/** Wait until the layout has settled more times than `after` — i.e. a fresh settle. */
+const settled = (after = 0) =>
+  page.waitForFunction((n) => Number(document.querySelector('svg[data-tick]')?.getAttribute('data-settled')) > n, after, {
+    timeout: 20000,
+  });
+const settledCount = async () => Number(await page.locator('svg[data-tick]').getAttribute('data-settled'));
+const nodeTransforms = () =>
+  page.evaluate(() =>
+    Object.fromEntries(
+      [...document.querySelectorAll('svg[data-tick] g[data-id]')].map((g) => [g.getAttribute('data-id'), g.getAttribute('transform')]),
+    ),
+  );
+
+await page.goto('about:blank');
+await page.goto(`${base}/#/atlas`, { waitUntil: 'networkidle' });
+await settled();
+await page.locator('svg[data-tick]').scrollIntoViewIfNeeded();
+await page.waitForTimeout(400);
+
+// An empty patch of canvas to drag from — not a node, not an overlay.
+const empty = await page.evaluate(() => {
+  const svg = document.querySelector('svg[data-tick]');
+  const r = svg.getBoundingClientRect();
+  for (let fy = 0.2; fy < 0.8; fy += 0.05) {
+    for (let fx = 0.3; fx < 0.7; fx += 0.05) {
+      const x = r.x + r.width * fx, y = r.y + r.height * fy;
+      const el = document.elementFromPoint(x, y);
+      if (el === svg) return { x, y };
+    }
+  }
+  return null;
+});
+check('found empty canvas to drag', !!empty);
+await page.mouse.move(empty.x, empty.y);
+await page.mouse.down();
+await page.mouse.move(empty.x + 150, empty.y + 60, { steps: 8 });
+await page.mouse.up();
+await page.mouse.wheel(0, -120);
+await page.waitForTimeout(300);
+check('wheel zoom logs no passive-listener error', passive.length === 0, passive[0] ?? '');
+const s0 = await camera('svg[data-tick]');
+const tick0 = await page.locator('svg[data-tick]').getAttribute('data-tick');
+const pos0 = await nodeTransforms();
+
+const nodes = page.locator('svg[data-tick] g[role="button"]');
+await nodes.nth(0).focus();
+await page.keyboard.press('Enter');
+await page.waitForTimeout(1200);
+const s1 = await camera('svg[data-tick]');
+check('Enter selects (sel in the URL)', /[?&]sel=/.test(page.url()));
+check('selecting keeps the pan and zoom', s1.tx === s0.tx && s1.ty === s0.ty && s1.k === s0.k,
+  `before ${s0.tx},${s0.ty}×${s0.k} after ${s1.tx},${s1.ty}×${s1.k}`);
+check('selecting does not re-run the layout',
+  (await page.locator('svg[data-tick]').getAttribute('data-tick')) === tick0 &&
+  JSON.stringify(await nodeTransforms()) === JSON.stringify(pos0));
+
+await nodes.nth(1).focus();
+await page.keyboard.press('Shift+Enter');
+await page.waitForTimeout(1200);
+const s2 = await camera('svg[data-tick]');
+check('Shift+Enter asks the path question (path in the URL)', /[?&]path=/.test(page.url()));
+check('a path keeps the pan and zoom', s2.tx === s0.tx && s2.ty === s0.ty && s2.k === s0.k);
+
+await page.keyboard.press('f');
+await page.waitForTimeout(900);
+const inFrame = await page.evaluate(() => document.activeElement?.getAttribute('aria-label')?.startsWith('Graph viewport') ?? false);
+check('maximising with f keeps keyboard focus in the frame', inFrame);
+const m0 = await camera('svg[data-tick]');
+await page.keyboard.press('ArrowLeft');
+await page.waitForTimeout(200);
+const m1 = await camera('svg[data-tick]');
+check('arrow keys still pan when maximised', m1.tx > m0.tx, `Δtx ${Math.round(m1.tx - m0.tx)}`);
+await page.keyboard.press('Escape');
+await page.waitForTimeout(500);
+const m2 = await camera('svg[data-tick]');
+check('first Escape clears the path and stays maximised', !/[?&]path=/.test(page.url()) && m2.rectW > 1300,
+  `${m2.rectW}×${m2.rectH}, url ${page.url().split('#')[1]}`);
+await page.keyboard.press('Escape');
+await page.waitForTimeout(500);
+const m3 = await camera('svg[data-tick]');
+check('next Escape leaves the maximised view', m3.rectW < 1300, `${m3.rectW}×${m3.rectH}`);
+
+// A shared link draws the same picture it was copied from.
+const before = await settledCount();
+// click(), not uncheck(): the router commits the URL in a transition, so the
+// controlled checkbox reads as still checked for a frame after the click.
+await page.locator('aside input[type="checkbox"]').first().click();
+await settled(before);
+await page.waitForTimeout(600);
+const viaClick = await nodeTransforms();
+const shared = page.url();
+await page.goto('about:blank');
+await page.goto(shared, { waitUntil: 'networkidle' });
+await settled();
+await page.waitForTimeout(600);
+const viaUrl = await nodeTransforms();
+const ids = Object.keys(viaUrl);
+const differ = ids.filter((id) => viaUrl[id] !== viaClick[id]).length;
+check('a shared URL reproduces the layout', ids.length > 0 && differ === 0, `${differ} of ${ids.length} nodes differ`);
+page.off('console', onPassive);
 
 // --------------------------------------------------------------- geo network
 console.log('\nGeoNetwork — /#/geograph');
