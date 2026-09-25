@@ -1,0 +1,495 @@
+{
+  "asOf": "2026-09-25",
+  "fleet": "welfare",
+  "mappings": [
+    {
+      "from": "agency:bombay-high-court",
+      "to": "wel:bombay-high-court",
+      "reason": "Same court (Bombay High Court, the High Court of Maharashtra and Goa); both records describe its Aug 2024 dismissal of the Ladki Bahin PIL. No inventory/Atlas id; one file each, first file in name order (literature) wins; the agency: prefix is also outside the contract's fleet prefixes.",
+      "files": [
+        "women-cash.json"
+      ]
+    },
+    {
+      "from": "agency:lokniti-csds",
+      "to": "wel:lokniti-csds",
+      "reason": "Same survey programme (Lokniti-CSDS post-poll surveys); wel:lokniti-csds is used by three files (central, literature, vendors).",
+      "files": [
+        "women-cash.json"
+      ]
+    },
+    {
+      "from": "agency:prs-legislative-research",
+      "to": "wel:prs-legislative-research",
+      "reason": "Same organisation (PRS Legislative Research, author of State of State Finances 2025); wel:prs-legislative-research is used by three files.",
+      "files": [
+        "women-cash.json"
+      ]
+    },
+    {
+      "from": "agency:rbi",
+      "to": "wel:rbi",
+      "reason": "Same institution (Reserve Bank of India, State Finances study); wel:rbi is used by three files (fiscal-results, literature, state-cash-other).",
+      "files": [
+        "women-cash.json"
+      ]
+    },
+    {
+      "from": "agy:cag",
+      "to": "cag",
+      "reason": "Same constitutional auditor (Comptroller and Auditor General of India); the Money-Trail Atlas already has node \"cag\" (CAG), which women-cash already reused.",
+      "files": [
+        "elections-timing.json"
+      ]
+    },
+    {
+      "from": "wel:cag",
+      "to": "cag",
+      "reason": "Same constitutional auditor (Comptroller and Auditor General of India); Atlas node \"cag\" exists and is preferred over the fleet id.",
+      "files": [
+        "central.json",
+        "fiscal-results.json",
+        "state-cash-other.json",
+        "vendors.json"
+      ]
+    },
+    {
+      "from": "party:bjp",
+      "to": "bjp",
+      "reason": "Same party (Bharatiya Janata Party); the Money-Trail Atlas node \"bjp\" exists (women-cash already reused it). Atlas id preferred over the fleet id used by six files.",
+      "files": [
+        "central.json",
+        "elections-timing.json",
+        "fiscal-results.json",
+        "literature.json",
+        "state-cash-other.json",
+        "vendors.json"
+      ]
+    },
+    {
+      "from": "party:aitc",
+      "to": "party:tmc",
+      "reason": "Same party (All India Trinamool Congress, WB ruling party 2011–26); alias \"TMC\" collided. party:tmc is used by three files (elections-timing, fiscal-results, state-cash-other).",
+      "files": [
+        "women-cash.json"
+      ]
+    },
+    {
+      "from": "wel:jayalalithaa",
+      "to": "wel:j-jayalalithaa",
+      "reason": "Same person, confirmed by office-with-dates: J. Jayalalithaa, Chief Minister of Tamil Nadu 2011-05-16→2014-09-27 and 2015-05-23→2016-12-05 (AIADMK) in both records. wel:j-jayalalithaa is used by two files.",
+      "files": [
+        "vendors.json"
+      ]
+    },
+    {
+      "from": "wel:supreme-court-of-india",
+      "to": "sc",
+      "reason": "Same court (Supreme Court of India); Money-Trail Atlas node \"sc\" exists and is preferred (energy fleet uses it too).",
+      "files": [
+        "fiscal-results.json",
+        "literature.json"
+      ]
+    },
+    {
+      "from": "wel:dharmendra-pradhan",
+      "to": "pradhan",
+      "reason": "Same person, confirmed by office-with-dates: Dharmendra Pradhan, Union Minister of Petroleum & Natural Gas 2014–2021 (Atlas node \"pradhan\", sub \"Petroleum 2014–21\"; welfare records: MoS IC 2014-05→2017-09, Cabinet 2017-09→2021-07). Atlas id preferred.",
+      "files": [
+        "central.json",
+        "elections-timing.json"
+      ]
+    },
+    {
+      "from": "wel:sun-tv-network",
+      "to": "co:sun-tv-network",
+      "reason": "Same listed company (Sun TV Network Ltd, NSE: SUNTV, Maran family); inventory id co:sun-tv-network exists.",
+      "files": [
+        "state-cash-other.json"
+      ]
+    },
+    {
+      "from": "wel:ap-village-volunteer-system",
+      "to": "scheme:ap-village-volunteers",
+      "reason": "Same real-world system in the same file (vendors.json): the AP village/ward volunteer system, 2.56 lakh volunteers at ₹5,000/month, ~₹1,536 cr/yr, EC-restricted during the 2024 MCC — every fact on the entity record is already on the scheme record. The duplicate entity record was folded into the scheme (sources unioned) and removed.",
+      "files": [
+        "vendors.json"
+      ]
+    },
+    {
+      "from": "scheme:ujjwala",
+      "to": "scheme:pm-ujjwala",
+      "reason": "Same scheme (Pradhan Mantri Ujjwala Yojana, MoPNG, launched May 2016); alias \"Ujjwala\" collided. Tie on file count (2–2); the first file in name order (central) uses scheme:pm-ujjwala.",
+      "files": [
+        "elections-timing.json",
+        "literature.json"
+      ]
+    },
+    {
+      "from": "scheme:pmgkay-free-grain",
+      "to": "scheme:pmgkay",
+      "reason": "Same scheme (Pradhan Mantri Garib Kalyan Anna Yojana, free NFSA grain); scheme:pmgkay is used by two files (central, elections-timing).",
+      "files": [
+        "vendors.json"
+      ]
+    },
+    {
+      "from": "scheme:pds-nfsa",
+      "to": "scheme:in-nfsa",
+      "reason": "Same statute/programme (National Food Security Act 2013 and its Targeted PDS); scheme:in-nfsa is used by two files (central, fiscal-results).",
+      "files": [
+        "literature.json"
+      ]
+    },
+    {
+      "from": "scheme:br-mukhyamantri-mahila-rozgar",
+      "to": "scheme:br-mahila-rozgar-yojana",
+      "reason": "Same scheme (Bihar Mukhyamantri Mahila Rozgar/Rojgar Yojana, ₹10,000 to ~75 lakh women launched by the PM on 2025-09-26); alias \"MMRY\" collided. Tie (1–1); first file in name order (elections-timing) wins.",
+      "files": [
+        "women-cash.json"
+      ]
+    },
+    {
+      "from": "scheme:dl-mahila-samman-aap",
+      "to": "scheme:dl-mahila-samman-promise-2025",
+      "reason": "Same scheme (AAP's Mukhya Mantri Mahila Samman Yojana, Delhi: ₹1,000 approved Dec 2024, ₹2,100 promised, never paid); alias \"Mahila Samman Yojana\" collided. Tie (1–1); first file in name order (elections-timing) wins. The elections-timing record had folded in the BJP's rival Mahila Samriddhi promise: its name, the \"Mahila Samridhi Yojana\" alias and the Rekha Gupta \"administers\" row were moved to scheme:dl-mahila-samriddhi (a different scheme, different party, different amount).",
+      "files": [
+        "women-cash.json"
+      ]
+    }
+  ],
+  "refusedMerges": [
+    {
+      "a": "scheme:mp-ladli-laxmi",
+      "b": "scheme:mp-ladli-behna",
+      "reason": "Ladli Laxmi (2007, girl-child savings certificates, payout at 21) and Ladli Behna (2023, monthly cash to adult women) are different MP schemes; the shared \"Ladli\" brand is name similarity only."
+    },
+    {
+      "a": "scheme:tg-mahalakshmi",
+      "b": "scheme:tg-mahalakshmi-cash",
+      "reason": "The Mahalakshmi guarantee (free bus travel, ₹500 LPG, ₹2,500/month cash) is an umbrella; tg-mahalakshmi-cash is its unpaid cash component only. Different scope; no alias collides."
+    },
+    {
+      "a": "scheme:tn-free-consumer-goods",
+      "b": "scheme:tn-free-colour-tv-2006 / scheme:tn-free-mixie-grinder-fan-2011",
+      "reason": "literature.json's record spans two schemes of two parties (DMK 2006 TVs, AIADMK 2011 mixies/grinders/fans); merging it into either would give one party the other's scheme."
+    },
+    {
+      "a": "scheme:ka-five-guarantees-2023",
+      "b": "scheme:ka-gruha-lakshmi / scheme:ka-shakti / scheme:ka-anna-bhagya-2023 / scheme:ka-yuva-nidhi",
+      "reason": "Umbrella package vs its component schemes; each component has its own amount, date and outlay."
+    },
+    {
+      "a": "scheme:pmgkay",
+      "b": "scheme:in-nfsa",
+      "reason": "PMGKAY (2020 additional free grain; from 2023 the free-grain wrapper over NFSA entitlements) and the NFSA 2013 statute/TPDS are different instruments with different outlays; they stay separate and linked by claims."
+    },
+    {
+      "a": "scheme:dl-mahila-samman-promise-2025",
+      "b": "scheme:dl-mahila-samriddhi",
+      "reason": "AAP's ₹2,100 Mahila Samman promise vs the BJP government's ₹2,500 Mahila Samriddhi — rival schemes of rival parties. The elections-timing record had conflated them; the BJP content was moved to scheme:dl-mahila-samriddhi rather than merged."
+    },
+    {
+      "a": "wel:india-post",
+      "b": "wel:india-post-payments-bank",
+      "reason": "Department of Posts (a government department) vs India Post Payments Bank Ltd (a company it owns). central.json's label conflates the two; left as is, not merged."
+    },
+    {
+      "a": "wel:omcs",
+      "b": "co:indian-oil / co:bharat-petroleum / co:hindustan-petroleum",
+      "reason": "A collective node for the three oil marketing companies vs its individual members; a class is not any one member."
+    },
+    {
+      "a": "wel:karnataka-rtcs",
+      "b": "wel:bmtc",
+      "reason": "The four Karnataka road transport corporations as a class vs BMTC, one of the four."
+    },
+    {
+      "a": "wel:fci",
+      "b": "food",
+      "reason": "Food Corporation of India (statutory corporation) vs the Atlas node \"food\" (\"Food / FCI\", a ministry node carrying Pralhad Joshi's 2024– portfolio). Folding FCI into a ministry node would attach corporation facts to a minister's portfolio."
+    },
+    {
+      "a": "pol:pralhad-joshi",
+      "b": "joshi",
+      "reason": "Same person (Pralhad Joshi) but both ids already exist in the inventory (national layer and Atlas). The fleet keeps pol:pralhad-joshi, as the energy fleet does; unifying the two pre-existing layers is outside raw-file reconciliation."
+    },
+    {
+      "a": "wel:airtel-payments-bank",
+      "b": "co:bharti-airtel",
+      "reason": "Subsidiary vs listed parent; separate legal entities."
+    },
+    {
+      "a": "wel:ht-media",
+      "b": "co:hindustan-media-ventures",
+      "reason": "HT Media Ltd vs its listed subsidiary Hindustan Media Ventures Ltd; separate legal entities."
+    },
+    {
+      "a": "wel:tml-cv-mobility-solutions",
+      "b": "co:tata-motors",
+      "reason": "Subsidiary vs listed parent; separate legal entities."
+    },
+    {
+      "a": "wel:switch-mobility",
+      "b": "co:ashok-leyland",
+      "reason": "Subsidiary vs listed parent; separate legal entities."
+    },
+    {
+      "a": "scheme:dbt-apb-pfms",
+      "b": "wel:pfms / wel:dbt-mission",
+      "reason": "The DBT payment rails (scheme record) vs the PFMS system operator and the DBT Mission (agencies); an instrument is not the agency that runs it."
+    },
+    {
+      "a": "wel:class-ka-households",
+      "b": "wel:class-ka-gruha-lakshmi-women",
+      "reason": "All guarantee-beneficiary households of Karnataka vs the women heads of household paid under Gruha Lakshmi; different classes."
+    },
+    {
+      "a": "wel:class-tg-landowning-farmers",
+      "b": "wel:class-tg-large-landowners",
+      "reason": "All pattadar farmers vs the ~13,000 with 20–40 acres; a sub-class, not the class."
+    },
+    {
+      "a": "wel:state-farm-loan-waivers-2014-19",
+      "b": "scheme:*-farm-loan-waiver-*",
+      "reason": "The RBI-IWG universe of ten state waivers (a mechanism node) vs individual waiver schemes."
+    },
+    {
+      "a": "wel:revanth-reddy",
+      "b": "wel:ramalinga-reddy / wel:sajjala-ramakrishna-reddy / wel:ys-jagan-mohan-reddy",
+      "reason": "Different persons sharing a surname: Telangana CM (2023–), Karnataka transport minister, YSRCP adviser, AP CM 2019–24 — different offices and dates."
+    },
+    {
+      "a": "wel:mohan-yadav",
+      "b": "wel:akhilesh-yadav",
+      "reason": "Different persons: MP CM (BJP, 2023–) vs UP CM (SP, 2012–17)."
+    },
+    {
+      "a": "wel:amarinder-singh",
+      "b": "wel:manmohan-singh / wel:raman-singh / wel:raghuvansh-prasad-singh / wel:sukhvinder-singh-sukhu",
+      "reason": "Different persons sharing a surname; different offices and dates."
+    },
+    {
+      "a": "scheme:rj-chiranjeevi",
+      "b": "scheme:rj-mehangai-rahat-camps",
+      "reason": "The Chiranjeevi health-insurance scheme vs the 2023 inflation-relief camps that registered people for it and other schemes; related, not the same instrument."
+    }
+  ],
+  "addedContras": [],
+  "killed": [
+    {
+      "id": "ladlibehna-alleged-inducement",
+      "reason": "Unsourced allegation: no named speaker, quote or URL (the file itself logs this as a gap), and the fleet audit recommended kill (\"source does not say\") — its verdict was filed under \"claim:ladlibehna-alleged-inducement\" and so could not match. An alleged claim must name who asserts it."
+    },
+    {
+      "id": "lakshmirbhandar-alleged-inducement-2026",
+      "reason": "Unsourced allegation: no named speaker, quote or URL (the file logs this as a gap), and the fleet audit recommended kill — its verdict was filed under \"claim:lakshmirbhandar-alleged-inducement-2026\" and so could not match. The documented pre-poll hike itself stays on record in women-cash:c032/c033."
+    }
+  ],
+  "predicateFixes": [
+    {
+      "id": "women-cash:c015",
+      "from": "alleged",
+      "to": "contra"
+    },
+    {
+      "id": "women-cash:c017",
+      "from": "alleged",
+      "to": "enforce"
+    },
+    {
+      "id": "ladlibehna-alleged-inducement",
+      "from": "analytic",
+      "to": "enforce"
+    },
+    {
+      "id": "lakshmirbhandar-alleged-inducement-2026",
+      "from": "analytic",
+      "to": "enforce"
+    },
+    {
+      "id": "mahilarozgar-alleged-bribe",
+      "from": "analytic",
+      "to": "enforce"
+    }
+  ],
+  "otherFixes": [
+    {
+      "file": "vendors.json",
+      "id": "scheme:ap-village-volunteers",
+      "fix": "entity record wel:ap-village-volunteer-system removed (duplicate of the scheme record in the same file; its one fact is already carried by benefit, outlay and status); its whoElseBenefits row that pointed at itself now names the volunteers as a plain class"
+    },
+    {
+      "file": "elections-timing.json",
+      "id": "scheme:dl-mahila-samman-promise-2025",
+      "fix": "renamed to the AAP scheme only; alias \"Mahila Samridhi Yojana\" and the Rekha Gupta \"administers\" minister row moved to scheme:dl-mahila-samriddhi in women-cash.json"
+    },
+    {
+      "file": "women-cash.json",
+      "id": "women-cash:c002",
+      "fix": "t \"women 21–60 in MP households < ₹2.5 lakh\" → \"wel:class-mp-ladli-behna-women\" (free-text beneficiary class \"women 21–60 in MP households < ₹2.5 lakh\" became a beneficiary-class node, the convention state-cash-other.json uses (wel:class-*))"
+    },
+    {
+      "file": "women-cash.json",
+      "id": "women-cash:c010",
+      "fix": "t \"women 21–65 in MH households < ₹2.5 lakh\" → \"wel:class-mh-ladki-bahin-women\" (free-text beneficiary class \"women 21–65 in MH households < ₹2.5 lakh\" became a beneficiary-class node, the convention state-cash-other.json uses (wel:class-*))"
+    },
+    {
+      "file": "women-cash.json",
+      "id": "women-cash:c021",
+      "fix": "t \"women heads of household on ration cards (KA)\" → \"wel:class-ka-gruha-lakshmi-women\" (free-text beneficiary class \"women heads of household on ration cards (KA)\" became a beneficiary-class node, the convention state-cash-other.json uses (wel:class-*))"
+    },
+    {
+      "file": "women-cash.json",
+      "id": "women-cash:c027",
+      "fix": "t \"women heads of families (TN, targeted)\" → \"wel:class-tn-kmut-women\" (free-text beneficiary class \"women heads of families (TN, targeted)\" became a beneficiary-class node, the convention state-cash-other.json uses (wel:class-*))"
+    },
+    {
+      "file": "women-cash.json",
+      "id": "women-cash:c030",
+      "fix": "t \"women 25–60 in WB (Swasthya Sathi households)\" → \"wel:class-wb-lakshmir-bhandar-women\" (free-text beneficiary class \"women 25–60 in WB (Swasthya Sathi households)\" became a beneficiary-class node, the convention state-cash-other.json uses (wel:class-*))"
+    },
+    {
+      "file": "women-cash.json",
+      "id": "women-cash:c035",
+      "fix": "t \"women 21–60 in OR households < ₹2.5 lakh\" → \"wel:class-or-subhadra-women\" (free-text beneficiary class \"women 21–60 in OR households < ₹2.5 lakh\" became a beneficiary-class node, the convention state-cash-other.json uses (wel:class-*))"
+    },
+    {
+      "file": "women-cash.json",
+      "id": "women-cash:c039",
+      "fix": "t \"women 18–50 in JH Antyodaya households\" → \"wel:class-jh-maiya-samman-women\" (free-text beneficiary class \"women 18–50 in JH Antyodaya households\" became a beneficiary-class node, the convention state-cash-other.json uses (wel:class-*))"
+    },
+    {
+      "file": "women-cash.json",
+      "id": "women-cash:c042",
+      "fix": "t \"married women 21+ in CT\" → \"wel:class-ct-mahtari-vandan-women\" (free-text beneficiary class \"married women 21+ in CT\" became a beneficiary-class node, the convention state-cash-other.json uses (wel:class-*))"
+    },
+    {
+      "file": "women-cash.json",
+      "id": "women-cash:c044",
+      "fix": "t \"ration-card households < ₹2 lakh (AS), paid to the woman\" → \"wel:class-as-orunodoi-households\" (free-text beneficiary class \"ration-card households < ₹2 lakh (AS), paid to the woman\" became a beneficiary-class node, the convention state-cash-other.json uses (wel:class-*))"
+    },
+    {
+      "file": "women-cash.json",
+      "id": "women-cash:c047",
+      "fix": "t \"women 21–59 in HP households ≤ ₹2 lakh (phased)\" → \"wel:class-hp-pyari-behna-women\" (free-text beneficiary class \"women 21–59 in HP households ≤ ₹2 lakh (phased)\" became a beneficiary-class node, the convention state-cash-other.json uses (wel:class-*))"
+    },
+    {
+      "file": "women-cash.json",
+      "id": "women-cash:c055",
+      "fix": "t \"one woman per family (BR), via JEEVIKA SHGs\" → \"wel:class-br-mmry-women\" (free-text beneficiary class \"one woman per family (BR), via JEEVIKA SHGs\" became a beneficiary-class node, the convention state-cash-other.json uses (wel:class-*))"
+    },
+    {
+      "file": "women-cash.json",
+      "id": "women-cash:c058",
+      "fix": "t \"women 23+ in HR households ≤ ₹1 lakh\" → \"wel:class-hr-lado-lakshmi-women\" (free-text beneficiary class \"women 23+ in HR households ≤ ₹1 lakh\" became a beneficiary-class node, the convention state-cash-other.json uses (wel:class-*))"
+    },
+    {
+      "file": "women-cash.json",
+      "id": "women-cash:c062",
+      "fix": "t \"all 12 UCT states\" → \"wel:class-uct-states-12\" (free text \"all 12 UCT states\" became a class node)"
+    },
+    {
+      "file": "women-cash.json",
+      "id": "women-cash:c063",
+      "fix": "t \"all 12 UCT states\" → \"wel:class-uct-states-12\" (free text \"all 12 UCT states\" became a class node)"
+    },
+    {
+      "file": "women-cash.json",
+      "id": "women-cash:c020",
+      "fix": "t \"media/advertising vendors (unnamed)\" → \"wel:class-mh-ladki-bahin-ad-vendors\" (free text \"media/advertising vendors (unnamed)\" became a class node)"
+    },
+    {
+      "file": "women-cash.json",
+      "id": "women-cash:c005",
+      "fix": "t \"mp-assembly-2023\" → \"bjp\" (election key \"mp-assembly-2023\" is not a node; timing claims point at the incumbent party as elections-timing.json does — MP 2023 incumbent (BJP, CM Chouhan); the key is kept in \"election\")"
+    },
+    {
+      "file": "women-cash.json",
+      "id": "women-cash:c011",
+      "fix": "t \"mh-assembly-2024\" → \"party:shiv-sena\" (election key \"mh-assembly-2024\" is not a node; timing claims point at the incumbent party as elections-timing.json does — MH 2024 incumbent government led by CM Eknath Shinde (Shiv Sena); the key is kept in \"election\")"
+    },
+    {
+      "file": "women-cash.json",
+      "id": "women-cash:c028",
+      "fix": "t \"tn-assembly-2026\" → \"party:dmk\" (election key \"tn-assembly-2026\" is not a node; timing claims point at the incumbent party as elections-timing.json does — TN 2026 incumbent (DMK); the key is kept in \"election\")"
+    },
+    {
+      "file": "women-cash.json",
+      "id": "women-cash:c033",
+      "fix": "t \"wb-assembly-2026\" → \"party:tmc\" (election key \"wb-assembly-2026\" is not a node; timing claims point at the incumbent party as elections-timing.json does — WB 2026 incumbent (AITC); the key is kept in \"election\")"
+    },
+    {
+      "file": "women-cash.json",
+      "id": "women-cash:c037",
+      "fix": "t \"or-assembly-2024\" → \"bjp\" (election key \"or-assembly-2024\" is not a node; timing claims point at the incumbent party as elections-timing.json does — Odisha 2024: the BJP promised Subhadra as challenger and launched it after winning; the key is kept in \"election\")"
+    },
+    {
+      "file": "women-cash.json",
+      "id": "women-cash:c040",
+      "fix": "t \"jh-assembly-2024\" → \"party:jmm\" (election key \"jh-assembly-2024\" is not a node; timing claims point at the incumbent party as elections-timing.json does — JH 2024 incumbent (JMM, CM Hemant Soren); the key is kept in \"election\")"
+    },
+    {
+      "file": "women-cash.json",
+      "id": "women-cash:c045",
+      "fix": "t \"as-assembly-2021-2026\" → \"bjp\" (election key \"as-assembly-2021-2026\" is not a node; timing claims point at the incumbent party as elections-timing.json does — Assam 2021 and 2026 incumbent (BJP); the key is kept in \"election\")"
+    },
+    {
+      "file": "women-cash.json",
+      "id": "women-cash:c056",
+      "fix": "t \"br-assembly-2025\" → \"party:jdu\" (election key \"br-assembly-2025\" is not a node; timing claims point at the incumbent party as elections-timing.json does — Bihar 2025 incumbent government led by CM Nitish Kumar (JD(U)); the key is kept in \"election\")"
+    },
+    {
+      "file": "women-cash.json",
+      "id": "women-cash:c049",
+      "fix": "contra answered itself (claim:women-cash:c049); it answers Rekha Gupta's unpaid ₹2,500 approval, women-cash:c048"
+    },
+    {
+      "file": "women-cash.json",
+      "id": "scheme:ka-gruha-lakshmi",
+      "fix": "status date \"2024-25\" → \"2024\" with period \"FY 2024-25\""
+    },
+    {
+      "file": "women-cash.json",
+      "id": "scheme:hp-indira-gandhi-pyari-behna",
+      "fix": "status date \"2025-2026\" → \"2025\" with period \"2025–2026\""
+    },
+    {
+      "file": "central.json",
+      "id": "scheme:mgnrega",
+      "fix": "beneficiaries asOf \"2022-23\" → \"2023-02-03\" (the series runs to 3 Feb 2023, the date of the cited PIB release); period kept"
+    },
+    {
+      "file": "fiscal-results.json",
+      "id": "fiscal:c017",
+      "fix": "pred analytic without an innocentReading — added"
+    },
+    {
+      "file": "fiscal-results.json",
+      "id": "fiscal:c018",
+      "fix": "pred analytic without an innocentReading — added"
+    },
+    {
+      "file": "fiscal-results.json",
+      "id": "fiscal:c024",
+      "fix": "pred analytic without an innocentReading — added"
+    },
+    {
+      "file": "state-cash-other.json",
+      "id": "(many)",
+      "fix": "58 source lists cited a repository file path as a URL; each was replaced with the page it pointed at (Wikipedia election pages, opened and seat counts checked by the reconciler; govtschemes.in/YSRCP for Rythu Bharosa since the ClearTax page is gone (410); a WB government page for the Kanyashree launch date). Unsourced benefit changes on Amma Vodi and Chiranjeevi now cite DH/PTI, PRS and Coverfox."
+    },
+    {
+      "file": "fiscal-results.json",
+      "id": "fiscal:c016",
+      "fix": "benefit.who was plain text \"large landowners (plain class, not a node)\"; now wel:class-tg-large-landowners (a sub-class node, not merged into state-cash-other wel:class-tg-landowning-farmers, which is all pattadar farmers)"
+    }
+  ],
+  "notes": [
+    "Mappings are applied in the raw files themselves (every entity/scheme id, claim s/t, benefit.who, ministers[].personId, announced.byPersonId and whoElseBenefits[].who); the list documents them, and the assembler re-applying them is a no-op.",
+    "Records that collapse onto one canonical id in different files are kept per file where a claim or scheme row in that file references them, and share one id, so no alias is claimed by two ids; the assembler unions their aliases, facts and sources. The one same-file duplicate (vendors.json AP volunteer entity vs scheme) was folded and removed.",
+    "addedContras is empty: after the predicate fixes every alleged claim in every file already had a contra in the same file (women-cash:c015 is now itself a contra answering c010; c017 is answered by c019; the three elections-timing allegations by their party contras).",
+    "Killed claims are held, not deleted. The fleet audit (AUDIT.json) separately kills welfare-central:c042 and fiscal:c014 and adds 4 audit denials at assembly. Its verdicts filed under claim:ladlibehna-alleged-inducement, claim:lakshmirbhandar-alleged-inducement-2026, claim:mahilarozgar-alleged-bribe and claim:pmgkay-extension-rally carry a claim: prefix the research ids do not have, so they match nothing; the first two were killed here on the audit's stated grounds.",
+    "Free-text beneficiary classes and election keys in women-cash.json became class nodes (wel:class-*) and incumbent-party endpoints, following state-cash-other.json and elections-timing.json; the election key is kept on each claim as \"election\"."
+  ]
+}
