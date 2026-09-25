@@ -24,6 +24,7 @@ const NetworkView = lazy(() => import('./pages/NetworkView'));
 const GeoGraph = lazy(() => import('./pages/GeoGraph'));
 const Cabinet = lazy(() => import('./pages/Cabinet'));
 const Tenders = lazy(() => import('./pages/Tenders'));
+const Resources = lazy(() => import('./pages/Resources'));
 const Conglomerates = lazy(() => import('./pages/Conglomerates'));
 const GroupDeepDive = lazy(() => import('./pages/GroupDeepDive'));
 const Atlas = lazy(() => import('./pages/Atlas'));
@@ -32,6 +33,12 @@ const EvidenceAudit = lazy(() => import('./pages/EvidenceAudit'));
 const BaseRates = lazy(() => import('./pages/BaseRates'));
 const Interlocks = lazy(() => import('./pages/Interlocks'));
 const Motifs = lazy(() => import('./pages/Motifs'));
+const Prospector = lazy(() => import('./pages/Prospector'));
+const Desk = lazy(() => import('./pages/Desk'));
+const Capture = lazy(() => import('./pages/Capture'));
+const Allocation = lazy(() => import('./pages/Allocation'));
+const PmCares = lazy(() => import('./pages/PmCares'));
+const Competition = lazy(() => import('./pages/Competition'));
 const Provenance = lazy(() => import('./pages/Provenance'));
 const Method = lazy(() => import('./pages/Method'));
 const IndustryView = lazy(() => import('./pages/IndustryView'));
@@ -72,6 +79,7 @@ function App() {
                     <Route path="/geograph" element={<GeoGraph />} />
                     <Route path="/cabinet" element={<Cabinet />} />
                     <Route path="/tenders" element={<Tenders />} />
+                    <Route path="/resources" element={<Resources />} />
                     <Route path="/conglomerates" element={<Conglomerates />} />
                     <Route path="/conglomerates/:id" element={<GroupDeepDive />} />
                     <Route path="/atlas" element={<Atlas />} />
@@ -80,6 +88,12 @@ function App() {
                     <Route path="/base-rates" element={<BaseRates />} />
                     <Route path="/interlocks" element={<Interlocks />} />
                     <Route path="/motifs" element={<Motifs />} />
+                    <Route path="/prospector" element={<Prospector />} />
+                    <Route path="/desk" element={<Desk />} />
+                    <Route path="/capture" element={<Capture />} />
+                    <Route path="/allocation" element={<Allocation />} />
+                    <Route path="/pmcares" element={<PmCares />} />
+                    <Route path="/competition" element={<Competition />} />
                     <Route path="/provenance" element={<Provenance />} />
                     <Route path="/method" element={<Method />} />
                     <Route path="/industries" element={<IndustryView />} />

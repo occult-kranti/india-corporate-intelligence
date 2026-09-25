@@ -1,0 +1,431 @@
+{
+  "asOf": "2026-08-12",
+  "scope": "discovery-and-triage-of-published-indian-procurement-datasets",
+  "title": "Where Indian government procurement data has actually been published, and whether any of it carries a bid count",
+  "pass": "Discovery and triage only. No bulk data was downloaded. Schemas were established from API responses, release-asset headers, HTTP range requests against single files, and one 162 KB Parquet partition and one 1.5 MB XLSX pulled solely as schema probes.",
+
+  "readThisFirst": "The search was run for one reason: research/raw/tenders-states.json records that bidder count is 'absent from every award we could source across all 13 states, all six sectors and all four process types', and tenders-centre.json has bid position for only 38 of 125 awards. That hole is now closeable. Two independent corpora carry a per-tender bid count at high fill: CivicDataLab's Assam OCDS publication (57,647 tenders, tender/numberOfTenderers at 100% fill in a 300-record sample, PLUS a full named bidder roster with per-bid accept/reject status) and an unaffiliated 2026 scrape of the Central Public Procurement Portal (4,540,739 award-detail rows carrying num_bids_received at 100% fill in the partition probed). NEITHER carries a company identifier. In both, the winner is a free-text name string. Any CIN attached to these rows will be the product of fuzzy name matching, which fails Step 2 of the evidence-tiering skill on its own.",
+
+  "method": {
+    "question": "Which scraped or published Indian government procurement datasets exist in public repositories, and which of them carry (1) the number of bids received per tender and (2) a winner company identifier?",
+    "searchedSurfaces": [
+      "GitHub repository search: eprocure.gov.in, CPPP tender, GeM government e marketplace, india tender dataset, nprocure, etenders.gov.in, ireps tender, india procurement dataset, tender scraper india, government tender india, OCDS india, open contracting india, defence procurement india defproc, gepnic scraper, bid rigging india data",
+      "GitHub code search for the literal CPPP field label 'Number of bids received' and for 'numberOfTenderers'",
+      "Named organisation sweeps: CivicDataLab, open-contracting, datameet, devdatalab. OpenBudgetsIndia, HowIndiaLives and IndiaDataPortal do not exist as GitHub orgs under those names.",
+      "open-contracting/kingfisher-collect spider inventory, which is OCP's own machine-readable list of every OCDS publisher it collects from",
+      "Live CKAN API at the Assam publisher's backing instance",
+      "Live portal reachability tests against eprocure.gov.in, defproc.gov.in and assamtenders.gov.in",
+      "HuggingFace datasets API across 13 search terms, with schema read from parquet footers and committed CSV previews",
+      "Kaggle, Zenodo API, GitLab API - all swept, all empty of Indian procurement data (see rejected and gaps)",
+      "data.gov.in: the current catalogue endpoint www.data.gov.in/backend/dmspublic/v1/resources (no API key required) with filters[title] across tender, procurement, bids, contract, GeM, award, e-marketplace; plus the legacy api.data.gov.in /lists paged in full"
+    ],
+    "rankingRule": "(bid count present) x (winner identifier present) x (scraper code published) x (recency) x (row count). A million rows with no bid count ranks below fifty thousand rows with one.",
+    "tierDiscipline": "A GitHub or HuggingFace scrape is NOT a primary source. Every row sourced from any candidate in this file enters at `reported` and stays there. It becomes `documented` only for the specific rows re-verified against the issuing portal's own Result-of-Tenders / Award-of-Contract page. Row count does not change this and no candidate below is exempt from it.",
+    "notDone": "No bulk download, no row-level ingestion, no entity resolution, no spot-check sample drawn. Those are the next pass."
+  },
+
+  "headlineAnswers": {
+    "doesAnyUsableIndianOCDSPublisherExist": "YES, with one important qualification: the publisher is a civil-society intermediary, not a government body. OCP's own collector, open-contracting/kingfisher-collect, ships exactly two Indian spiders out of 180: india_assam_civic_data_lab and india_himachal_pradesh_civic_data_lab. Both point at CivicDataLab GitHub repositories, not at any Indian government endpoint. No Indian government body - Union or state - publishes OCDS releases directly. Odisha, which OCP materials mention alongside Assam, has no spider and no OCDS publication found in this pass; CivicDataLab's Odisha repositories are flood-risk work, not procurement.",
+    "canASingleBidderRateBeComputed": "Yes, for the first time in this project, from two independent corpora. A probe of the smallest CPPP partition (aoc_details year=2011, 1,042 rows) gave 235 single-bid awards, a 22.6 per cent single-bidder rate, with num_bids_received populated on 100 per cent of rows. This is a probe, not a published statistic, and must not be cited as one until the full corpus is validated and a portal spot-check sample is drawn.",
+    "winnerCIN": "NO in every dataset that can actually be opened. Every accessible dataset identifies the winner by free-text name, sometimes with a postal address. The only route to a CIN is probabilistic record linkage against the MCA register, which one candidate implements and which caps the resulting claim at `analytic`. One inaccessible candidate - the Government Transparency Institute's LMIC release - carries a bidder_masterid at schema level, and is the single thing most worth unblocking.",
+    "doesDataGovInPublishTenderData": "NO. This is a documented void and should be rendered as a finding, not a blank. A full title sweep of the current 414,603-record data.gov.in catalogue returns exactly ONE record matching 'tender': a Rajya Sabha parliamentary-answer table of year-wise tender counts awarded by NBCC, 2020-21 to 2024-25, 156 KB, published by Rajya Sabha rather than by NBCC, with 0 downloads. It has no bid count, no winner identifier and no per-tender rows. Searches for 'GeM' return seller-registration counts by state; 'procurement' returns 280 agricultural procurement records (paddy, wheat, milk). India's national open-data portal publishes no tender-level procurement data at all. The machine-readable record of who won what against how many bidders exists only as a scrape of CPPP's HTML."
+  },
+
+  "sources": [
+    {"id": "src-kingfisher", "what": "open-contracting/kingfisher-collect spider inventory, 180 spiders", "url": "https://github.com/open-contracting/kingfisher-collect/tree/main/kingfisher_scrapy/spiders", "retrieved": "2026-08-12", "why": "OCP's own machine-readable list of OCDS publishers. Authoritative for the 'does India publish OCDS' question."},
+    {"id": "src-ckan", "what": "Live CKAN instance backing assam.open-contracting.in", "url": "http://15.207.1.169/api/3/action/package_search", "retrieved": "2026-08-12", "note": "Unauthenticated, no API key, returned count 57647. Served over plain HTTP from a bare IP with no TLS; the public front end assam.open-contracting.in does not itself expose the CKAN API."},
+    {"id": "src-assam-repo", "what": "CivicDataLab/assam-tenders-data", "url": "https://github.com/CivicDataLab/assam-tenders-data", "retrieved": "2026-08-12"},
+    {"id": "src-cppp-parquet", "what": "dhrubasumatary/cpp-tender-audit release assets and manifest.json", "url": "https://github.com/dhrubasumatary/cpp-tender-audit", "retrieved": "2026-08-12"},
+    {"id": "src-upstream", "what": "tender.sarthaksidhant.com, the origin publication of the 16.6M-row CPPP scrape", "url": "https://tender.sarthaksidhant.com/", "retrieved": "2026-08-12", "note": "Live, HTTP 200, a static index page offering two SQLite databases via Google Drive, S3, MEGA, R2 and file.kiwi mirrors."},
+    {"id": "src-hf", "what": "HuggingFace dataset fireboy21/tenders_aoc", "url": "https://huggingface.co/datasets/fireboy21/tenders_aoc", "retrieved": "2026-08-12", "note": "85 downloads, lastModified 2026-06-27. Carries the two SQLite DBs plus registered_companies.csv."},
+    {"id": "src-hp", "what": "CivicDataLab/himachal-pradesh-health-procurement-OCDS", "url": "https://github.com/CivicDataLab/himachal-pradesh-health-procurement-OCDS", "retrieved": "2026-08-12"},
+    {"id": "src-portal-cppp", "what": "eprocure.gov.in reachability test", "url": "https://eprocure.gov.in/eprocure/app?page=WebTenderStatusLists&service=page", "retrieved": "2026-08-12", "note": "HTTP 200, 122 KB. The Tender Status list page is served without a captcha on first load."},
+    {"id": "src-hf-rumourscape", "what": "HuggingFace dataset rumourscape/tenders - the best-shaped mirror of the CPPP scrape", "url": "https://huggingface.co/datasets/rumourscape/tenders", "retrieved": "2026-08-12"},
+    {"id": "src-hf-ghalibluvr", "what": "HuggingFace dataset ghalibluvr/tender_dbs_parquet - flattened parquet, both tender and award sides", "url": "https://huggingface.co/datasets/ghalibluvr/tender_dbs_parquet", "retrieved": "2026-08-12", "note": "Schema read from the parquet footer via HTTP range request, without downloading the files."},
+    {"id": "src-gti", "what": "Government Transparency Institute LMIC procurement datasets page, listing India among ten countries", "url": "https://www.govtransparency.eu/global-public-procurement-dataset-selected-low-and-middle-income-country-datasets/", "retrieved": "2026-08-12", "note": "Page readable; the India download links behind it are Google-Drive-gated and return 401."},
+    {"id": "src-gppd-paper", "what": "Fazekas et al., Global Contract-level Public Procurement Dataset, Data in Brief 54 (2024) 110412", "url": "https://www.govtransparency.eu/wp-content/uploads/2024/04/Fazekas-et-al_Global-PP-data_published_2024.pdf", "retrieved": "2026-08-12", "why": "Table 1 lists all 42 covered countries. India is absent. This is the negative-evidence source for the GPPD exclusion."},
+    {"id": "src-datagovin", "what": "data.gov.in current catalogue endpoint, title sweep across tender/procurement/bids/contract/GeM/award", "url": "https://www.data.gov.in/backend/dmspublic/v1/resources", "retrieved": "2026-08-12", "note": "No API key required. Correct parameter is filters[title]=<term>; bare q=/search=/title= are ignored and silently return the unfiltered 414,603-row catalogue, which is a trap that looks like a large result set. The legacy api.data.gov.in accepts the published demo key 579b464db66ec23bdd000001cdd3946e44ce4aad7209ff7b23ac571b but is aggressively rate-limited and its /lists endpoint exposes only ~2,230 legacy records, none of them procurement. The old api.data.gov.in/catalog pattern is dead (404)."}
+  ],
+
+  "candidates": [
+    {
+      "id": "cand-assam-ocds",
+      "rank": 1,
+      "name": "CivicDataLab Assam public procurement, OCDS-mapped",
+      "owner": "CivicDataLab, with Open Contracting Partnership and the Finance Department, Government of Assam",
+      "repoUrl": "https://github.com/CivicDataLab/assam-tenders-data",
+      "frontEnd": "https://assam.open-contracting.in",
+      "liveApi": "http://15.207.1.169/api/3/action/package_search?q=&rows=100",
+      "bulkUrl": "https://github.com/CivicDataLab/assam-tenders-data/raw/main/data/ProcessedData/ocds-mapped-data/current/ocds_mapped_data.json.zip",
+      "stars": 2,
+      "lastCommit": "2025-07-14",
+      "liveDataLastModified": "2026-03-20",
+      "scrapedFrom": "assamtenders.gov.in, the Assam GePNIC instance (NIC's Government e-Procurement System)",
+      "dateRange": "FY2016-17 to FY2025-26. Live API tender/datePublished ranges to 2026-02-10 in the sample drawn.",
+      "rowCount": {
+        "liveCkan": 57647,
+        "bulkZipVintage": "~45,000 tenders, FY2016-17 to FY2022-23, publishedDate 2023-12-12",
+        "byFiscalYear": {"2016-2017": 1807, "2017-2018": 6650, "2018-2019": 9054, "2019-2020": 6040, "2020-2021": 6733, "2021-2022": 5110, "2022-2023": 8283, "2023-2024": 5714, "2024-2025": 4963, "2025-2026": 3265},
+        "organisations": 107
+      },
+      "decisiveFields": {
+        "bidCount": {
+          "present": true,
+          "fieldName": "tender.numberOfTenderers",
+          "fillRate": "300 of 300 in a most-recently-modified sample",
+          "plus": "bids.details[] carries a FULL NAMED ROSTER of every bidder with submission timestamp and per-bid status - Accepted-AOC, Rejected-Technical, Rejected-Finance, Not Admitted-Fee/PreQual/Technical. This is strictly better than a count: it yields bid count, bid position, the identity of every loser, and the disqualification reason.",
+          "rosterFillRate": "300 of 300",
+          "caveat": "numberOfTenderers and the roster length DISAGREE. In the 300-record sample numberOfTenderers had a minimum of 3 while roster lengths included 1s and 2s. They are not the same quantity and the difference is not documented. Do not use them interchangeably; establish which one the portal's own page agrees with before publishing any rate."
+        },
+        "winnerIdentifier": {
+          "present": false,
+          "whatIsThere": "awards[].suppliers[].id and parties[].id are slugified name strings - 'rajeebelectricals', 'msskenterprise'. No CIN, PAN, GSTIN or any registry key.",
+          "winnerRecoverable": "Yes, even where the awards block is empty, via the bids.details entry whose status begins 'Accepted'."
+        },
+        "awardingBody": {"present": true, "fields": "buyer[].name, parties[] role procuringEntity, plus a CKAN organization with 107 distinct Assam bodies"},
+        "tenderValue": {"present": true, "field": "tenderValueAmount, 281 of 300 filled; tender.value.amount in the bulk package"},
+        "awardValue": {"present": "partial", "field": "awards[].value.amount", "note": "awards block present in roughly 93 of 250 records sampled across five offsets - about 37 per cent - and unevenly distributed by upload batch, not by year. The statistics[] block is sometimes corrupt: one record carried the literal label string 'AOC > Contract Value' where the amount should be."},
+        "awardDate": {"present": "partial", "field": "awards[].contractPeriod.startDate"},
+        "category": {"present": true, "fields": "tender.mainProcurementCategory, tender.items[].classification.description"}
+      },
+      "scraperCodePublished": true,
+      "scraperCodeDetail": "code/scraper/ contains scraper_assam_recent_tenders_tender_status.py, captcha.py, WebDriver.py, Utils.py. Captcha handling is included, which is what makes the extraction genuinely reproducible against a GePNIC portal. code/transformation_scripts/ carries the OCDS mapping notebook and data_prep_ocds_mapping.py.",
+      "licence": {
+        "data": "ODbL (Open Database License), in data/LICENSE.md",
+        "code": "GPL-2.0, in code/LICENSE",
+        "repoLevel": "GitHub reports no top-level licence for the repo; the licences are real but live in subdirectory files. oci-assam-frontend is separately MIT.",
+        "usable": true,
+        "obligation": "ODbL is share-alike. Any derived database published by this project must carry ODbL and attribute CivicDataLab. citation.cff is provided in-repo."
+      },
+      "format": "OCDS 1.1 release package (JSON), plus CSV, XLSX and a raw-data ZIP. Largest single file 72 MB (raw), 32 MB (OCDS JSON), 23 MB (zipped current release package).",
+      "totalSize": "~198 MB in-repo",
+      "hosting": "In-repo on GitHub (no LFS, no releases), plus the live CKAN API, plus a copy in oci-assam-frontend/public/files/contracts-data.json",
+      "ocdsConformance": {
+        "isRealOCDS": true,
+        "evidence": "The bulk zip decompresses to package.json declaring publishedDate 2023-12-12, publisher 'Civic Data Lab', uri https://assam.open-contracting.in/datasets, version 1.1, and a releases[] array. It declares the official OCP extensions ocds_bid_extension, ocds_bidOpening_extension, ocds_communication_extension, ocds_participationFee_extension and ocds_submissionTerms_extension. kingfisher-collect declares data_type 'release_package' for it.",
+        "recognisedByOCP": true
+      },
+      "spotCheckable": {
+        "verdict": "Yes, and this is the candidate most worth spot-checking.",
+        "how": "assamtenders.gov.in returns HTTP 200 and serves the GePNIC Tender Status / Results section. Tender IDs are carried verbatim as tender.id (e.g. 2025_APDCL_44660_1) and are the portal's own search key.",
+        "friction": "GePNIC gates its result pages behind a captcha, which is why the scraper ships captcha.py. Expect manual verification per row."
+      },
+      "syntheticRisk": "None. The data is department-level Assam procurement with real named bodies, and it is collected by OCP's own infrastructure.",
+      "assessment": "The best-provenanced Indian procurement dataset in existence. It is the only one where the extraction code, the OCDS mapping, the data dictionary, the licence, a citation file, a live queryable API and independent collection by the standard's own custodian all exist together. Its weaknesses are scope (one state), the numberOfTenderers-versus-roster discrepancy, and partial award coverage."
+    },
+
+    {
+      "id": "cand-cppp-16m",
+      "rank": 2,
+      "name": "Central Public Procurement Portal full scrape, 16.6M records",
+      "owner": "Originally published by tender.sarthaksidhant.com (an individual, GitHub user sarthaksidhant has 0 public repositories). Mirrored to HuggingFace as fireboy21/tenders_aoc. Converted to Parquet by dhrubasumatary/cpp-tender-audit.",
+      "originUrl": "https://tender.sarthaksidhant.com/",
+      "huggingFaceUrl": "https://huggingface.co/datasets/fireboy21/tenders_aoc",
+      "parquetRepoUrl": "https://github.com/dhrubasumatary/cpp-tender-audit",
+      "analysisToolkitUrl": "https://github.com/sandheepp/india-procurement-network",
+      "stars": 0,
+      "lastCommit": "2026-06-27",
+      "scrapedFrom": "eprocure.gov.in (CPPP) and the NIC GePNIC portals it aggregates - central ministries, state portals, and defence procurement via defproc.gov.in. Confirmed: sampled rows carry defproc.gov.in document URLs and Military Engineer Services organisation chains.",
+      "dateRange": "2011 to 2026. Scrape performed 2026-06-19 to 2026-06-24 per Parquet kv_metadata scraped_at_min/max.",
+      "rowCount": {
+        "total": 16593374,
+        "aoc_tenders": 4921960,
+        "aoc_details": 4540739,
+        "tenders": 3952191,
+        "tender_details": 3178484,
+        "note": "aoc_details is the table that matters. It is the award-outcome detail and it is where the bid count lives."
+      },
+      "decisiveFields": {
+        "bidCount": {
+          "present": true,
+          "fieldName": "num_bids_received (INTEGER) in the Parquet; 'Number of bids received' in the source details_json",
+          "fillRate": "1,042 of 1,042 in the aoc_details year=2011 partition probed",
+          "probeResult": "Distribution in that partition: 1 bid 235, 2 bids 279, 3 bids 212, 4 bids 138, 5 bids 63, 6 bids 44, 7-18 bids 71. Single-bidder rate 22.6 per cent. THIS IS A 1,042-ROW PROBE OF THE SMALLEST AND OLDEST PARTITION, not a national statistic. 2011 is the portal's first year and is unrepresentative."
+        },
+        "winnerIdentifier": {
+          "present": false,
+          "whatIsThere": "selected_bidders (VARCHAR, 100 per cent filled in the probe) and selected_bidder_address (100 per cent non-null but 332 of 1,042 blank-ish). Names arrive dirty and location-suffixed: 'ROBIN INDUSTRIES (INDIA)-HOWRAH', 'M/S UNITY BUILDERS', 'RAMESAN P-ULCCS LTD'.",
+          "note": "No CIN anywhere. See cand-mca-linkage for the only attempt at one."
+        },
+        "awardingBody": {"present": true, "field": "organisation_name / org_name, carrying the full GePNIC organisation chain e.g. 'E-IN-C BRANCH - MILITARY ENGINEER SERVICESCESC AND CE (AF) BANGALORE - MESCWE (AF) SECUNDERABAD - MES'"},
+        "tenderValue": {"present": "on the tender side only", "note": "tender_details carries EMD and Tender Fee, not an estimated value, in the observed key list."},
+        "awardValue": {"present": true, "field": "contract_value (DOUBLE), 100 per cent filled in the probe", "caveat": "Dirty. Source strings include currency symbols and commas, and at least one sampled row carried Contract Value '9.5' for an FCI services award, which is either a units problem or a portal data-entry error. Needs cleaning and outlier triage before any aggregate."},
+        "awardDate": {"present": true, "fields": "contract_date, aoc_date"},
+        "category": {"present": true, "fields": "tender_type; tender_details carries Tender Category, Product Category, Product Sub-Category"}
+      },
+      "scraperCodePublished": false,
+      "scraperCodeDetail": "THE DECISIVE WEAKNESS. The scraper that produced this corpus has never been published. sarthaksidhant has zero public GitHub repositories. What IS published is downstream: the SQLite-to-Parquet conversion pipeline (dhrubasumatary, MIT, with SHA-pinned reproducibility and a per-partition manifest) and the analysis toolkit (sandheepp, MIT). Neither lets anyone re-run the extraction. The corpus therefore cannot be refreshed, corrected, or independently reproduced by this project; it can only be re-verified row by row against the portal.",
+      "licence": {
+        "conversionPipeline": "MIT (dhrubasumatary/cpp-tender-audit)",
+        "analysisToolkit": "MIT (sandheepp/india-procurement-network)",
+        "dataAsAsserted": "CC-BY-4.0, asserted in the HuggingFace dataset card frontmatter",
+        "usable": "Qualified yes, but note the defect plainly: the CC-BY-4.0 tag is applied by a re-publisher to data they scraped from Government of India portals. A third party cannot license government data they do not own. The dataset card itself concedes this, telling users to 'verify the licensing/terms-of-use of the source portals before any commercial use'. Treat the licence as unsettled, and rely on the underlying data being published-public rather than on the CC-BY tag."
+      },
+      "format": "Two SQLite 3 databases (~6.6 GB and ~6.7 GB, ~13.3 GB total) at origin and on HuggingFace. Separately, 84 year-partitioned ZSTD Parquet files totalling 3.0 GB, largest single file 759 MB. Two further HuggingFace mirrors reshape it as Arrow and as flattened Parquet - see mirrors.",
+      "hosting": "Origin: Google Drive, S3 (mirror.s3.surf), MEGA, Cloudflare R2, file.kiwi, with SHA-256 checksums published for both databases. HuggingFace: four separate mirrors. GitHub: Parquet partitions as release assets on dhrubasumatary/cpp-tender-audit, one asset per table-year; the repo itself is 41 KB and holds no data.",
+      "mirrors": [
+        {
+          "id": "rumourscape/tenders",
+          "url": "https://huggingface.co/datasets/rumourscape/tenders",
+          "recommended": true,
+          "why": "THE BEST-SHAPED ACCESS PATH. The only mirror where the decisive field arrives pre-parsed: bids_received as int32 alongside bids_received_raw as the as-scraped string. contract_value_amount is a float64 with contract_value_raw retained; contract_at, aoc_at, award_published_at and closing_at are real timestamps rather than DD-Mon-YYYY strings. Keeping both cleaned and raw columns is exactly the right discipline and means the cleaning is auditable rather than trusted.",
+          "rows": 4921960,
+          "licence": "CC-BY-4.0 (stated) - same third-party-assertion caveat as the parent applies",
+          "size": "3.45 GB, 2 Arrow shards",
+          "fields": "bids_received, bids_received_raw, selected_bidder, selected_bidder_address, organisation_name, contract_value_amount, contract_value_raw, contract_at, aoc_at, award_published_at, closing_at, tender_type, tender_description, portal_type, portal_year",
+          "limitation": "Awards view only. No tender-notice side, so no bid windows, EMD or product category.",
+          "chainOfCustody": "Documented: scraped by Sarthak Sidhant, joined via a third-party gist, uploaded by rumourscape."
+        },
+        {
+          "id": "ghalibluvr/tender_dbs_parquet",
+          "url": "https://huggingface.co/datasets/ghalibluvr/tender_dbs_parquet",
+          "why": "The most efficient FULL copy - both tender and award sides, already flattened out of details_json. Carries num_bids as a column in aoc_details_clean.parquet, plus the tender-side fields the rumourscape mirror lacks: emd, tender_fee, product_category, work_description, contact_officer_name, bid_opening_date. Bid windows are computable from this and not from rumourscape.",
+          "size": "~2.99 GB, 5 parquet files",
+          "licence": "NONE STATED - no README, no card, no licence tag. Legally the weakest mirror. Note this plainly if used."
+        },
+        {
+          "id": "fireboy21/tenders_aoc",
+          "url": "https://huggingface.co/datasets/fireboy21/tenders_aoc",
+          "why": "Best documented, and the only mirror shipping registered_companies.csv (592.9 MB MCA register with CORPORATE_IDENTIFICATION_NUMBER, COMPANY_NAME, COMPANY_STATUS, DATE_OF_REGISTRATION, REGISTERED_STATE, PAIDUP_CAPITAL, REGISTERED_OFFICE_ADDRESS and more). There is NO join key to the tender data - see cand-mca-linkage. Its dataset card is unusually honest, conceding as-scraped status, no dedup, no PII guarantees.",
+          "size": "13.27 GB (2 SQLite DBs) + 592.9 MB registry",
+          "licence": "CC-BY-4.0 (asserted)",
+          "defect": "The card declares parquet configs that do not exist in the repo, so load_dataset fails and the HF datasets-server errors. Use the .db files directly. Ten-row CSV previews are committed as plain files, which is how the full schema can be read for free.",
+          "bidCountShape": "Buried inside the details_json string blob under the key 'Number of bids received', not a column. Values observed: '3', '2', '1', '0'."
+        },
+        {
+          "id": "aryanflash/cpp-tenders",
+          "url": "https://huggingface.co/datasets/aryanflash/cpp-tenders",
+          "recommended": false,
+          "why": "SKIP. Byte-identical SQLite files to fireboy21 (6,594,818,048 and 6,672,879,616 bytes exactly) with no README, no licence, no card and no previews. Strictly worse than fireboy21 in every respect."
+        }
+      ],
+      "mirrorNote": "All four HuggingFace repos and the origin site are the SAME underlying scrape - confirmed by byte-identical file sizes between two of them. Treat as one source with four shapes, and do not count them as independent corroboration of anything.",
+      "provenanceQuality": {
+        "strong": "The Parquet conversion carries 13 kv_metadata entries per file including conversion_script_sha, source_table, row_count, duckdb_version and scrape timestamps, plus a manifest.json with SHA256 per partition and a data_quality.json asserting exact row-count parity and 100/100 clean JSON round-trips on both detail tables.",
+        "strongest": "The preserved raw_json keys are the CPPP Award-of-Contract page's own field labels, verbatim: 'Number of bids received', 'Name of the selected bidder(s)', 'Address of the selected bidder(s)', 'Date of Completion/Completion Period in Days'. That is good evidence this is a faithful scrape of the real portal page rather than a fabrication or a re-upload.",
+        "weak": "source_db_sha256 is recorded as 'UNKNOWN' in every partition, so the Parquet cannot actually be tied cryptographically to a specific source database. The conversion is reproducible; the input is not pinned. Also note the conversion was run from a desktop path (/home/z/Desktop/darshi/).",
+        "unknown": "Nothing establishes completeness. There is no statement of what fraction of CPPP the crawl reached, no per-portal coverage table, and no way to detect systematically missed organisations.",
+        "independentAuthenticityCheck": "A second pass over the HuggingFace mirrors reached the same verdict by different evidence: live portal URLs and base64 CPPP detail-page tokens embedded in rows; scraper failure rows carrying status 'failed'; real encoding artefacts (&amp;ampamp#x0d, the rupee glyph); junk rows the portal itself contains (title 'test1' from Aligarh Muslim University); and row counts that are irregular rather than round (3,952,191 / 3,178,485 / 4,921,960 / 4,540,739). Portal split confirmed as 2,005,258 central and 2,916,702 state AoC records. Genuine scrape with genuine mess, not a generated or re-uploaded corpus.",
+        "checksums": "The origin site publishes SHA-256 for both databases: ec8ef7711a17b7cae9e0414c2403b119a0a31c4dec49ed7055b38ec0df5f7586 (aoc_tenders.db) and b1994cfb6dd2d5da9ed1d9ac8d6bbc7083178f155e92a65628e87a38e4c64d01 (tenders_vps.db). Use these to verify whichever mirror is taken - it is the one provenance control this corpus does offer."
+      },
+      "spotCheckable": {
+        "verdict": "Yes, but NOT by replaying the stored URL.",
+        "tested": "The detail_url values are GePNIC session-scoped links with a tnid parameter. Fetching a sampled one (defproc.gov.in ... tnid=852571) returns HTTP 200 with the body 'Unauthorized Page - You are attempting to access an unauthorized area'. These are not permalinks and will not verify anything.",
+        "how": "Verify instead by searching the portal's own Result of Tenders / Tender Status section by tender_id or tender_ref_no. eprocure.gov.in/eprocure/app?page=WebTenderStatusLists&service=page returned HTTP 200 at 122 KB in this pass.",
+        "recommendation": "Draw a stratified random sample - by year, by portal_type central/state, and by num_bids_received including all the 1-bid rows - and hand-verify. Nothing from this corpus should be published as `documented` without it."
+      },
+      "syntheticRisk": "Low, on the evidence of the verbatim portal field labels, the ragged real-world dirt in the values, and the presence of portal test rows the card itself flags (titles like 'test1'). But it is an anonymous single-author scrape with no institutional backing and no published extraction code, so it has been treated with more suspicion than the Assam data throughout.",
+      "assessment": "By far the largest and the only nationally-scoped corpus with a bid count, covering central, state and defence procurement to mid-2026. It is the single highest-value find for closing the single-bidder gap. It is also the one whose provenance rests on an anonymous individual, whose scraper is unpublished, and whose licence claim is not the publisher's to make. Use it, but never above `reported`, and spot-check before any headline number."
+    },
+
+    {
+      "id": "cand-mca-linkage",
+      "rank": 3,
+      "name": "india-procurement-network: probabilistic CIN linkage over the CPPP corpus",
+      "owner": "sandheepp",
+      "repoUrl": "https://github.com/sandheepp/india-procurement-network",
+      "stars": 0,
+      "lastCommit": "2026-06-27",
+      "licence": {"code": "MIT", "note": "GitHub reports NOASSERTION at repo level; the LICENSE file is MIT."},
+      "whatItIs": "Not a dataset. A published pipeline (DuckDB + Splink 4 + Streamlit) that attempts the thing every other candidate fails at: attaching a CIN to a procurement winner.",
+      "method": "Its own docstring states the problem exactly: 'The award side carries only a free-text name (no CIN), so this is name-based entity resolution.' It links 450,000 distinct bidder names against a 1.99M-row company register (registered_companies.csv, shipped on the HuggingFace dataset), scores candidate pairs, and keeps the best registry match per name above a threshold.",
+      "decisiveFields": {
+        "bidCount": {"present": true, "via": "inherits aoc_details.num_bids_received from cand-cppp-16m"},
+        "winnerIdentifier": {"present": "INFERRED ONLY", "note": "Produces a name_to_company table with cin, match_probability and a confidence band, and records how many CINs tied on the same name."}
+      },
+      "disciplineNote": "This is the only candidate offering a CIN, and it must be handled carefully. Under the evidence-tiering skill Step 2, a name match alone is never sufficient to establish identity, and Indian company names collide heavily. A CIN produced this way is `analytic`, must ship with an innocentReading, and must never be rendered as though it came from a filing. To its credit the pipeline is honest about this: it retains match_probability, prefers ACTV companies on ties, and counts tied CINs rather than silently picking one - so the ambiguity is measurable rather than hidden.",
+      "usableFor": "Generating ranked candidate links for human confirmation against the MCA register. Not for populating a CIN field.",
+      "assessment": "Ranked third not as a data source but because it is the only published attempt at the field this project most needs and cannot otherwise get. Its main value to us is the method and the honest uncertainty accounting, which can be reused even if its output is not ingested."
+    },
+
+    {
+      "id": "cand-hp-ocds",
+      "rank": 4,
+      "name": "Himachal Pradesh health and water procurement, OCDS-mapped",
+      "owner": "CivicDataLab",
+      "repoUrl": "https://github.com/CivicDataLab/himachal-pradesh-health-procurement-OCDS",
+      "stars": 2,
+      "lastCommit": "2020-11-18",
+      "scrapedFrom": "Awards extracted from eprocure.gov.in/mmp/index, then joined to tender detail from hptenders.gov.in (the Himachal GePNIC instance) by tender ID",
+      "dateRange": "FY2017-18 to July 2020-21",
+      "rowCount": {"tenders": 3991, "awards": 4213, "note": "Row counts read from the XLSX sheet XML: sheets are 'tenders' (3,992 rows incl. header), 'Documents Description' (4,333), 'awards' (4,214), 'Meta'."},
+      "decisiveFields": {
+        "bidCount": {"present": true, "fieldName": "tender/numberOfTenderers", "fillRate": "not measured in this pass"},
+        "winnerIdentifier": {"present": false, "whatIsThere": "awards/0/suppliers/0/id and awards/0/suppliers/0/name. The id is a name-derived slug, not a CIN."},
+        "awardValue": {"present": true, "fields": "awards/0/value/amount, awards/0/value/currency"},
+        "awardDate": {"present": true, "field": "award/date"},
+        "awardingBody": {"present": true, "fields": "buyer/name, tender/procuringEntity/name, parties/0/roles"}
+      },
+      "scraperCodePublished": false,
+      "scraperCodeDetail": "The README describes the method - Scrapy, captcha handling, the eprocure-then-hptenders join - but the repository contains only the XLSX and the README. No code.",
+      "licence": {"declared": "NONE", "usable": false, "note": "No LICENSE file and no licence statement in the README, which has a 'License' section pointing only to an external Google Doc publication policy. UNLICENSED. Not usable as-is regardless of quality. It would need an explicit grant from CivicDataLab."},
+      "format": "A single XLSX, 1.58 MB, with a Meta tab for OCDS unflattening",
+      "hosting": "In-repo",
+      "ocdsConformance": {"isRealOCDS": true, "note": "Flattened OCDS 1.1.5 requiring unflattening via the Meta tab; kingfisher-collect handles it with unflatten_args and declares data_type release_package."},
+      "recognisedByOCP": true,
+      "knownCaveats": "The kingfisher spider itself carries the note 'This dataset was last updated by the publisher in 2020.' The README concedes that data from the national platform and hptenders 'in some cases wont match', and that lot demarcation is unreliable.",
+      "assessment": "Real OCDS with both decisive-adjacent fields, and it is the second of only two Indian OCDS publications OCP recognises. But it is six years stale, health and water only, ~4,000 rows, and carries no licence. Record it for completeness and for the OCDS answer; do not build on it without a licence grant."
+    },
+
+    {
+      "id": "cand-gti-lmic",
+      "rank": "BLOCKED - would rank 2 if accessible",
+      "name": "Government Transparency Institute, LMIC public procurement release (India included)",
+      "owner": "Government Transparency Institute, under the FCDO 'Curbing Corruption in Government Contracting' project",
+      "url": "https://www.govtransparency.eu/global-public-procurement-dataset-selected-low-and-middle-income-country-datasets/",
+      "coverage": "Ten low- and middle-income countries: Chile, Colombia, INDIA, Indonesia, Jamaica, Kenya, Mexico, Paraguay, Uganda, Uruguay",
+      "licence": "CC BY-NC-SA 4.0. Note the NC clause - non-commercial only, and share-alike.",
+      "format": ".dta (Stata) and .csv",
+      "accessStatus": {
+        "blocked": true,
+        "detail": "The India download links are Google Drive links that now return HTTP 401 or redirect to a Google sign-in page. The variable-list and red-flags spreadsheets are gated the same way. Row count, date range and file size could not be confirmed because the file could not be opened.",
+        "unblockAction": "Email info@govtransparency.eu, which is their stated contact for licence and access questions."
+      },
+      "decisiveFields": {
+        "bidCount": {
+          "present": "SCHEMA-LEVEL YES, POPULATION UNVERIFIED",
+          "fieldNames": "tender_recordedbidscount, lot_bidscount, lot_validbidscount, lot_electronicbidscount",
+          "evidence": "The 115-column GTI schema was confirmed from a mirrored sample of the same schema (iteshxt/GIT-Procurement-Dataset, which is UK data). The India file itself could not be opened, so whether these columns are populated for India is INFERRED, not verified. Do not treat as established."
+        },
+        "winnerIdentifier": {
+          "present": "SCHEMA-LEVEL YES, POPULATION UNVERIFIED",
+          "fieldNames": "bidder_masterid, bidder_id, bidder_extra_source_id, bidder_sourceid_type",
+          "significance": "bidder_masterid is a RESOLVED entity key, not a raw name. If populated for India this would be the only Indian procurement dataset in existence with a stable supplier identifier, and would remove the need for the fuzzy matching in cand-mca-linkage. It is not a CIN, but it is a durable key. This is why the candidate is worth an email."
+        },
+        "redFlagsPrecomputed": {
+          "present": "SCHEMA-LEVEL YES",
+          "fieldNames": "corr_singleb (the single-bidding red flag), cri (composite corruption risk index)",
+          "significance": "The single-bidder indicator this project needs, already computed by the group that defined the standard measure of it."
+        }
+      },
+      "importantNegative": "GTI's flagship Global Contract-level Public Procurement Dataset (GPPD) - Fazekas et al., Data in Brief 54 (2024) 110412, 72 million contracts - DOES NOT INCLUDE INDIA. Table 1 of that paper lists all 42 countries and India is absent; Bangladesh and Indonesia are the only South and South-East Asian entries. Do not chase the GPPD Mendeley DOIs looking for India. The India data exists only in the separate, Drive-gated LMIC release.",
+      "assessment": "The highest-value blocked candidate by a wide margin, and the only source anywhere that would supply a resolved supplier identifier and a pre-computed single-bidding flag for India in one file. It is also academically-produced and properly licensed, which no other candidate is. One email is the cheapest high-value action available from this whole pass. Until the file is opened, nothing about its India coverage is established - record it as a lead, not a source."
+    },
+
+    {
+      "id": "cand-nandanhegde-live",
+      "name": "india-tenders: live CPPP open-tender index",
+      "owner": "Nandanhegde1",
+      "repoUrl": "https://github.com/Nandanhegde1/india-tenders",
+      "stars": 1,
+      "lastCommit": "2026-08-11",
+      "licence": "MIT",
+      "rowCount": 21670,
+      "scrapedFrom": "https://eprocure.gov.in/cppp/latestactivetendersnew/cpppdata",
+      "dateRange": "Currently-open tenders only; generatedAt 2026-08-11",
+      "decisiveFields": {
+        "bidCount": {"present": false, "why": "These are open notices. No bids have been opened yet, so no bid count can exist."},
+        "winnerIdentifier": {"present": false, "why": "No award has been made."},
+        "tenderValue": {"present": false},
+        "awardingBody": {"present": true, "field": "organisation"}
+      },
+      "format": "16.9 MB JSON in-repo",
+      "usefulAnyway": "One narrow use: it carries a sourceUrl of the form eprocure.gov.in/cppp/tendersfullview/<base64 segments>, which is a STABLE public permalink pattern, unlike the session-scoped tnid URLs in the 16.6M corpus. If that pattern can be constructed from a tender ID it would materially reduce spot-checking cost across every other candidate. Worth 20 minutes in the next pass.",
+      "assessment": "Not a source of award or bid data and cannot become one. Kept as a candidate only for the permalink pattern and as a freshness cross-check on what is currently open."
+    },
+
+    {
+      "id": "cand-cdl-tender-scrapers-be",
+      "name": "CivicDataLab/tender-scrapers-be: the pipeline behind the live Assam CKAN",
+      "owner": "CivicDataLab",
+      "repoUrl": "https://github.com/CivicDataLab/tender-scrapers-be",
+      "stars": 0,
+      "lastCommit": "2026-03-20",
+      "licence": {"declared": "NONE at repo level", "note": "README states 'Distributed under the MIT License' but no LICENSE file is present. Ambiguous."},
+      "whatItIs": "The FastAPI + CKAN publishing backend that maintains the live Assam instance, plus staged data: Assam_Tenders_FY 23-24.csv (4.2 MB), Assam_Tenders FY24-25.csv (1.6 MB), raw unmapped Jan-Sep 2024, and datasets.jsonl.gz (13.7 MB, appears to be a full CKAN dump).",
+      "value": "This is how cand-assam-ocds stays current to 2026, and it documents the CKAN schema (tender_dataset_schema.json) and a worked OCDS record (dataset_sample.json) showing the bids/awards/parties structure. Useful for understanding the live API, and the FY23-24 and FY24-25 CSVs are the newest Assam data in file form.",
+      "note": "The CKAN base URL is hardcoded as http://15.207.1.169/ - plain HTTP, bare IP, no TLS. Treat as a fragile endpoint; mirror anything relied upon."
+    },
+
+    {
+      "id": "cand-cdl-flood-tenders",
+      "name": "CivicDataLab flood-data-ecosystem-Assam / IDS-DRR: per-tender scraped CSVs",
+      "owner": "CivicDataLab",
+      "repoUrl": "https://github.com/CivicDataLab/flood-data-ecosystem-Assam",
+      "licence": "AGPL-3.0",
+      "lastCommit": "2026-08-05",
+      "relevance": "Surfaced by code search for the literal string 'Number of bids received' - it appears in Sources/TENDERS/scripts/scraper/scraped_recent_tenders/*.csv. Confirms the GePNIC scraper's raw per-tender CSV output carries the field before OCDS mapping, and confirms the field label is the portal's own.",
+      "assessment": "Not a bulk corpus - it is flood-related Assam procurement embedded in a disaster-risk repo. Value is corroborative: an independently-licensed CivicDataLab repo showing the same field surviving extraction."
+    }
+  ],
+
+  "recommended": [
+    {
+      "rank": 1,
+      "id": "cand-assam-ocds",
+      "rows": 57647,
+      "bidCount": "YES - tender.numberOfTenderers at 100 per cent fill, plus a named per-bidder roster with accept/reject status",
+      "winnerId": "NO - name slugs only",
+      "why": "Take this first, and take it even though it is one state and 0.35 per cent the size of the CPPP corpus. It is the only candidate where extraction code, OCDS mapping, data dictionary, ODbL licence, citation file, a live API current to 2026 and independent collection by OCP all coexist. It is the only one that can be refreshed by us rather than merely consumed. And the bidder roster answers questions a bare count cannot: who else bid, who was disqualified and on what ground, and whether the same losing names recur against the same winner - which is the actual shape of a bid-rotation finding.",
+      "firstAction": "Pull the live CKAN via package_search paging, not the 2023-vintage bulk zip. Resolve the numberOfTenderers-versus-roster discrepancy against 20 portal pages before computing any rate.",
+      "ceiling": "`reported` until portal-verified per row."
+    },
+    {
+      "rank": 2,
+      "id": "cand-cppp-16m",
+      "rows": "4,540,739 award-detail rows (16,593,374 across all four tables)",
+      "bidCount": "YES - num_bids_received at 100 per cent fill in the partition probed",
+      "winnerId": "NO - free-text name and address only",
+      "why": "The only nationally-scoped corpus with a bid count, spanning central ministries, state portals and defence procurement, 2011 to mid-2026. It is what makes a national single-bidder rate arithmetically possible for the first time in this project. Ingest the aoc_details Parquet partitions selectively by year from GitHub release assets rather than the 13.3 GB SQLite.",
+      "why_not_first": "The scraper is unpublished and the publisher is anonymous, so the extraction is not reproducible and completeness is unknowable. The licence is asserted by someone not entitled to assert it.",
+      "takeThisMirror": "rumourscape/tenders on HuggingFace - CC-BY-4.0, 4,921,960 rows, 3.45 GB, with bids_received already an int32, contract values already float64 and dates already timestamps, and the raw string retained alongside each cleaned column so the cleaning is auditable. Add ghalibluvr/tender_dbs_parquet (~2.99 GB) only if the tender-notice side is needed for bid windows and EMD, and note that it carries no licence.",
+      "firstAction": "Pull the rumourscape Arrow shards, verify against the origin site's published SHA-256, validate bids_received fill and the contract_value magnitude distribution across years, then draw a stratified spot-check sample weighted toward single-bid rows.",
+      "ceiling": "`reported`. Any single-bidder rate published from it needs a stated denominator, a stated coverage caveat, and a portal-verified sample.",
+      "knownDataDefect": "Contract values are dirty in a way no mirror can fix. Confirmed values include '1874075', '9.5', '0' and '₹ 20441' - mixed units, currency symbols, and zeros used as nulls. rumourscape's parser converts the string faithfully but cannot repair a value recorded as 9.5. Do not compute a spend total before auditing the magnitude distribution."
+    },
+    {
+      "rank": 3,
+      "id": "cand-mca-linkage",
+      "rows": "n/a - a method over cand-cppp-16m, linking 450k bidder names to a 1.99M-row register",
+      "bidCount": "inherited YES",
+      "winnerId": "INFERRED ONLY - probabilistic, with match_probability and tie counts retained",
+      "why": "The only published attempt at the winner-identifier problem, and it is honest about being probabilistic. Reuse the method and the uncertainty accounting; do not ingest its CINs as facts. Under evidence-tiering Step 2 a name match cannot establish identity, so its output is `analytic` and needs an innocentReading.",
+      "ceiling": "`analytic`, permanently, unless a row is confirmed against the MCA register by hand."
+    }
+  ],
+
+  "rejected": [
+    {"id": "dhrub0216/DivyaDrishti", "url": "https://github.com/dhrub0216/DivyaDrishti", "why": "SYNTHETIC. data/pan_india_tenders.csv contains invented rows - sequential IDs 'NIT-UP-001', tidy titles like 'Four-Lane Highway Expansion NH-28 Lucknow Bypass', allocated_amount '45.20'. Demo data for a Streamlit dashboard, not a scrape. No licence. Flagged loudly because it is exactly the failure mode the brief warned about and it markets itself as a 'Pan-India Government Tender Tracker' for '40k+ active tenders'."},
+    {"id": "mohammad-azam22/central-public-procurement-portal-webscraper", "url": "https://github.com/mohammad-azam22/central-public-procurement-portal-webscraper", "why": "MIT, real CPPP scrape, but tender-stage only. The 4 MB UTF-16 TSV carries fees, EMD, covers, evaluation flags - and no bids, no award, no winner. Last pushed 2023-02-15. Superseded entirely by cand-cppp-16m."},
+    {"id": "sanjibani/cppp-tender-report", "url": "https://github.com/sanjibani/cppp-tender-report", "why": "A single 69 KB index.html, no licence, no data files. It is a rendered narrative over the same 4.5M AoC records as cand-cppp-16m, published two days after it. Nothing to ingest and no independent provenance."},
+    {"id": "MadhavAgarwal5/india-bags-tender-report", "url": "https://github.com/MadhavAgarwal5/india-bags-tender-report", "why": "A single 41 KB index.html, no licence, no data. Same pattern and same week as the above."},
+    {"id": "sanjay5422/AIKOSH-TENDER-CARTEL-PROJECT", "url": "https://github.com/sanjay5422/AIKOSH-TENDER-CARTEL-PROJECT", "why": "MIT, but the repo is 3 KB and the 'data' path is a 1-byte file. Ambition stated - cartel detection across GeM, CPPP and Railways - and nothing implemented. Empty."},
+    {"id": "CivicDataLab/Gepnic-Tender-Scraper", "url": "https://github.com/CivicDataLab/Gepnic-Tender-Scraper", "why": "The name is the most promising in the entire search - a generic scraper for the NIC platform that powers most Indian state portals - and the repository is EMPTY. The GitHub API returns HTTP 409 'Git Repository is empty'. Recorded as a gap, not a candidate."},
+    {"id": "xlogix/opengov-india", "url": "https://github.com/xlogix/opengov-india", "why": "A React/Vite CPPP monitoring front end with a Cloud Run deployment. No licence. The data/ directory holds application fixtures, not a corpus. It is a consumer of CPPP, not a publisher of it."},
+    {"id": "AakashBhat1/IREPS", "url": "https://github.com/AakashBhat1/IREPS", "why": "Railways IREPS harvester, actively maintained (2026-08-11), but NO LICENCE and no data files committed - 29 files, zero CSV/JSON/DB. Code only. Noted under gaps because railways remains uncovered by any published corpus."},
+    {"id": "AakashBhat1/GeMSentry", "url": "https://github.com/AakashBhat1/GeMSentry", "why": "MIT and the most-starred GeM tool found (4 stars), but it is an RFP-acquisition dashboard for a private bidder. Its JSON files are keyword and scoring configs. No procurement corpus."},
+    {"id": "erenmyeager15/india-government-tenders-scraper", "url": "https://github.com/erenmyeager15/india-government-tenders-scraper", "why": "Apache-2.0 Apify actor. Scraper only, no output data, no description."},
+    {"id": "GeM scraper repos as a class", "which": "Giri-Aayush/gem, PranavTamada/Tender_Scraper, angelonels/Gem-Scrapper, kiranrawat-learning/govtender-india, narpat78/GeM-Document-Scraper, patelharsh80874/THE-ULTIMATE-GEM-AUTO-DOWNLOADER-PRO, AyushCoder9/dynamic-listings-scraper, Nishant508/TENDER-SCRAPER-BOT, mustansir-vora/eprocure.gov-Scraper, anitabharti2699/nprocure-tender-scraper and ~20 others", "why": "Reviewed as a group. Every one is a private-sector lead-generation or bid-automation tool: find tenders I can bid on, download the documents, automate submission. None publishes a corpus, almost none carries a licence, and none carries award outcomes or bid counts. GeM in particular has no published bulk dataset of any kind - see gaps."},
+    {"id": "rajkk1/india-tenders", "url": "https://github.com/rajkk1/india-tenders", "why": "A 2018 survey of national tenders, no licence, no maintenance in eight years. Superseded."},
+    {"id": "prateek1592/india_tender_tracker", "url": "https://github.com/prateek1592/india_tender_tracker", "why": "2018, MoRTH publishing-rate tracker only, no licence, no awards."},
+    {"id": "rajeetht18/tender_kerala", "url": "https://github.com/rajeetht18/tender_kerala", "why": "2017 Kerala scraper, no licence, no committed data."},
+    {"id": "CivicDataLab/assam-tender-data-curation", "url": "https://github.com/CivicDataLab/assam-tender-data-curation", "why": "AGPL-3.0 but explicitly 'Repository for hiring assignments', and the 12 MB CSV is named '#not-to-be-shared'. Superseded by the real publication and self-evidently not intended for redistribution. Excluded on that basis."},
+
+    {"id": "kaggle shivamb/government-procurement-dataset", "url": "https://www.kaggle.com/datasets/shivamb/government-procurement-dataset", "why": "NOT INDIA - SINGAPORE. 'Government Procurement Dataset (2015-2021)' is Singapore government tenders. It is the top hit for almost every India procurement search on Kaggle and is the single most likely thing to be mistaken for an Indian dataset. Recorded specifically so nobody chases it twice."},
+    {"id": "iteshxt/GIT-Procurement-Dataset", "url": "https://huggingface.co/datasets/iteshxt/GIT-Procurement-Dataset", "why": "NOT INDIA - UK. 'GIT' is Government Transparency Institute, and the rows are UK: persistent_id values prefixed UK_, source contractsfinder.service.gov.uk, currency GBP, buyer 'Tamworth Borough Council'. Exactly 5,000 rows - a round number, i.e. an unsourced sample cut - with no licence, no README and no stated origin. Worthless for India. Retained in the record for one reason: it is a free reference for the 115-column GTI schema and is how the field list for cand-gti-lmic was established."},
+    {"id": "ksr270894/tvnl_tenders_dataset", "url": "https://huggingface.co/datasets/ksr270894/tvnl_tenders_dataset", "why": "Genuinely Indian - Tenughat Vidyut Nigam, Jharkhand - but the schema is only filename plus text. It is raw PDF text for LLM training with no structured fields whatsoever. No bid count, no winner, no value."},
+    {"id": "zenodo 10.5281/zenodo.2640001", "url": "https://doi.org/10.5281/zenodo.2640001", "why": "'Defence procurement in India' (Kundu, Oishee; 2019; CC-BY-4.0) is the only actual India-procurement Dataset record on Zenodo. It is a single 26.7 KB Dataset.xlsx of hand-noted observations on procurement DELAYS drawn from CAG defence audit reports 2005 and 2010-2016. Not per-tender data - a researcher's manual notes. No bid count, no winner identifier."},
+    {"id": "data.gov.in NBCC tender resource", "url": "https://www.data.gov.in/resource/year-wise-details-tender-awarded-national-buildings-construction-corporation-nbcc-2020-21", "resourceUuid": "ae636cfa-859e-487e-b4a6-0d644c00455a", "catalogUuid": "78889f83-0f96-484b-9fbc-5be92454446f", "why": "The ONLY record in the entire 414,603-row data.gov.in catalogue matching a title search for 'tender'. It is a Rajya Sabha parliamentary-answer table (Session 266, AU 2291) of year-wise counts of tenders awarded by NBCC 2020-21 to 2024-25. Published by Rajya Sabha, not NBCC. 156,546 bytes, 220 views, 0 downloads. Aggregate counts only - no per-tender rows, no bid count, no winner, nothing that joins to a company. The underlying CSV at data.gov.in/files/ogdpv2dms/s3fs-public/RS_Session_266_AU_2291_1.csv returns 403 to automated clients. Rejected as a data source and recorded instead as the evidence for the data.gov.in void."},
+    {"id": "non-India lookalikes as a class", "which": "zalizedata/government-tenders-contract-awards-dataset (US sam.gov), tenderguru/tenderguru-procurement-data-catalog (Russian, commercial, catalogue stub only), brijeshvadi/eprocure-product-catalog (Saudi Arabia B2B despite the name), combatsolutions/tender_dataset (classification labels, no country), TendersOnTime/* (EU), nartaa/tenders-electronic-daily-2018-2023 (EU TED), theworldbank/procurement-notices (World Bank), izzuddinafif/spse (Indonesian LPSE, on GitLab)", "why": "All non-India. Grouped because several carry names that read as Indian - 'eprocure' in particular is a Saudi B2B catalogue - and they recur across every search. electricsheepafrica/* additionally self-declare as africa-synth-*, i.e. openly synthetic."}
+  ],
+
+  "gaps": [
+    {"gap": "No Indian government body publishes OCDS. Both Indian entries in OCP's collector are CivicDataLab republications of scraped portal data. The Government of Assam collaborated on the publication but does not itself publish releases, and the Finance Department's role ends at cooperating with the scrape.", "consequence": "There is no authoritative Indian procurement feed to point at. Everything in this file is an intermediary.", "closeIf": "Any state finance department stands up an OCDS endpoint. Watch kingfisher-collect's spider directory - a new india_* spider is the earliest machine-readable signal."},
+    {"gap": "Odisha. OCP materials mention it alongside Assam, and this pass found no Odisha procurement publication, no OCDS release and no spider. CivicDataLab's Odisha repositories are flood-risk modelling.", "closeIf": "Search CivicDataLab's newer repos and OCP's country pages directly; possible the work exists un-versioned."},
+    {"gap": "GeM (Government e-Marketplace) has no published bulk dataset anywhere. ~29 repos matched the search and every one is a scraper or a bidding tool. Given GeM's mandatory status for central procurement of goods and services, this is a large hole - and it means the CPPP corpus systematically misses whatever moved onto GeM.", "consequence": "Any national procurement total computed from CPPP alone understates goods and services procurement by an unknown and growing margin.", "closeIf": "Check GeM's own analytics/dashboard exports and any data.gov.in GeM resource."},
+    {"gap": "Railways (IREPS) has no published corpus. Seven repos matched; the only maintained one commits no data and carries no licence.", "note": "Partially mitigated: the CPPP corpus contains railway awards (SOUTHERN RLY, NORTH EASTERN RLY appear in the 2011 probe), so IREPS is not wholly absent, but IREPS's own portal is uncovered."},
+    {"gap": "No candidate carries a winner CIN, PAN or GSTIN. Not one. The Indian procurement portals do not publish a company identifier alongside the selected bidder, so no scrape of them can contain one.", "consequence": "Linking procurement winners to the corporate graph is a record-linkage problem, not a join. It cannot be solved by finding a better dataset - only by entity resolution with published confidence, or by a different source class (contract documents, MCA charge filings, GST portals).", "closeIf": "Test whether GeM contracts or the CPPP contract PDFs carry a GSTIN. Tender documents often do even when the listing does not."},
+    {"gap": "Completeness of the 16.6M CPPP corpus is unknown and unstated. No coverage table, no per-portal crawl statistics, no way to detect systematically missed organisations.", "consequence": "A single-bidder rate computed from it has an unquantified selection bias. Publish it only with the denominator and an explicit coverage caveat.", "closeIf": "Compare its per-year, per-organisation counts against the CPPP dashboard's own published tender counts."},
+    {"gap": "tender.numberOfTenderers and the bids.details roster length disagree in the Assam data, and nothing documents which is authoritative.", "closeIf": "Hand-verify 20 Assam tenders against assamtenders.gov.in. Cheap, and it decides whether the headline field is usable."},
+    {"gap": "Award coverage in the live Assam CKAN is partial - roughly 37 per cent of records sampled carried an awards block, varying by upload batch rather than by year. The winner is usually recoverable from the bids roster status instead, but award VALUE is not.", "closeIf": "Determine which upload batches carry awards and whether the gap is re-fillable from the portal."},
+    {"gap": "The live Assam CKAN is served over plain HTTP from a bare IP (15.207.1.169) with no TLS and no documented uptime commitment. The public front end does not expose the API.", "consequence": "This is a fragile dependency for the best-provenanced dataset found. Mirror anything relied upon.", "closeIf": "Ask CivicDataLab whether a stable hostname exists."},
+    {"gap": "GePNIC detail URLs stored in the CPPP corpus are session-scoped and expire, returning 'Unauthorized Page'. Verified in this pass.", "consequence": "Row-level verification cannot be automated by replaying stored URLs and must go through portal search by tender ID.", "closeIf": "Test whether the base64 tendersfullview permalink pattern seen in cand-nandanhegde-live can be constructed from a tender ID. If it can, spot-checking becomes cheap at scale."},
+    {"gap": "DOCUMENTED VOID - data.gov.in publishes no tender-level procurement data. One record in 414,603 matches 'tender' and it is an aggregate parliamentary answer. This is a finding about the Indian open-data estate, not a hole in this research, and should be rendered as loudly as a presence per the absence rule.", "consequence": "There is no official Indian bulk procurement release to prefer over a scrape. The scrape is not a second-best option; it is the only option.", "closeIf": "A ministry publishes a tender-level resource. Watch filters[title]=tender on the current catalogue endpoint."},
+    {"gap": "DOCUMENTED VOID - Kaggle, Zenodo and GitLab contain no Indian government procurement dataset. Kaggle's recurring hits are Singapore, EU TED and World Bank; Zenodo's only India-procurement record is a 26.7 KB file of manual notes on defence procurement delays; GitLab returns zero Indian procurement projects and its nearest match is an Indonesian LPSE scraper.", "confidence": "High for Zenodo and GitLab, both swept by API. Slightly lower for Kaggle, which serves a JS shell and reCAPTCHA to unauthenticated clients - absence there is inferred from search-result coverage across multiple queries rather than from reading every dataset page. Stated plainly rather than papered over.", "closeIf": "A Kaggle API key would settle the residual doubt."},
+    {"gap": "The Government Transparency Institute's India file is licence-clean, academically produced, and carries both a bid count and a resolved bidder_masterid at schema level - and its download links are Google-Drive-gated behind a 401. It is the only source that would supply a stable supplier identifier and a pre-computed single-bidding red flag for India.", "consequence": "The single highest-value item in this whole pass is blocked by an access wall, not by absence.", "closeIf": "Email info@govtransparency.eu. Cheapest high-value action available.", "doNotChase": "The GPPD 72M-contract dataset does NOT include India - verified against Table 1 of Fazekas et al. 2024. Do not spend rounds on its Mendeley DOIs."},
+    {"gap": "HuggingFace search does not do multi-word matching, which is why this corpus is nearly undiscoverable there. 'india tender', 'procurement india', 'government contract india' and 'public procurement india' all return ZERO; the four real mirrors surface only on the single word 'tender'.", "consequence": "Absence of results on a plausible multi-word query is not evidence of absence on HuggingFace. Search single tokens.", "closeIf": "n/a - a search-engine property to remember, recorded so a later pass does not conclude the data does not exist."},
+    {"gap": "No state other than Assam and Himachal Pradesh has any published procurement corpus, in OCDS or otherwise. The 13 states in tenders-states.json remain uncovered except insofar as CPPP aggregates their portals.", "closeIf": "Check whether the CPPP corpus's portal_type='state' rows cover those 13 states with usable volume - it is the cheapest route to state-level bid counts by far."}
+  ],
+
+  "provenanceRule": "Every row ingested from any candidate in this file enters the graph at `reported`, sourced to the scrape and NOT to the portal. It is upgraded to `documented` only per-row, only after the issuing portal's own Result-of-Tenders or Award-of-Contract page has been opened and the bid count and winner name confirmed. Row counts in the millions do not substitute for this and must not be allowed to. Where a CIN is attached by name matching, the claim is `analytic`, ships with an innocentReading, and never renders as though it came from a filing."
+}
