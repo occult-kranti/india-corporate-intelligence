@@ -104,6 +104,8 @@ const ROUTES = [
   ['/geograph?mode=state-flows&layer=all', 'geograph-flows'],
   ['/energy', 'energy'],
   ['/welfare', 'welfare'],
+  ['/company/wipro', 'company-wipro'],
+  ['/map?idx=sensex50', 'map-sensex50'],
 ];
 
 const failures = [];

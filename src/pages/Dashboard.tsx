@@ -6,6 +6,14 @@ import { STATE_NAMES } from '../data/geo';
 import { hhi } from '../data/companies';
 import { TIER_ORDER, type Tier } from '../graph/schema';
 import { EDGES } from '../graph/data';
+import { INDICES_AS_OF, indexCoverage } from '../data/indices';
+
+/**
+ * Index coverage, derived once from the accessor. "49 / 50" is printed as such: a list
+ * short of its published size is a declared gap, and rounding it to "complete" here would
+ * contradict the map caption it links to.
+ */
+const INDEX_COVERAGE = indexCoverage();
 
 const fmtCr = (v: number) => (v >= 100000 ? `₹${(v / 100000).toFixed(1)}L cr` : `₹${Math.round(v).toLocaleString('en-IN')} cr`);
 
@@ -55,8 +63,32 @@ export default function Dashboard() {
           { value: `${top3Share.toFixed(0)}%`, label: `carried by ${states.slice(0, 3).map((s) => STATE_NAMES[s.stateCode]).join(', ')}`, tone: 'rose' },
           { value: String(stateRollup.size), label: 'of 36 states and UTs with a listed headquarters in the dataset' },
           { value: String(psuCount), label: 'public-sector undertakings', tone: 'muted' },
+          // Appended to the existing grid rather than a second grid; at four columns
+          // they fall on their own row, which is the "Index coverage" group.
+          ...INDEX_COVERAGE.map((x) => {
+            const missing = x.expected - x.confirmed;
+            return {
+              value: `${x.confirmed} / ${x.expected}`,
+              label:
+                `Index coverage · ${x.label} constituents confirmed / expected, as of ${INDICES_AS_OF}` +
+                (missing > 0 ? ` · ${missing === 1 ? 'one' : missing} could not be verified` : '') +
+                (x.unresolved > 0 ? ` · ${x.unresolved} without a company record` : ''),
+            };
+          }),
         ]}
       />
+      {/* StatGrid tiles take no link, so the route to each filtered map sits directly under them. */}
+      <p className="font-mono text-[11px] text-text-muted -mt-3 mb-2">
+        Index members on the map:{' '}
+        {INDEX_COVERAGE.map((x, i) => (
+          <span key={x.key}>
+            {i > 0 && ' · '}
+            <Link to={`/map?idx=${x.key}`} className="underline underline-offset-2 hover:text-accent">
+              {x.label} →
+            </Link>
+          </span>
+        ))}
+      </p>
 
       <Callout label="Start here" tone="bottomline">
         <p>

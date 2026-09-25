@@ -1,5 +1,5 @@
-import { useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useCallback, useMemo, useState } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
 import { Kicker, PageTitle, Standfirst, Byline, Section, Callout, StatGrid, DataTable, Footnote } from '../components/Editorial';
 import IndiaMap, { type MapMark, type ScaleMode } from '../components/viz/IndiaMap';
 import {
@@ -8,6 +8,7 @@ import {
 } from '../data/companies';
 import { STATES, STATE_NAMES } from '../data/geo';
 import { ministersByState } from '../data/politics';
+import { INDEX_KEYS, INDEX_LABEL, INDICES_AS_OF, indexCoverage, membershipOf, type IndexKey } from '../data/indices';
 import type { StateCode } from '../graph/schema';
 
 /**
@@ -31,6 +32,16 @@ const METRICS: { id: Metric; label: string; unit: string; note: string }[] = [
 
 const fmtCr = (v: number) => (v >= 100000 ? `${(v / 100000).toFixed(2)} lakh cr` : `${Math.round(v).toLocaleString('en-IN')} cr`);
 
+/**
+ * Index membership per company, joined on `co:<id>` only, built once. The filter and
+ * the caption both read it, so the count the caption prints is the count on the map.
+ */
+const INDEX_OF = new Map<string, IndexKey[]>(COMPANIES.map((c) => [c.id, membershipOf(`co:${c.id}`)]));
+/** "n of N confirmed" per index — printed on the control and under the map. */
+const COVERAGE = new Map(indexCoverage().map((x) => [x.key, x]));
+/** "one" reads as a sentence; larger shortfalls stay numerals. */
+const countWord = (n: number) => (n === 1 ? 'one' : String(n));
+
 export default function MapExplorer() {
   const [metric, setMetric] = useState<Metric>('mcap');
   const [exchange, setExchange] = useState<Exchange>('both');
@@ -39,9 +50,28 @@ export default function MapExplorer() {
   const [selected, setSelected] = useState<StateCode | null>(null);
   const [showMarks, setShowMarks] = useState(true);
 
+  // The index filter lives in the URL so the Dashboard's coverage tiles (and any reader)
+  // can link straight to `/map?idx=<key>`. Absent param = unfiltered, the default view.
+  const [params, setParams] = useSearchParams();
+  const setParam = useCallback(
+    (k: string, v: string | null) => {
+      const next = new URLSearchParams(params);
+      if (v == null || v === '') next.delete(k);
+      else next.set(k, v);
+      setParams(next, { replace: true });
+    },
+    [params, setParams],
+  );
+  const idxParam = params.get('idx');
+  // Only a known key filters. An unknown one is reported under the map, not silently
+  // treated as "no members" (which would hatch every state and read as a finding).
+  const idx: IndexKey | null = INDEX_KEYS.find((k) => k === idxParam) ?? null;
+
   const sectors = useMemo(() => sectorTotals().map((s) => s.sector), []);
 
-  const filtered = useMemo(
+  // Exchange and sector first, index second, so the caption can say what the index
+  // filter itself removed rather than what all filters removed together.
+  const preIndex = useMemo(
     () =>
       COMPANIES.filter(
         (c) =>
@@ -50,6 +80,12 @@ export default function MapExplorer() {
       ),
     [exchange, sector],
   );
+  const filtered = useMemo(
+    () => (idx ? preIndex.filter((c) => (INDEX_OF.get(c.id) ?? []).includes(idx)) : preIndex),
+    [preIndex, idx],
+  );
+  const idxCov = idx ? COVERAGE.get(idx) : undefined;
+  const narrowed = exchange !== 'both' || sector !== 'all' || idx != null;
 
   const rollup = useMemo(() => rollupByState(filtered), [filtered]);
   const ministers = useMemo(() => ministersByState(), []);
@@ -134,9 +170,18 @@ export default function MapExplorer() {
         <StatGrid
           items={[
             { value: `₹${(totalMcap / 100000).toFixed(1)}L cr`, label: 'total recorded listed market cap in view' },
-            { value: String(filtered.length), label: `companies in view (${exchange === 'both' ? 'NSE + BSE' : exchange})` },
-            { value: `${concentration.toFixed(0)}%`, label: `carried by ${topState ? STATE_NAMES[topState.stateCode] : '—'} alone`, tone: 'rose' },
-            { value: `${noData}/36`, label: 'states and UTs with no company in the dataset — not zero, unmeasured', tone: 'muted' },
+            { value: String(filtered.length), label: `companies in view (${exchange === 'both' ? 'NSE + BSE' : exchange}${idx ? ` · ${INDEX_LABEL[idx]}` : ''})` },
+            // With nothing in view there is no top state; print the absence, not "0%".
+            { value: topState ? `${concentration.toFixed(0)}%` : '—', label: `carried by ${topState ? STATE_NAMES[topState.stateCode] : 'no state — nothing in view'} alone`, tone: 'rose' },
+            {
+              value: `${noData}/36`,
+              // Under a filter an empty state is usually filtered out, not unmeasured — the
+              // index filter in particular empties most states, so the label must say which.
+              label: narrowed
+                ? 'states and UTs with no company in view under these filters — filtered out or unmeasured, not zero'
+                : 'states and UTs with no company in the dataset — not zero, unmeasured',
+              tone: 'muted',
+            },
           ]}
         />
       )}
@@ -175,6 +220,41 @@ export default function MapExplorer() {
                   {x === 'both' ? 'NSE + BSE' : x}
                 </button>
               ))}
+            </div>
+          </div>
+
+          <div>
+            <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-text-muted mb-1.5">
+              Index · lists as of {INDICES_AS_OF}
+            </p>
+            <div className="flex flex-wrap gap-1.5">
+              {([null, ...INDEX_KEYS] as (IndexKey | null)[]).map((k) => {
+                const cov = k ? COVERAGE.get(k) : undefined;
+                return (
+                  <button
+                    key={k ?? 'all'}
+                    onClick={() => setParam('idx', k)}
+                    aria-pressed={idx === k}
+                    title={
+                      cov
+                        ? `${cov.label}: ${cov.confirmed} of ${cov.expected} constituents confirmed, as of ${INDICES_AS_OF}`
+                        : 'Every company, in or out of an index'
+                    }
+                    className={`font-mono text-[11px] px-2.5 py-1.5 rounded border transition-colors ${
+                      idx === k ? 'border-accent text-accent bg-accent/10' : 'border-border text-text-muted hover:text-text'
+                    }`}
+                  >
+                    {k ? INDEX_LABEL[k] : 'All'}
+                    {/* The denominator sits on the control: a short list says so before it is chosen. */}
+                    {cov && (
+                      <span className="opacity-60">
+                        {' '}
+                        {cov.confirmed}/{cov.expected}
+                      </span>
+                    )}
+                  </button>
+                );
+              })}
             </div>
           </div>
 
@@ -236,6 +316,35 @@ export default function MapExplorer() {
               format={(v) => (metric === 'mcap' || metric === 'gsdp' ? fmtCr(v) : String(Math.round(v)))}
             />
             <p className="text-[12px] text-text-muted mt-3 max-w-[70ch]">{activeMetric.note}</p>
+            {idxParam != null && !idx && (
+              <p className="text-[12px] text-text-secondary mt-2 max-w-[70ch]">
+                Unrecognised index “{idxParam}” in the link — the index filter is off and every company is shown.
+              </p>
+            )}
+            {idx && idxCov && (
+              <div className="text-[12px] text-text-secondary mt-2 max-w-[70ch] space-y-1 border-l-2 border-border-light pl-3">
+                <p>
+                  {INDEX_LABEL[idx]} filter kept <span className="font-mono">{filtered.length}</span> of{' '}
+                  <span className="font-mono">{preIndex.length}</span> companies
+                  {exchange !== 'both' || sector !== 'all' ? ' left by the exchange and sector filters' : ' in the dataset'}, against
+                  the constituent list as of <span className="font-mono">{INDICES_AS_OF}</span>.
+                </p>
+                <p>
+                  {idxCov.label}: <span className="font-mono">{idxCov.confirmed}</span> of{' '}
+                  <span className="font-mono">{idxCov.expected}</span> constituents confirmed
+                  {idxCov.confirmed < idxCov.expected
+                    ? ` — ${countWord(idxCov.expected - idxCov.confirmed)} could not be verified and ${idxCov.expected - idxCov.confirmed === 1 ? 'is' : 'are'} not shown`
+                    : ''}
+                  {idxCov.unresolved > 0
+                    ? `${idxCov.confirmed < idxCov.expected ? ';' : ' —'} ${countWord(idxCov.unresolved)} confirmed ${idxCov.unresolved === 1 ? 'has' : 'have'} no company record in the dataset and cannot be mapped`
+                    : ''}
+                  .
+                </p>
+                <p className="text-text-muted">
+                  A hatched state has no {INDEX_LABEL[idx]} member registered there — not no companies.
+                </p>
+              </div>
+            )}
           </div>
 
           {/* drill-down */}
