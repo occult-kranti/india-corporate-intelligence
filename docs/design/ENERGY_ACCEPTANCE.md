@@ -49,10 +49,10 @@ hasTouch: true` (phone). A criterion names the viewport(s) it runs at; unmarked 
 | `FIX.silentDoc` | a `documented` drawable claim with no response |
 | `FIX.alleged` | an `alleged` drawable claim (it has a response by build gate) |
 | `FIX.noAmount` | a drawable claim with `a` null or 0 |
-| `FIX.company` | a `co:` node that is an endpoint of ≥ 1 drawable claim and a constituent in `indices.json` |
+| `FIX.company` | a `co:` node that is an endpoint of ≥ 1 drawable claim and a constituent in `research/raw/indices.json` |
 | `FIX.a`, `FIX.b` | two nodes joined by a path of ≥ 2 hops in the unfiltered view |
 | `FIX.killed` | an id from `ENERGY_META.killed`, if any |
-| `FIX.key` | the first key of `indices.json` |
+| `FIX.key` | the first key of `research/raw/indices.json` |
 | `FIX.sweeps` | the set of `ENERGY_META.files[].domain`; `FIX.absent` = the 12 declared slugs minus that set |
 | `FIX.superseded` | the count of edges with `supersededBy` set |
 
