@@ -1,0 +1,87 @@
+name: Deploy
+
+on:
+  push:
+    branches: [master]
+  # So a deploy can be re-run without an empty commit.
+  workflow_dispatch:
+
+# Never let two deploys race for the same branch. A superseded deploy is wasted
+# work, but a half-finished one that wins the race is a broken site.
+concurrency:
+  group: deploy-pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # to push the built site to gh-pages
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      - run: npm ci
+
+      # The site is only worth publishing if it passes the same gates CI runs.
+      # Deploying past a red build would put unsourced or unrenderable content
+      # live, which is the one failure this project cannot absorb.
+      - name: Promote research quarantine
+        run: npm run promote
+
+      - name: Data integrity
+        run: npm run validate
+
+      - name: Typecheck and build
+        run: npm run build
+
+      - name: Install Chromium for the render smoke test
+        run: npx playwright install --with-deps chromium
+
+      - name: Headless render smoke test
+        run: npm run smoke
+
+      # Measures the graph camera: no silent letterbox, a 200px drag moves the
+      # graph 200px, auto-fit clips nothing, maximise really hands over the
+      # window. Every check exists because that bug shipped past the other four
+      # gates — none of them is a type error, and smoke passes happily while the
+      # graph is unusable.
+      - name: Graph viewport gate
+        run: npm run viewport
+
+      # Publishing by pushing the build to `gh-pages`, rather than via the
+      # actions/deploy-pages artifact flow, because Pages on this repository is
+      # already configured to serve that branch. The artifact flow would need the
+      # Pages source switched to "GitHub Actions" in repository settings first,
+      # and a deploy that silently does nothing is worse than one extra branch.
+      #
+      # .nojekyll stops Jekyll from swallowing paths that begin with an
+      # underscore. The build does not currently emit any, but it costs one line
+      # and the failure mode is a silently missing asset.
+      - name: Publish to gh-pages
+        run: |
+          set -euo pipefail
+          # Read the subject from git rather than interpolating the event payload,
+          # so a multi-line or quote-bearing commit message cannot reshape this script.
+          SUBJECT="$(git log -1 --pretty=%s)"
+          touch dist/.nojekyll
+          cd dist
+          git init -q
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -q -m "Deploy ${GITHUB_SHA::7}: ${SUBJECT}"
+          git push -q --force \
+            "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" \
+            HEAD:gh-pages
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Where it landed
+        run: |
+          echo "Deployed ${GITHUB_SHA::7} to gh-pages."
+          echo "https://${GITHUB_REPOSITORY_OWNER}.github.io/${GITHUB_REPOSITORY#*/}/"

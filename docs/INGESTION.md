@@ -38,6 +38,76 @@ invariant is caught before the graph is checked at all.
 
 ---
 
+## Stage 0 — Third-party bulk data
+
+*Added when scraped procurement datasets entered scope. Everything downstream assumes
+per-record primary sourcing; a scrape breaks that assumption and needs its own rule.*
+
+Every raw file before this point was assembled by an agent that opened each source
+document and cited it per record. A scraped dataset is a different object:
+
+| | Agent-assembled file | Third-party scrape |
+|---|---|---|
+| Sources | one primary document per record | **one source — the scraper — for every row** |
+| Verification | each claim traced to a document someone read | **nobody has read any individual row** |
+| Scale | hundreds of records | hundreds of thousands |
+| Failure mode | a wrong citation | **a silent systematic extraction bug across the whole file** |
+
+The tempting move is to import a million rows and call the result documented because
+the portal it came from is official. That is wrong twice over: the platform never read
+the portal, and a parser bug that drops every second bidder would be invisible and
+would corrupt every statistic computed from it.
+
+### The rule: a scrape is `reported`, and carries a measured verification rate
+
+**No third-party bulk dataset may enter at tier `documented`.** It enters at `reported`,
+attributed to the scraper by name, and it must carry a **verification rate** measured
+the same way the rest of the platform measures anything:
+
+1. Draw a **random sample** from the scrape — seeded, so the draw is reproducible, and
+   drawn before anyone looks at the rows.
+2. Retrieve each sampled record from the **issuing portal** and compare field by field.
+3. Publish `verified / sampled`, the per-field agreement rate, and every mismatch.
+
+That rate is then a first-class published number, printed wherever the dataset is used.
+A scrape with 40 of 40 verified is a strong instrument; a scrape with 31 of 40 has a
+22% error rate and no statistic computed from it survives contact with that.
+
+**Sample against the portal, not against another scrape.** Two scrapes of the same
+source agreeing tells you they share a bug, not that either is right.
+
+### What promotes a row to `documented`
+
+One thing only: somebody opened the issuing document for **that row**. Verified sample
+rows are `documented`. The rest of the file stays `reported` no matter how good the
+rate is — a 100% verification rate on 40 rows is evidence about the *scraper*, not
+about row 812,447.
+
+### Additional required fields on a bulk raw file
+
+Beyond the normal `asOf` and `sources`:
+
+- `scraper` — name, repo URL, licence, and **whether the extraction code is published**.
+  An output-only dump cannot be audited or re-run and is capped at `reported` forever.
+- `scrapedFrom` — the portal, and the date range actually covered, which is almost never
+  the range advertised.
+- `verification` — the sample result described above, or an explicit
+  `{ "status": "not-yet-verified" }`. A bulk file with no verification block **fails the
+  build**; there is no default of trust.
+- `knownGaps` — portals that silently paginate out, tenders that never reach the award
+  stage, categories the scraper's selectors miss.
+
+### Coverage is not completeness
+
+A scrape of a portal covers what the portal published, which is not what was procured.
+State portals that publish nothing contribute nothing, and their absence looks identical
+to no procurement happening. **Any denominator drawn from a scrape is a denominator over
+the published subset**, and must be labelled as such — the same rule already applied to
+`/tenders`, where bid disclosure turned out to track the sector's regulator rather than
+the sector's size.
+
+---
+
 ## Stage 1 — Extraction
 
 Every file in `research/raw/` must:

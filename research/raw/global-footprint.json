@@ -1,0 +1,591 @@
+{
+  "asOf": "2026-08-11",
+  "sources": [
+    ["Adani Ports & SEZ — Ports and Terminals (corporate site)", "https://www.adaniports.com/ports-and-terminals"],
+    ["Adani Ports & SEZ — Wikipedia", "https://en.wikipedia.org/wiki/Adani_Ports_%26_SEZ"],
+    ["Reliance Industries — Manufacturing Locations (corporate site)", "https://www.ril.com/about/manufacturing-locations"],
+    ["OpenStreetMap / Nominatim geocoder (coordinate cross-check)", "https://nominatim.openstreetmap.org/"],
+    ["OpenStreetMap / Overpass API (coordinate cross-check)", "https://overpass-api.de/"],
+    ["Global Energy Monitor wiki", "https://www.gem.wiki/"]
+  ],
+  "places": [
+    {
+      "id": "mundra-port",
+      "label": "Mundra Port",
+      "group": "adani",
+      "operator": "Adani Ports and Special Economic Zone Ltd",
+      "kind": "port",
+      "lon": 69.7,
+      "lat": 22.746,
+      "country": "India",
+      "status": "operating",
+      "since": "1998",
+      "notes": "India's largest commercial and container port, in Kutch district, Gujarat; commenced with a single berth in October 1998 and hosts India's largest multi-product SEZ. Candidate coordinate 22.75/69.70 confirmed correct.",
+      "tier": "documented",
+      "srcs": [
+        ["Mundra Port — Wikipedia (infobox coordinates 22.746N 69.700E)", "https://en.wikipedia.org/wiki/Mundra_Port"],
+        ["OpenStreetMap relation 9087557 'Mundra Port' (22.7530, 69.6847)", "https://nominatim.openstreetmap.org/"],
+        ["Adani Ports & SEZ — About Us (Mundra SEZ)", "https://www.adaniports.com/about-us"]
+      ]
+    },
+    {
+      "id": "hazira-port",
+      "label": "Hazira Port",
+      "group": "adani",
+      "operator": "Adani Hazira Port Ltd (Adani Ports and Special Economic Zone Ltd)",
+      "kind": "port",
+      "lon": 72.6355,
+      "lat": 21.0808,
+      "country": "India",
+      "status": "operating",
+      "since": "2012",
+      "notes": "Deep-water multi-cargo port at Hazira, Surat, Gujarat; first bulk vessel handled 21 May 2012 and container terminal commissioned 1 August 2012. Candidate coordinate 21.10/72.65 was ~2.5 km off; corrected.",
+      "tier": "documented",
+      "srcs": [
+        ["Adani Ports & SEZ — Hazira Port", "https://www.adaniports.com/ports-and-terminals/hazira-port"],
+        ["Global Energy Monitor — Hazira Port (Adani)", "https://www.gem.wiki/Hazira_Port_(Adani)"],
+        ["OpenStreetMap 'Hazira Port, Chorasi Taluka, Surat' (21.0808, 72.6355)", "https://nominatim.openstreetmap.org/"]
+      ]
+    },
+    {
+      "id": "dhamra-port",
+      "label": "Dhamra Port",
+      "group": "adani",
+      "operator": "Dhamra Port Company Ltd (Adani Ports and Special Economic Zone Ltd)",
+      "kind": "port",
+      "lon": 86.9628,
+      "lat": 20.8233,
+      "country": "India",
+      "status": "operating",
+      "since": "2011",
+      "notes": "Deep-water all-weather multi-cargo port in Bhadrak district, Odisha; first vessel received February 2010, first commercial vessel April 2011. Candidate coordinate 20.95/86.95 was ~14 km north of the port — materially wrong; corrected.",
+      "tier": "documented",
+      "srcs": [
+        ["Dhamra Port — Wikipedia (infobox coordinates 20.82333N 86.96278E)", "https://en.wikipedia.org/wiki/Dhamra_Port"],
+        ["OpenStreetMap 'Dhamra Port, Bansada, Bhadrak, Odisha' (20.8313, 86.9639)", "https://nominatim.openstreetmap.org/"]
+      ]
+    },
+    {
+      "id": "kattupalli-port",
+      "label": "Kattupalli Port",
+      "group": "adani",
+      "operator": "Marine Infrastructure Developer Pvt Ltd (Adani Ports and Special Economic Zone Ltd, 97%)",
+      "kind": "port",
+      "lon": 80.3397,
+      "lat": 13.3049,
+      "country": "India",
+      "status": "operating",
+      "since": "2013",
+      "notes": "Port ~24 km north of Chennai, Tamil Nadu; built by Larsen & Toubro in 2013 and acquired by APSEZ in June 2018 through a 97% purchase of Marine Infrastructure Developer Pvt Ltd for about Rs 1,950 crore. Candidate coordinate 13.30/80.35 confirmed within ~1 km.",
+      "tier": "documented",
+      "srcs": [
+        ["Adani Ports & SEZ — Kattupalli Port", "https://www.adaniports.com/ports-and-terminals/Kattupalli-port"],
+        ["Adani — APSEZ completes acquisition of Kattupalli Port", "https://www.adani.com/newsroom/media-releases/apsez-completes-acquisition-of-kattupalli-port-southern-india-new-exim-gateway"],
+        ["OpenStreetMap 'Kattupalli Port, Ponneri, Thiruvallur' (13.3049, 80.3397)", "https://nominatim.openstreetmap.org/"]
+      ]
+    },
+    {
+      "id": "vizhinjam-port",
+      "label": "Vizhinjam International Seaport",
+      "group": "adani",
+      "operator": "Adani Vizhinjam Port Pvt Ltd (Adani Ports and Special Economic Zone Ltd)",
+      "kind": "port",
+      "lon": 76.9987,
+      "lat": 8.3707,
+      "country": "India",
+      "status": "operating",
+      "since": "2024",
+      "notes": "India's first dedicated deep-water container transhipment port, Thiruvananthapuram district, Kerala; PPP with the Kerala government, trial operations July 2024, commercial operations December 2024, formally inaugurated 2 May 2025. Not on the candidate list.",
+      "tier": "documented",
+      "srcs": [
+        ["Vizhinjam International Seaport Thiruvananthapuram — Wikipedia", "https://en.wikipedia.org/wiki/Vizhinjam_International_Seaport_Thiruvananthapuram"],
+        ["Business Standard — Kerala, Adani Ports sign agreement for development of Vizhinjam Seaport", "https://www.business-standard.com/companies/news/kerala-adani-ports-sign-agreement-for-development-of-vizhinjam-seaport-124112800814_1.html"],
+        ["OpenStreetMap 'Vizhinjam International Seaport' (8.3707, 76.9987)", "https://nominatim.openstreetmap.org/"]
+      ]
+    },
+    {
+      "id": "carmichael-mine",
+      "label": "Carmichael Coal Mine",
+      "group": "adani",
+      "operator": "Bravus Mining & Resources (formerly Adani Mining Pty Ltd; Adani family / Adani Enterprises Australia)",
+      "kind": "mine",
+      "lon": 146.383,
+      "lat": -22.05,
+      "country": "Australia",
+      "status": "operating",
+      "since": "2021",
+      "notes": "Thermal coal mine in the Galilee Basin, Isaac Region, central Queensland, ~160 km north-west of Clermont; first coal export December 2021; scaled down from a planned 60 Mtpa to about 10 Mtpa. Candidate coordinate -21.90/146.30 was ~19 km north-west of the mine — materially wrong; corrected to 22.050S 146.383E.",
+      "tier": "documented",
+      "srcs": [
+        ["Carmichael coal mine — Wikipedia (infobox 22.050S 146.383E)", "https://en.wikipedia.org/wiki/Carmichael_coal_mine"],
+        ["Queensland Department of Environment — Adani Carmichael monitoring page", "https://environment.qld.gov.au/management/monitoring/locations-of-interest/adani-carmichael"],
+        ["Bravus Mining & Resources — Carmichael Mine", "https://www.bravusmining.com.au/carmichael-mine/"]
+      ]
+    },
+    {
+      "id": "nqxt-abbot-point",
+      "label": "North Queensland Export Terminal (Abbot Point)",
+      "group": "adani",
+      "operator": "Abbot Point Port Holdings Pte Ltd (Adani Ports and Special Economic Zone Ltd since 2025)",
+      "kind": "port",
+      "lon": 148.0774,
+      "lat": -19.8999,
+      "country": "Australia",
+      "status": "operating",
+      "since": "2011",
+      "notes": "Deep-water coal export terminal near Bowen, Queensland, ~50 Mtpa capacity, held on a long-term lease from the Queensland government running to 2110. The Adani Group took the 99-year Terminal 1 lease in 2011 through a private family vehicle; the listed APSEZ acquired it only in 2025 in a non-cash related-party share issue valued at about USD 2.5 bn — the related-party nature of that transfer drew comment. Not on the candidate list.",
+      "tier": "documented",
+      "srcs": [
+        ["Adani Ports & SEZ — APSEZ acquires 50 MTPA capacity NQXT Australia", "https://www.adaniports.com/newsroom/media-releases/apsez-acquires-50-mtpa-capacity-nqxt-australia-accelerating-path-to-1-billion-tonnes-p-a-by-2030"],
+        ["Shipping Australia — Adani Ports buys northern Queensland coal terminal in related party deal", "https://www.shippingaustralia.com.au/adani-ports-buys-northern-queensland-coal-terminal-in-related-party-deal"],
+        ["Abbot Point — Wikipedia", "https://en.wikipedia.org/wiki/Abbot_Point"],
+        ["OpenStreetMap 'Abbot Point Coal Terminal, Bowen' (-19.8999, 148.0774)", "https://nominatim.openstreetmap.org/"]
+      ]
+    },
+    {
+      "id": "cwit-colombo",
+      "label": "Colombo West International Terminal",
+      "group": "adani",
+      "operator": "Colombo West International Terminal Pvt Ltd — Adani Ports and SEZ Ltd 51%, John Keells Holdings PLC 34%, Sri Lanka Ports Authority 15%",
+      "kind": "port",
+      "lon": 79.8447,
+      "lat": 6.9528,
+      "country": "Sri Lanka",
+      "status": "operating",
+      "since": "2025",
+      "notes": "Deep-water automated container terminal at the Port of Colombo under a 35-year build-operate-transfer agreement; operations commenced 7 April 2025; 1,400 m quay, 20 m depth, ~3.2 m TEU capacity. Coordinate is the Port of Colombo infobox anchor — no terminal-specific coordinate could be verified and CWIT sits toward the port's western breakwater, so treat as accurate to roughly 2 km. Candidate coordinate 6.93/79.86 was in the Colombo Fort / Port City area, not the port basin.",
+      "tier": "documented",
+      "srcs": [
+        ["Adani Ports & SEZ — Adani's Colombo Terminal commences operations", "https://www.adaniports.com/newsroom/media-releases/adani-colombo-terminal-commences-operations"],
+        ["John Keells Holdings — The Colombo West International Terminal commences operations", "https://keells.com/posts/the-colombo-west-international-terminal-commences-operations/"],
+        ["Port of Colombo — Wikipedia (infobox 6.95278N 79.84472E)", "https://en.wikipedia.org/wiki/Port_of_Colombo"]
+      ]
+    },
+    {
+      "id": "haifa-port",
+      "label": "Haifa Port",
+      "group": "adani",
+      "operator": "Haifa Port Company Ltd — Adani Ports and SEZ Ltd 70%, Gadot Group 30%",
+      "kind": "port",
+      "lon": 35.0045,
+      "lat": 32.8201,
+      "country": "Israel",
+      "status": "operating",
+      "since": "2023",
+      "notes": "Israel's largest port by container throughput; the APSEZ-Gadot consortium won the privatisation tender in July 2022 for 4.1 bn shekels (about USD 1.18 bn) and took handover in January 2023. Does not include the separately operated Bay Terminal. Candidate coordinate 32.794/34.9896 was ~3 km south-west of the port basin; corrected.",
+      "tier": "documented",
+      "srcs": [
+        ["Port of Haifa — Wikipedia (infobox 32.820118N 35.00448E)", "https://en.wikipedia.org/wiki/Port_of_Haifa"],
+        ["Adani Ports & SEZ — Adani and Gadot win tender to privatise Israel's Haifa Port", "https://www.adaniports.com/newsroom/media-releases/adani-and-gadot-win-tender-to-privatise-israels-haifa-port"],
+        ["Business Today — Adani Group takes control of Israeli port (Jan 2023 handover)", "https://www.businesstoday.in/latest/corporate/story/will-transform-haifa-says-gautam-adani-after-adani-group-takes-control-of-israeli-port-368305-2023-01-31"]
+      ]
+    },
+    {
+      "id": "dar-es-salaam-ct2",
+      "label": "Container Terminal 2, Port of Dar es Salaam",
+      "group": "adani",
+      "operator": "East Africa Gateway Ltd — JV of Adani International Ports Holdings Pte Ltd (wholly owned by APSEZ), AD Ports Group and East Harbour Terminals Ltd",
+      "kind": "port",
+      "lon": 39.2886,
+      "lat": -6.8202,
+      "country": "Tanzania",
+      "status": "operating",
+      "since": "2024",
+      "notes": "30-year concession with the Tanzania Ports Authority signed 31 May 2024; EAGL acquired a 95% stake in Tanzania International Container Terminal Services Ltd from Hutchison Port Holdings for USD 39.5 m and took over CT2 in July 2024. Four berths, ~1 m TEU capacity, about 83% of Tanzania's container volumes. Coordinate geocodes the Tanzania Ports Authority / port basin at Dar es Salaam, roughly 1 km from the CT2 berths. Not on the candidate list.",
+      "tier": "documented",
+      "srcs": [
+        ["Adani Ports & SEZ — Adani Ports signs 30-year concession to operate Container Terminal 2 at Dar es Salaam Port", "https://www.adaniports.com/newsroom/media-releases/adani-ports-signs-30-year-concession-to-operate-container-terminal-2-at-dar-es-salaam-port"],
+        ["Seatrade Maritime — Adani Ports taking over operation of Dar es Salaam container terminal", "https://www.seatrade-maritime.com/terminals/adani-ports-taking-over-operation-of-dar-es-salaam-container-terminal"],
+        ["OpenStreetMap 'Tanzania Port Authority, Kivukoni, Dar es Salaam' (-6.8202, 39.2886)", "https://nominatim.openstreetmap.org/"]
+      ]
+    },
+    {
+      "id": "adani-corporate-house",
+      "label": "Adani Corporate House, Ahmedabad",
+      "group": "adani",
+      "operator": "Adani Enterprises Ltd (shared registered office of Adani Ports & SEZ Ltd, Adani Green Energy Ltd, Adani Energy Solutions Ltd, ACC Ltd and other group companies)",
+      "kind": "hq",
+      "lon": 72.5425,
+      "lat": 23.1604,
+      "country": "India",
+      "status": "operating",
+      "since": null,
+      "notes": "Registered office address filed with BSE/NSE by the listed Adani companies: Adani Corporate House, Shantigram, Nr. Vaishno Devi Circle, S.G. Highway, Khodiyar, Ahmedabad 382421. Coordinate is the geocode of that registered address. The earlier dataset referenced an 'Ahmedabad HQ' as a link endpoint without ever defining it; this entry replaces that dangling reference.",
+      "tier": "documented",
+      "srcs": [
+        ["Adani Enterprises Ltd — EGM notice filing showing registered office address", "https://www.adanienterprises.com/-/media/Project/Enterprises/Investors/corporate-governance/Others-Dynamic/AEL--EGM-Notice-03052022.pdf"],
+        ["Adani Group — Contact us / corporate headquarters", "https://www.adani.com/contact-us"],
+        ["OpenStreetMap geocode of 'Shantigram, Near Vaishno Devi Circle, Ahmedabad 382421' (23.1604, 72.5425)", "https://nominatim.openstreetmap.org/"]
+      ]
+    },
+    {
+      "id": "godda-power-plant",
+      "label": "Godda Ultra Super Critical Thermal Power Plant",
+      "group": "adani",
+      "operator": "Adani Power (Jharkhand) Ltd (Adani Power Ltd, 100%)",
+      "kind": "plant",
+      "lon": 87.1355,
+      "lat": 24.8141,
+      "country": "India",
+      "status": "operating",
+      "since": "2023",
+      "notes": "1,600 MW (2x800 MW) coal plant at Motia, Godda district, Jharkhand; unit 1 COD March/April 2023, full load July 2023. Built as India's first transnational power project, dedicated under a 25-year PPA to supply 1,496 MW to the Bangladesh Power Development Board; India's Ministry of Power relaxed the export-only rule in August 2024 to allow domestic sales. Pricing and payment terms under the Bangladesh PPA are contested and have been before Bangladesh's courts. Not on the candidate list.",
+      "tier": "documented",
+      "srcs": [
+        ["Global Energy Monitor — Adani Godda power station (24.814107, 87.135465)", "https://www.gem.wiki/Adani_Godda_power_station"],
+        ["Adani — Adani Group commissions India's first transnational power project", "https://www.adani.com/newsroom/media-releases/adani-group-commissions-15-july"],
+        ["Godda Thermal Power Station — Wikipedia", "https://en.wikipedia.org/wiki/Godda_Thermal_Power_Station"]
+      ]
+    },
+    {
+      "id": "khavda-re-park",
+      "label": "Khavda Renewable Energy Park (Adani Green block)",
+      "group": "adani",
+      "operator": "Adani Green Energy Ltd",
+      "kind": "plant",
+      "lon": 69.366,
+      "lat": 24.1129,
+      "country": "India",
+      "status": "under-construction",
+      "since": "2024",
+      "notes": "Adani Green's solar-wind-storage build-out in the Rann of Kutch, Gujarat, targeted at 30 GW by 2029; about 9.4 GW installed and 3.37 GWh of battery storage as of 2026. Coordinate is the OpenStreetMap centroid of the Khavda Renewable Energy Park landuse polygon; the park is a multi-developer site (NTPC and others also hold blocks there) and Adani's blocks are the largest but not co-extensive with it. Not on the candidate list.",
+      "tier": "reported",
+      "srcs": [
+        ["Adani — Adani Green Energy delivers on 5 GW commitment in FY26", "https://www.adani.com/newsroom/media-releases/adani-green-energy-delivers-on-5-gw-commitment-in-fy26"],
+        ["pv magazine — Adani adds 150 MW solar capacity to Khavda 30 GW renewable energy park (May 2026)", "https://www.pv-magazine.com/2026/05/11/adani-adds-150-mw-solar-capacity-to-khavda-30-gw-renewable-energy-park/"],
+        ["OpenStreetMap feature 'Khavda Renewable Energy Park' (24.1129, 69.3660)", "https://overpass-api.de/"]
+      ]
+    },
+    {
+      "id": "ahlone-terminal-yangon",
+      "label": "Ahlone International Port Terminal 2, Yangon",
+      "group": "adani",
+      "operator": "formerly Adani Yangon International Terminal Co Ltd (Adani Ports and Special Economic Zone Ltd)",
+      "kind": "port",
+      "lon": 96.1207,
+      "lat": 16.7859,
+      "country": "Myanmar",
+      "status": "divested",
+      "since": null,
+      "notes": "APSEZ received Myanmar Investment Commission approval in April 2019 to develop and operate the terminal and paid about USD 90 m upfront to lease land from the military-owned Myanmar Economic Corporation. After US and UK sanctions on junta-controlled entities, APSEZ announced it would exit; a binding share purchase agreement was signed in May 2022 and the buyer has not been disclosed. Not on the candidate list; included to record a former international facility.",
+      "tier": "reported",
+      "srcs": [
+        ["Reuters via Rappler — India's Adani Ports scraps Myanmar container terminal plans", "https://www.rappler.com/business/adani-ports-scraps-myanmar-container-terminal-plans/"],
+        ["Myanmar Now — India's Adani Ports to divest from Ahlone container port project", "https://myanmar-now.org/en/news/indias-adani-ports-to-divest-from-ahlone-container-port-project/"],
+        ["OpenStreetMap 'Ahlone International Port Terminal 1/2, Yangon' (16.7859, 96.1207)", "https://nominatim.openstreetmap.org/"]
+      ]
+    },
+    {
+      "id": "jkia-nairobi",
+      "label": "Jomo Kenyatta International Airport, Nairobi (cancelled Adani concession)",
+      "group": "adani",
+      "operator": "Kenya Airports Authority — proposed 30-year BOT concession to Adani Airport Holdings Ltd, never executed",
+      "kind": "partner",
+      "lon": 36.9289,
+      "lat": -1.3169,
+      "country": "Kenya",
+      "status": "cancelled",
+      "since": null,
+      "notes": "This, not any Mombasa port, was Adani's 2024 Kenya airport involvement. Adani Airport Holdings proposed a ~KSh 258 bn 30-year build-operate-transfer upgrade including a second runway and new passenger terminal. President William Ruto ordered the procurement cancelled on 21 November 2024, days after the US DOJ and SEC indictment of Gautam Adani, citing information from investigative agencies and partner states; the Kenya Airports Authority confirmed formal cancellation. STATUS CONTESTED: the Adani Group publicly stated it had never signed any agreement to operate the airport. The contract for the JKIA upgrade was subsequently awarded to a Chinese firm. Facility remains state-operated; no Adani interest exists.",
+      "tier": "documented",
+      "srcs": [
+        ["Daily Nation — State of the nation: Ruto orders cancellation of JKIA, Ketraco Adani deals", "https://nation.africa/kenya/news/state-of-the-nation-ruto-cancels-adani-deals--4831464"],
+        ["Daily Nation — KAA confirms formal cancellation of Sh258 billion JKIA project", "https://nation.africa/kenya/news/adani-airport-deal-cancellation-of-sh258billion-jkia-project-5371104"],
+        ["Business Standard — 'Never entered into agreement to operate airport in Kenya': Adani Group (denial)", "https://www.business-standard.com/companies/news/never-entered-into-agreement-to-operate-airport-in-kenya-adani-group-124112300996_1.html"],
+        ["OCCRP — Documents reveal details of Adani Group's controversial bid to run Kenya's largest airport", "https://www.occrp.org/en/scoop/documents-reveal-details-of-adani-groups-controversial-bid-to-run-kenyas-largest-airport"],
+        ["OpenStreetMap 'Jomo Kenyatta International Airport' (-1.3169, 36.9289)", "https://nominatim.openstreetmap.org/"]
+      ]
+    },
+    {
+      "id": "mannar-wind-project",
+      "label": "Mannar wind power project (withdrawn)",
+      "group": "adani",
+      "operator": "Adani Green Energy Ltd (proposed; withdrawn February 2025)",
+      "kind": "plant",
+      "lon": 79.8421,
+      "lat": 9.0346,
+      "country": "Sri Lanka",
+      "status": "cancelled",
+      "since": null,
+      "notes": "Proposed 250 MW wind farm on Mannar Island, paired with a 100 MW project at Pooneryn, USD 442 m combined. Adani Green withdrew on 13 February 2025 after Sri Lanka's new government moved to renegotiate the tariff down from about USD 0.08/kWh, citing financial unviability alongside unresolved environmental clearance and a pending Supreme Court case. Nothing was built; the coordinate is the Mannar Island centroid, not a constructed site.",
+      "tier": "documented",
+      "srcs": [
+        ["Al Jazeera — India's Adani withdraws from troubled $442m Sri Lanka wind power projects", "https://www.aljazeera.com/news/2025/2/13/indias-adani-withdraws-from-troubled-442m-sri-lanka-wind-power-projects"],
+        ["Business Standard — Adani Green withdraws from wind energy, transmission projects in Sri Lanka", "https://www.business-standard.com/companies/news/adani-green-withdraws-from-wind-energy-transmission-projects-in-sri-lanka-125021300885_1.html"],
+        ["OpenStreetMap 'Mannar Island, Northern Province' (9.0346, 79.8421)", "https://nominatim.openstreetmap.org/"]
+      ]
+    },
+    {
+      "id": "jamnagar-refinery",
+      "label": "Jamnagar Refinery and Petrochemical Complex",
+      "group": "reliance",
+      "operator": "Reliance Industries Ltd",
+      "kind": "plant",
+      "lon": 69.8689,
+      "lat": 22.3481,
+      "country": "India",
+      "status": "operating",
+      "since": "1999",
+      "notes": "World's largest refining complex at a single location, at Motikhavdi, Jamnagar district, Gujarat; ~1.24 million barrels per day across the DTA refinery (commissioned July 1999) and the SEZ refinery (2008), spread over roughly 7,500 acres. RIL lists 'Jamnagar' and 'Jamnagar SEZ Unit' as separate refining locations; they are treated as one site here.",
+      "tier": "documented",
+      "srcs": [
+        ["Jamnagar refinery — Wikipedia (infobox 22.34806N 69.86889E)", "https://en.wikipedia.org/wiki/Jamnagar_refinery"],
+        ["Reliance Industries — Manufacturing Locations", "https://www.ril.com/about/manufacturing-locations"]
+      ]
+    },
+    {
+      "id": "ril-dahej",
+      "label": "Dahej Manufacturing Division",
+      "group": "reliance",
+      "operator": "Reliance Industries Ltd",
+      "kind": "plant",
+      "lon": 72.5733,
+      "lat": 21.6923,
+      "country": "India",
+      "status": "operating",
+      "since": "1996",
+      "notes": "1,778-acre petrochemical site at Dahej, Bharuch district, Gujarat; commissioned in phases from 1996, at full stream in 2000. Produces ethylene, propylene, EDC, VCM-PVC, PET, HDPE, EVA, PTA and MEG.",
+      "tier": "documented",
+      "srcs": [
+        ["Reliance Dahej Manufacturing Division — Wikipedia (infobox 21.692313N 72.573313E)", "https://en.wikipedia.org/wiki/Reliance_Dahej_Manufacturing_Division"],
+        ["Reliance Industries — Manufacturing Locations", "https://www.ril.com/about/manufacturing-locations"]
+      ]
+    },
+    {
+      "id": "ril-hazira",
+      "label": "Hazira Manufacturing Division",
+      "group": "reliance",
+      "operator": "Reliance Industries Ltd",
+      "kind": "plant",
+      "lon": 72.6739,
+      "lat": 21.1699,
+      "country": "India",
+      "status": "operating",
+      "since": "1991",
+      "notes": "700-acre petrochemicals, polymers and polyester complex at Hazira, Surat, Gujarat, commissioned 1991-92. Distinct from and about 4 km from Adani's Hazira Port, which is a separate company's facility on the same estuary.",
+      "tier": "documented",
+      "srcs": [
+        ["Hazira Manufacturing Division — Wikipedia (infobox 21.169938N 72.673938E)", "https://en.wikipedia.org/wiki/Hazira_Manufacturing_Division"],
+        ["Reliance Industries — Manufacturing Locations", "https://www.ril.com/about/manufacturing-locations"]
+      ]
+    },
+    {
+      "id": "ril-nagothane",
+      "label": "Nagothane Manufacturing Division",
+      "group": "reliance",
+      "operator": "Reliance Industries Ltd",
+      "kind": "plant",
+      "lon": 73.1125,
+      "lat": 18.5584,
+      "country": "India",
+      "status": "operating",
+      "since": null,
+      "notes": "Gas cracker and polymer complex at Nagothane, Roha taluka, Raigad district, Maharashtra, listed by RIL among its petrochemical manufacturing locations. Coordinate is the OpenStreetMap 'Reliance Industries Ltd' industrial/oil-works polygon at the site. Commissioning year not verified from a primary source.",
+      "tier": "documented",
+      "srcs": [
+        ["Reliance Industries — Manufacturing Locations", "https://www.ril.com/about/manufacturing-locations"],
+        ["OpenStreetMap industrial polygon 'Reliance Industries Ltd', Nagothane (18.5584, 73.1125)", "https://overpass-api.de/"]
+      ]
+    },
+    {
+      "id": "ril-kg-d6-terminal",
+      "label": "KG-D6 Onshore Terminal, Gadimoga",
+      "group": "reliance",
+      "operator": "Reliance Industries Ltd (operator of the KG-D6 block, in partnership with bp)",
+      "kind": "plant",
+      "lon": 82.299,
+      "lat": 16.7445,
+      "country": "India",
+      "status": "operating",
+      "since": null,
+      "notes": "Onshore receiving and processing terminal at Gadimoga, Kakinada district, Andhra Pradesh, for the KG-D6 deepwater gas block in the Bay of Bengal; listed by RIL under Oil & Gas manufacturing locations. Coordinate is the OpenStreetMap 'Reliance Industries' industrial polygon at Gadimoga. Participating-interest percentages were not verified and are deliberately omitted.",
+      "tier": "documented",
+      "srcs": [
+        ["Reliance Industries — Manufacturing Locations (KG D6 Onshore Terminal, Andhra Pradesh)", "https://www.ril.com/about/manufacturing-locations"],
+        ["OpenStreetMap industrial polygon 'Reliance Industries', Gadimoga (16.7445, 82.2990)", "https://overpass-api.de/"]
+      ]
+    },
+    {
+      "id": "ril-hq-maker-chambers",
+      "label": "Maker Chambers IV, Nariman Point (RIL registered office)",
+      "group": "reliance",
+      "operator": "Reliance Industries Ltd",
+      "kind": "hq",
+      "lon": 72.8229,
+      "lat": 18.9246,
+      "country": "India",
+      "status": "operating",
+      "since": null,
+      "notes": "Registered office of Mukesh Ambani's Reliance Industries Ltd: 3rd Floor, Maker Chambers IV, 222 Nariman Point, Mumbai 400021. Distinct from Anil Ambani's Reliance Group companies, which split from RIL in 2005 and are out of scope for this dataset.",
+      "tier": "documented",
+      "srcs": [
+        ["Reliance Industries — Company Information (registered office)", "https://www.ril.com/ar2016-17/company-information.html"],
+        ["OpenStreetMap 'Maker Chambers-IV, Jamnalal Bajaj Road, Nariman Point' (18.9246, 72.8229)", "https://nominatim.openstreetmap.org/"]
+      ]
+    },
+    {
+      "id": "reliance-corporate-park",
+      "label": "Reliance Corporate Park, Ghansoli",
+      "group": "reliance",
+      "operator": "Reliance Industries Ltd / Jio Platforms Ltd",
+      "kind": "office",
+      "lon": 73.0112,
+      "lat": 19.1272,
+      "country": "India",
+      "status": "operating",
+      "since": null,
+      "notes": "Reliance's main operational campus at Ghansoli, Navi Mumbai, Maharashtra, and the working base of the Jio businesses; the group's registered office remains Maker Chambers IV. Opening year not verified.",
+      "tier": "reported",
+      "srcs": [
+        ["OpenStreetMap 'Reliance Corporate Park, Ghansoli, Navi Mumbai' (19.1272, 73.0112)", "https://nominatim.openstreetmap.org/"]
+      ]
+    },
+    {
+      "id": "rec-solar-singapore",
+      "label": "REC Solar cell and module plant, Tuas",
+      "group": "reliance",
+      "operator": "REC Solar Pte Ltd (REC Solar Holdings AS, wholly owned by Reliance New Energy Ltd / Reliance Industries Ltd)",
+      "kind": "plant",
+      "lon": 103.6228,
+      "lat": 1.2724,
+      "country": "Singapore",
+      "status": "operating",
+      "since": "2021",
+      "notes": "PV cell and module fab at Tuas View Extension, Singapore, and REC Group's operational headquarters. Reliance New Energy Solar Ltd acquired 100% of REC Solar Holdings AS from China National Bluestar in October 2021 for an enterprise value of USD 771 m; 'since' records the start of Reliance ownership, not the plant's construction.",
+      "tier": "documented",
+      "srcs": [
+        ["Reliance Industries media release — RIL acquires REC Solar Holdings (PDF)", "https://www.ril.com/sites/default/files/2023-01/Media-Release-RIL-REC-10102021.pdf"],
+        ["REC Group — REC Group becomes part of Reliance Industries Ltd", "https://www.recgroup.com/en/news/norwegian-solar-energy-company-rec-group-becomes-part-reliance-industries-ltd-and-accelerates"],
+        ["OpenStreetMap 'REC Solar Pte. Ltd., 20 Tuas View Avenue 14' (1.2724, 103.6228)", "https://nominatim.openstreetmap.org/"]
+      ]
+    },
+    {
+      "id": "recron-nilai",
+      "label": "Recron (Malaysia) polyester complex, Nilai",
+      "group": "reliance",
+      "operator": "Recron (Malaysia) Sdn Bhd (Reliance Industries Ltd)",
+      "kind": "plant",
+      "lon": 101.8097,
+      "lat": 2.8105,
+      "country": "Malaysia",
+      "status": "operating",
+      "since": null,
+      "notes": "Integrated polyester and textile plant at Nilai, Negeri Sembilan; Recron Malaysia is a Reliance Industries subsidiary and also operates a site at Melaka. Reliance's own manufacturing-locations page lists only Indian sites, so Malaysia rests on the subsidiary's own disclosure plus the Malaysian state investment agency directory. Acquisition/commissioning year not verified.",
+      "tier": "reported",
+      "srcs": [
+        ["Recron Malaysia — corporate site (part of the Reliance group; facilities at Nilai and Melaka)", "https://www.recronmalaysia.com/"],
+        ["Invest Melaka Berhad — company directory entry for Recron (M) Sdn Bhd", "https://investmelaka.gov.my/company-directory/recron-malaysiasdn-bhd/"],
+        ["OpenStreetMap 'Recron Malaysia Sdn Bhd, Nilai' (2.8105, 101.8097)", "https://nominatim.openstreetmap.org/"]
+      ]
+    },
+    {
+      "id": "hamleys-regent-street",
+      "label": "Hamleys flagship store, Regent Street, London",
+      "group": "reliance",
+      "operator": "Hamleys of London Ltd (Reliance Brands Ltd / Reliance Retail, Reliance Industries Ltd)",
+      "kind": "office",
+      "lon": -0.1399,
+      "lat": 51.5129,
+      "country": "United Kingdom",
+      "status": "operating",
+      "since": "2019",
+      "notes": "Seven-floor, ~54,000 sq ft flagship toy store at 188-196 Regent Street, trading there since 1881. Reliance Brands Ltd completed a 100% acquisition of Hamleys from C Banner International Holdings in July 2019 for about GBP 68 m, giving Reliance ownership of the store. 'kind' is recorded as office because the schema has no retail category; this is a retail property, not an office.",
+      "tier": "documented",
+      "srcs": [
+        ["Business Today — Reliance Brands completes 100% acquisition of Hamleys", "https://www.businesstoday.in/latest/corporate/story/mukesh-ambani-reliance-brands-completes-100-acquisition-of-hamleys-213210-2019-07-18"],
+        ["Reliance Retail — Hamleys", "https://relianceretail.com/hamleys.html"],
+        ["OpenStreetMap 'Hamleys, 188-196 Regent Street, London W1B 5BT' (51.5129, -0.1399)", "https://nominatim.openstreetmap.org/"]
+      ]
+    }
+  ],
+  "links": [
+    {
+      "from": "carmichael-mine",
+      "to": "nqxt-abbot-point",
+      "relation": "supplies",
+      "tier": "documented",
+      "note": "Coal from Carmichael travels the 200 km purpose-built Carmichael Rail Network, opened 2022, which connects to Aurizon's Newlands system and on to the North Queensland Export Terminal at Abbot Point; NQXT holds a contract with Bravus for the export of 9.3 Mtpa of Carmichael coal.",
+      "srcs": [
+        ["Bowen Rail Company — Carmichael Rail Network", "https://www.bowenrail.com.au/what-we-do/carmichael-rail-network/"],
+        ["Adani Enterprises — Mining, Rail and Port, Australia", "https://www.adanienterprises.com/en/businesses/mining-and-mdo/australia"],
+        ["Global Energy Monitor — North Queensland Export Terminal", "https://www.gem.wiki/Abbot_Point_Coal_Terminal"]
+      ]
+    },
+    {
+      "from": "adani-corporate-house",
+      "to": "mundra-port",
+      "relation": "owns",
+      "tier": "documented",
+      "note": "Adani Ports and Special Economic Zone Ltd, whose registered office is Adani Corporate House, owns and operates Mundra Port and the co-located Mundra SEZ, India's largest notified multi-product SEZ.",
+      "srcs": [
+        ["Adani Ports & SEZ — About Us", "https://www.adaniports.com/about-us"],
+        ["Adani Enterprises Ltd — filing showing the shared Adani Corporate House registered office", "https://www.adanienterprises.com/-/media/Project/Enterprises/Investors/corporate-governance/Others-Dynamic/AEL--EGM-Notice-03052022.pdf"]
+      ]
+    },
+    {
+      "from": "ril-hq-maker-chambers",
+      "to": "jamnagar-refinery",
+      "relation": "owns",
+      "tier": "documented",
+      "note": "Reliance Industries Ltd, registered at Maker Chambers IV, owns and operates the Jamnagar refining and petrochemical complex, which it lists under both Refining & Marketing and Petrochemicals on its own manufacturing-locations disclosure.",
+      "srcs": [
+        ["Reliance Industries — Manufacturing Locations", "https://www.ril.com/about/manufacturing-locations"],
+        ["Reliance Industries — Company Information (registered office)", "https://www.ril.com/ar2016-17/company-information.html"]
+      ]
+    }
+  ],
+  "rejected": [
+    {
+      "candidate": "Mombasa, Kenya (-4.04, 39.67) — listed as an Adani facility",
+      "reason": "REFUTED. No Adani port facility, concession or terminal exists at Mombasa. Adani's 2024 Kenya involvement was (a) a proposed 30-year BOT concession for Jomo Kenyatta International Airport in Nairobi and (b) a KSh 96.68 bn KETRACO power-transmission PPP — both ordered cancelled by President Ruto on 21 November 2024. Kenya's separate process to concession the ports of Mombasa and Lamu is run by the Kenya Ports Authority and has not been awarded to Adani. The candidate coordinate does point at the Port of Mombasa, but the ownership claim attached to it is false. Recorded instead as the place 'jkia-nairobi' with status 'cancelled'. Sources: https://nation.africa/kenya/news/state-of-the-nation-ruto-cancels-adani-deals--4831464 ; https://kenyainsights.com/kenya-quietly-relaunches-mombasa-lamu-port-concessions-amid-dp-world-speculation/"
+    },
+    {
+      "candidate": "KETRACO transmission-line project, Kenya",
+      "reason": "Real and signed (a KSh 96.68 bn PPP to build power transmission lines), and cancelled in November 2024 alongside the JKIA deal. Excluded from 'places' because it is linear infrastructure across multiple counties with no single defensible point coordinate, not a facility. Litigation over the cancellation was still before the Kenyan courts. Source: https://nation.africa/kenya/news/state-of-the-nation-ruto-cancels-adani-deals--4831464"
+    },
+    {
+      "candidate": "Trade-route links Mundra to Colombo, Mundra to Haifa, Mundra to Mombasa with numeric 'strength' values",
+      "reason": "Not ownership or operation relationships, and the strength values were invented. Shipping-lane volumes between specific Adani terminals are not published in any source found. Excluded per the schema rule that links encode only sourced ownership or operation."
+    },
+    {
+      "candidate": "'Ahmedabad HQ' as a link endpoint",
+      "reason": "Referenced in the earlier version as a link target but never defined as a place. Replaced by the properly defined place 'adani-corporate-house' with the registered-office address filed with the exchanges and a geocoded coordinate."
+    },
+    {
+      "candidate": "REC Solar Norway polysilicon plants, Kristiansand and Porsgrunn/Herøya",
+      "reason": "No longer a Reliance facility. REC Group closed both Norwegian polysilicon plants in November 2023 citing electricity prices, and Reliance completed the sale of REC Solar Norway to Elkem ASA in May 2024, retaining only the kerf-based polysilicon IP. Site-level coordinates were also not verifiable. Sources: https://www.pv-magazine.com/2023/11/23/rec-closes-norwegian-polysilicon-production-facilities/ ; https://www.pv-magazine.com/2024/05/17/reliance-industries-completes-sale-of-recs-polysilicon-unit/"
+    },
+    {
+      "candidate": "Reliance Vadodara Manufacturing Division",
+      "reason": "Genuine — RIL lists Vadodara, Gujarat among its petrochemical manufacturing locations — but no coordinate could be verified. Nominatim returned nothing for the plant and an Overpass search of the Vadodara area returned only a 'Reliance Fresh' retail store, which is a different business. Rather than guess a coordinate, the site is omitted and logged as a gap."
+    },
+    {
+      "candidate": "Reliance sites at Patalganga, Silvassa, Hoshiarpur, Barabanki, Naroda, Allahabad, Nagpur",
+      "reason": "All appear on RIL's own manufacturing-locations page and are almost certainly real, but each would need an individually verified coordinate and none is among the 'major' facilities this dataset scopes. Omitted for coordinate verification cost, not because the claim is doubted."
+    },
+    {
+      "candidate": "Dhirubhai Ambani Green Giga Complex, Jamnagar",
+      "reason": "Listed by RIL under New Energy and under construction, but no verifiable coordinate distinct from the Jamnagar refinery complex was found, and publishing it at the refinery's coordinate would double-count the site."
+    },
+    {
+      "candidate": "A Reliance plant at Kuantan, Malaysia",
+      "reason": "Appeared in one aggregator summary of RIL's petrochemical footprint. Recron Malaysia's own site names only Nilai and Melaka; no source found confirming a Kuantan facility. Unverified, so excluded."
+    },
+    {
+      "candidate": "Anil Ambani's Reliance Group assets (Reliance Power, Reliance Infrastructure, Reliance Communications)",
+      "reason": "Out of scope. The Ambani businesses split in 2005; only Mukesh Ambani's Reliance Industries Ltd is covered here. Named explicitly so that a future editor does not fold them in on a name match."
+    }
+  ],
+  "gaps": [
+    "Colombo West International Terminal has no verifiable terminal-level coordinate. The value used is the Port of Colombo infobox anchor (6.9528, 79.8447) and may be off by up to ~2 km; the terminal sits toward the port's western breakwater. Wikipedia's Port of Colombo article was also stale at time of research, still describing CWIT as 'expected to become operational in 2025' after it had already opened on 7 April 2025.",
+    "Dar es Salaam CT2 is placed at the Tanzania Ports Authority / port-basin geocode; the CT2 berths themselves are roughly 1 km away and have no separate mapped feature found.",
+    "Khavda Renewable Energy Park is a multi-developer site (NTPC also holds blocks). The coordinate is the OSM park centroid, not Adani Green's block boundary, and Adani's installed capacity figure of ~9.4 GW rests on company statements rather than an independent audit.",
+    "Reliance Vadodara Manufacturing Division is documented by RIL but has no verified coordinate — see 'rejected'.",
+    "Commissioning years not verified for: RIL Nagothane, RIL KG-D6 onshore terminal, Reliance Corporate Park Ghansoli, Recron Malaysia Nilai, Adani Corporate House.",
+    "Participating-interest percentages in the KG-D6 block (RIL and bp) were not verified from a primary filing and are deliberately omitted rather than stated from memory.",
+    "adaniports.com returned HTTP 403 to automated fetching, so the company's own consolidated ports-and-terminals list could not be read directly; port-by-port facts were sourced from press releases, Wikipedia infoboxes and trade press instead.",
+    "APSEZ has announced or is reported to be pursuing further international terminals beyond Haifa, Colombo, Dar es Salaam and NQXT. No such additional terminal could be confirmed to a signed concession as of 2026-08-11, so none were added; this is a known incompleteness rather than an assertion that none exist.",
+    "The Adani Group's denial that it ever signed a JKIA operating agreement is recorded in the notes for 'jkia-nairobi' but has not been reconciled against the tender documents published by OCCRP. Whether a binding instrument existed remains contested.",
+    "The Bangladesh side of the Godda PPA (tariff disputes, court review, arrears) is recorded only as a note; Bangladesh has no place entry, so the export relationship is not represented as a link."
+  ]
+}

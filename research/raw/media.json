@@ -1,0 +1,1100 @@
+{
+  "asOf": "2026-08-11",
+  "sources": [
+    ["Media Ownership Monitor India — Research methodology (RSF / DataLEADS)", "http://india.mom-gmr.org/en/about/methodology/"],
+    ["Media Ownership Monitor India — Findings", "http://india.mom-gmr.org/en/findings/"],
+    ["Media Ownership Monitor India — Indicators (audience & cross-media concentration)", "http://india.mom-gmr.org/en/findings/indicators/"],
+    ["Media Ownership Monitor India — Media overview (58 outlets / 39 companies / 45 owners)", "http://india.mom-gmr.org/en/media/"],
+    ["Media Ownership Monitor India — Aaj Tak outlet profile", "https://india.mom-gmr.org/en/media/detail/outlet/aaj-tak/"],
+    ["Reuters Institute Digital News Report 2025 — India chapter", "https://reutersinstitute.politics.ox.ac.uk/digital-news-report/2025/india"],
+    ["Media Bias/Fact Check — Methodology", "https://mediabiasfactcheck.com/methodology/"],
+    ["Media Bias/Fact Check — India Government and Media Profile (paywalled)", "https://mediabiasfactcheck.com/india-media-profile/"],
+    ["Ruiz Iglesias et al., 'Stop using Media Bias/Fact Check in research', arXiv 2607.12108 (2026)", "https://arxiv.org/abs/2607.12108"],
+    ["Agarwal et al., 'Under the Spotlight: Web Tracking in Indian Partisan News Websites', arXiv 2102.03656 (2021)", "https://arxiv.org/abs/2102.03656"],
+    ["MBFC — NDTV", "https://mediabiasfactcheck.com/ndtv/"],
+    ["MBFC — Times of India", "https://mediabiasfactcheck.com/times-of-india/"],
+    ["MBFC — Hindustan Times", "https://mediabiasfactcheck.com/hindustan-times/"],
+    ["MBFC — The Hindu", "https://mediabiasfactcheck.com/the-hindu/"],
+    ["MBFC — The Indian Express", "https://mediabiasfactcheck.com/the-indian-express/"],
+    ["MBFC — The Economic Times", "https://mediabiasfactcheck.com/the-economic-times/"],
+    ["MBFC — Business Standard (India)", "https://mediabiasfactcheck.com/business-standard-india/"],
+    ["MBFC — Mint (livemint.com)", "https://mediabiasfactcheck.com/mint-newspaper-bias/"],
+    ["MBFC — India Today", "https://mediabiasfactcheck.com/india-today/"],
+    ["MBFC — Aaj Tak", "https://mediabiasfactcheck.com/aaj-tak-bias-and-credibility/"],
+    ["MBFC — Times Now News", "https://mediabiasfactcheck.com/time-now-news-bias/"],
+    ["MBFC — ABP Live", "https://mediabiasfactcheck.com/abp-live-bias-and-credibility/"],
+    ["MBFC — News18", "https://mediabiasfactcheck.com/news18/"],
+    ["MBFC — Republic World", "https://mediabiasfactcheck.com/republic-world/"],
+    ["MBFC — The Wire (India)", "https://mediabiasfactcheck.com/the-wire-india/"],
+    ["MBFC — Scroll.in", "https://mediabiasfactcheck.com/scroll-in/"],
+    ["MBFC — Newslaundry", "https://mediabiasfactcheck.com/newslaundry/"],
+    ["MBFC — The News Minute", "https://mediabiasfactcheck.com/the-news-minute-bias/"],
+    ["MBFC — ThePrint", "https://mediabiasfactcheck.com/theprint-bias/"],
+    ["MBFC — Alt News", "https://mediabiasfactcheck.com/alt-news/"],
+    ["MBFC — The Caravan", "https://mediabiasfactcheck.com/the-caravan-bias/"],
+    ["MBFC — Onmanorama", "https://mediabiasfactcheck.com/onmanorama-bias-and-credibility/"],
+    ["Screener.in — New Delhi Television Ltd (NSE: NDTV) shareholding", "https://www.screener.in/company/NDTV/"],
+    ["Screener.in — TV Today Network Ltd (NSE: TVTODAY)", "https://www.screener.in/company/TVTODAY/"],
+    ["Screener.in — Zee Media Corporation Ltd (NSE: ZEEMEDIA)", "https://www.screener.in/company/ZEEMEDIA/"],
+    ["Screener.in — Network18 Media & Investments Ltd (NSE: NETWORK18)", "https://www.screener.in/company/NETWORK18/"],
+    ["Screener.in — HT Media Ltd (NSE: HTMEDIA)", "https://www.screener.in/company/HTMEDIA/"],
+    ["Screener.in — Jagran Prakashan Ltd (NSE: JAGRAN)", "https://www.screener.in/company/JAGRAN/"],
+    ["Screener.in — D.B. Corp Ltd (NSE: DBCORP)", "https://www.screener.in/company/DBCORP/"],
+    ["Business Today — Adani group acquires NDTV founders Roys' 27.26% equity stake (30 Dec 2022)", "https://www.businesstoday.in/latest/corporate/story/adani-group-acquires-ndtv-founders-roys-2726-equity-stake-358378-2022-12-30"],
+    ["Business Today — Who sold NDTV shares to Adani at a discount (16 Feb 2023)", "https://www.businesstoday.in/latest/corporate/story/who-sold-ndtv-shares-to-adani-at-a-discount-to-the-market-price-370434-2023-02-16"],
+    ["Wikipedia — Bennett, Coleman & Co. Ltd", "https://en.wikipedia.org/wiki/Bennett,_Coleman_%26_Co._Ltd."],
+    ["Wikipedia — Kasturi & Sons", "https://en.wikipedia.org/wiki/Kasturi_%26_Sons"],
+    ["Wikipedia — The Indian Express", "https://en.wikipedia.org/wiki/The_Indian_Express"],
+    ["Wikipedia — ABP Group", "https://en.wikipedia.org/wiki/ABP_Group"],
+    ["Wikipedia — Republic TV", "https://en.wikipedia.org/wiki/Republic_TV"],
+    ["Wikipedia — Network18", "https://en.wikipedia.org/wiki/Network18"],
+    ["Wikipedia — Zee Media", "https://en.wikipedia.org/wiki/Zee_Media"],
+    ["Wikipedia — Jagran Prakashan", "https://en.wikipedia.org/wiki/Jagran_Prakashan"],
+    ["Wikipedia — Malayala Manorama", "https://en.wikipedia.org/wiki/Malayala_Manorama"],
+    ["Wikipedia — Eenadu", "https://en.wikipedia.org/wiki/Eenadu"],
+    ["Wikipedia — Business Standard", "https://en.wikipedia.org/wiki/Business_Standard"],
+    ["Wikipedia — India Today", "https://en.wikipedia.org/wiki/India_Today"],
+    ["Wikipedia — The Wire (India)", "https://en.wikipedia.org/wiki/The_Wire_(India)"],
+    ["Wikipedia — Scroll.in", "https://en.wikipedia.org/wiki/Scroll.in"],
+    ["Wikipedia — Newslaundry", "https://en.wikipedia.org/wiki/Newslaundry"],
+    ["Wikipedia — The News Minute", "https://en.wikipedia.org/wiki/The_News_Minute"],
+    ["Wikipedia — ThePrint", "https://en.wikipedia.org/wiki/ThePrint"],
+    ["Wikipedia — Alt News", "https://en.wikipedia.org/wiki/Alt_News"],
+    ["Wikipedia — DIGIPUB", "https://en.wikipedia.org/wiki/DIGIPUB"],
+    ["Article 14 — About page (JavaScript-rendered; returned no content to automated fetch)", "https://article-14.com/page/about"],
+    ["Newsonair (Prasar Bharati) — MIB figures in Lok Sabha reply, 24 Jul 2025: 1.55 lakh publications, 908 private satellite TV channels", "https://www.newsonair.gov.in/indias-media-landscape-expands-over-1-55-lakh-publications-908-private-tv-channels-ib-ministry"],
+    ["The Balanced News — 'Political Bias in Indian Media: A 2025 Analysis' (rejected candidate)", "https://thebalanced.news/insights/political-bias-indian-media-2025"]
+  ],
+
+  "leanRatingAvailability": {
+    "verdict": "partial",
+    "summary": "Indian outlets CANNOT currently be lean-rated the way Ground News rates US outlets, because the two systems Ground News attributes are not both usable here. AllSides — the more methodologically transparent of the pair (multi-partisan editorial reviews, blind bias surveys, three-person left/centre/right panels) — rates ~1,400 US outlets and states its ratings reflect the American political spectrum; its Indian coverage is negligible, and its pages returned HTTP 403 to our fetching, so no AllSides rating is recorded against any outlet in this file. Media Bias/Fact Check does publish attributed, dated, per-outlet left/right ratings for a substantial number of Indian titles (21 of the 27 outlets here), which is why the verdict is 'partial' rather than 'none'. But MBFC's own methodology page states that no universally accepted formula for measuring political bias exists, that its ratings are 'structured human assessments', and — decisively for this project — that its framework 'remains primarily tailored to the political landscape of the United States'. Its scoring is 70% weighted on economic system and social-liberalism-vs-conservatism axes drawn from US politics, one editor holds final authority, and it is not peer reviewed; a 2026 arXiv paper (Ruiz Iglesias et al.) argues researchers should stop using it. No India-produced, maintained, methodologically transparent lean-rating system was found. The three serious India-specific instruments measure something else: the Media Ownership Monitor India (RSF/DataLEADS) measures OWNERSHIP and last updated in 2019; the Reuters Institute Digital News Report India chapter measures TRUST and REACH among an English-speaking online sample; Lokniti-CSDS measures CONSUMPTION. One peer-reviewed-track paper (Agarwal et al. 2021) hand-labelled 103 Indian news sites Left/Right/Centre using two expert reviewers plus MOM data, but it is a one-off research artefact, not a maintained service. The practical consequence is that lean coverage is inverse to reach: the Hindi and regional-language mastheads and channels that dominate Indian audiences are the least rated. Recommended handling: render MBFC labels only with the rater's name, score, date and URL attached, never as a project-authored badge, and render 'no third-party rating exists' as loudly as a rating.",
+    "systems": [
+      {
+        "name": "Media Bias/Fact Check (MBFC)",
+        "producer": "Media Bias/Fact Check LLC (US); founded by Dave Van Zandt, one editor retains final editorial authority",
+        "url": "https://mediabiasfactcheck.com/methodology/",
+        "methodology": "Human-driven scoring on a 0-10 bias scale mapped -10 (extreme left) to +10 (extreme right), weighted: economic system 35%, social progressive liberalism vs traditional social conservatism 35%, straight-news reporting balance 15%, editorial bias 15%. Separate factual-reporting score weighted: failed fact checks 40%, sourcing 25%, transparency 25%, one-sidedness/bias omission 10%. Updated methodology applied to all sources reviewed or re-reviewed from 1 Jan 2025.",
+        "lastUpdated": "2026-08-04 (most recent Indian outlet re-review observed in this dataset: Alt News); individual Indian outlet pages carry dates from 2023-07-01 to 2026-08-04",
+        "coversIndianOutlets": true,
+        "outletCount": 21,
+        "measures": "lean",
+        "limitations": "MBFC's methodology page states its framework 'remains primarily tailored to the political landscape of the United States', that 'no universally accepted scientific formula exists for measuring political bias', and that ratings are structured human assessments rather than objective measurement. Not peer reviewed; one editor holds final authority. A 2026 arXiv paper (Ruiz Iglesias, Witte Zimmerman, Fehr, Dodds, Danforth) argues MBFC 'represents the opinions of a single person', does not meet basic standards of academic rigour, and should not be used in research. Coverage of India skews hard to English-language titles and English-language websites of Indian-language groups: MBFC's 'ABP Live' entry rates abplive.com and its 'News18' entry rates news18.com, not the Hindi television channels; its 'Onmanorama' entry explicitly rates the English portal, not the Malayalam newspaper. Zee News, Dainik Jagran, Dainik Bhaskar, Malayala Manorama and Eenadu appear unrated. MBFC's India country profile is behind a paid membership wall.",
+        "srcs": [
+          ["MBFC methodology", "https://mediabiasfactcheck.com/methodology/"],
+          ["arXiv 2607.12108 — Stop using Media Bias/Fact Check in research", "https://arxiv.org/abs/2607.12108"],
+          ["MBFC India profile (paywalled)", "https://mediabiasfactcheck.com/india-media-profile/"],
+          ["MBFC Onmanorama entry (rates English portal only)", "https://mediabiasfactcheck.com/onmanorama-bias-and-credibility/"]
+        ]
+      },
+      {
+        "name": "AllSides Media Bias Ratings",
+        "producer": "AllSides (US)",
+        "url": "https://www.allsides.com/media-bias/media-bias-rating-methods",
+        "methodology": "Multi-partisan editorial reviews by trained reviewers, blind bias surveys in which participants rate content without seeing the source, small-group editorial reviews with a three-person left/centre/right panel, third-party analysis and community feedback. Rates online written political content; explicitly does not rate accuracy or credibility, and typically does not rate broadcast/TV or radio content.",
+        "lastUpdated": "unknown for Indian entries — AllSides pages returned HTTP 403 to automated fetching and could not be verified",
+        "coversIndianOutlets": false,
+        "outletCount": null,
+        "measures": "lean",
+        "limitations": "AllSides rates ~1,400 US news outlets and states its ratings reveal the average judgment of Americans across the US political spectrum. Indian coverage appears to be a handful of incidental entries at low or initial confidence, and search results suggest major Indian outlets are 'Not Rated'. Because allsides.com returns HTTP 403 to automated fetching, no AllSides rating has been entered against any outlet in this file — an unverified rating is worse than none. Its exclusion of broadcast content also disqualifies it for the Indian TV news market, which is where partisanship allegations concentrate.",
+        "srcs": [
+          ["AllSides media bias rating methods (403 to automated fetch; description from search result summaries)", "https://www.allsides.com/media-bias/media-bias-rating-methods"]
+        ]
+      },
+      {
+        "name": "Media Ownership Monitor (MOM) India",
+        "producer": "Reporters Without Borders (RSF) with DataLEADS, funded by Germany's Federal Ministry for Economic Cooperation and Development (BMZ)",
+        "url": "http://india.mom-gmr.org/en/about/methodology/",
+        "methodology": "Mapping exercise creating a public database of the owners of the highest-audience mass media outlets; at most 10 outlets per media type selected by audience reach; indicators harmonised with the EU-funded Media Pluralism Monitor of the Centre for Media Pluralism and Media Freedom (EUI Florence). Covers ownership structure, cross-media holdings, and risk indicators for concentration, transparency and political control.",
+        "lastUpdated": "2019-05-28 (fieldwork November 2018 to May 2019)",
+        "coversIndianOutlets": true,
+        "outletCount": 58,
+        "measures": "ownership",
+        "limitations": "Does not rate political lean. Stale by seven years: it predates the Adani group's 2022-23 acquisition of NDTV entirely. Could not compute market-share concentration because Indian media companies frequently fail to file financial statements with the Ministry of Corporate Affairs. Could not compute TV audience concentration at all because BARC repeatedly declined to release annual viewership data, treating it as a corporate secret. Print audience figures rest on the Indian Readership Survey 2017.",
+        "srcs": [
+          ["MOM India methodology", "http://india.mom-gmr.org/en/about/methodology/"],
+          ["MOM India indicators", "http://india.mom-gmr.org/en/findings/indicators/"],
+          ["MOM India media overview", "http://india.mom-gmr.org/en/media/"]
+        ]
+      },
+      {
+        "name": "Reuters Institute Digital News Report — India chapter",
+        "producer": "Reuters Institute for the Study of Journalism, University of Oxford; India chapter authored by Anjana Krishnan (Asian College of Journalism, Chennai)",
+        "url": "https://reutersinstitute.politics.ox.ac.uk/digital-news-report/2025/india",
+        "methodology": "Annual online survey of news users, reporting weekly reach and trust scores per news brand, platform usage and news-sharing behaviour.",
+        "lastUpdated": "2025-06 (Digital News Report 2025)",
+        "coversIndianOutlets": true,
+        "outletCount": null,
+        "measures": "reach",
+        "limitations": "Measures trust and reach, not political lean. The India chapter explicitly states its findings are based on 'a survey of mainly English-speaking, online news users in India', representing 'a small subset of a larger, more diverse, media market', that results are not nationally representative, and that they under-represent the continued importance of traditional TV and print. The only lean-adjacent observation is directional and unquantified: brands 'either extremely critical or extremely uncritical of those in positions of power tend to have lower trust scores'.",
+        "srcs": [
+          ["Reuters Institute DNR 2025 India chapter", "https://reutersinstitute.politics.ox.ac.uk/digital-news-report/2025/india"]
+        ]
+      },
+      {
+        "name": "Lokniti-CSDS media studies ('Media in India: Access, Practices, Concerns and Effects')",
+        "producer": "Lokniti programme, Centre for the Study of Developing Societies (CSDS), with Konrad-Adenauer-Stiftung",
+        "url": "https://lokniti.org/content/Media-In-India-Access-Practices-Concerns-and-Effects",
+        "methodology": "Nationwide face-to-face survey of media consumption behaviour: 7,463 citizens aged 15+ across 19 states and union territories, fieldwork January 2022. Sections cover household media presence, consumption patterns, social media engagement, news preferences, trust in news media, and media consumption vs political choices.",
+        "lastUpdated": "2022",
+        "coversIndianOutlets": true,
+        "outletCount": null,
+        "measures": "reach",
+        "limitations": "Measures audience behaviour, trust and perception — not outlet-level political lean. Produces no per-outlet rating that could be attributed as a badge. Not fetched directly for this file (cited from search-result summaries of the Lokniti/KAS report pages), so treat the survey parameters as reported rather than documented.",
+        "srcs": [
+          ["Lokniti-CSDS media studies index", "https://www.lokniti.org/Media-Studies"]
+        ]
+      },
+      {
+        "name": "Agarwal et al. (2021), 'Under the Spotlight: Web Tracking in Indian Partisan News Websites'",
+        "producer": "Vibhor Agarwal, Yash Vekaria, Pushkal Agarwal, Sangeeta Mahapatra, Shounak Set, Sakthi Balan Muthiah, Nishanth Sastry, Nicolas Kourtellis",
+        "url": "https://arxiv.org/abs/2102.03656",
+        "methodology": "Labelled 103 Indian online news websites Left, Right or Centre using two expert reviewers combined with data from RSF's Media Ownership Monitor, then measured third-party web trackers by partisanship.",
+        "lastUpdated": "2021",
+        "coversIndianOutlets": true,
+        "outletCount": 103,
+        "measures": "lean",
+        "limitations": "A one-off research artefact, not a maintained or updatable rating service, and five years stale. Labels rest on two expert reviewers — no inter-rater reliability statistic was surfaced in the abstract, and the per-outlet label list is not published in the abstract. Its stated purpose was studying web trackers, with partisanship as a covariate rather than the object of measurement. Not usable as an attributable public badge, and not used to populate leanRatings in this file.",
+        "srcs": [
+          ["arXiv 2102.03656", "https://arxiv.org/abs/2102.03656"]
+        ]
+      }
+    ]
+  },
+
+  "outlets": [
+    {
+      "id": "republic-tv",
+      "name": "Republic TV",
+      "medium": "tv",
+      "language": "English",
+      "launched": "2017-05-06",
+      "ownerEntity": "ARG Outlier Media Pvt Ltd",
+      "ownerGroup": "Republic Media Network",
+      "ownerListed": false,
+      "ownerNse": null,
+      "parentCompany": null,
+      "ownershipNotes": "Co-founded by Arnab Goswami and Rajeev Chandrasekhar; early funding via Chandrasekhar's Asianet News (ARG Outlier Asianet News Pvt Ltd) with additional investment from Ramdas Pai and Ramakanta Panda through SARG Media Holding Pvt Ltd. Chandrasekhar resigned from the board after formally joining the BJP in April 2018, and Goswami bought back Asianet's shares in May 2019, converting the company to editor control. MBFC's ownership note still lists Asianet and Chandrasekhar, i.e. it is out of date on the 2019 buyback.",
+      "reachNote": null,
+      "leanRatings": [
+        {
+          "system": "Media Bias/Fact Check",
+          "rating": "Right-Center (3.5); Factual Reporting: Mixed (6.3); Credibility: Low",
+          "asOf": "2025-05-09",
+          "url": "https://mediabiasfactcheck.com/republic-world/"
+        }
+      ],
+      "tier": "reported",
+      "srcs": [
+        ["Wikipedia — Republic TV", "https://en.wikipedia.org/wiki/Republic_TV"],
+        ["MBFC — Republic World", "https://mediabiasfactcheck.com/republic-world/"]
+      ]
+    },
+    {
+      "id": "times-now",
+      "name": "Times Now",
+      "medium": "tv",
+      "language": "English",
+      "launched": null,
+      "ownerEntity": "Bennett, Coleman & Co. Ltd (BCCL) — Times Network",
+      "ownerGroup": "The Times Group",
+      "ownerListed": false,
+      "ownerNse": null,
+      "parentCompany": "Bennett, Coleman & Co. Ltd",
+      "ownershipNotes": "BCCL is privately held by the Sahu Jain family; not listed on any exchange. In May 2023 the group was split operationally between the brothers, with Samir Jain taking print properties and Vineet Jain broadcast and radio. Broadcast assets include Times Now, ET Now, Movies Now and Romedy Now; Radio Mirchi is the group's FM network.",
+      "reachNote": null,
+      "leanRatings": [
+        {
+          "system": "Media Bias/Fact Check",
+          "rating": "Right (6.0); Factual Reporting: Mixed (4.9); Credibility: Medium",
+          "asOf": "2026-07-07",
+          "url": "https://mediabiasfactcheck.com/time-now-news-bias/"
+        }
+      ],
+      "tier": "reported",
+      "srcs": [
+        ["MBFC — Times Now News", "https://mediabiasfactcheck.com/time-now-news-bias/"],
+        ["Wikipedia — Bennett, Coleman & Co. Ltd", "https://en.wikipedia.org/wiki/Bennett,_Coleman_%26_Co._Ltd."]
+      ]
+    },
+    {
+      "id": "ndtv",
+      "name": "NDTV (New Delhi Television)",
+      "medium": "tv",
+      "language": "English, Hindi",
+      "launched": "1988",
+      "ownerEntity": "New Delhi Television Ltd",
+      "ownerGroup": "Adani Group",
+      "ownerListed": true,
+      "ownerNse": "NDTV",
+      "parentCompany": "AMG Media Networks Ltd (Adani Enterprises Ltd)",
+      "ownershipNotes": "Control passed from founders Prannoy and Radhika Roy to the Adani group across 2022-23 in four documented steps. (1) August 2022: the Adani group acquired Vishvapradhan Commercial Pvt Ltd (VCPL), which held 99.5% of RRPR Holding Pvt Ltd, an NDTV promoter-group entity — an indirect 29.18% of NDTV, obtained without the Roys' consent via warrants attached to a 2009-10 loan. (2) 22 November to 5 December 2022: open offer by VCPL with AMG Media Networks Ltd and Adani Enterprises Ltd for a further 26% (1.67 crore shares) at Rs 294 per share; 5.33 million shares were tendered, giving roughly 8.27%, and the price was later raised by Rs 48.65 to Rs 342.65. (3) 23-26 December 2022: the Roys agreed to sell 27.26% of their 32.26% personal holding. (4) 30 December 2022: the 27.26% (about 1.75 crore shares) transferred to RRPR Holding at Rs 342.65 per share, roughly Rs 602.30 crore, through the NSE block-deal window; the Adani group's total holding reached 64.71%, with RRPR at 56.45% and VCPL at 8.27%. The Roys retained about 5%. NDTV remains NSE/BSE listed; promoter holding stood at 69.02% as of June 2026 and NDTV is described as a subsidiary of AMG Media Networks Ltd, part of the Adani Group.",
+      "reachNote": "7 television channels distributed in 65 countries; NDTV Group reports 102 million combined social followers and 45 million+ YouTube subscribers (company self-description via Screener.in).",
+      "leanRatings": [
+        {
+          "system": "Media Bias/Fact Check",
+          "rating": "Right-Center (4.8); Factual Reporting: Mixed (6.2)",
+          "asOf": "2024-12-30",
+          "url": "https://mediabiasfactcheck.com/ndtv/"
+        }
+      ],
+      "tier": "documented",
+      "srcs": [
+        ["Business Today — Adani group acquires NDTV founders Roys' 27.26% equity stake (30 Dec 2022)", "https://www.businesstoday.in/latest/corporate/story/adani-group-acquires-ndtv-founders-roys-2726-equity-stake-358378-2022-12-30"],
+        ["Business Today — Who sold NDTV shares to Adani at a discount (16 Feb 2023)", "https://www.businesstoday.in/latest/corporate/story/who-sold-ndtv-shares-to-adani-at-a-discount-to-the-market-price-370434-2023-02-16"],
+        ["Screener.in — NDTV shareholding and promoter identity", "https://www.screener.in/company/NDTV/"],
+        ["MBFC — NDTV", "https://mediabiasfactcheck.com/ndtv/"]
+      ]
+    },
+    {
+      "id": "india-today",
+      "name": "India Today (India Today TV and indiatoday.in)",
+      "medium": "tv",
+      "language": "English",
+      "launched": "1975-12 (magazine); India Today Television as a channel later",
+      "ownerEntity": "T.V. Today Network Ltd",
+      "ownerGroup": "India Today Group",
+      "ownerListed": true,
+      "ownerNse": "TVTODAY",
+      "parentCompany": "Living Media India Ltd",
+      "ownershipNotes": "T.V. Today Network Ltd (incorporated 1999) is a subsidiary of Living Media India Ltd and is listed on NSE and BSE; promoter holding 63.20% as of June 2026. Living Media India Ltd publishes India Today magazine and is jointly controlled by the Purie family and IGH Holdings, an investment vehicle associated with the Aditya Birla Group. MOM India recorded the Purie family at 33.8% and the Kumar Mangalam Birla family at 23.6% (8% directly traceable, potentially 15.62% indirect) of T.V. Today, with 42.6% public. MBFC's 'India Today' entry rates the group's output/website rather than the television channel specifically.",
+      "reachNote": null,
+      "leanRatings": [
+        {
+          "system": "Media Bias/Fact Check",
+          "rating": "Right-Center (3.6); Factual Reporting: Mixed (5.0); Credibility: Medium",
+          "asOf": "2025-01-03",
+          "url": "https://mediabiasfactcheck.com/india-today/"
+        }
+      ],
+      "tier": "documented",
+      "srcs": [
+        ["Screener.in — TV Today Network Ltd", "https://www.screener.in/company/TVTODAY/"],
+        ["Wikipedia — India Today", "https://en.wikipedia.org/wiki/India_Today"],
+        ["MOM India — Aaj Tak profile (T.V. Today shareholding)", "https://india.mom-gmr.org/en/media/detail/outlet/aaj-tak/"],
+        ["MBFC — India Today", "https://mediabiasfactcheck.com/india-today/"]
+      ]
+    },
+    {
+      "id": "aaj-tak",
+      "name": "Aaj Tak",
+      "medium": "tv",
+      "language": "Hindi",
+      "launched": "2000",
+      "ownerEntity": "T.V. Today Network Ltd",
+      "ownerGroup": "India Today Group",
+      "ownerListed": true,
+      "ownerNse": "TVTODAY",
+      "parentCompany": "Living Media India Ltd",
+      "ownershipNotes": "Same listed vehicle as India Today TV. MOM India recorded Aaj Tak's owner as 'TV Today Network Ltd (Listed in National Stock Exchange and Bombay Stock Exchange) which is a subsidiary of Living Media India Ltd', with the Purie family at 33.8%, the Kumar Mangalam Birla family at 23.6% and public shareholders at 42.6%. MOM recorded Aaj Tak's audience share as Missing Data because BARC would not release viewership figures.",
+      "reachNote": "MOM India cites average weekly viewership above 112 million in 2017-18 and describes Aaj Tak as one of the most watched Hindi news channels per BARC 2019 data; MOM could not obtain a usable audience-share percentage.",
+      "leanRatings": [
+        {
+          "system": "Media Bias/Fact Check",
+          "rating": "Right-Center (3.6); Factual Reporting: Mixed (5.0); Credibility: Medium",
+          "asOf": "2025-05-15",
+          "url": "https://mediabiasfactcheck.com/aaj-tak-bias-and-credibility/"
+        }
+      ],
+      "tier": "documented",
+      "srcs": [
+        ["MOM India — Aaj Tak outlet profile", "https://india.mom-gmr.org/en/media/detail/outlet/aaj-tak/"],
+        ["Screener.in — TV Today Network Ltd", "https://www.screener.in/company/TVTODAY/"],
+        ["MBFC — Aaj Tak", "https://mediabiasfactcheck.com/aaj-tak-bias-and-credibility/"]
+      ]
+    },
+    {
+      "id": "abp-news",
+      "name": "ABP News",
+      "medium": "tv",
+      "language": "Hindi",
+      "launched": null,
+      "ownerEntity": "ABP Network Pvt Ltd",
+      "ownerGroup": "ABP Group (Ananda Bazar Patrika)",
+      "ownerListed": false,
+      "ownerNse": null,
+      "parentCompany": "ABP Group",
+      "ownershipNotes": "Privately held by the Sarkar family (founder Prafulla Kumar Sarkar; Ashok Kumar Sarkar, Aveek Sarkar), headquartered in Kolkata, group established 1922. Not listed. ABP News was formerly Star News, and the sibling channels ABP Ananda, ABP Majha and ABP Asmita were formerly Star Ananda, Star Majha and the Gujarati channel — the former names reflect the historical Star India joint operation. The MBFC rating attached here is for ABP Live (abplive.com), the group's digital property, NOT for the Hindi television channel; treat it as adjacent evidence, not a channel rating.",
+      "reachNote": null,
+      "leanRatings": [
+        {
+          "system": "Media Bias/Fact Check",
+          "rating": "Right-Center (3.2); Factual Reporting: Mostly Factual (3.9); Credibility: Medium — rating subject is ABP Live (abplive.com), not the ABP News TV channel",
+          "asOf": "2025-05-19",
+          "url": "https://mediabiasfactcheck.com/abp-live-bias-and-credibility/"
+        }
+      ],
+      "tier": "reported",
+      "srcs": [
+        ["Wikipedia — ABP Group", "https://en.wikipedia.org/wiki/ABP_Group"],
+        ["MBFC — ABP Live", "https://mediabiasfactcheck.com/abp-live-bias-and-credibility/"]
+      ]
+    },
+    {
+      "id": "zee-news",
+      "name": "Zee News",
+      "medium": "tv",
+      "language": "Hindi",
+      "launched": "1999",
+      "ownerEntity": "Zee Media Corporation Ltd",
+      "ownerGroup": "Essel Group",
+      "ownerListed": true,
+      "ownerNse": "ZEEMEDIA",
+      "parentCompany": null,
+      "ownershipNotes": "Incorporated 27 August 1999 (originally Zee Sports Ltd, reincorporated as Zee News Ltd in 2004), listed on NSE (ZEEMEDIA) and BSE (532794), part of the Essel Group founded by Subhash Chandra. Notable governance fact: promoter holding had fallen to 9.04% as of June 2026, down 0.44 percentage points quarter on quarter — the company is nominally an Essel group entity while promoters hold under a tenth of the equity. Operates 15 news channels (1 global — WION, 3 national, 11 regional) plus zeenews.com in nine languages. NO third-party lean rating exists for Zee News: it is absent from MBFC's database.",
+      "reachNote": "Company self-description via Screener.in: approximately 220 million users via linear TV and 60+ million via digital.",
+      "leanRatings": [],
+      "tier": "documented",
+      "srcs": [
+        ["Screener.in — Zee Media Corporation Ltd", "https://www.screener.in/company/ZEEMEDIA/"],
+        ["Wikipedia — Zee Media", "https://en.wikipedia.org/wiki/Zee_Media"]
+      ]
+    },
+    {
+      "id": "news18",
+      "name": "News18 network (News18 India, CNN-News18)",
+      "medium": "tv",
+      "language": "Hindi, English",
+      "launched": null,
+      "ownerEntity": "Network18 Media & Investments Ltd",
+      "ownerGroup": "Reliance Industries Ltd",
+      "ownerListed": true,
+      "ownerNse": "NETWORK18",
+      "parentCompany": "Reliance Industries Ltd, via Independent Media Trust",
+      "ownershipNotes": "Reliance Industries controls Network18 through the Independent Media Trust. RIL infused Rs 5,400 crore through intermediary companies in January 2012 in exchange for rights to debentures convertible to equity within 10 years; IMT gained conversion authority in November 2012; the takeover completed on 7 July 2014 after founder Raghav Bahl announced his resignation in May 2014, with Bahl and Ritu Kapur paid Rs 706.96 crore for their remaining shares. Listed on NSE (NETWORK18) and BSE (532798). Promoter holding was 56.89% as of June 2026, down from a steady 75% through March 2025 — a change large enough that it should be traced to the specific corporate action before being characterised. A February 2020 plan to merge TV18 Broadcast into Network18 alongside DEN Networks and Hathway was cancelled in April 2021. The MBFC rating attached is for news18.com, the English-language website, not the Hindi channel News18 India.",
+      "reachNote": null,
+      "leanRatings": [
+        {
+          "system": "Media Bias/Fact Check",
+          "rating": "Right-Center (4.2); Factual Reporting: Mixed (6.3); Credibility: Low — rating subject is news18.com",
+          "asOf": "2025-01-03",
+          "url": "https://mediabiasfactcheck.com/news18/"
+        }
+      ],
+      "tier": "documented",
+      "srcs": [
+        ["Screener.in — Network18 Media & Investments Ltd", "https://www.screener.in/company/NETWORK18/"],
+        ["Wikipedia — Network18", "https://en.wikipedia.org/wiki/Network18"],
+        ["MBFC — News18", "https://mediabiasfactcheck.com/news18/"]
+      ]
+    },
+    {
+      "id": "times-of-india",
+      "name": "The Times of India",
+      "medium": "print",
+      "language": "English",
+      "launched": "1838 (as The Bombay Times and Journal of Commerce)",
+      "ownerEntity": "Bennett, Coleman & Co. Ltd (BCCL)",
+      "ownerGroup": "The Times Group",
+      "ownerListed": false,
+      "ownerNse": null,
+      "parentCompany": null,
+      "ownershipNotes": "BCCL was formally established in 1892 when Thomas Jewell Bennett and Frank Morris Coleman acquired the newspaper; the Sahu Jain family holds the majority and the company is not publicly listed. Samir Jain is Vice-Chairman and Managing Director, Vineet Jain Managing Director; the May 2023 split gave print to Samir and broadcast/radio to Vineet. Because BCCL is unlisted, there is no exchange-filed shareholding pattern to verify the family's holding against.",
+      "reachNote": "Described as the largest-circulation English-language newspaper in the world at about 2.8 million copies (Wikipedia; underlying ABC certificate not fetched).",
+      "leanRatings": [
+        {
+          "system": "Media Bias/Fact Check",
+          "rating": "Right-Center (2.9); Factual Reporting: Mixed (5.1); Credibility: Medium",
+          "asOf": "2024-12-13",
+          "url": "https://mediabiasfactcheck.com/times-of-india/"
+        }
+      ],
+      "tier": "reported",
+      "srcs": [
+        ["Wikipedia — Bennett, Coleman & Co. Ltd", "https://en.wikipedia.org/wiki/Bennett,_Coleman_%26_Co._Ltd."],
+        ["MBFC — Times of India", "https://mediabiasfactcheck.com/times-of-india/"]
+      ]
+    },
+    {
+      "id": "hindustan-times",
+      "name": "Hindustan Times",
+      "medium": "print",
+      "language": "English",
+      "launched": null,
+      "ownerEntity": "HT Media Ltd",
+      "ownerGroup": "KK Birla Group",
+      "ownerListed": true,
+      "ownerNse": "HTMEDIA",
+      "parentCompany": "Hindustan Times Ltd (holds 69.5% of HT Media Ltd)",
+      "ownershipNotes": "HT Media Ltd, incorporated 2002, operates print, radio and digital; it is a 69.5% subsidiary of Hindustan Times Ltd, part of the KK Birla Group. Promoter holding 69.50%. Shobhana Bhartia is chairperson and editorial director; MBFC notes she was nominated to the Rajya Sabha by the Congress party in 2012 — a documented political affiliation of an owner, which is an ownership-independence fact and not itself a lean rating of the paper.",
+      "reachNote": null,
+      "leanRatings": [
+        {
+          "system": "Media Bias/Fact Check",
+          "rating": "Left-Center (-2.3); Factual Reporting: Mixed (6.2); Credibility: Low",
+          "asOf": "2024-12-13",
+          "url": "https://mediabiasfactcheck.com/hindustan-times/"
+        }
+      ],
+      "tier": "documented",
+      "srcs": [
+        ["Screener.in — HT Media Ltd", "https://www.screener.in/company/HTMEDIA/"],
+        ["MBFC — Hindustan Times", "https://mediabiasfactcheck.com/hindustan-times/"]
+      ]
+    },
+    {
+      "id": "the-hindu",
+      "name": "The Hindu",
+      "medium": "print",
+      "language": "English",
+      "launched": "1878",
+      "ownerEntity": "Kasturi & Sons Ltd",
+      "ownerGroup": "The Hindu Group",
+      "ownerListed": false,
+      "ownerNse": null,
+      "parentCompany": null,
+      "ownershipNotes": "Owned by the descendants of S. Kasturi Ranga Iyengar, who bought the paper in 1905; the family serves as directors of the holding company (12 directors recorded as of 2010). Group titles include The Hindu, Business Line, Frontline, Hindu Tamil Thisai, Sportstar and Indian Cricket. Listing status is not stated in the source and no exchange listing was found; individual shareholding percentages are not public.",
+      "reachNote": null,
+      "leanRatings": [
+        {
+          "system": "Media Bias/Fact Check",
+          "rating": "Left-Center; Factual Reporting: Mostly Factual; Credibility: High",
+          "asOf": "2023-07-01",
+          "url": "https://mediabiasfactcheck.com/the-hindu/"
+        }
+      ],
+      "tier": "reported",
+      "srcs": [
+        ["Wikipedia — Kasturi & Sons", "https://en.wikipedia.org/wiki/Kasturi_%26_Sons"],
+        ["MBFC — The Hindu", "https://mediabiasfactcheck.com/the-hindu/"]
+      ]
+    },
+    {
+      "id": "indian-express",
+      "name": "The Indian Express",
+      "medium": "print",
+      "language": "English",
+      "launched": "1932",
+      "ownerEntity": "Indian Express Limited (The Indian Express Group)",
+      "ownerGroup": "Goenka family",
+      "ownerListed": false,
+      "ownerNse": null,
+      "parentCompany": null,
+      "ownershipNotes": "Controlled by the Goenka family after Ramnath Goenka took over from founder P. Varadarajulu Naidu; Viveck Goenka heads the northern group. In 1999, eight years after Ramnath Goenka's death, the group was split among family members: the southern editions became The New Indian Express (a separate company) while the northern editions retained the Indian Express name — the two are distinct owners and must not be merged in the graph. No exchange listing found. MBFC also attributes The Financial Express to the same owner.",
+      "reachNote": null,
+      "leanRatings": [
+        {
+          "system": "Media Bias/Fact Check",
+          "rating": "Left-Center (-2.8); Factual Reporting: Mixed (5.0); Credibility: Medium",
+          "asOf": "2026-05-01",
+          "url": "https://mediabiasfactcheck.com/the-indian-express/"
+        }
+      ],
+      "tier": "reported",
+      "srcs": [
+        ["Wikipedia — The Indian Express", "https://en.wikipedia.org/wiki/The_Indian_Express"],
+        ["MBFC — The Indian Express", "https://mediabiasfactcheck.com/the-indian-express/"]
+      ]
+    },
+    {
+      "id": "economic-times",
+      "name": "The Economic Times",
+      "medium": "print",
+      "language": "English",
+      "launched": null,
+      "ownerEntity": "Bennett, Coleman & Co. Ltd (BCCL)",
+      "ownerGroup": "The Times Group",
+      "ownerListed": false,
+      "ownerNse": null,
+      "parentCompany": null,
+      "ownershipNotes": "Same unlisted BCCL vehicle as The Times of India; controlled by the Sahu Jain family. Sister broadcast property ET Now sits on the Times Network side of the 2023 family split.",
+      "reachNote": "MBFC describes it as the world's second most widely read English-language business newspaper (claim not independently verified here).",
+      "leanRatings": [
+        {
+          "system": "Media Bias/Fact Check",
+          "rating": "Right-Center (3.2); Factual Reporting: Mixed (5.5); Credibility: Low",
+          "asOf": "2024-12-06",
+          "url": "https://mediabiasfactcheck.com/the-economic-times/"
+        }
+      ],
+      "tier": "reported",
+      "srcs": [
+        ["MBFC — The Economic Times", "https://mediabiasfactcheck.com/the-economic-times/"],
+        ["Wikipedia — Bennett, Coleman & Co. Ltd", "https://en.wikipedia.org/wiki/Bennett,_Coleman_%26_Co._Ltd."]
+      ]
+    },
+    {
+      "id": "business-standard",
+      "name": "Business Standard",
+      "medium": "print",
+      "language": "English",
+      "launched": "1975-03-26",
+      "ownerEntity": "Business Standard Private Limited",
+      "ownerGroup": "Kotak family / Kotak Mahindra",
+      "ownerListed": false,
+      "ownerNse": null,
+      "parentCompany": null,
+      "ownershipNotes": "Originally established by the ABP Group; acquired in 1997 by Kotak Mahindra Finance in a transaction led by Uday Kotak, reportedly for around Rs 1 crore while ABP was absorbing heavy losses. Wikipedia attributes present ownership to Kotak Mahindra Bank via Business Standard Private Limited; MBFC separately notes the publication 'lacks transparency regarding current shareholders'. The precise present-day shareholding is therefore NOT established — treat the Kotak attribution as reported, and note that a bank-linked owner of a business daily is an ownership-independence question worth its own edge.",
+      "reachNote": null,
+      "leanRatings": [
+        {
+          "system": "Media Bias/Fact Check",
+          "rating": "Right-Center (3.0); Factual Reporting: Mostly Factual (3.0); Credibility: High",
+          "asOf": "2024-12-16",
+          "url": "https://mediabiasfactcheck.com/business-standard-india/"
+        }
+      ],
+      "tier": "reported",
+      "srcs": [
+        ["Wikipedia — Business Standard", "https://en.wikipedia.org/wiki/Business_Standard"],
+        ["MBFC — Business Standard (India)", "https://mediabiasfactcheck.com/business-standard-india/"]
+      ]
+    },
+    {
+      "id": "mint",
+      "name": "Mint (livemint.com)",
+      "medium": "print",
+      "language": "English",
+      "launched": null,
+      "ownerEntity": "HT Media Ltd",
+      "ownerGroup": "KK Birla Group",
+      "ownerListed": true,
+      "ownerNse": "HTMEDIA",
+      "parentCompany": "Hindustan Times Ltd",
+      "ownershipNotes": "Published by HT Media Ltd, the same listed vehicle as Hindustan Times; 69.5% held by Hindustan Times Ltd of the KK Birla group, promoter holding 69.50%. Shobhana Bhartia is owner, chairperson and editorial director of the parent. Notable for the lean question: MBFC rates Mint 'Least Biased' while rating its stablemate Hindustan Times 'Left-Center' — two mastheads under one owner receiving different labels from the same rater, which is a useful check against treating owner identity as a proxy for lean.",
+      "reachNote": null,
+      "leanRatings": [
+        {
+          "system": "Media Bias/Fact Check",
+          "rating": "Least Biased (-0.4); Factual Reporting: Mixed (4.8); Credibility: Medium",
+          "asOf": "2025-01-05",
+          "url": "https://mediabiasfactcheck.com/mint-newspaper-bias/"
+        }
+      ],
+      "tier": "documented",
+      "srcs": [
+        ["Screener.in — HT Media Ltd", "https://www.screener.in/company/HTMEDIA/"],
+        ["MBFC — Mint (livemint.com)", "https://mediabiasfactcheck.com/mint-newspaper-bias/"]
+      ]
+    },
+    {
+      "id": "dainik-jagran",
+      "name": "Dainik Jagran",
+      "medium": "print",
+      "language": "Hindi",
+      "launched": "1942 (first edition, Jhansi)",
+      "ownerEntity": "Jagran Prakashan Ltd",
+      "ownerGroup": "Jagran Group (Gupta family)",
+      "ownerListed": true,
+      "ownerNse": "JAGRAN",
+      "parentCompany": null,
+      "ownershipNotes": "Jagran Prakashan Ltd was incorporated 18 July 1975 and is listed on NSE (JAGRAN) and BSE (532705); promoter holding 69.00%. Founded by Puran Chandra Gupta with JC Arya and Gurudev. Titles include Dainik Jagran, Nai Dunia, Mid-Day, Punjabi Jagran, iNext, Inquilab (Urdu) and Sakhi, plus the Radio City FM network (79 stations) — a cross-media holding. NO third-party lean rating exists for Dainik Jagran, India's largest-circulation Hindi daily: it is absent from MBFC's database.",
+      "reachNote": "Company claims 10 print titles across 13 states reaching approximately 84 million readers (self-reported via Screener.in). MOM India recorded Dainik Jagran among the four Hindi titles holding 76.45% of Hindi-market readership (IRS 2017).",
+      "leanRatings": [],
+      "tier": "documented",
+      "srcs": [
+        ["Screener.in — Jagran Prakashan Ltd", "https://www.screener.in/company/JAGRAN/"],
+        ["Wikipedia — Jagran Prakashan", "https://en.wikipedia.org/wiki/Jagran_Prakashan"],
+        ["MOM India — indicators (Hindi market concentration)", "http://india.mom-gmr.org/en/findings/indicators/"]
+      ]
+    },
+    {
+      "id": "dainik-bhaskar",
+      "name": "Dainik Bhaskar",
+      "medium": "print",
+      "language": "Hindi",
+      "launched": null,
+      "ownerEntity": "D.B. Corp Ltd",
+      "ownerGroup": "Dainik Bhaskar Group (Agarwal family)",
+      "ownerListed": true,
+      "ownerNse": "DBCORP",
+      "parentCompany": null,
+      "ownershipNotes": "D.B. Corp Ltd is listed on NSE (DBCORP) and BSE (533151); promoter holding 74.50% as of June 2026. Publishes Dainik Bhaskar (Hindi), Divya Bhaskar and Saurashtra Samachar (Gujarati) and Divya Marathi (Marathi), and also operates radio, digital and event businesses — a cross-media holding. NO third-party lean rating exists for Dainik Bhaskar: it is absent from MBFC's database.",
+      "reachNote": "MOM India recorded Dainik Bhaskar among the four Hindi titles holding 76.45% of Hindi-market readership (IRS 2017).",
+      "leanRatings": [],
+      "tier": "documented",
+      "srcs": [
+        ["Screener.in — D.B. Corp Ltd", "https://www.screener.in/company/DBCORP/"],
+        ["MOM India — indicators (Hindi market concentration)", "http://india.mom-gmr.org/en/findings/indicators/"]
+      ]
+    },
+    {
+      "id": "malayala-manorama",
+      "name": "Malayala Manorama",
+      "medium": "print",
+      "language": "Malayalam",
+      "launched": "1888-03-14 (company); first published 1890-03-22",
+      "ownerEntity": "Malayala Manorama Company Ltd",
+      "ownerGroup": "Kandathil family",
+      "ownerListed": false,
+      "ownerNse": null,
+      "parentCompany": null,
+      "ownershipNotes": "Privately held by the Kandathil family; Mammen Mathew is editor-in-chief. Not listed on any exchange and no public shareholding pattern is available. The group also runs Manorama News (television) and the English digital portal Onmanorama — a cross-media holding. IMPORTANT for the lean question: MBFC rates Onmanorama (the English-language portal) Left-Center, and explicitly states that rating does not apply to the Malayalam newspaper. No lean rating is therefore recorded for Malayala Manorama itself.",
+      "reachNote": "Daily circulation 1,816,081 copies (ABC, January-December 2023); readership 8.47 million (IRS 2019); second-largest circulating newspaper in India per ABC 2022 figures, all via Wikipedia rather than the underlying ABC certificate.",
+      "leanRatings": [],
+      "tier": "reported",
+      "srcs": [
+        ["Wikipedia — Malayala Manorama", "https://en.wikipedia.org/wiki/Malayala_Manorama"],
+        ["MBFC — Onmanorama (English portal only, not the newspaper)", "https://mediabiasfactcheck.com/onmanorama-bias-and-credibility/"]
+      ]
+    },
+    {
+      "id": "eenadu",
+      "name": "Eenadu",
+      "medium": "print",
+      "language": "Telugu",
+      "launched": "1974-08-10",
+      "ownerEntity": "Ushodaya Enterprises Private Limited",
+      "ownerGroup": "Ramoji Group",
+      "ownerListed": false,
+      "ownerNse": null,
+      "parentCompany": null,
+      "ownershipNotes": "Founded by Ramoji Rao in Visakhapatnam in 1974. Wikipedia records shareholding in Ushodaya Enterprises as Ramoji Rao 42.26%, son Cherukuri Kiron 28.36% and daughter-in-law Cherukuri Vijayeswari 25.38% — these figures are undated in the source and Ramoji Rao died in June 2024, so the split has almost certainly changed; do not present it as current. Not listed. The group also operates ETV television channels — a cross-media holding. NO third-party lean rating exists for Eenadu.",
+      "reachNote": "Circulation 1,351,956 copies (ABC, December 2022, via Wikipedia).",
+      "leanRatings": [],
+      "tier": "reported",
+      "srcs": [
+        ["Wikipedia — Eenadu", "https://en.wikipedia.org/wiki/Eenadu"]
+      ]
+    },
+    {
+      "id": "the-wire",
+      "name": "The Wire",
+      "medium": "digital",
+      "language": "English",
+      "launched": "2015-05-11",
+      "ownerEntity": "Foundation for Independent Journalism (FIJ)",
+      "ownerGroup": null,
+      "ownerListed": false,
+      "ownerNse": null,
+      "parentCompany": null,
+      "ownershipNotes": "Published by the Foundation for Independent Journalism, a non-profit. Founded by Siddharth Varadarajan (formerly editor of The Hindu), Sidharth Bhatia and M.K. Venu, initially self-funded, later supported by the Independent and Public Spirited Media Foundation plus advertising and reader contributions. Founding member of DIGIPUB News India Foundation (formed 27 October 2020).",
+      "reachNote": null,
+      "leanRatings": [
+        {
+          "system": "Media Bias/Fact Check",
+          "rating": "Left-Center (-2.4); Factual Reporting: Mostly Factual (2.9); Credibility: High",
+          "asOf": "2025-06-19",
+          "url": "https://mediabiasfactcheck.com/the-wire-india/"
+        }
+      ],
+      "tier": "reported",
+      "srcs": [
+        ["Wikipedia — The Wire (India)", "https://en.wikipedia.org/wiki/The_Wire_(India)"],
+        ["MBFC — The Wire (India)", "https://mediabiasfactcheck.com/the-wire-india/"]
+      ]
+    },
+    {
+      "id": "scroll",
+      "name": "Scroll.in",
+      "medium": "digital",
+      "language": "English",
+      "launched": "2014-01-26",
+      "ownerEntity": "Scroll Media Inc / SCSN Pvt Ltd",
+      "ownerGroup": null,
+      "ownerListed": false,
+      "ownerNse": null,
+      "parentCompany": null,
+      "ownershipNotes": "Sources disagree on the exact operating entity: Wikipedia names SCSN Pvt Ltd and separately records that founder Samir Patil established Scroll Media Inc, incorporated in Delaware, USA; MBFC names 'Scroll Media Incorporation'. Founders: Samir Patil, Naresh Fernandes and Jennifer O'Brien. Early-stage funding from the IPS Media Foundation, the Media Development Investment Fund and Omidyar Network's investment arm; revenue from advertising and paid membership. The India-entity/US-entity relationship is NOT established here and matters for foreign-funding questions — flagged in gaps.",
+      "reachNote": null,
+      "leanRatings": [
+        {
+          "system": "Media Bias/Fact Check",
+          "rating": "Left-Center (-3.0); Factual Reporting: Mostly Factual (2.4); Credibility: High",
+          "asOf": "2025-05-18",
+          "url": "https://mediabiasfactcheck.com/scroll-in/"
+        }
+      ],
+      "tier": "reported",
+      "srcs": [
+        ["Wikipedia — Scroll.in", "https://en.wikipedia.org/wiki/Scroll.in"],
+        ["MBFC — Scroll.in", "https://mediabiasfactcheck.com/scroll-in/"]
+      ]
+    },
+    {
+      "id": "newslaundry",
+      "name": "Newslaundry",
+      "medium": "digital",
+      "language": "English",
+      "launched": "2012-02-06",
+      "ownerEntity": "Newslaundry Media Private Limited",
+      "ownerGroup": null,
+      "ownerListed": false,
+      "ownerNse": null,
+      "parentCompany": null,
+      "ownershipNotes": "Founded by Abhinandan Sekhri, Madhu Trehan and Prashant Sareen. Subscription-funded; Wikipedia records it as operating solely on public subscription revenue rather than donations or advertisements, with 50,000+ paying subscribers as of July 2024, while MBFC additionally names Omidyar Network funding — the two accounts conflict and the discrepancy is unresolved here. Founding member of DIGIPUB.",
+      "reachNote": null,
+      "leanRatings": [
+        {
+          "system": "Media Bias/Fact Check",
+          "rating": "Left-Center; Factual Reporting: Mostly Factual; Credibility: High",
+          "asOf": "2024-06-17",
+          "url": "https://mediabiasfactcheck.com/newslaundry/"
+        }
+      ],
+      "tier": "reported",
+      "srcs": [
+        ["Wikipedia — Newslaundry", "https://en.wikipedia.org/wiki/Newslaundry"],
+        ["MBFC — Newslaundry", "https://mediabiasfactcheck.com/newslaundry/"]
+      ]
+    },
+    {
+      "id": "the-news-minute",
+      "name": "The News Minute",
+      "medium": "digital",
+      "language": "English",
+      "launched": "2014",
+      "ownerEntity": "Spunklane Media Private Limited",
+      "ownerGroup": null,
+      "ownerListed": false,
+      "ownerNse": null,
+      "parentCompany": null,
+      "ownershipNotes": "Co-founded by Dhanya Rajendran (editor-in-chief, previously Times Now and The New Indian Express), Chitra Subramaniam and Vignesh Vellore (CEO). Received angel funding of an undisclosed amount from Raghav Bahl's company in December 2015 and a second undisclosed round in 2019; project support from the Independent and Public Spirited Media Foundation. Founding member of DIGIPUB. The Spunklane Media entity name comes from MBFC; Wikipedia does not name the company, so the entity is single-sourced.",
+      "reachNote": null,
+      "leanRatings": [
+        {
+          "system": "Media Bias/Fact Check",
+          "rating": "Left-Center (-3.6); Factual Reporting: Mostly Factual (2.5); Credibility: High",
+          "asOf": "2026-05-08",
+          "url": "https://mediabiasfactcheck.com/the-news-minute-bias/"
+        }
+      ],
+      "tier": "reported",
+      "srcs": [
+        ["Wikipedia — The News Minute", "https://en.wikipedia.org/wiki/The_News_Minute"],
+        ["MBFC — The News Minute", "https://mediabiasfactcheck.com/the-news-minute-bias/"]
+      ]
+    },
+    {
+      "id": "the-print",
+      "name": "ThePrint",
+      "medium": "digital",
+      "language": "English",
+      "launched": "2017-08",
+      "ownerEntity": "Printline Media Private Limited",
+      "ownerGroup": null,
+      "ownerListed": false,
+      "ownerNse": null,
+      "parentCompany": null,
+      "ownershipNotes": "Founded by Shekhar Gupta; Printline Media Pvt Ltd was incorporated in New Delhi on 16 September 2016. MBFC records Shekhar Vishambar Gupta as controlling 99% of shares with other stakeholders holding 1%. May 2017 funding from a group of business figures including N.R. Narayana Murthy, Nandan Nilekani, Ratan Tata, Kiran Mazumdar Shaw, Uday Kotak and Vijay Shekhar Sharma; amounts undisclosed. Note the overlap: Uday Kotak is an investor here and Kotak Mahindra is recorded as owner of Business Standard — a genuine cross-holding worth an edge, but investor-of-record is a far weaker relation than control and should not be rendered as ownership.",
+      "reachNote": null,
+      "leanRatings": [
+        {
+          "system": "Media Bias/Fact Check",
+          "rating": "Right-Center; Factual Reporting: Mostly Factual; Credibility: Medium",
+          "asOf": "2024-01-27",
+          "url": "https://mediabiasfactcheck.com/theprint-bias/"
+        }
+      ],
+      "tier": "reported",
+      "srcs": [
+        ["Wikipedia — ThePrint", "https://en.wikipedia.org/wiki/ThePrint"],
+        ["MBFC — ThePrint", "https://mediabiasfactcheck.com/theprint-bias/"]
+      ]
+    },
+    {
+      "id": "article-14",
+      "name": "Article 14",
+      "medium": "digital",
+      "language": "English",
+      "launched": null,
+      "ownerEntity": null,
+      "ownerGroup": null,
+      "ownerListed": null,
+      "ownerNse": null,
+      "parentCompany": null,
+      "ownershipNotes": "OWNERSHIP NOT ESTABLISHED. Founded and edited by Samar Halarnkar (previously managing editor of Hindustan Times, editor at The Indian Express and India Today); described as a joint effort of lawyers, journalists and academics covering rule-of-law issues, ad-free. It is a founding member of the DIGIPUB News India Foundation (formed 27 October 2020). The article-14.com About and Contact pages are JavaScript-rendered and returned only 'Loading...' to automated fetching, so no publishing entity, registered address or funding disclosure could be read from a primary source. This is a documented void, not an inference of concealment — it is recorded as a gap and the outlet carries no owner claim.",
+      "reachNote": null,
+      "leanRatings": [],
+      "tier": "reported",
+      "srcs": [
+        ["Wikipedia — DIGIPUB (founding members include Article 14)", "https://en.wikipedia.org/wiki/DIGIPUB"],
+        ["Article 14 — About page (returned no content to automated fetch)", "https://article-14.com/page/about"]
+      ]
+    },
+    {
+      "id": "alt-news",
+      "name": "Alt News",
+      "medium": "digital",
+      "language": "English, Hindi",
+      "launched": "2017-02-09",
+      "ownerEntity": "Pravda Media Foundation",
+      "ownerGroup": null,
+      "ownerListed": false,
+      "ownerNse": null,
+      "parentCompany": null,
+      "ownershipNotes": "Non-profit fact-checking site run by the Pravda Media Foundation, founded by Pratik Sinha and Mohammed Zubair, headquartered in Ahmedabad. Funded through donations and grants with a published transparency page. Was a signatory partner of the International Fact-Checking Network until April 2020. Its Section 8 (non-profit company) status was not confirmed from the sources fetched. Founding member of DIGIPUB.",
+      "reachNote": null,
+      "leanRatings": [
+        {
+          "system": "Media Bias/Fact Check",
+          "rating": "Left (-5.6); Factual Reporting: High (1.5); Credibility: High",
+          "asOf": "2026-08-04",
+          "url": "https://mediabiasfactcheck.com/alt-news/"
+        }
+      ],
+      "tier": "reported",
+      "srcs": [
+        ["Wikipedia — Alt News", "https://en.wikipedia.org/wiki/Alt_News"],
+        ["MBFC — Alt News", "https://mediabiasfactcheck.com/alt-news/"]
+      ]
+    },
+    {
+      "id": "the-caravan",
+      "name": "The Caravan",
+      "medium": "print",
+      "language": "English",
+      "launched": "1940 (original); relaunched 2010",
+      "ownerEntity": "Delhi Press Patra Prakashan Pvt Ltd (Delhi Press Group)",
+      "ownerGroup": "Delhi Press Group",
+      "ownerListed": false,
+      "ownerNse": null,
+      "parentCompany": null,
+      "ownershipNotes": "Long-form monthly published by the Delhi Press Group, founded 1939, revenue from advertising and subscriptions. Privately held; no exchange listing found and no shareholding pattern is public. MBFC dates the magazine's original establishment to 1940; the current incarnation is a 2010 relaunch (not verified from a fetched source, flagged in gaps).",
+      "reachNote": null,
+      "leanRatings": [
+        {
+          "system": "Media Bias/Fact Check",
+          "rating": "Left-Center (-4.8); Factual Reporting: Mostly Factual (2.9); Credibility: High",
+          "asOf": "2025-05-28",
+          "url": "https://mediabiasfactcheck.com/the-caravan-bias/"
+        }
+      ],
+      "tier": "reported",
+      "srcs": [
+        ["MBFC — The Caravan", "https://mediabiasfactcheck.com/the-caravan-bias/"]
+      ]
+    }
+  ],
+
+  "crossMediaHoldings": [
+    {
+      "owner": "Bennett, Coleman & Co. Ltd (Sahu Jain family, unlisted)",
+      "outlets": ["times-of-india", "economic-times", "times-now"],
+      "media": ["print", "tv", "radio"],
+      "note": "The Times Group spans the largest-circulation English daily, a leading business daily, English news and business television (Times Now, ET Now) and the Radio Mirchi FM network. Split operationally in May 2023 between Samir Jain (print) and Vineet Jain (broadcast and radio), but ownership remains within one unlisted family holding. MBFC rates all three outlets on the right of centre (2.9, 3.2, 6.0) — the single largest same-owner cluster of same-direction ratings in this dataset, though with one rater and a US-calibrated scale that is a weak signal, not a finding.",
+      "srcs": [
+        ["Wikipedia — Bennett, Coleman & Co. Ltd", "https://en.wikipedia.org/wiki/Bennett,_Coleman_%26_Co._Ltd."]
+      ]
+    },
+    {
+      "owner": "HT Media Ltd / Hindustan Times Ltd (KK Birla group, NSE: HTMEDIA)",
+      "outlets": ["hindustan-times", "mint"],
+      "media": ["print", "digital", "radio"],
+      "note": "HT Media operates print, radio broadcast and digital; 69.5% held by Hindustan Times Ltd. Also publishes the Hindi daily Hindustan (not separately catalogued here). Counter-example to owner-implies-lean: MBFC rates Hindustan Times Left-Center and Mint Least Biased under the same owner.",
+      "srcs": [
+        ["Screener.in — HT Media Ltd", "https://www.screener.in/company/HTMEDIA/"]
+      ]
+    },
+    {
+      "owner": "Living Media India Ltd / T.V. Today Network Ltd (Purie family with IGH Holdings/Aditya Birla group, NSE: TVTODAY)",
+      "outlets": ["aaj-tak", "india-today"],
+      "media": ["tv", "print", "digital"],
+      "note": "T.V. Today Network runs Aaj Tak, India Today Television, Good News Today and the group's digital properties (acquired from Living Media India Ltd); Living Media publishes India Today magazine. Ownership is split between a media family and a diversified industrial group's investment vehicle.",
+      "srcs": [
+        ["Screener.in — TV Today Network Ltd", "https://www.screener.in/company/TVTODAY/"],
+        ["MOM India — Aaj Tak profile", "https://india.mom-gmr.org/en/media/detail/outlet/aaj-tak/"]
+      ]
+    },
+    {
+      "owner": "Reliance Industries Ltd via Independent Media Trust (Network18, NSE: NETWORK18)",
+      "outlets": ["news18"],
+      "media": ["tv", "digital", "print"],
+      "note": "Network18 operates 25+ news channels across languages (News18 India, CNN-News18, CNBC-TV18), digital properties Moneycontrol and Firstpost, magazines including Forbes India, and History TV18 (JV with A&E Networks). Control by India's largest private conglomerate is exercised through a trust rather than direct shareholding.",
+      "srcs": [
+        ["Wikipedia — Network18", "https://en.wikipedia.org/wiki/Network18"],
+        ["Screener.in — Network18", "https://www.screener.in/company/NETWORK18/"]
+      ]
+    },
+    {
+      "owner": "Adani Group via AMG Media Networks Ltd (NDTV, NSE: NDTV)",
+      "outlets": ["ndtv"],
+      "media": ["tv", "digital"],
+      "note": "Acquired 2022-23 (see the NDTV ownership note for the four-step chronology). The second instance in this dataset of a diversified industrial conglomerate taking control of a national news broadcaster, after Reliance/Network18 in 2014.",
+      "srcs": [
+        ["Business Today — Adani acquires Roys' 27.26% (30 Dec 2022)", "https://www.businesstoday.in/latest/corporate/story/adani-group-acquires-ndtv-founders-roys-2726-equity-stake-358378-2022-12-30"],
+        ["Screener.in — NDTV", "https://www.screener.in/company/NDTV/"]
+      ]
+    },
+    {
+      "owner": "Jagran Prakashan Ltd (NSE: JAGRAN)",
+      "outlets": ["dainik-jagran"],
+      "media": ["print", "radio", "digital"],
+      "note": "Ten print titles in five languages including Dainik Jagran, Nai Dunia, Mid-Day and Inquilab, plus the Radio City FM network of 79 stations, outdoor advertising and digital.",
+      "srcs": [
+        ["Screener.in — Jagran Prakashan Ltd", "https://www.screener.in/company/JAGRAN/"],
+        ["Wikipedia — Jagran Prakashan", "https://en.wikipedia.org/wiki/Jagran_Prakashan"]
+      ]
+    },
+    {
+      "owner": "D.B. Corp Ltd (NSE: DBCORP)",
+      "outlets": ["dainik-bhaskar"],
+      "media": ["print", "radio", "digital"],
+      "note": "Dainik Bhaskar (Hindi), Divya Bhaskar and Saurashtra Samachar (Gujarati), Divya Marathi (Marathi), plus radio broadcasting, internet/mobile services and event management.",
+      "srcs": [
+        ["Screener.in — D.B. Corp Ltd", "https://www.screener.in/company/DBCORP/"]
+      ]
+    },
+    {
+      "owner": "ABP Group (Sarkar family, unlisted)",
+      "outlets": ["abp-news"],
+      "media": ["tv", "print", "digital"],
+      "note": "Anandabazar Patrika and The Telegraph in print; ABP News, ABP Ananda, ABP Majha and ABP Asmita in television; magazines Sananda, Anandamela, Anandalok and Desh; digital properties ABP Live and regional editions. Also the original founder of Business Standard, sold to Kotak Mahindra in 1997.",
+      "srcs": [
+        ["Wikipedia — ABP Group", "https://en.wikipedia.org/wiki/ABP_Group"],
+        ["Wikipedia — Business Standard", "https://en.wikipedia.org/wiki/Business_Standard"]
+      ]
+    },
+    {
+      "owner": "Zee Media Corporation Ltd / Essel Group (NSE: ZEEMEDIA)",
+      "outlets": ["zee-news"],
+      "media": ["tv", "digital"],
+      "note": "15 news channels (WION, Zee News, Zee Business and 11 regional) plus zeenews.com in nine languages. Promoter holding had fallen to 9.04% by June 2026, so 'Essel Group ownership' describes control-in-name more than equity.",
+      "srcs": [
+        ["Screener.in — Zee Media Corporation Ltd", "https://www.screener.in/company/ZEEMEDIA/"],
+        ["Wikipedia — Zee Media", "https://en.wikipedia.org/wiki/Zee_Media"]
+      ]
+    },
+    {
+      "owner": "Malayala Manorama Company Ltd (Kandathil family, unlisted)",
+      "outlets": ["malayala-manorama"],
+      "media": ["print", "tv", "digital"],
+      "note": "Malayala Manorama newspaper, Manorama News television and the English portal Onmanorama, plus magazines. Regional-language cross-media concentration of the kind MOM flagged: MOM recorded the top four Malayalam titles at 75.75% of that market's readership.",
+      "srcs": [
+        ["Wikipedia — Malayala Manorama", "https://en.wikipedia.org/wiki/Malayala_Manorama"],
+        ["MOM India — indicators", "http://india.mom-gmr.org/en/findings/indicators/"]
+      ]
+    },
+    {
+      "owner": "Ushodaya Enterprises Pvt Ltd / Ramoji Group (unlisted)",
+      "outlets": ["eenadu"],
+      "media": ["print", "tv", "digital"],
+      "note": "Eenadu newspaper plus the ETV network of television channels. Founder Ramoji Rao died in June 2024; the post-succession control structure is not established here.",
+      "srcs": [
+        ["Wikipedia — Eenadu", "https://en.wikipedia.org/wiki/Eenadu"]
+      ]
+    }
+  ],
+
+  "concentration": [
+    {
+      "measure": "Top-4 outlet share of newspaper readership, Hindi-language market",
+      "value": 76.45,
+      "denominator": "Hindi-language newspaper readership, Indian Readership Survey 2017; sampled outlets represent 73% of audience share",
+      "denominatorLabel": "% of Hindi-market readership held by Dainik Jagran, Hindustan, Amar Ujala and Dainik Bhaskar",
+      "note": "MOM India's headline print finding: four titles capture roughly three of every four Hindi newspaper readers. Base-rate caution: high top-4 shares are normal in language-segmented newspaper markets worldwide, so this figure is meaningful only against a cross-country control, which MOM does not supply.",
+      "srcs": [["MOM India — indicators", "http://india.mom-gmr.org/en/findings/indicators/"]]
+    },
+    {
+      "measure": "Top-4 outlet share of newspaper readership, by language market",
+      "value": null,
+      "denominator": "Readership per language market, Indian Readership Survey 2017",
+      "denominatorLabel": "% of each language market's readership held by its top 4 outlets",
+      "note": "Punjabi 82.64%, Hindi 76.45%, Malayalam 75.75%, English 75.15%, Bengali 73.90%, Tamil 66.66%, Kannada 53.20%. The spread (53% to 83%) matters: concentration is a property of specific language markets, not of 'Indian media' as a single thing, and Kannada shows the same structure produces very different numbers.",
+      "srcs": [["MOM India — indicators", "http://india.mom-gmr.org/en/findings/indicators/"]]
+    },
+    {
+      "measure": "Cross-media ownership among the largest media companies",
+      "value": 7,
+      "denominator": 8,
+      "denominatorLabel": "top 8 media companies analysed by MOM India",
+      "note": "MOM scored cross-media ownership at 3 (highest risk band): 7 of the 8 largest owners are active in more than one media sector, with no regulatory thresholds limiting cross-media holdings. Base-rate reading: at 7/8 (87.5%), cross-media presence is NON-DISCRIMINATING among large Indian media owners — it characterises the sector rather than distinguishing any owner within it, so it should be rendered as context, not as an edge that implicates a particular group.",
+      "srcs": [["MOM India — indicators", "http://india.mom-gmr.org/en/findings/indicators/"]]
+    },
+    {
+      "measure": "Outlets, companies and individual owners mapped by MOM India",
+      "value": 58,
+      "denominator": "58 outlets (25 print, 23 TV, 9 online, 1 radio) owned by 39 companies and 45 individual owners",
+      "denominatorLabel": "highest-audience Indian media outlets, MOM sample, fieldwork Nov 2018 - May 2019",
+      "note": "The only systematic public ownership map of Indian media, and it is seven years old — it predates the Adani acquisition of NDTV entirely.",
+      "srcs": [["MOM India — media overview", "http://india.mom-gmr.org/en/media/"]]
+    },
+    {
+      "measure": "Television audience concentration (CR4 or equivalent)",
+      "value": null,
+      "denominator": "not computable",
+      "denominatorLabel": "Indian TV news viewership",
+      "note": "DOCUMENTED VOID, rendered deliberately. MOM India could not compute TV audience concentration because BARC repeatedly declined to release annual viewership data, treating it as a corporate/industry secret; BARC publishes only weekly impressions for the top 5 news broadcasters in 10 language markets and reserves all rights over that data. The result is that India's most-alleged-to-be-partisan medium is also the one whose audience data is least available for independent analysis. MOM likewise recorded 'Missing Data' for radio, and 'No Data' for market-share concentration because Indian media companies frequently fail to file financial statements with the Ministry of Corporate Affairs.",
+      "srcs": [
+        ["MOM India — indicators", "http://india.mom-gmr.org/en/findings/indicators/"],
+        ["MOM India — Aaj Tak profile (audience share: Missing Data)", "https://india.mom-gmr.org/en/media/detail/outlet/aaj-tak/"]
+      ]
+    },
+    {
+      "measure": "Size of the Indian media landscape (denominator for any 'concentration' claim)",
+      "value": 908,
+      "denominator": "908 private satellite TV channels permitted and 1.55 lakh (155,000) registered publications, 2024-25; up from 821 channels and 1.05 lakh publications in 2014-15",
+      "denominatorLabel": "MIB / Press Registrar General of India figures given in a Lok Sabha written reply, 24 July 2025",
+      "note": "Essential counterweight: the outlets catalogued in this file are 27 of roughly 155,000 registered publications and 908 permitted TV channels. 'A few players control Indian media' is a claim about audience share, not about the number of licensed outlets, which has grown by about 48% in a decade. Any concentration finding must state which of the two it means.",
+      "srcs": [["Newsonair — MIB figures, Lok Sabha reply 24 Jul 2025", "https://www.newsonair.gov.in/indias-media-landscape-expands-over-1-55-lakh-publications-908-private-tv-channels-ib-ministry"]]
+    },
+    {
+      "measure": "Outlets in this dataset carrying any third-party lean rating",
+      "value": 21,
+      "denominator": 27,
+      "denominatorLabel": "outlets catalogued in this file",
+      "note": "Our own count, not a third-party statistic. All 21 ratings come from a single rater (Media Bias/Fact Check); zero outlets carry a second, independent lean rating, so no inter-rater agreement can be computed for any Indian outlet. This is the central epistemic constraint on any lean UI in this project.",
+      "srcs": []
+    },
+    {
+      "measure": "Lean-rating coverage of non-English-language outlets",
+      "value": 2,
+      "denominator": 7,
+      "denominatorLabel": "outlets in this dataset whose primary publication language is not English (Aaj Tak, ABP News, Zee News, Dainik Jagran, Dainik Bhaskar, Malayala Manorama, Eenadu)",
+      "note": "Our own count. Only Aaj Tak is rated under its own Indian-language brand; the ABP rating evaluates the English site abplive.com. Zee News, Dainik Jagran, Dainik Bhaskar, Malayala Manorama and Eenadu — between them the largest-circulation Hindi, Malayalam and Telugu titles and a 15-channel news network — carry no third-party lean rating at all. Lean-rating coverage in India is therefore inversely related to audience size, and any lean visualisation built on it will systematically over-represent English-language digital media.",
+      "srcs": []
+    }
+  ],
+
+  "gaps": [
+    "No India-produced, maintained, methodologically transparent outlet-level lean rating exists. Every lean label in this file comes from one US rater (MBFC) whose own methodology page says its framework 'remains primarily tailored to the political landscape of the United States'. Nothing here supports a project-authored lean badge.",
+    "Zero inter-rater agreement is computable: no Indian outlet in this dataset carries lean ratings from two independent systems.",
+    "AllSides — the more transparent of the two raters Ground News attributes — returns HTTP 403 to automated fetching (both allsides.com/news-source/* and the rating-methods page). Search summaries suggest Hindustan Times is rated Center at low/initial confidence and NDTV is 'Not Rated', but no AllSides value has been entered against any outlet because it could not be verified at source.",
+    "MBFC's India country profile is behind a paid membership wall, so the total count of Indian sources MBFC has rated could not be established; the count of 21 here is limited to outlets in this dataset.",
+    "MBFC ratings frequently target a group's English-language website rather than the named outlet: 'ABP Live' rates abplive.com not the Hindi channel, 'News18' rates news18.com not News18 India, 'India Today' rates the group's output not the TV channel, 'Onmanorama' explicitly excludes the Malayalam newspaper. Any UI must show the rating's actual subject.",
+    "The Media Ownership Monitor India, the only systematic ownership map, was last updated 28 May 2019 and predates the Adani-NDTV transaction, the Zee promoter-holding collapse and the Network18 promoter change. There is no successor.",
+    "BARC does not release annual TV viewership data for independent analysis, so TV audience concentration is not computable and MOM recorded it as Missing Data. Radio audience data is likewise missing.",
+    "Several Indian corporate and NGO domains blocked automated fetching, so primary-source verification was not possible and aggregator/tertiary sources were used instead: jplcorp.in (Jagran Prakashan), htmedia.in (HT Media), ndtv.com corporate pages, scroll.in/about, allsides.com, rsf.org — all returned HTTP 403 or were unfetchable. Listed-company shareholding in this file therefore comes from Screener.in (which aggregates exchange filings) rather than from NSE/BSE filings read directly; tiers were set accordingly.",
+    "article-14.com's About and Contact pages are JavaScript-rendered and returned only 'Loading...', so Article 14's publishing entity, legal form and funding are not established from any source. Recorded as ownerEntity: null.",
+    "Unlisted owners have no public shareholding pattern: BCCL (Sahu Jain family), Kasturi & Sons, Indian Express Ltd, Malayala Manorama Company, Ushodaya Enterprises, ABP Group, Delhi Press and ARG Outlier Media. Family control is credibly reported but percentages are unverified against MCA filings, which MOM notes are often not filed at all.",
+    "Ushodaya Enterprises shareholding (Ramoji Rao 42.26%, Cherukuri Kiron 28.36%, Cherukuri Vijayeswari 25.38%) is undated in the source and Ramoji Rao died in June 2024; the current split is unknown.",
+    "Business Standard's present-day shareholders are not disclosed — Wikipedia attributes ownership to Kotak Mahindra Bank via Business Standard Pvt Ltd, while MBFC records that the publication 'lacks transparency regarding current shareholders'.",
+    "Scroll.in's operating entity is inconsistent across sources (SCSN Pvt Ltd vs Scroll Media Inc, the latter incorporated in Delaware, USA); the India/US entity relationship is unresolved and relevant to foreign-funding questions.",
+    "Newslaundry's funding is described inconsistently: Wikipedia says subscription revenue only, MBFC names Omidyar Network. Unresolved.",
+    "Network18 promoter holding fell from 75% (March 2025) to 56.89% (June 2026) — a large change with no cause established here; it should be traced to the specific corporate action before being characterised.",
+    "Zee Media promoter holding of 9.04% (June 2026) is recorded but the history of the decline (pledges, invocations, dilution) is not traced.",
+    "Circulation and readership figures for Times of India, Malayala Manorama and Eenadu come from Wikipedia citing ABC/IRS rather than from the ABC certificates or IRS reports themselves.",
+    "Republic TV's MBFC ownership note is stale — it still lists Asianet News and Rajeev Chandrasekhar despite the May 2019 buyback. Rater ownership fields should not be used as ownership evidence anywhere in this project.",
+    "Lokniti-CSDS reports were not fetched directly; their survey parameters here rest on search-result summaries and should be re-verified before citation.",
+    "Coverage gap: this file omits Asian News International (ANI) and Press Trust of India (PTI), the wire agencies that supply much of the copy the rated outlets publish. Rating outlets while leaving their shared upstream unexamined is a structural blind spot."
+  ],
+
+  "rejected": [
+    {
+      "candidate": "The Balanced News, 'Political Bias in Indian Media: A 2025 Analysis of Major Outlets' (thebalanced.news)",
+      "reason": "Self-published marketing content for the publisher's own news app. Names no external rater, cites no sources, academic studies or third-party ratings, and discloses no data, criteria weights or validation method behind its left/centre/right assignments. Assertions like 'NDTV has maintained its editorial character' are presented without verification. Exactly the sort of unsourced list the brief forbids copying."
+    },
+    {
+      "candidate": "AllSides ratings as a source of Indian outlet lean labels",
+      "reason": "Methodologically the strongest candidate in principle — blind bias surveys and multi-partisan panels — but it rates ~1,400 US outlets against the American political spectrum, does not rate broadcast content (which is where Indian partisanship allegations concentrate), and its India coverage is a handful of incidental low-confidence entries. Its pages also return HTTP 403 to automated fetching, so nothing could be verified at source. Retained in `systems` for the record with coversIndianOutlets: false; contributes no rating to any outlet."
+    },
+    {
+      "candidate": "Agarwal et al. (2021) Left/Right/Centre labels for 103 Indian news websites",
+      "reason": "Kept in `systems` for the record but NOT used to populate leanRatings. Two expert reviewers, no published inter-rater reliability, per-outlet label list not published in the abstract, five years stale, and partisanship was a covariate in a web-tracking study rather than the object of measurement. Not an attributable public rating."
+    },
+    {
+      "candidate": "Oxfam India / Newslaundry, 'Who Tells Our Stories Matters'",
+      "reason": "A serious quantitative study (65,000+ articles and debates analysed; 90% of media leadership positions held by upper-caste Hindus; 3 of 5 bylines from General-caste authors) but it measures caste and gender representation in newsrooms, not political lean. Including it as a lean proxy would be a category error — newsroom composition is not editorial position."
+    },
+    {
+      "candidate": "Reuters Institute DNR trust scores used as a lean proxy",
+      "reason": "The India chapter observes only that brands 'either extremely critical or extremely uncritical of those in positions of power tend to have lower trust scores'. That is a U-shaped relationship between trust and stance, not a directional lean measurement, and it is stated without per-outlet values. Converting trust into lean would be inference dressed as data."
+    },
+    {
+      "candidate": "Grokipedia, 'List of news media ownership in India'",
+      "reason": "LLM-generated encyclopedia content with no editorial process or verifiable sourcing chain. Appeared in searches for ownership data; not used for any fact in this file."
+    },
+    {
+      "candidate": "Circulating 'godi media' lists and similar social-media outlet classifications",
+      "reason": "Politically-motivated informal lists with no stated methodology, no named rater, no publication date and no revision history. They are a subject the project could legitimately document as a phenomenon, but they are not evidence of lean and must never be a data source."
+    },
+    {
+      "candidate": "Wikipedia infobox 'political alignment' fields",
+      "reason": "Present on some Indian outlet articles, inconsistently sourced, edit-warred, and often citing opinion columns. Not a rating system and not attributable to any rater."
+    },
+    {
+      "candidate": "BARC viewership and IRS readership as lean evidence",
+      "reason": "They measure reach only. Reach is retained in reachNote and concentration fields where sourced, and is never converted into a lean or partisanship claim."
+    }
+  ]
+}

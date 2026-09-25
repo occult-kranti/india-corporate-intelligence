@@ -1,0 +1,438 @@
+{
+  "asOf": "2026-08-12",
+  "scope": "Investigative-desk pass (reporter, documentalist, skeptic) over five candidate claims arising from procurement-ocds.json, resources-spectrum.json, resources-coal.json and resources-minerals.json. Four of five candidates are killed. This file records the check that killed each, what survives, and the corrections the pass forces on the source datasets.",
+  "headline": "Four of five candidates die. C1 (Assam five times less competitive than Himachal) dies on the control: the two datasets do not observe the same object - Himachal's is award-joined with 4,211 award records, Assam's has zero award records and is 70% pre-award tenders, and matching stage, valuation, period and category collapses the ratio from 4.8x to 2.5x. C5 (coal withholds bid counts) dies on the control: the Ministry of Coal publishes mine-wise bid counts in its PIB bid-opening releases, and 65 mine-level counts were recovered from five of them. C4 (critical mineral auctions failing) dies on the base rate: the Ministry of Mines' own annual report puts the whole mineral regime at 43.07% success on CY2025 NITs against 44.74% for critical blocks - the critical programme is marginally the better performer. C2 (the 2024 spectrum auction failed at 1.34%) dies on the denominator: 93.23% of that denominator is two bands that had been sold in bulk 22 months earlier, and 26 GHz alone is 82.68% of the megahertz but 2.84% of the reserve valuation. C3 (14th-round coal result suppressed) dies as framed on the identity test - the MSTC limb belongs to the minerals record, not the coal record, and MSTC's coal result page has published nothing since 14 September 2022 - but a narrower documented absence survives and is recorded as unresolved.",
+  "method": {
+    "order": "date test, identity test, base rate, denominator, innocent reading, control, denial - run in that order, stopping at the first failure, per .claude/skills/investigative-desk/SKILL.md.",
+    "primaryFirst": "No candidate was assessed from the source dataset alone. For C1 the two OCDS bulk files were re-parsed line by line and the Open Contracting Partnership registry pages for both publications were opened. For C2 both PIB releases were opened and the 533.6 denominator recomputed from the band table. For C3 and C5 six PIB coal releases, the Nominated Authority's downloads register, the ministry's 21 May 2026 pre-bid presentation and MSTC's coal result page were opened. For C4 the Ministry of Mines Annual Report 2025-26 was downloaded and text-extracted in full.",
+    "nullPolicy": "Where a figure could not be established it is null with a stated reason. No figure was carried over from a search-result snippet. One secondary source relevant to C2 novelty (Light Reading) returned HTTP 403 to both WebFetch and curl with a browser user-agent and was NOT opened; the coverage claim resting on it is downgraded accordingly.",
+    "intent": "No candidate is resolved by asserting intent. 'Suppressed', 'deliberately withholds' and 'failing' are the candidates' words and are treated as claims to be tested, not adopted."
+  },
+
+  "candidates": [
+    {
+      "id": "C1",
+      "claim": "Assam procurement is five times less competitive than Himachal Pradesh. Single-bidder 16.18% (4,532 of 28,015) against 3.39% (128 of 3,771), 'measured identically over tenders that drew at least one bid'.",
+      "sourceFile": "research/raw/procurement-ocds.json (headline field)",
+      "verdict": "killed",
+      "decidingCheck": "control - and it fails the identity test first, on the identity of the measured quantity rather than of a party",
+      "whyItDies": "The two datasets do not observe the same object. Himachal Pradesh publication 77 carries an awards array on all 3,791 records and an award object on 3,771; the Open Contracting Partnership registry counts 4,211 awards, 4,211 suppliers and 8,002 parties for it, and describes it as tender information from the Tenders Himachal Pradesh portal joined to 'related awards data from the Central Public Procurement (CPP) Portal'. Assam publication 131 carries NO awards key on any of its 34,232 records; the registry counts 0 awards, 0 suppliers, 0 parties. Himachal's numberOfTenderers therefore sits only on tenders that reached award. Assam's sits on a tender-stage record set of which only 10,381 of 34,232 - 30.33% - are at AOC (award of contract) stage. The remaining 23,851 are at ten pre-award or terminated stages, and the single-bidder rate within Assam alone varies from 4.58% to 42.79% across those stages, a factor of 9.3. A rate averaged across stages that measure different things is not the same statistic as a rate on awarded contracts.",
+      "chronology": [
+        {"date": "2016-01-01/2020-12-31", "event": "Himachal Pradesh dataset coverage by tender.datePublished: 2012 (1), 2013 (14), 2014 (5), 2015 (6), 2016 (133), 2017 (1,787), 2018 (1,204), 2019 (513), 2020 (128). 78.8% of the file falls in 2017-2018."},
+        {"date": "2016-01-01/2022-12-31", "event": "Assam dataset coverage by tender.datePublished: 2016 (540), 2017 (4,938), 2018 (9,304), 2019 (5,975), 2020 (6,692), 2021 (5,544), 2022 (1,239). Assam also carries a fiscal_year field running 2016-2017 to 2021-2022."},
+        {"date": "2016", "event": "Assam fixes a mandatory e-procurement threshold of Rs 20 lakh, per the Assam Public Procurement Explorer run by CivicDataLab with the state Finance Department. No equivalent threshold is stated for Himachal Pradesh, whose file contains 1,087 tenders below Rs 10 lakh."},
+        {"date": "2018", "event": "Assam raises the mandatory e-procurement threshold to Rs 50 lakh."},
+        {"date": "2021-09-01", "event": "Assam Public Procurement Rules brought into force; the threshold is brought back down to Rs 25 lakh with exceptions. The inclusion rule for the Assam portal therefore changed twice inside the coverage window."},
+        {"date": "2022-10-03", "event": "data.gov.in catalog 'Assam Public Procurement Data' published; contributor recorded as Assam Finance Department and Assam Society for Comprehensive Financial Management System (AS-CFMS). Updated 11 October 2022."},
+        {"date": "2023-03-27", "event": "OCP registry last retrieved publication 77 (Himachal Pradesh). Registry data date range: Aug 2020 - Aug 2020."},
+        {"date": "2024-10-02", "event": "OCP registry last retrieved publication 131 (Assam). Registry data date range: Sep 2022 - Sep 2022. Both are recorded as no longer updated by the publisher."}
+      ],
+      "theLadder": {
+        "definition": "The same statistic - share of records with numberOfTenderers equal to 1, among records with numberOfTenderers of at least 1 - recomputed under successively matched restrictions. Computed directly from the two OCDS JSON Lines files.",
+        "steps": [
+          {"restriction": "as published", "assamN": 28015, "assamSingle": 4532, "assamPct": 16.18, "hpN": 3771, "hpSingle": 128, "hpPct": 3.39, "ratio": 4.77},
+          {"restriction": "Assam restricted to AOC (award) stage - the only stage comparable to Himachal's award-joined file", "assamN": 10337, "assamSingle": 1461, "assamPct": 14.13, "hpN": 3771, "hpSingle": 128, "hpPct": 3.39, "ratio": 4.17},
+          {"restriction": "both restricted to records carrying a positive tender value", "assamN": 6852, "assamSingle": 572, "assamPct": 8.35, "hpN": 3734, "hpSingle": 128, "hpPct": 3.43, "ratio": 2.43},
+          {"restriction": "plus common publication window 2016-2020 and Works category only", "assamN": 6390, "assamSingle": 528, "assamPct": 8.26, "hpN": 3617, "hpSingle": 118, "hpPct": 3.26, "ratio": 2.53}
+        ],
+        "note": "The 3,485 Assam AOC records with no positive value amount carry a 25.51% single-bidder rate against 8.35% for the valued ones - a threefold split inside a single stage of a single state. Himachal's rate moves by 0.04 points across the whole ladder (3.39 to 3.43); Assam's moves by 7.83 points. The instability is entirely on the Assam side and it is what the headline was measuring."
+      },
+      "baseRate": {
+        "claim": "Within the Assam file alone, how far does the single-bidder rate move with procurement stage, holding the state, the portal and the field constant?",
+        "rate": null,
+        "range": "4.58% to 42.79%",
+        "denominator": 28015,
+        "denominatorLabel": "Assam records with numberOfTenderers of at least 1, across the eleven stage values present in the file",
+        "byStage": [
+          {"stage": "To be Opened", "records": 7094, "withAtLeastOneBid": 3543, "singleBid": 1516, "pct": 42.79, "zeroBid": 3365, "na": 186},
+          {"stage": "Technical Bid Opening", "records": 1348, "withAtLeastOneBid": 970, "singleBid": 246, "pct": 25.36, "zeroBid": 276, "na": 102},
+          {"stage": "NA", "records": 384, "withAtLeastOneBid": 352, "singleBid": 88, "pct": 25.0, "zeroBid": 0, "na": 32},
+          {"stage": "AOC", "records": 10381, "withAtLeastOneBid": 10337, "singleBid": 1461, "pct": 14.13, "zeroBid": 0, "na": 44},
+          {"stage": "Financial Bid Opening", "records": 4908, "withAtLeastOneBid": 4387, "singleBid": 470, "pct": 10.71, "zeroBid": 0, "na": 521},
+          {"stage": "Technical Evaluation", "records": 6519, "withAtLeastOneBid": 6149, "singleBid": 636, "pct": 10.34, "zeroBid": 0, "na": 370},
+          {"stage": "Evaluation", "records": 62, "withAtLeastOneBid": 62, "singleBid": 4, "pct": 6.45, "zeroBid": 0, "na": 0},
+          {"stage": "Financial Evaluation", "records": 2289, "withAtLeastOneBid": 2062, "singleBid": 104, "pct": 5.04, "zeroBid": 0, "na": 227},
+          {"stage": "Bid Opening", "records": 156, "withAtLeastOneBid": 153, "singleBid": 7, "pct": 4.58, "zeroBid": 3, "na": 0},
+          {"stage": "Cancelled", "records": 913, "withAtLeastOneBid": 0, "singleBid": 0, "pct": null, "zeroBid": 0, "na": 912},
+          {"stage": "Retender", "records": 176, "withAtLeastOneBid": 0, "singleBid": 0, "pct": null, "zeroBid": 0, "na": 171}
+        ],
+        "tier": "documented"
+      },
+      "innocentReading": "Nothing about this requires anyone in Assam to have done anything. Assam's median tender in the file is Rs 1,00,00,000 against Himachal's Rs 15,73,179 - a factor of 6.4 - because the Assam portal has carried a mandatory value threshold since 2016 while the Himachal file is full of small Public Works and Irrigation and Public Health works. Large, specialised works in a state with a thinner contractor base draw fewer bidders than small routine works in a state with a dense one. On top of that, Assam's single-bidder rate is measured largely at stages before the bids were opened: a tender at 'To be Opened' with numberOfTenderers of 1 has not been evaluated by anybody, and 3,365 of the 3,644 'zero-bid' tenders the source file could not explain are simply tenders whose bids had not been opened. The residual 2.5x, once stage, valuation, period and category are matched, is a real difference between two datasets - but it is a difference in what was tendered, not a demonstrated difference in how it was awarded.",
+      "control": {
+        "ran": "Comparison of the two publications' own registry metadata and internal structure, which is the control the headline needed and did not have.",
+        "result": [
+          {"property": "Award objects in the publication", "himachalPradesh": 4211, "assam": 0, "src": "ocp-77, ocp-131"},
+          {"property": "Supplier objects", "himachalPradesh": 4211, "assam": 0, "src": "ocp-77, ocp-131"},
+          {"property": "Party objects", "himachalPradesh": 8002, "assam": 0, "src": "ocp-77, ocp-131"},
+          {"property": "Tenderer objects (the OCDS bidder roster)", "himachalPradesh": 0, "assam": 0, "src": "ocp-77, ocp-131", "note": "NEITHER publication carries a bidder roster. The peer flag that Assam's numberOfTenderers disagrees with a bidder-roster length cannot be tested inside these files, because no roster exists in either. That is itself the answer: numberOfTenderers is an unchecked scalar in both, with no internal corroboration available."},
+          {"property": "Records carrying tender.stage", "himachalPradesh": 0, "assam": 34230, "src": "hp-jsonl, assam-jsonl"},
+          {"property": "Records carrying an award object", "himachalPradesh": 3771, "assam": 0, "src": "hp-jsonl, assam-jsonl"},
+          {"property": "Source system", "himachalPradesh": "Tenders Himachal Pradesh portal joined to Central Public Procurement Portal award data", "assam": "Assam Government Procurement System (assamtenders.gov.in) via data.gov.in", "src": "ocp-77, ocp-131, datagovin-assam"},
+          {"property": "Maximum numberOfTenderers", "himachalPradesh": 40, "assam": 1410, "src": "hp-jsonl, assam-jsonl", "note": "The 15 largest Assam values are Public Health Engineering Department rate-fixation and empanelment tenders under Jal Jeevan Mission ('Fixation of Rates for different items of the PWSS', 'Empanelment of contractors'). A framework enrolment with 1,410 registrants and a works contract with 3 bidders are not the same quantity, and both are stored in the same field."},
+          {"property": "Procurement method as coded", "himachalPradesh": "3,768 of 3,771 'limited'", "assam": "30,168 of 34,232 'Open Tender'", "src": "procurement-ocds", "note": "The source file already flags Himachal's coding as almost certainly an export artefact. It means no method-controlled comparison is available either."}
+        ],
+        "verdict": "The control destroys the headline as written. It does not establish that Assam and Himachal award tenders equally - after matching everything matchable the Assam rate is still about 2.5 times Himachal's - but it establishes that '3.39% vs 16.18%, measured identically' is false, that 'five times' is an artefact of the mismatch, and that no statement about relative competitiveness can be made from these two files."
+      },
+      "whatWouldChangeTheConclusion": {
+        "upgradeIf": "An Assam extract restricted to AOC-stage records with a positive value, compared against a Himachal extract from the same portal generation and the same value band, still showed a gap after the verification sample in procurement-ocds.json.verification is drawn and checked against portal pages. Or: a third state publishes bid counts in bulk, giving a real denominator.",
+        "killIf": "Already killed. It would be revived only by a Himachal record set that includes non-awarded tenders, which the CPP-Portal award join makes unlikely."
+      },
+      "correctionsForcedOnTheSourceFile": [
+        {"field": "headline", "correction": "'measured identically over tenders that drew at least one bid' is not correct. The two measurements differ in unit of observation (award-stage vs tender-stage), and the factor of 4.8 falls to 2.5 when stage, valuation, period and category are matched."},
+        {"field": "provenance.tierReason and headline", "correction": "'Neither state published the data itself' is wrong for Assam. The OCP registry names the publisher as the Assam State Government Finance Department and records the retrieval source as https://data.gov.in/catalog/assam-public-procurement-data, licensed GODL-India. The data.gov.in catalog page names the contributor as 'Assam Finance Department, Assam' and 'Assam Society for Comprehensive Financial Management System (AS-CFMS)', published 03/10/2022. CivicDataLab performed the OCDS transformation, not the publication. NOTE: the data.gov.in page as served on 2026-08-12 carries a banner reading 'This is a sandbox environment created for testing and demonstration purposes only', so the page was read as a catalog record and not as a data source."},
+        {"field": "gaps[2] - the 3,644 zero-bid Assam tenders", "correction": "Now established. 3,365 of the 3,644 (92.34%) are at stage 'To be Opened', 276 at 'Technical Bid Opening' and 3 at 'Bid Opening'. They are tenders whose bids had not been opened at the time of the scrape, not failed tenders. They should not be counted as either failed or contested."},
+        {"field": "jurisdictions[1].histogram key 'NA' = 2,565", "correction": "Now attributed: 912 Cancelled, 521 Financial Bid Opening, 370 Technical Evaluation, 227 Financial Evaluation, 186 To be Opened, 171 Retender, 102 Technical Bid Opening, 44 AOC, 32 stage 'NA'. Cancelled and Retender rows carry 'NA' almost universally, which is why they drop out of the denominator without being visible."},
+        {"field": "gaps[3]", "correction": "'Neither dataset carries a bidder roster in the OCP bulk file' is confirmed by the registry itself: 'Count of tenderers: 0' on both publication pages."}
+      ],
+      "novelty": {
+        "searchesRun": ["Assam Himachal Pradesh single bidder rate comparison public procurement OCDS CivicDataLab analysis"],
+        "result": "No published comparison of single-bidder rates between the two states was found. Results returned the two CivicDataLab platforms (assam.open-contracting.in, the Himachal health procurement repository), the OCP registry pages and the data.gov.in catalog, none of which sets one state's rate against the other's. The candidate is therefore unreported - and it is also not true as stated, which is why it is not published.",
+        "alreadyReported": [],
+        "tier": "documented"
+      },
+      "denial": "Neither the Assam Finance Department, the Himachal Pradesh Finance Department, CivicDataLab nor the Open Contracting Partnership was approached for comment. That is a weakness in this record and not a neutral fact. The registry pages of both publications carry their own data-quality warnings, which is the nearest thing to a publisher's caveat available here: publication 77's page states 'The data contains several additional fields that are yet to be documented so it is not possible to clearly understand the full data set' and 'all releases share the same date field so it is not possible to tell how up to date the data is.'",
+      "srcs": ["hp-jsonl", "assam-jsonl", "ocp-77", "ocp-131", "datagovin-assam", "assam-explorer", "procurement-ocds"]
+    },
+
+    {
+      "id": "C2",
+      "claim": "The 2024 spectrum auction failed - 1.34% of offered MHz sold (141.4 of 10,522.35 MHz).",
+      "sourceFile": "research/raw/resources-spectrum.json (unsoldShareSeries, auction-2024)",
+      "verdict": "killed",
+      "decidingCheck": "denominator",
+      "whyItDies": "The arithmetic is right and the denominator is the Ministry's own. The inference is not. Of the 10,522.35 MHz put to auction, 8,700 MHz - 82.68% - was 26 GHz millimetre wave, and 1,110 MHz was 3300 MHz. Those two bands are 9,810 MHz, 93.23% of the denominator. Both had been sold in bulk 22 months earlier: the 2 August 2022 result release records 45,350 MHz of 26 GHz and 5,490 MHz of 3300 MHz sold. The closing release of 26 June 2024 states the composition of the 2024 offer in terms: 'The expiring spectrum in 2024 and the unsold spectrum of previous Spectrum Auction held in 2022 were put to auction this year.' A ratio whose denominator is 93% last auction's residue measures what was left over, not what was wanted. And because Indian practice counts unpaired millimetre-wave spectrum at full quantity, 26 GHz is 82.68% of the megahertz while being 2.84% of the reserve valuation (Rs 2,734 crore of Rs 96,238.45 crore). Any quantity ratio over this denominator is a units artefact.",
+      "chronology": [
+        {"date": "2022-08-02", "event": "PIB/DoT result release for the 2022 auction: 72,098 MHz offered, 51,236 MHz sold (71%), Rs 1,50,173 crore. 62,700 MHz of the offer and 45,350 MHz of the sale is 26 GHz; 7,260 MHz offered and 5,490 MHz sold is 3300 MHz."},
+        {"date": "2024-03-08", "event": "Notice Inviting Applications issued for the 2023-24 auction."},
+        {"date": "2024-06-25T08:46+05:30", "event": "PIB opening release: 'Total quantum of spectrum being auctioned is 10,522.35 MHz in various bands valuing Rs 96,238.45 Crores at reserve prices', with a band table. Three bidders: Bharti Airtel, Vodafone Idea, Reliance Jio."},
+        {"date": "2024-06-25T10:00+05:30", "event": "Auction begins."},
+        {"date": "2024-06-26T11:45+05:30", "event": "Auction concludes after 7 rounds."},
+        {"date": "2024-06-26T19:42+05:30", "event": "PIB closing release: 141.4 MHz sold for Rs 11,340.78 crore. It computes 26.5% against a 'balance 533.6 MHz'. It states that no bidding took place in 800 MHz, 2300 MHz, 3300 MHz and 26 GHz, and attributes that to 5G spectrum having been auctioned recently with monetisation still in progress."}
+      ],
+      "denominatorResolution": {
+        "twoOfficialDenominators": [
+          {"value": 10522.35, "source": "PIB opening release, 25 June 2024, band table with a stated total", "impliedSoldSharePct": 1.34},
+          {"value": 533.6, "source": "PIB closing release, 26 June 2024: '141.4 MHz (26.5%) was sold from the balance 533.6 MHz Spectrum'", "impliedSoldSharePct": 26.5}
+        ],
+        "resolution": "Both are carried and neither is wrong, but they answer different questions and only one is comparable across years. 533.6 is recoverable exactly from the opening release's own band table: 117.2 (900) + 221.4 (1800) + 125 (2100) + 70 (2500) = 533.6, the four bands in which bidding took place. The closing release's denominator is therefore the spectrum in the bands that drew bids, computed after the result was known. That is a legitimate statistic about those four bands and it cannot be compared with any other year, because it is selected on the outcome. The opening release's 10,522.35 is the ex-ante offer and is the comparable one - but it is comparable only to other years' ex-ante offers, and those differ in band composition by an order of magnitude.",
+        "thirdReading": "The only band-comparable series. Excluding 26 GHz and 3300 MHz - the two bands with no pre-2022 auction history in India - 2024 offered 712.35 MHz and sold 141.4, a 19.85% sold share. The same exclusion applied to 2022 gives 27.96%. 2021 (no mmWave, no 3300 MHz in the offer) was 37.06% and 2016 was 40.97%. On that basis 2024 is the weakest of the four but is a fifth-to-a-half of the comparable years, not one seventy-fourth of them."
+      },
+      "baseRate": {
+        "claim": "Share of Indian spectrum auctions from 2012 onward with band-level detail in which at least one entire band drew no bid at all",
+        "rate": 100.0,
+        "numerator": 6,
+        "denominator": 6,
+        "denominatorLabel": "the six auctions from 2012 onward for which band-level participation is documented or inferable: 2012, 2013, 2016, 2021, 2022, 2024",
+        "tier": "documented",
+        "reading": "A whole band drawing zero bids is the norm in this programme, not the exception: 700 MHz and 900 MHz in 2016, 700 MHz and 2500 MHz in 2021, 600 MHz in 2022, four bands in 2024. On the evidence-tiering scale a property shared by 100% of comparables is non-discriminating. What distinguishes 2024 is not that bands went unsold but that the unsold bands happened to be the ones carrying almost all the megahertz."
+      },
+      "additionalDenominators": {
+        "realisationAgainstReserve": {"value": 11.78, "unit": "percent", "numerator": 11340.78, "denominator": 96238.45, "unitOfNumerator": "Rs crore", "note": "The 2024 auction realised 11.78% of its aggregate reserve valuation. The comparable figure for 2021 is 19.8%; for the 2010 3G and BWA auctions it was 472.6% and 734.1%. This is the statistic the quantity series cannot see, and it is the one that supports the innocent reading below."},
+        "renewalVersusNewCapacity": {"totalMhzSold": 141.4, "newCapacityMhz": 87.2, "renewalMhz": 54.2, "newCapacityCrore": 6164.88, "note": "The closing release states that Airtel and Vodafone Idea 'successfully renewed their expired spectrum in 900 MHz and 1800 MHz bands' and that 'an additional quantum of 87.2 MHz worth Rs 6164.88 cr has been acquired by TSPs to augment their services'. 54.2 of the 141.4 MHz sold - 38.3% - was renewal of expiring holdings rather than new capacity."},
+        "twentySixGhzShare": {"ofMhzOfferedPct": 82.68, "ofReserveValuationPct": 2.84, "note": "8,700 of 10,522.35 MHz; Rs 2,734 crore of Rs 96,238.45 crore. The single fact that makes the 1.34% unusable as a measure of failure."}
+      },
+      "innocentReading": "The government put a large residue of unsold millimetre-wave and 3.3 GHz spectrum back on the table because the rules require unsold spectrum to be re-offered - the closing release says so: 'The unsold spectrum will again be put to auction next time.' Operators that bought 45,350 MHz of 26 GHz in 2022 and have not yet monetised 5G have no reason to buy more of it in 2024, and DoT says exactly that. The auction they actually needed was a renewal auction for 900 and 1800 MHz licences expiring in 2024, and that is what happened: three of three bidders won, the bands that mattered cleared, and 87.2 MHz of genuinely new capacity changed hands. A reserve price that realises 11.78% of its own valuation is a reserve price set above the market - which is a pricing judgement, defensible or not, and not an auction failure. The proper criticism, if there is one, is of the reserve price and of counting millimetre wave by the megahertz, not of the demand.",
+      "whatWouldChangeTheConclusion": {
+        "upgradeIf": "DoT publishes a band-composition-controlled sold-share series, or a subsequent auction offers the same 26 GHz and 3300 MHz quantum at a materially lower reserve and it still draws no bid - which would move the finding from 'nobody needed it' to 'nobody wants it at any price'.",
+        "killIf": "Already killed as an inference. The 1.34% figure itself stands as documented and should continue to be published with both denominators, as resources-spectrum.json already does."
+      },
+      "novelty": {
+        "searchesRun": ["2024 spectrum auction India 1.34% of spectrum sold 10522 MHz offered unsold 26 GHz denominator"],
+        "result": "ALREADY REPORTED. A Light Reading article, 'Why auction-led spectrum policy has failed India', appears in results carrying the figure in substantially the form of the candidate. IMPORTANT LIMITATION: that article returned HTTP 403 to WebFetch and to curl with a Chrome user-agent and was NOT opened, so this is recorded from a search result and is explicitly not cited as a source. Under the desk's own rule a snippet is not a source; the honest statement is that coverage of the 1.34% figure very probably exists and was not verified by opening.",
+        "whatIsAddedHere": "The decomposition. No source found sets 26 GHz's 82.68% share of the megahertz denominator against its 2.84% share of the reserve valuation, or recomputes the series on a band-comparable basis (19.85% in 2024 against 27.96% in 2022), or notes that the closing release's 533.6 denominator is exactly the sum of the four bands that drew bids and is therefore selected on the outcome.",
+        "tier": "reported"
+      },
+      "denial": "The Department of Telecommunications' own explanation is on the record and is reproduced verbatim rather than paraphrased: 'As auction for 5G spectrum was held recently & 5G Monetization is still in progress, no bidding took place in 800MHz, 2300MHz, 3300MHz and 26GHz bands.' No further comment was sought from DoT, TRAI or the three bidders.",
+      "srcs": ["pib-2028407", "pib-2028885", "pib-1847279", "pib-1702003", "resources-spectrum"]
+    },
+
+    {
+      "id": "C3",
+      "claim": "The 14th round coal auction result was suppressed. No PIB release, while every other recent round got one; the result appeared only on MSTC five months later.",
+      "sourceFile": "not asserted in research/raw/resources-coal.json; supplied as a candidate for testing",
+      "verdict": "killed",
+      "decidingCheck": "identity test",
+      "whyItDies": "The claim has three limbs and they belong to two different datasets. (1) 'The result appeared only on MSTC' is false for coal. MSTC's commercial coal mine result page, retrieved 2026-08-12, has published nothing since 'Result of E-auction Day-2 dated 14.09.2022'. The MSTC limb belongs to the MINERALS record, where resources-minerals.json states of two critical-mineral tranches that 'Block-wise results exist only on the MSTC e-auction result table' - a different ministry, a different programme and a different platform. (2) 'No PIB release' is false as stated: PIB published two releases on the 14th round, the launch on 29 October 2025 and the bid opening on 23 December 2025. What is absent is a RESULT release. (3) 'Suppressed' does not survive contact with the record: the Ministry of Coal published the 14th-round outcome itself, on page 4 of its own pre-bid presentation dated 21 May 2026 on coal.nic.in, in the table 'Number of Mines Auctioned' - Tranche-14: 5, total 140.",
+      "chronology": [
+        {"date": "2024-11-27", "event": "PIB: 'Nine Mines Successfully Auctioned in 10th Round of Commercial Coal Mine Auctions' (PRID 2077800), with a mine-wise table carrying state, PRC, geological reserves, winning bidder, reserve price % and final offer %."},
+        {"date": "2024-11-27", "event": "Nominated Authority downloads register: 'Notice regarding Overall result of E-auction - 10th Tranche'."},
+        {"date": "2025-03-24", "event": "PIB: 'Twelve Mines Successfully Auctioned in 11th Round' (PRID 2114385). Same day, NA register: 'Notice regarding result of E-auction overall 11th Tranche Commercial'."},
+        {"date": "2025-08-01", "event": "PIB: 'Seven Coal Blocks Successfully Auctioned in 12th Round' (PRID 2151244), forward auctions held 28-31 July 2025. Same day, NA register: 'Notice regarding result of E-auction overall 12th Tranche Commercial'. This is the LAST result notice on the NA register."},
+        {"date": "2025-10-29", "event": "PIB: 'Ministry of Coal Launches 14th Round of Commercial Coal Mine Auctions' (PRID 2183927). 41 mines offered, 20 fully explored and 21 partially explored, 21 with Underground Coal Gasification potential."},
+        {"date": "2025-11-20/2025-11-25", "event": "13th round forward auctions."},
+        {"date": "2025-11-26", "event": "PIB: 'Three Coal Blocks Successfully Auctioned in 13th Round' (PRID 2194552) - one day after the forward auction closed. All three went to Damodar Valley Corporation. NO corresponding notice appears on the NA downloads register."},
+        {"date": "2025-12-23", "event": "PIB: 'Encouraging Participation witnessed in 14th Round of Commercial Coal Blocks Auction; 49 bids received for 24 Coal Blocks' (PRID 2207831). 24 of 41 blocks drew a bid, 11 companies, 5 first-time bidders. Unlike the equivalent releases for rounds 9 to 12, this one carries NO mine-wise table."},
+        {"date": "2026-05-21", "event": "Ministry of Coal Nominated Authority pre-bid presentation for the 2nd attempt of the 14th round: page 3 '140 coal blocks have been auctioned under 14 tranches of auction'; page 4 table gives Tranche-14 = 5; page 5 'Mines on Offer - 5 mines - 2nd Attempt-14th Round'. This is the earliest publication of the 14th-round outcome located in this pass."},
+        {"date": "2026-08-12", "event": "As of this date: no PIB result release for the 14th round located; no 14th-round result notice on the NA downloads register; nothing on MSTC's coal result page since 14 September 2022."}
+      ],
+      "baseRate": {
+        "claim": "How many Ministry of Coal commercial coal auction rounds got a PIB result release?",
+        "rate": 100.0,
+        "numerator": 4,
+        "denominator": 4,
+        "denominatorLabel": "rounds 10, 11, 12 and 13 - the four most recent rounds before the 14th whose result releases were located AND OPENED in this pass",
+        "tier": "documented",
+        "note": "The base rate does NOT kill this candidate; it is the one limb that survives. Result releases were also indicated by search for rounds 1, 4, 6, 7 and 8/9 but those were not opened and are not counted here. The denominator of 4 is small and is stated as 4.",
+        "secondBaseRate": {
+          "claim": "How many of rounds 10 to 14 got a result notice on the Nominated Authority's own downloads register?",
+          "rate": 60.0,
+          "numerator": 3,
+          "denominator": 5,
+          "denominatorLabel": "rounds 10, 11, 12, 13, 14",
+          "tier": "documented",
+          "reading": "THIS IS THE CHECK THAT MATTERS. The NA register stopped publishing result notices after the 12th tranche on 1 August 2025. Round 13 has no NA result notice either - and round 13 unquestionably got a PIB release. So the absence of an NA result notice for round 14 is not specific to round 14, and any 'suppression' story has to explain why round 13, whose result PIB announced within 24 hours, is missing from the same register."
+        }
+      },
+      "whatSurvives": {
+        "statement": "As of 12 August 2026 the outcome of the 14th round of commercial coal mine auctions is public only as a single integer on a slide. The Ministry of Coal's pre-bid presentation of 21 May 2026 records that 5 of the 41 mines offered were auctioned. No block-wise result table - which mines, which winners, what revenue-share percentage - has been published by PIB, by the Nominated Authority's downloads register or by MSTC, for a round in which 24 blocks drew 49 bids from 11 companies including 5 first-time entrants. For rounds 10, 11, 12 and 13 that table was published by PIB within one day to five months of the forward auction.",
+        "tier": "documented",
+        "verdict": "unresolved",
+        "whyNotPublishedAsAFinding": "The date of the 14th-round forward auction was not established. Without it the length of the delay cannot be stated, and 'five months' - the candidate's figure - has no source. The 2nd attempt of the 14th round was launched on 21 May 2026 and was still running at the time of writing, so the round is not closed and a result release may yet issue.",
+        "innocentReading": "Five mines out of forty-one is the worst round in the programme's history by success rate (12.2%), and the 13th round before it was second worst (2 of 17, 11.8%). A press office that publishes 'Twelve Mines Successfully Auctioned' and 'Nine Mines Successfully Auctioned' has less to work with at five, and may simply be holding the release until the 2nd attempt closes so that the two can be announced together - which is exactly what the ministry did in the 13th round's own case, where the second-attempt blocks were folded into the 14th round's launch. Nothing here requires a decision to conceal, and no such decision is asserted."
+      },
+      "whatWouldChangeTheConclusion": {
+        "upgradeIf": "The 14th-round forward auction date is established (from a Nominated Authority e-auction schedule notice or a parliamentary answer) and the gap to first publication is measured; or a Right to Information reply establishes that a result notice was prepared and not issued.",
+        "killIf": "PIB publishes a 14th-round result release, or one is found that these searches missed - in which case the surviving limb collapses too. Both searches run here were keyword searches; PIB has no ministry-and-date-filtered archive that was reachable, and its AllRelease.aspx listing is not ministry-scoped, so exhaustiveness cannot be claimed."
+      },
+      "correctionsForcedOnTheCandidate": [
+        "'No PIB release' - false. Two PIB releases on the 14th round were opened. The claim should be 'no PIB RESULT release'.",
+        "'The result appeared only on MSTC five months later' - false for coal. MSTC's coal result page has nothing after 14 September 2022. This limb appears to have been imported from the critical-minerals record, where MSTC is genuinely the only block-level result source for tranches VI and VII.",
+        "'Suppressed' - not supportable. The ministry published the aggregate itself on 21 May 2026."
+      ],
+      "novelty": {
+        "searchesRun": [
+          "PIB \"coal mines\" auction \"14th round\" result 2026 Ministry of Coal successfully auctioned",
+          "Ministry of Coal 14th tranche commercial coal mine auction result mines auctioned 2026",
+          "\"14th round\" commercial coal mine auction result \"successfully auctioned\" 2026 five coal mines Ministry of Coal",
+          "\"Coal Blocks Successfully Auctioned in 14th Round\" OR \"Mines Successfully Auctioned in 14th Round\" commercial auctions"
+        ],
+        "result": "No 14th-round result release or result report of any kind was returned by any of the four searches. Coverage of the 14th round stops at the 23 December 2025 bid opening (Business Standard, 'Five first-time bidders enter 14th round of commercial coal auctions', 23 December 2025; Prasar Bharati NewsOnAir, same date). The next coal-auction coverage found is Business Standard, 'Only 8 of 23 coal blocks get bids in latest commercial mine auction round', 10 July 2026, which is the 15th round bid opening and does not report the 14th round result.",
+        "tier": "documented"
+      },
+      "denial": "The Ministry of Coal and its Nominated Authority were not approached. That is a weakness in this record. The nearest thing to the ministry's own account is the 21 May 2026 presentation, which states the figure without comment.",
+      "srcs": ["pib-2077800", "pib-2114385", "pib-2151244", "pib-2194552", "pib-2183927", "pib-2207831", "moc-na-downloads", "moc-prebid-21may2026", "mstc-coal-result", "resources-coal"]
+    },
+
+    {
+      "id": "C4",
+      "claim": "Critical mineral auctions are failing - 54% annulment.",
+      "sourceFile": "research/raw/resources-minerals.json (denominators.criticalMineralAuction, baseRates[5])",
+      "verdict": "killed",
+      "decidingCheck": "base rate, with the control that the base rate required",
+      "whyItDies": "The Ministry of Mines Annual Report 2025-26 publishes both numbers, on pages 35 and 37 of the same document, as on the same date, and nobody has put them side by side. Page 35: 'During the calendar year 2025, 332 Notice Inviting Tenders (NITs) for the auction of mineral blocks have been issued by the various State Governments and Central Government., of which 143 mineral blocks (ML-81, CL-62) have been successfully auctioned across 17 major mineral states.' That is a 43.07% success rate for the mineral auction regime as a whole. Page 37: of '76 unique Critical and Strategic Mineral blocks ... in 06 tranches', '34 blocks (5 Mining Lease and 29 composite licence) have been successfully auctioned' - a 44.74% success rate. The critical-mineral programme's success rate is 1.67 percentage points HIGHER than the whole regime's. On the ministry's own figures the critical programme is not distinguishable from ordinary mineral auctioning, and if anything is marginally the better performer. A property shared by the comparison group at the same rate is non-discriminating and the edge proves nothing.",
+      "chronology": [
+        {"date": "2023-08-17", "event": "MMDR Amendment Act 2023 in force (per PIB, the Minister's Rajya Sabha reply and the Annual Report; the commencement notification itself was not opened). Section 10BA inserted for Exploration Licences; Part D critical minerals reserved to central auction."},
+        {"date": "2023-11-29", "event": "Notice Inviting Tender for Tranche I of critical and strategic mineral blocks - 20 blocks."},
+        {"date": "2024-06-25", "event": "Tranche I results: 6 blocks awarded including the Katghora lithium block to Maiki South Mining Pvt Ltd. 13 annulments reported. One block unreconciled."},
+        {"date": "2025-01-20", "event": "Tranche V notified, 15 blocks."},
+        {"date": "2025-03-10", "event": "Rajya Sabha reply confirms the Salal-Haimna (Reasi) lithium block auction was annulled for non-receipt of bids after an earlier annulment for fewer than three technically qualified bidders."},
+        {"date": "2025-05-27", "event": "Preferred bidders declared for 10 Tranche V blocks."},
+        {"date": "2025-09-16", "event": "Tranche VI launched, 23 blocks."},
+        {"date": "2025-12-31", "event": "Cut-off date of the Ministry of Mines Annual Report 2025-26 figures used here: 34 of 76 unique critical blocks auctioned; 143 of 332 CY2025 NITs successfully auctioned."},
+        {"date": "2026-03-31", "event": "11 Tranche VI blocks annulled (5 nil-bid, 5 sub-three-bidder, plus Beku Rare Metal on unstated grounds), per a PTI wire."},
+        {"date": "2026-06-16/2026-06-23", "event": "Tranche VII results: 10 auctioned, 9 annulled. Ministry's cumulative statement becomes '56 of the 88 unique mineral blocks offered so far'."},
+        {"date": "2026-07-15", "event": "Tranche VIII launched, 20 blocks, bids closing 21 September 2026. Excluded from every denominator here because it has no result."}
+      ],
+      "baseRate": {
+        "claim": "Is the critical and strategic mineral programme failing at a rate that distinguishes it from the rest of the mineral auction regime?",
+        "rate": 44.74,
+        "numerator": 34,
+        "denominator": 76,
+        "denominatorLabel": "unique critical and strategic mineral blocks offered across six tranches, successfully auctioned, as on 31.12.2025 - the Ministry of Mines' own figures",
+        "unit": "percent successfully auctioned",
+        "control": {
+          "comparator": "The mineral auction regime as a whole - all Notice Inviting Tenders for mineral blocks issued by state governments and the central government in calendar year 2025",
+          "rate": 43.07,
+          "numerator": 143,
+          "denominator": 332,
+          "denominatorLabel": "NITs for the auction of mineral blocks issued in CY2025 by state governments and the central government",
+          "src": "mines-ar2526",
+          "asOf": "2025-12-31",
+          "whyThisComparator": "It is published by the same ministry, in the same document, at the same cut-off date, on the page two before the critical-mineral figures, and it is the only whole-regime offered-versus-auctioned pair the ministry publishes anywhere. The critical-minerals file itself notes that the ministry counts one NIT per block for critical minerals - 104 NITs for tranches I-VI equals 20+18+7+21+15+23 exactly - so NIT and block-offering are the same unit on at least one side of the comparison.",
+          "differenceInPercentagePoints": 1.67,
+          "direction": "critical minerals performs BETTER"
+        },
+        "caveatsOnTheControl": [
+          "The 332 NITs include the central critical-mineral NITs, so the comparator is contaminated in the direction that makes the two rates converge. Netting out Tranche V (15) and Tranche VI (23) and the 13 Exploration Licence blocks leaves roughly 281 non-critical NITs; the corresponding netted success count is not separately published and was not derived.",
+          "The 332 is NITs issued within CY2025 while the 143 is blocks auctioned; some of the 332 had not concluded by 31 December 2025, so 43.07% is a lower bound on the whole regime's eventual success rate. That cuts against the critical programme, not for it - it makes the whole regime look better still relative to critical minerals.",
+          "The two rates are measured over different windows: 76 unique critical blocks accumulated from November 2023 to December 2025, against NITs issued inside CY2025 alone.",
+          "Neither of these caveats changes the direction. There is no version of this comparison in which the critical programme's failure rate is shown to be materially worse than the regime's."
+        ],
+        "tier": "documented"
+      },
+      "denominatorResolution": {
+        "howManyAreInCirculation": 4,
+        "note": "The candidate says three. There are four, and the fourth is the ministry's own and is the one nobody quotes.",
+        "denominators": [
+          {"statistic": "annulment rate on block-offerings", "value": 53.66, "numerator": 66, "denominator": 123, "asOf": "2026-06-23", "tier": "reported", "why": "counts a block once per auction attempt; a block re-offered three times counts three times", "sourceQuality": "The 66 is assembled from a Press Trust of India wire report of 5 July 2026 quoting the annulment notices, NOT from the notices. resources-minerals.json says so in terms. This number cannot carry a headline."},
+          {"statistic": "failure rate on block-offerings including the unreconciled Tranche I block", "value": 54.47, "numerator": 67, "denominator": 123, "asOf": "2026-06-23", "tier": "reported", "why": "this is the candidate's '54%'"},
+          {"statistic": "success rate on unique blocks - the ministry's published figure", "value": 63.64, "numerator": 56, "denominator": 88, "asOf": "2026-06-23", "tier": "documented", "why": "counts each block once however many times it was offered, which makes re-auctions invisible"},
+          {"statistic": "success rate on unique blocks at the Annual Report cut-off", "value": 44.74, "numerator": 34, "denominator": 76, "asOf": "2025-12-31", "tier": "documented", "why": "THE FOURTH DENOMINATOR. Same construction as the 63.64% but six months earlier, before Tranches VI and VII delivered 22 awards against 12 new unique blocks. It is the one that is directly comparable with the whole-regime CY2025 figure, because both are as on 31.12.2025 and both come from the same report."}
+        ],
+        "whichIsRight": "All four are correctly computed and they answer four different questions. The 63.64% is right for 'what share of blocks the government has put up has eventually found a buyer'. The 53.66% is right for 'what share of auctions actually held ended in annulment' - and it is the one that should carry the caveat that it rests on a wire report. The 44.74% is right for 'how is the programme doing against the rest of the regime at a common date', and it is the only one for which a control exists. The eighteen-point gap the candidate points at is the gap between the first and the third, and it is not evidence of anything except that the ministry publishes the flattering construction."
+      },
+      "absenceFinding": {
+        "statement": "The word 'annul' does not appear in the Ministry of Mines Annual Report 2025-26. The report runs 360 pages, 743,137 characters were extracted from it, 'auction' appears 142 times and 'successfully auctioned' 6 times. 'annul' appears 0 times.",
+        "tier": "documented",
+        "significance": "This is why the control had to be built out of a success rate rather than an annulment rate, and it corroborates the source file's own gap: 'THERE IS NO OFFICIAL CUMULATIVE ANNULMENT NUMBER ANYWHERE.' The denominator that would let anyone compute a failure rate for either critical or non-critical blocks is the number the ministry does not publish. Every annulment figure in circulation - including the 54% - originates in newspaper reporting of individual notices.",
+        "src": "mines-ar2526",
+        "method": "pypdf text extraction over all 360 pages, case-sensitive and case-insensitive counts of 'annul'."
+      },
+      "innocentReading": "Annulment in this programme is largely a rule firing, not a market verdict. The Mineral (Auction) Rules require at least three technically qualified bidders; a block that attracts two serious, well-capitalised bidders is annulled by design, and 7 of the 9 Tranche VII annulments and 5 of the 11 in Tranche VI were on that ground rather than for nil bids. These are also mostly greenfield composite licences on G3 and G4 exploration, in commodities with little or no domestic processing capacity, offered to a bidder pool that the 2023 amendment was explicitly designed to create and that does not exist yet. A first-generation auction of unproven ground in an immature market with a three-bidder floor should be expected to annul often. The right reading of the 54% is that the floor is binding, not that nobody wants critical minerals.",
+      "whatWouldChangeTheConclusion": {
+        "upgradeIf": "The Ministry of Mines, or a parliamentary answer, publishes annulment counts for NON-critical mineral blocks over the same window. If the non-critical annulment rate came in materially below the critical rate on a like-for-like offerings basis, the candidate revives. The whole-regime NIT figure used here is the best available proxy and it is not a like-for-like offerings count.",
+        "killIf": "Already killed on the ministry's own two figures. It would take a documented non-critical annulment rate well below 40% on offerings to bring it back."
+      },
+      "novelty": {
+        "searchesRun": ["critical mineral block auction annulment rate compared with overall mineral auction success rate India 332 NITs 143 blocks 2025"],
+        "result": "NOT REPORTED. Coverage of critical-mineral annulments is extensive - Business Standard/PTI on the Tranche VI and VII cancellations, The Wire on five blocks, Construction World, Millennium Post, a CSDR analysis calling the maiden auction 'a setback'. Several outlets assert that critical-mineral auctions have higher annulment rates than general mineral auctions. NO source found computes or cites the whole-regime comparator. The 332-NIT / 143-block figure on page 35 of the Annual Report did not appear in any search result, and no source found places it next to the 34-of-76 critical figure on page 37 of the same document.",
+        "whatIsAddedHere": "The control. Two figures from the same annual report, same cut-off date, two pages apart, that together show the critical-mineral programme performing 1.67 points better than the mineral auction regime as a whole - against a body of reporting that assumes the opposite.",
+        "tier": "documented"
+      },
+      "denial": "The Ministry of Mines was not approached. Its published position is the 63.64% success rate on unique blocks, which it repeats in every release; it has not been asked why it does not publish the offerings denominator or any annulment count.",
+      "srcs": ["mines-ar2526", "resources-minerals", "bs-tranche7-annulment", "bs-tranche6-annulment"]
+    },
+
+    {
+      "id": "C5",
+      "claim": "Coal deliberately withholds bid counts - 0 of 133 blocks has a published bidder count.",
+      "sourceFile": "research/raw/resources-coal.json (baseRates[4], gaps)",
+      "verdict": "killed",
+      "decidingCheck": "control",
+      "whyItDies": "The Ministry of Coal publishes mine-wise bid counts. They are in its PIB bid-opening releases, in a table headed 'Mine-wise list of bids received' or 'Block-wise list of bids received online', with the columns Name of Coal Mine, Round, No of Bids (Both Online and Offline) and Type of coal mine. Five such releases were opened in this pass and 65 mine-level bid counts were extracted from them. One of the five, the 18 June 2025 release on the 12th round's underground blocks, goes further and publishes a named-bidder table - eight companies with the number of bids each submitted. The claim in resources-coal.json - 'ZERO of the 133 blocks in this file has a published bidder count ... This is the largest single hole in the file' - is true of the documents that file opened (the Nominated Authority's one-page result sheets and CMPDI pre-bid presentations) and false as a statement about the Ministry of Coal. And 'deliberately withholds' does not survive at all: the practice was adopted, not withheld.",
+      "adoptedOrWithdrawn": {
+        "question": "A practice that was never adopted is a different fact from one that was withdrawn. Which is this?",
+        "answer": "Adopted, and absent from the most recent release. Verified by opening every release below.",
+        "releases": [
+          {"prid": "2007501", "date": "2024-02-20", "round": "9th round and 2nd attempt of 7th", "mineWiseBidTable": true, "mineRowsRecovered": 16, "aggregateStated": "27 mines offered in the 9th round, 33 bids against 13 mines; 5 offered in the 2nd attempt of the 7th, 7 bids against 3"},
+          {"prid": "2066781", "date": "2024-10-21", "round": "10th round and 2nd attempts of 9th and 8th", "mineWiseBidTable": true, "mineRowsRecovered": 17, "aggregateStated": "43 bids against 16 mines out of 61 offered in the 10th round; 1 bid against 5 mines in the 2nd attempt of the 9th; no bid against 1 mine in the 2nd attempt of the 8th"},
+          {"prid": "2099232", "date": "2025-02-03", "round": "11th round and 2nd attempt of 10th", "mineWiseBidTable": true, "mineRowsRecovered": 19, "aggregateStated": "bids for 20 of 27 mines; 70 bids online, 72 in physical form; 65 bids against 15 mines in the 11th round; 5 bids against 5 mines in the 2nd attempt of the 10th, one each"},
+          {"prid": "2136757", "date": "2025-06-16", "round": "12th round, excluding 6 underground blocks", "mineWiseBidTable": true, "mineRowsRecovered": 11, "aggregateStated": "bids for 11 of 22 blocks; 41 bids; 38 bids against 8 blocks in the 12th round; 3 bids against 3 blocks in the 2nd attempt of the 11th, one each"},
+          {"prid": "2137313", "date": "2025-06-18", "round": "12th round, the 6 underground blocks", "mineWiseBidTable": true, "mineRowsRecovered": 2, "namedBidderTable": true, "aggregateStated": "bids for 2 of 6 underground blocks; 14 bids; 8 companies named with bids each"},
+          {"prid": "2207831", "date": "2025-12-23", "round": "14th round", "mineWiseBidTable": false, "mineRowsRecovered": 0, "aggregateStated": "49 bids against 24 blocks out of 41 offered; 11 companies including 5 first-time bidders", "note": "THE ONLY BID-OPENING RELEASE OPENED HERE WITH NO PER-BLOCK TABLE."}
+        ],
+        "notLocated": "The 13th round's bid-opening release was not located in this pass, so the point at which the per-block table stops appearing cannot be fixed between round 12 and round 14. This is a gap, not a finding.",
+        "tier": "documented"
+      },
+      "baseRate": {
+        "claim": "Of the Ministry of Coal bid-opening press releases opened in this pass, how many carry a per-mine bid-count table?",
+        "rate": 83.33,
+        "numerator": 5,
+        "denominator": 6,
+        "denominatorLabel": "the six PIB coal bid-opening releases opened here, covering rounds 9, 10, 11, 12 (two releases) and 14",
+        "tier": "documented"
+      },
+      "whatTheVoidIsReplacedWith": {
+        "observations": 65,
+        "source": "extracted from the five PIB releases above by parsing their HTML tables",
+        "coverage": "rounds 9, 10, 11 and 12, plus the second attempts of rounds 7, 8, 9, 10 and 11 that were run alongside them",
+        "important": "These are mines that received AT LEAST ONE bid. Mines that drew no bid are not listed in these tables and are therefore not in the 65. The single-bid share below is a share of mines that attracted any bidder at all, and it is not a share of mines offered.",
+        "distribution": {"1": 26, "2": 10, "3": 8, "4": 3, "5": 6, "6": 7, "8": 2, "11": 1, "13": 1, "15": 1},
+        "singleBidMines": 26,
+        "singleBidSharePct": 40.0,
+        "meanBids": 3.22,
+        "reading": "26 of 65 mines that drew any bid at all drew exactly one. Under the auction rules a mine with fewer than two technically qualified bidders is annulled, so those 26 could not proceed as a matter of rule. This is the statistic resources-coal.json says cannot be computed, and it can be computed - for a subset of rounds, from the ministry's own press releases.",
+        "tier": "documented",
+        "innocentReading": "One bid at the technical stage is not evidence of anything improper; it is evidence that a specific block in a specific coalfield at a specific reserve price interested one company. The distribution has a long right tail - Phutamura drew 13, one mine drew 15 - which is what a genuinely open auction with heterogeneous assets looks like. The rule that annuls a single-bid mine is the system working, not failing."
+      },
+      "control": {
+        "question": "What do other Indian auction authorities publish?",
+        "results": [
+          {"authority": "Department of Telecommunications (spectrum)", "publishesBidderCount": "participation count per auction, and named winners with quantum and value per band; NOT bids per lot or per service area", "src": "pib-2028407, pib-2028885"},
+          {"authority": "Ministry of Mines (critical and strategic minerals)", "publishesBidderCount": "NO. resources-minerals.json records that a bidder count exists for 70 blocks in the 2019 register and for nothing since; 252 of its 298 block records have quotesReceived null. Neither MSTC nor PIB nor the annual report publishes bidder counts for mineral blocks.", "src": "resources-minerals"},
+          {"authority": "Ministry of Coal", "publishesBidderCount": "YES, per mine, in the PIB bid-opening release for at least rounds 9 to 12 - and in one release, the names of the bidders and the number of bids each submitted.", "src": "pib-2007501, pib-2066781, pib-2099232, pib-2136757, pib-2137313"},
+          {"authority": "Himachal Pradesh and Assam state e-procurement, as republished in OCDS", "publishesBidderCount": "a scalar numberOfTenderers with no bidder roster in either publication - 'Count of tenderers: 0' on both OCP registry pages", "src": "ocp-77, ocp-131"}
+        ],
+        "verdict": "The control inverts the claim. Among the four auction authorities in this project's datasets, the Ministry of Coal is the MOST forthcoming on bidder counts, not the least. The Ministry of Mines is the one that publishes nothing - and it is the Ministry of Mines whose programme the coal claim's per-block-bid-count void was, on inspection, actually describing."
+      },
+      "innocentReading": "resources-coal.json's statement is not careless. It says 'ZERO of the 133 blocks IN THIS FILE has a published bidder count', and the file's sources are the Nominated Authority's result sheets and the CMPDI pre-bid presentations, none of which carry bid counts. That is accurate. The error is one of scope, not of fact: a void in one document series was written up as a void in the ministry's practice, and the press-release series was never checked. That is exactly the failure mode the desk's control step exists to catch.",
+      "whatWouldChangeTheConclusion": {
+        "upgradeIf": "Nothing revives 'deliberately withholds'. A narrower successor claim - that the per-mine bid table stopped appearing after round 12 - would need the 13th round's bid-opening release located, and a 15th round bid-opening release checked for the table's presence or absence.",
+        "killIf": "Already killed."
+      },
+      "correctionsForcedOnTheSourceFile": [
+        {"field": "baseRates[4] 'Number of bidders per mine'", "correction": "The reading 'ZERO of the 133 blocks in this file has a published bidder count. ... This is a documented void and it is load-bearing' should be scoped to the Nominated Authority document series and should record that PIB bid-opening releases for rounds 9 to 12 publish mine-wise bid counts, and that 65 such observations are recoverable."},
+        {"field": "gaps - 'BIDDER COUNT PER MINE is not published for any of the 133 blocks by any source reached'", "correction": "Five PIB releases publish it. The gap statement should become: not published by the Nominated Authority for any block, and not published at all for rounds 1 to 8, 13 or 14."},
+        {"field": "baseRates[4]", "correction": "The structural inference 'every awarded mine had at least two [technically qualified bidders]' is sound but can now be quantified at the bid stage: 26 of 65 mines that drew any bid drew exactly one, and were annullable by rule."}
+      ],
+      "novelty": {
+        "searchesRun": ["Ministry of Coal PIB publishes block-wise number of bids received per coal mine bid opening press release analysis competition single bid"],
+        "result": "NOT REPORTED as an analysis. The searches return the PIB releases themselves and straight wire coverage of each bid opening ('44 Bids Received under 10th Round', 'Five first-time bidders enter 14th round'). No source found aggregates the per-mine bid tables across rounds, computes a single-bid share from them, or notes that the per-mine table is absent from the 14th round's release.",
+        "tier": "documented"
+      },
+      "denial": "The Ministry of Coal was not approached about the absent per-mine table in the 23 December 2025 release. That is a weakness in this record.",
+      "srcs": ["pib-2007501", "pib-2066781", "pib-2099232", "pib-2136757", "pib-2137313", "pib-2207831", "resources-coal", "resources-minerals", "ocp-77", "ocp-131"]
+    }
+  ],
+
+  "gaps": [
+    "THE 14TH-ROUND COAL FORWARD AUCTION DATE IS NOT ESTABLISHED. It falls somewhere between the bid opening of 23 December 2025 and the pre-bid presentation of 21 May 2026 that records the result. Without it the delay between result and publication cannot be measured, and the candidate's 'five months' has no source. The Nominated Authority downloads register carries no e-auction schedule notice or technically-qualified-bidder declaration for the 14th round.",
+    "PIB HAS NO REACHABLE MINISTRY-AND-DATE-FILTERED ARCHIVE. AllRelease.aspx returns an unfiltered listing of 760 links dominated by President, Vice-President and Prime Minister items. Absence of a 14th-round coal result release is therefore established by four keyword searches and by the Nominated Authority register, not by enumeration. Exhaustiveness is not claimed.",
+    "THE NOMINATED AUTHORITY DOWNLOADS REGISTER HAS A SIX-MONTH HOLE. Page 0, retrieved 2026-08-12, runs from 21/05/2026 straight back to 17/11/2025 with nothing in between - no 13th-round result notice, no 14th-round technically-qualified-bidder declaration, no 14th-round e-auction schedule. Whether documents were removed, never posted, or are on a page not reached is not established.",
+    "THE 13TH ROUND COAL BID-OPENING RELEASE WAS NOT LOCATED, so the round at which the per-mine bid table stops appearing cannot be fixed between round 12 (present) and round 14 (absent).",
+    "THE COAL 13TH-ROUND SUCCESS COUNT DISAGREES BETWEEN TWO MINISTRY SOURCES. PIB of 26 November 2025 says three blocks were successfully auctioned in the 13th round, all to Damodar Valley Corporation. The tranche-wise table on page 4 of the Nominated Authority's 21 May 2026 presentation gives Tranche-13 = 2. Not reconciled here. resources-coal.json carries the 2.",
+    "THE 332 CY2025 MINERAL NITs INCLUDE CENTRAL CRITICAL-MINERAL NITs. A clean non-critical comparator would need the split, which the Annual Report does not give. Netting out Tranche V (15), Tranche VI (23) and the 13 Exploration Licence blocks leaves roughly 281, but the corresponding netted success count is not published and was not derived.",
+    "THE CRITICAL-MINERAL ANNULMENT COUNTS REMAIN reported, NOT documented. All of 13/14/3/11/5/11/9 come from Press Trust of India wire reports quoting the annulment notices. The notices themselves were not retrieved in this pass either.",
+    "LIGHTREADING.COM RETURNS HTTP 403 to WebFetch and to curl with a Chrome user-agent. The article that appears to carry prior coverage of the 1.34% spectrum figure was NOT opened, so C2's novelty verdict rests on a search result and is downgraded to 'probably reported, unverified'.",
+    "THE HIMACHAL PRADESH PUBLICATION'S SCOPE IS AMBIGUOUS. The OCP registry describes publication 77 as covering tenders from government departments, directorates, statutory organisations, local bodies and undertakings, but CivicDataLab's public repository for Himachal Pradesh OCDS work is titled 'himachal-pradesh-health-procurement-OCDS'. The data itself is 96.8% works and dominated by Public Works and Irrigation and Public Health. Whether publication 77 is a superset of the health scrape or a different scrape was not established.",
+    "NO VERIFICATION SAMPLE was drawn for either procurement dataset. procurement-ocds.json's own verification plan - draw 40 Himachal rows by seed and retrieve each by tender ID through the portal search form - remains unexecuted, so a parser bug that dropped bidders would still be invisible and would bias every single-bidder figure in this file upward.",
+    "NO PARTY NAMED IN ANY CANDIDATE WAS APPROACHED FOR COMMENT: not the Assam or Himachal Pradesh Finance Departments, not CivicDataLab, not the Open Contracting Partnership, not the Department of Telecommunications, not the Ministry of Coal or its Nominated Authority, not the Ministry of Mines. Every denial field in this file records an absence of contact rather than a response, and that is a weakness in each of the five records."
+  ],
+
+  "sources": [
+    {"id": "hp-jsonl", "publisher": "Open Contracting Partnership data registry (data transformed by CivicDataLab)", "title": "Publication 77 - India: Himachal Pradesh, full.jsonl.gz, 3,791 compiled OCDS releases", "url": "https://data.open-contracting.org/en/publication/77/download?name=full.jsonl.gz", "retrieved": "2026-08-12", "readAs": "gzipped JSON Lines, decompressed and parsed line by line with python json; key presence, stage, date, value, category and numberOfTenderers counted directly", "tier": "reported", "note": "third-party transformation of a state portal scrape; no individual row was verified against a portal page"},
+    {"id": "assam-jsonl", "publisher": "Assam State Government Finance Department, via the Open Contracting Partnership data registry (data transformed by CivicDataLab)", "title": "Publication 131 - India: Assam State Government Finance Department, full.jsonl.gz, 34,232 compiled OCDS releases", "url": "https://data.open-contracting.org/en/publication/131/download?name=full.jsonl.gz", "retrieved": "2026-08-12", "readAs": "gzipped JSON Lines, decompressed and parsed line by line with python json", "tier": "reported"},
+    {"id": "ocp-77", "publisher": "Open Contracting Partnership", "title": "Data registry page, publication 77, India: Himachal Pradesh - CivicDataLab (counts: 3,791 tenders, 4,211 awards, 4,211 suppliers, 8,002 parties, 0 tenderers; 'related awards data from the Central Public Procurement (CPP) Portal'; data date range Aug 2020 - Aug 2020; last retrieved Mar 27, 2023)", "url": "https://data.open-contracting.org/publication/77", "retrieved": "2026-08-12", "readAs": "HTML, curl with a Chrome user-agent, script and style stripped, tags collapsed. NOTE: the /en/publication/77/ path returns HTTP 404; the /publication/77 path returns 200.", "tier": "documented"},
+    {"id": "ocp-131", "publisher": "Open Contracting Partnership", "title": "Data registry page, publication 131, India: Assam State Government Finance Department (counts: 34,232 tenders, 0 awards, 0 suppliers, 0 parties, 0 tenderers, 34,232 documents, 34,232 milestones; retrieved from https://data.gov.in/catalog/assam-public-procurement-data; licence Government Open Data License - India; data date range Sep 2022 - Sep 2022; last retrieved Oct 2, 2024)", "url": "https://data.open-contracting.org/publication/131", "retrieved": "2026-08-12", "readAs": "HTML, curl with a Chrome user-agent", "tier": "documented"},
+    {"id": "datagovin-assam", "publisher": "Open Government Data (OGD) Platform India, National Informatics Centre", "title": "Catalog: Assam Public Procurement Data. Contributor: Assam Finance Department, Assam; Assam Society for Comprehensive Financial Management System (AS-CFMS). Published 03/10/2022, updated 11/10/2022. 'Assam Finance Department publishes purchase and contracting related data on https://assamtenders.gov.in/nicgep/app'", "url": "https://data.gov.in/catalog/assam-public-procurement-data", "retrieved": "2026-08-12", "readAs": "HTML, curl with a Chrome user-agent", "tier": "documented", "caveat": "The page as served on this date carries the banner 'This is a sandbox environment created for testing and demonstration purposes only. The content, data, and functionality may be incomplete or inaccurate.' It is cited for the catalog metadata only."},
+    {"id": "assam-explorer", "publisher": "CivicDataLab with the Government of Assam Finance Department", "title": "Assam Public Procurement Explorer - 'The Assam Government fixed a mandatory e-procurement threshold of Rs.20 Lakh in 2016 which was increased to Rs.50 Lakh in the year 2018 and brought down again to Rs.25 Lakh with certain exceptions in 2021'", "url": "https://assam.open-contracting.in/", "retrieved": "2026-08-12", "readAs": "HTML, curl with a Chrome user-agent", "tier": "reported"},
+    {"id": "pib-2028407", "publisher": "Press Information Bureau, Ministry of Communications", "title": "Government begins auction of Spectrum for Telecom Services today at 10:00 AM, 25 JUN 2024 8:46AM by PIB Delhi", "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2028407", "retrieved": "2026-08-12", "readAs": "HTML, curl with a Chrome user-agent; table cells preserved by substituting delimiters for td and tr tags before stripping", "tier": "documented"},
+    {"id": "pib-2028885", "publisher": "Press Information Bureau, Ministry of Communications", "title": "Spectrum Auction 2023-24 concludes successfully, 26 JUN 2024 7:42PM by PIB Delhi", "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2028885", "retrieved": "2026-08-12", "readAs": "HTML, curl with a Chrome user-agent", "tier": "documented"},
+    {"id": "pib-1847279", "publisher": "Press Information Bureau, Ministry of Communications", "title": "5G spectrum auction grosses Rs. 1,50,173 Cr., 2 August 2022", "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=1847279", "retrieved": "2026-08-12", "readAs": "not opened in this pass; band-level figures taken from research/raw/resources-spectrum.json, which records reading it by curl and regex strip on 2026-08-12", "tier": "documented", "caveat": "second-hand within this project - the figures are carried from the spectrum dataset, not re-read here"},
+    {"id": "pib-1702003", "publisher": "Press Information Bureau, Ministry of Communications", "title": "Spectrum Auction concludes, 2 March 2021", "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=1702003", "retrieved": "2026-08-12", "readAs": "not opened in this pass; figures carried from research/raw/resources-spectrum.json", "tier": "documented", "caveat": "second-hand within this project"},
+    {"id": "pib-2077800", "publisher": "Press Information Bureau, Ministry of Coal", "title": "Nine Mines Successfully Auctioned in 10th Round of Commercial Coal Mine Auctions, 27 NOV 2024 11:52AM by PIB Delhi - mine-wise result table with state, PRC, geological reserves, closing bidder, reserve price % and final offer %", "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2077800", "retrieved": "2026-08-12", "readAs": "HTML, curl with a Chrome user-agent, table cells preserved", "tier": "documented"},
+    {"id": "pib-2114385", "publisher": "Press Information Bureau, Ministry of Coal", "title": "Twelve Mines Successfully Auctioned in 11th Round of Commercial Coal Mine Auctions, 24 MAR 2025 3:38PM by PIB Delhi", "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2114385", "retrieved": "2026-08-12", "readAs": "HTML, curl with a Chrome user-agent", "tier": "documented"},
+    {"id": "pib-2151244", "publisher": "Press Information Bureau, Ministry of Coal", "title": "Seven Coal Blocks Successfully Auctioned in 12th Round of Commercial Auctions, 01 AUG 2025 2:38PM by PIB Delhi - forward auctions held 28 to 31 July 2025", "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2151244", "retrieved": "2026-08-12", "readAs": "HTML, curl with a Chrome user-agent", "tier": "documented"},
+    {"id": "pib-2194552", "publisher": "Press Information Bureau, Ministry of Coal", "title": "Three Coal Blocks Successfully Auctioned in 13th Round of Commercial Auctions, 26 NOV 2025 12:53PM by PIB Delhi - forward auctions 20 to 25 November 2025; Pirpainti Barahat, Dhulia North and Mandakini-B, all to Damodar Valley Corporation", "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2194552", "retrieved": "2026-08-12", "readAs": "HTML, curl with a Chrome user-agent", "tier": "documented"},
+    {"id": "pib-2183927", "publisher": "Press Information Bureau, Ministry of Coal", "title": "Ministry of Coal Launches 14th Round of Commercial Coal Mine Auctions, 29 OCT 2025 7:25PM by PIB Delhi - 41 mines offered, 21 with UCG potential, 20 fully explored and 21 partially explored; '133 coal mines across 12 rounds ... with a Peak Rated Capacity of ~276 MTPA'", "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2183927", "retrieved": "2026-08-12", "readAs": "HTML, curl with a Chrome user-agent", "tier": "documented"},
+    {"id": "pib-2207831", "publisher": "Press Information Bureau, Ministry of Coal", "title": "Encouraging Participation witnessed in 14th Round of Commercial Coal Blocks Auction; 49 bids received for 24 Coal Blocks, 23 DEC 2025 6:14PM by PIB Delhi - 11 companies, 5 first-time bidders, no per-block table", "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2207831", "retrieved": "2026-08-12", "readAs": "HTML, curl with a Chrome user-agent", "tier": "documented"},
+    {"id": "pib-2007501", "publisher": "Press Information Bureau, Ministry of Coal", "title": "Bids for 9th Round and Second Attempt of 7th Round of Commercial Coal Mines' Auction Opened Today, 20 FEB 2024 7:45PM by PIB Delhi - 'Mine-wise list of bids received is appended below'", "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2007501", "retrieved": "2026-08-12", "readAs": "HTML, curl with a Chrome user-agent; the mine-wise table parsed row by row", "tier": "documented"},
+    {"id": "pib-2066781", "publisher": "Press Information Bureau, Ministry of Coal", "title": "Bids for 10th Round and Second Attempt of 9th and 8th Round of Commercial Coal Mines' Auction Opened Today, 21 OCT 2024 6:42PM by PIB Delhi", "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2066781", "retrieved": "2026-08-12", "readAs": "HTML, curl with a Chrome user-agent; mine-wise table parsed", "tier": "documented"},
+    {"id": "pib-2099232", "publisher": "Press Information Bureau, Ministry of Coal", "title": "Bids for 11th Round and Second Attempt of 10th Round of Commercial Coal Mines' Auction Opened Today, 03 FEB 2025 6:02PM by PIB Delhi", "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2099232", "retrieved": "2026-08-12", "readAs": "HTML, curl with a Chrome user-agent; mine-wise table parsed", "tier": "documented"},
+    {"id": "pib-2136757", "publisher": "Press Information Bureau, Ministry of Coal", "title": "Ministry of Coal Opens Bids for 12th Round of Commercial Coal Blocks' Auction, 16 JUN 2025 6:44PM by PIB Delhi - 'Block-wise list of bids received online is as under'", "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2136757", "retrieved": "2026-08-12", "readAs": "HTML, curl with a Chrome user-agent; block-wise table parsed", "tier": "documented"},
+    {"id": "pib-2137313", "publisher": "Press Information Bureau, Ministry of Coal", "title": "Opening of Bids of Underground Coal Blocks for 12th Round of Commercial Coal Blocks' Auction, 18 JUN 2025 4:59PM by PIB Delhi - block-wise bid table AND a named-bidder table giving the number of bids submitted by each of 8 companies", "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2137313", "retrieved": "2026-08-12", "readAs": "HTML, curl with a Chrome user-agent; both tables parsed", "tier": "documented"},
+    {"id": "pib-yer2025", "publisher": "Press Information Bureau, Ministry of Coal", "title": "Ministry of Coal's Year End Review-2025 (PRID 2213723) - records the 14th round launch of 29.10.2025 offering 41 mines; carries no 14th round result", "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2213723", "retrieved": "2026-08-12", "readAs": "HTML, curl with a Chrome user-agent", "tier": "documented"},
+    {"id": "moc-na-downloads", "publisher": "Ministry of Coal, Office of the Nominated Authority", "title": "Auction/Allotment downloads register - most recent 50 entries span 21/05/2026 to 18/11/2024 with no entry between 18/11/2025 and 20/05/2026; carries result notices for tranches 10, 11 and 12 and none for 13 or 14; also carries a state-wise table with a grand total of 141 mines and 93 fully explored", "url": "https://www.coal.nic.in/nominated-authority/auction-allotment", "retrieved": "2026-08-12", "readAs": "HTML, curl with a Chrome user-agent, table rows parsed; identical content served from https://coal.gov.in/index.php/nominated-authority/auction-allotment", "tier": "documented"},
+    {"id": "moc-prebid-21may2026", "publisher": "Ministry of Coal, Nominated Authority, with CMPDI Ranchi", "title": "Pre-bid presentation, Auction of Coal Mines for Sale of Coal, 2nd Attempt of Tranche 24 under CM(SP) Act / Tranche 14 under MMDR Act, 21 May 2026 - page 3 '140 coal blocks have been auctioned under 14 tranches of auction'; page 4 table 'Number of Mines Auctioned' Tranche-14: 5, Total 140; page 5 'Mines on Offer - 5 mines - 2nd Attempt-14th Round'", "url": "https://www.coal.nic.in/sites/default/files/2026-05/21-05-2026a-auct.pdf", "retrieved": "2026-08-12", "readAs": "PDF, 49 pages, 1,667,446 bytes, downloaded with curl and text extracted with pypdf", "tier": "documented"},
+    {"id": "mstc-coal-result", "publisher": "MSTC Limited", "title": "Result for Commercial Coal Mine eAuction - the full list of published results, newest entry 'Result of E-auction Day-2 dated 14.09.2022'", "url": "https://www.mstcecommerce.com/auctionhome/Layouts/comm-coal-mine-result.html", "retrieved": "2026-08-12", "readAs": "HTML, curl with a Chrome user-agent", "tier": "documented", "note": "NEGATIVE EVIDENCE. Nothing published on this page since 14 September 2022, which disposes of the candidate's claim that the 14th round result appeared there."},
+    {"id": "mines-ar2526", "publisher": "Ministry of Mines, Government of India", "title": "Annual Report 2025-26, chapter 3 'Legislative Framework, Mineral Policy and Implementation'. Page 35: '...332 Notice Inviting Tenders (NITs) for the auction of mineral blocks have been issued ... of which 143 mineral blocks (ML-81, CL-62) have been successfully auctioned across 17 major mineral states.' Page 37: '...76 unique Critical and Strategic Mineral blocks ... in 06 tranches ... 34 blocks (5 Mining Lease and 29 composite licence) have been successfully auctioned.' Data as on 31.12.2025.", "url": "https://mines.gov.in/admin/download/69945dabea1821771330987.pdf", "retrieved": "2026-08-12", "readAs": "PDF, 360 pages, 8,707,641 bytes, downloaded with curl and text extracted with pypdf; 743,137 characters extracted; term counts run over the full extraction", "tier": "documented"},
+    {"id": "bs-tranche7-annulment", "publisher": "Business Standard (Press Trust of India syndicated wire)", "title": "Govt scraps 9 critical mineral blocks auction citing poor investor response, 05 Jul 2026", "url": "https://www.business-standard.com/industry/news/govt-scraps-9-critical-mineral-blocks-auction-citing-poor-investor-response-126070500149_1.html", "retrieved": "2026-08-11", "readAs": "not opened in this pass; carried from research/raw/resources-minerals.json", "tier": "reported"},
+    {"id": "bs-tranche6-annulment", "publisher": "Business Standard (Press Trust of India syndicated wire)", "title": "Govt cancels 11 critical, strategic mineral blocks auction on poor response, 31 Mar 2026", "url": "https://www.business-standard.com/industry/news/govt-cancels-11-critical-strategic-mineral-blocks-auction-on-poor-response-126033100471_1.html", "retrieved": "2026-08-11", "readAs": "not opened in this pass; carried from research/raw/resources-minerals.json", "tier": "reported"},
+    {"id": "procurement-ocds", "publisher": "this project", "title": "research/raw/procurement-ocds.json", "url": null, "retrieved": "2026-08-12", "readAs": "local JSON", "tier": "analytic"},
+    {"id": "resources-spectrum", "publisher": "this project", "title": "research/raw/resources-spectrum.json", "url": null, "retrieved": "2026-08-12", "readAs": "local JSON", "tier": "analytic"},
+    {"id": "resources-coal", "publisher": "this project", "title": "research/raw/resources-coal.json", "url": null, "retrieved": "2026-08-12", "readAs": "local JSON", "tier": "analytic"},
+    {"id": "resources-minerals", "publisher": "this project", "title": "research/raw/resources-minerals.json", "url": null, "retrieved": "2026-08-12", "readAs": "local JSON", "tier": "analytic"}
+  ],
+
+  "unreachable": [
+    {"target": "https://www.lightreading.com/regulatory-politics/why-auction-led-spectrum-policy-has-failed-india", "behaviour": "HTTP 403 to WebFetch and to curl -sSL --compressed with a Chrome user-agent", "consequence": "C2's prior-coverage claim is unverified and is labelled as such"},
+    {"target": "https://data.open-contracting.org/en/publication/77/ and /en/publication/131/", "behaviour": "HTTP 404 on the language-prefixed path", "consequence": "use https://data.open-contracting.org/publication/<n> instead - it returns 200. Recorded because procurement-ocds.json cites the /en/ form."},
+    {"target": "https://www.coal.nic.in/en/major-statistics/auction-of-coal-mines and https://coal.nic.in/en/download-list/2262", "behaviour": "HTTP 404, 721-byte body", "consequence": "the working path is https://www.coal.nic.in/nominated-authority/auction-allotment"},
+    {"target": "PIB ministry-and-date-filtered release archive", "behaviour": "https://www.pib.gov.in/AllRelease.aspx?MenuId=286 returns 200 but serves an unfiltered listing of 760 links dominated by President, Vice-President and Prime Minister items; no ministry scoping parameter was found", "consequence": "the absence of a 14th-round coal result release rests on keyword search plus the Nominated Authority register, not on enumeration"},
+    {"target": "GePNIC state e-procurement award pages for Himachal Pradesh and Assam", "behaviour": "captcha-gated, require a known tender ID, and stored portal URLs are session-scoped and return 'Unauthorized Page' when replayed (recorded in procurement-ocds.json.verification and not re-tested here)", "consequence": "no row in either OCDS dataset has been verified against its portal page; every procurement figure in this file remains reported"}
+  ],
+
+  "rejected": [
+    {"candidate": "Reading the Assam and Himachal single-bidder gap as evidence about how the two states award contracts", "reason": "The datasets do not observe the same object. Himachal's is award-joined from the Central Public Procurement Portal with 4,211 award records; Assam's has zero award records and is 69.67% pre-award tenders. Any inference about award behaviour from a denominator that is mostly tenders whose bids had not been opened is unsound."},
+    {"candidate": "Using the residual 2.5x gap, after matching stage, valuation, period and category, as a finding", "reason": "It sits on top of a 6.4-fold difference in median tender value (Rs 15,73,179 against Rs 1,00,00,000) driven by a documented Assam e-procurement value threshold that Himachal does not appear to have, and on top of a procurement-method coding the source file already flags as an export artefact. It is a difference between two datasets, not a demonstrated difference in conduct."},
+    {"candidate": "Testing the peer flag that Assam's numberOfTenderers disagrees with a bidder-roster length", "reason": "Neither publication contains a bidder roster. The registry states 'Count of tenderers: 0' for both. The test cannot be run inside these files, and the more useful finding is that numberOfTenderers is an unchecked scalar with no internal corroboration in either dataset."},
+    {"candidate": "Presenting the 2024 spectrum auction's 1.34% as a failure statistic", "reason": "93.23% of the denominator is 26 GHz and 3300 MHz, both sold in bulk 22 months earlier, and the closing release states that the 2024 offer consisted of expiring spectrum plus 2022's unsold spectrum. 26 GHz alone is 82.68% of the megahertz and 2.84% of the reserve valuation."},
+    {"candidate": "Asserting that the 8,700 MHz of 26 GHz offered in 2024 is the 2022 residue", "reason": "The arithmetic does not close. 2022 offered 62,700 MHz of 26 GHz and sold 45,350, leaving 17,350; 2024 offered 8,700. 3300 MHz: 7,260 offered and 5,490 sold in 2022, leaving 1,770; 2024 offered 1,110. The direction is right and DoT states the composition in general terms, but the band-by-band reconciliation is not published and was not constructed."},
+    {"candidate": "The word 'suppressed' in relation to the 14th-round coal result", "reason": "The Ministry of Coal published the outcome itself on 21 May 2026. Intent is not assertable from a publication gap, and the comparator round - the 13th - is missing from the same Nominated Authority register while having a PIB release, which the suppression reading cannot accommodate."},
+    {"candidate": "'The 14th round result appeared only on MSTC five months later'", "reason": "MSTC's commercial coal result page has published nothing since 14 September 2022. This limb belongs to the critical-minerals record, where MSTC genuinely is the only block-level result source for tranches VI and VII. It is an identity error between two datasets."},
+    {"candidate": "Quoting the 53.66% or 54.47% critical-mineral annulment rate as a documented figure", "reason": "It rests on a single Press Trust of India wire report quoting annulment notices that were not themselves retrieved. resources-minerals.json says so. It is `reported` and cannot carry a headline."},
+    {"candidate": "'Coal deliberately withholds bid counts'", "reason": "The Ministry of Coal publishes mine-wise bid counts in its PIB bid-opening releases for rounds 9 to 12, and in one release the names of the bidders with the number of bids each submitted. 65 mine-level observations were recovered. A practice that was adopted cannot have been withheld."},
+    {"candidate": "Computing a single-bidder rate for coal mines OFFERED from the 65 recovered observations", "reason": "The PIB tables list only mines that received at least one bid. Mines with zero bids are absent from them. The 40.00% single-bid share is a share of mines that drew any bidder, not of mines offered, and must never be quoted as the latter."}
+  ]
+}

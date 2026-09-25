@@ -1,0 +1,3771 @@
+{
+  "asOf": "2026-08-12",
+  "sources": [
+    {
+      "publisher": "Open Contracting Partnership data registry",
+      "title": "Publication 77 — Himachal Pradesh (CivicDataLab), full.jsonl.gz",
+      "url": "https://data.open-contracting.org/en/publication/77/download?name=full.jsonl.gz",
+      "retrieved": "2026-08-12",
+      "readAs": "gzipped JSON Lines, downloaded with curl and parsed line by line",
+      "bytes": 10319213,
+      "sha256_16": "fa7fc29b4166c51a"
+    },
+    {
+      "publisher": "Open Contracting Partnership data registry",
+      "title": "Publication 131 — Assam (CivicDataLab), full.jsonl.gz",
+      "url": "https://data.open-contracting.org/en/publication/131/download?name=full.jsonl.gz",
+      "retrieved": "2026-08-12",
+      "readAs": "gzipped JSON Lines, downloaded with curl and parsed line by line",
+      "bytes": 41594501,
+      "sha256_16": "15614a65f4380d64"
+    }
+  ],
+  "scope": "Bid counts on Indian public procurement, from the only two jurisdictions that publish them in bulk. Himachal Pradesh and Assam only — this is NOT a national dataset and no figure here should be presented as an Indian rate.",
+  "headline": "Single-bidder rates differ by a factor of 4.8 between the only two Indian states whose procurement bid counts are published: 3.39% in Himachal Pradesh (128 of 3771) against 16.18% in Assam (4532 of 28015), measured identically over tenders that drew at least one bid. Neither state published the data itself.",
+  "provenance": {
+    "tier": "reported",
+    "tierReason": "Neither dataset is published by the procuring government. Both are transformations of state e-procurement portal scrapes, made by CivicDataLab (an NGO) and registered with the Open Contracting Partnership. Per docs/INGESTION.md Stage 0 a third-party bulk dataset enters at `reported` and no individual row becomes `documented` until the portal page for that row is opened.",
+    "transformedBy": "CivicDataLab",
+    "registeredWith": "Open Contracting Partnership data registry",
+    "standard": "Open Contracting Data Standard 1.1, compiled releases"
+  },
+  "verification": {
+    "status": "not-yet-verified",
+    "why": "Award-stage pages on the GePNIC state portals these were scraped from are captcha-gated and additionally require a known tender ID, and the stored portal URLs are session-scoped and return \"Unauthorized Page\" when replayed. A sample therefore cannot be checked by automated retrieval; it needs portal search by tender ID, by hand.",
+    "plan": "node scripts/verify-sample.mjs draw research/raw/procurement-ocds.json samples.himachalPradesh --n 40 --seed 7, then retrieve each by tender ID through the portal search form.",
+    "consequence": "Until that is done every figure here is `reported` and carries an unmeasured error rate. The rates are published because an unverified rate with its provenance stated is more useful than no rate at all — but a parser bug that dropped bidders would be invisible, and the single-bidder figures would be biased upward by exactly that bug."
+  },
+  "freshness": {
+    "warning": "Both datasets are frozen. There is no live official feed of Indian procurement outcomes.",
+    "himachalPradesh": "Registry records the source as no longer updated.",
+    "assam": "Registry records the source as no longer updated; CKAN mirrors run later."
+  },
+  "jurisdictions": [
+    {
+      "jurisdiction": "Himachal Pradesh",
+      "records": 3791,
+      "withBidCount": 3771,
+      "bidCountCoveragePct": 99.47,
+      "zeroBidTenders": 0,
+      "zeroBidPct": 0,
+      "tendersThatDrewBids": 3771,
+      "singleBidder": 128,
+      "singleBidderPctOfContested": 3.39,
+      "singleBidderPctOfAll": 3.39,
+      "meanBidsWhereContested": 4.4,
+      "medianBidsWhereContested": 3,
+      "histogram": {
+        "1": 128,
+        "2": 872,
+        "3": 926,
+        "4": 597,
+        "5": 423,
+        "6": 284,
+        "7": 156,
+        "8": 116,
+        "9": 89,
+        "10": 34,
+        "11": 25,
+        "12": 24,
+        "13": 13,
+        "14": 13,
+        "15": 13,
+        "16": 4,
+        "17": 6,
+        "18": 5,
+        "19": 2,
+        "20": 4,
+        "21": 1,
+        "22": 5,
+        "24": 1,
+        "25": 1,
+        "26": 5,
+        "27": 2,
+        "28": 3,
+        "29": 3,
+        "31": 3,
+        "32": 2,
+        "34": 2,
+        "35": 3,
+        "36": 4,
+        "37": 1,
+        "40": 1
+      },
+      "byValueBand": [
+        {
+          "band": "under 1 lakh",
+          "tenders": 60,
+          "singleBidder": 1,
+          "singleBidderPct": 1.67,
+          "meanBids": 4.23
+        },
+        {
+          "band": "1 to 10 lakh",
+          "tenders": 1027,
+          "singleBidder": 19,
+          "singleBidderPct": 1.85,
+          "meanBids": 5.1
+        },
+        {
+          "band": "10 lakh to 1 crore",
+          "tenders": 2329,
+          "singleBidder": 99,
+          "singleBidderPct": 4.25,
+          "meanBids": 4.15
+        },
+        {
+          "band": "1 to 10 crore",
+          "tenders": 312,
+          "singleBidder": 9,
+          "singleBidderPct": 2.88,
+          "meanBids": 3.98
+        },
+        {
+          "band": "over 10 crore",
+          "tenders": 41,
+          "singleBidder": 0,
+          "singleBidderPct": 0,
+          "meanBids": 4.15
+        }
+      ],
+      "byCategory": [
+        {
+          "key": "works",
+          "tenders": 3650,
+          "singleBidder": 120,
+          "singleBidderPct": 3.29
+        },
+        {
+          "key": "goods",
+          "tenders": 72,
+          "singleBidder": 6,
+          "singleBidderPct": 8.33
+        },
+        {
+          "key": "services",
+          "tenders": 49,
+          "singleBidder": 2,
+          "singleBidderPct": 4.08
+        }
+      ],
+      "byProcurementMethod": [
+        {
+          "key": "limited",
+          "tenders": 3768,
+          "singleBidder": 128,
+          "singleBidderPct": 3.4
+        },
+        {
+          "key": "open",
+          "tenders": 3,
+          "singleBidder": 0,
+          "singleBidderPct": 0
+        }
+      ],
+      "topBuyers": [
+        {
+          "key": "PWD",
+          "tenders": 2041,
+          "singleBidder": 90,
+          "singleBidderPct": 4.41
+        },
+        {
+          "key": "Directorate of Urban Development||Urban Development - UDDHP||Municipal Council Solan - UDDHP",
+          "tenders": 136,
+          "singleBidder": 2,
+          "singleBidderPct": 1.47
+        },
+        {
+          "key": "HP Irrigation and Public Health||Una Circle,Irrigation and Public Health,HP||Una-I,Irrigation and Public Health,HP",
+          "tenders": 78,
+          "singleBidder": 0,
+          "singleBidderPct": 0
+        },
+        {
+          "key": "Municipal Corporation Shimla||Road and Building - MC",
+          "tenders": 75,
+          "singleBidder": 0,
+          "singleBidderPct": 0
+        },
+        {
+          "key": "HP Irrigation and Public Health||Hamirpur Circle,Irrigation and Public Health,HP||Barsar,Irrigation and Public Health,HP",
+          "tenders": 67,
+          "singleBidder": 1,
+          "singleBidderPct": 1.49
+        },
+        {
+          "key": "HP Irrigation and Public Health||Nahan Circle,Irrigation and Public Health,HP||Nahan,Irrigation and Public Health,HP",
+          "tenders": 64,
+          "singleBidder": 1,
+          "singleBidderPct": 1.56
+        },
+        {
+          "key": "HP Irrigation and Public Health||Dharamshala Circle,Irrigation and Public Health,HP||Palampur,Irrigation and Public Health,HP",
+          "tenders": 57,
+          "singleBidder": 0,
+          "singleBidderPct": 0
+        },
+        {
+          "key": "HP Irrigation and Public Health||Hamirpur Circle,Irrigation and Public Health,HP||Dehra,Irrigation and Public Health,HP",
+          "tenders": 57,
+          "singleBidder": 0,
+          "singleBidderPct": 0
+        },
+        {
+          "key": "HP Irrigation and Public Health||Kullu Circle,Irrigation and Public Health,HP||Kullu -1,Irrigation and Public Health,HP",
+          "tenders": 50,
+          "singleBidder": 2,
+          "singleBidderPct": 4
+        },
+        {
+          "key": "HP Irrigation and Public Health||Dharamshala Circle,Irrigation and Public Health,HP||Thural,Irrigation and Public Health,HP",
+          "tenders": 47,
+          "singleBidder": 0,
+          "singleBidderPct": 0
+        },
+        {
+          "key": "HP Irrigation and Public Health||Dharamshala Circle,Irrigation and Public Health,HP||Shahpur,Irrigation and Public Health,HP",
+          "tenders": 46,
+          "singleBidder": 0,
+          "singleBidderPct": 0
+        },
+        {
+          "key": "HP Irrigation and Public Health||Hamirpur Circle,Irrigation and Public Health,HP||Hamirpur,Irrigation and Public Health,HP",
+          "tenders": 45,
+          "singleBidder": 0,
+          "singleBidderPct": 0
+        },
+        {
+          "key": "HP Irrigation and Public Health||S Nagar Circle,Irrigation and Public Health,HP||Mandi,Irrigation and Public Health,HP",
+          "tenders": 45,
+          "singleBidder": 0,
+          "singleBidderPct": 0
+        },
+        {
+          "key": "HP Irrigation and Public Health||Bilaspur Circle,Irrigation and Public Health,HP||Bilaspur,Irrigation and Public Health,HP",
+          "tenders": 37,
+          "singleBidder": 0,
+          "singleBidderPct": 0
+        },
+        {
+          "key": "HP Irrigation and Public Health||Rohru Circle,Irrigation and Public Health,HP||Jubbal,Irrigation and Public Health,HP",
+          "tenders": 35,
+          "singleBidder": 0,
+          "singleBidderPct": 0
+        }
+      ]
+    },
+    {
+      "jurisdiction": "Assam",
+      "records": 34232,
+      "withBidCount": 34224,
+      "bidCountCoveragePct": 99.98,
+      "zeroBidTenders": 3644,
+      "zeroBidPct": 10.65,
+      "tendersThatDrewBids": 28015,
+      "singleBidder": 4532,
+      "singleBidderPctOfContested": 16.18,
+      "singleBidderPctOfAll": 13.24,
+      "meanBidsWhereContested": 3.77,
+      "medianBidsWhereContested": 3,
+      "histogram": {
+        "0": 3644,
+        "1": 4532,
+        "2": 9309,
+        "3": 6194,
+        "4": 2753,
+        "5": 1648,
+        "6": 1109,
+        "7": 674,
+        "8": 439,
+        "9": 300,
+        "10": 210,
+        "11": 165,
+        "12": 112,
+        "13": 110,
+        "14": 66,
+        "15": 70,
+        "16": 53,
+        "17": 34,
+        "18": 31,
+        "19": 24,
+        "20": 22,
+        "21": 17,
+        "22": 15,
+        "23": 19,
+        "24": 11,
+        "25": 4,
+        "26": 9,
+        "27": 5,
+        "28": 5,
+        "29": 3,
+        "30": 1,
+        "31": 3,
+        "32": 6,
+        "33": 3,
+        "34": 7,
+        "35": 1,
+        "36": 3,
+        "38": 1,
+        "40": 1,
+        "41": 3,
+        "43": 2,
+        "44": 1,
+        "45": 1,
+        "48": 1,
+        "51": 1,
+        "52": 1,
+        "53": 1,
+        "54": 1,
+        "56": 2,
+        "62": 1,
+        "64": 1,
+        "75": 1,
+        "79": 1,
+        "80": 1,
+        "91": 1,
+        "96": 1,
+        "106": 1,
+        "111": 1,
+        "115": 1,
+        "120": 1,
+        "140": 1,
+        "159": 1,
+        "172": 1,
+        "181": 1,
+        "189": 1,
+        "295": 1,
+        "308": 1,
+        "318": 1,
+        "349": 1,
+        "352": 1,
+        "361": 1,
+        "475": 1,
+        "507": 1,
+        "540": 1,
+        "692": 1,
+        "759": 1,
+        "849": 1,
+        "873": 1,
+        "899": 1,
+        "1077": 1,
+        "1410": 1,
+        "NA": 2565
+      },
+      "byValueBand": [
+        {
+          "band": "under 1 lakh",
+          "tenders": 2150,
+          "singleBidder": 246,
+          "singleBidderPct": 11.44,
+          "meanBids": 9.96
+        },
+        {
+          "band": "1 to 10 lakh",
+          "tenders": 550,
+          "singleBidder": 139,
+          "singleBidderPct": 25.27,
+          "meanBids": 4.09
+        },
+        {
+          "band": "10 lakh to 1 crore",
+          "tenders": 11154,
+          "singleBidder": 1411,
+          "singleBidderPct": 12.65,
+          "meanBids": 3.19
+        },
+        {
+          "band": "1 to 10 crore",
+          "tenders": 9795,
+          "singleBidder": 1580,
+          "singleBidderPct": 16.13,
+          "meanBids": 3.31
+        },
+        {
+          "band": "over 10 crore",
+          "tenders": 1266,
+          "singleBidder": 206,
+          "singleBidderPct": 16.27,
+          "meanBids": 4.02
+        }
+      ],
+      "byCategory": [
+        {
+          "key": "Works",
+          "tenders": 25574,
+          "singleBidder": 3841,
+          "singleBidderPct": 15.02
+        },
+        {
+          "key": "Goods",
+          "tenders": 3858,
+          "singleBidder": 532,
+          "singleBidderPct": 13.79
+        },
+        {
+          "key": "Services",
+          "tenders": 1148,
+          "singleBidder": 159,
+          "singleBidderPct": 13.85
+        }
+      ],
+      "byProcurementMethod": [
+        {
+          "key": "Open Tender",
+          "tenders": 30168,
+          "singleBidder": 4455,
+          "singleBidderPct": 14.77
+        },
+        {
+          "key": "Limited",
+          "tenders": 281,
+          "singleBidder": 52,
+          "singleBidderPct": 18.51
+        },
+        {
+          "key": "Open Limited",
+          "tenders": 80,
+          "singleBidder": 5,
+          "singleBidderPct": 6.25
+        },
+        {
+          "key": "Global Tenders",
+          "tenders": 32,
+          "singleBidder": 6,
+          "singleBidderPct": 18.75
+        },
+        {
+          "key": "Single",
+          "tenders": 19,
+          "singleBidder": 14,
+          "singleBidderPct": 73.68
+        }
+      ],
+      "topBuyers": [
+        {
+          "key": "Public Works Roads Department",
+          "tenders": 9475,
+          "singleBidder": 1663,
+          "singleBidderPct": 17.55
+        },
+        {
+          "key": "Bodoland Territorial Council-PWD",
+          "tenders": 2765,
+          "singleBidder": 143,
+          "singleBidderPct": 5.17
+        },
+        {
+          "key": "Department of Water Resources",
+          "tenders": 2156,
+          "singleBidder": 324,
+          "singleBidderPct": 15.03
+        },
+        {
+          "key": "Public Works Building and NH Department",
+          "tenders": 2125,
+          "singleBidder": 395,
+          "singleBidderPct": 18.59
+        },
+        {
+          "key": "Bodoland Territorial Council",
+          "tenders": 1861,
+          "singleBidder": 99,
+          "singleBidderPct": 5.32
+        },
+        {
+          "key": "Industries and Commerce Department",
+          "tenders": 1032,
+          "singleBidder": 177,
+          "singleBidderPct": 17.15
+        },
+        {
+          "key": "National Health Mission",
+          "tenders": 913,
+          "singleBidder": 81,
+          "singleBidderPct": 8.87
+        },
+        {
+          "key": "Guwahati Municipal Corporation",
+          "tenders": 770,
+          "singleBidder": 140,
+          "singleBidderPct": 18.18
+        },
+        {
+          "key": "Assam Power Distribution Company Ltd",
+          "tenders": 757,
+          "singleBidder": 111,
+          "singleBidderPct": 14.66
+        },
+        {
+          "key": "Home B",
+          "tenders": 695,
+          "singleBidder": 93,
+          "singleBidderPct": 13.38
+        },
+        {
+          "key": "Health and Family Welfare Department",
+          "tenders": 636,
+          "singleBidder": 133,
+          "singleBidderPct": 20.91
+        },
+        {
+          "key": "Welfare of Plain Tribes and Backward Classes",
+          "tenders": 577,
+          "singleBidder": 86,
+          "singleBidderPct": 14.9
+        },
+        {
+          "key": "Public Health Engineering Department",
+          "tenders": 544,
+          "singleBidder": 105,
+          "singleBidderPct": 19.3
+        },
+        {
+          "key": "Axom Sarba Siksha Abhijan Mission",
+          "tenders": 494,
+          "singleBidder": 70,
+          "singleBidderPct": 14.17
+        },
+        {
+          "key": "Assam Police Housing Corporation Ltd",
+          "tenders": 492,
+          "singleBidder": 80,
+          "singleBidderPct": 16.26
+        }
+      ]
+    }
+  ],
+  "scatterSamples": [
+    {
+      "jurisdiction": "Himachal Pradesh",
+      "population": 3734,
+      "sampled": 400,
+      "seed": 11,
+      "points": [
+        {
+          "valueInr": 1297719,
+          "bids": 4
+        },
+        {
+          "valueInr": 102464,
+          "bids": 6
+        },
+        {
+          "valueInr": 1801971,
+          "bids": 3
+        },
+        {
+          "valueInr": 33638112,
+          "bids": 8
+        },
+        {
+          "valueInr": 1250000,
+          "bids": 4
+        },
+        {
+          "valueInr": 1068733,
+          "bids": 2
+        },
+        {
+          "valueInr": 493103,
+          "bids": 5
+        },
+        {
+          "valueInr": 2746363,
+          "bids": 2
+        },
+        {
+          "valueInr": 2021912,
+          "bids": 4
+        },
+        {
+          "valueInr": 6544166,
+          "bids": 3
+        },
+        {
+          "valueInr": 1027000,
+          "bids": 2
+        },
+        {
+          "valueInr": 2513638,
+          "bids": 5
+        },
+        {
+          "valueInr": 3911205,
+          "bids": 5
+        },
+        {
+          "valueInr": 1030219,
+          "bids": 3
+        },
+        {
+          "valueInr": 2125011,
+          "bids": 6
+        },
+        {
+          "valueInr": 4465072,
+          "bids": 4
+        },
+        {
+          "valueInr": 2495442,
+          "bids": 3
+        },
+        {
+          "valueInr": 1375000,
+          "bids": 4
+        },
+        {
+          "valueInr": 1949498,
+          "bids": 8
+        },
+        {
+          "valueInr": 2835344,
+          "bids": 4
+        },
+        {
+          "valueInr": 1200464,
+          "bids": 7
+        },
+        {
+          "valueInr": 18801475,
+          "bids": 3
+        },
+        {
+          "valueInr": 4358656,
+          "bids": 8
+        },
+        {
+          "valueInr": 1312385,
+          "bids": 2
+        },
+        {
+          "valueInr": 4080098,
+          "bids": 2
+        },
+        {
+          "valueInr": 856993,
+          "bids": 3
+        },
+        {
+          "valueInr": 718499,
+          "bids": 2
+        },
+        {
+          "valueInr": 1006972,
+          "bids": 3
+        },
+        {
+          "valueInr": 2933529,
+          "bids": 4
+        },
+        {
+          "valueInr": 152623,
+          "bids": 16
+        },
+        {
+          "valueInr": 1344095,
+          "bids": 3
+        },
+        {
+          "valueInr": 1427249,
+          "bids": 5
+        },
+        {
+          "valueInr": 1826799,
+          "bids": 1
+        },
+        {
+          "valueInr": 5160038,
+          "bids": 2
+        },
+        {
+          "valueInr": 24942878,
+          "bids": 3
+        },
+        {
+          "valueInr": 8291546,
+          "bids": 4
+        },
+        {
+          "valueInr": 233195,
+          "bids": 3
+        },
+        {
+          "valueInr": 142892,
+          "bids": 6
+        },
+        {
+          "valueInr": 1635088,
+          "bids": 7
+        },
+        {
+          "valueInr": 1757996,
+          "bids": 2
+        },
+        {
+          "valueInr": 215893,
+          "bids": 2
+        },
+        {
+          "valueInr": 4194153,
+          "bids": 3
+        },
+        {
+          "valueInr": 1426768,
+          "bids": 2
+        },
+        {
+          "valueInr": 41078054,
+          "bids": 3
+        },
+        {
+          "valueInr": 960841,
+          "bids": 3
+        },
+        {
+          "valueInr": 9633676,
+          "bids": 4
+        },
+        {
+          "valueInr": 4037122,
+          "bids": 6
+        },
+        {
+          "valueInr": 2210504,
+          "bids": 3
+        },
+        {
+          "valueInr": 2432135,
+          "bids": 5
+        },
+        {
+          "valueInr": 5312037,
+          "bids": 3
+        },
+        {
+          "valueInr": 134343,
+          "bids": 3
+        },
+        {
+          "valueInr": 99524837,
+          "bids": 5
+        },
+        {
+          "valueInr": 856993,
+          "bids": 3
+        },
+        {
+          "valueInr": 1309507,
+          "bids": 3
+        },
+        {
+          "valueInr": 3257946,
+          "bids": 2
+        },
+        {
+          "valueInr": 920261,
+          "bids": 5
+        },
+        {
+          "valueInr": 1501581,
+          "bids": 5
+        },
+        {
+          "valueInr": 3304070,
+          "bids": 2
+        },
+        {
+          "valueInr": 429510,
+          "bids": 3
+        },
+        {
+          "valueInr": 4987618,
+          "bids": 22
+        },
+        {
+          "valueInr": 527958,
+          "bids": 4
+        },
+        {
+          "valueInr": 710835,
+          "bids": 3
+        },
+        {
+          "valueInr": 681284,
+          "bids": 6
+        },
+        {
+          "valueInr": 1148501,
+          "bids": 5
+        },
+        {
+          "valueInr": 89564,
+          "bids": 1
+        },
+        {
+          "valueInr": 523970,
+          "bids": 26
+        },
+        {
+          "valueInr": 99500,
+          "bids": 5
+        },
+        {
+          "valueInr": 50000000,
+          "bids": 1
+        },
+        {
+          "valueInr": 1010000,
+          "bids": 2
+        },
+        {
+          "valueInr": 2438550,
+          "bids": 2
+        },
+        {
+          "valueInr": 6355344,
+          "bids": 3
+        },
+        {
+          "valueInr": 5781261,
+          "bids": 1
+        },
+        {
+          "valueInr": 1434474,
+          "bids": 2
+        },
+        {
+          "valueInr": 2195756,
+          "bids": 3
+        },
+        {
+          "valueInr": 4487195,
+          "bids": 8
+        },
+        {
+          "valueInr": 1027748,
+          "bids": 5
+        },
+        {
+          "valueInr": 623619,
+          "bids": 2
+        },
+        {
+          "valueInr": 2450000,
+          "bids": 2
+        },
+        {
+          "valueInr": 991981,
+          "bids": 8
+        },
+        {
+          "valueInr": 4576493,
+          "bids": 10
+        },
+        {
+          "valueInr": 3424697,
+          "bids": 3
+        },
+        {
+          "valueInr": 2248868,
+          "bids": 2
+        },
+        {
+          "valueInr": 386185,
+          "bids": 34
+        },
+        {
+          "valueInr": 1739071,
+          "bids": 3
+        },
+        {
+          "valueInr": 1701106,
+          "bids": 2
+        },
+        {
+          "valueInr": 2593725,
+          "bids": 2
+        },
+        {
+          "valueInr": 220000,
+          "bids": 3
+        },
+        {
+          "valueInr": 200000,
+          "bids": 4
+        },
+        {
+          "valueInr": 16495370,
+          "bids": 4
+        },
+        {
+          "valueInr": 1000000,
+          "bids": 3
+        },
+        {
+          "valueInr": 600000,
+          "bids": 2
+        },
+        {
+          "valueInr": 3155344,
+          "bids": 8
+        },
+        {
+          "valueInr": 1068398,
+          "bids": 3
+        },
+        {
+          "valueInr": 1355975,
+          "bids": 15
+        },
+        {
+          "valueInr": 1113401,
+          "bids": 12
+        },
+        {
+          "valueInr": 1739766,
+          "bids": 3
+        },
+        {
+          "valueInr": 2915030,
+          "bids": 4
+        },
+        {
+          "valueInr": 1100070,
+          "bids": 22
+        },
+        {
+          "valueInr": 2980427,
+          "bids": 5
+        },
+        {
+          "valueInr": 1496308,
+          "bids": 4
+        },
+        {
+          "valueInr": 5857266,
+          "bids": 7
+        },
+        {
+          "valueInr": 1852750,
+          "bids": 2
+        },
+        {
+          "valueInr": 1436671,
+          "bids": 3
+        },
+        {
+          "valueInr": 12324674,
+          "bids": 5
+        },
+        {
+          "valueInr": 565061,
+          "bids": 2
+        },
+        {
+          "valueInr": 1980853,
+          "bids": 2
+        },
+        {
+          "valueInr": 6306765,
+          "bids": 6
+        },
+        {
+          "valueInr": 1291165,
+          "bids": 2
+        },
+        {
+          "valueInr": 12000000,
+          "bids": 9
+        },
+        {
+          "valueInr": 3248056,
+          "bids": 4
+        },
+        {
+          "valueInr": 1540001,
+          "bids": 5
+        },
+        {
+          "valueInr": 1284027,
+          "bids": 6
+        },
+        {
+          "valueInr": 1145112,
+          "bids": 2
+        },
+        {
+          "valueInr": 39496354,
+          "bids": 3
+        },
+        {
+          "valueInr": 1146140,
+          "bids": 6
+        },
+        {
+          "valueInr": 1300146,
+          "bids": 1
+        },
+        {
+          "valueInr": 76292,
+          "bids": 8
+        },
+        {
+          "valueInr": 1643362,
+          "bids": 5
+        },
+        {
+          "valueInr": 2999987,
+          "bids": 6
+        },
+        {
+          "valueInr": 5000000,
+          "bids": 7
+        },
+        {
+          "valueInr": 15800222,
+          "bids": 4
+        },
+        {
+          "valueInr": 750253097,
+          "bids": 3
+        },
+        {
+          "valueInr": 1118640,
+          "bids": 4
+        },
+        {
+          "valueInr": 3096608,
+          "bids": 6
+        },
+        {
+          "valueInr": 299180,
+          "bids": 3
+        },
+        {
+          "valueInr": 1190965,
+          "bids": 5
+        },
+        {
+          "valueInr": 1705061,
+          "bids": 5
+        },
+        {
+          "valueInr": 991028,
+          "bids": 9
+        },
+        {
+          "valueInr": 938489,
+          "bids": 4
+        },
+        {
+          "valueInr": 4268799,
+          "bids": 8
+        },
+        {
+          "valueInr": 1086834,
+          "bids": 3
+        },
+        {
+          "valueInr": 4600000,
+          "bids": 2
+        },
+        {
+          "valueInr": 1286006,
+          "bids": 2
+        },
+        {
+          "valueInr": 1310722,
+          "bids": 2
+        },
+        {
+          "valueInr": 5210305,
+          "bids": 1
+        },
+        {
+          "valueInr": 280638,
+          "bids": 3
+        },
+        {
+          "valueInr": 2252337,
+          "bids": 2
+        },
+        {
+          "valueInr": 1301550,
+          "bids": 2
+        },
+        {
+          "valueInr": 739341,
+          "bids": 3
+        },
+        {
+          "valueInr": 972517,
+          "bids": 9
+        },
+        {
+          "valueInr": 210552,
+          "bids": 6
+        },
+        {
+          "valueInr": 2947822,
+          "bids": 2
+        },
+        {
+          "valueInr": 5926186,
+          "bids": 3
+        },
+        {
+          "valueInr": 3106926,
+          "bids": 7
+        },
+        {
+          "valueInr": 425175,
+          "bids": 4
+        },
+        {
+          "valueInr": 1160240,
+          "bids": 2
+        },
+        {
+          "valueInr": 932663,
+          "bids": 6
+        },
+        {
+          "valueInr": 1276689,
+          "bids": 3
+        },
+        {
+          "valueInr": 8260000,
+          "bids": 6
+        },
+        {
+          "valueInr": 2989350,
+          "bids": 2
+        },
+        {
+          "valueInr": 2179173,
+          "bids": 9
+        },
+        {
+          "valueInr": 3931254,
+          "bids": 7
+        },
+        {
+          "valueInr": 6533812,
+          "bids": 4
+        },
+        {
+          "valueInr": 586909,
+          "bids": 2
+        },
+        {
+          "valueInr": 2264278,
+          "bids": 5
+        },
+        {
+          "valueInr": 1277189,
+          "bids": 1
+        },
+        {
+          "valueInr": 23713030,
+          "bids": 3
+        },
+        {
+          "valueInr": 2106338,
+          "bids": 2
+        },
+        {
+          "valueInr": 3136000,
+          "bids": 4
+        },
+        {
+          "valueInr": 1862185,
+          "bids": 2
+        },
+        {
+          "valueInr": 664023,
+          "bids": 3
+        },
+        {
+          "valueInr": 2919310,
+          "bids": 9
+        },
+        {
+          "valueInr": 4703746,
+          "bids": 3
+        },
+        {
+          "valueInr": 1446093,
+          "bids": 6
+        },
+        {
+          "valueInr": 174835,
+          "bids": 5
+        },
+        {
+          "valueInr": 1440879,
+          "bids": 6
+        },
+        {
+          "valueInr": 1079453,
+          "bids": 7
+        },
+        {
+          "valueInr": 1285781,
+          "bids": 3
+        },
+        {
+          "valueInr": 4838649,
+          "bids": 3
+        },
+        {
+          "valueInr": 480000,
+          "bids": 3
+        },
+        {
+          "valueInr": 6035398,
+          "bids": 3
+        },
+        {
+          "valueInr": 1740360,
+          "bids": 3
+        },
+        {
+          "valueInr": 8000000,
+          "bids": 1
+        },
+        {
+          "valueInr": 739341,
+          "bids": 5
+        },
+        {
+          "valueInr": 2701666,
+          "bids": 8
+        },
+        {
+          "valueInr": 588787,
+          "bids": 3
+        },
+        {
+          "valueInr": 1708889,
+          "bids": 1
+        },
+        {
+          "valueInr": 194771,
+          "bids": 8
+        },
+        {
+          "valueInr": 980724,
+          "bids": 2
+        },
+        {
+          "valueInr": 1238610,
+          "bids": 2
+        },
+        {
+          "valueInr": 113166,
+          "bids": 3
+        },
+        {
+          "valueInr": 32163114,
+          "bids": 5
+        },
+        {
+          "valueInr": 18324171,
+          "bids": 4
+        },
+        {
+          "valueInr": 2965782,
+          "bids": 3
+        },
+        {
+          "valueInr": 673184,
+          "bids": 3
+        },
+        {
+          "valueInr": 1179723,
+          "bids": 2
+        },
+        {
+          "valueInr": 12717113,
+          "bids": 4
+        },
+        {
+          "valueInr": 1067320,
+          "bids": 4
+        },
+        {
+          "valueInr": 1444559,
+          "bids": 2
+        },
+        {
+          "valueInr": 2501809,
+          "bids": 2
+        },
+        {
+          "valueInr": 1440497,
+          "bids": 7
+        },
+        {
+          "valueInr": 53983000,
+          "bids": 1
+        },
+        {
+          "valueInr": 2157078,
+          "bids": 3
+        },
+        {
+          "valueInr": 250000,
+          "bids": 3
+        },
+        {
+          "valueInr": 6548253,
+          "bids": 3
+        },
+        {
+          "valueInr": 999258,
+          "bids": 6
+        },
+        {
+          "valueInr": 1708889,
+          "bids": 3
+        },
+        {
+          "valueInr": 1810295,
+          "bids": 4
+        },
+        {
+          "valueInr": 3540863,
+          "bids": 3
+        },
+        {
+          "valueInr": 477462,
+          "bids": 1
+        },
+        {
+          "valueInr": 3217107,
+          "bids": 4
+        },
+        {
+          "valueInr": 10000000,
+          "bids": 4
+        },
+        {
+          "valueInr": 1907054,
+          "bids": 5
+        },
+        {
+          "valueInr": 793495,
+          "bids": 7
+        },
+        {
+          "valueInr": 2290502,
+          "bids": 7
+        },
+        {
+          "valueInr": 2504553,
+          "bids": 1
+        },
+        {
+          "valueInr": 480000,
+          "bids": 3
+        },
+        {
+          "valueInr": 2731933,
+          "bids": 2
+        },
+        {
+          "valueInr": 1468831,
+          "bids": 2
+        },
+        {
+          "valueInr": 2269200,
+          "bids": 2
+        },
+        {
+          "valueInr": 548366,
+          "bids": 3
+        },
+        {
+          "valueInr": 2131170,
+          "bids": 4
+        },
+        {
+          "valueInr": 3440078,
+          "bids": 3
+        },
+        {
+          "valueInr": 789708,
+          "bids": 5
+        },
+        {
+          "valueInr": 8523944,
+          "bids": 4
+        },
+        {
+          "valueInr": 1389833,
+          "bids": 4
+        },
+        {
+          "valueInr": 2993375,
+          "bids": 5
+        },
+        {
+          "valueInr": 1391793,
+          "bids": 1
+        },
+        {
+          "valueInr": 11297026,
+          "bids": 3
+        },
+        {
+          "valueInr": 1620000,
+          "bids": 2
+        },
+        {
+          "valueInr": 2732214,
+          "bids": 2
+        },
+        {
+          "valueInr": 2516152,
+          "bids": 4
+        },
+        {
+          "valueInr": 1567395,
+          "bids": 8
+        },
+        {
+          "valueInr": 994093,
+          "bids": 4
+        },
+        {
+          "valueInr": 4577430,
+          "bids": 2
+        },
+        {
+          "valueInr": 4012761,
+          "bids": 4
+        },
+        {
+          "valueInr": 2686686,
+          "bids": 3
+        },
+        {
+          "valueInr": 4206632,
+          "bids": 6
+        },
+        {
+          "valueInr": 1095000,
+          "bids": 2
+        },
+        {
+          "valueInr": 250000,
+          "bids": 4
+        },
+        {
+          "valueInr": 1476708,
+          "bids": 3
+        },
+        {
+          "valueInr": 1405141,
+          "bids": 1
+        },
+        {
+          "valueInr": 2558215,
+          "bids": 2
+        },
+        {
+          "valueInr": 2287023,
+          "bids": 3
+        },
+        {
+          "valueInr": 942059,
+          "bids": 6
+        },
+        {
+          "valueInr": 772104,
+          "bids": 2
+        },
+        {
+          "valueInr": 740542,
+          "bids": 5
+        },
+        {
+          "valueInr": 73026732,
+          "bids": 5
+        },
+        {
+          "valueInr": 749920,
+          "bids": 4
+        },
+        {
+          "valueInr": 1816835,
+          "bids": 2
+        },
+        {
+          "valueInr": 3512450,
+          "bids": 4
+        },
+        {
+          "valueInr": 5312179,
+          "bids": 2
+        },
+        {
+          "valueInr": 595936,
+          "bids": 8
+        },
+        {
+          "valueInr": 1445630,
+          "bids": 9
+        },
+        {
+          "valueInr": 2374005,
+          "bids": 5
+        },
+        {
+          "valueInr": 1699767,
+          "bids": 8
+        },
+        {
+          "valueInr": 1581040,
+          "bids": 4
+        },
+        {
+          "valueInr": 1005873,
+          "bids": 5
+        },
+        {
+          "valueInr": 960000,
+          "bids": 2
+        },
+        {
+          "valueInr": 2848247,
+          "bids": 4
+        },
+        {
+          "valueInr": 222910,
+          "bids": 17
+        },
+        {
+          "valueInr": 1349728,
+          "bids": 3
+        },
+        {
+          "valueInr": 547928,
+          "bids": 36
+        },
+        {
+          "valueInr": 914500,
+          "bids": 4
+        },
+        {
+          "valueInr": 1295979,
+          "bids": 4
+        },
+        {
+          "valueInr": 823595,
+          "bids": 5
+        },
+        {
+          "valueInr": 2396933,
+          "bids": 3
+        },
+        {
+          "valueInr": 810041,
+          "bids": 2
+        },
+        {
+          "valueInr": 11713570,
+          "bids": 3
+        },
+        {
+          "valueInr": 1568700,
+          "bids": 4
+        },
+        {
+          "valueInr": 1519412,
+          "bids": 2
+        },
+        {
+          "valueInr": 1066674,
+          "bids": 7
+        },
+        {
+          "valueInr": 1160619,
+          "bids": 5
+        },
+        {
+          "valueInr": 2187910,
+          "bids": 2
+        },
+        {
+          "valueInr": 150770,
+          "bids": 3
+        },
+        {
+          "valueInr": 79427889,
+          "bids": 3
+        },
+        {
+          "valueInr": 386305,
+          "bids": 2
+        },
+        {
+          "valueInr": 480743,
+          "bids": 2
+        },
+        {
+          "valueInr": 1226460,
+          "bids": 4
+        },
+        {
+          "valueInr": 5782822,
+          "bids": 2
+        },
+        {
+          "valueInr": 773315,
+          "bids": 2
+        },
+        {
+          "valueInr": 1055043,
+          "bids": 2
+        },
+        {
+          "valueInr": 268673,
+          "bids": 3
+        },
+        {
+          "valueInr": 2330688,
+          "bids": 4
+        },
+        {
+          "valueInr": 187290,
+          "bids": 3
+        },
+        {
+          "valueInr": 611329,
+          "bids": 2
+        },
+        {
+          "valueInr": 22111961,
+          "bids": 7
+        },
+        {
+          "valueInr": 177585383,
+          "bids": 5
+        },
+        {
+          "valueInr": 7333900,
+          "bids": 2
+        },
+        {
+          "valueInr": 708611,
+          "bids": 7
+        },
+        {
+          "valueInr": 1019308,
+          "bids": 2
+        },
+        {
+          "valueInr": 3152880,
+          "bids": 2
+        },
+        {
+          "valueInr": 670000,
+          "bids": 5
+        },
+        {
+          "valueInr": 588904,
+          "bids": 4
+        },
+        {
+          "valueInr": 1231499,
+          "bids": 2
+        },
+        {
+          "valueInr": 3206238,
+          "bids": 4
+        },
+        {
+          "valueInr": 4473605,
+          "bids": 5
+        },
+        {
+          "valueInr": 1421658,
+          "bids": 3
+        },
+        {
+          "valueInr": 2466990,
+          "bids": 4
+        },
+        {
+          "valueInr": 2133399,
+          "bids": 6
+        },
+        {
+          "valueInr": 4723452,
+          "bids": 3
+        },
+        {
+          "valueInr": 2384515,
+          "bids": 4
+        },
+        {
+          "valueInr": 76000,
+          "bids": 2
+        },
+        {
+          "valueInr": 335036,
+          "bids": 10
+        },
+        {
+          "valueInr": 160218,
+          "bids": 3
+        },
+        {
+          "valueInr": 12285705,
+          "bids": 4
+        },
+        {
+          "valueInr": 739341,
+          "bids": 3
+        },
+        {
+          "valueInr": 1407248,
+          "bids": 3
+        },
+        {
+          "valueInr": 848100,
+          "bids": 4
+        },
+        {
+          "valueInr": 1165799,
+          "bids": 5
+        },
+        {
+          "valueInr": 1432052,
+          "bids": 2
+        },
+        {
+          "valueInr": 1262513,
+          "bids": 5
+        },
+        {
+          "valueInr": 2054756,
+          "bids": 3
+        },
+        {
+          "valueInr": 30171521,
+          "bids": 2
+        },
+        {
+          "valueInr": 1652949,
+          "bids": 6
+        },
+        {
+          "valueInr": 322976,
+          "bids": 8
+        },
+        {
+          "valueInr": 719065,
+          "bids": 6
+        },
+        {
+          "valueInr": 1583650,
+          "bids": 2
+        },
+        {
+          "valueInr": 9536418,
+          "bids": 3
+        },
+        {
+          "valueInr": 927000,
+          "bids": 2
+        },
+        {
+          "valueInr": 1330000,
+          "bids": 9
+        },
+        {
+          "valueInr": 1459769,
+          "bids": 5
+        },
+        {
+          "valueInr": 11364653,
+          "bids": 2
+        },
+        {
+          "valueInr": 2681787,
+          "bids": 6
+        },
+        {
+          "valueInr": 177603871,
+          "bids": 2
+        },
+        {
+          "valueInr": 1546447,
+          "bids": 4
+        },
+        {
+          "valueInr": 500000,
+          "bids": 8
+        },
+        {
+          "valueInr": 2977295,
+          "bids": 1
+        },
+        {
+          "valueInr": 475275,
+          "bids": 2
+        },
+        {
+          "valueInr": 1017585,
+          "bids": 8
+        },
+        {
+          "valueInr": 1574042,
+          "bids": 3
+        },
+        {
+          "valueInr": 126376,
+          "bids": 3
+        },
+        {
+          "valueInr": 148255376,
+          "bids": 2
+        },
+        {
+          "valueInr": 108823725,
+          "bids": 3
+        },
+        {
+          "valueInr": 198500,
+          "bids": 3
+        },
+        {
+          "valueInr": 392892,
+          "bids": 3
+        },
+        {
+          "valueInr": 1277820,
+          "bids": 6
+        },
+        {
+          "valueInr": 24418339,
+          "bids": 3
+        },
+        {
+          "valueInr": 3381806,
+          "bids": 3
+        },
+        {
+          "valueInr": 60000000,
+          "bids": 4
+        },
+        {
+          "valueInr": 3707000,
+          "bids": 4
+        },
+        {
+          "valueInr": 4038940,
+          "bids": 3
+        },
+        {
+          "valueInr": 9577752,
+          "bids": 9
+        },
+        {
+          "valueInr": 789062,
+          "bids": 2
+        },
+        {
+          "valueInr": 376227,
+          "bids": 8
+        },
+        {
+          "valueInr": 1230675,
+          "bids": 7
+        },
+        {
+          "valueInr": 710861,
+          "bids": 5
+        },
+        {
+          "valueInr": 1565789,
+          "bids": 3
+        },
+        {
+          "valueInr": 1150949,
+          "bids": 5
+        },
+        {
+          "valueInr": 843153,
+          "bids": 5
+        },
+        {
+          "valueInr": 1631496,
+          "bids": 2
+        },
+        {
+          "valueInr": 1930558,
+          "bids": 2
+        },
+        {
+          "valueInr": 7523690,
+          "bids": 6
+        },
+        {
+          "valueInr": 379520,
+          "bids": 4
+        },
+        {
+          "valueInr": 246539,
+          "bids": 7
+        },
+        {
+          "valueInr": 984544,
+          "bids": 6
+        },
+        {
+          "valueInr": 2054851,
+          "bids": 3
+        },
+        {
+          "valueInr": 21058537,
+          "bids": 4
+        },
+        {
+          "valueInr": 18610691,
+          "bids": 4
+        },
+        {
+          "valueInr": 1842625,
+          "bids": 4
+        },
+        {
+          "valueInr": 448623,
+          "bids": 3
+        },
+        {
+          "valueInr": 5467616,
+          "bids": 5
+        },
+        {
+          "valueInr": 1461468,
+          "bids": 1
+        },
+        {
+          "valueInr": 596722,
+          "bids": 3
+        },
+        {
+          "valueInr": 49752658,
+          "bids": 4
+        },
+        {
+          "valueInr": 805962,
+          "bids": 4
+        },
+        {
+          "valueInr": 1055628,
+          "bids": 3
+        },
+        {
+          "valueInr": 1628300,
+          "bids": 2
+        },
+        {
+          "valueInr": 1508987,
+          "bids": 3
+        },
+        {
+          "valueInr": 494227,
+          "bids": 6
+        },
+        {
+          "valueInr": 1308612,
+          "bids": 14
+        },
+        {
+          "valueInr": 146831,
+          "bids": 2
+        },
+        {
+          "valueInr": 10371095,
+          "bids": 9
+        },
+        {
+          "valueInr": 9845433,
+          "bids": 2
+        },
+        {
+          "valueInr": 1650000,
+          "bids": 2
+        },
+        {
+          "valueInr": 6706905,
+          "bids": 7
+        },
+        {
+          "valueInr": 1190963,
+          "bids": 1
+        },
+        {
+          "valueInr": 7086392,
+          "bids": 5
+        },
+        {
+          "valueInr": 682781,
+          "bids": 4
+        },
+        {
+          "valueInr": 2266125,
+          "bids": 2
+        },
+        {
+          "valueInr": 1430667,
+          "bids": 3
+        },
+        {
+          "valueInr": 111400,
+          "bids": 17
+        },
+        {
+          "valueInr": 4006659,
+          "bids": 3
+        },
+        {
+          "valueInr": 12203448,
+          "bids": 3
+        },
+        {
+          "valueInr": 4163739,
+          "bids": 2
+        },
+        {
+          "valueInr": 162754933,
+          "bids": 6
+        },
+        {
+          "valueInr": 3313185,
+          "bids": 4
+        },
+        {
+          "valueInr": 6478000,
+          "bids": 5
+        },
+        {
+          "valueInr": 275324053,
+          "bids": 3
+        },
+        {
+          "valueInr": 1526648,
+          "bids": 1
+        },
+        {
+          "valueInr": 874673,
+          "bids": 4
+        },
+        {
+          "valueInr": 901190,
+          "bids": 4
+        },
+        {
+          "valueInr": 575673,
+          "bids": 3
+        },
+        {
+          "valueInr": 1392688,
+          "bids": 5
+        },
+        {
+          "valueInr": 1095280,
+          "bids": 6
+        },
+        {
+          "valueInr": 1862114,
+          "bids": 11
+        },
+        {
+          "valueInr": 2999234,
+          "bids": 3
+        },
+        {
+          "valueInr": 464991,
+          "bids": 6
+        },
+        {
+          "valueInr": 751260,
+          "bids": 3
+        },
+        {
+          "valueInr": 3623224,
+          "bids": 3
+        },
+        {
+          "valueInr": 2080662,
+          "bids": 2
+        },
+        {
+          "valueInr": 356706,
+          "bids": 8
+        },
+        {
+          "valueInr": 2893157,
+          "bids": 5
+        },
+        {
+          "valueInr": 2920482,
+          "bids": 4
+        },
+        {
+          "valueInr": 300000,
+          "bids": 3
+        },
+        {
+          "valueInr": 713924,
+          "bids": 3
+        },
+        {
+          "valueInr": 3456488,
+          "bids": 4
+        },
+        {
+          "valueInr": 250000,
+          "bids": 2
+        },
+        {
+          "valueInr": 1277322,
+          "bids": 9
+        },
+        {
+          "valueInr": 1980000,
+          "bids": 2
+        }
+      ]
+    },
+    {
+      "jurisdiction": "Assam",
+      "population": 22844,
+      "sampled": 400,
+      "seed": 11,
+      "points": [
+        {
+          "valueInr": 2000000,
+          "bids": 4
+        },
+        {
+          "valueInr": 16233900,
+          "bids": 3
+        },
+        {
+          "valueInr": 5950000,
+          "bids": 1
+        },
+        {
+          "valueInr": 40000000,
+          "bids": 14
+        },
+        {
+          "valueInr": 34721000,
+          "bids": 2
+        },
+        {
+          "valueInr": 3735098,
+          "bids": 2
+        },
+        {
+          "valueInr": 4650000,
+          "bids": 3
+        },
+        {
+          "valueInr": 3000000,
+          "bids": 3
+        },
+        {
+          "valueInr": 5913000,
+          "bids": 2
+        },
+        {
+          "valueInr": 7471961,
+          "bids": 2
+        },
+        {
+          "valueInr": 86087500,
+          "bids": 3
+        },
+        {
+          "valueInr": 2141731,
+          "bids": 3
+        },
+        {
+          "valueInr": 6838000,
+          "bids": 11
+        },
+        {
+          "valueInr": 5000000,
+          "bids": 2
+        },
+        {
+          "valueInr": 3167929,
+          "bids": 9
+        },
+        {
+          "valueInr": 17887878,
+          "bids": 1
+        },
+        {
+          "valueInr": 2549624,
+          "bids": 15
+        },
+        {
+          "valueInr": 141846000,
+          "bids": 1
+        },
+        {
+          "valueInr": 3600000,
+          "bids": 2
+        },
+        {
+          "valueInr": 7923762,
+          "bids": 3
+        },
+        {
+          "valueInr": 34558000,
+          "bids": 2
+        },
+        {
+          "valueInr": 57000000,
+          "bids": 2
+        },
+        {
+          "valueInr": 6920996,
+          "bids": 9
+        },
+        {
+          "valueInr": 49945000,
+          "bids": 3
+        },
+        {
+          "valueInr": 9607750,
+          "bids": 2
+        },
+        {
+          "valueInr": 4835379,
+          "bids": 2
+        },
+        {
+          "valueInr": 1779970,
+          "bids": 2
+        },
+        {
+          "valueInr": 4698000,
+          "bids": 3
+        },
+        {
+          "valueInr": 392566445,
+          "bids": 3
+        },
+        {
+          "valueInr": 9955334,
+          "bids": 2
+        },
+        {
+          "valueInr": 68351000,
+          "bids": 2
+        },
+        {
+          "valueInr": 5646282,
+          "bids": 2
+        },
+        {
+          "valueInr": 2700000,
+          "bids": 2
+        },
+        {
+          "valueInr": 49999779,
+          "bids": 1
+        },
+        {
+          "valueInr": 6358895,
+          "bids": 2
+        },
+        {
+          "valueInr": 6999899,
+          "bids": 2
+        },
+        {
+          "valueInr": 400000,
+          "bids": 3
+        },
+        {
+          "valueInr": 6400000,
+          "bids": 3
+        },
+        {
+          "valueInr": 3472463,
+          "bids": 3
+        },
+        {
+          "valueInr": 11105000,
+          "bids": 2
+        },
+        {
+          "valueInr": 12632451,
+          "bids": 1
+        },
+        {
+          "valueInr": 2247703,
+          "bids": 3
+        },
+        {
+          "valueInr": 2000000,
+          "bids": 3
+        },
+        {
+          "valueInr": 10000000,
+          "bids": 2
+        },
+        {
+          "valueInr": 29969558,
+          "bids": 3
+        },
+        {
+          "valueInr": 9999989,
+          "bids": 3
+        },
+        {
+          "valueInr": 9918629,
+          "bids": 6
+        },
+        {
+          "valueInr": 4119690,
+          "bids": 2
+        },
+        {
+          "valueInr": 7500000,
+          "bids": 5
+        },
+        {
+          "valueInr": 9986862,
+          "bids": 2
+        },
+        {
+          "valueInr": 8241200,
+          "bids": 3
+        },
+        {
+          "valueInr": 6651500,
+          "bids": 1
+        },
+        {
+          "valueInr": 3741000,
+          "bids": 3
+        },
+        {
+          "valueInr": 9675248,
+          "bids": 3
+        },
+        {
+          "valueInr": 9426100,
+          "bids": 3
+        },
+        {
+          "valueInr": 100000000,
+          "bids": 2
+        },
+        {
+          "valueInr": 3000000,
+          "bids": 6
+        },
+        {
+          "valueInr": 4782998,
+          "bids": 6
+        },
+        {
+          "valueInr": 15506990,
+          "bids": 11
+        },
+        {
+          "valueInr": 5112899,
+          "bids": 2
+        },
+        {
+          "valueInr": 33288470,
+          "bids": 4
+        },
+        {
+          "valueInr": 11016000,
+          "bids": 3
+        },
+        {
+          "valueInr": 21960217,
+          "bids": 3
+        },
+        {
+          "valueInr": 3597631,
+          "bids": 1
+        },
+        {
+          "valueInr": 21470000,
+          "bids": 4
+        },
+        {
+          "valueInr": 2232586,
+          "bids": 2
+        },
+        {
+          "valueInr": 2311988,
+          "bids": 3
+        },
+        {
+          "valueInr": 19872000,
+          "bids": 3
+        },
+        {
+          "valueInr": 73350000,
+          "bids": 5
+        },
+        {
+          "valueInr": 21782000,
+          "bids": 4
+        },
+        {
+          "valueInr": 17100000,
+          "bids": 3
+        },
+        {
+          "valueInr": 5929000,
+          "bids": 1
+        },
+        {
+          "valueInr": 17500000,
+          "bids": 3
+        },
+        {
+          "valueInr": 9984000,
+          "bids": 3
+        },
+        {
+          "valueInr": 14995428,
+          "bids": 3
+        },
+        {
+          "valueInr": 6500000,
+          "bids": 2
+        },
+        {
+          "valueInr": 3000000,
+          "bids": 3
+        },
+        {
+          "valueInr": 5350000,
+          "bids": 2
+        },
+        {
+          "valueInr": 298109000,
+          "bids": 1
+        },
+        {
+          "valueInr": 27996640,
+          "bids": 3
+        },
+        {
+          "valueInr": 12708800,
+          "bids": 3
+        },
+        {
+          "valueInr": 90812000,
+          "bids": 2
+        },
+        {
+          "valueInr": 6329193,
+          "bids": 2
+        },
+        {
+          "valueInr": 1647386,
+          "bids": 2
+        },
+        {
+          "valueInr": 63239200,
+          "bids": 2
+        },
+        {
+          "valueInr": 95000000,
+          "bids": 3
+        },
+        {
+          "valueInr": 87500000,
+          "bids": 2
+        },
+        {
+          "valueInr": 9725797,
+          "bids": 11
+        },
+        {
+          "valueInr": 8693071,
+          "bids": 2
+        },
+        {
+          "valueInr": 7000000,
+          "bids": 5
+        },
+        {
+          "valueInr": 4301993,
+          "bids": 2
+        },
+        {
+          "valueInr": 15149676,
+          "bids": 2
+        },
+        {
+          "valueInr": 35796221,
+          "bids": 2
+        },
+        {
+          "valueInr": 19900396,
+          "bids": 2
+        },
+        {
+          "valueInr": 26216558,
+          "bids": 8
+        },
+        {
+          "valueInr": 16263570,
+          "bids": 2
+        },
+        {
+          "valueInr": 35929000,
+          "bids": 3
+        },
+        {
+          "valueInr": 10000000,
+          "bids": 1
+        },
+        {
+          "valueInr": 49887500,
+          "bids": 3
+        },
+        {
+          "valueInr": 87177112,
+          "bids": 4
+        },
+        {
+          "valueInr": 29254798,
+          "bids": 2
+        },
+        {
+          "valueInr": 17948737,
+          "bids": 13
+        },
+        {
+          "valueInr": 8200000,
+          "bids": 3
+        },
+        {
+          "valueInr": 385090,
+          "bids": 5
+        },
+        {
+          "valueInr": 48650000,
+          "bids": 2
+        },
+        {
+          "valueInr": 91500000,
+          "bids": 1
+        },
+        {
+          "valueInr": 21999805,
+          "bids": 1
+        },
+        {
+          "valueInr": 66084000,
+          "bids": 2
+        },
+        {
+          "valueInr": 11642000,
+          "bids": 1
+        },
+        {
+          "valueInr": 2188336,
+          "bids": 3
+        },
+        {
+          "valueInr": 148099100,
+          "bids": 1
+        },
+        {
+          "valueInr": 26457558,
+          "bids": 2
+        },
+        {
+          "valueInr": 23018978,
+          "bids": 4
+        },
+        {
+          "valueInr": 16000000,
+          "bids": 1
+        },
+        {
+          "valueInr": 122175389,
+          "bids": 1
+        },
+        {
+          "valueInr": 6023950,
+          "bids": 2
+        },
+        {
+          "valueInr": 10867135,
+          "bids": 9
+        },
+        {
+          "valueInr": 7778506,
+          "bids": 2
+        },
+        {
+          "valueInr": 2102257,
+          "bids": 2
+        },
+        {
+          "valueInr": 7191907,
+          "bids": 2
+        },
+        {
+          "valueInr": 872118,
+          "bids": 3
+        },
+        {
+          "valueInr": 31054000,
+          "bids": 2
+        },
+        {
+          "valueInr": 54264000,
+          "bids": 2
+        },
+        {
+          "valueInr": 19758000,
+          "bids": 2
+        },
+        {
+          "valueInr": 13750000,
+          "bids": 5
+        },
+        {
+          "valueInr": 6035287,
+          "bids": 18
+        },
+        {
+          "valueInr": 16359227,
+          "bids": 4
+        },
+        {
+          "valueInr": 5731808,
+          "bids": 1
+        },
+        {
+          "valueInr": 34882120,
+          "bids": 7
+        },
+        {
+          "valueInr": 5772982,
+          "bids": 2
+        },
+        {
+          "valueInr": 9986660,
+          "bids": 3
+        },
+        {
+          "valueInr": 99994000,
+          "bids": 3
+        },
+        {
+          "valueInr": 10000000,
+          "bids": 8
+        },
+        {
+          "valueInr": 2200000,
+          "bids": 3
+        },
+        {
+          "valueInr": 8261752,
+          "bids": 3
+        },
+        {
+          "valueInr": 96952000,
+          "bids": 4
+        },
+        {
+          "valueInr": 15874000,
+          "bids": 8
+        },
+        {
+          "valueInr": 21894784,
+          "bids": 2
+        },
+        {
+          "valueInr": 250000000,
+          "bids": 11
+        },
+        {
+          "valueInr": 16440000,
+          "bids": 2
+        },
+        {
+          "valueInr": 6171957,
+          "bids": 4
+        },
+        {
+          "valueInr": 31288000,
+          "bids": 4
+        },
+        {
+          "valueInr": 8562952,
+          "bids": 3
+        },
+        {
+          "valueInr": 20247000,
+          "bids": 2
+        },
+        {
+          "valueInr": 1742063,
+          "bids": 7
+        },
+        {
+          "valueInr": 4856820,
+          "bids": 2
+        },
+        {
+          "valueInr": 3805430000,
+          "bids": 2
+        },
+        {
+          "valueInr": 14717667,
+          "bids": 2
+        },
+        {
+          "valueInr": 6982000,
+          "bids": 1
+        },
+        {
+          "valueInr": 132158590,
+          "bids": 2
+        },
+        {
+          "valueInr": 14733100,
+          "bids": 4
+        },
+        {
+          "valueInr": 12657251,
+          "bids": 2
+        },
+        {
+          "valueInr": 38016000,
+          "bids": 2
+        },
+        {
+          "valueInr": 29866693,
+          "bids": 5
+        },
+        {
+          "valueInr": 10000000,
+          "bids": 2
+        },
+        {
+          "valueInr": 442022,
+          "bids": 15
+        },
+        {
+          "valueInr": 2000000,
+          "bids": 2
+        },
+        {
+          "valueInr": 48960005,
+          "bids": 6
+        },
+        {
+          "valueInr": 19481431,
+          "bids": 2
+        },
+        {
+          "valueInr": 31157000,
+          "bids": 3
+        },
+        {
+          "valueInr": 497286,
+          "bids": 1
+        },
+        {
+          "valueInr": 5000000,
+          "bids": 4
+        },
+        {
+          "valueInr": 87500000,
+          "bids": 2
+        },
+        {
+          "valueInr": 20095192,
+          "bids": 3
+        },
+        {
+          "valueInr": 12959940,
+          "bids": 4
+        },
+        {
+          "valueInr": 10000000,
+          "bids": 2
+        },
+        {
+          "valueInr": 12182000,
+          "bids": 1
+        },
+        {
+          "valueInr": 46870000,
+          "bids": 2
+        },
+        {
+          "valueInr": 3815584,
+          "bids": 14
+        },
+        {
+          "valueInr": 20000000,
+          "bids": 21
+        },
+        {
+          "valueInr": 9999676,
+          "bids": 1
+        },
+        {
+          "valueInr": 7751766,
+          "bids": 5
+        },
+        {
+          "valueInr": 2879677,
+          "bids": 2
+        },
+        {
+          "valueInr": 3301920,
+          "bids": 1
+        },
+        {
+          "valueInr": 16062888,
+          "bids": 2
+        },
+        {
+          "valueInr": 2665852,
+          "bids": 21
+        },
+        {
+          "valueInr": 20000000,
+          "bids": 2
+        },
+        {
+          "valueInr": 9980577,
+          "bids": 2
+        },
+        {
+          "valueInr": 14965416,
+          "bids": 2
+        },
+        {
+          "valueInr": 95000000,
+          "bids": 1
+        },
+        {
+          "valueInr": 8868061,
+          "bids": 4
+        },
+        {
+          "valueInr": 2663669,
+          "bids": 4
+        },
+        {
+          "valueInr": 31843000,
+          "bids": 2
+        },
+        {
+          "valueInr": 9336441,
+          "bids": 3
+        },
+        {
+          "valueInr": 9714705,
+          "bids": 3
+        },
+        {
+          "valueInr": 487274,
+          "bids": 7
+        },
+        {
+          "valueInr": 4859200,
+          "bids": 5
+        },
+        {
+          "valueInr": 36185000,
+          "bids": 2
+        },
+        {
+          "valueInr": 1842000,
+          "bids": 1
+        },
+        {
+          "valueInr": 10305000,
+          "bids": 1
+        },
+        {
+          "valueInr": 28517000,
+          "bids": 2
+        },
+        {
+          "valueInr": 16784245,
+          "bids": 1
+        },
+        {
+          "valueInr": 7505365,
+          "bids": 6
+        },
+        {
+          "valueInr": 30868700,
+          "bids": 3
+        },
+        {
+          "valueInr": 7500000,
+          "bids": 2
+        },
+        {
+          "valueInr": 20668000,
+          "bids": 1
+        },
+        {
+          "valueInr": 2800000,
+          "bids": 2
+        },
+        {
+          "valueInr": 3000000,
+          "bids": 1
+        },
+        {
+          "valueInr": 12580000,
+          "bids": 1
+        },
+        {
+          "valueInr": 1464926,
+          "bids": 9
+        },
+        {
+          "valueInr": 50000000,
+          "bids": 3
+        },
+        {
+          "valueInr": 29750000,
+          "bids": 2
+        },
+        {
+          "valueInr": 8120000,
+          "bids": 2
+        },
+        {
+          "valueInr": 250000000,
+          "bids": 9
+        },
+        {
+          "valueInr": 17522985,
+          "bids": 3
+        },
+        {
+          "valueInr": 31698000,
+          "bids": 1
+        },
+        {
+          "valueInr": 5638665,
+          "bids": 2
+        },
+        {
+          "valueInr": 17350524,
+          "bids": 2
+        },
+        {
+          "valueInr": 2799997,
+          "bids": 4
+        },
+        {
+          "valueInr": 6898682,
+          "bids": 8
+        },
+        {
+          "valueInr": 4718486,
+          "bids": 2
+        },
+        {
+          "valueInr": 16391000,
+          "bids": 1
+        },
+        {
+          "valueInr": 37000000,
+          "bids": 6
+        },
+        {
+          "valueInr": 6861000,
+          "bids": 2
+        },
+        {
+          "valueInr": 25010696,
+          "bids": 4
+        },
+        {
+          "valueInr": 2774159,
+          "bids": 2
+        },
+        {
+          "valueInr": 114212000,
+          "bids": 4
+        },
+        {
+          "valueInr": 14992756,
+          "bids": 2
+        },
+        {
+          "valueInr": 5303759,
+          "bids": 6
+        },
+        {
+          "valueInr": 49796000,
+          "bids": 2
+        },
+        {
+          "valueInr": 14885500,
+          "bids": 2
+        },
+        {
+          "valueInr": 18849858,
+          "bids": 2
+        },
+        {
+          "valueInr": 2950000,
+          "bids": 5
+        },
+        {
+          "valueInr": 170000000,
+          "bids": 2
+        },
+        {
+          "valueInr": 2088575,
+          "bids": 4
+        },
+        {
+          "valueInr": 18665000,
+          "bids": 3
+        },
+        {
+          "valueInr": 4953064,
+          "bids": 2
+        },
+        {
+          "valueInr": 8342636,
+          "bids": 5
+        },
+        {
+          "valueInr": 359686,
+          "bids": 1
+        },
+        {
+          "valueInr": 2663053,
+          "bids": 6
+        },
+        {
+          "valueInr": 2995491,
+          "bids": 2
+        },
+        {
+          "valueInr": 43068658,
+          "bids": 3
+        },
+        {
+          "valueInr": 15000000,
+          "bids": 5
+        },
+        {
+          "valueInr": 21073000,
+          "bids": 2
+        },
+        {
+          "valueInr": 2096000,
+          "bids": 1
+        },
+        {
+          "valueInr": 9995442,
+          "bids": 2
+        },
+        {
+          "valueInr": 10730679,
+          "bids": 2
+        },
+        {
+          "valueInr": 815659,
+          "bids": 12
+        },
+        {
+          "valueInr": 14000000,
+          "bids": 6
+        },
+        {
+          "valueInr": 33335990,
+          "bids": 2
+        },
+        {
+          "valueInr": 32132355,
+          "bids": 1
+        },
+        {
+          "valueInr": 21799725,
+          "bids": 2
+        },
+        {
+          "valueInr": 7568971,
+          "bids": 2
+        },
+        {
+          "valueInr": 1980304,
+          "bids": 2
+        },
+        {
+          "valueInr": 4811537,
+          "bids": 3
+        },
+        {
+          "valueInr": 7635000,
+          "bids": 10
+        },
+        {
+          "valueInr": 4618638,
+          "bids": 20
+        },
+        {
+          "valueInr": 9660692,
+          "bids": 2
+        },
+        {
+          "valueInr": 803000,
+          "bids": 3
+        },
+        {
+          "valueInr": 4954000,
+          "bids": 2
+        },
+        {
+          "valueInr": 22678000,
+          "bids": 10
+        },
+        {
+          "valueInr": 7714836,
+          "bids": 1
+        },
+        {
+          "valueInr": 23257000,
+          "bids": 1
+        },
+        {
+          "valueInr": 5900000,
+          "bids": 2
+        },
+        {
+          "valueInr": 13602552,
+          "bids": 4
+        },
+        {
+          "valueInr": 3000000,
+          "bids": 3
+        },
+        {
+          "valueInr": 3691000,
+          "bids": 2
+        },
+        {
+          "valueInr": 7722654,
+          "bids": 2
+        },
+        {
+          "valueInr": 5978000,
+          "bids": 3
+        },
+        {
+          "valueInr": 12750000,
+          "bids": 3
+        },
+        {
+          "valueInr": 6540000,
+          "bids": 2
+        },
+        {
+          "valueInr": 4698204,
+          "bids": 2
+        },
+        {
+          "valueInr": 17624000,
+          "bids": 3
+        },
+        {
+          "valueInr": 135877619,
+          "bids": 2
+        },
+        {
+          "valueInr": 2875275,
+          "bids": 3
+        },
+        {
+          "valueInr": 9518092,
+          "bids": 2
+        },
+        {
+          "valueInr": 19973000,
+          "bids": 2
+        },
+        {
+          "valueInr": 133322000,
+          "bids": 1
+        },
+        {
+          "valueInr": 19670000,
+          "bids": 2
+        },
+        {
+          "valueInr": 100000000,
+          "bids": 2
+        },
+        {
+          "valueInr": 2500000,
+          "bids": 3
+        },
+        {
+          "valueInr": 7000000,
+          "bids": 1
+        },
+        {
+          "valueInr": 23681000,
+          "bids": 2
+        },
+        {
+          "valueInr": 5999998,
+          "bids": 2
+        },
+        {
+          "valueInr": 10000000,
+          "bids": 2
+        },
+        {
+          "valueInr": 3097720,
+          "bids": 2
+        },
+        {
+          "valueInr": 6802500,
+          "bids": 2
+        },
+        {
+          "valueInr": 6989477,
+          "bids": 1
+        },
+        {
+          "valueInr": 7335689,
+          "bids": 4
+        },
+        {
+          "valueInr": 18120000,
+          "bids": 2
+        },
+        {
+          "valueInr": 24048634,
+          "bids": 3
+        },
+        {
+          "valueInr": 2400000,
+          "bids": 1
+        },
+        {
+          "valueInr": 2500000,
+          "bids": 5
+        },
+        {
+          "valueInr": 24000000,
+          "bids": 5
+        },
+        {
+          "valueInr": 254880,
+          "bids": 10
+        },
+        {
+          "valueInr": 7260000,
+          "bids": 2
+        },
+        {
+          "valueInr": 24442000,
+          "bids": 5
+        },
+        {
+          "valueInr": 9688740,
+          "bids": 4
+        },
+        {
+          "valueInr": 28678000,
+          "bids": 1
+        },
+        {
+          "valueInr": 19481431,
+          "bids": 2
+        },
+        {
+          "valueInr": 10960229,
+          "bids": 5
+        },
+        {
+          "valueInr": 2357000,
+          "bids": 3
+        },
+        {
+          "valueInr": 45800000,
+          "bids": 2
+        },
+        {
+          "valueInr": 18048000,
+          "bids": 4
+        },
+        {
+          "valueInr": 92267500,
+          "bids": 1
+        },
+        {
+          "valueInr": 6030760,
+          "bids": 2
+        },
+        {
+          "valueInr": 10911430,
+          "bids": 1
+        },
+        {
+          "valueInr": 7938310,
+          "bids": 5
+        },
+        {
+          "valueInr": 28547000,
+          "bids": 1
+        },
+        {
+          "valueInr": 16314000,
+          "bids": 2
+        },
+        {
+          "valueInr": 325535488,
+          "bids": 3
+        },
+        {
+          "valueInr": 18958558,
+          "bids": 3
+        },
+        {
+          "valueInr": 4935930,
+          "bids": 2
+        },
+        {
+          "valueInr": 43121763,
+          "bids": 3
+        },
+        {
+          "valueInr": 38548000,
+          "bids": 4
+        },
+        {
+          "valueInr": 8396854,
+          "bids": 2
+        },
+        {
+          "valueInr": 4997977,
+          "bids": 4
+        },
+        {
+          "valueInr": 7045073,
+          "bids": 2
+        },
+        {
+          "valueInr": 7000000,
+          "bids": 4
+        },
+        {
+          "valueInr": 30568000,
+          "bids": 1
+        },
+        {
+          "valueInr": 9493000,
+          "bids": 2
+        },
+        {
+          "valueInr": 20807945,
+          "bids": 1
+        },
+        {
+          "valueInr": 14886600,
+          "bids": 2
+        },
+        {
+          "valueInr": 10000000,
+          "bids": 3
+        },
+        {
+          "valueInr": 40529720,
+          "bids": 1
+        },
+        {
+          "valueInr": 7711000,
+          "bids": 2
+        },
+        {
+          "valueInr": 7746025,
+          "bids": 2
+        },
+        {
+          "valueInr": 500905,
+          "bids": 3
+        },
+        {
+          "valueInr": 13265525,
+          "bids": 8
+        },
+        {
+          "valueInr": 4629630,
+          "bids": 2
+        },
+        {
+          "valueInr": 8400000,
+          "bids": 4
+        },
+        {
+          "valueInr": 32700000,
+          "bids": 9
+        },
+        {
+          "valueInr": 52236000,
+          "bids": 2
+        },
+        {
+          "valueInr": 23148765,
+          "bids": 2
+        },
+        {
+          "valueInr": 43082634,
+          "bids": 3
+        },
+        {
+          "valueInr": 1414000,
+          "bids": 3
+        },
+        {
+          "valueInr": 2500000,
+          "bids": 3
+        },
+        {
+          "valueInr": 9009618,
+          "bids": 2
+        },
+        {
+          "valueInr": 12611300,
+          "bids": 2
+        },
+        {
+          "valueInr": 13028795,
+          "bids": 2
+        },
+        {
+          "valueInr": 9548037,
+          "bids": 1
+        },
+        {
+          "valueInr": 5500000,
+          "bids": 3
+        },
+        {
+          "valueInr": 5046000,
+          "bids": 5
+        },
+        {
+          "valueInr": 11499972,
+          "bids": 6
+        },
+        {
+          "valueInr": 2053661,
+          "bids": 3
+        },
+        {
+          "valueInr": 2970225,
+          "bids": 3
+        },
+        {
+          "valueInr": 100000000,
+          "bids": 3
+        },
+        {
+          "valueInr": 14999998,
+          "bids": 3
+        },
+        {
+          "valueInr": 2487545,
+          "bids": 2
+        },
+        {
+          "valueInr": 5060000,
+          "bids": 10
+        },
+        {
+          "valueInr": 7100000,
+          "bids": 5
+        },
+        {
+          "valueInr": 5400000,
+          "bids": 1
+        },
+        {
+          "valueInr": 2372357,
+          "bids": 3
+        },
+        {
+          "valueInr": 9609000,
+          "bids": 4
+        },
+        {
+          "valueInr": 100000000,
+          "bids": 3
+        },
+        {
+          "valueInr": 115572000,
+          "bids": 7
+        },
+        {
+          "valueInr": 27491500,
+          "bids": 2
+        },
+        {
+          "valueInr": 7459700,
+          "bids": 2
+        },
+        {
+          "valueInr": 9300000,
+          "bids": 1
+        },
+        {
+          "valueInr": 14647889,
+          "bids": 2
+        },
+        {
+          "valueInr": 32500000,
+          "bids": 2
+        },
+        {
+          "valueInr": 3978600,
+          "bids": 2
+        },
+        {
+          "valueInr": 5990718,
+          "bids": 1
+        },
+        {
+          "valueInr": 4610629,
+          "bids": 2
+        },
+        {
+          "valueInr": 8245584,
+          "bids": 5
+        },
+        {
+          "valueInr": 6887992,
+          "bids": 4
+        },
+        {
+          "valueInr": 6247000,
+          "bids": 3
+        },
+        {
+          "valueInr": 12472271,
+          "bids": 3
+        },
+        {
+          "valueInr": 32806891,
+          "bids": 3
+        },
+        {
+          "valueInr": 4124978,
+          "bids": 7
+        },
+        {
+          "valueInr": 317209000,
+          "bids": 2
+        },
+        {
+          "valueInr": 28700600,
+          "bids": 3
+        },
+        {
+          "valueInr": 11592000,
+          "bids": 2
+        },
+        {
+          "valueInr": 143621373,
+          "bids": 1
+        },
+        {
+          "valueInr": 9975000,
+          "bids": 2
+        },
+        {
+          "valueInr": 2650000000,
+          "bids": 7
+        },
+        {
+          "valueInr": 14338730,
+          "bids": 2
+        },
+        {
+          "valueInr": 41645000,
+          "bids": 1
+        },
+        {
+          "valueInr": 8199000,
+          "bids": 6
+        },
+        {
+          "valueInr": 80507851,
+          "bids": 2
+        },
+        {
+          "valueInr": 29971000,
+          "bids": 2
+        },
+        {
+          "valueInr": 17449561,
+          "bids": 3
+        },
+        {
+          "valueInr": 35812400,
+          "bids": 2
+        },
+        {
+          "valueInr": 8928670,
+          "bids": 3
+        },
+        {
+          "valueInr": 57894823,
+          "bids": 5
+        },
+        {
+          "valueInr": 11696091,
+          "bids": 4
+        },
+        {
+          "valueInr": 14320888,
+          "bids": 2
+        },
+        {
+          "valueInr": 25000,
+          "bids": 2
+        },
+        {
+          "valueInr": 14859017,
+          "bids": 2
+        },
+        {
+          "valueInr": 164506000,
+          "bids": 3
+        },
+        {
+          "valueInr": 3499947,
+          "bids": 3
+        },
+        {
+          "valueInr": 8774078,
+          "bids": 3
+        },
+        {
+          "valueInr": 6591000,
+          "bids": 4
+        },
+        {
+          "valueInr": 2822244,
+          "bids": 11
+        },
+        {
+          "valueInr": 65163000,
+          "bids": 2
+        },
+        {
+          "valueInr": 30912000,
+          "bids": 3
+        },
+        {
+          "valueInr": 7642705,
+          "bids": 2
+        },
+        {
+          "valueInr": 36036000,
+          "bids": 3
+        },
+        {
+          "valueInr": 9999926,
+          "bids": 2
+        },
+        {
+          "valueInr": 21425700,
+          "bids": 3
+        },
+        {
+          "valueInr": 61875168,
+          "bids": 3
+        },
+        {
+          "valueInr": 13246778,
+          "bids": 1
+        },
+        {
+          "valueInr": 2772041,
+          "bids": 1
+        },
+        {
+          "valueInr": 19802194,
+          "bids": 10
+        },
+        {
+          "valueInr": 28072898,
+          "bids": 3
+        },
+        {
+          "valueInr": 3069313,
+          "bids": 1
+        },
+        {
+          "valueInr": 9347939,
+          "bids": 2
+        },
+        {
+          "valueInr": 11721954,
+          "bids": 2
+        },
+        {
+          "valueInr": 8464600,
+          "bids": 3
+        },
+        {
+          "valueInr": 2751600,
+          "bids": 1
+        }
+      ]
+    }
+  ],
+  "denominators": {
+    "note": "Two denominators are available for a single-bidder rate and they differ materially. Tenders that drew ZERO bids are excluded from the headline, because a tender nobody bid for is a failed tender rather than an uncompetitive award. Both figures are published so neither can be quoted without the other."
+  },
+  "whatIsMissing": {
+    "winnerIdentifier": "No CIN, GSTIN or any company identifier appears in either dataset. The OCDS `identifier` object — the standard's designated slot for exactly this — is absent. Supplier ids are within-award sequence numbers reused on every tender, and supplier names are free text that frequently denote natural persons. Linking a winner here to a company elsewhere on this platform requires fuzzy name matching and would be `analytic`.",
+    "nationalCoverage": "Two states of 28, and neither is large. The Central Public Procurement Portal publishes no bulk award export; its results page returns zero rows behind a captcha and its dashboard JSON feeds return empty bodies.",
+    "liveData": "Neither source is updated. Any trend computed from them ends where they end."
+  },
+  "gaps": [
+    "Verification sample not yet drawn or checked — see `verification`.",
+    "Himachal Pradesh codes 3,768 of 3,771 tenders as procurement method \"limited\", which is almost certainly a portal-export artefact rather than a real distribution. No method-level comparison should be drawn from it.",
+    "Assam records 3,644 tenders with a bid count of exactly zero. Whether these are failed tenders, cancelled tenders, or an export artefact for a stage that had not completed is not established here.",
+    "Neither dataset carries a bidder roster in the OCP bulk file, so losing bidders and disqualification reasons — which the Assam CKAN API is reported to expose — are absent from this build.",
+    "No national figure exists and none is computed. Presenting a two-state rate as an Indian rate would be the error this dataset is best placed to prevent."
+  ]
+}

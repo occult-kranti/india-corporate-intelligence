@@ -4,6 +4,11 @@ import {
 } from '../components/Editorial';
 import GraphExplorer from '../components/viz/GraphExplorer';
 import IndiaMap from '../components/viz/IndiaMap';
+import WorldMap from '../components/viz/WorldMap';
+import {
+  FACILITIES, FOOTPRINT_AS_OF, FOOTPRINT_GAPS, FOOTPRINT_REJECTED,
+  facilitiesForGroup, linksForGroup, statusCounts, COUNTRIES_FOR,
+} from '../data/footprint';
 import {
   GROUPS, GROUPS_AS_OF, GROUP_GAPS, GROUP_SOURCES, DISAMBIGUATION, groupTotals, sectorOverlap,
   type Group,
@@ -193,6 +198,7 @@ function GroupCard({ g, open, onToggle }: { g: Group; open: boolean; onToggle: (
 
 export default function Conglomerates() {
   const [open, setOpen] = useState<string | null>('reliance');
+  const [footprintGroup, setFootprintGroup] = useState<string>('adani');
   const totals = useMemo(() => groupTotals(), []);
 
   const capitalGraph = useMemo(() => {
@@ -276,6 +282,92 @@ export default function Conglomerates() {
           operations there. The map answers "where is the registered office", which is a narrower question
           than it looks.
         </p>
+      </Section>
+
+      <Section
+        title="Global footprint"
+        note={`${FACILITIES.length} verified facilities across ${new Set(FACILITIES.map((f) => f.country)).size} countries · as of ${FOOTPRINT_AS_OF} · ports, plants, mines and offices — not a complete inventory`}
+      >
+        <div className="flex flex-wrap gap-1.5 mb-4">
+          {['adani', 'reliance'].map((gid) => (
+            <button
+              key={gid}
+              onClick={() => setFootprintGroup(gid)}
+              className={`font-mono text-[11px] px-2.5 py-1.5 rounded border transition-colors ${
+                footprintGroup === gid ? 'border-accent text-accent bg-accent/10' : 'border-border text-text-muted hover:text-text'
+              }`}
+            >
+              {gid === 'adani' ? 'Adani' : 'Reliance'} ({facilitiesForGroup(gid).length})
+            </button>
+          ))}
+        </div>
+
+        <div className="card-surface !p-3 overflow-hidden">
+          <WorldMap
+            places={facilitiesForGroup(footprintGroup).map((f) => ({
+              id: f.id,
+              label: f.label,
+              lon: f.lon,
+              lat: f.lat,
+              kind: f.kind,
+              country: f.country,
+              srcs: f.srcs,
+            }))}
+            links={linksForGroup(footprintGroup).map((l) => ({
+              from: l.from,
+              to: l.to,
+              label: l.relation,
+              tier: l.tier,
+              srcs: l.srcs,
+            }))}
+            height={430}
+            caption={`Ownership and operation links only. The list this replaces asserted trade routes between terminals with invented strength values; shipping volumes between specific private terminals are not published.`}
+          />
+        </div>
+
+        <div className="flex flex-wrap gap-x-6 gap-y-1 mt-3 font-mono text-[10.5px] text-text-muted">
+          {Object.entries(statusCounts(footprintGroup)).map(([s, n]) => (
+            <span key={s} className={s === 'cancelled' || s === 'divested' ? 'text-amber' : ''}>
+              {n} {s}
+            </span>
+          ))}
+          <span className="ml-auto">{COUNTRIES_FOR(footprintGroup).join(' · ')}</span>
+        </div>
+
+        <Callout label="Cancelled and divested facilities are shown, not filtered out" tone="note">
+          <p>
+            A withdrawn concession is a fact about a group's reach, and a map showing only
+            what succeeded overstates it. Two Adani entries here are cancelled — the Jomo
+            Kenyatta airport concession and the Mannar wind project — and one is divested.
+          </p>
+          <p>
+            This footprint was re-verified rather than inherited. The previous version
+            asserted a Mombasa port facility that does not exist; Adani's 2024 Kenya
+            involvement was the Jomo Kenyatta concession and a KETRACO transmission PPP,
+            both cancelled in November 2024, and the group has publicly stated it never
+            signed an agreement to operate the airport. Five coordinates were also
+            materially wrong, the worst by roughly 19 km.
+          </p>
+        </Callout>
+
+        <details className="mt-4">
+          <summary className="font-mono text-[11px] text-text-muted cursor-pointer hover:text-text">
+            {FOOTPRINT_REJECTED.length} candidates checked and refuted · {FOOTPRINT_GAPS.length} gaps
+          </summary>
+          <ul className="mt-3 space-y-2">
+            {FOOTPRINT_REJECTED.map((r, i) => (
+              <li key={i} className="text-[13px] border-l-2 border-rose/40 pl-3">
+                <strong className="text-text">{r.candidate}</strong>
+                <span className="block text-text-muted mt-0.5">{r.reason}</span>
+              </li>
+            ))}
+            {FOOTPRINT_GAPS.map((g, i) => (
+              <li key={`g${i}`} className="text-[13px] border-l-2 border-amber/40 pl-3 text-text-muted">
+                {g}
+              </li>
+            ))}
+          </ul>
+        </details>
       </Section>
 
       <Section title="The ten groups" note="Click to expand — entities, people, foreign partners, gaps">

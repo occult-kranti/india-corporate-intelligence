@@ -1,0 +1,165 @@
+{
+  "asOf": "2026-08-12",
+  "sources": [
+    {
+      "publisher": "Open Contracting Partnership data registry",
+      "title": "Publication 77 — Himachal Pradesh (CivicDataLab), full.jsonl.gz",
+      "url": "https://data.open-contracting.org/en/publication/77/download?name=full.jsonl.gz",
+      "retrieved": "2026-08-12",
+      "readAs": "gzipped JSON Lines, downloaded with curl and parsed line by line; this file is a derived analysis of that publication, produced by scripts/prospect-procurement.mjs. It introduces no observation of its own.",
+      "bytes": 10319213,
+      "sha256_16": "fa7fc29b4166c51a"
+    }
+  ],
+  "scope": "Himachal Pradesh public procurement, buyer-level award concentration.",
+  "refusal": {
+    "what": "No supplier-level pattern search was run, and no supplier is named anywhere in this file.",
+    "why": "Of the distinct suppliers in this dataset, only a small minority carry any company marker; the large majority are bare personal names, including one literal \"individual\". These are private individuals with no public role, no CIN and no DIN, and two people sharing a name cannot be distinguished from one person appearing twice. Running a pattern-detection engine over them and reporting the concentrated ones would be a defamation generator, not a network graph.",
+    "measured": {
+      "distinctSuppliers": 1858,
+      "withCompanyMarker": 288,
+      "barePersonalNames": 1570,
+      "bareNameSharePct": 84.5
+    },
+    "whatIsAnalysedInstead": "The buyers. All are public institutions, and \"does this body concentrate its awards more than chance predicts\" is a question about a public process that can be answered without naming any supplier."
+  },
+  "declaredShape": "For each procuring body, the number of awards going to its single most-used supplier. Declared before any scoring; every buyer enumerated including those with one award.",
+  "method": {
+    "resolution": {
+      "shuffles": 24250,
+      "minAchievableP": 4.124e-05,
+      "qFloorAtRank1": 0.025,
+      "qFloorNote": "Conservative. BY enforces monotonicity downward, so candidates at higher ranks can reach smaller q-values than the rank-1 floor. This is a necessary condition on having any resolution, not the exact detection threshold.",
+      "note": "The shuffle count is derived from the correction rather than chosen. A first version used 400 shuffles, which put the smallest achievable q at 1.57 — above the threshold — so no candidate could have survived however extreme, and a power test with a synthetic 40-of-40 buyer went undetected. The script now refuses to report when the resolution floor exceeds the threshold."
+    },
+    "nulls": {
+      "plain": "Supplier column shuffled across ALL awards. Preserves each buyer's award count and the state-wide supplier frequency distribution.",
+      "stratified": "Supplier column shuffled only WITHIN each department, so the null preserves who plausibly works for whom. This is the null the q-values use.",
+      "whyTwo": "The plain null is not a control. It assumes any supplier could have worked for any buyer, which is false — a contractor in Rohru works for the Rohru circle, not for Nurpur. Shuffling statewide destroys geography and speciality, so nearly every body looks concentrated. The tell was PWD surviving at 2.2% concentration: a result that is self-evidently not a finding means the null is wrong, not the department. This is the Artzy-Randrup result reproducing on new data, and the same correction the entity graph already carries."
+    },
+    "shuffles": 24250,
+    "seed": 7,
+    "p": "Empirical upper tail, (atLeast + 1) / (shuffles + 1). No z-to-p conversion.",
+    "correction": "Benjamini–Yekutieli across the whole declared family, valid under arbitrary dependence.",
+    "q": 0.05
+  },
+  "funnel": {
+    "enumerated": 114,
+    "awardPairs": 4211,
+    "departments": 32,
+    "survivedUnderPlainNull": 30,
+    "survivedFDR": 9,
+    "survivalRatePct": 7.89
+  },
+  "survivors": [
+    {
+      "buyer": "HP Irrigation and Public Health||Rohru Circle,Irrigation and Public Health,HP||Jubbal,Irrigation and Public Health,HP",
+      "awards": 42,
+      "distinctSuppliers": 20,
+      "topSupplierAwards": 7,
+      "topSupplierSharePct": 16.7,
+      "p": 4e-05,
+      "q": 0.00625,
+      "pUnderPlainNull": 4e-05,
+      "supplierNamed": false,
+      "innocentReading": "A procuring body with a small qualified-contractor pool in its district will concentrate awards for reasons that involve nobody's conduct. Remoteness, specialised work and a thin local market all produce this pattern."
+    },
+    {
+      "buyer": "HP Irrigation and Public Health||Hamirpur Circle,Irrigation and Public Health,HP||Barsar,Irrigation and Public Health,HP",
+      "awards": 199,
+      "distinctSuppliers": 80,
+      "topSupplierAwards": 17,
+      "topSupplierSharePct": 8.5,
+      "p": 4e-05,
+      "q": 0.00625,
+      "pUnderPlainNull": 4e-05,
+      "supplierNamed": false,
+      "innocentReading": "A procuring body with a small qualified-contractor pool in its district will concentrate awards for reasons that involve nobody's conduct. Remoteness, specialised work and a thin local market all produce this pattern."
+    },
+    {
+      "buyer": "HP Irrigation and Public Health||Hamirpur Circle,Irrigation and Public Health,HP||Dehra,Irrigation and Public Health,HP",
+      "awards": 57,
+      "distinctSuppliers": 30,
+      "topSupplierAwards": 7,
+      "topSupplierSharePct": 12.3,
+      "p": 4e-05,
+      "q": 0.00625,
+      "pUnderPlainNull": 4e-05,
+      "supplierNamed": false,
+      "innocentReading": "A procuring body with a small qualified-contractor pool in its district will concentrate awards for reasons that involve nobody's conduct. Remoteness, specialised work and a thin local market all produce this pattern."
+    },
+    {
+      "buyer": "HP Irrigation and Public Health||Bilaspur Circle,Irrigation and Public Health,HP||Bilaspur,Irrigation and Public Health,HP",
+      "awards": 116,
+      "distinctSuppliers": 56,
+      "topSupplierAwards": 14,
+      "topSupplierSharePct": 12.1,
+      "p": 4e-05,
+      "q": 0.00625,
+      "pUnderPlainNull": 4e-05,
+      "supplierNamed": false,
+      "innocentReading": "A procuring body with a small qualified-contractor pool in its district will concentrate awards for reasons that involve nobody's conduct. Remoteness, specialised work and a thin local market all produce this pattern."
+    },
+    {
+      "buyer": "HP Irrigation and Public Health||Hamirpur Circle,Irrigation and Public Health,HP||Hamirpur,Irrigation and Public Health,HP",
+      "awards": 48,
+      "distinctSuppliers": 32,
+      "topSupplierAwards": 7,
+      "topSupplierSharePct": 14.6,
+      "p": 8e-05,
+      "q": 0.00714,
+      "pUnderPlainNull": 4e-05,
+      "supplierNamed": false,
+      "innocentReading": "A procuring body with a small qualified-contractor pool in its district will concentrate awards for reasons that involve nobody's conduct. Remoteness, specialised work and a thin local market all produce this pattern."
+    },
+    {
+      "buyer": "Municipal Corporation Shimla||Road and Building - MC",
+      "awards": 87,
+      "distinctSuppliers": 52,
+      "topSupplierAwards": 22,
+      "topSupplierSharePct": 25.3,
+      "p": 8e-05,
+      "q": 0.00714,
+      "pUnderPlainNull": 4e-05,
+      "supplierNamed": false,
+      "innocentReading": "A procuring body with a small qualified-contractor pool in its district will concentrate awards for reasons that involve nobody's conduct. Remoteness, specialised work and a thin local market all produce this pattern."
+    },
+    {
+      "buyer": "HP Irrigation and Public Health||Hamirpur Circle,Irrigation and Public Health,HP||Dharampur Bharari,Irrigation and Public Health,HP",
+      "awards": 26,
+      "distinctSuppliers": 16,
+      "topSupplierAwards": 5,
+      "topSupplierSharePct": 19.2,
+      "p": 8e-05,
+      "q": 0.00714,
+      "pUnderPlainNull": 4e-05,
+      "supplierNamed": false,
+      "innocentReading": "A procuring body with a small qualified-contractor pool in its district will concentrate awards for reasons that involve nobody's conduct. Remoteness, specialised work and a thin local market all produce this pattern."
+    },
+    {
+      "buyer": "HP Irrigation and Public Health||Nurpur Circle,Irrigation and Public Health,HP||Fatehpur-Irrigation and Public Health-HP",
+      "awards": 25,
+      "distinctSuppliers": 15,
+      "topSupplierAwards": 5,
+      "topSupplierSharePct": 20,
+      "p": 0.00012,
+      "q": 0.00937,
+      "pUnderPlainNull": 4e-05,
+      "supplierNamed": false,
+      "innocentReading": "A procuring body with a small qualified-contractor pool in its district will concentrate awards for reasons that involve nobody's conduct. Remoteness, specialised work and a thin local market all produce this pattern."
+    },
+    {
+      "buyer": "HP Irrigation and Public Health||Dharamshala Circle,Irrigation and Public Health,HP||Shahpur,Irrigation and Public Health,HP",
+      "awards": 46,
+      "distinctSuppliers": 30,
+      "topSupplierAwards": 6,
+      "topSupplierSharePct": 13,
+      "p": 0.00021,
+      "q": 0.01389,
+      "pUnderPlainNull": 8e-05,
+      "supplierNamed": false,
+      "innocentReading": "A procuring body with a small qualified-contractor pool in its district will concentrate awards for reasons that involve nobody's conduct. Remoteness, specialised work and a thin local market all produce this pattern."
+    }
+  ],
+  "interpretation": "9 of 114 procuring bodies concentrate awards beyond what the null predicts. Each is a QUESTION for the desk, not a finding, and none names a supplier."
+}

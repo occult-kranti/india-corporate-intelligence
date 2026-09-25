@@ -1,9 +1,17 @@
 {
-  "runId": "run-93a46468fdd8",
+  "runId": "run-d8583039501e",
   "pipelineVersion": "1.0.0",
   "generator": "scripts/promote.mjs",
   "source": "research/raw",
   "inputs": [
+    {
+      "file": "adani-deep.json",
+      "bytes": 366265,
+      "digest": "42a3e22dea39da42",
+      "asOf": "2026-08-11",
+      "sources": 78,
+      "records": 0
+    },
     {
       "file": "cabinet.json",
       "bytes": 82361,
@@ -29,16 +37,128 @@
       "records": 187
     },
     {
+      "file": "desk-registers.json",
+      "bytes": 86189,
+      "digest": "8ef6d948996d028b",
+      "asOf": "2026-08-12",
+      "sources": 32,
+      "records": 0
+    },
+    {
+      "file": "global-footprint.json",
+      "bytes": 41424,
+      "digest": "af198ddedfb02d4a",
+      "asOf": "2026-08-11",
+      "sources": 6,
+      "records": 0
+    },
+    {
+      "file": "media.json",
+      "bytes": 80816,
+      "digest": "c73a5de2dcf85a47",
+      "asOf": "2026-08-11",
+      "sources": 63,
+      "records": 0
+    },
+    {
+      "file": "pmcares.json",
+      "bytes": 109279,
+      "digest": "490f975641d8fd18",
+      "asOf": "2026-08-12",
+      "sources": 28,
+      "records": 0
+    },
+    {
+      "file": "procurement-ocds.json",
+      "bytes": 76226,
+      "digest": "65dbb63b4d1a6c9c",
+      "asOf": "2026-08-12",
+      "sources": 2,
+      "records": 0
+    },
+    {
+      "file": "prospect-procurement.json",
+      "bytes": 9619,
+      "digest": "6bbbca717fa0fbeb",
+      "asOf": "2026-08-12",
+      "sources": 1,
+      "records": 0
+    },
+    {
+      "file": "reliance-deep.json",
+      "bytes": 142926,
+      "digest": "1ce5c18bcc038ac3",
+      "asOf": "2026-08-11",
+      "sources": 33,
+      "records": 0
+    },
+    {
+      "file": "resources-coal.json",
+      "bytes": 453540,
+      "digest": "969fe705bbfa7f65",
+      "asOf": "2026-08-11",
+      "sources": 22,
+      "records": 0
+    },
+    {
+      "file": "resources-hydrocarbons.json",
+      "bytes": 318673,
+      "digest": "e75e01a17c9be4e2",
+      "asOf": "2026-08-11",
+      "sources": 31,
+      "records": 0
+    },
+    {
+      "file": "resources-minerals.json",
+      "bytes": 592602,
+      "digest": "7ef690b9dcd8f197",
+      "asOf": "2026-08-11",
+      "sources": 29,
+      "records": 0
+    },
+    {
+      "file": "resources-spectrum.json",
+      "bytes": 226920,
+      "digest": "635fbe8883e29e1c",
+      "asOf": "2026-08-12",
+      "sources": 43,
+      "records": 0
+    },
+    {
       "file": "state-economy.json",
       "bytes": 36214,
       "digest": "fc4fd8ea3de68360",
       "asOf": "2026-08-11",
       "sources": 4,
       "records": 36
+    },
+    {
+      "file": "tender-data-sources.json",
+      "bytes": 63504,
+      "digest": "8f04a82ba6bd1125",
+      "asOf": "2026-08-12",
+      "sources": 13,
+      "records": 0
+    },
+    {
+      "file": "tenders-centre.json",
+      "bytes": 163195,
+      "digest": "5acad76ff7b896a0",
+      "asOf": "2026-08-11",
+      "sources": 47,
+      "records": 0
+    },
+    {
+      "file": "tenders-states.json",
+      "bytes": 89501,
+      "digest": "87061a7b8e72c930",
+      "asOf": "2026-08-11",
+      "sources": 32,
+      "records": 0
     }
   ],
   "counts": {
-    "files": 4,
+    "files": 19,
     "records": 561,
     "entities": 515,
     "promoted": 461,
@@ -47,7 +167,7 @@
     "rejections": 100,
     "fatal": 0,
     "quarantined": 100,
-    "warnings": 0,
+    "warnings": 15,
     "supersessions": 5,
     "absences": 32
   },
@@ -5498,7 +5618,68 @@
       "reason": "no strong identifier (ISIN, CIN, ticker, scrip code, constituency, or office with a start date) — quarantined as resolved:false; unresolved entities take no edges"
     }
   ],
-  "warnings": [],
+  "warnings": [
+    {
+      "where": "research/raw/adani-deep.json",
+      "message": "no extraction adapter — file was date/source checked but contributed no records. Add an adapter in scripts/promote.mjs to promote it."
+    },
+    {
+      "where": "research/raw/desk-registers.json",
+      "message": "no extraction adapter — file was date/source checked but contributed no records. Add an adapter in scripts/promote.mjs to promote it."
+    },
+    {
+      "where": "research/raw/global-footprint.json",
+      "message": "no extraction adapter — file was date/source checked but contributed no records. Add an adapter in scripts/promote.mjs to promote it."
+    },
+    {
+      "where": "research/raw/media.json",
+      "message": "no extraction adapter — file was date/source checked but contributed no records. Add an adapter in scripts/promote.mjs to promote it."
+    },
+    {
+      "where": "research/raw/pmcares.json",
+      "message": "no extraction adapter — file was date/source checked but contributed no records. Add an adapter in scripts/promote.mjs to promote it."
+    },
+    {
+      "where": "research/raw/procurement-ocds.json",
+      "message": "no extraction adapter — file was date/source checked but contributed no records. Add an adapter in scripts/promote.mjs to promote it."
+    },
+    {
+      "where": "research/raw/prospect-procurement.json",
+      "message": "no extraction adapter — file was date/source checked but contributed no records. Add an adapter in scripts/promote.mjs to promote it."
+    },
+    {
+      "where": "research/raw/reliance-deep.json",
+      "message": "no extraction adapter — file was date/source checked but contributed no records. Add an adapter in scripts/promote.mjs to promote it."
+    },
+    {
+      "where": "research/raw/resources-coal.json",
+      "message": "no extraction adapter — file was date/source checked but contributed no records. Add an adapter in scripts/promote.mjs to promote it."
+    },
+    {
+      "where": "research/raw/resources-hydrocarbons.json",
+      "message": "no extraction adapter — file was date/source checked but contributed no records. Add an adapter in scripts/promote.mjs to promote it."
+    },
+    {
+      "where": "research/raw/resources-minerals.json",
+      "message": "no extraction adapter — file was date/source checked but contributed no records. Add an adapter in scripts/promote.mjs to promote it."
+    },
+    {
+      "where": "research/raw/resources-spectrum.json",
+      "message": "no extraction adapter — file was date/source checked but contributed no records. Add an adapter in scripts/promote.mjs to promote it."
+    },
+    {
+      "where": "research/raw/tender-data-sources.json",
+      "message": "no extraction adapter — file was date/source checked but contributed no records. Add an adapter in scripts/promote.mjs to promote it."
+    },
+    {
+      "where": "research/raw/tenders-centre.json",
+      "message": "no extraction adapter — file was date/source checked but contributed no records. Add an adapter in scripts/promote.mjs to promote it."
+    },
+    {
+      "where": "research/raw/tenders-states.json",
+      "message": "no extraction adapter — file was date/source checked but contributed no records. Add an adapter in scripts/promote.mjs to promote it."
+    }
+  ],
   "supersessions": [
     {
       "file": "cabinet.json",
