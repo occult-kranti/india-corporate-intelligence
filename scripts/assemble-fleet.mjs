@@ -1,0 +1,1371 @@
+#!/usr/bin/env node
+/**
+ * Fleet assembly: research/raw/{energy,welfare}/ → typed, generated TypeScript.
+ *
+ * The codegen step docs/PLATFORM_PLAN.md §1 calls `npm run generate`, scoped to the
+ * two research fleets (docs/research/FLEET_CONTRACT.md). validate.mjs §4 checks each
+ * raw file alone at the quarantine boundary; this script checks the ASSEMBLED fleet,
+ * because a file that was valid alone can stop being valid once reconciliation has
+ * collapsed its entities or an audit verdict has downgraded the claim its denial
+ * answered. It is the last gate before TypeScript.
+ *
+ *   1. read       every research file whose name does not start with a capital —
+ *                 RECONCILIATION.json and AUDIT.json are by-products, not research
+ *   2. reconcile  RECONCILIATION.json rewrites ids from → to; records that collapse
+ *                 onto one id merge aliases, facts and sources, first record wins
+ *   3. audit      AUDIT.json verdicts kill, downgrade, fill innocent readings and add
+ *                 denials (rules at applyAudit)
+ *   4. gate       the four invariants over what survives — any failure exits 1 and
+ *                 writes nothing
+ *   5. emit       src/graph/energy.generated.ts and src/data/welfare.generated.ts
+ *
+ * It never fails on a killed or unresolved record: those are held out of the edges
+ * and carried whole in META, because nothing is deleted. It never reads a clock. And
+ * it never makes the build depend on research having run — an absent fleet emits an
+ * empty module that says so.
+ *
+ * Usage:
+ *   node scripts/assemble-fleet.mjs                 write both modules
+ *   node scripts/assemble-fleet.mjs --dir <path>    read <path>/energy and <path>/welfare
+ *   node scripts/assemble-fleet.mjs --out <path>    write under <path>/src/… instead
+ *
+ * Each fleet is written independently: a fleet whose research fails assembly leaves
+ * its own module untouched and the run exits 1, but a fleet that assembles cleanly is
+ * still written. One sweep's fault must not hold the other sweep's module hostage.
+ *
+ * The assembly is exported as assembleFleet() so scripts/validate.mjs can re-run it
+ * in memory and fail when a module on disk no longer matches its inputs.
+ */
+
+import { readFileSync, writeFileSync, existsSync, readdirSync, mkdirSync } from 'node:fs';
+import { join, dirname, relative, resolve, isAbsolute } from 'node:path';
+import { fileURLToPath, pathToFileURL } from 'node:url';
+import {
+  TIERS, PREDS, NODE_TYPES, FAMILIES, STATE_CODES, NARRATIVE_STATUS, SCHEME_STATUS, SCHEME_CATEGORIES, ISO_DATE, INVENTORY,
+} from './lib/vocab.mjs';
+
+const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
+
+/**
+ * Folded into the run id, as PIPELINE_VERSION is in promote.mjs: when a rule below
+ * changes, the stamp must change even if no research file did.
+ */
+export const GENERATOR_VERSION = '1.2.0';
+const GENERATOR = 'scripts/assemble-fleet.mjs';
+
+export const OUTPUTS = {
+  energy: 'src/graph/energy.generated.ts',
+  welfare: 'src/data/welfare.generated.ts',
+};
+
+const MINISTER_ACTIONS = ['announced', 'approved', 'presented budget', 'administers', 'opposed'];
+const CONFIDENCE = ['documented', 'estimated', 'unknown'];
+
+
+/**
+ * Why a claim's predicate cannot be emitted, or null. A tier written as a predicate
+ * is the common slip, so it gets its own words — the fix belongs in the raw file,
+ * and guessing which predicate was meant would put words in the researcher's mouth.
+ */
+export function predProblem(p) {
+  if (PREDS.includes(p)) return null;
+  if (p === 'alleged') return 'alleged is a tier, not a predicate — did you mean pred contra/enforce with tier alleged?';
+  if (TIERS.includes(p)) return `${p} is a tier, not a predicate — keep tier ${p} and choose a predicate`;
+  return `unknown predicate ${JSON.stringify(p)} (expected ${PREDS.join(' | ')})`;
+}
+
+// ---------------------------------------------------------------------------
+// 0. Primitives
+// ---------------------------------------------------------------------------
+
+/**
+ * FNV-1a, 64-bit — copied from promote.mjs so the two run ids are the same kind
+ * of object. The only requirement is that it is a stable function of its input.
+ */
+function fnv1a64(str) {
+  const PRIME = 0x100000001b3n;
+  const MASK = (1n << 64n) - 1n;
+  let h = 0xcbf29ce484222325n;
+  for (let i = 0; i < str.length; i++) {
+    h ^= BigInt(str.charCodeAt(i) & 0xffff);
+    h = (h * PRIME) & MASK;
+  }
+  return h.toString(16).padStart(16, '0');
+}
+
+/** Code-unit order, not localeCompare: ICU collation differs between machines, and a generated file must not. */
+const cmp = (a, b) => (a < b ? -1 : a > b ? 1 : 0);
+
+const isStr = (v) => typeof v === 'string' && v.trim() !== '';
+const isSource = (s) => Array.isArray(s) && s.length === 2 && typeof s[0] === 'string' && typeof s[1] === 'string';
+
+function union(a, b, keyOf = (x) => x) {
+  const out = [];
+  const seen = new Set();
+  for (const x of [...(a ?? []), ...(b ?? [])]) {
+    const k = keyOf(x);
+    if (seen.has(k)) continue;
+    seen.add(k);
+    out.push(x);
+  }
+  return out;
+}
+const asList = (v) => (v == null ? [] : Array.isArray(v) ? v : [v]);
+
+/** Errors and warnings, de-duplicated — a mapping cycle hit by forty claims is one fault, not forty. */
+function makeSink() {
+  const errors = [];
+  const warnings = [];
+  const seen = new Set();
+  const push = (list, where, msg) => {
+    const line = `${where}: ${msg}`;
+    if (seen.has(line)) return;
+    seen.add(line);
+    list.push(line);
+  };
+  return {
+    errors,
+    warnings,
+    error: (where, msg) => push(errors, where, msg),
+    warn: (where, msg) => push(warnings, where, msg),
+  };
+}
+
+/**
+ * Field readers that either return a value TypeScript will accept under the
+ * declared type or record an error. Strict readers back every emitted edge, node
+ * and scheme: a value that would fail `tsc --strict` fails here instead, with the
+ * research file and field named. Lenient readers back held (killed or excluded)
+ * claims, which must never fail the run.
+ */
+function readers(sink, where, lenient = false) {
+  const bad = (f, msg) => {
+    if (!lenient) sink.error(`${where}${f ? `.${f}` : ''}`, msg);
+  };
+  const r = {
+    str(v, f) {
+      if (v == null) return null;
+      if (typeof v === 'string') return v;
+      // A number where text belongs ("seatChange": 46) loses nothing by quoting.
+      if (typeof v === 'number' && Number.isFinite(v)) return String(v);
+      if (lenient) return JSON.stringify(v);
+      bad(f, `expected text, found ${JSON.stringify(v)}`);
+      return null;
+    },
+    /** A date: ISO 8601 at year, month or day precision. Never pad a missing day. */
+    date(v, f) {
+      const s = r.str(v, f);
+      if (s != null && !ISO_DATE.test(s)) {
+        bad(f, `${JSON.stringify(s)} is not an ISO date (YYYY, YYYY-MM or YYYY-MM-DD)`);
+        return lenient ? s : null;
+      }
+      return s;
+    },
+    reqStr(v, f) {
+      const s = r.str(v, f);
+      if (s == null || s.trim() === '') {
+        bad(f, 'is required');
+        return lenient ? String(v ?? '') : '';
+      }
+      return s;
+    },
+    num(v, f) {
+      if (v == null) return null;
+      if (typeof v === 'number' && Number.isFinite(v)) return v;
+      bad(f, `expected a number, found ${JSON.stringify(v)} — a figure that is not a number is a gap, record it as null`);
+      return null;
+    },
+    bool(v, f) {
+      if (v == null) return null;
+      if (typeof v === 'boolean') return v;
+      bad(f, `expected true/false, found ${JSON.stringify(v)}`);
+      return null;
+    },
+    oneOf(v, list, f, required = false) {
+      if (v == null) {
+        if (required) bad(f, `is required (one of ${list.join(' | ')})`);
+        return lenient && required ? '' : null;
+      }
+      if (list.includes(v)) return v;
+      bad(f, `unknown value ${JSON.stringify(v)} (expected ${list.join(' | ')})`);
+      return lenient ? String(v) : null;
+    },
+    srcs(v, f) {
+      const out = [];
+      for (const [i, s] of asList(v).entries()) {
+        if (isSource(s)) out.push([s[0], s[1]]);
+        else bad(`${f}[${i}]`, `source must be [label, url], found ${JSON.stringify(s)}`);
+      }
+      return out;
+    },
+    list(v, f) {
+      if (v == null) return [];
+      if (Array.isArray(v)) return v;
+      bad(f, `expected a list, found ${JSON.stringify(v)}`);
+      return [];
+    },
+    obj(v, f) {
+      if (v == null) return null;
+      if (typeof v === 'object' && !Array.isArray(v)) return v;
+      bad(f, `expected an object, found ${JSON.stringify(v)}`);
+      return null;
+    },
+    /** Entity facts are a list; a single string is read as a one-fact list. */
+    texts(v, f) {
+      const out = [];
+      for (const [i, x] of asList(v).entries()) {
+        const s = r.str(x, `${f}[${i}]`);
+        if (s != null && s.trim() !== '') out.push(s);
+      }
+      return out;
+    },
+  };
+  return r;
+}
+
+/** Atlas ids from src/graph/data.ts, by the same literal grab validate.mjs uses. */
+function readAtlasIds(root, sink) {
+  const file = join(root, 'src/graph/data.ts');
+  if (!existsSync(file)) return new Set();
+  const m = readFileSync(file, 'utf8').match(/export const NODES\b[^=]*=\s*(\[[\s\S]*?\n\];)/m);
+  if (!m) {
+    sink.error('src/graph/data.ts', 'could not find the NODES literal — atlas ids cannot be resolved');
+    return new Set();
+  }
+  try {
+    const nodes = Function(`"use strict"; return (${m[1].replace(/;$/, '')});`)();
+    return new Set(nodes.map((n) => n.id));
+  } catch (e) {
+    sink.error('src/graph/data.ts', `could not parse NODES: ${e.message}`);
+    return new Set();
+  }
+}
+
+// ---------------------------------------------------------------------------
+// 1. Read
+// ---------------------------------------------------------------------------
+
+function readFleet(rawDir, fleet, sink) {
+  const dir = join(rawDir, fleet);
+  const out = { fleet, files: [], reconciliation: null, audit: null, inputs: [] };
+  if (!existsSync(dir)) return out;
+  const names = readdirSync(dir).filter((f) => f.endsWith('.json')).sort(cmp);
+  for (const name of names) {
+    const byProduct = /^[A-Z]/.test(name);
+    // Other capitalised files are by-products this script does not read, so they
+    // stay out of the run id too: editing one cannot make a module stale.
+    if (byProduct && name !== 'RECONCILIATION.json' && name !== 'AUDIT.json') continue;
+    const text = readFileSync(join(dir, name), 'utf8');
+    out.inputs.push({ name: `${fleet}/${name}`, text });
+    let doc;
+    try {
+      doc = JSON.parse(text);
+    } catch (e) {
+      // A half-written file cannot be assembled, and skipping it would make the
+      // output depend on when the run happened.
+      sink.error(`${fleet}/${name}`, `invalid JSON: ${e.message}`);
+      continue;
+    }
+    if (!doc || typeof doc !== 'object' || Array.isArray(doc)) {
+      sink.error(`${fleet}/${name}`, 'top level must be an object');
+      continue;
+    }
+    if (name === 'RECONCILIATION.json') out.reconciliation = doc;
+    else if (name === 'AUDIT.json') out.audit = doc;
+    else {
+      // The file stem is the domain: the contract names each file after its domain,
+      // and pages join claims to sweeps on it, so one spelling must win everywhere.
+      const domain = name.replace(/\.json$/, '');
+      if (doc.domain != null && doc.domain !== domain) {
+        sink.warn(`${fleet}/${name}`, `domain ${JSON.stringify(doc.domain)} differs from the file name — "${domain}" is used`);
+      }
+      out.files.push({ name, doc, domain });
+    }
+  }
+  return out;
+}
+
+// ---------------------------------------------------------------------------
+// 2. Reconcile
+// ---------------------------------------------------------------------------
+
+function reconciler(rec, fleet, sink) {
+  const where = `${fleet}/RECONCILIATION.json`;
+  const map = new Map();
+  const mappings = [];
+  for (const [i, m] of asList(rec?.mappings).entries()) {
+    if (!m || !isStr(m.from) || !isStr(m.to)) {
+      sink.error(`${where}:mappings[${i}]`, 'a mapping needs string `from` and `to`');
+      continue;
+    }
+    if (map.has(m.from) && map.get(m.from) !== m.to) {
+      sink.error(`${where}:mappings[${i}]`, `"${m.from}" is mapped to both "${map.get(m.from)}" and "${m.to}"`);
+      continue;
+    }
+    map.set(m.from, m.to);
+    const note = [m.reason, m.rationale, m.note, m.basis].find(isStr) ?? null;
+    mappings.push({ from: m.from, to: m.to, note });
+  }
+  mappings.sort((a, b) => cmp(a.from, b.from) || cmp(a.to, b.to));
+  // Chains resolve to their end (a→b, b→c ⇒ a→c). A cycle is an error, not a loop.
+  const rewrite = (id) => {
+    if (typeof id !== 'string') return id;
+    let cur = id;
+    const seen = new Set();
+    while (map.has(cur)) {
+      if (seen.has(cur)) {
+        sink.error(where, `mapping cycle through "${id}"`);
+        return id;
+      }
+      seen.add(cur);
+      cur = map.get(cur);
+    }
+    return cur;
+  };
+  return { mappings, rewrite };
+}
+
+/** JSON with object keys sorted at every depth: equal entries get equal keys whatever order they were written in. */
+function stableKey(x) {
+  const sort = (v) => (Array.isArray(v) ? v.map(sort) : v && typeof v === 'object' ? Object.fromEntries(Object.keys(v).sort(cmp).map((k) => [k, sort(v[k])])) : v);
+  return JSON.stringify(sort(x));
+}
+
+/**
+ * Records that collapse onto one id — by reconciliation, or because two sweeps
+ * reused one id — become one record, and nothing either wrote is dropped:
+ *   - every list (aliases, facts, sources, and a scheme's status history, outlay,
+ *     beneficiaries, results, ministers, who-else-benefits) is unioned, de-duplicated
+ *     on a key-sorted JSON key, in input order, first file first. Status history is
+ *     supersession: losing a later sweep's entries would delete facts;
+ *   - `benefit` merges the same way one level down, so `benefit.changes` unions too;
+ *   - every other field is the first record's, except that a null the first left is
+ *     filled from a later record — and each fill is noted, so META says which file
+ *     supplied the value.
+ * "First" is file-name order, then order within the file.
+ */
+function mergeRecords(a, b, bFile, filled, prefix = '') {
+  const out = { ...a };
+  for (const k of Object.keys(b)) {
+    if (k === 'id') continue;
+    const av = a[k];
+    const bv = b[k];
+    if (bv == null) continue;
+    if (Array.isArray(av) || Array.isArray(bv)) {
+      out[k] = union(asList(av), asList(bv), stableKey);
+    } else if (k === 'benefit' && prefix === '' && av && typeof av === 'object' && typeof bv === 'object') {
+      out[k] = mergeRecords(av, bv, bFile, filled, 'benefit.');
+    } else if (av == null) {
+      out[k] = bv;
+      filled.push({ field: `${prefix}${k}`, file: bFile });
+    }
+  }
+  return out;
+}
+
+function collectRecords(files, section, rewrite, fleet, sink) {
+  const byId = new Map();
+  for (const { name, doc } of files) {
+    for (const [i, raw] of asList(doc[section]).entries()) {
+      if (!raw || typeof raw !== 'object' || !isStr(raw.id)) {
+        sink.error(`${fleet}/${name}:${section}[${i}]`, 'record without an id');
+        continue;
+      }
+      const rec = { ...raw, id: rewrite(raw.id) };
+      const prior = byId.get(rec.id);
+      if (!prior) byId.set(rec.id, { rec, ids: [raw.id], files: [`${fleet}/${name}`], filledFrom: [] });
+      else {
+        prior.rec = mergeRecords(prior.rec, rec, `${fleet}/${name}`, prior.filledFrom);
+        prior.ids.push(raw.id);
+        prior.files.push(`${fleet}/${name}`);
+      }
+    }
+  }
+  return byId;
+}
+
+function collectClaims(files, rewrite, fleet, sink) {
+  const claims = [];
+  const duplicates = [];
+  const firstFile = new Map();
+  for (const { name, doc, domain } of files) {
+    for (const [i, raw] of asList(doc.claims).entries()) {
+      if (!raw || typeof raw !== 'object') {
+        sink.error(`${fleet}/${name}:claims[${i}]`, 'claim is not an object');
+        continue;
+      }
+      const id = isStr(raw.id) ? raw.id : `${raw.s}~${raw.pred}~${raw.t}`;
+      const c = { ...raw, id, s: rewrite(raw.s), t: rewrite(raw.t), domain, file: `${fleet}/${name}` };
+      if (raw.benefit && typeof raw.benefit === 'object') c.benefit = { ...raw.benefit, who: rewrite(raw.benefit.who) };
+      if (firstFile.has(id)) {
+        // Held, not dropped: the second copy is still on the record.
+        duplicates.push({ c, reason: `duplicate claim id — first defined in ${firstFile.get(id)}` });
+        continue;
+      }
+      firstFile.set(id, c.file);
+      claims.push(c);
+    }
+  }
+  return { claims, duplicates };
+}
+
+// ---------------------------------------------------------------------------
+// 3. Audit
+// ---------------------------------------------------------------------------
+
+const URL_RE = /https?:\/\/[^\s<>"'()\]]+/;
+
+function extractUrl(text) {
+  const m = URL_RE.exec(text ?? '');
+  return m ? m[0].replace(/[.,;:!?]+$/, '') : null;
+}
+
+function readVerdict(v, i) {
+  const s = (x) => (x == null ? null : typeof x === 'string' ? x : JSON.stringify(x));
+  return {
+    claimId: s(v?.claimId) ?? `(verdict ${i} without claimId)`,
+    domain: s(v?.domain),
+    lens: s(v?.lens),
+    refuted: v?.refuted === true || (typeof v?.refuted === 'string' && v.refuted.trim().toLowerCase() === 'true'),
+    recommendedTier: s(v?.recommendedTier),
+    sourceCheck: s(v?.sourceCheck),
+    denialFound: s(v?.denialFound),
+    innocentReading: s(v?.innocentReading),
+    reason: s(v?.reason),
+    corrections: asList(v?.corrections).map((x) => (typeof x === 'string' ? x : JSON.stringify(x))),
+    applied: [],
+  };
+}
+
+/**
+ * Which endpoint a denial speaks for. `enforce` points agency → subject, so there
+ * the accused is the target; so is a claim whose named beneficiary is its target.
+ * Everywhere else the contract's directions (money s→t, owner→owned, person→office,
+ * awarder→winner without a beneficiary) put the actor whose conduct is at issue in `s`.
+ */
+/** A verdict's recommendation, compared case-blind: "Kill" must not be read as "no opinion". */
+const recOf = (v) => (v.recommendedTier ?? '').trim().toLowerCase();
+
+const accusedOf = (c) => (c.pred === 'enforce' || (c.benefit && c.benefit.who === c.t) ? c.t : c.s);
+
+/**
+ * The verdict rules, each deterministic:
+ *   (a) recommendedTier 'kill', or refuted by two distinct lenses → killed, with the
+ *       reasons joined; held out of the edges, kept in META.killed.
+ *   (b) otherwise the tier becomes the most conservative of its own and every
+ *       recommended tier (documented < reported < alleged < analytic). Never upward.
+ *   (c) a verdict's innocentReading fills a missing one.
+ *   (d) a denial the verdict found, with the source check confirmed, becomes a
+ *       `contra` claim answering this one — 'reported' when the denial carries a
+ *       URL to cite, 'alleged' when it does not.
+ * One lens refuting a claim is a reason to downgrade, not to kill: the two lenses
+ * test different things, and only agreement between them removes a claim.
+ */
+function applyAudit(claims, auditDoc, fleet) {
+  if (!auditDoc) return { audit: null, killed: new Map(), contras: [] };
+  const verdicts = asList(auditDoc.verdicts).map(readVerdict);
+  const order = verdicts.map((v, i) => ({ v, i }));
+  order.sort((a, b) => cmp(a.v.claimId, b.v.claimId) || cmp(a.v.lens ?? '', b.v.lens ?? '') || a.i - b.i);
+  const byClaim = new Map();
+  for (const { v } of order) {
+    if (!byClaim.has(v.claimId)) byClaim.set(v.claimId, []);
+    byClaim.get(v.claimId).push(v);
+  }
+
+  const killed = new Map();
+  const contras = [];
+  const taken = new Set(claims.map((c) => c.id));
+  const applied = [];
+  const unmatched = [];
+
+  for (const c of [...claims].sort((a, b) => cmp(a.id, b.id))) {
+    const vs = byClaim.get(c.id);
+    if (!vs) continue;
+    byClaim.delete(c.id);
+    applied.push(...vs);
+    if (c.status === 'killed') {
+      for (const v of vs) v.applied.push('claim already killed in the research file — verdict recorded only');
+      continue;
+    }
+
+    const killTier = vs.some((v) => recOf(v) === 'kill');
+    const refutedBy = new Set(vs.filter((v) => v.refuted).map((v) => v.lens ?? '(unnamed lens)'));
+    if (killTier || refutedBy.size >= 2) {
+      const reasons = union(vs.map((v) => v.reason).filter(isStr), []);
+      killed.set(c.id, reasons.join(' | ') || (killTier ? 'audit recommended kill' : 'refuted under both lenses'));
+      for (const v of vs) v.applied.push(killTier ? (recOf(v) === 'kill' ? 'killed: recommended kill' : 'killed') : 'killed: refuted under both lenses');
+      continue;
+    }
+
+    const original = c.tier;
+    const start = TIERS.indexOf(original);
+    let final = start;
+    for (const v of vs) {
+      const k = TIERS.indexOf(recOf(v));
+      if (k < 0) {
+        if (v.recommendedTier != null) v.applied.push(`recommendedTier ${JSON.stringify(v.recommendedTier)} not a tier — ignored`);
+        continue;
+      }
+      if (start < 0) continue;
+      if (k > start) v.applied.push(`downgrade ${original} → ${TIERS[k]}`);
+      else if (k < start) v.applied.push(`no upgrade: recommended ${TIERS[k]}, kept ${original}`);
+      final = Math.max(final, k);
+    }
+    if (start >= 0 && final !== start) c.tier = TIERS[final];
+
+    for (const v of vs) {
+      if (!isStr(c.innocentReading) && isStr(v.innocentReading)) {
+        c.innocentReading = v.innocentReading;
+        v.applied.push('innocentReading filled');
+      }
+    }
+
+    const denials = new Set();
+    for (const v of vs) {
+      const text = v.denialFound?.trim();
+      if (!text || /^none/i.test(text) || (v.sourceCheck ?? '').trim().toLowerCase() !== 'confirmed') continue;
+      if (denials.has(text)) {
+        v.applied.push('denial already recorded by another verdict');
+        continue;
+      }
+      denials.add(text);
+      const url = extractUrl(text);
+      let id = `${c.id}:audit-contra`;
+      for (let n = 2; taken.has(id); n++) id = `${c.id}:audit-contra-${n}`;
+      taken.add(id);
+      let host = null;
+      try {
+        host = url ? new URL(url).hostname : null;
+      } catch {
+        host = null; // an unparseable URL still cites; the label just loses its host
+      }
+      contras.push({
+        id,
+        s: accusedOf(c),
+        t: `claim:${c.id}`,
+        pred: 'contra',
+        tier: url ? 'reported' : 'alleged',
+        lab: 'denial found in audit',
+        d: text,
+        ...(url ? { srcs: [[`Denial${host ? ` — ${host}` : ''}`, url]] } : {}),
+        domain: c.domain,
+        file: `${fleet}/AUDIT.json`,
+      });
+      v.applied.push(`contra added ${id}`);
+    }
+    for (const v of vs) if (!v.applied.length) v.applied.push('recorded');
+  }
+
+  for (const vs of byClaim.values()) {
+    for (const v of vs) {
+      v.applied.push('no claim with this id in the fleet');
+      unmatched.push(v);
+    }
+  }
+  const audit = {
+    asOf: typeof auditDoc.asOf === 'string' ? auditDoc.asOf : null,
+    verdicts: applied,
+    unmatched,
+  };
+  return { audit, killed, contras };
+}
+
+// ---------------------------------------------------------------------------
+// 4. Normalise — to the exact shapes the hand-written types declare
+// ---------------------------------------------------------------------------
+
+function toNode(e, where, sink) {
+  const r = readers(sink, where);
+  const n = { id: e.id, label: r.reqStr(e.label, 'label') };
+  const sub = r.str(e.sub, 'sub');
+  if (sub != null) n.sub = sub;
+  n.ty = r.oneOf(e.ty, NODE_TYPES, 'ty', true);
+  n.fam = r.oneOf(e.fam, FAMILIES, 'fam', true);
+  // Absent stays absent; null means "non-geographic" and is said explicitly.
+  if (e.st === null) n.st = null;
+  else if (e.st !== undefined) n.st = r.oneOf(e.st, STATE_CODES, 'st');
+  // Visual weight only, never a fact — so a missing value may take the smallest.
+  const sz = e.sz == null ? 1 : r.num(e.sz, 'sz');
+  n.sz = Math.min(4, Math.max(1, Math.round(sz ?? 1)));
+  const al = r.texts(e.al, 'al');
+  if (al.length) n.al = al;
+  const resolved = r.bool(e.resolved, 'resolved');
+  if (resolved != null) n.resolved = resolved;
+  const risk = r.str(e.collisionRisk, 'collisionRisk');
+  if (risk != null) n.collisionRisk = risk;
+  const d = r.texts(e.d, 'd');
+  if (d.length) n.d = d;
+  const srcs = r.srcs(e.srcs, 'srcs');
+  if (srcs.length) n.srcs = srcs;
+  return n;
+}
+
+const IDENTITY_KEYS = ['cin', 'din', 'nse', 'office', 'dob'];
+
+function toIdentity(e) {
+  const hasIdentity = e.identity && typeof e.identity === 'object' && !Array.isArray(e.identity);
+  const role = isStr(e.publicRole) ? e.publicRole : null;
+  if (!hasIdentity && !role) return null;
+  let identity = null;
+  if (hasIdentity) {
+    identity = {};
+    const extra = Object.keys(e.identity).filter((k) => !IDENTITY_KEYS.includes(k)).sort(cmp);
+    for (const k of [...IDENTITY_KEYS, ...extra]) {
+      const v = e.identity[k];
+      identity[k] = v == null ? null : typeof v === 'string' ? v : typeof v === 'number' || typeof v === 'boolean' ? String(v) : JSON.stringify(v);
+    }
+  }
+  return { identity, publicRole: role };
+}
+
+function toBenefit(b, r, f) {
+  const o = r.obj(b, f);
+  if (!o) return null;
+  return {
+    who: r.reqStr(o.who, `${f}.who`),
+    how: r.str(o.how, `${f}.how`),
+    amountCr: r.num(o.amountCr, `${f}.amountCr`),
+    confidence: r.oneOf(o.confidence, CONFIDENCE, `${f}.confidence`),
+  };
+}
+
+function toEdge(c, where, sink) {
+  const r = readers(sink, where);
+  const e = {
+    id: c.id,
+    s: r.reqStr(c.s, 's'),
+    t: r.reqStr(c.t, 't'),
+    pred: r.oneOf(c.pred, PREDS, 'pred', true),
+    tier: r.oneOf(c.tier, TIERS, 'tier', true),
+  };
+  const a = r.num(c.a, 'a');
+  if (a != null) e.a = a;
+  for (const k of ['lab']) {
+    const v = r.str(c[k], k);
+    if (v != null) e[k] = v;
+  }
+  const d = Array.isArray(c.d) ? r.texts(c.d, 'd').join(' ') : r.str(c.d, 'd');
+  if (d != null && d !== '') e.d = d;
+  for (const k of ['from', 'to']) {
+    const v = r.date(c[k], k);
+    if (v != null) e[k] = v;
+  }
+  const srcs = r.srcs(c.srcs, 'srcs');
+  if (srcs.length) e.srcs = srcs;
+  for (const k of ['innocentReading', 'upgradeIf', 'killIf', 'supersededBy']) {
+    const v = r.str(c[k], k);
+    if (v != null && v !== '') e[k] = v;
+  }
+  return e;
+}
+
+function toHeld(c, sink) {
+  const r = readers(sink, c.id, true);
+  return {
+    id: c.id,
+    s: r.reqStr(c.s),
+    t: r.reqStr(c.t),
+    pred: r.reqStr(c.pred),
+    tier: r.reqStr(c.tier),
+    a: r.num(c.a),
+    lab: r.str(c.lab),
+    d: Array.isArray(c.d) ? r.texts(c.d).join(' ') : r.str(c.d),
+    from: r.str(c.from),
+    to: r.str(c.to),
+    srcs: r.srcs(c.srcs),
+    innocentReading: r.str(c.innocentReading),
+    upgradeIf: r.str(c.upgradeIf),
+    killIf: r.str(c.killIf),
+    supersededBy: r.str(c.supersededBy),
+    benefit: c.benefit && typeof c.benefit === 'object' && isStr(c.benefit.who) ? toBenefit(c.benefit, r, 'benefit') : null,
+    domain: c.domain,
+    file: c.file,
+  };
+}
+
+function toScheme(s, domain, where, sink) {
+  const r = readers(sink, where);
+  const obj = (v, f, fn) => {
+    const o = r.obj(v, f);
+    return o ? fn(o) : null;
+  };
+  const rows = (v, f, fn) => r.list(v, f).map((x, i) => fn(r.obj(x, `${f}[${i}]`) ?? {}, `${f}[${i}]`));
+  return {
+    id: s.id,
+    name: r.reqStr(s.name, 'name'),
+    al: r.texts(s.al, 'al'),
+    level: r.oneOf(s.level, ['state', 'central'], 'level', true),
+    st: r.oneOf(s.st, STATE_CODES, 'st'),
+    applicableStates: r.oneOf(s.applicableStates, ['all'], 'applicableStates'),
+    category: r.oneOf(s.category, SCHEME_CATEGORIES, 'category'),
+    party: r.str(s.party, 'party'),
+    announced: obj(s.announced, 'announced', (o) => ({
+      date: r.date(o.date, 'announced.date'),
+      byPersonId: r.str(o.byPersonId, 'announced.byPersonId'),
+      office: r.str(o.office, 'announced.office'),
+      srcs: r.srcs(o.srcs, 'announced.srcs'),
+    })),
+    approved: obj(s.approved, 'approved', (o) => ({
+      date: r.date(o.date, 'approved.date'),
+      body: r.str(o.body, 'approved.body'),
+      srcs: r.srcs(o.srcs, 'approved.srcs'),
+    })),
+    launched: obj(s.launched, 'launched', (o) => ({
+      date: r.date(o.date, 'launched.date'),
+      srcs: r.srcs(o.srcs, 'launched.srcs'),
+    })),
+    benefit: obj(s.benefit, 'benefit', (o) => ({
+      amount: r.num(o.amount, 'benefit.amount'),
+      unit: r.str(o.unit, 'benefit.unit'),
+      changes: rows(o.changes, 'benefit.changes', (x, f) => ({
+        date: r.date(x.date, `${f}.date`),
+        amount: r.num(x.amount, `${f}.amount`),
+        note: r.str(x.note, `${f}.note`),
+        srcs: r.srcs(x.srcs, `${f}.srcs`),
+      })),
+    })),
+    eligibility: r.str(s.eligibility, 'eligibility'),
+    beneficiaries: rows(s.beneficiaries, 'beneficiaries', (x, f) => ({
+      asOf: r.date(x.asOf, `${f}.asOf`),
+      count: r.num(x.count, `${f}.count`),
+      srcs: r.srcs(x.srcs, `${f}.srcs`),
+    })),
+    outlay: rows(s.outlay, 'outlay', (x, f) => ({
+      fy: r.reqStr(x.fy, `${f}.fy`),
+      budgetedCr: r.num(x.budgetedCr, `${f}.budgetedCr`),
+      actualCr: r.num(x.actualCr, `${f}.actualCr`),
+      pctOfStateBudget: r.num(x.pctOfStateBudget, `${f}.pctOfStateBudget`),
+      pctOfGSDP: r.num(x.pctOfGSDP, `${f}.pctOfGSDP`),
+      srcs: r.srcs(x.srcs, `${f}.srcs`),
+    })),
+    electionContext: obj(s.electionContext, 'electionContext', (o) => ({
+      election: r.str(o.election, 'electionContext.election'),
+      date: r.date(o.date, 'electionContext.date'),
+      monthsFromLaunch: r.num(o.monthsFromLaunch, 'electionContext.monthsFromLaunch'),
+      incumbentParty: r.str(o.incumbentParty, 'electionContext.incumbentParty'),
+      result: r.str(o.result, 'electionContext.result'),
+      seatChange: r.str(o.seatChange, 'electionContext.seatChange'),
+      srcs: r.srcs(o.srcs, 'electionContext.srcs'),
+    })),
+    status: rows(s.status, 'status', (x, f) => ({
+      date: r.date(x.date, `${f}.date`),
+      status: r.oneOf(x.status, SCHEME_STATUS, `${f}.status`, true),
+      note: r.str(x.note, `${f}.note`),
+      srcs: r.srcs(x.srcs, `${f}.srcs`),
+    })),
+    results: rows(s.results, 'results', (x, f) => ({
+      finding: r.reqStr(x.finding, `${f}.finding`),
+      tier: r.oneOf(x.tier, TIERS, `${f}.tier`, true),
+      srcs: r.srcs(x.srcs, `${f}.srcs`),
+    })),
+    ministers: rows(s.ministers, 'ministers', (x, f) => ({
+      personId: r.str(x.personId, `${f}.personId`),
+      role: r.str(x.role, `${f}.role`),
+      action: r.oneOf(x.action, MINISTER_ACTIONS, `${f}.action`),
+      date: r.date(x.date, `${f}.date`),
+      party: r.str(x.party, `${f}.party`),
+      srcs: r.srcs(x.srcs, `${f}.srcs`),
+    })),
+    whoElseBenefits: rows(s.whoElseBenefits, 'whoElseBenefits', (x, f) => ({
+      who: r.reqStr(x.who, `${f}.who`),
+      how: r.str(x.how, `${f}.how`),
+      amountCr: r.num(x.amountCr, `${f}.amountCr`),
+      tier: r.oneOf(x.tier, TIERS, `${f}.tier`),
+      srcs: r.srcs(x.srcs, `${f}.srcs`),
+    })),
+    srcs: r.srcs(s.srcs, 'srcs'),
+    domain,
+  };
+}
+
+/** A scheme is an instrument in the graph; claims point at it, so it needs a node. */
+function schemeNode(s) {
+  const n = {
+    id: s.id,
+    label: s.name,
+    sub: [s.category, s.level === 'central' ? 'central scheme' : s.st ? `${s.st.toUpperCase()} state scheme` : 'state scheme', s.party]
+      .filter(Boolean)
+      .join(' · '),
+    ty: 'mechanism',
+    fam: 'instrument',
+    st: s.st,
+    sz: s.level === 'central' ? 3 : 2,
+  };
+  if (s.al.length) n.al = s.al;
+  n.resolved = true;
+  if (s.srcs.length) n.srcs = s.srcs;
+  return n;
+}
+
+// ---------------------------------------------------------------------------
+// Assemble one fleet (stages 2–4), without yet knowing the other fleet's ids
+// ---------------------------------------------------------------------------
+
+/** A merged record's fault may sit in any file that contributed to it, so name them all. */
+const whereOf = (g) => g.files.join(' + ');
+
+function prepareFleet(read, sink) {
+  const { fleet, files } = read;
+  const { mappings, rewrite } = reconciler(read.reconciliation, fleet, sink);
+
+  const entityGroups = collectRecords(files, 'entities', rewrite, fleet, sink);
+  const schemeGroups = fleet === 'welfare' ? collectRecords(files, 'schemes', rewrite, fleet, sink) : new Map();
+  if (fleet !== 'welfare') {
+    for (const { name, doc } of files) {
+      if (asList(doc.schemes).length) sink.warn(`${fleet}/${name}`, `${doc.schemes.length} scheme record(s) ignored — schemes belong to the welfare fleet`);
+    }
+  }
+  if (fleet === 'welfare') {
+    // Scheme records carry people and beneficiaries by id; those ids reconcile too.
+    for (const g of schemeGroups.values()) {
+      const s = g.rec;
+      if (s.announced && typeof s.announced === 'object') s.announced = { ...s.announced, byPersonId: rewrite(s.announced.byPersonId) };
+      if (Array.isArray(s.ministers)) s.ministers = s.ministers.map((m) => (m && typeof m === 'object' ? { ...m, personId: rewrite(m.personId) } : m));
+      if (Array.isArray(s.whoElseBenefits)) s.whoElseBenefits = s.whoElseBenefits.map((w) => (w && typeof w === 'object' ? { ...w, who: rewrite(w.who) } : w));
+    }
+  }
+
+  const { claims, duplicates } = collectClaims(files, rewrite, fleet, sink);
+  const { audit, killed: auditKilled, contras } = applyAudit(claims, read.audit, fleet);
+
+  const unresolved = new Set([...entityGroups.values()].filter((g) => g.rec.resolved === false).map((g) => g.rec.id));
+  const killed = [];
+  const excluded = duplicates.map(({ c, reason }) => ({ c, reason }));
+  const survivors = [];
+  for (const c of [...claims, ...contras]) {
+    const researchKilled = c.status === 'killed';
+    if (auditKilled.has(c.id) || researchKilled) {
+      const reason = auditKilled.get(c.id) ?? (isStr(c.killedReason) ? c.killedReason : 'marked killed in the research file');
+      killed.push({ c, reason });
+      continue;
+    }
+    // A claim that cannot be typed is held, not coerced and not fatal: the reconciler
+    // fixes the raw file, and until then the claim is on the record in META.
+    const malformed = predProblem(c.pred) ?? (TIERS.includes(c.tier) ? null : `unknown tier ${JSON.stringify(c.tier)} (expected ${TIERS.join(' | ')})`);
+    if (malformed) {
+      excluded.push({ c, reason: malformed });
+      continue;
+    }
+    const blocked = [c.s, c.t].find((v) => unresolved.has(v));
+    if (blocked) {
+      excluded.push({ c, reason: `endpoint "${blocked}" is resolved:false — unresolved entities take no edges` });
+      continue;
+    }
+    survivors.push(c);
+  }
+  for (const { c, reason } of excluded) sink.warn(`${c.file}:${c.id}`, `excluded — ${reason}`);
+
+  return { ...read, mappings, entityGroups, schemeGroups, claims, survivors, killed, excluded, audit, contras };
+}
+
+/** The alleged-needs-a-denial test, applied exactly as validate.mjs §4 applies it per file. */
+function answeredSet(survivors) {
+  const answered = new Set();
+  for (const c of survivors) {
+    if (c.pred !== 'contra') continue;
+    answered.add(String(c.t).replace(/^claim:/, ''));
+    answered.add(c.s);
+  }
+  return answered;
+}
+
+function gateFleet(p, isKnown, sink) {
+  const { fleet } = p;
+  const allClaimIds = new Set([...p.survivors, ...p.killed.map((k) => k.c), ...p.excluded.map((x) => x.c)].map((c) => c.id));
+  const answered = answeredSet(p.survivors);
+  for (const c of p.survivors) {
+    const w = `${c.file}:${c.id}`;
+    for (const side of ['s', 't']) {
+      const v = c[side];
+      if (!isStr(v)) {
+        sink.error(w, `missing endpoint ${side}`);
+        continue;
+      }
+      // `claim:<id>` is how a denial names what it answers; an analytic or supersede
+      // claim may name a claim the same way. Either way the claim must exist — held
+      // (killed or excluded) claims count, because they stay addressable.
+      if (v.startsWith('claim:')) {
+        if (!allClaimIds.has(v.slice(6))) {
+          // The usual cause: the claim's own id was written with the prefix. Name the fix.
+          const hint = allClaimIds.has(v) ? ` — a claim's own id is "${v}"; write ids without the claim: prefix and reference them as claim:<id>` : '';
+          sink.error(w, `"${v}" is not a claim in the ${fleet} fleet${hint}`);
+        }
+        continue;
+      }
+      if (!isKnown(v)) {
+        sink.error(w, `endpoint "${v}" is neither a fleet id nor an inventory-prefixed id (pol|min|sec|co|grp|per|for:) nor an atlas id`);
+      }
+    }
+    const sourced = asList(c.srcs).some(isSource);
+    if ((c.tier === 'documented' || c.tier === 'reported') && !sourced) {
+      sink.error(w, `PROVENANCE INVARIANT VIOLATED — tier ${c.tier} with no srcs`);
+    }
+    if (c.tier === 'analytic' && !isStr(c.innocentReading)) {
+      sink.error(w, 'analytic claim without an innocentReading after audit (correlation ≠ causation)');
+    }
+    if (c.tier === 'alleged' && c.pred !== 'contra' && !answered.has(c.id) && !answered.has(c.s) && !answered.has(c.t)) {
+      sink.error(w, 'alleged claim without a contra after audit — the denial ships with the claim, or the claim does not ship');
+    }
+    if (c.supersededBy != null && !(isStr(c.supersededBy) && allClaimIds.has(c.supersededBy))) {
+      sink.error(w, `supersededBy "${c.supersededBy}" does not resolve to a claim in the ${fleet} fleet`);
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// 5. Emit
+// ---------------------------------------------------------------------------
+
+const IDENT = /^[A-Za-z_$][A-Za-z0-9_$]*$/;
+const keyLit = (k) => (IDENT.test(k) ? k : JSON.stringify(k));
+
+/** One record per line, keys in a fixed order. JSON.stringify is the only escaping this file does. */
+function oneLine(obj, keys) {
+  const parts = [];
+  for (const k of keys) if (obj[k] !== undefined) parts.push(`${keyLit(k)}: ${JSON.stringify(obj[k])}`);
+  return `{ ${parts.join(', ')} }`;
+}
+
+const indent = (text, pad) => text.split('\n').map((l) => pad + l).join('\n');
+
+/**
+ * `export const NAME: Type = [ … ];` with the closing `];` alone on its line — the
+ * shape validate.mjs grabs and evaluates, so the literal must hold nothing but
+ * data: no imports, no calls, no casts.
+ */
+function arrayConst(name, type, rows, fmt) {
+  return `export const ${name}: ${type} = [\n${rows.map((r) => `${fmt(r)},\n`).join('')}];\n`;
+}
+
+const NODE_KEYS = ['id', 'label', 'sub', 'ty', 'fam', 'st', 'sz', 'al', 'resolved', 'collisionRisk', 'd', 'srcs'];
+const EDGE_KEYS = ['id', 's', 't', 'pred', 'tier', 'a', 'lab', 'd', 'from', 'to', 'srcs', 'innocentReading', 'upgradeIf', 'killIf', 'supersededBy'];
+const BENEFIT_KEYS = ['claimId', 's', 't', 'pred', 'tier', 'who', 'how', 'amountCr', 'confidence', 'srcs', 'domain'];
+const VOID_KEYS = ['what', 'whyItMatters', 'srcs', 'domain'];
+const NARRATIVE_KEYS = ['claim', 'status', 'strongestCase', 'strongestCounter', 'whatWouldChangeThis', 'srcs', 'domain'];
+const BASE_RATE_KEYS = ['property', 'numerator', 'denominator', 'label', 'srcs', 'domain'];
+const TEXT_KEYS = ['domain', 'text'];
+const ELECTION_KEYS = ['st', 'election', 'date', 'incumbentParty', 'winner', 'srcs', 'domain'];
+
+/**
+ * The canonical coverage shape is the page spec's: { st, fromYear, toYear,
+ * categories: ["all"] | [category…], method, srcs }. The contract's earlier
+ * { years: [from, to], searched, note } is still read. A range is only ever taken
+ * from fromYear/toYear or a two-element `years`; a longer `years` list names single
+ * years and leaves the range null (read it with coverageYears), because spanning its
+ * gaps would declare years nobody searched — and paint them as zeros.
+ */
+function coverageShape(v) {
+  const int = (x) => Number.isInteger(x);
+  let fromYear = null;
+  let toYear = null;
+  if (v.fromYear != null || v.toYear != null) {
+    if (!int(v.fromYear) || !int(v.toYear) || v.fromYear > v.toYear) return { problem: 'fromYear/toYear must be whole years with fromYear ≤ toYear' };
+    fromYear = v.fromYear;
+    toYear = v.toYear;
+  } else if (Array.isArray(v.years) && v.years.length && v.years.every(int)) {
+    if (v.years.length === 2) {
+      if (v.years[0] > v.years[1]) return { problem: 'years [from, to] runs backwards' };
+      [fromYear, toYear] = v.years;
+    }
+  } else {
+    return { problem: 'declares no readable years (fromYear/toYear, or years)' };
+  }
+  let categories;
+  let defaulted = false;
+  if (v.categories == null) {
+    categories = ['all'];
+    defaulted = true;
+  } else {
+    const list = Array.isArray(v.categories) ? v.categories : [v.categories];
+    const unknown = list.filter((c) => c !== 'all' && !SCHEME_CATEGORIES.includes(c));
+    if (!list.length || unknown.length) return { problem: `categories ${JSON.stringify(v.categories)} — expected ["all"] or a list of ${SCHEME_CATEGORIES.join(' | ')}` };
+    // "all" subsumes any category listed beside it.
+    categories = list.includes('all') ? ['all'] : [...new Set(list)];
+  }
+  return { fromYear, toYear, categories, defaulted };
+}
+
+function sections(p, sink) {
+  const voids = [];
+  const narratives = [];
+  const baseRates = [];
+  const symmetry = [];
+  const gaps = [];
+  const elections = new Map();
+  const coverage = [];
+  for (const { name, doc, domain } of p.files) {
+    const where = `${p.fleet}/${name}`;
+    if (p.fleet === 'welfare' && doc.coverage != null) {
+      if (!Array.isArray(doc.coverage)) sink.warn(`${where}:coverage`, 'not a list — no coverage declared by this file');
+      for (const [i, v] of asList(Array.isArray(doc.coverage) ? doc.coverage : []).entries()) {
+        const w = `${where}:coverage[${i}]`;
+        // A declaration that cannot be checked must not paint a state-year as
+        // "searched, none live": it is held out, and validate §4 fails on it.
+        if (!v || typeof v !== 'object' || Array.isArray(v)) {
+          sink.warn(w, 'not an object — held out of WELFARE_COVERAGE');
+          continue;
+        }
+        if (!STATE_CODES.includes(v.st) && v.st !== 'central') {
+          sink.warn(w, `st ${JSON.stringify(v.st)} is not a state code or "central" — held out of WELFARE_COVERAGE`);
+          continue;
+        }
+        const srcs = asList(v.srcs);
+        if (!srcs.length || !srcs.every(isSource)) {
+          sink.warn(w, 'needs at least one [label, url] source — held out of WELFARE_COVERAGE');
+          continue;
+        }
+        const shape = coverageShape(v);
+        if (shape.problem) {
+          sink.warn(w, `${shape.problem} — held out of WELFARE_COVERAGE`);
+          continue;
+        }
+        if (shape.defaulted) sink.warn(w, 'no categories — treated as ["all"]');
+        // Canonical fields first, in a fixed order; anything else the file wrote
+        // (years, searched, note…) passes through after them, keys sorted.
+        const o = { st: v.st, fromYear: shape.fromYear, toYear: shape.toYear, categories: shape.categories, method: typeof v.method === 'string' ? v.method : null };
+        const canonical = ['st', 'fromYear', 'toYear', 'categories', 'method', 'srcs', 'domain'];
+        for (const k of Object.keys(v).filter((k) => !canonical.includes(k)).sort(cmp)) o[k] = v[k];
+        o.srcs = srcs.map((x) => [x[0], x[1]]);
+        o.domain = domain;
+        coverage.push(o);
+      }
+    }
+    for (const [i, v] of asList(doc.voids).entries()) {
+      const r = readers(sink, `${where}:voids[${i}]`);
+      const o = r.obj(v) ?? {};
+      voids.push({ what: r.reqStr(o.what, 'what'), whyItMatters: r.str(o.whyItMatters, 'whyItMatters'), srcs: r.srcs(o.srcs, 'srcs'), domain });
+    }
+    for (const [i, v] of asList(doc.narratives).entries()) {
+      const r = readers(sink, `${where}:narratives[${i}]`);
+      const o = r.obj(v) ?? {};
+      narratives.push({
+        claim: r.reqStr(o.claim, 'claim'),
+        status: r.oneOf(o.status, NARRATIVE_STATUS, 'status', true),
+        strongestCase: r.str(o.strongestCase, 'strongestCase'),
+        strongestCounter: r.str(o.strongestCounter, 'strongestCounter'),
+        whatWouldChangeThis: r.str(o.whatWouldChangeThis, 'whatWouldChangeThis'),
+        srcs: r.srcs(o.srcs, 'srcs'),
+        domain,
+      });
+    }
+    for (const [i, v] of asList(doc.baseRates).entries()) {
+      const r = readers(sink, `${where}:baseRates[${i}]`);
+      const o = r.obj(v) ?? {};
+      baseRates.push({
+        property: r.reqStr(o.property, 'property'),
+        numerator: r.num(o.numerator, 'numerator'),
+        denominator: r.num(o.denominator, 'denominator'),
+        label: r.str(o.label, 'label'),
+        srcs: r.srcs(o.srcs, 'srcs'),
+        domain,
+      });
+    }
+    if (doc.symmetryCheck != null) {
+      const t = typeof doc.symmetryCheck === 'string' ? doc.symmetryCheck : JSON.stringify(doc.symmetryCheck);
+      if (t.trim()) symmetry.push({ domain, text: t });
+    }
+    for (const g of asList(doc.gaps)) {
+      const t = typeof g === 'string' ? g : JSON.stringify(g);
+      if (t.trim()) gaps.push({ domain, text: t });
+    }
+    if (p.fleet === 'welfare') {
+      for (const [i, v] of asList(doc.elections).entries()) {
+        const r = readers(sink, `${where}:elections[${i}]`);
+        const o = r.obj(v) ?? {};
+        const e = {
+          st: r.oneOf(o.st, STATE_CODES, 'st'),
+          election: r.reqStr(o.election, 'election'),
+          date: o.date == null ? r.reqStr(null, 'date') : r.date(o.date, 'date') ?? '',
+          incumbentParty: r.str(o.incumbentParty, 'incumbentParty'),
+          winner: r.str(o.winner, 'winner'),
+          srcs: r.srcs(o.srcs, 'srcs'),
+          domain,
+        };
+        // The same election recorded by two sweeps is one election with both citations.
+        const k = `${e.st}|${e.election}|${e.date}`;
+        const prior = elections.get(k);
+        if (prior) prior.srcs = union(prior.srcs, e.srcs, (s) => JSON.stringify(s));
+        else elections.set(k, e);
+      }
+    }
+  }
+  const electionList = [...elections.values()].sort(
+    (a, b) => cmp(a.date, b.date) || cmp(a.st ?? '', b.st ?? '') || cmp(a.election, b.election),
+  );
+  return { voids, narratives, baseRates, symmetry, gaps, elections: electionList, coverage };
+}
+
+/**
+ * Inputs are always named as research/raw/<fleet>/<file>, whatever --dir said: the
+ * module is a function of the files' bytes, not of where a run happened to read
+ * them, so a scratch or CI path never leaks into a committed header.
+ */
+const HOME = 'research/raw';
+
+function header(p, runId) {
+  const inputs = p.inputs.map((i) => `${HOME}/${i.name}`);
+  const safe = (s) => s.replace(/\*\//g, '*\\/');
+  return [
+    '/**',
+    ' * GENERATED FILE — DO NOT EDIT BY HAND.',
+    ' *',
+    ` * Written by ${GENERATOR} (\`npm run generate\`, generator ${GENERATOR_VERSION}),`,
+    ` * run ${runId}, from:`,
+    ...(inputs.length ? inputs.map((f) => ` *   ${safe(f)}`) : [` *   (nothing — ${HOME}/${p.fleet}/ holds no research files yet)`]),
+    ' *',
+    ' * To change it, change the research file, or the fleet\'s RECONCILIATION.json or',
+    ' * AUDIT.json, and re-run `npm run generate`. `npm run validate` fails when this',
+    ' * file no longer matches what its inputs assemble to, so a hand edit cannot ship.',
+    ' */',
+    '',
+  ].join('\n');
+}
+
+function emitFleet(p, sink) {
+  const { fleet } = p;
+  // The fleet name is folded in so two empty fleets do not share a stamp.
+  const runId = `run-${fnv1a64(`${GENERATOR_VERSION}\n${fleet}\n${p.inputs.map((i) => `${i.name}\n${i.text}`).join('\n')}`).slice(0, 12)}`;
+
+  // Nodes: entity records, then (welfare) one node per scheme the entities do not already define.
+  const identity = [];
+  const nodes = [];
+  for (const g of [...p.entityGroups.values()].sort((a, b) => cmp(a.rec.id, b.rec.id))) {
+    nodes.push(toNode(g.rec, `${whereOf(g)}:${g.rec.id}`, sink));
+    const idn = toIdentity(g.rec);
+    if (idn) identity.push([g.rec.id, idn]);
+  }
+  const schemes = [...p.schemeGroups.values()]
+    .sort((a, b) => cmp(a.rec.id, b.rec.id))
+    .map((g) => toScheme(g.rec, p.files.find((f) => `${fleet}/${f.name}` === g.files[0])?.domain ?? '', `${whereOf(g)}:${g.rec.id}`, sink));
+  const entityIds = new Set(nodes.map((n) => n.id));
+  const schemeNodes = schemes.filter((s) => !entityIds.has(s.id)).map(schemeNode);
+
+  const survivors = [...p.survivors].sort((a, b) => cmp(a.id, b.id));
+  const edges = survivors.map((c) => toEdge(c, `${c.file}:${c.id}`, sink));
+  const benefits = [];
+  for (const [i, c] of survivors.entries()) {
+    if (!c.benefit || typeof c.benefit !== 'object') continue;
+    const r = readers(sink, `${c.file}:${c.id}`);
+    const b = toBenefit(c.benefit, r, 'benefit');
+    if (!b) continue;
+    const e = edges[i];
+    benefits.push({ claimId: c.id, s: e.s, t: e.t, pred: e.pred, tier: e.tier, ...b, srcs: e.srcs ?? [], domain: c.domain });
+  }
+
+  const killed = p.killed
+    .map(({ c, reason }) => ({ ...toHeld(c, sink), status: 'killed', killedReason: reason }))
+    .sort((a, b) => cmp(a.id, b.id));
+  const excluded = p.excluded
+    .map(({ c, reason }) => ({ ...toHeld(c, sink), excludedReason: reason }))
+    .sort((a, b) => cmp(a.id, b.id) || cmp(a.file, b.file));
+
+  // Claim id → research domain, for every claim the module mentions: edges, then
+  // held claims. A duplicate id keeps its first domain, as the edge it names does.
+  const edgeDomain = new Map();
+  for (const c of [...survivors, ...p.killed.map((k) => k.c), ...p.excluded.map((x) => x.c)]) {
+    if (!edgeDomain.has(c.id)) edgeDomain.set(c.id, c.domain);
+  }
+
+  const sec = sections(p, sink);
+  const killedByFile = new Map();
+  for (const k of killed) killedByFile.set(k.file, (killedByFile.get(k.file) ?? 0) + 1);
+  const files = p.files.map(({ name, doc, domain }) => ({
+    file: `${fleet}/${name}`,
+    domain,
+    asOf: typeof doc.asOf === 'string' ? doc.asOf : null,
+    entities: asList(doc.entities).length,
+    claims: asList(doc.claims).length,
+    killed: killedByFile.get(`${fleet}/${name}`) ?? 0,
+  }));
+  const asOf = files.map((f) => f.asOf).filter(Boolean).sort(cmp).pop() ?? null;
+  const tierChanges = p.audit ? p.audit.verdicts.filter((v) => v.applied.some((a) => a.startsWith('downgrade'))).length : 0;
+
+  const counts = {
+    files: files.length,
+    nodes: nodes.length + schemeNodes.length,
+    claimsIn: files.reduce((a, f) => a + f.claims, 0),
+    edges: edges.length,
+    killed: killed.length,
+    excluded: excluded.length,
+    contrasAdded: p.contras.length,
+    downgradeVerdicts: tierChanges,
+    benefits: benefits.length,
+    voids: sec.voids.length,
+    narratives: sec.narratives.length,
+    baseRates: sec.baseRates.length,
+    ...(fleet === 'welfare' ? { schemes: schemes.length, elections: sec.elections.length, coverage: sec.coverage.length } : {}),
+  };
+  const meta = {
+    fleet,
+    generator: GENERATOR,
+    generatorVersion: GENERATOR_VERSION,
+    asOf,
+    runId,
+    empty: files.length === 0,
+    note: files.length === 0 ? `no research files under ${HOME}/${fleet}/ — emitted empty so the build never depends on research having run` : null,
+    inputs: p.inputs.map((i) => i.name),
+    files,
+    counts,
+    reconciliation: {
+      mappings: p.mappings,
+      merged: [...p.entityGroups.values(), ...p.schemeGroups.values()]
+        .filter((g) => g.ids.length > 1)
+        .map((g) => ({ id: g.rec.id, ids: g.ids, files: g.files, filledFrom: g.filledFrom }))
+        .sort((a, b) => cmp(a.id, b.id)),
+    },
+    audit: p.audit,
+    killed,
+    excluded,
+  };
+
+  const P = fleet === 'energy' ? 'ENERGY' : 'WELFARE';
+  const row = (keys) => (r) => `  ${oneLine(r, keys)}`;
+  const out = [header(p, runId)];
+  if (fleet === 'energy') {
+    out.push("import type { GNode, GEdge } from './schema';");
+    out.push("import type { BaseRateRow, BenefitRow, EntityIdentity, FleetMeta, FleetText, Narrative, Void } from './fleet';");
+  } else {
+    out.push("import type { GNode, GEdge } from '../graph/schema';");
+    out.push("import type { BaseRateRow, BenefitRow, EntityIdentity, FleetMeta, FleetText, Narrative, Void } from '../graph/fleet';");
+    out.push("import type { Coverage, Election, Scheme } from './welfare';");
+  }
+  out.push('');
+  if (fleet === 'welfare') {
+    out.push(arrayConst('WELFARE_SCHEMES', 'Scheme[]', schemes, (s) => indent(JSON.stringify(s, null, 2), '  ')));
+    out.push(arrayConst('WELFARE_ENTITIES', 'GNode[]', nodes, row(NODE_KEYS)));
+    out.push('/** One node per scheme, so claims that point at a scheme have somewhere to land. */');
+    out.push(arrayConst('WELFARE_SCHEME_NODES', 'GNode[]', schemeNodes, row(NODE_KEYS)));
+    out.push(arrayConst('WELFARE_CLAIMS', 'GEdge[]', edges, row(EDGE_KEYS)));
+  } else {
+    out.push(arrayConst('ENERGY_NODES', 'GNode[]', nodes, row(NODE_KEYS)));
+    out.push(arrayConst('ENERGY_EDGES', 'GEdge[]', edges, row(EDGE_KEYS)));
+  }
+  out.push('/** Claim id → the research domain (file stem) it came from, for every edge and every held claim. */');
+  out.push(
+    `export const ${P}_EDGE_DOMAIN: Record<string, string> = {\n${[...edgeDomain.entries()]
+      .sort((a, b) => cmp(a[0], b[0]))
+      .map(([id, d]) => `  ${JSON.stringify(id)}: ${JSON.stringify(d)},\n`)
+      .join('')}};\n`,
+  );
+  out.push(arrayConst(`${P}_BENEFITS`, 'BenefitRow[]', benefits, row(BENEFIT_KEYS)));
+  if (fleet === 'welfare') {
+    out.push(arrayConst('WELFARE_ELECTIONS', 'Election[]', sec.elections, row(ELECTION_KEYS)));
+    out.push('/** What each file declares it searched. A state-year is painted "searched, none live" only when an entry here declares it. */');
+    out.push(arrayConst('WELFARE_COVERAGE', 'Coverage[]', sec.coverage, (c) => `  ${JSON.stringify(c)}`));
+  }
+  out.push(arrayConst(`${P}_VOIDS`, 'Void[]', sec.voids, row(VOID_KEYS)));
+  out.push(arrayConst(`${P}_NARRATIVES`, 'Narrative[]', sec.narratives, row(NARRATIVE_KEYS)));
+  out.push(arrayConst(`${P}_BASE_RATES`, 'BaseRateRow[]', sec.baseRates, row(BASE_RATE_KEYS)));
+  out.push(arrayConst(`${P}_SYMMETRY`, 'FleetText[]', sec.symmetry, row(TEXT_KEYS)));
+  out.push(arrayConst(`${P}_GAPS`, 'FleetText[]', sec.gaps, row(TEXT_KEYS)));
+  out.push(
+    `export const ${P}_IDENTITY: Record<string, EntityIdentity> = {\n${identity
+      .map(([id, v]) => `  ${JSON.stringify(id)}: ${JSON.stringify(v)},\n`)
+      .join('')}};\n`,
+  );
+  out.push(`export const ${P}_META: FleetMeta = ${JSON.stringify(meta, null, 2)};\n`);
+
+  return {
+    text: out.join('\n'),
+    data: { nodes, schemeNodes, edges, benefits, schemes, identity: Object.fromEntries(identity), edgeDomain: Object.fromEntries(edgeDomain), meta, ...sec },
+  };
+}
+
+// ---------------------------------------------------------------------------
+// The assembly, as a function
+// ---------------------------------------------------------------------------
+
+/**
+ * Assemble both fleets in memory. Returns the module texts, the structured data
+ * behind them, and every error and warning; writes nothing. When `errors` is
+ * non-empty the texts are null — an invariant failure produces no module at all.
+ */
+export function assembleFleet({ root = ROOT, dir = HOME } = {}) {
+  // One sink per fleet, so a fault is charged to the fleet that has it; the shared
+  // sink holds faults that stop both (the Atlas ids cannot be read).
+  const shared = makeSink();
+  const sinks = { energy: makeSink(), welfare: makeSink() };
+  const rawDir = isAbsolute(dir) ? dir : resolve(root, dir);
+  const atlasIds = readAtlasIds(root, shared);
+
+  const prepared = ['energy', 'welfare'].map((fleet) => prepareFleet(readFleet(rawDir, fleet, sinks[fleet]), sinks[fleet]));
+  // Fleet ids span both fleets: an energy claim may point at a welfare scheme, and
+  // both modules are merged into the one graph the app renders.
+  const fleetIds = new Set();
+  for (const p of prepared) {
+    for (const id of p.entityGroups.keys()) fleetIds.add(id);
+    for (const id of p.schemeGroups.keys()) fleetIds.add(id);
+  }
+  const isKnown = (id) => fleetIds.has(id) || atlasIds.has(id) || INVENTORY.test(id);
+  for (const p of prepared) gateFleet(p, isKnown, sinks[p.fleet]);
+
+  const [energy, welfare] = prepared.map((p) => emitFleet(p, sinks[p.fleet]));
+  const fleetErrors = {
+    energy: [...shared.errors, ...sinks.energy.errors],
+    welfare: [...shared.errors, ...sinks.welfare.errors],
+  };
+  return {
+    // A module's text is null exactly when its own fleet (or a shared fault) failed.
+    energyTs: fleetErrors.energy.length ? null : energy.text,
+    welfareTs: fleetErrors.welfare.length ? null : welfare.text,
+    energy: energy.data,
+    welfare: welfare.data,
+    fleetErrors,
+    errors: [...shared.errors, ...sinks.energy.errors, ...sinks.welfare.errors],
+    warnings: [...shared.warnings, ...sinks.energy.warnings, ...sinks.welfare.warnings],
+  };
+}
+
+// ---------------------------------------------------------------------------
+// CLI
+// ---------------------------------------------------------------------------
+
+function main() {
+  const argv = process.argv.slice(2);
+  const opt = (name, fallback) => {
+    const i = argv.indexOf(name);
+    return i > -1 && argv[i + 1] ? argv[i + 1] : fallback;
+  };
+  if (argv.includes('--help') || argv.includes('-h')) {
+    console.log('usage: node scripts/assemble-fleet.mjs [--dir research/raw] [--out <root>]');
+    process.exit(0);
+  }
+  const dir = opt('--dir', 'research/raw');
+  const outRoot = resolve(ROOT, opt('--out', '.'));
+  const res = assembleFleet({ root: ROOT, dir });
+
+  for (const [fleet, d] of [['energy', res.energy], ['welfare', res.welfare]]) {
+    const c = d.meta.counts;
+    console.log(
+      `  · ${fleet.padEnd(8)} ${d.meta.runId}  ${String(c.files).padStart(3)} file(s)  ${String(c.nodes).padStart(4)} nodes  ${String(c.edges).padStart(4)} edges  ` +
+        `${c.killed} killed  ${c.excluded} excluded  ${c.contrasAdded} denial(s) added${fleet === 'welfare' ? `  ${c.schemes} schemes` : ''}` +
+        (d.meta.empty ? '  (empty — no research yet)' : ''),
+    );
+  }
+  if (res.warnings.length) {
+    console.log(`\n  ${res.warnings.length} warning(s):`);
+    for (const w of res.warnings) console.log(`    ! ${w}`);
+  }
+  console.log('');
+  for (const [fleet, text] of [['energy', res.energyTs], ['welfare', res.welfareTs]]) {
+    const path = join(outRoot, OUTPUTS[fleet]);
+    const shown = relative(ROOT, path);
+    const where = shown && !shown.startsWith('..') ? shown : path;
+    if (text == null) {
+      const errs = res.fleetErrors[fleet];
+      console.error(`  ✗ ${fleet}: ${errs.length} error(s) — ${where} left untouched:`);
+      for (const e of errs) console.error(`      ✗ ${e}`);
+      continue;
+    }
+    mkdirSync(dirname(path), { recursive: true });
+    writeFileSync(path, text);
+    console.log(`  → ${where}`);
+  }
+  if (res.errors.length) {
+    console.error('\ngenerate: FAILED\n');
+    process.exit(1);
+  }
+  console.log('\ngenerate: OK\n');
+}
+
+if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) main();

@@ -33,6 +33,21 @@ jobs:
       - name: Promote research quarantine
         run: npm run promote
 
+      # Research fleets → src/graph/energy.generated.ts, src/data/welfare.generated.ts.
+      # Reconciliation and audit verdicts are applied, then the four invariants are
+      # checked over what survives; a violation fails here and writes nothing. With
+      # no fleet research present it emits empty modules, so the build never waits
+      # on research. Here it overwrites whatever was committed, so the site is built
+      # from the research as it stands; validate's stale-module check is for local runs.
+      - name: Assemble research fleets
+        run: npm run generate
+
+      # The assembler's own rules (reconcile, audit, the four invariants, per-fleet
+      # writes) and the graph merge, tested on a synthetic fixture. Research-independent,
+      # so a red here is a code fault, never a data one.
+      - name: Assembler and merge tests
+        run: npm run test:assemble
+
       - name: Data integrity
         run: npm run validate
 

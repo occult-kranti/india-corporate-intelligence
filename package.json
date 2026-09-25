@@ -9,10 +9,13 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "promote": "node scripts/promote.mjs",
+    "generate": "node scripts/assemble-fleet.mjs",
+    "test:assemble": "node --test scripts/assemble-fleet.test.mjs scripts/merge-fleet.test.mjs",
     "validate": "node scripts/validate.mjs",
     "smoke": "node scripts/smoke.mjs",
     "viewport": "node scripts/graph-viewport.mjs",
-    "check": "npm run promote && npm run validate && npm run build && npm run smoke && npm run viewport"
+    "check": "npm run promote && npm run generate && npm run test:assemble && npm run validate && npm run build && npm run smoke && npm run viewport",
+    "test:pages": "node --test \"scripts/pages/*.test.mjs\""
   },
   "dependencies": {
     "d3-force": "^3.0.0",

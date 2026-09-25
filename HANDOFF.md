@@ -137,6 +137,7 @@ doing next:
 npm install
 npm run dev        # vite dev server
 npm run promote    # research/raw → resolution + grounding report
+npm run generate   # research fleets → src/graph/energy.generated.ts, src/data/welfare.generated.ts
 npm run validate   # the four invariants
 npm run build      # tsc -b && vite build
 npm run smoke      # headless render of all 21 routes; serves dist itself

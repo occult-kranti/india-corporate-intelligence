@@ -1,0 +1,1460 @@
+{
+  "asOf": "2026-09-25",
+  "domain": "states",
+  "scope": "The state layer of India's energy/natural-resources power map: (1) verification of the Union energy-related cabinet portfolios as of 2026-09-25 against the repo's 2026-07-25 cabinet.json; (2) Chief Ministers and ruling parties for the 20 resource states named in the brief (Odisha, Jharkhand, Chhattisgarh, Gujarat, Rajasthan, Madhya Pradesh, Andhra Pradesh, Telangana, Maharashtra, Karnataka, Tamil Nadu, Arunachal Pradesh, Sikkim, Himachal Pradesh, Uttarakhand, J&K, Assam, West Bengal, Goa, Uttar Pradesh), with dates of any change of ruling party 2019-2026; (3) a handful of deeply-sourced state-level resource-allocation decisions (Khavda and Dholera land allocation in Gujarat, Odisha discom privatisation, the Parsa East & Kanta Basan coal MDO arrangement, the Nov-2024 US indictment's state-contract allegations, the Maharashtra 6,600 MW Adani bid-rigging allegation, Tamil Nadu's 2024 Pumped Storage Projects Policy, the 2015 MMDR auction reform); (4) a symmetry attempt on opposition-run states. Deliberately NOT covered, for lack of verifiable sources within this session's budget: state energy/mines minister names for any of the 20 states (only Chief Ministers are recorded), most state gencos/transcos/mining corporations beyond the handful directly tied to a claim below, and granular opposition-state equivalents to the Gujarat/Maharashtra/Chhattisgarh cases — these are logged as gaps/voids rather than asserted.",
+  "sources": [
+    [
+      "Wikipedia: List of current Indian chief ministers",
+      "https://en.wikipedia.org/wiki/List_of_current_Indian_chief_ministers"
+    ],
+    [
+      "Wikipedia: Chief Minister of Tamil Nadu",
+      "https://en.wikipedia.org/wiki/Chief_Minister_of_Tamil_Nadu"
+    ],
+    [
+      "Wikipedia: Chief Minister of Karnataka",
+      "https://en.wikipedia.org/wiki/Chief_Minister_of_Karnataka"
+    ],
+    [
+      "Wikipedia: Chief Minister of West Bengal",
+      "https://en.wikipedia.org/wiki/Chief_Minister_of_West_Bengal"
+    ],
+    [
+      "Wikipedia: Chief Minister of Assam",
+      "https://en.wikipedia.org/wiki/Chief_Minister_of_Assam"
+    ],
+    [
+      "Wikipedia: Third Modi ministry",
+      "https://en.wikipedia.org/wiki/Third_Modi_ministry"
+    ],
+    [
+      "Wikipedia: 2026 Assam Legislative Assembly election",
+      "https://en.wikipedia.org/wiki/2026_Assam_Legislative_Assembly_election"
+    ],
+    [
+      "Wikipedia: Gujarat Hybrid Renewable Energy Park (Khavda)",
+      "https://en.wikipedia.org/wiki/Khavda_Renewable_Energy_Park"
+    ],
+    [
+      "Wikipedia: Dholera Special Investment Region",
+      "https://en.wikipedia.org/wiki/Dholera_Special_Investment_Region"
+    ],
+    [
+      "Wikipedia: Adani Green Energy",
+      "https://en.wikipedia.org/wiki/Adani_Green_Energy"
+    ],
+    [
+      "Wikipedia: Gautam Adani",
+      "https://en.wikipedia.org/wiki/Gautam_Adani"
+    ],
+    [
+      "Wikipedia: Adani Group",
+      "https://en.wikipedia.org/wiki/Adani_Group"
+    ],
+    [
+      "Wikipedia: Maharashtra State Electricity Distribution Company Limited",
+      "https://en.wikipedia.org/wiki/Maharashtra_State_Electricity_Distribution_Company_Limited"
+    ],
+    [
+      "Wikipedia: TP Central Odisha Distribution Limited",
+      "https://en.wikipedia.org/wiki/TP_Central_Odisha_Distribution_Limited"
+    ],
+    [
+      "Global Energy Monitor: Parsa East and Kanta Basan coal mine",
+      "https://www.gem.wiki/Parsa_East_and_Kanta_Basan_coal_mine"
+    ],
+    [
+      "Mercom India: Pumped Storage Projects tag",
+      "https://mercomindia.com/tag/pumped-storage-projects"
+    ],
+    [
+      "Wikipedia: Telangana",
+      "https://en.wikipedia.org/wiki/Telangana"
+    ],
+    [
+      "Wikipedia: Devendra Fadnavis",
+      "https://en.wikipedia.org/wiki/Devendra_Fadnavis"
+    ],
+    [
+      "Wikipedia: Mines and Minerals (Development and Regulation) Amendment Act, 2015",
+      "https://en.wikipedia.org/wiki/Mines_and_Minerals_(Development_and_Regulation)_Amendment_Act,_2015"
+    ],
+    [
+      "Wikipedia: Andhra Pradesh Southern Power Distribution Company Limited",
+      "https://en.wikipedia.org/wiki/Andhra_Pradesh_Southern_Power_Distribution_Company_Limited"
+    ],
+    [
+      "Wikipedia: Y. S. Jagan Mohan Reddy",
+      "https://en.wikipedia.org/wiki/YS_Jagan_Mohan_Reddy"
+    ],
+    [
+      "Wikipedia: Mohan Charan Majhi",
+      "https://en.wikipedia.org/wiki/Mohan_Charan_Majhi"
+    ],
+    [
+      "Wikipedia: Hemant Soren",
+      "https://en.wikipedia.org/wiki/Hemant_Soren"
+    ],
+    [
+      "Wikipedia: Suvendu Adhikari",
+      "https://en.wikipedia.org/wiki/Suvendu_Adhikari"
+    ],
+    [
+      "Wikipedia: 2026 West Bengal Legislative Assembly election",
+      "https://en.wikipedia.org/wiki/2026_West_Bengal_Legislative_Assembly_election"
+    ],
+    [
+      "Wikipedia: Odisha Mining Corporation",
+      "https://en.wikipedia.org/wiki/Odisha_Mining_Corporation"
+    ]
+  ],
+  "entities": [
+    {
+      "id": "energy:govt-of-gujarat",
+      "label": "Government of Gujarat",
+      "sub": "CM Bhupendra Patel (BJP), since 2021-09-13",
+      "ty": "state",
+      "fam": "state",
+      "st": "gj",
+      "sz": 3,
+      "al": [
+        "Gujarat government",
+        "GoG"
+      ],
+      "resolved": true,
+      "publicRole": "State government; registered office of the Khavda renewable energy park and Dholera SIR land-allocation decisions below.",
+      "d": [
+        "Chief Minister: Bhupendrabhai Patel (BJP), sworn in 2021-09-13, incumbent [reported].",
+        "BJP has held the Chief Ministership continuously since 1998 [reported — general context, not independently re-verified this session]."
+      ],
+      "srcs": [
+        [
+          "Wikipedia list of current CMs",
+          "https://en.wikipedia.org/wiki/List_of_current_Indian_chief_ministers"
+        ]
+      ]
+    },
+    {
+      "id": "energy:state-odisha",
+      "label": "Government of Odisha",
+      "sub": "CM Mohan Charan Majhi (BJP), since 2024-06-12; BJD (Naveen Patnaik) 2000-2024",
+      "ty": "state",
+      "fam": "state",
+      "st": "or",
+      "sz": 3,
+      "al": [
+        "Odisha government",
+        "GoO"
+      ],
+      "resolved": true,
+      "publicRole": "State government; discom privatisation (2019-20) and Odisha Mining Corporation lease decisions below fall in its window.",
+      "d": [
+        "Chief Minister: Mohan Charan Majhi (BJP), sworn in 2024-06-12, incumbent [documented — two sources].",
+        "Predecessor: Naveen Patnaik (BJD), Chief Minister 2000-2024, ending 2024-06-11/12 with BJP's 2024 assembly win [reported].",
+        "The 2019-20 discom privatisation to Tata Power (below) was approved under the BJD government, not the current BJP one — a decision made by a regional party, not by either national bloc directly [reported]."
+      ],
+      "srcs": [
+        [
+          "Wikipedia list of current CMs",
+          "https://en.wikipedia.org/wiki/List_of_current_Indian_chief_ministers"
+        ],
+        [
+          "Wikipedia: Mohan Charan Majhi",
+          "https://en.wikipedia.org/wiki/Mohan_Charan_Majhi"
+        ]
+      ]
+    },
+    {
+      "id": "energy:state-jharkhand",
+      "label": "Government of Jharkhand",
+      "sub": "CM Hemant Soren (JMM), current term from 2024-11-28",
+      "ty": "state",
+      "fam": "state",
+      "st": "jh",
+      "sz": 3,
+      "al": [
+        "Jharkhand government"
+      ],
+      "resolved": true,
+      "publicRole": "State government; Jharkhand hosts major coal/iron-ore mining (Bharat Coking Coal, CMPDI, Usha Martin) and is one of five states named in the mining-lease-self-allotment episode below.",
+      "d": [
+        "Hemant Soren (JMM) second term: 2019-12-29 to 2024-02-02 [reported].",
+        "Resigned 2024-01-31, hours ahead of an Enforcement Directorate arrest; Champai Soren (JMM) held the CM office 2024-02-02 to 2024-07-04 [reported].",
+        "Hemant Soren granted bail by the Jharkhand High Court 2024-06-28 after ~5 months in judicial custody; resumed as CM 2024-07-04 [reported].",
+        "Re-elected and sworn in for a fresh term 2024-11-28, incumbent [reported]."
+      ],
+      "srcs": [
+        [
+          "Wikipedia: Hemant Soren",
+          "https://en.wikipedia.org/wiki/Hemant_Soren"
+        ]
+      ]
+    },
+    {
+      "id": "energy:state-chhattisgarh",
+      "label": "Government of Chhattisgarh",
+      "sub": "CM Vishnu Deo Sai (BJP), since 2023-12-13; Congress (Bhupesh Baghel) 2018-2023",
+      "ty": "state",
+      "fam": "state",
+      "st": "ct",
+      "sz": 3,
+      "al": [
+        "Chhattisgarh government"
+      ],
+      "resolved": true,
+      "publicRole": "State government; the Parsa East & Kanta Basan coal block (below) sits in Chhattisgarh's Hasdeo Arand forest though the mine is owned by a Rajasthan PSU.",
+      "d": [
+        "Chief Minister: Vishnu Deo Sai (BJP), sworn in 2023-12-13, incumbent [reported].",
+        "Predecessor: Bhupesh Baghel (INC), Chief Minister 2018-12-17 to 2023-12-12 [reported, not independently re-verified this session]."
+      ],
+      "srcs": [
+        [
+          "Wikipedia list of current CMs",
+          "https://en.wikipedia.org/wiki/List_of_current_Indian_chief_ministers"
+        ]
+      ]
+    },
+    {
+      "id": "energy:state-rajasthan",
+      "label": "Government of Rajasthan",
+      "sub": "CM Bhajan Lal Sharma (BJP), since 2023-12-15; Congress (Ashok Gehlot) prior",
+      "ty": "state",
+      "fam": "state",
+      "st": "rj",
+      "sz": 3,
+      "al": [
+        "Rajasthan government"
+      ],
+      "resolved": true,
+      "publicRole": "State government; Rajasthan Rajya Vidyut Utpadan Nigam (RRVUNL), a Rajasthan state PSU, owns the Parsa East & Kanta Basan coal block in Chhattisgarh (below) — an out-of-state resource holding.",
+      "d": [
+        "Chief Minister: Bhajan Lal Sharma (BJP), sworn in 2023-12-15, incumbent [reported].",
+        "Predecessor: Ashok Gehlot (INC) [reported, not independently re-verified this session]."
+      ],
+      "srcs": [
+        [
+          "Wikipedia list of current CMs",
+          "https://en.wikipedia.org/wiki/List_of_current_Indian_chief_ministers"
+        ]
+      ]
+    },
+    {
+      "id": "energy:state-madhya-pradesh",
+      "label": "Government of Madhya Pradesh",
+      "sub": "CM Mohan Yadav (BJP), since 2023-12-13",
+      "ty": "state",
+      "fam": "state",
+      "st": "mp",
+      "sz": 2,
+      "al": [
+        "Madhya Pradesh government"
+      ],
+      "resolved": true,
+      "publicRole": "State government.",
+      "d": [
+        "Chief Minister: Mohan Yadav (BJP), sworn in 2023-12-13, incumbent [reported]."
+      ],
+      "srcs": [
+        [
+          "Wikipedia list of current CMs",
+          "https://en.wikipedia.org/wiki/List_of_current_Indian_chief_ministers"
+        ]
+      ]
+    },
+    {
+      "id": "energy:state-andhra-pradesh",
+      "label": "Government of Andhra Pradesh",
+      "sub": "CM N. Chandrababu Naidu (TDP), since 2024-06-12; YSRCP (Jagan Mohan Reddy) 2019-2024",
+      "ty": "state",
+      "fam": "state",
+      "st": "ap",
+      "sz": 3,
+      "al": [
+        "Andhra Pradesh government",
+        "GoAP"
+      ],
+      "resolved": true,
+      "publicRole": "State government; AP is one of five states named in the Nov-2024 US indictment's solar-contract bribery allegations (below), for conduct dated to the Jagan Mohan Reddy/YSRCP government.",
+      "d": [
+        "Chief Minister: N. Chandrababu Naidu (TDP), sworn in 2024-06-12, incumbent [reported].",
+        "Predecessor: Y. S. Jagan Mohan Reddy (YSRCP), Chief Minister 2019-05-30 to 2024-06-11 [documented]."
+      ],
+      "srcs": [
+        [
+          "Wikipedia list of current CMs",
+          "https://en.wikipedia.org/wiki/List_of_current_Indian_chief_ministers"
+        ],
+        [
+          "Wikipedia: Y. S. Jagan Mohan Reddy",
+          "https://en.wikipedia.org/wiki/YS_Jagan_Mohan_Reddy"
+        ]
+      ]
+    },
+    {
+      "id": "energy:state-tamil-nadu",
+      "label": "Government of Tamil Nadu",
+      "sub": "CM C. Joseph Vijay (TVK), since 2026-05-10; DMK (M. K. Stalin) 2021-2026",
+      "ty": "state",
+      "fam": "state",
+      "st": "tn",
+      "sz": 3,
+      "al": [
+        "Tamil Nadu government",
+        "GoTN"
+      ],
+      "resolved": true,
+      "publicRole": "State government; TN is one of the five states named in the Nov-2024 indictment (for conduct under the DMK government) and separately enacted a 2024 Pumped Storage Projects Policy under DMK (below) — used as a same-lens control.",
+      "d": [
+        "M. K. Stalin (DMK), Chief Minister 2021-05-07 to 2026-05-09 [documented].",
+        "C. Joseph 'Vijay' (TVK — Tamilaga Vettri Kazhagam, a film-actor-founded party contesting its first assembly election), sworn in as Chief Minister 2026-05-10 after defeating the DMK, the ninth distinct person to hold the office [documented]."
+      ],
+      "srcs": [
+        [
+          "Wikipedia: Chief Minister of Tamil Nadu",
+          "https://en.wikipedia.org/wiki/Chief_Minister_of_Tamil_Nadu"
+        ],
+        [
+          "Wikipedia list of current CMs",
+          "https://en.wikipedia.org/wiki/List_of_current_Indian_chief_ministers"
+        ]
+      ]
+    },
+    {
+      "id": "energy:state-himachal-pradesh",
+      "label": "Government of Himachal Pradesh",
+      "sub": "CM Sukhvinder Singh Sukhu (INC), since 2022-12-11",
+      "ty": "state",
+      "fam": "state",
+      "st": "hp",
+      "sz": 1,
+      "resolved": true,
+      "publicRole": "State government; hosts SJVN (co:sjvn) and Inox Wind (co:inox-wind).",
+      "d": [
+        "Chief Minister: Sukhvinder Singh Sukhu (INC), sworn in 2022-12-11, incumbent [reported]."
+      ],
+      "srcs": [
+        [
+          "Wikipedia list of current CMs",
+          "https://en.wikipedia.org/wiki/List_of_current_Indian_chief_ministers"
+        ]
+      ]
+    },
+    {
+      "id": "energy:state-uttarakhand",
+      "label": "Government of Uttarakhand",
+      "sub": "CM Pushkar Singh Dhami (BJP), since 2021-07-04",
+      "ty": "state",
+      "fam": "state",
+      "st": "ut",
+      "sz": 1,
+      "resolved": true,
+      "publicRole": "State government.",
+      "d": [
+        "Chief Minister: Pushkar Singh Dhami (BJP), in office since 2021-07-04, incumbent [reported]."
+      ],
+      "srcs": [
+        [
+          "Wikipedia list of current CMs",
+          "https://en.wikipedia.org/wiki/List_of_current_Indian_chief_ministers"
+        ]
+      ]
+    },
+    {
+      "id": "energy:state-jammu-kashmir",
+      "label": "Government of Jammu and Kashmir",
+      "sub": "CM Omar Abdullah (JKNC), since 2024-10-16",
+      "ty": "state",
+      "fam": "state",
+      "st": "jk",
+      "sz": 2,
+      "resolved": true,
+      "publicRole": "Union Territory with a legislature; J&K is one of five places/states named in the Nov-2024 US indictment's bribery allegations (below), for conduct that predates the current elected government and the 2019 reorganisation.",
+      "d": [
+        "Chief Minister: Omar Abdullah (Jammu & Kashmir National Conference), sworn in 2024-10-16 after the first assembly election since the 2019 reorganisation, incumbent [reported]."
+      ],
+      "srcs": [
+        [
+          "Wikipedia list of current CMs",
+          "https://en.wikipedia.org/wiki/List_of_current_Indian_chief_ministers"
+        ]
+      ]
+    },
+    {
+      "id": "energy:state-assam",
+      "label": "Government of Assam",
+      "sub": "CM Himanta Biswa Sarma (BJP), since 2021-05-10, re-elected 2026",
+      "ty": "state",
+      "fam": "state",
+      "st": "as",
+      "sz": 2,
+      "resolved": true,
+      "publicRole": "State government; hosts Oil India Ltd (co:oil-india) and Numaligarh Refinery.",
+      "d": [
+        "Chief Minister: Himanta Biswa Sarma (BJP), in office since 2021-05-10 [reported].",
+        "NDA (BJP + allies) won the 2026 Assam assembly election in a landslide, 102/126 seats (BJP 82, AGP 10, BPF 10); voting 2026-04-09, results 2026-05-04; Sarma continued as CM [documented]."
+      ],
+      "srcs": [
+        [
+          "Wikipedia: Chief Minister of Assam",
+          "https://en.wikipedia.org/wiki/Chief_Minister_of_Assam"
+        ],
+        [
+          "Wikipedia: 2026 Assam Legislative Assembly election",
+          "https://en.wikipedia.org/wiki/2026_Assam_Legislative_Assembly_election"
+        ]
+      ]
+    },
+    {
+      "id": "energy:state-west-bengal",
+      "label": "Government of West Bengal",
+      "sub": "CM Suvendu Adhikari (BJP), since 2026-05-09; TMC (Mamata Banerjee) 2011-2026",
+      "ty": "state",
+      "fam": "state",
+      "st": "wb",
+      "sz": 3,
+      "al": [
+        "West Bengal government"
+      ],
+      "resolved": true,
+      "publicRole": "State government; hosts Coal India HQ (co:coal-india), CESC (co:cesc-limited); used as a second symmetry point since TMC/BJP both governed it within the window.",
+      "d": [
+        "Suvendu Adhikari (BJP) sworn in as Chief Minister 2026-05-09, the first BJP CM of West Bengal, ending 15 years of Trinamool Congress rule under Mamata Banerjee [documented].",
+        "BJP-led NDA won 208/294 seats (45.92% vote share) in the 2026 assembly election; TMC+ fell to 80 seats (-135); results declared 2026-05-04, one seat (Falta) repolled 2026-05-21 [documented].",
+        "Adhikari defeated incumbent CM Mamata Banerjee in the Bhabanipur constituency while also winning Nandigram, retaining Bhabanipur and vacating Nandigram [documented]."
+      ],
+      "srcs": [
+        [
+          "Wikipedia: Chief Minister of West Bengal",
+          "https://en.wikipedia.org/wiki/Chief_Minister_of_West_Bengal"
+        ],
+        [
+          "Wikipedia: Suvendu Adhikari",
+          "https://en.wikipedia.org/wiki/Suvendu_Adhikari"
+        ],
+        [
+          "Wikipedia: 2026 West Bengal Legislative Assembly election",
+          "https://en.wikipedia.org/wiki/2026_West_Bengal_Legislative_Assembly_election"
+        ]
+      ]
+    },
+    {
+      "id": "energy:hemant-soren",
+      "label": "Hemant Soren",
+      "sub": "Chief Minister of Jharkhand (JMM)",
+      "ty": "person",
+      "fam": "state",
+      "st": null,
+      "sz": 2,
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": "Chief Minister of Jharkhand, 2019-12-29→2024-02-02; 2024-07-04→2024-11-28; 2024-11-28→present",
+        "dob": null
+      },
+      "publicRole": "Elected Chief Minister of Jharkhand; subject of an Election Commission mining-lease recommendation and an Enforcement Directorate land case, both named below.",
+      "d": [
+        "Also President of the Jharkhand Mukti Morcha (JMM) [reported]."
+      ],
+      "srcs": [
+        [
+          "Wikipedia: Hemant Soren",
+          "https://en.wikipedia.org/wiki/Hemant_Soren"
+        ]
+      ]
+    },
+    {
+      "id": "energy:per-devendra-fadnavis",
+      "label": "Devendra Fadnavis",
+      "sub": "Chief Minister of Maharashtra (BJP), since 2024-12-05",
+      "ty": "person",
+      "fam": "state",
+      "st": null,
+      "sz": 2,
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": "Chief Minister of Maharashtra, 2014-10-31→2019-11-12; 2019-11-23→2019-11-28; Deputy CM 2022-06-30→2024-11-26; CM 2024-12-05→present",
+        "dob": null
+      },
+      "publicRole": "Elected Chief Minister of Maharashtra; his government (as Deputy CM then CM) presided over the MSEDCL/Adani Power ~6,600 MW contract named below.",
+      "d": [],
+      "srcs": [
+        [
+          "Wikipedia: Devendra Fadnavis",
+          "https://en.wikipedia.org/wiki/Devendra_Fadnavis"
+        ]
+      ]
+    },
+    {
+      "id": "energy:per-naveen-patnaik",
+      "label": "Naveen Patnaik",
+      "sub": "Chief Minister of Odisha (BJD), 2000-2024",
+      "ty": "person",
+      "fam": "state",
+      "st": null,
+      "sz": 2,
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": "Chief Minister of Odisha, 2000-03→2024-06-11",
+        "dob": null
+      },
+      "publicRole": "Former elected Chief Minister of Odisha; his government approved the 2019-20 discom privatisation to Tata Power below.",
+      "d": [
+        "President, Biju Janata Dal (BJD) [reported, not independently re-verified this session]."
+      ],
+      "srcs": [
+        [
+          "Wikipedia: Mohan Charan Majhi",
+          "https://en.wikipedia.org/wiki/Mohan_Charan_Majhi"
+        ]
+      ]
+    },
+    {
+      "id": "energy:per-dk-shivakumar",
+      "label": "D. K. Shivakumar",
+      "sub": "Chief Minister of Karnataka (INC), since 2026-06-03",
+      "ty": "person",
+      "fam": "state",
+      "st": null,
+      "sz": 2,
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": "Chief Minister of Karnataka, 2026-06-03→present (Deputy CM 2023-05-20→2026-06-02)",
+        "dob": null
+      },
+      "publicRole": "Elected Chief Minister of Karnataka; used here only as an identified office-holder for the opposition-state symmetry check — no specific resource-allocation claim is attached to him in this file.",
+      "d": [],
+      "srcs": [
+        [
+          "Wikipedia: Chief Minister of Karnataka",
+          "https://en.wikipedia.org/wiki/Chief_Minister_of_Karnataka"
+        ]
+      ]
+    },
+    {
+      "id": "energy:per-mohan-charan-majhi",
+      "label": "Mohan Charan Majhi",
+      "sub": "Chief Minister of Odisha (BJP), since 2024-06-12",
+      "ty": "person",
+      "fam": "state",
+      "st": null,
+      "sz": 2,
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": "Chief Minister of Odisha, 2024-06-12→present",
+        "dob": null
+      },
+      "publicRole": "Elected Chief Minister of Odisha; his government followed the BJD's 2019-20 discom privatisation to Tata Power and did not itself make the decisions in this file.",
+      "d": [],
+      "srcs": [
+        [
+          "Wikipedia: Mohan Charan Majhi",
+          "https://en.wikipedia.org/wiki/Mohan_Charan_Majhi"
+        ]
+      ]
+    },
+    {
+      "id": "energy:per-suvendu-adhikari",
+      "label": "Suvendu Adhikari",
+      "sub": "Chief Minister of West Bengal (BJP), since 2026-05-09",
+      "ty": "person",
+      "fam": "state",
+      "st": null,
+      "sz": 2,
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": "Chief Minister of West Bengal, 2026-05-09→present",
+        "dob": null
+      },
+      "publicRole": "Elected Chief Minister of West Bengal, first from the BJP; no specific resource-allocation claim is attached to him in this file (his government post-dates the research window for most decisions surveyed).",
+      "d": [],
+      "srcs": [
+        [
+          "Wikipedia: Suvendu Adhikari",
+          "https://en.wikipedia.org/wiki/Suvendu_Adhikari"
+        ]
+      ]
+    },
+    {
+      "id": "energy:dsirda",
+      "label": "Dholera Special Investment Region Development Authority (DSIRDA)",
+      "sub": "Gujarat statutory land authority, est. 2019",
+      "ty": "agency",
+      "fam": "state",
+      "st": "gj",
+      "sz": 2,
+      "resolved": true,
+      "publicRole": "Statutory authority administering government land allocation in the Dholera SIR; Gujarat holds 51% of the joint DICDL vehicle, the Centre (via DMIC Trust) 49%.",
+      "d": [
+        "Manages land allocation via town-planning schemes across ~1,465 plots in 10 villages [reported]."
+      ],
+      "srcs": [
+        [
+          "Wikipedia: Dholera Special Investment Region",
+          "https://en.wikipedia.org/wiki/Dholera_Special_Investment_Region"
+        ]
+      ]
+    },
+    {
+      "id": "energy:gridco",
+      "label": "GRIDCO (Odisha)",
+      "sub": "Odisha state power-trading holding company",
+      "ty": "psu",
+      "fam": "state",
+      "st": "or",
+      "sz": 2,
+      "al": [
+        "Gridco"
+      ],
+      "resolved": true,
+      "publicRole": "State-owned bulk power trading/holding company; retained 49% equity in the Tata Power-run Odisha discoms after the 2019-20 privatisation.",
+      "d": [
+        "Retained 49% of TP Central Odisha Distribution Ltd (formerly CESU) after Tata Power's 51% takeover, 2020-06-01 [reported]."
+      ],
+      "srcs": [
+        [
+          "Wikipedia: TP Central Odisha Distribution Limited",
+          "https://en.wikipedia.org/wiki/TP_Central_Odisha_Distribution_Limited"
+        ]
+      ]
+    },
+    {
+      "id": "energy:rrvunl",
+      "label": "Rajasthan Rajya Vidyut Utpadan Nigam Ltd (RRVUNL)",
+      "sub": "Rajasthan state power-generation PSU",
+      "ty": "psu",
+      "fam": "state",
+      "st": "rj",
+      "sz": 2,
+      "al": [
+        "RRVUNL",
+        "Rajasthan Vidyut Utpadan Nigam"
+      ],
+      "resolved": true,
+      "publicRole": "100% Rajasthan-government-owned power generator; owns the Parsa East & Kanta Basan (PEKB) coal block in Chhattisgarh, operated for it by Adani Mining as Mine Developer and Operator.",
+      "d": [
+        "100% owner of the PEKB coal block (Korba district, Chhattisgarh), which began production in 2013 and produced 16.03 million tonnes in 2024 [reported]."
+      ],
+      "srcs": [
+        [
+          "Global Energy Monitor: Parsa East and Kanta Basan coal mine",
+          "https://www.gem.wiki/Parsa_East_and_Kanta_Basan_coal_mine"
+        ]
+      ]
+    },
+    {
+      "id": "energy:msedcl",
+      "label": "Maharashtra State Electricity Distribution Co Ltd (MSEDCL)",
+      "sub": "Maharashtra state discom",
+      "ty": "psu",
+      "fam": "state",
+      "st": "mh",
+      "sz": 2,
+      "al": [
+        "MSEDCL"
+      ],
+      "resolved": true,
+      "publicRole": "Maharashtra's state-owned electricity distribution licensee; secured MERC approval for 5,991 MW of solar and 1,475 MW from NHPC in its 2024-25 procurement round, and is the presumed counterparty (not independently confirmed this session) to the ~6,600 MW Adani Power supply contract below.",
+      "d": [
+        "Approved procurement of 5,991 MW solar and 1,475 MW NHPC capacity in its 2024-25 solar procurement round [reported]."
+      ],
+      "srcs": [
+        [
+          "Wikipedia: Maharashtra State Electricity Distribution Company Limited",
+          "https://en.wikipedia.org/wiki/Maharashtra_State_Electricity_Distribution_Company_Limited"
+        ]
+      ]
+    },
+    {
+      "id": "energy:apspdcl",
+      "label": "Andhra Pradesh Southern Power Distribution Corporation Ltd (APSPDCL)",
+      "sub": "One of Andhra Pradesh's three state discoms",
+      "ty": "psu",
+      "fam": "state",
+      "st": "ap",
+      "sz": 1,
+      "al": [
+        "APSPDCL"
+      ],
+      "resolved": true,
+      "publicRole": "One of AP's three state discoms (with APEPDCL and APCPDCL, the latter demerged 2019-12-05); listed here to establish the identity of AP's power-purchase counterparties, not to attach a specific PPA claim, which this session could not independently verify (see gaps).",
+      "d": [],
+      "srcs": [
+        [
+          "Wikipedia: Andhra Pradesh Southern Power Distribution Company Limited",
+          "https://en.wikipedia.org/wiki/Andhra_Pradesh_Southern_Power_Distribution_Company_Limited"
+        ]
+      ]
+    },
+    {
+      "id": "energy:mmdr-amdt-2015",
+      "label": "MMDR Amendment Act, 2015",
+      "sub": "Statute — auction-based mineral concession allocation",
+      "ty": "law",
+      "fam": "instrument",
+      "st": null,
+      "sz": 2,
+      "resolved": true,
+      "publicRole": "Central statute governing how states are required to allocate mineral concessions.",
+      "d": [
+        "Replaced discretionary/administrative allotment of mining licences with competitive auctions [documented].",
+        "Extended licence periods 30→50 years with re-auction (not renewal) on expiry; created District Mineral Foundations and the National Mineral Exploration Trust [documented].",
+        "The Parsa East & Kanta Basan block below began production in 2013, i.e. under the pre-2015 allotment regime its Mine-Developer-Operator contract structure was designed around — the auction reform does not retrospectively apply to it, which is the boring explanation for why it was never auctioned [analytic]."
+      ],
+      "srcs": [
+        [
+          "Wikipedia: MMDR Amendment Act, 2015",
+          "https://en.wikipedia.org/wiki/Mines_and_Minerals_(Development_and_Regulation)_Amendment_Act,_2015"
+        ]
+      ]
+    },
+    {
+      "id": "energy:tn-pumped-storage-policy-2024",
+      "label": "Tamil Nadu Pumped Storage Projects Policy, 2024",
+      "sub": "State mechanism opening pumped-hydro storage to private developers",
+      "ty": "mechanism",
+      "fam": "instrument",
+      "st": "tn",
+      "sz": 1,
+      "resolved": true,
+      "publicRole": "State policy instrument, enacted under the outgoing DMK government (M. K. Stalin), used here as a same-lens comparator to BJP-state renewable/storage land allocations.",
+      "d": [
+        "Sets a seven-year completion deadline for pumped storage projects allocated under the policy; this session located only a trade-press index reference and could not verify the allocation mechanism (nomination vs. tender) or any named beneficiary — recorded as a gap."
+      ],
+      "srcs": [
+        [
+          "Mercom India: Pumped Storage Projects tag",
+          "https://mercomindia.com/tag/pumped-storage-projects"
+        ]
+      ]
+    },
+    {
+      "id": "energy:eci",
+      "label": "Election Commission of India",
+      "sub": "Constitutional election regulator",
+      "ty": "agency",
+      "fam": "enforce",
+      "st": null,
+      "sz": 2,
+      "resolved": true,
+      "publicRole": "Constitutional body; reportedly recommended Hemant Soren's disqualification in 2022 over a self-allotted mining lease (below).",
+      "d": [],
+      "srcs": []
+    },
+    {
+      "id": "energy:gsecl",
+      "label": "Gujarat State Electricity Corporation Ltd",
+      "sub": "State genco; Gare Pelma-I (15 MTPA); Adani holds conditional MDO LOI",
+      "ty": "psu",
+      "fam": "state",
+      "st": "gj",
+      "sz": 1,
+      "al": [
+        "GSECL"
+      ],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "dob": null
+      },
+      "d": [
+        "Adani lists Gare Pelma-I (GSECL) at 'Conditional LOI received' [documented]"
+      ],
+      "srcs": [
+        [
+          "Adani Enterprises — Mining & MDO, India (list of MDO contracts, owners, capacities, status)",
+          "https://www.adanienterprises.com/businesses/mining-and-mdo/india"
+        ]
+      ]
+    }
+  ],
+  "claims": [
+    {
+      "id": "states:c001",
+      "s": "pol:manohar-lal-khattar",
+      "t": "min:ministry-of-power",
+      "pred": "role",
+      "tier": "reported",
+      "lab": "Union Minister of Power, unchanged",
+      "d": "Cross-checked the repo's 2026-07-25 cabinet.json against a 2026-09-25 fetch of Wikipedia's Third Modi ministry article: Khattar (Power/Housing & Urban Affairs), G. Kishan Reddy (Coal/Mines), Pralhad Joshi (Consumer Affairs, Food & PD / New & Renewable Energy — plus Education from 2026-07-25), Hardeep Singh Puri (Petroleum & Natural Gas), C. R. Patil (Jal Shakti), Bhupender Yadav (Environment, Forest & Climate Change), H. D. Kumaraswamy (Heavy Industries/Steel) and Modi himself (Atomic Energy/Space) are all confirmed unchanged as of 2026-09-25. See voids for the one confirmed reshuffle in the window (Education, non-energy).",
+      "from": "2024-06-10",
+      "to": null,
+      "srcs": [
+        [
+          "Wikipedia: Third Modi ministry",
+          "https://en.wikipedia.org/wiki/Third_Modi_ministry"
+        ]
+      ],
+      "benefit": null,
+      "supersededBy": null
+    },
+    {
+      "id": "states:c002",
+      "s": "energy:per-naveen-patnaik",
+      "t": "energy:state-odisha",
+      "pred": "role",
+      "tier": "reported",
+      "lab": "BJD rule, Odisha",
+      "d": "Naveen Patnaik (BJD) was Chief Minister of Odisha from March 2000 to 2024-06-11.",
+      "from": "2000-03-05",
+      "to": "2024-06-11",
+      "srcs": [
+        [
+          "Wikipedia: Mohan Charan Majhi",
+          "https://en.wikipedia.org/wiki/Mohan_Charan_Majhi"
+        ]
+      ],
+      "supersededBy": "states:c003"
+    },
+    {
+      "id": "states:c003",
+      "s": "energy:per-mohan-charan-majhi",
+      "t": "energy:state-odisha",
+      "pred": "role",
+      "tier": "documented",
+      "lab": "BJP takes Odisha",
+      "d": "BJP won the 2024 Odisha assembly election; Mohan Charan Majhi (BJP) sworn in as CM 2024-06-12, ending 24 years of BJD rule.",
+      "from": "2024-06-12",
+      "to": null,
+      "srcs": [
+        [
+          "Wikipedia: Mohan Charan Majhi",
+          "https://en.wikipedia.org/wiki/Mohan_Charan_Majhi"
+        ]
+      ],
+      "supersededBy": null
+    },
+    {
+      "id": "states:c004",
+      "s": "energy:hemant-soren",
+      "t": "energy:state-jharkhand",
+      "pred": "role",
+      "tier": "reported",
+      "lab": "CM, term 2",
+      "d": "Hemant Soren, Chief Minister of Jharkhand, second term.",
+      "from": "2019-12-29",
+      "to": "2024-02-02",
+      "srcs": [
+        [
+          "Wikipedia: Hemant Soren",
+          "https://en.wikipedia.org/wiki/Hemant_Soren"
+        ]
+      ],
+      "supersededBy": "states:c005"
+    },
+    {
+      "id": "states:c005",
+      "s": "energy:hemant-soren",
+      "t": "energy:state-jharkhand",
+      "pred": "role",
+      "tier": "reported",
+      "lab": "CM, term 3 (post-bail)",
+      "d": "Hemant Soren resumed as CM after Jharkhand High Court bail (granted 2024-06-28) in the ED land case; Champai Soren held the office in the interim (2024-02-02 to 2024-07-04, not separately modelled here).",
+      "from": "2024-07-04",
+      "to": "2024-11-28",
+      "srcs": [
+        [
+          "Wikipedia: Hemant Soren",
+          "https://en.wikipedia.org/wiki/Hemant_Soren"
+        ]
+      ],
+      "supersededBy": "states:c006"
+    },
+    {
+      "id": "states:c006",
+      "s": "energy:hemant-soren",
+      "t": "energy:state-jharkhand",
+      "pred": "role",
+      "tier": "reported",
+      "lab": "CM, term 4 (re-elected)",
+      "d": "Hemant Soren re-elected and sworn in for a fresh term.",
+      "from": "2024-11-28",
+      "to": null,
+      "srcs": [
+        [
+          "Wikipedia: Hemant Soren",
+          "https://en.wikipedia.org/wiki/Hemant_Soren"
+        ]
+      ],
+      "supersededBy": null
+    },
+    {
+      "id": "states:c007",
+      "s": "energy:eci",
+      "t": "energy:hemant-soren",
+      "pred": "enforce",
+      "tier": "alleged",
+      "lab": "EC mining-lease disqualification recommendation (2022)",
+      "d": "The Election Commission of India reportedly recommended Hemant Soren's disqualification in 2022 for allegedly extending a mining lease to himself while in office — a self-dealing allegation distinct from the later ED land-fraud case. The source hedges with 'reportedly'; this session could not verify the lease name, its date, or whether the Governor acted on the recommendation. Soren was not in fact disqualified and continued as CM through 2024 and beyond, which is itself evidence the recommendation was not acted upon (or was overtaken by his subsequent resignation/arrest on the separate land matter).",
+      "from": "2022-01-01",
+      "to": null,
+      "srcs": [
+        [
+          "Wikipedia: Hemant Soren",
+          "https://en.wikipedia.org/wiki/Hemant_Soren"
+        ]
+      ],
+      "supersededBy": null
+    },
+    {
+      "id": "states:c008",
+      "s": "energy:hemant-soren",
+      "t": "claim:states:c007",
+      "pred": "contra",
+      "tier": "alleged",
+      "lab": "No on-record denial located",
+      "d": "This session located no on-record Soren/JMM denial of the specific 2022 mining-lease disqualification recommendation (that is itself the weakness of claim states:c007, per the fleet contract's rule that an unanswered ask must be recorded). What is documented is the outcome: the recommendation was not acted upon and Soren continued in and returned to office. Flagged as a gap for a follow-up search of JMM/Soren statements from 2022.",
+      "from": "2022-01-01",
+      "to": null,
+      "srcs": []
+    },
+    {
+      "id": "states:c009",
+      "s": "agencies",
+      "t": "energy:hemant-soren",
+      "pred": "enforce",
+      "tier": "reported",
+      "lab": "ED arrest, land-fraud case",
+      "d": "The Enforcement Directorate accused Soren of involvement in forging land records to illegally acquire 8.5 acres in Ranchi; he resigned 2024-01-31 hours ahead of arrest, spent ~5 months in judicial custody, and was granted bail by the Jharkhand High Court on 2024-06-28, which found reasons to believe he was 'not guilty of the offence.' No chargesheet or trial-stage information was found in the source consulted — recorded as a gap. Current stage as best known: released on bail; case status beyond June 2024 not verified this session.",
+      "from": "2024-01-31",
+      "to": "2024-06-28",
+      "srcs": [
+        [
+          "Wikipedia: Hemant Soren",
+          "https://en.wikipedia.org/wiki/Hemant_Soren"
+        ]
+      ],
+      "supersededBy": null
+    },
+    {
+      "id": "states:c010",
+      "s": "energy:govt-of-gujarat",
+      "t": "energy:gsecl",
+      "pred": "award",
+      "tier": "reported",
+      "lab": "Khavda: Gujarat's own PSUs self-allocate 11,400 ha",
+      "d": "At the Khavda Renewable Energy Park (Gujarat), Gujarat's own PSUs — GSECL (6,650 ha, ~3,325 MW) and Gujarat Industries Power Co / GIPCL (4,750 ha, ~2,375 MW) — together hold 11,400 of the ~50,400 hectares allocated to named developers in the table cited (about 23%), roughly comparable to Adani Green's single largest private share.",
+      "from": "2020-09-09",
+      "to": null,
+      "srcs": [
+        [
+          "Wikipedia: Gujarat Hybrid Renewable Energy Park (Khavda)",
+          "https://en.wikipedia.org/wiki/Khavda_Renewable_Energy_Park"
+        ]
+      ],
+      "benefit": {
+        "who": "energy:gsecl",
+        "how": "Direct land allocation to state-owned generators for self-owned capacity, not to a private beneficiary.",
+        "amountCr": null,
+        "confidence": "estimated"
+      }
+    },
+    {
+      "id": "states:c011",
+      "s": "energy:govt-of-gujarat",
+      "t": "co:adani-green-energy",
+      "pred": "award",
+      "tier": "reported",
+      "lab": "Khavda land allocation to Adani Green (largest single private share)",
+      "d": "Adani Green Energy holds a 19,000-hectare zone (~9,500 MW notional) at the Khavda Hybrid Renewable Energy Park, the largest single developer allocation in the park (total footprint 72,600 ha; approved 2020-09-09, foundation stone 2020-12-15). This is the single largest allocation in the table cited, but non-Adani entities (NTPC, Sarjan Realities, GSECL, GIPCL, and a SECI-bid wind zone) together hold a clear majority of the remaining land.",
+      "from": "2020-09-09",
+      "to": null,
+      "srcs": [
+        [
+          "Wikipedia: Gujarat Hybrid Renewable Energy Park (Khavda)",
+          "https://en.wikipedia.org/wiki/Khavda_Renewable_Energy_Park"
+        ]
+      ],
+      "benefit": {
+        "who": "co:adani-green-energy",
+        "how": "Land allocation for the largest single private RE zone at Khavda; allocation mechanism (nomination vs. proportional allotment to existing pipeline capacity) not confirmed this session.",
+        "amountCr": null,
+        "confidence": "unknown"
+      }
+    },
+    {
+      "id": "states:c012",
+      "s": "energy:govt-of-gujarat",
+      "t": "co:ntpc",
+      "pred": "award",
+      "tier": "reported",
+      "lab": "Khavda land allocation to NTPC",
+      "d": "NTPC (central PSU) holds a 9,500-hectare zone (~4,750 MW notional) at Khavda, the second-largest single allocation and larger than any other private developer besides Adani Green.",
+      "from": "2020-09-09",
+      "to": null,
+      "srcs": [
+        [
+          "Wikipedia: Gujarat Hybrid Renewable Energy Park (Khavda)",
+          "https://en.wikipedia.org/wiki/Khavda_Renewable_Energy_Park"
+        ]
+      ],
+      "benefit": {
+        "who": "co:ntpc",
+        "how": "Land allocation to a central PSU for self-owned generation capacity.",
+        "amountCr": null,
+        "confidence": "estimated"
+      }
+    },
+    {
+      "id": "states:c013",
+      "s": "co:adani-green-energy",
+      "t": "co:ntpc",
+      "pred": "analytic",
+      "tier": "analytic",
+      "lab": "Khavda concentration is not majority-Adani",
+      "d": "At Khavda, Adani Green's 19,000 ha is the single largest allocation (~38% of the five named zones totalling ~49,400 ha in the source table), but NTPC (central PSU, 9,500 ha) plus Gujarat's own GSECL/GIPCL (11,400 ha) plus Sarjan Realities (9,500 ha) together hold ~62% — a majority. A ~30 GW total target with a 23,000-hectare wind zone additionally reserved for SECI competitive bidding (not nomination) further dilutes any single-developer dominance claim.",
+      "innocentReading": "Adani Green was already the country's largest utility-scale renewable IPP by pipeline capacity before Khavda was announced (2020); a proportionally large slice of a co-developed park is consistent with market share, and the presence of a central PSU (NTPC), the state's own gencos, and an SECI-run competitive wind-tender zone in the same park is evidence against a park-wide favouritism pattern, even though Adani's individual zone is the largest.",
+      "from": "2020-09-09",
+      "to": null,
+      "srcs": [
+        [
+          "Wikipedia: Gujarat Hybrid Renewable Energy Park (Khavda)",
+          "https://en.wikipedia.org/wiki/Khavda_Renewable_Energy_Park"
+        ]
+      ]
+    },
+    {
+      "id": "states:c014",
+      "s": "energy:dsirda",
+      "t": "tata",
+      "pred": "award",
+      "tier": "reported",
+      "lab": "Dholera: Tata semiconductor fab land",
+      "d": "Tata Group (via Tata Electronics, not separately modelled here) committed to India's first chip-fab unit at Dholera, in partnership with Taiwan's PSMC, announced 2024-02. Tata Power separately commissioned 300 MW of an ultra-mega solar park at Dholera.",
+      "from": "2024-02-01",
+      "to": null,
+      "srcs": [
+        [
+          "Wikipedia: Dholera Special Investment Region",
+          "https://en.wikipedia.org/wiki/Dholera_Special_Investment_Region"
+        ]
+      ],
+      "benefit": {
+        "who": "tata",
+        "how": "Land allocation within the DSIR for a semiconductor fab under a central PLI-linked scheme (the scheme itself not covered in this file).",
+        "amountCr": null,
+        "confidence": "estimated"
+      }
+    },
+    {
+      "id": "states:c015",
+      "s": "energy:dsirda",
+      "t": "vedanta",
+      "pred": "award",
+      "tier": "alleged",
+      "lab": "Dholera: Vedanta semiconductor talks (unconfirmed as final)",
+      "d": "Vedanta Ltd was reported to be negotiating with three partners for a ~$5bn semiconductor/display fab at Dholera. This session found no confirmation that a final land allotment or binding investment agreement was reached (Vedanta's own 2022 semiconductor JV with Foxconn separately collapsed for its original Gujarat site) — treated as an unconfirmed/in-talks claim, tier alleged pending a signed award.",
+      "from": "2022-01-01",
+      "to": null,
+      "srcs": [
+        [
+          "Wikipedia: Dholera Special Investment Region",
+          "https://en.wikipedia.org/wiki/Dholera_Special_Investment_Region"
+        ]
+      ],
+      "benefit": {
+        "who": "vedanta",
+        "how": "Proposed but not confirmed.",
+        "amountCr": null,
+        "confidence": "unknown"
+      }
+    },
+    {
+      "id": "states:c016",
+      "s": "vedanta",
+      "t": "claim:states:c015",
+      "pred": "contra",
+      "tier": "alleged",
+      "lab": "No confirmation either way",
+      "d": "No Vedanta or Gujarat-government statement confirming or denying a final Dholera allotment was located this session; recorded as an open question rather than either a live deal or a denial.",
+      "from": null,
+      "to": null,
+      "srcs": []
+    },
+    {
+      "id": "states:c017",
+      "s": "energy:state-odisha",
+      "t": "co:tata-power",
+      "pred": "award",
+      "tier": "reported",
+      "lab": "Odisha discom privatisation — Letter of Intent",
+      "d": "Odisha's BJD government (Naveen Patnaik) issued Tata Power the Letter of Intent to take over the Central Electricity Supply Utility of Odisha (CESU, later TP Central Odisha Distribution Ltd) on 2019-12-12.",
+      "from": "2019-12-12",
+      "to": null,
+      "srcs": [
+        [
+          "Wikipedia: TP Central Odisha Distribution Limited",
+          "https://en.wikipedia.org/wiki/TP_Central_Odisha_Distribution_Limited"
+        ]
+      ],
+      "benefit": {
+        "who": "co:tata-power",
+        "how": "51% equity plus management control of a 2.5-million-consumer discom, via a competitive privatisation process (mechanism not independently re-verified this session).",
+        "amountCr": null,
+        "confidence": "estimated"
+      }
+    },
+    {
+      "id": "states:c018",
+      "s": "co:tata-power",
+      "t": "energy:gridco",
+      "pred": "own",
+      "tier": "reported",
+      "lab": "Tata Power takes 51% of Odisha's central discom",
+      "d": "Tata Power completed management takeover of TP Central Odisha Distribution Ltd (TPCODL, formerly CESU) on 2020-06-01, holding 51% equity with a 25-year licence; state-owned Gridco retained 49%. The company also holds stakes in TP Western Odisha Distribution Ltd (TPWODL) and the North Eastern Electricity Supply Co of Odisha (51%), whose specific takeover dates this session could not independently verify (gap).",
+      "from": "2020-06-01",
+      "to": null,
+      "srcs": [
+        [
+          "Wikipedia: TP Central Odisha Distribution Limited",
+          "https://en.wikipedia.org/wiki/TP_Central_Odisha_Distribution_Limited"
+        ]
+      ],
+      "benefit": {
+        "who": "co:tata-power",
+        "how": "51% equity and management control of Odisha's central discom.",
+        "amountCr": null,
+        "confidence": "documented"
+      }
+    },
+    {
+      "id": "states:c019",
+      "s": "energy:rrvunl",
+      "t": "co:adani-enterprises",
+      "pred": "award",
+      "tier": "reported",
+      "lab": "Parsa East & Kanta Basan: Adani Mining as MDO for a Rajasthan PSU's Chhattisgarh coal block",
+      "d": "RRVUNL (100% Rajasthan-government-owned) owns the Parsa East & Kanta Basan (PEKB) coal block in Korba district, Chhattisgarh, in the Hasdeo Arand forest belt; Adani Mining (an Adani Enterprises subsidiary) is the Mine Developer and Operator. Production began 2013; 2024 output was 16.03 million tonnes against a target capacity of ~15 mtpa. This predates the 2015 MMDR auction reform (see energy:mmdr-2015) — the MDO contract structure, not a competitive mineral-concession auction, is the applicable allocation mechanism, and this session could not verify whether the MDO appointment itself was competitively tendered.",
+      "from": "2013-01-01",
+      "to": null,
+      "srcs": [
+        [
+          "Global Energy Monitor: Parsa East and Kanta Basan coal mine",
+          "https://www.gem.wiki/Parsa_East_and_Kanta_Basan_coal_mine"
+        ],
+        [
+          "Wikipedia: MMDR Amendment Act, 2015",
+          "https://en.wikipedia.org/wiki/Mines_and_Minerals_(Development_and_Regulation)_Amendment_Act,_2015"
+        ]
+      ],
+      "benefit": {
+        "who": "co:adani-enterprises",
+        "how": "MDO service/handling fee per tonne extracted; the state PSU (RRVUNL) retains ownership of the coal and the bulk of its value. Fee structure not verified this session.",
+        "amountCr": null,
+        "confidence": "unknown"
+      }
+    },
+    {
+      "id": "states:c020",
+      "s": "co:adani-green-energy",
+      "t": "energy:state-rajasthan",
+      "pred": "award",
+      "tier": "reported",
+      "lab": "Pokhran solar park land dispute (Rajasthan)",
+      "d": "Farmers opposed construction of a 1.5 GW Adani Green solar facility at Pokhran, Rajasthan, resulting in a Rajasthan High Court stay order. This session could not verify the current status of the stay, the land-allocation mechanism, or the outcome — recorded partly as a gap.",
+      "from": null,
+      "to": null,
+      "srcs": [
+        [
+          "Wikipedia: Adani Green Energy",
+          "https://en.wikipedia.org/wiki/Adani_Green_Energy"
+        ]
+      ],
+      "benefit": {
+        "who": "co:adani-green-energy",
+        "how": "Proposed land use for a 1.5 GW solar project, contested by local farmers.",
+        "amountCr": null,
+        "confidence": "unknown"
+      }
+    },
+    {
+      "id": "states:c021",
+      "s": "energy:msedcl",
+      "t": "co:adani-power",
+      "pred": "award",
+      "tier": "reported",
+      "lab": "MSEDCL/Maharashtra ~6,600 MW Adani Power supply contract",
+      "d": "Adani Group won a contract to supply 6,600 MW of electricity to Maharashtra. This session could not independently verify the exact signing date, price/tariff, or the precise counterparty entity (MSEDCL is the presumed but not confirmed counterparty) beyond the single source cited — recorded as a gap. The task brief's figure of 6.6 GW / 2024 could not be more precisely dated this session.",
+      "from": null,
+      "to": null,
+      "srcs": [
+        [
+          "Wikipedia: Adani Group",
+          "https://en.wikipedia.org/wiki/Adani_Group"
+        ]
+      ],
+      "benefit": {
+        "who": "co:adani-power",
+        "how": "Long-term power supply contract for 6,600 MW to Maharashtra's grid.",
+        "amountCr": null,
+        "confidence": "unknown"
+      }
+    },
+    {
+      "id": "states:c022",
+      "s": "energy:per-devendra-fadnavis",
+      "t": "claim:states:c021",
+      "pred": "contra",
+      "tier": "alleged",
+      "lab": "Bid-rigging allegation by INC — no located government/Adani rebuttal text",
+      "d": "The Indian National Congress accused Adani Group of bid-rigging in winning the 6,600 MW Maharashtra contract. This claim is filed as the 'alleged' half of states:c021: the INC allegation is itself sourced (tier alleged, named party), but this session located no specific on-record Maharashtra-government or Adani rebuttal quote to the bid-rigging charge specifically — recorded as a gap rather than assumed. General-purpose Adani Group denials of wrongdoing exist in the public record but were not verified against this specific allegation this session.",
+      "from": null,
+      "to": null,
+      "srcs": [
+        [
+          "Wikipedia: Adani Group",
+          "https://en.wikipedia.org/wiki/Adani_Group"
+        ]
+      ]
+    },
+    {
+      "id": "states:c023",
+      "s": "gadani",
+      "t": "seci",
+      "pred": "enforce",
+      "tier": "alleged",
+      "lab": "US DOJ/SEC indictment: alleged bribes tied to state solar contracts across 5 states",
+      "d": "On 2024-11-20/21, US federal prosecutors (EDNY) indicted Gautam Adani, Sagar Adani and other executives on five counts, alleging over $250 million (~₹2,075 crore at ~₹83/USD, DOJ's own figure, not independently reconverted from a primary filing) in bribes to Indian officials to secure solar-linked energy contracts across five states/UTs: Andhra Pradesh, Chhattisgarh, Odisha, Jammu & Kashmir and Tamil Nadu; and alleged concealment of the scheme from US investors while raising $3bn in loans/bonds. This session could not open the DOJ press release itself (404) or identify which specific named officials, roles, or per-state amounts are alleged — recorded as a gap. As of 2026-05, DOJ was reported moving to drop the charges; as of 2026-09, a US District Judge ruled the charges cannot be dropped until DOJ complies with the court's instructions — i.e. the case remains open and contested, not resolved either way.",
+      "from": "2024-11-20",
+      "to": null,
+      "a": 2075,
+      "srcs": [
+        [
+          "Wikipedia: Gautam Adani",
+          "https://en.wikipedia.org/wiki/Gautam_Adani"
+        ]
+      ],
+      "benefit": {
+        "who": "grp:adani",
+        "how": "Alleged bribery to secure state solar-energy supply contracts; not proven, contested in ongoing US litigation.",
+        "amountCr": 2075,
+        "confidence": "estimated"
+      },
+      "upgradeIf": "A chargesheet/conviction, or DOJ's court-ordered compliance filing, specifies a state-by-state breakdown that can be independently verified against a primary document.",
+      "killIf": "DOJ succeeds in withdrawing the indictment and no successor proceeding (SEC civil case, Indian agency action) sustains the allegation."
+    },
+    {
+      "id": "states:c024",
+      "s": "grp:adani",
+      "t": "claim:states:c023",
+      "pred": "contra",
+      "tier": "alleged",
+      "lab": "Adani Group denial (general)",
+      "d": "Adani Group has publicly and repeatedly denied the US indictment's allegations as baseless in press statements reported contemporaneously with the November 2024 indictment. This session could not open a primary or press source carrying the exact denial text (Reuters and Livemint URLs were blocked/unreachable; Wikipedia's Gautam Adani and Adani Group articles, which this session did open, do not quote a denial statement) — the specific wording and date are therefore recorded as a gap, not fabricated.",
+      "from": "2024-11-21",
+      "to": null,
+      "srcs": []
+    },
+    {
+      "id": "states:c025",
+      "s": "energy:state-andhra-pradesh",
+      "t": "energy:state-tamil-nadu",
+      "pred": "analytic",
+      "tier": "analytic",
+      "lab": "All five indicted states have since changed ruling party — but turnover is the norm, not a signal",
+      "d": "All five states/UTs named in the Nov-2024 indictment (Andhra Pradesh, Chhattisgarh, Odisha, Jammu & Kashmir, Tamil Nadu) have had a change of ruling party since the alleged 2021-22 conduct: AP (YSRCP→TDP-NDA, 2024-06), Chhattisgarh (INC→BJP, 2023-12), Odisha (BJD→BJP, 2024-06), J&K (Governor's/UT rule→elected JKNC, 2024-10), Tamil Nadu (DMK→TVK, 2026-05).",
+      "innocentReading": "India's state election cycle is roughly five years and anti-incumbency is a well-documented, near-universal pattern independent of any particular scandal; three of the five flips (Chhattisgarh, Odisha, Tamil Nadu) replaced the incumbent with a different party for reasons with no established link to this case (Tamil Nadu's flip, in particular, was to a first-time actor-led party, not to the BJP or to an anti-Adani platform), so 5-for-5 turnover is not itself evidence that voters punished — or even knew about — the alleged conduct.",
+      "from": "2021-01-01",
+      "to": "2026-09-25",
+      "srcs": [
+        [
+          "Wikipedia: Mohan Charan Majhi",
+          "https://en.wikipedia.org/wiki/Mohan_Charan_Majhi"
+        ],
+        [
+          "Wikipedia: Y. S. Jagan Mohan Reddy",
+          "https://en.wikipedia.org/wiki/YS_Jagan_Mohan_Reddy"
+        ],
+        [
+          "Wikipedia: Chief Minister of Tamil Nadu",
+          "https://en.wikipedia.org/wiki/Chief_Minister_of_Tamil_Nadu"
+        ],
+        [
+          "Wikipedia list of current CMs",
+          "https://en.wikipedia.org/wiki/List_of_current_Indian_chief_ministers"
+        ]
+      ]
+    },
+    {
+      "id": "states:c026",
+      "s": "energy:tn-pumped-storage-policy-2024",
+      "t": "energy:state-tamil-nadu",
+      "pred": "law",
+      "tier": "reported",
+      "lab": "TN opens pumped storage to private developers under DMK — symmetry point",
+      "d": "Tamil Nadu's DMK government enacted a Pumped Storage Projects Policy in 2024 setting a seven-year completion deadline for privately developed pumped-hydro storage. Cited here as evidence that opposition (non-BJP) states run the same category of resource-allocation mechanism as BJP states (cf. Andhra Pradesh/Telangana pumped-storage nominations referenced in the task brief, which this session could not independently verify — see gaps). No specific beneficiary company or land parcel was confirmed for the TN policy this session.",
+      "from": "2024-01-01",
+      "to": null,
+      "srcs": [
+        [
+          "Mercom India: Pumped Storage Projects tag",
+          "https://mercomindia.com/tag/pumped-storage-projects"
+        ]
+      ]
+    },
+    {
+      "id": "states:c027",
+      "s": "energy:mmdr-amdt-2015",
+      "t": "energy:state-chhattisgarh",
+      "pred": "law",
+      "tier": "documented",
+      "lab": "MMDR 2015 — the base instrument for mining-lease auctions",
+      "d": "The 2015 MMDR amendment made competitive auction the default mechanism for new mineral concessions nationally, applicable to all states including the resource states surveyed here. Blocks allotted before 2015 (like PEKB, states:c019) or transferred under grandfathered captive arrangements are the explanatory 'boring' baseline against which any specific non-auction allocation should be read, rather than assumed anomalous.",
+      "from": "2015-01-12",
+      "to": null,
+      "srcs": [
+        [
+          "Wikipedia: MMDR Amendment Act, 2015",
+          "https://en.wikipedia.org/wiki/Mines_and_Minerals_(Development_and_Regulation)_Amendment_Act,_2015"
+        ]
+      ]
+    }
+  ],
+  "voids": [
+    {
+      "what": "No Union cabinet reshuffle affecting the energy-relevant portfolios (Power, Coal, Mines, New & Renewable Energy, Petroleum & Natural Gas, Jal Shakti, Environment, Steel, Heavy Industries, Atomic Energy/PMO) between 2026-07-25 (the repo's cabinet.json stamp) and 2026-09-25 (today).",
+      "whyItMatters": "Confirms the repo's cabinet.json is still current for this file's purposes; the one reshuffle that did occur in the window (Dharmendra Pradhan's 2026-07-25 resignation from Education, with Pralhad Joshi taking additional charge of Education, plus MoS resignations by Ravneet Singh Bittu on 2026-07-24 and George Kurian on 2026-06-23) is non-energy and, for Joshi, was already reflected in the inventory supplied to this session.",
+      "srcs": [
+        [
+          "Wikipedia: Third Modi ministry",
+          "https://en.wikipedia.org/wiki/Third_Modi_ministry"
+        ]
+      ]
+    },
+    {
+      "what": "No state energy/power minister or mines minister name was verified for any of the 20 resource states within this session's budget — only Chief Ministers are recorded.",
+      "whyItMatters": "The brief explicitly asks for state energy/power and mines ministers with office dates and party; this is a first-order gap in this file and should be the top priority for a follow-up pass, ideally against each state's official cabinet-of-ministers portal or gazette.",
+      "srcs": []
+    },
+    {
+      "what": "No specific opposition-state (Karnataka, Telangana, Tamil Nadu pre-2026, Kerala, Punjab, Jharkhand, Himachal Pradesh) equivalent to the Khavda-scale nominated land allocation, the Odisha discom privatisation, or the PEKB-style coal MDO arrangement was verified within budget — attempted fetches for a Karnataka JSW Energy pumped-storage MoU and a Telangana Congress-government review of BRS-era Greenko/PPA deals both returned no content (404).",
+      "whyItMatters": "This is the symmetry check the brief requires; without it, the state-level pattern documented above (concentrated in BJP-run Gujarat, Rajasthan-owned/Chhattisgarh-sited coal, and BJD-then-BJP Odisha) cannot be distinguished from a search-coverage artefact. Recorded honestly as unresolved rather than asserted either way.",
+      "srcs": []
+    },
+    {
+      "what": "The task brief's specific figures for an Andhra Pradesh 7 GW SECI/Adani solar PPA (2021) could not be independently verified via any source opened this session (AP's three discom Wikipedia pages, the Gautam Adani and Adani Group Wikipedia pages, and two guessed article titles all returned no matching content or 404).",
+      "whyItMatters": "This is one of the two named state PPAs in the brief; only the adjacent fact (Andhra Pradesh is one of five states/UTs named in the Nov-2024 US indictment's solar-contract bribery allegations, states:c023) could be sourced. The 7 GW/2021 transaction itself — parties, tariff, mechanism — needs a SECI tender document or APERC order.",
+      "srcs": []
+    },
+    {
+      "what": "No UP discom privatisation attempt (2024-25, Purvanchal/Dakshinanchal) could be verified — the Uttar Pradesh Power Corporation Ltd Wikipedia page, the only source checked, contains no privatisation content.",
+      "whyItMatters": "UP is India's largest state by population and its discom privatisation attempts (reported to have drawn and then lost bidder interest in 2024-25) are a live national story; would need PRS/CAG/UPPCL primary sources or contemporaneous business press.",
+      "srcs": [
+        [
+          "Wikipedia: Uttar Pradesh Power Corporation Limited",
+          "https://en.wikipedia.org/wiki/Uttar_Pradesh_Power_Corporation_Limited"
+        ]
+      ]
+    },
+    {
+      "what": "Odisha Mining Corporation's Wikipedia page carries no documented 2019-2026 lease controversy, despite Odisha being a major iron-ore/chromite state with a live BJD→BJP transition in the window.",
+      "whyItMatters": "Absence of a Wikipedia-documented controversy is not evidence of absence — it is evidence of a thin secondary-source trail for this specific PSU; a CAG Odisha report or Odisha Mining & Geology Department order would be the primary route.",
+      "srcs": [
+        [
+          "Wikipedia: Odisha Mining Corporation",
+          "https://en.wikipedia.org/wiki/Odisha_Mining_Corporation"
+        ]
+      ]
+    }
+  ],
+  "narratives": [
+    {
+      "claim": "Adani Group systematically receives the largest or most favourable allocation whenever a BJP-run state government makes a major renewable-energy land or power-purchase decision.",
+      "status": "contested",
+      "strongestCase": "Adani Green holds the single largest private zone at Khavda (19,000 of ~72,600 ha); Adani Mining is MDO for a major Hasdeo Arand coal block; Adani Power is reported to have won a large (6,600 MW) Maharashtra supply contract that the opposition called bid-rigged; and Andhra Pradesh, Chhattisgarh and (until 2026) Tamil Nadu — all named in the Nov-2024 US indictment's bribery allegations — cover a geographically wide footprint of state contracts.",
+      "strongestCounter": "At Khavda itself, non-Adani entities (a central PSU, Gujarat's own gencos, and an SECI-run competitive wind-tender zone) hold a clear majority of allocated land; the PEKB coal block is owned by a Rajasthan state PSU under a pre-2015 MDO structure that predates the current BJP-Rajasthan government by a decade; the Odisha discom privatisation — the largest state power-sector divestiture in this file — went to Tata Power, not Adani, under a regional (BJD) government; and the 2024 US indictment itself remains an unproven allegation currently contested in US courts (DOJ sought to drop it in 2026-05; a judge blocked that in 2026-09), not an adjudicated fact.",
+      "whatWouldChangeThis": "A verified state-by-state MW/hectare/₹ tally across all 20 states with allocation mechanism (nomination vs. auction) recorded for every major RE/mining/discom decision 2019-2026, plus resolution of the US indictment (chargesheet detail, dismissal, plea, or trial verdict).",
+      "srcs": [
+        [
+          "Wikipedia: Gujarat Hybrid Renewable Energy Park (Khavda)",
+          "https://en.wikipedia.org/wiki/Khavda_Renewable_Energy_Park"
+        ],
+        [
+          "Global Energy Monitor: Parsa East and Kanta Basan coal mine",
+          "https://www.gem.wiki/Parsa_East_and_Kanta_Basan_coal_mine"
+        ],
+        [
+          "Wikipedia: TP Central Odisha Distribution Limited",
+          "https://en.wikipedia.org/wiki/TP_Central_Odisha_Distribution_Limited"
+        ],
+        [
+          "Wikipedia: Gautam Adani",
+          "https://en.wikipedia.org/wiki/Gautam_Adani"
+        ]
+      ]
+    }
+  ],
+  "symmetryCheck": "Applied the same 'who benefited, by what mechanism, denial, boring explanation' lens to a control with no prior theory attached: Odisha's 2019-20 discom privatisation to Tata Power, approved under the BJD government of Naveen Patnaik — a regional party allied with neither national bloc at the time — produced the same shape of finding (a large public asset transferred to a major private conglomerate at a fixed equity split, 51/49) as the BJP-state cases, undercutting a purely partisan reading. The reverse control — an opposition (INC/BRS/DMK)-run state making a comparably large nominated (non-auction) award to a major private group — could not be established within this session's budget: attempted fetches for a Karnataka (INC) JSW Energy pumped-storage MoU and a Telangana (INC, post-BRS) review of Greenko/pumped-storage deals both returned no content. Tamil Nadu's 2024 Pumped Storage Projects Policy, enacted under the outgoing DMK government, shows the same category of private-developer-facing mechanism existing in an opposition state, though this session could not identify a specific beneficiary under it. Net finding: the lens produces a genuine cross-party pattern (large state-to-private-capital transfers happen under BJP, BJD and, on the mechanism-only evidence available, DMK governments alike); it could not be extended to a like-for-like MW/₹-scale comparison in an opposition state within budget, which is recorded as a gap rather than papered over.",
+  "baseRates": [
+    {
+      "property": "Of the 20 resource states surveyed, share currently governed by a BJP or BJP-led-NDA Chief Minister (as of 2026-09-25)",
+      "numerator": 12,
+      "denominator": 20,
+      "label": "20 resource states named in the brief: Odisha(BJP), Jharkhand(JMM), Chhattisgarh(BJP), Gujarat(BJP), Rajasthan(BJP), Madhya Pradesh(BJP), Andhra Pradesh(TDP-led NDA), Telangana(INC), Maharashtra(BJP-led), Karnataka(INC), Tamil Nadu(TVK), Arunachal Pradesh(BJP), Sikkim(SKM), Himachal Pradesh(INC), Uttarakhand(BJP), J&K(JKNC), Assam(BJP), West Bengal(BJP), Goa(BJP), Uttar Pradesh(BJP). BJP or BJP-led NDA counted for: Odisha, Chhattisgarh, Gujarat, Rajasthan, Madhya Pradesh, Andhra Pradesh (NDA ally TDP), Maharashtra, Arunachal Pradesh, Uttarakhand, Assam, West Bengal, Uttar Pradesh = 12.",
+      "srcs": [
+        [
+          "Wikipedia list of current CMs",
+          "https://en.wikipedia.org/wiki/List_of_current_Indian_chief_ministers"
+        ]
+      ]
+    },
+    {
+      "property": "Of the five states/UTs named in the Nov-2024 US indictment's bribery allegations, share that have changed ruling party since the alleged 2021-22 conduct",
+      "numerator": 5,
+      "denominator": 5,
+      "label": "Andhra Pradesh, Chhattisgarh, Odisha, Jammu & Kashmir, Tamil Nadu — all five had a change of ruling party by 2026-09-25 (see states:c025 for why this is not read as evidence either way).",
+      "srcs": [
+        [
+          "Wikipedia: Gautam Adani",
+          "https://en.wikipedia.org/wiki/Gautam_Adani"
+        ],
+        [
+          "Wikipedia list of current CMs",
+          "https://en.wikipedia.org/wiki/List_of_current_Indian_chief_ministers"
+        ]
+      ]
+    },
+    {
+      "property": "Share of the five named developer zones at Khavda (by hectare) allocated to Adani Green Energy specifically, versus all other named developers combined",
+      "numerator": 19000,
+      "denominator": 49400,
+      "label": "Hectares across the five named developer zones at Khavda cited in the source table (Adani Green 19,000; NTPC 9,500; Sarjan Realities 9,500; GIPCL 4,750; GSECL 6,650 = 49,400 total); Adani's share is ~38%, i.e. the largest single share but well short of a majority.",
+      "srcs": [
+        [
+          "Wikipedia: Gujarat Hybrid Renewable Energy Park (Khavda)",
+          "https://en.wikipedia.org/wiki/Khavda_Renewable_Energy_Park"
+        ]
+      ]
+    }
+  ],
+  "gaps": [
+    "State energy/power ministers and mines ministers (with office dates and party) for all 20 resource states — not found within budget (WebSearch quota was exhausted early in this session; would need each state's official council-of-ministers portal or a post-election gazette notification).",
+    "Andhra Pradesh's 2021 ~7 GW SECI/Adani solar PPA — parties, exact capacity, tariff, and signing date — not independently verified; would be found in a SECI tender/LoA document or an APERC tariff order.",
+    "Maharashtra's ~6,600 MW Adani Power supply contract — exact counterparty (MSEDCL vs. another Maharashtra entity), signing date, price, and the specific government/Adani rebuttal to the INC bid-rigging allegation — not independently verified; would be found in an MSEDCL board resolution/MERC filing or contemporaneous Business Standard/Mint/ET reporting (both blocked or unreachable this session).",
+    "Pumped-storage allocations by nomination in Andhra Pradesh and Telangana (e.g. Greenko's Pinnapuram project) — this session's attempted fetches (Wikipedia, Global Energy Monitor, Mercom India) all returned no content; would need Mercom India's full articles, APERC/TSERC orders, or company disclosures.",
+    "State coal-block MDO appointments beyond PEKB (e.g. Talabira in Odisha, blocks in Madhya Pradesh) — not attempted in depth this session; Global Energy Monitor's India coal-mine category page did not surface operator detail in the fetch obtained.",
+    "Uttar Pradesh discom privatisation bids (2024-25) — not found via the one source checked; UPPCL's own filings or PRS/CAG coverage would be the next step.",
+    "The exact text and date of Adani Group's public denial of the November 2024 US indictment — widely known to exist but not sourced to an opened primary or press URL this session (Reuters and Livemint were unreachable).",
+    "US DOJ indictment: named officials (by role), the per-state breakdown of the alleged $250m, and current docket status beyond the September 2026 ruling described in states:c023 — the DOJ press release itself returned 404 this session; PACER or a law-firm client alert would be the next source to try.",
+    "Karnataka and Telangana opposition-state equivalents to the Gujarat/Chhattisgarh/Odisha cases in this file — actively searched for and not found within budget; flagged in voids and the symmetry-check narrative rather than silently omitted."
+  ]
+}
