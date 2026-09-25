@@ -155,7 +155,7 @@ non-geographic nodes (persons, laws, mechanisms, parties).
 - Prefer primary documents: PIB releases, gazette notifications, CAG reports, SEBI/SC/NGT
   orders, annual reports, exchange filings, ECI/ADR bond data, court indictments.
 - Amounts in ₹ crore. Convert USD at the rate the source used, and say so in `d`.
-- Dates ISO. A claim without a date is nearly useless — the date test is the primary
+- Dates ISO 8601 — `YYYY-MM-DD`, or `YYYY-MM` / `YYYY` when that is all the source supports; never invent a day. A claim without a date is nearly useless — the date test is the primary
   falsifier. Try hard to get them.
 - Record what the accused party said. Record what the beneficiary's rival got. Record the
   boring explanation. Record what you did NOT find.

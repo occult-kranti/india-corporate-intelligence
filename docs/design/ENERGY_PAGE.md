@@ -6,6 +6,13 @@ the three drafts in `docs/design/drafts/` (`energy-graphic-first.md`,
 weighed. Every `{brace}` below is a value derived at module scope. No figure is written
 into the page by hand.*
 
+*[UX review] Amended 2026-09-25 with the must-level amendments A1–A20 of a SYNTHETIC
+five-persona review: a journalist, a policy researcher, a politically hostile reader, a
+screen-reader user and a phone reader. The review is `docs/design/ENERGY_UX_REVIEW.md`.
+Each change is marked `[UX review] A{n}`. Synthetic findings are hypotheses to test with
+real readers. The should- and could-level amendments are listed in §16 "Deferred
+amendments".*
+
 *Data contracts: the fleet contract (`scratchpad/energy/SPEC.md`: entities, claims with
 `benefit`, voids, narratives, baseRates, symmetryCheck, gaps), **as assembled** by
 `scripts/assemble-fleet.mjs` into `src/graph/energy.generated.ts` (types in
@@ -83,6 +90,19 @@ its allegations appear only inside a clicked card. No contested panel lists them
    scale. That is a restructure, and this spec does not do it (§0.3, C5).
 8. **Sector strings in `companies.ts` are `Energy`, `Utilities` and `Metals & Mining`.**
    There is no "Oil & Gas". `ENERGY_SECTORS` is those three strings.
+9. *[UX review] A5, A6:* **The energy contract has no `coverage` field, and
+   `ENERGY_META.files[]` carries none.** `assemble-fleet.mjs` reads `coverage` only for
+   the welfare fleet (`WELFARE_COVERAGE`, via `coverageShape`). Identity records carry
+   no jurisdiction either, and a node's `st` is its registered office: the Coal ministry
+   is `dl`, Coal India `wb`. A5 and A6 therefore need one more reviewed generator
+   change, like `ENERGY_EDGE_DOMAIN`:
+   - `ENERGY_COVERAGE: { domain, st, fromYear, toYear, method, srcs }[]`, from the
+     optional `coverage` block the energy contract gains, reusing `coverageShape`;
+   - an optional identity key `jurisdiction` (`central` or a state code) on institution
+     entities.
+
+   Until they land, every coverage and jurisdiction line on this page prints its "not
+   declared" form.
 
 ### 0.3 Conflicts resolved
 
@@ -101,7 +121,7 @@ its allegations appear only inside a clicked card. No contested panel lists them
 | C11 | Mirror window: same filters, previous coalition's equal window (question-first) | **Rejected for v1** | Counts across windows measure research coverage first. The register is built mostly from recent records. It also needs a hand-written `CENTRAL_COALITIONS` constant that no contract supplies. Two counts under two PM names invite the party verdict §12 refuses. The per-sweep `symmetryCheck` text, above all `states`, is the symmetry control |
 | C12 | `QuestionSection` with a required `cannotShow` (question-first) vs free-form sections | **Adopted as `EvidenceSection`** for every section below the stage. The stage's own limits are in its in-frame status line and its caption | The limit cannot be left out when the type system requires it |
 | C13 | `QuestionIndex` of nine one-liners under the standfirst (question-first) | **Rejected** | It pushes the canvas below the fold at 1280×800. The strip and the margin answer "what and how much" without it |
-| C14 | "asked, no reply" / "not asked" counts (question-first) | **Not counted.** The contra `d` is printed verbatim | The contract has no field for it. Counting it would be keyword-matching free text |
+| C14 | "asked, no reply" / "not asked" counts (question-first) | **Not counted.** The contra `d` is printed verbatim | The contract has no field for it. Counting it would be keyword-matching free text. *[UX review] A7:* this holds only until the contract gains an asked-for-comment field (§15 risk 4). Until then, every empty response says that the register does not record whether the party was asked |
 | C15 | Table twin: a 400-row cap (graphic-first) vs pagination (question-first) | **Paginated by 400, page in the URL (`tp`)** | A cap that tells the reader to narrow the filters is truncation |
 | C16 | Coalition hairlines on the lanes (question-first) | **Only from data**: drawn when `role` claims into a head-of-government office exist in the fleet. No hand constant | Never hand-write a dataset |
 
@@ -128,25 +148,35 @@ than redrawing them.
 
 ## 2. The reader's questions, in order
 
-| # | Question | Answered by | Scroll |
-|---|---|---|---|
-| 1 | What am I looking at, how much of it, as of when? | Header byline, sticky `DenominatorStrip`, in-frame status line | none |
-| 2 | What is missing from it? | Margin at rest: documented voids | none (≥1280) |
-| 3 | Which research sweeps does it cover, and over what years? | `SweepStrip` chips with counts and dated span | none |
-| 4 | I hold a Nifty 50 / Sensex energy stock. What does it touch? | "Start from a listed company" box → `sel` → `CompanyTrail` in the aside | none |
-| 5 | What is this line? | Edge hover → `EdgeCard` with tier, date, ₹, beneficiary, response count | none |
-| 6 | Who benefited from this claim, and what did they say? | Edge click → `claim=` → `ClaimCard`, with the response at equal size | none |
-| 7 | Who held the office on that date? | The ClaimCard date test, then the `TenureLanes` section | one |
-| 8 | What is attached to this entity? | Node click → `sel` → `NodeCard`, focus 1–3 hops | none |
-| 9 | How far apart are these two, and is that unusual? | Shift-click → `path=` → `PathCard` + separation histogram | none |
-| 10 | Across all claims, who is named as gaining? | `BenefitLedger` (rows light edges in the graph) | one |
-| 11 | How much of each index does this touch, and is that expected? | `ConstituentTable` + sector 2×2 | two |
-| 12 | Which allegations are answered, and which stories circulate? | Contested: `ContestedFact` list, `NarrativeCard` list | three |
-| 13 | Would this lens alarm us anywhere? | `BaseRateTable`, `SymmetryPanel` | four |
-| 14 | What could not be verified, and what was killed? | `GapsPanel`, killed and held-out tables, `SourceLedger` | five |
+| # | Question | Answered by | Scroll at 1280×800 | Scroll at 390×844 *[UX review] A14* |
+|---|---|---|---|---|
+| 1 | What am I looking at, how much of it, as of when? | Header byline, sticky `DenominatorStrip`, in-frame status line | none | none: byline, strip fact 1 |
+| 2 | What is missing from it? | Margin at rest: documented voids | none (≥1280) | none: strip fact 6 and the one-tap "What the record does not show" line above the canvas (A15) |
+| 3 | Which research sweeps does it cover, and over what years? | `SweepStrip` chips with counts and dated span | none | none: the chips wrap and the caption names absent sweeps (A18) |
+| 4 | I hold a Nifty 50 / Sensex energy stock. What does it touch? | "Start from a listed company" box → `sel` → `CompanyTrail` in the aside | none | none: the CompanyTrail opens in the bottom sheet (A12, A17) |
+| 5 | What is this line? | Edge hover → `EdgeCard` with tier, date, ₹, beneficiary, response count | none | none: a tap opens the ClaimCard in the bottom sheet over the canvas (A17) |
+| 6 | Who benefited from this claim, and what did they say? | Edge click → `claim=` → `ClaimCard`, with the response at equal size | none | none: as 5 |
+| 7 | Who held the office on that date? | The ClaimCard date test, then the `TenureLanes` section | one | none for the date test; the lanes twin is below the stage (A20) |
+| 8 | What is attached to this entity? | Node click → `sel` → `NodeCard`, focus 1–3 hops | none | none: the NodeCard opens in the bottom sheet (A17) |
+| 9 | How far apart are these two, and is that unusual? | Shift-click → `path=` → `PathCard` + separation histogram | none | none for the PathCard; the histogram is under the canvas |
+| 10 | Across all claims, who is named as gaining? | `BenefitLedger` (rows light edges in the graph) | one | below the stage, no sideways scroll (A19) |
+| 11 | How much of each index does this touch, and is that expected? | `ConstituentTable` + sector 2×2 | two | below the stage, no sideways scroll (A19) |
+| 12 | Which allegations are answered, and which stories circulate? | Contested: `ContestedFact` list, `NarrativeCard` list | three | below the stage |
+| 13 | Would this lens alarm us anywhere? | `BaseRateTable`, `SymmetryPanel` | four | below the stage |
+| 14 | What could not be verified, and what was killed? | `GapsPanel`, killed and held-out tables, `SourceLedger` | five | below the stage, no sideways scroll (A19) |
+| 15 | *[UX review] A2:* Is there a claim about this name, block, figure or phrase? | Search `q` → "Matching claims" in the aside, with superseded, killed and held-out counts | none | none: the search box sits above the canvas (A2) |
 
 Two-minute test: questions 1–6 need no scroll on a 1280×800 desktop. Question 4 is one
 typed symbol. Questions 7, 10 and 11 are one scroll each.
+
+*[UX review] A14:* **Mobile two-minute test, at 390×844.**
+- Questions 1–3 need no scroll.
+- Question 2 is answered on the first screen, by a count and a one-tap jump.
+- Questions 4–6, 8 and 15 are answered without leaving the canvas's screen, because the
+  answer opens in the bottom sheet over it.
+
+The 390 screenshots in §14 must show all three. Without a mobile criterion, nobody
+building the page can fail it.
 
 ---
 
@@ -183,7 +213,10 @@ The route already exists: `/energy` → `src/pages/Energy.tsx` (replace the scaf
     `ENERGY_META.asOf` alone**, because that is the newest.
   - `SWEEPS`: declared in `src/data/energy.ts`, in this order, with display labels:
     - `SECTOR_SWEEPS = [coal "Coal", mines "Mines & minerals", oilgas "Oil & gas", hydro "Hydro & dams", solarwind "Solar, wind & storage", nuclear "Nuclear", grid "Grid & discoms"]`
-    - `LENS_SWEEPS = [money "Money trail", people "Promoters & families", enforce "Regulators & courts", states "State layer", literature "Documents & narratives"]`
+    - `LENS_SWEEPS = [money "Money trail", people "Promoters & families", enforce "Regulators & courts", states "Offices: union & state", literature "Documents & narratives"]`
+    - *[UX review] A6:* `states` was labelled "State layer". That label hid the fact
+      that union portfolios are recorded in the same file, so a reader looking for "the
+      Centre" could not find it.
 
     These are the file names the fleet was dispatched to write. A slug in
     `ENERGY_META.files` that is not in either list is appended to the lens row, and a
@@ -214,7 +247,7 @@ index or sweep.
 | param | owner | values | default | control |
 |---|---|---|---|---|
 | `dom` | page | comma list of sweep slugs | all | `SweepStrip` chips |
-| `q` | GraphExplorer | text over label, `sub`, `al` | — | rail search |
+| `q` | GraphExplorer | text over node label, `sub`, `al`. *[UX review] A2:* on this page it also matches claim `lab`, `d`, source labels, `benefit.who` / `how` and endpoint labels (opt-in prop `claimSearch`) | — | rail search; above the canvas below 640 (A2) |
 | `tier` | GraphExplorer | `documented,reported,alleged,analytic` | all | rail checkboxes |
 | `fam` | GraphExplorer | family ids | all present | rail checkboxes |
 | `pred` | GraphExplorer | predicates | all | rail checkboxes |
@@ -247,8 +280,36 @@ index or sweep.
   the table with superseded rows on lists what changed." A claim id found in
   `ENERGY_META.killed` gets instead: "Claim `{id}` was killed in audit: {killedReason}.
   It is listed under Killed in audit." The rest of the URL still applies.
+  *[UX review] A13:* the amber line is a DOM `role=status` element, so a screen reader
+  hears it.
 - **Unknown values inside a list** (for example `tier=documented,bogus`) are dropped.
   The rail shows the canonical set that applied.
+
+### 3.4 Focus and announcements *[UX review] A12, A13*
+
+- **Focus follows an answer written from outside the stage.** These controls move focus
+  when they write `sel`, `claim` or `path`:
+  - the company box and a constituent's "open in graph";
+  - a ledger row, and a lanes bar or tick;
+  - a contested "open in graph";
+  - a matching-claims row (A2) and a twin row;
+  - an `EvidenceSection` "Show in the graph".
+
+  Focus goes to the aside heading (`tabIndex=-1`), whose text is the selected item's
+  label. At ≥ 1280 the page first scrolls `#stage` into view and then focuses with
+  `preventScroll: true`. Below 1280, focusing brings the card into view: the bottom sheet
+  below 1024 (A17), and the aside under the canvas at 1024–1279. A screen reader cannot
+  perceive a scroll on its own, and focus left on the pressed control means the answer
+  is never heard.
+- **Inside the canvas, focus stays put.** A node or edge activated by Enter or click
+  keeps focus, so a keyboard reader can keep moving through the graph. The status region
+  (§5.4, A13) announces `Opened {label} in the margin` instead, and the skip link "go to
+  the margin" (A9) reaches it.
+- **Filters announce their effect.** When a `dom`, `idx`, `via` or `ask` filter is
+  applied, its `{from} → {to}` result is written to the status region.
+- **The company box follows the ARIA 1.2 combobox pattern:** `role=combobox` on the
+  input, a `listbox` popup, and `aria-activedescendant` for the highlighted option. A
+  `role=status` line under it announces `{n} matching constituents` as the reader types.
 
 ---
 
@@ -288,6 +349,22 @@ Prose stays at 72ch.
 
 The canvas top must sit above the fold at 1280×800: header ≤ 150px, strip ≈ 36px, sweep
 strip and company box ≈ 96px. That leaves at least 500px of canvas visible.
+
+*[UX review] A9:* **Reading order is not visual order.**
+
+- **DOM order:** skip links · rail (`<nav aria-label="Graph filters">`) · aside · status
+  region (A13) · canvas · shape legend and caption.
+- **Visual order:** the grid (`order` and named areas) keeps the aside in the third
+  column at ≥ 1280, and under the canvas or in the bottom sheet (A17) below that.
+- **The aside** is `<aside aria-labelledby>` with a visible heading. The heading reads
+  "Margin" at rest and the selected item's label otherwise.
+- **Skip links.** The first focusable element inside `#stage` is a skip-link group that
+  appears on focus: "Skip the graph: go to the margin · go to the table · go to
+  filters". The table link sets `table=1` if it is unset.
+
+ForceGraph gives every drawn node `tabIndex=0` (the node `<g role="button">` in `ForceGraph.tsx`). Without the
+skip links, a keyboard or screen-reader reader meets hundreds of tab stops before the
+voids or any answer.
 
 ---
 
@@ -342,11 +419,12 @@ The render order is fixed:
 | 2 | visible entities | all entities | `entities` | no |
 | 3 | alleged visible claims with ≥ 1 response (in `ANSWERS` or a node-pair contra) | alleged visible claims | `allegations answered` | yes |
 | 4 | visible claims with a benefit row | visible claims | `name a beneficiary` | no |
-| 5 | sweeps with a file | `SECTOR_SWEEPS.length + LENS_SWEEPS.length` | `sweeps researched` | yes |
-| 6 | voids (respecting `dom`) | — | `documented voids` | no |
+| 5 | sweeps with a file | `SECTOR_SWEEPS.length + LENS_SWEEPS.length` | `sweeps researched` | ≥ 640 only. *[UX review] A15:* below 640 fact 6 takes its place, and the SweepStrip caption carries this count in prose (A18) |
+| 6 | voids (respecting `dom`) | — | `documented voids` | *[UX review] A15:* yes below 640, in place of fact 5; no at 640–1279 |
 | 7 | per index key: constituents whose `existingId` is an endpoint of ≥ 1 visible claim | constituents in that key | `{key} touched` | no (omitted without `indices.json`) |
 | 8 | undated visible claims | visible claims | `undated — shown in any window` | no (only while `from`/`to` set) |
 | 9 | orphans | drawable + orphans | `not drawn — endpoint not in platform` | no (only when > 0) |
+| 10 | *[UX review] A5:* researched sweeps whose `ENERGY_COVERAGE` years overlap `from`–`to` | researched sweeps | `sweeps declare search years in this window`. With none declared, the fact reads `no sweep declares its search years — sparse is not clean` | yes (only while `from`/`to` is set) |
 
 The `filtered` chip is never hidden.
 
@@ -384,13 +462,39 @@ export interface SweepChip {
   bond is recorded under Money trail."
 - Chips do **not** colour anything in the canvas. A sweep has no channel inside the
   graph.
+- *[UX review] A6:* **The `states` chip names the states searched.** It is labelled
+  "Offices: union & state" (§3.2) and carries the line `states searched: {list}` from
+  `ENERGY_COVERAGE`, or `states searched: not declared`. The same line opens the
+  `#offices` denominator. Without it, a reader cannot tell a sweep that covered every
+  state from one that covered a chosen few.
+- *[UX review] A18:* **Below 640 the chips wrap** (`flex-wrap`). No strip row is a
+  sideways-scrolling container below 640. At about 1,300px wide, the sector row would
+  show three chips and hide the hatched "not yet researched" chips off to the right.
+  - Each chip is compact: label and mono count only, with `aria-pressed` as now.
+  - The tier samples, voids and dated span move to one line per **active** chip, under
+    the strip. With no chip active, a single line gives the same figures across all
+    researched sweeps and ends "select a sweep for its own breakdown". None of this sits
+    behind a hover.
+  - The live effect `{from} → {to} claims` gets its own left-aligned line under the
+    rows.
+  - When any sweep is absent, the caption adds "{k} of {K} sweeps researched; not yet:
+    {names}". The absence is then in prose even if a chip is missed.
 
 **Start from a listed company** (in `SweepStrip`'s footer row, left):
 
 - It is a combobox over `constituentRows()`, searching by symbol, BSE code and name.
-  Each option shows `SYMBOL · name · {memberships in words}`.
-- On Enter or click it writes `sel={existingId}`, `focus={existingId}` and `hops=1`,
-  and scrolls `#stage` into view. The aside switches to `CompanyTrail`.
+  Each option shows `SYMBOL · name · {memberships in words}`. *[UX review] A12:* it
+  follows the ARIA 1.2 combobox pattern, with a live match count (§3.4).
+- On Enter or click it writes `sel={existingId}`, `focus={existingId}` and `hops=1`.
+  The aside switches to `CompanyTrail`.
+- *[UX review] A12:* **Where the page goes next depends on width.** This resolves a
+  contradiction between this section and §10.
+  - At ≥ 1280 it scrolls `#stage` into view, because the trail is in the margin beside
+    the canvas.
+  - Below 1280 it brings the **CompanyTrail** into view instead: the bottom sheet below
+    1024 (A17), and the aside under the canvas at 1024–1279. It never lands on the bare
+    canvas, where a phone reader would see one gold-ringed node and no trail.
+  - Focus then moves to the aside heading (§3.4).
 - A constituent with `existingId === null` is listed as `name — not in platform dataset`
   and selecting it opens the aside in the "not in dataset" state (§9).
 - A constituent whose id is not an endpoint of any drawable claim still opens its
@@ -422,6 +526,14 @@ export interface SweepChip {
 All the new props are optional. The four existing callers (`Atlas`, `Allocation`,
 `Cabinet`, `Conglomerates`) keep their current behaviour.
 
+*[UX review]* The amendments add further optional props, which only this page passes:
+
+- `claimSearch` (A2);
+- `skipLinks` (A9);
+- a DOM status region, `statusLive` (A13);
+- `coarseScrollThrough` on ForceGraph (A16);
+- the aside as a bottom sheet below 1024 (A17).
+
 ```ts
 type AsideCtx =
   | { kind: 'rest' }
@@ -439,6 +551,9 @@ flows under the canvas, where today's detail panel sits. The aside scrolls inste
 truncating. Remove the existing "…and {n} more, shown in the table view" cut from any
 path this page uses.
 
+*[UX review] A9, A17:* in the DOM the aside comes before the canvas (§4). Below 1024 it
+is the bottom sheet described in §10.
+
 **Rail sticky offset:** `lg:top-12`, so the rail clears the strip.
 
 **Canvas behaviour (existing, kept):**
@@ -447,6 +562,20 @@ path this page uses.
   lies outside it, counted in the caption.
 - The path dims everything off the path.
 - The amber warning at more than 220 entities stays.
+- *[UX review] A2:* **Search reads claims as well as entities.** With `claimSearch` set,
+  `q` keeps:
+  - a node that matches, as today;
+  - a node that is an endpoint of a claim whose `lab`, `d`, source labels or
+    `benefit.who` / `how` match;
+  - an edge whose endpoints are both kept, as today.
+
+  The rail placeholder reads "search entities, claims and source titles". Status line 1
+  gains `· search "{q}": {n} claims match`. At rest the hairball fires the >220-entity
+  warning, and a reporter typing "Gare Palma" or "Rs 400 cr" should get a hit list, not
+  a smaller hairball. The hit list is in the aside (§5.5).
+- *[UX review] A9:* ForceGraph's group label "A table view of the same data is available
+  below" becomes conditional. With `table` unset it reads "A table view can be opened
+  with the Show table button or the skip link above".
 - Maximise (`f`) uses `ExpandShell`. **The aside comes with it**: `ExpandShell` gains an
   optional `aside?: ReactNode`, rendered as a 22rem right column at ≥1024px and as a
   40vh bottom sheet below that. A maximised graph without its margin would be a
@@ -467,6 +596,11 @@ It holds:
 - `{k} responses recorded` in rose when k > 0;
 - `click: details · shift-click: path end`.
 
+*[UX review] A11:* **The node's accessible name carries what the hover card shows.** The
+`aria-label` becomes `{label}, {sub} · {claims} claims · {k} responses recorded ·
+{membership in words}`. The hover card shown on keyboard focus is referenced from the
+node by `aria-describedby`.
+
 **Edge hover and focus.** This is the existing `EdgeCard`, with `edgeExtra` appended:
 
 - **BenefitLine:**
@@ -477,8 +611,19 @@ It holds:
   - If `who` is a node that is not an endpoint: "(named by the claim; not joined by any
     edge)".
   - With no benefit row: "no beneficiary recorded".
-- **Responses:** `{n} responses` in rose, or `no response recorded` in muted text. An
-  `alleged` edge with none adds " — the build gate forbids this; listed in Gaps".
+- **Responses:** `{n} responses` in rose.
+  - *[UX review] A7:* with none, the card reads `no response recorded — the register does
+    not record whether {s label} or {t label} was asked`. This is in the same size and
+    colour as the card's claim text, for **every** tier. It was muted text.
+  - An `alleged` edge with none adds " — the build gate forbids this; listed in Gaps".
+- *[UX review] A11:* **The edge's accessible name carries its response.** `edgeTitle`
+  (the `aria-label` and `<title>`) ends in one of:
+  - `· {n} responses recorded`;
+  - `· no response recorded`;
+  - `· no response recorded — listed in Gaps`, for an alleged edge with none.
+
+  The rose tick and connector are `aria-hidden`. For a screen-reader user, this text is
+  what makes the response "as loud as the claim".
 - The footer reads `click to open the claim`.
 
 Hover stays transient. **Click writes `claim`** (a new `onEdgeClick` on ForceGraph;
@@ -510,6 +655,28 @@ screenshots. The lines, in order:
    and the median
 5. when `from`/`to` is set: `{u} undated claims shown regardless of the window`
 6. the existing focus caption and camera help line
+7. *[UX review] A5:* when `from`/`to` is set, one of:
+   - `coverage: {k} of {K} researched sweeps declare search years overlapping {from}–{to} ({labels})`;
+   - `coverage: no sweep declares its search years for this window — sparse is not clean`.
+
+   It reads `ENERGY_COVERAGE` (§0.2 fact 9). Without it, a thin earlier window reads
+   either as "that government was clean" or as "they only researched the present", and
+   the page cannot say which. Dated claims inside the window are not coverage, and are
+   never offered as a proxy for it.
+
+*[UX review] A13:* **The status lines are rendered twice.**
+
+- **In the frame**, for screenshots, with `aria-hidden`.
+- **As a visually hidden DOM `role=status` region**, placed before the canvas in DOM
+  order and updated when a line changes.
+  - It carries lines 1, 3, 4, 5 and 7 in terse form, for example "Lit: claim {lab},
+    {n} responses, {k} office-holders on {date}".
+  - It also carries the canvas messages of §3.4.
+  - The existing `aria-live=polite` block in `GraphExplorer` (focus and path captions)
+    is folded into it, so there is one region, not two.
+
+Without this, a screen-reader user never learns that a claim is lit, that office-holders
+were added, or that a filter emptied the graph.
 
 **Separation histogram** (`belowCanvas`, only while `path` is set; C10):
 
@@ -525,6 +692,35 @@ screenshots. The lines, in order:
 ### 5.5 `EnergyAside` (new, `src/components/energy/EnergyAside.tsx`)
 
 **Rest**, when nothing is selected:
+
+*[UX review] A2:* **Matching claims** leads the rest state while `q` is non-empty. It
+sits above the reading key and the voids. **The voids stay; a search never displaces
+them.**
+
+- **What it lists:** every record in `DRAWABLE`, `SUPERSEDED`, `ENERGY_META.killed` and
+  `ENERGY_META.excluded` whose `lab`, `d`, `benefit.who`, `benefit.how`, source labels
+  or endpoint labels contain `q`. The match is a case-insensitive substring.
+- **Heading line** (mono): `{n} drawn claims match "{q}" · {s} superseded · {k} killed
+  in audit · {x} held out`.
+- **Filters:** the list follows the page filters (`dom`, `tier`, `pred`, the window,
+  `idx`, `via`). A second line reads `{h} further matches are hidden by the filters in
+  force` and offers "clear filters".
+- **Order:** drawn rows first, by date, then by label.
+- **Drawn rows:** `TierChip · date or "undated" · lab · ₹ · {s label} → {t label}`,
+  each a button that writes `claim` (A10).
+- **Superseded rows:** marked `superseded by {id}`. They open the superseded record's
+  ClaimCard.
+- **Killed and held-out rows:** these cannot be drawn. They show `killedReason` or
+  `excludedReason` and link to their row in `#missing`.
+- **No match:** `No claim, superseded record or killed record matches "{q}". Search
+  reads claim text and source titles, not the sources themselves.`
+
+A reporter checking a figure seen elsewhere learns that the audit killed it, not that
+the platform has nothing on it.
+
+*[UX review] A15:* below 640, the reading key moves above the canvas as a closed
+`<details>` ("How to read this graph"). The VoidList sits directly under the canvas
+(§10).
 
 1. **How to read this graph**, five lines at 13px:
    - "Each line is one claim with a source, or an allegation or analysis marked as such."
@@ -557,7 +753,8 @@ screenshots. The lines, in order:
   writes `path=sel,x`. This is the touch and keyboard equivalent of shift-click.
 - **Claims touching it:** every one, grouped by predicate in `PRED_LABEL` order. Each
   row shows a `TierChip`, the other party, `lab`, the date, ₹ and a rose response
-  count. Clicking a row writes `claim`. There is no "show more".
+  count. Clicking a row writes `claim`. *[UX review] A10:* the click goes through a
+  button on `lab` (§5.7 rule). There is no "show more".
 - If `ty` is ministry, agency or psu, **Who held this office**: the `role` edges into
   it, each with the person, `from`–`to` (or "in office as of {asOf}") and a `TierChip`.
   The link reads "see the lanes →".
@@ -597,6 +794,29 @@ screenshots. The lines, in order:
   file `asOf`.
 - `s → t` as clickable labels that write `sel`.
 - `d` at 15px, then the full `Cite`.
+- *[UX review] A1:* **Sources as visible text.** Each source renders on its own line:
+  the label, then the full URL in mono at 12px, as visible text that is still a link.
+  This uses a new `Cite` option, `showUrl`, in `Editorial.tsx`; other pages keep the
+  label-only form. A URL that appears only on hover cannot be checked on deadline.
+- *[UX review] A1:* **Cite as.** A footer block in plain mono text. It is selectable
+  and never truncated, and holds:
+  - `claim {id} · {lab} · {d}`;
+  - `₹{a} cr as recorded on the claim — its kind is stated in the claim text`, or
+    `no amount recorded`;
+  - `dated {from}{–{to}}`, or `undated`;
+  - `tier {tier} · research file dated {file asOf} · run {ENERGY_META.runId}`;
+  - each source as `label — URL`, one per line;
+  - the page URL with `claim=`.
+
+  Beside it is a `btn-ghost` "copy citation", next to the existing "copy link to this
+  view".
+  - The button writes the same text with `navigator.clipboard.writeText`.
+  - If the clipboard is refused, it selects the block instead.
+  - A `role=status` span reports either "copied" or "select and copy".
+  - No dependency is added.
+
+  The kind word for the ₹ figure is deferred (§16 D1). When it lands, it replaces the
+  "as recorded" wording.
 - `₹{a} cr` with "the amount recorded on the claim; its kind is stated in the text
   above", or "no amount recorded".
 - **Two equal columns** (stacked below 640px, claim first). They use the same font
@@ -608,9 +828,16 @@ screenshots. The lines, in order:
     - `confidence` as a word. It is not coloured.
     - With no benefit row: "No beneficiary recorded for this claim."
   - **right, "The response"** (2px rose left rule): each responder label, the contra
-    `d`, `TierChip` and `Cite`. With none: "No response recorded." in muted text. For
-    `alleged`: "No response recorded. Under this platform's rules this claim should not
-    have shipped." in amber, and a gap is pushed.
+    `d`, `TierChip` and `Cite`.
+    - *[UX review] A7:* **With none,** the column reads "No response recorded. The
+      register does not record whether {s label} or {t label} was asked." This applies
+      to **every** tier, at the same size, weight and colour as the claim column. It
+      was muted for documented and reported claims.
+    - **For `alleged`,** one further line follows in amber: "Under this platform's rules
+      this claim should not have shipped." A gap is pushed.
+    - **Why:** a greyed-out right column beside a reported claim that names a person is
+      the asymmetry a hostile reader screenshots. Evidence-tiering step 6 treats "never
+      asked" as a weakness in the claim, not a neutral fact.
 - **Date test.** For each `role` edge into the institution side (`s`, or `t` if `s` is
   a person) whose `[from, to ?? ASOF.oldest]` contains `claim.from`: "On {from},
   {institution} was held by {person} ({from}–{to}) [TierChip]."
@@ -619,6 +846,8 @@ screenshots. The lines, in order:
   - Undated: "Undated — the date test cannot be run."
   - For `law`: the issuer is a `fam: state` node with an edge into the law node, or the
     text "issuer not recorded".
+  - *[UX review] A20:* the sentence links to its row in the lanes twin (`#offices`), not
+    to the lanes SVG. Below 640 the SVG is closed by default.
 - `innocentReading`, `upgradeIf`, `killIf`, each labelled and in full.
 - **Supersession:** "Supersedes {id} (retained, not drawn)" and "Superseded by {id}", as
   links that write `claim`.
@@ -655,10 +884,64 @@ screenshots. The lines, in order:
 - The "Show table" button stays in the rail and writes `table=1`. The twin renders
   **full width under the stage** (not inside the canvas column), with id `twin`.
 - It reads exactly the drawn set, including focus and path, as it does today.
-- **Columns:** claim id · sweep · s → pred → t (labels) · tier · ₹ · from – to ·
-  beneficiary · how · benefit ₹ · confidence · responses (count + responder labels) ·
-  superseded by · sources (**all** of them).
+- **Columns.** *[UX review] A4:* extended, so that a row can be checked against its
+  source and never appears without its innocent reading:
+  1. claim id
+  2. sweep
+  3. file `asOf`
+  4. s → pred → t (labels and ids)
+  5. `lab`
+  6. `d`
+  7. tier
+  8. ₹
+  9. from – to
+  10. beneficiary (`who`, and whether it is a node)
+  11. how
+  12. benefit ₹
+  13. confidence
+  14. `innocentReading`
+  15. `upgradeIf`
+  16. `killIf`
+  17. responses (count, responder labels and each contra `d`)
+  18. superseded by
+  19. sources (**all** of them, each as label and visible URL)
+
+  Long text cells wrap at `max-w-[36rem]`. Nothing is truncated, and nothing sits behind
+  "show more".
 - Clicking a row writes `claim`.
+- *[UX review] A10:* **Every row that writes `claim` or `sel` does so through a real
+  `<button>` or link inside a cell, never a row-level `onClick`.**
+  - **Why:** a row handler is not focusable and is not announced as actionable. Edges
+    are keyboard-reachable only on a path or next to `sel` (`tabEdges` in `ForceGraph.tsx`).
+    For a keyboard or screen-reader reader, these rows are therefore the only way to
+    open a claim.
+  - **Where it applies:** this twin (the claim id cell), NodeCard and CompanyTrail rows,
+    the BenefitLedger (the `lab` cell), the lanes twin, Contested ("open in graph"),
+    Matching claims (A2) and the Superseded table.
+  - **The button's accessible name** is `Open claim {lab}, {tier}, {date or
+    "undated"}`, not the raw id. Every such row also states its response count in text.
+- *[UX review] A3:* **Download CSV.**
+  - **The prop.** `DataTable` (`Editorial.tsx`) gains an optional `download` prop:
+    `{ filename: string; header: string[]; allRows?: () => string[][] }`. When it is
+    set, a `btn-ghost` "Download CSV — {n} rows" renders above the table.
+  - **Building the file.** On click, the file is built from `allRows()`, or from the
+    rendered rows as text when `allRows` is absent. It uses a `Blob`,
+    `URL.createObjectURL` and a temporary `<a download>`, and the object URL is revoked
+    afterwards. There is no fetch and no dependency, and it works from a static host.
+  - **Encoding.** The file is UTF-8 with a BOM, so spreadsheets read ₹ and names in
+    Indian scripts, and it uses RFC 4180 quoting.
+  - **Formula-injection guard.** Every text cell that begins with `=`, `+`, `-`, `@`, a
+    tab or a carriage return gets a leading `'`. The cells are research text written by
+    agents, and a spreadsheet must not execute them as formulas.
+  - **Header block.** The first lines are `#`-prefixed:
+    1. `ENERGY_META.runId`;
+    2. `as of {ASOF.oldest} – {ASOF.newest}`;
+    3. the filters in force in words, which is the twin's caption string;
+    4. the section's `cannotShow` text.
+  - **Sources** go in one column as `label <URL>`, separated by ` | `, so none is
+    dropped.
+  - **For this twin**, the file holds **every row across all pages** (`allRows`), not
+    the current `tp`, with superseded and orphan rows as the twin shows them.
 - `sup=1` adds `SUPERSEDED` rows, marked `superseded by {id}`. `ORPHANS` rows always
   come last, marked `endpoint {id} not in platform — not drawn`.
 - **Pagination** by 400 rows, with the page in `tp`. The footer reads
@@ -670,6 +953,10 @@ screenshots. The lines, in order:
 `EvidenceSection`:
 
 - **denominator:** `{lanes} institutions with a recorded office-holder · {placed} of {dated} dated decisions fall inside a recorded tenure · {gap} fall between tenures · {undated} undated, not placed`
+  - *[UX review] A5:* while `from`/`to` is set, the denominator opens with the coverage
+    sentence of strip fact 10.
+  - *[UX review] A6:* it also opens with the `states` chip line, `states searched:
+    {list | not declared}`.
 - **ask:** `pred=role,award,law` with the label "Show offices and their decisions".
 
 ```ts
@@ -687,6 +974,14 @@ export default function TenureLanes(p: {
 - **Lanes:** institution nodes (`ty` ministry, agency or psu) that are the `t` of ≥ 1
   `role` edge. They are ordered by `fam` (state, then enforce), then by label. Union and
   state institutions both appear when the `states` sweep records them.
+- *[UX review] A6:* **Jurisdiction.**
+  - Lanes are grouped under "Union" or a state name only where the jurisdiction is
+    recorded, in the identity key `jurisdiction` (§0.2 fact 9).
+  - They are **never** grouped by the node's `st`, which is the registered office: the
+    Coal ministry is `dl` and Coal India is `wb`.
+  - Lanes with no recorded jurisdiction sit under "jurisdiction not recorded".
+  - Under the lanes: "{s} states have at least one lane; states searched by the Offices
+    sweep: {list | not declared}".
 - **Tenure bars:** one per `role` edge, from `from` to `to ?? ASOF.oldest`. The outline
   dash is the role claim's tier. The label is the person. `(Party)` is added only when a
   `role` edge person → party overlaps the tenure. **No party colour.** An open tenure
@@ -707,6 +1002,17 @@ export default function TenureLanes(p: {
   office-holder**: {labels}".
 - **Twin:** a `DataTable` under the lanes with the columns institution, office-holder,
   from, to, role tier, and decisions dated inside (count + ids).
+- *[UX review] A20:* **Below 640 the twin comes first.**
+  - The lanes twin renders as stacked records (§11) directly under the denominator.
+  - The SVG lanes sit behind a button, "Show lanes (scrolls sideways)", closed by
+    default, with `aria-expanded`.
+  - When `claim` is set and the lanes are open, the shared axis is clipped to
+    `claim.from` ± 3 years, so the lit tick and the date rule are on screen. The caption
+    says so: "axis clipped to {a}–{b} around the lit claim; the full span is
+    {min}–{max}".
+  - **Why:** at 390 wide, a lane block with a 720px minimum shows only the earliest
+    15–20% of the axis, which is the sparsest part, and almost never the lit tick. On a
+    phone, the ClaimCard date test is the main answer to question 7.
 - **cannotShow:** §8 "Tenure lanes".
 
 ### 5.9 Who is recorded as benefiting: `BenefitLedger` (new, id `benefit`)
@@ -750,6 +1056,8 @@ export interface BenefitGroup { who: string; isNode: boolean; label: string; mem
   Naming who gained is arithmetic. Whether the gain was intended, improper or ordinary is
   a separate claim, which appears in the graph as `alleged` with its response beside it,
   or not at all."
+- *[UX review] A3, A10:* the ledger has "Download CSV", with "Nothing is summed; amount
+  kinds differ." added to its header block. Each row's `lab` is a button (§5.7 rule).
 - **cannotShow:** §8 "Benefit ledger".
 
 ### 5.10 From the benchmark: `ConstituentTable` (new, id `benchmark`)
@@ -793,6 +1101,8 @@ export interface ConstituentRow { id: string | null; symbol: string; name: strin
   - columns: ≥ 1 direct claim / none, with totals.
   - Heading: "The expected result: an energy register touches energy companies. Read
     the 'other sector' row first."
+- *[UX review] A12:* `onOpen` moves focus to the aside heading after writing `sel`
+  (§3.4). *A3:* the table and the 2×2 have "Download CSV".
 - **cannotShow:** §8 "Benchmark".
 
 ### 5.11 Contested (id `contested`)
@@ -810,7 +1120,9 @@ export interface ConstituentRow { id: string | null; symbol: string; name: strin
     `d`. When there are several responses, each is its own paragraph with its
     `TierChip`.
   - With none, the same size: `who` = "No response recorded", `claim` = "The build gate
-    requires one for an alleged claim; its absence is listed in Gaps."
+    requires one for an alleged claim; its absence is listed in Gaps." *[UX review] A7:*
+    the claim text then adds "The register does not record whether {s label} or {t
+    label} was asked."
   - `unresolved` = "Would settle it: {upgradeIf} / {killIf}".
 - The block follows `dom`, `tier` and `from`/`to`. It does not follow `pred`, because
   responses are `contra`. Each block has "open in graph", which writes `claim`.
@@ -845,9 +1157,15 @@ export interface ConstituentRow { id: string | null; symbol: string; name: strin
     bar;
   - order: sweep, then property.
 - **`SymmetryPanel`** (new):
-  - one `Callout tone="note"` per sweep with a file, labelled "Symmetry check — {sweep}",
-    with the `ENERGY_SYMMETRY` text verbatim. The `states` sweep comes first, because it
-    is the opposition-governed control;
+  - one `Callout tone="note"` per sweep with a file, labelled "Symmetry check — {sweep
+    label}", with the `ENERGY_SYMMETRY` text verbatim.
+    - *[UX review] A8:* the callouts follow strip order; the `states` sweep is not moved
+      to the front.
+    - Each callout ends with the standing line "Written by the {sweep label} sweep about
+      its own work; not independently re-run."
+    - Why `states` matters as a control stays in §0.3 C11 and is not printed. Calling a
+      sweep the "opposition-governed control" presupposes who governs the Centre and who
+      governs the states, and states change hands;
   - a sweep with a file but no text gets `Callout tone="warn"` labelled "No symmetry
     check — {sweep}": "The contract makes this mandatory. Its absence is a defect in that
     sweep, and its claims should be read with that in mind." A gap is pushed;
@@ -874,6 +1192,9 @@ Its contents, in order:
      - `indices.json` absent;
      - `existingId` nulls ("{name} ({key}) is not in the company dataset");
      - "no share-price series or index weights in the platform";
+     - *[UX review] A5:* "coverage not declared by the {sweep} sweep: an empty year in
+       it is unsearched, not clean", one for each researched sweep with no
+       `ENERGY_COVERAGE` entry;
      - "the award × donor population with a date-shuffled control has not been run
        (HANDOFF priority 1)".
    - The `note` reads "Absence here is a result. A company with no claim in this
@@ -949,6 +1270,13 @@ Its contents, in order:
 **The response-visibility rule:** a response is visible whenever the claim it answers is
 visible. The `tier` and `pred` filters never hide the answer to a visible claim.
 
+*[UX review] A11, A16:* **Neither amendment changes an encoding.**
+
+- **A11:** the rose tick and connector are `aria-hidden`. Their meaning is carried in
+  text by the edge and node accessible names (§5.4).
+- **A16:** switching the canvas between scroll-through and pan mode on coarse pointers
+  (§10) changes only `touch-action`, never a mark.
+
 **Known collision, flagged and not fixed here:** the `enforce` family hue is the same hex
 as contra rose. Family is a node fill and contra is an edge stroke, so they never share
 an element. The platform-wide fix is owed elsewhere. Changing it locally would break
@@ -989,6 +1317,14 @@ cross-page hue consistency.
 
 These are verbatim, with the braces interpolated. Each sits beside the graphic it
 qualifies.
+
+*[UX review] A8:* **The page never uses a partisan frame in its own words.** No printed
+heading, caption, note, label or tooltip uses "opposition", "ruling", "government of the
+day" or a party name as a frame.
+
+- **Where a party name may appear:** only as data. That means text on a tenure bar
+  backed by a role claim, or inside a verbatim claim, response or source title.
+- **Where rationale that needs those words lives:** in this spec, not on the page.
 
 - **Stage, under the shape legend, always visible:** "An edge is a sourced claim, not a
   measure of influence. Public power is pulled left and private capital right;
@@ -1057,7 +1393,9 @@ qualifies.
 |---|---|
 | **Loading** | The route chunk uses the existing `Suspense` fallback. The data is compiled in and the layout runs a fixed tick count, so there is no data spinner. Under `prefers-reduced-motion` there is no settle animation. |
 | **Fleet empty** (`ENERGY_META.empty`, **the state that ships first**) | The header byline reads `0 research sweeps · as of —`. The strip reads `0 claims · 0 of 12 sweeps researched · as of —`. The `SweepStrip` has every chip hatched. A `Callout tone="warn"`: "The energy register has not been promoted in this build. Nothing below is zero — it is absent." The stage frame is drawn at canvas height, with that sentence centred and no rail or aside. The company box, lanes, ledger, benchmark, contested and base rates are **not rendered**. `#missing` renders (the gaps list the absent sweeps) and so does `SourceLedger` (`0 sources`). **`npm run smoke` must pass in this state.** |
-| **Filters leave 0 claims** | The canvas shows "0 of {M} claims match.", the active filters in words, the **single active filter that removed the most claims** (computed by leaving each one out in turn) with a button that clears only it, and "reset graph filters". The aside keeps its rest state, so the voids stay visible. Sections below render their own empty lines. |
+| **Filters leave 0 claims** | The canvas shows "0 of {M} claims match.", the active filters in words, the **single active filter that removed the most claims** (computed by leaving each one out in turn) with a button that clears only it, and "reset graph filters". The aside keeps its rest state, so the voids stay visible. Sections below render their own empty lines. *[UX review] A13:* all of this is DOM content laid over the canvas, not SVG text, and the message is also written to the status region. |
+| *[UX review] A2:* **Search matches nothing** | The Matching claims block shows its no-match sentence (§5.5), and the voids stay under it. The canvas shows the existing node-search result. |
+| *[UX review] A5:* **Coverage not declared** (every sweep in the current build) | While a window is set, strip fact 10 and status line 7 print their "not declared" form. The `states` chip prints `states searched: not declared`. One derived gap is pushed per sweep. |
 | **Some sweeps absent** | Hatched chips. A one-line note above the canvas: "{k} of {K} planned sweeps are researched: {list}. The graph covers only these." Every `EvidenceSection` denominator ends `· {k} of {K} sweeps`. |
 | **Dated span partial** | The chip span shows per sweep. The lanes axis is the dated span only, with the caption "nothing before {min} is drawn because nothing was recorded, not because nothing happened". |
 | **File dates differ** | Strip and byline show `oldest – newest`. Each ClaimCard shows its own file `asOf`. |
@@ -1084,8 +1422,30 @@ qualifies.
 |---|---|
 | ≥ 1280 | rail · canvas · aside (§4) |
 | 1024–1279 | rail · canvas. The aside flows under the canvas at full width, in two columns (card left, voids right) |
-| 640–1023 | The rail is a `<details>` above the canvas, **open by default**, with the summary `Filters · {active} active · {from} → {to} claims`. The canvas is full width at 560px. The aside is under the canvas |
-| < 640 | The strip shows facts 1, 3, 5 and the `filtered` chip. The `SweepStrip` rows each scroll horizontally in their own `overflow-x-auto` container. The company box is full width. The rail is a `<details>`, **closed by default**. The canvas is `min(440px, 65vh)`. The in-frame status keeps lines 1, 2 and 5, and the camera help moves under the canvas. The aside is under the canvas, and selecting something scrolls it into view |
+| 640–1023 | The rail is a `<details>` above the canvas, **open by default**, with the summary `Filters · {active} active · {from} → {to} claims`. The canvas is full width at 560px. *[UX review] A17:* the aside is the bottom sheet (below) while `sel`, `claim`, `path` or `q` is set; at rest it sits under the canvas |
+| < 640 | *[UX review] A2, A15, A17, A18, rewritten.* **Strip:** facts 1, 3 and 6 (6 replaces 5, A15) and the `filtered` chip. **Sweep chips:** they wrap in their compact form, and no strip row scrolls sideways (A18). **Company box:** full width. **Search:** above the canvas, outside the rail (A2). **Rail:** a `<details>`, **closed by default**. **Directly above the canvas** (A15): the closed `<details>` "How to read this graph", then one 14px `text-text` line, "What the record does not show: {n} documented voids", which is an anchor to the VoidList. **Canvas:** `min(440px, 65vh)`. **In-frame status:** keeps lines 1, 2 and 5; the camera help moves under the canvas. **At rest** (A15): the VoidList sits directly under the canvas, above the shape legend and the stage caption. **When something is selected or searched** (A17): the aside opens as the bottom sheet |
+
+*[UX review] A17:* **Below 1024 the aside is a bottom sheet.**
+
+- **What it is.** It reuses the `ExpandShell` 40vh sheet: the same markup, not a new
+  component.
+- **When it shows.** While `sel`, `claim`, `path` or `q` is set.
+- **Where it sits.** It is pinned to the bottom of the viewport while `#stage` is in
+  view, at most 40vh tall, and it scrolls internally.
+- **Controls.**
+  - A drag handle, which is also a button ("expand" / "collapse", `aria-expanded`).
+  - A close button, which clears `sel`, `claim` and `path` but not `q`.
+- **On opening.** The page scrolls so the canvas top sits under the sticky strip. At
+  390×844 the canvas and the top of the card are then both in view.
+- **Not modal.** It is an `<aside>` with no focus trap and no `aria-modal`, because the
+  canvas above it must stay usable.
+- **Leaving the stage.** When `#stage` leaves the viewport, the sheet docks back into
+  the flow under the canvas, so it never covers the sections below.
+- **What it replaces.** "Selecting something scrolls it into view" made every tap a jump
+  of about 700px past the legend and caption, and then a scroll back up to the lit set.
+- **Fallback.** If the 390 screenshot shows the sheet hiding the camera controls, place
+  the aside directly under the canvas, above the legend and caption. Then scroll so that
+  the canvas bottom and the card top are both in view.
 
 - **Touch.**
   - Tap a node to write `sel`. The node hover content goes at the top of the NodeCard,
@@ -1094,18 +1454,37 @@ qualifies.
     `(pointer: coarse)`.
   - A path is set with "path to…" in the NodeCard, because shift-click has no touch
     equivalent.
+  - *[UX review] A16:* **The canvas does not capture vertical swipes at rest** on
+    `(pointer: coarse)`.
+    - **The problem today.** ForceGraph sets `touch-action: none` (the canvas `style.touchAction` in
+      `ForceGraph.tsx`), and its pointer handlers call `preventDefault`. A reader who swipes down
+      over the 440px canvas therefore pans the graph and cannot scroll past it.
+    - **The prop.** A new optional prop, `coarseScrollThrough`, is passed by Energy
+      only; the other callers are unchanged. With it, the canvas is
+      `touch-action: pan-y` at rest.
+    - **At rest.** A one-finger vertical drag scrolls the page. A tap on a node or an
+      edge still selects it. The in-frame status carries a 10px mono hint: "tap the
+      graph to pan and zoom".
+    - **Pan mode.** A tap on empty canvas, or any two-finger gesture, switches the
+      canvas to `touch-action: none`. It stays in pan mode until the reader taps "done"
+      in the status line or the canvas leaves the viewport.
+    - **Maximise.** `ExpandShell` keeps `touch-action: none`, because the reader chose
+      it.
   - Maximise opens `ExpandShell`, and below 1024 the aside becomes a 40vh bottom sheet
     inside it that scrolls internally.
 - **ClaimCard columns** stack below 640px: claim first, response directly after, with
   the same width and type size.
-- **`ConstituentTable`:** Symbol, Company, the index columns and Direct stay. "Via
-  group" and the button collapse into a row-level "open" link. The table scrolls inside
-  `DataTable`'s wrapper.
+- **`ConstituentTable`:** *[UX review] A19, corrected.* At 390 wide there are 358px of
+  content, and `DataTable` has `min-w-[34rem]`. No column can therefore "stay" without
+  sideways scroll. Below 640 every row is a stacked record (§11), with every field,
+  "Via group" included, and the "open in graph" button last.
 - **`TenureLanes`:** it gets its own `overflow-x-auto`, `min-width: 720px`, and the lane
-  labels are `position: sticky; left: 0` on `bg-bg`.
+  labels are `position: sticky; left: 0` on `bg-bg`. *[UX review] A20:* this applies
+  at ≥ 640. Below 640 the twin comes first and the lanes open behind a button (§5.8).
 - Every "What this cannot show" block stays full size.
 - There is **no horizontal page scroll** at any width. Take screenshots at 390 and 1280
-  wide.
+  wide. *[UX review] A19:* there is also no sideways-scrolling table below 640. The only
+  sideways scroll left on a phone is the lanes SVG, behind its button.
 
 ---
 
@@ -1120,6 +1499,36 @@ qualifies.
 | BenefitLedger, ConstituentTable, sector 2×2, BaseRateTable, Contested, Narratives, Missing | these **are** tables or text | — |
 
 Every twin carries a caption with its row count and the filters in force, in words.
+
+*[UX review] A3:* **Every table on this page can be downloaded** (the `download` prop,
+§5.7). It is wired on:
+
+- the stage twin (all pages, not just `tp`);
+- the lanes twin and the histogram twin;
+- BenefitLedger, ConstituentTable, the sector 2×2 and BaseRateTable;
+- Contested (claim, response, tiers, sources) and Narratives;
+- Killed, Held out, Orphans and Superseded;
+- SourceLedger, as a bibliography.
+
+*[UX review] A19:* **Below 640 every table stacks.**
+
+- **The prop.** `DataTable` gains an optional `stacked` prop.
+- **Below 640** it renders each row as a record: a `<dl>` with each column label as a
+  10px mono uppercase `<dt>` and the cell as its `<dd>`. Every field, every source and
+  every button is present; nothing sits behind a click.
+- **At ≥ 640** it renders the `<table>`.
+- **Switching** is done with `display: none`, so assistive technology reads exactly one
+  form. Changing `display` on table elements instead would strip their table semantics
+  in some browsers.
+- **Scope.** `min-w-[34rem]` applies only to the table form. Every table on this page
+  passes `stacked`; other pages are unchanged.
+- **The stage twin's stacked record** leads with s → pred → t, then tier, date, amount,
+  beneficiary, responses and sources, then the rest.
+
+This departs, below 640 only, from interface-design's rule that tables scroll
+horizontally inside their own container. At 390 wide a table with a 544px minimum shows
+two columns, and it puts the sources about 500px to the right. The platform says sources
+must never be hidden.
 
 ---
 
@@ -1172,6 +1581,8 @@ Every twin carries a caption with its row count and the filters in force, in wor
 - **No mirror-window or party comparison** (C11). There is no party colour and no party
   aggregation. A party appears only as text on a tenure bar backed by a role claim.
 - **No colour meaning suspicious.** Rose is only for responses.
+- *[UX review] A8:* **No partisan frame in the page's own words** (§8 rule). The
+  symmetry panel is not headed or ordered by who governs.
 - **No edge the record does not contain.** There is no beneficiary line, no co-location
   edge (same state or sector), no inferred ownership, and no group join by name.
 - **No path as a finding.** A path always carries its count of equal paths, the median
@@ -1210,11 +1621,17 @@ Every twin carries a caption with its row count and the filters in force, in wor
 | `src/components/viz/ForceGraph.tsx` | `onEdgeClick` separate from hover; `highlight` lit set; rose midpoint ticks + conditional connectors from `answers`; unconnected-beneficiary text tag; `nodeHover` card at the node position and on focus; `denialIndex(edges, explicit?)` taking claim-id joins first | 150 |
 | `src/components/viz/camera.tsx` | `ExpandShell` optional `aside` (right column ≥1024, bottom sheet below) | 25 |
 | `scripts/assemble-fleet.mjs`, `src/graph/fleet.ts` | emit `ENERGY_EDGE_DOMAIN: Record<string, string>`; bump `GENERATOR_VERSION`; regenerate | 20 |
-| `scripts/smoke.mjs` | add `/energy?claim=__missing__`, `/energy?dom=coal&idx={firstKey}&tier=alleged`, `/energy?path=__a__,__b__&table=1&tp=2` (ids read from the data at smoke time) | 10 |
+| `scripts/smoke.mjs` | add `/energy?claim=__missing__`, `/energy?dom=coal&idx={firstKey}&tier=alleged`, `/energy?path=__a__,__b__&table=1&tp=2` (ids read from the data at smoke time). *[UX review] A1:* on `/energy?claim={first DRAWABLE id}`, assert the aside shows at least one visible `http(s)://` URL as text and a Cite-as block containing `claim {id}`. *A3:* on `/energy?table=1`, assert the "Download CSV" control exists, without clicking it | 25 |
+| `src/components/Editorial.tsx` | *[UX review]* `Cite` option `showUrl` (A1); `DataTable` optional `download` (A3) and `stacked` (A19). Other callers unchanged | 110 |
+| `GraphExplorer.tsx`, `ForceGraph.tsx` (further) | *[UX review]* `claimSearch` (A2); skip links, DOM order and the conditional table-view label (A9); accessible names with response counts (A11); status lines as a DOM `role=status` twin (A13); `coarseScrollThrough` (A16); the aside as a bottom sheet below 1024 (A17) | 190 |
+| `scripts/assemble-fleet.mjs`, `src/graph/fleet.ts` (further) | *[UX review] A5, A6:* `ENERGY_COVERAGE` from the files' optional `coverage` (reusing `coverageShape`), and an optional identity key `jurisdiction`; the energy contract gains both | 40 |
 | `docs/INDEX.md`, `HANDOFF.md` | one paragraph on the page, and a pointer to this spec | 10 |
 
 `App.tsx` (already a lazy import) and `Layout.tsx` are already wired and need no change.
-Total ≈ 2,850 lines.
+Total ≈ 2,850 lines before the UX review. *[UX review]* The amendments add about 650
+lines: the rows marked above, plus EnergyAside +150 (A1, A2, A7, A12), SweepStrip +50
+(A6, A12, A18), TenureLanes +40 (A5, A6, A20) and Energy.tsx +40 (A15, focus wiring).
+The total is now ≈ 3,500.
 
 **Gates:** `npx tsc -b`, `npm run build`, `npm run validate` (which re-runs the
 assembler and fails on a stale generated module), and `npm run smoke`. Smoke must pass
@@ -1226,6 +1643,10 @@ generate` with research present, and it must pass with and without `indices.json
 - the tier dashes, the rose tick and the tenure-bar dashes stay distinguishable;
 - the in-frame status line is legible in the screenshot;
 - the aside's voids are on the first screen at 1280×800;
+- *[UX review] A14:* at 390×844:
+  - the first screen answers questions 1–3 and shows the voids line;
+  - a tapped claim and its card are on one screen, via the bottom sheet;
+  - no table scrolls sideways;
 - there is no horizontal page scroll.
 
 **Build order** (each step shippable):
@@ -1251,3 +1672,91 @@ generate` with research present, and it must pass with and without `indices.json
    company box and the sweep chips as entry points. **It is not a pre-filtered
    default.**
 3. **The `enforce` family hue equals contra rose.** Flagged in §6, and owed platform-wide.
+4. *[UX review] A7:* **The contract has no asked-for-comment field.** A response is
+   either recorded or not; whether the party was asked is not recorded at all. Until a
+   field such as `responseStatus: replied | no-reply | not-asked` exists:
+   - every empty response column says so;
+   - C14's "not counted" stands.
+5. *[UX review] A5, A6:* **Coverage and jurisdiction are not in the energy contract.**
+   The coverage lines and the state grouping ship in their "not declared" form until
+   `ENERGY_COVERAGE` and `identity.jurisdiction` land (§0.2 fact 9).
+6. *[UX review] A9:* **DOM order differs from visual order at ≥ 1280.** For screen
+   readers the aside comes before the canvas. A sighted keyboard reader tabbing from the
+   rail therefore meets the margin before the canvas it describes. The skip links reduce
+   the problem. Test with keyboard-only and screen-reader users before treating this as
+   settled (WCAG 2.4.3).
+
+---
+
+## 16. Deferred amendments *[UX review]*
+
+*These are the should- and could-level amendments from the SYNTHETIC five-persona review
+(`docs/design/ENERGY_UX_REVIEW.md`). They are **not applied**. They are hypotheses to
+test with real readers, and each needs a design decision before it is built.*
+
+- **Seats:** J journalist · P policy researcher · S hostile reader · R screen-reader
+  user · M phone reader.
+- **Order:** should before could. Within each level, items raised by more seats come
+  first, then items in spec order.
+- **"Absorbed":** an item marked absorbed is already covered, in part or in full, by an
+  applied amendment.
+
+### Should
+
+| # | sections | amendment | seats |
+|---|---|---|---|
+| D27 | §14 gates | **Measured acceptance.** Add a 390×844 pass to `npm run smoke` for `/energy` and its three parameterised variants. It asserts that `scrollWidth ≤ innerWidth`, that the canvas `touch-action` is not `none` at rest under coarse-pointer emulation, and that the voids line is within the first 844px. Add 390 to `graph-viewport`. Add a scripted two-minute acceptance: type a known claim's `lab` fragment, click the first matching row, and assert that the aside shows the claim id, a ₹ figure with its kind, a date, an http URL, and "response" or "No response recorded", in at most four interactions, at 1280 and at 390. Add a canvas-removed pass: hide the stage `svg`, then assert focus on the aside heading, the lit-set sentence in the status region, and populated response counts in the twins, with at most 10 tab stops from the page top to the aside heading at 1280. **Without this, A14–A20 can regress silently.** | M, J, R |
+| D12 | §5.8, §11 | **Lanes: complete twin and stated silences.** Add a second `DataTable`, "Decisions not placed in any recorded tenure" (claim id · institution · date or undated · reason). Reword the gap count to `{gap} dated outside any recorded tenure`. Twin columns: decisions listed as `{date} {lab} [{tier}]`, each openable, plus "contains selected claim". Add a table of recorded head-of-government changes, or the sentence "none recorded". The SVG gets `role=img` with `aria-describedby` pointing at the twin caption, and a skip link over the bars. When no party role covers a bar, print "(party not recorded)" and add `{a} of {b} office-holders have a recorded party`. Always print "Changes of government marked: {n} ({labels}) — only those recorded as dated role claims. Earlier and later changes are absent from the record, not from history." | P, R, S |
+| D13 | §4, §5.7, §10 | **Table toggle where table readers look.** Add a second "Table" toggle in the status/caption row above the canvas (`aria-pressed`, writes `table=1`), with the download button beside it when the twin is open. Below 640, "Show table" and maximise sit under the canvas, outside the rail. The < 640 rail gets the 640–1023 summary text, and "Show in the graph" opens it. | P, M |
+| D1 | §5.5, §5.9, §8 | **Amount kinds from `pred`, never from `d`.** Print `₹{a} cr — {kind}`, with the kind taken from the predicate: `award` → value recorded for the award or allocation; `bond` → electoral-bond purchases; `csr` → CSR spend; `trust`/`direct`/`pmin` → payment recorded; `law` → amount stated in the rule or order; `enforce` → amount attached, fined or alleged. The benefit line reads `benefit to {who}: ₹{amountCr} cr ({confidence})`. When the two figures differ, add a mono line saying they are different quantities. No bare ₹ figure appears anywhere. This replaces A1's "as recorded" wording. | J |
+| D2 | §5.1, §5.2, §5.5, §5.14 | **What "as of" means.** "as of {date}" becomes "records read up to {date}" ("read to {date}" in the strip). SourceLedger's `retrieved` becomes "cited in a file dated {asOf}". The ClaimCard notes that this is the file's date, not a per-source retrieval date. Add the derived gap "no per-source retrieval date is recorded". | J |
+| D3 | §5.5, §5.8, §5.14 | **Primary or secondary at the point of reading.** Tag each source "primary" or "secondary" wherever `Cite` renders, using the §5.14 regex. The date-test sentence names its first source and that source's class. When every source is secondary, it adds "no official record cited — see upgradeIf", with `upgradeIf` shown directly under it. | J |
+| D4 | §5.5, §5.11 | **Response dates.** Each response prints the contra `from`, or "undated response". When the response predates the claim's `to` or the newest superseding claim, add "This response predates the latest recorded development on {date}." In Contested, the response position becomes "The response — {responder}, {date}". | J |
+| D5 | §5.13 | **Killed claims: quotable, and visibly disowned.** Give each killed row a stable anchor, `#killed-{id}`, and a copy-citation that includes `killedReason`. Put `killedReason` first, at full size. Head the table "Killed in audit — not asserted by this platform", with the note "Listed so the reader can see what was rejected and why". A2 already counts killed matches in search (absorbed in part). | J, S |
+| D6 | §3.2, §5.1, §5.2, §12 | **One N for "claims".** Add the reconciliation line under the strip: `{E} edges in the register = {D} drawable + {S} superseded + {O} orphans + {R} responses to claims`. `{claims}` in the byline is `D`, and every later "claims" means `D` after filters. | P |
+| D7 | §5.10 | **Reference class for the benchmark.** Add `platform companies in ENERGY_SECTORS not in any index: {t} of {n} with ≥ 1 direct claim` and `all platform companies: {t2} of {n2}`. Add an in-index × not-in-index table (≥ 1 direct · via group only · none, with totals), captioned "a difference here may be research attention". The sector 2×2 becomes 3×3, with a "via group only" column. | P |
+| D8 | §5.9, §13 | **`bsort=count`.** Either drop it, or keep it with a caveat on the control when active: "count = claims recorded about this beneficiary; in a researched graph it measures research attention, not scale of benefit". If kept, §13 names the exception. *Divergent:* P wants it kept; §13 refuses count rankings. | P |
+| D9 | §5.9 | **Awards without a beneficiary.** Add `awards: {ba} of {A} carry a beneficiary row` to the ledger denominator, and a derived gap listing the awards that lack one. Do the same for `pmout` and `csr`. | P |
+| D10 | §5.2, §5.11 | **Allegation denominators that inform.** Contested reads `{alleged} of {C} visible claims are alleged · {answered} carry a recorded response (the gate requires all) · {other} …`. Strip fact 3 is relabelled "allegations with a recorded response", with the note "Counts responses the research recorded, not whether a response was sought or given." | P, J |
+| D11 | §5.12 | **Small denominators.** Draw a Wilson 95% interval whisker behind each base-rate bar, and put `n` in its `<title>`. Rates are rounded to whole per cent, with 1 dp only when the denominator is ≥ 1000. | P |
+| D14 | §5.5, §6 | **Say what colour is not.** Add a sixth reading-key line: "No colour on this page stands for a party, a community or a verdict. Hue is only the kind of actor." Show the six labelled family swatches. Disclose the collision: "Regulators and courts share a hue with the rose response mark; a node fill is never a response." | S |
+| D15 | §5.4 status line 3 | Status line 3 becomes `lit: claim {id} · {n} responses · held office on {from} — office on the date is the date test, not a finding`. That line survives a cropped screenshot; the aside caption does not. | S |
+| D16 | §5.5 NodeCard, CompanyTrail | A block "Responses recorded from {label}: {k}", listing every contra where the node is the responder, each with the answered claim. With none: "No response from {label} is recorded in this register." | S |
+| D17 | §5.9 | Move the "A beneficiary is not an allegation" callout above the table. Mark each row "innocent reading recorded" or "not recorded", and count them: `{ir} of {b}`. | S |
+| D18 | §5.10 | Add "{g} groups are modelled as grp: nodes: {labels}. A constituent with no via-group entry may belong to a group the register did not model." The Via cell shows `—` with `title="group not modelled or no own edge recorded"`. | S |
+| D19 | §7, rail | A fixed muted line at the foot of the rail: "Not offered: party, state, mechanism filters — why →", linking to a new `#refusals` anchor on §13. | S |
+| D20 | §6 | When `tier` is exactly `alleged`, or visible alleged claims are ≤ 40, draw every responder → midpoint connector and say so in the status line. *Divergent:* this reopens §6's rose-web decision. | S |
+| D21 | §5.1 | A header line: "Built from {files} research sweeps to a published contract and passed through an adversarial audit ({verdicts} verdicts). It asserts no offence by any named person." | S |
+| D22 | §5.3, §5.5, §5.7, §5.10, §6 | **Spoken equivalents for glyphs.** Membership cells get hidden text "member" / "not a member". Chip names are spelled out, with the dash samples `aria-hidden`. Filter effects read "from {a} to {b} claims". Pager buttons are "Previous page" / "Next page". The twin uses From · Relationship · To columns. In the ClaimCard, `s → t` becomes buttons "From: {s}" and "To: {t}". | R |
+| D23 | new §4.1 | **Document outline and landmarks.** `h1` is the PageTitle. Each section is `h2`, and the stage has a (hidden) `h2`. Aside card titles are `h2`, and their sub-blocks are `h3`. "What this cannot show" is `h3`. Landmarks: `main`, `aside`, `nav` (filters), `nav` (related pages), `footer`. | R |
+| D24 | §5.5 ClaimCard | "Who gained" and "The response" are sibling `h3`s. The response is never `aria-hidden` or collapsed. The top line includes the response count. Each response is introduced in text: "Response from {responder} [{tier}]:". | R |
+| D25 | §5.4, §11 | The histogram twin gains a "this path" column and an "unreachable from {a}" row. `Distribution`'s `<title>` names the path's hops and the median. | R |
+| D26 | §5.3, §9 | Absent chips use `aria-disabled`, not `disabled`, with the name "{label} — not yet researched in this build". The hatch is `aria-hidden`. The "{k} of {K} researched" note comes before the chips in the DOM. | R |
+| D28 | §5.2, §10 | Below 640 the strip is one line: fact 1, fact 6 (kept, per A15), the filtered chip and the as-of date. A tap expands it to the full mobile set. | M |
+| D29 | §5.4, §10 | Below 640, status line 2 (the dash key) moves under the canvas, beside the shape legend. | M |
+| D30 | §3.3, §5.4, §10 | On coarse pointers, the first tap on an edge shows the EdgeCard with "open the claim". The button, or a second tap on the same edge, writes `claim`. The first tap writes no URL parameter. | M |
+| D31 | §5.4, C10, §11 | Below 640 the histogram renders as its table twin, or `Distribution` gets a viewBox the width of its container. | M |
+| D32 | §9, §5.4, §14 | **Loading on a slow phone.** The route fallback carries the PageTitle and standfirst. Below 640, or above 220 entities, the force settle waits until the canvas is in view. The status line reports it when the settle exceeds its budget. Add a chunk-size budget for `/energy`. | M |
+| D33 | §5.1, §5.4, §8 | **Device-neutral copy.** Standfirst: "Open one and the panel shows…". "beside it" becomes "next to it". Omit the shift-click line on coarse pointers. Sweep every verbatim caption for "click", "hover", "margin" and "beside". | M |
+| D34 | §10 | Below 640, collapse the canvas behind "Show graph" when `q` or `claim` is set. Largely absorbed by A17; revisit only if the bottom sheet fails the 390 test. *Divergent* with the brief ("the graph is the page"). | J |
+
+### Could
+
+| # | sections | amendment | seats |
+|---|---|---|---|
+| D35 | §5.3 | Sweep chips get an `aria-description` and a `title` that repeat the sweep-is-not-sector rule. When one chip is active, the status reads "Sweep {label} only — …" and adds "{k} further claims about these entities are recorded in other sweeps". | J |
+| D36 | §5.4 PathCard, §8 | Label the sampled median and the histogram's exact median separately, and state why they can differ. | P |
+| D37 | §5.3 | The chip count reads `64 of {D}`, or the chip gets a `title` giving the base. | P |
+| D38 | §3.3, A3 | The CSV's first header line is the view URL without `tp`. | P |
+| D39 | §5.14 | Group non-primary sources by domain with counts, and name the most-cited domain. | S |
+| D40 | §5.1 | Render the run id as "register version {runId}", with a `title` explaining it. | S |
+| D41 | §5.11 | When `nar` is set, draw the full six-cell ladder with counts above the cards. | S |
+| D42 | §5.9 | The ledger sort is a labelled `<select>` or uses `aria-sort`. Write `<abbr title="crore">cr</abbr>`, and "estimated ₹300 crore" in words. Each per-tier count sits inside its chip's element. | R |
+| D43 | §5.11, §5.12 | The ladder and the base-rate bar are `aria-hidden`; their text form is the only accessible content. | R |
+| D44 | §5.7 | After a page change, focus moves to the caption ("rows … page {p} of {P}"). The pager ends use `aria-disabled`. | R |
+| D45 | §5.14 | "Cited by {n} claims" lists each claim's `lab`, openable, with the id hidden. | R |
+| D46 | §5.11, §5.12 | State that ContestedFact stacks below 640 at equal size. Drop the base-rate bar below 640. | M |
+| D47 | §5.8, §10 | On coarse pointers, lane ticks get a 24×24 hit area, and overlapping ticks open a list. The ExpandShell sheet starts collapsed to a 56px handle. | M |
+
+*Absorbed, not listed:* J's "could" CSV export and visible URLs in the twin's Source cell
+became A3 and A4.
