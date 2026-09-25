@@ -1,0 +1,1146 @@
+{
+ "asOf": "2026-09-25",
+ "sources": [
+  [
+   "Wikipedia - NIFTY 50 (constituent table, as of 8 Dec 2025)",
+   "https://en.wikipedia.org/wiki/NIFTY_50"
+  ],
+  [
+   "Wikipedia - BSE SENSEX (constituent table incl. Jun 2025 rejig: BEL, Trent in; Nestle India, IndusInd Bank out)",
+   "https://en.wikipedia.org/wiki/BSE_SENSEX"
+  ],
+  [
+   "5paisa - NIFTY 50 stocks list (live, captured as of 25 Sep 2026 15:53 IST)",
+   "https://www.5paisa.com/nifty-50-stocks-list"
+  ],
+  [
+   "5paisa - BSE SENSEX (30) stocks list (live, captured as of 25 Sep 2026 15:53 IST)",
+   "https://www.5paisa.com/bse-sensex-stocks-list"
+  ],
+  [
+   "5paisa - BSE SENSEX 50 stocks list (live, captured as of 25 Sep 2026 15:53 IST; only 49 of 50 rows rendered)",
+   "https://www.5paisa.com/bse-sensex-50-stocks-list"
+  ],
+  [
+   "Google News RSS - 'BSE to replace Wipro in NIFTY50: How index reshuffles impact stock prices' (Upstox, dated 23 Sep 2026)",
+   "https://news.google.com/rss/search?q=BSE+Wipro+Nifty+50+when:30d&hl=en-IN&gl=IN&ceid=IN:en"
+  ],
+  [
+   "research/raw/companies-by-state.json (existing dataset; reused verbatim for id/isin/sector/group of every constituent identified below)",
+   "internal:research/raw/companies-by-state.json"
+  ]
+ ],
+ "indices": {
+  "nifty50": [
+   {
+    "name": "Adani Enterprises Limited",
+    "nse": "ADANIENT",
+    "bse": "512599",
+    "isin": "INE423A01024",
+    "sector": "Infrastructure",
+    "existingId": "co:adani-enterprises"
+   },
+   {
+    "name": "Adani Ports and Special Economic Zone Limited",
+    "nse": "ADANIPORTS",
+    "bse": "532921",
+    "isin": "INE742F01042",
+    "sector": "Infrastructure",
+    "existingId": "co:adani-ports"
+   },
+   {
+    "name": "Apollo Hospitals Enterprise Limited",
+    "nse": "APOLLOHOSP",
+    "bse": "508869",
+    "isin": "INE437A01024",
+    "sector": "Healthcare",
+    "existingId": "co:apollo-hospitals"
+   },
+   {
+    "name": "Asian Paints Limited",
+    "nse": "ASIANPAINT",
+    "bse": "500820",
+    "isin": "INE021A01026",
+    "sector": "Materials",
+    "existingId": "co:asian-paints"
+   },
+   {
+    "name": "Axis Bank Limited",
+    "nse": "AXISBANK",
+    "bse": "532215",
+    "isin": "INE238A01034",
+    "sector": "Financials",
+    "existingId": "co:axis-bank"
+   },
+   {
+    "name": "Bajaj Auto Limited",
+    "nse": "BAJAJ-AUTO",
+    "bse": "532977",
+    "isin": "INE917I01010",
+    "sector": "Auto",
+    "existingId": "co:bajaj-auto"
+   },
+   {
+    "name": "Bajaj Finance Limited",
+    "nse": "BAJFINANCE",
+    "bse": "500034",
+    "isin": "INE296A01024",
+    "sector": "Financials",
+    "existingId": "co:bajaj-finance"
+   },
+   {
+    "name": "Bajaj Finserv Limited",
+    "nse": "BAJAJFINSV",
+    "bse": "532978",
+    "isin": "INE918I01026",
+    "sector": "Financials",
+    "existingId": "co:bajaj-finserv"
+   },
+   {
+    "name": "Bharat Electronics Limited",
+    "nse": "BEL",
+    "bse": "500049",
+    "isin": "INE263A01024",
+    "sector": "Defence",
+    "existingId": "co:bharat-electronics"
+   },
+   {
+    "name": "Bharti Airtel Limited",
+    "nse": "BHARTIARTL",
+    "bse": "532454",
+    "isin": "INE397D01024",
+    "sector": "Telecom",
+    "existingId": "co:bharti-airtel"
+   },
+   {
+    "name": "Cipla Limited",
+    "nse": "CIPLA",
+    "bse": "500087",
+    "isin": "INE059A01026",
+    "sector": "Healthcare",
+    "existingId": "co:cipla"
+   },
+   {
+    "name": "Coal India Limited",
+    "nse": "COALINDIA",
+    "bse": "533278",
+    "isin": "INE522F01014",
+    "sector": "Metals & Mining",
+    "existingId": "co:coal-india",
+    "energyResourcesUtilitiesMetals": true,
+    "promoterGroup": "PSU-GoI"
+   },
+   {
+    "name": "Dr. Reddy's Laboratories Limited",
+    "nse": "DRREDDY",
+    "bse": "500124",
+    "isin": "INE089A01031",
+    "sector": "Healthcare",
+    "existingId": "co:dr-reddys-laboratories"
+   },
+   {
+    "name": "Eicher Motors Limited",
+    "nse": "EICHERMOT",
+    "bse": "505200",
+    "isin": "INE066A01021",
+    "sector": "Auto",
+    "existingId": "co:eicher-motors"
+   },
+   {
+    "name": "Eternal Limited",
+    "nse": "ETERNAL",
+    "bse": "543320",
+    "isin": "INE758T01015",
+    "sector": "Consumer Discretionary",
+    "existingId": "co:eternal"
+   },
+   {
+    "name": "Grasim Industries Limited",
+    "nse": "GRASIM",
+    "bse": "500300",
+    "isin": "INE047A01021",
+    "sector": "Materials",
+    "existingId": "co:grasim-industries"
+   },
+   {
+    "name": "HCL Technologies Limited",
+    "nse": "HCLTECH",
+    "bse": "532281",
+    "isin": "INE860A01027",
+    "sector": "IT",
+    "existingId": "co:hcl-technologies"
+   },
+   {
+    "name": "HDFC Bank Limited",
+    "nse": "HDFCBANK",
+    "bse": "500180",
+    "isin": "INE040A01034",
+    "sector": "Financials",
+    "existingId": "co:hdfc-bank"
+   },
+   {
+    "name": "HDFC Life Insurance Company Limited",
+    "nse": "HDFCLIFE",
+    "bse": "540777",
+    "isin": "INE795G01014",
+    "sector": "Financials",
+    "existingId": "co:hdfc-life"
+   },
+   {
+    "name": "Hindalco Industries Limited",
+    "nse": "HINDALCO",
+    "bse": "500440",
+    "isin": "INE038A01020",
+    "sector": "Metals & Mining",
+    "existingId": "co:hindalco",
+    "energyResourcesUtilitiesMetals": true,
+    "promoterGroup": "Birla"
+   },
+   {
+    "name": "Hindustan Unilever Limited",
+    "nse": "HINDUNILVR",
+    "bse": "500696",
+    "isin": "INE030A01027",
+    "sector": "Consumer Staples",
+    "existingId": "co:hindustan-unilever"
+   },
+   {
+    "name": "ICICI Bank Limited",
+    "nse": "ICICIBANK",
+    "bse": "532174",
+    "isin": "INE090A01021",
+    "sector": "Financials",
+    "existingId": "co:icici-bank"
+   },
+   {
+    "name": "InterGlobe Aviation Limited",
+    "nse": "INDIGO",
+    "bse": "539448",
+    "isin": "INE646L01027",
+    "sector": "Industrials",
+    "existingId": "co:interglobe-aviation"
+   },
+   {
+    "name": "Infosys Limited",
+    "nse": "INFY",
+    "bse": "500209",
+    "isin": "INE009A01021",
+    "sector": "IT",
+    "existingId": "co:infosys"
+   },
+   {
+    "name": "ITC Limited",
+    "nse": "ITC",
+    "bse": "500875",
+    "isin": "INE154A01025",
+    "sector": "Consumer Staples",
+    "existingId": "co:itc"
+   },
+   {
+    "name": "Jio Financial Services Limited",
+    "nse": "JIOFIN",
+    "bse": "543940",
+    "isin": null,
+    "sector": "Financials",
+    "existingId": "co:jio-financial-services"
+   },
+   {
+    "name": "JSW Steel Limited",
+    "nse": "JSWSTEEL",
+    "bse": "500228",
+    "isin": "INE019A01038",
+    "sector": "Metals & Mining",
+    "existingId": "co:jsw-steel",
+    "energyResourcesUtilitiesMetals": true,
+    "promoterGroup": "JSW"
+   },
+   {
+    "name": "Kotak Mahindra Bank Limited",
+    "nse": "KOTAKBANK",
+    "bse": "500247",
+    "isin": "INE237A01028",
+    "sector": "Financials",
+    "existingId": "co:kotak-mahindra-bank"
+   },
+   {
+    "name": "Larsen & Toubro Limited",
+    "nse": "LT",
+    "bse": "500510",
+    "isin": "INE018A01030",
+    "sector": "Infrastructure",
+    "existingId": "co:larsen-toubro"
+   },
+   {
+    "name": "Mahindra & Mahindra Limited",
+    "nse": "M&M",
+    "bse": "500520",
+    "isin": "INE101A01026",
+    "sector": "Auto",
+    "existingId": "co:mahindra-mahindra"
+   },
+   {
+    "name": "Maruti Suzuki India Limited",
+    "nse": "MARUTI",
+    "bse": "532500",
+    "isin": "INE585B01010",
+    "sector": "Auto",
+    "existingId": "co:maruti-suzuki"
+   },
+   {
+    "name": "Max Healthcare Institute Limited",
+    "nse": "MAXHEALTH",
+    "bse": "543220",
+    "isin": null,
+    "sector": "Healthcare",
+    "existingId": "co:max-healthcare"
+   },
+   {
+    "name": "Nestle India Limited",
+    "nse": "NESTLEIND",
+    "bse": "500790",
+    "isin": "INE239A01024",
+    "sector": "Consumer Staples",
+    "existingId": "co:nestle-india"
+   },
+   {
+    "name": "NTPC Limited",
+    "nse": "NTPC",
+    "bse": "532555",
+    "isin": "INE733E01010",
+    "sector": "Utilities",
+    "existingId": "co:ntpc",
+    "energyResourcesUtilitiesMetals": true,
+    "promoterGroup": "PSU-GoI"
+   },
+   {
+    "name": "Oil and Natural Gas Corporation Limited",
+    "nse": "ONGC",
+    "bse": "500312",
+    "isin": "INE213A01029",
+    "sector": "Energy",
+    "existingId": "co:ongc",
+    "energyResourcesUtilitiesMetals": true,
+    "promoterGroup": "PSU-GoI"
+   },
+   {
+    "name": "Power Grid Corporation of India Limited",
+    "nse": "POWERGRID",
+    "bse": "532898",
+    "isin": "INE752E01010",
+    "sector": "Utilities",
+    "existingId": "co:power-grid",
+    "energyResourcesUtilitiesMetals": true,
+    "promoterGroup": "PSU-GoI"
+   },
+   {
+    "name": "Reliance Industries Limited",
+    "nse": "RELIANCE",
+    "bse": "500325",
+    "isin": "INE002A01018",
+    "sector": "Energy",
+    "existingId": "co:reliance-industries",
+    "energyResourcesUtilitiesMetals": true,
+    "promoterGroup": "Reliance"
+   },
+   {
+    "name": "SBI Life Insurance Company Limited",
+    "nse": "SBILIFE",
+    "bse": "540719",
+    "isin": "INE123W01016",
+    "sector": "Financials",
+    "existingId": "co:sbi-life"
+   },
+   {
+    "name": "Shriram Finance Limited",
+    "nse": "SHRIRAMFIN",
+    "bse": "511218",
+    "isin": "INE721A01047",
+    "sector": "Financials",
+    "existingId": "co:shriram-finance"
+   },
+   {
+    "name": "State Bank of India",
+    "nse": "SBIN",
+    "bse": "500112",
+    "isin": "INE062A01020",
+    "sector": "Financials",
+    "existingId": "co:state-bank-of-india"
+   },
+   {
+    "name": "Sun Pharmaceutical Industries Limited",
+    "nse": "SUNPHARMA",
+    "bse": "524715",
+    "isin": "INE044A01036",
+    "sector": "Healthcare",
+    "existingId": "co:sun-pharmaceutical"
+   },
+   {
+    "name": "Tata Consultancy Services Limited",
+    "nse": "TCS",
+    "bse": "532540",
+    "isin": "INE467B01029",
+    "sector": "IT",
+    "existingId": "co:tata-consultancy-services"
+   },
+   {
+    "name": "Tata Consumer Products Limited",
+    "nse": "TATACONSUM",
+    "bse": "500800",
+    "isin": "INE192A01025",
+    "sector": "Consumer Staples",
+    "existingId": "co:tata-consumer-products"
+   },
+   {
+    "name": "Tata Motors Passenger Vehicles Limited",
+    "nse": "TMPV",
+    "bse": null,
+    "isin": null,
+    "sector": "Auto",
+    "existingId": "co:tata-motors-pv"
+   },
+   {
+    "name": "Tata Steel Limited",
+    "nse": "TATASTEEL",
+    "bse": "500470",
+    "isin": "INE081A01020",
+    "sector": "Metals & Mining",
+    "existingId": "co:tata-steel",
+    "energyResourcesUtilitiesMetals": true,
+    "promoterGroup": "Tata"
+   },
+   {
+    "name": "Tech Mahindra Limited",
+    "nse": "TECHM",
+    "bse": "532755",
+    "isin": "INE669C01036",
+    "sector": "IT",
+    "existingId": "co:tech-mahindra"
+   },
+   {
+    "name": "Titan Company Limited",
+    "nse": "TITAN",
+    "bse": "500114",
+    "isin": "INE280A01028",
+    "sector": "Consumer Discretionary",
+    "existingId": "co:titan-company"
+   },
+   {
+    "name": "Trent Limited",
+    "nse": "TRENT",
+    "bse": "500251",
+    "isin": "INE849A01020",
+    "sector": "Consumer Discretionary",
+    "existingId": "co:trent"
+   },
+   {
+    "name": "UltraTech Cement Limited",
+    "nse": "ULTRACEMCO",
+    "bse": "532538",
+    "isin": "INE481G01011",
+    "sector": "Cement",
+    "existingId": "co:ultratech-cement"
+   },
+   {
+    "name": "Wipro Limited",
+    "nse": "WIPRO",
+    "bse": "507685",
+    "isin": "INE075A01022",
+    "sector": "IT",
+    "existingId": "co:wipro"
+   }
+  ],
+  "sensex30": [
+   {
+    "name": "Adani Ports and Special Economic Zone Limited",
+    "nse": "ADANIPORTS",
+    "bse": "532921",
+    "isin": "INE742F01042",
+    "sector": "Infrastructure",
+    "existingId": "co:adani-ports"
+   },
+   {
+    "name": "Asian Paints Limited",
+    "nse": "ASIANPAINT",
+    "bse": "500820",
+    "isin": "INE021A01026",
+    "sector": "Materials",
+    "existingId": "co:asian-paints"
+   },
+   {
+    "name": "Axis Bank Limited",
+    "nse": "AXISBANK",
+    "bse": "532215",
+    "isin": "INE238A01034",
+    "sector": "Financials",
+    "existingId": "co:axis-bank"
+   },
+   {
+    "name": "Bajaj Finance Limited",
+    "nse": "BAJFINANCE",
+    "bse": "500034",
+    "isin": "INE296A01024",
+    "sector": "Financials",
+    "existingId": "co:bajaj-finance"
+   },
+   {
+    "name": "Bajaj Finserv Limited",
+    "nse": "BAJAJFINSV",
+    "bse": "532978",
+    "isin": "INE918I01026",
+    "sector": "Financials",
+    "existingId": "co:bajaj-finserv"
+   },
+   {
+    "name": "Bharat Electronics Limited",
+    "nse": "BEL",
+    "bse": "500049",
+    "isin": "INE263A01024",
+    "sector": "Defence",
+    "existingId": "co:bharat-electronics"
+   },
+   {
+    "name": "Bharti Airtel Limited",
+    "nse": "BHARTIARTL",
+    "bse": "532454",
+    "isin": "INE397D01024",
+    "sector": "Telecom",
+    "existingId": "co:bharti-airtel"
+   },
+   {
+    "name": "Eternal Limited",
+    "nse": "ETERNAL",
+    "bse": "543320",
+    "isin": "INE758T01015",
+    "sector": "Consumer Discretionary",
+    "existingId": "co:eternal"
+   },
+   {
+    "name": "HCL Technologies Limited",
+    "nse": "HCLTECH",
+    "bse": "532281",
+    "isin": "INE860A01027",
+    "sector": "IT",
+    "existingId": "co:hcl-technologies"
+   },
+   {
+    "name": "HDFC Bank Limited",
+    "nse": "HDFCBANK",
+    "bse": "500180",
+    "isin": "INE040A01034",
+    "sector": "Financials",
+    "existingId": "co:hdfc-bank"
+   },
+   {
+    "name": "Hindustan Unilever Limited",
+    "nse": "HINDUNILVR",
+    "bse": "500696",
+    "isin": "INE030A01027",
+    "sector": "Consumer Staples",
+    "existingId": "co:hindustan-unilever"
+   },
+   {
+    "name": "ICICI Bank Limited",
+    "nse": "ICICIBANK",
+    "bse": "532174",
+    "isin": "INE090A01021",
+    "sector": "Financials",
+    "existingId": "co:icici-bank"
+   },
+   {
+    "name": "InterGlobe Aviation Limited",
+    "nse": "INDIGO",
+    "bse": "539448",
+    "isin": "INE646L01027",
+    "sector": "Industrials",
+    "existingId": "co:interglobe-aviation"
+   },
+   {
+    "name": "Infosys Limited",
+    "nse": "INFY",
+    "bse": "500209",
+    "isin": "INE009A01021",
+    "sector": "IT",
+    "existingId": "co:infosys"
+   },
+   {
+    "name": "ITC Limited",
+    "nse": "ITC",
+    "bse": "500875",
+    "isin": "INE154A01025",
+    "sector": "Consumer Staples",
+    "existingId": "co:itc"
+   },
+   {
+    "name": "Kotak Mahindra Bank Limited",
+    "nse": "KOTAKBANK",
+    "bse": "500247",
+    "isin": "INE237A01028",
+    "sector": "Financials",
+    "existingId": "co:kotak-mahindra-bank"
+   },
+   {
+    "name": "Larsen & Toubro Limited",
+    "nse": "LT",
+    "bse": "500510",
+    "isin": "INE018A01030",
+    "sector": "Infrastructure",
+    "existingId": "co:larsen-toubro"
+   },
+   {
+    "name": "Mahindra & Mahindra Limited",
+    "nse": "M&M",
+    "bse": "500520",
+    "isin": "INE101A01026",
+    "sector": "Auto",
+    "existingId": "co:mahindra-mahindra"
+   },
+   {
+    "name": "Maruti Suzuki India Limited",
+    "nse": "MARUTI",
+    "bse": "532500",
+    "isin": "INE585B01010",
+    "sector": "Auto",
+    "existingId": "co:maruti-suzuki"
+   },
+   {
+    "name": "NTPC Limited",
+    "nse": "NTPC",
+    "bse": "532555",
+    "isin": "INE733E01010",
+    "sector": "Utilities",
+    "existingId": "co:ntpc",
+    "energyResourcesUtilitiesMetals": true,
+    "promoterGroup": "PSU-GoI"
+   },
+   {
+    "name": "Power Grid Corporation of India Limited",
+    "nse": "POWERGRID",
+    "bse": "532898",
+    "isin": "INE752E01010",
+    "sector": "Utilities",
+    "existingId": "co:power-grid",
+    "energyResourcesUtilitiesMetals": true,
+    "promoterGroup": "PSU-GoI"
+   },
+   {
+    "name": "Reliance Industries Limited",
+    "nse": "RELIANCE",
+    "bse": "500325",
+    "isin": "INE002A01018",
+    "sector": "Energy",
+    "existingId": "co:reliance-industries",
+    "energyResourcesUtilitiesMetals": true,
+    "promoterGroup": "Reliance"
+   },
+   {
+    "name": "State Bank of India",
+    "nse": "SBIN",
+    "bse": "500112",
+    "isin": "INE062A01020",
+    "sector": "Financials",
+    "existingId": "co:state-bank-of-india"
+   },
+   {
+    "name": "Sun Pharmaceutical Industries Limited",
+    "nse": "SUNPHARMA",
+    "bse": "524715",
+    "isin": "INE044A01036",
+    "sector": "Healthcare",
+    "existingId": "co:sun-pharmaceutical"
+   },
+   {
+    "name": "Tata Consultancy Services Limited",
+    "nse": "TCS",
+    "bse": "532540",
+    "isin": "INE467B01029",
+    "sector": "IT",
+    "existingId": "co:tata-consultancy-services"
+   },
+   {
+    "name": "Tata Steel Limited",
+    "nse": "TATASTEEL",
+    "bse": "500470",
+    "isin": "INE081A01020",
+    "sector": "Metals & Mining",
+    "existingId": "co:tata-steel",
+    "energyResourcesUtilitiesMetals": true,
+    "promoterGroup": "Tata"
+   },
+   {
+    "name": "Tech Mahindra Limited",
+    "nse": "TECHM",
+    "bse": "532755",
+    "isin": "INE669C01036",
+    "sector": "IT",
+    "existingId": "co:tech-mahindra"
+   },
+   {
+    "name": "Titan Company Limited",
+    "nse": "TITAN",
+    "bse": "500114",
+    "isin": "INE280A01028",
+    "sector": "Consumer Discretionary",
+    "existingId": "co:titan-company"
+   },
+   {
+    "name": "Trent Limited",
+    "nse": "TRENT",
+    "bse": "500251",
+    "isin": "INE849A01020",
+    "sector": "Consumer Discretionary",
+    "existingId": "co:trent"
+   },
+   {
+    "name": "UltraTech Cement Limited",
+    "nse": "ULTRACEMCO",
+    "bse": "532538",
+    "isin": "INE481G01011",
+    "sector": "Cement",
+    "existingId": "co:ultratech-cement"
+   }
+  ],
+  "sensex50": [
+   {
+    "name": "Asian Paints Limited",
+    "nse": "ASIANPAINT",
+    "bse": "500820",
+    "isin": "INE021A01026",
+    "sector": "Materials",
+    "existingId": "co:asian-paints"
+   },
+   {
+    "name": "Cipla Limited",
+    "nse": "CIPLA",
+    "bse": "500087",
+    "isin": "INE059A01026",
+    "sector": "Healthcare",
+    "existingId": "co:cipla"
+   },
+   {
+    "name": "Eicher Motors Limited",
+    "nse": "EICHERMOT",
+    "bse": "505200",
+    "isin": "INE066A01021",
+    "sector": "Auto",
+    "existingId": "co:eicher-motors"
+   },
+   {
+    "name": "Nestle India Limited",
+    "nse": "NESTLEIND",
+    "bse": "500790",
+    "isin": "INE239A01024",
+    "sector": "Consumer Staples",
+    "existingId": "co:nestle-india"
+   },
+   {
+    "name": "Grasim Industries Limited",
+    "nse": "GRASIM",
+    "bse": "500300",
+    "isin": "INE047A01021",
+    "sector": "Materials",
+    "existingId": "co:grasim-industries"
+   },
+   {
+    "name": "Hindalco Industries Limited",
+    "nse": "HINDALCO",
+    "bse": "500440",
+    "isin": "INE038A01020",
+    "sector": "Metals & Mining",
+    "existingId": "co:hindalco",
+    "energyResourcesUtilitiesMetals": true,
+    "promoterGroup": "Birla"
+   },
+   {
+    "name": "Hindustan Unilever Limited",
+    "nse": "HINDUNILVR",
+    "bse": "500696",
+    "isin": "INE030A01027",
+    "sector": "Consumer Staples",
+    "existingId": "co:hindustan-unilever"
+   },
+   {
+    "name": "ITC Limited",
+    "nse": "ITC",
+    "bse": "500875",
+    "isin": "INE154A01025",
+    "sector": "Consumer Staples",
+    "existingId": "co:itc"
+   },
+   {
+    "name": "Trent Limited",
+    "nse": "TRENT",
+    "bse": "500251",
+    "isin": "INE849A01020",
+    "sector": "Consumer Discretionary",
+    "existingId": "co:trent"
+   },
+   {
+    "name": "Larsen & Toubro Limited",
+    "nse": "LT",
+    "bse": "500510",
+    "isin": "INE018A01030",
+    "sector": "Infrastructure",
+    "existingId": "co:larsen-toubro"
+   },
+   {
+    "name": "Mahindra & Mahindra Limited",
+    "nse": "M&M",
+    "bse": "500520",
+    "isin": "INE101A01026",
+    "sector": "Auto",
+    "existingId": "co:mahindra-mahindra"
+   },
+   {
+    "name": "Reliance Industries Limited",
+    "nse": "RELIANCE",
+    "bse": "500325",
+    "isin": "INE002A01018",
+    "sector": "Energy",
+    "existingId": "co:reliance-industries",
+    "energyResourcesUtilitiesMetals": true,
+    "promoterGroup": "Reliance"
+   },
+   {
+    "name": "Tata Consumer Products Limited",
+    "nse": "TATACONSUM",
+    "bse": "500800",
+    "isin": "INE192A01025",
+    "sector": "Consumer Staples",
+    "existingId": "co:tata-consumer-products"
+   },
+   {
+    "name": "Tata Motors Passenger Vehicles Limited",
+    "nse": "TMPV",
+    "bse": null,
+    "isin": null,
+    "sector": "Auto",
+    "existingId": "co:tata-motors-pv"
+   },
+   {
+    "name": "Tata Steel Limited",
+    "nse": "TATASTEEL",
+    "bse": "500470",
+    "isin": "INE081A01020",
+    "sector": "Metals & Mining",
+    "existingId": "co:tata-steel",
+    "energyResourcesUtilitiesMetals": true,
+    "promoterGroup": "Tata"
+   },
+   {
+    "name": "Wipro Limited",
+    "nse": "WIPRO",
+    "bse": "507685",
+    "isin": "INE075A01022",
+    "sector": "IT",
+    "existingId": "co:wipro"
+   },
+   {
+    "name": "Apollo Hospitals Enterprise Limited",
+    "nse": "APOLLOHOSP",
+    "bse": "508869",
+    "isin": "INE437A01024",
+    "sector": "Healthcare",
+    "existingId": "co:apollo-hospitals"
+   },
+   {
+    "name": "Dr. Reddy's Laboratories Limited",
+    "nse": "DRREDDY",
+    "bse": "500124",
+    "isin": "INE089A01031",
+    "sector": "Healthcare",
+    "existingId": "co:dr-reddys-laboratories"
+   },
+   {
+    "name": "Titan Company Limited",
+    "nse": "TITAN",
+    "bse": "500114",
+    "isin": "INE280A01028",
+    "sector": "Consumer Discretionary",
+    "existingId": "co:titan-company"
+   },
+   {
+    "name": "State Bank of India",
+    "nse": "SBIN",
+    "bse": "500112",
+    "isin": "INE062A01020",
+    "sector": "Financials",
+    "existingId": "co:state-bank-of-india"
+   },
+   {
+    "name": "Shriram Finance Limited",
+    "nse": "SHRIRAMFIN",
+    "bse": "511218",
+    "isin": "INE721A01047",
+    "sector": "Financials",
+    "existingId": "co:shriram-finance"
+   },
+   {
+    "name": "Bharat Electronics Limited",
+    "nse": "BEL",
+    "bse": "500049",
+    "isin": "INE263A01024",
+    "sector": "Defence",
+    "existingId": "co:bharat-electronics"
+   },
+   {
+    "name": "Kotak Mahindra Bank Limited",
+    "nse": "KOTAKBANK",
+    "bse": "500247",
+    "isin": "INE237A01028",
+    "sector": "Financials",
+    "existingId": "co:kotak-mahindra-bank"
+   },
+   {
+    "name": "Infosys Limited",
+    "nse": "INFY",
+    "bse": "500209",
+    "isin": "INE009A01021",
+    "sector": "IT",
+    "existingId": "co:infosys"
+   },
+   {
+    "name": "Bajaj Finance Limited",
+    "nse": "BAJFINANCE",
+    "bse": "500034",
+    "isin": "INE296A01024",
+    "sector": "Financials",
+    "existingId": "co:bajaj-finance"
+   },
+   {
+    "name": "Sun Pharmaceutical Industries Limited",
+    "nse": "SUNPHARMA",
+    "bse": "524715",
+    "isin": "INE044A01036",
+    "sector": "Healthcare",
+    "existingId": "co:sun-pharmaceutical"
+   },
+   {
+    "name": "JSW Steel Limited",
+    "nse": "JSWSTEEL",
+    "bse": "500228",
+    "isin": "INE019A01038",
+    "sector": "Metals & Mining",
+    "existingId": "co:jsw-steel",
+    "energyResourcesUtilitiesMetals": true,
+    "promoterGroup": "JSW"
+   },
+   {
+    "name": "HDFC Bank Limited",
+    "nse": "HDFCBANK",
+    "bse": "500180",
+    "isin": "INE040A01034",
+    "sector": "Financials",
+    "existingId": "co:hdfc-bank"
+   },
+   {
+    "name": "Tata Consultancy Services Limited",
+    "nse": "TCS",
+    "bse": "532540",
+    "isin": "INE467B01029",
+    "sector": "IT",
+    "existingId": "co:tata-consultancy-services"
+   },
+   {
+    "name": "ICICI Bank Limited",
+    "nse": "ICICIBANK",
+    "bse": "532174",
+    "isin": "INE090A01021",
+    "sector": "Financials",
+    "existingId": "co:icici-bank"
+   },
+   {
+    "name": "Power Grid Corporation of India Limited",
+    "nse": "POWERGRID",
+    "bse": "532898",
+    "isin": "INE752E01010",
+    "sector": "Utilities",
+    "existingId": "co:power-grid",
+    "energyResourcesUtilitiesMetals": true,
+    "promoterGroup": "PSU-GoI"
+   },
+   {
+    "name": "Maruti Suzuki India Limited",
+    "nse": "MARUTI",
+    "bse": "532500",
+    "isin": "INE585B01010",
+    "sector": "Auto",
+    "existingId": "co:maruti-suzuki"
+   },
+   {
+    "name": "Axis Bank Limited",
+    "nse": "AXISBANK",
+    "bse": "532215",
+    "isin": "INE238A01034",
+    "sector": "Financials",
+    "existingId": "co:axis-bank"
+   },
+   {
+    "name": "HCL Technologies Limited",
+    "nse": "HCLTECH",
+    "bse": "532281",
+    "isin": "INE860A01027",
+    "sector": "IT",
+    "existingId": "co:hcl-technologies"
+   },
+   {
+    "name": "Oil and Natural Gas Corporation Limited",
+    "nse": "ONGC",
+    "bse": "500312",
+    "isin": "INE213A01029",
+    "sector": "Energy",
+    "existingId": "co:ongc",
+    "energyResourcesUtilitiesMetals": true,
+    "promoterGroup": "PSU-GoI"
+   },
+   {
+    "name": "NTPC Limited",
+    "nse": "NTPC",
+    "bse": "532555",
+    "isin": "INE733E01010",
+    "sector": "Utilities",
+    "existingId": "co:ntpc",
+    "energyResourcesUtilitiesMetals": true,
+    "promoterGroup": "PSU-GoI"
+   },
+   {
+    "name": "Coal India Limited",
+    "nse": "COALINDIA",
+    "bse": "533278",
+    "isin": "INE522F01014",
+    "sector": "Metals & Mining",
+    "existingId": "co:coal-india",
+    "energyResourcesUtilitiesMetals": true,
+    "promoterGroup": "PSU-GoI"
+   },
+   {
+    "name": "Hindustan Aeronautics Limited",
+    "nse": "HAL",
+    "bse": "541154",
+    "isin": "INE066F01020",
+    "sector": "Defence",
+    "existingId": "co:hindustan-aeronautics"
+   },
+   {
+    "name": "Bharti Airtel Limited",
+    "nse": "BHARTIARTL",
+    "bse": "532454",
+    "isin": "INE397D01024",
+    "sector": "Telecom",
+    "existingId": "co:bharti-airtel"
+   },
+   {
+    "name": "Tech Mahindra Limited",
+    "nse": "TECHM",
+    "bse": "532755",
+    "isin": "INE669C01036",
+    "sector": "IT",
+    "existingId": "co:tech-mahindra"
+   },
+   {
+    "name": "Jio Financial Services Limited",
+    "nse": "JIOFIN",
+    "bse": "543940",
+    "isin": null,
+    "sector": "Financials",
+    "existingId": "co:jio-financial-services"
+   },
+   {
+    "name": "Adani Ports and Special Economic Zone Limited",
+    "nse": "ADANIPORTS",
+    "bse": "532921",
+    "isin": "INE742F01042",
+    "sector": "Infrastructure",
+    "existingId": "co:adani-ports"
+   },
+   {
+    "name": "SBI Life Insurance Company Limited",
+    "nse": "SBILIFE",
+    "bse": "540719",
+    "isin": "INE123W01016",
+    "sector": "Financials",
+    "existingId": "co:sbi-life"
+   },
+   {
+    "name": "Max Healthcare Institute Limited",
+    "nse": "MAXHEALTH",
+    "bse": "543220",
+    "isin": null,
+    "sector": "Healthcare",
+    "existingId": "co:max-healthcare"
+   },
+   {
+    "name": "UltraTech Cement Limited",
+    "nse": "ULTRACEMCO",
+    "bse": "532538",
+    "isin": "INE481G01011",
+    "sector": "Cement",
+    "existingId": "co:ultratech-cement"
+   },
+   {
+    "name": "Bajaj Auto Limited",
+    "nse": "BAJAJ-AUTO",
+    "bse": "532977",
+    "isin": "INE917I01010",
+    "sector": "Auto",
+    "existingId": "co:bajaj-auto"
+   },
+   {
+    "name": "Bajaj Finserv Limited",
+    "nse": "BAJAJFINSV",
+    "bse": "532978",
+    "isin": "INE918I01026",
+    "sector": "Financials",
+    "existingId": "co:bajaj-finserv"
+   },
+   {
+    "name": "InterGlobe Aviation Limited",
+    "nse": "INDIGO",
+    "bse": "539448",
+    "isin": "INE646L01027",
+    "sector": "Industrials",
+    "existingId": "co:interglobe-aviation"
+   },
+   {
+    "name": "Eternal Limited",
+    "nse": "ETERNAL",
+    "bse": "543320",
+    "isin": "INE758T01015",
+    "sector": "Consumer Discretionary",
+    "existingId": "co:eternal"
+   }
+  ]
+ },
+ "changesAnnounced": [
+  {
+   "index": "nifty50",
+   "effective": "2026-09-30",
+   "out": {
+    "name": "Wipro Limited",
+    "nse": "WIPRO",
+    "existingId": "co:wipro"
+   },
+   "in": {
+    "name": "BSE Limited",
+    "nse": "BSE",
+    "existingId": null
+   },
+   "tier": "reported",
+   "notes": "NSE Indices semi-annual review: BSE Ltd (the exchange operator) enters NIFTY 50 on higher free-float market capitalisation than Wipro; Wipro drops to Nifty Next 50. Not yet effective as of this file's asOf date (2026-09-25), so the nifty50 list above still shows Wipro, not BSE Ltd. BSE Limited itself is not yet a record in research/raw/companies-by-state.json (existingId null) - flagged in gaps. Could not open a primary NSE Indices circular or a first-tier outlet (Reuters/Mint/Moneycontrol/Financial Express/CNBC-TV18/Business Standard/NDTV Profit all returned fetch errors through the proxy); this rests on a Google News RSS snippet (Upstox, 23 Sep 2026) and an unverifiable news-aggregator synthesis, so tier is 'reported' not 'documented'.",
+   "srcs": [
+    [
+     "Google News RSS - Upstox headline on BSE/Wipro Nifty 50 swap, 23 Sep 2026",
+     "https://news.google.com/rss/search?q=BSE+Wipro+Nifty+50+when:30d&hl=en-IN&gl=IN&ceid=IN:en"
+    ]
+   ]
+  }
+ ],
+ "missingFromDataset": [],
+ "gaps": [
+  "Sensex 50: only 49 of 50 constituents could be independently confirmed. Two separate fetches of the 5paisa 'BSE Sensex 50 stocks list' page (captured 25 Sep 2026) both rendered exactly 49 unique rows despite the page header claiming 50; the 50th name could not be determined and is NOT guessed here. By elimination against the Nifty 50 roster the most likely candidates are HDFC Life Insurance Co. or Adani Enterprises (both in Nifty 50 but absent from the 49 confirmed Sensex 50 rows), but this is a guess, not a finding, and is deliberately not recorded as a claim.",
+  "niftyindices.com and bseindia.com (the primary index-owner sources) were not reachable through the proxy, per the known-blocked list in SPEC.md; NSE/BSE official constituent circulars and official index fact sheets were not opened for this file. All three lists rest on Wikipedia's constituent tables cross-checked against 5paisa.com's live constituent-list pages (both captured 25 Sep 2026), which is two independent aggregators but not a primary record.",
+  "The Wipro-out/BSE-Ltd-in Nifty 50 change (effective 30 Sep 2026) could not be confirmed against a primary NSE Indices circular or a first-tier outlet opened directly - Reuters, Financial Express, Moneycontrol, Economic Times, LiveMint, CNBC-TV18, Business Standard and NDTV Profit all failed to fetch through the proxy (403/blocked/unreachable). Confirmation rests on one Google News RSS snippet (Upstox, 23 Sep 2026) and an unverifiable aggregator search summary that could not be traced to an openable URL; recorded at tier 'reported', not 'documented'.",
+  "BSE Limited (the exchange operator) is not yet a company record in research/raw/companies-by-state.json. Since it is only announced to enter Nifty 50 on 2026-09-30 (after this file's asOf date) it is not listed in the nifty50 constituent array above, and no new company record was fabricated for it; existingId for the 'in' side of the announced change is null pending its actual index entry and a follow-up research pass.",
+  "Adani Enterprises Ltd (Nifty 50 constituent) is tagged sector 'Infrastructure' in the existing dataset (research/raw/companies-by-state.json), reflecting its diversified incubator model (airports, roads, data centres, new energy) rather than a single-sector tag; it therefore is NOT included in the energy/resources/utilities/metals flag below even though it has material coal-trading, mining-services and new-energy exposure. This is an existing upstream classification choice, not something this file overrides.",
+  "Market-cap figures, ISIN, CIN, group and ownership fields for every constituent below are reused verbatim from research/raw/companies-by-state.json (asOf 2026-08-11 in that file) and were not re-verified in this pass; they are therefore dated 2026-08-11, not 2026-09-25, and will drift for a fast-moving name like BSE-swap timing."
+ ]
+}

@@ -256,6 +256,7 @@ Node types: `mechanism` for a scheme (fam `instrument`), `person` (fam `state`),
   "entities": [ /* persons, parties, ministries, agencies, companies referenced above — same record shape as the energy contract: id, label, sub, ty, fam, st, sz, al, resolved, identity, publicRole, d, srcs */ ],
   "claims": [ /* graph edges — same shape as the energy contract: id, s, t, pred, tier, a, lab, d, from, to, srcs, innocentReading, upgradeIf, killIf, benefit */ ],
   "elections": [ { "st": "mp", "election": "assembly", "date": "2023-11-17", "incumbentParty": "BJP", "winner": "BJP", "srcs": [...] } ],   // only if your domain asks for it
+  "coverage": [ { "st": "mp" | "central", "fromYear": 2018, "toYear": 2026, "categories": ["all"], "method": "what you searched and how", "srcs": [...] } ],   // OPTIONAL — see below
   "baseRates": [ { "property": "cash scheme launched within 12 months before an election", "numerator": 0, "denominator": 0, "label": "all state cash schemes 2018–26 in this file", "srcs": [...] } ],
   "narratives": [ { "claim": "…", "status": "established|well-supported|contested|speculative|unsupported|debunked", "strongestCase": "…", "strongestCounter": "…", "whatWouldChangeThis": "…", "srcs": [...] } ],
   "voids": [ { "what": "…", "whyItMatters": "…", "srcs": [...] } ],
@@ -263,6 +264,15 @@ Node types: `mechanism` for a scheme (fam `instrument`), `person` (fam `state`),
   "gaps": ["…"]
 }
 ```
+
+`coverage` is optional and is the only thing that can turn "no record" into "searched, none
+live" on the map. Each entry declares a state (or `"central"`), the inclusive year range you
+actually searched, the scheme categories that search covered (`["all"]` when it was not
+category-specific — the map's no-filter view only honours `"all"`), the method, and the
+sources you searched. Only `st` and a non-empty `srcs` are checked at the gate; a missing
+`categories` is read as `["all"]` with a warning; every other field passes through as written.
+The earlier `{ years: [from, to], searched: true }` form is still accepted. A state-year is
+only ever painted "searched, none live" when a file declares coverage for it.
 
 New person ids use the prefix `wel:` (e.g. `wel:mamata-banerjee`) unless the person already
 exists in the inventory (`pol:…`). Give every person `identity.office` with dates.
