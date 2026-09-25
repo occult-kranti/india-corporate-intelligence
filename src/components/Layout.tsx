@@ -27,6 +27,8 @@ import {
   Mountain,
   Crosshair,
   HandCoins,
+  Zap,
+  Coins,
 } from 'lucide-react';
 import { COMPANIES, COMPANIES_AS_OF } from '../data/companies';
 import { MINISTERS } from '../data/politics';
@@ -54,6 +56,8 @@ const navGroups: { label: string; items: { path: string; label: string; icon: ty
       { path: '/tenders', label: 'Govt awards', icon: Gavel },
       { path: '/resources', label: 'Natural resources', icon: Mountain },
       { path: '/pmcares', label: 'PM CARES', icon: HandCoins },
+      { path: '/energy', label: 'Energy power map', icon: Zap },
+      { path: '/welfare', label: 'Distribution funds', icon: Coins },
       { path: '/media', label: 'Media ownership', icon: Newspaper },
       { path: '/allocation', label: 'Allocation graph', icon: Waypoints },
     ],

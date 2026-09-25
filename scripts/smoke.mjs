@@ -102,6 +102,8 @@ const ROUTES = [
   ['/tenders?view=graph&scope=centre', 'tenders-graph'],
   ['/geograph', 'geograph'],
   ['/geograph?mode=state-flows&layer=all', 'geograph-flows'],
+  ['/energy', 'energy'],
+  ['/welfare', 'welfare'],
 ];
 
 const failures = [];
@@ -114,7 +116,10 @@ for (const [route, name] of ROUTES) {
   const errors = [];
   // Third-party font/CDN failures are an environment fact, not an app defect —
   // every family has a system fallback. Everything else is a real error.
-  const external = /fonts\.(googleapis|gstatic)\.com|ERR_CONNECTION_RESET|ERR_NAME_NOT_RESOLVED|ERR_INTERNET_DISCONNECTED/;
+  // ERR_CERT_AUTHORITY_INVALID is the sandbox's TLS-intercepting proxy refusing a
+  // third-party fetch; Chromium reports it without the URL, so it cannot be matched
+  // on host. Nothing in dist is served over that path.
+  const external = /fonts\.(googleapis|gstatic)\.com|ERR_CONNECTION_RESET|ERR_NAME_NOT_RESOLVED|ERR_INTERNET_DISCONNECTED|ERR_CERT_AUTHORITY_INVALID/;
   const onConsole = (m) => {
     if (m.type() === 'error' && !external.test(m.text())) errors.push(m.text());
   };
