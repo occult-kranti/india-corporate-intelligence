@@ -1,0 +1,1286 @@
+{
+ "readMeFirst": "These are the dataset's own defects, stated before any rate. Every rate in the sibling files is computed after the dedup rule below and over the denominator it declares.",
+ "raw": {
+  "rows": 4921960,
+  "distinctTenderIds": 2923713,
+  "distinctInternalIds": 4921960,
+  "internalIdUnique": true,
+  "byPortal": {
+   "central": 2005258,
+   "state": 2916702,
+   "unknown": 0
+  },
+  "byPortalYear": [
+   {
+    "portal": "central",
+    "portal_year": 2011,
+    "rows": 1530
+   },
+   {
+    "portal": "central",
+    "portal_year": 2012,
+    "rows": 34528
+   },
+   {
+    "portal": "central",
+    "portal_year": 2013,
+    "rows": 53957
+   },
+   {
+    "portal": "central",
+    "portal_year": 2014,
+    "rows": 102942
+   },
+   {
+    "portal": "central",
+    "portal_year": 2015,
+    "rows": 187124
+   },
+   {
+    "portal": "central",
+    "portal_year": 2016,
+    "rows": 229520
+   },
+   {
+    "portal": "central",
+    "portal_year": 2017,
+    "rows": 243432
+   },
+   {
+    "portal": "central",
+    "portal_year": 2018,
+    "rows": 228460
+   },
+   {
+    "portal": "central",
+    "portal_year": 2019,
+    "rows": 166158
+   },
+   {
+    "portal": "central",
+    "portal_year": 2020,
+    "rows": 138619
+   },
+   {
+    "portal": "central",
+    "portal_year": 2021,
+    "rows": 124005
+   },
+   {
+    "portal": "central",
+    "portal_year": 2022,
+    "rows": 123264
+   },
+   {
+    "portal": "central",
+    "portal_year": 2023,
+    "rows": 110079
+   },
+   {
+    "portal": "central",
+    "portal_year": 2024,
+    "rows": 121813
+   },
+   {
+    "portal": "central",
+    "portal_year": 2025,
+    "rows": 115096
+   },
+   {
+    "portal": "central",
+    "portal_year": 2026,
+    "rows": 24731
+   },
+   {
+    "portal": "state",
+    "portal_year": 2011,
+    "rows": 1278
+   },
+   {
+    "portal": "state",
+    "portal_year": 2012,
+    "rows": 8764
+   },
+   {
+    "portal": "state",
+    "portal_year": 2013,
+    "rows": 51946
+   },
+   {
+    "portal": "state",
+    "portal_year": 2014,
+    "rows": 56036
+   },
+   {
+    "portal": "state",
+    "portal_year": 2015,
+    "rows": 91548
+   },
+   {
+    "portal": "state",
+    "portal_year": 2016,
+    "rows": 10
+   },
+   {
+    "portal": "state",
+    "portal_year": 2017,
+    "rows": 10
+   },
+   {
+    "portal": "state",
+    "portal_year": 2018,
+    "rows": 194605
+   },
+   {
+    "portal": "state",
+    "portal_year": 2019,
+    "rows": 247777
+   },
+   {
+    "portal": "state",
+    "portal_year": 2020,
+    "rows": 211373
+   },
+   {
+    "portal": "state",
+    "portal_year": 2021,
+    "rows": 268924
+   },
+   {
+    "portal": "state",
+    "portal_year": 2022,
+    "rows": 292477
+   },
+   {
+    "portal": "state",
+    "portal_year": 2023,
+    "rows": 499105
+   },
+   {
+    "portal": "state",
+    "portal_year": 2024,
+    "rows": 414314
+   },
+   {
+    "portal": "state",
+    "portal_year": 2025,
+    "rows": 499951
+   },
+   {
+    "portal": "state",
+    "portal_year": 2026,
+    "rows": 78584
+   }
+  ]
+ },
+ "duplicates": {
+  "tenderIdsWithMultipleRows": 1160737,
+  "rowsSharingATenderId": 3158983,
+  "rowsPerTenderIdHistogram": {
+   "1": 1762977,
+   "2": 833598,
+   "3-5": 292784,
+   "6-10": 29625,
+   ">10": 4730
+  },
+  "maxRowsPerTenderId": 42339,
+  "heaviestTenderIds": [
+   {
+    "tender_id": "2018_BHEL_EDN",
+    "portal": "central",
+    "rows": 42339,
+    "distinct_bidders": 1046,
+    "distinct_aoc": 812
+   },
+   {
+    "tender_id": "2017_BHEL_EDN",
+    "portal": "central",
+    "rows": 41307,
+    "distinct_bidders": 970,
+    "distinct_aoc": 687
+   },
+   {
+    "tender_id": "2016_BHEL_EDN",
+    "portal": "central",
+    "rows": 38423,
+    "distinct_bidders": 985,
+    "distinct_aoc": 662
+   },
+   {
+    "tender_id": "2015_BHEL_EDN",
+    "portal": "central",
+    "rows": 37051,
+    "distinct_bidders": 929,
+    "distinct_aoc": 627
+   },
+   {
+    "tender_id": "1",
+    "portal": "central",
+    "rows": 12432,
+    "distinct_bidders": 1779,
+    "distinct_aoc": 2634
+   },
+   {
+    "tender_id": "2019_BHEL_EDN",
+    "portal": "central",
+    "rows": 8745,
+    "distinct_bidders": 531,
+    "distinct_aoc": 355
+   },
+   {
+    "tender_id": "2018_BHEL_1",
+    "portal": "central",
+    "rows": 8620,
+    "distinct_bidders": 1232,
+    "distinct_aoc": 291
+   },
+   {
+    "tender_id": "2017_BHEL_1",
+    "portal": "central",
+    "rows": 7492,
+    "distinct_bidders": 1223,
+    "distinct_aoc": 284
+   },
+   {
+    "tender_id": "2019_BHEL_1",
+    "portal": "central",
+    "rows": 6989,
+    "distinct_bidders": 932,
+    "distinct_aoc": 232
+   },
+   {
+    "tender_id": "2015_BHEL_1",
+    "portal": "central",
+    "rows": 6183,
+    "distinct_bidders": 1097,
+    "distinct_aoc": 308
+   }
+  ],
+  "tenderIdShapes": [
+   {
+    "shape": "9",
+    "portal": "central",
+    "n": 692918,
+    "distinct_ids": 311898
+   },
+   {
+    "shape": "9_ZPHD_9_9",
+    "portal": "state",
+    "n": 400359,
+    "distinct_ids": 276542
+   },
+   {
+    "shape": "9_MES_9_9",
+    "portal": "central",
+    "n": 304596,
+    "distinct_ids": 205169
+   },
+   {
+    "shape": "9_LSGD_9_9",
+    "portal": "state",
+    "n": 219287,
+    "distinct_ids": 149653
+   },
+   {
+    "shape": "9_BHEL_EDN",
+    "portal": "central",
+    "n": 173048,
+    "distinct_ids": 7
+   },
+   {
+    "shape": "9",
+    "portal": "state",
+    "n": 139207,
+    "distinct_ids": 69300
+   },
+   {
+    "shape": "9_HRY_9_9",
+    "portal": "state",
+    "n": 120888,
+    "distinct_ids": 83302
+   },
+   {
+    "shape": "9_UAD_9_9",
+    "portal": "state",
+    "n": 95533,
+    "distinct_ids": 66506
+   },
+   {
+    "shape": "9_PHED_9_9",
+    "portal": "state",
+    "n": 82648,
+    "distinct_ids": 57303
+   },
+   {
+    "shape": "NTPC_PO_DATA_9_9_9",
+    "portal": "central",
+    "n": 80993,
+    "distinct_ids": 51593
+   },
+   {
+    "shape": "9_PWD_9_9",
+    "portal": "state",
+    "n": 77428,
+    "distinct_ids": 52579
+   },
+   {
+    "shape": "9_MAD_9_9",
+    "portal": "state",
+    "n": 67522,
+    "distinct_ids": 45751
+   },
+   {
+    "shape": "9_DMA_9_9",
+    "portal": "state",
+    "n": 61487,
+    "distinct_ids": 41149
+   },
+   {
+    "shape": "9_DLG_9_9",
+    "portal": "state",
+    "n": 61008,
+    "distinct_ids": 41311
+   },
+   {
+    "shape": "9_BCCL_9_9",
+    "portal": "central",
+    "n": 57526,
+    "distinct_ids": 37651
+   }
+  ]
+ },
+ "afterDedup": {
+  "rule": "one row per (tender_id, selected_bidder_norm, aoc_at) — the first by internal_id",
+  "rows": 3385233,
+  "removed": 1536727,
+  "alternativeOnePerTenderId": {
+   "rule": "one row per tender_id (NOT applied; shown for range)",
+   "rows": 2923713,
+   "removed": 1998247
+  },
+  "alternativeOnePerTenderBidder": {
+   "rule": "one row per (tender_id, selected_bidder_norm) ignoring aoc_at (NOT applied)",
+   "rows": 3298256,
+   "removed": 1623704
+  }
+ },
+ "nulls": {
+  "organisation_name_null": 910,
+  "organisation_name_blank": 0,
+  "tender_type_null": 381221,
+  "tender_type_blank": 137095,
+  "aoc_at_null": 0,
+  "closing_at_null": 0,
+  "contract_at_null": 381221,
+  "contract_value_raw_null": 381221,
+  "contract_value_raw_blank": 77175,
+  "contract_value_amount_null": 458396,
+  "bids_received_raw_null": 381221,
+  "bids_received_raw_blank": 57750,
+  "bids_received_null": 438971,
+  "selected_bidder_null": 381221,
+  "selected_bidder_blank": 834,
+  "all_award_fields_null": 381221
+ },
+ "bidsReceived": {
+  "null": 438971,
+  "zero": 68624,
+  "one": 582857,
+  "2-10": 3692203,
+  "11-100": 131557,
+  "101-1000": 6328,
+  "over1000": 1420,
+  "negative": 0,
+  "max": 4692,
+  "rawPresentParsedNull": 57750
+ },
+ "contractValue": {
+  "null": 458396,
+  "lteZero": 221377,
+  "over1e12": 22,
+  "under1000": 41698,
+  "rawPresentParsedNull": 77175,
+  "rawNonNumeric": 0,
+  "max": 170000012345678,
+  "plausibleSumInr": 71627542671471.02,
+  "implausibleRule": "contract_value_amount IS NULL OR contract_value_amount <= 0 OR contract_value_amount > 1e12",
+  "magnitudeHistogram": [
+   {
+    "pow10": -4,
+    "n": 26,
+    "rawInteger": 0,
+    "rawDecimal": 26,
+    "rawOther": 0
+   },
+   {
+    "pow10": -3,
+    "n": 130,
+    "rawInteger": 0,
+    "rawDecimal": 130,
+    "rawOther": 0
+   },
+   {
+    "pow10": -2,
+    "n": 1288,
+    "rawInteger": 0,
+    "rawDecimal": 1288,
+    "rawOther": 0
+   },
+   {
+    "pow10": -1,
+    "n": 940,
+    "rawInteger": 0,
+    "rawDecimal": 940,
+    "rawOther": 0
+   },
+   {
+    "pow10": 0,
+    "n": 17243,
+    "rawInteger": 14052,
+    "rawDecimal": 3191,
+    "rawOther": 0
+   },
+   {
+    "pow10": 1,
+    "n": 8813,
+    "rawInteger": 3564,
+    "rawDecimal": 5249,
+    "rawOther": 0
+   },
+   {
+    "pow10": 2,
+    "n": 13258,
+    "rawInteger": 8836,
+    "rawDecimal": 4422,
+    "rawOther": 0
+   },
+   {
+    "pow10": 3,
+    "n": 31673,
+    "rawInteger": 26137,
+    "rawDecimal": 5536,
+    "rawOther": 0
+   },
+   {
+    "pow10": 4,
+    "n": 296990,
+    "rawInteger": 221420,
+    "rawDecimal": 75570,
+    "rawOther": 0
+   },
+   {
+    "pow10": 5,
+    "n": 1958464,
+    "rawInteger": 1308262,
+    "rawDecimal": 650202,
+    "rawOther": 0
+   },
+   {
+    "pow10": 6,
+    "n": 1569301,
+    "rawInteger": 1114876,
+    "rawDecimal": 454425,
+    "rawOther": 0
+   },
+   {
+    "pow10": 7,
+    "n": 298992,
+    "rawInteger": 214583,
+    "rawDecimal": 84409,
+    "rawOther": 0
+   },
+   {
+    "pow10": 8,
+    "n": 40056,
+    "rawInteger": 30174,
+    "rawDecimal": 9882,
+    "rawOther": 0
+   },
+   {
+    "pow10": 9,
+    "n": 4510,
+    "rawInteger": 3613,
+    "rawDecimal": 897,
+    "rawOther": 0
+   },
+   {
+    "pow10": 10,
+    "n": 384,
+    "rawInteger": 320,
+    "rawDecimal": 64,
+    "rawOther": 0
+   },
+   {
+    "pow10": 11,
+    "n": 97,
+    "rawInteger": 94,
+    "rawDecimal": 3,
+    "rawOther": 0
+   },
+   {
+    "pow10": 12,
+    "n": 7,
+    "rawInteger": 7,
+    "rawDecimal": 0,
+    "rawOther": 0
+   },
+   {
+    "pow10": 13,
+    "n": 8,
+    "rawInteger": 8,
+    "rawDecimal": 0,
+    "rawOther": 0
+   },
+   {
+    "pow10": 14,
+    "n": 7,
+    "rawInteger": 7,
+    "rawDecimal": 0,
+    "rawOther": 0
+   }
+  ]
+ },
+ "dates": {
+  "aocBeforeClosing": 16182,
+  "contractBeforeAoc": 0,
+  "aocYearOutOfRange": 233,
+  "closingYearOutOfRange": 0,
+  "portalYearDiffersFromAocYear": 1374890,
+  "yearRange": [
+   2011,
+   2027
+  ],
+  "minAoc": "0002-12-02T00:00:00",
+  "maxAoc": "9999-01-01T00:00:00",
+  "minClosing": "2011-01-12T10:00:00",
+  "maxClosing": "2026-12-20T09:00:00"
+ },
+ "tenderType": {
+  "rawValues": [
+   {
+    "raw": "Works",
+    "normalised": "Works",
+    "n": 3219534
+   },
+   {
+    "raw": null,
+    "normalised": "Other/unknown",
+    "n": 381221
+   },
+   {
+    "raw": "Goods",
+    "normalised": "Goods",
+    "n": 361891
+   },
+   {
+    "raw": "2",
+    "normalised": "Other/unknown",
+    "n": 239780
+   },
+   {
+    "raw": "Services",
+    "normalised": "Services",
+    "n": 161348
+   },
+   {
+    "raw": "",
+    "normalised": "Other/unknown",
+    "n": 137095
+   },
+   {
+    "raw": "Limited",
+    "normalised": "Limited",
+    "n": 105932
+   },
+   {
+    "raw": "1",
+    "normalised": "Other/unknown",
+    "n": 74814
+   },
+   {
+    "raw": "Open",
+    "normalised": "Other/unknown",
+    "n": 53545
+   },
+   {
+    "raw": "open",
+    "normalised": "Other/unknown",
+    "n": 49843
+   },
+   {
+    "raw": "LIMITED",
+    "normalised": "Limited",
+    "n": 24446
+   },
+   {
+    "raw": "Open Tender",
+    "normalised": "Other/unknown",
+    "n": 23996
+   },
+   {
+    "raw": "LIMITED TENDER-SRM",
+    "normalised": "Limited",
+    "n": 12501
+   },
+   {
+    "raw": "Public",
+    "normalised": "Other/unknown",
+    "n": 11445
+   },
+   {
+    "raw": "NA",
+    "normalised": "Other/unknown",
+    "n": 8846
+   },
+   {
+    "raw": "Limited.",
+    "normalised": "Limited",
+    "n": 8784
+   },
+   {
+    "raw": "OPEN",
+    "normalised": "Other/unknown",
+    "n": 7574
+   },
+   {
+    "raw": "STE(OEM/OES)-SRM",
+    "normalised": "Other/unknown",
+    "n": 4864
+   },
+   {
+    "raw": "Limited Tender(Mtrl)",
+    "normalised": "Limited",
+    "n": 4072
+   },
+   {
+    "raw": "Single",
+    "normalised": "Other/unknown",
+    "n": 3729
+   },
+   {
+    "raw": "Nomination",
+    "normalised": "Other/unknown",
+    "n": 3519
+   },
+   {
+    "raw": "Rate Contract",
+    "normalised": "Other/unknown",
+    "n": 2743
+   },
+   {
+    "raw": "LT",
+    "normalised": "Limited",
+    "n": 2433
+   },
+   {
+    "raw": "STE (OEM/OES-M)",
+    "normalised": "Other/unknown",
+    "n": 2225
+   },
+   {
+    "raw": "National Competitive Bidding",
+    "normalised": "Other/unknown",
+    "n": 1840
+   },
+   {
+    "raw": "OPEN TENDER-SRM",
+    "normalised": "Other/unknown",
+    "n": 1304
+   },
+   {
+    "raw": "OT",
+    "normalised": "Other/unknown",
+    "n": 1270
+   },
+   {
+    "raw": "SINGLE TENDER-SRM",
+    "normalised": "Other/unknown",
+    "n": 1267
+   },
+   {
+    "raw": "limited",
+    "normalised": "Limited",
+    "n": 1058
+   },
+   {
+    "raw": "Limited Tender(Serv)",
+    "normalised": "Limited",
+    "n": 1028
+   },
+   {
+    "raw": "GeM",
+    "normalised": "Other/unknown",
+    "n": 956
+   },
+   {
+    "raw": "ST",
+    "normalised": "Other/unknown",
+    "n": 635
+   },
+   {
+    "raw": "public",
+    "normalised": "Other/unknown",
+    "n": 616
+   },
+   {
+    "raw": "SINGLE",
+    "normalised": "Other/unknown",
+    "n": 504
+   },
+   {
+    "raw": "STE(PAC)-SRM",
+    "normalised": "Other/unknown",
+    "n": 422
+   },
+   {
+    "raw": "Single Tender(Urg-M)",
+    "normalised": "Other/unknown",
+    "n": 400
+   },
+   {
+    "raw": "Singl Tend-PAC/STD-M",
+    "normalised": "Other/unknown",
+    "n": 366
+   },
+   {
+    "raw": "STE(PAC/OEM/OES-S)",
+    "normalised": "Other/unknown",
+    "n": 348
+   },
+   {
+    "raw": "Single Tender(Urg-S)",
+    "normalised": "Other/unknown",
+    "n": 307
+   },
+   {
+    "raw": "Open Tender/Advertised",
+    "normalised": "Other/unknown",
+    "n": 300
+   },
+   {
+    "raw": "Limited Open",
+    "normalised": "Limited",
+    "n": 280
+   },
+   {
+    "raw": "National Competitive Bid",
+    "normalised": "Other/unknown",
+    "n": 216
+   },
+   {
+    "raw": "Single Bid Tender",
+    "normalised": "Other/unknown",
+    "n": 181
+   },
+   {
+    "raw": "Closed Limited",
+    "normalised": "Limited",
+    "n": 172
+   },
+   {
+    "raw": "National Competative Bid",
+    "normalised": "Other/unknown",
+    "n": 156
+   },
+   {
+    "raw": "Open Tender(Mtrl)",
+    "normalised": "Other/unknown",
+    "n": 141
+   },
+   {
+    "raw": "Open Tender(Serv)",
+    "normalised": "Other/unknown",
+    "n": 135
+   },
+   {
+    "raw": "Limited Tender",
+    "normalised": "Limited",
+    "n": 132
+   },
+   {
+    "raw": "Others",
+    "normalised": "Other/unknown",
+    "n": 132
+   },
+   {
+    "raw": "Single Tender(Oth-S)",
+    "normalised": "Other/unknown",
+    "n": 126
+   },
+   {
+    "raw": "UPL Assignment",
+    "normalised": "Other/unknown",
+    "n": 125
+   },
+   {
+    "raw": "8",
+    "normalised": "Other/unknown",
+    "n": 102
+   },
+   {
+    "raw": "LMTD",
+    "normalised": "Limited",
+    "n": 84
+   },
+   {
+    "raw": "Single Tender(PSU-M)",
+    "normalised": "Other/unknown",
+    "n": 73
+   },
+   {
+    "raw": "Single Tender(Oth-M)",
+    "normalised": "Other/unknown",
+    "n": 72
+   },
+   {
+    "raw": "Test",
+    "normalised": "Other/unknown",
+    "n": 67
+   },
+   {
+    "raw": "EOI",
+    "normalised": "Other/unknown",
+    "n": 64
+   },
+   {
+    "raw": "5",
+    "normalised": "Other/unknown",
+    "n": 60
+   },
+   {
+    "raw": "SERVICE",
+    "normalised": "Services",
+    "n": 60
+   },
+   {
+    "raw": "Global",
+    "normalised": "Other/unknown",
+    "n": 57
+   },
+   {
+    "raw": "e-Tender(ICB)",
+    "normalised": "Other/unknown",
+    "n": 57
+   },
+   {
+    "raw": "TE",
+    "normalised": "Other/unknown",
+    "n": 54
+   },
+   {
+    "raw": "LT Standarize (Serv)",
+    "normalised": "Limited",
+    "n": 50
+   },
+   {
+    "raw": "Global Tender",
+    "normalised": "Other/unknown",
+    "n": 49
+   },
+   {
+    "raw": "Testing",
+    "normalised": "Other/unknown",
+    "n": 46
+   },
+   {
+    "raw": "LT Standardized(Mtr)",
+    "normalised": "Limited",
+    "n": 45
+   },
+   {
+    "raw": "Limted",
+    "normalised": "Limited",
+    "n": 41
+   },
+   {
+    "raw": "Open for H1 Price",
+    "normalised": "Other/unknown",
+    "n": 39
+   },
+   {
+    "raw": "Service",
+    "normalised": "Services",
+    "n": 28
+   },
+   {
+    "raw": "All",
+    "normalised": "Other/unknown",
+    "n": 24
+   },
+   {
+    "raw": "RO",
+    "normalised": "Other/unknown",
+    "n": 22
+   },
+   {
+    "raw": "e-Tender(DCB)",
+    "normalised": "Other/unknown",
+    "n": 22
+   },
+   {
+    "raw": "Open Limited",
+    "normalised": "Other/unknown",
+    "n": 21
+   },
+   {
+    "raw": "Single Tender(PSU-S)",
+    "normalised": "Other/unknown",
+    "n": 20
+   },
+   {
+    "raw": "Auction",
+    "normalised": "Other/unknown",
+    "n": 19
+   },
+   {
+    "raw": "ICB",
+    "normalised": "Other/unknown",
+    "n": 18
+   },
+   {
+    "raw": "COM",
+    "normalised": "Other/unknown",
+    "n": 17
+   },
+   {
+    "raw": "STE",
+    "normalised": "Other/unknown",
+    "n": 13
+   },
+   {
+    "raw": "Open/Press Tender",
+    "normalised": "Other/unknown",
+    "n": 12
+   },
+   {
+    "raw": "e-Tender(LTE)",
+    "normalised": "Other/unknown",
+    "n": 12
+   },
+   {
+    "raw": "Open1",
+    "normalised": "Other/unknown",
+    "n": 10
+   },
+   {
+    "raw": "DCB",
+    "normalised": "Other/unknown",
+    "n": 9
+   },
+   {
+    "raw": "Single Tender",
+    "normalised": "Other/unknown",
+    "n": 9
+   },
+   {
+    "raw": "Committee Mode",
+    "normalised": "Other/unknown",
+    "n": 8
+   },
+   {
+    "raw": "e-Tender(STE)",
+    "normalised": "Other/unknown",
+    "n": 7
+   },
+   {
+    "raw": "DP",
+    "normalised": "Other/unknown",
+    "n": 6
+   },
+   {
+    "raw": "0",
+    "normalised": "Other/unknown",
+    "n": 5
+   },
+   {
+    "raw": "COMMITTEE MODE",
+    "normalised": "Other/unknown",
+    "n": 5
+   },
+   {
+    "raw": "Handling and Transport",
+    "normalised": "Other/unknown",
+    "n": 4
+   },
+   {
+    "raw": "PT",
+    "normalised": "Other/unknown",
+    "n": 4
+   },
+   {
+    "raw": "SRM(Enlisted)",
+    "normalised": "Other/unknown",
+    "n": 4
+   },
+   {
+    "raw": "Support services",
+    "normalised": "Other/unknown",
+    "n": 4
+   },
+   {
+    "raw": "GEM PROCUREMENT",
+    "normalised": "Other/unknown",
+    "n": 3
+   },
+   {
+    "raw": "NOM",
+    "normalised": "Other/unknown",
+    "n": 3
+   },
+   {
+    "raw": "Open/Advertised",
+    "normalised": "Other/unknown",
+    "n": 3
+   },
+   {
+    "raw": "3",
+    "normalised": "Other/unknown",
+    "n": 2
+   },
+   {
+    "raw": "COMMITTEE",
+    "normalised": "Other/unknown",
+    "n": 2
+   },
+   {
+    "raw": "Committee mode",
+    "normalised": "Other/unknown",
+    "n": 2
+   },
+   {
+    "raw": "DGS&ampD Procurement",
+    "normalised": "Other/unknown",
+    "n": 2
+   },
+   {
+    "raw": "Goods Without TPS",
+    "normalised": "Other/unknown",
+    "n": 2
+   },
+   {
+    "raw": "Limited & Physical",
+    "normalised": "Limited",
+    "n": 2
+   },
+   {
+    "raw": "OPEN/ADVERTISED",
+    "normalised": "Other/unknown",
+    "n": 2
+   },
+   {
+    "raw": "close",
+    "normalised": "Other/unknown",
+    "n": 2
+   },
+   {
+    "raw": "eproc & Limited tender",
+    "normalised": "Other/unknown",
+    "n": 2
+   },
+   {
+    "raw": "Committee Purchase",
+    "normalised": "Other/unknown",
+    "n": 1
+   },
+   {
+    "raw": "Do Not Use",
+    "normalised": "Other/unknown",
+    "n": 1
+   },
+   {
+    "raw": "Gem",
+    "normalised": "Other/unknown",
+    "n": 1
+   },
+   {
+    "raw": "Handling andTransport",
+    "normalised": "Other/unknown",
+    "n": 1
+   },
+   {
+    "raw": "Hiring of Vehicle",
+    "normalised": "Other/unknown",
+    "n": 1
+   },
+   {
+    "raw": "International Competitive Bid",
+    "normalised": "Other/unknown",
+    "n": 1
+   },
+   {
+    "raw": "LTE",
+    "normalised": "Other/unknown",
+    "n": 1
+   },
+   {
+    "raw": "NOMINATION",
+    "normalised": "Other/unknown",
+    "n": 1
+   },
+   {
+    "raw": "NOMINATION ORDER",
+    "normalised": "Other/unknown",
+    "n": 1
+   },
+   {
+    "raw": "Repeat Order",
+    "normalised": "Other/unknown",
+    "n": 1
+   },
+   {
+    "raw": "board",
+    "normalised": "Other/unknown",
+    "n": 1
+   },
+   {
+    "raw": "support/maintenance services",
+    "normalised": "Other/unknown",
+    "n": 1
+   },
+   {
+    "raw": "two",
+    "normalised": "Other/unknown",
+    "n": 1
+   }
+  ],
+  "normalisedCounts": {
+   "Works": 3219534,
+   "Other/unknown": 1018039,
+   "Goods": 361891,
+   "Services": 161436,
+   "Limited": 161060
+  },
+  "note": "Works/Goods/Services label the category, Limited the method; '1', '2', '', NULL, 'Open' and variants fall in Other/unknown"
+ },
+ "organisations": {
+  "junkRows": 926,
+  "junkNull": 910,
+  "junkBlank": 0,
+  "junkTestPrefix": 16,
+  "centralDistinctOrganisationName": 10402,
+  "centralDistinctBuyers": 1050,
+  "stateDistinctOrganisationName": 34,
+  "stateDistinctBuyers": 3166,
+  "stateRowsWithoutDepartmentCode": 212008,
+  "buyerRule": "central portal: the first '||' segment of organisation_name, then the first '/' segment of that, trimmed (the portal encodes organisation||department||division, and 772 organisations write the same hierarchy with '/' — 'Bharat Petroleum Corporation Limited/RETAIL (LOG)/RETAIL (LOG)-WR'; the first segment is the public body); state portal: organisation_name is the STATE, so the buyer is '<state> / <department code>' with the code parsed from tender_id (^\\d{4}_([A-Za-z][A-Za-z0-9]*)_\\d+_\\d+$), or '<state> / unparsed' where the id carries no code"
+ },
+ "winnerMarkers": {
+  "regex": "ltd|limited|pvt|private|llp|m/s|infra|construct|enterprise|corporation|company|co\\.|associates|traders|agencies|industries|technolog|solutions|services|builders|engineers|contractors|suppliers|&|and sons|society|samiti|sangh|mandal|federation|trust|bank|udyog|nigam|pariyojana",
+  "rule": "a selected_bidder is 'marked' only when every non-empty component of the string split on ',' or ';' matches markerRegex (case-insensitive); a joined list holding one bare personal name is unmarked as a whole and never written",
+  "named": 4540739,
+  "marked": 2154702,
+  "unmarked": 2386037,
+  "markedSharePct": 47.45,
+  "distinctMarked": 296900,
+  "distinctUnmarked": 623313,
+  "note": "unmarked winners are private individuals with no public role; counted here, never named anywhere"
+ },
+ "bidderAddressColumn": "never read by this pipeline",
+ "provenance": {
+  "inputs": [
+   {
+    "file": "data-00000-of-00002.arrow",
+    "bytes": 1796891632,
+    "sha256_16": "95e997785ecab0a9"
+   },
+   {
+    "file": "data-00001-of-00002.arrow",
+    "bytes": 1656131440,
+    "sha256_16": "d7663349efb13547"
+   }
+  ],
+  "rows": 4921960,
+  "distinctTenderIds": 2923713,
+  "afterDedupRows": 3385233,
+  "dedupRule": "one row per (tender_id, selected_bidder_norm, aoc_at) — the first by internal_id",
+  "dedupRuleDetail": "selected_bidder_norm = lower(trim(selected_bidder)); NULL bidders compare equal within a tender_id; internal_id is a 32-hex string so 'first' is lexicographic. The alternative rule 'one row per tender_id' is counted alongside so the reader sees the range; it is NOT applied because a tender with several lots awarded to different bidders is several award decisions.",
+  "buyerRule": "central portal: the first '||' segment of organisation_name, then the first '/' segment of that, trimmed (the portal encodes organisation||department||division, and 772 organisations write the same hierarchy with '/' — 'Bharat Petroleum Corporation Limited/RETAIL (LOG)/RETAIL (LOG)-WR'; the first segment is the public body); state portal: organisation_name is the STATE, so the buyer is '<state> / <department code>' with the code parsed from tender_id (^\\d{4}_([A-Za-z][A-Za-z0-9]*)_\\d+_\\d+$), or '<state> / unparsed' where the id carries no code",
+  "markerRegex": "ltd|limited|pvt|private|llp|m/s|infra|construct|enterprise|corporation|company|co\\.|associates|traders|agencies|industries|technolog|solutions|services|builders|engineers|contractors|suppliers|&|and sons|society|samiti|sangh|mandal|federation|trust|bank|udyog|nigam|pariyojana",
+  "markedRule": "a selected_bidder is 'marked' only when every non-empty component of the string split on ',' or ';' matches markerRegex (case-insensitive); a joined list holding one bare personal name is unmarked as a whole and never written",
+  "valueBandsInr": [
+   {
+    "band": "<₹10 L",
+    "lo": 0,
+    "hi": 1000000
+   },
+   {
+    "band": "₹10 L–1 cr",
+    "lo": 1000000,
+    "hi": 10000000
+   },
+   {
+    "band": "₹1–10 cr",
+    "lo": 10000000,
+    "hi": 100000000
+   },
+   {
+    "band": "₹10–100 cr",
+    "lo": 100000000,
+    "hi": 1000000000
+   },
+   {
+    "band": ">₹100 cr",
+    "lo": 1000000000,
+    "hi": null
+   }
+  ],
+  "sql": {
+   "base": "CREATE OR REPLACE VIEW base AS\nSELECT internal_id, tender_id, portal_type,\n       CASE portal_type WHEN 0 THEN 'central' WHEN 1 THEN 'state' ELSE 'unknown' END AS portal,\n       portal_year, organisation_name, tender_type, aoc_at, closing_at, contract_at,\n       contract_value_raw, contract_value_amount, bids_received_raw, bids_received, selected_bidder,\n       lower(trim(selected_bidder)) AS bidder_norm,\n       (selected_bidder IS NOT NULL AND len(list_filter(string_split_regex(lower(selected_bidder), '[,;]'), lambda x: trim(x) <> '')) > 0 AND len(list_filter(list_filter(string_split_regex(lower(selected_bidder), '[,;]'), lambda x: trim(x) <> ''), lambda x: NOT regexp_matches(x, 'ltd|limited|pvt|private|llp|m/s|infra|construct|enterprise|corporation|company|co\\.|associates|traders|agencies|industries|technolog|solutions|services|builders|engineers|contractors|suppliers|&|and sons|society|samiti|sangh|mandal|federation|trust|bank|udyog|nigam|pariyojana'))) = 0) AS marked,\n       CASE WHEN lower(trim(tender_type)) = 'works' THEN 'Works' WHEN lower(trim(tender_type)) = 'goods' THEN 'Goods'\n        WHEN lower(trim(tender_type)) IN ('services', 'service') THEN 'Services'\n        WHEN regexp_matches(lower(trim(tender_type)), '^(limited|lt|lmtd|limted|closed limited)($|[^a-z])') THEN 'Limited' ELSE 'Other/unknown' END AS tender_type_norm,\n       CASE WHEN portal_type = 0 THEN trim(split_part(split_part(organisation_name, '||', 1), '/', 1))\n            ELSE organisation_name || ' / ' || coalesce(nullif(regexp_extract(tender_id, '^\\d{4}_([A-Za-z][A-Za-z0-9]*)_\\d+_\\d+$', 1), ''), 'unparsed')\n       END AS buyer,\n       CASE WHEN contract_value_amount IS NULL OR contract_value_amount <= 0 OR contract_value_amount > 1e12 THEN 'value missing or implausible'\n            WHEN contract_value_amount < 1e6 THEN '<₹10 L'\n            WHEN contract_value_amount < 1e7 THEN '₹10 L–1 cr'\n            WHEN contract_value_amount < 1e8 THEN '₹1–10 cr'\n            WHEN contract_value_amount < 1e9 THEN '₹10–100 cr'\n            ELSE '>₹100 cr' END AS value_band,\n       date_diff('day', closing_at, aoc_at) AS days_to_aoc,\n       year(aoc_at) AS aoc_year,\n       ((month(aoc_at) + 8) % 12) + 1 AS fy_month,\n       organisation_name IS NULL OR trim(organisation_name) = '' OR lower(organisation_name) LIKE 'test%' AS junk_org\nFROM t",
+   "dedup": "CREATE OR REPLACE VIEW dedup AS\nSELECT * EXCLUDE (rn) FROM (\n  SELECT *, ROW_NUMBER() OVER (PARTITION BY tender_id, bidder_norm, aoc_at ORDER BY internal_id) AS rn FROM base\n) WHERE rn = 1",
+   "rated": "CREATE OR REPLACE VIEW rated AS SELECT * FROM dedup WHERE bids_received >= 1 AND bids_received <= 1000",
+   "quality_raw": "SELECT count(*) AS rows, count(DISTINCT tender_id) AS distinct_tender_ids,\n       count(DISTINCT internal_id) AS distinct_internal_ids,\n       count(*) FILTER (WHERE portal_type = 0) AS central_rows, count(*) FILTER (WHERE portal_type = 1) AS state_rows,\n       count(*) FILTER (WHERE portal_type NOT IN (0, 1) OR portal_type IS NULL) AS unknown_portal_rows\nFROM base",
+   "quality_by_portal_year": "SELECT portal, portal_year, count(*) AS rows FROM base GROUP BY 1, 2 ORDER BY 1, 2",
+   "quality_duplicates": "WITH per_tender AS (SELECT tender_id, count(*) AS k FROM base GROUP BY 1)\nSELECT count(*) FILTER (WHERE k > 1) AS tender_ids_with_multiple_rows,\n       sum(k) FILTER (WHERE k > 1) AS rows_sharing_a_tender_id,\n       count(*) FILTER (WHERE k = 1) AS k1, count(*) FILTER (WHERE k = 2) AS k2,\n       count(*) FILTER (WHERE k BETWEEN 3 AND 5) AS k3_5, count(*) FILTER (WHERE k BETWEEN 6 AND 10) AS k6_10,\n       count(*) FILTER (WHERE k > 10) AS k_over_10, max(k) AS max_rows_per_tender_id\nFROM per_tender",
+   "quality_tender_id_shapes": "SELECT regexp_replace(tender_id, '[0-9]+', '9', 'g') AS shape, portal, count(*) AS n, count(DISTINCT tender_id) AS distinct_ids\nFROM base GROUP BY 1, 2 ORDER BY n DESC, shape, portal LIMIT 15",
+   "quality_heaviest_tender_ids": "SELECT tender_id, portal, count(*) AS rows, count(DISTINCT bidder_norm) AS distinct_bidders, count(DISTINCT aoc_at) AS distinct_aoc\nFROM base GROUP BY 1, 2 ORDER BY rows DESC, tender_id, portal LIMIT 10",
+   "quality_dedup_counts": "SELECT (SELECT count(*) FROM base) AS raw_rows, (SELECT count(*) FROM dedup) AS dedup_rows,\n       (SELECT count(DISTINCT tender_id) FROM base) AS one_per_tender_id_rows,\n       (SELECT count(*) FROM (SELECT tender_id, bidder_norm FROM base GROUP BY ALL)) AS one_per_tender_bidder_rows",
+   "quality_nulls": "SELECT\n  count(*) FILTER (WHERE organisation_name IS NULL) AS organisation_name_null,\n  count(*) FILTER (WHERE trim(organisation_name) = '') AS organisation_name_blank,\n  count(*) FILTER (WHERE tender_type IS NULL) AS tender_type_null,\n  count(*) FILTER (WHERE trim(tender_type) = '') AS tender_type_blank,\n  count(*) FILTER (WHERE aoc_at IS NULL) AS aoc_at_null, count(*) FILTER (WHERE closing_at IS NULL) AS closing_at_null,\n  count(*) FILTER (WHERE contract_at IS NULL) AS contract_at_null,\n  count(*) FILTER (WHERE contract_value_raw IS NULL) AS contract_value_raw_null,\n  count(*) FILTER (WHERE trim(contract_value_raw) = '') AS contract_value_raw_blank,\n  count(*) FILTER (WHERE contract_value_amount IS NULL) AS contract_value_amount_null,\n  count(*) FILTER (WHERE bids_received_raw IS NULL) AS bids_received_raw_null,\n  count(*) FILTER (WHERE trim(bids_received_raw) = '') AS bids_received_raw_blank,\n  count(*) FILTER (WHERE bids_received IS NULL) AS bids_received_null,\n  count(*) FILTER (WHERE selected_bidder IS NULL) AS selected_bidder_null,\n  count(*) FILTER (WHERE trim(selected_bidder) = '') AS selected_bidder_blank,\n  count(*) FILTER (WHERE selected_bidder IS NULL AND bids_received IS NULL AND contract_value_amount IS NULL AND tender_type IS NULL) AS all_award_fields_null\nFROM base",
+   "quality_bids": "SELECT count(*) FILTER (WHERE bids_received IS NULL) AS null_, count(*) FILTER (WHERE bids_received = 0) AS zero,\n       count(*) FILTER (WHERE bids_received = 1) AS one, count(*) FILTER (WHERE bids_received BETWEEN 2 AND 10) AS two_to_10,\n       count(*) FILTER (WHERE bids_received BETWEEN 11 AND 100) AS eleven_to_100,\n       count(*) FILTER (WHERE bids_received BETWEEN 101 AND 1000) AS hundred01_to_1000,\n       count(*) FILTER (WHERE bids_received > 1000) AS over_1000, count(*) FILTER (WHERE bids_received < 0) AS negative,\n       max(bids_received) AS max_, count(*) FILTER (WHERE bids_received_raw IS NOT NULL AND bids_received IS NULL) AS raw_present_amount_null\nFROM base",
+   "quality_value": "SELECT count(*) FILTER (WHERE contract_value_amount IS NULL) AS null_,\n       count(*) FILTER (WHERE contract_value_amount <= 0) AS lte_zero, count(*) FILTER (WHERE contract_value_amount > 1e12) AS over_1e12,\n       count(*) FILTER (WHERE contract_value_amount > 0 AND contract_value_amount < 1000) AS under_1000,\n       count(*) FILTER (WHERE contract_value_raw IS NOT NULL AND contract_value_amount IS NULL) AS raw_present_amount_null,\n       count(*) FILTER (WHERE contract_value_raw IS NOT NULL AND regexp_matches(contract_value_raw, '[^0-9.]')) AS raw_non_numeric,\n       max(contract_value_amount) AS max_, sum(contract_value_amount) FILTER (WHERE contract_value_amount > 0 AND contract_value_amount <= 1e12) AS plausible_sum\nFROM base",
+   "quality_value_magnitude": "SELECT floor(log10(contract_value_amount))::INTEGER AS pow10, count(*) AS n,\n       count(*) FILTER (WHERE regexp_matches(contract_value_raw, '^[0-9]+$')) AS raw_integer,\n       count(*) FILTER (WHERE regexp_matches(contract_value_raw, '^[0-9]+\\.[0-9]+$')) AS raw_decimal,\n       count(*) FILTER (WHERE contract_value_raw IS NULL OR NOT regexp_matches(contract_value_raw, '^[0-9]+(\\.[0-9]+)?$')) AS raw_other\nFROM base WHERE contract_value_amount > 0 GROUP BY 1 ORDER BY 1",
+   "quality_dates": "SELECT count(*) FILTER (WHERE aoc_at < closing_at) AS aoc_before_closing,\n       count(*) FILTER (WHERE contract_at < aoc_at) AS contract_before_aoc,\n       count(*) FILTER (WHERE aoc_year < 2011 OR aoc_year > 2027) AS aoc_year_out_of_range,\n       count(*) FILTER (WHERE year(closing_at) < 2011 OR year(closing_at) > 2027) AS closing_year_out_of_range,\n       count(*) FILTER (WHERE portal_year <> aoc_year) AS portal_year_differs_from_aoc_year,\n       min(aoc_at) AS min_aoc, max(aoc_at) AS max_aoc, min(closing_at) AS min_closing, max(closing_at) AS max_closing\nFROM base",
+   "quality_tender_type_raw": "SELECT tender_type AS raw, tender_type_norm AS normalised, count(*) AS n FROM base GROUP BY 1, 2 ORDER BY 3 DESC, 1 NULLS FIRST, 2",
+   "quality_tender_type_norm": "SELECT tender_type_norm, count(*) AS n FROM base GROUP BY 1 ORDER BY 2 DESC, 1",
+   "quality_orgs": "SELECT count(*) FILTER (WHERE junk_org) AS junk_rows,\n       count(*) FILTER (WHERE organisation_name IS NULL) AS junk_null, count(*) FILTER (WHERE trim(organisation_name) = '') AS junk_blank,\n       count(*) FILTER (WHERE lower(organisation_name) LIKE 'test%') AS junk_test_prefix,\n       count(DISTINCT organisation_name) FILTER (WHERE portal_type = 0) AS central_distinct_organisation_name,\n       count(DISTINCT buyer) FILTER (WHERE portal_type = 0) AS central_distinct_buyers,\n       count(DISTINCT organisation_name) FILTER (WHERE portal_type = 1) AS state_distinct_organisation_name,\n       count(DISTINCT buyer) FILTER (WHERE portal_type = 1) AS state_distinct_buyers,\n       count(*) FILTER (WHERE portal_type = 1 AND buyer LIKE '% / unparsed') AS state_rows_without_department_code\nFROM base",
+   "quality_markers": "SELECT count(selected_bidder) AS named, count(*) FILTER (WHERE marked) AS marked,\n       count(*) FILTER (WHERE selected_bidder IS NOT NULL AND NOT marked) AS unmarked,\n       count(DISTINCT bidder_norm) FILTER (WHERE marked) AS distinct_marked, count(DISTINCT bidder_norm) FILTER (WHERE NOT marked) AS distinct_unmarked\nFROM base",
+   "rates_by_portal_year": "SELECT portal, CASE WHEN aoc_year BETWEEN 2011 AND 2027 THEN aoc_year::VARCHAR ELSE 'out-of-range year' END AS year,\n       count(*) AS n, count(*) FILTER (WHERE bids_received = 1) AS single, avg(bids_received) AS mean_bids,\n       median(bids_received) AS median_bids FROM rated GROUP BY 1, 2 ORDER BY 1, 2",
+   "rates_by_tender_type": "SELECT tender_type_norm AS key, count(*) AS n, count(*) FILTER (WHERE bids_received = 1) AS single, avg(bids_received) AS mean_bids,\n       median(bids_received) AS median_bids FROM rated GROUP BY 1 ORDER BY n DESC, key",
+   "rates_by_value_band": "SELECT value_band AS key, count(*) AS n, count(*) FILTER (WHERE bids_received = 1) AS single, avg(bids_received) AS mean_bids,\n       median(bids_received) AS median_bids FROM rated GROUP BY 1",
+   "rates_by_buyer": "SELECT portal, buyer AS key, count(*) AS n, count(*) FILTER (WHERE bids_received = 1) AS single, avg(bids_received) AS mean_bids,\n       median(bids_received) AS median_bids FROM rated WHERE NOT junk_org GROUP BY 1, 2 ORDER BY n DESC, 1, 2",
+   "rates_junk_buyer_rows": "SELECT count(*) AS n FROM rated WHERE junk_org",
+   "concentration": "WITH fam AS (\n  SELECT buyer, portal, bidder_norm, selected_bidder, marked, contract_value_amount AS v FROM dedup\n  WHERE NOT junk_org AND selected_bidder IS NOT NULL AND NOT (contract_value_amount IS NULL OR contract_value_amount <= 0 OR contract_value_amount > 1e12)\n), buyers AS (\n  SELECT buyer, portal, count(*) AS awards, sum(v) AS value_sum,\n         count(*) FILTER (WHERE marked) AS marked_awards, sum(v) FILTER (WHERE marked) AS marked_value,\n         count(*) FILTER (WHERE NOT marked) AS unmarked_awards, sum(v) FILTER (WHERE NOT marked) AS unmarked_value,\n         count(DISTINCT bidder_norm) FILTER (WHERE marked) AS distinct_marked_winners\n  FROM fam GROUP BY 1, 2 HAVING count(*) >= 50\n), winners AS (\n  SELECT f.buyer, f.portal, f.bidder_norm, arg_max(f.selected_bidder, (f.v, f.selected_bidder)) AS display_name, count(*) AS awards, sum(f.v) AS value_sum\n  FROM fam f JOIN buyers b USING (buyer, portal) WHERE f.marked GROUP BY 1, 2, 3\n), hhi AS (\n  SELECT w.buyer, w.portal, sum(power(10000.0 * w.value_sum / b.marked_value, 2)) / 10000.0 AS hhi,\n         sum(power(10000.0 * w.awards / b.marked_awards, 2)) / 10000.0 AS hhi_count,\n         max(w.value_sum) / b.marked_value AS top_share, max(w.awards) * 1.0 / b.marked_awards AS top_share_count\n  FROM winners w JOIN buyers b USING (buyer, portal) GROUP BY 1, 2, b.marked_value, b.marked_awards\n)\nSELECT b.*, h.hhi, h.hhi_count, h.top_share, h.top_share_count,\n       (SELECT list(struct_pack(name := display_name, awards := awards, value := value_sum) ORDER BY value_sum DESC, bidder_norm)\n        FROM (SELECT * FROM winners w WHERE w.buyer = b.buyer AND w.portal = b.portal AND w.awards >= 5 ORDER BY value_sum DESC, bidder_norm LIMIT 5)) AS top_marked_winners\nFROM buyers b LEFT JOIN hhi h USING (buyer, portal) ORDER BY b.awards DESC, b.portal, b.buyer",
+   "timing_hist": "SELECT CASE WHEN days_to_aoc = 0 THEN '0' WHEN days_to_aoc = 1 THEN '1' WHEN days_to_aoc = 2 THEN '2'\n         WHEN days_to_aoc <= 7 THEN '3–7' WHEN days_to_aoc <= 14 THEN '8–14' WHEN days_to_aoc <= 30 THEN '15–30'\n         WHEN days_to_aoc <= 60 THEN '31–60' WHEN days_to_aoc <= 90 THEN '61–90' WHEN days_to_aoc <= 180 THEN '91–180'\n         WHEN days_to_aoc <= 365 THEN '181–365' ELSE '>365' END AS bin,\n       min(days_to_aoc) AS lo, count(*) AS n FROM dedup WHERE days_to_aoc >= 0 GROUP BY 1 ORDER BY lo",
+   "timing_summary": "SELECT portal, count(*) AS n, count(*) FILTER (WHERE days_to_aoc <= 2) AS le2,\n       median(days_to_aoc) AS median_days, avg(days_to_aoc) AS mean_days, quantile_cont(days_to_aoc, 0.9) AS p90_days\nFROM dedup WHERE days_to_aoc >= 0 GROUP BY GROUPING SETS ((portal), ()) ORDER BY portal NULLS FIRST",
+   "timing_excluded": "SELECT count(*) FILTER (WHERE days_to_aoc < 0) AS aoc_before_closing,\n       count(*) FILTER (WHERE days_to_aoc IS NULL) AS date_missing FROM dedup",
+   "timing_fy_month": "SELECT portal, fy_month, count(*) AS n FROM dedup WHERE days_to_aoc >= 0 GROUP BY GROUPING SETS ((portal, fy_month), (fy_month)) ORDER BY portal NULLS FIRST, fy_month",
+   "redflag_single": "SELECT portal, count(*) AS family, count(*) FILTER (WHERE bids_received = 1) AS flagged FROM rated GROUP BY GROUPING SETS ((portal), ()) ORDER BY portal NULLS FIRST",
+   "redflag_non_open": "SELECT portal, count(*) AS family, count(*) FILTER (WHERE tender_type_norm = 'Limited') AS flagged FROM dedup WHERE tender_type_norm <> 'Other/unknown' GROUP BY GROUPING SETS ((portal), ()) ORDER BY portal NULLS FIRST",
+   "redflag_non_open_labels": "SELECT count(*) AS n, count(DISTINCT tender_type) AS distinct_labels FROM dedup\nWHERE tender_type_norm = 'Other/unknown' AND regexp_matches(lower(trim(tender_type)), 'single|nomination|nom($|[^a-z])|ste($|[^a-z])|rate contract|repeat order|committee|closed|pac|oem|proprietary')",
+   "redflag_short": "SELECT portal, count(*) AS family, count(*) FILTER (WHERE days_to_aoc <= 2) AS flagged FROM dedup WHERE days_to_aoc >= 0 GROUP BY GROUPING SETS ((portal), ()) ORDER BY portal NULLS FIRST",
+   "redflag_repeat": "WITH single AS (SELECT portal, buyer, bidder_norm FROM rated WHERE bids_received = 1 AND marked AND NOT junk_org),\npairs AS (SELECT portal, buyer, bidder_norm, count(*) AS k FROM single GROUP BY 1, 2, 3)\nSELECT portal, sum(k) AS family, sum(k) FILTER (WHERE k >= 5) AS flagged,\n       count(*) AS pairs, count(*) FILTER (WHERE k >= 5) AS repeat_pairs\nFROM pairs GROUP BY GROUPING SETS ((portal), ()) ORDER BY portal NULLS FIRST",
+   "redflag_single_by_buyer": "SELECT portal, buyer, count(*) AS n, count(*) FILTER (WHERE bids_received = 1) AS single\nFROM rated WHERE NOT junk_org GROUP BY 1, 2 HAVING count(*) >= 50 ORDER BY single * 1.0 / n DESC, n DESC, portal, buyer LIMIT 25"
+  },
+  "generatedBy": "scripts/cppp/build.py@9e80f75",
+  "asOf": "2026-09-26",
+  "refusal": "winner names are emitted only when they are marked — a selected_bidder is 'marked' only when every non-empty component of the string split on ',' or ';' matches markerRegex (case-insensitive); a joined list holding one bare personal name is unmarked as a whole and never written — and, per buyer, only with >= 5 awards; unmarked names are counted and never written; the bidder address column is never read"
+ },
+ "headline": {
+  "rows": 4921960,
+  "distinctTenderIds": 2923713,
+  "rowsSharingATenderId": 3158983,
+  "afterDedupRows": 3385233,
+  "dedupRemoved": 1536727,
+  "onePerTenderIdRows": 2923713,
+  "bidsNull": 438971,
+  "bidsZero": 68624,
+  "bidsOne": 582857,
+  "bidsOver1000": 1420,
+  "valueNull": 458396,
+  "valueLteZero": 221377,
+  "valueOver1e12": 22,
+  "aocBeforeClosing": 16182,
+  "junkOrganisationRows": 926,
+  "markedWinnerSharePct": 47.45,
+  "unmarkedWinnerRows": 2386037
+ }
+}

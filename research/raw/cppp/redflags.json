@@ -1,0 +1,521 @@
+{
+ "stance": "Fazekas-style indicators computable from these fields, each as a rate over its declared family with the family size. Rates over a family, never a list of culprits.",
+ "indicators": [
+  {
+   "indicator": "singleBidding",
+   "definition": "bids_received = 1",
+   "familyDefinition": "awards after dedup with bids_received >= 1 and <= 1000",
+   "familySize": 3019420,
+   "count": 338909,
+   "ratePct": 11.22,
+   "wilson95": [
+    11.19,
+    11.26
+   ],
+   "byPortal": [
+    {
+     "portal": "central",
+     "familySize": 1087967,
+     "count": 192294,
+     "ratePct": 17.67,
+     "wilson95": [
+      17.6,
+      17.75
+     ]
+    },
+    {
+     "portal": "state",
+     "familySize": 1931453,
+     "count": 146615,
+     "ratePct": 7.59,
+     "wilson95": [
+      7.55,
+      7.63
+     ]
+    }
+   ],
+   "innocentReading": "Single bidding is common for small works in thin local markets and for specialised supply; the national base rate is the comparison, not zero."
+  },
+  {
+   "indicator": "nonOpenTenderType",
+   "definition": "tender_type normalises to 'Limited'",
+   "familyDefinition": "awards after dedup whose tender_type normalises to Works, Goods, Services or Limited (Other/unknown excluded)",
+   "familySize": 2729190,
+   "count": 117077,
+   "ratePct": 4.29,
+   "wilson95": [
+    4.27,
+    4.31
+   ],
+   "byPortal": [
+    {
+     "portal": "central",
+     "familySize": 861562,
+     "count": 116369,
+     "ratePct": 13.51,
+     "wilson95": [
+      13.43,
+      13.58
+     ]
+    },
+    {
+     "portal": "state",
+     "familySize": 1867628,
+     "count": 708,
+     "ratePct": 0.04,
+     "wilson95": [
+      0.04,
+      0.04
+     ]
+    }
+   ],
+   "innocentReading": "Limited tenders are lawful under GFR 2017 rule 162 below stated thresholds and for urgent or proprietary purchases; the field mixes category (Works/Goods/Services) with method (Limited), so this rate is a floor on non-open procedures, not a measure of them.",
+   "limitedLabelRegex": "^(limited|lt|lmtd|limted|closed limited)($|[^a-z])",
+   "nonOpenLabelsLeftInOtherUnknown": {
+    "n": 15755,
+    "distinct_labels": 29
+   },
+   "nonOpenLabelRegex": "single|nomination|nom($|[^a-z])|ste($|[^a-z])|rate contract|repeat order|committee|closed|pac|oem|proprietary",
+   "note": "Single/Nomination/STE/Rate Contract labels are non-open methods too but are not 'Limited'; they sit in Other/unknown, outside this family, and are counted here so the rate is read as a floor"
+  },
+  {
+   "indicator": "shortDecisionWindow",
+   "definition": "days from closing_at to aoc_at <= 2",
+   "familyDefinition": "awards after dedup with aoc_at >= closing_at (rows with aoc_at < closing_at or either date NULL are excluded and counted in timing.json)",
+   "familySize": 3374747,
+   "count": 68942,
+   "ratePct": 2.04,
+   "wilson95": [
+    2.03,
+    2.06
+   ],
+   "byPortal": [
+    {
+     "portal": "central",
+     "familySize": 1342858,
+     "count": 65059,
+     "ratePct": 4.84,
+     "wilson95": [
+      4.81,
+      4.88
+     ]
+    },
+    {
+     "portal": "state",
+     "familySize": 2031889,
+     "count": 3883,
+     "ratePct": 0.19,
+     "wilson95": [
+      0.19,
+      0.2
+     ]
+    }
+   ],
+   "innocentReading": "Same-day or next-day awards follow from automated bid opening and single-bid or two-envelope tenders with a pre-set technical evaluation; the window says nothing about the evaluation's quality."
+  },
+  {
+   "indicator": "repeatSingleBidderMarkedWinners",
+   "definition": "single-bidder awards to a (buyer, marked winner) pair with >= 5 single-bidder awards from that buyer",
+   "familyDefinition": "single-bidder awards after dedup to MARKED winners (unmarked winners cannot be counted as repeat winners without identifying private individuals)",
+   "familySize": 200813,
+   "count": 102974,
+   "ratePct": 51.28,
+   "wilson95": [
+    51.06,
+    51.5
+   ],
+   "byPortal": [
+    {
+     "portal": "central",
+     "familySize": 140525,
+     "count": 78582,
+     "ratePct": 55.92,
+     "wilson95": [
+      55.66,
+      56.18
+     ]
+    },
+    {
+     "portal": "state",
+     "familySize": 60288,
+     "count": 24392,
+     "ratePct": 40.46,
+     "wilson95": [
+      40.07,
+      40.85
+     ]
+    }
+   ],
+   "innocentReading": "Repeat single-bidder winners are what a rate-contracted supplier, an OEM, or the only qualified contractor in a district looks like; the pair count is a question for the verification sample, not a finding.",
+   "pairs": 74940,
+   "repeatPairs": 7777,
+   "noNames": "pairs are counted, never listed"
+  }
+ ],
+ "singleBiddingByBuyer": [
+  {
+   "portal": "central",
+   "buyer": "Braithwaite,Burn and Jessop Construction Comp Ltd",
+   "n": 493,
+   "singleBidder": 493,
+   "singleBidderPct": 100.0,
+   "wilson95": [
+    99.23,
+    100.0
+   ]
+  },
+  {
+   "portal": "central",
+   "buyer": "KIOCL LIMITED",
+   "n": 158,
+   "singleBidder": 158,
+   "singleBidderPct": 100.0,
+   "wilson95": [
+    97.63,
+    100.0
+   ]
+  },
+  {
+   "portal": "central",
+   "buyer": "Instrumentation Limited",
+   "n": 116,
+   "singleBidder": 116,
+   "singleBidderPct": 100.0,
+   "wilson95": [
+    96.79,
+    100.0
+   ]
+  },
+  {
+   "portal": "central",
+   "buyer": "North Eastern Electric Power Corporation (NEEPCO)",
+   "n": 51,
+   "singleBidder": 51,
+   "singleBidderPct": 100.0,
+   "wilson95": [
+    93.0,
+    100.0
+   ]
+  },
+  {
+   "portal": "central",
+   "buyer": "BHEL EDN",
+   "n": 21044,
+   "singleBidder": 21043,
+   "singleBidderPct": 100.0,
+   "wilson95": [
+    99.97,
+    100.0
+   ]
+  },
+  {
+   "portal": "central",
+   "buyer": "Konkan Railway Corporation Ltd",
+   "n": 267,
+   "singleBidder": 266,
+   "singleBidderPct": 99.63,
+   "wilson95": [
+    97.91,
+    99.93
+   ]
+  },
+  {
+   "portal": "central",
+   "buyer": "Engineering Projects (India) Ltd",
+   "n": 216,
+   "singleBidder": 213,
+   "singleBidderPct": 98.61,
+   "wilson95": [
+    96.0,
+    99.53
+   ]
+  },
+  {
+   "portal": "central",
+   "buyer": "THDC India Ltd.",
+   "n": 644,
+   "singleBidder": 634,
+   "singleBidderPct": 98.45,
+   "wilson95": [
+    97.17,
+    99.15
+   ]
+  },
+  {
+   "portal": "central",
+   "buyer": "HSCC(I) Ltd",
+   "n": 112,
+   "singleBidder": 110,
+   "singleBidderPct": 98.21,
+   "wilson95": [
+    93.72,
+    99.51
+   ]
+  },
+  {
+   "portal": "central",
+   "buyer": "Department of Higher Education",
+   "n": 363,
+   "singleBidder": 353,
+   "singleBidderPct": 97.25,
+   "wilson95": [
+    95.0,
+    98.5
+   ]
+  },
+  {
+   "portal": "central",
+   "buyer": "Container Corporation of India Limited",
+   "n": 207,
+   "singleBidder": 201,
+   "singleBidderPct": 97.1,
+   "wilson95": [
+    93.82,
+    98.66
+   ]
+  },
+  {
+   "portal": "central",
+   "buyer": "National Buildings Construction Corporation Limited",
+   "n": 137,
+   "singleBidder": 133,
+   "singleBidderPct": 97.08,
+   "wilson95": [
+    92.73,
+    98.86
+   ]
+  },
+  {
+   "portal": "central",
+   "buyer": "Hindustan Steel Works Construction Limited",
+   "n": 273,
+   "singleBidder": 265,
+   "singleBidderPct": 97.07,
+   "wilson95": [
+    94.33,
+    98.51
+   ]
+  },
+  {
+   "portal": "central",
+   "buyer": "MECON Limited",
+   "n": 68,
+   "singleBidder": 66,
+   "singleBidderPct": 97.06,
+   "wilson95": [
+    89.9,
+    99.19
+   ]
+  },
+  {
+   "portal": "central",
+   "buyer": "Integrated Costal Marine Area Managment",
+   "n": 97,
+   "singleBidder": 93,
+   "singleBidderPct": 95.88,
+   "wilson95": [
+    89.87,
+    98.38
+   ]
+  },
+  {
+   "portal": "state",
+   "buyer": "Telegana / unparsed",
+   "n": 728,
+   "singleBidder": 694,
+   "singleBidderPct": 95.33,
+   "wilson95": [
+    93.54,
+    96.64
+   ]
+  },
+  {
+   "portal": "central",
+   "buyer": "Mazagon Dock Limited",
+   "n": 124,
+   "singleBidder": 118,
+   "singleBidderPct": 95.16,
+   "wilson95": [
+    89.84,
+    97.76
+   ]
+  },
+  {
+   "portal": "central",
+   "buyer": "HLL Lifecare Ltd",
+   "n": 81,
+   "singleBidder": 76,
+   "singleBidderPct": 93.83,
+   "wilson95": [
+    86.35,
+    97.33
+   ]
+  },
+  {
+   "portal": "central",
+   "buyer": "Indian Space Research Organisation",
+   "n": 1155,
+   "singleBidder": 1082,
+   "singleBidderPct": 93.68,
+   "wilson95": [
+    92.13,
+    94.94
+   ]
+  },
+  {
+   "portal": "central",
+   "buyer": "National Aluminium Company Limited",
+   "n": 3083,
+   "singleBidder": 2867,
+   "singleBidderPct": 92.99,
+   "wilson95": [
+    92.04,
+    93.84
+   ]
+  },
+  {
+   "portal": "central",
+   "buyer": "MOIL Limited",
+   "n": 844,
+   "singleBidder": 777,
+   "singleBidderPct": 92.06,
+   "wilson95": [
+    90.04,
+    93.7
+   ]
+  },
+  {
+   "portal": "central",
+   "buyer": "National Aluminium Company Limited,NALCOed",
+   "n": 150,
+   "singleBidder": 137,
+   "singleBidderPct": 91.33,
+   "wilson95": [
+    85.74,
+    94.87
+   ]
+  },
+  {
+   "portal": "central",
+   "buyer": "Department of Space",
+   "n": 137,
+   "singleBidder": 125,
+   "singleBidderPct": 91.24,
+   "wilson95": [
+    85.31,
+    94.92
+   ]
+  },
+  {
+   "portal": "central",
+   "buyer": "Indian Council of Agricultural Research",
+   "n": 68,
+   "singleBidder": 62,
+   "singleBidderPct": 91.18,
+   "wilson95": [
+    82.06,
+    95.89
+   ]
+  },
+  {
+   "portal": "central",
+   "buyer": "Department of Fertilisers",
+   "n": 1701,
+   "singleBidder": 1546,
+   "singleBidderPct": 90.89,
+   "wilson95": [
+    89.43,
+    92.16
+   ]
+  }
+ ],
+ "singleBiddingByBuyerNote": "the 25 buyers (public bodies) with the highest single-bidder rate among those with >= 50 awards in the denominator; buyers are public bodies and may be named; a buyer is the body under the buyer rule, so '/'- and '||'-separated central sub-units are folded into their parent body",
+ "provenance": {
+  "inputs": [
+   {
+    "file": "data-00000-of-00002.arrow",
+    "bytes": 1796891632,
+    "sha256_16": "95e997785ecab0a9"
+   },
+   {
+    "file": "data-00001-of-00002.arrow",
+    "bytes": 1656131440,
+    "sha256_16": "d7663349efb13547"
+   }
+  ],
+  "rows": 4921960,
+  "distinctTenderIds": 2923713,
+  "afterDedupRows": 3385233,
+  "dedupRule": "one row per (tender_id, selected_bidder_norm, aoc_at) — the first by internal_id",
+  "dedupRuleDetail": "selected_bidder_norm = lower(trim(selected_bidder)); NULL bidders compare equal within a tender_id; internal_id is a 32-hex string so 'first' is lexicographic. The alternative rule 'one row per tender_id' is counted alongside so the reader sees the range; it is NOT applied because a tender with several lots awarded to different bidders is several award decisions.",
+  "buyerRule": "central portal: the first '||' segment of organisation_name, then the first '/' segment of that, trimmed (the portal encodes organisation||department||division, and 772 organisations write the same hierarchy with '/' — 'Bharat Petroleum Corporation Limited/RETAIL (LOG)/RETAIL (LOG)-WR'; the first segment is the public body); state portal: organisation_name is the STATE, so the buyer is '<state> / <department code>' with the code parsed from tender_id (^\\d{4}_([A-Za-z][A-Za-z0-9]*)_\\d+_\\d+$), or '<state> / unparsed' where the id carries no code",
+  "markerRegex": "ltd|limited|pvt|private|llp|m/s|infra|construct|enterprise|corporation|company|co\\.|associates|traders|agencies|industries|technolog|solutions|services|builders|engineers|contractors|suppliers|&|and sons|society|samiti|sangh|mandal|federation|trust|bank|udyog|nigam|pariyojana",
+  "markedRule": "a selected_bidder is 'marked' only when every non-empty component of the string split on ',' or ';' matches markerRegex (case-insensitive); a joined list holding one bare personal name is unmarked as a whole and never written",
+  "valueBandsInr": [
+   {
+    "band": "<₹10 L",
+    "lo": 0,
+    "hi": 1000000
+   },
+   {
+    "band": "₹10 L–1 cr",
+    "lo": 1000000,
+    "hi": 10000000
+   },
+   {
+    "band": "₹1–10 cr",
+    "lo": 10000000,
+    "hi": 100000000
+   },
+   {
+    "band": "₹10–100 cr",
+    "lo": 100000000,
+    "hi": 1000000000
+   },
+   {
+    "band": ">₹100 cr",
+    "lo": 1000000000,
+    "hi": null
+   }
+  ],
+  "sql": {
+   "base": "CREATE OR REPLACE VIEW base AS\nSELECT internal_id, tender_id, portal_type,\n       CASE portal_type WHEN 0 THEN 'central' WHEN 1 THEN 'state' ELSE 'unknown' END AS portal,\n       portal_year, organisation_name, tender_type, aoc_at, closing_at, contract_at,\n       contract_value_raw, contract_value_amount, bids_received_raw, bids_received, selected_bidder,\n       lower(trim(selected_bidder)) AS bidder_norm,\n       (selected_bidder IS NOT NULL AND len(list_filter(string_split_regex(lower(selected_bidder), '[,;]'), lambda x: trim(x) <> '')) > 0 AND len(list_filter(list_filter(string_split_regex(lower(selected_bidder), '[,;]'), lambda x: trim(x) <> ''), lambda x: NOT regexp_matches(x, 'ltd|limited|pvt|private|llp|m/s|infra|construct|enterprise|corporation|company|co\\.|associates|traders|agencies|industries|technolog|solutions|services|builders|engineers|contractors|suppliers|&|and sons|society|samiti|sangh|mandal|federation|trust|bank|udyog|nigam|pariyojana'))) = 0) AS marked,\n       CASE WHEN lower(trim(tender_type)) = 'works' THEN 'Works' WHEN lower(trim(tender_type)) = 'goods' THEN 'Goods'\n        WHEN lower(trim(tender_type)) IN ('services', 'service') THEN 'Services'\n        WHEN regexp_matches(lower(trim(tender_type)), '^(limited|lt|lmtd|limted|closed limited)($|[^a-z])') THEN 'Limited' ELSE 'Other/unknown' END AS tender_type_norm,\n       CASE WHEN portal_type = 0 THEN trim(split_part(split_part(organisation_name, '||', 1), '/', 1))\n            ELSE organisation_name || ' / ' || coalesce(nullif(regexp_extract(tender_id, '^\\d{4}_([A-Za-z][A-Za-z0-9]*)_\\d+_\\d+$', 1), ''), 'unparsed')\n       END AS buyer,\n       CASE WHEN contract_value_amount IS NULL OR contract_value_amount <= 0 OR contract_value_amount > 1e12 THEN 'value missing or implausible'\n            WHEN contract_value_amount < 1e6 THEN '<₹10 L'\n            WHEN contract_value_amount < 1e7 THEN '₹10 L–1 cr'\n            WHEN contract_value_amount < 1e8 THEN '₹1–10 cr'\n            WHEN contract_value_amount < 1e9 THEN '₹10–100 cr'\n            ELSE '>₹100 cr' END AS value_band,\n       date_diff('day', closing_at, aoc_at) AS days_to_aoc,\n       year(aoc_at) AS aoc_year,\n       ((month(aoc_at) + 8) % 12) + 1 AS fy_month,\n       organisation_name IS NULL OR trim(organisation_name) = '' OR lower(organisation_name) LIKE 'test%' AS junk_org\nFROM t",
+   "dedup": "CREATE OR REPLACE VIEW dedup AS\nSELECT * EXCLUDE (rn) FROM (\n  SELECT *, ROW_NUMBER() OVER (PARTITION BY tender_id, bidder_norm, aoc_at ORDER BY internal_id) AS rn FROM base\n) WHERE rn = 1",
+   "rated": "CREATE OR REPLACE VIEW rated AS SELECT * FROM dedup WHERE bids_received >= 1 AND bids_received <= 1000",
+   "quality_raw": "SELECT count(*) AS rows, count(DISTINCT tender_id) AS distinct_tender_ids,\n       count(DISTINCT internal_id) AS distinct_internal_ids,\n       count(*) FILTER (WHERE portal_type = 0) AS central_rows, count(*) FILTER (WHERE portal_type = 1) AS state_rows,\n       count(*) FILTER (WHERE portal_type NOT IN (0, 1) OR portal_type IS NULL) AS unknown_portal_rows\nFROM base",
+   "quality_by_portal_year": "SELECT portal, portal_year, count(*) AS rows FROM base GROUP BY 1, 2 ORDER BY 1, 2",
+   "quality_duplicates": "WITH per_tender AS (SELECT tender_id, count(*) AS k FROM base GROUP BY 1)\nSELECT count(*) FILTER (WHERE k > 1) AS tender_ids_with_multiple_rows,\n       sum(k) FILTER (WHERE k > 1) AS rows_sharing_a_tender_id,\n       count(*) FILTER (WHERE k = 1) AS k1, count(*) FILTER (WHERE k = 2) AS k2,\n       count(*) FILTER (WHERE k BETWEEN 3 AND 5) AS k3_5, count(*) FILTER (WHERE k BETWEEN 6 AND 10) AS k6_10,\n       count(*) FILTER (WHERE k > 10) AS k_over_10, max(k) AS max_rows_per_tender_id\nFROM per_tender",
+   "quality_tender_id_shapes": "SELECT regexp_replace(tender_id, '[0-9]+', '9', 'g') AS shape, portal, count(*) AS n, count(DISTINCT tender_id) AS distinct_ids\nFROM base GROUP BY 1, 2 ORDER BY n DESC, shape, portal LIMIT 15",
+   "quality_heaviest_tender_ids": "SELECT tender_id, portal, count(*) AS rows, count(DISTINCT bidder_norm) AS distinct_bidders, count(DISTINCT aoc_at) AS distinct_aoc\nFROM base GROUP BY 1, 2 ORDER BY rows DESC, tender_id, portal LIMIT 10",
+   "quality_dedup_counts": "SELECT (SELECT count(*) FROM base) AS raw_rows, (SELECT count(*) FROM dedup) AS dedup_rows,\n       (SELECT count(DISTINCT tender_id) FROM base) AS one_per_tender_id_rows,\n       (SELECT count(*) FROM (SELECT tender_id, bidder_norm FROM base GROUP BY ALL)) AS one_per_tender_bidder_rows",
+   "quality_nulls": "SELECT\n  count(*) FILTER (WHERE organisation_name IS NULL) AS organisation_name_null,\n  count(*) FILTER (WHERE trim(organisation_name) = '') AS organisation_name_blank,\n  count(*) FILTER (WHERE tender_type IS NULL) AS tender_type_null,\n  count(*) FILTER (WHERE trim(tender_type) = '') AS tender_type_blank,\n  count(*) FILTER (WHERE aoc_at IS NULL) AS aoc_at_null, count(*) FILTER (WHERE closing_at IS NULL) AS closing_at_null,\n  count(*) FILTER (WHERE contract_at IS NULL) AS contract_at_null,\n  count(*) FILTER (WHERE contract_value_raw IS NULL) AS contract_value_raw_null,\n  count(*) FILTER (WHERE trim(contract_value_raw) = '') AS contract_value_raw_blank,\n  count(*) FILTER (WHERE contract_value_amount IS NULL) AS contract_value_amount_null,\n  count(*) FILTER (WHERE bids_received_raw IS NULL) AS bids_received_raw_null,\n  count(*) FILTER (WHERE trim(bids_received_raw) = '') AS bids_received_raw_blank,\n  count(*) FILTER (WHERE bids_received IS NULL) AS bids_received_null,\n  count(*) FILTER (WHERE selected_bidder IS NULL) AS selected_bidder_null,\n  count(*) FILTER (WHERE trim(selected_bidder) = '') AS selected_bidder_blank,\n  count(*) FILTER (WHERE selected_bidder IS NULL AND bids_received IS NULL AND contract_value_amount IS NULL AND tender_type IS NULL) AS all_award_fields_null\nFROM base",
+   "quality_bids": "SELECT count(*) FILTER (WHERE bids_received IS NULL) AS null_, count(*) FILTER (WHERE bids_received = 0) AS zero,\n       count(*) FILTER (WHERE bids_received = 1) AS one, count(*) FILTER (WHERE bids_received BETWEEN 2 AND 10) AS two_to_10,\n       count(*) FILTER (WHERE bids_received BETWEEN 11 AND 100) AS eleven_to_100,\n       count(*) FILTER (WHERE bids_received BETWEEN 101 AND 1000) AS hundred01_to_1000,\n       count(*) FILTER (WHERE bids_received > 1000) AS over_1000, count(*) FILTER (WHERE bids_received < 0) AS negative,\n       max(bids_received) AS max_, count(*) FILTER (WHERE bids_received_raw IS NOT NULL AND bids_received IS NULL) AS raw_present_amount_null\nFROM base",
+   "quality_value": "SELECT count(*) FILTER (WHERE contract_value_amount IS NULL) AS null_,\n       count(*) FILTER (WHERE contract_value_amount <= 0) AS lte_zero, count(*) FILTER (WHERE contract_value_amount > 1e12) AS over_1e12,\n       count(*) FILTER (WHERE contract_value_amount > 0 AND contract_value_amount < 1000) AS under_1000,\n       count(*) FILTER (WHERE contract_value_raw IS NOT NULL AND contract_value_amount IS NULL) AS raw_present_amount_null,\n       count(*) FILTER (WHERE contract_value_raw IS NOT NULL AND regexp_matches(contract_value_raw, '[^0-9.]')) AS raw_non_numeric,\n       max(contract_value_amount) AS max_, sum(contract_value_amount) FILTER (WHERE contract_value_amount > 0 AND contract_value_amount <= 1e12) AS plausible_sum\nFROM base",
+   "quality_value_magnitude": "SELECT floor(log10(contract_value_amount))::INTEGER AS pow10, count(*) AS n,\n       count(*) FILTER (WHERE regexp_matches(contract_value_raw, '^[0-9]+$')) AS raw_integer,\n       count(*) FILTER (WHERE regexp_matches(contract_value_raw, '^[0-9]+\\.[0-9]+$')) AS raw_decimal,\n       count(*) FILTER (WHERE contract_value_raw IS NULL OR NOT regexp_matches(contract_value_raw, '^[0-9]+(\\.[0-9]+)?$')) AS raw_other\nFROM base WHERE contract_value_amount > 0 GROUP BY 1 ORDER BY 1",
+   "quality_dates": "SELECT count(*) FILTER (WHERE aoc_at < closing_at) AS aoc_before_closing,\n       count(*) FILTER (WHERE contract_at < aoc_at) AS contract_before_aoc,\n       count(*) FILTER (WHERE aoc_year < 2011 OR aoc_year > 2027) AS aoc_year_out_of_range,\n       count(*) FILTER (WHERE year(closing_at) < 2011 OR year(closing_at) > 2027) AS closing_year_out_of_range,\n       count(*) FILTER (WHERE portal_year <> aoc_year) AS portal_year_differs_from_aoc_year,\n       min(aoc_at) AS min_aoc, max(aoc_at) AS max_aoc, min(closing_at) AS min_closing, max(closing_at) AS max_closing\nFROM base",
+   "quality_tender_type_raw": "SELECT tender_type AS raw, tender_type_norm AS normalised, count(*) AS n FROM base GROUP BY 1, 2 ORDER BY 3 DESC, 1 NULLS FIRST, 2",
+   "quality_tender_type_norm": "SELECT tender_type_norm, count(*) AS n FROM base GROUP BY 1 ORDER BY 2 DESC, 1",
+   "quality_orgs": "SELECT count(*) FILTER (WHERE junk_org) AS junk_rows,\n       count(*) FILTER (WHERE organisation_name IS NULL) AS junk_null, count(*) FILTER (WHERE trim(organisation_name) = '') AS junk_blank,\n       count(*) FILTER (WHERE lower(organisation_name) LIKE 'test%') AS junk_test_prefix,\n       count(DISTINCT organisation_name) FILTER (WHERE portal_type = 0) AS central_distinct_organisation_name,\n       count(DISTINCT buyer) FILTER (WHERE portal_type = 0) AS central_distinct_buyers,\n       count(DISTINCT organisation_name) FILTER (WHERE portal_type = 1) AS state_distinct_organisation_name,\n       count(DISTINCT buyer) FILTER (WHERE portal_type = 1) AS state_distinct_buyers,\n       count(*) FILTER (WHERE portal_type = 1 AND buyer LIKE '% / unparsed') AS state_rows_without_department_code\nFROM base",
+   "quality_markers": "SELECT count(selected_bidder) AS named, count(*) FILTER (WHERE marked) AS marked,\n       count(*) FILTER (WHERE selected_bidder IS NOT NULL AND NOT marked) AS unmarked,\n       count(DISTINCT bidder_norm) FILTER (WHERE marked) AS distinct_marked, count(DISTINCT bidder_norm) FILTER (WHERE NOT marked) AS distinct_unmarked\nFROM base",
+   "rates_by_portal_year": "SELECT portal, CASE WHEN aoc_year BETWEEN 2011 AND 2027 THEN aoc_year::VARCHAR ELSE 'out-of-range year' END AS year,\n       count(*) AS n, count(*) FILTER (WHERE bids_received = 1) AS single, avg(bids_received) AS mean_bids,\n       median(bids_received) AS median_bids FROM rated GROUP BY 1, 2 ORDER BY 1, 2",
+   "rates_by_tender_type": "SELECT tender_type_norm AS key, count(*) AS n, count(*) FILTER (WHERE bids_received = 1) AS single, avg(bids_received) AS mean_bids,\n       median(bids_received) AS median_bids FROM rated GROUP BY 1 ORDER BY n DESC, key",
+   "rates_by_value_band": "SELECT value_band AS key, count(*) AS n, count(*) FILTER (WHERE bids_received = 1) AS single, avg(bids_received) AS mean_bids,\n       median(bids_received) AS median_bids FROM rated GROUP BY 1",
+   "rates_by_buyer": "SELECT portal, buyer AS key, count(*) AS n, count(*) FILTER (WHERE bids_received = 1) AS single, avg(bids_received) AS mean_bids,\n       median(bids_received) AS median_bids FROM rated WHERE NOT junk_org GROUP BY 1, 2 ORDER BY n DESC, 1, 2",
+   "rates_junk_buyer_rows": "SELECT count(*) AS n FROM rated WHERE junk_org",
+   "concentration": "WITH fam AS (\n  SELECT buyer, portal, bidder_norm, selected_bidder, marked, contract_value_amount AS v FROM dedup\n  WHERE NOT junk_org AND selected_bidder IS NOT NULL AND NOT (contract_value_amount IS NULL OR contract_value_amount <= 0 OR contract_value_amount > 1e12)\n), buyers AS (\n  SELECT buyer, portal, count(*) AS awards, sum(v) AS value_sum,\n         count(*) FILTER (WHERE marked) AS marked_awards, sum(v) FILTER (WHERE marked) AS marked_value,\n         count(*) FILTER (WHERE NOT marked) AS unmarked_awards, sum(v) FILTER (WHERE NOT marked) AS unmarked_value,\n         count(DISTINCT bidder_norm) FILTER (WHERE marked) AS distinct_marked_winners\n  FROM fam GROUP BY 1, 2 HAVING count(*) >= 50\n), winners AS (\n  SELECT f.buyer, f.portal, f.bidder_norm, arg_max(f.selected_bidder, (f.v, f.selected_bidder)) AS display_name, count(*) AS awards, sum(f.v) AS value_sum\n  FROM fam f JOIN buyers b USING (buyer, portal) WHERE f.marked GROUP BY 1, 2, 3\n), hhi AS (\n  SELECT w.buyer, w.portal, sum(power(10000.0 * w.value_sum / b.marked_value, 2)) / 10000.0 AS hhi,\n         sum(power(10000.0 * w.awards / b.marked_awards, 2)) / 10000.0 AS hhi_count,\n         max(w.value_sum) / b.marked_value AS top_share, max(w.awards) * 1.0 / b.marked_awards AS top_share_count\n  FROM winners w JOIN buyers b USING (buyer, portal) GROUP BY 1, 2, b.marked_value, b.marked_awards\n)\nSELECT b.*, h.hhi, h.hhi_count, h.top_share, h.top_share_count,\n       (SELECT list(struct_pack(name := display_name, awards := awards, value := value_sum) ORDER BY value_sum DESC, bidder_norm)\n        FROM (SELECT * FROM winners w WHERE w.buyer = b.buyer AND w.portal = b.portal AND w.awards >= 5 ORDER BY value_sum DESC, bidder_norm LIMIT 5)) AS top_marked_winners\nFROM buyers b LEFT JOIN hhi h USING (buyer, portal) ORDER BY b.awards DESC, b.portal, b.buyer",
+   "timing_hist": "SELECT CASE WHEN days_to_aoc = 0 THEN '0' WHEN days_to_aoc = 1 THEN '1' WHEN days_to_aoc = 2 THEN '2'\n         WHEN days_to_aoc <= 7 THEN '3–7' WHEN days_to_aoc <= 14 THEN '8–14' WHEN days_to_aoc <= 30 THEN '15–30'\n         WHEN days_to_aoc <= 60 THEN '31–60' WHEN days_to_aoc <= 90 THEN '61–90' WHEN days_to_aoc <= 180 THEN '91–180'\n         WHEN days_to_aoc <= 365 THEN '181–365' ELSE '>365' END AS bin,\n       min(days_to_aoc) AS lo, count(*) AS n FROM dedup WHERE days_to_aoc >= 0 GROUP BY 1 ORDER BY lo",
+   "timing_summary": "SELECT portal, count(*) AS n, count(*) FILTER (WHERE days_to_aoc <= 2) AS le2,\n       median(days_to_aoc) AS median_days, avg(days_to_aoc) AS mean_days, quantile_cont(days_to_aoc, 0.9) AS p90_days\nFROM dedup WHERE days_to_aoc >= 0 GROUP BY GROUPING SETS ((portal), ()) ORDER BY portal NULLS FIRST",
+   "timing_excluded": "SELECT count(*) FILTER (WHERE days_to_aoc < 0) AS aoc_before_closing,\n       count(*) FILTER (WHERE days_to_aoc IS NULL) AS date_missing FROM dedup",
+   "timing_fy_month": "SELECT portal, fy_month, count(*) AS n FROM dedup WHERE days_to_aoc >= 0 GROUP BY GROUPING SETS ((portal, fy_month), (fy_month)) ORDER BY portal NULLS FIRST, fy_month",
+   "redflag_single": "SELECT portal, count(*) AS family, count(*) FILTER (WHERE bids_received = 1) AS flagged FROM rated GROUP BY GROUPING SETS ((portal), ()) ORDER BY portal NULLS FIRST",
+   "redflag_non_open": "SELECT portal, count(*) AS family, count(*) FILTER (WHERE tender_type_norm = 'Limited') AS flagged FROM dedup WHERE tender_type_norm <> 'Other/unknown' GROUP BY GROUPING SETS ((portal), ()) ORDER BY portal NULLS FIRST",
+   "redflag_non_open_labels": "SELECT count(*) AS n, count(DISTINCT tender_type) AS distinct_labels FROM dedup\nWHERE tender_type_norm = 'Other/unknown' AND regexp_matches(lower(trim(tender_type)), 'single|nomination|nom($|[^a-z])|ste($|[^a-z])|rate contract|repeat order|committee|closed|pac|oem|proprietary')",
+   "redflag_short": "SELECT portal, count(*) AS family, count(*) FILTER (WHERE days_to_aoc <= 2) AS flagged FROM dedup WHERE days_to_aoc >= 0 GROUP BY GROUPING SETS ((portal), ()) ORDER BY portal NULLS FIRST",
+   "redflag_repeat": "WITH single AS (SELECT portal, buyer, bidder_norm FROM rated WHERE bids_received = 1 AND marked AND NOT junk_org),\npairs AS (SELECT portal, buyer, bidder_norm, count(*) AS k FROM single GROUP BY 1, 2, 3)\nSELECT portal, sum(k) AS family, sum(k) FILTER (WHERE k >= 5) AS flagged,\n       count(*) AS pairs, count(*) FILTER (WHERE k >= 5) AS repeat_pairs\nFROM pairs GROUP BY GROUPING SETS ((portal), ()) ORDER BY portal NULLS FIRST",
+   "redflag_single_by_buyer": "SELECT portal, buyer, count(*) AS n, count(*) FILTER (WHERE bids_received = 1) AS single\nFROM rated WHERE NOT junk_org GROUP BY 1, 2 HAVING count(*) >= 50 ORDER BY single * 1.0 / n DESC, n DESC, portal, buyer LIMIT 25"
+  },
+  "generatedBy": "scripts/cppp/build.py@9e80f75",
+  "asOf": "2026-09-26",
+  "refusal": "winner names are emitted only when they are marked — a selected_bidder is 'marked' only when every non-empty component of the string split on ',' or ';' matches markerRegex (case-insensitive); a joined list holding one bare personal name is unmarked as a whole and never written — and, per buyer, only with >= 5 awards; unmarked names are counted and never written; the bidder address column is never read"
+ }
+}

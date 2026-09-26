@@ -1,0 +1,1319 @@
+{
+  "title": "CPPP live verification sample: 40 marked-winner awards against their detail_url",
+  "asOf": "2026-09-26",
+  "seed": 2026,
+  "rng": "python random.Random(seed).sample over sorted internal_ids per stratum; strata visited central then state, years ascending 2015-2026",
+  "strata": [
+    {
+      "portal": "central",
+      "year": 2015,
+      "k": 2
+    },
+    {
+      "portal": "central",
+      "year": 2016,
+      "k": 2
+    },
+    {
+      "portal": "central",
+      "year": 2017,
+      "k": 2
+    },
+    {
+      "portal": "central",
+      "year": 2018,
+      "k": 2
+    },
+    {
+      "portal": "central",
+      "year": 2019,
+      "k": 2
+    },
+    {
+      "portal": "central",
+      "year": 2020,
+      "k": 2
+    },
+    {
+      "portal": "central",
+      "year": 2021,
+      "k": 2
+    },
+    {
+      "portal": "central",
+      "year": 2022,
+      "k": 2
+    },
+    {
+      "portal": "central",
+      "year": 2023,
+      "k": 1
+    },
+    {
+      "portal": "central",
+      "year": 2024,
+      "k": 1
+    },
+    {
+      "portal": "central",
+      "year": 2025,
+      "k": 1
+    },
+    {
+      "portal": "central",
+      "year": 2026,
+      "k": 1
+    },
+    {
+      "portal": "state",
+      "year": 2015,
+      "k": 2
+    },
+    {
+      "portal": "state",
+      "year": 2016,
+      "k": 2
+    },
+    {
+      "portal": "state",
+      "year": 2017,
+      "k": 2
+    },
+    {
+      "portal": "state",
+      "year": 2018,
+      "k": 2
+    },
+    {
+      "portal": "state",
+      "year": 2019,
+      "k": 2
+    },
+    {
+      "portal": "state",
+      "year": 2020,
+      "k": 2
+    },
+    {
+      "portal": "state",
+      "year": 2021,
+      "k": 2
+    },
+    {
+      "portal": "state",
+      "year": 2022,
+      "k": 2
+    },
+    {
+      "portal": "state",
+      "year": 2023,
+      "k": 1
+    },
+    {
+      "portal": "state",
+      "year": 2024,
+      "k": 1
+    },
+    {
+      "portal": "state",
+      "year": 2025,
+      "k": 1
+    },
+    {
+      "portal": "state",
+      "year": 2026,
+      "k": 1
+    }
+  ],
+  "strataShortfall": [],
+  "markerRegex": "(ltd|limited|pvt|private|llp|m/s|infra|construct|enterprise|corporation|company|co\\.|associates|traders|agencies|industries|technolog|solutions|services|builders|engineers|contractors|suppliers|&|and sons|society|samiti|sangh|mandal|federation|trust|bank|udyog|nigam|pariyojana)",
+  "markedRule": "a selected_bidder is 'marked' only when every non-empty component of the string split on ',' or ';' matches markerRegex (case-insensitive); a joined list holding one bare personal name is unmarked as a whole and is never drawn or written",
+  "redraw": "the first 2026-09-26 draw tested markerRegex against the whole selected_bidder string and admitted comma-joined lists carrying bare personal names; this file applies the component rule, which shrinks the candidate set, so with the same seed and RNG these 40 rows differ from that first draw",
+  "fetchMethod": "curl -sS -L -A \"Mozilla/5.0\" --max-time 60, 3s delay between requests; detail_url fetched verbatim, never rewritten",
+  "pageClasses": {
+    "invalid_url": 40
+  },
+  "pageGone": 40,
+  "finding": "Every stored detail_url answered HTTP 200 with the portal message \"Invalid Url.Please Check\". The link token is <b64 numeric id>A13h1<b64 key>A13h1<b64 unix time>; the key is one constant per portal (central: 2,005,258 rows share it; state: 2,916,702) and the time segment is the June 2026 scrape timestamp, so the portal appears to bind links to a validity window. A headless-Chromium load of the same URL returned the same message (JavaScript is not the cause). The portal's own Results of Tenders search (resultoftendersnew/cpppdata, mmpdata) sits behind an image captcha and was not attempted; no token was re-signed or re-timestamped to reach a page. Consequence for the README: bids_received, selected_bidder, contract_value and aoc_at remain \"reported\" (dataset-only) for every row; the row-level \"documented\" upgrade the plan allowed at >= 38/40 agreement is not available.",
+  "agreement": {
+    "bids_received": {
+      "match": 0,
+      "mismatch": 0,
+      "missing": 0,
+      "page_gone": 40
+    },
+    "selected_bidder": {
+      "match": 0,
+      "mismatch": 0,
+      "missing": 0,
+      "page_gone": 40
+    },
+    "contract_value": {
+      "match": 0,
+      "mismatch": 0,
+      "missing": 0,
+      "page_gone": 40
+    },
+    "aoc_date": {
+      "match": 0,
+      "mismatch": 0,
+      "missing": 0,
+      "page_gone": 40
+    }
+  },
+  "verdictRule": {
+    "match": "page value equals dataset value (bids: int; bidder: casefolded alnum; value: within 0.5; date: same calendar day)",
+    "mismatch": "page shows a value that differs, or the dataset is null where the page has a value",
+    "missing": "the page is an AOC page but does not show the field",
+    "page_gone": "the URL did not return an AOC page (invalid_url / captcha / not_found / unrecognised)"
+  },
+  "refusal": "rows drawn only from marked winners — a selected_bidder is 'marked' only when every non-empty component of the string split on ',' or ';' matches markerRegex (case-insensitive); a joined list holding one bare personal name is unmarked as a whole and is never drawn or written; the bidder address column is never read; assert_emittable() re-checks every name component and every key before writing",
+  "rows": [
+    {
+      "tender_id": "35275",
+      "portal": "central",
+      "year": 2015,
+      "organisation_name": "E-IN-C BRANCH - MILITARY ENGINEER SERVICES||CE WC AND CE PATHANKOT ZONE - MES||CWE JAMMU - MES",
+      "selected_bidder": "LAL CONSTRUCTIONS",
+      "detail_url": "https://eprocure.gov.in/cppp/aocfullview/MTYxMTY0A13h1OGQ2NzAxYTMwZTJhNTIxMGNiNmEwM2EzNmNhYWZhODk=A13h1MTc4MTk4OTQ1OA==",
+      "dataset": {
+        "bids_received": 9,
+        "contract_value_amount": 2096947.0,
+        "aoc_date": "2015-06-19"
+      },
+      "fetch": {
+        "httpStatus": 200,
+        "bytes": 38370,
+        "sha256_16": "6b7aba22ea21632d",
+        "pageClass": "invalid_url",
+        "curlError": null,
+        "fetchedAt": "2026-09-26T17:04:09Z"
+      },
+      "parsed": null,
+      "verdicts": {
+        "bids_received": "page_gone",
+        "selected_bidder": "page_gone",
+        "contract_value": "page_gone",
+        "aoc_date": "page_gone"
+      }
+    },
+    {
+      "tender_id": "59047",
+      "portal": "central",
+      "year": 2015,
+      "organisation_name": "Department of Posts||Delhi Circle, Dept. of Posts||Off. of EE(C),Delhi Circle,POST||Postal Civil Division,EE(C),Delhi Circle",
+      "selected_bidder": "M/S ANUSH CONSTRUCTION COMPANY",
+      "detail_url": "https://eprocure.gov.in/cppp/aocfullview/NDU0MTYxA13h1OGQ2NzAxYTMwZTJhNTIxMGNiNmEwM2EzNmNhYWZhODk=A13h1MTc4MTgyNzI2NQ==",
+      "dataset": {
+        "bids_received": 3,
+        "contract_value_amount": 757931.0,
+        "aoc_date": "2015-11-10"
+      },
+      "fetch": {
+        "httpStatus": 200,
+        "bytes": 38370,
+        "sha256_16": "dc90383feb993b59",
+        "pageClass": "invalid_url",
+        "curlError": null,
+        "fetchedAt": "2026-09-26T17:04:14Z"
+      },
+      "parsed": null,
+      "verdicts": {
+        "bids_received": "page_gone",
+        "selected_bidder": "page_gone",
+        "contract_value": "page_gone",
+        "aoc_date": "page_gone"
+      }
+    },
+    {
+      "tender_id": "39013",
+      "portal": "central",
+      "year": 2016,
+      "organisation_name": "Bihar State Office||Engineering",
+      "selected_bidder": "M/s NAGESH KUMAR",
+      "detail_url": "https://eprocure.gov.in/cppp/aocfullview/NTExNjMxA13h1OGQ2NzAxYTMwZTJhNTIxMGNiNmEwM2EzNmNhYWZhODk=A13h1MTc4MTgyNTk1Nw==",
+      "dataset": {
+        "bids_received": 16,
+        "contract_value_amount": 2522882.55,
+        "aoc_date": "2016-03-09"
+      },
+      "fetch": {
+        "httpStatus": 200,
+        "bytes": 38370,
+        "sha256_16": "3a7ed1dfc9b61b10",
+        "pageClass": "invalid_url",
+        "curlError": null,
+        "fetchedAt": "2026-09-26T17:04:19Z"
+      },
+      "parsed": null,
+      "verdicts": {
+        "bids_received": "page_gone",
+        "selected_bidder": "page_gone",
+        "contract_value": "page_gone",
+        "aoc_date": "page_gone"
+      }
+    },
+    {
+      "tender_id": "74325",
+      "portal": "central",
+      "year": 2016,
+      "organisation_name": "E-IN-C BRANCH - MILITARY ENGINEER SERVICES||CE SC AND CE PUNE ZONE - MES||CWE DEOLALI - MES||GE (S) AHMEDNAGAR - MES",
+      "selected_bidder": "M/s.M G Kulkarni",
+      "detail_url": "https://eprocure.gov.in/cppp/aocfullview/NTc3MzU4A13h1OGQ2NzAxYTMwZTJhNTIxMGNiNmEwM2EzNmNhYWZhODk=A13h1MTc4MTk4NTcyMg==",
+      "dataset": {
+        "bids_received": 3,
+        "contract_value_amount": 3609307.0,
+        "aoc_date": "2016-05-23"
+      },
+      "fetch": {
+        "httpStatus": 200,
+        "bytes": 38370,
+        "sha256_16": "794a1c92088d5f08",
+        "pageClass": "invalid_url",
+        "curlError": null,
+        "fetchedAt": "2026-09-26T17:04:25Z"
+      },
+      "parsed": null,
+      "verdicts": {
+        "bids_received": "page_gone",
+        "selected_bidder": "page_gone",
+        "contract_value": "page_gone",
+        "aoc_date": "page_gone"
+      }
+    },
+    {
+      "tender_id": "4775044",
+      "portal": "central",
+      "year": 2017,
+      "organisation_name": "BHEL BHOPAL",
+      "selected_bidder": "S.A.ENTERPRISES",
+      "detail_url": "https://eprocure.gov.in/cppp/aocfullview/ODAzMjQwA13h1OGQ2NzAxYTMwZTJhNTIxMGNiNmEwM2EzNmNhYWZhODk=A13h1MTc4MTk5OTM5Ng==",
+      "dataset": {
+        "bids_received": null,
+        "contract_value_amount": null,
+        "aoc_date": "2017-06-30"
+      },
+      "fetch": {
+        "httpStatus": 200,
+        "bytes": 38370,
+        "sha256_16": "c4b79690b23f5bd8",
+        "pageClass": "invalid_url",
+        "curlError": null,
+        "fetchedAt": "2026-09-26T17:04:30Z"
+      },
+      "parsed": null,
+      "verdicts": {
+        "bids_received": "page_gone",
+        "selected_bidder": "page_gone",
+        "contract_value": "page_gone",
+        "aoc_date": "page_gone"
+      }
+    },
+    {
+      "tender_id": "263163",
+      "portal": "central",
+      "year": 2017,
+      "organisation_name": "IHQ of MoD (Army)-(OSCC)||Eastern Comd-IHQ of MoD (Army)-(OSCC)||CORPS 1-Eastern Comd-IHQ of MoD (Army)-(OSCC)||ENGR UNIT 3-IHQ of MoD (Army)",
+      "selected_bidder": "NAGAS AND NAGALAND ENTERPRISES",
+      "detail_url": "https://eprocure.gov.in/cppp/aocfullview/ODk2NDMwA13h1OGQ2NzAxYTMwZTJhNTIxMGNiNmEwM2EzNmNhYWZhODk=A13h1MTc4MTk5NjIwMw==",
+      "dataset": {
+        "bids_received": 3,
+        "contract_value_amount": 549758.0,
+        "aoc_date": "2017-11-07"
+      },
+      "fetch": {
+        "httpStatus": 200,
+        "bytes": 38370,
+        "sha256_16": "4a217461872626ed",
+        "pageClass": "invalid_url",
+        "curlError": null,
+        "fetchedAt": "2026-09-26T17:04:35Z"
+      },
+      "parsed": null,
+      "verdicts": {
+        "bids_received": "page_gone",
+        "selected_bidder": "page_gone",
+        "contract_value": "page_gone",
+        "aoc_date": "page_gone"
+      }
+    },
+    {
+      "tender_id": "2018_MES_204657_1",
+      "portal": "central",
+      "year": 2018,
+      "organisation_name": "E-IN-C BRANCH - MILITARY ENGINEER SERVICES||CE CC AND CE (AF) ALLAHABAD - MES||CWE (AF) BAMRAULI ALLAHABAD - MES||GE (AF) GORAKHPUR",
+      "selected_bidder": "M/s Comfort Air Conditioning & Refrigeration Engineers",
+      "detail_url": "https://eprocure.gov.in/cppp/aocfullview/MTE0ODcxNw==A13h1OGQ2NzAxYTMwZTJhNTIxMGNiNmEwM2EzNmNhYWZhODk=A13h1MTc4MTk3MTEzNw==",
+      "dataset": {
+        "bids_received": 7,
+        "contract_value_amount": 4338710.0,
+        "aoc_date": "2018-09-04"
+      },
+      "fetch": {
+        "httpStatus": 200,
+        "bytes": 38378,
+        "sha256_16": "5e6021c81fc2a4c9",
+        "pageClass": "invalid_url",
+        "curlError": null,
+        "fetchedAt": "2026-09-26T17:04:40Z"
+      },
+      "parsed": null,
+      "verdicts": {
+        "bids_received": "page_gone",
+        "selected_bidder": "page_gone",
+        "contract_value": "page_gone",
+        "aoc_date": "page_gone"
+      }
+    },
+    {
+      "tender_id": "2018_DC_321586_1",
+      "portal": "central",
+      "year": 2018,
+      "organisation_name": "Development Commissioner(MSME)||HQ DC-MSME(Delhi)||SENET - DC-MSME",
+      "selected_bidder": "BAKA LIFTEC INDIA P LTD",
+      "detail_url": "https://eprocure.gov.in/cppp/aocfullview/MTA5OTU1NA==A13h1OGQ2NzAxYTMwZTJhNTIxMGNiNmEwM2EzNmNhYWZhODk=A13h1MTc4MTgxNjUwOA==",
+      "dataset": {
+        "bids_received": 1,
+        "contract_value_amount": 1022306.0,
+        "aoc_date": "2018-07-23"
+      },
+      "fetch": {
+        "httpStatus": 200,
+        "bytes": 38378,
+        "sha256_16": "b7915c2a50ee444f",
+        "pageClass": "invalid_url",
+        "curlError": null,
+        "fetchedAt": "2026-09-26T17:04:46Z"
+      },
+      "parsed": null,
+      "verdicts": {
+        "bids_received": "page_gone",
+        "selected_bidder": "page_gone",
+        "contract_value": "page_gone",
+        "aoc_date": "page_gone"
+      }
+    },
+    {
+      "tender_id": "2019_MES_235968_1",
+      "portal": "central",
+      "year": 2019,
+      "organisation_name": "E-IN-C BRANCH - MILITARY ENGINEER SERVICES||CESC AND CE BHOPAL ZONE  - MES||CWE JHANSI - MES||GE BABINA - MES",
+      "selected_bidder": "M/s Ravi Traders,M/S M S Constructions,M/S Ritu Tandon,Ms Vinay constructions,M/S R.S.BUNDELA &ampamp SONS,ROHIT ENTERPRISES",
+      "detail_url": "https://eprocure.gov.in/cppp/aocfullview/MTQ2OTg5MA==A13h1OGQ2NzAxYTMwZTJhNTIxMGNiNmEwM2EzNmNhYWZhODk=A13h1MTc4MTk2Mzc4OQ==",
+      "dataset": {
+        "bids_received": 6,
+        "contract_value_amount": 4000000.0,
+        "aoc_date": "2019-03-05"
+      },
+      "fetch": {
+        "httpStatus": 200,
+        "bytes": 38378,
+        "sha256_16": "e8392023da24a8de",
+        "pageClass": "invalid_url",
+        "curlError": null,
+        "fetchedAt": "2026-09-26T17:04:51Z"
+      },
+      "parsed": null,
+      "verdicts": {
+        "bids_received": "page_gone",
+        "selected_bidder": "page_gone",
+        "contract_value": "page_gone",
+        "aoc_date": "page_gone"
+      }
+    },
+    {
+      "tender_id": "E-304-18-0355-61-1",
+      "portal": "central",
+      "year": 2019,
+      "organisation_name": "Bharat Heavy Electricals Limited (BHEL) HERP",
+      "selected_bidder": "M/S MAILAM INDIA LIMITED",
+      "detail_url": "https://eprocure.gov.in/cppp/aocfullview/MTIzNjQxMQ==A13h1OGQ2NzAxYTMwZTJhNTIxMGNiNmEwM2EzNmNhYWZhODk=A13h1MTc4MTgwOTg4MQ==",
+      "dataset": {
+        "bids_received": null,
+        "contract_value_amount": 22890.0,
+        "aoc_date": "2019-02-13"
+      },
+      "fetch": {
+        "httpStatus": 200,
+        "bytes": 38378,
+        "sha256_16": "c47724fb232b6343",
+        "pageClass": "invalid_url",
+        "curlError": null,
+        "fetchedAt": "2026-09-26T17:04:56Z"
+      },
+      "parsed": null,
+      "verdicts": {
+        "bids_received": "page_gone",
+        "selected_bidder": "page_gone",
+        "contract_value": "page_gone",
+        "aoc_date": "page_gone"
+      }
+    },
+    {
+      "tender_id": "2020_MES_357834_1",
+      "portal": "central",
+      "year": 2020,
+      "organisation_name": "E-IN-C BRANCH - MILITARY ENGINEER SERVICES||CE EC AND CE (NAVY) VIZAG - MES||CWE (P) VISHAKHAPATNAM - MES||GE (P) (NAVY) VISAKHAPATNAM - MES",
+      "selected_bidder": "M/s Jai Sree Hari",
+      "detail_url": "https://eprocure.gov.in/cppp/aocfullview/MTQ1Mzg2NA==A13h1OGQ2NzAxYTMwZTJhNTIxMGNiNmEwM2EzNmNhYWZhODk=A13h1MTc4MTgwMDQ1MA==",
+      "dataset": {
+        "bids_received": 3,
+        "contract_value_amount": 1712042.0,
+        "aoc_date": "2020-09-23"
+      },
+      "fetch": {
+        "httpStatus": 200,
+        "bytes": 38378,
+        "sha256_16": "90dba40f2f232071",
+        "pageClass": "invalid_url",
+        "curlError": null,
+        "fetchedAt": "2026-09-26T17:05:01Z"
+      },
+      "parsed": null,
+      "verdicts": {
+        "bids_received": "page_gone",
+        "selected_bidder": "page_gone",
+        "contract_value": "page_gone",
+        "aoc_date": "page_gone"
+      }
+    },
+    {
+      "tender_id": "6591",
+      "portal": "central",
+      "year": 2020,
+      "organisation_name": "Gail India Ltd.",
+      "selected_bidder": "M/S PHOENIX ENGGINEERS",
+      "detail_url": "https://eprocure.gov.in/cppp/aocfullview/MTQxNjY0Ng==A13h1OGQ2NzAxYTMwZTJhNTIxMGNiNmEwM2EzNmNhYWZhODk=A13h1MTc4MTgwMTAzNg==",
+      "dataset": {
+        "bids_received": 8,
+        "contract_value_amount": 2301000.0,
+        "aoc_date": "2020-03-23"
+      },
+      "fetch": {
+        "httpStatus": 200,
+        "bytes": 38378,
+        "sha256_16": "a7ed5018d5ca3dd7",
+        "pageClass": "invalid_url",
+        "curlError": null,
+        "fetchedAt": "2026-09-26T17:05:06Z"
+      },
+      "parsed": null,
+      "verdicts": {
+        "bids_received": "page_gone",
+        "selected_bidder": "page_gone",
+        "contract_value": "page_gone",
+        "aoc_date": "page_gone"
+      }
+    },
+    {
+      "tender_id": "2021_MES_436373_1",
+      "portal": "central",
+      "year": 2021,
+      "organisation_name": "E-IN-C BRANCH - MILITARY ENGINEER SERVICES||CESC AND CE BHOPAL ZONE  - MES||CWE NAGPUR - MES||GE PULGAON - MES",
+      "selected_bidder": "SHREE SIDDHIVINAYAK TRADERS",
+      "detail_url": "https://eprocure.gov.in/cppp/aocfullview/MTU0MzYxMA==A13h1OGQ2NzAxYTMwZTJhNTIxMGNiNmEwM2EzNmNhYWZhODk=A13h1MTc4MTkzNzk1NA==",
+      "dataset": {
+        "bids_received": 12,
+        "contract_value_amount": 3800240.0,
+        "aoc_date": "2021-05-28"
+      },
+      "fetch": {
+        "httpStatus": 200,
+        "bytes": 38378,
+        "sha256_16": "f4937fab5a40fd9e",
+        "pageClass": "invalid_url",
+        "curlError": null,
+        "fetchedAt": "2026-09-26T17:05:12Z"
+      },
+      "parsed": null,
+      "verdicts": {
+        "bids_received": "page_gone",
+        "selected_bidder": "page_gone",
+        "contract_value": "page_gone",
+        "aoc_date": "page_gone"
+      }
+    },
+    {
+      "tender_id": "2021_CCL_211514_1",
+      "portal": "central",
+      "year": 2021,
+      "organisation_name": "Central Coalfields Limited||Piparwar",
+      "selected_bidder": "m/s shree om electrical",
+      "detail_url": "https://eprocure.gov.in/cppp/aocfullview/MTU4NDU0OQ==A13h1OGQ2NzAxYTMwZTJhNTIxMGNiNmEwM2EzNmNhYWZhODk=A13h1MTc4MTc5Mzg3OQ==",
+      "dataset": {
+        "bids_received": 3,
+        "contract_value_amount": 163571.97,
+        "aoc_date": "2021-10-19"
+      },
+      "fetch": {
+        "httpStatus": 200,
+        "bytes": 38378,
+        "sha256_16": "7f65909e9278a07c",
+        "pageClass": "invalid_url",
+        "curlError": null,
+        "fetchedAt": "2026-09-26T17:05:17Z"
+      },
+      "parsed": null,
+      "verdicts": {
+        "bids_received": "page_gone",
+        "selected_bidder": "page_gone",
+        "contract_value": "page_gone",
+        "aoc_date": "page_gone"
+      }
+    },
+    {
+      "tender_id": "784663",
+      "portal": "central",
+      "year": 2022,
+      "organisation_name": "HINDUSTAN PETROLEUM CORPORATION LTD",
+      "selected_bidder": "Dorf Ketal Chemicals (I) Pvt. Ltd.",
+      "detail_url": "https://eprocure.gov.in/cppp/aocfullview/MTY2MzY2Mw==A13h1OGQ2NzAxYTMwZTJhNTIxMGNiNmEwM2EzNmNhYWZhODk=A13h1MTc4MTc4NzIwMw==",
+      "dataset": {
+        "bids_received": 1,
+        "contract_value_amount": 27072000.0,
+        "aoc_date": "2022-05-24"
+      },
+      "fetch": {
+        "httpStatus": 200,
+        "bytes": 38378,
+        "sha256_16": "92e59efc405d0fad",
+        "pageClass": "invalid_url",
+        "curlError": null,
+        "fetchedAt": "2026-09-26T17:05:22Z"
+      },
+      "parsed": null,
+      "verdicts": {
+        "bids_received": "page_gone",
+        "selected_bidder": "page_gone",
+        "contract_value": "page_gone",
+        "aoc_date": "page_gone"
+      }
+    },
+    {
+      "tender_id": "2022_NTPC_64249_1",
+      "portal": "central",
+      "year": 2022,
+      "organisation_name": "NTPC Limited||Corporate Centre||USSC||CPG-1",
+      "selected_bidder": "A RAJESHAM AND COMPANY,SRI MARUTHI SC BC NTPC LO LCCS LTD",
+      "detail_url": "https://eprocure.gov.in/cppp/aocfullview/MTY2OTgxNQ==A13h1OGQ2NzAxYTMwZTJhNTIxMGNiNmEwM2EzNmNhYWZhODk=A13h1MTc4MTc4NjYwMA==",
+      "dataset": {
+        "bids_received": 2,
+        "contract_value_amount": 8906558.0,
+        "aoc_date": "2022-07-12"
+      },
+      "fetch": {
+        "httpStatus": 200,
+        "bytes": 38378,
+        "sha256_16": "a6659133f5f12403",
+        "pageClass": "invalid_url",
+        "curlError": null,
+        "fetchedAt": "2026-09-26T17:05:27Z"
+      },
+      "parsed": null,
+      "verdicts": {
+        "bids_received": "page_gone",
+        "selected_bidder": "page_gone",
+        "contract_value": "page_gone",
+        "aoc_date": "page_gone"
+      }
+    },
+    {
+      "tender_id": "2022_ERO_159778_1",
+      "portal": "central",
+      "year": 2023,
+      "organisation_name": "IndianOil||Marketing||Eastern Region Office||Contract Cell",
+      "selected_bidder": "JAI MATA DI ENTERPRISES",
+      "detail_url": "https://eprocure.gov.in/cppp/aocfullview/MTczMzMzNQ==A13h1OGQ2NzAxYTMwZTJhNTIxMGNiNmEwM2EzNmNhYWZhODk=A13h1MTc4MTkyNzI5Mw==",
+      "dataset": {
+        "bids_received": 10,
+        "contract_value_amount": 13061546.0,
+        "aoc_date": "2023-01-31"
+      },
+      "fetch": {
+        "httpStatus": 200,
+        "bytes": 38378,
+        "sha256_16": "f0fe4390464c9766",
+        "pageClass": "invalid_url",
+        "curlError": null,
+        "fetchedAt": "2026-09-26T17:05:33Z"
+      },
+      "parsed": null,
+      "verdicts": {
+        "bids_received": "page_gone",
+        "selected_bidder": "page_gone",
+        "contract_value": "page_gone",
+        "aoc_date": "page_gone"
+      }
+    },
+    {
+      "tender_id": "2024_MCD_182453_1",
+      "portal": "central",
+      "year": 2024,
+      "organisation_name": "Municipal Corporation of Delhi||Engineering - MCD||Civil Engineering - MCD",
+      "selected_bidder": "SHRI RADHEY CONSTRUCTION COMPANY",
+      "detail_url": "https://eprocure.gov.in/cppp/aocfullview/MTgzOTUwNg==A13h1OGQ2NzAxYTMwZTJhNTIxMGNiNmEwM2EzNmNhYWZhODk=A13h1MTc4MTc1NzE0MA==",
+      "dataset": {
+        "bids_received": 2,
+        "contract_value_amount": 1.0,
+        "aoc_date": "2024-01-25"
+      },
+      "fetch": {
+        "httpStatus": 200,
+        "bytes": 38378,
+        "sha256_16": "27cea3147e2272d4",
+        "pageClass": "invalid_url",
+        "curlError": null,
+        "fetchedAt": "2026-09-26T17:05:38Z"
+      },
+      "parsed": null,
+      "verdicts": {
+        "bids_received": "page_gone",
+        "selected_bidder": "page_gone",
+        "contract_value": "page_gone",
+        "aoc_date": "page_gone"
+      }
+    },
+    {
+      "tender_id": "7250269",
+      "portal": "central",
+      "year": 2025,
+      "organisation_name": "BHEL BHOPAL",
+      "selected_bidder": "RAJSHI ENGINEERS",
+      "detail_url": "https://eprocure.gov.in/cppp/aocfullview/MjAxMTYwOQ==A13h1OGQ2NzAxYTMwZTJhNTIxMGNiNmEwM2EzNmNhYWZhODk=A13h1MTc4MTg5MDUzNw==",
+      "dataset": {
+        "bids_received": 1,
+        "contract_value_amount": null,
+        "aoc_date": "2025-08-18"
+      },
+      "fetch": {
+        "httpStatus": 200,
+        "bytes": 38378,
+        "sha256_16": "6686479a089bd560",
+        "pageClass": "invalid_url",
+        "curlError": null,
+        "fetchedAt": "2026-09-26T17:05:43Z"
+      },
+      "parsed": null,
+      "verdicts": {
+        "bids_received": "page_gone",
+        "selected_bidder": "page_gone",
+        "contract_value": "page_gone",
+        "aoc_date": "page_gone"
+      }
+    },
+    {
+      "tender_id": "2024_MCD_184886_1",
+      "portal": "central",
+      "year": 2026,
+      "organisation_name": "Municipal Corporation of Delhi||Horticulture Department - MCD",
+      "selected_bidder": "S.K.ENTERPRISES",
+      "detail_url": "https://eprocure.gov.in/cppp/aocfullview/MjA5MDY0Nw==A13h1OGQ2NzAxYTMwZTJhNTIxMGNiNmEwM2EzNmNhYWZhODk=A13h1MTc4MTc1NjI4NQ==",
+      "dataset": {
+        "bids_received": 1,
+        "contract_value_amount": 340719.0,
+        "aoc_date": "2026-04-24"
+      },
+      "fetch": {
+        "httpStatus": 200,
+        "bytes": 38378,
+        "sha256_16": "b9547855a078e274",
+        "pageClass": "invalid_url",
+        "curlError": null,
+        "fetchedAt": "2026-09-26T17:05:48Z"
+      },
+      "parsed": null,
+      "verdicts": {
+        "bids_received": "page_gone",
+        "selected_bidder": "page_gone",
+        "contract_value": "page_gone",
+        "aoc_date": "page_gone"
+      }
+    },
+    {
+      "tender_id": "8114",
+      "portal": "state",
+      "year": 2015,
+      "organisation_name": "Punjab",
+      "selected_bidder": "M/s Prempal Contractor",
+      "detail_url": "https://eprocure.gov.in/cppp/aocfullviewmmp/MTE3NzU0A13h1VmpGYWExTXlTWGxTYkdoUFZqSm9jbHBJYjNkUFVUMDk=A13h1MTc4MTgyNzA1MA==",
+      "dataset": {
+        "bids_received": 3,
+        "contract_value_amount": 4169841.0,
+        "aoc_date": "2015-09-07"
+      },
+      "fetch": {
+        "httpStatus": 200,
+        "bytes": 38366,
+        "sha256_16": "f1c5b2e06b279dd7",
+        "pageClass": "invalid_url",
+        "curlError": null,
+        "fetchedAt": "2026-09-26T17:05:53Z"
+      },
+      "parsed": null,
+      "verdicts": {
+        "bids_received": "page_gone",
+        "selected_bidder": "page_gone",
+        "contract_value": "page_gone",
+        "aoc_date": "page_gone"
+      }
+    },
+    {
+      "tender_id": "100354",
+      "portal": "state",
+      "year": 2015,
+      "organisation_name": "West Bengal",
+      "selected_bidder": "M/S TRISHA TRADERS",
+      "detail_url": "https://eprocure.gov.in/cppp/aocfullviewmmp/MTQwOTA3A13h1VmpGYWExTXlTWGxTYkdoUFZqSm9jbHBJYjNkUFVUMDk=A13h1MTc4MjAwNTcyMg==",
+      "dataset": {
+        "bids_received": 3,
+        "contract_value_amount": 1035110.0,
+        "aoc_date": "2015-11-18"
+      },
+      "fetch": {
+        "httpStatus": 200,
+        "bytes": 38366,
+        "sha256_16": "00960bd1916496cb",
+        "pageClass": "invalid_url",
+        "curlError": null,
+        "fetchedAt": "2026-09-26T17:05:58Z"
+      },
+      "parsed": null,
+      "verdicts": {
+        "bids_received": "page_gone",
+        "selected_bidder": "page_gone",
+        "contract_value": "page_gone",
+        "aoc_date": "page_gone"
+      }
+    },
+    {
+      "tender_id": "24970",
+      "portal": "state",
+      "year": 2016,
+      "organisation_name": "Uttar Pradesh",
+      "selected_bidder": "M/S V.K.Construction",
+      "detail_url": "https://eprocure.gov.in/cppp/aocfullviewmmp/MTM5NjEwA13h1VmpGYWExTXlTWGxTYkdoUFZqSm9jbHBJYjNkUFVUMDk=A13h1MTc4MTk4NzY0OQ==",
+      "dataset": {
+        "bids_received": 5,
+        "contract_value_amount": 9435501.0,
+        "aoc_date": "2016-01-05"
+      },
+      "fetch": {
+        "httpStatus": 200,
+        "bytes": 38366,
+        "sha256_16": "d10b5b7b1878e248",
+        "pageClass": "invalid_url",
+        "curlError": null,
+        "fetchedAt": "2026-09-26T17:06:03Z"
+      },
+      "parsed": null,
+      "verdicts": {
+        "bids_received": "page_gone",
+        "selected_bidder": "page_gone",
+        "contract_value": "page_gone",
+        "aoc_date": "page_gone"
+      }
+    },
+    {
+      "tender_id": "146634",
+      "portal": "state",
+      "year": 2016,
+      "organisation_name": "Maharashtra",
+      "selected_bidder": "Neha Enterprises",
+      "detail_url": "https://eprocure.gov.in/cppp/aocfullviewmmp/MTQ1NjE4A13h1VmpGYWExTXlTWGxTYkdoUFZqSm9jbHBJYjNkUFVUMDk=A13h1MTc4MjAwNTI4NA==",
+      "dataset": {
+        "bids_received": 3,
+        "contract_value_amount": 2104445.0,
+        "aoc_date": "2016-02-03"
+      },
+      "fetch": {
+        "httpStatus": 200,
+        "bytes": 38366,
+        "sha256_16": "f1b40c51a419de86",
+        "pageClass": "invalid_url",
+        "curlError": null,
+        "fetchedAt": "2026-09-26T17:06:08Z"
+      },
+      "parsed": null,
+      "verdicts": {
+        "bids_received": "page_gone",
+        "selected_bidder": "page_gone",
+        "contract_value": "page_gone",
+        "aoc_date": "page_gone"
+      }
+    },
+    {
+      "tender_id": "115543",
+      "portal": "state",
+      "year": 2017,
+      "organisation_name": "Maharashtra",
+      "selected_bidder": "Jay construction",
+      "detail_url": "https://eprocure.gov.in/cppp/aocfullviewmmp/MjQxOTk3A13h1VmpGYWExTXlTWGxTYkdoUFZqSm9jbHBJYjNkUFVUMDk=A13h1MTc4MTgyNzgwNQ==",
+      "dataset": {
+        "bids_received": 10,
+        "contract_value_amount": 961192.0,
+        "aoc_date": "2017-03-09"
+      },
+      "fetch": {
+        "httpStatus": 200,
+        "bytes": 38366,
+        "sha256_16": "057ac87940a64c15",
+        "pageClass": "invalid_url",
+        "curlError": null,
+        "fetchedAt": "2026-09-26T17:06:14Z"
+      },
+      "parsed": null,
+      "verdicts": {
+        "bids_received": "page_gone",
+        "selected_bidder": "page_gone",
+        "contract_value": "page_gone",
+        "aoc_date": "page_gone"
+      }
+    },
+    {
+      "tender_id": "141659",
+      "portal": "state",
+      "year": 2017,
+      "organisation_name": "Maharashtra",
+      "selected_bidder": "M/s. Shri Dayal Constructions",
+      "detail_url": "https://eprocure.gov.in/cppp/aocfullviewmmp/MjUyODE2A13h1VmpGYWExTXlTWGxTYkdoUFZqSm9jbHBJYjNkUFVUMDk=A13h1MTc4MjAwNTcyMg==",
+      "dataset": {
+        "bids_received": 3,
+        "contract_value_amount": 289172.0,
+        "aoc_date": "2017-04-11"
+      },
+      "fetch": {
+        "httpStatus": 200,
+        "bytes": 38366,
+        "sha256_16": "e5ec16cc8f56bbb9",
+        "pageClass": "invalid_url",
+        "curlError": null,
+        "fetchedAt": "2026-09-26T17:06:19Z"
+      },
+      "parsed": null,
+      "verdicts": {
+        "bids_received": "page_gone",
+        "selected_bidder": "page_gone",
+        "contract_value": "page_gone",
+        "aoc_date": "page_gone"
+      }
+    },
+    {
+      "tender_id": "2018_SSIP_311992_1",
+      "portal": "state",
+      "year": 2018,
+      "organisation_name": "Maharashtra",
+      "selected_bidder": "Gughane Infrastructure Pvt Ltd Yavatmal",
+      "detail_url": "https://eprocure.gov.in/cppp/aocfullviewmmp/MzgwMjQxA13h1VmpGYWExTXlTWGxTYkdoUFZqSm9jbHBJYjNkUFVUMDk=A13h1MTc4MTk5MTYzMw==",
+      "dataset": {
+        "bids_received": 2,
+        "contract_value_amount": 2087601.0,
+        "aoc_date": "2018-06-04"
+      },
+      "fetch": {
+        "httpStatus": 200,
+        "bytes": 38366,
+        "sha256_16": "02e2ad976423b28c",
+        "pageClass": "invalid_url",
+        "curlError": null,
+        "fetchedAt": "2026-09-26T17:06:24Z"
+      },
+      "parsed": null,
+      "verdicts": {
+        "bids_received": "page_gone",
+        "selected_bidder": "page_gone",
+        "contract_value": "page_gone",
+        "aoc_date": "page_gone"
+      }
+    },
+    {
+      "tender_id": "2018_DLG_20202_2",
+      "portal": "state",
+      "year": 2018,
+      "organisation_name": "Punjab",
+      "selected_bidder": "Gautam Construction Company",
+      "detail_url": "https://eprocure.gov.in/cppp/aocfullviewmmp/NDQyNjA0A13h1VmpGYWExTXlTWGxTYkdoUFZqSm9jbHBJYjNkUFVUMDk=A13h1MTc4MTgxNDA0OA==",
+      "dataset": {
+        "bids_received": 2,
+        "contract_value_amount": 396000.0,
+        "aoc_date": "2018-10-17"
+      },
+      "fetch": {
+        "httpStatus": 200,
+        "bytes": 38366,
+        "sha256_16": "cd233e46b429b167",
+        "pageClass": "invalid_url",
+        "curlError": null,
+        "fetchedAt": "2026-09-26T17:06:30Z"
+      },
+      "parsed": null,
+      "verdicts": {
+        "bids_received": "page_gone",
+        "selected_bidder": "page_gone",
+        "contract_value": "page_gone",
+        "aoc_date": "page_gone"
+      }
+    },
+    {
+      "tender_id": "2019_RSMML_146903_1",
+      "portal": "state",
+      "year": 2019,
+      "organisation_name": "Rajasthan",
+      "selected_bidder": "Ellar Steel Industries",
+      "detail_url": "https://eprocure.gov.in/cppp/aocfullviewmmp/NTcxNDE4A13h1VmpGYWExTXlTWGxTYkdoUFZqSm9jbHBJYjNkUFVUMDk=A13h1MTc4MTk1NjE1Mg==",
+      "dataset": {
+        "bids_received": 5,
+        "contract_value_amount": 1793600.0,
+        "aoc_date": "2019-09-19"
+      },
+      "fetch": {
+        "httpStatus": 200,
+        "bytes": 38366,
+        "sha256_16": "005ef7840c46ca1f",
+        "pageClass": "invalid_url",
+        "curlError": null,
+        "fetchedAt": "2026-09-26T17:06:35Z"
+      },
+      "parsed": null,
+      "verdicts": {
+        "bids_received": "page_gone",
+        "selected_bidder": "page_gone",
+        "contract_value": "page_gone",
+        "aoc_date": "page_gone"
+      }
+    },
+    {
+      "tender_id": "2019_NMCN_411969_2",
+      "portal": "state",
+      "year": 2019,
+      "organisation_name": "Maharashtra",
+      "selected_bidder": "MUKESH CONSTRUCTION",
+      "detail_url": "https://eprocure.gov.in/cppp/aocfullviewmmp/NzM2OTQwA13h1VmpGYWExTXlTWGxTYkdoUFZqSm9jbHBJYjNkUFVUMDk=A13h1MTc4MTgxMDYyNQ==",
+      "dataset": {
+        "bids_received": 1,
+        "contract_value_amount": 440140.0,
+        "aoc_date": "2019-03-04"
+      },
+      "fetch": {
+        "httpStatus": 200,
+        "bytes": 38366,
+        "sha256_16": "ca3f82ce213823e3",
+        "pageClass": "invalid_url",
+        "curlError": null,
+        "fetchedAt": "2026-09-26T17:06:40Z"
+      },
+      "parsed": null,
+      "verdicts": {
+        "bids_received": "page_gone",
+        "selected_bidder": "page_gone",
+        "contract_value": "page_gone",
+        "aoc_date": "page_gone"
+      }
+    },
+    {
+      "tender_id": "2019_PCMCP_434010_1",
+      "portal": "state",
+      "year": 2020,
+      "organisation_name": "Maharashtra",
+      "selected_bidder": "D D CONSTRUCTION",
+      "detail_url": "https://eprocure.gov.in/cppp/aocfullviewmmp/NzAwMDQ1A13h1VmpGYWExTXlTWGxTYkdoUFZqSm9jbHBJYjNkUFVUMDk=A13h1MTc4MTgxMDM2OA==",
+      "dataset": {
+        "bids_received": 6,
+        "contract_value_amount": 10961969.0,
+        "aoc_date": "2020-06-24"
+      },
+      "fetch": {
+        "httpStatus": 200,
+        "bytes": 38366,
+        "sha256_16": "bc9d366f188b15e0",
+        "pageClass": "invalid_url",
+        "curlError": null,
+        "fetchedAt": "2026-09-26T17:06:45Z"
+      },
+      "parsed": null,
+      "verdicts": {
+        "bids_received": "page_gone",
+        "selected_bidder": "page_gone",
+        "contract_value": "page_gone",
+        "aoc_date": "page_gone"
+      }
+    },
+    {
+      "tender_id": "2020_CEUAZ_486945_2",
+      "portal": "state",
+      "year": 2020,
+      "organisation_name": "Uttar Pradesh",
+      "selected_bidder": "M/S SAUMYA CONSTRUCTION",
+      "detail_url": "https://eprocure.gov.in/cppp/aocfullviewmmp/NzcxMDM5A13h1VmpGYWExTXlTWGxTYkdoUFZqSm9jbHBJYjNkUFVUMDk=A13h1MTc4MTgwMTQ4MA==",
+      "dataset": {
+        "bids_received": 2,
+        "contract_value_amount": 3485468.0,
+        "aoc_date": "2020-10-15"
+      },
+      "fetch": {
+        "httpStatus": 200,
+        "bytes": 38366,
+        "sha256_16": "d4d87fd975cf72a2",
+        "pageClass": "invalid_url",
+        "curlError": null,
+        "fetchedAt": "2026-09-26T17:06:51Z"
+      },
+      "parsed": null,
+      "verdicts": {
+        "bids_received": "page_gone",
+        "selected_bidder": "page_gone",
+        "contract_value": "page_gone",
+        "aoc_date": "page_gone"
+      }
+    },
+    {
+      "tender_id": "2021_MBMC_656758_1",
+      "portal": "state",
+      "year": 2021,
+      "organisation_name": "Maharashtra",
+      "selected_bidder": "Meru Construction",
+      "detail_url": "https://eprocure.gov.in/cppp/aocfullviewmmp/Nzk1NDA2A13h1VmpGYWExTXlTWGxTYkdoUFZqSm9jbHBJYjNkUFVUMDk=A13h1MTc4MTc5MzI1Ng==",
+      "dataset": {
+        "bids_received": 3,
+        "contract_value_amount": 1330781.0,
+        "aoc_date": "2021-08-23"
+      },
+      "fetch": {
+        "httpStatus": 200,
+        "bytes": 38366,
+        "sha256_16": "46eabb3e11984325",
+        "pageClass": "invalid_url",
+        "curlError": null,
+        "fetchedAt": "2026-09-26T17:06:56Z"
+      },
+      "parsed": null,
+      "verdicts": {
+        "bids_received": "page_gone",
+        "selected_bidder": "page_gone",
+        "contract_value": "page_gone",
+        "aoc_date": "page_gone"
+      }
+    },
+    {
+      "tender_id": "2021_SANGL_695458_1",
+      "portal": "state",
+      "year": 2021,
+      "organisation_name": "Maharashtra",
+      "selected_bidder": "Pravin Construction,Siddhanath Construction,M/s. Shubham Construction",
+      "detail_url": "https://eprocure.gov.in/cppp/aocfullviewmmp/MTAwMDk3OA==A13h1VmpGYWExTXlTWGxTYkdoUFZqSm9jbHBJYjNkUFVUMDk=A13h1MTc4MTkzOTc1NQ==",
+      "dataset": {
+        "bids_received": 3,
+        "contract_value_amount": 1488101.0,
+        "aoc_date": "2021-08-12"
+      },
+      "fetch": {
+        "httpStatus": 200,
+        "bytes": 38374,
+        "sha256_16": "c2ff13d826306c40",
+        "pageClass": "invalid_url",
+        "curlError": null,
+        "fetchedAt": "2026-09-26T17:07:00Z"
+      },
+      "parsed": null,
+      "verdicts": {
+        "bids_received": "page_gone",
+        "selected_bidder": "page_gone",
+        "contract_value": "page_gone",
+        "aoc_date": "page_gone"
+      }
+    },
+    {
+      "tender_id": "2022_PMCP_787140_1",
+      "portal": "state",
+      "year": 2022,
+      "organisation_name": "Maharashtra",
+      "selected_bidder": "M/S AADARSH BHARAT ENVIRO PVT.LTD.",
+      "detail_url": "https://eprocure.gov.in/cppp/aocfullviewmmp/MTIwNzk4MA==A13h1VmpGYWExTXlTWGxTYkdoUFZqSm9jbHBJYjNkUFVUMDk=A13h1MTc4MTk1ODExNA==",
+      "dataset": {
+        "bids_received": 6,
+        "contract_value_amount": 299972.0,
+        "aoc_date": "2022-06-27"
+      },
+      "fetch": {
+        "httpStatus": 200,
+        "bytes": 38374,
+        "sha256_16": "8076b15a1bf624fa",
+        "pageClass": "invalid_url",
+        "curlError": null,
+        "fetchedAt": "2026-09-26T17:07:06Z"
+      },
+      "parsed": null,
+      "verdicts": {
+        "bids_received": "page_gone",
+        "selected_bidder": "page_gone",
+        "contract_value": "page_gone",
+        "aoc_date": "page_gone"
+      }
+    },
+    {
+      "tender_id": "2022_HRY_203938_4",
+      "portal": "state",
+      "year": 2022,
+      "organisation_name": "Haryana",
+      "selected_bidder": "The Brothers Builders Co-op L&ampampampC Society",
+      "detail_url": "https://eprocure.gov.in/cppp/aocfullviewmmp/MTA5Mzc4MA==A13h1VmpGYWExTXlTWGxTYkdoUFZqSm9jbHBJYjNkUFVUMDk=A13h1MTc4MTc4NjU5Ng==",
+      "dataset": {
+        "bids_received": 2,
+        "contract_value_amount": 400000.0,
+        "aoc_date": "2022-02-15"
+      },
+      "fetch": {
+        "httpStatus": 200,
+        "bytes": 38374,
+        "sha256_16": "9622cd8d7f15bf4c",
+        "pageClass": "invalid_url",
+        "curlError": null,
+        "fetchedAt": "2026-09-26T17:07:11Z"
+      },
+      "parsed": null,
+      "verdicts": {
+        "bids_received": "page_gone",
+        "selected_bidder": "page_gone",
+        "contract_value": "page_gone",
+        "aoc_date": "page_gone"
+      }
+    },
+    {
+      "tender_id": "2023_PWR_887570_8",
+      "portal": "state",
+      "year": 2023,
+      "organisation_name": "Maharashtra",
+      "selected_bidder": "JAYVANTAI CONSTRUCTION AND CONTRACTOR",
+      "detail_url": "https://eprocure.gov.in/cppp/aocfullviewmmp/MTY5MTMwMw==A13h1VmpGYWExTXlTWGxTYkdoUFZqSm9jbHBJYjNkUFVUMDk=A13h1MTc4MTkxMzczNA==",
+      "dataset": {
+        "bids_received": 6,
+        "contract_value_amount": 3821068.0,
+        "aoc_date": "2023-12-22"
+      },
+      "fetch": {
+        "httpStatus": 200,
+        "bytes": 38374,
+        "sha256_16": "66b0a2e4a56ebe82",
+        "pageClass": "invalid_url",
+        "curlError": null,
+        "fetchedAt": "2026-09-26T17:07:16Z"
+      },
+      "parsed": null,
+      "verdicts": {
+        "bids_received": "page_gone",
+        "selected_bidder": "page_gone",
+        "contract_value": "page_gone",
+        "aoc_date": "page_gone"
+      }
+    },
+    {
+      "tender_id": "2024_PWR_1013668_2",
+      "portal": "state",
+      "year": 2024,
+      "organisation_name": "Maharashtra",
+      "selected_bidder": "H.S.construction",
+      "detail_url": "https://eprocure.gov.in/cppp/aocfullviewmmp/MTk2Mzk2MA==A13h1VmpGYWExTXlTWGxTYkdoUFZqSm9jbHBJYjNkUFVUMDk=A13h1MTc4MTc1NDg5Mg==",
+      "dataset": {
+        "bids_received": 3,
+        "contract_value_amount": 1014517.0,
+        "aoc_date": "2024-08-26"
+      },
+      "fetch": {
+        "httpStatus": 200,
+        "bytes": 38374,
+        "sha256_16": "e187b4056874206c",
+        "pageClass": "invalid_url",
+        "curlError": null,
+        "fetchedAt": "2026-09-26T17:07:21Z"
+      },
+      "parsed": null,
+      "verdicts": {
+        "bids_received": "page_gone",
+        "selected_bidder": "page_gone",
+        "contract_value": "page_gone",
+        "aoc_date": "page_gone"
+      }
+    },
+    {
+      "tender_id": "2025_HBC_469034_1",
+      "portal": "state",
+      "year": 2025,
+      "organisation_name": "Haryana",
+      "selected_bidder": "THE SAGWAN GOOD LUCK CO-OP L and C SOCIETY LTD",
+      "detail_url": "https://eprocure.gov.in/cppp/aocfullviewmmp/MjQ5MTU5Nw==A13h1VmpGYWExTXlTWGxTYkdoUFZqSm9jbHBJYjNkUFVUMDk=A13h1MTc4MTc1MDE0Mw==",
+      "dataset": {
+        "bids_received": 4,
+        "contract_value_amount": 1089385.73,
+        "aoc_date": "2025-12-04"
+      },
+      "fetch": {
+        "httpStatus": 200,
+        "bytes": 38374,
+        "sha256_16": "9a26ed5785ef66d1",
+        "pageClass": "invalid_url",
+        "curlError": null,
+        "fetchedAt": "2026-09-26T17:07:26Z"
+      },
+      "parsed": null,
+      "verdicts": {
+        "bids_received": "page_gone",
+        "selected_bidder": "page_gone",
+        "contract_value": "page_gone",
+        "aoc_date": "page_gone"
+      }
+    },
+    {
+      "tender_id": "2026_DTP_666500_1",
+      "portal": "state",
+      "year": 2026,
+      "organisation_name": "Tamil Nadu",
+      "selected_bidder": "SRI RAM INFRA",
+      "detail_url": "https://eprocure.gov.in/cppp/aocfullviewmmp/MjY5MTU0Mw==A13h1VmpGYWExTXlTWGxTYkdoUFZqSm9jbHBJYjNkUFVUMDk=A13h1MTc4MTc0MTQxMw==",
+      "dataset": {
+        "bids_received": 2,
+        "contract_value_amount": 696865.0,
+        "aoc_date": "2026-04-11"
+      },
+      "fetch": {
+        "httpStatus": 200,
+        "bytes": 38374,
+        "sha256_16": "357e04103ec96b74",
+        "pageClass": "invalid_url",
+        "curlError": null,
+        "fetchedAt": "2026-09-26T17:07:32Z"
+      },
+      "parsed": null,
+      "verdicts": {
+        "bids_received": "page_gone",
+        "selected_bidder": "page_gone",
+        "contract_value": "page_gone",
+        "aoc_date": "page_gone"
+      }
+    }
+  ],
+  "provenance": {
+    "inputs": [
+      {
+        "file": "data-00000-of-00002.arrow",
+        "bytes": 1796891632,
+        "sha256_16": "95e997785ecab0a9"
+      },
+      {
+        "file": "data-00001-of-00002.arrow",
+        "bytes": 1656131440,
+        "sha256_16": "d7663349efb13547"
+      }
+    ],
+    "rows": 4921960,
+    "distinctTenderIds": 2923713,
+    "candidateRows": 1402374,
+    "dedupRule": "one row per (tender_id, selected_bidder_norm, aoc_at) — the first by internal_id, where selected_bidder_norm = lower(trim(selected_bidder)) (build.py SQL[dedup], verbatim); candidates further restricted to marked winners (every component), non-null detail_url and aoc year 2015-2026",
+    "sql": {
+      "cand": "CREATE TABLE cand AS\nSELECT internal_id, tender_id, portal_type, year(aoc_at) AS y, organisation_name,\n       selected_bidder, bids_received, contract_value_amount, aoc_at, detail_url\nFROM t\nWHERE detail_url IS NOT NULL\n  AND selected_bidder IS NOT NULL AND len(list_filter(string_split_regex(lower(selected_bidder), '[,;]'), lambda x: trim(x) <> '')) > 0 AND len(list_filter(list_filter(string_split_regex(lower(selected_bidder), '[,;]'), lambda x: trim(x) <> ''), lambda x: NOT regexp_matches(x, '(ltd|limited|pvt|private|llp|m/s|infra|construct|enterprise|corporation|company|co\\.|associates|traders|agencies|industries|technolog|solutions|services|builders|engineers|contractors|suppliers|&|and sons|society|samiti|sangh|mandal|federation|trust|bank|udyog|nigam|pariyojana)'))) = 0\n  AND aoc_at IS NOT NULL AND year(aoc_at) BETWEEN 2015 AND 2026\nQUALIFY row_number() OVER (PARTITION BY tender_id, lower(trim(selected_bidder)), aoc_at\n                           ORDER BY internal_id) = 1",
+      "stratum": "SELECT internal_id FROM cand WHERE portal_type = ? AND y = ? ORDER BY internal_id",
+      "rows": "SELECT internal_id, tender_id, portal_type, y, organisation_name, selected_bidder, bids_received, contract_value_amount, aoc_at, detail_url FROM cand WHERE internal_id IN (SELECT unnest(?)) ORDER BY portal_type, y, internal_id",
+      "totals": "SELECT count(*) AS rows, count(DISTINCT tender_id) AS distinct_tender_ids FROM t"
+    },
+    "generatedBy": "scripts/cppp/verify_sample.py@9e80f75",
+    "asOf": "2026-09-26"
+  }
+}
