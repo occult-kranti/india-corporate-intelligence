@@ -170,6 +170,28 @@ const FIX = {
   superseded: EDGES.filter((e) => e.supersededBy).length,
 };
 FIX.absent = DECLARED_SWEEPS.filter((s) => !FIX.sweeps.has(s));
+/** Benefit records by claim id; the ledger lists one row per visible claim that has one. */
+const BENEFIT = new Map((gen.ENERGY_BENEFITS ?? []).map((b) => [b.claimId, b]));
+FIX.benefitRows = DRAWABLE.filter((e) => BENEFIT.has(e.id)).length;
+/** Every amount a single benefit record carries, as the page formats it (en-IN). */
+const BENEFIT_AMOUNTS = new Set([...BENEFIT.values()].filter((b) => b.amountCr).map((b) => b.amountCr.toLocaleString('en-IN')));
+/**
+ * Every string the record itself holds — each string field of the generated module,
+ * and the platform's node labels — longest first. Text the page prints verbatim from
+ * these is data ("Adani Total Gas", a quoted source "MEIL Rs 966 cr total"), not the
+ * page's own words; AC-21 removes it before reading what the page itself says.
+ */
+const DATA_STRINGS = (() => {
+  const out = new Set();
+  const walk = (v) => {
+    if (typeof v === 'string') out.add(v);
+    else if (Array.isArray(v)) v.forEach(walk);
+    else if (v && typeof v === 'object') Object.values(v).forEach(walk);
+  };
+  walk(Object.values(gen));
+  for (const l of platform.values()) out.add(l);
+  return [...out].filter((x) => x.length >= 6).sort((a, b) => b.length - a.length || (a < b ? -1 : 1));
+})();
 const edgeById = new Map(EDGES.map((e) => [e.id, e]));
 const companyRow = constituents.find((c) => c.existingId === FIX.company) ?? null;
 
@@ -237,8 +259,10 @@ let empty; // { server, base } for dist-empty
 const contexts = {};
 
 before(async () => {
-  const dist = join(root, 'dist');
-  if (!existsSync(join(dist, 'index.html'))) throw new Error('dist/index.html missing — run `npm run build` first.');
+  // ENERGY_DIST points the suite at a pinned build (e.g. one made with
+  // `vite build --outDir …`) so a concurrent `npm run build` cannot swap assets mid-run.
+  const dist = process.env.ENERGY_DIST ?? join(root, 'dist');
+  if (!existsSync(join(dist, 'index.html'))) throw new Error(`${dist}/index.html missing — run \`npm run build\` first.`);
   full = await serve(dist);
   empty = await serve(ensureDistEmpty());
   const PINNED = process.env.PLAYWRIGHT_CHROMIUM_PATH ?? '/opt/pw-browsers/chromium';
@@ -299,6 +323,15 @@ const ne = (cond, msg) => assert.ok(cond, msg);
 
 /** A sweep chip by slug — chips carry their label, and the label is what the spec declares. */
 const chip = (page, slug) => page.locator('button[aria-pressed]').filter({ hasText: new RegExp('^\\s*' + esc(SWEEP_LABEL[slug]) + '\\b', 'i') }).first();
+/**
+ * All sweep chips — the strip's toggles only. The page has other `button[aria-pressed]`
+ * toggles the spec also requires (the shape legend in #stage, the narrative-status
+ * chips in #contested), so "every aria-pressed button" is not "every sweep chip". The
+ * strip exposes no data-* hook of its own; a sweep chip is known, as in `chip()`, by
+ * starting with one of the twelve declared sweep labels.
+ */
+const SWEEP_CHIP_TEXT = new RegExp('^\\s*(' + Object.values(SWEEP_LABEL).map(esc).join('|') + ')\\b', 'i');
+const sweepChips = (page, extra = '') => page.locator('button[aria-pressed]' + extra).filter({ hasText: SWEEP_CHIP_TEXT });
 const fact = (page, n) => page.locator(`[data-strip-fact="${n}"]`).first();
 const factNum = async (page, n) => { const t = await text(fact(page, n)); const m = t.match(/^(\d+) of (\d+)/); assert.ok(m, `[data-strip-fact="${n}"] reads "${t}"`); return [int(m[1]), int(m[2])]; };
 const noDetailsAncestor = (loc) => loc.evaluate((el) => !el.closest('details'));
@@ -423,10 +456,12 @@ t('AC-05 — The sweep strip says a chip is not a sector', async () => {
       assert.ok(await cap.count(), `${vp}: caption missing`);
       assert.ok(await cap.isVisible(), `${vp}: caption not visible`);
       assert.equal(await style(cap, 'fontSize'), '12px', `${vp}: caption size`);
-      const under = await cap.evaluate((el) => {
-        const chips = [...document.querySelectorAll('button[aria-pressed]')];
-        return chips.length > 0 && chips.every((c) => !!(c.compareDocumentPosition(el) & Node.DOCUMENT_POSITION_FOLLOWING));
-      });
+      const chips = sweepChips(page);
+      assert.equal(await chips.count(), DECLARED_SWEEPS.length, `${vp}: expected one chip per declared sweep`);
+      const under = await chips.evaluateAll(
+        (els, el) => els.every((c) => !!(c.compareDocumentPosition(el) & Node.DOCUMENT_POSITION_FOLLOWING)),
+        await cap.elementHandle(),
+      );
       assert.ok(under, `${vp}: caption is not under the chip rows`);
     });
   }
@@ -625,7 +660,7 @@ const chipCount = (c) => c.evaluate((el) => {
 
 t('AC-16 — Sweep chips carry counts and dated spans that add up', () => withPage('D', async (page) => {
   await load(page, '/energy');
-  const chips = page.locator('button[aria-pressed]:not([disabled])');
+  const chips = sweepChips(page, ':not([disabled])');
   const n = await chips.count();
   assert.ok(n > 0, 'no enabled chips');
   let S = 0;
@@ -729,10 +764,30 @@ t('AC-20 — A path is never shown without its count and median', () => withPage
 
 t('AC-21 — The benefit ledger sums nothing and draws nothing', () => withPage('D', async (page) => {
   await load(page, '/energy');
+  // No chart of amounts: no svg beyond the ≤ 20px tier-dash samples, no canvas, no bar.
   const wide = await page.locator('#benefit svg').evaluateAll((els) => els.map((e) => e.getBoundingClientRect().width).filter((w) => w > 20));
   assert.deepEqual(wide, [], `#benefit draws svg wider than 20px: ${wide.join(', ')}`);
-  const tx = await page.locator('#benefit').innerText();
-  assert.doesNotMatch(tx, /\btotal\b|\bsum\b|\bcombined\b/i, 'ledger sums');
+  assert.equal(await page.locator('#benefit canvas').count(), 0, '#benefit draws a canvas');
+  const bars = await page.locator('#benefit [style]').evaluateAll((els) => els.filter((e) => /(^|;)\s*width:\s*[\d.]+%/.test(e.getAttribute('style'))).length);
+  assert.equal(bars, 0, `#benefit has ${bars} percentage-width bar(s)`);
+  // No aggregate row: every ledger row is one claim, and there are exactly as many
+  // rows as visible claims that carry a benefit record.
+  assert.equal(await page.locator('#benefit tfoot').count(), 0, 'ledger has a footer row');
+  const rowClaims = await page.locator('#benefit table tbody tr').evaluateAll((trs) => trs.map((tr) => [...tr.querySelectorAll('button')].filter((b) => /^Open claim /.test(b.getAttribute('aria-label') ?? '')).length));
+  const notOne = rowClaims.map((n, i) => [i, n]).filter(([, n]) => n !== 1);
+  assert.deepEqual(notOne, [], 'ledger rows that do not open exactly one claim ([row, buttons])');
+  assert.equal(rowClaims.length, FIX.benefitRows, `ledger rows ${rowClaims.length} ≠ visible claims with a benefit record ${FIX.benefitRows}`);
+  // No computed total, in the page's own words: remove every verbatim data string
+  // (company names such as "Adani Total Gas", quoted sources such as "MEIL Rs 966 cr
+  // total") and read what is left.
+  let own = await page.locator('#benefit').innerText();
+  for (const d of DATA_STRINGS) if (own.includes(d)) own = own.split(d).join(' ¦ ');
+  const summing = own.split('\n').filter((l) => /\btotal\b|\bsum\b|\bcombined\b/i.test(l));
+  assert.deepEqual(summing, [], 'the ledger\'s own text sums');
+  const figures = [...own.matchAll(/₹\s?([\d,]+(?:\.\d+)?)/g)].map((m) => m[1]);
+  assert.ok(figures.length > 0, 'no ₹ figure in the ledger\'s own text');
+  const computed = [...new Set(figures.filter((f) => !BENEFIT_AMOUNTS.has(f)))];
+  assert.deepEqual(computed, [], '₹ figures that are not a single recorded benefit amount');
   const tables = page.locator('#benefit table');
   const tn = await tables.count();
   assert.ok(tn > 0, '#benefit has no ledger table');
@@ -887,6 +942,15 @@ t('AC-28 — A void count of zero says "not written down"', async () => {
   for (const slug of [...FIX.sweeps].sort()) {
     await withPage('D', async (page) => {
       await load(page, `/energy?dom=${slug}`);
+      // Wait for the margin itself to say one or the other, not for a fixed settle:
+      // on a loaded machine the lazy route can still be committing after SETTLE.
+      await page.waitForFunction(() => {
+        const a = document.querySelector('main aside');
+        if (!a) return false;
+        const tx = a.innerText;
+        return (/\d+ documented voids — absences that were looked for/.test(tx) && !!a.querySelector('li'))
+          || tx.includes('That means none was written down, not that none exists.');
+      }, null, { timeout: 20_000 }).catch(() => {});
       const aside = page.locator('main aside').first();
       const tx = await aside.innerText();
       const has = /\d+ documented voids — absences that were looked for/.test(tx) && (await aside.locator('li').count()) >= 1;
@@ -988,8 +1052,8 @@ t('AC-33 — Edges and nodes name their responses in text', () => withPage('D', 
     .filter((s) => !/· (\d+ responses recorded|no response recorded( — listed in Gaps)?)$/.test(s)));
   assert.ok(await page.locator('#stage [data-claim]').count() > 0, 'no [data-claim] edges');
   assert.deepEqual(bad.slice(0, 3), [], `${bad.length} edges lack a response phrase`);
-  const nodes = page.locator('#stage g[role=button]');
-  assert.ok(await nodes.count() > 0, 'no g[role=button] nodes');
+  const nodes = page.locator('#stage g[role=button][data-id]');
+  assert.ok(await nodes.count() > 0, 'no g[role=button][data-id] nodes');
   const badNodes = await nodes.evaluateAll((els) => els.map((e) => e.getAttribute('aria-label') ?? '').filter((s) => !/, .* · \d+ claims · \d+ responses recorded · /.test(s)));
   assert.deepEqual(badNodes.slice(0, 3), [], `${badNodes.length} nodes lack the response phrase`);
   const ticks = page.locator('#stage [data-response-tick]');
@@ -1126,7 +1190,7 @@ t('AC-39 — Graph parameters round-trip through the rail', async () => {
     await page.waitForFunction(() => { const t = new URLSearchParams(location.hash.split('?')[1] ?? '').get('tier'); return t !== null && !t.includes('alleged'); }, null, { timeout: 5_000 });
     await page.locator('#stage [role=group][aria-label="Filter by entity type"] button').first().click();
     await waitForParam(page, 'ty');
-    const node = page.locator('#stage g[role=button][tabindex="0"]').first();
+    const node = page.locator('#stage g[role=button][data-id][tabindex="0"]').first();
     await node.focus();
     await page.keyboard.press('Enter');
     await waitForParam(page, 'sel');
@@ -1385,7 +1449,7 @@ const activeInfo = (page) => page.evaluate(() => {
 
 t('AC-52 — Skip links lead the stage', () => withPage('D', async (page) => {
   await load(page, '/energy');
-  await page.locator('button[aria-pressed]').last().focus();
+  await sweepChips(page).last().focus();
   let info = null;
   for (let i = 0; i < 12; i += 1) {
     await page.keyboard.press('Tab');
@@ -1412,11 +1476,18 @@ t('AC-53 — Answers written from outside the canvas move focus to the margin', 
   const heading = page.locator('main aside [tabindex="-1"]').first();
   assert.ok(await heading.count(), 'no aside heading with tabindex=-1');
   assert.equal(await text(heading), 'Margin');
+  let previous = 'Margin';
   const via = async (btn, label) => {
     await btn.focus();
     await page.keyboard.press('Enter');
-    await page.waitForFunction(() => document.activeElement?.closest('main aside') && document.activeElement.getAttribute('tabindex') === '-1' && document.activeElement.textContent.trim() !== 'Margin', null, { timeout: 5_000 }).catch(() => {});
+    // The specific condition: focus is on the aside heading AND the heading has been
+    // re-rendered for this answer (it no longer reads what the previous one left).
+    await page.waitForFunction((prev) => {
+      const a = document.activeElement;
+      return !!a?.closest('main aside') && a.getAttribute('tabindex') === '-1' && a.textContent.trim() !== 'Margin' && a.textContent.trim() !== prev;
+    }, previous, { timeout: 20_000 }).catch(() => {});
     const info = await activeInfo(page);
+    previous = info?.text ?? previous;
     assert.ok(info.inAside && info.tabindex === '-1', `${label}: focus not on the aside heading`);
     assert.notEqual(info.text, 'Margin', `${label}: heading still reads Margin`);
     return info.text;
@@ -1430,7 +1501,7 @@ t('AC-53 — Answers written from outside the canvas move focus to the margin', 
 }));
 
 t('AC-54 — Every actionable control is a focusable element with a visible ring', () => withPage('D', async (page) => {
-  await load(page, `/energy?path=${FIX.a},${FIX.b}`);
+  await load(page, `/energy?path=${FIX.a},${FIX.b}&table=1`);
   const failures = await page.evaluate(() => {
     const rail = document.querySelector('#gq')?.closest('form, details, fieldset, section, aside, div') ?? null;
     const railEls = rail ? [...rail.querySelectorAll('input, button, select')] : [];
@@ -1442,7 +1513,9 @@ t('AC-54 — Every actionable control is a focusable element with a visible ring
       contested: [...document.querySelectorAll('#contested button')],
       tenure: [...document.querySelectorAll('#offices svg [data-tenure]')],
       tick: [...document.querySelectorAll('#offices svg [data-tick]')],
-      pager: [...document.querySelectorAll('#twin button')].filter((b) => /next →|← prev/i.test(b.textContent)),
+      // On page 1 "← previous" is disabled, and a disabled button is not an actionable
+      // control; the enabled pager buttons are.
+      pager: [...document.querySelectorAll('#twin button')].filter((b) => /next →|← prev/i.test(b.textContent) && !b.disabled),
       download: [...document.querySelectorAll('button')].filter((b) => /Download CSV/.test(b.textContent)),
       narrative: [...document.querySelectorAll('#contested button[aria-pressed]')],
     };
@@ -1469,7 +1542,7 @@ t('AC-54 — Every actionable control is a focusable element with a visible ring
 
 t('AC-55 — Nodes are keyboard operable and keep focus', () => withPage('D', async (page) => {
   await load(page, '/energy');
-  const node = page.locator('#stage g[role=button][tabindex="0"]').first();
+  const node = page.locator('#stage g[role=button][data-id][tabindex="0"]').first();
   assert.ok(await node.count(), 'no focusable node');
   await node.focus();
   await page.keyboard.press('Enter');
@@ -1646,11 +1719,28 @@ t('AC-63 — The aside is a non-modal bottom sheet over the canvas', () => withP
   await close.tap();
   await page.waitForFunction(() => !new URLSearchParams(location.hash.split('?')[1] ?? '').has('claim'), null, { timeout: 5_000 });
   assert.equal(hashParams(page).get('q'), 'coal', 'q lost on close');
-  await page.evaluate(() => { const s = document.querySelector('#stage'); window.scrollTo(0, s.getBoundingClientRect().bottom + window.scrollY + 50); });
-  await page.waitForTimeout(SETTLE);
-  const stageGone = await page.evaluate(() => document.querySelector('#stage').getBoundingClientRect().bottom <= 0);
+  // The layout scrolls inside <main> (the document itself does not scroll), so scroll
+  // main until #stage's bottom is 50px above the viewport, and read it in the same tick.
+  const stageGone = await page.evaluate(() => {
+    const m = document.querySelector('main');
+    const s = document.querySelector('#stage');
+    m.scrollTop += s.getBoundingClientRect().bottom + 50;
+    return s.getBoundingClientRect().bottom <= 0;
+  });
   assert.ok(stageGone, 'could not scroll #stage out of view');
+  // Wait for the sheet to dock, then require that it stays docked: a sheet that
+  // re-floats a moment later is still covering the sections below.
+  await page.waitForFunction(() => getComputedStyle(document.querySelector('main aside')).position !== 'fixed', null, { timeout: 5_000 }).catch(() => {});
   assert.notEqual(await style(aside, 'position'), 'fixed', 'aside still fixed with #stage off-screen');
+  const refloated = await page.evaluate(() => new Promise((resolve) => {
+    let n = 0;
+    const id = setInterval(() => {
+      n += 1;
+      if (getComputedStyle(document.querySelector('main aside')).position === 'fixed') { clearInterval(id); resolve(n * 100); }
+      if (n >= 15) { clearInterval(id); resolve(0); }
+    }, 100);
+  }));
+  assert.equal(refloated, 0, `aside docked, then became fixed again ~${refloated}ms later with main scrolled past #stage`);
 }));
 
 t('AC-64 — The canvas lets a vertical swipe through at rest', () => withPage('M', async (page) => {

@@ -167,8 +167,8 @@ criteria impose on the build:
 - **Check:** `/#/energy?path={FIX.a},{FIX.b}`. Assert the `aside` contains `/\d+ hops · one of \d+ equally short paths/` and `/median separation in this view: \d+ hops \(from \d+ evenly spaced entities\)/`. Assert a `Distribution` `svg[role=img]` renders under the shape legend with a caption matching `/\d+ entities in this view cannot be reached from /`. Assert the histogram's `DataTable` twin has rows `hops · entities · share`.
 
 ### AC-21 — The benefit ledger sums nothing and draws nothing
-- **Behaviour:** No total, chart, axis or bar appears in the ledger.
-- **Check:** `/#/energy`. In `#benefit`: assert no `svg` other than tier-dash samples ≤ 20px wide; assert no text matching `/\btotal\b|\bsum\b|\bcombined\b/i`; assert every amount cell matches `/^₹[\d,.]+ cr$|^≈ ₹[\d,.]+ cr \(estimate\)$|^amount unknown$/` and none is `₹0 cr` or empty.
+- **Behaviour:** The page adds nothing up and draws nothing: no aggregate row, no computed total, no chart of amounts. Words inside the record itself — a company named "Adani Total Gas", a quoted source "MEIL Rs 966 cr total" — are data, not the page summing.
+- **Check:** `/#/energy`. In `#benefit`: **no chart** — no `svg` other than tier-dash samples ≤ 20px wide, no `canvas`, no element with an inline percentage `width`. **No aggregate row** — no `tfoot`; every ledger `tbody tr` holds exactly one button whose accessible name starts `Open claim `; the number of ledger rows equals the drawable claims that carry a benefit record (`ENERGY_BENEFITS`). **No computed total, in the page's own words** — take the section's text and remove every verbatim data string (each string field of the generated module, and the platform's node labels, ≥ 6 characters); the remainder has no match for `/\btotal\b|\bsum\b|\bcombined\b/i`, contains at least one `₹` figure, and every `₹` figure in it equals one benefit record's `amountCr` (en-IN). Every amount cell matches `/^₹[\d,.]+ cr$|^≈ ₹[\d,.]+ cr \(estimate\)$|^amount unknown$/` and none is `₹0 cr` or empty.
 
 ### AC-22 — The source ledger counts its primaries
 - **Behaviour:** The foot states how many sources and how many are primary.
@@ -320,7 +320,7 @@ criteria impose on the build:
 
 ### AC-54 — Every actionable control is a focusable element with a visible ring
 - **Behaviour:** Nothing on the page is reachable only by mouse.
-- **Check:** `/#/energy?path={FIX.a},{FIX.b}`. For each selector — sweep chips `button[aria-pressed]`, rail inputs and buttons, `#benefit button`, `#benchmark button`, `#contested button`, `#offices svg [data-tenure]`, `#offices svg [data-tick]`, twin pager buttons, the `Download CSV` buttons, the narrative chips — assert each is a `button`, `a[href]`, `input`, `select` or has `tabindex="0"`; call `.focus()` and assert `document.activeElement` is it; assert computed `outline-style !== 'none'` or a non-`none` `box-shadow` under `:focus-visible`. Press Enter on one lane tick: hash gains `claim=`.
+- **Check:** `/#/energy?path={FIX.a},{FIX.b}&table=1` (the twin, and so its pager, renders only with `table=1`, spec §5.7). For each selector — every `button[aria-pressed]` (sweep chips, shape-legend toggles, narrative chips), rail inputs and buttons, `#benefit button`, `#benchmark button`, `#contested button`, `#offices svg [data-tenure]`, `#offices svg [data-tick]`, the enabled twin pager buttons (a disabled `← previous` on page 1 is not actionable), the `Download CSV` buttons, the narrative chips — assert each is a `button`, `a[href]`, `input`, `select` or has `tabindex="0"`; call `.focus()` and assert `document.activeElement` is it; assert computed `outline-style !== 'none'` or a non-`none` `box-shadow` under `:focus-visible`. Press Enter on one lane tick: hash gains `claim=`.
 
 ### AC-55 — Nodes are keyboard operable and keep focus
 - **Behaviour:** A node activated by Enter selects itself without stealing focus, and the change is announced.
@@ -360,7 +360,7 @@ criteria impose on the build:
 
 ### AC-63 — The aside is a non-modal bottom sheet over the canvas
 - **Behaviour:** Tapping a claim shows its card on the same screen as the graph.
-- **Check:** `M`, `/#/energy?claim={FIX.claim}`. Assert the `aside` has computed `position: fixed`, `getBoundingClientRect().bottom <= 844`, height `<= 0.4 * innerHeight`, and no `aria-modal`. Assert a button with `aria-expanded` (expand/collapse) and a close button exist. Assert the canvas `svg` top `>= ` the strip's bottom and the aside's top `> ` the canvas top (both in view). Tap close: hash has no `claim`; type into search → `q=` persists after close. Scroll so `#stage` leaves the viewport: the aside's `position` is no longer `fixed`.
+- **Check:** `M`, `/#/energy?claim={FIX.claim}`. Assert the `aside` has computed `position: fixed`, `getBoundingClientRect().bottom <= 844`, height `<= 0.4 * innerHeight`, and no `aria-modal`. Assert a button with `aria-expanded` (expand/collapse) and a close button exist. Assert the canvas `svg` top `>= ` the strip's bottom and the aside's top `> ` the canvas top (both in view). Tap close: hash has no `claim`; type into search → `q=` persists after close. Scroll so `#stage` leaves the viewport (scroll `main`: the layout scrolls inside it, not the document): the aside's `position` is no longer `fixed`, and stays so for 1.5 s.
 
 ### AC-64 — The canvas lets a vertical swipe through at rest
 - **Behaviour:** On a coarse pointer the graph does not trap page scroll until the reader chooses to pan.

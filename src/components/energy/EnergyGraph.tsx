@@ -1,6 +1,6 @@
-import { memo, useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
+import { memo, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { forceCollide, forceLink, forceManyBody, forceSimulation, forceX, forceY, type SimulationNodeDatum } from 'd3-force';
-import { useCamera, CameraControls } from '../viz/camera';
+import { useCamera, CameraControls, ExpandShell } from '../viz/camera';
 import { FAMILY_COLOR, edgeWidth, isDirected, shapeClassOf, type ShapeClass } from '../viz/ForceGraph';
 import { TIERS, TIER_ORDER, type GEdge, type GNode, type Tier } from '../../graph/schema';
 import { DRAWABLE, NODE_LIST } from '../../data/energy';
@@ -98,6 +98,18 @@ function shapeFor(cls: ShapeClass, r: number): string {
 export const HOVER_CARD_ID = 'energy-hover-card';
 const ROSE = '#c45b5a';
 
+/**
+ * Claim-line luminance (WCAG 1.4.11, audit A11Y-001 S2). The dash pattern is the
+ * evidence tier and is never touched here; only how bright the line is. Composited
+ * onto --color-bg #0a0a0c: rest 0.62 × 0.75 → 3.95:1, lit 0.62 × 0.95 → 5.76:1, arrowhead
+ * 0.70 × 0.75 → 4.77:1 — all above the 3:1 a graphical object needs, so the dash is
+ * perceivable at rest and not only when lit. Not-lit stays at 0.1 (≈1.1:1) on purpose:
+ * "not part of what you asked about" is meant to recede.
+ */
+const CLAIM_INK = 'rgba(232,228,220,0.62)';
+const ARROW_INK = 'rgba(232,228,220,0.70)';
+const CLAIM_OPACITY = { rest: 0.75, lit: 0.95, dim: 0.1 } as const;
+
 export interface Lit {
   nodes: Set<string>;
   edges: Set<string>;
@@ -123,6 +135,7 @@ export default function EnergyGraph({
   height,
   fitKey,
   expandedAside,
+  onExpandedChange,
   connectorClaim = null,
 }: {
   nodes: GNode[];
@@ -144,6 +157,11 @@ export default function EnergyGraph({
   height: string;
   fitKey: string;
   expandedAside?: ReactNode;
+  /**
+   * Told when the graph fills the window, so the page can stop rendering what the
+   * dialog now carries (the margin) — otherwise its ids exist twice (WCAG 4.1.1).
+   */
+  onExpandedChange?: (expanded: boolean) => void;
   /** The claim whose responders get a rose connector: set only while that claim is the lit set (spec §6). */
   connectorClaim?: string | null;
 }) {
@@ -205,6 +223,32 @@ export default function EnergyGraph({
     io.observe(el);
     return () => io.disconnect();
   }, [armed]);
+
+  // Reported in a layout effect, so the page drops its inline margin in the same
+  // frame the dialog's copy appears and the duplicate ids are never painted.
+  const expandedCb = useRef(onExpandedChange);
+  expandedCb.current = onExpandedChange;
+  const reported = useRef(cam.expanded);
+  useLayoutEffect(() => {
+    if (reported.current === cam.expanded) return;
+    reported.current = cam.expanded;
+    expandedCb.current?.(cam.expanded);
+  }, [cam.expanded]);
+
+  /**
+   * Focus follows the frame into the dialog, and back out to where it came from.
+   * ExpandShell's effect runs first (it is the child) and handles the maximise
+   * button; this one takes over when the reader opened it with `f` from the frame
+   * or from an entity in it, and on open, so the arrow keys keep panning.
+   */
+  const openedFromFrame = useRef(false);
+  const wasExpanded = useRef(cam.expanded);
+  useEffect(() => {
+    if (wasExpanded.current === cam.expanded) return;
+    wasExpanded.current = cam.expanded;
+    if (cam.expanded || openedFromFrame.current) wrapRef.current?.focus({ preventScroll: true });
+    if (!cam.expanded) openedFromFrame.current = false;
+  }, [cam.expanded]);
 
   const fitToContent = useCallback(() => {
     let x0 = Infinity, x1 = -Infinity, y0 = Infinity, y1 = -Infinity;
@@ -327,6 +371,11 @@ export default function EnergyGraph({
   };
 
   const onWrapKey = (ev: React.KeyboardEvent<HTMLDivElement>) => {
+    if ((ev.key === 'f' || ev.key === 'F') && !cam.expanded) {
+      // From the frame or an entity, focus returns to the frame on close; from a
+      // camera button, ExpandShell returns it to the maximise button.
+      openedFromFrame.current = !(ev.target instanceof HTMLButtonElement);
+    }
     if (ev.key === '0') {
       fitToContent();
       ev.preventDefault();
@@ -378,7 +427,7 @@ export default function EnergyGraph({
       >
         <defs>
           <marker id="energy-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="5" markerHeight="5" orient="auto">
-            <path d="M 0 0 L 8 4 L 0 8 z" fill="rgba(232,228,220,0.35)" />
+            <path d="M 0 0 L 8 4 L 0 8 z" fill={ARROW_INK} />
           </marker>
         </defs>
         <g transform={cam.transform}>
@@ -408,7 +457,7 @@ export default function EnergyGraph({
                   contra={e.pred === 'contra'}
                   width={edgeWidth(e)}
                   dash={TIERS[e.tier].dash}
-                  opacity={isLit ? (lit ? 0.95 : 0.55) : 0.1}
+                  opacity={!isLit ? CLAIM_OPACITY.dim : effectiveLit ? CLAIM_OPACITY.lit : CLAIM_OPACITY.rest}
                   strong={!!lit && isLit}
                   arrow={isDirected(e.pred)}
                   hit={Math.max(coarse ? 10 : 6, 10 / k)}
@@ -538,28 +587,25 @@ export default function EnergyGraph({
     </div>
   );
 
-  if (!cam.expanded) return frame;
   // Maximised: the margin comes with the graph. A maximised graph without its
-  // margin would be a screenshot with the epistemics stripped.
+  // margin would be a screenshot with the epistemics stripped. The shared shell makes
+  // it a modal dialog (focus in and back, the page inert) — audit A11Y-001 S5.
   return (
-    <div className="fixed inset-0 z-50 bg-bg p-3 flex flex-col">
-      <div className="flex items-baseline justify-between gap-4 mb-2 px-1">
-        <p className="font-mono text-[11px] text-text-muted">
-          {nodes.length} entities · {edges.length} claims · filters stay applied · press Escape to close
-        </p>
-        <button
-          type="button"
-          onClick={() => cam.setExpanded(false)}
-          className="font-mono text-[11px] px-2 py-0.5 rounded border border-border-light text-text-muted hover:text-accent"
-        >
-          close
-        </button>
-      </div>
-      <div className="flex-1 min-h-0 grid gap-3 lg:grid-cols-[minmax(0,1fr)_22rem] max-lg:grid-rows-[minmax(0,1fr)_40vh]">
-        <div className="min-h-0">{frame}</div>
-        {expandedAside && <div className="min-h-0 overflow-y-auto border border-border rounded p-3">{expandedAside}</div>}
-      </div>
-    </div>
+    <ExpandShell
+      expanded={cam.expanded}
+      onClose={() => cam.setExpanded(false)}
+      caption={`${nodes.length} entities · ${edges.length} claims · filters stay applied`}
+      label="The power map, filling the window"
+    >
+      {cam.expanded ? (
+        <div className="h-full grid gap-3 lg:grid-cols-[minmax(0,1fr)_22rem] max-lg:grid-rows-[minmax(0,1fr)_40vh]">
+          <div className="min-h-0">{frame}</div>
+          {expandedAside && <div className="min-h-0 overflow-y-auto border border-border rounded p-3">{expandedAside}</div>}
+        </div>
+      ) : (
+        frame
+      )}
+    </ExpandShell>
   );
 }
 
@@ -604,10 +650,12 @@ const EdgeLine = memo(function EdgeLine({
     <>
       <g
         data-claim={id}
-        // role img, not button, even when tabbable: Enter opens it all the same, and a
-        // button role here would put claims ahead of entities for anything that walks
-        // the canvas's buttons in document order.
-        role="img"
+        // A button, because Enter and click open it (WCAG 4.1.2, audit A11Y-001 S3); an
+        // img role hid that affordance from assistive technology. The roledescription
+        // keeps it announced as a "claim". A claim is tabbable only when it touches the
+        // selection or lies on the asked path, so it never precedes the entities in the
+        // tab order at rest.
+        role="button"
         aria-roledescription="claim"
         aria-label={name}
         tabIndex={tab ? 0 : undefined}
@@ -620,7 +668,7 @@ const EdgeLine = memo(function EdgeLine({
           y1={y1}
           x2={x2}
           y2={y2}
-          stroke={contra ? ROSE : strong ? 'rgba(244,240,232,0.95)' : 'rgba(232,228,220,0.30)'}
+          stroke={contra ? ROSE : strong ? 'rgba(244,240,232,0.95)' : CLAIM_INK}
           strokeWidth={width}
           strokeDasharray={dash || undefined}
           opacity={opacity}

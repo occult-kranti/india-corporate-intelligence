@@ -91,11 +91,27 @@ for (const e of DRAWABLE) {
 }
 export const touchOf = (id: string) => TOUCH.get(id) ?? { tiers: { documented: 0, reported: 0, alleged: 0, analytic: 0 }, n: 0, responses: 0 };
 
+/**
+ * The text equivalent of the two channels that are otherwise colour and area only
+ * (WCAG 1.4.1, audit A11Y-001 M3): hue = family, size = the researcher's declared band.
+ * One function, so the accessible name, the hover card and the table twin say it the
+ * same way.
+ */
+export const SIZE_BANDS = 4;
+export function encodingWords(n: GNode): string {
+  return `${FAMILY_LABEL[n.fam]} family · size band ${n.sz} of ${SIZE_BANDS}, declared by the researcher`;
+}
+
+/** The same two channels, compact, for the table twin's endpoint cell and its CSV. */
+export function encodingShort(n: GNode): string {
+  return `${FAMILY_LABEL[n.fam]} · size band ${n.sz} of ${SIZE_BANDS}`;
+}
+
 /** The node's accessible name carries what the hover card shows (spec A11). */
 export function nodeName(n: GNode): string {
   const t = touchOf(n.id);
   // "in the register" goes at the end: the claims/responses phrase is the fixed shape AC-33 reads.
-  return `${n.label}, ${n.sub ?? tyWord(n.ty)} · ${t.n} claims · ${t.responses} responses recorded · ${membershipWords(n.id)} · counts are for the whole register, not the current view`;
+  return `${n.label}, ${n.sub ?? tyWord(n.ty)} · ${encodingWords(n)} · ${t.n} claims · ${t.responses} responses recorded · ${membershipWords(n.id)} · counts are for the whole register, not the current view`;
 }
 
 export function TierCounts({ tiers }: { tiers: Record<Tier, number> }) {
@@ -118,7 +134,7 @@ export function NodeHoverCard({ n }: { n: GNode }) {
       <p className="text-text text-[13px]">{n.label}</p>
       {n.sub && <p>{n.sub}</p>}
       <p className="font-mono text-[10.5px]">
-        {tyWord(n.ty)} · {FAMILY_LABEL[n.fam]}
+        {tyWord(n.ty)} · {FAMILY_LABEL[n.fam]} · size band {n.sz} of {SIZE_BANDS}
       </p>
       <p>{membershipWords(n.id)}</p>
       {co && <p>sector {co.sector}</p>}

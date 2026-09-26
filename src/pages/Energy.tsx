@@ -434,21 +434,27 @@ function EnergyPage() {
           : { kind: 'rest' };
 
   // The bottom sheet: below 1024, while something is selected or searched and the
-  // stage is on screen. It docks into the flow when the stage scrolls away, so it
-  // never covers the sections below.
-  const stageRef = useRef<HTMLElement>(null);
+  // canvas is on screen. It docks into the flow when the canvas scrolls away, so it
+  // never covers the sections below. The canvas wrapper is observed, not #stage: the
+  // docked aside renders inside #stage (after the canvas), so docking grew #stage back
+  // into view, re-floated the sheet, shrank #stage out again, and oscillated forever.
+  // Nothing that docking inserts sits above the canvas, so its position is stable.
   const canvasRef = useRef<HTMLDivElement>(null);
-  const [stageInView, setStageInView] = useState(true);
+  const [canvasInView, setCanvasInView] = useState(true);
   const [sheetExpanded, setSheetExpanded] = useState(false);
+  // While the graph fills the window, the dialog carries the margin and the live
+  // status; the inline copies are not rendered, so no id exists twice and the status
+  // is not inside the inert page (audit A11Y-001 S5).
+  const [maxed, setMaxed] = useState(false);
   useEffect(() => {
-    const el = stageRef.current;
+    const el = canvasRef.current;
     if (!el || typeof IntersectionObserver === 'undefined') return;
-    const io = new IntersectionObserver(([e]) => setStageInView(e.isIntersecting), { threshold: 0 });
+    const io = new IntersectionObserver(([e]) => setCanvasInView(e.isIntersecting), { threshold: 0 });
     io.observe(el);
     return () => io.disconnect();
   }, []);
   const opener = !!(sel || claimRaw || pathPair || selNoData);
-  const sheetOn = !lg && (opener || !!f.q) && stageInView;
+  const sheetOn = !lg && (opener || !!f.q) && canvasInView;
   const opened = useRef(false);
   useEffect(() => {
     if (lg || !opener) {
@@ -601,6 +607,12 @@ function EnergyPage() {
     />
   );
 
+  const statusRegion = (
+    <div role="status" className={VH}>
+      {statusText}
+    </div>
+  );
+
   const height = narrow ? 'min(440px, 65vh)' : lg ? 'clamp(560px, calc(100vh - 15rem), 820px)' : '560px';
   const fitKey = useMemo(() => vis.nodes.map((n) => n.id).join('|'), [vis.nodes]);
 
@@ -740,7 +752,7 @@ function EnergyPage() {
         </p>
       )}
 
-      <section id="stage" ref={stageRef} aria-label="The power map" className="mt-5 max-sm:mt-3">
+      <section id="stage" aria-label="The power map" className="mt-5 max-sm:mt-3">
         {skip}
         <div className="flex flex-col lg:grid lg:grid-cols-[13.5rem_minmax(0,1fr)] min-[1440px]:grid-cols-[13.5rem_minmax(0,1fr)_21rem] gap-4 max-sm:gap-1.5">
           <div id="energy-rail" className="order-1 lg:col-start-1 lg:row-start-1 lg:row-span-2 lg:sticky lg:top-12 lg:self-start lg:max-h-[calc(100vh-4rem)] lg:overflow-y-auto">
@@ -759,15 +771,13 @@ function EnergyPage() {
               sup={sup}
             />
           </div>
-          {!narrow && (
+          {!narrow && !maxed && (
             <div className="order-3 lg:col-start-2 lg:row-start-2 min-[1440px]:col-start-3 min-[1440px]:row-start-1 min-[1440px]:row-span-2 min-[1440px]:sticky min-[1440px]:top-12 min-[1440px]:self-start min-[1440px]:max-h-[calc(100vh-4rem)] min-[1440px]:overflow-y-auto">
               {aside}
             </div>
           )}
           <div className="order-2 lg:col-start-2 lg:row-start-1 min-w-0">
-            <div role="status" className={VH}>
-              {statusText}
-            </div>
+            {!maxed && statusRegion}
             {search}
             {narrow && (
               <details className="mb-1.5">
@@ -795,14 +805,20 @@ function EnergyPage() {
                 overlay={overlay}
                 height={height}
                 fitKey={fitKey}
-                expandedAside={aside}
+                expandedAside={
+                  <>
+                    {statusRegion}
+                    {aside}
+                  </>
+                }
+                onExpandedChange={setMaxed}
                 // Connectors follow the claim only while the claim is what is lit; a path
                 // outranks it, and then its responders are not drawn to.
                 connectorClaim={claimCtx && lit === claimCtx.lit ? (claimCtx.e.id ?? null) : null}
               />
             </div>
             {narrow && companyBox}
-            {narrow && <div className="mt-4">{aside}</div>}
+            {narrow && !maxed && <div className="mt-4">{aside}</div>}
             <ShapeLegend f={f} patch={patch} nodes={vis.nodes} />
             <p className="text-[13px] text-text-secondary mt-3 max-w-[80ch] leading-relaxed">{STAGE_CAPTION}</p>
             {windowOn && (

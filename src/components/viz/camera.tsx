@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState, type ReactNode, type RefObject } from 'react';
+import { createContext, useCallback, useContext, useEffect, useId, useRef, useState, type ReactNode, type RefObject } from 'react';
 
 /**
  * The shared camera for every graph on the platform.
@@ -256,6 +256,8 @@ export function CameraControls({
   onFit: () => void;
   fitLabel?: string;
 }) {
+  // The enclosing ExpandShell returns focus here when the maximised view closes.
+  const toggleRef = useContext(ExpandToggle);
   return (
     <>
       <div className="absolute top-2 right-2 flex items-center gap-1">
@@ -272,6 +274,7 @@ export function CameraControls({
           fit
         </button>
         <button
+          ref={toggleRef ?? undefined}
           onClick={() => cam.setExpanded((e) => !e)}
           title={cam.expanded ? 'Back to inline size (f or Escape)' : 'Fill the window (f)'}
           aria-label={cam.expanded ? 'Exit full window' : 'Fill the window'}
@@ -314,37 +317,104 @@ function PanPad({ cam, onFit }: { cam: Camera; onFit: () => void }) {
   );
 }
 
+/** The maximise toggle inside an ExpandShell, so the shell can hand focus back to it. */
+const ExpandToggle = createContext<RefObject<HTMLButtonElement> | null>(null);
+
 /**
  * Inline, or the whole window.
  *
  * A dense graph inside a 620-pixel band of a long article is a texture. Maximising
  * is not a luxury on this platform, it is the difference between a picture and a
  * smudge — so it is a real overlay, not a taller box you still have to scroll.
+ *
+ * And because it covers the page, it is a modal dialog (WCAG 2.4.3 / 4.1.2, audit
+ * A11Y-001 S5), not just a fixed box:
+ *   - role="dialog", aria-modal, a name, and the caption as its description;
+ *   - everything outside it is `inert` while it is open — every sibling along the
+ *     path from the dialog up to <body>, so the dialog itself stays live without
+ *     being moved in the DOM — and Tab cannot reach the page underneath;
+ *   - focus moves in on open. The content is remounted inside the overlay, so the
+ *     control that opened it is gone and focus would fall to <body>; the dialog takes
+ *     it, and a graph that wants its frame focused (ForceGraph, EnergyGraph) does so in
+ *     its own effect, which runs after this one;
+ *   - on close (Escape, "close", "shrink"), focus that fell to <body> goes to the
+ *     inline maximise button, the control that reopens it. A graph may again move it
+ *     on to its frame.
  */
 export function ExpandShell({
   expanded,
   onClose,
   caption,
+  label = 'Graph, filling the window',
   children,
 }: {
   expanded: boolean;
   onClose: () => void;
   caption: string;
+  /** The dialog's accessible name. */
+  label?: string;
   children: ReactNode;
 }) {
-  if (!expanded) return <>{children}</>;
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const toggleRef = useRef<HTMLButtonElement>(null);
+  const captionId = useId();
+
+  // Focus in on open, back out on close. Skipped on mount: loading a page never moves focus.
+  const was = useRef(expanded);
+  useEffect(() => {
+    if (was.current === expanded) return;
+    was.current = expanded;
+    const active = document.activeElement;
+    const dropped = !active || active === document.body;
+    if (expanded) {
+      const d = dialogRef.current;
+      if (d && !d.contains(active)) d.focus({ preventScroll: true });
+    } else if (dropped) {
+      toggleRef.current?.focus({ preventScroll: true });
+    }
+  }, [expanded]);
+
+  // The page underneath is inert while the dialog is open.
+  useEffect(() => {
+    const d = dialogRef.current;
+    if (!expanded || !d) return;
+    const made: Element[] = [];
+    for (let n: Element = d; n !== document.body && n.parentElement; n = n.parentElement) {
+      for (const sib of Array.from(n.parentElement.children)) {
+        if (sib === n || sib.hasAttribute('inert')) continue;
+        sib.setAttribute('inert', '');
+        made.push(sib);
+      }
+    }
+    return () => {
+      for (const el of made) el.removeAttribute('inert');
+    };
+  }, [expanded]);
+
+  if (!expanded) return <ExpandToggle.Provider value={toggleRef}>{children}</ExpandToggle.Provider>;
   return (
-    <div className="fixed inset-0 z-50 bg-bg p-3 flex flex-col">
-      <div className="flex items-baseline justify-between gap-4 mb-2 px-1">
-        <p className="font-mono text-[11px] text-text-muted">{caption} · press Escape to close</p>
-        <button
-          onClick={onClose}
-          className="font-mono text-[11px] px-2 py-0.5 rounded border border-border-light text-text-muted hover:text-accent"
-        >
-          close
-        </button>
+    <ExpandToggle.Provider value={toggleRef}>
+      <div
+        ref={dialogRef}
+        role="dialog"
+        aria-modal="true"
+        aria-label={label}
+        aria-describedby={captionId}
+        tabIndex={-1}
+        className="fixed inset-0 z-50 bg-bg p-3 flex flex-col outline-none"
+      >
+        <div className="flex items-baseline justify-between gap-4 mb-2 px-1">
+          <p id={captionId} className="font-mono text-[11px] text-text-muted">{caption} · press Escape to close</p>
+          <button
+            type="button"
+            onClick={onClose}
+            className="font-mono text-[11px] px-2 py-0.5 rounded border border-border-light text-text-muted hover:text-accent"
+          >
+            close
+          </button>
+        </div>
+        <div className="flex-1 min-h-0">{children}</div>
       </div>
-      <div className="flex-1 min-h-0">{children}</div>
-    </div>
+    </ExpandToggle.Provider>
   );
 }

@@ -7,7 +7,9 @@
   --color-bg-card-hover: #222226;
   --color-text: #e8e4dc;
   --color-text-secondary: #9c9688;
-  --color-text-muted: #6b6558;
+  /* 5.32:1 on bg, 5.03:1 on bg-elevated, 4.67:1 on bg-card (WCAG 1.4.3, audit A11Y-001 S1).
+     Stays below --color-text-secondary (6.72:1) so the three-step hierarchy holds. */
+  --color-text-muted: #8a8477;
   --color-border: rgba(244, 240, 232, 0.08);
   --color-border-light: rgba(244, 240, 232, 0.15);
   
@@ -32,7 +34,7 @@
   --color-tier-documented: #7a9e7e;
   --color-tier-reported: #5a8ec4;
   --color-tier-alleged: #d4a03d;
-  --color-tier-analytic: #6b6558;
+  --color-tier-analytic: #8a8477; /* kept equal to --color-text-muted (A11Y-001 S1) */
 
   --radius-sm: 6px;
   --radius-md: 10px;

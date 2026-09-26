@@ -23,7 +23,7 @@ import {
   type EnergyFilter,
 } from '../../data/energy';
 import StackTable, { DownloadButton, type Cell, type Download } from './StackTable';
-import { amountText, benefitAmount, dateText, openClaimName } from './Cards';
+import { amountText, benefitAmount, dateText, encodingShort, openClaimName } from './Cards';
 import { FOCUS, type Patch } from './hooks';
 
 const FIELD = 'border-t border-border pt-3 mt-3';
@@ -410,6 +410,18 @@ const PAGE = 400;
 
 type RowKind = 'drawn' | 'superseded' | 'orphan';
 
+/**
+ * An endpoint's id plus the two channels the canvas shows only as hue and size
+ * (WCAG 1.4.1, audit A11Y-001 M3), so a reader who takes the table instead of the
+ * canvas loses neither. Inside the existing "s → pred → t" cell because the twin's
+ * columns are fixed by spec §5.7. An endpoint that is not a node has no encoding and
+ * says nothing extra — never a made-up family.
+ */
+function endpointNote(id: string): string {
+  const n = NODES.get(id);
+  return n ? `${id}; ${encodingShort(n)}` : id;
+}
+
 function textRow(e: GEdge, kind: RowKind): string[] {
   const id = e.id ?? '';
   const b = BENEFIT_OF(id);
@@ -418,7 +430,7 @@ function textRow(e: GEdge, kind: RowKind): string[] {
     id,
     sweepLabel(SWEEP_OF(id)),
     fileAsOf(SWEEP_OF(id)) ?? '',
-    `${labelOf(e.s)} (${e.s}) → ${e.pred} → ${labelOf(e.t)} (${e.t})`,
+    `${labelOf(e.s)} (${endpointNote(e.s)}) → ${e.pred} → ${labelOf(e.t)} (${endpointNote(e.t)})`,
     e.lab ?? '',
     e.d ?? '',
     e.tier,
@@ -453,8 +465,8 @@ function cells(e: GEdge, kind: RowKind, onOpen: (id: string) => void): Cell[] {
     sweepLabel(SWEEP_OF(id)),
     <span className="font-mono text-[11.5px]">{fileAsOf(SWEEP_OF(id)) ?? '—'}</span>,
     <span>
-      {labelOf(e.s)} <span className="font-mono text-[10.5px] text-text-muted">({e.s})</span> → {e.pred} → {labelOf(e.t)}{' '}
-      <span className="font-mono text-[10.5px] text-text-muted">({e.t})</span>
+      {labelOf(e.s)} <span className="font-mono text-[10.5px] text-text-muted">({endpointNote(e.s)})</span> → {e.pred} → {labelOf(e.t)}{' '}
+      <span className="font-mono text-[10.5px] text-text-muted">({endpointNote(e.t)})</span>
     </span>,
     e.lab ?? '—',
     e.d ?? '—',
