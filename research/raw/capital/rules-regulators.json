@@ -118,6 +118,18 @@
     [
       "Tribune India — US/European FPI inflows 2025, Singapore/Mauritius/UK sellers",
       "https://www.tribuneindia.com/news/fpi-increase/us-and-european-fpis-increase-india-inflows-in-2025-singapore-mauritius-uk-lead-sellers-amid-tariffs-report"
+    ],
+    [
+      "BusinessToday — Ajay Tyagi appointed Sebi chief for five years",
+      "https://www.businesstoday.in/latest/economy-politics/story/ajay-tyagi-appointed-sebi-chief-72105-2017-02-10"
+    ],
+    [
+      "Business Standard (via search) — Budget 2024 hikes LTCG tax rate to 12.5%, STCG to 20%",
+      "https://www.business-standard.com/amp/markets/news/budget-2024-hikes-ltcg-tax-rate-to-12-5-stcg-to-20-stt-on-f-o-also-up-124072300553_1.html"
+    ],
+    [
+      "Wikipedia (cross-checked against Business Standard reporting cited therein) — Ajay Seth",
+      "https://en.wikipedia.org/wiki/Ajay_Seth"
     ]
   ],
   "entities": [
@@ -457,7 +469,8 @@
       },
       "publicRole": "Tightened the least-transparent FPI sub-channel, prompted by the Special Investigation Team (SIT) on black money.",
       "d": [
-        "SEBI board, 10 June 2016, approved requiring ODI issuers to obtain and maintain full KYC on ODI/P-Note subscribers (incl. UBOs holding over 10%) and to file suspicious-transaction reports with India's Financial Intelligence Unit; circular of 7 July 2017 went further and banned P-Notes for investing in equity derivatives outright, citing the SIT on black money's recommendations [documented]"
+        "SEBI board, 10 June 2016, approved requiring ODI issuers to obtain and maintain full KYC on ODI/P-Note subscribers (incl. UBOs holding over 10%) and to file suspicious-transaction reports with India's Financial Intelligence Unit; circular of 7 July 2017 went further and banned P-Notes for investing in equity derivatives outright, citing the SIT on black money's recommendations [documented]",
+        "The sources disagree on the 2016 beneficial-owner identification threshold: 10% (Angel One — cap:pnotes-rules-2017, rules-regulators) vs 25% (Arthapedia — narratives-literature:c028 on cap:sebi-odi-circular-2017) — unresolved until the SEBI circular text is opened [gap]"
       ],
       "srcs": [
         [
@@ -764,38 +777,6 @@
       ]
     },
     {
-      "id": "cap:sc-expert-committee-2023",
-      "label": "Supreme Court-appointed Expert Committee on SEBI's Adani/Hindenburg investigation (2023)",
-      "sub": "Constituted by SC order 2 March 2023, chaired by Justice A.M. Sapre (retd.), with O.P. Bhatt, Justice J.P. Devadhar (retd.), K.V. Kamath, Nandan Nilekani and Somasekhar Sundaresan; reported to the Supreme Court 6 May 2023",
-      "ty": "mechanism",
-      "fam": "enforce",
-      "st": null,
-      "sz": 3,
-      "al": [
-        "Sapre Committee",
-        "SC expert committee on Adani"
-      ],
-      "resolved": true,
-      "identity": {
-        "cin": null,
-        "din": null,
-        "nse": null,
-        "office": null,
-        "lei": null,
-        "fcra": null
-      },
-      "publicRole": "The judicial-process check on SEBI's own regulatory conduct during the Adani-Hindenburg episode — the immediate precursor to the August 2023 disclosure circular.",
-      "d": [
-        "Constituted by Supreme Court order dated 2 March 2023; found it could not, on the material before it, conclude there had been 'regulatory failure' by SEBI in handling the alleged securities-law contraventions; said SEBI's pursuit of ultimate-beneficial-owner identification for 13 Adani-linked FPIs risked being 'a journey without a destination'; flagged six entities (including four FPIs) for suspicious pre-report trading in Adani group shares [reported]"
-      ],
-      "srcs": [
-        [
-          "LiveLaw — Adani-Hindenburg Report: Prima Facie 'No Regulatory Failure,' Says Supreme Court Expert Committee About SEBI Probe",
-          "https://www.livelaw.in/top-stories/supreme-court-sc-adani-hindenburg-report-expert-committee-securities-and-exchange-board-of-india-sebi-regulatory-failure-229112"
-        ]
-      ]
-    },
-    {
       "id": "cap:sebi-fpi-disclosure-2023",
       "label": "SEBI enhanced/granular FPI disclosure norms, Aug 2023",
       "sub": "Circular of 24 August 2023 requiring full look-through beneficial-ownership disclosure from FPIs meeting either a 50%-of-AUM single-group-concentration test or a Rs 25,000 crore India-equity-AUM size test",
@@ -816,7 +797,9 @@
       "publicRole": "The regulatory response, by SEBI, to the concern that opaque FPI structures can mask ultimate beneficial ownership -- reused verbatim from research/raw/capital/holders.json, which first defined this id; this file adds the rule's later amendment history (2024 exemptions, 2025 threshold increase) and its 'who asked / who benefited' reading.",
       "d": [
         "24 August 2023 circular applied from 1 November 2023: full look-through UBO disclosure, no minimum threshold, annual refresh, 7-working-day update on material change, with a 90-day re-alignment window for FPIs to fall below the trigger instead of disclosing [reported]",
-        "Amended three times in this file's period: 15 March 2024 (no-identified-promoter exemption), 1 August 2024 (university-fund exemption) and 24 March 2025 (size threshold Rs 25,000cr -> Rs 50,000cr) -- see the three linked law claims below"
+        "Amended three times in this file's period: 15 March 2024 (no-identified-promoter exemption), 1 August 2024 (university-fund exemption) and 24 March 2025 (size threshold Rs 25,000cr -> Rs 50,000cr) -- see the three linked law claims below",
+        "Triggered by Hindenburg Research's 24 January 2023 report alleging that Adani-linked offshore FPI structures concealed beneficial ownership in low-transparency jurisdictions [reported]",
+        "SEBI rolled out new disclosure norms 10 August 2023, phased enforcement from 1 November 2023: FPIs with over 50% of their India-equity AUM in one corporate group, or over ₹25,000 crore in India equities, must disclose beneficial ownership on a full look-through basis, with annual refreshes and 7-working-day updates on material change [reported, single secondary outlet — the underlying SEBI circular number/date was not independently opened in this pass]"
       ],
       "srcs": [
         [
@@ -859,6 +842,29 @@
           "https://www.newsonair.gov.in/hindenburg-research-firm-alleges-sebi-chairperson-madhabi-puri-buch-spouse-dhaval-buch-owned-stakes-in-offshore-entities-linked-to-adani-group"
         ]
       ]
+    },
+    {
+      "id": "per:tuhin-kanta-pandey",
+      "label": "Tuhin Kanta Pandey",
+      "sub": "Secretary, DIPAM (2019-10→2025-02); Chairman, SEBI (2025-03→)",
+      "ty": "person",
+      "fam": "state",
+      "st": "dl",
+      "sz": 2,
+      "al": [],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": "Secretary, DIPAM, 2019-10-24→2025-02-28 (rules-regulators:c004); Chairman, SEBI, 2025-03-01→ (rules-regulators:c003); in office as DIPAM Secretary on 2020-12-31 per DIPAM tweet quoted by PSU Watch",
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "Head of the department that awarded every DIPAM mandate in this file",
+      "canonicalIn": "mandates-ventures.json",
+      "d": [],
+      "srcs": []
     }
   ],
   "claims": [
@@ -870,9 +876,7 @@
       "tier": "documented",
       "a": null,
       "lab": "Chairman, SEBI",
-      "d": [
-        "Took charge 1 March 2017; term ended 28 February 2022 (five-year appointment less an 18-month extension already counted)."
-      ],
+      "d": "Took charge 1 March 2017; term ended 28 February 2022 (five-year appointment less an 18-month extension already counted).",
       "from": "2017-03-01",
       "to": "2022-02-28",
       "srcs": [
@@ -890,10 +894,8 @@
       "tier": "documented",
       "a": null,
       "lab": "Chairperson, SEBI",
-      "d": [
-        "First private-sector and first woman Chairperson of SEBI; appointed for an initial three-year term as Ajay Tyagi's term ended 28 Feb 2022; took charge 2 March 2022; term ended 1 March 2025 on Tuhin Kanta Pandey's appointment."
-      ],
-      "from": "2022-03",
+      "d": "First private-sector and first woman Chairperson of SEBI; appointed for an initial three-year term as Ajay Tyagi's term ended 28 Feb 2022; took charge 2 March 2022; term ended 1 March 2025 on Tuhin Kanta Pandey's appointment.",
+      "from": "2022-03-02",
       "to": "2025-03-01",
       "srcs": [
         [
@@ -914,9 +916,7 @@
       "tier": "documented",
       "a": null,
       "lab": "Chairman, SEBI",
-      "d": [
-        "Appointed by the Appointments Committee of the Cabinet 27 Feb 2025 for a three-year term; took charge 1 March 2025, succeeding Madhabi Puri Buch; 11th SEBI chairman; previously Finance Secretary / DIPAM Secretary."
-      ],
+      "d": "Appointed by the Appointments Committee of the Cabinet 27 Feb 2025 for a three-year term; took charge 1 March 2025, succeeding Madhabi Puri Buch; 11th SEBI chairman; previously Finance Secretary / DIPAM Secretary.",
       "from": "2025-03-01",
       "to": null,
       "srcs": [
@@ -934,9 +934,7 @@
       "tier": "documented",
       "a": null,
       "lab": "Secretary, DIPAM",
-      "d": [
-        "Secretary, Department of Investment and Public Asset Management, appointed for a five-year term from 24 October 2019; the department that ran every disinvestment mandate in this fleet's holders/mandates files; left on elevation to Finance Secretary in early 2025."
-      ],
+      "d": "Secretary, Department of Investment and Public Asset Management, appointed for a five-year term from 24 October 2019; the department that ran every disinvestment mandate in this fleet's holders/mandates files; left on elevation to Finance Secretary in early 2025.",
       "from": "2019-10-24",
       "to": "2025-02-28",
       "srcs": [
@@ -954,9 +952,7 @@
       "tier": "documented",
       "a": null,
       "lab": "Secretary, Department of Economic Affairs",
-      "d": [
-        "Economic Affairs Secretary from 16 April 2021; DEA is the ministry department that negotiates ECB policy with RBI, treaty amendments with the CBDT/Revenue side, and represents India at the IMF/World Bank boards; moved to Finance Secretary in March 2025."
-      ],
+      "d": "Economic Affairs Secretary from 16 April 2021; DEA is the ministry department that negotiates ECB policy with RBI, treaty amendments with the CBDT/Revenue side, and represents India at the IMF/World Bank boards; moved to Finance Secretary in March 2025.",
       "from": "2021-04-16",
       "to": "2025-03-24",
       "srcs": [
@@ -974,9 +970,7 @@
       "tier": "documented",
       "a": null,
       "lab": "Governor, Reserve Bank of India",
-      "d": [
-        "25th RBI Governor; assumed charge 12 December 2018 succeeding Urjit Patel; completed a six-year term (initial three years plus a three-year extension) and demitted office 10 December 2024."
-      ],
+      "d": "25th RBI Governor; assumed charge 12 December 2018 succeeding Urjit Patel; completed a six-year term (initial three years plus a three-year extension) and demitted office 10 December 2024.",
       "from": "2018-12-12",
       "to": "2024-12-10",
       "srcs": [
@@ -994,9 +988,7 @@
       "tier": "documented",
       "a": null,
       "lab": "Governor, Reserve Bank of India",
-      "d": [
-        "26th RBI Governor; Appointments Committee of the Cabinet approved 9 December 2024; took charge 11 December 2024 for a three-year term, succeeding Shaktikanta Das; previously Revenue Secretary, Ministry of Finance."
-      ],
+      "d": "26th RBI Governor; Appointments Committee of the Cabinet approved 9 December 2024; took charge 11 December 2024 for a three-year term, succeeding Shaktikanta Das; previously Revenue Secretary, Ministry of Finance.",
       "from": "2024-12-11",
       "to": null,
       "srcs": [
@@ -1014,10 +1006,7 @@
       "tier": "documented",
       "a": null,
       "lab": "SEBI (FPI) Regulations, 2019",
-      "d": [
-        "Replaced the 2014 FPI Regulations; simplified three FPI risk categories into two; removed the 'broad-based' condition for Category II registration (continuing the 2018 easing, entry below); grew out of a 2018 committee (Harun R. Khan) explicitly framed as easing market access, not tightening it.",
-        "Boring explanation: most of the 2019 rewrite consolidated years of accumulated circulars and FAQs into one instrument, a housekeeping exercise SEBI does periodically for every registrant class, not an Adani-specific or FPI-specific favour."
-      ],
+      "d": "Replaced the 2014 FPI Regulations; simplified three FPI risk categories into two; removed the 'broad-based' condition for Category II registration (continuing the 2018 easing, entry below); grew out of a 2018 committee (Harun R. Khan) explicitly framed as easing market access, not tightening it. Boring explanation: most of the 2019 rewrite consolidated years of accumulated circulars and FAQs into one instrument, a housekeeping exercise SEBI does periodically for every registrant class, not an Adani-specific or FPI-specific favour.",
       "from": "2019-09-23",
       "to": null,
       "srcs": [
@@ -1035,10 +1024,7 @@
       "tier": "documented",
       "a": null,
       "lab": "2018 broad-based-fund easing",
-      "d": [
-        "Removed the fixed 20-investor floor for a Category II fund to keep its 'broad-based' label, provided remaining investors are banks, sovereign funds or institutional investors.",
-        "Boring explanation: open-ended funds' investor counts fluctuate constantly; a hard 20-investor floor forced funds to re-register or restructure for a technical breach unrelated to actual risk. The change served the large majority of genuinely diversified FPIs with no Indian promoter link."
-      ],
+      "d": "Removed the fixed 20-investor floor for a Category II fund to keep its 'broad-based' label, provided remaining investors are banks, sovereign funds or institutional investors. Boring explanation: open-ended funds' investor counts fluctuate constantly; a hard 20-investor floor forced funds to re-register or restructure for a technical breach unrelated to actual risk. The change served the large majority of genuinely diversified FPIs with no Indian promoter link.",
       "from": "2018-01",
       "to": null,
       "srcs": [
@@ -1056,9 +1042,7 @@
       "tier": "analytic",
       "a": null,
       "lab": "Cui bono: who the 2018 broad-based easing structurally favoured",
-      "d": [
-        "The 2018 removal of a minimum-investor floor is the specific rule the 2023 SC expert committee and Hindenburg both point to when explaining how a handful of FPIs could remain classified as ordinary diversified funds while holding shares almost exclusively in one Indian corporate group, without a natural-person UBO ever surfacing."
-      ],
+      "d": "The 2018 removal of a minimum-investor floor is the specific rule the 2023 SC expert committee and Hindenburg both point to when explaining how a handful of FPIs could remain classified as ordinary diversified funds while holding shares almost exclusively in one Indian corporate group, without a natural-person UBO ever surfacing.",
       "from": "2018-01",
       "to": null,
       "srcs": [
@@ -1085,10 +1069,7 @@
       "tier": "documented",
       "a": null,
       "lab": "India-Mauritius DTAA 3rd Protocol",
-      "d": [
-        "Ended the pre-2017 zero-capital-gains-tax route via Mauritius on a going-forward basis, while grandfathering every share acquired before 1 April 2017 — so the single biggest winners of the 2016 amendment were the FPIs, PE funds and holding companies that had already routed capital through Mauritius before the deadline, who keep the old exemption on those specific shares indefinitely.",
-        "Boring explanation: the amendment was driven by a decade of Indian revenue-authority and CAG concern about treaty shopping and round-tripping via Mauritius (and, after 2016, an active base-erosion/BEPS-era international push against treaty abuse), not by any single investor's request."
-      ],
+      "d": "Ended the pre-2017 zero-capital-gains-tax route via Mauritius on a going-forward basis, while grandfathering every share acquired before 1 April 2017 — so the single biggest winners of the 2016 amendment were the FPIs, PE funds and holding companies that had already routed capital through Mauritius before the deadline, who keep the old exemption on those specific shares indefinitely. Boring explanation: the amendment was driven by a decade of Indian revenue-authority and CAG concern about treaty shopping and round-tripping via Mauritius (and, after 2016, an active base-erosion/BEPS-era international push against treaty abuse), not by any single investor's request.",
       "from": "2016-05-10",
       "to": null,
       "srcs": [
@@ -1106,9 +1087,7 @@
       "tier": "documented",
       "a": null,
       "lab": "India-Singapore DTAA 3rd Protocol",
-      "d": [
-        "Necessitated by the Mauritius amendment (the Singapore treaty's capital-gains exemption was contractually pegged to Mauritius's); same grandfathering and transition schedule, so pre-2017 Singapore-routed holdings kept the old exemption too."
-      ],
+      "d": "Necessitated by the Mauritius amendment (the Singapore treaty's capital-gains exemption was contractually pegged to Mauritius's); same grandfathering and transition schedule, so pre-2017 Singapore-routed holdings kept the old exemption too.",
       "from": "2016-12-30",
       "to": null,
       "srcs": [
@@ -1126,9 +1105,7 @@
       "tier": "documented",
       "a": null,
       "lab": "P-Notes/ODI KYC and derivatives ban",
-      "d": [
-        "Tightened the least-transparent FPI sub-channel (offshore derivative instruments/P-Notes) on the recommendation of the government's own Special Investigation Team on black money — a tightening driven by an anti-money-laundering mandate, not an industry request."
-      ],
+      "d": "Tightened the least-transparent FPI sub-channel (offshore derivative instruments/P-Notes) on the recommendation of the government's own Special Investigation Team on black money — a tightening driven by an anti-money-laundering mandate, not an industry request.",
       "from": "2017-07-07",
       "to": null,
       "srcs": [
@@ -1146,9 +1123,7 @@
       "tier": "documented",
       "a": null,
       "lab": "RBI ECB Master Direction 2019 and 2022 liberalisation",
-      "d": [
-        "2019 consolidation was a housekeeping simplification; the August 2022 liberalisation (higher automatic-route limit, looser cost ceilings) was an explicit, time-boxed response to rupee depreciation and capital outflows after the US Fed's 2022 rate-hike cycle, not a request from any single borrower class — it lapsed by its own terms at end-2022."
-      ],
+      "d": "2019 consolidation was a housekeeping simplification; the August 2022 liberalisation (higher automatic-route limit, looser cost ceilings) was an explicit, time-boxed response to rupee depreciation and capital outflows after the US Fed's 2022 rate-hike cycle, not a request from any single borrower class — it lapsed by its own terms at end-2022.",
       "from": "2019-03-26",
       "to": null,
       "srcs": [
@@ -1166,10 +1141,7 @@
       "tier": "documented",
       "a": null,
       "lab": "Press Note 3 of 2020",
-      "d": [
-        "Issued days after China's central bank raised its HDFC Ltd stake amid a COVID-driven valuation crash; explicit national-security/opportunistic-takeover rationale, applied to all land-border countries though China was the proximate trigger.",
-        "This claim's supersededBy points to the 2026 partial easing (below)."
-      ],
+      "d": "Issued days after China's central bank raised its HDFC Ltd stake amid a COVID-driven valuation crash; explicit national-security/opportunistic-takeover rationale, applied to all land-border countries though China was the proximate trigger. This claim's supersededBy points to the 2026 partial easing (below).",
       "from": "2020-04-17",
       "to": "2026-03-15",
       "srcs": [
@@ -1187,10 +1159,7 @@
       "tier": "documented",
       "a": null,
       "lab": "Press Note 2 of 2026 — PN3 easing",
-      "d": [
-        "Who asked: India Cellular and Electronics Association (ICEA) and India Electronics and Semiconductor Association (IESA) — bodies representing PLI-scheme electronics/solar manufacturers dependent on Chinese equipment, components and technology partners — publicly welcomed the change; the stated government rationale is 'ease of doing business' and manufacturing supply-chain access, not a China-relations shift.",
-        "Boring explanation: six years of blanket approval-gating had also blocked routine, non-strategic minority stakes and equipment-financing arrangements that Indian electronics manufacturers said they needed for PLI-scheme compliance timelines; the 10% non-controlling cap and 60-day fast track target exactly that friction, not large or controlling stakes."
-      ],
+      "d": "Who asked: India Cellular and Electronics Association (ICEA) and India Electronics and Semiconductor Association (IESA) — bodies representing PLI-scheme electronics/solar manufacturers dependent on Chinese equipment, components and technology partners — publicly welcomed the change; the stated government rationale is 'ease of doing business' and manufacturing supply-chain access, not a China-relations shift. Boring explanation: six years of blanket approval-gating had also blocked routine, non-strategic minority stakes and equipment-financing arrangements that Indian electronics manufacturers said they needed for PLI-scheme compliance timelines; the 10% non-controlling cap and 60-day fast track target exactly that friction, not large or controlling stakes.",
       "from": "2026-03-15",
       "to": null,
       "srcs": [
@@ -1208,9 +1177,7 @@
       "tier": "reported",
       "a": null,
       "lab": "IFSCA Fund Management Regulations 2022 and tax incentives",
-      "d": [
-        "Who benefits: global and Indian asset managers who redomicile fund vehicles to GIFT-IFSC get the tax holiday and lighter compliance; retail Indian savers only reach these funds indirectly, if at all — the incentive structure is aimed squarely at attracting fund-management activity (and the associated jobs/fee income) to GIFT City, not at Indian retail investors."
-      ],
+      "d": "Who benefits: global and Indian asset managers who redomicile fund vehicles to GIFT-IFSC get the tax holiday and lighter compliance; retail Indian savers only reach these funds indirectly, if at all — the incentive structure is aimed squarely at attracting fund-management activity (and the associated jobs/fee income) to GIFT City, not at Indian retail investors.",
       "from": "2022",
       "to": null,
       "srcs": [
@@ -1228,9 +1195,7 @@
       "tier": "documented",
       "a": null,
       "lab": "Budget 2024-25 capital-gains hike",
-      "d": [
-        "Applies identically to resident and non-resident (incl. FPI) holders of listed equity; the one rule in this file that plainly raises FPI cost rather than lowering it, cutting against a simple 'regulators favour foreign capital' reading."
-      ],
+      "d": "Applies identically to resident and non-resident (incl. FPI) holders of listed equity; the one rule in this file that plainly raises FPI cost rather than lowering it, cutting against a simple 'regulators favour foreign capital' reading.",
       "from": "2024-07-23",
       "to": null,
       "srcs": [
@@ -1248,10 +1213,7 @@
       "tier": "documented",
       "a": null,
       "lab": "August 2023 granular FPI beneficial-ownership disclosure circular",
-      "d": [
-        "Two independent criteria: >50% of an FPI's India-equity AUM concentrated in one corporate group, or >Rs 25,000 crore India-equity AUM overall; triggered full look-through UBO disclosure with no minimum threshold, 7-working-day update obligation on material change, annual refresh; FPIs could re-align holdings within 90 days of a breach to avoid the requirement.",
-        "This claim's amount (Rs 25,000 crore size criterion) was later superseded by the March 2025 board decision doubling it to Rs 50,000 crore (see supersededBy)."
-      ],
+      "d": "Two independent criteria: >50% of an FPI's India-equity AUM concentrated in one corporate group, or >Rs 25,000 crore India-equity AUM overall; triggered full look-through UBO disclosure with no minimum threshold, 7-working-day update obligation on material change, annual refresh; FPIs could re-align holdings within 90 days of a breach to avoid the requirement. This claim's amount (Rs 25,000 crore size criterion) was later superseded by the March 2025 board decision doubling it to Rs 50,000 crore (see supersededBy).",
       "from": "2023-08-24",
       "to": "2025-03-24",
       "srcs": [
@@ -1274,10 +1236,7 @@
       "tier": "documented",
       "a": null,
       "lab": "March 2025 threshold increase to Rs 50,000 crore",
-      "d": [
-        "SEBI's own stated rationale: cash-equity trading volumes more than doubled FY2022-23 to FY2024-25, so an unchanged rupee threshold caught more FPIs each year purely from market growth, not rising concentration risk; the 50%-single-group-concentration criterion — the one that actually caught the Adani-linked FPIs — was explicitly retained.",
-        "Who asked: SEBI's own consultation paper process (CP of 30 July 2024, comments invited to 20 August 2024) preceded the change; no specific FPI or industry body's submission is named in the public record reviewed for this file (recorded as a gap below)."
-      ],
+      "d": "SEBI's own stated rationale: cash-equity trading volumes more than doubled FY2022-23 to FY2024-25, so an unchanged rupee threshold caught more FPIs each year purely from market growth, not rising concentration risk; the 50%-single-group-concentration criterion — the one that actually caught the Adani-linked FPIs — was explicitly retained. Who asked: SEBI's own consultation paper process (CP of 30 July 2024, comments invited to 20 August 2024) preceded the change; no specific FPI or industry body's submission is named in the public record reviewed for this file (recorded as a gap below).",
       "from": "2025-03-24",
       "to": null,
       "srcs": [
@@ -1299,9 +1258,7 @@
       "tier": "reported",
       "a": null,
       "lab": "University fund/endowment exemption",
-      "d": [
-        "Who benefits: US and other university endowments investing in India through Category I structures — a narrow, named class exempted on the reasoning that non-profit, tax-exempt university funds present a low round-tripping/round-about-promoter risk; conditional on India exposure being under 25% of the fund's global AUM, so it does not exempt any fund whose India book dominates its portfolio."
-      ],
+      "d": "Who benefits: US and other university endowments investing in India through Category I structures — a narrow, named class exempted on the reasoning that non-profit, tax-exempt university funds present a low round-tripping/round-about-promoter risk; conditional on India exposure being under 25% of the fund's global AUM, so it does not exempt any fund whose India book dominates its portfolio.",
       "from": "2024-08-01",
       "to": null,
       "srcs": [
@@ -1319,9 +1276,7 @@
       "tier": "reported",
       "a": null,
       "lab": "No-identified-promoter exemption",
-      "d": [
-        "Symmetry note: this exemption's own drafting logic — that MPS/round-tripping concerns require an identifiable promoter to round-trip *to* — is the clearest documented evidence that the disclosure regime is built around promoter-linked concentration risk generically, not Adani by name; it structurally cannot apply to Adani group companies, which do have identified promoters."
-      ],
+      "d": "Symmetry note: this exemption's own drafting logic — that MPS/round-tripping concerns require an identifiable promoter to round-trip *to* — is the clearest documented evidence that the disclosure regime is built around promoter-linked concentration risk generically, not Adani by name; it structurally cannot apply to Adani group companies, which do have identified promoters.",
       "from": "2024-03-15",
       "to": null,
       "srcs": [
@@ -1339,9 +1294,7 @@
       "tier": "documented",
       "a": null,
       "lab": "SC-appointed Expert Committee probe of SEBI's Adani investigation",
-      "d": [
-        "Constituted by Supreme Court order 2 March 2023 (Justice A.M. Sapre, retd., chair); reported 6 May 2023; found it could not conclude 'regulatory failure' by SEBI on the material before it; called the pursuit of UBOs for 13 Adani-linked FPIs potentially 'a journey without a destination'; flagged six entities (incl. four FPIs) for suspicious pre-report trading in Adani shares."
-      ],
+      "d": "Constituted by Supreme Court order 2 March 2023 (Justice A.M. Sapre, retd., chair); reported 6 May 2023; found it could not conclude 'regulatory failure' by SEBI on the material before it; called the pursuit of UBOs for 13 Adani-linked FPIs potentially 'a journey without a destination'; flagged six entities (incl. four FPIs) for suspicious pre-report trading in Adani shares.",
       "from": "2023-03-02",
       "to": "2023-05-19",
       "srcs": [
@@ -1359,9 +1312,7 @@
       "tier": "documented",
       "a": null,
       "lab": "SC judgment, Vishal Tiwari v Union of India (2024 INSC 3)",
-      "d": [
-        "3 January 2024 order declined to transfer the Adani investigation to a Special Investigation Team or the CBI; found no regulatory failure by SEBI warranting Court intervention; held the Court's role in SEBI's regulatory domain is confined to violations of fundamental rights or manifest arbitrariness (see also atlas node energy:doc-sc-vishal-tiwari-2024)."
-      ],
+      "d": "3 January 2024 order declined to transfer the Adani investigation to a Special Investigation Team or the CBI; found no regulatory failure by SEBI warranting Court intervention; held the Court's role in SEBI's regulatory domain is confined to violations of fundamental rights or manifest arbitrariness (see also atlas node energy:doc-sc-vishal-tiwari-2024).",
       "from": "2024-01-03",
       "to": null,
       "srcs": [
@@ -1379,9 +1330,7 @@
       "tier": "documented",
       "a": null,
       "lab": "SEBI constitutes its own conflict-of-interest committee",
-      "d": [
-        "Explicit institutional response to the Aug 2024 Hindenburg-Buch allegations, taken up at the same 24 March 2025 board meeting that eased the FPI disclosure threshold; recommendations (asset/liability disclosure for Chair/WTMs, bringing them within the 'insider' definition) approved later in 2025."
-      ],
+      "d": "Explicit institutional response to the Aug 2024 Hindenburg-Buch allegations, taken up at the same 24 March 2025 board meeting that eased the FPI disclosure threshold; recommendations (asset/liability disclosure for Chair/WTMs, bringing them within the 'insider' definition) approved later in 2025.",
       "from": "2025-03-24",
       "to": null,
       "srcs": [
@@ -1399,10 +1348,7 @@
       "tier": "alleged",
       "a": null,
       "lab": "Hindenburg allegation: undisclosed stake in IPE Plus Fund 1",
-      "d": [
-        "Hindenburg Research's second report (10 August 2024) alleged Madhabi Puri Buch and her husband Dhaval Buch held an investment, made in 2015, in IPE Plus Fund 1, a Mauritius-domiciled fund structure Hindenburg said was also used by an associate of Vinod Adani (Adani Group co-founder Gautam Adani's brother); the report also alleged consultancy-income ties. Stake size not disclosed in the report or in the press coverage reviewed for this file — amount not stated.",
-        "The investment predates both her 2017 appointment as a SEBI whole-time member and her 2022 appointment as Chairperson."
-      ],
+      "d": "Hindenburg Research's second report (10 August 2024) alleged Madhabi Puri Buch and her husband Dhaval Buch held an investment, made in 2015, in IPE Plus Fund 1, a Mauritius-domiciled fund structure Hindenburg said was also used by an associate of Vinod Adani (Adani Group co-founder Gautam Adani's brother); the report also alleged consultancy-income ties. Stake size not disclosed in the report or in the press coverage reviewed for this file — amount not stated. The investment predates both her 2017 appointment as a SEBI whole-time member and her 2022 appointment as Chairperson.",
       "from": "2024-08-10",
       "to": null,
       "srcs": [
@@ -1421,9 +1367,7 @@
       "tier": "alleged",
       "a": null,
       "lab": "Buchs' denial",
-      "d": [
-        "Joint statement, 11 August 2024: the allegations are 'baseless' and an attempt at 'character assassination'; 'our life and finances are an open book'; all disclosures required have already been furnished to SEBI over the years; the fund investment was made in 2015 in a private capacity, two years before Madhabi Puri Buch joined SEBI."
-      ],
+      "d": "Joint statement, 11 August 2024: the allegations are 'baseless' and an attempt at 'character assassination'; 'our life and finances are an open book'; all disclosures required have already been furnished to SEBI over the years; the fund investment was made in 2015 in a private capacity, two years before Madhabi Puri Buch joined SEBI.",
       "from": "2024-08-11",
       "to": null,
       "srcs": [
@@ -1441,9 +1385,7 @@
       "tier": "documented",
       "a": null,
       "lab": "Lokpal dismisses complaints against Buch",
-      "d": [
-        "Common order, 28 May 2025 (bench incl. Justice A.M. Khanwilkar, chairperson), dismissed three complaints (filed Aug/Sep/Oct 2024, incl. one by Lok Sabha MP Mahua Moitra) that relied on the Hindenburg report to allege corruption/conflict of interest/quid pro quo; found no prima facie case for investigation under the Prevention of Corruption Act, 1988; called the complaints 'more on presumptions and assumptions and not supported by any verifiable material' and an indirect attempt to reopen the Supreme Court's own assessment of SEBI's investigation; granted Buch liberty to pursue action against complainants over her income-tax returns, obtained without authorisation."
-      ],
+      "d": "Common order, 28 May 2025 (bench incl. Justice A.M. Khanwilkar, chairperson), dismissed three complaints (filed Aug/Sep/Oct 2024, incl. one by Lok Sabha MP Mahua Moitra) that relied on the Hindenburg report to allege corruption/conflict of interest/quid pro quo; found no prima facie case for investigation under the Prevention of Corruption Act, 1988; called the complaints 'more on presumptions and assumptions and not supported by any verifiable material' and an indirect attempt to reopen the Supreme Court's own assessment of SEBI's investigation; granted Buch liberty to pursue action against complainants over her income-tax returns, obtained without authorisation.",
       "from": "2025-05-28",
       "to": null,
       "srcs": [
@@ -1461,9 +1403,7 @@
       "tier": "documented",
       "a": null,
       "lab": "Bombay HC stays FIR order — Cals Refineries listing-fraud matter",
-      "d": [
-        "A distinct proceeding, unrelated in subject matter to the Hindenburg-Adani conflict-of-interest allegation: a Mumbai special (PMLA) court ordered registration of an FIR against Buch and five SEBI/BSE officials (SEBI WTMs Ashwani Bhatia, Ananth Narayan G, Kamlesh Chandra Varshney; BSE's Pramod Agarwal, Sundararaman Ramamurthy) on 1 March 2025, on a complaint by journalist Sapan Shrivastava alleging SEBI and BSE failed to act on the 1994 listing of Cals Refineries Ltd. Bombay HC (Justice S.G. Dige) stayed the order within days, finding it passed 'mechanically' without attributing any specific role to the applicants; matter listed for further hearing. Stage: FIR ordered, stayed, hearing pending — not chargesheeted, not a trial."
-      ],
+      "d": "A distinct proceeding, unrelated in subject matter to the Hindenburg-Adani conflict-of-interest allegation: a Mumbai special (PMLA) court ordered registration of an FIR against Buch and five SEBI/BSE officials (SEBI WTMs Ashwani Bhatia, Ananth Narayan G, Kamlesh Chandra Varshney; BSE's Pramod Agarwal, Sundararaman Ramamurthy) on 1 March 2025, on a complaint by journalist Sapan Shrivastava alleging SEBI and BSE failed to act on the 1994 listing of Cals Refineries Ltd. Bombay HC (Justice S.G. Dige) stayed the order within days, finding it passed 'mechanically' without attributing any specific role to the applicants; matter listed for further hearing. Stage: FIR ordered, stayed, hearing pending — not chargesheeted, not a trial.",
       "from": "2025-03-03",
       "to": null,
       "srcs": [

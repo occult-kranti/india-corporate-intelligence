@@ -3,188 +3,108 @@
   "domain": "holders-b4",
   "scope": "Named foreign shareholders (≥1%) of five NIFTY 50 constituents — HCL Technologies, HDFC Life Insurance, Hindalco Industries, Hindustan Unilever, ICICI Bank — from each company's own latest SEBI Reg. 31(1)(b) shareholding-pattern filing where that filing could be opened directly (HCL Technologies, HDFC Life, Hindalco: quarter ended 30 June 2026, opened on the companies' own investor-relations sites), plus the mandatory BlackRock/Vanguard/NBIM/GIC/Capital Group/Fidelity/KIA/ADIA/GQG comparison set and LIC of India as the domestic control, tested against every primary filing actually opened. For Hindustan Unilever and ICICI Bank, hul.co.in returned an Akamai 'Access Denied' (403) on every route tried (curl with multiple user agents, WebFetch) and icici.bank.in's investor pages are client-rendered shells with no server-side PDF links reachable in this pass, so those two companies are recorded at screener.in aggregate only (tier reported), with the primary-source attempts recorded as voids. Also recorded: two non-comparison-set foreign FPI holders found named (Artisan International Value Fund in HCL Technologies; Camas Investments Pte. Ltd. in HDFC Life), a foreign-classified promoter-group entity that is the founder family's own holding vehicle rather than third-party foreign capital (HCL Holdings Private Ltd., via the discretionary Vama Sundari Trust), and a GDR depositary bank correctly flagged as a custodian rather than a beneficial owner (Morgan Guaranty Trust Company of New York, for Hindalco's GDRs). Left out: adviser mandates and SEBI/RBI rule-change history (out of this batch's scope), and any holder below the 1% individual-naming threshold, which in three of the five filings is disclosed only as an unbroken category aggregate.",
   "sources": [
-    ["HCL Technologies — Shareholding Patterns listing page (investor-relations, link discovery)", "https://www.hcltech.com/investor-relations/shareholding-patterns"],
-    ["HCL Technologies — Shareholding Pattern as on 30 June 2026 (Regulation 31(1)(b))", "https://www.hcltech.com/sites/default/files/document/open/shareholding-pattern/2026-07/Shareholding-Pattern-30June2026.pdf"],
-    ["HCL Technologies — stale cached copy at persistent URL, actually quarter ended 31 December 2015 (not used for claims; recorded as a methodological void)", "https://www.hcltech.com/sites/default/files/documents/investor-reports/shareholding_pattern.pdf"],
-    ["HDFC Life Insurance — Investor Relations page (link discovery)", "https://www.hdfclife.com/about-us/investor-relations"],
-    ["HDFC Life Insurance — Shareholding Pattern as on 30 June 2026 (Regulation 31(1)(b))", "https://www.hdfclife.com/content/dam/hdfclifeinsurancecompany/about-us/pdf/investor-relations/Information-to-shareholders/Shareholding-pattern/Shareholding-Pattern-Website-June-2026.pdf"],
-    ["HDFC Life Insurance — stale cached copy at persistent URL, actually quarter ended 30 September 2022 (not used for claims; recorded as a methodological void)", "https://www.hdfclife.com/content/dam/hdfclifeinsurancecompany/about-us/pdf/investor-relations/Information-to-shareholders/Shareholding-pattern/HDFC-LIFE-Shareholding-Pattern-Website.pdf"],
-    ["HDFC Life Insurance — second stale cached copy at a differently-punctuated persistent URL, actually quarter ended 30 June 2023 (not used for claims; recorded as a methodological void)", "https://www.hdfclife.com/content/dam/hdfclifeinsurancecompany/about-us/pdf/investor-relations/Information-to-shareholders/Shareholding-pattern/HDFC-LIFE-ShareholdingPattern-Website.pdf"],
-    ["Hindalco Industries — Shareholding Pattern page (investor relations, link discovery)", "https://www.hindalco.com/investors/corporate-governance/stock-exchange-compliances/shareholding-pattern"],
-    ["Hindalco Industries — Shareholding Pattern as on 30 June 2026 (Regulation 31(1)(b))", "https://www.hindalco.com/Upload/PDF/shareholding-pattern-june-2026.pdf"],
-    ["screener.in — Hindustan Unilever Ltd (consolidated), shareholding-pattern section — fallback aggregate, tier reported", "https://www.screener.in/company/HINDUNILVR/consolidated/"],
-    ["screener.in — ICICI Bank Ltd (consolidated), shareholding-pattern section — fallback aggregate, tier reported", "https://www.screener.in/company/ICICIBANK/consolidated/"],
-    ["hul.co.in — Shareholding Pattern page (403 Access Denied, Akamai edge block — tried, not opened)", "https://www.hul.co.in/investors/shareholder-information-and-contacts/shareholding-pattern/"],
-    ["icici.bank.in — Shareprice / Shareholding Pattern page (loaded but no server-rendered PDF links found — tried, no primary filing located)", "https://www.icici.bank.in/about-us/shareprice"],
-    ["icici.bank.in — Investor page (403 via WebFetch — tried, not opened)", "https://www.icici.bank.in/about-us/investor"]
+    [
+      "HCL Technologies — Shareholding Patterns listing page (investor-relations, link discovery)",
+      "https://www.hcltech.com/investor-relations/shareholding-patterns"
+    ],
+    [
+      "HCL Technologies — Shareholding Pattern as on 30 June 2026 (Regulation 31(1)(b))",
+      "https://www.hcltech.com/sites/default/files/document/open/shareholding-pattern/2026-07/Shareholding-Pattern-30June2026.pdf"
+    ],
+    [
+      "HCL Technologies — stale cached copy at persistent URL, actually quarter ended 31 December 2015 (not used for claims; recorded as a methodological void)",
+      "https://www.hcltech.com/sites/default/files/documents/investor-reports/shareholding_pattern.pdf"
+    ],
+    [
+      "HDFC Life Insurance — Investor Relations page (link discovery)",
+      "https://www.hdfclife.com/about-us/investor-relations"
+    ],
+    [
+      "HDFC Life Insurance — Shareholding Pattern as on 30 June 2026 (Regulation 31(1)(b))",
+      "https://www.hdfclife.com/content/dam/hdfclifeinsurancecompany/about-us/pdf/investor-relations/Information-to-shareholders/Shareholding-pattern/Shareholding-Pattern-Website-June-2026.pdf"
+    ],
+    [
+      "HDFC Life Insurance — stale cached copy at persistent URL, actually quarter ended 30 September 2022 (not used for claims; recorded as a methodological void)",
+      "https://www.hdfclife.com/content/dam/hdfclifeinsurancecompany/about-us/pdf/investor-relations/Information-to-shareholders/Shareholding-pattern/HDFC-LIFE-Shareholding-Pattern-Website.pdf"
+    ],
+    [
+      "HDFC Life Insurance — second stale cached copy at a differently-punctuated persistent URL, actually quarter ended 30 June 2023 (not used for claims; recorded as a methodological void)",
+      "https://www.hdfclife.com/content/dam/hdfclifeinsurancecompany/about-us/pdf/investor-relations/Information-to-shareholders/Shareholding-pattern/HDFC-LIFE-ShareholdingPattern-Website.pdf"
+    ],
+    [
+      "Hindalco Industries — Shareholding Pattern page (investor relations, link discovery)",
+      "https://www.hindalco.com/investors/corporate-governance/stock-exchange-compliances/shareholding-pattern"
+    ],
+    [
+      "Hindalco Industries — Shareholding Pattern as on 30 June 2026 (Regulation 31(1)(b))",
+      "https://www.hindalco.com/Upload/PDF/shareholding-pattern-june-2026.pdf"
+    ],
+    [
+      "screener.in — Hindustan Unilever Ltd (consolidated), shareholding-pattern section — fallback aggregate, tier reported",
+      "https://www.screener.in/company/HINDUNILVR/consolidated/"
+    ],
+    [
+      "screener.in — ICICI Bank Ltd (consolidated), shareholding-pattern section — fallback aggregate, tier reported",
+      "https://www.screener.in/company/ICICIBANK/consolidated/"
+    ],
+    [
+      "hul.co.in — Shareholding Pattern page (403 Access Denied, Akamai edge block — tried, not opened)",
+      "https://www.hul.co.in/investors/shareholder-information-and-contacts/shareholding-pattern/"
+    ],
+    [
+      "icici.bank.in — Shareprice / Shareholding Pattern page (loaded but no server-rendered PDF links found — tried, no primary filing located)",
+      "https://www.icici.bank.in/about-us/shareprice"
+    ],
+    [
+      "icici.bank.in — Investor page (403 via WebFetch — tried, not opened)",
+      "https://www.icici.bank.in/about-us/investor"
+    ]
   ],
   "entities": [
     {
-      "id": "cap:blackrock",
-      "label": "BlackRock, Inc.",
-      "sub": "US asset manager, NYSE: BLK; India exposure via iShares ETFs and BlackRock Global Funds sub-funds, each separately FPI-registered",
-      "ty": "company",
-      "fam": "capital",
-      "st": null,
-      "sz": 4,
-      "al": ["iShares", "BlackRock Global Funds"],
-      "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
-      "publicRole": "The world's largest asset manager; mandatory control per SPEC — never recorded without the comparison set.",
-      "d": [
-        "Not found as a named ≥1% shareholder in any of the 3 NIFTY 50 companies whose SEBI shareholding-pattern filings were opened directly in this batch (HCL Technologies, HDFC Life, Hindalco), each as of the quarter ended 30 June 2026 [documented, absence in a 3-of-5 sample]",
-        "Hindustan Unilever and ICICI Bank could not be checked for named holders in this pass (primary filings unreachable; screener.in gives aggregates only) — BlackRock's absence or presence in those two is unknown, not documented [void]"
-      ],
-      "srcs": []
-    },
-    {
-      "id": "cap:vanguard",
-      "label": "The Vanguard Group, Inc.",
-      "sub": "US asset manager; India exposure via multiple Vanguard index funds, each separately FPI-registered",
-      "ty": "company",
+      "id": "cap:nbim",
+      "label": "Norges Bank Investment Management (Government Pension Fund Global)",
+      "sub": "Manager of Norway's sovereign wealth fund; India = 2.1% of the fund's equity investments at end-2025 per its own annual report",
+      "ty": "fund",
       "fam": "capital",
       "st": null,
       "sz": 4,
       "al": [],
       "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
-      "publicRole": "Mandatory comparison control per SPEC.",
-      "d": [
-        "Not found as a named ≥1% shareholder in HCL Technologies, HDFC Life or Hindalco (quarter ended 30 June 2026) [documented, absence in sample]",
-        "Not checked for Hindustan Unilever or ICICI Bank in this pass [void]"
-      ],
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "Mandatory comparison control per SPEC; publishes every global holding twice yearly — the highest public-transparency standard among the controls, in principle.",
+      "canonicalIn": "holders.json",
+      "d": [],
       "srcs": []
-    },
-    {
-      "id": "cap:nbim",
-      "label": "Norges Bank Investment Management (Government Pension Fund Global)",
-      "sub": "Manager of Norway's sovereign wealth fund; Indian filings name the registered FPI holder 'Government Pension Fund Global'",
-      "ty": "fund",
-      "fam": "capital",
-      "st": null,
-      "sz": 4,
-      "al": ["NBIM", "Government Pension Fund Global", "GPFG"],
-      "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
-      "publicRole": "Mandatory comparison control per SPEC.",
-      "d": [
-        "Named as a ≥1% shareholder, as 'Government Pension Fund Global', in HDFC Life Insurance: 1.14% (24,822,717 shares), Foreign Portfolio Investor Category I, quarter ended 30.06.2026 [documented]",
-        "Not found as a named ≥1% holder in HCL Technologies or Hindalco (quarter ended 30.06.2026) [documented, absence in sample]",
-        "Not checked for Hindustan Unilever or ICICI Bank in this pass [void]"
-      ],
-      "srcs": [
-        ["HDFC Life Insurance — Shareholding Pattern as on 30 June 2026", "https://www.hdfclife.com/content/dam/hdfclifeinsurancecompany/about-us/pdf/investor-relations/Information-to-shareholders/Shareholding-pattern/Shareholding-Pattern-Website-June-2026.pdf"]
-      ]
     },
     {
       "id": "cap:gic-singapore",
       "label": "Government of Singapore / GIC Private Limited",
-      "sub": "Singapore's sovereign wealth fund manager; Indian filings name the registered FPI holder 'Government Of Singapore'",
+      "sub": "Singapore's sovereign wealth fund manager; Indian companies' filings name the registered FPI holder 'GOVERNMENT OF SINGAPORE'",
       "ty": "fund",
       "fam": "capital",
       "st": null,
       "sz": 4,
-      "al": ["GIC", "GIC Pte Ltd", "Government of Singapore"],
+      "al": [],
       "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
-      "publicRole": "Mandatory comparison control per SPEC.",
-      "d": [
-        "Named as a ≥1% shareholder, as 'Government Of Singapore', in Hindalco Industries: 2.65% (59,446,613 shares), Foreign Portfolio Investor Category I, quarter ended 30.06.2026 [documented]",
-        "Not found as a named ≥1% holder in HCL Technologies or HDFC Life (quarter ended 30.06.2026) — HDFC Life does show a Singapore-incorporated Foreign Portfolio Investor Category I holder, Camas Investments Pte. Ltd. (1.68%), whose ultimate beneficial owner was not confirmed as GIC or otherwise in this pass; the two are not conflated here [documented for absence; see cap:camas-investments for the unresolved entity]",
-        "Not checked for Hindustan Unilever or ICICI Bank in this pass [void]"
-      ],
-      "srcs": [
-        ["Hindalco Industries — Shareholding Pattern as on 30 June 2026", "https://www.hindalco.com/Upload/PDF/shareholding-pattern-june-2026.pdf"]
-      ]
-    },
-    {
-      "id": "cap:capital-group",
-      "label": "Capital Group Companies, Inc.",
-      "sub": "US asset manager; EuroPacific Growth Fund and New Perspective Fund are its best-known emerging-markets vehicles",
-      "ty": "company",
-      "fam": "capital",
-      "st": null,
-      "sz": 3,
-      "al": ["EuroPacific Growth Fund", "New Perspective Fund"],
-      "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
-      "publicRole": "Mandatory comparison control per SPEC.",
-      "d": [
-        "Not found as a named ≥1% holder in HCL Technologies, HDFC Life or Hindalco (quarter ended 30.06.2026) [documented, absence in sample]",
-        "Not checked for Hindustan Unilever or ICICI Bank in this pass [void]"
-      ],
-      "srcs": []
-    },
-    {
-      "id": "cap:fidelity",
-      "label": "Fidelity Investments (FMR LLC)",
-      "sub": "US asset manager, privately held; distinct from Fidelity International Ltd (spun off 1980, UK-based)",
-      "ty": "company",
-      "fam": "capital",
-      "st": null,
-      "sz": 3,
-      "al": ["FMR LLC"],
-      "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
-      "publicRole": "Mandatory comparison control per SPEC.",
-      "d": [
-        "Not found as a named ≥1% holder (under either lineage) in HCL Technologies, HDFC Life or Hindalco (quarter ended 30.06.2026) [documented, absence in sample]",
-        "Not checked for Hindustan Unilever or ICICI Bank in this pass [void]"
-      ],
-      "srcs": []
-    },
-    {
-      "id": "cap:kuwait-investment-authority",
-      "label": "Kuwait Investment Authority",
-      "sub": "Kuwait's sovereign wealth fund",
-      "ty": "fund",
-      "fam": "capital",
-      "st": null,
-      "sz": 2,
-      "al": ["KIA"],
-      "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
-      "publicRole": "Mandatory comparison control per SPEC.",
-      "d": [
-        "Not found as a named ≥1% holder in HCL Technologies, HDFC Life or Hindalco (quarter ended 30.06.2026) [documented, absence in sample]",
-        "Not checked for Hindustan Unilever or ICICI Bank in this pass [void]"
-      ],
-      "srcs": []
-    },
-    {
-      "id": "cap:adia",
-      "label": "Abu Dhabi Investment Authority",
-      "sub": "Abu Dhabi's sovereign wealth fund",
-      "ty": "fund",
-      "fam": "capital",
-      "st": null,
-      "sz": 2,
-      "al": ["ADIA"],
-      "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
-      "publicRole": "Mandatory comparison control per SPEC.",
-      "d": [
-        "Not found as a named ≥1% holder in HCL Technologies, HDFC Life or Hindalco (quarter ended 30.06.2026) [documented, absence in sample]",
-        "Not checked for Hindustan Unilever or ICICI Bank in this pass [void]"
-      ],
-      "srcs": []
-    },
-    {
-      "id": "cap:gqg-partners",
-      "label": "GQG Partners",
-      "sub": "US-based emerging-markets asset manager (Fort Lauderdale; founder Rajiv Jain)",
-      "ty": "company",
-      "fam": "capital",
-      "st": null,
-      "sz": 3,
-      "al": ["GQG Partners LLC"],
-      "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
-      "publicRole": "Not in SPEC's mandatory comparison set but tracked across the fleet for consistency (see holders.json batch 1).",
-      "d": [
-        "Not found as a named ≥1% holder in HCL Technologies, HDFC Life or Hindalco (quarter ended 30.06.2026) [documented, absence in sample]",
-        "Not checked for Hindustan Unilever or ICICI Bank in this pass [void]"
-      ],
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "Mandatory comparison control per SPEC. Not to be confused with General Insurance Corporation of India ('GIC Re'), a domestic PSU reinsurer that also appears by the acronym GIC in some of these same filings (e.g. ITC, 1.73%, 31.12.2025) — the two are unrelated and this file does not conflate them.",
+      "canonicalIn": "holders.json",
+      "d": [],
       "srcs": []
     },
     {
@@ -197,13 +117,23 @@
       "sz": 2,
       "al": [],
       "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
       "publicRole": "Not in SPEC's mandatory comparison set but recorded per the domain instruction to name every foreign holder ≥1%.",
       "d": [
         "Named ≥1% in HCL Technologies: 1.97% (53,387,154 shares), Foreign Portfolio Investor Category I, quarter ended 30.06.2026 — the only individually named line within that category, out of 1,034 registered FPI Category I entities holding 14.58% (395,588,922 shares) in aggregate [documented]"
       ],
       "srcs": [
-        ["HCL Technologies — Shareholding Pattern as on 30 June 2026", "https://www.hcltech.com/sites/default/files/document/open/shareholding-pattern/2026-07/Shareholding-Pattern-30June2026.pdf"]
+        [
+          "HCL Technologies — Shareholding Pattern as on 30 June 2026",
+          "https://www.hcltech.com/sites/default/files/document/open/shareholding-pattern/2026-07/Shareholding-Pattern-30June2026.pdf"
+        ]
       ]
     },
     {
@@ -214,16 +144,38 @@
       "fam": "capital",
       "st": null,
       "sz": 2,
-      "al": [],
+      "al": [
+        "Camas Investments Pte Ltd"
+      ],
       "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
-      "publicRole": "Not in SPEC's mandatory comparison set but recorded per the domain instruction to name every foreign holder ≥1%. Its ultimate beneficial owner was not confirmed in this pass — it is not asserted to be GIC, Temasek or any other named Singapore state entity.",
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "Not in SPEC's mandatory comparison set but recorded per the domain instruction to name every foreign holder ≥1%. A separate legal person from Temasek Holdings: a Singapore registry aggregator (sgpbusiness.com) lists it as a Temasek subsidiary, which is recorded only as the reported-tier edge cap:temasek → cap:camas-investments (holders-b3:c015), not as an alias. Its ultimate beneficial owner is not confirmed from a primary record; nothing on the record links it to GIC.",
       "d": [
         "Named ≥1% in HDFC Life Insurance: 1.68% (36,559,723 shares), Foreign Portfolio Investor Category I, quarter ended 30.06.2026 [documented]",
-        "Singapore Companies Registry lists Camas Investments Pte. Ltd. as an 'investment holding' company incorporated 28 April 2005; its shareholders/ultimate beneficial owner were not independently verified in this pass (search-result summary only, not a primary registry document opened) [gap]"
+        "Named ≥1% in Eternal Limited: 1.74% (168,084,489 shares), Foreign Portfolio Investor Category I, quarter ended 30.09.2025 (holders-b3:c009) [documented]",
+        "Singapore Companies Registry lists Camas Investments Pte. Ltd. as an 'investment holding' company incorporated 28 April 2005; its shareholders/ultimate beneficial owner were not independently verified in this pass (search-result summary only, not a primary registry document opened) [gap]",
+        "sgpbusiness.com lists Camas Investments Pte. Ltd. (same UEN 200505776N) as a Temasek Holdings subsidiary; not confirmed by a Temasek primary disclosure or an ACRA business profile — recorded as the edge holders-b3:c015 at tier reported [reported, corporate-registry aggregator]"
       ],
       "srcs": [
-        ["HDFC Life Insurance — Shareholding Pattern as on 30 June 2026", "https://www.hdfclife.com/content/dam/hdfclifeinsurancecompany/about-us/pdf/investor-relations/Information-to-shareholders/Shareholding-pattern/Shareholding-Pattern-Website-June-2026.pdf"]
+        [
+          "HDFC Life Insurance — Shareholding Pattern as on 30 June 2026",
+          "https://www.hdfclife.com/content/dam/hdfclifeinsurancecompany/about-us/pdf/investor-relations/Information-to-shareholders/Shareholding-pattern/Shareholding-Pattern-Website-June-2026.pdf"
+        ],
+        [
+          "Eternal — Shareholding Pattern as on 30.09.2025",
+          "https://b.zmtcdn.com/investor-relations/e69e622a95db21b07f8a7c5d83dffaa6_1761817931.pdf"
+        ],
+        [
+          "sgpbusiness.com — Camas Investments Pte Ltd corporate registry",
+          "https://www.sgpbusiness.com/company/Camas-Investments-Pte-Ltd"
+        ]
       ]
     },
     {
@@ -236,15 +188,25 @@
       "sz": 3,
       "al": [],
       "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
-      "publicRole": "Not a third-party foreign portfolio investor — it is the founder (Nadar) family's own holding vehicle, formally classified 'Foreign' in the company's own Regulation 31 filing. Recorded here precisely because the raw filing's 'Institutions (Foreign)' / Table II 'Foreign' promoter classification would otherwise be misread as external capital; institutional, not a person, per CONTRACT rule 1.",
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "Not a third-party foreign portfolio investor — it is the HCL promoter group's own holding vehicle, formally classified 'Foreign' in the company's own Regulation 31 filing. Recorded here precisely because the raw filing's 'Institutions (Foreign)' / Table II 'Foreign' promoter classification would otherwise be misread as external capital; institutional, not a person, per CONTRACT rule 1.",
       "d": [
         "Holds 16.46% of HCL Technologies (446,662,032 shares) as Promoter Group, Table II category '(2) Foreign', quarter ended 30.06.2026 [documented]",
         "Per the company's own filing note: 'HCL Holdings Pvt. Ltd. holds 16.46% equity shares in HCL Technologies Ltd. The shareholding in HCL Holdings Pvt. Ltd. is held through Vama Sundari Trust. Since it is a discretionary trust, interest of none of the beneficiaries has materialized or crystallized as on the date of this disclosure and, as a consequence, cannot be determined. The settler of this trust is Ms. Roshni Nadar Malhotra.' [documented, company's own note]",
         "This is the largest single foreign-classified shareholding found across the three primary filings opened in this batch — larger than any FPI, sovereign fund or comparison-set holder found — and it is not foreign portfolio capital in the ordinary sense of the BlackRock/Vanguard narrative; the country of HCL Holdings Pvt. Ltd.'s own incorporation was not stated in the extracted filing text and was not independently confirmed in this pass [gap]"
       ],
       "srcs": [
-        ["HCL Technologies — Shareholding Pattern as on 30 June 2026", "https://www.hcltech.com/sites/default/files/document/open/shareholding-pattern/2026-07/Shareholding-Pattern-30June2026.pdf"]
+        [
+          "HCL Technologies — Shareholding Pattern as on 30 June 2026",
+          "https://www.hcltech.com/sites/default/files/document/open/shareholding-pattern/2026-07/Shareholding-Pattern-30June2026.pdf"
+        ]
       ]
     },
     {
@@ -257,13 +219,23 @@
       "sz": 2,
       "al": [],
       "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
       "publicRole": "A custodian/depositary, not a beneficial owner — recorded and explicitly flagged as such per the domain instruction that custodian names are custodians, not beneficial owners.",
       "d": [
         "Holds 93,880,883 shares (4.18%) of Hindalco Industries as 'Overseas Depositories (holding DRs) (balancing figure)', quarter ended 30.06.2026 — this is the depositary bank holding the underlying shares against which Hindalco's Global Depositary Receipts (GDRs) were issued; the identities of the actual GDR holders (the beneficial owners) are not disclosed in this filing and were not established in this pass [documented for the depositary line; beneficial ownership unknown]"
       ],
       "srcs": [
-        ["Hindalco Industries — Shareholding Pattern as on 30 June 2026", "https://www.hindalco.com/Upload/PDF/shareholding-pattern-june-2026.pdf"]
+        [
+          "Hindalco Industries — Shareholding Pattern as on 30 June 2026",
+          "https://www.hindalco.com/Upload/PDF/shareholding-pattern-june-2026.pdf"
+        ]
       ]
     }
   ],
@@ -276,7 +248,12 @@
       "tier": "documented",
       "d": "16.46% (446,662,032 shares), Promoter Group, Table II category '(2) Foreign', quarter ended 30.06.2026. Held through the discretionary Vama Sundari Trust settled by Ms. Roshni Nadar Malhotra — the founder family's own vehicle, not third-party foreign capital; see cap:hcl-holdings-pvt-ltd entity notes for the company's own explanatory note.",
       "from": "2026-06-30",
-      "srcs": [["HCL Technologies — Shareholding Pattern as on 30 June 2026", "https://www.hcltech.com/sites/default/files/document/open/shareholding-pattern/2026-07/Shareholding-Pattern-30June2026.pdf"]],
+      "srcs": [
+        [
+          "HCL Technologies — Shareholding Pattern as on 30 June 2026",
+          "https://www.hcltech.com/sites/default/files/document/open/shareholding-pattern/2026-07/Shareholding-Pattern-30June2026.pdf"
+        ]
+      ],
       "supersededBy": null
     },
     {
@@ -287,7 +264,12 @@
       "tier": "documented",
       "d": "1.97% (53,387,154 shares), Foreign Portfolio Investor Category I, quarter ended 30.06.2026. FPI Category I aggregate for HCL Technologies this quarter: 1,034 registered entities, 395,588,922 shares, 14.58% — Artisan is the only individually named line crossing 1%. FPI Category II aggregate: 56 entities, 8,734,889 shares, 0.32%, none named ≥1%. No comparison-set holder (BlackRock, Vanguard, NBIM, GIC, Capital Group, Fidelity, KIA, ADIA, GQG) or LIC appears as a named ≥1% line in this filing; domestic Insurance Companies aggregate 8.32% across 39 holders, none individually named.",
       "from": "2026-06-30",
-      "srcs": [["HCL Technologies — Shareholding Pattern as on 30 June 2026", "https://www.hcltech.com/sites/default/files/document/open/shareholding-pattern/2026-07/Shareholding-Pattern-30June2026.pdf"]],
+      "srcs": [
+        [
+          "HCL Technologies — Shareholding Pattern as on 30 June 2026",
+          "https://www.hcltech.com/sites/default/files/document/open/shareholding-pattern/2026-07/Shareholding-Pattern-30June2026.pdf"
+        ]
+      ],
       "supersededBy": null
     },
     {
@@ -298,7 +280,12 @@
       "tier": "documented",
       "d": "1.68% (36,559,723 shares), Foreign Portfolio Investor Category I, quarter ended 30.06.2026. FPI Category I aggregate for HDFC Life this quarter: 723 registered entities, 402,314,250 shares, 18.52%. FPI Category II aggregate: 32 entities, 16,125,502 shares, 0.74%, none named ≥1%.",
       "from": "2026-06-30",
-      "srcs": [["HDFC Life Insurance — Shareholding Pattern as on 30 June 2026", "https://www.hdfclife.com/content/dam/hdfclifeinsurancecompany/about-us/pdf/investor-relations/Information-to-shareholders/Shareholding-pattern/Shareholding-Pattern-Website-June-2026.pdf"]],
+      "srcs": [
+        [
+          "HDFC Life Insurance — Shareholding Pattern as on 30 June 2026",
+          "https://www.hdfclife.com/content/dam/hdfclifeinsurancecompany/about-us/pdf/investor-relations/Information-to-shareholders/Shareholding-pattern/Shareholding-Pattern-Website-June-2026.pdf"
+        ]
+      ],
       "supersededBy": null
     },
     {
@@ -309,7 +296,12 @@
       "tier": "documented",
       "d": "1.14% (24,822,717 shares) via 'Government Pension Fund Global', Foreign Portfolio Investor Category I, quarter ended 30.06.2026.",
       "from": "2026-06-30",
-      "srcs": [["HDFC Life Insurance — Shareholding Pattern as on 30 June 2026", "https://www.hdfclife.com/content/dam/hdfclifeinsurancecompany/about-us/pdf/investor-relations/Information-to-shareholders/Shareholding-pattern/Shareholding-Pattern-Website-June-2026.pdf"]],
+      "srcs": [
+        [
+          "HDFC Life Insurance — Shareholding Pattern as on 30 June 2026",
+          "https://www.hdfclife.com/content/dam/hdfclifeinsurancecompany/about-us/pdf/investor-relations/Information-to-shareholders/Shareholding-pattern/Shareholding-Pattern-Website-June-2026.pdf"
+        ]
+      ],
       "supersededBy": null
     },
     {
@@ -320,7 +312,12 @@
       "tier": "documented",
       "d": "50.54% (1,097,866,178 shares), sole Promoter, domestic (Indian) — HDFC Life's control is an Indian bank, not a foreign entity; recorded for context alongside the two named FPI lines. Domestic Insurance Companies (non-LIC) aggregate 2.20% across 30 holders, none individually named — LIC does not appear as a named ≥1% line in this filing.",
       "from": "2026-06-30",
-      "srcs": [["HDFC Life Insurance — Shareholding Pattern as on 30 June 2026", "https://www.hdfclife.com/content/dam/hdfclifeinsurancecompany/about-us/pdf/investor-relations/Information-to-shareholders/Shareholding-pattern/Shareholding-Pattern-Website-June-2026.pdf"]],
+      "srcs": [
+        [
+          "HDFC Life Insurance — Shareholding Pattern as on 30 June 2026",
+          "https://www.hdfclife.com/content/dam/hdfclifeinsurancecompany/about-us/pdf/investor-relations/Information-to-shareholders/Shareholding-pattern/Shareholding-Pattern-Website-June-2026.pdf"
+        ]
+      ],
       "supersededBy": null
     },
     {
@@ -331,7 +328,12 @@
       "tier": "documented",
       "d": "2.65% (59,446,613 shares) via 'Government Of Singapore', Foreign Portfolio Investor Category I, quarter ended 30.06.2026 — the only individually named line in that category. FPI Category I aggregate: 1,027 entities, 681,442,157 shares, 30.32%. FPI Category II aggregate: 86 entities, 24,598,052 shares, 1.09%, none named ≥1%.",
       "from": "2026-06-30",
-      "srcs": [["Hindalco Industries — Shareholding Pattern as on 30 June 2026", "https://www.hindalco.com/Upload/PDF/shareholding-pattern-june-2026.pdf"]],
+      "srcs": [
+        [
+          "Hindalco Industries — Shareholding Pattern as on 30 June 2026",
+          "https://www.hindalco.com/Upload/PDF/shareholding-pattern-june-2026.pdf"
+        ]
+      ],
       "supersededBy": null
     },
     {
@@ -342,7 +344,12 @@
       "tier": "documented",
       "d": "4.59% (103,152,710 shares), domestic control comparator, quarter ended 30.06.2026 — the largest single named institutional shareholder in this filing, larger than the largest named foreign FPI line (Government of Singapore, 2.65%).",
       "from": "2026-06-30",
-      "srcs": [["Hindalco Industries — Shareholding Pattern as on 30 June 2026", "https://www.hindalco.com/Upload/PDF/shareholding-pattern-june-2026.pdf"]],
+      "srcs": [
+        [
+          "Hindalco Industries — Shareholding Pattern as on 30 June 2026",
+          "https://www.hindalco.com/Upload/PDF/shareholding-pattern-june-2026.pdf"
+        ]
+      ],
       "supersededBy": null
     },
     {
@@ -353,8 +360,15 @@
       "tier": "documented",
       "d": "4.18% (93,880,883 shares) as GDR depositary ('Overseas Depositories (holding DRs), balancing figure'), quarter ended 30.06.2026. This is a custodian holding, not a beneficial-ownership line — the beneficial owners of the underlying GDRs are not named in this filing. Hindalco's four Birla-family-linked foreign promoter-group vehicles (PT Indo Bharat Rayon 0.43%, P T Sunrise Bumi Textiles 0.13%, PT Elegant Textile Industry 0.08%, Surya Kiran Investments Pte Ltd ~0.0%; 0.65% combined) are each below the 1% individual-naming threshold and are not recorded as separate claims.",
       "from": "2026-06-30",
-      "srcs": [["Hindalco Industries — Shareholding Pattern as on 30 June 2026", "https://www.hindalco.com/Upload/PDF/shareholding-pattern-june-2026.pdf"]],
-      "supersededBy": null
+      "srcs": [
+        [
+          "Hindalco Industries — Shareholding Pattern as on 30 June 2026",
+          "https://www.hindalco.com/Upload/PDF/shareholding-pattern-june-2026.pdf"
+        ]
+      ],
+      "supersededBy": null,
+      "custodian": true,
+      "lab": "Depositary of record (custodian, not beneficial owner)"
     }
   ],
   "voids": [
@@ -362,39 +376,69 @@
       "what": "hul.co.in returned Akamai 'Access Denied' (HTTP 403, edgesuite reference) on every route tried — the shareholding-pattern listing page and directly-guessed PDF URLs — across both a WebFetch attempt and curl with a desktop and a mobile user agent.",
       "whyItMatters": "Hindustan Unilever is a NIFTY 50 constituent with a large, long-documented foreign promoter (Unilever, widely reported at ~61.90% per aggregator data), but no named-holder-level SEBI filing data could be pulled from the company's own site in this pass. Fell back to screener.in's aggregate (Promoters 61.90%, FIIs 9.50%, DIIs 16.92%, Public 11.60%, as of June 2026) at tier reported; no individual foreign holder is named at that source, and the promoter entity's exact name/jurisdiction was not independently re-confirmed from a primary filing in this pass.",
       "srcs": [
-        ["hul.co.in — Shareholding Pattern page (403)", "https://www.hul.co.in/investors/shareholder-information-and-contacts/shareholding-pattern/"],
-        ["screener.in — Hindustan Unilever Ltd (consolidated)", "https://www.screener.in/company/HINDUNILVR/consolidated/"]
+        [
+          "hul.co.in — Shareholding Pattern page (403)",
+          "https://www.hul.co.in/investors/shareholder-information-and-contacts/shareholding-pattern/"
+        ],
+        [
+          "screener.in — Hindustan Unilever Ltd (consolidated)",
+          "https://www.screener.in/company/HINDUNILVR/consolidated/"
+        ]
       ]
     },
     {
       "what": "icici.bank.in's investor-relations and shareprice pages are client-rendered; no server-side link to a shareholding-pattern PDF was found in the HTML reachable via curl, and a direct WebFetch of the investor page returned 403.",
       "whyItMatters": "ICICI Bank is a NIFTY 50 and SENSEX 30 constituent with a large FPI base (screener.in aggregate: FIIs/FPIs 33.79%, DIIs 42.32%, Government 0.22%, Public 23.68%, as of June 2026, tier reported) but no named ≥1% foreign holder could be identified in this pass — a wider search (e.g. an NSE/BSE corpfiling mirror, or a JS-rendering fetch tool) would be needed to get the primary Regulation 31(1)(b) filing and its individually named FPI Category I/II lines.",
       "srcs": [
-        ["icici.bank.in — Shareprice / Shareholding Pattern page", "https://www.icici.bank.in/about-us/shareprice"],
-        ["icici.bank.in — Investor page (403)", "https://www.icici.bank.in/about-us/investor"],
-        ["screener.in — ICICI Bank Ltd (consolidated)", "https://www.screener.in/company/ICICIBANK/consolidated/"]
+        [
+          "icici.bank.in — Shareprice / Shareholding Pattern page",
+          "https://www.icici.bank.in/about-us/shareprice"
+        ],
+        [
+          "icici.bank.in — Investor page (403)",
+          "https://www.icici.bank.in/about-us/investor"
+        ],
+        [
+          "screener.in — ICICI Bank Ltd (consolidated)",
+          "https://www.screener.in/company/ICICIBANK/consolidated/"
+        ]
       ]
     },
     {
       "what": "Both hcltech.com and hdfclife.com serve stale, superseded shareholding-pattern PDFs at persistent, 'nice' URLs that a naive fetch (the first hit in a web search) returns as if current: hcltech.com/.../shareholding_pattern.pdf actually contains the quarter ended 31 December 2015; hdfclife.com's two similarly-named 'Website' PDFs actually contain the quarters ended 30 September 2022 and 30 June 2023 respectively. The genuinely current filings live at differently-named, dated URLs (e.g. .../2026-07/Shareholding-Pattern-30June2026.pdf; .../Shareholding-Pattern-Website-June-2026.pdf) discoverable only by scraping each company's dated shareholding-pattern archive page.",
       "whyItMatters": "This is a general methodological trap for this domain: fetching the first plausible-looking shareholding-pattern URL for a company can silently return years-old data under a filename that gives no indication of its actual vintage. Every date claimed in this file was cross-checked against the 'quarter ended' field printed inside the PDF itself, not inferred from the URL.",
       "srcs": [
-        ["HCL Technologies — stale PDF, actually Dec 2015", "https://www.hcltech.com/sites/default/files/documents/investor-reports/shareholding_pattern.pdf"],
-        ["HDFC Life — stale PDF, actually Sept 2022", "https://www.hdfclife.com/content/dam/hdfclifeinsurancecompany/about-us/pdf/investor-relations/Information-to-shareholders/Shareholding-pattern/HDFC-LIFE-Shareholding-Pattern-Website.pdf"],
-        ["HDFC Life — second stale PDF, actually June 2023", "https://www.hdfclife.com/content/dam/hdfclifeinsurancecompany/about-us/pdf/investor-relations/Information-to-shareholders/Shareholding-pattern/HDFC-LIFE-ShareholdingPattern-Website.pdf"]
+        [
+          "HCL Technologies — stale PDF, actually Dec 2015",
+          "https://www.hcltech.com/sites/default/files/documents/investor-reports/shareholding_pattern.pdf"
+        ],
+        [
+          "HDFC Life — stale PDF, actually Sept 2022",
+          "https://www.hdfclife.com/content/dam/hdfclifeinsurancecompany/about-us/pdf/investor-relations/Information-to-shareholders/Shareholding-pattern/HDFC-LIFE-Shareholding-Pattern-Website.pdf"
+        ],
+        [
+          "HDFC Life — second stale PDF, actually June 2023",
+          "https://www.hdfclife.com/content/dam/hdfclifeinsurancecompany/about-us/pdf/investor-relations/Information-to-shareholders/Shareholding-pattern/HDFC-LIFE-ShareholdingPattern-Website.pdf"
+        ]
       ]
     },
     {
       "what": "The stale June 2023 HDFC Life PDF shows abrdn (Mauritius Holdings) 2006 Limited (formerly Standard Life (Mauritius Holdings) 2006 Limited) already at 0% promoter shareholding, down from 1.66% in the September 2022 snapshot; it is entirely absent from the current June 2026 filing. The exact quarter of abrdn's full exit was not pinned down in this pass.",
       "whyItMatters": "abrdn was HDFC Life's original foreign (UK/Mauritius) co-promoter alongside HDFC Bank; its exit is a documented change in HDFC Life's foreign-ownership structure that a wider pass of intermediate quarterly filings (2022–2023) could date precisely.",
       "srcs": [
-        ["HDFC Life — stale PDF, actually Sept 2022 (abrdn 1.66%)", "https://www.hdfclife.com/content/dam/hdfclifeinsurancecompany/about-us/pdf/investor-relations/Information-to-shareholders/Shareholding-pattern/HDFC-LIFE-Shareholding-Pattern-Website.pdf"],
-        ["HDFC Life — stale PDF, actually June 2023 (abrdn 0%)", "https://www.hdfclife.com/content/dam/hdfclifeinsurancecompany/about-us/pdf/investor-relations/Information-to-shareholders/Shareholding-pattern/HDFC-LIFE-ShareholdingPattern-Website.pdf"]
+        [
+          "HDFC Life — stale PDF, actually Sept 2022 (abrdn 1.66%)",
+          "https://www.hdfclife.com/content/dam/hdfclifeinsurancecompany/about-us/pdf/investor-relations/Information-to-shareholders/Shareholding-pattern/HDFC-LIFE-Shareholding-Pattern-Website.pdf"
+        ],
+        [
+          "HDFC Life — stale PDF, actually June 2023 (abrdn 0%)",
+          "https://www.hdfclife.com/content/dam/hdfclifeinsurancecompany/about-us/pdf/investor-relations/Information-to-shareholders/Shareholding-pattern/HDFC-LIFE-ShareholdingPattern-Website.pdf"
+        ]
       ]
     },
     {
       "what": "Camas Investments Pte. Ltd.'s ultimate beneficial owner (whether a Singapore state entity, a private family office, or otherwise) was not confirmed via a primary Singapore ACRA/company registry document — only via web-search summaries of third-party company-lookup sites, which were not treated as opened sources.",
-      "whyItMatters": "Camas Investments appears as a named ≥1% FPI Category I holder in both HDFC Life (this batch) and, per the earlier Hindalco excerpt visible in this same filing, at a similar magnitude — worth resolving to know whether this is a single sovereign-linked vehicle recurring across constituents or an independent private holder.",
+      "whyItMatters": "Camas Investments Pte. Ltd. (UEN 200505776N) appears as a named ≥1% FPI Category I holder in HDFC Life (this batch) and in Eternal (holders-b3, 1.74%). The earlier note that it also appears in the Hindalco filing is not supported — no Camas line is recorded in this batch's Hindalco claims. Reconciliation keeps it as its own node (cap:camas-investments): the Temasek parentage that holders-b3 found on the same UEN rests on a Singapore registry aggregator, not a Temasek primary disclosure, and is recorded only as the reported-tier edge holders-b3:c015, not as an alias.",
       "srcs": []
     },
     {
@@ -412,9 +456,18 @@
       "denominator": 5,
       "label": "of the 5 companies in this batch; the sole case (HCL Technologies, HCL Holdings Private Ltd at 16.46%) is the founder family's own trust vehicle rather than third-party foreign investment capital — see cap:hcl-holdings-pvt-ltd. Excluding that vehicle, zero of the 5 constituents show a genuine third-party foreign investor crossing 5% by name in this pass (Hindustan Unilever and ICICI Bank were not checked for named holders at all).",
       "srcs": [
-        ["HCL Technologies — Shareholding Pattern as on 30 June 2026", "https://www.hcltech.com/sites/default/files/document/open/shareholding-pattern/2026-07/Shareholding-Pattern-30June2026.pdf"],
-        ["HDFC Life Insurance — Shareholding Pattern as on 30 June 2026", "https://www.hdfclife.com/content/dam/hdfclifeinsurancecompany/about-us/pdf/investor-relations/Information-to-shareholders/Shareholding-pattern/Shareholding-Pattern-Website-June-2026.pdf"],
-        ["Hindalco Industries — Shareholding Pattern as on 30 June 2026", "https://www.hindalco.com/Upload/PDF/shareholding-pattern-june-2026.pdf"]
+        [
+          "HCL Technologies — Shareholding Pattern as on 30 June 2026",
+          "https://www.hcltech.com/sites/default/files/document/open/shareholding-pattern/2026-07/Shareholding-Pattern-30June2026.pdf"
+        ],
+        [
+          "HDFC Life Insurance — Shareholding Pattern as on 30 June 2026",
+          "https://www.hdfclife.com/content/dam/hdfclifeinsurancecompany/about-us/pdf/investor-relations/Information-to-shareholders/Shareholding-pattern/Shareholding-Pattern-Website-June-2026.pdf"
+        ],
+        [
+          "Hindalco Industries — Shareholding Pattern as on 30 June 2026",
+          "https://www.hindalco.com/Upload/PDF/shareholding-pattern-june-2026.pdf"
+        ]
       ]
     }
   ],

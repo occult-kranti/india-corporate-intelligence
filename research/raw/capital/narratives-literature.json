@@ -130,6 +130,22 @@
     [
       "ICRIER Working Paper No. 109 — The Dynamics of Foreign Portfolio Inflows and Equity Returns in India (PDF opened; text not extractable — metadata unverified)",
       "https://www.icrier.org/pdf/wp109.pdf"
+    ],
+    [
+      "LiveLaw — Adani-Hindenburg Report: Prima Facie 'No Regulatory Failure,' Says Supreme Court Expert Committee About SEBI Probe",
+      "https://www.livelaw.in/top-stories/supreme-court-sc-adani-hindenburg-report-expert-committee-securities-and-exchange-board-of-india-sebi-regulatory-failure-229112"
+    ],
+    [
+      "Adani — media release: Adani to acquire Holcim's stake in Ambuja Cements and ACC, 15 May 2022",
+      "https://www.adani.com/newsroom/media-releases/adani-to-acquire-holcims-stake-in-ambuja-cements-and-acc-limited"
+    ],
+    [
+      "Latham & Watkins — advises Adani on US$4.5bn financing and completed acquisition of Ambuja Cements and ACC, 20 Sep 2022",
+      "https://www.lw.com/en/news/latham-advises-adani-financing-and-completed-acquisition-of-ambuja-cements-and-acc"
+    ],
+    [
+      "BS — Jio Financial's application for MF licence under process: Sebi, 3 Jan 2024",
+      "https://www.business-standard.com/markets/news/jio-financial-s-application-for-mutual-fund-licence-under-process-sebi-124010300549_1.html"
     ]
   ],
   "entities": [
@@ -282,13 +298,14 @@
     {
       "id": "grp:adani",
       "label": "Adani Group",
-      "sub": "Ahmedabad-based conglomerate; subject of the Hindenburg and OCCRP allegations",
+      "sub": "Ahmedabad-based conglomerate; acquirer of Holcim's Ambuja/ACC stakes (2022, via Endeavor Trade and Investment Ltd); subject of the Hindenburg and OCCRP allegations",
       "ty": "group",
       "fam": "market",
       "st": "gj",
       "sz": 3,
       "al": [
-        "Adani"
+        "Adani",
+        "Endeavor Trade and Investment Ltd"
       ],
       "resolved": true,
       "identity": {
@@ -302,7 +319,8 @@
       "publicRole": "Listed group whose promoters' offshore holdings were alleged to breach the 75% promoter cap and FPI beneficial-ownership rules",
       "d": [
         "Responded to OCCRP on 31 Aug 2023 that the allegations were 'baseless and unsubstantiated' and 'rehashed from Hindenburg's allegations' [documented]",
-        "Responded to the Aug 2024 Hindenburg report calling it 'malicious, mischievous and manipulative selections of publicly available information' [documented]"
+        "Responded to the Aug 2024 Hindenburg report calling it 'malicious, mischievous and manipulative selections of publicly available information' [documented]",
+        "Adani release 15 May 2022: acquisition of Holcim's 63.19% in Ambuja and 54.53% in ACC for ~US$10.5bn incl. open offers [documented]"
       ],
       "srcs": [
         [
@@ -312,6 +330,14 @@
         [
           "News on AIR 12 Aug 2024",
           "https://www.newsonair.gov.in/adani-group-and-industry-leaders-condemn-hindenburg-report-defend-sebi-chairpersons-integrity"
+        ],
+        [
+          "Adani — media release: Adani to acquire Holcim's stake in Ambuja Cements and ACC, 15 May 2022",
+          "https://www.adani.com/newsroom/media-releases/adani-to-acquire-holcims-stake-in-ambuja-cements-and-acc-limited"
+        ],
+        [
+          "Latham & Watkins — advises Adani on US$4.5bn financing and completed acquisition of Ambuja Cements and ACC, 20 Sep 2022",
+          "https://www.lw.com/en/news/latham-advises-adani-financing-and-completed-acquisition-of-ambuja-cements-and-acc"
         ]
       ]
     },
@@ -380,7 +406,7 @@
     {
       "id": "sebi",
       "label": "SEBI",
-      "sub": "Securities and Exchange Board of India",
+      "sub": "Securities and Exchange Board of India — market regulator; licensor of AMCs, investment advisers and brokers",
       "ty": "agency",
       "fam": "enforce",
       "st": "mh",
@@ -399,12 +425,17 @@
       },
       "publicRole": "Regulator that ran 24 Adani investigations, issued the 2017 ODI circular and the 2023 FPI disclosure norms, and licenses mutual-fund sponsors",
       "d": [
-        "Final order of 18 Sep 2025 by WTM Kamlesh C. Varshney disposed of the Milestone/Rehvar proceedings 'without any direction', finding the allegations 'not established'; a companion Adicorp order (WTM/KV/CFID/CFID-TPD/31671/2025-26) was passed the same day [documented]"
+        "Final order of 18 Sep 2025 by WTM Kamlesh C. Varshney disposed of the Milestone/Rehvar proceedings 'without any direction', finding the allegations 'not established'; a companion Adicorp order (WTM/KV/CFID/CFID-TPD/31671/2025-26) was passed the same day [documented]",
+        "Publishes a quarterly list of pending MF applicants (BS, Jan 2024) [reported]"
       ],
       "srcs": [
         [
           "SEBI final order 18 Sep 2025",
           "https://www.sebi.gov.in/sebi_data/attachdocs/sep-2025/order_matter_milestone_rehvar.pdf"
+        ],
+        [
+          "BS — Jio Financial's application for MF licence under process: Sebi, 3 Jan 2024",
+          "https://www.business-standard.com/markets/news/jio-financial-s-application-for-mutual-fund-licence-under-process-sebi-124010300549_1.html"
         ]
       ]
     },
@@ -543,7 +574,8 @@
       "sz": 2,
       "al": [
         "Sapre committee",
-        "SC expert committee 2023"
+        "SC expert committee 2023",
+        "SC expert committee on Adani"
       ],
       "resolved": true,
       "identity": {
@@ -557,7 +589,8 @@
       "publicRole": "Court-appointed body whose 'prima facie no regulatory failure' finding is the pivot of both the pro- and anti-Adani narratives",
       "d": [
         "Headed by former SC judge A.M. Sapre; found 'prima facie, it would not be possible for the Committee to conclude that there has been a regulatory failure around the allegation of price manipulation'; attributed the volatility to the Hindenburg report itself; report text not opened — quotes via ThePrint/ANI [reported]",
-        "SC (3 Jan 2024) rejected conflict-of-interest allegations against members as 'unsubstantiated' and belated [documented]"
+        "SC (3 Jan 2024) rejected conflict-of-interest allegations against members as 'unsubstantiated' and belated [documented]",
+        "Constituted by Supreme Court order dated 2 March 2023; found it could not, on the material before it, conclude there had been 'regulatory failure' by SEBI in handling the alleged securities-law contraventions; said SEBI's pursuit of ultimate-beneficial-owner identification for 13 Adani-linked FPIs risked being 'a journey without a destination'; flagged six entities (including four FPIs) for suspicious pre-report trading in Adani group shares [reported]"
       ],
       "srcs": [
         [
@@ -567,6 +600,10 @@
         [
           "Vishal Tiwari v UoI",
           "https://indiankanoon.org/doc/188573380/"
+        ],
+        [
+          "LiveLaw — Adani-Hindenburg Report: Prima Facie 'No Regulatory Failure,' Says Supreme Court Expert Committee About SEBI Probe",
+          "https://www.livelaw.in/top-stories/supreme-court-sc-adani-hindenburg-report-expert-committee-securities-and-exchange-board-of-india-sebi-regulatory-failure-229112"
         ]
       ]
     },
@@ -704,14 +741,12 @@
     {
       "id": "cap:rothschild-co",
       "label": "Rothschild & Co SCA",
-      "sub": "Paris-headquartered independent financial advisory group (formerly Euronext: ROTH)",
+      "sub": "Paris-listed (Euronext: ROTH, until 2023 delisting) global advisory group; parent of the Indian subsidiary",
       "ty": "company",
       "fam": "capital",
       "st": null,
-      "sz": 2,
-      "al": [
-        "Rothschild & Co"
-      ],
+      "sz": 3,
+      "al": [],
       "resolved": true,
       "identity": {
         "cin": null,
@@ -721,29 +756,20 @@
         "lei": null,
         "fcra": null
       },
-      "publicRole": "Parent of the Indian advisory subsidiary; the institutional referent of the 'Rothschild' narrative",
-      "d": [
-        "Its India page claims '25+ years of experience in India' and '145 M&A deals since 2010' [documented, self-reported]"
-      ],
-      "srcs": [
-        [
-          "Rothschild & Co India",
-          "https://www.rothschildandco.com/en/countries/india/"
-        ]
-      ]
+      "publicRole": "Global M&A adviser whose Indian mandates and league-table position are the subject of a circulating narrative",
+      "canonicalIn": "mandates-ventures.json",
+      "d": [],
+      "srcs": []
     },
     {
       "id": "cap:rothschild-co-india",
       "label": "Rothschild & Co India Private Limited",
-      "sub": "Indian advisory subsidiary; SEBI Category-I merchant banker INM000010668",
+      "sub": "Indian advisory subsidiary of Rothschild & Co; SEBI-registered merchant banker",
       "ty": "company",
       "fam": "capital",
       "st": "mh",
       "sz": 2,
-      "al": [
-        "Rothschild India",
-        "N M Rothschild & Sons (India) Pvt Ltd"
-      ],
+      "al": [],
       "resolved": true,
       "identity": {
         "cin": "U65990MH1998PTC116788",
@@ -753,17 +779,10 @@
         "lei": null,
         "fcra": null
       },
-      "publicRole": "The only Rothschild entity with a regulated presence in India — an adviser, not a bank",
-      "d": [
-        "Services listed: M&A and strategic advisory, global markets solutions (fundraising, strategic capital), financing and restructuring advisory, plus non-SEBI-regulated corporate advisory; no banking licence, no lending, no asset management, no holdings described [documented]",
-        "Leadership: Aalok Shah (Head of India, MD); MDs Subhakanta Bal, Prashant Maheshwari, Nishant Singh (2026-09) [documented]"
-      ],
-      "srcs": [
-        [
-          "Rothschild & Co India",
-          "https://www.rothschildandco.com/en/countries/india/"
-        ]
-      ]
+      "publicRole": "Regulated intermediary (SEBI merchant banker INM000010668) advising public and listed-company transactions",
+      "canonicalIn": "mandates-ventures.json",
+      "d": [],
+      "srcs": []
     },
     {
       "id": "cap:lit-ferguson-house-of-rothschild",
@@ -810,78 +829,35 @@
     {
       "id": "cap:blackrock",
       "label": "BlackRock, Inc.",
-      "sub": "World's largest asset manager (NYSE: BLK); 50% partner in Jio BlackRock",
+      "sub": "US asset manager, NYSE: BLK; India exposure via iShares ETFs and BlackRock Global Funds sub-funds, each separately FPI-registered",
       "ty": "company",
       "fam": "capital",
       "st": null,
-      "sz": 3,
-      "al": [
-        "BlackRock",
-        "iShares"
-      ],
+      "sz": 4,
+      "al": [],
       "resolved": true,
       "identity": {
         "cin": null,
         "din": null,
-        "nse": null,
+        "nse": "NYSE:BLK",
         "office": null,
         "lei": null,
         "fcra": null
       },
-      "publicRole": "Named actor of the 'owns India' and 'fast-track licence' narratives; holdings recorded in holders.json, JV in mandates-ventures.json",
-      "d": [
-        "Not a named ≥1% shareholder in any of the five NIFTY 50 primary filings opened by the holders file (Reliance, HDFC Bank, ITC, Bharti Airtel, SBI) — see holders.json baseRates [cross-reference]"
-      ],
-      "srcs": [
-        [
-          "BIS CGFS 66 — passive/benchmark-driven flows",
-          "https://www.bis.org/publ/cgfs66.pdf"
-        ]
-      ]
-    },
-    {
-      "id": "cap:vanguard",
-      "label": "The Vanguard Group, Inc.",
-      "sub": "Index-fund manager; the other named actor of the 'owns India' narrative",
-      "ty": "company",
-      "fam": "capital",
-      "st": null,
-      "sz": 2,
-      "al": [
-        "Vanguard"
-      ],
-      "resolved": true,
-      "identity": {
-        "cin": null,
-        "din": null,
-        "nse": null,
-        "office": null,
-        "lei": null,
-        "fcra": null
-      },
-      "publicRole": "Comparison holder; named ≥1% only in HDFC Bank (2.44% via two funds) in the holders file's five-company sample",
-      "d": [
-        "See holders.json c003/c004 for the primary-filing percentages [cross-reference]"
-      ],
-      "srcs": [
-        [
-          "BIS CGFS 66 — passive/benchmark-driven flows",
-          "https://www.bis.org/publ/cgfs66.pdf"
-        ]
-      ]
+      "publicRole": "The world's largest asset manager; central to the 'BlackRock owns India' narrative this file exists to calibrate. Mandatory control per SPEC — never recorded without the comparison set below.",
+      "canonicalIn": "holders.json",
+      "d": [],
+      "srcs": []
     },
     {
       "id": "cap:jio-blackrock-asset-management",
       "label": "Jio BlackRock Asset Management Private Limited",
-      "sub": "50:50 JV of Jio Financial Services and BlackRock; SEBI MF registration 26 May 2025",
+      "sub": "50:50 JV AMC; SEBI-registered mutual fund investment manager since 26 May 2025",
       "ty": "company",
       "fam": "market",
       "st": "mh",
-      "sz": 2,
-      "al": [
-        "Jio BlackRock",
-        "JioBlackRock Mutual Fund"
-      ],
+      "sz": 3,
+      "al": [],
       "resolved": true,
       "identity": {
         "cin": null,
@@ -891,16 +867,10 @@
         "lei": null,
         "fcra": null
       },
-      "publicRole": "Subject of the 'fast-track licence' narrative; chronology in mandates-ventures.json c030–c032",
-      "d": [
-        "Applied 2023-10-19; in-principle 2024-10-04 (~11.5 months); final 2025-05-26 (~7.7 months after in-principle) — mandates-ventures.json c030–c032 [cross-reference]"
-      ],
-      "srcs": [
-        [
-          "Business Today — Old Bridge (comparator)",
-          "https://www.businesstoday.in/mutual-funds/story/old-bridge-capital-management-receives-sebi-approval-for-mutual-fund-business-397108-2023-09-06"
-        ]
-      ]
+      "publicRole": "SEBI-regulated mutual fund",
+      "canonicalIn": "mandates-ventures.json",
+      "d": [],
+      "srcs": []
     },
     {
       "id": "cap:old-bridge-amc",
@@ -1025,7 +995,8 @@
       },
       "publicRole": "The rule change that followed the SIT's 2015 recommendations",
       "d": [
-        "Approved by the SEBI Board on 21 Jun 2017; circular of 7 Jul 2017; compliance-officer certification with monthly ODI reports; echoes a 2007 ban reversed in Oct 2008 [reported — law-firm commentary; circular text on sebi.gov.in not opened]"
+        "Approved by the SEBI Board on 21 Jun 2017; circular of 7 Jul 2017; compliance-officer certification with monthly ODI reports; echoes a 2007 ban reversed in Oct 2008 [reported — law-firm commentary; circular text on sebi.gov.in not opened]",
+        "The sources disagree on the 2016 beneficial-owner identification threshold: 10% (Angel One — cap:pnotes-rules-2017, rules-regulators) vs 25% (Arthapedia — narratives-literature:c028 on cap:sebi-odi-circular-2017) — unresolved until the SEBI circular text is opened [gap]"
       ],
       "srcs": [
         [
@@ -1239,17 +1210,14 @@
       ]
     },
     {
-      "id": "min:ministry-of-finance",
-      "label": "Ministry of Finance",
-      "sub": "Union finance ministry (Department of Economic Affairs — borrower of record for World Bank DPOs)",
-      "ty": "ministry",
-      "fam": "state",
-      "st": "dl",
-      "sz": 3,
-      "al": [
-        "MoF",
-        "DEA"
-      ],
+      "id": "cap:fpi-industry",
+      "label": "Foreign Portfolio Investors registered with SEBI (Category I/II)",
+      "sub": "The class of entities registered under the SEBI (FPI) Regulations — the governed class for every FPI rule in this file, not a single node",
+      "ty": "industry",
+      "fam": "market",
+      "st": null,
+      "sz": 2,
+      "al": [],
       "resolved": true,
       "identity": {
         "cin": null,
@@ -1259,16 +1227,10 @@
         "lei": null,
         "fcra": null
       },
-      "publicRole": "Borrower of the DPO; signatory of the Mauritius protocols",
-      "d": [
-        "Borrower for P173943 per the program document [documented]"
-      ],
-      "srcs": [
-        [
-          "World Bank P173943 program document",
-          "http://documents1.worldbank.org/curated/en/685311589767271707/txt/India-Accelerating-Indias-COVID-19-Social-Protection-Response-Program.txt"
-        ]
-      ]
+      "publicRole": "The regulatory subject-class of every FPI rule change recorded here.",
+      "canonicalIn": "rules-regulators.json",
+      "d": [],
+      "srcs": []
     }
   ],
   "claims": [
@@ -1329,7 +1291,7 @@
       "pred": "enforce",
       "tier": "alleged",
       "a": 2795,
-      "lab": "OCCRP/Guardian/FT investigation, 31 Aug 2023 — two Adani-family associates traded Adani stock via Mauritius funds",
+      "lab": "OCCRP/Guardian/FT investigation, 31 Aug 2023 — two investors tied by OCCRP to the Adani promoter group traded Adani stock via Mauritius funds",
       "d": "Nasser Ali Shaban Ahli (UAE) and Chang Chung-Ling (Taiwan) held Adani shares worth US$430m at the March 2017 peak (≈ Rs 2,795 crore at Rs 65/US$, approx. RBI reference 2017-03) through Emerging India Focus Fund and EM Resurgent Fund; the funds' investment instructions came via Excel Investment and Advisory Services (UAE), whose agreement Vinod Adani signed in 2011; a 2014 DRI letter to SEBI (DG Najib Shah) said siphoned money 'may have found its way to stock markets in India as investment and disinvestment in the Adani Group'. Whether this breached the 75% promoter cap depends on whether the two acted for the promoters. OCCRP does not identify who funded the investigation. No beneficiary recorded: No monetary benefit to OCCRP is documented; the beneficiaries alleged are the two investors (private individuals — not recorded as nodes).",
       "from": "2023-08-31",
       "to": null,
@@ -1364,12 +1326,12 @@
     },
     {
       "id": "narratives-literature:c005",
-      "s": "sc",
-      "t": "cap:sc-expert-committee-2023",
+      "s": "cap:sc-expert-committee-2023",
+      "t": "sebi",
       "pred": "enforce",
       "tier": "documented",
       "a": null,
-      "lab": "Supreme Court constitutes six-member expert committee, 2 Mar 2023; report May 2023",
+      "lab": "SC-appointed expert committee reviews SEBI's regulatory conduct on Adani (constituted 2 Mar 2023; report May 2023)",
       "d": "Committee headed by Justice A.M. Sapre (retd) with K.V. Kamath, O.P. Bhatt, Nandan Nilekani, Somasekhar Sundaresan and Justice J.P. Devadhar; reported in sealed cover May 2023; finding as quoted: 'prima facie, it would not be possible for the Committee to conclude that there has been a regulatory failure around the allegation of price manipulation'; volatility 'attributable to the publication of the Hindenburg report'. Report text not opened — press quotation only.",
       "from": "2023-03-02",
       "to": "2023-05-19",
@@ -1835,13 +1797,15 @@
       "innocentReading": "A 200-year-old brand name keeps a shorthand alive; the firm's own marketing ('25+ years in India', '145 deals') invites the inference of scale that its licence category does not support.",
       "upgradeIf": "Any Rothschild entity is found holding a banking licence, an RBI board seat, or a disclosed ≥1% stake in an Indian bank.",
       "killIf": "Already at floor: no such record exists in any opened source.",
-      "supersededBy": null
+      "supersededBy": null,
+      "status": "killed",
+      "killedReason": "names a family as the actor: the edge draws the Rothschild family's 19th-century history onto Rothschild & Co, the institution. Kept only as a narrative — narratives-literature.json narratives[1] (\"The Rothschilds control the RBI / Indian banking\", debunked) and holders.json narratives[1]; the book stays a literature node"
     },
     {
       "id": "narratives-literature:c027",
       "s": "cap:sit-black-money",
       "t": "cap:p-notes-odi",
-      "pred": "law",
+      "pred": "enforce",
       "tier": "documented",
       "a": 271500,
       "lab": "SIT third report (Jul 2015): ODIs outstanding Rs 2.715 lakh crore (Feb 2015); recommends identifying end beneficial owners and curbing transferability",
@@ -1882,7 +1846,7 @@
     {
       "id": "narratives-literature:c029",
       "s": "cap:india-mauritius-dtaa",
-      "t": "min:ministry-of-finance",
+      "t": "cap:fpi-industry",
       "pred": "law",
       "tier": "reported",
       "a": null,
@@ -1905,7 +1869,7 @@
     {
       "id": "narratives-literature:c030",
       "s": "cap:india-mauritius-dtaa",
-      "t": "min:ministry-of-finance",
+      "t": "cap:fpi-industry",
       "pred": "law",
       "tier": "documented",
       "a": null,
@@ -2106,7 +2070,9 @@
       "from": null,
       "to": null,
       "srcs": [],
-      "supersededBy": null
+      "supersededBy": null,
+      "status": "killed",
+      "killedReason": "misdirected contra: c020 is the BJP's allegation about OCCRP, already answered by OCCRP (c021); Hindenburg is not the party it concerns, and the \"Soros is Hindenburg's investor\" claim this note answers is not a claim in this file. Held, not deleted; the absence of a Hindenburg statement stays in narratives"
     }
   ],
   "voids": [

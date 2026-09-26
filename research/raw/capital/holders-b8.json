@@ -3,180 +3,73 @@
   "domain": "holders-b8",
   "scope": "Named foreign shareholders (≥1%) of five NIFTY 50 / SENSEX constituents in batch 8 (Sun Pharmaceutical Industries, Tata Consultancy Services, Tata Consumer Products, Tata Motors Passenger Vehicles, Tata Steel), from the latest available SEBI Reg. 31(1)(b) quarterly shareholding-pattern data. Four companies were checked against the primary filing opened directly from the company's own investor-relations site: Sun Pharmaceutical Industries (quarter ended 31.03.2026), Tata Consumer Products (30.06.2026), Tata Steel (30.06.2026) and Tata Motors Passenger Vehicles (30.06.2026, its first full quarter as an independently listed entity following the October 2025 Tata Motors demerger into TML Commercial Vehicles Ltd / renamed Tata Motors Ltd and Tata Motors Passenger Vehicles Ltd). Tata Consultancy Services could not be opened at its primary source within budget: tcs.com returned HTTP 403 to every request (WebFetch and curl, with and without a browser User-Agent and Referer header) on both the financial-statements index page and two guessed direct-PDF URLs (Jun 2026 and Mar 2025 quarters) — the domain appears to block this environment's proxy outright, not merely this one document — so TCS rests on screener.in's aggregate (tier reported), with the attempted primary URLs recorded in voids. Covers: the mandatory comparison set (BlackRock, Vanguard, NBIM/Government Pension Fund Global, GIC/Government of Singapore, Capital Group, Fidelity, Kuwait Investment Authority, ADIA, GQG Partners) tested against the four companies with primary data; LIC of India as the domestic control on all four; and the FPI/Institutions-(Foreign) aggregate percentages and quarter dates for every company, including TCS. The striking finding across all four primary filings opened is that no individual foreign FPI holder was named ≥ 1% in three of the four (Tata Consumer Products, Tata Steel, Tata Motors Passenger Vehicles) — only Sun Pharmaceutical had one, Norges Bank's Government Pension Fund Global at 1.06% — and none of the five companies in this batch has a foreign promoter (all four Tata companies are controlled by the wholly domestic Tata Sons Private Limited; Sun Pharma's promoter group is the Shanghvi family's domestic holding entities). Leaves out: adviser mandates, SEBI/RBI rule-change history and the Soros/OSF/World Bank narratives, out of scope for this batch file; any company outside the five named above.",
   "sources": [
-    ["Sun Pharmaceutical Industries Ltd — Shareholding Pattern Reg. 31(1)(b), quarter ended 31.03.2026", "https://sunpharma.com/wp-content/uploads/2026/04/Share-Holding-Pattern_31-March-2026.pdf"],
-    ["Tata Consumer Products Ltd — Shareholding Pattern page, Q1 2026-27 (link discovery)", "https://www.tataconsumer.com/shareholding-pattern-q1-2026-27"],
-    ["Tata Consumer Products Ltd — Shareholding Pattern PDF, quarter ended 30.06.2026", "https://www.tataconsumer.com/sites/g/files/gfwrlq316/files/2026-07/SHAREHOLDING%20PATTERN%20Q1-2026-27.pdf"],
-    ["Tata Steel Ltd — Shareholding Pattern compliance page (link discovery)", "https://www.tatasteel.com/investors/stock-exchange-compliances/shareholding-pattern/"],
-    ["Tata Steel Ltd — Shareholding Pattern PDF, quarter ended 30.06.2026", "https://www.tatasteel.com/media/26190/tsl-shp-june-30-2026.pdf"],
-    ["Tata Motors Passenger Vehicles Ltd — Shareholder Information page (redirected from cars.tatamotors.com to tata.cars)", "https://tata.cars/investors/shareholder-information/shareholding-pattern.html"],
-    ["Tata Motors Passenger Vehicles Ltd — Shareholding Pattern PDF, quarter ended 30.06.2026", "https://tata.cars/content/dam/tml/pv/investors/2026/shareholder-information/shareholding-pattern/tmpvl-regulation.pdf"],
-    ["screener.in — Tata Consultancy Services Ltd (consolidated), shareholding-pattern section", "https://www.screener.in/company/TCS/consolidated/"],
-    ["TCS investor-relations financial-statements index page (probed, HTTP 403 to WebFetch and curl)", "https://www.tcs.com/investor-relations/financial-statements"],
-    ["TCS — guessed Shareholding Pattern PDF, quarter ended 30.06.2026 (probed, HTTP 403)", "https://www.tcs.com/content/dam/tcs/investor-relations/financial-statements/2026-27/q1/Shareholding%20Pattern%20&%20Capital%20Structure/Shareholding%20Pattern%20as%20on%20Jun%2030,%202026.pdf"],
-    ["TCS — Shareholding Pattern PDF, quarter ended 31.03.2025 (probed, HTTP 403)", "https://www.tcs.com/content/dam/tcs/investor-relations/financial-statements/2024-25/q4/Shareholding%20Pattern%20&%20Capital%20Structure/Shareholding%20Pattern%20as%20on%20Mar%2031,%202025.pdf"]
+    [
+      "Sun Pharmaceutical Industries Ltd — Shareholding Pattern Reg. 31(1)(b), quarter ended 31.03.2026",
+      "https://sunpharma.com/wp-content/uploads/2026/04/Share-Holding-Pattern_31-March-2026.pdf"
+    ],
+    [
+      "Tata Consumer Products Ltd — Shareholding Pattern page, Q1 2026-27 (link discovery)",
+      "https://www.tataconsumer.com/shareholding-pattern-q1-2026-27"
+    ],
+    [
+      "Tata Consumer Products Ltd — Shareholding Pattern PDF, quarter ended 30.06.2026",
+      "https://www.tataconsumer.com/sites/g/files/gfwrlq316/files/2026-07/SHAREHOLDING%20PATTERN%20Q1-2026-27.pdf"
+    ],
+    [
+      "Tata Steel Ltd — Shareholding Pattern compliance page (link discovery)",
+      "https://www.tatasteel.com/investors/stock-exchange-compliances/shareholding-pattern/"
+    ],
+    [
+      "Tata Steel Ltd — Shareholding Pattern PDF, quarter ended 30.06.2026",
+      "https://www.tatasteel.com/media/26190/tsl-shp-june-30-2026.pdf"
+    ],
+    [
+      "Tata Motors Passenger Vehicles Ltd — Shareholder Information page (redirected from cars.tatamotors.com to tata.cars)",
+      "https://tata.cars/investors/shareholder-information/shareholding-pattern.html"
+    ],
+    [
+      "Tata Motors Passenger Vehicles Ltd — Shareholding Pattern PDF, quarter ended 30.06.2026",
+      "https://tata.cars/content/dam/tml/pv/investors/2026/shareholder-information/shareholding-pattern/tmpvl-regulation.pdf"
+    ],
+    [
+      "screener.in — Tata Consultancy Services Ltd (consolidated), shareholding-pattern section",
+      "https://www.screener.in/company/TCS/consolidated/"
+    ],
+    [
+      "TCS investor-relations financial-statements index page (probed, HTTP 403 to WebFetch and curl)",
+      "https://www.tcs.com/investor-relations/financial-statements"
+    ],
+    [
+      "TCS — guessed Shareholding Pattern PDF, quarter ended 30.06.2026 (probed, HTTP 403)",
+      "https://www.tcs.com/content/dam/tcs/investor-relations/financial-statements/2026-27/q1/Shareholding%20Pattern%20&%20Capital%20Structure/Shareholding%20Pattern%20as%20on%20Jun%2030,%202026.pdf"
+    ],
+    [
+      "TCS — Shareholding Pattern PDF, quarter ended 31.03.2025 (probed, HTTP 403)",
+      "https://www.tcs.com/content/dam/tcs/investor-relations/financial-statements/2024-25/q4/Shareholding%20Pattern%20&%20Capital%20Structure/Shareholding%20Pattern%20as%20on%20Mar%2031,%202025.pdf"
+    ]
   ],
   "entities": [
     {
-      "id": "cap:blackrock",
-      "label": "BlackRock, Inc.",
-      "sub": "US asset manager, NYSE: BLK; India exposure via iShares ETFs and BlackRock Global Funds sub-funds, each separately FPI-registered",
-      "ty": "company",
-      "fam": "capital",
-      "st": null,
-      "sz": 4,
-      "al": ["iShares", "BlackRock Global Funds"],
-      "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
-      "publicRole": "Mandatory control per SPEC — never recorded without the comparison set. Redefined here per fleet contract for this batch file.",
-      "d": [
-        "Not found as a named ≥1% shareholder in any of the 4 companies whose primary filings were opened in this pass (Sun Pharmaceutical Industries, Tata Consumer Products, Tata Steel, Tata Motors Passenger Vehicles) [documented, absence in a 4-company sample]",
-        "Not checked against Tata Consultancy Services in this pass — tcs.com was unreachable and screener.in's aggregate carries no named-holder breakdown [void]"
-      ],
-      "srcs": []
-    },
-    {
-      "id": "cap:vanguard",
-      "label": "The Vanguard Group, Inc.",
-      "sub": "US asset manager; India exposure via multiple Vanguard index funds, each separately FPI-registered",
-      "ty": "company",
-      "fam": "capital",
-      "st": null,
-      "sz": 4,
-      "al": ["Vanguard Total International Stock Index Fund", "Vanguard Emerging Markets Stock Index Fund"],
-      "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
-      "publicRole": "Mandatory comparison control per SPEC.",
-      "d": [
-        "Not found as a named ≥1% holder in any of the 4 companies checked with primary data in this pass [documented, absence in sample]",
-        "Not checked against Tata Consultancy Services [void, see cap:blackrock]"
-      ],
-      "srcs": []
-    },
-    {
       "id": "cap:nbim",
       "label": "Norges Bank Investment Management (Government Pension Fund Global)",
-      "sub": "Manager of Norway's sovereign wealth fund",
+      "sub": "Manager of Norway's sovereign wealth fund; India = 2.1% of the fund's equity investments at end-2025 per its own annual report",
       "ty": "fund",
       "fam": "capital",
       "st": null,
       "sz": 4,
-      "al": ["NBIM", "Government Pension Fund Global", "GPFG"],
+      "al": [],
       "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
-      "publicRole": "Mandatory comparison control per SPEC.",
-      "d": [
-        "Named ≥1% in Sun Pharmaceutical Industries as 'Government Pension Fund Global', 1.06% (25,436,313 shares), quarter ended 31.03.2026 — the only individually named foreign FPI holder found anywhere in this batch [documented]",
-        "Not found as a named ≥1% holder in Tata Consumer Products, Tata Steel or Tata Motors Passenger Vehicles [documented, absence in sample]",
-        "Not checked against Tata Consultancy Services [void, see cap:blackrock]"
-      ],
-      "srcs": [["Sun Pharmaceutical Industries — Shareholding Pattern, quarter ended 31.03.2026", "https://sunpharma.com/wp-content/uploads/2026/04/Share-Holding-Pattern_31-March-2026.pdf"]]
-    },
-    {
-      "id": "cap:gic-singapore",
-      "label": "Government of Singapore / GIC Private Limited",
-      "sub": "Singapore's sovereign wealth fund manager; Indian filings name the registered FPI holder 'GOVERNMENT OF SINGAPORE'",
-      "ty": "fund",
-      "fam": "capital",
-      "st": null,
-      "sz": 4,
-      "al": ["GIC", "GIC Pte Ltd", "Government of Singapore"],
-      "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
-      "publicRole": "Mandatory comparison control per SPEC.",
-      "d": [
-        "Not found as a named ≥1% holder in any of the 4 companies checked with primary data in this pass [documented, absence in sample]",
-        "Not checked against Tata Consultancy Services [void, see cap:blackrock]"
-      ],
-      "srcs": []
-    },
-    {
-      "id": "cap:capital-group",
-      "label": "Capital Group Companies, Inc.",
-      "sub": "US asset manager; EuroPacific Growth Fund and New Perspective Fund are its best-known emerging-markets vehicles",
-      "ty": "company",
-      "fam": "capital",
-      "st": null,
-      "sz": 3,
-      "al": ["EuroPacific Growth Fund", "New Perspective Fund"],
-      "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
-      "publicRole": "Mandatory comparison control per SPEC.",
-      "d": [
-        "Not found as a named ≥1% holder in any of the 4 companies checked with primary data in this pass [documented, absence in sample]",
-        "Not checked against Tata Consultancy Services [void, see cap:blackrock]"
-      ],
-      "srcs": []
-    },
-    {
-      "id": "cap:fidelity",
-      "label": "Fidelity Investments (FMR LLC)",
-      "sub": "US asset manager, privately held; distinct from Fidelity International Ltd",
-      "ty": "company",
-      "fam": "capital",
-      "st": null,
-      "sz": 3,
-      "al": ["FMR LLC"],
-      "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
-      "publicRole": "Mandatory comparison control per SPEC.",
-      "d": [
-        "Not found as a named ≥1% holder in any of the 4 companies checked with primary data in this pass [documented, absence in sample]",
-        "Not checked against Tata Consultancy Services [void, see cap:blackrock]"
-      ],
-      "srcs": []
-    },
-    {
-      "id": "cap:kuwait-investment-authority",
-      "label": "Kuwait Investment Authority",
-      "sub": "Kuwait's sovereign wealth fund",
-      "ty": "fund",
-      "fam": "capital",
-      "st": null,
-      "sz": 2,
-      "al": ["KIA"],
-      "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
-      "publicRole": "Mandatory comparison control per SPEC.",
-      "d": [
-        "Not found as a named ≥1% holder in any of the 4 companies checked with primary data in this pass [documented, absence in sample]",
-        "Not checked against Tata Consultancy Services [void, see cap:blackrock]"
-      ],
-      "srcs": []
-    },
-    {
-      "id": "cap:adia",
-      "label": "Abu Dhabi Investment Authority",
-      "sub": "Abu Dhabi's sovereign wealth fund",
-      "ty": "fund",
-      "fam": "capital",
-      "st": null,
-      "sz": 2,
-      "al": ["ADIA"],
-      "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
-      "publicRole": "Mandatory comparison control per SPEC.",
-      "d": [
-        "Not found as a named ≥1% holder in any of the 4 companies checked with primary data in this pass [documented, absence in sample]",
-        "Not checked against Tata Consultancy Services [void, see cap:blackrock]"
-      ],
-      "srcs": []
-    },
-    {
-      "id": "cap:gqg-partners",
-      "label": "GQG Partners",
-      "sub": "US-based emerging-markets asset manager (Fort Lauderdale; founder Rajiv Jain)",
-      "ty": "company",
-      "fam": "capital",
-      "st": null,
-      "sz": 3,
-      "al": ["GQG Partners LLC"],
-      "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
-      "publicRole": "Named in the graph's prior-batch holders (research/raw/capital/holders.json, ITC); tested for symmetry against this batch.",
-      "d": [
-        "Not found as a named ≥1% holder in any of the 4 companies checked with primary data in this pass [documented, absence in sample]",
-        "Not checked against Tata Consultancy Services [void, see cap:blackrock]"
-      ],
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "Mandatory comparison control per SPEC; publishes every global holding twice yearly — the highest public-transparency standard among the controls, in principle.",
+      "canonicalIn": "holders.json",
+      "d": [],
       "srcs": []
     }
   ],
@@ -189,7 +82,12 @@
       "tier": "documented",
       "d": "1.06% (25,436,313 shares) via 'Government Pension Fund Global', Foreign Portfolio Investor Category I, quarter ended 31.03.2026 — the only individually named foreign FPI holder found in this batch.",
       "from": "2026-03-31",
-      "srcs": [["Sun Pharmaceutical Industries — Shareholding Pattern, quarter ended 31.03.2026", "https://sunpharma.com/wp-content/uploads/2026/04/Share-Holding-Pattern_31-March-2026.pdf"]],
+      "srcs": [
+        [
+          "Sun Pharmaceutical Industries — Shareholding Pattern, quarter ended 31.03.2026",
+          "https://sunpharma.com/wp-content/uploads/2026/04/Share-Holding-Pattern_31-March-2026.pdf"
+        ]
+      ],
       "supersededBy": null
     },
     {
@@ -200,7 +98,12 @@
       "tier": "documented",
       "d": "5.23% (125,585,627 shares), domestic control comparator, quarter ended 31.03.2026 — the largest single named institutional shareholder besides the promoter group (Shanghvi-family domestic entities, 54.48%). Institutions (Foreign) aggregate this quarter: Foreign Portfolio Investors Category I 15.33% across 1,029 entities (of which only holders-b8:c001 is individually named ≥1%) + Category II 0.61% across 65 entities + negligible FII/foreign-bank/FDI lines = 15.93% total; no foreign promoter or FDI stake exists in this company.",
       "from": "2026-03-31",
-      "srcs": [["Sun Pharmaceutical Industries — Shareholding Pattern, quarter ended 31.03.2026", "https://sunpharma.com/wp-content/uploads/2026/04/Share-Holding-Pattern_31-March-2026.pdf"]],
+      "srcs": [
+        [
+          "Sun Pharmaceutical Industries — Shareholding Pattern, quarter ended 31.03.2026",
+          "https://sunpharma.com/wp-content/uploads/2026/04/Share-Holding-Pattern_31-March-2026.pdf"
+        ]
+      ],
       "supersededBy": null
     },
     {
@@ -211,7 +114,12 @@
       "tier": "documented",
       "d": "8.23% (81,469,499 shares), domestic control comparator, quarter ended 30.06.2026 — the largest single named institutional shareholder besides the promoter (Tata Sons Private Ltd, 33.83%). No individual foreign FPI holder is named ≥1% in this filing: Institutions (Foreign) aggregate is Foreign Portfolio Investors Category I 19.58% (710 entities) + Category II 0.50% (37 entities) = 20.08% total, with no single line broken out by name — consistent with (not proof of) fragmentation below the 1% naming threshold.",
       "from": "2026-06-30",
-      "srcs": [["Tata Consumer Products — Shareholding Pattern, quarter ended 30.06.2026", "https://www.tataconsumer.com/sites/g/files/gfwrlq316/files/2026-07/SHAREHOLDING%20PATTERN%20Q1-2026-27.pdf"]],
+      "srcs": [
+        [
+          "Tata Consumer Products — Shareholding Pattern, quarter ended 30.06.2026",
+          "https://www.tataconsumer.com/sites/g/files/gfwrlq316/files/2026-07/SHAREHOLDING%20PATTERN%20Q1-2026-27.pdf"
+        ]
+      ],
       "supersededBy": null
     },
     {
@@ -222,7 +130,12 @@
       "tier": "documented",
       "d": "6.37% (795,486,832 shares), domestic control comparator, quarter ended 30.06.2026 — the largest single named institutional shareholder besides the promoter (Tata Sons Private Ltd, 31.76%). No individual foreign FPI holder is named ≥1%: Institutions (Foreign) aggregate is Foreign Portfolio Investors Category I 18.27% (753 entities) + Category II 0.63% (53 entities) + Overseas Depositories holding GDRs (balancing figure, not a beneficial owner) 0.47% + negligible other lines = 19.37% total. Tata AIA Life Insurance Co. Ltd (Tata-Group-affiliated, not part of the promoter group) separately holds 0.10%.",
       "from": "2026-06-30",
-      "srcs": [["Tata Steel — Shareholding Pattern, quarter ended 30.06.2026", "https://www.tatasteel.com/media/26190/tsl-shp-june-30-2026.pdf"]],
+      "srcs": [
+        [
+          "Tata Steel — Shareholding Pattern, quarter ended 30.06.2026",
+          "https://www.tatasteel.com/media/26190/tsl-shp-june-30-2026.pdf"
+        ]
+      ],
       "supersededBy": null
     },
     {
@@ -233,7 +146,12 @@
       "tier": "documented",
       "d": "4.75% (175,104,418 shares), domestic control comparator, quarter ended 30.06.2026 — this is the company's first full quarter as an independently listed entity following the Composite Scheme of Arrangement that demerged Tata Motors Ltd into Tata Motors Ltd (commercial vehicles, formerly TML Commercial Vehicles Ltd) and Tata Motors Passenger Vehicles Ltd, effective 1 October 2025. Promoter (Tata Sons Private Ltd) holds 40.14%. No individual foreign FPI holder is named ≥1%: Institutions (Foreign) aggregate is Foreign Portfolio Investors Category I 16.52% (734 entities) + Category II 0.59% (52 entities) = 17.11% total, none individually broken out by name. Tata AIA Life Insurance Co. Ltd separately holds 0.23%.",
       "from": "2026-06-30",
-      "srcs": [["Tata Motors Passenger Vehicles — Shareholding Pattern, quarter ended 30.06.2026", "https://tata.cars/content/dam/tml/pv/investors/2026/shareholder-information/shareholding-pattern/tmpvl-regulation.pdf"]],
+      "srcs": [
+        [
+          "Tata Motors Passenger Vehicles — Shareholding Pattern, quarter ended 30.06.2026",
+          "https://tata.cars/content/dam/tml/pv/investors/2026/shareholder-information/shareholding-pattern/tmpvl-regulation.pdf"
+        ]
+      ],
       "supersededBy": null
     }
   ],
@@ -242,10 +160,22 @@
       "what": "Tata Consultancy Services' primary SEBI Reg. 31(1)(b) shareholding-pattern PDF could not be opened in this pass. tcs.com returned HTTP 403 Forbidden to every request tried: the financial-statements index page (WebFetch and curl, both plain and with a browser User-Agent + Referer header), a guessed direct-PDF URL for the quarter ended 30.06.2026, and the confirmed-to-exist PDF URL for the quarter ended 31.03.2025 — the domain appears to block this environment's proxy/User-Agent wholesale rather than gating this one document. Fell back to screener.in's aggregate: Promoters 71.77%, FIIs 9.07%, DIIs 13.41%, Government 0.06%, Public 5.69%, quarter ~Jun 2026 (tier reported, no individual holder or LIC-specific line named).",
       "whyItMatters": "TCS is India's largest IT services company by market cap and a NIFTY 50 / SENSEX constituent; without the primary filing, no individual foreign holder (BlackRock, Vanguard, NBIM, GIC, GQG, etc.) or LIC's specific stake could be confirmed or denied for this company in this pass, and the FII aggregate (9.07%) could not be broken down by name.",
       "srcs": [
-        ["screener.in — Tata Consultancy Services Ltd (consolidated)", "https://www.screener.in/company/TCS/consolidated/"],
-        ["TCS investor-relations financial-statements index page (probed, HTTP 403)", "https://www.tcs.com/investor-relations/financial-statements"],
-        ["TCS — guessed Shareholding Pattern PDF, quarter ended 30.06.2026 (probed, HTTP 403)", "https://www.tcs.com/content/dam/tcs/investor-relations/financial-statements/2026-27/q1/Shareholding%20Pattern%20&%20Capital%20Structure/Shareholding%20Pattern%20as%20on%20Jun%2030,%202026.pdf"],
-        ["TCS — Shareholding Pattern PDF, quarter ended 31.03.2025 (probed, HTTP 403)", "https://www.tcs.com/content/dam/tcs/investor-relations/financial-statements/2024-25/q4/Shareholding%20Pattern%20&%20Capital%20Structure/Shareholding%20Pattern%20as%20on%20Mar%2031,%202025.pdf"]
+        [
+          "screener.in — Tata Consultancy Services Ltd (consolidated)",
+          "https://www.screener.in/company/TCS/consolidated/"
+        ],
+        [
+          "TCS investor-relations financial-statements index page (probed, HTTP 403)",
+          "https://www.tcs.com/investor-relations/financial-statements"
+        ],
+        [
+          "TCS — guessed Shareholding Pattern PDF, quarter ended 30.06.2026 (probed, HTTP 403)",
+          "https://www.tcs.com/content/dam/tcs/investor-relations/financial-statements/2026-27/q1/Shareholding%20Pattern%20&%20Capital%20Structure/Shareholding%20Pattern%20as%20on%20Jun%2030,%202026.pdf"
+        ],
+        [
+          "TCS — Shareholding Pattern PDF, quarter ended 31.03.2025 (probed, HTTP 403)",
+          "https://www.tcs.com/content/dam/tcs/investor-relations/financial-statements/2024-25/q4/Shareholding%20Pattern%20&%20Capital%20Structure/Shareholding%20Pattern%20as%20on%20Mar%2031,%202025.pdf"
+        ]
       ]
     },
     {

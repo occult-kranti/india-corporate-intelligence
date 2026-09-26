@@ -198,20 +198,30 @@
     [
       "RIL — Board of Directors (Mukesh D. Ambani, Chairman & Managing Director)",
       "https://www.ril.com/about/board-of-directors"
+    ],
+    [
+      "Business Today — Old Bridge (comparator)",
+      "https://www.businesstoday.in/mutual-funds/story/old-bridge-capital-management-receives-sebi-approval-for-mutual-fund-business-397108-2023-09-06"
+    ],
+    [
+      "World Bank P173943 program document",
+      "http://documents1.worldbank.org/curated/en/685311589767271707/txt/India-Accelerating-Indias-COVID-19-Social-Protection-Response-Program.txt"
     ]
   ],
   "entities": [
     {
       "id": "min:ministry-of-finance",
       "label": "Ministry of Finance",
-      "sub": "Department of Investment and Public Asset Management (DIPAM) — awarder of every transaction-adviser mandate in this file",
+      "sub": "Union Ministry of Finance — DIPAM (awarder of the disinvestment adviser mandates) and DEA (borrower of record; treaty signatory)",
       "ty": "ministry",
       "fam": "state",
       "st": "dl",
       "sz": 4,
       "al": [
         "DIPAM",
-        "Department of Investment and Public Asset Management"
+        "Department of Investment and Public Asset Management",
+        "MoF",
+        "DEA"
       ],
       "resolved": true,
       "identity": {
@@ -222,9 +232,10 @@
         "lei": null,
         "fcra": null
       },
-      "publicRole": "Union ministry; DIPAM manages GoI equity in CPSEs and appoints advisers by RFP",
+      "publicRole": "Union ministry; DIPAM manages GoI equity in CPSEs and appoints advisers by RFP; DEA borrows from multilaterals and negotiates tax treaties",
       "d": [
-        "DIPAM website lists strategic-disinvestment PIMs and corrigenda but publishes no consolidated adviser-award or fee register (checked 2026-09-26) [documented]"
+        "DIPAM website lists strategic-disinvestment PIMs and corrigenda but publishes no consolidated adviser-award or fee register (checked 2026-09-26) [documented]",
+        "Borrower for P173943 per the program document [documented]"
       ],
       "srcs": [
         [
@@ -234,6 +245,10 @@
         [
           "DIPAM — tenders page",
           "https://dipam.gov.in/tender"
+        ],
+        [
+          "World Bank P173943 program document",
+          "http://documents1.worldbank.org/curated/en/685311589767271707/txt/India-Accelerating-Indias-COVID-19-Social-Protection-Response-Program.txt"
         ]
       ]
     },
@@ -502,8 +517,7 @@
       "st": null,
       "sz": 3,
       "al": [
-        "Rothschild & Co",
-        "Rothschild"
+        "Rothschild & Co"
       ],
       "resolved": true,
       "identity": {
@@ -517,7 +531,8 @@
       "publicRole": "Global M&A adviser whose Indian mandates and league-table position are the subject of a circulating narrative",
       "d": [
         "Group advised on 379 deals totalling US$109.7bn in 2023 (Forbes India) [reported]",
-        "Claims '145 M&A deals since 2010' in India and '25+ years of experience in India' on its India page [documented]"
+        "Claims '145 M&A deals since 2010' in India and '25+ years of experience in India' on its India page [documented]",
+        "Its India page claims '25+ years of experience in India' and '145 M&A deals since 2010' [documented, self-reported]"
       ],
       "srcs": [
         [
@@ -555,7 +570,9 @@
       "d": [
         "CIN U65990MH1998PTC116788 and SEBI registration INM000010668 published on the firm's own India page [documented]",
         "Head of India and MD: Aalok Shah; MDs Subhakanta Bal, Prashant Maheshwari, Nishant Singh (firm page, 2026-09); Forbes (Dec 2024) named Chandresh Ruparel as MD & Head of India and Naina Lal Kidwai as senior adviser/non-executive chair — leadership changed between the two dates [documented]",
-        "Team of ~30–31 bankers; India presence dated to 1999 by its co-head (BS, Feb 2025) [reported]"
+        "Team of ~30–31 bankers; India presence dated to 1999 by its co-head (BS, Feb 2025) [reported]",
+        "Services listed: M&A and strategic advisory, global markets solutions (fundraising, strategic capital), financing and restructuring advisory, plus non-SEBI-regulated corporate advisory; no banking licence, no lending, no asset management, no holdings described [documented]",
+        "Leadership: Aalok Shah (Head of India, MD); MDs Subhakanta Bal, Prashant Maheshwari, Nishant Singh (2026-09) [documented]"
       ],
       "srcs": [
         [
@@ -851,15 +868,12 @@
     {
       "id": "cap:blackrock",
       "label": "BlackRock, Inc.",
-      "sub": "NYSE: BLK; world's largest asset manager; 50% partner in the Jio BlackRock ventures",
+      "sub": "US asset manager, NYSE: BLK; India exposure via iShares ETFs and BlackRock Global Funds sub-funds, each separately FPI-registered",
       "ty": "company",
       "fam": "capital",
       "st": null,
       "sz": 4,
-      "al": [
-        "BlackRock",
-        "BlackRock Advisors Singapore Pte"
-      ],
+      "al": [],
       "resolved": true,
       "identity": {
         "cin": null,
@@ -869,21 +883,10 @@
         "lei": null,
         "fcra": null
       },
-      "publicRole": "Listed foreign asset manager holding SEBI licences through 50:50 JVs",
-      "d": [
-        "Sold its 40% of DSP BlackRock to DSP Group in May 2018, citing inability to integrate a minority-held JV onto its platform [reported]",
-        "Re-entered India via 50:50 JV with JFS announced 26 Jul 2023, US$150m initial investment each [documented]"
-      ],
-      "srcs": [
-        [
-          "RIL — media release: JFS and BlackRock agree to form JV, 26 Jul 2023 (PDF)",
-          "https://www.ril.com/sites/default/files/2023-08/26072023-Media-Release-JFS-and-BlackRock-agree-to-form-JV-to-enter-India-s-Asset-Management-Industry.pdf"
-        ],
-        [
-          "BS (Reuters) — BlackRock exits mutual fund venture with DSP Group, 7 May 2018",
-          "https://www.business-standard.com/article/reuters/blackrock-exits-mutual-fund-venture-with-dsp-group-118050701042_1.html"
-        ]
-      ]
+      "publicRole": "The world's largest asset manager; central to the 'BlackRock owns India' narrative this file exists to calibrate. Mandatory control per SPEC — never recorded without the comparison set below.",
+      "canonicalIn": "holders.json",
+      "d": [],
+      "srcs": []
     },
     {
       "id": "co:jio-financial-services",
@@ -932,7 +935,8 @@
       "sz": 3,
       "al": [
         "JioBlackRock Mutual Fund",
-        "Jio BlackRock AMC"
+        "Jio BlackRock AMC",
+        "Jio BlackRock"
       ],
       "resolved": true,
       "identity": {
@@ -952,6 +956,10 @@
         [
           "BS — Jio BlackRock gets final Sebi nod, names Sid Swaminathan CEO, 27 May 2025",
           "https://www.business-standard.com/markets/mutual-fund/jio-blackrock-gets-final-sebi-nod-names-sid-swaminathan-ceo-125052701425_1.html"
+        ],
+        [
+          "Business Today — Old Bridge (comparator)",
+          "https://www.businesstoday.in/mutual-funds/story/old-bridge-capital-management-receives-sebi-approval-for-mutual-fund-business-397108-2023-09-06"
         ]
       ]
     },
@@ -1230,37 +1238,6 @@
       ]
     },
     {
-      "id": "sebi",
-      "label": "SEBI",
-      "sub": "Securities and Exchange Board of India — licensor of AMCs, investment advisers and brokers",
-      "ty": "agency",
-      "fam": "enforce",
-      "st": "mh",
-      "sz": 4,
-      "al": [
-        "Securities and Exchange Board of India"
-      ],
-      "resolved": true,
-      "identity": {
-        "cin": null,
-        "din": null,
-        "nse": null,
-        "office": null,
-        "lei": null,
-        "fcra": null
-      },
-      "publicRole": "Statutory regulator",
-      "d": [
-        "Publishes a quarterly list of pending MF applicants (BS, Jan 2024) [reported]"
-      ],
-      "srcs": [
-        [
-          "BS — Jio Financial's application for MF licence under process: Sebi, 3 Jan 2024",
-          "https://www.business-standard.com/markets/news/jio-financial-s-application-for-mutual-fund-licence-under-process-sebi-124010300549_1.html"
-        ]
-      ]
-    },
-    {
       "id": "cap:sebi-mf-regulations-1996",
       "label": "SEBI (Mutual Funds) Regulations, 1996 — reg. 7 sponsor eligibility",
       "sub": "The rule every AMC sponsor (Jio BlackRock, Bajaj Finserv, IIHL, Nippon Life) is licensed under; amended 26 Jun 2023",
@@ -1310,9 +1287,7 @@
       "fam": "market",
       "st": "mh",
       "sz": 2,
-      "al": [
-        "Bajaj Finserv AMC"
-      ],
+      "al": [],
       "resolved": true,
       "identity": {
         "cin": null,
@@ -1323,7 +1298,9 @@
         "fcra": null
       },
       "publicRole": "Listed company; MF sponsor",
-      "d": [],
+      "d": [
+        "Bajaj Finserv AMC: Bajaj Finserv Asset Management Ltd is a subsidiary (the licensed AMC), named here rather than aliased to the listed parent [reconciliation note]"
+      ],
       "srcs": [
         [
           "BS — Bajaj Finserv gets Sebi in-principle approval for MF business, 25 Aug 2021",
@@ -1340,9 +1317,7 @@
       "st": "dl",
       "sz": 3,
       "al": [
-        "AI",
-        "Air India Express (AIXL)",
-        "AISATS"
+        "AI"
       ],
       "resolved": true,
       "identity": {
@@ -1356,7 +1331,8 @@
       "publicRole": "Privatised CPSE",
       "d": [
         "Reserve price Rs 12,906 crore fixed on the TA's business valuation and the asset valuer's valuation, after sealed bids (Lok Sabha reply) [documented]",
-        "Non-core assets (book value Rs 14,718 crore at 31 Aug 2021) moved to AIAHL [documented]"
+        "Non-core assets (book value Rs 14,718 crore at 31 Aug 2021) moved to AIAHL [documented]",
+        "Air India Express (AIXL); AISATS: subsidiary/joint-venture companies of Air India, named here rather than aliased [reconciliation note]"
       ],
       "srcs": [
         [
@@ -1617,7 +1593,7 @@
     {
       "id": "per:tuhin-kanta-pandey",
       "label": "Tuhin Kanta Pandey",
-      "sub": "Secretary, DIPAM (in office 2020-12 per source; later Finance Secretary and, from 2025-03, SEBI Chairman)",
+      "sub": "Secretary, DIPAM (2019-10→2025-02); Chairman, SEBI (2025-03→)",
       "ty": "person",
       "fam": "state",
       "st": "dl",
@@ -1628,13 +1604,14 @@
         "cin": null,
         "din": null,
         "nse": null,
-        "office": "Secretary, Department of Investment and Public Asset Management (holding office 2020-12-31 per DIPAM tweet quoted by PSU Watch; full tenure dates not captured)",
+        "office": "Secretary, DIPAM, 2019-10-24→2025-02-28 (rules-regulators:c004); Chairman, SEBI, 2025-03-01→ (rules-regulators:c003); in office as DIPAM Secretary on 2020-12-31 per DIPAM tweet quoted by PSU Watch",
         "lei": null,
         "fcra": null
       },
       "publicRole": "Head of the department that awarded every DIPAM mandate in this file",
       "d": [
-        "Announced Milliman's selection as LIC reporting actuary by tweet, 31 Dec 2020 [documented]"
+        "Announced Milliman's selection as LIC reporting actuary by tweet, 31 Dec 2020 [documented]",
+        "Secretary, DIPAM 2019-10-24 to 2025-02-28 and Chairman, SEBI from 2025-03-01 — dates as sourced in rules-regulators:c003/c004 [documented]"
       ],
       "srcs": [
         [
@@ -1644,7 +1621,7 @@
       ]
     },
     {
-      "id": "tata",
+      "id": "grp:tata",
       "label": "Tata Group",
       "sub": "Tata Sons Pvt Ltd and subsidiaries — buyer of Air India (via Talace Pvt Ltd) and NINL (via Tata Steel Long Products)",
       "ty": "group",
@@ -1653,8 +1630,7 @@
       "sz": 3,
       "al": [
         "Tata Sons",
-        "Talace Pvt Ltd",
-        "Tata Steel Long Products Limited"
+        "Talace Pvt Ltd"
       ],
       "resolved": true,
       "identity": {
@@ -1668,7 +1644,8 @@
       "publicRole": "Conglomerate holding listed companies; winning bidder in two DIPAM strategic sales",
       "d": [
         "Talace Pvt Ltd, a wholly owned subsidiary of Tata Sons, quoted EV Rs 18,000 crore for Air India; SPA 25 Oct 2021 [documented]",
-        "Tata Steel Long Products took over NINL on 4 Jul 2022 at EV Rs 12,100 crore [documented]"
+        "Tata Steel Long Products took over NINL on 4 Jul 2022 at EV Rs 12,100 crore [documented]",
+        "Tata Steel Long Products Limited: a separately listed Tata company (buyer of NINL, c019), named here rather than aliased to the group [reconciliation note]"
       ],
       "srcs": [
         [
@@ -1682,43 +1659,7 @@
       ]
     },
     {
-      "id": "adani",
-      "label": "Adani Group",
-      "sub": "Acquirer of Holcim's Ambuja Cements and ACC stakes (2022) through Endeavor Trade and Investment Ltd",
-      "ty": "company",
-      "fam": "market",
-      "st": "gj",
-      "sz": 3,
-      "al": [
-        "Adani Family",
-        "Endeavor Trade and Investment Ltd"
-      ],
-      "resolved": true,
-      "identity": {
-        "cin": null,
-        "din": null,
-        "nse": null,
-        "office": null,
-        "lei": null,
-        "fcra": null
-      },
-      "publicRole": "Promoter group of NSE-listed companies; acquirer in India's largest materials M&A",
-      "d": [
-        "Adani release 15 May 2022: acquisition of Holcim's 63.19% in Ambuja and 54.53% in ACC for ~US0.5bn incl. open offers [documented]"
-      ],
-      "srcs": [
-        [
-          "Adani — media release: Adani to acquire Holcim's stake in Ambuja Cements and ACC, 15 May 2022",
-          "https://www.adani.com/newsroom/media-releases/adani-to-acquire-holcims-stake-in-ambuja-cements-and-acc-limited"
-        ],
-        [
-          "Latham & Watkins — advises Adani on US$4.5bn financing and completed acquisition of Ambuja Cements and ACC, 20 Sep 2022",
-          "https://www.lw.com/en/news/latham-advises-adani-financing-and-completed-acquisition-of-ambuja-cements-and-acc"
-        ]
-      ]
-    },
-    {
-      "id": "reliance",
+      "id": "co:reliance-industries",
       "label": "Reliance Industries",
       "sub": "RIL — parent of Jio Platforms (2020 stake sales) and of Jio Financial Services until the 2023 demerger",
       "ty": "company",
@@ -1726,8 +1667,7 @@
       "st": "mh",
       "sz": 4,
       "al": [
-        "RIL",
-        "Jio Platforms Limited"
+        "RIL"
       ],
       "resolved": true,
       "identity": {
@@ -1740,8 +1680,9 @@
       },
       "publicRole": "NSE-listed company",
       "d": [
-        "Jio Platforms raised US.7bn from Facebook (Apr 2020), Morgan Stanley advising (Venture Intelligence) [reported]",
-        "JFS demerged and separately listed in Aug 2023 (BS) [reported]"
+        "Jio Platforms raised US$5.7bn from Facebook (Apr 2020), Morgan Stanley advising (Venture Intelligence) [reported]",
+        "JFS demerged and separately listed in Aug 2023 (BS) [reported]",
+        "Jio Platforms Limited is an RIL subsidiary (the counterparty in the 2020 stake sales, mandates-ventures:c023); a subsidiary is not an alias of its parent, so it is named here rather than aliased [reconciliation note]"
       ],
       "srcs": [
         [
@@ -1798,9 +1739,7 @@
       "st": "mh",
       "sz": 3,
       "al": [
-        "Kotak",
-        "Kotak Investment Banking",
-        "Kotak Strategic Situations Fund"
+        "Kotak"
       ],
       "resolved": true,
       "identity": {
@@ -1813,7 +1752,8 @@
       },
       "publicRole": "Listed bank; control-set adviser",
       "d": [
-        "LSEG H1 2024: no. 1 India IB fees US0.6m (7.6% wallet share); 8th M&A adviser; 3rd ECM bookrunner [documented]"
+        "LSEG H1 2024: no. 1 India IB fees US$40.6m (7.6% wallet share); 8th M&A adviser; 3rd ECM bookrunner [documented]",
+        "Kotak Investment Banking; Kotak Strategic Situations Fund: the bank's investment-banking arm and an alternative investment fund it sponsors — separate legal persons, named here rather than aliased [reconciliation note]"
       ],
       "srcs": [
         [
@@ -1823,6 +1763,70 @@
         [
           "Forbes India — Rothschild & Co: tapping into India's dealmaking opportunity, 2 Dec 2024",
           "https://www.forbesindia.com/article/take-one-big-story-of-the-day/rothschild-amp-co-tapping-into-indias-dealmaking-opportunity/94757/1"
+        ]
+      ]
+    },
+    {
+      "id": "cap:jio-blackrock-mf-nfo-subscribers",
+      "label": "Subscribers to Jio BlackRock Mutual Fund's first NFOs",
+      "sub": "Over 90 institutional and over 67,000 retail investors in the overnight, liquid and money-market NFOs of 30 Jun–2 Jul 2025",
+      "ty": "industry",
+      "fam": "market",
+      "st": null,
+      "sz": 1,
+      "al": [],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "A class of unit-holders, not persons: the payer side of the first Jio BlackRock NFO inflow (mandates-ventures:c033)",
+      "d": [
+        "Over 90 institutional and over 67,000 retail investors subscribed ₹17,800 crore across three NFOs, 30 Jun–2 Jul 2025 (company release via BS) [reported]"
+      ],
+      "srcs": [
+        [
+          "BS — Jio BlackRock MF NFOs raise Rs 17,800 crore, 7 Jul 2025",
+          "https://www.business-standard.com/markets/news/jio-blackrock-mf-nfo-rs17800cr-aum-debut-investors-digital-approach-125070700458_1.html"
+        ]
+      ]
+    },
+    {
+      "id": "cap:star9-mobility",
+      "label": "Star9 Mobility Pvt Ltd (bidding consortium)",
+      "sub": "Winning bidder (Apr 2022) for GoI's 51% of Pawan Hans at Rs 211.14 crore; the consortium was disqualified on 3 Jul 2023 (DIPAM)",
+      "ty": "company",
+      "fam": "market",
+      "st": null,
+      "sz": 1,
+      "al": [],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "Winning bidder in a DIPAM strategic-disinvestment auction (a public award)",
+      "d": [
+        "Named by BS (29 Apr 2022) as buyer of GoI's 51% of Pawan Hans for Rs 211.14 crore [reported]",
+        "DIPAM strategic-disinvestment page: \"successful bidding consortium disqualified\", 3 Jul 2023 [documented]",
+        "Consortium members and CIN not recorded in any source opened [gap]"
+      ],
+      "srcs": [
+        [
+          "BS — Star9 Mobility to buy 51% of Pawan Hans for Rs 211.14 cr, 29 Apr 2022",
+          "https://www.business-standard.com/article/companies/star9-mobility-to-buy-51-govt-stake-in-pawan-hans-for-rs-211-14-cr-122042901186_1.html"
+        ],
+        [
+          "DIPAM — strategic disinvestment page",
+          "https://dipam.gov.in/strategic-disinvestment"
         ]
       ]
     }
@@ -1860,7 +1864,7 @@
     {
       "id": "mandates-ventures:c002",
       "s": "min:ministry-of-finance",
-      "t": "tata",
+      "t": "grp:tata",
       "pred": "award",
       "tier": "documented",
       "a": 18000,
@@ -1875,7 +1879,7 @@
         ]
       ],
       "benefit": {
-        "who": "tata",
+        "who": "grp:tata",
         "how": "Exclusivity: control of a national carrier; rival: one other financial bidder (unnamed in the reply)",
         "amountCr": 18000,
         "confidence": "documented"
@@ -1913,13 +1917,13 @@
     },
     {
       "id": "mandates-ventures:c004",
-      "s": "cap:deloitte-india",
-      "t": "min:ministry-of-finance",
+      "s": "min:ministry-of-finance",
+      "t": "cap:deloitte-india",
       "pred": "award",
       "tier": "reported",
-      "a": 0,
+      "a": 1e-07,
       "lab": "BPCL TA fee — Deloitte's bid of Re 1",
-      "d": "Deloitte quoted Re 1 (Rs 0.00000001 crore) as its BPCL advisory fee; SBI Caps second-lowest at Rs 15–17 crore; presentations to DIPAM 28 Nov 2019. Three unnamed sources; Deloitte and SBI Caps did not respond to BS. Direction recorded as fee-quote from adviser to awarder.",
+      "d": "Deloitte quoted Re 1 (Rs 0.0000001 crore) as its BPCL advisory fee; SBI Caps second-lowest at Rs 15–17 crore; presentations to DIPAM 28 Nov 2019. Three unnamed sources; Deloitte and SBI Caps did not respond to BS. Direction: awarder → winner, as the contract fixes for award (the original ran adviser → awarder).",
       "from": "2019-11-28",
       "to": null,
       "srcs": [
@@ -1931,8 +1935,8 @@
       "benefit": {
         "who": "cap:deloitte-india",
         "how": "Credential/loss-leader: near-zero fee buys the mandate; the boring explanation is stated by the ex-CIL chairman quoted",
-        "amountCr": 0,
-        "confidence": "estimated"
+        "amountCr": null,
+        "confidence": "unknown"
       },
       "upgradeIf": "DIPAM RFP result or a Parliament answer states the accepted fee",
       "killIf": "DIPAM or Deloitte publishes a different accepted fee",
@@ -2044,7 +2048,7 @@
       "t": "cap:kpmg-india",
       "pred": "award",
       "tier": "reported",
-      "a": 0,
+      "a": 1e-07,
       "lab": "IDBI Bank strategic disinvestment — Transaction Advisor mandate at Re 1",
       "d": "Seven bidders (Deloitte, EY, ICICI Securities, JM Financial, KPMG, RBSA Capital Advisors, SBI Capital Markets) presented on 10 Aug 2021; KPMG 'placed the lowest bid of Re 1, and was selected' (BS quoting an official, 26 Aug 2021). KPMG declined to comment on the ongoing process. Stake: GoI 45.48% + LIC 49.24%.",
       "from": "2021-08-26",
@@ -2062,8 +2066,8 @@
       "benefit": {
         "who": "cap:kpmg-india",
         "how": "Credential/loss-leader on a bank privatisation; six named rivals lost on price",
-        "amountCr": 0,
-        "confidence": "estimated"
+        "amountCr": null,
+        "confidence": "unknown"
       },
       "upgradeIf": "DIPAM RFP result or Parliament answer confirms KPMG and the fee",
       "killIf": "DIPAM record names another TA or a different fee",
@@ -2221,12 +2225,12 @@
     {
       "id": "mandates-ventures:c017",
       "s": "min:ministry-of-finance",
-      "t": "cap:pawan-hans",
+      "t": "cap:star9-mobility",
       "pred": "award",
       "tier": "reported",
       "a": 211.14,
       "lab": "Pawan Hans — 51% GoI stake to Star9 Mobility Pvt Ltd for Rs 211.14 crore (approved Apr 2022; bidder later disqualified)",
-      "d": "BS 29 Apr 2022: sale to Star9 Mobility after three failed attempts; DIPAM page records 'successful bidding consortium disqualified' on 3 Jul 2023. Target recorded as the CPSE because the buyer is not a graph entity (private consortium). Superseded by the disqualification.",
+      "d": "BS 29 Apr 2022: sale to Star9 Mobility after three failed attempts; DIPAM page records 'successful bidding consortium disqualified' on 3 Jul 2023. Target is the winning bidder (awarder → winner); the asset sold is cap:pawan-hans. (Reconciliation: the edge originally pointed at the CPSE.) Superseded by the disqualification.",
       "from": "2022-04-29",
       "to": "2023-07-03",
       "srcs": [
@@ -2246,12 +2250,12 @@
     {
       "id": "mandates-ventures:c018",
       "s": "min:ministry-of-finance",
-      "t": "cap:pawan-hans",
+      "t": "cap:star9-mobility",
       "pred": "enforce",
       "tier": "documented",
       "a": null,
       "lab": "Pawan Hans — successful bidding consortium disqualified, 3 Jul 2023",
-      "d": "DIPAM strategic-disinvestment page entry; the 2022 award (c017) did not close.",
+      "d": "DIPAM strategic-disinvestment page entry; the 2022 award (c017) did not close. Subject is the disqualified bidding consortium (agency → subject), not the CPSE.",
       "from": "2023-07-03",
       "to": null,
       "srcs": [
@@ -2265,7 +2269,7 @@
     {
       "id": "mandates-ventures:c019",
       "s": "min:ministry-of-finance",
-      "t": "tata",
+      "t": "grp:tata",
       "pred": "award",
       "tier": "documented",
       "a": 12100,
@@ -2280,7 +2284,7 @@
         ]
       ],
       "benefit": {
-        "who": "tata",
+        "who": "grp:tata",
         "how": "Exclusivity: control of a 1.1 MTPA steel plant and iron-ore lease; bid was about double the Rs 5,617 crore reserve price (search snippet, not opened) — rivals unnamed in release",
         "amountCr": 12100,
         "confidence": "documented"
@@ -2316,7 +2320,7 @@
     },
     {
       "id": "mandates-ventures:c021",
-      "s": "adani",
+      "s": "grp:adani",
       "t": "cap:latham-watkins",
       "pred": "award",
       "tier": "documented",
@@ -2335,7 +2339,7 @@
     },
     {
       "id": "mandates-ventures:c022",
-      "s": "adani",
+      "s": "grp:adani",
       "t": "co:ambuja-cements",
       "pred": "own",
       "tier": "documented",
@@ -2358,7 +2362,7 @@
     },
     {
       "id": "mandates-ventures:c023",
-      "s": "reliance",
+      "s": "co:reliance-industries",
       "t": "cap:morgan-stanley",
       "pred": "award",
       "tier": "reported",
@@ -2449,10 +2453,10 @@
       "pred": "own",
       "tier": "reported",
       "a": null,
-      "lab": "BlackRock sells its 40% of DSP BlackRock Investment Managers to DSP Group (May 2018) — exit from India MF",
-      "d": "Reuters via BS, 7 May 2018: BlackRock 'could not integrate DSP BlackRock onto its technology and operating platform since it was a minority stakeholder'; spokesperson Anthony Arthur: 'India remains a strategic market'. Consideration not disclosed — amount not stated. Direction: seller → buyer (stake transferred).",
-      "from": "2018-05-07",
-      "to": null,
+      "lab": "BlackRock's 40% of DSP BlackRock Investment Managers — held until its sale to DSP Group (announced 7 May 2018)",
+      "d": "Reuters via BS, 7 May 2018: BlackRock 'could not integrate DSP BlackRock onto its technology and operating platform since it was a minority stakeholder'; spokesperson Anthony Arthur: 'India remains a strategic market'. Consideration not disclosed — amount not stated. Recorded as the holding (owner → owned) that the May 2018 sale ended; start date not in the source. (Reconciliation: the edge ran from 2018-05-07 with no end, which drew the exit as a new holding.)",
+      "from": null,
+      "to": "2018-05-07",
       "srcs": [
         [
           "BS (Reuters) — BlackRock exits mutual fund venture with DSP Group, 7 May 2018",
@@ -2511,13 +2515,13 @@
     },
     {
       "id": "mandates-ventures:c030",
-      "s": "co:jio-financial-services",
-      "t": "sebi",
+      "s": "cap:sebi-mf-regulations-1996",
+      "t": "co:jio-financial-services",
       "pred": "law",
       "tier": "reported",
       "a": null,
-      "lab": "JFS files MF sponsor application with SEBI, 19 Oct 2023",
-      "d": "SEBI's quarterly applicant list, reported by BS 3 Jan 2024; other applicants at that date: Abira Securities, Angel One (partial approval). Recorded as the regulated party's filing under cap:sebi-mf-regulations-1996.",
+      "lab": "JFS applies to SEBI as mutual-fund sponsor under Reg. 7, 19 Oct 2023",
+      "d": "SEBI's quarterly applicant list, reported by BS 3 Jan 2024; other applicants at that date: Abira Securities, Angel One (partial approval). Recorded as the sponsor-eligibility rule governing the applicant (rule → governed); the original ran JFS → SEBI, which read as JFS governing SEBI.",
       "from": "2023-10-19",
       "to": "2024-10-04",
       "srcs": [
@@ -2580,13 +2584,13 @@
     },
     {
       "id": "mandates-ventures:c033",
-      "s": "cap:jio-blackrock-asset-management",
-      "t": "co:jio-financial-services",
+      "s": "cap:jio-blackrock-mf-nfo-subscribers",
+      "t": "cap:jio-blackrock-asset-management",
       "pred": "pmin",
       "tier": "reported",
       "a": 17800,
       "lab": "First NFOs (overnight, liquid, money market) raise Rs 17,800 crore, 30 Jun–2 Jul 2025",
-      "d": "Company release via BS: over 90 institutional and over 67,000 retail investors; fund house enters top 35 of 47 by AUM and top 15 by debt AUM. Money flowed into the schemes (fund), recorded toward the sponsor node as the accountable listed entity; the JV holds it in trust for unit-holders, not as JFS revenue.",
+      "d": "Company release via BS: over 90 institutional and over 67,000 retail investors; fund house enters top 35 of 47 by AUM and top 15 by debt AUM. Money flowed from subscribers into the schemes managed by the AMC (held in trust for unit-holders, not AMC or JFS revenue). The original edge ran AMC → JFS, which would have drawn ₹17,800 crore flowing into Jio Financial Services.",
       "from": "2025-06-30",
       "to": "2025-07-02",
       "srcs": [
@@ -2804,7 +2808,7 @@
     {
       "id": "mandates-ventures:c043",
       "s": "per:mukesh-d-ambani",
-      "t": "reliance",
+      "t": "co:reliance-industries",
       "pred": "role",
       "tier": "documented",
       "a": null,
@@ -2906,7 +2910,7 @@
       "t": "cap:kpmg-india",
       "pred": "analytic",
       "tier": "analytic",
-      "a": 0,
+      "a": null,
       "lab": "Near-zero TA bids: Re 1 (Deloitte, BPCL 2019; KPMG, IDBI 2021) as a documented pattern in DIPAM RFPs",
       "d": "Two Re 1 winning bids in two years, both by Big Four firms, both beating SBI Caps (BPCL: Rs 15–17 crore second-lowest). BS traces the practice to the 2010 Coal India IPO (Citi) and JM Financial's Re 1 on ONGC–HPCL. DIPAM's L1 (lowest-fee) selection rule makes this the equilibrium. The question is not corruption but whether zero-fee advisers under-resource the sale.",
       "from": "2019-11-28",

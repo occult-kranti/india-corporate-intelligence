@@ -3,43 +3,68 @@
   "domain": "holders-b2",
   "scope": "Named foreign shareholders (≥1%) of five NIFTY 50 / large-cap constituents assigned as batch 2 (Bajaj Auto, Bajaj Finance, Bajaj Finserv, Bharat Electronics, Cipla), from primary SEBI Reg. 31(1)(b) shareholding-pattern filings where reachable. Only Cipla's primary filing was successfully opened and read in this pass (quarter ended 30.09.2025, pulled from cipla.com's own PDF mirror of the BSE XBRL render). The other four companies' primary sources could not be opened within the 8-fetch-per-company budget for structural reasons specific to each site (recorded in voids, not worked around): Bajaj Finance's and Bajaj Finserv's investor-relations pages (aboutbajajfinserv.com) are client-side-rendered Next.js applications that return only an empty shell to a non-browser fetch, and the one concrete document link found for Bajaj Finserv (a 'shareholding-pattern/31-march.xlsm' download) turned out to be a blank disclosure *template* dated 31-03-2016, not a filled current filing; Bajaj Auto's legacy static IR page (bajajauto.com/report/stock_shareholding.html) only serves a shareholding table dated 31 March 2012 with no links to any current filing, its newer IR site (investors.bajajauto.com) has no discoverable shareholding-pattern URL, and a candidate BSE AttachLive PDF surfaced by search returned 404; Bharat Electronics' own site (bel-india.in) fails TLS certificate verification for every request through this environment's proxy (the origin server presents an untrusted certificate chain — confirmed by direct TLS handshake trace, not a proxy-side block) and its WebFetch equivalent 503s. Per this fleet's fallback instruction, the FII/FPI and DII aggregate percentages for these four companies were pulled instead from screener.in (aggregator, tier reported) as of the June 2026 quarter; no individually named foreign holder is recorded for any of the four because screener.in's consolidated view does not disclose named holders, only category aggregates, and the fleet's own reachability notes are explicit that screener.in is 'the fallback of last resort at tier reported' for exactly this reason. This file therefore goes deep on one company (Cipla, documented tier, full Table II/III read) and records the four others honestly as unresourced rather than padding them with unverifiable named-holder guesses. It covers the mandatory comparison set (BlackRock, Vanguard, Norges Bank Investment Management/Government Pension Fund Global, GIC/Government of Singapore, Capital Group, Fidelity, Kuwait Investment Authority, Abu Dhabi Investment Authority) tested against Cipla, and LIC of India as the domestic control (found via a LIC-managed ULIP fund line, not LIC's direct equity book). It leaves out: any claim about the four unverified companies' named foreign holders; Cipla's foreign promoter-family holding (see gaps — persons are never recorded as nodes per CONTRACT rule 1, so the Hamied family's NRI shareholding is described narratively here, not as a claim); adviser mandates and FPI rule-change history, which belong to other files in this domain.",
   "sources": [
-    ["Cipla Ltd — Shareholding Pattern as on 30.09.2025 (cipla.com PDF mirror of BSE XBRL render, scrip 500087)", "https://www.cipla.com/sites/default/files/Shareholding-Pattern-Sep-2025_0.pdf"],
-    ["Cipla — Shareholding Pattern investor page (link discovery, 503 on direct fetch, PDF found via search instead)", "https://www.cipla.com/investors/shareholding-pattern"],
-    ["screener.in — Bajaj Auto Ltd (consolidated), shareholding-pattern section, June 2026 quarter", "https://www.screener.in/company/BAJAJ-AUTO/consolidated/"],
-    ["screener.in — Bajaj Finance Ltd (consolidated), shareholding-pattern section, June 2026 quarter", "https://www.screener.in/company/BAJFINANCE/consolidated/"],
-    ["screener.in — Bajaj Finserv Ltd (consolidated), shareholding-pattern section, June 2026 quarter", "https://www.screener.in/company/BAJAJFINSV/consolidated/"],
-    ["screener.in — Bharat Electronics Ltd (consolidated), shareholding-pattern section, June 2026 quarter", "https://www.screener.in/company/BEL/consolidated/"],
-    ["Bajaj Auto — legacy shareholding-pattern page (probed, stale 2012 data, no current filing link found)", "https://www.bajajauto.com/report/stock_shareholding.html"],
-    ["Bajaj Auto — general shareholder information page (probed, no shareholding-pattern PDF link found)", "https://investors.bajajauto.com/general-shareholder-information/"],
-    ["Bajaj Finance — Investor Relations shareholding-pattern page (probed, JS shell, 403 on plain fetch)", "https://www.aboutbajajfinserv.com/finance-investor-relations-shareholding-pattern"],
-    ["Bajaj Finserv — Investor Relations regulatory-filings shareholding-pattern page (probed, JS shell, 403 on plain fetch)", "https://www.aboutbajajfinserv.com/investor-relations-regulatory-filings-shareholding-pattern"],
-    ["Bajaj Finserv — downloaded 'shareholding-pattern/31-march.xlsm' (opened: found to be a blank disclosure template dated 31-03-2016, not current data)", "https://www.aboutbajajfinserv.com/content/dam/bajajfinserv/web/in/en/global/document/corporate/bfs-new/bfs-investor-relations/stock-exchange/finserv-shareholder-download/shareholding-pattern/31-march.xlsm"],
-    ["BEL — Shareholding Pattern page (probed, TLS certificate verification failure on every request)", "https://bel-india.in/shareholding-pattern/"],
-    ["BEL — historic shareholding-pattern PDF, 31.03.2013 (probed via WebFetch, 503; same TLS-adjacent failure)", "https://bel-india.in/wp-content/uploads/2024/04/BEL-SHP-as-on-2013.03.31.pdf"],
-    ["BSE India — candidate AttachLive PDF for Bajaj Auto (probed, 404)", "https://www.bseindia.com/xml-data/corpfiling/AttachLive/4695e470-1c06-40d2-9953-b5c642c86053.pdf"],
-    ["trendlyne.com — Bajaj Auto shareholding-pattern page (probed: aggregate FPI Cat I 8.80%/757 entities, Cat II 0.21%/38 entities visible, but no named individual holders rendered without JS/login)", "https://trendlyne.com/equity/share-holding/144/BAJAJ-AUTO/latest/bajaj-auto-ltd/"]
+    [
+      "Cipla Ltd — Shareholding Pattern as on 30.09.2025 (cipla.com PDF mirror of BSE XBRL render, scrip 500087)",
+      "https://www.cipla.com/sites/default/files/Shareholding-Pattern-Sep-2025_0.pdf"
+    ],
+    [
+      "Cipla — Shareholding Pattern investor page (link discovery, 503 on direct fetch, PDF found via search instead)",
+      "https://www.cipla.com/investors/shareholding-pattern"
+    ],
+    [
+      "screener.in — Bajaj Auto Ltd (consolidated), shareholding-pattern section, June 2026 quarter",
+      "https://www.screener.in/company/BAJAJ-AUTO/consolidated/"
+    ],
+    [
+      "screener.in — Bajaj Finance Ltd (consolidated), shareholding-pattern section, June 2026 quarter",
+      "https://www.screener.in/company/BAJFINANCE/consolidated/"
+    ],
+    [
+      "screener.in — Bajaj Finserv Ltd (consolidated), shareholding-pattern section, June 2026 quarter",
+      "https://www.screener.in/company/BAJAJFINSV/consolidated/"
+    ],
+    [
+      "screener.in — Bharat Electronics Ltd (consolidated), shareholding-pattern section, June 2026 quarter",
+      "https://www.screener.in/company/BEL/consolidated/"
+    ],
+    [
+      "Bajaj Auto — legacy shareholding-pattern page (probed, stale 2012 data, no current filing link found)",
+      "https://www.bajajauto.com/report/stock_shareholding.html"
+    ],
+    [
+      "Bajaj Auto — general shareholder information page (probed, no shareholding-pattern PDF link found)",
+      "https://investors.bajajauto.com/general-shareholder-information/"
+    ],
+    [
+      "Bajaj Finance — Investor Relations shareholding-pattern page (probed, JS shell, 403 on plain fetch)",
+      "https://www.aboutbajajfinserv.com/finance-investor-relations-shareholding-pattern"
+    ],
+    [
+      "Bajaj Finserv — Investor Relations regulatory-filings shareholding-pattern page (probed, JS shell, 403 on plain fetch)",
+      "https://www.aboutbajajfinserv.com/investor-relations-regulatory-filings-shareholding-pattern"
+    ],
+    [
+      "Bajaj Finserv — downloaded 'shareholding-pattern/31-march.xlsm' (opened: found to be a blank disclosure template dated 31-03-2016, not current data)",
+      "https://www.aboutbajajfinserv.com/content/dam/bajajfinserv/web/in/en/global/document/corporate/bfs-new/bfs-investor-relations/stock-exchange/finserv-shareholder-download/shareholding-pattern/31-march.xlsm"
+    ],
+    [
+      "BEL — Shareholding Pattern page (probed, TLS certificate verification failure on every request)",
+      "https://bel-india.in/shareholding-pattern/"
+    ],
+    [
+      "BEL — historic shareholding-pattern PDF, 31.03.2013 (probed via WebFetch, 503; same TLS-adjacent failure)",
+      "https://bel-india.in/wp-content/uploads/2024/04/BEL-SHP-as-on-2013.03.31.pdf"
+    ],
+    [
+      "BSE India — candidate AttachLive PDF for Bajaj Auto (probed, 404)",
+      "https://www.bseindia.com/xml-data/corpfiling/AttachLive/4695e470-1c06-40d2-9953-b5c642c86053.pdf"
+    ],
+    [
+      "trendlyne.com — Bajaj Auto shareholding-pattern page (probed: aggregate FPI Cat I 8.80%/757 entities, Cat II 0.21%/38 entities visible, but no named individual holders rendered without JS/login)",
+      "https://trendlyne.com/equity/share-holding/144/BAJAJ-AUTO/latest/bajaj-auto-ltd/"
+    ]
   ],
   "entities": [
-    {
-      "id": "cap:blackrock",
-      "label": "BlackRock, Inc.",
-      "sub": "US asset manager, NYSE: BLK; India exposure via iShares ETFs and BlackRock Global Funds sub-funds, each separately FPI-registered",
-      "ty": "company",
-      "fam": "capital",
-      "st": null,
-      "sz": 4,
-      "al": ["iShares", "BlackRock Global Funds", "iShares MSCI India ETF", "BlackRock Global Funds - India Fund"],
-      "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
-      "publicRole": "The world's largest asset manager; central to the 'BlackRock owns India' narrative this file exists to calibrate. Mandatory control per SPEC — never recorded without the comparison set below.",
-      "d": [
-        "Not found as a named ≥1% shareholder in Cipla's Shareholding Pattern as on 30.09.2025, the only one of this batch's five companies whose primary filing was opened [documented, absence in a 1-of-5 sample]",
-        "Not checked in Bajaj Auto, Bajaj Finance, Bajaj Finserv or Bharat Electronics in this pass — their primary filings were unreachable (see voids); screener.in's aggregate FII/FPI percentages for those four (9.01%, 20.20%, 6.90%, 18.02% respectively, June 2026) say nothing about whether BlackRock specifically crosses 1% in any of them [gap, not evidence of absence]"
-      ],
-      "srcs": [
-        ["Cipla — Shareholding Pattern as on 30.09.2025", "https://www.cipla.com/sites/default/files/Shareholding-Pattern-Sep-2025_0.pdf"]
-      ]
-    },
     {
       "id": "cap:vanguard",
       "label": "The Vanguard Group, Inc.",
@@ -48,137 +73,43 @@
       "fam": "capital",
       "st": null,
       "sz": 4,
-      "al": ["Vanguard Total International Stock Index Fund", "Vanguard Emerging Markets Stock Index Fund"],
+      "al": [],
       "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
       "publicRole": "Second-largest global passive asset manager; mandatory comparison control for BlackRock per SPEC.",
-      "d": [
-        "Named as a ≥1% shareholder in Cipla, 1.01% via 'VANGUARD TOTAL INTERNATIONAL STOCK INDEX FUND', Foreign Portfolio Investor Category I, quarter ended 30.09.2025 [documented]",
-        "Not checked in Bajaj Auto, Bajaj Finance, Bajaj Finserv or Bharat Electronics in this pass (see voids)"
-      ],
-      "srcs": [
-        ["Cipla — Shareholding Pattern as on 30.09.2025", "https://www.cipla.com/sites/default/files/Shareholding-Pattern-Sep-2025_0.pdf"]
-      ]
+      "canonicalIn": "holders.json",
+      "d": [],
+      "srcs": []
     },
     {
       "id": "cap:nbim",
       "label": "Norges Bank Investment Management (Government Pension Fund Global)",
-      "sub": "Manager of Norway's sovereign wealth fund; Indian companies' own filings name the registered FPI holder 'GOVERNMENT PENSION FUND GLOBAL'",
+      "sub": "Manager of Norway's sovereign wealth fund; India = 2.1% of the fund's equity investments at end-2025 per its own annual report",
       "ty": "fund",
       "fam": "capital",
       "st": null,
       "sz": 4,
-      "al": ["NBIM", "Government Pension Fund Global", "GPFG", "Norges Bank", "Government of Norway"],
+      "al": [],
       "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
-      "publicRole": "Mandatory comparison control per SPEC; publishes every global holding twice yearly — the highest public-transparency standard among the controls, in principle (its own nbim.no site was not probed again in this batch; see holders.json's void from batch 1 for that finding, which stands).",
-      "d": [
-        "Named as a ≥1% shareholder in Cipla, 1.98% via 'GOVERNMENT PENSION FUND GLOBAL', Foreign Portfolio Investor Category I, quarter ended 30.09.2025 — the single largest named institutional foreign line in this batch's one verified filing [documented]",
-        "Not checked in Bajaj Auto, Bajaj Finance, Bajaj Finserv or Bharat Electronics in this pass (see voids)"
-      ],
-      "srcs": [
-        ["Cipla — Shareholding Pattern as on 30.09.2025", "https://www.cipla.com/sites/default/files/Shareholding-Pattern-Sep-2025_0.pdf"]
-      ]
-    },
-    {
-      "id": "cap:gic-singapore",
-      "label": "Government of Singapore / GIC Private Limited",
-      "sub": "Singapore's sovereign wealth fund manager; Indian companies' filings name the registered FPI holder 'GOVERNMENT OF SINGAPORE'",
-      "ty": "fund",
-      "fam": "capital",
-      "st": null,
-      "sz": 4,
-      "al": ["GIC", "GIC Pte Ltd", "GIC Private Limited", "Government of Singapore"],
-      "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
-      "publicRole": "Mandatory comparison control per SPEC.",
-      "d": [
-        "Not found as a named ≥1% shareholder in Cipla's Shareholding Pattern as on 30.09.2025 [documented, absence in a 1-of-5 sample]",
-        "Not checked in Bajaj Auto, Bajaj Finance, Bajaj Finserv or Bharat Electronics in this pass (see voids)"
-      ],
-      "srcs": [
-        ["Cipla — Shareholding Pattern as on 30.09.2025", "https://www.cipla.com/sites/default/files/Shareholding-Pattern-Sep-2025_0.pdf"]
-      ]
-    },
-    {
-      "id": "cap:capital-group",
-      "label": "Capital Group Companies, Inc.",
-      "sub": "US asset manager; EuroPacific Growth Fund and New Perspective Fund are its best-known emerging-markets vehicles",
-      "ty": "company",
-      "fam": "capital",
-      "st": null,
-      "sz": 3,
-      "al": ["EuroPacific Growth Fund", "New Perspective Fund", "The Capital Group Companies"],
-      "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
-      "publicRole": "Mandatory comparison control per SPEC.",
-      "d": [
-        "Not found as a named ≥1% holder in Cipla's Shareholding Pattern as on 30.09.2025 [documented, absence in a 1-of-5 sample]",
-        "Not checked in Bajaj Auto, Bajaj Finance, Bajaj Finserv or Bharat Electronics in this pass (see voids)"
-      ],
-      "srcs": [
-        ["Cipla — Shareholding Pattern as on 30.09.2025", "https://www.cipla.com/sites/default/files/Shareholding-Pattern-Sep-2025_0.pdf"]
-      ]
-    },
-    {
-      "id": "cap:fidelity",
-      "label": "Fidelity Investments (FMR LLC)",
-      "sub": "US asset manager, privately held; distinct corporate lineage from Fidelity International Ltd (spun off in 1980, UK-based) — this file does not conflate the two",
-      "ty": "company",
-      "fam": "capital",
-      "st": null,
-      "sz": 3,
-      "al": ["FMR LLC", "Fidelity Management & Research"],
-      "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
-      "publicRole": "Mandatory comparison control per SPEC.",
-      "d": [
-        "Not found as a named ≥1% holder (under either lineage) in Cipla's Shareholding Pattern as on 30.09.2025 [documented, absence in a 1-of-5 sample]",
-        "Not checked in Bajaj Auto, Bajaj Finance, Bajaj Finserv or Bharat Electronics in this pass (see voids)"
-      ],
-      "srcs": [
-        ["Cipla — Shareholding Pattern as on 30.09.2025", "https://www.cipla.com/sites/default/files/Shareholding-Pattern-Sep-2025_0.pdf"]
-      ]
-    },
-    {
-      "id": "cap:kuwait-investment-authority",
-      "label": "Kuwait Investment Authority",
-      "sub": "Kuwait's sovereign wealth fund",
-      "ty": "fund",
-      "fam": "capital",
-      "st": null,
-      "sz": 2,
-      "al": ["KIA"],
-      "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
-      "publicRole": "Mandatory comparison control per SPEC.",
-      "d": [
-        "Not found as a named ≥1% holder in Cipla's Shareholding Pattern as on 30.09.2025 [documented, absence in a 1-of-5 sample]",
-        "Not checked in Bajaj Auto, Bajaj Finance, Bajaj Finserv or Bharat Electronics in this pass (see voids)"
-      ],
-      "srcs": [
-        ["Cipla — Shareholding Pattern as on 30.09.2025", "https://www.cipla.com/sites/default/files/Shareholding-Pattern-Sep-2025_0.pdf"]
-      ]
-    },
-    {
-      "id": "cap:adia",
-      "label": "Abu Dhabi Investment Authority",
-      "sub": "Abu Dhabi's sovereign wealth fund",
-      "ty": "fund",
-      "fam": "capital",
-      "st": null,
-      "sz": 2,
-      "al": ["ADIA"],
-      "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
-      "publicRole": "Mandatory comparison control per SPEC.",
-      "d": [
-        "Not found as a named ≥1% holder in Cipla's Shareholding Pattern as on 30.09.2025 [documented, absence in a 1-of-5 sample]",
-        "Not checked in Bajaj Auto, Bajaj Finance, Bajaj Finserv or Bharat Electronics in this pass (see voids)"
-      ],
-      "srcs": [
-        ["Cipla — Shareholding Pattern as on 30.09.2025", "https://www.cipla.com/sites/default/files/Shareholding-Pattern-Sep-2025_0.pdf"]
-      ]
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "Mandatory comparison control per SPEC; publishes every global holding twice yearly — the highest public-transparency standard among the controls, in principle.",
+      "canonicalIn": "holders.json",
+      "d": [],
+      "srcs": []
     }
   ],
   "claims": [
@@ -190,7 +121,12 @@
       "tier": "documented",
       "d": "1.98% (15,949,451 shares), Foreign Portfolio Investor Category I, registered as 'GOVERNMENT PENSION FUND GLOBAL', quarter ended 30.09.2025 — the largest named institutional foreign line in the filing.",
       "from": "2025-09-30",
-      "srcs": [["Cipla — Shareholding Pattern as on 30.09.2025", "https://www.cipla.com/sites/default/files/Shareholding-Pattern-Sep-2025_0.pdf"]],
+      "srcs": [
+        [
+          "Cipla — Shareholding Pattern as on 30.09.2025",
+          "https://www.cipla.com/sites/default/files/Shareholding-Pattern-Sep-2025_0.pdf"
+        ]
+      ],
       "supersededBy": null
     },
     {
@@ -201,7 +137,12 @@
       "tier": "documented",
       "d": "1.01% (8,099,670 shares) via 'VANGUARD TOTAL INTERNATIONAL STOCK INDEX FUND', Foreign Portfolio Investor Category I, quarter ended 30.09.2025.",
       "from": "2025-09-30",
-      "srcs": [["Cipla — Shareholding Pattern as on 30.09.2025", "https://www.cipla.com/sites/default/files/Shareholding-Pattern-Sep-2025_0.pdf"]],
+      "srcs": [
+        [
+          "Cipla — Shareholding Pattern as on 30.09.2025",
+          "https://www.cipla.com/sites/default/files/Shareholding-Pattern-Sep-2025_0.pdf"
+        ]
+      ],
       "supersededBy": null
     },
     {
@@ -210,9 +151,14 @@
       "t": "co:cipla",
       "pred": "own",
       "tier": "documented",
-      "d": "6.15% (49,561,004 shares) via 'LICI ASM NON PAR', an LIC-managed fund/scheme line under the domestic Insurance Companies category — not LIC's direct own-account equity book, which this filing does not separately disclose — domestic control comparator, quarter ended 30.09.2025. FPI aggregate this quarter: Foreign Portfolio Investors Category I 23.79% (906 entities, incl. holders-b2:c001 and c002) + Category II 0.75% (48 entities, none individually named ≥1%) = Institutions (Foreign) sub-total 24.55%. Separately, Cipla's Table II shows 20.05% of the company held by 'Individuals (Non-Resident Individuals/ Foreign Individuals)' within the Promoter and Promoter Group — Dr Yusuf Khwaja Hamied (18.68%) and Kamil Hamied (1.35%), disclosed as NRI/foreign promoters — not recorded here as claims because CONTRACT rule 1 bars recording persons as nodes; noted as a structural fact only.",
+      "d": "6.15% (49,561,004 shares) via 'LICI ASM NON PAR', an LIC-managed fund/scheme line under the domestic Insurance Companies category — not LIC's direct own-account equity book, which this filing does not separately disclose — domestic control comparator, quarter ended 30.09.2025. FPI aggregate this quarter: Foreign Portfolio Investors Category I 23.79% (906 entities, incl. holders-b2:c001 and c002) + Category II 0.75% (48 entities, none individually named ≥1%) = Institutions (Foreign) sub-total 24.55%. The filing's foreign-individual promoter holding (20.05%) is recorded in this file's voids, not on this edge.",
       "from": "2025-09-30",
-      "srcs": [["Cipla — Shareholding Pattern as on 30.09.2025", "https://www.cipla.com/sites/default/files/Shareholding-Pattern-Sep-2025_0.pdf"]],
+      "srcs": [
+        [
+          "Cipla — Shareholding Pattern as on 30.09.2025",
+          "https://www.cipla.com/sites/default/files/Shareholding-Pattern-Sep-2025_0.pdf"
+        ]
+      ],
       "supersededBy": null
     }
   ],
@@ -221,45 +167,87 @@
       "what": "Bajaj Finance's and Bajaj Finserv's investor-relations shareholding-pattern pages (aboutbajajfinserv.com) render only an empty client-side Next.js shell to a non-browser fetch (curl and WebFetch both got either a 403 or a blank ~50KB shell with no PDF links in the markup); the one concrete downloadable file discovered on the domain under a 'shareholding-pattern' path (31-march.xlsm) proved on inspection to be a blank disclosure *template* dated 31-03-2016 (a pre-filled format file, not an actual quarterly filing) — opened and confirmed empty of real data via openpyxl, not assumed.",
       "whyItMatters": "Bajaj Finance and Bajaj Finserv carry the largest FPI aggregates in this batch (20.20% and 6.90% respectively per screener.in, June 2026) — exactly where a BlackRock/Vanguard/NBIM/GIC named line ≥1% is most likely to actually be found, and exactly what could not be verified here.",
       "srcs": [
-        ["Bajaj Finance IR shareholding-pattern page", "https://www.aboutbajajfinserv.com/finance-investor-relations-shareholding-pattern"],
-        ["Bajaj Finserv IR regulatory-filings shareholding-pattern page", "https://www.aboutbajajfinserv.com/investor-relations-regulatory-filings-shareholding-pattern"],
-        ["Bajaj Finserv blank template xlsm (opened, confirmed dated 31-03-2016, not current)", "https://www.aboutbajajfinserv.com/content/dam/bajajfinserv/web/in/en/global/document/corporate/bfs-new/bfs-investor-relations/stock-exchange/finserv-shareholder-download/shareholding-pattern/31-march.xlsm"]
+        [
+          "Bajaj Finance IR shareholding-pattern page",
+          "https://www.aboutbajajfinserv.com/finance-investor-relations-shareholding-pattern"
+        ],
+        [
+          "Bajaj Finserv IR regulatory-filings shareholding-pattern page",
+          "https://www.aboutbajajfinserv.com/investor-relations-regulatory-filings-shareholding-pattern"
+        ],
+        [
+          "Bajaj Finserv blank template xlsm (opened, confirmed dated 31-03-2016, not current)",
+          "https://www.aboutbajajfinserv.com/content/dam/bajajfinserv/web/in/en/global/document/corporate/bfs-new/bfs-investor-relations/stock-exchange/finserv-shareholder-download/shareholding-pattern/31-march.xlsm"
+        ]
       ]
     },
     {
       "what": "Bajaj Auto's legacy static IR page (bajajauto.com/report/stock_shareholding.html) serves only a shareholding table dated 31 March 2012 with no links to any current filing; its current IR site (investors.bajajauto.com) has a 'General Shareholder Information' page but no discoverable shareholding-pattern PDF URL within budget, and a direct 'shareholding-pattern' path on that subdomain 404s; a plausible BSE AttachLive PDF surfaced by web search (registered-office text matching Bajaj Auto's Akurdi, Pune address) returned 404 when fetched directly.",
       "whyItMatters": "Bajaj Auto shows 9.01% aggregate FPI holding (screener.in, June 2026); which named institutions make up that aggregate is unverified.",
       "srcs": [
-        ["Bajaj Auto legacy shareholding page (stale 2012 data only)", "https://www.bajajauto.com/report/stock_shareholding.html"],
-        ["Bajaj Auto general shareholder information page (no PDF link found)", "https://investors.bajajauto.com/general-shareholder-information/"],
-        ["BSE AttachLive candidate PDF (404)", "https://www.bseindia.com/xml-data/corpfiling/AttachLive/4695e470-1c06-40d2-9953-b5c642c86053.pdf"]
+        [
+          "Bajaj Auto legacy shareholding page (stale 2012 data only)",
+          "https://www.bajajauto.com/report/stock_shareholding.html"
+        ],
+        [
+          "Bajaj Auto general shareholder information page (no PDF link found)",
+          "https://investors.bajajauto.com/general-shareholder-information/"
+        ],
+        [
+          "BSE AttachLive candidate PDF (404)",
+          "https://www.bseindia.com/xml-data/corpfiling/AttachLive/4695e470-1c06-40d2-9953-b5c642c86053.pdf"
+        ]
       ]
     },
     {
       "what": "Bharat Electronics' own site (bel-india.in) fails TLS certificate verification on every request routed through this environment's proxy: a direct TLS handshake trace shows the proxy tunnel to bel-india.in:443 completes, but the origin server's own certificate is rejected ('unable to get local issuer certificate') even against the full CA bundle — i.e. this is bel-india.in's own certificate chain, not a proxy-side block (the proxy status endpoint confirms bundleCoversEveryHost:true). WebFetch on the same host and on a historic PDF path both returned 503. Per this session's standing instruction never to disable TLS verification, no insecure fetch was used for any data retained in this file.",
       "whyItMatters": "BEL shows the largest FPI aggregate of the four unverified companies (18.02%, screener.in, June 2026) on a defence-PSU whose ownership structure (52% state, no promoter-family stake) makes any large named foreign institutional holder more, not less, notable if one exists.",
       "srcs": [
-        ["BEL shareholding-pattern page (TLS verification failure)", "https://bel-india.in/shareholding-pattern/"],
-        ["BEL historic shareholding-pattern PDF (503 via WebFetch)", "https://bel-india.in/wp-content/uploads/2024/04/BEL-SHP-as-on-2013.03.31.pdf"]
+        [
+          "BEL shareholding-pattern page (TLS verification failure)",
+          "https://bel-india.in/shareholding-pattern/"
+        ],
+        [
+          "BEL historic shareholding-pattern PDF (503 via WebFetch)",
+          "https://bel-india.in/wp-content/uploads/2024/04/BEL-SHP-as-on-2013.03.31.pdf"
+        ]
       ]
     },
     {
       "what": "trendlyne.com's shareholding-pattern page for Bajaj Auto rendered the FPI Category I/II *aggregate* rows (8.80% / 757 entities and 0.21% / 38 entities respectively) but no named individual holder rows without JavaScript execution or a login the tool could not perform — confirmed by a keyword search of the fetched HTML for every comparison-set holder name and 'Life Insurance Corporation', all absent.",
       "whyItMatters": "This aggregator was tried as a possible route to named holders beyond screener.in's aggregate-only view; it did not work within budget, so no named-holder claim was recorded for Bajaj Auto from any source in this pass.",
       "srcs": [
-        ["trendlyne.com — Bajaj Auto shareholding pattern", "https://trendlyne.com/equity/share-holding/144/BAJAJ-AUTO/latest/bajaj-auto-ltd/"]
+        [
+          "trendlyne.com — Bajaj Auto shareholding pattern",
+          "https://trendlyne.com/equity/share-holding/144/BAJAJ-AUTO/latest/bajaj-auto-ltd/"
+        ]
+      ]
+    },
+    {
+      "what": "Cipla's Table II (30.09.2025) shows 20.05% held by 'Individuals (Non-Resident Individuals/ Foreign Individuals)' in the Promoter and Promoter Group — the largest foreign-ownership line in the filing, held by named promoter individuals (Dr Yusuf Khwaja Hamied 18.68%, Kamil Hamied 1.35%).",
+      "whyItMatters": "Moved here from holders-b2:c003 in reconciliation: promoter individuals of a listed company are public-role persons, but this fleet records institutions as holders, so their percentages are a structural fact about the filing, not an edge. A foreign-ownership count that omits them understates foreign-resident promoter ownership of Cipla.",
+      "srcs": [
+        [
+          "Cipla — Shareholding Pattern as on 30.09.2025",
+          "https://www.cipla.com/sites/default/files/Shareholding-Pattern-Sep-2025_0.pdf"
+        ]
       ]
     }
   ],
   "narratives": [],
-  "symmetryCheck": "The same lens (open the primary filing, list every named ≥1% foreign holder, name LIC as domestic control) was applied to all five batch-2 companies but could only be executed on one, Cipla, for source-access reasons documented in voids above — not because the other four were skipped. On Cipla, the result matches batch 1's pattern exactly: BlackRock is absent by name (as in all 5 of batch 1's checked companies), Vanguard and NBIM/Government Pension Fund Global each cross 1% via a single named fund line (1.01% and 1.98% respectively — both smaller than NBIM's 1.98% here was batch 1's Bharti Airtel line but larger than nothing in Reliance/ITC/SBI), GIC/Capital Group/Fidelity/KIA/ADIA are absent, and LIC's presence is not a clean 'LIC owns X%' figure but a LIC-*managed fund product* line (LICI ASM NON PAR, 6.15%) — the same pattern batch 1 found for LIC in Bharti Airtel (a ULIP fund, not LIC's own book) rather than the clean direct-holding figures batch 1 found for LIC in HDFC Bank, Reliance and ITC. The one asymmetry worth flagging: Cipla's Table II shows a foreign-promoter stake (20.05%, two NRI Hamied-family individuals) that dwarfs every institutional FPI line combined (24.55%) is close but the promoter figure alone nearly matches it — structurally different from batch 1's BAT/ITC and Suzuki/Maruti foreign-promoter findings in that here the foreign promoter is named individuals, not a corporate/FDI vehicle, which is exactly why CONTRACT rule 1 keeps it out of the claims table even though it is, by percentage, the most consequential foreign ownership fact in this file.",
+  "symmetryCheck": "The same lens (open the primary filing, list every named ≥1% foreign holder, name LIC as domestic control) was applied to all five batch-2 companies but could only be executed on one, Cipla, for source-access reasons documented in voids above — not because the other four were skipped. On Cipla, the result matches batch 1's pattern exactly: BlackRock is absent by name (as in all 5 of batch 1's checked companies), Vanguard and NBIM/Government Pension Fund Global each cross 1% via a single named fund line (1.01% and 1.98% respectively), GIC/Capital Group/Fidelity/KIA/ADIA are absent, and LIC's presence is not a clean 'LIC owns X%' figure but a LIC-*managed fund product* line (LICI ASM NON PAR, 6.15%) — the same pattern batch 1 found for LIC in Bharti Airtel (a ULIP fund, not LIC's own book) rather than the clean direct-holding figures batch 1 found for LIC in HDFC Bank, Reliance and ITC. The one asymmetry worth flagging: Cipla's Table II shows a foreign-promoter stake (20.05%, two NRI Hamied-family individuals) that nearly matches every institutional FPI line combined (24.55%) — structurally different from batch 1's BAT/ITC and Suzuki/Maruti foreign-promoter findings in that here the foreign promoter is named individuals, not a corporate/FDI vehicle, which is exactly why CONTRACT rule 1 keeps it out of the claims table even though it is, by percentage, the most consequential foreign ownership fact in this file.",
   "baseRates": [
     {
       "property": "batch-2 constituents where any single named foreign institutional holder (excluding foreign promoter individuals, per CONTRACT rule 1) reaches ≥5%",
       "numerator": 0,
       "denominator": 5,
       "label": "Numerator is a hard 0 only for the 1 of 5 companies actually verified (Cipla: largest named institutional line is NBIM at 1.98%); the other 4 (denominator's remaining members) were not verifiable within budget (see voids) and are NOT asserted to be 0 — this base rate should be read as 0-of-1-confirmed, 4-of-5 unknown, not 0-of-5 confirmed.",
-      "srcs": [["Cipla — Shareholding Pattern as on 30.09.2025", "https://www.cipla.com/sites/default/files/Shareholding-Pattern-Sep-2025_0.pdf"]]
+      "srcs": [
+        [
+          "Cipla — Shareholding Pattern as on 30.09.2025",
+          "https://www.cipla.com/sites/default/files/Shareholding-Pattern-Sep-2025_0.pdf"
+        ]
+      ]
     }
   ],
   "gaps": [

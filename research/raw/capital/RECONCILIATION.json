@@ -1,0 +1,1315 @@
+{
+  "asOf": "2026-09-26",
+  "fleet": "capital",
+  "mappings": [
+    {
+      "from": "cap:temasek-holdings",
+      "to": "cap:temasek",
+      "reason": "Same legal person: Temasek Holdings (Private) Limited — identical label; b3 and b7 each hold it through wholly-owned vehicles (Dunearn; MacRitchie — Camas Investments is kept as its own node, see refusedMerges). No inventory id; each id was used by one file, so the first file's id (holders-b3.json) survives. Aliases, facts and sources unioned.",
+      "files": [
+        "holders-b7.json"
+      ]
+    },
+    {
+      "from": "adani",
+      "to": "grp:adani",
+      "reason": "Same group: the Adani Group (Ahmedabad) — narratives-literature.json already uses grp:adani. Both are inventory ids (Atlas `adani`, national `grp:adani`); the energy fleet's reconciliation mapped adani → grp:adani, and the record's own type is a group. Alias \"Adani Family\" dropped (a family is not an alias of an institution).",
+      "files": [
+        "mandates-ventures.json"
+      ]
+    },
+    {
+      "from": "reliance",
+      "to": "co:reliance-industries",
+      "reason": "The record is Reliance Industries Ltd the listed company (NSE: RELIANCE, parent of Jio Platforms, CMD Mukesh Ambani) — the national inventory id co:reliance-industries, which the holders files use for the same company. Same mapping as the energy fleet. Not grp:reliance (the promoter group) and not ADAG (energy:reliance-adag, cap:reliance-capital).",
+      "files": [
+        "mandates-ventures.json"
+      ]
+    },
+    {
+      "from": "tata",
+      "to": "grp:tata",
+      "reason": "The record is the Tata Group (Tata Sons and subsidiaries — Talace, Tata Steel Long Products), ty group; the inventory has grp:tata (group) beside the Atlas company-typed `tata`. The group id matches the record's type and the energy fleet's adani → grp:adani precedent.",
+      "files": [
+        "mandates-ventures.json"
+      ]
+    }
+  ],
+  "refusedMerges": [
+    {
+      "a": "cap:temasek",
+      "b": "cap:gic-singapore",
+      "reason": "Both are Singapore state-owned investors, but Temasek Holdings (Private) Limited (investment company owned by the Minister for Finance) and GIC Private Limited (manager of Singapore's foreign reserves) are separate legal persons with separate holding vehicles in the filings (Dunearn/MacRitchie, and Camas at reported, vs \"Government of Singapore\"/GIC lines). Same sovereign, not the same entity."
+    },
+    {
+      "a": "cap:monetary-authority-singapore",
+      "b": "cap:gic-singapore",
+      "reason": "MAS (the central bank, named on its own line in Shriram Finance, holders-b7:c009) and GIC (the reserve manager) are separate statutory/corporate bodies; merging would double-count Singapore lines in the same filing."
+    },
+    {
+      "a": "cap:temasek",
+      "b": "cap:monetary-authority-singapore",
+      "reason": "Separate bodies (investment company vs central bank); name of the state only."
+    },
+    {
+      "a": "cap:nestle-sa",
+      "b": "cap:maggi-enterprises",
+      "reason": "Maggi Enterprises Ltd is a Nestlé promoter-group company filed on its own Table II line (28.48%, holders-b6:c007) beside Nestlé S.A. (34.28%, c006). Parentage is not identity, and no record in the file says it is a pure holding vehicle; kept separate as Pastel (Singtel), ICIL and HCL Holdings are."
+    },
+    {
+      "a": "cap:jpmorgan-chase-bank-na-adr-depositary",
+      "b": "cap:morgan-guaranty-trust-ny",
+      "reason": "Morgan Guaranty Trust Company of New York is a historical JPMorgan entity, but the corporate succession to JPMorgan Chase Bank, N.A. is not documented in any record opened by this fleet; the two filings (Wipro, Hindalco) name them differently. Kept apart until a primary record ties them."
+    },
+    {
+      "a": "cap:citibank-nyc-adr-department",
+      "b": "cap:citi",
+      "reason": "Citibank N.A. (New York) as Grasim's GDR depositary vs Citigroup Global Markets India (LIC IPO book-runner, mandates-ventures:c015): different legal entities and roles in the same group."
+    },
+    {
+      "a": "co:reliance-industries",
+      "b": "cap:reliance-capital",
+      "reason": "Reliance Industries (Mukesh Ambani) vs Reliance Capital (Anil Dhirubhai Ambani Group, energy:reliance-adag lineage): separate groups since 2005; same name only."
+    },
+    {
+      "a": "co:reliance-industries",
+      "b": "cap:nippon-india-amc",
+      "reason": "Nippon Life India AMC was \"Reliance Nippon Life AMC\" under Reliance Capital (ADAG), never under Reliance Industries; the alias \"Reliance Nippon Life Asset Management\" stays on cap:nippon-india-amc only."
+    },
+    {
+      "a": "cap:nippon-life-insurance",
+      "b": "cap:nippon-india-amc",
+      "reason": "Parent (Japanese insurer, 75% after 2019, mandates-ventures:c041) and its Indian listed AMC — joined by an own edge, not the same entity."
+    },
+    {
+      "a": "cap:blackrock",
+      "b": "cap:jio-blackrock-asset-management",
+      "reason": "A 50:50 joint venture is not its partner: BlackRock and Jio Financial Services each own half (mandates-ventures:c028/c029, holders:c019)."
+    },
+    {
+      "a": "cap:blackrock",
+      "b": "cap:dsp-group",
+      "reason": "DSP BlackRock Investment Managers was a 60:40 JV until BlackRock sold its 40% in 2018 (mandates-ventures:c027); the former name \"DSP BlackRock\" stays an alias of cap:dsp-group."
+    },
+    {
+      "a": "cap:jio-blackrock-asset-management",
+      "b": "cap:jio-blackrock-investment-advisers",
+      "reason": "Two JVs with separate SEBI registrations (MF investment manager, 26 May 2025; investment adviser INA000020314, 10 Jun 2025)."
+    },
+    {
+      "a": "cap:jio-blackrock-investment-advisers",
+      "b": "cap:jio-blackrock-broking",
+      "reason": "Separate companies with separate SEBI registrations (adviser vs stock-broker/clearing member)."
+    },
+    {
+      "a": "cap:rothschild-co",
+      "b": "cap:rothschild-co-india",
+      "reason": "Parent (Rothschild & Co SCA, Euronext: ROTH) and its Indian advisory subsidiary (CIN U65990MH1998PTC116788) — joined by own edges narratives-literature:c025 / mandates-ventures:c047."
+    },
+    {
+      "a": "grp:adani",
+      "b": "co:adani-enterprises",
+      "reason": "Group vs its listed flagship company (inventory ids of different type)."
+    },
+    {
+      "a": "grp:adani",
+      "b": "cap:adani-promoter-offshore-vehicles",
+      "reason": "The cluster node is 11 separately registered foreign promoter-group companies disclosed in Adani Enterprises / Adani Ports filings; the group is not its offshore shareholders, and folding them in would hide the ≥5% vehicles the critic asked to surface."
+    },
+    {
+      "a": "cap:ihc-abu-dhabi",
+      "b": "cap:adia",
+      "reason": "International Holding Company PJSC (ADX-listed conglomerate) and the Abu Dhabi Investment Authority (sovereign fund) are different Abu Dhabi entities; the emirate is shared, identity is not."
+    },
+    {
+      "a": "cap:sebi-odi-circular-2017",
+      "b": "cap:p-notes-odi",
+      "reason": "A rule (the 2016–17 SEBI restrictions) vs the instrument it governs (narratives-literature:c028 is rule → instrument)."
+    },
+    {
+      "a": "cap:india-mauritius-dtaa",
+      "b": "cap:mauritius-protocol-2016",
+      "reason": "The 1982 convention (with its 2016 and 2024 protocols) vs the 2016 amending protocol recorded on its own in rules-regulators (c011). An amending instrument is not the treaty; both law nodes kept."
+    },
+    {
+      "a": "cap:sebi-fpi-disclosure-2023",
+      "b": "cap:sebi-fpi-threshold-2025-easing",
+      "reason": "The Aug 2023 granular-disclosure circular and the Mar 2025 threshold increase are successive rules; the later one is recorded by date (rules-regulators:c019 ends 2025-03-24), not merged."
+    },
+    {
+      "a": "cap:sc-expert-committee-2023",
+      "b": "sc",
+      "reason": "A committee the Supreme Court appointed is not the Court; merging would make the Court review itself."
+    },
+    {
+      "a": "cap:sebi-high-level-committee-2025",
+      "b": "sebi",
+      "reason": "A committee SEBI constituted to examine its own members' conflicts is kept apart from the regulator so its recommendations stay attributable."
+    },
+    {
+      "a": "cap:camas-investments",
+      "b": "cap:gic-singapore",
+      "reason": "Considered because both are Singapore state-linked: nothing on the record links Camas (UEN 200505776N) to GIC. Its only recorded parent link is to Temasek, via a registry aggregator, and that is kept as a reported-tier edge (holders-b3:c015), not a merge."
+    },
+    {
+      "a": "cap:camas-investments",
+      "b": "cap:temasek",
+      "reason": "Second pass: the first pass's mapping cap:camas-investments → cap:temasek is undone (verifier: parent/vehicle, not a name-only merge, but an over-merge). Camas Investments Pte. Ltd. (Singapore UEN 200505776N) and Temasek Holdings (Private) Limited are separate legal persons; the parent link rests only on sgpbusiness.com, a registry aggregator, and the pre-edit holders-b4 record said Camas's owner was 'not asserted to be GIC, Temasek or any other named Singapore state entity'. Camas keeps its own node (full record holders-b4.json, minimal copy holders-b3.json) and its own documented holdings — holders-b3:c009 (Eternal 1.74%) and holders-b4:c003 (HDFC Life 1.68%), both back to tier documented because the filings name Camas itself — plus one own edge cap:temasek → cap:camas-investments at tier reported (holders-b3:c015, sgpbusiness.com). Dunearn and MacRitchie stay Temasek aliases (the fleet convention; MacRitchie's parentage is on a CCI order, Dunearn's on PitchBook, and holders-b3:c008 stays at reported)."
+    },
+    {
+      "a": "cap:pnotes-rules-2017",
+      "b": "cap:sebi-odi-circular-2017",
+      "reason": "Second pass: the first pass's mapping cap:pnotes-rules-2017 → cap:sebi-odi-circular-2017 is undone (verifier: a rule package rather than an entity). The SEBI board decision of 10 Jun 2016 (KYC and beneficial-owner identification for ODI subscribers) and the circular of 7 Jul 2017 (derivative-underlying ODIs barred, US$1,000 fee per subscriber) are separate regulatory acts. cap:pnotes-rules-2017 (rules-regulators.json, Angel One) records the 2016–17 package and cap:sebi-odi-circular-2017 (narratives-literature.json, Cyril Amarchand, Arthapedia) the 2017 circular; each keeps its own id, label, aliases, facts and sources as before the first pass. rules-regulators:c013 runs from cap:pnotes-rules-2017 again; narratives-literature:c028 stays on cap:sebi-odi-circular-2017; both are dated 2017-07-07 and neither is misattributed. The conflict over the beneficial-owner threshold (10% Angel One vs 25% Arthapedia) is kept as a gap on both records."
+    }
+  ],
+  "addedContras": [],
+  "killed": [
+    {
+      "id": "holders-b6:c009",
+      "reason": "duplicate of holders:c018 — same holder, same company, same screener.in source, same 58.65%/56.28% discrepancy and date; held, not deleted"
+    },
+    {
+      "id": "holders-b3:c012",
+      "reason": "records an absence or an aggregate bucket as an ownership edge (no named holding of this holder in this company is on the record) — moved to voids; the claim is held, not deleted"
+    },
+    {
+      "id": "holders-b3:c013",
+      "reason": "records an absence or an aggregate bucket as an ownership edge (no named holding of this holder in this company is on the record) — moved to voids; the claim is held, not deleted"
+    },
+    {
+      "id": "holders-b3:c014",
+      "reason": "records an absence or an aggregate bucket as an ownership edge (no named holding of this holder in this company is on the record) — moved to voids; the claim is held, not deleted"
+    },
+    {
+      "id": "holders-b9:c008",
+      "reason": "records an absence or an aggregate bucket as an ownership edge (no named holding of this holder in this company is on the record) — moved to voids; the claim is held, not deleted"
+    },
+    {
+      "id": "holders-aggregates:c011",
+      "reason": "records an absence or an aggregate bucket as an ownership edge (no named holding of this holder in this company is on the record) — moved to voids; the claim is held, not deleted"
+    },
+    {
+      "id": "holders-aggregates:c013",
+      "reason": "records an absence or an aggregate bucket as an ownership edge (no named holding of this holder in this company is on the record) — moved to voids; the claim is held, not deleted"
+    },
+    {
+      "id": "holders-aggregates:c014",
+      "reason": "records an absence or an aggregate bucket as an ownership edge (no named holding of this holder in this company is on the record) — moved to voids; the claim is held, not deleted"
+    },
+    {
+      "id": "holders-aggregates:c015",
+      "reason": "records an absence or an aggregate bucket as an ownership edge (no named holding of this holder in this company is on the record) — moved to voids; the claim is held, not deleted"
+    },
+    {
+      "id": "narratives-literature:c026",
+      "reason": "names a family as the actor: the edge draws the Rothschild family's 19th-century history onto Rothschild & Co, the institution. Kept only as a narrative — narratives-literature.json narratives[1] (\"The Rothschilds control the RBI / Indian banking\", debunked) and holders.json narratives[1]; the book stays a literature node"
+    },
+    {
+      "id": "narratives-literature:c038",
+      "reason": "misdirected contra: c020 is the BJP's allegation about OCCRP, already answered by OCCRP (c021); Hindenburg is not the party it concerns, and the \"Soros is Hindenburg's investor\" claim this note answers is not a claim in this file. Held, not deleted; the absence of a Hindenburg statement stays in narratives"
+    }
+  ],
+  "predicateFixes": [
+    {
+      "id": "narratives-literature:c027",
+      "from": "law",
+      "to": "enforce"
+    }
+  ],
+  "entityRecordsConsolidated": [
+    {
+      "id": "cap:adia",
+      "file": "holders-b1.json",
+      "foldedInto": "holders.json",
+      "action": "record removed (no claim in this file needs it)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:adia",
+      "file": "holders-b2.json",
+      "foldedInto": "holders.json",
+      "action": "record removed (no claim in this file needs it)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:adia",
+      "file": "holders-b3.json",
+      "foldedInto": "holders.json",
+      "action": "record removed (no claim in this file needs it)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:adia",
+      "file": "holders-b4.json",
+      "foldedInto": "holders.json",
+      "action": "record removed (no claim in this file needs it)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:adia",
+      "file": "holders-b5.json",
+      "foldedInto": "holders.json",
+      "action": "record removed (no claim in this file needs it)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:adia",
+      "file": "holders-b6.json",
+      "foldedInto": "holders.json",
+      "action": "record removed (no claim in this file needs it)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:adia",
+      "file": "holders-b7.json",
+      "foldedInto": "holders.json",
+      "action": "record removed (no claim in this file needs it)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:adia",
+      "file": "holders-b8.json",
+      "foldedInto": "holders.json",
+      "action": "record removed (no claim in this file needs it)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:adia",
+      "file": "holders-b9.json",
+      "foldedInto": "holders.json",
+      "action": "record removed (no claim in this file needs it)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:blackrock",
+      "file": "holders-aggregates.json",
+      "foldedInto": "holders.json",
+      "action": "minimal copy kept (a claim in this file needs the id)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:blackrock",
+      "file": "holders-b1.json",
+      "foldedInto": "holders.json",
+      "action": "record removed (no claim in this file needs it)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:blackrock",
+      "file": "holders-b2.json",
+      "foldedInto": "holders.json",
+      "action": "record removed (no claim in this file needs it)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:blackrock",
+      "file": "holders-b3.json",
+      "foldedInto": "holders.json",
+      "action": "record removed (no claim in this file needs it)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:blackrock",
+      "file": "holders-b4.json",
+      "foldedInto": "holders.json",
+      "action": "record removed (no claim in this file needs it)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:blackrock",
+      "file": "holders-b5.json",
+      "foldedInto": "holders.json",
+      "action": "record removed (no claim in this file needs it)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:blackrock",
+      "file": "holders-b6.json",
+      "foldedInto": "holders.json",
+      "action": "record removed (no claim in this file needs it)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:blackrock",
+      "file": "holders-b7.json",
+      "foldedInto": "holders.json",
+      "action": "record removed (no claim in this file needs it)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:blackrock",
+      "file": "holders-b8.json",
+      "foldedInto": "holders.json",
+      "action": "record removed (no claim in this file needs it)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:blackrock",
+      "file": "holders-b9.json",
+      "foldedInto": "holders.json",
+      "action": "record removed (no claim in this file needs it)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:blackrock",
+      "file": "mandates-ventures.json",
+      "foldedInto": "holders.json",
+      "action": "minimal copy kept (a claim in this file needs the id)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:blackrock",
+      "file": "narratives-literature.json",
+      "foldedInto": "holders.json",
+      "action": "minimal copy kept (a claim in this file needs the id)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:capital-group",
+      "file": "holders-b1.json",
+      "foldedInto": "holders.json",
+      "action": "record removed (no claim in this file needs it)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:capital-group",
+      "file": "holders-b2.json",
+      "foldedInto": "holders.json",
+      "action": "record removed (no claim in this file needs it)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:capital-group",
+      "file": "holders-b3.json",
+      "foldedInto": "holders.json",
+      "action": "minimal copy kept (a claim in this file needs the id)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:capital-group",
+      "file": "holders-b4.json",
+      "foldedInto": "holders.json",
+      "action": "record removed (no claim in this file needs it)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:capital-group",
+      "file": "holders-b5.json",
+      "foldedInto": "holders.json",
+      "action": "record removed (no claim in this file needs it)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:capital-group",
+      "file": "holders-b6.json",
+      "foldedInto": "holders.json",
+      "action": "record removed (no claim in this file needs it)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:capital-group",
+      "file": "holders-b7.json",
+      "foldedInto": "holders.json",
+      "action": "record removed (no claim in this file needs it)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:capital-group",
+      "file": "holders-b8.json",
+      "foldedInto": "holders.json",
+      "action": "record removed (no claim in this file needs it)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:capital-group",
+      "file": "holders-b9.json",
+      "foldedInto": "holders.json",
+      "action": "record removed (no claim in this file needs it)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:fidelity",
+      "file": "holders-b1.json",
+      "foldedInto": "holders.json",
+      "action": "record removed (no claim in this file needs it)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:fidelity",
+      "file": "holders-b2.json",
+      "foldedInto": "holders.json",
+      "action": "record removed (no claim in this file needs it)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:fidelity",
+      "file": "holders-b3.json",
+      "foldedInto": "holders.json",
+      "action": "record removed (no claim in this file needs it)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:fidelity",
+      "file": "holders-b4.json",
+      "foldedInto": "holders.json",
+      "action": "record removed (no claim in this file needs it)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:fidelity",
+      "file": "holders-b5.json",
+      "foldedInto": "holders.json",
+      "action": "record removed (no claim in this file needs it)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:fidelity",
+      "file": "holders-b6.json",
+      "foldedInto": "holders.json",
+      "action": "record removed (no claim in this file needs it)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:fidelity",
+      "file": "holders-b7.json",
+      "foldedInto": "holders.json",
+      "action": "record removed (no claim in this file needs it)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:fidelity",
+      "file": "holders-b8.json",
+      "foldedInto": "holders.json",
+      "action": "record removed (no claim in this file needs it)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:fidelity",
+      "file": "holders-b9.json",
+      "foldedInto": "holders.json",
+      "action": "record removed (no claim in this file needs it)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:gic-singapore",
+      "file": "holders-b1.json",
+      "foldedInto": "holders.json",
+      "action": "minimal copy kept (a claim in this file needs the id)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:gic-singapore",
+      "file": "holders-b2.json",
+      "foldedInto": "holders.json",
+      "action": "record removed (no claim in this file needs it)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:gic-singapore",
+      "file": "holders-b3.json",
+      "foldedInto": "holders.json",
+      "action": "minimal copy kept (a claim in this file needs the id)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:gic-singapore",
+      "file": "holders-b4.json",
+      "foldedInto": "holders.json",
+      "action": "minimal copy kept (a claim in this file needs the id)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:gic-singapore",
+      "file": "holders-b5.json",
+      "foldedInto": "holders.json",
+      "action": "record removed (no claim in this file needs it)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:gic-singapore",
+      "file": "holders-b6.json",
+      "foldedInto": "holders.json",
+      "action": "minimal copy kept (a claim in this file needs the id)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:gic-singapore",
+      "file": "holders-b7.json",
+      "foldedInto": "holders.json",
+      "action": "minimal copy kept (a claim in this file needs the id)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:gic-singapore",
+      "file": "holders-b8.json",
+      "foldedInto": "holders.json",
+      "action": "record removed (no claim in this file needs it)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:gic-singapore",
+      "file": "holders-b9.json",
+      "foldedInto": "holders.json",
+      "action": "minimal copy kept (a claim in this file needs the id)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:gqg-partners",
+      "file": "holders-b1.json",
+      "foldedInto": "holders.json",
+      "action": "minimal copy kept (a claim in this file needs the id)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:gqg-partners",
+      "file": "holders-b3.json",
+      "foldedInto": "holders.json",
+      "action": "record removed (no claim in this file needs it)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:gqg-partners",
+      "file": "holders-b4.json",
+      "foldedInto": "holders.json",
+      "action": "record removed (no claim in this file needs it)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:gqg-partners",
+      "file": "holders-b6.json",
+      "foldedInto": "holders.json",
+      "action": "record removed (no claim in this file needs it)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:gqg-partners",
+      "file": "holders-b7.json",
+      "foldedInto": "holders.json",
+      "action": "record removed (no claim in this file needs it)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:gqg-partners",
+      "file": "holders-b8.json",
+      "foldedInto": "holders.json",
+      "action": "record removed (no claim in this file needs it)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:gqg-partners",
+      "file": "holders-b9.json",
+      "foldedInto": "holders.json",
+      "action": "record removed (no claim in this file needs it)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:jio-blackrock-asset-management",
+      "file": "narratives-literature.json",
+      "foldedInto": "mandates-ventures.json",
+      "action": "minimal copy kept (a claim in this file needs the id)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:kuwait-investment-authority",
+      "file": "holders-b1.json",
+      "foldedInto": "holders.json",
+      "action": "record removed (no claim in this file needs it)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:kuwait-investment-authority",
+      "file": "holders-b2.json",
+      "foldedInto": "holders.json",
+      "action": "record removed (no claim in this file needs it)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:kuwait-investment-authority",
+      "file": "holders-b3.json",
+      "foldedInto": "holders.json",
+      "action": "record removed (no claim in this file needs it)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:kuwait-investment-authority",
+      "file": "holders-b4.json",
+      "foldedInto": "holders.json",
+      "action": "record removed (no claim in this file needs it)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:kuwait-investment-authority",
+      "file": "holders-b5.json",
+      "foldedInto": "holders.json",
+      "action": "record removed (no claim in this file needs it)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:kuwait-investment-authority",
+      "file": "holders-b6.json",
+      "foldedInto": "holders.json",
+      "action": "record removed (no claim in this file needs it)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:kuwait-investment-authority",
+      "file": "holders-b7.json",
+      "foldedInto": "holders.json",
+      "action": "record removed (no claim in this file needs it)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:kuwait-investment-authority",
+      "file": "holders-b8.json",
+      "foldedInto": "holders.json",
+      "action": "record removed (no claim in this file needs it)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:kuwait-investment-authority",
+      "file": "holders-b9.json",
+      "foldedInto": "holders.json",
+      "action": "record removed (no claim in this file needs it)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:nbim",
+      "file": "holders-aggregates.json",
+      "foldedInto": "holders.json",
+      "action": "minimal copy kept (a claim in this file needs the id)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:nbim",
+      "file": "holders-b1.json",
+      "foldedInto": "holders.json",
+      "action": "minimal copy kept (a claim in this file needs the id)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:nbim",
+      "file": "holders-b2.json",
+      "foldedInto": "holders.json",
+      "action": "minimal copy kept (a claim in this file needs the id)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:nbim",
+      "file": "holders-b3.json",
+      "foldedInto": "holders.json",
+      "action": "minimal copy kept (a claim in this file needs the id)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:nbim",
+      "file": "holders-b4.json",
+      "foldedInto": "holders.json",
+      "action": "minimal copy kept (a claim in this file needs the id)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:nbim",
+      "file": "holders-b5.json",
+      "foldedInto": "holders.json",
+      "action": "record removed (no claim in this file needs it)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:nbim",
+      "file": "holders-b6.json",
+      "foldedInto": "holders.json",
+      "action": "minimal copy kept (a claim in this file needs the id)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:nbim",
+      "file": "holders-b7.json",
+      "foldedInto": "holders.json",
+      "action": "minimal copy kept (a claim in this file needs the id)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:nbim",
+      "file": "holders-b8.json",
+      "foldedInto": "holders.json",
+      "action": "minimal copy kept (a claim in this file needs the id)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:nbim",
+      "file": "holders-b9.json",
+      "foldedInto": "holders.json",
+      "action": "record removed (no claim in this file needs it)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:rothschild-co",
+      "file": "narratives-literature.json",
+      "foldedInto": "mandates-ventures.json",
+      "action": "minimal copy kept (a claim in this file needs the id)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:rothschild-co-india",
+      "file": "narratives-literature.json",
+      "foldedInto": "mandates-ventures.json",
+      "action": "minimal copy kept (a claim in this file needs the id)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:sc-expert-committee-2023",
+      "file": "rules-regulators.json",
+      "foldedInto": "narratives-literature.json",
+      "action": "record removed (no claim in this file needs it)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:sebi-fpi-disclosure-2023",
+      "file": "holders.json",
+      "foldedInto": "rules-regulators.json",
+      "action": "record removed (no claim in this file needs it)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:suzuki-motor-corporation",
+      "file": "holders-b6.json",
+      "foldedInto": "holders.json",
+      "action": "minimal copy kept (a claim in this file needs the id)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:temasek",
+      "file": "holders-b7.json",
+      "foldedInto": "holders-b3.json",
+      "action": "minimal copy kept (a claim in this file needs the id)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:vanguard",
+      "file": "holders-aggregates.json",
+      "foldedInto": "holders.json",
+      "action": "minimal copy kept (a claim in this file needs the id)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:vanguard",
+      "file": "holders-b1.json",
+      "foldedInto": "holders.json",
+      "action": "minimal copy kept (a claim in this file needs the id)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:vanguard",
+      "file": "holders-b2.json",
+      "foldedInto": "holders.json",
+      "action": "minimal copy kept (a claim in this file needs the id)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:vanguard",
+      "file": "holders-b3.json",
+      "foldedInto": "holders.json",
+      "action": "record removed (no claim in this file needs it)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:vanguard",
+      "file": "holders-b4.json",
+      "foldedInto": "holders.json",
+      "action": "record removed (no claim in this file needs it)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:vanguard",
+      "file": "holders-b5.json",
+      "foldedInto": "holders.json",
+      "action": "record removed (no claim in this file needs it)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:vanguard",
+      "file": "holders-b6.json",
+      "foldedInto": "holders.json",
+      "action": "minimal copy kept (a claim in this file needs the id)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:vanguard",
+      "file": "holders-b7.json",
+      "foldedInto": "holders.json",
+      "action": "record removed (no claim in this file needs it)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:vanguard",
+      "file": "holders-b8.json",
+      "foldedInto": "holders.json",
+      "action": "record removed (no claim in this file needs it)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:vanguard",
+      "file": "holders-b9.json",
+      "foldedInto": "holders.json",
+      "action": "record removed (no claim in this file needs it)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:vanguard",
+      "file": "narratives-literature.json",
+      "foldedInto": "holders.json",
+      "action": "record removed (no claim in this file needs it)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "grp:adani",
+      "file": "mandates-ventures.json",
+      "foldedInto": "narratives-literature.json",
+      "action": "record removed (no claim in this file needs it, and it is an inventory id)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "min:ministry-of-finance",
+      "file": "narratives-literature.json",
+      "foldedInto": "mandates-ventures.json",
+      "action": "record removed (no claim in this file needs it, and it is an inventory id)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "sebi",
+      "file": "mandates-ventures.json",
+      "foldedInto": "narratives-literature.json",
+      "action": "record removed (no claim in this file needs it, and it is an inventory id)",
+      "reason": "aliases, facts and sources folded into the surviving record; the alias set lives on one record only"
+    },
+    {
+      "id": "cap:camas-investments",
+      "file": "holders-b3.json",
+      "foldedInto": "holders-b4.json",
+      "action": "minimal copy kept (claims holders-b3:c009 and holders-b3:c015 need the id)",
+      "reason": "second pass: Camas split back out of cap:temasek; its alias ('Camas Investments Pte Ltd'), facts and sources live on the holders-b4.json record only"
+    }
+  ],
+  "otherFixes": [
+    {
+      "file": "mandates-ventures.json",
+      "id": "adani→grp:adani",
+      "fix": "alias \"Adani Family\" removed (a family is not an alias of an institution); \"~US0.5bn\" restored to \"~US$10.5bn\" (shell-eaten $1 in the original write-up; the Adani release states US$10.5bn)"
+    },
+    {
+      "file": "mandates-ventures.json",
+      "id": "reliance→co:reliance-industries",
+      "fix": "alias \"Jio Platforms Limited\" (a subsidiary) removed and recorded in d; \"US.7bn\" restored to \"US$5.7bn\""
+    },
+    {
+      "file": "mandates-ventures.json",
+      "id": "cap:rothschild-co",
+      "fix": "alias \"Rothschild\" (the family surname) removed — the node is Rothschild & Co SCA, the institution; \"Rothschild & Co\" kept"
+    },
+    {
+      "file": "holders-aggregates.json",
+      "id": "cap:blackrock",
+      "fix": "non-schema identity key \"secCik\" removed; the CIKs moved into d[]"
+    },
+    {
+      "file": "holders-aggregates.json",
+      "id": "cap:vanguard",
+      "fix": "non-schema identity key \"secCik\" removed; the CIKs moved into d[]"
+    },
+    {
+      "file": "holders-b3.json",
+      "id": "cap:citibank-nyc-adr-department",
+      "fix": "fam \"instrument\" → \"capital\" (company custodian, as the other two depositary nodes)"
+    },
+    {
+      "file": "holders-b4.json",
+      "id": "voids[Camas]",
+      "fix": "unsupported \"Hindalco excerpt\" statement corrected; second pass: Camas kept as its own node, the Temasek parentage recorded only as the reported edge holders-b3:c015"
+    },
+    {
+      "file": "holders-b2.json",
+      "id": "symmetryCheck",
+      "fix": "two garbled clauses rewritten without changing any figure"
+    },
+    {
+      "file": "holders-aggregates.json",
+      "id": "cap:blackrock.d, baseRates, c019",
+      "fix": "SBI BlackRock aggregate 0.49% → 0.48% (44,747,409 / 9,230,000,000 = 0.4848%), matching holders-aggregates:c010"
+    },
+    {
+      "file": "rules-regulators.json",
+      "id": "per:tuhin-kanta-pandey",
+      "fix": "endpoint of c003/c004 was used without a definition (per: is not an inventory id here): minimal copy added; canonical record in mandates-ventures.json given the dated offices"
+    },
+    {
+      "file": "holders-b3.json",
+      "id": "holders-b3:c008",
+      "fix": "tier documented → reported because the Dunearn → Temasek parent link is an aggregator record (PitchBook) (critic: record the Temasek parent link at reported tier); endpoint unchanged (cap:temasek, Dunearn stays an alias)"
+    },
+    {
+      "file": "holders-b3.json",
+      "id": "holders-b3:c009",
+      "fix": "first pass re-pointed the endpoint to cap:temasek and lowered the tier to reported; undone in the second pass — s is cap:camas-investments again and the tier documented (the filing names Camas itself); the aggregator-sourced Temasek link is the separate reported edge holders-b3:c015"
+    },
+    {
+      "file": "holders-b4.json",
+      "id": "holders-b4:c003",
+      "fix": "first pass re-pointed the endpoint to cap:temasek and lowered the tier to reported; undone in the second pass — s is cap:camas-investments again and the tier documented (the filing names Camas itself); the aggregator-sourced Temasek link is the separate reported edge holders-b3:c015"
+    },
+    {
+      "file": "holders-b3.json",
+      "id": "holders-b3:c007",
+      "fix": "custodian flag and label added: the depositary is the registered holder of record, not the beneficial owner (pred own kept — the filing records a registered holding)"
+    },
+    {
+      "file": "holders-b4.json",
+      "id": "holders-b4:c008",
+      "fix": "custodian flag and label added: the depositary is the registered holder of record, not the beneficial owner (pred own kept — the filing records a registered holding)"
+    },
+    {
+      "file": "holders-b9.json",
+      "id": "holders-b9:c003",
+      "fix": "custodian flag and label added: the depositary is the registered holder of record, not the beneficial owner (pred own kept — the filing records a registered holding)"
+    },
+    {
+      "file": "holders.json",
+      "id": "holders:c019",
+      "fix": "wrong-direction/semantics edge JFS →own→ BlackRock re-pointed to JFS →own→ cap:jio-blackrock-asset-management (the JV node in mandates-ventures.json; minimal copy added here)"
+    },
+    {
+      "file": "holders-b5.json",
+      "id": "holders-b5:c001",
+      "fix": "explicit \"as of listing\" label added; tier kept documented (two independent outlets, the contract's documented rule)"
+    },
+    {
+      "file": "holders-b1.json",
+      "id": "cap:adani-promoter-offshore-vehicles",
+      "fix": "cluster: true flag, cluster label and sub (family wording removed); the three ≥5% vehicles named in d"
+    },
+    {
+      "file": "holders-b3.json",
+      "id": "cap:pt-indo-bharat-rayon",
+      "fix": "sub/publicRole name the promoter group (an institution), not a family"
+    },
+    {
+      "file": "holders-b4.json",
+      "id": "cap:hcl-holdings-pvt-ltd",
+      "fix": "publicRole names the promoter group, not a family"
+    },
+    {
+      "file": "mandates-ventures.json",
+      "id": "mandates-ventures:c004",
+      "fix": "award direction reversed to awarder → winner (min:ministry-of-finance → cap:deloitte-india); a: 0 → 1e-07 (Re 1 in ₹ crore — a zero would read as \"no fee\"); benefit.amountCr 0 → null (the benefit is a credential, its value unknown)"
+    },
+    {
+      "file": "mandates-ventures.json",
+      "id": "mandates-ventures:c030",
+      "fix": "law edge re-pointed from JFS → sebi to cap:sebi-mf-regulations-1996 → co:jio-financial-services (rule → governed)"
+    },
+    {
+      "file": "mandates-ventures.json",
+      "id": "mandates-ventures:c033",
+      "fix": "pmin edge re-pointed from AMC → JFS to subscribers → AMC (money flows payer → fund); payer-class node cap:jio-blackrock-mf-nfo-subscribers added"
+    },
+    {
+      "file": "narratives-literature.json",
+      "id": "narratives-literature:c005",
+      "fix": "enforce edge re-pointed from sc → committee (the court is not investigating its own committee) to committee → sebi (the body that reviewed SEBI's regulatory conduct), as rules-regulators:c023 records it"
+    },
+    {
+      "file": "rules-regulators.json",
+      "id": "claims[*].d",
+      "fix": "29 claim descriptions written as lists joined into one string (contract: d is one or two sentences)"
+    },
+    {
+      "file": "mandates-ventures.json",
+      "id": "co:kotak-mahindra-bank",
+      "fix": "\"US0.6m\" restored to \"US$40.6m\" (shell-eaten $4; LSEG H1 2024 review: \"a total of US$40.6 million, accounting for 7.6% wallet share\")"
+    },
+    {
+      "file": "mandates-ventures.json",
+      "id": "mandates-ventures:c009",
+      "fix": "a: 0 → 1e-07 (Re 1 in ₹ crore); benefit.amountCr 0 → null, confidence unknown (the benefit is a credential)"
+    },
+    {
+      "file": "mandates-ventures.json",
+      "id": "mandates-ventures:c048",
+      "fix": "a: 0 → null — an analytic comparison carries no flow; the two Re 1 bids stay in d and on c004/c009"
+    },
+    {
+      "file": "mandates-ventures.json",
+      "id": "mandates-ventures:c017, c018",
+      "fix": "award and enforce re-pointed from the asset (cap:pawan-hans) to the winning bidder cap:star9-mobility (new node, sourced by the two URLs the claims already cite)"
+    },
+    {
+      "file": "mandates-ventures.json",
+      "id": "mandates-ventures:c027",
+      "fix": "date window corrected: from 2018-05-07/to null (read as a holding starting at the exit) → from null/to 2018-05-07"
+    },
+    {
+      "file": "mandates-ventures.json",
+      "id": "grp:tata",
+      "fix": "alias(es) ['Tata Steel Long Products Limited'] removed — a separately listed Tata company (buyer of NINL, c019), named here rather than aliased to the group"
+    },
+    {
+      "file": "mandates-ventures.json",
+      "id": "co:kotak-mahindra-bank",
+      "fix": "alias(es) ['Kotak Investment Banking', 'Kotak Strategic Situations Fund'] removed — the bank's investment-banking arm and an alternative investment fund it sponsors — separate legal persons, named here rather than aliased"
+    },
+    {
+      "file": "mandates-ventures.json",
+      "id": "cap:air-india",
+      "fix": "alias(es) ['Air India Express (AIXL)', 'AISATS'] removed — subsidiary/joint-venture companies of Air India, named here rather than aliased"
+    },
+    {
+      "file": "mandates-ventures.json",
+      "id": "co:bajaj-finserv",
+      "fix": "alias(es) ['Bajaj Finserv AMC'] removed — Bajaj Finserv Asset Management Ltd is a subsidiary (the licensed AMC), named here rather than aliased to the listed parent"
+    },
+    {
+      "file": "holders.json",
+      "id": "cap:google-international",
+      "fix": "alias(es) ['Alphabet Inc.'] removed — Alphabet Inc. is the ultimate parent of Google International LLC, not the same legal person"
+    },
+    {
+      "file": "narratives-literature.json",
+      "id": "narratives-literature:c027",
+      "fix": "pred law → enforce: the SIT on Black Money is an investigating body reporting on ODIs (agency → subject), not a rule that governs them"
+    },
+    {
+      "file": "narratives-literature.json",
+      "id": "narratives-literature:c029, c030",
+      "fix": "law edges re-pointed from min:ministry-of-finance (the treaty signatory) to cap:fpi-industry (the investors the DTAA taxes; as rules-regulators:c011/c012 record the 2016 protocols); minimal copy of cap:fpi-industry added, canonical record in rules-regulators.json"
+    },
+    {
+      "file": "rules-regulators.json",
+      "id": "rules-regulators:c002",
+      "fix": "from \"2022-03\" → \"2022-03-02\" (the claim's own d: \"took charge 2 March 2022\"; matches narratives-literature:c037)"
+    },
+    {
+      "file": "holders-b2.json",
+      "id": "holders-b2:c003",
+      "fix": "named promoter individuals' percentages moved from the claim d into a void (critic: keep persons' % out of claim descriptions)"
+    },
+    {
+      "file": "holders-b3.json",
+      "id": "holders-b3:c012",
+      "fix": "founder-director's personal percentage moved from the claim d into a void"
+    },
+    {
+      "file": "holders-aggregates.json",
+      "id": "holders-aggregates (HDFC Bank FII ceiling)",
+      "fix": "screener 41.82% vs primary-filing 41.83% (holders:c005) reconciled in text as a rounding difference"
+    },
+    {
+      "file": "holders.json",
+      "id": "gaps",
+      "fix": "stale-quarter supersession risk recorded as a gap (critic)"
+    },
+    {
+      "file": "holders-aggregates.json",
+      "id": "sources",
+      "fix": "1 internal file reference(s) moved out of sources into internalRefs (a source is [label, url])"
+    },
+    {
+      "file": "holders-b1.json",
+      "id": "sources",
+      "fix": "1 internal file reference(s) moved out of sources into internalRefs (a source is [label, url])"
+    },
+    {
+      "file": "holders.json",
+      "id": "sources",
+      "fix": "2 internal file reference(s) moved out of sources into internalRefs (a source is [label, url])"
+    },
+    {
+      "file": "holders.json",
+      "id": "baseRates[6]",
+      "fix": "internal file reference moved out of srcs into internalRefs"
+    },
+    {
+      "file": "rules-regulators.json",
+      "id": "sources",
+      "fix": "cited URL added to the file's sources: https://www.businesstoday.in/latest/economy-politics/story/ajay-tyagi-appointed-sebi-chief-72105-2017-02-10"
+    },
+    {
+      "file": "rules-regulators.json",
+      "id": "sources",
+      "fix": "cited URL added to the file's sources: https://www.business-standard.com/amp/markets/news/budget-2024-hikes-ltcg-tax-rate-to-12-5-stcg-to-20-stt-on-f-o-also-up-124072300553_1.html"
+    },
+    {
+      "file": "rules-regulators.json",
+      "id": "sources",
+      "fix": "cited URL added to the file's sources: https://en.wikipedia.org/wiki/Ajay_Seth"
+    },
+    {
+      "file": "narratives-literature.json",
+      "id": "narratives-literature:c003",
+      "fix": "label \"two Adani-family associates\" → \"two investors tied by OCCRP to the Adani promoter group\" (institutions, not families; the actor is OCCRP and the subject grp:adani, unchanged)"
+    },
+    {
+      "file": "holders-b3.json",
+      "id": "holders-b3:c015",
+      "fix": "second pass: new claim cap:temasek → cap:camas-investments, pred own, tier reported, source sgpbusiness.com, with upgradeIf and killIf — the parent link the first pass had folded into an alias"
+    },
+    {
+      "file": "holders-b3.json",
+      "id": "cap:temasek",
+      "fix": "second pass: Camas aliases, the HDFC Life fact and the HDFC Life source moved back to cap:camas-investments; sub, publicRole, d and gaps rewritten so the 2.87% Eternal total is conditional on the reported Camas edge (sub mirrored on the holders-b7.json minimal copy; the holders-b4.json minimal copy removed as no claim there needs it)"
+    },
+    {
+      "file": "holders.json",
+      "id": "cap:gic-singapore",
+      "fix": "second pass: pointer 'see cap:temasek for the unresolved entity' restored to 'see cap:camas-investments'"
+    },
+    {
+      "file": "rules-regulators.json / narratives-literature.json",
+      "id": "cap:pnotes-rules-2017, cap:sebi-odi-circular-2017",
+      "fix": "second pass: both records restored to their pre-merge label, sub, aliases, facts and sources; rules-regulators:c013 re-pointed to cap:pnotes-rules-2017; the Angel One source added to narratives-literature.json for the fold removed; the 10% vs 25% beneficial-owner threshold gap added to both records"
+    }
+  ],
+  "criticItems": [
+    {
+      "item": "idMismatches: cap:temasek (b3) and cap:temasek-holdings (b7) are one holder",
+      "decision": "applied",
+      "how": "mapping cap:temasek-holdings → cap:temasek; full record in holders-b3.json (MacRitchie aliases folded in); minimal copy in holders-b7.json for c005"
+    },
+    {
+      "item": "idMismatches: cap:camas-investments (b4) collides with the Camas alias of cap:temasek (b3)",
+      "decision": "applied, then undone in the second pass",
+      "how": "The first pass mapped cap:camas-investments → cap:temasek on the matching UEN; the verifier judged it an over-merge (parent/vehicle, two legal persons, parent link only on sgpbusiness.com). Second pass: Camas is its own node again, holders-b3:c009 and holders-b4:c003 run from cap:camas-investments at tier documented, and the Temasek parentage is one reported edge (holders-b3:c015). The b3 alias collision is resolved by moving the Camas aliases to the Camas record."
+    },
+    {
+      "item": "idMismatches: cap:citibank-nyc-adr-department ty company / fam instrument",
+      "decision": "applied (fam) / refused (id pattern)",
+      "how": "fam → capital as the other two depositaries. The shared id pattern cap:custodian-<bank> was refused: renaming three stable ids resolves no identity question; the custodian: true flag on their claims carries the distinction instead"
+    },
+    {
+      "item": "idMismatches: non-schema identity key secCik on cap:blackrock / cap:vanguard",
+      "decision": "applied",
+      "how": "key removed; CIKs moved into d[] as documented facts"
+    },
+    {
+      "item": "idMismatches: cap:suzuki-motor-corporation defined twice; holders:c018 and holders-b6:c009 are the same fact",
+      "decision": "applied",
+      "how": "one full record (holders.json) and a minimal copy in holders-b6.json; holders-b6:c009 killed as a duplicate (held, not deleted); screener MARUTI/consolidated URL added to holders.json sources"
+    },
+    {
+      "item": "idMismatches: alias sets drift per file for blackrock/vanguard/nbim/gic/capital-group/gqg",
+      "decision": "applied",
+      "how": "aliases, facts and sources unioned onto one full record per id (holders.json for the comparison set; mandates-ventures.json, narratives-literature.json, rules-regulators.json for the rest); other files keep a minimal copy (al: []) only where a claim needs the id, and drop the record otherwise"
+    },
+    {
+      "item": "idMismatches: cap:adani-promoter-offshore-vehicles bundles 11 legal entities",
+      "decision": "applied as a flagged cluster (split refused)",
+      "how": "cluster: true, cluster label and sub, and the three vehicles each ≥5% of Adani Ports named with their percentages in d. Split refused: the filings' per-vehicle lines are not recorded as claims in the file, and inventing per-vehicle edges from a cluster total would fabricate figures; a later pass can split from the Table II lines"
+    },
+    {
+      "item": "idMismatches: holders:c019 JFS → BlackRock own edge has the wrong semantics",
+      "decision": "applied",
+      "how": "re-pointed to co:jio-financial-services → cap:jio-blackrock-asset-management (the JV node, canonical in mandates-ventures.json; minimal copy in holders.json); BlackRock's half is mandates-ventures:c028"
+    },
+    {
+      "item": "sourceGaps: holders-b5:c001 LIC 6.66% of JFS is a 2023 press-only fact shown as current",
+      "decision": "applied in part",
+      "how": "label now says \"at the Aug 2023 demerger allotment — as of listing; current % not confirmed\". Tier kept documented (two independent outlets meet the contract). Primary allotment disclosure not added: jiofin.com is blocked at the proxy (batch-5 gap)"
+    },
+    {
+      "item": "sourceGaps: holders:c018 cites screener MARUTI/consolidated/ missing from sources",
+      "decision": "applied",
+      "how": "URL added to holders.json sources; every cited URL in every file is now in that file's sources"
+    },
+    {
+      "item": "sourceGaps: holders:c019 has no SEBI registration certificate URL",
+      "decision": "refused (cannot fix from the record)",
+      "how": "SEBI certificates are not published at stable URLs; the registration is independently on the record as mandates-ventures:c032 (SEBI final registration, 26 May 2025). No new source fetched in reconciliation"
+    },
+    {
+      "item": "personTextMentions: holders-b2:c003 embeds Hamied 18.68% / 1.35%",
+      "decision": "applied",
+      "how": "sentence moved out of the claim d into a holders-b2 void"
+    },
+    {
+      "item": "personTextMentions: holders-b3:c012 embeds Deepinder Goyal 3.83%",
+      "decision": "applied",
+      "how": "clause moved into a holders-b3 void; the claim itself is killed (absence recorded as an edge)"
+    },
+    {
+      "item": "personTextMentions: names in SBO tables (Birla, Adani, Nadar Malhotra) and a source label naming Madhabi Puri Buch",
+      "decision": "kept",
+      "how": "names stay in d text as the filings disclose them (critic: keep names strictly in d). The family wording in the sub/publicRole of cap:pt-indo-bharat-rayon and cap:hcl-holdings-pvt-ltd was replaced by the promoter group (institutions, not families)"
+    },
+    {
+      "item": "blackrockAlone: holders-aggregates.json defines BlackRock without GIC, Capital Group, Fidelity, KIA, ADIA",
+      "decision": "refused",
+      "how": "the comparison set is canonical in holders.json and assembles into the same capital module, so BlackRock is never alone in CAPITAL_NODES; adding copies to a file whose claims do not need them would recreate the per-file alias duplication this pass removed. The file's own comparators (NBIM c018, LIC c019, GIC in symmetryCheck) stay"
+    },
+    {
+      "item": "batchReportCheck: SBI BlackRock aggregate 0.49% vs 0.48%",
+      "decision": "applied",
+      "how": "0.48% everywhere (44,747,409 / 9,230,000,000 = 0.4848%) — entity d, baseRates, c019"
+    },
+    {
+      "item": "batchReportCheck: HDFC fiiTotal 41.82 (screener) vs 41.83 (primary)",
+      "decision": "applied",
+      "how": "both figures kept with their sources; text says the gap is rounding"
+    },
+    {
+      "item": "batchReportCheck: blackrockLines metric and done/fallback counts in batch reports are unreliable",
+      "decision": "no change needed",
+      "how": "those are agent report metrics, not fields in the raw files; the files' own claims are the record (BlackRock own claims: 0 in b1–b9, 10 in aggregates, of which none killed)"
+    },
+    {
+      "item": "recommendation: aggregates c001–c015 should be pred analytic, not own",
+      "decision": "refused",
+      "how": "the edges describe a shareholding (owner → owned); tier analytic already marks them as computed lower bounds and each carries an innocentReading. Changing the predicate would lose the direction. The four that recorded an absence (c011, c013, c014, c015: Vanguard 0.00%) were killed and moved to voids"
+    },
+    {
+      "item": "recommendation: flag supersession risk on stale filings (SBI, UltraTech, Axis, Cipla, Eternal, Kotak, NTPC, Power Grid)",
+      "decision": "applied as a gap",
+      "how": "no later filing was opened, so no supersededBy can be set honestly; recorded in holders.json gaps for the next pass"
+    },
+    {
+      "item": "recommendation: tidy text (b4 Camas/Hindalco void, b2 symmetryCheck, b1 \"either of the two\", b3 \"batch 1\")",
+      "decision": "applied",
+      "how": "each rewritten without changing any figure"
+    },
+    {
+      "item": "recommendation: mark ADR/GDR custodian claims (b3:c007, b4:c008, b9:c003)",
+      "decision": "applied",
+      "how": "custodian: true and a \"Depositary of record\" label; pred own kept because the filing records a registered holding"
+    },
+    {
+      "item": "recommendation: convert bucket/absence own claims (b3:c012, c013, c014; b9:c008) to voids",
+      "decision": "applied",
+      "how": "claims killed with killedReason (held, not deleted) and each recorded as a void with its sources"
+    }
+  ],
+  "notes": [
+    "Raw files were rewritten in place (ids, endpoints, benefit.who and prefixed ids in prose), so the mappings above are also a record for the assembler; none of the from-ids survives in any capital raw file.",
+    "AUDIT.json kills four further claims at assembly (mandates-ventures:c024, narratives-literature:c018, c022, rules-regulators:c010); they are not re-killed here.",
+    "Accusations by non-agencies (Hindenburg, OCCRP, BJP, INC) keep pred enforce with tier alleged — the fleet-wide encoding (energy/enforce.json does the same); the predicate vocabulary has no \"accuses\".",
+    "rules-regulators:c025 (sebi → law → its own conflict-of-interest committee) keeps pred law: no predicate in the vocabulary fits \"constitutes a committee\", and the edge is documented.",
+    "Holding vehicles named on filing lines (iShares funds, BAT's three vehicles, Temasek's Dunearn/MacRitchie, Sanlam's Mauritius vehicle) stay aliases of the parent — the fleet's convention; operating subsidiaries and listed companies (Jio Platforms, Tata Steel Long Products, Kotak IB, AIXL/AISATS, Bajaj Finserv AMC, Alphabet) were moved out of alias lists into d. Exception: Camas Investments Pte. Ltd. is kept as its own node with a reported own edge from Temasek, because its parent link rests only on a registry aggregator and its own batch record declined to name its owner (second pass).",
+    "Every alleged claim in the fleet already had a contra answering it by claim id in the same file; no contra had to be added. Every analytic claim carries an innocentReading."
+  ],
+  "undoneMappings": [
+    {
+      "from": "cap:camas-investments",
+      "to": "cap:temasek",
+      "reason": "Same registered company by identifier, not by name: holders-b4 records Camas Investments Pte. Ltd. with Singapore UEN 200505776N, and holders-b3 resolves the vehicle with the same UEN to Temasek (as an alias of cap:temasek). Vehicles are aliases of their parent throughout this fleet (Dunearn, MacRitchie, BAT's three vehicles, GIC). The parent link rests on a Singapore registry aggregator (sgpbusiness.com) — reported tier — so the claims routed through it are held at reported.",
+      "files": [
+        "holders-b4.json"
+      ],
+      "undone": "second pass, 2026-09-26 — see refusedMerges (cap:camas-investments / cap:temasek)"
+    },
+    {
+      "from": "cap:pnotes-rules-2017",
+      "to": "cap:sebi-odi-circular-2017",
+      "reason": "Same rule package: SEBI's 2016–17 tightening of P-Notes/ODIs (June 2016 board decision on KYC/UBO identification; circular of 7 Jul 2017 barring derivative-underlying ODIs, SIT on black money as the impetus). narratives-literature:c028 already describes the 2016–2017 package under cap:sebi-odi-circular-2017; rules-regulators:c013 cites the same 7 Jul 2017 circular. No inventory id; one file each; the first file's id survives, relabelled to cover both steps. The sources disagree on the UBO threshold (10% Angel One; 25% Arthapedia) — both kept in d.",
+      "files": [
+        "rules-regulators.json"
+      ],
+      "undone": "second pass, 2026-09-26 — see refusedMerges (cap:pnotes-rules-2017 / cap:sebi-odi-circular-2017)"
+    }
+  ]
+}

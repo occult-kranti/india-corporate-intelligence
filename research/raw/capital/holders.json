@@ -3,32 +3,230 @@
   "domain": "holders",
   "scope": "Named foreign shareholders (≥1%) of NIFTY 50 constituents, from primary SEBI Reg. 31(1)(b) shareholding-pattern filings opened directly on five companies' own investor-relations sites (Reliance Industries, HDFC Bank, ITC, Bharti Airtel, State Bank of India — chosen for sector and ownership-structure spread: diversified conglomerate, private bank, FMCG with a legacy colonial FDI stake, telecom with a foreign strategic promoter, and a majority-government PSU bank), plus FII/FPI aggregate percentages (screener.in, an aggregator, cross-checked against the five primary filings' own totals) for ten further constituents. This is a documented sample of 15 of the 50 NIFTY 50 constituents, not the full index: the fetch budget (25–40) does not stretch to 50 individual SEBI filings at 1–3 fetches each, so this file goes deep on five and wide-but-shallow on ten more, and says so rather than padding with unopened aggregator summaries presented as named-holder data. It covers: the mandatory comparison set (BlackRock, Vanguard, Norges Bank Investment Management/Government Pension Fund Global, GIC/Government of Singapore, Capital Group, Fidelity, Kuwait Investment Authority, ADIA) tested against every company actually opened; LIC as the domestic control; two foreign holders found in the data that are outside the comparison set but material (GQG Partners in ITC, Google International LLC in Bharti Airtel); the two foreign strategic/promoter stakes that dwarf any passive FPI line (British American Tobacco in ITC via three wholly-owned vehicles, Suzuki Motor Corporation in Maruti Suzuki) and Singtel's promoter-group vehicle in Bharti Airtel; and the JioBlackRock asset-management/advisory joint venture. It leaves out, by design: adviser mandates (Rothschild & Co vs Lazard/Goldman Sachs/Morgan Stanley/JPMorgan/Citi/Kotak/Axis Capital/Avendus) — a distinct question for a companion file this pass did not produce; the World Bank/IMF/multilateral-loan narrative, which belongs to the finance fleet; and the Soros/OSF funding narrative, which belongs to the ngo fleet. NBIM's own nbim.no holdings-search tool was probed and found to be a client-side JS application whose backing API could not be located through the proxy (static HTML shell only, ~27KB on every route tried); NBIM's per-company India percentages here therefore come from the Indian companies' own disclosures, which name Norges Bank's fund as 'Government Pension Fund Global', not from NBIM's own site — recorded as a void below, not silently worked around.",
   "sources": [
-    ["NSE/BSE/company shareholding-pattern reconnaissance — SPEC.md known-reachability probe (2026-09-26)", "internal:research/raw/capital/../../../../../tmp/scratchpad/capital/SPEC.md"],
-    ["research/raw/indices.json — NIFTY 50 constituent list with co: ids (asOf 2026-09-25)", "internal:research/raw/indices.json"],
-    ["Reliance Industries Ltd — Shareholding Pattern as on 30.06.2026 (company IR site, SEBI Reg. 31(1)(b) format)", "https://rilstaticasset.akamaized.net/sites/default/files/2026-07/SHP30062026.pdf"],
-    ["Reliance Industries Ltd — Shareholders' Information / Shareholding Pattern page (link discovery)", "https://www.ril.com/investors/shareholders-information/shareholding-pattern"],
-    ["HDFC Bank Ltd — Shareholding Pattern as on 30.06.2026 (updated), hdfc.bank.in", "https://www.hdfc.bank.in/content/dam/hdfcbankpws/in/en/personal-banking/discover-products/about-us/stakeholders-information/shareholding-ownership/Shareholding-Pattern-June-2026-updated.pdf"],
-    ["HDFC Bank Ltd — Shareholding & Ownership page (link discovery)", "https://www.hdfc.bank.in/about-us/stakeholders-information/shareholding-ownership"],
-    ["ITC Ltd — Shareholding Pattern as on 31.12.2025, itcportal.com", "https://itcportal.com/content/dam/itc-corporate/pdfs/shareholding-pattern/shareholding-pattern-31-dec-25.pdf"],
-    ["Bharti Airtel Ltd — Shareholding Pattern as on 31.12.2025 (BSE XBRL render, mirrored on assets.airtel.in)", "https://assets.airtel.in/static-assets/cms/investor/docs/SHP-December-31-2025.pdf"],
-    ["State Bank of India — Shareholding Pattern as on 31.03.2025, sbi.bank.in", "https://sbi.bank.in/documents/17836/53469043/SHP+31032025.pdf/273af37f-c2e9-e009-0a94-57318ca76c50?t=1746009788075"],
-    ["screener.in — Reliance Industries Ltd (consolidated), shareholding-pattern section", "https://www.screener.in/company/RELIANCE/consolidated/"],
-    ["screener.in — ICICI Bank Ltd (consolidated), shareholding-pattern section", "https://www.screener.in/company/ICICIBANK/consolidated/"],
-    ["screener.in — Infosys Ltd (consolidated), shareholding-pattern section", "https://www.screener.in/company/INFY/consolidated/"],
-    ["screener.in — Tata Consultancy Services Ltd (consolidated), shareholding-pattern section", "https://www.screener.in/company/TCS/consolidated/"],
-    ["screener.in — Larsen & Toubro Ltd (consolidated), shareholding-pattern section", "https://www.screener.in/company/LT/consolidated/"],
-    ["screener.in — Maruti Suzuki India Ltd (consolidated + About section, promoter identification)", "https://www.screener.in/company/MARUTI/"],
-    ["screener.in — Titan Company Ltd (consolidated), shareholding-pattern section", "https://www.screener.in/company/TITAN/consolidated/"],
-    ["screener.in — Axis Bank Ltd (consolidated), shareholding-pattern section", "https://www.screener.in/company/AXISBANK/consolidated/"],
-    ["screener.in — Kotak Mahindra Bank Ltd (consolidated), shareholding-pattern section", "https://www.screener.in/company/KOTAKBANK/consolidated/"],
-    ["screener.in — Coal India Ltd (consolidated), shareholding-pattern section", "https://www.screener.in/company/COALINDIA/consolidated/"],
-    ["screener.in — HDFC Life Insurance Co. Ltd (consolidated), shareholding-pattern section", "https://www.screener.in/company/HDFCLIFE/consolidated/"],
-    ["Norges Bank Investment Management — nbim.no investments landing page (probed, JS shell)", "https://www.nbim.no/en/the-fund/investments/"],
-    ["Norges Bank Investment Management — 'all investments' page (probed, same JS shell, no server-rendered data)", "https://www.nbim.no/en/investments/all-investments/"],
-    ["Norges Bank Investment Management — Annual report 2025 web report (India = 2.1% of equity investments at end-2025)", "https://www.nbim.no/en/news-and-insights/reports/2025/annual-report-2025/web-report-annual-report-2025/"],
-    ["JioBlackRock — press release, SEBI approval to launch advisory business", "https://www.jioblackrock.com/press-releases/jioblackrock-investment-advisers-receives-sebi-approval-to-launch-advisory-business"],
-    ["TaxGuru — 'SEBI Tightens FPI Disclosure Norms after Adani-Hindenburg'", "https://taxguru.in/sebi/sebis-tightens-fpi-disclosure-norms-after-adani-hindenburg.html"],
-    ["LiveLaw — 'Lokpal Dismisses Complaints Against Ex-SEBI Chief Madhabi Puri Buch' (28 May 2025 order)", "https://www.livelaw.in/top-stories/lokpal-dismisses-complaints-against-sebi-chariperson-madhabi-puri-buch-hindenburg-research-adani-group-293764"]
+    [
+      "Reliance Industries Ltd — Shareholding Pattern as on 30.06.2026 (company IR site, SEBI Reg. 31(1)(b) format)",
+      "https://rilstaticasset.akamaized.net/sites/default/files/2026-07/SHP30062026.pdf"
+    ],
+    [
+      "Reliance Industries Ltd — Shareholders' Information / Shareholding Pattern page (link discovery)",
+      "https://www.ril.com/investors/shareholders-information/shareholding-pattern"
+    ],
+    [
+      "HDFC Bank Ltd — Shareholding Pattern as on 30.06.2026 (updated), hdfc.bank.in",
+      "https://www.hdfc.bank.in/content/dam/hdfcbankpws/in/en/personal-banking/discover-products/about-us/stakeholders-information/shareholding-ownership/Shareholding-Pattern-June-2026-updated.pdf"
+    ],
+    [
+      "HDFC Bank Ltd — Shareholding & Ownership page (link discovery)",
+      "https://www.hdfc.bank.in/about-us/stakeholders-information/shareholding-ownership"
+    ],
+    [
+      "ITC Ltd — Shareholding Pattern as on 31.12.2025, itcportal.com",
+      "https://itcportal.com/content/dam/itc-corporate/pdfs/shareholding-pattern/shareholding-pattern-31-dec-25.pdf"
+    ],
+    [
+      "Bharti Airtel Ltd — Shareholding Pattern as on 31.12.2025 (BSE XBRL render, mirrored on assets.airtel.in)",
+      "https://assets.airtel.in/static-assets/cms/investor/docs/SHP-December-31-2025.pdf"
+    ],
+    [
+      "State Bank of India — Shareholding Pattern as on 31.03.2025, sbi.bank.in",
+      "https://sbi.bank.in/documents/17836/53469043/SHP+31032025.pdf/273af37f-c2e9-e009-0a94-57318ca76c50?t=1746009788075"
+    ],
+    [
+      "screener.in — Reliance Industries Ltd (consolidated), shareholding-pattern section",
+      "https://www.screener.in/company/RELIANCE/consolidated/"
+    ],
+    [
+      "screener.in — ICICI Bank Ltd (consolidated), shareholding-pattern section",
+      "https://www.screener.in/company/ICICIBANK/consolidated/"
+    ],
+    [
+      "screener.in — Infosys Ltd (consolidated), shareholding-pattern section",
+      "https://www.screener.in/company/INFY/consolidated/"
+    ],
+    [
+      "screener.in — Tata Consultancy Services Ltd (consolidated), shareholding-pattern section",
+      "https://www.screener.in/company/TCS/consolidated/"
+    ],
+    [
+      "screener.in — Larsen & Toubro Ltd (consolidated), shareholding-pattern section",
+      "https://www.screener.in/company/LT/consolidated/"
+    ],
+    [
+      "screener.in — Maruti Suzuki India Ltd (consolidated + About section, promoter identification)",
+      "https://www.screener.in/company/MARUTI/"
+    ],
+    [
+      "screener.in — Titan Company Ltd (consolidated), shareholding-pattern section",
+      "https://www.screener.in/company/TITAN/consolidated/"
+    ],
+    [
+      "screener.in — Axis Bank Ltd (consolidated), shareholding-pattern section",
+      "https://www.screener.in/company/AXISBANK/consolidated/"
+    ],
+    [
+      "screener.in — Kotak Mahindra Bank Ltd (consolidated), shareholding-pattern section",
+      "https://www.screener.in/company/KOTAKBANK/consolidated/"
+    ],
+    [
+      "screener.in — Coal India Ltd (consolidated), shareholding-pattern section",
+      "https://www.screener.in/company/COALINDIA/consolidated/"
+    ],
+    [
+      "screener.in — HDFC Life Insurance Co. Ltd (consolidated), shareholding-pattern section",
+      "https://www.screener.in/company/HDFCLIFE/consolidated/"
+    ],
+    [
+      "Norges Bank Investment Management — nbim.no investments landing page (probed, JS shell)",
+      "https://www.nbim.no/en/the-fund/investments/"
+    ],
+    [
+      "Norges Bank Investment Management — 'all investments' page (probed, same JS shell, no server-rendered data)",
+      "https://www.nbim.no/en/investments/all-investments/"
+    ],
+    [
+      "Norges Bank Investment Management — Annual report 2025 web report (India = 2.1% of equity investments at end-2025)",
+      "https://www.nbim.no/en/news-and-insights/reports/2025/annual-report-2025/web-report-annual-report-2025/"
+    ],
+    [
+      "JioBlackRock — press release, SEBI approval to launch advisory business",
+      "https://www.jioblackrock.com/press-releases/jioblackrock-investment-advisers-receives-sebi-approval-to-launch-advisory-business"
+    ],
+    [
+      "TaxGuru — 'SEBI Tightens FPI Disclosure Norms after Adani-Hindenburg'",
+      "https://taxguru.in/sebi/sebis-tightens-fpi-disclosure-norms-after-adani-hindenburg.html"
+    ],
+    [
+      "LiveLaw — 'Lokpal Dismisses Complaints Against Ex-SEBI Chief Madhabi Puri Buch' (28 May 2025 order)",
+      "https://www.livelaw.in/top-stories/lokpal-dismisses-complaints-against-sebi-chariperson-madhabi-puri-buch-hindenburg-research-adani-group-293764"
+    ],
+    [
+      "Cipla — Shareholding Pattern as on 30.09.2025",
+      "https://www.cipla.com/sites/default/files/Shareholding-Pattern-Sep-2025_0.pdf"
+    ],
+    [
+      "Eicher Motors — Shareholding Pattern as on 31.03.2026",
+      "https://www.eicher.in/content/dam/eicher-motors/investor/shareholder's-information/shareholding-pattern/shareholding-pattern-as-on-31-03-26.pdf"
+    ],
+    [
+      "Grasim Industries — Shareholding Pattern as on 30.06.2026",
+      "https://www.grasim.com/Upload/PDF/shareholding-pattern-june-2026.pdf"
+    ],
+    [
+      "Eternal — Shareholding Pattern as on 30.09.2025",
+      "https://b.zmtcdn.com/investor-relations/e69e622a95db21b07f8a7c5d83dffaa6_1761817931.pdf"
+    ],
+    [
+      "iShares MSCI India ETF (INDA) — holdings CSV as of 24 Sep 2026",
+      "https://www.ishares.com/us/products/239659/ishares-msci-india-etf/latest-holdings.csv"
+    ],
+    [
+      "iShares Core MSCI Emerging Markets ETF (IEMG) — holdings CSV as of 24 Sep 2026",
+      "https://www.ishares.com/us/products/244050/ishares-core-msci-emerging-markets-etf/latest-holdings.csv"
+    ],
+    [
+      "iShares MSCI Emerging Markets ETF (EEM) — holdings CSV as of 24 Sep 2026",
+      "https://www.ishares.com/us/products/239637/ishares-msci-emerging-markets-etf/latest-holdings.csv"
+    ],
+    [
+      "iShares MSCI ACWI ETF (ACWI) — holdings CSV as of 24 Sep 2026",
+      "https://www.ishares.com/us/products/239600/ishares-msci-acwi-etf/latest-holdings.csv"
+    ],
+    [
+      "iShares India 50 ETF (INDY) — holdings CSV as of 24 Sep 2026",
+      "https://www.ishares.com/us/products/239758/ishares-india-50-etf/latest-holdings.csv"
+    ],
+    [
+      "iShares Core MSCI Total International Stock ETF (IXUS) — holdings CSV as of 24 Sep 2026",
+      "https://www.ishares.com/us/products/244048/ishares-core-msci-total-international-stock-etf/latest-holdings.csv"
+    ],
+    [
+      "iShares MSCI ACWI ex U.S. ETF (ACWX) — holdings CSV as of 24 Sep 2026",
+      "https://www.ishares.com/us/products/239594/ishares-msci-acwi-ex-us-etf/latest-holdings.csv"
+    ],
+    [
+      "iShares MSCI Emerging Markets ex China ETF (EMXC) — holdings CSV as of 24 Sep 2026",
+      "https://www.ishares.com/us/products/288504/ishares-msci-emerging-markets-ex-china-etf/latest-holdings.csv"
+    ],
+    [
+      "SEC EDGAR full-text search — 13F-HR, entity BlackRock, 'INFOSYS', 2026",
+      "https://efts.sec.gov/LATEST/search-index?q=%22INFOSYS%22&forms=13F-HR&entityName=BlackRock&dateRange=custom&startdt=2026-01-01&enddt=2026-09-26"
+    ],
+    [
+      "RIL — media release: JFS and BlackRock agree to form JV, 26 Jul 2023 (PDF)",
+      "https://www.ril.com/sites/default/files/2023-08/26072023-Media-Release-JFS-and-BlackRock-agree-to-form-JV-to-enter-India-s-Asset-Management-Industry.pdf"
+    ],
+    [
+      "BS (Reuters) — BlackRock exits mutual fund venture with DSP Group, 7 May 2018",
+      "https://www.business-standard.com/article/reuters/blackrock-exits-mutual-fund-venture-with-dsp-group-118050701042_1.html"
+    ],
+    [
+      "BIS CGFS 66 — passive/benchmark-driven flows",
+      "https://www.bis.org/publ/cgfs66.pdf"
+    ],
+    [
+      "Capital Group — New World Fund overview",
+      "https://www.capitalgroup.com/individual/investments/fund/newfx"
+    ],
+    [
+      "Axis Bank — Shareholding Pattern for the Quarter Ended 30.06.2025",
+      "https://www.axis.bank.in/docs/default-source/quarterly-reports/shareholding-pattern/shareholding-pattern-for-the-quarter-ended-30-06-2025.pdf"
+    ],
+    [
+      "Hindalco Industries — Shareholding Pattern as on 30 June 2026",
+      "https://www.hindalco.com/Upload/PDF/shareholding-pattern-june-2026.pdf"
+    ],
+    [
+      "Mahindra & Mahindra — Shareholding Pattern, quarter ended 31.12.2025",
+      "https://www.mahindra.com/sites/default/files/2026-01/Shareholding%20pattern%20Reg.%2030%20December%202025.pdf"
+    ],
+    [
+      "NTPC — Shareholding Pattern, quarter ended 30.09.2025",
+      "https://dev.ntpc.co.in/sites/default/files/shareholding_pattrens/2026/Shareholding%20Pattern%20(1).pdf"
+    ],
+    [
+      "Power Grid — Shareholding Pattern Q2 FY2025-26",
+      "https://www.powergrid.in/sites/default/files/Investor_Relation/Reports_Filings/Share_Holding_Pattern/2025-26/SHP_2025-26_Q2.html"
+    ],
+    [
+      "Shriram Finance — Shareholding Pattern, quarter ended 31.12.2025",
+      "https://cdn.shriramfinance.in/sfl-kalam/files/2026-01/SHP_31-12-2025.pdf"
+    ],
+    [
+      "UltraTech Cement — Shareholding Pattern, quarter ended 31.03.2025",
+      "https://www.ultratechcement.com/content/dam/ultratechcementwebsite/pdf/shareholding-pattern/Shareholding-Pattern-31-03-2025.pdf"
+    ],
+    [
+      "Adani Enterprises — Shareholding Pattern as on 11.12.2025",
+      "https://www.adanienterprises.com/-/media/Project/Enterprises/Investors/corporate-governance/ShareholdingPatternsDynamic/Shp-as-on-11122025-(1).pdf"
+    ],
+    [
+      "Adani Ports and SEZ — Shareholding Pattern as on 30.06.2026",
+      "https://www.adaniports.com/-/media/project/ports/investor/corporate-governance/shareholding-pattern/apsez_shp-30062026_website.pdf"
+    ],
+    [
+      "NBIM — guessed API path (404)",
+      "https://www.nbim.no/api/investments/v2/countries/IN/equities?year=2025"
+    ],
+    [
+      "HDFC Life Insurance — Shareholding Pattern as on 30 June 2026",
+      "https://www.hdfclife.com/content/dam/hdfclifeinsurancecompany/about-us/pdf/investor-relations/Information-to-shareholders/Shareholding-pattern/Shareholding-Pattern-Website-June-2026.pdf"
+    ],
+    [
+      "Sun Pharmaceutical Industries — Shareholding Pattern, quarter ended 31.03.2026",
+      "https://sunpharma.com/wp-content/uploads/2026/04/Share-Holding-Pattern_31-March-2026.pdf"
+    ],
+    [
+      "screener.in — Maruti Suzuki India Ltd (consolidated + About)",
+      "https://www.screener.in/company/MARUTI/consolidated/"
+    ],
+    [
+      "SEC EDGAR full-text search — 13F-HR, Vanguard Group (CIK 0000102909), 'INFOSYS', 2026",
+      "https://efts.sec.gov/LATEST/search-index?q=%22INFOSYS%22&forms=13F-HR&ciks=0000102909&dateRange=custom&startdt=2026-01-01&enddt=2026-09-26"
+    ],
+    [
+      "Vanguard UK — product list API (metadata only, no holdings)",
+      "https://www.vanguardinvestor.co.uk/api/productList"
+    ]
   ],
   "entities": [
     {
@@ -39,17 +237,129 @@
       "fam": "capital",
       "st": null,
       "sz": 4,
-      "al": ["iShares", "BlackRock Global Funds", "iShares MSCI India ETF", "BlackRock Global Funds - India Fund"],
+      "al": [
+        "iShares",
+        "BlackRock Global Funds",
+        "iShares MSCI India ETF",
+        "BlackRock Global Funds - India Fund",
+        "iShares MSCI India ETF (INDA)",
+        "iShares Core MSCI Emerging Markets ETF (IEMG)",
+        "iShares MSCI Emerging Markets ETF (EEM)",
+        "iShares MSCI ACWI ETF (ACWI)",
+        "iShares India 50 ETF (INDY)",
+        "iShares Core MSCI Total International Stock ETF (IXUS)",
+        "iShares MSCI ACWI ex U.S. ETF (ACWX)",
+        "iShares MSCI Emerging Markets ex China ETF (EMXC)",
+        "BlackRock",
+        "BlackRock Advisors Singapore Pte"
+      ],
       "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": "NYSE:BLK",
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
       "publicRole": "The world's largest asset manager; central to the 'BlackRock owns India' narrative this file exists to calibrate. Mandatory control per SPEC — never recorded without the comparison set below.",
       "d": [
         "Not found as a named ≥1% shareholder in any of the five NIFTY 50 companies whose SEBI shareholding-pattern filings were opened directly in this pass (Reliance Industries, HDFC Bank, ITC, Bharti Airtel, State Bank of India), each as of its most recent quarter (Jun 2026 / Jun 2026 / Dec 2025 / Dec 2025 / Mar 2025) [documented, absence in a 5-of-50 sample]",
         "This is consistent with how BlackRock invests in India: through many separately SEBI-registered FPI entities (multiple iShares ETF share classes, multiple BlackRock Global Funds sub-funds, separate institutional mandates) rather than one consolidated registration, so no single line typically crosses the 1%-of-company naming threshold even where BlackRock's combined exposure is larger — a structural reason the passive-index share of 'BlackRock owns India' is easy to overstate from any one filing [analytic inference from the filings themselves, not a documented aggregate]",
-        "JioBlackRock Asset Management Pvt Ltd and JioBlackRock Investment Advisers Pvt Ltd: 50:50 joint ventures with Jio Financial Services Ltd, each partner subscribing 5.85 crore ₹10 equity shares (₹58.5 crore each, ₹117 crore aggregate paid-in capital for the AMC); SEBI granted the AMC's mutual-fund registration 26 May 2025 and the advisory arm's registration 10 June 2025; partnership announced July 2023 [documented]"
+        "JioBlackRock Asset Management Pvt Ltd and JioBlackRock Investment Advisers Pvt Ltd: 50:50 joint ventures with Jio Financial Services Ltd, each partner subscribing 5.85 crore ₹10 equity shares (₹58.5 crore each, ₹117 crore aggregate paid-in capital for the AMC); SEBI granted the AMC's mutual-fund registration 26 May 2025 and the advisory arm's registration 10 June 2025; partnership announced July 2023 [documented]",
+        "Eight US-listed iShares ETFs together hold between 0.48% (SBI) and 1.78% (Infosys) of each of the ten largest NIFTY 50 companies by index weight, as of 2026-09-24 — a lower bound on the BlackRock complex [analytic, this file]",
+        "No single iShares fund line exceeds 0.86% of any of the ten companies, so BlackRock cannot appear as a named ≥1% holder in any of their SEBI filings [analytic, this file]",
+        "Filed 13F-HR for quarters ended 2025-12-31, 2026-03-31 and 2026-06-30 (accessions 0002012383-26-000920, -001841, -003238) whose information tables reference Infosys — content not readable through this proxy [documented existence via EDGAR full-text search]",
+        "SEC EDGAR CIK 0002012383 (BlackRock, Inc., 13F-HR filer since the 2024 holding-company reorganisation; the older CIK 0001364742 returned no 2026 13F-HR hits) [documented — EDGAR full-text search]",
+        "Not found as a named ≥1% shareholder in any of the three primary filings (Adani Enterprises, Adani Ports, Axis Bank) opened in this batch [documented, absence in sample]",
+        "Apollo Hospitals and Asian Paints were checked only at screener.in's aggregate tier (reported), which reports FII/DII totals but names no individual holder — BlackRock's presence or absence in these two cannot be determined from this pass",
+        "Not found as a named ≥1% shareholder in Cipla's Shareholding Pattern as on 30.09.2025, the only one of this batch's five companies whose primary filing was opened [documented, absence in a 1-of-5 sample]",
+        "Not checked in Bajaj Auto, Bajaj Finance, Bajaj Finserv or Bharat Electronics in this pass — their primary filings were unreachable (see voids); screener.in's aggregate FII/FPI percentages for those four (9.01%, 20.20%, 6.90%, 18.02% respectively, June 2026) say nothing about whether BlackRock specifically crosses 1% in any of them [gap, not evidence of absence]",
+        "Not found as a named ≥1% shareholder in either of the two companies whose primary shareholding-pattern filings were opened directly in this batch (Eicher Motors, quarter ended 31.03.2026; Grasim Industries, quarter ended 30.06.2026) [documented, absence in sample]",
+        "Eternal Limited's shareholding pattern (quarter ended 30.09.2025) was also opened directly and does not name BlackRock/iShares as a ≥1% holder [documented, absence in sample]",
+        "Coal India and Dr. Reddy's Laboratories were not checked at named-holder granularity in this batch (primary filings unreachable within budget; see voids) — BlackRock's absence there is unresearched, not confirmed",
+        "Not found as a named ≥1% shareholder in any of the 3 NIFTY 50 companies whose SEBI shareholding-pattern filings were opened directly in this batch (HCL Technologies, HDFC Life, Hindalco), each as of the quarter ended 30 June 2026 [documented, absence in a 3-of-5 sample]",
+        "Hindustan Unilever and ICICI Bank could not be checked for named holders in this pass (primary filings unreachable; screener.in gives aggregates only) — BlackRock's absence or presence in those two is unknown, not documented [void]",
+        "Could not be confirmed present or absent as a named >=1% holder in any of this batch's 5 companies: no Table III (itemised public-shareholder) filing was reachable for any of the 5 within budget — see voids [documented void, not a finding about BlackRock]",
+        "Not found as a named ≥1% shareholder in either of the 2 companies whose primary filings were opened in this pass (Mahindra & Mahindra, quarter ended 31.12.2025; Nestle India, quarter ended 31.03.2026) [documented, absence in a 2-company sample]",
+        "Not checked against Larsen & Toubro, Maruti Suzuki or Max Healthcare in this pass — those three rest on aggregate-only fallback data with no named-holder breakdown [void]",
+        "Not found as a named ≥1% shareholder in any of the 4 companies whose primary filings were opened in this pass (NTPC, Power Grid, SBI Life, Shriram Finance) [documented, absence in a 4-company sample]",
+        "Not checked against ONGC in this pass — that company rests on aggregate-only fallback data with no named-holder breakdown [void]",
+        "Not found as a named ≥1% shareholder in any of the 4 companies whose primary filings were opened in this pass (Sun Pharmaceutical Industries, Tata Consumer Products, Tata Steel, Tata Motors Passenger Vehicles) [documented, absence in a 4-company sample]",
+        "Not checked against Tata Consultancy Services in this pass — tcs.com was unreachable and screener.in's aggregate carries no named-holder breakdown [void]",
+        "Not found as a named ≥1% shareholder in any of the 5 companies checked in this batch (Tech Mahindra 31.03.2026, Wipro 30.06.2026, Titan 30.06.2026, Trent 31.03.2026, UltraTech 31.03.2025) [documented, absence in a 5-company sample]",
+        "Sold its 40% of DSP BlackRock to DSP Group in May 2018, citing inability to integrate a minority-held JV onto its platform [reported]",
+        "Re-entered India via 50:50 JV with JFS announced 26 Jul 2023, US$150m initial investment each [documented]"
       ],
       "srcs": [
-        ["JioBlackRock press release — SEBI approval to launch advisory business", "https://www.jioblackrock.com/press-releases/jioblackrock-investment-advisers-receives-sebi-approval-to-launch-advisory-business"]
+        [
+          "JioBlackRock press release — SEBI approval to launch advisory business",
+          "https://www.jioblackrock.com/press-releases/jioblackrock-investment-advisers-receives-sebi-approval-to-launch-advisory-business"
+        ],
+        [
+          "iShares MSCI India ETF (INDA) — holdings CSV as of 24 Sep 2026",
+          "https://www.ishares.com/us/products/239659/ishares-msci-india-etf/latest-holdings.csv"
+        ],
+        [
+          "iShares Core MSCI Emerging Markets ETF (IEMG) — holdings CSV as of 24 Sep 2026",
+          "https://www.ishares.com/us/products/244050/ishares-core-msci-emerging-markets-etf/latest-holdings.csv"
+        ],
+        [
+          "iShares MSCI Emerging Markets ETF (EEM) — holdings CSV as of 24 Sep 2026",
+          "https://www.ishares.com/us/products/239637/ishares-msci-emerging-markets-etf/latest-holdings.csv"
+        ],
+        [
+          "iShares MSCI ACWI ETF (ACWI) — holdings CSV as of 24 Sep 2026",
+          "https://www.ishares.com/us/products/239600/ishares-msci-acwi-etf/latest-holdings.csv"
+        ],
+        [
+          "iShares India 50 ETF (INDY) — holdings CSV as of 24 Sep 2026",
+          "https://www.ishares.com/us/products/239758/ishares-india-50-etf/latest-holdings.csv"
+        ],
+        [
+          "iShares Core MSCI Total International Stock ETF (IXUS) — holdings CSV as of 24 Sep 2026",
+          "https://www.ishares.com/us/products/244048/ishares-core-msci-total-international-stock-etf/latest-holdings.csv"
+        ],
+        [
+          "iShares MSCI ACWI ex U.S. ETF (ACWX) — holdings CSV as of 24 Sep 2026",
+          "https://www.ishares.com/us/products/239594/ishares-msci-acwi-ex-us-etf/latest-holdings.csv"
+        ],
+        [
+          "iShares MSCI Emerging Markets ex China ETF (EMXC) — holdings CSV as of 24 Sep 2026",
+          "https://www.ishares.com/us/products/288504/ishares-msci-emerging-markets-ex-china-etf/latest-holdings.csv"
+        ],
+        [
+          "SEC EDGAR full-text search — 13F-HR, entity BlackRock, 'INFOSYS', 2026",
+          "https://efts.sec.gov/LATEST/search-index?q=%22INFOSYS%22&forms=13F-HR&entityName=BlackRock&dateRange=custom&startdt=2026-01-01&enddt=2026-09-26"
+        ],
+        [
+          "Cipla — Shareholding Pattern as on 30.09.2025",
+          "https://www.cipla.com/sites/default/files/Shareholding-Pattern-Sep-2025_0.pdf"
+        ],
+        [
+          "Eicher Motors — Shareholding Pattern as on 31.03.2026",
+          "https://www.eicher.in/content/dam/eicher-motors/investor/shareholder's-information/shareholding-pattern/shareholding-pattern-as-on-31-03-26.pdf"
+        ],
+        [
+          "Grasim Industries — Shareholding Pattern as on 30.06.2026",
+          "https://www.grasim.com/Upload/PDF/shareholding-pattern-june-2026.pdf"
+        ],
+        [
+          "Eternal — Shareholding Pattern as on 30.09.2025",
+          "https://b.zmtcdn.com/investor-relations/e69e622a95db21b07f8a7c5d83dffaa6_1761817931.pdf"
+        ],
+        [
+          "RIL — media release: JFS and BlackRock agree to form JV, 26 Jul 2023 (PDF)",
+          "https://www.ril.com/sites/default/files/2023-08/26072023-Media-Release-JFS-and-BlackRock-agree-to-form-JV-to-enter-India-s-Asset-Management-Industry.pdf"
+        ],
+        [
+          "BS (Reuters) — BlackRock exits mutual fund venture with DSP Group, 7 May 2018",
+          "https://www.business-standard.com/article/reuters/blackrock-exits-mutual-fund-venture-with-dsp-group-118050701042_1.html"
+        ],
+        [
+          "BIS CGFS 66 — passive/benchmark-driven flows",
+          "https://www.bis.org/publ/cgfs66.pdf"
+        ]
       ]
     },
     {
@@ -60,16 +370,87 @@
       "fam": "capital",
       "st": null,
       "sz": 4,
-      "al": ["Vanguard Total International Stock Index Fund", "Vanguard Emerging Markets Stock Index Fund"],
+      "al": [
+        "Vanguard Total International Stock Index Fund",
+        "Vanguard Emerging Markets Stock Index Fund",
+        "Vanguard FTSE Emerging Markets ETF (VWO)",
+        "Vanguard Total International Stock ETF (VXUS)",
+        "Vanguard FTSE All-World ex-US ETF (VEU)",
+        "Vanguard FTSE Emerging Markets UCITS ETF",
+        "Vanguard FTSE All-World UCITS ETF",
+        "Vanguard"
+      ],
       "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
       "publicRole": "Second-largest global passive asset manager; mandatory comparison control for BlackRock per SPEC.",
       "d": [
         "Named as a ≥1% shareholder in 1 of the 5 companies checked: HDFC Bank, via two separate registered funds, together 2.44% as of 30.06.2026 [documented]",
-        "Not found as a named ≥1% holder in Reliance Industries, ITC, Bharti Airtel or SBI as of their respective latest filings opened [documented, absence in sample]"
+        "Not found as a named ≥1% holder in Reliance Industries, ITC, Bharti Airtel or SBI as of their respective latest filings opened [documented, absence in sample]",
+        "Named at ≥1% in HDFC Bank only (two funds, 2.44%, 30.06.2026) among the five companies whose primary filings were opened; fund-level aggregate not computable in this pass because neither Vanguard's sites nor the SEC Archives served holdings data [documented named lines; analytic bound]",
+        "Filed 13F-HR for 2025-12-31 (accession 0000102909-26-000031) referencing Infosys — content not readable through this proxy [documented existence]",
+        "SEC EDGAR CIK 0000102909 (Vanguard Group Inc, 13F-HR); fund registrants 0000857489 (Vanguard International Equity Index Funds), 0000736054 (Vanguard STAR Funds) [documented — EDGAR full-text search]",
+        "Named ≥1% in 1 of 3 companies with primary filings opened: Axis Bank, via 'VANGUARD TOTAL INTERNATIONAL STOCK INDEX FUND', 1.11% (33,135,776 shares), quarter ended 30.06.2025 — its only named line in this filing, unlike the two-fund combination found in HDFC Bank in the base file [documented]",
+        "Not found ≥1% in Adani Enterprises or Adani Ports primary filings; Apollo Hospitals and Asian Paints checked only at screener.in aggregate tier",
+        "Named as a ≥1% shareholder in Cipla, 1.01% via 'VANGUARD TOTAL INTERNATIONAL STOCK INDEX FUND', Foreign Portfolio Investor Category I, quarter ended 30.09.2025 [documented]",
+        "Not checked in Bajaj Auto, Bajaj Finance, Bajaj Finserv or Bharat Electronics in this pass (see voids)",
+        "Not found as a named ≥1% holder in any of the three companies whose primary filings were opened in this batch (Eicher Motors, Grasim Industries, Eternal) [documented, absence in sample]",
+        "Not found as a named ≥1% shareholder in HCL Technologies, HDFC Life or Hindalco (quarter ended 30 June 2026) [documented, absence in sample]",
+        "Not checked for Hindustan Unilever or ICICI Bank in this pass [void]",
+        "Could not be confirmed present or absent as a named >=1% holder in any of this batch's 5 companies — see voids [documented void]",
+        "Named ≥1% in Mahindra & Mahindra via two separate registered funds, together 2.14% as of 31.12.2025 [documented]",
+        "Not found as a named ≥1% holder in Nestle India as of 31.03.2026 [documented, absence in sample]",
+        "Not found as a named ≥1% holder in any of the 4 companies checked with primary data in this pass [documented, absence in sample]",
+        "Not checked against Tata Consultancy Services [void, see cap:blackrock]",
+        "Not found as a named ≥1% shareholder in any of the 5 companies checked in this batch [documented, absence in sample]"
       ],
       "srcs": [
-        ["HDFC Bank — Shareholding Pattern as on 30.06.2026", "https://www.hdfc.bank.in/content/dam/hdfcbankpws/in/en/personal-banking/discover-products/about-us/stakeholders-information/shareholding-ownership/Shareholding-Pattern-June-2026-updated.pdf"]
+        [
+          "HDFC Bank — Shareholding Pattern as on 30.06.2026",
+          "https://www.hdfc.bank.in/content/dam/hdfcbankpws/in/en/personal-banking/discover-products/about-us/stakeholders-information/shareholding-ownership/Shareholding-Pattern-June-2026-updated.pdf"
+        ],
+        [
+          "SEC EDGAR full-text search — 13F-HR, Vanguard Group (CIK 0000102909), 'INFOSYS', 2026",
+          "https://efts.sec.gov/LATEST/search-index?q=%22INFOSYS%22&forms=13F-HR&ciks=0000102909&dateRange=custom&startdt=2026-01-01&enddt=2026-09-26"
+        ],
+        [
+          "Vanguard UK — product list API (metadata only, no holdings)",
+          "https://www.vanguardinvestor.co.uk/api/productList"
+        ],
+        [
+          "Axis Bank — Shareholding Pattern for the Quarter Ended 30.06.2025",
+          "https://www.axis.bank.in/docs/default-source/quarterly-reports/shareholding-pattern/shareholding-pattern-for-the-quarter-ended-30-06-2025.pdf"
+        ],
+        [
+          "Cipla — Shareholding Pattern as on 30.09.2025",
+          "https://www.cipla.com/sites/default/files/Shareholding-Pattern-Sep-2025_0.pdf"
+        ],
+        [
+          "Eicher Motors — Shareholding Pattern as on 31.03.2026",
+          "https://www.eicher.in/content/dam/eicher-motors/investor/shareholder's-information/shareholding-pattern/shareholding-pattern-as-on-31-03-26.pdf"
+        ],
+        [
+          "Grasim Industries — Shareholding Pattern as on 30.06.2026",
+          "https://www.grasim.com/Upload/PDF/shareholding-pattern-june-2026.pdf"
+        ],
+        [
+          "Eternal — Shareholding Pattern as on 30.09.2025",
+          "https://b.zmtcdn.com/investor-relations/e69e622a95db21b07f8a7c5d83dffaa6_1761817931.pdf"
+        ],
+        [
+          "Mahindra & Mahindra — Shareholding Pattern, quarter ended 31.12.2025",
+          "https://www.mahindra.com/sites/default/files/2026-01/Shareholding%20pattern%20Reg.%2030%20December%202025.pdf"
+        ],
+        [
+          "BIS CGFS 66 — passive/benchmark-driven flows",
+          "https://www.bis.org/publ/cgfs66.pdf"
+        ]
       ]
     },
     {
@@ -80,20 +461,102 @@
       "fam": "capital",
       "st": null,
       "sz": 4,
-      "al": ["NBIM", "Government Pension Fund Global", "GPFG", "Norges Bank", "Government of Norway"],
+      "al": [
+        "NBIM",
+        "Government Pension Fund Global",
+        "GPFG",
+        "Norges Bank",
+        "Government of Norway",
+        "Norwegian oil fund"
+      ],
       "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
       "publicRole": "Mandatory comparison control per SPEC; publishes every global holding twice yearly — the highest public-transparency standard among the controls, in principle.",
       "d": [
         "India was 2.1% of the fund's equity investments at end-2025, per the fund's own 2025 annual report [documented]",
         "nbim.no's public 'all investments' search tool is a client-side JavaScript single-page application; every route probed (the investments landing page, the 'all investments' page, a Norwegian-language mirror, and three guessed API paths under /api/investments/v2/) returned only a ~27KB static HTML shell or a 404 — the fund's per-company holding percentages could not be pulled from its own site in this pass and instead come from the Indian companies' own SEBI filings, which name the holder 'GOVERNMENT PENSION FUND GLOBAL' [documented void, see voids]",
-        "Named as a ≥1% shareholder, via the Indian companies' own filings, in 2 of the 5 companies checked: HDFC Bank 1.34% (30.06.2026) and Bharti Airtel 1.06% (31.12.2025) [documented]"
+        "Named as a ≥1% shareholder, via the Indian companies' own filings, in 2 of the 5 companies checked: HDFC Bank 1.34% (30.06.2026) and Bharti Airtel 1.06% (31.12.2025) [documented]",
+        "Named at 1.34% of HDFC Bank (30.06.2026) and 1.06% of Bharti Airtel (31.12.2025) in the companies' own filings [documented]",
+        "nbim.no 'all investments' page (200, ~27KB JavaScript shell) and a guessed /api/investments path (404) yielded no machine-readable holdings in this pass; NBIM's own per-company India percentages remain unrecorded [documented probe outcome]",
+        "Named ≥1% in 1 of 3 companies with primary filings opened: Axis Bank, as 'GOVERNMENT PENSION FUND GLOBAL', 2.27% (68,014,107 shares), quarter ended 30.06.2025 — the single largest named FPI line in that filing [documented]",
+        "Not found ≥1% in Adani Enterprises or Adani Ports primary filings",
+        "Named as a ≥1% shareholder in Cipla, 1.98% via 'GOVERNMENT PENSION FUND GLOBAL', Foreign Portfolio Investor Category I, quarter ended 30.09.2025 — the single largest named institutional foreign line in this batch's one verified filing [documented]",
+        "Not checked in Bajaj Auto, Bajaj Finance, Bajaj Finserv or Bharat Electronics in this pass (see voids)",
+        "Named as a ≥1% shareholder, via the company's own filing, in 1 of the 3 companies whose primary filing was opened in this batch: Eternal Limited, 1.12% (Foreign Portfolio Investor Category I, 108,014,431 shares), quarter ended 30.09.2025 [documented]",
+        "Not found as a named ≥1% holder in Eicher Motors (31.03.2026) or Grasim Industries (30.06.2026) [documented, absence in sample]",
+        "Named as a ≥1% shareholder, as 'Government Pension Fund Global', in HDFC Life Insurance: 1.14% (24,822,717 shares), Foreign Portfolio Investor Category I, quarter ended 30.06.2026 [documented]",
+        "Not found as a named ≥1% holder in HCL Technologies or Hindalco (quarter ended 30.06.2026) [documented, absence in sample]",
+        "Not checked for Hindustan Unilever or ICICI Bank in this pass [void]",
+        "Could not be confirmed present or absent as a named >=1% holder in any of this batch's 5 companies — see voids [documented void]",
+        "Named ≥1% in Mahindra & Mahindra as 'GOVERNMENT PENSION FUND GLOBAL', 1.19% as of 31.12.2025 [documented]",
+        "Not found as a named ≥1% holder in Nestle India as of 31.03.2026 [documented, absence in sample]",
+        "Named ≥1% in Shriram Finance as 'GOVERNMENT PENSION FUND GLOBAL', Foreign Portfolio Investor Category I, 1.29% (24,184,586 shares) as of 31.12.2025 [documented]",
+        "Not found as a named ≥1% holder in NTPC, Power Grid or SBI Life as of their respective latest filings opened [documented, absence in sample]",
+        "Named ≥1% in Sun Pharmaceutical Industries as 'Government Pension Fund Global', 1.06% (25,436,313 shares), quarter ended 31.03.2026 — the only individually named foreign FPI holder found anywhere in this batch [documented]",
+        "Not found as a named ≥1% holder in Tata Consumer Products, Tata Steel or Tata Motors Passenger Vehicles [documented, absence in sample]",
+        "Not checked against Tata Consultancy Services [void, see cap:blackrock]",
+        "Not found as a named ≥1% shareholder in any of the 5 companies checked in this batch [documented, absence in sample]"
       ],
       "srcs": [
-        ["NBIM — Annual report 2025 web report (India 2.1% of equity investments)", "https://www.nbim.no/en/news-and-insights/reports/2025/annual-report-2025/web-report-annual-report-2025/"],
-        ["NBIM — investments landing page (JS shell, probed)", "https://www.nbim.no/en/the-fund/investments/"],
-        ["HDFC Bank — Shareholding Pattern as on 30.06.2026", "https://www.hdfc.bank.in/content/dam/hdfcbankpws/in/en/personal-banking/discover-products/about-us/stakeholders-information/shareholding-ownership/Shareholding-Pattern-June-2026-updated.pdf"],
-        ["Bharti Airtel — Shareholding Pattern as on 31.12.2025", "https://assets.airtel.in/static-assets/cms/investor/docs/SHP-December-31-2025.pdf"]
+        [
+          "NBIM — Annual report 2025 web report (India 2.1% of equity investments)",
+          "https://www.nbim.no/en/news-and-insights/reports/2025/annual-report-2025/web-report-annual-report-2025/"
+        ],
+        [
+          "NBIM — investments landing page (JS shell, probed)",
+          "https://www.nbim.no/en/the-fund/investments/"
+        ],
+        [
+          "HDFC Bank — Shareholding Pattern as on 30.06.2026",
+          "https://www.hdfc.bank.in/content/dam/hdfcbankpws/in/en/personal-banking/discover-products/about-us/stakeholders-information/shareholding-ownership/Shareholding-Pattern-June-2026-updated.pdf"
+        ],
+        [
+          "Bharti Airtel — Shareholding Pattern as on 31.12.2025",
+          "https://assets.airtel.in/static-assets/cms/investor/docs/SHP-December-31-2025.pdf"
+        ],
+        [
+          "NBIM — all investments (probed: JS shell)",
+          "https://www.nbim.no/en/investments/all-investments/"
+        ],
+        [
+          "NBIM — guessed API path (404)",
+          "https://www.nbim.no/api/investments/v2/countries/IN/equities?year=2025"
+        ],
+        [
+          "Axis Bank — Shareholding Pattern for the Quarter Ended 30.06.2025",
+          "https://www.axis.bank.in/docs/default-source/quarterly-reports/shareholding-pattern/shareholding-pattern-for-the-quarter-ended-30-06-2025.pdf"
+        ],
+        [
+          "Cipla — Shareholding Pattern as on 30.09.2025",
+          "https://www.cipla.com/sites/default/files/Shareholding-Pattern-Sep-2025_0.pdf"
+        ],
+        [
+          "Eternal — Shareholding Pattern as on 30.09.2025",
+          "https://b.zmtcdn.com/investor-relations/e69e622a95db21b07f8a7c5d83dffaa6_1761817931.pdf"
+        ],
+        [
+          "HDFC Life Insurance — Shareholding Pattern as on 30 June 2026",
+          "https://www.hdfclife.com/content/dam/hdfclifeinsurancecompany/about-us/pdf/investor-relations/Information-to-shareholders/Shareholding-pattern/Shareholding-Pattern-Website-June-2026.pdf"
+        ],
+        [
+          "Mahindra & Mahindra — Shareholding Pattern, quarter ended 31.12.2025",
+          "https://www.mahindra.com/sites/default/files/2026-01/Shareholding%20pattern%20Reg.%2030%20December%202025.pdf"
+        ],
+        [
+          "Shriram Finance — Shareholding Pattern, quarter ended 31.12.2025",
+          "https://cdn.shriramfinance.in/sfl-kalam/files/2026-01/SHP_31-12-2025.pdf"
+        ],
+        [
+          "Sun Pharmaceutical Industries — Shareholding Pattern, quarter ended 31.03.2026",
+          "https://sunpharma.com/wp-content/uploads/2026/04/Share-Holding-Pattern_31-March-2026.pdf"
+        ]
       ]
     },
     {
@@ -104,16 +567,88 @@
       "fam": "capital",
       "st": null,
       "sz": 4,
-      "al": ["GIC", "GIC Pte Ltd", "GIC Private Limited", "Government of Singapore"],
+      "al": [
+        "GIC",
+        "GIC Pte Ltd",
+        "GIC Private Limited",
+        "Government of Singapore"
+      ],
       "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
       "publicRole": "Mandatory comparison control per SPEC. Not to be confused with General Insurance Corporation of India ('GIC Re'), a domestic PSU reinsurer that also appears by the acronym GIC in some of these same filings (e.g. ITC, 1.73%, 31.12.2025) — the two are unrelated and this file does not conflate them.",
       "d": [
-        "Named as a ≥1% shareholder, as 'GOVERNMENT OF SINGAPORE', in 2 of the 5 companies checked: HDFC Bank 2.17% (30.06.2026) and Bharti Airtel 1.22% (31.12.2025) [documented]"
+        "Named as a ≥1% shareholder, as 'GOVERNMENT OF SINGAPORE', in 2 of the 5 companies checked: HDFC Bank 2.17% (30.06.2026) and Bharti Airtel 1.22% (31.12.2025) [documented]",
+        "Named ≥1% in 1 of 3 companies with primary filings opened: Axis Bank, as 'GOVERNMENT OF SINGAPORE', 1.93% (57,943,401 shares), quarter ended 30.06.2025 [documented]",
+        "Not found ≥1% in Adani Enterprises or Adani Ports primary filings",
+        "Not found as a named ≥1% shareholder in Cipla's Shareholding Pattern as on 30.09.2025 [documented, absence in a 1-of-5 sample]",
+        "Not checked in Bajaj Auto, Bajaj Finance, Bajaj Finserv or Bharat Electronics in this pass (see voids)",
+        "Named as a ≥1% shareholder, as 'GOVERNMENT OF SINGAPORE', in 1 of the 3 companies whose primary filing was opened in this batch: Eicher Motors, 1.07% (Foreign Portfolio Investor Category I, 2,923,691 shares), quarter ended 31.03.2026 [documented]",
+        "Not found as a named ≥1% holder in Grasim Industries (30.06.2026) or Eternal (30.09.2025) [documented, absence in sample]",
+        "Named as a ≥1% shareholder, as 'Government Of Singapore', in Hindalco Industries: 2.65% (59,446,613 shares), Foreign Portfolio Investor Category I, quarter ended 30.06.2026 [documented]",
+        "Not found as a named ≥1% holder in HCL Technologies or HDFC Life (quarter ended 30.06.2026) — HDFC Life does show a Singapore-incorporated Foreign Portfolio Investor Category I holder, Camas Investments Pte. Ltd. (1.68%), whose ultimate beneficial owner was not confirmed as GIC or otherwise in this pass; the two are not conflated here [documented for absence; see cap:camas-investments for the unresolved entity]",
+        "Not checked for Hindustan Unilever or ICICI Bank in this pass [void]",
+        "Could not be confirmed present or absent as a named >=1% holder in any of this batch's 5 companies — see voids. A third-party aggregator (marketscreener.com) showed InterGlobe Aviation 'GIC Pte Ltd.' at 2.984% as of 25 Sept 2026 in a mixed table of domestic AMCs and foreign holders that did not identify itself as a Reg. 31 Table III extract; not used as a claim here because its methodology and Table III correspondence could not be verified within budget [reported, unverified — see gaps]",
+        "Named ≥1% in Mahindra & Mahindra as 'GOVERNMENT OF SINGAPORE', 1.74% as of 31.12.2025 — the single largest named FPI-I line in the filing [documented]",
+        "Not found as a named ≥1% holder in Nestle India as of 31.03.2026 [documented, absence in sample]",
+        "Named ≥1% as 'GOVERNMENT OF SINGAPORE', Foreign Portfolio Investor Category I, in 3 of the 4 companies checked with primary data: NTPC 2.04% (197,673,526 shares, quarter 30.09.2025), Power Grid 2.34% (217,235,029 shares, quarter 30.09.2025), Shriram Finance 4.66% (87,747,965 shares, quarter 31.12.2025) — the single largest named FPI-I line in Shriram Finance's filing [documented]",
+        "Not found as a named ≥1% holder in SBI Life as of 31.12.2025 (SBI Life's only ≥1% Singapore-state holder that quarter was Temasek's MacRitchie Investments Pte Ltd, a structurally different 'Foreign Companies' category holding, not an FPI line — see cap:temasek) [documented, absence in sample]",
+        "Not found as a named ≥1% holder in any of the 4 companies checked with primary data in this pass [documented, absence in sample]",
+        "Not checked against Tata Consultancy Services [void, see cap:blackrock]",
+        "Named as a ≥1% shareholder, as 'GOVERNMENT OF SINGAPORE', in UltraTech Cement: 1.48% (43,53,015 shares), Foreign Portfolio Investor Category I, quarter ended 31.03.2025 [documented]",
+        "Not found as a named ≥1% holder in Tech Mahindra, Wipro, Titan or Trent as of their respective latest filings opened in this batch [documented, absence in sample]"
       ],
       "srcs": [
-        ["HDFC Bank — Shareholding Pattern as on 30.06.2026", "https://www.hdfc.bank.in/content/dam/hdfcbankpws/in/en/personal-banking/discover-products/about-us/stakeholders-information/shareholding-ownership/Shareholding-Pattern-June-2026-updated.pdf"],
-        ["Bharti Airtel — Shareholding Pattern as on 31.12.2025", "https://assets.airtel.in/static-assets/cms/investor/docs/SHP-December-31-2025.pdf"]
+        [
+          "HDFC Bank — Shareholding Pattern as on 30.06.2026",
+          "https://www.hdfc.bank.in/content/dam/hdfcbankpws/in/en/personal-banking/discover-products/about-us/stakeholders-information/shareholding-ownership/Shareholding-Pattern-June-2026-updated.pdf"
+        ],
+        [
+          "Bharti Airtel — Shareholding Pattern as on 31.12.2025",
+          "https://assets.airtel.in/static-assets/cms/investor/docs/SHP-December-31-2025.pdf"
+        ],
+        [
+          "Axis Bank — Shareholding Pattern for the Quarter Ended 30.06.2025",
+          "https://www.axis.bank.in/docs/default-source/quarterly-reports/shareholding-pattern/shareholding-pattern-for-the-quarter-ended-30-06-2025.pdf"
+        ],
+        [
+          "Cipla — Shareholding Pattern as on 30.09.2025",
+          "https://www.cipla.com/sites/default/files/Shareholding-Pattern-Sep-2025_0.pdf"
+        ],
+        [
+          "Eicher Motors — Shareholding Pattern as on 31.03.2026",
+          "https://www.eicher.in/content/dam/eicher-motors/investor/shareholder's-information/shareholding-pattern/shareholding-pattern-as-on-31-03-26.pdf"
+        ],
+        [
+          "Hindalco Industries — Shareholding Pattern as on 30 June 2026",
+          "https://www.hindalco.com/Upload/PDF/shareholding-pattern-june-2026.pdf"
+        ],
+        [
+          "Mahindra & Mahindra — Shareholding Pattern, quarter ended 31.12.2025",
+          "https://www.mahindra.com/sites/default/files/2026-01/Shareholding%20pattern%20Reg.%2030%20December%202025.pdf"
+        ],
+        [
+          "NTPC — Shareholding Pattern, quarter ended 30.09.2025",
+          "https://dev.ntpc.co.in/sites/default/files/shareholding_pattrens/2026/Shareholding%20Pattern%20(1).pdf"
+        ],
+        [
+          "Power Grid — Shareholding Pattern Q2 FY2025-26",
+          "https://www.powergrid.in/sites/default/files/Investor_Relation/Reports_Filings/Share_Holding_Pattern/2025-26/SHP_2025-26_Q2.html"
+        ],
+        [
+          "Shriram Finance — Shareholding Pattern, quarter ended 31.12.2025",
+          "https://cdn.shriramfinance.in/sfl-kalam/files/2026-01/SHP_31-12-2025.pdf"
+        ],
+        [
+          "UltraTech Cement — Shareholding Pattern, quarter ended 31.03.2025",
+          "https://www.ultratechcement.com/content/dam/ultratechcementwebsite/pdf/shareholding-pattern/Shareholding-Pattern-31-03-2025.pdf"
+        ]
       ]
     },
     {
@@ -124,14 +659,56 @@
       "fam": "capital",
       "st": null,
       "sz": 3,
-      "al": ["EuroPacific Growth Fund", "New Perspective Fund", "The Capital Group Companies"],
+      "al": [
+        "EuroPacific Growth Fund",
+        "New Perspective Fund",
+        "The Capital Group Companies",
+        "New World Fund",
+        "New World Fund Inc",
+        "American Funds",
+        "Capital Research and Management Company"
+      ],
       "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
       "publicRole": "Mandatory comparison control per SPEC.",
       "d": [
-        "Not found as a named ≥1% holder in any of the 5 companies checked in this pass [documented, absence in sample — not evidence of absence across the other 45 NIFTY 50 constituents; see gaps]"
+        "Not found as a named ≥1% holder in any of the 5 companies checked in this pass [documented, absence in sample — not evidence of absence across the other 45 NIFTY 50 constituents; see gaps]",
+        "Not found as a named ≥1% holder in Adani Enterprises, Adani Ports or Axis Bank (primary filings opened) [documented, absence in sample]",
+        "Apollo Hospitals and Asian Paints checked only at screener.in aggregate tier",
+        "Not found as a named ≥1% holder in Cipla's Shareholding Pattern as on 30.09.2025 [documented, absence in a 1-of-5 sample]",
+        "Not checked in Bajaj Auto, Bajaj Finance, Bajaj Finserv or Bharat Electronics in this pass (see voids)",
+        "Named as a ≥1% shareholder, via 'New World Fund Inc', in Eicher Motors: 1.35% (Foreign Portfolio Investor Category I, 3,706,104 shares), quarter ended 31.03.2026 — the first sighting of a Capital Group vehicle at ≥1% in either this batch or the companion 5-company base file (holders.json) [documented]",
+        "Not found as a named ≥1% holder in Grasim Industries (30.06.2026) or Eternal (30.09.2025) [documented, absence in sample]",
+        "Not found as a named ≥1% holder in HCL Technologies, HDFC Life or Hindalco (quarter ended 30.06.2026) [documented, absence in sample]",
+        "Not checked for Hindustan Unilever or ICICI Bank in this pass [void]",
+        "Could not be confirmed present or absent as a named >=1% holder in any of this batch's 5 companies — see voids [documented void]",
+        "Not found as a named ≥1% holder in either of the 2 companies checked with primary data in this pass [documented, absence in sample]",
+        "Not found as a named ≥1% holder in any of the 4 companies checked with primary data in this pass [documented, absence in sample]",
+        "A stale (30.09.2014) Power Grid shareholding-pattern PDF surfaced in this pass' initial search showed EuroPacific Growth Fund at 5.66% at that historical date — eleven years old, a different quarter than any claim in this file, and NOT used as a current-holding claim; noted here only so the discrepancy with 'not found' above is not mistaken for an oversight",
+        "Not checked against Tata Consultancy Services [void, see cap:blackrock]",
+        "Not found as a named ≥1% holder in any of the 5 companies checked in this batch [documented, absence in sample]"
       ],
-      "srcs": []
+      "srcs": [
+        [
+          "Cipla — Shareholding Pattern as on 30.09.2025",
+          "https://www.cipla.com/sites/default/files/Shareholding-Pattern-Sep-2025_0.pdf"
+        ],
+        [
+          "Eicher Motors — Shareholding Pattern as on 31.03.2026",
+          "https://www.eicher.in/content/dam/eicher-motors/investor/shareholder's-information/shareholding-pattern/shareholding-pattern-as-on-31-03-26.pdf"
+        ],
+        [
+          "Capital Group — New World Fund overview",
+          "https://www.capitalgroup.com/individual/investments/fund/newfx"
+        ]
+      ]
     },
     {
       "id": "cap:fidelity",
@@ -141,14 +718,53 @@
       "fam": "capital",
       "st": null,
       "sz": 3,
-      "al": ["FMR LLC", "Fidelity Management & Research"],
+      "al": [
+        "FMR LLC",
+        "Fidelity Management & Research"
+      ],
       "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
       "publicRole": "Mandatory comparison control per SPEC.",
       "d": [
-        "Not found as a named ≥1% holder (under either the FMR/Fidelity Investments or Fidelity International lineage) in any of the 5 companies checked in this pass [documented, absence in sample]"
+        "Not found as a named ≥1% holder (under either the FMR/Fidelity Investments or Fidelity International lineage) in any of the 5 companies checked in this pass [documented, absence in sample]",
+        "Not found as a named ≥1% holder (under either the FMR/Fidelity Investments or Fidelity International lineage) in Adani Enterprises, Adani Ports or Axis Bank [documented, absence in sample]",
+        "Apollo Hospitals and Asian Paints checked only at screener.in aggregate tier",
+        "Not found as a named ≥1% holder (under either lineage) in Cipla's Shareholding Pattern as on 30.09.2025 [documented, absence in a 1-of-5 sample]",
+        "Not checked in Bajaj Auto, Bajaj Finance, Bajaj Finserv or Bharat Electronics in this pass (see voids)",
+        "Not found as a named ≥1% holder (under either the FMR/Fidelity Investments or Fidelity International lineage) in any of the three companies whose primary filing was opened in this batch [documented, absence in sample]",
+        "Not found as a named ≥1% holder (under either lineage) in HCL Technologies, HDFC Life or Hindalco (quarter ended 30.06.2026) [documented, absence in sample]",
+        "Not checked for Hindustan Unilever or ICICI Bank in this pass [void]",
+        "Could not be confirmed present or absent as a named >=1% holder in any of this batch's 5 companies — see voids [documented void]",
+        "Not found as a named ≥1% holder in either of the 2 companies checked with primary data in this pass [documented, absence in sample]",
+        "Not found as a named ≥1% holder in any of the 4 companies checked with primary data in this pass [documented, absence in sample]",
+        "Not checked against Tata Consultancy Services [void, see cap:blackrock]",
+        "Not found as a named ≥1% holder (under either the FMR/Fidelity Investments or Fidelity International lineage) in any of the 5 companies checked in this batch [documented, absence in sample]"
       ],
-      "srcs": []
+      "srcs": [
+        [
+          "Cipla — Shareholding Pattern as on 30.09.2025",
+          "https://www.cipla.com/sites/default/files/Shareholding-Pattern-Sep-2025_0.pdf"
+        ],
+        [
+          "Eicher Motors — Shareholding Pattern as on 31.03.2026",
+          "https://www.eicher.in/content/dam/eicher-motors/investor/shareholder's-information/shareholding-pattern/shareholding-pattern-as-on-31-03-26.pdf"
+        ],
+        [
+          "Grasim Industries — Shareholding Pattern as on 30.06.2026",
+          "https://www.grasim.com/Upload/PDF/shareholding-pattern-june-2026.pdf"
+        ],
+        [
+          "Eternal — Shareholding Pattern as on 30.09.2025",
+          "https://b.zmtcdn.com/investor-relations/e69e622a95db21b07f8a7c5d83dffaa6_1761817931.pdf"
+        ]
+      ]
     },
     {
       "id": "cap:kuwait-investment-authority",
@@ -158,14 +774,52 @@
       "fam": "capital",
       "st": null,
       "sz": 2,
-      "al": ["KIA"],
+      "al": [
+        "KIA"
+      ],
       "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
       "publicRole": "Mandatory comparison control per SPEC.",
       "d": [
-        "Not found as a named ≥1% holder in any of the 5 companies checked in this pass [documented, absence in sample]"
+        "Not found as a named ≥1% holder in any of the 5 companies checked in this pass [documented, absence in sample]",
+        "Not found as a named ≥1% holder in Adani Enterprises, Adani Ports or Axis Bank [documented, absence in sample]",
+        "Apollo Hospitals and Asian Paints checked only at screener.in aggregate tier",
+        "Not found as a named ≥1% holder in Cipla's Shareholding Pattern as on 30.09.2025 [documented, absence in a 1-of-5 sample]",
+        "Not checked in Bajaj Auto, Bajaj Finance, Bajaj Finserv or Bharat Electronics in this pass (see voids)",
+        "Not found as a named ≥1% holder in any of the three companies whose primary filing was opened in this batch [documented, absence in sample]",
+        "Not found as a named ≥1% holder in HCL Technologies, HDFC Life or Hindalco (quarter ended 30.06.2026) [documented, absence in sample]",
+        "Not checked for Hindustan Unilever or ICICI Bank in this pass [void]",
+        "Could not be confirmed present or absent as a named >=1% holder in any of this batch's 5 companies — see voids [documented void]",
+        "Not found as a named ≥1% holder in either of the 2 companies checked with primary data in this pass [documented, absence in sample]",
+        "Not found as a named ≥1% holder in any of the 4 companies checked with primary data in this pass [documented, absence in sample]",
+        "Not checked against Tata Consultancy Services [void, see cap:blackrock]",
+        "Not found as a named ≥1% holder in any of the 5 companies checked in this batch [documented, absence in sample]"
       ],
-      "srcs": []
+      "srcs": [
+        [
+          "Cipla — Shareholding Pattern as on 30.09.2025",
+          "https://www.cipla.com/sites/default/files/Shareholding-Pattern-Sep-2025_0.pdf"
+        ],
+        [
+          "Eicher Motors — Shareholding Pattern as on 31.03.2026",
+          "https://www.eicher.in/content/dam/eicher-motors/investor/shareholder's-information/shareholding-pattern/shareholding-pattern-as-on-31-03-26.pdf"
+        ],
+        [
+          "Grasim Industries — Shareholding Pattern as on 30.06.2026",
+          "https://www.grasim.com/Upload/PDF/shareholding-pattern-june-2026.pdf"
+        ],
+        [
+          "Eternal — Shareholding Pattern as on 30.09.2025",
+          "https://b.zmtcdn.com/investor-relations/e69e622a95db21b07f8a7c5d83dffaa6_1761817931.pdf"
+        ]
+      ]
     },
     {
       "id": "cap:adia",
@@ -175,14 +829,52 @@
       "fam": "capital",
       "st": null,
       "sz": 2,
-      "al": ["ADIA"],
+      "al": [
+        "ADIA"
+      ],
       "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
       "publicRole": "Mandatory comparison control per SPEC.",
       "d": [
-        "Not found as a named ≥1% holder in any of the 5 companies checked in this pass [documented, absence in sample]"
+        "Not found as a named ≥1% holder in any of the 5 companies checked in this pass [documented, absence in sample]",
+        "Not found as a named ≥1% holder in Adani Enterprises, Adani Ports or Axis Bank [documented, absence in sample]",
+        "Apollo Hospitals and Asian Paints checked only at screener.in aggregate tier",
+        "Not found as a named ≥1% holder in Cipla's Shareholding Pattern as on 30.09.2025 [documented, absence in a 1-of-5 sample]",
+        "Not checked in Bajaj Auto, Bajaj Finance, Bajaj Finserv or Bharat Electronics in this pass (see voids)",
+        "Not found as a named ≥1% holder in any of the three companies whose primary filing was opened in this batch [documented, absence in sample]",
+        "Not found as a named ≥1% holder in HCL Technologies, HDFC Life or Hindalco (quarter ended 30.06.2026) [documented, absence in sample]",
+        "Not checked for Hindustan Unilever or ICICI Bank in this pass [void]",
+        "Could not be confirmed present or absent as a named >=1% holder in any of this batch's 5 companies — see voids [documented void]",
+        "Not found as a named ≥1% holder in either of the 2 companies checked with primary data in this pass [documented, absence in sample]",
+        "Not found as a named ≥1% holder in any of the 4 companies checked with primary data in this pass [documented, absence in sample]",
+        "Not checked against Tata Consultancy Services [void, see cap:blackrock]",
+        "Not found as a named ≥1% holder in any of the 5 companies checked in this batch [documented, absence in sample]"
       ],
-      "srcs": []
+      "srcs": [
+        [
+          "Cipla — Shareholding Pattern as on 30.09.2025",
+          "https://www.cipla.com/sites/default/files/Shareholding-Pattern-Sep-2025_0.pdf"
+        ],
+        [
+          "Eicher Motors — Shareholding Pattern as on 31.03.2026",
+          "https://www.eicher.in/content/dam/eicher-motors/investor/shareholder's-information/shareholding-pattern/shareholding-pattern-as-on-31-03-26.pdf"
+        ],
+        [
+          "Grasim Industries — Shareholding Pattern as on 30.06.2026",
+          "https://www.grasim.com/Upload/PDF/shareholding-pattern-june-2026.pdf"
+        ],
+        [
+          "Eternal — Shareholding Pattern as on 30.09.2025",
+          "https://b.zmtcdn.com/investor-relations/e69e622a95db21b07f8a7c5d83dffaa6_1761817931.pdf"
+        ]
+      ]
     },
     {
       "id": "cap:gqg-partners",
@@ -192,15 +884,47 @@
       "fam": "capital",
       "st": null,
       "sz": 3,
-      "al": ["GQG Partners Emerging Markets Equity Fund", "Goldman Sachs Trust II - Goldman Sachs GQG Partners International Opportunities Fund", "GQG Partners LLC"],
+      "al": [
+        "GQG Partners Emerging Markets Equity Fund",
+        "Goldman Sachs Trust II - Goldman Sachs GQG Partners International Opportunities Fund",
+        "GQG Partners LLC"
+      ],
       "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
       "publicRole": "Not in SPEC's mandatory comparison set but observed directly as a named ≥1% holder in the sample — recorded for accuracy, per the domain instruction to record every foreign holder ≥1% by name.",
       "d": [
-        "Named ≥1% in ITC as of 31.12.2025 via two vehicles: GQG Partners Emerging Markets Equity Fund (1.79%) and Goldman Sachs Trust II - Goldman Sachs GQG Partners International Opportunities Fund, a Goldman Sachs-branded feeder sub-advised by GQG (1.42%) [documented]"
+        "Named ≥1% in ITC as of 31.12.2025 via two vehicles: GQG Partners Emerging Markets Equity Fund (1.79%) and Goldman Sachs Trust II - Goldman Sachs GQG Partners International Opportunities Fund, a Goldman Sachs-branded feeder sub-advised by GQG (1.42%) [documented]",
+        "Named ≥1% in both Adani group companies checked in this batch, via 'Goldman Sachs Trust II - Goldman Sachs GQG Partners International Opportunities Fund' (a GQG-subadvised, Goldman-branded feeder): 2.12% in Adani Enterprises (27,386,568 shares, as on 11.12.2025) and 1.93% in Adani Ports (44,495,892 shares, as on 30.06.2026) [documented]",
+        "Additionally holds 'GQG Partners Emerging Markets Equity Fund' 1.75% in Adani Enterprises (22,616,397 shares); combined GQG exposure to Adani Enterprises alone is 3.87% [documented]",
+        "Not found ≥1% in Axis Bank. Continues the pattern already seen in ITC (base holders.json file) of large, post-2023, Adani-group-concentrated GQG positions — consistent with GQG's own public statements about buying into the Adani group after the Hindenburg report, rather than a broad-based India allocation",
+        "Not found as a named ≥1% holder in Eicher Motors, Grasim Industries or Eternal in this batch [documented, absence in sample]",
+        "Not found as a named ≥1% holder in HCL Technologies, HDFC Life or Hindalco (quarter ended 30.06.2026) [documented, absence in sample]",
+        "Not checked for Hindustan Unilever or ICICI Bank in this pass [void]",
+        "Not found as a named ≥1% holder in either of the 2 companies checked with primary data in this pass [documented, absence in sample]",
+        "Not found as a named ≥1% holder in any of the 4 companies checked with primary data in this pass [documented, absence in sample]",
+        "Not checked against Tata Consultancy Services [void, see cap:blackrock]",
+        "Not found as a named ≥1% holder in any of the 5 companies checked in this batch [documented, absence in sample]"
       ],
       "srcs": [
-        ["ITC — Shareholding Pattern as on 31.12.2025", "https://itcportal.com/content/dam/itc-corporate/pdfs/shareholding-pattern/shareholding-pattern-31-dec-25.pdf"]
+        [
+          "ITC — Shareholding Pattern as on 31.12.2025",
+          "https://itcportal.com/content/dam/itc-corporate/pdfs/shareholding-pattern/shareholding-pattern-31-dec-25.pdf"
+        ],
+        [
+          "Adani Enterprises — Shareholding Pattern as on 11.12.2025",
+          "https://www.adanienterprises.com/-/media/Project/Enterprises/Investors/corporate-governance/ShareholdingPatternsDynamic/Shp-as-on-11122025-(1).pdf"
+        ],
+        [
+          "Adani Ports and SEZ — Shareholding Pattern as on 30.06.2026",
+          "https://www.adaniports.com/-/media/project/ports/investor/corporate-governance/shareholding-pattern/apsez_shp-30062026_website.pdf"
+        ]
       ]
     },
     {
@@ -211,15 +935,28 @@
       "fam": "capital",
       "st": null,
       "sz": 2,
-      "al": ["Google", "Alphabet Inc."],
+      "al": [
+        "Google"
+      ],
       "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
       "publicRole": "Not in SPEC's mandatory comparison set but observed directly as a named ≥1% holder — a strategic-partnership stake, not a passive-index one, recorded for accuracy.",
       "d": [
-        "Named as a ≥1% shareholder in Bharti Airtel, Foreign Portfolio Investor Category II, 1.17% as of 31.12.2025 [documented]"
+        "Named as a ≥1% shareholder in Bharti Airtel, Foreign Portfolio Investor Category II, 1.17% as of 31.12.2025 [documented]",
+        "Alphabet Inc.: Alphabet Inc. is the ultimate parent of Google International LLC, not the same legal person [reconciliation note]"
       ],
       "srcs": [
-        ["Bharti Airtel — Shareholding Pattern as on 31.12.2025", "https://assets.airtel.in/static-assets/cms/investor/docs/SHP-December-31-2025.pdf"]
+        [
+          "Bharti Airtel — Shareholding Pattern as on 31.12.2025",
+          "https://assets.airtel.in/static-assets/cms/investor/docs/SHP-December-31-2025.pdf"
+        ]
       ]
     },
     {
@@ -230,16 +967,31 @@
       "fam": "capital",
       "st": null,
       "sz": 4,
-      "al": ["BAT", "Tobacco Manufacturers (India) Limited", "Myddleton Investment Company Limited", "Rothmans International Enterprises Limited"],
+      "al": [
+        "BAT",
+        "Tobacco Manufacturers (India) Limited",
+        "Myddleton Investment Company Limited",
+        "Rothmans International Enterprises Limited"
+      ],
       "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
       "publicRole": "The single largest named foreign shareholder found in this pass — larger than every passive FPI line combined in any of the 5 companies checked. Institutional, not a person: recorded per CONTRACT rule 1.",
       "d": [
         "Holds 22.91% of ITC as of 31.12.2025 via three wholly-owned Foreign Direct Investment vehicles: Tobacco Manufacturers (India) Limited 17.79%, Myddleton Investment Company Limited 3.88%, Rothmans International Enterprises Limited 1.24% [documented]",
         "This is a Foreign Direct Investment / legacy-promoter-adjacent stake (disclosed under Table III's 'Institutions (Foreign) — Foreign Direct Investment' category, not Foreign Portfolio Investor categories), structurally different from the passive index/FPI holdings the BlackRock/Vanguard narrative is usually about — a single strategic industrial investor, not a diversified fund [documented, structural note]"
       ],
       "srcs": [
-        ["ITC — Shareholding Pattern as on 31.12.2025", "https://itcportal.com/content/dam/itc-corporate/pdfs/shareholding-pattern/shareholding-pattern-31-dec-25.pdf"]
+        [
+          "ITC — Shareholding Pattern as on 31.12.2025",
+          "https://itcportal.com/content/dam/itc-corporate/pdfs/shareholding-pattern/shareholding-pattern-31-dec-25.pdf"
+        ]
       ]
     },
     {
@@ -250,17 +1002,35 @@
       "fam": "capital",
       "st": null,
       "sz": 4,
-      "al": ["SMC", "Suzuki"],
+      "al": [
+        "SMC",
+        "Suzuki"
+      ],
       "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
       "publicRole": "A foreign promoter (majority-control) stake, not a passive fund — the largest single foreign shareholding found in this pass by percentage, though tier reported here because the primary Maruti Suzuki BSE/company PDF was not independently opened in this pass (marutisuzuki.com's investor-updates page rendered as an empty ~4.7KB JS shell through the proxy).",
       "d": [
         "'Promoters' category holds 58.65% of Maruti Suzuki India Ltd as of the quarter ended 30.06.2026, per screener.in's aggregate shareholding-pattern table [reported]",
-        "screener.in's separate 'About' section states 'SMC currently holds 56.28% of its equity stake', naming Suzuki Motor Corporation directly — but at an unstated, evidently different snapshot date than the 58.65% quarterly figure; the discrepancy (58.65% vs 56.28%) was not resolved against Maruti's own primary filing in this pass [reported, discrepancy flagged not resolved]"
+        "screener.in's separate 'About' section states 'SMC currently holds 56.28% of its equity stake', naming Suzuki Motor Corporation directly — but at an unstated, evidently different snapshot date than the 58.65% quarterly figure; the discrepancy (58.65% vs 56.28%) was not resolved against Maruti's own primary filing in this pass [reported, discrepancy flagged not resolved]",
+        "'Promoters' category holds 58.65% of Maruti Suzuki India Ltd as of the quarter ended ~30.06.2026, per screener.in's aggregate shareholding-pattern table [reported]",
+        "screener.in's 'About' section separately states SMC 'currently holds 56.28% of its equity stake' at an unstated, apparently different snapshot date — the same 58.65%-vs-56.28% discrepancy flagged in research/raw/capital/holders.json remains unresolved in this pass [reported, discrepancy flagged not resolved]"
       ],
       "srcs": [
-        ["screener.in — Maruti Suzuki India Ltd (consolidated)", "https://www.screener.in/company/MARUTI/consolidated/"],
-        ["screener.in — Maruti Suzuki India Ltd (About section, SMC named)", "https://www.screener.in/company/MARUTI/"]
+        [
+          "screener.in — Maruti Suzuki India Ltd (consolidated)",
+          "https://www.screener.in/company/MARUTI/consolidated/"
+        ],
+        [
+          "screener.in — Maruti Suzuki India Ltd (About section, SMC named)",
+          "https://www.screener.in/company/MARUTI/"
+        ]
       ]
     },
     {
@@ -271,16 +1041,28 @@
       "fam": "capital",
       "st": null,
       "sz": 3,
-      "al": ["Singtel Bharti Airtel vehicle"],
+      "al": [
+        "Singtel Bharti Airtel vehicle"
+      ],
       "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
       "publicRole": "A foreign strategic-promoter vehicle, disclosed in Bharti Airtel's own Table II (Promoter and Promoter Group, category 'Foreign'). Recorded institutionally, not by the Mittal or Temasek/Singtel family/ownership lineage beyond what the filing itself discloses.",
       "d": [
         "Holds 7.49% of Bharti Airtel as promoter-group (Foreign), as of 31.12.2025 — the single largest foreign line in the filing, larger than the entire Foreign Portfolio Investor Category I + II total for named ≥1% holders combined [documented]",
         "Bharti Airtel's public reporting and business press widely identify Pastel Limited as Singtel's Bharti Airtel holding vehicle; that identification is not independently re-verified against a Singtel primary disclosure in this pass and is recorded as public context, not as a separately sourced claim"
       ],
       "srcs": [
-        ["Bharti Airtel — Shareholding Pattern as on 31.12.2025", "https://assets.airtel.in/static-assets/cms/investor/docs/SHP-December-31-2025.pdf"]
+        [
+          "Bharti Airtel — Shareholding Pattern as on 31.12.2025",
+          "https://assets.airtel.in/static-assets/cms/investor/docs/SHP-December-31-2025.pdf"
+        ]
       ]
     },
     {
@@ -291,36 +1073,51 @@
       "fam": "capital",
       "st": null,
       "sz": 2,
-      "al": ["ICIL"],
+      "al": [
+        "ICIL"
+      ],
       "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
       "publicRole": "A foreign promoter-group vehicle, disclosed in Bharti Airtel's own Table II. No person is named as beneficial owner in the filing itself, so none is asserted here.",
       "d": [
         "Holds 0.92% of Bharti Airtel as promoter-group (Foreign), as of 31.12.2025 [documented]"
       ],
       "srcs": [
-        ["Bharti Airtel — Shareholding Pattern as on 31.12.2025", "https://assets.airtel.in/static-assets/cms/investor/docs/SHP-December-31-2025.pdf"]
+        [
+          "Bharti Airtel — Shareholding Pattern as on 31.12.2025",
+          "https://assets.airtel.in/static-assets/cms/investor/docs/SHP-December-31-2025.pdf"
+        ]
       ]
     },
     {
-      "id": "cap:sebi-fpi-disclosure-2023",
-      "label": "SEBI enhanced/granular FPI disclosure norms, Aug 2023",
-      "sub": "Circular of 24 August 2023 requiring full look-through beneficial-ownership disclosure from FPIs meeting either a 50%-of-AUM single-group-concentration test or a ₹25,000 crore India-equity-AUM size test",
-      "ty": "law",
-      "fam": "instrument",
-      "st": null,
+      "id": "cap:jio-blackrock-asset-management",
+      "label": "Jio BlackRock Asset Management Private Limited",
+      "sub": "50:50 JV AMC; SEBI-registered mutual fund investment manager since 26 May 2025",
+      "ty": "company",
+      "fam": "market",
+      "st": "mh",
       "sz": 3,
       "al": [],
       "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
-      "publicRole": "The regulatory response, by SEBI, to the concern that opaque FPI structures can mask ultimate beneficial ownership — the direct link between the 'FPI money is round-tripped' narrative and this file's holder-identification data.",
-      "d": [
-        "Triggered by Hindenburg Research's 24 January 2023 report alleging that Adani-linked offshore FPI structures concealed beneficial ownership in low-transparency jurisdictions [reported]",
-        "SEBI rolled out new disclosure norms 10 August 2023, phased enforcement from 1 November 2023: FPIs with over 50% of their India-equity AUM in one corporate group, or over ₹25,000 crore in India equities, must disclose beneficial ownership on a full look-through basis, with annual refreshes and 7-working-day updates on material change [reported, single secondary outlet — the underlying SEBI circular number/date was not independently opened in this pass]"
-      ],
-      "srcs": [
-        ["TaxGuru — 'SEBI Tightens FPI Disclosure Norms after Adani-Hindenburg'", "https://taxguru.in/sebi/sebis-tightens-fpi-disclosure-norms-after-adani-hindenburg.html"]
-      ]
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "SEBI-regulated mutual fund",
+      "canonicalIn": "mandates-ventures.json",
+      "d": [],
+      "srcs": []
     }
   ],
   "claims": [
@@ -332,7 +1129,12 @@
       "tier": "documented",
       "d": "2.17% (2.18% of voting rights), Foreign Portfolio Investor Category I, registered as 'GOVERNMENT OF SINGAPORE', quarter ended 30.06.2026.",
       "from": "2026-06-30",
-      "srcs": [["HDFC Bank — Shareholding Pattern as on 30.06.2026", "https://www.hdfc.bank.in/content/dam/hdfcbankpws/in/en/personal-banking/discover-products/about-us/stakeholders-information/shareholding-ownership/Shareholding-Pattern-June-2026-updated.pdf"]],
+      "srcs": [
+        [
+          "HDFC Bank — Shareholding Pattern as on 30.06.2026",
+          "https://www.hdfc.bank.in/content/dam/hdfcbankpws/in/en/personal-banking/discover-products/about-us/stakeholders-information/shareholding-ownership/Shareholding-Pattern-June-2026-updated.pdf"
+        ]
+      ],
       "supersededBy": null
     },
     {
@@ -343,7 +1145,12 @@
       "tier": "documented",
       "d": "1.34% (1.35% of voting rights), Foreign Portfolio Investor Category I, registered as 'GOVERNMENT PENSION FUND GLOBAL', quarter ended 30.06.2026.",
       "from": "2026-06-30",
-      "srcs": [["HDFC Bank — Shareholding Pattern as on 30.06.2026", "https://www.hdfc.bank.in/content/dam/hdfcbankpws/in/en/personal-banking/discover-products/about-us/stakeholders-information/shareholding-ownership/Shareholding-Pattern-June-2026-updated.pdf"]],
+      "srcs": [
+        [
+          "HDFC Bank — Shareholding Pattern as on 30.06.2026",
+          "https://www.hdfc.bank.in/content/dam/hdfcbankpws/in/en/personal-banking/discover-products/about-us/stakeholders-information/shareholding-ownership/Shareholding-Pattern-June-2026-updated.pdf"
+        ]
+      ],
       "supersededBy": null
     },
     {
@@ -354,7 +1161,12 @@
       "tier": "documented",
       "d": "1.25% via 'VANGUARD TOTAL INTERNATIONAL STOCK INDEX FUND', Foreign Portfolio Investor Category I, quarter ended 30.06.2026.",
       "from": "2026-06-30",
-      "srcs": [["HDFC Bank — Shareholding Pattern as on 30.06.2026", "https://www.hdfc.bank.in/content/dam/hdfcbankpws/in/en/personal-banking/discover-products/about-us/stakeholders-information/shareholding-ownership/Shareholding-Pattern-June-2026-updated.pdf"]],
+      "srcs": [
+        [
+          "HDFC Bank — Shareholding Pattern as on 30.06.2026",
+          "https://www.hdfc.bank.in/content/dam/hdfcbankpws/in/en/personal-banking/discover-products/about-us/stakeholders-information/shareholding-ownership/Shareholding-Pattern-June-2026-updated.pdf"
+        ]
+      ],
       "supersededBy": null
     },
     {
@@ -365,7 +1177,12 @@
       "tier": "documented",
       "d": "1.19% via 'VANGUARD EMERGING MARKETS STOCK INDEX FUND, A SERIES OF VANGUARD INTERNATIONAL EQUITY INDEX FUNDS', Foreign Portfolio Investor Category I, quarter ended 30.06.2026. Combined with holders:c003, Vanguard's two named lines total 2.44% of HDFC Bank.",
       "from": "2026-06-30",
-      "srcs": [["HDFC Bank — Shareholding Pattern as on 30.06.2026", "https://www.hdfc.bank.in/content/dam/hdfcbankpws/in/en/personal-banking/discover-products/about-us/stakeholders-information/shareholding-ownership/Shareholding-Pattern-June-2026-updated.pdf"]],
+      "srcs": [
+        [
+          "HDFC Bank — Shareholding Pattern as on 30.06.2026",
+          "https://www.hdfc.bank.in/content/dam/hdfcbankpws/in/en/personal-banking/discover-products/about-us/stakeholders-information/shareholding-ownership/Shareholding-Pattern-June-2026-updated.pdf"
+        ]
+      ],
       "supersededBy": null
     },
     {
@@ -376,7 +1193,12 @@
       "tier": "documented",
       "d": "4.77% (4.78% of voting rights), domestic control comparator, quarter ended 30.06.2026. FPI aggregate (Institutions-Foreign, Category I+II) for HDFC Bank this quarter: 41.83% across 2,260 registered FPI entities — no single FPI line besides the four named here (c001–c004) crosses 1%.",
       "from": "2026-06-30",
-      "srcs": [["HDFC Bank — Shareholding Pattern as on 30.06.2026", "https://www.hdfc.bank.in/content/dam/hdfcbankpws/in/en/personal-banking/discover-products/about-us/stakeholders-information/shareholding-ownership/Shareholding-Pattern-June-2026-updated.pdf"]],
+      "srcs": [
+        [
+          "HDFC Bank — Shareholding Pattern as on 30.06.2026",
+          "https://www.hdfc.bank.in/content/dam/hdfcbankpws/in/en/personal-banking/discover-products/about-us/stakeholders-information/shareholding-ownership/Shareholding-Pattern-June-2026-updated.pdf"
+        ]
+      ],
       "supersededBy": null
     },
     {
@@ -387,7 +1209,12 @@
       "tier": "documented",
       "d": "6.88% (6.76% as % of A+B+C2), domestic control comparator, quarter ended 30.06.2026 — the largest single disclosed shareholder in RIL besides the Ambani-family promoter group. No individual FPI is named ≥1% in this filing: Foreign Portfolio Investors Category I (1,360 entities) total 16.52%, Category II (126 entities) total 0.54%; Institutions (Foreign) aggregate 17.20% — fragmented across so many separately registered FPIs that none individually crosses the 1% naming threshold.",
       "from": "2026-06-30",
-      "srcs": [["Reliance Industries — Shareholding Pattern as on 30.06.2026", "https://rilstaticasset.akamaized.net/sites/default/files/2026-07/SHP30062026.pdf"]],
+      "srcs": [
+        [
+          "Reliance Industries — Shareholding Pattern as on 30.06.2026",
+          "https://rilstaticasset.akamaized.net/sites/default/files/2026-07/SHP30062026.pdf"
+        ]
+      ],
       "supersededBy": null
     },
     {
@@ -398,7 +1225,12 @@
       "tier": "documented",
       "d": "1.79% via 'GQG Partners Emerging Markets Equity Fund', Foreign Portfolio Investor Category I, quarter ended 31.12.2025.",
       "from": "2025-12-31",
-      "srcs": [["ITC — Shareholding Pattern as on 31.12.2025", "https://itcportal.com/content/dam/itc-corporate/pdfs/shareholding-pattern/shareholding-pattern-31-dec-25.pdf"]],
+      "srcs": [
+        [
+          "ITC — Shareholding Pattern as on 31.12.2025",
+          "https://itcportal.com/content/dam/itc-corporate/pdfs/shareholding-pattern/shareholding-pattern-31-dec-25.pdf"
+        ]
+      ],
       "supersededBy": null
     },
     {
@@ -409,7 +1241,12 @@
       "tier": "documented",
       "d": "1.42% via 'Goldman Sachs Trust II - Goldman Sachs GQG Partners International Opportunities Fund' (Goldman Sachs-branded feeder, sub-advised by GQG), Foreign Portfolio Investor Category I, quarter ended 31.12.2025.",
       "from": "2025-12-31",
-      "srcs": [["ITC — Shareholding Pattern as on 31.12.2025", "https://itcportal.com/content/dam/itc-corporate/pdfs/shareholding-pattern/shareholding-pattern-31-dec-25.pdf"]],
+      "srcs": [
+        [
+          "ITC — Shareholding Pattern as on 31.12.2025",
+          "https://itcportal.com/content/dam/itc-corporate/pdfs/shareholding-pattern/shareholding-pattern-31-dec-25.pdf"
+        ]
+      ],
       "supersededBy": null
     },
     {
@@ -420,7 +1257,12 @@
       "tier": "documented",
       "d": "22.91% aggregate via three wholly-owned Foreign Direct Investment vehicles as of 31.12.2025: Tobacco Manufacturers (India) Limited 17.79%, Myddleton Investment Company Limited 3.88%, Rothmans International Enterprises Limited 1.24%. This single foreign industrial shareholder is larger than ITC's entire Foreign Portfolio Investor Category I+II holding (13.19%) combined, and larger than every passive-fund line found anywhere in this file's 5-company sample.",
       "from": "2025-12-31",
-      "srcs": [["ITC — Shareholding Pattern as on 31.12.2025", "https://itcportal.com/content/dam/itc-corporate/pdfs/shareholding-pattern/shareholding-pattern-31-dec-25.pdf"]],
+      "srcs": [
+        [
+          "ITC — Shareholding Pattern as on 31.12.2025",
+          "https://itcportal.com/content/dam/itc-corporate/pdfs/shareholding-pattern/shareholding-pattern-31-dec-25.pdf"
+        ]
+      ],
       "supersededBy": null
     },
     {
@@ -431,7 +1273,12 @@
       "tier": "documented",
       "d": "15.69% (15.61% as % of A+B+C2), domestic control comparator, quarter ended 31.12.2025 — the largest single Indian institutional shareholder in ITC. Also present, domestic, not part of the mandatory comparison set: General Insurance Corporation of India ('GIC Re', a domestic PSU reinsurer — not to be confused with Singapore's GIC) 1.73%; The New India Assurance Co. Ltd 1.44%; Specified Undertaking of the Unit Trust of India (SUUTI, government-linked) 7.78%. Institutions (Foreign) aggregate (incl. the BAT FDI stake) 36.11%.",
       "from": "2025-12-31",
-      "srcs": [["ITC — Shareholding Pattern as on 31.12.2025", "https://itcportal.com/content/dam/itc-corporate/pdfs/shareholding-pattern/shareholding-pattern-31-dec-25.pdf"]],
+      "srcs": [
+        [
+          "ITC — Shareholding Pattern as on 31.12.2025",
+          "https://itcportal.com/content/dam/itc-corporate/pdfs/shareholding-pattern/shareholding-pattern-31-dec-25.pdf"
+        ]
+      ],
       "supersededBy": null
     },
     {
@@ -442,7 +1289,12 @@
       "tier": "documented",
       "d": "1.22%, Foreign Portfolio Investor Category I, registered as 'GOVERNMENT OF SINGAPORE', quarter ended 31.12.2025.",
       "from": "2025-12-31",
-      "srcs": [["Bharti Airtel — Shareholding Pattern as on 31.12.2025", "https://assets.airtel.in/static-assets/cms/investor/docs/SHP-December-31-2025.pdf"]],
+      "srcs": [
+        [
+          "Bharti Airtel — Shareholding Pattern as on 31.12.2025",
+          "https://assets.airtel.in/static-assets/cms/investor/docs/SHP-December-31-2025.pdf"
+        ]
+      ],
       "supersededBy": null
     },
     {
@@ -453,7 +1305,12 @@
       "tier": "documented",
       "d": "1.06%, Foreign Portfolio Investor Category I, registered as 'GOVERNMENT PENSION FUND GLOBAL', quarter ended 31.12.2025.",
       "from": "2025-12-31",
-      "srcs": [["Bharti Airtel — Shareholding Pattern as on 31.12.2025", "https://assets.airtel.in/static-assets/cms/investor/docs/SHP-December-31-2025.pdf"]],
+      "srcs": [
+        [
+          "Bharti Airtel — Shareholding Pattern as on 31.12.2025",
+          "https://assets.airtel.in/static-assets/cms/investor/docs/SHP-December-31-2025.pdf"
+        ]
+      ],
       "supersededBy": null
     },
     {
@@ -464,7 +1321,12 @@
       "tier": "documented",
       "d": "1.17% via 'Google International LLC', Foreign Portfolio Investor Category II, quarter ended 31.12.2025 — part of the 2022 Google–Bharti Airtel strategic and commercial partnership, a deal-linked strategic stake rather than a passive index holding.",
       "from": "2025-12-31",
-      "srcs": [["Bharti Airtel — Shareholding Pattern as on 31.12.2025", "https://assets.airtel.in/static-assets/cms/investor/docs/SHP-December-31-2025.pdf"]],
+      "srcs": [
+        [
+          "Bharti Airtel — Shareholding Pattern as on 31.12.2025",
+          "https://assets.airtel.in/static-assets/cms/investor/docs/SHP-December-31-2025.pdf"
+        ]
+      ],
       "supersededBy": null
     },
     {
@@ -475,7 +1337,12 @@
       "tier": "documented",
       "d": "7.49%, promoter-group category 'Foreign', quarter ended 31.12.2025 — larger than the entire named ≥1% Foreign Portfolio Investor total for this company (holders:c011–c013 sum to 3.45%). Total promoter shareholding of Bharti Airtel is 48.87%, split 40.47% Indian (Bharti Telecom Limited) and 8.40% Foreign (this entity plus cap:indian-continent-investment).",
       "from": "2025-12-31",
-      "srcs": [["Bharti Airtel — Shareholding Pattern as on 31.12.2025", "https://assets.airtel.in/static-assets/cms/investor/docs/SHP-December-31-2025.pdf"]],
+      "srcs": [
+        [
+          "Bharti Airtel — Shareholding Pattern as on 31.12.2025",
+          "https://assets.airtel.in/static-assets/cms/investor/docs/SHP-December-31-2025.pdf"
+        ]
+      ],
       "supersededBy": null
     },
     {
@@ -486,7 +1353,12 @@
       "tier": "documented",
       "d": "0.92%, promoter-group category 'Foreign', quarter ended 31.12.2025.",
       "from": "2025-12-31",
-      "srcs": [["Bharti Airtel — Shareholding Pattern as on 31.12.2025", "https://assets.airtel.in/static-assets/cms/investor/docs/SHP-December-31-2025.pdf"]],
+      "srcs": [
+        [
+          "Bharti Airtel — Shareholding Pattern as on 31.12.2025",
+          "https://assets.airtel.in/static-assets/cms/investor/docs/SHP-December-31-2025.pdf"
+        ]
+      ],
       "supersededBy": null
     },
     {
@@ -497,7 +1369,12 @@
       "tier": "documented",
       "d": "LIC does not appear as a direct-equity ≥1% line in this filing; its ULIP scheme 'LICI MARKET PLUS 1 BALANCED FUND' holds 3.81% (Insurance Companies category) as of 31.12.2025 — a LIC-managed fund product, distinct from LIC's own direct equity book, recorded here as the closest domestic-control comparator this filing discloses.",
       "from": "2025-12-31",
-      "srcs": [["Bharti Airtel — Shareholding Pattern as on 31.12.2025", "https://assets.airtel.in/static-assets/cms/investor/docs/SHP-December-31-2025.pdf"]],
+      "srcs": [
+        [
+          "Bharti Airtel — Shareholding Pattern as on 31.12.2025",
+          "https://assets.airtel.in/static-assets/cms/investor/docs/SHP-December-31-2025.pdf"
+        ]
+      ],
       "supersededBy": null
     },
     {
@@ -508,7 +1385,12 @@
       "tier": "documented",
       "d": "9.38%, domestic control comparator, quarter ended 31.03.2025 — the largest disclosed public shareholder in SBI besides the President of India (promoter, 57.43%). No individual FPI is named ≥1%: Foreign Portfolio Investors Category I 9.37% (870 entities) + Category II 0.56% (71 entities) = 9.95% Institutions (Foreign) aggregate, none crossing 1% individually.",
       "from": "2025-03-31",
-      "srcs": [["State Bank of India — Shareholding Pattern as on 31.03.2025", "https://sbi.bank.in/documents/17836/53469043/SHP+31032025.pdf/273af37f-c2e9-e009-0a94-57318ca76c50?t=1746009788075"]],
+      "srcs": [
+        [
+          "State Bank of India — Shareholding Pattern as on 31.03.2025",
+          "https://sbi.bank.in/documents/17836/53469043/SHP+31032025.pdf/273af37f-c2e9-e009-0a94-57318ca76c50?t=1746009788075"
+        ]
+      ],
       "supersededBy": null
     },
     {
@@ -520,21 +1402,33 @@
       "d": "58.65% ('Promoters' category), quarter ended 30.06.2026, per screener.in's aggregate table; screener's 'About' section separately names Suzuki Motor Corporation (SMC) as holding 56.28% at an unstated, apparently different snapshot date — discrepancy flagged, not resolved against a primary Maruti Suzuki BSE/company filing in this pass. If either figure is accurate, this is the single largest foreign shareholding found anywhere in this file, exceeding British American Tobacco's 22.91% of ITC.",
       "from": "2026-06-30",
       "srcs": [
-        ["screener.in — Maruti Suzuki India Ltd (consolidated)", "https://www.screener.in/company/MARUTI/consolidated/"],
-        ["screener.in — Maruti Suzuki India Ltd (About section, SMC named)", "https://www.screener.in/company/MARUTI/"]
+        [
+          "screener.in — Maruti Suzuki India Ltd (consolidated)",
+          "https://www.screener.in/company/MARUTI/consolidated/"
+        ],
+        [
+          "screener.in — Maruti Suzuki India Ltd (About section, SMC named)",
+          "https://www.screener.in/company/MARUTI/"
+        ]
       ],
       "supersededBy": null
     },
     {
       "id": "holders:c019",
       "s": "co:jio-financial-services",
-      "t": "cap:blackrock",
+      "t": "cap:jio-blackrock-asset-management",
       "pred": "own",
       "tier": "documented",
-      "d": "JioBlackRock Asset Management Pvt Ltd is a 50:50 joint venture: Jio Financial Services Ltd and BlackRock, Inc. each subscribed 5.85 crore equity shares of ₹10 (₹58.5 crore each, ₹117 crore aggregate paid-in capital). SEBI granted the AMC's mutual-fund registration certificate 26 May 2025 and the affiliated JioBlackRock Investment Advisers Pvt Ltd's investment-adviser registration 10 June 2025. Partnership announced July 2023.",
+      "d": "Jio Financial Services Ltd holds 50% of JioBlackRock Asset Management Pvt Ltd, a 50:50 joint venture with BlackRock, Inc. (BlackRock's half: mandates-ventures:c028): each partner subscribed 5.85 crore equity shares of ₹10 (₹58.5 crore each, ₹117 crore aggregate paid-in capital). SEBI granted the AMC's mutual-fund registration certificate 26 May 2025 and the affiliated JioBlackRock Investment Advisers Pvt Ltd's investment-adviser registration 10 June 2025. Partnership announced July 2023. (Reconciliation: the original edge ran JFS → BlackRock, which asserted that JFS owns BlackRock; re-pointed to the JV node.)",
       "from": "2025-05-26",
-      "srcs": [["JioBlackRock press release — SEBI approval to launch advisory business", "https://www.jioblackrock.com/press-releases/jioblackrock-investment-advisers-receives-sebi-approval-to-launch-advisory-business"]],
-      "supersededBy": null
+      "srcs": [
+        [
+          "JioBlackRock press release — SEBI approval to launch advisory business",
+          "https://www.jioblackrock.com/press-releases/jioblackrock-investment-advisers-receives-sebi-approval-to-launch-advisory-business"
+        ]
+      ],
+      "supersededBy": null,
+      "lab": "Jio Financial Services' 50% of Jio BlackRock Asset Management (JV)"
     }
   ],
   "voids": [
@@ -542,8 +1436,14 @@
       "what": "NBIM's own nbim.no holdings-search tool returns no server-rendered per-company data through this environment's proxy — every route tried (the investments landing page, the 'all investments' page, a Norwegian-language mirror, and three guessed API paths under /api/investments/v2/) returned only a ~27KB static HTML application shell, or a 404. The fund's own annual/half-year report PDFs state a country-level aggregate (India = 2.1% of equity investments, end-2025) but not company-level percentages in the web-report text fetched.",
       "whyItMatters": "SPEC explicitly names nbim.no as the source to 'use for all Indian equities' precisely because Norway's fund publishes full holdings disclosure — the most transparent of the controls in principle. That transparency was not reachable as structured data in this pass; NBIM's India percentages in this file come from the reciprocal disclosure the Indian companies themselves make (naming NBIM's fund as 'GOVERNMENT PENSION FUND GLOBAL' in their own SEBI filings), which is a real primary source but not the one SPEC pointed at.",
       "srcs": [
-        ["NBIM — investments landing page (JS shell, probed)", "https://www.nbim.no/en/the-fund/investments/"],
-        ["NBIM — 'all investments' page (JS shell, probed)", "https://www.nbim.no/en/investments/all-investments/"]
+        [
+          "NBIM — investments landing page (JS shell, probed)",
+          "https://www.nbim.no/en/the-fund/investments/"
+        ],
+        [
+          "NBIM — 'all investments' page (JS shell, probed)",
+          "https://www.nbim.no/en/investments/all-investments/"
+        ]
       ]
     },
     {
@@ -560,11 +1460,26 @@
       "strongestCounter": "In every one of the 5 NIFTY 50 shareholding-pattern filings opened directly in this pass (Reliance Industries, HDFC Bank, ITC, Bharti Airtel, SBI), BlackRock/iShares never appears as a named ≥1% shareholder — not once. Vanguard crosses 1% only in HDFC Bank (two funds, 2.44% combined). By contrast, a single Norwegian sovereign fund (Government Pension Fund Global) crosses 1% in two of the five, and a foreign strategic/promoter holder — British American Tobacco in ITC (22.91%) or, if the aggregator figure holds up, Suzuki Motor Corporation in Maruti Suzuki (58.65%) — dwarfs any BlackRock or Vanguard line found anywhere in this sample. 'Own' also conflates minority passive shareholding with control: none of the FPI holders found here carry board seats or voting blocs anywhere near a controlling stake.",
       "whatWouldChangeThis": "A primary shareholding-pattern check across the remaining 45 NIFTY 50 constituents finding BlackRock/iShares crossing 1% with some regularity; or SEC 13F data showing BlackRock/Vanguard's aggregate beneficial ownership of Indian ADRs (Infosys, ICICI Bank, HDFC Bank, Wipro, Dr. Reddy's) at a scale the NSE/BSE-side FPI registrations understate — neither was checked in this pass (see gaps).",
       "srcs": [
-        ["HDFC Bank — Shareholding Pattern as on 30.06.2026", "https://www.hdfc.bank.in/content/dam/hdfcbankpws/in/en/personal-banking/discover-products/about-us/stakeholders-information/shareholding-ownership/Shareholding-Pattern-June-2026-updated.pdf"],
-        ["Reliance Industries — Shareholding Pattern as on 30.06.2026", "https://rilstaticasset.akamaized.net/sites/default/files/2026-07/SHP30062026.pdf"],
-        ["ITC — Shareholding Pattern as on 31.12.2025", "https://itcportal.com/content/dam/itc-corporate/pdfs/shareholding-pattern/shareholding-pattern-31-dec-25.pdf"],
-        ["Bharti Airtel — Shareholding Pattern as on 31.12.2025", "https://assets.airtel.in/static-assets/cms/investor/docs/SHP-December-31-2025.pdf"],
-        ["State Bank of India — Shareholding Pattern as on 31.03.2025", "https://sbi.bank.in/documents/17836/53469043/SHP+31032025.pdf/273af37f-c2e9-e009-0a94-57318ca76c50?t=1746009788075"]
+        [
+          "HDFC Bank — Shareholding Pattern as on 30.06.2026",
+          "https://www.hdfc.bank.in/content/dam/hdfcbankpws/in/en/personal-banking/discover-products/about-us/stakeholders-information/shareholding-ownership/Shareholding-Pattern-June-2026-updated.pdf"
+        ],
+        [
+          "Reliance Industries — Shareholding Pattern as on 30.06.2026",
+          "https://rilstaticasset.akamaized.net/sites/default/files/2026-07/SHP30062026.pdf"
+        ],
+        [
+          "ITC — Shareholding Pattern as on 31.12.2025",
+          "https://itcportal.com/content/dam/itc-corporate/pdfs/shareholding-pattern/shareholding-pattern-31-dec-25.pdf"
+        ],
+        [
+          "Bharti Airtel — Shareholding Pattern as on 31.12.2025",
+          "https://assets.airtel.in/static-assets/cms/investor/docs/SHP-December-31-2025.pdf"
+        ],
+        [
+          "State Bank of India — Shareholding Pattern as on 31.03.2025",
+          "https://sbi.bank.in/documents/17836/53469043/SHP+31032025.pdf/273af37f-c2e9-e009-0a94-57318ca76c50?t=1746009788075"
+        ]
       ]
     },
     {
@@ -574,8 +1489,14 @@
       "strongestCounter": "This file found zero Rothschild & Co presence as a named equity shareholder — not ≥1%, not at any threshold — in any of the 5 NIFTY 50 companies' shareholding patterns checked, including three of India's largest listed banks by market weight (HDFC Bank, ICICI Bank and SBI aggregate data; HDFC Bank and SBI named-holder data). Rothschild & Co's documented India business is advisory (deal fees for M&A/restructuring mandates), a categorically different thing from owning or controlling a bank's equity — 'the Rothschilds control Indian banking' conflates a family surname attached to an advisory firm with a shareholding fact this file did not find any evidence for. Per CONTRACT rule 1 this file also declines to treat 'the Rothschilds' (a family) as an actor at all; the institution is Rothschild & Co (Euronext: ROTH), which this pass did not find as a shareholder anywhere.",
       "whatWouldChangeThis": "Rothschild & Co appearing as a named shareholder ≥1% in a primary Indian bank filing, or documented evidence of an equity (not advisory-fee) stake — neither surfaced here. A companion 'advisers' file (not produced in this pass) is the right place for Rothschild & Co's actual India business: mandate-by-mandate advisory fee data against Lazard/Goldman Sachs/Morgan Stanley/JPMorgan/Citi/Kotak/Axis Capital/Avendus, per SPEC's adviser control set.",
       "srcs": [
-        ["HDFC Bank — Shareholding Pattern as on 30.06.2026", "https://www.hdfc.bank.in/content/dam/hdfcbankpws/in/en/personal-banking/discover-products/about-us/stakeholders-information/shareholding-ownership/Shareholding-Pattern-June-2026-updated.pdf"],
-        ["State Bank of India — Shareholding Pattern as on 31.03.2025", "https://sbi.bank.in/documents/17836/53469043/SHP+31032025.pdf/273af37f-c2e9-e009-0a94-57318ca76c50?t=1746009788075"]
+        [
+          "HDFC Bank — Shareholding Pattern as on 30.06.2026",
+          "https://www.hdfc.bank.in/content/dam/hdfcbankpws/in/en/personal-banking/discover-products/about-us/stakeholders-information/shareholding-ownership/Shareholding-Pattern-June-2026-updated.pdf"
+        ],
+        [
+          "State Bank of India — Shareholding Pattern as on 31.03.2025",
+          "https://sbi.bank.in/documents/17836/53469043/SHP+31032025.pdf/273af37f-c2e9-e009-0a94-57318ca76c50?t=1746009788075"
+        ]
       ]
     },
     {
@@ -585,7 +1506,10 @@
       "strongestCounter": "The named holders this file actually found ≥1% in five major NIFTY 50 constituents are, without exception, transparent-by-construction: two sovereign entities that publish their own holdings (Norway's Government Pension Fund Global, Singapore's GIC), two large regulated Western index-fund families (Vanguard, and GQG Partners which is itself SEC-registered), a strategic corporate investor with a public commercial partnership (Google), and a 130-year-old listed multinational's FDI stake (British American Tobacco in ITC). None of that is consistent with 'round-tripped black money'; the concern SEBI's 2023 rule targets is specifically the opposite pattern — funds that do not disclose, which by definition would not show up as a named ≥1% line in a company's own filing, so this file's method (reading named-holder tables) cannot itself confirm or rule out round-tripping in the undisclosed tail of FPI ownership.",
       "whatWouldChangeThis": "SEBI enforcement data on how many FPIs were actually forced into full look-through disclosure under the 2023 rule, and what (if anything) it revealed about beneficial ownership — not checked in this pass.",
       "srcs": [
-        ["TaxGuru — 'SEBI Tightens FPI Disclosure Norms after Adani-Hindenburg'", "https://taxguru.in/sebi/sebis-tightens-fpi-disclosure-norms-after-adani-hindenburg.html"]
+        [
+          "TaxGuru — 'SEBI Tightens FPI Disclosure Norms after Adani-Hindenburg'",
+          "https://taxguru.in/sebi/sebis-tightens-fpi-disclosure-norms-after-adani-hindenburg.html"
+        ]
       ]
     }
   ],
@@ -597,11 +1521,26 @@
       "denominator": 5,
       "label": "5 companies with a primary SEBI shareholding-pattern filing opened directly (Reliance Industries, HDFC Bank, ITC, Bharti Airtel, SBI)",
       "srcs": [
-        ["Reliance Industries — Shareholding Pattern as on 30.06.2026", "https://rilstaticasset.akamaized.net/sites/default/files/2026-07/SHP30062026.pdf"],
-        ["HDFC Bank — Shareholding Pattern as on 30.06.2026", "https://www.hdfc.bank.in/content/dam/hdfcbankpws/in/en/personal-banking/discover-products/about-us/stakeholders-information/shareholding-ownership/Shareholding-Pattern-June-2026-updated.pdf"],
-        ["ITC — Shareholding Pattern as on 31.12.2025", "https://itcportal.com/content/dam/itc-corporate/pdfs/shareholding-pattern/shareholding-pattern-31-dec-25.pdf"],
-        ["Bharti Airtel — Shareholding Pattern as on 31.12.2025", "https://assets.airtel.in/static-assets/cms/investor/docs/SHP-December-31-2025.pdf"],
-        ["State Bank of India — Shareholding Pattern as on 31.03.2025", "https://sbi.bank.in/documents/17836/53469043/SHP+31032025.pdf/273af37f-c2e9-e009-0a94-57318ca76c50?t=1746009788075"]
+        [
+          "Reliance Industries — Shareholding Pattern as on 30.06.2026",
+          "https://rilstaticasset.akamaized.net/sites/default/files/2026-07/SHP30062026.pdf"
+        ],
+        [
+          "HDFC Bank — Shareholding Pattern as on 30.06.2026",
+          "https://www.hdfc.bank.in/content/dam/hdfcbankpws/in/en/personal-banking/discover-products/about-us/stakeholders-information/shareholding-ownership/Shareholding-Pattern-June-2026-updated.pdf"
+        ],
+        [
+          "ITC — Shareholding Pattern as on 31.12.2025",
+          "https://itcportal.com/content/dam/itc-corporate/pdfs/shareholding-pattern/shareholding-pattern-31-dec-25.pdf"
+        ],
+        [
+          "Bharti Airtel — Shareholding Pattern as on 31.12.2025",
+          "https://assets.airtel.in/static-assets/cms/investor/docs/SHP-December-31-2025.pdf"
+        ],
+        [
+          "State Bank of India — Shareholding Pattern as on 31.03.2025",
+          "https://sbi.bank.in/documents/17836/53469043/SHP+31032025.pdf/273af37f-c2e9-e009-0a94-57318ca76c50?t=1746009788075"
+        ]
       ]
     },
     {
@@ -609,7 +1548,12 @@
       "numerator": 1,
       "denominator": 5,
       "label": "HDFC Bank only, via two funds (2.44% combined)",
-      "srcs": [["HDFC Bank — Shareholding Pattern as on 30.06.2026", "https://www.hdfc.bank.in/content/dam/hdfcbankpws/in/en/personal-banking/discover-products/about-us/stakeholders-information/shareholding-ownership/Shareholding-Pattern-June-2026-updated.pdf"]]
+      "srcs": [
+        [
+          "HDFC Bank — Shareholding Pattern as on 30.06.2026",
+          "https://www.hdfc.bank.in/content/dam/hdfcbankpws/in/en/personal-banking/discover-products/about-us/stakeholders-information/shareholding-ownership/Shareholding-Pattern-June-2026-updated.pdf"
+        ]
+      ]
     },
     {
       "property": "Same sample, Norges Bank Investment Management / Government Pension Fund Global named ≥1%",
@@ -617,8 +1561,14 @@
       "denominator": 5,
       "label": "HDFC Bank (1.34%) and Bharti Airtel (1.06%)",
       "srcs": [
-        ["HDFC Bank — Shareholding Pattern as on 30.06.2026", "https://www.hdfc.bank.in/content/dam/hdfcbankpws/in/en/personal-banking/discover-products/about-us/stakeholders-information/shareholding-ownership/Shareholding-Pattern-June-2026-updated.pdf"],
-        ["Bharti Airtel — Shareholding Pattern as on 31.12.2025", "https://assets.airtel.in/static-assets/cms/investor/docs/SHP-December-31-2025.pdf"]
+        [
+          "HDFC Bank — Shareholding Pattern as on 30.06.2026",
+          "https://www.hdfc.bank.in/content/dam/hdfcbankpws/in/en/personal-banking/discover-products/about-us/stakeholders-information/shareholding-ownership/Shareholding-Pattern-June-2026-updated.pdf"
+        ],
+        [
+          "Bharti Airtel — Shareholding Pattern as on 31.12.2025",
+          "https://assets.airtel.in/static-assets/cms/investor/docs/SHP-December-31-2025.pdf"
+        ]
       ]
     },
     {
@@ -627,8 +1577,14 @@
       "denominator": 5,
       "label": "HDFC Bank (2.17%) and Bharti Airtel (1.22%)",
       "srcs": [
-        ["HDFC Bank — Shareholding Pattern as on 30.06.2026", "https://www.hdfc.bank.in/content/dam/hdfcbankpws/in/en/personal-banking/discover-products/about-us/stakeholders-information/shareholding-ownership/Shareholding-Pattern-June-2026-updated.pdf"],
-        ["Bharti Airtel — Shareholding Pattern as on 31.12.2025", "https://assets.airtel.in/static-assets/cms/investor/docs/SHP-December-31-2025.pdf"]
+        [
+          "HDFC Bank — Shareholding Pattern as on 30.06.2026",
+          "https://www.hdfc.bank.in/content/dam/hdfcbankpws/in/en/personal-banking/discover-products/about-us/stakeholders-information/shareholding-ownership/Shareholding-Pattern-June-2026-updated.pdf"
+        ],
+        [
+          "Bharti Airtel — Shareholding Pattern as on 31.12.2025",
+          "https://assets.airtel.in/static-assets/cms/investor/docs/SHP-December-31-2025.pdf"
+        ]
       ]
     },
     {
@@ -637,10 +1593,22 @@
       "denominator": 5,
       "label": "Reliance Industries (6.88%), HDFC Bank (4.77%), ITC (15.69%), SBI (9.38%); not directly named in Bharti Airtel (only a LIC-managed ULIP scheme at 3.81%)",
       "srcs": [
-        ["Reliance Industries — Shareholding Pattern as on 30.06.2026", "https://rilstaticasset.akamaized.net/sites/default/files/2026-07/SHP30062026.pdf"],
-        ["HDFC Bank — Shareholding Pattern as on 30.06.2026", "https://www.hdfc.bank.in/content/dam/hdfcbankpws/in/en/personal-banking/discover-products/about-us/stakeholders-information/shareholding-ownership/Shareholding-Pattern-June-2026-updated.pdf"],
-        ["ITC — Shareholding Pattern as on 31.12.2025", "https://itcportal.com/content/dam/itc-corporate/pdfs/shareholding-pattern/shareholding-pattern-31-dec-25.pdf"],
-        ["State Bank of India — Shareholding Pattern as on 31.03.2025", "https://sbi.bank.in/documents/17836/53469043/SHP+31032025.pdf/273af37f-c2e9-e009-0a94-57318ca76c50?t=1746009788075"]
+        [
+          "Reliance Industries — Shareholding Pattern as on 30.06.2026",
+          "https://rilstaticasset.akamaized.net/sites/default/files/2026-07/SHP30062026.pdf"
+        ],
+        [
+          "HDFC Bank — Shareholding Pattern as on 30.06.2026",
+          "https://www.hdfc.bank.in/content/dam/hdfcbankpws/in/en/personal-banking/discover-products/about-us/stakeholders-information/shareholding-ownership/Shareholding-Pattern-June-2026-updated.pdf"
+        ],
+        [
+          "ITC — Shareholding Pattern as on 31.12.2025",
+          "https://itcportal.com/content/dam/itc-corporate/pdfs/shareholding-pattern/shareholding-pattern-31-dec-25.pdf"
+        ],
+        [
+          "State Bank of India — Shareholding Pattern as on 31.03.2025",
+          "https://sbi.bank.in/documents/17836/53469043/SHP+31032025.pdf/273af37f-c2e9-e009-0a94-57318ca76c50?t=1746009788075"
+        ]
       ]
     },
     {
@@ -649,9 +1617,18 @@
       "denominator": 6,
       "label": "ITC (BAT vehicle Tobacco Manufacturers India Ltd, 17.79% alone), Bharti Airtel (Pastel Ltd/Singtel, 7.49%) and Maruti Suzuki (Suzuki Motor Corp, ~58.65%, reported tier) of 6 companies checked; not Reliance Industries, HDFC Bank or SBI",
       "srcs": [
-        ["ITC — Shareholding Pattern as on 31.12.2025", "https://itcportal.com/content/dam/itc-corporate/pdfs/shareholding-pattern/shareholding-pattern-31-dec-25.pdf"],
-        ["Bharti Airtel — Shareholding Pattern as on 31.12.2025", "https://assets.airtel.in/static-assets/cms/investor/docs/SHP-December-31-2025.pdf"],
-        ["screener.in — Maruti Suzuki India Ltd (consolidated)", "https://www.screener.in/company/MARUTI/consolidated/"]
+        [
+          "ITC — Shareholding Pattern as on 31.12.2025",
+          "https://itcportal.com/content/dam/itc-corporate/pdfs/shareholding-pattern/shareholding-pattern-31-dec-25.pdf"
+        ],
+        [
+          "Bharti Airtel — Shareholding Pattern as on 31.12.2025",
+          "https://assets.airtel.in/static-assets/cms/investor/docs/SHP-December-31-2025.pdf"
+        ],
+        [
+          "screener.in — Maruti Suzuki India Ltd (consolidated)",
+          "https://www.screener.in/company/MARUTI/consolidated/"
+        ]
       ]
     },
     {
@@ -659,7 +1636,10 @@
       "numerator": 15,
       "denominator": 50,
       "label": "5 with full named-holder detail from primary filings + 10 aggregate-only from screener.in, against all 50 NIFTY 50 constituents",
-      "srcs": [["research/raw/indices.json — NIFTY 50 constituent list", "internal:research/raw/indices.json"]]
+      "srcs": [],
+      "internalRefs": [
+        "research/raw/indices.json — NIFTY 50 constituent list (internal:research/raw/indices.json)"
+      ]
     }
   ],
   "gaps": [
@@ -671,6 +1651,11 @@
     "ITC's most recent primary filing opened is for the quarter ended 31.12.2025, one quarter behind the June-2026 filings used for Reliance Industries and HDFC Bank — a guessed URL for a 30 June 2026 ITC filing (following the site's observed naming pattern) returned a connection reset / 404 and was not pursued further within budget.",
     "State Bank of India's most recent primary filing opened is for the quarter ended 31.03.2025, over a year behind this file's asOf date — a more recent SBI filing was referenced in search results (implying a 2025-26 quarter exists) but its direct PDF URL was not located within budget.",
     "This file does not cover foreign adviser mandates (Rothschild & Co vs Lazard/Goldman Sachs/Morgan Stanley/JPMorgan/Citi/Kotak/Axis Capital/Avendus — deal, role, date, fee), which is a distinct SPEC requirement not produced in this pass and belongs in a companion 'advisers' file.",
-    "This file does not cover the World Bank/IMF loan-conditionality narrative (belongs to the finance fleet) or the Soros/Open Society Foundations funding narrative (belongs to the ngo fleet) — both are part of SPEC's full narrative list for the capital fleet as a whole but are out of scope for a holders-only file focused on NIFTY 50 equity ownership."
+    "This file does not cover the World Bank/IMF loan-conditionality narrative (belongs to the finance fleet) or the Soros/Open Society Foundations funding narrative (belongs to the ngo fleet) — both are part of SPEC's full narrative list for the capital fleet as a whole but are out of scope for a holders-only file focused on NIFTY 50 equity ownership.",
+    "Supersession not yet checked (reconciliation, 2026-09-26): claims rest on stale quarters for SBI and UltraTech (31.03.2025), Axis Bank (30.06.2025) and Cipla, Eternal, Kotak, NTPC and Power Grid (30.09.2025). Every claim has supersededBy null because no later filing was opened; the next pass should open the June 2026 quarter and add new claims with supersededBy on these, never overwrite them."
+  ],
+  "internalRefs": [
+    "NSE/BSE/company shareholding-pattern reconnaissance — SPEC.md known-reachability probe (2026-09-26) (internal:research/raw/capital/../../../../../tmp/scratchpad/capital/SPEC.md)",
+    "research/raw/indices.json — NIFTY 50 constituent list with co: ids (asOf 2026-09-25) (internal:research/raw/indices.json)"
   ]
 }

@@ -1,241 +1,195 @@
 {
- "asOf": "2026-09-26",
- "domain": "holders-b5",
- "scope": "Attempted named-foreign-shareholder (>=1%) research on five NIFTY 50 constituents — InterGlobe Aviation (IndiGo), Infosys, Jio Financial Services, JSW Steel, Kotak Mahindra Bank — from each company's own latest SEBI Reg. 31(1)(b) shareholding-pattern filing. This batch had unusually poor primary-source reachability: four of the five companies' own investor-relations sites returned hard blocks (Infosys: infosys.com is 403 Forbidden site-wide, every URL and method tried, including the homepage itself, not just the filing path; InterGlobe Aviation: goindigo.in is 403 Forbidden site-wide; Jio Financial Services: jiofin.com is rejected at the network layer by the outbound proxy under 'organization policy' before any HTTP response, so it could not be reached at all this pass; JSW Steel: jswsteel.in itself is reachable (200) and was crawled, but no 'Shareholding Pattern' page or PDF link could be located anywhere in its investors section within budget — the site appears to have moved or JS-renders that specific page). NSE's nsearchives.nseindia.com PDF host (documented reachable for other batches) returned 403/503 on every InterGlobe Aviation and Jio Financial Services URL tried here. BSE's static PDF-attachment host (bseindia.com/xml-data/corpfiling/AttachLive/...), which SPEC noted 'often opens', returned 403 on the one Kotak Mahindra Bank filing tried. Only Kotak Mahindra Bank's own site (kotak.com, 301-redirecting to kotak.bank.in) served a shareholding-pattern PDF — but that PDF is itself only the Reg. 31 Table I/II *summary* (promoter and public shareholding by category, with one aggregate 'Foreign Portfolio Investors / Foreign Institutional Investors' line), not an itemised Table III naming individual FPI holders >=1%; the filing's own last line states the itemised version is on BSE's and NSE's websites, both of which were unreachable in this pass. Net result: for all five companies, no individual foreign holder could be named and confirmed >=1% from a primary Table III filing in this pass. What this file does contain: (1) the one real, dated, primary-sourced named-holder fact available — LIC of India's 6.66% stake in Jio Financial Services received via the 2023 demerger from Reliance Industries, a historical fact, not a current-quarter filing figure; (2) the FPI/FII aggregate percentage and quarter-end date for each of the five companies, recorded as documented voids (Kotak, from its own primary filing) or reported-tier voids (the other four, from screener.in, an aggregator, per SPEC's explicit fallback instruction) rather than as fabricated named-holder claims; (3) the mandatory comparison-set entities (BlackRock, Vanguard, NBIM, GIC, Capital Group, Fidelity, Kuwait Investment Authority, ADIA), none of which could be confirmed present or absent by name in this batch, recorded honestly as such rather than omitted or guessed.",
- "sources": [
-  ["Kotak Mahindra Bank — Shareholding Pattern as on September 30, 2025 (kotak.com, redirects to kotak.bank.in)", "https://www.kotak.bank.in/content/dam/Kotak/investor-relation/Financial-Result/shareholding-patterns/FY-2026/q2/shareholding-patterns/Shareholding_Pattern.pdf"],
-  ["screener.in — Infosys Ltd (consolidated), shareholding-pattern section", "https://www.screener.in/company/INFY/consolidated/"],
-  ["screener.in — InterGlobe Aviation Ltd (consolidated), shareholding-pattern section", "https://www.screener.in/company/INDIGO/consolidated/"],
-  ["screener.in — JSW Steel Ltd (consolidated), shareholding-pattern section", "https://www.screener.in/company/JSWSTEEL/consolidated/"],
-  ["screener.in — Jio Financial Services Ltd (consolidated), shareholding-pattern section", "https://www.screener.in/company/JIOFIN/consolidated/"],
-  ["Business Today — 'LIC acquires 6.66% shareholding in Jio Financial Services through demerger action' (22 Aug 2023)", "https://www.businesstoday.in/latest/corporate/story/lic-acquires-6-66-percent-shareholding-in-jio-financial-services-through-demerger-action-394994-2023-08-22"],
-  ["Business Standard — 'Life Insurance Corp(LIC) picks up 6.66% stake in Jio Financial Services' (22 Aug 2023)", "https://www.business-standard.com/companies/news/lic-picks-up-6-66-stake-in-newly-listed-jio-financial-services-123082200348_1.html"],
-  ["infosys.com — homepage and investors pages, probed for reachability (403 site-wide)", "https://www.infosys.com/investors.html"],
-  ["goindigo.in — Shareholding Pattern page, probed (403)", "https://www.goindigo.in/information/investor-relations/shareholding-pattern.html"],
-  ["nsearchives.nseindia.com — InterGlobe Aviation shareholding-pattern PDF, probed (403/503)", "https://nsearchives.nseindia.com/corporate/Indigo1_21112025103054_SE21112025.pdf"],
-  ["bseindia.com — Kotak Mahindra Bank corporate-filing PDF attachment, probed (403)", "https://www.bseindia.com/xml-data/corpfiling/AttachLive/b7184757-328b-447b-91ac-f3cc9b345ab5.pdf"],
-  ["jswsteel.in — Shareholders Information page, crawled for a shareholding-pattern PDF link (none found)", "https://www.jswsteel.in/investors/shareholders-information"],
-  ["jswsteel.in — Disclosures under Regulation 46 of the LODR page, crawled for a shareholding-pattern PDF link (none found)", "https://www.jswsteel.in/investors/disclosures-under-regulation-46-of-the-lodr"]
- ],
- "entities": [
-  {
-   "id": "cap:blackrock",
-   "label": "BlackRock, Inc.",
-   "sub": "US asset manager, NYSE: BLK; India exposure via iShares ETFs and BlackRock Global Funds sub-funds, each separately FPI-registered",
-   "ty": "company",
-   "fam": "capital",
-   "st": null,
-   "sz": 4,
-   "al": ["iShares", "BlackRock Global Funds", "iShares MSCI India ETF", "BlackRock Global Funds - India Fund"],
-   "resolved": true,
-   "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
-   "publicRole": "Mandatory comparison control per SPEC — never recorded without the comparison set below.",
-   "d": [
-    "Could not be confirmed present or absent as a named >=1% holder in any of this batch's 5 companies: no Table III (itemised public-shareholder) filing was reachable for any of the 5 within budget — see voids [documented void, not a finding about BlackRock]"
-   ],
-   "srcs": []
-  },
-  {
-   "id": "cap:vanguard",
-   "label": "The Vanguard Group, Inc.",
-   "sub": "US asset manager; India exposure via multiple Vanguard index funds, each separately FPI-registered",
-   "ty": "company",
-   "fam": "capital",
-   "st": null,
-   "sz": 4,
-   "al": ["Vanguard Total International Stock Index Fund", "Vanguard Emerging Markets Stock Index Fund"],
-   "resolved": true,
-   "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
-   "publicRole": "Mandatory comparison control per SPEC.",
-   "d": [
-    "Could not be confirmed present or absent as a named >=1% holder in any of this batch's 5 companies — see voids [documented void]"
-   ],
-   "srcs": []
-  },
-  {
-   "id": "cap:nbim",
-   "label": "Norges Bank Investment Management (Government Pension Fund Global)",
-   "sub": "Manager of Norway's sovereign wealth fund",
-   "ty": "fund",
-   "fam": "capital",
-   "st": null,
-   "sz": 4,
-   "al": ["NBIM", "Government Pension Fund Global", "GPFG", "Norges Bank", "Government of Norway"],
-   "resolved": true,
-   "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
-   "publicRole": "Mandatory comparison control per SPEC.",
-   "d": [
-    "Could not be confirmed present or absent as a named >=1% holder in any of this batch's 5 companies — see voids [documented void]"
-   ],
-   "srcs": []
-  },
-  {
-   "id": "cap:gic-singapore",
-   "label": "Government of Singapore / GIC Private Limited",
-   "sub": "Singapore's sovereign wealth fund manager; Indian companies' filings name the registered FPI holder 'GOVERNMENT OF SINGAPORE'",
-   "ty": "fund",
-   "fam": "capital",
-   "st": null,
-   "sz": 4,
-   "al": ["GIC", "GIC Pte Ltd", "GIC Private Limited", "Government of Singapore"],
-   "resolved": true,
-   "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
-   "publicRole": "Mandatory comparison control per SPEC. Not to be confused with General Insurance Corporation of India ('GIC Re'), a domestic PSU reinsurer that shares the acronym GIC in some filings.",
-   "d": [
-    "Could not be confirmed present or absent as a named >=1% holder in any of this batch's 5 companies — see voids. A third-party aggregator (marketscreener.com) showed InterGlobe Aviation 'GIC Pte Ltd.' at 2.984% as of 25 Sept 2026 in a mixed table of domestic AMCs and foreign holders that did not identify itself as a Reg. 31 Table III extract; not used as a claim here because its methodology and Table III correspondence could not be verified within budget [reported, unverified — see gaps]"
-   ],
-   "srcs": []
-  },
-  {
-   "id": "cap:capital-group",
-   "label": "Capital Group Companies, Inc.",
-   "sub": "US asset manager; EuroPacific Growth Fund and New Perspective Fund are its best-known emerging-markets vehicles",
-   "ty": "company",
-   "fam": "capital",
-   "st": null,
-   "sz": 3,
-   "al": ["EuroPacific Growth Fund", "New Perspective Fund", "The Capital Group Companies"],
-   "resolved": true,
-   "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
-   "publicRole": "Mandatory comparison control per SPEC.",
-   "d": [
-    "Could not be confirmed present or absent as a named >=1% holder in any of this batch's 5 companies — see voids [documented void]"
-   ],
-   "srcs": []
-  },
-  {
-   "id": "cap:fidelity",
-   "label": "Fidelity Investments (FMR LLC)",
-   "sub": "US asset manager, privately held; distinct corporate lineage from Fidelity International Ltd (spun off in 1980, UK-based)",
-   "ty": "company",
-   "fam": "capital",
-   "st": null,
-   "sz": 3,
-   "al": ["FMR LLC", "Fidelity Management & Research"],
-   "resolved": true,
-   "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
-   "publicRole": "Mandatory comparison control per SPEC.",
-   "d": [
-    "Could not be confirmed present or absent as a named >=1% holder in any of this batch's 5 companies — see voids [documented void]"
-   ],
-   "srcs": []
-  },
-  {
-   "id": "cap:kuwait-investment-authority",
-   "label": "Kuwait Investment Authority",
-   "sub": "Kuwait's sovereign wealth fund",
-   "ty": "fund",
-   "fam": "capital",
-   "st": null,
-   "sz": 2,
-   "al": ["KIA"],
-   "resolved": true,
-   "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
-   "publicRole": "Mandatory comparison control per SPEC.",
-   "d": [
-    "Could not be confirmed present or absent as a named >=1% holder in any of this batch's 5 companies — see voids [documented void]"
-   ],
-   "srcs": []
-  },
-  {
-   "id": "cap:adia",
-   "label": "Abu Dhabi Investment Authority",
-   "sub": "Abu Dhabi's sovereign wealth fund",
-   "ty": "fund",
-   "fam": "capital",
-   "st": null,
-   "sz": 2,
-   "al": ["ADIA"],
-   "resolved": true,
-   "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
-   "publicRole": "Mandatory comparison control per SPEC.",
-   "d": [
-    "Could not be confirmed present or absent as a named >=1% holder in any of this batch's 5 companies — see voids [documented void]"
-   ],
-   "srcs": []
-  }
- ],
- "claims": [
-  {
-   "id": "holders-b5:c001",
-   "s": "co:life-insurance-corporation",
-   "t": "co:jio-financial-services",
-   "pred": "own",
-   "tier": "documented",
-   "d": "6.66% of Jio Financial Services Ltd's equity shares were allotted to LIC of India as part of the NCLT-approved demerger of the financial-services undertaking of Reliance Industries Ltd into Reliance Strategic Investments Ltd (renamed Jio Financial Services Ltd); record date 20 July 2023, allotment/listing reported ~21-22 August 2023 — every RIL shareholder, including LIC as an existing RIL shareholder, received one JFS share per RIL share held. This is LIC's stake at listing, not a current-quarter SEBI Reg. 31(1)(b) figure: Jio Financial Services' own most recent shareholding-pattern filing was not reachable in this pass (jiofin.com is rejected at the network layer by the outbound proxy; see voids), so LIC's current % is not confirmed here. screener.in's aggregate DII (domestic institutional investor) category for Jio Financial Services stood at 13.27% as of the quarter ended 30 June 2026 — a bucket LIC sits within, alongside other domestic insurers and mutual funds, so 13.27% is not LIC's number alone.",
-   "from": "2023-08-22",
-   "srcs": [
-    ["Business Today — 'LIC acquires 6.66% shareholding in Jio Financial Services through demerger action'", "https://www.businesstoday.in/latest/corporate/story/lic-acquires-6-66-percent-shareholding-in-jio-financial-services-through-demerger-action-394994-2023-08-22"],
-    ["Business Standard — 'Life Insurance Corp(LIC) picks up 6.66% stake in Jio Financial Services'", "https://www.business-standard.com/companies/news/lic-picks-up-6-66-stake-in-newly-listed-jio-financial-services-123082200348_1.html"]
-   ],
-   "supersededBy": null
-  }
- ],
- "voids": [
-  {
-   "what": "Infosys Ltd: infosys.com returned HTTP 403 Forbidden on every URL and method tried in this pass, including the plain homepage (https://www.infosys.com/) and the investors landing page — this is a site-wide bot block, not a wrong or moved path (the exact shareholding-pattern PDF URLs for quarters ending March 2026 and December 2025 were located via search but likewise 403'd on fetch). Fell back to screener.in: FIIs 27.09%, DIIs 42.78%, Promoters 13.82%, Public 15.88%, quarter ended 30 June 2026 [reported tier, aggregate only — no individual FPI holder named]. A lead not pursued within budget: Infosys files a Form 20-F with the US SEC (ADR-listed), which has a 'Major Shareholders' item and could carry named beneficial-ownership detail independent of infosys.com or NSE/BSE; the FY2026 20-F (https://www.sec.gov/Archives/edgar/data/0001067491/000119312526270520/infy-20260331.htm) exceeded this tool's fetch size limit (>10MB) and was not read.",
-   "whyItMatters": "Infosys is a NIFTY 50 and SENSEX constituent and among the most index-weighted IT names; without its own Table III, no individual foreign holder (comparison-set or otherwise) can be named or ruled out for it in this pass.",
-   "srcs": [
-    ["infosys.com — investors page, probed (403 site-wide)", "https://www.infosys.com/investors.html"],
-    ["Infosys — Shareholding Pattern, Quarter ending March 2026 (URL located, fetch 403)", "https://www.infosys.com/investors/reports-filings/quarterly-results/documents/share-holding/clause35-march31-2026.pdf"],
-    ["screener.in — Infosys Ltd (consolidated)", "https://www.screener.in/company/INFY/consolidated/"],
-    ["Infosys Ltd — Form 20-F FY2026 (SEC EDGAR, not read — exceeded fetch size limit)", "https://www.sec.gov/Archives/edgar/data/0001067491/000119312526270520/infy-20260331.htm"]
-   ]
-  },
-  {
-   "what": "InterGlobe Aviation Ltd (IndiGo): goindigo.in returned HTTP 403 Forbidden on every route tried, including the plain homepage — a site-wide block. NSE's PDF archive host (nsearchives.nseindia.com), which other batches in this domain found reachable, returned 403 on a direct fetch and 503 on a WebFetch retry for InterGlobe's own filing. Fell back to screener.in: FIIs 20.32%, DIIs 31.85%, Promoters 41.57%, Public 6.23%, Government 0.04%, quarter ended 30 June 2026 [reported tier, aggregate only]. Note on a third-party aggregator checked but not used as a claim: marketscreener.com's 'company shareholders' table for InterGlobe Aviation (dated 25 Sept 2026) listed HDFC Asset Management 4.314%, SBI Funds Management 3.532%, GIC Pte Ltd. 2.984%, WestBridge Capital Partners LLC 2.185%, Kotak/Invesco/Axis AMCs each 1.4-1.8%, and Norges Bank Investment Management 1.37% — a mix of domestic AMCs and foreign SWFs/funds in one undifferentiated list that does not identify itself as a SEBI Reg. 31 Table III extract or state whether it is FPI-registered vs. domestic-registered holdings; it was not corroborated against a primary filing within budget and is not recorded as a claim here.",
-   "whyItMatters": "IndiGo is India's dominant listed airline and a NIFTY 50 constituent with a well-known promoter dispute (InterGlobe Enterprises vs. the Gangwal family/WestBridge); without Table III, no foreign institutional holder can be confirmed named at >=1%, though the unverified aggregator figures above (if accurate) would put NBIM just over 1% and no comparison-set holder over 3%.",
-   "srcs": [
-    ["goindigo.in — Shareholding Pattern page, probed (403 site-wide)", "https://www.goindigo.in/information/investor-relations/shareholding-pattern.html"],
-    ["nsearchives.nseindia.com — InterGlobe Aviation shareholding-pattern PDF, probed (403/503)", "https://nsearchives.nseindia.com/corporate/Indigo1_21112025103054_SE21112025.pdf"],
-    ["screener.in — InterGlobe Aviation Ltd (consolidated)", "https://www.screener.in/company/INDIGO/consolidated/"],
-    ["marketscreener.com — InterGlobe Aviation Limited company shareholders (unverified aggregator, not used as a claim)", "https://www.marketscreener.com/quote/stock/INTERGLOBE-AVIATION-LIMIT-25531239/company-shareholders/"]
-   ]
-  },
-  {
-   "what": "JSW Steel Ltd: jswsteel.in itself is reachable (HTTP 200) and was crawled directly (homepage, /investors/shareholders-information, /investors/downloads, /investors/disclosures-under-regulation-46-of-the-lodr) — no link to a 'Shareholding Pattern' page or PDF was found on any of those pages within budget; the site's investor section appears reorganised since the older group.jsw.in / jsw.in URLs indexed by search engines, which themselves either 404'd (jswsteel.in path) or failed to resolve/connect through the proxy (group.jsw.in, 'CONNECT tunnel failed'). Fell back to screener.in: FIIs 25.92%, DIIs 11.49%, Promoters 44.29%, Public 17.62%, Government 0.51%, quarter ended 30 June 2026 [reported tier, aggregate only].",
-   "whyItMatters": "JSW Steel is a NIFTY 50 constituent and part of the Jindal-family-controlled JSW Group; without Table III, no individual foreign or domestic-insurer holder can be named for it in this pass.",
-   "srcs": [
-    ["jswsteel.in — Shareholders Information page (200, no shareholding-pattern link found)", "https://www.jswsteel.in/investors/shareholders-information"],
-    ["jswsteel.in — Disclosures under Regulation 46 of the LODR (200, no shareholding-pattern link found)", "https://www.jswsteel.in/investors/disclosures-under-regulation-46-of-the-lodr"],
-    ["screener.in — JSW Steel Ltd (consolidated)", "https://www.screener.in/company/JSWSTEEL/consolidated/"]
-   ]
-  },
-  {
-   "what": "Jio Financial Services Ltd: jiofin.com (and www.jiofin.com) were rejected at the network layer by the outbound proxy itself ('CONNECT tunnel failed', reported as 'organization policy or could not reach the destination') before any HTTP response was received — this site could not be attempted at all in this pass, distinct from the 403/404 blocks seen elsewhere. jio.com (the Reliance Jio Platforms investor-relations site, a related but separate listed-entity family) was checked but only covers Jio Platforms Ltd and Reliance Jio Infocomm Ltd, not Jio Financial Services Ltd. Fell back to screener.in: FIIs 11.27%, DIIs 13.27%, Promoters 49.13%, Public 26.15%, Government 0.18%, quarter ended 30 June 2026 [reported tier, aggregate only] — corroborated by a second secondary source (smart-investing.in) showing the same 11.27% FPI figure for the same quarter.",
-   "whyItMatters": "Jio Financial Services is a NIFTY 50 constituent and the newest of the five in this batch (demerged and listed 2023); LIC's 6.66% stake at listing (holders-b5:c001) is the only named domestic holder on record for it here, and no current-quarter figure for LIC or any foreign holder could be obtained.",
-   "srcs": [
-    ["screener.in — Jio Financial Services Ltd (consolidated)", "https://www.screener.in/company/JIOFIN/consolidated/"],
-    ["smart-investing.in — Jio Financial Services Ltd shareholding (secondary corroboration, not primary)", "https://www.smart-investing.in/shareholding.php?Company=JIO+FINANCIAL+SERVICES+LTD"]
-   ]
-  },
-  {
-   "what": "Kotak Mahindra Bank Ltd: the company's own site (kotak.com, 301-redirecting to kotak.bank.in) DID serve a primary filing — 'Shareholding Pattern as on September 30, 2025' — but that PDF contains only the Reg. 31 Table I/II summary, not an itemised Table III. From it: Promoter & Promoter Group (Individuals/HUF) 25.87% + Bodies Corporate 0.01% = 25.88% total; Mutual Funds/UTI 20.77%; Insurance Companies 9.01% (aggregate, not broken out by insurer — LIC's specific % within this is not stated); Financial Institutions/Banks 0.06%; Foreign Portfolio Investors/Foreign Institutional Investors 29.75% (59,16,42,463 of 1,98,85,92,513 shares) — the single largest public category and the one this batch cares most about, but not broken into named holders; Bodies Corporate (public) 1.83%; Resident Individuals 8.50%; Non-Resident Individuals 0.57%; Foreign Companies 0.91%; Foreign Banks 0.00% (13,072 shares); Qualified Institutional Buyer 0.11%; Others 2.40%. The filing's own foreign-ownership-limit table shows the FPI limit utilised falling from 34.97% (30 June 2024) to 30.94% (30 June 2025) to an implied ~29.75% at this quarter — a declining foreign share over five quarters. The filing states the itemised Table III is on BSE's and NSE's websites; the one BSE PDF-attachment URL located for Kotak (bseindia.com/xml-data/corpfiling/AttachLive/...) returned 403.",
-   "whyItMatters": "Kotak Mahindra Bank is a NIFTY 50/private-bank constituent where FPI ownership (29.75%) is the largest single public category and close to the RBI's private-bank foreign-holding ceiling context; the direction of travel (falling FPI utilisation over five quarters to Sept 2025) is itself a documented, dated fact even without individual names.",
-   "srcs": [
-    ["Kotak Mahindra Bank — Shareholding Pattern as on September 30, 2025 (kotak.bank.in, redirected from kotak.com)", "https://www.kotak.bank.in/content/dam/Kotak/investor-relation/Financial-Result/shareholding-patterns/FY-2026/q2/shareholding-patterns/Shareholding_Pattern.pdf"],
-    ["bseindia.com — Kotak Mahindra Bank corporate-filing PDF attachment, probed (403)", "https://www.bseindia.com/xml-data/corpfiling/AttachLive/b7184757-328b-447b-91ac-f3cc9b345ab5.pdf"]
-   ]
-  }
- ],
- "narratives": [],
- "symmetryCheck": "This batch could not run the comparison lens at all in the sense SPEC intends: primary Table III filings (the only source that names individual holders) were reachable for zero of the five companies — Kotak Mahindra Bank's own site served a primary filing, but only the Table I/II category summary, not itemised names. So none of the eight mandatory comparison-set holders (BlackRock, Vanguard, NBIM, GIC, Capital Group, Fidelity, Kuwait Investment Authority, ADIA) could be confirmed present or absent by name in any of the five. The domestic control, LIC, fares identically under the same access constraint: for four of the five companies (Infosys, InterGlobe Aviation, JSW Steel, Kotak Mahindra Bank) LIC's current holding is unknown for exactly the same reason BlackRock's is unknown — no Table III was reachable. The one point where LIC IS named (Jio Financial Services, 6.66%) is a three-year-old fact from the 2023 demerger allotment, not a current filing, and is not evidence that LIC is easier to find than a foreign holder would be — it survives only because it was independently reported by business press at the time, a channel that does not exist for routine quarterly FPI line items. In other words: this batch's finding is about source reachability (four IR sites blocked or unreachable, NSE and BSE both blocked, one company's own PDF stopping short of the named-holder table), applied identically to foreign and domestic holders alike — a symmetric failure of access, not an asymmetric pattern of disclosure or of this file's treatment of BlackRock versus LIC.",
- "baseRates": [
-  {
-   "property": "constituents in this batch where any single foreign holder >=5% is named and confirmed",
-   "numerator": 0,
-   "denominator": 5,
-   "label": "of the 5 companies in this batch (InterGlobe Aviation, Infosys, Jio Financial Services, JSW Steel, Kotak Mahindra Bank); the numerator is 0 because no company's Table III was reachable, not because a check was run and returned zero — see voids. Kotak Mahindra Bank's aggregate FPI/FII category (29.75%, 30 Sept 2025) is known to exceed 5% collectively but cannot be attributed to any single named holder from the source opened.",
-   "srcs": []
-  }
- ],
- "gaps": [
-  "For all 5 companies in this batch, no SEBI Reg. 31(1)(b) Table III (itemised public-shareholder, >=1%) data was obtained from a primary filing — the next attempt should try NSE's corporate-filings shareholding-pattern search UI directly with a real browser session (nseindia.com's API returned 404 in SPEC's own reconnaissance and in this pass; the UI itself was not tried) and BSE's stock-specific 'shareholding-pattern' listing pages (e.g. bseindia.com/stock-share-price/.../shareholding-pattern/), which were not attempted for any of these 5 beyond one blocked PDF attachment.",
-  "Infosys' FY2026 Form 20-F on SEC EDGAR (https://www.sec.gov/Archives/edgar/data/0001067491/000119312526270520/infy-20260331.htm) was located but exceeded this session's fetch size limit and was not read; it likely contains a 'Major Shareholders' item with named beneficial-ownership detail and should be fetched in page ranges or downloaded directly in a follow-up pass.",
-  "jiofin.com is blocked at the network/proxy layer ('organization policy'), not merely by the target server — this is a different failure mode from the other four and may need a different route (e.g. a cached/mirrored version, or NSE/BSE direct) rather than retrying the same domain.",
-  "marketscreener.com's InterGlobe Aviation shareholder table (GIC 2.984%, Norges Bank 1.37%, several domestic AMCs) was fetched and is internally consistent, but its provenance (does it reflect SEBI Reg. 31 Table III, a different disclosure, or a blend of holdings-based-on-13F/other filings) could not be established within budget; it should be corroborated against a primary filing before being promoted from 'noted in a void' to an actual claim.",
-  "Kotak Mahindra Bank's Insurance Companies aggregate (9.01%, 30 Sept 2025) almost certainly includes LIC as the largest single line — LIC is known to be a large holder of Indian bank equity generally — but the primary source opened does not break this out by name; a Table III pull (BSE/NSE) would very likely resolve this specific figure.",
-  "Jio Financial Services' LIC stake is stale (6.66% as of the August 2023 demerger allotment); LIC's current % (likely different, given screener.in's Jun 2026 DII aggregate of 13.27% for the whole company across all domestic institutions) was not found.",
-  "This file does not cover foreign adviser mandates or the World Bank/IMF/Soros narratives — out of scope for a holders-only file, per the same exclusions the companion holders.json file already recorded for the domain as a whole."
- ]
+  "asOf": "2026-09-26",
+  "domain": "holders-b5",
+  "scope": "Attempted named-foreign-shareholder (>=1%) research on five NIFTY 50 constituents — InterGlobe Aviation (IndiGo), Infosys, Jio Financial Services, JSW Steel, Kotak Mahindra Bank — from each company's own latest SEBI Reg. 31(1)(b) shareholding-pattern filing. This batch had unusually poor primary-source reachability: four of the five companies' own investor-relations sites returned hard blocks (Infosys: infosys.com is 403 Forbidden site-wide, every URL and method tried, including the homepage itself, not just the filing path; InterGlobe Aviation: goindigo.in is 403 Forbidden site-wide; Jio Financial Services: jiofin.com is rejected at the network layer by the outbound proxy under 'organization policy' before any HTTP response, so it could not be reached at all this pass; JSW Steel: jswsteel.in itself is reachable (200) and was crawled, but no 'Shareholding Pattern' page or PDF link could be located anywhere in its investors section within budget — the site appears to have moved or JS-renders that specific page). NSE's nsearchives.nseindia.com PDF host (documented reachable for other batches) returned 403/503 on every InterGlobe Aviation and Jio Financial Services URL tried here. BSE's static PDF-attachment host (bseindia.com/xml-data/corpfiling/AttachLive/...), which SPEC noted 'often opens', returned 403 on the one Kotak Mahindra Bank filing tried. Only Kotak Mahindra Bank's own site (kotak.com, 301-redirecting to kotak.bank.in) served a shareholding-pattern PDF — but that PDF is itself only the Reg. 31 Table I/II *summary* (promoter and public shareholding by category, with one aggregate 'Foreign Portfolio Investors / Foreign Institutional Investors' line), not an itemised Table III naming individual FPI holders >=1%; the filing's own last line states the itemised version is on BSE's and NSE's websites, both of which were unreachable in this pass. Net result: for all five companies, no individual foreign holder could be named and confirmed >=1% from a primary Table III filing in this pass. What this file does contain: (1) the one real, dated, primary-sourced named-holder fact available — LIC of India's 6.66% stake in Jio Financial Services received via the 2023 demerger from Reliance Industries, a historical fact, not a current-quarter filing figure; (2) the FPI/FII aggregate percentage and quarter-end date for each of the five companies, recorded as documented voids (Kotak, from its own primary filing) or reported-tier voids (the other four, from screener.in, an aggregator, per SPEC's explicit fallback instruction) rather than as fabricated named-holder claims; (3) the mandatory comparison-set entities (BlackRock, Vanguard, NBIM, GIC, Capital Group, Fidelity, Kuwait Investment Authority, ADIA), none of which could be confirmed present or absent by name in this batch, recorded honestly as such rather than omitted or guessed.",
+  "sources": [
+    [
+      "Kotak Mahindra Bank — Shareholding Pattern as on September 30, 2025 (kotak.com, redirects to kotak.bank.in)",
+      "https://www.kotak.bank.in/content/dam/Kotak/investor-relation/Financial-Result/shareholding-patterns/FY-2026/q2/shareholding-patterns/Shareholding_Pattern.pdf"
+    ],
+    [
+      "screener.in — Infosys Ltd (consolidated), shareholding-pattern section",
+      "https://www.screener.in/company/INFY/consolidated/"
+    ],
+    [
+      "screener.in — InterGlobe Aviation Ltd (consolidated), shareholding-pattern section",
+      "https://www.screener.in/company/INDIGO/consolidated/"
+    ],
+    [
+      "screener.in — JSW Steel Ltd (consolidated), shareholding-pattern section",
+      "https://www.screener.in/company/JSWSTEEL/consolidated/"
+    ],
+    [
+      "screener.in — Jio Financial Services Ltd (consolidated), shareholding-pattern section",
+      "https://www.screener.in/company/JIOFIN/consolidated/"
+    ],
+    [
+      "Business Today — 'LIC acquires 6.66% shareholding in Jio Financial Services through demerger action' (22 Aug 2023)",
+      "https://www.businesstoday.in/latest/corporate/story/lic-acquires-6-66-percent-shareholding-in-jio-financial-services-through-demerger-action-394994-2023-08-22"
+    ],
+    [
+      "Business Standard — 'Life Insurance Corp(LIC) picks up 6.66% stake in Jio Financial Services' (22 Aug 2023)",
+      "https://www.business-standard.com/companies/news/lic-picks-up-6-66-stake-in-newly-listed-jio-financial-services-123082200348_1.html"
+    ],
+    [
+      "infosys.com — homepage and investors pages, probed for reachability (403 site-wide)",
+      "https://www.infosys.com/investors.html"
+    ],
+    [
+      "goindigo.in — Shareholding Pattern page, probed (403)",
+      "https://www.goindigo.in/information/investor-relations/shareholding-pattern.html"
+    ],
+    [
+      "nsearchives.nseindia.com — InterGlobe Aviation shareholding-pattern PDF, probed (403/503)",
+      "https://nsearchives.nseindia.com/corporate/Indigo1_21112025103054_SE21112025.pdf"
+    ],
+    [
+      "bseindia.com — Kotak Mahindra Bank corporate-filing PDF attachment, probed (403)",
+      "https://www.bseindia.com/xml-data/corpfiling/AttachLive/b7184757-328b-447b-91ac-f3cc9b345ab5.pdf"
+    ],
+    [
+      "jswsteel.in — Shareholders Information page, crawled for a shareholding-pattern PDF link (none found)",
+      "https://www.jswsteel.in/investors/shareholders-information"
+    ],
+    [
+      "jswsteel.in — Disclosures under Regulation 46 of the LODR page, crawled for a shareholding-pattern PDF link (none found)",
+      "https://www.jswsteel.in/investors/disclosures-under-regulation-46-of-the-lodr"
+    ]
+  ],
+  "entities": [],
+  "claims": [
+    {
+      "id": "holders-b5:c001",
+      "s": "co:life-insurance-corporation",
+      "t": "co:jio-financial-services",
+      "pred": "own",
+      "tier": "documented",
+      "d": "6.66% of Jio Financial Services Ltd's equity shares were allotted to LIC of India as part of the NCLT-approved demerger of the financial-services undertaking of Reliance Industries Ltd into Reliance Strategic Investments Ltd (renamed Jio Financial Services Ltd); record date 20 July 2023, allotment/listing reported ~21-22 August 2023 — every RIL shareholder, including LIC as an existing RIL shareholder, received one JFS share per RIL share held. This is LIC's stake at listing, not a current-quarter SEBI Reg. 31(1)(b) figure: Jio Financial Services' own most recent shareholding-pattern filing was not reachable in this pass (jiofin.com is rejected at the network layer by the outbound proxy; see voids), so LIC's current % is not confirmed here. screener.in's aggregate DII (domestic institutional investor) category for Jio Financial Services stood at 13.27% as of the quarter ended 30 June 2026 — a bucket LIC sits within, alongside other domestic insurers and mutual funds, so 13.27% is not LIC's number alone.",
+      "from": "2023-08-22",
+      "srcs": [
+        [
+          "Business Today — 'LIC acquires 6.66% shareholding in Jio Financial Services through demerger action'",
+          "https://www.businesstoday.in/latest/corporate/story/lic-acquires-6-66-percent-shareholding-in-jio-financial-services-through-demerger-action-394994-2023-08-22"
+        ],
+        [
+          "Business Standard — 'Life Insurance Corp(LIC) picks up 6.66% stake in Jio Financial Services'",
+          "https://www.business-standard.com/companies/news/lic-picks-up-6-66-stake-in-newly-listed-jio-financial-services-123082200348_1.html"
+        ]
+      ],
+      "supersededBy": null,
+      "lab": "LIC 6.66% of Jio Financial Services at the Aug 2023 demerger allotment — as of listing; current % not confirmed"
+    }
+  ],
+  "voids": [
+    {
+      "what": "Infosys Ltd: infosys.com returned HTTP 403 Forbidden on every URL and method tried in this pass, including the plain homepage (https://www.infosys.com/) and the investors landing page — this is a site-wide bot block, not a wrong or moved path (the exact shareholding-pattern PDF URLs for quarters ending March 2026 and December 2025 were located via search but likewise 403'd on fetch). Fell back to screener.in: FIIs 27.09%, DIIs 42.78%, Promoters 13.82%, Public 15.88%, quarter ended 30 June 2026 [reported tier, aggregate only — no individual FPI holder named]. A lead not pursued within budget: Infosys files a Form 20-F with the US SEC (ADR-listed), which has a 'Major Shareholders' item and could carry named beneficial-ownership detail independent of infosys.com or NSE/BSE; the FY2026 20-F (https://www.sec.gov/Archives/edgar/data/0001067491/000119312526270520/infy-20260331.htm) exceeded this tool's fetch size limit (>10MB) and was not read.",
+      "whyItMatters": "Infosys is a NIFTY 50 and SENSEX constituent and among the most index-weighted IT names; without its own Table III, no individual foreign holder (comparison-set or otherwise) can be named or ruled out for it in this pass.",
+      "srcs": [
+        [
+          "infosys.com — investors page, probed (403 site-wide)",
+          "https://www.infosys.com/investors.html"
+        ],
+        [
+          "Infosys — Shareholding Pattern, Quarter ending March 2026 (URL located, fetch 403)",
+          "https://www.infosys.com/investors/reports-filings/quarterly-results/documents/share-holding/clause35-march31-2026.pdf"
+        ],
+        [
+          "screener.in — Infosys Ltd (consolidated)",
+          "https://www.screener.in/company/INFY/consolidated/"
+        ],
+        [
+          "Infosys Ltd — Form 20-F FY2026 (SEC EDGAR, not read — exceeded fetch size limit)",
+          "https://www.sec.gov/Archives/edgar/data/0001067491/000119312526270520/infy-20260331.htm"
+        ]
+      ]
+    },
+    {
+      "what": "InterGlobe Aviation Ltd (IndiGo): goindigo.in returned HTTP 403 Forbidden on every route tried, including the plain homepage — a site-wide block. NSE's PDF archive host (nsearchives.nseindia.com), which other batches in this domain found reachable, returned 403 on a direct fetch and 503 on a WebFetch retry for InterGlobe's own filing. Fell back to screener.in: FIIs 20.32%, DIIs 31.85%, Promoters 41.57%, Public 6.23%, Government 0.04%, quarter ended 30 June 2026 [reported tier, aggregate only]. Note on a third-party aggregator checked but not used as a claim: marketscreener.com's 'company shareholders' table for InterGlobe Aviation (dated 25 Sept 2026) listed HDFC Asset Management 4.314%, SBI Funds Management 3.532%, GIC Pte Ltd. 2.984%, WestBridge Capital Partners LLC 2.185%, Kotak/Invesco/Axis AMCs each 1.4-1.8%, and Norges Bank Investment Management 1.37% — a mix of domestic AMCs and foreign SWFs/funds in one undifferentiated list that does not identify itself as a SEBI Reg. 31 Table III extract or state whether it is FPI-registered vs. domestic-registered holdings; it was not corroborated against a primary filing within budget and is not recorded as a claim here.",
+      "whyItMatters": "IndiGo is India's dominant listed airline and a NIFTY 50 constituent with a well-known promoter dispute (InterGlobe Enterprises vs. the Gangwal family/WestBridge); without Table III, no foreign institutional holder can be confirmed named at >=1%, though the unverified aggregator figures above (if accurate) would put NBIM just over 1% and no comparison-set holder over 3%.",
+      "srcs": [
+        [
+          "goindigo.in — Shareholding Pattern page, probed (403 site-wide)",
+          "https://www.goindigo.in/information/investor-relations/shareholding-pattern.html"
+        ],
+        [
+          "nsearchives.nseindia.com — InterGlobe Aviation shareholding-pattern PDF, probed (403/503)",
+          "https://nsearchives.nseindia.com/corporate/Indigo1_21112025103054_SE21112025.pdf"
+        ],
+        [
+          "screener.in — InterGlobe Aviation Ltd (consolidated)",
+          "https://www.screener.in/company/INDIGO/consolidated/"
+        ],
+        [
+          "marketscreener.com — InterGlobe Aviation Limited company shareholders (unverified aggregator, not used as a claim)",
+          "https://www.marketscreener.com/quote/stock/INTERGLOBE-AVIATION-LIMIT-25531239/company-shareholders/"
+        ]
+      ]
+    },
+    {
+      "what": "JSW Steel Ltd: jswsteel.in itself is reachable (HTTP 200) and was crawled directly (homepage, /investors/shareholders-information, /investors/downloads, /investors/disclosures-under-regulation-46-of-the-lodr) — no link to a 'Shareholding Pattern' page or PDF was found on any of those pages within budget; the site's investor section appears reorganised since the older group.jsw.in / jsw.in URLs indexed by search engines, which themselves either 404'd (jswsteel.in path) or failed to resolve/connect through the proxy (group.jsw.in, 'CONNECT tunnel failed'). Fell back to screener.in: FIIs 25.92%, DIIs 11.49%, Promoters 44.29%, Public 17.62%, Government 0.51%, quarter ended 30 June 2026 [reported tier, aggregate only].",
+      "whyItMatters": "JSW Steel is a NIFTY 50 constituent and part of the Jindal-family-controlled JSW Group; without Table III, no individual foreign or domestic-insurer holder can be named for it in this pass.",
+      "srcs": [
+        [
+          "jswsteel.in — Shareholders Information page (200, no shareholding-pattern link found)",
+          "https://www.jswsteel.in/investors/shareholders-information"
+        ],
+        [
+          "jswsteel.in — Disclosures under Regulation 46 of the LODR (200, no shareholding-pattern link found)",
+          "https://www.jswsteel.in/investors/disclosures-under-regulation-46-of-the-lodr"
+        ],
+        [
+          "screener.in — JSW Steel Ltd (consolidated)",
+          "https://www.screener.in/company/JSWSTEEL/consolidated/"
+        ]
+      ]
+    },
+    {
+      "what": "Jio Financial Services Ltd: jiofin.com (and www.jiofin.com) were rejected at the network layer by the outbound proxy itself ('CONNECT tunnel failed', reported as 'organization policy or could not reach the destination') before any HTTP response was received — this site could not be attempted at all in this pass, distinct from the 403/404 blocks seen elsewhere. jio.com (the Reliance Jio Platforms investor-relations site, a related but separate listed-entity family) was checked but only covers Jio Platforms Ltd and Reliance Jio Infocomm Ltd, not Jio Financial Services Ltd. Fell back to screener.in: FIIs 11.27%, DIIs 13.27%, Promoters 49.13%, Public 26.15%, Government 0.18%, quarter ended 30 June 2026 [reported tier, aggregate only] — corroborated by a second secondary source (smart-investing.in) showing the same 11.27% FPI figure for the same quarter.",
+      "whyItMatters": "Jio Financial Services is a NIFTY 50 constituent and the newest of the five in this batch (demerged and listed 2023); LIC's 6.66% stake at listing (holders-b5:c001) is the only named domestic holder on record for it here, and no current-quarter figure for LIC or any foreign holder could be obtained.",
+      "srcs": [
+        [
+          "screener.in — Jio Financial Services Ltd (consolidated)",
+          "https://www.screener.in/company/JIOFIN/consolidated/"
+        ],
+        [
+          "smart-investing.in — Jio Financial Services Ltd shareholding (secondary corroboration, not primary)",
+          "https://www.smart-investing.in/shareholding.php?Company=JIO+FINANCIAL+SERVICES+LTD"
+        ]
+      ]
+    },
+    {
+      "what": "Kotak Mahindra Bank Ltd: the company's own site (kotak.com, 301-redirecting to kotak.bank.in) DID serve a primary filing — 'Shareholding Pattern as on September 30, 2025' — but that PDF contains only the Reg. 31 Table I/II summary, not an itemised Table III. From it: Promoter & Promoter Group (Individuals/HUF) 25.87% + Bodies Corporate 0.01% = 25.88% total; Mutual Funds/UTI 20.77%; Insurance Companies 9.01% (aggregate, not broken out by insurer — LIC's specific % within this is not stated); Financial Institutions/Banks 0.06%; Foreign Portfolio Investors/Foreign Institutional Investors 29.75% (59,16,42,463 of 1,98,85,92,513 shares) — the single largest public category and the one this batch cares most about, but not broken into named holders; Bodies Corporate (public) 1.83%; Resident Individuals 8.50%; Non-Resident Individuals 0.57%; Foreign Companies 0.91%; Foreign Banks 0.00% (13,072 shares); Qualified Institutional Buyer 0.11%; Others 2.40%. The filing's own foreign-ownership-limit table shows the FPI limit utilised falling from 34.97% (30 June 2024) to 30.94% (30 June 2025) to an implied ~29.75% at this quarter — a declining foreign share over five quarters. The filing states the itemised Table III is on BSE's and NSE's websites; the one BSE PDF-attachment URL located for Kotak (bseindia.com/xml-data/corpfiling/AttachLive/...) returned 403.",
+      "whyItMatters": "Kotak Mahindra Bank is a NIFTY 50/private-bank constituent where FPI ownership (29.75%) is the largest single public category and close to the RBI's private-bank foreign-holding ceiling context; the direction of travel (falling FPI utilisation over five quarters to Sept 2025) is itself a documented, dated fact even without individual names.",
+      "srcs": [
+        [
+          "Kotak Mahindra Bank — Shareholding Pattern as on September 30, 2025 (kotak.bank.in, redirected from kotak.com)",
+          "https://www.kotak.bank.in/content/dam/Kotak/investor-relation/Financial-Result/shareholding-patterns/FY-2026/q2/shareholding-patterns/Shareholding_Pattern.pdf"
+        ],
+        [
+          "bseindia.com — Kotak Mahindra Bank corporate-filing PDF attachment, probed (403)",
+          "https://www.bseindia.com/xml-data/corpfiling/AttachLive/b7184757-328b-447b-91ac-f3cc9b345ab5.pdf"
+        ]
+      ]
+    }
+  ],
+  "narratives": [],
+  "symmetryCheck": "This batch could not run the comparison lens at all in the sense SPEC intends: primary Table III filings (the only source that names individual holders) were reachable for zero of the five companies — Kotak Mahindra Bank's own site served a primary filing, but only the Table I/II category summary, not itemised names. So none of the eight mandatory comparison-set holders (BlackRock, Vanguard, NBIM, GIC, Capital Group, Fidelity, Kuwait Investment Authority, ADIA) could be confirmed present or absent by name in any of the five. The domestic control, LIC, fares identically under the same access constraint: for four of the five companies (Infosys, InterGlobe Aviation, JSW Steel, Kotak Mahindra Bank) LIC's current holding is unknown for exactly the same reason BlackRock's is unknown — no Table III was reachable. The one point where LIC IS named (Jio Financial Services, 6.66%) is a three-year-old fact from the 2023 demerger allotment, not a current filing, and is not evidence that LIC is easier to find than a foreign holder would be — it survives only because it was independently reported by business press at the time, a channel that does not exist for routine quarterly FPI line items. In other words: this batch's finding is about source reachability (four IR sites blocked or unreachable, NSE and BSE both blocked, one company's own PDF stopping short of the named-holder table), applied identically to foreign and domestic holders alike — a symmetric failure of access, not an asymmetric pattern of disclosure or of this file's treatment of BlackRock versus LIC.",
+  "baseRates": [
+    {
+      "property": "constituents in this batch where any single foreign holder >=5% is named and confirmed",
+      "numerator": 0,
+      "denominator": 5,
+      "label": "of the 5 companies in this batch (InterGlobe Aviation, Infosys, Jio Financial Services, JSW Steel, Kotak Mahindra Bank); the numerator is 0 because no company's Table III was reachable, not because a check was run and returned zero — see voids. Kotak Mahindra Bank's aggregate FPI/FII category (29.75%, 30 Sept 2025) is known to exceed 5% collectively but cannot be attributed to any single named holder from the source opened.",
+      "srcs": []
+    }
+  ],
+  "gaps": [
+    "For all 5 companies in this batch, no SEBI Reg. 31(1)(b) Table III (itemised public-shareholder, >=1%) data was obtained from a primary filing — the next attempt should try NSE's corporate-filings shareholding-pattern search UI directly with a real browser session (nseindia.com's API returned 404 in SPEC's own reconnaissance and in this pass; the UI itself was not tried) and BSE's stock-specific 'shareholding-pattern' listing pages (e.g. bseindia.com/stock-share-price/.../shareholding-pattern/), which were not attempted for any of these 5 beyond one blocked PDF attachment.",
+    "Infosys' FY2026 Form 20-F on SEC EDGAR (https://www.sec.gov/Archives/edgar/data/0001067491/000119312526270520/infy-20260331.htm) was located but exceeded this session's fetch size limit and was not read; it likely contains a 'Major Shareholders' item with named beneficial-ownership detail and should be fetched in page ranges or downloaded directly in a follow-up pass.",
+    "jiofin.com is blocked at the network/proxy layer ('organization policy'), not merely by the target server — this is a different failure mode from the other four and may need a different route (e.g. a cached/mirrored version, or NSE/BSE direct) rather than retrying the same domain.",
+    "marketscreener.com's InterGlobe Aviation shareholder table (GIC 2.984%, Norges Bank 1.37%, several domestic AMCs) was fetched and is internally consistent, but its provenance (does it reflect SEBI Reg. 31 Table III, a different disclosure, or a blend of holdings-based-on-13F/other filings) could not be established within budget; it should be corroborated against a primary filing before being promoted from 'noted in a void' to an actual claim.",
+    "Kotak Mahindra Bank's Insurance Companies aggregate (9.01%, 30 Sept 2025) almost certainly includes LIC as the largest single line — LIC is known to be a large holder of Indian bank equity generally — but the primary source opened does not break this out by name; a Table III pull (BSE/NSE) would very likely resolve this specific figure.",
+    "Jio Financial Services' LIC stake is stale (6.66% as of the August 2023 demerger allotment); LIC's current % (likely different, given screener.in's Jun 2026 DII aggregate of 13.27% for the whole company across all domestic institutions) was not found.",
+    "This file does not cover foreign adviser mandates or the World Bank/IMF/Soros narratives — out of scope for a holders-only file, per the same exclusions the companion holders.json file already recorded for the domain as a whole."
+  ]
 }

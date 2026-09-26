@@ -3,39 +3,56 @@
   "domain": "holders-b1",
   "scope": "Named foreign shareholders (≥1%) of five NIFTY 50 / large-cap constituents assigned as batch 1 — Adani Enterprises, Adani Ports and Special Economic Zone, Apollo Hospitals Enterprise, Asian Paints and Axis Bank — from primary SEBI Reg. 31(1)(b)/(c) shareholding-pattern filings opened directly on each company's own investor-relations site, plus LIC of India as the domestic control and the mandatory BlackRock/Vanguard/NBIM/GIC/Capital Group/Fidelity/KIA/ADIA comparison set tested against every company. Three of five companies (Adani Enterprises, Adani Ports, Axis Bank) rest on primary filings read table-by-table, including Table II promoter/promoter-group foreign entities and the Significant Beneficial Owner table. Two (Apollo Hospitals, Asian Paints) rest on screener.in aggregate data only, at tier reported: apollohospitals.com returned HTTP 403 on every route tried (the shareholding-pattern IR page and six guessed direct PDF URLs, with and without a browser user-agent), and asianpaints.com's shareholding-pattern page is a client-side JavaScript year-selector with no server-rendered PDF links reachable within budget. Two holders found in this batch sit outside SPEC's mandatory comparison set but are recorded per the domain instruction to name every foreign holder ≥1%: GQG Partners (already known from the base holders.json file, here concentrated in two Adani group companies specifically) and Dodge and Cox International Stock Fund (new, in Axis Bank). A promoter-group cluster of nine Mauritius/Cyprus/DMCC-registered 'Trade and Investment' shell vehicles recurs across Adani Enterprises' and Adani Ports' own Table II filings, categorized by the companies themselves as 'Promoter and Promoter Group (Foreign)' — distinct from the public Foreign Portfolio Investor lines, and recorded as such. A separate Abu Dhabi entity, International Holding Company PJSC (IHC, ADX-listed conglomerate), holds a public (non-promoter) 'Foreign Companies'-category stake in Adani Enterprises via a named subsidiary — recorded and explicitly distinguished from the Abu Dhabi Investment Authority (ADIA, the emirate's sovereign wealth fund and a SPEC comparison-set member) per the institutions-not-bloodlines rule, since both are Abu Dhabi state-linked but are legally and institutionally separate actors. LIC of India is Axis Bank's sole promoter (not merely a public-shareholder domestic control) — a materially different relationship from LIC's public/DII holdings in the other companies checked, and flagged as such.",
   "sources": [
-    ["Adani Enterprises Ltd — Shareholding Pattern as on 11.12.2025 (Capital Restructuring filing, Reg. 31(1)(c)), adanienterprises.com", "https://www.adanienterprises.com/-/media/Project/Enterprises/Investors/corporate-governance/ShareholdingPatternsDynamic/Shp-as-on-11122025-(1).pdf"],
-    ["Adani Enterprises Ltd — Corporate Governance / Shareholding Patterns page (link discovery)", "https://www.adanienterprises.com/en/investors/corporate-governance"],
-    ["Adani Ports and Special Economic Zone Ltd — Shareholding Pattern as on 30.06.2026, adaniports.com", "https://www.adaniports.com/-/media/project/ports/investor/corporate-governance/shareholding-pattern/apsez_shp-30062026_website.pdf"],
-    ["Adani Ports and SEZ Ltd — Corporate Governance page (link discovery)", "https://www.adaniports.com/en/investors/corporate-governance"],
-    ["Axis Bank Ltd — Shareholding Pattern for the Quarter Ended 30.06.2025, axis.bank.in", "https://www.axis.bank.in/docs/default-source/quarterly-reports/shareholding-pattern/shareholding-pattern-for-the-quarter-ended-30-06-2025.pdf"],
-    ["Axis Bank Ltd — Shareholders Corner (link discovery, JS-rendered, no PDF hrefs recovered)", "https://www.axis.bank.in/shareholders-corner"],
-    ["Apollo Hospitals Enterprise Ltd — Shareholding Pattern IR page (403 Forbidden, every route tried — see voids)", "https://www.apollohospitals.com/corporate/investor-relations/shareholding-pattern/"],
-    ["screener.in — Apollo Hospitals Enterprise Ltd (consolidated), shareholding-pattern section", "https://www.screener.in/company/APOLLOHOSP/consolidated/"],
-    ["Asian Paints Ltd — Shareholding Pattern page (JS year-selector, no static PDF hrefs recovered — see voids)", "https://www.asianpaints.com/more/investors/shareholding-pattern.html"],
-    ["screener.in — Asian Paints Ltd (consolidated), shareholding-pattern section", "https://www.screener.in/company/ASIANPAINT/consolidated/"],
-    ["IndiaInfoline — 'Adani Enterprises allots 4.01 cr equity shares to Green Enterprises Investment Holding RSC' (13 May 2022 preferential allotment, ₹7,700 crore)", "https://www.indiainfoline.com/news/markets/adani-enterprises-allots-4-01-cr-equity-shares-to-green-enterprises-investment-holding-rsc"],
-    ["Business Today — 'Adani Enterprises shares surge 5% after UAE's IHC raises stake' (4 Oct 2023)", "https://www.businesstoday.in/markets/company-stock/story/adani-enterprises-shares-surge-5-after-uaes-ihc-raises-stake-400682-2023-10-04"],
-    ["research/raw/capital/holders.json — base file establishing cap: holder ids and comparison-set fields (asOf 2026-09-26)", "internal:research/raw/capital/holders.json"]
+    [
+      "Adani Enterprises Ltd — Shareholding Pattern as on 11.12.2025 (Capital Restructuring filing, Reg. 31(1)(c)), adanienterprises.com",
+      "https://www.adanienterprises.com/-/media/Project/Enterprises/Investors/corporate-governance/ShareholdingPatternsDynamic/Shp-as-on-11122025-(1).pdf"
+    ],
+    [
+      "Adani Enterprises Ltd — Corporate Governance / Shareholding Patterns page (link discovery)",
+      "https://www.adanienterprises.com/en/investors/corporate-governance"
+    ],
+    [
+      "Adani Ports and Special Economic Zone Ltd — Shareholding Pattern as on 30.06.2026, adaniports.com",
+      "https://www.adaniports.com/-/media/project/ports/investor/corporate-governance/shareholding-pattern/apsez_shp-30062026_website.pdf"
+    ],
+    [
+      "Adani Ports and SEZ Ltd — Corporate Governance page (link discovery)",
+      "https://www.adaniports.com/en/investors/corporate-governance"
+    ],
+    [
+      "Axis Bank Ltd — Shareholding Pattern for the Quarter Ended 30.06.2025, axis.bank.in",
+      "https://www.axis.bank.in/docs/default-source/quarterly-reports/shareholding-pattern/shareholding-pattern-for-the-quarter-ended-30-06-2025.pdf"
+    ],
+    [
+      "Axis Bank Ltd — Shareholders Corner (link discovery, JS-rendered, no PDF hrefs recovered)",
+      "https://www.axis.bank.in/shareholders-corner"
+    ],
+    [
+      "Apollo Hospitals Enterprise Ltd — Shareholding Pattern IR page (403 Forbidden, every route tried — see voids)",
+      "https://www.apollohospitals.com/corporate/investor-relations/shareholding-pattern/"
+    ],
+    [
+      "screener.in — Apollo Hospitals Enterprise Ltd (consolidated), shareholding-pattern section",
+      "https://www.screener.in/company/APOLLOHOSP/consolidated/"
+    ],
+    [
+      "Asian Paints Ltd — Shareholding Pattern page (JS year-selector, no static PDF hrefs recovered — see voids)",
+      "https://www.asianpaints.com/more/investors/shareholding-pattern.html"
+    ],
+    [
+      "screener.in — Asian Paints Ltd (consolidated), shareholding-pattern section",
+      "https://www.screener.in/company/ASIANPAINT/consolidated/"
+    ],
+    [
+      "IndiaInfoline — 'Adani Enterprises allots 4.01 cr equity shares to Green Enterprises Investment Holding RSC' (13 May 2022 preferential allotment, ₹7,700 crore)",
+      "https://www.indiainfoline.com/news/markets/adani-enterprises-allots-4-01-cr-equity-shares-to-green-enterprises-investment-holding-rsc"
+    ],
+    [
+      "Business Today — 'Adani Enterprises shares surge 5% after UAE's IHC raises stake' (4 Oct 2023)",
+      "https://www.businesstoday.in/markets/company-stock/story/adani-enterprises-shares-surge-5-after-uaes-ihc-raises-stake-400682-2023-10-04"
+    ]
   ],
   "entities": [
-    {
-      "id": "cap:blackrock",
-      "label": "BlackRock, Inc.",
-      "sub": "US asset manager, NYSE: BLK; India exposure via iShares ETFs and BlackRock Global Funds sub-funds, each separately FPI-registered",
-      "ty": "company",
-      "fam": "capital",
-      "st": null,
-      "sz": 4,
-      "al": ["iShares", "BlackRock Global Funds", "iShares MSCI India ETF", "BlackRock Global Funds - India Fund"],
-      "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
-      "publicRole": "Mandatory control per SPEC — never recorded without the comparison set. Carried over from the base holders.json file; re-tested against this batch's five companies.",
-      "d": [
-        "Not found as a named ≥1% shareholder in either of the two Adani Enterprises/Adani Ports/Axis Bank primary filings opened in this batch [documented, absence in sample]",
-        "Apollo Hospitals and Asian Paints were checked only at screener.in's aggregate tier (reported), which reports FII/DII totals but names no individual holder — BlackRock's presence or absence in these two cannot be determined from this pass"
-      ],
-      "srcs": []
-    },
     {
       "id": "cap:vanguard",
       "label": "The Vanguard Group, Inc.",
@@ -44,37 +61,43 @@
       "fam": "capital",
       "st": null,
       "sz": 4,
-      "al": ["Vanguard Total International Stock Index Fund", "Vanguard Emerging Markets Stock Index Fund"],
+      "al": [],
       "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
-      "publicRole": "Mandatory comparison control per SPEC.",
-      "d": [
-        "Named ≥1% in 1 of 3 companies with primary filings opened: Axis Bank, via 'VANGUARD TOTAL INTERNATIONAL STOCK INDEX FUND', 1.11% (33,135,776 shares), quarter ended 30.06.2025 — its only named line in this filing, unlike the two-fund combination found in HDFC Bank in the base file [documented]",
-        "Not found ≥1% in Adani Enterprises or Adani Ports primary filings; Apollo Hospitals and Asian Paints checked only at screener.in aggregate tier"
-      ],
-      "srcs": [
-        ["Axis Bank — Shareholding Pattern for the Quarter Ended 30.06.2025", "https://www.axis.bank.in/docs/default-source/quarterly-reports/shareholding-pattern/shareholding-pattern-for-the-quarter-ended-30-06-2025.pdf"]
-      ]
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "Second-largest global passive asset manager; mandatory comparison control for BlackRock per SPEC.",
+      "canonicalIn": "holders.json",
+      "d": [],
+      "srcs": []
     },
     {
       "id": "cap:nbim",
       "label": "Norges Bank Investment Management (Government Pension Fund Global)",
-      "sub": "Manager of Norway's sovereign wealth fund",
+      "sub": "Manager of Norway's sovereign wealth fund; India = 2.1% of the fund's equity investments at end-2025 per its own annual report",
       "ty": "fund",
       "fam": "capital",
       "st": null,
       "sz": 4,
-      "al": ["NBIM", "Government Pension Fund Global", "GPFG", "Norges Bank", "Government of Norway"],
+      "al": [],
       "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
-      "publicRole": "Mandatory comparison control per SPEC.",
-      "d": [
-        "Named ≥1% in 1 of 3 companies with primary filings opened: Axis Bank, as 'GOVERNMENT PENSION FUND GLOBAL', 2.27% (68,014,107 shares), quarter ended 30.06.2025 — the single largest named FPI line in that filing [documented]",
-        "Not found ≥1% in Adani Enterprises or Adani Ports primary filings"
-      ],
-      "srcs": [
-        ["Axis Bank — Shareholding Pattern for the Quarter Ended 30.06.2025", "https://www.axis.bank.in/docs/default-source/quarterly-reports/shareholding-pattern/shareholding-pattern-for-the-quarter-ended-30-06-2025.pdf"]
-      ]
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "Mandatory comparison control per SPEC; publishes every global holding twice yearly — the highest public-transparency standard among the controls, in principle.",
+      "canonicalIn": "holders.json",
+      "d": [],
+      "srcs": []
     },
     {
       "id": "cap:gic-singapore",
@@ -84,88 +107,19 @@
       "fam": "capital",
       "st": null,
       "sz": 4,
-      "al": ["GIC", "GIC Pte Ltd", "GIC Private Limited", "Government of Singapore"],
+      "al": [],
       "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
-      "publicRole": "Mandatory comparison control per SPEC.",
-      "d": [
-        "Named ≥1% in 1 of 3 companies with primary filings opened: Axis Bank, as 'GOVERNMENT OF SINGAPORE', 1.93% (57,943,401 shares), quarter ended 30.06.2025 [documented]",
-        "Not found ≥1% in Adani Enterprises or Adani Ports primary filings"
-      ],
-      "srcs": [
-        ["Axis Bank — Shareholding Pattern for the Quarter Ended 30.06.2025", "https://www.axis.bank.in/docs/default-source/quarterly-reports/shareholding-pattern/shareholding-pattern-for-the-quarter-ended-30-06-2025.pdf"]
-      ]
-    },
-    {
-      "id": "cap:capital-group",
-      "label": "Capital Group Companies, Inc.",
-      "sub": "US asset manager; EuroPacific Growth Fund and New Perspective Fund are its best-known emerging-markets vehicles",
-      "ty": "company",
-      "fam": "capital",
-      "st": null,
-      "sz": 3,
-      "al": ["EuroPacific Growth Fund", "New Perspective Fund", "The Capital Group Companies"],
-      "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
-      "publicRole": "Mandatory comparison control per SPEC.",
-      "d": [
-        "Not found as a named ≥1% holder in Adani Enterprises, Adani Ports or Axis Bank (primary filings opened) [documented, absence in sample]",
-        "Apollo Hospitals and Asian Paints checked only at screener.in aggregate tier"
-      ],
-      "srcs": []
-    },
-    {
-      "id": "cap:fidelity",
-      "label": "Fidelity Investments (FMR LLC)",
-      "sub": "US asset manager, privately held; distinct corporate lineage from Fidelity International Ltd (spun off 1980, UK-based)",
-      "ty": "company",
-      "fam": "capital",
-      "st": null,
-      "sz": 3,
-      "al": ["FMR LLC", "Fidelity Management & Research"],
-      "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
-      "publicRole": "Mandatory comparison control per SPEC.",
-      "d": [
-        "Not found as a named ≥1% holder (under either the FMR/Fidelity Investments or Fidelity International lineage) in Adani Enterprises, Adani Ports or Axis Bank [documented, absence in sample]",
-        "Apollo Hospitals and Asian Paints checked only at screener.in aggregate tier"
-      ],
-      "srcs": []
-    },
-    {
-      "id": "cap:kuwait-investment-authority",
-      "label": "Kuwait Investment Authority",
-      "sub": "Kuwait's sovereign wealth fund",
-      "ty": "fund",
-      "fam": "capital",
-      "st": null,
-      "sz": 2,
-      "al": ["KIA"],
-      "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
-      "publicRole": "Mandatory comparison control per SPEC.",
-      "d": [
-        "Not found as a named ≥1% holder in Adani Enterprises, Adani Ports or Axis Bank [documented, absence in sample]",
-        "Apollo Hospitals and Asian Paints checked only at screener.in aggregate tier"
-      ],
-      "srcs": []
-    },
-    {
-      "id": "cap:adia",
-      "label": "Abu Dhabi Investment Authority",
-      "sub": "Abu Dhabi's sovereign wealth fund, owned by the Abu Dhabi Department of Finance",
-      "ty": "fund",
-      "fam": "capital",
-      "st": null,
-      "sz": 2,
-      "al": ["ADIA"],
-      "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
-      "publicRole": "Mandatory comparison control per SPEC. Institutionally and legally distinct from International Holding Company PJSC (cap:ihc-abu-dhabi, below), an Abu Dhabi-listed private conglomerate found in this batch — both are 'Abu Dhabi money' in loose press usage but are separate corporate actors, and this file does not conflate them.",
-      "d": [
-        "Not found as a named ≥1% holder in Adani Enterprises, Adani Ports or Axis Bank [documented, absence in sample]",
-        "Apollo Hospitals and Asian Paints checked only at screener.in aggregate tier"
-      ],
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "Mandatory comparison control per SPEC. Not to be confused with General Insurance Corporation of India ('GIC Re'), a domestic PSU reinsurer that also appears by the acronym GIC in some of these same filings (e.g. ITC, 1.73%, 31.12.2025) — the two are unrelated and this file does not conflate them.",
+      "canonicalIn": "holders.json",
+      "d": [],
       "srcs": []
     },
     {
@@ -176,19 +130,20 @@
       "fam": "capital",
       "st": null,
       "sz": 3,
-      "al": ["GQG Partners Emerging Markets Equity Fund", "Goldman Sachs Trust II - Goldman Sachs GQG Partners International Opportunities Fund", "GQG Partners LLC"],
+      "al": [],
       "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
-      "publicRole": "Not in SPEC's mandatory comparison set but observed directly as a named ≥1% holder — recorded per the domain instruction to name every foreign holder ≥1%.",
-      "d": [
-        "Named ≥1% in both Adani group companies checked in this batch, via 'Goldman Sachs Trust II - Goldman Sachs GQG Partners International Opportunities Fund' (a GQG-subadvised, Goldman-branded feeder): 2.12% in Adani Enterprises (27,386,568 shares, as on 11.12.2025) and 1.93% in Adani Ports (44,495,892 shares, as on 30.06.2026) [documented]",
-        "Additionally holds 'GQG Partners Emerging Markets Equity Fund' 1.75% in Adani Enterprises (22,616,397 shares); combined GQG exposure to Adani Enterprises alone is 3.87% [documented]",
-        "Not found ≥1% in Axis Bank. Continues the pattern already seen in ITC (base holders.json file) of large, post-2023, Adani-group-concentrated GQG positions — consistent with GQG's own public statements about buying into the Adani group after the Hindenburg report, rather than a broad-based India allocation"
-      ],
-      "srcs": [
-        ["Adani Enterprises — Shareholding Pattern as on 11.12.2025", "https://www.adanienterprises.com/-/media/Project/Enterprises/Investors/corporate-governance/ShareholdingPatternsDynamic/Shp-as-on-11122025-(1).pdf"],
-        ["Adani Ports and SEZ — Shareholding Pattern as on 30.06.2026", "https://www.adaniports.com/-/media/project/ports/investor/corporate-governance/shareholding-pattern/apsez_shp-30062026_website.pdf"]
-      ]
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "Not in SPEC's mandatory comparison set but observed directly as a named ≥1% holder in the sample — recorded for accuracy, per the domain instruction to record every foreign holder ≥1% by name.",
+      "canonicalIn": "holders.json",
+      "d": [],
+      "srcs": []
     },
     {
       "id": "cap:dodge-and-cox",
@@ -198,16 +153,28 @@
       "fam": "capital",
       "st": null,
       "sz": 2,
-      "al": ["Dodge and Cox International Stock Fund"],
+      "al": [
+        "Dodge and Cox International Stock Fund"
+      ],
       "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
       "publicRole": "Not in SPEC's mandatory comparison set but observed directly as a named ≥1% holder — recorded per the domain instruction to name every foreign holder ≥1%.",
       "d": [
         "Named ≥1% in Axis Bank: 2.23% (66,840,650 shares), Foreign Portfolio Investor Category I, quarter ended 30.06.2025 — the second-largest named FPI line in the filing, ahead of every SPEC comparison-set holder except NBIM [documented]",
         "Not found ≥1% in Adani Enterprises or Adani Ports"
       ],
       "srcs": [
-        ["Axis Bank — Shareholding Pattern for the Quarter Ended 30.06.2025", "https://www.axis.bank.in/docs/default-source/quarterly-reports/shareholding-pattern/shareholding-pattern-for-the-quarter-ended-30-06-2025.pdf"]
+        [
+          "Axis Bank — Shareholding Pattern for the Quarter Ended 30.06.2025",
+          "https://www.axis.bank.in/docs/default-source/quarterly-reports/shareholding-pattern/shareholding-pattern-for-the-quarter-ended-30-06-2025.pdf"
+        ]
       ]
     },
     {
@@ -218,9 +185,20 @@
       "fam": "capital",
       "st": null,
       "sz": 3,
-      "al": ["IHC", "Green Enterprises Investment Holding RSC Limited", "Green Energy Investment Holding RSC Limited"],
+      "al": [
+        "IHC",
+        "Green Enterprises Investment Holding RSC Limited",
+        "Green Energy Investment Holding RSC Limited"
+      ],
       "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
       "publicRole": "A strategic/FDI investor in Adani group companies since 2022, recorded here because its subsidiary crosses the 1% threshold as a named public (non-promoter) shareholder in Adani Enterprises. Recorded institutionally and explicitly distinguished from cap:adia (Abu Dhabi's sovereign wealth fund) — both are Abu Dhabi state-linked entities but are separate corporate actors; this file does not treat 'Abu Dhabi money' as one undifferentiated actor.",
       "d": [
         "Subsidiary 'Green Enterprises Investment Holding RSC Limited' holds 3.11% of Adani Enterprises (40,191,038 shares), filed under the public-shareholder 'Foreign Companies' category — not Promoter/Promoter Group and not Foreign Portfolio Investor — as on 11.12.2025 [documented]",
@@ -229,38 +207,69 @@
         "The 3.11% figure in the 11.12.2025 primary filing is lower than the 5.04% reported in Oct 2023 and shows only the single 'Green Enterprises' vehicle, not 'Green Energy Investment Holding RSC' as a separate line — consistent with dilution from Adani Enterprises' November 2025 rights issue, but not independently reconciled against an IHC-side disclosure in this pass [gap]"
       ],
       "srcs": [
-        ["Adani Enterprises — Shareholding Pattern as on 11.12.2025", "https://www.adanienterprises.com/-/media/Project/Enterprises/Investors/corporate-governance/ShareholdingPatternsDynamic/Shp-as-on-11122025-(1).pdf"],
-        ["IndiaInfoline — Adani Enterprises allots 4.01 cr equity shares to Green Enterprises Investment Holding RSC", "https://www.indiainfoline.com/news/markets/adani-enterprises-allots-4-01-cr-equity-shares-to-green-enterprises-investment-holding-rsc"],
-        ["Business Today — Adani Enterprises shares surge 5% after UAE's IHC raises stake", "https://www.businesstoday.in/markets/company-stock/story/adani-enterprises-shares-surge-5-after-uaes-ihc-raises-stake-400682-2023-10-04"]
+        [
+          "Adani Enterprises — Shareholding Pattern as on 11.12.2025",
+          "https://www.adanienterprises.com/-/media/Project/Enterprises/Investors/corporate-governance/ShareholdingPatternsDynamic/Shp-as-on-11122025-(1).pdf"
+        ],
+        [
+          "IndiaInfoline — Adani Enterprises allots 4.01 cr equity shares to Green Enterprises Investment Holding RSC",
+          "https://www.indiainfoline.com/news/markets/adani-enterprises-allots-4-01-cr-equity-shares-to-green-enterprises-investment-holding-rsc"
+        ],
+        [
+          "Business Today — Adani Enterprises shares surge 5% after UAE's IHC raises stake",
+          "https://www.businesstoday.in/markets/company-stock/story/adani-enterprises-shares-surge-5-after-uaes-ihc-raises-stake-400682-2023-10-04"
+        ]
       ]
     },
     {
       "id": "cap:adani-promoter-offshore-vehicles",
-      "label": "Adani promoter-group offshore holding vehicles",
-      "sub": "A cluster of Mauritius/Cyprus/DMCC-registered 'Trade and Investment' and similarly named bodies corporate, disclosed by Adani Enterprises and Adani Ports themselves as part of the Adani family's Promoter and Promoter Group (Foreign) in Table II of their own SEBI shareholding-pattern filings",
+      "label": "Adani promoter-group offshore vehicles (cluster of 11 legal entities)",
+      "sub": "A cluster of Mauritius/Cyprus/DMCC/Singapore-registered 'Trade and Investment' and similarly named bodies corporate that Adani Enterprises and Adani Ports classify as Promoter and Promoter Group (Foreign) in Table II of their own SEBI shareholding-pattern filings — a labelled cluster, not one legal person",
       "ty": "shell",
       "fam": "capital",
       "st": null,
       "sz": 3,
       "al": [
-        "Kempas Trade And Investment Ltd", "Flourishing Trade And Investment Ltd", "Afro Asia Trade And Investments Limited",
-        "Worldwide Emerging Market Holding Limited", "Infinite Trade And Investment Ltd", "Emerging Market Investment DMCC",
-        "Spitze Trade And Investment Limited", "Hibiscus Trade And Investment Ltd", "Gelt Bery Trade And Investment Ltd",
-        "Resurgent Trade and Investment Limited", "Carmichael Rail And Port Singapore Holding Pte. Ltd."
+        "Kempas Trade And Investment Ltd",
+        "Flourishing Trade And Investment Ltd",
+        "Afro Asia Trade And Investments Limited",
+        "Worldwide Emerging Market Holding Limited",
+        "Infinite Trade And Investment Ltd",
+        "Emerging Market Investment DMCC",
+        "Spitze Trade And Investment Limited",
+        "Hibiscus Trade And Investment Ltd",
+        "Gelt Bery Trade And Investment Ltd",
+        "Resurgent Trade and Investment Limited",
+        "Carmichael Rail And Port Singapore Holding Pte. Ltd."
       ],
       "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
       "publicRole": "A foreign promoter-group vehicle cluster, disclosed in each company's own Table II. Recorded institutionally per the company's own promoter classification, not by naming the Adani family as an economic actor beyond what each filing itself discloses (per CONTRACT rule 1 and the resolution invariant).",
       "d": [
         "In Adani Enterprises (as on 11.12.2025), nine such entities together hold 15.68% (202,659,228 shares): Kempas Trade 3.21%, Flourishing Trade 2.94%, Afro Asia Trade 2.62%, Worldwide Emerging Market Holding 2.62%, Infinite Trade 2.11%, Emerging Market Investment DMCC 1.66%, Spitze Trade 0.35%, Hibiscus Trade 0.17%, Gelt Bery Trade ~0.00% [documented]",
         "In Adani Ports (as on 30.06.2026), eight such entities together hold 26.04% (600,053,578 shares): Carmichael Rail And Port Singapore Holding Pte. Ltd. 6.24% (all 143,820,153 of its own shares — 100% of its holding — are reported as pledged, the only pledge disclosed anywhere in either filing), Emerging Market Investment DMCC 5.91%, Flourishing Trade and Investment Ltd 5.40%, Afro Asia Trade and Investments Limited 3.90%, Resurgent Trade and Investment Limited 2.30%, Worldwide Emerging Market Holding Limited 1.75%, Spitze Trade and Investment Limited 0.54%, Gelt Bery Trade and Investment Ltd ~0.00% [documented]",
         "Six entity names recur identically across the two companies' Table II filings (Emerging Market Investment DMCC, Flourishing Trade and Investment Ltd, Afro Asia Trade and Investments Limited, Worldwide Emerging Market Holding Limited, Spitze Trade and Investment Limited, Gelt Bery Trade and Investment Ltd) — the same promoter-group offshore vehicle cluster holds stakes in at least these two Adani group companies [documented]",
-        "Each filing's own Significant Beneficial Owner table names Gautam S. Adani, Rajesh S. Adani and Vinod S. Adani (on behalf of the S.B. Adani Family Trust) as SBOs of the domestic promoter bodies corporate (Adani Tradeline Private Limited, Adani Properties Private Limited, Adani Rail Infra Private Limited) only; neither SBO table, in the pages read, extends named beneficial-ownership detail to the foreign 'Trade and Investment'/DMCC entities themselves — their ultimate beneficial owners are not independently evidenced by the primary filing in this pass [gap, not asserted beyond what the filing shows]"
+        "Each filing's own Significant Beneficial Owner table names Gautam S. Adani, Rajesh S. Adani and Vinod S. Adani (on behalf of the S.B. Adani Family Trust) as SBOs of the domestic promoter bodies corporate (Adani Tradeline Private Limited, Adani Properties Private Limited, Adani Rail Infra Private Limited) only; neither SBO table, in the pages read, extends named beneficial-ownership detail to the foreign 'Trade and Investment'/DMCC entities themselves — their ultimate beneficial owners are not independently evidenced by the primary filing in this pass [gap, not asserted beyond what the filing shows]",
+        "Cluster flag (reconciliation): this node stands for 11 separately registered companies, not one entity. Three of them are each ≥5% of Adani Ports on 30.06.2026 — Carmichael Rail And Port Singapore Holding Pte. Ltd. 6.24%, Emerging Market Investment DMCC 5.91%, Flourishing Trade and Investment Ltd 5.40% — and should be counted individually in any ≥5% base rate; none is ≥5% of Adani Enterprises [documented — same filings]"
       ],
       "srcs": [
-        ["Adani Enterprises — Shareholding Pattern as on 11.12.2025", "https://www.adanienterprises.com/-/media/Project/Enterprises/Investors/corporate-governance/ShareholdingPatternsDynamic/Shp-as-on-11122025-(1).pdf"],
-        ["Adani Ports and SEZ — Shareholding Pattern as on 30.06.2026", "https://www.adaniports.com/-/media/project/ports/investor/corporate-governance/shareholding-pattern/apsez_shp-30062026_website.pdf"]
-      ]
+        [
+          "Adani Enterprises — Shareholding Pattern as on 11.12.2025",
+          "https://www.adanienterprises.com/-/media/Project/Enterprises/Investors/corporate-governance/ShareholdingPatternsDynamic/Shp-as-on-11122025-(1).pdf"
+        ],
+        [
+          "Adani Ports and SEZ — Shareholding Pattern as on 30.06.2026",
+          "https://www.adaniports.com/-/media/project/ports/investor/corporate-governance/shareholding-pattern/apsez_shp-30062026_website.pdf"
+        ]
+      ],
+      "cluster": true
     }
   ],
   "claims": [
@@ -272,7 +281,12 @@
       "tier": "documented",
       "d": "Two named FPI Category I lines: GQG Partners Emerging Markets Equity Fund 1.75% (22,616,397 shares) and Goldman Sachs Trust II - Goldman Sachs GQG Partners International Opportunities Fund 2.12% (27,386,568 shares); combined 3.87% (50,002,965 shares), as on 11.12.2025.",
       "from": "2025-12-11",
-      "srcs": [["Adani Enterprises — Shareholding Pattern as on 11.12.2025", "https://www.adanienterprises.com/-/media/Project/Enterprises/Investors/corporate-governance/ShareholdingPatternsDynamic/Shp-as-on-11122025-(1).pdf"]],
+      "srcs": [
+        [
+          "Adani Enterprises — Shareholding Pattern as on 11.12.2025",
+          "https://www.adanienterprises.com/-/media/Project/Enterprises/Investors/corporate-governance/ShareholdingPatternsDynamic/Shp-as-on-11122025-(1).pdf"
+        ]
+      ],
       "supersededBy": null
     },
     {
@@ -284,8 +298,14 @@
       "d": "Subsidiary 'Green Enterprises Investment Holding RSC Limited' holds 3.11% (40,191,038 shares) as on 11.12.2025, filed under the public-shareholder 'Foreign Companies' category — not Promoter/Promoter Group and not Foreign Portfolio Investor. See cap:ihc-abu-dhabi for the dilution history from a reported 5.04% combined stake in Oct 2023.",
       "from": "2025-12-11",
       "srcs": [
-        ["Adani Enterprises — Shareholding Pattern as on 11.12.2025", "https://www.adanienterprises.com/-/media/Project/Enterprises/Investors/corporate-governance/ShareholdingPatternsDynamic/Shp-as-on-11122025-(1).pdf"],
-        ["IndiaInfoline — Adani Enterprises allots 4.01 cr equity shares to Green Enterprises Investment Holding RSC", "https://www.indiainfoline.com/news/markets/adani-enterprises-allots-4-01-cr-equity-shares-to-green-enterprises-investment-holding-rsc"]
+        [
+          "Adani Enterprises — Shareholding Pattern as on 11.12.2025",
+          "https://www.adanienterprises.com/-/media/Project/Enterprises/Investors/corporate-governance/ShareholdingPatternsDynamic/Shp-as-on-11122025-(1).pdf"
+        ],
+        [
+          "IndiaInfoline — Adani Enterprises allots 4.01 cr equity shares to Green Enterprises Investment Holding RSC",
+          "https://www.indiainfoline.com/news/markets/adani-enterprises-allots-4-01-cr-equity-shares-to-green-enterprises-investment-holding-rsc"
+        ]
       ],
       "supersededBy": null
     },
@@ -297,7 +317,12 @@
       "tier": "documented",
       "d": "Nine entities, categorized by the company as Promoter and Promoter Group (Foreign) in Table II, together hold 15.68% (202,659,228 shares) as on 11.12.2025 — see cap:adani-promoter-offshore-vehicles for the per-entity breakdown. This is separate from and additional to the public FPI lines (c001) and the public 'Foreign Companies' line (c002).",
       "from": "2025-12-11",
-      "srcs": [["Adani Enterprises — Shareholding Pattern as on 11.12.2025", "https://www.adanienterprises.com/-/media/Project/Enterprises/Investors/corporate-governance/ShareholdingPatternsDynamic/Shp-as-on-11122025-(1).pdf"]],
+      "srcs": [
+        [
+          "Adani Enterprises — Shareholding Pattern as on 11.12.2025",
+          "https://www.adanienterprises.com/-/media/Project/Enterprises/Investors/corporate-governance/ShareholdingPatternsDynamic/Shp-as-on-11122025-(1).pdf"
+        ]
+      ],
       "supersededBy": null
     },
     {
@@ -308,7 +333,12 @@
       "tier": "documented",
       "d": "LIC - P & Gs Fund 3.64% (47,080,423 shares), domestic control comparator, as on 11.12.2025. Foreign Portfolio Investors Category I aggregate 9.54% (418 entities, 123,289,404 shares) + Category II 2.26% (40 entities, 29,186,032 shares) = combined public FPI 11.80%. Total foreign-ownership-limit utilisation (counting promoter-group foreign vehicles and the IHC-linked line too) was 30.69% of the 100% Board-approved sectoral limit as on the shareholding date, versus 32.82% one quarter earlier.",
       "from": "2025-12-11",
-      "srcs": [["Adani Enterprises — Shareholding Pattern as on 11.12.2025", "https://www.adanienterprises.com/-/media/Project/Enterprises/Investors/corporate-governance/ShareholdingPatternsDynamic/Shp-as-on-11122025-(1).pdf"]],
+      "srcs": [
+        [
+          "Adani Enterprises — Shareholding Pattern as on 11.12.2025",
+          "https://www.adanienterprises.com/-/media/Project/Enterprises/Investors/corporate-governance/ShareholdingPatternsDynamic/Shp-as-on-11122025-(1).pdf"
+        ]
+      ],
       "supersededBy": null
     },
     {
@@ -319,7 +349,12 @@
       "tier": "documented",
       "d": "Goldman Sachs Trust II - Goldman Sachs GQG Partners International Opportunities Fund, Foreign Portfolio Investor Category I, 1.93% (44,495,892 shares), quarter ended 30.06.2026 — the only individually named FPI Category I line in the filing; the remaining 680 registered FPI Category I entities do not individually cross 1%.",
       "from": "2026-06-30",
-      "srcs": [["Adani Ports and SEZ — Shareholding Pattern as on 30.06.2026", "https://www.adaniports.com/-/media/project/ports/investor/corporate-governance/shareholding-pattern/apsez_shp-30062026_website.pdf"]],
+      "srcs": [
+        [
+          "Adani Ports and SEZ — Shareholding Pattern as on 30.06.2026",
+          "https://www.adaniports.com/-/media/project/ports/investor/corporate-governance/shareholding-pattern/apsez_shp-30062026_website.pdf"
+        ]
+      ],
       "supersededBy": null
     },
     {
@@ -330,7 +365,12 @@
       "tier": "documented",
       "d": "Eight entities, categorized by the company as Promoter and Promoter Group (Foreign, 'Any Other') in Table II, together hold 26.04% (600,053,578 shares) as on 30.06.2026 — see cap:adani-promoter-offshore-vehicles for the per-entity breakdown, including Carmichael Rail And Port Singapore Holding Pte. Ltd. (6.24%, 100% of its own shares pledged).",
       "from": "2026-06-30",
-      "srcs": [["Adani Ports and SEZ — Shareholding Pattern as on 30.06.2026", "https://www.adaniports.com/-/media/project/ports/investor/corporate-governance/shareholding-pattern/apsez_shp-30062026_website.pdf"]],
+      "srcs": [
+        [
+          "Adani Ports and SEZ — Shareholding Pattern as on 30.06.2026",
+          "https://www.adaniports.com/-/media/project/ports/investor/corporate-governance/shareholding-pattern/apsez_shp-30062026_website.pdf"
+        ]
+      ],
       "supersededBy": null
     },
     {
@@ -341,7 +381,12 @@
       "tier": "documented",
       "d": "6.43% (148,072,227 shares), Insurance Companies category, quarter ended 30.06.2026 — the largest single named domestic institutional line in the public shareholding, and the largest single named holder of any kind outside the promoter group. Foreign Portfolio Investors Category I aggregate 14.45% (681 entities, 332,928,287 shares) + Category II 1.13% (50 entities, 25,960,841 shares) = combined public FPI 15.58%. Total foreign-ownership-limit utilisation (counting promoter-group foreign vehicles too) was 41.62% of the 100% Board-approved limit as on the shareholding date, up from 36.93% four quarters earlier.",
       "from": "2026-06-30",
-      "srcs": [["Adani Ports and SEZ — Shareholding Pattern as on 30.06.2026", "https://www.adaniports.com/-/media/project/ports/investor/corporate-governance/shareholding-pattern/apsez_shp-30062026_website.pdf"]],
+      "srcs": [
+        [
+          "Adani Ports and SEZ — Shareholding Pattern as on 30.06.2026",
+          "https://www.adaniports.com/-/media/project/ports/investor/corporate-governance/shareholding-pattern/apsez_shp-30062026_website.pdf"
+        ]
+      ],
       "supersededBy": null
     },
     {
@@ -352,7 +397,12 @@
       "tier": "documented",
       "d": "8.17% (244,860,645 shares) — LIC is Axis Bank's sole promoter (Financial Institutions/Banks, Category A 'Promoter and Promoter Group'), not merely a public/DII investor as in the other companies in this file — as on 30.06.2025. The rest of the Promoter Group (LIC Pension Fund, LIC Card Services, LIC Housing Finance, LIC Mutual Fund AMC/Trustee, IDBI Bank, IDBI Trusteeship, and five LIC international subsidiaries in Singapore, Nepal, Bahrain, Sri Lanka and Bangladesh) each hold nil shares in this filing. Foreign Portfolio Investors Category I aggregate 42.32% (1,280 entities, 1,268,873,491 shares) + Category II 1.48% (84 entities, 44,408,336 shares) = combined public FPI 43.81% — larger than the LIC promoter stake. Foreign-ownership-limit utilisation was 45.87% of the bank's 74% RBI-approved sectoral cap as on the shareholding date.",
       "from": "2025-06-30",
-      "srcs": [["Axis Bank — Shareholding Pattern for the Quarter Ended 30.06.2025", "https://www.axis.bank.in/docs/default-source/quarterly-reports/shareholding-pattern/shareholding-pattern-for-the-quarter-ended-30-06-2025.pdf"]],
+      "srcs": [
+        [
+          "Axis Bank — Shareholding Pattern for the Quarter Ended 30.06.2025",
+          "https://www.axis.bank.in/docs/default-source/quarterly-reports/shareholding-pattern/shareholding-pattern-for-the-quarter-ended-30-06-2025.pdf"
+        ]
+      ],
       "supersededBy": null
     },
     {
@@ -363,7 +413,12 @@
       "tier": "documented",
       "d": "'GOVERNMENT PENSION FUND GLOBAL', Foreign Portfolio Investor Category I, 2.27% (68,014,107 shares), quarter ended 30.06.2025 — the single largest named FPI line in the filing.",
       "from": "2025-06-30",
-      "srcs": [["Axis Bank — Shareholding Pattern for the Quarter Ended 30.06.2025", "https://www.axis.bank.in/docs/default-source/quarterly-reports/shareholding-pattern/shareholding-pattern-for-the-quarter-ended-30-06-2025.pdf"]],
+      "srcs": [
+        [
+          "Axis Bank — Shareholding Pattern for the Quarter Ended 30.06.2025",
+          "https://www.axis.bank.in/docs/default-source/quarterly-reports/shareholding-pattern/shareholding-pattern-for-the-quarter-ended-30-06-2025.pdf"
+        ]
+      ],
       "supersededBy": null
     },
     {
@@ -374,7 +429,12 @@
       "tier": "documented",
       "d": "'DODGE AND COX INTERNATIONAL STOCK FUND', Foreign Portfolio Investor Category I, 2.23% (66,840,650 shares), quarter ended 30.06.2025 — the second-largest named FPI line, ahead of every SPEC comparison-set holder found in this batch except NBIM.",
       "from": "2025-06-30",
-      "srcs": [["Axis Bank — Shareholding Pattern for the Quarter Ended 30.06.2025", "https://www.axis.bank.in/docs/default-source/quarterly-reports/shareholding-pattern/shareholding-pattern-for-the-quarter-ended-30-06-2025.pdf"]],
+      "srcs": [
+        [
+          "Axis Bank — Shareholding Pattern for the Quarter Ended 30.06.2025",
+          "https://www.axis.bank.in/docs/default-source/quarterly-reports/shareholding-pattern/shareholding-pattern-for-the-quarter-ended-30-06-2025.pdf"
+        ]
+      ],
       "supersededBy": null
     },
     {
@@ -385,7 +445,12 @@
       "tier": "documented",
       "d": "'GOVERNMENT OF SINGAPORE', Foreign Portfolio Investor Category I, 1.93% (57,943,401 shares), quarter ended 30.06.2025.",
       "from": "2025-06-30",
-      "srcs": [["Axis Bank — Shareholding Pattern for the Quarter Ended 30.06.2025", "https://www.axis.bank.in/docs/default-source/quarterly-reports/shareholding-pattern/shareholding-pattern-for-the-quarter-ended-30-06-2025.pdf"]],
+      "srcs": [
+        [
+          "Axis Bank — Shareholding Pattern for the Quarter Ended 30.06.2025",
+          "https://www.axis.bank.in/docs/default-source/quarterly-reports/shareholding-pattern/shareholding-pattern-for-the-quarter-ended-30-06-2025.pdf"
+        ]
+      ],
       "supersededBy": null
     },
     {
@@ -396,7 +461,12 @@
       "tier": "documented",
       "d": "'VANGUARD TOTAL INTERNATIONAL STOCK INDEX FUND', Foreign Portfolio Investor Category I, 1.11% (33,135,776 shares), quarter ended 30.06.2025 — Vanguard's only named line in this filing.",
       "from": "2025-06-30",
-      "srcs": [["Axis Bank — Shareholding Pattern for the Quarter Ended 30.06.2025", "https://www.axis.bank.in/docs/default-source/quarterly-reports/shareholding-pattern/shareholding-pattern-for-the-quarter-ended-30-06-2025.pdf"]],
+      "srcs": [
+        [
+          "Axis Bank — Shareholding Pattern for the Quarter Ended 30.06.2025",
+          "https://www.axis.bank.in/docs/default-source/quarterly-reports/shareholding-pattern/shareholding-pattern-for-the-quarter-ended-30-06-2025.pdf"
+        ]
+      ],
       "supersededBy": null
     }
   ],
@@ -404,30 +474,53 @@
     {
       "what": "Axis Bank's GDR programme — 3.31% of the company (102,625,075 shares) — is registered on the shareholding pattern under 'Custodian/DR Holder' in the name of 'THE BANK OF NEW YORK MELLON DR'. This is a custodian bank holding the underlying shares on behalf of unnamed Global Depositary Receipt holders, not a beneficial owner itself; the filing does not disclose who those underlying GDR holders are.",
       "whyItMatters": "The domain instruction to distinguish custodians from beneficial owners applies with particular force to depository-receipt programmes: a stated foreign-ownership or foreign-limit-utilisation percentage that includes an unallocated custodian/GDR line overstates identifiable-beneficial foreign ownership by that amount unless the underlying holders are separately known, which they are not here.",
-      "srcs": [["Axis Bank — Shareholding Pattern for the Quarter Ended 30.06.2025", "https://www.axis.bank.in/docs/default-source/quarterly-reports/shareholding-pattern/shareholding-pattern-for-the-quarter-ended-30-06-2025.pdf"]]
+      "srcs": [
+        [
+          "Axis Bank — Shareholding Pattern for the Quarter Ended 30.06.2025",
+          "https://www.axis.bank.in/docs/default-source/quarterly-reports/shareholding-pattern/shareholding-pattern-for-the-quarter-ended-30-06-2025.pdf"
+        ]
+      ]
     },
     {
       "what": "Apollo Hospitals' own investor-relations shareholding-pattern page and six guessed direct PDF URLs (following the site's known 2022 naming pattern, e.g. SHP_31032026.pdf, SHP_30062026.pdf) all returned HTTP 403 Forbidden, with and without a browser User-Agent header, on both the WebFetch tool and direct curl through the proxy — including a URL that had returned 200 in an earlier, unrelated pass. No named ≥1% foreign holder could be obtained for Apollo Hospitals in this batch; the company is instead represented at screener.in's aggregate tier only (Promoters 28.02%, FIIs 41.49%, DIIs 23.72%, Government 0.23%, Public 6.53%, quarter ended June 2026) — reported tier, no individual holder named, no claim recorded for it in this file's claims array.",
       "whyItMatters": "apollohospitals.com's blanket 403 response (not merely a missing page) suggests active bot-blocking rather than a moved or renamed document; a future pass with a different access path (e.g. the BSE/NSE corporate-filings mirror, or a differently configured fetch) should re-check before concluding Apollo Hospitals has no named foreign holder ≥1% — the 41.49% FII aggregate strongly implies at least one, and plausibly several, individual lines cross 1%.",
       "srcs": [
-        ["Apollo Hospitals — Shareholding Pattern IR page (403)", "https://www.apollohospitals.com/corporate/investor-relations/shareholding-pattern/"],
-        ["screener.in — Apollo Hospitals Enterprise Ltd (consolidated)", "https://www.screener.in/company/APOLLOHOSP/consolidated/"]
+        [
+          "Apollo Hospitals — Shareholding Pattern IR page (403)",
+          "https://www.apollohospitals.com/corporate/investor-relations/shareholding-pattern/"
+        ],
+        [
+          "screener.in — Apollo Hospitals Enterprise Ltd (consolidated)",
+          "https://www.screener.in/company/APOLLOHOSP/consolidated/"
+        ]
       ]
     },
     {
       "what": "Asian Paints' shareholding-pattern page (asianpaints.com) is a client-side JavaScript year-selector ('2026-2027' / '2025-2026' / ... as javascript:void(0) entries) with no server-rendered PDF hrefs recoverable through WebFetch; six guessed direct PDF URLs following the site's own 2023-2024-era naming convention (content/dam/.../shareholding-pattern/2025-2026/Shareholding_Pattern_as_on_<date>.pdf) all returned 404. No named ≥1% foreign holder could be obtained for Asian Paints in this batch; the company is instead represented at screener.in's aggregate tier only (Promoters 52.63%, FIIs 13.32%, DIIs 20.70%, Government 0.07%, Public 13.19%, Others 0.09%, quarter ended June 2026) — reported tier, no individual holder named, no claim recorded for it in this file's claims array.",
       "whyItMatters": "Asian Paints' FII aggregate (13.32%) is the lowest of the five companies in this batch, meaning any single named FPI line is more likely to sit close to or above the reporting materiality most companies apply — this file cannot say whether that line exists without the primary filing.",
       "srcs": [
-        ["Asian Paints — Shareholding Pattern page (JS shell)", "https://www.asianpaints.com/more/investors/shareholding-pattern.html"],
-        ["screener.in — Asian Paints Ltd (consolidated)", "https://www.screener.in/company/ASIANPAINT/consolidated/"]
+        [
+          "Asian Paints — Shareholding Pattern page (JS shell)",
+          "https://www.asianpaints.com/more/investors/shareholding-pattern.html"
+        ],
+        [
+          "screener.in — Asian Paints Ltd (consolidated)",
+          "https://www.screener.in/company/ASIANPAINT/consolidated/"
+        ]
       ]
     },
     {
       "what": "Neither Adani Enterprises' nor Adani Ports' Significant Beneficial Owner (SBO) table, in the pages read, names a beneficial owner for the foreign 'Trade and Investment'/DMCC promoter-group vehicles themselves (cap:adani-promoter-offshore-vehicles) — only for the domestic promoter bodies corporate (Adani Tradeline, Adani Properties, Adani Rail Infra).",
       "whyItMatters": "This file therefore does not assert who ultimately controls the nine/eight foreign promoter vehicles beyond the company's own 'Promoter and Promoter Group (Foreign)' categorization — a documented fact in itself, but one step short of a named beneficial-owner chain for those specific entities.",
       "srcs": [
-        ["Adani Enterprises — Shareholding Pattern as on 11.12.2025", "https://www.adanienterprises.com/-/media/Project/Enterprises/Investors/corporate-governance/ShareholdingPatternsDynamic/Shp-as-on-11122025-(1).pdf"],
-        ["Adani Ports and SEZ — Shareholding Pattern as on 30.06.2026", "https://www.adaniports.com/-/media/project/ports/investor/corporate-governance/shareholding-pattern/apsez_shp-30062026_website.pdf"]
+        [
+          "Adani Enterprises — Shareholding Pattern as on 11.12.2025",
+          "https://www.adanienterprises.com/-/media/Project/Enterprises/Investors/corporate-governance/ShareholdingPatternsDynamic/Shp-as-on-11122025-(1).pdf"
+        ],
+        [
+          "Adani Ports and SEZ — Shareholding Pattern as on 30.06.2026",
+          "https://www.adaniports.com/-/media/project/ports/investor/corporate-governance/shareholding-pattern/apsez_shp-30062026_website.pdf"
+        ]
       ]
     }
   ],
@@ -440,9 +533,18 @@
       "denominator": 5,
       "label": "Adani Ports (three individual promoter-group foreign vehicles each ≥5%: Carmichael Rail And Port Singapore Holding 6.24%, Emerging Market Investment DMCC 5.91%, Flourishing Trade and Investment Ltd 5.40%) out of the 5 batch companies; Adani Enterprises and Axis Bank checked and confirmed no single foreign holder ≥5%; Apollo Hospitals and Asian Paints indeterminate (aggregate-only data, no holder named — see voids)",
       "srcs": [
-        ["Adani Ports and SEZ — Shareholding Pattern as on 30.06.2026", "https://www.adaniports.com/-/media/project/ports/investor/corporate-governance/shareholding-pattern/apsez_shp-30062026_website.pdf"],
-        ["Adani Enterprises — Shareholding Pattern as on 11.12.2025", "https://www.adanienterprises.com/-/media/Project/Enterprises/Investors/corporate-governance/ShareholdingPatternsDynamic/Shp-as-on-11122025-(1).pdf"],
-        ["Axis Bank — Shareholding Pattern for the Quarter Ended 30.06.2025", "https://www.axis.bank.in/docs/default-source/quarterly-reports/shareholding-pattern/shareholding-pattern-for-the-quarter-ended-30-06-2025.pdf"]
+        [
+          "Adani Ports and SEZ — Shareholding Pattern as on 30.06.2026",
+          "https://www.adaniports.com/-/media/project/ports/investor/corporate-governance/shareholding-pattern/apsez_shp-30062026_website.pdf"
+        ],
+        [
+          "Adani Enterprises — Shareholding Pattern as on 11.12.2025",
+          "https://www.adanienterprises.com/-/media/Project/Enterprises/Investors/corporate-governance/ShareholdingPatternsDynamic/Shp-as-on-11122025-(1).pdf"
+        ],
+        [
+          "Axis Bank — Shareholding Pattern for the Quarter Ended 30.06.2025",
+          "https://www.axis.bank.in/docs/default-source/quarterly-reports/shareholding-pattern/shareholding-pattern-for-the-quarter-ended-30-06-2025.pdf"
+        ]
       ]
     },
     {
@@ -451,9 +553,18 @@
       "denominator": 3,
       "label": "Adani Enterprises (3.64%), Adani Ports (6.43%), Axis Bank (8.17%, as sole promoter) — all 3 companies where a primary filing was opened; Apollo Hospitals and Asian Paints not checked at named-holder level",
       "srcs": [
-        ["Adani Enterprises — Shareholding Pattern as on 11.12.2025", "https://www.adanienterprises.com/-/media/Project/Enterprises/Investors/corporate-governance/ShareholdingPatternsDynamic/Shp-as-on-11122025-(1).pdf"],
-        ["Adani Ports and SEZ — Shareholding Pattern as on 30.06.2026", "https://www.adaniports.com/-/media/project/ports/investor/corporate-governance/shareholding-pattern/apsez_shp-30062026_website.pdf"],
-        ["Axis Bank — Shareholding Pattern for the Quarter Ended 30.06.2025", "https://www.axis.bank.in/docs/default-source/quarterly-reports/shareholding-pattern/shareholding-pattern-for-the-quarter-ended-30-06-2025.pdf"]
+        [
+          "Adani Enterprises — Shareholding Pattern as on 11.12.2025",
+          "https://www.adanienterprises.com/-/media/Project/Enterprises/Investors/corporate-governance/ShareholdingPatternsDynamic/Shp-as-on-11122025-(1).pdf"
+        ],
+        [
+          "Adani Ports and SEZ — Shareholding Pattern as on 30.06.2026",
+          "https://www.adaniports.com/-/media/project/ports/investor/corporate-governance/shareholding-pattern/apsez_shp-30062026_website.pdf"
+        ],
+        [
+          "Axis Bank — Shareholding Pattern for the Quarter Ended 30.06.2025",
+          "https://www.axis.bank.in/docs/default-source/quarterly-reports/shareholding-pattern/shareholding-pattern-for-the-quarter-ended-30-06-2025.pdf"
+        ]
       ]
     },
     {
@@ -462,8 +573,14 @@
       "denominator": 3,
       "label": "Adani Enterprises and Adani Ports; not Axis Bank",
       "srcs": [
-        ["Adani Enterprises — Shareholding Pattern as on 11.12.2025", "https://www.adanienterprises.com/-/media/Project/Enterprises/Investors/corporate-governance/ShareholdingPatternsDynamic/Shp-as-on-11122025-(1).pdf"],
-        ["Adani Ports and SEZ — Shareholding Pattern as on 30.06.2026", "https://www.adaniports.com/-/media/project/ports/investor/corporate-governance/shareholding-pattern/apsez_shp-30062026_website.pdf"]
+        [
+          "Adani Enterprises — Shareholding Pattern as on 11.12.2025",
+          "https://www.adanienterprises.com/-/media/Project/Enterprises/Investors/corporate-governance/ShareholdingPatternsDynamic/Shp-as-on-11122025-(1).pdf"
+        ],
+        [
+          "Adani Ports and SEZ — Shareholding Pattern as on 30.06.2026",
+          "https://www.adaniports.com/-/media/project/ports/investor/corporate-governance/shareholding-pattern/apsez_shp-30062026_website.pdf"
+        ]
       ]
     }
   ],
@@ -475,5 +592,8 @@
     "Dodge & Cox's LEI/CIN and India-specific FPI registration details were not obtained; identity rests on the fund name as it appears in Axis Bank's own filing plus the fund manager's public identity (San Francisco-based, employee-owned), not on a primary corporate-registry document.",
     "'Green Energy Investment Holding RSC Limited', the second IHC subsidiary named in the Oct 2023 press report alongside 'Green Enterprises Investment Holding RSC Limited', does not appear as a separate ≥1% line in Adani Enterprises' 11.12.2025 filing — either its stake fell below the disclosure threshold, it was consolidated/exited, or it never held Adani Enterprises shares directly (the Oct 2023 report may have referred to combined IHC group exposure across companies, not two lines in the same company); not resolved in this pass.",
     "This file does not cover foreign adviser mandates, SEBI/RBI rule-change history, or the broader capital-fleet narratives (BlackRock/Vanguard 'own India', Rothschild, Soros, round-tripping, World Bank/IMF) — those are SPEC requirements for companion files this batch did not produce."
+  ],
+  "internalRefs": [
+    "research/raw/capital/holders.json — base file establishing cap: holder ids and comparison-set fields (asOf 2026-09-26) (internal:research/raw/capital/holders.json)"
   ]
 }

@@ -3,36 +3,48 @@
   "domain": "holders-b6",
   "scope": "Named foreign shareholders (≥1%) of five NIFTY 50 constituents in batch 6 (Larsen & Toubro, Mahindra & Mahindra, Maruti Suzuki India, Max Healthcare Institute, Nestle India), from the latest available SEBI Reg. 31(1)(b) quarterly shareholding-pattern data. Two companies (Mahindra & Mahindra, quarter ended 31.12.2025; Nestle India, quarter ended 31.03.2026) were checked against the primary filing opened directly from the company's own investor-relations site. Three companies (Larsen & Toubro, Maruti Suzuki, Max Healthcare) could not be opened at their primary source within budget — L&T's IR shareholding-pattern pages are ASP.NET postback/JS with no static PDF link exposed in the HTML and every guessed direct-PDF URL pattern 404'd; Max Healthcare's IR shareholding-pattern page returned HTTP 403 to both WebFetch and a browser-UA curl; Maruti Suzuki's IR page rendered as an empty JS shell and a company-hosted Azure blob-storage PDF returned 'AccountIsDisabled' — so those three are recorded at screener.in/equitymaster.com aggregate, tier reported, with the attempted primary URLs in voids. Covers: the mandatory comparison set (BlackRock, Vanguard, NBIM/Government Pension Fund Global, GIC/Government of Singapore, Capital Group, Fidelity, Kuwait Investment Authority, ADIA, GQG Partners) tested against the two companies with primary data; LIC of India as the domestic control; two new foreign-promoter holders found in Nestle India's Table II (Nestle S.A. and its India holding vehicle Maggi Enterprises Ltd); and the pre-existing cap:suzuki-motor-corporation entity (Maruti Suzuki's promoter) carried over from research/raw/capital/holders.json with the same id/ty/fam/sz. Leaves out: adviser mandates, SEBI/RBI rule-change history and the Soros/OSF/World Bank narratives, which are out of scope for this batch file; any company outside the five named above.",
   "sources": [
-    ["Mahindra & Mahindra Ltd — Shareholding Pattern Reg. 31(1)(b), quarter ended 31.12.2025", "https://www.mahindra.com/sites/default/files/2026-01/Shareholding%20pattern%20Reg.%2030%20December%202025.pdf"],
-    ["Mahindra & Mahindra Ltd — Shareholding Pattern Reg. 31(1)(b), quarter ended 30.06.2025 (earlier quarter, opened for comparison)", "https://www.mahindra.com/sites/default/files/2025-07/Shareholding%20Pattern%20reg%2031b%2030%20June%202025.pdf"],
-    ["Nestle India Ltd — Shareholding Pattern, quarter ended 31.03.2026", "https://www.nestle.in/sites/g/files/pydnoa451/files/2026-04/SHP-31032026-%20website.pdf"],
-    ["Nestle India Ltd — Shareholding Pattern page (link discovery)", "https://www.nestle.in/investors/stockandfinancials/shareholdingpattern"],
-    ["screener.in — Larsen & Toubro Ltd (consolidated), shareholding-pattern section", "https://www.screener.in/company/LT/consolidated/"],
-    ["screener.in — Maruti Suzuki India Ltd (consolidated), shareholding-pattern + About section", "https://www.screener.in/company/MARUTI/consolidated/"],
-    ["screener.in — Max Healthcare Institute Ltd (consolidated), shareholding-pattern section", "https://www.screener.in/company/MAXHEALTH/consolidated/"],
-    ["equitymaster.com — Max Healthcare Institute Ltd shareholding-pattern history (cross-check)", "https://www.equitymaster.com/stock-research/shareholding-pattern/MAXH/MAX-HEALTHCARE-INSTITUTE-Shareholding-Pattern"],
-    ["L&T investor relations — Shareholding Pattern page (JS/postback, probed)", "https://investors.larsentoubro.com/ShareholdingPattern.aspx"],
-    ["L&T investor relations — Shareholding Pattern Archives page (probed)", "https://investors.larsentoubro.com/Shareholding-Pattern-Archives.aspx"]
+    [
+      "Mahindra & Mahindra Ltd — Shareholding Pattern Reg. 31(1)(b), quarter ended 31.12.2025",
+      "https://www.mahindra.com/sites/default/files/2026-01/Shareholding%20pattern%20Reg.%2030%20December%202025.pdf"
+    ],
+    [
+      "Mahindra & Mahindra Ltd — Shareholding Pattern Reg. 31(1)(b), quarter ended 30.06.2025 (earlier quarter, opened for comparison)",
+      "https://www.mahindra.com/sites/default/files/2025-07/Shareholding%20Pattern%20reg%2031b%2030%20June%202025.pdf"
+    ],
+    [
+      "Nestle India Ltd — Shareholding Pattern, quarter ended 31.03.2026",
+      "https://www.nestle.in/sites/g/files/pydnoa451/files/2026-04/SHP-31032026-%20website.pdf"
+    ],
+    [
+      "Nestle India Ltd — Shareholding Pattern page (link discovery)",
+      "https://www.nestle.in/investors/stockandfinancials/shareholdingpattern"
+    ],
+    [
+      "screener.in — Larsen & Toubro Ltd (consolidated), shareholding-pattern section",
+      "https://www.screener.in/company/LT/consolidated/"
+    ],
+    [
+      "screener.in — Maruti Suzuki India Ltd (consolidated), shareholding-pattern + About section",
+      "https://www.screener.in/company/MARUTI/consolidated/"
+    ],
+    [
+      "screener.in — Max Healthcare Institute Ltd (consolidated), shareholding-pattern section",
+      "https://www.screener.in/company/MAXHEALTH/consolidated/"
+    ],
+    [
+      "equitymaster.com — Max Healthcare Institute Ltd shareholding-pattern history (cross-check)",
+      "https://www.equitymaster.com/stock-research/shareholding-pattern/MAXH/MAX-HEALTHCARE-INSTITUTE-Shareholding-Pattern"
+    ],
+    [
+      "L&T investor relations — Shareholding Pattern page (JS/postback, probed)",
+      "https://investors.larsentoubro.com/ShareholdingPattern.aspx"
+    ],
+    [
+      "L&T investor relations — Shareholding Pattern Archives page (probed)",
+      "https://investors.larsentoubro.com/Shareholding-Pattern-Archives.aspx"
+    ]
   ],
   "entities": [
-    {
-      "id": "cap:blackrock",
-      "label": "BlackRock, Inc.",
-      "sub": "US asset manager, NYSE: BLK; India exposure via iShares ETFs and BlackRock Global Funds sub-funds, each separately FPI-registered",
-      "ty": "company",
-      "fam": "capital",
-      "st": null,
-      "sz": 4,
-      "al": ["iShares", "BlackRock Global Funds"],
-      "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
-      "publicRole": "Mandatory control per SPEC — never recorded without the comparison set. Redefined here per fleet contract for this batch file.",
-      "d": [
-        "Not found as a named ≥1% shareholder in either of the 2 companies whose primary filings were opened in this pass (Mahindra & Mahindra, quarter ended 31.12.2025; Nestle India, quarter ended 31.03.2026) [documented, absence in a 2-company sample]",
-        "Not checked against Larsen & Toubro, Maruti Suzuki or Max Healthcare in this pass — those three rest on aggregate-only fallback data with no named-holder breakdown [void]"
-      ],
-      "srcs": []
-    },
     {
       "id": "cap:vanguard",
       "label": "The Vanguard Group, Inc.",
@@ -41,125 +53,65 @@
       "fam": "capital",
       "st": null,
       "sz": 4,
-      "al": ["Vanguard Total International Stock Index Fund", "Vanguard Emerging Markets Stock Index Fund"],
+      "al": [],
       "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
-      "publicRole": "Mandatory comparison control per SPEC.",
-      "d": [
-        "Named ≥1% in Mahindra & Mahindra via two separate registered funds, together 2.14% as of 31.12.2025 [documented]",
-        "Not found as a named ≥1% holder in Nestle India as of 31.03.2026 [documented, absence in sample]"
-      ],
-      "srcs": [["Mahindra & Mahindra — Shareholding Pattern, quarter ended 31.12.2025", "https://www.mahindra.com/sites/default/files/2026-01/Shareholding%20pattern%20Reg.%2030%20December%202025.pdf"]]
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "Second-largest global passive asset manager; mandatory comparison control for BlackRock per SPEC.",
+      "canonicalIn": "holders.json",
+      "d": [],
+      "srcs": []
     },
     {
       "id": "cap:nbim",
       "label": "Norges Bank Investment Management (Government Pension Fund Global)",
-      "sub": "Manager of Norway's sovereign wealth fund",
+      "sub": "Manager of Norway's sovereign wealth fund; India = 2.1% of the fund's equity investments at end-2025 per its own annual report",
       "ty": "fund",
       "fam": "capital",
       "st": null,
       "sz": 4,
-      "al": ["NBIM", "Government Pension Fund Global", "GPFG"],
+      "al": [],
       "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
-      "publicRole": "Mandatory comparison control per SPEC.",
-      "d": [
-        "Named ≥1% in Mahindra & Mahindra as 'GOVERNMENT PENSION FUND GLOBAL', 1.19% as of 31.12.2025 [documented]",
-        "Not found as a named ≥1% holder in Nestle India as of 31.03.2026 [documented, absence in sample]"
-      ],
-      "srcs": [["Mahindra & Mahindra — Shareholding Pattern, quarter ended 31.12.2025", "https://www.mahindra.com/sites/default/files/2026-01/Shareholding%20pattern%20Reg.%2030%20December%202025.pdf"]]
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "Mandatory comparison control per SPEC; publishes every global holding twice yearly — the highest public-transparency standard among the controls, in principle.",
+      "canonicalIn": "holders.json",
+      "d": [],
+      "srcs": []
     },
     {
       "id": "cap:gic-singapore",
       "label": "Government of Singapore / GIC Private Limited",
-      "sub": "Singapore's sovereign wealth fund manager; Indian filings name the registered FPI holder 'GOVERNMENT OF SINGAPORE'",
+      "sub": "Singapore's sovereign wealth fund manager; Indian companies' filings name the registered FPI holder 'GOVERNMENT OF SINGAPORE'",
       "ty": "fund",
       "fam": "capital",
       "st": null,
       "sz": 4,
-      "al": ["GIC", "GIC Pte Ltd", "Government of Singapore"],
+      "al": [],
       "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
-      "publicRole": "Mandatory comparison control per SPEC.",
-      "d": [
-        "Named ≥1% in Mahindra & Mahindra as 'GOVERNMENT OF SINGAPORE', 1.74% as of 31.12.2025 — the single largest named FPI-I line in the filing [documented]",
-        "Not found as a named ≥1% holder in Nestle India as of 31.03.2026 [documented, absence in sample]"
-      ],
-      "srcs": [["Mahindra & Mahindra — Shareholding Pattern, quarter ended 31.12.2025", "https://www.mahindra.com/sites/default/files/2026-01/Shareholding%20pattern%20Reg.%2030%20December%202025.pdf"]]
-    },
-    {
-      "id": "cap:capital-group",
-      "label": "Capital Group Companies, Inc.",
-      "sub": "US asset manager; EuroPacific Growth Fund and New Perspective Fund are its best-known emerging-markets vehicles",
-      "ty": "company",
-      "fam": "capital",
-      "st": null,
-      "sz": 3,
-      "al": ["EuroPacific Growth Fund", "New Perspective Fund"],
-      "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
-      "publicRole": "Mandatory comparison control per SPEC.",
-      "d": ["Not found as a named ≥1% holder in either of the 2 companies checked with primary data in this pass [documented, absence in sample]"],
-      "srcs": []
-    },
-    {
-      "id": "cap:fidelity",
-      "label": "Fidelity Investments (FMR LLC)",
-      "sub": "US asset manager, privately held; distinct from Fidelity International Ltd",
-      "ty": "company",
-      "fam": "capital",
-      "st": null,
-      "sz": 3,
-      "al": ["FMR LLC"],
-      "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
-      "publicRole": "Mandatory comparison control per SPEC.",
-      "d": ["Not found as a named ≥1% holder in either of the 2 companies checked with primary data in this pass [documented, absence in sample]"],
-      "srcs": []
-    },
-    {
-      "id": "cap:kuwait-investment-authority",
-      "label": "Kuwait Investment Authority",
-      "sub": "Kuwait's sovereign wealth fund",
-      "ty": "fund",
-      "fam": "capital",
-      "st": null,
-      "sz": 2,
-      "al": ["KIA"],
-      "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
-      "publicRole": "Mandatory comparison control per SPEC.",
-      "d": ["Not found as a named ≥1% holder in either of the 2 companies checked with primary data in this pass [documented, absence in sample]"],
-      "srcs": []
-    },
-    {
-      "id": "cap:adia",
-      "label": "Abu Dhabi Investment Authority",
-      "sub": "Abu Dhabi's sovereign wealth fund",
-      "ty": "fund",
-      "fam": "capital",
-      "st": null,
-      "sz": 2,
-      "al": ["ADIA"],
-      "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
-      "publicRole": "Mandatory comparison control per SPEC.",
-      "d": ["Not found as a named ≥1% holder in either of the 2 companies checked with primary data in this pass [documented, absence in sample]"],
-      "srcs": []
-    },
-    {
-      "id": "cap:gqg-partners",
-      "label": "GQG Partners",
-      "sub": "US-based emerging-markets asset manager (Fort Lauderdale; founder Rajiv Jain)",
-      "ty": "company",
-      "fam": "capital",
-      "st": null,
-      "sz": 3,
-      "al": ["GQG Partners LLC"],
-      "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
-      "publicRole": "Named in SPEC's inventory of prior-batch holders; tested for symmetry against this batch.",
-      "d": ["Not found as a named ≥1% holder in either of the 2 companies checked with primary data in this pass [documented, absence in sample]"],
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "Mandatory comparison control per SPEC. Not to be confused with General Insurance Corporation of India ('GIC Re'), a domestic PSU reinsurer that also appears by the acronym GIC in some of these same filings (e.g. ITC, 1.73%, 31.12.2025) — the two are unrelated and this file does not conflate them.",
+      "canonicalIn": "holders.json",
+      "d": [],
       "srcs": []
     },
     {
@@ -170,15 +122,20 @@
       "fam": "capital",
       "st": null,
       "sz": 4,
-      "al": ["SMC", "Suzuki"],
+      "al": [],
       "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
-      "publicRole": "A foreign-promoter (majority-control) stake, not a passive fund — carried over from research/raw/capital/holders.json with the same id/ty/fam/sz; this pass could not reach a primary Maruti Suzuki/BSE filing (IR site JS shell; company Azure blob storage returned 'AccountIsDisabled') so the figure remains tier reported.",
-      "d": [
-        "'Promoters' category holds 58.65% of Maruti Suzuki India Ltd as of the quarter ended ~30.06.2026, per screener.in's aggregate shareholding-pattern table [reported]",
-        "screener.in's 'About' section separately states SMC 'currently holds 56.28% of its equity stake' at an unstated, apparently different snapshot date — the same 58.65%-vs-56.28% discrepancy flagged in research/raw/capital/holders.json remains unresolved in this pass [reported, discrepancy flagged not resolved]"
-      ],
-      "srcs": [["screener.in — Maruti Suzuki India Ltd (consolidated + About)", "https://www.screener.in/company/MARUTI/consolidated/"]]
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "A foreign promoter (majority-control) stake, not a passive fund — the largest single foreign shareholding found in this pass by percentage, though tier reported here because the primary Maruti Suzuki BSE/company PDF was not independently opened in this pass (marutisuzuki.com's investor-updates page rendered as an empty ~4.7KB JS shell through the proxy).",
+      "canonicalIn": "holders.json",
+      "d": [],
+      "srcs": []
     },
     {
       "id": "cap:nestle-sa",
@@ -188,15 +145,30 @@
       "fam": "capital",
       "st": null,
       "sz": 4,
-      "al": ["Nestle Group", "Societe des Produits Nestle S.A."],
+      "al": [
+        "Nestle Group",
+        "Societe des Produits Nestle S.A."
+      ],
       "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
       "publicRole": "Foreign promoter stake, disclosed directly by name in Nestle India's own Table II (Promoter and Promoter Group). Institutional, not a person.",
       "d": [
         "Holds 34.28% of Nestle India Ltd directly, as of 31.03.2026 (661,027,980 shares) [documented]",
         "Combined with its wholly controlled Indian holding vehicle Maggi Enterprises Ltd (28.48%), the Nestle Group's total promoter stake in Nestle India is 62.76% as of 31.03.2026 [documented]"
       ],
-      "srcs": [["Nestle India — Shareholding Pattern, quarter ended 31.03.2026", "https://www.nestle.in/sites/g/files/pydnoa451/files/2026-04/SHP-31032026-%20website.pdf"]]
+      "srcs": [
+        [
+          "Nestle India — Shareholding Pattern, quarter ended 31.03.2026",
+          "https://www.nestle.in/sites/g/files/pydnoa451/files/2026-04/SHP-31032026-%20website.pdf"
+        ]
+      ]
     },
     {
       "id": "cap:maggi-enterprises",
@@ -208,10 +180,24 @@
       "sz": 3,
       "al": [],
       "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
       "publicRole": "Foreign-promoter-group vehicle, disclosed directly by name in Nestle India's Table II. No person is named as beneficial owner in the filing, so none is asserted here.",
-      "d": ["Holds 28.48% of Nestle India Ltd as of 31.03.2026 (549,273,600 shares), shareholder type 'Promoter' [documented]"],
-      "srcs": [["Nestle India — Shareholding Pattern, quarter ended 31.03.2026", "https://www.nestle.in/sites/g/files/pydnoa451/files/2026-04/SHP-31032026-%20website.pdf"]]
+      "d": [
+        "Holds 28.48% of Nestle India Ltd as of 31.03.2026 (549,273,600 shares), shareholder type 'Promoter' [documented]"
+      ],
+      "srcs": [
+        [
+          "Nestle India — Shareholding Pattern, quarter ended 31.03.2026",
+          "https://www.nestle.in/sites/g/files/pydnoa451/files/2026-04/SHP-31032026-%20website.pdf"
+        ]
+      ]
     }
   ],
   "claims": [
@@ -223,7 +209,12 @@
       "tier": "documented",
       "d": "1.74% (21,243,396 shares), Foreign Portfolio Investor Category I, registered as 'GOVERNMENT OF SINGAPORE', quarter ended 31.12.2025.",
       "from": "2025-12-31",
-      "srcs": [["Mahindra & Mahindra — Shareholding Pattern, quarter ended 31.12.2025", "https://www.mahindra.com/sites/default/files/2026-01/Shareholding%20pattern%20Reg.%2030%20December%202025.pdf"]],
+      "srcs": [
+        [
+          "Mahindra & Mahindra — Shareholding Pattern, quarter ended 31.12.2025",
+          "https://www.mahindra.com/sites/default/files/2026-01/Shareholding%20pattern%20Reg.%2030%20December%202025.pdf"
+        ]
+      ],
       "supersededBy": null
     },
     {
@@ -234,7 +225,12 @@
       "tier": "documented",
       "d": "1.19% (14,574,818 shares), Foreign Portfolio Investor Category I, registered as 'GOVERNMENT PENSION FUND GLOBAL', quarter ended 31.12.2025.",
       "from": "2025-12-31",
-      "srcs": [["Mahindra & Mahindra — Shareholding Pattern, quarter ended 31.12.2025", "https://www.mahindra.com/sites/default/files/2026-01/Shareholding%20pattern%20Reg.%2030%20December%202025.pdf"]],
+      "srcs": [
+        [
+          "Mahindra & Mahindra — Shareholding Pattern, quarter ended 31.12.2025",
+          "https://www.mahindra.com/sites/default/files/2026-01/Shareholding%20pattern%20Reg.%2030%20December%202025.pdf"
+        ]
+      ],
       "supersededBy": null
     },
     {
@@ -245,7 +241,12 @@
       "tier": "documented",
       "d": "1.11% (13,617,494 shares) via 'VANGUARD TOTAL INTERNATIONAL STOCK INDEX FUND', Foreign Portfolio Investor Category I, quarter ended 31.12.2025.",
       "from": "2025-12-31",
-      "srcs": [["Mahindra & Mahindra — Shareholding Pattern, quarter ended 31.12.2025", "https://www.mahindra.com/sites/default/files/2026-01/Shareholding%20pattern%20Reg.%2030%20December%202025.pdf"]],
+      "srcs": [
+        [
+          "Mahindra & Mahindra — Shareholding Pattern, quarter ended 31.12.2025",
+          "https://www.mahindra.com/sites/default/files/2026-01/Shareholding%20pattern%20Reg.%2030%20December%202025.pdf"
+        ]
+      ],
       "supersededBy": null
     },
     {
@@ -256,7 +257,12 @@
       "tier": "documented",
       "d": "1.03% (12,562,500 shares) via 'VANGUARD EMERGING MARKETS STOCK INDEX FUND, A SERIES OF VANGUARD INTERNATIONAL EQUITY INDEX FUNDS', Foreign Portfolio Investor Category I, quarter ended 31.12.2025. Combined with holders-b6:c003, Vanguard's two named lines total 2.14% of Mahindra & Mahindra.",
       "from": "2025-12-31",
-      "srcs": [["Mahindra & Mahindra — Shareholding Pattern, quarter ended 31.12.2025", "https://www.mahindra.com/sites/default/files/2026-01/Shareholding%20pattern%20Reg.%2030%20December%202025.pdf"]],
+      "srcs": [
+        [
+          "Mahindra & Mahindra — Shareholding Pattern, quarter ended 31.12.2025",
+          "https://www.mahindra.com/sites/default/files/2026-01/Shareholding%20pattern%20Reg.%2030%20December%202025.pdf"
+        ]
+      ],
       "supersededBy": null
     },
     {
@@ -267,7 +273,12 @@
       "tier": "documented",
       "d": "10.51% (128,635,819 shares), 'LIFE INSURANCE CORPORATION OF INDIA WITH SUB ACCOUNTS', domestic control comparator, quarter ended 31.12.2025 — larger than any single named foreign holder in this filing. Institutions (Foreign) aggregate this quarter: 458,662,712 shares, 37.49% (Foreign Portfolio Investors Category I 1,509 entities/35.80% + Category II 122 entities/1.69% + negligible FII/other lines); beyond holders-b6:c001–c004, no other individual foreign holder crosses 1%. A different foreign holder, First Sentier Investors ICVC – Stewart Investors Asia Pacific Leaders Fund, was named at 1.37% in the company's earlier 30.06.2025 filing but had dropped out of the ≥1% list by this quarter — not recorded as a current holding.",
       "from": "2025-12-31",
-      "srcs": [["Mahindra & Mahindra — Shareholding Pattern, quarter ended 31.12.2025", "https://www.mahindra.com/sites/default/files/2026-01/Shareholding%20pattern%20Reg.%2030%20December%202025.pdf"]],
+      "srcs": [
+        [
+          "Mahindra & Mahindra — Shareholding Pattern, quarter ended 31.12.2025",
+          "https://www.mahindra.com/sites/default/files/2026-01/Shareholding%20pattern%20Reg.%2030%20December%202025.pdf"
+        ]
+      ],
       "supersededBy": null
     },
     {
@@ -278,7 +289,12 @@
       "tier": "documented",
       "d": "34.28% (661,027,980 shares), Promoter category, 'Any Other (specify) — Bodies Corporate', quarter ended 31.03.2026 — Nestle India's ultimate foreign promoter, direct FDI stake.",
       "from": "2026-03-31",
-      "srcs": [["Nestle India — Shareholding Pattern, quarter ended 31.03.2026", "https://www.nestle.in/sites/g/files/pydnoa451/files/2026-04/SHP-31032026-%20website.pdf"]],
+      "srcs": [
+        [
+          "Nestle India — Shareholding Pattern, quarter ended 31.03.2026",
+          "https://www.nestle.in/sites/g/files/pydnoa451/files/2026-04/SHP-31032026-%20website.pdf"
+        ]
+      ],
       "supersededBy": null
     },
     {
@@ -289,7 +305,12 @@
       "tier": "documented",
       "d": "28.48% (549,273,600 shares), Promoter category, quarter ended 31.03.2026 — Nestle S.A.'s Indian holding vehicle. Combined with holders-b6:c006, the Nestle Group's total promoter stake in Nestle India is 62.76% as of this quarter, the largest single-group foreign holding found in this batch besides Suzuki Motor Corporation's in Maruti Suzuki (holders-b6:c009).",
       "from": "2026-03-31",
-      "srcs": [["Nestle India — Shareholding Pattern, quarter ended 31.03.2026", "https://www.nestle.in/sites/g/files/pydnoa451/files/2026-04/SHP-31032026-%20website.pdf"]],
+      "srcs": [
+        [
+          "Nestle India — Shareholding Pattern, quarter ended 31.03.2026",
+          "https://www.nestle.in/sites/g/files/pydnoa451/files/2026-04/SHP-31032026-%20website.pdf"
+        ]
+      ],
       "supersededBy": null
     },
     {
@@ -300,7 +321,12 @@
       "tier": "documented",
       "d": "6.14% (118,462,943 shares), domestic control comparator, quarter ended 31.03.2026 — the largest single non-promoter shareholder in Nestle India. Foreign Portfolio Investor aggregate this quarter: Category I 9.47% (182,572,904 shares, 711 entities) + Category II 0.27% (~5,150,000 shares, 36 entities) ≈ 9.74% combined; the filing's own annexure structure discloses no individual FPI-I or FPI-II holder by name, consistent with (but not proof of) no single FPI crossing the 1% naming threshold that quarter.",
       "from": "2026-03-31",
-      "srcs": [["Nestle India — Shareholding Pattern, quarter ended 31.03.2026", "https://www.nestle.in/sites/g/files/pydnoa451/files/2026-04/SHP-31032026-%20website.pdf"]],
+      "srcs": [
+        [
+          "Nestle India — Shareholding Pattern, quarter ended 31.03.2026",
+          "https://www.nestle.in/sites/g/files/pydnoa451/files/2026-04/SHP-31032026-%20website.pdf"
+        ]
+      ],
       "supersededBy": null
     },
     {
@@ -311,8 +337,15 @@
       "tier": "reported",
       "d": "58.65% ('Promoters' category), quarter ended ~30.06.2026, per screener.in's aggregate shareholding-pattern table; screener's 'About' section separately states Suzuki Motor Corporation (SMC) holds 56.28% at an unstated, apparently different date — discrepancy flagged, not resolved against a primary Maruti Suzuki/BSE filing in this pass (see cap:suzuki-motor-corporation.d and voids). Either figure makes this the single largest foreign shareholding found across this batch.",
       "from": "2026-06-30",
-      "srcs": [["screener.in — Maruti Suzuki India Ltd (consolidated + About)", "https://www.screener.in/company/MARUTI/consolidated/"]],
-      "supersededBy": null
+      "srcs": [
+        [
+          "screener.in — Maruti Suzuki India Ltd (consolidated + About)",
+          "https://www.screener.in/company/MARUTI/consolidated/"
+        ]
+      ],
+      "supersededBy": null,
+      "status": "killed",
+      "killedReason": "duplicate of holders:c018 — same holder, same company, same screener.in source, same 58.65%/56.28% discrepancy and date; held, not deleted"
     }
   ],
   "voids": [
@@ -320,23 +353,43 @@
       "what": "Larsen & Toubro's primary SEBI Reg. 31(1)(b) shareholding-pattern PDF could not be opened in this pass. investors.larsentoubro.com/ShareholdingPattern.aspx and .../Shareholding-Pattern-Archives.aspx render the document list via an ASP.NET postback/dropdown mechanism with no static PDF URL exposed in the page HTML (confirmed by curl + grep on the raw HTML); .../download.aspx shows only placeholder '#' links; three guessed direct-PDF URL patterns modelled on an older (2011) L&T filename convention all returned 404; a search-surfaced bseindia.com attachment URL returned 403; a search-surfaced lodr-files.dhan.co mirror for L&T's ISIN (INE018A01030) downloaded successfully (20MB) but turned out to be an unrelated NCLT scheme-of-arrangement notice, not a shareholding pattern. Fell back to screener.in's aggregate: FII/FPI 19.13%, DII 43.01%, Government 0.25%, Public 37.60%, quarter ~30.06.2026 (tier reported, no individual holder named). L&T is widely reported to have no promoter group (largest shareholder is the L&T Employee Welfare Foundation Trust) — not independently re-verified in this pass.",
       "whyItMatters": "L&T is a NIFTY 50 / SENSEX constituent with a large, professionally-managed public float; without the primary filing, no individual foreign holder (BlackRock, Vanguard, NBIM, GIC, etc.) or LIC's specific stake could be confirmed or denied for this company in this pass.",
       "srcs": [
-        ["L&T investor relations — Shareholding Pattern page (JS/postback, probed)", "https://investors.larsentoubro.com/ShareholdingPattern.aspx"],
-        ["L&T investor relations — Shareholding Pattern Archives page (probed)", "https://investors.larsentoubro.com/Shareholding-Pattern-Archives.aspx"],
-        ["screener.in — Larsen & Toubro Ltd (consolidated)", "https://www.screener.in/company/LT/consolidated/"]
+        [
+          "L&T investor relations — Shareholding Pattern page (JS/postback, probed)",
+          "https://investors.larsentoubro.com/ShareholdingPattern.aspx"
+        ],
+        [
+          "L&T investor relations — Shareholding Pattern Archives page (probed)",
+          "https://investors.larsentoubro.com/Shareholding-Pattern-Archives.aspx"
+        ],
+        [
+          "screener.in — Larsen & Toubro Ltd (consolidated)",
+          "https://www.screener.in/company/LT/consolidated/"
+        ]
       ]
     },
     {
       "what": "Max Healthcare Institute's primary IR shareholding-pattern page (maxhealthcare.in/investors/shareholding-pattern) returned HTTP 403 both to WebFetch and to a direct curl request with a browser User-Agent header. cloudfront-hosted PDFs surfaced by search were stale (dated March 2021 and March 2023). Fell back to screener.in and equitymaster.com aggregates, which agree: Promoters 23.71%, FII 41.78%, DII/other institutions ~29.95–33.6%, Public ~4.5%, quarter ~30.06.2026 (tier reported, no individual holder named). A '5.81% Government of Singapore' figure appeared in an unopened WebSearch snippet (from Groww) earlier in this session but could NOT be verified against any page this pass actually opened (Groww's own page rendered as an empty JS shell; Trendlyne returned HTTP 405) and is explicitly NOT recorded as a claim.",
       "whyItMatters": "Max Healthcare's FII aggregate (41.78%) is unusually high for a NIFTY-adjacent hospital operator, and the promoter (Abhay Soi / Radiant group) is Indian, not foreign — so the 41.78% is entirely public FPI/FII money, potentially including a single large holder well above 5%, but no name or filing confirms this in this pass.",
       "srcs": [
-        ["screener.in — Max Healthcare Institute Ltd (consolidated)", "https://www.screener.in/company/MAXHEALTH/consolidated/"],
-        ["equitymaster.com — Max Healthcare Institute Ltd shareholding-pattern history", "https://www.equitymaster.com/stock-research/shareholding-pattern/MAXH/MAX-HEALTHCARE-INSTITUTE-Shareholding-Pattern"]
+        [
+          "screener.in — Max Healthcare Institute Ltd (consolidated)",
+          "https://www.screener.in/company/MAXHEALTH/consolidated/"
+        ],
+        [
+          "equitymaster.com — Max Healthcare Institute Ltd shareholding-pattern history",
+          "https://www.equitymaster.com/stock-research/shareholding-pattern/MAXH/MAX-HEALTHCARE-INSTITUTE-Shareholding-Pattern"
+        ]
       ]
     },
     {
       "what": "Maruti Suzuki India's primary IR shareholding-pattern link (marutisuzuki.com/corporate/investors/company-updates) rendered as an empty JS shell with no PDF URL in the fetched HTML. A search-surfaced direct PDF URL on the company's own Azure blob storage (marutistoragenew.blob.core.windows.net/msilintiwebpdf/Shareholding_Pattern.pdf) returned an XML error 'AccountIsDisabled' — the storage account itself is dead, not merely access-restricted. Fell back to screener.in (see holders-b6:c009 / cap:suzuki-motor-corporation), which carries its own internal 58.65%-vs-56.28% discrepancy for Suzuki Motor Corporation's stake, unresolved in this pass and in the earlier research/raw/capital/holders.json.",
       "whyItMatters": "Maruti Suzuki is one of the largest single foreign (Japanese promoter) holdings on the NSE by percentage; the exact current figure and any named FPI lines below the promoter block could not be confirmed against a primary source in this pass.",
-      "srcs": [["screener.in — Maruti Suzuki India Ltd (consolidated + About)", "https://www.screener.in/company/MARUTI/consolidated/"]]
+      "srcs": [
+        [
+          "screener.in — Maruti Suzuki India Ltd (consolidated + About)",
+          "https://www.screener.in/company/MARUTI/consolidated/"
+        ]
+      ]
     },
     {
       "what": "LIC of India's specific shareholding percentage in Larsen & Toubro and in Max Healthcare Institute could not be found — no aggregator page opened in this pass named LIC individually for either company (screener/equitymaster give only FII/DII/Promoter/Public category totals, not named institutions within DII).",
@@ -357,10 +410,10 @@
   ],
   "gaps": [
     "Larsen & Toubro: no primary shareholding-pattern filing opened; no individual foreign holder or LIC % obtained (see voids). Next step: try NSE's corporate-announcements PDF mirror (nsearchives.nseindia.com) with the exact scrip code, or BSE's corpfiling AttachLive path with a freshly-searched attachment id, since the ones tried in this pass were either 403 or the wrong document.",
-      "Max Healthcare: primary IR page 403; no individual foreign holder confirmed, including the unverified 'Government of Singapore ~5.8%' figure seen only in an unopened search snippet. Next step: try BSE/NSE corporate-filing PDF mirrors directly rather than the company's own IR domain.",
-      "Maruti Suzuki: primary IR page and the company's own Azure blob storage are both dead ends in this pass; the 58.65%-vs-56.28% Suzuki Motor Corporation discrepancy (also present in research/raw/capital/holders.json) remains unresolved. Next step: BSE/NSE corporate-filing PDF mirror.",
-      "LIC of India's % holding in Larsen & Toubro and in Max Healthcare Institute: not found via any aggregator opened in this pass; would be in each company's own SEBI filing, Table III, Insurance Companies row.",
-      "Mahindra & Mahindra: First Sentier Investors ICVC – Stewart Investors Asia Pacific Leaders Fund was named at 1.37% in the 30.06.2025 filing but not in the 31.12.2025 filing used for claims here — worth a supersession check against the intervening (30.09.2025) quarter, not opened in this pass.",
-      "Nestle India: the Foreign Portfolio Investor Category I/II rows (9.47% / 0.27%) carry no individual-name breakout in the filing itself; this is consistent with no single FPI crossing 1% that quarter but was not cross-checked against an aggregator."
+    "Max Healthcare: primary IR page 403; no individual foreign holder confirmed, including the unverified 'Government of Singapore ~5.8%' figure seen only in an unopened search snippet. Next step: try BSE/NSE corporate-filing PDF mirrors directly rather than the company's own IR domain.",
+    "Maruti Suzuki: primary IR page and the company's own Azure blob storage are both dead ends in this pass; the 58.65%-vs-56.28% Suzuki Motor Corporation discrepancy (also present in research/raw/capital/holders.json) remains unresolved. Next step: BSE/NSE corporate-filing PDF mirror.",
+    "LIC of India's % holding in Larsen & Toubro and in Max Healthcare Institute: not found via any aggregator opened in this pass; would be in each company's own SEBI filing, Table III, Insurance Companies row.",
+    "Mahindra & Mahindra: First Sentier Investors ICVC – Stewart Investors Asia Pacific Leaders Fund was named at 1.37% in the 30.06.2025 filing but not in the 31.12.2025 filing used for claims here — worth a supersession check against the intervening (30.09.2025) quarter, not opened in this pass.",
+    "Nestle India: the Foreign Portfolio Investor Category I/II rows (9.47% / 0.27%) carry no individual-name breakout in the filing itself; this is consistent with no single FPI crossing 1% that quarter but was not cross-checked against an aggregator."
   ]
 }
