@@ -3,161 +3,378 @@
   "domain": "political-trusts",
   "scope": "Trusts and foundations run by office-holders and party officers (Rajiv Gandhi Foundation/Charitable Trust/Institute for Contemporary Studies and the Indira Gandhi Memorial Trust on the Congress side; Vivekananda International Foundation, India Foundation, Prajna Pravah and Overseas Friends of BJP-USA on the BJP/RSS side), and foreign money to parties (the 2014 Delhi High Court finding that Vedanta subsidiaries' donations to BOTH BJP and Congress breached FCRA 1976, and the 2016/2018 retrospective Finance Act amendments that legalised this back to 1976). Complements the sibling files in this directory: fcra-actions.json already carries the RGF/RGCT cancellation order, its Lok-Sabha-stated grounds (₹1.35cr Chinese-embassy donation 2005-07; ₹50 lakh IRF/Zakir Naik donation to RGCT, 2011) and Congress's October-2022 response, and fcra-receipts.json already carries a VIF stub (FCRA status unverified) and the FCRA Amendment Act 2020's provisions — this file does not repeat that material, it cross-references it. What this file leaves out: year-wise FC-4 receipt figures (fcra-receipts.json's job); trusts of state chief ministers (searched, not found — recorded as void); the 2016/2018 Finance Act bare statutory text (repeatedly unreachable this session — recorded as a sourcing gap, claims tiered 'reported' accordingly, not 'documented').",
   "sources": [
-    ["Indian Express, 2022-10-24 — MHA cancels FCRA licence of RGF, RGCT", "https://indianexpress.com/article/india/home-ministry-cancels-fcra-licence-of-rajiv-gandhi-foundation-8225840/"],
-    ["Hindustan Times, 2020-07-08 — MHA sets up panel to coordinate probe into 3 Gandhi family trusts", "https://www.hindustantimes.com/india-news/home-ministry-sets-up-panel-to-coordinate-probe-into-3-gandhi-family-trusts/story-KpJkxlJqXIUUhLVwzvq2oN.html"],
-    ["Indian Kanoon — Association For Democratic Reforms & Anr vs Union Of India & Ors, Delhi HC, W.P.(C) 131/2013, 28 Mar 2014", "https://indiankanoon.org/doc/190292989/"],
-    ["Indian Kanoon — Association For Democratic Reforms & Anr vs Union Of India, Delhi HC, W.P.(C) 9592/2015, 10 Jan 2023 (separate FCRA-independent-tribunal petition; context only)", "https://indiankanoon.org/doc/127220566/"],
-    ["Wikipedia — Rajiv Gandhi Foundation", "https://en.wikipedia.org/wiki/Rajiv_Gandhi_Foundation"],
-    ["Wikipedia — Vivekananda International Foundation", "https://en.wikipedia.org/wiki/Vivekananda_International_Foundation"],
-    ["Wikipedia — Prajna Pravah", "https://en.wikipedia.org/wiki/Prajna_Pravah"],
-    ["Wikipedia — Ram Madhav", "https://en.wikipedia.org/wiki/Ram_Madhav"],
-    ["Wikipedia — Shaurya Doval", "https://en.wikipedia.org/wiki/Shaurya_Doval"],
-    ["Wikipedia — Organisation of the Bharatiya Janata Party (Overseas Friends of BJP)", "https://en.wikipedia.org/wiki/Organisation_of_the_Bharatiya_Janata_Party"],
-    ["Wikipedia — Electoral Bond Scheme", "https://en.wikipedia.org/wiki/Electoral_Bond_Scheme"],
-    ["Wikipedia — Amit Shah", "https://en.wikipedia.org/wiki/Amit_Shah"],
-    ["PRS Legislative Research — The Foreign Contribution (Regulation) Amendment Bill, 2020, bill-track summary", "https://prsindia.org/billtrack/the-foreign-contribution-regulation-amendment-bill-2020"],
-    ["The Wire, 2017 — Exclusive: Think-Tank Run by NSA Ajit Doval's Son Has Conflict of Interest Writ Large (URL resolved and title confirmed; body not renderable via fetch in this environment, relied on Wikipedia's paraphrase of this and the companion Q&A piece for content)", "https://thewire.in/politics/exclusive-think-tank-run-nsa-ajit-dovals-son-conflict-interest-writ-large"],
-    ["The Wire, 2017 — Shaurya Doval's response to The Wire's questions (URL resolved and title confirmed; body not renderable)", "https://thewire.in/politics/shaurya-doval-response-the-wire-questions-answers-india-foundation"],
-    ["The Caravan, 2019 — Ajit Doval's sons run a web of companies including a Cayman Islands hedge fund (URL resolved and title confirmed; body not renderable via fetch, relied on Wikipedia's paraphrase)", "https://caravanmagazine.in/business/ajit-doval-sons-cayman-islands-hedge-fund-vivek-shaurya"]
+    [
+      "Indian Express, 2022-10-24 — MHA cancels FCRA licence of RGF, RGCT",
+      "https://indianexpress.com/article/india/home-ministry-cancels-fcra-licence-of-rajiv-gandhi-foundation-8225840/"
+    ],
+    [
+      "Hindustan Times, 2020-07-08 — MHA sets up panel to coordinate probe into 3 Gandhi family trusts",
+      "https://www.hindustantimes.com/india-news/home-ministry-sets-up-panel-to-coordinate-probe-into-3-gandhi-family-trusts/story-KpJkxlJqXIUUhLVwzvq2oN.html"
+    ],
+    [
+      "Indian Kanoon — Association For Democratic Reforms & Anr vs Union Of India & Ors, Delhi HC, W.P.(C) 131/2013, 28 Mar 2014",
+      "https://indiankanoon.org/doc/190292989/"
+    ],
+    [
+      "Indian Kanoon — Association For Democratic Reforms & Anr vs Union Of India, Delhi HC, W.P.(C) 9592/2015, 10 Jan 2023 (separate FCRA-independent-tribunal petition; context only)",
+      "https://indiankanoon.org/doc/127220566/"
+    ],
+    [
+      "Wikipedia — Rajiv Gandhi Foundation",
+      "https://en.wikipedia.org/wiki/Rajiv_Gandhi_Foundation"
+    ],
+    [
+      "Wikipedia — Vivekananda International Foundation",
+      "https://en.wikipedia.org/wiki/Vivekananda_International_Foundation"
+    ],
+    [
+      "Wikipedia — Prajna Pravah",
+      "https://en.wikipedia.org/wiki/Prajna_Pravah"
+    ],
+    [
+      "Wikipedia — Ram Madhav",
+      "https://en.wikipedia.org/wiki/Ram_Madhav"
+    ],
+    [
+      "Wikipedia — Shaurya Doval",
+      "https://en.wikipedia.org/wiki/Shaurya_Doval"
+    ],
+    [
+      "Wikipedia — Organisation of the Bharatiya Janata Party (Overseas Friends of BJP)",
+      "https://en.wikipedia.org/wiki/Organisation_of_the_Bharatiya_Janata_Party"
+    ],
+    [
+      "Wikipedia — Electoral Bond Scheme",
+      "https://en.wikipedia.org/wiki/Electoral_Bond_Scheme"
+    ],
+    [
+      "Wikipedia — Amit Shah",
+      "https://en.wikipedia.org/wiki/Amit_Shah"
+    ],
+    [
+      "PRS Legislative Research — The Foreign Contribution (Regulation) Amendment Bill, 2020, bill-track summary",
+      "https://prsindia.org/billtrack/the-foreign-contribution-regulation-amendment-bill-2020"
+    ],
+    [
+      "The Wire, 2017 — Exclusive: Think-Tank Run by NSA Ajit Doval's Son Has Conflict of Interest Writ Large (URL resolved and title confirmed; body not renderable via fetch in this environment, relied on Wikipedia's paraphrase of this and the companion Q&A piece for content)",
+      "https://thewire.in/politics/exclusive-think-tank-run-nsa-ajit-dovals-son-conflict-interest-writ-large"
+    ],
+    [
+      "The Wire, 2017 — Shaurya Doval's response to The Wire's questions (URL resolved and title confirmed; body not renderable)",
+      "https://thewire.in/politics/shaurya-doval-response-the-wire-questions-answers-india-foundation"
+    ],
+    [
+      "The Caravan, 2019 — Ajit Doval's sons run a web of companies including a Cayman Islands hedge fund (URL resolved and title confirmed; body not renderable via fetch, relied on Wikipedia's paraphrase)",
+      "https://caravanmagazine.in/business/ajit-doval-sons-cayman-islands-hedge-fund-vivek-shaurya"
+    ]
   ],
   "entities": [
     {
       "id": "party:inc",
       "label": "Indian National Congress",
-      "sub": "Referenced here as respondent/denier in the 2014 Delhi HC FCRA finding and as the party whose leaders are RGF/RGCT trustees; also declared independently in this directory's fcra-actions.json (same id, consistent with that file's fields)",
-      "ty": "party", "fam": "state", "st": "dl", "sz": 2,
-      "al": ["Congress", "INC"],
+      "sub": "opposition in MP (2022) demanding a central-agency probe into the THR audit",
+      "ty": "party",
+      "fam": "state",
+      "st": null,
+      "sz": 2,
+      "al": [],
       "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
-      "publicRole": "National party; Respondent No.3 in Association for Democratic Reforms v Union of India (Delhi HC, 2014); denier of record on RGF/RGCT claims.",
-      "d": ["Found by the Delhi HC (28 Mar 2014) to have received donations from Sterlite/Sesa that met FCRA 1976's 'foreign source' definition, on the same footing as the BJP [documented]"],
-      "srcs": [["Indian Kanoon — ADR v UoI, Delhi HC, 28 Mar 2014", "https://indiankanoon.org/doc/190292989/"]]
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "Named party making the 'poshan scam' allegation.",
+      "d": [],
+      "srcs": [
+        [
+          "Indian Kanoon — ADR v UoI, Delhi HC, 28 Mar 2014",
+          "https://indiankanoon.org/doc/190292989/"
+        ]
+      ]
     },
     {
       "id": "ngo:rajiv-gandhi-institute-for-contemporary-studies",
       "label": "Rajiv Gandhi Institute for Contemporary Studies (RGICS)",
       "sub": "Policy think tank promoted by the Rajiv Gandhi Foundation",
-      "ty": "trust", "fam": "recipient", "st": "dl", "sz": 1,
-      "al": ["RGICS"],
+      "ty": "trust",
+      "fam": "recipient",
+      "st": "dl",
+      "sz": 1,
+      "al": [
+        "RGICS"
+      ],
       "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
       "publicRole": "RGF-promoted think tank; its FY2005-06 donor list is part of the same controversy as RGF's own donor list.",
       "d": [
         "RGICS's FY2005-06 donor list includes the Embassy of the People's Republic of China, per RGF's own published annual report as reported by the press [documented]",
         "FCRA/cancellation status of RGICS specifically (as distinct from RGF and RGCT, which fcra-actions.json in this directory records as cancelled 2022-10) not confirmed in sources opened this session [gap]"
       ],
-      "srcs": [["Indian Express, 2022-10-24", "https://indianexpress.com/article/india/home-ministry-cancels-fcra-licence-of-rajiv-gandhi-foundation-8225840/"]]
+      "srcs": [
+        [
+          "Indian Express, 2022-10-24",
+          "https://indianexpress.com/article/india/home-ministry-cancels-fcra-licence-of-rajiv-gandhi-foundation-8225840/"
+        ]
+      ]
     },
     {
       "id": "ngo:indira-gandhi-memorial-trust",
       "label": "Indira Gandhi Memorial Trust (IGMT)",
       "sub": "Delhi trust overseen by Sonia Gandhi; named alongside RGF and RGCT in the 2020 inter-ministerial FCRA/PMLA/IT-Act probe",
-      "ty": "trust", "fam": "recipient", "st": "dl", "sz": 1,
-      "al": ["IGMT"],
+      "ty": "trust",
+      "fam": "recipient",
+      "st": "dl",
+      "sz": 1,
+      "al": [
+        "IGMT"
+      ],
       "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
       "publicRole": "Named in MHA's own 2020 statement setting up the probe committee; a public subject on that basis.",
       "d": [
         "MHA statement, 2020-07: \"MHA sets up inter-ministerial committee to coordinate investigations into violation of various legal provisions of PMLA, Income Tax Act, FCRA etc. by Rajiv Gandhi Foundation, Rajiv Gandhi Charitable Trust & Indira Gandhi Memorial Trust\" [documented]",
         "Not named in the Oct 2022 MHA cancellation action or in the Home Minister's Dec 2022 Lok Sabha statement of grounds (per Indian Express 2022-10-24 and this directory's fcra-actions.json, which record only RGF and RGCT as cancelled) — whether IGMT's FCRA status was separately resolved, and how, is not established in sources reachable this session [gap]"
       ],
       "srcs": [
-        ["Hindustan Times, 2020-07-08", "https://www.hindustantimes.com/india-news/home-ministry-sets-up-panel-to-coordinate-probe-into-3-gandhi-family-trusts/story-KpJkxlJqXIUUhLVwzvq2oN.html"],
-        ["Indian Express, 2022-10-24", "https://indianexpress.com/article/india/home-ministry-cancels-fcra-licence-of-rajiv-gandhi-foundation-8225840/"]
+        [
+          "Hindustan Times, 2020-07-08",
+          "https://www.hindustantimes.com/india-news/home-ministry-sets-up-panel-to-coordinate-probe-into-3-gandhi-family-trusts/story-KpJkxlJqXIUUhLVwzvq2oN.html"
+        ],
+        [
+          "Indian Express, 2022-10-24",
+          "https://indianexpress.com/article/india/home-ministry-cancels-fcra-licence-of-rajiv-gandhi-foundation-8225840/"
+        ]
       ]
     },
     {
       "id": "per:sonia-gandhi",
       "label": "Sonia Gandhi",
       "sub": "Chairperson, Rajiv Gandhi Foundation and Rajiv Gandhi Charitable Trust; oversees the Indira Gandhi Memorial Trust; former Congress President; Rajya Sabha MP",
-      "ty": "person", "fam": "recipient", "st": "dl", "sz": 3,
+      "ty": "person",
+      "fam": "recipient",
+      "st": null,
+      "sz": 3,
       "al": [],
       "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": "Chairperson, RGF & RGCT (from RGF's June-1991 founding, exact appointment date not independently confirmed); former President, Indian National Congress (1998–2017, and interim 2019–2022); Rajya Sabha MP (2024–present, previously Lok Sabha, Rae Bareli, multiple terms 1999–2024)", "lei": null, "fcra": null },
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": "Chairperson, RGF & RGCT (from RGF's June-1991 founding, exact appointment date not independently confirmed); former President, Indian National Congress (1998–2017, and interim 2019–2022); Rajya Sabha MP (2024–present, previously Lok Sabha, Rae Bareli, multiple terms 1999–2024)",
+        "lei": null,
+        "fcra": null
+      },
       "publicRole": "Chairs the trusts at the centre of this file's central Congress-linked cluster; qualifies as a public office-holder independent of the trusteeship.",
-      "d": ["Chairperson of RGF and RGCT; also overseeing the Indira Gandhi Memorial Trust [documented, Hindustan Times 2020-07-08 and Indian Express 2022-10-24]"],
+      "d": [
+        "Chairperson of RGF and RGCT; also overseeing the Indira Gandhi Memorial Trust [documented, Hindustan Times 2020-07-08 and Indian Express 2022-10-24]"
+      ],
       "srcs": [
-        ["Hindustan Times, 2020-07-08", "https://www.hindustantimes.com/india-news/home-ministry-sets-up-panel-to-coordinate-probe-into-3-gandhi-family-trusts/story-KpJkxlJqXIUUhLVwzvq2oN.html"],
-        ["Indian Express, 2022-10-24", "https://indianexpress.com/article/india/home-ministry-cancels-fcra-licence-of-rajiv-gandhi-foundation-8225840/"]
+        [
+          "Hindustan Times, 2020-07-08",
+          "https://www.hindustantimes.com/india-news/home-ministry-sets-up-panel-to-coordinate-probe-into-3-gandhi-family-trusts/story-KpJkxlJqXIUUhLVwzvq2oN.html"
+        ],
+        [
+          "Indian Express, 2022-10-24",
+          "https://indianexpress.com/article/india/home-ministry-cancels-fcra-licence-of-rajiv-gandhi-foundation-8225840/"
+        ]
       ]
     },
     {
       "id": "per:rahul-gandhi",
       "label": "Rahul Gandhi",
       "sub": "Trustee, Rajiv Gandhi Foundation; Leader of Opposition, Lok Sabha",
-      "ty": "person", "fam": "recipient", "st": "dl", "sz": 3,
+      "ty": "person",
+      "fam": "recipient",
+      "st": null,
+      "sz": 3,
       "al": [],
       "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": "Trustee, RGF (as of the 2020 and 2022 press record); Leader of Opposition, Lok Sabha (2024–present); MP, Rae Bareli (2024–present, previously Wayanad 2019–2024, Amethi 2004–2019)", "lei": null, "fcra": null },
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": "Trustee, RGF (as of the 2020 and 2022 press record); Leader of Opposition, Lok Sabha (2024–present); MP, Rae Bareli (2024–present, previously Wayanad 2019–2024, Amethi 2004–2019)",
+        "lei": null,
+        "fcra": null
+      },
       "publicRole": "Named RGF trustee and a sitting MP/Leader of Opposition.",
-      "d": ["Listed as an RGF trustee in both the 2020 and 2022 press record [documented]"],
+      "d": [
+        "Listed as an RGF trustee in both the 2020 and 2022 press record [documented]"
+      ],
       "srcs": [
-        ["Hindustan Times, 2020-07-08", "https://www.hindustantimes.com/india-news/home-ministry-sets-up-panel-to-coordinate-probe-into-3-gandhi-family-trusts/story-KpJkxlJqXIUUhLVwzvq2oN.html"],
-        ["Indian Express, 2022-10-24", "https://indianexpress.com/article/india/home-ministry-cancels-fcra-licence-of-rajiv-gandhi-foundation-8225840/"]
+        [
+          "Hindustan Times, 2020-07-08",
+          "https://www.hindustantimes.com/india-news/home-ministry-sets-up-panel-to-coordinate-probe-into-3-gandhi-family-trusts/story-KpJkxlJqXIUUhLVwzvq2oN.html"
+        ],
+        [
+          "Indian Express, 2022-10-24",
+          "https://indianexpress.com/article/india/home-ministry-cancels-fcra-licence-of-rajiv-gandhi-foundation-8225840/"
+        ]
       ]
     },
     {
       "id": "per:priyanka-gandhi-vadra",
       "label": "Priyanka Gandhi Vadra",
       "sub": "Trustee, Rajiv Gandhi Foundation; AICC General Secretary; Lok Sabha MP",
-      "ty": "person", "fam": "recipient", "st": "dl", "sz": 2,
-      "al": ["Priyanka Gandhi"],
+      "ty": "person",
+      "fam": "recipient",
+      "st": null,
+      "sz": 2,
+      "al": [
+        "Priyanka Gandhi"
+      ],
       "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": "Trustee, RGF; General Secretary, AICC; MP, Wayanad, Lok Sabha (2024–present)", "lei": null, "fcra": null },
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": "Trustee, RGF; General Secretary, AICC; MP, Wayanad, Lok Sabha (2024–present)",
+        "lei": null,
+        "fcra": null
+      },
       "publicRole": "Named RGF trustee and a sitting MP/party general secretary.",
-      "d": ["Listed as an RGF trustee in both the 2020 and 2022 press record [documented]"],
+      "d": [
+        "Listed as an RGF trustee in both the 2020 and 2022 press record [documented]"
+      ],
       "srcs": [
-        ["Hindustan Times, 2020-07-08", "https://www.hindustantimes.com/india-news/home-ministry-sets-up-panel-to-coordinate-probe-into-3-gandhi-family-trusts/story-KpJkxlJqXIUUhLVwzvq2oN.html"],
-        ["Indian Express, 2022-10-24", "https://indianexpress.com/article/india/home-ministry-cancels-fcra-licence-of-rajiv-gandhi-foundation-8225840/"]
+        [
+          "Hindustan Times, 2020-07-08",
+          "https://www.hindustantimes.com/india-news/home-ministry-sets-up-panel-to-coordinate-probe-into-3-gandhi-family-trusts/story-KpJkxlJqXIUUhLVwzvq2oN.html"
+        ],
+        [
+          "Indian Express, 2022-10-24",
+          "https://indianexpress.com/article/india/home-ministry-cancels-fcra-licence-of-rajiv-gandhi-foundation-8225840/"
+        ]
       ]
     },
     {
       "id": "ngo:china-embassy-prc",
       "label": "Embassy of the People's Republic of China, New Delhi",
       "sub": "Foreign diplomatic mission; listed as a donor/partner organisation in RGF's and RGICS's FY2005-06 annual reports",
-      "ty": "agency", "fam": "state", "st": null, "sz": 1,
-      "al": ["Chinese Embassy"],
+      "ty": "agency",
+      "fam": "state",
+      "st": null,
+      "sz": 1,
+      "al": [
+        "Chinese Embassy"
+      ],
       "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
       "publicRole": "A foreign-government mission whose listed donation is the origin of the 2020 BJP allegation against RGF and a stated ground in the government's 2022 FCRA cancellation (detailed with a ₹1.35 crore figure in this directory's fcra-actions.json, sourced to the Home Minister's Dec-2022 Lok Sabha statement).",
       "d": [
         "Listed as a 'partner organisation and donor' in RGF's FY2005-06 annual report, and in RGICS's donor list for the same period; exact amount not stated in the sources we opened [documented — Indian Express 2022-10-24]",
         "The ₹1.35 crore figure (covering FY2005-06 and FY2006-07 combined) comes from the Home Minister's Dec-2022 Lok Sabha statement, recorded in this directory's fcra-actions.json as claim fcra-actions:c057, tier alleged there — we did not independently open that source and do not restate the figure as our own documented fact"
       ],
-      "srcs": [["Indian Express, 2022-10-24", "https://indianexpress.com/article/india/home-ministry-cancels-fcra-licence-of-rajiv-gandhi-foundation-8225840/"]]
+      "srcs": [
+        [
+          "Indian Express, 2022-10-24",
+          "https://indianexpress.com/article/india/home-ministry-cancels-fcra-licence-of-rajiv-gandhi-foundation-8225840/"
+        ]
+      ]
     },
     {
       "id": "ngo:pmnrf",
       "label": "Prime Minister's National Relief Fund (PMNRF)",
       "sub": "Publicly-funded relief fund set up 1948 by Jawaharlal Nehru; no budgetary support; used for relief to victims of calamities, accidents and riots",
-      "ty": "fund", "fam": "state", "st": "dl", "sz": 1,
-      "al": ["PMNRF"],
+      "ty": "fund",
+      "fam": "state",
+      "st": "dl",
+      "sz": 1,
+      "al": [
+        "PMNRF"
+      ],
       "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
       "publicRole": "Central to BJP's July-2020 allegation that a public relief fund transferred money to a family-run foundation while the same person (Sonia Gandhi) was associated with both.",
-      "d": ["Set up 1948; funded entirely by public contributions; receives no budgetary support [documented, Hindustan Times 2020-07-08, citing PMNRF's own website]"],
-      "srcs": [["Hindustan Times, 2020-07-08", "https://www.hindustantimes.com/india-news/home-ministry-sets-up-panel-to-coordinate-probe-into-3-gandhi-family-trusts/story-KpJkxlJqXIUUhLVwzvq2oN.html"]]
+      "d": [
+        "Set up 1948; funded entirely by public contributions; receives no budgetary support [documented, Hindustan Times 2020-07-08, citing PMNRF's own website]"
+      ],
+      "srcs": [
+        [
+          "Hindustan Times, 2020-07-08",
+          "https://www.hindustantimes.com/india-news/home-ministry-sets-up-panel-to-coordinate-probe-into-3-gandhi-family-trusts/story-KpJkxlJqXIUUhLVwzvq2oN.html"
+        ]
+      ]
     },
     {
       "id": "per:ajit-doval",
       "label": "Ajit Doval",
       "sub": "Founding director, Vivekananda International Foundation; National Security Adviser of India",
-      "ty": "person", "fam": "recipient", "st": "dl", "sz": 3,
+      "ty": "person",
+      "fam": "recipient",
+      "st": null,
+      "sz": 3,
       "al": [],
       "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": "National Security Adviser of India (2014–present); founding director, VIF (2009–2014, until his NSA appointment); Director, Intelligence Bureau (2004–2005)", "lei": null, "fcra": null },
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": "National Security Adviser of India (2014–present); founding director, VIF (2009–2014, until his NSA appointment); Director, Intelligence Bureau (2004–2005)",
+        "lei": null,
+        "fcra": null
+      },
       "publicRole": "Founding director of the principal BJP/RSS-aligned think tank examined in this file's symmetry check; a public office-holder (NSA) independent of that role.",
-      "d": ["Founded VIF in December 2009 after retiring as IB Director in 2005; served as founding director until his 2014 appointment as NSA [documented, Wikipedia/VIF, citing Tehelka, Caravan, The Hindu, HT and Business Standard reporting]"],
-      "srcs": [["Wikipedia — Vivekananda International Foundation", "https://en.wikipedia.org/wiki/Vivekananda_International_Foundation"]]
+      "d": [
+        "Founded VIF in December 2009 after retiring as IB Director in 2005; served as founding director until his 2014 appointment as NSA [documented, Wikipedia/VIF, citing Tehelka, Caravan, The Hindu, HT and Business Standard reporting]"
+      ],
+      "srcs": [
+        [
+          "Wikipedia — Vivekananda International Foundation",
+          "https://en.wikipedia.org/wiki/Vivekananda_International_Foundation"
+        ]
+      ]
     },
     {
       "id": "ngo:india-foundation",
       "label": "India Foundation",
       "sub": "Delhi think tank founded and led by Shaurya Doval; RSS/BJP-aligned; several governing-council members became Union ministers in 2014 and remained directors",
-      "ty": "trust", "fam": "recipient", "st": "dl", "sz": 2,
+      "ty": "trust",
+      "fam": "recipient",
+      "st": "dl",
+      "sz": 2,
       "al": [],
       "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
       "publicRole": "Government-aligned comparator to RGF/VIF in this file's symmetry check; its governing council has included sitting Union ministers.",
       "d": [
         "Founder and leader: Shaurya Doval; a founding governing-council member and later President: Ram Madhav [documented, Wikipedia — Shaurya Doval, Ram Madhav]",
@@ -166,169 +383,936 @@
         "No evidence of FCRA registration or foreign receipts for India Foundation found in sources reachable this session (india Foundation's own site not fetched; not covered in this directory's fcra-receipts.json) [void]"
       ],
       "srcs": [
-        ["Wikipedia — Shaurya Doval", "https://en.wikipedia.org/wiki/Shaurya_Doval"],
-        ["Wikipedia — Ram Madhav", "https://en.wikipedia.org/wiki/Ram_Madhav"],
-        ["The Wire, 2017 (title-confirmed)", "https://thewire.in/politics/exclusive-think-tank-run-nsa-ajit-dovals-son-conflict-interest-writ-large"],
-        ["The Wire, 2017, Doval's response (title-confirmed)", "https://thewire.in/politics/shaurya-doval-response-the-wire-questions-answers-india-foundation"]
+        [
+          "Wikipedia — Shaurya Doval",
+          "https://en.wikipedia.org/wiki/Shaurya_Doval"
+        ],
+        [
+          "Wikipedia — Ram Madhav",
+          "https://en.wikipedia.org/wiki/Ram_Madhav"
+        ],
+        [
+          "The Wire, 2017 (title-confirmed)",
+          "https://thewire.in/politics/exclusive-think-tank-run-nsa-ajit-dovals-son-conflict-interest-writ-large"
+        ],
+        [
+          "The Wire, 2017, Doval's response (title-confirmed)",
+          "https://thewire.in/politics/shaurya-doval-response-the-wire-questions-answers-india-foundation"
+        ]
       ]
     },
     {
       "id": "per:ram-madhav",
       "label": "Ram Madhav",
       "sub": "President, India Foundation; BJP National Vice-President (formerly National General Secretary)",
-      "ty": "person", "fam": "recipient", "st": "dl", "sz": 3,
+      "ty": "person",
+      "fam": "recipient",
+      "st": null,
+      "sz": 3,
       "al": [],
       "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": "President, India Foundation; National Vice-President, BJP (previously National General Secretary)", "lei": null, "fcra": null },
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": "President, India Foundation; National Vice-President, BJP (previously National General Secretary)",
+        "lei": null,
+        "fcra": null
+      },
       "publicRole": "Senior BJP party officer who also heads a foreign-money-adjacent think tank — the exact symmetry case this file's brief asks for.",
-      "d": ["Founding governing-council member and current President of India Foundation [documented, Wikipedia — Ram Madhav]"],
-      "srcs": [["Wikipedia — Ram Madhav", "https://en.wikipedia.org/wiki/Ram_Madhav"]]
+      "d": [
+        "Founding governing-council member and current President of India Foundation [documented, Wikipedia — Ram Madhav]"
+      ],
+      "srcs": [
+        [
+          "Wikipedia — Ram Madhav",
+          "https://en.wikipedia.org/wiki/Ram_Madhav"
+        ]
+      ]
     },
     {
       "id": "per:shaurya-doval",
       "label": "Shaurya Doval",
       "sub": "Founder and leader, India Foundation; Executive Member, BJP Uttarakhand; investment banker (Torch Investment)",
-      "ty": "person", "fam": "recipient", "st": "ut", "sz": 2,
+      "ty": "person",
+      "fam": "recipient",
+      "st": null,
+      "sz": 2,
       "al": [],
       "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": "Executive Member, BJP Uttarakhand; founder and leader, India Foundation", "lei": null, "fcra": null },
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": "Executive Member, BJP Uttarakhand; founder and leader, India Foundation",
+        "lei": null,
+        "fcra": null
+      },
       "publicRole": "A BJP party officer in his own right (not included here for being Ajit Doval's son); leads the think tank this file examines as a symmetry comparator to RGF.",
       "d": [
         "Founder and leader of India Foundation; formally joined BJP (Uttarakhand) in 2017 as a special invitee, later the party's state convenor for good governance [documented, Wikipedia — Shaurya Doval]",
         "In 2019 The Caravan reported alleged ties between Doval-family businesses and a Cayman-Islands-based hedge fund; Congress leader Jairam Ramesh raised this at a 17 Jan 2019 press conference; a criminal defamation case followed against Ramesh, Caravan and its staff writer; in Dec 2020 Ramesh apologised in court 'for any hurt the statements may have caused' — this episode concerns family business ties, not India Foundation's own finances, and is treated as a narrative below rather than as an entity claim per this project's institutions-not-bloodlines rule [reported — URL resolved/title-confirmed; content via Wikipedia's paraphrase]"
       ],
       "srcs": [
-        ["Wikipedia — Shaurya Doval", "https://en.wikipedia.org/wiki/Shaurya_Doval"],
-        ["The Caravan, 2019 (title-confirmed)", "https://caravanmagazine.in/business/ajit-doval-sons-cayman-islands-hedge-fund-vivek-shaurya"]
+        [
+          "Wikipedia — Shaurya Doval",
+          "https://en.wikipedia.org/wiki/Shaurya_Doval"
+        ],
+        [
+          "The Caravan, 2019 (title-confirmed)",
+          "https://caravanmagazine.in/business/ajit-doval-sons-cayman-islands-hedge-fund-vivek-shaurya"
+        ]
       ]
     },
     {
       "id": "ngo:prajna-pravah",
       "label": "Prajna Pravah",
       "sub": "RSS-affiliated intellectual/ideological organisation ('front organisation'), founded early 1980s under Balasaheb Deoras; present in hundreds of universities",
-      "ty": "sangh", "fam": "recipient", "st": "dl", "sz": 1,
+      "ty": "sangh",
+      "fam": "recipient",
+      "st": "dl",
+      "sz": 1,
       "al": [],
       "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
       "publicRole": "Government-aligned comparator organisation named in this file's brief; RSS's own intellectual arm.",
       "d": [
         "Founded in the early 1980s; original leaders K.S. Sudarshan and Dattopant Thengadi; current national convener J. Nandakumar is a full-time RSS pracharak [documented, Wikipedia — Prajna Pravah, citing The Hindu, The Week, India Today and other press]",
         "No FCRA registration status or foreign-funding information found in sources reachable this session [void]"
       ],
-      "srcs": [["Wikipedia — Prajna Pravah", "https://en.wikipedia.org/wiki/Prajna_Pravah"]]
+      "srcs": [
+        [
+          "Wikipedia — Prajna Pravah",
+          "https://en.wikipedia.org/wiki/Prajna_Pravah"
+        ]
+      ]
     },
     {
       "id": "ngo:overseas-friends-of-bjp-usa",
       "label": "Overseas Friends of BJP – USA",
       "sub": "US chapter of the BJP's overseas voluntary-organisation network, operating under the party's foreign-affairs department since 1991",
-      "ty": "sangh", "fam": "recipient", "st": null, "sz": 1,
-      "al": ["OFBJP-USA", "OFBJP"],
+      "ty": "sangh",
+      "fam": "recipient",
+      "st": null,
+      "sz": 1,
+      "al": [
+        "OFBJP-USA",
+        "OFBJP"
+      ],
       "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
       "publicRole": "The brief for this file asked specifically whether OFBJP-USA is FARA-registered as a foreign agent (reported in Indian press for Aug 2020); we could not verify this — see gaps.",
       "d": [
         "Overseas Friends of BJP chapters were first launched in 1991 and operate in 25+ countries including the US, UK, Canada and Israel under the BJP's foreign-affairs department [documented, Wikipedia — Organisation of the Bharatiya Janata Party]",
         "Could NOT verify an August-2020 US FARA (Foreign Agents Registration Act) filing by or naming OFBJP-USA: efile.fara.gov timed out on every attempt this session, fara.report's connection was rejected by proxy policy, and no press source describing the filing was successfully opened (indianexpress/thehindu/hindustantimes/livemint/theprint/business-standard/scroll/thewire searches were blocked, 403'd, or returned JS-only shells or unrelated fallback pages for guessed URLs) — recorded as a gap, not asserted [gap, not a claim]"
       ],
-      "srcs": [["Wikipedia — Organisation of the Bharatiya Janata Party", "https://en.wikipedia.org/wiki/Organisation_of_the_Bharatiya_Janata_Party"]]
+      "srcs": [
+        [
+          "Wikipedia — Organisation of the Bharatiya Janata Party",
+          "https://en.wikipedia.org/wiki/Organisation_of_the_Bharatiya_Janata_Party"
+        ]
+      ]
     },
     {
       "id": "ngo:fcra-1976",
       "label": "Foreign Contribution (Regulation) Act, 1976",
       "sub": "Predecessor statute to FCRA 2010 (repealed/replaced from 2011-05-01); governed the political-party foreign-donation question decided by the Delhi HC in 2014",
-      "ty": "law", "fam": "instrument", "st": null, "sz": 3,
-      "al": ["FCRA 1976"],
+      "ty": "law",
+      "fam": "instrument",
+      "st": null,
+      "sz": 3,
+      "al": [
+        "FCRA 1976"
+      ],
       "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
       "publicRole": "Governing statute for the 2014 Delhi HC finding against both BJP and Congress.",
       "d": [
         "S.4(1)(e)/s.3(1)(e)-equivalent barred political parties from accepting foreign contributions; s.2(e)(vi)(c) (as later renumbered/argued, s.2(1)(j)(vi) discussion in later amendments) defined 'foreign source' to include Indian companies where more than 50% of the share capital is held by a foreign company [documented, per the Delhi HC's own recitation of the Act in Association for Democratic Reforms v UoI, 2014]"
       ],
-      "srcs": [["Indian Kanoon — ADR v UoI, Delhi HC, 28 Mar 2014", "https://indiankanoon.org/doc/190292989/"]]
+      "srcs": [
+        [
+          "Indian Kanoon — ADR v UoI, Delhi HC, 28 Mar 2014",
+          "https://indiankanoon.org/doc/190292989/"
+        ]
+      ]
     },
     {
       "id": "ngo:finance-act-2016-fcra-amendment",
       "label": "Finance Act, 2016 — FCRA 'foreign source' amendment",
       "sub": "Retrospectively amended FCRA 2010's definition of 'foreign source' (s.2(1)(j)(vi)) with effect from 2010-09-26, narrowing which India-incorporated, foreign-parented companies count as a foreign source for political donations",
-      "ty": "law", "fam": "instrument", "st": null, "sz": 3,
+      "ty": "law",
+      "fam": "instrument",
+      "st": null,
+      "sz": 3,
       "al": [],
       "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
       "publicRole": "First of two retrospective amendments widely reported to have shielded both BJP and Congress from the consequences of the 2014 Delhi HC finding on Vedanta-subsidiary donations.",
       "d": [
         "Passed as part of the Finance Act, 2016 (a money bill); characterised in secondary reporting as narrowing the FCRA 'foreign source' definition retrospectively to 2010 [reported — we could not open the bare Act text: indiacode.nic.in timed out repeatedly and prsindia.org's Finance Bill 2016/2018 pages 404'd under every slug we tried this session; this claim rests on the Wikipedia 'Electoral Bond Scheme' article's characterization (itself citing press), which we did open]",
         "This directory's fcra-2010 entity (in fcra-receipts.json) independently notes 'Amended 2016, 2018 (Finance Acts — retrospective legalisation of past party donations, recorded in another file)' — this is that file"
       ],
-      "srcs": [["Wikipedia — Electoral Bond Scheme", "https://en.wikipedia.org/wiki/Electoral_Bond_Scheme"]]
+      "srcs": [
+        [
+          "Wikipedia — Electoral Bond Scheme",
+          "https://en.wikipedia.org/wiki/Electoral_Bond_Scheme"
+        ]
+      ]
     },
     {
       "id": "ngo:finance-act-2018-fcra-amendment",
       "label": "Finance Act, 2018 — FCRA 'foreign source' amendment (extended to 1976)",
       "sub": "Further retrospective amendment, reported to extend the 2016 change all the way back to 1976 — i.e., to the FCRA 1976 regime under which the Vedanta-subsidiary donations to BJP and Congress were made",
-      "ty": "law", "fam": "instrument", "st": null, "sz": 3,
+      "ty": "law",
+      "fam": "instrument",
+      "st": null,
+      "sz": 3,
       "al": [],
       "resolved": true,
-      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
       "publicRole": "Second of the two retrospective amendments; the one specifically reported to reach back to 1976 and thereby cover the donations the 2014 Delhi HC judgment addressed.",
       "d": [
         "Wikipedia's 'Electoral Bond Scheme' article states plainly: 'A comparable instance of the misuse of the Money Bill was seen previous to the retrospective amendments made to the [FCRA] by the government, on two separate occasions, in an effort to shield the BJP and the Congress from prosecution for FCRA violations, as determined by the Delhi High Court' [reported, opened directly]",
         "We could not independently confirm the exact section number or the 1976 retrospective date from a bare-Act or PRS source this session (see the 2016 entry's sourcing note); this is recorded as a sourcing gap, and the claim is tiered 'reported' rather than 'documented' as a result"
       ],
-      "srcs": [["Wikipedia — Electoral Bond Scheme", "https://en.wikipedia.org/wiki/Electoral_Bond_Scheme"]]
+      "srcs": [
+        [
+          "Wikipedia — Electoral Bond Scheme",
+          "https://en.wikipedia.org/wiki/Electoral_Bond_Scheme"
+        ]
+      ]
+    },
+    {
+      "id": "min:ministry-of-home-affairs",
+      "label": "Ministry of Home Affairs",
+      "sub": "Union ministry administering FCRA (FCRA Wing / Foreigners Division)",
+      "ty": "ministry",
+      "fam": "state",
+      "st": "dl",
+      "sz": 4,
+      "al": [],
+      "resolved": true,
+      "d": [],
+      "srcs": [
+        [
+          "Indian Kanoon — ADR v UoI, Delhi HC, 28 Mar 2014",
+          "https://indiankanoon.org/doc/190292989/"
+        ]
+      ]
     }
   ],
   "claims": [
-    { "id": "political-trusts:c001", "s": "per:sonia-gandhi", "t": "ngo:rajiv-gandhi-foundation", "pred": "role", "tier": "documented", "a": null, "lab": "Chairperson, RGF", "d": "Confirmed in both the 2020 (probe-formation) and 2022 (cancellation) press record.", "from": "1991", "to": null, "srcs": [["Hindustan Times, 2020-07-08", "https://www.hindustantimes.com/india-news/home-ministry-sets-up-panel-to-coordinate-probe-into-3-gandhi-family-trusts/story-KpJkxlJqXIUUhLVwzvq2oN.html"], ["Indian Express, 2022-10-24", "https://indianexpress.com/article/india/home-ministry-cancels-fcra-licence-of-rajiv-gandhi-foundation-8225840/"]], "supersededBy": null },
-    { "id": "political-trusts:c002", "s": "per:sonia-gandhi", "t": "ngo:rajiv-gandhi-charitable-trust", "pred": "role", "tier": "documented", "a": null, "lab": "Chairperson, RGCT", "d": "Confirmed in the same press record as c001.", "from": null, "to": null, "srcs": [["Indian Express, 2022-10-24", "https://indianexpress.com/article/india/home-ministry-cancels-fcra-licence-of-rajiv-gandhi-foundation-8225840/"]], "supersededBy": null },
-    { "id": "political-trusts:c003", "s": "per:sonia-gandhi", "t": "ngo:indira-gandhi-memorial-trust", "pred": "role", "tier": "reported", "a": null, "lab": "Oversees IGMT", "d": "HT (2020-07-08): 'She has also been overseeing the work of Indira Gandhi Memorial Trust' — not given a formal title in the source.", "from": null, "to": null, "srcs": [["Hindustan Times, 2020-07-08", "https://www.hindustantimes.com/india-news/home-ministry-sets-up-panel-to-coordinate-probe-into-3-gandhi-family-trusts/story-KpJkxlJqXIUUhLVwzvq2oN.html"]], "supersededBy": null },
-    { "id": "political-trusts:c004", "s": "wel:manmohan-singh", "t": "ngo:rajiv-gandhi-foundation", "pred": "role", "tier": "documented", "a": null, "lab": "Trustee, RGF", "d": "Confirmed in both the 2020 and 2022 press record.", "from": null, "to": null, "srcs": [["Hindustan Times, 2020-07-08", "https://www.hindustantimes.com/india-news/home-ministry-sets-up-panel-to-coordinate-probe-into-3-gandhi-family-trusts/story-KpJkxlJqXIUUhLVwzvq2oN.html"], ["Indian Express, 2022-10-24", "https://indianexpress.com/article/india/home-ministry-cancels-fcra-licence-of-rajiv-gandhi-foundation-8225840/"]], "supersededBy": null },
-    { "id": "political-trusts:c005", "s": "wel:p-chidambaram", "t": "ngo:rajiv-gandhi-foundation", "pred": "role", "tier": "documented", "a": null, "lab": "Trustee, RGF", "d": "Confirmed in both the 2020 and 2022 press record.", "from": null, "to": null, "srcs": [["Hindustan Times, 2020-07-08", "https://www.hindustantimes.com/india-news/home-ministry-sets-up-panel-to-coordinate-probe-into-3-gandhi-family-trusts/story-KpJkxlJqXIUUhLVwzvq2oN.html"], ["Indian Express, 2022-10-24", "https://indianexpress.com/article/india/home-ministry-cancels-fcra-licence-of-rajiv-gandhi-foundation-8225840/"]], "supersededBy": null },
-    { "id": "political-trusts:c006", "s": "per:rahul-gandhi", "t": "ngo:rajiv-gandhi-foundation", "pred": "role", "tier": "documented", "a": null, "lab": "Trustee, RGF", "d": "Confirmed in both the 2020 and 2022 press record.", "from": null, "to": null, "srcs": [["Hindustan Times, 2020-07-08", "https://www.hindustantimes.com/india-news/home-ministry-sets-up-panel-to-coordinate-probe-into-3-gandhi-family-trusts/story-KpJkxlJqXIUUhLVwzvq2oN.html"], ["Indian Express, 2022-10-24", "https://indianexpress.com/article/india/home-ministry-cancels-fcra-licence-of-rajiv-gandhi-foundation-8225840/"]], "supersededBy": null },
-    { "id": "political-trusts:c007", "s": "per:priyanka-gandhi-vadra", "t": "ngo:rajiv-gandhi-foundation", "pred": "role", "tier": "documented", "a": null, "lab": "Trustee, RGF", "d": "Confirmed in both the 2020 and 2022 press record.", "from": null, "to": null, "srcs": [["Hindustan Times, 2020-07-08", "https://www.hindustantimes.com/india-news/home-ministry-sets-up-panel-to-coordinate-probe-into-3-gandhi-family-trusts/story-KpJkxlJqXIUUhLVwzvq2oN.html"], ["Indian Express, 2022-10-24", "https://indianexpress.com/article/india/home-ministry-cancels-fcra-licence-of-rajiv-gandhi-foundation-8225840/"]], "supersededBy": null },
-
-    { "id": "political-trusts:c008", "s": "ngo:china-embassy-prc", "t": "ngo:rajiv-gandhi-foundation", "pred": "direct", "tier": "documented", "a": null, "lab": "Chinese embassy listed as RGF donor, FY2005-06", "d": "RGF's own FY2005-06 annual report lists the Embassy of the PRC among 'partner organisations and donors'; amount not stated in the reporting we opened. Date test: this falls under FCRA 1976 (2010 Act commenced 2011-05-01). Identity test: a foreign-government mission is unambiguously a 'foreign source' under either Act.", "from": "2005", "to": "2006", "srcs": [["Indian Express, 2022-10-24", "https://indianexpress.com/article/india/home-ministry-cancels-fcra-licence-of-rajiv-gandhi-foundation-8225840/"]], "supersededBy": null },
-    { "id": "political-trusts:c009", "s": "ngo:china-embassy-prc", "t": "ngo:rajiv-gandhi-institute-for-contemporary-studies", "pred": "direct", "tier": "documented", "a": null, "lab": "China listed as RGICS donor, same period", "d": "China's name also figures in RGICS's donor list for FY2005-06, per the same Indian Express reporting.", "from": "2005", "to": "2006", "srcs": [["Indian Express, 2022-10-24", "https://indianexpress.com/article/india/home-ministry-cancels-fcra-licence-of-rajiv-gandhi-foundation-8225840/"]], "supersededBy": null },
-
-    { "id": "political-trusts:c010", "s": "ngo:pmnrf", "t": "ngo:rajiv-gandhi-foundation", "pred": "grant", "tier": "alleged", "a": null, "lab": "BJP allegation (JP Nadda, 25 Jun 2020, via tweets): PMNRF funded RGF", "d": "Amount not stated: Nadda's claim was that PMNRF — chaired by the PM, with Sonia Gandhi historically associated with its board — 'was donating money to Rajiv Gandhi Foundation in UPA years', and he posted images of RGF's donor lists for 2005-06 and 2007-08, which named State Bank of India, GAIL, the Ministry of Home Affairs and the Ministry of Health as donors, without a quantified PMNRF-specific sum in the reporting we read. Base-rate/falsifier note: the donor lists shown named PSUs and ministries, not PMNRF by name; we could not independently confirm PMNRF itself appears as a line-item donor to RGF, so this is tiered alleged, not documented, on our own read of the source.", "from": "2005", "to": "2008", "srcs": [["Hindustan Times, 2020-07-08", "https://www.hindustantimes.com/india-news/home-ministry-sets-up-panel-to-coordinate-probe-into-3-gandhi-family-trusts/story-KpJkxlJqXIUUhLVwzvq2oN.html"]], "upgradeIf": "PMNRF's own audited accounts or a Parliament answer showing a direct transfer line to RGF", "killIf": "RGF's donor list for those years, if published in full, does not include PMNRF as an entry", "supersededBy": null },
-    { "id": "political-trusts:c011", "s": "party:inc", "t": "claim:political-trusts:c010", "pred": "contra", "tier": "reported", "a": null, "lab": "Congress response, July 2020", "d": "Congress called the BJP's allegations 'diversionary tactics', questioned BJP/RSS contacts with the Chinese Communist Party over the preceding decade, and alleged PM Modi shared a 'strange bonhomie' with China even as the border situation was unresolved.", "from": "2020-07", "to": null, "srcs": [["Hindustan Times, 2020-07-08", "https://www.hindustantimes.com/india-news/home-ministry-sets-up-panel-to-coordinate-probe-into-3-gandhi-family-trusts/story-KpJkxlJqXIUUhLVwzvq2oN.html"]], "supersededBy": null },
-
-    { "id": "political-trusts:c012", "s": "per:ajit-doval", "t": "ngo:vivekananda-international-foundation", "pred": "role", "tier": "documented", "a": null, "lab": "Founding director, VIF", "d": "Founded VIF in Dec 2009 after retiring as IB Director in 2005; served as founding director until his 2014 NSA appointment.", "from": "2009-12", "to": "2014-05", "srcs": [["Wikipedia — Vivekananda International Foundation", "https://en.wikipedia.org/wiki/Vivekananda_International_Foundation"]], "supersededBy": null },
-
-    { "id": "political-trusts:c013", "s": "per:shaurya-doval", "t": "ngo:india-foundation", "pred": "role", "tier": "documented", "a": null, "lab": "Founder and leader, India Foundation", "d": "Wikipedia: 'He is the founder and leader of India Foundation.'", "from": null, "to": null, "srcs": [["Wikipedia — Shaurya Doval", "https://en.wikipedia.org/wiki/Shaurya_Doval"]], "supersededBy": null },
-    { "id": "political-trusts:c014", "s": "per:ram-madhav", "t": "ngo:india-foundation", "pred": "role", "tier": "documented", "a": null, "lab": "Founding governing-council member; President, India Foundation", "d": "Wikipedia: 'a founding member of the Governing Council of India Foundation ... Currently he serves as the President of India Foundation.'", "from": null, "to": null, "srcs": [["Wikipedia — Ram Madhav", "https://en.wikipedia.org/wiki/Ram_Madhav"]], "supersededBy": null },
-    { "id": "political-trusts:c015", "s": "pol:nirmala-sitharaman", "t": "ngo:india-foundation", "pred": "role", "tier": "reported", "a": null, "lab": "Director, India Foundation, continued after becoming Union Minister", "d": "The Wire (2017), via Wikipedia's paraphrase: four India Foundation directors were appointed Union ministers in 2014, including Nirmala Sitharaman, and continued as directors afterward. Sourcing caveat: we could not render The Wire article body directly (JS-rendered site); this rests on Wikipedia's paraphrase of a title-confirmed, resolved URL.", "from": "2014", "to": null, "srcs": [["Wikipedia — Shaurya Doval", "https://en.wikipedia.org/wiki/Shaurya_Doval"], ["The Wire, 2017 (title-confirmed)", "https://thewire.in/politics/exclusive-think-tank-run-nsa-ajit-dovals-son-conflict-interest-writ-large"]], "supersededBy": null },
-
-    { "id": "political-trusts:c016", "s": "bjp", "t": "ngo:overseas-friends-of-bjp-usa", "pred": "direct", "tier": "documented", "a": null, "lab": "OFBJP chapters operate under BJP's foreign-affairs department", "d": "First launched 1991; present in 25+ countries including the US, organising outreach and campaign support for the party abroad.", "from": "1991", "to": null, "srcs": [["Wikipedia — Organisation of the Bharatiya Janata Party", "https://en.wikipedia.org/wiki/Organisation_of_the_Bharatiya_Janata_Party"]], "supersededBy": null },
-    { "id": "political-trusts:c017", "s": "rss", "t": "ngo:prajna-pravah", "pred": "trust", "tier": "documented", "a": null, "lab": "Prajna Pravah is an RSS-affiliated 'front organisation'", "d": "Functions as the RSS's intellectual/ideological arm; current national convener is a full-time RSS pracharak.", "from": null, "to": null, "srcs": [["Wikipedia — Prajna Pravah", "https://en.wikipedia.org/wiki/Prajna_Pravah"]], "supersededBy": null },
-
-    { "id": "political-trusts:c018", "s": "ngo:fcra-1976", "t": "bjp", "pred": "law", "tier": "documented", "a": null, "lab": "Delhi HC (28 Mar 2014): BJP's receipt of Sterlite/Sesa donations prima facie breached FCRA 1976", "d": "Para 73 of the judgment: 'the acts of the respondents inter-se ... clearly fall foul of the ban imposed under [FCRA 1976] as the donations accepted by the political parties from Sterlite and Sesa accrue from Foreign Sources within the meaning of law.' Respondent No.4 in the case (BJP, per contemporaneous public identification of the parties; the judgment itself refers to 'Respondent No.4', represented by Ms Pinky Anand, Sr Adv). Identity test: Sterlite Industries India Ltd was 55.1%-owned by UK-incorporated Vedanta Resources plc.", "from": null, "to": "2009", "srcs": [["Indian Kanoon — ADR v UoI, Delhi HC, 28 Mar 2014", "https://indiankanoon.org/doc/190292989/"]], "supersededBy": null },
-    { "id": "political-trusts:c019", "s": "ngo:fcra-1976", "t": "party:inc", "pred": "law", "tier": "documented", "a": null, "lab": "Delhi HC (28 Mar 2014): INC's receipt of Sterlite/Sesa donations prima facie breached FCRA 1976; separate STC/MMTC government-company donation also examined", "d": "Same para-73 finding applies to Respondent No.3 (INC). Separately (paras 3-5 of the judgment), two government companies — State Trading Corporation and Metals & Minerals Trading Corporation of India — donated ₹1 lakh each to INC per its own return to the Election Commission (2008); INC's defence was that this was an inadvertent misattribution of a donation actually meant for its student wing, NSUI. The court left this specific point for government investigation rather than deciding it.", "from": null, "to": "2009", "srcs": [["Indian Kanoon — ADR v UoI, Delhi HC, 28 Mar 2014", "https://indiankanoon.org/doc/190292989/"]], "supersededBy": null },
-    { "id": "political-trusts:c020", "s": "co:vedanta", "t": "bjp", "pred": "direct", "tier": "documented", "a": null, "lab": "Sterlite/Sesa political donations to BJP later found to be from a 'foreign source'", "d": "Sterlite Industries India Ltd (55.1% held by Vedanta Resources plc) and Sesa Goa Ltd made donations to political parties, evidenced in their own annual reports and Vedanta Resources plc's annual report, covering the period up to 2009 (the petition covered donations 'up to the year 2009'). Amount not stated in the judgment excerpt we read.", "from": null, "to": "2009", "srcs": [["Indian Kanoon — ADR v UoI, Delhi HC, 28 Mar 2014", "https://indiankanoon.org/doc/190292989/"]], "supersededBy": null },
-    { "id": "political-trusts:c021", "s": "co:vedanta", "t": "party:inc", "pred": "direct", "tier": "documented", "a": null, "lab": "Sterlite/Sesa political donations to INC later found to be from a 'foreign source'", "d": "Same fact pattern as c020, applied to INC as Respondent No.3.", "from": null, "to": "2009", "srcs": [["Indian Kanoon — ADR v UoI, Delhi HC, 28 Mar 2014", "https://indiankanoon.org/doc/190292989/"]], "supersededBy": null },
-    { "id": "political-trusts:c022", "s": "energy:delhi-high-court", "t": "min:ministry-of-home-affairs", "pred": "enforce", "tier": "documented", "a": null, "lab": "Delhi HC direction to reassess political parties' FC receipts (28 Mar 2014)", "d": "The court disposed of the writ petition with two directions: (1) investigate whether the STC/MMTC-to-INC donation was a genuine inadvertent mistake; (2) 're-look and re-appraise the receipts of the political parties' generally to identify foreign-source contributions and 'take action as contemplated by law' — both within six months. We found no record in sources opened this session of what action, if any, followed within that window (see gaps).", "from": "2014-03-28", "to": null, "srcs": [["Indian Kanoon — ADR v UoI, Delhi HC, 28 Mar 2014", "https://indiankanoon.org/doc/190292989/"]], "supersededBy": null },
-
-    { "id": "political-trusts:c023", "s": "ngo:finance-act-2016-fcra-amendment", "t": "bjp", "pred": "law", "tier": "reported", "a": null, "lab": "2016 retrospective FCRA amendment reported to have shielded BJP", "d": "See entity note for full sourcing caveat: rests on Wikipedia's 'Electoral Bond Scheme' article characterization, which we opened directly; we could not reach a bare-Act or PRS bill-track source this session.", "from": "2016", "to": null, "srcs": [["Wikipedia — Electoral Bond Scheme", "https://en.wikipedia.org/wiki/Electoral_Bond_Scheme"]], "supersededBy": "political-trusts:c025" },
-    { "id": "political-trusts:c024", "s": "ngo:finance-act-2016-fcra-amendment", "t": "party:inc", "pred": "law", "tier": "reported", "a": null, "lab": "2016 retrospective FCRA amendment reported to have shielded INC identically", "d": "Same sourcing as c023; Wikipedia states the amendments shielded 'the BJP and the Congress' identically — this is a symmetric, not one-sided, claim.", "from": "2016", "to": null, "srcs": [["Wikipedia — Electoral Bond Scheme", "https://en.wikipedia.org/wiki/Electoral_Bond_Scheme"]], "supersededBy": "political-trusts:c026" },
-    { "id": "political-trusts:c025", "s": "ngo:finance-act-2018-fcra-amendment", "t": "bjp", "pred": "law", "tier": "reported", "a": null, "lab": "2018 retrospective FCRA amendment (extended to 1976) reported to have shielded BJP", "d": "The second of the 'two separate occasions' Wikipedia describes; reported to extend the foreign-source carve-out back to 1976, i.e. to the exact period the 2014 Delhi HC judgment (c018/c020) addressed.", "from": "2018", "to": null, "srcs": [["Wikipedia — Electoral Bond Scheme", "https://en.wikipedia.org/wiki/Electoral_Bond_Scheme"]], "supersededBy": null },
-    { "id": "political-trusts:c026", "s": "ngo:finance-act-2018-fcra-amendment", "t": "party:inc", "pred": "law", "tier": "reported", "a": null, "lab": "2018 retrospective FCRA amendment reported to have shielded INC identically", "d": "Same sourcing as c025; symmetric application to both parties.", "from": "2018", "to": null, "srcs": [["Wikipedia — Electoral Bond Scheme", "https://en.wikipedia.org/wiki/Electoral_Bond_Scheme"]], "supersededBy": null },
-
-    { "id": "political-trusts:c027", "s": "co:vedanta", "t": "bjp", "pred": "bond", "tier": "reported", "a": null, "lab": "Vedanta Limited reported among top-5 electoral bond purchasers, 2019–2024, while facing law-enforcement probes", "d": "Wikipedia's Electoral Bond Scheme article, citing ECI data released Mar 2024: the second- and fifth-biggest bond donors (Megha Engineering and Vedanta Limited) 'also faced probes by law enforcement agencies during the period'; per-party breakdown of Vedanta's specific redemptions to BJP vs other parties not confirmed in what we opened, so amount is left null.", "from": "2019-04", "to": "2024-01", "srcs": [["Wikipedia — Electoral Bond Scheme", "https://en.wikipedia.org/wiki/Electoral_Bond_Scheme"]], "supersededBy": null },
-    { "id": "political-trusts:c028", "s": "qwik", "t": "ebscheme", "pred": "analytic", "tier": "analytic", "a": null, "lab": "The 2016/2018 FCRA amendments make the pre-2016 'foreign-subsidiary' question largely moot for electoral-bond-era donors", "d": "Qwik Supply Chain was reported as the third-biggest bond purchaser 2019-2024 and alleged to be a Reliance Industries subsidiary — a link Reliance denied, though the company's registration details reportedly indicated a connection. If any bond purchaser's ultimate parent has foreign shareholding, the post-2016/2018 FCRA 'foreign source' definition (narrower than the 1976-era one the 2014 judgment applied) would need to be breached, not merely present, for a comparable finding — a materially harder bar than the one Sterlite/Sesa failed in 2014.", "innocentReading": "Corporate groups routinely use holding, logistics or finance subsidiaries for ordinary business reasons; a subsidiary purchasing bonds is not itself evidence of round-tripping or foreign control absent proof that the ultimate parent's foreign shareholding crosses the post-2016 statutory threshold.", "upgradeIf": "ECI/ROC filings showing the ultimate beneficial owner of a bond-purchasing subsidiary has majority foreign shareholding above the amended threshold", "killIf": "The subsidiary is shown to be wholly Indian-owned at every tier", "from": null, "to": null, "srcs": [["Wikipedia — Electoral Bond Scheme", "https://en.wikipedia.org/wiki/Electoral_Bond_Scheme"]], "supersededBy": null }
+    {
+      "id": "political-trusts:c001",
+      "s": "per:sonia-gandhi",
+      "t": "ngo:rajiv-gandhi-foundation",
+      "pred": "role",
+      "tier": "documented",
+      "a": null,
+      "lab": "Chairperson, RGF",
+      "d": "Confirmed in both the 2020 (probe-formation) and 2022 (cancellation) press record.",
+      "from": "1991",
+      "to": null,
+      "srcs": [
+        [
+          "Hindustan Times, 2020-07-08",
+          "https://www.hindustantimes.com/india-news/home-ministry-sets-up-panel-to-coordinate-probe-into-3-gandhi-family-trusts/story-KpJkxlJqXIUUhLVwzvq2oN.html"
+        ],
+        [
+          "Indian Express, 2022-10-24",
+          "https://indianexpress.com/article/india/home-ministry-cancels-fcra-licence-of-rajiv-gandhi-foundation-8225840/"
+        ]
+      ],
+      "supersededBy": null
+    },
+    {
+      "id": "political-trusts:c002",
+      "s": "per:sonia-gandhi",
+      "t": "ngo:rajiv-gandhi-charitable-trust",
+      "pred": "role",
+      "tier": "documented",
+      "a": null,
+      "lab": "Chairperson, RGCT",
+      "d": "Confirmed in the same press record as c001.",
+      "from": null,
+      "to": null,
+      "srcs": [
+        [
+          "Indian Express, 2022-10-24",
+          "https://indianexpress.com/article/india/home-ministry-cancels-fcra-licence-of-rajiv-gandhi-foundation-8225840/"
+        ]
+      ],
+      "supersededBy": null
+    },
+    {
+      "id": "political-trusts:c003",
+      "s": "per:sonia-gandhi",
+      "t": "ngo:indira-gandhi-memorial-trust",
+      "pred": "role",
+      "tier": "reported",
+      "a": null,
+      "lab": "Oversees IGMT",
+      "d": "HT (2020-07-08): 'She has also been overseeing the work of Indira Gandhi Memorial Trust' — not given a formal title in the source.",
+      "from": null,
+      "to": null,
+      "srcs": [
+        [
+          "Hindustan Times, 2020-07-08",
+          "https://www.hindustantimes.com/india-news/home-ministry-sets-up-panel-to-coordinate-probe-into-3-gandhi-family-trusts/story-KpJkxlJqXIUUhLVwzvq2oN.html"
+        ]
+      ],
+      "supersededBy": null
+    },
+    {
+      "id": "political-trusts:c004",
+      "s": "wel:manmohan-singh",
+      "t": "ngo:rajiv-gandhi-foundation",
+      "pred": "role",
+      "tier": "documented",
+      "a": null,
+      "lab": "Trustee, RGF",
+      "d": "Confirmed in both the 2020 and 2022 press record.",
+      "from": null,
+      "to": null,
+      "srcs": [
+        [
+          "Hindustan Times, 2020-07-08",
+          "https://www.hindustantimes.com/india-news/home-ministry-sets-up-panel-to-coordinate-probe-into-3-gandhi-family-trusts/story-KpJkxlJqXIUUhLVwzvq2oN.html"
+        ],
+        [
+          "Indian Express, 2022-10-24",
+          "https://indianexpress.com/article/india/home-ministry-cancels-fcra-licence-of-rajiv-gandhi-foundation-8225840/"
+        ]
+      ],
+      "supersededBy": null
+    },
+    {
+      "id": "political-trusts:c005",
+      "s": "wel:p-chidambaram",
+      "t": "ngo:rajiv-gandhi-foundation",
+      "pred": "role",
+      "tier": "documented",
+      "a": null,
+      "lab": "Trustee, RGF",
+      "d": "Confirmed in both the 2020 and 2022 press record.",
+      "from": null,
+      "to": null,
+      "srcs": [
+        [
+          "Hindustan Times, 2020-07-08",
+          "https://www.hindustantimes.com/india-news/home-ministry-sets-up-panel-to-coordinate-probe-into-3-gandhi-family-trusts/story-KpJkxlJqXIUUhLVwzvq2oN.html"
+        ],
+        [
+          "Indian Express, 2022-10-24",
+          "https://indianexpress.com/article/india/home-ministry-cancels-fcra-licence-of-rajiv-gandhi-foundation-8225840/"
+        ]
+      ],
+      "supersededBy": null
+    },
+    {
+      "id": "political-trusts:c006",
+      "s": "per:rahul-gandhi",
+      "t": "ngo:rajiv-gandhi-foundation",
+      "pred": "role",
+      "tier": "documented",
+      "a": null,
+      "lab": "Trustee, RGF",
+      "d": "Confirmed in both the 2020 and 2022 press record.",
+      "from": null,
+      "to": null,
+      "srcs": [
+        [
+          "Hindustan Times, 2020-07-08",
+          "https://www.hindustantimes.com/india-news/home-ministry-sets-up-panel-to-coordinate-probe-into-3-gandhi-family-trusts/story-KpJkxlJqXIUUhLVwzvq2oN.html"
+        ],
+        [
+          "Indian Express, 2022-10-24",
+          "https://indianexpress.com/article/india/home-ministry-cancels-fcra-licence-of-rajiv-gandhi-foundation-8225840/"
+        ]
+      ],
+      "supersededBy": null
+    },
+    {
+      "id": "political-trusts:c007",
+      "s": "per:priyanka-gandhi-vadra",
+      "t": "ngo:rajiv-gandhi-foundation",
+      "pred": "role",
+      "tier": "documented",
+      "a": null,
+      "lab": "Trustee, RGF",
+      "d": "Confirmed in both the 2020 and 2022 press record.",
+      "from": null,
+      "to": null,
+      "srcs": [
+        [
+          "Hindustan Times, 2020-07-08",
+          "https://www.hindustantimes.com/india-news/home-ministry-sets-up-panel-to-coordinate-probe-into-3-gandhi-family-trusts/story-KpJkxlJqXIUUhLVwzvq2oN.html"
+        ],
+        [
+          "Indian Express, 2022-10-24",
+          "https://indianexpress.com/article/india/home-ministry-cancels-fcra-licence-of-rajiv-gandhi-foundation-8225840/"
+        ]
+      ],
+      "supersededBy": null
+    },
+    {
+      "id": "political-trusts:c008",
+      "s": "ngo:china-embassy-prc",
+      "t": "ngo:rajiv-gandhi-foundation",
+      "pred": "grant",
+      "tier": "documented",
+      "a": null,
+      "lab": "Chinese embassy listed as RGF donor, FY2005-06",
+      "d": "RGF's own FY2005-06 annual report lists the Embassy of the PRC among 'partner organisations and donors'; amount not stated in the reporting we opened. Date test: this falls under FCRA 1976 (2010 Act commenced 2011-05-01). Identity test: a foreign-government mission is unambiguously a 'foreign source' under either Act. A donation to an association is a grant (donor → recipient), not a declared political donation.",
+      "from": "2005",
+      "to": "2006",
+      "srcs": [
+        [
+          "Indian Express, 2022-10-24",
+          "https://indianexpress.com/article/india/home-ministry-cancels-fcra-licence-of-rajiv-gandhi-foundation-8225840/"
+        ]
+      ],
+      "supersededBy": null
+    },
+    {
+      "id": "political-trusts:c009",
+      "s": "ngo:china-embassy-prc",
+      "t": "ngo:rajiv-gandhi-institute-for-contemporary-studies",
+      "pred": "grant",
+      "tier": "documented",
+      "a": null,
+      "lab": "China listed as RGICS donor, same period",
+      "d": "China's name also figures in RGICS's donor list for FY2005-06, per the same Indian Express reporting. Amount not stated. A donation to an association is a grant (donor → recipient), not a declared political donation.",
+      "from": "2005",
+      "to": "2006",
+      "srcs": [
+        [
+          "Indian Express, 2022-10-24",
+          "https://indianexpress.com/article/india/home-ministry-cancels-fcra-licence-of-rajiv-gandhi-foundation-8225840/"
+        ]
+      ],
+      "supersededBy": null
+    },
+    {
+      "id": "political-trusts:c010",
+      "s": "ngo:pmnrf",
+      "t": "ngo:rajiv-gandhi-foundation",
+      "pred": "grant",
+      "tier": "alleged",
+      "a": null,
+      "lab": "BJP allegation (JP Nadda, 25 Jun 2020, via tweets): PMNRF funded RGF",
+      "d": "Amount not stated: Nadda's claim was that PMNRF — chaired by the PM, with Sonia Gandhi historically associated with its board — 'was donating money to Rajiv Gandhi Foundation in UPA years', and he posted images of RGF's donor lists for 2005-06 and 2007-08, which named State Bank of India, GAIL, the Ministry of Home Affairs and the Ministry of Health as donors, without a quantified PMNRF-specific sum in the reporting we read. Base-rate/falsifier note: the donor lists shown named PSUs and ministries, not PMNRF by name; we could not independently confirm PMNRF itself appears as a line-item donor to RGF, so this is tiered alleged, not documented, on our own read of the source.",
+      "from": "2005",
+      "to": "2008",
+      "srcs": [
+        [
+          "Hindustan Times, 2020-07-08",
+          "https://www.hindustantimes.com/india-news/home-ministry-sets-up-panel-to-coordinate-probe-into-3-gandhi-family-trusts/story-KpJkxlJqXIUUhLVwzvq2oN.html"
+        ]
+      ],
+      "upgradeIf": "PMNRF's own audited accounts or a Parliament answer showing a direct transfer line to RGF",
+      "killIf": "RGF's donor list for those years, if published in full, does not include PMNRF as an entry",
+      "supersededBy": null
+    },
+    {
+      "id": "political-trusts:c011",
+      "s": "party:inc",
+      "t": "claim:political-trusts:c010",
+      "pred": "contra",
+      "tier": "reported",
+      "a": null,
+      "lab": "Congress response, July 2020",
+      "d": "Congress called the BJP's allegations 'diversionary tactics', questioned BJP/RSS contacts with the Chinese Communist Party over the preceding decade, and alleged PM Modi shared a 'strange bonhomie' with China even as the border situation was unresolved.",
+      "from": "2020-07",
+      "to": null,
+      "srcs": [
+        [
+          "Hindustan Times, 2020-07-08",
+          "https://www.hindustantimes.com/india-news/home-ministry-sets-up-panel-to-coordinate-probe-into-3-gandhi-family-trusts/story-KpJkxlJqXIUUhLVwzvq2oN.html"
+        ]
+      ],
+      "supersededBy": null
+    },
+    {
+      "id": "political-trusts:c012",
+      "s": "per:ajit-doval",
+      "t": "ngo:vivekananda-international-foundation",
+      "pred": "role",
+      "tier": "documented",
+      "a": null,
+      "lab": "Founding director, VIF",
+      "d": "Founded VIF in Dec 2009 after retiring as IB Director in 2005; served as founding director until his 2014 NSA appointment.",
+      "from": "2009-12",
+      "to": "2014-05",
+      "srcs": [
+        [
+          "Wikipedia — Vivekananda International Foundation",
+          "https://en.wikipedia.org/wiki/Vivekananda_International_Foundation"
+        ]
+      ],
+      "supersededBy": null
+    },
+    {
+      "id": "political-trusts:c013",
+      "s": "per:shaurya-doval",
+      "t": "ngo:india-foundation",
+      "pred": "role",
+      "tier": "documented",
+      "a": null,
+      "lab": "Founder and leader, India Foundation",
+      "d": "Wikipedia: 'He is the founder and leader of India Foundation.'",
+      "from": null,
+      "to": null,
+      "srcs": [
+        [
+          "Wikipedia — Shaurya Doval",
+          "https://en.wikipedia.org/wiki/Shaurya_Doval"
+        ]
+      ],
+      "supersededBy": null
+    },
+    {
+      "id": "political-trusts:c014",
+      "s": "per:ram-madhav",
+      "t": "ngo:india-foundation",
+      "pred": "role",
+      "tier": "documented",
+      "a": null,
+      "lab": "Founding governing-council member; President, India Foundation",
+      "d": "Wikipedia: 'a founding member of the Governing Council of India Foundation ... Currently he serves as the President of India Foundation.'",
+      "from": null,
+      "to": null,
+      "srcs": [
+        [
+          "Wikipedia — Ram Madhav",
+          "https://en.wikipedia.org/wiki/Ram_Madhav"
+        ]
+      ],
+      "supersededBy": null
+    },
+    {
+      "id": "political-trusts:c015",
+      "s": "pol:nirmala-sitharaman",
+      "t": "ngo:india-foundation",
+      "pred": "role",
+      "tier": "reported",
+      "a": null,
+      "lab": "Director, India Foundation, continued after becoming Union Minister",
+      "d": "The Wire (2017), via Wikipedia's paraphrase: four India Foundation directors were appointed Union ministers in 2014, including Nirmala Sitharaman, and continued as directors afterward. Sourcing caveat: we could not render The Wire article body directly (JS-rendered site); this rests on Wikipedia's paraphrase of a title-confirmed, resolved URL.",
+      "from": "2014",
+      "to": null,
+      "srcs": [
+        [
+          "Wikipedia — Shaurya Doval",
+          "https://en.wikipedia.org/wiki/Shaurya_Doval"
+        ],
+        [
+          "The Wire, 2017 (title-confirmed)",
+          "https://thewire.in/politics/exclusive-think-tank-run-nsa-ajit-dovals-son-conflict-interest-writ-large"
+        ]
+      ],
+      "supersededBy": null
+    },
+    {
+      "id": "political-trusts:c016",
+      "s": "bjp",
+      "t": "ngo:overseas-friends-of-bjp-usa",
+      "pred": "own",
+      "tier": "documented",
+      "a": null,
+      "lab": "OFBJP chapters operate under BJP's foreign-affairs department",
+      "d": "First launched 1991; present in 25+ countries including the US, organising outreach and campaign support for the party abroad. Organisational control (party → its overseas wing), not a shareholding and not a money flow; no transfer of funds is recorded here.",
+      "from": "1991",
+      "to": null,
+      "srcs": [
+        [
+          "Wikipedia — Organisation of the Bharatiya Janata Party",
+          "https://en.wikipedia.org/wiki/Organisation_of_the_Bharatiya_Janata_Party"
+        ]
+      ],
+      "supersededBy": null
+    },
+    {
+      "id": "political-trusts:c017",
+      "s": "rss",
+      "t": "ngo:prajna-pravah",
+      "pred": "own",
+      "tier": "documented",
+      "a": null,
+      "lab": "Prajna Pravah is an RSS-affiliated 'front organisation'",
+      "d": "Functions as the RSS's intellectual/ideological arm; current national convener is a full-time RSS pracharak. Organisational affiliation (parent → affiliate), not a shareholding and not electoral-trust routing; no transfer of funds is recorded here.",
+      "from": null,
+      "to": null,
+      "srcs": [
+        [
+          "Wikipedia — Prajna Pravah",
+          "https://en.wikipedia.org/wiki/Prajna_Pravah"
+        ]
+      ],
+      "supersededBy": null
+    },
+    {
+      "id": "political-trusts:c018",
+      "s": "energy:delhi-high-court",
+      "t": "bjp",
+      "pred": "enforce",
+      "tier": "documented",
+      "a": null,
+      "lab": "Delhi HC (28 Mar 2014): BJP's receipt of Sterlite/Sesa donations prima facie breached FCRA 1976",
+      "d": "Para 73 of the judgment: 'the acts of the respondents inter-se ... clearly fall foul of the ban imposed under [FCRA 1976] as the donations accepted by the political parties from Sterlite and Sesa accrue from Foreign Sources within the meaning of law.' Respondent No.4 in the case (BJP, per contemporaneous public identification of the parties; the judgment itself refers to 'Respondent No.4', represented by Ms Pinky Anand, Sr Adv). Identity test: Sterlite Industries India Ltd was 55.1%-owned by UK-incorporated Vedanta Resources plc. Recorded as the court's finding (Delhi HC → party) under FCRA 1976; the statute itself is ngo:fcra-1976.",
+      "from": null,
+      "to": "2009",
+      "srcs": [
+        [
+          "Indian Kanoon — ADR v UoI, Delhi HC, 28 Mar 2014",
+          "https://indiankanoon.org/doc/190292989/"
+        ]
+      ],
+      "supersededBy": null
+    },
+    {
+      "id": "political-trusts:c019",
+      "s": "energy:delhi-high-court",
+      "t": "party:inc",
+      "pred": "enforce",
+      "tier": "documented",
+      "a": null,
+      "lab": "Delhi HC (28 Mar 2014): INC's receipt of Sterlite/Sesa donations prima facie breached FCRA 1976; separate STC/MMTC government-company donation also examined",
+      "d": "Same para-73 finding applies to Respondent No.3 (INC). Separately (paras 3-5 of the judgment), two government companies — State Trading Corporation and Metals & Minerals Trading Corporation of India — donated ₹1 lakh each to INC per its own return to the Election Commission (2008); INC's defence was that this was an inadvertent misattribution of a donation actually meant for its student wing, NSUI. The court left this specific point for government investigation rather than deciding it. Recorded as the court's finding (Delhi HC → party) under FCRA 1976; the statute itself is ngo:fcra-1976.",
+      "from": null,
+      "to": "2009",
+      "srcs": [
+        [
+          "Indian Kanoon — ADR v UoI, Delhi HC, 28 Mar 2014",
+          "https://indiankanoon.org/doc/190292989/"
+        ]
+      ],
+      "supersededBy": null
+    },
+    {
+      "id": "political-trusts:c020",
+      "s": "co:vedanta",
+      "t": "bjp",
+      "pred": "direct",
+      "tier": "documented",
+      "a": null,
+      "lab": "Sterlite/Sesa political donations to BJP later found to be from a 'foreign source'",
+      "d": "Sterlite Industries India Ltd (55.1% held by Vedanta Resources plc) and Sesa Goa Ltd made donations to political parties, evidenced in their own annual reports and Vedanta Resources plc's annual report, covering the period up to 2009 (the petition covered donations 'up to the year 2009'). Amount not stated in the judgment excerpt we read.",
+      "from": null,
+      "to": "2009",
+      "srcs": [
+        [
+          "Indian Kanoon — ADR v UoI, Delhi HC, 28 Mar 2014",
+          "https://indiankanoon.org/doc/190292989/"
+        ]
+      ],
+      "supersededBy": null
+    },
+    {
+      "id": "political-trusts:c021",
+      "s": "co:vedanta",
+      "t": "party:inc",
+      "pred": "direct",
+      "tier": "documented",
+      "a": null,
+      "lab": "Sterlite/Sesa political donations to INC later found to be from a 'foreign source'",
+      "d": "Same fact pattern as c020, applied to INC as Respondent No.3.",
+      "from": null,
+      "to": "2009",
+      "srcs": [
+        [
+          "Indian Kanoon — ADR v UoI, Delhi HC, 28 Mar 2014",
+          "https://indiankanoon.org/doc/190292989/"
+        ]
+      ],
+      "supersededBy": null
+    },
+    {
+      "id": "political-trusts:c022",
+      "s": "energy:delhi-high-court",
+      "t": "min:ministry-of-home-affairs",
+      "pred": "enforce",
+      "tier": "documented",
+      "a": null,
+      "lab": "Delhi HC direction to reassess political parties' FC receipts (28 Mar 2014)",
+      "d": "The court disposed of the writ petition with two directions: (1) investigate whether the STC/MMTC-to-INC donation was a genuine inadvertent mistake; (2) 're-look and re-appraise the receipts of the political parties' generally to identify foreign-source contributions and 'take action as contemplated by law' — both within six months. We found no record in sources opened this session of what action, if any, followed within that window (see gaps).",
+      "from": "2014-03-28",
+      "to": null,
+      "srcs": [
+        [
+          "Indian Kanoon — ADR v UoI, Delhi HC, 28 Mar 2014",
+          "https://indiankanoon.org/doc/190292989/"
+        ]
+      ],
+      "supersededBy": null
+    },
+    {
+      "id": "political-trusts:c023",
+      "s": "ngo:finance-act-2016-fcra-amendment",
+      "t": "bjp",
+      "pred": "law",
+      "tier": "reported",
+      "a": null,
+      "lab": "2016 retrospective FCRA amendment reported to have shielded BJP",
+      "d": "See entity note for full sourcing caveat: rests on Wikipedia's 'Electoral Bond Scheme' article characterization, which we opened directly; we could not reach a bare-Act or PRS bill-track source this session.",
+      "from": "2016",
+      "to": null,
+      "srcs": [
+        [
+          "Wikipedia — Electoral Bond Scheme",
+          "https://en.wikipedia.org/wiki/Electoral_Bond_Scheme"
+        ]
+      ],
+      "supersededBy": "political-trusts:c025"
+    },
+    {
+      "id": "political-trusts:c024",
+      "s": "ngo:finance-act-2016-fcra-amendment",
+      "t": "party:inc",
+      "pred": "law",
+      "tier": "reported",
+      "a": null,
+      "lab": "2016 retrospective FCRA amendment reported to have shielded INC identically",
+      "d": "Same sourcing as c023; Wikipedia states the amendments shielded 'the BJP and the Congress' identically — this is a symmetric, not one-sided, claim.",
+      "from": "2016",
+      "to": null,
+      "srcs": [
+        [
+          "Wikipedia — Electoral Bond Scheme",
+          "https://en.wikipedia.org/wiki/Electoral_Bond_Scheme"
+        ]
+      ],
+      "supersededBy": "political-trusts:c026"
+    },
+    {
+      "id": "political-trusts:c025",
+      "s": "ngo:finance-act-2018-fcra-amendment",
+      "t": "bjp",
+      "pred": "law",
+      "tier": "reported",
+      "a": null,
+      "lab": "2018 retrospective FCRA amendment (extended to 1976) reported to have shielded BJP",
+      "d": "The second of the 'two separate occasions' Wikipedia describes; reported to extend the foreign-source carve-out back to 1976, i.e. to the exact period the 2014 Delhi HC judgment (c018/c020) addressed.",
+      "from": "2018",
+      "to": null,
+      "srcs": [
+        [
+          "Wikipedia — Electoral Bond Scheme",
+          "https://en.wikipedia.org/wiki/Electoral_Bond_Scheme"
+        ]
+      ],
+      "supersededBy": null
+    },
+    {
+      "id": "political-trusts:c026",
+      "s": "ngo:finance-act-2018-fcra-amendment",
+      "t": "party:inc",
+      "pred": "law",
+      "tier": "reported",
+      "a": null,
+      "lab": "2018 retrospective FCRA amendment reported to have shielded INC identically",
+      "d": "Same sourcing as c025; symmetric application to both parties.",
+      "from": "2018",
+      "to": null,
+      "srcs": [
+        [
+          "Wikipedia — Electoral Bond Scheme",
+          "https://en.wikipedia.org/wiki/Electoral_Bond_Scheme"
+        ]
+      ],
+      "supersededBy": null
+    },
+    {
+      "id": "political-trusts:c027",
+      "s": "co:vedanta",
+      "t": "bjp",
+      "pred": "bond",
+      "tier": "reported",
+      "a": null,
+      "lab": "Vedanta Limited reported among top-5 electoral bond purchasers, 2019–2024, while facing law-enforcement probes",
+      "d": "Wikipedia's Electoral Bond Scheme article, citing ECI data released Mar 2024: the second- and fifth-biggest bond donors (Megha Engineering and Vedanta Limited) 'also faced probes by law enforcement agencies during the period'; per-party breakdown of Vedanta's specific redemptions to BJP vs other parties not confirmed in what we opened, so amount is left null.",
+      "from": "2019-04",
+      "to": "2024-01",
+      "srcs": [
+        [
+          "Wikipedia — Electoral Bond Scheme",
+          "https://en.wikipedia.org/wiki/Electoral_Bond_Scheme"
+        ]
+      ],
+      "supersededBy": null
+    },
+    {
+      "id": "political-trusts:c028",
+      "s": "qwik",
+      "t": "ebscheme",
+      "pred": "analytic",
+      "tier": "analytic",
+      "a": null,
+      "lab": "The 2016/2018 FCRA amendments make the pre-2016 'foreign-subsidiary' question largely moot for electoral-bond-era donors",
+      "d": "Qwik Supply Chain was reported as the third-biggest bond purchaser 2019-2024 and alleged to be a Reliance Industries subsidiary — a link Reliance denied, though the company's registration details reportedly indicated a connection. If any bond purchaser's ultimate parent has foreign shareholding, the post-2016/2018 FCRA 'foreign source' definition (narrower than the 1976-era one the 2014 judgment applied) would need to be breached, not merely present, for a comparable finding — a materially harder bar than the one Sterlite/Sesa failed in 2014.",
+      "innocentReading": "Corporate groups routinely use holding, logistics or finance subsidiaries for ordinary business reasons; a subsidiary purchasing bonds is not itself evidence of round-tripping or foreign control absent proof that the ultimate parent's foreign shareholding crosses the post-2016 statutory threshold.",
+      "upgradeIf": "ECI/ROC filings showing the ultimate beneficial owner of a bond-purchasing subsidiary has majority foreign shareholding above the amended threshold",
+      "killIf": "The subsidiary is shown to be wholly Indian-owned at every tier",
+      "from": null,
+      "to": null,
+      "srcs": [
+        [
+          "Wikipedia — Electoral Bond Scheme",
+          "https://en.wikipedia.org/wiki/Electoral_Bond_Scheme"
+        ]
+      ],
+      "supersededBy": null
+    }
   ],
   "voids": [
-    { "what": "No evidence found that the Vivekananda International Foundation holds FCRA registration or has received foreign contributions (VIF's own site, vifindia.org, returned HTTP 403 in this environment; not established in the entity stub already present in this directory's fcra-receipts.json either).", "whyItMatters": "VIF is this file's most prominent government-aligned comparator to RGF; if it has never sought FCRA registration, that is itself informative for the symmetry check (a foreign-policy think tank founded by a future NSA operating entirely on domestic funds), but we cannot assert either the registration or its absence with confidence — only that no evidence of either was found.", "srcs": [["Wikipedia — Vivekananda International Foundation", "https://en.wikipedia.org/wiki/Vivekananda_International_Foundation"]] },
-    { "what": "No evidence found of FCRA registration or foreign receipts for India Foundation or Prajna Pravah.", "whyItMatters": "Same symmetry-check reasoning as above; India Foundation's own leadership has stated 'no foreign funding has ever been received' (per Wikipedia's paraphrase of The Wire's Q&A with Shaurya Doval), which if true would itself be a documented void worth recording — but we could not independently verify the underlying claim ourselves.", "srcs": [["Wikipedia — Shaurya Doval", "https://en.wikipedia.org/wiki/Shaurya_Doval"], ["Wikipedia — Prajna Pravah", "https://en.wikipedia.org/wiki/Prajna_Pravah"]] },
-    { "what": "No FCRA-registered personal or family trust run by a sitting or former Chief Minister was located for any of the three names given in the brief (Naveen Patnaik, Y.S. Jagan Mohan Reddy, M.K. Stalin).", "whyItMatters": "The brief specifically asked for this comparison; its absence from what we could find should not be read as evidence that no such trust exists — sansad.in (Parliament Q&A) is a client-rendered Angular application not reachable via curl in this environment, and Wikipedia's search API was rate-limited (fleet-wide, shared session budget) for most of the remainder of this research session, blocking the searches we would have run (e.g., Achyuta Samanta/KIIT-KISS, which is Odisha-linked and BJD-adjacent but is a different public office-holder — a Rajya Sabha MP, not a Chief Minister — from the brief's specific ask).", "srcs": [] }
+    {
+      "what": "No evidence found that the Vivekananda International Foundation holds FCRA registration or has received foreign contributions (VIF's own site, vifindia.org, returned HTTP 403 in this environment; not established in the entity stub already present in this directory's fcra-receipts.json either).",
+      "whyItMatters": "VIF is this file's most prominent government-aligned comparator to RGF; if it has never sought FCRA registration, that is itself informative for the symmetry check (a foreign-policy think tank founded by a future NSA operating entirely on domestic funds), but we cannot assert either the registration or its absence with confidence — only that no evidence of either was found.",
+      "srcs": [
+        [
+          "Wikipedia — Vivekananda International Foundation",
+          "https://en.wikipedia.org/wiki/Vivekananda_International_Foundation"
+        ]
+      ]
+    },
+    {
+      "what": "No evidence found of FCRA registration or foreign receipts for India Foundation or Prajna Pravah.",
+      "whyItMatters": "Same symmetry-check reasoning as above; India Foundation's own leadership has stated 'no foreign funding has ever been received' (per Wikipedia's paraphrase of The Wire's Q&A with Shaurya Doval), which if true would itself be a documented void worth recording — but we could not independently verify the underlying claim ourselves.",
+      "srcs": [
+        [
+          "Wikipedia — Shaurya Doval",
+          "https://en.wikipedia.org/wiki/Shaurya_Doval"
+        ],
+        [
+          "Wikipedia — Prajna Pravah",
+          "https://en.wikipedia.org/wiki/Prajna_Pravah"
+        ]
+      ]
+    },
+    {
+      "what": "No FCRA-registered personal or family trust run by a sitting or former Chief Minister was located for any of the three names given in the brief (Naveen Patnaik, Y.S. Jagan Mohan Reddy, M.K. Stalin).",
+      "whyItMatters": "The brief specifically asked for this comparison; its absence from what we could find should not be read as evidence that no such trust exists — sansad.in (Parliament Q&A) is a client-rendered Angular application not reachable via curl in this environment, and Wikipedia's search API was rate-limited (fleet-wide, shared session budget) for most of the remainder of this research session, blocking the searches we would have run (e.g., Achyuta Samanta/KIIT-KISS, which is Odisha-linked and BJD-adjacent but is a different public office-holder — a Rajya Sabha MP, not a Chief Minister — from the brief's specific ask).",
+      "srcs": []
+    }
   ],
   "narratives": [
-    { "claim": "The Rajiv Gandhi Foundation took Chinese Communist Party money in 2005-06, in effect paid for by the same government the family led, to produce research favourable to Beijing.", "status": "contested", "strongestCase": "RGF's own FY2005-06 annual report lists the Chinese embassy as a donor/partner organisation (documented, political-trusts:c008); RGF's promoted think tank RGICS produced a study around that time favourable to an India-China free trade agreement (per Indian Express's account of the BJP's allegation); the government's 2022 cancellation order itself cites a ₹1.35 crore Chinese-embassy receipt as a ground (fcra-actions:c057 in the sibling file, tier alleged there).", "strongestCounter": "A donor being listed in an annual report is routine institutional disclosure, not evidence of quid pro quo; RGF was never shown in the sources we found to have altered any government position because of the donation; Congress's response reframed the story as a distraction from unresolved India-China border tensions and BJP/RSS's own historical CPC contacts; the amount, source and even the precise statutory provision breached were disputed or unstated across the record we assembled.", "whatWouldChangeThis": "The actual FCRA cancellation order or committee report (not yet public in any source we reached) specifying the statutory provision breached and the exact sum; RGF's own FC-4 returns for FY2005-06 and FY2006-07, if published.", "srcs": [["Indian Express, 2022-10-24", "https://indianexpress.com/article/india/home-ministry-cancels-fcra-licence-of-rajiv-gandhi-foundation-8225840/"], ["Hindustan Times, 2020-07-08", "https://www.hindustantimes.com/india-news/home-ministry-sets-up-panel-to-coordinate-probe-into-3-gandhi-family-trusts/story-KpJkxlJqXIUUhLVwzvq2oN.html"]] },
-    { "claim": "India Foundation is an opaquely-funded, RSS/BJP-aligned think tank whose governing council doubles as a shadow cabinet, and the Doval family runs an undisclosed offshore financial network connected to it.", "status": "contested", "strongestCase": "The Wire's 2017 reporting (as paraphrased by Wikipedia) that four 2014-vintage Union ministers, including Nirmala Sitharaman, remained India Foundation directors after taking office is a genuine, documented institutional-overlap fact (political-trusts:c015); its conferences were reportedly sponsored by international firms (Boeing, DBS Bank) even as its leadership said no foreign funding was received — those two statements are in some tension, though sponsorship of a conference and a foreign 'contribution' are legally distinct under FCRA. The Caravan's 2019 report on a Cayman-Islands-linked hedge fund run by Ajit Doval's other son, Vivek, is a separate claim about a family member's business, not about India Foundation's own accounts.", "strongestCounter": "The 'offshore network' claim is about a private individual's (Vivek Doval's) business, not an institution, and is exactly the kind of family-as-actor claim this project's rules say not to encode as fact; the claim was contested enough that Vivek Doval sued for defamation, and in Dec 2020 Jairam Ramesh apologised in court 'for any hurt the statements may have caused' — though an apology in a defamation suit is not the same as a finding that the underlying facts were false, and could equally reflect a litigation-cost calculation.", "whatWouldChangeThis": "India Foundation's own audited accounts (not located); the full text of the Caravan report and any follow-up reporting on the defamation suit's actual disposition, neither of which we could render in this session (JS-rendered sites).", "srcs": [["Wikipedia — Shaurya Doval", "https://en.wikipedia.org/wiki/Shaurya_Doval"], ["The Wire, 2017 (title-confirmed)", "https://thewire.in/politics/exclusive-think-tank-run-nsa-ajit-dovals-son-conflict-interest-writ-large"], ["The Caravan, 2019 (title-confirmed)", "https://caravanmagazine.in/business/ajit-doval-sons-cayman-islands-hedge-fund-vivek-shaurya"]] },
-    { "claim": "The 2016 and 2018 Finance Act amendments to the FCRA were a bipartisan cover-up: Parliament, controlled by the BJP but with the tacit acquiescence of a Congress unwilling to reopen its own exposure, retrospectively legalised donations both major parties had received unlawfully.", "status": "well-supported", "strongestCase": "The underlying predicate fact is documented, not alleged: the Delhi High Court in 2014 found, on largely undisputed facts, that both BJP and Congress received donations from Sterlite/Sesa (majority-owned by UK-incorporated Vedanta Resources plc) that met FCRA 1976's definition of a foreign-source contribution (political-trusts:c018-c021, primary judgment text). The retrospective legalisation via two money bills (2016 and 2018), reaching back to 1976, is corroborated by at least one further secondary source (Wikipedia's Electoral Bond Scheme article) beyond general public knowledge, and — tellingly — was NOT contested as to substance by either party at the time, which is itself informative given both had an equal interest in the outcome.", "strongestCounter": "We could not, in this session, open the bare statutory text or a neutral legislative-tracker (PRS) confirming the precise section numbers and the exact 1976 retrospective date, so some of the legal specifics rest on a single secondary characterization rather than primary confirmation; it is also possible to read the amendment as a legitimate, prospectively-reasoned narrowing of an over-broad 1976-era 'foreign source' test (many wholly-domestically-controlled Indian companies with passive foreign shareholders above 50% would otherwise be permanently unable to donate) rather than as bad-faith retrospective immunity — the amendment's critics and defenders dispute the characterization, not the underlying legislative fact.", "whatWouldChangeThis": "The Finance Act 2016 and 2018 bare texts (indiacode.nic.in was unreachable this session); a PRS Legislative Research bill-track summary for either Finance Bill (prsindia.org 404'd under every slug tried); confirmation of whether the ADR petition against the retrospective amendment was disposed of, withdrawn, or remains pending before the Supreme Court (not established in sources we reached).", "srcs": [["Indian Kanoon — ADR v UoI, Delhi HC, 28 Mar 2014", "https://indiankanoon.org/doc/190292989/"], ["Wikipedia — Electoral Bond Scheme", "https://en.wikipedia.org/wiki/Electoral_Bond_Scheme"]] }
+    {
+      "claim": "The Rajiv Gandhi Foundation took Chinese Communist Party money in 2005-06, in effect paid for by the same government the family led, to produce research favourable to Beijing.",
+      "status": "contested",
+      "strongestCase": "RGF's own FY2005-06 annual report lists the Chinese embassy as a donor/partner organisation (documented, political-trusts:c008); RGF's promoted think tank RGICS produced a study around that time favourable to an India-China free trade agreement (per Indian Express's account of the BJP's allegation); the government's 2022 cancellation order itself cites a ₹1.35 crore Chinese-embassy receipt as a ground (fcra-actions:c057 in the sibling file, tier alleged there).",
+      "strongestCounter": "A donor being listed in an annual report is routine institutional disclosure, not evidence of quid pro quo; RGF was never shown in the sources we found to have altered any government position because of the donation; Congress's response reframed the story as a distraction from unresolved India-China border tensions and BJP/RSS's own historical CPC contacts; the amount, source and even the precise statutory provision breached were disputed or unstated across the record we assembled.",
+      "whatWouldChangeThis": "The actual FCRA cancellation order or committee report (not yet public in any source we reached) specifying the statutory provision breached and the exact sum; RGF's own FC-4 returns for FY2005-06 and FY2006-07, if published.",
+      "srcs": [
+        [
+          "Indian Express, 2022-10-24",
+          "https://indianexpress.com/article/india/home-ministry-cancels-fcra-licence-of-rajiv-gandhi-foundation-8225840/"
+        ],
+        [
+          "Hindustan Times, 2020-07-08",
+          "https://www.hindustantimes.com/india-news/home-ministry-sets-up-panel-to-coordinate-probe-into-3-gandhi-family-trusts/story-KpJkxlJqXIUUhLVwzvq2oN.html"
+        ]
+      ]
+    },
+    {
+      "claim": "India Foundation is an opaquely-funded, RSS/BJP-aligned think tank whose governing council doubles as a shadow cabinet, and the Doval family runs an undisclosed offshore financial network connected to it.",
+      "status": "contested",
+      "strongestCase": "The Wire's 2017 reporting (as paraphrased by Wikipedia) that four 2014-vintage Union ministers, including Nirmala Sitharaman, remained India Foundation directors after taking office is a genuine, documented institutional-overlap fact (political-trusts:c015); its conferences were reportedly sponsored by international firms (Boeing, DBS Bank) even as its leadership said no foreign funding was received — those two statements are in some tension, though sponsorship of a conference and a foreign 'contribution' are legally distinct under FCRA. The Caravan's 2019 report on a Cayman-Islands-linked hedge fund run by Ajit Doval's other son, Vivek, is a separate claim about a family member's business, not about India Foundation's own accounts.",
+      "strongestCounter": "The 'offshore network' claim is about a private individual's (Vivek Doval's) business, not an institution, and is exactly the kind of family-as-actor claim this project's rules say not to encode as fact; the claim was contested enough that Vivek Doval sued for defamation, and in Dec 2020 Jairam Ramesh apologised in court 'for any hurt the statements may have caused' — though an apology in a defamation suit is not the same as a finding that the underlying facts were false, and could equally reflect a litigation-cost calculation.",
+      "whatWouldChangeThis": "India Foundation's own audited accounts (not located); the full text of the Caravan report and any follow-up reporting on the defamation suit's actual disposition, neither of which we could render in this session (JS-rendered sites).",
+      "srcs": [
+        [
+          "Wikipedia — Shaurya Doval",
+          "https://en.wikipedia.org/wiki/Shaurya_Doval"
+        ],
+        [
+          "The Wire, 2017 (title-confirmed)",
+          "https://thewire.in/politics/exclusive-think-tank-run-nsa-ajit-dovals-son-conflict-interest-writ-large"
+        ],
+        [
+          "The Caravan, 2019 (title-confirmed)",
+          "https://caravanmagazine.in/business/ajit-doval-sons-cayman-islands-hedge-fund-vivek-shaurya"
+        ]
+      ]
+    },
+    {
+      "claim": "The 2016 and 2018 Finance Act amendments to the FCRA were a bipartisan cover-up: Parliament, controlled by the BJP but with the tacit acquiescence of a Congress unwilling to reopen its own exposure, retrospectively legalised donations both major parties had received unlawfully.",
+      "status": "well-supported",
+      "strongestCase": "The underlying predicate fact is documented, not alleged: the Delhi High Court in 2014 found, on largely undisputed facts, that both BJP and Congress received donations from Sterlite/Sesa (majority-owned by UK-incorporated Vedanta Resources plc) that met FCRA 1976's definition of a foreign-source contribution (political-trusts:c018-c021, primary judgment text). The retrospective legalisation via two money bills (2016 and 2018), reaching back to 1976, is corroborated by at least one further secondary source (Wikipedia's Electoral Bond Scheme article) beyond general public knowledge, and — tellingly — was NOT contested as to substance by either party at the time, which is itself informative given both had an equal interest in the outcome.",
+      "strongestCounter": "We could not, in this session, open the bare statutory text or a neutral legislative-tracker (PRS) confirming the precise section numbers and the exact 1976 retrospective date, so some of the legal specifics rest on a single secondary characterization rather than primary confirmation; it is also possible to read the amendment as a legitimate, prospectively-reasoned narrowing of an over-broad 1976-era 'foreign source' test (many wholly-domestically-controlled Indian companies with passive foreign shareholders above 50% would otherwise be permanently unable to donate) rather than as bad-faith retrospective immunity — the amendment's critics and defenders dispute the characterization, not the underlying legislative fact.",
+      "whatWouldChangeThis": "The Finance Act 2016 and 2018 bare texts (indiacode.nic.in was unreachable this session); a PRS Legislative Research bill-track summary for either Finance Bill (prsindia.org 404'd under every slug tried); confirmation of whether the ADR petition against the retrospective amendment was disposed of, withdrawn, or remains pending before the Supreme Court (not established in sources we reached).",
+      "srcs": [
+        [
+          "Indian Kanoon — ADR v UoI, Delhi HC, 28 Mar 2014",
+          "https://indiankanoon.org/doc/190292989/"
+        ],
+        [
+          "Wikipedia — Electoral Bond Scheme",
+          "https://en.wikipedia.org/wiki/Electoral_Bond_Scheme"
+        ]
+      ]
+    }
   ],
   "symmetryCheck": "Applying the same lens (documented FCRA enforcement action, or a documented foreign-money controversy, tied to a national party's central leadership or its aligned think tanks) produced a strikingly asymmetric result in what we could actually find and verify this session — but the asymmetry is partly an artifact of press coverage and partly an artifact of this session's access limits, and one important sub-question is symmetric on the primary evidence we DID verify. On the Congress side: RGF and RGCT were both investigated from 2020 and had their FCRA registrations cancelled in Oct 2022 on stated grounds including a Chinese-embassy donation and a Zakir Naik/IRF donation (detailed in this directory's fcra-actions.json); RGICS and the Indira Gandhi Memorial Trust were named in the same 2020 probe. On the BJP/RSS side, applying the identical search — did VIF, India Foundation, Prajna Pravah or OFBJP-USA face any documented FCRA cancellation, suspension or comparable enforcement action — found NOTHING in any source we could open this session (see voids). That zero could mean these organisations are in fact compliant and never triggered scrutiny, or it could mean our access to the Indian press archive was badly degraded this session (see gaps: most major outlets' search functions returned 403s, JS-only shells, or unrelated fallback content for every guessed URL) — we cannot distinguish these two explanations from what we found, and it would be wrong to present the zero as proof of a double standard. Where we DID verify a genuinely symmetric documented fact — the 2014 Delhi High Court's finding that BOTH BJP and Congress received unlawful foreign-source donations via Vedanta subsidiaries, and the subsequent 2016/2018 retrospective amendments reported to have legalised this for both parties identically — the record is symmetric on its face: same violation, same two respondents, same legislative fix applied to both. That is the one part of this file's brief we can say, with real confidence, treated both parties identically.",
   "baseRates": [
-    { "property": "Congress-linked trusts examined in this file (RGF, RGCT, IGMT) that were named in a documented MHA FCRA probe or cancellation action", "numerator": 3, "denominator": 3, "label": "Congress-linked trusts/think-tanks examined in this file", "srcs": [["Hindustan Times, 2020-07-08", "https://www.hindustantimes.com/india-news/home-ministry-sets-up-panel-to-coordinate-probe-into-3-gandhi-family-trusts/story-KpJkxlJqXIUUhLVwzvq2oN.html"], ["Indian Express, 2022-10-24", "https://indianexpress.com/article/india/home-ministry-cancels-fcra-licence-of-rajiv-gandhi-foundation-8225840/"]] },
-    { "property": "BJP/RSS-linked trusts/think-tanks examined in this file (VIF, India Foundation, Prajna Pravah, OFBJP-USA) with a documented MHA FCRA probe or cancellation action found in sources reachable this session", "numerator": 0, "denominator": 4, "label": "BJP/RSS-linked trusts/think-tanks examined in this file — read together with the symmetryCheck note: this reflects what we could find, not a confirmed absence", "srcs": [] }
+    {
+      "property": "Congress-linked trusts examined in this file (RGF, RGCT, IGMT) that were named in a documented MHA FCRA probe or cancellation action",
+      "numerator": 3,
+      "denominator": 3,
+      "label": "Congress-linked trusts/think-tanks examined in this file",
+      "srcs": [
+        [
+          "Hindustan Times, 2020-07-08",
+          "https://www.hindustantimes.com/india-news/home-ministry-sets-up-panel-to-coordinate-probe-into-3-gandhi-family-trusts/story-KpJkxlJqXIUUhLVwzvq2oN.html"
+        ],
+        [
+          "Indian Express, 2022-10-24",
+          "https://indianexpress.com/article/india/home-ministry-cancels-fcra-licence-of-rajiv-gandhi-foundation-8225840/"
+        ]
+      ]
+    },
+    {
+      "property": "BJP/RSS-linked trusts/think-tanks examined in this file (VIF, India Foundation, Prajna Pravah, OFBJP-USA) with a documented MHA FCRA probe or cancellation action found in sources reachable this session",
+      "numerator": 0,
+      "denominator": 4,
+      "label": "BJP/RSS-linked trusts/think-tanks examined in this file — read together with the symmetryCheck note: this reflects what we could find, not a confirmed absence",
+      "srcs": []
+    }
   ],
   "gaps": [
     "Could not verify OFBJP-USA's reported August-2020 US FARA registration (this file's brief specifically asked for it): efile.fara.gov timed out on every attempt (both direct GET and via WebFetch); fara.report's connection was rejected by proxy policy ('connect_rejected'); no press source describing the filing was successfully opened.",

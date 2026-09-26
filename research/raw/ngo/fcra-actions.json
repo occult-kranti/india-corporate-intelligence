@@ -155,7 +155,8 @@
       "sz": 4,
       "al": [
         "Foreign Contribution (Regulation) Act, 2010",
-        "FCRA"
+        "FCRA",
+        "FCRA 2010"
       ],
       "resolved": true,
       "identity": {
@@ -177,7 +178,11 @@
         "2022-01-01 cessation event: 5,933 registrations \"deemed to cease\" — 5,789 did not apply for renewal despite reminders, 179 applications denied; active count fell from 22,762 to 16,829; these were among 18,778 registrations that expired between 2020-09-29 and 2021-12-31; 12,580 had ceased cumulatively in earlier years (ThePrint + Scroll, 2022-01-01, both citing the MHA portal) [documented]",
         "Portal counts, 2024-05: active 16,242; expired 14,396; cancelled 20,701; foreign contribution received 2019–2022: ₹55,741.51 crore (The CSR Universe 2024-05-01, citing parliamentary data) [reported]",
         "UPA-era count: 4,141 registrations cancelled in 2012–13 out of 39,236 registered; Tamil Nadu 794 (19%); 20 accounts frozen; 60 barred from applying (Hinduism Today HPI 2013-08-30, citing News Bharati — secondary aggregator, unverified against the MHA Annual Report) [reported — weak source]",
-        "Year-wise table 2011–2026 NOT retrieved: fcraonline.nic.in and mha.gov.in Parliament-answer PDFs blocked from this environment (403) [void]"
+        "Year-wise table 2011–2026 NOT retrieved: fcraonline.nic.in and mha.gov.in Parliament-answer PDFs blocked from this environment (403) [void]",
+        "See fcra-actions.json and fcra-receipts.json for the statute's history; this file records only the MHA's 2026 framing and the 2026 Rules",
+        "Presidential assent 26 Sep 2010; replaced FCRA 1976; five-year registrations with renewal; suspension, cancellation, vesting of assets (s.15), compounding [documented]",
+        "Annual return in Form FC-4 (earlier FC-6) within 9 months of FY close (s.18 read with Rule 17) [documented]",
+        "Amended 2016, 2018 (Finance Acts — retrospective legalisation of past party donations, recorded in another file), 2020, and Bill 2026 pending [documented]"
       ],
       "srcs": [
         [
@@ -207,6 +212,18 @@
         [
           "Hinduism Today HPI 2013-08-30 (citing News Bharati) — 4,141 cancellations 2012–13",
           "https://www.hinduismtoday.com/hpi/2013/08/16/kudankulam-effect-government-s-biggest-crackdown-on-foreign-funding-of-ngos/"
+        ],
+        [
+          "PIB FCRA factsheet",
+          "https://www.pib.gov.in/FactsheetDetails.aspx?Id=150789&reg=48&lang=2"
+        ],
+        [
+          "PIB — FCRA FAQs/backgrounder, 22 Jul 2026 (2024-25: ~16,200 active, ₹22,963 cr; amendment history)",
+          "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2287845&reg=3&lang=1"
+        ],
+        [
+          "MHA — Rajya Sabha Unstarred Q.3253, 29.03.2023 (Nityanand Rai): state-wise FC received/utilised FY2019-20 to FY2021-22, cancellations 2020–23",
+          "https://www.mha.gov.in/MHA1/Par2017/pdfs/par2023-pdfs/RS29032023/3253.pdf"
         ]
       ]
     },
@@ -234,7 +251,8 @@
       "publicRole": "The 2020 rewrite of the regime; upheld (with one reading-down) by the Supreme Court in Noel Harper v Union of India, 2022-04-08.",
       "d": [
         "Introduced in Lok Sabha 2020-09-20; passed Lok Sabha 2020-09-21; passed Rajya Sabha 2020-09-23 (PRS) [documented]",
-        "Constitutional challenge to ss. 7, 12(1A), 12A and 17(1) dismissed by a three-judge bench (Khanwilkar, Maheshwari, Ravikumar) on 2022-04-08; s.12A read down to permit Indian passport for foreign nationals/OCI office-bearers (Indian Kanoon) [documented]"
+        "Constitutional challenge to ss. 7, 12(1A), 12A and 17(1) dismissed by a three-judge bench (Khanwilkar, Maheshwari, Ravikumar) on 2022-04-08; s.12A read down to permit Indian passport for foreign nationals/OCI office-bearers (Indian Kanoon) [documented]",
+        "Mandatory Aadhaar/passport for office-bearers; single designated account at SBI New Delhi Main Branch; sub-granting prohibited; administrative-expense ceiling cut from 50% to 20%; renewal subject to government inquiry [documented]"
       ],
       "srcs": [
         [
@@ -244,21 +262,26 @@
         [
           "Indian Kanoon — Noel Harper v Union of India, SC, 2022-04-08",
           "https://indiankanoon.org/doc/63476467/"
+        ],
+        [
+          "PIB — FCRA FAQs/backgrounder, 22 Jul 2026 (2024-25: ~16,200 active, ₹22,963 cr; amendment history)",
+          "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2287845&reg=3&lang=1"
+        ],
+        [
+          "Wikipedia — Foreign Contribution (Regulation) Act, 2010 (legislative dates; no year-wise receipts)",
+          "https://en.wikipedia.org/wiki/Foreign_Contribution_(Regulation)_Act,_2010"
         ]
       ]
     },
     {
-      "id": "ngo:fcra-registered-associations",
-      "label": "FCRA-registered associations",
-      "sub": "The population of associations holding FCRA registration (about 16,000–22,800 over 2021–2024) — the denominator node",
+      "id": "ngo:fcra-associations-aggregate",
+      "label": "FCRA-registered associations (all India, aggregate)",
+      "sub": "Population of associations registered or holding prior permission under FCRA; counts and receipts by FY",
       "ty": "group",
       "fam": "recipient",
       "st": null,
       "sz": 2,
-      "al": [
-        "FCRA NGOs",
-        "FCRA associations"
-      ],
+      "al": [],
       "resolved": true,
       "identity": {
         "cin": null,
@@ -268,10 +291,8 @@
         "lei": null,
         "fcra": null
       },
-      "publicRole": "Every law claim in this file is a rule governing this population; every base rate uses it as denominator.",
-      "d": [
-        "Active registrations: ~22,400 (2021-02); 22,762 → 16,829 (2022-01-01); 16,242 active, 14,396 expired, 20,701 cancelled (2024-05) [documented/reported — see FCRA 2010 node]"
-      ],
+      "publicRole": "Statistical aggregate used as the counter-party for annual totals",
+      "d": [],
       "srcs": [
         [
           "Business Today — LS reply 2021-02-10 (Nityanand Rai): 20,600 cancelled since 2011",
@@ -290,28 +311,23 @@
     {
       "id": "min:ministry-of-home-affairs",
       "label": "Ministry of Home Affairs",
-      "sub": "Union ministry administering FCRA; Home Minister is the political head",
+      "sub": "Union ministry administering FCRA (FCRA Wing / Foreigners Division)",
       "ty": "ministry",
       "fam": "state",
       "st": "dl",
       "sz": 4,
-      "al": [
-        "MHA",
-        "Home Ministry"
-      ],
+      "al": [],
       "resolved": true,
       "identity": {
         "cin": null,
         "din": null,
         "nse": null,
-        "office": null,
+        "office": "North Block, New Delhi",
         "lei": null,
         "fcra": null
       },
-      "publicRole": "Administers the FCRA; issues every registration, refusal, suspension and cancellation.",
-      "d": [
-        "Home Ministers in the period: P. Chidambaram (2008-11-30 → 2012-07-31), Sushilkumar Shinde (2012-07-31 → 2014-05-26), Rajnath Singh (2014-05-26 → 2019-05-30), Amit Shah (2019-05-30 → present) [reported — Wikipedia list; mha.gov.in blocked]"
-      ],
+      "publicRole": "Union ministry; statutory regulator under FCRA 2010",
+      "d": [],
       "srcs": [
         [
           "Wikipedia — Minister of Home Affairs (India), list with dates",
@@ -367,7 +383,7 @@
       "sub": "Union Home Minister 2008-11-30 → 2012-07-31 (INC, Sivaganga); later named as RGF trustee",
       "ty": "person",
       "fam": "state",
-      "st": "tn",
+      "st": null,
       "sz": 2,
       "al": [
         "Palaniappan Chidambaram"
@@ -402,7 +418,7 @@
       "sub": "Union Home Minister 2012-07-31 → 2014-05-26 (INC, Solapur)",
       "ty": "person",
       "fam": "state",
-      "st": "mh",
+      "st": null,
       "sz": 1,
       "al": [
         "Sushil Kumar Shinde"
@@ -431,7 +447,7 @@
       "sub": "Union Home Minister 2014-05-26 → 2019-05-30 (BJP, Lucknow)",
       "ty": "person",
       "fam": "state",
-      "st": "up",
+      "st": null,
       "sz": 2,
       "al": [],
       "resolved": true,
@@ -455,10 +471,10 @@
     {
       "id": "pol:amit-shah",
       "label": "Amit Shah",
-      "sub": "Union Home Minister 2019-05-30 → present (BJP, Gandhinagar)",
+      "sub": "Union Minister of Home Affairs (2019-05-30→)",
       "ty": "person",
       "fam": "state",
-      "st": "gj",
+      "st": null,
       "sz": 3,
       "al": [],
       "resolved": true,
@@ -466,11 +482,11 @@
         "cin": null,
         "din": null,
         "nse": null,
-        "office": "Union Minister of Home Affairs, 2019-05-30 → present; Lok Sabha, Gandhinagar",
+        "office": "Minister of Home Affairs, Government of India, 2019-05-30 → (register: research/raw/cabinet.json)",
         "lei": null,
         "fcra": null
       },
-      "publicRole": "Home Minister during the 2020 Amendment, Amnesty (2020), CHRI, Oxfam, MoC, RGF/RGCT, CPR, World Vision, CASA, CARE, Environics, Bal Raksha Bharat; stated RGF grounds in the Lok Sabha 2022-12.",
+      "publicRole": "Cabinet minister in charge of FCRA administration",
       "d": [],
       "srcs": [
         [
@@ -486,10 +502,10 @@
     {
       "id": "pol:nityanand-rai",
       "label": "Nityanand Rai",
-      "sub": "Minister of State for Home Affairs (in office 2021-02-10, answered the 20,600-cancellations question)",
+      "sub": "Minister of State, Ministry of Home Affairs (2019-05-30→); answers FCRA questions in Parliament",
       "ty": "person",
       "fam": "state",
-      "st": "br",
+      "st": null,
       "sz": 1,
       "al": [],
       "resolved": true,
@@ -497,11 +513,11 @@
         "cin": null,
         "din": null,
         "nse": null,
-        "office": "Minister of State, Home Affairs — in office on 2021-02-10 (Lok Sabha written reply)",
+        "office": "Minister of State for Home Affairs, 2019-05-30 → (answers dated 2022-07-26 and 2023-03-29 confirm office)",
         "lei": null,
         "fcra": null
       },
-      "publicRole": "Signed the Parliament answer that is the primary count source for 2011–2021.",
+      "publicRole": "Minister of State answering for MHA in Parliament",
       "d": [],
       "srcs": [
         [
@@ -544,14 +560,12 @@
     {
       "id": "sc",
       "label": "Supreme Court",
-      "sub": "Upheld the 2020 Amendment in Noel Harper v Union of India (2022-04-08)",
+      "sub": "Supreme Court of India",
       "ty": "agency",
       "fam": "enforce",
       "st": "dl",
       "sz": 3,
-      "al": [
-        "Supreme Court of India"
-      ],
+      "al": [],
       "resolved": true,
       "identity": {
         "cin": null,
@@ -561,7 +575,7 @@
         "lei": null,
         "fcra": null
       },
-      "publicRole": "Final adjudicator of the FCRA regime.",
+      "publicRole": "Author of the PUCL ICDS orders and the 2019 Vaishnorani judgment.",
       "d": [],
       "srcs": [
         [
@@ -655,7 +669,9 @@
       "al": [
         "Enforcement Directorate",
         "Central Bureau of Investigation",
-        "Income Tax Department"
+        "Income Tax Department",
+        "ED",
+        "CBI"
       ],
       "resolved": true,
       "identity": {
@@ -692,6 +708,10 @@
         [
           "The CSR Universe 2023-06-15 — CARE India FCRA suspended 2023-06-14",
           "https://thecsruniverse.com/articles/violation-of-foreign-contribution-regulation-act-mha-cancels-care-india-s-fcra-license"
+        ],
+        [
+          "The Tribune 2025-03-19",
+          "https://www.tribuneindia.com/news/india/ed-raids-soros-linked-entities-in-bengaluru"
         ]
       ]
     },
@@ -739,15 +759,12 @@
     {
       "id": "party:inc",
       "label": "Indian National Congress",
-      "sub": "Responded to the RGF/RGCT cancellation (2022) and the MoC refusal (2021)",
+      "sub": "opposition in MP (2022) demanding a central-agency probe into the THR audit",
       "ty": "party",
       "fam": "state",
-      "st": "dl",
+      "st": null,
       "sz": 2,
-      "al": [
-        "Congress",
-        "INC"
-      ],
+      "al": [],
       "resolved": true,
       "identity": {
         "cin": null,
@@ -757,7 +774,7 @@
         "lei": null,
         "fcra": null
       },
-      "publicRole": "The party whose leaders are RGF trustees; the denier of record on the RGF claims.",
+      "publicRole": "Named party making the 'poshan scam' allegation.",
       "d": [],
       "srcs": [
         [
@@ -769,27 +786,23 @@
     {
       "id": "ngo:greenpeace-india",
       "label": "Greenpeace India",
-      "sub": "Greenpeace India Society — environmental campaigner; FCRA cancelled 2015-09-02",
+      "sub": "Environmental campaigning society; named in the 2014 IB report",
       "ty": "trust",
       "fam": "recipient",
       "st": "tn",
       "sz": 2,
-      "al": [
-        "Greenpeace India Society"
-      ],
+      "al": [],
       "resolved": true,
       "identity": {
         "cin": null,
         "din": null,
         "nse": null,
-        "office": null,
+        "office": "Bengaluru",
         "lei": null,
         "fcra": null
       },
-      "publicRole": "Named subject of MHA FCRA orders 2014–2015 and of two High Court rulings.",
-      "d": [
-        "Co-Executive Director Vinuta Gopal (2015-09): \"We are confident that we have a strong legal case to demonstrate that the MHA is acting without any justification\" — fourth legal challenge to MHA decisions [reported]"
-      ],
+      "publicRole": "Principal target named in the IB report and the first FCRA action of the NDA era (see fcra-actions.json).",
+      "d": [],
       "srcs": [
         [
           "Mongabay 2015-09-22 — Greenpeace India FCRA cancelled 2015-09-02; Madras HC stay 2015-09-15; Delhi HC 2015-01",
@@ -800,27 +813,23 @@
     {
       "id": "ngo:ford-foundation",
       "label": "Ford Foundation",
-      "sub": "US foundation; placed on MHA prior-permission watch list 2015; removed 2016-03-16 after FEMA branch registration (2015-12)",
+      "sub": "US private foundation; New Delhi branch office since 1952",
       "ty": "fund",
       "fam": "capital",
       "st": null,
       "sz": 2,
-      "al": [
-        "The Ford Foundation"
-      ],
+      "al": [],
       "resolved": true,
       "identity": {
         "cin": null,
         "din": null,
         "nse": null,
-        "office": null,
+        "office": "Level 8, DLF Centre, Sansad Marg, New Delhi 110001 — branch office operating with RBI permission under FEMA (per foundation page); EIN 13-1684331",
         "lei": null,
         "fcra": null
       },
-      "publicRole": "Donor named in the Gujarat government complaint about grants to Sabrang/CJP; itself the subject of a watch-list order.",
-      "d": [
-        "Registered as a branch office under FEMA 1999 in 2015-12; MHA letter to RBI removing prior-permission requirement 2016-03-16 (IBTimes 2016-03-18) [reported]"
-      ],
+      "publicRole": "Foreign donor to FCRA-registered Indian associations since 1952; subject of an MHA prior-reference listing in 2015–16.",
+      "d": [],
       "srcs": [
         [
           "IBTimes India 2016-03-18 — Ford Foundation removed from watch list 2016-03-16",
@@ -831,14 +840,12 @@
     {
       "id": "ngo:compassion-international",
       "label": "Compassion International",
-      "sub": "US child-sponsorship charity; funds blocked from 2016; ended India operations 2017-03-15",
+      "sub": "US (Colorado) child-sponsorship charity; largest single foreign donor to India in FY2011-12; prior-permission listed 2016; exited India 2017",
       "ty": "fund",
       "fam": "capital",
       "st": null,
       "sz": 2,
-      "al": [
-        "Compassion"
-      ],
+      "al": [],
       "resolved": true,
       "identity": {
         "cin": null,
@@ -848,11 +855,8 @@
         "lei": null,
         "fcra": null
       },
-      "publicRole": "Largest single foreign donor exit of the period (about US$45m a year, per Christianity Today).",
-      "d": [
-        "Ended India operations 2017-03-15: 147,000 children/mothers and 589 church partners affected (Compassion UK) [reported — party's own statement]",
-        "Brought approximately US$45 million annually before the 2017 loss (Christianity Today 2024-04-02) ≈ ₹300 crore/yr at an approximate ₹67/US$ (FY2016-17 average, not a sourced RBI monthly rate) [reported]"
-      ],
+      "publicRole": "Foreign donor named in MHA data and Parliamentary/Congressional record",
+      "d": [],
       "srcs": [
         [
           "Compassion UK — Compassion closes India operations (2017-03-15)",
@@ -1040,7 +1044,10 @@
         "fcra": null
       },
       "publicRole": "Named subject of MHA refusal, CBI FIR and chargesheet; issued statements 2022-01 and 2023-04-06.",
-      "d": [],
+      "d": [
+        "FCRA renewal denied per MHA list of 2022-01-01; Oxfam India worked in 16 states; COVID 'Mission Sanjeevani' (6 oxygen plants, 13,388 items of equipment) [documented — Oxfam release + Tribune]",
+        "Annual FC receipts not located in this pass (own annual reports not opened) — gap"
+      ],
       "srcs": [
         [
           "Scroll 2022-01-01 — 5,933 deemed to cease; active 22,762 → 16,829",
@@ -1057,6 +1064,14 @@
         [
           "The Week 2025-01-23 — CBI chargesheet against Oxfam India",
           "https://www.theweek.in/news/india/2025/01/23/cbi-files-charge-sheet-against-oxfam-india-for-violating-fcra-norms.html"
+        ],
+        [
+          "Oxfam India press release — FCRA renewal denied (Amitabh Behar statement), 2 Jan 2022",
+          "https://www.oxfamindia.org/press-release/fcra-renewal-denied"
+        ],
+        [
+          "The Tribune (Animesh Singh) — FCRA licences of 16,000 NGOs cancelled in 9 years; CPR cancellation and statement, 19 Jan 2024",
+          "https://www.tribuneindia.com/news/india/fcra-licences-of-16-000-ngos-cancelled-in-9-years-582883/amp"
         ]
       ]
     },
@@ -1181,7 +1196,9 @@
       },
       "publicRole": "Named subject of MHA orders; donors named in press: Gates Foundation, Hewlett Foundation, World Bank, Ford Foundation.",
       "d": [
-        "Major foreign donors per Tribune 2024-01-17: Bill and Melinda Gates Foundation, Hewlett Foundation, World Bank, Ford Foundation [reported]"
+        "Major foreign donors per Tribune 2024-01-17: Bill and Melinda Gates Foundation, Hewlett Foundation, World Bank, Ford Foundation [reported]",
+        "Notice cancelling FCRA received 2024-01-10; CPR called it 'incomprehensible and disproportionate', noting policy reports on its website were equated with current-affairs programming (Tribune) [reported]",
+        "IT 'survey' Sept 2022 on foreign funding [reported]"
       ],
       "srcs": [
         [
@@ -1191,21 +1208,22 @@
         [
           "National Herald 2024-01-17 — CPR statement on cancellation",
           "https://www.nationalheraldindia.com/india/incomprehensible-centre-for-policy-research-reaction-to-cancelled-fcra-registration-by-mha"
+        ],
+        [
+          "The Tribune (Animesh Singh) — FCRA licences of 16,000 NGOs cancelled in 9 years; CPR cancellation and statement, 19 Jan 2024",
+          "https://www.tribuneindia.com/news/india/fcra-licences-of-16-000-ngos-cancelled-in-9-years-582883/amp"
         ]
       ]
     },
     {
       "id": "ngo:care-india",
       "label": "CARE India",
-      "sub": "CARE India Solutions for Sustainable Development; FCRA suspended 2023-06-14 for 180 days",
+      "sub": "Large development NGO; lost FCRA licence (2022–23) with ~4,000 job losses reported",
       "ty": "trust",
       "fam": "recipient",
       "st": "dl",
       "sz": 2,
-      "al": [
-        "CISSD",
-        "CARE India Solutions for Sustainable Development"
-      ],
+      "al": [],
       "resolved": true,
       "identity": {
         "cin": null,
@@ -1215,11 +1233,8 @@
         "lei": null,
         "fcra": null
       },
-      "publicRole": "Large development NGO (₹377.5 crore foreign funding 2021-22) — a control: not a government critic.",
-      "d": [
-        "Foreign funding 2021-22: ₹377.5 crore per auditor certification (The CSR Universe 2023-06-15) [reported]",
-        "Final cancellation (2024?) NOT verified in an opened source [gap]"
-      ],
+      "publicRole": "Association in enforcement record",
+      "d": [],
       "srcs": [
         [
           "The CSR Universe 2023-06-15 — CARE India FCRA suspended 2023-06-14",
@@ -1230,14 +1245,12 @@
     {
       "id": "ngo:world-vision-india",
       "label": "World Vision India",
-      "sub": "Christian child-focused NGO, in India 70 years, FCRA-registered since 1986; suspended 2022-11, extended 2023-05, cancelled 2024-01",
+      "sub": "Chennai-based child-focused development NGO; FCRA since 1986; suspended 2022-11, cancelled 2024-01",
       "ty": "trust",
       "fam": "recipient",
       "st": "tn",
       "sz": 2,
-      "al": [
-        "WVI"
-      ],
+      "al": [],
       "resolved": true,
       "identity": {
         "cin": null,
@@ -1247,10 +1260,8 @@
         "lei": null,
         "fcra": null
       },
-      "publicRole": "Largest cancellation of 2024 by receipts (₹170 crore in 2022) — a control: relief/child-development, not advocacy.",
-      "d": [
-        "Foreign funds received 2022: ₹170 crore (The Hindu 2024-01-21) [documented]"
-      ],
+      "publicRole": "Association named in MHA data and enforcement orders",
+      "d": [],
       "srcs": [
         [
           "The Hindu 2024-01-21 (text via hindutvawatch.org mirror) — World Vision India loses FCRA",
@@ -1284,7 +1295,8 @@
       },
       "publicRole": "One of five church-linked or health NGOs cancelled in 2024-04; ~350 staff terminated.",
       "d": [
-        "About 350 staff terminated; 90% of work affected (Christianity Today 2024-04-02) [reported]"
+        "About 350 staff terminated; 90% of work affected (Christianity Today 2024-04-02) [reported]",
+        "~350 staff terminated; ~90% of work affected after FCRA loss (Christianity Today) [reported]"
       ],
       "srcs": [
         [
@@ -1323,7 +1335,8 @@
       },
       "publicRole": "Case where the stated ground (\"harmony between religious… groups\") is on record together with the association's response.",
       "d": [
-        "Date discrepancy: CT (2024-04-02) dates the cancellation to 2023; The CSR Universe (2024-05-01) lists EFI among five cancelled \"close to a month back\" (≈2024-04) [gap]"
+        "Date discrepancy: CT (2024-04-02) dates the cancellation to 2023; The CSR Universe (2024-05-01) lists EFI among five cancelled \"close to a month back\" (≈2024-04) [gap]",
+        "Renewal refused 2023 on ground that it would 'prejudicially' affect 'public interest' and 'harmony between religious, racial, social, linguistic, regional groups' (Christianity Today quoting the order) [reported]"
       ],
       "srcs": [
         [
@@ -1621,7 +1634,7 @@
       "id": "fcra-actions:c006",
       "supersededBy": null,
       "s": "ngo:mha-foreigners-division",
-      "t": "ngo:fcra-registered-associations",
+      "t": "ngo:fcra-associations-aggregate",
       "pred": "enforce",
       "tier": "documented",
       "a": null,
@@ -1640,7 +1653,7 @@
       "id": "fcra-actions:c007",
       "supersededBy": null,
       "s": "ngo:mha-foreigners-division",
-      "t": "ngo:fcra-registered-associations",
+      "t": "ngo:fcra-associations-aggregate",
       "pred": "enforce",
       "tier": "documented",
       "a": null,
@@ -1667,7 +1680,7 @@
       "id": "fcra-actions:c008",
       "supersededBy": null,
       "s": "ngo:mha-foreigners-division",
-      "t": "ngo:fcra-registered-associations",
+      "t": "ngo:fcra-associations-aggregate",
       "pred": "enforce",
       "tier": "documented",
       "a": null,
@@ -1686,7 +1699,7 @@
       "id": "fcra-actions:c009",
       "supersededBy": null,
       "s": "ngo:mha-foreigners-division",
-      "t": "ngo:fcra-registered-associations",
+      "t": "ngo:fcra-associations-aggregate",
       "pred": "enforce",
       "tier": "reported",
       "a": null,
@@ -1707,7 +1720,7 @@
       "id": "fcra-actions:c010",
       "supersededBy": null,
       "s": "ngo:fcra-amendment-act-2020",
-      "t": "ngo:fcra-registered-associations",
+      "t": "ngo:fcra-associations-aggregate",
       "pred": "law",
       "tier": "documented",
       "a": null,
@@ -1736,7 +1749,7 @@
       "id": "fcra-actions:c011",
       "supersededBy": null,
       "s": "ngo:fcra-amendment-act-2020",
-      "t": "ngo:fcra-registered-associations",
+      "t": "ngo:fcra-associations-aggregate",
       "pred": "law",
       "tier": "documented",
       "a": null,
@@ -1765,7 +1778,7 @@
       "id": "fcra-actions:c012",
       "supersededBy": null,
       "s": "ngo:fcra-amendment-act-2020",
-      "t": "ngo:fcra-registered-associations",
+      "t": "ngo:fcra-associations-aggregate",
       "pred": "law",
       "tier": "documented",
       "a": null,
@@ -1794,7 +1807,7 @@
       "id": "fcra-actions:c013",
       "supersededBy": null,
       "s": "ngo:fcra-amendment-act-2020",
-      "t": "ngo:fcra-registered-associations",
+      "t": "ngo:fcra-associations-aggregate",
       "pred": "law",
       "tier": "documented",
       "a": null,
@@ -1825,7 +1838,7 @@
       "id": "fcra-actions:c014",
       "supersededBy": null,
       "s": "ngo:fcra-amendment-act-2020",
-      "t": "ngo:fcra-registered-associations",
+      "t": "ngo:fcra-associations-aggregate",
       "pred": "law",
       "tier": "documented",
       "a": null,
@@ -1854,7 +1867,7 @@
       "id": "fcra-actions:c015",
       "supersededBy": null,
       "s": "ngo:fcra-amendment-act-2020",
-      "t": "ngo:fcra-registered-associations",
+      "t": "ngo:fcra-associations-aggregate",
       "pred": "law",
       "tier": "documented",
       "a": null,
@@ -1883,7 +1896,7 @@
       "id": "fcra-actions:c016",
       "supersededBy": null,
       "s": "ngo:fcra-amendment-act-2020",
-      "t": "ngo:fcra-registered-associations",
+      "t": "ngo:fcra-associations-aggregate",
       "pred": "law",
       "tier": "documented",
       "a": null,
@@ -1931,7 +1944,7 @@
       "id": "fcra-actions:c018",
       "supersededBy": null,
       "s": "sc",
-      "t": "ngo:fcra-registered-associations",
+      "t": "ngo:fcra-associations-aggregate",
       "pred": "analytic",
       "tier": "analytic",
       "a": null,
@@ -3613,7 +3626,7 @@
       "id": "fcra-actions:c099",
       "supersededBy": null,
       "s": "ngo:mha-foreigners-division",
-      "t": "ngo:fcra-registered-associations",
+      "t": "ngo:fcra-associations-aggregate",
       "pred": "analytic",
       "tier": "analytic",
       "a": null,

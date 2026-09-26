@@ -195,7 +195,8 @@
         "Has worked in India since 1952; current programmes listed for India, Nepal and Sri Lanka: 'Civic Engagement and Government' and 'Gender, Racial, and Ethnic Justice' [documented]",
         "States that its New Delhi office is a branch office operating with RBI permission under FEMA, that all Indian grantees are FCRA-regulated, and that it is nonpartisan and does not support parties or campaigns in India [documented]",
         "IRS 990-PF FY ending 2024-12: revenue US$1,147,097,733; expenses US$1,043,691,402; net assets US$14,899,612,523 (global, not India-specific) [documented]",
-        "India-specific annual grant totals are not published on the India page; not found in this sweep [void]"
+        "India-specific annual grant totals are not published on the India page; not found in this sweep [void]",
+        "Registered as a branch office under FEMA 1999 in 2015-12; MHA letter to RBI removing prior-permission requirement 2016-03-16 (IBTimes 2016-03-18) [reported]"
       ],
       "srcs": [
         [
@@ -205,6 +206,10 @@
         [
           "ProPublica 990-PF",
           "https://projects.propublica.org/nonprofits/organizations/131684331"
+        ],
+        [
+          "IBTimes India 2016-03-18 — Ford Foundation removed from watch list 2016-03-16",
+          "https://www.ibtimes.co.in/ford-foundation-removed-govts-watch-list-671268"
         ]
       ]
     },
@@ -754,14 +759,12 @@
     {
       "id": "min:ministry-of-home-affairs",
       "label": "Ministry of Home Affairs",
-      "sub": "FCRA administrator",
+      "sub": "Union ministry administering FCRA (FCRA Wing / Foreigners Division)",
       "ty": "ministry",
       "fam": "state",
       "st": "dl",
       "sz": 4,
-      "al": [
-        "MHA"
-      ],
+      "al": [],
       "resolved": true,
       "identity": {
         "cin": null,
@@ -771,10 +774,8 @@
         "lei": null,
         "fcra": null
       },
-      "publicRole": "Administers FCRA 2010 and the prior-reference category for foreign donors.",
-      "d": [
-        "PIB factsheet (2026-07-22) states the MHA's own framing: FCRA 'does three things' — identifies who may accept foreign contribution, specifies how it is received and reported, and 'restricts a narrow, defined set of foreign-funded activities that could affect India's sovereignty, security or public order'; 'not a permission-to-exist regime for civil society' [documented]"
-      ],
+      "publicRole": "Union ministry; statutory regulator under FCRA 2010",
+      "d": [],
       "srcs": [
         [
           "PIB FCRA factsheet",
@@ -783,54 +784,14 @@
       ]
     },
     {
-      "id": "ngo:fcra-prior-permission-list",
-      "label": "FCRA prior-reference category (foreign donors)",
-      "sub": "MHA 'watch list' requiring case-by-case clearance of a donor's remittances (s.46 directions to RBI)",
-      "ty": "mechanism",
-      "fam": "instrument",
-      "st": null,
-      "sz": 2,
-      "al": [
-        "Prior Reference Category",
-        "PRC",
-        "prior permission category",
-        "watch list"
-      ],
-      "resolved": true,
-      "identity": {
-        "cin": null,
-        "din": null,
-        "nse": null,
-        "office": null,
-        "lei": null,
-        "fcra": null
-      },
-      "publicRole": "The instrument applied to Ford (2015–16), OSF (2016→) and 14 others by April 2015.",
-      "d": [
-        "Indian Express (2015-04-23): with Ford, 16 international associations were under the prior approval category; MHA directed RBI to bring Ford remittances to its notice under s.46 FCRA 2010 [documented]"
-      ],
-      "srcs": [
-        [
-          "BHRRC/Indian Express",
-          "https://www.business-humanrights.org/en/latest-news/india-govt-puts-ford-foundation-on-watch-list-curbs-on-funding/"
-        ],
-        [
-          "Deccan Chronicle",
-          "https://www.deccanchronicle.com/nation/current-affairs/180316/mha-removes-ford-foundation-from-watch-list.html"
-        ]
-      ]
-    },
-    {
       "id": "ngo:fcra-2010",
-      "label": "Foreign Contribution (Regulation) Act, 2010",
-      "sub": "Statute governing foreign contribution to Indian associations",
+      "label": "FCRA 2010",
+      "sub": "Foreign Contribution (Regulation) Act, 2010 — registration, prior permission, suspension (s.13), cancellation (s.14)",
       "ty": "law",
       "fam": "instrument",
       "st": null,
       "sz": 3,
-      "al": [
-        "FCRA"
-      ],
+      "al": [],
       "resolved": true,
       "identity": {
         "cin": null,
@@ -840,10 +801,8 @@
         "lei": null,
         "fcra": null
       },
-      "publicRole": "The rule every foreign grant in this file passes through.",
-      "d": [
-        "See fcra-actions.json and fcra-receipts.json for the statute's history; this file records only the MHA's 2026 framing and the 2026 Rules"
-      ],
+      "publicRole": "The statute under which every registration, refusal, suspension and cancellation in this file was made.",
+      "d": [],
       "srcs": [
         [
           "PIB FCRA factsheet",
@@ -873,7 +832,8 @@
       },
       "publicRole": "Latest tightening of the foreign-donor regime; contemporaneous with the FCRA (Amendment) Bill 2026 before a JPC.",
       "d": [
-        "ICNL: activity and geographic limitations, bars on foreign-national involvement, liability for 'key functionaries', new spending/utilisation thresholds [documented]"
+        "ICNL: activity and geographic limitations, bars on foreign-national involvement, liability for 'key functionaries', new spending/utilisation thresholds [documented]",
+        "Per PIB factsheet (22 Jul 2026): links registration to specified purposes and approved States/UTs; excludes proselytisation from permitted 'religious' activity [documented — PIB summary; gazette not opened]"
       ],
       "srcs": [
         [
@@ -883,13 +843,17 @@
         [
           "Amnesty 2026-07-17",
           "https://www.amnesty.org/en/latest/research/2026/07/india-fcra-tighten-control-civil-society-undermine-freedom-of-association/"
+        ],
+        [
+          "PIB — Factsheet 'FCRA: Foreign Contribution (Regulation) Act', 22 Jul 2026",
+          "https://www.pib.gov.in/FactsheetDetails.aspx?Id=150789&reg=48&lang=2"
         ]
       ]
     },
     {
       "id": "ngo:fcra-associations-aggregate",
-      "label": "FCRA-registered associations (aggregate)",
-      "sub": "All-India recipient aggregate",
+      "label": "FCRA-registered associations (all India, aggregate)",
+      "sub": "Population of associations registered or holding prior permission under FCRA; counts and receipts by FY",
       "ty": "group",
       "fam": "recipient",
       "st": null,
@@ -904,10 +868,8 @@
         "lei": null,
         "fcra": null
       },
-      "publicRole": "Recipient side of aggregate donor claims.",
-      "d": [
-        "Defined in fcra-receipts.json"
-      ],
+      "publicRole": "Statistical aggregate used as the counter-party for annual totals",
+      "d": [],
       "srcs": [
         [
           "PIB FCRA factsheet",
@@ -935,12 +897,17 @@
       },
       "publicRole": "Control-side recipient aggregate.",
       "d": [
-        "Defined in fcra-receipts.json"
+        "Defined in fcra-receipts.json",
+        "Used as counter-party for Azim Premji Foundation grant totals (control on scale)"
       ],
       "srcs": [
         [
           "Bain 2025",
           "https://www.bain.com/insights/india-philanthropy-report-2025/"
+        ],
+        [
+          "Azim Premji Foundation — Report June 2025 (grants disbursed FY2024-25 ₹1,639 cr; committed ₹3,664 cr; endowment ₹3,10,000 cr)",
+          "https://azimpremjifoundation.org/wp-content/uploads/2025/08/Azim-Premji-Foundation-Report-June-2025.pdf"
         ]
       ]
     },
@@ -950,9 +917,11 @@
       "sub": "Environmental campaigning society; named in the 2014 IB report",
       "ty": "trust",
       "fam": "recipient",
-      "st": "ka",
+      "st": "tn",
       "sz": 2,
-      "al": [],
+      "al": [
+        "Greenpeace India Society"
+      ],
       "resolved": true,
       "identity": {
         "cin": null,
@@ -964,28 +933,29 @@
       },
       "publicRole": "Principal target named in the IB report and the first FCRA action of the NDA era (see fcra-actions.json).",
       "d": [
-        "Rejected the IB report on 2014-06-11 [documented]"
+        "Rejected the IB report on 2014-06-11 [documented]",
+        "Co-Executive Director Vinuta Gopal (2015-09): \"We are confident that we have a strong legal case to demonstrate that the MHA is acting without any justification\" — fourth legal challenge to MHA decisions [reported]"
       ],
       "srcs": [
         [
           "Deccan Herald/IANS",
           "https://www.deccanherald.com/india/greenpeace-rejects-ib-report-swears-2210733"
+        ],
+        [
+          "Mongabay 2015-09-22 — Greenpeace India FCRA cancelled 2015-09-02; Madras HC stay 2015-09-15; Delhi HC 2015-01",
+          "https://news.mongabay.com/2015/09/indian-court-protects-greenpeace-against-government-crackdown-again/"
         ]
       ]
     },
     {
       "id": "agencies",
       "label": "ED · CBI · IT Dept",
-      "sub": "Central investigative agencies",
+      "sub": "ED froze Amnesty accounts (2020-09); IT surveys of Oxfam/CPR/CARE (2022-09); CBI FIRs: Oxfam (2023-04-19), CPSC (2022-01-06), Environics (2024-01); CBI chargesheet Oxfam (2025-01-23)",
       "ty": "agency",
       "fam": "enforce",
       "st": "dl",
       "sz": 3,
-      "al": [
-        "Enforcement Directorate",
-        "ED",
-        "CBI"
-      ],
+      "al": [],
       "resolved": true,
       "identity": {
         "cin": null,
@@ -995,7 +965,7 @@
         "lei": null,
         "fcra": null
       },
-      "publicRole": "ED FEMA searches on OSF-linked entities (2025); CBI FCRA scrutiny of Omidyar Network and others (2022).",
+      "publicRole": "The investigative agencies that follow an FCRA action.",
       "d": [],
       "srcs": [
         [
@@ -1065,10 +1035,10 @@
     {
       "id": "pol:narendra-modi",
       "label": "Narendra Modi",
-      "sub": "Prime Minister of India (2014-05-26 →)",
+      "sub": "Prime Minister; ex officio chair of the Gandhi Peace Prize jury",
       "ty": "person",
       "fam": "state",
-      "st": "gj",
+      "st": null,
       "sz": 4,
       "al": [],
       "resolved": true,
@@ -1076,11 +1046,11 @@
         "cin": null,
         "din": null,
         "nse": null,
-        "office": "Prime Minister of India, 2014-05-26 → (Lok Sabha, Varanasi)",
+        "office": "Prime Minister of India (2014 →); chaired Gandhi Peace Prize jury 16 Jan 2019",
         "lei": null,
         "fcra": null
       },
-      "publicRole": "Recipient of the Gates Foundation's 2019 Global Goalkeeper Award; named in the Soros remarks.",
+      "publicRole": "Chaired the jury that selected the 2015–2018 laureates.",
       "d": [],
       "srcs": [
         [
@@ -1094,7 +1064,7 @@
       "label": "BJP",
       "sub": "Bharatiya Janata Party",
       "ty": "party",
-      "fam": "state",
+      "fam": "recipient",
       "st": "dl",
       "sz": 3,
       "al": [
@@ -1125,7 +1095,7 @@
       "label": "RSS",
       "sub": "Rashtriya Swayamsevak Sangh and its affiliates (Sangh Parivar), as the alleged ultimate recipients in the Hindutva-funding reports",
       "ty": "party",
-      "fam": "state",
+      "fam": "recipient",
       "st": "mh",
       "sz": 3,
       "al": [

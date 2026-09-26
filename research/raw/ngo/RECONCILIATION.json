@@ -5,19 +5,184 @@
     {
       "from": "ngo:fcra-amendment-2020",
       "to": "ngo:fcra-amendment-act-2020",
-      "reason": "Same statute: the Foreign Contribution (Regulation) Amendment Act, 2020 (passed Lok Sabha 2020-09-21, Rajya Sabha 2020-09-23). Both records claimed the alias \"FCRA Amendment 2020\"; fcra-actions.json (first in name order, 8 references) keeps the id and the alias, fcra-receipts.json's record (1 reference) merges into it.",
+      "reason": "Same statute: the Foreign Contribution (Regulation) Amendment Act, 2020 (Lok Sabha 2020-09-21, Rajya Sabha 2020-09-23, in force 2020-09-29). Neither id is in the inventory and each is used by one file, so the first file in name order (fcra-actions.json) keeps its id. Rewritten in the raw file (entity id and claim fcra-receipts:c059 s); fcra-receipts.json keeps a minimal copy because c059 needs it, and the full record (aliases, facts, sources) lives in fcra-actions.json.",
       "files": [
         "fcra-receipts.json"
       ]
     },
     {
-      "from": "ngo:fcra-associations-aggregate",
-      "to": "ngo:fcra-registered-associations",
-      "reason": "Same population: the associations holding FCRA registration, used by both files as the denominator / counter-party node. Both records claimed the alias \"FCRA NGOs\"; fcra-actions.json (first in name order) keeps the id and the alias, fcra-receipts.json's record merges into it with its counts, receipts series and \"FCRA registrants\" alias unioned.",
+      "from": "ngo:fcra-registered-associations",
+      "to": "ngo:fcra-associations-aggregate",
+      "reason": "Same population: the associations holding FCRA registration, used as the denominator/counter-party node. ngo:fcra-associations-aggregate is used by two files (donors-narratives.json, fcra-receipts.json), ngo:fcra-registered-associations by one (fcra-actions.json), so the id used by most files survives (this reverses the direction of the earlier partial reconciliation, which had not rewritten the raw files). Rewritten in fcra-actions.json (entity id and 13 claim endpoints: c006-c016, c018, c099); its aliases 'FCRA NGOs' and 'FCRA associations' moved to the full record in fcra-receipts.json, which alone now carries aliases.",
       "files": [
-        "donors-narratives.json",
-        "fcra-receipts.json"
+        "fcra-actions.json"
       ]
+    }
+  ],
+  "refusedMerges": [
+    {
+      "a": "ngo:ekal-abhiyan-trust",
+      "b": "ngo:ekal-vidyalaya-foundation-of-india",
+      "reason": "Two registered bodies of the Ekal movement (the umbrella trust and the EVFI foundation) with separate registrations and separate claims (Gandhi Peace Prize vs FC receipts); a shared name is not identity."
+    },
+    {
+      "a": "ngo:vivekananda-kendra",
+      "b": "ngo:vivekananda-international-foundation",
+      "reason": "Vivekananda Kendra, Kanyakumari (TN) founded VIF (Delhi, 2009) but they are separate legal entities with separate offices; name similarity alone."
+    },
+    {
+      "a": "ngo:rajiv-gandhi-foundation",
+      "b": "ngo:rajiv-gandhi-charitable-trust",
+      "reason": "Separate trusts with separate FCRA registrations, each cancelled by its own order (fcra-actions:c055, c056)."
+    },
+    {
+      "a": "ngo:rajiv-gandhi-foundation",
+      "b": "ngo:rajiv-gandhi-institute-for-contemporary-studies",
+      "reason": "RGICS is a think tank promoted by RGF with its own donor list (political-trusts:c009); promoter is not identity."
+    },
+    {
+      "a": "ngo:rajiv-gandhi-foundation",
+      "b": "ngo:indira-gandhi-memorial-trust",
+      "reason": "Different trust, different purpose; common trustees are recorded as role edges, not as one entity."
+    },
+    {
+      "a": "ngo:world-vision-international",
+      "b": "ngo:world-vision-india",
+      "reason": "Foreign donor (US) vs Indian recipient association; the grant edge between them (fcra-receipts:c028, c031) would collapse into a self-loop."
+    },
+    {
+      "a": "ngo:compassion-international",
+      "b": "ngo:compassion-east-india",
+      "reason": "US donor vs Indian partner association (CEI, WB); separate FCRA actions (fcra-receipts:c036 vs c038)."
+    },
+    {
+      "a": "ngo:gospel-for-asia",
+      "b": "ngo:ayana-charitable-trust",
+      "reason": "Foreign donor (HK/US) vs Indian recipient trust; 'Gospel for Asia India' is an alias of the Indian trust, not of the donor."
+    },
+    {
+      "a": "ngo:ayana-charitable-trust",
+      "b": "ngo:believers-eastern-church",
+      "reason": "Related Kerala bodies named in one 2017 MHA action but separately registered associations."
+    },
+    {
+      "a": "ngo:fcra-2010",
+      "b": "ngo:fcra-1976",
+      "reason": "Successive statutes (1976 Act repealed by the 2010 Act from 2011-05-01); the 2014 Delhi HC finding applies the 1976 Act."
+    },
+    {
+      "a": "ngo:fcra-amendment-bill-2026",
+      "b": "ngo:fcra-amendment-rules-2026",
+      "reason": "A pending Bill and notified Rules are different instruments with different dates."
+    },
+    {
+      "a": "ngo:fcra-amendment-act-2020",
+      "b": "ngo:fcra-amendment-rules-2022",
+      "reason": "Act of Parliament vs subordinate rules (GSR 506(E))."
+    },
+    {
+      "a": "ngo:mha-foreigners-division",
+      "b": "min:ministry-of-home-affairs",
+      "reason": "The FCRA wing is a division of the ministry; fcra-actions.json attributes orders to the division, other files to the ministry. Kept apart: merging would erase which files name the issuing unit."
+    },
+    {
+      "a": "ngo:deendayal-research-institute",
+      "b": "energy:dri",
+      "reason": "Deendayal Research Institute (DRI, an association) vs the Directorate of Revenue Intelligence (DRI, an agency) — acronym collision only; the ambiguous alias 'DRI' was removed from the association."
+    },
+    {
+      "a": "min:ministry-of-culture",
+      "b": "min:ministry-of-coal",
+      "reason": "Acronym collision on 'MoC' only; the alias was removed from the Ministry of Culture."
+    },
+    {
+      "a": "min:ministry-of-agriculture-and-farmers-welfare",
+      "b": "fin:icar",
+      "reason": "ICAR is a registered society under DARE, not the ministry; the alias 'ICAR' was removed from the ministry (finance fleet owns fin:icar; darpan-welfare-join:c042 stays at ministry level)."
+    },
+    {
+      "a": "ngo:tata-trusts",
+      "b": "grp:tata",
+      "reason": "The Tata Trusts are charitable trusts that own most of Tata Sons; an owner is not the group it owns."
+    },
+    {
+      "a": "ngo:intelligence-bureau",
+      "b": "agencies",
+      "reason": "The Atlas node 'agencies' is ED · CBI · IT Dept; the IB is a different agency."
+    },
+    {
+      "a": "per:rpn-singh",
+      "b": "pol:rajnath-singh",
+      "reason": "Two different Singhs: R.P.N. Singh (MoS Home, UPA-II, in office 2013-12-18) vs Rajnath Singh (Home Minister 2014-05-26 to 2019-05-30); offices and dates differ."
+    },
+    {
+      "a": "per:rpn-singh",
+      "b": "wel:manmohan-singh",
+      "reason": "Two different Singhs: MoS Home vs Prime Minister 2004-2014."
+    },
+    {
+      "a": "per:ajit-doval",
+      "b": "per:shaurya-doval",
+      "reason": "Father and son are different persons with different public roles (NSA / VIF founding director vs India Foundation / BJP Uttarakhand); each carries his own role edges and no family edge is drawn."
+    },
+    {
+      "a": "pol:shivraj-singh-chouhan",
+      "b": "wel:shivraj-singh-chouhan",
+      "reason": "Same person, but both ids are in the inventory; this fleet uses the pol: id and reconciling the inventory duplicate is outside the ngo fleet."
+    },
+    {
+      "a": "ngo:open-society-foundations",
+      "b": "cap:open-society-foundations",
+      "reason": "Same institution defined by the capital fleet under cap:; cross-fleet reconciliation is outside the ngo fleet (only raw/ngo files may be edited) — flagged for the capital editor or the fleet merge."
+    }
+  ],
+  "addedContras": [],
+  "killed": [],
+  "predicateFixes": [
+    {
+      "id": "darpan-welfare-join:c004",
+      "from": "award",
+      "to": "analytic"
+    },
+    {
+      "id": "darpan-welfare-join:c036",
+      "from": "award",
+      "to": "analytic"
+    },
+    {
+      "id": "darpan-welfare-join:c037",
+      "from": "award",
+      "to": "analytic"
+    },
+    {
+      "id": "political-trusts:c008",
+      "from": "direct",
+      "to": "grant"
+    },
+    {
+      "id": "political-trusts:c009",
+      "from": "direct",
+      "to": "grant"
+    },
+    {
+      "id": "political-trusts:c016",
+      "from": "direct",
+      "to": "own"
+    },
+    {
+      "id": "political-trusts:c017",
+      "from": "trust",
+      "to": "own"
+    },
+    {
+      "id": "political-trusts:c018",
+      "from": "law",
+      "to": "enforce"
+    },
+    {
+      "id": "political-trusts:c019",
+      "from": "law",
+      "to": "enforce"
     }
   ]
 }
