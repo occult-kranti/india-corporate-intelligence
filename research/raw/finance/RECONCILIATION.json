@@ -89,6 +89,23 @@
       "files": [
         "worldbank-projects.json"
       ]
+    },
+    {
+      "from": "lnt",
+      "to": "co:larsen-toubro",
+      "reason": "cross-fleet reconciliation 2026-09-26: same company (Larsen & Toubro Ltd, NSE: LT, Mumbai) held twice in the merged graph — the Money-Trail Atlas node lnt (src/graph/data.ts) and the roster node co:larsen-toubro (companies-by-state.json) that finance/contracts.json (17 refs), energy/nuclear.json and capital/holders-aggregates.json use. Neither \"Atlas keeps lnt + alias\" nor \"map lnt in the fleets\" leaves one node, because the roster always emits co:larsen-toubro and no fleet ever used lnt; so the Atlas node was renamed to co:larsen-toubro (its three Atlas edges follow; a supersession note is appended to its d, the old id is not erased) and src/graph/mergeFleet.ts now folds two base records of one id into one node (first record's typing and label, aliases/facts/sources unioned) — tested in scripts/merge-fleet.test.mjs. Result: one L&T node carrying the Atlas facts (SIGHT-II, Elevated Avenue → Prudent) and the roster facts (exchange, market cap, HQ).",
+      "files": [
+        "src/graph/data.ts",
+        "src/graph/mergeFleet.ts"
+      ]
+    },
+    {
+      "from": "energy:manmohan-singh",
+      "to": "wel:manmohan-singh",
+      "reason": "cross-fleet reconciliation 2026-09-26: same person (see energy/RECONCILIATION.json). finance/literature.json's record now carries the dated Finance Minister window 1991-06-21→1996-05-16 (Wikipedia — Manmohan Singh infobox, opened 2026-09-26; successor Jaswant Singh) and literature:c006 is dated from 1991-06-21 to 1996-05-16 accordingly.",
+      "files": [
+        "literature.json"
+      ]
     }
   ],
   "refusedMerges": [
@@ -891,6 +908,143 @@
       "file": "worldbank.json",
       "id": "worldbank:c055",
       "fix": "innocentReading added (analytic predicate on a documented lender self-evaluation)"
+    },
+    {
+      "file": "contracts.json",
+      "id": "narratives[1], narratives[2], baseRates[11]",
+      "fix": "the three \"source url looks malformed\" entries were repository paths (research/raw/tenders-centre.json, the domestic control register); moved to a top-level internalRefs list (the capital fleet's convention) and removed from srcs; baseRates[11].label names the register (cross-fleet reconciliation 2026-09-26)"
+    },
+    {
+      "file": "literature.json",
+      "id": "literature:c019",
+      "fix": "d now begins \"Judicial ruling on literature:c017: \" — the SC's 2024-04-01 interim order rules on Kerala's plea (c017), it is not an agency enforcing against Kerala (FLEET_CONTRACT.md court-ruling convention, cross-fleet reconciliation 2026-09-26)"
+    },
+    {
+      "file": "bilateral-china.json",
+      "id": "bilateral-china:c041",
+      "fix": "d now begins \"Judicial ruling on bilateral-china:c038: \" — the EWHC summary judgment enforces the guarantee behind the ICBC facility (c038); fin:high-court-england-wales stays a finance id (a foreign commercial court, one fleet's forum; the Atlas convention covers Indian constitutional courts) (cross-fleet reconciliation 2026-09-26)"
+    }
+  ],
+  "countedAs": [
+    {
+      "claimId": "worldbank:c001",
+      "countedAs": "worldbank:c0754",
+      "projectId": "P173943",
+      "lender": "fin:ibrd",
+      "file": "worldbank.json",
+      "note": "Repeats World Bank project P173943 (IBRD leg), which the census counts as worldbank:c0754 (worldbank-projects.json, same project id and lender). Kept and listed as a researched record; not counted a second time."
+    },
+    {
+      "claimId": "worldbank:c002",
+      "countedAs": "worldbank:c0755",
+      "projectId": "P173943",
+      "lender": "fin:ida",
+      "file": "worldbank.json",
+      "note": "Repeats World Bank project P173943 (IDA leg), which the census counts as worldbank:c0755 (worldbank-projects.json, same project id and lender). Kept and listed as a researched record; not counted a second time."
+    },
+    {
+      "claimId": "worldbank:c003",
+      "countedAs": "worldbank:c0758",
+      "projectId": "P174027",
+      "lender": "fin:ida",
+      "file": "worldbank.json",
+      "note": "Repeats World Bank project P174027 (IDA leg), which the census counts as worldbank:c0758 (worldbank-projects.json, same project id and lender). Kept and listed as a researched record; not counted a second time."
+    },
+    {
+      "claimId": "worldbank:c004",
+      "countedAs": "worldbank:c0760",
+      "projectId": "P174292",
+      "lender": "fin:ibrd",
+      "file": "worldbank.json",
+      "note": "Repeats World Bank project P174292 (IBRD leg), which the census counts as worldbank:c0760 (worldbank-projects.json, same project id and lender). Kept and listed as a researched record; not counted a second time."
+    },
+    {
+      "claimId": "worldbank:c005",
+      "countedAs": "worldbank:c0753",
+      "projectId": "P173836",
+      "lender": "fin:ibrd",
+      "file": "worldbank.json",
+      "note": "Repeats World Bank project P173836 (IBRD leg), which the census counts as worldbank:c0753 (worldbank-projects.json, same project id and lender). Kept and listed as a researched record; not counted a second time."
+    },
+    {
+      "claimId": "worldbank:c006",
+      "countedAs": "worldbank:c0752",
+      "projectId": "P173704",
+      "lender": "fin:ibrd",
+      "file": "worldbank.json",
+      "note": "Repeats World Bank project P173704 (IBRD leg), which the census counts as worldbank:c0752 (worldbank-projects.json, same project id and lender). Kept and listed as a researched record; not counted a second time."
+    },
+    {
+      "claimId": "worldbank:c007",
+      "countedAs": "worldbank:c0783",
+      "projectId": "P177915",
+      "lender": "fin:ibrd",
+      "file": "worldbank.json",
+      "note": "Repeats World Bank project P177915 (IBRD leg), which the census counts as worldbank:c0783 (worldbank-projects.json, same project id and lender). Kept and listed as a researched record; not counted a second time."
+    },
+    {
+      "claimId": "worldbank:c008",
+      "countedAs": "worldbank:c0806",
+      "projectId": "P181032",
+      "lender": "fin:ibrd",
+      "file": "worldbank.json",
+      "note": "Repeats World Bank project P181032 (IBRD leg), which the census counts as worldbank:c0806 (worldbank-projects.json, same project id and lender). Kept and listed as a researched record; not counted a second time. Its amount spans the IBRD and IDA legs (worldbank:c0806 and worldbank:c0807); countedAs names the leg of its own lender."
+    },
+    {
+      "claimId": "worldbank:c009",
+      "countedAs": "worldbank:c0808",
+      "projectId": "P181195",
+      "lender": "fin:ibrd",
+      "file": "worldbank.json",
+      "note": "Repeats World Bank project P181195 (IBRD leg), which the census counts as worldbank:c0808 (worldbank-projects.json, same project id and lender). Kept and listed as a researched record; not counted a second time. Its amount spans the IBRD and IDA legs (worldbank:c0808 and worldbank:c0809); countedAs names the leg of its own lender."
+    },
+    {
+      "claimId": "worldbank:c010",
+      "countedAs": "worldbank:c0741",
+      "projectId": "P169907",
+      "lender": "fin:ida",
+      "file": "worldbank.json",
+      "note": "Repeats World Bank project P169907 (IDA leg), which the census counts as worldbank:c0741 (worldbank-projects.json, same project id and lender). Kept and listed as a researched record; not counted a second time."
+    },
+    {
+      "claimId": "worldbank:c011",
+      "countedAs": "worldbank:c0677",
+      "projectId": "P153251",
+      "lender": "fin:ibrd",
+      "file": "worldbank.json",
+      "note": "Repeats World Bank project P153251 (IBRD leg), which the census counts as worldbank:c0677 (worldbank-projects.json, same project id and lender). Kept and listed as a researched record; not counted a second time."
+    },
+    {
+      "claimId": "literature:c015",
+      "countedAs": "worldbank:c0741",
+      "projectId": "P169907",
+      "lender": "fin:ida",
+      "file": "literature.json",
+      "note": "Repeats World Bank project P169907 (IDA leg), which the census counts as worldbank:c0741 (worldbank-projects.json, same project id and lender). Kept and listed as a researched record; not counted a second time."
+    },
+    {
+      "claimId": "literature:c025",
+      "countedAs": "adb-aiib:c003",
+      "projectId": null,
+      "lender": "fin:aiib",
+      "file": "literature.json",
+      "note": "Same AIIB loan: COVID-19 Active Response and Expenditure Support (CARES) co-financing, AIIB 000409, US$750m, signed 2020-06-19. The record itself says \"adb-aiib.json records US$750m for AIIB 000409 CARES\". ₹5,700 crore here and ₹5,521 crore in adb-aiib.json are two conversions of one US$750m loan; the documented AIIB record (adb-aiib:c003) counts."
+    },
+    {
+      "claimId": "literature:c024",
+      "countedAs": "adb-aiib:c004",
+      "projectId": null,
+      "lender": "fin:aiib",
+      "file": "literature.json",
+      "note": "Same AIIB loan: COVID-19 Emergency Response and Health Systems Preparedness, US$500m, signed 2020-05-08. The record itself says \"Project id and terms are in adb-aiib.json\". ₹3,785 crore here and ₹3,676 crore in adb-aiib.json are two conversions of one US$500m loan; adb-aiib:c004 counts."
+    },
+    {
+      "claimId": "literature:c023",
+      "countedAs": "bilateral-china:c006",
+      "projectId": null,
+      "lender": "fin:jica",
+      "file": "literature.json",
+      "note": "Same JICA loan: Mumbai–Ahmedabad High Speed Rail (V), ¥400,000 million, loan agreement 2023-12-21. The record itself says \"the full tranche series is in bilateral-china.json\". ₹22,640 crore here and ₹23,400 crore in bilateral-china.json are two conversions of one ¥400bn loan; bilateral-china:c006 counts."
     }
   ],
   "notes": [
@@ -900,6 +1054,8 @@
     "worldbank-projects.json is written by scripts/finance/fetch-worldbank.mjs; a re-fetch would re-create the fixes listed for that file (the fetcher's hand-alias map resolves \"Department of Agriculture and Farmers Welfare\" to the Union ministry, and composite \"<society>, Government of <state>\" strings to the state). The same corrections belong in the fetcher's HAND/INV_AL tables.",
     "Sentinel debarment end dates (2999-12-31, the feed's marker for indefinite or conditional-release debarment) were recorded as to: null with the marker explained in d; real end dates (e.g. 2028-01-20, 2031-01-16, 2026-11-08) were kept.",
     "fin:laxminarayan-construction was kept as one node although the feed lists firm and proprietor variants: a sole proprietorship and its proprietor are one legal person, debarred together under the same cases.",
-    "Post-reconciliation: every fix to worldbank-projects.json was ported into scripts/finance/fetch-worldbank.mjs (typo normalisation, SAME_AS spellings, the society-of-parent-government rule, PROJECT_READINGS for P512898, counter-guarantee stripping, GENERIC_ORGANS, INV_ST seats, qualified state-node aliases, the 2999 sentinel); the file is again fetcher output (runId 5594d0e72abaf6ca). SECI's AIIB facts, which the editor had merged into the generated file, moved back to adb-aiib.json as a minimal hand record."
+    "Post-reconciliation: every fix to worldbank-projects.json was ported into scripts/finance/fetch-worldbank.mjs (typo normalisation, SAME_AS spellings, the society-of-parent-government rule, PROJECT_READINGS for P512898, counter-guarantee stripping, GENERIC_ORGANS, INV_ST seats, qualified state-node aliases, the 2999 sentinel); the file is again fetcher output (runId 5594d0e72abaf6ca). SECI's AIIB facts, which the editor had merged into the generated file, moved back to adb-aiib.json as a minimal hand record.",
+    "cross-fleet reconciliation 2026-09-26: the refusedMerges entry \"co:larsen-toubro / lnt\" above is superseded by the lnt → co:larsen-toubro mapping (kept for the record).",
+    "countedAs (FINANCE_PAGE.md §3.3 P7, 2026-09-26): a researched loan record that repeats a loan already counted elsewhere is marked countable:false with countedAs naming the record that counts — 12 repeat a World Bank census project by project id and lender; three repeat a researched loan and say so in their own text (AIIB CARES and AIIB health in literature.json → adb-aiib.json; MAHSR (V) in literature.json → bilateral-china.json). Nothing is superseded or deleted: no record corrects another by date, so no supersededBy is set; the marks are written onto each claim by scripts/finance/mark-loans.mjs and the assembler refuses the fleet if claim and entry disagree. Held for review, not marked: NDB Chennai (adb-aiib:c017 US$347m / bilateral-china:c022 US$346.72m), NDB Delhi–Meerut RRTS (adb-aiib:c009 US$500m / bilateral-china:c021 US$418m), NDB Mumbai metro (adb-aiib:c011 US$260m / bilateral-china:c020 US$241m), 1991 IMF (literature:c007 / debt:c025) — neither record of each pair says it is the other."
   ]
 }

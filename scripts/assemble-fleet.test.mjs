@@ -790,3 +790,486 @@ test('CLI writes every FLEETS module, each to its own path', () => {
   const mem = assemble({ rawDir: dir });
   for (const f of vocab.FLEETS) assert.equal(readFileSync(join(out, f.out), 'utf8'), mem[f.key].text, f.out);
 });
+
+test('cross-file resolution: a fleet-prefixed id must be defined in the fleet that owns the prefix', async () => {
+  const { fleetOfId, undefinedFleetRefs } = await import('./lib/fleet-refs.mjs');
+  assert.equal(fleetOfId('energy:x'), 'energy');
+  assert.equal(fleetOfId('scheme:mp-ladli-behna'), 'welfare');
+  assert.equal(fleetOfId('wel:manmohan-singh'), 'welfare');
+  assert.equal(fleetOfId('cap:temasek'), 'capital');
+  for (const id of ['pol:x', 'co:ntpc', 'sc', 'party:inc', 'claim:x:c1', 'India Post and participating banks', null]) assert.equal(fleetOfId(id), null, String(id));
+  for (const f of vocab.FLEETS) assert.ok(Array.isArray(f.prefixes) && f.prefixes.length, `${f.key} owns at least one prefix`);
+  assert.deepEqual(vocab.FLEET_PREFIXES, ['energy', 'wel', 'scheme', 'fin', 'ngo', 'cap']);
+  // The fixture: energy defines energy:fx-power and energy:fx-regulator; nothing defines the wel: person the ngo file cites.
+  const defined = new Map([['energy', new Set(['energy:fx-power', 'energy:fx-regulator'])], ['welfare', new Set(['scheme:fx-cash'])], ['ngo', new Set()]]);
+  const refs = [
+    { where: 'energy/x.json:x:c1', id: 'energy:fx-power' },        // defined in its own fleet
+    { where: 'ngo/y.json:y:c1', id: 'energy:fx-regulator' },       // defined in the owning fleet, referenced from another — fine
+    { where: 'ngo/y.json:y:c2', id: 'wel:fx-minister' },           // welfare owns wel: and defines no such id
+    { where: 'energy/x.json:x:c3', id: 'energy:fx-ghost' },        // its own fleet does not define it either
+    { where: 'energy/x.json:x:c4', id: 'pol:fx' },                 // inventory: not this rule's business
+    { where: 'energy/x.json:x:c5', id: 'adani' },                  // Atlas: not this rule's business
+  ];
+  assert.deepEqual(undefinedFleetRefs(defined, refs), [
+    { where: 'ngo/y.json:y:c2', id: 'wel:fx-minister', fleet: 'welfare' },
+    { where: 'energy/x.json:x:c3', id: 'energy:fx-ghost', fleet: 'energy' },
+  ]);
+  // The fleet directory does not exist yet: every reference under its prefix is undefined, and the rule says so rather than throwing.
+  assert.deepEqual(undefinedFleetRefs(new Map(), [{ where: 'w', id: 'fin:ibrd' }]), [{ where: 'w', id: 'fin:ibrd', fleet: 'finance' }]);
+});
+
+// ---------------------------------------------------------------------------
+// G1 / G2 / P1 / P7 (docs/design/FINANCE_PAGE.md §3.3) — loan facts are a COPY of what the
+// World Bank fetcher wrote into worldbank-projects.json projects[]; nothing is re-derived.
+// ---------------------------------------------------------------------------
+
+const WB = (pid) => ['World Bank', `https://projects.worldbank.org/en/projects-operations/project-detail/${pid}`];
+const CENSUS_TOTALS = {
+  projects: 3, claims: 2, croreExclPipeline: 2720.09, usdMExclPipeline: 325.1, pipeline: 1, dropped: 1, grantOnly: 0, otherOnly: 0,
+  noRupee: 0, borrowerUnstated: 0, agencyUnstated: 0, noInstrument: 0,
+};
+const CENSUS_FX = { indicator: 'PA.NUS.FCRF', firstYear: 2023, lastYear: 2025, conversion: '₹ crore = US$ × rate(approval year) ÷ 1e7' };
+const CENSUS_FIELDMAP = { legs: 'one entry per loan claim', state: 'placement rule', state_basis: 'branch of the rule', major_sector_name: 'v3 major_sector_name', sector1: 'v2 sector1.Name' };
+
+/** A synthetic census (worldbank-projects.json) and a researched file that repeats one of its loans. */
+function loanFleet() {
+  const lender = (id, label) => ({ id, label, ty: 'fund', fam: 'capital', st: null, sz: 3, resolved: true, srcs: [['WB', 'https://www.worldbank.org/']] });
+  const census = {
+    asOf: '2026-09-26', domain: 'worldbank-projects', scope: 'Synthetic fixture. Not research.', sources: [WB('P000001')],
+    entities: [lender('fin:ibrd', 'IBRD'), lender('fin:ida', 'IDA')],
+    claims: [
+      { id: 'worldbank:c0001', s: 'fin:ibrd', t: 'min:ministry-of-finance', pred: 'loan', tier: 'documented', a: 2720.09, lab: 'P000001 — FX Project One', projectId: 'P000001',
+        d: 'US$325.1 m at ₹83.67/US$ (WB PA.NUS.FCRF, 2024)', from: '2024-12-12', srcs: [WB('P000001')], terms: { instrument: 'IPF', ratePct: null, tenorYears: null, graceYears: null, conditions: [] } },
+      { id: 'worldbank:c0002', s: 'fin:ida', t: 'min:ministry-of-finance', pred: 'loan', tier: 'documented', lab: 'P000002 — FX Project Two', projectId: 'P000002',
+        d: 'US$50.4 m at ₹87.16/US$ (WB PA.NUS.FCRF, 2025 — latest available, 2027 not yet published) — ₹ amount not stated: pipeline, not yet approved', from: '2027-07-15', srcs: [WB('P000002')] },
+    ],
+    voids: [], narratives: [], symmetryCheck: 'x', baseRates: [], gaps: [],
+    provenance: { runId: 'fixture', totals: { ...CENSUS_TOTALS }, fieldMap: { ...CENSUS_FIELDMAP }, fx: { ...CENSUS_FX }, pages: [] },
+    projects: [
+      { id: 'P000001', project_name: 'FX Project One', status: 'Active', pipeline: false, major_sector_name: 'Agriculture, Fishing and Forestry', sector1: 'Crops', state: 'up', state_basis: 'agency-state',
+        legs: [{ lender: 'fin:ibrd', claimId: 'worldbank:c0001', usdM: 325.1, fxRate: 83.669281580941, fxYear: 2024, fxBasis: 'WB PA.NUS.FCRF, 2024', countable: true, notCountableReason: null }] },
+      { id: 'P000002', project_name: 'FX Project Two', status: 'Pipeline', pipeline: true, major_sector_name: null, sector1: null, state: null, state_basis: null,
+        legs: [{ lender: 'fin:ida', claimId: 'worldbank:c0002', usdM: 50.4, fxRate: 87.1584483507393, fxYear: 2025, fxBasis: 'WB PA.NUS.FCRF, 2025 — latest available, 2027 not yet published', countable: false, notCountableReason: 'pipeline — not yet a loan' }] },
+      { id: 'P000003', project_name: 'FX Dropped', status: 'Dropped', pipeline: false, major_sector_name: null, sector1: null, state: null, state_basis: null, legs: [] },
+    ],
+  };
+  const researched = {
+    asOf: '2026-09-26', domain: 'worldbank', scope: 'Synthetic fixture. Not research.', sources: [WB('P000001')],
+    entities: [{ id: 'fin:fx-lender', label: 'FX Lender', ty: 'fund', fam: 'capital', st: null, sz: 2, resolved: true, srcs: [['Fixture', 'https://example.org/l']] }],
+    claims: [
+      { id: 'worldbank:c001', s: 'fin:ibrd', t: 'min:ministry-of-finance', pred: 'loan', tier: 'documented', a: 2700, lab: 'P000001 — FX Project One, IBRD loan 1-IN', projectId: 'P000001',
+        d: 'US$325.1m at ₹83/US$ (PD rate)', from: '2024-12-12', srcs: [['Loan Agreement 1-IN', 'https://example.org/la']],
+        countable: false, countedAs: 'worldbank:c0001', notCountableReason: 'repeats P000001 (IBRD leg), counted in the census as worldbank:c0001' },
+      { id: 'worldbank:c002', s: 'fin:fx-lender', t: 'min:ministry-of-finance', pred: 'loan', tier: 'documented', a: 100, lab: 'FX bilateral line', d: 'x', from: '2020', srcs: [['Fixture', 'https://example.org/b']] },
+      { id: 'worldbank:c003', s: 'min:ministry-of-finance', t: 'co:ntpc', pred: 'award', tier: 'documented', a: 10, lab: 'P000001 civil works lot 1', projectId: 'P000001', d: 'x', from: '2025', srcs: [['Fixture', 'https://example.org/c']] },
+    ],
+    voids: [], narratives: [], symmetryCheck: 'x', baseRates: [], gaps: [],
+  };
+  const reconciliation = { asOf: '2026-09-26', fleet: 'finance', mappings: [], countedAs: [{ claimId: 'worldbank:c001', countedAs: 'worldbank:c0001', projectId: 'P000001', note: 'same project and lender' }] };
+  return { 'worldbank-projects.json': census, 'worldbank.json': researched, 'RECONCILIATION.json': reconciliation };
+}
+const runLoans = (edit = () => {}) => {
+  const files = loanFleet();
+  edit(files);
+  return assemble({ rawDir: mkTmpFleet('finance', files) });
+};
+const loanErrors = (edit) => runLoans(edit).fleetErrors.finance.join('\n');
+
+test('G1: FINANCE_LOAN_FACTS copies the census fields from projects[] and marks each loan census or researched', () => {
+  const out = runLoans();
+  assert.deepEqual(out.errors, []);
+  const F = out.finance.data.loanFacts;
+  assert.deepEqual(Object.keys(F), ['worldbank:c0001', 'worldbank:c0002', 'worldbank:c001', 'worldbank:c002'], 'every loan edge, in id order; awards carry none');
+  assert.deepEqual(F['worldbank:c0001'], {
+    project: 'P000001', status: 'Active', pipeline: false, usdM: 325.1, fxRate: 83.669281580941, fxBasis: 'WB PA.NUS.FCRF, 2024',
+    st: 'up', stBasis: 'agency-state', majorSector: 'Agriculture, Fishing and Forestry', sector1: 'Crops',
+    population: 'census', countable: true, countedAs: null, notCountableReason: null,
+  });
+  assert.deepEqual(F['worldbank:c0002'], {
+    project: 'P000002', status: 'Pipeline', pipeline: true, usdM: 50.4, fxRate: 87.1584483507393, fxBasis: 'WB PA.NUS.FCRF, 2025 — latest available, 2027 not yet published',
+    st: null, stBasis: null, majorSector: null, sector1: null,
+    population: 'census', countable: false, countedAs: null, notCountableReason: 'pipeline — not yet a loan',
+  });
+  // A researched record carries only what its claim says: never a figure parsed from its prose.
+  assert.deepEqual(F['worldbank:c001'], {
+    project: 'P000001', status: null, pipeline: null, usdM: null, fxRate: null, fxBasis: null, st: null, stBasis: null, majorSector: null, sector1: null,
+    population: 'researched', countable: false, countedAs: 'worldbank:c0001', notCountableReason: 'repeats P000001 (IBRD leg), counted in the census as worldbank:c0001',
+  });
+  assert.deepEqual(F['worldbank:c002'], {
+    project: null, status: null, pipeline: null, usdM: null, fxRate: null, fxBasis: null, st: null, stBasis: null, majorSector: null, sector1: null,
+    population: 'researched', countable: true, countedAs: null, notCountableReason: null,
+  });
+  const text = out.finance.text;
+  assert.match(text, /^export const FINANCE_LOAN_FACTS: Record<string, LoanFact> = \{$/m);
+  assert.ok(text.includes('  "worldbank:c0001": { project: "P000001", status: "Active", pipeline: false, usdM: 325.1, fxRate: 83.669281580941,'));
+  assert.equal(out.energy.text.includes('LOAN_FACTS'), false, 'only the fleet with a loan census emits loan facts');
+});
+
+test('G2: FINANCE_WB_TOTALS is provenance.totals, fieldMap and fx verbatim — and null without a census', () => {
+  const out = runLoans();
+  assert.deepEqual(out.finance.data.wbTotals, { totals: CENSUS_TOTALS, fieldMap: CENSUS_FIELDMAP, fx: CENSUS_FX });
+  assert.match(out.finance.text, /^export const FINANCE_WB_TOTALS: WbTotals \| null = \{$/m);
+  const none = assemble({ rawDir: mkTmpFleet('finance', { 'worldbank.json': minimalGraphDoc('worldbank') }) });
+  assert.deepEqual(none.errors, []);
+  assert.equal(none.finance.data.wbTotals, null);
+  assert.ok(none.finance.text.includes('export const FINANCE_WB_TOTALS: WbTotals | null = null;'));
+  assert.deepEqual(none.finance.data.loanFacts['worldbank:c001'].population, 'researched');
+  const empty = assemble({ rawDir: scratch() });
+  assert.ok(empty.finance.text.includes('export const FINANCE_LOAN_FACTS: Record<string, LoanFact> = {\n};'));
+});
+
+test('P1: projectId reaches loan and award edges; absent stays absent; a malformed or misplaced id is refused', () => {
+  const out = runLoans();
+  const edge = (id) => out.finance.data.edges.find((e) => e.id === id);
+  assert.equal(edge('worldbank:c0001').projectId, 'P000001');
+  assert.equal(edge('worldbank:c001').projectId, 'P000001');
+  assert.equal(edge('worldbank:c003').projectId, 'P000001', 'awards carry it too');
+  assert.equal('projectId' in edge('worldbank:c002'), false);
+  assert.ok(out.finance.text.includes('lab: "P000001 civil works lot 1", projectId: "P000001"'));
+  assert.match(loanErrors((f) => { f['worldbank.json'].claims[2].projectId = 'P12'; }), /worldbank:c003\.projectId: "P12" is not a World Bank project id/);
+  assert.match(loanErrors((f) => { f['worldbank.json'].claims.push({ id: 'worldbank:c009', s: 'fin:fx-lender', t: 'min:ministry-of-finance', pred: 'role', tier: 'documented', projectId: 'P000001', srcs: [['F', 'https://example.org/r']] }); }),
+    /worldbank:c009\.projectId: projectId belongs on loan and award claims/);
+});
+
+test('G1: the census and projects[] must agree — a missing leg, another lender or another project is an error, never a guess', () => {
+  assert.match(loanErrors((f) => { f['worldbank-projects.json'].projects[0].legs = []; }), /worldbank:c0001: census loan has no projects\[\] leg/);
+  assert.match(loanErrors((f) => { f['worldbank-projects.json'].projects[0].legs[0].lender = 'fin:ida'; }), /worldbank:c0001: projects\[\] leg lender "fin:ida" differs from the claim's s "fin:ibrd"/);
+  assert.match(loanErrors((f) => { f['worldbank-projects.json'].claims[0].projectId = 'P000009'; }), /worldbank:c0001: projects\[\] row P000001 differs from the claim's projectId "P000009"/);
+  assert.match(loanErrors((f) => { f['worldbank-projects.json'].projects[0].state_basis = 'registered-office'; }), /P000001\.state_basis: unknown value "registered-office"/);
+  assert.match(loanErrors((f) => { f['worldbank-projects.json'].projects[0].state = 'zz'; }), /P000001\.state: unknown value "zz"/);
+  assert.match(loanErrors((f) => { f['worldbank-projects.json'].projects[0].state_basis = null; }), /P000001: state and state_basis must be set together/);
+  assert.match(loanErrors((f) => { f['worldbank-projects.json'].projects[0].legs[0].fxRate = '83.7'; }), /legs\[0\]\.fxRate: expected a number/);
+  assert.match(loanErrors((f) => { f['worldbank-projects.json'].provenance.totals.newThing = 1; }), /provenance\.totals\.newThing is not a census total/);
+  assert.match(loanErrors((f) => { delete f['worldbank-projects.json'].provenance.totals.dropped; }), /provenance\.totals\.dropped: expected a number/);
+  assert.match(loanErrors((f) => { delete f['worldbank-projects.json'].provenance; }), /worldbank-projects\.json: no provenance\.totals/);
+});
+
+test('P7: a duplicate loan is countedAs the record that counts — same lender, same project, no chains; RECONCILIATION.json and the claim agree', () => {
+  const dup = (f) => f['worldbank.json'].claims[0];
+  assert.match(loanErrors((f) => { dup(f).countedAs = 'worldbank:c0404'; f['RECONCILIATION.json'].countedAs[0].countedAs = 'worldbank:c0404'; }), /worldbank:c001: countedAs "worldbank:c0404" is not a loan edge in the finance fleet/);
+  assert.match(loanErrors((f) => { dup(f).s = 'fin:ida'; }), /worldbank:c001: countedAs "worldbank:c0001" is a loan from fin:ibrd, not fin:ida/);
+  assert.match(loanErrors((f) => { dup(f).projectId = 'P000002'; }), /worldbank:c001: countedAs "worldbank:c0001" is project P000001, not P000002/);
+  assert.match(loanErrors((f) => { dup(f).countedAs = 'worldbank:c0002'; dup(f).projectId = 'P000002'; dup(f).s = 'fin:ida'; f['RECONCILIATION.json'].countedAs[0].countedAs = 'worldbank:c0002'; }),
+    /worldbank:c001: countedAs "worldbank:c0002" is itself not countable — point at the record that counts/);
+  assert.match(loanErrors((f) => { dup(f).countedAs = null; dup(f).notCountableReason = null; f['RECONCILIATION.json'].countedAs = []; }), /worldbank:c001: countable false needs a countedAs or a notCountableReason/);
+  assert.match(loanErrors((f) => { dup(f).countable = true; }), /worldbank:c001: countedAs is set, so countable must be false/);
+  assert.match(loanErrors((f) => { f['RECONCILIATION.json'].countedAs = []; }), /worldbank:c001: countedAs "worldbank:c0001" is not recorded in RECONCILIATION\.json countedAs/);
+  assert.match(loanErrors((f) => { delete dup(f).countedAs; dup(f).countable = true; delete dup(f).notCountableReason; }), /RECONCILIATION\.json:countedAs\[0\]: worldbank:c001 does not carry countedAs "worldbank:c0001"/);
+  assert.match(loanErrors((f) => { f['worldbank.json'].claims[2].countable = false; f['worldbank.json'].claims[2].notCountableReason = 'x'; }), /worldbank:c003: countable, countedAs and notCountableReason belong on loan claims/);
+  // No supersession is invented: the duplicate stays an edge, unsuperseded, and listed.
+  const out = runLoans();
+  assert.equal(out.finance.data.edges.find((e) => e.id === 'worldbank:c001').supersededBy, undefined);
+});
+
+test('loan facts and census totals are tsc --strict clean', () => {
+  const out = runLoans();
+  assert.deepEqual(out.errors, []);
+  const tmp = scratch();
+  const files = {
+    'src/graph/schema.ts': readFileSync(join(ROOT, 'src/graph/schema.ts'), 'utf8'),
+    'src/graph/fleet.ts': readFileSync(join(ROOT, 'src/graph/fleet.ts'), 'utf8'),
+    'src/data/welfare.ts': readFileSync(join(ROOT, 'src/data/welfare.ts'), 'utf8'),
+    ...Object.fromEntries(vocab.FLEETS.map((f) => [f.out, out[f.key].text])),
+  };
+  for (const [rel, text] of Object.entries(files)) {
+    mkdirSync(dirname(join(tmp, rel)), { recursive: true });
+    writeFileSync(join(tmp, rel), text);
+  }
+  const tsc = spawnSync(process.execPath, [
+    join(ROOT, 'node_modules/typescript/bin/tsc'), '--noEmit', '--strict', '--noUnusedLocals', '--noUnusedParameters',
+    '--isolatedModules', '--skipLibCheck', '--target', 'ES2020', '--module', 'ESNext', '--moduleResolution', 'bundler',
+    ...Object.keys(files).map((f) => join(tmp, f)),
+  ], { encoding: 'utf8' });
+  assert.equal(tsc.status, 0, tsc.stdout + tsc.stderr);
+});
+
+// ---------------------------------------------------------------------------
+// G3a–G3c — the capital fleet's ownership exports (docs/design/FINANCE_PAGE.md §3.3)
+// ---------------------------------------------------------------------------
+
+const CS = (slug) => ['Fixture filing', `https://example.org/${slug}`];
+const holdingOf = (over = {}) => ({
+  pct: 2.5, shares: 1234567, asOf: '2026-06-30', category: 'fpi',
+  line: '2.50% (12,34,567 shares), Foreign Portfolio Investor Category I, quarter ended 30.06.2026', aggregate: false, ...over,
+});
+/** A capital fleet: two holders files, a coverage declaration and a controls declaration. */
+function capitalFleet({ claim = {}, holding = {}, coverage, controls, extraClaims = [] } = {}) {
+  const ents = [
+    { id: 'cap:fx-fund', label: 'FX Fund', ty: 'fund', fam: 'capital', st: null, sz: 2, resolved: true, srcs: [CS('fund')] },
+    { id: 'cap:fx-etf-house', label: 'FX ETF House', ty: 'fund', fam: 'capital', st: null, sz: 2, resolved: true, srcs: [CS('etf')] },
+    { id: 'cap:fx-ghost', label: 'FX Ghost', ty: 'fund', fam: 'capital', st: null, sz: 1, resolved: false, collisionRisk: 'two funds share the name' },
+  ];
+  const doc = (domain, claims) => ({ asOf: '2026-09-26', domain, scope: 'Synthetic fixture. Not research.', sources: [CS('index')], entities: ents, claims, voids: [], narratives: [], symmetryCheck: 'x', baseRates: [], gaps: [] });
+  return mkTmpFleet('capital', {
+    'holders-x.json': doc('holders-x', [
+      {
+        id: 'holders-x:c001', s: 'cap:fx-fund', t: 'co:ntpc', pred: 'own', tier: 'documented', from: '2026-06-30',
+        d: '2.50% (12,34,567 shares), Foreign Portfolio Investor Category I, quarter ended 30.06.2026 — the only named line.',
+        srcs: [CS('shp')], holding: holdingOf(holding), ...claim,
+      },
+      {
+        id: 'holders-x:c002', s: 'cap:fx-fund', t: 'co:fx-two', pred: 'own', tier: 'reported', status: 'killed', killedReason: 'placeholder',
+        d: 'Not named; the category total 3.03% is not this holder\'s figure.', srcs: [CS('shp2')],
+        holding: holdingOf({ pct: null, shares: null, line: 'Not named', asOf: null }),
+      },
+      ...extraClaims,
+    ]),
+    'holders-aggregates.json': doc('holders-aggregates', [
+      {
+        id: 'holders-aggregates:c001', s: 'cap:fx-etf-house', t: 'co:ntpc', pred: 'own', tier: 'analytic', from: '2026-09-24',
+        lab: 'FX ETF House ≈0.59% of NTPC, lower bound', d: 'FX ETF aggregate = 0.59% of NTPC (LOWER BOUND). Total 7,34,33,092 shares.',
+        innocentReading: 'Index funds hold every constituent.',
+        holding: { pct: 0.59, shares: 73433092, asOf: '2026-09-24', category: 'fpi', line: 'FX ETF aggregate = 0.59% of NTPC (LOWER BOUND)', aggregate: true },
+      },
+    ]),
+    'coverage.json': {
+      asOf: '2026-09-26', declares: 'fixture',
+      rows: coverage ?? [
+        { company: 'co:ntpc', asOf: '2026-06-30', read: 'primary', domain: 'holders-x', srcs: [CS('shp')], note: null },
+        { company: 'co:fx-two', asOf: '2026-06-30', read: 'aggregator', domain: 'holders-x', srcs: [CS('screener')], note: 'category totals only' },
+        { company: 'co:fx-three', asOf: null, read: 'not-read', domain: 'holders-x', srcs: [CS('403')], note: 'site-wide 403' },
+      ],
+    },
+    'controls.json': {
+      asOf: '2026-09-26', declaredIn: 'scratchpad/capital/SPEC.md', declaration: 'fixture',
+      rows: controls ?? [
+        { id: 'cap:fx-etf-house', label: 'FX ETF House', role: 'subject', resolved: true, declaredIn: 'scratchpad/capital/SPEC.md §Controls', note: null },
+        { id: 'cap:fx-fund', label: 'FX Fund', role: 'comparison', resolved: true, declaredIn: 'scratchpad/capital/SPEC.md §Controls', note: null },
+        { id: 'co:life-insurance-corporation', label: 'LIC', role: 'domestic-control', resolved: true, declaredIn: 'scratchpad/capital/SPEC.md §Controls', note: null },
+        { id: null, label: 'FX Adviser', role: 'adviser-comparison', resolved: false, declaredIn: 'scratchpad/capital/SPEC.md §Controls', note: 'no entity in the fleet' },
+      ],
+    },
+  });
+}
+const capErrors = (dir) => assemble({ rawDir: dir }).fleetErrors.capital;
+
+test('G3a: CAPITAL_HOLDINGS — one structured holding per surviving own edge, read from the claim\'s own text', () => {
+  const out = assemble({ rawDir: capitalFleet() });
+  assert.deepEqual(out.errors, []);
+  const h = out.capital.data.holdings;
+  assert.deepEqual(Object.keys(h), ['holders-aggregates:c001', 'holders-x:c001'], 'surviving own edges only, in id order; the killed claim keeps its block in the raw file only');
+  assert.deepEqual(h['holders-x:c001'], holdingOf());
+  assert.equal(h['holders-aggregates:c001'].aggregate, true);
+  assert.match(out.capital.text, /export const CAPITAL_HOLDINGS: Record<string, Holding> = \{\n/);
+  assert.deepEqual(grab(out.capital.text, 'CAPITAL_HOLDINGS'), h);
+  for (const f of vocab.FLEETS.filter((x) => x.key !== 'capital')) {
+    assert.doesNotMatch(out[f.key].text, /_HOLDINGS|_CONTROLS/, `${f.key} carries no ownership exports`);
+  }
+  assert.equal(out.capital.data.meta.counts.holdings, 2);
+});
+
+test('G3a: pct outside 0–100, a fractional share count, an unknown category, a line not in the text, or a holding on a non-own claim refuse the fleet', () => {
+  const cases = [
+    [{ holding: { pct: 150 } }, /holding\.pct 150 is outside 0–100/],
+    [{ holding: { pct: -1 } }, /holding\.pct -1 is outside 0–100/],
+    [{ holding: { pct: '2.5' } }, /holding\.pct: expected a number/],
+    [{ holding: { shares: 12.5 } }, /holding\.shares 12\.5 is not a whole share count/],
+    [{ holding: { category: 'sovereign' } }, /holding\.category: unknown value "sovereign"/],
+    [{ holding: { asOf: '30.06.2026' } }, /holding\.asOf: "30\.06\.2026" is not an ISO date/],
+    [{ holding: { line: 'a line nobody wrote' } }, /holding\.line is not a verbatim part of the claim's d or lab/],
+    [{ holding: { aggregate: 'no' } }, /holding\.aggregate: expected true\/false/],
+    [{ holding: { pct: 9.99 } }, /holding\.pct 9\.99 is not a figure printed in the claim's d or lab/],
+    [{ holding: { shares: 7654321 } }, /holding\.shares 7654321 is not a share count printed in the claim's d or lab/],
+    [{ claim: { pred: 'award' } }, /holding on a award claim — holdings describe own claims only/],
+  ];
+  for (const [over, re] of cases) {
+    const out = assemble({ rawDir: capitalFleet(over) });
+    assert.ok(out.fleetErrors.capital.some((e) => re.test(e)), `${JSON.stringify(over)} → ${JSON.stringify(out.fleetErrors.capital)}`);
+    assert.equal(out.capital.text, null, 'a refused fleet emits nothing');
+    assert.deepEqual(out.fleetErrors.energy, [], 'the fault is charged to the capital fleet only');
+  }
+  // Absence is said, never defaulted: null pct and null shares are a valid holding.
+  assert.deepEqual(capErrors(capitalFleet({ holding: { pct: null, shares: null } })), []);
+});
+
+test('G3b: CAPITAL_COVERAGE — coverage.json is a declaration, not a research file, and every row is checked', () => {
+  const dir = capitalFleet();
+  const out = assemble({ rawDir: dir });
+  const c = out.capital.data.coverage;
+  assert.deepEqual(c.map((r) => r.company), ['co:fx-three', 'co:fx-two', 'co:ntpc'], 'company order');
+  assert.deepEqual(c.find((r) => r.company === 'co:fx-three'), { company: 'co:fx-three', asOf: null, read: 'not-read', domain: 'holders-x', srcs: [CS('403')], note: 'site-wide 403' });
+  assert.deepEqual(grab(out.capital.text, 'CAPITAL_COVERAGE'), c);
+  const meta = out.capital.data.meta;
+  assert.deepEqual(meta.files.map((f) => f.domain), ['holders-aggregates', 'holders-x'], 'declarations are not research domains');
+  assert.ok(meta.inputs.includes('capital/coverage.json') && meta.inputs.includes('capital/controls.json'), 'but they are inputs, so the run id covers them');
+  assert.equal(meta.counts.coverage, 3);
+  // Editing the declaration restamps the module.
+  const p = join(dir, 'capital/coverage.json');
+  writeFileSync(p, readFileSync(p, 'utf8').replace('site-wide 403', 'site-wide 403 (twice)'));
+  assert.notEqual(assemble({ rawDir: dir }).capital.data.meta.runId, meta.runId);
+
+  const row = (over) => [{ company: 'co:ntpc', asOf: '2026-06-30', read: 'primary', domain: 'holders-x', srcs: [CS('shp')], note: null, ...over }];
+  const cases = [
+    [row({ read: 'skimmed' }), /read: unknown value "skimmed"/],
+    [row({ read: 'not-read' }), /a not-read row carries no asOf/],
+    [row({ asOf: null }), /a primary row needs the asOf of what was read/],
+    [row({ domain: 'holders-zz' }), /domain "holders-zz" is not a research file in this fleet/],
+    [row({ srcs: [] }), /needs at least one \[label, url\] source/],
+    [row({ company: 'ntpc' }), /company "ntpc" is not a co: id/],
+    [[...row({}), ...row({ read: 'aggregator' })], /co:ntpc is declared twice/],
+  ];
+  for (const [rows, re] of cases) {
+    const errs = capErrors(capitalFleet({ coverage: rows }));
+    assert.ok(errs.some((e) => re.test(e)), `${JSON.stringify(rows)} → ${JSON.stringify(errs)}`);
+  }
+});
+
+test('G3c: CAPITAL_CONTROLS — the declared sets in declared order; an unresolved row carries no id', () => {
+  const out = assemble({ rawDir: capitalFleet() });
+  assert.deepEqual(out.errors, []);
+  const c = out.capital.data.controls;
+  assert.deepEqual(c.map((r) => r.role), ['subject', 'comparison', 'domestic-control', 'adviser-comparison'], 'declared order, never sorted');
+  assert.deepEqual(grab(out.capital.text, 'CAPITAL_CONTROLS'), c);
+  assert.equal(out.capital.data.meta.counts.controls, 4);
+  const base = { label: 'X', role: 'comparison', resolved: true, declaredIn: 'spec', note: null };
+  const cases = [
+    [[{ ...base, id: 'cap:fx-nobody' }], /"cap:fx-nobody" is resolved: true but is neither a fleet id, an inventory id nor an atlas id/],
+    [[{ ...base, id: 'cap:fx-fund', role: 'rival' }], /role: unknown value "rival"/],
+    [[{ ...base, id: 'cap:fx-fund', resolved: false }], /an unresolved row carries id null — never an id nobody defined/],
+    [[{ ...base, id: null }], /a resolved row needs an id/],
+    [[{ ...base, id: 'cap:fx-fund' }, { ...base, id: 'cap:fx-fund', role: 'subject' }], /cap:fx-fund is declared twice/],
+    [[{ ...base, id: 'cap:fx-fund', declaredIn: '' }], /declaredIn: is required/],
+    [[{ ...base, id: 'cap:fx-ghost' }], /"cap:fx-ghost" is resolved:false in the research — a control row cannot resolve it/],
+  ];
+  for (const [rows, re] of cases) {
+    const errs = capErrors(capitalFleet({ controls: rows }));
+    assert.ok(errs.some((e) => re.test(e)), `${JSON.stringify(rows)} → ${JSON.stringify(errs)}`);
+  }
+});
+
+test('G3a–c: a capital module with the ownership exports is tsc --strict clean; an absent capital fleet emits them empty', () => {
+  const out = assemble({ rawDir: capitalFleet() });
+  const empty = assemble({ rawDir: scratch() });
+  assert.match(empty.capital.text, /export const CAPITAL_HOLDINGS: Record<string, Holding> = \{\n\};/);
+  assert.match(empty.capital.text, /export const CAPITAL_COVERAGE: CapitalCoverage\[\] = \[\n\];/);
+  assert.match(empty.capital.text, /export const CAPITAL_CONTROLS: CapitalControl\[\] = \[\n\];/);
+  for (const text of [out.capital.text, empty.capital.text]) {
+    const tmp = scratch();
+    const files = {
+      'src/graph/schema.ts': readFileSync(join(ROOT, 'src/graph/schema.ts'), 'utf8'),
+      'src/graph/fleet.ts': readFileSync(join(ROOT, 'src/graph/fleet.ts'), 'utf8'),
+      [OUTPUTS.capital]: text,
+    };
+    for (const [rel, t] of Object.entries(files)) {
+      mkdirSync(dirname(join(tmp, rel)), { recursive: true });
+      writeFileSync(join(tmp, rel), t);
+    }
+    const tsc = spawnSync(process.execPath, [
+      join(ROOT, 'node_modules/typescript/bin/tsc'), '--noEmit', '--strict', '--noUnusedLocals', '--noUnusedParameters',
+      '--isolatedModules', '--skipLibCheck', '--target', 'ES2020', '--module', 'ESNext', '--moduleResolution', 'bundler',
+      ...Object.keys(files).map((f) => join(tmp, f)),
+    ], { encoding: 'utf8' });
+    assert.equal(tsc.status, 0, tsc.stdout + tsc.stderr);
+  }
+});
+
+// ---------------------------------------------------------------------------
+// P5/G4 — state-wise FC rows (docs/design/FINANCE_PAGE.md §3.3, §5.2.2)
+// ---------------------------------------------------------------------------
+
+const ANNEX = ['RS Q.3253 Annexure I (fixture)', 'https://example.org/rs-3253.pdf'];
+const OTHER_SRC = ['Press report (fixture)', 'https://example.org/press'];
+const fcRow = (st, fy, receivedCr, extra = {}) => ({ st, stateName: st.toUpperCase(), fy, receivedCr, utilisedCr: receivedCr + 1, note: null, srcs: [ANNEX], ...extra });
+/** An ngo fleet of one file whose national grant rows are ₹30 cr (FY2019-20) and ₹50 cr (FY2020-21). */
+function ngoFleet(fcByState, claims = []) {
+  const src = ['Fixture', 'https://example.org/fcra'];
+  const doc = {
+    asOf: '2026-09-26', domain: 'fcra-receipts', scope: 'Synthetic fixture. Not research.', sources: [src, ANNEX],
+    entities: [
+      { id: 'ngo:fx-abroad', label: 'Foreign sources', ty: 'fund', fam: 'capital', st: null, sz: 2, resolved: true, srcs: [src] },
+      { id: 'ngo:fx-assocs', label: 'FCRA associations', ty: 'group', fam: 'recipient', st: null, sz: 2, resolved: true, srcs: [src] },
+    ],
+    claims: [
+      { id: 'fcra-receipts:c001', s: 'ngo:fx-abroad', t: 'ngo:fx-assocs', pred: 'grant', tier: 'documented', a: 30, lab: 'FY2019-20', d: 'Sum of the annexure.', from: '2019-04-01', to: '2020-03-31', srcs: [ANNEX] },
+      { id: 'fcra-receipts:c002', s: 'ngo:fx-abroad', t: 'ngo:fx-assocs', pred: 'grant', tier: 'documented', a: 50, lab: 'FY2020-21', d: 'Sum of the annexure.', from: '2020-04-01', to: '2021-03-31', srcs: [ANNEX] },
+      ...claims,
+    ],
+    voids: [], narratives: [], symmetryCheck: 'x', baseRates: [], gaps: [],
+  };
+  if (fcByState !== undefined) doc.fcByState = fcByState;
+  return mkTmpFleet('ngo', { 'fcra-receipts.json': doc });
+}
+const ngoErrors = (dir) => assemble({ rawDir: dir }).fleetErrors.ngo;
+const GOOD_ROWS = [fcRow('tn', '2020-21', 20), fcRow('dl', '2019-20', 10.5), fcRow('ka', '2020-21', 30), fcRow('dl', '2020-21', 0), fcRow('tn', '2019-20', 19.5)];
+
+test('G4: NGO_FC_STATE — the annexure rows, in FY then state order, and each FY adds up to the file\'s national grant row', () => {
+  const out = assemble({ rawDir: ngoFleet(GOOD_ROWS) });
+  assert.deepEqual(out.errors, []);
+  const rows = out.ngo.data.fcState;
+  assert.deepEqual(rows.map((r) => `${r.fy}/${r.st}`), ['2019-20/dl', '2019-20/tn', '2020-21/dl', '2020-21/ka', '2020-21/tn']);
+  for (const r of rows) assert.deepEqual(Object.keys(r), vocab.FC_STATE_KEYS, 'every row carries exactly the contract keys, in order');
+  assert.deepEqual(grab(out.ngo.text, 'NGO_FC_STATE'), rows, 'the literal is the data');
+  assert.equal(out.ngo.data.meta.counts.fcState, 5);
+  assert.match(out.ngo.text, /import type \{ FcStateRow \} from '\.\/fleet';/);
+  // The rule is one function, so validate.mjs cannot disagree with the assembler on it.
+  assert.deepEqual(vocab.fcStateSumProblems(rows, out.ngo.data.edges), []);
+  assert.deepEqual(vocab.fySpan('2019-20'), { from: '2019-04-01', to: '2020-03-31' });
+  assert.equal(vocab.fySpan('2019-21'), null, 'a span that is not one financial year is not a label');
+  // Within ₹1 crore is a rounding allowance, not a licence: 0.99 passes, 1.01 fails.
+  assert.deepEqual(ngoErrors(ngoFleet([fcRow('dl', '2019-20', 30.99)])), []);
+  const off = ngoErrors(ngoFleet([fcRow('dl', '2019-20', 31.01)]));
+  assert.ok(off.some((e) => /fcByState 2019-20: 1 state row\(s\) sum to ₹31\.01 crore, but fcra-receipts:c001 records ₹30 crore/.test(e)), JSON.stringify(off));
+});
+
+test('G4: a state row that cannot be added to a national row, or that is not a state, refuses the fleet — never a guess', () => {
+  const cases = [
+    [[fcRow('dl', '2019-20', 30), fcRow('dl', '2021-22', 5)], /fcByState 2021-22: 1 state row\(s\) sum to ₹5\.00 crore but the file records no current national grant claim spanning 2021-04-01–2022-03-31/],
+    [[fcRow('dl', '2019-20', 30, { srcs: [OTHER_SRC] })], /records no current national grant claim .* that cites the rows' source/],
+    [[fcRow('xx', '2019-20', 30)], /fcByState\[0\]\.st: unknown value "xx"/],
+    [[{ ...fcRow('dl', '2019-20', 30), st: null }], /st is null — a row that is not a state or UT needs a note/],
+    [[fcRow('dl', '2019-2020', 30)], /fy: "2019-2020" is not a financial year written YYYY-YY/],
+    [[fcRow('dl', '2019-20', 30, { receivedCr: '30' })], /receivedCr: expected a number/],
+    [[{ ...fcRow('dl', '2019-20', 30), receivedCr: undefined }], /receivedCr: is required/],
+    [[fcRow('dl', '2019-20', 30, { srcs: [] })], /needs at least one \[label, url\] source/],
+    [[fcRow('dl', '2019-20', 15), fcRow('dl', '2019-20', 15)], /DL 2019-20 appears twice/],
+    [[fcRow('dl', '2019-20', 30, { region: 'north' })], /region is not a field of a state row/],
+    [{ dl: 30 }, /fcByState: must be a list of/],
+  ];
+  for (const [rows, re] of cases) {
+    const errs = ngoErrors(ngoFleet(rows));
+    assert.ok(errs.some((e) => re.test(e)), `${JSON.stringify(rows)} → ${JSON.stringify(errs)}`);
+    assert.equal(assemble({ rawDir: ngoFleet(rows) }).ngo.text, null, 'a refused fleet emits nothing');
+  }
+  // A row that is not a state or UT is kept, with st null and a note, and still counts in the sum.
+  const ok = assemble({ rawDir: ngoFleet([fcRow('dl', '2019-20', 29), { ...fcRow('dl', '2019-20', 1), st: null, stateName: 'Not specified', note: 'the annexure gives a row for associations with no state recorded' }]) });
+  assert.deepEqual(ok.errors, []);
+  assert.deepEqual(ok.ngo.data.fcState.map((r) => r.st), ['dl', null], 'rows without a code sort last');
+  // A superseded national row does not count as the total; the current one does.
+  const superseded = assemble({ rawDir: ngoFleet([fcRow('dl', '2019-20', 30)], [
+    { id: 'fcra-receipts:c003', s: 'ngo:fx-abroad', t: 'ngo:fx-assocs', pred: 'grant', tier: 'reported', a: 12, lab: 'partial', d: 'Partial figure.', from: '2019-04-01', to: '2020-03-31', srcs: [ANNEX], supersededBy: 'fcra-receipts:c001' },
+  ]) });
+  assert.deepEqual(superseded.errors, []);
+});
+
+test('G4: no fcByState is an empty export, not an error; the module with rows is tsc --strict clean', () => {
+  const none = assemble({ rawDir: ngoFleet(undefined) });
+  assert.deepEqual(none.errors, []);
+  assert.match(none.ngo.text, /export const NGO_FC_STATE: FcStateRow\[\] = \[\n\];/);
+  assert.equal(none.ngo.data.meta.counts.fcState, 0);
+  const empty = assemble({ rawDir: scratch() });
+  assert.match(empty.ngo.text, /export const NGO_FC_STATE: FcStateRow\[\] = \[\n\];/, 'an absent fleet still lands the export path');
+  for (const f of vocab.FLEETS.filter((x) => !x.fcState)) assert.doesNotMatch(empty[f.key].text, /_FC_STATE\b/, `${f.key} has no fcState domain and no such export`);
+  // Another file's fcByState is not read: a warning names it, and the export stays what the fcState file says.
+  const dir = ngoFleet(GOOD_ROWS);
+  put(join(dir, 'ngo/other.json'), { ...JSON.parse(readFileSync(join(dir, 'ngo/fcra-receipts.json'), 'utf8')), domain: 'other', claims: [], fcByState: [fcRow('mh', '2019-20', 1)] });
+  const two = assemble({ rawDir: dir });
+  assert.deepEqual(two.errors, []);
+  assert.ok(two.warnings.some((w) => /ngo\/other\.json:fcByState: only fcra-receipts\.json is read for state rows/.test(w)), JSON.stringify(two.warnings));
+  assert.equal(two.ngo.data.fcState.length, 5);
+  const tmp = scratch();
+  const files = {
+    'src/graph/schema.ts': readFileSync(join(ROOT, 'src/graph/schema.ts'), 'utf8'),
+    'src/graph/fleet.ts': readFileSync(join(ROOT, 'src/graph/fleet.ts'), 'utf8'),
+    [OUTPUTS.ngo]: two.ngo.text,
+  };
+  for (const [rel, t] of Object.entries(files)) {
+    mkdirSync(dirname(join(tmp, rel)), { recursive: true });
+    writeFileSync(join(tmp, rel), t);
+  }
+  const tsc = spawnSync(process.execPath, [
+    join(ROOT, 'node_modules/typescript/bin/tsc'), '--noEmit', '--strict', '--noUnusedLocals', '--noUnusedParameters',
+    '--isolatedModules', '--skipLibCheck', '--target', 'ES2020', '--module', 'ESNext', '--moduleResolution', 'bundler',
+    ...Object.keys(files).map((f) => join(tmp, f)),
+  ], { encoding: 'utf8' });
+  assert.equal(tsc.status, 0, tsc.stdout + tsc.stderr);
+});

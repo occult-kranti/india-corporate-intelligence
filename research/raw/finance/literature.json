@@ -1400,7 +1400,7 @@
       ]
     },
     {
-      "id": "energy:manmohan-singh",
+      "id": "wel:manmohan-singh",
       "label": "Manmohan Singh",
       "sub": "Finance Minister 1991–96; Prime Minister 2004–14",
       "ty": "person",
@@ -1413,18 +1413,23 @@
         "cin": null,
         "din": null,
         "nse": null,
-        "office": "Union Finance Minister from 1991-06 (appointed under PM P.V. Narasimha Rao); Prime Minister 2004-05 to 2014-05",
+        "office": "Union Finance Minister, 1991-06-21→1996-05-16 (under PM P.V. Narasimha Rao); Prime Minister of India, 2004-05-22→2014-05-26",
         "lei": null,
         "fcra": null
       },
-      "publicRole": "Finance Minister who signed the 1991 IMF programme and presented the 1991-07-24 reform Budget; reused id — the inventory also carries wel:manmohan-singh for the same person (collision to reconcile)",
+      "publicRole": "Finance Minister who signed the 1991 IMF programme and presented the 1991-07-24 reform Budget; Prime Minister 2004–14. Id reconciled 2026-09-26: energy:manmohan-singh → wel:manmohan-singh (one person, one node; full record in research/raw/welfare/central.json).",
       "d": [
-        "Appointed Finance Minister in June 1991; reforms 'formally began July 1, 1991'; Budget of 1991-07-24 set out industrial deregulation, reduced import licensing, up to 51% foreign equity in priority industries and disinvestment of up to 20% of government equity in selected PSUs (Wikipedia) [reported]"
+        "Appointed Finance Minister in June 1991; reforms 'formally began July 1, 1991'; Budget of 1991-07-24 set out industrial deregulation, reduced import licensing, up to 51% foreign equity in priority industries and disinvestment of up to 20% of government equity in selected PSUs (Wikipedia) [reported]",
+        "Union Finance Minister 1991-06-21 → 1996-05-16 (Wikipedia infobox; successor Jaswant Singh) [reported]"
       ],
       "srcs": [
         [
           "Wikipedia — 1991 Indian economic crisis",
           "https://en.wikipedia.org/wiki/1991_Indian_economic_crisis"
+        ],
+        [
+          "Wikipedia — Manmohan Singh (infobox: Union Minister of Finance 21 June 1991 – 16 May 1996, under PM P.V. Narasimha Rao; predecessor Yashwant Sinha, successor Jaswant Singh)",
+          "https://en.wikipedia.org/wiki/Manmohan_Singh"
         ]
       ]
     }
@@ -1537,19 +1542,23 @@
     },
     {
       "id": "literature:c006",
-      "s": "energy:manmohan-singh",
+      "s": "wel:manmohan-singh",
       "t": "min:ministry-of-finance",
       "pred": "role",
       "tier": "reported",
       "a": null,
       "lab": "Union Finance Minister (1991 programme)",
-      "d": "Appointed Finance Minister in June 1991 under PM P.V. Narasimha Rao; presented the 1991-07-24 reform Budget. End date not given by the source opened, so left null.",
-      "from": "1991-06",
-      "to": null,
+      "d": "Appointed Finance Minister on 1991-06-21 under PM P.V. Narasimha Rao; presented the 1991-07-24 reform Budget; left office 1996-05-16 with the Rao government (Wikipedia infobox, opened 2026-09-26).",
+      "from": "1991-06-21",
+      "to": "1996-05-16",
       "srcs": [
         [
           "Wikipedia — 1991 Indian economic crisis",
           "https://en.wikipedia.org/wiki/1991_Indian_economic_crisis"
+        ],
+        [
+          "Wikipedia — Manmohan Singh (infobox: Union Minister of Finance 21 June 1991 – 16 May 1996, under PM P.V. Narasimha Rao; predecessor Yashwant Sinha, successor Jaswant Singh)",
+          "https://en.wikipedia.org/wiki/Manmohan_Singh"
         ]
       ],
       "upgradeIf": "Lok Sabha/Council of Ministers record opened",
@@ -1780,6 +1789,7 @@
       "tier": "documented",
       "a": 1735,
       "lab": "P169907 / PGD77 — First Resilient Kerala Program DPO (IDA credit US$250m equivalent)",
+      "projectId": "P169907",
       "d": "IDA credit of SDR 115.2 million and US$90.4 million (US$250 million equivalent) to the Republic of India for the Government of Kerala's Rebuild Kerala programme; ≈₹1,735 crore at ₹69.4/US$ (approximate RBI reference rate, 2019-06; the rate is not taken from the document). 'While India is currently eligible for only IBRD financial terms, IDA Blend financial terms will be applied to the operation under the amendments approved by the Board based on the IDA18 midterm review.' First of a programmatic series of two DPOs; eight prior actions, all acts of the Government of Kerala. Approval/signing dates are in worldbank.json (fin:wb-dpo-resilient-kerala-1) and are not repeated here.",
       "from": "2019",
       "to": null,
@@ -1813,7 +1823,10 @@
       },
       "upgradeIf": "Full prior-action text extracted from the PDF",
       "killIf": null,
-      "supersededBy": null
+      "supersededBy": null,
+      "countable": false,
+      "countedAs": "worldbank:c0741",
+      "notCountableReason": "Repeats World Bank project P169907 (IDA leg), which the census counts as worldbank:c0741 (worldbank-projects.json, same project id and lender). Kept and listed as a researched record; not counted a second time."
     },
     {
       "id": "literature:c016",
@@ -1892,7 +1905,7 @@
       "tier": "documented",
       "a": null,
       "lab": "Interim injunction refused; Article 293 referred to a five-judge bench (2024-04-01)",
-      "d": "The Court found Kerala had 'failed to establish the three prongs of proving prima facie case, balance of convenience and irreparable injury'; found 'prima facie merit in the submission of the Union of India that after inclusion of off budget borrowing for F.Y. 2022-23 and adjustments for over-borrowing of past years, the State has no unutilized fiscal space'; noted the Union had during the hearing consented to additional borrowing 'to some extent so as to bail out the Plaintiff'; and referred the questions — whether Article 293 confers an enforceable right to borrow, whether SOE and public-account liabilities fall within 293(3), and the scope of judicial review of fiscal policy — to a Constitution Bench. Observations expressly limited to the interim stage. No beneficiary recorded: Adjudication.",
+      "d": "Judicial ruling on literature:c017: The Court found Kerala had 'failed to establish the three prongs of proving prima facie case, balance of convenience and irreparable injury'; found 'prima facie merit in the submission of the Union of India that after inclusion of off budget borrowing for F.Y. 2022-23 and adjustments for over-borrowing of past years, the State has no unutilized fiscal space'; noted the Union had during the hearing consented to additional borrowing 'to some extent so as to bail out the Plaintiff'; and referred the questions — whether Article 293 confers an enforceable right to borrow, whether SOE and public-account liabilities fall within 293(3), and the scope of judicial review of fiscal policy — to a Constitution Bench. Observations expressly limited to the interim stage. No beneficiary recorded: Adjudication.",
       "from": "2024-04-01",
       "to": null,
       "srcs": [
@@ -2018,7 +2031,10 @@
       },
       "upgradeIf": null,
       "killIf": null,
-      "supersededBy": null
+      "supersededBy": null,
+      "countable": false,
+      "countedAs": "bilateral-china:c006",
+      "notCountableReason": "Same JICA loan: Mumbai–Ahmedabad High Speed Rail (V), ¥400,000 million, loan agreement 2023-12-21. The record itself says \"the full tranche series is in bilateral-china.json\". ₹22,640 crore here and ₹23,400 crore in bilateral-china.json are two conversions of one ¥400bn loan; bilateral-china:c006 counts."
     },
     {
       "id": "literature:c024",
@@ -2052,7 +2068,10 @@
       },
       "upgradeIf": "AIIB project page opened",
       "killIf": "AIIB record differs on date or amount",
-      "supersededBy": null
+      "supersededBy": null,
+      "countable": false,
+      "countedAs": "adb-aiib:c004",
+      "notCountableReason": "Same AIIB loan: COVID-19 Emergency Response and Health Systems Preparedness, US$500m, signed 2020-05-08. The record itself says \"Project id and terms are in adb-aiib.json\". ₹3,785 crore here and ₹3,676 crore in adb-aiib.json are two conversions of one US$500m loan; adb-aiib:c004 counts."
     },
     {
       "id": "literature:c025",
@@ -2088,7 +2107,10 @@
       },
       "upgradeIf": "AIIB project page 000409 opened",
       "killIf": "AIIB record differs",
-      "supersededBy": null
+      "supersededBy": null,
+      "countable": false,
+      "countedAs": "adb-aiib:c003",
+      "notCountableReason": "Same AIIB loan: COVID-19 Active Response and Expenditure Support (CARES) co-financing, AIIB 000409, US$750m, signed 2020-06-19. The record itself says \"adb-aiib.json records US$750m for AIIB 000409 CARES\". ₹5,700 crore here and ₹5,521 crore in adb-aiib.json are two conversions of one US$750m loan; the documented AIIB record (adb-aiib:c003) counts."
     },
     {
       "id": "literature:c026",
@@ -2572,7 +2594,7 @@
     "Article 293 text: constitutionofindia.net returned HTTP 307; quoted here only as recited in the Supreme Court order.",
     "UPA-vs-NDA concessionality: no external-debt series opened (dea.gov.in unreachable; RBI press-release ids for 'India's External Debt as at end-March' not locatable without search). Narrative 3 is therefore speculative for want of a denominator, not because evidence points either way.",
     "Google Books API returned HTTP 429; book records were verified through Open Library's search API, Penguin India and Wikipedia instead.",
-    "Person-id collision: the inventory carries both energy:manmohan-singh and wel:manmohan-singh for the same person; this file uses energy:manmohan-singh and flags the duplicate for reconciliation.",
+    "Person-id collision: the inventory carries both energy:manmohan-singh and wel:manmohan-singh for the same person; this file uses energy:manmohan-singh and flags the duplicate for reconciliation. — RESOLVED 2026-09-26: energy:manmohan-singh → wel:manmohan-singh (finance/RECONCILIATION.json mappings[]).",
     "Press Note 3 (2020) on land-border FDI: PIB PRID 1615711 returned an empty body to curl here; the note is recorded in bilateral-china.json and is not cited in this file."
   ]
 }

@@ -625,6 +625,30 @@ export const SENTINEL_DATES = ['2999-12-31', '9999-12-31'];
 export const realDate = (iso) => (iso != null && SENTINEL_DATES.includes(iso) ? null : iso);
 
 // ---------------------------------------------------------------------------
+// Placement
+// ---------------------------------------------------------------------------
+
+/**
+ * The state a project is placed in, and which branch of the rule placed it — a state
+ * government as borrower; else a state government among the implementing agencies; else
+ * the state of an implementing body seated outside Delhi (Delhi-seated Union bodies do not
+ * make a project a Delhi project, a ministry places nothing, and neither does a registered
+ * seat known only from INV_ST: THDC is seated in Uttarakhand and builds in Uttar Pradesh);
+ * else a state the title names. `basis` travels with `st` into projects[] (state_basis) so
+ * the page can say how each project was placed (FINANCE_PAGE.md D8).
+ */
+export const STATE_BASES = ['borrower-state', 'agency-state', 'agency-seat', 'title'];
+export function placeProject(borrowerR, agencyRs, titleState) {
+  if (borrowerR && borrowerR.ty === 'state' && borrowerR.st) return { st: borrowerR.st, basis: 'borrower-state' };
+  const gov = agencyRs.find((r) => r.ty === 'state' && r.st);
+  if (gov) return { st: gov.st, basis: 'agency-state' };
+  const seated = agencyRs.find((r) => r.st && r.st !== 'dl' && r.ty !== 'ministry' && !r.seatOnly);
+  if (seated) return { st: seated.st, basis: 'agency-seat' };
+  if (titleState) return { st: titleState, basis: 'title' };
+  return { st: null, basis: null };
+}
+
+// ---------------------------------------------------------------------------
 // Build
 // ---------------------------------------------------------------------------
 
@@ -767,18 +791,18 @@ export function build({ v3Pages, v2Pages = [], fx, inventory, asOf, lenderPages 
     // (Delhi-seated Union bodies do not make a project a Delhi project; nor does a registered
     // seat known only from INV_ST — THDC is seated in Uttarakhand and builds in Uttar Pradesh),
     // or the title.
-    const stateCode = (borrowerR && borrowerR.ty === 'state' ? borrowerR.st : null)
-      ?? agencies.map((a) => (a.r.ty === 'state' ? a.r.st : null)).find(Boolean)
-      ?? agencies.map((a) => (a.r.st && a.r.st !== 'dl' && a.r.ty !== 'ministry' && !a.r.seatOnly ? a.r.st : null)).find(Boolean)
-      ?? titleState ?? null;
-    projectRows.push({
+    const { st: stateCode, basis: stateBasis } = placeProject(borrowerR, agencies.map((a) => a.r), titleState);
+    const row = {
       id: p.id, project_name: p.project_name ?? null, status, boardapprovaldate: from, closingdate: to, pipeline,
       borrower: borrowerRaw || null, impagency: agencyRaw || null, projectfinancialtype: fin, lendinginstr: instrument,
       ibrd_usd: ibrd, ida_usd: ida, grant_usd: grant, total_usd: total, lendprojectcost_usd: usd(p.lendprojectcost),
       curr_total_commitment_usd: usd(p.curr_total_commitment), major_sector_name: sector, sector1: v2r?.sector1?.Name || null, theme1: theme,
       regionname: p.regionname ?? null, url, project_abstract: abstract, pdo: p.pdo ?? null,
-      borrower_id: borrowerR?.id ?? null, impagency_ids: agencies.map((a) => a.r.id), state: stateCode,
-    });
+      borrower_id: borrowerR?.id ?? null, impagency_ids: agencies.map((a) => a.r.id), state: stateCode, state_basis: stateBasis,
+      // One entry per loan claim, filled below as each leg is written (G1: FINANCE_LOAN_FACTS copies these).
+      legs: [],
+    };
+    projectRows.push(row);
 
     if (status === 'Dropped') { totals.dropped++; continue; }
     if (!instrument) totals.noInstrument++;
@@ -846,7 +870,7 @@ export function build({ v3Pages, v2Pages = [], fx, inventory, asOf, lenderPages 
 
       const claim = {
         id: nextId(), s: lender, t: t.id, pred: 'loan', tier: 'documented',
-        a: cr, lab: `${p.id} — ${p.project_name ?? ''}`.trim(), d: parts.join('; '),
+        a: cr, lab: `${p.id} — ${p.project_name ?? ''}`.trim(), projectId: p.id, d: parts.join('; '),
         from, to,
         srcs: [['World Bank', url]],
         terms: { instrument, ratePct: null, tenorYears: null, graceYears: null, conditions: [] },
@@ -854,6 +878,16 @@ export function build({ v3Pages, v2Pages = [], fx, inventory, asOf, lenderPages 
         innocentReading: null, upgradeIf: 'Loan Agreement and Program Document fetched: terms, conditions and ministers at approval recorded', killIf: 'project page shows the operation cancelled before signing or the amount revised to zero', supersededBy: null,
       };
       claims.push(claim);
+      // The leg as d states it: US$ m, the rate and its note, and whether the census counts it.
+      row.legs.push({
+        lender, claimId: claim.id,
+        usdM: amt != null ? usdM(amt) : null,
+        fxRate: fxr ? fxr.rate : null,
+        fxYear: fxr ? fxr.year : null,
+        fxBasis: amt == null ? null : fxr ? fxr.note : `no PA.NUS.FCRF rate for ${year ?? 'an unknown year'} (series begins ${fxT.first})`,
+        countable: !pipeline,
+        notCountableReason: pipeline ? 'pipeline — approval date in the future or status Pipeline; not yet a loan; outside every census total' : null,
+      });
       totals.claims++;
       if (amt != null && cr == null && !pipeline) totals.noRupee++;
       if (pipeline) { totals.pipeline++; continue; }
@@ -965,7 +999,10 @@ export function build({ v3Pages, v2Pages = [], fx, inventory, asOf, lenderPages 
       runId, fetchedAt: asOf, script: 'scripts/finance/fetch-worldbank.mjs',
       fx: { indicator: 'PA.NUS.FCRF', firstYear: fxT.first, lastYear: fxT.last, conversion: '₹ crore = US$ × rate(approval year) ÷ 1e7' },
       pages,
-      fieldMap: { ibrd_usd: 'v3 curr_ibrd_commitment (v2 ibrdcommamt as fallback)', ida_usd: 'v3 curr_ida_commitment / idacommamt (v2 idacommamt as fallback)', total_usd: 'v3 totalamt / curr_total_commitment (v2 totalcommamt as fallback)', grant_usd: 'v3 grantamt', lendinginstr: 'v2 lendinginstr (not in v3)', url: 'v2 url, else the project-detail URL pattern', major_sector_name: 'v3 major_sector_name', sector1: 'v2 sector1.Name', theme1: 'v2 theme1 when it is text' },
+      fieldMap: { ibrd_usd: 'v3 curr_ibrd_commitment (v2 ibrdcommamt as fallback)', ida_usd: 'v3 curr_ida_commitment / idacommamt (v2 idacommamt as fallback)', total_usd: 'v3 totalamt / curr_total_commitment (v2 totalcommamt as fallback)', grant_usd: 'v3 grantamt', lendinginstr: 'v2 lendinginstr (not in v3)', url: 'v2 url, else the project-detail URL pattern', major_sector_name: 'v3 major_sector_name', sector1: 'v2 sector1.Name', theme1: 'v2 theme1 when it is text',
+        state: 'the fetcher\'s placement rule (placeProject): a state government as borrower, else a state government among the implementing agencies, else the state of an implementing body seated outside Delhi (not a ministry, not a registered seat alone), else a state named in the project title; null when none applies',
+        state_basis: 'which branch of that rule placed the row: borrower-state · agency-state · agency-seat · title; null when state is null',
+        legs: 'one entry per loan claim: lender, claimId, usdM (US$ m, 2 dp, as in d), fxRate (PA.NUS.FCRF LCU per US$ as published; null before the series), fxYear (the rate\'s year), fxBasis (the rate note d states, or why there is none; null when the amount is not stated), countable (false for pipeline), notCountableReason' },
       totals,
       byYear: yearRows,
       byState: stateTable,

@@ -45,7 +45,9 @@ import { join, dirname, relative, resolve, isAbsolute, posix } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import {
   TIERS, PREDS, NODE_TYPES, FAMILIES, STATE_CODES, NARRATIVE_STATUS, SCHEME_STATUS, SCHEME_CATEGORIES, ISO_DATE, INVENTORY,
-  FLEETS, TERMS_KEYS, amountProblem,
+  FLEETS, TERMS_KEYS, amountProblem, STATE_BASES, WB_TOTAL_KEYS, WB_PROJECT_ID,
+  OWNERSHIP_DECLARATIONS, HOLDING_CATEGORIES, HOLDING_KEYS, COVERAGE_READ, CONTROL_ROLES, holdingTextProblem,
+  FC_STATE_KEYS, fySpan, fcStateSumProblems,
 } from './lib/vocab.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -54,7 +56,7 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
  * Folded into the run id, as PIPELINE_VERSION is in promote.mjs: when a rule below
  * changes, the stamp must change even if no research file did.
  */
-export const GENERATOR_VERSION = '1.2.0';
+export const GENERATOR_VERSION = '1.4.0';
 const GENERATOR = 'scripts/assemble-fleet.mjs';
 
 /** Fleet key → the module it is written to, relative to the repository root. Read from FLEETS. */
@@ -145,6 +147,7 @@ function readers(sink, where, lenient = false) {
     if (!lenient) sink.error(`${where}${f ? `.${f}` : ''}`, msg);
   };
   const r = {
+    bad,
     str(v, f) {
       if (v == null) return null;
       if (typeof v === 'string') return v;
@@ -256,7 +259,7 @@ function readAtlasIds(root, sink) {
 function readFleet(rawDir, spec, sink) {
   const fleet = spec.dir;
   const dir = join(rawDir, fleet);
-  const out = { fleet: spec.key, dir: spec.dir, kind: spec.kind, spec, files: [], reconciliation: null, audit: null, inputs: [], empty: !existsSync(dir) };
+  const out = { fleet: spec.key, dir: spec.dir, kind: spec.kind, spec, files: [], reconciliation: null, audit: null, declarations: {}, inputs: [], empty: !existsSync(dir) };
   if (out.empty) return out;
   const names = readdirSync(dir).filter((f) => f.endsWith('.json')).sort(cmp);
   for (const name of names) {
@@ -281,6 +284,9 @@ function readFleet(rawDir, spec, sink) {
     }
     if (name === 'RECONCILIATION.json') out.reconciliation = doc;
     else if (name === 'AUDIT.json') out.audit = doc;
+    // An ownership fleet's declaration (coverage.json, controls.json) is an input — the
+    // run id covers it — but not research: no claims, no domain, no META.files row.
+    else if (spec.ownership && OWNERSHIP_DECLARATIONS[name]) out.declarations[OWNERSHIP_DECLARATIONS[name]] = { name, doc };
     else {
       // The file stem is the domain: the contract names each file after its domain,
       // and pages join claims to sweeps on it, so one spelling must win everywhere.
@@ -669,6 +675,28 @@ function toTerms(v, r, f, sink, where, lenient) {
   return t;
 }
 
+/** Predicates a World Bank project id may ride on (FINANCE_PAGE.md §3.3 P1): the loan, and the contracts it financed. */
+const PROJECT_PREDS = ['loan', 'award'];
+
+/**
+ * A claim's `projectId`: P and six digits, on a loan or an award. Never inferred here —
+ * the fetcher writes it on census legs, and a researched claim carries it only where its
+ * own text names the id (scripts/finance/mark-loans.mjs).
+ */
+function projectIdOf(c, r) {
+  const v = r.str(c.projectId, 'projectId');
+  if (v == null) return null;
+  if (!WB_PROJECT_ID.test(v)) {
+    r.bad('projectId', `${JSON.stringify(v)} is not a World Bank project id (P and six digits)`);
+    return null;
+  }
+  if (!PROJECT_PREDS.includes(c.pred)) {
+    r.bad('projectId', `projectId belongs on loan and award claims, not ${JSON.stringify(c.pred)}`);
+    return null;
+  }
+  return v;
+}
+
 function toEdge(c, where, sink) {
   const r = readers(sink, where);
   const e = {
@@ -684,6 +712,8 @@ function toEdge(c, where, sink) {
     const v = r.str(c[k], k);
     if (v != null) e[k] = v;
   }
+  const pid = projectIdOf(c, r);
+  if (pid != null) e.projectId = pid;
   const d = Array.isArray(c.d) ? r.texts(c.d, 'd').join(' ') : r.str(c.d, 'd');
   if (d != null && d !== '') e.d = d;
   for (const k of ['from', 'to']) {
@@ -724,6 +754,7 @@ function toHeld(c, sink) {
     benefit: c.benefit && typeof c.benefit === 'object' && isStr(c.benefit.who) ? toBenefit(c.benefit, r, 'benefit') : null,
     // Only when written, so held claims from before loan terms existed emit as they did.
     ...(c.terms != null ? { terms: toTerms(c.terms, r, 'terms', sink, c.id, true) } : {}),
+    ...(c.projectId != null ? { projectId: r.str(c.projectId) } : {}),
     domain: c.domain,
     file: c.file,
   };
@@ -963,6 +994,393 @@ function gateFleet(p, isKnown, sink) {
 }
 
 // ---------------------------------------------------------------------------
+// 4b. Loan facts — G1/G2/P7 of docs/design/FINANCE_PAGE.md §3.3
+// ---------------------------------------------------------------------------
+
+const LOAN_FACT_KEYS = [
+  'project', 'status', 'pipeline', 'usdM', 'fxRate', 'fxBasis', 'st', 'stBasis', 'majorSector', 'sector1',
+  'population', 'countable', 'countedAs', 'notCountableReason',
+];
+const COUNT_KEYS = ['countable', 'countedAs', 'notCountableReason'];
+const FX_KEYS = ['indicator', 'firstYear', 'lastYear', 'conversion'];
+
+/**
+ * The census file's projects[], indexed by the claim id of each leg. Every field is read
+ * strictly (a value tsc would reject fails here, with the row named) and COPIED: the
+ * fetcher computed each one beside the `a` and `d` it wrote, so nothing is re-derived.
+ */
+function censusLegs(file, doc, sink) {
+  const legs = new Map();
+  for (const [i, raw] of asList(doc.projects).entries()) {
+    const pid = raw && typeof raw === 'object' && isStr(raw.id) ? raw.id : null;
+    const where = `${file}:projects:${pid ?? `[${i}]`}`;
+    if (!pid || !WB_PROJECT_ID.test(pid)) {
+      sink.error(where, `projects[${i}] has no World Bank project id`);
+      continue;
+    }
+    const r = readers(sink, where);
+    const row = {
+      project: pid,
+      status: r.str(raw.status, 'status'),
+      pipeline: r.bool(raw.pipeline, 'pipeline'),
+      st: r.oneOf(raw.state, STATE_CODES, 'state'),
+      stBasis: r.oneOf(raw.state_basis, STATE_BASES, 'state_basis'),
+      majorSector: r.str(raw.major_sector_name, 'major_sector_name'),
+      sector1: r.str(raw.sector1, 'sector1'),
+    };
+    if ((raw.state == null) !== (raw.state_basis == null)) sink.error(where, 'state and state_basis must be set together — a placement names its rule');
+    for (const [j, l] of r.list(raw.legs, 'legs').entries()) {
+      const f = `legs[${j}]`;
+      const o = r.obj(l, f) ?? {};
+      const claimId = r.reqStr(o.claimId, `${f}.claimId`);
+      const countable = r.bool(o.countable, `${f}.countable`);
+      if (countable == null) r.bad(`${f}.countable`, 'is required (true or false)');
+      const leg = {
+        row,
+        lender: r.reqStr(o.lender, `${f}.lender`),
+        usdM: r.num(o.usdM, `${f}.usdM`),
+        fxRate: r.num(o.fxRate, `${f}.fxRate`),
+        fxBasis: r.str(o.fxBasis, `${f}.fxBasis`),
+        countable: countable ?? false,
+        notCountableReason: r.str(o.notCountableReason, `${f}.notCountableReason`),
+      };
+      if (legs.has(claimId)) sink.error(where, `${f}: claim ${claimId} is already a leg of ${legs.get(claimId).row.project}`);
+      else legs.set(claimId, leg);
+    }
+  }
+  return legs;
+}
+
+/** provenance.totals, fieldMap and fx, verbatim — or null, with the fault named, when they cannot be typed. */
+function censusTotals(file, doc, sink) {
+  const prov = doc.provenance;
+  if (!prov || typeof prov !== 'object' || !prov.totals || typeof prov.totals !== 'object') {
+    sink.error(file, 'no provenance.totals — the census file must carry the fetcher\'s totals');
+    return null;
+  }
+  const totals = {};
+  for (const k of WB_TOTAL_KEYS) {
+    const v = prov.totals[k];
+    if (typeof v === 'number' && Number.isFinite(v)) totals[k] = v;
+    else sink.error(`${file}:provenance.totals.${k}`, `expected a number, found ${JSON.stringify(v)}`);
+  }
+  for (const k of Object.keys(prov.totals)) {
+    if (!WB_TOTAL_KEYS.includes(k)) sink.error(file, `provenance.totals.${k} is not a census total (expected ${WB_TOTAL_KEYS.join(' | ')}) — add it to WbCensusTotals and WB_TOTAL_KEYS first`);
+  }
+  const fieldMap = {};
+  const fm = prov.fieldMap && typeof prov.fieldMap === 'object' && !Array.isArray(prov.fieldMap) ? prov.fieldMap : null;
+  if (!fm) sink.error(file, 'no provenance.fieldMap');
+  for (const [k, v] of Object.entries(fm ?? {})) {
+    if (typeof v === 'string') fieldMap[k] = v;
+    else sink.error(`${file}:provenance.fieldMap.${k}`, `expected text, found ${JSON.stringify(v)}`);
+  }
+  const fxIn = prov.fx && typeof prov.fx === 'object' && !Array.isArray(prov.fx) ? prov.fx : null;
+  if (!fxIn) sink.error(file, 'no provenance.fx');
+  const r = readers(sink, `${file}:provenance`);
+  const fx = {
+    indicator: r.reqStr(fxIn?.indicator, 'fx.indicator'),
+    firstYear: r.num(fxIn?.firstYear, 'fx.firstYear'),
+    lastYear: r.num(fxIn?.lastYear, 'fx.lastYear'),
+    conversion: r.reqStr(fxIn?.conversion, 'fx.conversion'),
+  };
+  for (const k of Object.keys(fxIn ?? {})) if (!FX_KEYS.includes(k)) sink.error(file, `provenance.fx.${k} is not an fx field (expected ${FX_KEYS.join(' | ')})`);
+  return { totals, fieldMap, fx };
+}
+
+/**
+ * FINANCE_LOAN_FACTS and FINANCE_WB_TOTALS for a fleet whose FLEETS row names a
+ * `loanCensus` domain. One fact per `loan` edge:
+ *   census      — the claim's projects[] row and leg, copied; joined by claim id, and the
+ *                 row must be the claim's own projectId and the leg its own lender;
+ *   researched  — project from the claim's projectId, every census-only field null (never
+ *                 read from prose), counting marks from the claim.
+ * Counting marks (P7): `countable: false` with `countedAs` (the claim that counts the same
+ * loan — a countable loan edge from the same lender, on the same project when both name
+ * one) or a `notCountableReason`. Every countedAs is recorded in RECONCILIATION.json
+ * `countedAs`, and every entry there is carried by its claim: the two cannot drift apart.
+ * A duplicate is never superseded here — supersession is a dated correction, not a count.
+ */
+function loanFacts(p, edges, survivors, sink) {
+  const census = p.spec.loanCensus;
+  const file = p.files.find((f) => f.domain === census);
+  const fileName = file ? `${p.dir}/${file.name}` : null;
+  const legs = file ? censusLegs(fileName, file.doc, sink) : new Map();
+  const wbTotals = file ? censusTotals(fileName, file.doc, sink) : null;
+
+  const edgeById = new Map(edges.map((e) => [e.id, e]));
+  const facts = {};
+  const claimOf = new Map(survivors.map((c) => [c.id, c]));
+  for (const c of survivors) {
+    const w = `${c.file}:${c.id}`;
+    const marks = COUNT_KEYS.filter((k) => c[k] !== undefined && c[k] !== null);
+    if (c.pred !== 'loan') {
+      if (marks.length) sink.error(w, 'countable, countedAs and notCountableReason belong on loan claims');
+      continue;
+    }
+    const e = edgeById.get(c.id);
+    const fact = Object.fromEntries(LOAN_FACT_KEYS.map((k) => [k, null]));
+    fact.project = e.projectId ?? null;
+    if (c.domain === census) {
+      fact.population = 'census';
+      const leg = legs.get(c.id);
+      if (!leg) {
+        sink.error(w, `census loan has no projects[] leg in ${fileName} — re-run scripts/finance/fetch-worldbank.mjs`);
+      } else {
+        if (leg.lender !== e.s) sink.error(w, `projects[] leg lender ${JSON.stringify(leg.lender)} differs from the claim's s ${JSON.stringify(e.s)}`);
+        if (leg.row.project !== e.projectId) sink.error(w, `projects[] row ${leg.row.project} differs from the claim's projectId ${JSON.stringify(e.projectId ?? null)}`);
+        Object.assign(fact, {
+          project: leg.row.project, status: leg.row.status, pipeline: leg.row.pipeline,
+          usdM: leg.usdM, fxRate: leg.fxRate, fxBasis: leg.fxBasis,
+          st: leg.row.st, stBasis: leg.row.stBasis, majorSector: leg.row.majorSector, sector1: leg.row.sector1,
+          countable: leg.countable, countedAs: null, notCountableReason: leg.notCountableReason,
+        });
+      }
+      if (marks.length) sink.error(w, `a census claim's counting comes from its projects[] leg, not from ${marks.join(', ')} on the claim`);
+    } else {
+      fact.population = 'researched';
+      const r = readers(sink, w);
+      const countable = r.bool(c.countable, 'countable');
+      fact.countable = countable ?? true;
+      fact.countedAs = r.str(c.countedAs, 'countedAs');
+      fact.notCountableReason = r.str(c.notCountableReason, 'notCountableReason');
+    }
+    if (fact.countable === false && fact.countedAs == null && fact.notCountableReason == null) sink.error(w, 'countable false needs a countedAs or a notCountableReason');
+    if (fact.countable === true && fact.notCountableReason != null) sink.error(w, 'a notCountableReason is set, so countable must be false');
+    if (fact.countedAs != null && fact.countable !== false) sink.error(w, 'countedAs is set, so countable must be false');
+    facts[c.id] = fact;
+  }
+
+  // countedAs: a countable loan edge, same lender, same project where both name one.
+  for (const [id, f] of Object.entries(facts)) {
+    if (f.countedAs == null) continue;
+    const c = claimOf.get(id);
+    const w = `${c.file}:${id}`;
+    const target = facts[f.countedAs];
+    const te = edgeById.get(f.countedAs);
+    if (!target || !te) {
+      sink.error(w, `countedAs ${JSON.stringify(f.countedAs)} is not a loan edge in the ${p.fleet} fleet`);
+      continue;
+    }
+    const e = edgeById.get(id);
+    if (te.s !== e.s) sink.error(w, `countedAs ${JSON.stringify(f.countedAs)} is a loan from ${te.s}, not ${e.s}`);
+    if (target.project != null && f.project != null && target.project !== f.project) sink.error(w, `countedAs ${JSON.stringify(f.countedAs)} is project ${target.project}, not ${f.project}`);
+    if (target.countable !== true) sink.error(w, `countedAs ${JSON.stringify(f.countedAs)} is itself not countable — point at the record that counts`);
+  }
+
+  // RECONCILIATION.json countedAs and the claims carry the same pairs.
+  const recWhere = `${p.dir}/RECONCILIATION.json`;
+  const recorded = new Map();
+  for (const [i, m] of asList(p.reconciliation?.countedAs).entries()) {
+    const w = `${recWhere}:countedAs[${i}]`;
+    if (!m || !isStr(m.claimId) || !isStr(m.countedAs)) {
+      sink.error(w, 'a countedAs entry needs string claimId and countedAs');
+      continue;
+    }
+    recorded.set(m.claimId, m.countedAs);
+    const carried = facts[m.claimId]?.countedAs ?? claimOf.get(m.claimId)?.countedAs ?? null;
+    if (carried !== m.countedAs) sink.error(w, `${m.claimId} does not carry countedAs ${JSON.stringify(m.countedAs)} (it carries ${JSON.stringify(carried)})`);
+  }
+  for (const [id, f] of Object.entries(facts)) {
+    if (f.countedAs != null && recorded.get(id) !== f.countedAs) {
+      sink.error(`${claimOf.get(id).file}:${id}`, `countedAs ${JSON.stringify(f.countedAs)} is not recorded in RECONCILIATION.json countedAs — the reconciliation owns every counting mark`);
+    }
+  }
+  return { facts, wbTotals };
+}
+
+// ---------------------------------------------------------------------------
+// 4b. Ownership (capital) — holdings, coverage, controls (FINANCE_PAGE.md §3.3 G3a–c)
+// ---------------------------------------------------------------------------
+
+/** The claim's own text, as toEdge joins it: the only place a holding's figures may come from. */
+const claimText = (c) => [Array.isArray(c.d) ? c.d.filter((x) => typeof x === 'string').join(' ') : c.d, c.lab].filter((x) => typeof x === 'string').join(' ');
+
+/** A required boolean: absent is an error, not false. */
+function reqBool(r, sink, where, v, f) {
+  if (v == null) {
+    sink.error(`${where}.${f}`, 'is required (true/false)');
+    return false;
+  }
+  return r.bool(v, f) ?? false;
+}
+
+/**
+ * G3a. A surviving claim's `holding` block, read strictly: fixed keys; pct a number in
+ * 0–100 or null; shares a whole number or null; asOf ISO or null; category from the
+ * list; line and aggregate required. Every figure must be printed in the claim's own
+ * d/lab and the line must be a verbatim part of it — so a holding can never say more
+ * than the record it structures. Null is a stated absence, never a default.
+ */
+function readHolding(c, sink) {
+  const where = `${c.file}:${c.id}`;
+  const r = readers(sink, where);
+  if (c.pred !== 'own') {
+    sink.error(where, `holding on a ${c.pred} claim — holdings describe own claims only`);
+    return null;
+  }
+  const o = r.obj(c.holding, 'holding');
+  if (!o) return null;
+  for (const k of Object.keys(o).sort(cmp)) {
+    if (!HOLDING_KEYS.includes(k)) sink.error(`${where}.holding.${k}`, `holding.${k} is not a holding field (expected ${HOLDING_KEYS.join(' | ')})`);
+  }
+  const h = {
+    pct: r.num(o.pct, 'holding.pct'),
+    shares: r.num(o.shares, 'holding.shares'),
+    asOf: r.date(o.asOf, 'holding.asOf'),
+    category: r.oneOf(o.category, HOLDING_CATEGORIES, 'holding.category', true),
+    line: r.reqStr(o.line, 'holding.line'),
+    aggregate: reqBool(r, sink, where, o.aggregate, 'holding.aggregate'),
+  };
+  if (h.pct != null && (h.pct < 0 || h.pct > 100)) sink.error(`${where}.holding.pct`, `holding.pct ${h.pct} is outside 0–100`);
+  if (h.shares != null && !(Number.isInteger(h.shares) && h.shares >= 0)) sink.error(`${where}.holding.shares`, `holding.shares ${h.shares} is not a whole share count`);
+  for (const msg of holdingTextProblem(h, claimText(c))) sink.error(where, msg);
+  return h;
+}
+
+const CO_ID = /^co:[a-z0-9][a-z0-9-]*$/;
+const COVERAGE_KEYS = ['company', 'asOf', 'read', 'domain', 'srcs', 'note'];
+const CONTROL_KEYS = ['id', 'label', 'role', 'resolved', 'declaredIn', 'note'];
+
+/** A declaration's `rows`, with unknown row keys refused by name rather than dropped. */
+function declaredRows(decl, keys, fleet, sink) {
+  if (!decl) return [];
+  const where = `${fleet}/${decl.name}`;
+  if (!Array.isArray(decl.doc.rows)) {
+    sink.error(`${where}:rows`, 'a declaration must carry a list `rows`');
+    return [];
+  }
+  return decl.doc.rows.map((v, i) => {
+    const w = `${where}:rows[${i}]`;
+    if (!v || typeof v !== 'object' || Array.isArray(v)) {
+      sink.error(w, 'row must be an object');
+      return { w, o: {} };
+    }
+    for (const k of Object.keys(v).sort(cmp)) if (!keys.includes(k)) sink.error(`${w}.${k}`, `${k} is not a field of this declaration (expected ${keys.join(' | ')})`);
+    return { w, o: v };
+  });
+}
+
+/**
+ * G3a–c for a fleet whose FLEETS row says `ownership: true`. Run after the fleet gate,
+ * because a control row resolves against every fleet's ids. Holdings are keyed in
+ * claim-id order; coverage rows in company order; control rows in DECLARED order —
+ * the order is part of the declaration.
+ */
+function readOwnership(p, isKnown, sink) {
+  const holdings = [];
+  for (const c of [...p.survivors].sort((a, b) => cmp(a.id, b.id))) {
+    if (c.holding == null) continue;
+    const h = readHolding(c, sink);
+    if (h) holdings.push([c.id, h]);
+  }
+
+  const domains = new Set(p.files.map((f) => f.domain));
+  const coverage = [];
+  const seenCo = new Set();
+  for (const { w, o } of declaredRows(p.declarations?.coverage, COVERAGE_KEYS, p.dir, sink)) {
+    const r = readers(sink, w);
+    const company = r.reqStr(o.company, 'company');
+    if (company && !CO_ID.test(company)) sink.error(w, `company "${company}" is not a co: id`);
+    if (seenCo.has(company)) sink.error(w, `${company} is declared twice`);
+    seenCo.add(company);
+    const read = r.oneOf(o.read, COVERAGE_READ, 'read', true);
+    const asOf = r.date(o.asOf, 'asOf');
+    if (read === 'not-read' && asOf != null) sink.error(w, 'a not-read row carries no asOf — nothing was read to date');
+    if ((read === 'primary' || read === 'aggregator') && asOf == null) sink.error(w, `a ${read} row needs the asOf of what was read`);
+    const domain = r.reqStr(o.domain, 'domain');
+    if (domain && !domains.has(domain)) sink.error(w, `domain "${domain}" is not a research file in this fleet`);
+    const srcs = r.srcs(o.srcs, 'srcs');
+    if (!srcs.length) sink.error(w, 'needs at least one [label, url] source — a read, or a failed attempt, is cited');
+    coverage.push({ company, asOf, read: read ?? 'not-read', domain, srcs, note: r.str(o.note, 'note') });
+  }
+  coverage.sort((a, b) => cmp(a.company, b.company));
+
+  const unresolved = new Set([...p.entityGroups.values()].filter((g) => g.rec.resolved === false).map((g) => g.rec.id));
+  const controls = [];
+  const seenId = new Set();
+  for (const { w, o } of declaredRows(p.declarations?.controls, CONTROL_KEYS, p.dir, sink)) {
+    const r = readers(sink, w);
+    const id = r.str(o.id, 'id');
+    const resolved = reqBool(r, sink, w, o.resolved, 'resolved');
+    if (resolved && id == null) sink.error(w, 'a resolved row needs an id');
+    if (!resolved && id != null) sink.error(w, `"${id}": an unresolved row carries id null — never an id nobody defined`);
+    if (resolved && id != null) {
+      if (unresolved.has(id)) sink.error(w, `"${id}" is resolved:false in the research — a control row cannot resolve it`);
+      else if (!isKnown(id)) sink.error(w, `"${id}" is resolved: true but is neither a fleet id, an inventory id nor an atlas id`);
+    }
+    if (id != null) {
+      if (seenId.has(id)) sink.error(w, `${id} is declared twice`);
+      seenId.add(id);
+    }
+    controls.push({
+      id,
+      label: r.reqStr(o.label, 'label'),
+      role: r.oneOf(o.role, CONTROL_ROLES, 'role', true) ?? 'comparison',
+      resolved,
+      declaredIn: r.reqStr(o.declaredIn, 'declaredIn'),
+      note: r.str(o.note, 'note'),
+    });
+  }
+  return { holdings, coverage, controls };
+}
+
+/**
+ * G4 for a fleet whose FLEETS row names an `fcState` domain: that file's `fcByState`
+ * rows — a Parliament annexure's state/UT × FY table, transcribed — read strictly (fixed
+ * keys; st a state code, or null with a note saying what the row is; fy a financial
+ * year; receivedCr a number; srcs cited) and then added up: every FY must sum to the
+ * file's own current national grant claim for that FY within FC_STATE_TOLERANCE_CR
+ * (scripts/lib/vocab.mjs). No file, or no list, is an empty export, never an error —
+ * the page's void card is the honest state until the annexure is transcribed. Rows are
+ * emitted in FY, then state-code order, rows without a code last.
+ */
+function fcStateRows(p, edges, survivors, sink) {
+  const domain = p.spec.fcState;
+  for (const f of p.files) {
+    if (f.domain !== domain && f.doc.fcByState != null) sink.warn(`${p.dir}/${f.name}:fcByState`, `only ${domain}.json is read for state rows — this list is not exported`);
+  }
+  const file = p.files.find((f) => f.domain === domain);
+  if (!file || file.doc.fcByState == null) return [];
+  const where = `${p.dir}/${file.name}`;
+  if (!Array.isArray(file.doc.fcByState)) {
+    sink.error(`${where}:fcByState`, `must be a list of { ${FC_STATE_KEYS.join(', ')} } rows`);
+    return [];
+  }
+  const rows = [];
+  const seen = new Set();
+  for (const [i, v] of file.doc.fcByState.entries()) {
+    const w = `${where}:fcByState[${i}]`;
+    if (!v || typeof v !== 'object' || Array.isArray(v)) {
+      sink.error(w, 'row must be an object');
+      continue;
+    }
+    for (const k of Object.keys(v).sort(cmp)) if (!FC_STATE_KEYS.includes(k)) sink.error(`${w}.${k}`, `${k} is not a field of a state row (expected ${FC_STATE_KEYS.join(' | ')})`);
+    const r = readers(sink, w);
+    const st = v.st == null ? null : r.oneOf(v.st, STATE_CODES, 'st');
+    const note = r.str(v.note, 'note');
+    if (v.st == null && !(note && note.trim())) sink.error(w, 'st is null — a row that is not a state or UT needs a note saying what the annexure calls it');
+    const stateName = r.reqStr(v.stateName, 'stateName');
+    const fy = r.reqStr(v.fy, 'fy');
+    if (fy && !fySpan(fy)) sink.error(`${w}.fy`, `${JSON.stringify(fy)} is not a financial year written YYYY-YY ("2019-20")`);
+    const receivedCr = r.num(v.receivedCr, 'receivedCr');
+    if (v.receivedCr == null) sink.error(`${w}.receivedCr`, 'is required — a row the annexure prints no figure for is not transcribed as a row');
+    else if (receivedCr != null && receivedCr < 0) sink.error(`${w}.receivedCr`, `${receivedCr} is negative`);
+    const utilisedCr = r.num(v.utilisedCr, 'utilisedCr');
+    if (utilisedCr != null && utilisedCr < 0) sink.error(`${w}.utilisedCr`, `${utilisedCr} is negative`);
+    const srcs = r.srcs(v.srcs, 'srcs');
+    if (!srcs.length) sink.error(w, 'needs at least one [label, url] source — the annexure the row is read from');
+    const key = `${st ?? `?${stateName}`}|${fy}`;
+    if (seen.has(key)) sink.error(w, `${stateName} ${fy} appears twice`);
+    seen.add(key);
+    rows.push({ st, stateName, fy, receivedCr: receivedCr ?? 0, utilisedCr, note, srcs });
+  }
+  rows.sort((a, b) => cmp(a.fy, b.fy) || (a.st === null) - (b.st === null) || cmp(a.st ?? '', b.st ?? '') || cmp(a.stateName, b.stateName));
+  const national = edges.filter((e, i) => survivors[i].domain === domain);
+  for (const problem of fcStateSumProblems(rows, national)) sink.error(where, problem);
+  return rows;
+}
+
+// ---------------------------------------------------------------------------
 // 5. Emit
 // ---------------------------------------------------------------------------
 
@@ -988,7 +1406,7 @@ function arrayConst(name, type, rows, fmt) {
 }
 
 const NODE_KEYS = ['id', 'label', 'sub', 'ty', 'fam', 'st', 'sz', 'al', 'resolved', 'collisionRisk', 'd', 'srcs'];
-const EDGE_KEYS = ['id', 's', 't', 'pred', 'tier', 'a', 'lab', 'd', 'from', 'to', 'terms', 'srcs', 'innocentReading', 'upgradeIf', 'killIf', 'supersededBy'];
+const EDGE_KEYS = ['id', 's', 't', 'pred', 'tier', 'a', 'lab', 'projectId', 'd', 'from', 'to', 'terms', 'srcs', 'innocentReading', 'upgradeIf', 'killIf', 'supersededBy'];
 const BENEFIT_KEYS = ['claimId', 's', 't', 'pred', 'tier', 'who', 'how', 'amountCr', 'confidence', 'srcs', 'domain'];
 const VOID_KEYS = ['what', 'whyItMatters', 'srcs', 'domain'];
 const NARRATIVE_KEYS = ['claim', 'status', 'strongestCase', 'strongestCounter', 'whatWouldChangeThis', 'srcs', 'domain'];
@@ -1201,6 +1619,11 @@ function emitFleet(p, sink) {
 
   const survivors = [...p.survivors].sort((a, b) => cmp(a.id, b.id));
   const edges = survivors.map((c) => toEdge(c, `${c.file}:${c.id}`, sink));
+  const loans = spec.loanCensus ? loanFacts(p, edges, survivors, sink) : null;
+  // G3a–c, read in assembleFleet after the gate (control rows resolve against every fleet).
+  const own = spec.ownership ? p.ownership ?? { holdings: [], coverage: [], controls: [] } : null;
+  // G4: the annexure's state rows, added up against this fleet's own national rows.
+  const fc = spec.fcState ? fcStateRows(p, edges, survivors, sink) : null;
   const benefits = [];
   for (const [i, c] of survivors.entries()) {
     if (!c.benefit || typeof c.benefit !== 'object') continue;
@@ -1253,6 +1676,8 @@ function emitFleet(p, sink) {
     narratives: sec.narratives.length,
     baseRates: sec.baseRates.length,
     ...(welfare ? { schemes: schemes.length, elections: sec.elections.length, coverage: sec.coverage.length } : {}),
+    ...(own ? { holdings: own.holdings.length, coverage: own.coverage.length, controls: own.controls.length } : {}),
+    ...(fc ? { fcState: fc.length } : {}),
   };
   const meta = {
     fleet: key,
@@ -1281,8 +1706,10 @@ function emitFleet(p, sink) {
   const row = (keys) => (r) => `  ${oneLine(r, keys)}`;
   const out = [header(p, runId)];
   out.push(`import type { GNode, GEdge } from '${importPath(spec.out, 'src/graph/schema')}';`);
-  out.push(`import type { BaseRateRow, BenefitRow, EntityIdentity, FleetMeta, FleetText, Narrative, Void } from '${importPath(spec.out, 'src/graph/fleet')}';`);
+  out.push(`import type { BaseRateRow, BenefitRow, EntityIdentity, FleetMeta, FleetText, ${loans ? 'LoanFact, ' : ''}Narrative, Void${loans ? ', WbTotals' : ''} } from '${importPath(spec.out, 'src/graph/fleet')}';`);
   if (welfare) out.push(`import type { Coverage, Election, Scheme } from '${importPath(spec.out, 'src/data/welfare')}';`);
+  if (own) out.push(`import type { CapitalControl, CapitalCoverage, Holding } from '${importPath(spec.out, 'src/graph/fleet')}';`);
+  if (fc) out.push(`import type { FcStateRow } from '${importPath(spec.out, 'src/graph/fleet')}';`);
   out.push('');
   if (welfare) {
     out.push(arrayConst('WELFARE_SCHEMES', 'Scheme[]', schemes, (s) => indent(JSON.stringify(s, null, 2), '  ')));
@@ -1302,6 +1729,16 @@ function emitFleet(p, sink) {
       .join('')}};\n`,
   );
   out.push(arrayConst(`${P}_BENEFITS`, 'BenefitRow[]', benefits, row(BENEFIT_KEYS)));
+  if (loans) {
+    out.push(`/** Loan edge id → its facts: census rows copied from ${HOME}/${fleet}/${spec.loanCensus}.json projects[] (G1), researched rows from the claim alone. */`);
+    out.push(
+      `export const ${P}_LOAN_FACTS: Record<string, LoanFact> = {\n${Object.entries(loans.facts)
+        .map(([id, f]) => `  ${JSON.stringify(id)}: ${oneLine(f, LOAN_FACT_KEYS)},\n`)
+        .join('')}};\n`,
+    );
+    out.push(`/** ${HOME}/${fleet}/${spec.loanCensus}.json provenance.totals, fieldMap and fx, verbatim (G2); null when the census file is absent. */`);
+    out.push(`export const ${P}_WB_TOTALS: WbTotals | null = ${loans.wbTotals ? JSON.stringify(loans.wbTotals, null, 2) : 'null'};\n`);
+  }
   if (welfare) {
     out.push(arrayConst('WELFARE_ELECTIONS', 'Election[]', sec.elections, row(ELECTION_KEYS)));
     out.push('/** What each file declares it searched. A state-year is painted "searched, none live" only when an entry here declares it. */');
@@ -1317,11 +1754,32 @@ function emitFleet(p, sink) {
       .map(([id, v]) => `  ${JSON.stringify(id)}: ${JSON.stringify(v)},\n`)
       .join('')}};\n`,
   );
+  if (own) {
+    out.push('/** G3a. Claim id → the structured line of a surviving `own` edge, read from its own d/lab. `aggregate: true` rows are lower bounds: never add them to filing lines. */');
+    out.push(
+      `export const ${P}_HOLDINGS: Record<string, Holding> = {\n${own.holdings
+        .map(([id, h]) => `  ${JSON.stringify(id)}: ${oneLine(h, HOLDING_KEYS)},\n`)
+        .join('')}};\n`,
+    );
+    out.push('/** G3b. What was read for each constituent: a named-holder table (primary), category totals only (aggregator), or nothing (not-read). */');
+    out.push(arrayConst(`${P}_COVERAGE`, 'CapitalCoverage[]', own.coverage, row(COVERAGE_KEYS)));
+    out.push('/** G3c. The declared comparison sets, in declared order. A member the fleet has no entity for carries id null. */');
+    out.push(arrayConst(`${P}_CONTROLS`, 'CapitalControl[]', own.controls, row(CONTROL_KEYS)));
+  }
+  if (fc) {
+    out.push(`/** G4. State/UT × FY rows of the Parliament annexure transcribed in ${HOME}/${fleet}/${spec.fcState}.json fcByState; each FY's receivedCr sums to that file's current national grant claim within ₹1 crore. Empty until the annexure is transcribed. */`);
+    out.push(arrayConst(`${P}_FC_STATE`, 'FcStateRow[]', fc, row(FC_STATE_KEYS)));
+  }
   out.push(`export const ${P}_META: FleetMeta = ${JSON.stringify(meta, null, 2)};\n`);
 
   return {
     text: out.join('\n'),
-    data: { nodes, schemeNodes, edges, benefits, schemes, identity: Object.fromEntries(identity), edgeDomain: Object.fromEntries(edgeDomain), meta, ...sec },
+    data: {
+      nodes, schemeNodes, edges, benefits, schemes, identity: Object.fromEntries(identity), edgeDomain: Object.fromEntries(edgeDomain), meta, ...sec,
+      ...(loans ? { loanFacts: loans.facts, wbTotals: loans.wbTotals } : {}),
+      ...(own ? { holdings: Object.fromEntries(own.holdings), coverage: own.coverage, controls: own.controls } : {}),
+      ...(fc ? { fcState: fc } : {}),
+    },
   };
 }
 
@@ -1357,6 +1815,7 @@ export function assembleFleet({ root = ROOT, dir = HOME } = {}) {
   }
   const isKnown = (id) => fleetIds.has(id) || atlasIds.has(id) || INVENTORY.test(id);
   for (const p of prepared) gateFleet(p, isKnown, sinks[p.fleet]);
+  for (const p of prepared) if (p.spec.ownership) p.ownership = readOwnership(p, isKnown, sinks[p.fleet]);
 
   const res = { fleets: {}, fleetErrors: {}, errors: [...shared.errors], warnings: [...shared.warnings] };
   for (const p of prepared) {

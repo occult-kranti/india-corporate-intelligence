@@ -228,17 +228,14 @@
       ]
     },
     {
-      "id": "cap:open-society-foundations",
+      "id": "ngo:open-society-foundations",
       "label": "Open Society Foundations",
       "sub": "Grant-making network founded by George Soros; one of OCCRP's listed institutional funders",
       "ty": "fund",
       "fam": "capital",
       "st": null,
       "sz": 2,
-      "al": [
-        "OSF",
-        "Open Society"
-      ],
+      "al": [],
       "resolved": true,
       "identity": {
         "cin": null,
@@ -250,8 +247,7 @@
       },
       "publicRole": "Named by OCCRP as a funder; named by the BJP as the actor behind Hindenburg/OCCRP; its India grant-making is the ngo fleet's subject",
       "d": [
-        "Appears as one of 26 institutional funders on OCCRP's own funders page; its share is not disclosed there [documented]",
-        "Its founder's 16–17 Feb 2023 Munich Security Conference remark — that Adani's troubles would 'significantly weaken Modi's stranglehold on India's federal government' — drew a Union minister's response the same week [documented via Al Jazeera; OSF's own transcript page returned 404]"
+        "Minimal copy — the full record (aliases, IRS 990-PF figures, FCRA prior-reference, Munich remarks) is ngo:open-society-foundations in research/raw/ngo/donors-narratives.json; reconciled 2026-09-26 from cap:open-society-foundations [documented]"
       ],
       "srcs": [
         [
@@ -612,7 +608,7 @@
       "label": "BJP",
       "sub": "Bharatiya Janata Party",
       "ty": "party",
-      "fam": "state",
+      "fam": "recipient",
       "st": "dl",
       "sz": 3,
       "al": [
@@ -645,7 +641,7 @@
       ]
     },
     {
-      "id": "energy:inc",
+      "id": "party:inc",
       "label": "Indian National Congress",
       "sub": "Principal opposition party",
       "ty": "party",
@@ -665,7 +661,7 @@
         "lei": null,
         "fcra": null
       },
-      "publicRole": "Party that demanded a JPC on the OCCRP findings (Rahul Gandhi, 31 Aug 2023)",
+      "publicRole": "Party that demanded a JPC on the OCCRP findings (Rahul Gandhi, 31 Aug 2023) (id reconciled 2026-09-26: energy:inc → party:inc, the id the welfare and ngo fleets define)",
       "d": [
         "Rahul Gandhi (31 Aug 2023): 'at the very least, a Joint Parliamentary Committee should be formed to investigate why the two foreigners were allowed to manipulate the valuation of a company that controls almost all of India's infrastructure' [documented]"
       ],
@@ -1355,7 +1351,7 @@
       "tier": "documented",
       "a": null,
       "lab": "Vishal Tiwari v UoI, 2024 INSC 3 — no transfer to CBI/SIT; SEBI to finish two remaining probes",
-      "d": "Bench CJI Chandrachud, Pardiwala, Misra JJ, 3 Jan 2024: transfer only in 'extraordinary circumstances' of 'glaring, willful and deliberate inaction'; 22 of 24 investigations complete; the 2018–19 FPI amendments 'tightened the regulatory framework by making the disclosure requirements mandatory'; conflict-of-interest allegations against committee members 'unsubstantiated'.",
+      "d": "Judicial ruling on narratives-literature:c001: Bench CJI Chandrachud, Pardiwala, Misra JJ, 3 Jan 2024: transfer only in 'extraordinary circumstances' of 'glaring, willful and deliberate inaction'; 22 of 24 investigations complete; the 2018–19 FPI amendments 'tightened the regulatory framework by making the disclosure requirements mandatory'; conflict-of-interest allegations against committee members 'unsubstantiated'.",
       "from": "2024-01-03",
       "to": null,
       "srcs": [
@@ -1393,7 +1389,7 @@
       "tier": "documented",
       "a": null,
       "lab": "SC directs SEBI and Union agencies to probe whether Hindenburg's conduct broke Indian law",
-      "d": "'SEBI and the investigative agencies of the Union Government shall probe into whether the loss suffered by Indian investors due to the conduct of Hindenburg Research … involved any infraction of the law'. Outcome not located this session (SEBI's 27 Jun 2024 show-cause and Hindenburg's Jan 2025 closure are in energy/enforce.json c009).",
+      "d": "Judicial ruling on narratives-literature:c001: 'SEBI and the investigative agencies of the Union Government shall probe into whether the loss suffered by Indian investors due to the conduct of Hindenburg Research … involved any infraction of the law'. Outcome not located this session (SEBI's 27 Jun 2024 show-cause and Hindenburg's Jan 2025 closure are in energy/enforce.json c009).",
       "from": "2024-01-03",
       "to": null,
       "srcs": [
@@ -1536,7 +1532,7 @@
     },
     {
       "id": "narratives-literature:c015",
-      "s": "cap:open-society-foundations",
+      "s": "ngo:open-society-foundations",
       "t": "energy:occrp",
       "pred": "grant",
       "tier": "documented",
@@ -1615,7 +1611,7 @@
     {
       "id": "narratives-literature:c018",
       "s": "bjp",
-      "t": "cap:open-society-foundations",
+      "t": "ngo:open-society-foundations",
       "pred": "enforce",
       "tier": "alleged",
       "a": null,
@@ -1635,7 +1631,7 @@
     },
     {
       "id": "narratives-literature:c019",
-      "s": "cap:open-society-foundations",
+      "s": "ngo:open-society-foundations",
       "t": "claim:narratives-literature:c018",
       "pred": "contra",
       "tier": "alleged",
@@ -1689,7 +1685,7 @@
     },
     {
       "id": "narratives-literature:c022",
-      "s": "energy:inc",
+      "s": "party:inc",
       "t": "grp:adani",
       "pred": "enforce",
       "tier": "alleged",

@@ -1,0 +1,836 @@
+{
+  "asOf": "2026-09-26",
+  "declares": "What the capital holders pass read for each NIFTY 50 constituent (research/raw/indices.json nifty50): \"primary\" — a named-holder table (SEBI Reg. 31 Table II/III) in the company's own shareholding-pattern filing, dated asOf; \"aggregator\" — category totals only (screener.in and similar, or a filing summary without named holders), so no holder can be named or ruled out from it; \"not-read\" — nothing was read. A company with no own claim and a primary read is \"read, not named\"; with an aggregator read it is \"not read by name\". Built from each holders batch file's scope and voids and the batch critic's report (30 primary reads of 50); domain is the file that records the read.",
+  "builtFrom": [
+    "research/raw/capital/holders.json and holders-b1.json … holders-b9.json: scope, voids, claim srcs",
+    "scratchpad/capital/holder-batches.json (batch assignment) and scratchpad/capital/critic.json (primaryTableIIIRead 30; done/fallback discrepancies in b3, b5, b6)"
+  ],
+  "rows": [
+    {
+      "company": "co:adani-enterprises",
+      "asOf": "2025-12-11",
+      "read": "primary",
+      "domain": "holders-b1",
+      "srcs": [
+        [
+          "Adani Enterprises — Shareholding Pattern as on 11.12.2025",
+          "https://www.adanienterprises.com/-/media/Project/Enterprises/Investors/corporate-governance/ShareholdingPatternsDynamic/Shp-as-on-11122025-(1).pdf"
+        ]
+      ],
+      "note": null
+    },
+    {
+      "company": "co:adani-ports",
+      "asOf": "2026-06-30",
+      "read": "primary",
+      "domain": "holders-b1",
+      "srcs": [
+        [
+          "Adani Ports and SEZ — Shareholding Pattern as on 30.06.2026",
+          "https://www.adaniports.com/-/media/project/ports/investor/corporate-governance/shareholding-pattern/apsez_shp-30062026_website.pdf"
+        ]
+      ],
+      "note": null
+    },
+    {
+      "company": "co:apollo-hospitals",
+      "asOf": "2026-06-30",
+      "read": "aggregator",
+      "domain": "holders-b1",
+      "srcs": [
+        [
+          "Apollo Hospitals — Shareholding Pattern IR page (403)",
+          "https://www.apollohospitals.com/corporate/investor-relations/shareholding-pattern/"
+        ],
+        [
+          "screener.in — Apollo Hospitals Enterprise Ltd (consolidated)",
+          "https://www.screener.in/company/APOLLOHOSP/consolidated/"
+        ]
+      ],
+      "note": "apollohospitals.com 403 on every route; screener.in category totals, quarter ended June 2026"
+    },
+    {
+      "company": "co:asian-paints",
+      "asOf": "2026-06-30",
+      "read": "aggregator",
+      "domain": "holders-b1",
+      "srcs": [
+        [
+          "Asian Paints — Shareholding Pattern page (JS shell)",
+          "https://www.asianpaints.com/more/investors/shareholding-pattern.html"
+        ],
+        [
+          "screener.in — Asian Paints Ltd (consolidated)",
+          "https://www.screener.in/company/ASIANPAINT/consolidated/"
+        ]
+      ],
+      "note": "JS-only filing page, guessed PDFs 404; screener.in category totals, quarter ended June 2026"
+    },
+    {
+      "company": "co:axis-bank",
+      "asOf": "2025-06-30",
+      "read": "primary",
+      "domain": "holders-b1",
+      "srcs": [
+        [
+          "Axis Bank — Shareholding Pattern for the Quarter Ended 30.06.2025",
+          "https://www.axis.bank.in/docs/default-source/quarterly-reports/shareholding-pattern/shareholding-pattern-for-the-quarter-ended-30-06-2025.pdf"
+        ]
+      ],
+      "note": null
+    },
+    {
+      "company": "co:bajaj-auto",
+      "asOf": "2026-06-30",
+      "read": "aggregator",
+      "domain": "holders-b2",
+      "srcs": [
+        [
+          "Bajaj Auto legacy shareholding page (stale 2012 data only)",
+          "https://www.bajajauto.com/report/stock_shareholding.html"
+        ],
+        [
+          "Bajaj Auto general shareholder information page (no PDF link found)",
+          "https://investors.bajajauto.com/general-shareholder-information/"
+        ],
+        [
+          "BSE AttachLive candidate PDF (404)",
+          "https://www.bseindia.com/xml-data/corpfiling/AttachLive/4695e470-1c06-40d2-9953-b5c642c86053.pdf"
+        ],
+        [
+          "trendlyne.com — Bajaj Auto shareholding pattern",
+          "https://trendlyne.com/equity/share-holding/144/BAJAJ-AUTO/latest/bajaj-auto-ltd/"
+        ],
+        [
+          "screener.in — Bajaj Auto Ltd (consolidated), shareholding-pattern section, June 2026 quarter",
+          "https://www.screener.in/company/BAJAJ-AUTO/consolidated/"
+        ]
+      ],
+      "note": "no current filing reachable (legacy IR page dated 2012); screener.in and trendlyne category totals, June 2026 quarter"
+    },
+    {
+      "company": "co:bajaj-finance",
+      "asOf": "2026-06-30",
+      "read": "aggregator",
+      "domain": "holders-b2",
+      "srcs": [
+        [
+          "Bajaj Finance IR shareholding-pattern page",
+          "https://www.aboutbajajfinserv.com/finance-investor-relations-shareholding-pattern"
+        ],
+        [
+          "Bajaj Finserv IR regulatory-filings shareholding-pattern page",
+          "https://www.aboutbajajfinserv.com/investor-relations-regulatory-filings-shareholding-pattern"
+        ],
+        [
+          "Bajaj Finserv blank template xlsm (opened, confirmed dated 31-03-2016, not current)",
+          "https://www.aboutbajajfinserv.com/content/dam/bajajfinserv/web/in/en/global/document/corporate/bfs-new/bfs-investor-relations/stock-exchange/finserv-shareholder-download/shareholding-pattern/31-march.xlsm"
+        ],
+        [
+          "screener.in — Bajaj Finance Ltd (consolidated), shareholding-pattern section, June 2026 quarter",
+          "https://www.screener.in/company/BAJFINANCE/consolidated/"
+        ]
+      ],
+      "note": "JS-only IR shell; screener.in category totals, June 2026 quarter"
+    },
+    {
+      "company": "co:bajaj-finserv",
+      "asOf": "2026-06-30",
+      "read": "aggregator",
+      "domain": "holders-b2",
+      "srcs": [
+        [
+          "Bajaj Finance IR shareholding-pattern page",
+          "https://www.aboutbajajfinserv.com/finance-investor-relations-shareholding-pattern"
+        ],
+        [
+          "Bajaj Finserv IR regulatory-filings shareholding-pattern page",
+          "https://www.aboutbajajfinserv.com/investor-relations-regulatory-filings-shareholding-pattern"
+        ],
+        [
+          "Bajaj Finserv blank template xlsm (opened, confirmed dated 31-03-2016, not current)",
+          "https://www.aboutbajajfinserv.com/content/dam/bajajfinserv/web/in/en/global/document/corporate/bfs-new/bfs-investor-relations/stock-exchange/finserv-shareholder-download/shareholding-pattern/31-march.xlsm"
+        ],
+        [
+          "screener.in — Bajaj Finserv Ltd (consolidated), shareholding-pattern section, June 2026 quarter",
+          "https://www.screener.in/company/BAJAJFINSV/consolidated/"
+        ]
+      ],
+      "note": "JS-only IR shell; the one file found was a blank 2016 template; screener.in category totals, June 2026 quarter"
+    },
+    {
+      "company": "co:bharat-electronics",
+      "asOf": "2026-06-30",
+      "read": "aggregator",
+      "domain": "holders-b2",
+      "srcs": [
+        [
+          "BEL shareholding-pattern page (TLS verification failure)",
+          "https://bel-india.in/shareholding-pattern/"
+        ],
+        [
+          "BEL historic shareholding-pattern PDF (503 via WebFetch)",
+          "https://bel-india.in/wp-content/uploads/2024/04/BEL-SHP-as-on-2013.03.31.pdf"
+        ],
+        [
+          "screener.in — Bharat Electronics Ltd (consolidated), shareholding-pattern section, June 2026 quarter",
+          "https://www.screener.in/company/BEL/consolidated/"
+        ]
+      ],
+      "note": "bel-india.in's own certificate chain fails verification; screener.in category totals, June 2026 quarter"
+    },
+    {
+      "company": "co:bharti-airtel",
+      "asOf": "2025-12-31",
+      "read": "primary",
+      "domain": "holders",
+      "srcs": [
+        [
+          "Bharti Airtel — Shareholding Pattern as on 31.12.2025",
+          "https://assets.airtel.in/static-assets/cms/investor/docs/SHP-December-31-2025.pdf"
+        ]
+      ],
+      "note": null
+    },
+    {
+      "company": "co:cipla",
+      "asOf": "2025-09-30",
+      "read": "primary",
+      "domain": "holders-b2",
+      "srcs": [
+        [
+          "Cipla — Shareholding Pattern as on 30.09.2025",
+          "https://www.cipla.com/sites/default/files/Shareholding-Pattern-Sep-2025_0.pdf"
+        ]
+      ],
+      "note": null
+    },
+    {
+      "company": "co:coal-india",
+      "asOf": "2026-06-30",
+      "read": "aggregator",
+      "domain": "holders-b3",
+      "srcs": [
+        [
+          "coalindia.in — Events & Announcement page (403)",
+          "https://www.coalindia.in/departments/company-secretary/events-announcement/"
+        ],
+        [
+          "coalindia.in — investors/ (403)",
+          "https://www.coalindia.in/investors/"
+        ],
+        [
+          "coalindia.in — investors (403)",
+          "https://www.coalindia.in/investors"
+        ],
+        [
+          "Trendlyne — Coal India shareholding page (405)",
+          "https://trendlyne.com/equity/share-holding/275/COALINDIA/latest/coal-india-ltd/"
+        ],
+        [
+          "screener.in — Coal India Ltd (consolidated), shareholding-pattern section",
+          "https://www.screener.in/company/COALINDIA/consolidated/"
+        ]
+      ],
+      "note": "coalindia.in 403 throughout; screener.in category totals, 30.06.2026"
+    },
+    {
+      "company": "co:dr-reddys-laboratories",
+      "asOf": "2026-06-30",
+      "read": "aggregator",
+      "domain": "holders-b3",
+      "srcs": [
+        [
+          "drreddys.com — shareholding-pattern PDF, search-indexed path (404)",
+          "https://www.drreddys.com/media/806936/5-shareholding-pattern.pdf"
+        ],
+        [
+          "drreddys.com — shareholding-pattern page, guessed path (404)",
+          "https://www.drreddys.com/investors/shareholder-information/shareholding-pattern"
+        ],
+        [
+          "drreddys.com — investors landing page, guessed path (404)",
+          "https://www.drreddys.com/investors"
+        ],
+        [
+          "SEC EDGAR — Dr Reddy's Form 20-F, FY2026 (exceeded fetch size limit)",
+          "https://www.sec.gov/Archives/edgar/data/0001135951/000157587226000381/rdy0899_20f.htm"
+        ],
+        [
+          "screener.in — Dr Reddy's Laboratories Ltd (consolidated), shareholding-pattern section",
+          "https://www.screener.in/company/DRREDDY/consolidated/"
+        ]
+      ],
+      "note": "drreddys.com 404 throughout, SEC 20-F over the fetch limit; screener.in category totals, 30.06.2026"
+    },
+    {
+      "company": "co:eicher-motors",
+      "asOf": "2026-03-31",
+      "read": "primary",
+      "domain": "holders-b3",
+      "srcs": [
+        [
+          "Eicher Motors — Shareholding Pattern as on 31.03.2026",
+          "https://www.eicher.in/content/dam/eicher-motors/investor/shareholder's-information/shareholding-pattern/shareholding-pattern-as-on-31-03-26.pdf"
+        ]
+      ],
+      "note": null
+    },
+    {
+      "company": "co:eternal",
+      "asOf": "2025-09-30",
+      "read": "primary",
+      "domain": "holders-b3",
+      "srcs": [
+        [
+          "Eternal — Shareholding Pattern as on 30.09.2025",
+          "https://b.zmtcdn.com/investor-relations/e69e622a95db21b07f8a7c5d83dffaa6_1761817931.pdf"
+        ]
+      ],
+      "note": "the 30.09.2025 filing; later quarters exist and were not checked"
+    },
+    {
+      "company": "co:grasim-industries",
+      "asOf": "2026-06-30",
+      "read": "primary",
+      "domain": "holders-b3",
+      "srcs": [
+        [
+          "Grasim Industries — Shareholding Pattern as on 30.06.2026",
+          "https://www.grasim.com/Upload/PDF/shareholding-pattern-june-2026.pdf"
+        ]
+      ],
+      "note": null
+    },
+    {
+      "company": "co:hcl-technologies",
+      "asOf": "2026-06-30",
+      "read": "primary",
+      "domain": "holders-b4",
+      "srcs": [
+        [
+          "HCL Technologies — Shareholding Pattern as on 30 June 2026",
+          "https://www.hcltech.com/sites/default/files/document/open/shareholding-pattern/2026-07/Shareholding-Pattern-30June2026.pdf"
+        ]
+      ],
+      "note": null
+    },
+    {
+      "company": "co:hdfc-bank",
+      "asOf": "2026-06-30",
+      "read": "primary",
+      "domain": "holders",
+      "srcs": [
+        [
+          "HDFC Bank — Shareholding Pattern as on 30.06.2026",
+          "https://www.hdfc.bank.in/content/dam/hdfcbankpws/in/en/personal-banking/discover-products/about-us/stakeholders-information/shareholding-ownership/Shareholding-Pattern-June-2026-updated.pdf"
+        ]
+      ],
+      "note": null
+    },
+    {
+      "company": "co:hdfc-life",
+      "asOf": "2026-06-30",
+      "read": "primary",
+      "domain": "holders-b4",
+      "srcs": [
+        [
+          "HDFC Life Insurance — Shareholding Pattern as on 30 June 2026",
+          "https://www.hdfclife.com/content/dam/hdfclifeinsurancecompany/about-us/pdf/investor-relations/Information-to-shareholders/Shareholding-pattern/Shareholding-Pattern-Website-June-2026.pdf"
+        ]
+      ],
+      "note": null
+    },
+    {
+      "company": "co:hindalco",
+      "asOf": "2026-06-30",
+      "read": "primary",
+      "domain": "holders-b4",
+      "srcs": [
+        [
+          "Hindalco Industries — Shareholding Pattern as on 30 June 2026",
+          "https://www.hindalco.com/Upload/PDF/shareholding-pattern-june-2026.pdf"
+        ]
+      ],
+      "note": null
+    },
+    {
+      "company": "co:hindustan-unilever",
+      "asOf": "2026-06-30",
+      "read": "aggregator",
+      "domain": "holders-b4",
+      "srcs": [
+        [
+          "hul.co.in — Shareholding Pattern page (403)",
+          "https://www.hul.co.in/investors/shareholder-information-and-contacts/shareholding-pattern/"
+        ],
+        [
+          "screener.in — Hindustan Unilever Ltd (consolidated)",
+          "https://www.screener.in/company/HINDUNILVR/consolidated/"
+        ]
+      ],
+      "note": "hul.co.in Akamai 403 on every route; screener.in category totals, June 2026"
+    },
+    {
+      "company": "co:icici-bank",
+      "asOf": "2026-06-30",
+      "read": "aggregator",
+      "domain": "holders-b4",
+      "srcs": [
+        [
+          "icici.bank.in — Shareprice / Shareholding Pattern page",
+          "https://www.icici.bank.in/about-us/shareprice"
+        ],
+        [
+          "icici.bank.in — Investor page (403)",
+          "https://www.icici.bank.in/about-us/investor"
+        ],
+        [
+          "screener.in — ICICI Bank Ltd (consolidated)",
+          "https://www.screener.in/company/ICICIBANK/consolidated/"
+        ]
+      ],
+      "note": "client-rendered IR pages, no PDF link; screener.in category totals, June 2026"
+    },
+    {
+      "company": "co:infosys",
+      "asOf": "2026-06-30",
+      "read": "aggregator",
+      "domain": "holders-b5",
+      "srcs": [
+        [
+          "infosys.com — investors page, probed (403 site-wide)",
+          "https://www.infosys.com/investors.html"
+        ],
+        [
+          "Infosys — Shareholding Pattern, Quarter ending March 2026 (URL located, fetch 403)",
+          "https://www.infosys.com/investors/reports-filings/quarterly-results/documents/share-holding/clause35-march31-2026.pdf"
+        ],
+        [
+          "screener.in — Infosys Ltd (consolidated)",
+          "https://www.screener.in/company/INFY/consolidated/"
+        ],
+        [
+          "Infosys Ltd — Form 20-F FY2026 (SEC EDGAR, not read — exceeded fetch size limit)",
+          "https://www.sec.gov/Archives/edgar/data/0001067491/000119312526270520/infy-20260331.htm"
+        ]
+      ],
+      "note": "infosys.com 403 site-wide; 20-F over the fetch limit; screener.in category totals, quarter ended 30 June 2026"
+    },
+    {
+      "company": "co:interglobe-aviation",
+      "asOf": "2026-06-30",
+      "read": "aggregator",
+      "domain": "holders-b5",
+      "srcs": [
+        [
+          "goindigo.in — Shareholding Pattern page, probed (403 site-wide)",
+          "https://www.goindigo.in/information/investor-relations/shareholding-pattern.html"
+        ],
+        [
+          "nsearchives.nseindia.com — InterGlobe Aviation shareholding-pattern PDF, probed (403/503)",
+          "https://nsearchives.nseindia.com/corporate/Indigo1_21112025103054_SE21112025.pdf"
+        ],
+        [
+          "screener.in — InterGlobe Aviation Ltd (consolidated)",
+          "https://www.screener.in/company/INDIGO/consolidated/"
+        ],
+        [
+          "marketscreener.com — InterGlobe Aviation Limited company shareholders (unverified aggregator, not used as a claim)",
+          "https://www.marketscreener.com/quote/stock/INTERGLOBE-AVIATION-LIMIT-25531239/company-shareholders/"
+        ]
+      ],
+      "note": "goindigo.in 403 site-wide; screener.in category totals, quarter ended 30 June 2026 (marketscreener holder names seen but unverified, recorded as a void)"
+    },
+    {
+      "company": "co:itc",
+      "asOf": "2025-12-31",
+      "read": "primary",
+      "domain": "holders",
+      "srcs": [
+        [
+          "ITC — Shareholding Pattern as on 31.12.2025",
+          "https://itcportal.com/content/dam/itc-corporate/pdfs/shareholding-pattern/shareholding-pattern-31-dec-25.pdf"
+        ]
+      ],
+      "note": null
+    },
+    {
+      "company": "co:jio-financial-services",
+      "asOf": "2026-06-30",
+      "read": "aggregator",
+      "domain": "holders-b5",
+      "srcs": [
+        [
+          "screener.in — Jio Financial Services Ltd (consolidated)",
+          "https://www.screener.in/company/JIOFIN/consolidated/"
+        ],
+        [
+          "smart-investing.in — Jio Financial Services Ltd shareholding (secondary corroboration, not primary)",
+          "https://www.smart-investing.in/shareholding.php?Company=JIO+FINANCIAL+SERVICES+LTD"
+        ]
+      ],
+      "note": "jiofin.com refused at the network layer; screener.in category totals, quarter ended 30 June 2026"
+    },
+    {
+      "company": "co:jsw-steel",
+      "asOf": "2026-06-30",
+      "read": "aggregator",
+      "domain": "holders-b5",
+      "srcs": [
+        [
+          "jswsteel.in — Shareholders Information page (200, no shareholding-pattern link found)",
+          "https://www.jswsteel.in/investors/shareholders-information"
+        ],
+        [
+          "jswsteel.in — Disclosures under Regulation 46 of the LODR (200, no shareholding-pattern link found)",
+          "https://www.jswsteel.in/investors/disclosures-under-regulation-46-of-the-lodr"
+        ],
+        [
+          "screener.in — JSW Steel Ltd (consolidated)",
+          "https://www.screener.in/company/JSWSTEEL/consolidated/"
+        ]
+      ],
+      "note": "no shareholding-pattern link found on jswsteel.in; screener.in category totals, quarter ended 30 June 2026"
+    },
+    {
+      "company": "co:kotak-mahindra-bank",
+      "asOf": "2025-09-30",
+      "read": "aggregator",
+      "domain": "holders-b5",
+      "srcs": [
+        [
+          "Kotak Mahindra Bank — Shareholding Pattern as on September 30, 2025 (kotak.bank.in, redirected from kotak.com)",
+          "https://www.kotak.bank.in/content/dam/Kotak/investor-relation/Financial-Result/shareholding-patterns/FY-2026/q2/shareholding-patterns/Shareholding_Pattern.pdf"
+        ],
+        [
+          "bseindia.com — Kotak Mahindra Bank corporate-filing PDF attachment, probed (403)",
+          "https://www.bseindia.com/xml-data/corpfiling/AttachLive/b7184757-328b-447b-91ac-f3cc9b345ab5.pdf"
+        ]
+      ],
+      "note": "the company's own filing was opened but is the Table I/II category summary only — no named-holder table, so a missing name says nothing"
+    },
+    {
+      "company": "co:larsen-toubro",
+      "asOf": "2026-06-30",
+      "read": "aggregator",
+      "domain": "holders-b6",
+      "srcs": [
+        [
+          "L&T investor relations — Shareholding Pattern page (JS/postback, probed)",
+          "https://investors.larsentoubro.com/ShareholdingPattern.aspx"
+        ],
+        [
+          "L&T investor relations — Shareholding Pattern Archives page (probed)",
+          "https://investors.larsentoubro.com/Shareholding-Pattern-Archives.aspx"
+        ],
+        [
+          "screener.in — Larsen & Toubro Ltd (consolidated)",
+          "https://www.screener.in/company/LT/consolidated/"
+        ]
+      ],
+      "note": "ASP.NET postback IR page, guessed PDFs 404; screener.in category totals, quarter ~June 2026"
+    },
+    {
+      "company": "co:mahindra-mahindra",
+      "asOf": "2025-12-31",
+      "read": "primary",
+      "domain": "holders-b6",
+      "srcs": [
+        [
+          "Mahindra & Mahindra — Shareholding Pattern, quarter ended 31.12.2025",
+          "https://www.mahindra.com/sites/default/files/2026-01/Shareholding%20pattern%20Reg.%2030%20December%202025.pdf"
+        ]
+      ],
+      "note": null
+    },
+    {
+      "company": "co:maruti-suzuki",
+      "asOf": "2026-06-30",
+      "read": "aggregator",
+      "domain": "holders-b6",
+      "srcs": [
+        [
+          "screener.in — Maruti Suzuki India Ltd (consolidated + About)",
+          "https://www.screener.in/company/MARUTI/consolidated/"
+        ]
+      ],
+      "note": "JS shell, disabled blob storage; screener.in category totals, quarter ~June 2026"
+    },
+    {
+      "company": "co:max-healthcare",
+      "asOf": "2026-06-30",
+      "read": "aggregator",
+      "domain": "holders-b6",
+      "srcs": [
+        [
+          "screener.in — Max Healthcare Institute Ltd (consolidated)",
+          "https://www.screener.in/company/MAXHEALTH/consolidated/"
+        ],
+        [
+          "equitymaster.com — Max Healthcare Institute Ltd shareholding-pattern history",
+          "https://www.equitymaster.com/stock-research/shareholding-pattern/MAXH/MAX-HEALTHCARE-INSTITUTE-Shareholding-Pattern"
+        ]
+      ],
+      "note": "IR page 403; screener.in / equitymaster category totals, quarter ~June 2026"
+    },
+    {
+      "company": "co:nestle-india",
+      "asOf": "2026-03-31",
+      "read": "primary",
+      "domain": "holders-b6",
+      "srcs": [
+        [
+          "Nestle India — Shareholding Pattern, quarter ended 31.03.2026",
+          "https://www.nestle.in/sites/g/files/pydnoa451/files/2026-04/SHP-31032026-%20website.pdf"
+        ]
+      ],
+      "note": null
+    },
+    {
+      "company": "co:ntpc",
+      "asOf": "2025-09-30",
+      "read": "primary",
+      "domain": "holders-b7",
+      "srcs": [
+        [
+          "NTPC — Shareholding Pattern, quarter ended 30.09.2025",
+          "https://dev.ntpc.co.in/sites/default/files/shareholding_pattrens/2026/Shareholding%20Pattern%20(1).pdf"
+        ]
+      ],
+      "note": null
+    },
+    {
+      "company": "co:ongc",
+      "asOf": "2026-06-30",
+      "read": "aggregator",
+      "domain": "holders-b7",
+      "srcs": [
+        [
+          "ONGC — Shareholding Pattern page, eng locale (probed, SSL_ERROR_SYSCALL/HTTP 503)",
+          "https://ongcindia.com/web/eng/investors/shareholding-pattern"
+        ],
+        [
+          "ONGC — Shareholding Pattern page, hi locale (probed, same failure)",
+          "https://ongcindia.com/web/hi/investors/shareholding-pattern"
+        ],
+        [
+          "screener.in — ONGC (consolidated)",
+          "https://www.screener.in/company/ONGC/consolidated/"
+        ],
+        [
+          "sre.co.in — ONGC BSE shareholding-pattern submission note",
+          "https://www.sre.co.in/news-details/eod-4520143"
+        ]
+      ],
+      "note": "ongcindia.com TLS failure / 503; screener.in category totals, quarter ~June 2026"
+    },
+    {
+      "company": "co:power-grid",
+      "asOf": "2025-09-30",
+      "read": "primary",
+      "domain": "holders-b7",
+      "srcs": [
+        [
+          "Power Grid — Shareholding Pattern Q2 FY2025-26",
+          "https://www.powergrid.in/sites/default/files/Investor_Relation/Reports_Filings/Share_Holding_Pattern/2025-26/SHP_2025-26_Q2.html"
+        ]
+      ],
+      "note": null
+    },
+    {
+      "company": "co:reliance-industries",
+      "asOf": "2026-06-30",
+      "read": "primary",
+      "domain": "holders",
+      "srcs": [
+        [
+          "Reliance Industries — Shareholding Pattern as on 30.06.2026",
+          "https://rilstaticasset.akamaized.net/sites/default/files/2026-07/SHP30062026.pdf"
+        ]
+      ],
+      "note": null
+    },
+    {
+      "company": "co:sbi-life",
+      "asOf": "2025-12-31",
+      "read": "primary",
+      "domain": "holders-b7",
+      "srcs": [
+        [
+          "SBI Life — Shareholding Pattern for the Quarter Ended December 2025",
+          "https://www.sbilife.co.in/documents/20118/589241/SHAREHOLDING+PATTERN+FOR+THE+QUARTER+ENDED+DECEMBER+2025.pdf/011814cb-3128-9c2e-6527-bac79c47f28e?version=1.2&t=1774587651185&download=true"
+        ]
+      ],
+      "note": null
+    },
+    {
+      "company": "co:shriram-finance",
+      "asOf": "2025-12-31",
+      "read": "primary",
+      "domain": "holders-b7",
+      "srcs": [
+        [
+          "Shriram Finance — Shareholding Pattern, quarter ended 31.12.2025",
+          "https://cdn.shriramfinance.in/sfl-kalam/files/2026-01/SHP_31-12-2025.pdf"
+        ]
+      ],
+      "note": null
+    },
+    {
+      "company": "co:state-bank-of-india",
+      "asOf": "2025-03-31",
+      "read": "primary",
+      "domain": "holders",
+      "srcs": [
+        [
+          "State Bank of India — Shareholding Pattern as on 31.03.2025",
+          "https://sbi.bank.in/documents/17836/53469043/SHP+31032025.pdf/273af37f-c2e9-e009-0a94-57318ca76c50?t=1746009788075"
+        ]
+      ],
+      "note": "the 31.03.2025 filing; later quarters not opened"
+    },
+    {
+      "company": "co:sun-pharmaceutical",
+      "asOf": "2026-03-31",
+      "read": "primary",
+      "domain": "holders-b8",
+      "srcs": [
+        [
+          "Sun Pharmaceutical Industries — Shareholding Pattern, quarter ended 31.03.2026",
+          "https://sunpharma.com/wp-content/uploads/2026/04/Share-Holding-Pattern_31-March-2026.pdf"
+        ]
+      ],
+      "note": null
+    },
+    {
+      "company": "co:tata-consultancy-services",
+      "asOf": "2026-06-30",
+      "read": "aggregator",
+      "domain": "holders-b8",
+      "srcs": [
+        [
+          "screener.in — Tata Consultancy Services Ltd (consolidated)",
+          "https://www.screener.in/company/TCS/consolidated/"
+        ],
+        [
+          "TCS investor-relations financial-statements index page (probed, HTTP 403)",
+          "https://www.tcs.com/investor-relations/financial-statements"
+        ],
+        [
+          "TCS — guessed Shareholding Pattern PDF, quarter ended 30.06.2026 (probed, HTTP 403)",
+          "https://www.tcs.com/content/dam/tcs/investor-relations/financial-statements/2026-27/q1/Shareholding%20Pattern%20&%20Capital%20Structure/Shareholding%20Pattern%20as%20on%20Jun%2030,%202026.pdf"
+        ],
+        [
+          "TCS — Shareholding Pattern PDF, quarter ended 31.03.2025 (probed, HTTP 403)",
+          "https://www.tcs.com/content/dam/tcs/investor-relations/financial-statements/2024-25/q4/Shareholding%20Pattern%20&%20Capital%20Structure/Shareholding%20Pattern%20as%20on%20Mar%2031,%202025.pdf"
+        ]
+      ],
+      "note": "tcs.com 403 on every request; screener.in category totals, quarter ~June 2026"
+    },
+    {
+      "company": "co:tata-consumer-products",
+      "asOf": "2026-06-30",
+      "read": "primary",
+      "domain": "holders-b8",
+      "srcs": [
+        [
+          "Tata Consumer Products — Shareholding Pattern, quarter ended 30.06.2026",
+          "https://www.tataconsumer.com/sites/g/files/gfwrlq316/files/2026-07/SHAREHOLDING%20PATTERN%20Q1-2026-27.pdf"
+        ]
+      ],
+      "note": "filing read; its FPI rows carry no named breakout"
+    },
+    {
+      "company": "co:tata-motors-pv",
+      "asOf": "2026-06-30",
+      "read": "primary",
+      "domain": "holders-b8",
+      "srcs": [
+        [
+          "Tata Motors Passenger Vehicles — Shareholding Pattern, quarter ended 30.06.2026",
+          "https://tata.cars/content/dam/tml/pv/investors/2026/shareholder-information/shareholding-pattern/tmpvl-regulation.pdf"
+        ]
+      ],
+      "note": "filing read; its FPI rows carry no named breakout"
+    },
+    {
+      "company": "co:tata-steel",
+      "asOf": "2026-06-30",
+      "read": "primary",
+      "domain": "holders-b8",
+      "srcs": [
+        [
+          "Tata Steel — Shareholding Pattern, quarter ended 30.06.2026",
+          "https://www.tatasteel.com/media/26190/tsl-shp-june-30-2026.pdf"
+        ]
+      ],
+      "note": "filing read; its FPI rows carry no named breakout"
+    },
+    {
+      "company": "co:tech-mahindra",
+      "asOf": "2026-03-31",
+      "read": "primary",
+      "domain": "holders-b9",
+      "srcs": [
+        [
+          "Tech Mahindra — Shareholding Pattern, quarter ended 31.03.2026",
+          "https://insights.techmahindra.com/investors/shareholding-pattern-for-q4-25-26.pdf"
+        ]
+      ],
+      "note": null
+    },
+    {
+      "company": "co:titan-company",
+      "asOf": "2026-06-30",
+      "read": "primary",
+      "domain": "holders-b9",
+      "srcs": [
+        [
+          "Titan Company Ltd — Shareholding Pattern, quarter ended 30.06.2026",
+          "https://www.titancompany.in/sites/default/files/2026-07/Shareholding%20PatternQ1FY27%20-without%20PAN.pdf"
+        ]
+      ],
+      "note": "filing read (16 pages); no named ≥1% line in its FPI or insurance categories"
+    },
+    {
+      "company": "co:trent",
+      "asOf": "2026-03-31",
+      "read": "primary",
+      "domain": "holders-b9",
+      "srcs": [
+        [
+          "Trent Limited — Shareholding Pattern, quarter ended 31.03.2026",
+          "https://docs.trent-tata.com/Shareholding_Pattern_Q4_FY26.pdf"
+        ]
+      ],
+      "note": null
+    },
+    {
+      "company": "co:ultratech-cement",
+      "asOf": "2025-03-31",
+      "read": "primary",
+      "domain": "holders-b9",
+      "srcs": [
+        [
+          "UltraTech Cement — Shareholding Pattern, quarter ended 31.03.2025",
+          "https://www.ultratechcement.com/content/dam/ultratechcementwebsite/pdf/shareholding-pattern/Shareholding-Pattern-31-03-2025.pdf"
+        ]
+      ],
+      "note": "the 31.03.2025 filing, the most recent reachable on the company site"
+    },
+    {
+      "company": "co:wipro",
+      "asOf": "2026-06-30",
+      "read": "primary",
+      "domain": "holders-b9",
+      "srcs": [
+        [
+          "Wipro Ltd — Shareholding Pattern, quarter ended 30.06.2026",
+          "https://www.wipro.com/content/dam/nexus/en/investor/shareholding-pattern/2026/June-30-2026.pdf"
+        ]
+      ],
+      "note": null
+    }
+  ]
+}

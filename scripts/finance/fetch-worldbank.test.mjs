@@ -399,3 +399,81 @@ test('reconciliation: the fetcher reproduces the reconciled file\'s resolution o
     assert.deepEqual(mine, theirs, `${p.id} claims`);
   }
 });
+
+// ---------------------------------------------------------------------------
+// G1 / G2 / P1 (docs/design/FINANCE_PAGE.md §3.3). The assembler COPIES these fields into
+// FINANCE_LOAN_FACTS and FINANCE_WB_TOTALS; it never re-derives them. So every per-loan
+// figure the page reads (project, US$ m, the rate and its basis, the state and which branch
+// of the rule placed it) is written here, by the code that computed it for `a` and `d`.
+// ---------------------------------------------------------------------------
+
+test('P1: every loan claim carries the World Bank project id it was built from, beside its lab', () => {
+  const { doc } = run();
+  assert.deepEqual(doc.claims.map((c) => c.projectId), ['P178253', 'P517285']);
+  for (const c of recOut.claims) assert.equal(c.projectId, c.lab.split(' — ')[0], c.id);
+  const keys = Object.keys(doc.claims[0]);
+  assert.equal(keys.indexOf('projectId'), keys.indexOf('lab') + 1, 'projectId sits after lab');
+});
+
+test('G1: projects[] carries one leg per loan claim — lender, claim id, US$ m, the rate and its basis as d states them', () => {
+  const { doc } = run();
+  const one = doc.projects.find((p) => p.id === 'P178253');
+  assert.deepEqual(one.legs, [{
+    lender: 'fin:ibrd', claimId: doc.claims[0].id, usdM: 325.1, fxRate: 83.669281580941, fxYear: 2024,
+    fxBasis: 'WB PA.NUS.FCRF, 2024', countable: true, notCountableReason: null,
+  }]);
+  const pipe = doc.projects.find((p) => p.id === 'P517285');
+  assert.equal(pipe.legs.length, 1);
+  const [leg] = pipe.legs;
+  assert.deepEqual([leg.lender, leg.claimId, leg.usdM, leg.fxRate, leg.fxYear], ['fin:ibrd', doc.claims[1].id, 50.4, 87.1584483507393, 2025]);
+  assert.equal(leg.fxBasis, 'WB PA.NUS.FCRF, 2025 — latest available, 2027 not yet published');
+  assert.equal(leg.countable, false, 'a pipeline operation is not a loan yet and is outside every census total');
+  assert.match(leg.notCountableReason, /^pipeline/);
+
+  // Every claim is exactly one leg; a project with no claim (Dropped) has none.
+  const legIds = recOut.projects.flatMap((p) => p.legs.map((l) => l.claimId));
+  assert.deepEqual([...legIds].sort(), recOut.claims.map((c) => c.id).sort());
+  assert.deepEqual(row('P147820').legs, [], 'a Dropped project carries no leg');
+  for (const p of recOut.projects) {
+    for (const l of p.legs) {
+      const c = recOut.claims.find((x) => x.id === l.claimId);
+      assert.equal(c.s, l.lender, `${l.claimId} lender`);
+      assert.equal(c.projectId, p.id, `${l.claimId} project`);
+      // The leg is what d says, not a second computation of it.
+      if (l.usdM != null && l.fxRate != null) assert.ok(c.d.startsWith(`US$${Number.isInteger(l.usdM) ? l.usdM : l.usdM.toFixed(2).replace(/0+$/, '').replace(/\.$/, '')} m at ₹${l.fxRate.toFixed(2)}/US$ (${l.fxBasis})`), `${l.claimId}: ${c.d.slice(0, 90)}`);
+    }
+  }
+  // Before the rate series (the fixture series begins 2023): US$ m, no rate, the basis says why.
+  const early = row('P104164').legs[0];
+  assert.equal(early.fxRate, null);
+  assert.equal(early.fxYear, null);
+  assert.equal(early.fxBasis, 'no PA.NUS.FCRF rate for 2011 (series begins 2023)');
+  assert.equal(typeof early.usdM, 'number');
+  assert.equal(early.countable, true, 'a loan without a ₹ figure is still a loan in the census count');
+  assert.equal(claimOf('P104164').a, null);
+});
+
+test('G1: state_basis names the branch of the fetcher\'s state rule that placed the row', () => {
+  const at = (pid) => [row(pid).state, row(pid).state_basis];
+  assert.deepEqual(at('P079708'), ['tn', 'borrower-state']);
+  assert.deepEqual(at('P127725'), ['br', 'agency-state']);
+  assert.deepEqual(at('P090764'), ['br', 'agency-seat']);
+  assert.deepEqual(at('P510686'), ['hr', 'title']);
+  assert.deepEqual(at('P104164'), [null, null]);
+  assert.deepEqual(at('P096124'), [null, null], 'a registered seat alone never places a project');
+  for (const p of recOut.projects) assert.equal(p.state == null, p.state_basis == null, p.id);
+  const keys = Object.keys(row('P079708'));
+  assert.deepEqual(keys.slice(keys.indexOf('state')), ['state', 'state_basis', 'legs']);
+});
+
+test('G2: fieldMap names every projects[] field the assembler copies; totals keep their fixed keys', () => {
+  const { doc } = run();
+  for (const k of ['state', 'state_basis', 'legs', 'major_sector_name', 'sector1', 'lendinginstr']) {
+    assert.equal(typeof doc.provenance.fieldMap[k], 'string', `fieldMap.${k}`);
+  }
+  assert.deepEqual(Object.keys(doc.provenance.totals), [
+    'projects', 'claims', 'croreExclPipeline', 'usdMExclPipeline', 'pipeline', 'dropped', 'grantOnly', 'otherOnly',
+    'noRupee', 'borrowerUnstated', 'agencyUnstated', 'noInstrument',
+  ]);
+  assert.deepEqual(Object.keys(doc.provenance.fx), ['indicator', 'firstYear', 'lastYear', 'conversion']);
+});

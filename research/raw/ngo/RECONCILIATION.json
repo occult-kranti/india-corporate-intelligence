@@ -17,6 +17,23 @@
       "files": [
         "fcra-actions.json"
       ]
+    },
+    {
+      "from": "energy:delhi-high-court",
+      "to": "delhi-hc",
+      "reason": "cross-fleet reconciliation 2026-09-26: A court is not an energy/welfare entity; the Atlas holds the courts (sc, and from 2026-09-26 delhi-hc, bombay-hc, madras-hc, allahabad-hc, ap-hc, jharkhand-hc, sikkim-hc — ty agency, fam enforce, st of the seat). Facts and sources of the fleet record were copied into the Atlas node in src/graph/data.ts; the fleet file keeps its record under the Atlas id (the Atlas record wins in the merged graph). Id rewrite only. The ngo fleet referenced the energy-prefixed id from fcra-actions.json (entity + c020, c046, c079, c083) and political-trusts.json (c018, c019, c022 — no local record).",
+      "files": [
+        "fcra-actions.json",
+        "political-trusts.json"
+      ]
+    },
+    {
+      "from": "energy:hc-madras",
+      "to": "madras-hc",
+      "reason": "cross-fleet reconciliation 2026-09-26: A court is not an energy/welfare entity; the Atlas holds the courts (sc, and from 2026-09-26 delhi-hc, bombay-hc, madras-hc, allahabad-hc, ap-hc, jharkhand-hc, sikkim-hc — ty agency, fam enforce, st of the seat). Facts and sources of the fleet record were copied into the Atlas node in src/graph/data.ts; the fleet file keeps its record under the Atlas id (the Atlas record wins in the merged graph). Id rewrite only. Referenced from fcra-actions.json (entity + c024).",
+      "files": [
+        "fcra-actions.json"
+      ]
     }
   ],
   "refusedMerges": [
@@ -186,9 +203,16 @@
       "id": "political-trusts:c019",
       "from": "law",
       "to": "enforce"
+    },
+    {
+      "id": "fcra-actions:c017, c020, c024, c046, c079, c083; political-trusts:c018, c019, c022; darpan-welfare-join:c033",
+      "from": "enforce (court → agency/subject, read as enforcement)",
+      "to": "enforce with d beginning \"Judicial ruling on <claim id>: \" — c017→c014, c020→c019, c024→c021, c046→c043, c079→c078, c083→c082, c018→c020, c019→c021, c022→c020+c021, c033→c032 (FLEET_CONTRACT.md court-ruling convention; the AUDIT \"not enforcement\" flags on c024 and c046)"
     }
   ],
   "notes": [
-    "Post-audit: c025/c026 re-sourced to The Hindu (3 Feb 2018) per AUDIT corrections; the parties' responses are not recorded, so each carries the contract's no-response contra (c025 was downgraded to alleged by the audit)."
-  ]
+    "Post-audit: c025/c026 re-sourced to The Hindu (3 Feb 2018) per AUDIT corrections; the parties' responses are not recorded, so each carries the contract's no-response contra (c025 was downgraded to alleged by the audit).",
+    "cross-fleet reconciliation 2026-09-26: ngo:open-society-foundations is the survivor of cap:/ngo:open-society-foundations — capital's aliases (\"Open Society\"), its two facts (OCCRP funder; Munich remark) and two sources were folded into donors-narratives.json; the mapping is recorded by the owning fleet in capital/RECONCILIATION.json."
+  ],
+  "otherFixes": []
 }

@@ -386,3 +386,34 @@ If you know the association was asked and did not answer, say that instead ("Ask
 <date> by <outlet>; no response"), with the source. Never omit the `contra`: an
 allegation without its answer — or without the statement that there is none on record —
 does not ship.
+
+### Court rulings
+
+A court is not an agency acting on a subject: a writ dismissed, an order quashed or stayed,
+an award set aside is a **ruling on a claim already in the file**. Courts keep the Atlas
+ids — `sc` (Supreme Court), `delhi-hc`, `bombay-hc`, `madras-hc`, `allahabad-hc`, `ap-hc`,
+`jharkhand-hc`, `sikkim-hc` (`ty: "agency"`, `fam: "enforce"`, `st` of the seat) — never
+a fleet-prefixed id; a High Court the Atlas lacks is added there, not under `energy:` or
+`wel:`. A ruling is modelled as `enforce` (court → the party the order runs against) and its
+`d` **begins** `Judicial ruling on <claim id>: ` naming the claim (or claims, comma-separated)
+it rules on, so a reader knows the edge is judicial review and not enforcement:
+
+```jsonc
+{ "id": "fcra-actions:c046", "s": "delhi-hc", "t": "ngo:commonwealth-human-rights-initiative", "pred": "enforce", "tier": "documented",
+  "lab": "Delhi HC dismisses CHRI plea against suspension, 2022-02-14",
+  "d": "Judicial ruling on fcra-actions:c043: Court: judicial review \"should be exercised only when it is a case of mala fide, arbitrariness, or an ulterior motive\" …" }
+```
+
+`validate.mjs` §4 warns on a court's `enforce` claim whose `d` lacks the prefix, and rejects a
+prefix that names a claim not in the file. A dismissal is not a finding of merit; say so in `d`.
+
+### Fleet-prefixed ids resolve inside their fleet
+
+`energy:`, `wel:`/`scheme:`, `fin:`, `ngo:` and `cap:` are owned by one fleet each (`prefixes`
+in `FLEETS`, `scripts/lib/vocab.mjs`). A claim endpoint, `benefit.who`, `ministers[].personId`,
+`announced.byPersonId` or `whoElseBenefits[].who` written with one of these prefixes must be
+defined as an entity or scheme in a file of **that** fleet's directory, whichever fleet's file
+references it (`validate.mjs` §4, `scripts/lib/fleet-refs.mjs`). A `wel:` person an ngo file
+needs is defined in `research/raw/welfare/`; the ngo file may keep a minimal copy. A plain name
+in `whoElseBenefits[].who` carries no prefix. National ids (`pol:` … `for:`) and Atlas ids pass
+by inventory; `party:` and other unprefixed-by-contract ids must be defined in the file.

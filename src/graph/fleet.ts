@@ -12,7 +12,7 @@
  * The exception is GNode/GEdge, whose schema already expresses absence by omission.
  */
 
-import type { LoanTerms, Predicate, Source, Tier } from './schema';
+import type { LoanTerms, Predicate, Source, StateCode, Tier } from './schema';
 
 // ---------------------------------------------------------------------------
 // Who benefits — the cui-bono row carried by a claim
@@ -98,6 +98,184 @@ export interface EntityIdentity {
 }
 
 // ---------------------------------------------------------------------------
+// Loans — the census and the researched sample (docs/design/FINANCE_PAGE.md §3.3, G1/G2)
+// ---------------------------------------------------------------------------
+
+/**
+ * Which branch of the World Bank fetcher's placement rule put a project in a state:
+ * a state government as borrower; a state government among the implementing agencies;
+ * an implementing body seated outside Delhi (not a ministry, not a registered seat
+ * alone); a state the project title names. Never a registered office.
+ */
+export type StateBasis = 'borrower-state' | 'agency-state' | 'agency-seat' | 'title';
+
+/** `census`: the scripted World Bank projects table. `researched`: every other loan record. */
+export type LoanPopulation = 'census' | 'researched';
+
+/**
+ * One row per `loan` edge, keyed by claim id. Census rows are a COPY of the fields
+ * scripts/finance/fetch-worldbank.mjs wrote into worldbank-projects.json projects[]
+ * (the project row and the claim's leg); researched rows carry only what their claim
+ * states, so every census-only field is null there — never a figure read from prose.
+ */
+export interface LoanFact {
+  /** World Bank project id (P + six digits) — the claim's `projectId`. */
+  project: string | null;
+  /** The Projects API status, verbatim ("Active", "Closed", "Pipeline"…). Census only. */
+  status: string | null;
+  /** Census only: status Pipeline, or approval dated after the fetch. */
+  pipeline: boolean | null;
+  /** This leg's commitment in US$ million (2 dp), as the claim's `d` states it. Census only. */
+  usdM: number | null;
+  /** PA.NUS.FCRF LCU per US$ used for `a`, as published; null before the series. Census only. */
+  fxRate: number | null;
+  /** The rate note the claim's `d` states, or why there is no rate. Census only. */
+  fxBasis: string | null;
+  /** The fetcher's placement (FINANCE_PAGE.md D8 "fetcher" class). Census only. */
+  st: StateCode | null;
+  stBasis: StateBasis | null;
+  /** Projects API `major_sector_name`, verbatim — no crosswalk across the FY2017 taxonomy change. */
+  majorSector: string | null;
+  sector1: string | null;
+  population: LoanPopulation;
+  /**
+   * False when this record is not one loan of its population's count: a census
+   * pipeline leg, or a researched record that repeats a loan counted elsewhere.
+   */
+  countable: boolean;
+  /** The claim that counts this loan (research/raw/finance/RECONCILIATION.json `countedAs`). */
+  countedAs: string | null;
+  notCountableReason: string | null;
+}
+
+/** worldbank-projects.json `provenance.totals`, key for key. */
+export interface WbCensusTotals {
+  projects: number;
+  claims: number;
+  croreExclPipeline: number;
+  usdMExclPipeline: number;
+  pipeline: number;
+  dropped: number;
+  grantOnly: number;
+  otherOnly: number;
+  noRupee: number;
+  borrowerUnstated: number;
+  agencyUnstated: number;
+  noInstrument: number;
+}
+
+/** worldbank-projects.json `provenance.totals`, `fieldMap` and `fx`, verbatim. */
+export interface WbTotals {
+  totals: WbCensusTotals;
+  /** projects[] field → where it comes from in the API, or the rule that computed it. */
+  fieldMap: Record<string, string>;
+  fx: { indicator: string; firstYear: number | null; lastYear: number | null; conversion: string };
+}
+
+// ---------------------------------------------------------------------------
+// FCRA state-wise receipts (docs/design/FINANCE_PAGE.md §3.3, P5/G4)
+// ---------------------------------------------------------------------------
+
+/**
+ * One state/UT × financial-year row of a Parliament annexure, transcribed into the
+ * `fcByState` list of the research file the fleet's FLEETS row names as `fcState`
+ * (research/raw/ngo/fcra-receipts.json: RS Unstarred Q.3253 of 29.03.2023, Annexure I
+ * received and Annexure II utilised). The assembler refuses the file unless, for every
+ * FY the rows name, their receivedCr sum to the same file's current national `grant`
+ * claim for that FY within ₹1 crore — so a row here is always a share of a total the
+ * page also prints, never a figure on its own.
+ */
+export interface FcStateRow {
+  /** Null for an annexure row that is not a state or UT (e.g. "not specified"); `note` then says what the row is. */
+  st: StateCode | null;
+  /** The annexure's own spelling ("Orissa", "Pondicherry"), kept for the audit trail. */
+  stateName: string;
+  /** The Indian financial year as the answer labels it: "2019-20" is 2019-04-01 to 2020-03-31. */
+  fy: string;
+  /** Foreign contribution received in the FY, ₹ crore, as printed (nominal). */
+  receivedCr: number;
+  /** Foreign contribution utilised in the FY, ₹ crore, as printed; null when the answer gives no utilisation column. */
+  utilisedCr: number | null;
+  note: string | null;
+  srcs: Source[];
+}
+
+// ---------------------------------------------------------------------------
+// Capital ownership — holdings, coverage, controls (docs/design/FINANCE_PAGE.md §3.3, G3a–c)
+// ---------------------------------------------------------------------------
+
+/**
+ * How the filing classes the line: the company's promoter; a member of its promoter
+ * group; a foreign portfolio investor; a foreign direct investor; a depositary holding
+ * legal title for unnamed receipt holders (never a beneficial owner); a domestic
+ * insurer's line; anything else (a public 'Foreign Companies' line, a joint-venture
+ * stake, a parent link).
+ */
+export type HoldingCategory = 'promoter' | 'promoter-group' | 'fpi' | 'fdi' | 'custodian' | 'domestic-insurer' | 'other';
+
+/**
+ * G3a. The structured reading of one `own` claim's line, keyed by claim id in
+ * CAPITAL_HOLDINGS — surviving edges only. Every value is read from the claim's own
+ * `d`/`lab` (the assembler refuses a figure the text does not print), so a number here
+ * never says more than the record does.
+ */
+export interface Holding {
+  /** Percentage of the company, 0–100, as printed; null when the text states no figure for this holder. */
+  pct: number | null;
+  /** Whole shares, as printed (Indian or Western grouping); null when the line prints none. */
+  shares: number | null;
+  /** ISO date of the line (the filing's quarter end, or the fund-file date for an aggregate); null only when the claim carries no date. */
+  asOf: string | null;
+  category: HoldingCategory;
+  /** The line as the record prints it — a verbatim part of the claim's `d` or `lab`. */
+  line: string;
+  /** True for the holders-aggregates ETF lower bounds (analytic): no filing names this holder. Never add these to filing lines. */
+  aggregate: boolean;
+}
+
+/**
+ * What was read for a company: `primary` — a named-holder table (SEBI Reg. 31
+ * Table II/III) in the company's own filing; `aggregator` — category totals only (an
+ * aggregator such as screener.in, or a filing's summary without named holders), so a
+ * missing name there says nothing; `not-read` — nothing was read.
+ */
+export type CoverageRead = 'primary' | 'aggregator' | 'not-read';
+
+/** G3b. One row per index constituent the capital fleet was assigned (research/raw/capital/coverage.json). */
+export interface CapitalCoverage {
+  /** The constituent's `co:` id (indices.json `existingId`). */
+  company: string;
+  /** The date of what was read (quarter end); null exactly when `read` is `not-read`. */
+  asOf: string | null;
+  read: CoverageRead;
+  /** The research file (domain) whose scope and voids record the read. */
+  domain: string;
+  /** The filing read, or the attempts that failed. */
+  srcs: Source[];
+  note: string | null;
+}
+
+/**
+ * `subject` — a holder the research exists to calibrate; `comparison` — a holder
+ * measured with the same lens so the subject is never shown alone; `domestic-control` —
+ * the domestic holder measured the same way; `adviser-subject` / `adviser-comparison` —
+ * the same two roles for adviser mandates.
+ */
+export type ControlRole = 'subject' | 'comparison' | 'domestic-control' | 'adviser-subject' | 'adviser-comparison';
+
+/** G3c. The capital SPEC's declared comparison sets, in declared order (research/raw/capital/controls.json). */
+export interface CapitalControl {
+  /** The node id; null when the fleet recorded no entity for this declared member (`resolved: false`). */
+  id: string | null;
+  label: string;
+  role: ControlRole;
+  resolved: boolean;
+  /** Where the membership is declared. */
+  declaredIn: string;
+  note: string | null;
+}
+
+// ---------------------------------------------------------------------------
 // Claims that did not become edges — retained, never deleted
 // ---------------------------------------------------------------------------
 
@@ -125,6 +303,8 @@ export interface HeldClaim {
   benefit: ClaimBenefit | null;
   /** Present only when the claim wrote terms. */
   terms?: LoanTerms | null;
+  /** Present only when the claim wrote a World Bank project id. */
+  projectId?: string | null;
   domain: string;
   file: string;
 }

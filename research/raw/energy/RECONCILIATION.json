@@ -238,6 +238,79 @@
         "enforce.json",
         "solarwind.json"
       ]
+    },
+    {
+      "from": "energy:inc",
+      "to": "party:inc",
+      "reason": "cross-fleet reconciliation 2026-09-26: same party (Indian National Congress). party:inc is the id the welfare fleet (7 files) and the ngo fleet (3 files) define; energy defined energy:inc in five files and capital reused it. Not an inventory id, so the id used by most fleets and files survives. Energy's five records keep their content under the new id (id rewrite only; energy raw files are frozen for content), so each energy file that references party:inc still defines it as §4 requires for a non-inventory prefix.",
+      "files": [
+        "coal.json",
+        "grid.json",
+        "hydro.json",
+        "money.json",
+        "oilgas.json",
+        "capital/narratives-literature.json"
+      ]
+    },
+    {
+      "from": "energy:manmohan-singh",
+      "to": "wel:manmohan-singh",
+      "reason": "cross-fleet reconciliation 2026-09-26: same person (Dr Manmohan Singh: Union Finance Minister 1991-06-21→1996-05-16, Prime Minister 2004-05-22→2014-05-26 — identity by office-with-dates in both records). wel:manmohan-singh is used by welfare (2 files, 3 schemes), ngo (2 files) and finance; energy:manmohan-singh by energy/literature.json and finance/literature.json only. The survivor's fullest record (welfare/central.json) now carries the dated Finance Minister window (Wikipedia — Manmohan Singh infobox, opened 2026-09-26); energy/literature.json keeps its record under the new id.",
+      "files": [
+        "literature.json",
+        "finance/literature.json"
+      ]
+    },
+    {
+      "from": "energy:delhi-high-court",
+      "to": "delhi-hc",
+      "reason": "cross-fleet reconciliation 2026-09-26: A court is not an energy/welfare entity; the Atlas holds the courts (sc, and from 2026-09-26 delhi-hc, bombay-hc, madras-hc, allahabad-hc, ap-hc, jharkhand-hc, sikkim-hc — ty agency, fam enforce, st of the seat). Facts and sources of the fleet record were copied into the Atlas node in src/graph/data.ts; the fleet file keeps its record under the Atlas id (the Atlas record wins in the merged graph). Id rewrite only. Used by energy/oilgas.json, ngo/fcra-actions.json and ngo/political-trusts.json. oilgas:c035 is a Bombay High Court ruling that its own d said was \"recorded under the HC node for want of a Bombay HC node\": its s is now bombay-hc.",
+      "files": [
+        "oilgas.json",
+        "ngo/fcra-actions.json",
+        "ngo/political-trusts.json"
+      ]
+    },
+    {
+      "from": "energy:hc-madras",
+      "to": "madras-hc",
+      "reason": "cross-fleet reconciliation 2026-09-26: A court is not an energy/welfare entity; the Atlas holds the courts (sc, and from 2026-09-26 delhi-hc, bombay-hc, madras-hc, allahabad-hc, ap-hc, jharkhand-hc, sikkim-hc — ty agency, fam enforce, st of the seat). Facts and sources of the fleet record were copied into the Atlas node in src/graph/data.ts; the fleet file keeps its record under the Atlas id (the Atlas record wins in the merged graph). Id rewrite only.",
+      "files": [
+        "enforce.json",
+        "ngo/fcra-actions.json"
+      ]
+    },
+    {
+      "from": "energy:hc-jharkhand",
+      "to": "jharkhand-hc",
+      "reason": "cross-fleet reconciliation 2026-09-26: A court is not an energy/welfare entity; the Atlas holds the courts (sc, and from 2026-09-26 delhi-hc, bombay-hc, madras-hc, allahabad-hc, ap-hc, jharkhand-hc, sikkim-hc — ty agency, fam enforce, st of the seat). Facts and sources of the fleet record were copied into the Atlas node in src/graph/data.ts; the fleet file keeps its record under the Atlas id (the Atlas record wins in the merged graph). Id rewrite only.",
+      "files": [
+        "enforce.json"
+      ]
+    },
+    {
+      "from": "energy:hc-andhra-pradesh",
+      "to": "ap-hc",
+      "reason": "cross-fleet reconciliation 2026-09-26: A court is not an energy/welfare entity; the Atlas holds the courts (sc, and from 2026-09-26 delhi-hc, bombay-hc, madras-hc, allahabad-hc, ap-hc, jharkhand-hc, sikkim-hc — ty agency, fam enforce, st of the seat). Facts and sources of the fleet record were copied into the Atlas node in src/graph/data.ts; the fleet file keeps its record under the Atlas id (the Atlas record wins in the merged graph). Id rewrite only.",
+      "files": [
+        "enforce.json"
+      ]
+    },
+    {
+      "from": "energy:hc-allahabad",
+      "to": "allahabad-hc",
+      "reason": "cross-fleet reconciliation 2026-09-26: A court is not an energy/welfare entity; the Atlas holds the courts (sc, and from 2026-09-26 delhi-hc, bombay-hc, madras-hc, allahabad-hc, ap-hc, jharkhand-hc, sikkim-hc — ty agency, fam enforce, st of the seat). Facts and sources of the fleet record were copied into the Atlas node in src/graph/data.ts; the fleet file keeps its record under the Atlas id (the Atlas record wins in the merged graph). Id rewrite only.",
+      "files": [
+        "grid.json"
+      ]
+    },
+    {
+      "from": "energy:hc-sikkim",
+      "to": "sikkim-hc",
+      "reason": "cross-fleet reconciliation 2026-09-26: A court is not an energy/welfare entity; the Atlas holds the courts (sc, and from 2026-09-26 delhi-hc, bombay-hc, madras-hc, allahabad-hc, ap-hc, jharkhand-hc, sikkim-hc — ty agency, fam enforce, st of the seat). Facts and sources of the fleet record were copied into the Atlas node in src/graph/data.ts; the fleet file keeps its record under the Atlas id (the Atlas record wins in the merged graph). Id rewrite only.",
+      "files": [
+        "hydro.json"
+      ]
     }
   ],
   "refusedMerges": [
@@ -608,7 +681,17 @@
       "file": "money.json",
       "id": "energy:torrent-group",
       "fix": "received the ₹184 cr group-bond fact, the Torrent Gas CGD note and the Google News RSS source moved off co:torrent-power"
+    },
+    {
+      "file": "literature.json",
+      "id": "bjp",
+      "fix": "fam \"state\" → \"recipient\", the Atlas value for the party node (cross-fleet reconciliation 2026-09-26); typing only, no fact changed"
+    },
+    {
+      "file": "oilgas.json",
+      "id": "oilgas:c035",
+      "fix": "s energy:delhi-high-court → bombay-hc: the claim records a Bombay High Court ruling (its d says so); id rewrite only (cross-fleet reconciliation 2026-09-26)"
     }
   ],
-  "notes": "Every research file passed the claim-level contract before reconciliation (no tier-as-predicate, every alleged claim already answered by a contra in its file, every analytic claim carries an innocentReading, ISO dates, [label,url] sources), so no claim was added, killed or re-predicated. Claims are untouched except for endpoint and benefit.who rewrites. The mappings are already applied in the raw files; they are recorded here so the assembler applies them to anything that still carries an old id."
+  "notes": "Every research file passed the claim-level contract before reconciliation (no tier-as-predicate, every alleged claim already answered by a contra in its file, every analytic claim carries an innocentReading, ISO dates, [label,url] sources), so no claim was added, killed or re-predicated. Claims are untouched except for endpoint and benefit.who rewrites. The mappings are already applied in the raw files; they are recorded here so the assembler applies them to anything that still carries an old id.\n\ncross-fleet reconciliation 2026-09-26: ids rewritten in place (energy:inc, energy:manmohan-singh, six court ids); energy raw content otherwise unchanged. The Atlas node lnt was renamed co:larsen-toubro (the roster id energy/nuclear.json already uses) — see finance/RECONCILIATION.json. Court rulings modelled as enforce in energy files (coal:c059, enforce:c003/c039/c042, grid:c037/c082, hydro:c032, lit:c006/c007/c011/c012/c025/c030, mines:c037/c041, money:c060, oilgas:c029/c030/c035, people:c012/c042) still lack the contract's \"Judicial ruling on <claim id>: \" d prefix — validate.mjs §4 warns; left for an energy content pass because this reconciliation rewrites ids only."
 }

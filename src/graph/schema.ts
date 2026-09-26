@@ -174,6 +174,12 @@ export interface GEdge {
   m?: string[];
   /** `loan` (and any claim whose source states terms): the terms as written. */
   terms?: LoanTerms;
+  /**
+   * `loan` and `award`: the World Bank project id (P + six digits) when the record
+   * names one — set by the fetcher on census legs, and on a researched claim only
+   * where its own text names the id. The join between a loan and its contracts.
+   */
+  projectId?: string;
 }
 
 // ---------------------------------------------------------------------------

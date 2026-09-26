@@ -33,6 +33,30 @@
       "files": [
         "mandates-ventures.json"
       ]
+    },
+    {
+      "from": "cap:open-society-foundations",
+      "to": "ngo:open-society-foundations",
+      "reason": "cross-fleet reconciliation 2026-09-26: same institution (Open Society Foundations — the Soros-founded grant-making network; both records: same label, same OCCRP/Munich facts, identity by the US entities' EINs in the ngo record). The ngo fleet owns foreign donors (contract: ngo:<slug> for associations and donors) and its record is the fuller one (IRS 990-PF figures, FCRA prior-reference, ED searches, contra). Capital's aliases, facts and sources were folded into ngo/donors-narratives.json; narratives-literature.json keeps a minimal copy because c015, c018 and c019 need the endpoint.",
+      "files": [
+        "narratives-literature.json"
+      ]
+    },
+    {
+      "from": "energy:inc",
+      "to": "party:inc",
+      "reason": "cross-fleet reconciliation 2026-09-26: same party; party:inc is the id defined by the welfare and ngo fleets (see energy/RECONCILIATION.json). Capital's record keeps its content under the new id.",
+      "files": [
+        "narratives-literature.json"
+      ]
+    },
+    {
+      "from": "wel:bombay-high-court",
+      "to": "bombay-hc",
+      "reason": "cross-fleet reconciliation 2026-09-26: A court is not an energy/welfare entity; the Atlas holds the courts (sc, and from 2026-09-26 delhi-hc, bombay-hc, madras-hc, allahabad-hc, ap-hc, jharkhand-hc, sikkim-hc — ty agency, fam enforce, st of the seat). Facts and sources of the fleet record were copied into the Atlas node in src/graph/data.ts; the fleet file keeps its record under the Atlas id (the Atlas record wins in the merged graph). Id rewrite only. Referenced from rules-regulators.json c029 (no local record).",
+      "files": [
+        "rules-regulators.json"
+      ]
     }
   ],
   "refusedMerges": [
@@ -1165,6 +1189,16 @@
       "file": "rules-regulators.json / narratives-literature.json",
       "id": "cap:pnotes-rules-2017, cap:sebi-odi-circular-2017",
       "fix": "second pass: both records restored to their pre-merge label, sub, aliases, facts and sources; rules-regulators:c013 re-pointed to cap:pnotes-rules-2017; the Angel One source added to narratives-literature.json for the fold removed; the 10% vs 25% beneficial-owner threshold gap added to both records"
+    },
+    {
+      "file": "narratives-literature.json",
+      "id": "bjp",
+      "fix": "fam \"state\" → \"recipient\", the Atlas value for the party node (cross-fleet reconciliation 2026-09-26)"
+    },
+    {
+      "file": "narratives-literature.json",
+      "id": "narratives-literature:c006, c008",
+      "fix": "d now begins \"Judicial ruling on narratives-literature:c001: \" — Vishal Tiwari v UoI rules on the Hindenburg allegations (c001), the SC is not an agency enforcing against SEBI/Hindenburg (court-ruling convention, cross-fleet reconciliation 2026-09-26)"
     }
   ],
   "criticItems": [
@@ -1290,7 +1324,8 @@
     "Accusations by non-agencies (Hindenburg, OCCRP, BJP, INC) keep pred enforce with tier alleged — the fleet-wide encoding (energy/enforce.json does the same); the predicate vocabulary has no \"accuses\".",
     "rules-regulators:c025 (sebi → law → its own conflict-of-interest committee) keeps pred law: no predicate in the vocabulary fits \"constitutes a committee\", and the edge is documented.",
     "Holding vehicles named on filing lines (iShares funds, BAT's three vehicles, Temasek's Dunearn/MacRitchie, Sanlam's Mauritius vehicle) stay aliases of the parent — the fleet's convention; operating subsidiaries and listed companies (Jio Platforms, Tata Steel Long Products, Kotak IB, AIXL/AISATS, Bajaj Finserv AMC, Alphabet) were moved out of alias lists into d. Exception: Camas Investments Pte. Ltd. is kept as its own node with a reported own edge from Temasek, because its parent link rests only on a registry aggregator and its own batch record declined to name its owner (second pass).",
-    "Every alleged claim in the fleet already had a contra answering it by claim id in the same file; no contra had to be added. Every analytic claim carries an innocentReading."
+    "Every alleged claim in the fleet already had a contra answering it by claim id in the same file; no contra had to be added. Every analytic claim carries an innocentReading.",
+    "cross-fleet reconciliation 2026-09-26: rules-regulators:c023, c024 (SC-appointed Expert Committee; Vishal Tiwari judgment) and c029 (Bombay HC stay in the Cals Refineries FIR matter) remain enforce claims from a court without the \"Judicial ruling on <claim id>: \" prefix — §4 warns — because the claim each rules on is not in rules-regulators.json (the Adani investigation lives in narratives-literature.json; the FIR order is not a claim anywhere). Left for the capital editor: either point them at claims in the file or move them."
   ],
   "undoneMappings": [
     {
