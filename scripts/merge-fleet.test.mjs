@@ -67,3 +67,20 @@ test('an edge with an endpoint outside the merged graph is held, not drawn — i
   const cross = mergeFleet(base, [{ nodes: [], edges: [E('pol:x', 'scheme:s', 'role', 'c5')] }, { nodes: [N('scheme:s')], edges: [] }]);
   assert.deepEqual(cross.edges.map((e) => e.id ?? 'base'), ['base', 'c5']);
 });
+
+test('five fleets merge in order; a finance loan lands on an energy node and keeps its terms; empty fleets add nothing', () => {
+  const terms = { instrument: 'IPF', ratePct: null, conditions: ['procurement under lender rules'] };
+  const loan = { ...E('fin:lender', 'energy:a', 'loan', 'wb:c001'), a: 830, terms };
+  const m = mergeFleet(base, [
+    { nodes: [N('energy:a')], edges: [] },
+    { nodes: [], edges: [] },
+    { nodes: [N('fin:lender')], edges: [loan] },
+    { nodes: [], edges: [] },
+    { nodes: [], edges: [] },
+  ]);
+  assert.deepEqual(m.nodes.map((n) => n.id), ['co:ntpc', 'pol:x', 'energy:a', 'fin:lender']);
+  const e = m.edges.find((x) => x.id === 'wb:c001');
+  assert.equal(e.pred, 'loan');
+  assert.deepEqual(e.terms, terms);
+  assert.deepEqual(m.heldEdges, []);
+});

@@ -1,0 +1,541 @@
+{
+  "asOf": "2026-09-26",
+  "domain": "holders-b3",
+  "scope": "Named foreign shareholders (≥1%) of five NIFTY 50 constituents assigned as batch 3 — Coal India Limited, Dr. Reddy's Laboratories Limited, Eicher Motors Limited, Eternal Limited (formerly Zomato) and Grasim Industries Limited — from primary SEBI Reg. 31(1)(b) quarterly shareholding-pattern filings opened directly where reachable within budget. Eicher Motors (quarter ended 31.03.2026, via eicher.in's own BSE-XBRL render) and Grasim Industries (quarter ended 30.06.2026, via grasim.com's own PDF) were opened as full primary filings. Eternal Limited was opened via a Zomato/Eternal-hosted PDF (b.zmtcdn.com) but only a September 2025 quarter (30.09.2025) was locatable within budget — noted as possibly superseded by a more recent quarter not checked. Coal India and Dr. Reddy's Laboratories could not be opened as primary filings within budget: coalindia.in returned 403 on every route tried (current investor pages) and only stale pre-2019 archive.coalindia.in PDFs surfaced by search; drreddys.com returned 404 on both a search-indexed PDF path and a guessed investor-relations path, and the company's SEC Form 20-F (which would carry a 'Major Shareholders' item) exceeded the fetch tool's size limit. Both are recorded at screener.in aggregate, tier reported, per the domain's fallback instruction, with the primary-source attempts logged as voids. This file also surfaces two Temasek Holdings (Singapore) subsidiary vehicles (Dunearn Investments (Mauritius) Pte Ltd, Camas Investments Pte Ltd) holding a combined 2.87% of Eternal — outside SPEC's mandatory comparison set (Temasek is institutionally distinct from GIC, the comparison-set Singapore holder: GIC manages Singapore's foreign reserves, Temasek is the state's investment-holding company) but material and recorded for accuracy. It confirms one comparison-set holder, Capital Group (via its 'New World Fund Inc' vehicle, 1.35% of Eicher Motors), and Norges Bank/NBIM (via 'Government Pension Fund Global', 1.12% of Eternal) as directly named ≥1% holders — the first sightings of either in this research pass across both this batch and the batch-1 file's five companies. BlackRock, Vanguard, Fidelity, Kuwait Investment Authority and ADIA were not found as named ≥1% holders in any of the three companies where a primary filing was opened.",
+  "sources": [
+    ["Eicher Motors Ltd — Shareholding Pattern as on 31.03.2026 (BSE XBRL render, hosted at eicher.in)", "https://www.eicher.in/content/dam/eicher-motors/investor/shareholder's-information/shareholding-pattern/shareholding-pattern-as-on-31-03-26.pdf"],
+    ["Grasim Industries Ltd — Shareholding Pattern as on 30.06.2026 (grasim.com)", "https://www.grasim.com/Upload/PDF/shareholding-pattern-june-2026.pdf"],
+    ["Eternal Ltd — Shareholding Pattern as on 30.09.2025 (b.zmtcdn.com, Zomato/Eternal investor-relations media host)", "https://b.zmtcdn.com/investor-relations/e69e622a95db21b07f8a7c5d83dffaa6_1761817931.pdf"],
+    ["screener.in — Coal India Ltd (consolidated), shareholding-pattern section", "https://www.screener.in/company/COALINDIA/consolidated/"],
+    ["screener.in — Dr Reddy's Laboratories Ltd (consolidated), shareholding-pattern section", "https://www.screener.in/company/DRREDDY/consolidated/"],
+    ["coalindia.in — Events & Announcement page (probed, 403)", "https://www.coalindia.in/departments/company-secretary/events-announcement/"],
+    ["coalindia.in — investors landing page (probed, 403)", "https://www.coalindia.in/investors/"],
+    ["coalindia.in — investors landing page, alternate path (probed, 403)", "https://www.coalindia.in/investors"],
+    ["drreddys.com — shareholding pattern PDF, search-indexed path (probed, 404)", "https://www.drreddys.com/media/806936/5-shareholding-pattern.pdf"],
+    ["drreddys.com — shareholding-pattern page, guessed path (probed, 404)", "https://www.drreddys.com/investors/shareholder-information/shareholding-pattern"],
+    ["drreddys.com — investors landing page, guessed path (probed, 404)", "https://www.drreddys.com/investors"],
+    ["SEC EDGAR — Dr Reddy's Laboratories Ltd Form 20-F, FY2026 (probed, exceeded 10MB fetch limit before 'Major Shareholders' item could be extracted)", "https://www.sec.gov/Archives/edgar/data/0001135951/000157587226000381/rdy0899_20f.htm"],
+    ["Trendlyne — Coal India Ltd shareholding pattern (probed, 405 Method Not Allowed)", "https://trendlyne.com/equity/share-holding/275/COALINDIA/latest/coal-india-ltd/"],
+    ["PitchBook / sgpbusiness.com / companies.sg — Camas Investments Pte Ltd corporate registry (Temasek Holdings subsidiary, UEN 200505776N)", "https://www.sgpbusiness.com/company/Camas-Investments-Pte-Ltd"],
+    ["PitchBook — Dunearn Investments (Mauritius) Pte Ltd profile (Temasek Holdings subsidiary)", "https://pitchbook.com/profiles/limited-partner/35500-96"],
+    ["Capital Group — New World Fund overview (American Funds emerging-markets fund managed by Capital Research and Management Company)", "https://www.capitalgroup.com/individual/investments/fund/newfx"],
+    ["Crunchbase / Tracxn — DF International Partners (Mauritius-based VC firm) profile", "https://www.crunchbase.com/organization/df-international-partners"]
+  ],
+  "entities": [
+    {
+      "id": "cap:blackrock",
+      "label": "BlackRock, Inc.",
+      "sub": "US asset manager, NYSE: BLK; India exposure via iShares ETFs and BlackRock Global Funds sub-funds, each separately FPI-registered",
+      "ty": "company",
+      "fam": "capital",
+      "st": null,
+      "sz": 4,
+      "al": ["iShares", "BlackRock Global Funds", "iShares MSCI India ETF", "BlackRock Global Funds - India Fund"],
+      "resolved": true,
+      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
+      "publicRole": "The world's largest asset manager; central to the 'BlackRock owns India' narrative this file exists to calibrate. Mandatory control per SPEC — never recorded without the comparison set.",
+      "d": [
+        "Not found as a named ≥1% shareholder in either of the two companies whose primary shareholding-pattern filings were opened directly in this batch (Eicher Motors, quarter ended 31.03.2026; Grasim Industries, quarter ended 30.06.2026) [documented, absence in sample]",
+        "Eternal Limited's shareholding pattern (quarter ended 30.09.2025) was also opened directly and does not name BlackRock/iShares as a ≥1% holder [documented, absence in sample]",
+        "Coal India and Dr. Reddy's Laboratories were not checked at named-holder granularity in this batch (primary filings unreachable within budget; see voids) — BlackRock's absence there is unresearched, not confirmed"
+      ],
+      "srcs": [
+        ["Eicher Motors — Shareholding Pattern as on 31.03.2026", "https://www.eicher.in/content/dam/eicher-motors/investor/shareholder's-information/shareholding-pattern/shareholding-pattern-as-on-31-03-26.pdf"],
+        ["Grasim Industries — Shareholding Pattern as on 30.06.2026", "https://www.grasim.com/Upload/PDF/shareholding-pattern-june-2026.pdf"],
+        ["Eternal — Shareholding Pattern as on 30.09.2025", "https://b.zmtcdn.com/investor-relations/e69e622a95db21b07f8a7c5d83dffaa6_1761817931.pdf"]
+      ]
+    },
+    {
+      "id": "cap:vanguard",
+      "label": "The Vanguard Group, Inc.",
+      "sub": "US asset manager; India exposure via multiple Vanguard index funds, each separately FPI-registered",
+      "ty": "company",
+      "fam": "capital",
+      "st": null,
+      "sz": 4,
+      "al": ["Vanguard Total International Stock Index Fund", "Vanguard Emerging Markets Stock Index Fund"],
+      "resolved": true,
+      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
+      "publicRole": "Second-largest global passive asset manager; mandatory comparison control for BlackRock per SPEC.",
+      "d": [
+        "Not found as a named ≥1% holder in any of the three companies whose primary filings were opened in this batch (Eicher Motors, Grasim Industries, Eternal) [documented, absence in sample]"
+      ],
+      "srcs": [
+        ["Eicher Motors — Shareholding Pattern as on 31.03.2026", "https://www.eicher.in/content/dam/eicher-motors/investor/shareholder's-information/shareholding-pattern/shareholding-pattern-as-on-31-03-26.pdf"],
+        ["Grasim Industries — Shareholding Pattern as on 30.06.2026", "https://www.grasim.com/Upload/PDF/shareholding-pattern-june-2026.pdf"],
+        ["Eternal — Shareholding Pattern as on 30.09.2025", "https://b.zmtcdn.com/investor-relations/e69e622a95db21b07f8a7c5d83dffaa6_1761817931.pdf"]
+      ]
+    },
+    {
+      "id": "cap:nbim",
+      "label": "Norges Bank Investment Management (Government Pension Fund Global)",
+      "sub": "Manager of Norway's sovereign wealth fund; Indian companies' filings name the registered FPI holder 'GOVERNMENT PENSION FUND GLOBAL'",
+      "ty": "fund",
+      "fam": "capital",
+      "st": null,
+      "sz": 4,
+      "al": ["NBIM", "Government Pension Fund Global", "GPFG", "Norges Bank", "Government of Norway"],
+      "resolved": true,
+      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
+      "publicRole": "Mandatory comparison control per SPEC; publishes every global holding twice yearly — the highest public-transparency standard among the controls, in principle (nbim.no's own search tool remains unreachable as structured data through this environment's proxy — see the companion holders.json file's void).",
+      "d": [
+        "Named as a ≥1% shareholder, via the company's own filing, in 1 of the 3 companies whose primary filing was opened in this batch: Eternal Limited, 1.12% (Foreign Portfolio Investor Category I, 108,014,431 shares), quarter ended 30.09.2025 [documented]",
+        "Not found as a named ≥1% holder in Eicher Motors (31.03.2026) or Grasim Industries (30.06.2026) [documented, absence in sample]"
+      ],
+      "srcs": [
+        ["Eternal — Shareholding Pattern as on 30.09.2025", "https://b.zmtcdn.com/investor-relations/e69e622a95db21b07f8a7c5d83dffaa6_1761817931.pdf"]
+      ]
+    },
+    {
+      "id": "cap:gic-singapore",
+      "label": "Government of Singapore / GIC Private Limited",
+      "sub": "Singapore's sovereign wealth fund manager; Indian companies' filings name the registered FPI holder 'GOVERNMENT OF SINGAPORE'",
+      "ty": "fund",
+      "fam": "capital",
+      "st": null,
+      "sz": 4,
+      "al": ["GIC", "GIC Pte Ltd", "GIC Private Limited", "Government of Singapore"],
+      "resolved": true,
+      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
+      "publicRole": "Mandatory comparison control per SPEC. Institutionally distinct from Temasek Holdings (cap:temasek, recorded below) — both are wholly Singapore-government-owned investment entities but with different mandates and structures; this file does not conflate them.",
+      "d": [
+        "Named as a ≥1% shareholder, as 'GOVERNMENT OF SINGAPORE', in 1 of the 3 companies whose primary filing was opened in this batch: Eicher Motors, 1.07% (Foreign Portfolio Investor Category I, 2,923,691 shares), quarter ended 31.03.2026 [documented]",
+        "Not found as a named ≥1% holder in Grasim Industries (30.06.2026) or Eternal (30.09.2025) [documented, absence in sample]"
+      ],
+      "srcs": [
+        ["Eicher Motors — Shareholding Pattern as on 31.03.2026", "https://www.eicher.in/content/dam/eicher-motors/investor/shareholder's-information/shareholding-pattern/shareholding-pattern-as-on-31-03-26.pdf"]
+      ]
+    },
+    {
+      "id": "cap:capital-group",
+      "label": "Capital Group Companies, Inc.",
+      "sub": "US asset manager; New World Fund Inc (part of the American Funds family, managed by Capital Research and Management Company) is one of its flagship emerging-markets vehicles",
+      "ty": "company",
+      "fam": "capital",
+      "st": null,
+      "sz": 3,
+      "al": ["EuroPacific Growth Fund", "New Perspective Fund", "New World Fund", "New World Fund Inc", "The Capital Group Companies", "American Funds", "Capital Research and Management Company"],
+      "resolved": true,
+      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
+      "publicRole": "Mandatory comparison control per SPEC.",
+      "d": [
+        "Named as a ≥1% shareholder, via 'New World Fund Inc', in Eicher Motors: 1.35% (Foreign Portfolio Investor Category I, 3,706,104 shares), quarter ended 31.03.2026 — the first sighting of a Capital Group vehicle at ≥1% in either this batch or the companion 5-company sample (batch 1) [documented]",
+        "Not found as a named ≥1% holder in Grasim Industries (30.06.2026) or Eternal (30.09.2025) [documented, absence in sample]"
+      ],
+      "srcs": [
+        ["Eicher Motors — Shareholding Pattern as on 31.03.2026", "https://www.eicher.in/content/dam/eicher-motors/investor/shareholder's-information/shareholding-pattern/shareholding-pattern-as-on-31-03-26.pdf"],
+        ["Capital Group — New World Fund overview", "https://www.capitalgroup.com/individual/investments/fund/newfx"]
+      ]
+    },
+    {
+      "id": "cap:fidelity",
+      "label": "Fidelity Investments (FMR LLC)",
+      "sub": "US asset manager, privately held; distinct corporate lineage from Fidelity International Ltd (spun off in 1980, UK-based) — this file does not conflate the two",
+      "ty": "company",
+      "fam": "capital",
+      "st": null,
+      "sz": 3,
+      "al": ["FMR LLC", "Fidelity Management & Research"],
+      "resolved": true,
+      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
+      "publicRole": "Mandatory comparison control per SPEC.",
+      "d": [
+        "Not found as a named ≥1% holder (under either the FMR/Fidelity Investments or Fidelity International lineage) in any of the three companies whose primary filing was opened in this batch [documented, absence in sample]"
+      ],
+      "srcs": [
+        ["Eicher Motors — Shareholding Pattern as on 31.03.2026", "https://www.eicher.in/content/dam/eicher-motors/investor/shareholder's-information/shareholding-pattern/shareholding-pattern-as-on-31-03-26.pdf"],
+        ["Grasim Industries — Shareholding Pattern as on 30.06.2026", "https://www.grasim.com/Upload/PDF/shareholding-pattern-june-2026.pdf"],
+        ["Eternal — Shareholding Pattern as on 30.09.2025", "https://b.zmtcdn.com/investor-relations/e69e622a95db21b07f8a7c5d83dffaa6_1761817931.pdf"]
+      ]
+    },
+    {
+      "id": "cap:kuwait-investment-authority",
+      "label": "Kuwait Investment Authority",
+      "sub": "Kuwait's sovereign wealth fund",
+      "ty": "fund",
+      "fam": "capital",
+      "st": null,
+      "sz": 2,
+      "al": ["KIA"],
+      "resolved": true,
+      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
+      "publicRole": "Mandatory comparison control per SPEC.",
+      "d": [
+        "Not found as a named ≥1% holder in any of the three companies whose primary filing was opened in this batch [documented, absence in sample]"
+      ],
+      "srcs": [
+        ["Eicher Motors — Shareholding Pattern as on 31.03.2026", "https://www.eicher.in/content/dam/eicher-motors/investor/shareholder's-information/shareholding-pattern/shareholding-pattern-as-on-31-03-26.pdf"],
+        ["Grasim Industries — Shareholding Pattern as on 30.06.2026", "https://www.grasim.com/Upload/PDF/shareholding-pattern-june-2026.pdf"],
+        ["Eternal — Shareholding Pattern as on 30.09.2025", "https://b.zmtcdn.com/investor-relations/e69e622a95db21b07f8a7c5d83dffaa6_1761817931.pdf"]
+      ]
+    },
+    {
+      "id": "cap:adia",
+      "label": "Abu Dhabi Investment Authority",
+      "sub": "Abu Dhabi's sovereign wealth fund",
+      "ty": "fund",
+      "fam": "capital",
+      "st": null,
+      "sz": 2,
+      "al": ["ADIA"],
+      "resolved": true,
+      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
+      "publicRole": "Mandatory comparison control per SPEC.",
+      "d": [
+        "Not found as a named ≥1% holder in any of the three companies whose primary filing was opened in this batch [documented, absence in sample]"
+      ],
+      "srcs": [
+        ["Eicher Motors — Shareholding Pattern as on 31.03.2026", "https://www.eicher.in/content/dam/eicher-motors/investor/shareholder's-information/shareholding-pattern/shareholding-pattern-as-on-31-03-26.pdf"],
+        ["Grasim Industries — Shareholding Pattern as on 30.06.2026", "https://www.grasim.com/Upload/PDF/shareholding-pattern-june-2026.pdf"],
+        ["Eternal — Shareholding Pattern as on 30.09.2025", "https://b.zmtcdn.com/investor-relations/e69e622a95db21b07f8a7c5d83dffaa6_1761817931.pdf"]
+      ]
+    },
+    {
+      "id": "cap:gqg-partners",
+      "label": "GQG Partners",
+      "sub": "US-based emerging-markets asset manager (Fort Lauderdale; founder Rajiv Jain)",
+      "ty": "company",
+      "fam": "capital",
+      "st": null,
+      "sz": 3,
+      "al": ["GQG Partners Emerging Markets Equity Fund", "GQG Partners LLC"],
+      "resolved": true,
+      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
+      "publicRole": "Not in SPEC's mandatory comparison set; carried over as a shared-id reference from the companion holders.json file where it was found named ≥1% in ITC. Not found in any company checked in this batch.",
+      "d": [
+        "Not found as a named ≥1% holder in Eicher Motors, Grasim Industries or Eternal in this batch [documented, absence in sample]"
+      ],
+      "srcs": []
+    },
+    {
+      "id": "cap:temasek",
+      "label": "Temasek Holdings (Private) Limited",
+      "sub": "Wholly Singapore-government-owned investment holding company, institutionally distinct from GIC (which manages Singapore's foreign reserves); invests in Indian equities via multiple separately incorporated FPI/FDI vehicles",
+      "ty": "fund",
+      "fam": "capital",
+      "st": null,
+      "sz": 3,
+      "al": ["Temasek", "Dunearn Investments (Mauritius) Pte Ltd", "Camas Investments Pte Ltd"],
+      "resolved": true,
+      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
+      "publicRole": "Not in SPEC's mandatory comparison set — recorded for accuracy per the domain instruction to record every foreign holder ≥1% by name. A second Singapore state-owned investor alongside cap:gic-singapore, structurally comparable to it (both sovereign, both invest via separately registered vehicles) but not to be merged with it.",
+      "d": [
+        "Holds a combined 2.87% of Eternal Limited as of 30.09.2025 via two separately incorporated wholly-owned vehicles: Dunearn Investments (Mauritius) Pte Ltd, 1.13% (Foreign Direct Investment category, 109,309,341 shares) and Camas Investments Pte Ltd, 1.74% (Foreign Portfolio Investor Category I, 168,084,489 shares) [documented]",
+        "Both vehicles independently confirmed as Temasek Holdings subsidiaries via Singapore corporate-registry aggregators (sgpbusiness.com for Camas, UEN 200505776N; PitchBook for Dunearn) — not independently re-verified against a Temasek primary disclosure in this pass [reported, corporate-registry sourcing]",
+        "Not found as a named ≥1% holder in Eicher Motors (31.03.2026) or Grasim Industries (30.06.2026) [documented, absence in sample]"
+      ],
+      "srcs": [
+        ["Eternal — Shareholding Pattern as on 30.09.2025", "https://b.zmtcdn.com/investor-relations/e69e622a95db21b07f8a7c5d83dffaa6_1761817931.pdf"],
+        ["sgpbusiness.com — Camas Investments Pte Ltd corporate registry", "https://www.sgpbusiness.com/company/Camas-Investments-Pte-Ltd"],
+        ["PitchBook — Dunearn Investments (Mauritius) Pte Ltd profile", "https://pitchbook.com/profiles/limited-partner/35500-96"]
+      ]
+    },
+    {
+      "id": "cap:df-international-partners",
+      "label": "DF International Partners II LLC",
+      "sub": "Mauritius-based venture-capital-linked investment vehicle investing in later-stage rounds of India-based startups",
+      "ty": "company",
+      "fam": "capital",
+      "st": null,
+      "sz": 2,
+      "al": ["DF International Partners"],
+      "resolved": true,
+      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
+      "publicRole": "Not in SPEC's mandatory comparison set — recorded for accuracy. Its relationship (if any) to DST Global, a separate venture firm sometimes reported in the same sentence in press coverage of early Zomato investors, was not independently confirmed in this pass and is not asserted here.",
+      "d": [
+        "Named as a ≥1% shareholder in Eternal Limited, Foreign Portfolio Investor Category I, 1.54% (148,862,061 shares), quarter ended 30.09.2025 [documented]"
+      ],
+      "srcs": [
+        ["Eternal — Shareholding Pattern as on 30.09.2025", "https://b.zmtcdn.com/investor-relations/e69e622a95db21b07f8a7c5d83dffaa6_1761817931.pdf"]
+      ]
+    },
+    {
+      "id": "cap:theleme-master-fund",
+      "label": "Theleme Master Fund Limited",
+      "sub": "Foreign hedge fund/investment vehicle",
+      "ty": "company",
+      "fam": "capital",
+      "st": null,
+      "sz": 2,
+      "al": [],
+      "resolved": true,
+      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
+      "publicRole": "Not in SPEC's mandatory comparison set — recorded for accuracy; not independently researched beyond the shareholding-pattern filing itself.",
+      "d": [
+        "Named as a ≥1% shareholder in Grasim Industries Limited, Foreign Portfolio Investor Category II, 1.17% (7,976,267 shares), quarter ended 30.06.2026 [documented]"
+      ],
+      "srcs": [
+        ["Grasim Industries — Shareholding Pattern as on 30.06.2026", "https://www.grasim.com/Upload/PDF/shareholding-pattern-june-2026.pdf"]
+      ]
+    },
+    {
+      "id": "cap:pt-indo-bharat-rayon",
+      "label": "P.T. Indo Bharat Rayon",
+      "sub": "Indonesian rayon manufacturer; a foreign promoter-group vehicle of the Birla family (Kumar Mangalam Birla), disclosed in Grasim's own Table II as holding Global Depository Receipts",
+      "ty": "company",
+      "fam": "capital",
+      "st": null,
+      "sz": 2,
+      "al": [],
+      "resolved": true,
+      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
+      "publicRole": "A foreign promoter-group entity (not a passive fund, not a separate multinational parent) — part of the Birla family's own overseas holding structure, disclosed under Table II 'Foreign — Any other (specify)'. Institutionally recorded per CONTRACT rule 1; no person is asserted as the holder beyond what the filing's own SBO table (Table V, naming Kumar Mangalam Birla as the beneficial owner of the promoter group's Indian and foreign vehicles alike) discloses.",
+      "d": [
+        "Holds 2.94% of Grasim Industries Limited as promoter-group (Foreign — Any Other), via Global Depository Receipts, quarter ended 30.06.2026 — the largest single foreign promoter-group line found in this batch's Grasim filing, though structurally a related-party holding vehicle rather than an independent investor [documented]",
+        "Grasim's Table V (Statement of Significant Beneficial Owners) names Kumar Mangalam Birla as holding 2.94% indirectly through this entity, alongside 13 other Indian and foreign promoter-group vehicles — recorded as company-disclosed context, not as a new person node (CONTRACT: never record a person as an entity here; Birla's public-company-promoter role is out of scope for this holders file)"
+      ],
+      "srcs": [
+        ["Grasim Industries — Shareholding Pattern as on 30.06.2026", "https://www.grasim.com/Upload/PDF/shareholding-pattern-june-2026.pdf"]
+      ]
+    },
+    {
+      "id": "cap:citibank-nyc-adr-department",
+      "label": "Citibank N.A. New York, NY — ADR Department",
+      "sub": "ADR depositary bank for Grasim Industries' American Depositary Receipt programme — a custodian of record, not a beneficial owner",
+      "ty": "company",
+      "fam": "instrument",
+      "st": null,
+      "sz": 2,
+      "al": [],
+      "resolved": true,
+      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
+      "publicRole": "Recorded per the domain instruction that custodian names are custodians, not beneficial owners, and must be said so explicitly. The 2.53% it holds of record represents the aggregate of all underlying ADR holders (identities not disclosed in this filing), not Citibank's own economic interest.",
+      "d": [
+        "Holds 2.53% of Grasim Industries of record as 'Overseas Depositories (holding DRs) (balancing figure)', quarter ended 30.06.2026 — this is Citibank acting as depositary bank for Grasim's ADR programme; the underlying ADR holders (the actual beneficial owners) are not named in this filing and are not identified anywhere in this pass [documented, custodian not owner]"
+      ],
+      "srcs": [
+        ["Grasim Industries — Shareholding Pattern as on 30.06.2026", "https://www.grasim.com/Upload/PDF/shareholding-pattern-june-2026.pdf"]
+      ]
+    }
+  ],
+  "claims": [
+    {
+      "id": "holders-b3:c001",
+      "s": "cap:capital-group",
+      "t": "co:eicher-motors",
+      "pred": "own",
+      "tier": "documented",
+      "d": "1.35% via 'New World Fund Inc', Foreign Portfolio Investor Category I, 3,706,104 shares, quarter ended 31.03.2026.",
+      "from": "2026-03-31",
+      "srcs": [["Eicher Motors — Shareholding Pattern as on 31.03.2026", "https://www.eicher.in/content/dam/eicher-motors/investor/shareholder's-information/shareholding-pattern/shareholding-pattern-as-on-31-03-26.pdf"]],
+      "supersededBy": null
+    },
+    {
+      "id": "holders-b3:c002",
+      "s": "cap:gic-singapore",
+      "t": "co:eicher-motors",
+      "pred": "own",
+      "tier": "documented",
+      "d": "1.07% via 'Government Of Singapore', Foreign Portfolio Investor Category I, 2,923,691 shares, quarter ended 31.03.2026.",
+      "from": "2026-03-31",
+      "srcs": [["Eicher Motors — Shareholding Pattern as on 31.03.2026", "https://www.eicher.in/content/dam/eicher-motors/investor/shareholder's-information/shareholding-pattern/shareholding-pattern-as-on-31-03-26.pdf"]],
+      "supersededBy": null
+    },
+    {
+      "id": "holders-b3:c003",
+      "s": "co:life-insurance-corporation",
+      "t": "co:eicher-motors",
+      "pred": "own",
+      "tier": "documented",
+      "d": "1.14% ('Life Insurance Corporation Of India'), 3,127,333 shares, domestic control comparator, quarter ended 31.03.2026 — the only individually named domestic institution besides mutual funds. Institutions (Foreign) aggregate this quarter: 26.78% across 1,147 registered entities (FPI Category I 26.14% across 1,070 entities + FPI Category II 0.63% across 77 entities); besides holders-b3:c001 and c002, no other individual FPI line crosses 1%.",
+      "from": "2026-03-31",
+      "srcs": [["Eicher Motors — Shareholding Pattern as on 31.03.2026", "https://www.eicher.in/content/dam/eicher-motors/investor/shareholder's-information/shareholding-pattern/shareholding-pattern-as-on-31-03-26.pdf"]],
+      "supersededBy": null
+    },
+    {
+      "id": "holders-b3:c004",
+      "s": "co:life-insurance-corporation",
+      "t": "co:grasim-industries",
+      "pred": "own",
+      "tier": "documented",
+      "d": "6.59% (6.62% as % of A+B+C2), 44,867,472 shares, domestic control comparator, quarter ended 30.06.2026 — the largest named domestic institutional shareholder in Grasim.",
+      "from": "2026-06-30",
+      "srcs": [["Grasim Industries — Shareholding Pattern as on 30.06.2026", "https://www.grasim.com/Upload/PDF/shareholding-pattern-june-2026.pdf"]],
+      "supersededBy": null
+    },
+    {
+      "id": "holders-b3:c005",
+      "s": "cap:theleme-master-fund",
+      "t": "co:grasim-industries",
+      "pred": "own",
+      "tier": "documented",
+      "d": "1.17% via 'Theleme Master Fund Limited', Foreign Portfolio Investor Category II, 7,976,267 shares, quarter ended 30.06.2026. Foreign Portfolio Investor Category I (637 entities, 13.16%, 89,561,941 shares) has no individually named line ≥1% in this filing's render — the whole aggregate is fragmented below the naming threshold across the 637 registered entities.",
+      "from": "2026-06-30",
+      "srcs": [["Grasim Industries — Shareholding Pattern as on 30.06.2026", "https://www.grasim.com/Upload/PDF/shareholding-pattern-june-2026.pdf"]],
+      "supersededBy": null
+    },
+    {
+      "id": "holders-b3:c006",
+      "s": "cap:pt-indo-bharat-rayon",
+      "t": "co:grasim-industries",
+      "pred": "own",
+      "tier": "documented",
+      "d": "2.94% (Promoter and Promoter Group, Foreign — Any Other, via Global Depository Receipts), quarter ended 30.06.2026. Part of a wider foreign promoter-group GDR bloc (4.60% of the company in total) that also includes Thai Rayon Public Company Limited (0.70%), Anatole Investments Pte Ltd (0.66%), PT. Sunrise Bumi Textiles (0.19%) and PT. Elegant Textile Industry (0.12%), none individually crossing 1%. Total promoter and promoter group holding: 43.74%.",
+      "from": "2026-06-30",
+      "srcs": [["Grasim Industries — Shareholding Pattern as on 30.06.2026", "https://www.grasim.com/Upload/PDF/shareholding-pattern-june-2026.pdf"]],
+      "supersededBy": null
+    },
+    {
+      "id": "holders-b3:c007",
+      "s": "cap:citibank-nyc-adr-department",
+      "t": "co:grasim-industries",
+      "pred": "own",
+      "tier": "documented",
+      "d": "2.53% of record ('Overseas Depositories (holding DRs) (balancing figure)'), 17,247,309 shares, quarter ended 30.06.2026 — Citibank holds this as ADR depositary bank/custodian on behalf of underlying ADR holders whose individual identities are not disclosed in this filing; not a beneficial-ownership claim.",
+      "from": "2026-06-30",
+      "srcs": [["Grasim Industries — Shareholding Pattern as on 30.06.2026", "https://www.grasim.com/Upload/PDF/shareholding-pattern-june-2026.pdf"]],
+      "supersededBy": null
+    },
+    {
+      "id": "holders-b3:c008",
+      "s": "cap:temasek",
+      "t": "co:eternal",
+      "pred": "own",
+      "tier": "documented",
+      "d": "1.13% via 'Dunearn Investments (Mauritius) Pte Ltd', Foreign Direct Investment category, 109,309,341 shares, quarter ended 30.09.2025.",
+      "from": "2025-09-30",
+      "srcs": [["Eternal — Shareholding Pattern as on 30.09.2025", "https://b.zmtcdn.com/investor-relations/e69e622a95db21b07f8a7c5d83dffaa6_1761817931.pdf"]],
+      "supersededBy": null
+    },
+    {
+      "id": "holders-b3:c009",
+      "s": "cap:temasek",
+      "t": "co:eternal",
+      "pred": "own",
+      "tier": "documented",
+      "d": "1.74% via 'Camas Investments Pte. Ltd.', Foreign Portfolio Investor Category I, 168,084,489 shares, quarter ended 30.09.2025. Combined with holders-b3:c008, Temasek's two named vehicles total 2.87% of Eternal.",
+      "from": "2025-09-30",
+      "srcs": [["Eternal — Shareholding Pattern as on 30.09.2025", "https://b.zmtcdn.com/investor-relations/e69e622a95db21b07f8a7c5d83dffaa6_1761817931.pdf"]],
+      "supersededBy": null
+    },
+    {
+      "id": "holders-b3:c010",
+      "s": "cap:df-international-partners",
+      "t": "co:eternal",
+      "pred": "own",
+      "tier": "documented",
+      "d": "1.54% via 'DF International Partners II LLC', Foreign Portfolio Investor Category I, 148,862,061 shares, quarter ended 30.09.2025.",
+      "from": "2025-09-30",
+      "srcs": [["Eternal — Shareholding Pattern as on 30.09.2025", "https://b.zmtcdn.com/investor-relations/e69e622a95db21b07f8a7c5d83dffaa6_1761817931.pdf"]],
+      "supersededBy": null
+    },
+    {
+      "id": "holders-b3:c011",
+      "s": "cap:nbim",
+      "t": "co:eternal",
+      "pred": "own",
+      "tier": "documented",
+      "d": "1.12% via 'Government Pension Fund Global', Foreign Portfolio Investor Category I, 108,014,431 shares, quarter ended 30.09.2025.",
+      "from": "2025-09-30",
+      "srcs": [["Eternal — Shareholding Pattern as on 30.09.2025", "https://b.zmtcdn.com/investor-relations/e69e622a95db21b07f8a7c5d83dffaa6_1761817931.pdf"]],
+      "supersededBy": null
+    },
+    {
+      "id": "holders-b3:c012",
+      "s": "co:life-insurance-corporation",
+      "t": "co:eternal",
+      "pred": "own",
+      "tier": "documented",
+      "d": "LIC does not appear as a named ≥1% line in this filing — Eternal has no promoter shareholding (0%; founder Deepinder Goyal holds 3.83% as a director, disclosed under public non-institutional shareholding, not as promoter), and the 'Insurance Companies' domestic-institution category (21 entities, 3.03% aggregate) has no individually named sub-line, implying LIC's own stake here (if any) is below the filing's naming threshold. Recorded as the closest domestic-control comparator this filing discloses — an absence, not a documented zero. Institutions (Foreign) aggregate this quarter: 39.04% across 1,482 registered entities (FDI 1.94% + FPI Category I 35.17% + FPI Category II 1.93%), quarter ended 30.09.2025. Domestic Mutual Funds alone total 24.68% (45 entities); the single largest named domestic shareholder in the filing is Info Edge (India) Limited, an Indian company, at 12.38% — not a foreign holder and outside this claim's scope.",
+      "from": "2025-09-30",
+      "srcs": [["Eternal — Shareholding Pattern as on 30.09.2025", "https://b.zmtcdn.com/investor-relations/e69e622a95db21b07f8a7c5d83dffaa6_1761817931.pdf"]],
+      "supersededBy": null
+    },
+    {
+      "id": "holders-b3:c013",
+      "s": "co:life-insurance-corporation",
+      "t": "co:coal-india",
+      "pred": "own",
+      "tier": "reported",
+      "d": "LIC's individual stake in Coal India is not broken out by screener.in's aggregate view; recorded here as the domestic-institutions (DII) aggregate, 22.20% (quarter ended 30.06.2026), because the primary filing that would isolate LIC's own line could not be opened within budget (coalindia.in 403 throughout — see voids). Not a documented LIC-specific percentage; a placeholder for the domestic-control comparator at the coarsest grain this source offers.",
+      "from": "2026-06-30",
+      "srcs": [["screener.in — Coal India Ltd (consolidated)", "https://www.screener.in/company/COALINDIA/consolidated/"]],
+      "supersededBy": null
+    },
+    {
+      "id": "holders-b3:c014",
+      "s": "co:life-insurance-corporation",
+      "t": "co:dr-reddys-laboratories",
+      "pred": "own",
+      "tier": "reported",
+      "d": "LIC's individual stake in Dr. Reddy's Laboratories is not broken out by screener.in's aggregate view; recorded here as the domestic-institutions (DII) aggregate, 31.75% (quarter ended 30.06.2026), because the primary filing that would isolate LIC's own line could not be opened within budget (drreddys.com 404 throughout, SEC 20-F exceeded fetch size limit — see voids). Not a documented LIC-specific percentage; a placeholder for the domestic-control comparator at the coarsest grain this source offers. Foreign Institutional Investors (FIIs) aggregate this quarter: 20.67%, no individual name available.",
+      "from": "2026-06-30",
+      "srcs": [["screener.in — Dr Reddy's Laboratories Ltd (consolidated)", "https://www.screener.in/company/DRREDDY/consolidated/"]],
+      "supersededBy": null
+    }
+  ],
+  "voids": [
+    {
+      "what": "Coal India Limited's primary SEBI Reg. 31(1)(b) shareholding-pattern filing was not reachable within budget: coalindia.in returned HTTP 403 on its Events & Announcement page, its investors landing page, and a bare '/investors' path; only stale pre-2019 filings survive at archive.coalindia.in (a separate, apparently frozen legacy domain). Trendlyne's shareholding page (a possible route to named FII holders) returned HTTP 405.",
+      "whyItMatters": "Coal India is a central PSU and one of the five NIFTY 50 constituents in this batch; without the primary filing, no individual foreign holder can be named for it in this pass, only the screener.in aggregate (FIIs 10.37% as of 30.06.2026, no breakdown). A future pass should try NSE/BSE corporate-filing archives directly, or a different coalindia.in URL structure (the site appears to have been restructured since the archive snapshot).",
+      "srcs": [
+        ["coalindia.in — Events & Announcement page (403)", "https://www.coalindia.in/departments/company-secretary/events-announcement/"],
+        ["coalindia.in — investors/ (403)", "https://www.coalindia.in/investors/"],
+        ["coalindia.in — investors (403)", "https://www.coalindia.in/investors"],
+        ["Trendlyne — Coal India shareholding page (405)", "https://trendlyne.com/equity/share-holding/275/COALINDIA/latest/coal-india-ltd/"]
+      ]
+    },
+    {
+      "what": "Dr. Reddy's Laboratories Limited's primary SEBI Reg. 31(1)(b) shareholding-pattern filing was not reachable within budget: drreddys.com returned HTTP 404 on a search-engine-indexed PDF path (a stale/removed link) and on a guessed '/investors/shareholder-information/shareholding-pattern' path; a guessed '/investors' landing page also 404'd. The company's SEC Form 20-F for FY2026 (which under US disclosure rules must include a 'Major Shareholders and Related Party Transactions' item) was located but exceeded this environment's fetch-tool 10MB size limit before that item could be reached.",
+      "whyItMatters": "Dr. Reddy's is NYSE-ADR-listed (RDY), which usually means a richer named-foreign-holder picture is available than for a domestic-only listing (via 13F/13G filings of US institutional holders, or the 20-F's own Major Shareholders table) — none of which this pass could open. Only the screener.in aggregate (FIIs 20.67% as of 30.06.2026, no breakdown) is recorded. A future pass should fetch the SEC 20-F's specific 'Major Shareholders' exhibit/section by page range or via SEC EDGAR's full-text search rather than the whole filing, or check SEC 13F/13G filings naming BlackRock/Vanguard/Capital Group's ADR positions directly.",
+      "srcs": [
+        ["drreddys.com — shareholding-pattern PDF, search-indexed path (404)", "https://www.drreddys.com/media/806936/5-shareholding-pattern.pdf"],
+        ["drreddys.com — shareholding-pattern page, guessed path (404)", "https://www.drreddys.com/investors/shareholder-information/shareholding-pattern"],
+        ["drreddys.com — investors landing page, guessed path (404)", "https://www.drreddys.com/investors"],
+        ["SEC EDGAR — Dr Reddy's Form 20-F, FY2026 (exceeded fetch size limit)", "https://www.sec.gov/Archives/edgar/data/0001135951/000157587226000381/rdy0899_20f.htm"]
+      ]
+    },
+    {
+      "what": "Eternal Limited's shareholding pattern was opened for the quarter ended 30.09.2025 — the most recent filing locatable via web search within budget — but Eternal reports quarterly, and at least one, possibly two, more recent quarters (31.12.2025 and 31.03.2026 or 30.06.2026) almost certainly exist and were not checked; a q1fy27/blog post found in search ('Q1FY27 shareholders' letter') implies filings exist into mid-2026.",
+      "whyItMatters": "The Temasek (Dunearn + Camas), DF International Partners and NBIM percentages recorded here (holders-b3:c008–c011) are accurate as of 30.09.2025 but may already be stale; FPI positions in a high-turnover stock like Eternal can move materially quarter to quarter. A future pass should fetch Eternal's own governance/shareholding-pattern page directly (which returned incomplete link data in this pass — the exact current-quarter PDF filename could not be extracted from the rendered page) rather than relying on a search-indexed PDF.",
+      "srcs": [
+        ["Eternal — Shareholding Pattern as on 30.09.2025", "https://b.zmtcdn.com/investor-relations/e69e622a95db21b07f8a7c5d83dffaa6_1761817931.pdf"],
+        ["Eternal — Governance/shareholding-pattern tab (link destinations not extractable in this pass)", "https://www.eternal.com/investor-relations/governance/?tab=shareholding-pattern"]
+      ]
+    }
+  ],
+  "narratives": [],
+  "symmetryCheck": "The same lens applied to this batch's five companies found LIC (the domestic control) named ≥1% and quantified in 2 of 3 companies actually opened at primary-source granularity — Eicher Motors (1.14%) and Grasim Industries (6.59%, the largest single named institutional shareholder in that company after the Birla promoter group) — and unnamed/below-threshold in the third (Eternal). This mirrors the companion holders.json file's finding: LIC clears 1% more often and by a wider margin than any single mandatory-comparison-set foreign holder. Of the mandatory comparison set, only two names surfaced anywhere in this batch: Capital Group (1.35% of Eicher Motors, via New World Fund Inc) and NBIM/Norges Bank (1.12% of Eternal, via Government Pension Fund Global) — both single sightings, both in the 1.0–1.4% range, neither approaching a control stake. BlackRock, Vanguard, Fidelity, Kuwait Investment Authority and ADIA were absent by name from every company where a primary filing was opened in this batch, consistent with the companion file's finding that passive-index and diversified-mandate holders rarely cross the 1% per-vehicle naming threshold in any single Indian company even when the underlying manager's aggregate India AUM is large. The batch's most concentrated non-domestic holder by far was not in the comparison set at all: Temasek Holdings, at a combined 2.87% of Eternal across two vehicles — larger than any comparison-set holder found in any of the eight companies opened across this file and its companion (holders.json) to date. Run on the two foreign promoter-linked holders found here — Suzuki Motor Corporation in the companion file's Maruti Suzuki sample, and P.T. Indo Bharat Rayon (part of the Birla family's own overseas promoter-group structure) in this batch's Grasim sample — the lens shows the same pattern twice: a single foreign-registered promoter/promoter-group vehicle dwarfs every passive FPI line in its own company, and in neither case is that vehicle a passive index fund of the kind the 'BlackRock owns India' narrative is about.",
+  "baseRates": [
+    {
+      "property": "constituents in this batch where any single foreign holder (including foreign promoter/promoter-group vehicles, excluding custodians of record) holds ≥5%",
+      "numerator": 0,
+      "denominator": 5,
+      "label": "the 5 NIFTY 50 constituents in this batch (Coal India, Dr. Reddy's, Eicher Motors, Eternal, Grasim Industries); the two companies without a primary filing (Coal India, Dr. Reddy's) are counted in the denominator but could not be checked for this property and default to 'not found' rather than 'confirmed absent' — see gaps",
+      "srcs": [
+        ["Eicher Motors — Shareholding Pattern as on 31.03.2026", "https://www.eicher.in/content/dam/eicher-motors/investor/shareholder's-information/shareholding-pattern/shareholding-pattern-as-on-31-03-26.pdf"],
+        ["Grasim Industries — Shareholding Pattern as on 30.06.2026", "https://www.grasim.com/Upload/PDF/shareholding-pattern-june-2026.pdf"],
+        ["Eternal — Shareholding Pattern as on 30.09.2025", "https://b.zmtcdn.com/investor-relations/e69e622a95db21b07f8a7c5d83dffaa6_1761817931.pdf"]
+      ]
+    },
+    {
+      "property": "constituents in this batch where a mandatory-comparison-set holder (BlackRock, Vanguard, NBIM, GIC, Capital Group, Fidelity, KIA, ADIA) is named ≥1%",
+      "numerator": 2,
+      "denominator": 5,
+      "label": "the 5 NIFTY 50 constituents in this batch; Eicher Motors (Capital Group, GIC) and Eternal (NBIM) each had one comparison-set holder named ≥1%; Grasim had none; Coal India and Dr. Reddy's were not checked at this granularity",
+      "srcs": [
+        ["Eicher Motors — Shareholding Pattern as on 31.03.2026", "https://www.eicher.in/content/dam/eicher-motors/investor/shareholder's-information/shareholding-pattern/shareholding-pattern-as-on-31-03-26.pdf"],
+        ["Eternal — Shareholding Pattern as on 30.09.2025", "https://b.zmtcdn.com/investor-relations/e69e622a95db21b07f8a7c5d83dffaa6_1761817931.pdf"]
+      ]
+    },
+    {
+      "property": "constituents in this batch where LIC (domestic control) is named ≥1%",
+      "numerator": 2,
+      "denominator": 5,
+      "label": "the 5 NIFTY 50 constituents in this batch; LIC is named ≥1% in Eicher Motors (1.14%) and Grasim Industries (6.59%); not named (below threshold or absent) in Eternal; Coal India and Dr. Reddy's were not checked at this granularity",
+      "srcs": [
+        ["Eicher Motors — Shareholding Pattern as on 31.03.2026", "https://www.eicher.in/content/dam/eicher-motors/investor/shareholder's-information/shareholding-pattern/shareholding-pattern-as-on-31-03-26.pdf"],
+        ["Grasim Industries — Shareholding Pattern as on 30.06.2026", "https://www.grasim.com/Upload/PDF/shareholding-pattern-june-2026.pdf"],
+        ["Eternal — Shareholding Pattern as on 30.09.2025", "https://b.zmtcdn.com/investor-relations/e69e622a95db21b07f8a7c5d83dffaa6_1761817931.pdf"]
+      ]
+    }
+  ],
+  "gaps": [
+    "Coal India's and Dr. Reddy's Laboratories' primary SEBI shareholding-pattern filings were not reachable within this batch's fetch budget (coalindia.in 403 throughout; drreddys.com 404 throughout; Dr. Reddy's SEC 20-F exceeded the fetch-tool size limit) — both are recorded at screener.in aggregate tier only, per the domain's explicit fallback instruction. No individual foreign holder is named for either company in this file.",
+    "Eternal Limited's filing opened here is dated 30.09.2025; at least one and likely two more recent quarters were not checked (see voids) — the Temasek, DF International Partners and NBIM percentages recorded may be stale by up to a year as of this file's asOf date.",
+    "Grasim Industries' Foreign Portfolio Investor Category I (637 entities, 13.16% aggregate) shows no individually named sub-holder ≥1% in the page range captured — it is possible the filing's XBRL render includes named rows beyond what was captured, or that this is a genuinely maximally fragmented FPI base; not independently re-verified against the raw XBRL source.",
+    "Suzuki Motor Corporation's exact stake in Maruti Suzuki was left unresolved as a discrepancy in the companion holders.json file (58.65% vs 56.28%, two different aggregator snapshots) — flagged there, not re-investigated here as Maruti Suzuki is outside this batch.",
+    "This batch's data on Capital Group (Eicher Motors only) and NBIM (Eternal only) each rest on a single sighting; neither was cross-checked against a second company to establish whether the holding is typical of that manager's broader India book or an outlier.",
+    "Camas Investments Pte Ltd's identification as a Temasek Holdings subsidiary rests on Singapore corporate-registry aggregators (sgpbusiness.com, PitchBook), not a Temasek primary disclosure (e.g., Temasek's own annual review or a Temasek-filed SEBI disclosure) — recorded at reported tier for that specific sub-claim within the cap:temasek entity."
+  ]
+}

@@ -132,7 +132,24 @@ export type Predicate =
   | 'sector'    // belongs to sector
   | 'contra'    // DENIAL or counter-evidence — first-class, never suppressed
   | 'supersede' // fact update — target is RETAINED and addressable
-  | 'analytic'; // non-causal comparison
+  | 'analytic'  // non-causal comparison
+  | 'loan'      // lender → borrower; a = ₹ crore at the source's rate (stated in d); terms carry conditions
+  | 'grant';    // donor → recipient association; a = ₹ crore for the FY named in d
+
+/**
+ * A loan's terms as the lender's document states them. Every field is optional —
+ * only what the source says is recorded — and a number the source does not give is
+ * null, never 0.
+ */
+export interface LoanTerms {
+  /** The lender's instrument name, verbatim (IPF, PforR, DPL, sovereign loan…); null when the source does not name it. */
+  instrument?: string | null;
+  ratePct?: number | null;
+  tenorYears?: number | null;
+  graceYears?: number | null;
+  /** Conditions attached to the money, one per entry, as the source words them. */
+  conditions?: string[];
+}
 
 export interface GEdge {
   id?: string;
@@ -155,6 +172,8 @@ export interface GEdge {
   /** Set when this edge has been replaced. The edge itself is retained. */
   supersededBy?: string;
   m?: string[];
+  /** `loan` (and any claim whose source states terms): the terms as written. */
+  terms?: LoanTerms;
 }
 
 // ---------------------------------------------------------------------------

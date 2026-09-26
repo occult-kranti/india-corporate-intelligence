@@ -9,9 +9,10 @@
 import { readFileSync, existsSync, readdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { assembleFleet, OUTPUTS, predProblem } from './assemble-fleet.mjs';
+import { assembleFleet, predProblem } from './assemble-fleet.mjs';
 import {
   TIERS, PREDS, NODE_TYPES, FAMILIES, STATE_CODES, NARRATIVE_STATUS, SCHEME_STATUS, SCHEME_CATEGORIES, ISO_DATE, INVENTORY,
+  FLEETS, TERMS_KEYS, amountProblem,
 } from './lib/vocab.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -146,6 +147,8 @@ function checkGraph(label, nodes, edges, motifs, knownIds = new Set(), { strictC
       if (e[d] != null && !ISO_DATE.test(e[d])) err(at('edge', id), `${d} "${e[d]}" is not an ISO date (YYYY, YYYY-MM or YYYY-MM-DD)`);
     }
     if (!PREDS.includes(e.pred)) err(at('edge', id), `unknown predicate "${e.pred}"`);
+    const amount = amountProblem(e);
+    if (amount) err(at('edge', id), amount);
     for (const side of ['s', 't']) {
       const v = e[side];
       const n = byId.get(v);
@@ -212,8 +215,8 @@ if (existsSync(rawDir)) {
 }
 
 // ---------------------------------------------------------------------------
-// 4. Fleet research files — research/raw/energy/*.json, research/raw/welfare/*.json,
-//    research/raw/indices.json
+// 4. Fleet research files — research/raw/<fleet>/*.json for every fleet in FLEETS
+//    (energy, welfare, finance, ngo, capital), and research/raw/indices.json
 // ---------------------------------------------------------------------------
 //
 // The research fleets write to a contract (docs/research/FLEET_CONTRACT.md). The
@@ -221,8 +224,24 @@ if (existsSync(rawDir)) {
 // edge fails before it can reach a generated module — not after.
 const ISO = ISO_DATE;
 // Ids the derived national graph (src/graph/build.ts) or a sibling file may own.
-const KNOWN_PREFIX = /^(pol|min|sec|co|grp|per|for|energy|wel|scheme|claim):/;
-const FLEET_DIRS = ['research/raw/energy', 'research/raw/welfare'];
+const KNOWN_PREFIX = /^(pol|min|sec|co|grp|per|for|energy|wel|scheme|fin|ngo|claim):/;
+const FLEET_DIRS = FLEETS.map((f) => `research/raw/${f.dir}`);
+
+/** The shape of a claim's `terms`, checked as the assembler reads it: fixed keys, conditions a list of strings. */
+function termsProblems(t) {
+  if (t == null) return [];
+  if (typeof t !== 'object' || Array.isArray(t)) return [`terms must be an object, found ${JSON.stringify(t)}`];
+  const out = [];
+  for (const k of Object.keys(t)) if (!TERMS_KEYS.includes(k)) out.push(`terms.${k} is not a terms field (expected ${TERMS_KEYS.join(' | ')})`);
+  if (t.instrument != null && typeof t.instrument !== 'string') out.push('terms.instrument must be text');
+  for (const k of ['ratePct', 'tenorYears', 'graceYears']) {
+    if (t[k] != null && !(typeof t[k] === 'number' && Number.isFinite(t[k]))) out.push(`terms.${k} must be a number or null — a figure that is not a number is a gap, record it as null`);
+  }
+  if (t.conditions !== undefined && !(Array.isArray(t.conditions) && t.conditions.every((c) => typeof c === 'string'))) {
+    out.push('terms.conditions must be a list of strings');
+  }
+  return out;
+}
 
 const srcShape = (where, srcs) => {
   for (const src of srcs ?? []) {
@@ -349,6 +368,12 @@ for (const rel of FLEET_DIRS) {
       for (const d of ['from', 'to']) if (c[d] && !ISO.test(c[d])) err(w, `${d} "${c[d]}" is not an ISO date`);
       if (c.supersededBy && !claimIds.has(c.supersededBy)) err(w, `supersededBy "${c.supersededBy}" does not resolve — superseded facts stay addressable`);
       if (c.benefit?.who && !ids.has(c.benefit.who) && !KNOWN_PREFIX.test(c.benefit.who) && !atlasIds.has(c.benefit.who)) warn(w, `benefit.who "${c.benefit.who}" is not a known id`);
+      // A loan or grant with no number must say so, or a ₹ total would read the gap as 0.
+      if (c.status !== 'killed') {
+        const amount = amountProblem(c);
+        if (amount) err(w, amount);
+      }
+      for (const p of termsProblems(c.terms)) err(w, p);
       srcShape(w, c.srcs);
     }
     // Denials are first-class: every alleged claim is answered in the same file.
@@ -439,7 +464,7 @@ if (existsSync(indicesPath)) {
 }
 
 // ---------------------------------------------------------------------------
-// 5. Generated fleet modules — src/graph/energy.generated.ts, src/data/welfare.generated.ts
+// 5. Generated fleet modules — one per fleet in FLEETS (scripts/lib/vocab.mjs)
 // ---------------------------------------------------------------------------
 //
 // scripts/assemble-fleet.mjs is the last gate before TypeScript. This section
@@ -477,14 +502,22 @@ function nationalIds() {
   }
 }
 
-const GENERATED = [
-  { fleet: 'energy', file: OUTPUTS.energy, nodes: ['ENERGY_NODES'], edges: 'ENERGY_EDGES', benefits: 'ENERGY_BENEFITS', domains: 'ENERGY_EDGE_DOMAIN', meta: 'ENERGY_META' },
-  { fleet: 'welfare', file: OUTPUTS.welfare, nodes: ['WELFARE_ENTITIES', 'WELFARE_SCHEME_NODES'], edges: 'WELFARE_CLAIMS', benefits: 'WELFARE_BENEFITS', domains: 'WELFARE_EDGE_DOMAIN', coverage: 'WELFARE_COVERAGE', meta: 'WELFARE_META' },
-];
+// The literal names each kind of module exports. A welfare module names its node
+// and edge lists differently and carries coverage; every graph fleet is alike.
+const GENERATED = FLEETS.map((f) => {
+  const P = f.prefix;
+  const common = { fleet: f.key, file: f.out, rawDir: `research/raw/${f.dir}`, benefits: `${P}_BENEFITS`, domains: `${P}_EDGE_DOMAIN`, meta: `${P}_META` };
+  return f.kind === 'welfare'
+    ? { ...common, nodes: [`${P}_ENTITIES`, `${P}_SCHEME_NODES`], edges: `${P}_CLAIMS`, coverage: `${P}_COVERAGE` }
+    : { ...common, nodes: [`${P}_NODES`], edges: `${P}_EDGES` };
+});
 const generated = GENERATED.map((g) => {
   const path = join(root, g.file);
   if (!existsSync(path)) {
-    err(g.file, 'generated module is missing — run npm run generate');
+    // A fleet whose research has never run may have no module yet; one whose
+    // research exists must have been assembled, or the site ships without it.
+    if (existsSync(join(root, g.rawDir))) err(g.file, `generated module is missing but ${g.rawDir}/ exists — run npm run generate`);
+    else notes.push(`${g.file}: not generated and ${g.rawDir}/ absent — fleet not started`);
     return null;
   }
   const src = readFileSync(path, 'utf8');

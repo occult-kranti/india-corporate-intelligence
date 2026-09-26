@@ -1,0 +1,2605 @@
+{
+  "asOf": "2026-09-26",
+  "domain": "literature",
+  "scope": "Annotated bibliography and narrative calibration for external finance to India: the academic and memoir literature on IMF/World Bank conditionality (Kentikelenis & Stubbs; Kapur, Lewis & Webb; Kirk; Bhagwati & Panagariya; Ahluwalia; Rangarajan; Y.V. Reddy), on Chinese official finance (Dreher et al.; AidData GCDF 3.0; Brookings 2020) and on procurement red flags (Fazekas & Kocsis); the primary records that calibrate six circulating narratives (OED/IEG India Country Assistance Evaluation 2001; the World Bank GIA verification of Doing Business irregularities 2020-12-08; the Supreme Court's interim order in State of Kerala v Union of India 2024-04-01; the Resilient Kerala DPO program document 2019; JICA MAHSR tranche V 2023; AIIB 2020 loans); and the open datasets with their licences. It records works as `mechanism` nodes and only office-holders as persons. It leaves out: project-level lending (worldbank.json, worldbank-projects.json, adb-aiib.json, bilateral-china.json), contract awards (contracts.json), and IMF primary documents (imf.org blocked from this environment). Web search was capped for the session, so the sweep used known URLs; the CAG audit of externally aided projects, the IEG country evaluations after 2001, the Indian long-reads on the bullet-train loan and AIIB, and the Kapur–Webb G-24 paper could not be opened and are recorded as gaps.",
+  "sources": [
+    [
+      "IMF Monitor — home (Kentikelenis & Stubbs conditionality project)",
+      "https://www.imfmonitor.org/"
+    ],
+    [
+      "IMF Monitor — Conditionality dataset page (65,894 conditions, 1980–2019; citation to A Thousand Cuts, OUP 2023)",
+      "https://www.imfmonitor.org/conditionality"
+    ],
+    [
+      "Cambridge University Press — Banking on Beijing (Dreher, Fuchs, Parks, Strange, Tierney, 2022) product page",
+      "https://www.cambridge.org/core/product/identifier/9781108564496/type/book"
+    ],
+    [
+      "AidData — Global Chinese Development Finance Dataset, Version 3.0 landing page",
+      "https://www.aiddata.org/data/aiddatas-global-chinese-development-finance-dataset-version-3-0"
+    ],
+    [
+      "Cambridge University Press — Fazekas & Kocsis, Uncovering High-Level Corruption, BJPS 50(1) 2020",
+      "https://www.cambridge.org/core/product/identifier/S0007123417000461/type/journal_article"
+    ],
+    [
+      "Brookings Institution Press — The World Bank: Its First Half Century (Kapur, Lewis, Webb)",
+      "https://www.brookings.edu/books/the-world-bank/"
+    ],
+    [
+      "Open Library search API — Backstage (Ahluwalia, Rupa)",
+      "https://openlibrary.org/search.json?title=Backstage&author=Ahluwalia&limit=3&fields=title,subtitle,author_name,first_publish_year,publisher,isbn,number_of_pages_median"
+    ],
+    [
+      "Open Library search API — Advice and Dissent (Y.V. Reddy, HarperCollins 2017)",
+      "https://openlibrary.org/search.json?title=Advice+and+Dissent&author=Reddy&limit=3&fields=title,subtitle,author_name,first_publish_year,publisher,isbn,number_of_pages_median"
+    ],
+    [
+      "Open Library search API — India's Tryst with Destiny (Bhagwati & Panagariya, HarperCollins 2012)",
+      "https://openlibrary.org/search.json?title=Tryst+with+Destiny&author=Bhagwati&limit=3&fields=title,subtitle,author_name,first_publish_year,publisher,isbn,number_of_pages_median"
+    ],
+    [
+      "Open Library search API — Why Growth Matters (Bhagwati & Panagariya, PublicAffairs 2013)",
+      "https://openlibrary.org/search.json?title=Why+Growth+Matters&author=Bhagwati&limit=3&fields=title,subtitle,author_name,first_publish_year,publisher,isbn,number_of_pages_median"
+    ],
+    [
+      "Open Library search API — India and the World Bank: The Politics of Aid and Influence (Jason A. Kirk, Anthem Press 2010)",
+      "https://openlibrary.org/search.json?title=India+and+the+World+Bank&author=Kirk&limit=3&fields=title,subtitle,author_name,first_publish_year,publisher,isbn,number_of_pages_median"
+    ],
+    [
+      "Penguin Random House India — Forks in the Road: My Days at RBI and Beyond (C. Rangarajan, Penguin Business, 2022-10)",
+      "https://www.penguin.co.in/book/forks-in-the-road/"
+    ],
+    [
+      "Wikipedia — 1991 Indian economic crisis",
+      "https://en.wikipedia.org/wiki/1991_Indian_economic_crisis"
+    ],
+    [
+      "Wikipedia — Montek Singh Ahluwalia",
+      "https://en.wikipedia.org/wiki/Montek_Singh_Ahluwalia"
+    ],
+    [
+      "Wikipedia — C. Rangarajan",
+      "https://en.wikipedia.org/wiki/C._Rangarajan"
+    ],
+    [
+      "Wikipedia — Y. V. Reddy",
+      "https://en.wikipedia.org/wiki/Y._V._Reddy"
+    ],
+    [
+      "Wikipedia — Arvind Panagariya",
+      "https://en.wikipedia.org/wiki/Arvind_Panagariya"
+    ],
+    [
+      "Wikipedia — Ease of doing business index (data-irregularities section; India rank table)",
+      "https://en.wikipedia.org/wiki/Ease_of_doing_business_index"
+    ],
+    [
+      "World Bank statement 2021-09-16 — World Bank Group to Discontinue Doing Business Report",
+      "https://www.worldbank.org/en/news/statement/2021/09/16/world-bank-group-to-discontinue-doing-business-report"
+    ],
+    [
+      "World Bank Group Internal Audit — Verification Report of Management Review of Data Irregularities in the Doing Business Reports from 2016 to 2020, Report No. FY21-2-4-2104615, 2020-12-08 (text)",
+      "http://documents1.worldbank.org/curated/en/569901608154479291/txt/Management-Review-of-Data-Irregularities-in-the-Doing-Business-Reports-from-2016-to-2020-Verification-Report.txt"
+    ],
+    [
+      "World Bank Documents & Reports API — query: Doing Business data irregularities review",
+      "https://search.worldbank.org/api/v2/wds?format=json&qterm=Doing%20Business%20data%20irregularities%20review&rows=10&fl=docna,docdt,docty,url,pdfurl,txturl"
+    ],
+    [
+      "World Bank Documents & Reports API — query: India Country Program Evaluation IEG (returned no post-2001 country evaluation)",
+      "https://search.worldbank.org/api/v2/wds?format=json&qterm=India%20Country%20Program%20Evaluation%20Independent%20Evaluation%20Group&rows=10&fl=docna,docdt,docty,url,pdfurl,txturl"
+    ],
+    [
+      "World Bank Documents & Reports API — query: India Country Assistance Evaluation OED 2000–2005",
+      "https://search.worldbank.org/api/v2/wds?format=json&qterm=%22India%22%20%22Country%20Assistance%20Evaluation%22%20OED&rows=10&fl=docna,docdt,docty,url,pdfurl,txturl&strdate=2000-01-01&enddate=2005-12-31"
+    ],
+    [
+      "World Bank OED — India: Country Assistance Evaluation, Report No. 22134, 2001-04-23 (text)",
+      "http://documents1.worldbank.org/curated/en/813991468750240136/text/India-Country-assistance-evaluation.txt"
+    ],
+    [
+      "World Bank — Program Document PGD77, First Resilient Kerala Program Development Policy Operation, 2019 (text)",
+      "https://documents.worldbank.org/curated/en/476681561946430308/text/India-First-Resilient-Kerala-Program-Development-Policy-Operation.txt"
+    ],
+    [
+      "World Bank — Development Policy Financing (product page: prior actions, disbursement conditions, country ownership)",
+      "https://www.worldbank.org/en/what-we-do/products-and-services/financing-instruments/development-policy-financing"
+    ],
+    [
+      "World Bank Data Catalog — Public licenses (CC BY 4.0 default for Bank-produced datasets)",
+      "https://datacatalog.worldbank.org/public-licenses"
+    ],
+    [
+      "World Bank — Terms and Conditions (general; points to dataset terms)",
+      "https://www.worldbank.org/en/about/legal/terms-of-use-for-datasets"
+    ],
+    [
+      "World Bank Projects API v3 — India probe (HTTP 200, 2026-09-26)",
+      "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1"
+    ],
+    [
+      "Indian Kanoon — The State of Kerala v Union of India, Supreme Court, interim order 2024-04-01 (Original Suit; I.A. 6149 of 2024)",
+      "https://indiankanoon.org/doc/191833676/"
+    ],
+    [
+      "Brookings — Ananth Krishnan, Following the money: China Inc's growing stake in India-China relations, 2020-03-30",
+      "https://www.brookings.edu/articles/following-the-money-china-incs-growing-stake-in-india-china-relations/"
+    ],
+    [
+      "Free Press Journal 2020-09-16 — Did the Modi government borrow from China-backed AIIB amid standoff?",
+      "https://www.freepressjournal.in/business/did-the-modi-government-borrow-from-china-backed-aiib-amid-standoff"
+    ],
+    [
+      "JICA press release 2023-12-21/22 — ODA loans to India incl. MAHSR (V) ¥400,000 million",
+      "https://www.jica.go.jp/english/information/press/2023/20231222_30.html"
+    ]
+  ],
+  "entities": [
+    {
+      "id": "fin:imf",
+      "label": "IMF",
+      "sub": "International Monetary Fund — balance-of-payments lender; conditionality",
+      "ty": "fund",
+      "fam": "capital",
+      "st": null,
+      "sz": 3,
+      "al": [
+        "International Monetary Fund"
+      ],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "Multilateral lender whose 1981 EFF and 1991 stand-by arrangement with India are the canonical Indian cases of policy conditionality; imf.org is blocked from this environment so its record here comes from the IMF Monitor dataset, memoirs and encyclopaedic summaries",
+      "d": [
+        "Attached 65,894 policy conditions to its lending programmes between 1980 and 2019 according to the IMF Monitor dataset (Kentikelenis & Stubbs) [reported]",
+        "Lent India an emergency package in 1991 against which the RBI pledged 67 tonnes of gold; Wikipedia gives the loan as US$7 billion — unverified against IMF documents [reported]",
+        "Ahluwalia was the first director of its Independent Evaluation Office (2001–2004-06) and 'supervised several studies critical of various aspects of the functioning of the IMF' [reported]"
+      ],
+      "srcs": [
+        [
+          "IMF Monitor — Conditionality",
+          "https://www.imfmonitor.org/conditionality"
+        ],
+        [
+          "Wikipedia — 1991 Indian economic crisis",
+          "https://en.wikipedia.org/wiki/1991_Indian_economic_crisis"
+        ],
+        [
+          "Wikipedia — Montek Singh Ahluwalia",
+          "https://en.wikipedia.org/wiki/Montek_Singh_Ahluwalia"
+        ]
+      ]
+    },
+    {
+      "id": "fin:ibrd",
+      "label": "IBRD",
+      "sub": "World Bank lending arm (non-concessional); publisher of Doing Business until 2021",
+      "ty": "fund",
+      "fam": "capital",
+      "st": null,
+      "sz": 3,
+      "al": [
+        "International Bank for Reconstruction and Development",
+        "World Bank"
+      ],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "India's largest multilateral lender; subject of the OED 2001 Country Assistance Evaluation; owner of the Doing Business report whose data irregularities were verified by its own Group Internal Audit in 2020",
+      "d": [
+        "OED rated the outcome of its India assistance in the 1990s 'moderately satisfactory'; 'Conditionality was used sparingly' [documented]",
+        "Its Development Policy Financing disburses 'non-earmarked general budget financing' against prior actions and 'maintenance of an adequate macroeconomic policy framework, as determined by the Bank with inputs from IMF assessments' [documented]",
+        "Discontinued the Doing Business report on 2021-09-16 after data irregularities in DB2018 and DB2020 'were reported internally in June 2020' [documented]",
+        "Kerala DPO program document (2019): 'India is currently eligible for only IBRD financial terms' [documented]"
+      ],
+      "srcs": [
+        [
+          "OED India CAE 2001",
+          "http://documents1.worldbank.org/curated/en/813991468750240136/text/India-Country-assistance-evaluation.txt"
+        ],
+        [
+          "World Bank — DPF",
+          "https://www.worldbank.org/en/what-we-do/products-and-services/financing-instruments/development-policy-financing"
+        ],
+        [
+          "World Bank statement 2021-09-16",
+          "https://www.worldbank.org/en/news/statement/2021/09/16/world-bank-group-to-discontinue-doing-business-report"
+        ],
+        [
+          "Kerala DPO PGD77",
+          "https://documents.worldbank.org/curated/en/476681561946430308/text/India-First-Resilient-Kerala-Program-Development-Policy-Operation.txt"
+        ]
+      ]
+    },
+    {
+      "id": "fin:ida",
+      "label": "IDA",
+      "sub": "World Bank concessional arm; India graduated to IBRD-only terms but received IDA blend terms by exception",
+      "ty": "fund",
+      "fam": "capital",
+      "st": null,
+      "sz": 2,
+      "al": [
+        "International Development Association"
+      ],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "Financier of the First Resilient Kerala DPO (US$250m, SDR 115.2m + US$90.4m) on IDA blend terms 'under the amendments approved by the Board based on the IDA18 midterm review'",
+      "d": [
+        "Financed the First Resilient Kerala Program DPO (PGD77) as an IDA credit of US$250 million equivalent to the Republic of India, for the Government of Kerala's programme [documented]"
+      ],
+      "srcs": [
+        [
+          "Kerala DPO PGD77",
+          "https://documents.worldbank.org/curated/en/476681561946430308/text/India-First-Resilient-Kerala-Program-Development-Policy-Operation.txt"
+        ]
+      ]
+    },
+    {
+      "id": "fin:ieg",
+      "label": "Independent Evaluation Group (World Bank)",
+      "sub": "Formerly Operations Evaluation Department (OED); author of the 2001 India Country Assistance Evaluation",
+      "ty": "agency",
+      "fam": "enforce",
+      "st": null,
+      "sz": 2,
+      "al": [
+        "IEG",
+        "OED",
+        "Operations Evaluation Department"
+      ],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "The lender's own evaluator; its India CAE is the only full country-programme evaluation of the Bank in India that this sweep could locate (2001); its data portal returned HTTP 403 from this environment",
+      "d": [
+        "India: Country Assistance Evaluation, Report No. 22134, dated 2001-04-23, covering the 1990s [documented]",
+        "Follow-on sector CAE working papers (gender, environment, education, water, social development, urban, public financial accountability, Bank image) dated 2002 [documented]"
+      ],
+      "srcs": [
+        [
+          "OED India CAE 2001",
+          "http://documents1.worldbank.org/curated/en/813991468750240136/text/India-Country-assistance-evaluation.txt"
+        ],
+        [
+          "WB Documents API — India CAE query",
+          "https://search.worldbank.org/api/v2/wds?format=json&qterm=%22India%22%20%22Country%20Assistance%20Evaluation%22%20OED&rows=10&fl=docna,docdt,docty,url,pdfurl,txturl&strdate=2000-01-01&enddate=2005-12-31"
+        ]
+      ]
+    },
+    {
+      "id": "fin:aiib",
+      "label": "Asian Infrastructure Investment Bank",
+      "sub": "Beijing-headquartered multilateral bank; India second-largest shareholder",
+      "ty": "fund",
+      "fam": "capital",
+      "st": null,
+      "sz": 2,
+      "al": [
+        "AIIB"
+      ],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "Lender of two COVID-19 loans to India signed during the 2020 border standoff; the object of the 'borrowing from a China-backed bank' narrative",
+      "d": [
+        "China 26.5% and India 7.6% of shareholding; India had borrowed about US$3.6 billion, roughly 25% of AIIB lending, by 2020-09 (FPJ) [reported]"
+      ],
+      "srcs": [
+        [
+          "FPJ 2020-09-16",
+          "https://www.freepressjournal.in/business/did-the-modi-government-borrow-from-china-backed-aiib-amid-standoff"
+        ]
+      ]
+    },
+    {
+      "id": "fin:jica",
+      "label": "Japan International Cooperation Agency",
+      "sub": "Japan's ODA loan agency; MAHSR lender",
+      "ty": "fund",
+      "fam": "capital",
+      "st": null,
+      "sz": 2,
+      "al": [
+        "JICA"
+      ],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "Control lender for the symmetry check: highly concessional, tied-procurement ODA to Indian public projects",
+      "d": [
+        "Signed MAHSR (V) ¥400,000 million at 0.1%/50 years/15-year grace with tied procurement, 2023-12 [documented]"
+      ],
+      "srcs": [
+        [
+          "JICA press 2023-12",
+          "https://www.jica.go.jp/english/information/press/2023/20231222_30.html"
+        ]
+      ]
+    },
+    {
+      "id": "fin:nhsrcl",
+      "label": "National High Speed Rail Corporation Limited",
+      "sub": "Implementing agency of the Mumbai–Ahmedabad High Speed Rail (MAHSR)",
+      "ty": "psu",
+      "fam": "state",
+      "st": "dl",
+      "sz": 2,
+      "al": [
+        "NHSRCL"
+      ],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "Beneficiary of the JICA MAHSR loan tranches; stub node — full record in bilateral-china.json",
+      "d": [
+        "Beneficiary of MAHSR (V) financing for the ~500 km Mumbai–Ahmedabad line (JICA) [documented]"
+      ],
+      "srcs": [
+        [
+          "JICA press 2023-12",
+          "https://www.jica.go.jp/english/information/press/2023/20231222_30.html"
+        ]
+      ]
+    },
+    {
+      "id": "fin:jica-mahsr-loan",
+      "label": "JICA MAHSR ODA loan programme (tranches I–V, 0.1%/50y/15y, tied)",
+      "sub": "Special Terms for Economic Partnership loan series for the bullet train",
+      "ty": "mechanism",
+      "fam": "instrument",
+      "st": null,
+      "sz": 2,
+      "al": [
+        "Bullet train loan"
+      ],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "The instrument whose tied procurement is the documented 'closed club' case in this domain",
+      "d": [
+        "Tranche V: ¥400,000 million, 0.1% p.a., 50-year repayment, 15-year grace, procurement tied (JICA, 2023-12) [documented]"
+      ],
+      "srcs": [
+        [
+          "JICA press 2023-12",
+          "https://www.jica.go.jp/english/information/press/2023/20231222_30.html"
+        ]
+      ]
+    },
+    {
+      "id": "min:ministry-of-finance",
+      "label": "Ministry of Finance",
+      "sub": "Union finance ministry; Department of Economic Affairs signs all external loans and sets state borrowing ceilings under Article 293(3)",
+      "ty": "ministry",
+      "fam": "state",
+      "st": "dl",
+      "sz": 4,
+      "al": [
+        "MoF",
+        "Department of Economic Affairs",
+        "DEA"
+      ],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "Borrower of record for every multilateral and bilateral sovereign loan; defendant in State of Kerala v Union of India; the 'DEA bottleneck' of the state-borrowing narrative",
+      "d": [
+        "Imposed a Net Borrowing Ceiling on Kerala of ₹32,442 crore (3% of projected GSDP) for FY2023-24 by letter No. 40(1)/PF-S/2023-24 dated 2023-03-27, covering open market borrowings, loans from financial institutions, public-account liabilities and certain SOE borrowings [documented]",
+        "Argued before the Supreme Court that Kerala over-borrowed in FY2017-18 to FY2019-20 and that off-budget borrowings are includable under Article 293 [documented]"
+      ],
+      "srcs": [
+        [
+          "Indian Kanoon — Kerala v Union 2024-04-01",
+          "https://indiankanoon.org/doc/191833676/"
+        ]
+      ]
+    },
+    {
+      "id": "fin:state-kerala",
+      "label": "Government of Kerala",
+      "sub": "Opposition-run (LDF) state; plaintiff in the Article 293 borrowing suit; borrower under the Resilient Kerala DPO",
+      "ty": "state",
+      "fam": "state",
+      "st": "kl",
+      "sz": 3,
+      "al": [
+        "State of Kerala",
+        "GoK"
+      ],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "The test case for the 'opposition states are denied borrowing' narrative: it both sued the Union over its borrowing ceiling (2024) and received an IDA-blend World Bank DPO through the Union (2019)",
+      "d": [
+        "Filed an Original Suit against the Union of India over the Net Borrowing Ceiling; interim injunction refused 2024-04-01; constitutional questions on Article 293 referred to a five-judge bench [documented]",
+        "Admitted 'over-borrowing/over-utilization of the borrowing limit between the F.Ys. 2017-18 and 2019-20' (per the order) [documented]",
+        "Government of Kerala's Rebuild Kerala Development Programme was the policy basis for the US$250m First Resilient Kerala DPO (8 prior actions) [documented]"
+      ],
+      "srcs": [
+        [
+          "Indian Kanoon — Kerala v Union 2024-04-01",
+          "https://indiankanoon.org/doc/191833676/"
+        ],
+        [
+          "Kerala DPO PGD77",
+          "https://documents.worldbank.org/curated/en/476681561946430308/text/India-First-Resilient-Kerala-Program-Development-Policy-Operation.txt"
+        ]
+      ]
+    },
+    {
+      "id": "fin:net-borrowing-ceiling-2023-24",
+      "label": "Net Borrowing Ceiling on Kerala, FY2023-24 (DEA letter 2023-03-27)",
+      "sub": "Union consent mechanism under Article 293(3) — 3% of projected GSDP, ₹32,442 crore, including off-budget and certain SOE borrowings",
+      "ty": "mechanism",
+      "fam": "instrument",
+      "st": null,
+      "sz": 2,
+      "al": [
+        "NBC",
+        "Article 293(3) consent"
+      ],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "The instrument through which the Union governs all state borrowing — external loans to states are routed through it — and the subject of a pending Constitution Bench reference",
+      "d": [
+        "Quantified at ₹32,442 crore for FY2023-24; stated purpose (per Union) to keep aggregate Centre+State debt within 60% of GDP by end FY2024-25 [documented]"
+      ],
+      "srcs": [
+        [
+          "Indian Kanoon — Kerala v Union 2024-04-01",
+          "https://indiankanoon.org/doc/191833676/"
+        ]
+      ]
+    },
+    {
+      "id": "fin:wb-dpo-resilient-kerala-1",
+      "label": "P169907 — First Resilient Kerala Program DPO (PGD77)",
+      "sub": "IDA credit US$250m equivalent to India for Kerala, 2019; 8 prior actions",
+      "ty": "mechanism",
+      "fam": "instrument",
+      "st": null,
+      "sz": 2,
+      "al": [
+        "First Resilient Kerala Program Development Policy Operation"
+      ],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "A development policy loan to an opposition-run state approved under an NDA Centre — the control case for the partisan-denial narrative and the concrete example of what 'policy strings' look like",
+      "d": [
+        "Prior actions 1–8 are Government of Kerala acts (adoption of the Rebuild Kerala Development Programme, State Disaster Management Plan, river-basin authority, notified criteria-based management contract model, etc.) [documented]",
+        "'While India is currently eligible for only IBRD financial terms, IDA Blend financial terms will be applied to the operation under the amendments approved by the Board based on the IDA18 midterm review' [documented]"
+      ],
+      "srcs": [
+        [
+          "Kerala DPO PGD77",
+          "https://documents.worldbank.org/curated/en/476681561946430308/text/India-First-Resilient-Kerala-Program-Development-Policy-Operation.txt"
+        ]
+      ]
+    },
+    {
+      "id": "sc",
+      "label": "Supreme Court",
+      "sub": "Supreme Court of India",
+      "ty": "agency",
+      "fam": "enforce",
+      "st": "dl",
+      "sz": 3,
+      "al": [
+        "Supreme Court of India"
+      ],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "Adjudicator of the Article 293 dispute between Kerala and the Union",
+      "d": [
+        "Refused Kerala interim relief on 2024-04-01, finding no prima facie case and the balance of convenience with the Union; referred the interpretation of Article 293 to a five-judge bench because the Article 'has not been the subject of an authoritative pronouncement of this Court so far' [documented]"
+      ],
+      "srcs": [
+        [
+          "Indian Kanoon — Kerala v Union 2024-04-01",
+          "https://indiankanoon.org/doc/191833676/"
+        ]
+      ]
+    },
+    {
+      "id": "wel:rbi",
+      "label": "Reserve Bank of India",
+      "sub": "Central bank; executed the 1991 gold pledge",
+      "ty": "agency",
+      "fam": "enforce",
+      "st": "mh",
+      "sz": 3,
+      "al": [
+        "RBI"
+      ],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "Manager of external reserves; the institution whose governors' memoirs (Rangarajan, Reddy) are the insider record of 1991",
+      "d": [
+        "Airlifted 47 tonnes of gold to the Bank of England and 20 tonnes to UBS between 1991-05-21 and 1991-05-31 as collateral, raising US$600 million (Wikipedia) [reported]"
+      ],
+      "srcs": [
+        [
+          "Wikipedia — 1991 Indian economic crisis",
+          "https://en.wikipedia.org/wiki/1991_Indian_economic_crisis"
+        ]
+      ]
+    },
+    {
+      "id": "fin:bank-of-england",
+      "label": "Bank of England",
+      "sub": "UK central bank; counterparty to the 1991 RBI gold pledge (47 tonnes)",
+      "ty": "agency",
+      "fam": "capital",
+      "st": null,
+      "sz": 1,
+      "al": [],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "Counterparty in the best-known episode of Indian collateralised sovereign borrowing",
+      "d": [
+        "Received 47 tonnes of RBI gold as collateral in May 1991 (Wikipedia) [reported]"
+      ],
+      "srcs": [
+        [
+          "Wikipedia — 1991 Indian economic crisis",
+          "https://en.wikipedia.org/wiki/1991_Indian_economic_crisis"
+        ]
+      ]
+    },
+    {
+      "id": "fin:ubs",
+      "label": "Union Bank of Switzerland (UBS)",
+      "sub": "Swiss bank; counterparty to the 1991 RBI gold pledge (20 tonnes)",
+      "ty": "company",
+      "fam": "capital",
+      "st": null,
+      "sz": 1,
+      "al": [
+        "UBS"
+      ],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "Counterparty in the 1991 gold pledge",
+      "d": [
+        "Received 20 tonnes of RBI gold as collateral in May 1991 (Wikipedia) [reported]"
+      ],
+      "srcs": [
+        [
+          "Wikipedia — 1991 Indian economic crisis",
+          "https://en.wikipedia.org/wiki/1991_Indian_economic_crisis"
+        ]
+      ]
+    },
+    {
+      "id": "fin:government-of-china",
+      "label": "Government of the People's Republic of China",
+      "sub": "State behind China's official development finance and the AIIB's largest shareholder",
+      "ty": "ministry",
+      "fam": "capital",
+      "st": null,
+      "sz": 3,
+      "al": [
+        "PRC",
+        "China"
+      ],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "Subject of the 'Chinese capture' narrative; recorded as an institution, with its finance to Indian firms detailed in bilateral-china.json",
+      "d": [
+        "Holds 26.5% of AIIB shareholding (FPJ) [reported]",
+        "Official Chinese FDI into India reached US$8 billion cumulatively through 2017, a five-fold rise from US$1.6 billion before 2014; with announced projects 'at least US$26 billion'; infrastructure investment 'dominated by state-owned enterprises' (Krishnan, Brookings 2020) [reported]"
+      ],
+      "srcs": [
+        [
+          "FPJ 2020-09-16",
+          "https://www.freepressjournal.in/business/did-the-modi-government-borrow-from-china-backed-aiib-amid-standoff"
+        ],
+        [
+          "Brookings 2020-03-30",
+          "https://www.brookings.edu/articles/following-the-money-china-incs-growing-stake-in-india-china-relations/"
+        ]
+      ]
+    },
+    {
+      "id": "fin:doing-business-report",
+      "label": "Doing Business report (World Bank, 2003–2021)",
+      "sub": "Annual business-regulation ranking; discontinued 2021-09-16 after data irregularities",
+      "ty": "mechanism",
+      "fam": "instrument",
+      "st": null,
+      "sz": 2,
+      "al": [
+        "Ease of Doing Business index",
+        "DB"
+      ],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "The index whose Indian rank (142 in DB2015 to 63 in DB2020) became a government talking point and whose manipulation scandal produced the 'gamed for India' narrative",
+      "d": [
+        "India's rank: 142 (DB2015), 130 (DB2017/2018), 63 (DB2020) per the Wikipedia ranking table [reported]",
+        "Irregularities reported internally 2020-06; publication paused 2020-08-27; discontinued 2021-09-16 [documented]"
+      ],
+      "srcs": [
+        [
+          "Wikipedia — Ease of doing business index",
+          "https://en.wikipedia.org/wiki/Ease_of_doing_business_index"
+        ],
+        [
+          "World Bank statement 2021-09-16",
+          "https://www.worldbank.org/en/news/statement/2021/09/16/world-bank-group-to-discontinue-doing-business-report"
+        ],
+        [
+          "GIA verification report 2020-12-08",
+          "http://documents1.worldbank.org/curated/en/569901608154479291/txt/Management-Review-of-Data-Irregularities-in-the-Doing-Business-Reports-from-2016-to-2020-Verification-Report.txt"
+        ]
+      ]
+    },
+    {
+      "id": "fin:doc-wb-gia-db-verification-2020",
+      "label": "GIA Verification Report on Doing Business data irregularities (Report No. FY21-2-4-2104615, 2020-12-08)",
+      "sub": "World Bank Group Internal Audit verification of DEC management's review of DB2016–DB2020 data changes; issued by the Auditor General to President Malpass",
+      "ty": "mechanism",
+      "fam": "instrument",
+      "st": null,
+      "sz": 2,
+      "al": [
+        "Doing Business data-irregularities review"
+      ],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "The primary record that answers 'was India named?'",
+      "d": [
+        "Nine corrected irregularities: Azerbaijan (Getting Electricity, Enforcing Contracts, Trading Across Borders — DB20), Saudi Arabia (Legal Rights/Getting Credit, Paying Taxes — DB20), UAE (Paying Taxes — DB20), China (Starting a Business, Legal Rights, Paying Taxes — DB18–20) [documented]",
+        "Corrected scores/ranks: Azerbaijan 76.7/34 → 78.5/28; Saudi Arabia 71.6/62 → 70.9/63; UAE 80.9/16 → 80.8/16 (DB2020); China 65.3/78 → 64.5/85 (DB2018) [documented]",
+        "India appears twice: 'India (Mumbai) — Getting Electricity' is one of five DB16 data changes reviewed (with Indonesia, Slovakia, Chile, Mexico); and 'concerns were raised by DB team in the treatment of India during DB17 regarding the inconsistent application of the DB data collection methodology for the Dealing with Construction Permits indicator ... Management reconfirmed that they were not data irregularities during GIA's verification' [documented]",
+        "GIA 'verified the mathematical accuracy of the country rankings' but 'did not verify the underlying scoring method' [documented]"
+      ],
+      "srcs": [
+        [
+          "GIA verification report 2020-12-08",
+          "http://documents1.worldbank.org/curated/en/569901608154479291/txt/Management-Review-of-Data-Irregularities-in-the-Doing-Business-Reports-from-2016-to-2020-Verification-Report.txt"
+        ]
+      ]
+    },
+    {
+      "id": "fin:doc-oed-india-cae-2001",
+      "label": "OED — India: Country Assistance Evaluation (Report No. 22134, 2001-04-23)",
+      "sub": "The World Bank's own evaluation of its India programme in the 1990s",
+      "ty": "mechanism",
+      "fam": "instrument",
+      "st": null,
+      "sz": 2,
+      "al": [
+        "India CAE 2001"
+      ],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "The lender's ex-post verdict on conditionality, state selection and procurement in India — the primary text behind three of the six narratives",
+      "d": [
+        "Outcome 'moderately satisfactory for the decade as a whole'; efficacy 'modest, mainly on account of the Bank's limited impact on fiscal and other structural reforms' [documented]",
+        "'Conditionality was used sparingly and the commonality between the Bank's objectives and the government's was continually stressed'; Bank anti-poverty ambitions 'were, however, resisted by the authorities, who feared Bank interference in politically sensitive national programs' [documented]",
+        "1997 CAS pillar: 'concentration of assistance toward states and programs strongly committed to reform' → comprehensive reform programmes in Andhra Pradesh, Uttar Pradesh and Karnataka, close engagement with Orissa and Rajasthan [documented]",
+        "FY98 commitments of US$2.1 billion 'much lower than planned' because of sanctions by major shareholders after the May 1998 nuclear tests; only 'basic human needs' projects allowed [documented]",
+        "'Only 56% of the 50 evaluated projects in FY96-00 obtained satisfactory Bank performance at appraisal ratings compared to 61% in FY90-94'; 'implementation problems, chiefly among them procurement delays' — 'weaknesses in preparing bid documents and in contracting procedures, and delays in contract awards following bid evaluation' [documented]"
+      ],
+      "srcs": [
+        [
+          "OED India CAE 2001",
+          "http://documents1.worldbank.org/curated/en/813991468750240136/text/India-Country-assistance-evaluation.txt"
+        ]
+      ]
+    },
+    {
+      "id": "fin:lit-a-thousand-cuts",
+      "label": "A Thousand Cuts: Social Protection in the Age of Austerity (2023)",
+      "sub": "Book — Alexandros Kentikelenis & Thomas Stubbs; Oxford University Press",
+      "ty": "mechanism",
+      "fam": "instrument",
+      "st": null,
+      "sz": 2,
+      "al": [
+        "Kentikelenis & Stubbs 2023"
+      ],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "The quantitative reference on IMF conditionality; its dataset is the base-rate source for the 'policy strings' narrative",
+      "d": [
+        "Built on the IMF Monitor dataset of 65,894 conditions in IMF programmes 1980–2019, coded from IMF lending documents into prior actions, performance criteria and structural benchmarks (imfmonitor.org) [reported]",
+        "Verification: publisher page not opened (the OUP URL tried resolved to a different title); bibliographic details taken from the dataset's citation line 'Kentikelenis, A., & Stubbs, T. (2023). A Thousand Cuts: Social Protection in the Age of Austerity. Oxford University Press.' [reported]",
+        "India-specific counts (1981 EFF, 1991 SBA) not extracted — the dataset must be downloaded from Harvard Dataverse [gap]"
+      ],
+      "srcs": [
+        [
+          "IMF Monitor — Conditionality",
+          "https://www.imfmonitor.org/conditionality"
+        ],
+        [
+          "IMF Monitor — home",
+          "https://www.imfmonitor.org/"
+        ]
+      ]
+    },
+    {
+      "id": "fin:ds-imf-monitor-conditionality",
+      "label": "IMF Monitor conditionality dataset (1980–2019)",
+      "sub": "Dataset — Kentikelenis & Stubbs; 65,894 conditions; Harvard Dataverse",
+      "ty": "mechanism",
+      "fam": "instrument",
+      "st": null,
+      "sz": 1,
+      "al": [],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "Open dataset for computing how many and what kind of conditions India's IMF programmes carried relative to other borrowers",
+      "d": [
+        "Covers 'all IMF conditions included in lending programs between 1980 and 2019'; replication materials on Harvard Dataverse; licence not stated on the site pages opened [reported]"
+      ],
+      "srcs": [
+        [
+          "IMF Monitor — Conditionality",
+          "https://www.imfmonitor.org/conditionality"
+        ],
+        [
+          "IMF Monitor — home",
+          "https://www.imfmonitor.org/"
+        ]
+      ]
+    },
+    {
+      "id": "fin:lit-banking-on-beijing",
+      "label": "Banking on Beijing: The Aims and Impacts of China's Overseas Development Program (2022)",
+      "sub": "Book — Dreher, Fuchs, Parks, Strange, Tierney; Cambridge University Press; DOI 10.1017/9781108564496",
+      "ty": "mechanism",
+      "fam": "instrument",
+      "st": null,
+      "sz": 2,
+      "al": [
+        "Dreher et al. 2022"
+      ],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "The standard academic treatment of Chinese official finance; frames the ODA-vs-OOF distinction that governs how Chinese money to Indian firms should be read",
+      "d": [
+        "ISBN 9781108474108 (hb), 9781108463393 (pb), 9781108564496 (digital); not open access [documented]",
+        "Analyses nearly 4,500 projects worth US$358 billion in 138 countries over 15 years; documents China's shift from aid to debt-financed infrastructure and the risks of 'corruption, political capture, and conflict'; distinguishes ODA from Other Official Flows [reported]",
+        "Publisher page makes no India-specific claim [documented]"
+      ],
+      "srcs": [
+        [
+          "CUP — Banking on Beijing",
+          "https://www.cambridge.org/core/product/identifier/9781108564496/type/book"
+        ]
+      ]
+    },
+    {
+      "id": "fin:ds-aiddata-gcdf-3",
+      "label": "AidData Global Chinese Development Finance Dataset v3.0",
+      "sub": "Dataset — AidData (William & Mary); released 2023-11-06; 20,985 projects, 165 countries, US$1.34 trillion, commitments 2000–2021",
+      "ty": "mechanism",
+      "fam": "instrument",
+      "st": null,
+      "sz": 2,
+      "al": [
+        "GCDF 3.0"
+      ],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "The only project-level open dataset of Chinese official finance to Indian entities (bilateral-china.json extracted 113 India rows from it)",
+      "d": [
+        "Built with the TUFF 3.0 methodology from secondary sources — hence `reported`, not `documented`, tier for any figure drawn from it [documented]",
+        "Non-academic citation: 'AidData. 2023. Global Chinese Development Finance Dataset, Version 3.0'; academic citation to Custer et al. (2023) and Dreher et al. (2022) [documented]",
+        "Licence terms not stated on the landing page opened [gap]"
+      ],
+      "srcs": [
+        [
+          "AidData GCDF 3.0",
+          "https://www.aiddata.org/data/aiddatas-global-chinese-development-finance-dataset-version-3-0"
+        ]
+      ]
+    },
+    {
+      "id": "fin:lit-fazekas-kocsis-2020",
+      "label": "Fazekas & Kocsis, 'Uncovering High-Level Corruption: Cross-National Objective Corruption Risk Indicators Using Public Procurement Data' (BJPS 50(1), 2020)",
+      "sub": "Peer-reviewed article; DOI 10.1017/S0007123417000461; published online 2017-08-24",
+      "ty": "mechanism",
+      "fam": "instrument",
+      "st": null,
+      "sz": 2,
+      "al": [
+        "Fazekas & Kocsis 2020"
+      ],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "The methodological basis for procurement red flags (single bidding, short advertisement periods, procedure type) used by the tenders pipeline; not an India study",
+      "d": [
+        "Defines corruption as 'unjustified restriction of access to public contracts to favour a selected bidder'; 2.8 million contracts, 28 European countries, 2009–2014; data at digiwhist.eu [reported]",
+        "Not open access; no India data — its transfer to Indian lender-funded procurement is an analytic step, not a finding [documented]"
+      ],
+      "srcs": [
+        [
+          "CUP — Fazekas & Kocsis",
+          "https://www.cambridge.org/core/product/identifier/S0007123417000461/type/journal_article"
+        ]
+      ]
+    },
+    {
+      "id": "fin:lit-world-bank-first-half-century",
+      "label": "The World Bank: Its First Half Century (2 vols.)",
+      "sub": "Book — Devesh Kapur, John P. Lewis, Richard C. Webb; Brookings Institution Press; ISBN 9780815752349",
+      "ty": "mechanism",
+      "fam": "instrument",
+      "st": null,
+      "sz": 2,
+      "al": [
+        "Kapur, Lewis & Webb"
+      ],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "The official-access history of the Bank; volume 2's South Asia coverage is the historical baseline for Bank–India relations",
+      "d": [
+        "Two volumes: vol. 1 thematic (poverty, structural adjustment, environment, regions); vol. 2 regional case studies incl. South Asia and essays on relations with major member states and the IMF (Brookings page; 2011 listing of the 1997 work) [reported]",
+        "Brookings page does not itemise an India chapter — the India material is within South Asia [documented]"
+      ],
+      "srcs": [
+        [
+          "Brookings — The World Bank",
+          "https://www.brookings.edu/books/the-world-bank/"
+        ]
+      ]
+    },
+    {
+      "id": "fin:lit-kirk-india-and-the-world-bank",
+      "label": "India and the World Bank: The Politics of Aid and Influence (2010)",
+      "sub": "Book — Jason A. Kirk; Anthem Press; ISBN 9780857288325",
+      "ty": "mechanism",
+      "fam": "instrument",
+      "st": null,
+      "sz": 1,
+      "al": [
+        "Kirk 2010"
+      ],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "The monograph on the Bank's shift to 'focus states' in the late 1990s — the political-science account of the state-selection mechanism the OED CAE documents",
+      "d": [
+        "Bibliographic record verified via Open Library (Anthem Press, 2010; paperback 2012); content not opened — cite for the focus-states argument only after reading [reported]"
+      ],
+      "srcs": [
+        [
+          "Open Library — Kirk",
+          "https://openlibrary.org/search.json?title=India+and+the+World+Bank&author=Kirk&limit=3&fields=title,subtitle,author_name,first_publish_year,publisher,isbn,number_of_pages_median"
+        ]
+      ]
+    },
+    {
+      "id": "fin:lit-indias-tryst-with-destiny",
+      "label": "India's Tryst with Destiny (2012) / Why Growth Matters (2013)",
+      "sub": "Books — Jagdish Bhagwati & Arvind Panagariya; HarperCollins India (ISBN 9789350295854) / PublicAffairs (ISBN 9781610392716)",
+      "ty": "mechanism",
+      "fam": "instrument",
+      "st": null,
+      "sz": 1,
+      "al": [
+        "Bhagwati & Panagariya"
+      ],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "The pro-liberalisation reading of 1991: reforms as domestic necessity, not imposed strings; one author later chaired NITI Aayog and the 16th Finance Commission",
+      "d": [
+        "Bibliographic records verified via Open Library; Why Growth Matters won the Eccles Prize (Wikipedia); Wikipedia notes Panagariya's World Bank/IMF papers 'usually promote the idea of trade liberalisation and privatization' [reported]"
+      ],
+      "srcs": [
+        [
+          "Open Library — Tryst",
+          "https://openlibrary.org/search.json?title=Tryst+with+Destiny&author=Bhagwati&limit=3&fields=title,subtitle,author_name,first_publish_year,publisher,isbn,number_of_pages_median"
+        ],
+        [
+          "Open Library — Why Growth Matters",
+          "https://openlibrary.org/search.json?title=Why+Growth+Matters&author=Bhagwati&limit=3&fields=title,subtitle,author_name,first_publish_year,publisher,isbn,number_of_pages_median"
+        ],
+        [
+          "Wikipedia — Arvind Panagariya",
+          "https://en.wikipedia.org/wiki/Arvind_Panagariya"
+        ]
+      ]
+    },
+    {
+      "id": "fin:lit-backstage",
+      "label": "Backstage: The Story Behind India's High Growth Years (2020)",
+      "sub": "Memoir — Montek Singh Ahluwalia; Rupa Publications; ISBN 9789353338213",
+      "ty": "mechanism",
+      "fam": "instrument",
+      "st": null,
+      "sz": 1,
+      "al": [
+        "Ahluwalia 2020"
+      ],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "Insider memoir of 1991 and the UPA decade by the Finance Ministry official who later ran the Planning Commission — the UPA-side control for the borrowing narratives",
+      "d": [
+        "Published 2020-02-15 (Wikipedia; Open Library lists 2019 edition record); combines 'personal reflections and national economic history' [reported]"
+      ],
+      "srcs": [
+        [
+          "Wikipedia — Montek Singh Ahluwalia",
+          "https://en.wikipedia.org/wiki/Montek_Singh_Ahluwalia"
+        ],
+        [
+          "Open Library — Backstage",
+          "https://openlibrary.org/search.json?title=Backstage&author=Ahluwalia&limit=3&fields=title,subtitle,author_name,first_publish_year,publisher,isbn,number_of_pages_median"
+        ]
+      ]
+    },
+    {
+      "id": "fin:lit-forks-in-the-road",
+      "label": "Forks in the Road: My Days at RBI and Beyond (2022)",
+      "sub": "Memoir — C. Rangarajan; Penguin Business; ISBN 9780670096992; 304 pp.",
+      "ty": "mechanism",
+      "fam": "instrument",
+      "st": null,
+      "sz": 1,
+      "al": [
+        "Rangarajan 2022"
+      ],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "Memoir of the RBI Deputy Governor of 1991 (the gold pledge year) and Governor 1992–97; publisher blurb covers current-account convertibility and the end of automatic deficit monetisation",
+      "d": [
+        "Publisher description: reforms as Governor — interest-rate deregulation, prudential norms, market-determined exchange rate, current-account convertibility, ending automatic monetisation of deficits — 1982–2014 span; the gold pledge is not mentioned in the blurb [documented]"
+      ],
+      "srcs": [
+        [
+          "Penguin — Forks in the Road",
+          "https://www.penguin.co.in/book/forks-in-the-road/"
+        ]
+      ]
+    },
+    {
+      "id": "fin:lit-advice-and-dissent",
+      "label": "Advice and Dissent: My Life in Public Service (2017)",
+      "sub": "Memoir — Y. V. Reddy; HarperCollins India; ISBN 9789352643004",
+      "ty": "mechanism",
+      "fam": "instrument",
+      "st": null,
+      "sz": 1,
+      "al": [
+        "Reddy 2017"
+      ],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "Memoir of the DEA official of 1991 who became RBI Governor 2003–08 and 14th Finance Commission chair — the insider account of the Union–state fiscal architecture",
+      "d": [
+        "Bibliographic record verified via Open Library and Wikipedia; content not opened [reported]"
+      ],
+      "srcs": [
+        [
+          "Open Library — Advice and Dissent",
+          "https://openlibrary.org/search.json?title=Advice+and+Dissent&author=Reddy&limit=3&fields=title,subtitle,author_name,first_publish_year,publisher,isbn,number_of_pages_median"
+        ],
+        [
+          "Wikipedia — Y. V. Reddy",
+          "https://en.wikipedia.org/wiki/Y._V._Reddy"
+        ]
+      ]
+    },
+    {
+      "id": "fin:lit-brookings-following-the-money-2020",
+      "label": "Following the money: China Inc's growing stake in India-China relations (Brookings India, 2020-03-30)",
+      "sub": "Report — Ananth Krishnan; Brookings Institution",
+      "ty": "mechanism",
+      "fam": "instrument",
+      "st": null,
+      "sz": 1,
+      "al": [
+        "Krishnan 2020"
+      ],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "The most-cited pre-Galwan tally of Chinese investment in India; the evidentiary base of the 'capture' narrative and also of its counter",
+      "d": [
+        "Official Chinese FDI US$8bn through 2017 (5× the US$1.6bn before 2014); actual 'at least 25%' higher; 'at least US$26 billion' including announced; greenfield US$4.4bn; pledged-unapproved infrastructure ≈US$15bn; Xiaomi US$504m via a Singapore subsidiary [reported]",
+        "Argument: state–private boundaries in China 'are blurry at best'; recommends 'a friendly, open and predictable investment environment' with security safeguards — not a capture finding [reported]"
+      ],
+      "srcs": [
+        [
+          "Brookings 2020-03-30",
+          "https://www.brookings.edu/articles/following-the-money-china-incs-growing-stake-in-india-china-relations/"
+        ]
+      ]
+    },
+    {
+      "id": "fin:ds-world-bank-open-data",
+      "label": "World Bank open data: Projects API v3, Documents & Reports API v2, Data Catalog (CC BY 4.0)",
+      "sub": "Dataset/APIs — World Bank Group",
+      "ty": "mechanism",
+      "fam": "instrument",
+      "st": null,
+      "sz": 1,
+      "al": [
+        "WB Projects API",
+        "WDS API"
+      ],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "The machine-readable source for every World Bank project and document cited by the finance fleet",
+      "d": [
+        "Projects API v3 returned HTTP 200 for India on 2026-09-26; Documents & Reports API v2 (wds) returned IEG/OED evaluations and board reports with text URLs [documented]",
+        "'CC-BY 4.0, with the additional terms below, is the default license for all Datasets produced by the World Bank itself and distributed as open data'; other licences: ODbL, Microdata Research License, externally specified, custom (Data Catalog public licenses page) [documented]"
+      ],
+      "srcs": [
+        [
+          "WB Projects API v3 probe",
+          "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1"
+        ],
+        [
+          "WB Documents API — DB query",
+          "https://search.worldbank.org/api/v2/wds?format=json&qterm=Doing%20Business%20data%20irregularities%20review&rows=10&fl=docna,docdt,docty,url,pdfurl,txturl"
+        ],
+        [
+          "WB Data Catalog — public licenses",
+          "https://datacatalog.worldbank.org/public-licenses"
+        ],
+        [
+          "WB — Terms and Conditions",
+          "https://www.worldbank.org/en/about/legal/terms-of-use-for-datasets"
+        ]
+      ]
+    },
+    {
+      "id": "wel:niti-aayog",
+      "label": "NITI Aayog (DMEO)",
+      "sub": "Union policy think tank; successor to the Planning Commission (2015)",
+      "ty": "agency",
+      "fam": "state",
+      "st": "dl",
+      "sz": 2,
+      "al": [
+        "NITI Aayog"
+      ],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "Institution headed by Arvind Panagariya as first Vice Chairman (2015-01-05 to 2017-08-31); stub node",
+      "d": [
+        "First Vice Chairman: Arvind Panagariya, 2015-01-05 to 2017-08-31 (Wikipedia) [reported]"
+      ],
+      "srcs": [
+        [
+          "Wikipedia — Arvind Panagariya",
+          "https://en.wikipedia.org/wiki/Arvind_Panagariya"
+        ]
+      ]
+    },
+    {
+      "id": "per:c-rangarajan",
+      "label": "C. Rangarajan",
+      "sub": "RBI Deputy Governor 1982–91; RBI Governor 1992–97; PMEAC chairman 2005–08, 2009–14",
+      "ty": "person",
+      "fam": "state",
+      "st": null,
+      "sz": 2,
+      "al": [
+        "Chakravarthi Rangarajan"
+      ],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": "Governor, Reserve Bank of India, 1992-12-22 to 1997-11-21; Deputy Governor 1982-02-12 to 1991-08-20; Chairman, PM's Economic Advisory Council, 2009-08 to 2014-05-16",
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "Central-bank office-holder during the 1991 crisis and the reforms; author of Forks in the Road (2022)",
+      "d": [
+        "Governor of Andhra Pradesh 1997–2003; Chairman, 12th Finance Commission 2003–04; Padma Vibhushan 2002; resigned from the PMEAC on 2014-05-19 'when the UPA government was voted out of power' (Wikipedia) [reported]"
+      ],
+      "srcs": [
+        [
+          "Wikipedia — C. Rangarajan",
+          "https://en.wikipedia.org/wiki/C._Rangarajan"
+        ],
+        [
+          "Penguin — Forks in the Road",
+          "https://www.penguin.co.in/book/forks-in-the-road/"
+        ]
+      ]
+    },
+    {
+      "id": "per:yv-reddy",
+      "label": "Y. V. Reddy",
+      "sub": "RBI Deputy Governor 1996–2002; RBI Governor 2003–08; Chairman 14th Finance Commission 2013–17",
+      "ty": "person",
+      "fam": "state",
+      "st": null,
+      "sz": 2,
+      "al": [
+        "Yaga Venugopal Reddy"
+      ],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": "Governor, Reserve Bank of India, 2003-09-06 to 2008-09-05; Deputy Governor 1996-09-14 to 2002-07-31; Chairman, 14th Finance Commission, 2013-01-03 to 2017-11-25",
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "Office-holder whose 14th Finance Commission award is the Union's stated basis for adjusting states' over-borrowing (per the Kerala order); author of Advice and Dissent (2017)",
+      "d": [
+        "Wikipedia does not date his 1991 DEA posting; the memoir's account of 1991 was not opened [gap]"
+      ],
+      "srcs": [
+        [
+          "Wikipedia — Y. V. Reddy",
+          "https://en.wikipedia.org/wiki/Y._V._Reddy"
+        ]
+      ]
+    },
+    {
+      "id": "per:montek-singh-ahluwalia",
+      "label": "Montek Singh Ahluwalia",
+      "sub": "Finance Secretary (1990s); first Director, IMF Independent Evaluation Office 2001–04; Deputy Chairman, Planning Commission 2004–14",
+      "ty": "person",
+      "fam": "state",
+      "st": null,
+      "sz": 2,
+      "al": [],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": "Deputy Chairman, Planning Commission, 2004-07-06 to 2014-05-26; Director, IMF Independent Evaluation Office, 2001 to 2004-06",
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "The UPA-era planning chief and 1991 reform official; author of Backstage (2020)",
+      "d": [
+        "Worked at the World Bank 1968–1979 (Wikipedia) [reported]"
+      ],
+      "srcs": [
+        [
+          "Wikipedia — Montek Singh Ahluwalia",
+          "https://en.wikipedia.org/wiki/Montek_Singh_Ahluwalia"
+        ]
+      ]
+    },
+    {
+      "id": "per:arvind-panagariya",
+      "label": "Arvind Panagariya",
+      "sub": "First Vice Chairman, NITI Aayog 2015–17; Chairman, 16th Finance Commission 2023–28; Chancellor, Nalanda University 2023–",
+      "ty": "person",
+      "fam": "state",
+      "st": null,
+      "sz": 2,
+      "al": [],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": "Vice Chairman, NITI Aayog, 2015-01-05 to 2017-08-31; Chairman, 16th Finance Commission, 2023 to 2028 (term)",
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "NDA-era office-holder and co-author of the pro-liberalisation literature on 1991",
+      "d": [
+        "Chancellor of Nalanda University since 2023-04-30 (Wikipedia) [reported]"
+      ],
+      "srcs": [
+        [
+          "Wikipedia — Arvind Panagariya",
+          "https://en.wikipedia.org/wiki/Arvind_Panagariya"
+        ]
+      ]
+    },
+    {
+      "id": "energy:manmohan-singh",
+      "label": "Manmohan Singh",
+      "sub": "Finance Minister 1991–96; Prime Minister 2004–14",
+      "ty": "person",
+      "fam": "state",
+      "st": null,
+      "sz": 3,
+      "al": [],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": "Union Finance Minister from 1991-06 (appointed under PM P.V. Narasimha Rao); Prime Minister 2004-05 to 2014-05",
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "Finance Minister who signed the 1991 IMF programme and presented the 1991-07-24 reform Budget; reused id — the inventory also carries wel:manmohan-singh for the same person (collision to reconcile)",
+      "d": [
+        "Appointed Finance Minister in June 1991; reforms 'formally began July 1, 1991'; Budget of 1991-07-24 set out industrial deregulation, reduced import licensing, up to 51% foreign equity in priority industries and disinvestment of up to 20% of government equity in selected PSUs (Wikipedia) [reported]"
+      ],
+      "srcs": [
+        [
+          "Wikipedia — 1991 Indian economic crisis",
+          "https://en.wikipedia.org/wiki/1991_Indian_economic_crisis"
+        ]
+      ]
+    }
+  ],
+  "claims": [
+    {
+      "id": "literature:c001",
+      "s": "per:c-rangarajan",
+      "t": "wel:rbi",
+      "pred": "role",
+      "tier": "reported",
+      "a": null,
+      "lab": "Deputy Governor, RBI",
+      "d": "Deputy Governor of the Reserve Bank of India, 1982-02-12 to 1991-08-20 — in office through the May 1991 gold pledge (Wikipedia; single encyclopaedic source)",
+      "from": "1982-02-12",
+      "to": "1991-08-20",
+      "srcs": [
+        [
+          "Wikipedia — C. Rangarajan",
+          "https://en.wikipedia.org/wiki/C._Rangarajan"
+        ]
+      ],
+      "upgradeIf": "RBI governors' list page or gazette notification opened",
+      "killIf": "RBI record gives different dates",
+      "supersededBy": "literature:c002"
+    },
+    {
+      "id": "literature:c002",
+      "s": "per:c-rangarajan",
+      "t": "wel:rbi",
+      "pred": "role",
+      "tier": "reported",
+      "a": null,
+      "lab": "Governor, RBI",
+      "d": "Governor of the Reserve Bank of India, 1992-12-22 to 1997-11-21 (Wikipedia)",
+      "from": "1992-12-22",
+      "to": "1997-11-21",
+      "srcs": [
+        [
+          "Wikipedia — C. Rangarajan",
+          "https://en.wikipedia.org/wiki/C._Rangarajan"
+        ]
+      ],
+      "upgradeIf": "RBI governors' list page opened",
+      "killIf": "RBI record differs",
+      "supersededBy": null
+    },
+    {
+      "id": "literature:c003",
+      "s": "per:yv-reddy",
+      "t": "wel:rbi",
+      "pred": "role",
+      "tier": "reported",
+      "a": null,
+      "lab": "Governor, RBI",
+      "d": "Governor of the Reserve Bank of India, 2003-09-06 to 2008-09-05; earlier Deputy Governor 1996-09-14 to 2002-07-31 (Wikipedia)",
+      "from": "2003-09-06",
+      "to": "2008-09-05",
+      "srcs": [
+        [
+          "Wikipedia — Y. V. Reddy",
+          "https://en.wikipedia.org/wiki/Y._V._Reddy"
+        ]
+      ],
+      "upgradeIf": "RBI governors' list page opened",
+      "killIf": "RBI record differs",
+      "supersededBy": null
+    },
+    {
+      "id": "literature:c004",
+      "s": "per:montek-singh-ahluwalia",
+      "t": "fin:imf",
+      "pred": "role",
+      "tier": "reported",
+      "a": null,
+      "lab": "Director, IMF Independent Evaluation Office",
+      "d": "First Director of the IMF's Independent Evaluation Office, 2001 to 2004-06, where he 'supervised several studies critical of various aspects of the functioning of the IMF' (Wikipedia)",
+      "from": "2001",
+      "to": "2004-06",
+      "srcs": [
+        [
+          "Wikipedia — Montek Singh Ahluwalia",
+          "https://en.wikipedia.org/wiki/Montek_Singh_Ahluwalia"
+        ]
+      ],
+      "upgradeIf": "IMF IEO page opened (imf.org blocked here)",
+      "killIf": "IEO record differs",
+      "supersededBy": null
+    },
+    {
+      "id": "literature:c005",
+      "s": "per:arvind-panagariya",
+      "t": "wel:niti-aayog",
+      "pred": "role",
+      "tier": "reported",
+      "a": null,
+      "lab": "Vice Chairman, NITI Aayog",
+      "d": "First Vice Chairman of NITI Aayog, 2015-01-05 to 2017-08-31 (Wikipedia)",
+      "from": "2015-01-05",
+      "to": "2017-08-31",
+      "srcs": [
+        [
+          "Wikipedia — Arvind Panagariya",
+          "https://en.wikipedia.org/wiki/Arvind_Panagariya"
+        ]
+      ],
+      "upgradeIf": "PIB release on appointment/resignation opened",
+      "killIf": "Official record differs",
+      "supersededBy": null
+    },
+    {
+      "id": "literature:c006",
+      "s": "energy:manmohan-singh",
+      "t": "min:ministry-of-finance",
+      "pred": "role",
+      "tier": "reported",
+      "a": null,
+      "lab": "Union Finance Minister (1991 programme)",
+      "d": "Appointed Finance Minister in June 1991 under PM P.V. Narasimha Rao; presented the 1991-07-24 reform Budget. End date not given by the source opened, so left null.",
+      "from": "1991-06",
+      "to": null,
+      "srcs": [
+        [
+          "Wikipedia — 1991 Indian economic crisis",
+          "https://en.wikipedia.org/wiki/1991_Indian_economic_crisis"
+        ]
+      ],
+      "upgradeIf": "Lok Sabha/Council of Ministers record opened",
+      "killIf": "Official record differs",
+      "supersededBy": null
+    },
+    {
+      "id": "literature:c007",
+      "s": "fin:imf",
+      "t": "min:ministry-of-finance",
+      "pred": "loan",
+      "tier": "reported",
+      "a": 18060,
+      "lab": "1991 IMF emergency financing (stand-by arrangement and related facilities)",
+      "d": "Wikipedia gives 'a $7 billion emergency loan' secured by pledged gold; ₹ conversion ≈₹18,060 crore at ₹25.8/US$ (approximate post-devaluation rate, 1991-07; pre-devaluation ≈₹21/US$ would give ≈₹14,700 crore). The US$7bn figure aggregates facilities and is unverified against IMF documents (imf.org blocked); the stand-by arrangement alone is usually cited as SDR 1.656bn. Conditions per the same source: 'opening up [the] Indian economy to foreign participation in various sectors, including state-owned enterprises'.",
+      "from": "1991",
+      "to": null,
+      "srcs": [
+        [
+          "Wikipedia — 1991 Indian economic crisis",
+          "https://en.wikipedia.org/wiki/1991_Indian_economic_crisis"
+        ]
+      ],
+      "terms": {
+        "instrument": "IMF stand-by arrangement (with CCFF; composition per Wikipedia not itemised)",
+        "ratePct": null,
+        "tenorYears": null,
+        "graceYears": null,
+        "conditions": [
+          "fiscal consolidation",
+          "trade and industrial deregulation",
+          "foreign-equity liberalisation up to 51% in priority industries",
+          "PSU disinvestment up to 20%"
+        ]
+      },
+      "benefit": {
+        "who": "min:ministry-of-finance",
+        "how": "Balance-of-payments financing that averted default; reform programme announced in the 1991-07-24 Budget",
+        "amountCr": 18060,
+        "confidence": "estimated"
+      },
+      "upgradeIf": "IMF Letter of Intent/staff report for the 1991 SBA opened, or the RBI History vol. 4 chapter",
+      "killIf": "IMF documents show materially different amounts or no policy conditions",
+      "supersededBy": null
+    },
+    {
+      "id": "literature:c008",
+      "s": "fin:bank-of-england",
+      "t": "wel:rbi",
+      "pred": "loan",
+      "tier": "reported",
+      "a": 1550,
+      "lab": "1991 gold-collateralised borrowing — 47 tonnes to Bank of England",
+      "d": "RBI airlifted 47 tonnes of gold to the Bank of England between 1991-05-21 and 1991-05-31 as collateral; together with 20 tonnes to UBS the pledge raised US$600 million (≈₹1,550 crore at ₹25.8/US$, or ≈₹1,260 crore at the pre-devaluation ≈₹21/US$; approximate, rate not from the source). Split of the US$600m between counterparties not stated — amount here is the total.",
+      "from": "1991-05-21",
+      "to": "1991-05-31",
+      "srcs": [
+        [
+          "Wikipedia — 1991 Indian economic crisis",
+          "https://en.wikipedia.org/wiki/1991_Indian_economic_crisis"
+        ]
+      ],
+      "terms": {
+        "instrument": "gold-collateralised foreign-currency loan",
+        "ratePct": null,
+        "tenorYears": null,
+        "graceYears": null,
+        "conditions": [
+          "gold held as collateral abroad"
+        ]
+      },
+      "benefit": {
+        "who": "wel:rbi",
+        "how": "Emergency foreign-exchange liquidity ahead of the IMF programme",
+        "amountCr": 1550,
+        "confidence": "estimated"
+      },
+      "upgradeIf": "RBI History vol. 4 or Rangarajan/Reddy memoir passages opened with amounts per counterparty",
+      "killIf": "Primary record gives different tonnage or dates",
+      "supersededBy": null
+    },
+    {
+      "id": "literature:c009",
+      "s": "fin:ubs",
+      "t": "wel:rbi",
+      "pred": "loan",
+      "tier": "reported",
+      "a": null,
+      "lab": "1991 gold-collateralised borrowing — 20 tonnes to UBS",
+      "d": "20 tonnes of RBI gold placed with Union Bank of Switzerland in May 1991 as collateral; amount not stated separately (part of the US$600m total recorded at literature:c008)",
+      "from": "1991-05",
+      "to": null,
+      "srcs": [
+        [
+          "Wikipedia — 1991 Indian economic crisis",
+          "https://en.wikipedia.org/wiki/1991_Indian_economic_crisis"
+        ]
+      ],
+      "terms": {
+        "instrument": "gold-collateralised foreign-currency loan",
+        "ratePct": null,
+        "tenorYears": null,
+        "graceYears": null,
+        "conditions": [
+          "gold held as collateral abroad"
+        ]
+      },
+      "benefit": {
+        "who": "wel:rbi",
+        "how": "Emergency foreign-exchange liquidity",
+        "amountCr": null,
+        "confidence": "unknown"
+      },
+      "upgradeIf": "Primary RBI record opened",
+      "killIf": "Primary record contradicts",
+      "supersededBy": null
+    },
+    {
+      "id": "literature:c010",
+      "s": "fin:ieg",
+      "t": "fin:ibrd",
+      "pred": "enforce",
+      "tier": "documented",
+      "a": null,
+      "lab": "OED India CAE 2001 — overall outcome 'moderately satisfactory'",
+      "d": "Report No. 22134 (2001-04-23): 'the overall outcome of the assistance is rated as moderately satisfactory for the decade as a whole'; efficacy 'modest, mainly on account of the Bank's limited impact on fiscal and other structural reforms, the failure to develop an effective assistance strategy for rural poverty reduction, and the mediocre quality at exit of projects'; institutional development impact modest, sustainability uncertain. No beneficiary recorded: Evaluation, not a transfer.",
+      "from": "2001-04-23",
+      "to": null,
+      "srcs": [
+        [
+          "OED India CAE 2001",
+          "http://documents1.worldbank.org/curated/en/813991468750240136/text/India-Country-assistance-evaluation.txt"
+        ]
+      ],
+      "upgradeIf": null,
+      "killIf": null,
+      "supersededBy": null
+    },
+    {
+      "id": "literature:c011",
+      "s": "fin:ieg",
+      "t": "fin:ibrd",
+      "pred": "enforce",
+      "tier": "documented",
+      "a": null,
+      "lab": "OED India CAE 2001 — 'Conditionality was used sparingly'",
+      "d": "On the Bank's historical India relationship: Bank ambitions to support anti-poverty programmes 'were, however, resisted by the authorities, who feared Bank interference in politically sensitive national programs. Policy advice and economic analyses ... had modest impact. Conditionality was used sparingly and the commonality between the Bank's objectives and the government's was continually stressed.' The 1990s reforms were supported 'beginning with three adjustment loans'. No beneficiary recorded: Evaluation finding bearing on the 'policy strings' narrative.",
+      "from": "2001-04-23",
+      "to": null,
+      "srcs": [
+        [
+          "OED India CAE 2001",
+          "http://documents1.worldbank.org/curated/en/813991468750240136/text/India-Country-assistance-evaluation.txt"
+        ]
+      ],
+      "upgradeIf": null,
+      "killIf": null,
+      "supersededBy": null
+    },
+    {
+      "id": "literature:c012",
+      "s": "fin:ieg",
+      "t": "fin:ibrd",
+      "pred": "enforce",
+      "tier": "documented",
+      "a": null,
+      "lab": "OED India CAE 2001 — the 'focus states' selection",
+      "d": "The 1997 CAS pillar 'concentration of assistance toward states and programs strongly committed to reform' produced 'Bank support for two comprehensive reform programs in Andhra Pradesh, Uttar Pradesh, and Karnataka, and close engagement with Orissa and Rajasthan'. The selection criterion the Bank recorded is reform commitment, not party: the states named were then run by TDP (AP), BJP/coalition and later BSP–BJP (UP), Janata Dal then Congress (Karnataka), Congress then BJD (Orissa), Congress then BJP (Rajasthan) — party labels are this file's annotation, not the CAE's. No beneficiary recorded: State-level programmes for reforming states; the mechanism behind the modern 'which states get loans' question.",
+      "from": "1997",
+      "to": "2001",
+      "srcs": [
+        [
+          "OED India CAE 2001",
+          "http://documents1.worldbank.org/curated/en/813991468750240136/text/India-Country-assistance-evaluation.txt"
+        ]
+      ],
+      "upgradeIf": null,
+      "killIf": null,
+      "supersededBy": null
+    },
+    {
+      "id": "literature:c013",
+      "s": "fin:ieg",
+      "t": "fin:ibrd",
+      "pred": "enforce",
+      "tier": "documented",
+      "a": null,
+      "lab": "OED India CAE 2001 — quality at entry and procurement delays",
+      "d": "'Only 56% of the 50 evaluated projects in FY96-00 obtained satisfactory Bank performance at appraisal ratings compared to 61% in FY90-94.' 'A number of implementation problems, chiefly among them procurement delays, also undermined performance. The 1997 portfolio review noted the most common causes: weaknesses in preparing bid documents and in contracting procedures, and delays in contract awards following bid evaluation.' For the 1990s overall, 74% of commitments were rated satisfactory for outcome. No beneficiary recorded: The lender's own diagnosis of procurement failure is delay and weak bid documents, not capture.",
+      "from": "2001-04-23",
+      "to": null,
+      "srcs": [
+        [
+          "OED India CAE 2001",
+          "http://documents1.worldbank.org/curated/en/813991468750240136/text/India-Country-assistance-evaluation.txt"
+        ]
+      ],
+      "upgradeIf": null,
+      "killIf": null,
+      "supersededBy": null
+    },
+    {
+      "id": "literature:c014",
+      "s": "fin:ibrd",
+      "t": "min:ministry-of-finance",
+      "pred": "enforce",
+      "tier": "documented",
+      "a": null,
+      "lab": "1998 nuclear-test sanctions cut Bank lending to 'basic human needs' projects",
+      "d": "'Lending commitments of $2.1 billion in FY98 were much lower than planned. This was due to the sanctions imposed by major Bank shareholders after India's nuclear testing in May 1998. Under the sanctions, only projects meeting a basic human needs criterion were' approved (OED CAE 2001). The clearest documented case of shareholder politics, rather than loan covenants, constraining lending to India. No beneficiary recorded: Restriction, not transfer.",
+      "from": "1998-05",
+      "to": null,
+      "srcs": [
+        [
+          "OED India CAE 2001",
+          "http://documents1.worldbank.org/curated/en/813991468750240136/text/India-Country-assistance-evaluation.txt"
+        ]
+      ],
+      "upgradeIf": null,
+      "killIf": null,
+      "supersededBy": null
+    },
+    {
+      "id": "literature:c015",
+      "s": "fin:ida",
+      "t": "min:ministry-of-finance",
+      "pred": "loan",
+      "tier": "documented",
+      "a": 1735,
+      "lab": "P169907 / PGD77 — First Resilient Kerala Program DPO (IDA credit US$250m equivalent)",
+      "d": "IDA credit of SDR 115.2 million and US$90.4 million (US$250 million equivalent) to the Republic of India for the Government of Kerala's Rebuild Kerala programme; ≈₹1,735 crore at ₹69.4/US$ (approximate RBI reference rate, 2019-06; the rate is not taken from the document). 'While India is currently eligible for only IBRD financial terms, IDA Blend financial terms will be applied to the operation under the amendments approved by the Board based on the IDA18 midterm review.' First of a programmatic series of two DPOs; eight prior actions, all acts of the Government of Kerala. Approval/signing dates are in worldbank.json (fin:wb-dpo-resilient-kerala-1) and are not repeated here.",
+      "from": "2019",
+      "to": null,
+      "srcs": [
+        [
+          "Kerala DPO PGD77",
+          "https://documents.worldbank.org/curated/en/476681561946430308/text/India-First-Resilient-Kerala-Program-Development-Policy-Operation.txt"
+        ]
+      ],
+      "terms": {
+        "instrument": "Development Policy Operation (IDA credit, blend terms)",
+        "ratePct": null,
+        "tenorYears": null,
+        "graceYears": null,
+        "conditions": [
+          "Prior Action 1: GoK adopted the Rebuild Kerala Development Programme",
+          "Prior Action 2: GoK adopted a new (fiscal/planning) framework — text truncated in extraction",
+          "Prior Action 3: GoK adopted new State Disaster Management Plan arrangements",
+          "Prior Action 4: GoK established a river-basin authority",
+          "Prior Action 5: GoK notified (water/resilience) rules — text truncated",
+          "Prior Action 6: GoK notified the criteria-based management contract model",
+          "Prior Action 7 and 8: GoK established institutions for urban/TCP and service delivery — text truncated",
+          "Maintenance of an adequate macroeconomic framework (standard DPF condition)"
+        ]
+      },
+      "benefit": {
+        "who": "fin:state-kerala",
+        "how": "Budget support to an opposition-run state, routed through the Union, on concessional blend terms India was otherwise no longer eligible for",
+        "amountCr": 1735,
+        "confidence": "documented"
+      },
+      "upgradeIf": "Full prior-action text extracted from the PDF",
+      "killIf": null,
+      "supersededBy": null
+    },
+    {
+      "id": "literature:c016",
+      "s": "fin:net-borrowing-ceiling-2023-24",
+      "t": "fin:state-kerala",
+      "pred": "law",
+      "tier": "documented",
+      "a": 32442,
+      "lab": "Net Borrowing Ceiling on Kerala, FY2023-24 — ₹32,442 crore",
+      "d": "DEA letter No. 40(1)/PF-S/2023-24 dated 2023-03-27 fixed Kerala's Net Borrowing Ceiling at 3% of projected GSDP for FY2023-24, i.e. ₹32,442 crore, covering 'all sources of borrowings, including open market borrowings, loans from Financial Institutions, and the liabilities arising out of the Public Account', and extended to certain borrowings by state-owned enterprises 'to prevent the States from by-passing the Net Borrowing Ceiling'. Consent to open-market borrowing followed by letter dated 2023-08-11. (Recorded from the Supreme Court's recital of the plaint.) No beneficiary recorded: Restriction under Article 293(3); applies to external loans to the state as well since they are routed through the Union.",
+      "from": "2023-03-27",
+      "to": "2024-03-31",
+      "srcs": [
+        [
+          "Indian Kanoon — Kerala v Union 2024-04-01",
+          "https://indiankanoon.org/doc/191833676/"
+        ]
+      ],
+      "upgradeIf": "The DEA letters themselves (dea.gov.in unreachable)",
+      "killIf": null,
+      "supersededBy": null
+    },
+    {
+      "id": "literature:c017",
+      "s": "min:ministry-of-finance",
+      "t": "fin:state-kerala",
+      "pred": "enforce",
+      "tier": "alleged",
+      "a": 24434,
+      "lab": "Kerala's plea: the Union's ceiling exceeds its Article 293 power and starves the state of lawful borrowing space",
+      "d": "In its Original Suit Kerala contended that Article 293 limits the Union to conditions on loans it itself grants; that public-account liabilities and SOE (off-budget) borrowings cannot be counted; that under-utilised space from earlier years should be available now; and claimed unutilised fiscal space of ₹24,434 crore (or alternatively ₹10,722 crore), warning of 'extreme financial hardship' in meeting dues including dearness allowance, pensions and subsidies.",
+      "from": "2023",
+      "to": null,
+      "srcs": [
+        [
+          "Indian Kanoon — Kerala v Union 2024-04-01",
+          "https://indiankanoon.org/doc/191833676/"
+        ]
+      ],
+      "benefit": {
+        "who": "fin:state-kerala",
+        "how": "If upheld, restores borrowing room of ₹10,722–24,434 crore",
+        "amountCr": 24434,
+        "confidence": "estimated"
+      },
+      "upgradeIf": "Constitution Bench judgment accepts Kerala's reading of Article 293(3)",
+      "killIf": "Constitution Bench upholds the Union's inclusion of off-budget borrowings and the over-borrowing adjustment",
+      "supersededBy": null
+    },
+    {
+      "id": "literature:c018",
+      "s": "min:ministry-of-finance",
+      "t": "claim:literature:c017",
+      "pred": "contra",
+      "tier": "documented",
+      "a": null,
+      "lab": "Union's response (as recorded in the order)",
+      "d": "The Union contended that Kerala over-borrowed in FY2017-18 to FY2019-20 and that such over-borrowing is adjustable in succeeding years 'even beyond the award period of the 14th Finance Commission'; that off-budget borrowings are includable 'if they are used to by-pass the conditions imposed under Article 293'; that the Centre has 'an inherent power as a lender to impose conditions'; and that the ceiling serves the FRBM objective of keeping aggregate Centre+State debt within 60% of GDP by end FY2024-25. Kerala 'admitted' the over-borrowing/over-utilisation.",
+      "from": "2024-04-01",
+      "to": null,
+      "srcs": [
+        [
+          "Indian Kanoon — Kerala v Union 2024-04-01",
+          "https://indiankanoon.org/doc/191833676/"
+        ]
+      ],
+      "upgradeIf": null,
+      "killIf": null,
+      "supersededBy": null
+    },
+    {
+      "id": "literature:c019",
+      "s": "sc",
+      "t": "fin:state-kerala",
+      "pred": "enforce",
+      "tier": "documented",
+      "a": null,
+      "lab": "Interim injunction refused; Article 293 referred to a five-judge bench (2024-04-01)",
+      "d": "The Court found Kerala had 'failed to establish the three prongs of proving prima facie case, balance of convenience and irreparable injury'; found 'prima facie merit in the submission of the Union of India that after inclusion of off budget borrowing for F.Y. 2022-23 and adjustments for over-borrowing of past years, the State has no unutilized fiscal space'; noted the Union had during the hearing consented to additional borrowing 'to some extent so as to bail out the Plaintiff'; and referred the questions — whether Article 293 confers an enforceable right to borrow, whether SOE and public-account liabilities fall within 293(3), and the scope of judicial review of fiscal policy — to a Constitution Bench. Observations expressly limited to the interim stage. No beneficiary recorded: Adjudication.",
+      "from": "2024-04-01",
+      "to": null,
+      "srcs": [
+        [
+          "Indian Kanoon — Kerala v Union 2024-04-01",
+          "https://indiankanoon.org/doc/191833676/"
+        ]
+      ],
+      "upgradeIf": null,
+      "killIf": null,
+      "supersededBy": null
+    },
+    {
+      "id": "literature:c020",
+      "s": "fin:ibrd",
+      "t": "fin:doing-business-report",
+      "pred": "enforce",
+      "tier": "documented",
+      "a": null,
+      "lab": "GIA verification of the Doing Business data-irregularities review — nine irregularities, four countries; India not among them",
+      "d": "World Bank Group Internal Audit, Report No. FY21-2-4-2104615 (2020-12-08), issued by the Auditor General to President Malpass: DEC management 'confirmed and corrected the nine irregularities' — Azerbaijan (3 indicators, DB20), Saudi Arabia (2, DB20), UAE (1, DB20), China (3, DB18–20). Corrected ranks: Azerbaijan 34→28, Saudi Arabia 62→63, UAE 16→16, China 78→85. India appears only (a) as 'India (Mumbai) — Getting Electricity', one of five DB16 data changes reviewed, and (b) in a DB17 'Dealing with Construction Permits' methodology concern raised by the DB team, which 'Management reconfirmed ... were not data irregularities during GIA's verification'. GIA 'did not verify the underlying scoring method'. No beneficiary recorded: Audit record; the countries whose scores were inflated were China (DB18) and Azerbaijan (DB20); Saudi Arabia's and UAE's corrections were marginal.",
+      "from": "2020-12-08",
+      "to": null,
+      "srcs": [
+        [
+          "GIA verification report 2020-12-08",
+          "http://documents1.worldbank.org/curated/en/569901608154479291/txt/Management-Review-of-Data-Irregularities-in-the-Doing-Business-Reports-from-2016-to-2020-Verification-Report.txt"
+        ],
+        [
+          "WB Documents API — DB query",
+          "https://search.worldbank.org/api/v2/wds?format=json&qterm=Doing%20Business%20data%20irregularities%20review&rows=10&fl=docna,docdt,docty,url,pdfurl,txturl"
+        ]
+      ],
+      "upgradeIf": null,
+      "killIf": null,
+      "supersededBy": null
+    },
+    {
+      "id": "literature:c021",
+      "s": "fin:ibrd",
+      "t": "fin:doing-business-report",
+      "pred": "enforce",
+      "tier": "documented",
+      "a": null,
+      "lab": "Doing Business discontinued (2021-09-16)",
+      "d": "World Bank Group statement: after 'a series of reviews and audits' following data irregularities on DB2018 and DB2020 'reported internally in June 2020', and the report released on behalf of the Board on 2021-09-15, the Group discontinued the Doing Business report. India is not mentioned in the statement. Wikipedia's summary of the WilmerHale report (not opened here): senior leadership pressure in 2018 to improve China's score; 2020 changes to Saudi Arabia's and Azerbaijan's data attributed to Simeon Djankov. No beneficiary recorded: Institutional decision.",
+      "from": "2021-09-16",
+      "to": null,
+      "srcs": [
+        [
+          "World Bank statement 2021-09-16",
+          "https://www.worldbank.org/en/news/statement/2021/09/16/world-bank-group-to-discontinue-doing-business-report"
+        ],
+        [
+          "Wikipedia — Ease of doing business index",
+          "https://en.wikipedia.org/wiki/Ease_of_doing_business_index"
+        ]
+      ],
+      "upgradeIf": null,
+      "killIf": null,
+      "supersededBy": null
+    },
+    {
+      "id": "literature:c022",
+      "s": "min:ministry-of-finance",
+      "t": "fin:doing-business-report",
+      "pred": "analytic",
+      "tier": "reported",
+      "a": null,
+      "lab": "India's Doing Business rank: 142 (DB2015) → 130 (DB2017/18) → 63 (DB2020)",
+      "d": "Ranking-table values from Wikipedia (encyclopaedic summary of the annual reports). The rise coincided with the DB2018–DB2020 editions later found to contain irregularities for other countries. No criticism of India's trajectory appears in the audit record opened.",
+      "from": "2014",
+      "to": "2019",
+      "srcs": [
+        [
+          "Wikipedia — Ease of doing business index",
+          "https://en.wikipedia.org/wiki/Ease_of_doing_business_index"
+        ]
+      ],
+      "innocentReading": "India's rank rose on documented reforms (insolvency code 2016, GST 2017, construction-permit and electricity reforms in Delhi and Mumbai) and on methodology changes that rewarded them; the scandal concerned other countries' data.",
+      "benefit": {
+        "who": "min:ministry-of-finance",
+        "how": "Reputational: the rank was used as a government performance claim",
+        "amountCr": null,
+        "confidence": "unknown"
+      },
+      "upgradeIf": "The DB16 India (Mumbai) Getting Electricity change or the DB17 construction-permits concern is shown in the WilmerHale or DEC review to have been a favourable manipulation",
+      "killIf": "Already at 'no irregularity' in the GIA record; the claim is descriptive",
+      "supersededBy": null
+    },
+    {
+      "id": "literature:c023",
+      "s": "fin:jica",
+      "t": "min:ministry-of-finance",
+      "pred": "loan",
+      "tier": "documented",
+      "a": 22640,
+      "lab": "MAHSR (V) — ¥400,000 million ODA loan, 2023-12",
+      "d": "Fifth tranche for the Mumbai–Ahmedabad High Speed Rail (~500 km) signed December 2023 (JICA page dated 2023-12-21; URL 2023-12-22): ¥400,000 million at 0.1% p.a., 50-year repayment including 15-year grace, procurement tied to Japanese suppliers. ≈₹22,640 crore at ₹0.566/¥ (approximate market rate, 2023-12; JICA gives no rupee figure). Signed alongside ¥15,301 million for Japan-India Cooperative Actions towards SDGs (Phase 2). Implementing agency NHSRCL; the full tranche series is in bilateral-china.json.",
+      "from": "2023-12-21",
+      "to": "2073",
+      "srcs": [
+        [
+          "JICA press 2023-12",
+          "https://www.jica.go.jp/english/information/press/2023/20231222_30.html"
+        ]
+      ],
+      "terms": {
+        "instrument": "JICA ODA loan (Special Terms for Economic Partnership, tied)",
+        "ratePct": 0.1,
+        "tenorYears": 50,
+        "graceYears": 15,
+        "conditions": [
+          "procurement tied to Japanese-origin goods and services",
+          "Shinkansen technology"
+        ]
+      },
+      "benefit": {
+        "who": "fin:nhsrcl",
+        "how": "Near-zero-cost long-tenor finance in exchange for tied procurement — a closed supplier pool by contract",
+        "amountCr": 22640,
+        "confidence": "documented"
+      },
+      "upgradeIf": null,
+      "killIf": null,
+      "supersededBy": null
+    },
+    {
+      "id": "literature:c024",
+      "s": "fin:aiib",
+      "t": "min:ministry-of-finance",
+      "pred": "loan",
+      "tier": "reported",
+      "a": 3785,
+      "lab": "AIIB — COVID-19 health-systems loan US$500m, signed 2020-05-08",
+      "d": "US$500 million agreement signed 2020-05-08 for pandemic prevention and strengthening the national health system (FPJ). ≈₹3,785 crore at ₹75.7/US$ (approximate RBI reference rate, 2020-05). Signed during the India–China border standoff; AIIB is 26.5% China-owned. Project id and terms are in adb-aiib.json.",
+      "from": "2020-05-08",
+      "to": null,
+      "srcs": [
+        [
+          "FPJ 2020-09-16",
+          "https://www.freepressjournal.in/business/did-the-modi-government-borrow-from-china-backed-aiib-amid-standoff"
+        ]
+      ],
+      "terms": {
+        "instrument": "AIIB sovereign loan (COVID-19 Crisis Recovery Facility)",
+        "ratePct": null,
+        "tenorYears": null,
+        "graceYears": null,
+        "conditions": []
+      },
+      "benefit": {
+        "who": "min:ministry-of-finance",
+        "how": "Emergency health financing",
+        "amountCr": 3785,
+        "confidence": "estimated"
+      },
+      "upgradeIf": "AIIB project page opened",
+      "killIf": "AIIB record differs on date or amount",
+      "supersededBy": null
+    },
+    {
+      "id": "literature:c025",
+      "s": "fin:aiib",
+      "t": "min:ministry-of-finance",
+      "pred": "loan",
+      "tier": "reported",
+      "a": 5700,
+      "lab": "AIIB — COVID-19 budget-support loan, signed 2020-06-19 (three days after Galwan)",
+      "d": "Second agreement signed 2020-06-19 providing budgetary support for COVID-19 economic mitigation and assistance to vulnerable populations; FPJ gives the two 2020 loans as totalling US$1,250 million, implying US$750 million for this one (the fetched summary rendered it as US$250m — treated as an extraction error; adb-aiib.json records US$750m for AIIB 000409 CARES). ≈₹5,700 crore at ₹76/US$ (approximate, 2020-06). India: 7.6% shareholder, about US$3.6bn borrowed, roughly 25% of AIIB lending (FPJ).",
+      "from": "2020-06-19",
+      "to": null,
+      "srcs": [
+        [
+          "FPJ 2020-09-16",
+          "https://www.freepressjournal.in/business/did-the-modi-government-borrow-from-china-backed-aiib-amid-standoff"
+        ]
+      ],
+      "terms": {
+        "instrument": "AIIB policy-based/budget-support loan co-financed with ADB (CARES)",
+        "ratePct": null,
+        "tenorYears": null,
+        "graceYears": null,
+        "conditions": [
+          "co-financing with ADB CARES programme"
+        ]
+      },
+      "benefit": {
+        "who": "min:ministry-of-finance",
+        "how": "Non-earmarked budget support during the pandemic",
+        "amountCr": 5700,
+        "confidence": "estimated"
+      },
+      "upgradeIf": "AIIB project page 000409 opened",
+      "killIf": "AIIB record differs",
+      "supersededBy": null
+    },
+    {
+      "id": "literature:c026",
+      "s": "fin:government-of-china",
+      "t": "fin:aiib",
+      "pred": "own",
+      "tier": "reported",
+      "a": null,
+      "lab": "China 26.5% of AIIB",
+      "d": "Largest shareholder at 26.5% (FPJ, 2020-09)",
+      "from": "2020",
+      "to": null,
+      "srcs": [
+        [
+          "FPJ 2020-09-16",
+          "https://www.freepressjournal.in/business/did-the-modi-government-borrow-from-china-backed-aiib-amid-standoff"
+        ]
+      ],
+      "upgradeIf": "AIIB members page (client-rendered) read",
+      "killIf": "AIIB record differs",
+      "supersededBy": null
+    },
+    {
+      "id": "literature:c027",
+      "s": "min:ministry-of-finance",
+      "t": "fin:aiib",
+      "pred": "own",
+      "tier": "reported",
+      "a": null,
+      "lab": "India 7.6% of AIIB",
+      "d": "Second-largest shareholder at 7.6%; joined 2014; hosted the 2018 annual meeting (FPJ)",
+      "from": "2014",
+      "to": null,
+      "srcs": [
+        [
+          "FPJ 2020-09-16",
+          "https://www.freepressjournal.in/business/did-the-modi-government-borrow-from-china-backed-aiib-amid-standoff"
+        ]
+      ],
+      "upgradeIf": "AIIB members page read",
+      "killIf": "AIIB record differs",
+      "supersededBy": null
+    },
+    {
+      "id": "literature:c028",
+      "s": "fin:lit-brookings-following-the-money-2020",
+      "t": "fin:government-of-china",
+      "pred": "analytic",
+      "tier": "reported",
+      "a": 57600,
+      "lab": "Chinese investment in India to 2017–2020: US$8bn official, ≥US$26bn with announcements (Brookings)",
+      "d": "Krishnan (Brookings, 2020-03-30): official cumulative Chinese FDI US$8 billion through 2017 (≈₹57,600 crore at ₹72/US$, approximate 2020-03 rate; conversion is this file's), a five-fold rise from US$1.6 billion before 2014; actual 'at least 25%' higher; 'at least US$26 billion' counting announced projects; greenfield US$4.4bn; pledged-unapproved infrastructure ≈US$15bn; infrastructure 'dominated by state-owned enterprises'; acquisitions concentrated in pharma and technology; Xiaomi US$504m via Singapore. No beneficiary recorded: Portfolio and FDI flows to Indian private firms; no single beneficiary.",
+      "from": "2014",
+      "to": "2020-03",
+      "srcs": [
+        [
+          "Brookings 2020-03-30",
+          "https://www.brookings.edu/articles/following-the-money-china-incs-growing-stake-in-india-china-relations/"
+        ]
+      ],
+      "innocentReading": "Chinese capital followed India's market size like every other source country's did after 2014; most of the headline number is announced-not-invested infrastructure; the largest realised items are consumer-technology and pharma equity stakes, not control of infrastructure operators.",
+      "upgradeIf": "DPIIT FDI statistics by source country opened for 2014–2020",
+      "killIf": "DPIIT data show materially lower realised Chinese FDI",
+      "supersededBy": null
+    },
+    {
+      "id": "literature:c029",
+      "s": "fin:lit-a-thousand-cuts",
+      "t": "fin:imf",
+      "pred": "analytic",
+      "tier": "reported",
+      "a": null,
+      "lab": "IMF conditionality dataset — 65,894 conditions, 1980–2019",
+      "d": "The IMF Monitor dataset underlying A Thousand Cuts (Kentikelenis & Stubbs, OUP 2023) codes 'all IMF conditions included in lending programs between 1980 and 2019' — 65,894 policy reforms — from IMF lending documents, into prior actions, performance criteria and structural benchmarks. India's 1981 and 1991 programmes fall within the window; their counts were not extracted in this sweep.",
+      "from": "1980",
+      "to": "2019",
+      "srcs": [
+        [
+          "IMF Monitor — Conditionality",
+          "https://www.imfmonitor.org/conditionality"
+        ],
+        [
+          "IMF Monitor — home",
+          "https://www.imfmonitor.org/"
+        ]
+      ],
+      "innocentReading": "A count of conditions measures the instrument's design, not its bite; the OED found conditionality 'used sparingly' in India.",
+      "upgradeIf": "Dataset downloaded and India rows counted against the programme-year mean",
+      "killIf": null,
+      "supersededBy": null
+    },
+    {
+      "id": "literature:c030",
+      "s": "fin:lit-banking-on-beijing",
+      "t": "fin:government-of-china",
+      "pred": "analytic",
+      "tier": "reported",
+      "a": null,
+      "lab": "Banking on Beijing — 4,500 projects, US$358bn, 138 countries; ODA vs OOF",
+      "d": "Dreher, Fuchs, Parks, Strange & Tierney (CUP 2022, DOI 10.1017/9781108564496) analyse nearly 4,500 Chinese official-finance projects worth US$358 billion in 138 countries over 15 years, document the shift from aid to debt-financed infrastructure and its risks of 'corruption, political capture, and conflict', and separate ODA from Other Official Flows (commercial-terms lending). The publisher page makes no India-specific claim.",
+      "from": "2022",
+      "to": null,
+      "srcs": [
+        [
+          "CUP — Banking on Beijing",
+          "https://www.cambridge.org/core/product/identifier/9781108564496/type/book"
+        ]
+      ],
+      "innocentReading": "For an IBRD-graduate like India, Chinese finance was overwhelmingly OOF to private firms — commercial credit priced as such — which the book's own taxonomy distinguishes from aid-with-leverage.",
+      "upgradeIf": "Book's India passages read",
+      "killIf": null,
+      "supersededBy": null
+    },
+    {
+      "id": "literature:c031",
+      "s": "fin:jica-mahsr-loan",
+      "t": "fin:nhsrcl",
+      "pred": "analytic",
+      "tier": "analytic",
+      "a": null,
+      "lab": "Symmetry: the documented 'closed club' in Indian external finance is Japanese tied ODA, not multilateral procurement",
+      "d": "The MAHSR loans are tied by contract (JICA press release: 'Procurement: Tied'), so the eligible-supplier set is Japanese by design; multilateral (IBRD/IDA/ADB/AIIB) loans require open competitive bidding among member-country firms and carry sanctions systems (contracts.json). Running the 'closed club' lens on the Japanese control therefore produces a literal closed club — a finding about the instrument's terms (0.1%/50y money bought with tied procurement), not about Indian awarders.",
+      "from": "2018",
+      "to": null,
+      "srcs": [
+        [
+          "JICA press 2023-12",
+          "https://www.jica.go.jp/english/information/press/2023/20231222_30.html"
+        ]
+      ],
+      "innocentReading": "Tied procurement is the standard price of STEP-type concessional yen loans worldwide; India accepted it for Shinkansen technology transfer, and the alternative (untied, market-rate money) would cost far more.",
+      "benefit": {
+        "who": "fin:nhsrcl",
+        "how": "Concessional finance; Japanese suppliers gain a protected market",
+        "amountCr": null,
+        "confidence": "documented"
+      },
+      "upgradeIf": "Contract-award list for MAHSR packages shows Japanese-firm share and any Indian-firm shares",
+      "killIf": "Evidence that MAHSR civil packages went to Indian firms under open bidding despite tying (which would show the 'club' is narrower than the loan terms imply)",
+      "supersededBy": null
+    },
+    {
+      "id": "literature:c032",
+      "s": "fin:ida",
+      "t": "fin:state-kerala",
+      "pred": "analytic",
+      "tier": "analytic",
+      "a": null,
+      "lab": "Control case: an opposition-run state received an IDA-blend DPO through an NDA Centre (2019)",
+      "d": "Kerala (LDF) obtained the US$250m First Resilient Kerala DPO — a state-level development policy loan on blend terms India was 'currently eligible' to receive only on IBRD terms — routed through the Union's DEA in 2019. Four years later the same Union set Kerala's borrowing ceiling at ₹32,442 crore and defended it as a rule applying to all states. Both facts must be held together when weighing the 'opposition states are denied external loans' narrative.",
+      "from": "2019",
+      "to": "2024",
+      "srcs": [
+        [
+          "Kerala DPO PGD77",
+          "https://documents.worldbank.org/curated/en/476681561946430308/text/India-First-Resilient-Kerala-Program-Development-Policy-Operation.txt"
+        ],
+        [
+          "Indian Kanoon — Kerala v Union 2024-04-01",
+          "https://indiankanoon.org/doc/191833676/"
+        ]
+      ],
+      "innocentReading": "External loans to states count within the Article 293(3) ceiling regardless of party; a ceiling set at 3% of GSDP under FRBM/Finance Commission norms binds BJP-run states identically; Kerala's dispute is about counting off-budget borrowings, not about being refused external projects.",
+      "benefit": {
+        "who": "fin:state-kerala",
+        "how": "Access to concessional finance under an opposing Centre",
+        "amountCr": 1735,
+        "confidence": "documented"
+      },
+      "upgradeIf": "State-wise DEA approvals of externally aided projects 2014–2026 tabulated against population and prior lending (worldbank-projects.json) show no partisan gap — or show one that a lender document does not explain",
+      "killIf": "A DEA file or minister's statement recording partisan grounds for refusing a state's EAP",
+      "supersededBy": null
+    },
+    {
+      "id": "literature:c033",
+      "s": "min:ministry-of-finance",
+      "t": "fin:ida",
+      "pred": "analytic",
+      "tier": "analytic",
+      "a": null,
+      "lab": "Concessionality is set by income status and lender mix, not by which coalition governs",
+      "d": "By 2019 the World Bank recorded that 'India is currently eligible for only IBRD financial terms' (IDA graduation), so the concessional share of new multilateral borrowing fell across the UPA→NDA boundary for reasons of per-capita income; meanwhile JICA's 0.1%/50-year yen loans (tied) and AIIB's non-concessional loans entered the mix under NDA. A UPA-vs-NDA concessionality comparison therefore needs the DEA External Debt Status Report series (concessional share of external debt) — not fetched (dea.gov.in unreachable; RBI press-release id not located without search).",
+      "from": "2014",
+      "to": "2026",
+      "srcs": [
+        [
+          "Kerala DPO PGD77",
+          "https://documents.worldbank.org/curated/en/476681561946430308/text/India-First-Resilient-Kerala-Program-Development-Policy-Operation.txt"
+        ],
+        [
+          "JICA press 2023-12",
+          "https://www.jica.go.jp/english/information/press/2023/20231222_30.html"
+        ]
+      ],
+      "innocentReading": "Graduating from IDA is a consequence of growth, not a policy choice; less concessional borrowing is what richer countries do.",
+      "upgradeIf": "RBI/DEA 'India's External Debt' releases for end-March 2014 and end-March 2025 opened and the concessional-debt share compared",
+      "killIf": "The series shows a discontinuity at 2014 not explained by IDA graduation or lender mix",
+      "supersededBy": null
+    }
+  ],
+  "voids": [
+    {
+      "what": "No IEG country-programme evaluation of the World Bank in India after the 2001 OED Country Assistance Evaluation (Report No. 22134) was returned by the Documents & Reports API; the 2002 items are sector working papers under that CAE.",
+      "whyItMatters": "The lender's own verdict on its India programme — conditionality, state selection, procurement — is a quarter-century old; later assessments exist only at project level (ICR Reviews in worldbank.json) or in CPF completion reviews not located here.",
+      "srcs": [
+        [
+          "WB Documents API — India CAE query",
+          "https://search.worldbank.org/api/v2/wds?format=json&qterm=%22India%22%20%22Country%20Assistance%20Evaluation%22%20OED&rows=10&fl=docna,docdt,docty,url,pdfurl,txturl&strdate=2000-01-01&enddate=2005-12-31"
+        ],
+        [
+          "WB Documents API — first India IEG query",
+          "https://search.worldbank.org/api/v2/wds?format=json&qterm=India%20Country%20Program%20Evaluation%20Independent%20Evaluation%20Group&rows=10&fl=docna,docdt,docty,url,pdfurl,txturl"
+        ]
+      ]
+    },
+    {
+      "what": "The World Bank GIA verification report (2020-12-08) lists no India data irregularity: nine irregularities across Azerbaijan, Saudi Arabia, UAE and China. India (Mumbai) appears only in the DB16 Getting Electricity change list reviewed, and a DB17 construction-permits methodology concern was 'reconfirmed' as not an irregularity.",
+      "whyItMatters": "The 'Doing Business was gamed for India' narrative rests on coincidence of timing; the primary audit record names other countries and records India's items as reviewed and cleared.",
+      "srcs": [
+        [
+          "GIA verification report 2020-12-08",
+          "http://documents1.worldbank.org/curated/en/569901608154479291/txt/Management-Review-of-Data-Irregularities-in-the-Doing-Business-Reports-from-2016-to-2020-Verification-Report.txt"
+        ]
+      ]
+    },
+    {
+      "what": "The OED CAE 2001 attributes India's lender-funded procurement problems to 'weaknesses in preparing bid documents and in contracting procedures, and delays in contract awards' — it records no finding of bidder collusion or a closed contractor pool.",
+      "whyItMatters": "The lender's own diagnosis of procurement failure in India is administrative delay, which is the boring explanation the 'closed club' narrative must displace.",
+      "srcs": [
+        [
+          "OED India CAE 2001",
+          "http://documents1.worldbank.org/curated/en/813991468750240136/text/India-Country-assistance-evaluation.txt"
+        ]
+      ]
+    },
+    {
+      "what": "The Supreme Court's 2024-04-01 order records that Article 293 'has not been so far the subject of an authoritative pronouncement of this Court'.",
+      "whyItMatters": "The legal basis of the Union's control over all state borrowing — including externally aided projects — was untested for 74 years; the Constitution Bench outcome (not located as of this sweep) will settle whether the 'DEA bottleneck' is a constitutional design or an overreach.",
+      "srcs": [
+        [
+          "Indian Kanoon — Kerala v Union 2024-04-01",
+          "https://indiankanoon.org/doc/191833676/"
+        ]
+      ]
+    },
+    {
+      "what": "No CAG audit report on externally aided projects could be located: cag.gov.in's audit-report search returned HTTP 404 and web search was capped.",
+      "whyItMatters": "The CAG's findings on commitment charges and undisbursed external loans are the domestic audit counterpart to IEG; without them the 'boring explanation' (money left undrawn costing commitment fees) cannot be quantified here.",
+      "srcs": [
+        [
+          "OED India CAE 2001 (only audit-type record opened)",
+          "http://documents1.worldbank.org/curated/en/813991468750240136/text/India-Country-assistance-evaluation.txt"
+        ]
+      ]
+    }
+  ],
+  "narratives": [
+    {
+      "claim": "Multilateral loans come with policy strings that override Parliament.",
+      "status": "contested",
+      "strongestCase": "Conditionality is real and documented: the IMF Monitor dataset codes 65,894 conditions in IMF programmes 1980–2019; the 1991 IMF/World Bank package was followed within weeks by the 1991-07-24 Budget's deregulation, 51% foreign-equity and disinvestment measures; World Bank DPF still disburses only on 'completion of a set of critical policy and institutional actions agreed between the Bank and the client' and 'maintenance of an adequate macroeconomic policy framework, as determined by the Bank with inputs from IMF assessments'. The Kerala DPO's eight prior actions are state policy acts. Loan agreements are signed by the executive under Article 292/293 with no parliamentary ratification, and Parliament has never legislated the borrowing limit Article 292 permits.",
+      "strongestCounter": "'Override' is the wrong verb. The Bank's own evaluator found that in India 'Conditionality was used sparingly and the commonality between the Bank's objectives and the government's was continually stressed', and that Bank ambitions were 'resisted by the authorities'. DPF is 'non-earmarked general budget financing that is subject to the borrower's own implementation processes' with a stated 'country ownership' principle; prior actions are drafted from the borrower's programme (Kerala's RKDP). The 1991 reforms were argued for by Indian economists before the crisis (Bhagwati–Panagariya; Ahluwalia; Rangarajan) and legislated where legislation was needed. The clearest external constraint on Bank lending to India — the 1998 nuclear-test sanctions — came from shareholder politics, not loan covenants. Parliament is bypassed by India's own executive treaty-making design, not by lenders.",
+      "whatWouldChangeThis": "Up to well-supported: an Indian statute or budget provision documented as enacted to satisfy a specific prior action against the recorded position of the ministry or a parliamentary committee (e.g. a DPL matrix line matched to a bill's statement of objects). Down to unsupported: the IMF Monitor India rows showing condition counts at or below programme means and no structural conditions in 1991 beyond the government's own Letter of Intent.",
+      "srcs": [
+        [
+          "IMF Monitor — Conditionality",
+          "https://www.imfmonitor.org/conditionality"
+        ],
+        [
+          "World Bank — DPF",
+          "https://www.worldbank.org/en/what-we-do/products-and-services/financing-instruments/development-policy-financing"
+        ],
+        [
+          "OED India CAE 2001",
+          "http://documents1.worldbank.org/curated/en/813991468750240136/text/India-Country-assistance-evaluation.txt"
+        ],
+        [
+          "Wikipedia — 1991 Indian economic crisis",
+          "https://en.wikipedia.org/wiki/1991_Indian_economic_crisis"
+        ],
+        [
+          "Kerala DPO PGD77",
+          "https://documents.worldbank.org/curated/en/476681561946430308/text/India-First-Resilient-Kerala-Program-Development-Policy-Operation.txt"
+        ]
+      ]
+    },
+    {
+      "claim": "Lender-funded contracts go to a closed club of contractors.",
+      "status": "contested",
+      "strongestCase": "For tied bilateral loans it is true by construction: JICA's MAHSR tranches state 'Procurement: Tied', restricting suppliers to Japanese firms in exchange for 0.1%/50-year money. For multilateral loans, Fazekas & Kocsis show that single bidding, short advertisement periods and procedure choice are measurable red flags of 'unjustified restriction of access to public contracts', and contracts.json records recurring winners and World Bank debarments of Indian firms. The OED found India's bid documents and contracting procedures weak in the 1990s.",
+      "strongestCounter": "The lender's own diagnosis of Indian procurement failure is delay — 'weaknesses in preparing bid documents ... and delays in contract awards following bid evaluation' — not capture. Multilateral procurement is open to all member-country bidders with published awards and a sanctions system, which is more transparent than most domestic procurement; a recurring set of large winners (L&T, Afcons, Tata Projects) is what a thin market for complex civil works looks like anywhere. Fazekas & Kocsis is a European study; no India single-bidding rate for lender-funded contracts has been computed in this fleet yet.",
+      "whatWouldChangeThis": "Up to well-supported: World Bank/ADB contract-award data for India showing single-bid or repeat-winner rates materially above the Bank-wide or CPPP baseline in the same sectors. Down to unsupported: rates at or below baseline, with the recurring winners explained by prequalification thresholds.",
+      "srcs": [
+        [
+          "JICA press 2023-12",
+          "https://www.jica.go.jp/english/information/press/2023/20231222_30.html"
+        ],
+        [
+          "CUP — Fazekas & Kocsis",
+          "https://www.cambridge.org/core/product/identifier/S0007123417000461/type/journal_article"
+        ],
+        [
+          "OED India CAE 2001",
+          "http://documents1.worldbank.org/curated/en/813991468750240136/text/India-Country-assistance-evaluation.txt"
+        ]
+      ]
+    },
+    {
+      "claim": "External borrowing under the NDA is more concessional / less than under the UPA.",
+      "status": "speculative",
+      "strongestCase": "Under NDA India signed the most concessional large loan in its history (JICA MAHSR: 0.1%, 50 years, 15-year grace) and used IDA blend terms by exception (Kerala 2019); the AIIB and NDB were added as lenders; DPOs brought budget support at IBRD rates.",
+      "strongestCounter": "The direction is mixed and the driver is structural: India graduated to 'only IBRD financial terms' on income grounds, so the concessional share of multilateral borrowing fell across the 2014 boundary regardless of government; JICA yen loans are concessional but tied; AIIB/NDB lend at near-IBRD terms. No consolidated series (DEA External Debt Status Report concessional-debt share, 2004–2026) was opened in this sweep, so neither 'more' nor 'less' has a denominator here.",
+      "whatWouldChangeThis": "The RBI/DEA external-debt releases for end-March 2004, 2014 and 2025 (concessional share, multilateral vs bilateral, average terms of new commitments) plus the worldbank-projects.json instrument mix by year would settle the volume and terms comparison; a discontinuity at 2014 not explained by IDA graduation would move it to contested; a smooth trend would move it to debunked as a partisan claim.",
+      "srcs": [
+        [
+          "Kerala DPO PGD77",
+          "https://documents.worldbank.org/curated/en/476681561946430308/text/India-First-Resilient-Kerala-Program-Development-Policy-Operation.txt"
+        ],
+        [
+          "JICA press 2023-12",
+          "https://www.jica.go.jp/english/information/press/2023/20231222_30.html"
+        ],
+        [
+          "FPJ 2020-09-16",
+          "https://www.freepressjournal.in/business/did-the-modi-government-borrow-from-china-backed-aiib-amid-standoff"
+        ]
+      ]
+    },
+    {
+      "claim": "Opposition-run states are denied external loans by the Centre (the DEA approval bottleneck).",
+      "status": "speculative",
+      "strongestCase": "The mechanism exists and bites: all state borrowing including externally aided projects needs Union consent under Article 293(3); the DEA fixed Kerala's FY2023-24 ceiling at ₹32,442 crore and counted off-budget (KIIFB-type) borrowings within it; Kerala sued, claiming ₹24,434 crore of denied space and 'extreme financial hardship'; the Supreme Court found the constitutional question serious enough for a five-judge bench. The World Bank's own 1990s practice of concentrating on 'reforming states' shows that state selection has always been discretionary.",
+      "strongestCounter": "No lender document, DEA file or minister's statement records a partisan ground for refusing a state's project; the same Union routed a US$250m IDA-blend DPO to LDF-run Kerala in 2019; the ceiling is a 3%-of-GSDP FRBM/Finance Commission rule applying to every state; the Court found prima facie merit in the Union's case that Kerala had over-borrowed in FY2017-18 to FY2019-20 and had 'no unutilized fiscal space'; and the Bank's 1990s focus states were governed by parties across the spectrum. The 'denial' Kerala documents is of borrowing room, not of external projects.",
+      "whatWouldChangeThis": "Up to contested/well-supported: a state-wise table of DEA-posed and approved EAPs 2014–2026 against population and prior lending showing a gap for opposition-run states that persists after controlling for fiscal indicators, or the Constitution Bench holding the ceiling's off-budget inclusion unconstitutional. Down to unsupported: the same table showing no gap.",
+      "srcs": [
+        [
+          "Indian Kanoon — Kerala v Union 2024-04-01",
+          "https://indiankanoon.org/doc/191833676/"
+        ],
+        [
+          "Kerala DPO PGD77",
+          "https://documents.worldbank.org/curated/en/476681561946430308/text/India-First-Resilient-Kerala-Program-Development-Policy-Operation.txt"
+        ],
+        [
+          "OED India CAE 2001",
+          "http://documents1.worldbank.org/curated/en/813991468750240136/text/India-Country-assistance-evaluation.txt"
+        ]
+      ]
+    },
+    {
+      "claim": "Chinese money captured Indian infrastructure companies before 2020.",
+      "status": "unsupported",
+      "strongestCase": "Brookings (2020): official Chinese FDI rose five-fold to US$8bn by 2017 and 'at least US$26 billion' counting announcements; infrastructure investment was 'dominated by state-owned enterprises'; Chinese state banks were major creditors of private Indian power and telecom groups (Reliance Power/Sasan, RCom, Lanco, Adani Power Maharashtra — bilateral-china.json), and a UK court ordered Anil Ambani to pay US$717m to Chinese banks in 2020; Banking on Beijing documents the risks of 'political capture' in China's debt-financed model; Press Note 3 (2020) was the government's own response.",
+      "strongestCounter": "'Captured' means control, and no documented case shows a Chinese state entity taking control of a listed Indian infrastructure operator: the money was Other Official Flows — commercial equipment-linked credit to private borrowers, priced as such — and the realised FDI was mostly consumer-technology and pharma equity; the largest 'infrastructure' numbers are pledged and unapproved (≈US$15bn). Creditor power over a defaulting borrower (the Ambani judgment) is what any lender has. Brookings itself recommends openness with safeguards, not a capture finding.",
+      "whatWouldChangeThis": "Up to contested: a documented change of control, board seat or step-in right exercised by a Chinese state lender over an Indian infrastructure company before 2020 (RoC filings, exchange disclosures). Down to debunked: AidData GCDF 3.0 India rows and DPIIT data confirming that pre-2020 Chinese official finance to Indian infrastructure was credit without equity or control rights.",
+      "srcs": [
+        [
+          "Brookings 2020-03-30",
+          "https://www.brookings.edu/articles/following-the-money-china-incs-growing-stake-in-india-china-relations/"
+        ],
+        [
+          "CUP — Banking on Beijing",
+          "https://www.cambridge.org/core/product/identifier/9781108564496/type/book"
+        ],
+        [
+          "AidData GCDF 3.0",
+          "https://www.aiddata.org/data/aiddatas-global-chinese-development-finance-dataset-version-3-0"
+        ]
+      ]
+    },
+    {
+      "claim": "The World Bank's Doing Business ranking was gamed for India.",
+      "status": "unsupported",
+      "strongestCase": "India's rank rose from 142 (DB2015) to 63 (DB2020) across exactly the editions (DB2018, DB2020) later found to contain manipulated data; the government used the rank as a performance claim; the WilmerHale report (per Wikipedia) found senior Bank leadership had pressured staff to change China's data, proving the index could be bent for a large borrower; India (Mumbai) does appear in the GIA report's list of DB16 data changes and a DB17 India construction-permits methodology concern was raised by the DB team itself.",
+      "strongestCounter": "The primary audit record names exactly four countries — Azerbaijan, Saudi Arabia and UAE (DB2020) and China (DB2018–20) — for nine irregularities, and India is not among them: the DB16 India (Mumbai) Getting Electricity item was one of five routine data changes reviewed, and management 'reconfirmed' the DB17 construction-permits concern 'were not data irregularities during GIA's verification'. Neither the 2021-09-16 discontinuation statement nor the Wikipedia summary of WilmerHale mentions India. India's rise coincided with documented reforms (insolvency code, GST, Delhi/Mumbai permit and electricity reforms) that the methodology rewarded.",
+      "whatWouldChangeThis": "Up to contested: the WilmerHale report or the DEC review showing that the DB16 India (Mumbai) change or the DB17 construction-permits treatment favoured India against the methodology, or evidence of Indian government pressure on Bank leadership comparable to the China finding. Down to debunked: release of the full DEC review confirming India's items were methodology-compliant.",
+      "srcs": [
+        [
+          "GIA verification report 2020-12-08",
+          "http://documents1.worldbank.org/curated/en/569901608154479291/txt/Management-Review-of-Data-Irregularities-in-the-Doing-Business-Reports-from-2016-to-2020-Verification-Report.txt"
+        ],
+        [
+          "World Bank statement 2021-09-16",
+          "https://www.worldbank.org/en/news/statement/2021/09/16/world-bank-group-to-discontinue-doing-business-report"
+        ],
+        [
+          "Wikipedia — Ease of doing business index",
+          "https://en.wikipedia.org/wiki/Ease_of_doing_business_index"
+        ]
+      ]
+    }
+  ],
+  "symmetryCheck": "UPA vs NDA: the strongest documented case of external policy conditions shaping Indian law is the 1991 IMF/World Bank package under a Congress government (Rao/Singh), and the World Bank's own evaluator says even then 'Conditionality was used sparingly'; the NDA-era DPOs (Kerala 2019, PMGKY and MSME 2020, low-carbon 2023 — worldbank.json) carry prior actions drawn from the government's own programmes. The 'strings' lens applied to the UPA control produces the more alarming picture, which is a finding about the lens: it detects crisis-year borrowing, not party. BJP-run vs opposition-run states: the one litigated case of Union restriction (Kerala, 2023–24) sits beside a 2019 IDA-blend DPO to the same opposition-run state, and the Bank's 1990s focus states spanned TDP, BJP, BSP, Janata Dal, Congress and BJD governments; no partisan pattern is documented, and the analytic gap remains open until the state-wise EAP table is built. Chinese vs Japanese money: the 'closed club' and 'capture' lenses run on the Japanese control produce a literal contractual closed club (tied MAHSR procurement) and a 50-year creditor relationship with a Union PSU — more concentrated than anything documented for Chinese credit to Indian private firms — so the alarm the lens raises for China is a property of the lens unless control rights are shown. Doing Business: the countries the audit names are China, Azerbaijan, Saudi Arabia and the UAE; India is reviewed and cleared.",
+  "baseRates": [
+    {
+      "property": "Economies with corrected Doing Business data irregularities (GIA verification, 2020-12-08)",
+      "numerator": 4,
+      "denominator": 190,
+      "label": "Economies ranked in Doing Business 2020 (190). Four had irregularities corrected (Azerbaijan, Saudi Arabia, UAE, China); India is not among them. Nine indicator-level irregularities in total.",
+      "srcs": [
+        [
+          "GIA verification report 2020-12-08",
+          "http://documents1.worldbank.org/curated/en/569901608154479291/txt/Management-Review-of-Data-Irregularities-in-the-Doing-Business-Reports-from-2016-to-2020-Verification-Report.txt"
+        ],
+        [
+          "Wikipedia — Ease of doing business index",
+          "https://en.wikipedia.org/wiki/Ease_of_doing_business_index"
+        ]
+      ]
+    },
+    {
+      "property": "India projects FY96–00 rated satisfactory for Bank performance at appraisal (OED)",
+      "numerator": 28,
+      "denominator": 50,
+      "label": "50 evaluated World Bank India projects FY96–00; 56% satisfactory (vs 61% in FY90–94). Numerator computed from the stated percentage. Quality-at-entry, not procurement integrity.",
+      "srcs": [
+        [
+          "OED India CAE 2001",
+          "http://documents1.worldbank.org/curated/en/813991468750240136/text/India-Country-assistance-evaluation.txt"
+        ]
+      ]
+    },
+    {
+      "property": "World Bank India commitments in the 1990s rated satisfactory for outcome (OED)",
+      "numerator": 74,
+      "denominator": 100,
+      "label": "Per cent of 1990s commitments (by value) with satisfactory outcome ratings: 74%; 65% likely sustainable; 44% substantial institutional-development impact. Expressed per 100 units of commitment value.",
+      "srcs": [
+        [
+          "OED India CAE 2001",
+          "http://documents1.worldbank.org/curated/en/813991468750240136/text/India-Country-assistance-evaluation.txt"
+        ]
+      ]
+    },
+    {
+      "property": "India's share of AIIB lending by 2020-09",
+      "numerator": 25,
+      "denominator": 100,
+      "label": "About US$3.6bn of AIIB's cumulative lending, roughly 25% (FPJ) — one borrower among ~100 members, while holding 7.6% of shares; the 'China-backed bank' lent disproportionately to India.",
+      "srcs": [
+        [
+          "FPJ 2020-09-16",
+          "https://www.freepressjournal.in/business/did-the-modi-government-borrow-from-china-backed-aiib-amid-standoff"
+        ]
+      ]
+    },
+    {
+      "property": "Verified bibliographic entries in this sweep",
+      "numerator": 13,
+      "denominator": 15,
+      "label": "Of 15 works/records in the brief, 13 were verified against an opened publisher, dataset, encyclopaedic or primary page; 2 were not (Kapur & Webb G-24 paper — UNCTAD 403; Kentikelenis–Stubbs–King 2016 RIPE article — Taylor & Francis 403). A Thousand Cuts is verified only via its dataset's citation line.",
+      "srcs": [
+        [
+          "IMF Monitor — Conditionality",
+          "https://www.imfmonitor.org/conditionality"
+        ],
+        [
+          "Brookings — The World Bank",
+          "https://www.brookings.edu/books/the-world-bank/"
+        ],
+        [
+          "CUP — Banking on Beijing",
+          "https://www.cambridge.org/core/product/identifier/9781108564496/type/book"
+        ]
+      ]
+    }
+  ],
+  "gaps": [
+    "datasets: AidData Global Chinese Development Finance Dataset v3.0 — https://www.aiddata.org/data/aiddatas-global-chinese-development-finance-dataset-version-3-0 (zip: https://docs.aiddata.org/ad4/datasets/AidDatas_Global_Chinese_Development_Finance_Dataset_Version_3_0.zip); 20,985 projects, 165 countries, commitments 2000–2021; licence NOT stated on the landing page (aiddata.org/terms-of-use and /data-license returned 404) — check the README inside the zip before redistribution.",
+    "datasets: IMF Monitor conditionality dataset (Kentikelenis & Stubbs) — https://www.imfmonitor.org/conditionality; 65,894 conditions 1980–2019; hosted on Harvard Dataverse (dataset DOI not captured — Dataverse returned HTTP 202 with empty body); licence not stated on the pages opened; citation required to A Thousand Cuts (OUP 2023).",
+    "datasets: World Bank Projects API v3 — https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN (HTTP 200 on 2026-09-26); World Bank Documents & Reports API v2 — https://search.worldbank.org/api/v2/wds?format=json&qterm=... (HTTP 200; returns pdfurl/txturl); licence: CC BY 4.0 is 'the default license for all Datasets produced by the World Bank itself' per https://datacatalog.worldbank.org/public-licenses, with ODbL, Microdata Research License, external and custom licences for others.",
+    "datasets: IEG data portal — https://ieg.worldbankgroup.org/data and https://ieg.worldbankgroup.org/evaluations/india-country-program-evaluation returned HTTP 403 from this environment; IEG ICR Reviews and the 2001 CAE are reachable instead through the Documents & Reports API (txt URLs under documents1.worldbank.org).",
+    "datasets: DIGIWHIST procurement data referenced by Fazekas & Kocsis — http://digiwhist.eu/resources/data/ — not opened; European coverage only.",
+    "Kapur & Webb, 'Governance-related Conditionalities of the International Financial Institutions' (G-24 Discussion Paper 6, UNCTAD 2000): https://unctad.org/system/files/official-document/pogdsmdpbg24d6.en.pdf returned HTTP 403 — not verified; Devesh Kapur's India-specific writing on the Bank not located without search.",
+    "Kentikelenis, Stubbs & King, 'IMF conditionality and development policy space, 1985–2014', Review of International Political Economy 23(4) 2016 — https://www.tandfonline.com/doi/full/10.1080/09692290.2016.1174953 returned HTTP 403 — not verified.",
+    "A Thousand Cuts publisher page: the OUP URL tried (ISBN 9780192871497) resolves to a different book; the correct OUP ISBN was not found without search; verified only via imfmonitor.org's citation line.",
+    "CAG audit of externally aided projects (commitment charges, undisbursed balances): cag.gov.in search returned 404; would be found under Union Government (Civil) compliance/performance audit reports on the Department of Economic Affairs, or via PRS/sansad.in Public Accounts Committee reports.",
+    "IMF primary documents for the 1981 EFF and 1991 SBA (Letters of Intent, staff reports): imf.org blocked; the US$7bn figure and the 67-tonne gold pledge are Wikipedia-sourced (reported tier) — RBI History vol. 4 (rbi.org.in) or the Rangarajan/Reddy memoir passages would upgrade them.",
+    "Indian long-reads on the bullet-train loan and on AIIB (Scroll, The Wire, Indian Express, Mint): not located without search; only FPJ (2020-09-16) and the JICA release were opened. Sibling files (adb-aiib.json, bilateral-china.json) hold The Diplomat and SCMP pieces on AIIB.",
+    "State of Kerala v Union of India: only the 2024-04-01 interim order was opened; whether the Constitution Bench has ruled by 2026-09-26 was not checked (indiankanoon.org search works without JS — query 'Kerala Article 293 Constitution Bench').",
+    "Article 293 text: constitutionofindia.net returned HTTP 307; quoted here only as recited in the Supreme Court order.",
+    "UPA-vs-NDA concessionality: no external-debt series opened (dea.gov.in unreachable; RBI press-release ids for 'India's External Debt as at end-March' not locatable without search). Narrative 3 is therefore speculative for want of a denominator, not because evidence points either way.",
+    "Google Books API returned HTTP 429; book records were verified through Open Library's search API, Penguin India and Wikipedia instead.",
+    "Person-id collision: the inventory carries both energy:manmohan-singh and wel:manmohan-singh for the same person; this file uses energy:manmohan-singh and flags the duplicate for reconciliation.",
+    "Press Note 3 (2020) on land-border FDI: PIB PRID 1615711 returned an empty body to curl here; the note is recorded in bilateral-china.json and is not cited in this file."
+  ]
+}

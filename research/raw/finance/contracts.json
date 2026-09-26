@@ -1,0 +1,4298 @@
+{
+ "asOf": "2026-09-26",
+ "domain": "contracts",
+ "scope": "Who wins the contracts that external loans pay for. Covers (1) World Bank contract-award notices for the largest India investment projects since 2000 — EDFC I–III (DFCCIL), POWERGRID PSDP IV–V, National Ganga (NMCG), NHIIP (MoRTH), Vishnugad Pipalkoti (THDC), PMGSY, NRLP, RWSS — 370 notices read from the Bank's procurement-notices API, with awarded firm, country, price, method, date and, where the notice publishes them, every losing bidder and price; (2) the World Bank Listing of Ineligible Firms — every India-country debarment from 2010 to 2026, with the cited ground and period, as enforce claims; (3) ADB-financed Delhi–Meerut RRTS awards from ADB's Procurement Plan, the STEC Package 4 episode and the July 2020 GFR Order; (4) a symmetry check against the domestic Union awards register. Awards are recorded borrower/implementing agency → supplier; suppliers are resolved to existing co:/energy: ids where they are graph companies, to fin:<slug> with resolved:true where the Bank/ADB record gives the awardee's name (JVs and consortia are recorded under the JV name the record gives and flagged collisionRisk where members are not expanded), and resolved:false with no claims where only a group name appears (Shapoorji Pallonji). Leaves out: loan terms (in worldbank.json / adb-aiib.json), JICA-financed WDFC awards (Japanese tied procurement, noted in the DFCCIL entity), state-level lender-funded awards, and the ministers at approval. Amounts are contract prices in ₹ crore straight from INR-denominated notices (no conversion); ADB package values are US$ estimates converted at ≈₹73.5/US$ and marked estimated.",
+ "sources": [
+  [
+   "World Bank procurement notices API — project P131765 (contract award notices, awarded and evaluated bidders, prices)",
+   "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P131765&rows=20"
+  ],
+  [
+   "World Bank procurement notices API — project P114338 (contract award notices, awarded and evaluated bidders, prices)",
+   "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P114338&rows=200"
+  ],
+  [
+   "World Bank procurement notices API — project P150158 (contract award notices, awarded and evaluated bidders, prices)",
+   "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P150158&rows=200"
+  ],
+  [
+   "World Bank procurement notices API — project P115566 (contract award notices, awarded and evaluated bidders, prices)",
+   "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P115566&rows=200"
+  ],
+  [
+   "World Bank procurement notices API — project P101653 (contract award notices, awarded and evaluated bidders, prices)",
+   "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P101653&rows=200"
+  ],
+  [
+   "World Bank procurement notices API — project P124639 (contract award notices, awarded and evaluated bidders, prices)",
+   "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P124639&rows=200"
+  ],
+  [
+   "World Bank procurement notices API — project P119085 (contract award notices, awarded and evaluated bidders, prices)",
+   "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P119085&rows=200"
+  ],
+  [
+   "World Bank procurement notices API — project P096124 (contract award notices, awarded and evaluated bidders, prices)",
+   "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P096124&rows=200"
+  ],
+  [
+   "World Bank procurement notices API — project P077856 (contract award notices, awarded and evaluated bidders, prices)",
+   "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P077856&rows=200"
+  ],
+  [
+   "World Bank procurement notices API — project P121185 (contract award notices, awarded and evaluated bidders, prices)",
+   "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P121185&rows=200"
+  ],
+  [
+   "World Bank procurement notices API — project P147820 (contract award notices, awarded and evaluated bidders, prices)",
+   "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P147820&rows=200"
+  ],
+  [
+   "World Bank procurement notices API — project P050668 (contract award notices, awarded and evaluated bidders, prices)",
+   "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P050668&rows=200"
+  ],
+  [
+   "World Bank procurement notices API — project P144447 (contract award notices, awarded and evaluated bidders, prices)",
+   "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P144447&rows=200"
+  ],
+  [
+   "World Bank procurement notices API — project P132173 (contract award notices, awarded and evaluated bidders, prices)",
+   "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P132173&rows=200"
+  ],
+  [
+   "World Bank procurement notices API — project P104164 (contract award notices, awarded and evaluated bidders, prices)",
+   "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P104164&rows=200"
+  ],
+  [
+   "World Bank procurement notices API — project P067606 (contract award notices, awarded and evaluated bidders, prices)",
+   "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P067606&rows=200"
+  ],
+  [
+   "World Bank Listing of Ineligible Firms & Individuals — sanctions data API (as served to worldbank.org/debarred-firms, read 2026-09-26)",
+   "https://apigwext.worldbank.org/dvsvc/v1.0/json/APPLICATION/ADOBE_EXPRNCE_MGR/FIRM/SANCTIONED_FIRM"
+  ],
+  [
+   "World Bank — Procurement: Listing of Ineligible Firms and Individuals (page that loads the API above)",
+   "https://www.worldbank.org/en/projects-operations/procurement/debarred-firms"
+  ],
+  [
+   "World Bank project procurement page P131765 (server HTML; awards are loaded from the procnotices API)",
+   "https://projects.worldbank.org/en/projects-operations/project-procurement/P131765"
+  ],
+  [
+   "ADB PDS 51073-003 — Delhi-Meerut RRTS Investment Project Tranche 1 (Loan 3964-IND)",
+   "https://www.adb.org/projects/51073-003/main"
+  ],
+  [
+   "ADB — Delhi–Meerut RRTS Investment Project: Procurement Plan (Rev 7.0, 23 Aug 2021) document page",
+   "https://www.adb.org/projects/documents/ind-51073-003-51073-004-pp"
+  ],
+  [
+   "ADB — Delhi–Meerut RRTS Procurement Plan Rev 7.0 (PDF: methods, awarded packages, estimated values, LOA dates)",
+   "https://www.adb.org/sites/default/files/project-documents/51073/51073-003-51073-004-pp-en.pdf"
+  ],
+  [
+   "ADB Projects & Tenders search for 51073 (no per-project contract-award records served)",
+   "https://www.adb.org/projects/tenders?terms=51073"
+  ],
+  [
+   "PIB — Ministry of Finance, 'Restrictions on Public Procurement from certain countries', 2020-07-23 (Release ID 1640778)",
+   "https://pib.gov.in/PressReleasePage.aspx?PRID=1640778"
+  ],
+  [
+   "The Tribune — 'Chinese firm bags rapid rail contract' (Sandeep Dikshit, 2021-01-03/04)",
+   "https://www.tribuneindia.com/news/nation/chinese-firm-bags-rapid-rail-contract-193265"
+  ],
+  [
+   "National Herald — 'Chinese firm given contract worth Rs 1,126 crore for Delhi-Meerut rail tunnel even as LAC standoff continues' (PTI-based, Jan 2021)",
+   "https://www.nationalheraldindia.com/india/chinese-firm-given-contract-worth-rs-1126-crore-for-delhi-meerut-rail-tunnel-even-as-lac-standoff-continues"
+  ],
+  [
+   "Urban Transport News — 'STEC wins Rs 1,126 crore civil contract package 4 of Delhi-Meerut RRTS project' (2020-06-12; all five financial bids)",
+   "https://www.urbantransportnews.com/news/stec-bags-rs-1126-crore-civil-contract-package-4-of-delhi-meerut-rrts-line"
+  ],
+  [
+   "DFCCIL — Details of tenders awarded (more than Rs 1 crore), register updated 08-03-2022",
+   "https://dfccil.com/upload/details_of_tender_awarded_more_than_1_crore_08_03_2022_RMO4.pdf"
+  ],
+  [
+   "ICIP domestic control register — research/raw/tenders-centre.json (88 Union-government awards, 2019–2026)",
+   "research/raw/tenders-centre.json"
+  ],
+  [
+   "ICIP pre-fetched World Bank India project list — research/raw/finance/worldbank-projects.json (1,117 projects from the WB projects API)",
+   "research/raw/finance/worldbank-projects.json"
+  ]
+ ],
+ "entities": [
+  {
+   "id": "fin:ibrd",
+   "label": "IBRD",
+   "sub": "World Bank lending arm (financier of the EDFC, PSDP, Ganga, NHIIP, VPHEP projects whose awards are recorded here)",
+   "ty": "fund",
+   "fam": "capital",
+   "st": null,
+   "sz": 3,
+   "al": [
+    "International Bank for Reconstruction and Development",
+    "World Bank"
+   ],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Multilateral lender whose loan agreements set the procurement rules for the contracts recorded here",
+   "d": [
+    "Financier of P131765, P114338, P150158 (EDFC), P115566/P101653 (POWERGRID PSDP IV–V), P119085 (Ganga, with IDA), P121185 (NHIIP), P096124 (VPHEP) [documented]",
+    "Procurement under Bank loans follows Bank Procurement Guidelines/Regulations: ICB (pre-2016) and RFB/QCBS (post-2016 STEP era); Bank publishes contract award notices with awarded and, until c.2016, evaluated bidders [documented]"
+   ],
+   "srcs": [
+    [
+     "World Bank procurement notices API — project P131765 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P131765&rows=20"
+    ],
+    [
+     "World Bank procurement notices API — project P115566 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P115566&rows=200"
+    ],
+    [
+     "ICIP pre-fetched World Bank India project list — research/raw/finance/worldbank-projects.json (1,117 projects from the WB projects API)",
+     "research/raw/finance/worldbank-projects.json"
+    ]
+   ]
+  },
+  {
+   "id": "fin:ida",
+   "label": "IDA",
+   "sub": "World Bank concessional arm (co-financier of P119085 Ganga, P124639 PMGSY, P104164 NRLP, P132173 RWSS)",
+   "ty": "fund",
+   "fam": "capital",
+   "st": null,
+   "sz": 2,
+   "al": [
+    "International Development Association"
+   ],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Named party to a publicly financed procurement or sanction record",
+   "d": [
+    "IDA credit share: P119085 US$199m of US$1,000m; P124639 US$900m of US$1,400m [documented]"
+   ],
+   "srcs": [
+    [
+     "ICIP pre-fetched World Bank India project list — research/raw/finance/worldbank-projects.json (1,117 projects from the WB projects API)",
+     "research/raw/finance/worldbank-projects.json"
+    ]
+   ]
+  },
+  {
+   "id": "fin:world-bank-sanctions-system",
+   "label": "World Bank Group Sanctions System",
+   "sub": "INT investigations → Suspension & Debarment Officer → Sanctions Board; publishes the Listing of Ineligible Firms",
+   "ty": "agency",
+   "fam": "enforce",
+   "st": null,
+   "sz": 2,
+   "al": [
+    "World Bank Sanctions Board",
+    "World Bank Integrity Vice Presidency (INT)",
+    "Listing of Ineligible Firms and Individuals"
+   ],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "The enforcement body that decides which firms may win Bank-financed contracts",
+   "d": [
+    "The listing served 1,520 sanctioned firms and individuals on 2026-09-26, of which 54 have country = India (52 debarred from 2010 onward) [documented]",
+    "Debarment grounds are cited by guideline paragraph (e.g. Procurement Guidelines 1.14(a)(ii), 1.16(a)(ii); Consultant Guidelines 1.22(a)(ii)) or as 'Controlled Affiliate of a Sanctioned Entity'; 2024–2026 entries name the practice ('Collusive', 'Fraudulent', 'Obstructive') [documented]",
+    "Most Indian debarments carry DEBAR_TO_DATE 2999-12-31 in the feed, which the Bank uses for indefinite/permanent or conditional-release debarments whose end depends on compliance [documented in the feed; interpretation ours]"
+   ],
+   "srcs": [
+    [
+     "World Bank Listing of Ineligible Firms & Individuals — sanctions data API (as served to worldbank.org/debarred-firms, read 2026-09-26)",
+     "https://apigwext.worldbank.org/dvsvc/v1.0/json/APPLICATION/ADOBE_EXPRNCE_MGR/FIRM/SANCTIONED_FIRM"
+    ],
+    [
+     "World Bank — Procurement: Listing of Ineligible Firms and Individuals (page that loads the API above)",
+     "https://www.worldbank.org/en/projects-operations/procurement/debarred-firms"
+    ]
+   ]
+  },
+  {
+   "id": "fin:adb",
+   "label": "Asian Development Bank",
+   "sub": "Lender to NCRTC (MFF 0107-IND) whose procurement rules governed the RRTS awards",
+   "ty": "fund",
+   "fam": "capital",
+   "st": null,
+   "sz": 3,
+   "al": [
+    "ADB"
+   ],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Multilateral lender whose member-eligibility rule is the boring explanation for the STEC award",
+   "d": [
+    "RRTS Procurement Plan Rev 7.0: ADB US$1,049m, AIIB US$500m joint co-financing, NDB US$500m, Government US$1,790.19m, JFPR grant US$3m; project procurement risk 'High'; e-GP via etenders.gov.in [documented]",
+    "Method for goods and works: open competitive bidding (OCB) with international advertisement — 'International advertisement is considered for increased competitiveness' [documented]"
+   ],
+   "srcs": [
+    [
+     "ADB — Delhi–Meerut RRTS Procurement Plan Rev 7.0 (PDF: methods, awarded packages, estimated values, LOA dates)",
+     "https://www.adb.org/sites/default/files/project-documents/51073/51073-003-51073-004-pp-en.pdf"
+    ],
+    [
+     "ADB PDS 51073-003 — Delhi-Meerut RRTS Investment Project Tranche 1 (Loan 3964-IND)",
+     "https://www.adb.org/projects/51073-003/main"
+    ]
+   ]
+  },
+  {
+   "id": "fin:aiib",
+   "label": "AIIB",
+   "sub": "Joint co-financier of RRTS (US$500m, Tranche 2 administered by ADB)",
+   "ty": "fund",
+   "fam": "capital",
+   "st": null,
+   "sz": 2,
+   "al": [
+    "Asian Infrastructure Investment Bank"
+   ],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Named party to a publicly financed procurement or sanction record",
+   "d": [
+    "AIIB joint co-financing US$500m on the RRTS facility (ADB Procurement Plan) [documented]"
+   ],
+   "srcs": [
+    [
+     "ADB — Delhi–Meerut RRTS Procurement Plan Rev 7.0 (PDF: methods, awarded packages, estimated values, LOA dates)",
+     "https://www.adb.org/sites/default/files/project-documents/51073/51073-003-51073-004-pp-en.pdf"
+    ]
+   ]
+  },
+  {
+   "id": "fin:ndb",
+   "label": "New Development Bank",
+   "sub": "Parallel co-financier of RRTS (US$500m)",
+   "ty": "fund",
+   "fam": "capital",
+   "st": null,
+   "sz": 2,
+   "al": [
+    "NDB",
+    "BRICS bank"
+   ],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Named party to a publicly financed procurement or sanction record",
+   "d": [
+    "NDB financing US$500m on the RRTS facility (ADB Procurement Plan) [documented]",
+    "Tribune: India had borrowed US$1.5bn from ADB and NDB for the RRTS at the time of the STEC award; both banks' rules require member-country firms to be eligible [reported]"
+   ],
+   "srcs": [
+    [
+     "ADB — Delhi–Meerut RRTS Procurement Plan Rev 7.0 (PDF: methods, awarded packages, estimated values, LOA dates)",
+     "https://www.adb.org/sites/default/files/project-documents/51073/51073-003-51073-004-pp-en.pdf"
+    ],
+    [
+     "The Tribune — 'Chinese firm bags rapid rail contract' (Sandeep Dikshit, 2021-01-03/04)",
+     "https://www.tribuneindia.com/news/nation/chinese-firm-bags-rapid-rail-contract-193265"
+    ]
+   ]
+  },
+  {
+   "id": "fin:adb-ocb-member-eligibility-rule",
+   "label": "ADB open competitive bidding — member-country eligibility",
+   "sub": "Procurement rule under ADB loans: OCB with international advertisement; firms from all ADB member countries eligible",
+   "ty": "mechanism",
+   "fam": "instrument",
+   "st": null,
+   "sz": 2,
+   "al": [
+    "ADB Procurement Policy (2017) eligibility",
+    "OCB international"
+   ],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "The loan condition that determined who could bid for RRTS packages",
+   "d": [
+    "RRTS Procurement Plan: 'Open competitive bidding (OCB) with international advertisement' for goods and works [documented]",
+    "NCRTC statement via PTI: 'According to the ADB's procurement guidelines, vendors from all member countries of the bank are eligible to participate in the bidding process without any discrimination' [reported]",
+    "Tribune: 'As per the ADB norms, its members cannot be barred from participating in tenders' [reported]"
+   ],
+   "srcs": [
+    [
+     "ADB — Delhi–Meerut RRTS Procurement Plan Rev 7.0 (PDF: methods, awarded packages, estimated values, LOA dates)",
+     "https://www.adb.org/sites/default/files/project-documents/51073/51073-003-51073-004-pp-en.pdf"
+    ],
+    [
+     "National Herald — 'Chinese firm given contract worth Rs 1,126 crore for Delhi-Meerut rail tunnel even as LAC standoff continues' (PTI-based, Jan 2021)",
+     "https://www.nationalheraldindia.com/india/chinese-firm-given-contract-worth-rs-1126-crore-for-delhi-meerut-rail-tunnel-even-as-lac-standoff-continues"
+    ],
+    [
+     "The Tribune — 'Chinese firm bags rapid rail contract' (Sandeep Dikshit, 2021-01-03/04)",
+     "https://www.tribuneindia.com/news/nation/chinese-firm-bags-rapid-rail-contract-193265"
+    ]
+   ]
+  },
+  {
+   "id": "fin:gfr-2020-land-border-procurement-order",
+   "label": "GFR 2017 amendment & DoE Order restricting bidders from land-border countries (2020-07-23)",
+   "sub": "Public Procurement rule: bidders from countries sharing a land border with India may bid only if registered with a DPIIT committee, with MEA/MHA clearance",
+   "ty": "law",
+   "fam": "instrument",
+   "st": "dl",
+   "sz": 2,
+   "al": [
+    "GFR Rule 144(xi)",
+    "Order on restrictions on procurement from countries sharing a land border with India"
+   ],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "The domestic rule cited whenever a Chinese contractor appears on an Indian public project after mid-2020",
+   "d": [
+    "Issued 2020-07-23 by Department of Expenditure, Ministry of Finance; applies to goods, services and works procurement by Union ministries, PSBs, autonomous bodies, CPSEs and PPPs receiving government support; states asked under Article 257(1) to implement [documented]",
+    "Applies to all new tenders; for tenders already invited, bidders not registered are treated as not qualified if first-stage qualification is not complete; if that stage is crossed 'ordinarily the tenders will be cancelled and the process started de novo' [documented]",
+    "Countries receiving Indian lines of credit / development assistance exempted by separate order [documented]"
+   ],
+   "srcs": [
+    [
+     "PIB — Ministry of Finance, 'Restrictions on Public Procurement from certain countries', 2020-07-23 (Release ID 1640778)",
+     "https://pib.gov.in/PressReleasePage.aspx?PRID=1640778"
+    ]
+   ]
+  },
+  {
+   "id": "fin:dfccil",
+   "label": "Dedicated Freight Corridor Corporation of India Ltd",
+   "sub": "Ministry of Railways CPSE; implementing agency for the WB-financed EDFC (P114338, P131765, P150158) and JICA-financed WDFC",
+   "ty": "psu",
+   "fam": "state",
+   "st": "dl",
+   "sz": 3,
+   "al": [
+    "DFCCIL"
+   ],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Borrower-side awarder of the largest World Bank-financed civil contracts in India",
+   "d": [
+    "EDFC-I US$975m (2011), EDFC-II US$1,100m (2014), EDFC-III US$650m (2015) IBRD loans [documented]",
+    "Own register of tenders awarded >₹1 cr (updated 2022-03-08) lists the same EDFC awards as the World Bank notices, e.g. CP-301 GIL-TPL JV ₹1,769.40 cr and CP-302 GIL-TPL JV ₹511.30 cr on 29.08.2016; CP-303 L&T 15.03.2018; CP-304/305/105 S&T to L&T-Kyosan consortium, LOA 23.04.2020 [documented]",
+    "JICA-financed WDFC civil/system packages went overwhelmingly to Sojitz–L&T consortia (CTP-1&2 ₹6,699.5 cr 2013; EMP-4 ₹3,097 cr 2015; EMP-16 ₹1,213 cr; STP-17 ₹631 cr; CTP-14 ₹3,798.99 cr 2016–17) — Japanese-tied-loan procurement, outside this file's WB scope [documented]"
+   ],
+   "srcs": [
+    [
+     "DFCCIL — Details of tenders awarded (more than Rs 1 crore), register updated 08-03-2022",
+     "https://dfccil.com/upload/details_of_tender_awarded_more_than_1_crore_08_03_2022_RMO4.pdf"
+    ],
+    [
+     "World Bank procurement notices API — project P131765 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P131765&rows=20"
+    ],
+    [
+     "World Bank procurement notices API — project P114338 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P114338&rows=200"
+    ],
+    [
+     "World Bank procurement notices API — project P150158 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P150158&rows=200"
+    ],
+    [
+     "ICIP pre-fetched World Bank India project list — research/raw/finance/worldbank-projects.json (1,117 projects from the WB projects API)",
+     "research/raw/finance/worldbank-projects.json"
+    ]
+   ]
+  },
+  {
+   "id": "co:power-grid",
+   "label": "Power Grid Corporation of India",
+   "sub": "Implementing agency, WB Power System Development Projects IV (P101653) and V (P115566)",
+   "ty": "psu",
+   "fam": "state",
+   "st": "hr",
+   "sz": 3,
+   "al": [
+    "PGCIL",
+    "POWERGRID"
+   ],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Named party to a publicly financed procurement or sanction record",
+   "d": [
+    "PSDP V: 40 contract award notices, ₹6,217 cr priced in INR; largest the ₹3,274.81 cr Champa–Kurukshetra HVDC upgrade to ALSTOM Grid UK (2 bidders) [documented]",
+    "POWERGRID's WB ICB awards 2011–2014 show 2–11 bidders per package, with Chinese transformer/insulator makers (Baoding Tianwei, Xian XD, TBEA, Sichuan Yibin) winning 6 packages [documented]"
+   ],
+   "srcs": [
+    [
+     "World Bank procurement notices API — project P115566 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P115566&rows=200"
+    ],
+    [
+     "World Bank procurement notices API — project P101653 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P101653&rows=200"
+    ]
+   ]
+  },
+  {
+   "id": "fin:nmcg",
+   "label": "National Mission for Clean Ganga",
+   "sub": "Implementing agency of the WB-financed National Ganga River Basin Project (P119085); under Ministry of Jal Shakti",
+   "ty": "agency",
+   "fam": "state",
+   "st": "dl",
+   "sz": 2,
+   "al": [
+    "NMCG",
+    "Namami Gange"
+   ],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Named party to a publicly financed procurement or sanction record",
+   "d": [
+    "46 contract award notices, ₹5,467 cr priced across 40 INR awards; VA Tech Wabag ₹1,992 cr (36%), L&T ₹830 cr, Technocraft ₹519 cr, Adani Enterprises ₹385 cr, Shapoorji Pallonji ₹365 cr (Pahari Zone-V Patna sewerage, 2018-04-25; awardee named only as 'SHAPOORJI PALLONJI', STEP id 66532), Shrishti Infrastructure ₹309 cr, EMS Infracon ₹254 cr + ₹227 cr (JV with UEM India), Kevadiya Construction ₹237 cr [documented]",
+    "Post-2016 STEP notices list the awardee only; evaluated bidders are not published, so bid counts for Ganga awards are unobservable from the Bank feed [documented absence]"
+   ],
+   "srcs": [
+    [
+     "World Bank procurement notices API — project P119085 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P119085&rows=200"
+    ]
+   ]
+  },
+  {
+   "id": "min:ministry-of-road-transport-and-highways",
+   "label": "Ministry of Road Transport and Highways",
+   "sub": "Implementing agency, National Highways Interconnectivity Improvement Project (P121185)",
+   "ty": "ministry",
+   "fam": "state",
+   "st": "dl",
+   "sz": 2,
+   "al": [
+    "MoRTH"
+   ],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Named party to a publicly financed procurement or sanction record",
+   "d": [
+    "9 contract award notices; IL&FS Engineering ₹675 cr (Bihar NHIIP-BR-106-7, 2016), Montecarlo ₹560.7 cr (Fatuah–Harnaut, 2016) and ₹358.2 cr (Anisabad–Aurangabad, 2014, 3 bidders) [documented]"
+   ],
+   "srcs": [
+    [
+     "World Bank procurement notices API — project P121185 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P121185&rows=200"
+    ]
+   ]
+  },
+  {
+   "id": "energy:thdc",
+   "label": "THDC India Limited",
+   "sub": "Implementing agency, Vishnugad Pipalkoti HEP (P096124, IBRD US$648m)",
+   "ty": "psu",
+   "fam": "state",
+   "st": "ut",
+   "sz": 2,
+   "al": [
+    "THDCIL"
+   ],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Named party to a publicly financed procurement or sanction record",
+   "d": [
+    "EM equipment EPC (4×111 MW) awarded to BHEL, ICB, contract price ₹422.69 cr; notice 2014-10-30; evaluated bidders not listed [documented]"
+   ],
+   "srcs": [
+    [
+     "World Bank procurement notices API — project P096124 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P096124&rows=200"
+    ]
+   ]
+  },
+  {
+   "id": "fin:ncrtc",
+   "label": "National Capital Region Transport Corporation",
+   "sub": "JV of GoI and Delhi, Haryana, Rajasthan, UP; implements the ADB/AIIB/NDB-financed Delhi–Meerut RRTS",
+   "ty": "psu",
+   "fam": "state",
+   "st": "dl",
+   "sz": 3,
+   "al": [
+    "NCRTC"
+   ],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Executing agency for the ADB/AIIB/NDB-financed Delhi-Meerut RRTS; awarder of the STEC contract",
+   "d": [
+    "ADB Procurement Plan Rev 7.0 lists 19 awarded goods/works packages with estimated value US$1,223.82m: L&T 3 packages (P3, P7, P17) US$430.04m = 35.1%; Afcons 2 (P6, P8) US$353.07m = 28.9%; STEC 1 (P4) US$153.57m = 12.5%; Ircon (P19) US$98.5m = 8.0%; VNC-KEC JV (P5A) US$33.96m; other awardees: Canon Fasteners, METCON-CP JV, URC Construction, SAM (India) Builtwell, ArcelorMittal España (rails), SCHWIHAG AG, voestalpine VAE VKN India, Schindler India, Otis, STRABAG International, Sanfield (India), Mageba Bridge Products [documented]",
+    "Non-ADB-financed (government counterpart) contracts >US$0.3m listed separately, mostly OCB (National), plus P-2 viaduct (US$82.52m, OCB International, 2019-04-26) [documented]",
+    "NCRTC's response to the STEC controversy (via PTI): 'Approvals have to be taken at various levels for bids that are funded by multilateral agencies. This bid was also awarded following the set procedure and guidelines' [reported]"
+   ],
+   "srcs": [
+    [
+     "ADB — Delhi–Meerut RRTS Procurement Plan Rev 7.0 (PDF: methods, awarded packages, estimated values, LOA dates)",
+     "https://www.adb.org/sites/default/files/project-documents/51073/51073-003-51073-004-pp-en.pdf"
+    ],
+    [
+     "National Herald — 'Chinese firm given contract worth Rs 1,126 crore for Delhi-Meerut rail tunnel even as LAC standoff continues' (PTI-based, Jan 2021)",
+     "https://www.nationalheraldindia.com/india/chinese-firm-given-contract-worth-rs-1126-crore-for-delhi-meerut-rail-tunnel-even-as-lac-standoff-continues"
+    ],
+    [
+     "ADB PDS 51073-003 — Delhi-Meerut RRTS Investment Project Tranche 1 (Loan 3964-IND)",
+     "https://www.adb.org/projects/51073-003/main"
+    ]
+   ]
+  },
+  {
+   "id": "min:ministry-of-housing-and-urban-affairs",
+   "label": "Ministry of Housing and Urban Affairs",
+   "sub": "Executing agency of the ADB RRTS facility (with NCRTC as implementing agency)",
+   "ty": "ministry",
+   "fam": "state",
+   "st": "dl",
+   "sz": 2,
+   "al": [
+    "MoHUA"
+   ],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Named party to a publicly financed procurement or sanction record",
+   "d": [
+    "Executing Agency on ADB PDS 51073-003 and the RRTS Procurement Plan [documented]"
+   ],
+   "srcs": [
+    [
+     "ADB PDS 51073-003 — Delhi-Meerut RRTS Investment Project Tranche 1 (Loan 3964-IND)",
+     "https://www.adb.org/projects/51073-003/main"
+    ],
+    [
+     "ADB — Delhi–Meerut RRTS Procurement Plan Rev 7.0 (PDF: methods, awarded packages, estimated values, LOA dates)",
+     "https://www.adb.org/sites/default/files/project-documents/51073/51073-003-51073-004-pp-en.pdf"
+    ]
+   ]
+  },
+  {
+   "id": "min:ministry-of-finance",
+   "label": "Ministry of Finance",
+   "sub": "Department of Expenditure — author of the 2020 GFR amendment and land-border procurement Order; DEA is borrower of record for WB/ADB sovereign loans",
+   "ty": "ministry",
+   "fam": "state",
+   "st": "dl",
+   "sz": 3,
+   "al": [
+    "DoE",
+    "Department of Expenditure",
+    "DEA"
+   ],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Named party to a publicly financed procurement or sanction record",
+   "d": [
+    "Amended GFR 2017 on 2020-07-23 and issued the Order restricting bidders from land-border countries [documented]"
+   ],
+   "srcs": [
+    [
+     "PIB — Ministry of Finance, 'Restrictions on Public Procurement from certain countries', 2020-07-23 (Release ID 1640778)",
+     "https://pib.gov.in/PressReleasePage.aspx?PRID=1640778"
+    ]
+   ]
+  },
+  {
+   "id": "co:larsen-toubro",
+   "label": "Larsen & Toubro",
+   "sub": "Largest single winner by value in the World Bank award notices sampled, and of the ADB RRTS packages",
+   "ty": "company",
+   "fam": "market",
+   "st": "mh",
+   "sz": 4,
+   "al": [
+    "L&T",
+    "L&T - INABENSA Consortium",
+    "L&T-Kyosan Consortium",
+    "LARSEN & TOUBRO LIMITED"
+   ],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Named party to a publicly financed procurement or sanction record",
+   "d": [
+    "World Bank notices (11 priced projects, ₹29,919 cr): L&T alone or as consortium lead ₹6,076 cr = 20.3% — EDFC-3 CP-303 ₹2,870.99 cr (2018), CP-304 ₹738.1 cr and CP-305 ₹790.75 cr (2020, with Kyosan), EDFC-2 CP-204 ₹847 cr (2016, with Inabensa), NMCG sewerage ₹431.2 cr (2018) and ₹398.4 cr (2017) [documented]",
+    "In the 55 pre-2016 ICB notices that list evaluated bidders, L&T appears as a losing bidder 5 times and as winner once (EDFC-1 CP-301 ₹1,769 cr lost by ₹22.6 cr; CP-302 lost by ₹29.7 cr; KEC tower package; two Bajaj tower packages) [documented]",
+    "RRTS (ADB): P3 US$243.1m (LOA 2020-03-19), P7 US$98.57m (2020-11-04), P17 track US$88.37m (2020-10-16); L2 at ₹1,170 cr on Package 4 that STEC won at ₹1,126 cr [documented]"
+   ],
+   "srcs": [
+    [
+     "World Bank procurement notices API — project P150158 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P150158&rows=200"
+    ],
+    [
+     "World Bank procurement notices API — project P131765 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P131765&rows=20"
+    ],
+    [
+     "World Bank procurement notices API — project P114338 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P114338&rows=200"
+    ],
+    [
+     "World Bank procurement notices API — project P115566 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P115566&rows=200"
+    ],
+    [
+     "World Bank procurement notices API — project P119085 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P119085&rows=200"
+    ],
+    [
+     "ADB — Delhi–Meerut RRTS Procurement Plan Rev 7.0 (PDF: methods, awarded packages, estimated values, LOA dates)",
+     "https://www.adb.org/sites/default/files/project-documents/51073/51073-003-51073-004-pp-en.pdf"
+    ],
+    [
+     "Urban Transport News — 'STEC wins Rs 1,126 crore civil contract package 4 of Delhi-Meerut RRTS project' (2020-06-12; all five financial bids)",
+     "https://www.urbantransportnews.com/news/stec-bags-rs-1126-crore-civil-contract-package-4-of-delhi-meerut-rrts-line"
+    ]
+   ]
+  },
+  {
+   "id": "co:bhel",
+   "label": "BHEL",
+   "sub": "Winner of VPHEP EM works and POWERGRID insulator packages; lost the HVDC upgrade as ABB AB's JV partner",
+   "ty": "psu",
+   "fam": "market",
+   "st": "dl",
+   "sz": 3,
+   "al": [
+    "Bharat Heavy Electricals Limited"
+   ],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Named party to a publicly financed procurement or sanction record",
+   "d": [
+    "VPHEP 4×111 MW EM EPC ₹422.69 cr (THDC, ICB, 2014) [documented]",
+    "POWERGRID insulator packages IS01 ₹29.53 cr and IS02 ₹17.84 cr (2013-04-25) beating Zhejiang Jinlihua and Sichuan Yibin; lost insulator packages in 2012 to Sichuan Yibin [documented]",
+    "Lost the ₹3,275 cr Champa–Kurukshetra HVDC upgrade as 'Other Partner' in the ABB AB–BHEL JV (2 bidders) [documented]"
+   ],
+   "srcs": [
+    [
+     "World Bank procurement notices API — project P096124 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P096124&rows=200"
+    ],
+    [
+     "World Bank procurement notices API — project P101653 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P101653&rows=200"
+    ],
+    [
+     "World Bank procurement notices API — project P115566 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P115566&rows=200"
+    ]
+   ]
+  },
+  {
+   "id": "co:abb-india",
+   "label": "ABB India Limited",
+   "sub": "Winner of POWERGRID 765/400 kV Solapur substation package (as 'ABB Limited'); ABB AB Sweden lost the HVDC upgrade",
+   "ty": "company",
+   "fam": "market",
+   "st": "ka",
+   "sz": 2,
+   "al": [
+    "ABB Limited",
+    "ABB Ltd"
+   ],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Named party to a publicly financed procurement or sanction record",
+   "d": [
+    "Solapur substation package P260-SS02 ₹86.68 cr, ICB, signed 2012-06-20; BHEL, Jyoti Structures, Areva T&D India and Crompton Greaves not shortlisted for detailed evaluation [documented]",
+    "Identity: WB notice names 'M/s. ABB Limited' with no country; the Indian listed company was named ABB Limited until 2013 — mapping to co:abb-india is ours"
+   ],
+   "srcs": [
+    [
+     "World Bank procurement notices API — project P115566 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P115566&rows=200"
+    ]
+   ]
+  },
+  {
+   "id": "co:adani-enterprises",
+   "label": "Adani Enterprises Limited",
+   "sub": "Winner of one NMCG hybrid-annuity STP package (Bhagalpur) in 2021",
+   "ty": "company",
+   "fam": "market",
+   "st": "gj",
+   "sz": 3,
+   "al": [
+    "AEL",
+    "ADANI ENTERPRISES LTD."
+   ],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Named party to a publicly financed procurement or sanction record",
+   "d": [
+    "Interception & Diversion and STP scheme for Bhagalpur, Bihar (HAM), ₹385.09 cr, RFB, signed 2021-10-07; awardee countries 'India, Hungary' in the notice (JV partner not named) [documented]",
+    "Bid count not published (STEP-format notice) [documented absence]"
+   ],
+   "srcs": [
+    [
+     "World Bank procurement notices API — project P119085 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P119085&rows=200"
+    ]
+   ]
+  },
+  {
+   "id": "fin:gil-sil-jv",
+   "label": "GIL – SIL JV",
+   "sub": "Unincorporated JV; awardee of EDFC-2 civil packages Lot 201 and CP-202 (₹5,081 cr, 2015)",
+   "ty": "company",
+   "fam": "market",
+   "st": null,
+   "sz": 3,
+   "al": [
+    "GIL - SIL JV"
+   ],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Named party to a publicly financed procurement or sanction record",
+   "d": [
+    "Awarded Lot 201 Mughalsarai–New Karchana ₹2,416.68 cr and CP-202 Karchana–New Bhaupur ₹2,664.09 cr, both ICB, signed 2015-05-27, 5 bidders each (Oriental Structural Engineers, OHL–CPVM JV (Spain), IL&FS–CR21G JV, POSCO–PNC JV) [documented]",
+    "Constituent companies are not expanded in the World Bank notice or the DFCCIL register; press identification of the members (GMR Infrastructure / SEW Infrastructure) was not verified in this pass — see gaps"
+   ],
+   "srcs": [
+    [
+     "World Bank procurement notices API — project P131765 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P131765&rows=20"
+    ],
+    [
+     "DFCCIL — Details of tenders awarded (more than Rs 1 crore), register updated 08-03-2022",
+     "https://dfccil.com/upload/details_of_tender_awarded_more_than_1_crore_08_03_2022_RMO4.pdf"
+    ]
+   ],
+   "collisionRisk": "JV named only by initials in both primary records; members unresolved"
+  },
+  {
+   "id": "fin:gil-tpl-jv",
+   "label": "GIL – TPL JV",
+   "sub": "Unincorporated JV (Hyderabad address); awardee of EDFC CP-301 and CP-302 (₹2,281 cr, 2016)",
+   "ty": "company",
+   "fam": "market",
+   "st": null,
+   "sz": 2,
+   "al": [
+    "GIL - TPL JV"
+   ],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Named party to a publicly financed procurement or sanction record",
+   "d": [
+    "CP-301 Pilkhani–Sahnewal ₹1,769.40 cr (6 bidders; L&T second at ₹1,792 cr) and CP-302 Khurja–Dadri ₹511.30 cr (6 bidders; L&T second at ₹541 cr), both ICB, signed 2016-08-29 [documented]",
+    "Constituents not expanded in the WB notice or the DFCCIL register; 'TPL' is not resolved to Tata Projects Ltd here — see gaps"
+   ],
+   "srcs": [
+    [
+     "World Bank procurement notices API — project P114338 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P114338&rows=200"
+    ],
+    [
+     "DFCCIL — Details of tenders awarded (more than Rs 1 crore), register updated 08-03-2022",
+     "https://dfccil.com/upload/details_of_tender_awarded_more_than_1_crore_08_03_2022_RMO4.pdf"
+    ]
+   ],
+   "collisionRisk": "JV named only by initials; members unresolved"
+  },
+  {
+   "id": "fin:alstom-consortium-edfc",
+   "label": "Alstom Consortium (EDFC CP-104)",
+   "sub": "Awardee of EDFC-1 system works package CP-104 Bhaupur–Khurja (₹1,497 cr, 2015)",
+   "ty": "company",
+   "fam": "market",
+   "st": null,
+   "sz": 2,
+   "al": [
+    "Alstom Consortium",
+    "JV of Alstom"
+   ],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Named party to a publicly financed procurement or sanction record",
+   "d": [
+    "CP-104 (2×25 kV electrification, S&T) ₹1,497.12 cr, ICB, signed 2015-07-21; 3 bidders — Siemens Consortium and Inabensa–Ansaldo–EMC–BCEPL JV lost [documented]",
+    "Consortium members not expanded in the WB notice; DFCCIL register records 'JV of Alstom' [documented]"
+   ],
+   "srcs": [
+    [
+     "World Bank procurement notices API — project P114338 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P114338&rows=200"
+    ],
+    [
+     "DFCCIL — Details of tenders awarded (more than Rs 1 crore), register updated 08-03-2022",
+     "https://dfccil.com/upload/details_of_tender_awarded_more_than_1_crore_08_03_2022_RMO4.pdf"
+    ]
+   ],
+   "collisionRisk": "Consortium named by lead only"
+  },
+  {
+   "id": "fin:crsc-research-design-institute",
+   "label": "Beijing National Railway Research & Design Institute of Signal & Communication Group Co. Ltd.",
+   "sub": "Chinese state-owned signalling firm (CRSC group); awardee of EDFC-2 S&T Package 203 (2016)",
+   "ty": "company",
+   "fam": "market",
+   "st": null,
+   "sz": 2,
+   "al": [
+    "CRSC Research & Design Institute Group",
+    "Beijing National Railway Research & Design Institute"
+   ],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Named party to a publicly financed procurement or sanction record",
+   "d": [
+    "Package 203 Mughalsarai–New Bhaupur signalling & telecom ₹471 cr, ICB, signed 2016-10-03; 4 bidders — Kalindee–Kyosan JV ₹494.8 cr, Siemens AG/Siemens Ltd JV ₹564.5 cr, L&T–Ansaldo STS ₹625 cr lost [documented]"
+   ],
+   "srcs": [
+    [
+     "World Bank procurement notices API — project P131765 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P131765&rows=20"
+    ]
+   ]
+  },
+  {
+   "id": "fin:alstom-grid-uk",
+   "label": "ALSTOM Grid UK Ltd",
+   "sub": "Awardee of POWERGRID's ₹3,275 cr Champa–Kurukshetra HVDC upgrade (2014); business since acquired by GE",
+   "ty": "company",
+   "fam": "market",
+   "st": null,
+   "sz": 2,
+   "al": [
+    "ALSTOM UK",
+    "GE Grid Solutions (successor)"
+   ],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Named party to a publicly financed procurement or sanction record",
+   "d": [
+    "HVDC terminals upgrade 3,000→6,000 MW, ±800 kV, ₹3,274.81 cr, ICB, signed 2014-08-29; 2 bidders — JV of ABB AB Sweden and BHEL lost [documented]"
+   ],
+   "srcs": [
+    [
+     "World Bank procurement notices API — project P115566 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P115566&rows=200"
+    ]
+   ]
+  },
+  {
+   "id": "fin:bajaj-electricals",
+   "label": "Bajaj Electricals Ltd",
+   "sub": "Winner of two POWERGRID 765 kV tower packages (2013)",
+   "ty": "company",
+   "fam": "market",
+   "st": "mh",
+   "sz": 2,
+   "al": [
+    "BAJAJ"
+   ],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Named party to a publicly financed procurement or sanction record",
+   "d": [
+    "P290-TW02 ₹243.6 cr, signed 2013-11-28, 7 bidders (A2Z–Shilpa JV, KRR–Feeders Lloyd JV, Tata Projects, L&T, KEC, KPTL lost); P290-TW01 ₹228.49 cr, signed 2013-02-12, 10 bidders (KEC, Isolux–MPTS, Inabensa–Unitech, EMC, Gammon–Shilpa, Tata Projects, KPTL, Jyoti Structures, Emco lost) [documented]"
+   ],
+   "srcs": [
+    [
+     "World Bank procurement notices API — project P115566 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P115566&rows=200"
+    ]
+   ]
+  },
+  {
+   "id": "fin:kec-international",
+   "label": "KEC International Limited",
+   "sub": "RPG-group transmission EPC; winner of one POWERGRID tower package, loser of nine; VNC-KEC JV won RRTS depot package",
+   "ty": "company",
+   "fam": "market",
+   "st": "mh",
+   "sz": 2,
+   "al": [
+    "KEC",
+    "VNC-KEC (JV)"
+   ],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Named party to a publicly financed procurement or sanction record",
+   "d": [
+    "Tower package P224-TW01 Rajarhat–Purnea ₹206.55 cr, ICB, signed 2014-04-04, 3 bidders (L&T, KPTL lost) [documented]",
+    "Appears as losing bidder in 9 of the 55 bidder-listed WB ICB notices [documented]",
+    "RRTS Pkg-5A Duhai depot, est. US$33.96m, awarded to VNC-KEC (JV), LOA 2020-11-04 [documented]"
+   ],
+   "srcs": [
+    [
+     "World Bank procurement notices API — project P115566 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P115566&rows=200"
+    ],
+    [
+     "ADB — Delhi–Meerut RRTS Procurement Plan Rev 7.0 (PDF: methods, awarded packages, estimated values, LOA dates)",
+     "https://www.adb.org/sites/default/files/project-documents/51073/51073-003-51073-004-pp-en.pdf"
+    ]
+   ]
+  },
+  {
+   "id": "fin:sterlite-technologies",
+   "label": "Sterlite Technologies Limited",
+   "sub": "Winner of POWERGRID conductor package CD03 (2013)",
+   "ty": "company",
+   "fam": "market",
+   "st": "mh",
+   "sz": 2,
+   "al": [
+    "STERLITE"
+   ],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Named party to a publicly financed procurement or sanction record",
+   "d": [
+    "ACSR Moose conductor package P290-CD03 ₹80.95 cr, ICB, signed 2013-04-16, 3 bidders (Apar Industries, Deepak Cables lost) [documented]"
+   ],
+   "srcs": [
+    [
+     "World Bank procurement notices API — project P101653 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P101653&rows=200"
+    ]
+   ]
+  },
+  {
+   "id": "fin:baoding-tianwei-baobian",
+   "label": "Baoding Tianwei Baobian Electric Co. Ltd",
+   "sub": "Chinese transformer maker; winner of POWERGRID 765 kV auto-transformer package B (2011)",
+   "ty": "company",
+   "fam": "market",
+   "st": null,
+   "sz": 1,
+   "al": [
+    "BAODING"
+   ],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Named party to a publicly financed procurement or sanction record",
+   "d": [
+    "Auto transformer package B ₹169.9 cr, ICB, signed 2011-03-17, 4 bidders (Hyundai Heavy Industries, CGL–Ganz JV, Hyosung lost); Hyundai won package A ₹75.43 cr the same week with Baoding second [documented]"
+   ],
+   "srcs": [
+    [
+     "World Bank procurement notices API — project P115566 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P115566&rows=200"
+    ]
+   ]
+  },
+  {
+   "id": "fin:xian-xd-transformer",
+   "label": "Xian XD Transformer Co. Ltd",
+   "sub": "Chinese transformer maker; winner of POWERGRID 765 kV reactor package (2012)",
+   "ty": "company",
+   "fam": "market",
+   "st": null,
+   "sz": 1,
+   "al": [
+    "XD"
+   ],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Named party to a publicly financed procurement or sanction record",
+   "d": [
+    "Reactor package Gwalior/Bina/Indore ₹86.77 cr, ICB, signed 2012-02-21, 8 bidders incl. Baoding, TBEA, CGL–JSC Ukraine, Hyosung, Hyundai, ABB, Japan AE Power–EMCO [documented]"
+   ],
+   "srcs": [
+    [
+     "World Bank procurement notices API — project P115566 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P115566&rows=200"
+    ]
+   ]
+  },
+  {
+   "id": "fin:sichuan-yibin-global",
+   "label": "Sichuan Yibin Global Group Co. Ltd",
+   "sub": "Chinese insulator maker; won three POWERGRID insulator packages in 2012, lost two to BHEL in 2013",
+   "ty": "company",
+   "fam": "market",
+   "st": null,
+   "sz": 1,
+   "al": [
+    "SICHUAN"
+   ],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Named party to a publicly financed procurement or sanction record",
+   "d": [
+    "IS01 Dehradun–Abdullapur ₹5.25 cr (2012-03-23, 6 bidders incl. Aditya Birla Insulators, WS Industries, BHEL, Nanjing, Zhejiang Jinlihua); P260-IS03 ₹10.83 cr and IS04 ₹24.45 cr (2012-07-18, 4 bidders each) [documented]"
+   ],
+   "srcs": [
+    [
+     "World Bank procurement notices API — project P101653 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P101653&rows=200"
+    ],
+    [
+     "World Bank procurement notices API — project P115566 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P115566&rows=200"
+    ]
+   ]
+  },
+  {
+   "id": "fin:va-tech-wabag",
+   "label": "VA Tech Wabag Ltd",
+   "sub": "Chennai water-treatment EPC; largest NMCG awardee in the WB feed (₹1,992 cr)",
+   "ty": "company",
+   "fam": "market",
+   "st": "tn",
+   "sz": 2,
+   "al": [
+    "VA TECH WABAG"
+   ],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Named party to a publicly financed procurement or sanction record",
+   "d": [
+    "Digha and Kankarbagh STPs, Patna (HAM PPP) ₹1,269.77 cr, RFB, 2019-12-30; Howrah, Bally, Baranagar & Kamarhati STPs (HAM) ₹574.81 cr, 2019-06-05 [documented]"
+   ],
+   "srcs": [
+    [
+     "World Bank procurement notices API — project P119085 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P119085&rows=200"
+    ]
+   ]
+  },
+  {
+   "id": "fin:technocraft-construction",
+   "label": "Technocraft Construction Pvt Ltd",
+   "sub": "NMCG awardee (Munger STP ₹350.79 cr, 2021; ₹167.8 cr, 2018)",
+   "ty": "company",
+   "fam": "market",
+   "st": null,
+   "sz": 1,
+   "al": [],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Named party to a publicly financed procurement or sanction record",
+   "d": [
+    "Munger STP and sewerage scheme ₹350.79 cr, RFB, 2021-10-04 [documented]"
+   ],
+   "srcs": [
+    [
+     "World Bank procurement notices API — project P119085 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P119085&rows=200"
+    ]
+   ]
+  },
+  {
+   "id": "fin:shapoorji-pallonji",
+   "label": "Shapoorji Pallonji (as named in WB notice)",
+   "sub": "NMCG awardee, Pahari Zone-V Patna sewerage ₹364.9 cr (2018)",
+   "ty": "company",
+   "fam": "market",
+   "st": "mh",
+   "sz": 2,
+   "al": [
+    "SHAPOORJI PALLONJI"
+   ],
+   "resolved": false,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Named party to a publicly financed procurement or sanction record",
+   "d": [
+    "WB STEP notice names the awardee only as 'SHAPOORJI PALLONJI (66532)'; the legal entity (Shapoorji Pallonji and Company Pvt Ltd vs another group company) is not stated — unresolved; no claims attached [documented absence]"
+   ],
+   "srcs": [
+    [
+     "World Bank procurement notices API — project P119085 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P119085&rows=200"
+    ]
+   ],
+   "collisionRisk": "Group name only; several SP companies undertake EPC work. Afcons Infrastructure, a former SP-group company, is a separate node."
+  },
+  {
+   "id": "fin:ilfs-engineering-construction",
+   "label": "IL&FS Engineering and Construction Company Ltd",
+   "sub": "NHIIP Bihar package awardee (₹675 cr, 2016); also a losing bidder on EDFC as IL&FS–CR21G JV",
+   "ty": "company",
+   "fam": "market",
+   "st": "tg",
+   "sz": 2,
+   "al": [
+    "IL & FS ENGINEERING CONSTRUCTION COMPANY LTD.",
+    "IL&FS - CR21G JV"
+   ],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Named party to a publicly financed procurement or sanction record",
+   "d": [
+    "NHIIP-BR-106-7 Birpur–Bihpur ₹675 cr, RFB, 2016-07-29 [documented]",
+    "IL&FS–CR21G JV lost EDFC Lot 201, CP-202 (2015) and CP-301 (2016) [documented]"
+   ],
+   "srcs": [
+    [
+     "World Bank procurement notices API — project P121185 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P121185&rows=200"
+    ],
+    [
+     "World Bank procurement notices API — project P131765 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P131765&rows=20"
+    ],
+    [
+     "World Bank procurement notices API — project P114338 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P114338&rows=200"
+    ]
+   ]
+  },
+  {
+   "id": "fin:montecarlo",
+   "label": "Montecarlo Limited",
+   "sub": "Ahmedabad EPC; two NHIIP Bihar packages (₹560.7 cr 2016; ₹358.22 cr 2014)",
+   "ty": "company",
+   "fam": "market",
+   "st": "gj",
+   "sz": 2,
+   "al": [
+    "Monte Carlo Ltd."
+   ],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Named party to a publicly financed procurement or sanction record",
+   "d": [
+    "NHIIP-BR-30A-8 Fatuah–Harnaut ₹560.7 cr, RFB, 2016-07-19; NHIIP-BR-98-1 Lot 2 Anisabad–Aurangabad ₹358.22 cr, ICB, 2014-03-21, 3 bidders (KNR Construction, Dineshchandra R. Agarwal Infracom lost) [documented]"
+   ],
+   "srcs": [
+    [
+     "World Bank procurement notices API — project P121185 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P121185&rows=200"
+    ]
+   ]
+  },
+  {
+   "id": "fin:shanghai-tunnel-engineering",
+   "label": "Shanghai Tunnel Engineering Co. Ltd",
+   "sub": "Chinese state-owned tunnelling contractor; awardee of RRTS Package 4 (₹1,126.89 cr, LOA 2020-12-09)",
+   "ty": "company",
+   "fam": "market",
+   "st": null,
+   "sz": 3,
+   "al": [
+    "STEC"
+   ],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Named party to a publicly financed procurement or sanction record",
+   "d": [
+    "L1 at ₹1,126 cr among five bidders when NCRTC opened financial bids on 2020-06-12: L&T ₹1,170 cr, Gülermak ₹1,326 cr, Tata Projects–SKEC JV ₹1,346 cr, Afcons ₹1,400 cr; technical bids opened 2020-03-16; all five qualified [reported ×2; ADB PP for award]",
+    "ADB Procurement Plan: Pkg-4 est. US$153.57m, ADB approval of award and LOA 2020-12-09 [documented]"
+   ],
+   "srcs": [
+    [
+     "Urban Transport News — 'STEC wins Rs 1,126 crore civil contract package 4 of Delhi-Meerut RRTS project' (2020-06-12; all five financial bids)",
+     "https://www.urbantransportnews.com/news/stec-bags-rs-1126-crore-civil-contract-package-4-of-delhi-meerut-rrts-line"
+    ],
+    [
+     "National Herald — 'Chinese firm given contract worth Rs 1,126 crore for Delhi-Meerut rail tunnel even as LAC standoff continues' (PTI-based, Jan 2021)",
+     "https://www.nationalheraldindia.com/india/chinese-firm-given-contract-worth-rs-1126-crore-for-delhi-meerut-rail-tunnel-even-as-lac-standoff-continues"
+    ],
+    [
+     "The Tribune — 'Chinese firm bags rapid rail contract' (Sandeep Dikshit, 2021-01-03/04)",
+     "https://www.tribuneindia.com/news/nation/chinese-firm-bags-rapid-rail-contract-193265"
+    ],
+    [
+     "ADB — Delhi–Meerut RRTS Procurement Plan Rev 7.0 (PDF: methods, awarded packages, estimated values, LOA dates)",
+     "https://www.adb.org/sites/default/files/project-documents/51073/51073-003-51073-004-pp-en.pdf"
+    ]
+   ]
+  },
+  {
+   "id": "fin:afcons-infrastructure",
+   "label": "Afcons Infrastructure Limited",
+   "sub": "Former Shapoorji Pallonji-group EPC (listed 2024); RRTS packages 6 and 8 (est. US$353m); L5 on Package 4",
+   "ty": "company",
+   "fam": "market",
+   "st": "mh",
+   "sz": 3,
+   "al": [
+    "Afcons"
+   ],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Named party to a publicly financed procurement or sanction record",
+   "d": [
+    "RRTS Pkg-6 SKK–New Ashok Nagar viaduct est. US$144.69m (LOA 2020-10-15) and Pkg-8 Meerut tunnels + 3 UG stations est. US$208.38m (LOA 2020-11-26) [documented]",
+    "Bid ₹1,400 cr (L5 of 5) for Package 4 won by STEC [reported]"
+   ],
+   "srcs": [
+    [
+     "ADB — Delhi–Meerut RRTS Procurement Plan Rev 7.0 (PDF: methods, awarded packages, estimated values, LOA dates)",
+     "https://www.adb.org/sites/default/files/project-documents/51073/51073-003-51073-004-pp-en.pdf"
+    ],
+    [
+     "Urban Transport News — 'STEC wins Rs 1,126 crore civil contract package 4 of Delhi-Meerut RRTS project' (2020-06-12; all five financial bids)",
+     "https://www.urbantransportnews.com/news/stec-bags-rs-1126-crore-civil-contract-package-4-of-delhi-meerut-rrts-line"
+    ]
+   ]
+  },
+  {
+   "id": "fin:tata-projects",
+   "label": "Tata Projects Ltd",
+   "sub": "Unlisted Tata-group EPC; frequent losing bidder in WB ICB notices; L4 (with SKEC) on RRTS Package 4",
+   "ty": "company",
+   "fam": "market",
+   "st": "mh",
+   "sz": 2,
+   "al": [
+    "TATA Projects Limited",
+    "Tata Projects Ltd.-SKEC JV"
+   ],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Named party to a publicly financed procurement or sanction record",
+   "d": [
+    "Losing bidder in 6 bidder-listed WB ICB notices (two Bajaj tower packages 2013; Siemens–Tata Projects JV on EDFC CP-204 2016; others) [documented]",
+    "Tata Projects–SKEC JV bid ₹1,346 cr (L4) for RRTS Package 4 [reported]"
+   ],
+   "srcs": [
+    [
+     "World Bank procurement notices API — project P115566 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P115566&rows=200"
+    ],
+    [
+     "World Bank procurement notices API — project P131765 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P131765&rows=20"
+    ],
+    [
+     "Urban Transport News — 'STEC wins Rs 1,126 crore civil contract package 4 of Delhi-Meerut RRTS project' (2020-06-12; all five financial bids)",
+     "https://www.urbantransportnews.com/news/stec-bags-rs-1126-crore-civil-contract-package-4-of-delhi-meerut-rrts-line"
+    ]
+   ]
+  },
+  {
+   "id": "fin:ircon-international",
+   "label": "Ircon International Limited",
+   "sub": "Railways CPSE; RRTS Pkg-19 traction/RSS (est. US$98.5m, LOA 2020-11-20)",
+   "ty": "psu",
+   "fam": "market",
+   "st": "dl",
+   "sz": 2,
+   "al": [
+    "IRCON"
+   ],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Named party to a publicly financed procurement or sanction record",
+   "d": [
+    "Pkg-19 receiving substations and OHE, two lots est. US$43.31m + US$55.19m, LOA 2020-11-20 [documented]"
+   ],
+   "srcs": [
+    [
+     "ADB — Delhi–Meerut RRTS Procurement Plan Rev 7.0 (PDF: methods, awarded packages, estimated values, LOA dates)",
+     "https://www.adb.org/sites/default/files/project-documents/51073/51073-003-51073-004-pp-en.pdf"
+    ]
+   ]
+  },
+  {
+   "id": "fin:madhucon-projects",
+   "label": "Madhucon Projects Limited",
+   "sub": "Hyderabad road/infra EPC (listed); World Bank debarment from 2017-10-26, affiliates added 2022",
+   "ty": "company",
+   "fam": "market",
+   "st": "tg",
+   "sz": 2,
+   "al": [
+    "MADHUCON"
+   ],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Named party to a publicly financed procurement or sanction record",
+   "d": [
+    "Debarred 2017-10-26 to 2999-12-31; ground cited '1999 Procurement Guidelines, Para. 1.15(a)(ii)' (fraudulent practice clause; guideline text not fetched); case *302 [documented]",
+    "Controlled affiliates debarred 2022-02-07: Madhucon Infra Ltd, Nama Hotels Pvt Ltd, Madhucon Heights Pvt Ltd, Madurai-Tuticorin Expressways Ltd, Madhucon Mega Mall Pvt Ltd (case *396) [documented]"
+   ],
+   "srcs": [
+    [
+     "World Bank Listing of Ineligible Firms & Individuals — sanctions data API (as served to worldbank.org/debarred-firms, read 2026-09-26)",
+     "https://apigwext.worldbank.org/dvsvc/v1.0/json/APPLICATION/ADOBE_EXPRNCE_MGR/FIRM/SANCTIONED_FIRM"
+    ]
+   ]
+  },
+  {
+   "id": "fin:a2z-infra-engineering",
+   "label": "A2Z Infra Engineering Limited",
+   "sub": "Gurugram EPC/waste firm (listed; formerly A2Z Maintenance & Engineering Services); WB debarment 2020-11-12 with 12 affiliates 2021–22",
+   "ty": "company",
+   "fam": "market",
+   "st": "hr",
+   "sz": 2,
+   "al": [
+    "A2Z Maintenance & Engineering Services Limited",
+    "A2Z"
+   ],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Named party to a publicly financed procurement or sanction record",
+   "d": [
+    "Debarred 2020-11-12 to 2999-12-31; ground 'July 2014 Procurement Guidelines, Paragraph 1.16(a)(ii)' (fraudulent practice clause); case *553 [documented]",
+    "Controlled affiliates debarred 2021-03-17: A2Z Powertech (now Qi Technologies), Rishikesh Waste Management, A2Z Waste Management (Ludhiana), (Aligarh), Magic Genie Smartech, Ecogreen Envirotech, Mansi Bijlee & Rice Mills, A2Z Powercom, A2Z Infraservices; 2021-05-28: A2Z Waste Management (Nainital) and (Jaipur) — these two rows carry a Chinese-language annotation and case *632, an apparent data anomaly in the feed [documented as served]",
+    "A2Z appears as a losing bidder (JV of A2Z & Shilpa; A2Z Maintenance & Engineering) in 6 of the 55 bidder-listed POWERGRID ICB notices 2012–2013 and won none [documented]"
+   ],
+   "srcs": [
+    [
+     "World Bank Listing of Ineligible Firms & Individuals — sanctions data API (as served to worldbank.org/debarred-firms, read 2026-09-26)",
+     "https://apigwext.worldbank.org/dvsvc/v1.0/json/APPLICATION/ADOBE_EXPRNCE_MGR/FIRM/SANCTIONED_FIRM"
+    ],
+    [
+     "World Bank procurement notices API — project P115566 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P115566&rows=200"
+    ]
+   ]
+  },
+  {
+   "id": "fin:fedders-lloyd",
+   "label": "Fedders Lloyd Corporation Ltd",
+   "sub": "Delhi HVAC/EPC firm; WB debarment 2016-04-06 with six affiliates",
+   "ty": "company",
+   "fam": "market",
+   "st": "dl",
+   "sz": 1,
+   "al": [
+    "FEDDERS LLOYD",
+    "KRR–Feeders Lloyd JV"
+   ],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Named party to a publicly financed procurement or sanction record",
+   "d": [
+    "Debarred 2016-04-06 to 2999-12-31; ground '2004 & 2010 Procurement Guidelines, 1.14(a)(ii)'; cases *320/*539; controlled affiliates: Lloyd Infotech (India), Regal Information Technology, Lloyd Electrical & Engineering, Fedders Electric & Engineering, PSL Engineering (two entries), Airserco [documented]",
+    "'JV OF KRR & FEEDERS LLOYD' was a losing bidder on POWERGRID tower package TW02 (2013) [documented]"
+   ],
+   "srcs": [
+    [
+     "World Bank Listing of Ineligible Firms & Individuals — sanctions data API (as served to worldbank.org/debarred-firms, read 2026-09-26)",
+     "https://apigwext.worldbank.org/dvsvc/v1.0/json/APPLICATION/ADOBE_EXPRNCE_MGR/FIRM/SANCTIONED_FIRM"
+    ],
+    [
+     "World Bank procurement notices API — project P115566 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P115566&rows=200"
+    ]
+   ]
+  },
+  {
+   "id": "fin:progressive-constructions",
+   "label": "Progressive Constructions Limited",
+   "sub": "Andhra Pradesh contractor; WB debarment 2013-11-26",
+   "ty": "company",
+   "fam": "market",
+   "st": "ap",
+   "sz": 1,
+   "al": [],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Named party to a publicly financed procurement or sanction record",
+   "d": [
+    "Debarred 2013-11-26 to 2999-12-31; ground 'Procurement Guidelines, 1.14(a)(ii)'; case *192 (feed annotation 'AKA MR. LI YI' appears to be a data anomaly) [documented as served]"
+   ],
+   "srcs": [
+    [
+     "World Bank Listing of Ineligible Firms & Individuals — sanctions data API (as served to worldbank.org/debarred-firms, read 2026-09-26)",
+     "https://apigwext.worldbank.org/dvsvc/v1.0/json/APPLICATION/ADOBE_EXPRNCE_MGR/FIRM/SANCTIONED_FIRM"
+    ]
+   ]
+  },
+  {
+   "id": "fin:j-mitra",
+   "label": "J. Mitra & Co. Private Limited",
+   "sub": "Delhi diagnostics maker; WB debarment 2011-11-28",
+   "ty": "company",
+   "fam": "market",
+   "st": "dl",
+   "sz": 1,
+   "al": [],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Named party to a publicly financed procurement or sanction record",
+   "d": [
+    "Debarred 2011-11-28 to 2999-12-31; ground '1999 Procurement Guidelines 1.15(a)(ii)'; case *76 [documented]"
+   ],
+   "srcs": [
+    [
+     "World Bank Listing of Ineligible Firms & Individuals — sanctions data API (as served to worldbank.org/debarred-firms, read 2026-09-26)",
+     "https://apigwext.worldbank.org/dvsvc/v1.0/json/APPLICATION/ADOBE_EXPRNCE_MGR/FIRM/SANCTIONED_FIRM"
+    ]
+   ]
+  },
+  {
+   "id": "fin:concept-pharmaceuticals",
+   "label": "Concept Pharmaceuticals Ltd",
+   "sub": "Mumbai pharma; WB debarment 2012-05-30",
+   "ty": "company",
+   "fam": "market",
+   "st": "mh",
+   "sz": 1,
+   "al": [],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Named party to a publicly financed procurement or sanction record",
+   "d": [
+    "Debarred 2012-05-30 to 2999-12-31; ground 'Procurement Guidelines, 1.14(a)(ii)'; case *105 [documented]"
+   ],
+   "srcs": [
+    [
+     "World Bank Listing of Ineligible Firms & Individuals — sanctions data API (as served to worldbank.org/debarred-firms, read 2026-09-26)",
+     "https://apigwext.worldbank.org/dvsvc/v1.0/json/APPLICATION/ADOBE_EXPRNCE_MGR/FIRM/SANCTIONED_FIRM"
+    ]
+   ]
+  },
+  {
+   "id": "fin:famy-care",
+   "label": "Famy Care Limited",
+   "sub": "Mumbai contraceptives maker; WB debarment 2017-05-23",
+   "ty": "company",
+   "fam": "market",
+   "st": "mh",
+   "sz": 1,
+   "al": [],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Named party to a publicly financed procurement or sanction record",
+   "d": [
+    "Debarred 2017-05-23 to 2999-12-31; ground 'Procurement Guidelines, 1.14(a)(ii)'; case *176 [documented]"
+   ],
+   "srcs": [
+    [
+     "World Bank Listing of Ineligible Firms & Individuals — sanctions data API (as served to worldbank.org/debarred-firms, read 2026-09-26)",
+     "https://apigwext.worldbank.org/dvsvc/v1.0/json/APPLICATION/ADOBE_EXPRNCE_MGR/FIRM/SANCTIONED_FIRM"
+    ]
+   ]
+  },
+  {
+   "id": "fin:olive-health-care",
+   "label": "Olive Health Care",
+   "sub": "Mumbai firm; WB debarment 2017-07-21 to 2028-01-20",
+   "ty": "company",
+   "fam": "market",
+   "st": "mh",
+   "sz": 1,
+   "al": [],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Named party to a publicly financed procurement or sanction record",
+   "d": [
+    "Debarred 2017-07-21 to 2028-01-20; ground 'May 2010 Procurement Guidelines, Para. 1.14(a)(i) & (ii)' (corrupt and fraudulent practice clauses); case *383 [documented]"
+   ],
+   "srcs": [
+    [
+     "World Bank Listing of Ineligible Firms & Individuals — sanctions data API (as served to worldbank.org/debarred-firms, read 2026-09-26)",
+     "https://apigwext.worldbank.org/dvsvc/v1.0/json/APPLICATION/ADOBE_EXPRNCE_MGR/FIRM/SANCTIONED_FIRM"
+    ]
+   ]
+  },
+  {
+   "id": "fin:perfect-dredging",
+   "label": "Perfect Dredging Company Pvt. Ltd.",
+   "sub": "Tamil Nadu dredging firm; WB debarment 2024-01-17 to 2031-01-16 for 'Collusive and Fraudulent Practices'",
+   "ty": "company",
+   "fam": "market",
+   "st": "tn",
+   "sz": 1,
+   "al": [],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Named party to a publicly financed procurement or sanction record",
+   "d": [
+    "Debarred 2024-01-17 to 2031-01-16; ground 'Collusive and Fraudulent Practices'; case *645; one associated individual debarred in parallel (case *646; not recorded here) [documented]"
+   ],
+   "srcs": [
+    [
+     "World Bank Listing of Ineligible Firms & Individuals — sanctions data API (as served to worldbank.org/debarred-firms, read 2026-09-26)",
+     "https://apigwext.worldbank.org/dvsvc/v1.0/json/APPLICATION/ADOBE_EXPRNCE_MGR/FIRM/SANCTIONED_FIRM"
+    ]
+   ]
+  },
+  {
+   "id": "fin:techfab-international",
+   "label": "Techfab International Pvt. Ltd.",
+   "sub": "Delhi firm; WB debarment 2019-05-07",
+   "ty": "company",
+   "fam": "market",
+   "st": "dl",
+   "sz": 1,
+   "al": [],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Named party to a publicly financed procurement or sanction record",
+   "d": [
+    "Debarred 2019-05-07 to 2999-12-31; grounds '2010 Proc. Guidelines, 1.14(a)(ii); 2011 Proc. Guidelines, 1.16(a)(ii)'; case *477 [documented]"
+   ],
+   "srcs": [
+    [
+     "World Bank Listing of Ineligible Firms & Individuals — sanctions data API (as served to worldbank.org/debarred-firms, read 2026-09-26)",
+     "https://apigwext.worldbank.org/dvsvc/v1.0/json/APPLICATION/ADOBE_EXPRNCE_MGR/FIRM/SANCTIONED_FIRM"
+    ]
+   ]
+  },
+  {
+   "id": "fin:eswari-electricals",
+   "label": "Eswari Electricals Pvt. Limited",
+   "sub": "Tamil Nadu firm; WB debarment 2019-11-26; feed notes 'currently doing business as Industrial Investment Group LLC'",
+   "ty": "company",
+   "fam": "market",
+   "st": "tn",
+   "sz": 1,
+   "al": [
+    "Industrial Investment Group LLC"
+   ],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Named party to a publicly financed procurement or sanction record",
+   "d": [
+    "Debarred 2019-11-26 to 2999-12-31; ground 'Procurement Guidelines, 1.16(a)(ii)'; case *526 [documented]"
+   ],
+   "srcs": [
+    [
+     "World Bank Listing of Ineligible Firms & Individuals — sanctions data API (as served to worldbank.org/debarred-firms, read 2026-09-26)",
+     "https://apigwext.worldbank.org/dvsvc/v1.0/json/APPLICATION/ADOBE_EXPRNCE_MGR/FIRM/SANCTIONED_FIRM"
+    ]
+   ]
+  },
+  {
+   "id": "fin:rkd-construction",
+   "label": "RKD Construction Pvt. Ltd.",
+   "sub": "Bhubaneswar contractor; WB debarment 2018-03-27",
+   "ty": "company",
+   "fam": "market",
+   "st": "or",
+   "sz": 1,
+   "al": [],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Named party to a publicly financed procurement or sanction record",
+   "d": [
+    "Debarred 2018-03-27 to 2999-12-31; ground 'Procurement Guidelines, 1.16(a)(ii)'; case *442 [documented]"
+   ],
+   "srcs": [
+    [
+     "World Bank Listing of Ineligible Firms & Individuals — sanctions data API (as served to worldbank.org/debarred-firms, read 2026-09-26)",
+     "https://apigwext.worldbank.org/dvsvc/v1.0/json/APPLICATION/ADOBE_EXPRNCE_MGR/FIRM/SANCTIONED_FIRM"
+    ]
+   ]
+  },
+  {
+   "id": "fin:gayatri-construction-navi-mumbai",
+   "label": "Gayatri Construction (Navi Mumbai)",
+   "sub": "Navi Mumbai firm; WB debarment 2015-06-16 — NOT Gayatri Projects Ltd (Hyderabad)",
+   "ty": "company",
+   "fam": "market",
+   "st": "mh",
+   "sz": 1,
+   "al": [],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Named party to a publicly financed procurement or sanction record",
+   "d": [
+    "Debarred 2015-06-16 to 2999-12-31; ground 'Procurement Guidelines, 1.14(a)(ii)'; case *268 [documented]"
+   ],
+   "srcs": [
+    [
+     "World Bank Listing of Ineligible Firms & Individuals — sanctions data API (as served to worldbank.org/debarred-firms, read 2026-09-26)",
+     "https://apigwext.worldbank.org/dvsvc/v1.0/json/APPLICATION/ADOBE_EXPRNCE_MGR/FIRM/SANCTIONED_FIRM"
+    ]
+   ],
+   "collisionRisk": "Name shared with the listed Gayatri Projects Ltd; the feed's city is Navi Mumbai, so they are treated as distinct"
+  },
+  {
+   "id": "fin:savoir-soft-solutions",
+   "label": "Savoir Soft Solutions Pvt. Ltd.",
+   "sub": "Noida IT consultancy; WB debarment 2014-03-19 under Consultant Guidelines",
+   "ty": "company",
+   "fam": "market",
+   "st": "up",
+   "sz": 1,
+   "al": [],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Named party to a publicly financed procurement or sanction record",
+   "d": [
+    "Debarred 2014-03-19 to 2999-12-31; ground 'Consultant Guidelines, 1.22(a)(ii)'; case *207 [documented]"
+   ],
+   "srcs": [
+    [
+     "World Bank Listing of Ineligible Firms & Individuals — sanctions data API (as served to worldbank.org/debarred-firms, read 2026-09-26)",
+     "https://apigwext.worldbank.org/dvsvc/v1.0/json/APPLICATION/ADOBE_EXPRNCE_MGR/FIRM/SANCTIONED_FIRM"
+    ]
+   ]
+  },
+  {
+   "id": "fin:laxminarayan-construction",
+   "label": "Laxminarayan Construction (Cuttack)",
+   "sub": "Cuttack contractor listed under three name variants; WB debarment 2014-03-25",
+   "ty": "company",
+   "fam": "market",
+   "st": "or",
+   "sz": 1,
+   "al": [
+    "Laxmi Narayan Construction",
+    "Laxminarayan Mallick"
+   ],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Named party to a publicly financed procurement or sanction record",
+   "d": [
+    "Three rows debarred 2014-03-25 to 2999-12-31 (firm and proprietor variants); grounds 'Procurement Guidelines, 1.14(a)(ii)' and 'May 2004 Consultant Guidelines, para. 1.22(a)(ii)'; cases *187/*161 [documented]"
+   ],
+   "srcs": [
+    [
+     "World Bank Listing of Ineligible Firms & Individuals — sanctions data API (as served to worldbank.org/debarred-firms, read 2026-09-26)",
+     "https://apigwext.worldbank.org/dvsvc/v1.0/json/APPLICATION/ADOBE_EXPRNCE_MGR/FIRM/SANCTIONED_FIRM"
+    ]
+   ]
+  },
+  {
+   "id": "fin:krg-associates",
+   "label": "K.R.G. Associates",
+   "sub": "Puducherry firm; WB debarment 2015-02-10",
+   "ty": "company",
+   "fam": "market",
+   "st": "py",
+   "sz": 1,
+   "al": [],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Named party to a publicly financed procurement or sanction record",
+   "d": [
+    "Debarred 2015-02-10 to 2999-12-31; ground 'Procurement Guidelines, 1.14(a)(ii)'; case *209 [documented]"
+   ],
+   "srcs": [
+    [
+     "World Bank Listing of Ineligible Firms & Individuals — sanctions data API (as served to worldbank.org/debarred-firms, read 2026-09-26)",
+     "https://apigwext.worldbank.org/dvsvc/v1.0/json/APPLICATION/ADOBE_EXPRNCE_MGR/FIRM/SANCTIONED_FIRM"
+    ]
+   ]
+  },
+  {
+   "id": "fin:uday-pratap-sharma-firm",
+   "label": "M/S Uday Pratap Sharma",
+   "sub": "Madhya Pradesh proprietorship firm; WB debarment 2014-06-10",
+   "ty": "company",
+   "fam": "market",
+   "st": "mp",
+   "sz": 1,
+   "al": [],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Named party to a publicly financed procurement or sanction record",
+   "d": [
+    "Debarred 2014-06-10 to 2999-12-31; ground 'Procurement Guidelines, 1.14(a)(ii)'; case *208 (listed as a firm, type F) [documented]"
+   ],
+   "srcs": [
+    [
+     "World Bank Listing of Ineligible Firms & Individuals — sanctions data API (as served to worldbank.org/debarred-firms, read 2026-09-26)",
+     "https://apigwext.worldbank.org/dvsvc/v1.0/json/APPLICATION/ADOBE_EXPRNCE_MGR/FIRM/SANCTIONED_FIRM"
+    ]
+   ]
+  },
+  {
+   "id": "fin:future-netwings",
+   "label": "Future Netwings Solutions Private Limited",
+   "sub": "Kolkata IT firm; WB debarment 2024-06-20 for collusive practices",
+   "ty": "company",
+   "fam": "market",
+   "st": "wb",
+   "sz": 1,
+   "al": [],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Named party to a publicly financed procurement or sanction record",
+   "d": [
+    "Debarred 2024-06-20 to 2999-12-31; ground 'Collusive Practices'; case *664 [documented]"
+   ],
+   "srcs": [
+    [
+     "World Bank Listing of Ineligible Firms & Individuals — sanctions data API (as served to worldbank.org/debarred-firms, read 2026-09-26)",
+     "https://apigwext.worldbank.org/dvsvc/v1.0/json/APPLICATION/ADOBE_EXPRNCE_MGR/FIRM/SANCTIONED_FIRM"
+    ]
+   ]
+  },
+  {
+   "id": "fin:venus-it-solutions",
+   "label": "Venus IT Solutions / Venus Softwares / Zytron Systems",
+   "sub": "Three Kolkata firms at one address; WB debarment 2024-09-24 for collusive practice",
+   "ty": "company",
+   "fam": "market",
+   "st": "wb",
+   "sz": 1,
+   "al": [
+    "VENUS SOFTWARES",
+    "ZYTRON SYSTEMS"
+   ],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Named party to a publicly financed procurement or sanction record",
+   "d": [
+    "Three rows debarred 2024-09-24 to 2999-12-31; ground 'Collusive Practice'; cases *671–*673 [documented]"
+   ],
+   "srcs": [
+    [
+     "World Bank Listing of Ineligible Firms & Individuals — sanctions data API (as served to worldbank.org/debarred-firms, read 2026-09-26)",
+     "https://apigwext.worldbank.org/dvsvc/v1.0/json/APPLICATION/ADOBE_EXPRNCE_MGR/FIRM/SANCTIONED_FIRM"
+    ]
+   ]
+  },
+  {
+   "id": "fin:sn-nanda-co",
+   "label": "S.N. Nanda & Co. Chartered Accountants",
+   "sub": "Delhi audit firm; WB debarment 2026-03-09 to 2026-11-08 for obstructive practice",
+   "ty": "company",
+   "fam": "market",
+   "st": "dl",
+   "sz": 1,
+   "al": [],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Named party to a publicly financed procurement or sanction record",
+   "d": [
+    "Debarred 2026-03-09 to 2026-11-08; ground 'Obstructive Practice'; case *722 — the only Indian debarment in the feed with a sub-one-year term [documented]"
+   ],
+   "srcs": [
+    [
+     "World Bank Listing of Ineligible Firms & Individuals — sanctions data API (as served to worldbank.org/debarred-firms, read 2026-09-26)",
+     "https://apigwext.worldbank.org/dvsvc/v1.0/json/APPLICATION/ADOBE_EXPRNCE_MGR/FIRM/SANCTIONED_FIRM"
+    ]
+   ]
+  },
+  {
+   "id": "fin:chasha-lands-joyluck",
+   "label": "Chasha Lands Pvt. Ltd. / Joyluck Venture India Pvt. Ltd.",
+   "sub": "Two Delhi companies debarred 2019-10-07 as controlled affiliates of a sanctioned entity (parent not identified in the feed)",
+   "ty": "company",
+   "fam": "market",
+   "st": "dl",
+   "sz": 1,
+   "al": [
+    "JOYLUCK VENTURE INDIA PVT. LTD."
+   ],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Named party to a publicly financed procurement or sanction record",
+   "d": [
+    "Debarred 2019-10-07 to 2999-12-31; ground 'Controlled Affiliate of a Sanctioned Entity.'; cases *441/*443; the parent sanctioned entity is not an Indian row in the feed [documented]"
+   ],
+   "srcs": [
+    [
+     "World Bank Listing of Ineligible Firms & Individuals — sanctions data API (as served to worldbank.org/debarred-firms, read 2026-09-26)",
+     "https://apigwext.worldbank.org/dvsvc/v1.0/json/APPLICATION/ADOBE_EXPRNCE_MGR/FIRM/SANCTIONED_FIRM"
+    ]
+   ]
+  }
+ ],
+ "claims": [
+  {
+   "id": "contracts:c001",
+   "s": "fin:dfccil",
+   "t": "fin:gil-sil-jv",
+   "pred": "award",
+   "tier": "documented",
+   "a": 2416.68,
+   "lab": "P131765 EDFC-II Lot 201 — civil/structure/track Mughalsarai–New Karchana",
+   "d": "Contract price INR 24,166,800,000 = ₹2,416.68 cr (no conversion); ICB; contract signed 2015-05-27; 5 bidders: GIL-SIL JV L1; Oriental Structural Engineers ₹2,744.89 cr; OHL–CPVM JV (Spain) ₹3,053.03 cr; IL&FS–CR21G JV ₹3,065.99 cr; POSCO–PNC JV ₹4,165.93 cr. DFCCIL register: 'GIL - SIL JV Rs.2416.68 Crores, 27.05.2015'",
+   "from": "2015-05-27",
+   "to": null,
+   "srcs": [
+    [
+     "World Bank procurement notices API — project P131765 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P131765&rows=20"
+    ],
+    [
+     "DFCCIL — Details of tenders awarded (more than Rs 1 crore), register updated 08-03-2022",
+     "https://dfccil.com/upload/details_of_tender_awarded_more_than_1_crore_08_03_2022_RMO4.pdf"
+    ]
+   ],
+   "benefit": {
+    "who": "fin:gil-sil-jv",
+    "how": "Exclusivity — L1 in a 5-bidder ICB, margin ₹328 cr (12%) over L2",
+    "amountCr": 2416.68,
+    "confidence": "documented"
+   },
+   "supersededBy": null
+  },
+  {
+   "id": "contracts:c002",
+   "s": "fin:dfccil",
+   "t": "fin:gil-sil-jv",
+   "pred": "award",
+   "tier": "documented",
+   "a": 2664.09,
+   "lab": "P131765 EDFC-II CP-202 — civil/structure/track Karchana–New Bhaupur",
+   "d": "Contract price ₹2,664.09 cr; ICB; signed 2015-05-27; 5 bidders (same field as Lot 201); DFCCIL register 'GIL - SIL JV Rs. 2664.09 Crores'",
+   "from": "2015-05-27",
+   "to": null,
+   "srcs": [
+    [
+     "World Bank procurement notices API — project P131765 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P131765&rows=20"
+    ],
+    [
+     "DFCCIL — Details of tenders awarded (more than Rs 1 crore), register updated 08-03-2022",
+     "https://dfccil.com/upload/details_of_tender_awarded_more_than_1_crore_08_03_2022_RMO4.pdf"
+    ]
+   ],
+   "benefit": {
+    "who": "fin:gil-sil-jv",
+    "how": "Exclusivity — L1 in a 5-bidder ICB; the same JV took both EDFC-II civil lots on one day (₹5,080.77 cr)",
+    "amountCr": 2664.09,
+    "confidence": "documented"
+   },
+   "supersededBy": null
+  },
+  {
+   "id": "contracts:c003",
+   "s": "fin:dfccil",
+   "t": "co:larsen-toubro",
+   "pred": "award",
+   "tier": "documented",
+   "a": 847,
+   "lab": "P131765 EDFC-II CP-204 — 2×25 kV electrification & E&M Mughalsarai–New Bhaupur (L&T–INABENSA Consortium)",
+   "d": "Contract price ₹847 cr; ICB; signed 2016-09-26; 4 bidders: L&T–Inabensa L1; KPTL–ECI–STS JV ₹949.14 cr; IISA–ETF JV (Spain) ₹949.14 cr; Siemens Ltd/Siemens AG/Tata Projects JV ₹1,055.45 cr",
+   "from": "2016-09-26",
+   "to": null,
+   "srcs": [
+    [
+     "World Bank procurement notices API — project P131765 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P131765&rows=20"
+    ]
+   ],
+   "benefit": {
+    "who": "co:larsen-toubro",
+    "how": "Exclusivity — L1 in a 4-bidder ICB, 10.8% below L2",
+    "amountCr": 847,
+    "confidence": "documented"
+   },
+   "supersededBy": null
+  },
+  {
+   "id": "contracts:c004",
+   "s": "fin:dfccil",
+   "t": "fin:crsc-research-design-institute",
+   "pred": "award",
+   "tier": "documented",
+   "a": 471,
+   "lab": "P131765 EDFC-II Package 203 — signalling & telecom Mughalsarai–New Bhaupur",
+   "d": "Contract price ₹471 cr; ICB; signed 2016-10-03; awardee country China; 4 bidders: Beijing NRRDI L1; Kalindee–Kyosan JV ₹494.8 cr; Siemens AG–Siemens Ltd JV ₹564.47 cr; L&T–Ansaldo STS ₹625 cr. A Chinese state firm won a World Bank-financed Indian railway signalling contract in 2016 with no recorded political reaction — the pre-2020 baseline",
+   "from": "2016-10-03",
+   "to": null,
+   "srcs": [
+    [
+     "World Bank procurement notices API — project P131765 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P131765&rows=20"
+    ]
+   ],
+   "benefit": {
+    "who": "fin:crsc-research-design-institute",
+    "how": "Exclusivity — L1 in a 4-bidder ICB, 4.8% below the Indo-Japanese L2",
+    "amountCr": 471,
+    "confidence": "documented"
+   },
+   "supersededBy": null
+  },
+  {
+   "id": "contracts:c005",
+   "s": "fin:dfccil",
+   "t": "fin:gil-tpl-jv",
+   "pred": "award",
+   "tier": "documented",
+   "a": 1769.4,
+   "lab": "P114338/EDFC-3 CP-301 — civil/structure/track Pilkhani–Sahnewal",
+   "d": "Contract price ₹1,769.40 cr; ICB; signed 2016-08-29; 6 bidders: GIL-TPL JV L1; L&T ₹1,792 cr; PNC Infratech ₹1,998 cr; IL&FS–CR21G JV ₹2,167 cr; Oriental Structural Engineers ₹2,197.89 cr; Gammon–Ozkar JV. DFCCIL register confirms 'GIL-TPL JV INR 1769.40 Crores, 29.08.2016'",
+   "from": "2016-08-29",
+   "to": null,
+   "srcs": [
+    [
+     "World Bank procurement notices API — project P114338 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P114338&rows=200"
+    ],
+    [
+     "DFCCIL — Details of tenders awarded (more than Rs 1 crore), register updated 08-03-2022",
+     "https://dfccil.com/upload/details_of_tender_awarded_more_than_1_crore_08_03_2022_RMO4.pdf"
+    ]
+   ],
+   "benefit": {
+    "who": "fin:gil-tpl-jv",
+    "how": "Exclusivity — L1 in a 6-bidder ICB; L&T lost by ₹22.6 cr (1.3%)",
+    "amountCr": 1769.4,
+    "confidence": "documented"
+   },
+   "supersededBy": null
+  },
+  {
+   "id": "contracts:c006",
+   "s": "fin:dfccil",
+   "t": "fin:gil-tpl-jv",
+   "pred": "award",
+   "tier": "documented",
+   "a": 511.3,
+   "lab": "P114338/EDFC-3 CP-302 — civil/structure/track Khurja–Dadri",
+   "d": "Contract price ₹511.30 cr; ICB; signed 2016-08-29; 6 bidders: GIL-TPL JV L1; L&T ₹541 cr; PNC Infratech ₹621 cr; APCO Infratech ₹720 cr; Oriental Structural Engineers ₹764.89 cr; SEW Infrastructure ₹828 cr",
+   "from": "2016-08-29",
+   "to": null,
+   "srcs": [
+    [
+     "World Bank procurement notices API — project P114338 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P114338&rows=200"
+    ],
+    [
+     "DFCCIL — Details of tenders awarded (more than Rs 1 crore), register updated 08-03-2022",
+     "https://dfccil.com/upload/details_of_tender_awarded_more_than_1_crore_08_03_2022_RMO4.pdf"
+    ]
+   ],
+   "benefit": {
+    "who": "fin:gil-tpl-jv",
+    "how": "Exclusivity — L1 in a 6-bidder ICB; L&T lost by ₹29.7 cr (5.5%)",
+    "amountCr": 511.3,
+    "confidence": "documented"
+   },
+   "supersededBy": null
+  },
+  {
+   "id": "contracts:c007",
+   "s": "fin:dfccil",
+   "t": "fin:alstom-consortium-edfc",
+   "pred": "award",
+   "tier": "documented",
+   "a": 1497.12,
+   "lab": "P114338 EDFC-I CP-104 — system works (2×25 kV, S&T) Bhaupur–Khurja",
+   "d": "Contract price ₹1,497.12 cr; ICB; signed 2015-07-21; 3 bidders: Alstom Consortium L1; Siemens Consortium; Inabensa–Ansaldo–EMC–BCEPL JV (Spain). DFCCIL register: 'CP-104 dated 21.07.2015 JV of Alstom'",
+   "from": "2015-07-21",
+   "to": null,
+   "srcs": [
+    [
+     "World Bank procurement notices API — project P114338 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P114338&rows=200"
+    ],
+    [
+     "DFCCIL — Details of tenders awarded (more than Rs 1 crore), register updated 08-03-2022",
+     "https://dfccil.com/upload/details_of_tender_awarded_more_than_1_crore_08_03_2022_RMO4.pdf"
+    ]
+   ],
+   "benefit": {
+    "who": "fin:alstom-consortium-edfc",
+    "how": "Exclusivity — L1 in a 3-bidder ICB for an integrated systems package",
+    "amountCr": 1497.12,
+    "confidence": "documented"
+   },
+   "supersededBy": null
+  },
+  {
+   "id": "contracts:c008",
+   "s": "fin:dfccil",
+   "t": "co:larsen-toubro",
+   "pred": "award",
+   "tier": "documented",
+   "a": 2870.99,
+   "lab": "P150158 EDFC-3 CP-303 — civil/structure/track Khurja–Pilkhani (222 km)",
+   "d": "Contract price ₹2,870.99 cr; RFB (post-2016 Procurement Regulations); WB notice signature 2018-03-15; DFCCIL register: 'CP-303 dated 15.03.2018 Larsen & Toubro Ltd.' after 'Prequalification followed by' bidding (RFP 19.08.2016). Evaluated bidders NOT listed in the STEP-format notice — bid count unobservable from the Bank feed",
+   "from": "2018-03-15",
+   "to": null,
+   "srcs": [
+    [
+     "World Bank procurement notices API — project P150158 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P150158&rows=200"
+    ],
+    [
+     "DFCCIL — Details of tenders awarded (more than Rs 1 crore), register updated 08-03-2022",
+     "https://dfccil.com/upload/details_of_tender_awarded_more_than_1_crore_08_03_2022_RMO4.pdf"
+    ]
+   ],
+   "benefit": {
+    "who": "co:larsen-toubro",
+    "how": "Exclusivity — single largest World Bank-financed civil award to a listed Indian company in the sample; rivals unpublished",
+    "amountCr": 2870.99,
+    "confidence": "documented"
+   },
+   "supersededBy": null
+  },
+  {
+   "id": "contracts:c009",
+   "s": "fin:dfccil",
+   "t": "co:larsen-toubro",
+   "pred": "award",
+   "tier": "documented",
+   "a": 790.75,
+   "lab": "P150158 EDFC-3 CP-305 — system works (electrification, S&T) Khurja–Pilkhani (L&T–Kyosan Consortium)",
+   "d": "Contract price ₹790.75 cr; RFB; WB notice signature 2020-09-30; awardee countries India/Japan; DFCCIL register: CP-305 LOA 23.04.2020 to L&T-Kyosan Consortium, 'Open tender (International)'. Rivals not published",
+   "from": "2020-04-23",
+   "to": null,
+   "srcs": [
+    [
+     "World Bank procurement notices API — project P150158 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P150158&rows=200"
+    ],
+    [
+     "DFCCIL — Details of tenders awarded (more than Rs 1 crore), register updated 08-03-2022",
+     "https://dfccil.com/upload/details_of_tender_awarded_more_than_1_crore_08_03_2022_RMO4.pdf"
+    ]
+   ],
+   "benefit": {
+    "who": "co:larsen-toubro",
+    "how": "Exclusivity — systems package won with Japanese signalling partner Kyosan; rivals unpublished",
+    "amountCr": 790.75,
+    "confidence": "documented"
+   },
+   "supersededBy": null
+  },
+  {
+   "id": "contracts:c010",
+   "s": "fin:dfccil",
+   "t": "co:larsen-toubro",
+   "pred": "award",
+   "tier": "documented",
+   "a": 738.1,
+   "lab": "P150158 EDFC-3 CP-304 — system works Pilkhani–Sahnewal (L&T–Kyosan Consortium)",
+   "d": "Contract price ₹738.10 cr; RFB; WB notice signature 2020-09-30; DFCCIL register: LOA 23.04.2020, L&T-Kyosan Consortium. With CP-303/304/305 L&T holds every EDFC-3 civil and systems package on Khurja–Pilkhani–Sahnewal (₹4,399.84 cr)",
+   "from": "2020-04-23",
+   "to": null,
+   "srcs": [
+    [
+     "World Bank procurement notices API — project P150158 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P150158&rows=200"
+    ],
+    [
+     "DFCCIL — Details of tenders awarded (more than Rs 1 crore), register updated 08-03-2022",
+     "https://dfccil.com/upload/details_of_tender_awarded_more_than_1_crore_08_03_2022_RMO4.pdf"
+    ]
+   ],
+   "benefit": {
+    "who": "co:larsen-toubro",
+    "how": "Exclusivity — completes L&T's hold on EDFC-3; rivals unpublished",
+    "amountCr": 738.1,
+    "confidence": "documented"
+   },
+   "supersededBy": null
+  },
+  {
+   "id": "contracts:c011",
+   "s": "co:power-grid",
+   "t": "fin:alstom-grid-uk",
+   "pred": "award",
+   "tier": "documented",
+   "a": 3274.81,
+   "lab": "P115566 PSDP-V HVDC-2318 — upgrade of ±800 kV Champa–Kurukshetra HVDC terminals 3,000→6,000 MW",
+   "d": "Contract price ₹3,274.81 cr (INR-denominated); ICB; signed 2014-08-29; 2 bidders: ALSTOM Grid UK L1; JV of ABB AB (Sweden, lead) & BHEL lost. The largest single award in the sample went to a duopoly bid",
+   "from": "2014-08-29",
+   "to": null,
+   "srcs": [
+    [
+     "World Bank procurement notices API — project P115566 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P115566&rows=200"
+    ]
+   ],
+   "benefit": {
+    "who": "fin:alstom-grid-uk",
+    "how": "Exclusivity — 2-bidder ICB in a technology with two global suppliers (Alstom/GE and ABB/Hitachi); Siemens absent",
+    "amountCr": 3274.81,
+    "confidence": "documented"
+   },
+   "supersededBy": null
+  },
+  {
+   "id": "contracts:c012",
+   "s": "co:power-grid",
+   "t": "fin:bajaj-electricals",
+   "pred": "award",
+   "tier": "documented",
+   "a": 243.6,
+   "lab": "P115566 PSDP-V P290-TW02 — 765 kV D/C Kudgi–Kolhapur tower package (part)",
+   "d": "Contract price ₹243.60 cr; ICB; signed 2013-11-28; 7 bidders: Bajaj L1; A2Z–Shilpa JV; KRR–Feeders Lloyd JV; Tata Projects; L&T; KEC; KPTL. Two of the six losers (A2Z, Fedders Lloyd) were later World Bank-debarred",
+   "from": "2013-11-28",
+   "to": null,
+   "srcs": [
+    [
+     "World Bank procurement notices API — project P115566 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P115566&rows=200"
+    ]
+   ],
+   "benefit": {
+    "who": "fin:bajaj-electricals",
+    "how": "Exclusivity — L1 in a 7-bidder ICB",
+    "amountCr": 243.6,
+    "confidence": "documented"
+   },
+   "supersededBy": null
+  },
+  {
+   "id": "contracts:c013",
+   "s": "co:power-grid",
+   "t": "fin:bajaj-electricals",
+   "pred": "award",
+   "tier": "documented",
+   "a": 228.49,
+   "lab": "P115566 PSDP-V P290-TW01 — 765 kV D/C Kudgi–Kolhapur tower package",
+   "d": "Contract price ₹228.49 cr; ICB; signed 2013-02-12; 10 bidders: Bajaj L1; KEC; Isolux (Mexico/Spain)–MPTS JV; Inabensa–Unitech JV; EMC; Gammon–Shilpa JV; Tata Projects; KPTL; Jyoti Structures; Emco",
+   "from": "2013-02-12",
+   "to": null,
+   "srcs": [
+    [
+     "World Bank procurement notices API — project P115566 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P115566&rows=200"
+    ]
+   ],
+   "benefit": {
+    "who": "fin:bajaj-electricals",
+    "how": "Exclusivity — L1 in a 10-bidder ICB",
+    "amountCr": 228.49,
+    "confidence": "documented"
+   },
+   "supersededBy": null
+  },
+  {
+   "id": "contracts:c014",
+   "s": "co:power-grid",
+   "t": "fin:kec-international",
+   "pred": "award",
+   "tier": "documented",
+   "a": 206.55,
+   "lab": "P115566 PSDP-V P224-TW01 — 400 kV D/C Rajarhat–Purnea tower package",
+   "d": "Contract price ₹206.55 cr; ICB; signed 2014-04-04; 3 bidders: KEC L1; L&T; KPTL",
+   "from": "2014-04-04",
+   "to": null,
+   "srcs": [
+    [
+     "World Bank procurement notices API — project P115566 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P115566&rows=200"
+    ]
+   ],
+   "benefit": {
+    "who": "fin:kec-international",
+    "how": "Exclusivity — L1 in a 3-bidder ICB; KEC's only win in 10 bidder-listed POWERGRID packages",
+    "amountCr": 206.55,
+    "confidence": "documented"
+   },
+   "supersededBy": null
+  },
+  {
+   "id": "contracts:c015",
+   "s": "co:power-grid",
+   "t": "fin:baoding-tianwei-baobian",
+   "pred": "award",
+   "tier": "documented",
+   "a": 169.9,
+   "lab": "P115566 PSDP-V C-34209-S016-1 — 765 kV auto-transformer package B (7×500 MVA)",
+   "d": "Contract price ₹169.90 cr; ICB; signed 2011-03-17; 4 bidders: Baoding L1; Hyundai Heavy Industries (Korea); Crompton Greaves–Ganz Transelektro JV; Hyosung (not shortlisted). Package A (7×333 MVA, ₹75.43 cr) went to Hyundai the previous day with Baoding second",
+   "from": "2011-03-17",
+   "to": null,
+   "srcs": [
+    [
+     "World Bank procurement notices API — project P115566 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P115566&rows=200"
+    ]
+   ],
+   "benefit": {
+    "who": "fin:baoding-tianwei-baobian",
+    "how": "Exclusivity — Chinese L1 in a 4-bidder ICB; pre-2020 Chinese participation in Indian grid procurement was routine",
+    "amountCr": 169.9,
+    "confidence": "documented"
+   },
+   "supersededBy": null
+  },
+  {
+   "id": "contracts:c016",
+   "s": "co:power-grid",
+   "t": "fin:xian-xd-transformer",
+   "pred": "award",
+   "tier": "documented",
+   "a": 86.77,
+   "lab": "P115566 PSDP-V C-34210-S017-1 — 765 kV reactor package Gwalior/Bina/Indore",
+   "d": "Contract price ₹86.77 cr; ICB; signed 2012-02-21; 8 bidders (Baoding, TBEA Shenyang, CGL–JSC Ukraine JV, Hyosung, Hyundai, ABB Ltda, Japan AE Power–EMCO JV lost; four not shortlisted)",
+   "from": "2012-02-21",
+   "to": null,
+   "srcs": [
+    [
+     "World Bank procurement notices API — project P115566 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P115566&rows=200"
+    ]
+   ],
+   "benefit": {
+    "who": "fin:xian-xd-transformer",
+    "how": "Exclusivity — Chinese L1 in an 8-bidder ICB",
+    "amountCr": 86.77,
+    "confidence": "documented"
+   },
+   "supersededBy": null
+  },
+  {
+   "id": "contracts:c017",
+   "s": "co:power-grid",
+   "t": "co:abb-india",
+   "pred": "award",
+   "tier": "documented",
+   "a": 86.68,
+   "lab": "P115566 PSDP-V P260-SS02 — 765/400 kV Solapur substation",
+   "d": "Contract price ₹86.68 cr; ICB; signed 2012-06-20; 5 bidders: ABB Limited L1; BHEL, Jyoti Structures, Areva T&D India, Crompton Greaves not shortlisted for detailed evaluation",
+   "from": "2012-06-20",
+   "to": null,
+   "srcs": [
+    [
+     "World Bank procurement notices API — project P115566 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P115566&rows=200"
+    ]
+   ],
+   "benefit": {
+    "who": "co:abb-india",
+    "how": "Exclusivity — only technically shortlisted bidder of five",
+    "amountCr": 86.68,
+    "confidence": "documented"
+   },
+   "supersededBy": null
+  },
+  {
+   "id": "contracts:c018",
+   "s": "co:power-grid",
+   "t": "co:bhel",
+   "pred": "award",
+   "tier": "documented",
+   "a": 47.38,
+   "lab": "P101653/P115566 PSDP-IV/V P290-IS01 & IS02 — 765 kV/transmission-line disc insulators (two packages)",
+   "d": "IS01 ₹29.53 cr (3 bidders: BHEL L1; Zhejiang Jinlihua; Sichuan Yibin) and IS02 ₹17.84 cr (2 bidders: BHEL L1; Sichuan Yibin); ICB; signed 2013-04-25; a = ₹47.38 cr combined",
+   "from": "2013-04-25",
+   "to": null,
+   "srcs": [
+    [
+     "World Bank procurement notices API — project P101653 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P101653&rows=200"
+    ],
+    [
+     "World Bank procurement notices API — project P115566 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P115566&rows=200"
+    ]
+   ],
+   "benefit": {
+    "who": "co:bhel",
+    "how": "Exclusivity — Indian PSU beat Chinese insulator makers in 2013 after losing to them in 2012",
+    "amountCr": 47.38,
+    "confidence": "documented"
+   },
+   "supersededBy": null
+  },
+  {
+   "id": "contracts:c019",
+   "s": "co:power-grid",
+   "t": "fin:sterlite-technologies",
+   "pred": "award",
+   "tier": "documented",
+   "a": 80.95,
+   "lab": "P101653 PSDP-IV P290-CD03 — ACSR Moose conductor package",
+   "d": "Contract price ₹80.95 cr; ICB; signed 2013-04-16; 3 bidders: Sterlite L1; Apar Industries; Deepak Cables",
+   "from": "2013-04-16",
+   "to": null,
+   "srcs": [
+    [
+     "World Bank procurement notices API — project P101653 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P101653&rows=200"
+    ]
+   ],
+   "benefit": {
+    "who": "fin:sterlite-technologies",
+    "how": "Exclusivity — L1 in a 3-bidder ICB",
+    "amountCr": 80.95,
+    "confidence": "documented"
+   },
+   "supersededBy": null
+  },
+  {
+   "id": "contracts:c020",
+   "s": "co:power-grid",
+   "t": "fin:sichuan-yibin-global",
+   "pred": "award",
+   "tier": "documented",
+   "a": 40.53,
+   "lab": "P101653/P115566 — three insulator packages (IS01 Dehradun–Abdullapur; P260-IS03, IS04 Krishnapatnam UMPP strengthening)",
+   "d": "₹5.25 cr (2012-03-23, 6 bidders incl. Aditya Birla Insulators, WS Industries, BHEL, Nanjing Electric, Zhejiang Jinlihua) + ₹10.83 cr + ₹24.45 cr (2012-07-18, 4 bidders each: Nanjing, Zhejiang Jinlihua, BHEL lost); a = ₹40.53 cr combined; ICB",
+   "from": "2012-03-23",
+   "to": null,
+   "srcs": [
+    [
+     "World Bank procurement notices API — project P101653 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P101653&rows=200"
+    ],
+    [
+     "World Bank procurement notices API — project P115566 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P115566&rows=200"
+    ]
+   ],
+   "benefit": {
+    "who": "fin:sichuan-yibin-global",
+    "how": "Exclusivity — Chinese L1 in 4–6 bidder ICBs against Indian majors",
+    "amountCr": 40.53,
+    "confidence": "documented"
+   },
+   "supersededBy": null
+  },
+  {
+   "id": "contracts:c021",
+   "s": "energy:thdc",
+   "t": "co:bhel",
+   "pred": "award",
+   "tier": "documented",
+   "a": 422.69,
+   "lab": "P096124 VPHEP WBR No.16 — EPC for E&M equipment, 4×111 MW Vishnugad Pipalkoti",
+   "d": "Contract price ₹422.69 cr (bid at opening INR 3,492.3m + US$10.21m; evaluated ₹418.24 cr); ICB; notice 2014-10-30; evaluated bidders not listed in the notice",
+   "from": "2014-10-30",
+   "to": null,
+   "srcs": [
+    [
+     "World Bank procurement notices API — project P096124 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P096124&rows=200"
+    ]
+   ],
+   "benefit": {
+    "who": "co:bhel",
+    "how": "Exclusivity — hydro E&M EPC to the PSU incumbent; rivals unpublished",
+    "amountCr": 422.69,
+    "confidence": "documented"
+   },
+   "supersededBy": null
+  },
+  {
+   "id": "contracts:c022",
+   "s": "fin:nmcg",
+   "t": "fin:va-tech-wabag",
+   "pred": "award",
+   "tier": "documented",
+   "a": 1269.77,
+   "lab": "P119085 IN-NMCG-101731 — Digha & Kankarbagh STPs, Patna (hybrid annuity PPP)",
+   "d": "Contract price ₹1,269.77 cr; RFB; 2019-12-30; STEP notice lists no evaluated bidders. Largest Ganga award in the feed",
+   "from": "2019-12-30",
+   "to": null,
+   "srcs": [
+    [
+     "World Bank procurement notices API — project P119085 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P119085&rows=200"
+    ]
+   ],
+   "benefit": {
+    "who": "fin:va-tech-wabag",
+    "how": "Exclusivity + annuity — 15-year HAM revenue stream; rivals unpublished",
+    "amountCr": 1269.77,
+    "confidence": "documented"
+   },
+   "supersededBy": null
+  },
+  {
+   "id": "contracts:c023",
+   "s": "fin:nmcg",
+   "t": "fin:va-tech-wabag",
+   "pred": "award",
+   "tier": "documented",
+   "a": 574.81,
+   "lab": "P119085 IN-NMCG-57155 — STPs and integration at Howrah, Bally, Baranagar & Kamarhati (HAM)",
+   "d": "Contract price ₹574.81 cr; RFB; 2019-06-05; rivals unpublished",
+   "from": "2019-06-05",
+   "to": null,
+   "srcs": [
+    [
+     "World Bank procurement notices API — project P119085 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P119085&rows=200"
+    ]
+   ],
+   "benefit": {
+    "who": "fin:va-tech-wabag",
+    "how": "Exclusivity + annuity",
+    "amountCr": 574.81,
+    "confidence": "documented"
+   },
+   "supersededBy": null
+  },
+  {
+   "id": "contracts:c024",
+   "s": "fin:nmcg",
+   "t": "co:larsen-toubro",
+   "pred": "award",
+   "tier": "documented",
+   "a": 829.62,
+   "lab": "P119085 IN-NMCG-1877 & 1878 — design-build of new sewerage networks (~180 km and ~172 km)",
+   "d": "₹398.40 cr (2017-03-30) + ₹431.22 cr (2018-01-30) = ₹829.62 cr; RFB; rivals unpublished",
+   "from": "2017-03-30",
+   "to": null,
+   "srcs": [
+    [
+     "World Bank procurement notices API — project P119085 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P119085&rows=200"
+    ]
+   ],
+   "benefit": {
+    "who": "co:larsen-toubro",
+    "how": "Exclusivity — two sewerage network packages; rivals unpublished",
+    "amountCr": 829.62,
+    "confidence": "documented"
+   },
+   "supersededBy": null
+  },
+  {
+   "id": "contracts:c025",
+   "s": "fin:nmcg",
+   "t": "co:adani-enterprises",
+   "pred": "award",
+   "tier": "documented",
+   "a": 385.09,
+   "lab": "P119085 IN-NMCG-58209 — Bhagalpur interception & diversion and STP (HAM)",
+   "d": "Contract price ₹385.09 cr; RFB; 2021-10-07; awardee countries India/Hungary (partner unnamed); rivals unpublished. The only Adani-group award in the World Bank India feed sampled",
+   "from": "2021-10-07",
+   "to": null,
+   "srcs": [
+    [
+     "World Bank procurement notices API — project P119085 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P119085&rows=200"
+    ]
+   ],
+   "benefit": {
+    "who": "co:adani-enterprises",
+    "how": "Exclusivity + annuity — HAM STP; rivals unpublished",
+    "amountCr": 385.09,
+    "confidence": "documented"
+   },
+   "supersededBy": null
+  },
+  {
+   "id": "contracts:c026",
+   "s": "fin:nmcg",
+   "t": "fin:technocraft-construction",
+   "pred": "award",
+   "tier": "documented",
+   "a": 350.79,
+   "lab": "P119085 IN-NMCG-102757 — Munger STP and sewerage scheme",
+   "d": "Contract price ₹350.79 cr; RFB (single stage two envelopes, re-created activity); 2021-10-04; rivals unpublished",
+   "from": "2021-10-04",
+   "to": null,
+   "srcs": [
+    [
+     "World Bank procurement notices API — project P119085 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P119085&rows=200"
+    ]
+   ],
+   "benefit": {
+    "who": "fin:technocraft-construction",
+    "how": "Exclusivity; rivals unpublished",
+    "amountCr": 350.79,
+    "confidence": "documented"
+   },
+   "supersededBy": null
+  },
+  {
+   "id": "contracts:c027",
+   "s": "min:ministry-of-road-transport-and-highways",
+   "t": "fin:ilfs-engineering-construction",
+   "pred": "award",
+   "tier": "documented",
+   "a": 675,
+   "lab": "P121185 NHIIP-BR-106-7 — Birpur–Bihpur 2-lane upgrading, Bihar",
+   "d": "Contract price ₹675 cr; RFB; 2016-07-29; rivals unpublished; awardee entered insolvency-era stress in 2018 (not researched here)",
+   "from": "2016-07-29",
+   "to": null,
+   "srcs": [
+    [
+     "World Bank procurement notices API — project P121185 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P121185&rows=200"
+    ]
+   ],
+   "benefit": {
+    "who": "fin:ilfs-engineering-construction",
+    "how": "Exclusivity; rivals unpublished",
+    "amountCr": 675,
+    "confidence": "documented"
+   },
+   "supersededBy": null
+  },
+  {
+   "id": "contracts:c028",
+   "s": "min:ministry-of-road-transport-and-highways",
+   "t": "fin:montecarlo",
+   "pred": "award",
+   "tier": "documented",
+   "a": 918.92,
+   "lab": "P121185 NHIIP-BR-30A-8 Fatuah–Harnaut (2016) and NHIIP-BR-98-1 Lot 2 Anisabad–Aurangabad (2014), Bihar",
+   "d": "₹560.70 cr (RFB, 2016-07-19, rivals unpublished) + ₹358.22 cr (ICB, 2014-03-21, 3 bidders: Montecarlo L1; KNR Construction; Dineshchandra R. Agarwal Infracom) = ₹918.92 cr",
+   "from": "2014-03-21",
+   "to": null,
+   "srcs": [
+    [
+     "World Bank procurement notices API — project P121185 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P121185&rows=200"
+    ]
+   ],
+   "benefit": {
+    "who": "fin:montecarlo",
+    "how": "Exclusivity — L1 in a 3-bidder ICB (2014) and an unpublished field (2016)",
+    "amountCr": 918.92,
+    "confidence": "documented"
+   },
+   "supersededBy": null
+  },
+  {
+   "id": "contracts:c029",
+   "s": "fin:ncrtc",
+   "t": "fin:shanghai-tunnel-engineering",
+   "pred": "award",
+   "tier": "documented",
+   "a": 1126.89,
+   "lab": "RRTS Package 4 (DM/CN/COR-OF/086) — TBM tunnels New Ashok Nagar–Sahibabad + Anand Vihar UG station",
+   "d": "₹1,126.89 cr contract (UTN/NH; ADB PP est. US$153.57m ⇒ implied ≈₹73.4/US$); OCB international under ADB rules; tender 2019-11-09/11; technical bids opened 2020-03-16, all 5 qualified; financial bids opened 2020-06-12: STEC ₹1,126 cr L1, L&T ₹1,170 cr, Gülermak (Turkey) ₹1,326 cr, Tata Projects–SKEC JV ₹1,346 cr, Afcons ₹1,400 cr; LOA withheld through the Galwan clash (2020-06-15) and the 2020-07-23 GFR Order; ADB approval and LOA 2020-12-09; 1,095-day completion",
+   "from": "2020-12-09",
+   "to": null,
+   "srcs": [
+    [
+     "ADB — Delhi–Meerut RRTS Procurement Plan Rev 7.0 (PDF: methods, awarded packages, estimated values, LOA dates)",
+     "https://www.adb.org/sites/default/files/project-documents/51073/51073-003-51073-004-pp-en.pdf"
+    ],
+    [
+     "Urban Transport News — 'STEC wins Rs 1,126 crore civil contract package 4 of Delhi-Meerut RRTS project' (2020-06-12; all five financial bids)",
+     "https://www.urbantransportnews.com/news/stec-bags-rs-1126-crore-civil-contract-package-4-of-delhi-meerut-rrts-line"
+    ],
+    [
+     "National Herald — 'Chinese firm given contract worth Rs 1,126 crore for Delhi-Meerut rail tunnel even as LAC standoff continues' (PTI-based, Jan 2021)",
+     "https://www.nationalheraldindia.com/india/chinese-firm-given-contract-worth-rs-1126-crore-for-delhi-meerut-rail-tunnel-even-as-lac-standoff-continues"
+    ],
+    [
+     "The Tribune — 'Chinese firm bags rapid rail contract' (Sandeep Dikshit, 2021-01-03/04)",
+     "https://www.tribuneindia.com/news/nation/chinese-firm-bags-rapid-rail-contract-193265"
+    ]
+   ],
+   "benefit": {
+    "who": "fin:shanghai-tunnel-engineering",
+    "how": "Exclusivity — L1 by ₹44 cr (3.8%) over L&T in a 5-bidder OCB whose eligibility was fixed by the lender's member-country rule",
+    "amountCr": 1126.89,
+    "confidence": "documented"
+   },
+   "supersededBy": null
+  },
+  {
+   "id": "contracts:c030",
+   "s": "fin:ncrtc",
+   "t": "co:larsen-toubro",
+   "pred": "award",
+   "tier": "documented",
+   "a": 17867.9,
+   "lab": "RRTS Package 3 (Lots 1 & 2) — elevated viaduct Duhai–Shatabdi Nagar incl. 7 stations",
+   "d": "ADB PP estimated value US$243.1m (lots US$106.31m + US$136.8m) ≈ ₹1,787 cr at ≈₹73.5/US$ (approximate 2020 rate, not the contract price); ADB approval 2020-03-18, LOA 2020-03-19; bidders not listed in the PP",
+   "from": "2020-03-19",
+   "to": null,
+   "srcs": [
+    [
+     "ADB — Delhi–Meerut RRTS Procurement Plan Rev 7.0 (PDF: methods, awarded packages, estimated values, LOA dates)",
+     "https://www.adb.org/sites/default/files/project-documents/51073/51073-003-51073-004-pp-en.pdf"
+    ]
+   ],
+   "benefit": {
+    "who": "co:larsen-toubro",
+    "how": "Exclusivity — largest RRTS civil package",
+    "amountCr": 17867.9,
+    "confidence": "estimated"
+   },
+   "supersededBy": null
+  },
+  {
+   "id": "contracts:c031",
+   "s": "fin:ncrtc",
+   "t": "co:larsen-toubro",
+   "pred": "award",
+   "tier": "documented",
+   "a": 13740.1,
+   "lab": "RRTS Packages 7 (viaduct Shatabdi Nagar–Modipuram) and 17 (trackwork SKK–Modipuram)",
+   "d": "Estimated US$98.57m (LOA 2020-11-04) + US$88.37m (LOA 2020-10-16) ≈ ₹1,374 cr at ≈₹73.5/US$; estimates, not contract prices",
+   "from": "2020-10-16",
+   "to": null,
+   "srcs": [
+    [
+     "ADB — Delhi–Meerut RRTS Procurement Plan Rev 7.0 (PDF: methods, awarded packages, estimated values, LOA dates)",
+     "https://www.adb.org/sites/default/files/project-documents/51073/51073-003-51073-004-pp-en.pdf"
+    ]
+   ],
+   "benefit": {
+    "who": "co:larsen-toubro",
+    "how": "Exclusivity — with P3 gives L&T 35.1% of the estimated value of 19 awarded ADB-financed packages",
+    "amountCr": 13740.1,
+    "confidence": "estimated"
+   },
+   "supersededBy": null
+  },
+  {
+   "id": "contracts:c032",
+   "s": "fin:ncrtc",
+   "t": "fin:afcons-infrastructure",
+   "pred": "award",
+   "tier": "documented",
+   "a": 25950.6,
+   "lab": "RRTS Packages 6 (viaduct SKK–New Ashok Nagar) and 8 (Meerut TBM tunnels + 3 UG stations)",
+   "d": "Estimated US$144.69m (LOA 2020-10-15) + US$208.38m (LOA 2020-11-26) ≈ ₹2,595 cr at ≈₹73.5/US$; Package 8 is the second tunnelling package, tendered Feb 2020 and awarded to the Indian L5 of Package 4",
+   "from": "2020-10-15",
+   "to": null,
+   "srcs": [
+    [
+     "ADB — Delhi–Meerut RRTS Procurement Plan Rev 7.0 (PDF: methods, awarded packages, estimated values, LOA dates)",
+     "https://www.adb.org/sites/default/files/project-documents/51073/51073-003-51073-004-pp-en.pdf"
+    ],
+    [
+     "Urban Transport News — 'STEC wins Rs 1,126 crore civil contract package 4 of Delhi-Meerut RRTS project' (2020-06-12; all five financial bids)",
+     "https://www.urbantransportnews.com/news/stec-bags-rs-1126-crore-civil-contract-package-4-of-delhi-meerut-rrts-line"
+    ]
+   ],
+   "benefit": {
+    "who": "fin:afcons-infrastructure",
+    "how": "Exclusivity — 28.9% of estimated awarded value; won the Meerut tunnel package after losing the Delhi one to STEC",
+    "amountCr": 25950.6,
+    "confidence": "estimated"
+   },
+   "supersededBy": null
+  },
+  {
+   "id": "contracts:c033",
+   "s": "fin:ncrtc",
+   "t": "fin:kec-international",
+   "pred": "award",
+   "tier": "documented",
+   "a": 2496.1,
+   "lab": "RRTS Package 5A — Duhai depot and at-grade station (VNC-KEC JV)",
+   "d": "Estimated US$33.96m ≈ ₹250 cr; ADB approval 2020-09-22, LOA 2020-11-04",
+   "from": "2020-11-04",
+   "to": null,
+   "srcs": [
+    [
+     "ADB — Delhi–Meerut RRTS Procurement Plan Rev 7.0 (PDF: methods, awarded packages, estimated values, LOA dates)",
+     "https://www.adb.org/sites/default/files/project-documents/51073/51073-003-51073-004-pp-en.pdf"
+    ]
+   ],
+   "benefit": {
+    "who": "fin:kec-international",
+    "how": "Exclusivity — JV award",
+    "amountCr": 2496.1,
+    "confidence": "estimated"
+   },
+   "supersededBy": null
+  },
+  {
+   "id": "contracts:c034",
+   "s": "fin:ncrtc",
+   "t": "fin:ircon-international",
+   "pred": "award",
+   "tier": "documented",
+   "a": 7239.8,
+   "lab": "RRTS Package 19 (Lots 1–2) — receiving substations and traction OHE",
+   "d": "Estimated US$98.5m ≈ ₹724 cr; ADB approval 2020-11-17, LOA 2020-11-20; a Railways CPSE winning under lender OCB",
+   "from": "2020-11-20",
+   "to": null,
+   "srcs": [
+    [
+     "ADB — Delhi–Meerut RRTS Procurement Plan Rev 7.0 (PDF: methods, awarded packages, estimated values, LOA dates)",
+     "https://www.adb.org/sites/default/files/project-documents/51073/51073-003-51073-004-pp-en.pdf"
+    ]
+   ],
+   "benefit": {
+    "who": "fin:ircon-international",
+    "how": "Exclusivity — PSU as contractor in a lender-funded OCB",
+    "amountCr": 7239.8,
+    "confidence": "estimated"
+   },
+   "supersededBy": null
+  },
+  {
+   "id": "contracts:c035",
+   "s": "fin:adb-ocb-member-eligibility-rule",
+   "t": "fin:ncrtc",
+   "pred": "law",
+   "tier": "documented",
+   "a": null,
+   "lab": "ADB procurement rule governing RRTS packages — OCB with international advertisement, all member countries eligible",
+   "d": "Procurement Plan Rev 7.0: 'Except as ADB may otherwise agree' OCB with international advertisement applies to goods and works; project procurement risk rated High; NCRTC to PTI: vendors from all member countries eligible 'without any discrimination'. China is an ADB member, so STEC could not be excluded without ADB's agreement or cancelling the tender",
+   "from": "2018-12-05",
+   "to": null,
+   "srcs": [
+    [
+     "ADB — Delhi–Meerut RRTS Procurement Plan Rev 7.0 (PDF: methods, awarded packages, estimated values, LOA dates)",
+     "https://www.adb.org/sites/default/files/project-documents/51073/51073-003-51073-004-pp-en.pdf"
+    ],
+    [
+     "National Herald — 'Chinese firm given contract worth Rs 1,126 crore for Delhi-Meerut rail tunnel even as LAC standoff continues' (PTI-based, Jan 2021)",
+     "https://www.nationalheraldindia.com/india/chinese-firm-given-contract-worth-rs-1126-crore-for-delhi-meerut-rail-tunnel-even-as-lac-standoff-continues"
+    ],
+    [
+     "The Tribune — 'Chinese firm bags rapid rail contract' (Sandeep Dikshit, 2021-01-03/04)",
+     "https://www.tribuneindia.com/news/nation/chinese-firm-bags-rapid-rail-contract-193265"
+    ]
+   ],
+   "supersededBy": null
+  },
+  {
+   "id": "contracts:c036",
+   "s": "fin:gfr-2020-land-border-procurement-order",
+   "t": "fin:ncrtc",
+   "pred": "law",
+   "tier": "documented",
+   "a": null,
+   "lab": "GFR 2017 amendment / DoE Order of 2020-07-23 — registration requirement for land-border-country bidders",
+   "d": "Applies to all new tenders and to pending tenders where first-stage qualification is incomplete; where that stage is crossed 'ordinarily the tenders will be cancelled and the process started de novo'. For RRTS Package 4 the technical stage had closed (2020-03-16) and financial bids were opened (2020-06-12) before the Order; NCRTC issued the LOA on 2020-12-09 after 'approvals at various levels' for a multilateral-funded bid. PIB text does not state a multilateral-funding carve-out; the Order annexures were not fetched",
+   "from": "2020-07-23",
+   "to": null,
+   "srcs": [
+    [
+     "PIB — Ministry of Finance, 'Restrictions on Public Procurement from certain countries', 2020-07-23 (Release ID 1640778)",
+     "https://pib.gov.in/PressReleasePage.aspx?PRID=1640778"
+    ],
+    [
+     "Urban Transport News — 'STEC wins Rs 1,126 crore civil contract package 4 of Delhi-Meerut RRTS project' (2020-06-12; all five financial bids)",
+     "https://www.urbantransportnews.com/news/stec-bags-rs-1126-crore-civil-contract-package-4-of-delhi-meerut-rrts-line"
+    ],
+    [
+     "National Herald — 'Chinese firm given contract worth Rs 1,126 crore for Delhi-Meerut rail tunnel even as LAC standoff continues' (PTI-based, Jan 2021)",
+     "https://www.nationalheraldindia.com/india/chinese-firm-given-contract-worth-rs-1126-crore-for-delhi-meerut-rail-tunnel-even-as-lac-standoff-continues"
+    ]
+   ],
+   "supersededBy": null
+  },
+  {
+   "id": "contracts:c037",
+   "s": "fin:world-bank-sanctions-system",
+   "t": "fin:j-mitra",
+   "pred": "enforce",
+   "tier": "documented",
+   "a": null,
+   "lab": "WB debarment — J. Mitra & Co. Pvt Ltd (case *76)",
+   "d": "Ground as served: '1999 Procurement Guidelines 1.15(a)(ii)' — the fraudulent-practice clause of the 1999 Guidelines (paragraph mapping is the Bank's standard numbering; guideline text not fetched). DEBAR_TO_DATE 2999-12-31 = indefinite/conditional",
+   "from": "2011-11-28",
+   "to": "2999-12-31",
+   "srcs": [
+    [
+     "World Bank Listing of Ineligible Firms & Individuals — sanctions data API (as served to worldbank.org/debarred-firms, read 2026-09-26)",
+     "https://apigwext.worldbank.org/dvsvc/v1.0/json/APPLICATION/ADOBE_EXPRNCE_MGR/FIRM/SANCTIONED_FIRM"
+    ]
+   ],
+   "supersededBy": null
+  },
+  {
+   "id": "contracts:c038",
+   "s": "fin:world-bank-sanctions-system",
+   "t": "fin:concept-pharmaceuticals",
+   "pred": "enforce",
+   "tier": "documented",
+   "a": null,
+   "lab": "WB debarment — Concept Pharmaceuticals Ltd (case *105)",
+   "d": "Ground: 'Procurement Guidelines, 1.14(a)(ii)' (fraudulent practice clause, 2004/2010 Guidelines)",
+   "from": "2012-05-30",
+   "to": "2999-12-31",
+   "srcs": [
+    [
+     "World Bank Listing of Ineligible Firms & Individuals — sanctions data API (as served to worldbank.org/debarred-firms, read 2026-09-26)",
+     "https://apigwext.worldbank.org/dvsvc/v1.0/json/APPLICATION/ADOBE_EXPRNCE_MGR/FIRM/SANCTIONED_FIRM"
+    ]
+   ],
+   "supersededBy": null
+  },
+  {
+   "id": "contracts:c039",
+   "s": "fin:world-bank-sanctions-system",
+   "t": "fin:progressive-constructions",
+   "pred": "enforce",
+   "tier": "documented",
+   "a": null,
+   "lab": "WB debarment — Progressive Constructions Ltd, Andhra Pradesh (case *192)",
+   "d": "Ground: 'Procurement Guidelines, 1.14(a)(ii)'. Feed annotation '*192 (AKA MR. LI YI)' looks like a mis-keyed cross-reference and is recorded, not relied on",
+   "from": "2013-11-26",
+   "to": "2999-12-31",
+   "srcs": [
+    [
+     "World Bank Listing of Ineligible Firms & Individuals — sanctions data API (as served to worldbank.org/debarred-firms, read 2026-09-26)",
+     "https://apigwext.worldbank.org/dvsvc/v1.0/json/APPLICATION/ADOBE_EXPRNCE_MGR/FIRM/SANCTIONED_FIRM"
+    ]
+   ],
+   "supersededBy": null
+  },
+  {
+   "id": "contracts:c040",
+   "s": "fin:world-bank-sanctions-system",
+   "t": "fin:savoir-soft-solutions",
+   "pred": "enforce",
+   "tier": "documented",
+   "a": null,
+   "lab": "WB debarment — Savoir Soft Solutions Pvt Ltd, Noida (case *207)",
+   "d": "Ground: 'Consultant Guidelines, 1.22(a)(ii)' (fraudulent practice, consultant selection)",
+   "from": "2014-03-19",
+   "to": "2999-12-31",
+   "srcs": [
+    [
+     "World Bank Listing of Ineligible Firms & Individuals — sanctions data API (as served to worldbank.org/debarred-firms, read 2026-09-26)",
+     "https://apigwext.worldbank.org/dvsvc/v1.0/json/APPLICATION/ADOBE_EXPRNCE_MGR/FIRM/SANCTIONED_FIRM"
+    ]
+   ],
+   "supersededBy": null
+  },
+  {
+   "id": "contracts:c041",
+   "s": "fin:world-bank-sanctions-system",
+   "t": "fin:laxminarayan-construction",
+   "pred": "enforce",
+   "tier": "documented",
+   "a": null,
+   "lab": "WB debarment — Laxminarayan Construction / Laxmi Narayan Construction / Laxminarayan Mallick, Cuttack (cases *187, *161)",
+   "d": "Three rows (firm, name variant, proprietor) debarred together; grounds 'Procurement Guidelines, 1.14(a)(ii)' and 'May 2004 Consultant Guidelines, para. 1.22(a)(ii)'",
+   "from": "2014-03-25",
+   "to": "2999-12-31",
+   "srcs": [
+    [
+     "World Bank Listing of Ineligible Firms & Individuals — sanctions data API (as served to worldbank.org/debarred-firms, read 2026-09-26)",
+     "https://apigwext.worldbank.org/dvsvc/v1.0/json/APPLICATION/ADOBE_EXPRNCE_MGR/FIRM/SANCTIONED_FIRM"
+    ]
+   ],
+   "supersededBy": null
+  },
+  {
+   "id": "contracts:c042",
+   "s": "fin:world-bank-sanctions-system",
+   "t": "fin:uday-pratap-sharma-firm",
+   "pred": "enforce",
+   "tier": "documented",
+   "a": null,
+   "lab": "WB debarment — M/S Uday Pratap Sharma, Madhya Pradesh (case *208)",
+   "d": "Ground: 'Procurement Guidelines, 1.14(a)(ii)'; listed as a firm (type F)",
+   "from": "2014-06-10",
+   "to": "2999-12-31",
+   "srcs": [
+    [
+     "World Bank Listing of Ineligible Firms & Individuals — sanctions data API (as served to worldbank.org/debarred-firms, read 2026-09-26)",
+     "https://apigwext.worldbank.org/dvsvc/v1.0/json/APPLICATION/ADOBE_EXPRNCE_MGR/FIRM/SANCTIONED_FIRM"
+    ]
+   ],
+   "supersededBy": null
+  },
+  {
+   "id": "contracts:c043",
+   "s": "fin:world-bank-sanctions-system",
+   "t": "fin:krg-associates",
+   "pred": "enforce",
+   "tier": "documented",
+   "a": null,
+   "lab": "WB debarment — K.R.G. Associates, Puducherry (case *209)",
+   "d": "Ground: 'Procurement Guidelines, 1.14(a)(ii)'",
+   "from": "2015-02-10",
+   "to": "2999-12-31",
+   "srcs": [
+    [
+     "World Bank Listing of Ineligible Firms & Individuals — sanctions data API (as served to worldbank.org/debarred-firms, read 2026-09-26)",
+     "https://apigwext.worldbank.org/dvsvc/v1.0/json/APPLICATION/ADOBE_EXPRNCE_MGR/FIRM/SANCTIONED_FIRM"
+    ]
+   ],
+   "supersededBy": null
+  },
+  {
+   "id": "contracts:c044",
+   "s": "fin:world-bank-sanctions-system",
+   "t": "fin:gayatri-construction-navi-mumbai",
+   "pred": "enforce",
+   "tier": "documented",
+   "a": null,
+   "lab": "WB debarment — Gayatri Construction, Navi Mumbai (case *268)",
+   "d": "Ground: 'Procurement Guidelines, 1.14(a)(ii)'. Not the listed Gayatri Projects Ltd (Hyderabad)",
+   "from": "2015-06-16",
+   "to": "2999-12-31",
+   "srcs": [
+    [
+     "World Bank Listing of Ineligible Firms & Individuals — sanctions data API (as served to worldbank.org/debarred-firms, read 2026-09-26)",
+     "https://apigwext.worldbank.org/dvsvc/v1.0/json/APPLICATION/ADOBE_EXPRNCE_MGR/FIRM/SANCTIONED_FIRM"
+    ]
+   ],
+   "supersededBy": null
+  },
+  {
+   "id": "contracts:c045",
+   "s": "fin:world-bank-sanctions-system",
+   "t": "fin:fedders-lloyd",
+   "pred": "enforce",
+   "tier": "documented",
+   "a": null,
+   "lab": "WB debarment — Fedders Lloyd Corporation Ltd and six controlled affiliates (cases *320, *539, *405)",
+   "d": "Ground: '2004 & 2010 Procurement Guidelines, 1.14(a)(ii)'; affiliates (Lloyd Infotech, Regal Information Technology, Lloyd Electrical & Engineering, Fedders Electric & Engineering, PSL Engineering ×2, Airserco) debarred as 'Controlled Affiliate of a Sanctioned Entity'. Fedders Lloyd had bid (in JV) on POWERGRID's WB-financed TW02 package in 2013",
+   "from": "2016-04-06",
+   "to": "2999-12-31",
+   "srcs": [
+    [
+     "World Bank Listing of Ineligible Firms & Individuals — sanctions data API (as served to worldbank.org/debarred-firms, read 2026-09-26)",
+     "https://apigwext.worldbank.org/dvsvc/v1.0/json/APPLICATION/ADOBE_EXPRNCE_MGR/FIRM/SANCTIONED_FIRM"
+    ],
+    [
+     "World Bank procurement notices API — project P115566 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P115566&rows=200"
+    ]
+   ],
+   "supersededBy": null
+  },
+  {
+   "id": "contracts:c046",
+   "s": "fin:world-bank-sanctions-system",
+   "t": "fin:famy-care",
+   "pred": "enforce",
+   "tier": "documented",
+   "a": null,
+   "lab": "WB debarment — Famy Care Ltd, Mumbai (case *176)",
+   "d": "Ground: 'Procurement Guidelines, 1.14(a)(ii)'",
+   "from": "2017-05-23",
+   "to": "2999-12-31",
+   "srcs": [
+    [
+     "World Bank Listing of Ineligible Firms & Individuals — sanctions data API (as served to worldbank.org/debarred-firms, read 2026-09-26)",
+     "https://apigwext.worldbank.org/dvsvc/v1.0/json/APPLICATION/ADOBE_EXPRNCE_MGR/FIRM/SANCTIONED_FIRM"
+    ]
+   ],
+   "supersededBy": null
+  },
+  {
+   "id": "contracts:c047",
+   "s": "fin:world-bank-sanctions-system",
+   "t": "fin:olive-health-care",
+   "pred": "enforce",
+   "tier": "documented",
+   "a": null,
+   "lab": "WB debarment — Olive Health Care, Mumbai (case *383)",
+   "d": "Ground: 'May 2010 Procurement Guidelines, Para. 1.14(a)(i) & (ii)' — both the corrupt-practice and fraudulent-practice clauses; fixed 10.5-year term",
+   "from": "2017-07-21",
+   "to": "2028-01-20",
+   "srcs": [
+    [
+     "World Bank Listing of Ineligible Firms & Individuals — sanctions data API (as served to worldbank.org/debarred-firms, read 2026-09-26)",
+     "https://apigwext.worldbank.org/dvsvc/v1.0/json/APPLICATION/ADOBE_EXPRNCE_MGR/FIRM/SANCTIONED_FIRM"
+    ]
+   ],
+   "supersededBy": null
+  },
+  {
+   "id": "contracts:c048",
+   "s": "fin:world-bank-sanctions-system",
+   "t": "fin:madhucon-projects",
+   "pred": "enforce",
+   "tier": "documented",
+   "a": null,
+   "lab": "WB debarment — Madhucon Projects Ltd, Hyderabad (case *302); five controlled affiliates added 2022-02-07 (case *396)",
+   "d": "Ground: '1999 Procurement Guidelines, Para. 1.15(a)(ii)' (fraudulent practice under the 1999 Guidelines, i.e. conduct on a pre-2004 Bank-financed contract). Affiliates: Madhucon Infra, Nama Hotels, Madhucon Heights, Madurai-Tuticorin Expressways, Madhucon Mega Mall. The Bank press release naming the project was not reachable (guessed URLs 404; news API returned 0) — see gaps",
+   "from": "2017-10-26",
+   "to": "2999-12-31",
+   "srcs": [
+    [
+     "World Bank Listing of Ineligible Firms & Individuals — sanctions data API (as served to worldbank.org/debarred-firms, read 2026-09-26)",
+     "https://apigwext.worldbank.org/dvsvc/v1.0/json/APPLICATION/ADOBE_EXPRNCE_MGR/FIRM/SANCTIONED_FIRM"
+    ]
+   ],
+   "supersededBy": null
+  },
+  {
+   "id": "contracts:c049",
+   "s": "fin:world-bank-sanctions-system",
+   "t": "fin:rkd-construction",
+   "pred": "enforce",
+   "tier": "documented",
+   "a": null,
+   "lab": "WB debarment — RKD Construction Pvt Ltd, Bhubaneswar (case *442)",
+   "d": "Ground: 'Procurement Guidelines, 1.16(a)(ii)' (fraudulent practice, 2011 Guidelines)",
+   "from": "2018-03-27",
+   "to": "2999-12-31",
+   "srcs": [
+    [
+     "World Bank Listing of Ineligible Firms & Individuals — sanctions data API (as served to worldbank.org/debarred-firms, read 2026-09-26)",
+     "https://apigwext.worldbank.org/dvsvc/v1.0/json/APPLICATION/ADOBE_EXPRNCE_MGR/FIRM/SANCTIONED_FIRM"
+    ]
+   ],
+   "supersededBy": null
+  },
+  {
+   "id": "contracts:c050",
+   "s": "fin:world-bank-sanctions-system",
+   "t": "fin:techfab-international",
+   "pred": "enforce",
+   "tier": "documented",
+   "a": null,
+   "lab": "WB debarment — Techfab International Pvt Ltd, New Delhi (case *477)",
+   "d": "Grounds: '2010 Proc. Guidelines, 1.14(a)(ii); 2011 Proc. Guidelines, 1.16(a)(ii)'",
+   "from": "2019-05-07",
+   "to": "2999-12-31",
+   "srcs": [
+    [
+     "World Bank Listing of Ineligible Firms & Individuals — sanctions data API (as served to worldbank.org/debarred-firms, read 2026-09-26)",
+     "https://apigwext.worldbank.org/dvsvc/v1.0/json/APPLICATION/ADOBE_EXPRNCE_MGR/FIRM/SANCTIONED_FIRM"
+    ]
+   ],
+   "supersededBy": null
+  },
+  {
+   "id": "contracts:c051",
+   "s": "fin:world-bank-sanctions-system",
+   "t": "fin:chasha-lands-joyluck",
+   "pred": "enforce",
+   "tier": "documented",
+   "a": null,
+   "lab": "WB debarment — Chasha Lands Pvt Ltd and Joyluck Venture India Pvt Ltd, New Delhi (cases *441, *443)",
+   "d": "Ground: 'Controlled Affiliate of a Sanctioned Entity.' — parent not identifiable from the India rows of the feed",
+   "from": "2019-10-07",
+   "to": "2999-12-31",
+   "srcs": [
+    [
+     "World Bank Listing of Ineligible Firms & Individuals — sanctions data API (as served to worldbank.org/debarred-firms, read 2026-09-26)",
+     "https://apigwext.worldbank.org/dvsvc/v1.0/json/APPLICATION/ADOBE_EXPRNCE_MGR/FIRM/SANCTIONED_FIRM"
+    ]
+   ],
+   "supersededBy": null
+  },
+  {
+   "id": "contracts:c052",
+   "s": "fin:world-bank-sanctions-system",
+   "t": "fin:eswari-electricals",
+   "pred": "enforce",
+   "tier": "documented",
+   "a": null,
+   "lab": "WB debarment — Eswari Electricals Pvt Ltd, Tamil Nadu (case *526)",
+   "d": "Ground: 'Procurement Guidelines, 1.16(a)(ii)'; feed notes the firm is 'currently doing business as Industrial Investment Group LLC'",
+   "from": "2019-11-26",
+   "to": "2999-12-31",
+   "srcs": [
+    [
+     "World Bank Listing of Ineligible Firms & Individuals — sanctions data API (as served to worldbank.org/debarred-firms, read 2026-09-26)",
+     "https://apigwext.worldbank.org/dvsvc/v1.0/json/APPLICATION/ADOBE_EXPRNCE_MGR/FIRM/SANCTIONED_FIRM"
+    ]
+   ],
+   "supersededBy": null
+  },
+  {
+   "id": "contracts:c053",
+   "s": "fin:world-bank-sanctions-system",
+   "t": "fin:a2z-infra-engineering",
+   "pred": "enforce",
+   "tier": "documented",
+   "a": null,
+   "lab": "WB debarment — A2Z Infra Engineering Ltd, Haryana (case *553); 12 controlled affiliates 2021-03-17 / 2021-05-28; Lotte Data Communication R&D Center India LLP row (2022-12-02) also carries *553",
+   "d": "Ground: 'July 2014 Procurement Guidelines, Paragraph 1.16(a)(ii)' (fraudulent practice). Affiliates listed in the entity record. A2Z bid on six WB-financed POWERGRID packages in 2012–13 and won none. The Bank press release was not reachable — see gaps",
+   "from": "2020-11-12",
+   "to": "2999-12-31",
+   "srcs": [
+    [
+     "World Bank Listing of Ineligible Firms & Individuals — sanctions data API (as served to worldbank.org/debarred-firms, read 2026-09-26)",
+     "https://apigwext.worldbank.org/dvsvc/v1.0/json/APPLICATION/ADOBE_EXPRNCE_MGR/FIRM/SANCTIONED_FIRM"
+    ],
+    [
+     "World Bank procurement notices API — project P115566 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P115566&rows=200"
+    ]
+   ],
+   "supersededBy": null
+  },
+  {
+   "id": "contracts:c054",
+   "s": "fin:world-bank-sanctions-system",
+   "t": "fin:perfect-dredging",
+   "pred": "enforce",
+   "tier": "documented",
+   "a": null,
+   "lab": "WB debarment — Perfect Dredging Company Pvt Ltd, Tamil Nadu (case *645)",
+   "d": "Ground: 'Collusive and Fraudulent Practices'; 7-year fixed term; an associated individual debarred in parallel (case *646) is not recorded here",
+   "from": "2024-01-17",
+   "to": "2031-01-16",
+   "srcs": [
+    [
+     "World Bank Listing of Ineligible Firms & Individuals — sanctions data API (as served to worldbank.org/debarred-firms, read 2026-09-26)",
+     "https://apigwext.worldbank.org/dvsvc/v1.0/json/APPLICATION/ADOBE_EXPRNCE_MGR/FIRM/SANCTIONED_FIRM"
+    ]
+   ],
+   "supersededBy": null
+  },
+  {
+   "id": "contracts:c055",
+   "s": "fin:world-bank-sanctions-system",
+   "t": "fin:future-netwings",
+   "pred": "enforce",
+   "tier": "documented",
+   "a": null,
+   "lab": "WB debarment — Future Netwings Solutions Pvt Ltd, West Bengal (case *664)",
+   "d": "Ground: 'Collusive Practices'",
+   "from": "2024-06-20",
+   "to": "2999-12-31",
+   "srcs": [
+    [
+     "World Bank Listing of Ineligible Firms & Individuals — sanctions data API (as served to worldbank.org/debarred-firms, read 2026-09-26)",
+     "https://apigwext.worldbank.org/dvsvc/v1.0/json/APPLICATION/ADOBE_EXPRNCE_MGR/FIRM/SANCTIONED_FIRM"
+    ]
+   ],
+   "supersededBy": null
+  },
+  {
+   "id": "contracts:c056",
+   "s": "fin:world-bank-sanctions-system",
+   "t": "fin:venus-it-solutions",
+   "pred": "enforce",
+   "tier": "documented",
+   "a": null,
+   "lab": "WB debarment — Venus IT Solutions Pvt Ltd, Venus Softwares, Zytron Systems, Kolkata (cases *671–*673)",
+   "d": "Ground: 'Collusive Practice'; three firms at one Kolkata address debarred the same day",
+   "from": "2024-09-24",
+   "to": "2999-12-31",
+   "srcs": [
+    [
+     "World Bank Listing of Ineligible Firms & Individuals — sanctions data API (as served to worldbank.org/debarred-firms, read 2026-09-26)",
+     "https://apigwext.worldbank.org/dvsvc/v1.0/json/APPLICATION/ADOBE_EXPRNCE_MGR/FIRM/SANCTIONED_FIRM"
+    ]
+   ],
+   "supersededBy": null
+  },
+  {
+   "id": "contracts:c057",
+   "s": "fin:world-bank-sanctions-system",
+   "t": "fin:sn-nanda-co",
+   "pred": "enforce",
+   "tier": "documented",
+   "a": null,
+   "lab": "WB debarment — S.N. Nanda & Co. Chartered Accountants, New Delhi (case *722)",
+   "d": "Ground: 'Obstructive Practice'; 8-month term — the shortest Indian debarment in the feed",
+   "from": "2026-03-09",
+   "to": "2026-11-08",
+   "srcs": [
+    [
+     "World Bank Listing of Ineligible Firms & Individuals — sanctions data API (as served to worldbank.org/debarred-firms, read 2026-09-26)",
+     "https://apigwext.worldbank.org/dvsvc/v1.0/json/APPLICATION/ADOBE_EXPRNCE_MGR/FIRM/SANCTIONED_FIRM"
+    ]
+   ],
+   "supersededBy": null
+  },
+  {
+   "id": "contracts:c058",
+   "s": "fin:ibrd",
+   "t": "co:larsen-toubro",
+   "pred": "analytic",
+   "tier": "analytic",
+   "a": null,
+   "lab": "Supplier concentration in World Bank India award notices: L&T 20.3% of priced value",
+   "d": "Across the 11 sampled projects with INR-priced award notices (370 notices, ₹29,919 cr), L&T alone or as consortium lead won ₹6,076 cr (20.3%); GIL-SIL JV ₹5,081 cr (17.0%); ALSTOM Grid UK ₹3,275 cr (10.9%); GIL-TPL JV ₹2,281 cr (7.6%); VA Tech Wabag ₹1,992 cr (6.7%) — top five ≈62.5%. L&T's share is concentrated in DFCCIL (EDFC-3: ₹4,400 cr) and NMCG (₹830 cr). In the 55 pre-2016 notices with bidder lists L&T lost 5 and won 1",
+   "from": null,
+   "to": null,
+   "srcs": [
+    [
+     "World Bank procurement notices API — project P150158 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P150158&rows=200"
+    ],
+    [
+     "World Bank procurement notices API — project P131765 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P131765&rows=20"
+    ],
+    [
+     "World Bank procurement notices API — project P114338 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P114338&rows=200"
+    ],
+    [
+     "World Bank procurement notices API — project P115566 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P115566&rows=200"
+    ],
+    [
+     "World Bank procurement notices API — project P119085 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P119085&rows=200"
+    ],
+    [
+     "World Bank procurement notices API — project P121185 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P121185&rows=200"
+    ],
+    [
+     "World Bank procurement notices API — project P101653 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P101653&rows=200"
+    ],
+    [
+     "World Bank procurement notices API — project P096124 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P096124&rows=200"
+    ]
+   ],
+   "innocentReading": "In an industry where three or four Indian firms can pre-qualify for ₹1,000 cr+ design-build railway or STP packages, a 20% share for the largest of them is what open competition produces; the 2016 EDFC-3 CP-303 award followed a WB-supervised prequalification and L&T lost the comparable CP-301/302 packages the same year by 1–5%",
+   "supersededBy": null,
+   "upgradeIf": "A Bank procurement post-review or INT case finds the CP-303 field was restricted; or DFCCIL's bid-opening record shows a single responsive bidder",
+   "killIf": "DFCCIL bid records show ≥3 responsive bidders on CP-303/304/305 with L&T lowest — then this is a competition result, not concentration",
+   "benefit": {
+    "who": "co:larsen-toubro",
+    "how": "Exclusivity — aggregate of nine lender-funded awards",
+    "amountCr": 6076,
+    "confidence": "documented"
+   }
+  },
+  {
+   "id": "contracts:c059",
+   "s": "fin:ibrd",
+   "t": "fin:dfccil",
+   "pred": "analytic",
+   "tier": "analytic",
+   "a": null,
+   "lab": "Bid counts in World Bank ICB awards 2011–2016: mean 5.6 bidders, no single-bid award",
+   "d": "55 pre-2016 award notices list the evaluated bidders: distribution 2 bidders ×4, 3 ×8, 4 ×17, 5 ×7, 6 ×6, 7 ×2, 8 ×1, 10 ×4, 11 ×3, 13 ×1, 14 ×1, 17 ×1; mean 5.64; zero single-bidder awards; 20 of 55 went to foreign-led bidders. The domestic control register (tenders-centre.json) has bidder counts for only 16 of 88 awards, mean 4.25, and none flagged sole-bidder — the comparison is therefore suggestive, not decisive",
+   "from": null,
+   "to": null,
+   "srcs": [
+    [
+     "World Bank procurement notices API — project P115566 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P115566&rows=200"
+    ],
+    [
+     "World Bank procurement notices API — project P131765 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P131765&rows=20"
+    ],
+    [
+     "World Bank procurement notices API — project P114338 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P114338&rows=200"
+    ],
+    [
+     "World Bank procurement notices API — project P101653 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P101653&rows=200"
+    ],
+    [
+     "World Bank procurement notices API — project P121185 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P121185&rows=200"
+    ],
+    [
+     "ICIP domestic control register — research/raw/tenders-centre.json (88 Union-government awards, 2019–2026)",
+     "research/raw/tenders-centre.json"
+    ]
+   ],
+   "innocentReading": "Lender rules require international advertisement and publish the field; domestic tenders often do not publish losing bidders, so the domestic register's lower observed count partly measures disclosure rather than competition",
+   "supersededBy": null,
+   "upgradeIf": "CPPP bid-opening data for comparable ₹500 cr+ Union works shows a materially lower mean bidder count",
+   "killIf": "CPPP data shows comparable or higher domestic bidder counts"
+  },
+  {
+   "id": "contracts:c060",
+   "s": "fin:ibrd",
+   "t": "fin:crsc-research-design-institute",
+   "pred": "analytic",
+   "tier": "analytic",
+   "a": null,
+   "lab": "Chinese firms won 7 of 55 bidder-listed World Bank ICB awards in India 2011–2016 (12.7%); 18 of 55 had a Chinese bidder",
+   "d": "Winners: Baoding Tianwei (₹169.9 cr, 2011), Xian XD (₹86.8 cr, 2012), Sichuan Yibin ×3 (₹40.5 cr, 2012), TBEA Shenyang (₹36.9 cr, 2012), Beijing NRRDI/CRSC (₹471 cr EDFC signalling, 2016). The 2020 STEC award (₹1,126.89 cr) was therefore not a novelty of procedure; what changed was the border clash and the July 2020 Order",
+   "from": null,
+   "to": null,
+   "srcs": [
+    [
+     "World Bank procurement notices API — project P115566 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P115566&rows=200"
+    ],
+    [
+     "World Bank procurement notices API — project P101653 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P101653&rows=200"
+    ],
+    [
+     "World Bank procurement notices API — project P131765 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P131765&rows=20"
+    ],
+    [
+     "ADB — Delhi–Meerut RRTS Procurement Plan Rev 7.0 (PDF: methods, awarded packages, estimated values, LOA dates)",
+     "https://www.adb.org/sites/default/files/project-documents/51073/51073-003-51073-004-pp-en.pdf"
+    ],
+    [
+     "Urban Transport News — 'STEC wins Rs 1,126 crore civil contract package 4 of Delhi-Meerut RRTS project' (2020-06-12; all five financial bids)",
+     "https://www.urbantransportnews.com/news/stec-bags-rs-1126-crore-civil-contract-package-4-of-delhi-meerut-rrts-line"
+    ]
+   ],
+   "innocentReading": "Under Bank and ADB member-eligibility rules a Chinese L1 must be awarded unless disqualified on stated grounds; Indian agencies awarded such contracts routinely for a decade",
+   "supersededBy": null,
+   "upgradeIf": "Post-2020 WB/ADB India awards show Chinese bidders disqualified at technical stage at a higher rate than pre-2020",
+   "killIf": "n/a — base-rate statement"
+  },
+  {
+   "id": "contracts:c061",
+   "s": "fin:ncrtc",
+   "t": "fin:shanghai-tunnel-engineering",
+   "pred": "analytic",
+   "tier": "analytic",
+   "a": null,
+   "lab": "Cui bono on RRTS Package 4: STEC gained ₹1,126.89 cr of work; L&T lost by ₹44 cr; cancelling would have cost ≥₹44 cr plus delay",
+   "d": "Rivals and prices: L&T ₹1,170 cr (L2), Gülermak ₹1,326 cr, Tata Projects–SKEC ₹1,346 cr, Afcons ₹1,400 cr. Counterfactual under the July 2020 Order: a de-novo tender excluding STEC would most likely have gone to L&T at ≥₹1,170 cr (+3.8%) and cost 6–12 months. Afcons, the L5, won the second (Meerut) tunnel package (est. US$208m) in Nov 2020. No party alleged bid-rigging; the objection was national-security/timing",
+   "from": null,
+   "to": null,
+   "srcs": [
+    [
+     "Urban Transport News — 'STEC wins Rs 1,126 crore civil contract package 4 of Delhi-Meerut RRTS project' (2020-06-12; all five financial bids)",
+     "https://www.urbantransportnews.com/news/stec-bags-rs-1126-crore-civil-contract-package-4-of-delhi-meerut-rrts-line"
+    ],
+    [
+     "National Herald — 'Chinese firm given contract worth Rs 1,126 crore for Delhi-Meerut rail tunnel even as LAC standoff continues' (PTI-based, Jan 2021)",
+     "https://www.nationalheraldindia.com/india/chinese-firm-given-contract-worth-rs-1126-crore-for-delhi-meerut-rail-tunnel-even-as-lac-standoff-continues"
+    ],
+    [
+     "The Tribune — 'Chinese firm bags rapid rail contract' (Sandeep Dikshit, 2021-01-03/04)",
+     "https://www.tribuneindia.com/news/nation/chinese-firm-bags-rapid-rail-contract-193265"
+    ],
+    [
+     "ADB — Delhi–Meerut RRTS Procurement Plan Rev 7.0 (PDF: methods, awarded packages, estimated values, LOA dates)",
+     "https://www.adb.org/sites/default/files/project-documents/51073/51073-003-51073-004-pp-en.pdf"
+    ],
+    [
+     "PIB — Ministry of Finance, 'Restrictions on Public Procurement from certain countries', 2020-07-23 (Release ID 1640778)",
+     "https://pib.gov.in/PressReleasePage.aspx?PRID=1640778"
+    ]
+   ],
+   "innocentReading": "The lender's open-membership rule bound NCRTC; the bid pre-dated both the clash and the Order; the L1 margin was small and the award followed ADB's own approval — a boring procedural outcome",
+   "supersededBy": null,
+   "upgradeIf": "Government or ADB documents show a request to exclude STEC was made and refused, or that a waiver from the Order was granted specifically for this package",
+   "killIf": "n/a — ledger row; the contested part is only the framing, recorded as narrative 1",
+   "benefit": {
+    "who": "fin:shanghai-tunnel-engineering",
+    "how": "Exclusivity — contract value, L1 in 5-bidder OCB",
+    "amountCr": 1126.89,
+    "confidence": "documented"
+   }
+  },
+  {
+   "id": "contracts:c062",
+   "s": "fin:adb",
+   "t": "fin:ncrtc",
+   "pred": "analytic",
+   "tier": "analytic",
+   "a": null,
+   "lab": "RRTS package concentration: L&T 35.1%, Afcons 28.9%, STEC 12.5%, Ircon 8.0% of US$1,223.82m estimated awarded value (19 packages)",
+   "d": "Sum of ADB PP 'awarded' goods/works packages: US$1,223.82m. L&T P3+P7+P17 US$430.04m; Afcons P6+P8 US$353.07m; STEC P4 US$153.57m; Ircon P19 US$98.5m; VNC-KEC P5A US$33.96m; 14 other packages US$154.68m to 12 firms incl. six foreign suppliers. Two Indian EPC firms hold 64% of the ADB-financed corridor by estimated value",
+   "from": null,
+   "to": null,
+   "srcs": [
+    [
+     "ADB — Delhi–Meerut RRTS Procurement Plan Rev 7.0 (PDF: methods, awarded packages, estimated values, LOA dates)",
+     "https://www.adb.org/sites/default/files/project-documents/51073/51073-003-51073-004-pp-en.pdf"
+    ]
+   ],
+   "innocentReading": "Only a handful of Indian contractors can execute ₹1,000 cr+ viaduct/tunnel packages on a 3-year clock; the same names (L&T, Afcons, Tata Projects) bid on every package and split them roughly by L1",
+   "supersededBy": null,
+   "upgradeIf": "NCRTC bid-opening records show ≤2 responsive bidders on P3/P6/P7/P8",
+   "killIf": "Bid records show 4–6 responsive bidders on each civil package, as for P4"
+  },
+  {
+   "id": "contracts:c063",
+   "s": "fin:world-bank-sanctions-system",
+   "t": "fin:ibrd",
+   "pred": "analytic",
+   "tier": "analytic",
+   "a": null,
+   "lab": "Indian firms are 3.6% of the World Bank's sanctioned list (54 of 1,520) — no sign of disproportionate targeting",
+   "d": "52 Indian debarments dated 2010–2026; 30 of these are 'controlled affiliate' rows attached to four cases (Fedders Lloyd, Madhucon, A2Z, Chasha/Joyluck); only ~20 distinct Indian principal cases in 16 years. Grounds are overwhelmingly the fraudulent-practice clause (1.14(a)(ii)/1.16(a)(ii)); collusion appears only from 2024. India's share of IBRD/IDA commitments over the period is far above 3.6% (not computed here)",
+   "from": null,
+   "to": null,
+   "srcs": [
+    [
+     "World Bank Listing of Ineligible Firms & Individuals — sanctions data API (as served to worldbank.org/debarred-firms, read 2026-09-26)",
+     "https://apigwext.worldbank.org/dvsvc/v1.0/json/APPLICATION/ADOBE_EXPRNCE_MGR/FIRM/SANCTIONED_FIRM"
+    ]
+   ],
+   "innocentReading": "Debarment reflects INT case flow and cross-debarment, not a country policy; most Indian cases are small firms in health, IT and rural works",
+   "supersededBy": null,
+   "upgradeIf": "n/a",
+   "killIf": "A portfolio-weighted comparison shows India's debarment rate per US$ lent is an outlier either way"
+  },
+  {
+   "id": "contracts:c064",
+   "s": "fin:ibrd",
+   "t": "fin:nmcg",
+   "pred": "analytic",
+   "tier": "analytic",
+   "a": null,
+   "lab": "Direct/single-source selection is rare in the sampled World Bank notices: 8 of 370 (2.2%), all consultancies",
+   "d": "Methods across 370 award notices: RFB 238, ICB 56, QCBS 49, RFQ 14, CDS (consultant direct selection) 7, LCS 3, DIR 1, CQS 1. All 8 direct selections are consultancy or non-consulting services (NMCG ×3, BRLPS ×3, MoRTH ×2); no works or goods contract in the sample was single-sourced",
+   "from": null,
+   "to": null,
+   "srcs": [
+    [
+     "World Bank procurement notices API — project P119085 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P119085&rows=200"
+    ],
+    [
+     "World Bank procurement notices API — project P104164 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P104164&rows=200"
+    ],
+    [
+     "World Bank procurement notices API — project P121185 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P121185&rows=200"
+    ]
+   ],
+   "innocentReading": "Direct selection under Bank rules is reserved for continuation, small-value or sole-capability consultancies and needs prior review; the observed rate is consistent with that",
+   "supersededBy": null,
+   "upgradeIf": "n/a",
+   "killIf": "n/a — base-rate statement"
+  }
+ ],
+ "voids": [
+  {
+   "what": "Post-2016 World Bank (STEP) contract award notices list only the awarded firm; evaluated/losing bidders and their prices are not published. 315 of 370 sampled notices (85%) — including every EDFC-3, NMCG, NHIIP-2016 and PMGSY award — have no observable bid count.",
+   "whyItMatters": "Concentration without a bidder count cannot be read as either competition or capture; the largest single L&T award (₹2,871 cr CP-303) and all Ganga HAM awards sit in this blind spot.",
+   "srcs": [
+    [
+     "World Bank procurement notices API — project P150158 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P150158&rows=200"
+    ],
+    [
+     "World Bank procurement notices API — project P119085 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P119085&rows=200"
+    ],
+    [
+     "World Bank project procurement page P131765 (server HTML; awards are loaded from the procnotices API)",
+     "https://projects.worldbank.org/en/projects-operations/project-procurement/P131765"
+    ]
+   ]
+  },
+  {
+   "what": "World Bank Data Catalog / Major Contract Awards dataset returned 429 (rate-limited) and finances.worldbank.org redirected without data; the search.worldbank.org 'contractdata' endpoint is 404.",
+   "whyItMatters": "The Bank's consolidated supplier-level contract dataset (supplier country, amount, method) could not be used; the per-project notices feed substituted for it.",
+   "srcs": [
+    [
+     "World Bank project procurement page P131765 (server HTML; awards are loaded from the procnotices API)",
+     "https://projects.worldbank.org/en/projects-operations/project-procurement/P131765"
+    ]
+   ]
+  },
+  {
+   "what": "World Bank press releases explaining the Madhucon (2017) and A2Z (2020) debarments — which project, what conduct — were not reachable (guessed URLs 404; Bank news/documents APIs returned 0 results for both names).",
+   "whyItMatters": "The listing gives the clause, not the facts; without the release the ground cannot be tied to a specific Indian project.",
+   "srcs": [
+    [
+     "World Bank Listing of Ineligible Firms & Individuals — sanctions data API (as served to worldbank.org/debarred-firms, read 2026-09-26)",
+     "https://apigwext.worldbank.org/dvsvc/v1.0/json/APPLICATION/ADOBE_EXPRNCE_MGR/FIRM/SANCTIONED_FIRM"
+    ]
+   ]
+  },
+  {
+   "what": "ADB publishes for RRTS only a procurement plan with estimated package values and LOA dates; contract prices, bidder lists and bid prices are not on adb.org (the Tenders search for 51073 returns no award records).",
+   "whyItMatters": "RRTS concentration figures are on estimated values; only Package 4 has a documented price and field, and that from press.",
+   "srcs": [
+    [
+     "ADB — Delhi–Meerut RRTS Procurement Plan Rev 7.0 (PDF: methods, awarded packages, estimated values, LOA dates)",
+     "https://www.adb.org/sites/default/files/project-documents/51073/51073-003-51073-004-pp-en.pdf"
+    ],
+    [
+     "ADB Projects & Tenders search for 51073 (no per-project contract-award records served)",
+     "https://www.adb.org/projects/tenders?terms=51073"
+    ]
+   ]
+  },
+  {
+   "what": "PMGSY Rural Roads (P124639) has 430 notices but the feed capped at 200 rows and every row returned was a Meghalaya SRRDA package (₹1,204 cr in 196 awards, all RFB, no bidder lists); other states' PMGSY awards under the loan are not in the returned sample.",
+   "whyItMatters": "The rural-roads component — 1.4bn US$, the third-largest project — is unobservable at supplier level from this pass.",
+   "srcs": [
+    [
+     "World Bank procurement notices API — project P124639 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P124639&rows=200"
+    ]
+   ]
+  },
+  {
+   "what": "Four sampled projects (P147820 Solar/SECI, P050668 MUTP, P144447 Elementary Education, P067606 UP Roads) return zero procurement notices — either pre-notice-era or financial-intermediary/results operations with no Bank-published awards.",
+   "whyItMatters": "'Who got the contracts' is undefined for on-lending and results-based operations; the question shifts to the intermediary's own procurement (SECI's solar park tenders, state education departments).",
+   "srcs": [
+    [
+     "World Bank procurement notices API — project P147820 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P147820&rows=200"
+    ],
+    [
+     "World Bank procurement notices API — project P050668 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P050668&rows=200"
+    ],
+    [
+     "World Bank procurement notices API — project P144447 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P144447&rows=200"
+    ],
+    [
+     "World Bank procurement notices API — project P067606 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P067606&rows=200"
+    ]
+   ]
+  },
+  {
+   "what": "The GFR Order annexures (which would say whether multilateral-financed tenders under existing loan agreements are carved out) were not fetched; the PIB summary is silent on it.",
+   "whyItMatters": "Whether NCRTC needed a waiver or was exempt by the Order's own terms is the legal crux of the STEC episode.",
+   "srcs": [
+    [
+     "PIB — Ministry of Finance, 'Restrictions on Public Procurement from certain countries', 2020-07-23 (Release ID 1640778)",
+     "https://pib.gov.in/PressReleasePage.aspx?PRID=1640778"
+    ]
+   ]
+  }
+ ],
+ "narratives": [
+  {
+   "claim": "The Modi government handed a Chinese state firm a ₹1,126 crore Delhi–Meerut tunnel contract while Indian soldiers were dying at Galwan.",
+   "status": "contested",
+   "strongestCase": "The facts of the award are established: STEC, a Chinese SOE, was L1 on 2020-06-12 (three days before the Galwan clash), the government's own July 2020 Order was meant to keep such bidders out of public procurement, and NCRTC nonetheless issued the LOA on 2020-12-09 while the LAC standoff continued (National Herald framing).",
+   "strongestCounter": "The tender was governed by ADB's member-country eligibility rule under a loan the Union had already signed; five firms bid and all qualified; STEC's price was ₹44 cr below L&T's; the Order's own text says pending tenders past first-stage qualification would 'ordinarily' be cancelled — cancelling and re-tendering would have cost at least ₹44 cr and a year, and Chinese firms had won seven World Bank-financed Indian packages in 2011–2016 without objection. NCRTC: 'awarded following the set procedure and guidelines'.",
+   "whatWouldChangeThis": "A DoE/ADB record showing India sought and was refused STEC's exclusion, or a waiver granted specifically for this package, would move it to 'well-supported' as a lender-constraint story; evidence that NCRTC had discretion to reject the L1 and chose not to would move it toward the critics.",
+   "srcs": [
+    [
+     "National Herald — 'Chinese firm given contract worth Rs 1,126 crore for Delhi-Meerut rail tunnel even as LAC standoff continues' (PTI-based, Jan 2021)",
+     "https://www.nationalheraldindia.com/india/chinese-firm-given-contract-worth-rs-1126-crore-for-delhi-meerut-rail-tunnel-even-as-lac-standoff-continues"
+    ],
+    [
+     "The Tribune — 'Chinese firm bags rapid rail contract' (Sandeep Dikshit, 2021-01-03/04)",
+     "https://www.tribuneindia.com/news/nation/chinese-firm-bags-rapid-rail-contract-193265"
+    ],
+    [
+     "Urban Transport News — 'STEC wins Rs 1,126 crore civil contract package 4 of Delhi-Meerut RRTS project' (2020-06-12; all five financial bids)",
+     "https://www.urbantransportnews.com/news/stec-bags-rs-1126-crore-civil-contract-package-4-of-delhi-meerut-rrts-line"
+    ],
+    [
+     "ADB — Delhi–Meerut RRTS Procurement Plan Rev 7.0 (PDF: methods, awarded packages, estimated values, LOA dates)",
+     "https://www.adb.org/sites/default/files/project-documents/51073/51073-003-51073-004-pp-en.pdf"
+    ],
+    [
+     "PIB — Ministry of Finance, 'Restrictions on Public Procurement from certain countries', 2020-07-23 (Release ID 1640778)",
+     "https://pib.gov.in/PressReleasePage.aspx?PRID=1640778"
+    ]
+   ]
+  },
+  {
+   "claim": "Lender-funded procurement in India is more open and competitive than domestic government procurement.",
+   "status": "well-supported",
+   "strongestCase": "55 World Bank ICB awards with published fields (2011–2016) average 5.6 bidders with no single-bid award, 20 of 55 won by foreign-led bidders including Chinese, Korean, UK, Mexican and Saudi firms; the ADB RRTS Package 4 drew five qualified bidders from three countries. The domestic control register records bidder counts for only 16 of 88 awards (mean 4.25) and no losing bidders for the rest.",
+   "strongestCounter": "Since 2016 the Bank's own notices stopped publishing losing bidders, so 85% of recent lender-funded awards are as opaque as domestic ones; and the domestic register's lower count may reflect disclosure, not competition. Concentration outcomes are similar: L&T 20% of WB value vs PSU-GoI 30.5% / Reliance 26% (spectrum-driven) of the domestic register.",
+   "whatWouldChangeThis": "CPPP bid-opening data for ₹500 cr+ Union works with mean bidders ≥5.5 would erase the difference; DFCCIL bid records for EDFC-3 showing 4+ responsive bidders would strengthen it.",
+   "srcs": [
+    [
+     "World Bank procurement notices API — project P115566 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P115566&rows=200"
+    ],
+    [
+     "World Bank procurement notices API — project P131765 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P131765&rows=20"
+    ],
+    [
+     "World Bank procurement notices API — project P114338 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P114338&rows=200"
+    ],
+    [
+     "Urban Transport News — 'STEC wins Rs 1,126 crore civil contract package 4 of Delhi-Meerut RRTS project' (2020-06-12; all five financial bids)",
+     "https://www.urbantransportnews.com/news/stec-bags-rs-1126-crore-civil-contract-package-4-of-delhi-meerut-rrts-line"
+    ],
+    [
+     "ICIP domestic control register — research/raw/tenders-centre.json (88 Union-government awards, 2019–2026)",
+     "research/raw/tenders-centre.json"
+    ]
+   ]
+  },
+  {
+   "claim": "L&T wins everything the World Bank and ADB fund in India.",
+   "status": "contested",
+   "strongestCase": "L&T is the top winner in both feeds: 20.3% of World Bank-notice value (₹6,076 cr, incl. all three EDFC-3 packages) and 35.1% of ADB RRTS estimated value (three packages).",
+   "strongestCounter": "In the only period with published fields L&T lost five of six World Bank ICB bids it entered (to GIL-TPL JV twice, KEC and Bajaj twice), lost RRTS Package 4 to STEC, and does not appear at all in the 88-award domestic register; the largest single WB award (₹3,275 cr HVDC) went to Alstom UK and the largest civil pair (₹5,081 cr) to GIL-SIL JV.",
+   "whatWouldChangeThis": "DFCCIL/NCRTC bid-opening records showing L&T as sole responsive bidder on CP-303/304/305 or P3/P7/P17 would support the claim; records showing 3+ bidders would kill it.",
+   "srcs": [
+    [
+     "World Bank procurement notices API — project P150158 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P150158&rows=200"
+    ],
+    [
+     "World Bank procurement notices API — project P114338 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P114338&rows=200"
+    ],
+    [
+     "World Bank procurement notices API — project P115566 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P115566&rows=200"
+    ],
+    [
+     "ADB — Delhi–Meerut RRTS Procurement Plan Rev 7.0 (PDF: methods, awarded packages, estimated values, LOA dates)",
+     "https://www.adb.org/sites/default/files/project-documents/51073/51073-003-51073-004-pp-en.pdf"
+    ],
+    [
+     "ICIP domestic control register — research/raw/tenders-centre.json (88 Union-government awards, 2019–2026)",
+     "research/raw/tenders-centre.json"
+    ]
+   ]
+  },
+  {
+   "claim": "Chinese contractors were shut out of Indian public works only after the 2020 border clash; before that they were a routine part of lender-funded procurement.",
+   "status": "established",
+   "strongestCase": "World Bank notices record Chinese winners on POWERGRID transformer, reactor and insulator packages (2011–2013) and a ₹471 cr EDFC signalling package to CRSC's Beijing institute (2016); 18 of 55 bidder-listed ICB awards had at least one Chinese bidder. The July 2020 GFR Order then made registration with DPIIT plus MEA/MHA clearance a precondition.",
+   "strongestCounter": "Chinese wins were concentrated in equipment (transformers, insulators) rather than civil works; the STEC tunnel package was the first large Chinese civil-works award in the NCR and drew objections precisely because it was unusual in kind.",
+   "whatWouldChangeThis": "A count of post-2020 WB/ADB India awards to Chinese firms (expected ≈0) would confirm the cut-off; evidence of Chinese civil-works wins before 2020 would strengthen 'routine'.",
+   "srcs": [
+    [
+     "World Bank procurement notices API — project P115566 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P115566&rows=200"
+    ],
+    [
+     "World Bank procurement notices API — project P101653 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P101653&rows=200"
+    ],
+    [
+     "World Bank procurement notices API — project P131765 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P131765&rows=20"
+    ],
+    [
+     "PIB — Ministry of Finance, 'Restrictions on Public Procurement from certain countries', 2020-07-23 (Release ID 1640778)",
+     "https://pib.gov.in/PressReleasePage.aspx?PRID=1640778"
+    ],
+    [
+     "ADB — Delhi–Meerut RRTS Procurement Plan Rev 7.0 (PDF: methods, awarded packages, estimated values, LOA dates)",
+     "https://www.adb.org/sites/default/files/project-documents/51073/51073-003-51073-004-pp-en.pdf"
+    ]
+   ]
+  },
+  {
+   "claim": "World Bank debarments single out Indian firms.",
+   "status": "unsupported",
+   "strongestCase": "54 Indian entries on the list, several of them listed companies (Madhucon Projects, A2Z Infra Engineering) with affiliates swept in.",
+   "strongestCounter": "3.6% of the list; ~20 distinct principal cases in 16 years, most small health/IT/rural-works firms; grounds are the standard fraudulent-practice clause applied worldwide; 30 of 52 rows are mechanical affiliate extensions of four cases.",
+   "whatWouldChangeThis": "A per-US$-lent comparison across the ten largest borrowers.",
+   "srcs": [
+    [
+     "World Bank Listing of Ineligible Firms & Individuals — sanctions data API (as served to worldbank.org/debarred-firms, read 2026-09-26)",
+     "https://apigwext.worldbank.org/dvsvc/v1.0/json/APPLICATION/ADOBE_EXPRNCE_MGR/FIRM/SANCTIONED_FIRM"
+    ],
+    [
+     "World Bank — Procurement: Listing of Ineligible Firms and Individuals (page that loads the API above)",
+     "https://www.worldbank.org/en/projects-operations/procurement/debarred-firms"
+    ]
+   ]
+  }
+ ],
+ "symmetryCheck": "Lens: 'who wins, how concentrated, how many bid, how often single-source' applied to the lender-funded family and to the domestic Union register (research/raw/tenders-centre.json, 88 awards 2019–2026). Lender-funded: top winner by value L&T 20.3% (WB) / 35.1% (ADB RRTS); top five 62.5%; mean 5.6 bidders where published, 0 single-bid awards, 2.2% direct selection (consultancies only). Domestic: top winner by count Adani group 17/88 (19%); by value PSU-GoI 30.5% and Reliance 26.0% (spectrum auctions dominate); bidder counts known for 16/88 (mean 4.25); no sole-bidder awards flagged; 59/88 are auctions where 'concentration' is a revenue-share outcome, not a contract. Reading: lender-funded procurement shows more published competition and a lower observed top-winner share than the domestic register, but the domestic register's bidder data are so sparse that the difference is partly one of disclosure. The lens produces an 'L&T dominates' picture for lender money and an 'Adani/Reliance dominate' picture for domestic money; both dissolve on inspection into a handful of pre-qualifiable firms splitting large packages by L1, and neither register contains a documented single-bidder award. The alarming-looking fact common to both is opacity after award, not rigging before it.",
+ "baseRates": [
+  {
+   "property": "Single-bidder awards among World Bank ICB award notices that publish the field (India, 2011–2016)",
+   "numerator": 0,
+   "denominator": 55,
+   "label": "55 award notices in P115566, P101653, P131765, P114338, P121185 listing awarded and evaluated bidders",
+   "srcs": [
+    [
+     "World Bank procurement notices API — project P115566 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P115566&rows=200"
+    ],
+    [
+     "World Bank procurement notices API — project P101653 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P101653&rows=200"
+    ],
+    [
+     "World Bank procurement notices API — project P131765 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P131765&rows=20"
+    ],
+    [
+     "World Bank procurement notices API — project P114338 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P114338&rows=200"
+    ],
+    [
+     "World Bank procurement notices API — project P121185 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P121185&rows=200"
+    ]
+   ]
+  },
+  {
+   "property": "Mean number of bidders per World Bank ICB award (same 55 notices) — 5.64; ≤3 bidders in 12 of 55",
+   "numerator": 12,
+   "denominator": 55,
+   "label": "notices with 2 or 3 bidders, out of 55 bidder-listed notices",
+   "srcs": [
+    [
+     "World Bank procurement notices API — project P115566 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P115566&rows=200"
+    ],
+    [
+     "World Bank procurement notices API — project P131765 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P131765&rows=20"
+    ]
+   ]
+  },
+  {
+   "property": "Chinese-firm winners among bidder-listed World Bank ICB awards, India 2011–2016",
+   "numerator": 7,
+   "denominator": 55,
+   "label": "awards to Chinese firms / bidder-listed awards; 18/55 had ≥1 Chinese bidder",
+   "srcs": [
+    [
+     "World Bank procurement notices API — project P115566 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P115566&rows=200"
+    ],
+    [
+     "World Bank procurement notices API — project P101653 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P101653&rows=200"
+    ],
+    [
+     "World Bank procurement notices API — project P131765 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P131765&rows=20"
+    ]
+   ]
+  },
+  {
+   "property": "Foreign-led winners among bidder-listed World Bank ICB awards",
+   "numerator": 20,
+   "denominator": 55,
+   "label": "awards to non-Indian lead firms / bidder-listed awards",
+   "srcs": [
+    [
+     "World Bank procurement notices API — project P115566 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P115566&rows=200"
+    ],
+    [
+     "World Bank procurement notices API — project P131765 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P131765&rows=20"
+    ],
+    [
+     "World Bank procurement notices API — project P114338 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P114338&rows=200"
+    ]
+   ]
+  },
+  {
+   "property": "L&T share of INR-priced World Bank award value across 11 sampled projects (₹6,076 cr of ₹29,919 cr)",
+   "numerator": 6076,
+   "denominator": 29919,
+   "label": "₹ crore; 370 notices, 11 projects, 2011–2022",
+   "srcs": [
+    [
+     "World Bank procurement notices API — project P150158 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P150158&rows=200"
+    ],
+    [
+     "World Bank procurement notices API — project P131765 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P131765&rows=20"
+    ],
+    [
+     "World Bank procurement notices API — project P119085 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P119085&rows=200"
+    ],
+    [
+     "World Bank procurement notices API — project P115566 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P115566&rows=200"
+    ]
+   ]
+  },
+  {
+   "property": "Top-five winners' share of the same value (GIL-SIL JV, L&T, Alstom Grid UK, GIL-TPL JV, VA Tech Wabag)",
+   "numerator": 18705,
+   "denominator": 29919,
+   "label": "₹ crore",
+   "srcs": [
+    [
+     "World Bank procurement notices API — project P131765 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P131765&rows=20"
+    ],
+    [
+     "World Bank procurement notices API — project P150158 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P150158&rows=200"
+    ],
+    [
+     "World Bank procurement notices API — project P115566 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P115566&rows=200"
+    ],
+    [
+     "World Bank procurement notices API — project P114338 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P114338&rows=200"
+    ],
+    [
+     "World Bank procurement notices API — project P119085 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P119085&rows=200"
+    ]
+   ]
+  },
+  {
+   "property": "Award notices with no observable bid count (STEP format, awardee only)",
+   "numerator": 315,
+   "denominator": 370,
+   "label": "contract award notices sampled across 15 projects",
+   "srcs": [
+    [
+     "World Bank procurement notices API — project P119085 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P119085&rows=200"
+    ],
+    [
+     "World Bank procurement notices API — project P124639 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P124639&rows=200"
+    ],
+    [
+     "World Bank procurement notices API — project P150158 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P150158&rows=200"
+    ]
+   ]
+  },
+  {
+   "property": "Direct/single-source selections among sampled award notices (all consultancies)",
+   "numerator": 8,
+   "denominator": 370,
+   "label": "DIR + CDS notices / all award notices",
+   "srcs": [
+    [
+     "World Bank procurement notices API — project P119085 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P119085&rows=200"
+    ],
+    [
+     "World Bank procurement notices API — project P104164 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P104164&rows=200"
+    ],
+    [
+     "World Bank procurement notices API — project P121185 (contract award notices, awarded and evaluated bidders, prices)",
+     "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P121185&rows=200"
+    ]
+   ]
+  },
+  {
+   "property": "L&T share of estimated value of ADB-financed RRTS packages awarded by Aug 2021",
+   "numerator": 430.04,
+   "denominator": 1223.82,
+   "label": "US$ million, 19 awarded goods/works packages in Procurement Plan Rev 7.0; Afcons 353.07, STEC 153.57, Ircon 98.5",
+   "srcs": [
+    [
+     "ADB — Delhi–Meerut RRTS Procurement Plan Rev 7.0 (PDF: methods, awarded packages, estimated values, LOA dates)",
+     "https://www.adb.org/sites/default/files/project-documents/51073/51073-003-51073-004-pp-en.pdf"
+    ]
+   ]
+  },
+  {
+   "property": "Indian entries on the World Bank sanctions list (all years)",
+   "numerator": 54,
+   "denominator": 1520,
+   "label": "rows with country India / all sanctioned firms and individuals served on 2026-09-26",
+   "srcs": [
+    [
+     "World Bank Listing of Ineligible Firms & Individuals — sanctions data API (as served to worldbank.org/debarred-firms, read 2026-09-26)",
+     "https://apigwext.worldbank.org/dvsvc/v1.0/json/APPLICATION/ADOBE_EXPRNCE_MGR/FIRM/SANCTIONED_FIRM"
+    ]
+   ]
+  },
+  {
+   "property": "'Controlled affiliate' rows among Indian debarments 2010–2026",
+   "numerator": 30,
+   "denominator": 52,
+   "label": "affiliate rows / Indian debarment rows dated 2010 or later",
+   "srcs": [
+    [
+     "World Bank Listing of Ineligible Firms & Individuals — sanctions data API (as served to worldbank.org/debarred-firms, read 2026-09-26)",
+     "https://apigwext.worldbank.org/dvsvc/v1.0/json/APPLICATION/ADOBE_EXPRNCE_MGR/FIRM/SANCTIONED_FIRM"
+    ]
+   ]
+  },
+  {
+   "property": "Control — domestic Union awards register: top winner by count (Adani group) 17 of 88; by value PSU-GoI 30.5% and Reliance 26.0% of ₹3,62,422 cr (36 awards with value); bidder counts known for 16 of 88 (mean 4.25); sole-bidder flagged 0",
+   "numerator": 17,
+   "denominator": 88,
+   "label": "research/raw/tenders-centre.json awards (auctions 59, open tenders 21, PPP 6)",
+   "srcs": [
+    [
+     "ICIP domestic control register — research/raw/tenders-centre.json (88 Union-government awards, 2019–2026)",
+     "research/raw/tenders-centre.json"
+    ]
+   ]
+  }
+ ],
+ "gaps": [
+  "GIL in 'GIL-SIL JV' and 'GIL-TPL JV' (₹7,362 cr of EDFC civil works) is not expanded in either the World Bank notices or DFCCIL's register; press reports (GMR Infrastructure–SEW Infrastructure; GMR–Tata Projects) were not opened here. Resolve from DFCCIL letters of award, the GMR Infrastructure annual report 2015-16/2016-17 or the WB Implementation Completion Report for P131765/P114338.",
+  "Losing bidders and bid counts for every post-2016 WB award (EDFC-3 CP-303/304/305, all NMCG HAM packages, NHIIP 2016) and for all ADB RRTS packages except Package 4 — would be in DFCCIL/NMCG/NCRTC bid-opening minutes on etenders.gov.in / CPPP, or in the Bank's ICR procurement annexes.",
+  "The World Bank press releases and Sanctions Board decisions behind the Madhucon (2017) and A2Z (2020) debarments — which project and what conduct. Search worldbank.org/en/news with the firm names or the Sanctions Board decisions archive.",
+  "Text of the World Bank Procurement Guidelines paragraphs cited in the sanctions feed (1.14(a)/1.15(a)/1.16(a) and Consultant Guidelines 1.22(a)) to confirm the clause-to-practice mapping used in d fields; not fetched.",
+  "The DoE Order of 2020-07-23 (F.No. 6/18/2019-PPD) and its annexures — whether procurement under existing multilateral loan agreements was exempt, and any waiver for RRTS Package 4. doe.gov.in was not probed; PIB carries links.",
+  "Contract prices (not estimates) for RRTS packages other than Package 4 — NCRTC press releases or its annual report; Afcons and L&T order-book disclosures to the exchanges.",
+  "Political reaction beyond the National Herald/Tribune framing (Swadeshi Jagran Manch statement, any parliamentary question on the STEC award) — a sansad.in Q&A search for 'Shanghai Tunnel' would settle whether the government was asked and what it said.",
+  "PMGSY (P124639) awards outside Meghalaya (feed capped at 200 of 430 rows) and the four sampled projects with zero notices.",
+  "Indian-government-funded awards to the same firms (L&T, Afcons, Tata Projects, KEC) — none of them appears in the 88-award domestic register, so the firm-level control could not be run; NHAI/Railways/CPPP award data for these four firms would complete it."
+ ]
+}

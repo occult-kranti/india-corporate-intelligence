@@ -16,7 +16,8 @@ import { tmpdir } from 'node:os';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { createRequire } from 'node:module';
-import { assembleFleet, OUTPUTS } from './assemble-fleet.mjs';
+import { assembleFleet, assemble as assembleRaw, OUTPUTS } from './assemble-fleet.mjs';
+import * as vocab from './lib/vocab.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const TMP = process.env.FLEET_TEST_TMP ?? tmpdir();
@@ -626,4 +627,166 @@ test('mixed: energy clean, welfare failing — energy is written, welfare left u
   assert.match(r.stdout, /→ .*energy\.generated\.ts/);
   assert.equal(readFileSync(join(out, OUTPUTS.energy), 'utf8'), run.energyTs);
   assert.equal(readFileSync(join(out, OUTPUTS.welfare), 'utf8'), previous);
+});
+
+// ---------------------------------------------------------------------------
+// Phase G — loan and grant, terms, N fleets
+// ---------------------------------------------------------------------------
+
+const assemble = (opts) => assembleRaw({ root: ROOT, ...opts });
+
+/** A scratch raw directory holding one fleet's files: { '<name>.json': doc }. */
+function mkTmpFleet(fleet, files) {
+  const dir = scratch();
+  for (const [name, doc] of Object.entries(files)) put(join(dir, fleet, name), doc);
+  return dir;
+}
+
+test('loan and grant predicates pass the fleet gate and keep terms', () => {
+  const dir = mkTmpFleet('finance', {
+    'worldbank.json': {
+      asOf: '2026-09-26', domain: 'worldbank', scope: 's', sources: [['WB', 'https://projects.worldbank.org/en/projects-operations/project-detail/P000001']],
+      entities: [
+        { id: 'fin:ibrd', label: 'IBRD', sub: 'World Bank lending arm', ty: 'fund', fam: 'capital', st: null, sz: 3, al: [], resolved: true, identity: {}, d: ['x [documented]'], srcs: [['WB', 'https://www.worldbank.org/']] },
+        { id: 'min:ministry-of-finance', label: 'Ministry of Finance', sub: '', ty: 'ministry', fam: 'state', st: 'dl', sz: 3, al: [], resolved: true, identity: {}, d: [], srcs: [['WB', 'https://www.worldbank.org/']] },
+      ],
+      claims: [{ id: 'worldbank:c001', s: 'fin:ibrd', t: 'min:ministry-of-finance', pred: 'loan', tier: 'documented', a: 4150, lab: 'P000001', d: 'US$500m at ₹83/US$', from: '2023-06-30', to: '2028-12-31',
+        terms: { instrument: 'IPF', ratePct: null, tenorYears: 18, graceYears: 5, conditions: ['procurement under WB rules'] }, srcs: [['WB', 'https://projects.worldbank.org/en/projects-operations/project-detail/P000001']] }],
+      voids: [], narratives: [], symmetryCheck: 'x', baseRates: [], gaps: [],
+    },
+  });
+  const out = assemble({ rawDir: dir });
+  assert.equal(out.errors.length, 0, out.errors.join('\n'));
+  const e = out.finance.data.edges.find((x) => x.id === 'worldbank:c001');
+  assert.equal(e.pred, 'loan');
+  assert.deepEqual(e.terms, { instrument: 'IPF', ratePct: null, tenorYears: 18, graceYears: 5, conditions: ['procurement under WB rules'] });
+  assert.ok(out.finance.text.includes('"conditions":["procurement under WB rules"]'), 'terms reach the emitted literal');
+});
+
+/** The smallest graph-fleet file that passes every gate: two resolved entities and one sourced claim. */
+function minimalGraphDoc(domain, claim = {}) {
+  const src = ['Fixture', `https://example.org/${domain}`];
+  return {
+    asOf: '2026-09-26', domain, scope: 'Synthetic fixture. Not research.', sources: [src],
+    entities: [
+      { id: 'fin:fx-lender', label: 'FX Lender', ty: 'fund', fam: 'capital', st: null, sz: 2, resolved: true, srcs: [src] },
+      { id: 'fin:fx-borrower', label: 'FX Borrower', ty: 'agency', fam: 'state', st: 'dl', sz: 2, resolved: true, srcs: [src] },
+    ],
+    claims: [{ id: `${domain}:c001`, s: 'fin:fx-lender', t: 'fin:fx-borrower', pred: 'loan', tier: 'documented', a: 830, d: 'US$100m at ₹83/US$', from: '2024', srcs: [src], ...claim }],
+    voids: [], narratives: [], symmetryCheck: 'x', baseRates: [], gaps: [],
+  };
+}
+
+test('a loan or grant without a numeric amount must say "amount not stated" — never read as zero', () => {
+  for (const pred of ['loan', 'grant']) {
+    const bad = assemble({ rawDir: mkTmpFleet('finance', { 'x.json': minimalGraphDoc('x', { pred, a: null, d: 'Disbursed in FY2023.' }) }) });
+    assert.ok(bad.fleetErrors.finance.some((e) => /x:c001: .*amount not stated/.test(e)), `${pred}: ${JSON.stringify(bad.fleetErrors.finance)}`);
+    assert.equal(bad.finance.text, null, 'a refused fleet emits nothing');
+    assert.deepEqual(bad.fleetErrors.energy, [], 'the fault is charged to its own fleet only');
+    const ok = assemble({ rawDir: mkTmpFleet('finance', { 'x.json': minimalGraphDoc('x', { pred, a: undefined, d: 'Amount not stated in the sanction order.' }) }) });
+    assert.deepEqual(ok.errors, []);
+    assert.equal('a' in ok.finance.data.edges[0], false, 'the absent amount stays absent');
+  }
+  // The rule is one function, so the validator and the assembler cannot disagree on it.
+  assert.equal(vocab.amountProblem({ pred: 'loan', a: 0 }), null, 'a stated zero is a number');
+  assert.equal(vocab.amountProblem({ pred: 'bond', d: '' }), null, 'only loan and grant carry the rule');
+  assert.match(vocab.amountProblem({ pred: 'grant', a: '12' }), /amount not stated/);
+});
+
+test('terms: a fixed shape — conditions a list of strings, an unknown key refused with its name', () => {
+  const run1 = (terms) => assemble({ rawDir: mkTmpFleet('finance', { 'x.json': minimalGraphDoc('x', { terms }) }) });
+  assert.match(run1({ conditions: 'procurement rules' }).fleetErrors.finance.join('\n'), /terms\.conditions: expected a list of strings/);
+  assert.match(run1({ conditions: ['ok', 3] }).fleetErrors.finance.join('\n'), /terms\.conditions\[1\]: expected text/);
+  assert.match(run1({ gracePeriodYears: 5 }).fleetErrors.finance.join('\n'), /terms\.gracePeriodYears is not a terms field/);
+  assert.match(run1({ ratePct: '1.2%' }).fleetErrors.finance.join('\n'), /terms\.ratePct: expected a number/);
+  assert.match(run1('IPF').fleetErrors.finance.join('\n'), /terms: expected an object/);
+  const r = run1({ conditions: [], instrument: 'PforR' });
+  assert.deepEqual(r.errors, []);
+  assert.deepEqual(r.finance.data.edges[0].terms, { instrument: 'PforR', conditions: [] }, 'only the keys written, in a fixed order');
+  const noTerms = run1(undefined);
+  assert.equal('terms' in noTerms.finance.data.edges[0], false);
+});
+
+test('every money predicate is directed and labelled in ForceGraph; every predicate has a label', () => {
+  const src = readFileSync(join(ROOT, 'src/components/viz/ForceGraph.tsx'), 'utf8');
+  const directed = src.match(/const DIRECTED = new Set<Predicate>\(\[([^\]]*)\]\)/);
+  assert.ok(directed, 'DIRECTED literal not found');
+  const set = new Set([...directed[1].matchAll(/'([a-z]+)'/g)].map((m) => m[1]));
+  for (const p of [...vocab.MONEY_PREDS, 'award']) assert.ok(set.has(p), `${p} is a money flow and must draw an arrow`);
+  const labels = src.match(/export const PRED_LABEL[^=]*=\s*\{([\s\S]*?)\n\};/);
+  assert.ok(labels, 'PRED_LABEL literal not found');
+  for (const p of vocab.PREDS) assert.match(labels[1], new RegExp(`\\n\\s*${p}: '`), `PRED_LABEL has no entry for ${p}`);
+  assert.match(labels[1], /loan: 'Loan'/);
+  assert.match(labels[1], /grant: 'Grant \/ foreign contribution'/);
+});
+
+test('every FLEETS entry gets a module; a missing directory yields empty:true', () => {
+  const dir = mkTmpFleet('finance', { 'worldbank.json': minimalGraphDoc('worldbank') });
+  const out = assemble({ rawDir: dir });
+  assert.deepEqual(out.errors, []);
+  assert.ok(out.finance.text.includes('export const FINANCE_NODES'));
+  assert.equal(out.finance.data.meta.empty, false);
+  assert.equal(out.ngo.data.meta.empty, true);
+  assert.equal(out.capital.data.meta.empty, true);
+  for (const f of vocab.FLEETS) {
+    assert.equal(typeof out[f.key].text, 'string', `${f.key} has a module`);
+    assert.match(out[f.key].text, new RegExp(`export const ${f.prefix}_META: FleetMeta = `));
+    assert.equal(out[f.key].data.meta.fleet, f.key);
+  }
+  for (const f of vocab.FLEETS.filter((x) => x.kind === 'graph')) {
+    for (const s of ['NODES', 'EDGES', 'BENEFITS', 'VOIDS', 'NARRATIVES', 'BASE_RATES', 'SYMMETRY', 'META', 'IDENTITY', 'GAPS', 'EDGE_DOMAIN']) {
+      assert.match(out[f.key].text, new RegExp(`export const ${f.prefix}_${s}\\b`), `${f.key} exports ${f.prefix}_${s}`);
+    }
+    assert.match(out[f.key].text, /from '\.\/schema';/, `${f.key} is written under src/graph/`);
+  }
+  assert.match(out.ngo.text, /export const NGO_NODES: GNode\[\] = \[\n\];/);
+  assert.match(out.ngo.data.meta.note, /no research files under research\/raw\/ngo\//);
+  // One file in a fleet directory is a fleet: a fleet directory with a single file assembles.
+  assert.deepEqual(out.finance.data.meta.inputs, ['finance/worldbank.json']);
+  assert.equal(out.finance.data.edges.length, 1);
+  // Run ids: one per fleet, from that fleet's inputs only.
+  const ids = vocab.FLEETS.map((f) => out[f.key].data.meta.runId);
+  assert.equal(new Set(ids).size, ids.length, 'no two fleets share a stamp');
+  assert.equal(assemble({ rawDir: dir }).finance.text, out.finance.text, 'deterministic');
+  put(join(dir, 'ngo/fcra.json'), minimalGraphDoc('fcra', { pred: 'grant' }));
+  const after2 = assemble({ rawDir: dir });
+  assert.equal(after2.finance.data.meta.runId, out.finance.data.meta.runId, 'another fleet\'s research does not restamp this one');
+  assert.notEqual(after2.ngo.data.meta.runId, out.ngo.data.meta.runId);
+  // The two-fleet view the existing callers read is the same assembly.
+  const legacy = assembleFleet({ root: ROOT, dir });
+  assert.equal(legacy.energyTs, after2.energy.text);
+  assert.equal(legacy.welfareTs, after2.welfare.text);
+  assert.equal(legacy.financeTs, after2.finance.text);
+});
+
+test('generated N-fleet modules are tsc --strict clean', () => {
+  const dir = mkTmpFleet('finance', { 'worldbank.json': minimalGraphDoc('worldbank', { terms: { instrument: 'IPF', ratePct: null, conditions: ['c'] } }) });
+  const out = assemble({ rawDir: dir });
+  assert.deepEqual(out.errors, []);
+  const tmp = scratch();
+  const files = {
+    'src/graph/schema.ts': readFileSync(join(ROOT, 'src/graph/schema.ts'), 'utf8'),
+    'src/graph/fleet.ts': readFileSync(join(ROOT, 'src/graph/fleet.ts'), 'utf8'),
+    'src/data/welfare.ts': readFileSync(join(ROOT, 'src/data/welfare.ts'), 'utf8'),
+    ...Object.fromEntries(vocab.FLEETS.map((f) => [f.out, out[f.key].text])),
+  };
+  for (const [rel, text] of Object.entries(files)) {
+    mkdirSync(dirname(join(tmp, rel)), { recursive: true });
+    writeFileSync(join(tmp, rel), text);
+  }
+  const tsc = spawnSync(process.execPath, [
+    join(ROOT, 'node_modules/typescript/bin/tsc'), '--noEmit', '--strict', '--noUnusedLocals', '--noUnusedParameters',
+    '--isolatedModules', '--skipLibCheck', '--target', 'ES2020', '--module', 'ESNext', '--moduleResolution', 'bundler',
+    ...Object.keys(files).map((f) => join(tmp, f)),
+  ], { encoding: 'utf8' });
+  assert.equal(tsc.status, 0, tsc.stdout + tsc.stderr);
+});
+
+test('CLI writes every FLEETS module, each to its own path', () => {
+  const dir = mkTmpFleet('finance', { 'worldbank.json': minimalGraphDoc('worldbank') });
+  const out = scratch();
+  const r = spawnSync(process.execPath, [join(ROOT, 'scripts/assemble-fleet.mjs'), '--dir', dir, '--out', out], { encoding: 'utf8' });
+  assert.equal(r.status, 0, r.stderr);
+  const mem = assemble({ rawDir: dir });
+  for (const f of vocab.FLEETS) assert.equal(readFileSync(join(out, f.out), 'utf8'), mem[f.key].text, f.out);
 });

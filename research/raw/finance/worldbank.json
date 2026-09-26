@@ -1,0 +1,4222 @@
+{
+ "asOf": "2026-09-26",
+ "domain": "worldbank",
+ "scope": "World Bank (IBRD/IDA) lending to India 2000–2026: the joins the projects API cannot give — prior actions and DLIs of the 2019–24 DPLs/PforRs as loan conditions governing named ministries and states, the officials who held the borrowing and lending offices at approval, IEG/ICR verdicts on closed operations, and the borrowing-state distribution 2014–26 against Census-2011 population with the UPA-period control. Covers 418 approved projects (US$97.4bn) at the aggregate level and 12 operations in depth. Leaves out: contract awards under the loans (Data Catalog rate-limited), the state CMs/finance ministers at approval (not named in any Bank document opened; not fetched), Program Documents for the state PforRs other than Gujarat GOAL and Kerala DPO1, and rupee conversions where no opened source gave a rate. research/raw/finance/worldbank-projects.json did not exist when this run started and appeared (written by the projects agent) while it ran; the API was therefore fetched directly here for the aggregates, the 20 largest loans are referenced by that file's claim ids in topLoansSince2000 rather than duplicated, and the ten operations detailed here carry `supplements` pointing at the corresponding projects-file claims. Rupee figures here use the exchange rate printed in each Program Document (dated), whereas the projects file uses the WB annual average (PA.NUS.FCRF); both are stated.",
+ "sources": [
+  [
+   "World Bank Projects API v3 — India, rows 0–999",
+   "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=0&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+  ],
+  [
+   "World Bank Projects API v3 — India, rows 1000–1116",
+   "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=1000&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+  ],
+  [
+   "World Bank Projects API v3 — P173943 record",
+   "https://search.worldbank.org/api/v3/projects?format=json&id=P173943"
+  ],
+  [
+   "World Bank Documents API (wds) — P173943 document list",
+   "https://search.worldbank.org/api/v3/wds?format=json&projectid=P173943&rows=60&fl=docna,docty,docdt,txturl,pdfurl,url"
+  ],
+  [
+   "Program Document P173943 (2020-04-30)",
+   "https://documents.worldbank.org/curated/en/685311589767271707/text/India-Accelerating-Indias-COVID-19-Social-Protection-Response-Program.txt"
+  ],
+  [
+   "Program Document P174027 (2020-11-13)",
+   "https://documents.worldbank.org/curated/en/656781608346863527/text/India-Second-Accelerating-Indias-COVID-19-Social-Protection-Response-PMGKY-Development-Policy-Operation.txt"
+  ],
+  [
+   "Program Document P174292 MSME DPL (2020-06-16)",
+   "https://documents.worldbank.org/curated/en/703561593828083607/text/India-Micro-Small-and-Medium-Enterprises-Emergency-Response-Development-Policy-Loan.txt"
+  ],
+  [
+   "ICR P173943/P174027 (2024-04-22)",
+   "https://documents.worldbank.org/curated/en/099042224135030970/text/BOSIB-c35ef47d-c671-422e-acd1-d14436c5cc23.txt"
+  ],
+  [
+   "IEG ICR Review P173943 (2024-10-06)",
+   "https://documents.worldbank.org/curated/en/099021425103520204/text/P173943-594240c2-796b-4b0c-80b6-a58ce6d8637c.txt"
+  ],
+  [
+   "IEG ICR Review P174292 (2023-06-28)",
+   "https://documents.worldbank.org/curated/en/099062823200017662/text/P17429209a873202409e910acccd25eeb49.txt"
+  ],
+  [
+   "PAD P173704 Gujarat GOAL PforR (2021-02-27)",
+   "https://documents.worldbank.org/curated/en/945711616680968888/text/India-Gujarat-Outcomes-for-Accelerated-Learning-GOAL-Program-for-Results-Project.txt"
+  ],
+  [
+   "Program Document P181032 First Low-Carbon Energy DPL (2023-06-02)",
+   "https://documents.worldbank.org/curated/en/099060623092565311/text/BOSIB0342f50d505508c7803e3b35fb5c59.txt"
+  ],
+  [
+   "Program Document P169907 First Resilient Kerala DPO (2019-05-31)",
+   "https://documents.worldbank.org/curated/en/476681561946430308/text/India-First-Resilient-Kerala-Program-Development-Policy-Operation.txt"
+  ],
+  [
+   "ICR P169907 First Resilient Kerala Program (2022-06-13)",
+   "https://documents.worldbank.org/curated/en/598801655481186593/text/India-The-First-Resilient-Kerala-Program.txt"
+  ],
+  [
+   "IEG ICR Review P153251 Swachh Bharat Mission Support Operation (2023-09-15)",
+   "https://documents.worldbank.org/curated/en/099091523140562778/text/P15325104d51050080b0620ff05fe21c20f.txt"
+  ],
+  [
+   "Loan Agreement 9111-IN (P173943), 2020-05-15",
+   "https://documents.worldbank.org/curated/en/873961589552880382/text/Official-Documents-Loan-Agreement-for-Loan-No-9111-IN.txt"
+  ],
+  [
+   "Loan Agreement 9153-IN (P174292), 2020-07-06",
+   "https://documents.worldbank.org/curated/en/244541594042824465/text/Official-Documents-Loan-Agreement-for-Loan-9153-IN-Closing-Package.txt"
+  ],
+  [
+   "World Bank — Boards of Directors page (JS-rendered; ED list not extractable)",
+   "https://www.worldbank.org/en/about/leadership/directors"
+  ],
+  [
+   "World Bank press release 2022-08-01 — new Country Director for India",
+   "https://www.worldbank.org/en/news/press-release/2022/08/01/world-bank-announces-new-country-director-for-india"
+  ],
+  [
+   "PIB 2020-07-06 — GoI and World Bank sign US$750m MSME agreement",
+   "https://www.pib.gov.in/PressReleasePage.aspx?PRID=1636790"
+  ],
+  [
+   "PIB 2011-03-31 — Census 2011 provisional totals",
+   "https://www.pib.gov.in/newsite/PrintRelease.aspx?relid=71383"
+  ],
+  [
+   "Business Standard 2021-04-06 — Bajaj to Revenue, Seth to DEA",
+   "https://www.business-standard.com/article/current-affairs/tarun-bajaj-appointed-new-revenue-secretary-ajay-seth-new-dea-secy-121040600698_1.html"
+  ],
+  [
+   "Taxscan 2025-06-17 — Anuradha Thakur to take over as DEA Secretary from 2025-07-01 (with notification)",
+   "https://www.taxscan.in/top-stories/anuradha-thakur-ias-to-take-over-as-dea-secretary-from-july-1-2025-succeeding-ajay-seth-1425326"
+  ],
+  [
+   "World Bank press release 2020-06-30 — Board approves US$750m MSME programme",
+   "https://www.worldbank.org/en/news/press-release/2020/06/30/world-bank-approves-750-million-emergency-response-program-for-micro-small-and-medium-enterprises-in-india"
+  ],
+  [
+   "Deccan Herald (PTI) — Iyer named World Bank ED replacing Rajesh Khullar",
+   "https://www.deccanherald.com/amp/india/b-v-r-subrahmanyam-appointed-niti-aayog-ceo-parameswaran-lyer-named-world-bank-ed-1193198.html"
+  ],
+  [
+   "The Tribune (PTI) 2025-05-05 — WB ED Parameswaran Iyer to represent India at IMF board",
+   "https://www.tribuneindia.com/news/business/world-bank-executive-director-parameswaran-iyer-to-represent-india-at-imf-board"
+  ],
+  [
+   "PIB 2020-12-16 — GoI and World Bank sign US$400m second COVID social protection operation",
+   "https://www.pib.gov.in/Pressreleaseshare.aspx?PRID=1681253"
+  ],
+  [
+   "World Bank press release 2020-05-14 — Board approves US$1bn COVID social protection programme",
+   "https://www.worldbank.org/en/news/press-release/2020/05/13/world-bank-covid-coronavirus-india-protect-poor"
+  ],
+  [
+   "PIB 2019-05-31 — Sitharaman takes charge as Union Finance Minister",
+   "https://www.pib.gov.in/Pressreleaseshare.aspx?PRID=1572921"
+  ],
+  [
+   "PIB 2024-06-12 — Sitharaman assumes charge as Union Finance Minister",
+   "https://www.pib.gov.in/PressReleaseIframePage.aspx?PRID=2024501"
+  ],
+  [
+   "census2011.co.in — state table reproducing Census 2011 final population totals (secondary)",
+   "https://www.census2011.co.in/states.php"
+  ],
+  [
+   "PRB — Census 2011 provisional totals table (state rows not machine-readable)",
+   "https://www.prb.org/resource/table-population-of-states-and-union-territories-uts-of-india-2001-and-2011-and-rates-of-change-in-the-past-three-censuses/"
+  ],
+  [
+   "World Bank Documents API (wds) — lists also fetched for P174027, P174292, P173836, P173704, P181032, P169907, P153251, P124639, P116020 (same endpoint pattern)",
+   "https://search.worldbank.org/api/v3/wds?format=json&projectid=P174292&rows=60&fl=docna,docty,docdt,txturl,pdfurl,url"
+  ],
+  [
+   "RBI publication page id=22179 (opened while probing for a Census table; not used)",
+   "https://www.rbi.org.in/Scripts/PublicationsView.aspx?id=22179"
+  ]
+ ],
+ "entities": [
+  {
+   "id": "fin:ibrd",
+   "label": "IBRD",
+   "sub": "World Bank non-concessional lending arm",
+   "ty": "fund",
+   "fam": "capital",
+   "st": null,
+   "sz": 4,
+   "al": [
+    "International Bank for Reconstruction and Development",
+    "World Bank"
+   ],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Multilateral lender to the Union, states and PSUs; its terms and prior actions are public documents",
+   "d": [
+    "Lends to India at Reference Rate + Variable Spread; front-end fee 0.25%, commitment charge 0.25% on 2020 DPLs [documented]",
+    "India's 418 approved World Bank projects 2000-01-01..2026-09-26 total US$97.4bn IBRD+IDA commitments (API, current commitment fields) [documented]"
+   ],
+   "srcs": [
+    [
+     "World Bank Projects API v3 — India, rows 0–999",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=0&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ],
+    [
+     "World Bank Projects API v3 — India, rows 1000–1116",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=1000&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ],
+    [
+     "Loan Agreement 9111-IN (P173943), 2020-05-15",
+     "https://documents.worldbank.org/curated/en/873961589552880382/text/Official-Documents-Loan-Agreement-for-Loan-No-9111-IN.txt"
+    ],
+    [
+     "Loan Agreement 9153-IN (P174292), 2020-07-06",
+     "https://documents.worldbank.org/curated/en/244541594042824465/text/Official-Documents-Loan-Agreement-for-Loan-9153-IN-Closing-Package.txt"
+    ]
+   ]
+  },
+  {
+   "id": "fin:ida",
+   "label": "IDA",
+   "sub": "World Bank concessional arm",
+   "ty": "fund",
+   "fam": "capital",
+   "st": null,
+   "sz": 3,
+   "al": [
+    "International Development Association"
+   ],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Concessional lender; India graduated from IDA in FY2014 but received transitional and pandemic-window credits",
+   "d": [
+    "Financed US$550m of P173943 (credits 6655-IN, 6656-IN) and US$400m of P174027 (credits 6812-IN, 6813-IN) [documented]"
+   ],
+   "srcs": [
+    [
+     "Program Document P173943 (2020-04-30)",
+     "https://documents.worldbank.org/curated/en/685311589767271707/text/India-Accelerating-Indias-COVID-19-Social-Protection-Response-Program.txt"
+    ],
+    [
+     "Program Document P174027 (2020-11-13)",
+     "https://documents.worldbank.org/curated/en/656781608346863527/text/India-Second-Accelerating-Indias-COVID-19-Social-Protection-Response-PMGKY-Development-Policy-Operation.txt"
+    ],
+    [
+     "World Bank press release 2020-05-14 — Board approves US$1bn COVID social protection programme",
+     "https://www.worldbank.org/en/news/press-release/2020/05/13/world-bank-covid-coronavirus-india-protect-poor"
+    ]
+   ]
+  },
+  {
+   "id": "fin:world-bank-india-office",
+   "label": "World Bank India country office",
+   "sub": "New Delhi office (SACIN)",
+   "ty": "fund",
+   "fam": "capital",
+   "st": "dl",
+   "sz": 2,
+   "al": [
+    "World Bank Country Office India",
+    "SACIN"
+   ],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Signs loan/programme agreements for the Bank; its Country Director is a public office",
+   "d": [
+    "Country Director Junaid Kamal Ahmad on PDs dated 2019-05..2021-02; Auguste Tano Kouamé from 2022-08-01 [documented]"
+   ],
+   "srcs": [
+    [
+     "Program Document P169907 First Resilient Kerala DPO (2019-05-31)",
+     "https://documents.worldbank.org/curated/en/476681561946430308/text/India-First-Resilient-Kerala-Program-Development-Policy-Operation.txt"
+    ],
+    [
+     "Program Document P173943 (2020-04-30)",
+     "https://documents.worldbank.org/curated/en/685311589767271707/text/India-Accelerating-Indias-COVID-19-Social-Protection-Response-Program.txt"
+    ],
+    [
+     "PAD P173704 Gujarat GOAL PforR (2021-02-27)",
+     "https://documents.worldbank.org/curated/en/945711616680968888/text/India-Gujarat-Outcomes-for-Accelerated-Learning-GOAL-Program-for-Results-Project.txt"
+    ],
+    [
+     "World Bank press release 2022-08-01 — new Country Director for India",
+     "https://www.worldbank.org/en/news/press-release/2022/08/01/world-bank-announces-new-country-director-for-india"
+    ]
+   ]
+  },
+  {
+   "id": "fin:ieg",
+   "label": "Independent Evaluation Group (World Bank)",
+   "sub": "Evaluator of closed operations",
+   "ty": "agency",
+   "fam": "capital",
+   "st": null,
+   "sz": 2,
+   "al": [
+    "IEG"
+   ],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Publishes ICR Reviews rating outcome and Bank performance for closed India operations",
+   "d": [
+    "ICR Reviews read: P173943/P174027 (2024-10-06), P174292 (2023-06-28), P153251 (2023-09-15) [documented]"
+   ],
+   "srcs": [
+    [
+     "IEG ICR Review P173943 (2024-10-06)",
+     "https://documents.worldbank.org/curated/en/099021425103520204/text/P173943-594240c2-796b-4b0c-80b6-a58ce6d8637c.txt"
+    ],
+    [
+     "IEG ICR Review P174292 (2023-06-28)",
+     "https://documents.worldbank.org/curated/en/099062823200017662/text/P17429209a873202409e910acccd25eeb49.txt"
+    ],
+    [
+     "IEG ICR Review P153251 Swachh Bharat Mission Support Operation (2023-09-15)",
+     "https://documents.worldbank.org/curated/en/099091523140562778/text/P15325104d51050080b0620ff05fe21c20f.txt"
+    ]
+   ]
+  },
+  {
+   "id": "min:ministry-of-finance",
+   "label": "Ministry of Finance",
+   "sub": "Borrower of record via Department of Economic Affairs (DEA)",
+   "ty": "ministry",
+   "fam": "state",
+   "st": "dl",
+   "sz": 4,
+   "al": [
+    "DEA",
+    "Department of Economic Affairs",
+    "MoF"
+   ],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Borrower and guarantor for all World Bank sovereign lending; DEA signs the agreements",
+   "d": [
+    "Borrower on P173943, P174027, P174292; Additional Secretaries DEA signed the 2020 agreements [documented]"
+   ],
+   "srcs": [
+    [
+     "World Bank Projects API v3 — P173943 record",
+     "https://search.worldbank.org/api/v3/projects?format=json&id=P173943"
+    ],
+    [
+     "PIB 2020-07-06 — GoI and World Bank sign US$750m MSME agreement",
+     "https://www.pib.gov.in/PressReleasePage.aspx?PRID=1636790"
+    ],
+    [
+     "PIB 2020-12-16 — GoI and World Bank sign US$400m second COVID social protection operation",
+     "https://www.pib.gov.in/Pressreleaseshare.aspx?PRID=1681253"
+    ]
+   ]
+  },
+  {
+   "id": "min:ministry-of-consumer-affairs-food-and-public-distribution",
+   "label": "Ministry of Consumer Affairs, Food & PD",
+   "sub": "Governed by PMGKY prior actions (free rations, ONORC)",
+   "ty": "ministry",
+   "fam": "state",
+   "st": "dl",
+   "sz": 2,
+   "al": [],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Ministry whose actions were prior actions for DPF disbursement",
+   "d": [
+    "PA2 of P173943 (PMGKAY free rations) and PA4 of P174027 (One Nation One Ration) [documented]"
+   ],
+   "srcs": [
+    [
+     "Program Document P173943 (2020-04-30)",
+     "https://documents.worldbank.org/curated/en/685311589767271707/text/India-Accelerating-Indias-COVID-19-Social-Protection-Response-Program.txt"
+    ],
+    [
+     "Program Document P174027 (2020-11-13)",
+     "https://documents.worldbank.org/curated/en/656781608346863527/text/India-Second-Accelerating-Indias-COVID-19-Social-Protection-Response-PMGKY-Development-Policy-Operation.txt"
+    ]
+   ]
+  },
+  {
+   "id": "min:ministry-of-labour-and-employment",
+   "label": "Ministry of Labour and Employment",
+   "sub": "Governed by PMGKY prior actions (EPF, Social Security Code)",
+   "ty": "ministry",
+   "fam": "state",
+   "st": "dl",
+   "sz": 2,
+   "al": [
+    "MoLE"
+   ],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Ministry whose actions were prior actions for DPF disbursement",
+   "d": [
+    "PA3, PA4, PA6 of P173943; PA3, PA7 of P174027 [documented]"
+   ],
+   "srcs": [
+    [
+     "Program Document P173943 (2020-04-30)",
+     "https://documents.worldbank.org/curated/en/685311589767271707/text/India-Accelerating-Indias-COVID-19-Social-Protection-Response-Program.txt"
+    ],
+    [
+     "Program Document P174027 (2020-11-13)",
+     "https://documents.worldbank.org/curated/en/656781608346863527/text/India-Second-Accelerating-Indias-COVID-19-Social-Protection-Response-PMGKY-Development-Policy-Operation.txt"
+    ]
+   ]
+  },
+  {
+   "id": "min:ministry-of-health-and-family-welfare",
+   "label": "Ministry of Health and Family Welfare",
+   "sub": "Implementing agency of P173836; health-worker insurance PA",
+   "ty": "ministry",
+   "fam": "state",
+   "st": "dl",
+   "sz": 2,
+   "al": [
+    "MoHFW"
+   ],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Implementing agency of the US$1bn COVID health project and subject of PA5 (P173943)",
+   "d": [
+    "Implementing agency P173836 (US$1,000m IBRD, approved 2020-04-02, closed 2023-03-31) [documented]"
+   ],
+   "srcs": [
+    [
+     "World Bank Projects API v3 — India, rows 0–999",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=0&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ],
+    [
+     "Program Document P173943 (2020-04-30)",
+     "https://documents.worldbank.org/curated/en/685311589767271707/text/India-Accelerating-Indias-COVID-19-Social-Protection-Response-Program.txt"
+    ]
+   ]
+  },
+  {
+   "id": "min:ministry-of-home-affairs",
+   "label": "Ministry of Home Affairs",
+   "sub": "SDRF flexibility and migrant database PAs",
+   "ty": "ministry",
+   "fam": "state",
+   "st": "dl",
+   "sz": 2,
+   "al": [
+    "MHA"
+   ],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Ministry whose SDRF notifications were prior actions",
+   "d": [
+    "PA7 of P173943; PA1 and PA6 of P174027 [documented]"
+   ],
+   "srcs": [
+    [
+     "Program Document P173943 (2020-04-30)",
+     "https://documents.worldbank.org/curated/en/685311589767271707/text/India-Accelerating-Indias-COVID-19-Social-Protection-Response-Program.txt"
+    ],
+    [
+     "Program Document P174027 (2020-11-13)",
+     "https://documents.worldbank.org/curated/en/656781608346863527/text/India-Second-Accelerating-Indias-COVID-19-Social-Protection-Response-PMGKY-Development-Policy-Operation.txt"
+    ]
+   ]
+  },
+  {
+   "id": "min:ministry-of-rural-development",
+   "label": "Ministry of Rural Development",
+   "sub": "Garib Kalyan Rozgar Abhiyan PA; PMGSY borrower agency",
+   "ty": "ministry",
+   "fam": "state",
+   "st": "dl",
+   "sz": 2,
+   "al": [
+    "MoRD"
+   ],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Subject of PA8 (P174027); implementing agency of PMGSY Rural Roads Project",
+   "d": [
+    "PMGSY Rural Roads Project P124639 US$1,400m approved 2010-12-20 [documented]"
+   ],
+   "srcs": [
+    [
+     "World Bank Projects API v3 — India, rows 0–999",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=0&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ],
+    [
+     "Program Document P174027 (2020-11-13)",
+     "https://documents.worldbank.org/curated/en/656781608346863527/text/India-Second-Accelerating-Indias-COVID-19-Social-Protection-Response-PMGKY-Development-Policy-Operation.txt"
+    ]
+   ]
+  },
+  {
+   "id": "min:ministry-of-micro-small-and-medium-enterprises",
+   "label": "Ministry of MSME",
+   "sub": "CGTMSE guarantee PA",
+   "ty": "ministry",
+   "fam": "state",
+   "st": "dl",
+   "sz": 2,
+   "al": [
+    "MoMSME"
+   ],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Subject of PA2 (P174292); implementing agency of RAMP (P172226)",
+   "d": [
+    "PA2 of P174292 (CGTMSE cap withdrawal, fintech NBFCs) [documented]"
+   ],
+   "srcs": [
+    [
+     "Program Document P174292 MSME DPL (2020-06-16)",
+     "https://documents.worldbank.org/curated/en/703561593828083607/text/India-Micro-Small-and-Medium-Enterprises-Emergency-Response-Development-Policy-Loan.txt"
+    ]
+   ]
+  },
+  {
+   "id": "min:ministry-of-heavy-industries",
+   "label": "Ministry of Heavy Industries & Public Enterprises",
+   "sub": "TReDS onboarding PA",
+   "ty": "ministry",
+   "fam": "state",
+   "st": "dl",
+   "sz": 1,
+   "al": [
+    "MHI",
+    "DPE"
+   ],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Subject of PA6 (P174292)",
+   "d": [
+    "Notified that CPSEs onboard MSE vendors on TReDS [documented]"
+   ],
+   "srcs": [
+    [
+     "Program Document P174292 MSME DPL (2020-06-16)",
+     "https://documents.worldbank.org/curated/en/703561593828083607/text/India-Micro-Small-and-Medium-Enterprises-Emergency-Response-Development-Policy-Loan.txt"
+    ]
+   ]
+  },
+  {
+   "id": "wel:rbi",
+   "label": "Reserve Bank of India",
+   "sub": "Central bank; TLTRO and sandbox PAs",
+   "ty": "agency",
+   "fam": "enforce",
+   "st": "mh",
+   "sz": 3,
+   "al": [
+    "RBI"
+   ],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Its liquidity windows and fintech sandbox were prior actions in P174292",
+   "d": [
+    "PA3 and PA5 of P174292 [documented]"
+   ],
+   "srcs": [
+    [
+     "Program Document P174292 MSME DPL (2020-06-16)",
+     "https://documents.worldbank.org/curated/en/703561593828083607/text/India-Micro-Small-and-Medium-Enterprises-Emergency-Response-Development-Policy-Loan.txt"
+    ]
+   ]
+  },
+  {
+   "id": "sebi",
+   "label": "SEBI",
+   "sub": "Green debt securities framework PA",
+   "ty": "agency",
+   "fam": "enforce",
+   "st": "mh",
+   "sz": 2,
+   "al": [
+    "Securities and Exchange Board of India"
+   ],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Its GDS amendments were PA10 of the Low-Carbon DPL",
+   "d": [
+    "PA10 of P181032 [documented]"
+   ],
+   "srcs": [
+    [
+     "Program Document P181032 First Low-Carbon Energy DPL (2023-06-02)",
+     "https://documents.worldbank.org/curated/en/099060623092565311/text/BOSIB0342f50d505508c7803e3b35fb5c59.txt"
+    ]
+   ]
+  },
+  {
+   "id": "min:ministry-of-power",
+   "label": "Ministry of Power",
+   "sub": "ISTS waiver, RPO/ESO, carbon-market PAs",
+   "ty": "ministry",
+   "fam": "state",
+   "st": "dl",
+   "sz": 3,
+   "al": [
+    "MoP"
+   ],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Subject of PA11 (P174027) and PA3, PA4, PA9 (P181032)",
+   "d": [
+    "Extended ISTS waiver for solar/wind (PA11 of P174027) [documented]"
+   ],
+   "srcs": [
+    [
+     "Program Document P174027 (2020-11-13)",
+     "https://documents.worldbank.org/curated/en/656781608346863527/text/India-Second-Accelerating-Indias-COVID-19-Social-Protection-Response-PMGKY-Development-Policy-Operation.txt"
+    ],
+    [
+     "Program Document P181032 First Low-Carbon Energy DPL (2023-06-02)",
+     "https://documents.worldbank.org/curated/en/099060623092565311/text/BOSIB0342f50d505508c7803e3b35fb5c59.txt"
+    ]
+   ]
+  },
+  {
+   "id": "min:ministry-of-new-and-renewable-energy",
+   "label": "Ministry of New and Renewable Energy",
+   "sub": "Implementing agency of Low-Carbon DPLs",
+   "ty": "ministry",
+   "fam": "state",
+   "st": "dl",
+   "sz": 3,
+   "al": [
+    "MNRE"
+   ],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Implementing agency of P181032 and P181195 (US$1,500m each)",
+   "d": [
+    "NGHM approval (PA1), 50 GW bidding trajectory (PA6), offshore wind strategy (PA7), PLI update (PA8) [documented]"
+   ],
+   "srcs": [
+    [
+     "Program Document P181032 First Low-Carbon Energy DPL (2023-06-02)",
+     "https://documents.worldbank.org/curated/en/099060623092565311/text/BOSIB0342f50d505508c7803e3b35fb5c59.txt"
+    ],
+    [
+     "World Bank Projects API v3 — India, rows 0–999",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=0&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ]
+   ]
+  },
+  {
+   "id": "min:ministry-of-jal-shakti",
+   "label": "Ministry of Jal Shakti",
+   "sub": "Swachh Bharat PforR and groundwater PA",
+   "ty": "ministry",
+   "fam": "state",
+   "st": "dl",
+   "sz": 3,
+   "al": [
+    "MoJS",
+    "DDWS",
+    "MDWS"
+   ],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Implementing agency of P153251 (US$1,500m PforR) and subject of PA10 (P174027)",
+   "d": [
+    "Swachh Bharat Mission Support Operation approved 2015-12-15, closed 2021-09-30, US$1,259m disbursed [documented]"
+   ],
+   "srcs": [
+    [
+     "World Bank Projects API v3 — India, rows 0–999",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=0&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ],
+    [
+     "IEG ICR Review P153251 Swachh Bharat Mission Support Operation (2023-09-15)",
+     "https://documents.worldbank.org/curated/en/099091523140562778/text/P15325104d51050080b0620ff05fe21c20f.txt"
+    ]
+   ]
+  },
+  {
+   "id": "energy:govt-of-gujarat",
+   "label": "Government of Gujarat",
+   "sub": "GOAL PforR borrower-state",
+   "ty": "state",
+   "fam": "state",
+   "st": "gj",
+   "sz": 3,
+   "al": [
+    "Gujarat"
+   ],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "State governed by GOAL DLIs",
+   "d": [
+    "GOAL P173704 US$500m IBRD approved 2021-03-24; AF P177915 US$250m approved 2022-06-21 [documented]"
+   ],
+   "srcs": [
+    [
+     "PAD P173704 Gujarat GOAL PforR (2021-02-27)",
+     "https://documents.worldbank.org/curated/en/945711616680968888/text/India-Gujarat-Outcomes-for-Accelerated-Learning-GOAL-Program-for-Results-Project.txt"
+    ],
+    [
+     "World Bank Projects API v3 — India, rows 0–999",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=0&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ]
+   ]
+  },
+  {
+   "id": "fin:state-kerala",
+   "label": "Government of Kerala",
+   "sub": "Resilient Kerala DPO borrower-state",
+   "ty": "state",
+   "fam": "state",
+   "st": "kl",
+   "sz": 3,
+   "al": [
+    "GoK",
+    "Kerala"
+   ],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "State governed by Resilient Kerala prior actions",
+   "d": [
+    "First Resilient Kerala DPO P169907 US$250m IDA approved 2019-06-27, fully disbursed 2019-08 [documented]",
+    "Resilient Kerala Program P174778 US$370m (2021-06-24) and AF P177980 US$150m (2023-06-16) [documented]"
+   ],
+   "srcs": [
+    [
+     "Program Document P169907 First Resilient Kerala DPO (2019-05-31)",
+     "https://documents.worldbank.org/curated/en/476681561946430308/text/India-First-Resilient-Kerala-Program-Development-Policy-Operation.txt"
+    ],
+    [
+     "ICR P169907 First Resilient Kerala Program (2022-06-13)",
+     "https://documents.worldbank.org/curated/en/598801655481186593/text/India-The-First-Resilient-Kerala-Program.txt"
+    ],
+    [
+     "World Bank Projects API v3 — India, rows 0–999",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=0&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ]
+   ]
+  },
+  {
+   "id": "energy:state-andhra-pradesh",
+   "label": "Government of Andhra Pradesh",
+   "sub": "SALT PforR and Amaravati",
+   "ty": "state",
+   "fam": "state",
+   "st": "ap",
+   "sz": 3,
+   "al": [
+    "Andhra Pradesh"
+   ],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "State receiving the largest state-attributed WB commitments 2014–26",
+   "d": [
+    "Supporting Andhra's Learning Transformation P173978 US$250m (2021-06-17) [documented]"
+   ],
+   "srcs": [
+    [
+     "World Bank Projects API v3 — India, rows 0–999",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=0&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ]
+   ]
+  },
+  {
+   "id": "energy:state-tamil-nadu",
+   "label": "Government of Tamil Nadu",
+   "sub": "Housing DPLs and urban PforRs",
+   "ty": "state",
+   "fam": "state",
+   "st": "tn",
+   "sz": 3,
+   "al": [
+    "Tamil Nadu"
+   ],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "State borrower of two Housing Sector DPLs and Chennai/urban programmes",
+   "d": [
+    "First TN Housing Sector Strengthening DPL P172732 US$200m (2020-05-18); Second P178329 US$190m (2022-06-30) [documented]"
+   ],
+   "srcs": [
+    [
+     "World Bank Projects API v3 — India, rows 0–999",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=0&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ]
+   ]
+  },
+  {
+   "id": "energy:state-assam",
+   "label": "Government of Assam",
+   "sub": "Largest north-eastern borrower",
+   "ty": "state",
+   "fam": "state",
+   "st": "as",
+   "sz": 3,
+   "al": [
+    "Assam"
+   ],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "State whose 2014–26 WB commitments are 3.3x its population share",
+   "d": [
+    "Assam Resilient Rural Bridges Program P178581 US$922m approved 2024-03-01 [documented]"
+   ],
+   "srcs": [
+    [
+     "World Bank Projects API v3 — India, rows 0–999",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=0&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ]
+   ]
+  },
+  {
+   "id": "energy:state-uttar-pradesh",
+   "label": "Government of Uttar Pradesh",
+   "sub": "Largest state by population; below-parity WB borrower",
+   "ty": "state",
+   "fam": "state",
+   "st": "up",
+   "sz": 3,
+   "al": [
+    "Uttar Pradesh"
+   ],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Control case: largest BJP-run state, 0.61x population share of WB commitments 2014–26",
+   "d": [
+    "UP Core Road Network P147864 US$400m (2019-03-29); UP Agriculture Growth P178253 US$325m (2024-12-12); UP Clean Air Management P510253 US$305m (2025-12-10) [documented]"
+   ],
+   "srcs": [
+    [
+     "World Bank Projects API v3 — India, rows 0–999",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=0&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ]
+   ]
+  },
+  {
+   "id": "energy:state-karnataka",
+   "label": "Government of Karnataka",
+   "sub": "WB borrower whose share fell after 2014",
+   "ty": "state",
+   "fam": "state",
+   "st": "ka",
+   "sz": 3,
+   "al": [
+    "Karnataka"
+   ],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Control case: 2.12x population share under UPA, 0.79x under NDA",
+   "d": [
+    "Karnataka Sustainable Rural Water Supply P179039 US$363m (2023-03-28); Karnataka Water Security P506272 US$426m (2025-06-23) [documented]"
+   ],
+   "srcs": [
+    [
+     "World Bank Projects API v3 — India, rows 0–999",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=0&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ]
+   ]
+  },
+  {
+   "id": "pol:nirmala-sitharaman",
+   "label": "Nirmala Sitharaman",
+   "sub": "Union Finance Minister",
+   "ty": "person",
+   "fam": "state",
+   "st": "dl",
+   "sz": 3,
+   "al": [],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": "Union Minister of Finance & Corporate Affairs, 2019-05-31–",
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Union Finance Minister at board approval of every operation from 2019-05-31",
+   "d": [
+    "Took charge as Union Minister of Finance & Corporate Affairs 2019-05-31; assumed charge again 2024-06-12 [documented]"
+   ],
+   "srcs": [
+    [
+     "PIB 2019-05-31 — Sitharaman takes charge as Union Finance Minister",
+     "https://www.pib.gov.in/Pressreleaseshare.aspx?PRID=1572921"
+    ],
+    [
+     "PIB 2024-06-12 — Sitharaman assumes charge as Union Finance Minister",
+     "https://www.pib.gov.in/PressReleaseIframePage.aspx?PRID=2024501"
+    ]
+   ]
+  },
+  {
+   "id": "seth",
+   "label": "Ajay Seth",
+   "sub": "Secretary, DEA 2021-04..2025-06",
+   "ty": "person",
+   "fam": "state",
+   "st": "dl",
+   "sz": 2,
+   "al": [],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": "Secretary, Department of Economic Affairs, 2021-04–2025-06",
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Secretary of the borrowing department (DEA) 2021–2025",
+   "d": [
+    "Appointed DEA Secretary in the 2021-04-06 reshuffle that moved Tarun Bajaj to Revenue [documented]",
+    "Succeeded by Anuradha Thakur w.e.f. 2025-07-01 [documented]"
+   ],
+   "srcs": [
+    [
+     "Business Standard 2021-04-06 — Bajaj to Revenue, Seth to DEA",
+     "https://www.business-standard.com/article/current-affairs/tarun-bajaj-appointed-new-revenue-secretary-ajay-seth-new-dea-secy-121040600698_1.html"
+    ],
+    [
+     "Taxscan 2025-06-17 — Anuradha Thakur to take over as DEA Secretary from 2025-07-01 (with notification)",
+     "https://www.taxscan.in/top-stories/anuradha-thakur-ias-to-take-over-as-dea-secretary-from-july-1-2025-succeeding-ajay-seth-1425326"
+    ]
+   ]
+  },
+  {
+   "id": "per:tarun-bajaj",
+   "label": "Tarun Bajaj",
+   "sub": "Secretary, DEA to 2021-04 (1988 IAS, Haryana)",
+   "ty": "person",
+   "fam": "state",
+   "st": "dl",
+   "sz": 2,
+   "al": [],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": "Secretary, Department of Economic Affairs, –2021-04",
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "DEA Secretary at board approval of the 2020 COVID and MSME operations",
+   "d": [
+    "Moved from DEA to Revenue Secretary 2021-04-06 [documented]",
+    "Start date at DEA (reported as 2020-04-30) not verified from an opened source [gap]"
+   ],
+   "srcs": [
+    [
+     "Business Standard 2021-04-06 — Bajaj to Revenue, Seth to DEA",
+     "https://www.business-standard.com/article/current-affairs/tarun-bajaj-appointed-new-revenue-secretary-ajay-seth-new-dea-secy-121040600698_1.html"
+    ]
+   ]
+  },
+  {
+   "id": "per:anuradha-thakur",
+   "label": "Anuradha Thakur",
+   "sub": "Secretary, DEA from 2025-07-01 (HP cadre IAS)",
+   "ty": "person",
+   "fam": "state",
+   "st": "dl",
+   "sz": 2,
+   "al": [],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": "Secretary, Department of Economic Affairs, 2025-07-01–",
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "DEA Secretary at approval of the 2025–26 operations",
+   "d": [
+    "Took over as DEA Secretary w.e.f. 2025-07-01 succeeding Ajay Seth [documented]"
+   ],
+   "srcs": [
+    [
+     "Taxscan 2025-06-17 — Anuradha Thakur to take over as DEA Secretary from 2025-07-01 (with notification)",
+     "https://www.taxscan.in/top-stories/anuradha-thakur-ias-to-take-over-as-dea-secretary-from-july-1-2025-succeeding-ajay-seth-1425326"
+    ]
+   ]
+  },
+  {
+   "id": "per:parameswaran-iyer",
+   "label": "Parameswaran Iyer",
+   "sub": "India's Executive Director, World Bank (from 2023)",
+   "ty": "person",
+   "fam": "state",
+   "st": null,
+   "sz": 2,
+   "al": [],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": "Executive Director (India, Bangladesh, Bhutan, Sri Lanka), World Bank, 2023–",
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "India's representative on the Board that approves every loan",
+   "d": [
+    "Appointed ED World Bank HQ for three years, replacing Rajesh Khullar; previously NITI Aayog CEO from 2022-06-24 [documented]",
+    "Temporarily also represented India at the IMF board, 2025-05 [documented]"
+   ],
+   "srcs": [
+    [
+     "Deccan Herald (PTI) — Iyer named World Bank ED replacing Rajesh Khullar",
+     "https://www.deccanherald.com/amp/india/b-v-r-subrahmanyam-appointed-niti-aayog-ceo-parameswaran-lyer-named-world-bank-ed-1193198.html"
+    ],
+    [
+     "The Tribune (PTI) 2025-05-05 — WB ED Parameswaran Iyer to represent India at IMF board",
+     "https://www.tribuneindia.com/news/business/world-bank-executive-director-parameswaran-iyer-to-represent-india-at-imf-board"
+    ]
+   ]
+  },
+  {
+   "id": "per:rajesh-khullar",
+   "label": "Rajesh Khullar",
+   "sub": "India's Executive Director, World Bank (to 2023; 1988 IAS Haryana)",
+   "ty": "person",
+   "fam": "state",
+   "st": null,
+   "sz": 1,
+   "al": [],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": "Executive Director, World Bank, –2023",
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "India's ED at the 2020–22 approvals",
+   "d": [
+    "Replaced by Parameswaran Iyer; repatriated to Haryana cadre [documented]",
+    "Start date (reported 2020-11) not verified from an opened source [gap]"
+   ],
+   "srcs": [
+    [
+     "Deccan Herald (PTI) — Iyer named World Bank ED replacing Rajesh Khullar",
+     "https://www.deccanherald.com/amp/india/b-v-r-subrahmanyam-appointed-niti-aayog-ceo-parameswaran-lyer-named-world-bank-ed-1193198.html"
+    ]
+   ]
+  },
+  {
+   "id": "per:junaid-kamal-ahmad",
+   "label": "Junaid Kamal Ahmad",
+   "sub": "World Bank Country Director, India (to 2022-07)",
+   "ty": "person",
+   "fam": "capital",
+   "st": "dl",
+   "sz": 2,
+   "al": [
+    "Junaid Ahmad"
+   ],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": "Country Director India, World Bank, 2017–2022-07",
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Signed or oversaw every India operation 2017–2022 for the Bank",
+   "d": [
+    "Named Country Director on PDs of 2019-05-31, 2020-04-30, 2020-06-16, 2020-11-13 and PAD 2021-02-27; completed a five-year term before 2022-08-01 [documented]"
+   ],
+   "srcs": [
+    [
+     "Program Document P169907 First Resilient Kerala DPO (2019-05-31)",
+     "https://documents.worldbank.org/curated/en/476681561946430308/text/India-First-Resilient-Kerala-Program-Development-Policy-Operation.txt"
+    ],
+    [
+     "Program Document P173943 (2020-04-30)",
+     "https://documents.worldbank.org/curated/en/685311589767271707/text/India-Accelerating-Indias-COVID-19-Social-Protection-Response-Program.txt"
+    ],
+    [
+     "Program Document P174292 MSME DPL (2020-06-16)",
+     "https://documents.worldbank.org/curated/en/703561593828083607/text/India-Micro-Small-and-Medium-Enterprises-Emergency-Response-Development-Policy-Loan.txt"
+    ],
+    [
+     "Program Document P174027 (2020-11-13)",
+     "https://documents.worldbank.org/curated/en/656781608346863527/text/India-Second-Accelerating-Indias-COVID-19-Social-Protection-Response-PMGKY-Development-Policy-Operation.txt"
+    ],
+    [
+     "PAD P173704 Gujarat GOAL PforR (2021-02-27)",
+     "https://documents.worldbank.org/curated/en/945711616680968888/text/India-Gujarat-Outcomes-for-Accelerated-Learning-GOAL-Program-for-Results-Project.txt"
+    ],
+    [
+     "World Bank press release 2022-08-01 — new Country Director for India",
+     "https://www.worldbank.org/en/news/press-release/2022/08/01/world-bank-announces-new-country-director-for-india"
+    ]
+   ]
+  },
+  {
+   "id": "per:auguste-tano-kouame",
+   "label": "Auguste Tano Kouamé",
+   "sub": "World Bank Country Director, India (from 2022-08-01)",
+   "ty": "person",
+   "fam": "capital",
+   "st": "dl",
+   "sz": 2,
+   "al": [
+    "Auguste Kouame"
+   ],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": "Country Director India, World Bank, 2022-08-01–",
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Bank's India head at the 2023–24 Low-Carbon DPLs",
+   "d": [
+    "Country Director for India effective 2022-08-01; named on PD P181032 (2023-06-02) [documented]"
+   ],
+   "srcs": [
+    [
+     "World Bank press release 2022-08-01 — new Country Director for India",
+     "https://www.worldbank.org/en/news/press-release/2022/08/01/world-bank-announces-new-country-director-for-india"
+    ],
+    [
+     "Program Document P181032 First Low-Carbon Energy DPL (2023-06-02)",
+     "https://documents.worldbank.org/curated/en/099060623092565311/text/BOSIB0342f50d505508c7803e3b35fb5c59.txt"
+    ]
+   ]
+  },
+  {
+   "id": "per:sameer-kumar-khare",
+   "label": "Sameer Kumar Khare",
+   "sub": "Additional Secretary, DEA (2020)",
+   "ty": "person",
+   "fam": "state",
+   "st": "dl",
+   "sz": 1,
+   "al": [],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": "Additional Secretary, Department of Economic Affairs, at 2020-07-06",
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Signed the US$750m MSME loan agreement for India",
+   "d": [
+    "Signed Loan 9153-IN on 2020-07-06 on behalf of GoI [documented]"
+   ],
+   "srcs": [
+    [
+     "PIB 2020-07-06 — GoI and World Bank sign US$750m MSME agreement",
+     "https://www.pib.gov.in/PressReleasePage.aspx?PRID=1636790"
+    ]
+   ]
+  },
+  {
+   "id": "per:c-s-mohapatra",
+   "label": "C. S. Mohapatra",
+   "sub": "Additional Secretary, DEA (2020)",
+   "ty": "person",
+   "fam": "state",
+   "st": "dl",
+   "sz": 1,
+   "al": [],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": "Additional Secretary, Department of Economic Affairs, at 2020-12-16",
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Signed the US$400m second COVID social protection agreement for India",
+   "d": [
+    "Signed on 2020-12-16 on behalf of GoI; Sumila Gulyani signed as Acting Country Director [documented]"
+   ],
+   "srcs": [
+    [
+     "PIB 2020-12-16 — GoI and World Bank sign US$400m second COVID social protection operation",
+     "https://www.pib.gov.in/Pressreleaseshare.aspx?PRID=1681253"
+    ]
+   ]
+  },
+  {
+   "id": "fin:wb-dpf-pmgky-1",
+   "label": "P173943 — Accelerating India's COVID-19 Social Protection Response (PMGKY) DPF 1",
+   "sub": "IBRD 9111-IN US$200m + IDA 6655/6656-IN US$550m; approved 2020-05-14; closed 2021-12-01",
+   "ty": "law",
+   "fam": "instrument",
+   "st": null,
+   "sz": 2,
+   "al": [],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Loan/credit instrument whose conditions govern named ministries or states",
+   "d": [
+    "Single-tranche DPF; eight prior actions, all measures announced by GoI in 2020-03/04 [documented]",
+    "US$748.48m disbursed; IEG outcome Highly Satisfactory [documented]"
+   ],
+   "srcs": [
+    [
+     "Program Document P173943 (2020-04-30)",
+     "https://documents.worldbank.org/curated/en/685311589767271707/text/India-Accelerating-Indias-COVID-19-Social-Protection-Response-Program.txt"
+    ],
+    [
+     "Loan Agreement 9111-IN (P173943), 2020-05-15",
+     "https://documents.worldbank.org/curated/en/873961589552880382/text/Official-Documents-Loan-Agreement-for-Loan-No-9111-IN.txt"
+    ],
+    [
+     "IEG ICR Review P173943 (2024-10-06)",
+     "https://documents.worldbank.org/curated/en/099021425103520204/text/P173943-594240c2-796b-4b0c-80b6-a58ce6d8637c.txt"
+    ],
+    [
+     "World Bank press release 2020-05-14 — Board approves US$1bn COVID social protection programme",
+     "https://www.worldbank.org/en/news/press-release/2020/05/13/world-bank-covid-coronavirus-india-protect-poor"
+    ]
+   ]
+  },
+  {
+   "id": "fin:wb-dpf-pmgky-2",
+   "label": "P174027 — Second Accelerating India's COVID-19 Social Protection Response DPO",
+   "sub": "IDA credits 6812/6813-IN US$400m; approved 2020-12-15; signed 2020-12-16",
+   "ty": "law",
+   "fam": "instrument",
+   "st": null,
+   "sz": 2,
+   "al": [],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Loan/credit instrument whose conditions govern named ministries or states",
+   "d": [
+    "Eleven prior actions incl. Social Security Code, ONORC, migrant database, ISTS waiver [documented]"
+   ],
+   "srcs": [
+    [
+     "Program Document P174027 (2020-11-13)",
+     "https://documents.worldbank.org/curated/en/656781608346863527/text/India-Second-Accelerating-Indias-COVID-19-Social-Protection-Response-PMGKY-Development-Policy-Operation.txt"
+    ],
+    [
+     "PIB 2020-12-16 — GoI and World Bank sign US$400m second COVID social protection operation",
+     "https://www.pib.gov.in/Pressreleaseshare.aspx?PRID=1681253"
+    ],
+    [
+     "ICR P173943/P174027 (2024-04-22)",
+     "https://documents.worldbank.org/curated/en/099042224135030970/text/BOSIB-c35ef47d-c671-422e-acd1-d14436c5cc23.txt"
+    ]
+   ]
+  },
+  {
+   "id": "fin:wb-dpl-msme-2020",
+   "label": "P174292 — MSME Emergency Response DPL",
+   "sub": "IBRD 9153-IN US$750m; approved 2020-06-30; signed 2020-07-06; closed 2021-06-30",
+   "ty": "law",
+   "fam": "instrument",
+   "st": null,
+   "sz": 2,
+   "al": [],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Loan/credit instrument whose conditions govern named ministries or states",
+   "d": [
+    "Seven prior actions: ECLGS, CGTMSE, RBI TLTRO/SLF, PCG 2.0, RBI sandbox, TReDS, PSB59 [documented]",
+    "IEG outcome Satisfactory [documented]"
+   ],
+   "srcs": [
+    [
+     "Program Document P174292 MSME DPL (2020-06-16)",
+     "https://documents.worldbank.org/curated/en/703561593828083607/text/India-Micro-Small-and-Medium-Enterprises-Emergency-Response-Development-Policy-Loan.txt"
+    ],
+    [
+     "Loan Agreement 9153-IN (P174292), 2020-07-06",
+     "https://documents.worldbank.org/curated/en/244541594042824465/text/Official-Documents-Loan-Agreement-for-Loan-9153-IN-Closing-Package.txt"
+    ],
+    [
+     "PIB 2020-07-06 — GoI and World Bank sign US$750m MSME agreement",
+     "https://www.pib.gov.in/PressReleasePage.aspx?PRID=1636790"
+    ],
+    [
+     "World Bank press release 2020-06-30 — Board approves US$750m MSME programme",
+     "https://www.worldbank.org/en/news/press-release/2020/06/30/world-bank-approves-750-million-emergency-response-program-for-micro-small-and-medium-enterprises-in-india"
+    ],
+    [
+     "IEG ICR Review P174292 (2023-06-28)",
+     "https://documents.worldbank.org/curated/en/099062823200017662/text/P17429209a873202409e910acccd25eeb49.txt"
+    ]
+   ]
+  },
+  {
+   "id": "fin:wb-dpl-low-carbon-1",
+   "label": "P181032 — First Low-Carbon Energy Programmatic DPL",
+   "sub": "IBRD US$1,443.43m + IDA US$56.57m; approved 2023-06-29; Loan 9574-IN/Credit 7375-IN signed 2023-11",
+   "ty": "law",
+   "fam": "instrument",
+   "st": null,
+   "sz": 2,
+   "al": [],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Loan/credit instrument whose conditions govern named ministries or states",
+   "d": [
+    "Eleven prior actions: NGHM, ISTS waiver for GH, RPO/ESO order, CERC ancillary services, 50 GW bidding, offshore wind, PLI, Energy Conservation Act amendments (carbon market), SEBI GDS, Sovereign Green Bond Framework [documented]",
+    "Second operation P181195 US$1,500m approved 2024-06-28 [documented]"
+   ],
+   "srcs": [
+    [
+     "Program Document P181032 First Low-Carbon Energy DPL (2023-06-02)",
+     "https://documents.worldbank.org/curated/en/099060623092565311/text/BOSIB0342f50d505508c7803e3b35fb5c59.txt"
+    ],
+    [
+     "World Bank Projects API v3 — India, rows 0–999",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=0&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ]
+   ]
+  },
+  {
+   "id": "fin:wb-dpo-resilient-kerala-1",
+   "label": "P169907 — First Resilient Kerala Program DPO",
+   "sub": "IDA credits 6463/6464-IN US$250m; approved 2019-06-27; fully disbursed 2019-08",
+   "ty": "law",
+   "fam": "instrument",
+   "st": null,
+   "sz": 2,
+   "al": [],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Loan/credit instrument whose conditions govern named ministries or states",
+   "d": [
+    "Eight prior actions incl. Rebuild Kerala Development Programme, flood cess from 2019-06-01, core road network criteria [documented]",
+    "ICR outcome Satisfactory; AFD €100m parallel financing [documented]"
+   ],
+   "srcs": [
+    [
+     "Program Document P169907 First Resilient Kerala DPO (2019-05-31)",
+     "https://documents.worldbank.org/curated/en/476681561946430308/text/India-First-Resilient-Kerala-Program-Development-Policy-Operation.txt"
+    ],
+    [
+     "ICR P169907 First Resilient Kerala Program (2022-06-13)",
+     "https://documents.worldbank.org/curated/en/598801655481186593/text/India-The-First-Resilient-Kerala-Program.txt"
+    ]
+   ]
+  },
+  {
+   "id": "fin:wb-pforr-gujarat-goal",
+   "label": "P173704 — Gujarat Outcomes for Accelerated Learning (GOAL) PforR",
+   "sub": "IBRD 9219-IN US$500m; approved 2021-03-24; AF US$250m 2022-06-21",
+   "ty": "law",
+   "fam": "instrument",
+   "st": null,
+   "sz": 2,
+   "al": [],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Loan/credit instrument whose conditions govern named ministries or states",
+   "d": [
+    "Seven DLIs totalling US$498.75m: planning 75, school grants 50, foundational learning 75, teacher development 75, learning environment 148.75, assessment 50, COVID response 25 [documented]",
+    "Program cost US$714.3m within GoG SEEP spend of US$1,568.8m [documented]"
+   ],
+   "srcs": [
+    [
+     "PAD P173704 Gujarat GOAL PforR (2021-02-27)",
+     "https://documents.worldbank.org/curated/en/945711616680968888/text/India-Gujarat-Outcomes-for-Accelerated-Learning-GOAL-Program-for-Results-Project.txt"
+    ],
+    [
+     "World Bank Projects API v3 — India, rows 0–999",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=0&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ]
+   ]
+  },
+  {
+   "id": "fin:wb-pforr-swachh-bharat",
+   "label": "P153251 — Swachh Bharat Mission Support Operation PforR",
+   "sub": "IBRD US$1,500m; approved 2015-12-15; closed 2021-09-30",
+   "ty": "law",
+   "fam": "instrument",
+   "st": null,
+   "sz": 2,
+   "al": [],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Loan/credit instrument whose conditions govern named ministries or states",
+   "d": [
+    "Disbursed US$1,259m against DLIs verified by NARSS surveys; programme cost at completion US$14,640m vs US$22,000m appraised [documented]"
+   ],
+   "srcs": [
+    [
+     "IEG ICR Review P153251 Swachh Bharat Mission Support Operation (2023-09-15)",
+     "https://documents.worldbank.org/curated/en/099091523140562778/text/P15325104d51050080b0620ff05fe21c20f.txt"
+    ],
+    [
+     "World Bank Projects API v3 — India, rows 0–999",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=0&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ]
+   ]
+  }
+ ],
+ "claims": [
+  {
+   "id": "worldbank:c001",
+   "s": "fin:ibrd",
+   "t": "min:ministry-of-finance",
+   "pred": "loan",
+   "tier": "documented",
+   "a": 1508,
+   "lab": "P173943 — PMGKY DPF 1, IBRD loan 9111-IN",
+   "d": "US$200m at ₹75.4/US$ (PD exchange rate effective 2020-03-31) = ₹1,508 cr; rate: Reference Rate + Variable Spread (variable, so terms.ratePct is null); front-end fee 0.25%; commitment charge 0.25% p.a.; repayment level, semi-annual 2025-10-15..2038-10-15 (Schedule 2); closing 2021-12-01; borrower India through DEA",
+   "from": "2020-05-14",
+   "to": "2021-12-01",
+   "srcs": [
+    [
+     "Program Document P173943 (2020-04-30)",
+     "https://documents.worldbank.org/curated/en/685311589767271707/text/India-Accelerating-Indias-COVID-19-Social-Protection-Response-Program.txt"
+    ],
+    [
+     "Loan Agreement 9111-IN (P173943), 2020-05-15",
+     "https://documents.worldbank.org/curated/en/873961589552880382/text/Official-Documents-Loan-Agreement-for-Loan-No-9111-IN.txt"
+    ],
+    [
+     "World Bank press release 2020-05-14 — Board approves US$1bn COVID social protection programme",
+     "https://www.worldbank.org/en/news/press-release/2020/05/13/world-bank-covid-coronavirus-india-protect-poor"
+    ],
+    [
+     "World Bank Projects API v3 — P173943 record",
+     "https://search.worldbank.org/api/v3/projects?format=json&id=P173943"
+    ]
+   ],
+   "supplements": [
+    "worldbank:c0754",
+    "worldbank:c0755"
+   ],
+   "terms": {
+    "instrument": "IBRD Flexible Loan, single-tranche DPF",
+    "ratePct": null,
+    "tenorYears": 18.5,
+    "graceYears": 5,
+    "conditions": [
+     "PA1 PMGKY cash-transfer package (MGNREG wage, Ujjwala LPG, NSAP top-up, Jan Dhan women)",
+     "PA2 PMGKAY free rations 3 months",
+     "PA3 EPF pandemic withdrawal 75%/3 months",
+     "PA4 GoI pays 24% EPF for low-wage SME workers 3 months",
+     "PA5 health-worker insurance scheme",
+     "PA6 BOCW fund advisories",
+     "PA7 SDRF use for migrant relief",
+     "PA8 ATM charge waiver"
+    ]
+   },
+   "benefit": {
+    "who": "min:ministry-of-finance",
+    "how": "Budget support disbursed in a single tranche against eight measures already announced under PMGKY (2020-03-26) — general budget financing, not project money",
+    "amountCr": 1508,
+    "confidence": "documented"
+   },
+   "innocentReading": null,
+   "upgradeIf": null,
+   "killIf": null,
+   "supersededBy": null
+  },
+  {
+   "id": "worldbank:c002",
+   "s": "fin:ida",
+   "t": "min:ministry-of-finance",
+   "pred": "loan",
+   "tier": "documented",
+   "a": 4147,
+   "lab": "P173943 — PMGKY DPF 1, IDA credits 6655-IN and 6656-IN",
+   "d": "US$550m equivalent at ₹75.4/US$ (PD rate 2020-03-31) = ₹4,147 cr; SDR-denominated (PD: SDR1 = US$1.365); US$748.48m of the US$750m operation disbursed",
+   "from": "2020-05-14",
+   "to": "2021-12-01",
+   "srcs": [
+    [
+     "Program Document P173943 (2020-04-30)",
+     "https://documents.worldbank.org/curated/en/685311589767271707/text/India-Accelerating-Indias-COVID-19-Social-Protection-Response-Program.txt"
+    ],
+    [
+     "World Bank press release 2020-05-14 — Board approves US$1bn COVID social protection programme",
+     "https://www.worldbank.org/en/news/press-release/2020/05/13/world-bank-covid-coronavirus-india-protect-poor"
+    ],
+    [
+     "IEG ICR Review P173943 (2024-10-06)",
+     "https://documents.worldbank.org/curated/en/099021425103520204/text/P173943-594240c2-796b-4b0c-80b6-a58ce6d8637c.txt"
+    ]
+   ],
+   "supplements": [
+    "worldbank:c0754",
+    "worldbank:c0755"
+   ],
+   "terms": {
+    "instrument": "IDA credit (SDR-denominated), single tranche",
+    "ratePct": null,
+    "tenorYears": null,
+    "graceYears": null,
+    "conditions": [
+     "PA1 PMGKY cash-transfer package (MGNREG wage, Ujjwala LPG, NSAP top-up, Jan Dhan women)",
+     "PA2 PMGKAY free rations 3 months",
+     "PA3 EPF pandemic withdrawal 75%/3 months",
+     "PA4 GoI pays 24% EPF for low-wage SME workers 3 months",
+     "PA5 health-worker insurance scheme",
+     "PA6 BOCW fund advisories",
+     "PA7 SDRF use for migrant relief",
+     "PA8 ATM charge waiver"
+    ]
+   },
+   "benefit": {
+    "who": "min:ministry-of-finance",
+    "how": "Concessional budget support against pre-announced PMGKY measures",
+    "amountCr": 4147,
+    "confidence": "documented"
+   },
+   "innocentReading": null,
+   "upgradeIf": null,
+   "killIf": null,
+   "supersededBy": null
+  },
+  {
+   "id": "worldbank:c003",
+   "s": "fin:ida",
+   "t": "min:ministry-of-finance",
+   "pred": "loan",
+   "tier": "documented",
+   "a": 2960,
+   "lab": "P174027 — PMGKY DPO 2, IDA credits 6812-IN and 6813-IN",
+   "d": "US$400m at ₹74/US$ (PD rate 2020-10-26) = ₹2,960 cr; approved 2020-12-15, signed 2020-12-16 by C. S. Mohapatra (Addl Secy DEA) and Sumila Gulyani (Acting CD); fully disbursed (ICR)",
+   "from": "2020-12-15",
+   "to": null,
+   "srcs": [
+    [
+     "Program Document P174027 (2020-11-13)",
+     "https://documents.worldbank.org/curated/en/656781608346863527/text/India-Second-Accelerating-Indias-COVID-19-Social-Protection-Response-PMGKY-Development-Policy-Operation.txt"
+    ],
+    [
+     "PIB 2020-12-16 — GoI and World Bank sign US$400m second COVID social protection operation",
+     "https://www.pib.gov.in/Pressreleaseshare.aspx?PRID=1681253"
+    ],
+    [
+     "ICR P173943/P174027 (2024-04-22)",
+     "https://documents.worldbank.org/curated/en/099042224135030970/text/BOSIB-c35ef47d-c671-422e-acd1-d14436c5cc23.txt"
+    ]
+   ],
+   "supplements": [
+    "worldbank:c0758"
+   ],
+   "terms": {
+    "instrument": "IDA credit, single tranche",
+    "ratePct": null,
+    "tenorYears": null,
+    "graceYears": null,
+    "conditions": [
+     "PA1 SDRF up to 50% for social protection",
+     "PA2 health-worker insurance extended 90 days",
+     "PA3 Social Security Code 2020",
+     "PA4 One Nation One Ration Card",
+     "PA5 Affordable Rental Housing guidelines 2020-07",
+     "PA6 National Migrants Information System",
+     "PA7 OSH Code migrant definition & portal",
+     "PA8 Garib Kalyan Rozgar Abhiyan",
+     "PA9 DBT–UMANG integration",
+     "PA10 groundwater extraction guidelines",
+     "PA11 ISTS waiver extension for solar/wind"
+    ]
+   },
+   "benefit": {
+    "who": "min:ministry-of-finance",
+    "how": "Budget support against eleven actions; nine were already-legislated or notified measures of 2020",
+    "amountCr": 2960,
+    "confidence": "documented"
+   },
+   "innocentReading": null,
+   "upgradeIf": null,
+   "killIf": null,
+   "supersededBy": null
+  },
+  {
+   "id": "worldbank:c004",
+   "s": "fin:ibrd",
+   "t": "min:ministry-of-finance",
+   "pred": "loan",
+   "tier": "documented",
+   "a": 5673,
+   "lab": "P174292 — MSME Emergency Response DPL, IBRD loan 9153-IN",
+   "d": "US$750m at ₹75.6369/US$ (PD rate 2020-05-29) = ₹5,673 cr; rate: Reference Rate + Variable Spread (variable, so terms.ratePct is null); front-end fee 0.25% (US$1.875m); commitment charge 0.25% p.a.; repayment 2025-07-15..2039-01-15; closing 2021-06-30; signed 2020-07-06 by Sameer Kumar Khare (Addl Secy DEA) and Junaid Ahmad",
+   "from": "2020-06-30",
+   "to": "2021-06-30",
+   "srcs": [
+    [
+     "Program Document P174292 MSME DPL (2020-06-16)",
+     "https://documents.worldbank.org/curated/en/703561593828083607/text/India-Micro-Small-and-Medium-Enterprises-Emergency-Response-Development-Policy-Loan.txt"
+    ],
+    [
+     "Loan Agreement 9153-IN (P174292), 2020-07-06",
+     "https://documents.worldbank.org/curated/en/244541594042824465/text/Official-Documents-Loan-Agreement-for-Loan-9153-IN-Closing-Package.txt"
+    ],
+    [
+     "PIB 2020-07-06 — GoI and World Bank sign US$750m MSME agreement",
+     "https://www.pib.gov.in/PressReleasePage.aspx?PRID=1636790"
+    ],
+    [
+     "World Bank press release 2020-06-30 — Board approves US$750m MSME programme",
+     "https://www.worldbank.org/en/news/press-release/2020/06/30/world-bank-approves-750-million-emergency-response-program-for-micro-small-and-medium-enterprises-in-india"
+    ]
+   ],
+   "supplements": [
+    "worldbank:c0760"
+   ],
+   "terms": {
+    "instrument": "IBRD Flexible Loan, single-tranche DPF",
+    "ratePct": null,
+    "tenorYears": 18.5,
+    "graceYears": 5,
+    "conditions": [
+     "PA1 GECL/ECLGS ₹3 trillion 100% guarantee",
+     "PA2 CGTMSE cap withdrawn, fintech NBFCs included",
+     "PA3 RBI TLTRO 2.0 ₹500bn for NBFCs; SLF for NBFC/HFC/MFI paper",
+     "PA4 PCG 2.0 (bonds/CPs of NBFCs, 20% first loss for PSBs)",
+     "PA5 RBI fintech regulatory sandbox (2019-08-13 circular)",
+     "PA6 CPSEs to onboard MSE vendors on TReDS",
+     "PA7 PSB Loans in 59 Minutes platform"
+    ]
+   },
+   "benefit": {
+    "who": "min:ministry-of-finance",
+    "how": "Budget support against the credit-guarantee and liquidity measures announced in the 2020-05 Atmanirbhar package; contingent liabilities of ₹3.40 trillion (ECLGS ₹3tn, SLF ₹300bn, PCG ₹100bn) stay with GoI",
+    "amountCr": 5673,
+    "confidence": "documented"
+   },
+   "innocentReading": null,
+   "upgradeIf": null,
+   "killIf": null,
+   "supersededBy": null
+  },
+  {
+   "id": "worldbank:c005",
+   "s": "fin:ibrd",
+   "t": "min:ministry-of-health-and-family-welfare",
+   "pred": "loan",
+   "tier": "documented",
+   "a": 7540,
+   "lab": "P173836 — India COVID-19 Emergency Response and Health Systems Preparedness Project, Loan 9086-IN",
+   "d": "US$1,000m IBRD; ₹ at ₹75.4/US$ (nearest opened rate, PD P173943 2020-03-31) = ₹7,540 cr; approved 2020-04-02; closed 2023-03-31; borrower Republic of India, MoF; implementing MoHFW",
+   "from": "2020-04-02",
+   "to": "2023-03-31",
+   "srcs": [
+    [
+     "World Bank Projects API v3 — India, rows 0–999",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=0&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ],
+    [
+     "World Bank press release 2020-05-14 — Board approves US$1bn COVID social protection programme",
+     "https://www.worldbank.org/en/news/press-release/2020/05/13/world-bank-covid-coronavirus-india-protect-poor"
+    ]
+   ],
+   "supplements": [
+    "worldbank:c0753"
+   ],
+   "terms": {
+    "instrument": "IPF (emergency)",
+    "ratePct": null,
+    "tenorYears": null,
+    "graceYears": null,
+    "conditions": []
+   },
+   "benefit": null,
+   "innocentReading": null,
+   "upgradeIf": null,
+   "killIf": null,
+   "supersededBy": null
+  },
+  {
+   "id": "worldbank:c006",
+   "s": "fin:ibrd",
+   "t": "energy:govt-of-gujarat",
+   "pred": "loan",
+   "tier": "documented",
+   "a": 3644,
+   "lab": "P173704 — Gujarat GOAL PforR, Loan 9219-IN",
+   "d": "US$500m at ₹72.88/US$ (PAD rate 2021-01-31) = ₹3,644 cr; PforR; programme cost US$714.3m; Loan and Program Agreements signed 2021-05-19; borrower India, on-lent to Gujarat",
+   "from": "2021-03-24",
+   "to": null,
+   "srcs": [
+    [
+     "PAD P173704 Gujarat GOAL PforR (2021-02-27)",
+     "https://documents.worldbank.org/curated/en/945711616680968888/text/India-Gujarat-Outcomes-for-Accelerated-Learning-GOAL-Program-for-Results-Project.txt"
+    ],
+    [
+     "World Bank Projects API v3 — India, rows 0–999",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=0&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ]
+   ],
+   "supplements": [
+    "worldbank:c0752"
+   ],
+   "terms": {
+    "instrument": "PforR (IBRD)",
+    "ratePct": null,
+    "tenorYears": null,
+    "graceYears": null,
+    "conditions": [
+     "DLI1 planning systems US$75m",
+     "DLI2 school performance grants US$50m",
+     "DLI3 foundational learning US$75m",
+     "DLI4 teacher development US$75m",
+     "DLI5 learning environment US$148.75m",
+     "DLI6 assessment systems US$50m",
+     "DLI7 COVID response US$25m"
+    ]
+   },
+   "benefit": {
+    "who": "energy:govt-of-gujarat",
+    "how": "Results-based reimbursement of the state's own education spending (SEEP) on verified DLIs",
+    "amountCr": 3644,
+    "confidence": "documented"
+   },
+   "innocentReading": null,
+   "upgradeIf": null,
+   "killIf": null,
+   "supersededBy": null
+  },
+  {
+   "id": "worldbank:c007",
+   "s": "fin:ibrd",
+   "t": "energy:govt-of-gujarat",
+   "pred": "loan",
+   "tier": "documented",
+   "a": null,
+   "lab": "P177915 — GOAL Additional Financing",
+   "d": "US$250m approved 2022-06-21; ₹ amount not stated — US$ only; no PA.NUS.FCRF rate opened for 2022-06; borrower 'Government of Gujarat, Ministry of Finance' per API",
+   "from": "2022-06-21",
+   "to": "2027-09-30",
+   "srcs": [
+    [
+     "World Bank Projects API v3 — India, rows 0–999",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=0&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ]
+   ],
+   "supplements": [
+    "worldbank:c0783"
+   ],
+   "terms": {
+    "instrument": "PforR AF",
+    "ratePct": null,
+    "tenorYears": null,
+    "graceYears": null,
+    "conditions": []
+   },
+   "benefit": null,
+   "innocentReading": null,
+   "upgradeIf": null,
+   "killIf": null,
+   "supersededBy": null
+  },
+  {
+   "id": "worldbank:c008",
+   "s": "fin:ibrd",
+   "t": "min:ministry-of-new-and-renewable-energy",
+   "pred": "loan",
+   "tier": "documented",
+   "a": 12431,
+   "lab": "P181032 — First Low-Carbon Energy Programmatic DPL (IBRD US$1,443.43m + IDA US$56.57m)",
+   "d": "US$1,500m at ₹82.87/US$ (PD rate 2023-06-05) = ₹12,431 cr; Loan 9574-IN and Credit 7375-IN signed 2023-11; proceeds to GoI account at RBI for general budget purposes; Country Director Auguste Tano Kouamé",
+   "from": "2023-06-29",
+   "to": "2026-06-30",
+   "srcs": [
+    [
+     "Program Document P181032 First Low-Carbon Energy DPL (2023-06-02)",
+     "https://documents.worldbank.org/curated/en/099060623092565311/text/BOSIB0342f50d505508c7803e3b35fb5c59.txt"
+    ],
+    [
+     "World Bank Projects API v3 — India, rows 0–999",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=0&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ]
+   ],
+   "supplements": [
+    "worldbank:c0806",
+    "worldbank:c0807"
+   ],
+   "terms": {
+    "instrument": "Programmatic DPF (IBRD loan + IDA credit)",
+    "ratePct": null,
+    "tenorYears": null,
+    "graceYears": null,
+    "conditions": [
+     "PA1 NGHM approved by Cabinet",
+     "PA2 MNRE GH standards recommendations",
+     "PA3 ISTS waiver for GH RE",
+     "PA4 RPO/ESO order",
+     "PA5 CERC Ancillary Services Regulations 2022",
+     "PA6 50 GW/yr RE bidding trajectory",
+     "PA7 offshore wind bidding strategy",
+     "PA8 solar PLI update",
+     "PA9 Energy Conservation Act amendment (carbon market)",
+     "PA10 SEBI green debt securities",
+     "PA11 Sovereign Green Bond Framework"
+    ]
+   },
+   "benefit": {
+    "who": "min:ministry-of-finance",
+    "how": "Budget support; the measures shape auction pipelines for RE and green-hydrogen developers (volume/exclusivity mechanism) — beneficiaries are the sectors, not a named firm; no firm named in the PD",
+    "amountCr": 12431,
+    "confidence": "documented"
+   },
+   "innocentReading": null,
+   "upgradeIf": null,
+   "killIf": null,
+   "supersededBy": null
+  },
+  {
+   "id": "worldbank:c009",
+   "s": "fin:ibrd",
+   "t": "min:ministry-of-new-and-renewable-energy",
+   "pred": "loan",
+   "tier": "documented",
+   "a": 12519,
+   "lab": "P181195 — Second Low-Carbon Energy Programmatic DPF",
+   "d": "US$1,500m (IBRD 1,468 + IDA 32) approved 2024-06-28; ₹ at ₹83.46/US$ (nearest opened rate, ICR P173943 2024-04-12) = ₹12,519 cr; closed 2026-06-30; Program Document not opened",
+   "from": "2024-06-28",
+   "to": "2026-06-30",
+   "srcs": [
+    [
+     "World Bank Projects API v3 — India, rows 0–999",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=0&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ]
+   ],
+   "supplements": [
+    "worldbank:c0808",
+    "worldbank:c0809"
+   ],
+   "terms": {
+    "instrument": "Programmatic DPF",
+    "ratePct": null,
+    "tenorYears": null,
+    "graceYears": null,
+    "conditions": []
+   },
+   "benefit": null,
+   "innocentReading": null,
+   "upgradeIf": null,
+   "killIf": null,
+   "supersededBy": null
+  },
+  {
+   "id": "worldbank:c010",
+   "s": "fin:ida",
+   "t": "fin:state-kerala",
+   "pred": "loan",
+   "tier": "documented",
+   "a": 1739,
+   "lab": "P169907 — First Resilient Kerala Program DPO, credits 6463-IN and 6464-IN",
+   "d": "US$250m at ₹69.56/US$ (PD rate 2019-04-30) = ₹1,739 cr; approved 2019-06-27; agreements 2019-06-28; fully disbursed 2019-08; AFD €100m parallel loan disbursed 2020-03; borrower India, on-lent to Kerala",
+   "from": "2019-06-27",
+   "to": null,
+   "srcs": [
+    [
+     "Program Document P169907 First Resilient Kerala DPO (2019-05-31)",
+     "https://documents.worldbank.org/curated/en/476681561946430308/text/India-First-Resilient-Kerala-Program-Development-Policy-Operation.txt"
+    ],
+    [
+     "ICR P169907 First Resilient Kerala Program (2022-06-13)",
+     "https://documents.worldbank.org/curated/en/598801655481186593/text/India-The-First-Resilient-Kerala-Program.txt"
+    ]
+   ],
+   "supplements": [
+    "worldbank:c0741"
+   ],
+   "terms": {
+    "instrument": "IDA credit, programmatic DPO 1 of 2",
+    "ratePct": null,
+    "tenorYears": null,
+    "graceYears": null,
+    "conditions": [
+     "PA1 Rebuild Kerala Development Programme adopted",
+     "PA2 flood cess from 2019-06-01",
+     "PA3 emergency-response protocols",
+     "PA4 river-basin authority drafting committee",
+     "PA5 five agro-ecological zones",
+     "PA6 core road network criteria",
+     "PA7 Town & Country Planning Act revision committee",
+     "PA8 WSS policy committee"
+    ]
+   },
+   "benefit": {
+    "who": "fin:state-kerala",
+    "how": "Post-2018-flood budget support against state policy actions; no procurement",
+    "amountCr": 1739,
+    "confidence": "documented"
+   },
+   "innocentReading": null,
+   "upgradeIf": null,
+   "killIf": null,
+   "supersededBy": null
+  },
+  {
+   "id": "worldbank:c011",
+   "s": "fin:ibrd",
+   "t": "min:ministry-of-jal-shakti",
+   "pred": "loan",
+   "tier": "documented",
+   "a": null,
+   "lab": "P153251 — Swachh Bharat Mission Support Operation (PforR)",
+   "d": "US$1,500m approved 2015-12-15; US$1,259m disbursed by closing 2021-09-30 after four restructurings; ₹ amount not stated — US$ only; no PA.NUS.FCRF rate opened for 2015-12",
+   "from": "2015-12-15",
+   "to": "2021-09-30",
+   "srcs": [
+    [
+     "World Bank Projects API v3 — India, rows 0–999",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=0&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ],
+    [
+     "IEG ICR Review P153251 Swachh Bharat Mission Support Operation (2023-09-15)",
+     "https://documents.worldbank.org/curated/en/099091523140562778/text/P15325104d51050080b0620ff05fe21c20f.txt"
+    ]
+   ],
+   "supplements": [
+    "worldbank:c0677"
+   ],
+   "terms": {
+    "instrument": "PforR (IBRD)",
+    "ratePct": null,
+    "tenorYears": null,
+    "graceYears": null,
+    "conditions": [
+     "DLI-4 Performance Incentive Grant Scheme operationalised by MDWS",
+     "Results verified by NARSS surveys"
+    ]
+   },
+   "benefit": {
+    "who": "min:ministry-of-jal-shakti",
+    "how": "Reimbursement of GoI's SBM-Gramin incentive grants to states against verified sanitation outcomes",
+    "amountCr": null,
+    "confidence": "documented"
+   },
+   "innocentReading": null,
+   "upgradeIf": null,
+   "killIf": null,
+   "supersededBy": null
+  },
+  {
+   "id": "worldbank:c012",
+   "s": "pol:nirmala-sitharaman",
+   "t": "min:ministry-of-finance",
+   "pred": "role",
+   "tier": "documented",
+   "a": null,
+   "lab": "Union Minister of Finance & Corporate Affairs",
+   "d": "Took charge 2019-05-31; re-assumed charge 2024-06-12 after the 2024 election. Minister at board approval of P173836, P173943, P174292, P174027, P173704, P181032, P181195, P507508, P178581, P507910, P517201, P508489",
+   "from": "2019-05-31",
+   "to": null,
+   "srcs": [
+    [
+     "PIB 2019-05-31 — Sitharaman takes charge as Union Finance Minister",
+     "https://www.pib.gov.in/Pressreleaseshare.aspx?PRID=1572921"
+    ],
+    [
+     "PIB 2024-06-12 — Sitharaman assumes charge as Union Finance Minister",
+     "https://www.pib.gov.in/PressReleaseIframePage.aspx?PRID=2024501"
+    ]
+   ],
+   "terms": null,
+   "benefit": null,
+   "innocentReading": null,
+   "upgradeIf": null,
+   "killIf": null,
+   "supersededBy": null
+  },
+  {
+   "id": "worldbank:c013",
+   "s": "per:tarun-bajaj",
+   "t": "min:ministry-of-finance",
+   "pred": "role",
+   "tier": "documented",
+   "a": null,
+   "lab": "Secretary, Department of Economic Affairs",
+   "d": "Moved to Revenue Secretary in the 2021-04-06 reshuffle; DEA Secretary at approval of the 2020 COVID DPFs and MSME DPL (start date not verified — gap)",
+   "from": null,
+   "to": "2021-04",
+   "srcs": [
+    [
+     "Business Standard 2021-04-06 — Bajaj to Revenue, Seth to DEA",
+     "https://www.business-standard.com/article/current-affairs/tarun-bajaj-appointed-new-revenue-secretary-ajay-seth-new-dea-secy-121040600698_1.html"
+    ]
+   ],
+   "terms": null,
+   "benefit": null,
+   "innocentReading": null,
+   "upgradeIf": null,
+   "killIf": null,
+   "supersededBy": null
+  },
+  {
+   "id": "worldbank:c014",
+   "s": "seth",
+   "t": "min:ministry-of-finance",
+   "pred": "role",
+   "tier": "documented",
+   "a": null,
+   "lab": "Secretary, Department of Economic Affairs",
+   "d": "Appointed 2021-04-06; succeeded by Anuradha Thakur w.e.f. 2025-07-01. Secretary at approval of GOAL AF, Low-Carbon DPLs 1 and 2, Amaravati, Assam bridges",
+   "from": "2021-04",
+   "to": "2025-06",
+   "srcs": [
+    [
+     "Business Standard 2021-04-06 — Bajaj to Revenue, Seth to DEA",
+     "https://www.business-standard.com/article/current-affairs/tarun-bajaj-appointed-new-revenue-secretary-ajay-seth-new-dea-secy-121040600698_1.html"
+    ],
+    [
+     "Taxscan 2025-06-17 — Anuradha Thakur to take over as DEA Secretary from 2025-07-01 (with notification)",
+     "https://www.taxscan.in/top-stories/anuradha-thakur-ias-to-take-over-as-dea-secretary-from-july-1-2025-succeeding-ajay-seth-1425326"
+    ]
+   ],
+   "terms": null,
+   "benefit": null,
+   "innocentReading": null,
+   "upgradeIf": null,
+   "killIf": null,
+   "supersededBy": null
+  },
+  {
+   "id": "worldbank:c015",
+   "s": "per:anuradha-thakur",
+   "t": "min:ministry-of-finance",
+   "pred": "role",
+   "tier": "documented",
+   "a": null,
+   "lab": "Secretary, Department of Economic Affairs",
+   "d": "First woman DEA Secretary; in office at approval of P507910, P517201, P508489",
+   "from": "2025-07-01",
+   "to": null,
+   "srcs": [
+    [
+     "Taxscan 2025-06-17 — Anuradha Thakur to take over as DEA Secretary from 2025-07-01 (with notification)",
+     "https://www.taxscan.in/top-stories/anuradha-thakur-ias-to-take-over-as-dea-secretary-from-july-1-2025-succeeding-ajay-seth-1425326"
+    ]
+   ],
+   "terms": null,
+   "benefit": null,
+   "innocentReading": null,
+   "upgradeIf": null,
+   "killIf": null,
+   "supersededBy": null
+  },
+  {
+   "id": "worldbank:c016",
+   "s": "per:parameswaran-iyer",
+   "t": "fin:ibrd",
+   "pred": "role",
+   "tier": "documented",
+   "a": null,
+   "lab": "Executive Director for India, Bangladesh, Bhutan and Sri Lanka",
+   "d": "ACC order for a three-year tenure replacing Rajesh Khullar; still ED in 2025-05 when nominated to also sit on the IMF board (month of appointment not verified from opened source)",
+   "from": "2023",
+   "to": null,
+   "srcs": [
+    [
+     "Deccan Herald (PTI) — Iyer named World Bank ED replacing Rajesh Khullar",
+     "https://www.deccanherald.com/amp/india/b-v-r-subrahmanyam-appointed-niti-aayog-ceo-parameswaran-lyer-named-world-bank-ed-1193198.html"
+    ],
+    [
+     "The Tribune (PTI) 2025-05-05 — WB ED Parameswaran Iyer to represent India at IMF board",
+     "https://www.tribuneindia.com/news/business/world-bank-executive-director-parameswaran-iyer-to-represent-india-at-imf-board"
+    ]
+   ],
+   "terms": null,
+   "benefit": null,
+   "innocentReading": null,
+   "upgradeIf": null,
+   "killIf": null,
+   "supersededBy": null
+  },
+  {
+   "id": "worldbank:c017",
+   "s": "per:rajesh-khullar",
+   "t": "fin:ibrd",
+   "pred": "role",
+   "tier": "documented",
+   "a": null,
+   "lab": "Executive Director for India, World Bank",
+   "d": "Replaced by Parameswaran Iyer and repatriated to Haryana cadre; ED at the 2020–22 board approvals (start month not verified — gap)",
+   "from": null,
+   "to": "2023",
+   "srcs": [
+    [
+     "Deccan Herald (PTI) — Iyer named World Bank ED replacing Rajesh Khullar",
+     "https://www.deccanherald.com/amp/india/b-v-r-subrahmanyam-appointed-niti-aayog-ceo-parameswaran-lyer-named-world-bank-ed-1193198.html"
+    ]
+   ],
+   "terms": null,
+   "benefit": null,
+   "innocentReading": null,
+   "upgradeIf": null,
+   "killIf": null,
+   "supersededBy": null
+  },
+  {
+   "id": "worldbank:c018",
+   "s": "per:junaid-kamal-ahmad",
+   "t": "fin:world-bank-india-office",
+   "pred": "role",
+   "tier": "documented",
+   "a": null,
+   "lab": "Country Director, India",
+   "d": "Named Country Director on PDs dated 2019-05-31, 2020-04-30, 2020-06-16, 2020-11-13 and PAD 2021-02-27; the 2022-08-01 release says he 'recently completed a five-year term' (start year inferred from that wording)",
+   "from": "2017",
+   "to": "2022-07",
+   "srcs": [
+    [
+     "Program Document P169907 First Resilient Kerala DPO (2019-05-31)",
+     "https://documents.worldbank.org/curated/en/476681561946430308/text/India-First-Resilient-Kerala-Program-Development-Policy-Operation.txt"
+    ],
+    [
+     "Program Document P173943 (2020-04-30)",
+     "https://documents.worldbank.org/curated/en/685311589767271707/text/India-Accelerating-Indias-COVID-19-Social-Protection-Response-Program.txt"
+    ],
+    [
+     "Program Document P174292 MSME DPL (2020-06-16)",
+     "https://documents.worldbank.org/curated/en/703561593828083607/text/India-Micro-Small-and-Medium-Enterprises-Emergency-Response-Development-Policy-Loan.txt"
+    ],
+    [
+     "Program Document P174027 (2020-11-13)",
+     "https://documents.worldbank.org/curated/en/656781608346863527/text/India-Second-Accelerating-Indias-COVID-19-Social-Protection-Response-PMGKY-Development-Policy-Operation.txt"
+    ],
+    [
+     "PAD P173704 Gujarat GOAL PforR (2021-02-27)",
+     "https://documents.worldbank.org/curated/en/945711616680968888/text/India-Gujarat-Outcomes-for-Accelerated-Learning-GOAL-Program-for-Results-Project.txt"
+    ],
+    [
+     "World Bank press release 2022-08-01 — new Country Director for India",
+     "https://www.worldbank.org/en/news/press-release/2022/08/01/world-bank-announces-new-country-director-for-india"
+    ]
+   ],
+   "terms": null,
+   "benefit": null,
+   "innocentReading": null,
+   "upgradeIf": null,
+   "killIf": null,
+   "supersededBy": null
+  },
+  {
+   "id": "worldbank:c019",
+   "s": "per:auguste-tano-kouame",
+   "t": "fin:world-bank-india-office",
+   "pred": "role",
+   "tier": "documented",
+   "a": null,
+   "lab": "Country Director, India",
+   "d": "Effective 2022-08-01; named on PD P181032 (2023-06-02). End date not verified (LinkedIn title 'Former' seen in search results but not opened)",
+   "from": "2022-08-01",
+   "to": null,
+   "srcs": [
+    [
+     "World Bank press release 2022-08-01 — new Country Director for India",
+     "https://www.worldbank.org/en/news/press-release/2022/08/01/world-bank-announces-new-country-director-for-india"
+    ],
+    [
+     "Program Document P181032 First Low-Carbon Energy DPL (2023-06-02)",
+     "https://documents.worldbank.org/curated/en/099060623092565311/text/BOSIB0342f50d505508c7803e3b35fb5c59.txt"
+    ]
+   ],
+   "terms": null,
+   "benefit": null,
+   "innocentReading": null,
+   "upgradeIf": null,
+   "killIf": null,
+   "supersededBy": null
+  },
+  {
+   "id": "worldbank:c020",
+   "s": "per:sameer-kumar-khare",
+   "t": "min:ministry-of-finance",
+   "pred": "role",
+   "tier": "documented",
+   "a": null,
+   "lab": "Additional Secretary, DEA — signatory, Loan 9153-IN",
+   "d": "Signed the US$750m MSME loan agreement for GoI on 2020-07-06",
+   "from": "2020-07-06",
+   "to": "2020-07-06",
+   "srcs": [
+    [
+     "PIB 2020-07-06 — GoI and World Bank sign US$750m MSME agreement",
+     "https://www.pib.gov.in/PressReleasePage.aspx?PRID=1636790"
+    ]
+   ],
+   "terms": null,
+   "benefit": null,
+   "innocentReading": null,
+   "upgradeIf": null,
+   "killIf": null,
+   "supersededBy": null
+  },
+  {
+   "id": "worldbank:c021",
+   "s": "per:c-s-mohapatra",
+   "t": "min:ministry-of-finance",
+   "pred": "role",
+   "tier": "documented",
+   "a": null,
+   "lab": "Additional Secretary, DEA — signatory, PMGKY DPO 2",
+   "d": "Signed the US$400m agreement for GoI on 2020-12-16",
+   "from": "2020-12-16",
+   "to": "2020-12-16",
+   "srcs": [
+    [
+     "PIB 2020-12-16 — GoI and World Bank sign US$400m second COVID social protection operation",
+     "https://www.pib.gov.in/Pressreleaseshare.aspx?PRID=1681253"
+    ]
+   ],
+   "terms": null,
+   "benefit": null,
+   "innocentReading": null,
+   "upgradeIf": null,
+   "killIf": null,
+   "supersededBy": null
+  },
+  {
+   "id": "worldbank:c022",
+   "s": "fin:wb-dpf-pmgky-1",
+   "t": "min:ministry-of-finance",
+   "pred": "law",
+   "tier": "documented",
+   "a": null,
+   "lab": "PA1 — PMGKY cash-transfer package approved",
+   "d": "MoF approved PMGKY: higher MGNREG wage, Ujjwala LPG for BPL households 3 months, NSAP top-ups, cash to women Jan Dhan account holders. Prior action satisfied before appraisal (package announced 2020-03-26).",
+   "from": "2020-03-26",
+   "to": null,
+   "srcs": [
+    [
+     "Program Document P173943 (2020-04-30)",
+     "https://documents.worldbank.org/curated/en/685311589767271707/text/India-Accelerating-Indias-COVID-19-Social-Protection-Response-Program.txt"
+    ]
+   ],
+   "terms": null,
+   "benefit": {
+    "who": "min:ministry-of-finance",
+    "how": "Condition met by a measure GoI had already announced; disbursement financed the fiscal cost",
+    "amountCr": null,
+    "confidence": "documented"
+   },
+   "innocentReading": null,
+   "upgradeIf": null,
+   "killIf": null,
+   "supersededBy": null
+  },
+  {
+   "id": "worldbank:c023",
+   "s": "fin:wb-dpf-pmgky-1",
+   "t": "min:ministry-of-consumer-affairs-food-and-public-distribution",
+   "pred": "law",
+   "tier": "documented",
+   "a": null,
+   "lab": "PA2 — PMGKAY free rations for three months",
+   "d": "Free food rations for three months through PDS with benefit levels and guidelines.",
+   "from": "2020-04",
+   "to": null,
+   "srcs": [
+    [
+     "Program Document P173943 (2020-04-30)",
+     "https://documents.worldbank.org/curated/en/685311589767271707/text/India-Accelerating-Indias-COVID-19-Social-Protection-Response-Program.txt"
+    ]
+   ],
+   "terms": null,
+   "benefit": {
+    "who": "min:ministry-of-consumer-affairs-food-and-public-distribution",
+    "how": "Pre-announced measure; reimbursed via budget support",
+    "amountCr": null,
+    "confidence": "documented"
+   },
+   "innocentReading": null,
+   "upgradeIf": null,
+   "killIf": null,
+   "supersededBy": null
+  },
+  {
+   "id": "worldbank:c024",
+   "s": "fin:wb-dpf-pmgky-1",
+   "t": "min:ministry-of-labour-and-employment",
+   "pred": "law",
+   "tier": "documented",
+   "a": null,
+   "lab": "PA3 — EPF pandemic withdrawal",
+   "d": "EPF regulations amended to allow non-refundable advance of 75% of balance or three months' wages.",
+   "from": "2020-03",
+   "to": null,
+   "srcs": [
+    [
+     "Program Document P173943 (2020-04-30)",
+     "https://documents.worldbank.org/curated/en/685311589767271707/text/India-Accelerating-Indias-COVID-19-Social-Protection-Response-Program.txt"
+    ]
+   ],
+   "terms": null,
+   "benefit": {
+    "who": "min:ministry-of-labour-and-employment",
+    "how": "Regulatory change, no fiscal cost to GoI",
+    "amountCr": null,
+    "confidence": "documented"
+   },
+   "innocentReading": null,
+   "upgradeIf": null,
+   "killIf": null,
+   "supersededBy": null
+  },
+  {
+   "id": "worldbank:c025",
+   "s": "fin:wb-dpf-pmgky-1",
+   "t": "min:ministry-of-labour-and-employment",
+   "pred": "law",
+   "tier": "documented",
+   "a": null,
+   "lab": "PA4 — GoI pays 24% EPF contribution for low-wage SME workers, 3 months",
+   "d": "Under PMGKY, GoI contributes 24% of monthly wages to EPF accounts of low-wage workers in small enterprises.",
+   "from": "2020-03",
+   "to": null,
+   "srcs": [
+    [
+     "Program Document P173943 (2020-04-30)",
+     "https://documents.worldbank.org/curated/en/685311589767271707/text/India-Accelerating-Indias-COVID-19-Social-Protection-Response-Program.txt"
+    ]
+   ],
+   "terms": null,
+   "benefit": {
+    "who": "min:ministry-of-labour-and-employment",
+    "how": "Wage subsidy to formal small-firm employers and workers; pre-announced",
+    "amountCr": null,
+    "confidence": "documented"
+   },
+   "innocentReading": null,
+   "upgradeIf": null,
+   "killIf": null,
+   "supersededBy": null
+  },
+  {
+   "id": "worldbank:c026",
+   "s": "fin:wb-dpf-pmgky-1",
+   "t": "min:ministry-of-health-and-family-welfare",
+   "pred": "law",
+   "tier": "documented",
+   "a": null,
+   "lab": "PA5 — health-worker COVID insurance scheme",
+   "d": "Special health insurance scheme for health workers providing essential COVID-19 care; extended 90 days as PA2 of the second operation.",
+   "from": "2020-03",
+   "to": null,
+   "srcs": [
+    [
+     "Program Document P173943 (2020-04-30)",
+     "https://documents.worldbank.org/curated/en/685311589767271707/text/India-Accelerating-Indias-COVID-19-Social-Protection-Response-Program.txt"
+    ],
+    [
+     "Program Document P174027 (2020-11-13)",
+     "https://documents.worldbank.org/curated/en/656781608346863527/text/India-Second-Accelerating-Indias-COVID-19-Social-Protection-Response-PMGKY-Development-Policy-Operation.txt"
+    ]
+   ],
+   "terms": null,
+   "benefit": null,
+   "innocentReading": null,
+   "upgradeIf": null,
+   "killIf": null,
+   "supersededBy": null
+  },
+  {
+   "id": "worldbank:c027",
+   "s": "fin:wb-dpf-pmgky-1",
+   "t": "min:ministry-of-labour-and-employment",
+   "pred": "law",
+   "tier": "documented",
+   "a": null,
+   "lab": "PA6 — BOCW welfare fund advisories to states",
+   "d": "Advisories on using Building and Other Construction Workers Welfare Fund balances for relief to registered construction workers.",
+   "from": "2020-03",
+   "to": null,
+   "srcs": [
+    [
+     "Program Document P173943 (2020-04-30)",
+     "https://documents.worldbank.org/curated/en/685311589767271707/text/India-Accelerating-Indias-COVID-19-Social-Protection-Response-Program.txt"
+    ]
+   ],
+   "terms": null,
+   "benefit": null,
+   "innocentReading": null,
+   "upgradeIf": null,
+   "killIf": null,
+   "supersededBy": null
+  },
+  {
+   "id": "worldbank:c028",
+   "s": "fin:wb-dpf-pmgky-1",
+   "t": "min:ministry-of-home-affairs",
+   "pred": "law",
+   "tier": "documented",
+   "a": null,
+   "lab": "PA7 — SDRF may fund migrant relief",
+   "d": "States enabled to use State Disaster Response Funds for migrant workers' relief; expanded to 50% of SDRF as PA1 of the second operation.",
+   "from": "2020-04",
+   "to": null,
+   "srcs": [
+    [
+     "Program Document P173943 (2020-04-30)",
+     "https://documents.worldbank.org/curated/en/685311589767271707/text/India-Accelerating-Indias-COVID-19-Social-Protection-Response-Program.txt"
+    ],
+    [
+     "Program Document P174027 (2020-11-13)",
+     "https://documents.worldbank.org/curated/en/656781608346863527/text/India-Second-Accelerating-Indias-COVID-19-Social-Protection-Response-PMGKY-Development-Policy-Operation.txt"
+    ]
+   ],
+   "terms": null,
+   "benefit": null,
+   "innocentReading": null,
+   "upgradeIf": null,
+   "killIf": null,
+   "supersededBy": null
+  },
+  {
+   "id": "worldbank:c029",
+   "s": "fin:wb-dpf-pmgky-1",
+   "t": "min:ministry-of-finance",
+   "pred": "law",
+   "tier": "documented",
+   "a": null,
+   "lab": "PA8 — ATM charge waiver guidance",
+   "d": "MoF guidance, adopted by public sector banks, to waive ATM charges for cash withdrawals to ease PMGKY payments.",
+   "from": "2020-03",
+   "to": null,
+   "srcs": [
+    [
+     "Program Document P173943 (2020-04-30)",
+     "https://documents.worldbank.org/curated/en/685311589767271707/text/India-Accelerating-Indias-COVID-19-Social-Protection-Response-Program.txt"
+    ]
+   ],
+   "terms": null,
+   "benefit": null,
+   "innocentReading": null,
+   "upgradeIf": null,
+   "killIf": null,
+   "supersededBy": null
+  },
+  {
+   "id": "worldbank:c030",
+   "s": "fin:wb-dpf-pmgky-2",
+   "t": "min:ministry-of-labour-and-employment",
+   "pred": "law",
+   "tier": "documented",
+   "a": null,
+   "lab": "PA3 — Social Security Code 2020 adopted",
+   "d": "Code on Social Security 2020 with a National Social Security Board and universal basic package for informal workers; the Code's rollout later stalled — see ICR for status (not verified here).",
+   "from": "2020-09",
+   "to": null,
+   "srcs": [
+    [
+     "Program Document P174027 (2020-11-13)",
+     "https://documents.worldbank.org/curated/en/656781608346863527/text/India-Second-Accelerating-Indias-COVID-19-Social-Protection-Response-PMGKY-Development-Policy-Operation.txt"
+    ]
+   ],
+   "terms": null,
+   "benefit": null,
+   "innocentReading": null,
+   "upgradeIf": null,
+   "killIf": null,
+   "supersededBy": null
+  },
+  {
+   "id": "worldbank:c031",
+   "s": "fin:wb-dpf-pmgky-2",
+   "t": "min:ministry-of-consumer-affairs-food-and-public-distribution",
+   "pred": "law",
+   "tier": "documented",
+   "a": null,
+   "lab": "PA4 — One Nation One Ration Card mission-mode rollout",
+   "d": "Pan-national portable PDS access for migrants adopted in mission mode.",
+   "from": "2020",
+   "to": null,
+   "srcs": [
+    [
+     "Program Document P174027 (2020-11-13)",
+     "https://documents.worldbank.org/curated/en/656781608346863527/text/India-Second-Accelerating-Indias-COVID-19-Social-Protection-Response-PMGKY-Development-Policy-Operation.txt"
+    ]
+   ],
+   "terms": null,
+   "benefit": null,
+   "innocentReading": null,
+   "upgradeIf": null,
+   "killIf": null,
+   "supersededBy": null
+  },
+  {
+   "id": "worldbank:c032",
+   "s": "fin:wb-dpf-pmgky-2",
+   "t": "min:ministry-of-home-affairs",
+   "pred": "law",
+   "tier": "documented",
+   "a": null,
+   "lab": "PA6 — National Migrants Information System",
+   "d": "Database of inter-state mobility to target migrant-specific COVID support.",
+   "from": "2020",
+   "to": null,
+   "srcs": [
+    [
+     "Program Document P174027 (2020-11-13)",
+     "https://documents.worldbank.org/curated/en/656781608346863527/text/India-Second-Accelerating-Indias-COVID-19-Social-Protection-Response-PMGKY-Development-Policy-Operation.txt"
+    ]
+   ],
+   "terms": null,
+   "benefit": null,
+   "innocentReading": null,
+   "upgradeIf": null,
+   "killIf": null,
+   "supersededBy": null
+  },
+  {
+   "id": "worldbank:c033",
+   "s": "fin:wb-dpf-pmgky-2",
+   "t": "min:ministry-of-labour-and-employment",
+   "pred": "law",
+   "tier": "documented",
+   "a": null,
+   "lab": "PA7 — OSH Code 2020 widens 'inter-state migrant' and mandates registration portal",
+   "d": "Occupational Safety, Health and Working Conditions Code 2020: migrants without a contractor included; decentralised registration portal for portability.",
+   "from": "2020-09",
+   "to": null,
+   "srcs": [
+    [
+     "Program Document P174027 (2020-11-13)",
+     "https://documents.worldbank.org/curated/en/656781608346863527/text/India-Second-Accelerating-Indias-COVID-19-Social-Protection-Response-PMGKY-Development-Policy-Operation.txt"
+    ]
+   ],
+   "terms": null,
+   "benefit": null,
+   "innocentReading": null,
+   "upgradeIf": null,
+   "killIf": null,
+   "supersededBy": null
+  },
+  {
+   "id": "worldbank:c034",
+   "s": "fin:wb-dpf-pmgky-2",
+   "t": "min:ministry-of-rural-development",
+   "pred": "law",
+   "tier": "documented",
+   "a": null,
+   "lab": "PA8 — Garib Kalyan Rozgar Abhiyan",
+   "d": "Converged mission-mode cash-for-employment programme for returning migrants in rural areas.",
+   "from": "2020-06",
+   "to": null,
+   "srcs": [
+    [
+     "Program Document P174027 (2020-11-13)",
+     "https://documents.worldbank.org/curated/en/656781608346863527/text/India-Second-Accelerating-Indias-COVID-19-Social-Protection-Response-PMGKY-Development-Policy-Operation.txt"
+    ]
+   ],
+   "terms": null,
+   "benefit": null,
+   "innocentReading": null,
+   "upgradeIf": null,
+   "killIf": null,
+   "supersededBy": null
+  },
+  {
+   "id": "worldbank:c035",
+   "s": "fin:wb-dpf-pmgky-2",
+   "t": "min:ministry-of-power",
+   "pred": "law",
+   "tier": "documented",
+   "a": null,
+   "lab": "PA11 — ISTS charges waiver extended for solar and wind",
+   "d": "Waiver of inter-state transmission charges and losses on solar and wind power extended (a renewable-energy condition inside a social-protection DPO, counted as climate co-benefit; results indicator: cumulative RE 85.9 GW → 172 GW).",
+   "from": "2020",
+   "to": null,
+   "srcs": [
+    [
+     "Program Document P174027 (2020-11-13)",
+     "https://documents.worldbank.org/curated/en/656781608346863527/text/India-Second-Accelerating-Indias-COVID-19-Social-Protection-Response-PMGKY-Development-Policy-Operation.txt"
+    ]
+   ],
+   "terms": null,
+   "benefit": {
+    "who": "min:ministry-of-new-and-renewable-energy",
+    "how": "Volume/price: ISTS waiver lowers delivered cost for inter-state RE developers; beneficiaries are the RE-developer class, no firm named in the PD",
+    "amountCr": null,
+    "confidence": "unknown"
+   },
+   "innocentReading": null,
+   "upgradeIf": null,
+   "killIf": null,
+   "supersededBy": null
+  },
+  {
+   "id": "worldbank:c036",
+   "s": "fin:wb-dpl-msme-2020",
+   "t": "min:ministry-of-finance",
+   "pred": "law",
+   "tier": "documented",
+   "a": null,
+   "lab": "PA1 — ECLGS ₹3 trillion 100% guarantee (GECL)",
+   "d": "GECL top-up of 20% of outstanding MSME credit as of 2020-02-29, 100% guaranteed by NCGTC; announced by the Finance Minister 2020-05; PD records contingent liability ₹3 trillion (US$40bn).",
+   "from": "2020-05",
+   "to": null,
+   "srcs": [
+    [
+     "Program Document P174292 MSME DPL (2020-06-16)",
+     "https://documents.worldbank.org/curated/en/703561593828083607/text/India-Micro-Small-and-Medium-Enterprises-Emergency-Response-Development-Policy-Loan.txt"
+    ],
+    [
+     "Loan Agreement 9153-IN (P174292), 2020-07-06",
+     "https://documents.worldbank.org/curated/en/244541594042824465/text/Official-Documents-Loan-Agreement-for-Loan-9153-IN-Closing-Package.txt"
+    ]
+   ],
+   "terms": null,
+   "benefit": {
+    "who": "min:ministry-of-finance",
+    "how": "Risk transfer: GoI guarantee to lenders (banks/NBFCs) on ₹3tn of top-up loans — beneficiaries are lenders (loss protection) and MSME borrowers (credit); no firm named",
+    "amountCr": 300000,
+    "confidence": "documented"
+   },
+   "innocentReading": null,
+   "upgradeIf": null,
+   "killIf": null,
+   "supersededBy": null
+  },
+  {
+   "id": "worldbank:c037",
+   "s": "fin:wb-dpl-msme-2020",
+   "t": "min:ministry-of-micro-small-and-medium-enterprises",
+   "pred": "law",
+   "tier": "documented",
+   "a": null,
+   "lab": "PA2 — CGTMSE guarantee cap withdrawn; fintech NBFCs included",
+   "d": "Cap on utilising guarantee cover withdrawn within ₹20 million limit; fintech NBFCs made eligible.",
+   "from": "2020",
+   "to": null,
+   "srcs": [
+    [
+     "Program Document P174292 MSME DPL (2020-06-16)",
+     "https://documents.worldbank.org/curated/en/703561593828083607/text/India-Micro-Small-and-Medium-Enterprises-Emergency-Response-Development-Policy-Loan.txt"
+    ]
+   ],
+   "terms": null,
+   "benefit": null,
+   "innocentReading": null,
+   "upgradeIf": null,
+   "killIf": null,
+   "supersededBy": null
+  },
+  {
+   "id": "worldbank:c038",
+   "s": "fin:wb-dpl-msme-2020",
+   "t": "wel:rbi",
+   "pred": "law",
+   "tier": "documented",
+   "a": null,
+   "lab": "PA3 — TLTRO 2.0 ₹500bn for NBFCs; liquidity facility for on-lending; SLF for NBFC/HFC/MFI paper",
+   "d": "RBI TLTRO windows and one-year liquidity support; MoF Special Liquidity Facility guaranteeing short-term NBFC/HFC/MFI debt (₹300bn contingent).",
+   "from": "2020-04",
+   "to": null,
+   "srcs": [
+    [
+     "Program Document P174292 MSME DPL (2020-06-16)",
+     "https://documents.worldbank.org/curated/en/703561593828083607/text/India-Micro-Small-and-Medium-Enterprises-Emergency-Response-Development-Policy-Loan.txt"
+    ]
+   ],
+   "terms": null,
+   "benefit": null,
+   "innocentReading": null,
+   "upgradeIf": null,
+   "killIf": null,
+   "supersededBy": null
+  },
+  {
+   "id": "worldbank:c039",
+   "s": "fin:wb-dpl-msme-2020",
+   "t": "min:ministry-of-finance",
+   "pred": "law",
+   "tier": "documented",
+   "a": null,
+   "lab": "PA4 — Partial Credit Guarantee 2.0",
+   "d": "PCG extended to NBFC bonds/CPs, PSB first-loss cover to 20%, lower-rated NBFCs included (₹100bn contingent).",
+   "from": "2020-05",
+   "to": null,
+   "srcs": [
+    [
+     "Program Document P174292 MSME DPL (2020-06-16)",
+     "https://documents.worldbank.org/curated/en/703561593828083607/text/India-Micro-Small-and-Medium-Enterprises-Emergency-Response-Development-Policy-Loan.txt"
+    ]
+   ],
+   "terms": null,
+   "benefit": {
+    "who": "min:ministry-of-finance",
+    "how": "Risk transfer to GoI on PSB purchases of NBFC paper",
+    "amountCr": null,
+    "confidence": "documented"
+   },
+   "innocentReading": null,
+   "upgradeIf": null,
+   "killIf": null,
+   "supersededBy": null
+  },
+  {
+   "id": "worldbank:c040",
+   "s": "fin:wb-dpl-msme-2020",
+   "t": "wel:rbi",
+   "pred": "law",
+   "tier": "documented",
+   "a": null,
+   "lab": "PA5 — RBI fintech regulatory sandbox operationalised",
+   "d": "Guidelines via circular of 2019-08-13 — a pre-pandemic action counted as a prior action.",
+   "from": "2019-08-13",
+   "to": null,
+   "srcs": [
+    [
+     "Program Document P174292 MSME DPL (2020-06-16)",
+     "https://documents.worldbank.org/curated/en/703561593828083607/text/India-Micro-Small-and-Medium-Enterprises-Emergency-Response-Development-Policy-Loan.txt"
+    ]
+   ],
+   "terms": null,
+   "benefit": null,
+   "innocentReading": null,
+   "upgradeIf": null,
+   "killIf": null,
+   "supersededBy": null
+  },
+  {
+   "id": "worldbank:c041",
+   "s": "fin:wb-dpl-msme-2020",
+   "t": "min:ministry-of-heavy-industries",
+   "pred": "law",
+   "tier": "documented",
+   "a": null,
+   "lab": "PA6 — CPSEs to onboard MSE vendors on TReDS",
+   "d": "Notification that central PSEs onboard MSE vendors on the TReDS receivables platform.",
+   "from": "2020",
+   "to": null,
+   "srcs": [
+    [
+     "Program Document P174292 MSME DPL (2020-06-16)",
+     "https://documents.worldbank.org/curated/en/703561593828083607/text/India-Micro-Small-and-Medium-Enterprises-Emergency-Response-Development-Policy-Loan.txt"
+    ]
+   ],
+   "terms": null,
+   "benefit": null,
+   "innocentReading": null,
+   "upgradeIf": null,
+   "killIf": null,
+   "supersededBy": null
+  },
+  {
+   "id": "worldbank:c042",
+   "s": "fin:wb-dpl-msme-2020",
+   "t": "min:ministry-of-finance",
+   "pred": "law",
+   "tier": "documented",
+   "a": null,
+   "lab": "PA7 — PSB Loans in 59 Minutes platform",
+   "d": "PSB59 company set up to fast-process MSME loans by select banks (platform launched 2018-11; counted as prior action).",
+   "from": "2018-11",
+   "to": null,
+   "srcs": [
+    [
+     "Program Document P174292 MSME DPL (2020-06-16)",
+     "https://documents.worldbank.org/curated/en/703561593828083607/text/India-Micro-Small-and-Medium-Enterprises-Emergency-Response-Development-Policy-Loan.txt"
+    ]
+   ],
+   "terms": null,
+   "benefit": null,
+   "innocentReading": null,
+   "upgradeIf": null,
+   "killIf": null,
+   "supersededBy": null
+  },
+  {
+   "id": "worldbank:c043",
+   "s": "fin:wb-dpl-low-carbon-1",
+   "t": "min:ministry-of-new-and-renewable-energy",
+   "pred": "law",
+   "tier": "documented",
+   "a": null,
+   "lab": "PA1 — National Green Hydrogen Mission approved by Union Cabinet",
+   "d": "NGHM with incentives for electrolyser manufacturing and GH production (SIGHT tranches: ₹45bn Tranche I, ₹195bn Tranche II per PD) — marked [Achieved].",
+   "from": "2023-01",
+   "to": null,
+   "srcs": [
+    [
+     "Program Document P181032 First Low-Carbon Energy DPL (2023-06-02)",
+     "https://documents.worldbank.org/curated/en/099060623092565311/text/BOSIB0342f50d505508c7803e3b35fb5c59.txt"
+    ]
+   ],
+   "terms": null,
+   "benefit": {
+    "who": "min:ministry-of-new-and-renewable-energy",
+    "how": "Subsidy pool for electrolyser and GH producers allocated by SECI auctions — beneficiary class is GH developers; PD names none",
+    "amountCr": 24000,
+    "confidence": "estimated"
+   },
+   "innocentReading": null,
+   "upgradeIf": null,
+   "killIf": null,
+   "supersededBy": null
+  },
+  {
+   "id": "worldbank:c044",
+   "s": "fin:wb-dpl-low-carbon-1",
+   "t": "min:ministry-of-power",
+   "pred": "law",
+   "tier": "documented",
+   "a": null,
+   "lab": "PA4 — RPO and Energy Storage Obligation order",
+   "d": "Government order mandating renewable purchase and energy storage obligations.",
+   "from": "2022",
+   "to": null,
+   "srcs": [
+    [
+     "Program Document P181032 First Low-Carbon Energy DPL (2023-06-02)",
+     "https://documents.worldbank.org/curated/en/099060623092565311/text/BOSIB0342f50d505508c7803e3b35fb5c59.txt"
+    ]
+   ],
+   "terms": null,
+   "benefit": null,
+   "innocentReading": null,
+   "upgradeIf": null,
+   "killIf": null,
+   "supersededBy": null
+  },
+  {
+   "id": "worldbank:c045",
+   "s": "fin:wb-dpl-low-carbon-1",
+   "t": "min:ministry-of-power",
+   "pred": "law",
+   "tier": "documented",
+   "a": null,
+   "lab": "PA9 — Energy Conservation (Amendment) Act 2022: national carbon market",
+   "d": "Parliament approved amendments providing the legal framework for a carbon credit trading scheme; trigger for DPF2: MoP notifies the scheme.",
+   "from": "2022-12",
+   "to": null,
+   "srcs": [
+    [
+     "Program Document P181032 First Low-Carbon Energy DPL (2023-06-02)",
+     "https://documents.worldbank.org/curated/en/099060623092565311/text/BOSIB0342f50d505508c7803e3b35fb5c59.txt"
+    ]
+   ],
+   "terms": null,
+   "benefit": null,
+   "innocentReading": null,
+   "upgradeIf": null,
+   "killIf": null,
+   "supersededBy": null
+  },
+  {
+   "id": "worldbank:c046",
+   "s": "fin:wb-dpl-low-carbon-1",
+   "t": "sebi",
+   "pred": "law",
+   "tier": "documented",
+   "a": null,
+   "lab": "PA10 — SEBI green debt securities framework amended",
+   "d": "GDS taxonomy widened; trigger for DPF2: SEBI ESG disclosure/ratings framework.",
+   "from": "2023-02",
+   "to": null,
+   "srcs": [
+    [
+     "Program Document P181032 First Low-Carbon Energy DPL (2023-06-02)",
+     "https://documents.worldbank.org/curated/en/099060623092565311/text/BOSIB0342f50d505508c7803e3b35fb5c59.txt"
+    ]
+   ],
+   "terms": null,
+   "benefit": null,
+   "innocentReading": null,
+   "upgradeIf": null,
+   "killIf": null,
+   "supersededBy": null
+  },
+  {
+   "id": "worldbank:c047",
+   "s": "fin:wb-dpl-low-carbon-1",
+   "t": "min:ministry-of-finance",
+   "pred": "law",
+   "tier": "documented",
+   "a": null,
+   "lab": "PA11 — Sovereign Green Bond Framework",
+   "d": "MoF issued a framework for selecting and financing green public spending.",
+   "from": "2022-11",
+   "to": null,
+   "srcs": [
+    [
+     "Program Document P181032 First Low-Carbon Energy DPL (2023-06-02)",
+     "https://documents.worldbank.org/curated/en/099060623092565311/text/BOSIB0342f50d505508c7803e3b35fb5c59.txt"
+    ]
+   ],
+   "terms": null,
+   "benefit": null,
+   "innocentReading": null,
+   "upgradeIf": null,
+   "killIf": null,
+   "supersededBy": null
+  },
+  {
+   "id": "worldbank:c048",
+   "s": "fin:wb-dpo-resilient-kerala-1",
+   "t": "fin:state-kerala",
+   "pred": "law",
+   "tier": "documented",
+   "a": null,
+   "lab": "PA1 — Rebuild Kerala Development Programme adopted",
+   "d": "RKDP adopted as the post-2018-flood recovery framework, led by the Chief Minister's office (PD/ICR name the office, not the person).",
+   "from": "2019-05",
+   "to": null,
+   "srcs": [
+    [
+     "Program Document P169907 First Resilient Kerala DPO (2019-05-31)",
+     "https://documents.worldbank.org/curated/en/476681561946430308/text/India-First-Resilient-Kerala-Program-Development-Policy-Operation.txt"
+    ],
+    [
+     "ICR P169907 First Resilient Kerala Program (2022-06-13)",
+     "https://documents.worldbank.org/curated/en/598801655481186593/text/India-The-First-Resilient-Kerala-Program.txt"
+    ]
+   ],
+   "terms": null,
+   "benefit": null,
+   "innocentReading": null,
+   "upgradeIf": null,
+   "killIf": null,
+   "supersededBy": null
+  },
+  {
+   "id": "worldbank:c049",
+   "s": "fin:wb-dpo-resilient-kerala-1",
+   "t": "fin:state-kerala",
+   "pred": "law",
+   "tier": "documented",
+   "a": null,
+   "lab": "PA2 — Kerala flood cess from 2019-06-01",
+   "d": "New flood cess (on GST) adopted to finance resilient recovery; trigger for DPO2: legal instructions for mobilising private/institutional finance.",
+   "from": "2019-06-01",
+   "to": null,
+   "srcs": [
+    [
+     "Program Document P169907 First Resilient Kerala DPO (2019-05-31)",
+     "https://documents.worldbank.org/curated/en/476681561946430308/text/India-First-Resilient-Kerala-Program-Development-Policy-Operation.txt"
+    ]
+   ],
+   "terms": null,
+   "benefit": {
+    "who": "fin:state-kerala",
+    "how": "Own-revenue condition: the state taxes its residents as a condition of the credit — cost borne by Kerala consumers",
+    "amountCr": null,
+    "confidence": "documented"
+   },
+   "innocentReading": null,
+   "upgradeIf": null,
+   "killIf": null,
+   "supersededBy": null
+  },
+  {
+   "id": "worldbank:c050",
+   "s": "fin:wb-dpo-resilient-kerala-1",
+   "t": "fin:state-kerala",
+   "pred": "law",
+   "tier": "documented",
+   "a": null,
+   "lab": "PA6 — core road network criteria and PWD code review",
+   "d": "Criteria for core road network and mandated review of PWD road policies, codes and manuals for resilient design.",
+   "from": "2019",
+   "to": null,
+   "srcs": [
+    [
+     "Program Document P169907 First Resilient Kerala DPO (2019-05-31)",
+     "https://documents.worldbank.org/curated/en/476681561946430308/text/India-First-Resilient-Kerala-Program-Development-Policy-Operation.txt"
+    ]
+   ],
+   "terms": null,
+   "benefit": null,
+   "innocentReading": null,
+   "upgradeIf": null,
+   "killIf": null,
+   "supersededBy": null
+  },
+  {
+   "id": "worldbank:c051",
+   "s": "fin:wb-pforr-gujarat-goal",
+   "t": "energy:govt-of-gujarat",
+   "pred": "law",
+   "tier": "documented",
+   "a": null,
+   "lab": "Seven DLIs, US$498.75m",
+   "d": "DLI1 planning 75; DLI2 school performance grants 50; DLI3 foundational learning 75; DLI4 teacher development 75; DLI5 learning environment 148.75; DLI6 assessment 50; DLI7 COVID response 25 (US$m). Governing Council headed by the Chief Minister/State Education Minister (PAD names offices, not persons).",
+   "from": "2021-03-24",
+   "to": null,
+   "srcs": [
+    [
+     "PAD P173704 Gujarat GOAL PforR (2021-02-27)",
+     "https://documents.worldbank.org/curated/en/945711616680968888/text/India-Gujarat-Outcomes-for-Accelerated-Learning-GOAL-Program-for-Results-Project.txt"
+    ]
+   ],
+   "terms": null,
+   "benefit": {
+    "who": "energy:govt-of-gujarat",
+    "how": "Results-based: money released against independently verified indicators",
+    "amountCr": null,
+    "confidence": "documented"
+   },
+   "innocentReading": null,
+   "upgradeIf": null,
+   "killIf": null,
+   "supersededBy": null
+  },
+  {
+   "id": "worldbank:c052",
+   "s": "fin:ieg",
+   "t": "fin:wb-dpf-pmgky-1",
+   "pred": "analytic",
+   "tier": "documented",
+   "a": null,
+   "lab": "IEG ICR Review: Outcome Highly Satisfactory; Bank Performance Highly Satisfactory",
+   "d": "ICR (2024-04-22) and IEG review (2024-10-06) agree: relevance of prior actions Satisfactory, efficacy Highly Satisfactory, 6 of 6 results indicators exceeded; US$748.48m + US$400m fully disbursed. IEG: risk to development outcome minimal.",
+   "from": "2024-10-06",
+   "to": null,
+   "srcs": [
+    [
+     "ICR P173943/P174027 (2024-04-22)",
+     "https://documents.worldbank.org/curated/en/099042224135030970/text/BOSIB-c35ef47d-c671-422e-acd1-d14436c5cc23.txt"
+    ],
+    [
+     "IEG ICR Review P173943 (2024-10-06)",
+     "https://documents.worldbank.org/curated/en/099021425103520204/text/P173943-594240c2-796b-4b0c-80b6-a58ce6d8637c.txt"
+    ]
+   ],
+   "terms": null,
+   "benefit": null,
+   "innocentReading": null,
+   "upgradeIf": null,
+   "killIf": null,
+   "supersededBy": null
+  },
+  {
+   "id": "worldbank:c053",
+   "s": "fin:ieg",
+   "t": "fin:wb-dpl-msme-2020",
+   "pred": "analytic",
+   "tier": "documented",
+   "a": null,
+   "lab": "IEG ICR Review: Outcome Satisfactory; Bank Performance Satisfactory",
+   "d": "Single-tranche US$750m disbursed; IEG concurs with ICR ratings; quality of ICR Substantial.",
+   "from": "2023-06-28",
+   "to": null,
+   "srcs": [
+    [
+     "IEG ICR Review P174292 (2023-06-28)",
+     "https://documents.worldbank.org/curated/en/099062823200017662/text/P17429209a873202409e910acccd25eeb49.txt"
+    ]
+   ],
+   "terms": null,
+   "benefit": null,
+   "innocentReading": null,
+   "upgradeIf": null,
+   "killIf": null,
+   "supersededBy": null
+  },
+  {
+   "id": "worldbank:c054",
+   "s": "fin:ieg",
+   "t": "fin:wb-pforr-swachh-bharat",
+   "pred": "analytic",
+   "tier": "documented",
+   "a": null,
+   "lab": "IEG ICR Review: Outcome Satisfactory; efficacy Substantial with shortcomings",
+   "d": "Programme cost at completion US$14,640m vs US$22,000m appraised; US$1,259m of US$1,500m disbursed; four restructurings 2020-07..2021-06; results verified by NARSS surveys.",
+   "from": "2023-09-15",
+   "to": null,
+   "srcs": [
+    [
+     "IEG ICR Review P153251 Swachh Bharat Mission Support Operation (2023-09-15)",
+     "https://documents.worldbank.org/curated/en/099091523140562778/text/P15325104d51050080b0620ff05fe21c20f.txt"
+    ]
+   ],
+   "terms": null,
+   "benefit": null,
+   "innocentReading": null,
+   "upgradeIf": null,
+   "killIf": null,
+   "supersededBy": null
+  },
+  {
+   "id": "worldbank:c055",
+   "s": "fin:world-bank-india-office",
+   "t": "fin:wb-dpo-resilient-kerala-1",
+   "pred": "analytic",
+   "tier": "documented",
+   "a": null,
+   "lab": "ICR: Outcome Satisfactory; relevance of prior actions Highly Satisfactory",
+   "d": "US$250m fully disbursed 2019-08; AFD €100m parallel loan; GoK comments acknowledge the Satisfactory rating.",
+   "from": "2022-06-13",
+   "to": null,
+   "srcs": [
+    [
+     "ICR P169907 First Resilient Kerala Program (2022-06-13)",
+     "https://documents.worldbank.org/curated/en/598801655481186593/text/India-The-First-Resilient-Kerala-Program.txt"
+    ]
+   ],
+   "terms": null,
+   "benefit": null,
+   "innocentReading": null,
+   "upgradeIf": null,
+   "killIf": null,
+   "supersededBy": null
+  },
+  {
+   "id": "worldbank:c056",
+   "s": "fin:ibrd",
+   "t": "energy:state-assam",
+   "pred": "analytic",
+   "tier": "analytic",
+   "a": null,
+   "lab": "Assam receives 3.3x its population share of state-attributed WB commitments 2014–26 (1.6x under UPA)",
+   "d": "Assam: NDA-period (2014-05-26..2026-09-26) share of state-attributed commitments 8.9% (US$2294m) vs Census-2011 population share 2.7% → ratio 3.3; UPA-period (2004-05-22..2014-05-25) 4.4% (US$524m) → ratio 1.63. Denominators: state-attributed US$25,754m (NDA) and US$11,799m (UPA) across 25 states; population of those states 1,175m.",
+   "from": "2014-05-26",
+   "to": "2026-09-26",
+   "srcs": [
+    [
+     "World Bank Projects API v3 — India, rows 0–999",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=0&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ],
+    [
+     "World Bank Projects API v3 — India, rows 1000–1116",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=1000&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ],
+    [
+     "census2011.co.in — state table reproducing Census 2011 final population totals (secondary)",
+     "https://www.census2011.co.in/states.php"
+    ]
+   ],
+   "terms": null,
+   "benefit": null,
+   "innocentReading": "States borrow through the Union under Article 293 and DEA's external-assistance allocation; per-capita ratios are mechanically high for small hill/north-eastern states where any one project is large relative to population; the pipeline lags government change by 2–4 years (preparation time); implementing capacity and the state's own debt ceiling (FRBM) bind more than politics; attribution here is by implementing-agency/name regex on the API and excludes US$22.6bn of central-only and US$1.4bn of multi-state projects.",
+   "upgradeIf": "A DEA allocation note, CAG audit or Bank CPF text explaining state selection would convert the ratio into a documented allocation rule",
+   "killIf": "Recomputing with the Bank's own location field (not in v3 API) or with disbursements rather than commitments removes the deviation",
+   "supersededBy": null
+  },
+  {
+   "id": "worldbank:c057",
+   "s": "fin:ibrd",
+   "t": "energy:govt-of-gujarat",
+   "pred": "analytic",
+   "tier": "analytic",
+   "a": null,
+   "lab": "Gujarat's share rose from 0.29x population (UPA) to 1.24x (NDA)",
+   "d": "Gujarat: NDA-period (2014-05-26..2026-09-26) share of state-attributed commitments 6.3% (US$1630m) vs Census-2011 population share 5.1% → ratio 1.24; UPA-period (2004-05-22..2014-05-25) 1.5% (US$175m) → ratio 0.29. Denominators: state-attributed US$25,754m (NDA) and US$11,799m (UPA) across 25 states; population of those states 1,175m. Driven by GOAL (US$750m), SRESTHA-G (US$350m), Ahmedabad resilience (US$280m).",
+   "from": "2014-05-26",
+   "to": "2026-09-26",
+   "srcs": [
+    [
+     "World Bank Projects API v3 — India, rows 0–999",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=0&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ],
+    [
+     "World Bank Projects API v3 — India, rows 1000–1116",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=1000&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ],
+    [
+     "census2011.co.in — state table reproducing Census 2011 final population totals (secondary)",
+     "https://www.census2011.co.in/states.php"
+    ]
+   ],
+   "terms": null,
+   "benefit": null,
+   "innocentReading": "States borrow through the Union under Article 293 and DEA's external-assistance allocation; per-capita ratios are mechanically high for small hill/north-eastern states where any one project is large relative to population; the pipeline lags government change by 2–4 years (preparation time); implementing capacity and the state's own debt ceiling (FRBM) bind more than politics; attribution here is by implementing-agency/name regex on the API and excludes US$22.6bn of central-only and US$1.4bn of multi-state projects.",
+   "upgradeIf": "A DEA allocation note, CAG audit or Bank CPF text explaining state selection would convert the ratio into a documented allocation rule",
+   "killIf": "Recomputing with the Bank's own location field (not in v3 API) or with disbursements rather than commitments removes the deviation",
+   "supersededBy": null
+  },
+  {
+   "id": "worldbank:c058",
+   "s": "fin:ibrd",
+   "t": "energy:state-andhra-pradesh",
+   "pred": "analytic",
+   "tier": "analytic",
+   "a": null,
+   "lab": "Andhra Pradesh (incl. Telangana projects) rose from 0.35x (UPA) to 1.62x (NDA); Amaravati US$1,600m is the single largest item",
+   "d": "Andhra Pradesh: NDA-period (2014-05-26..2026-09-26) share of state-attributed commitments 11.7% (US$3008m) vs Census-2011 population share 7.2% → ratio 1.62; UPA-period (2004-05-22..2014-05-25) 2.5% (US$292m) → ratio 0.35. Denominators: state-attributed US$25,754m (NDA) and US$11,799m (UPA) across 25 states; population of those states 1,175m. AP was governed by TDP (2014–19), YSRCP (2019–24) and TDP-led NDA ally (2024–): the rise spans opposition and allied governments.",
+   "from": "2014-05-26",
+   "to": "2026-09-26",
+   "srcs": [
+    [
+     "World Bank Projects API v3 — India, rows 0–999",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=0&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ],
+    [
+     "World Bank Projects API v3 — India, rows 1000–1116",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=1000&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ],
+    [
+     "census2011.co.in — state table reproducing Census 2011 final population totals (secondary)",
+     "https://www.census2011.co.in/states.php"
+    ]
+   ],
+   "terms": null,
+   "benefit": null,
+   "innocentReading": "States borrow through the Union under Article 293 and DEA's external-assistance allocation; per-capita ratios are mechanically high for small hill/north-eastern states where any one project is large relative to population; the pipeline lags government change by 2–4 years (preparation time); implementing capacity and the state's own debt ceiling (FRBM) bind more than politics; attribution here is by implementing-agency/name regex on the API and excludes US$22.6bn of central-only and US$1.4bn of multi-state projects.",
+   "upgradeIf": "A DEA allocation note, CAG audit or Bank CPF text explaining state selection would convert the ratio into a documented allocation rule",
+   "killIf": "Recomputing with the Bank's own location field (not in v3 API) or with disbursements rather than commitments removes the deviation",
+   "supersededBy": null
+  },
+  {
+   "id": "worldbank:c059",
+   "s": "fin:ibrd",
+   "t": "fin:state-kerala",
+   "pred": "analytic",
+   "tier": "analytic",
+   "a": null,
+   "lab": "Kerala 1.9x population share under NDA (1.7x under UPA) — an opposition-run state above parity in both periods",
+   "d": "Kerala: NDA-period (2014-05-26..2026-09-26) share of state-attributed commitments 5.4% (US$1395m) vs Census-2011 population share 2.8% → ratio 1.93; UPA-period (2004-05-22..2014-05-25) 4.8% (US$571m) → ratio 1.71. Denominators: state-attributed US$25,754m (NDA) and US$11,799m (UPA) across 25 states; population of those states 1,175m.",
+   "from": "2014-05-26",
+   "to": "2026-09-26",
+   "srcs": [
+    [
+     "World Bank Projects API v3 — India, rows 0–999",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=0&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ],
+    [
+     "World Bank Projects API v3 — India, rows 1000–1116",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=1000&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ],
+    [
+     "census2011.co.in — state table reproducing Census 2011 final population totals (secondary)",
+     "https://www.census2011.co.in/states.php"
+    ]
+   ],
+   "terms": null,
+   "benefit": null,
+   "innocentReading": "States borrow through the Union under Article 293 and DEA's external-assistance allocation; per-capita ratios are mechanically high for small hill/north-eastern states where any one project is large relative to population; the pipeline lags government change by 2–4 years (preparation time); implementing capacity and the state's own debt ceiling (FRBM) bind more than politics; attribution here is by implementing-agency/name regex on the API and excludes US$22.6bn of central-only and US$1.4bn of multi-state projects.",
+   "upgradeIf": "A DEA allocation note, CAG audit or Bank CPF text explaining state selection would convert the ratio into a documented allocation rule",
+   "killIf": "Recomputing with the Bank's own location field (not in v3 API) or with disbursements rather than commitments removes the deviation",
+   "supersededBy": null
+  },
+  {
+   "id": "worldbank:c060",
+   "s": "fin:ibrd",
+   "t": "energy:state-tamil-nadu",
+   "pred": "analytic",
+   "tier": "analytic",
+   "a": null,
+   "lab": "Tamil Nadu 1.75x (NDA) and 2.08x (UPA) — consistently above parity under DMK and AIADMK governments",
+   "d": "Tamil Nadu: NDA-period (2014-05-26..2026-09-26) share of state-attributed commitments 10.7% (US$2750m) vs Census-2011 population share 6.1% → ratio 1.75; UPA-period (2004-05-22..2014-05-25) 12.7% (US$1495m) → ratio 2.08. Denominators: state-attributed US$25,754m (NDA) and US$11,799m (UPA) across 25 states; population of those states 1,175m.",
+   "from": "2014-05-26",
+   "to": "2026-09-26",
+   "srcs": [
+    [
+     "World Bank Projects API v3 — India, rows 0–999",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=0&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ],
+    [
+     "World Bank Projects API v3 — India, rows 1000–1116",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=1000&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ],
+    [
+     "census2011.co.in — state table reproducing Census 2011 final population totals (secondary)",
+     "https://www.census2011.co.in/states.php"
+    ]
+   ],
+   "terms": null,
+   "benefit": null,
+   "innocentReading": "States borrow through the Union under Article 293 and DEA's external-assistance allocation; per-capita ratios are mechanically high for small hill/north-eastern states where any one project is large relative to population; the pipeline lags government change by 2–4 years (preparation time); implementing capacity and the state's own debt ceiling (FRBM) bind more than politics; attribution here is by implementing-agency/name regex on the API and excludes US$22.6bn of central-only and US$1.4bn of multi-state projects.",
+   "upgradeIf": "A DEA allocation note, CAG audit or Bank CPF text explaining state selection would convert the ratio into a documented allocation rule",
+   "killIf": "Recomputing with the Bank's own location field (not in v3 API) or with disbursements rather than commitments removes the deviation",
+   "supersededBy": null
+  },
+  {
+   "id": "worldbank:c061",
+   "s": "fin:ibrd",
+   "t": "energy:state-uttar-pradesh",
+   "pred": "analytic",
+   "tier": "analytic",
+   "a": null,
+   "lab": "Uttar Pradesh 0.61x (NDA) and 0.82x (UPA) — the largest BJP-run state is below parity in both periods",
+   "d": "Uttar Pradesh: NDA-period (2014-05-26..2026-09-26) share of state-attributed commitments 10.3% (US$2650m) vs Census-2011 population share 17% → ratio 0.61; UPA-period (2004-05-22..2014-05-25) 13.9% (US$1637m) → ratio 0.82. Denominators: state-attributed US$25,754m (NDA) and US$11,799m (UPA) across 25 states; population of those states 1,175m.",
+   "from": "2014-05-26",
+   "to": "2026-09-26",
+   "srcs": [
+    [
+     "World Bank Projects API v3 — India, rows 0–999",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=0&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ],
+    [
+     "World Bank Projects API v3 — India, rows 1000–1116",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=1000&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ],
+    [
+     "census2011.co.in — state table reproducing Census 2011 final population totals (secondary)",
+     "https://www.census2011.co.in/states.php"
+    ]
+   ],
+   "terms": null,
+   "benefit": null,
+   "innocentReading": "States borrow through the Union under Article 293 and DEA's external-assistance allocation; per-capita ratios are mechanically high for small hill/north-eastern states where any one project is large relative to population; the pipeline lags government change by 2–4 years (preparation time); implementing capacity and the state's own debt ceiling (FRBM) bind more than politics; attribution here is by implementing-agency/name regex on the API and excludes US$22.6bn of central-only and US$1.4bn of multi-state projects.",
+   "upgradeIf": "A DEA allocation note, CAG audit or Bank CPF text explaining state selection would convert the ratio into a documented allocation rule",
+   "killIf": "Recomputing with the Bank's own location field (not in v3 API) or with disbursements rather than commitments removes the deviation",
+   "supersededBy": null
+  },
+  {
+   "id": "worldbank:c062",
+   "s": "fin:ibrd",
+   "t": "energy:state-karnataka",
+   "pred": "analytic",
+   "tier": "analytic",
+   "a": null,
+   "lab": "Karnataka fell from 2.12x (UPA) to 0.79x (NDA); Odisha fell from 2.03x to 0.39x",
+   "d": "Karnataka: NDA-period (2014-05-26..2026-09-26) share of state-attributed commitments 4.1% (US$1044m) vs Census-2011 population share 5.2% → ratio 0.79; UPA-period (2004-05-22..2014-05-25) 11% (US$1292m) → ratio 2.12. Denominators: state-attributed US$25,754m (NDA) and US$11,799m (UPA) across 25 states; population of those states 1,175m. Odisha: NDA-period (2014-05-26..2026-09-26) share of state-attributed commitments 1.4% (US$364m) vs Census-2011 population share 3.6% → ratio 0.39; UPA-period (2004-05-22..2014-05-25) 7.3% (US$858m) → ratio 2.03. Denominators: state-attributed US$25,754m (NDA) and US$11,799m (UPA) across 25 states; population of those states 1,175m.",
+   "from": "2014-05-26",
+   "to": "2026-09-26",
+   "srcs": [
+    [
+     "World Bank Projects API v3 — India, rows 0–999",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=0&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ],
+    [
+     "World Bank Projects API v3 — India, rows 1000–1116",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=1000&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ],
+    [
+     "census2011.co.in — state table reproducing Census 2011 final population totals (secondary)",
+     "https://www.census2011.co.in/states.php"
+    ]
+   ],
+   "terms": null,
+   "benefit": null,
+   "innocentReading": "States borrow through the Union under Article 293 and DEA's external-assistance allocation; per-capita ratios are mechanically high for small hill/north-eastern states where any one project is large relative to population; the pipeline lags government change by 2–4 years (preparation time); implementing capacity and the state's own debt ceiling (FRBM) bind more than politics; attribution here is by implementing-agency/name regex on the API and excludes US$22.6bn of central-only and US$1.4bn of multi-state projects.",
+   "upgradeIf": "A DEA allocation note, CAG audit or Bank CPF text explaining state selection would convert the ratio into a documented allocation rule",
+   "killIf": "Recomputing with the Bank's own location field (not in v3 API) or with disbursements rather than commitments removes the deviation",
+   "supersededBy": null
+  },
+  {
+   "id": "worldbank:c063",
+   "s": "fin:ibrd",
+   "t": "min:ministry-of-finance",
+   "pred": "analytic",
+   "tier": "analytic",
+   "a": null,
+   "lab": "State-attributed share of WB commitments rose from 31% (UPA) to 52% (NDA); no party pattern in the per-capita ratios",
+   "d": "UPA 2004-05-22..2014-05-25: 177 approved projects, US$37,496m, of which US$11,799m (31%) attributable to a single state. NDA 2014-05-26..2026-09-26: 188 projects, US$49,796m, US$25,754m (52%) state-attributed. Ratio to population >1.5 under NDA: Mizoram, HP, Sikkim, Assam, Meghalaya, Uttarakhand, Nagaland, Kerala, TN, Tripura, AP (7 north-eastern/hill states, 3 southern opposition-run, 1 mixed). Below 0.6: UP, Bihar, MP, Haryana, Odisha, Chhattisgarh (four BJP-run for most of the period). Under UPA the same lens gave HP 9.7x, Uttarakhand 4.8x, Karnataka 2.1x, Odisha 2.0x.",
+   "from": "2004-05-22",
+   "to": "2026-09-26",
+   "srcs": [
+    [
+     "World Bank Projects API v3 — India, rows 0–999",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=0&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ],
+    [
+     "World Bank Projects API v3 — India, rows 1000–1116",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=1000&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ],
+    [
+     "census2011.co.in — state table reproducing Census 2011 final population totals (secondary)",
+     "https://www.census2011.co.in/states.php"
+    ]
+   ],
+   "terms": null,
+   "benefit": null,
+   "innocentReading": "States borrow through the Union under Article 293 and DEA's external-assistance allocation; per-capita ratios are mechanically high for small hill/north-eastern states where any one project is large relative to population; the pipeline lags government change by 2–4 years (preparation time); implementing capacity and the state's own debt ceiling (FRBM) bind more than politics; attribution here is by implementing-agency/name regex on the API and excludes US$22.6bn of central-only and US$1.4bn of multi-state projects. The shift to state lending reflects the Bank's post-2014 India strategy of lending to states and PforRs, and IDA graduation removing cheap central credits.",
+   "upgradeIf": "Bank Country Partnership Framework 2018–22 text or DEA guidelines on state external borrowing explaining the shift",
+   "killIf": "Disbursement-based or per-project location-based recomputation shows a different ranking",
+   "supersededBy": null
+  },
+  {
+   "id": "worldbank:c064",
+   "s": "fin:ibrd",
+   "t": "min:ministry-of-finance",
+   "pred": "analytic",
+   "tier": "analytic",
+   "a": null,
+   "lab": "The 2020 DPL 'conditions' were measures GoI had already announced: the Bank financed the package rather than dictating it",
+   "d": "All 8 prior actions of P173943 and all 7 of P174292 were satisfied before appraisal; PA5 of the MSME DPL dates to 2019-08-13 and PA7 to 2018-11 (PSB59). PMGKY was announced 2020-03-26, the operation approved 2020-05-14; ECLGS announced 2020-05, DPL approved 2020-06-30. Forward-looking 'triggers' for follow-on operations exist (e.g. SEBI ESG framework, carbon-market notification) and are the real conditionality.",
+   "from": "2020-03-26",
+   "to": "2023-06-29",
+   "srcs": [
+    [
+     "Program Document P173943 (2020-04-30)",
+     "https://documents.worldbank.org/curated/en/685311589767271707/text/India-Accelerating-Indias-COVID-19-Social-Protection-Response-Program.txt"
+    ],
+    [
+     "Program Document P174292 MSME DPL (2020-06-16)",
+     "https://documents.worldbank.org/curated/en/703561593828083607/text/India-Micro-Small-and-Medium-Enterprises-Emergency-Response-Development-Policy-Loan.txt"
+    ],
+    [
+     "Program Document P181032 First Low-Carbon Energy DPL (2023-06-02)",
+     "https://documents.worldbank.org/curated/en/099060623092565311/text/BOSIB0342f50d505508c7803e3b35fb5c59.txt"
+    ]
+   ],
+   "terms": null,
+   "benefit": {
+    "who": "min:ministry-of-finance",
+    "how": "Cheapest possible budget financing during a fiscal shock (deficit 9.5% of GDP FY21 per ICR) in exchange for codifying announced measures",
+    "amountCr": 14328,
+    "confidence": "documented"
+   },
+   "innocentReading": "Development Policy Financing is designed to reward completed actions ('prior actions'), so this is the instrument working as intended, not capture in either direction.",
+   "upgradeIf": "A PD whose prior action precedes any GoI announcement of the measure — none found in the five PDs read",
+   "killIf": "Evidence that a listed measure was drafted with Bank staff before announcement (Bank mission records, RTI)",
+   "supersededBy": null
+  }
+ ],
+ "topLoansSince2000": [
+  {
+   "pid": "P116020",
+   "name": "Banking Sector Support Loan",
+   "usdm": 2000,
+   "approved": "2009-09-22",
+   "refClaims": [
+    "worldbank:c0603"
+   ],
+   "note": "largest single India commitment since 2000; borrower/implementing fields empty in API",
+   "srcs": [
+    [
+     "World Bank Projects API v3 — India, rows 0–999",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=0&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ],
+    [
+     "World Bank Projects API v3 — India, rows 1000–1116",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=1000&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ]
+   ]
+  },
+  {
+   "pid": "P144447",
+   "name": "Elementary Education III (SSA III), IDA",
+   "usdm": 1856,
+   "approved": "2014-05-16",
+   "refClaims": [
+    "worldbank:c0651"
+   ],
+   "note": "approved ten days before the 2014 change of government",
+   "srcs": [
+    [
+     "World Bank Projects API v3 — India, rows 0–999",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=0&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ],
+    [
+     "World Bank Projects API v3 — India, rows 1000–1116",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=1000&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ]
+   ]
+  },
+  {
+   "pid": "P507910",
+   "name": "PM Skilling / upgraded ITIs (IBRD 830 of 1,676)",
+   "usdm": 1676,
+   "approved": "2026-01-28",
+   "refClaims": [
+    "worldbank:c0823"
+   ],
+   "note": "Ministry of Skill Development",
+   "srcs": [
+    [
+     "World Bank Projects API v3 — India, rows 0–999",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=0&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ],
+    [
+     "World Bank Projects API v3 — India, rows 1000–1116",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=1000&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ]
+   ]
+  },
+  {
+   "pid": "P507508",
+   "name": "Amaravati Integrated Urban Development Program (IBRD 800 of 1,600)",
+   "usdm": 1600,
+   "approved": "2024-12-19",
+   "refClaims": [
+    "worldbank:c0821"
+   ],
+   "note": "APCRDA; approved six months after the 2024 AP government change",
+   "srcs": [
+    [
+     "World Bank Projects API v3 — India, rows 0–999",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=0&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ],
+    [
+     "World Bank Projects API v3 — India, rows 1000–1116",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=1000&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ]
+   ]
+  },
+  {
+   "pid": "P517201",
+   "name": "Boosting Job Creation in the Private Sector",
+   "usdm": 1500,
+   "approved": "2026-06-18",
+   "refClaims": [
+    "worldbank:c0847"
+   ],
+   "note": "one-year closing suggests DPF",
+   "srcs": [
+    [
+     "World Bank Projects API v3 — India, rows 0–999",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=0&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ],
+    [
+     "World Bank Projects API v3 — India, rows 1000–1116",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=1000&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ]
+   ]
+  },
+  {
+   "pid": "P181195",
+   "name": "Second Low-Carbon Energy Programmatic DPF",
+   "usdm": 1500,
+   "approved": "2024-06-28",
+   "refClaims": [
+    "worldbank:c0808",
+    "worldbank:c0809"
+   ],
+   "note": "detailed claim in this file",
+   "srcs": [
+    [
+     "World Bank Projects API v3 — India, rows 0–999",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=0&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ],
+    [
+     "World Bank Projects API v3 — India, rows 1000–1116",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=1000&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ]
+   ]
+  },
+  {
+   "pid": "P181032",
+   "name": "First Low-Carbon Energy Programmatic DPL",
+   "usdm": 1500,
+   "approved": "2023-06-29",
+   "refClaims": [
+    "worldbank:c0806",
+    "worldbank:c0807"
+   ],
+   "note": "detailed claim in this file",
+   "srcs": [
+    [
+     "World Bank Projects API v3 — India, rows 0–999",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=0&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ],
+    [
+     "World Bank Projects API v3 — India, rows 1000–1116",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=1000&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ]
+   ]
+  },
+  {
+   "pid": "P153251",
+   "name": "Swachh Bharat Mission Support Operation (PforR)",
+   "usdm": 1500,
+   "approved": "2015-12-15",
+   "refClaims": [
+    "worldbank:c0677"
+   ],
+   "note": "detailed claim in this file",
+   "srcs": [
+    [
+     "World Bank Projects API v3 — India, rows 0–999",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=0&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ],
+    [
+     "World Bank Projects API v3 — India, rows 1000–1116",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=1000&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ]
+   ]
+  },
+  {
+   "pid": "P124639",
+   "name": "PMGSY Rural Roads Project (IBRD 500 + IDA 900)",
+   "usdm": 1400,
+   "approved": "2010-12-20",
+   "refClaims": [
+    "worldbank:c0629",
+    "worldbank:c0630"
+   ],
+   "note": "NRIDA",
+   "srcs": [
+    [
+     "World Bank Projects API v3 — India, rows 0–999",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=0&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ],
+    [
+     "World Bank Projects API v3 — India, rows 1000–1116",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=1000&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ]
+   ]
+  },
+  {
+   "pid": "P131765",
+   "name": "Eastern Dedicated Freight Corridor II",
+   "usdm": 1100,
+   "approved": "2014-04-22",
+   "refClaims": [
+    "worldbank:c0644"
+   ],
+   "note": "DFCCIL; approved during the 2014 general election",
+   "srcs": [
+    [
+     "World Bank Projects API v3 — India, rows 0–999",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=0&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ],
+    [
+     "World Bank Projects API v3 — India, rows 1000–1116",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=1000&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ]
+   ]
+  },
+  {
+   "pid": "P055459",
+   "name": "Elementary Education Project (IDA 500 of 1,046)",
+   "usdm": 1046,
+   "approved": "2004-04-20",
+   "refClaims": [],
+   "note": "projects-file claim id not looked up",
+   "srcs": [
+    [
+     "World Bank Projects API v3 — India, rows 0–999",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=0&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ],
+    [
+     "World Bank Projects API v3 — India, rows 1000–1116",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=1000&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ]
+   ]
+  },
+  {
+   "pid": "P173836",
+   "name": "COVID-19 Emergency Response and Health Systems Preparedness",
+   "usdm": 1000,
+   "approved": "2020-04-02",
+   "refClaims": [
+    "worldbank:c0753"
+   ],
+   "note": "detailed claim in this file",
+   "srcs": [
+    [
+     "World Bank Projects API v3 — India, rows 0–999",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=0&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ],
+    [
+     "World Bank Projects API v3 — India, rows 1000–1116",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=1000&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ]
+   ]
+  },
+  {
+   "pid": "P119085",
+   "name": "National Ganga River Basin Project (IBRD 801 + IDA 199)",
+   "usdm": 1000,
+   "approved": "2011-05-31",
+   "refClaims": [
+    "worldbank:c0613",
+    "worldbank:c0614"
+   ],
+   "note": "NMCG",
+   "srcs": [
+    [
+     "World Bank Projects API v3 — India, rows 0–999",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=0&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ],
+    [
+     "World Bank Projects API v3 — India, rows 1000–1116",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=1000&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ]
+   ]
+  },
+  {
+   "pid": "P115566",
+   "name": "Fifth Power System Development Project",
+   "usdm": 1000,
+   "approved": "2009-09-22",
+   "refClaims": [
+    "worldbank:c0602"
+   ],
+   "note": "borrower Power Grid Corporation (PSU borrower)",
+   "srcs": [
+    [
+     "World Bank Projects API v3 — India, rows 0–999",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=0&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ],
+    [
+     "World Bank Projects API v3 — India, rows 1000–1116",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=1000&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ]
+   ]
+  },
+  {
+   "pid": "P165488",
+   "name": "India Energy Efficiency Scale-Up Program Guarantee (IBRD 220 of 980)",
+   "usdm": 980,
+   "approved": "2018-05-17",
+   "refClaims": [],
+   "note": "guarantee, not a loan; claim id not looked up",
+   "srcs": [
+    [
+     "World Bank Projects API v3 — India, rows 0–999",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=0&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ],
+    [
+     "World Bank Projects API v3 — India, rows 1000–1116",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=1000&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ]
+   ]
+  },
+  {
+   "pid": "P114338",
+   "name": "Eastern Dedicated Freight Corridor I",
+   "usdm": 975,
+   "approved": "2011-05-31",
+   "refClaims": [
+    "worldbank:c0600"
+   ],
+   "note": "DFCCIL",
+   "srcs": [
+    [
+     "World Bank Projects API v3 — India, rows 0–999",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=0&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ],
+    [
+     "World Bank Projects API v3 — India, rows 1000–1116",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=1000&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ]
+   ]
+  },
+  {
+   "pid": "P102547",
+   "name": "Elementary Education (SSA II) (IDA 600 of 975)",
+   "usdm": 975,
+   "approved": "2008-05-15",
+   "refClaims": [],
+   "note": "claim id not looked up",
+   "srcs": [
+    [
+     "World Bank Projects API v3 — India, rows 0–999",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=0&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ],
+    [
+     "World Bank Projects API v3 — India, rows 1000–1116",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=1000&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ]
+   ]
+  },
+  {
+   "pid": "P178581",
+   "name": "Assam Resilient Rural Bridges Program",
+   "usdm": 922,
+   "approved": "2024-03-01",
+   "refClaims": [
+    "worldbank:c0795"
+   ],
+   "note": "approved in the run-up to the 2024 general election",
+   "srcs": [
+    [
+     "World Bank Projects API v3 — India, rows 0–999",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=0&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ],
+    [
+     "World Bank Projects API v3 — India, rows 1000–1116",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=1000&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ]
+   ]
+  },
+  {
+   "pid": "P118673",
+   "name": "Additional Financing, Second Elementary Education (IDA 750 of 900)",
+   "usdm": 900,
+   "approved": "2010-03-18",
+   "refClaims": [],
+   "note": "claim id not looked up",
+   "srcs": [
+    [
+     "World Bank Projects API v3 — India, rows 0–999",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=0&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ],
+    [
+     "World Bank Projects API v3 — India, rows 1000–1116",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=1000&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ]
+   ]
+  },
+  {
+   "pid": "P508489",
+   "name": "PM Surya Ghar Muft Bijli Yojana Solar Rooftops (IBRD 820 of 890)",
+   "usdm": 890,
+   "approved": "2026-07-09",
+   "refClaims": [
+    "worldbank:c0825"
+   ],
+   "note": "MNRE",
+   "srcs": [
+    [
+     "World Bank Projects API v3 — India, rows 0–999",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=0&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ],
+    [
+     "World Bank Projects API v3 — India, rows 1000–1116",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=1000&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ]
+   ]
+  }
+ ],
+ "voids": [
+  {
+   "what": "No World Bank document opened names the Union Finance Minister, a Chief Minister or a state finance minister. Agreements are signed by DEA Additional Secretaries and the Bank's Country Director; the political principals appear only through the offices ('led by the Chief Minister') in PDs.",
+   "whyItMatters": "The 'who signed' question has a bureaucratic answer in the primary record; attributing loans to ministers requires a second source (PIB signing releases name only officials).",
+   "srcs": [
+    [
+     "PIB 2020-07-06 — GoI and World Bank sign US$750m MSME agreement",
+     "https://www.pib.gov.in/PressReleasePage.aspx?PRID=1636790"
+    ],
+    [
+     "PIB 2020-12-16 — GoI and World Bank sign US$400m second COVID social protection operation",
+     "https://www.pib.gov.in/Pressreleaseshare.aspx?PRID=1681253"
+    ],
+    [
+     "Program Document P169907 First Resilient Kerala DPO (2019-05-31)",
+     "https://documents.worldbank.org/curated/en/476681561946430308/text/India-First-Resilient-Kerala-Program-Development-Policy-Operation.txt"
+    ],
+    [
+     "PAD P173704 Gujarat GOAL PforR (2021-02-27)",
+     "https://documents.worldbank.org/curated/en/945711616680968888/text/India-Gujarat-Outcomes-for-Accelerated-Learning-GOAL-Program-for-Results-Project.txt"
+    ]
+   ]
+  },
+  {
+   "what": "The v3 projects API carries no lending-instrument or location field; the Data Catalog 'Major Contract Awards' set was rate-limited (429, per fleet SPEC). The loan→contractor join was therefore not made in this file.",
+   "whyItMatters": "Who gets the contracts the loans pay for is the central cui-bono question and remains open for the IPF/PforR projects.",
+   "srcs": [
+    [
+     "World Bank Projects API v3 — India, rows 0–999",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=0&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ]
+   ]
+  },
+  {
+   "what": "The Board of Executive Directors page is JavaScript-rendered; India's ED history (Khullar start date, S. Aparna and earlier) could not be read from the Bank's own site.",
+   "whyItMatters": "India's ED votes on every approval; the office-holder timeline is documented only via press.",
+   "srcs": [
+    [
+     "World Bank — Boards of Directors page (JS-rendered; ED list not extractable)",
+     "https://www.worldbank.org/en/about/leadership/directors"
+    ],
+    [
+     "Deccan Herald (PTI) — Iyer named World Bank ED replacing Rajesh Khullar",
+     "https://www.deccanherald.com/amp/india/b-v-r-subrahmanyam-appointed-niti-aayog-ceo-parameswaran-lyer-named-world-bank-ed-1193198.html"
+    ]
+   ]
+  },
+  {
+   "what": "In the five Program Documents read, every prior action was already completed when the operation was appraised; two MSME prior actions predate the pandemic (2019-08-13 sandbox circular; 2018-11 PSB59).",
+   "whyItMatters": "A documented absence of new conditionality: the popular claim of Bank-dictated policy has no anchor in these operations; the forward triggers are where influence, if any, sits.",
+   "srcs": [
+    [
+     "Program Document P173943 (2020-04-30)",
+     "https://documents.worldbank.org/curated/en/685311589767271707/text/India-Accelerating-Indias-COVID-19-Social-Protection-Response-Program.txt"
+    ],
+    [
+     "Program Document P174292 MSME DPL (2020-06-16)",
+     "https://documents.worldbank.org/curated/en/703561593828083607/text/India-Micro-Small-and-Medium-Enterprises-Emergency-Response-Development-Policy-Loan.txt"
+    ],
+    [
+     "Program Document P181032 First Low-Carbon Energy DPL (2023-06-02)",
+     "https://documents.worldbank.org/curated/en/099060623092565311/text/BOSIB0342f50d505508c7803e3b35fb5c59.txt"
+    ]
+   ]
+  }
+ ],
+ "narratives": [
+  {
+   "claim": "The World Bank dictates Indian economic policy through loan conditions.",
+   "status": "unsupported",
+   "strongestCase": "DPF triggers for follow-on operations (SEBI ESG framework, carbon-market notification, Kerala private-finance instructions) are forward-looking commitments negotiated with Bank staff, and US$2.75bn of 2020 budget support was material at a moment of fiscal stress.",
+   "strongestCounter": "All 26 prior actions read across P173943, P174292 and P181032 were measures GoI had announced or legislated before appraisal; several predate the pandemic; ICR/IEG describe the operations as financing GoI's own programmes (PMGKY, Atmanirbhar, NGHM).",
+   "whatWouldChangeThis": "A prior action whose first public appearance is in a Bank document, or Bank mission records showing drafting before announcement.",
+   "srcs": [
+    [
+     "Program Document P173943 (2020-04-30)",
+     "https://documents.worldbank.org/curated/en/685311589767271707/text/India-Accelerating-Indias-COVID-19-Social-Protection-Response-Program.txt"
+    ],
+    [
+     "Program Document P174292 MSME DPL (2020-06-16)",
+     "https://documents.worldbank.org/curated/en/703561593828083607/text/India-Micro-Small-and-Medium-Enterprises-Emergency-Response-Development-Policy-Loan.txt"
+    ],
+    [
+     "Program Document P181032 First Low-Carbon Energy DPL (2023-06-02)",
+     "https://documents.worldbank.org/curated/en/099060623092565311/text/BOSIB0342f50d505508c7803e3b35fb5c59.txt"
+    ],
+    [
+     "IEG ICR Review P173943 (2024-10-06)",
+     "https://documents.worldbank.org/curated/en/099021425103520204/text/P173943-594240c2-796b-4b0c-80b6-a58ce6d8637c.txt"
+    ]
+   ]
+  },
+  {
+   "claim": "The NDA government steers World Bank money to BJP-ruled states.",
+   "status": "unsupported",
+   "strongestCase": "Assam (BJP since 2016) is at 3.3x its population share and Gujarat rose from 0.29x to 1.24x; the state-attributed share of all lending doubled after 2014.",
+   "strongestCounter": "Kerala (LDF) 1.9x, Tamil Nadu (DMK/AIADMK) 1.75x and Andhra Pradesh (YSRCP 2019–24) 1.62x are above parity, while BJP-run Uttar Pradesh (0.61x), Madhya Pradesh (0.56x), Haryana (0.55x) and Chhattisgarh (0.18x) are below; under UPA the same lens gave HP 9.7x and Odisha 2.0x. The per-capita ratio is dominated by small hill and north-eastern states regardless of party.",
+   "whatWouldChangeThis": "A DEA or Bank allocation document tying state selection to political alignment, or a disbursement-based recomputation that produces a party-aligned ranking.",
+   "srcs": [
+    [
+     "World Bank Projects API v3 — India, rows 0–999",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=0&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ],
+    [
+     "World Bank Projects API v3 — India, rows 1000–1116",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=1000&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ],
+    [
+     "census2011.co.in — state table reproducing Census 2011 final population totals (secondary)",
+     "https://www.census2011.co.in/states.php"
+    ]
+   ]
+  },
+  {
+   "claim": "The COVID-19 World Bank loans put India in a debt trap.",
+   "status": "debunked",
+   "strongestCase": "US$2.75bn of emergency commitments (health US$1bn, social protection US$1.15bn, MSME US$0.75bn) were approved within three months in 2020.",
+   "strongestCounter": "All three were single-tranche budget support on 18.5-year IBRD or concessional IDA terms; the PDs themselves record that India's public debt is rupee-denominated, medium/long maturity and domestically held; the fiscal deficit (9.5% of GDP in FY21 per ICR) was financed overwhelmingly domestically.",
+   "whatWouldChangeThis": "Evidence that IBRD/IDA service costs became a binding constraint on the Union budget (they are a small fraction of external debt of ~US$716bn in 2024 per fleet SPEC).",
+   "srcs": [
+    [
+     "Program Document P173943 (2020-04-30)",
+     "https://documents.worldbank.org/curated/en/685311589767271707/text/India-Accelerating-Indias-COVID-19-Social-Protection-Response-Program.txt"
+    ],
+    [
+     "Program Document P174292 MSME DPL (2020-06-16)",
+     "https://documents.worldbank.org/curated/en/703561593828083607/text/India-Micro-Small-and-Medium-Enterprises-Emergency-Response-Development-Policy-Loan.txt"
+    ],
+    [
+     "ICR P173943/P174027 (2024-04-22)",
+     "https://documents.worldbank.org/curated/en/099042224135030970/text/BOSIB-c35ef47d-c671-422e-acd1-d14436c5cc23.txt"
+    ],
+    [
+     "World Bank press release 2020-05-14 — Board approves US$1bn COVID social protection programme",
+     "https://www.worldbank.org/en/news/press-release/2020/05/13/world-bank-covid-coronavirus-india-protect-poor"
+    ]
+   ]
+  },
+  {
+   "claim": "The World Bank independently verified Swachh Bharat's open-defecation-free claims.",
+   "status": "contested",
+   "strongestCase": "The PforR disbursed US$1,259m against DLIs verified by NARSS household surveys, and IEG rated the outcome Satisfactory.",
+   "strongestCounter": "IEG rated efficacy 'Substantial with some shortcomings', programme cost came in at US$14.6bn against US$22bn appraised, US$241m was left undisbursed, and the operation was restructured four times to reach closing; verification was of programme indicators, not of the Government's ODF declarations as such.",
+   "whatWouldChangeThis": "Publication of the NARSS micro-data and the DLI verification protocols; independent replication of ODF rates.",
+   "srcs": [
+    [
+     "IEG ICR Review P153251 Swachh Bharat Mission Support Operation (2023-09-15)",
+     "https://documents.worldbank.org/curated/en/099091523140562778/text/P15325104d51050080b0620ff05fe21c20f.txt"
+    ]
+   ]
+  }
+ ],
+ "symmetryCheck": "Same lens on UPA 2004–14: 177 approved projects, US$37.5bn, 31% state-attributed. Per-capita ratios under UPA were more dispersed than under NDA (HP 9.7x, Uttarakhand 4.8x, Karnataka 2.1x, TN 2.1x, Odisha 2.0x vs Gujarat 0.29x, AP 0.35x, WB 0.49x). Under NDA the dispersion is similar in shape (Mizoram 7x, HP 6.3x, Assam 3.3x vs Chhattisgarh 0.18x, Odisha 0.39x). The two largest movers are Gujarat (up) and Odisha/Karnataka (down) — one aligned, two opposition-run for most of the period, and Karnataka BJP-run 2019–23. The lens produces an 'alarming' picture in both periods and for both blocs, which is a finding about the lens: small states and pipeline timing dominate. DPL conditionality: UPA-era DPLs (e.g. 2009 Banking Sector Support US$2bn, the largest since 2000) were not read here — a gap, not a finding.",
+ "baseRates": [
+  {
+   "property": "Share of India's approved World Bank commitments attributable to a single state",
+   "numerator": 25754,
+   "denominator": 49796,
+   "label": "US$m, board approvals 2014-05-26..2026-09-26 (API); UPA comparator 11,799 / 37,496",
+   "srcs": [
+    [
+     "World Bank Projects API v3 — India, rows 0–999",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=0&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ],
+    [
+     "World Bank Projects API v3 — India, rows 1000–1116",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=1000&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ]
+   ]
+  },
+  {
+   "property": "States with loan-share/population-share ratio above 1.5 (NDA period)",
+   "numerator": 11,
+   "denominator": 25,
+   "label": "states with any state-attributed commitment in either period; 7 of the 11 are hill/north-eastern states with <1% population each",
+   "srcs": [
+    [
+     "World Bank Projects API v3 — India, rows 0–999",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=0&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ],
+    [
+     "World Bank Projects API v3 — India, rows 1000–1116",
+     "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=1000&os=1000&fl=id,project_name,boardapprovaldate,closingdate,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,borrower,impagency,status,pdo"
+    ],
+    [
+     "census2011.co.in — state table reproducing Census 2011 final population totals (secondary)",
+     "https://www.census2011.co.in/states.php"
+    ]
+   ]
+  },
+  {
+   "property": "Closed India operations read here rated Satisfactory or better by IEG/ICR",
+   "numerator": 4,
+   "denominator": 4,
+   "label": "P173943/P174027, P174292, P153251 (IEG) and P169907 (ICR) — a self-selected sample of four; the Bank-wide India portfolio rate was not computed",
+   "srcs": [
+    [
+     "IEG ICR Review P173943 (2024-10-06)",
+     "https://documents.worldbank.org/curated/en/099021425103520204/text/P173943-594240c2-796b-4b0c-80b6-a58ce6d8637c.txt"
+    ],
+    [
+     "IEG ICR Review P174292 (2023-06-28)",
+     "https://documents.worldbank.org/curated/en/099062823200017662/text/P17429209a873202409e910acccd25eeb49.txt"
+    ],
+    [
+     "IEG ICR Review P153251 Swachh Bharat Mission Support Operation (2023-09-15)",
+     "https://documents.worldbank.org/curated/en/099091523140562778/text/P15325104d51050080b0620ff05fe21c20f.txt"
+    ],
+    [
+     "ICR P169907 First Resilient Kerala Program (2022-06-13)",
+     "https://documents.worldbank.org/curated/en/598801655481186593/text/India-The-First-Resilient-Kerala-Program.txt"
+    ]
+   ]
+  },
+  {
+   "property": "Prior actions already completed before appraisal",
+   "numerator": 26,
+   "denominator": 26,
+   "label": "all prior actions in P173943 (8), P174292 (7), P181032 (11) as recorded in their PDs — by design of the DPF instrument",
+   "srcs": [
+    [
+     "Program Document P173943 (2020-04-30)",
+     "https://documents.worldbank.org/curated/en/685311589767271707/text/India-Accelerating-Indias-COVID-19-Social-Protection-Response-Program.txt"
+    ],
+    [
+     "Program Document P174292 MSME DPL (2020-06-16)",
+     "https://documents.worldbank.org/curated/en/703561593828083607/text/India-Micro-Small-and-Medium-Enterprises-Emergency-Response-Development-Policy-Loan.txt"
+    ],
+    [
+     "Program Document P181032 First Low-Carbon Energy DPL (2023-06-02)",
+     "https://documents.worldbank.org/curated/en/099060623092565311/text/BOSIB0342f50d505508c7803e3b35fb5c59.txt"
+    ]
+   ]
+  }
+ ],
+ "gaps": [
+  "worldbank-projects.json appeared mid-run; the aggregates here were computed from an independent API fetch (1,117 records, identical count). Reconciliation should confirm the two fetches agree on commitments.",
+  "Rupee conversions: given only where an opened PD/PAD/ICR stated a rate (2019-04-30 ₹69.56; 2020-03-31 ₹75.4; 2020-05-29 ₹75.6369; 2020-10-26 ₹74; 2021-01-31 ₹72.88; 2023-06-05 ₹82.87; 2024-04-12 ₹83.46). Others null — RBI reference-rate archive not fetched.",
+  "State CMs and finance ministers at approval (Kerala 2019/2021/2023, Gujarat 2021/2022, AP 2021/2024, TN 2020/2022, Assam 2024, Meghalaya 2020/2021): not recorded — no Bank document names them and no state source was fetched. Inventory ids wel:pinarayi-vijayan, wel:kn-balagopal, wel:ys-jagan-mohan-reddy, wel:n-chandrababu-naidu, wel:mk-stalin, wel:himanta-biswa-sarma, wel:bhupendra-patel exist for a follow-up.",
+  "Union Finance Ministers before 2019-05-31 (Jaitley, Chidambaram, Mukherjee) and DEA Secretaries before Bajaj: tenure dates not fetched; only Sitharaman's PIB charge-taking releases were opened.",
+  "Program Documents for Rajasthan, Andhra (SALT), Tamil Nadu (Housing DPLs), Meghalaya and Assam operations not opened; their prior actions/DLIs are not recorded.",
+  "IEG ratings for the pre-2015 giants (Banking Sector Support 2009, PMGSY 2010, EDFC, SSA III, Ganga) not read; document lists were fetched for P124639 and P116020 but the ICRs were not opened.",
+  "Tenor/grace for IDA credits (6655/6656, 6812/6813, 6463/6464) not extracted — Financing Agreements not opened.",
+  "Onno Ruhl (Country Director c. 2012–2016) and earlier country directors not sourced; Junaid Ahmad's start year inferred from 'five-year term' wording.",
+  "World Bank Country Partnership Framework / DEA guidelines on state borrowing not fetched — needed to upgrade the state-distribution analytics.",
+  "Nodes for co:power-grid, fin:dfccil, fin:andhra-pradesh-capital-regional-development-authority and fin:state-meghalaya were dropped from this file because their only claims are the API loan records already held in worldbank-projects.json (referenced in topLoansSince2000)."
+ ]
+}

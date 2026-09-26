@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 /**
- * Fleet assembly: research/raw/{energy,welfare}/ → typed, generated TypeScript.
+ * Fleet assembly: research/raw/<fleet>/ → typed, generated TypeScript, for every
+ * fleet in the FLEETS table (scripts/lib/vocab.mjs).
  *
  * The codegen step docs/PLATFORM_PLAN.md §1 calls `npm run generate`, scoped to the
- * two research fleets (docs/research/FLEET_CONTRACT.md). validate.mjs §4 checks each
+ * research fleets (docs/research/FLEET_CONTRACT.md). validate.mjs §4 checks each
  * raw file alone at the quarantine boundary; this script checks the ASSEMBLED fleet,
  * because a file that was valid alone can stop being valid once reconciliation has
  * collapsed its entities or an audit verdict has downgraded the claim its denial
@@ -17,7 +18,8 @@
  *                 denials (rules at applyAudit)
  *   4. gate       the four invariants over what survives — any failure exits 1 and
  *                 writes nothing
- *   5. emit       src/graph/energy.generated.ts and src/data/welfare.generated.ts
+ *   5. emit       one module per row of FLEETS (scripts/lib/vocab.mjs): energy and
+ *                 welfare, and finance, ngo and capital (Phase G)
  *
  * It never fails on a killed or unresolved record: those are held out of the edges
  * and carried whole in META, because nothing is deleted. It never reads a clock. And
@@ -25,23 +27,25 @@
  * empty module that says so.
  *
  * Usage:
- *   node scripts/assemble-fleet.mjs                 write both modules
- *   node scripts/assemble-fleet.mjs --dir <path>    read <path>/energy and <path>/welfare
+ *   node scripts/assemble-fleet.mjs                 write every fleet's module
+ *   node scripts/assemble-fleet.mjs --dir <path>    read <path>/<fleet dir> for each fleet
  *   node scripts/assemble-fleet.mjs --out <path>    write under <path>/src/… instead
  *
  * Each fleet is written independently: a fleet whose research fails assembly leaves
  * its own module untouched and the run exits 1, but a fleet that assembles cleanly is
- * still written. One sweep's fault must not hold the other sweep's module hostage.
+ * still written. One sweep's fault must not hold another sweep's module hostage.
  *
- * The assembly is exported as assembleFleet() so scripts/validate.mjs can re-run it
- * in memory and fail when a module on disk no longer matches its inputs.
+ * The assembly is exported as assembleFleet() (and assemble(), the per-fleet view)
+ * so scripts/validate.mjs can re-run it in memory and fail when a module on disk no
+ * longer matches its inputs.
  */
 
 import { readFileSync, writeFileSync, existsSync, readdirSync, mkdirSync } from 'node:fs';
-import { join, dirname, relative, resolve, isAbsolute } from 'node:path';
+import { join, dirname, relative, resolve, isAbsolute, posix } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import {
   TIERS, PREDS, NODE_TYPES, FAMILIES, STATE_CODES, NARRATIVE_STATUS, SCHEME_STATUS, SCHEME_CATEGORIES, ISO_DATE, INVENTORY,
+  FLEETS, TERMS_KEYS, amountProblem,
 } from './lib/vocab.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -53,10 +57,8 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 export const GENERATOR_VERSION = '1.2.0';
 const GENERATOR = 'scripts/assemble-fleet.mjs';
 
-export const OUTPUTS = {
-  energy: 'src/graph/energy.generated.ts',
-  welfare: 'src/data/welfare.generated.ts',
-};
+/** Fleet key → the module it is written to, relative to the repository root. Read from FLEETS. */
+export const OUTPUTS = Object.fromEntries(FLEETS.map((f) => [f.key, f.out]));
 
 const MINISTER_ACTIONS = ['announced', 'approved', 'presented budget', 'administers', 'opposed'];
 const CONFIDENCE = ['documented', 'estimated', 'unknown'];
@@ -245,10 +247,17 @@ function readAtlasIds(root, sink) {
 // 1. Read
 // ---------------------------------------------------------------------------
 
-function readFleet(rawDir, fleet, sink) {
+/**
+ * A fleet's research, read from <rawDir>/<spec.dir>. `fleet` is the fleet's key (its
+ * identity in META and in the sinks); `dir` is the directory name every path in a
+ * message or a header is written under. A missing directory is not an error: it is
+ * a fleet whose research has not run, and it reads as `empty: true`.
+ */
+function readFleet(rawDir, spec, sink) {
+  const fleet = spec.dir;
   const dir = join(rawDir, fleet);
-  const out = { fleet, files: [], reconciliation: null, audit: null, inputs: [] };
-  if (!existsSync(dir)) return out;
+  const out = { fleet: spec.key, dir: spec.dir, kind: spec.kind, spec, files: [], reconciliation: null, audit: null, inputs: [], empty: !existsSync(dir) };
+  if (out.empty) return out;
   const names = readdirSync(dir).filter((f) => f.endsWith('.json')).sort(cmp);
   for (const name of names) {
     const byProduct = /^[A-Z]/.test(name);
@@ -629,6 +638,37 @@ function toBenefit(b, r, f) {
   };
 }
 
+/**
+ * A loan's terms, in TERMS_KEYS order with only the keys the researcher wrote.
+ * Unknown keys are refused by name rather than dropped: the spec draft said
+ * `gracePeriodYears`, the schema says `graceYears`, and a silent drop would ship a
+ * loan whose grace period the source stated as one with none recorded.
+ */
+function toTerms(v, r, f, sink, where, lenient) {
+  const o = r.obj(v, f);
+  if (!o) return null;
+  for (const k of Object.keys(o).sort(cmp)) {
+    if (!TERMS_KEYS.includes(k) && !lenient) sink.error(`${where}.${f}.${k}`, `${f}.${k} is not a terms field (expected ${TERMS_KEYS.join(' | ')})`);
+  }
+  const t = {};
+  if (o.instrument !== undefined) t.instrument = r.str(o.instrument, `${f}.instrument`);
+  for (const k of ['ratePct', 'tenorYears', 'graceYears']) if (o[k] !== undefined) t[k] = r.num(o[k], `${f}.${k}`);
+  if (o.conditions !== undefined) {
+    if (!Array.isArray(o.conditions)) {
+      if (!lenient) sink.error(`${where}.${f}.conditions`, `expected a list of strings, found ${JSON.stringify(o.conditions)}`);
+      t.conditions = lenient ? r.texts(o.conditions) : [];
+    } else {
+      // Strictly text: a number here is not a condition anyone wrote down.
+      t.conditions = o.conditions.flatMap((x, i) => {
+        if (typeof x === 'string') return [x];
+        if (!lenient) sink.error(`${where}.${f}.conditions[${i}]`, `expected text, found ${JSON.stringify(x)}`);
+        return lenient ? [JSON.stringify(x)] : [];
+      });
+    }
+  }
+  return t;
+}
+
 function toEdge(c, where, sink) {
   const r = readers(sink, where);
   const e = {
@@ -656,6 +696,10 @@ function toEdge(c, where, sink) {
     const v = r.str(c[k], k);
     if (v != null && v !== '') e[k] = v;
   }
+  if (c.terms != null) {
+    const t = toTerms(c.terms, r, 'terms', sink, where, false);
+    if (t) e.terms = t;
+  }
   return e;
 }
 
@@ -678,6 +722,8 @@ function toHeld(c, sink) {
     killIf: r.str(c.killIf),
     supersededBy: r.str(c.supersededBy),
     benefit: c.benefit && typeof c.benefit === 'object' && isStr(c.benefit.who) ? toBenefit(c.benefit, r, 'benefit') : null,
+    // Only when written, so held claims from before loan terms existed emit as they did.
+    ...(c.terms != null ? { terms: toTerms(c.terms, r, 'terms', sink, c.id, true) } : {}),
     domain: c.domain,
     file: c.file,
   };
@@ -805,17 +851,19 @@ function schemeNode(s) {
 const whereOf = (g) => g.files.join(' + ');
 
 function prepareFleet(read, sink) {
-  const { fleet, files } = read;
+  // Paths in messages are written under the fleet's directory name.
+  const { dir: fleet, files } = read;
+  const welfare = read.kind === 'welfare';
   const { mappings, rewrite } = reconciler(read.reconciliation, fleet, sink);
 
   const entityGroups = collectRecords(files, 'entities', rewrite, fleet, sink);
-  const schemeGroups = fleet === 'welfare' ? collectRecords(files, 'schemes', rewrite, fleet, sink) : new Map();
-  if (fleet !== 'welfare') {
+  const schemeGroups = welfare ? collectRecords(files, 'schemes', rewrite, fleet, sink) : new Map();
+  if (!welfare) {
     for (const { name, doc } of files) {
       if (asList(doc.schemes).length) sink.warn(`${fleet}/${name}`, `${doc.schemes.length} scheme record(s) ignored — schemes belong to the welfare fleet`);
     }
   }
-  if (fleet === 'welfare') {
+  if (welfare) {
     // Scheme records carry people and beneficiaries by id; those ids reconcile too.
     for (const g of schemeGroups.values()) {
       const s = g.rec;
@@ -909,6 +957,8 @@ function gateFleet(p, isKnown, sink) {
     if (c.supersededBy != null && !(isStr(c.supersededBy) && allClaimIds.has(c.supersededBy))) {
       sink.error(w, `supersededBy "${c.supersededBy}" does not resolve to a claim in the ${fleet} fleet`);
     }
+    const amount = amountProblem(c);
+    if (amount) sink.error(w, amount);
   }
 }
 
@@ -938,7 +988,7 @@ function arrayConst(name, type, rows, fmt) {
 }
 
 const NODE_KEYS = ['id', 'label', 'sub', 'ty', 'fam', 'st', 'sz', 'al', 'resolved', 'collisionRisk', 'd', 'srcs'];
-const EDGE_KEYS = ['id', 's', 't', 'pred', 'tier', 'a', 'lab', 'd', 'from', 'to', 'srcs', 'innocentReading', 'upgradeIf', 'killIf', 'supersededBy'];
+const EDGE_KEYS = ['id', 's', 't', 'pred', 'tier', 'a', 'lab', 'd', 'from', 'to', 'terms', 'srcs', 'innocentReading', 'upgradeIf', 'killIf', 'supersededBy'];
 const BENEFIT_KEYS = ['claimId', 's', 't', 'pred', 'tier', 'who', 'how', 'amountCr', 'confidence', 'srcs', 'domain'];
 const VOID_KEYS = ['what', 'whyItMatters', 'srcs', 'domain'];
 const NARRATIVE_KEYS = ['claim', 'status', 'strongestCase', 'strongestCounter', 'whatWouldChangeThis', 'srcs', 'domain'];
@@ -994,8 +1044,8 @@ function sections(p, sink) {
   const elections = new Map();
   const coverage = [];
   for (const { name, doc, domain } of p.files) {
-    const where = `${p.fleet}/${name}`;
-    if (p.fleet === 'welfare' && doc.coverage != null) {
+    const where = `${p.dir}/${name}`;
+    if (p.kind === 'welfare' && doc.coverage != null) {
       if (!Array.isArray(doc.coverage)) sink.warn(`${where}:coverage`, 'not a list — no coverage declared by this file');
       for (const [i, v] of asList(Array.isArray(doc.coverage) ? doc.coverage : []).entries()) {
         const w = `${where}:coverage[${i}]`;
@@ -1068,7 +1118,7 @@ function sections(p, sink) {
       const t = typeof g === 'string' ? g : JSON.stringify(g);
       if (t.trim()) gaps.push({ domain, text: t });
     }
-    if (p.fleet === 'welfare') {
+    if (p.kind === 'welfare') {
       for (const [i, v] of asList(doc.elections).entries()) {
         const r = readers(sink, `${where}:elections[${i}]`);
         const o = r.obj(v) ?? {};
@@ -1111,7 +1161,7 @@ function header(p, runId) {
     ' *',
     ` * Written by ${GENERATOR} (\`npm run generate\`, generator ${GENERATOR_VERSION}),`,
     ` * run ${runId}, from:`,
-    ...(inputs.length ? inputs.map((f) => ` *   ${safe(f)}`) : [` *   (nothing — ${HOME}/${p.fleet}/ holds no research files yet)`]),
+    ...(inputs.length ? inputs.map((f) => ` *   ${safe(f)}`) : [` *   (nothing — ${HOME}/${p.dir}/ holds no research files yet)`]),
     ' *',
     ' * To change it, change the research file, or the fleet\'s RECONCILIATION.json or',
     ' * AUDIT.json, and re-run `npm run generate`. `npm run validate` fails when this',
@@ -1121,10 +1171,19 @@ function header(p, runId) {
   ].join('\n');
 }
 
+/** An import specifier from one repository-relative file to another, POSIX, without the extension. */
+function importPath(fromFile, toFile) {
+  const rel = posix.relative(posix.dirname(fromFile), toFile);
+  return rel.startsWith('.') ? rel : `./${rel}`;
+}
+
 function emitFleet(p, sink) {
-  const { fleet } = p;
-  // The fleet name is folded in so two empty fleets do not share a stamp.
-  const runId = `run-${fnv1a64(`${GENERATOR_VERSION}\n${fleet}\n${p.inputs.map((i) => `${i.name}\n${i.text}`).join('\n')}`).slice(0, 12)}`;
+  // `key` names the fleet in META and the run id; `fleet` (its directory) names paths.
+  const { fleet: key, dir: fleet, spec } = p;
+  const welfare = p.kind === 'welfare';
+  // The fleet key is folded in so two empty fleets do not share a stamp, and only
+  // this fleet's inputs are: another fleet's research never restamps this module.
+  const runId = `run-${fnv1a64(`${GENERATOR_VERSION}\n${key}\n${p.inputs.map((i) => `${i.name}\n${i.text}`).join('\n')}`).slice(0, 12)}`;
 
   // Nodes: entity records, then (welfare) one node per scheme the entities do not already define.
   const identity = [];
@@ -1193,10 +1252,10 @@ function emitFleet(p, sink) {
     voids: sec.voids.length,
     narratives: sec.narratives.length,
     baseRates: sec.baseRates.length,
-    ...(fleet === 'welfare' ? { schemes: schemes.length, elections: sec.elections.length, coverage: sec.coverage.length } : {}),
+    ...(welfare ? { schemes: schemes.length, elections: sec.elections.length, coverage: sec.coverage.length } : {}),
   };
   const meta = {
-    fleet,
+    fleet: key,
     generator: GENERATOR,
     generatorVersion: GENERATOR_VERSION,
     asOf,
@@ -1218,27 +1277,22 @@ function emitFleet(p, sink) {
     excluded,
   };
 
-  const P = fleet === 'energy' ? 'ENERGY' : 'WELFARE';
+  const P = spec.prefix;
   const row = (keys) => (r) => `  ${oneLine(r, keys)}`;
   const out = [header(p, runId)];
-  if (fleet === 'energy') {
-    out.push("import type { GNode, GEdge } from './schema';");
-    out.push("import type { BaseRateRow, BenefitRow, EntityIdentity, FleetMeta, FleetText, Narrative, Void } from './fleet';");
-  } else {
-    out.push("import type { GNode, GEdge } from '../graph/schema';");
-    out.push("import type { BaseRateRow, BenefitRow, EntityIdentity, FleetMeta, FleetText, Narrative, Void } from '../graph/fleet';");
-    out.push("import type { Coverage, Election, Scheme } from './welfare';");
-  }
+  out.push(`import type { GNode, GEdge } from '${importPath(spec.out, 'src/graph/schema')}';`);
+  out.push(`import type { BaseRateRow, BenefitRow, EntityIdentity, FleetMeta, FleetText, Narrative, Void } from '${importPath(spec.out, 'src/graph/fleet')}';`);
+  if (welfare) out.push(`import type { Coverage, Election, Scheme } from '${importPath(spec.out, 'src/data/welfare')}';`);
   out.push('');
-  if (fleet === 'welfare') {
+  if (welfare) {
     out.push(arrayConst('WELFARE_SCHEMES', 'Scheme[]', schemes, (s) => indent(JSON.stringify(s, null, 2), '  ')));
     out.push(arrayConst('WELFARE_ENTITIES', 'GNode[]', nodes, row(NODE_KEYS)));
     out.push('/** One node per scheme, so claims that point at a scheme have somewhere to land. */');
     out.push(arrayConst('WELFARE_SCHEME_NODES', 'GNode[]', schemeNodes, row(NODE_KEYS)));
     out.push(arrayConst('WELFARE_CLAIMS', 'GEdge[]', edges, row(EDGE_KEYS)));
   } else {
-    out.push(arrayConst('ENERGY_NODES', 'GNode[]', nodes, row(NODE_KEYS)));
-    out.push(arrayConst('ENERGY_EDGES', 'GEdge[]', edges, row(EDGE_KEYS)));
+    out.push(arrayConst(`${P}_NODES`, 'GNode[]', nodes, row(NODE_KEYS)));
+    out.push(arrayConst(`${P}_EDGES`, 'GEdge[]', edges, row(EDGE_KEYS)));
   }
   out.push('/** Claim id → the research domain (file stem) it came from, for every edge and every held claim. */');
   out.push(
@@ -1248,7 +1302,7 @@ function emitFleet(p, sink) {
       .join('')}};\n`,
   );
   out.push(arrayConst(`${P}_BENEFITS`, 'BenefitRow[]', benefits, row(BENEFIT_KEYS)));
-  if (fleet === 'welfare') {
+  if (welfare) {
     out.push(arrayConst('WELFARE_ELECTIONS', 'Election[]', sec.elections, row(ELECTION_KEYS)));
     out.push('/** What each file declares it searched. A state-year is painted "searched, none live" only when an entry here declares it. */');
     out.push(arrayConst('WELFARE_COVERAGE', 'Coverage[]', sec.coverage, (c) => `  ${JSON.stringify(c)}`));
@@ -1276,21 +1330,26 @@ function emitFleet(p, sink) {
 // ---------------------------------------------------------------------------
 
 /**
- * Assemble both fleets in memory. Returns the module texts, the structured data
- * behind them, and every error and warning; writes nothing. When `errors` is
- * non-empty the texts are null — an invariant failure produces no module at all.
+ * Assemble every fleet in FLEETS in memory. Returns the module texts, the structured
+ * data behind them, and every error and warning; writes nothing. When a fleet's
+ * errors are non-empty its text is null — an invariant failure produces no module.
+ *
+ * Shape, for each fleet key k: `k` (the data), `${k}Ts` (the text or null),
+ * `fleets[k]` ({ spec, data, text, errors }), and `fleetErrors[k]`; plus `errors` and
+ * `warnings` over all fleets. `energy`/`energyTs`/`welfare`/`welfareTs` are the keys
+ * the two-fleet callers already read.
  */
 export function assembleFleet({ root = ROOT, dir = HOME } = {}) {
   // One sink per fleet, so a fault is charged to the fleet that has it; the shared
-  // sink holds faults that stop both (the Atlas ids cannot be read).
+  // sink holds faults that stop every fleet (the Atlas ids cannot be read).
   const shared = makeSink();
-  const sinks = { energy: makeSink(), welfare: makeSink() };
+  const sinks = Object.fromEntries(FLEETS.map((f) => [f.key, makeSink()]));
   const rawDir = isAbsolute(dir) ? dir : resolve(root, dir);
   const atlasIds = readAtlasIds(root, shared);
 
-  const prepared = ['energy', 'welfare'].map((fleet) => prepareFleet(readFleet(rawDir, fleet, sinks[fleet]), sinks[fleet]));
-  // Fleet ids span both fleets: an energy claim may point at a welfare scheme, and
-  // both modules are merged into the one graph the app renders.
+  const prepared = FLEETS.map((f) => prepareFleet(readFleet(rawDir, f, sinks[f.key]), sinks[f.key]));
+  // Fleet ids span every fleet: an energy claim may point at a welfare scheme, a
+  // finance loan at an energy company, and all modules merge into the one graph.
   const fleetIds = new Set();
   for (const p of prepared) {
     for (const id of p.entityGroups.keys()) fleetIds.add(id);
@@ -1299,21 +1358,32 @@ export function assembleFleet({ root = ROOT, dir = HOME } = {}) {
   const isKnown = (id) => fleetIds.has(id) || atlasIds.has(id) || INVENTORY.test(id);
   for (const p of prepared) gateFleet(p, isKnown, sinks[p.fleet]);
 
-  const [energy, welfare] = prepared.map((p) => emitFleet(p, sinks[p.fleet]));
-  const fleetErrors = {
-    energy: [...shared.errors, ...sinks.energy.errors],
-    welfare: [...shared.errors, ...sinks.welfare.errors],
-  };
-  return {
+  const res = { fleets: {}, fleetErrors: {}, errors: [...shared.errors], warnings: [...shared.warnings] };
+  for (const p of prepared) {
+    const k = p.fleet;
+    const emitted = emitFleet(p, sinks[k]);
+    const errors = [...shared.errors, ...sinks[k].errors];
     // A module's text is null exactly when its own fleet (or a shared fault) failed.
-    energyTs: fleetErrors.energy.length ? null : energy.text,
-    welfareTs: fleetErrors.welfare.length ? null : welfare.text,
-    energy: energy.data,
-    welfare: welfare.data,
-    fleetErrors,
-    errors: [...shared.errors, ...sinks.energy.errors, ...sinks.welfare.errors],
-    warnings: [...shared.warnings, ...sinks.energy.warnings, ...sinks.welfare.warnings],
-  };
+    const text = errors.length ? null : emitted.text;
+    res.fleets[k] = { spec: p.spec, data: emitted.data, text, errors };
+    res.fleetErrors[k] = errors;
+    res[k] = emitted.data;
+    res[`${k}Ts`] = text;
+    res.errors.push(...sinks[k].errors);
+    res.warnings.push(...sinks[k].warnings);
+  }
+  return res;
+}
+
+/**
+ * The per-fleet view: `{ [key]: { data, text }, errors, warnings, fleetErrors }` for
+ * every fleet in FLEETS. `rawDir` is the directory holding the fleet directories.
+ */
+export function assemble({ rawDir = HOME, root = ROOT } = {}) {
+  const r = assembleFleet({ root, dir: rawDir });
+  const out = { errors: r.errors, warnings: r.warnings, fleetErrors: r.fleetErrors };
+  for (const f of FLEETS) out[f.key] = { data: r.fleets[f.key].data, text: r.fleets[f.key].text };
+  return out;
 }
 
 // ---------------------------------------------------------------------------
@@ -1334,11 +1404,12 @@ function main() {
   const outRoot = resolve(ROOT, opt('--out', '.'));
   const res = assembleFleet({ root: ROOT, dir });
 
-  for (const [fleet, d] of [['energy', res.energy], ['welfare', res.welfare]]) {
+  for (const f of FLEETS) {
+    const d = res.fleets[f.key].data;
     const c = d.meta.counts;
     console.log(
-      `  · ${fleet.padEnd(8)} ${d.meta.runId}  ${String(c.files).padStart(3)} file(s)  ${String(c.nodes).padStart(4)} nodes  ${String(c.edges).padStart(4)} edges  ` +
-        `${c.killed} killed  ${c.excluded} excluded  ${c.contrasAdded} denial(s) added${fleet === 'welfare' ? `  ${c.schemes} schemes` : ''}` +
+      `  · ${f.key.padEnd(8)} ${d.meta.runId}  ${String(c.files).padStart(3)} file(s)  ${String(c.nodes).padStart(4)} nodes  ${String(c.edges).padStart(4)} edges  ` +
+        `${c.killed} killed  ${c.excluded} excluded  ${c.contrasAdded} denial(s) added${f.kind === 'welfare' ? `  ${c.schemes} schemes` : ''}` +
         (d.meta.empty ? '  (empty — no research yet)' : ''),
     );
   }
@@ -1347,8 +1418,11 @@ function main() {
     for (const w of res.warnings) console.log(`    ! ${w}`);
   }
   console.log('');
-  for (const [fleet, text] of [['energy', res.energyTs], ['welfare', res.welfareTs]]) {
-    const path = join(outRoot, OUTPUTS[fleet]);
+  // Each module is written on its own: one fleet's failure leaves only its own path untouched.
+  for (const f of FLEETS) {
+    const fleet = f.key;
+    const text = res.fleets[fleet].text;
+    const path = join(outRoot, f.out);
     const shown = relative(ROOT, path);
     const where = shown && !shown.startsWith('..') ? shown : path;
     if (text == null) {

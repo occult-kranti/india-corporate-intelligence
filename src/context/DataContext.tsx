@@ -7,6 +7,9 @@ import { buildNationalGraph } from '../graph/build';
 import { mergeFleet } from '../graph/mergeFleet';
 import { ENERGY_NODES, ENERGY_EDGES } from '../graph/energy.generated';
 import { WELFARE_ENTITIES, WELFARE_SCHEME_NODES, WELFARE_CLAIMS } from '../data/welfare.generated';
+import { FINANCE_NODES, FINANCE_EDGES } from '../graph/finance.generated';
+import { NGO_NODES, NGO_EDGES } from '../graph/ngo.generated';
+import { CAPITAL_NODES, CAPITAL_EDGES } from '../graph/capital.generated';
 import type { GNode, GEdge, StateCode } from '../graph/schema';
 
 /**
@@ -92,6 +95,10 @@ export function DataProvider({ children }: { children: ReactNode }) {
     return mergeFleet({ nodes: [...NODES, ...national.nodes], edges: [...EDGES, ...national.edges] }, [
       { nodes: ENERGY_NODES, edges: ENERGY_EDGES },
       { nodes: [...WELFARE_ENTITIES, ...WELFARE_SCHEME_NODES], edges: WELFARE_CLAIMS },
+      // Phase G fleets. Each module is empty (META.empty) until its research lands.
+      { nodes: FINANCE_NODES, edges: FINANCE_EDGES },
+      { nodes: NGO_NODES, edges: NGO_EDGES },
+      { nodes: CAPITAL_NODES, edges: CAPITAL_EDGES },
     ]);
   }, []);
 

@@ -4,12 +4,28 @@
 `scripts/validate.mjs` §4 at the quarantine boundary; assembled into typed modules by
 `scripts/assemble-fleet.mjs` (`npm run generate`).*
 
-Two fleets so far, two directories, one set of invariants:
+Five fleets, five directories, one set of invariants. The list is not repeated in code:
+`FLEETS` in `scripts/lib/vocab.mjs` is the one table the assembler, `validate.mjs` §4
+(which directories are research) and §5 (which modules must exist and be fresh) read.
+Adding a fleet is one row there, one import in `src/context/DataContext.tsx`, and a row
+here.
 
-| directory | fleet | what a file holds |
-|---|---|---|
-| `research/raw/energy/` | energy & natural-resources power map | entities, claims (with `benefit`), voids, narratives, base rates, symmetry check |
-| `research/raw/welfare/` | distribution funds, 2000–2026 | schemes (announced/approved/launched, ministers, outlay, election context, status history, results, who else benefits), entities, claims, elections, base rates, narratives |
+| directory | fleet (`key`) | kind | generated module (export prefix) | what a file holds |
+|---|---|---|---|---|
+| `research/raw/energy/` | energy & natural-resources power map (`energy`) | graph | `src/graph/energy.generated.ts` (`ENERGY_`) | entities, claims (with `benefit`), voids, narratives, base rates, symmetry check |
+| `research/raw/welfare/` | distribution funds, 2000–2026 (`welfare`) | welfare | `src/data/welfare.generated.ts` (`WELFARE_`) | schemes (announced/approved/launched, ministers, outlay, election context, status history, results, who else benefits), entities, claims, elections, coverage, base rates, narratives |
+| `research/raw/finance/` | external finance — lenders, loans, conditions (`finance`) | graph | `src/graph/finance.generated.ts` (`FINANCE_`) | entities, claims (`loan` with `terms`), voids, narratives, base rates, symmetry check |
+| `research/raw/ngo/` | NGOs and foreign contributions (`ngo`) | graph | `src/graph/ngo.generated.ts` (`NGO_`) | entities, claims (`grant`, `enforce` with `contra`), voids, narratives, base rates, symmetry check |
+| `research/raw/capital/` | foreign capital in listed India (`capital`) | graph | `src/graph/capital.generated.ts` (`CAPITAL_`) | entities, claims (`own`, `role`, `award`, `law`), voids, narratives, base rates, symmetry check |
+
+A **graph** module exports `<P>_NODES`, `<P>_EDGES`, `<P>_EDGE_DOMAIN`, `<P>_BENEFITS`,
+`<P>_VOIDS`, `<P>_NARRATIVES`, `<P>_BASE_RATES`, `<P>_SYMMETRY`, `<P>_GAPS`,
+`<P>_IDENTITY` and `<P>_META`. The **welfare** module exports `WELFARE_SCHEMES`,
+`WELFARE_ENTITIES`, `WELFARE_SCHEME_NODES`, `WELFARE_CLAIMS`, `WELFARE_ELECTIONS` and
+`WELFARE_COVERAGE` in place of nodes and edges, and the same sections otherwise. A fleet
+whose directory does not exist yet (or holds no research file) still gets its module,
+with empty lists and `META.empty: true` — the build never waits on research. A directory
+holding one file is a fleet of one file.
 
 Files whose name starts with a capital letter (`RECONCILIATION.json`, `AUDIT.json`) are
 fleet by-products, not research, and are not validated as research.
@@ -18,7 +34,9 @@ Existing graph ids are reused verbatim: `pol:<minister>` (research/raw/cabinet.j
 `co:<company>` (companies-by-state.json), `grp:<group>` (conglomerates.json),
 `min:<ministry-slug>`, `per:<person-slug>`, `for:<partner-slug>`, `sec:<sector-slug>` (derived in
 `src/graph/build.ts`), and the Money-Trail Atlas ids in `src/graph/data.ts`. New ids carry the
-fleet prefix: `energy:`, `wel:`, `scheme:`.
+fleet prefix: `energy:`, `wel:`, `scheme:`, and for Phase G `fin:` (lenders, loan
+instruments) and `ngo:` (associations, donors). Foreign companies already in the Atlas keep
+`for:`.
 
 ---
 
@@ -84,9 +102,11 @@ identity test, base-rate test (what fraction of comparables share the property?)
 · `pmout` (money out of a fund) · `csr` · `own` (shareholding / MDO / JV) · `family` · `role`
 (office, directorship, portfolio; date-ranged) · `law` (statute/rule/notification governs or
 changes) · `enforce` (investigation, proceeding, audit, order) · `hq` · `listed` · `sector`
-· `contra` (denial / counter-evidence) · `supersede` · `analytic` (non-causal comparison).
+· `contra` (denial / counter-evidence) · `supersede` · `analytic` (non-causal comparison)
+· `loan` (lender → borrower) · `grant` (donor → recipient association).
 
-Direction: money flows s→t; `award` goes awarder→winner; `role` goes person→institution;
+Direction: money flows s→t (`bond`, `trust`, `direct`, `pmin`, `pmout`, `csr`, `loan`,
+`grant` — `MONEY_PREDS` in `scripts/lib/vocab.mjs`; each draws an arrowhead); `award` goes awarder→winner; `role` goes person→institution;
 `own` goes owner→owned; `law` goes rule→entity governed; `enforce` goes agency→subject;
 `contra` goes denier→the claim id it answers (put the claim id in `t` prefixed `claim:`).
 
@@ -295,3 +315,74 @@ exists in the inventory (`pol:…`). Give every person `identity.office` with da
   `contested` every claim or scheme result whose tier is alleged/reported/analytic and that
   could be read as implying vote-buying, misuse, or a specific beneficiary — most
   consequential first.
+
+---
+
+## Phase G — loans, grants and the FCRA record (finance, ngo, capital fleets)
+
+*2026-09-26. Everything above applies. These are the additions; `validate.mjs` §4 and the
+assembler gate both enforce them.*
+
+### `loan` and `grant` claims
+
+```jsonc
+// research/raw/finance/<domain>.json — lender → borrower
+{
+  "id": "<domain>:c001", "s": "fin:ibrd", "t": "min:ministry-of-finance",
+  "pred": "loan", "tier": "documented",
+  "a": 4150,                                  // ₹ crore at the rate the source used …
+  "d": "US$500m; ₹83/US$ (the rate the source used). …",   // … and that rate is stated here
+  "from": "2023-06-30",                        // approval date
+  "to": "2028-12-31",                          // closing date
+  "terms": {                                   // optional; only the keys the source states
+    "instrument": "IPF",                       // the lender's name for it, verbatim
+    "ratePct": null,                           // number or null — never 0 for "not stated"
+    "tenorYears": 18,
+    "graceYears": 5,                           // graceYears — not gracePeriodYears
+    "conditions": ["procurement under World Bank rules"]   // a list of strings, one per condition
+  },
+  "srcs": [["World Bank project P000001", "https://projects.worldbank.org/…/P000001"]]
+}
+
+// research/raw/ngo/<domain>.json — donor → association
+{
+  "id": "<domain>:c010", "s": "ngo:<donor>", "t": "ngo:<association>",
+  "pred": "grant", "tier": "documented",
+  "a": 12.4,                                   // ₹ crore for the financial year named in d
+  "d": "FCRA receipts FY2019-20 as filed (FC-4).",
+  "from": "2019-04", "to": "2020-03",
+  "srcs": [["…", "https://…"]]
+}
+```
+
+- **An amount, or the words "amount not stated".** A `loan` or `grant` without a numeric
+  `a` must contain `amount not stated` in `d`; otherwise the file is rejected. Never write
+  `a: 0` for an amount you do not have — pages sum `a` into ₹ totals and a zero is a
+  claim. A US$ figure with no conversion is recorded as `a` absent, the US$ figure in
+  `d`, and "amount not stated" in ₹ in `d`.
+- **`terms` keys are fixed:** `instrument`, `ratePct`, `tenorYears`, `graceYears`,
+  `conditions`. Any other key is rejected by name. `conditions` is a list of strings;
+  the numbers are numbers or `null`.
+- Node typing: multilateral lenders and foreign foundations are `ty: "fund"`,
+  `fam: "capital"`; associations are `ty: "trust"`, `fam: "recipient"`; regulators (MHA
+  FCRA wing, SEBI, RBI) stay `ty: "agency"`, `fam: "enforce"`. No new node type.
+
+### FCRA cancellations with no recorded response
+
+An FCRA cancellation, suspension or prior-permission order is an `enforce` claim MHA →
+association. When the association's response cannot be found, the claim ships as
+`alleged` or `reported` with a `contra` that says so, in exactly these words:
+
+```jsonc
+{
+  "id": "<domain>:c021", "s": "ngo:<association>", "t": "claim:<domain>:c020",
+  "pred": "contra", "tier": "alleged",
+  "lab": "no response recorded",
+  "d": "No response recorded — asked/not asked unknown"
+}
+```
+
+If you know the association was asked and did not answer, say that instead ("Asked on
+<date> by <outlet>; no response"), with the source. Never omit the `contra`: an
+allegation without its answer — or without the statement that there is none on record —
+does not ship.

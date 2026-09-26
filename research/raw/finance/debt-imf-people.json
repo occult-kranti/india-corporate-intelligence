@@ -1,0 +1,1291 @@
+{
+  "asOf": "2026-09-26",
+  "domain": "debt-imf-people",
+  "scope": "India's external debt stock and composition 2000-2026 as an aggregate mechanism node (World Bank DT.* indicators, since dea.gov.in and indiabudget.gov.in were both unreachable this session); the IMF's two historical programmes with India (1991 stand-by/CCFF documented, 1981 EFF explicitly NOT verified and left as a gap) and India's post-1991 IMF surveillance relationship; the dated public-office roster of Union Finance Ministers 2000-2026, RBI Governors 2000-2026, the current DEA Secretary, India's IMF Executive Director lineage (Bhalla -> Subramanian, including his 2025 early exit), Gita Gopinath's IMF leadership roles, and the World Bank's (acting) India Country Director. Leaves out: loan-by-loan World Bank/ADB/AIIB project detail (covered by sibling files worldbank-projects.json, adb-aiib.json, contracts.json in this same directory), state-level borrowing and the Chinese-vs-Japanese-ODA control (out of this file's reach; flagged as gaps for the companion files).",
+  "sources": [
+    [
+      "RBI — Past Governors (official roster, AJAX fragment)",
+      "https://www.rbi.org.in/Content/PastGovernors_Tbl.html"
+    ],
+    [
+      "RBI — About Us / Governors page",
+      "https://www.rbi.org.in/scripts/AboutUsDisplay.aspx?pg=PastGovernors.htm"
+    ],
+    [
+      "World Bank API — India total external debt stocks, DOD (DT.DOD.DECT.CD)",
+      "https://api.worldbank.org/v2/country/IND/indicator/DT.DOD.DECT.CD?format=json&date=2000:2024&per_page=100"
+    ],
+    [
+      "World Bank API — India total debt service (% exports, DT.TDS.DECT.EX.ZS)",
+      "https://api.worldbank.org/v2/country/IND/indicator/DT.TDS.DECT.EX.ZS?format=json&date=2023&per_page=5"
+    ],
+    [
+      "World Bank API — India IBRD+IDA debt (DT.DOD.MWBG.CD)",
+      "https://api.worldbank.org/v2/country/IND/indicator/DT.DOD.MWBG.CD?format=json&date=2023&per_page=5"
+    ],
+    [
+      "World Bank API — India IBRD-only PPG debt (DT.DOD.MIBR.CD)",
+      "https://api.worldbank.org/v2/country/IND/indicator/DT.DOD.MIBR.CD?format=json&date=2023&per_page=5"
+    ],
+    [
+      "World Bank API — India private non-guaranteed debt (DT.DOD.DPNG.CD)",
+      "https://api.worldbank.org/v2/country/IND/indicator/DT.DOD.DPNG.CD?format=json&date=2023&per_page=5"
+    ],
+    [
+      "World Bank API — India short-term external debt (DT.DOD.DSTC.CD)",
+      "https://api.worldbank.org/v2/country/IND/indicator/DT.DOD.DSTC.CD?format=json&date=2023&per_page=5"
+    ],
+    [
+      "World Bank API — India external debt % of GNI (DT.DOD.DECT.GN.ZS)",
+      "https://api.worldbank.org/v2/country/IND/indicator/DT.DOD.DECT.GN.ZS?format=json&date=2023&per_page=5"
+    ],
+    [
+      "World Bank API — India public & publicly guaranteed debt (DT.DOD.DPPG.CD)",
+      "https://api.worldbank.org/v2/country/IND/indicator/DT.DOD.DPPG.CD?format=json&date=2000:2024&per_page=100"
+    ],
+    [
+      "World Bank — India country page (Country Director)",
+      "https://www.worldbank.org/en/country/india"
+    ],
+    [
+      "Wikipedia — Ministry of Finance (India)",
+      "https://en.wikipedia.org/wiki/Ministry_of_Finance_(India)"
+    ],
+    [
+      "Wikipedia — Nirmala Sitharaman",
+      "https://en.wikipedia.org/wiki/Nirmala_Sitharaman"
+    ],
+    [
+      "Wikipedia — P. Chidambaram",
+      "https://en.wikipedia.org/wiki/P._Chidambaram"
+    ],
+    [
+      "Wikipedia — Pranab Mukherjee",
+      "https://en.wikipedia.org/wiki/Pranab_Mukherjee"
+    ],
+    [
+      "Wikipedia — Arun Jaitley",
+      "https://en.wikipedia.org/wiki/Arun_Jaitley"
+    ],
+    [
+      "Wikipedia — Jaswant Singh",
+      "https://en.wikipedia.org/wiki/Jaswant_Singh"
+    ],
+    [
+      "Wikipedia — 1991 Indian economic crisis",
+      "https://en.wikipedia.org/wiki/1991_Indian_economic_crisis"
+    ],
+    [
+      "Moneycontrol — \"Former CEA K Subramanian to take over as Executive Director at IMF from November\" (2022-08-25)",
+      "https://www.moneycontrol.com/news/business/economy/krishnamurthy-subramanian-to-take-over-as-executive-director-at-imf-from-november-9085221.html"
+    ],
+    [
+      "Business Standard — \"KV Subramanian to exit IMF role early, govt begins search for replacement\" (2025-05-03)",
+      "https://www.business-standard.com/economy/news/kv-subramanian-to-exit-imf-role-early-govt-begins-search-for-replacement-125050301015_1.html"
+    ],
+    [
+      "Business Standard — \"Indian govt decided to terminate services of Subramanian: IMF\" (2025-05-05)",
+      "https://www.business-standard.com/economy/news/indian-govt-decided-to-terminate-services-of-subramanian-imf-125050501259_1.html"
+    ],
+    [
+      "Business Standard — \"Krishnamurthy Subramanian's termination was India's call, says IMF\" (2025-05-05)",
+      "https://www.business-standard.com/external-affairs-defence-security/news/krishnamurthy-subramanian-s-termination-was-india-s-call-says-imf-125050501223_1.html"
+    ],
+    [
+      "Business Standard — topic page, Krishnamurthy Subramanian (index of coverage)",
+      "https://www.business-standard.com/topic/krishnamurthy-subramanian"
+    ],
+    [
+      "Indian Express — \"Govt, RBI steps to push down inflation: DEA\" (2022-05-31, quotes DEA Secretary Ajay Seth)",
+      "https://indianexpress.com/article/business/economy/govt-rbi-steps-to-push-down-inflation-dea-7944562/"
+    ],
+    [
+      "Economic Times — \"Gita Gopinath breaks the trend, joins the prestigious wall of former Chief Economists of IMF\" (2022-07-07)",
+      "https://economictimes.indiatimes.com/magazines/panache/gita-gopinath-breaks-the-trend-joins-the-prestigious-wall-of-former-chief-economists-of-imf/articleshow/92715036.cms"
+    ],
+    [
+      "Economic Times — topic index, Gita Gopinath",
+      "https://economictimes.indiatimes.com/topic/gita-gopinath"
+    ]
+  ],
+  "entities": [
+    {
+      "id": "fin:external-debt",
+      "label": "India's External Debt (stock & composition)",
+      "sub": "Aggregate external-debt mechanism node: total stock, sovereign/non-sovereign split, maturity and creditor composition, debt-service ratio, 2000-2024",
+      "ty": "mechanism",
+      "fam": "instrument",
+      "st": null,
+      "sz": 4,
+      "al": [
+        "India's External Debt",
+        "India external debt stock"
+      ],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "Not an actor: the standing ledger against which every external-lending claim in this fleet is measured. Tracked jointly by RBI/DEA (quarterly \"India's External Debt: A Status Report\", not reachable this session) and, as used here, the World Bank's International Debt Statistics (DT.* series).",
+      "d": [
+        "Total external debt stock (DOD, current US$): $101.1bn (2000) -> $123.6bn (2004) -> $457.5bn (2014) -> $647.6bn (2023) -> $716.5bn (2024) [documented, World Bank API]",
+        "Approx Rs crore equivalents (illustrative, converted at the approximate annual-average or period-end Rs/US$ rate for each year, not the precise RBI reference rate for a single day): 2000 approx Rs4,55,000 crore at ~Rs45/US$; 2014 approx Rs27,90,000 crore at ~Rs61/US$; 2023 approx Rs53,75,000 crore at ~Rs83/US$; 2024 approx Rs60,90,000 crore at ~Rs85/US$ [documented for the US$ figures; the Rs conversion is this file's own arithmetic, not sourced to a single RBI reference-rate table]",
+        "External debt stocks, public & publicly guaranteed (sovereign, PPG): $214.9bn (2023), $238.9bn (2024) [documented, World Bank API]",
+        "External debt stocks, private non-guaranteed (non-sovereign corporate/NRI-linked): $283.3bn (2023) [documented, World Bank API]",
+        "Short-term external debt (residual maturity): $127.1bn (2023), roughly 20% of the total stock [documented, World Bank API]",
+        "Multilateral (IBRD+IDA) debt: $39.3bn (2023); IBRD-only PPG debt $22.2bn (2023) — a small and shrinking share of the total as commercial and NRI-linked borrowing has grown [documented, World Bank API]",
+        "Total debt service, % of exports of goods/services/primary income: 10.2% (2023) [documented, World Bank API]",
+        "External debt stock, % of GNI: 18.0% (2023) — moderate by both India's own historical range and by emerging-market peer standards [documented, World Bank API]",
+        "The World Bank's DT.* framework does not reproduce RBI's own India-specific categories (NRI deposits, ECBs, trade credit) one-for-one; RBI's own quarterly status report, which would let the composition be restated in RBI's own categories, was not reachable this session (dea.gov.in and indiabudget.gov.in both blocked) [gap]"
+      ],
+      "srcs": [
+        [
+          "World Bank API — DT.DOD.DECT.CD (total external debt stocks)",
+          "https://api.worldbank.org/v2/country/IND/indicator/DT.DOD.DECT.CD?format=json&date=2000:2024&per_page=100"
+        ],
+        [
+          "World Bank API — DT.DOD.DPPG.CD (public & publicly guaranteed)",
+          "https://api.worldbank.org/v2/country/IND/indicator/DT.DOD.DPPG.CD?format=json&date=2000:2024&per_page=100"
+        ],
+        [
+          "World Bank API — DT.DOD.DPNG.CD (private non-guaranteed)",
+          "https://api.worldbank.org/v2/country/IND/indicator/DT.DOD.DPNG.CD?format=json&date=2023&per_page=5"
+        ],
+        [
+          "World Bank API — DT.DOD.DSTC.CD (short-term)",
+          "https://api.worldbank.org/v2/country/IND/indicator/DT.DOD.DSTC.CD?format=json&date=2023&per_page=5"
+        ],
+        [
+          "World Bank API — DT.DOD.MWBG.CD / DT.DOD.MIBR.CD (IBRD+IDA)",
+          "https://api.worldbank.org/v2/country/IND/indicator/DT.DOD.MWBG.CD?format=json&date=2023&per_page=5"
+        ],
+        [
+          "World Bank API — DT.TDS.DECT.EX.ZS (debt service ratio)",
+          "https://api.worldbank.org/v2/country/IND/indicator/DT.TDS.DECT.EX.ZS?format=json&date=2023&per_page=5"
+        ],
+        [
+          "World Bank API — DT.DOD.DECT.GN.ZS (% of GNI)",
+          "https://api.worldbank.org/v2/country/IND/indicator/DT.DOD.DECT.GN.ZS?format=json&date=2023&per_page=5"
+        ]
+      ]
+    },
+    {
+      "id": "fin:imf",
+      "label": "International Monetary Fund",
+      "sub": "Multilateral surveillance and lender-of-last-resort institution; India is a founding member (1945)",
+      "ty": "fund",
+      "fam": "capital",
+      "st": null,
+      "sz": 4,
+      "al": [
+        "IMF",
+        "International Monetary Fund"
+      ],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "India's IMF drawings (1981 EFF per public record generally, not independently verified this session; 1991 stand-by/CCFF, documented here) and its post-1991 Article IV surveillance relationship are the empirical core of the \"IMF controls India\" narrative tested below.",
+      "d": [
+        "1991: India drew on an IMF stand-by arrangement plus the Compensatory and Contingency Financing Facility (CCFF) during the balance-of-payments crisis, alongside pledging roughly 67 tonnes of gold as collateral (47 tonnes airlifted to the Bank of England, 20 tonnes to the Union Bank of Switzerland) in May 1991 to raise emergency dollar liquidity; commonly cited at approx US$7bn in total IMF/World Bank support that year [reported — sourced to Wikipedia's synthesis of press/historical accounts; not independently corroborated against a primary IMF or RBI document this session, see gaps]",
+        "India has not entered a new IMF stand-by, EFF or other use-of-Fund-resources arrangement since the 1991 programme (repayments substantially completed by the mid-1990s); no source opened this session records a subsequent India programme, but this is an absence-based finding, not a positive confirmation from an IMF document (imf.org blocked) [gap/void — see below]",
+        "A 1981 IMF Extended Fund Facility loan to India (commonly cited elsewhere at SDR 5bn) could NOT be independently verified from any source opened this session and is deliberately NOT recorded as a claim here [gap]"
+      ],
+      "srcs": [
+        [
+          "Wikipedia — 1991 Indian economic crisis",
+          "https://en.wikipedia.org/wiki/1991_Indian_economic_crisis"
+        ]
+      ]
+    },
+    {
+      "id": "per:yashwant-sinha",
+      "label": "Yashwant Sinha",
+      "sub": "Union Finance Minister, 1998-2002 (NDA-I, A.B. Vajpayee government)",
+      "ty": "person",
+      "fam": "state",
+      "st": null,
+      "sz": 2,
+      "al": [],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": "Union Finance Minister, 1998-2002",
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "Cabinet minister holding the finance portfolio.",
+      "d": [
+        "Finance Minister under the first NDA (Vajpayee) government, handed the finance portfolio to Jaswant Singh on 2002-07-01 [reported]"
+      ],
+      "srcs": [
+        [
+          "Wikipedia — Jaswant Singh",
+          "https://en.wikipedia.org/wiki/Jaswant_Singh"
+        ]
+      ]
+    },
+    {
+      "id": "per:jaswant-singh",
+      "label": "Jaswant Singh",
+      "sub": "Union Finance Minister, 2002-2004 (NDA-I)",
+      "ty": "person",
+      "fam": "state",
+      "st": null,
+      "sz": 2,
+      "al": [],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": "Union Finance Minister, 2002-07-01 to 2004-05-21",
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "Cabinet minister holding the finance portfolio.",
+      "d": [
+        "Took over from Yashwant Sinha 2002-07-01; term ended with the change of government after the May 2004 general election [reported]"
+      ],
+      "srcs": [
+        [
+          "Wikipedia — Jaswant Singh",
+          "https://en.wikipedia.org/wiki/Jaswant_Singh"
+        ]
+      ]
+    },
+    {
+      "id": "per:pranab-mukherjee",
+      "label": "Pranab Mukherjee",
+      "sub": "Union Finance Minister, 2009-2012 (UPA-II); later President of India (2012-2017)",
+      "ty": "person",
+      "fam": "state",
+      "st": null,
+      "sz": 2,
+      "al": [],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": "Union Finance Minister, 2009-01-24 to 2012-06-26",
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "Cabinet minister holding the finance portfolio; presented the Union budgets of 2009, 2010 and 2011; resigned the finance portfolio to contest the 2012 presidential election.",
+      "d": [
+        "Term dates as given by the source used are 2009-01-24 to 2012-06-26; this leaves an approx seven-week gap after P. Chidambaram moved to the Home Ministry on 2008-11-30 whose resolution (informal/additional charge, or an earlier de facto start) was not independently confirmed this session [reported, flagged]"
+      ],
+      "srcs": [
+        [
+          "Wikipedia — Pranab Mukherjee",
+          "https://en.wikipedia.org/wiki/Pranab_Mukherjee"
+        ]
+      ]
+    },
+    {
+      "id": "per:krishnamurthy-subramanian",
+      "label": "Krishnamurthy V. Subramanian",
+      "sub": "Chief Economic Adviser to the Government of India, 2018-2021; India's Executive Director at the IMF, Nov 2022 to May 2025 (term ended roughly six months early)",
+      "ty": "person",
+      "fam": "state",
+      "st": null,
+      "sz": 2,
+      "al": [
+        "K.V. Subramanian",
+        "KV Subramanian",
+        "Krishnamurthy Subramanian"
+      ],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": "India's Executive Director, IMF, 2022-11-01 to c. 2025-05; CEA 2018-2021",
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "Senior civil-service-equivalent appointee; represented India, Bangladesh, Sri Lanka and Bhutan on the IMF Executive Board.",
+      "d": [
+        "Chief Economic Adviser to the Government of India, 2018-2021 (led preparation of the Economic Survey) [reported]",
+        "Took over as India's Executive Director at the IMF from November 2022, succeeding Surjit Bhalla whose term ended 2022-10-31 [documented, Moneycontrol]",
+        "Term was for three years (scheduled to run to around October 2025) but ended early, on or around 2025-05-03; the IMF told Business Standard the decision to end his term was the Indian government's [documented, Business Standard]",
+        "Business Standard, citing an Indian Express report and unnamed sources, said the early exit followed friction over IMF datasets Subramanian had questioned and questions raised over marketing/promotion of his book \"India@100\"; no official reason was given by the Government of India [reported — see claim on impropriety and its contra]"
+      ],
+      "srcs": [
+        [
+          "Moneycontrol — appointment, 2022-08-25",
+          "https://www.moneycontrol.com/news/business/economy/krishnamurthy-subramanian-to-take-over-as-executive-director-at-imf-from-november-9085221.html"
+        ],
+        [
+          "Business Standard — exit early, 2025-05-03",
+          "https://www.business-standard.com/economy/news/kv-subramanian-to-exit-imf-role-early-govt-begins-search-for-replacement-125050301015_1.html"
+        ],
+        [
+          "Business Standard — IMF confirms it was GoI's call, 2025-05-05",
+          "https://www.business-standard.com/external-affairs-defence-security/news/krishnamurthy-subramanian-s-termination-was-india-s-call-says-imf-125050501223_1.html"
+        ]
+      ]
+    },
+    {
+      "id": "per:surjit-bhalla",
+      "label": "Surjit S. Bhalla",
+      "sub": "India's Executive Director at the IMF, term ended 2022-10-31",
+      "ty": "person",
+      "fam": "state",
+      "st": null,
+      "sz": 1,
+      "al": [
+        "Surjit Bhalla"
+      ],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": "India's Executive Director, IMF, to 2022-10-31 (start date not confirmed this session)",
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "Predecessor to K.V. Subramanian as India's IMF Executive Director.",
+      "d": [
+        "Tenure as ED ended 2022-10-31, per Moneycontrol's report on Subramanian's succession [documented]"
+      ],
+      "srcs": [
+        [
+          "Moneycontrol — appointment article naming Bhalla as outgoing ED",
+          "https://www.moneycontrol.com/news/business/economy/krishnamurthy-subramanian-to-take-over-as-executive-director-at-imf-from-november-9085221.html"
+        ]
+      ]
+    },
+    {
+      "id": "per:gita-gopinath",
+      "label": "Gita Gopinath",
+      "sub": "IMF Chief Economist (c.2019-2022), then First Deputy Managing Director (2022-present) — the most senior Indian-origin official at the IMF",
+      "ty": "person",
+      "fam": "state",
+      "st": null,
+      "sz": 3,
+      "al": [],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": "IMF First Deputy Managing Director, c.2022-01 to present; IMF Chief Economist, c.2019 to c.2022-01",
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "Senior IMF staff leadership role (not a member-state-nominated Executive Director seat); commented publicly and repeatedly on India's economy and policy while in both roles.",
+      "d": [
+        "By July 2022, Economic Times described her as having \"joined the wall of former Chief Economists of IMF,\" i.e. moved on from that role to IMF leadership (First Deputy Managing Director) [reported]"
+      ],
+      "srcs": [
+        [
+          "Economic Times — 2022-07-07",
+          "https://economictimes.indiatimes.com/magazines/panache/gita-gopinath-breaks-the-trend-joins-the-prestigious-wall-of-former-chief-economists-of-imf/articleshow/92715036.cms"
+        ]
+      ]
+    },
+    {
+      "id": "per:bimal-jalan",
+      "label": "Bimal Jalan",
+      "sub": "RBI Governor, 1997-2003",
+      "ty": "person",
+      "fam": "state",
+      "st": null,
+      "sz": 2,
+      "al": [],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": "RBI Governor, 1997-11-22 to 2003-09-06",
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "Central bank governor.",
+      "d": [
+        "RBI's own official past-governors roster gives 1997-11-22 to 2003-09-06 [documented]"
+      ],
+      "srcs": [
+        [
+          "RBI — Past Governors",
+          "https://www.rbi.org.in/Content/PastGovernors_Tbl.html"
+        ]
+      ]
+    },
+    {
+      "id": "per:yv-reddy",
+      "label": "Y. V. Reddy",
+      "sub": "RBI Governor, 2003-2008",
+      "ty": "person",
+      "fam": "state",
+      "st": null,
+      "sz": 2,
+      "al": [
+        "Yaga Venugopal Reddy"
+      ],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": "RBI Governor, 2003-09-06 to 2008-09-05",
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "Central bank governor.",
+      "d": [
+        "RBI's official roster [documented]"
+      ],
+      "srcs": [
+        [
+          "RBI — Past Governors",
+          "https://www.rbi.org.in/Content/PastGovernors_Tbl.html"
+        ]
+      ]
+    },
+    {
+      "id": "per:d-subbarao",
+      "label": "D. Subbarao",
+      "sub": "RBI Governor, 2008-2013",
+      "ty": "person",
+      "fam": "state",
+      "st": null,
+      "sz": 2,
+      "al": [
+        "Duvvuri Subbarao"
+      ],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": "RBI Governor, 2008-09-05 to 2013-09-04",
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "Central bank governor.",
+      "d": [
+        "Two consecutive terms, 2008-2011 and 2011-2013, per RBI's official roster [documented]"
+      ],
+      "srcs": [
+        [
+          "RBI — Past Governors",
+          "https://www.rbi.org.in/Content/PastGovernors_Tbl.html"
+        ]
+      ]
+    },
+    {
+      "id": "per:raghuram-rajan",
+      "label": "Raghuram G. Rajan",
+      "sub": "RBI Governor, 2013-2016",
+      "ty": "person",
+      "fam": "state",
+      "st": null,
+      "sz": 2,
+      "al": [],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": "RBI Governor, 2013-09-04 to 2016-09-04",
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "Central bank governor; previously IMF Chief Economist (2003-2006, outside this file's window).",
+      "d": [
+        "RBI's official roster [documented]"
+      ],
+      "srcs": [
+        [
+          "RBI — Past Governors",
+          "https://www.rbi.org.in/Content/PastGovernors_Tbl.html"
+        ]
+      ]
+    },
+    {
+      "id": "per:urjit-patel",
+      "label": "Urjit R. Patel",
+      "sub": "RBI Governor, 2016-2018",
+      "ty": "person",
+      "fam": "state",
+      "st": null,
+      "sz": 2,
+      "al": [],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": "RBI Governor, 2016-09-04 to 2018-12-11",
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "Central bank governor.",
+      "d": [
+        "RBI's official roster [documented]; term ended 2018-12-11, before RBI's stated normal completion date — the roster page does not itself state a reason and none is asserted here"
+      ],
+      "srcs": [
+        [
+          "RBI — Past Governors",
+          "https://www.rbi.org.in/Content/PastGovernors_Tbl.html"
+        ]
+      ]
+    },
+    {
+      "id": "per:shaktikanta-das",
+      "label": "Shaktikanta Das",
+      "sub": "RBI Governor, 2018-2024",
+      "ty": "person",
+      "fam": "state",
+      "st": null,
+      "sz": 2,
+      "al": [],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": "RBI Governor, 2018-12-12 to 2024-12-10",
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "Central bank governor.",
+      "d": [
+        "Two consecutive terms, 2018-2021 and 2021-2024, per RBI's official roster [documented]"
+      ],
+      "srcs": [
+        [
+          "RBI — Past Governors",
+          "https://www.rbi.org.in/Content/PastGovernors_Tbl.html"
+        ]
+      ]
+    },
+    {
+      "id": "per:sanjay-malhotra",
+      "label": "Sanjay Malhotra",
+      "sub": "RBI Governor, 2024-present",
+      "ty": "person",
+      "fam": "state",
+      "st": null,
+      "sz": 2,
+      "al": [],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": "RBI Governor, 2024-12-11 to present",
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "Incumbent central bank governor.",
+      "d": [
+        "RBI's official roster [documented]"
+      ],
+      "srcs": [
+        [
+          "RBI — Past Governors",
+          "https://www.rbi.org.in/Content/PastGovernors_Tbl.html"
+        ]
+      ]
+    },
+    {
+      "id": "per:paul-procee",
+      "label": "Paul Procee",
+      "sub": "Acting Country Director, India, World Bank",
+      "ty": "person",
+      "fam": "state",
+      "st": null,
+      "sz": 1,
+      "al": [],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": "Acting Country Director, India, World Bank (as of the page fetched 2026-09-26)",
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "World Bank official responsible for India's country programme.",
+      "d": [
+        "Listed as \"Acting Country Director, India\" on the World Bank's own India country page; exact start date and predecessor not given on that page [documented, but partial]"
+      ],
+      "srcs": [
+        [
+          "World Bank — India country page",
+          "https://www.worldbank.org/en/country/india"
+        ]
+      ]
+    }
+  ],
+  "claims": [
+    {
+      "id": "debt:c001",
+      "s": "per:yashwant-sinha",
+      "t": "min:ministry-of-finance",
+      "pred": "role",
+      "tier": "reported",
+      "d": "Union Finance Minister under NDA-I; precise appointment day not independently confirmed this session (recorded to year precision only).",
+      "srcs": [
+        [
+          "Wikipedia — Ministry of Finance (India)",
+          "https://en.wikipedia.org/wiki/Ministry_of_Finance_(India)"
+        ],
+        [
+          "Wikipedia — Jaswant Singh (confirms handover date)",
+          "https://en.wikipedia.org/wiki/Jaswant_Singh"
+        ]
+      ],
+      "a": null,
+      "lab": "Finance Minister, NDA-I",
+      "to": "2002-07-01",
+      "from": "1998"
+    },
+    {
+      "id": "debt:c002",
+      "s": "per:jaswant-singh",
+      "t": "min:ministry-of-finance",
+      "pred": "role",
+      "tier": "reported",
+      "d": "Took over from Yashwant Sinha; term ended with the May 2004 change of government.",
+      "srcs": [
+        [
+          "Wikipedia — Jaswant Singh",
+          "https://en.wikipedia.org/wiki/Jaswant_Singh"
+        ]
+      ],
+      "a": null,
+      "lab": "Finance Minister, NDA-I",
+      "to": "2004-05-21",
+      "from": "2002-07-01"
+    },
+    {
+      "id": "debt:c003",
+      "s": "wel:p-chidambaram",
+      "t": "min:ministry-of-finance",
+      "pred": "role",
+      "tier": "reported",
+      "d": "First UPA-era stint as Finance Minister; moved to Home Ministry after the 26 November 2008 Mumbai attacks.",
+      "srcs": [
+        [
+          "Wikipedia — P. Chidambaram",
+          "https://en.wikipedia.org/wiki/P._Chidambaram"
+        ]
+      ],
+      "a": null,
+      "lab": "Finance Minister, UPA-I/II (term 1)",
+      "to": "2008-11-30",
+      "from": "2004-05-24"
+    },
+    {
+      "id": "debt:c004",
+      "s": "per:pranab-mukherjee",
+      "t": "min:ministry-of-finance",
+      "pred": "role",
+      "tier": "reported",
+      "d": "Second UPA-era Finance Minister; presented Union budgets 2009-2011; resigned to contest the 2012 presidential election. Source states a 2009-01-24 start; the roughly seven-week gap after Chidambaram's 2008-11-30 move to Home is unresolved (flagged in entity notes and in gaps).",
+      "srcs": [
+        [
+          "Wikipedia — Pranab Mukherjee",
+          "https://en.wikipedia.org/wiki/Pranab_Mukherjee"
+        ]
+      ],
+      "a": null,
+      "lab": "Finance Minister, UPA-II",
+      "to": "2012-06-26",
+      "from": "2009-01-24"
+    },
+    {
+      "id": "debt:c005",
+      "s": "wel:p-chidambaram",
+      "t": "min:ministry-of-finance",
+      "pred": "role",
+      "tier": "reported",
+      "d": "Returned to Finance after Pranab Mukherjee's resignation to run for President; held the portfolio until UPA left office in May 2014.",
+      "srcs": [
+        [
+          "Wikipedia — P. Chidambaram",
+          "https://en.wikipedia.org/wiki/P._Chidambaram"
+        ]
+      ],
+      "a": null,
+      "lab": "Finance Minister, UPA-II (term 2)",
+      "to": "2014-05-26",
+      "from": "2012-07-31"
+    },
+    {
+      "id": "debt:c006",
+      "s": "wel:arun-jaitley",
+      "t": "min:ministry-of-finance",
+      "pred": "role",
+      "tier": "reported",
+      "d": "Finance Minister for the whole of the first Modi government; also held Corporate Affairs and (2014-2017) Defence and Information & Broadcasting at various points, not itemised here.",
+      "srcs": [
+        [
+          "Wikipedia — Arun Jaitley",
+          "https://en.wikipedia.org/wiki/Arun_Jaitley"
+        ]
+      ],
+      "a": null,
+      "lab": "Finance Minister, NDA-II",
+      "to": "2019-05-30",
+      "from": "2014-05-26"
+    },
+    {
+      "id": "debt:c007",
+      "s": "pol:piyush-goyal",
+      "t": "min:ministry-of-finance",
+      "pred": "role",
+      "tier": "reported",
+      "d": "Held interim charge of Finance while Arun Jaitley was on medical leave.",
+      "srcs": [
+        [
+          "Wikipedia — Arun Jaitley",
+          "https://en.wikipedia.org/wiki/Arun_Jaitley"
+        ]
+      ],
+      "a": null,
+      "lab": "Finance Minister (interim charge, episode 1)",
+      "to": "2018-08-23",
+      "from": "2018-05-14"
+    },
+    {
+      "id": "debt:c008",
+      "s": "pol:piyush-goyal",
+      "t": "min:ministry-of-finance",
+      "pred": "role",
+      "tier": "reported",
+      "d": "Second interim-charge episode, including presenting the February 2019 interim budget, while Jaitley was again on medical leave.",
+      "srcs": [
+        [
+          "Wikipedia — Arun Jaitley",
+          "https://en.wikipedia.org/wiki/Arun_Jaitley"
+        ]
+      ],
+      "a": null,
+      "lab": "Finance Minister (interim charge, episode 2)",
+      "to": "2019-02-15",
+      "from": "2019-01-23"
+    },
+    {
+      "id": "debt:c009",
+      "s": "pol:nirmala-sitharaman",
+      "t": "min:ministry-of-finance",
+      "pred": "role",
+      "tier": "reported",
+      "d": "India's first full-time woman Finance Minister; reappointed after the June 2024 general election; became the longest continuously serving Union Finance Minister in July 2025 and presented her ninth consecutive Union budget in February 2026.",
+      "srcs": [
+        [
+          "Wikipedia — Nirmala Sitharaman",
+          "https://en.wikipedia.org/wiki/Nirmala_Sitharaman"
+        ]
+      ],
+      "a": null,
+      "lab": "Finance Minister, NDA-II/III",
+      "to": null,
+      "from": "2019-05-30"
+    },
+    {
+      "id": "debt:c010",
+      "s": "per:bimal-jalan",
+      "t": "wel:rbi",
+      "pred": "role",
+      "tier": "documented",
+      "d": "RBI's own official past-governors roster.",
+      "srcs": [
+        [
+          "RBI — Past Governors",
+          "https://www.rbi.org.in/Content/PastGovernors_Tbl.html"
+        ]
+      ],
+      "a": null,
+      "lab": "RBI Governor",
+      "to": "2003-09-06",
+      "from": "1997-11-22"
+    },
+    {
+      "id": "debt:c011",
+      "s": "per:yv-reddy",
+      "t": "wel:rbi",
+      "pred": "role",
+      "tier": "documented",
+      "d": "RBI's own official past-governors roster.",
+      "srcs": [
+        [
+          "RBI — Past Governors",
+          "https://www.rbi.org.in/Content/PastGovernors_Tbl.html"
+        ]
+      ],
+      "a": null,
+      "lab": "RBI Governor",
+      "to": "2008-09-05",
+      "from": "2003-09-06"
+    },
+    {
+      "id": "debt:c012",
+      "s": "per:d-subbarao",
+      "t": "wel:rbi",
+      "pred": "role",
+      "tier": "documented",
+      "d": "Two consecutive terms per RBI's roster.",
+      "srcs": [
+        [
+          "RBI — Past Governors",
+          "https://www.rbi.org.in/Content/PastGovernors_Tbl.html"
+        ]
+      ],
+      "a": null,
+      "lab": "RBI Governor",
+      "to": "2013-09-04",
+      "from": "2008-09-05"
+    },
+    {
+      "id": "debt:c013",
+      "s": "per:raghuram-rajan",
+      "t": "wel:rbi",
+      "pred": "role",
+      "tier": "documented",
+      "d": "RBI's own official past-governors roster.",
+      "srcs": [
+        [
+          "RBI — Past Governors",
+          "https://www.rbi.org.in/Content/PastGovernors_Tbl.html"
+        ]
+      ],
+      "a": null,
+      "lab": "RBI Governor",
+      "to": "2016-09-04",
+      "from": "2013-09-04"
+    },
+    {
+      "id": "debt:c014",
+      "s": "per:urjit-patel",
+      "t": "wel:rbi",
+      "pred": "role",
+      "tier": "documented",
+      "d": "RBI's own official past-governors roster; the roster does not itself state a reason for the term ending on this date, and none is asserted here.",
+      "srcs": [
+        [
+          "RBI — Past Governors",
+          "https://www.rbi.org.in/Content/PastGovernors_Tbl.html"
+        ]
+      ],
+      "a": null,
+      "lab": "RBI Governor",
+      "to": "2018-12-11",
+      "from": "2016-09-04"
+    },
+    {
+      "id": "debt:c015",
+      "s": "per:shaktikanta-das",
+      "t": "wel:rbi",
+      "pred": "role",
+      "tier": "documented",
+      "d": "Two consecutive terms per RBI's roster.",
+      "srcs": [
+        [
+          "RBI — Past Governors",
+          "https://www.rbi.org.in/Content/PastGovernors_Tbl.html"
+        ]
+      ],
+      "a": null,
+      "lab": "RBI Governor",
+      "to": "2024-12-10",
+      "from": "2018-12-12"
+    },
+    {
+      "id": "debt:c016",
+      "s": "per:sanjay-malhotra",
+      "t": "wel:rbi",
+      "pred": "role",
+      "tier": "documented",
+      "d": "RBI's own official past-governors roster; incumbent.",
+      "srcs": [
+        [
+          "RBI — Past Governors",
+          "https://www.rbi.org.in/Content/PastGovernors_Tbl.html"
+        ]
+      ],
+      "a": null,
+      "lab": "RBI Governor",
+      "to": null,
+      "from": "2024-12-11"
+    },
+    {
+      "id": "debt:c017",
+      "s": "seth",
+      "t": "min:ministry-of-finance",
+      "pred": "role",
+      "tier": "reported",
+      "d": "Referred to as \"Economic Affairs Secretary\" in press by 2022-05-31; exact appointment date and the full predecessor roster (e.g. Subhash Chandra Garg 2017-19, Atanu Chakraborty, Tarun Bajaj) not independently re-verified this session (finmin.nic.in and dea.gov.in both blocked).",
+      "srcs": [
+        [
+          "Indian Express — 2022-05-31",
+          "https://indianexpress.com/article/business/economy/govt-rbi-steps-to-push-down-inflation-dea-7944562/"
+        ]
+      ],
+      "a": null,
+      "lab": "Secretary, Department of Economic Affairs",
+      "to": null,
+      "from": "2022"
+    },
+    {
+      "id": "debt:c018",
+      "s": "per:surjit-bhalla",
+      "t": "fin:imf",
+      "pred": "role",
+      "tier": "reported",
+      "d": "Executive Director for the India-Bangladesh-Sri Lanka-Bhutan constituency at the IMF; start date not independently confirmed this session (from left null deliberately rather than guessed).",
+      "srcs": [
+        [
+          "Moneycontrol — 2022-08-25",
+          "https://www.moneycontrol.com/news/business/economy/krishnamurthy-subramanian-to-take-over-as-executive-director-at-imf-from-november-9085221.html"
+        ]
+      ],
+      "a": null,
+      "lab": "India's Executive Director, IMF",
+      "to": "2022-10-31",
+      "from": null
+    },
+    {
+      "id": "debt:c019",
+      "s": "per:krishnamurthy-subramanian",
+      "t": "fin:imf",
+      "pred": "role",
+      "tier": "documented",
+      "d": "Succeeded Surjit Bhalla; term was for three years (to approx October 2025) but ended early — see claim debt:c020 for the reported reasons and debt:c021 for the response.",
+      "srcs": [
+        [
+          "Moneycontrol — 2022-08-25",
+          "https://www.moneycontrol.com/news/business/economy/krishnamurthy-subramanian-to-take-over-as-executive-director-at-imf-from-november-9085221.html"
+        ],
+        [
+          "Business Standard — 2025-05-03",
+          "https://www.business-standard.com/economy/news/kv-subramanian-to-exit-imf-role-early-govt-begins-search-for-replacement-125050301015_1.html"
+        ],
+        [
+          "Business Standard — 2025-05-05",
+          "https://www.business-standard.com/external-affairs-defence-security/news/krishnamurthy-subramanian-s-termination-was-india-s-call-says-imf-125050501223_1.html"
+        ]
+      ],
+      "a": null,
+      "lab": "India's Executive Director, IMF",
+      "to": "2025-05",
+      "from": "2022-11-01"
+    },
+    {
+      "id": "debt:c020",
+      "s": "min:ministry-of-finance",
+      "t": "per:krishnamurthy-subramanian",
+      "pred": "enforce",
+      "tier": "alleged",
+      "d": "The Government of India ended K.V. Subramanian's IMF ED term roughly six months before its scheduled October-2025 expiry. The IMF's spokesperson confirmed to Business Standard that the decision was the Indian government's, not the Fund's (documented as to WHO decided). The REASONS are less firmly sourced: Business Standard, citing an Indian Express report and unnamed sources, said Subramanian had raised concerns about IMF datasets (creating friction within the Fund) and that questions had been raised over his marketing/promotion of his book \"India@100\" while in the post; the recall also preceded an IMF board vote on financial assistance to Pakistan, which India was set to oppose. No official public reason was given by the Government of India. Tier set to alleged because the specific reasons rest on unnamed sourcing and directly imply impropriety by Subramanian.",
+      "srcs": [
+        [
+          "Business Standard — 2025-05-03",
+          "https://www.business-standard.com/economy/news/kv-subramanian-to-exit-imf-role-early-govt-begins-search-for-replacement-125050301015_1.html"
+        ],
+        [
+          "Business Standard — 2025-05-05 (IMF: India's call)",
+          "https://www.business-standard.com/external-affairs-defence-security/news/krishnamurthy-subramanian-s-termination-was-india-s-call-says-imf-125050501223_1.html"
+        ]
+      ],
+      "a": null,
+      "lab": "Early termination of IMF ED term — reported reasons",
+      "from": null
+    },
+    {
+      "id": "debt:c021",
+      "s": "per:krishnamurthy-subramanian",
+      "t": "claim:debt:c020",
+      "pred": "contra",
+      "tier": "alleged",
+      "d": "No response recorded — asked/not asked unknown.",
+      "srcs": [],
+      "a": null,
+      "lab": "Subramanian's response to the reported reasons",
+      "from": null
+    },
+    {
+      "id": "debt:c022",
+      "s": "per:gita-gopinath",
+      "t": "fin:imf",
+      "pred": "role",
+      "tier": "reported",
+      "d": "IMF Chief Economist; exact start date not independently confirmed this session (commonly cited elsewhere as January 2019, not verified here).",
+      "srcs": [
+        [
+          "Economic Times — 2022-07-07",
+          "https://economictimes.indiatimes.com/magazines/panache/gita-gopinath-breaks-the-trend-joins-the-prestigious-wall-of-former-chief-economists-of-imf/articleshow/92715036.cms"
+        ]
+      ],
+      "a": null,
+      "lab": "IMF Chief Economist",
+      "to": "2022-01",
+      "from": "2019"
+    },
+    {
+      "id": "debt:c023",
+      "s": "per:gita-gopinath",
+      "t": "fin:imf",
+      "pred": "role",
+      "tier": "reported",
+      "d": "First Deputy Managing Director, IMF's second-ranking official; by July 2022 Economic Times described her as having moved on from the Chief Economist role into this one.",
+      "srcs": [
+        [
+          "Economic Times — 2022-07-07",
+          "https://economictimes.indiatimes.com/magazines/panache/gita-gopinath-breaks-the-trend-joins-the-prestigious-wall-of-former-chief-economists-of-imf/articleshow/92715036.cms"
+        ]
+      ],
+      "a": null,
+      "lab": "IMF First Deputy Managing Director",
+      "to": null,
+      "from": "2022-01"
+    },
+    {
+      "id": "debt:c024",
+      "s": "per:paul-procee",
+      "t": "fin:ibrd",
+      "pred": "role",
+      "tier": "documented",
+      "d": "Listed on the World Bank's own India country page as \"Acting Country Director, India\"; the acting status implies a transitional appointment, and neither a start date nor a named predecessor/successor is given on the page.",
+      "srcs": [
+        [
+          "World Bank — India country page",
+          "https://www.worldbank.org/en/country/india"
+        ]
+      ],
+      "a": null,
+      "lab": "Acting Country Director, India, World Bank",
+      "to": null,
+      "from": null
+    },
+    {
+      "id": "debt:c025",
+      "s": "fin:imf",
+      "t": "min:ministry-of-finance",
+      "pred": "loan",
+      "tier": "reported",
+      "d": "US$7bn in combined IMF/World Bank emergency support during the 1991 balance-of-payments crisis, per Wikipedia's synthesis of press/historical accounts; India pledged approx 67 tonnes of gold as collateral (47 tonnes airlifted to the Bank of England, 20 tonnes to the Union Bank of Switzerland) in May 1991. Rs crore figure here is this file's own arithmetic at an illustrative approx Rs20/US$ (the pre-devaluation rate; the rupee was devalued in two steps on 1 and 3 July 1991, so the effective rate over the drawdown window varied materially) — treat as order-of-magnitude only. This session could not independently corroborate the exact SDR amounts, the CCFF component, or the repayment schedule against a primary IMF or RBI document (imf.org blocked; dea.gov.in blocked); commonly cited elsewhere as fully repaid by around 1993-1995, not verified here.",
+      "srcs": [
+        [
+          "Wikipedia — 1991 Indian economic crisis",
+          "https://en.wikipedia.org/wiki/1991_Indian_economic_crisis"
+        ]
+      ],
+      "a": 14000,
+      "lab": "1991 IMF stand-by arrangement + CCFF (approx)",
+      "to": "1993",
+      "terms": {
+        "instrument": "Stand-By Arrangement + Compensatory and Contingency Financing Facility (CCFF)",
+        "ratePct": null,
+        "tenorYears": null,
+        "graceYears": null,
+        "conditions": [
+          "structural adjustment / liberalisation measures",
+          "opening of previously state-reserved sectors to foreign participation",
+          "approx 67 tonnes of gold pledged as collateral (47t Bank of England, 20t UBS), May 1991"
+        ]
+      },
+      "from": "1991-01"
+    },
+    {
+      "id": "debt:c026",
+      "s": "fin:external-debt",
+      "t": "min:ministry-of-finance",
+      "pred": "analytic",
+      "tier": "analytic",
+      "d": "External-debt stock CAGR, UPA decade (2004-2014, US$123.6bn -> US$457.5bn) approx 14.0%/yr, vs NDA decade (2014-2024, US$457.5bn -> US$716.5bn) approx 4.6%/yr — World Bank DT.DOD.DECT.CD. Read naively this looks like NDA borrowed far more conservatively; the innocent reading below is why that comparison is not safe as stated.",
+      "srcs": [
+        [
+          "World Bank API — DT.DOD.DECT.CD",
+          "https://api.worldbank.org/v2/country/IND/indicator/DT.DOD.DECT.CD?format=json&date=2000:2024&per_page=100"
+        ]
+      ],
+      "a": null,
+      "lab": "UPA vs NDA external-debt growth rate (base-rate comparison)",
+      "innocentReading": "A percentage growth rate compounds off a much smaller 2004 base than the 2014 base, so a lower headline CAGR in the later decade is arithmetically expected even under identical policy; the stock is also a current-US$ figure, so rupee depreciation, global interest-rate cycles (the 2013 \"taper tantrum\" falls inside the UPA window) and the growth of private corporate/NRI external borrowing (not government policy at all) all move the number independently of which party held the finance portfolio.",
+      "upgradeIf": "A like-for-like comparison of sovereign-only (PPG) debt as % of GDP, not total stock in current US$, showed a persistent post-2014 discontinuity not explained by valuation or base effects.",
+      "killIf": "PPG debt/GDP shows no discontinuity across the 2014 transition (the World Bank PPG series fetched this session — $205bn in 2021 vs $215bn in 2023 — shows gradual, not stepped, change, weakly supporting kill).",
+      "from": null
+    }
+  ],
+  "narratives": [
+    {
+      "claim": "The 1991 reforms were dictated by the IMF.",
+      "status": "contested",
+      "strongestCase": "The stand-by arrangement and CCFF drawdown coincided with, and were conditioned on, structural adjustment commitments — devaluation, de-licensing, opening protected sectors to foreign participation — and the government pledged national gold reserves as collateral to secure the loan, a strong signal of how constrained the negotiating position was.",
+      "strongestCounter": "The core liberalisation package (industrial de-licensing, trade reform, the start of financial-sector opening) was designed by the Rao government's own economic team and framed domestically as a long-overdue correction to decades of licence-permit-raj inefficiency; several of these ideas had been debated inside the Indian policy establishment since the mid-1980s (Rajiv Gandhi-era partial liberalisation) independent of any IMF programme, and the reforms continued and deepened long after the 1991-93 facility was repaid, when the IMF had no further leverage.",
+      "whatWouldChangeThis": "A primary IMF or RBI document itemising the specific conditions attached to the 1991 facility, compared line-by-line against the reform sequence actually enacted, would let this be scored rather than asserted either way — not obtained this session (imf.org and dea.gov.in both blocked).",
+      "srcs": [
+        [
+          "Wikipedia — 1991 Indian economic crisis",
+          "https://en.wikipedia.org/wiki/1991_Indian_economic_crisis"
+        ]
+      ]
+    },
+    {
+      "claim": "India is heading for an external debt crisis.",
+      "status": "unsupported",
+      "strongestCase": "The absolute stock has grown continuously and substantially — from US$101bn in 2000 to US$716bn in 2024, a roughly sevenfold increase — and short-term debt is a meaningful roughly one-fifth of the total, which is the maturity structure that turned into a crisis in 1991.",
+      "strongestCounter": "External debt was 18.0% of GNI in 2023 and total debt service was 10.2% of exports in 2023 (World Bank), both moderate by international and by India's own 1991-era standards (when the debt-service ratio approached 30-35% of exports on a far smaller and more fragile reserve base); foreign-exchange reserves (not itemised in this file) have historically comfortably covered the stock; and the sovereign (public & publicly guaranteed) share of the debt has been shrinking as a proportion of the total relative to private/NRI-linked borrowing, which is a materially different risk profile from a government unable to service its own external obligations.",
+      "whatWouldChangeThis": "A sustained rise in the debt-service ratio past the 20-25% range historically associated with distress, or a sharp reserves drawdown alongside it, would move this out of \"unsupported.\"",
+      "srcs": [
+        [
+          "World Bank API — DT.DOD.DECT.CD",
+          "https://api.worldbank.org/v2/country/IND/indicator/DT.DOD.DECT.CD?format=json&date=2000:2024&per_page=100"
+        ],
+        [
+          "World Bank API — DT.TDS.DECT.EX.ZS",
+          "https://api.worldbank.org/v2/country/IND/indicator/DT.TDS.DECT.EX.ZS?format=json&date=2023&per_page=5"
+        ],
+        [
+          "World Bank API — DT.DOD.DECT.GN.ZS",
+          "https://api.worldbank.org/v2/country/IND/indicator/DT.DOD.DECT.GN.ZS?format=json&date=2023&per_page=5"
+        ]
+      ]
+    },
+    {
+      "claim": "The IMF/World Bank control Indian policy.",
+      "status": "unsupported",
+      "strongestCase": "India has an active, continuous lending relationship with the World Bank (IBRD/IDA loans, detailed in the companion file worldbank-projects.json) that comes with project-level conditions, and the IMF's annual Article IV consultation produces policy recommendations that sometimes anticipate or echo budget measures.",
+      "strongestCounter": "India has not drawn on IMF balance-of-payments financing — the channel that gives the Fund real leverage over macroeconomic policy — since the 1991-93 facility; Article IV consultations are surveillance and advice, not conditionality, and India is free to (and often does) ignore them; multilateral (IBRD+IDA) debt was only US$39.3bn of a US$647.6bn total external debt stock in 2023 (about 6%), a small enough share that project-level conditions on that slice cannot plausibly be read as \"control\" of national policy.",
+      "whatWouldChangeThis": "Evidence of a live use-of-Fund-resources arrangement with binding macro conditionality, or a demonstrated pattern of budget reversals directly traceable to World Bank loan conditions across multiple sectors, would move this out of \"unsupported.\"",
+      "srcs": [
+        [
+          "World Bank API — DT.DOD.MWBG.CD",
+          "https://api.worldbank.org/v2/country/IND/indicator/DT.DOD.MWBG.CD?format=json&date=2023&per_page=5"
+        ],
+        [
+          "World Bank API — DT.DOD.DECT.CD",
+          "https://api.worldbank.org/v2/country/IND/indicator/DT.DOD.DECT.CD?format=json&date=2000:2024&per_page=100"
+        ]
+      ]
+    },
+    {
+      "claim": "India's IMF Executive Director (K.V. Subramanian) was removed for criticising the Fund / for misconduct.",
+      "status": "contested",
+      "strongestCase": "Business Standard, citing an Indian Express report and unnamed sources, reported that Subramanian's early exit followed his having raised concerns about IMF datasets — friction with the Fund over substance — and separately that questions had been raised about his promoting his own book while in the post; the recall also came days before an IMF board vote on aid to Pakistan that India opposed, which some read as the more consequential trigger.",
+      "strongestCounter": "The IMF itself told Business Standard on the record that ending his term was the Indian government's decision, not the Fund's — directly contradicting any reading in which the IMF pushed him out for criticising it; and no on-the-record government statement giving \"misconduct\" or any other formal reason has been found in accessible sources, nor has Subramanian himself been found on the record responding to either account (recorded as \"No response recorded\" per the contradiction rule).",
+      "whatWouldChangeThis": "An on-the-record statement from the Ministry of Finance, from the IMF beyond confirming who decided, or from Subramanian himself, giving a specific reason.",
+      "srcs": [
+        [
+          "Business Standard — 2025-05-03",
+          "https://www.business-standard.com/economy/news/kv-subramanian-to-exit-imf-role-early-govt-begins-search-for-replacement-125050301015_1.html"
+        ],
+        [
+          "Business Standard — 2025-05-05",
+          "https://www.business-standard.com/external-affairs-defence-security/news/krishnamurthy-subramanian-s-termination-was-india-s-call-says-imf-125050501223_1.html"
+        ]
+      ]
+    }
+  ],
+  "voids": [
+    {
+      "what": "dea.gov.in and indiabudget.gov.in (the two official homes of DEA's quarterly \"India's External Debt: A Status Report\") were both unreachable this session (dea.gov.in: connection failure; indiabudget.gov.in: HTTP 403 via both WebFetch and curl through the proxy).",
+      "whyItMatters": "Every external-debt figure in this file is therefore sourced to the World Bank's DT.* series (a different, calendar-year, current-US$ framework) rather than to RBI/DEA's own fiscal-year, India-specific classification (which separately itemises NRI deposits, ECBs and trade credit) — the two are close but not identical, and RBI's own status report would let the composition be restated in the categories the Ministry of Finance itself uses.",
+      "srcs": [
+        [
+          "World Bank — India country page (used as substitute)",
+          "https://www.worldbank.org/en/country/india"
+        ]
+      ]
+    },
+    {
+      "what": "imf.org and data.imf.org were blocked for this session (403 on the one HTML press-release URL tried; a PDF fetch of an IMF history chapter returned only unusable binary/font metadata).",
+      "whyItMatters": "India's current IMF quota share, the identity of any successor to K.V. Subramanian as Executive Director (the post was reported vacant as of 3 May 2025 and no successor was found in accessible sources as of this session), and the IMF's own primary account of the 1981 and 1991 programmes could not be directly verified — every IMF-related claim in this file is sourced through Indian press coverage of IMF statements, not IMF primary documents.",
+      "srcs": []
+    },
+    {
+      "what": "No on-the-record response from Krishnamurthy Subramanian to the reported reasons for his early exit from the IMF Executive Board was found in any source opened this session.",
+      "whyItMatters": "The contradiction invariant requires that an allegation implying impropriety ship with the concerned party's response; recorded as \"No response recorded — asked/not asked unknown\" (claim debt:c021) rather than left unanswered.",
+      "srcs": []
+    }
+  ],
+  "gaps": [
+    "1981 IMF Extended Fund Facility to India (commonly cited elsewhere at SDR 5bn) — not recorded as a claim in this file because no source opened this session confirmed it; would need a primary IMF document (imf.org blocked) or an RBI \"History of RBI\" volume PDF (rbi.org.in reachable, but the specific volume/chapter was not located this session).",
+    "Exact SDR breakdown and repayment schedule of the 1991 stand-by arrangement + CCFF — recorded here only via a Wikipedia synthesis (US$7bn, 67 tonnes of gold); a primary RBI or IMF source would let claim debt:c025 be upgraded from 'reported' to 'documented' and would let the Rs-crore conversion be done at an actual dated reference rate rather than this file's own illustrative arithmetic.",
+    "Pranab Mukherjee's exact date of assuming the finance portfolio: the source used gives 2009-01-24, leaving an approx seven-week gap after P. Chidambaram's 2008-11-30 move to Home Ministry unaccounted for; a PIB/Gazette notification would resolve this (not found this session).",
+    "Full historical roster of DEA Secretaries 2000-2026 — only the incumbent (Ajay Seth, reused id \"seth\", in office by 2022-05) is claimed here with an independently opened source; predecessors (e.g. Subhash Chandra Garg, already present in this fleet's per:subhash-chandra-garg node from a sibling file, Atanu Chakraborty, Tarun Bajaj, Shaktikanta Das pre-RBI) were not independently re-sourced this session. finmin.nic.in is blocked by proxy policy.",
+    "India's Executive Director at the World Bank (as distinct from the World Bank's own India country-office staff) — not identified via any page reachable this session; the World Bank's public 'Executive Directors' listing page did not resolve to a name for the India constituency in the content extracted.",
+    "India's current IMF quota share (%) and voting share — not obtainable with imf.org/data.imf.org blocked.",
+    "Successor to K.V. Subramanian as India's IMF Executive Director, if any has since been named — the post was reported vacant as of 3 May 2025; no later confirmation was found in accessible sources this session.",
+    "State-level external/multilateral borrowing split by BJP-run vs opposition-run states, and Chinese official finance to Indian private companies vs Japanese ODA to public projects (both named as mandatory controls in the fleet brief) — out of this file's scope (people + aggregate debt + IMF), and left for the companion files in this same directory (worldbank-projects.json, adb-aiib.json) or a future state-economy file."
+  ],
+  "baseRates": [
+    {
+      "property": "External debt stock CAGR, UPA decade (2004-2014)",
+      "numerator": null,
+      "denominator": null,
+      "label": "US$123.6bn (2004) to US$457.5bn (2014), World Bank DT.DOD.DECT.CD — approx 14.0%/yr compound",
+      "srcs": [
+        [
+          "World Bank API — DT.DOD.DECT.CD",
+          "https://api.worldbank.org/v2/country/IND/indicator/DT.DOD.DECT.CD?format=json&date=2000:2024&per_page=100"
+        ]
+      ]
+    },
+    {
+      "property": "External debt stock CAGR, NDA decade (2014-2024)",
+      "numerator": null,
+      "denominator": null,
+      "label": "US$457.5bn (2014) to US$716.5bn (2024), World Bank DT.DOD.DECT.CD — approx 4.6%/yr compound",
+      "srcs": [
+        [
+          "World Bank API — DT.DOD.DECT.CD",
+          "https://api.worldbank.org/v2/country/IND/indicator/DT.DOD.DECT.CD?format=json&date=2000:2024&per_page=100"
+        ]
+      ]
+    },
+    {
+      "property": "Multilateral (IBRD+IDA) share of total external debt stock, 2023",
+      "numerator": 39283871000,
+      "denominator": 647556415555,
+      "label": "IBRD+IDA debt (DT.DOD.MWBG.CD) as a share of total external debt stocks (DT.DOD.DECT.CD), 2023 — approx 6.1%",
+      "srcs": [
+        [
+          "World Bank API — DT.DOD.MWBG.CD",
+          "https://api.worldbank.org/v2/country/IND/indicator/DT.DOD.MWBG.CD?format=json&date=2023&per_page=5"
+        ],
+        [
+          "World Bank API — DT.DOD.DECT.CD",
+          "https://api.worldbank.org/v2/country/IND/indicator/DT.DOD.DECT.CD?format=json&date=2000:2024&per_page=100"
+        ]
+      ]
+    },
+    {
+      "property": "Sovereign (public & publicly guaranteed) share of total external debt stock, 2023",
+      "numerator": 214911618610,
+      "denominator": 647556415555,
+      "label": "PPG debt (DT.DOD.DPPG.CD) as a share of total external debt stocks, 2023 — approx 33.2% (the rest is private/NRI-linked non-guaranteed and short-term borrowing)",
+      "srcs": [
+        [
+          "World Bank API — DT.DOD.DPPG.CD",
+          "https://api.worldbank.org/v2/country/IND/indicator/DT.DOD.DPPG.CD?format=json&date=2000:2024&per_page=100"
+        ],
+        [
+          "World Bank API — DT.DOD.DECT.CD",
+          "https://api.worldbank.org/v2/country/IND/indicator/DT.DOD.DECT.CD?format=json&date=2000:2024&per_page=100"
+        ]
+      ]
+    }
+  ],
+  "symmetryCheck": "Applied to the Union-level control (UPA 2004-2014 vs NDA 2014-2026): the same World-Bank-sourced lens shows external debt growing under both dispensations without a partisan discontinuity that survives a base-rate check — nominal stock CAGR was higher in the UPA decade (approx 14.0%/yr, 2004-2014) than the NDA decade (approx 4.6%/yr, 2014-2024), which a naive reading could spin as \"NDA more prudent,\" but the innocent reading (claim debt:c026) is that compounding off a roughly 3.7x-larger 2014 base mechanically produces a lower percentage growth rate even under identical policy, and the 2004-2014 window also contains the 2013 \"taper tantrum\" rupee shock, which moves a current-US$ figure independent of borrowing decisions. On the personnel side, RBI Governors and Finance Ministers were appointed by both UPA and NDA governments across this file's window without any observable pattern in the debt trajectory tracking the appointing party. This file could NOT run the two other mandatory controls (BJP-run vs opposition-run state borrowing; Chinese finance to private companies vs Japanese ODA to public projects) — both require data this file did not fetch and are left to the companion finance-fleet files, recorded as gaps above."
+}

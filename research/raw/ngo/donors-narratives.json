@@ -1,0 +1,2446 @@
+{
+  "asOf": "2026-09-26",
+  "domain": "donors-narratives",
+  "scope": "The foreign donors to Indian associations as institutions — Ford Foundation, Bill & Melinda Gates Foundation, Open Society Foundations, Omidyar Network India, USAID and the CEPPS consortium, Christian Aid, the Rockefeller and MacArthur foundations, and the two US diaspora charities named in the Hindutva-funding reports (Sewa International USA, IDRF) — with their identity, India footprint, published scale (IRS 990-PF where a page was opened) and the documented state actions against them (2015 Ford watch-listing and 2016 delisting; 2016 OSF prior-reference listing and the 2025 ED FEMA searches; the 2023 Omidyar exit; the February 2025 USAID 'US$21m voter turnout' episode). It then calibrates six circulating narratives about foreign money in Indian civil society against that record and against the domestic-philanthropy control (Bain 2025 aggregates; Tata Trusts). It leaves out: the FCRA enforcement register (research/raw/ngo/fcra-actions.json), donor-by-donor FC-4 receipts (fcra-receipts.json), and Compassion International / World Vision, which those files carry. Persons are recorded only where an office-holder is the counterparty of a documented act (the 2019 Gates award to the Prime Minister). George Soros and Bill Gates are not nodes: the institutions are.",
+  "sources": [
+    [
+      "Ford Foundation — India, Nepal and Sri Lanka office page",
+      "https://www.fordfoundation.org/our-work-around-the-world/india-nepal-and-sri-lanka/"
+    ],
+    [
+      "Deccan Chronicle — MHA removes Ford Foundation from watch list (2016-03-18)",
+      "https://www.deccanchronicle.com/nation/current-affairs/180316/mha-removes-ford-foundation-from-watch-list.html"
+    ],
+    [
+      "BHRRC mirror of Indian Express — Govt puts Ford Foundation on watch list (2015-04-23)",
+      "https://www.business-humanrights.org/en/latest-news/india-govt-puts-ford-foundation-on-watch-list-curbs-on-funding/"
+    ],
+    [
+      "The Wire — How Ford Foundation got the Modi government to back off (2016)",
+      "https://thewire.in/diplomacy/revealed-how-ford-foundation-got-the-modi-government"
+    ],
+    [
+      "Gates Foundation — India page",
+      "https://www.gatesfoundation.org/our-work/places/india"
+    ],
+    [
+      "PM India — PM receives Global Goalkeeper Award (2019-09-25)",
+      "https://www.pmindia.gov.in/en/news_updates/pm-receives-global-goal-keeper-award-for-swachh-bharat-abhiyan/"
+    ],
+    [
+      "NPR — Gates Foundation award to Modi sparking outrage (2019-09-17)",
+      "https://www.npr.org/sections/goatsandsoda/2019/09/17/761664492/gates-foundations-humanitarian-award-to-indias-modi-is-sparking-outrage"
+    ],
+    [
+      "georgesoros.com — Remarks delivered at the 2023 Munich Security Conference (2023-02-16)",
+      "https://www.georgesoros.com/2023/02/16/remarks-delivered-at-the-2023-munich-security-conference/"
+    ],
+    [
+      "OSF — India's growing suspicions around foreign funding (2015-05-21)",
+      "https://www.opensocietyfoundations.org/voices/indias-growing-suspicions-around-foreign-funding"
+    ],
+    [
+      "The Tribune — ED raids Soros-linked entities in Bengaluru (2025-03-19)",
+      "https://www.tribuneindia.com/news/india/ed-raids-soros-linked-entities-in-bengaluru"
+    ],
+    [
+      "TechCrunch — Omidyar Network to pull out of India (2023-12-11)",
+      "https://techcrunch.com/2023/12/11/omidyar-network-to-pull-out-of-india-market/"
+    ],
+    [
+      "Inc42 — Behind Omidyar Network's sudden-yet-expected exit (2023-12)",
+      "https://inc42.com/features/omidyar-network-sudden-expected-exit-india/"
+    ],
+    [
+      "Business Today — Omidyar Network to exit India (2023-12-12)",
+      "https://www.businesstoday.in/entrepreneurship/start-up/story/impact-fund-omidyar-network-to-exit-india-409191-2023-12-12"
+    ],
+    [
+      "The Tribune — Musk cancels USAID's $21 mn grant on 'voter turnout in India' (2025-02-17)",
+      "https://www.tribuneindia.com/news/india/musk-cancels-usaids-21-mn-grant-on-voter-turnout-in-india"
+    ],
+    [
+      "Business Standard — Trump's voter turnout claim false: $21 mn funded to Bangladesh (2025-02-21)",
+      "https://www.business-standard.com/external-affairs-defence-security/news/us-trump-usaid-21-million-voter-turnout-india-debunked-bangladesh-125022100319_1.html"
+    ],
+    [
+      "The Wire — MEA: Trump's USAID remarks 'deeply troubling' (2025-02-21)",
+      "https://m.thewire.in/article/diplomacy/mea-trump-usaid-remarks-deeply-troubling"
+    ],
+    [
+      "Business Standard/PTI — USAID funded 7 projects worth $750 mn in India in FY24: FinMin report (2025-02-23)",
+      "https://www.business-standard.com/external-affairs-defence-security/news/usaid-funded-7-projects-in-india-in-fy24-not-related-to-voter-turnout-govt-125022300390_1.html"
+    ],
+    [
+      "Donor Tracker — US government announces official closure of USAID (2025-07-01)",
+      "https://donortracker.org/policy_updates?policy=us-government-announces-official-closure-of-usaid-2025"
+    ],
+    [
+      "The News Minute — The Intelligence Bureau report on NGOs and what it says (2014-06-13)",
+      "https://www.thenewsminute.com/news/intelligence-bureau-report-ngos-and-what-it-says-21256"
+    ],
+    [
+      "Deccan Herald/IANS — Greenpeace rejects IB report (2014-06-11)",
+      "https://www.deccanherald.com/india/greenpeace-rejects-ib-report-swears-2210733"
+    ],
+    [
+      "HRW — India: Foreign Funding Law Used to Harass 25 Groups (2016-11-08)",
+      "https://www.hrw.org/news/2016/11/08/india-foreign-funding-law-used-harass-25-groups"
+    ],
+    [
+      "HRW — India Should Stop Using Abusive Foreign Funding Law (2022-01-18)",
+      "https://www.hrw.org/news/2022/01/18/india-should-stop-using-abusive-foreign-funding-law"
+    ],
+    [
+      "Amnesty International — India: New foreign funding rules tighten control over civil society (2026-07-17)",
+      "https://www.amnesty.org/en/latest/research/2026/07/india-fcra-tighten-control-civil-society-undermine-freedom-of-association/"
+    ],
+    [
+      "ICNL — Civic Freedom Monitor: India",
+      "https://www.icnl.org/resources/civic-freedom-monitor/india"
+    ],
+    [
+      "PIB Factsheet — FCRA: Foreign Contribution (Regulation) Act (2026-07-22)",
+      "https://www.pib.gov.in/FactsheetDetails.aspx?Id=150789&reg=48&lang=2"
+    ],
+    [
+      "Freedom House — Freedom in the World 2025: India",
+      "https://freedomhouse.org/country/india/freedom-world/2025"
+    ],
+    [
+      "CIVICUS Monitor — India",
+      "https://monitor.civicus.org/country/india/"
+    ],
+    [
+      "Outlook — 'Funding Hate?' §4 of The Foreign Exchange of Hate (Sabrang/SACW, 2002)",
+      "https://www.outlookindia.com/making-a-difference/funding-hate-news-217968"
+    ],
+    [
+      "Hindu Vivek Kendra — An analysis of the report 'The Foreign Exchange of Hate' (Chowgule)",
+      "https://hvk.org/specialreports/hate/index.html"
+    ],
+    [
+      "ThePrint — A mysterious new report tells you who funds Hindu nationalism in US (2022-06-14)",
+      "https://theprint.in/feature/a-mysterious-new-report-tells-you-who-funds-hindu-nationalism-in-us-and-with-how-much-money/995680/"
+    ],
+    [
+      "Christian Aid — India programme page",
+      "https://www.christianaid.org.uk/our-work/where-we-work/india"
+    ],
+    [
+      "Bain & Company — India Philanthropy Report 2025",
+      "https://www.bain.com/insights/india-philanthropy-report-2025/"
+    ],
+    [
+      "Tata Trusts — About us",
+      "https://www.tatatrusts.org/about-tatatrusts"
+    ],
+    [
+      "ProPublica Nonprofit Explorer — Ford Foundation (EIN 13-1684331)",
+      "https://projects.propublica.org/nonprofits/organizations/131684331"
+    ],
+    [
+      "ProPublica Nonprofit Explorer — Gates Foundation (EIN 56-2618866)",
+      "https://projects.propublica.org/nonprofits/organizations/562618866"
+    ],
+    [
+      "ProPublica Nonprofit Explorer — Foundation to Promote Open Society (EIN 26-3753801)",
+      "https://projects.propublica.org/nonprofits/organizations/263753801"
+    ],
+    [
+      "ProPublica Nonprofit Explorer — Open Society Institute (EIN 13-7029285)",
+      "https://projects.propublica.org/nonprofits/organizations/137029285"
+    ],
+    [
+      "ProPublica Nonprofit Explorer — John D. & Catherine T. MacArthur Foundation (EIN 23-7093598)",
+      "https://projects.propublica.org/nonprofits/organizations/237093598"
+    ],
+    [
+      "ProPublica Nonprofit Explorer — Rockefeller Foundation (EIN 13-1659629)",
+      "https://projects.propublica.org/nonprofits/organizations/131659629"
+    ],
+    [
+      "Rob Jenkins — 'NGOs and Indian Politics', Oxford Companion to Politics in India (2010), author PDF",
+      "https://www2.hunter.cuny.edu/pending-migration/polsci/faculty/jenkins/2010-the-oxford-companion-to-politics-in-india-ngos-and-indian-politics.pdf"
+    ],
+    [
+      "CSIP Ashoka — Estimating Philanthropic Capital in India (2019), PDF mirror",
+      "https://aspirecircle.org/wp-content/uploads/2020/05/Estimating-Philanthropic-Capital-in-India-Report_2019.pdf"
+    ]
+  ],
+  "entities": [
+    {
+      "id": "ngo:ford-foundation",
+      "label": "Ford Foundation",
+      "sub": "US private foundation; New Delhi branch office since 1952",
+      "ty": "fund",
+      "fam": "capital",
+      "st": null,
+      "sz": 3,
+      "al": [
+        "Ford Foundation New Delhi",
+        "The Ford Foundation"
+      ],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": "Level 8, DLF Centre, Sansad Marg, New Delhi 110001 — branch office operating with RBI permission under FEMA (per foundation page); EIN 13-1684331",
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "Foreign donor to FCRA-registered Indian associations since 1952; subject of an MHA prior-reference listing in 2015–16.",
+      "d": [
+        "Has worked in India since 1952; current programmes listed for India, Nepal and Sri Lanka: 'Civic Engagement and Government' and 'Gender, Racial, and Ethnic Justice' [documented]",
+        "States that its New Delhi office is a branch office operating with RBI permission under FEMA, that all Indian grantees are FCRA-regulated, and that it is nonpartisan and does not support parties or campaigns in India [documented]",
+        "IRS 990-PF FY ending 2024-12: revenue US$1,147,097,733; expenses US$1,043,691,402; net assets US$14,899,612,523 (global, not India-specific) [documented]",
+        "India-specific annual grant totals are not published on the India page; not found in this sweep [void]"
+      ],
+      "srcs": [
+        [
+          "Ford Foundation India page",
+          "https://www.fordfoundation.org/our-work-around-the-world/india-nepal-and-sri-lanka/"
+        ],
+        [
+          "ProPublica 990-PF",
+          "https://projects.propublica.org/nonprofits/organizations/131684331"
+        ]
+      ]
+    },
+    {
+      "id": "ngo:gates-foundation",
+      "label": "Gates Foundation",
+      "sub": "Bill & Melinda Gates Foundation; India programme 23+ years",
+      "ty": "fund",
+      "fam": "capital",
+      "st": null,
+      "sz": 3,
+      "al": [
+        "Bill & Melinda Gates Foundation",
+        "BMGF",
+        "Gates Foundation India"
+      ],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": "India country office location not stated on the opened page; EIN 56-2618866 (US)",
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "Largest private foreign health/agriculture donor working with Union and state governments; conferred an award on the Prime Minister in 2019.",
+      "d": [
+        "India page: '23+ years in operation', '1419 total grants', '22+ states', '20+ partnerships with government'; priorities: maternal and child health, TB/kala-azar/lymphatic filariasis, agriculture (30 million smallholders), women's economic empowerment (25 million rural women), inclusive digital finance, sanitation [documented]",
+        "Formal state partnerships: Uttar Pradesh since 2013; Bihar since 2016; Odisha listed as a focus state [documented]",
+        "IRS 990-PF FY ending 2024-12: revenue US$8,084,056,958; expenses US$7,696,309,308; net assets US$72,714,942,677 (global) [documented]",
+        "The brief's premise that BMGF operates in India 'under the prior-permission route' was not verified in this sweep: no opened source places the foundation on the MHA prior-reference list [gap]",
+        "India grant totals in rupees are not published on the India page [void]"
+      ],
+      "srcs": [
+        [
+          "Gates Foundation India page",
+          "https://www.gatesfoundation.org/our-work/places/india"
+        ],
+        [
+          "ProPublica 990-PF",
+          "https://projects.propublica.org/nonprofits/organizations/562618866"
+        ]
+      ]
+    },
+    {
+      "id": "ngo:open-society-foundations",
+      "label": "Open Society Foundations",
+      "sub": "Soros-founded network; on MHA prior-reference list since 2016 (reported)",
+      "ty": "fund",
+      "fam": "capital",
+      "st": null,
+      "sz": 3,
+      "al": [
+        "OSF",
+        "Open Society Institute",
+        "Foundation to Promote Open Society",
+        "Soros Economic Development Fund",
+        "SEDF"
+      ],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": "US entities: Foundation to Promote Open Society EIN 26-3753801; Open Society Institute EIN 13-7029285. Indian presence via investment vehicles (Aspada Investments Pvt Ltd named by ED as SEDF's India adviser, 2025)",
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "Foreign donor placed under FCRA prior-reference (2016, reported); subject of ED FEMA searches (2025); the institutional referent of the 'Soros' narratives.",
+      "d": [
+        "IRS 990-PF FY2024: Foundation to Promote Open Society revenue US$935,043,439, expenses US$460,769,902, net assets US$10,603,942,821; Open Society Institute revenue US$396,477,106, expenses US$295,896,735, net assets US$4,699,515,428 (global) [documented]",
+        "Placed by MHA in the FCRA 'prior reference category' in 2016, per ED's account reported by The Tribune (2025-03-19); the 2016 MHA order itself was not opened [reported]",
+        "2023-02-16, Munich Security Conference, the founder's speech text (georgesoros.com): 'India is an interesting case. It's a democracy, but its leader Narendra Modi is no democrat'; 'Modi and business tycoon Adani are close allies; their fate is intertwined'; 'This will significantly weaken Modi's stranglehold on India's federal government and open the door to push for much needed institutional reforms. I may be naïve, but I expect a democratic revival in India.' [documented]",
+        "OSF's own 2015 podcast page records the Economic Times tally it cited: 10,117 NGO registrations cancelled, 34 accounts frozen, 69 barred, 16 foreign donors including Ford under 'Prior Permission' [documented as OSF's account]",
+        "OSF's stated India spend was not found on any opened page [void]"
+      ],
+      "srcs": [
+        [
+          "ProPublica FPOS",
+          "https://projects.propublica.org/nonprofits/organizations/263753801"
+        ],
+        [
+          "ProPublica OSI",
+          "https://projects.propublica.org/nonprofits/organizations/137029285"
+        ],
+        [
+          "The Tribune 2025-03-19",
+          "https://www.tribuneindia.com/news/india/ed-raids-soros-linked-entities-in-bengaluru"
+        ],
+        [
+          "georgesoros.com Munich remarks",
+          "https://www.georgesoros.com/2023/02/16/remarks-delivered-at-the-2023-munich-security-conference/"
+        ],
+        [
+          "OSF 2015 page",
+          "https://www.opensocietyfoundations.org/voices/indias-growing-suspicions-around-foreign-funding"
+        ]
+      ]
+    },
+    {
+      "id": "ngo:omidyar-network-india",
+      "label": "Omidyar Network India",
+      "sub": "Impact investor/philanthropy arm of Omidyar Network; invested 2010–2023; exit announced 2023-12",
+      "ty": "fund",
+      "fam": "capital",
+      "st": null,
+      "sz": 2,
+      "al": [
+        "ONI",
+        "Omidyar Network"
+      ],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": "India team of 'over three dozen people' (TechCrunch 2023-12-11); registered Indian entity's CIN not verified",
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "Foreign impact investor and grant-maker whose exit from India (2023–24) is cited in the 'FCRA drives donors out' narrative.",
+      "d": [
+        "First investments in India 2010; cumulative assets under management about US$673 million as of 2023-07 per an investor presentation; portfolio included 1mg, Vedantu, DealShare, Doubtnut, Indifi, M2P, Pratilipi [reported]",
+        "2023-12-11: decision to stop new investments and transition out of India by end-2024, taken after 'several months of deliberation'; stated reason: 'the significant change in context and the growth in the economic landscape… more Indian led philanthropic and venture capital than ever before' [documented — the firm's own statement as quoted by TechCrunch and Business Today]",
+        "Reported context: the firm and nine other NGOs had come under CBI scrutiny in 2022 over alleged FCRA violations; insiders 'balked at' the deliberation claim because five new investments had been announced in the prior two months; 2023 portfolio losses (Doubtnut sold for US$10m after raising >US$50m; ZestMoney shut) [reported]",
+        "The Omidyar Group statement page (omidyargroup.com/a-statement-on-omidyar-network-india) returned 404 on 2026-09-26 [void]"
+      ],
+      "srcs": [
+        [
+          "TechCrunch",
+          "https://techcrunch.com/2023/12/11/omidyar-network-to-pull-out-of-india-market/"
+        ],
+        [
+          "Inc42",
+          "https://inc42.com/features/omidyar-network-sudden-expected-exit-india/"
+        ],
+        [
+          "Business Today",
+          "https://www.businesstoday.in/entrepreneurship/start-up/story/impact-fund-omidyar-network-to-exit-india-409191-2023-12-12"
+        ]
+      ]
+    },
+    {
+      "id": "ngo:usaid",
+      "label": "USAID",
+      "sub": "United States Agency for International Development; closed 2025-07-01, functions moved to State Department",
+      "ty": "agency",
+      "fam": "capital",
+      "st": null,
+      "sz": 3,
+      "al": [
+        "United States Agency for International Development",
+        "USAID India"
+      ],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": "US federal agency (1961–2025); India mission New Delhi; formally closed 2025-07-01",
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "Bilateral donor to the Government of India and to Indian associations; subject of the February 2025 'US$21m for voter turnout' controversy.",
+      "d": [
+        "Finance Ministry annual report 2023-24 (as reported by PTI): 'seven projects worth a total budget of USD 750 million (approx.) are being implemented by USAID in partnership with Government of India'; FY2023-24 obligation US$97 million (about ₹825 crore, the report's own conversion, ≈₹85/US$) [reported]",
+        "2025-07-01: Secretary of State Rubio announced the official closure of USAID; the State Department took over remaining foreign assistance; of US$120bn in USAID contracts at January 2025, US$69bn of programming remained [reported]",
+        "The MEA was asked on 2025-02-21 whether it would examine the agreements signed between Indian ministries and USAID since 2015; the spokesperson said it was 'premature to make a public comment' [documented]"
+      ],
+      "srcs": [
+        [
+          "BS/PTI FinMin report",
+          "https://www.business-standard.com/external-affairs-defence-security/news/usaid-funded-7-projects-in-india-in-fy24-not-related-to-voter-turnout-govt-125022300390_1.html"
+        ],
+        [
+          "Donor Tracker",
+          "https://donortracker.org/policy_updates?policy=us-government-announces-official-closure-of-usaid-2025"
+        ],
+        [
+          "The Wire MEA briefing",
+          "https://m.thewire.in/article/diplomacy/mea-trump-usaid-remarks-deeply-troubling"
+        ]
+      ]
+    },
+    {
+      "id": "ngo:cepps",
+      "label": "CEPPS",
+      "sub": "Consortium for Elections and Political Process Strengthening (IFES, IRI, NDI) — USAID implementing consortium",
+      "ty": "fund",
+      "fam": "capital",
+      "st": null,
+      "sz": 2,
+      "al": [
+        "Consortium for Elections and Political Process Strengthening"
+      ],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": "Washington DC consortium of IFES, IRI and NDI",
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "Named recipient of the US$21m grant that DOGE labelled 'voter turnout in India'.",
+      "d": [
+        "USAID records (per the Indian Express investigation as carried by Business Standard): no CEPPS-funded project implemented in India since 2008 [reported]",
+        "The only US$21m CEPPS grant for voter participation was sanctioned 2022-07 for Bangladesh ('Amar Vote Amar', later 'Nagorik'); US$13.4m disbursed by the February 2025 cancellation; implemented by IFES, IRI and NDI with 500+ university events [reported]"
+      ],
+      "srcs": [
+        [
+          "Business Standard 2025-02-21",
+          "https://www.business-standard.com/external-affairs-defence-security/news/us-trump-usaid-21-million-voter-turnout-india-debunked-bangladesh-125022100319_1.html"
+        ]
+      ]
+    },
+    {
+      "id": "ngo:christian-aid",
+      "label": "Christian Aid",
+      "sub": "UK ecumenical development charity; India programme via 27 partners in 16 states",
+      "ty": "fund",
+      "fam": "capital",
+      "st": null,
+      "sz": 1,
+      "al": [
+        "Christian Aid UK"
+      ],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": "UK registered charity; India programme page lists 16 states, 27 active partners",
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "Foreign faith-based donor whose India work is rights- and governance-oriented — the profile the 'missionary money' narrative conflates with proselytising charities.",
+      "d": [
+        "Works in 16 states with 27 active partners on three themes: social exclusion (caste, gender), governance and human rights (supporting CSOs to 'hold institutions accountable'), sustainable livelihoods and disaster response [documented]",
+        "India grant totals and FCRA status of partners not stated on the page [void]"
+      ],
+      "srcs": [
+        [
+          "Christian Aid India page",
+          "https://www.christianaid.org.uk/our-work/where-we-work/india"
+        ]
+      ]
+    },
+    {
+      "id": "ngo:rockefeller-foundation",
+      "label": "Rockefeller Foundation",
+      "sub": "US private foundation (est. 1913); long India history",
+      "ty": "fund",
+      "fam": "capital",
+      "st": null,
+      "sz": 2,
+      "al": [
+        "The Rockefeller Foundation"
+      ],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": "EIN 13-1659629 (US); India office/presence not verified in this sweep",
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "Named in the brief as a comparator foreign foundation; recorded for scale only.",
+      "d": [
+        "IRS 990-PF FY ending 2024-12: revenue US$415,515,666; expenses US$358,514,671; net assets US$5,583,602,238 (global) [documented]",
+        "India programme details and grant totals not opened [gap]"
+      ],
+      "srcs": [
+        [
+          "ProPublica 990-PF",
+          "https://projects.propublica.org/nonprofits/organizations/131659629"
+        ]
+      ]
+    },
+    {
+      "id": "ngo:macarthur-foundation",
+      "label": "MacArthur Foundation",
+      "sub": "John D. and Catherine T. MacArthur Foundation (US)",
+      "ty": "fund",
+      "fam": "capital",
+      "st": null,
+      "sz": 2,
+      "al": [
+        "John D. & Catherine T. MacArthur Foundation"
+      ],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": "EIN 23-7093598 (US); former India office status not verified in this sweep",
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "Named in the brief as a comparator foreign foundation; recorded for scale only.",
+      "d": [
+        "IRS 990-PF FY ending 2024-12: revenue US$890,851,721; expenses US$414,659,854; net assets US$8,650,796,551 (global) [documented]",
+        "India programme history (including any office closure) not opened [gap]"
+      ],
+      "srcs": [
+        [
+          "ProPublica 990-PF",
+          "https://projects.propublica.org/nonprofits/organizations/237093598"
+        ]
+      ]
+    },
+    {
+      "id": "ngo:sewa-international-usa",
+      "label": "Sewa International USA",
+      "sub": "US 501(c)(3) service charity; named in Hindutva-funding reports as an HSS/RSS-linked channel",
+      "ty": "fund",
+      "fam": "capital",
+      "st": null,
+      "sz": 2,
+      "al": [
+        "Sewa International (US)"
+      ],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": "US 501(c)(3), Houston; EIN not verified (guessed ProPublica id returned Not Found)",
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "Foreign donor whose India disbursements the 2002/2022 reports attribute to Sangh-affiliated recipients; the affiliates' side of the symmetry check.",
+      "d": [
+        "Per ThePrint's account of the 2021 Al Jazeera report, one of five US groups (with Ekal Vidyalaya Foundation of USA, HAF, Infinity Foundation, VHPA) that received US$833,000 of US federal Covid relief funds [reported]",
+        "Named in 'Hindu Nationalist Influence in the United States, 2014-2021' (Jasa Macher / SACW, 2022) among seven charities that spent at least US$158.9m 2001–2019, 'sending some of it to groups in India' [reported]",
+        "collisionRisk: distinct from Sewa International (UK charity 1135425, subject of the 2004 AWAAZ report) and Sewa International (India, Delhi); this node is the US charity only"
+      ],
+      "srcs": [
+        [
+          "ThePrint 2022-06-14",
+          "https://theprint.in/feature/a-mysterious-new-report-tells-you-who-funds-hindu-nationalism-in-us-and-with-how-much-money/995680/"
+        ]
+      ]
+    },
+    {
+      "id": "ngo:idrf",
+      "label": "IDRF",
+      "sub": "India Development and Relief Fund (Maryland, US) — subject of the 2002 Sabrang/SACW report",
+      "ty": "fund",
+      "fam": "capital",
+      "st": null,
+      "sz": 2,
+      "al": [
+        "India Development and Relief Fund"
+      ],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": "US 501(c)(3), Maryland; EIN not verified (guessed ProPublica id returned Not Found)",
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "US diaspora charity whose disbursement pattern to Indian recipients was the object of the 2002 'Foreign Exchange of Hate' report and its rebuttals.",
+      "d": [
+        "The 2002 report (§4, full text republished by Outlook) argues IDRF's 'organizational and personnel links… with the Sangh both in India and the United States' and analyses the distribution of donor-designated and IDRF-designated funds among recipients [documented as the report's content]",
+        "Hindu Vivek Kendra published a rebuttal analysis by Ashok Chowgule; IDRF's own November 2002 denial ('pure concoction' per secondary summaries) was not opened in this sweep [reported]"
+      ],
+      "srcs": [
+        [
+          "Outlook — report §4",
+          "https://www.outlookindia.com/making-a-difference/funding-hate-news-217968"
+        ],
+        [
+          "HVK rebuttal",
+          "https://hvk.org/specialreports/hate/index.html"
+        ]
+      ]
+    },
+    {
+      "id": "ngo:tata-trusts",
+      "label": "Tata Trusts",
+      "sub": "Domestic philanthropy control — Sir Dorabji Tata Trust, Sir Ratan Tata Trust and allied trusts (lineage from the 1892 JN Tata Endowment)",
+      "ty": "trust",
+      "fam": "recipient",
+      "st": "mh",
+      "sz": 3,
+      "al": [
+        "Sir Dorabji Tata Trust",
+        "Sir Ratan Tata Trust"
+      ],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": "Bombay House, Mumbai (trust registrations not verified in this sweep)",
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "Scale control: the largest indigenous philanthropic complex, funded from Tata Sons dividends rather than foreign contribution.",
+      "d": [
+        "Traces its origin to the JN Tata Endowment (1892); the 'About us' page opened gives history, not annual disbursement figures [documented]",
+        "Annual disbursement in ₹ crore not extracted; Tata Trusts' annual report was not opened [gap]"
+      ],
+      "srcs": [
+        [
+          "Tata Trusts — About us",
+          "https://www.tatatrusts.org/about-tatatrusts"
+        ]
+      ]
+    },
+    {
+      "id": "ngo:intelligence-bureau",
+      "label": "Intelligence Bureau",
+      "sub": "Domestic intelligence agency under the MHA; author of the June 2014 NGO report",
+      "ty": "agency",
+      "fam": "enforce",
+      "st": "dl",
+      "sz": 2,
+      "al": [
+        "IB"
+      ],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": "Reports to the Union Home Ministry",
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "Author of the leaked 2014 report on 'select foreign funded NGOs' that anchors the 'NGOs stall development' narrative.",
+      "d": [
+        "Report dated 2014-06-03, 21 pages, titled 'The concerted effort by select foreign funded NGOs to \"take down\" Indian developmental projects'; commissioned under the previous (UPA) government and submitted to the new one; first excerpted by the Indian Express [reported]"
+      ],
+      "srcs": [
+        [
+          "The News Minute 2014-06-13",
+          "https://www.thenewsminute.com/news/intelligence-bureau-report-ngos-and-what-it-says-21256"
+        ]
+      ]
+    },
+    {
+      "id": "ngo:doc-ib-report-2014",
+      "label": "IB report on foreign-funded NGOs (2014)",
+      "sub": "'The concerted effort by select foreign funded NGOs to take down Indian developmental projects' — leaked 2014-06",
+      "ty": "mechanism",
+      "fam": "instrument",
+      "st": null,
+      "sz": 2,
+      "al": [
+        "IB NGO report 2014"
+      ],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "The document behind the 'anti-development NGOs' narrative; never officially published.",
+      "d": [
+        "Names seven agitations as 'anti-developmental': nuclear infrastructure, coal-fired power plants, GMOs, POSCO (Odisha), Vedanta (Odisha), Narmada Bachao Andolan, extractive industries in the North East [reported]",
+        "Opens by estimating the negative effect on GDP growth at 2–3%; The News Minute: 'The IB does not give sources for the statistics it quotes… it does not mention how it arrived at the percentage'; some financial data are FCRA figures with 'no mention of any money that has come through illegal means' [reported]",
+        "Names NAPM, PUCL, PMANE and Greenpeace as coordinating anti-nuclear agitation; says Greenpeace is 'mainly against Coal India Ltd, Hindalco, Aditya Birla group and Essar' [reported]"
+      ],
+      "srcs": [
+        [
+          "The News Minute",
+          "https://www.thenewsminute.com/news/intelligence-bureau-report-ngos-and-what-it-says-21256"
+        ],
+        [
+          "BHRRC timeline (June 2014 items)",
+          "https://www.business-humanrights.org/en/latest-news/india-govt-puts-ford-foundation-on-watch-list-curbs-on-funding/"
+        ]
+      ]
+    },
+    {
+      "id": "ngo:doc-foreign-exchange-of-hate-2002",
+      "label": "The Foreign Exchange of Hate (2002)",
+      "sub": "Sabrang Communications & South Asia Citizens Web report on IDRF and US funding of Hindutva",
+      "ty": "mechanism",
+      "fam": "instrument",
+      "st": null,
+      "sz": 2,
+      "al": [
+        "Sabrang/SACW IDRF report"
+      ],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "The founding document of the 'RSS affiliates receive foreign money through US chapters' narrative.",
+      "d": [
+        "© 2002 Sabrang Communications & Publishing Pvt Ltd (Mumbai) and The South Asia Citizens Web (France); §4 'Funding Hate?' republished in full by Outlook (2002-11-20) [documented]",
+        "Original hosts sacw.net and sabrang.com were unreachable from this environment (status 000) [void]"
+      ],
+      "srcs": [
+        [
+          "Outlook full text §4",
+          "https://www.outlookindia.com/making-a-difference/funding-hate-news-217968"
+        ]
+      ]
+    },
+    {
+      "id": "ngo:doc-hindutva-infrastructure-2022",
+      "label": "Hindu Nationalist Influence in the United States, 2014–2021 (2022)",
+      "sub": "Report by 'Jasa Macher', facilitated by SACW; update of a 2014 report",
+      "ty": "mechanism",
+      "fam": "instrument",
+      "st": null,
+      "sz": 1,
+      "al": [
+        "Macher/SACW report 2022"
+      ],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "The 2019–22 generation of Hindutva-funding reports and the affiliates' responses.",
+      "d": [
+        "Seven US charities spent at least US$158.9m over 2001–2019, about US$85.4m of it in 2014–2019, 'sending some of it to groups in India' (per ThePrint's reading) [reported]",
+        "Author is pseudonymous; HAF to ThePrint: allegations 'baseless', HAF 'wholly independent… no affiliation… to any organisations or political parties in the US or abroad'; HSS flagged the report as unreliable [reported]"
+      ],
+      "srcs": [
+        [
+          "ThePrint 2022-06-14",
+          "https://theprint.in/feature/a-mysterious-new-report-tells-you-who-funds-hindu-nationalism-in-us-and-with-how-much-money/995680/"
+        ]
+      ]
+    },
+    {
+      "id": "min:ministry-of-home-affairs",
+      "label": "Ministry of Home Affairs",
+      "sub": "FCRA administrator",
+      "ty": "ministry",
+      "fam": "state",
+      "st": "dl",
+      "sz": 4,
+      "al": [
+        "MHA"
+      ],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": "North Block, New Delhi",
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "Administers FCRA 2010 and the prior-reference category for foreign donors.",
+      "d": [
+        "PIB factsheet (2026-07-22) states the MHA's own framing: FCRA 'does three things' — identifies who may accept foreign contribution, specifies how it is received and reported, and 'restricts a narrow, defined set of foreign-funded activities that could affect India's sovereignty, security or public order'; 'not a permission-to-exist regime for civil society' [documented]"
+      ],
+      "srcs": [
+        [
+          "PIB FCRA factsheet",
+          "https://www.pib.gov.in/FactsheetDetails.aspx?Id=150789&reg=48&lang=2"
+        ]
+      ]
+    },
+    {
+      "id": "ngo:fcra-prior-permission-list",
+      "label": "FCRA prior-reference category (foreign donors)",
+      "sub": "MHA 'watch list' requiring case-by-case clearance of a donor's remittances (s.46 directions to RBI)",
+      "ty": "mechanism",
+      "fam": "instrument",
+      "st": null,
+      "sz": 2,
+      "al": [
+        "Prior Reference Category",
+        "PRC",
+        "prior permission category",
+        "watch list"
+      ],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "The instrument applied to Ford (2015–16), OSF (2016→) and 14 others by April 2015.",
+      "d": [
+        "Indian Express (2015-04-23): with Ford, 16 international associations were under the prior approval category; MHA directed RBI to bring Ford remittances to its notice under s.46 FCRA 2010 [documented]"
+      ],
+      "srcs": [
+        [
+          "BHRRC/Indian Express",
+          "https://www.business-humanrights.org/en/latest-news/india-govt-puts-ford-foundation-on-watch-list-curbs-on-funding/"
+        ],
+        [
+          "Deccan Chronicle",
+          "https://www.deccanchronicle.com/nation/current-affairs/180316/mha-removes-ford-foundation-from-watch-list.html"
+        ]
+      ]
+    },
+    {
+      "id": "ngo:fcra-2010",
+      "label": "Foreign Contribution (Regulation) Act, 2010",
+      "sub": "Statute governing foreign contribution to Indian associations",
+      "ty": "law",
+      "fam": "instrument",
+      "st": null,
+      "sz": 3,
+      "al": [
+        "FCRA"
+      ],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "The rule every foreign grant in this file passes through.",
+      "d": [
+        "See fcra-actions.json and fcra-receipts.json for the statute's history; this file records only the MHA's 2026 framing and the 2026 Rules"
+      ],
+      "srcs": [
+        [
+          "PIB FCRA factsheet",
+          "https://www.pib.gov.in/FactsheetDetails.aspx?Id=150789&reg=48&lang=2"
+        ]
+      ]
+    },
+    {
+      "id": "ngo:fcra-amendment-rules-2026",
+      "label": "Foreign Contribution (Regulation) Amendment Rules, 2026",
+      "sub": "MHA rules notified 2026-06-22",
+      "ty": "law",
+      "fam": "instrument",
+      "st": null,
+      "sz": 2,
+      "al": [
+        "FCRA Rules 2026"
+      ],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "Latest tightening of the foreign-donor regime; contemporaneous with the FCRA (Amendment) Bill 2026 before a JPC.",
+      "d": [
+        "ICNL: activity and geographic limitations, bars on foreign-national involvement, liability for 'key functionaries', new spending/utilisation thresholds [documented]"
+      ],
+      "srcs": [
+        [
+          "ICNL India monitor",
+          "https://www.icnl.org/resources/civic-freedom-monitor/india"
+        ],
+        [
+          "Amnesty 2026-07-17",
+          "https://www.amnesty.org/en/latest/research/2026/07/india-fcra-tighten-control-civil-society-undermine-freedom-of-association/"
+        ]
+      ]
+    },
+    {
+      "id": "ngo:fcra-associations-aggregate",
+      "label": "FCRA-registered associations (aggregate)",
+      "sub": "All-India recipient aggregate",
+      "ty": "group",
+      "fam": "recipient",
+      "st": null,
+      "sz": 3,
+      "al": [],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "Recipient side of aggregate donor claims.",
+      "d": [
+        "Defined in fcra-receipts.json"
+      ],
+      "srcs": [
+        [
+          "PIB FCRA factsheet",
+          "https://www.pib.gov.in/FactsheetDetails.aspx?Id=150789&reg=48&lang=2"
+        ]
+      ]
+    },
+    {
+      "id": "ngo:domestic-grantees-aggregate",
+      "label": "Domestic philanthropy grantees (aggregate)",
+      "sub": "Recipients of Indian private philanthropy and impact capital",
+      "ty": "group",
+      "fam": "recipient",
+      "st": null,
+      "sz": 2,
+      "al": [],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "Control-side recipient aggregate.",
+      "d": [
+        "Defined in fcra-receipts.json"
+      ],
+      "srcs": [
+        [
+          "Bain 2025",
+          "https://www.bain.com/insights/india-philanthropy-report-2025/"
+        ]
+      ]
+    },
+    {
+      "id": "ngo:greenpeace-india",
+      "label": "Greenpeace India",
+      "sub": "Environmental campaigning society; named in the 2014 IB report",
+      "ty": "trust",
+      "fam": "recipient",
+      "st": "ka",
+      "sz": 2,
+      "al": [],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": "Bengaluru",
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "Principal target named in the IB report and the first FCRA action of the NDA era (see fcra-actions.json).",
+      "d": [
+        "Rejected the IB report on 2014-06-11 [documented]"
+      ],
+      "srcs": [
+        [
+          "Deccan Herald/IANS",
+          "https://www.deccanherald.com/india/greenpeace-rejects-ib-report-swears-2210733"
+        ]
+      ]
+    },
+    {
+      "id": "agencies",
+      "label": "ED · CBI · IT Dept",
+      "sub": "Central investigative agencies",
+      "ty": "agency",
+      "fam": "enforce",
+      "st": "dl",
+      "sz": 3,
+      "al": [
+        "Enforcement Directorate",
+        "ED",
+        "CBI"
+      ],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "ED FEMA searches on OSF-linked entities (2025); CBI FCRA scrutiny of Omidyar Network and others (2022).",
+      "d": [],
+      "srcs": [
+        [
+          "The Tribune 2025-03-19",
+          "https://www.tribuneindia.com/news/india/ed-raids-soros-linked-entities-in-bengaluru"
+        ]
+      ]
+    },
+    {
+      "id": "min:ministry-of-external-affairs",
+      "label": "Ministry of External Affairs",
+      "sub": "",
+      "ty": "ministry",
+      "fam": "state",
+      "st": "dl",
+      "sz": 3,
+      "al": [
+        "MEA"
+      ],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": "South Block, New Delhi",
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "Issued the Government's response to the USAID claim (2025-02-21).",
+      "d": [],
+      "srcs": [
+        [
+          "The Wire",
+          "https://m.thewire.in/article/diplomacy/mea-trump-usaid-remarks-deeply-troubling"
+        ]
+      ]
+    },
+    {
+      "id": "min:ministry-of-finance",
+      "label": "Ministry of Finance",
+      "sub": "Department of Economic Affairs — nodal for bilateral assistance",
+      "ty": "ministry",
+      "fam": "state",
+      "st": "dl",
+      "sz": 3,
+      "al": [
+        "DEA"
+      ],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": "North Block, New Delhi",
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "Counterparty and reporter of USAID government-to-government projects.",
+      "d": [],
+      "srcs": [
+        [
+          "BS/PTI",
+          "https://www.business-standard.com/external-affairs-defence-security/news/usaid-funded-7-projects-in-india-in-fy24-not-related-to-voter-turnout-govt-125022300390_1.html"
+        ]
+      ]
+    },
+    {
+      "id": "pol:narendra-modi",
+      "label": "Narendra Modi",
+      "sub": "Prime Minister of India (2014-05-26 →)",
+      "ty": "person",
+      "fam": "state",
+      "st": "gj",
+      "sz": 4,
+      "al": [],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": "Prime Minister of India, 2014-05-26 → (Lok Sabha, Varanasi)",
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "Recipient of the Gates Foundation's 2019 Global Goalkeeper Award; named in the Soros remarks.",
+      "d": [],
+      "srcs": [
+        [
+          "PM India",
+          "https://www.pmindia.gov.in/en/news_updates/pm-receives-global-goal-keeper-award-for-swachh-bharat-abhiyan/"
+        ]
+      ]
+    },
+    {
+      "id": "bjp",
+      "label": "BJP",
+      "sub": "Bharatiya Janata Party",
+      "ty": "party",
+      "fam": "state",
+      "st": "dl",
+      "sz": 3,
+      "al": [
+        "Bharatiya Janata Party"
+      ],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "Party whose spokespersons framed the Soros and USAID episodes as foreign interference.",
+      "d": [
+        "2025-02-16: BJP IT department head Amit Malviya on X: '$21M for voter turnout? This definitely is external interference in India's electoral process. Who gains from this? Not the ruling party for sure!' [documented]"
+      ],
+      "srcs": [
+        [
+          "The Tribune 2025-02-17",
+          "https://www.tribuneindia.com/news/india/musk-cancels-usaids-21-mn-grant-on-voter-turnout-in-india"
+        ]
+      ]
+    },
+    {
+      "id": "rss",
+      "label": "RSS",
+      "sub": "Rashtriya Swayamsevak Sangh and its affiliates (Sangh Parivar), as the alleged ultimate recipients in the Hindutva-funding reports",
+      "ty": "party",
+      "fam": "state",
+      "st": "mh",
+      "sz": 3,
+      "al": [
+        "Sangh Parivar",
+        "Sangh"
+      ],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": "Nagpur",
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "The alleged beneficiary in narrative 6; unregistered under FCRA itself — the reports concern affiliates.",
+      "d": [],
+      "srcs": [
+        [
+          "Outlook — report §4",
+          "https://www.outlookindia.com/making-a-difference/funding-hate-news-217968"
+        ]
+      ]
+    },
+    {
+      "id": "energy:govt-of-bihar",
+      "label": "Government of Bihar",
+      "sub": "",
+      "ty": "state",
+      "fam": "state",
+      "st": "br",
+      "sz": 2,
+      "al": [],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "Gates Foundation formal partner since 2016.",
+      "d": [],
+      "srcs": [
+        [
+          "Gates India page",
+          "https://www.gatesfoundation.org/our-work/places/india"
+        ]
+      ]
+    },
+    {
+      "id": "energy:state-uttar-pradesh",
+      "label": "Government of Uttar Pradesh",
+      "sub": "",
+      "ty": "state",
+      "fam": "state",
+      "st": "up",
+      "sz": 2,
+      "al": [],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": null,
+        "office": null,
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "Gates Foundation partner since 2013.",
+      "d": [],
+      "srcs": [
+        [
+          "Gates India page",
+          "https://www.gatesfoundation.org/our-work/places/india"
+        ]
+      ]
+    },
+    {
+      "id": "co:coal-india",
+      "label": "Coal India Limited",
+      "sub": "State coal miner; named in the 2014 IB report as a target of anti-coal campaigning",
+      "ty": "psu",
+      "fam": "state",
+      "st": "wb",
+      "sz": 2,
+      "al": [
+        "CIL"
+      ],
+      "resolved": true,
+      "identity": {
+        "cin": null,
+        "din": null,
+        "nse": "COALINDIA",
+        "office": "Kolkata",
+        "lei": null,
+        "fcra": null
+      },
+      "publicRole": "Project sponsor whose interests the IB report framing served; recorded as the benefit target of c020.",
+      "d": [
+        "IB report (2014): Greenpeace \"mainly against Coal India Ltd, Hindalco, Aditya Birla group and Essar\" [reported]"
+      ],
+      "srcs": [
+        [
+          "The News Minute",
+          "https://www.thenewsminute.com/news/intelligence-bureau-report-ngos-and-what-it-says-21256"
+        ]
+      ]
+    }
+  ],
+  "claims": [
+    {
+      "id": "donors-narratives:c001",
+      "s": "min:ministry-of-home-affairs",
+      "t": "ngo:ford-foundation",
+      "pred": "enforce",
+      "tier": "documented",
+      "a": null,
+      "lab": "Ford Foundation placed in prior-approval category and on MHA watch list",
+      "d": "2015-04-23: MHA put Ford Foundation under the 'prior approval category' and on its watch list 'in the interest of national security', directing RBI under s.46 FCRA 2010 to bring all Ford remittances to its notice; stated ground: grants to Teesta Setalvad's Sabrang Trust/CJP allegedly not used for stated purposes. With Ford, 16 foreign donors were under the category. Setalvad denied the charge; MHA asked CBI to probe.",
+      "from": "2015-04-23",
+      "to": "2016-03-18",
+      "srcs": [
+        [
+          "BHRRC/Indian Express",
+          "https://www.business-humanrights.org/en/latest-news/india-govt-puts-ford-foundation-on-watch-list-curbs-on-funding/"
+        ],
+        [
+          "Deccan Chronicle",
+          "https://www.deccanchronicle.com/nation/current-affairs/180316/mha-removes-ford-foundation-from-watch-list.html"
+        ]
+      ],
+      "terms": null,
+      "benefit": {
+        "who": "min:ministry-of-home-affairs",
+        "how": "Case-by-case veto over one of the largest foreign grant-makers' remittances without a cancellation order",
+        "amountCr": null,
+        "confidence": "documented"
+      },
+      "innocentReading": null,
+      "upgradeIf": "MHA order/RBI circular of April 2015 opened",
+      "killIf": "n/a — documented act",
+      "supersededBy": "donors-narratives:c003"
+    },
+    {
+      "id": "donors-narratives:c002",
+      "s": "ngo:ford-foundation",
+      "t": "claim:donors-narratives:c001",
+      "pred": "contra",
+      "tier": "documented",
+      "a": null,
+      "lab": "Ford Foundation's position",
+      "d": "Foundation's standing statement: New Delhi office is a branch office with RBI/FEMA permission; all Indian grantees are FCRA-regulated and all grants FCRA-compliant; 'steadfast commitment to nonpartisanship'. Per Deccan Chronicle, Ford 'took up the matter with the Home Ministry' and was asked to register under FEMA, which it had not done since 1952.",
+      "from": "2015-04",
+      "to": null,
+      "srcs": [
+        [
+          "Ford Foundation India page",
+          "https://www.fordfoundation.org/our-work-around-the-world/india-nepal-and-sri-lanka/"
+        ],
+        [
+          "Deccan Chronicle",
+          "https://www.deccanchronicle.com/nation/current-affairs/180316/mha-removes-ford-foundation-from-watch-list.html"
+        ]
+      ],
+      "terms": null,
+      "benefit": null,
+      "innocentReading": null,
+      "upgradeIf": null,
+      "killIf": null,
+      "supersededBy": null
+    },
+    {
+      "id": "donors-narratives:c003",
+      "s": "min:ministry-of-home-affairs",
+      "t": "ngo:ford-foundation",
+      "pred": "enforce",
+      "tier": "documented",
+      "a": null,
+      "lab": "Ford Foundation removed from prior-reference category",
+      "d": "2016-03-18: MHA spokesperson — Ford removed from the prior reference category 'with immediate effect'; RBI asked to inform banks; remittances no longer need MHA clearance. Timing: ahead of the Prime Minister's US visit. Ford had by then been asked to register its liaison office under FEMA.",
+      "from": "2016-03-18",
+      "to": null,
+      "srcs": [
+        [
+          "Deccan Chronicle",
+          "https://www.deccanchronicle.com/nation/current-affairs/180316/mha-removes-ford-foundation-from-watch-list.html"
+        ],
+        [
+          "The Wire",
+          "https://thewire.in/diplomacy/revealed-how-ford-foundation-got-the-modi-government"
+        ]
+      ],
+      "terms": null,
+      "benefit": {
+        "who": "ngo:ford-foundation",
+        "how": "Restored unrestricted remittance capacity after eleven months",
+        "amountCr": null,
+        "confidence": "documented"
+      },
+      "innocentReading": null,
+      "upgradeIf": null,
+      "killIf": null,
+      "supersededBy": null
+    },
+    {
+      "id": "donors-narratives:c004",
+      "s": "ngo:gates-foundation",
+      "t": "pol:narendra-modi",
+      "pred": "award",
+      "tier": "documented",
+      "a": null,
+      "lab": "Global Goalkeeper Award 2019 for Swachh Bharat Abhiyan",
+      "d": "2019-09-24, New York (UNGA sidelines): Gates Foundation conferred its Global Goalkeeper Award on the Prime Minister for the Swachh Bharat Mission ('over 500 million people… did not have access to safe sanitation, and now, the majority do' — foundation statement to NPR). Opposed beforehand by a petition of >100,000 signatures delivered to the foundation in Seattle and a letter co-signed by three Nobel Peace laureates citing Kashmir and 2002; foundation proceeded, saying the award was for 'the progress India is making in improving sanitation'. Non-monetary.",
+      "from": "2019-09-24",
+      "to": null,
+      "srcs": [
+        [
+          "PM India",
+          "https://www.pmindia.gov.in/en/news_updates/pm-receives-global-goal-keeper-award-for-swachh-bharat-abhiyan/"
+        ],
+        [
+          "NPR",
+          "https://www.npr.org/sections/goatsandsoda/2019/09/17/761664492/gates-foundations-humanitarian-award-to-indias-modi-is-sparking-outrage"
+        ]
+      ],
+      "terms": null,
+      "benefit": {
+        "who": "pol:narendra-modi",
+        "how": "International recognition of a flagship programme, dedicated by the PM 'to the 130 crore people of India'",
+        "amountCr": 0,
+        "confidence": "documented"
+      },
+      "innocentReading": null,
+      "upgradeIf": null,
+      "killIf": null,
+      "supersededBy": null
+    },
+    {
+      "id": "donors-narratives:c005",
+      "s": "ngo:gates-foundation",
+      "t": "energy:state-uttar-pradesh",
+      "pred": "grant",
+      "tier": "documented",
+      "a": null,
+      "lab": "Gates Foundation–Uttar Pradesh partnership (2013→)",
+      "d": "Amount not stated. Foundation page: 'Since 2013, we have partnered with Uttar Pradesh… to advance work across Foundation priority areas' (health, agriculture, women's economic empowerment, sanitation). Government-to-foundation MoU, not an FCRA grant to an association.",
+      "from": "2013",
+      "to": null,
+      "srcs": [
+        [
+          "Gates India page",
+          "https://www.gatesfoundation.org/our-work/places/india"
+        ]
+      ],
+      "terms": null,
+      "benefit": {
+        "who": "energy:state-uttar-pradesh",
+        "how": "Technical assistance and programme finance to state health/agriculture systems",
+        "amountCr": null,
+        "confidence": "unknown"
+      },
+      "innocentReading": null,
+      "upgradeIf": "UP–BMGF MoU text or state budget line opened",
+      "killIf": null,
+      "supersededBy": null
+    },
+    {
+      "id": "donors-narratives:c006",
+      "s": "ngo:gates-foundation",
+      "t": "energy:govt-of-bihar",
+      "pred": "grant",
+      "tier": "documented",
+      "a": null,
+      "lab": "Gates Foundation–Bihar formal partnership (2016→)",
+      "d": "Amount not stated. 'Bihar has been one of the Foundation's longest-standing state partners, with a formal government partnership dating back to 2016' — maternal and child health, infectious diseases, agriculture, women's economic empowerment.",
+      "from": "2016",
+      "to": null,
+      "srcs": [
+        [
+          "Gates India page",
+          "https://www.gatesfoundation.org/our-work/places/india"
+        ]
+      ],
+      "terms": null,
+      "benefit": {
+        "who": "energy:govt-of-bihar",
+        "how": "Programme finance and technical assistance to state systems",
+        "amountCr": null,
+        "confidence": "unknown"
+      },
+      "innocentReading": null,
+      "upgradeIf": "Bihar–BMGF MoU opened",
+      "killIf": null,
+      "supersededBy": null
+    },
+    {
+      "id": "donors-narratives:c007",
+      "s": "ngo:gates-foundation",
+      "t": "ngo:fcra-associations-aggregate",
+      "pred": "grant",
+      "tier": "documented",
+      "a": null,
+      "lab": "Gates Foundation India grant portfolio — 1,419 grants over 23+ years",
+      "d": "Amount not stated in rupees. Foundation page counts '1419 total grants', '22+ states', '20+ partnerships with government'. Recipients include Indian FCRA-registered associations and government bodies; the split is not given.",
+      "from": "2003",
+      "to": null,
+      "srcs": [
+        [
+          "Gates India page",
+          "https://www.gatesfoundation.org/our-work/places/india"
+        ]
+      ],
+      "terms": null,
+      "benefit": {
+        "who": "ngo:fcra-associations-aggregate",
+        "how": "Grant finance for health, agriculture, gender, financial inclusion and sanitation",
+        "amountCr": null,
+        "confidence": "unknown"
+      },
+      "innocentReading": null,
+      "upgradeIf": "Committed-grants database filtered to India, or FC-4 returns of major grantees, opened",
+      "killIf": null,
+      "supersededBy": null
+    },
+    {
+      "id": "donors-narratives:c008",
+      "s": "min:ministry-of-home-affairs",
+      "t": "ngo:open-society-foundations",
+      "pred": "enforce",
+      "tier": "reported",
+      "a": null,
+      "lab": "OSF placed in FCRA prior-reference category (2016)",
+      "d": "Per ED's preliminary findings as reported by The Tribune (2025-03-19): 'Soros' OSF was put under the prior reference category by the Home Ministry in 2016 thereby restricting it from giving unregulated donations to NGOs in India.' The 2016 MHA order and its stated ground were not opened.",
+      "from": "2016",
+      "to": null,
+      "srcs": [
+        [
+          "The Tribune 2025-03-19",
+          "https://www.tribuneindia.com/news/india/ed-raids-soros-linked-entities-in-bengaluru"
+        ]
+      ],
+      "terms": null,
+      "benefit": {
+        "who": "min:ministry-of-home-affairs",
+        "how": "Case-by-case control of OSF remittances",
+        "amountCr": null,
+        "confidence": "documented"
+      },
+      "innocentReading": null,
+      "upgradeIf": "MHA/RBI communication of 2016 or a Parliament answer naming OSF opened",
+      "killIf": "MHA states OSF was never in the category",
+      "supersededBy": null
+    },
+    {
+      "id": "donors-narratives:c009",
+      "s": "agencies",
+      "t": "ngo:open-society-foundations",
+      "pred": "enforce",
+      "tier": "alleged",
+      "a": null,
+      "lab": "ED FEMA searches on OSF/SEDF-linked entities, Bengaluru",
+      "d": "2025-03-18: ED searched eight premises in Bengaluru, including Aspada Investments Pvt Ltd (adviser/fund manager to Soros Economic Development Fund), investigating FEMA violations. ED sources' allegation: 'In order to bypass the restriction, the OSF had subsidiaries in India and brought in funds in the form of FDI and consultancy fee' used to finance NGO activity 'in contravention of FEMA'. No adjudication reported.",
+      "from": "2025-03-18",
+      "to": null,
+      "srcs": [
+        [
+          "The Tribune 2025-03-19",
+          "https://www.tribuneindia.com/news/india/ed-raids-soros-linked-entities-in-bengaluru"
+        ]
+      ],
+      "terms": null,
+      "benefit": null,
+      "innocentReading": null,
+      "upgradeIf": "ED show-cause notice or adjudication order under FEMA published",
+      "killIf": "Adjudicating authority drops proceedings or finds the FDI lawful",
+      "supersededBy": null
+    },
+    {
+      "id": "donors-narratives:c010",
+      "s": "ngo:open-society-foundations",
+      "t": "claim:donors-narratives:c009",
+      "pred": "contra",
+      "tier": "alleged",
+      "a": null,
+      "lab": "OSF response to the ED searches",
+      "d": "No response recorded — asked/not asked unknown",
+      "from": "2025-03-18",
+      "to": null,
+      "srcs": [
+        [
+          "The Tribune 2025-03-19",
+          "https://www.tribuneindia.com/news/india/ed-raids-soros-linked-entities-in-bengaluru"
+        ]
+      ],
+      "terms": null,
+      "benefit": null,
+      "innocentReading": null,
+      "upgradeIf": "OSF statement on the searches located",
+      "killIf": null,
+      "supersededBy": null
+    },
+    {
+      "id": "donors-narratives:c011",
+      "s": "ngo:omidyar-network-india",
+      "t": "ngo:domestic-grantees-aggregate",
+      "pred": "grant",
+      "tier": "reported",
+      "a": null,
+      "lab": "Omidyar Network India — impact investments and grants, 2010–2024, and exit",
+      "d": "Amount not stated as grants; cumulative AUM about US$673m (2023-07, investor presentation). 2023-12-11 announcement: no new investments; full transition out of India by end-2024; stated reason 'significant change in context and… growth in the economic landscape… more Indian led philanthropic and venture capital than ever before'; firm says it 'achieved our primary objective of catalysing impact'.",
+      "from": "2010",
+      "to": "2024-12",
+      "srcs": [
+        [
+          "TechCrunch",
+          "https://techcrunch.com/2023/12/11/omidyar-network-to-pull-out-of-india-market/"
+        ],
+        [
+          "Business Today",
+          "https://www.businesstoday.in/entrepreneurship/start-up/story/impact-fund-omidyar-network-to-exit-india-409191-2023-12-12"
+        ]
+      ],
+      "terms": null,
+      "benefit": {
+        "who": "ngo:domestic-grantees-aggregate",
+        "how": "Equity and grant capital to Indian start-ups and non-profits",
+        "amountCr": null,
+        "confidence": "unknown"
+      },
+      "innocentReading": null,
+      "upgradeIf": "ONI FC-4/annual filings or Omidyar Network 990 schedule of India grants opened",
+      "killIf": null,
+      "supersededBy": null
+    },
+    {
+      "id": "donors-narratives:c012",
+      "s": "agencies",
+      "t": "ngo:omidyar-network-india",
+      "pred": "enforce",
+      "tier": "reported",
+      "a": null,
+      "lab": "CBI scrutiny of Omidyar Network and nine other NGOs over alleged FCRA violations (2022)",
+      "d": "TechCrunch: the exit 'comes a year after Omidyar Network and nine other NGOs came under the radar of India's Central Bureau of Investigation… over alleged violation of the nation's Foreign Contribution Regulation Act'. Inc42 separately reports the firm's 'problems with Indian law enforcement' and a CBI probe involving a former managing partner over alleged insider trading (a distinct matter). No charge-sheet or outcome located.",
+      "from": "2022",
+      "to": null,
+      "srcs": [
+        [
+          "TechCrunch",
+          "https://techcrunch.com/2023/12/11/omidyar-network-to-pull-out-of-india-market/"
+        ],
+        [
+          "Inc42",
+          "https://inc42.com/features/omidyar-network-sudden-expected-exit-india/"
+        ]
+      ],
+      "terms": null,
+      "benefit": null,
+      "innocentReading": null,
+      "upgradeIf": "CBI FIR/preliminary enquiry record or MHA reference to CBI opened",
+      "killIf": "CBI closure report",
+      "supersededBy": null
+    },
+    {
+      "id": "donors-narratives:c013",
+      "s": "ngo:omidyar-network-india",
+      "t": "agencies",
+      "pred": "analytic",
+      "tier": "analytic",
+      "a": null,
+      "lab": "Was the Omidyar exit caused by enforcement pressure?",
+      "d": "Three candidate causes co-occur: (i) the stated market-maturity reason; (ii) 2022 CBI/FCRA scrutiny and the wider post-2020 FCRA tightening; (iii) 2023 portfolio write-downs (Doubtnut, ZestMoney). Insiders doubted 'several months of deliberation' because five investments had just been announced. The record cannot rank these; the exit is consistent with all three.",
+      "from": "2023-12-11",
+      "to": null,
+      "srcs": [
+        [
+          "TechCrunch",
+          "https://techcrunch.com/2023/12/11/omidyar-network-to-pull-out-of-india-market/"
+        ],
+        [
+          "Inc42",
+          "https://inc42.com/features/omidyar-network-sudden-expected-exit-india/"
+        ]
+      ],
+      "terms": null,
+      "benefit": null,
+      "innocentReading": "A global impact investor closing a 13-year country programme after the local VC market matured and its own returns disappointed is ordinary portfolio strategy; Omidyar Network has exited other geographies without any enforcement context.",
+      "upgradeIf": "Internal board memo or a named executive attributing the exit to FCRA/CBI pressure",
+      "killIf": "Omidyar Network publishes a portfolio-return rationale with dates predating the CBI scrutiny",
+      "supersededBy": null
+    },
+    {
+      "id": "donors-narratives:c014",
+      "s": "ngo:usaid",
+      "t": "min:ministry-of-finance",
+      "pred": "grant",
+      "tier": "reported",
+      "a": 825,
+      "lab": "USAID government-to-government projects in India — FY2023-24 obligation",
+      "d": "US$97 million obligated in FY2023-24 (≈₹825 crore, the Finance Ministry annual report's own conversion, ≈₹85/US$) under seven ongoing projects with a total budget of about US$750 million (≈₹6,375 crore at the same rate), in food, agriculture, rural development, energy and environment — per the Finance Ministry annual report 2023-24 as reported by PTI. The annual report itself was not opened.",
+      "from": "2023-04",
+      "to": "2024-03",
+      "srcs": [
+        [
+          "BS/PTI 2025-02-23",
+          "https://www.business-standard.com/external-affairs-defence-security/news/usaid-funded-7-projects-in-india-in-fy24-not-related-to-voter-turnout-govt-125022300390_1.html"
+        ]
+      ],
+      "terms": {
+        "instrument": "bilateral grant (DEA-nodal G2G projects)",
+        "ratePct": null,
+        "tenorYears": null,
+        "graceYears": null,
+        "conditions": [
+          "project-specific; not stated in source"
+        ]
+      },
+      "benefit": {
+        "who": "min:ministry-of-finance",
+        "how": "Grant finance to Union ministries' programmes",
+        "amountCr": 825,
+        "confidence": "estimated"
+      },
+      "innocentReading": null,
+      "upgradeIf": "DEA annual report 2023-24 chapter on bilateral assistance opened",
+      "killIf": null,
+      "supersededBy": null
+    },
+    {
+      "id": "donors-narratives:c015",
+      "s": "ngo:usaid",
+      "t": "ngo:cepps",
+      "pred": "grant",
+      "tier": "alleged",
+      "a": 178.5,
+      "lab": "'US$21 million for voter turnout in India' (DOGE/Trump claim)",
+      "d": "US$21m ≈ ₹178.5 crore at ₹85/US$ (rate implied by the FinMin annual-report conversion quoted by PTI; RBI reference rate for 2025-02 not fetched). 2025-02-16: DOGE's X post listed US$486m of USAID grants to CEPPS including 'US$21M for voter turnout in India', cancelled. Trump in Miami: 'Why do we need to spend $21 million for voter turnout in India?… I guess they were trying to get somebody else elected.' The asserting party is the US executive; no document showing an India grant was produced.",
+      "from": "2025-02-16",
+      "to": null,
+      "srcs": [
+        [
+          "The Tribune 2025-02-17",
+          "https://www.tribuneindia.com/news/india/musk-cancels-usaids-21-mn-grant-on-voter-turnout-in-india"
+        ],
+        [
+          "Business Standard 2025-02-21",
+          "https://www.business-standard.com/external-affairs-defence-security/news/us-trump-usaid-21-million-voter-turnout-india-debunked-bangladesh-125022100319_1.html"
+        ]
+      ],
+      "terms": {
+        "instrument": "cooperative agreement (asserted)",
+        "ratePct": null,
+        "tenorYears": null,
+        "graceYears": null,
+        "conditions": []
+      },
+      "benefit": {
+        "who": "ngo:cepps",
+        "how": "Asserted: election-participation programming in India",
+        "amountCr": 178.5,
+        "confidence": "unknown"
+      },
+      "innocentReading": null,
+      "upgradeIf": "USAID/CEPPS award document naming India as the recipient country",
+      "killIf": "USAID award records show the only US$21m CEPPS voter-participation grant was for Bangladesh (see c017)",
+      "supersededBy": null
+    },
+    {
+      "id": "donors-narratives:c016",
+      "s": "ngo:cepps",
+      "t": "claim:donors-narratives:c015",
+      "pred": "contra",
+      "tier": "alleged",
+      "a": null,
+      "lab": "CEPPS/USAID response to the 'India voter turnout' label",
+      "d": "No response recorded — asked/not asked unknown",
+      "from": "2025-02-16",
+      "to": null,
+      "srcs": [
+        [
+          "Business Standard 2025-02-21",
+          "https://www.business-standard.com/external-affairs-defence-security/news/us-trump-usaid-21-million-voter-turnout-india-debunked-bangladesh-125022100319_1.html"
+        ]
+      ],
+      "terms": null,
+      "benefit": null,
+      "innocentReading": null,
+      "upgradeIf": "CEPPS or IFES/IRI/NDI public statement located",
+      "killIf": null,
+      "supersededBy": null
+    },
+    {
+      "id": "donors-narratives:c017",
+      "s": "ngo:usaid",
+      "t": "ngo:cepps",
+      "pred": "grant",
+      "tier": "reported",
+      "a": 178.5,
+      "lab": "CEPPS US$21m 'Amar Vote Amar'/Nagorik — Bangladesh, 2022–2024",
+      "d": "US$21m ≈ ₹178.5 crore at ₹85/US$ (see c015 for rate basis). Indian Express investigation (2025-02-21), as carried by Business Standard: the only ongoing US$21m USAID–CEPPS voter-participation grant was sanctioned 2022-07 for Bangladesh, implemented by IFES, IRI and NDI ahead of the January 2024 election; US$13.4m disbursed by cancellation; USAID records show no CEPPS project in India since 2008. This is the record that contradicts c015.",
+      "from": "2022-07",
+      "to": "2025-02-16",
+      "srcs": [
+        [
+          "Business Standard 2025-02-21",
+          "https://www.business-standard.com/external-affairs-defence-security/news/us-trump-usaid-21-million-voter-turnout-india-debunked-bangladesh-125022100319_1.html"
+        ]
+      ],
+      "terms": {
+        "instrument": "USAID cooperative agreement via CEPPS",
+        "ratePct": null,
+        "tenorYears": null,
+        "graceYears": null,
+        "conditions": [
+          "youth civic engagement programming, Bangladesh"
+        ]
+      },
+      "benefit": {
+        "who": "ngo:cepps",
+        "how": "Programme funding for Bangladesh civic-engagement events",
+        "amountCr": 178.5,
+        "confidence": "estimated"
+      },
+      "innocentReading": null,
+      "upgradeIf": "USAspending.gov award record for the CEPPS Bangladesh agreement opened",
+      "killIf": "A separate India-designated CEPPS award of US$21m surfaces",
+      "supersededBy": null
+    },
+    {
+      "id": "donors-narratives:c018",
+      "s": "min:ministry-of-external-affairs",
+      "t": "ngo:usaid",
+      "pred": "enforce",
+      "tier": "documented",
+      "a": null,
+      "lab": "MEA: USAID revelations 'deeply troubling'; agencies 'looking into this matter'",
+      "d": "2025-02-21 weekly briefing, spokesperson Randhir Jaiswal: 'We have seen information… put out by the US administration regarding certain USAID activities and funding. These are obviously very deeply troubling. This has led to concerns about foreign interference in India's internal affairs. Relevant departments and agencies are looking into this matter'; 'premature to make a public comment'. Asked about the Indian Express finding that the money went to Bangladesh, he did not engage. No outcome of the 'looking into' has been announced as of 2026-09-26 (not found).",
+      "from": "2025-02-21",
+      "to": null,
+      "srcs": [
+        [
+          "The Wire",
+          "https://m.thewire.in/article/diplomacy/mea-trump-usaid-remarks-deeply-troubling"
+        ],
+        [
+          "Business Standard 2025-02-21",
+          "https://www.business-standard.com/external-affairs-defence-security/news/us-trump-usaid-21-million-voter-turnout-india-debunked-bangladesh-125022100319_1.html"
+        ]
+      ],
+      "terms": null,
+      "benefit": null,
+      "innocentReading": null,
+      "upgradeIf": "MEA/MHA statement of findings",
+      "killIf": null,
+      "supersededBy": null
+    },
+    {
+      "id": "donors-narratives:c019",
+      "s": "ngo:usaid",
+      "t": "min:ministry-of-finance",
+      "pred": "analytic",
+      "tier": "analytic",
+      "a": null,
+      "lab": "The same lens on the Government: USAID money to GoI dwarfs any alleged NGO election money",
+      "d": "If foreign money implies foreign influence, the FY2023-24 record shows US$97m obligated to Government of India projects (₹825 cr) against zero documented USAID election money to Indian associations. The 'foreign hand' lens, applied symmetrically, points at the state's own bilateral portfolio, which nobody in the controversy called interference.",
+      "from": "2025-02",
+      "to": null,
+      "srcs": [
+        [
+          "BS/PTI 2025-02-23",
+          "https://www.business-standard.com/external-affairs-defence-security/news/usaid-funded-7-projects-in-india-in-fy24-not-related-to-voter-turnout-govt-125022300390_1.html"
+        ],
+        [
+          "Business Standard 2025-02-21",
+          "https://www.business-standard.com/external-affairs-defence-security/news/us-trump-usaid-21-million-voter-turnout-india-debunked-bangladesh-125022100319_1.html"
+        ]
+      ],
+      "terms": null,
+      "benefit": null,
+      "innocentReading": "Government-to-government development assistance is negotiated, audited and reported by the DEA; it is categorically different from covert election funding, and its size says nothing about impropriety on either side.",
+      "upgradeIf": "n/a — comparison of documented figures",
+      "killIf": "DEA figures shown to include election-related programming",
+      "supersededBy": null
+    },
+    {
+      "id": "donors-narratives:c020",
+      "s": "ngo:intelligence-bureau",
+      "t": "ngo:greenpeace-india",
+      "pred": "enforce",
+      "tier": "reported",
+      "a": null,
+      "lab": "IB report (2014-06-03) names Greenpeace among 'anti-developmental' networks",
+      "d": "The 21-page report, first excerpted by the Indian Express and summarised by The News Minute, names Greenpeace with NAPM, PUCL and PMANE as coordinating anti-nuclear agitation, describes 'massive efforts… to take down India's coal fired power plant and coal mining activities', says Greenpeace is 'mainly against Coal India Ltd, Hindalco, Aditya Birla group and Essar', and opens with an unsourced estimate that such activity costs 2–3% of GDP growth. Commissioned under UPA, delivered to the NDA government.",
+      "from": "2014-06-03",
+      "to": null,
+      "srcs": [
+        [
+          "The News Minute",
+          "https://www.thenewsminute.com/news/intelligence-bureau-report-ngos-and-what-it-says-21256"
+        ],
+        [
+          "BHRRC timeline",
+          "https://www.business-humanrights.org/en/latest-news/india-govt-puts-ford-foundation-on-watch-list-curbs-on-funding/"
+        ]
+      ],
+      "terms": null,
+      "benefit": {
+        "who": "co:coal-india",
+        "how": "The report frames campaigners against coal, POSCO and Vedanta projects as a security problem; the named project sponsors benefit if the framing is acted on",
+        "amountCr": null,
+        "confidence": "unknown"
+      },
+      "innocentReading": null,
+      "upgradeIf": "The report itself is published or tabled",
+      "killIf": "IB disowns the leaked text",
+      "supersededBy": null
+    },
+    {
+      "id": "donors-narratives:c021",
+      "s": "ngo:greenpeace-india",
+      "t": "claim:donors-narratives:c020",
+      "pred": "contra",
+      "tier": "documented",
+      "a": null,
+      "lab": "Greenpeace rejects the IB report",
+      "d": "2014-06-11 (IANS): Greenpeace India rejected the IB report and 'swears by energy sustainability'; the BHRRC timeline records its then executive director noting the coincidence of the leak with MHA action (2014-06-17 item).",
+      "from": "2014-06-11",
+      "to": null,
+      "srcs": [
+        [
+          "Deccan Herald/IANS",
+          "https://www.deccanherald.com/india/greenpeace-rejects-ib-report-swears-2210733"
+        ],
+        [
+          "BHRRC timeline",
+          "https://www.business-humanrights.org/en/latest-news/india-govt-puts-ford-foundation-on-watch-list-curbs-on-funding/"
+        ]
+      ],
+      "terms": null,
+      "benefit": null,
+      "innocentReading": null,
+      "upgradeIf": null,
+      "killIf": null,
+      "supersededBy": null
+    },
+    {
+      "id": "donors-narratives:c022",
+      "s": "ngo:doc-ib-report-2014",
+      "t": "ngo:fcra-associations-aggregate",
+      "pred": "analytic",
+      "tier": "analytic",
+      "a": null,
+      "lab": "The 2–3% of GDP figure has no traceable method",
+      "d": "The report's headline number is asserted without a source or method (The News Minute); the financial data it does cite are FCRA-reported (i.e., lawful) receipts. A figure of this size — comparable to India's entire annual public health budget share — attributed to seven agitations is not reproducible from any published estimate.",
+      "from": "2014-06",
+      "to": null,
+      "srcs": [
+        [
+          "The News Minute",
+          "https://www.thenewsminute.com/news/intelligence-bureau-report-ngos-and-what-it-says-21256"
+        ]
+      ],
+      "terms": null,
+      "benefit": null,
+      "innocentReading": "Intelligence assessments are not economic papers; the number may be a rhetorical order-of-magnitude for project delays (POSCO, Kudankulam, Vedanta) that did impose real costs, and its authors never intended publication.",
+      "upgradeIf": "IB or MHA publishes the underlying estimate",
+      "killIf": "A published cost-of-delay study reaches a comparable figure by transparent method",
+      "supersededBy": null
+    },
+    {
+      "id": "donors-narratives:c023",
+      "s": "ngo:idrf",
+      "t": "rss",
+      "pred": "grant",
+      "tier": "alleged",
+      "a": null,
+      "lab": "IDRF disbursements reached Sangh-affiliated organisations (Sabrang/SACW 2002)",
+      "d": "Amount not stated in the section opened. The report's §4 argues that IDRF has 'well established links with the Sangh' and analyses donor-designated and IDRF-designated funds to show the bulk went to Sangh-affiliated recipients (Vanvasi Kalyan Ashram, Sewa Bharati, Ekal-type schools) for education, tribal and cultural work. The widely quoted '83% to Sangh affiliates' figure appears in secondary summaries and was not read in the primary text here. Asserting parties: Sabrang Communications and SACW.",
+      "from": "1994",
+      "to": "2000",
+      "srcs": [
+        [
+          "Outlook — report §4",
+          "https://www.outlookindia.com/making-a-difference/funding-hate-news-217968"
+        ]
+      ],
+      "terms": null,
+      "benefit": {
+        "who": "rss",
+        "how": "US tax-deductible dollars to affiliates' service programmes",
+        "amountCr": null,
+        "confidence": "unknown"
+      },
+      "innocentReading": null,
+      "upgradeIf": "IDRF 990 schedules for 1994–2000 with recipient list opened and matched to Sangh affiliates",
+      "killIf": "Recipient list shows a majority of non-Sangh grantees",
+      "supersededBy": null
+    },
+    {
+      "id": "donors-narratives:c024",
+      "s": "ngo:idrf",
+      "t": "claim:donors-narratives:c023",
+      "pred": "contra",
+      "tier": "alleged",
+      "a": null,
+      "lab": "IDRF and Hindutva-side rebuttal",
+      "d": "Hindu Vivek Kendra published 'An analysis of the report The Foreign Exchange of Hate' by Ashok Chowgule disputing the report's characterisation; secondary accounts record IDRF's own November 2002 denial that the allegations were 'pure concoction, untruthful and self contradicting' and a 2003 rebuttal by six Indian-American academics — neither primary text was opened here.",
+      "from": "2002-11",
+      "to": null,
+      "srcs": [
+        [
+          "HVK rebuttal",
+          "https://hvk.org/specialreports/hate/index.html"
+        ]
+      ],
+      "terms": null,
+      "benefit": null,
+      "innocentReading": null,
+      "upgradeIf": "IDRF's 2002 statement or the 2003 academic rebuttal opened",
+      "killIf": null,
+      "supersededBy": null
+    },
+    {
+      "id": "donors-narratives:c025",
+      "s": "ngo:sewa-international-usa",
+      "t": "rss",
+      "pred": "grant",
+      "tier": "alleged",
+      "a": null,
+      "lab": "Sewa International USA among seven US charities that spent US$158.9m (2001–19), part sent to Sangh-linked groups in India (Macher/SACW 2022)",
+      "d": "Amount not stated for Sewa alone. The pseudonymous 2022 report, as read by ThePrint, tallies at least US$158.9m spent by seven US charities 2001–2019 (US$85.4m in 2014–19), 'sending some of it to groups in India', and lists the Sangh affiliations of family-foundation donors; it concedes 'most of [the actions] are legal'. Asserting party: the report's author via SACW.",
+      "from": "2001",
+      "to": "2019",
+      "srcs": [
+        [
+          "ThePrint 2022-06-14",
+          "https://theprint.in/feature/a-mysterious-new-report-tells-you-who-funds-hindu-nationalism-in-us-and-with-how-much-money/995680/"
+        ]
+      ],
+      "terms": null,
+      "benefit": {
+        "who": "rss",
+        "how": "Diaspora charitable dollars to affiliates' service networks in India",
+        "amountCr": null,
+        "confidence": "unknown"
+      },
+      "innocentReading": null,
+      "upgradeIf": "Sewa International USA 990 Schedule F (foreign grants) opened and Indian recipients' FC-4 returns matched",
+      "killIf": "Schedule F shows recipients unconnected to Sangh affiliates",
+      "supersededBy": null
+    },
+    {
+      "id": "donors-narratives:c026",
+      "s": "ngo:sewa-international-usa",
+      "t": "claim:donors-narratives:c025",
+      "pred": "contra",
+      "tier": "alleged",
+      "a": null,
+      "lab": "Sewa International USA response",
+      "d": "No response recorded — asked/not asked unknown",
+      "from": "2022-06",
+      "to": null,
+      "srcs": [
+        [
+          "ThePrint 2022-06-14",
+          "https://theprint.in/feature/a-mysterious-new-report-tells-you-who-funds-hindu-nationalism-in-us-and-with-how-much-money/995680/"
+        ]
+      ],
+      "terms": null,
+      "benefit": null,
+      "innocentReading": null,
+      "upgradeIf": "Sewa International USA statement located (HAF's 'baseless' statement is HAF's own, not Sewa's)",
+      "killIf": null,
+      "supersededBy": null
+    },
+    {
+      "id": "donors-narratives:c027",
+      "s": "ngo:fcra-2010",
+      "t": "ngo:fcra-associations-aggregate",
+      "pred": "law",
+      "tier": "documented",
+      "a": null,
+      "lab": "MHA's 2026 statement of what FCRA is for",
+      "d": "PIB factsheet 2026-07-22: FCRA 'identifies who may accept foreign contributions', 'specifies how that money must be received, accounted for, and reported', and 'restricts a narrow, defined set of foreign-funded activities that could affect India's sovereignty, security or public order'; 'What FCRA does not do is forbid Indians from receiving foreign donations or shut down law abiding civil society'; core objectives 'transparency, accountability, sovereignty, enabling genuine work'. This is the Government's own contra to narrative 2.",
+      "from": "2026-07-22",
+      "to": null,
+      "srcs": [
+        [
+          "PIB FCRA factsheet",
+          "https://www.pib.gov.in/FactsheetDetails.aspx?Id=150789&reg=48&lang=2"
+        ]
+      ],
+      "terms": null,
+      "benefit": null,
+      "innocentReading": null,
+      "upgradeIf": null,
+      "killIf": null,
+      "supersededBy": null
+    },
+    {
+      "id": "donors-narratives:c028",
+      "s": "ngo:fcra-amendment-rules-2026",
+      "t": "ngo:fcra-associations-aggregate",
+      "pred": "law",
+      "tier": "documented",
+      "a": null,
+      "lab": "FCRA Amendment Rules 2026 — new disclosure, activity and functionary-liability conditions",
+      "d": "Notified 2026-06-22. ICNL: activity and geographic limitations, bars on foreign-national involvement, liability exposure for 'key functionaries', increased reporting, new spending/utilisation thresholds. Amnesty (2026-07-17): 'sweeping new powers to police the activities, operation, management and leadership' of NGOs. Applies to registered, renewing and prior-permission holders.",
+      "from": "2026-06-22",
+      "to": null,
+      "srcs": [
+        [
+          "ICNL",
+          "https://www.icnl.org/resources/civic-freedom-monitor/india"
+        ],
+        [
+          "Amnesty",
+          "https://www.amnesty.org/en/latest/research/2026/07/india-fcra-tighten-control-civil-society-undermine-freedom-of-association/"
+        ]
+      ],
+      "terms": null,
+      "benefit": null,
+      "innocentReading": null,
+      "upgradeIf": "Gazette notification G.S.R. of 2026-06-22 opened",
+      "killIf": null,
+      "supersededBy": null
+    },
+    {
+      "id": "donors-narratives:c029",
+      "s": "min:ministry-of-home-affairs",
+      "t": "ngo:fcra-associations-aggregate",
+      "pred": "enforce",
+      "tier": "documented",
+      "a": null,
+      "lab": "Aggregate FCRA cancellations cited by monitors",
+      "d": "Freedom House (2025): 'In 2022, the government said it had cancelled the FCRA registrations of 6,677 NGOs between 2017 and 2021'; April 2024 cancellations of CNI Synodical Board, VHAI, IGSSS, CASA and EFI 'citing improper use of foreign funding contributions'. HRW (2016): FCRA invoked against 25 groups; HRW (2022): calls the law's use 'abusive'. CIVICUS rates India 'Repressed' (30/100) every year 2019–2024 after 'Obstructed' in 2018. Detailed cancellation records are in fcra-actions.json.",
+      "from": "2017",
+      "to": "2024",
+      "srcs": [
+        [
+          "Freedom House 2025",
+          "https://freedomhouse.org/country/india/freedom-world/2025"
+        ],
+        [
+          "HRW 2016",
+          "https://www.hrw.org/news/2016/11/08/india-foreign-funding-law-used-harass-25-groups"
+        ],
+        [
+          "HRW 2022",
+          "https://www.hrw.org/news/2022/01/18/india-should-stop-using-abusive-foreign-funding-law"
+        ],
+        [
+          "CIVICUS",
+          "https://monitor.civicus.org/country/india/"
+        ]
+      ],
+      "terms": null,
+      "benefit": null,
+      "innocentReading": null,
+      "upgradeIf": "MHA Parliament answer with year-wise cancellations and grounds (see sibling file)",
+      "killIf": null,
+      "supersededBy": null
+    },
+    {
+      "id": "donors-narratives:c030",
+      "s": "ngo:domestic-grantees-aggregate",
+      "t": "ngo:fcra-associations-aggregate",
+      "pred": "analytic",
+      "tier": "analytic",
+      "a": 131000,
+      "lab": "Scale control: Indian private philanthropy ₹1.31 lakh crore (FY2024) vs the foreign-contribution channel",
+      "d": "Bain 2025: total social-sector funding ~₹25 lakh crore (8.3% of GDP), 95% public; private ~₹1,31,000 crore (US$16bn) in FY2024, growing 7%; family philanthropy ~40% of private giving; family-run firms' CSR ~₹18,000 crore. Foreign contribution (see fcra-receipts.json aggregates) is a small fraction of private giving and a rounding error against public spending — the denominator every 'foreign money' narrative omits.",
+      "from": "2024",
+      "to": null,
+      "srcs": [
+        [
+          "Bain 2025",
+          "https://www.bain.com/insights/india-philanthropy-report-2025/"
+        ]
+      ],
+      "terms": null,
+      "benefit": null,
+      "innocentReading": "Bain's estimates are consultant aggregates (with Dasra), not audited flows; the comparison shows scale, not the political salience of particular foreign grants to advocacy groups, which can be high at small size.",
+      "upgradeIf": "FC-4 aggregate for FY2024 from MHA set against Bain's private-giving figure",
+      "killIf": null,
+      "supersededBy": null
+    }
+  ],
+  "voids": [
+    {
+      "what": "No donor-wise foreign-contribution totals for Ford, Gates, OSF or USAID: fcraonline.nic.in is blocked from this environment and the donors' India pages publish counts (Gates: 1,419 grants) but not rupee totals.",
+      "whyItMatters": "Every 'how much foreign money' claim in the narratives lacks a documented numerator; the sibling receipts file holds only what Parliament answers and FC-4s of named recipients gave.",
+      "srcs": [
+        [
+          "Gates India page",
+          "https://www.gatesfoundation.org/our-work/places/india"
+        ],
+        [
+          "Ford Foundation India page",
+          "https://www.fordfoundation.org/our-work-around-the-world/india-nepal-and-sri-lanka/"
+        ]
+      ]
+    },
+    {
+      "what": "The 2016 MHA order placing OSF in the prior-reference category was not found; the fact is known only through ED's 2025 account and a 2020 Delhi High Court petition reported by a partisan outlet (not used).",
+      "whyItMatters": "The stated ground for listing OSF — the key fact for narrative 3 — is unrecorded.",
+      "srcs": [
+        [
+          "The Tribune 2025-03-19",
+          "https://www.tribuneindia.com/news/india/ed-raids-soros-linked-entities-in-bengaluru"
+        ]
+      ]
+    },
+    {
+      "what": "The IB report of 2014-06-03 was never published; only leaked excerpts exist.",
+      "whyItMatters": "The Government has used a document nobody can audit; the 2–3% GDP figure cannot be checked.",
+      "srcs": [
+        [
+          "The News Minute",
+          "https://www.thenewsminute.com/news/intelligence-bureau-report-ngos-and-what-it-says-21256"
+        ]
+      ]
+    },
+    {
+      "what": "No public outcome of the MEA's 2025-02-21 'relevant departments and agencies are looking into this matter' on USAID, eighteen months on.",
+      "whyItMatters": "The Government neither confirmed nor retracted the interference framing after the grant was shown to be Bangladesh's.",
+      "srcs": [
+        [
+          "The Wire",
+          "https://m.thewire.in/article/diplomacy/mea-trump-usaid-remarks-deeply-troubling"
+        ]
+      ]
+    },
+    {
+      "what": "Omidyar Group's statement page on the India exit returns 404; the statement survives only as quoted by press.",
+      "whyItMatters": "The donor's own stated reason is now second-hand.",
+      "srcs": [
+        [
+          "TechCrunch",
+          "https://techcrunch.com/2023/12/11/omidyar-network-to-pull-out-of-india-market/"
+        ]
+      ]
+    },
+    {
+      "what": "sacw.net and sabrang.com (hosts of the 2002 report and the 2022 Macher report) were unreachable (status 000); Sewa International USA and IDRF 990s were not retrieved (guessed EINs returned Not Found on ProPublica).",
+      "whyItMatters": "Narrative 6's numerators (83%, US$158.9m) are recorded from secondary readings only.",
+      "srcs": [
+        [
+          "Outlook — report §4",
+          "https://www.outlookindia.com/making-a-difference/funding-hate-news-217968"
+        ],
+        [
+          "ThePrint",
+          "https://theprint.in/feature/a-mysterious-new-report-tells-you-who-funds-hindu-nationalism-in-us-and-with-how-much-money/995680/"
+        ]
+      ]
+    },
+    {
+      "what": "Reliance Foundation and Adani Foundation 'About' pages failed to load (curl error), Hurun's 2024 list page rendered no text, and Tata Trusts' page gives history not disbursements; no domestic-control disbursement figure was captured beyond Bain's aggregates.",
+      "whyItMatters": "The scale control rests on Bain's sector aggregate rather than the four named foundations.",
+      "srcs": [
+        [
+          "Bain 2025",
+          "https://www.bain.com/insights/india-philanthropy-report-2025/"
+        ],
+        [
+          "Tata Trusts",
+          "https://www.tatatrusts.org/about-tatatrusts"
+        ]
+      ]
+    },
+    {
+      "what": "No opened source supports the brief's premise that the Gates Foundation operates under the FCRA prior-permission route, or records any MHA action against it.",
+      "whyItMatters": "The one large foreign donor with a documented Government partnership and an award to the PM has no documented enforcement history — itself a data point for the symmetry check.",
+      "srcs": [
+        [
+          "Gates India page",
+          "https://www.gatesfoundation.org/our-work/places/india"
+        ]
+      ]
+    }
+  ],
+  "narratives": [
+    {
+      "claim": "Foreign-funded NGOs are stalling India's development, costing 2–3% of GDP a year, as the 2014 Intelligence Bureau report showed.",
+      "status": "contested",
+      "strongestCase": "The report exists (dated 2014-06-03, 21 pages, commissioned under UPA), was leaked within days of the new government taking office, and its thesis was acted on: within a year the MHA suspended Greenpeace India's registration, placed Ford and 15 other donors under prior reference, and cancelled thousands of lapsed registrations (see fcra-actions.json). Campaigns against Kudankulam, POSCO and Vedanta's Niyamgiri project did delay large investments, and some campaigners were foreign-funded.",
+      "strongestCounter": "The 2–3% GDP figure is asserted without source or method (The News Minute); the financial data cited are lawful FCRA-reported receipts, with 'no mention of any money that has come through illegal means'. The report treats lawful protest, litigation and journalism (a documentary, a TISS study) as 'anti-developmental activity'. Greenpeace rejected it; a Delhi High Court later found the Greenpeace actions disproportionate (sibling file). The document has never been published or tabled, so the Government has used an assessment nobody can audit.",
+      "whatWouldChangeThis": "Publication of the report with its cost method; or a transparent cost-of-delay study; or evidence that named groups received undeclared (non-FCRA) money.",
+      "srcs": [
+        [
+          "The News Minute",
+          "https://www.thenewsminute.com/news/intelligence-bureau-report-ngos-and-what-it-says-21256"
+        ],
+        [
+          "Deccan Herald/IANS",
+          "https://www.deccanherald.com/india/greenpeace-rejects-ib-report-swears-2210733"
+        ],
+        [
+          "BHRRC timeline",
+          "https://www.business-humanrights.org/en/latest-news/india-govt-puts-ford-foundation-on-watch-list-curbs-on-funding/"
+        ]
+      ]
+    },
+    {
+      "claim": "FCRA is used to silence government critics.",
+      "status": "well-supported",
+      "strongestCase": "Monitors across a decade record the pattern: HRW (2016) on 25 groups including Greenpeace, Sabrang, Navsarjan, INSAF; HRW (2022) calling the law's use 'abusive'; Freedom House scoring NGO freedom 2/4 and noting the power is 'used selectively against perceived political opponents'; CIVICUS 'Repressed' every year since 2019; Amnesty (2026) on the new Rules' 'sweeping powers'. The Ford episode shows the instrument at work: listed for funding a critic's NGOs, delisted before a PM visit to the US. HRW's 2016 finding is that 'successive governments' did this — the UPA's 2012 Kudankulam cancellations included.",
+      "strongestCounter": "The Government's stated framing (PIB 2026): a registration-and-disclosure regime like those of the US, UK, Australia and Canada, restricting only 'a narrow, defined set' of activities; tens of thousands of associations remain registered. Most cancellations are for non-filing of returns, not politics (sibling file base rates); April 2024 cancellations hit church-linked service bodies (CASA, EFI, CNI), not government critics, on 'improper use' grounds. Courts have upheld the 2020 Amendment (Noel Harper, 2022). Government-aligned associations have also lost registration (sibling file).",
+      "whatWouldChangeThis": "A year-wise MHA table of cancellations by stated ground and by the target's public orientation, showing critics are not over-represented after controlling for filing compliance; or, conversely, internal notes tying listings to speech.",
+      "srcs": [
+        [
+          "HRW 2016",
+          "https://www.hrw.org/news/2016/11/08/india-foreign-funding-law-used-harass-25-groups"
+        ],
+        [
+          "HRW 2022",
+          "https://www.hrw.org/news/2022/01/18/india-should-stop-using-abusive-foreign-funding-law"
+        ],
+        [
+          "Freedom House 2025",
+          "https://freedomhouse.org/country/india/freedom-world/2025"
+        ],
+        [
+          "CIVICUS",
+          "https://monitor.civicus.org/country/india/"
+        ],
+        [
+          "Amnesty 2026",
+          "https://www.amnesty.org/en/latest/research/2026/07/india-fcra-tighten-control-civil-society-undermine-freedom-of-association/"
+        ],
+        [
+          "PIB FCRA factsheet",
+          "https://www.pib.gov.in/FactsheetDetails.aspx?Id=150789&reg=48&lang=2"
+        ],
+        [
+          "Deccan Chronicle",
+          "https://www.deccanchronicle.com/nation/current-affairs/180316/mha-removes-ford-foundation-from-watch-list.html"
+        ]
+      ]
+    },
+    {
+      "claim": "George Soros / the Open Society Foundations fund regime change in India.",
+      "status": "speculative",
+      "strongestCase": "The founder said in public (Munich, 2023-02-16) that Modi 'is no democrat', that the Adani affair 'will significantly weaken Modi's stranglehold on India's federal government', and 'I expect a democratic revival in India'. OSF has been under MHA prior reference since 2016 (reported), and in March 2025 the ED searched eight Bengaluru premises alleging OSF routed money as FDI and consultancy fees to bypass that restriction. OSF's global grant-making (FPOS + OSI expenses ≈US$757m in 2024) includes democracy and rights programmes. The BJP's response (Smriti Irani at party HQ, 2023-02-17) framed the remarks as an attack on India's democratic process.",
+      "strongestCounter": "A wish stated at a security conference is not a funding programme; the speech contains no reference to OSF spending in India. No adjudicated finding — under FCRA, FEMA or the Representation of the People Act — has ever held that OSF financed Indian electoral or 'regime change' activity; the 2025 ED matter is an unadjudicated FEMA allegation from 'sources'. OSF's India spend is unpublished and, on the 2016 listing, every rupee to an FCRA association has needed MHA clearance for a decade. The narrative names a person and, in its common form, an ethnicity; the institutional record is a prior-reference listing and a search.",
+      "whatWouldChangeThis": "An ED/adjudicating-authority order with quantified transfers to political or electoral activity; or OSF grant records to Indian entities engaged in electoral work; or, on the other side, a court quashing the FEMA proceedings.",
+      "srcs": [
+        [
+          "georgesoros.com",
+          "https://www.georgesoros.com/2023/02/16/remarks-delivered-at-the-2023-munich-security-conference/"
+        ],
+        [
+          "The Tribune 2025-03-19",
+          "https://www.tribuneindia.com/news/india/ed-raids-soros-linked-entities-in-bengaluru"
+        ],
+        [
+          "ProPublica FPOS",
+          "https://projects.propublica.org/nonprofits/organizations/263753801"
+        ],
+        [
+          "ProPublica OSI",
+          "https://projects.propublica.org/nonprofits/organizations/137029285"
+        ]
+      ]
+    },
+    {
+      "claim": "USAID paid US$21 million to raise voter turnout in India (to defeat the ruling party).",
+      "status": "debunked",
+      "strongestCase": "DOGE's 2025-02-16 list said so in terms; the US President repeated it ('trying to get somebody else elected'); the BJP's IT head called it 'external interference'; and the MEA said the revelations were 'very deeply troubling' and under examination — three official-level actors treating it as real.",
+      "strongestCounter": "The only US$21m USAID–CEPPS voter-participation grant on record was sanctioned in 2022-07 for Bangladesh ('Amar Vote Amar', later Nagorik), implemented by IFES/IRI/NDI ahead of Bangladesh's January 2024 poll, with US$13.4m spent; USAID records show no CEPPS project in India since 2008 (Indian Express investigation, carried by Business Standard, The News Minute and others). The Finance Ministry's own annual report shows USAID's India money went to seven Government projects (US$97m obligated FY24). Neither Washington nor Delhi produced a document naming India; the MEA declined to engage with the Bangladesh finding and has announced no result. USAID itself was closed on 2025-07-01.",
+      "whatWouldChangeThis": "A USAID award document designating India as the recipient of election-participation funds; absent that, the claim stays debunked. An MEA statement of findings would settle the Indian side.",
+      "srcs": [
+        [
+          "The Tribune 2025-02-17",
+          "https://www.tribuneindia.com/news/india/musk-cancels-usaids-21-mn-grant-on-voter-turnout-in-india"
+        ],
+        [
+          "Business Standard 2025-02-21",
+          "https://www.business-standard.com/external-affairs-defence-security/news/us-trump-usaid-21-million-voter-turnout-india-debunked-bangladesh-125022100319_1.html"
+        ],
+        [
+          "The Wire",
+          "https://m.thewire.in/article/diplomacy/mea-trump-usaid-remarks-deeply-troubling"
+        ],
+        [
+          "BS/PTI 2025-02-23",
+          "https://www.business-standard.com/external-affairs-defence-security/news/usaid-funded-7-projects-in-india-in-fy24-not-related-to-voter-turnout-govt-125022300390_1.html"
+        ],
+        [
+          "Donor Tracker",
+          "https://donortracker.org/policy_updates?policy=us-government-announces-official-closure-of-usaid-2025"
+        ]
+      ]
+    },
+    {
+      "claim": "Missionary NGOs use foreign money to convert Indians.",
+      "status": "contested",
+      "strongestCase": "Christian charities and churches are among the largest declared foreign sources and recipients under FCRA (fcra-receipts.json: Compassion, LDS Church, Gospel for Asia, World Vision at the top of US-source lists); the MHA has cited religious grounds in actions against Compassion International (2017) and cancelled church-linked bodies (CASA, EFI, CNI Synodical Board in April 2024). Several states criminalise conversion by inducement, and the Government's 2026 Rules add 'activity limitations'.",
+      "strongestCounter": "Receiving foreign money for religious purposes is lawful under FCRA — the Act's own categories include 'religious', and the PIB factsheet says the law does not 'forbid Indians from receiving foreign donations'. The documented 2024 cancellations cite 'improper use of foreign funding', not conversion. Christian Aid's India programme, for instance, is caste, governance and livelihoods work through 27 partners in 16 states. The narrative merges three distinct things — lawful faith-based welfare, lawful religious activity, and unlawful inducement — and the third has produced very few convictions. The same lens applied to Hindu diaspora charities (narrative 6) yields the same shape: religiously affiliated foreign money to religiously affiliated service networks.",
+      "whatWouldChangeThis": "Court convictions under state anti-conversion laws tied to specific FCRA-received funds; or, conversely, MHA data showing religious-purpose registrations are cancelled at the same rate as others.",
+      "srcs": [
+        [
+          "Freedom House 2025",
+          "https://freedomhouse.org/country/india/freedom-world/2025"
+        ],
+        [
+          "PIB FCRA factsheet",
+          "https://www.pib.gov.in/FactsheetDetails.aspx?Id=150789&reg=48&lang=2"
+        ],
+        [
+          "Christian Aid India page",
+          "https://www.christianaid.org.uk/our-work/where-we-work/india"
+        ]
+      ]
+    },
+    {
+      "claim": "RSS affiliates receive foreign money through their US chapters (Sewa International, IDRF), as the 2002 Sabrang/SACW report and the 2019–22 Hindutva-funding reports showed.",
+      "status": "well-supported",
+      "strongestCase": "That US 501(c)(3)s with Sangh-linked leadership raise tax-deductible dollars and remit them to Indian affiliates' schools, tribal-welfare and relief programmes is documented in the reports' own reading of IRS 990s: the 2002 report's §4 traces IDRF's disbursement pattern; the 2022 report tallies US$158.9m spent by seven groups over 2001–19 with part sent to India; five such groups received US$833,000 of US Covid relief (Al Jazeera 2021, per ThePrint). The affiliates' Indian recipients (Ekal Vidyalaya Foundation of India, Sewa Bharati, VKA) hold FCRA registrations and file FC-4s (fcra-receipts.json). Unlike Ford or OSF, no MHA prior-reference listing or cancellation is recorded against these donors.",
+      "strongestCounter": "The flow is lawful and declared on both ends; the reports themselves say 'most of [the actions] are legal'. The characterisation — that the money 'funds hate' or violence — is the contested part: IDRF called the 2002 allegations 'pure concoction', six academics published a rebuttal (2003), HAF calls the 2022 report 'baseless' and its author is pseudonymous. The 83% figure is unverified here. Run symmetrically, the lens that treats Sangh-affiliated service work as political funding also treats church-affiliated service work as conversion funding (narrative 5) — the two narratives are mirror images, and neither has an adjudicated finding behind it.",
+      "whatWouldChangeThis": "Schedule F recipient lists of Sewa International USA and IDRF matched to FC-4 receipts of named affiliates would turn 'well-supported' to 'documented' for the flow; a finding by any tribunal that funds financed violence would change the characterisation.",
+      "srcs": [
+        [
+          "Outlook — report §4",
+          "https://www.outlookindia.com/making-a-difference/funding-hate-news-217968"
+        ],
+        [
+          "ThePrint 2022",
+          "https://theprint.in/feature/a-mysterious-new-report-tells-you-who-funds-hindu-nationalism-in-us-and-with-how-much-money/995680/"
+        ],
+        [
+          "HVK rebuttal",
+          "https://hvk.org/specialreports/hate/index.html"
+        ]
+      ]
+    }
+  ],
+  "symmetryCheck": "Same lens on the controls. (1) Domestic philanthropy: Tata Trusts, Azim Premji Foundation, Reliance Foundation and Adani Foundation face no prior-permission gate, no watch list and no donor-wise disclosure of the FCRA kind; Bain puts private giving at ~₹1.31 lakh crore in FY2024 against a foreign-contribution channel that is a small fraction of it — so the regulatory attention is inversely proportional to scale. Their pages were not all retrievable, so their individual disbursements are a gap. (2) Government-aligned foreign donors: Sewa International USA and IDRF are documented (by their critics' reading of 990s) as remitting to Sangh-affiliated service networks, exactly as Ford, OSF and Christian charities remit to their grantees; the state acted against Ford (2015–16), OSF (2016→, 2025) and Compassion (2017) and has no recorded action against the Sangh-linked channel. Both sides' 'political intent' claims rest on inference from grantee ideology; neither has an adjudicated finding. (3) The Government itself: USAID's documented India money went to seven Union projects (US$97m FY24) — orders of magnitude more than any documented USAID money to Indian associations — and nobody called it interference. (4) The Gates Foundation, the largest foreign health donor with formal state MoUs and an award to the PM, has no recorded MHA action; the one large foreign donor treated as a partner is the one that does not fund rights advocacy. Finding about the lens: 'foreign money → foreign influence' produces an alarming picture of every side, including the state; what varies is whom the state chooses to apply it to.",
+  "baseRates": [
+    {
+      "property": "Share of Indian social-sector funding that is private (all sources, domestic and foreign)",
+      "numerator": 131000,
+      "denominator": 2500000,
+      "label": "₹ crore, FY2024: private spending ~₹1,31,000 cr of total ~₹25 lakh cr (Bain 2025); public spending is 95%",
+      "srcs": [
+        [
+          "Bain 2025",
+          "https://www.bain.com/insights/india-philanthropy-report-2025/"
+        ]
+      ]
+    },
+    {
+      "property": "Share of the DOGE-listed cancelled USAID grant heads (2025-02-16) that concerned India",
+      "numerator": 1,
+      "denominator": 15,
+      "label": "grant heads on the X post as reported by The Tribune; the one India item was later shown to be Bangladesh's",
+      "srcs": [
+        [
+          "The Tribune 2025-02-17",
+          "https://www.tribuneindia.com/news/india/musk-cancels-usaids-21-mn-grant-on-voter-turnout-in-india"
+        ]
+      ]
+    },
+    {
+      "property": "Share of the asserted US$486m USAID–CEPPS envelope labelled 'India'",
+      "numerator": 21,
+      "denominator": 486,
+      "label": "US$ million, per DOGE's own figures as reported",
+      "srcs": [
+        [
+          "Business Standard 2025-02-21",
+          "https://www.business-standard.com/external-affairs-defence-security/news/us-trump-usaid-21-million-voter-turnout-india-debunked-bangladesh-125022100319_1.html"
+        ]
+      ]
+    },
+    {
+      "property": "Foreign donors under FCRA prior-reference at the time of the Ford listing",
+      "numerator": 16,
+      "denominator": 16,
+      "label": "16 'international associations' under the prior approval category as of 2015-04-23 (Indian Express); the denominator of all foreign donors remitting to India is unknown — recorded to show how small the listed set was",
+      "srcs": [
+        [
+          "BHRRC/Indian Express",
+          "https://www.business-humanrights.org/en/latest-news/india-govt-puts-ford-foundation-on-watch-list-curbs-on-funding/"
+        ]
+      ]
+    },
+    {
+      "property": "Years CIVICUS has rated India 'Repressed'",
+      "numerator": 6,
+      "denominator": 7,
+      "label": "2019–2024 of the seven rated years 2018–2024 (2018 'Obstructed'); score 30/100",
+      "srcs": [
+        [
+          "CIVICUS",
+          "https://monitor.civicus.org/country/india/"
+        ]
+      ]
+    }
+  ],
+  "gaps": [
+    "Ford Foundation India annual grant total (₹ crore) — Ford's 990-PF Part XV grant list filtered to India, or the foundation's India annual report, would give it.",
+    "Gates Foundation India grant total and the FCRA/FEMA status of its India office — the committed-grants database (JS, not fetched) and any MHA reference; the brief's 'prior-permission route' premise is unverified.",
+    "The 2016 MHA order placing OSF in the prior-reference category, its stated ground, and OSF's 2020 Delhi High Court petition against it — Delhi HC cause list / order, or a Parliament answer naming the listed donors.",
+    "OSF's stated India spend — OSF 'awarded grants' database (JS) or FPOS 990-PF Schedule of foreign grants.",
+    "Smriti Irani's 2023-02-17 statement and S. Jaishankar's Sydney remarks on Soros — NDTV returned 403; ThePrint/HT copies surfaced in search were not opened; recorded in narrative 3 from the search summary only and should be verified before citation.",
+    "Omidyar Network India: the primary statement (404), the CBI reference of 2022 and its outcome, and ONI's Indian entity CIN.",
+    "USAID: the Finance Ministry annual report 2023-24 itself (dea.gov.in) for the US$750m/US$97m figures; USAspending.gov record of the CEPPS Bangladesh award; any MEA/MHA statement of findings after 2025-02-21.",
+    "IB report 2014: the full text; its use in MHA files (the Greenpeace suspension order's reasoning is in the sibling file).",
+    "Sabrang/SACW 2002 report primary text (sacw.net/sabrang.com unreachable) — the 83% figure; IDRF's November 2002 statement; the 2003 academic rebuttal; Sewa International USA's and IDRF's EINs and 990 Schedule F.",
+    "AWAAZ 'In Bad Faith?' (2004) on Sewa International UK and the Charity Commission's inquiry outcome — not opened; Sewa UK's response reportedly published by Outlook ('Inaccuracies and distortions').",
+    "Compassion International (2017 exit) and World Vision India (2024 cancellation) — held in fcra-actions.json; not re-verified here.",
+    "Domestic controls: Tata Trusts, Azim Premji Foundation, Reliance Foundation and Adani Foundation annual disbursements (₹ crore) — their annual reports / RIL and AEL CSR disclosures; the EdelGive-Hurun 2024 list page rendered no text.",
+    "Rockefeller and MacArthur India programme history (offices, closures) — only global 990 scale recorded.",
+    "Chaturvedi & Srivastava (literature) — no matching publication located by search; see docs/research/NGO_LITERATURE.md."
+  ]
+}

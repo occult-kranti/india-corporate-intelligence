@@ -1,6 +1,7 @@
 /**
- * Types for the research-fleet modules that scripts/assemble-fleet.mjs generates
- * (src/graph/energy.generated.ts, src/data/welfare.generated.ts).
+ * Types for the research-fleet modules that scripts/assemble-fleet.mjs generates —
+ * one per row of FLEETS in scripts/lib/vocab.mjs (src/graph/energy.generated.ts,
+ * src/data/welfare.generated.ts, src/graph/{finance,ngo,capital}.generated.ts).
  *
  * Hand-written on purpose. The generator emits data and never types, so changing a
  * shape is a reviewed edit here that every generated literal must then satisfy under
@@ -11,7 +12,7 @@
  * The exception is GNode/GEdge, whose schema already expresses absence by omission.
  */
 
-import type { Predicate, Source, Tier } from './schema';
+import type { LoanTerms, Predicate, Source, Tier } from './schema';
 
 // ---------------------------------------------------------------------------
 // Who benefits — the cui-bono row carried by a claim
@@ -122,6 +123,8 @@ export interface HeldClaim {
   killIf: string | null;
   supersededBy: string | null;
   benefit: ClaimBenefit | null;
+  /** Present only when the claim wrote terms. */
+  terms?: LoanTerms | null;
   domain: string;
   file: string;
 }
@@ -184,7 +187,8 @@ export interface MergedRecord {
 }
 
 export interface FleetMeta {
-  fleet: 'energy' | 'welfare';
+  /** The fleet's key in FLEETS (scripts/lib/vocab.mjs). */
+  fleet: 'energy' | 'welfare' | 'finance' | 'ngo' | 'capital';
   generator: string;
   generatorVersion: string;
   /** The latest `asOf` among the research files; null when the fleet has not run. */

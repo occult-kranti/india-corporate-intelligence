@@ -1,0 +1,23 @@
+{
+  "asOf": "2026-09-26",
+  "fleet": "ngo",
+  "mappings": [
+    {
+      "from": "ngo:fcra-amendment-2020",
+      "to": "ngo:fcra-amendment-act-2020",
+      "reason": "Same statute: the Foreign Contribution (Regulation) Amendment Act, 2020 (passed Lok Sabha 2020-09-21, Rajya Sabha 2020-09-23). Both records claimed the alias \"FCRA Amendment 2020\"; fcra-actions.json (first in name order, 8 references) keeps the id and the alias, fcra-receipts.json's record (1 reference) merges into it.",
+      "files": [
+        "fcra-receipts.json"
+      ]
+    },
+    {
+      "from": "ngo:fcra-associations-aggregate",
+      "to": "ngo:fcra-registered-associations",
+      "reason": "Same population: the associations holding FCRA registration, used by both files as the denominator / counter-party node. Both records claimed the alias \"FCRA NGOs\"; fcra-actions.json (first in name order) keeps the id and the alias, fcra-receipts.json's record merges into it with its counts, receipts series and \"FCRA registrants\" alias unioned.",
+      "files": [
+        "donors-narratives.json",
+        "fcra-receipts.json"
+      ]
+    }
+  ]
+}
