@@ -193,7 +193,8 @@ until a gate has passed it.
 | `research/ENERGY_LITERATURE.md`, `research/WELFARE_LITERATURE.md` | Readable twins of the two `literature.json` files |
 | `superpowers/plans/2026-09-25-*.md` | The implementation plans the two page builds ran from |
 | `PLUGINS.md` | Plugins and skills in use, and the build-fleet shape |
-| `PLATFORM_PLAN.md`, `RESEARCH_PLAN.md`, `TASK_INDEX.md`, `MASTER_PLAN.md`, `RECONCILIATION.md`, `BUNDLE.md` | Earlier plans, trackers and the `main`→`master` reconciliation record |
+| `BUNDLE.md` | The hand-off snapshot: layout, how to run `dist/`, the gate table at the moment it was cut |
+| `PLATFORM_PLAN.md`, `RESEARCH_PLAN.md`, `TASK_INDEX.md`, `MASTER_PLAN.md`, `RECONCILIATION.md` | Earlier plans, trackers and the `main`→`master` reconciliation record |
 | `legacy/` | Superseded, retained so nothing is lost: the original ICIP master plan, the two pre-`.claude` skill notes, and the original type model |
 
 ---

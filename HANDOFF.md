@@ -193,6 +193,8 @@ what is worth doing next:
    rather than risk a fabricated ticker — see `research/raw/companies-by-state.json`
    gaps.
 
+**Last full `npm run check`:** green at `a9b9f35` + docs (2026-09-26): promote, generate, 30 assembler tests, validate (one declared warning), build, smoke over 46 URLs, viewport, page suites 137 pass / 0 fail / 15 skipped of 152. `docs/BUNDLE.md` describes the snapshot cut from that tree.
+
 ### Queued work
 
 - **`/welfare` leftovers.** WCAG M5–M7 and the minor findings in
