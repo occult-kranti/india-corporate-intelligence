@@ -1,8 +1,8 @@
 /**
  * GENERATED FILE — DO NOT EDIT BY HAND.
  *
- * Written by scripts/assemble-fleet.mjs (`npm run generate`, generator 1.4.0),
- * run run-2ea5514c033c, from:
+ * Written by scripts/assemble-fleet.mjs (`npm run generate`, generator 1.4.1),
+ * run run-e3cc0f891306, from:
  *   research/raw/welfare/AUDIT.json
  *   research/raw/welfare/RECONCILIATION.json
  *   research/raw/welfare/central.json
@@ -22158,9 +22158,9 @@ export const WELFARE_IDENTITY: Record<string, EntityIdentity> = {
 export const WELFARE_META: FleetMeta = {
   "fleet": "welfare",
   "generator": "scripts/assemble-fleet.mjs",
-  "generatorVersion": "1.4.0",
+  "generatorVersion": "1.4.1",
   "asOf": "2026-09-25",
-  "runId": "run-2ea5514c033c",
+  "runId": "run-e3cc0f891306",
   "empty": false,
   "note": null,
   "inputs": [

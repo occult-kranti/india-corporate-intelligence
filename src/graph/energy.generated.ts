@@ -1,8 +1,8 @@
 /**
  * GENERATED FILE — DO NOT EDIT BY HAND.
  *
- * Written by scripts/assemble-fleet.mjs (`npm run generate`, generator 1.4.0),
- * run run-c0e9637dc773, from:
+ * Written by scripts/assemble-fleet.mjs (`npm run generate`, generator 1.4.1),
+ * run run-ac2b087e866e, from:
  *   research/raw/energy/AUDIT.json
  *   research/raw/energy/RECONCILIATION.json
  *   research/raw/energy/coal.json
@@ -2838,9 +2838,9 @@ export const ENERGY_IDENTITY: Record<string, EntityIdentity> = {
 export const ENERGY_META: FleetMeta = {
   "fleet": "energy",
   "generator": "scripts/assemble-fleet.mjs",
-  "generatorVersion": "1.4.0",
+  "generatorVersion": "1.4.1",
   "asOf": "2026-09-25",
-  "runId": "run-c0e9637dc773",
+  "runId": "run-ac2b087e866e",
   "empty": false,
   "note": null,
   "inputs": [

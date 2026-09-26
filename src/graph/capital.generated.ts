@@ -1,8 +1,8 @@
 /**
  * GENERATED FILE — DO NOT EDIT BY HAND.
  *
- * Written by scripts/assemble-fleet.mjs (`npm run generate`, generator 1.4.0),
- * run run-d7dbf4432833, from:
+ * Written by scripts/assemble-fleet.mjs (`npm run generate`, generator 1.4.1),
+ * run run-916d30d537ff, from:
  *   research/raw/capital/AUDIT.json
  *   research/raw/capital/RECONCILIATION.json
  *   research/raw/capital/controls.json
@@ -1224,9 +1224,9 @@ export const CAPITAL_CONTROLS: CapitalControl[] = [
 export const CAPITAL_META: FleetMeta = {
   "fleet": "capital",
   "generator": "scripts/assemble-fleet.mjs",
-  "generatorVersion": "1.4.0",
+  "generatorVersion": "1.4.1",
   "asOf": "2026-09-26",
-  "runId": "run-d7dbf4432833",
+  "runId": "run-916d30d537ff",
   "empty": false,
   "note": null,
   "inputs": [

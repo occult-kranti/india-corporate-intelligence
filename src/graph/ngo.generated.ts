@@ -1,8 +1,8 @@
 /**
  * GENERATED FILE — DO NOT EDIT BY HAND.
  *
- * Written by scripts/assemble-fleet.mjs (`npm run generate`, generator 1.4.0),
- * run run-99ba79c3ea52, from:
+ * Written by scripts/assemble-fleet.mjs (`npm run generate`, generator 1.4.1),
+ * run run-169c3129a1ec, from:
  *   research/raw/ngo/AUDIT.json
  *   research/raw/ngo/RECONCILIATION.json
  *   research/raw/ngo/darpan-welfare-join.json
@@ -1211,9 +1211,9 @@ export const NGO_FC_STATE: FcStateRow[] = [
 export const NGO_META: FleetMeta = {
   "fleet": "ngo",
   "generator": "scripts/assemble-fleet.mjs",
-  "generatorVersion": "1.4.0",
+  "generatorVersion": "1.4.1",
   "asOf": "2026-09-26",
-  "runId": "run-99ba79c3ea52",
+  "runId": "run-169c3129a1ec",
   "empty": false,
   "note": null,
   "inputs": [

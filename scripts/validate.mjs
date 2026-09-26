@@ -12,7 +12,7 @@ import { fileURLToPath } from 'node:url';
 import { assembleFleet, predProblem } from './assemble-fleet.mjs';
 import { undefinedFleetRefs } from './lib/fleet-refs.mjs';
 import { FLEET_PREFIXES } from './lib/vocab.mjs';
-import { STATE_BASES, WB_TOTAL_KEYS, WB_PROJECT_ID } from './lib/vocab.mjs';
+import { STATE_BASES, WB_TOTAL_KEYS, WB_PROJECT_ID, NOT_COUNTABLE_CLASSES } from './lib/vocab.mjs';
 import {
   OWNERSHIP_DECLARATIONS, HOLDING_CATEGORIES, HOLDING_KEYS, COVERAGE_READ, CONTROL_ROLES, AGGREGATES_DOMAIN, holdingTextProblem,
 } from './lib/vocab.mjs';
@@ -557,6 +557,7 @@ for (const rel of FLEET_DIRS) {
       }
       if (c.projectId != null && !(typeof c.projectId === 'string' && WB_PROJECT_ID.test(c.projectId))) err(w, `projectId ${JSON.stringify(c.projectId)} is not a World Bank project id (P and six digits)`);
       if (c.countedAs != null && c.countable !== false) err(w, 'countedAs is set, so countable must be false');
+      if (c.notCountableReason != null && c.countable !== false) err(w, 'a notCountableReason is set, so countable must be false');
       srcShape(w, c.srcs);
     }
     // Denials are first-class: every alleged claim is answered in the same file.
@@ -863,9 +864,43 @@ for (const m of generated) {
     if (!wb.fieldMap || typeof wb.fieldMap !== 'object') err(m.file, `${P}_WB_TOTALS.fieldMap missing`);
     if (!wb.fx || typeof wb.fx.indicator !== 'string') err(m.file, `${P}_WB_TOTALS.fx missing`);
   }
+  // The reconciliation owns every researched counting mark (RECONCILIATION.json countedAs and
+  // notCountable). Read from the raw file, not the module, so a module generated before a
+  // mark was added — or after one was removed — fails here.
+  const recPath = join(root, m.rawDir, 'RECONCILIATION.json');
+  let rec = null;
+  if (existsSync(recPath)) {
+    try { rec = JSON.parse(readFileSync(recPath, 'utf8')); } catch (e) { err(`${m.rawDir}/RECONCILIATION.json`, `invalid JSON: ${e.message}`); }
+  }
+  const recCounted = new Map((Array.isArray(rec?.countedAs) ? rec.countedAs : []).map((x) => [x?.claimId, x?.countedAs]));
+  const recNot = new Map();
+  for (const [i, x] of (Array.isArray(rec?.notCountable) ? rec.notCountable : []).entries()) {
+    const w = `${m.rawDir}/RECONCILIATION.json:notCountable[${i}]`;
+    if (!NOT_COUNTABLE_CLASSES.includes(x?.class)) err(w, `class ${JSON.stringify(x?.class)} is not one of ${NOT_COUNTABLE_CLASSES.join(' | ')}`);
+    if (x?.class === 'facility-envelope') {
+      const tr = Array.isArray(x.tranches) ? x.tranches : [];
+      if (!tr.length) err(w, 'a facility-envelope entry lists its tranches');
+      for (const t of tr) if (facts[t]?.countable !== true) err(w, `tranche ${JSON.stringify(t)} is not a countable loan fact`);
+    }
+    recNot.set(x?.claimId, x?.notCountableReason);
+  }
+  for (const [id, want] of recCounted) {
+    if (facts[id]?.countedAs !== want) err(`${m.fleet}:loan-facts:${id}`, `RECONCILIATION.json countedAs says ${JSON.stringify(want)}; the module says ${JSON.stringify(facts[id]?.countedAs ?? null)} — run npm run generate`);
+  }
+  for (const [id, want] of recNot) {
+    const f = facts[id];
+    if (!f || f.population !== 'researched' || f.countable !== false || f.countedAs != null || f.notCountableReason !== want) {
+      err(`${m.fleet}:loan-facts:${id}`, `RECONCILIATION.json notCountable lists it; the module has ${f ? `countable ${f.countable}, countedAs ${JSON.stringify(f.countedAs)}, notCountableReason ${JSON.stringify(f.notCountableReason)}` : 'no loan fact'} — run npm run generate`);
+    }
+  }
+  for (const [id, f] of Object.entries(facts)) {
+    if (f.population !== 'researched' || f.countable !== false) continue;
+    if (f.countedAs != null ? recCounted.get(id) !== f.countedAs : !recNot.has(id)) err(`${m.fleet}:loan-facts:${id}`, 'researched fact is not countable but RECONCILIATION.json records no such mark — the reconciliation owns every counting mark');
+  }
   const n = Object.keys(facts).length;
   const counted = Object.values(facts).filter((f) => f.countedAs != null).length;
-  notes.push(`${m.file}: ${n} loan fact(s) — ${Object.values(facts).filter((f) => f.population === 'census').length} census, ${n - Object.values(facts).filter((f) => f.population === 'census').length} researched, ${counted} countedAs another record`);
+  const notLoan = Object.values(facts).filter((f) => f.population === 'researched' && f.countable === false && f.countedAs == null).length;
+  notes.push(`${m.file}: ${n} loan fact(s) — ${Object.values(facts).filter((f) => f.population === 'census').length} census, ${n - Object.values(facts).filter((f) => f.population === 'census').length} researched, ${counted} countedAs another record, ${notLoan} not a loan (RECONCILIATION notCountable)`);
 }
 
 // Ownership exports — docs/design/FINANCE_PAGE.md §3.3 G3a–c, for every FLEETS row with

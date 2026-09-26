@@ -961,6 +961,36 @@ test('P7: a duplicate loan is countedAs the record that counts — same lender, 
   assert.equal(out.finance.data.edges.find((e) => e.id === 'worldbank:c001').supersededBy, undefined);
 });
 
+test('P7/F3: a record that is not one loan carries countable false and a reason, owned by RECONCILIATION.json notCountable', () => {
+  const MOU = 'non-binding MoU — not a loan agreement';
+  const mou = (f) => {
+    Object.assign(f['worldbank.json'].claims[1], { countable: false, notCountableReason: MOU });
+    f['RECONCILIATION.json'].notCountable = [{ claimId: 'worldbank:c002', file: 'worldbank.json', class: 'non-binding-mou', notCountableReason: MOU }];
+  };
+  const out = runLoans(mou);
+  assert.deepEqual(out.errors, []);
+  assert.deepEqual(
+    [out.finance.data.loanFacts['worldbank:c002'].countable, out.finance.data.loanFacts['worldbank:c002'].countedAs, out.finance.data.loanFacts['worldbank:c002'].notCountableReason],
+    [false, null, MOU],
+  );
+  const facility = (f) => {
+    f['worldbank.json'].claims.push({ id: 'worldbank:c004', s: 'fin:fx-lender', t: 'min:ministry-of-finance', pred: 'loan', tier: 'documented', a: 50, lab: 'FX tranche 1', d: 'x', from: '2021', srcs: [['Fixture', 'https://example.org/t']] });
+    Object.assign(f['worldbank.json'].claims[1], { countable: false, notCountableReason: 'facility envelope' });
+    f['RECONCILIATION.json'].notCountable = [{ claimId: 'worldbank:c002', class: 'facility-envelope', tranches: ['worldbank:c004'], notCountableReason: 'facility envelope' }];
+  };
+  assert.deepEqual(runLoans(facility).errors, []);
+  assert.match(loanErrors((f) => { mou(f); f['RECONCILIATION.json'].notCountable = []; }), /worldbank:c002: countable false with a notCountableReason is not recorded in RECONCILIATION\.json notCountable/);
+  assert.match(loanErrors((f) => { mou(f); delete f['worldbank.json'].claims[1].countable; delete f['worldbank.json'].claims[1].notCountableReason; }),
+    /RECONCILIATION\.json:notCountable\[0\]: worldbank:c002 does not carry countable false and this notCountableReason/);
+  assert.match(loanErrors((f) => { mou(f); f['worldbank.json'].claims[1].notCountableReason = 'another reason'; }), /notCountable\[0\]: worldbank:c002 does not carry countable false and this notCountableReason/);
+  assert.match(loanErrors((f) => { mou(f); f['RECONCILIATION.json'].notCountable[0].class = 'pledge'; }), /notCountable\[0\]: class "pledge" is not one of non-binding-mou \| portfolio-aggregate \| facility-envelope/);
+  assert.match(loanErrors((f) => { mou(f); f['RECONCILIATION.json'].notCountable[0].claimId = 'worldbank:c001'; }), /worldbank:c001 is listed in countedAs too/);
+  assert.match(loanErrors((f) => { mou(f); f['RECONCILIATION.json'].notCountable.push({ claimId: 'worldbank:c0001', class: 'portfolio-aggregate', notCountableReason: 'x' }); }), /worldbank:c0001 is a census leg/);
+  assert.match(loanErrors((f) => { facility(f); f['RECONCILIATION.json'].notCountable[0].tranches = []; }), /a facility-envelope entry lists its tranches/);
+  assert.match(loanErrors((f) => { facility(f); f['RECONCILIATION.json'].notCountable[0].tranches = ['worldbank:c001']; }), /tranche worldbank:c001 is itself not countable/);
+  assert.match(loanErrors((f) => { mou(f); f['RECONCILIATION.json'].notCountable[0].tranches = ['worldbank:c0001']; }), /tranches belong on a facility-envelope entry/);
+});
+
 test('loan facts and census totals are tsc --strict clean', () => {
   const out = runLoans();
   assert.deepEqual(out.errors, []);

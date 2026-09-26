@@ -47,7 +47,7 @@ import {
   TIERS, PREDS, NODE_TYPES, FAMILIES, STATE_CODES, NARRATIVE_STATUS, SCHEME_STATUS, SCHEME_CATEGORIES, ISO_DATE, INVENTORY,
   FLEETS, TERMS_KEYS, amountProblem, STATE_BASES, WB_TOTAL_KEYS, WB_PROJECT_ID,
   OWNERSHIP_DECLARATIONS, HOLDING_CATEGORIES, HOLDING_KEYS, COVERAGE_READ, CONTROL_ROLES, holdingTextProblem,
-  FC_STATE_KEYS, fySpan, fcStateSumProblems,
+  FC_STATE_KEYS, fySpan, fcStateSumProblems, NOT_COUNTABLE_CLASSES,
 } from './lib/vocab.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -56,7 +56,7 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
  * Folded into the run id, as PIPELINE_VERSION is in promote.mjs: when a rule below
  * changes, the stamp must change even if no research file did.
  */
-export const GENERATOR_VERSION = '1.4.0';
+export const GENERATOR_VERSION = '1.4.1';
 const GENERATOR = 'scripts/assemble-fleet.mjs';
 
 /** Fleet key → the module it is written to, relative to the repository root. Read from FLEETS. */
@@ -1098,6 +1098,12 @@ function censusTotals(file, doc, sink) {
  * loan — a countable loan edge from the same lender, on the same project when both name
  * one) or a `notCountableReason`. Every countedAs is recorded in RECONCILIATION.json
  * `countedAs`, and every entry there is carried by its claim: the two cannot drift apart.
+ * A researched record that repeats nothing but is not one loan (F3: a non-binding MoU, a
+ * portfolio aggregate, a facility envelope) carries countable: false and a
+ * notCountableReason with no countedAs; every such record is listed in RECONCILIATION.json
+ * `notCountable` with the same reason and a class from NOT_COUNTABLE_CLASSES, and every
+ * entry there is carried by its claim. A facility entry names its `tranches`: countable
+ * loan edges in the fleet.
  * A duplicate is never superseded here — supersession is a dated correction, not a count.
  */
 function loanFacts(p, edges, survivors, sink) {
@@ -1183,6 +1189,42 @@ function loanFacts(p, edges, survivors, sink) {
   for (const [id, f] of Object.entries(facts)) {
     if (f.countedAs != null && recorded.get(id) !== f.countedAs) {
       sink.error(`${claimOf.get(id).file}:${id}`, `countedAs ${JSON.stringify(f.countedAs)} is not recorded in RECONCILIATION.json countedAs — the reconciliation owns every counting mark`);
+    }
+  }
+
+  // RECONCILIATION.json notCountable and the claims carry the same marks.
+  const excused = new Map();
+  for (const [i, m] of asList(p.reconciliation?.notCountable).entries()) {
+    const w = `${recWhere}:notCountable[${i}]`;
+    if (!m || !isStr(m.claimId) || !isStr(m.notCountableReason)) {
+      sink.error(w, 'a notCountable entry needs string claimId and notCountableReason');
+      continue;
+    }
+    if (!NOT_COUNTABLE_CLASSES.includes(m.class)) sink.error(w, `class ${JSON.stringify(m.class)} is not one of ${NOT_COUNTABLE_CLASSES.join(' | ')}`);
+    if (excused.has(m.claimId)) sink.error(w, `${m.claimId} is listed twice`);
+    if (recorded.has(m.claimId)) sink.error(w, `${m.claimId} is listed in countedAs too — a record repeats another loan or is not a loan, not both`);
+    excused.set(m.claimId, m.notCountableReason);
+    const f = facts[m.claimId];
+    if (!f) {
+      sink.error(w, `${m.claimId} is not a loan edge in the ${p.fleet} fleet`);
+      continue;
+    }
+    if (f.population !== 'researched') sink.error(w, `${m.claimId} is a census leg — its counting comes from projects[], not from the reconciliation`);
+    if (f.countable !== false || f.countedAs != null || f.notCountableReason !== m.notCountableReason) {
+      sink.error(w, `${m.claimId} does not carry countable false and this notCountableReason (it carries countable ${f.countable}, notCountableReason ${JSON.stringify(f.notCountableReason)}) — run node scripts/finance/mark-loans.mjs --write`);
+    }
+    if (m.class === 'facility-envelope') {
+      const tranches = asList(m.tranches);
+      if (!tranches.length) sink.error(w, 'a facility-envelope entry lists its tranches — the loans that count instead');
+      for (const t of tranches) {
+        if (!isStr(t) || !facts[t]) sink.error(w, `tranche ${JSON.stringify(t)} is not a loan edge in the ${p.fleet} fleet`);
+        else if (facts[t].countable !== true) sink.error(w, `tranche ${t} is itself not countable`);
+      }
+    } else if (m.tranches != null) sink.error(w, `tranches belong on a facility-envelope entry, not ${JSON.stringify(m.class)}`);
+  }
+  for (const [id, f] of Object.entries(facts)) {
+    if (f.population === 'researched' && f.countable === false && f.countedAs == null && !excused.has(id)) {
+      sink.error(`${claimOf.get(id).file}:${id}`, 'countable false with a notCountableReason is not recorded in RECONCILIATION.json notCountable — the reconciliation owns every counting mark');
     }
   }
   return { facts, wbTotals };

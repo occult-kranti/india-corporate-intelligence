@@ -114,6 +114,16 @@ export const WB_TOTAL_KEYS = [
 ];
 /** A World Bank project id: P and six digits. */
 export const WB_PROJECT_ID = /^P\d{6}$/;
+/**
+ * Why a researched `loan` record is not one loan of the count although it repeats no other
+ * record (FINANCE_PAGE.md F3, §3.3 P7): each is listed in RECONCILIATION.json `notCountable`
+ * with its class, and the claim carries countable: false and the same notCountableReason.
+ *   non-binding-mou      a framework or pledge MoU — not a loan agreement;
+ *   portfolio-aggregate  a lender's portfolio summed — many loans, not one;
+ *   facility-envelope    a multitranche facility ceiling — its recorded tranches are the loans
+ *                        (the entry lists them as `tranches`).
+ */
+export const NOT_COUNTABLE_CLASSES = ['non-binding-mou', 'portfolio-aggregate', 'facility-envelope'];
 
 /**
  * State-wise foreign contribution (docs/design/FINANCE_PAGE.md §3.3 P5/G4). A fleet row

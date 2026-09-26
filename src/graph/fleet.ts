@@ -140,11 +140,15 @@ export interface LoanFact {
   population: LoanPopulation;
   /**
    * False when this record is not one loan of its population's count: a census
-   * pipeline leg, or a researched record that repeats a loan counted elsewhere.
+   * pipeline leg; a researched record that repeats a loan counted elsewhere (countedAs
+   * set); or a researched record that is not one loan at all — a non-binding MoU, a
+   * portfolio aggregate, a facility envelope whose tranches are recorded
+   * (RECONCILIATION.json `notCountable`, countedAs null).
    */
   countable: boolean;
   /** The claim that counts this loan (research/raw/finance/RECONCILIATION.json `countedAs`). */
   countedAs: string | null;
+  /** Why countable is false: the census leg's reason, or the RECONCILIATION.json countedAs note / notCountable reason, verbatim. */
   notCountableReason: string | null;
 }
 

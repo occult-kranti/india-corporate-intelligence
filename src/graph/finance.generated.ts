@@ -1,8 +1,8 @@
 /**
  * GENERATED FILE — DO NOT EDIT BY HAND.
  *
- * Written by scripts/assemble-fleet.mjs (`npm run generate`, generator 1.4.0),
- * run run-7184a1a85304, from:
+ * Written by scripts/assemble-fleet.mjs (`npm run generate`, generator 1.4.1),
+ * run run-e10a8edef94a, from:
  *   research/raw/finance/AUDIT.json
  *   research/raw/finance/RECONCILIATION.json
  *   research/raw/finance/adb-aiib.json
@@ -3738,14 +3738,14 @@ export const FINANCE_LOAN_FACTS: Record<string, LoanFact> = {
   "adb-aiib:c002": { project: null, status: null, pipeline: null, usdM: null, fxRate: null, fxBasis: null, st: null, stBasis: null, majorSector: null, sector1: null, population: "researched", countable: true, countedAs: null, notCountableReason: null },
   "adb-aiib:c003": { project: null, status: null, pipeline: null, usdM: null, fxRate: null, fxBasis: null, st: null, stBasis: null, majorSector: null, sector1: null, population: "researched", countable: true, countedAs: null, notCountableReason: null },
   "adb-aiib:c004": { project: null, status: null, pipeline: null, usdM: null, fxRate: null, fxBasis: null, st: null, stBasis: null, majorSector: null, sector1: null, population: "researched", countable: true, countedAs: null, notCountableReason: null },
-  "adb-aiib:c005": { project: null, status: null, pipeline: null, usdM: null, fxRate: null, fxBasis: null, st: null, stBasis: null, majorSector: null, sector1: null, population: "researched", countable: true, countedAs: null, notCountableReason: null },
+  "adb-aiib:c005": { project: null, status: null, pipeline: null, usdM: null, fxRate: null, fxBasis: null, st: null, stBasis: null, majorSector: null, sector1: null, population: "researched", countable: false, countedAs: null, notCountableReason: "Facility envelope, not a loan: MFF 0107-IND is the approved ceiling (US$1,049m); its tranches are the loans and are recorded as their own records (adb-aiib:c006, adb-aiib:c007 — AIIB, administered by ADB — and adb-aiib:c008)." },
   "adb-aiib:c006": { project: null, status: null, pipeline: null, usdM: null, fxRate: null, fxBasis: null, st: null, stBasis: null, majorSector: null, sector1: null, population: "researched", countable: true, countedAs: null, notCountableReason: null },
   "adb-aiib:c007": { project: null, status: null, pipeline: null, usdM: null, fxRate: null, fxBasis: null, st: null, stBasis: null, majorSector: null, sector1: null, population: "researched", countable: true, countedAs: null, notCountableReason: null },
   "adb-aiib:c008": { project: null, status: null, pipeline: null, usdM: null, fxRate: null, fxBasis: null, st: null, stBasis: null, majorSector: null, sector1: null, population: "researched", countable: true, countedAs: null, notCountableReason: null },
   "adb-aiib:c009": { project: null, status: null, pipeline: null, usdM: null, fxRate: null, fxBasis: null, st: null, stBasis: null, majorSector: null, sector1: null, population: "researched", countable: true, countedAs: null, notCountableReason: null },
   "adb-aiib:c010": { project: null, status: null, pipeline: null, usdM: null, fxRate: null, fxBasis: null, st: null, stBasis: null, majorSector: null, sector1: null, population: "researched", countable: true, countedAs: null, notCountableReason: null },
   "adb-aiib:c011": { project: null, status: null, pipeline: null, usdM: null, fxRate: null, fxBasis: null, st: null, stBasis: null, majorSector: null, sector1: null, population: "researched", countable: true, countedAs: null, notCountableReason: null },
-  "adb-aiib:c012": { project: null, status: null, pipeline: null, usdM: null, fxRate: null, fxBasis: null, st: null, stBasis: null, majorSector: null, sector1: null, population: "researched", countable: true, countedAs: null, notCountableReason: null },
+  "adb-aiib:c012": { project: null, status: null, pipeline: null, usdM: null, fxRate: null, fxBasis: null, st: null, stBasis: null, majorSector: null, sector1: null, population: "researched", countable: false, countedAs: null, notCountableReason: "Facility envelope, not a loan: MFF 0115-IND is the approved ceiling (US$780m); its tranches are the loans and are recorded as their own records (adb-aiib:c013, adb-aiib:c014)." },
   "adb-aiib:c013": { project: null, status: null, pipeline: null, usdM: null, fxRate: null, fxBasis: null, st: null, stBasis: null, majorSector: null, sector1: null, population: "researched", countable: true, countedAs: null, notCountableReason: null },
   "adb-aiib:c014": { project: null, status: null, pipeline: null, usdM: null, fxRate: null, fxBasis: null, st: null, stBasis: null, majorSector: null, sector1: null, population: "researched", countable: true, countedAs: null, notCountableReason: null },
   "adb-aiib:c015": { project: null, status: null, pipeline: null, usdM: null, fxRate: null, fxBasis: null, st: null, stBasis: null, majorSector: null, sector1: null, population: "researched", countable: true, countedAs: null, notCountableReason: null },
@@ -3771,7 +3771,7 @@ export const FINANCE_LOAN_FACTS: Record<string, LoanFact> = {
   "adb-aiib:c040": { project: null, status: null, pipeline: null, usdM: null, fxRate: null, fxBasis: null, st: null, stBasis: null, majorSector: null, sector1: null, population: "researched", countable: true, countedAs: null, notCountableReason: null },
   "adb-aiib:c041": { project: null, status: null, pipeline: null, usdM: null, fxRate: null, fxBasis: null, st: null, stBasis: null, majorSector: null, sector1: null, population: "researched", countable: true, countedAs: null, notCountableReason: null },
   "adb-aiib:c042": { project: null, status: null, pipeline: null, usdM: null, fxRate: null, fxBasis: null, st: null, stBasis: null, majorSector: null, sector1: null, population: "researched", countable: true, countedAs: null, notCountableReason: null },
-  "adb-aiib:c049": { project: null, status: null, pipeline: null, usdM: null, fxRate: null, fxBasis: null, st: null, stBasis: null, majorSector: null, sector1: null, population: "researched", countable: true, countedAs: null, notCountableReason: null },
+  "adb-aiib:c049": { project: null, status: null, pipeline: null, usdM: null, fxRate: null, fxBasis: null, st: null, stBasis: null, majorSector: null, sector1: null, population: "researched", countable: false, countedAs: null, notCountableReason: "Portfolio aggregate, not one loan: ADB's 75 active sovereign loans to India at 2022-12-31 (US$15,485m) as summed in the CPS 2023–27. Each of those loans counts only as its own record where one is recorded; this line is never a loan of the count." },
   "bilateral-china:c001": { project: null, status: null, pipeline: null, usdM: null, fxRate: null, fxBasis: null, st: null, stBasis: null, majorSector: null, sector1: null, population: "researched", countable: true, countedAs: null, notCountableReason: null },
   "bilateral-china:c002": { project: null, status: null, pipeline: null, usdM: null, fxRate: null, fxBasis: null, st: null, stBasis: null, majorSector: null, sector1: null, population: "researched", countable: true, countedAs: null, notCountableReason: null },
   "bilateral-china:c003": { project: null, status: null, pipeline: null, usdM: null, fxRate: null, fxBasis: null, st: null, stBasis: null, majorSector: null, sector1: null, population: "researched", countable: true, countedAs: null, notCountableReason: null },
@@ -3798,18 +3798,18 @@ export const FINANCE_LOAN_FACTS: Record<string, LoanFact> = {
   "bilateral-china:c029": { project: null, status: null, pipeline: null, usdM: null, fxRate: null, fxBasis: null, st: null, stBasis: null, majorSector: null, sector1: null, population: "researched", countable: true, countedAs: null, notCountableReason: null },
   "bilateral-china:c031": { project: null, status: null, pipeline: null, usdM: null, fxRate: null, fxBasis: null, st: null, stBasis: null, majorSector: null, sector1: null, population: "researched", countable: true, countedAs: null, notCountableReason: null },
   "bilateral-china:c032": { project: null, status: null, pipeline: null, usdM: null, fxRate: null, fxBasis: null, st: null, stBasis: null, majorSector: null, sector1: null, population: "researched", countable: true, countedAs: null, notCountableReason: null },
-  "bilateral-china:c033": { project: null, status: null, pipeline: null, usdM: null, fxRate: null, fxBasis: null, st: null, stBasis: null, majorSector: null, sector1: null, population: "researched", countable: true, countedAs: null, notCountableReason: null },
+  "bilateral-china:c033": { project: null, status: null, pipeline: null, usdM: null, fxRate: null, fxBasis: null, st: null, stBasis: null, majorSector: null, sector1: null, population: "researched", countable: false, countedAs: null, notCountableReason: "Non-binding framework MoUs, not a loan agreement: AidData status 'Pipeline: Pledge', recorded as a headline. The one documented draw, the Sasan UMPP syndicate, is recorded as its own loans." },
   "bilateral-china:c034": { project: null, status: null, pipeline: null, usdM: null, fxRate: null, fxBasis: null, st: null, stBasis: null, majorSector: null, sector1: null, population: "researched", countable: true, countedAs: null, notCountableReason: null },
   "bilateral-china:c035": { project: null, status: null, pipeline: null, usdM: null, fxRate: null, fxBasis: null, st: null, stBasis: null, majorSector: null, sector1: null, population: "researched", countable: true, countedAs: null, notCountableReason: null },
   "bilateral-china:c036": { project: null, status: null, pipeline: null, usdM: null, fxRate: null, fxBasis: null, st: null, stBasis: null, majorSector: null, sector1: null, population: "researched", countable: true, countedAs: null, notCountableReason: null },
   "bilateral-china:c037": { project: null, status: null, pipeline: null, usdM: null, fxRate: null, fxBasis: null, st: null, stBasis: null, majorSector: null, sector1: null, population: "researched", countable: true, countedAs: null, notCountableReason: null },
   "bilateral-china:c038": { project: null, status: null, pipeline: null, usdM: null, fxRate: null, fxBasis: null, st: null, stBasis: null, majorSector: null, sector1: null, population: "researched", countable: true, countedAs: null, notCountableReason: null },
   "bilateral-china:c043": { project: null, status: null, pipeline: null, usdM: null, fxRate: null, fxBasis: null, st: null, stBasis: null, majorSector: null, sector1: null, population: "researched", countable: true, countedAs: null, notCountableReason: null },
-  "bilateral-china:c044": { project: null, status: null, pipeline: null, usdM: null, fxRate: null, fxBasis: null, st: null, stBasis: null, majorSector: null, sector1: null, population: "researched", countable: true, countedAs: null, notCountableReason: null },
+  "bilateral-china:c044": { project: null, status: null, pipeline: null, usdM: null, fxRate: null, fxBasis: null, st: null, stBasis: null, majorSector: null, sector1: null, population: "researched", countable: false, countedAs: null, notCountableReason: "Non-binding MoU, not a loan agreement: AidData status 'Pipeline: Pledge'; no signed facility agreement is recorded." },
   "bilateral-china:c045": { project: null, status: null, pipeline: null, usdM: null, fxRate: null, fxBasis: null, st: null, stBasis: null, majorSector: null, sector1: null, population: "researched", countable: true, countedAs: null, notCountableReason: null },
   "bilateral-china:c046": { project: null, status: null, pipeline: null, usdM: null, fxRate: null, fxBasis: null, st: null, stBasis: null, majorSector: null, sector1: null, population: "researched", countable: true, countedAs: null, notCountableReason: null },
   "bilateral-china:c048": { project: null, status: null, pipeline: null, usdM: null, fxRate: null, fxBasis: null, st: null, stBasis: null, majorSector: null, sector1: null, population: "researched", countable: true, countedAs: null, notCountableReason: null },
-  "bilateral-china:c049": { project: null, status: null, pipeline: null, usdM: null, fxRate: null, fxBasis: null, st: null, stBasis: null, majorSector: null, sector1: null, population: "researched", countable: true, countedAs: null, notCountableReason: null },
+  "bilateral-china:c049": { project: null, status: null, pipeline: null, usdM: null, fxRate: null, fxBasis: null, st: null, stBasis: null, majorSector: null, sector1: null, population: "researched", countable: false, countedAs: null, notCountableReason: "Non-binding oil-backed financing MoU, not a loan agreement: AidData status 'Pipeline: Pledge'; no ECB raised under it is recorded." },
   "bilateral-china:c050": { project: null, status: null, pipeline: null, usdM: null, fxRate: null, fxBasis: null, st: null, stBasis: null, majorSector: null, sector1: null, population: "researched", countable: true, countedAs: null, notCountableReason: null },
   "bilateral-china:c058": { project: null, status: null, pipeline: null, usdM: null, fxRate: null, fxBasis: null, st: null, stBasis: null, majorSector: null, sector1: null, population: "researched", countable: true, countedAs: null, notCountableReason: null },
   "bilateral-china:c059": { project: null, status: null, pipeline: null, usdM: null, fxRate: null, fxBasis: null, st: null, stBasis: null, majorSector: null, sector1: null, population: "researched", countable: true, countedAs: null, notCountableReason: null },
@@ -5313,9 +5313,9 @@ export const FINANCE_IDENTITY: Record<string, EntityIdentity> = {
 export const FINANCE_META: FleetMeta = {
   "fleet": "finance",
   "generator": "scripts/assemble-fleet.mjs",
-  "generatorVersion": "1.4.0",
+  "generatorVersion": "1.4.1",
   "asOf": "2026-09-26",
-  "runId": "run-7184a1a85304",
+  "runId": "run-e10a8edef94a",
   "empty": false,
   "note": null,
   "inputs": [

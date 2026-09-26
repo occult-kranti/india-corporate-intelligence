@@ -417,3 +417,138 @@ references it (`validate.mjs` §4, `scripts/lib/fleet-refs.mjs`). A `wel:` perso
 needs is defined in `research/raw/welfare/`; the ngo file may keep a minimal copy. A plain name
 in `whoElseBenefits[].who` carries no prefix. National ids (`pol:` … `for:`) and Atlas ids pass
 by inventory; `party:` and other unprefixed-by-contract ids must be defined in the file.
+
+### Structured fields the /finance page reads (FINANCE_PAGE.md §3.3)
+
+The fields below are the research side of the §3.3 prerequisites (P1, P7, G3a–c, G4). Each
+is checked twice: by the assembler (`npm run generate` refuses the fleet) and by
+`validate.mjs` §4 (raw file) and §5 (generated module — a module generated before a mark
+changed fails as stale). Every field is optional unless its paragraph says otherwise; when
+set it is never a guess.
+
+#### Finance — `projectId` and the counting marks
+
+**`projectId`** — on a `loan` or `award` claim only: a World Bank project id, `P` and six
+digits (`WB_PROJECT_ID`), and **only where the claim's own text names it**. In
+`worldbank-projects.json` (the census) the fetcher `scripts/finance/fetch-worldbank.mjs`
+writes it from the Projects API row. On a researched file `scripts/finance/mark-loans.mjs`
+writes it by rule: the one distinct `P######` token in `lab`, or, when `lab` names none, the
+one in `d`; two or more distinct tokens in the deciding field → not set, listed for review.
+It never overwrites a value already present. Do not type a project id the text does not name.
+
+**Counting marks** — `countable`, `countedAs`, `notCountableReason`, on researched `loan`
+claims only (on any other predicate the assembler errors). A census claim **must not**
+carry them: its counting comes from its `projects[]` leg (`legs[].countable`,
+`legs[].notCountableReason`, e.g. a pipeline leg), and a mark on the claim is an error.
+Absent means countable. Two shapes, and nothing else:
+
+- **A repeat** — `countable: false`, `countedAs: "<claim id>"`, `notCountableReason: "<why>"`:
+  this record describes a loan another record already counts. `countedAs` must be a loan
+  edge in the same fleet, **from the same lender** (`s`), **on the same project** when both
+  name one, and **itself countable** — no chains; point at the record that counts.
+- **Not one loan** — `countable: false`, `notCountableReason: "<why>"`, no `countedAs`:
+  the record repeats nothing but is not a loan of the count. Classes
+  (`NOT_COUNTABLE_CLASSES`): `non-binding-mou` (a framework or pledge MoU, not a loan
+  agreement), `portfolio-aggregate` (a lender's portfolio summed — many loans, not one),
+  `facility-envelope` (a multitranche facility ceiling; its recorded tranches are the loans).
+
+`countedAs` set ⇒ `countable: false`; a `notCountableReason` set ⇒ `countable: false`;
+`countable: false` ⇒ a `countedAs` or a `notCountableReason`. A duplicate is **never**
+superseded and never deleted: supersession is a dated correction, not a count.
+
+**Owner: `research/raw/finance/RECONCILIATION.json`.** Every mark on a claim is recorded
+there, and every entry there is carried by its claim — the assembler and §5 both refuse a
+disagreement in either direction:
+
+```jsonc
+"countedAs": [
+  { "claimId": "worldbank:c001", "countedAs": "worldbank:c0754", "projectId": "P173943",
+    "lender": "fin:ibrd", "file": "worldbank.json", "note": "Repeats World Bank project P173943 …" }
+],
+"notCountable": [
+  { "claimId": "adb-aiib:c005", "file": "adb-aiib.json", "class": "facility-envelope",
+    "tranches": ["adb-aiib:c006", "adb-aiib:c007", "adb-aiib:c008"],
+    "notCountableReason": "Facility envelope, not a loan: …" }
+]
+```
+
+A `facility-envelope` entry lists its `tranches` (countable loan edges in the fleet);
+`tranches` on any other class is an error; one claim is never in both lists. Researchers
+add the entry; `node scripts/finance/mark-loans.mjs --write` copies it onto the claim
+(`countedAs.note` / `notCountable.notCountableReason` verbatim as `notCountableReason`),
+re-reading each file before it writes and never touching a claim that already carries a
+different mark. Researched records are listed and drawn one mark each, **never summed**
+(FINANCE_PAGE.md F3, D5), marked or not.
+
+#### Capital — `holding`, `coverage.json`, `controls.json`
+
+**`holding`** (G3a) — on an `own` claim only, and **required** on every `own` claim in a
+`holders*.json` file. Exactly the keys `HOLDING_KEYS`, each present (write `null` for a
+stated absence, never omit):
+
+```jsonc
+"holding": { "pct": 3.62, "shares": 45123456, "asOf": "2025-12-31",
+             "category": "fpi", "line": "BlackRock … 3.62%", "aggregate": false }
+```
+
+`pct` a number in 0–100 or null, and **printed in the claim's own `d`/`lab`** as `N%`;
+`shares` a whole number or null, printed there as digits (commas allowed); `asOf` ISO or
+null; `category` one of `HOLDING_CATEGORIES` (`promoter`, `promoter-group`, `fpi`, `fdi`,
+`custodian`, `domestic-insurer`, `other`); `line` required, a **verbatim substring** of
+`d` or `lab`; `aggregate` required, and `true` exactly when the claim is in
+`holders-aggregates.json` (a lower bound summed from fund files, never a filing line). A
+holding never says more than the record it structures; no figure is parsed from prose.
+
+**`coverage.json`** (G3b) — a declaration, not research: top-level `asOf`, `declares`,
+`builtFrom`, and `rows`, **one per NIFTY 50 constituent** in `research/raw/indices.json`
+(no more, no fewer):
+
+```jsonc
+{ "company": "co:adani-enterprises", "asOf": "2025-12-11", "read": "primary",
+  "domain": "holders-b1", "srcs": [["Adani Enterprises — Shareholding Pattern …", "https://…"]], "note": null }
+```
+
+`company` a `co:` id, once; `read` one of `COVERAGE_READ`: `primary` (a named-holder table
+in the company's own filing), `aggregator` (category totals only — no holder can be named
+or ruled out), `not-read`; `asOf` is null **exactly** when `read` is `not-read`; `domain` a
+research file stem of the fleet (the file that records the read); `srcs` at least one
+(a failed attempt is cited too). A company declared `not-read` may not have a filing line
+(`aggregate: false`) recorded against it.
+
+**`controls.json`** (G3c) — the declared comparison sets, promoted from the fleet SPEC:
+top-level `asOf`, `declares`, `declaredIn`, `declaration` (the SPEC text verbatim), and
+`rows` **in declared order** (the order is part of the declaration):
+
+```jsonc
+{ "id": "cap:blackrock", "label": "BlackRock, Inc.", "role": "subject", "resolved": true,
+  "declaredIn": "scratchpad/capital/SPEC.md §Controls …", "note": null }
+```
+
+`role` one of `CONTROL_ROLES` (`subject`, `comparison`, `domestic-control` for holders;
+`adviser-subject`, `adviser-comparison` for mandates); `resolved` required. A resolved row
+names an id that is a fleet, inventory or Atlas id and not `resolved: false` in the
+research; a declared member the fleet has no entity for is `id: null, resolved: false`, and
+carries no claims. An id appears once.
+
+Both files are read by name (`OWNERSHIP_DECLARATIONS`) and carry no `claims` or `entities`.
+
+#### NGO — `fcByState`
+
+**`fcByState`** (G4/P5) — a top-level list, read **only** from `fcra-receipts.json` (FLEETS
+`fcState`; elsewhere it is warned about and not exported): the state/UT × FY rows of a
+Parliament annexure, transcribed one row per state × FY. Keys `FC_STATE_KEYS`:
+
+```jsonc
+{ "st": "tn", "stateName": "Tamil Nadu", "fy": "2019-20", "receivedCr": 1234.56,
+  "utilisedCr": null, "note": null, "srcs": [["Rajya Sabha … Annexure", "https://…"]] }
+```
+
+`st` a state code, or `null` with a `note` saying what the annexure calls the row; `fy`
+written `YYYY-YY`; `receivedCr` required and ≥ 0 (a row the annexure prints no figure for
+is not transcribed); `utilisedCr` ≥ 0 or null; `srcs` required; one row per state × FY.
+**The sum rule:** for every FY the rows name, their `receivedCr` must sum to within
+**₹1 crore** (`FC_STATE_TOLERANCE_CR`) of each current (unsuperseded) national `grant`
+claim in the same file whose `from`/`to` span exactly that FY (`YYYY-04-01` →
+`YYYY+1-03-31`) and that cites a source URL the rows cite; an FY with no such national
+claim is an error. Record the national total first; a state table nobody can add up is not
+a table.

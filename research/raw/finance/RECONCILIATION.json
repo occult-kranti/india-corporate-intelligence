@@ -1047,6 +1047,53 @@
       "note": "Same JICA loan: Mumbai–Ahmedabad High Speed Rail (V), ¥400,000 million, loan agreement 2023-12-21. The record itself says \"the full tranche series is in bilateral-china.json\". ₹22,640 crore here and ₹23,400 crore in bilateral-china.json are two conversions of one ¥400bn loan; bilateral-china:c006 counts."
     }
   ],
+  "notCountable": [
+    {
+      "claimId": "adb-aiib:c049",
+      "file": "adb-aiib.json",
+      "class": "portfolio-aggregate",
+      "notCountableReason": "Portfolio aggregate, not one loan: ADB's 75 active sovereign loans to India at 2022-12-31 (US$15,485m) as summed in the CPS 2023–27. Each of those loans counts only as its own record where one is recorded; this line is never a loan of the count."
+    },
+    {
+      "claimId": "adb-aiib:c005",
+      "file": "adb-aiib.json",
+      "class": "facility-envelope",
+      "tranches": [
+        "adb-aiib:c006",
+        "adb-aiib:c007",
+        "adb-aiib:c008"
+      ],
+      "notCountableReason": "Facility envelope, not a loan: MFF 0107-IND is the approved ceiling (US$1,049m); its tranches are the loans and are recorded as their own records (adb-aiib:c006, adb-aiib:c007 — AIIB, administered by ADB — and adb-aiib:c008)."
+    },
+    {
+      "claimId": "adb-aiib:c012",
+      "file": "adb-aiib.json",
+      "class": "facility-envelope",
+      "tranches": [
+        "adb-aiib:c013",
+        "adb-aiib:c014"
+      ],
+      "notCountableReason": "Facility envelope, not a loan: MFF 0115-IND is the approved ceiling (US$780m); its tranches are the loans and are recorded as their own records (adb-aiib:c013, adb-aiib:c014)."
+    },
+    {
+      "claimId": "bilateral-china:c033",
+      "file": "bilateral-china.json",
+      "class": "non-binding-mou",
+      "notCountableReason": "Non-binding framework MoUs, not a loan agreement: AidData status 'Pipeline: Pledge', recorded as a headline. The one documented draw, the Sasan UMPP syndicate, is recorded as its own loans."
+    },
+    {
+      "claimId": "bilateral-china:c044",
+      "file": "bilateral-china.json",
+      "class": "non-binding-mou",
+      "notCountableReason": "Non-binding MoU, not a loan agreement: AidData status 'Pipeline: Pledge'; no signed facility agreement is recorded."
+    },
+    {
+      "claimId": "bilateral-china:c049",
+      "file": "bilateral-china.json",
+      "class": "non-binding-mou",
+      "notCountableReason": "Non-binding oil-backed financing MoU, not a loan agreement: AidData status 'Pipeline: Pledge'; no ECB raised under it is recorded."
+    }
+  ],
   "notes": [
     "Mappings are applied in the raw files themselves (entity ids, claim s/t, benefit.who, and the worldbank-projects.json projects[] borrower_id/impagency_ids table); the assembler re-applying them is a no-op. Ten of the eleven mappings touch only the projects[] resolution table, whose typo/duplicate ids (API spellings) were never entity records.",
     "Before reconciliation the finance files already shared ids for every entity that more than one file described (min:ministry-of-finance in six files, fin:ibrd/fin:ida in four, fin:adb/aiib/ndb/jica/ncrtc/dfccil in two or three, etc.), so no cross-file id rewrite was needed; the entity-resolution faults were inside worldbank-projects.json (implementing agencies placed on the state-government node while the same body had its own node, and one Haryana department resolved to a Union ministry by name) and two conflated debarment nodes in contracts.json.",
