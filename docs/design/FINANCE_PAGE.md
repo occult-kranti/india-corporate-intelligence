@@ -24,6 +24,14 @@ counts in §0.2 are the judge's reading of the modules on 2026-09-26. They justi
 decisions and may not be copied into a component. The modules were regenerated after both
 candidates were written (§0.2), and will be again: **the page prints module counts only**.
 
+*[UX review] Revised 2026-09-26 after a five-persona **SYNTHETIC** UX review (journalist,
+policy researcher, hostile reader, screen-reader user, phone reader), synthesised in
+`docs/design/FINANCE_UX_REVIEW.md`. The 34 must-level amendments, U1–U34, are applied in
+place, and each is marked `[UX review] (Un)`. The 41 should- and could-level amendments
+are listed as UD1–UD41 under "Deferred amendments" at the end, and two research items
+from the review are there as X17 and X18. The review is synthetic: its findings are
+hypotheses to validate with real readers.*
+
 ---
 
 ## 0. Judge's note
@@ -159,13 +167,13 @@ Gates FG-40–42 script six of them at 1280×800 and 390×844.
 
 | # | Reader, question | Path | Steps |
 |---|---|---|---|
-| L-J | J: "Did the World Bank lend to Kerala, how much, when, who held the Finance Ministry?" | type `Kerala` in Find → pick the project from ≤ 8 results → `RecordCard`: amount with kind, approval date, lender, borrower, implementing body, `OfficeOnDate`, conditions, sources → Copy citation | 3 |
+| L-J | J: "Did the World Bank lend to Kerala, how much, when, who held the Finance Ministry?" | type `Kerala` in Find → pick the project from ≤ 8 results, each dated and priced, records of one project grouped under its P-number [UX review] (U3) → `RecordCard`: amount with kind and its conversion line (U6), approval date, lender, borrower, implementing body, `OfficeOnDate`, conditions, sources → Copy citation, which carries amount, date and a deep link (U4) | 3 |
 | L-P | P: "World Bank lending by state since 2014, as a table" | rail Year From = 2014 → Table view → Download .tsv (population, placement rule and inclusion columns included) | 3 |
-| L-S | S: "You summed things twice and you only show one party's states" | at rest: `ReconciliationLine` gives census counted / not stated / researched not summed; `UnionBar` gives placed vs Union-or-not-placed; `ControlCard` quotes the UPA-vs-NDA symmetry text; caption C1 says why only {placedPct} is on the map | 0 |
-| A-J | J: "Was Oxfam India's FCRA cancelled, on what ground, what did Oxfam say?" | tab Associations → type `Oxfam` → the block in `ActionsList`: each action with date, actor, stated ground, tier, and the response beside it at equal size → Copy citation | 3 |
+| L-S | S: "You summed things twice and you only show one party's states" | at rest: `ReconciliationLine` gives census counted / not stated / researched not summed; `UnionBar` gives placed vs Union-or-not-placed; `ControlCard` quotes the UPA-vs-NDA symmetry text; caption C1 leads with the ₹ that cannot be placed, as `a of b` [UX review] (U10) | 0 |
+| A-J | J: "Was Oxfam India's FCRA cancelled, on what ground, what did Oxfam say?" | type `Oxfam` → `Go to case file` (switches to Associations and focuses the case file's `h3`) → the block in `ActionsList`: each action with date, actor, stated ground, tier, sources, and the response beside it at equal size → Copy citation on the row. [UX review] (U3, U4) | 3 |
 | A-P | P: "National FCRA receipts by year, with sources" | tab Associations → `ReceiptsByYear` at rest → Download .tsv | 2 |
 | A-S | S: "You only show one government's cancellations of critics" | tab Associations → the timeline at rest shows every recorded action from the first dated one, with Lok Sabha rules; the earlier government's actions sit in the same frame; `ControlCard` quotes the `fcra-actions` symmetry text and the base rate "{named} named case files of {all} cancellations" | 1 |
-| C-J | J: "Does BlackRock own a big slice of Indian companies?" | tab Capital → click the row label "BlackRock": the row is accented, never isolated; its summary reads "{lines} filing line(s) · {aggs} aggregate(s), analytic, in {r} companies with a named holder"; Band A sits above; a cell quotes the record; the ladder rung "BlackRock and Vanguard own India" is one link away | 2 |
+| C-J | J: "Does BlackRock own a big slice of Indian companies?" | tab Capital → click the row label "BlackRock": the row is accented, never isolated; its summary reads "{lines} filing line(s) · {aggs} aggregate(s), analytic, in {r} companies with a named holder"; Band A sits above; a cell quotes the record; the ladder rung "BlackRock and Vanguard own India" is one link away. [UX review] (U28, U29) At 390: tab Capital → tap `BlackRock` in an `also named:` line (or Filters → Holder); BlackRock becomes one accented column after Band A; at both widths `HolderCard` quotes each holding's record text and first source | 2 |
 | C-P | P: "Named ≥1% foreign holders in NIFTY 50, long form" | tab Capital → Download .tsv under the matrix | 2 |
 | C-S | S: "Rothschild runs Indian privatisations" | tab Capital → `AdviserComparison` at rest: Rothschild & Co beside every adviser the fleet declared as a control, same columns → the ladder rung with strongest case, strongest counter, what would change it | 1–2 |
 | any | J or S: "Who is connected to {lender / association / adviser / contractor}?" | click the name → "Show connections" → the graph opens with the node in focus, one hop, `loan` and `grant` labelled | 1 |
@@ -220,12 +228,15 @@ sentence that goes with them):
 | `rupeeTotal(rows)` | rows | Σ `a` over `census-counted` rows only. **The only ₹ summation for loans on the page** |
 | `projectKey(e)` | G1 `project` when present, else the first `/\bP\d{6}\b/` in `lab` (**census legs and awards only**; researched labs are not scanned) | `null` when neither exists |
 | `projectGroups(f)` | census legs by `projectKey` | one project row per key; blend projects fold IBRD and IDA legs |
+| `censusProjects`, `blendProjects` [UX review] (U8) | `projectGroups()` | project counts; `blendProjects` = groups with two legs. **Every denominator whose numerator counts projects uses `censusProjects`, never `{census}` (which counts legs)** |
+| `pToken(e)` [UX review] (U3) | `lab` | the first `/\bP\d{6}\b/` in `lab` of **any** loan or award, census or researched (the scan behind `dupTokens`). It groups Find rows and does nothing else: never a join key, never a sum |
 | `placement(e)` | `nodeOf(e.t)`, `FINANCE_BENEFITS` by `claimId`, `nodeOf(who)`; G1 `st`/`stBasis` | interim `{st, rule}`: `t.ty === 'state'` → (`t.st`, `state government is the borrower`); else `who.ty === 'state'` → (`who.st`, `state government implements`); else `null` with the rule `Union body` / `corporate borrower — head office is not where the money went` / `no state government named`. With G1: a second class `fetcher` = G1 `st` when the strict rule gives `null`, with `stBasis` (`borrower-state` · `agency-state` · `agency-seat` · `title`) as the basis column (D8) |
 | `bodyState(e)` | the same | a state body's registered state when `who.ty ∈ {psu, agency, fund}` and `who.st ∉ {null, 'dl'}`; the stipple class only |
 | `instrumentOf`, `conditionsOf`, `yearOf`, `isFutureDated`, `lenderOf` | `terms`, `from`, `FINANCE_META.asOf` | as recorded; `null` instrument → `instrument not in the record`; `[]` → `none recorded`; `from > asOf` → "approval date after the register date" |
 | `sectorOf(e)` | G1 `majorSector` | `null` until G1; **strings verbatim, no crosswalk across the FY2017 taxonomy change** (D9) |
 | `CONTRACTS`, `contractsFor(loan)`, `unattachedContracts` | `pred === 'award'` in `FINANCE_EDGES`, `projectKey` | joined by key; no key → grouped by awarder `s` |
 | `DEBARMENTS` | `pred === 'enforce' && s === SANCTIONS` | with `responsesTo` |
+| `distinctContractors`, `distinctDebarredFirms` [UX review] (U8) | `CONTRACTS` `t`; `DEBARMENTS` `t` | distinct node ids, so the debarment overlap is firms over firms |
 | `RULES_FIN` | `pred === 'law'` in `FINANCE_EDGES` | each with its benefit row or `null` |
 | `responsesTo(id)` | the three modules' edges | `pred === 'contra' && t === 'claim:' + id` |
 | `officeOnDate(date, nodeIds)` | `role` edges from `FINANCE_EDGES` ∪ `useData().edges` with `t ∈ nodeIds` | three groups: **covers** (`from ≤ date ≤ to`), **openEnded** (`from ≤ date`, no `to`), **sameDay** (`from === to === date`). Dates compare at the record's precision (`YYYY` ≤ any date in that year) |
@@ -235,6 +246,7 @@ sentence that goes with them):
 | `NATIONAL`, `fyOf`, `FY_AXIS`, `SECTOR_DONORS`, `NAMED_GRANTS`, `REGISTRATIONS` | `NGO_EDGES` | national: `grant`, `AGG_SOURCE → AGG_RECIPIENT`; `fyOf` single FY when `from` is `YYYY-04(-01)` and `to` is in `(YYYY+1)-03`, else a span; `FY_AXIS` every FY from min to max start year, **missing FYs included**; registrations: `analytic` edges with `s === t === AGG_RECIPIENT` |
 | `STATE_ROWS` | `NGO_EDGES` | `grant` from `AGG_SOURCE` into a node with `ty === 'group'` and `st` (empty until P5) |
 | `ACTIONS`, `POPULATION_ACTIONS`, `caseFiles()` | `NGO_EDGES` `pred === 'enforce'` | grouped by `t`; `t === AGG_RECIPIENT` or an id containing `aggregate` → population; `nodeOf(t).ty === 'ministry'` → the "Courts and oversight" lane; the rest → one case file per target, ordered by first dated action, then label (D23) |
+| `noActionTargets` [UX review] (U12) | `NGO_NODES`, `ACTIONS` | nodes with `ty ∈ {trust, fund, group, sangh, party}`, not an aggregate id, that are the target of no enforce edge; sorted by label |
 | `WELFARE_JOIN` | `NGO_EDGES`, `NGO_EDGE_DOMAIN`, `WELFARE_SCHEMES` | linked: an endpoint starts `scheme:` and is in `WELFARE_SCHEMES`; unlinked: domain `darpan-welfare-join` and not linked; a `scheme:` id absent from the register prints "scheme id not in the welfare register" |
 | `COLUMNS` | `NIFTY50` | every constituent, sorted by `name`; column id `existingId`; a `null` id is a hatched column "no company record" |
 | `OWN_IDX`, `OWN_OUTSIDE` | `CAPITAL_EDGES` `pred === 'own'` | targets in / not in `COLUMNS` |
@@ -249,8 +261,9 @@ sentence that goes with them):
 | `RULES_CAP` | `CAPITAL_EDGES` `pred === 'law'`, `CAPITAL_BENEFITS` | each with benefit row or `null`, `supersededBy`, `innocentReading`, `upgradeIf`, `killIf` |
 | `moduleFor(lens)` | — | `{nodes, edges, domainOf, benefits, voids, narratives, baseRates, symmetry, gaps, identity, meta}` |
 | `GRAPH_NODES`, `GRAPH_EDGES` | all three modules | edges = `FINANCE_EDGES` minus `CENSUS` ∪ `NGO_EDGES` ∪ `CAPITAL_EDGES`; nodes = `nodeOf` over every endpoint plus the modules' nodes; an endpoint resolving nowhere drops its edge, and the count is printed (D36) |
+| `famSplits` [UX review] (U24) | `GRAPH_NODES` | each `ty` whose nodes carry more than one `fam`, with its `{label}: {fam}` pairs; empty when none |
 | `derivedGaps(f)` | all | §5.5.3 |
-| `tsv(rows, header, meta)` | — | `Blob`, no dependency; the first lines are `#` comments: page URL, lens, filters, population definition, exclusions, `runId` and `asOf` per module (D39) |
+| `tsv(rows, header, meta)` | — | `Blob`, no dependency; the first lines are `#` comments: page URL, lens, filters, population definition, exclusions, `runId` and `asOf` per module (D39). [UX review] (U13) The first comment is `# table: {table name} — {population sentence}`, then `# rows: {k}` (`(all pages; screen shows {a}–{b})` when paged); (U6) wherever ₹ appear, `# amounts: ₹ crore, nominal, at each record's approval-year rate as recorded; not deflated`. Display columns are followed by the machine columns of §5.1.5 Export |
 | `sourceClass(src)` | `srcs` | `parliament` when the label or URL matches `/sansad|rajya sabha|lok sabha|\bRS\b|\bLS\b|rsdebate|\/Par20\d\d\//i`; else energy §5.14's primary regex; else `secondary` |
 | `asOfLabel(lens)` | `META.asOf` per module; `INDICES_AS_OF` | one date when the values agree, else `{min}–{max}`; capital adds `indices as of {INDICES_AS_OF}` |
 
@@ -272,6 +285,7 @@ The acceptance gates marked (G) assert both the interim and the post-export beha
 | **P5 / G4** | `NGO_FC_STATE` or per-state `grant` rows (`ty: 'group'`, `st`) | `{st, fy, receivedCr, utilisedCr, srcs}` | RS Q.3253 Annexure I transcribed | void card (D21) | state × FY table (all 36, hatch = no row) and a `WelfareMap` for the selected FY |
 | **P7** | `supersededBy` on cross-file duplicate loans | — | finance reconciliation | researched records never summed (D5) | unchanged; the duplicate-count gap line disappears |
 | **P6** | LIC declared as domestic control | via G3c | — | LIC in Band B; the symmetry text names it | a labelled "domestic control" row in Band A |
+| **G5** [UX review] (U1) | each fleet module split in two: `{fleet}.graph.generated.ts` (`_NODES`, `_EDGES`) and `{fleet}.generated.ts` (the other nine exports) | — | a split of what the generator already writes; `DataContext` imports only the graph part | the page-only exports ride in the entry chunk, because a bundler places each module in one chunk and the module is in the entry through `DataContext`; FG-50 prints the growth | the entry chunk carries only nodes and edges; FG-50 asserts it does not grow |
 
 The smallest first step is G1 alone: the fetcher computes every census field already.
 
@@ -288,8 +302,8 @@ default and one amber line under the strip reads `ignored an unrecognised {param
 | `st` | state code | none | rail select; map | **loans**: filters `ProjectList`, clock ticks, `RecordsStrip`, `ContractsTable` to records placed in `st`; the map marks `st` and the flow highlights its bands without removing others; opens `StatePanel` · **associations**: filters lanes to targets whose recorded `st` is `st` ("registered in, not where it works") · **capital**: inactive, reason "holdings are not placed by state"; the param is kept |
 | `lender` | a node id among `LOANS` sources | all | rail select with counts | loans lens: every loan surface; a sample lender adds "{label}: a researched sample of {n} records, not its India portfolio". Inactive elsewhere, with the reason |
 | `holder` | a node id in `BAND_A ∪ BAND_B`, or any `cap:` node | none | matrix row label; Find | capital: accent plus `HolderCard`; **never filters rows** (D33) |
-| `tier` | comma list of the four tiers, or `none` | all four | rail toggles | **shared with `GraphExplorer`** (same name, same format): every lens surface and the graph (D35). A response is re-admitted whenever the claim it answers is shown (D35) |
-| `rec` | an edge id in any module | none | "Open record" | `RecordCard`; an id from another lens opens with "belongs to the {lens} lens — go there" |
+| `tier` | comma list of the four tiers, or `none` | all four | rail toggles | **shared with `GraphExplorer`** (same name, same format): every lens surface and the graph (D35). A response is re-admitted whenever the claim it answers is shown (D35). [UX review] (U23) A stated ground (an `alleged` enforce edge on the same target) is re-admitted whenever an action in its case file is shown, drawn in its own dash |
+| `rec` | an edge id in any module | none | "Open record"; [UX review] (U3) "Open record" on a Find result writes `lens` and `rec` together | `RecordCard`; an id from another lens arriving by a shared link opens with "belongs to the {lens} lens — go there" (E54) |
 | `sel` | a node id | none | "Show connections"; the graph | `GraphExplorer`'s selection, shared by design; persists across lenses because the graph is one set (D36) |
 | `find` | text | empty | `Find` | the results list only; filters nothing |
 | `m` | `cr` \| `n` (\| `usd` with G1) | `cr` | map control | map class and value; `usd` is `aria-disabled` without G1 with the reason in its name |
@@ -309,8 +323,12 @@ company or a person; there is no `party` param (D40).
 ### 3.5 Live region and unavailable options
 
 Exactly one `aria-live="polite"` region, debounced (150 ms for map and filters, 300 ms for
-Find). It carries every `{N} → {k} {unit}`, lens changes, panel open and close, `Link
-copied`, `Citation copied`, `Table copied, {rows} rows`. Unavailable options are
+Find). It carries every filter effect **in words**, `from {N} to {k} {unit}` [UX review] (U18),
+lens changes, panel open and close, `Link copied`, `Citation copied`, `{table name}
+copied, {rows} rows` (U13), `shown as tables` / `shown as stage` on a view change, `{k}
+matches for {find}` after the Find debounce, and `tier filter: {tiers}; from {N} to {k}
+records` on a tier toggle (U18). Wherever `{N} → {k}` is drawn, the arrow is `aria-hidden`
+and a visually hidden `from {N} to {k}` carries the words (U18). Unavailable options are
 `aria-disabled="true"`, focusable, with the reason inside the accessible name
 (`Sector, unavailable: sector is not exported in this build (G1)`).
 
@@ -348,9 +366,17 @@ copied`, `Citation copied`, `Table copied, {rows} rows`. Unavailable options are
 - **Stage grid:** `xl:grid xl:grid-cols-[minmax(0,1fr)_22rem] xl:gap-6` (welfare K10: at
   a 1280 viewport the content box is 960 px). Below `xl` the margin renders as a block
   directly under the component that opened it. DOM order is fixed: centre, then margin.
+  [UX review] (U25) **At rest below `xl`** (nothing opened): the ReadingKey's texture
+  swatches and tier dashes render under the map figcaption, before C1; `ControlCard`
+  renders as a block directly after the lens centre and before the lens sections, with a
+  one-line anchor link to it under the `UnionBar`; `CannotShowCard` becomes one line, `{n}
+  voids and gaps for this lens — see What this lens cannot show`, linking to `#cannot`
+  (moved, not hidden). (U14) A `rec` with no opener on screen (a shared link, or a Find
+  result from another lens) renders directly under the Find block.
 - **Fold budget at 1280×800 (Loans):** header ≤160, strip and lines ≈64, tabs ≈44, rail ≈44,
   map `clamp(420px, 100vh − 380px, 560px)` with the `UnionBar` inside the figure (28). The
-  `UnionBar` is in the first viewport (FG-33).
+  `UnionBar` is in the first viewport (FG-33). [UX review] (U27) At 390×844 the budget is
+  two viewports (§12, D50).
 - **Chrome is constant across lenses.** Strip, tabs, rail, graph, contested, gaps, refusals
   and sources are the same components fed by the lens's module. Only the centre and the
   lens sections change.
@@ -359,8 +385,10 @@ copied`, `Citation copied`, `Table copied, {rows} rows`. Unavailable options are
   is first because the brief orders it first; the order is not a claim about importance.
 - **Margin precedence:** `rec` (highest) > `st` (Loans, Associations) or `holder` (Capital)
   > rest (`ReadingKey`, `ControlCard`, `CannotShowCard`). When a panel opens, focus moves
-  to its `h2` and the live region announces it; Escape closes it and returns focus to the
-  invoking control.
+  to its `h2` and the live region announces it. [UX review] (U14) Every panel has a visible
+  `Close` button, first in its tab order after the `h2`, and a `Back to {origin}` link at
+  its foot; both clear the panel's param and return focus and scroll to the invoking
+  control. Escape does the same **only when focus is inside the panel** (D49).
 
 ---
 
@@ -369,6 +397,31 @@ copied`, `Citation copied`, `Table copied, {rows} rows`. Unavailable options are
 Each component gives, in order: **Reads** (exact exports), **Encoding**, **Caption** (body
 size, 14 px `text-text-secondary`, left rule, ≤72ch, directly under the graphic, referenced
 by `aria-describedby`), **Twin**, **Empty / void / partial**.
+
+**[UX review] (U19) Headings.** Every stage component has a visible `h3` inside its
+`<figure>` (or above its table), written for the reader and free of figures: `LoanMap`
+"Where the census loans were placed" · `LoanFlow` "Lender, instrument and place" ·
+`LoanClock` "When: approvals against elections and office" · the histogram "Month of
+approval" · `RecordsStrip` "Other lenders, one mark each" · `ProjectList` "Every loan
+record" · `ReceiptsByYear` "National receipts by financial year" · `StateReceipts`
+"State-wise receipts" · `ActionsTimeline` "The Ministry's actions and the responses" ·
+`HolderMatrix` "Named holders in NIFTY 50 filings" · `OutsideIndex` "Holdings outside the
+index". Sections keep `h2`; margin cards keep `h2` with `h3` sub-blocks; no level is
+skipped (FG-49).
+
+**[UX review] (U15) The twin contract.** Every twin is a `<details>`, open under
+`view=table`. (a) A closed twin exposes nothing to assistive technology: no content kept
+readable behind a closed summary. (b) Its controls are tabbable exactly when the
+disclosure is open, bound to the element's own `toggle` event, not to `view`. (c) The skip
+link before each graphic reads `Skip to the table`; it opens that twin and moves focus to
+its `<caption>`. (d) The summary reads `{h3} as a table · {rows} rows`. (e) Directly after
+the tabs row, before the first graphic, one link reads `Every graphic on this lens has a
+table; show them all`; it sets `view=table` and moves focus to the first twin's caption.
+(U31) A twin column that mirrors a visual class prints the class's meaning from §8.1,
+never the token: `no loan record names this state`, `a state body registered here
+implements a loan; not counted in the fill`, `placed by the state government rule`,
+`placed by the fetcher's rule ({basis})`; likewise for receipts status, matrix cell state
+and the timeline's response column.
 
 ### 5.0 Chrome
 
@@ -398,22 +451,32 @@ by `aria-describedby`), **Twin**, **Empty / void / partial**.
 
 | lens | facts |
 |---|---|
-| Loans | 1 `{rows} of {LOANS.length} loan records` · 2 `₹{rupeeTotal} cr counted — {cc} of {census} census records carry ₹` · 3 `₹{placed} cr of ₹{rupeeTotal} cr placed in a state government` · 4 `{researched} researched records, {lenders} lenders — listed, not summed` · 5 `{withCond} of {rows} records state conditions` · 6 `{noRupee} records: amount not stated / in US$ m` · (G2) `{projects} projects of {api} in the API ({dropped} dropped, {grantOnly} grant-only: not loans)` |
+| Loans | 1 `{rows} of {LOANS.length} loan records` · 2 `₹{rupeeTotal} cr counted, nominal, from the World Bank projects table, {minYear}–{maxYear} — {cc} of {census} census records carry ₹` [UX review] (U6, U7) · 3 `₹{placed} cr of ₹{rupeeTotal} cr placed in a state government` · 4 `{researched} researched records, {lenders} lenders — listed, not summed` · 5 `{withCond} of {rows} records state conditions` · 6 `{noRupee} records: amount not stated / in US$ m` · (G2) `{projects} projects of {api} in the API ({dropped} dropped, {grantOnly} grant-only: not loans)` |
 | Associations | 1 `{fyWith} of {FY_AXIS.length} financial years with a national receipts total` · 2 `{actions} enforcement actions, {caseFiles} named case files` · 3 `{answered} of {alleged} allegations with a recorded response` · 4 `{NAMED_GRANTS.length} named grant records, {donors} donors` · 5 `{linked} of {WELFARE_SCHEMES.length} register schemes linked to an association` |
 | Capital | 1 `{researchedCols} of {COLUMNS.length} NIFTY 50 companies with a named holder recorded` · 2 `{BAND_A.length} comparison holders always shown` · 3 `{dates} filing dates across columns ({min}–{max})` · 4 `{AWARDS_CAP.length} awards by the Union and regulators` · 5 `{withBenefit} of {RULES_CAP.length} rules with a cui-bono row` |
 
-Below 640 px the strip keeps facts 1 and 2 and the date; the rest move to a non-sticky mono
-line under the Byline (moved, not hidden; welfare U18).
+[UX review] (U26, U27) Below 640 px the sticky strip keeps fact 1 and the date only, on one
+line. Facts 2–6 move, whole, to a non-sticky mono list directly under the lens's first
+figcaption (§12), and the word `nominal` stays with the ₹ figure (moved, not hidden;
+welfare U18).
+
+[UX review] (U7) The first use of `census`, `researched`, `placed`, `analytic` and
+`aggregate` in the strip and the `ReconciliationLine` is a `<dfn>` whose `title` is the
+ReadingKey's one-line definition (§5.0.6).
 
 #### 5.0.3 `ReconciliationLine` (new; in the sticky wrapper; energy D6)
 
 Mono 12 px, always rendered: it answers the skeptic's first question at rest (D41).
+[UX review] (U26) Below 640 px it is not sticky: it renders as a `<ul>`, one inclusion term
+per line, each still a link, directly under the `UnionBar`'s mono line, where its
+denominator already sits.
 
 - **Loans:** `{LOANS.length} loan records = {census-counted} census counted + {census-no-rupee}
   census, amount not stated / in US$ m + {researched-listed} researched with ₹ (listed, not
   summed) + {researched-no-rupee} researched, amount not stated`. The four terms are the
   `inclusion` counts under the current filters; each is a link that sets
-  `view=table&inc={term}`.
+  `view=table&inc={term}`. [UX review] (U8) The line ends ` · {censusProjects} census
+  projects, {blendProjects} with two legs`.
 - **Associations:** `{NGO_EDGES.length} records = {grant} grant + {enforce} enforcement +
   {contra} responses + {role} office + {other} other`, by `pred`.
 - **Capital:** `{CAPITAL_EDGES.length} records = {own} holdings ({filing} filing lines +
@@ -436,6 +499,19 @@ Mono 11 px (12 below 640), only when a page filter is set:
   order plus `{k} matches — refine` and "list all {k}". Order: exact label, alias, label
   substring, `lab` substring; ties by label. **Never by amount or degree.** A unique match
   is not auto-selected (welfare R13).
+- **[UX review] (U3) Entity rows** also offer, where they apply: `Go to case file` for an
+  id that is a target in `caseFiles()` (switches to Associations if needed, scrolls with
+  `scroll-margin-top` = the pinned stack, focuses the case file's `h3`, announces it);
+  `Show loans placed here` for a `ty: 'state'` node (writes `st`); and a derived line
+  `appears in {k} records across {lenses}` with in-page links to where the id occurs.
+  **Record rows** print, in mono: approval date (`from`, or `undated`) · lender label ·
+  `₹{a} cr` or the exact text `amount not stated / in US$ m` · tier chip · population
+  (`census` / `researched`). Rows sharing a `pToken` render under one heading
+  `{P-number}: {n} records (census and researched)`, so a duplicate is visible in the list
+  (display only; never a sum). Above 8 matches the `refine` line offers year and lender
+  narrowing inline. "Open record" on a result from another lens writes `lens` and `rec`
+  together, once, and focus lands on the card's `h2`: the reader's act, so D44 holds and
+  E54 still governs a shared link.
 - **Empty:** `No entity or record in the three registers matches "{find}". This is a
   statement about the register, not about the world.`
 
@@ -448,14 +524,33 @@ named ≥1% in a filing the register holds"; then energy D14's line: "No colour 
 stands for a party, a country, a religion or a verdict. Hue is only the kind of actor."
 Then: "Rose marks a response or denial, never 'bad'. Amber marks something not recorded."
 
+[UX review] (U7) A fourth block, **Words this page uses**: `census` — the World Bank
+projects table, enumerated by script, the only population this page sums; `researched` —
+records the research found by hand, listed and never summed; `record` — one lending leg
+(a blended project has an IBRD leg and an IDA leg); `placed` — the record names a state
+government as borrower or implementer; `analytic` — the research's own comparison or sum,
+not a filing; `aggregate` — a research sum of fund holdings files, a lower bound; `run id`
+— the build of the register these figures come from. Tier chips everywhere carry their
+tier's one-line definition as `title` and link to `TierLegend`. [UX review] (U24) When
+`famSplits` is not empty, "Hue is only the kind of actor" is followed by `{k} {ty} nodes
+carry different actor families across research files ({label}: {fam}; {label}: {fam});
+their hue is inconsistent and means nothing.`
+
 #### 5.0.7 `ControlCard` (margin at rest; the skeptic's panel)
 
 - **Reads:** the lens module's `SYMMETRY` (every `FleetText`, verbatim, headed by domain)
   and `BASE_RATES` (pinned domains first: Loans `worldbank-projects`, `worldbank`;
-  Associations `fcra-actions`, `fcra-receipts`; Capital `holders`, `mandates-ventures`).
+  Associations `fcra-actions`, `fcra-receipts`, `political-trusts` [UX review] (U22);
+  Capital `holders`, `mandates-ventures`).
 - Heading "The same lens on the other side". Each base rate prints `{numerator} of
   {denominator} — {label}`; a percentage only when the denominator ≥ 10 (welfare K6); a
   `null` prints `not computed`.
+- **[UX review] (U22) Grouped by domain.** Each pinned domain is one block: its base-rate
+  rows first, then that domain's `SYMMETRY` text directly beneath, at body size, in the
+  same element; never two separate lists. A base-rate row whose numerator or denominator
+  is `null` prints `not computed in this file`, and its label carries the chip `figure in
+  the research file's wording, not computed by this page` (a label may quote figures,
+  such as the `debt-imf-people` era growth rates, that this page does not compute).
 - **Empty:** `No symmetry check recorded for this lens — the control has not been run.
   This is a gap, not a pass.` in amber.
 
@@ -472,13 +567,14 @@ Then: "Rose marks a response or denial, never 'bad'. Amber marks something not r
   `financeView.loanStateRows(filters)` builds the rows. The listbox keyboard model,
   north-to-south order, hatch and stipple textures with pitch in screen pixels, and the
   readout come with it.
-- **Reads:** `CENSUS` (for `m=cr`), `LOANS` (for `m=n`), `placement`, `bodyState`, filters;
+- **Reads:** `CENSUS` (for `m=cr` and, [UX review] (U21), for `m=n`), `RESEARCHED` (readout,
+  `StatePanel` and twin only), `placement`, `bodyState`, filters;
   G1 for the `fetcher` class.
 - **Encoding:**
 
   | class | condition | meaning |
   |---|---|---|
-  | `value` | ≥ 1 record placed by the strict rule in view | `m=cr`: ₹ crore of census-counted placed records; `m=n`: count of placed records, census and researched |
+  | `value` | ≥ 1 record placed by the strict rule in view | `m=cr`: ₹ crore of census-counted placed records; `m=n`: count of census records placed by the strict rule [UX review] (U21); researched records naming a state government are counted in the readout, the `StatePanel` and the twin's own column, never in the fill |
   | `value` (G1, second texture: a fine diagonal overlay on the ramp fill, named in the legend "placed by the fetcher's rule: state agency or title") | 0 strict, ≥ 1 by G1 `st` | the fetcher's rule, with `stBasis` in the readout (D8) |
   | `stipple` | 0 placed, ≥ 1 record whose `bodyState` is this state | a state body registered here implements a loan; not in the fill |
   | `hatch` | none of the above | no loan record names this state; **never zero** |
@@ -502,26 +598,41 @@ Then: "Rose marks a response or denial, never 'bad'. Amber marks something not r
 - **Readout** (hover, focus): `{State}: ₹{v} cr in {k} census records ({y}) · {j} records
   name a body registered here (not in fill) · {r} researched records from other lenders
   name this state government (count only)`; with G1 ` · {f} placed by the fetcher's rule
-  ({basis split})`.
-- **Caption C1 (always):** "A loan is placed in a state only when the record names that
-  state's government as borrower or implementer. Most World Bank lending to India is
-  borrowed by the Union and spent through national programmes, so most of it cannot be
-  placed: {unplacedPct} of counted ₹ here. A state body's registered office is not where
-  the money went, so bodies are stippled, not filled. Head offices of companies and the
-  seats of Union bodies are never used. ₹ are at each loan's approval-year rate, as its
-  record states, and are not adjusted for inflation: totals across decades mix rupees of
-  very different value."
-- **Caption C2 (sensitivity, when domain `worldbank-projects` base rates exist):** "The
-  research file's own rule, which also places by a state agency or a state named in the
-  project title, attributes {num} of {den} US$ m to a state. This page's strict rule places
-  {placedPct} of counted ₹." `num`/`den` come from the base-rate rows of that domain that
-  share one `label`. With G1 the sentence becomes "The fetcher's rule places a further
-  ₹{fetcherPlaced} cr, shown as the overlaid texture."
+  ({basis split})`. [UX review] (U34) The readout is a reserved block, not a line: one
+  clause per line, meaning first, up to four lines below 640 px, never clipped. `({y})` is
+  the approval-year span of those records, `({minYear}–{maxYear})`, or `(filtered to {y})`
+  when `y` is set. The block ends `— open the state for the list`. Below 640 px on-map
+  state labels are not drawn; the readout, the `Open a state` select and the twin carry the
+  names.
+- **Caption C1 (always) [UX review] (U10):** "₹{unplaced} cr of ₹{rupeeTotal} cr counted
+  ({unplacedPct}) cannot be placed in a state government. A loan is placed in a state only
+  when the record names that state's government as borrower or implementer. Most World
+  Bank lending to India is borrowed by the Union and spent through national programmes, so
+  most of it cannot be placed. A state body's registered office is not where the money
+  went, so bodies are stippled, not filled. Head offices of companies and the seats of
+  Union bodies are never used. ₹ are at each loan's approval-year rate, as its record
+  states, and are not adjusted for inflation: totals across decades mix rupees of very
+  different value." **No caption on this page prints a `{…Pct}` brace without its `a of b`
+  in the same sentence** (§8.2 rule 11).
+- **Caption C2 (sensitivity, when domain `worldbank-projects` base rates exist) [UX
+  review] (U10):** "The research file's own rule, which also places by a state agency or a
+  state named in the project title, attributes US$ {num} m of US$ {den} m to a state,
+  across {apiRows} API project rows, pipeline included. This page's strict rule places
+  ₹{placed} cr of ₹{rupeeTotal} cr across {cc} census-counted records. The two shares are
+  on different populations and in different currencies, and are not directly
+  comparable." `num`/`den` come from the base-rate rows of that domain that share one
+  `label`; `apiRows` from G2, or the words `the API's project rows` without it. When the
+  `worldbank-projects` symmetry text contains a sentence on state income category, that
+  sentence follows verbatim with `wording: worldbank-projects research file`. With G1 the
+  comparison sentence becomes "The fetcher's rule places a further ₹{fetcherPlaced} cr of
+  the same ₹{rupeeTotal} cr, shown as the overlaid texture."
 - **Twin** (`<details>`, open under `view=table`): one row per state, all 36 in
   north-to-south order, then `Union body or not placed` as the last row. Columns: State ·
   Class · ₹ cr placed (strict) · Census records placed · (G1) ₹ cr by fetcher's rule ·
   basis split · Body-registered records (not in fill) · Researched records naming the
-  state government · Rule · Detail. TSV export.
+  state government · Rule · Detail. TSV export. [UX review] (U31) `Class` prints the
+  meaning, not the token (§5 intro). (U21) `Researched records naming the state
+  government` stays its own column and is never added to `Census records placed`.
 - **Mobile:** an `Open a state` `<select>` under the figcaption (welfare D22).
 - **Empty:** `FINANCE_META.empty` → every state hatched, the bar reads `Register not yet
   promoted — nothing below is zero`. Filters leave no census rows → every state hatched, the
@@ -574,7 +685,8 @@ Then: "Rose marks a response or denial, never 'bad'. Amber marks something not r
 - **Component change (bounded, D20):** `TenureLanes` gains optional props `asOf` (replaces
   the `ASOF` import), `edgeById` (replaces the `EDGE_BY_ID` import), `rules: {date, label,
   kind: 'lok-sabha' \| 'assembly' \| 'asof'}[]`, `shadeBefore?: {date, label}`,
-  `onRange(from, to)` (the brush writes `y`), and `extraLanes?: {id, label, bars: {year,
+  `onRange(from, to)` (the brush writes `y`; [UX review] (U32) the brush is pointer-only and
+  outside the tab order, and the rail's Year From/To selects are its keyboard route, D48), and `extraLanes?: {id, label, bars: {year,
   n}[]}[]` for count lanes. Energy passes none and renders byte-identically; the energy
   suite at 67/67 is the regression gate (FG-38).
 - **Reads:** `approvalsByYear` (a project-count lane), `LOANS` (ticks by lender lane, `date
@@ -585,7 +697,10 @@ Then: "Rose marks a response or denial, never 'bad'. Amber marks something not r
   a bar per year in the count lane (**project count, not ₹**, so a few large DPLs do not
   dominate a timing question; pipeline years hatched); a tick per record, dash = tier; a
   bar per tenure outlined in its role claim's dash, an open-ended tenure drawn to `asOf`
-  with the trailing label "end not recorded"; party as text only; Lok Sabha rules 1 px
+  **outline-only along its whole length**, with the label "end not recorded" trailing and
+  repeated at each Lok Sabha rule it crosses [UX review] (U11); role edges with the same
+  `s`, `t` and `lab` share one lane row, each record still drawn and listed with its tier
+  (grouped by id, not merged; E20); party as text only; Lok Sabha rules 1 px
   solid, assembly rules solid and 50% lighter (dotted is the analytic dash; D19); the span
   before the first recorded Lok Sabha row shaded "general elections before {firstYear} not
   in this register"; future-dated records beyond the `asOf` rule in a shaded "after the
@@ -593,22 +708,33 @@ Then: "Rose marks a response or denial, never 'bad'. Amber marks something not r
 - **Union budgets:** the text line "Union budget dates are not a dataset in this build.
   {datedActs.length} dated Finance Ministry acts are drawn as ticks; no other budget mark
   is drawn." No marks are invented (D18).
-- **Small multiple beside the lanes: "Month of approval"** — a 12-bar histogram of census
-  approvals by calendar month (`approvalsByMonth`). Caption: "Lenders approve on their board
-  calendars. Any clustering by month is one boring explanation for clustering by anything
-  else." No figure is asserted (D18).
+- **Small multiple beside the lanes: "Month of approval"** (its own `h3`) — a 12-bar
+  histogram of census project approvals by calendar month (`approvalsByMonth`). [UX review]
+  (U9) Caption: "n = {projects} census projects with an approval month recorded; {undated}
+  projects with no month recorded are not drawn. Lenders approve on their board calendars.
+  Any clustering by month is one boring explanation for clustering by anything else." No
+  other figure is asserted (D18). **Twin:** month · census projects approved · of
+  {projects} · share only when {projects} ≥ 10; under the §5 twin contract; exported with
+  the year table.
 - **No computed window.** The page counts no "months before an election". The lending-
   follows-the-party narrative sits on the ladder with its rating.
 - **Caption C4:** "General elections recorded in the register: {years}. Earlier ones are
   absent from the file, not from history. Dated Finance Ministry acts recorded:
   {datedActs.length}; every other budget and signature is absent from this file. A tenure
   bar covering a loan's date is the date test, not a finding: no record here says a
-  minister approved a loan. {openEnded} tenures have no recorded end date and are drawn to
-  the register date with that label."
+  minister approved a loan. {openEnded} of {windows} recorded windows have no end date and
+  are drawn to the register date, outline only, with that label; every current
+  office-holder is one of them by construction, because a sitting holder's record has no
+  end. This page computes no interval between an approval and an election; the month
+  histogram beside the lanes shows that approvals cluster on board calendars in every
+  year." [UX review] (U11)
 - **Twin:** lanes twin (lane · holder or record · from · to or "end not recorded" · tier ·
   source), the year table (year · projects approved · researched records · election that
   year, winner as text · office-holders whose window covers 1 July, labelled "(mid-year
-  test)"), and the rules list.
+  test)"), and the rules list. [UX review] (U17) The year table iterates **every year**
+  from the first record to `asOf`, not the years with records: a year with none reads `0
+  approvals in the census` (a true census count) and `no researched record`; pipeline
+  years are labelled.
 - **Partial:** rows whose first date is later than the axis start shade the uncovered span
   per row. The axis is never clipped to the covered span.
 - **Empty:** axis drawn; each lane reads `none recorded`.
@@ -642,26 +768,45 @@ Then: "Rose marks a response or denial, never 'bad'. Amber marks something not r
   default`; until then the clause verbatim) · 5 Implementing (benefit `who` resolved; a
   plain name in quotes "(not a node)") · 6 Placed in (state and rule, or the null rule's
   words; G1 adds the basis) · 7 **₹ cr** in mono, or the exact text `amount not stated / in
-  US$ m` (G1 appends `US${usdM} m`); a blend project reads `₹{partial} cr + {k} leg(s)
+  US$ m` (G1 appends `US${usdM} m`); [UX review] (U6) a census ₹ carries the conversion line
+  of `RecordCard` block 2 as its `title` and as a second mono line in the StackTable card;
+  a blend project reads `₹{partial} cr + {k} leg(s)
   without ₹` and never treats the missing leg as 0 · 8 In totals (`counted` · `listed, not
   summed` · `in no total`; G1: `not a commitment: {reason}` · `counted under {P}`) · 9
   Instrument · 10 Conditions (count, or `none recorded: the Projects API carries no
   conditions (void)` for census legs) · 11 Contracts (count, or `none linked`) · 12
-  Office-holders at approval (`{person} — {lab} [{tier}]`, open-ended ones with "end not
+  **Office window covers approval (date test)** [UX review] (U11), with §5.1.7's fixed
+  sentence as the header's `title` and in the table caption (`{person} — {lab} [{tier}]`, open-ended ones with "end not
   recorded"; empty: `no recorded window covers {date}`) · 13 Tier · 14 Sources (`Cite`;
   empty → `no source in file` in amber).
 - **Sort:** approval date descending by default; offered: ₹ declared (rows without ₹ last
   and labelled), lender, place. Never a computed ranking (D14).
 - **Paging:** 400 rows per page, page in `tp` (energy C15); `rows {a}–{b} of {k}`, Previous
   / Next; after a page change focus goes to the caption. Paged, never truncated.
-- **Export:** every filtered row with all columns plus `id`, `domain`, `terms` JSON and
-  `d`; TSV `#` header (D39).
-- **Caption:** "One row per record. Blended projects carry an IBRD leg and an IDA leg.
+- **Export:** every filtered row **across all pages** with all columns plus `id`,
+  `domain`, `terms` JSON and `d`; TSV `#` header (D39), whose rows line reads `# rows: {k}
+  (all pages; screen shows {a}–{b})`. [UX review] (U13) After the display columns come
+  machine columns, ids not labels, nulls as empty cells: `id`, `domain`, `inclusion`,
+  `project_key`, `lender_id`, `borrower_id`, `a_cr` (a number or empty; the display text
+  stays in `amount_display`), `from` and `to` as recorded, `date_precision` (`year` /
+  `month` / `day`), `approval_year`, `placement_st` (state code), `placement_rule`,
+  `body_st`, `tier`, `instrument`, `conditions_n`, `contracts_n`, `source_urls`
+  (pipe-joined). The map twin adds `st` codes; the receipts twin adds `fy_start` as an
+  integer and `status`. Every export button reads `Download .tsv — {table name}, {rows}
+  rows` / `Copy as TSV — {table name}`, and the file is named
+  `finance-{lens}-{table}-{asOf}-{runId}.tsv`.
+- **Caption** [UX review] (U7)**:** "One row per record. A record is one lending leg; a
+  blended project has an IBRD leg and an IDA leg.
   Amounts are the lender's commitment at approval, not disbursement. Contracts are a
   sample the research opened, not every contract. Office-holders are those whose recorded
   window covers the approval date: the date test, not a signature."
 - **Empty:** `No loan record matches {filters}.` naming the most-removing filter with a
   one-click reset of it (energy empty state).
+- **[UX review] (U5) Under `st`:** the list renders three labelled groups, none collapsed,
+  each with its count in its heading: `Placed in {State} — state government is the
+  borrower or implementer ({k})`, `Names a body registered in {State} — not placed, not in
+  the fill ({j})`, `Researched records naming {State} government — listed, not summed
+  ({r})`. The three counts equal the map readout's three counts (FG-6).
 
 #### 5.1.6 `RecordCard` (margin; one per `rec`)
 
@@ -669,14 +814,25 @@ Serves loans, contracts, debarments, actions, grants, holdings, awards and rules
 blocks; a block with nothing prints its "none recorded" line; it never disappears.
 
 1. **Header:** `lab`; `s → t` as two buttons ("From: {s}", "To: {t}"); tier chip; lens;
-   record id; copy-citation button. Citation: `{lab} — {tier} — {first source label} {url}
-   — ICIP /finance record {id}, read to {asOf}`.
+   record id; copy-citation button; [UX review] (U14) a visible `Close` button, first in the
+   card's tab order after its `h2`. **Citation** [UX review] (U4): `{lab} — {amount with
+   its kind, or the exact no-amount text}{, US${usdM} m with G1} — approved {from, or
+   undated} — {s label} → {t label} — {tier} — {first source label} {url} — ICIP {deep
+   link}, read to {asOf}`. The deep link is absolute, built at copy time from
+   `location.origin` and the hash route `/finance?lens={lens}&rec={id}`, never hard-coded.
+   The citation is also rendered as visible read-only text (an `<output>`) beneath the
+   button, so it can be read, selected and copied where the clipboard API is refused.
 2. **Amount:** `₹{a} cr — {kind}`, kind from `pred`, never from `d` (energy D1): `loan` "loan
    commitment at the rate stated in the record"; `award` "contract value recorded for the
    award"; `grant` "foreign contribution for the year in the record"; `own` no amount;
    `enforce` "amount attached, fined or alleged". No `a` on a `loan`: exactly **`amount not
    stated / in US$ m`**, then the record's own words from `d`. `a === 0`: `₹0 cr — as
-   recorded` plus "read the record text".
+   recorded` plus "read the record text". [UX review] (U6) Directly under a census ₹
+   figure, always, a second line: with G1 `US${usdM} m at ₹{fxRate}/US$ ({fxBasis})`;
+   without G1 `₹ converted from the lender's US$ commitment at the approval-year rate the
+   record states — the US$ figure and the rate are in the record text ↓` (census `d`
+   carries both, for example `US$… m at ₹…/US$ (WB PA.NUS.FCRF, {year})`), linking to block 11. A
+   researched ₹ reads `₹ as the research recorded it — its basis is in the record text ↓`.
 3. **Inclusion** (loans): `Counted in the census ₹ total` / `Listed, not summed —
    researched record` / `In no ₹ total — amount not stated / in US$ m`; (G1) `Not a
    commitment: {reason}` / `Counted under {P-number}`.
@@ -698,18 +854,31 @@ blocks; a block with nothing prints its "none recorded" line; it never disappear
 12. **Sources:** each tagged `primary`, `secondary` or `parliament`; `upgradeIf` and `killIf`
     when present.
 13. **Superseded by / supersedes:** links, when present.
+14. [UX review] (U14) **Foot:** a `Back to {origin}` link, which clears `rec` and returns
+    focus and scroll to the invoking control.
+
+[UX review] (U14) **Placement below 640 px:** the card renders inline directly after the
+row or control that opened it (the `StackTable` expandable-row model), never as a bottom
+sheet; a `rec` with no opener on screen renders directly under the Find block, with one
+`scrollIntoView` and the live-region message `Record {lab} opened` (D49).
 
 #### 5.1.7 `OfficeOnDate` (inside `RecordCard`; also column 12 of `ProjectList`)
 
 - **Reads:** `officeOnDate(e.from, [e.s, e.t, benefit.who, placedStateNodeId, MOF])`.
-- **Three sub-blocks, always rendered:** "Tenure covers {date}" · "Start recorded, end not
-  recorded — the record does not say whether they held office on {date}" · "Acts recorded
-  on {date}". Each row: holder, office (`lab`), from–to, tier. An empty sub-block reads
-  `none recorded`.
-- **Fixed sentence:** "Holding office on the approval date is the date test, not a finding.
-  No World Bank record in this register names a minister as signatory; the research file
-  records that agreements are signed by officials of the Department of Economic Affairs."
-  The void it summarises (`FINANCE_VOIDS`, domain `worldbank`) is linked.
+- **Fixed sentence, first** [UX review] (U11): "Holding office on the approval date is the
+  date test, not a finding. No World Bank record in this register names a minister as
+  signatory; the research file records that agreements are signed by officials of the
+  Department of Economic Affairs." The void it summarises (`FINANCE_VOIDS`, domain
+  `worldbank`) is linked. It renders **above** the sub-blocks.
+- **Three sub-blocks, always rendered:** "Recorded office window covers {date} — the date
+  test, not a signature" · "Start recorded, no end recorded — held office from {from}; the
+  record gives no end date" · "Acts recorded on {date}". [UX review] (U11) The second
+  heading no longer says the record "does not say whether they held office": that implies
+  a doubt the record does not express, and every sitting office-holder falls in this block
+  by construction. Each row: holder, office (`lab`), from–to, tier. Role edges with the
+  same `s`, `t` and `lab` are one entry, `×{k} records, tiers {…}`, each record still listed
+  with its tier and source (grouped by id, never by name; not merged, E20). An empty
+  sub-block reads `none recorded`.
 
 #### 5.1.8 `ContractsTable` (section `id="contracts"`)
 
@@ -721,8 +890,9 @@ blocks; a block with nothing prints its "none recorded" line; it never disappear
   and prices **as the `d` states them, verbatim, never parsed** · How it benefited (`how`) ·
   Debarment status of the contractor if any · Tier · Sources.
 - **Second table:** "Awards not keyed to a World Bank project id ({n})", grouped by awarder.
-- **Denominator line:** `{CONTRACTS.length} contract awards recorded, under {projects}
-  projects of {census} census projects · {unattached} not linked to a project. Award
+- **Denominator line** [UX review] (U8)**:** `{CONTRACTS.length} contract awards recorded,
+  under {projects} of {censusProjects} census projects · {unattached} not linked to a
+  project. Award
   notices publish a bid count for {k} of {n} sampled notices (base rate, contracts).`
 - **Caption C6:** "These are contracts the research opened, not every contract under these
   loans. After 2016 the World Bank publishes only the winning firm for most notices, so
@@ -738,9 +908,10 @@ blocks; a block with nothing prints its "none recorded" line; it never disappear
   edge, never a sentinel) · Firm (button; label + `sub`) · Ground as recorded (`lab`, `d`) ·
   Also an awardee in this register (yes / no) · Tier · Response (joined, or the exact
   sentence at the same size as the ground) · Sources.
-- **Denominator line:** `{DEBARMENTS.length} World Bank debarments of India-based firms
-  recorded · {overlap} of them also appear as awardees in this register's
-  {CONTRACTS.length} contracts`. The `contracts` base-rate rows print beneath, verbatim
+- **Denominator line** [UX review] (U8)**:** `{DEBARMENTS.length} World Bank debarments of
+  India-based firms recorded · {overlap} of {distinctDebarredFirms} debarred firms appear
+  among the {distinctContractors} distinct contractors in this register's
+  {CONTRACTS.length} awards`. The `contracts` base-rate rows print beneath, verbatim
   (Indian entries on the sanctions list, affiliate rows), so the reader sees the recorded
   rows against the list.
 - **Caption C7:** "A debarment is the Bank's own sanctions decision, not a court finding.
@@ -759,12 +930,47 @@ blocks; a block with nothing prints its "none recorded" line; it never disappear
 
 #### 5.1.11 `DebtContext` — India's external debt (section `id="debt"`; from A L8)
 
-- **Reads:** `FINANCE_BASE_RATES` and `FINANCE_VOIDS` where `domain === 'debt-imf-people'`.
+- **Reads:** `FINANCE_BASE_RATES`, `FINANCE_VOIDS` and ([UX review] (U22)) `FINANCE_SYMMETRY`
+  where `domain === 'debt-imf-people'`.
 - Energy `BaseRateTable`, rows verbatim; a `null` numerator or denominator prints `not
   computed in this file`, never a dash.
+- [UX review] (U22) The `debt-imf-people` symmetry text renders directly under the table,
+  at body size, in the same section; a row with a `null` figure carries the chip `figure in
+  the research file's wording, not computed by this page`.
 - **Caption:** "What the loans above are part of. The official external-debt status reports
   were unreachable from this environment; these rows come from World Bank series."
 - **Empty:** `No external-debt context rows in this build.`
+
+#### 5.1.12 `StatePanel` (margin; one per `st`) [UX review] (U5)
+
+Named in §3.4, §4, §7 and §17, and specified here so that the builder has nothing to
+improvise.
+
+- **Reads:** `placement`, `bodyState`, `CENSUS`, `RESEARCHED`, `assemblyFor(st)`, `nodeOf`,
+  `FINANCE_SYMMETRY` domain `worldbank-projects`; G1.
+- **Heading** (`h2`): the state's label; then `Close` (U14) and `Copy link`.
+- **Rule line:** "Placed means the record names this state's government as borrower or
+  implementer."
+- **Three counts, always rendered:** `{k} census records placed` · `{j} name a body
+  registered here — not placed, not in the fill` · `{r} researched records name this state
+  government — listed, not summed`; then `₹{placed} cr counted of these · {excluded}
+  placed records without ₹ in no total`.
+- **Placed records** (strict; with G1 the fetcher-rule records follow as a separate list
+  headed with their basis): each with approval date, lender, ₹ or the exact no-amount
+  text, and Open record. Beside each, as text, the assembly-election winner whose window
+  covers the date, from `assemblyFor(st)`, labelled `(date test, not a finding)`, or `no
+  assembly election in the register covers {date}`. **No count, total or share per party
+  is computed.**
+- **Body-registered records** (the stipple): each with `not where the money went`.
+- **Researched records naming the state government:** listed, never summed.
+- **Symmetry:** the `worldbank-projects` symmetry text's sentence on state income
+  category, verbatim, with `wording: worldbank-projects research file`, when it exists.
+- **Actions:** `Show these in the table` (scrolls to `ProjectList`, already filtered by
+  `st`, and focuses its caption); `Show connections` for the state's node where one
+  exists.
+- **Associations lens:** the same heading and a rule line reading "registered in, not
+  where it works"; the count of case files whose target is registered here, each linked.
+- **Empty:** `No loan record names {State}. This is a statement about the register.`
 
 ### 5.2 Associations lens
 
@@ -777,7 +983,10 @@ blocks; a block with nothing prints its "none recorded" line; it never disappear
   zero-height bar; D21); a superseded figure is a short horizontal tick across the slot at
   its value, dashed per its tier, `<title>superseded by {id}</title>`; a multi-FY row is a
   bracket spanning its years labelled `₹{a} cr, {fyStart}–{fyEnd}, one figure`, never a
-  bar; a mono source-class chip (`parliament` / `primary` / `secondary`) under each bar;
+  bar; [UX review] (U30) under each bar a mono chip carrying the first source's label prefixed by
+  its class (`{class} · {label}`), truncated at 24 characters with the full label in
+  `title`; each bar's readout (hover, focus, first tap) and its button name read `₹{a} cr,
+  FY{fy}, {tier}, {first source label}`;
   two current rows for one FY draw as two thin bars with "two current figures for {fy} —
   see the table". Nominal ₹, and the axis says so.
 - **Caption C8:** "What registered associations reported receiving from abroad, as totals
@@ -787,7 +996,10 @@ blocks; a block with nothing prints its "none recorded" line; it never disappear
   dates), so a superseded figure is kept and marked. The FCRA portal is unreachable from
   this environment; totals come from Parliament answers and press reports of Ministry
   statistics, and the tier says which."
-- **Twin:** every `NATIONAL` row, superseded included: FY · ₹ cr · Tier · Status (current,
+- **Twin:** [UX review] (U17) every FY in `FY_AXIS` has a row, followed by every other
+  `NATIONAL` row, superseded and multi-FY included; an FY with no current row prints `no
+  national total recorded` in the ₹ cell and `not in the register` as Status, never a
+  blank or 0. Columns: FY · ₹ cr · Tier · Status (current,
   or `superseded by {id}`) · Source class · Sources · Record text. Second table:
   `SECTOR_DONORS` ("Donors to the sector as a whole, where the record names them": donor ·
   FY · ₹ cr · tier · sources). Third table (from A): `REGISTRATIONS` — registrations and
@@ -834,23 +1046,41 @@ blocks; a block with nothing prints its "none recorded" line; it never disappear
   aggregate `enforce` rows, one each, `lab` and window verbatim, tier, source. Header:
   "These counts overlap and use different windows. They are never added." The
   `fcra-actions` base-rate rows sit beneath, including the row that sets the named case
-  files against all cancellations.
-- **Caption C9:** "Every enforcement action on the record, against every association the
-  research examined, government-aligned and critical alike. The named cases are a small,
-  chosen set: {named} named case files against {all} cancellations counted by the
-  Ministry (base rate beside). Most cancellations were for not filing returns. A square is
-  an action, not a finding of wrongdoing. The kind of action (suspension, cancellation,
-  refusal to renew) is quoted from the record, not classified by this page." `named`/`all`
-  come from the `fcra-actions` base-rate row with both values non-null; otherwise that
-  sentence is omitted.
+  files against all cancellations. [UX review] (U12) Below `xl` the population row, this
+  table and the base-rate rows render between C9 and the first case file, before
+  `ActionsList`, never after it.
+- **Caption C9** [UX review] (U12, U10)**:** "Every enforcement action in the register.
+  Case files are the {caseFiles} targets with a recorded action; {noAction} further
+  entities in the register have none recorded, and are listed below the lanes. The named
+  cases are a small, chosen set: {named} named case files against {all} cancellations
+  counted by the Ministry (base rate beside). The named case files count any recorded
+  action; the Ministry's figure counts cancellations only, so the numerator is wider than
+  the denominator and the share is an upper bound on named cancellations. Most
+  cancellations were for not filing returns. A square is an action, not a finding of
+  wrongdoing. The kind of action (suspension, cancellation, refusal to renew) is quoted
+  from the record, not classified by this page." `named`/`all` come from the
+  `fcra-actions` base-rate row with both values non-null; otherwise those two sentences are
+  omitted. The phrase "government-aligned and critical alike" is withdrawn: the
+  `fcra-actions` symmetry text records that aligned associations were not examined in that
+  file.
+- **[UX review] (U12) Under the lanes: "In this register, no enforcement action recorded
+  ({noAction})"**, from `noActionTargets`: label, `sub`, `no enforcement action recorded
+  in the register — not a finding that none occurred`, and Show connections. Beneath it,
+  the `fcra-actions` and `political-trusts` symmetry texts verbatim, with the
+  `political-trusts` voids linked.
 - **Twin:** `ActionsList`.
 - **Empty:** axis plus `No enforcement action recorded.`
 
 #### 5.2.4 `ActionsList` (the reading surface; the timeline's twin)
 
 - One `<section aria-labelledby>` per lane with an `h3` (target label; `(registered in
-  {st})` when recorded; "Show connections"). Rows date-ordered, one `<dl>` each:
-  - **Action:** date · actor (`s` label) · `lab` · tier chip · `d`.
+  {st})` when recorded; "Show connections"). [UX review] (U3) The section's `id` is
+  `case-{targetId}`, the target of Find's `Go to case file`; its header carries `Copy link
+  to this case`. Rows date-ordered, one `<dl>` each:
+  - **Action:** date · actor (`s` label) · `lab` · tier chip · `d` · [UX review] (U4)
+    **Sources** (`Cite`, every source, never truncated; empty → `no source in file` in
+    amber) · `Copy citation` (the §5.1.6 format). Each response row carries the same two
+    cells.
   - **Stated ground:** the alleged-ground edges render in the same row form with their own
     tier and dash; nothing collapses them into the action they explain.
   - **Response:** each joined contra (`Response from {responder} [{tier}], {date or
@@ -862,7 +1092,12 @@ blocks; a block with nothing prints its "none recorded" line; it never disappear
   size and weight** (FG-11).
 - **Case-file header line:** `{actions} actions · {responded} with a response to that claim`.
 - **Filters:** `st` (recorded state), `tier`, `y` (calendar year of `from`); a case file
-  with any action in view keeps all its rows, the in-view rows marked.
+  with any action in view keeps all its rows, the in-view rows marked. [UX review] (U31)
+  The mark is never only visual: each row's `<dl>` begins `Filter: in view` or `Filter:
+  outside {y | tier | st} — shown for context`, and while a filter is set the case-file
+  header reads `{actions} actions · {inView} in view under the current filters ·
+  {responded} with a response`. (U23) A stated-ground row stays with its action whatever
+  the tier filter, in its own dash.
 - **Export:** one row per action, responses concatenated with `‖`.
 
 #### 5.2.5 `GrantsNamed` (section `id="grants"`) and the donor → association graph
@@ -961,7 +1196,12 @@ blocks; a block with nothing prints its "none recorded" line; it never disappear
   words is a TSV only.
 - **Mobile (< 640):** transposed to company rows × Band A columns (`{BAND_A.length}` × 32 px
   + a 110 px sticky label); Band B as a per-row mono line `also named: {labels}`; holder
-  short labels rotated 90° with full names in the accessible names (D32).
+  short labels rotated 90° with full names in the accessible names (D32). [UX review]
+  (U28) Every name in an `also named:` line is a button that sets `holder` (announced).
+  When `holder` is a Band B holder, the transposed grid adds that holder as **one extra
+  accented column after Band A**, labelled `(selected)`, so its cells read beside the
+  comparison set, never in place of it; Band A stays. The rail's Holder select is the
+  second route.
 - **Empty:** `CAPITAL_META.empty` hatches every column, keeps Band A's rows, reads
   `Register not yet promoted`.
 
@@ -983,8 +1223,9 @@ blocks; a block with nothing prints its "none recorded" line; it never disappear
   the Union: mandates and sales". Sales and mandates are not split (no field distinguishes
   them; `lab` says which).
 - **AdviserComparison:** rows = `ADVISERS` alphabetical, Rothschild & Co among them (G3c:
-  the declared adviser-comparison set); columns: awards recorded as awardee · analytic
-  records naming it · narratives about it on the ladder (by node id in narrative sources,
+  the declared adviser-comparison set); columns ([UX review] (U8) headed `records in this register (computed here)`, each
+  count cell prefixed `in this file:`): awards recorded as awardee · analytic records
+  naming it · narratives about it on the ladder (by node id in narrative sources,
   else `not linked`) · "no mandate recorded in this file" where zero · Show connections. The
   `mandates-ventures` base-rate rows print beneath (league-table appearances).
 - **Caption C12:** "A mandate is a public appointment; it is not a finding about the
@@ -1027,14 +1268,33 @@ blocks; a block with nothing prints its "none recorded" line; it never disappear
   the gap is counted in What this lens cannot show."
 - **Empty:** `No rule recorded in this build.`
 
+#### 5.3.6 `HolderCard` (margin; one per `holder`) [UX review] (U29)
+
+Named in §3.4, §4, §7, E39, E40 and §17, and specified here.
+
+- **Reads:** `nodeOf(holder)`, `BAND_A`, `BAND_B`, `OWN_IDX`, `OWN_OUTSIDE`, `lineKind`,
+  `MANDATES`, `responsesTo`.
+- **Heading** (`h2`): the holder's label, with `sub` and its role: `comparison set (Band
+  A)`, `other holder with a recorded line`, or `no recorded line in a NIFTY 50 filing`;
+  then `Close` (U14).
+- **The comparison note** of §5.3.1, verbatim.
+- **One `<dl>` per `own` edge**, in `OWN_IDX` and then `OWN_OUTSIDE`: company · kind
+  (`filing line`, or `aggregate, analytic, lower bound`) · date · tier · `d` verbatim (the
+  percentage as filed, quotable and never parsed, so D26 holds) · first source link · Open
+  record · `Copy citation` (the §5.1.6 format).
+- **Mandates** naming the holder, for an adviser (E40).
+- **Empty:** `No holding recorded for {holder} in this register.`
+
 ### 5.4 Per-lens sections (every lens)
 
 #### 5.4.1 Would the same lens alarm us elsewhere? (`id="baserates"`)
 
 The lens module's `BASE_RATES`, one energy base-rate card per row grouped by `domain`;
 `{numerator} of {denominator}`, a Wilson 95% whisker only when both are integers and the
-denominator ≥ 10 (energy D11); label verbatim; `null` → `not computed`. The lens module's
-`SYMMETRY` texts follow, verbatim, headed by domain.
+denominator ≥ 10 (energy D11); label verbatim; `null` → `not computed`. [UX review] (U22) Each domain's
+`SYMMETRY` text renders verbatim directly beneath that domain's cards, in the same section
+element, never in a separate list; a `null` row carries the chip `figure in the research
+file's wording, not computed by this page`.
 
 #### 5.4.2 Narratives, rated (`id="narratives"`)
 
@@ -1075,7 +1335,8 @@ findings' type size (`GapsPanel`), directly after the lens's sections. Each void
   under two ids until reconciled. {dropped} edges with an endpoint outside every register
   are not drawn. This graph's own filters (`q`, `pred`, `from`–`to`) are its own; the
   page's year control does not reach it." A button "Apply {y} to the graph" writes the
-  graph's `from`/`to`.
+  graph's `from`/`to`. [UX review] (U24) When `famSplits` is not empty, the status line adds
+  the §5.0.6 sentence on inconsistent hue.
 - **A `sel` that only census legs reach** (a state implementing agency): the heading line
   reads "{label} appears only in the World Bank project table, which is not drawn in the
   graph. Show its projects →" (sets `st` or filters `ProjectList`). Never a silent no-op.
@@ -1111,7 +1372,9 @@ recorded.` Empty: `No alleged claims in this lens.`
   - "Whether researched loan records duplicate each other is not recorded" (G1 absent)
   - "API population totals not exported" (G2 absent)
   - "Conditions recorded for {withCond} of {LOANS.length} loan records"
-  - "{openEnded} office windows at the Ministry of Finance have no recorded end"
+  - "{openEnded} office windows at the Ministry of Finance have no recorded end; the register
+    does not distinguish a holder still in office from an end not researched, so every
+    current office-holder is among them" [UX review] (U11)
   - "{uncovered} approvals fall where no recorded office window exists"
   - "Union budget dates are not a dataset in this build"
   - "{fyMissing} financial years in {FY_AXIS range} have no national FCRA total"
@@ -1126,6 +1389,8 @@ recorded.` Empty: `No alleged claims in this lens.`
   - "{RULES_CAP.length − withBenefit} of {RULES_CAP.length} rules carry no cui-bono row"
   - "{unansweredAll} alleged claims carry no recorded response"
   - "{splitIds} institutions appear under two ids ({pairs}) and are not merged by name"
+  - [UX review] (U24) "{k} {ty} nodes carry different actor families across research files
+    ({pairs}); their hue is inconsistent and means nothing" (when `famSplits` is not empty)
 - Header line: "{v} voids and {g} gaps recorded by the research, and {d} derived by this
   page." Grouped by lens, then domain. Same type size as findings. Never collapsed.
 
@@ -1150,14 +1415,15 @@ shown. Then `TierLegend` and the standing note from HANDOFF "Standing", verbatim
 | State | `<select>`, 36 states alphabetical with counts in the active lens; zero-count shown `(0)` and `aria-disabled`, never hidden | `{N} → {k}`, plus "placed by state government only" (Loans) or "registered state, not where it works" (Associations); "does not apply to this lens" (Capital) | the control states the placement rule on its label |
 | Lender | `<select>` grouped "World Bank (census)" / "Researched sample", with counts | `{N} → {k} records`; a sample lender adds the sample sentence | — |
 | Holder | `<select>`: Band A first, then Band B, with line and aggregate counts | "highlights; never isolates" | emphasises only (D33) |
-| Tier | four toggles with dash swatches (`aria-hidden`; the word is the label) | `{N} → {k}` for the lens population, plus "also filters the connection graph" | responses are re-admitted when their claim is shown (D35) |
-| Map metric / scale | segmented | per option: `₹ counted: {cc} records` / `records placed: {n}` / (G1) `US$ m: {k} records` | `usd` `aria-disabled` without G1 |
+| Tier | four toggles with dash swatches (`aria-hidden`; the word is the label) | `{N} → {k}` for the lens population, plus "also filters the connection graph" | responses are re-admitted when their claim is shown (D35); [UX review] (U23) on Associations the effect line adds `grounds and responses stay with their action` |
+| Map metric / scale | segmented | per option: `₹ counted: {cc} records` / `records placed: {n} census` [UX review] (U21) / (G1) `US$ m: {k} records` | `usd` `aria-disabled` without G1 |
 | Flow middle | segmented | `instrument` / `sector` with its coverage | `sector` `aria-disabled` without G1 |
 | Reset | button | clears page params except `lens` and `view` | never touches the graph's params |
 | Copy link · Table view | button · toggle (`aria-pressed`) | `Link copied` | — |
 
 Every change announces `from {N} to {k} {unit}` through the one live region (welfare
-U21). **The rail refuses** (a fixed muted line at its foot, energy D19): "Not offered:
+U21). [UX review] (U18) The visual `{N} → {k}` beside each control keeps its arrow
+`aria-hidden`; the control's `aria-describedby` text uses the words. **The rail refuses** (a fixed muted line at its foot, energy D19): "Not offered:
 party, religion, donor-country and 'risk' filters — why →", linking to `#refusals`.
 
 ---
@@ -1166,21 +1432,25 @@ party, religion, donor-country and 'risk' filters — why →", linking to `#ref
 
 | verb | trigger | writes | result | focus |
 |---|---|---|---|---|
-| Open record | a record label anywhere | `rec` | `RecordCard` in the margin | the card's `h2`; Escape returns |
+| Open record | a record label anywhere; [UX review] (U3) a Find result, which also writes `lens` when the record is in another lens | `rec` | `RecordCard` in the margin (below 640, inline after its opener: U14) | the card's `h2`; `Close`, `Back to {origin}`, or Escape with focus inside the card returns |
 | Show connections | an entity button anywhere (lender, association, adviser, contractor, holder) | `focus`, `hops=1`, `sel` | scroll to `#connections`, node in focus | the graph detail heading; "Back to {origin}" |
+| Go to case file [UX review] (U3) | a Find entity row whose id is a case-file target | `lens=associations` when needed | scroll to `#case-{id}` with `scroll-margin-top` = the pinned stack; announced | the case file's `h3` |
+| Show loans placed here [UX review] (U3) | a Find entity row whose id is a `ty: 'state'` node | `st` | as Select state | the `StatePanel` `h2` |
 | Filter | rail controls | the param | `{N} → {k}` announced | stays on the control |
 | Highlight holder | matrix row label; Find | `holder` | row accent, `HolderCard`, the comparison note | the card's `h2` |
 | Select state | map (click, or Enter on an option); select | `st` | `StatePanel`; list filtered; clicking the selected state clears it | the panel `h2`; Escape clears |
 | Not placed | `UnionBar` segment | in-page | `ProjectList` filtered to unplaced records, announced | stays |
 | Band | a flow ribbon | in-page | `ProjectList` filtered to the band's records, announced | stays |
-| Brush years | clock drag, or Shift+arrows on the focused axis | `y` | all lens surfaces | stays |
+| Brush years | clock drag, pointer only; [UX review] (U32) not in the tab order, and the rail's Year From/To selects are the keyboard route (D48) | `y` | all lens surfaces, announced | stays |
 | Copy citation | `RecordCard` | — | clipboard; `Citation copied` | stays |
-| Export | "Copy as TSV" / "Download .tsv" above every twin | — | `Table copied, {rows} rows` | stays |
+| Export | `Copy as TSV — {table name}` / `Download .tsv — {table name}, {rows} rows` above every twin [UX review] (U13) | — | `{table name} copied, {rows} rows` | stays |
 | Change lens | tab | `lens`; clears `rec` | the lens panel mounts; `y`, `st`, `tier`, `find`, `sel` persist | the lens heading |
-| Escape | anywhere | — | closes the open expandable row, then the margin panel, then clears the latest selection (`rec`, then `holder`/`st`) | the invoking control |
+| Escape | [UX review] (U14) focus inside an expandable row or a margin panel, and nowhere else | — | closes that row, or that panel (clearing its param); never clears `st` or `holder` from focus elsewhere, so a screen reader's Escape out of forms mode changes nothing (D49) | the invoking control |
+| Close / Back [UX review] (U14) | a panel's `Close` button or `Back to {origin}` link | clears `rec`, `st` or `holder` | the panel closes, announced | the invoking control, scrolled into view |
 
 Coarse pointers: the first tap on a map state, a ribbon, a timeline square or a lane bar
-shows its `title` text in a reserved one-line readout under the graphic; a second tap, or
+shows its `title` text in a reserved readout under the graphic (one line where it fits; a
+block of up to four lines below 640 px, [UX review] (U34)); a second tap, or
 the "Open state" button, acts (energy D30). Copy is device-neutral ("open", "choose"),
 never "hover" or "click" (energy D33). Reduced motion: no transitions on fill, no animated
 scroll, no graph warm-up beyond what `GraphExplorer` already honours.
@@ -1268,7 +1538,7 @@ never a figure. Every caption says what the graphic cannot show.
 
 | state | render |
 |---|---|
-| Loading | Only the lazy route chunk and the lazy graph; the modules are in the main bundle through `DataContext`. Route fallback: PageTitle + Standfirst. Graph fallback: a 620 px block "Drawing the connection graph…" stating the node and edge counts it will draw |
+| Loading | Only the lazy route chunk and the lazy graph. [UX review] (U1) The three modules' `_NODES` and `_EDGES` are already in the entry chunk, because `DataContext` merges them into the shared graph for every route (a platform decision this page does not change; §18 risk 12). Everything else the page reads (`_EDGE_DOMAIN`, `_BENEFITS`, `_VOIDS`, `_NARRATIVES`, `_BASE_RATES`, `_SYMMETRY`, `_GAPS`, `_IDENTITY`, `_META`, `WELFARE_*`, `financeView.ts`, `src/components/finance/*`) must reach the reader only in the `/finance` chunk. A bundler places each module in one chunk, so until G5 splits the generated modules the page-only exports ride in the entry; FG-50 prints that growth rather than hiding it, and fails on any page code in the entry. Route fallback: PageTitle + Standfirst. Graph fallback: a 620 px block "Drawing the connection graph…" stating the node and edge counts it will draw |
 | A module `META.empty` | Full chrome. A `Callout label="Register not yet promoted"` under the Standfirst when the active lens's module is empty; the strip reads `register not yet promoted · nothing below is zero`; maps hatched; the matrix hatched with Band A rows kept; every section `Nothing recorded yet.` Smoke passes (FG-2) |
 | Export absent (G1–G3c, P5) | the specific interim state named per component in §5, and the derived gap line |
 | Partial years (common) | Loans: the clock runs from the first record to `asOf`, years with no approvals are empty columns and rows with later first dates shade their uncovered span. Associations: `FY_AXIS` includes the missing FYs as hatch. Every partial caption states the covered range inside the drawn range |
@@ -1302,7 +1572,7 @@ never a figure. Every caption says what the graphic cannot show.
 | E16 | `y` with no approvals | list | empty state naming adjacent years with links; `y` unchanged |
 | E17 | `lender` is a sample lender while viewing the map | map | note "{lender} is not painted: the map fills from the World Bank census; its {n} records naming a state government are counted in the readout" |
 | E18 | Sector label differing only by taxonomy prefix (G1) | flow | separate nodes (D9) |
-| E19 | Open-ended tenure from 1991 overlaps a 2020 approval | `OfficeOnDate`, clock | listed under "Start recorded, end not recorded", never under "Tenure covers"; bar to `asOf` with its label; the fix belongs in the research file |
+| E19 | Open-ended tenure from 1991 overlaps a 2020 approval | `OfficeOnDate`, clock | listed under "Start recorded, no end recorded" [UX review] (U11), never under "Recorded office window covers"; bar to `asOf`, outline only, labelled at each Lok Sabha rule it crosses; the fix belongs in the research file (X17) |
 | E20 | Two role edges for the same person and office from two files | clock, card | both drawn and listed, each with its tier and source; not merged |
 | E21 | No window covers an approval date | list, card | `no recorded window covers {date}`; counted in the derived gap |
 | E22 | Lok Sabha elections before 2004 | clock | the span is shaded "not in this register"; no rules invented |
@@ -1337,7 +1607,7 @@ never a figure. Every caption says what the graphic cannot show.
 | E51 | Mandate fee null / zero / Re 1 | mandates | `fee not disclosed` / `₹0 cr — as recorded` / `Re 1 bid (estimated)` as recorded; never blank |
 | E52 | Licence with one date | licences | shown and not timed: `one date not recorded` |
 | E53 | Same narrative in two files with different ratings | ladder | both listed, file named; never de-duplicated |
-| E54 | `rec` belongs to another lens | margin | the card opens with "belongs to the {lens} lens — go there"; the page does not switch lens itself |
+| E54 | `rec` belongs to another lens | margin | the card opens with "belongs to the {lens} lens — go there"; the page does not switch lens itself. [UX review] (U3) A Find result is the reader's act: "Open record" there writes `lens` and `rec` together |
 | E55 | `sel` reachable only through census legs | graph | the heading line and "Show its projects →" (§5.5.1) |
 | E56 | `focus` id not in `GRAPH_NODES` | graph | GraphExplorer's own message plus the status line's census sentence |
 | E57 | Graph endpoint resolving in no register | graph | the edge is dropped from the graph only; the count is in the status line |
@@ -1355,10 +1625,14 @@ never a figure. Every caption says what the graphic cannot show.
 
 `useNarrow()` = `matchMedia('(max-width: 639px)')`.
 
-- **Header:** Kicker, title, standfirst, byline, standing line; strip facts 3–6 move to a
-  mono line under the byline.
-- **Pinned stack:** site header + one-line strip + tabs ≤ 140 px (welfare U18). The
-  active-filter line is not sticky.
+- **Header** [UX review] (U27)**:** Kicker, title, standfirst and the standing line. The
+  byline, the "Built from…" line and strip facts 2–6 (U26) move, whole, to a mono list
+  directly under the lens's first figcaption (on Loans, the map's), as welfare D23 moved
+  its byline: moved, not hidden.
+- **Pinned stack:** site header + one-line strip (fact 1 and the as-of date only) + tabs
+  ≤ 140 px, measured by FG-33 (welfare U18). The active-filter line is not sticky. [UX
+  review] (U26) The `ReconciliationLine` is not sticky below 640: it renders as a `<ul>`
+  under the `UnionBar` (§5.0.3).
 - **Tabs:** full-width segmented control, 44 px targets; they wrap to two lines if needed and
   never become a hidden menu.
 - **Find:** full width, directly under the tabs.
@@ -1366,30 +1640,51 @@ never a figure. Every caption says what the graphic cannot show.
   effect line stays outside the collapsed block; native selects.
 - **`LoanMap`:** full width, `clamp(300px, 70vw, 420px)`; hatch pitch in screen pixels; tap →
   readout → "Open state"; the `Open a state` select under the figcaption; the `UnionBar`
-  stacks as two labelled rows; legend swatches ≥ 12 px.
+  stacks as two labelled rows; legend swatches ≥ 12 px. [UX review] (U25) The ReadingKey's
+  texture swatches and tier dashes render under the figcaption, before C1; (U34) the
+  readout is a block, and no on-map state labels are drawn.
 - **`LoanFlow`:** replaced by the two ranked bar lists (D38), band table beneath.
-- **`LoanClock`, `ActionsTimeline`, `RulesTimeline`, receipts:** each scrolls horizontally
+- **`LoanClock`, `ActionsTimeline`, `RulesTimeline`:** each scrolls horizontally
   inside its own container with a sticky 96 px label column; initial `scrollLeft` puts
   `asOf` at the right edge; a mono line `showing {a}–{b}` with "‹ earlier" / "later ›"
   buttons; edge fades. The twin renders by default under each, with the graphic behind a
   `Show the diagram` button where its labels would otherwise halve (D38).
+- **`ReceiptsByYear`** [UX review] (U30)**:** drawn at full width **without** horizontal
+  scroll, because the chart has no label column for a sticky scroll to keep: every FY is
+  drawn with a tick, FY labels on alternate columns; the chips and the hatched-column
+  labels move to a legend line beneath (`hatched: no national total recorded — {FYs}`;
+  `source per FY in the table`); bars keep their tier dash. The twin renders by default
+  beneath (D38).
+- **`ActionsTimeline`** [UX review] (U12)**:** the population row, the never-added table and
+  the base-rate rows come before the first case file (§5.2.3).
 - **`RecordsStrip`:** rows stack; the log axis spans the full width.
 - **`HolderMatrix`:** transposed (company rows × Band A columns, 32 px each + a 110 px sticky
   label); Band B as a per-row mono line; rotated short labels with full names in the
-  accessible names (D32).
-- **Tables:** `StackTable` cards for `ProjectList` (project, amount, placement, awards first;
-  the rest in a disclosure); other tables keep a sticky first column with `{k} columns ·
-  scroll → for the rest`, a right-edge fade, and a wrapper `role="region"` with
-  `aria-label` = the table caption. `ActionsList` and the `RecordCard` response halves
+  accessible names (D32). [UX review] (U28) Each also-named label is a button; a selected
+  Band B holder adds one accented column after Band A (§5.3.1).
+- **Tables:** `StackTable` cards for `ProjectList` (project, amount, placement, awards and
+  sources first; the rest in a disclosure). [UX review] (U2) **`StackTable` cards also for
+  every table that carries a Response, Sources, Innocent-reading or Who-benefits column**
+  (Contracts, Debarments, Conditions and rules, GrantsNamed, WelfareJoin, Mandates,
+  Licences, the rule cards, OutsideIndex, Contested): every field, one `<dl>` per row, the
+  Response block directly under the claim block at the same size and weight (energy A19),
+  never inside a disclosure; a source list is never behind a disclosure either. Only
+  tables with no response or source slot (DebtContext base rates, the matrix column-status
+  twin, the flow band table) keep a sticky first column with `{k} columns · scroll → for
+  the rest`, a right-edge fade, and a wrapper `role="region"` with `aria-label` = the table
+  caption. `ActionsList` and the `RecordCard` response halves
   stack, same size.
 - **Margin panels:** render directly under the component that opened them, with one
-  `scrollIntoView` and `scroll-margin-top` = the pinned stack.
+  `scrollIntoView` and `scroll-margin-top` = the pinned stack. [UX review] (U14) A
+  `RecordCard` renders inline after the row that opened it; a panel with no opener on
+  screen renders directly under the Find block; every panel has `Close` and `Back to
+  {origin}`. (U25) At rest the margin's cards take the positions given in §4.
 - **Graph:** behind `Load the graph` (welfare D21).
 - **Mono floor:** nothing below 12 px.
 - **Gates:** at 360 and 390, `document.scrollingElement.scrollWidth ≤ innerWidth` on every
-  lens, with `view=table`, with `rec` open, and with `holder=cap:blackrock` (FG-31); at
-  390×844 the strip, tabs, rail summary and the `UnionBar` are within the first 844 px
-  (FG-33).
+  lens, with `view=table`, with `rec` open, and with `holder=cap:blackrock` (FG-31); [UX review] (U27) at
+  390×844 the strip, tabs and rail summary are within the first 844 px and the `UnionBar`
+  within the first 1,688 px (FG-33, D50).
 
 ---
 
@@ -1398,25 +1693,55 @@ never a figure. Every caption says what the graphic cannot show.
 - **Landmarks and outline:** `h1` PageTitle; `nav` (filters); `main`; an `h2` per lens panel
   and per section; `aside` (margin) with card titles as `h2` and sub-blocks as `h3`; each
   case file an `h3` in `ActionsList`; `footer`. The strip is `<section aria-label="Denominators">`
-  with a hidden `h2`.
+  with a hidden `h2`. [UX review] (U19) Every stage component has a visible `h3` (§5
+  intro); no heading level is skipped within `main` or `aside`.
 - **Tabs:** WAI-ARIA tabs pattern, manual activation; the panel `aria-labelledby` its tab.
 - **Map:** the `WelfareMap` listbox model (`role="listbox"` of 36 state options, north to
   south; each option's name carries the class and the value; Enter selects, Escape clears;
   SVG shapes `aria-hidden`). This keeps the welfare supersession of `role="img"`.
-- **Flow:** `role="img"` with a name stating the denominator ("{bands} bands, ₹{x} crore
-  across {records} records; {excluded} records without ₹ not drawn; a table follows");
-  ribbons stay focusable buttons; a skip link "Skip the diagram to its table".
+- **Flow** [UX review] (U16)**:** the SVG is `role="group"`, `aria-labelledby` its `h3` and
+  `aria-describedby` a one-sentence denominator ("{bands} bands, ₹{x} crore across
+  {records} records; {excluded} records without ₹ not drawn"). It is never `role="img"`:
+  an image role makes its children presentational, so focusable ribbons inside one are
+  unreachable or announced without context (welfare D33). Each ribbon is a `<button>`
+  named `{from} to {to}: ₹{a} cr across {n} records, {tier}; filters the project list`;
+  paths, node rectangles and labels are `aria-hidden`, their words carried by the buttons
+  and the band table. A skip link "Skip the diagram to its table".
 - **Clock, timelines, receipts, strip:** the drawing is `aria-hidden`; everything it says is
   in the label column's buttons and the twin; a skip link "Skip to the table" before each.
+  [UX review] (U32) Nothing inside an `aria-hidden` drawing is focusable: the clock's brush
+  is pointer-only (§7).
 - **Matrix:** a real `<table>` with `<caption>`, `th scope="col"` on companies, `th
   scope="row"` on holders, band headers as `<th colspan>` rows; cells are buttons with the
   §5.3.1 accessible names; roving tabindex inside the grid (arrows move, Enter opens) and
-  Tab leaves it; selection is `aria-current="true"` plus the visible "(selected)".
+  Tab leaves it; selection is `aria-current="true"` plus the visible "(selected)". [UX
+  review] (U33) Because arrows are intercepted, the table carries `role="grid"` with
+  `aria-rowcount` and `aria-colcount` (band rows counted), so assistive technology expects
+  grid navigation. A cell button's accessible name states only the cell (`filing line ≥1%
+  ×{n}, {tier}, filed {date}` / `aggregate, analytic, lower bound, {n} files, as of {date};
+  no filing names this holder` / `not named ≥1% in the filing recorded` / `no named holder
+  recorded for this company`); holder and company come from the headers. The full
+  sentence of §5.3.1 stays in the twin and in `title`, and FG-19's words are kept.
 - **Response pairs:** one `<dl>` per item; the response is never `aria-hidden` or collapsed.
 - **Graph:** canvas + `GraphA11y` overlay (existing); when `sel` opens it, focus moves to the
   graph section heading.
-- **Live region:** exactly one, polite, debounced (FG-47).
+- **Live region:** exactly one, polite, debounced (FG-47). [UX review] (U18) Its messages
+  and every `aria-describedby` text use words (`from {N} to {k}`), never the arrow glyph.
 - **Unavailable options:** `aria-disabled="true"`, focusable, reason in the accessible name.
+- **[UX review] (U18) Repeated controls name their row.** Every per-row control carries the
+  row's subject in its accessible name (`Open record: {lab}`, `Show connections for
+  {label}`, `Cite {lab}`, `Copy citation for {lab}`, `From: {s label}`, `To: {t label}`,
+  `Show projects placed in {State}`) through a visually hidden span, the short visible text
+  unchanged. Find results are a `<ul>` whose items name the entity or record, its lens and
+  its verbs. No two enabled buttons or links in one table, list or section share an
+  accessible name (FG-49).
+- **[UX review] (U20) Tables.** Every `<table>` on the page, twins and `DataTable`s
+  included, has a `<caption>` stating its name, population and active filters (`{k} of {N}
+  loan records · filters: y=2014–2026, st=kl · page {tp}`); `th scope="col"` / `"row"` on
+  every header; `aria-sort` on the sorted column; sort controls are buttons inside `th`
+  named `Sort by {column}, {currently ascending | descending | not sorted}`. Cells holding
+  several items (office-holders, conditions, contracts) are `<ul>`s.
+- **[UX review] (U15) Twins:** the §5 twin contract.
 - **Text:** `<abbr title="crore">cr</abbr>` on first use per table; numbers `font-mono
   tabular-nums`; contrast ≥ 4.5:1 for text, ≥ 3:1 for hatch, stipple, dotted ground and dash
   strokes against `--color-bg`; the ramp floor ≥ `#2e373f`.
@@ -1495,7 +1820,7 @@ builder has nothing left to choose.
 | D32 | Below 640 px the matrix is transposed (company rows × Band A columns) with Band B as a text line | 50 columns scrolling in a container; A's holder cards | Keeps the grid semantics and the four-row floor visible on a phone |
 | D33 | `holder` highlights and never filters; the "Comparison set required" note appears whenever it is set; fewer than four Band A rows withholds the matrix and the twins still render | a holder filter guarded by a minimum; A's interim that withholds the grid whenever `CAPITAL_CONTROLS` is absent | Review Focus 5 must be structural, not a guard a URL can bypass; the declared set exists today |
 | D34 | Every rule card has a Who-benefits slot; an empty slot reads `No cui-bono row recorded for this rule` in amber with the rule's `d` verbatim beneath; `{k} of {n}` in the frame | hiding the slot; deriving a benefit line from `d` | 0 of 22 rules carry a row; the page does not write research |
-| D35 | The page's `tier` **shares name and format with `GraphExplorer`**, so one tier filter covers every surface; a response is **re-admitted whenever the claim it answers is shown**; the page never reads the graph's other params | A's no page-level tier filter; a separate page tier param | One evidence filter should mean one thing; a tier filter that separates a claim from its denial would break "denials beside claims" |
+| D35 | The page's `tier` **shares name and format with `GraphExplorer`**, so one tier filter covers every surface; a response is **re-admitted whenever the claim it answers is shown**; the page never reads the graph's other params; [UX review] (U23) a **stated ground is re-admitted whenever an action in its case file is shown**, in its own dash | A's no page-level tier filter; a separate page tier param | One evidence filter should mean one thing; a tier filter that separates a claim from its denial would break "denials beside claims" |
 | D36 | The connection graph is the union of the three modules minus the census; `sel` persists across lenses; the status line gives the census count and the identity caveat; a `sel` only census legs reach gets "Show its projects →" | A's per-lens graph presets with `sel` cleared on lens change; feeding the census to the force graph | One selection model; 849 legs from two lenders to one borrower draw two fans that hide value |
 | D37 | Graph presets are links that write the graph's `pred`; the default graph is unfiltered | opening the Associations graph pre-filtered | A pre-filtered default is a silent claim |
 | D38 | Below 640 the Sankey becomes two ranked bar lists from the same bands, band table beneath; other diagrams show their twin by default with `Show the diagram` | scaling the 960 viewBox down | Labels halve; the page must not scroll horizontally |
@@ -1508,6 +1833,9 @@ builder has nothing left to choose.
 | D45 | Tables paginate at 400 rows with `tp` (energy C15) | B's 100; A's cap-and-narrow | House precedent; a cap is truncation |
 | D46 | The standing line about institutions sits in the header on every lens | only in the Capital lens | The trope protection is structural and belongs to the page |
 | D47 | Prerequisites are one table (§3.3) merging A's export shapes with B's fallbacks; G1 is marked as a copy of fields the fetcher already writes and is the smallest first step | two lists; asking for research the fetcher already did | `projects[]` already carries state, sector, instrument, pipeline and totals (F4) |
+| D48 [UX review] (U32) | The clock's brush is pointer-only and outside the tab order; the rail's Year From/To selects are the keyboard route | a focusable axis with Shift+arrows (inside an `aria-hidden` drawing it is reachable and silent); a second slider pair | One keyboard control per parameter; nothing focusable inside a hidden subtree |
+| D49 [UX review] (U14) | Below 640 px a `RecordCard` renders inline after its opener; a `rec` with no opener on screen renders under Find; every panel has `Close` and `Back to {origin}`; Escape acts only when focus is inside | a bottom sheet (energy A17); Escape anywhere | A phone has no Escape; a bottom sheet adds a focus trap and a second scroll context; screen readers press Escape to leave forms mode |
+| D50 [UX review] (U27) | At 390 the byline, the "Built from…" line and strip facts 2–6 move under the first figcaption, **and** FG-33 at 390 asks for strip, tabs and rail summary within 844 px and the `UnionBar` within 1,688 px | an 844 px `UnionBar` gate at 390 (about 870 px of chrome and map precede the bar even after the moves, by the review's estimate) | A gate that is red for a known reason teaches people to ignore it (HANDOFF) |
 
 ---
 
@@ -1528,13 +1856,24 @@ by the test from the generated modules independently of `financeView.ts`.** Crit
 - **FG-RF2.** For every `NGO_EDGES` enforce edge with no `contra` whose `t === 'claim:' + id`,
   its `ActionsList` row and its `RecordCard` contain the exact string `No response recorded
   — asked/not asked unknown` (U+2014). Where another claim in the same case file has a
-  response, the other-claims line follows.
+  response, the other-claims line follows. [UX review] (U12) The block `In this register, no
+  enforcement action recorded` lists every node the test finds (independently) with `ty` in
+  the §3.2 set, not an aggregate, and the target of no enforce edge; C9 does not contain
+  `government-aligned and critical alike`.
 - **FG-RF3.** For every URL in {`/finance?lens=capital`, `…&holder=cap:blackrock`,
   `…&holder=cap:rothschild-co`, `…&tier=reported`, `…&tier=none`, `…&find=BlackRock`, `…&y=2020`},
   the matrix renders ≥ 4 holder rows and every `BAND_A` row; when `holder` is set the text
   `Comparison set required` is visible. Fuzzed `y` over every year present never yields a
   grid with < 4 rows. With a fixture of 3 Band A holders, the grid is absent and the callout
   and both twins are present.
+- **FG-RF5.** [UX review] (U22) Every rendered base-rate row has its domain's `SYMMETRY` text,
+  when one exists, inside the same section element; `political-trusts` is pinned on
+  Associations.
+- **FG-RF6.** [UX review] (U23) Under `tier=documented` on Associations, every visible action
+  row in a case file that has a stated-ground edge still shows that ground row.
+- **FG-RF7.** [UX review] (U24) The test computes the `ty` → `fam` multiplicity over the graph
+  nodes independently; when any `ty` carries more than one `fam`, the derived-gap line and
+  the ReadingKey sentence are present, and otherwise absent.
 
 **Data integrity**
 
@@ -1548,7 +1887,10 @@ by the test from the generated modules independently of `financeView.ts`.** Crit
 - **FG-5.** Every census loan `lab` carries a `P######` token (the token join's precondition);
   the `ReconciliationLine`'s four loan terms sum to `LOANS.length`.
 - **FG-6.** Map fill ₹ + `UnionBar` unplaced ₹ (+ fetcher-rule ₹ with G1) = strip ₹ counted,
-  under five filter combinations.
+  under five filter combinations. [UX review] (U21) Under `m=n`, Σ state counts + the Union
+  row = the census record count under the filters; no researched record adds to a fill.
+  (U5) For five states, the three `ProjectList` group counts under `st` equal the
+  readout's three counts.
 - **FG-7.** No map state is filled by a record whose placement rule is not a state government
   (a fixture with a company borrower in Maharashtra leaves Maharashtra hatched; a Union
   bank registered in UP stipples UP).
@@ -1562,12 +1904,18 @@ by the test from the generated modules independently of `financeView.ts`.** Crit
   rows; the text "Union budget dates are not a dataset in this build" is present; no rule is
   drawn before the first Lok Sabha row.
 - **FG-11.** For an approval covered by an open-ended window, `OfficeOnDate` lists it under
-  "Start recorded, end not recorded" and the list cell contains "end not recorded".
+  "Start recorded, no end recorded" [UX review] (U11) and the list cell contains "end not
+  recorded"; the fixed date-test sentence precedes the three sub-blocks.
 - **FG-12.** `ActionsList` response cells have a computed width ≥ 0.9 × the claim cells'
-  width and the same font size at 1280; stacked at equal size at 390.
+  width and the same font size at 1280; stacked at equal size at 390. [UX review] (U2) At
+  390, Debarments, Mandates, Licences, the rule cards and Contested render as `StackTable`
+  cards whose Response block sits directly under the claim block at the same font size,
+  and no Response or Sources cell lies outside the viewport.
 - **FG-13.** The receipts chart renders a hatched column labelled "no national total
   recorded" for every FY between the first and last recorded FY with no current row; no
-  multi-FY row renders as a bar; every superseded row renders as a tick.
+  multi-FY row renders as a bar; every superseded row renders as a tick. [UX review] (U30) At
+  390 the chart draws every FY with no horizontal scroll; each bar's readout names its first
+  source.
 - **FG-14.** The aggregate-counts table header contains "never added"; no element prints
   their sum.
 - **FG-15.** The welfare join's denominator reads `{k} of {WELFARE_SCHEMES.length}`; every
@@ -1583,14 +1931,27 @@ by the test from the generated modules independently of `financeView.ts`.** Crit
   line per holder yields `1 filing line · 1 aggregate`.
 - **FG-20.** `BAND_A` equals the set of identity ids whose `publicRole` starts with the
   anchored prefix (or, with G3c, the declared rows); the test computes it independently.
+- **FG-25.** [UX review] (U8, U6, U10) No `{…} of {census}` denominator has a project-count
+  numerator (project counts divide `censusProjects`); the debarment overlap reads `of
+  {distinctDebarredFirms}`; every census ₹ in `RecordCard` and `ProjectList` carries the
+  conversion line; no caption prints a percentage without its `a of b` in the same
+  sentence; AdviserComparison's count header contains `computed here`.
 
 **Twins and exports**
 
-- **FG-21.** For each graphic, twin row count = drawn marks (map 36 + 1; flow bands; clock
-  ticks + bars; strip marks; receipts bars + ticks + brackets + hatches; timeline squares;
-  matrix `(BAND_A + BAND_B) × COLUMNS` cells; rules bars).
-- **FG-22.** Every TSV's first lines begin `#` and include `runId` and `asOf`; its data rows
-  equal the on-screen twin rows under the same URL, including when filtered.
+- **FG-21.** [UX review] (U17) For each graphic, twin row count = axis positions ∪ drawn marks
+  (map 36 + 1; flow bands; clock ticks + bars, and the year table one row per year from the
+  first record to `asOf`; strip marks; receipts one row per `FY_AXIS` entry plus ticks and
+  brackets; timeline squares; matrix `(BAND_A + BAND_B) × COLUMNS` cells; rules bars; (U9)
+  the month histogram's 12 bars). Every row for a hatched or empty position carries the
+  null words, never a blank or 0; (U31) no twin cell contains the bare tokens `hatch`,
+  `stipple`, `hollow` or `value`.
+- **FG-22.** [UX review] (U13) Every TSV's first lines begin `#` and include the table name,
+  `runId`, `asOf` and, wherever ₹ appear, `# amounts:`. For a paged table its data rows
+  equal the union of rows over every `tp`; for an unpaged twin they equal the on-screen
+  rows; both under the same URL, including when filtered. Numeric machine columns
+  (`a_cr`, `approval_year`, `fy_start`, the `_n` counts) parse as numbers or are empty,
+  never text.
 - **FG-23.** The `FY_AXIS` includes every FY between min and max.
 - **FG-24.** The lanes twin's "(mid-year test)" column is populated for every year with ≥ 1
   covering window, and reads "no recorded window covers" otherwise.
@@ -1602,12 +1963,15 @@ by the test from the generated modules independently of `financeView.ts`.** Crit
   the four tier dashes are distinct; matrix `line`, `aggregate`, `not-named` and `no-record`
   cells differ in pattern, not only hue.
 - **FG-31.** At 360 and 390, on each lens, with `view=table`, with `rec` open, and with
-  `holder=cap:blackrock`, `document.scrollingElement.scrollWidth ≤ innerWidth`.
+  `holder=cap:blackrock`, `document.scrollingElement.scrollWidth ≤ innerWidth`. [UX review]
+  (U14) The `rec` case runs with `rec` arriving by URL, with no opener on screen.
 - **FG-32.** No element's fill or stroke is keyed to party, country or religion text; the
   words "Rothschilds" and "family" appear only inside narrative claim text or the standing
   line.
-- **FG-33.** At 1280×800 on Loans the `UnionBar` is within the first viewport; at 390×844 the
-  strip, tabs, rail summary and `UnionBar` are within the first 844 px.
+- **FG-33.** At 1280×800 on Loans the `UnionBar` is within the first viewport. [UX review]
+  (U27) At 390×844 the strip, tabs and rail summary are within the first 844 px and the
+  `UnionBar` within 1,688 px; (U26) the pinned stack measures ≤ 140 px; (U25) at rest the
+  texture key is within one viewport of the map's bottom edge.
 
 **URL and interaction**
 
@@ -1617,24 +1981,39 @@ by the test from the generated modules independently of `financeView.ts`.** Crit
   graph detail heading; `sel=fin:ibrd` opens the graph and the status line states the
   census count not drawn.
 - **FG-36.** Changing `tier` on the rail changes the graph's drawn edge count; a claim shown
-  under a tier filter keeps its response visible whatever the response's tier.
+  under a tier filter keeps its response visible whatever the response's tier; [UX review]
+  (U23) and an action keeps its stated ground (FG-RF6).
 - **FG-37.** The page never writes `q`, `fam`, `ty`, `amt` or `path`; changing `lens` keeps
   `y`, `st`, `tier`, `sel` and removes `rec`.
 - **FG-38.** The energy suite stays at 67/67 and the welfare suite at its pinned counts on a
   pinned build after the `TenureLanes` and `WelfareMap` changes.
-- **FG-39.** Every table offers `Copy as TSV`; Escape closes the open row, then the panel, then
-  clears the latest selection, returning focus to the invoking control.
+- **FG-39.** Every table offers `Copy as TSV — {table name}`. [UX review] (U14) `rec`, `st` and
+  `holder` can each be cleared by a pointer control (`Close`, `Back to {origin}`), which
+  returns focus to the invoking control; Escape closes a row or panel only when focus is
+  inside it, and Escape pressed with focus in the rail or in Find changes no param.
 
 **Reader paths (scripted, 1280 and 390)**
 
 - **FG-40.** L-J: type a census record's state fragment, choose the first record; the
   `RecordCard` shows a ₹ with its kind (or the exact no-amount text), a date, a lender, an
   http source, the office block and a response or the exact sentence, in ≤ 3 interactions.
+  [UX review] (U3, U4) It also runs with a fragment yielding more than 8 matches (every
+  Record row contains a date or `undated` and an amount or the exact text) and with a
+  fragment matching a census and a researched record that share a P-number token (both
+  render under one group heading). The copied citation contains a `₹` or the exact text, a
+  date token, an `http` source and an `http` deep link to `/finance`, and the same string
+  is visible in the card.
 - **FG-41.** A-J: type a named association from `ACTIONS`; its block shows each action with a
-  response or the exact sentence, in ≤ 3 interactions.
+  response or the exact sentence, in ≤ 3 interactions. [UX review] (U3, U4) The block is
+  reached through the Find result's `Go to case file`, focus lands on its `h3`, and every
+  action row contains an `http` source (or `no source in file`) and a `Copy citation`; at
+  1280 and at 390.
 - **FG-42.** C-J: activate Associations, then Capital, then the BlackRock row label; Band A is
   visible, the row is accented, the note is visible, and the row summary distinguishes
-  filing lines from aggregates, in ≤ 3 interactions.
+  filing lines from aggregates, in ≤ 3 interactions. [UX review] (U28, U29) At 390 the route
+  is an `also named:` button, and BlackRock appears as one accented column after Band A. At
+  both widths `HolderCard` shows each of BlackRock's `own` edges' `d` verbatim and an `http`
+  source.
 
 **Accessibility**
 
@@ -1645,6 +2024,22 @@ by the test from the generated modules independently of `financeView.ts`.** Crit
 - **FG-47.** Exactly one `aria-live` region.
 - **FG-48.** The gaps panel's font size equals the findings' body size, and it lists every
   `*_VOIDS` entry of the lens.
+- **FG-49.** [UX review] (U15, U16, U18, U19, U20) A structural check with no new dependency,
+  on each lens and panel state in FULL and EMPTY: (1) every closed `<details>` exposes 0
+  text characters and 0 tabbable descendants to the accessibility tree; after its summary
+  is activated every control inside is tabbable; under `view=table` every twin is open;
+  (2) no focusable element inside a `role="img"` or `aria-hidden` subtree; (3) every
+  `<table>` has a non-empty `<caption>`; (4) heading levels never skip within `main` and
+  `aside`; (5) no two enabled buttons or links within one table, list or section share an
+  accessible name; (6) every `aria-describedby` id resolves; (7) no live-region message or
+  description contains `→`.
+
+**Loading**
+
+- **FG-50.** [UX review] (U1) The test builds with and without the `/finance` route and prints
+  both entry-chunk gzipped sizes and the `/finance` chunk's. It fails if a string unique to
+  `src/components/finance/*` or `financeView.ts` appears in the entry chunk. With G5 it
+  also fails if the entry chunk grows.
 
 ---
 
@@ -1681,6 +2076,7 @@ by the test from the generated modules independently of `financeView.ts`.** Crit
 | `package.json` | `test:pages` gains `finance.test.mjs` | 1 |
 | `scripts/assemble-fleet.mjs`, `scripts/finance/fetch-worldbank.mjs`, `src/graph/fleet.ts`, `scripts/validate.mjs` | G1 and G2 (copy of `projects[]` fields and `provenance.totals`); later G3a–c, P1, P5 | 120 |
 | `docs/INDEX.md`, `HANDOFF.md` | a paragraph on the page and a pointer to this spec | 10 |
+| `scripts/assemble-fleet.mjs`, `src/context/DataContext.tsx` [UX review] (U1) | G5: write each fleet module as a graph part and a page part; `DataContext` imports the graph part only | 40 |
 
 ---
 
@@ -1716,6 +2112,13 @@ by the test from the generated modules independently of `financeView.ts`.** Crit
     the only acceptable fix is a crosswalk the World Bank publishes.
 11. **The graph excludes the census**, so "Show connections" on a census-only borrower opens a
     thin ego graph; the status line and "Show its projects →" explain why.
+12. [UX review] (U1) **The entry chunk already carries the three modules' nodes and edges**
+    through `DataContext` (1.51 MB gzipped for the whole entry at 2026-09-26, shared by every
+    route). Moving them out is a platform decision about `/network` and the merged graph,
+    outside this page; G5 keeps the page's own exports out.
+13. [UX review] (U5) **`StatePanel` prints assembly-election winners beside placed loans**, as
+    text labelled "(date test, not a finding)". Two readers from opposite sides should test
+    whether it reads as attribution. If it does, the line goes.
 
 ---
 
@@ -1723,7 +2126,8 @@ by the test from the generated modules independently of `financeView.ts`.** Crit
 
 *Not applied. Hypotheses to test with real readers, or research and assembler work that is
 not design. Each needs a decision before it is built. The synthetic five-seat UX review
-(plan Task 7, Step 1) will add its own should/could items here, as for energy and welfare.*
+(plan Task 7, Step 1) added X17 and X18 below, and its should/could items follow the table
+as UD1–UD41.*
 
 | # | item | why deferred |
 |---|---|---|
@@ -1743,3 +2147,58 @@ not design. Each needs a decision before it is built. The synthetic five-seat UX
 | X14 | KfW and IMF programme data; SEBI licence comparators beyond the file's three | blocked sources, recorded as voids; research |
 | X15 | SOTA §6 items beyond plan Task 9 (label occupancy, `contraWidth`, path strip, tenure strip in the graph card) | shared explorer work |
 | X16 | A merged "all narratives" ladder as the default | D42 keeps per-lens ladders; the toggle exists |
+| X17 [UX review] (U11) | A structured `incumbent: true` (or an explicit `to`) on role claims, so that an open end can be told from an end not researched | contract change for every fleet; until then U11's wording and derived gap carry it |
+| X18 [UX review] (U24) | One `fam` for every `ty: 'party'` node across fleets (today `bjp` and `rss` are `recipient`, `party:inc` is `state`) | reconciliation editor; the page discloses the split and changes no hue |
+
+### Deferred UX amendments ([UX review], SYNTHETIC)
+
+These are the should- and could-level amendments from the five-persona **SYNTHETIC** UX
+review (`docs/design/FINANCE_UX_REVIEW.md`). They are **not** applied. Each is a
+hypothesis until a real reader confirms it. Seats: J journalist, P policy researcher, S
+hostile reader, A screen-reader user, M phone reader. Where a seat's item was folded into
+an applied must (U1–U34), the review names the must and the item is not repeated here.
+Ids are `UD` because §15 uses D1–D50 for decisions.
+
+| id | grade | section | amendment | from |
+|---|---|---|---|---|
+| UD1 | should | §5.1.6 | **RecordCard order.** `Source: {first source label}` as a link in the header beside the tier chip (the full list stays in its block, never truncated); order: header · amount · dates · record text · sources · responses · inclusion · place · terms · who benefits · office on the date · contracts · supersession · foot; a "Jump to" mono line of in-card anchors. Every block keeps its "none recorded" line. | J |
+| UD2 | should | §5.1.5 col 7, §5.1.4 gutter | Keep the exact string `amount not stated / in US$ m`; in the list and the strip's gutter the cell's `title` and the StackTable card's second line carry the first sentence of `d` verbatim, and the cell is the Open record button. | J |
+| UD3 | should | §5.0.1 | Byline leads with the date: `Records read to {asOfLabel} · register builds: finance {runId}, ngo {runId}, capital {runId}`, with `build` glossed in an `<abbr>`. | J |
+| UD4 | should | §3.2 `tsv()`, FG-22 | `tsv()` reuses or mirrors `src/components/energy/csv.ts`: UTF-8 BOM, quoting of cells that contain a tab or newline, the formula-injection guard for cells beginning `= + - @`, and `#` comments with newlines flattened. FG-22: the file begins with the BOM; a fixture cell starting `=` exports guarded. | P |
+| UD5 | could | §5.3.1 row summary, E41 | Under a `tier` filter the row summary reads `{shown} of {lines} filing line(s) shown · {shownAggs} of {aggs} aggregate(s)`; the caption adds `tier filter: {tiers}; blank cells may hold lines of other tiers`; the long-form twin exports every row with a `shown_under_filter` column. | P |
+| UD6 | should | §5.1.1, §5.1.2, §5.2.1 twins | A footer row labelled `computed here` on each summable twin: map `Σ state rows ₹{x} cr + Union row ₹{y} cr = ₹{z} cr counted (matches / differs by ₹{d} cr)`; flow `Σ bands = ₹{rupeeTotal} cr, {droppedNoAmount} records without ₹ not drawn`; receipts `{fyWith} current single-FY rows; superseded and multi-FY rows are not summed`. A difference renders in amber; the row exports as a `#` line. | P |
+| UD7 | should | §5.1.1 twin, UnionBar, flow | Split `Union body or not placed` into its three null rules (Union body; corporate borrower; no state government named) in the map twin, the UnionBar readout and the NotPlacedBox; the flow keeps one node and its band table splits; the derived gap `Loan state is not a field` cites the `no state government named` count. | P |
+| UD8 | should | §5.0.2 Associations, §5.5.2 | Strip fact 3 reads `{answered} of {alleged} alleged claims carry a recorded response of any kind`; a fact 6 (in the mono line below 640) reads `{responded} of {actions} enforcement actions with a response to that claim`, over `ACTIONS` less population rows; the Contested denominator adds `a response is any recorded statement by those concerned, including one that says no denial applies`. | P, S |
+| UD9 | should | §5.0.7 | Heading `The same lens on the comparators`, with one derived line per pinned domain naming what its text compares. | S |
+| UD10 | should | §5.0.7, X13 | "Run it yourself" links derived from `LOK_SABHA` rows, one per inter-election window, writing only `y`; caption `Windows are the register's general-election dates; the page names no era.` Test against X13 first: it must not become the refused era filter. | S |
+| UD11 | should | §5.0.1, D46 | Standing line on every lens: `Named institutions appear beside comparison institutions. No family, religion, ethnicity, party or country is a node colour, an edge, a filter or a frame on this page; party and country appear as text, as recorded.`; the Rothschild/BlackRock sentence on the Capital lens only. Weigh against U27's header budget at 390. | S |
+| UD12 | should | §5.4.1, §5.0.7, §5.2.6, §5.0.6 | Every base-rate card, symmetry text and narrative prints `wording: {domain} research file, run {runId}, dated {asOf}`; the ReadingKey adds `Quoted research text may classify actors; this page does not, and draws no colour or filter from it.`; domain slugs expand to their fleet labels. | S |
+| UD13 | should | §5.4.2, D42, E53 | Without merging or re-rating, each ladder entry prints `a claim with the same wording / sharing {k} source(s) is rated {status} in {file}` for identical normalised text or overlapping source URLs; the ladder header prints `{k} claims appear in more than one file; ratings are listed as recorded, not reconciled.`; a gate on a fixture pair. | S |
+| UD14 | should | §5.1.3, D18, E22, X3 | Shade only the rules band before the first Lok Sabha row, not the lanes or the count lane; C4 adds `{preFirst} of {projects} approvals fall before the first general election in the register`; promote X3 for the research fleet. | S |
+| UD15 | should | §5.2.3, §5.2.4, §5.0.5 | For `ty: 'party'` nodes, lane and section headers print the label and `(party)` only; `sub` moves to the card with an attribution line; a derived gap `party node descriptions are written per research file, not reconciled ({k} party nodes)`. | S |
+| UD16 | should | §5.3.1 Band A, D22 | The Band A header says who declared the set: `Comparison set declared by the capital research brief (read from identity prose until a structured declaration is exported): {labels}. BlackRock and Vanguard, the narrative's subjects, appear in Band B on their recorded lines and are not pinned in this build.` | S |
+| UD17 | should | §14, §6 | The §14 party item explains why party and era appear as text and in the research's quoted symmetry checks, why no control selects by them, and that the year control draws any window the register's election dates define. | S |
+| UD18 | should | §5.2.3 lane | Rename the lane `Courts and oversight: actions whose target is a ministry or a law`, its membership derived from `nodeOf(t).ty ∈ {ministry, law}`. | S |
+| UD19 | should | §16 | FG-RF4: no page-authored string (outside quoted FleetText, narrative text, `lab`, `d` and `sub`) contains `UPA`, `NDA`, `BJP`, `Congress`, `ruling`, `opposition` or `government of the day`. (FG-RF5–RF7 are applied with U22–U24.) | S |
+| UD20 | should | §5 intro, §5.1.1, §13 | `aria-describedby` on the map listbox, the flow group and each timeline's label column points to a one-sentence denominator; C1–C15 stay visible `<figcaption>` prose, each beginning with its subject (`Map: …`), as welfare D17 proposed. | A |
+| UD21 | should | §5.1.5, D45 | Below 640 page `ProjectList` at 50 cards (still `tp`, still `rows {a}–{b} of {n}`), with Previous/Next at top and bottom and Download above. | M |
+| UD22 | should | §5.1.3, §12, D38 | Below 640 the default clock twin is the year table grouped by decade in `<details>`, latest decade open; the lanes twin sits behind `Show every lane row`, with one line saying `ProjectList` lists every record. | M |
+| UD23 | should | §5.1.4, §12 | On narrow screens the strip's gutter is a 24 px `no ₹` glyph column, with the exact string once in the legend line and in every mark's accessible name; the plotted axis is ≥ 240 px at 390. | M |
+| UD24 | should | §5.3.1 | Below 640 the holders symmetry texts sit after C11, with an anchor above the grid; `Comparison set required` stays above. | M |
+| UD25 | should | §5.3.1, G3c, FG-31 | Column width `min(32px, (containerWidth − 96px) / BAND_A.length)`, a 24 px floor and a 96 px label; beyond the floor Band A wraps into two header rows; a nine-row G3c fixture in FG-31. | M |
+| UD26 | should | §5.5.5, D45 | Page the source ledger at 400 rows, grouped by `sourceClass` with counts in each group heading, a `Download .tsv` of the whole ledger above, and the heading `{n} distinct sources cited by this lens`. | M |
+| UD27 | could | §5.2.4 Export | A second, long-form export: one row per action × response (`action_id`, `response_id`, `responder`, `response_tier`, `response_date` or `undated`, `response_text`); an unanswered action is one row with the exact sentence. | P |
+| UD28 | could | §5.2.1, E26 | When a current row's tier is weaker than a row it supersedes, the chip reads `supersedes a {tier} figure` and the twin's Status reads `current; supersedes {id} ({tier})`. | P |
+| UD29 | should / could | §5.1.1 UnionBar | The bar drawing is `aria-hidden` and its figures are a `<dl>`; the segment button is named `Union body or not placed, ₹{unplaced} cr: show these records in the list; not a place on this map`; on narrow screens the denominator comes first as the block's heading, then the two rows on one drawn scale. | A, M |
+| UD30 | could | §3.2 `tsv()` | A `# columns:` block, one line per column: name, unit (`₹ crore nominal`, `ISO date at record precision`, `state code`, `node id`) and derivation name. | P |
+| UD31 | could | §5.0.4 | Copy link copies the URL plus the active-filter line in words (`Loans · 2014–2026 · placed in Kerala · lender IDA · read to {asOf}`); the active-filter line is 12 px at all widths with word values. | J |
+| UD32 | could | §5.2.1 C8 | Under C8, the `fcra-receipts` void that names the sources tried, verbatim at body size, beneath the chart. | S |
+| UD33 | should | §5.5.1, §7 | On narrow screens `Show connections` loads the graph (it is the reader's act), with the placeholder `Loading the connection graph for {label} ({n} relationships)…`; with `sel` set on a cold load the button reads `Load the graph — {label} is selected`; a 390 assertion. | M |
+| UD34 | should | §5.0.5 | On narrow screens a Find row's primary action is the whole row (Open record / Go to case file / Show its projects), secondary verbs behind `…`, the lens as a mono suffix; the input scrolls to the pinned stack on focus. Test against U3's longer record rows. | M |
+| UD35 | could | §5.0.1 | Link the audit-verdict count to a "What the audit killed" list (claim id and verdict), or print `verdict texts are not exported to the page` as a derived gap. | S |
+| UD36 | could | §5.2.3 | When the target is a ministry or a law, the empty response slot appends `(the Ministry's compliance or appeal is not in the register)` after the exact sentence, which is unchanged. | S |
+| UD37 | could | §5.4.2, §5.1.7, §5.5.2 | NarrativeLadder as an `<ol>` of rungs with `h3`s, each narrative an `<li>` with an `h4` and a `<dl>`; OfficeOnDate sub-blocks as `<ul>`s (welfare D31). | A |
+| UD38 | could | §5.0.1, §4 | End the Standfirst with `Every graphic here has a table version.`; name the toggle `Table view: show every graphic on this lens as a table` (U15's stage link already says so at the stage). | A |
+| UD39 | could | §4, §13, §5.0.3 | Each margin card its own `<aside aria-labelledby>`; the ReconciliationLine's link names read `{n} census counted: show these in the table`. | A |
+| UD40 | could | §5.3.1 mobile, FG-30 | Below 640 cells show pattern and glyph only, with the text in the accessible name (U33) and the twin; FG-30 run on the 390 transposed grid at 2× and 3× device pixel ratio. | M |
+| UD41 | could | §13, FG-46 | FG-46 counts from the first focusable element in `<main>`; §18 records that the site-level `Skip to main content` is platform work; an in-page first skip link `Skip to the {lens} stage`. | A |
