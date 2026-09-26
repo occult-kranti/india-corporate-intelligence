@@ -59,17 +59,39 @@ Line style in every graph carries the tier. It is semantic and is never restyled
 Full file-by-file index: [`docs/INDEX.md`](docs/INDEX.md). Picking this up cold:
 [`HANDOFF.md`](HANDOFF.md).
 
-**Markets** — `/` dashboard · `/map` the NSE/BSE map · `/geograph` the geographic network ·
-`/industries` sector concentration · `/conglomerates` the ten largest groups · `/interlocks` who
-sits on more than one board · `/states/:code` per-state drill-down · `/company/:id`
+32 routes, grouped as the sidebar groups them.
+
+**Markets** — `/` dashboard · `/map` the NSE/BSE map, with an index filter (`idx=nifty50|sensex30|sensex50`)
+· `/geograph` the geographic network · `/industries` sector concentration · `/conglomerates` the ten
+largest groups, and `/conglomerates/:id` each group in depth · `/interlocks` who sits on more than one
+board · `/states/:code` per-state drill-down · `/company/:id`
+
+**Registers** — `/tenders` government awards · `/resources` coal, minerals, hydrocarbons and spectrum
+· `/pmcares` PM CARES against its PMNRF control · `/energy` the energy power map · `/welfare`
+distribution funds, 2000–2026 · `/media` ownership · `/allocation` every register on one graph
 
 **Power** — `/cabinet` the Union Council of Ministers · `/network` the merged connection graph ·
-`/atlas` the Money-Trail case study · `/political` money to parties, with the flow diagram ·
-`/media` ownership
+`/atlas` the Money-Trail case study
 
 **Method** — `/patterns` why every large network looks like a conspiracy · `/motifs` the computed
-motif engine · `/evidence` the tiering procedure applied claim by claim · `/base-rates` compared to
-what? · `/provenance` the ingestion ledger · `/method` how this is built, with a live integrity check
+motif engine · `/prospector` candidate patterns as ranked questions · `/desk` the investigative desk ·
+`/capture` capture pathways · `/evidence` the tiering procedure applied claim by claim · `/base-rates`
+compared to what? · `/competition` bidder counts · `/provenance` the ingestion ledger · `/method` how
+this is built, with a live integrity check
+
+**Tools** — `/search` · `/political` donations, with the flow diagram · `/watchlist`
+
+### The energy power map and distribution funds
+
+`/energy` draws the merged graph filtered to the energy layer: coal, mines, oil and gas, hydro,
+solar and wind, nuclear, grid, the money trail, promoters, enforcement and the state layer. Beside
+it, a who-benefits ledger that sums nothing, every allegation next to its answer, base rates as
+numerator of denominator, and the documented voids shown at rest. `/welfare` maps cash-transfer and
+distribution schemes from 2000 to 2026 with a year scrubber, a ballot mark for every assembly election
+in the scrubbed year, and three different fills for three different absences: none recorded,
+no comparable figure, and declared searched with none live. Party is text, never a colour.
+
+Both pages read generated modules, never the raw research. Both render honestly with zero records.
 
 ### The geographic network
 
@@ -91,6 +113,25 @@ one fixed curvature bundles them into an unreadable blob. Same pair, same curve,
 reproducible.
 
 ### Ingestion
+
+```
+research/raw/*.json ──► promote ──► research/promotion-report.json      (the original datasets)
+                        resolution · grounding · run id                  src/data/*.ts still hand-written
+
+research/raw/energy/*.json ─┐
+research/raw/welfare/*.json ┤ validate §4 ──► generate ──► src/graph/energy.generated.ts
+  + RECONCILIATION.json     │ (raw gate)      reconcile ·    src/data/welfare.generated.ts
+  + AUDIT.json              ┘                 audit · gate   (never hand-edit; validate §5
+                                                              fails a stale module)
+                                   ▼
+          src/graph/mergeFleet.ts ──► DataContext ──► pages
+```
+
+The fleets write to `docs/research/FLEET_CONTRACT.md`. `npm run generate` applies each fleet's
+reconciliation (id mappings, refused merges) and its cross-examiner verdicts, checks the four
+invariants over what survives, and emits typed modules. A killed claim is kept in the module's
+`META` with its reason. The energy fleet assembles to 404 nodes and 711 edges; the welfare fleet to
+286 nodes, 335 claims and 78 schemes.
 
 `research/raw/` is a quarantine zone. `npm run promote` runs extraction → resolution → grounding →
 assembly with a run id derived from a hash of the inputs, not a clock, so it is reproducible.
@@ -157,6 +198,9 @@ which means a hallucinating researcher cannot corrupt the graph without passing 
 | `state-economy.json` | 36 states/UTs | GSDP where verifiable, null otherwise |
 | `conglomerates.json` | 10 groups, 64 listed entities | The two Ambani groups separated **structurally**, not just in prose |
 | `pattern-matching-epistemics.md` | literature review | Every citation checked; unverifiable items listed and not asserted |
+| `indices.json` | NIFTY 50 (50), SENSEX 30 (30), SENSEX 50 (49 of 50) | Joined to companies by id only; the unconfirmed fiftieth is a gap, not a guess |
+| `energy/*.json` | 12 domain files + `RECONCILIATION.json`, `AUDIT.json` | 60 cross-examiner verdicts; 1 claim killed |
+| `welfare/*.json` | 7 domain files + `RECONCILIATION.json`, `AUDIT.json` | 35 cross-examiner verdicts; 4 claims killed |
 
 Every figure is stamped `asOf` and is as-of-a-date, never current. Companies are attributed to their
 **registered** headquarters — Coal India is Kolkata-registered though the coal is in Jharkhand and
@@ -167,7 +211,8 @@ corporate maps.
 
 ## Agents and skills
 
-`.claude/agents/` — six agents, each hired for a bounded job with an explicit refusal surface.
+`.claude/agents/` — twelve agents, each hired for a bounded job with an explicit refusal surface.
+The six the graph was built on:
 
 | Agent | Refuses to |
 |---|---|
@@ -178,7 +223,15 @@ corporate maps.
 | `polity-analyst` | Record a portfolio without a date range |
 | `viz-engineer` | Draw a state as a rectangle; restyle a tier for aesthetics |
 
-`.claude/skills/` — `evidence-tiering`, `pattern-discipline`, `india-map`, `graph-schema`.
+The others: `interface-designer`, `frontend-developer`, `pattern-prospector`, `investigative-desk`,
+`cross-examiner` (one claim, one lens, default refuted) and `energy-analyst`.
+
+`.claude/skills/` — fourteen, including `evidence-tiering`, `pattern-discipline`, `india-map`,
+`graph-schema`, `cui-bono` (who benefits, as a ledger row with a falsifier) and `energy-money-trail`.
+Full list: [`docs/INDEX.md`](docs/INDEX.md) §7.
+
+Plugins (SweetClaude, superpowers) are installed at user scope and referenced, never vendored. Which
+stages of a build they supply: [`docs/PLUGINS.md`](docs/PLUGINS.md).
 
 ---
 
@@ -186,17 +239,24 @@ corporate maps.
 
 ```bash
 npm install
-npm run dev        # vite dev server
-npm run promote    # research/raw → resolution + grounding report
-npm run validate   # data-integrity gate — the four invariants
-npm run build      # tsc -b && vite build
-npm run smoke      # headless render of all 21 routes; serves dist itself
-npm run check      # promote + validate + build + smoke
+npm run dev            # vite dev server
+npm run promote        # research/raw → resolution + grounding report
+npm run generate       # research fleets → the two *.generated.ts modules
+npm run test:assemble  # assembler and merge tests, synthetic fixture
+npm run validate       # data-integrity gate — the four invariants
+npm run build          # tsc -b && vite build
+npm run smoke          # headless render of all 32 routes; serves dist itself
+npm run viewport       # the graph camera gate
+npm run check          # promote + generate + test:assemble + validate + build + smoke + viewport
+npm run test:pages     # /energy and /welfare acceptance suites — not yet in check or CI
 ```
 
 `npm run smoke` serves `dist` on an ephemeral port itself — there is no preview server to start or
 wait on. Pass a base URL as the first argument to point it somewhere else. It uses the environment's
 pinned Chromium; override with `PLAYWRIGHT_CHROMIUM_PATH`, or `npx playwright install chromium`.
+
+`test:pages` stays out of the gate until the `/welfare` suite's corrections land and both suites
+are green on consecutive runs. See [`HANDOFF.md`](HANDOFF.md).
 
 ### Stack
 

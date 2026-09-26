@@ -1,0 +1,614 @@
+{
+  "asOf": "2026-09-25",
+  "fleet": "energy",
+  "mappings": [
+    {
+      "from": "energy:hindenburg-research",
+      "to": "energy:hindenburg",
+      "reason": "Same firm: Hindenburg Research, the US short-seller (Nathan Anderson) that published the Adani report of 2023-01-24 and closed in Jan 2025 — identical label, founder and dates in both records; the alias \"Hindenburg\" collided. energy:hindenburg is used by two files (enforce, people), the variant by one.",
+      "files": [
+        "literature.json"
+      ]
+    },
+    {
+      "from": "energy:party-bjd",
+      "to": "energy:bjd",
+      "reason": "Same party: Biju Janata Dal, Odisha ruling party 2000–2024, electoral-bond recipient; alias \"BJD\" collided. energy:bjd is used by two files (coal, money).",
+      "files": [
+        "mines.json"
+      ]
+    },
+    {
+      "from": "energy:govt-of-andhra-pradesh",
+      "to": "energy:state-andhra-pradesh",
+      "reason": "Same body: the Government of Andhra Pradesh (YSRCP 2019–24, TDP-led from 2024-06-12) — both records describe the state government as counterparty/owner; alias \"Andhra Pradesh\" collided. energy:state-andhra-pradesh is used by three files (enforce, hydro, states).",
+      "files": [
+        "solarwind.json"
+      ]
+    },
+    {
+      "from": "energy:state-gujarat",
+      "to": "energy:govt-of-gujarat",
+      "reason": "Same body: the Government of Gujarat (state executive; allotter of Khavda land in solarwind, CM Bhupendra Patel in states). No inventory/Atlas id; each id used by one file, so the first file in name order (solarwind) wins per the tie rule.",
+      "files": [
+        "states.json"
+      ]
+    },
+    {
+      "from": "energy:gridco-odisha",
+      "to": "energy:gridco",
+      "reason": "Same company: GRIDCO Ltd, Odisha state bulk-supply/power-trading company (grid.json already listed \"energy:gridco-odisha\" as an alias). energy:gridco is used by two files (grid, solarwind).",
+      "files": [
+        "states.json"
+      ]
+    },
+    {
+      "from": "energy:mmdr-2015",
+      "to": "energy:mmdr-amdt-2015",
+      "reason": "Same statute: the Mines and Minerals (Development & Regulation) Amendment Act, 2015 (auction-only concessions, DMF, NMET). One file each; mines.json is first in name order. Distinct from energy:mmdr-act-1957 (principal Act).",
+      "files": [
+        "states.json"
+      ]
+    },
+    {
+      "from": "energy:trc",
+      "to": "energy:reporters-collective",
+      "reason": "Same outlet: The Reporters' Collective, Indian non-profit investigative newsroom (CoalFiles). energy:reporters-collective is used by two files (grid, literature); the coal.json copy had no claim and was folded into the grid.json record.",
+      "files": [
+        "coal.json"
+      ]
+    },
+    {
+      "from": "energy:us-edny-court",
+      "to": "energy:us-district-court-edny",
+      "reason": "Same court: US District Court for the Eastern District of New York, Judge Nicholas G. Garaufis, presiding over US v. Adani (24-cr-433) and SEC v. Adani. One file each; enforce.json is first in name order.",
+      "files": [
+        "solarwind.json"
+      ]
+    },
+    {
+      "from": "energy:oil-india",
+      "to": "co:oil-india",
+      "reason": "Same company: Oil India Ltd (NSE: OIL), upstream CPSE. Inventory id co:oil-india exists and is used by money.json and oilgas.json.",
+      "files": [
+        "mines.json"
+      ]
+    },
+    {
+      "from": "energy:per-hemant-soren",
+      "to": "energy:hemant-soren",
+      "reason": "Same person by office-with-dates: Hemant Soren, JMM, Chief Minister of Jharkhand 2019-12-29→2024-02-02 and 2024-07-04→ (arrested by ED 2024-01-31). No inventory id; three variant ids in one file each — enforce.json is first in name order.",
+      "files": [
+        "states.json"
+      ]
+    },
+    {
+      "from": "energy:pol-hemant-soren",
+      "to": "energy:hemant-soren",
+      "reason": "Same person by office-with-dates: Hemant Soren, Chief Minister of Jharkhand (2013–14, 2019–24, 2024→), MLA Barhait, JMM president — identical to the enforce.json and states.json records.",
+      "files": [
+        "mines.json"
+      ]
+    },
+    {
+      "from": "energy:pol-raosaheb-danve",
+      "to": "energy:raosaheb-danve",
+      "reason": "Same person by office and constituency: Raosaheb (Dadarao) Danve, Lok Sabha MP for Jalna (BJP), Minister of State for Coal, Mines and Railways ending 2024-06-09. One file each; coal.json is first in name order.",
+      "files": [
+        "mines.json"
+      ]
+    },
+    {
+      "from": "energy:pol-g-janardhana-reddy",
+      "to": "energy:gali-janardhana-reddy",
+      "reason": "Same person by office: Gali Janardhana Reddy, BJP Karnataka cabinet minister named in the 2011-07-27 Lokayukta report, Bellary mining promoter (Obulapuram Mining Company), accused A2 in the CBI OMC case; enforce.json already lists \"G. Janardhana Reddy\" as an alias. enforce.json is first in name order. NOT G. Kishan Reddy (pol:g-kishan-reddy).",
+      "files": [
+        "mines.json"
+      ]
+    },
+    {
+      "from": "energy:soumya-chaurasia",
+      "to": "energy:saumya-chaurasia",
+      "reason": "Same person by office: Saumya Chaurasia, Deputy Secretary/OSD in the Chhattisgarh CMO until her ED arrest (Dec 2022), accused in the coal-levy PMLA case; \"Soumya\" is a transliteration variant. coal.json is first in name order.",
+      "files": [
+        "enforce.json"
+      ]
+    },
+    {
+      "from": "energy:per-jagan-mohan-reddy",
+      "to": "energy:ys-jagan-mohan-reddy",
+      "reason": "Same person by office-with-dates: Y. S. Jagan Mohan Reddy, Chief Minister of Andhra Pradesh 2019-05-30→2024-06-11, YSRCP president. energy:ys-jagan-mohan-reddy is used by three files (enforce, hydro, solarwind).",
+      "files": [
+        "states.json"
+      ]
+    },
+    {
+      "from": "adani",
+      "to": "grp:adani",
+      "reason": "Same group: the Adani Group (Gautam Adani, Ahmedabad) — the solarwind.json record already carried \"grp:adani\" as an alias. Both are inventory ids (Atlas `adani`, national `grp:adani`); grp:adani is used by five files (coal, enforce, mines, money, oilgas), the Atlas id by two.",
+      "files": [
+        "literature.json",
+        "solarwind.json"
+      ]
+    },
+    {
+      "from": "reliance",
+      "to": "co:reliance-industries",
+      "reason": "The literature.json record is Reliance Industries Ltd the listed company (NSE: RELIANCE): operator of KG-D6 audited by CAG in 2011 and sender of the 2014 legal notice to the Gas Wars authors. Inventory id co:reliance-industries is used by four files (money, nuclear, oilgas, solarwind). Not grp:reliance (promoter group) and not Reliance Power / ADAG.",
+      "files": [
+        "literature.json"
+      ]
+    },
+    {
+      "from": "coal",
+      "to": "min:ministry-of-coal",
+      "reason": "The literature.json claims concern the Ministry of Coal as allocator of coal blocks 1993–2010 (CAG 2012, SC 2014). The Atlas `coal` node is a combined \"Coal & Mines Ministry, Joshi 2019–24\" node whose window does not cover that period; inventory id min:ministry-of-coal is the exact entity and is used by coal.json.",
+      "files": [
+        "literature.json"
+      ]
+    },
+    {
+      "from": "energy:krishan-pal-gurjar",
+      "to": "pol:krishan-pal-gurjar",
+      "reason": "Same person by office and constituency: Krishan Pal Gurjar, BJP MP Faridabad, Minister of State for Power 2021-07-07→2024-06-10 (research/raw/cabinet.json priorPortfolios) — inventory id pol:krishan-pal-gurjar.",
+      "files": [
+        "grid.json"
+      ]
+    },
+    {
+      "from": "energy:mukesh-ambani",
+      "to": "per:mukesh-d-ambani",
+      "reason": "Same person by office: Mukesh D. Ambani, Chairman & Managing Director, Reliance Industries Ltd — national id per:mukesh-d-ambani (conglomerates.json keyPeople of grp:reliance). NOT Anil Ambani (energy:anil-ambani).",
+      "files": [
+        "people.json"
+      ]
+    },
+    {
+      "from": "energy:anant-ambani",
+      "to": "per:anant-m-ambani",
+      "reason": "Same person by office: Anant M. Ambani, Executive (Whole-Time) Director, RIL — national id per:anant-m-ambani (grp:reliance keyPeople).",
+      "files": [
+        "people.json"
+      ]
+    },
+    {
+      "from": "energy:akash-ambani",
+      "to": "per:akash-m-ambani",
+      "reason": "Same person by office: Akash M. Ambani, Non-Executive Director, RIL — national id per:akash-m-ambani (grp:reliance keyPeople).",
+      "files": [
+        "people.json"
+      ]
+    },
+    {
+      "from": "energy:isha-ambani",
+      "to": "per:isha-m-ambani",
+      "reason": "Same person by office: Isha M. Ambani, Non-Executive Director, RIL — national id per:isha-m-ambani (grp:reliance keyPeople).",
+      "files": [
+        "people.json"
+      ]
+    },
+    {
+      "from": "energy:kumar-mangalam-birla",
+      "to": "per:kumar-mangalam-birla",
+      "reason": "Same person by office: Kumar Mangalam Birla, Chairman, Aditya Birla Group and Hindalco — national id per:kumar-mangalam-birla (grp:aditya-birla keyPeople).",
+      "files": [
+        "people.json"
+      ]
+    },
+    {
+      "from": "energy:sajjan-jindal",
+      "to": "per:sajjan-jindal",
+      "reason": "Same person by office: Sajjan Jindal, Chairman JSW Group / CMD JSW Steel — national id per:sajjan-jindal (grp:jsw keyPeople). NOT Naveen Jindal (Atlas `naveen`, JSPL).",
+      "files": [
+        "people.json"
+      ]
+    },
+    {
+      "from": "energy:rajesh-adani",
+      "to": "per:rajesh-s-adani",
+      "reason": "Same person by office: Rajesh S. Adani, Managing Director, Adani Enterprises Ltd (SEBI noticee) — national id per:rajesh-s-adani (grp:adani keyPeople).",
+      "files": [
+        "enforce.json",
+        "people.json"
+      ]
+    },
+    {
+      "from": "energy:vinod-adani",
+      "to": "per:vinod-s-adani",
+      "reason": "Same person by role: Vinod S. Adani, Adani promoter-group member, brother of Gautam Adani — national id per:vinod-s-adani (grp:adani keyPeople).",
+      "files": [
+        "people.json"
+      ]
+    },
+    {
+      "from": "energy:sagar-adani",
+      "to": "per:sagar-adani",
+      "reason": "Same person by office: Sagar R. Adani, Executive Director, Adani Green Energy Ltd, co-defendant in US v. Adani (EDNY 24-cr-433) — national id per:sagar-adani (grp:adani keyPeople).",
+      "files": [
+        "enforce.json",
+        "people.json",
+        "solarwind.json"
+      ]
+    },
+    {
+      "from": "energy:vneet-jaain",
+      "to": "per:vneet-s-jaain",
+      "reason": "Same person by office: Vneet S. Jaain, Managing Director, Adani Green Energy Ltd, named defendant EDNY 24-cr-433 — national id per:vneet-s-jaain (grp:adani keyPeople).",
+      "files": [
+        "enforce.json",
+        "solarwind.json"
+      ]
+    }
+  ],
+  "refusedMerges": [
+    {
+      "a": "grp:jsw",
+      "b": "energy:jsw-energy",
+      "reason": "JSW Group (promoter group) vs JSW Energy Ltd (listed company, NSE: JSWENERGY) — parent and subsidiary, joined by people:c044 (own). The aliases \"JSW Energy\" and \"JSW Neo Energy\" were removed from the solarwind.json grp:jsw record, which caused the collision; solarwind:c019 stays on grp:jsw because the PLI-II allocation names only \"JSW\"."
+    },
+    {
+      "a": "jspl",
+      "b": "grp:jsw",
+      "reason": "Jindal Steel & Power (Naveen Jindal) and the JSW Group (Sajjan Jindal) are separate groups of brothers; same surname only."
+    },
+    {
+      "a": "energy:south-west-mining",
+      "b": "grp:jsw",
+      "reason": "Reported only as \"affiliated to the Jindal group\" — JSW, JSPL and Jindal Stainless are all Jindal groups and no CIN/filing was opened. Stays resolved:false with no claims."
+    },
+    {
+      "a": "energy:jaiprakash-gaur",
+      "b": "energy:jaiprakash-associates",
+      "reason": "Unresolved person record (no DIN, office-with-dates or DOB in the records opened); a founder is not his company. Stays resolved:false with no claims."
+    },
+    {
+      "a": "energy:reliance-power",
+      "b": "co:reliance-industries",
+      "reason": "Reliance Power (Anil Ambani / ADAG) is not Reliance Industries (Mukesh Ambani)."
+    },
+    {
+      "a": "energy:reliance-adag",
+      "b": "grp:reliance",
+      "reason": "Reliance Group (Anil Dhirubhai Ambani) is not the Reliance Industries promoter group (Mukesh Ambani)."
+    },
+    {
+      "a": "energy:reliance-infrastructure",
+      "b": "co:reliance-industries",
+      "reason": "Reliance Infrastructure (BSES; ADAG) is not RIL."
+    },
+    {
+      "a": "energy:anil-ambani",
+      "b": "per:mukesh-d-ambani",
+      "reason": "Brothers; different persons, different groups."
+    },
+    {
+      "a": "reliance",
+      "b": "grp:reliance",
+      "reason": "The literature.json record is the operating company (KG-D6 operator, CAG audit, legal notice), so it maps to co:reliance-industries, not to the promoter group."
+    },
+    {
+      "a": "energy:essel-mining",
+      "b": "grp:aditya-birla",
+      "reason": "Essel Mining & Industries is an Aditya Birla Group company, not the group itself; and it is not the Essel Group of Subhash Chandra. Kept as its own node."
+    },
+    {
+      "a": "energy:torrent-group",
+      "b": "co:torrent-power",
+      "reason": "Torrent Group (Mehta family; Torrent Power, Torrent Pharma, Torrent Gas) is the group; Torrent Power Ltd is one listed company. Torrent Pharma (co:torrent-pharmaceuticals) is a third, distinct entity. Second pass undid an alias-level over-merge: the aliases \"Torrent Group\" and \"Torrent Gas\" (a sister company, not Torrent Power Ltd) were removed from co:torrent-power in grid.json and oilgas.json, and the group-level fact \"Torrent group bought electoral bonds worth ₹184 crore, ₹137 crore to BJP\" plus the Torrent Gas CGD note moved to energy:torrent-group. The oilgas.json record, which described the group, now carries id energy:torrent-group, and oilgas:c054 (group ₹137 cr to BJP) now starts at energy:torrent-group, so it is not added to Torrent Power Ltd's own documented ₹106.5 cr / ₹76 cr to BJP (grid:c104, grid:c105)."
+    },
+    {
+      "a": "energy:jaiprakash-associates",
+      "b": "co:jaiprakash-power",
+      "reason": "Jaiprakash Associates Ltd and Jaiprakash Power Ventures Ltd are separate listed Jaypee companies."
+    },
+    {
+      "a": "energy:gali-janardhana-reddy",
+      "b": "pol:g-kishan-reddy",
+      "reason": "Different Reddys: Gali Janardhana Reddy (Karnataka minister, Bellary mining) vs G. Kishan Reddy (Union Minister of Coal and Mines, Secunderabad MP)."
+    },
+    {
+      "a": "energy:ys-jagan-mohan-reddy",
+      "b": "krishna",
+      "reason": "Different Reddys: Y. S. Jagan Mohan Reddy (AP CM 2019–24) vs P. V. Krishna Reddy (MD, MEIL); likewise energy:pp-reddy (MEIL chairman), sarath (P. Sarath Chandra Reddy, Aurobindo) and energy:s-jaipal-reddy (Petroleum Minister) are five distinct persons."
+    },
+    {
+      "a": "energy:rk-singh",
+      "b": "pol:jitendra-singh",
+      "reason": "Different Singhs: R. K. Singh (Minister of Power 2017–24, Arrah MP) vs Jitendra Singh (MoS, Department of Atomic Energy); energy:manmohan-singh (PM 2004–14) is a third."
+    },
+    {
+      "a": "energy:adani-power-jharkhand",
+      "b": "co:adani-power",
+      "reason": "Adani Power (Jharkhand) Ltd (Godda plant) is a subsidiary with its own PPA with BPDB; likewise energy:mahan-energen. Subsidiaries are separate nodes."
+    },
+    {
+      "a": "energy:utkal-alumina",
+      "b": "co:hindalco",
+      "reason": "Utkal Alumina International is a Hindalco subsidiary, a separate legal entity."
+    },
+    {
+      "a": "energy:state-andhra-pradesh",
+      "b": "energy:ap-discoms",
+      "reason": "The state government and its three distribution companies (and energy:apspdcl) are separate counterparties in the SECI PSA and PPA records."
+    },
+    {
+      "a": "energy:hindenburg",
+      "b": "energy:doc-hindenburg-adani-2023",
+      "reason": "The firm vs its report (a literature document node)."
+    },
+    {
+      "a": "energy:us-district-court-edny",
+      "b": "doj",
+      "reason": "The court vs the prosecutor (US DOJ/SEC)."
+    },
+    {
+      "a": "min:ministry-of-coal",
+      "b": "min:ministry-of-mines",
+      "reason": "Two ministries; the Atlas `coal` node that combines them under Joshi 2019–24 was not used as the target of the literature mapping for that reason."
+    },
+    {
+      "a": "gadani",
+      "b": "per:gautam-s-adani",
+      "reason": "Not merged in the raw files: the Atlas id `gadani` is used by four files and the contract prefers existing Atlas ids; the Atlas/national duplication of Gautam Adani (and `agarwal` vs per:anil-agarwal) is a repository-level question for src/graph/data.ts, not for the energy fleet."
+    }
+  ],
+  "addedContras": [],
+  "killed": [],
+  "predicateFixes": [],
+  "entityRecordsConsolidated": [
+    {
+      "id": "energy:state-telangana",
+      "removedFrom": "states.json",
+      "reason": "duplicate record of an id defined in another file and not referenced by any claim in this file; aliases, facts and sources folded into the surviving record in coal.json"
+    },
+    {
+      "id": "min:ministry-of-power",
+      "removedFrom": "money.json",
+      "reason": "duplicate record of an id defined in another file and not referenced by any claim in this file; aliases, facts and sources folded into the surviving record in coal.json"
+    },
+    {
+      "id": "grp:adani",
+      "removedFrom": "mines.json",
+      "reason": "duplicate record of an id defined in another file and not referenced by any claim in this file; aliases, facts and sources folded into the surviving record in coal.json"
+    },
+    {
+      "id": "co:adani-power",
+      "removedFrom": "enforce.json",
+      "reason": "duplicate record of an id defined in another file and not referenced by any claim in this file; aliases, facts and sources folded into the surviving record in coal.json"
+    },
+    {
+      "id": "co:hindalco",
+      "removedFrom": "coal.json",
+      "reason": "duplicate record of an id defined in another file and not referenced by any claim in this file; aliases, facts and sources folded into the surviving record in nuclear.json"
+    },
+    {
+      "id": "co:jsw-steel",
+      "removedFrom": "coal.json",
+      "reason": "duplicate record of an id defined in another file and not referenced by any claim in this file; aliases, facts and sources folded into the surviving record in mines.json"
+    },
+    {
+      "id": "grp:aditya-birla",
+      "removedFrom": "coal.json",
+      "reason": "duplicate record of an id defined in another file and not referenced by any claim in this file; aliases, facts and sources folded into the surviving record in money.json"
+    },
+    {
+      "id": "grp:aditya-birla",
+      "removedFrom": "mines.json",
+      "reason": "duplicate record of an id defined in another file and not referenced by any claim in this file; aliases, facts and sources folded into the surviving record in money.json"
+    },
+    {
+      "id": "bjp",
+      "removedFrom": "coal.json",
+      "reason": "duplicate record of an id defined in another file and not referenced by any claim in this file; aliases, facts and sources folded into the surviving record in enforce.json"
+    },
+    {
+      "id": "bjp",
+      "removedFrom": "mines.json",
+      "reason": "duplicate record of an id defined in another file and not referenced by any claim in this file; aliases, facts and sources folded into the surviving record in enforce.json"
+    },
+    {
+      "id": "energy:aitc",
+      "removedFrom": "coal.json",
+      "reason": "duplicate record of an id defined in another file and not referenced by any claim in this file; aliases, facts and sources folded into the surviving record in money.json"
+    },
+    {
+      "id": "ebscheme",
+      "removedFrom": "hydro.json",
+      "reason": "duplicate record of an id defined in another file and not referenced by any claim in this file; aliases, facts and sources folded into the surviving record in coal.json"
+    },
+    {
+      "id": "energy:reporters-collective",
+      "removedFrom": "coal.json",
+      "reason": "duplicate record of an id defined in another file and not referenced by any claim in this file; aliases, facts and sources folded into the surviving record in grid.json"
+    },
+    {
+      "id": "energy:reporters-collective",
+      "removedFrom": "literature.json",
+      "reason": "duplicate record of an id defined in another file and not referenced by any claim in this file; aliases, facts and sources folded into the surviving record in grid.json"
+    },
+    {
+      "id": "energy:hc-madras",
+      "removedFrom": "grid.json",
+      "reason": "duplicate record of an id defined in another file and not referenced by any claim in this file; aliases, facts and sources folded into the surviving record in enforce.json"
+    },
+    {
+      "id": "energy:hc-andhra-pradesh",
+      "removedFrom": "hydro.json",
+      "reason": "duplicate record of an id defined in another file and not referenced by any claim in this file; aliases, facts and sources folded into the surviving record in enforce.json"
+    },
+    {
+      "id": "per:rajesh-s-adani",
+      "removedFrom": "enforce.json",
+      "reason": "duplicate record of an id defined in another file and not referenced by any claim in this file; aliases, facts and sources folded into the surviving record in people.json"
+    },
+    {
+      "id": "per:sagar-adani",
+      "removedFrom": "enforce.json",
+      "reason": "duplicate record of an id defined in another file and not referenced by any claim in this file; aliases, facts and sources folded into the surviving record in people.json"
+    },
+    {
+      "id": "per:sagar-adani",
+      "removedFrom": "solarwind.json",
+      "reason": "duplicate record of an id defined in another file and not referenced by any claim in this file; aliases, facts and sources folded into the surviving record in people.json"
+    },
+    {
+      "id": "per:vneet-s-jaain",
+      "removedFrom": "solarwind.json",
+      "reason": "duplicate record of an id defined in another file and not referenced by any claim in this file; aliases, facts and sources folded into the surviving record in enforce.json"
+    },
+    {
+      "id": "co:nmdc-steel",
+      "removedFrom": "enforce.json",
+      "reason": "duplicate record of an id defined in another file and not referenced by any claim in this file; aliases, facts and sources folded into the surviving record in mines.json"
+    },
+    {
+      "id": "energy:tangedco",
+      "removedFrom": "enforce.json",
+      "reason": "duplicate record of an id defined in another file and not referenced by any claim in this file; aliases, facts and sources folded into the surviving record in solarwind.json"
+    },
+    {
+      "id": "energy:ys-jagan-mohan-reddy",
+      "removedFrom": "states.json",
+      "reason": "duplicate record of an id defined in another file and not referenced by any claim in this file; aliases, facts and sources folded into the surviving record in enforce.json"
+    },
+    {
+      "id": "energy:rk-singh",
+      "removedFrom": "hydro.json",
+      "reason": "duplicate record of an id defined in another file and not referenced by any claim in this file; aliases, facts and sources folded into the surviving record in grid.json"
+    },
+    {
+      "id": "co:rec-limited",
+      "removedFrom": "grid.json",
+      "reason": "duplicate record of an id defined in another file and not referenced by any claim in this file; aliases, facts and sources folded into the surviving record in money.json"
+    },
+    {
+      "id": "co:rec-limited",
+      "removedFrom": "hydro.json",
+      "reason": "duplicate record of an id defined in another file and not referenced by any claim in this file; aliases, facts and sources folded into the surviving record in money.json"
+    },
+    {
+      "id": "co:power-finance-corporation",
+      "removedFrom": "grid.json",
+      "reason": "duplicate record of an id defined in another file and not referenced by any claim in this file; aliases, facts and sources folded into the surviving record in money.json"
+    },
+    {
+      "id": "co:power-finance-corporation",
+      "removedFrom": "hydro.json",
+      "reason": "duplicate record of an id defined in another file and not referenced by any claim in this file; aliases, facts and sources folded into the surviving record in money.json"
+    },
+    {
+      "id": "energy:state-uttar-pradesh",
+      "removedFrom": "states.json",
+      "reason": "duplicate record of an id defined in another file and not referenced by any claim in this file; aliases, facts and sources folded into the surviving record in grid.json"
+    },
+    {
+      "id": "co:torrent-power",
+      "removedFrom": "money.json",
+      "reason": "duplicate record of an id defined in another file and not referenced by any claim in this file; aliases, facts and sources folded into the surviving record in grid.json"
+    },
+    {
+      "id": "energy:jsw-energy",
+      "removedFrom": "grid.json",
+      "reason": "duplicate record of an id defined in another file and not referenced by any claim in this file; aliases, facts and sources folded into the surviving record in nuclear.json"
+    },
+    {
+      "id": "energy:state-arunachal-pradesh",
+      "removedFrom": "states.json",
+      "reason": "duplicate record of an id defined in another file and not referenced by any claim in this file; aliases, facts and sources folded into the surviving record in hydro.json"
+    },
+    {
+      "id": "energy:state-sikkim",
+      "removedFrom": "states.json",
+      "reason": "duplicate record of an id defined in another file and not referenced by any claim in this file; aliases, facts and sources folded into the surviving record in hydro.json"
+    },
+    {
+      "id": "energy:state-maharashtra",
+      "removedFrom": "states.json",
+      "reason": "duplicate record of an id defined in another file and not referenced by any claim in this file; aliases, facts and sources folded into the surviving record in hydro.json"
+    },
+    {
+      "id": "energy:jaiprakash-associates",
+      "removedFrom": "people.json",
+      "reason": "duplicate record of an id defined in another file and not referenced by any claim in this file; aliases, facts and sources folded into the surviving record in hydro.json"
+    },
+    {
+      "id": "energy:tdp",
+      "removedFrom": "solarwind.json",
+      "reason": "duplicate record of an id defined in another file and not referenced by any claim in this file; aliases, facts and sources folded into the surviving record in hydro.json"
+    },
+    {
+      "id": "energy:party-jmm",
+      "removedFrom": "mines.json",
+      "reason": "duplicate record of an id defined in another file and not referenced by any claim in this file; aliases, facts and sources folded into the surviving record in money.json"
+    },
+    {
+      "id": "energy:state-goa",
+      "removedFrom": "states.json",
+      "reason": "duplicate record of an id defined in another file and not referenced by any claim in this file; aliases, facts and sources folded into the surviving record in mines.json"
+    },
+    {
+      "id": "energy:state-karnataka",
+      "removedFrom": "states.json",
+      "reason": "duplicate record of an id defined in another file and not referenced by any claim in this file; aliases, facts and sources folded into the surviving record in mines.json"
+    },
+    {
+      "id": "energy:omc",
+      "removedFrom": "states.json",
+      "reason": "duplicate record of an id defined in another file and not referenced by any claim in this file; aliases, facts and sources folded into the surviving record in mines.json"
+    },
+    {
+      "id": "grp:jsw",
+      "removedFrom": "mines.json",
+      "reason": "duplicate record of an id defined in another file and not referenced by any claim in this file; aliases, facts and sources folded into the surviving record in solarwind.json"
+    },
+    {
+      "id": "co:gail-india",
+      "removedFrom": "oilgas.json",
+      "reason": "duplicate record of an id defined in another file and not referenced by any claim in this file; aliases, facts and sources folded into the surviving record in money.json"
+    },
+    {
+      "id": "energy:gsecl",
+      "removedFrom": "coal.json",
+      "addedTo": "states.json",
+      "reason": "states:c010 (and its benefit.who) points at energy:gsecl, which only coal.json defined and no coal.json claim uses; the full record moved to states.json so the endpoint is defined in the file that needs it"
+    }
+  ],
+  "otherFixes": [
+    {
+      "file": "solarwind.json",
+      "id": "grp:jsw",
+      "fix": "removed aliases \"JSW Energy\", \"JSW Neo Energy\" (belong to energy:jsw-energy and its subsidiary)"
+    },
+    {
+      "file": "grid.json",
+      "id": "energy:gridco",
+      "fix": "removed alias \"energy:gridco-odisha\" (an id, not an alias)"
+    },
+    {
+      "file": "solarwind.json",
+      "id": "grp:adani",
+      "fix": "removed alias \"grp:adani\" (now the record id)"
+    },
+    {
+      "file": "grid.json",
+      "id": "co:torrent-power",
+      "fix": "removed aliases \"Torrent Group\" and \"Torrent Gas\" (they belong to energy:torrent-group and a sister company), which the first pass had copied in while consolidating duplicate records; moved the group-level ₹184 cr bond fact, the Torrent Gas CGD note and their Google News RSS source to energy:torrent-group"
+    },
+    {
+      "file": "oilgas.json",
+      "id": "co:torrent-power → energy:torrent-group",
+      "fix": "the record (sub \"Torrent group utility; group bought ₹184 cr bonds; Torrent Gas holds CGD GAs\", aliases \"Torrent Gas\", \"Torrent Group\") described the group, so it now carries id energy:torrent-group with the group facts; this is a file-local re-point, not a global mapping, because co:torrent-power stays a separate entity"
+    },
+    {
+      "file": "oilgas.json",
+      "id": "oilgas:c054",
+      "fix": "endpoint s re-pointed co:torrent-power → energy:torrent-group: the claim is Newslaundry's group-level figure (Torrent group ₹184 cr bonds, ₹137 cr to BJP), not Torrent Power Ltd's own purchases"
+    },
+    {
+      "file": "money.json",
+      "id": "energy:torrent-group",
+      "fix": "received the ₹184 cr group-bond fact, the Torrent Gas CGD note and the Google News RSS source moved off co:torrent-power"
+    }
+  ],
+  "notes": "Every research file passed the claim-level contract before reconciliation (no tier-as-predicate, every alleged claim already answered by a contra in its file, every analytic claim carries an innocentReading, ISO dates, [label,url] sources), so no claim was added, killed or re-predicated. Claims are untouched except for endpoint and benefit.who rewrites. The mappings are already applied in the raw files; they are recorded here so the assembler applies them to anything that still carries an old id."
+}

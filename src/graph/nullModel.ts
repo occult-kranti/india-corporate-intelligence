@@ -220,3 +220,63 @@ export function medianDegreeSeparation(edges: RawEdge[], sampleSeeds: string[]):
   all.sort((a, b) => a - b);
   return all[Math.floor(all.length / 2)];
 }
+
+export interface ShortestPath {
+  /** Node ids from `from` to `to`, inclusive. */
+  path: string[];
+  /**
+   * How many distinct shortest paths of this length exist. BFS returns ONE of them,
+   * chosen by edge order — a reader shown a single chain should know when it was
+   * one of forty equally short ones, because then the chain itself means nothing.
+   */
+  count: number;
+}
+
+/**
+ * Shortest path by breadth-first search, direction ignored.
+ *
+ * Direction is ignored on purpose: the question the path finder answers is "how
+ * far apart are these two in this graph", and a bond purchase and the award it is
+ * juxtaposed with point in opposite directions. The caption has to say so, and it
+ * has to say it next to the median separation — never alone.
+ *
+ * Index-pointer queue, not `shift()`: this runs on every selection change over
+ * graphs of ~1,500 nodes.
+ */
+export function shortestPath(edges: RawEdge[], from: string, to: string): ShortestPath | null {
+  if (from === to) return { path: [from], count: 1 };
+  const adj = new Map<string, string[]>();
+  for (const e of edges) {
+    if (e.s === e.t) continue;
+    (adj.get(e.s) ?? adj.set(e.s, []).get(e.s)!).push(e.t);
+    (adj.get(e.t) ?? adj.set(e.t, []).get(e.t)!).push(e.s);
+  }
+  if (!adj.has(from) || !adj.has(to)) return null;
+  const dist = new Map<string, number>([[from, 0]]);
+  const prev = new Map<string, string>();
+  // Path counts, capped so a dense hub cannot overflow into nonsense.
+  const sigma = new Map<string, number>([[from, 1]]);
+  const queue = [from];
+  for (let h = 0; h < queue.length; h++) {
+    const cur = queue[h];
+    const dc = dist.get(cur)!;
+    // Everything at the target's depth has been counted once the frontier passes it.
+    if (dist.has(to) && dc >= dist.get(to)!) break;
+    // Multi-edges between one pair are one step, not several paths.
+    for (const nxt of new Set(adj.get(cur))) {
+      const dn = dist.get(nxt);
+      if (dn == null) {
+        dist.set(nxt, dc + 1);
+        prev.set(nxt, cur);
+        sigma.set(nxt, sigma.get(cur)!);
+        queue.push(nxt);
+      } else if (dn === dc + 1) {
+        sigma.set(nxt, Math.min(1e6, sigma.get(nxt)! + sigma.get(cur)!));
+      }
+    }
+  }
+  if (!dist.has(to)) return null;
+  const path = [to];
+  while (path[path.length - 1] !== from) path.push(prev.get(path[path.length - 1])!);
+  return { path: path.reverse(), count: sigma.get(to)! };
+}

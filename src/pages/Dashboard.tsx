@@ -6,6 +6,14 @@ import { STATE_NAMES } from '../data/geo';
 import { hhi } from '../data/companies';
 import { TIER_ORDER, type Tier } from '../graph/schema';
 import { EDGES } from '../graph/data';
+import { INDICES_AS_OF, indexCoverage } from '../data/indices';
+
+/**
+ * Index coverage, derived once from the accessor. "49 / 50" is printed as such: a list
+ * short of its published size is a declared gap, and rounding it to "complete" here would
+ * contradict the map caption it links to.
+ */
+const INDEX_COVERAGE = indexCoverage();
 
 const fmtCr = (v: number) => (v >= 100000 ? `₹${(v / 100000).toFixed(1)}L cr` : `₹${Math.round(v).toLocaleString('en-IN')} cr`);
 
@@ -55,9 +63,22 @@ export default function Dashboard() {
           { value: `${top3Share.toFixed(0)}%`, label: `carried by ${states.slice(0, 3).map((s) => STATE_NAMES[s.stateCode]).join(', ')}`, tone: 'rose' },
           { value: String(stateRollup.size), label: 'of 36 states and UTs with a listed headquarters in the dataset' },
           { value: String(psuCount), label: 'public-sector undertakings', tone: 'muted' },
+          // Appended to the existing grid rather than a second grid; at four columns
+          // they fall on their own row, which is the "Index coverage" group.
+          ...INDEX_COVERAGE.map((x) => {
+            const missing = x.expected - x.confirmed;
+            return {
+              value: `${x.confirmed} / ${x.expected}`,
+              // The tile is the route to the map filtered to this index.
+              to: `/map?idx=${x.key}`,
+              label:
+                `Index coverage · ${x.label} constituents confirmed / expected, as of ${INDICES_AS_OF}` +
+                (missing > 0 ? ` · ${missing === 1 ? 'one' : missing} could not be verified` : '') +
+                (x.unresolved > 0 ? ` · ${x.unresolved} without a company record` : ''),
+            };
+          }),
         ]}
       />
-
       <Callout label="Start here" tone="bottomline">
         <p>
           If you are here to look for connections, read{' '}

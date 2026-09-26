@@ -27,6 +27,8 @@ import {
   Mountain,
   Crosshair,
   HandCoins,
+  Zap,
+  Coins,
 } from 'lucide-react';
 import { COMPANIES, COMPANIES_AS_OF } from '../data/companies';
 import { MINISTERS } from '../data/politics';
@@ -54,6 +56,8 @@ const navGroups: { label: string; items: { path: string; label: string; icon: ty
       { path: '/tenders', label: 'Govt awards', icon: Gavel },
       { path: '/resources', label: 'Natural resources', icon: Mountain },
       { path: '/pmcares', label: 'PM CARES', icon: HandCoins },
+      { path: '/energy', label: 'Energy power map', icon: Zap },
+      { path: '/welfare', label: 'Distribution funds', icon: Coins },
       { path: '/media', label: 'Media ownership', icon: Newspaper },
       { path: '/allocation', label: 'Allocation graph', icon: Waypoints },
     ],
@@ -92,6 +96,7 @@ const navGroups: { label: string; items: { path: string; label: string; icon: ty
 ];
 
 const navItems = navGroups.flatMap((g) => g.items);
+const MOBILE_NAV_ID = 'site-nav-mobile';
 
 export default function Layout() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -162,17 +167,23 @@ export default function Layout() {
             <Globe className="w-5 h-5 text-accent" />
             <span className="font-serif font-bold">ICIP</span>
           </div>
-          <button 
+          {/* Icon-only, so it carries its own name and state (WCAG 4.1.2, audit A11Y-001 S4).
+              aria-controls only while the menu exists: it is unmounted when closed. */}
+          <button
+            type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label={mobileMenuOpen ? 'Close navigation' : 'Open navigation'}
+            aria-expanded={mobileMenuOpen}
+            aria-controls={mobileMenuOpen ? MOBILE_NAV_ID : undefined}
             className="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-bg-card"
           >
-            {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            {mobileMenuOpen ? <X className="w-5 h-5" aria-hidden="true" /> : <Menu className="w-5 h-5" aria-hidden="true" />}
           </button>
         </div>
         
         {/* Mobile Menu */}
         {mobileMenuOpen && (
-          <nav className="bg-bg-elevated border-b border-border p-4 space-y-1">
+          <nav id={MOBILE_NAV_ID} className="bg-bg-elevated border-b border-border p-4 space-y-1">
             {navItems.map((item) => {
               const Icon = item.icon;
               const active = isActive(item.path);

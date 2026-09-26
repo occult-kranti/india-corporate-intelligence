@@ -102,6 +102,12 @@ const ROUTES = [
   ['/tenders?view=graph&scope=centre', 'tenders-graph'],
   ['/geograph', 'geograph'],
   ['/geograph?mode=state-flows&layer=all', 'geograph-flows'],
+  ['/energy', 'energy'],
+  ['/welfare', 'welfare'],
+  ['/company/wipro', 'company-wipro'],
+  ['/map?idx=sensex50', 'map-sensex50'],
+  ['/map?metric=psu&exchange=NSE&sector=Financials&scale=log&marks=hidden&idx=nifty50', 'map-parameterised'],
+  ['/industries?sector=Financials', 'industries-banking'],
 ];
 
 const failures = [];
@@ -114,7 +120,10 @@ for (const [route, name] of ROUTES) {
   const errors = [];
   // Third-party font/CDN failures are an environment fact, not an app defect —
   // every family has a system fallback. Everything else is a real error.
-  const external = /fonts\.(googleapis|gstatic)\.com|ERR_CONNECTION_RESET|ERR_NAME_NOT_RESOLVED|ERR_INTERNET_DISCONNECTED/;
+  // ERR_CERT_AUTHORITY_INVALID is the sandbox's TLS-intercepting proxy refusing a
+  // third-party fetch; Chromium reports it without the URL, so it cannot be matched
+  // on host. Nothing in dist is served over that path.
+  const external = /fonts\.(googleapis|gstatic)\.com|ERR_CONNECTION_RESET|ERR_NAME_NOT_RESOLVED|ERR_INTERNET_DISCONNECTED|ERR_CERT_AUTHORITY_INVALID/;
   const onConsole = (m) => {
     if (m.type() === 'error' && !external.test(m.text())) errors.push(m.text());
   };
@@ -130,6 +139,14 @@ for (const [route, name] of ROUTES) {
 
   const text = await page.evaluate(() => document.body.innerText.length);
   if (text < 200) failures.push(`${route}: rendered only ${text} characters — page is probably blank`);
+
+  // A parameterised route in this list is a known-good link. If any of its params is
+  // rejected, the page falls back to a default and says so — which would make the
+  // route test the default view while claiming to test the parameterised one.
+  if (route.includes('?')) {
+    const rejected = await page.evaluate(() => /Unrecognised /.test(document.body.innerText));
+    if (rejected) failures.push(`${route}: a URL param was reported as unrecognised — the smoke route is stale`);
+  }
 
   // Map pages must draw real geometry, not rectangles.
   if (['/map', '/atlas', '/cabinet', '/conglomerates'].includes(route)) {

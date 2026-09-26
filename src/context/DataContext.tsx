@@ -4,6 +4,9 @@ import { MINISTERS, type Minister } from '../data/politics';
 import { GROUPS, type Group } from '../data/conglomerates';
 import { NODES, EDGES } from '../graph/data';
 import { buildNationalGraph } from '../graph/build';
+import { mergeFleet } from '../graph/mergeFleet';
+import { ENERGY_NODES, ENERGY_EDGES } from '../graph/energy.generated';
+import { WELFARE_ENTITIES, WELFARE_SCHEME_NODES, WELFARE_CLAIMS } from '../data/welfare.generated';
 import type { GNode, GEdge, StateCode } from '../graph/schema';
 
 /**
@@ -41,6 +44,13 @@ interface DataContextType {
   groups: Group[];
   nodes: GNode[];
   edges: GEdge[];
+  /**
+   * Research-fleet edges held out of `edges` because an endpoint is not a node in
+   * the merged graph — a denial answering a claim id, or an inventory id the
+   * national build does not produce. Exposed so a page can report them, never drawn
+   * as dangling links.
+   */
+  heldEdges: GEdge[];
   asOf: string;
   filters: Filters;
   setFilters: (f: Filters) => void;
@@ -79,7 +89,10 @@ export function DataProvider({ children }: { children: ReactNode }) {
 
   const graph = useMemo(() => {
     const national = buildNationalGraph();
-    return { nodes: [...NODES, ...national.nodes], edges: [...EDGES, ...national.edges] };
+    return mergeFleet({ nodes: [...NODES, ...national.nodes], edges: [...EDGES, ...national.edges] }, [
+      { nodes: ENERGY_NODES, edges: ENERGY_EDGES },
+      { nodes: [...WELFARE_ENTITIES, ...WELFARE_SCHEME_NODES], edges: WELFARE_CLAIMS },
+    ]);
   }, []);
 
   const filteredCompanies = useMemo(() => {
@@ -121,6 +134,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
         groups: GROUPS,
         nodes: graph.nodes,
         edges: graph.edges,
+        heldEdges: graph.heldEdges,
         asOf: COMPANIES_AS_OF,
         filters,
         setFilters,

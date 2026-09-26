@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import { Link } from 'react-router-dom';
 import { TIERS, type Tier } from '../graph/schema';
 
 /** Shared editorial primitives. The long-form pages are documents, not dashboards. */
@@ -113,18 +114,42 @@ export function TierLegend() {
   );
 }
 
-export function StatGrid({ items }: { items: { value: string; label: string; tone?: 'accent' | 'rose' | 'sage' | 'amber' | 'muted' }[] }) {
+/**
+ * `to` (an internal route) makes the whole tile a Link: keyboard-focusable, with a
+ * visible focus ring and otherwise no visual change, so a linked tile does not read
+ * as more important than its neighbours.
+ */
+export function StatGrid({
+  items,
+}: {
+  items: { value: string; label: string; tone?: 'accent' | 'rose' | 'sage' | 'amber' | 'muted'; to?: string }[];
+}) {
   const tone = { accent: 'text-accent', rose: 'text-rose', sage: 'text-sage', amber: 'text-amber', muted: 'text-text-muted' };
   return (
     <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4 my-7">
-      {items.map((s) => (
-        <div key={s.label} className="border-t-2 border-border-light pt-3">
-          <p className={`font-mono text-[clamp(1.5rem,4vw,2.2rem)] leading-none font-semibold ${tone[s.tone ?? 'accent']}`}>
-            {s.value}
-          </p>
-          <p className="text-[13px] text-text-muted mt-2 leading-snug">{s.label}</p>
-        </div>
-      ))}
+      {items.map((s) => {
+        const body = (
+          <>
+            <p className={`font-mono text-[clamp(1.5rem,4vw,2.2rem)] leading-none font-semibold ${tone[s.tone ?? 'accent']}`}>
+              {s.value}
+            </p>
+            <p className="text-[13px] text-text-muted mt-2 leading-snug">{s.label}</p>
+          </>
+        );
+        return s.to ? (
+          <Link
+            key={s.label}
+            to={s.to}
+            className="block border-t-2 border-border-light pt-3 outline-none focus-visible:ring-2 focus-visible:ring-accent/60 focus-visible:ring-offset-2 focus-visible:ring-offset-bg rounded-sm"
+          >
+            {body}
+          </Link>
+        ) : (
+          <div key={s.label} className="border-t-2 border-border-light pt-3">
+            {body}
+          </div>
+        );
+      })}
     </div>
   );
 }

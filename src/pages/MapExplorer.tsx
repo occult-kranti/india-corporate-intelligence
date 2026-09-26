@@ -1,5 +1,5 @@
-import { useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useCallback, useMemo, useState } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
 import { Kicker, PageTitle, Standfirst, Byline, Section, Callout, StatGrid, DataTable, Footnote } from '../components/Editorial';
 import IndiaMap, { type MapMark, type ScaleMode } from '../components/viz/IndiaMap';
 import {
@@ -8,6 +8,7 @@ import {
 } from '../data/companies';
 import { STATES, STATE_NAMES } from '../data/geo';
 import { ministersByState } from '../data/politics';
+import { INDEX_KEYS, INDEX_LABEL, INDICES_AS_OF, indexCoverage, membershipOf, type IndexKey } from '../data/indices';
 import type { StateCode } from '../graph/schema';
 
 /**
@@ -31,17 +32,66 @@ const METRICS: { id: Metric; label: string; unit: string; note: string }[] = [
 
 const fmtCr = (v: number) => (v >= 100000 ? `${(v / 100000).toFixed(2)} lakh cr` : `${Math.round(v).toLocaleString('en-IN')} cr`);
 
+/**
+ * Index membership per company, joined on `co:<id>` only, built once. The filter and
+ * the caption both read it, so the count the caption prints is the count on the map.
+ */
+const INDEX_OF = new Map<string, IndexKey[]>(COMPANIES.map((c) => [c.id, membershipOf(`co:${c.id}`)]));
+/** "n of N confirmed" per index — printed on the control and under the map. */
+const COVERAGE = new Map(indexCoverage().map((x) => [x.key, x]));
+/** "one" reads as a sentence; larger shortfalls stay numerals. */
+const countWord = (n: number) => (n === 1 ? 'one' : String(n));
+
+/** URL defaults. A param equal to its default is removed, so the bare `/map` is the default view. */
+const DEFAULTS = { metric: 'mcap', exchange: 'both', sector: 'all', scale: 'quantile', marks: 'shown' } as const;
+const EXCHANGES: Exchange[] = ['both', 'NSE', 'BSE'];
+const SCALES: ScaleMode[] = ['quantile', 'log', 'linear'];
+const MARKS = ['shown', 'hidden'] as const;
+/** Built once: the sector control and the URL parser read the same list. */
+const SECTORS = sectorTotals().map((s) => s.sector);
+
 export default function MapExplorer() {
-  const [metric, setMetric] = useState<Metric>('mcap');
-  const [exchange, setExchange] = useState<Exchange>('both');
-  const [sector, setSector] = useState<string>('all');
-  const [scaleMode, setScaleMode] = useState<ScaleMode>('quantile');
   const [selected, setSelected] = useState<StateCode | null>(null);
-  const [showMarks, setShowMarks] = useState(true);
 
-  const sectors = useMemo(() => sectorTotals().map((s) => s.sector), []);
+  // Every filter lives in the URL, so any map view is shareable and the Dashboard's
+  // coverage tiles (and any reader) can link straight to e.g. `/map?idx=<key>`.
+  // A param at its default is removed; replace: true keeps filter clicks out of history.
+  const [params, setParams] = useSearchParams();
+  const setParam = useCallback(
+    (k: keyof typeof DEFAULTS | 'idx', v: string | null) => {
+      const next = new URLSearchParams(params);
+      if (v == null || v === '' || (k !== 'idx' && v === DEFAULTS[k])) next.delete(k);
+      else next.set(k, v);
+      setParams(next, { replace: true });
+    },
+    [params, setParams],
+  );
+  // Only a known value applies. An unknown one falls back to the default and is
+  // reported under the map, never silently read as "no match" (an unknown sector or
+  // index would hatch every state and read as a finding).
+  const unrecognised: [string, string][] = [];
+  const pick = <T extends string>(k: keyof typeof DEFAULTS | 'idx', allowed: readonly T[], fallback: T | null): T | null => {
+    const raw = params.get(k);
+    if (raw == null) return fallback;
+    const hit = allowed.find((a) => a === raw);
+    if (hit === undefined) {
+      unrecognised.push([k, raw]);
+      return fallback;
+    }
+    return hit;
+  };
+  const metric = pick<Metric>('metric', METRICS.map((m) => m.id), DEFAULTS.metric)!;
+  const exchange = pick<Exchange>('exchange', EXCHANGES, DEFAULTS.exchange)!;
+  const sector = pick<string>('sector', ['all', ...SECTORS], DEFAULTS.sector)!;
+  const scaleMode = pick<ScaleMode>('scale', SCALES, DEFAULTS.scale)!;
+  const showMarks = pick('marks', MARKS, DEFAULTS.marks) === 'shown';
+  const idx: IndexKey | null = pick<IndexKey>('idx', INDEX_KEYS, null);
 
-  const filtered = useMemo(
+  const sectors = SECTORS;
+
+  // Exchange and sector first, index second, so the caption can say what the index
+  // filter itself removed rather than what all filters removed together.
+  const preIndex = useMemo(
     () =>
       COMPANIES.filter(
         (c) =>
@@ -50,6 +100,12 @@ export default function MapExplorer() {
       ),
     [exchange, sector],
   );
+  const filtered = useMemo(
+    () => (idx ? preIndex.filter((c) => (INDEX_OF.get(c.id) ?? []).includes(idx)) : preIndex),
+    [preIndex, idx],
+  );
+  const idxCov = idx ? COVERAGE.get(idx) : undefined;
+  const narrowed = exchange !== 'both' || sector !== 'all' || idx != null;
 
   const rollup = useMemo(() => rollupByState(filtered), [filtered]);
   const ministers = useMemo(() => ministersByState(), []);
@@ -134,9 +190,18 @@ export default function MapExplorer() {
         <StatGrid
           items={[
             { value: `₹${(totalMcap / 100000).toFixed(1)}L cr`, label: 'total recorded listed market cap in view' },
-            { value: String(filtered.length), label: `companies in view (${exchange === 'both' ? 'NSE + BSE' : exchange})` },
-            { value: `${concentration.toFixed(0)}%`, label: `carried by ${topState ? STATE_NAMES[topState.stateCode] : '—'} alone`, tone: 'rose' },
-            { value: `${noData}/36`, label: 'states and UTs with no company in the dataset — not zero, unmeasured', tone: 'muted' },
+            { value: String(filtered.length), label: `companies in view (${exchange === 'both' ? 'NSE + BSE' : exchange}${idx ? ` · ${INDEX_LABEL[idx]}` : ''})` },
+            // With nothing in view there is no top state; print the absence, not "0%".
+            { value: topState ? `${concentration.toFixed(0)}%` : '—', label: `carried by ${topState ? STATE_NAMES[topState.stateCode] : 'no state — nothing in view'} alone`, tone: 'rose' },
+            {
+              value: `${noData}/36`,
+              // Under a filter an empty state is usually filtered out, not unmeasured — the
+              // index filter in particular empties most states, so the label must say which.
+              label: narrowed
+                ? 'states and UTs with no company in view under these filters — filtered out or unmeasured, not zero'
+                : 'states and UTs with no company in the dataset — not zero, unmeasured',
+              tone: 'muted',
+            },
           ]}
         />
       )}
@@ -149,7 +214,8 @@ export default function MapExplorer() {
               {METRICS.map((m) => (
                 <button
                   key={m.id}
-                  onClick={() => setMetric(m.id)}
+                  onClick={() => setParam('metric', m.id)}
+                  aria-pressed={metric === m.id}
                   title={m.note}
                   className={`font-mono text-[11px] px-2.5 py-1.5 rounded border transition-colors ${
                     metric === m.id ? 'border-accent text-accent bg-accent/10' : 'border-border text-text-muted hover:text-text'
@@ -164,10 +230,11 @@ export default function MapExplorer() {
           <div>
             <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-text-muted mb-1.5">Exchange</p>
             <div className="flex gap-1.5">
-              {(['both', 'NSE', 'BSE'] as Exchange[]).map((x) => (
+              {EXCHANGES.map((x) => (
                 <button
                   key={x}
-                  onClick={() => setExchange(x)}
+                  onClick={() => setParam('exchange', x)}
+                  aria-pressed={exchange === x}
                   className={`font-mono text-[11px] px-2.5 py-1.5 rounded border transition-colors ${
                     exchange === x ? 'border-accent text-accent bg-accent/10' : 'border-border text-text-muted hover:text-text'
                   }`}
@@ -179,12 +246,48 @@ export default function MapExplorer() {
           </div>
 
           <div>
+            <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-text-muted mb-1.5">
+              Index · lists as of {INDICES_AS_OF}
+            </p>
+            <div className="flex flex-wrap gap-1.5">
+              {([null, ...INDEX_KEYS] as (IndexKey | null)[]).map((k) => {
+                const cov = k ? COVERAGE.get(k) : undefined;
+                return (
+                  <button
+                    key={k ?? 'all'}
+                    onClick={() => setParam('idx', k)}
+                    aria-pressed={idx === k}
+                    title={
+                      cov
+                        ? `${cov.label}: ${cov.confirmed} of ${cov.expected} constituents confirmed, as of ${INDICES_AS_OF}`
+                        : 'Every company, in or out of an index'
+                    }
+                    className={`font-mono text-[11px] px-2.5 py-1.5 rounded border transition-colors ${
+                      idx === k ? 'border-accent text-accent bg-accent/10' : 'border-border text-text-muted hover:text-text'
+                    }`}
+                  >
+                    {k ? INDEX_LABEL[k] : 'All'}
+                    {/* The denominator sits on the control: a short list says so before it is chosen. */}
+                    {cov && (
+                      <span className="opacity-60">
+                        {' '}
+                        {cov.confirmed}/{cov.expected}
+                      </span>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          <div>
             <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-text-muted mb-1.5">Scale</p>
             <div className="flex gap-1.5">
-              {(['quantile', 'log', 'linear'] as ScaleMode[]).map((s) => (
+              {SCALES.map((s) => (
                 <button
                   key={s}
-                  onClick={() => setScaleMode(s)}
+                  onClick={() => setParam('scale', s)}
+                  aria-pressed={scaleMode === s}
                   className={`font-mono text-[11px] px-2.5 py-1.5 rounded border transition-colors ${
                     scaleMode === s ? 'border-accent text-accent bg-accent/10' : 'border-border text-text-muted hover:text-text'
                   }`}
@@ -198,7 +301,7 @@ export default function MapExplorer() {
           {sectors.length > 0 && (
             <div>
               <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-text-muted mb-1.5">Sector</p>
-              <select value={sector} onChange={(e) => setSector(e.target.value)} className="input-field !py-1.5 !text-[12px] !w-auto">
+              <select value={sector} onChange={(e) => setParam('sector', e.target.value)} className="input-field !py-1.5 !text-[12px] !w-auto">
                 <option value="all">All sectors</option>
                 {sectors.map((s) => (
                   <option key={s} value={s}>
@@ -212,7 +315,8 @@ export default function MapExplorer() {
           <div>
             <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-text-muted mb-1.5">Marks</p>
             <button
-              onClick={() => setShowMarks((s) => !s)}
+              onClick={() => setParam('marks', showMarks ? 'hidden' : 'shown')}
+              aria-pressed={showMarks}
               className={`font-mono text-[11px] px-2.5 py-1.5 rounded border transition-colors ${
                 showMarks ? 'border-accent text-accent bg-accent/10' : 'border-border text-text-muted hover:text-text'
               }`}
@@ -236,6 +340,39 @@ export default function MapExplorer() {
               format={(v) => (metric === 'mcap' || metric === 'gsdp' ? fmtCr(v) : String(Math.round(v)))}
             />
             <p className="text-[12px] text-text-muted mt-3 max-w-[70ch]">{activeMetric.note}</p>
+            {unrecognised.map(([k, v]) => (
+              <p key={k} className="text-[12px] text-text-secondary mt-2 max-w-[70ch]">
+                {k === 'idx'
+                  ? `Unrecognised index “${v}” in the link — the index filter is off and every company is shown.`
+                  : k === 'sector'
+                    ? `Unrecognised sector “${v}” in the link — the sector filter is off and every sector is shown.`
+                    : `Unrecognised ${k} “${v}” in the link — the default (${k === 'metric' ? METRICS.find((m) => m.id === DEFAULTS.metric)!.label : k === 'exchange' ? 'NSE + BSE' : DEFAULTS[k as keyof typeof DEFAULTS]}) is shown instead.`}
+              </p>
+            ))}
+            {idx && idxCov && (
+              <div className="text-[12px] text-text-secondary mt-2 max-w-[70ch] space-y-1 border-l-2 border-border-light pl-3">
+                <p>
+                  {INDEX_LABEL[idx]} filter kept <span className="font-mono">{filtered.length}</span> of{' '}
+                  <span className="font-mono">{preIndex.length}</span> companies
+                  {exchange !== 'both' || sector !== 'all' ? ' left by the exchange and sector filters' : ' in the dataset'}, against
+                  the constituent list as of <span className="font-mono">{INDICES_AS_OF}</span>.
+                </p>
+                <p>
+                  {idxCov.label}: <span className="font-mono">{idxCov.confirmed}</span> of{' '}
+                  <span className="font-mono">{idxCov.expected}</span> constituents confirmed
+                  {idxCov.confirmed < idxCov.expected
+                    ? ` — ${countWord(idxCov.expected - idxCov.confirmed)} could not be verified and ${idxCov.expected - idxCov.confirmed === 1 ? 'is' : 'are'} not shown`
+                    : ''}
+                  {idxCov.unresolved > 0
+                    ? `${idxCov.confirmed < idxCov.expected ? ';' : ' —'} ${countWord(idxCov.unresolved)} confirmed ${idxCov.unresolved === 1 ? 'has' : 'have'} no company record in the dataset and cannot be mapped`
+                    : ''}
+                  .
+                </p>
+                <p className="text-text-muted">
+                  A hatched state has no {INDEX_LABEL[idx]} member registered there — not no companies.
+                </p>
+              </div>
+            )}
           </div>
 
           {/* drill-down */}

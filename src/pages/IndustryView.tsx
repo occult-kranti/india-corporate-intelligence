@@ -1,13 +1,31 @@
-import { useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useCallback, useMemo } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
 import { Kicker, PageTitle, Standfirst, Byline, Section, Callout, StatGrid, DataTable } from '../components/Editorial';
 import IndiaMap from '../components/viz/IndiaMap';
+import { IndexChips } from '../components/Domain';
 import { useData } from '../context/DataContext';
-import { hhi } from '../data/companies';
+import { COMPANIES, hhi } from '../data/companies';
 import { STATE_NAMES } from '../data/geo';
+import { INDEX_KEYS, INDEX_LABEL, INDICES_AS_OF, indexCoverage, membershipOf, type IndexKey } from '../data/indices';
 import type { StateCode } from '../graph/schema';
 
 const fmtCr = (v: number) => (v >= 100000 ? `₹${(v / 100000).toFixed(2)}L cr` : `₹${Math.round(v).toLocaleString('en-IN')} cr`);
+
+/**
+ * Index membership, derived once at module scope from the typed accessor and joined on
+ * `co:<id>` only. The per-sector count line and the all-sectors column read these two
+ * maps; the Index column's <IndexChips> reads the same `membershipOf` accessor on the
+ * same `co:<id>` join, so the three cannot disagree with each other.
+ */
+const INDEX_OF = new Map<string, IndexKey[]>(COMPANIES.map((c) => [c.id, membershipOf(`co:${c.id}`)]));
+const INDEXED_BY_SECTOR = new Map<string, number>();
+for (const c of COMPANIES) {
+  if ((INDEX_OF.get(c.id) ?? []).length > 0) INDEXED_BY_SECTOR.set(c.sector, (INDEXED_BY_SECTOR.get(c.sector) ?? 0) + 1);
+}
+/** Lists short of their published size: a sector count can only be as complete as they are. */
+const INDEX_SHORTFALL = indexCoverage().filter((x) => x.confirmed < x.expected || x.unresolved > 0);
+const INDEX_NAMES = INDEX_KEYS.map((k) => INDEX_LABEL[k]);
+const INDEX_NAMES_TEXT = `${INDEX_NAMES.slice(0, -1).join(', ')} or ${INDEX_NAMES[INDEX_NAMES.length - 1]}`;
 
 /**
  * Sector view.
@@ -19,7 +37,24 @@ const fmtCr = (v: number) => (v >= 100000 ? `₹${(v / 100000).toFixed(2)}L cr` 
  */
 export default function IndustryView() {
   const { companies, sectors, groups } = useData();
-  const [sector, setSector] = useState<string>(sectors[0]?.sector ?? '');
+  // The sector lives in the URL (`?sector=`) so a sector view is shareable. The default
+  // (largest sector, first in the list) is the bare `/industries`; replace: true keeps
+  // sector clicks out of history. An unknown sector falls back to the default and is
+  // reported, never read as an empty sector.
+  const [params, setParams] = useSearchParams();
+  const defaultSector = sectors[0]?.sector ?? '';
+  const sectorParam = params.get('sector');
+  const known = sectorParam != null && sectors.some((s) => s.sector === sectorParam);
+  const sector = known ? sectorParam : defaultSector;
+  const setSector = useCallback(
+    (v: string) => {
+      const next = new URLSearchParams(params);
+      if (!v || v === defaultSector) next.delete('sector');
+      else next.set('sector', v);
+      setParams(next, { replace: true });
+    },
+    [params, setParams, defaultSector],
+  );
 
   const inSector = useMemo(() => companies.filter((c) => c.sector === sector), [companies, sector]);
   const conc = useMemo(() => hhi(inSector.map((c) => c.marketCapCr ?? 0)), [inSector]);
@@ -50,6 +85,7 @@ export default function IndustryView() {
   );
 
   const statesPresent = new Set(inSector.map((c) => c.stateCode)).size;
+  const indexedHere = INDEXED_BY_SECTOR.get(sector) ?? 0;
 
   return (
     <article className="pb-20">
@@ -73,6 +109,7 @@ export default function IndustryView() {
           <button
             key={s.sector}
             onClick={() => setSector(s.sector)}
+            aria-pressed={sector === s.sector}
             className={`font-mono text-[11px] px-2.5 py-1.5 rounded border transition-colors ${
               sector === s.sector ? 'border-accent text-accent bg-accent/10' : 'border-border text-text-muted hover:text-text'
             }`}
@@ -81,6 +118,11 @@ export default function IndustryView() {
           </button>
         ))}
       </div>
+      {sectorParam != null && !known && (
+        <p className="text-[12px] text-text-secondary -mt-3 mb-4 max-w-[70ch]">
+          Unrecognised sector “{sectorParam}” in the link — showing {defaultSector || 'the default sector'} instead.
+        </p>
+      )}
 
       <StatGrid
         items={[
@@ -113,9 +155,24 @@ export default function IndustryView() {
         />
       </Section>
 
-      <Section title={`Listed ${sector} companies`} note="By recorded market cap">
+      <Section title={`Listed ${sector} companies`} note={`By recorded market cap · index membership as of ${INDICES_AS_OF}`}>
+        <p className="text-[13.5px] text-text-secondary max-w-[70ch] leading-relaxed">
+          <span className="font-mono text-text">{indexedHere}</span> of the sector's{' '}
+          <span className="font-mono text-text">{inSector.length}</span> listed companies sit in an index (as of{' '}
+          <span className="font-mono">{INDICES_AS_OF}</span>). An index here means {INDEX_NAMES_TEXT}; the count is
+          of companies, so one that sits in several is counted once.
+          {INDEX_SHORTFALL.map((x) => (
+            <span key={x.key} className="text-text-muted">
+              {' '}
+              {x.label}: <span className="font-mono">{x.confirmed}</span> of <span className="font-mono">{x.expected}</span>{' '}
+              constituents confirmed
+              {x.confirmed < x.expected ? ` — the ${x.expected - x.confirmed === 1 ? 'unconfirmed one is' : `${x.expected - x.confirmed} unconfirmed are`} not counted` : ''}
+              {x.unresolved > 0 ? `; ${x.unresolved} confirmed without a company record, also not counted` : ''}.
+            </span>
+          ))}
+        </p>
         <DataTable
-          columns={['Company', 'Ticker', 'Industry', 'Market cap', 'State', 'Group']}
+          columns={['Company', 'Ticker', 'Index', 'Industry', 'Market cap', 'State', 'Group']}
           rows={[...inSector]
             .sort((a, b) => (b.marketCapCr ?? 0) - (a.marketCapCr ?? 0))
             .map((c) => [
@@ -125,6 +182,7 @@ export default function IndustryView() {
               <span key="t" className="font-mono text-[11.5px]">
                 {c.nse ?? c.bse ?? '—'}
               </span>,
+              <IndexChips key="x" companyId={c.id} size="sm" />,
               <span key="i" className="text-[12.5px]">
                 {c.industry}
               </span>,
@@ -161,9 +219,9 @@ export default function IndustryView() {
         </Section>
       )}
 
-      <Section title="All sectors" note="Sorted by recorded market cap">
+      <Section title="All sectors" note={`Sorted by recorded market cap · "In an index" counts companies in ${INDEX_NAMES_TEXT}, as of ${INDICES_AS_OF}`}>
         <DataTable
-          columns={['Sector', 'Companies', 'States', 'Market cap', 'HHI (listed only)']}
+          columns={['Sector', 'Companies', 'In an index', 'States', 'Market cap', 'HHI (listed only)']}
           rows={sectors.map((s) => {
             const list = companies.filter((c) => c.sector === s.sector);
             const h = hhi(list.map((c) => c.marketCapCr ?? 0));
@@ -172,6 +230,9 @@ export default function IndustryView() {
                 {s.sector}
               </button>,
               String(s.count),
+              <span key="x" className="font-mono text-[12px]">
+                {INDEXED_BY_SECTOR.get(s.sector) ?? 0}
+              </span>,
               String(s.states),
               <span key="m" className="font-mono text-[12px] whitespace-nowrap">
                 {fmtCr(s.mcapCr)}
