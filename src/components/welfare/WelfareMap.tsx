@@ -29,7 +29,21 @@ export interface WelfareMapHandle {
 
 /** The flat fill for "declared searched, none live" — distinct from the ramp floor and from the page. */
 export const ZERO_FILL = '#15171c';
+/**
+ * The flat class is identified by its edge, not by its fill: a flat fill light enough to
+ * clear 3:1 against the page would sit inside the value ramp's greys and read as a low
+ * value. The edge is --color-text-muted (5.3:1 on the page, 4.8:1 on the flat fill),
+ * drawn above every state boundary so a neighbour cannot paint over it (A11Y-002 M1).
+ */
+export const ZERO_EDGE = 'var(--color-text-muted)';
 const GROUND = '#101116';
+/**
+ * Texture marks, raised so each mark clears 3:1 against its ground (A11Y-002 M1): hatch
+ * line 3.7:1 on the ground, 3.9:1 on the page; stipple dot 4.4:1 and 4.7:1. Both stay
+ * well below the ramp floor in mean luminance, so neither reads as a value.
+ */
+const HATCH_INK = 'rgba(201,168,108,0.6)';
+const STIPPLE_INK = 'rgba(232,228,220,0.5)';
 
 /**
  * The two non-value textures, defined once. The map, the legend swatches and the clock's
@@ -46,12 +60,12 @@ export function TexturePatterns({ hatchId, stippleId, px }: { hatchId: string; s
       {/* No data: warm diagonal lines. Never zero. */}
       <pattern id={hatchId} width={pitch} height={pitch} patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
         <rect width={pitch} height={pitch} fill={GROUND} />
-        <line x1="0" y1="0" x2="0" y2={pitch} stroke="rgba(201,168,108,0.34)" strokeWidth={Math.max(1.1, 1 / px)} />
+        <line x1="0" y1="0" x2="0" y2={pitch} stroke={HATCH_INK} strokeWidth={Math.max(1.1, 1 / px)} />
       </pattern>
       {/* Live, no comparable figure: neutral dots. Never zero, never low. */}
       <pattern id={stippleId} width={pitch * 0.72} height={pitch * 0.72} patternUnits="userSpaceOnUse">
         <rect width={pitch * 0.72} height={pitch * 0.72} fill={GROUND} />
-        <circle cx={pitch * 0.36} cy={pitch * 0.36} r={dot} fill="rgba(232,228,220,0.32)" />
+        <circle cx={pitch * 0.36} cy={pitch * 0.36} r={dot} fill={STIPPLE_INK} />
       </pattern>
     </>
   );
@@ -90,7 +104,9 @@ export default forwardRef<WelfareMapHandle, {
   onSelect: (st: StateCode | null, via: 'pointer' | 'keyboard') => void;
   onHover: (st: StateCode | null) => void;
   onFocusState: (st: StateCode | null) => void;
-}>(function WelfareMap({ rows, ballots, selected, height, ariaLabel, describedBy, onSelect, onHover, onFocusState }, ref) {
+  /** Escape first dismisses the readout card; returns true when it did, so the key does not also clear the selection. */
+  onDismiss?: () => boolean;
+}>(function WelfareMap({ rows, ballots, selected, height, ariaLabel, describedBy, onSelect, onHover, onFocusState, onDismiss }, ref) {
   const uid = useId().replace(/:/g, '');
   const svgRef = useRef<SVGSVGElement>(null);
   const [idx, setIdx] = useState(-1);
@@ -149,7 +165,10 @@ export default forwardRef<WelfareMapHandle, {
     if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); move(1); }
     else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); move(-1); }
     else if ((e.key === 'Enter' || e.key === ' ') && idx >= 0) { e.preventDefault(); onSelect(ORDERED[idx].id, 'keyboard'); }
-    else if (e.key === 'Escape') onSelect(null, 'keyboard');
+    else if (e.key === 'Escape') {
+      if (onDismiss?.()) { e.preventDefault(); return; }
+      onSelect(null, 'keyboard');
+    }
   };
 
   const fillOf = (r: StateYearRow | undefined) => {
@@ -173,16 +192,26 @@ export default forwardRef<WelfareMapHandle, {
   }, [ballots, k]);
 
   const focused = hasFocus && idx >= 0 ? ORDERED[idx] : null;
+  const optId = (st: StateCode) => `${uid}-st-${st}`;
 
+  // A11Y-002 S3: the drawing is the page's arrow-key widget, so it is exposed as one — a
+  // listbox of the 36 states (roledescription "map"), focus kept on the svg and the
+  // current state named through aria-activedescendant — not as an image, whose children
+  // are presentational and whose role tells a screen reader there is nothing to operate.
+  // Everything else drawn (outlines, labels, ballots, the focus ring) is aria-hidden: its
+  // words are in the readout, the live region and the year-slice twin, as before.
   return (
     <svg
       ref={svgRef}
       viewBox={VIEWBOX}
       style={{ height, width: '100%', display: 'block' }}
-      role="img"
+      role="listbox"
+      aria-roledescription="map"
+      aria-orientation="vertical"
       tabIndex={0}
       aria-label={ariaLabel}
       aria-describedby={describedBy}
+      aria-activedescendant={focused ? optId(focused.id) : undefined}
       onKeyDown={onKey}
       onFocus={() => setHasFocus(true)}
       onBlur={() => { setHasFocus(false); onFocusState(null); }}
@@ -193,13 +222,18 @@ export default forwardRef<WelfareMapHandle, {
       </defs>
 
 
-      <g>
+      <g role="none">
         {STATES.map((s) => {
           const r = rows.get(s.id);
           const isSel = selected === s.id;
           return (
             <path
               key={s.id}
+              id={optId(s.id)}
+              role="option"
+              aria-selected={isSel}
+              aria-posinset={ORDERED.findIndex((o) => o.id === s.id) + 1}
+              aria-setsize={ORDERED.length}
               d={s.path}
               data-st={s.id}
               data-fill-class={r?.cls ?? 'hatch'}
@@ -218,13 +252,16 @@ export default forwardRef<WelfareMapHandle, {
         })}
       </g>
 
-      <g pointerEvents="none">
+      <g pointerEvents="none" aria-hidden="true">
         {STATES.map((s) => (
           <path key={`o-${s.id}`} d={s.path} fill="none" stroke="rgba(201,168,108,0.22)" strokeWidth="0.4" strokeLinejoin="round" />
         ))}
+        {STATES.filter((s) => rows.get(s.id)?.cls === 'zero').map((s) => (
+          <path key={`z-${s.id}`} data-zero-edge={s.id} d={s.path} fill="none" stroke={ZERO_EDGE} strokeWidth={1.25} vectorEffect="non-scaling-stroke" strokeLinejoin="round" />
+        ))}
       </g>
 
-      <g pointerEvents="none" fontFamily="var(--font-sans)">
+      <g pointerEvents="none" fontFamily="var(--font-sans)" aria-hidden="true">
         {STATES.map((s) => {
           const mode = labelMode(s);
           if (mode === 'leader') return null;
@@ -253,7 +290,7 @@ export default forwardRef<WelfareMapHandle, {
 
       {/* Ballots: every assembly election in the year, filled = kept, hollow = lost,
           half = unclassified; the lid is a timing fact. Solid strokes only — dash is tier. */}
-      <g>
+      <g aria-hidden="true">
         {placed.map(({ b, x, y }) => {
           const ink = b.muted ? 'var(--color-text-muted)' : 'var(--color-text)';
           return (
@@ -268,7 +305,7 @@ export default forwardRef<WelfareMapHandle, {
       </g>
 
       {focused && (
-        <circle cx={focused.cx} cy={focused.cy} r={Math.max(6, focused.clearance * 0.5)} fill="none" stroke="var(--color-accent)" strokeWidth="1.2" pointerEvents="none" />
+        <circle data-focus-ring="" aria-hidden="true" cx={focused.cx} cy={focused.cy} r={Math.max(6, focused.clearance * 0.5)} fill="none" stroke="var(--color-accent)" strokeWidth="1.2" pointerEvents="none" />
       )}
     </svg>
   );

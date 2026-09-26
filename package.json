@@ -14,11 +14,12 @@
     "validate": "node scripts/validate.mjs",
     "smoke": "node scripts/smoke.mjs",
     "viewport": "node scripts/graph-viewport.mjs",
-    "check": "npm run promote && npm run generate && npm run test:assemble && npm run validate && npm run build && npm run smoke && npm run viewport",
+    "check": "npm run promote && npm run generate && npm run test:assemble && npm run validate && npm run build && npm run smoke && npm run viewport && npm run test:pages",
     "test:pages": "node --test \"scripts/pages/*.test.mjs\""
   },
   "dependencies": {
     "d3-force": "^3.0.0",
+    "d3-quadtree": "^3.0.1",
     "lucide-react": "^0.469.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -27,6 +28,7 @@
   "devDependencies": {
     "@tailwindcss/vite": "^4.0.0",
     "@types/d3-force": "^3.0.10",
+    "@types/d3-quadtree": "^3.0.6",
     "@types/react": "^18.3.18",
     "@types/react-dom": "^18.3.5",
     "@vitejs/plugin-react": "^4.3.4",

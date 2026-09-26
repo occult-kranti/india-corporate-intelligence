@@ -54,8 +54,8 @@ The check derives these before running, from `/#/welfare?view=table` (all twins 
 | `SCHEME_NAME` | that link's text | — |
 | `STATE_WITH_VALUE` | first row of the `Map as a table` year slice whose `Class` cell is a value; its state code from the row's `?st=` link | skip criteria needing it |
 | `STATE_NONE` | first row whose `Class` is `none recorded` | skip criteria needing it |
-| `Y_WITH_BALLOTS` | first `Year` in the scrubber twin whose `Assembly elections` cell > 0 | skip ballot criteria |
-| `Y_MONEY` | first year where the coverage ribbon for `m=share` is not `empty`, read from the scrubber twin's `States with a money figure` > 0 | skip money criteria |
+| `Y_WITH_BALLOTS` | first `Year` in the scrubber twin whose `Assembly elections` cell > 0 and which is neither the first nor the last `Year` of the twin [Corrected: the first year with ballots can be the range minimum, where AC-44's `ArrowLeft` cannot move] | skip ballot criteria |
+| `Y_MONEY` | first year where the coverage ribbon for `m=share` is not `empty`, read from the scrubber twin's `States with a money figure` > 0 | skip money criteria; when that column reads 0 in every year, the skip says it is a documented void (no share-of-state-budget figure in the register is matched to any financial year), not a missing test |
 | `ALLEGED_SCHEME` | first `TierChip` reading `alleged` inside `#findings`; the scheme heading above it | skip denial criteria with reason |
 | `PARTY` | first canonical label in the Party multi-select | — |
 
@@ -91,10 +91,14 @@ zero.*
 ### AC-02 — Say the register is not promoted, above the byline
 - **Behaviour:** The `Register not yet promoted` callout is the first thing after the
   standfirst, on every viewport, and says nothing below is zero.
-- **Check:** `locator('text=Register not yet promoted')` count = 1; its container contains
+- **Check:** `locator('text="Register not yet promoted"')` (exact, case-sensitive: the
+  callout's title line) count = 1; its container contains
   the text `The distribution-funds research has not been promoted into this build. Nothing
   below is zero. It is unmeasured.` In DOM order (`compareDocumentPosition`) the callout
   precedes the `Byline` element and follows the `Standfirst`. Repeat at 390×844 (AC-80).
+  [Corrected] The substring locator `text=Register not yet promoted` also matched the
+  byline, the skip link and the three twin summaries, which AC-03, AC-04 and AC-06
+  require to carry those words; the count of 1 is of the callout's own title line.
 
 ### AC-03 — Replace the byline counts and the strip with the empty wording
 - **Behaviour:** No `0 schemes · 0 of 36` byline appears; the strip states the absence.
@@ -111,7 +115,7 @@ zero.*
 
 ### AC-05 — Hatch all 36 states and say so in the map's name
 - **Behaviour:** Every state is no-data, none is zero, and the accessible name says so.
-- **Check:** `svg[role="img"][tabindex="0"]` `aria-label` starts `Map of India` and ends
+- **Check:** `svg[role="listbox"][tabindex="0"]` (S3 amendment, see WELFARE_A11Y.md) `aria-label` starts `Map of India` and ends
   `0 of 36 states with a value; nothing recorded yet`. `path[data-fill-class="hatch"]`
   count = 36; `path[data-fill-class="zero"]` count = 0; `path[data-fill-class="value"]`
   count = 0.
@@ -271,10 +275,14 @@ filter shows what it removed, and no percentage exists under b = 10.*
   and `/Uniform timing over a 60-month term would put [\d.]+ in each bin \(analytic\)/`.
 
 ### AC-25 — Never print a rate from a missing or tiny denominator
-- **Check:** In the base-rates `DataTable` in `#control`, every `Rate` cell is one of:
-  `not computed` (when `Denominator` is empty, `null` or `0`), `{num} of {den}` followed
+- **Check:** In the base-rates `DataTable` in `#control`, every `Denominator` cell is a
+  number or one of the §7.2 rule 11 words (`not stated`, `not computed`, `not located`)
+  — never empty, never a bare `—`, never `null`. Every `Rate` cell is one of:
+  `not computed` (when `Denominator` is a rule-11 word or `0`), `{num} of {den}` followed
   by a percentage only when den ≥ 10, or `{num} of {den}` plus `rate not printed (den <
   10)`. No `Rate` cell contains `NaN`, `Infinity` or `0%` with den = 0.
+  [Corrected] The criterion previously expected a null denominator to print as empty,
+  `null` or `0`, which rule 11 forbids; the build prints `not stated` → `not computed`.
 
 ### AC-26 — Back every control count with a list of exactly that many rows
 - **Check:** For each `a of b` in the ControlCard's 12 m line, the adjacent `<details>`
@@ -367,10 +375,20 @@ textures, each with a reason, and zero drawn only where a file declared its sear
 
 ### AC-37 — Mark a missing response as missing data, and record two gaps
 - **Check:** Every response `dd` from AC-35 either has non-empty text with a `Cite`, or
-  reads exactly `No response located in this file. The file does not record whether one
-  was sought.` in amber. When at least one such dd exists, `#missing` contains a gap line
-  containing `response sought: not recorded` and one naming the missing response. The
-  words `No response on record` appear nowhere.
+  is amber and reads exactly `No response linked to this item in the file. The file does
+  not record whether one was sought.`, optionally followed by exactly ` It holds {n}
+  response(s) to alleged claims about this scheme, printed {where}, none linked to this
+  item.` Each such item records two gaps: `#missing` contains a gap line containing
+  `response sought: not recorded`, and, for each such item, its own gap line beginning
+  `No response linked to an allegation about` that contains the item's allegation text.
+  The number of those per-item gap lines equals the number of such `dd`s in `#findings`
+  plus the number of `#benefits` alleged rows whose Response cell carries the same
+  sentence. The words `No response on record` appear nowhere.
+  [Corrected] The sentence was `No response located in this file. …`. A finding or
+  benefit row has no id, so the file cannot link a response to it while it may hold one
+  for a differently-named claim about the same scheme; "located" was false of the item
+  (WELFARE_PAGE §5.6c block 7). `No response located in this file` stays the wording for
+  a claim no contra names (AC-39).
 
 ### AC-38 — Add the rose-rule line to the ReadingKey when an alleged item is in view
 - **Check:** At `/#/welfare`, if `TierChip` `alleged` count on the page > 0, the ReadingKey
@@ -386,9 +404,13 @@ textures, each with a reason, and zero drawn only where a file declared its sear
 
 ### AC-40 — Keep a Response column in the benefits ledger
 - **Check:** `#benefits table thead` has a `th` reading `Response`, and `Tier`. Every row
-  whose Tier cell reads `alleged` has a Response cell that is either text with a `Cite`
-  or the AC-37 sentence; no alleged row has an empty Response cell. No `th` reads
-  `Total`; no cell text matches `/^total/i`.
+  whose Tier cell reads `alleged` has a non-empty Response cell. When its `From` cell
+  reads `scheme record` (the row has no id), the Response cell is either text with a
+  `Cite` or the AC-37 sentence (with its optional continuation). When `From` names a
+  claim id, the Response cell is either text with a `Cite`, or `No response located in
+  this file. The file does not record whether one was sought.` (true of a claim no
+  contra names). No `th` reads `Total`; no cell text matches `/^total/i`.
+  [Corrected] to the AC-37 sentence; see AC-37.
 
 ### AC-41 — Pair allegations in the SchemeCard, and refuse to imply none
 - **Check:** `?s=ALLEGED_SCHEME`: block 7 contains the same `dl` structure as AC-35 for
@@ -427,7 +449,7 @@ identical to the first page; (4) the active-filter line under the strip contains
 ### AC-44 — Round-trip `y`
 - **Check:** ROUND-TRIP(`y=Y_WITH_BALLOTS`): range `value` = y, `aria-valuetext` starts
   with y, the mono readout shows y, `[data-ballot]` count > 0. Focus the range and press
-  `ArrowLeft`: URL now has `y=Y−1`. Click `All years`: `y` leaves the URL and the readout
+  `ArrowLeft`: URL now has `y=Y−1` (Y_WITH_BALLOTS is never the range minimum, §0.3). Click `All years`: `y` leaves the URL and the readout
   reads `All years`.
 
 ### AC-45 — Round-trip `m`, and fall back when it cannot be honoured
@@ -566,7 +588,10 @@ row has published two findings. Rows and glyphs come from the same arrays.*
 ### AC-63 — Make the TwoByTwo its own twin
 - **Check:** `#control table` (the TwoByTwo) has two data rows plus header, three data
   columns (`Incumbent retained`, `Incumbent lost`, `Unclassified`), each cell a `<details>`
-  whose `li` count = its number; each row ends `/(\d+) of (\d+)/`; the sensitivity row
+  whose `li` count = its number; each row ends `/(\d+) of (\d+)( \(\d+(\.\d+)?%\))?$/`, the
+  percentage present exactly when b ≥ 10 (AC-22) and equal to a/b to within one point
+  [Corrected: the row end was anchored at `of b`, which AC-22's required `(x%)` for b ≥ 10
+  could never satisfy]; the sensitivity row
   below has the same computed `font-size` as the table cells and matches `/6 m: retained
   \d+ of \d+ with · \d+ of \d+ without — 24 m:/`; then `/n = \d+\. No significance test is
   run at this n\./`.
@@ -585,7 +610,7 @@ changes the view may be reachable only by pointer.*
   details are `open`. `#stage-tables` has a visible `h3`.
 
 ### AC-65 — Drive the map by keyboard and announce each state
-- **Check:** `svg[role="img"][tabindex="0"]` `aria-label` matches `/^Map of India, .+, .+,
+- **Check:** `svg[role="listbox"][tabindex="0"]` with `aria-roledescription="map"`, 36 `path[role="option"]` children and `aria-activedescendant` naming the focused option (S3 amendment) `aria-label` matches `/^Map of India, .+, .+,
   \d+ of 36 states with a value; arrow keys move between states, Enter opens one; a
   table version follows$/` and has `aria-describedby` naming the figcaption and legend
   ids. Focus it; press `ArrowRight` three times: the live region text changes each time
@@ -700,7 +725,8 @@ Context: `390×844`, `hasTouch`, `isMobile`, `reducedMotion: 'reduce'`.
   directly under the figcaption, each entry with a `Cite` or `no source in file`.
 
 ### AC-80 — Explain the empty state before any number on a phone (EMPTY build)
-- **Check (EMPTY, 390×844):** AC-01 … AC-03 hold; the callout's `getBoundingClientRect().
+- **Check (EMPTY, 390×844):** AC-01 … AC-03 hold (the callout is AC-02's exact title
+  line, `text="Register not yet promoted"`, count 1); the callout's `getBoundingClientRect().
   top` < the Byline's top; the first visible number-bearing line in `article` below the
   callout is the strip's `0 schemes`. No horizontal page scroll (AC-72 procedure).
 

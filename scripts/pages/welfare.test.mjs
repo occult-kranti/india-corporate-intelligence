@@ -71,11 +71,25 @@ const TIERS = ['documented', 'reported', 'alleged', 'analytic'];
 const CITE = 'a[href^="http"]';
 const LIVE = '[aria-live="polite"]';
 const RANGE = 'input[type="range"][aria-label="Year"]';
-const MAP = 'svg[role="img"][tabindex="0"]';
+const MAP = 'svg[role="listbox"][tabindex="0"]'; // S3 (WELFARE_A11Y): the map is a listbox of state options, not an image
 const SKIP_LINK = 'a[href="#stage-tables"]';
 const SEARCH = 'input[type="search"][aria-label="Search schemes by name, alias or person"]';
 const STRIP = '.sticky.top-0';
 const SECTIONS = ['#control', '#ministers', '#after', '#benefits', '#findings', '#narratives', '#missing'];
+/** AC-37: an item (finding or benefit row) has no id, so no response is linked to it. */
+const ITEM_NO_RESPONSE = 'No response linked to this item in the file. The file does not record whether one was sought.';
+/** AC-37: the optional continuation, when the file holds responses about the scheme. */
+const ITEM_NO_RESPONSE_TAIL = /^ It holds \d+ responses? to alleged claims about this scheme, printed .+, none linked to this item\.$/;
+/** AC-39/AC-40: a claim that no contra names. */
+const CLAIM_NO_RESPONSE = 'No response located in this file. The file does not record whether one was sought.';
+const isItemNoResponse = (text) => typeof text === 'string' && text.startsWith(ITEM_NO_RESPONSE)
+  && (text === ITEM_NO_RESPONSE || ITEM_NO_RESPONSE_TAIL.test(text.slice(ITEM_NO_RESPONSE.length)));
+/**
+ * AC-02: the EMPTY build's callout title — exact and case-sensitive. The byline, the skip
+ * link and the three twin summaries also carry "register not yet promoted" (AC-03, AC-04,
+ * AC-06 require them to), so a substring locator would count them too.
+ */
+const CALLOUT_TITLE = 'text="Register not yet promoted"';
 const NON_VALUE_CLASSES = ['none recorded', 'live, no comparable figure', 'searched, none live'];
 
 /**
@@ -160,7 +174,7 @@ window.__ac = {
     }
     return null;
   },
-  mapSvg() { return document.querySelector('figure svg[role="img"][tabindex="0"]') ?? document.querySelector('svg[role="img"][tabindex="0"]'); },
+  mapSvg() { return document.querySelector('figure svg[role="listbox"][tabindex="0"]') ?? document.querySelector('svg[role="listbox"][tabindex="0"]'); },
   figure() { return this.mapSvg()?.closest('figure') ?? document.querySelector('figure'); },
   /** The legend: named by the map's aria-describedby (AC-65); the id that is not the figcaption. */
   legend() {
@@ -254,12 +268,17 @@ before(async () => {
     const url = decodeURIComponent((req.url ?? '/').split('?')[0]);
     let file = join(dist, url === '/' ? 'index.html' : url);
     if (!existsSync(file) || extname(file) === '') file = join(dist, 'index.html');
+    // Read before writing the head (the smoke.mjs pattern): a read that throws must reach
+    // the catch with no head sent, or the catch's writeHead throws ERR_HTTP_HEADERS_SENT.
+    let body;
     try {
-      res.writeHead(200, { 'content-type': MIME[extname(file)] ?? 'application/octet-stream' });
-      res.end(readFileSync(file));
+      body = readFileSync(file);
     } catch {
-      res.writeHead(404).end('not found');
+      if (!res.headersSent) res.writeHead(404).end('not found');
+      return;
     }
+    res.writeHead(200, { 'content-type': MIME[extname(file)] ?? 'application/octet-stream' });
+    res.end(body);
   });
   await new Promise((r) => server.listen(0, '127.0.0.1', r));
   base = `http://127.0.0.1:${server.address().port}`;
@@ -270,7 +289,7 @@ before(async () => {
   if (!BUILD) {
     await withPage('desktop', async (page) => {
       await go(page);
-      const n = await page.locator('text=Register not yet promoted').count();
+      const n = await page.locator(CALLOUT_TITLE).count();
       BUILD = n > 0 ? 'empty' : 'full';
     }, { ignoreErrors: true });
   }
@@ -354,6 +373,11 @@ function need(t, ...names) {
       const src = READ_FROM[n];
       if (src && F.MISSING_SOURCES?.includes(src)) {
         assert.fail(`fixture ${n} is read from the ${src} twin, which /#/welfare?view=table does not render`);
+      }
+      if (n === 'Y_MONEY' && F.MONEY_VOID) {
+        const v = F.MONEY_VOID;
+        t.skip(`SKIPPED: documented void, not a missing test — the page matches no share-of-state-budget figure in the register to any financial year: the scrubber twin's "${v.column}" column reads 0 in every year ${v.from}–${v.to}`);
+        return false;
       }
       t.skip(`SKIPPED: fixture ${n} not present in this build`);
       return false;
@@ -467,10 +491,20 @@ async function discover() {
       const sc = A.table('[data-twin="scrubber"]');
       if (sc) {
         const y = A.col(sc, 'Year'); const e = A.col(sc, 'Assembly elections'); const m = A.col(sc, 'States with a money figure');
-        const rb = sc.rows.find((r) => e >= 0 && +r.cells[e]?.text.replace(/,/g, '') > 0);
+        // Not at either end of the Year range: AC-44 presses ArrowLeft and expects y−1.
+        const years = sc.rows.map((r) => +(r.cells[y]?.text ?? NaN)).filter((n) => Number.isFinite(n));
+        const lo = Math.min(...years); const hi = Math.max(...years);
+        const rb = sc.rows.find((r) => e >= 0 && +r.cells[e]?.text.replace(/,/g, '') > 0
+          && +r.cells[y]?.text > lo && +r.cells[y]?.text < hi);
         if (rb && y >= 0) out.Y_WITH_BALLOTS = rb.cells[y].text;
         const rm = sc.rows.find((r) => m >= 0 && +r.cells[m]?.text.replace(/,/g, '') > 0);
         if (rm && y >= 0) out.Y_MONEY = rm.cells[y].text;
+        // A money column that reads 0 in every year is a documented void in the register,
+        // not a fixture the discovery failed to find: say so in the skip.
+        if (!rm && m >= 0 && y >= 0 && sc.rows.length > 0
+          && sc.rows.every((r) => (r.cells[m]?.text ?? '').replace(/,/g, '') === '0')) {
+          out.MONEY_VOID = { column: sc.headers[m], from: sc.rows[0].cells[y].text, to: sc.rows[sc.rows.length - 1].cells[y].text };
+        }
       }
       const findings = document.querySelector('#findings');
       const chip = findings ? A.tierChips(findings).find((e) => A.txt(e) === 'alleged') : null;
@@ -534,10 +568,10 @@ test('AC-02 — Say the register is not promoted, above the byline', async (t) =
   for (const kind of ['desktop', 'phone']) {
     await withPage(kind, async (page) => {
       await go(page);
-      assert.equal(await count(page, 'text=Register not yet promoted'), 1);
+      assert.equal(await count(page, CALLOUT_TITLE), 1);
       const r = await page.evaluate(() => {
         const A = window.__ac;
-        const callout = A.deepest(document.body, 'Register not yet promoted');
+        const callout = A.deepest(document.body, '^Register not yet promoted$');
         let box = callout;
         while (box && !A.txt(box).includes('Nothing below is zero.')) box = box.parentElement;
         const h1 = document.querySelector('article h1');
@@ -1045,7 +1079,10 @@ test('AC-25 — Never print a rate from a missing or tiny denominator', async (t
     for (const { rate, den } of r) {
       assert.ok(!/NaN|Infinity/.test(rate), rate);
       const d = den.trim();
-      if (d === '' || d === 'null' || d === '0') { assert.equal(rate, 'not computed', `den ${JSON.stringify(d)} → ${rate}`); continue; }
+      // §7.2 rule 11: a null denominator prints its word, never a blank, `null` or a bare dash.
+      assert.ok(!['', 'null', '—', '–', '-'].includes(d), `denominator is blank/null/bare dash: ${JSON.stringify(d)}`);
+      if (/^not (stated|computed|located)$/.test(d) || d === '0') { assert.equal(rate, 'not computed', `den ${JSON.stringify(d)} → ${rate}`); continue; }
+      assert.match(d, /^\d[\d,]*$/, `denominator is a number or a rule-11 word: ${JSON.stringify(d)}`);
       const m = rate.match(/^(\d[\d,]*) of (\d[\d,]*)(.*)$/);
       assert.ok(m, `rate is a of b: ${rate}`);
       const b = +m[2].replace(/,/g, '');
@@ -1306,23 +1343,48 @@ test('AC-37 — Mark a missing response as missing data, and record two gaps', a
   await withPage('desktop', async (page) => {
     await go(page);
     assert.equal(await count(page, '#findings'), 1, '#findings present');
-    const r = await page.evaluate(() => {
+    const r = await page.evaluate((itemSentence) => {
       const A = window.__ac; const pairs = A.pairs(document.querySelector('#findings'));
       const amber = A.tokenColor('--color-amber');
-      const missing = 'No response located in this file. The file does not record whether one was sought.';
-      const dds = pairs.map((dl) => { const dd = dl.children[3]; return { text: A.txt(dd), cite: !!dd.querySelector('a[href^="http"]'), color: getComputedStyle(dd).color }; });
+      /** The allegation's own words: the dd's text after its tier chip, with Cite links removed. */
+      const allegationText = (dd) => {
+        const c = dd.cloneNode(true);
+        c.querySelectorAll('a[href^="http"]').forEach((a) => a.remove());
+        const chip = A.tierChips(c).find((e) => A.txt(e) === 'alleged');
+        if (!chip) return A.txt(c);
+        const range = document.createRange();
+        range.setStartAfter(chip); range.setEndAfter(c.lastChild);
+        return range.toString().replace(/\s+/g, ' ').trim();
+      };
+      const dds = pairs.map((dl) => {
+        const dd = dl.children[3];
+        return { text: A.txt(dd), cite: !!dd.querySelector('a[href^="http"]'), color: getComputedStyle(dd).color, allegation: allegationText(dl.children[1]) };
+      });
       const gaps = A.txt(document.querySelector('#missing'));
-      return { amber, dds, missing, gaps, never: A.txt(document.body).includes('No response on record') };
-    });
+      const itemGaps = A.deepestAll(document.querySelector('#missing'), '^No response linked to an allegation about').map((e) => A.txt(e));
+      const bt = A.table('#benefits');
+      const ri = A.col(bt, 'Response'); const ti = A.col(bt, 'Tier');
+      const benefitItems = bt ? bt.rows.filter((row) => row.cells[ti]?.text === 'alleged' && (row.cells[ri]?.text ?? '').startsWith(itemSentence)).length : 0;
+      return { amber, dds, gaps, itemGaps, benefitItems, never: A.txt(document.body).includes('No response on record') };
+    }, ITEM_NO_RESPONSE);
     if (r.dds.length === 0) { t.skip('SKIPPED: no Allegation/Response pair in #findings'); return; }
-    let anyMissing = false;
+    let missing = 0;
     for (const dd of r.dds) {
-      if (dd.text === r.missing) { anyMissing = true; assert.equal(dd.color, r.amber, 'missing-response sentence is amber'); }
-      else assert.ok(dd.text && dd.cite, `response has text and a Cite: "${dd.text}"`);
+      if (dd.text.startsWith(ITEM_NO_RESPONSE)) {
+        missing += 1;
+        assert.ok(isItemNoResponse(dd.text), `missing-response sentence, exactly (with its optional continuation): "${dd.text}"`);
+        assert.equal(dd.color, r.amber, 'missing-response sentence is amber');
+        // Gap 1 of 2: this item's own line, naming the allegation it leaves unanswered.
+        const key = dd.allegation.slice(0, 60);
+        assert.ok(key.length > 0, 'allegation dd has text');
+        assert.ok(r.itemGaps.some((g) => g.includes(key)), `#missing has a gap line for the item "${key}…"`);
+      } else assert.ok(dd.text && dd.cite, `response has text and a Cite: "${dd.text}"`);
     }
-    if (anyMissing) {
+    if (missing + r.benefitItems > 0) {
+      // Gap 2 of 2: shared by every such item.
       assert.ok(r.gaps.includes('response sought: not recorded'), '#missing records the sought gap');
-      assert.ok(/response/i.test(r.gaps.replace('response sought: not recorded', '')), '#missing names the missing response');
+      assert.equal(r.itemGaps.length, missing + r.benefitItems,
+        `one per-item gap line per unlinked item (${missing} findings + ${r.benefitItems} benefit rows)`);
     }
     assert.ok(!r.never, '"No response on record" appears nowhere');
   });
@@ -1371,7 +1433,8 @@ test('AC-40 — Keep a Response column in the benefits ledger', async (t) => {
       const A = window.__ac; const tb = A.table('#benefits');
       if (!tb) return null;
       const ri = A.col(tb, 'Response'); const ti = A.col(tb, 'Tier');
-      return { headers: tb.headers, ri, ti, rows: tb.rows.map((row) => ({ tier: row.cells[ti]?.text, resp: row.cells[ri]?.text ?? '', cite: !!row.cells[ri]?.hasCite, total: row.cells.some((c) => /^total/i.test(c.text)) })) };
+      const fi = A.col(tb, 'From');
+      return { headers: tb.headers, ri, ti, fi, rows: tb.rows.map((row) => ({ tier: row.cells[ti]?.text, resp: row.cells[ri]?.text ?? '', cite: !!row.cells[ri]?.hasCite, from: row.cells[fi]?.text ?? '', total: row.cells.some((c) => /^total/i.test(c.text)) })) };
     });
     assert.ok(r, '#benefits has a table');
     assert.ok(r.headers.includes('Response') && r.headers.includes('Tier'), `headers: ${r.headers}`);
@@ -1380,7 +1443,9 @@ test('AC-40 — Keep a Response column in the benefits ledger', async (t) => {
       assert.ok(!row.total, 'no total row');
       if (row.tier === 'alleged') {
         assert.ok(row.resp !== '', 'alleged row has a Response');
-        assert.ok(row.cite || row.resp === 'No response located in this file. The file does not record whether one was sought.', row.resp);
+        assert.ok(row.from !== '', 'alleged row has a From cell (scheme record / claim id)');
+        if (row.from === 'scheme record') assert.ok(row.cite || isItemNoResponse(row.resp), `row with no id: ${row.resp}`);
+        else assert.ok(row.cite || row.resp === CLAIM_NO_RESPONSE, `row naming claim ${row.from}: ${row.resp}`);
       }
     }
   });
@@ -1607,7 +1672,7 @@ test('AC-52 — Round-trip view, and open the twins under the table view or the 
   if (!requireFull(t)) return;
   await withPage('desktop', async (page, ctx) => {
     await roundTrip(page, ctx, '?view=table', 'view', async (p) => {
-      assert.equal(await count(p, 'figure svg[role="img"]'), 0, 'no map svg');
+      assert.equal(await count(p, 'figure svg[role="listbox"], figure svg[role="img"]'), 0, 'no map svg');
       const r = await p.evaluate(() => { const d = [...document.querySelectorAll('#stage-tables details[data-twin]')]; return { n: d.length, open: d.filter((x) => x.open).length }; });
       assert.ok(r.n > 0 && r.open === r.n, `all ${r.n} twins open`);
       assert.equal(await count(p, SEARCH), 1, 'FilterBar present');
@@ -1855,7 +1920,17 @@ test('AC-63 — Make the TwoByTwo its own twin', async (t) => {
     assert.ok(r, 'TwoByTwo table in #control');
     for (const h of ['Incumbent retained', 'Incumbent lost', 'Unclassified']) assert.ok(r.headers.includes(h), `header ${h}: ${r.headers}`);
     assert.equal(r.rows.length, 2);
-    for (const row of r.rows) { assert.match(row.text, /(\d+) of (\d+)$/); for (const c of row.cells.slice(0, 3)) assert.equal(c.li, c.n, 'cell details li = number'); }
+    for (const row of r.rows) {
+      // Ends `a of b`, plus ` (x%)` exactly when b ≥ 10 (AC-22).
+      const m = row.text.match(/(\d+) of (\d+)(?: \((\d+(?:\.\d+)?)%\))?$/);
+      assert.ok(m, `row ends a of b [(x%)]: ${row.text}`);
+      const a = +m[1]; const b = +m[2];
+      if (b >= 10) {
+        assert.ok(m[3] !== undefined, `percentage at b=${b}: ${row.text}`);
+        assert.ok(Math.abs(+m[3] - (100 * a) / b) < 1, `percentage matches a/b: ${row.text}`);
+      } else assert.equal(m[3], undefined, `no percentage at b=${b}: ${row.text}`);
+      for (const c of row.cells.slice(0, 3)) assert.equal(c.li, c.n, 'cell details li = number');
+    }
     assert.match(r.sens, /6 m: retained \d+ of \d+ with · \d+ of \d+ without — 24 m:/);
     assert.equal(r.sensSize, r.size); assert.ok(r.sensAfter && r.nline && r.nAfter, 'sensitivity row then n line');
   });
@@ -2215,9 +2290,9 @@ test('AC-80 — Explain the empty state before any number on a phone (EMPTY buil
   await withPage('phone', async (page) => {
     await go(page);
     const len = await page.evaluate(() => document.body.innerText.length); assert.ok(len >= 200);
-    assert.equal(await count(page, 'text=Register not yet promoted'), 1);
+    assert.equal(await count(page, CALLOUT_TITLE), 1);
     const r = await page.evaluate(() => {
-      const A = window.__ac; const callout = A.deepest(document.body, 'Register not yet promoted'); const byline = A.byline();
+      const A = window.__ac; const callout = A.deepest(document.body, '^Register not yet promoted$'); const byline = A.byline();
       const cb = callout.getBoundingClientRect().top; const bb = byline?.getBoundingClientRect().top ?? -1;
       const art = document.querySelector('article');
       const numbered = [...art.querySelectorAll('*')].filter((e) => e.children.length === 0 && /\d/.test(A.txt(e)) && e.getBoundingClientRect().top > cb && A.precedes(callout, e) && !callout.contains(e) && e.getClientRects().length);

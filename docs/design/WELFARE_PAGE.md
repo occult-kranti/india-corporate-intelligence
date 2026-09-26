@@ -740,8 +740,16 @@ panel exists, so:
        empty case is structured the same way.
      - Above the first pair, one line at body size: "Rose rule = the response of those
        concerned. It marks the denial's position, not its credibility."
-   - **No response.** **[UX review] (U11)** No match reads **"No response located in this
-     file. The file does not record whether one was sought."**
+   - **No response.** **[UX review] (U11)** No match reads **"No response linked to this
+     item in the file. The file does not record whether one was sought."**
+     - [Corrected] A finding or benefit row carries no id, so the file cannot link a
+       response to it, and it may hold a reply filed against a differently-named claim
+       about the same scheme. "No response located in this file" would then be false of
+       the item, so the item's slot says only that none is linked. When the file holds
+       responses about the scheme, the sentence continues "It holds {n} response(s) to
+       alleged claims about this scheme, printed {where}, none linked to this item."
+       "No response located in this file" remains the wording for a *claim* no contra
+       names (§5.12 (b)), and for a benefit row that names such a claim by id.
      - It is amber, as a missing-data marker only.
      - It adds two derived gaps: the missing response, and `response sought: not
        recorded`.
@@ -957,8 +965,11 @@ Denominator line: `{R} findings across {k} of {N} schemes · D {d} · R {r} · A
       allegation, then its response, then the next item. Reading order therefore pairs
       them.
     - The rose-rule key line of §5.6c block 7 sits above the first pair.
-  - No response → amber **[UX review] (U11)** "No response located in this file. The file
-    does not record whether one was sought.", plus the two derived gaps of §5.6c block 7.
+  - No response → amber **[UX review] (U11)** "No response linked to this item in the
+    file. The file does not record whether one was sought." (with the §5.6c block 7
+    continuation when the file holds responses about the scheme), plus the two derived
+    gaps of §5.6c block 7. [Corrected] from "No response located in this file", which
+    is not true of an item that carries no id; see §5.6c block 7.
 - **(b) Contested claims.** One `ContestedFact` (existing) per alleged claim in
   `WELFARE_CLAIMS` that has a matching `contra`.
   - `positions[0].who` is the alleging entity's label; `positions[1].who` is the
@@ -1146,8 +1157,11 @@ export interface MapBallot {
        2000–asOfYear}, {n} of 36 states with a value; arrow keys move between states,
        Enter opens one; a table version follows`;
     4. `aria-describedby` points at the figcaption status line and the legend.
-  - The SVG keeps `role="img"`, so ballot `<title>`s are not read twice; the live region
-    and the year-slice twin (§11) carry them.
+  - ~~The SVG keeps `role="img"`~~ **Superseded by WELFARE_A11Y S3 (2026-09-26):** an
+    image role makes its descendants presentational, so a keyboard-driven chooser cannot be
+    one. The SVG is `role="listbox"` with `aria-roledescription="map"`, each state path
+    `role="option"`, and `aria-activedescendant` naming the focused state. Ballot `<title>`s
+    are still not read twice; the live region and the year-slice twin (§11) carry them.
   - New optional prop: `onFocusState?: (s: StateCode | null) => void`.
 - No fill transitions. The existing opacity and stroke-width transition stays.
 
@@ -1545,7 +1559,7 @@ capped at 72ch, directly under the graphic they qualify. None goes in the footer
 | `st` with no records / empty under filters | §5.6b texts. |
 | `s` unknown | §5.6c text. |
 | `WELFARE_ELECTIONS` empty | No ballots.<br>ControlCard, TwoByTwo, Distribution and turnover are replaced by: "No elections recorded, so the control cannot run. This is the most important gap on the page." Plus a derived gap.<br>The clock draws launches only. |
-| Alleged item, no response | [UX review] (U11) Amber "No response located in this file. The file does not record whether one was sought." + two derived gaps. |
+| Alleged item, no response | [UX review] (U11) Amber "No response linked to this item in the file. The file does not record whether one was sought." + two derived gaps. [Corrected] from "No response located in this file"; see §5.6c block 7. |
 | Base-rate denominator 0 or null | `not computed`. |
 | b < 10 | `a of b`, no percentage. |
 | Narratives / voids / claims empty | Ladder rungs still drawn with `none in this file`.<br>Voids: `No voids recorded in this file.`<br>Graph not mounted. |
@@ -1880,6 +1894,6 @@ into an applied must, the must is named instead and the item is not repeated her
 | D30 | §5.2 | DenominatorStrip as a landmark (`<section aria-label="Denominators">`, with a visually hidden `<h2>`). | A |
 | D31 | §5.13, §6.3 | NarrativeLadder as `<ol>` of rungs (`<h3>`), narratives as `<h4>`, and case / counter / what-would-change as a `<dl>`. | A |
 | D32 | §5.14 | The graph twin opens under `view=table`. Its summary reads `{n} claims as a table · {k} alleged, {r} with a response`. With a scheme selected, a sentence names it as the graph's centre. | A |
-| D33 | §14 gates, `scripts/smoke.mjs` | Structural accessibility check with no new dependency: no focusable element inside a `role="img"` subtree, every `<table>` captioned, `aria-valuetext` on the range, exactly one `[aria-live]`, the skip link first in the stage, and a strictly nested heading outline. | A |
+| D33 | §14 gates, `scripts/smoke.mjs` | Structural accessibility check with no new dependency: no focusable element inside a `role="img"` subtree (the map is a `role="listbox"` since S3), every `<table>` captioned, `aria-valuetext` on the range, exactly one `[aria-live]`, the skip link first in the stage, and a strictly nested heading outline. | A |
 | D34 | §5.5 ribbon, §10 | On narrow screens, the coverage-ribbon label sits above the clock, outside the scroll, at body size. | M |
 | D35 | §5.3 | `Share link` through the Web Share API where `navigator.share` exists; otherwise `Copy link`, showing `copied` inline for two seconds. | M |

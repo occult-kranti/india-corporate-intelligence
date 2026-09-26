@@ -72,8 +72,8 @@ the UX reviews say so — because the project is not initialised with `/sweetcla
 | `design-ux-review` (synthetic, five seats) | 20 must-level amendments applied (A1–A20); 47 deferred (D1–D47) | 91 persona items; 22 must-level applied; 35 deferred (D1–D35) | `docs/design/*_UX_REVIEW.md` |
 | acceptance criteria → isolated test writer | 67 criteria, one test each | 85 criteria, one test each | `docs/design/*_ACCEPTANCE.md`, `scripts/pages/*.test.mjs` |
 | caucus (five `sc-*` reviewers + house semantics reviewer) | 38 findings → 24 by consensus, all addressed | 39 findings → 20 by consensus, all addressed | commit messages `aef08ae`, `b24eb27` |
-| `testing-accessibility` (WCAG 2.1 AA) | 21 findings: 0 critical, 5 serious, 7 moderate, 9 minor. Serious fixed in `9ec7496` | 21 findings: 0 critical, 3 serious, 7 moderate, 11 minor. Serious open | `docs/design/*_A11Y.md` |
-| `code-verify` | 67/67 on three consecutive runs, after six defective criteria were corrected | 65 pass, 15 skip, 5 fail at commit; corrections in progress | — |
+| `testing-accessibility` (WCAG 2.1 AA) | 21 findings: 0 critical, 5 serious, 7 moderate, 9 minor. Serious fixed in `9ec7496` | 21 findings: 0 critical, 3 serious, 7 moderate, 11 minor. Serious and M1–M4 fixed | `docs/design/*_A11Y.md` |
+| `code-verify` | 67/67 on three consecutive runs, after six defective criteria were corrected | 70 pass, 0 fail, 15 skip on the FULL build and 9/0/76 on the EMPTY build after five defective criteria were corrected | — |
 
 **What it did not do.** The UX reviews are synthetic and say so on every heading: no real
 reader has seen either page. The energy audit records that it used no real screen reader, no

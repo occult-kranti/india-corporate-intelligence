@@ -4,7 +4,7 @@ import {
   EMPTY, YEARS, metricLabel, stateName, partyText, fmtNum, electionTitle, amountInForce, nextElection,
   monthsBetweenSafe, latestStatusOf, moneyRows, matrix, scrubberRows, moneyColumnLabel, inView, EVENT_WORD, entityLabel, AS_OF_YEAR, STATE_COUNT, YEAR_COUNT,
 } from '../../data/welfareView';
-import { Src, Verbatim, TableBlock, Tabbable, ReasonText, type TableCtx, QLink } from './ui';
+import { Src, Verbatim, TableBlock, Tabbable, ReasonText, type TableCtx, QLink, useTwinOpen } from './ui';
 
 type Search = (kv: Record<string, string | null>) => string;
 const urlsOf = (srcs: [string, string][] | undefined) => (srcs ?? []).map((s) => s[1]);
@@ -32,13 +32,19 @@ export default forwardRef<HTMLHeadingElement, {
   const empty = <p className="text-[14px] text-text-secondary my-3">Nothing recorded yet.</p>;
   const summaryCls = 'cursor-pointer text-[14px] text-text py-2';
   const schemes = inView(f);
+  // Each disclosure's live state (A11Y-002 S1/S2): `open` asks all three to open, and the
+  // reader can then open or close each from its summary. Controls inside are tabbable
+  // exactly when their own disclosure is open.
+  const [sliceOpen, onSliceToggle] = useTwinOpen(open);
+  const [clockOpen, onClockToggle] = useTwinOpen(open);
+  const [schemesOpen, onSchemesToggle] = useTwinOpen(open);
 
   return (
-    <Tabbable.Provider value={open}>
     <section id="stage-tables" className="mt-8 scroll-mt-44 lg:scroll-mt-28">
       <h3 ref={ref} tabIndex={-1} className="heading-editorial text-xl text-text mb-2 outline-none">This stage as tables</h3>
-      <details data-twin="year-slice" open={open} className="border-t border-border">
+      <details data-twin="year-slice" open={sliceOpen} onToggle={onSliceToggle} className="border-t border-border">
         <summary className={summaryCls}>{EMPTY ? 'Map as a table · 0 rows · register not yet promoted' : `Map as a table · ${STATE_COUNT} states · metric: ${label} · year: ${yText} · filters: ${filtersText || 'none'} · as of ${asOfLabel}`}</summary>
+        <Tabbable.Provider value={sliceOpen}>
         {EMPTY ? empty : (
           <>
             <TableBlock name="year-slice" ctx={ctx} minWidth="72rem"
@@ -58,7 +64,7 @@ export default forwardRef<HTMLHeadingElement, {
                 const noElection = f.y != null ? `none recorded in ${f.y}` : 'choose a year';
                 return {
                   cells: [
-                    <QLink tabIndex={open ? undefined : -1} search={search({ st: r.st })} className="underline underline-offset-2 hover:text-accent">{r.name}</QLink>,
+                    <QLink tabIndex={sliceOpen ? undefined : -1} search={search({ st: r.st })} className="underline underline-offset-2 hover:text-accent">{r.name}</QLink>,
                     r.cls === 'value' ? r.valueText : r.cls === 'zero' ? '0 (declared)' : r.classLabel,
                     r.cls === 'value' ? 'value' : r.classLabel,
                     r.reason ? <ReasonText text={r.reason} /> : 'not applicable: a value is shown',
@@ -97,10 +103,12 @@ export default forwardRef<HTMLHeadingElement, {
             </div>
           </>
         )}
+        </Tabbable.Provider>
       </details>
 
-      <details data-twin="scrubber" open={open} className="border-t border-border">
+      <details data-twin="scrubber" open={clockOpen} onToggle={onClockToggle} className="border-t border-border">
         <summary className={summaryCls}>{EMPTY ? 'Clock as a table · 0 rows · register not yet promoted' : `Clock as a table · ${YEAR_COUNT} years · filters: ${filtersText || 'none'} · as of ${asOfLabel}`}</summary>
+        <Tabbable.Provider value={clockOpen}>
         {EMPTY ? empty : (
           <>
             <TableBlock name="scrubber" ctx={ctx}
@@ -156,10 +164,12 @@ export default forwardRef<HTMLHeadingElement, {
             </div>
           </>
         )}
+        </Tabbable.Provider>
       </details>
 
-      <details data-twin="schemes" open={open} className="border-t border-b border-border">
+      <details data-twin="schemes" open={schemesOpen} onToggle={onSchemesToggle} className="border-t border-b border-border">
         <summary className={summaryCls}>{EMPTY ? 'Every scheme in view · 0 rows · register not yet promoted' : `Every scheme in view · ${schemes.length} schemes · filters: ${filtersText || 'none'} · as of ${asOfLabel}`}</summary>
+        <Tabbable.Provider value={schemesOpen}>
         {EMPTY ? empty : (
           <>
             <TableBlock name="schemes" ctx={ctx} minWidth="110rem"
@@ -184,7 +194,7 @@ export default forwardRef<HTMLHeadingElement, {
                 const tally = (t: string) => s.results.filter((r) => r.tier === t).length;
                 return {
                   cells: [
-                    <QLink tabIndex={open ? undefined : -1} search={search({ s: s.id })} className="underline underline-offset-2 hover:text-accent">{s.name}</QLink>,
+                    <QLink tabIndex={schemesOpen ? undefined : -1} search={search({ s: s.id })} className="underline underline-offset-2 hover:text-accent">{s.name}</QLink>,
                     s.level === 'central' ? 'Central' : stateName(s.st), s.level, partyText(s), s.category ?? 'not recorded',
                     `${s.announced?.date ?? 'date not located'} · ${s.announced?.byPersonId ? entityLabel(s.announced.byPersonId) : 'person not stated'}`,
                     <>{`${s.approved?.date ?? 'date not located'} · `}{s.approved?.body ? <Verbatim>{s.approved.body}</Verbatim> : 'body not stated'}</>,
@@ -203,8 +213,8 @@ export default forwardRef<HTMLHeadingElement, {
               })} />
           </>
         )}
+        </Tabbable.Provider>
       </details>
     </section>
-    </Tabbable.Provider>
   );
 });

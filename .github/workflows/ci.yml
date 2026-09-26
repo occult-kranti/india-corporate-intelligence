@@ -74,3 +74,10 @@ jobs:
       # graph is unusable.
       - name: Graph viewport gate
         run: npm run viewport
+
+      # The page acceptance suites: /energy (67 criteria) and /welfare (85, of which
+      # the 9 scaffold criteria skip here because they need an empty build). Each
+      # criterion was written against the judged spec before the page existed, so a
+      # regression here is a spec violation, not a flaky pixel.
+      - name: Page acceptance suites
+        run: npm run test:pages

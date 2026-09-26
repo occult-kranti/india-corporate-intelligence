@@ -14,7 +14,7 @@ import {
   declaredYearsFor, nextElection, monthsBetweenSafe, annualPerHead, amountInForce, fmtNum, canon,
   WELFARE_NARRATIVE_LIST, yearsCovered, scrubberRows, bylineFacts, launchesSplit, fmtMoney,
 } from '../data/welfareView';
-import WelfareMap, { type MapBallot, type WelfareMapHandle, ZERO_FILL, TextureSwatch } from '../components/welfare/WelfareMap';
+import WelfareMap, { type MapBallot, type WelfareMapHandle, ZERO_FILL, ZERO_EDGE, TextureSwatch } from '../components/welfare/WelfareMap';
 import TimeLanes, { GLYPH, BALLOT_GLYPH } from '../components/welfare/TimeLanes';
 import { ControlCard, YearElectionList } from '../components/welfare/Control';
 import { StatePanel, SchemeCard, StateMoneyBlock, ROSE_KEY } from '../components/welfare/Panels';
@@ -42,13 +42,43 @@ import { Caption, Src, useNarrow, HashLink, QLink, Go, type TableCtx } from '../
 // skip link and ?view=table open them). Removing this rule waits on the acceptance tests,
 // which read closed twins through innerText (AC-30, 31, 57–61) and must first open them
 // via #stage-tables or read textContent.
+//
+// A pressed toggle carries a shape as well as a colour (A11Y-002 M2): a tinted fill and a
+// 2px rule under its label. The rule is generated content with empty alternative text,
+// so it adds nothing to the button's name or text, and it survives forced colours.
 const PAGE_CSS = `@media (max-width: 639px) {
   .wf-page [class*="text-[9"], .wf-page [class*="text-[10"], .wf-page [class*="text-[11"] { font-size: 12px; }
+}
+.wf-page .wf-tog { position: relative; }
+.wf-page .wf-tog.wf-on { background-color: color-mix(in srgb, var(--color-accent) 15%, transparent); }
+.wf-page .wf-tog.wf-on::after {
+  content: "" / ""; position: absolute; left: 5px; right: 5px; bottom: 1px; height: 2px; background: currentColor; pointer-events: none;
+}
+@media (forced-colors: active) {
+  .wf-page .wf-tog.wf-on::after { forced-color-adjust: none; background: ButtonText; }
 }
 .wf-page details[data-twin]:not([open])::details-content {
   content-visibility: visible; display: block; position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%);
 }`;
 
+
+type CardCorner = 'tl' | 'tr' | 'br' | 'bl';
+const CORNER_CLS: Record<CardCorner, string> = { tl: 'top-2 left-2', tr: 'top-2 right-2', br: 'bottom-2 right-2', bl: 'bottom-2 left-2' };
+/** The first corner (in reading order, then clockwise) where a w×h card covers none of `targets`; failing that, the one covering least. */
+function cornerClear(b: DOMRect, w: number, h: number, targets: DOMRect[]): CardCorner {
+  const m = 8; // the card's top-2 / left-2 inset
+  let best: CardCorner = 'tl';
+  let bestArea = Infinity;
+  for (const c of ['tl', 'tr', 'br', 'bl'] as const) {
+    const left = c[1] === 'l' ? b.left + m : b.right - m - w;
+    const top = c[0] === 't' ? b.top + m : b.bottom - m - h;
+    const area = targets.reduce((a, t) =>
+      a + Math.max(0, Math.min(left + w, t.right) - Math.max(left, t.left)) * Math.max(0, Math.min(top + h, t.bottom) - Math.max(top, t.top)), 0);
+    if (area < bestArea) { best = c; bestArea = area; }
+    if (area === 0) break;
+  }
+  return best;
+}
 
 export default function Welfare() {
   const [routerParams, setRouterParams] = useSearchParams();
@@ -173,6 +203,43 @@ export default function Welfare() {
   }, [readoutLines]);
 
   const readSt = hoverSt ?? focusSt ?? f.st;
+
+  // The readout card (A11Y-002 M4). Escape dismisses it without touching `st`; it comes
+  // back when the state it reads changes. It is placed in whichever corner of the map
+  // does not cover the state it is reading (and that state's focus ring), measured from
+  // the drawing, so it never hides the state the keyboard or pointer is on.
+  const mapBox = useRef<HTMLDivElement>(null);
+  const cardRef = useRef<HTMLDivElement>(null);
+  // Keyed by the state dismissed, so a card for the next state shows in the same render.
+  const [dismissedFor, setDismissedFor] = useState<StateCode | null>(null);
+  useEffect(() => { if (readSt !== dismissedFor) setDismissedFor(null); }, [readSt]); // eslint-disable-line react-hooks/exhaustive-deps
+  const cardShown = !narrow && f.view === 'map' && !!readSt && readSt !== dismissedFor;
+  const cardShownRef = useRef<StateCode | null>(null);
+  cardShownRef.current = cardShown ? readSt : null;
+  const dismissCard = useCallback(() => {
+    const st = cardShownRef.current;
+    if (!st) return false;
+    setDismissedFor(st);
+    return true;
+  }, []);
+  useEffect(() => {
+    if (!cardShown) return;
+    // A card shown by hover must be dismissable wherever focus is (1.4.13).
+    const on = (e: KeyboardEvent) => { if (e.key === 'Escape' && !e.defaultPrevented) dismissCard(); };
+    window.addEventListener('keydown', on);
+    return () => window.removeEventListener('keydown', on);
+  }, [cardShown, dismissCard]);
+  const [cardCorner, setCardCorner] = useState<CardCorner>('tl');
+  useLayoutEffect(() => {
+    const box = mapBox.current;
+    const card = cardRef.current;
+    const svg = mapRef.current?.el();
+    if (!cardShown || !readSt || !box || !card || !svg) return;
+    const targets = [svg.querySelector(`path[data-st="${readSt}"]`), svg.querySelector('[data-focus-ring]')]
+      .filter((e): e is Element => !!e)
+      .map((e) => e.getBoundingClientRect());
+    setCardCorner(cornerClear(box.getBoundingClientRect(), card.offsetWidth, card.offsetHeight, targets));
+  }, [cardShown, readSt, focusSt, key, vh]);
 
   // ------------------------------------------------------------------ focus on open and close (U18)
   const prev = useRef<{ st: StateCode | null; s: string | null; first: boolean }>({ st: f.st, s: f.s, first: true });
@@ -299,7 +366,7 @@ export default function Welfare() {
 
   // ------------------------------------------------------------------ pieces
   const btn = 'font-mono text-[12px] px-2 py-1 border rounded';
-  const pressedCls = (on: boolean) => (on ? 'border-accent text-accent' : 'border-border-light text-text-secondary hover:text-text');
+  const pressedCls = (on: boolean) => (on ? 'wf-tog wf-on border-accent text-accent' : 'wf-tog border-border-light text-text-secondary hover:text-text');
   const dimCls = (off: boolean) => (off ? 'opacity-50 cursor-not-allowed' : '');
 
   const searchInput = (
@@ -432,7 +499,7 @@ export default function Welfare() {
         aria-label="Year" aria-describedby={readoutId}
         aria-valuetext={f.y == null ? `All years, ${FIRST_YEAR} to ${AS_OF_YEAR}` : `${f.y}${money && fy ? `, money: FY ${fy}` : ''}`}
         onChange={(e) => setYear(Number(e.target.value))}
-        className={`flex-1 min-w-0 sm:min-w-[10rem] h-11 accent-[var(--color-accent)] ${f.y == null ? 'opacity-40' : ''}`} />
+        className={`flex-1 min-w-0 sm:min-w-[10rem] h-11 accent-[var(--color-accent)] ${f.y == null ? 'opacity-70' : ''}`} />
     </div>
   );
 
@@ -448,7 +515,7 @@ export default function Welfare() {
   }
   const coverageHere = coverageReachesView(f.cat);
   legendLines.push(
-    <p key="z"><span className="inline-block w-4 h-3 mr-2 align-middle" style={{ background: ZERO_FILL }} aria-hidden="true" />
+    <p key="z"><span className="inline-block w-4 h-3 mr-2 align-middle" style={{ background: ZERO_FILL, border: `1.25px solid ${ZERO_EDGE}` }} aria-hidden="true" />
       {coverageHere
         ? `searched, none live (${counts.zero})`
         : 'searched, none live (empty: no research file declares its coverage, so no state-year is shown as none) · declarations exist only per category; choose a category a file searched to see them'}
@@ -683,11 +750,11 @@ export default function Welfare() {
           {f.view === 'map' && (
             <figure className="m-0 xl:col-start-1 min-w-0">
               {aboveMap}
-              <div className="relative">
+              <div className="relative" ref={mapBox}>
                 <WelfareMap ref={mapRef} rows={byCode} ballots={ballots} selected={f.st} height={mapHeight} ariaLabel={mapAria} describedBy="wf-status wf-legend"
-                  onSelect={(st) => selectState(st)} onHover={setHoverSt} onFocusState={onFocusState} />
-                {!narrow && readSt && (
-                  <div className="pointer-events-none absolute top-2 left-2 max-w-[18rem] rounded-lg border border-border-light bg-bg-elevated/95 px-3 py-2 text-[12.5px] text-text-secondary space-y-1">
+                  onSelect={(st) => selectState(st)} onHover={setHoverSt} onFocusState={onFocusState} onDismiss={dismissCard} />
+                {cardShown && readSt && (
+                  <div ref={cardRef} data-readout-card={cardCorner} className={`pointer-events-none absolute ${CORNER_CLS[cardCorner]} max-w-[18rem] rounded-lg border border-border-light bg-bg-elevated/95 px-3 py-2 text-[12.5px] text-text-secondary space-y-1`}>
                     {readoutLines(readSt).map((l, i) => <p key={i} className={i === 0 ? 'text-text' : ''}>{l}</p>)}
                   </div>
                 )}

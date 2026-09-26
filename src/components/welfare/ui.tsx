@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
+import { createContext, useCallback, useContext, useEffect, useState, type ReactNode, type SyntheticEvent } from 'react';
 import type { Source, Tier } from '../../graph/schema';
 import { hostOf } from '../../data/welfareView';
 
@@ -15,8 +15,25 @@ import { hostOf } from '../../data/welfareView';
  * False inside a closed table twin. A closed twin stays readable to assistive
  * technology (see the page's stylesheet) but is not on screen, so nothing inside it
  * may take keyboard focus: a focus ring on an invisible control is a trap.
+ *
+ * Every twin provides this from `useTwinOpen` — the disclosure's live state, never
+ * the prop that last asked it to open — because a reader can open or close a
+ * <details> from its own summary without the prop changing (A11Y-002 S1, S2).
  */
 export const Tabbable = createContext(true);
+
+/**
+ * The live open state of a twin's <details>. `requested` (view=table, #stage-tables,
+ * the skip link) opens or closes it when it changes; the toggle event follows every
+ * other route — the summary, find-in-page, a script — so the state the controls read
+ * is the state the reader sees.
+ */
+export function useTwinOpen(requested: boolean): [boolean, (e: SyntheticEvent<HTMLDetailsElement>) => void] {
+  const [isOpen, setIsOpen] = useState(requested);
+  useEffect(() => { setIsOpen(requested); }, [requested]);
+  const onToggle = useCallback((e: SyntheticEvent<HTMLDetailsElement>) => setIsOpen(e.currentTarget.open), []);
+  return [isOpen, onToggle];
+}
 
 /**
  * In-page links to another view of this page (`?st=`, `?s=`). A router Link resolves
@@ -253,12 +270,17 @@ export function HashLink({ to, children, className = '' }: { to: string; childre
  * every filter change is what made the page slow to answer a click.
  */
 export function LazyTwin({ twin, open, summary, children }: { twin: string; open: boolean; summary: ReactNode; children: () => ReactNode }) {
+  const [isOpen, onToggle] = useTwinOpen(open);
+  // Once drawn, the table stays in the document (closing is not a reason to redraw it
+  // on the next open); its controls follow the live state through Tabbable.
   const [shown, setShown] = useState(open);
-  useEffect(() => { if (open) setShown(true); }, [open]);
+  useEffect(() => { if (isOpen) setShown(true); }, [isOpen]);
   return (
-    <details data-twin={twin} open={open} className="mt-4" onToggle={(e) => { if ((e.currentTarget as HTMLDetailsElement).open) setShown(true); }}>
+    <details data-twin={twin} open={isOpen} className="mt-4" onToggle={onToggle}>
       <summary className="cursor-pointer text-[14px] text-text-secondary">{summary}</summary>
-      {shown || open ? children() : null}
+      <Tabbable.Provider value={isOpen}>
+        {shown || isOpen ? children() : null}
+      </Tabbable.Provider>
     </details>
   );
 }

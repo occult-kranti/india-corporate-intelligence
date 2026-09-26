@@ -94,9 +94,13 @@ gap. Membership joins by company id, never by name.
 2000–2026), each built to a judged spec against a RED acceptance suite written
 without sight of the implementation. `/energy`: 67 of 67 criteria pass, on three
 consecutive runs; its five serious WCAG findings are fixed. `/welfare`: at its
-commit 65 of 85 passed, 15 skipped on fixtures and 5 failed on criteria the build
-showed to be wrong; its three serious WCAG findings (keyboard reach inside the table
-twins; the map's `role="img"`) are **open**.
+commit 65 of 85 passed and 5 failed on criteria the build showed to be wrong; after
+the corrections 70 of 85 pass, 0 fail and 15 skip (9 scaffold criteria, which pass on
+the EMPTY build; 6 share-of-budget criteria skipped as a documented data void). Its
+three serious WCAG findings (keyboard reach inside the table twins; the map's
+`role="img"`) and M1–M4 are fixed; the map is now a `role="listbox"` of state
+options, and the spec and criteria record that supersession. `test:pages` is in
+`check` and CI.
 
 **Three older results worth knowing before you start**, because they still shape
 what is worth doing next:
@@ -191,9 +195,11 @@ what is worth doing next:
 
 ### Queued work
 
-- **Close `/welfare`.** Land the acceptance-suite corrections (in progress in the
-  working tree), fix the three serious WCAG findings in `docs/design/WELFARE_A11Y.md`,
-  then add `test:pages` to `check` and CI.
+- **`/welfare` leftovers.** WCAG M5–M7 and the minor findings in
+  `docs/design/WELFARE_A11Y.md`; the one share-of-state-budget figure in the register
+  (Karnataka guarantees, fy `2023-24 (Jul–Mar)`) is rejected by `normaliseFy` for its
+  suffix, so the money-year twin reads 0 everywhere — decide whether a part-year figure
+  is painted as partial or left out.
 - **Renderer migration**, per `docs/research/GRAPH_UI_SOTA.md` §5: Canvas 2D on
   d3-force in a worker, an accessibility overlay, zero new runtime dependencies.
   Phase 0 (extract `graphSemantics.ts`, make `camera.tsx` element-agnostic) first.

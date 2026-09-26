@@ -9,6 +9,23 @@ it is a report, and every fix below is a proposal.*
 
 ---
 
+## Status (2026-09-26, after the fix batch)
+
+| id | finding | status |
+|---|---|---|
+| S1 | twin controls unreachable after opening from the summary | fixed — every twin's controls tabbable once open (386/133/457/597/505 of each) |
+| S2 | tabbable controls inside a closed `<details>` | fixed — 0 tabbable in every closed twin; real Tab walks never land inside one |
+| S3 | the map is `role="img"` while being the keyboard widget | fixed — `role="listbox"` + `aria-roledescription="map"`, 36 `role="option"` paths, `aria-activedescendant`; spec §6.1 and AC-05/65 amended |
+| M1 | darkest map fills 1.1–1.6:1 | fixed — painted classes start at RAMP[2] (3.1:1); searched-none class gets an edge |
+| M2 | toggle state by colour alone | fixed — pressed state adds a tint and an underline bar (generated content, names unchanged) |
+| M3 | year slider rests at 2.3:1 | fixed — resting opacity .7 |
+| M4 | readout card covers the focused state | fixed — card moves to a non-overlapping corner; Escape hides it before clearing `st` |
+| M5–M7, m1–m11 | | open |
+
+Verified by an independent agent on a pinned build (keyboard walks, accessibility tree,
+contrast probe) and by the acceptance suite: 70 pass / 0 fail / 15 skipped (FULL),
+9 / 0 / 76 (EMPTY). Everything below is the audit as filed.
+
 ## 0. Summary
 
 | severity | count | definition (from the skill) |

@@ -128,11 +128,11 @@ replaced them.
 | `assemble-fleet.test.mjs`, `merge-fleet.test.mjs` | `npm run test:assemble` | The assembler's rules or the graph merge regress, on a synthetic fixture (27 + 3 tests). Research-independent: a red here is a code fault |
 | `smoke.mjs` | `npm run smoke` | Any route renders blank or throws; the map draws fewer than 36 state paths; the map is not keyboard-focusable. Serves `dist` itself; visits all 32 routes, several with URL parameters |
 | `graph-viewport.mjs` | `npm run viewport` | The graph camera letterboxes, a drag does not move the graph by the drag, auto-fit clips, maximise does not take the window, or selecting and path-finding move the camera |
-| `pages/energy.test.mjs`, `pages/welfare.test.mjs` | `npm run test:pages` | A `/energy` or `/welfare` acceptance criterion fails (67 and 85 criteria; headless Playwright against `dist` and a scaffold `dist-empty` it builds itself). **Not in `check` or CI yet** — see `HANDOFF.md` |
+| `pages/energy.test.mjs`, `pages/welfare.test.mjs` | `npm run test:pages` | A `/energy` or `/welfare` acceptance criterion fails (67 and 85 criteria; headless Playwright against `dist`; the energy suite builds its scaffold `dist-empty` itself, the welfare suite takes `WELFARE_DIST` and skips its 9 scaffold criteria on a FULL build). Last in `check` and CI |
 | `build-procurement.mjs`, `prospect-procurement.mjs`, `verify-sample.mjs` | — | Offline: the bid-count dataset from the OCDS files, the procurement pattern search, and the Stage 0 verification sampler |
 
 `npm run check` runs `promote → generate → test:assemble → validate → build → smoke →
-viewport`, in that order. CI (`.github/workflows/ci.yml`) runs the same steps.
+viewport → test:pages`, in that order. CI (`.github/workflows/ci.yml`) runs the same steps.
 
 ## 7. Agents and skills — `.claude/`
 
@@ -184,7 +184,7 @@ until a gate has passed it.
 | `design/drafts/*` | The competing designs each spec was judged from: graphic-first, question-first, and a solo draft, per page |
 | `design/*_UX_REVIEW.md` | Five synthetic persona seats per spec. Labelled SYNTHETIC: hypotheses, not user research |
 | `design/*_ACCEPTANCE.md` | What "done" means, one criterion per test in `scripts/pages/` |
-| `design/*_A11Y.md` | WCAG 2.1 AA audits. Energy: 0 critical, 5 serious (fixed), 7 moderate, 9 minor. Welfare: 0 critical, 3 serious (open), 7 moderate, 11 minor |
+| `design/*_A11Y.md` | WCAG 2.1 AA audits. Energy: 0 critical, 5 serious (fixed), 7 moderate, 9 minor. Welfare: 0 critical, 3 serious (fixed), 7 moderate (M1–M4 fixed), 11 minor |
 | `research/FLEET_CONTRACT.md` | The output contract every fleet agent writes to |
 | `research/GRAPH_UI_SOTA.md` | Graph-UI state of the art. Keep the model; replace only the renderer (Canvas 2D, d3-force in a worker, an accessibility overlay, zero new runtime dependencies). §5 is the migration plan |
 | `research/DATA_SOURCES.md` | Reachability, licence and fields of the open datasets the energy graph can be built from |

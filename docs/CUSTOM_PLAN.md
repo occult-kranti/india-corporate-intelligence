@@ -279,8 +279,8 @@ them.
       card, keyboard traversal, a table twin that reads what the graph draws
 - [x] `/energy`: 67 acceptance criteria, 67 passing on three consecutive runs; five
       serious WCAG findings fixed
-- [ ] `/welfare`: shipped to 85 criteria; corrections to five defective criteria and
-      the three serious WCAG findings outstanding; `test:pages` not yet in the gate
+- [x] `/welfare`: 85 criteria, 70 passing + 15 skipped (9 scaffold, 6 data void), 0
+      failing; three serious and four moderate WCAG findings fixed; `test:pages` in the gate
 - [ ] Renderer migration per `docs/research/GRAPH_UI_SOTA.md` §5
 - [ ] Atlas-vs-national duplicate ids (`gadani`/`per:gautam-s-adani`,
       `joshi`/`pol:pralhad-joshi`)

@@ -829,7 +829,14 @@ export function yearElections(rows: ElectionRow[], y: number): ElectionRow[] {
 // ---------------------------------------------------------------------------
 
 export const RAMP = ['#2e373f', '#354e55', '#3d6668', '#487f7c', '#61988e', '#89b19f', '#b7cbb0'];
-const RAMP_STEPS: Record<number, number[]> = { 1: [3], 2: [0, 6], 3: [0, 3, 6], 4: [0, 2, 4, 6], 5: [0, 2, 3, 5, 6] };
+/**
+ * Which RAMP steps a map with k classes paints. Every painted class starts at RAMP[2]
+ * (3.1:1 against --color-bg): RAMP[0] and RAMP[1] sit at 1.6:1 and 2.2:1, so a state in
+ * the lowest class disappeared into the page and read as no-data (A11Y-002 M1). The
+ * order of classes, and so what each shade means, is unchanged. RAMP[0] stays in the
+ * array for the clock's coverage ribbon, which is not a map class.
+ */
+const RAMP_STEPS: Record<number, number[]> = { 1: [3], 2: [2, 6], 3: [2, 4, 6], 4: [2, 3, 5, 6], 5: [2, 3, 4, 5, 6] };
 
 export type Bins = { cuts: number[]; ramp: string[]; labels: string[]; pooled: number } | { disabled: string; pooled: number };
 
