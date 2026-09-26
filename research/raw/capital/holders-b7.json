@@ -1,0 +1,389 @@
+{
+  "asOf": "2026-09-26",
+  "domain": "holders-b7",
+  "scope": "Named foreign shareholders (≥1%) of five batch-7 constituents (NTPC, ONGC, Power Grid Corporation, SBI Life Insurance, Shriram Finance) from the latest available SEBI Reg. 31(1)(b) quarterly shareholding-pattern filings. Four of five were opened at the primary source: NTPC (dev.ntpc.co.in PDF, quarter ended 30.09.2025), Power Grid (powergrid.in's own HTML rendering of the SEBI XBRL filing, quarter ended 30.09.2025), SBI Life (sbilife.co.in PDF, quarter ended 31.12.2025) and Shriram Finance (cdn.shriramfinance.in PDF, 34-page filing with full named-holder annexures, quarter ended 31.12.2025). ONGC's primary source (ongcindia.com) refused every connection attempted in this pass (repeated TLS/SSL_ERROR_SYSCALL on direct fetch, HTTP 503 on WebFetch) — ONGC rests on a screener.in aggregate only, tier reported, no named holders, with the attempted primary URLs recorded in voids. Three of the five companies (NTPC, ONGC, Power Grid) are majority Government-of-India-owned PSUs with a statutory/practical ceiling on how large any single foreign stake can be while the sovereign promoter holds 51%+; SBI Life's promoter is State Bank of India (a PSU bank, not itself the Government directly) at 55.34%; Shriram Finance is the one private-sector NBFC in the batch and the only one with genuinely large aggregate FPI exposure (47%+) and a pending (not yet completed, and so NOT recorded as a current ownership claim) 20%-stake acquisition by Japan's Mitsubishi UFJ Financial Group announced 19 December 2025. Covers: the mandatory comparison set (BlackRock, Vanguard, NBIM/Government Pension Fund Global, GIC/Government of Singapore, Capital Group, Fidelity, Kuwait Investment Authority, ADIA, GQG Partners) tested against all four companies with primary data; LIC of India as the domestic control, present ≥1% in two of four (NTPC, Power Grid) and documented as absent/sub-1% in the other two; two Singapore state entities distinct from GIC found in this batch — Temasek Holdings' wholly-owned vehicle MacRitchie Investments Pte Ltd (SBI Life, non-FPI 'Foreign Companies' category) and the Monetary Authority of Singapore (Shriram Finance, FPI Category I) — both recorded as new holders, not conflated with GIC; and Sanlam Life Insurance Limited, a South African insurer holding a legacy foreign promoter-group FPI stake in Shriram Finance. Leaves out: adviser mandates, SEBI/RBI rule-change history, and the Soros/OSF/World Bank narratives (out of scope for this batch); any company outside the five named above; and the MUFG-Shriram Finance transaction's completion, which had not occurred by the 31.12.2025 filing date this file uses.",
+  "sources": [
+    ["NTPC Ltd — Shareholding Pattern, quarter ended 30.09.2025 (dev.ntpc.co.in PDF)", "https://dev.ntpc.co.in/sites/default/files/shareholding_pattrens/2026/Shareholding%20Pattern%20(1).pdf"],
+    ["Power Grid Corporation of India Ltd — Shareholding Pattern Q2 FY2025-26, quarter ended 30.09.2025 (powergrid.in HTML render of SEBI filing)", "https://www.powergrid.in/sites/default/files/Investor_Relation/Reports_Filings/Share_Holding_Pattern/2025-26/SHP_2025-26_Q2.html"],
+    ["Power Grid Corporation of India Ltd — Share Holding Pattern page (link discovery)", "https://www.powergrid.in/en/share-holding-pattern"],
+    ["Power Grid Corporation of India Ltd — stale 2014-era shareholding-pattern PDF (probed, wrong quarter, not used for claims)", "https://www.powergrid.in/sites/default/files/share-holding-pattern/Shareholding_Pattern.pdf"],
+    ["SBI Life Insurance Company Ltd — Shareholding Pattern for the Quarter Ended December 2025 (sbilife.co.in PDF)", "https://www.sbilife.co.in/documents/20118/589241/SHAREHOLDING+PATTERN+FOR+THE+QUARTER+ENDED+DECEMBER+2025.pdf/011814cb-3128-9c2e-6527-bac79c47f28e?version=1.2&t=1774587651185&download=true"],
+    ["Shriram Finance Ltd — Shareholding Pattern, quarter ended 31.12.2025 (cdn.shriramfinance.in PDF, 34 pages incl. named-holder annexures)", "https://cdn.shriramfinance.in/sfl-kalam/files/2026-01/SHP_31-12-2025.pdf"],
+    ["Shriram Finance Ltd — Investor Information page (link discovery)", "https://www.shriramfinance.in/investors/investor-information"],
+    ["ONGC — Investors/Shareholding Pattern page (probed, repeated SSL_ERROR_SYSCALL on direct fetch and HTTP 503 via WebFetch, not reachable in this pass)", "https://ongcindia.com/web/eng/investors/shareholding-pattern"],
+    ["ONGC — Shareholding Pattern page, hi locale (probed, same failure)", "https://ongcindia.com/web/hi/investors/shareholding-pattern"],
+    ["screener.in — Oil and Natural Gas Corporation Ltd (consolidated), shareholding aggregate fallback", "https://www.screener.in/company/ONGC/consolidated/"],
+    ["sre.co.in (Mangal Keshav) — 'ONGC has submitted to BSE the Shareholding Pattern for the Period Ended September 30, 2025'", "https://www.sre.co.in/news-details/eod-4520143"],
+    ["Business Standard — 'Shriram Finance, MUFG to invest ₹39,617.98 crore for 20% stake'", "https://www.business-standard.com/companies/news/shriram-finance-mufg-invest-39618-crore-20-percent-stake-preferential-issue-125121900473_1.html"],
+    ["AZB & Partners — 'CCI Approves Acquisition of UST Holdings Limited by Macritchie Investment Pte. Ltd.' (confirms MacRitchie as a Temasek Holdings vehicle)", "https://www.azbpartners.com/bank/cci-approves-acquisition-of-ust-holdings-limited-by-macritchie-investment-pte-ltd/"]
+  ],
+  "entities": [
+    {
+      "id": "cap:blackrock",
+      "label": "BlackRock, Inc.",
+      "sub": "US asset manager, NYSE: BLK; India exposure via iShares ETFs and BlackRock Global Funds sub-funds, each separately FPI-registered",
+      "ty": "company",
+      "fam": "capital",
+      "st": null,
+      "sz": 4,
+      "al": ["iShares", "BlackRock Global Funds"],
+      "resolved": true,
+      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
+      "publicRole": "Mandatory control per SPEC — never recorded without the comparison set. Redefined here per fleet contract for this batch file.",
+      "d": [
+        "Not found as a named ≥1% shareholder in any of the 4 companies whose primary filings were opened in this pass (NTPC, Power Grid, SBI Life, Shriram Finance) [documented, absence in a 4-company sample]",
+        "Not checked against ONGC in this pass — that company rests on aggregate-only fallback data with no named-holder breakdown [void]"
+      ],
+      "srcs": []
+    },
+    {
+      "id": "cap:vanguard",
+      "label": "The Vanguard Group, Inc.",
+      "sub": "US asset manager; India exposure via multiple Vanguard index funds, each separately FPI-registered",
+      "ty": "company",
+      "fam": "capital",
+      "st": null,
+      "sz": 4,
+      "al": ["Vanguard Total International Stock Index Fund", "Vanguard Emerging Markets Stock Index Fund"],
+      "resolved": true,
+      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
+      "publicRole": "Mandatory comparison control per SPEC.",
+      "d": ["Not found as a named ≥1% holder in any of the 4 companies checked with primary data in this pass [documented, absence in sample]"],
+      "srcs": []
+    },
+    {
+      "id": "cap:nbim",
+      "label": "Norges Bank Investment Management (Government Pension Fund Global)",
+      "sub": "Manager of Norway's sovereign wealth fund",
+      "ty": "fund",
+      "fam": "capital",
+      "st": null,
+      "sz": 4,
+      "al": ["NBIM", "Government Pension Fund Global", "GPFG"],
+      "resolved": true,
+      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
+      "publicRole": "Mandatory comparison control per SPEC.",
+      "d": [
+        "Named ≥1% in Shriram Finance as 'GOVERNMENT PENSION FUND GLOBAL', Foreign Portfolio Investor Category I, 1.29% (24,184,586 shares) as of 31.12.2025 [documented]",
+        "Not found as a named ≥1% holder in NTPC, Power Grid or SBI Life as of their respective latest filings opened [documented, absence in sample]"
+      ],
+      "srcs": [["Shriram Finance — Shareholding Pattern, quarter ended 31.12.2025", "https://cdn.shriramfinance.in/sfl-kalam/files/2026-01/SHP_31-12-2025.pdf"]]
+    },
+    {
+      "id": "cap:gic-singapore",
+      "label": "Government of Singapore / GIC Private Limited",
+      "sub": "Singapore's sovereign wealth fund manager; Indian filings name the registered FPI holder 'GOVERNMENT OF SINGAPORE'",
+      "ty": "fund",
+      "fam": "capital",
+      "st": null,
+      "sz": 4,
+      "al": ["GIC", "GIC Pte Ltd", "Government of Singapore"],
+      "resolved": true,
+      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
+      "publicRole": "Mandatory comparison control per SPEC. This batch also surfaces two OTHER Singapore state entities not to be conflated with GIC: Temasek Holdings (via MacRitchie Investments Pte Ltd, cap:temasek-holdings) and the Monetary Authority of Singapore (cap:monetary-authority-singapore) — three distinct Singapore state investment vehicles, each recorded separately per CONTRACT's institutions-not-bloodlines rule applied to sovereign entities too.",
+      "d": [
+        "Named ≥1% as 'GOVERNMENT OF SINGAPORE', Foreign Portfolio Investor Category I, in 3 of the 4 companies checked with primary data: NTPC 2.04% (197,673,526 shares, quarter 30.09.2025), Power Grid 2.34% (217,235,029 shares, quarter 30.09.2025), Shriram Finance 4.66% (87,747,965 shares, quarter 31.12.2025) — the single largest named FPI-I line in Shriram Finance's filing [documented]",
+        "Not found as a named ≥1% holder in SBI Life as of 31.12.2025 (SBI Life's only ≥1% Singapore-state holder that quarter was Temasek's MacRitchie Investments Pte Ltd, a structurally different 'Foreign Companies' category holding, not an FPI line — see cap:temasek-holdings) [documented, absence in sample]"
+      ],
+      "srcs": [
+        ["NTPC — Shareholding Pattern, quarter ended 30.09.2025", "https://dev.ntpc.co.in/sites/default/files/shareholding_pattrens/2026/Shareholding%20Pattern%20(1).pdf"],
+        ["Power Grid — Shareholding Pattern Q2 FY2025-26", "https://www.powergrid.in/sites/default/files/Investor_Relation/Reports_Filings/Share_Holding_Pattern/2025-26/SHP_2025-26_Q2.html"],
+        ["Shriram Finance — Shareholding Pattern, quarter ended 31.12.2025", "https://cdn.shriramfinance.in/sfl-kalam/files/2026-01/SHP_31-12-2025.pdf"]
+      ]
+    },
+    {
+      "id": "cap:capital-group",
+      "label": "Capital Group Companies, Inc.",
+      "sub": "US asset manager; EuroPacific Growth Fund and New Perspective Fund are its best-known emerging-markets vehicles",
+      "ty": "company",
+      "fam": "capital",
+      "st": null,
+      "sz": 3,
+      "al": ["EuroPacific Growth Fund", "New Perspective Fund"],
+      "resolved": true,
+      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
+      "publicRole": "Mandatory comparison control per SPEC.",
+      "d": [
+        "Not found as a named ≥1% holder in any of the 4 companies checked with primary data in this pass [documented, absence in sample]",
+        "A stale (30.09.2014) Power Grid shareholding-pattern PDF surfaced in this pass' initial search showed EuroPacific Growth Fund at 5.66% at that historical date — eleven years old, a different quarter than any claim in this file, and NOT used as a current-holding claim; noted here only so the discrepancy with 'not found' above is not mistaken for an oversight"
+      ],
+      "srcs": []
+    },
+    {
+      "id": "cap:fidelity",
+      "label": "Fidelity Investments (FMR LLC)",
+      "sub": "US asset manager, privately held; distinct from Fidelity International Ltd",
+      "ty": "company",
+      "fam": "capital",
+      "st": null,
+      "sz": 3,
+      "al": ["FMR LLC"],
+      "resolved": true,
+      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
+      "publicRole": "Mandatory comparison control per SPEC.",
+      "d": ["Not found as a named ≥1% holder in any of the 4 companies checked with primary data in this pass [documented, absence in sample]"],
+      "srcs": []
+    },
+    {
+      "id": "cap:kuwait-investment-authority",
+      "label": "Kuwait Investment Authority",
+      "sub": "Kuwait's sovereign wealth fund",
+      "ty": "fund",
+      "fam": "capital",
+      "st": null,
+      "sz": 2,
+      "al": ["KIA"],
+      "resolved": true,
+      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
+      "publicRole": "Mandatory comparison control per SPEC.",
+      "d": ["Not found as a named ≥1% holder in any of the 4 companies checked with primary data in this pass [documented, absence in sample]"],
+      "srcs": []
+    },
+    {
+      "id": "cap:adia",
+      "label": "Abu Dhabi Investment Authority",
+      "sub": "Abu Dhabi's sovereign wealth fund",
+      "ty": "fund",
+      "fam": "capital",
+      "st": null,
+      "sz": 2,
+      "al": ["ADIA"],
+      "resolved": true,
+      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
+      "publicRole": "Mandatory comparison control per SPEC.",
+      "d": ["Not found as a named ≥1% holder in any of the 4 companies checked with primary data in this pass [documented, absence in sample]"],
+      "srcs": []
+    },
+    {
+      "id": "cap:gqg-partners",
+      "label": "GQG Partners",
+      "sub": "US-based emerging-markets asset manager (Fort Lauderdale; founder Rajiv Jain)",
+      "ty": "company",
+      "fam": "capital",
+      "st": null,
+      "sz": 3,
+      "al": ["GQG Partners LLC"],
+      "resolved": true,
+      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
+      "publicRole": "Named in SPEC's inventory of prior-batch holders; tested for symmetry against this batch.",
+      "d": ["Not found as a named ≥1% holder in any of the 4 companies checked with primary data in this pass [documented, absence in sample]"],
+      "srcs": []
+    },
+    {
+      "id": "cap:temasek-holdings",
+      "label": "Temasek Holdings (Private) Limited",
+      "sub": "Singapore's state-owned investment company (distinct from GIC, which manages Singapore's foreign reserves; Temasek invests the state's commercial equity stakes); India stake in this batch held via its wholly-owned vehicle MacRitchie Investments Pte Ltd",
+      "ty": "fund",
+      "fam": "capital",
+      "st": null,
+      "sz": 3,
+      "al": ["MacRitchie Investments Pte Ltd", "MacRitchie Investments Pte. Ltd."],
+      "resolved": true,
+      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
+      "publicRole": "A second, distinct Singapore state investment vehicle found in this batch, not to be conflated with GIC/cap:gic-singapore. Recorded institutionally per CONTRACT rule 1.",
+      "d": [
+        "Holds 1.51% of SBI Life Insurance Company Ltd via its wholly-owned vehicle MacRitchie Investments Pte Ltd (15,100,000 shares), quarter ended 31.12.2025 — disclosed under SBI Life's 'Non-institutions / Foreign Companies' category, not under any Foreign Portfolio Investor category, structurally different from the passive FPI/index holdings most of this file's other named holders sit in [documented]",
+        "MacRitchie Investments Pte. Ltd. is confirmed as an indirect wholly-owned subsidiary of Temasek Holdings (Private) Limited by a CCI merger-clearance order (Macritchie's acquisition of UST Holdings Ltd) [documented, third-party corroboration, not the SBI Life filing itself]"
+      ],
+      "srcs": [
+        ["SBI Life — Shareholding Pattern for the Quarter Ended December 2025", "https://www.sbilife.co.in/documents/20118/589241/SHAREHOLDING+PATTERN+FOR+THE+QUARTER+ENDED+DECEMBER+2025.pdf/011814cb-3128-9c2e-6527-bac79c47f28e?version=1.2&t=1774587651185&download=true"],
+        ["AZB & Partners — CCI clearance order naming MacRitchie as a Temasek vehicle", "https://www.azbpartners.com/bank/cci-approves-acquisition-of-ust-holdings-limited-by-macritchie-investment-pte-ltd/"]
+      ]
+    },
+    {
+      "id": "cap:monetary-authority-singapore",
+      "label": "Monetary Authority of Singapore",
+      "sub": "Singapore's central bank and integrated financial regulator, which also manages a portion of Singapore's official foreign reserves — a third distinct Singapore state investment identity alongside GIC and Temasek",
+      "ty": "fund",
+      "fam": "capital",
+      "st": null,
+      "sz": 2,
+      "al": ["MAS"],
+      "resolved": true,
+      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
+      "publicRole": "A third Singapore state entity found in this batch, distinct from both GIC and Temasek — recorded separately, not merged into cap:gic-singapore, per CONTRACT rule 1 applied to sovereign vehicles.",
+      "d": ["Named ≥1% in Shriram Finance, Foreign Portfolio Investor Category I, 1.03% (19,365,129 shares), quarter ended 31.12.2025 [documented]"],
+      "srcs": [["Shriram Finance — Shareholding Pattern, quarter ended 31.12.2025", "https://cdn.shriramfinance.in/sfl-kalam/files/2026-01/SHP_31-12-2025.pdf"]]
+    },
+    {
+      "id": "cap:sanlam",
+      "label": "Sanlam Life Insurance Limited",
+      "sub": "South African financial services group (JSE: SLM); its 'Sanlam Emerging Markets (Mauritius) Limited' entity is separately named in Shriram Finance's own promoter-group disclosure notes as a person-acting-in-concert, reflecting the historic Sanlam–Shriram strategic partnership",
+      "ty": "company",
+      "fam": "capital",
+      "st": null,
+      "sz": 2,
+      "al": ["Sanlam Group", "Sanlam Emerging Markets (Mauritius) Limited"],
+      "resolved": true,
+      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
+      "publicRole": "Foreign promoter-group holder disclosed directly by name in Shriram Finance's own Table II (Promoter and Promoter Group), registered as a Foreign Portfolio Investor rather than under a plain FDI/promoter category — an unusual structural mix within the promoter group itself. Recorded institutionally, not by any family or bloodline framing.",
+      "d": ["Holds 0.41% of Shriram Finance (7,784,755 shares) as Promoter Group, registered as a Foreign Portfolio Investor, quarter ended 31.12.2025 [documented]"],
+      "srcs": [["Shriram Finance — Shareholding Pattern, quarter ended 31.12.2025", "https://cdn.shriramfinance.in/sfl-kalam/files/2026-01/SHP_31-12-2025.pdf"]]
+    },
+    {
+      "id": "cap:mufg",
+      "label": "Mitsubishi UFJ Financial Group, Inc.",
+      "sub": "Japan's largest bank holding company (TYO: 8306); announced 19 December 2025 acquisition of a 20% stake in Shriram Finance via preferential allotment for ₹39,617.98 crore, subject to regulatory and shareholder approvals",
+      "ty": "company",
+      "fam": "capital",
+      "st": null,
+      "sz": 3,
+      "al": ["MUFG", "MUFG Bank"],
+      "resolved": true,
+      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
+      "publicRole": "A pending, announced-but-not-completed foreign strategic stake — recorded here as context, NOT as a current ownership claim, because Shriram Finance's own 31.12.2025 shareholding-pattern filing (12 days after the announcement) shows no MUFG line: the transaction had not closed by the quarter this file's Shriram Finance claims are dated to.",
+      "d": [
+        "Board approval announced 19 December 2025 for MUFG to acquire ~20% of Shriram Finance via a preferential issue of equity shares at ₹840.93/share (~₹39,617.98 crore aggregate), with MUFG entitled to nominate up to two non-independent directors, a 12-month lock-in on third-party transfers and a 24-month restriction on secondary-market purchases; both MUFG and the Shriram promoter group would each hold ~20% post-completion, with Shriram Group remaining the largest shareholder and promoter [reported, single outlet with named sourcing]",
+        "Not reflected in Shriram Finance's own SEBI shareholding-pattern filing as of 31.12.2025 — the deal remained subject to regulatory and shareholder approval as of that filing date; NOT recorded as an 'own' claim in this file for that reason [documented absence, consistent with the deal's own announced not-yet-closed status]"
+      ],
+      "srcs": [["Business Standard — Shriram Finance, MUFG to invest ₹39,617.98 crore for 20% stake", "https://www.business-standard.com/companies/news/shriram-finance-mufg-invest-39618-crore-20-percent-stake-preferential-issue-125121900473_1.html"]]
+    }
+  ],
+  "claims": [
+    {
+      "id": "holders-b7:c001",
+      "s": "cap:gic-singapore",
+      "t": "co:ntpc",
+      "pred": "own",
+      "tier": "documented",
+      "d": "2.04% (197,673,526 shares), Foreign Portfolio Investor Category I, registered as 'Government Of Singapore', quarter ended 30.09.2025 — the only named ≥1% foreign holder in this filing. Institutions (Foreign) aggregate this quarter: 16.40% (Category I 15.82%/608 entities + Category II 0.58%/60 entities); no other individual foreign holder named.",
+      "from": "2025-09-30",
+      "srcs": [["NTPC — Shareholding Pattern, quarter ended 30.09.2025", "https://dev.ntpc.co.in/sites/default/files/shareholding_pattrens/2026/Shareholding%20Pattern%20(1).pdf"]],
+      "supersededBy": null
+    },
+    {
+      "id": "holders-b7:c002",
+      "s": "co:life-insurance-corporation",
+      "t": "co:ntpc",
+      "pred": "own",
+      "tier": "documented",
+      "d": "4.94% (479,314,529 shares), domestic control comparator, quarter ended 30.09.2025 — larger than the entire named-foreign-holder total (holders-b7:c001) and the largest single non-promoter shareholder in the filing. Promoter (President of India) holds 51.10% (4,955,346,251 shares).",
+      "from": "2025-09-30",
+      "srcs": [["NTPC — Shareholding Pattern, quarter ended 30.09.2025", "https://dev.ntpc.co.in/sites/default/files/shareholding_pattrens/2026/Shareholding%20Pattern%20(1).pdf"]],
+      "supersededBy": null
+    },
+    {
+      "id": "holders-b7:c003",
+      "s": "cap:gic-singapore",
+      "t": "co:power-grid",
+      "pred": "own",
+      "tier": "documented",
+      "d": "2.34% (217,235,029 shares), Foreign Portfolio Investor Category I, registered as 'Government Of Singapore - E', quarter ended 30.09.2025 — the only named ≥1% foreign holder in this filing. Institutions (Foreign) aggregate this quarter: 25.67% (Category I 24.78%/1,045 entities + Category II 0.88%/79 entities + negligible 'Any Other'); no other individual foreign holder named.",
+      "from": "2025-09-30",
+      "srcs": [["Power Grid — Shareholding Pattern Q2 FY2025-26", "https://www.powergrid.in/sites/default/files/Investor_Relation/Reports_Filings/Share_Holding_Pattern/2025-26/SHP_2025-26_Q2.html"]],
+      "supersededBy": null
+    },
+    {
+      "id": "holders-b7:c004",
+      "s": "co:life-insurance-corporation",
+      "t": "co:power-grid",
+      "pred": "own",
+      "tier": "documented",
+      "d": "3.16% (293,941,480 shares), domestic control comparator, quarter ended 30.09.2025 — larger than the entire named-foreign-holder total (holders-b7:c003) and the largest single domestic-institution line disclosed. Promoter (President of India) holds 51.34% (4,774,884,280 shares); other large domestic institutional lines this quarter: Parag Parikh Arbitrage Fund 2.93%, Nippon Life India Trustee (ETF) 2.72%, SBI Arbitrage Opportunities Fund 2.18%, Bharat 22 ETF 1.49%, NPS Trust (SBI Pension Fund) 1.40%, HDFC Mutual Fund Focused Fund 1.38%.",
+      "from": "2025-09-30",
+      "srcs": [["Power Grid — Shareholding Pattern Q2 FY2025-26", "https://www.powergrid.in/sites/default/files/Investor_Relation/Reports_Filings/Share_Holding_Pattern/2025-26/SHP_2025-26_Q2.html"]],
+      "supersededBy": null
+    },
+    {
+      "id": "holders-b7:c005",
+      "s": "cap:temasek-holdings",
+      "t": "co:sbi-life",
+      "pred": "own",
+      "tier": "documented",
+      "d": "1.51% (15,100,000 shares) via 'Macritchie Investments Pte Ltd', disclosed under 'Non-institutions / Foreign Companies' (not any Foreign Portfolio Investor category — an FDI-adjacent strategic holding, not a passive index line), quarter ended 31.12.2025 — the only named ≥1% foreign holder in this filing outside the aggregate FPI lines. No Foreign Portfolio Investor Category I or II line individually named ≥1% this quarter (Category I aggregate 21.11%/812 entities, Category II 0.77%/51 entities, none crossing 1% individually).",
+      "from": "2025-12-31",
+      "srcs": [["SBI Life — Shareholding Pattern for the Quarter Ended December 2025", "https://www.sbilife.co.in/documents/20118/589241/SHAREHOLDING+PATTERN+FOR+THE+QUARTER+ENDED+DECEMBER+2025.pdf/011814cb-3128-9c2e-6527-bac79c47f28e?version=1.2&t=1774587651185&download=true"]],
+      "supersededBy": null
+    },
+    {
+      "id": "holders-b7:c006",
+      "s": "co:state-bank-of-india",
+      "t": "co:sbi-life",
+      "pred": "own",
+      "tier": "documented",
+      "d": "Domestic promoter, 55.34% (555,000,000 shares), the sole promoter, quarter ended 31.12.2025. Recorded for symmetry context though SBI, not LIC, is SBI Life's domestic promoter/control: LIC of India does not appear as a named ≥1% shareholder in this filing at all (Insurance Companies aggregate across 29 entities is 1.28%, with no individual insurer named, consistent with — but not proof of — LIC holding below 1% here; see voids). This is the largest single shareholding of any kind found anywhere in this batch's four primary filings besides the two Government-of-India PSU promoter stakes.",
+      "from": "2025-12-31",
+      "srcs": [["SBI Life — Shareholding Pattern for the Quarter Ended December 2025", "https://www.sbilife.co.in/documents/20118/589241/SHAREHOLDING+PATTERN+FOR+THE+QUARTER+ENDED+DECEMBER+2025.pdf/011814cb-3128-9c2e-6527-bac79c47f28e?version=1.2&t=1774587651185&download=true"]],
+      "supersededBy": null
+    },
+    {
+      "id": "holders-b7:c007",
+      "s": "cap:gic-singapore",
+      "t": "co:shriram-finance",
+      "pred": "own",
+      "tier": "documented",
+      "d": "4.66% (87,747,965 shares), Foreign Portfolio Investor Category I, registered as 'Government Of Singapore', quarter ended 31.12.2025 — the single largest named FPI line in the filing and the largest GIC line found anywhere in this batch.",
+      "from": "2025-12-31",
+      "srcs": [["Shriram Finance — Shareholding Pattern, quarter ended 31.12.2025", "https://cdn.shriramfinance.in/sfl-kalam/files/2026-01/SHP_31-12-2025.pdf"]],
+      "supersededBy": null
+    },
+    {
+      "id": "holders-b7:c008",
+      "s": "cap:nbim",
+      "t": "co:shriram-finance",
+      "pred": "own",
+      "tier": "documented",
+      "d": "1.29% (24,184,586 shares), Foreign Portfolio Investor Category I, registered as 'Government Pension Fund Global', quarter ended 31.12.2025.",
+      "from": "2025-12-31",
+      "srcs": [["Shriram Finance — Shareholding Pattern, quarter ended 31.12.2025", "https://cdn.shriramfinance.in/sfl-kalam/files/2026-01/SHP_31-12-2025.pdf"]],
+      "supersededBy": null
+    },
+    {
+      "id": "holders-b7:c009",
+      "s": "cap:monetary-authority-singapore",
+      "t": "co:shriram-finance",
+      "pred": "own",
+      "tier": "documented",
+      "d": "1.03% (19,365,129 shares), Foreign Portfolio Investor Category I, registered as 'Monetary Authority Of Singapore', quarter ended 31.12.2025 — together with holders-b7:c007 and holders-b7:c008, the three named Category I lines total 6.98% out of the category's 44.88% aggregate (844,412,020 shares/1,041 entities); the remaining ~37.9 percentage points are fragmented across FPIs individually below the 1% naming threshold.",
+      "from": "2025-12-31",
+      "srcs": [["Shriram Finance — Shareholding Pattern, quarter ended 31.12.2025", "https://cdn.shriramfinance.in/sfl-kalam/files/2026-01/SHP_31-12-2025.pdf"]],
+      "supersededBy": null
+    },
+    {
+      "id": "holders-b7:c010",
+      "s": "cap:sanlam",
+      "t": "co:shriram-finance",
+      "pred": "own",
+      "tier": "documented",
+      "d": "0.41% (7,784,755 shares), Promoter Group, registered as a Foreign Portfolio Investor ('Sanlam Life Insurance Limited'), quarter ended 31.12.2025. Total Promoter & Promoter Group shareholding this quarter is 25.38% (477,581,380 shares): Shriram Capital Private Limited 17.84% (Indian promoter), Shriram Value Services Limited 7.11% (Indian promoter group), Shriram Ownership Trust 0.02%, plus this 0.41% foreign FPI line — Sanlam is the only foreign entity inside the promoter group. MUFG's announced (19 Dec 2025) pending 20% stake acquisition (see cap:mufg) does not appear in this quarter's filing.",
+      "from": "2025-12-31",
+      "srcs": [["Shriram Finance — Shareholding Pattern, quarter ended 31.12.2025", "https://cdn.shriramfinance.in/sfl-kalam/files/2026-01/SHP_31-12-2025.pdf"]],
+      "supersededBy": null
+    }
+  ],
+  "voids": [
+    {
+      "what": "ONGC's primary shareholding-pattern source (ongcindia.com) could not be opened in this pass: direct curl attempts to both /web/eng/investors/shareholding-pattern and /web/hi/investors/shareholding-pattern returned 'SSL_ERROR_SYSCALL' on every attempt (TLS handshake failure, not a content-level block), and WebFetch on the same URLs returned HTTP 503. A 2015-dated PDF at a guessed ongcindia.com/documents/ path was found via search but not used (wrong quarter by a decade). Fell back to screener.in's aggregate for the quarter ~Jun 2026: Promoters 58.89%, FIIs 8.01%, DIIs 19.31%, Government 10.30%, Public 3.50% — no individual holder named at any tier (tier reported). A Mangal Keshav (sre.co.in) brokerage note confirms ONGC filed a 'Distribution of Shareholding' for the period ended 30 September 2025 (submitted to BSE, released 10 Nov 2025) with Indian Promoters at 58.89% and 'President of India' as top promoter, but the note does not host or link the underlying document.",
+      "whyItMatters": "ONGC is a NIFTY 50 / SENSEX constituent and a major central PSU; without a primary filing, no individual foreign holder (BlackRock, Vanguard, NBIM, GIC, etc.) or LIC's specific stake could be confirmed or denied for this company in this pass, and the FII aggregate (8.01%, the lowest of any company in this batch) cannot be broken down by name.",
+      "srcs": [
+        ["ONGC — Shareholding Pattern page, eng locale (probed, SSL_ERROR_SYSCALL/HTTP 503)", "https://ongcindia.com/web/eng/investors/shareholding-pattern"],
+        ["ONGC — Shareholding Pattern page, hi locale (probed, same failure)", "https://ongcindia.com/web/hi/investors/shareholding-pattern"],
+        ["screener.in — ONGC (consolidated)", "https://www.screener.in/company/ONGC/consolidated/"],
+        ["sre.co.in — ONGC BSE shareholding-pattern submission note", "https://www.sre.co.in/news-details/eod-4520143"]
+      ]
+    },
+    {
+      "what": "LIC of India's specific shareholding percentage in SBI Life and in Shriram Finance could not be confirmed as ≥1% from either primary filing. SBI Life's Table III shows an 'Insurance Companies' aggregate of 1.28% across 29 entities with no individual insurer named (consistent with, not proof of, LIC holding under 1% there). Shriram Finance's equivalent 'Insurance Companies' aggregate is 3.95% across 25 entities, again with no individual name broken out in the tables captured in this pass.",
+      "whyItMatters": "LIC is the domestic-control comparator this file is required to test against every company; its absence (or sub-1% presence) in 2 of the 4 primary-sourced companies in this batch is itself informative — contrasted with LIC's clear >1% presence in the two Government-of-India PSU companies (NTPC 4.94%, Power Grid 3.16%) in the same batch — but is a gap in per-name confirmation, not evidence LIC holds nothing.",
+      "srcs": []
+    }
+  ],
+  "narratives": [],
+  "symmetryCheck": "Run identically across the 5 companies in this batch: LIC of India was found as a large, specifically-named domestic holder in both companies where the promoter is the Government of India directly (NTPC 4.94%, Power Grid 3.16%) — in both cases larger than the entire named-foreign-holder line in the same filing. LIC did NOT appear named ≥1% in the two companies whose promoter is a different domestic institution (SBI, for SBI Life) or a private group (Shriram Capital/Shriram Value Services, for Shriram Finance) — a pattern consistent with LIC concentrating its large stakes in Government-anchored PSUs rather than uniformly across Indian equity. BlackRock/iShares was not found named ≥1% in any of the 4 primary filings opened. Vanguard, Capital Group, Fidelity, Kuwait Investment Authority, ADIA and GQG Partners were likewise absent from all 4. GIC/Government of Singapore was the single most consistently present foreign holder in this batch, named ≥1% in 3 of 4 companies (NTPC 2.04%, Power Grid 2.34%, Shriram Finance 4.66%) — more consistent than any other single comparison-set entity, though every individual line remained well under 5%. This batch also surfaced two Singapore state entities distinct from GIC (Temasek's MacRitchie Investments Pte Ltd in SBI Life, 1.51%; the Monetary Authority of Singapore in Shriram Finance, 1.03%) and NBIM (1.29% of Shriram Finance) — the same 'fragmented, small, multiple sovereign lines rather than one concentrated passive-fund line' structure documented in the earlier holders.json and holders-b6.json files. The structural constraint particular to this batch: three of five companies (NTPC, ONGC, Power Grid) are majority Government-of-India-owned PSUs where the 51%+ statutory/practical promoter floor caps how large ANY single non-promoter holder — foreign or domestic — can mathematically be; this mechanically suppresses both the 'BlackRock owns India' narrative and the 'LIC dominates' narrative to the same degree, which is itself the finding: in PSU-anchored companies the story is sovereign-promoter concentration, not either institutional-investor narrative.",
+  "baseRates": [
+    {
+      "property": "constituents in this batch where any single foreign holder ≥5% is documented",
+      "numerator": 0,
+      "denominator": 5,
+      "label": "of the 5 companies in batch 7 (NTPC, ONGC, Power Grid, SBI Life, Shriram Finance); the largest single named foreign line in any of the 4 primary-sourced filings is GIC/Government of Singapore's 4.66% of Shriram Finance — under the 5% threshold. ONGC has no named-holder data (excluded from being able to contribute a positive count, but its low 8.01% FII aggregate makes a hidden ≥5% single foreign holder unlikely). Zero of the 5 show any comparison-set fund, sovereign entity, or GQG at ≥5% — a sharp contrast with earlier batches (British American Tobacco 22.91% of ITC; Suzuki Motor Corp ~58.65% of Maruti Suzuki; Nestle S.A.+Maggi Enterprises 62.76% of Nestle India), all of which were foreign PROMOTER/strategic stakes rather than passive portfolio holdings — this batch has no foreign promoter at all (its only non-Government promoters are the wholly-Indian Shriram entities), which is the likely structural reason.",
+      "srcs": []
+    }
+  ],
+  "gaps": [
+    "ONGC: no primary shareholding-pattern filing opened in this pass; ongcindia.com was unreachable by both curl (SSL_ERROR_SYSCALL) and WebFetch (HTTP 503) on every route tried. Next step: try a BSE/NSE corporate-filing PDF mirror directly (bseindia.com attachment search by scrip code 500312, or nsearchives.nseindia.com), since ONGC's own domain appears to be blocking or failing TLS handshakes from this environment specifically rather than returning an access-denied response.",
+    "LIC of India's exact percentage in SBI Life and in Shriram Finance: not confirmed at company level; would require either a finer-grained aggregator (Trendlyne/Equitymaster insurance-company breakdowns) or the company's own investor-relations contact, since the primary filings' own tables did not break the 'Insurance Companies' aggregate down by name below the 1% naming threshold in the pages captured.",
+    "Power Grid's Q3/Q4 FY2025-26 filings (quarters ended 31.12.2025 and 31.03.2026) were visible as URLs on the company's own site but not opened in this pass — the claims here use the Q2 (30.09.2025) filing; a supersession check against the more recent quarters would sharpen currency.",
+    "Whether MUFG's announced 20%-stake acquisition in Shriram Finance (see cap:mufg) has since closed: not verifiable in this pass since the only primary Shriram Finance filing available (31.12.2025) predates any plausible closing; the next quarterly filing (~31.03.2026 or later) would show whether and how it settled and should supersede holders-b7:c010's promoter-group picture.",
+    "Whether Shriram Finance's Foreign Portfolio Investor Category I 'Others' (the ~37.9 percentage points below the three named ≥1% lines) contains any comparison-set entity (BlackRock, Vanguard, Capital Group, Fidelity, KIA, ADIA, GQG) below the naming threshold: not determinable from a Reg. 31(1)(b) filing, which only names holders ≥1% by construction — would require a bulk-deal/FPI-registration cross-reference not attempted in this pass."
+  ]
+}
