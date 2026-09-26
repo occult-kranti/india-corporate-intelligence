@@ -200,9 +200,16 @@ what is worth doing next:
   (Karnataka guarantees, fy `2023-24 (Jul–Mar)`) is rejected by `normaliseFy` for its
   suffix, so the money-year twin reads 0 everywhere — decide whether a part-year figure
   is painted as partial or left out.
-- **Renderer migration**, per `docs/research/GRAPH_UI_SOTA.md` §5: Canvas 2D on
-  d3-force in a worker, an accessibility overlay, zero new runtime dependencies.
-  Phase 0 (extract `graphSemantics.ts`, make `camera.tsx` element-agnostic) first.
+- **Renderer follow-ups.** The canvas renderer shipped (Canvas 2D, d3-force in a
+  worker, `GraphA11y` overlay; layout digests identical to the SVG build; /network
+  settle 3.5 s → 2.0 s with 0 long tasks; a 1,500-node graph 14.3 s → 3.7 s). Still
+  open, listed in the "Not done" table of
+  `docs/superpowers/plans/2026-09-26-canvas-renderer.md`: the §5.5 lit-edge contrast
+  decision (a lit claim measures 1.46:1; reaching 3:1 needs base alpha ≈ 0.69 and
+  changes every edge in both renderers), `graphSemantics.ts` and a shared
+  `contraWidth`, pinch zoom and `flyTo` in `camera.tsx`, a `graph-perf.mjs` gate,
+  the §6 explorer additions. Hover cost rose (24 px targets hit on most moves →
+  repaint), 9.3 ms/move at 1,500 nodes against the 8 ms target.
 - **Index follow-ups.** The fiftieth SENSEX 50 constituent; MapExplorer's other
   filters into the URL (at `b24eb27` only `idx` lived there; an uncommitted change in
   the working tree moves the rest — check before starting); apply the announced NIFTY 50

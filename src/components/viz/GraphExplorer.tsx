@@ -492,8 +492,10 @@ export default function GraphExplorer({ nodes, edges, height = 620, defaultQuery
           </div>
           <p className="text-[11px] text-text-muted mt-2 leading-snug">
             Line style carries the tier. It is semantic and is never restyled for looks. Line weight carries the ₹
-            amount; red lines are denials. Arrowheads mark money and award flows only — every other relationship is
-            drawn without a direction, because none is recorded.
+            amount; red lines with a short cross-bar at the midpoint are denials, drawn at least as wide as the widest
+            claim they answer. Several relationships between the same two entities are drawn side by side, never on
+            top of one another, so a denial never hides the claim it answers. Arrowheads mark money and award flows
+            only — every other relationship is drawn without a direction, because none is recorded.
           </p>
         </fieldset>
 

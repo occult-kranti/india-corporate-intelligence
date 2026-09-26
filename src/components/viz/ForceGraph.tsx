@@ -1,10 +1,10 @@
-import { memo, useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
-import {
-  forceSimulation, forceLink, forceManyBody, forceCollide, forceX, forceY,
-  type Simulation, type SimulationNodeDatum,
-} from 'd3-force';
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type ReactNode } from 'react';
+import { quadtree, type Quadtree, type QuadtreeLeaf } from 'd3-quadtree';
 import { TIERS, TIER_ORDER, type GNode, type GEdge, type Tier, type NodeFamily, type NodeType, type Predicate } from '../../graph/schema';
-import { useCamera, CameraControls, ExpandShell } from './camera';
+import { useCamera, CameraControls, ExpandShell, type View } from './camera';
+import { useLayout } from './useLayout';
+import type { LayoutInput } from './layoutCore';
+import GraphA11y, { syncOverlay, segOf, KEYBOARD_CAP, type A11yEdge, type A11yNode, type LayerHandlers } from './GraphA11y';
 
 /**
  * The connection graph.
@@ -13,36 +13,38 @@ import { useCamera, CameraControls, ExpandShell } from './camera';
  * is semantic, not decorative, and is never restyled for looks. Node shape carries
  * type, hue carries family, radius carries weight: three orthogonal channels,
  * never overloaded. Line weight carries the ₹ amount and nothing else — emphasis
- * is done with opacity and tone, never by widening a line.
+ * is done with opacity and tone, never by widening a line. The one exception is
+ * the denial, which is drawn at least as wide as the widest claim it answers, in
+ * red, with a cross-bar at its midpoint so it survives greyscale: "as prominently
+ * as the claim" is enforced in the picture, not promised in a caption.
  *
- * VIEWPORT MODEL — the thing that was broken.
+ * RENDERER. A Canvas 2D surface driven from a ref, not React-reconciled SVG: every
+ * layout tick used to be a React render of ~640 node groups and ~780 edge groups.
+ * The frozen channels survive byte-for-byte because Canvas takes the same inputs
+ * SVG did — `ctx.setLineDash` gets the numbers in `TIERS[t].dash`, drawn in layout
+ * units so dashes scale with zoom exactly as `stroke-dasharray` did, and every node
+ * is `new Path2D(shapeFor(cls, r))` from the same path strings. The frame is drawn
+ * on demand (a new layout buffer, a camera move, a change of emphasis), never on a
+ * timer, and not at all once the layout has settled and nothing moves.
  *
- * The svg used to carry a fixed `viewBox="0 0 900 620"` with the default
- * preserveAspectRatio. Two consequences, both of which made the graph unusable and
- * neither of which was visible in the code:
+ * On top of the canvas sits `GraphA11y`: an SVG of the same measured size that is
+ * the camera's element (so `camera.tsx` still converts pointers through a live
+ * `getScreenCTM`), receives every pointer event, and renders real focusable
+ * elements for the examined set plus a keyboard cursor. The table twin is still
+ * the primary accessible route, and the layer's name says so.
  *
- *   1. The drawing area was LETTERBOXED inside the element. On a wide card the
- *      graph was pinned to a 1.45 aspect box with dead margin either side, so
- *      "expand" bought blank space rather than graph.
- *   2. Pan was mathematically WRONG. It mapped the cursor through `rect.width`,
- *      but the viewBox does not span `rect.width` when letterboxed — so the graph
- *      slid at a different rate than the pointer. That is why dragging felt broken
- *      rather than merely awkward.
+ * VIEWPORT MODEL. The viewBox is MEASURED from the element with a ResizeObserver,
+ * so one viewBox unit is one CSS pixel: no letterbox, drag is exact, and expanding
+ * really does hand the graph the whole window. The canvas backing store is the
+ * same frame times the device pixel ratio. The layout is computed around the
+ * origin and is independent of the viewport — resizing refits the camera and
+ * never re-runs the simulation.
  *
- * Now the viewBox is MEASURED from the element with a ResizeObserver, so one
- * viewBox unit is one CSS pixel: no letterbox, drag is exact, and expanding really
- * does hand the graph the whole window. The force layout is computed around the
- * origin and is deliberately independent of the viewport — resizing refits the
- * camera and never re-runs the simulation.
- *
- * THE LAYOUT IS A FUNCTION OF THE FILTERED GRAPH, AND OF NOTHING ELSE.
- *
- * It always starts cold and runs exactly LAYOUT_TICKS ticks — spread across frames
- * when motion is allowed, all at once when it is not — so the same URL draws the
- * same picture on any machine, at any frame rate, whatever the reader clicked
- * before. (It used to warm-start from the previous layout and stop on a wall-clock
- * timer, which made a shared link reproduce the captions but not the picture.)
- * Pinned nodes are the one exception, and they wear a ring that says so.
+ * THE LAYOUT IS A FUNCTION OF THE FILTERED GRAPH, AND OF NOTHING ELSE. It runs in
+ * a Web Worker (`useLayout`), always starts cold and runs exactly 300 ticks — so
+ * the same URL draws the same picture on any machine, at any frame rate, whatever
+ * the reader clicked before. Reduced motion pre-ticks it and draws only the
+ * settled picture. Pinned nodes are the one exception, and they wear a ring.
  *
  * Selection, focus and path do not touch the layout at all: the node and edge
  * arrays are identity-stabilised below, so a new array holding the same members
@@ -135,19 +137,6 @@ export function shapeClassOf(ty: NodeType): ShapeClass {
   }
 }
 
-interface SimNode extends SimulationNodeDatum {
-  n: GNode;
-  id: string;
-  r: number;
-  cls: ShapeClass;
-}
-interface SimLink {
-  source: SimNode | string;
-  target: SimNode | string;
-  e: GEdge;
-  /** Position in simLinks — what the delegated handlers read back off `data-edge`. */
-  i: number;
-}
 
 export interface GraphFilter {
   tiers: Set<Tier>;
@@ -162,24 +151,12 @@ export interface GraphFilter {
   minAmount?: number;
 }
 
-/** How far apart the family bands sit in layout units. Not a pixel measure. */
-const BAND = 230;
-
-/**
- * Ticks per layout. d3's default alpha decay reaches alphaMin at 300, so this is
- * "run to the natural end" — fixed, so the result never depends on frame rate.
- */
-const LAYOUT_TICKS = 300;
-/** Ticks after releasing pins: a nudge from alpha 0.3, not a re-layout. */
-const RELEASE_TICKS = 120;
-/** Main-thread budget per animation frame while the layout runs. */
-const FRAME_BUDGET_MS = 10;
-
 /**
  * Above this many drawn relationships, non-contra edges are batched into one
- * <path> per tier and weight band. Per-edge <line>s with <title>s stay below it.
- * The number is where a mid-range laptop stopped holding frame rate during the
- * settle, not a principled constant.
+ * stroke per tier and weight band. Below it every edge is drawn, and hit-tested,
+ * one by one. The number is where a mid-range laptop stopped holding frame rate
+ * during the settle of the SVG renderer, kept so the batching rule — and the
+ * caption that states it — is unchanged by the canvas.
  */
 const BATCH_OVER = 600;
 /** The hovered or selected entity keeps its own edges individual up to this many neighbours. */
@@ -363,27 +340,163 @@ function useStableList<T>(xs: T[]): T[] {
   return ref.current;
 }
 
-/**
- * Advance a stopped simulation by exactly `n` ticks, spread across frames. The tick
- * count is fixed and the frame budget only decides how many land per frame, so the
- * end state is identical on a fast machine and a slow one.
- */
-function stepSim(sim: Simulation<SimNode, undefined>, n: number, onFrame: () => void, onDone: () => void): () => void {
-  let left = n;
-  let raf = 0;
-  const step = () => {
-    const t0 = performance.now();
-    while (left > 0 && performance.now() - t0 < FRAME_BUDGET_MS) {
-      sim.tick();
-      left--;
-    }
-    onFrame();
-    if (left > 0) raf = requestAnimationFrame(step);
-    else onDone();
-  };
-  raf = requestAnimationFrame(step);
-  return () => cancelAnimationFrame(raf);
+// ---------------------------------------------------------------------------
+// The canvas renderer
+// ---------------------------------------------------------------------------
+
+/** `TIERS[t].dash` as `setLineDash` takes it — the same numbers, nothing added. */
+const DASH: Record<Tier, number[]> = Object.fromEntries(
+  TIER_ORDER.map((t) => [t, TIERS[t].dash ? TIERS[t].dash.split(/\s+/).map(Number) : []]),
+) as Record<Tier, number[]>;
+const NO_DASH: number[] = [];
+const UNRESOLVED_DASH = [2, 2];
+
+/** One Path2D per (class, radius) — twenty for the life of the page, from the same strings. */
+const PATH2D = new Map<string, Path2D>();
+function path2d(cls: ShapeClass, r: number): Path2D {
+  const key = `${cls}:${r}`;
+  let p = PATH2D.get(key);
+  if (!p) PATH2D.set(key, (p = new Path2D(shapeFor(cls, r))));
+  return p;
 }
+
+/**
+ * Is a node-local point on the glyph as PAINTED — its fill or its outline? Tested
+ * against the very Path2D the canvas fills, on a detached context whose transform
+ * is never touched, so the pointer and the picture cannot disagree about a shape.
+ * (The square's corners sit at 1.41·r, and the person's half-round hangs BELOW its
+ * layout point; a circle around the layout point got both wrong.)
+ */
+let HIT: CanvasRenderingContext2D | null | undefined;
+const OUTLINE_MAX = 2; // the widest node outline drawn (selected / path end)
+function onGlyph(cls: ShapeClass, r: number, lx: number, ly: number): boolean {
+  if (HIT === undefined) {
+    HIT = typeof document !== 'undefined' ? document.createElement('canvas').getContext('2d') : null;
+    if (HIT) HIT.lineWidth = OUTLINE_MAX;
+  }
+  if (!HIT) return lx * lx + ly * ly <= r * r;
+  const p = path2d(cls, r);
+  return HIT.isPointInPath(p, lx, ly) || HIT.isPointInStroke(p, lx, ly);
+}
+/** The middle of a glyph's box relative to its layout point: the half-round's body is below it. */
+const bodyDy = (cls: ShapeClass, r: number) => (cls === 'person' ? r / 2 : 0);
+
+/**
+ * The palette the SVG version used, verbatim. Under `forced-colors: active` the
+ * canvas does not get the system palette for free, so lines, outlines and labels
+ * switch to system colours; family hue, dash, shape — and the denial's red — are
+ * kept. A denial is red in every mode: it is a frozen channel like family hue, and
+ * `#c45b5a` clears 3:1 (WCAG 1.4.11) on both a black and a white `Canvas`
+ * (4.8:1 and 4.4:1). Width and the mid-edge cross-bar carry it without hue.
+ */
+const PAL = {
+  edge: 'rgba(232,228,220,0.30)',
+  edgeActive: 'rgba(244,240,232,1)',
+  edgePath: 'rgba(232,228,220,0.85)',
+  arrow: 'rgba(232,228,220,0.35)',
+  contra: '#c45b5a',
+  strong: '#e8e4dc',
+  outline: 'rgba(10,10,12,0.9)',
+  ring: '#c9a86c',
+  labelFill: 'rgba(240,236,228,0.86)',
+  labelHalo: 'rgba(10,10,12,0.7)',
+  miniBg: 'rgba(10,10,12,0.88)',
+  miniEdge: 'rgba(244,240,232,0.15)',
+  miniDot: 'rgba(232,228,220,0.55)',
+  miniBox: '#c9a86c',
+};
+const FORCED: typeof PAL = {
+  ...PAL,
+  edge: 'CanvasText',
+  edgeActive: 'Highlight',
+  edgePath: 'Highlight',
+  arrow: 'CanvasText',
+  strong: 'Highlight',
+  outline: 'CanvasText',
+  labelFill: 'CanvasText',
+  labelHalo: 'Canvas',
+  miniBg: 'Canvas',
+  miniEdge: 'CanvasText',
+  miniDot: 'CanvasText',
+  miniBox: 'Highlight',
+};
+
+interface DNode {
+  n: GNode;
+  id: string;
+  /** Index into the positions buffer. */
+  i: number;
+  r: number;
+  cls: ShapeClass;
+}
+interface DLink {
+  e: GEdge;
+  s: number;
+  t: number;
+  /** Position in the link list — what the overlay's `data-edge` reads back. */
+  i: number;
+}
+interface Batch {
+  tier: Tier;
+  lit: boolean;
+  w: number;
+  links: DLink[];
+}
+
+/** Everything one frame needs, captured at the last commit. */
+interface Frame {
+  W: number;
+  H: number;
+  view: View;
+  drawNodes: DNode[];
+  singles: DLink[];
+  batches: Batch[];
+  edgeLit: Map<GEdge, boolean>;
+  litNodes: Set<string> | null;
+  path: GraphPath | null;
+  selected: string | null;
+  activeEdge: GEdge | null;
+  pins: Set<string>;
+  focusNode: string | null;
+  degree: Map<string, number>;
+  contraW: Map<GEdge, number>;
+  /** Per link (by `DLink.i`): perpendicular offset from the centre line, signed along its own s→t. */
+  off: Float64Array;
+  probe: DNode | null;
+  tip: DNode | null;
+}
+
+/** FNV-1a over the positions to 0.1 unit: the layout's identity, for the viewport gate. */
+function digest(pos: Float64Array): string {
+  let h = 0x811c9dc5;
+  for (let i = 0; i < pos.length; i++) {
+    let v = Math.round(pos[i] * 10) | 0;
+    for (let b = 0; b < 4; b++) {
+      h ^= v & 0xff;
+      h = Math.imul(h, 0x01000193);
+      v >>= 8;
+    }
+  }
+  return `${pos.length / 2}:${(h >>> 0).toString(16)}`;
+}
+
+function segDist2(px: number, py: number, ax: number, ay: number, bx: number, by: number): number {
+  const dx = bx - ax;
+  const dy = by - ay;
+  const len = dx * dx + dy * dy;
+  let u = len ? ((px - ax) * dx + (py - ay) * dy) / len : 0;
+  u = Math.max(0, Math.min(1, u));
+  const x = ax + u * dx - px;
+  const y = ay + u * dy - py;
+  return x * x + y * y;
+}
+
+const DIR: Record<string, [number, number, string]> = {
+  ArrowLeft: [-1, 0, 'left'],
+  ArrowRight: [1, 0, 'right'],
+  ArrowUp: [0, -1, 'up'],
+  ArrowDown: [0, 1, 'down'],
+};
 
 interface Props {
   /** The FILTERED graph. The layout runs over exactly this set. */
@@ -417,7 +530,7 @@ export default function ForceGraph({
   focusKey = '',
   path = null,
   denials,
-  selected,
+  selected = null,
   onSelect,
   onPathEnd,
   activeEdge = null,
@@ -429,8 +542,8 @@ export default function ForceGraph({
 }: Props) {
   const ref = useRef<SVGSVGElement>(null);
   const wrapRef = useRef<HTMLDivElement>(null);
-  const simRef = useRef<Simulation<SimNode, undefined> | null>(null);
-  const [tick, setTick] = useState(0);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const tipRef = useRef<HTMLDivElement>(null);
   const [hover, setHover] = useState<string | null>(null);
 
   /**
@@ -452,9 +565,7 @@ export default function ForceGraph({
    * callback that writes state synchronously can re-enter layout inside the same
    * delivery, and the browser reports that as an uncaught
    * "ResizeObserver loop completed with undelivered notifications" — a CONSOLE
-   * ERROR, which is a hard failure of the render smoke gate. It is also
-   * intermittent, which is the worst kind of gate failure to inherit: it passed
-   * three runs out of four before this comment existed.
+   * ERROR, which is a hard failure of the render smoke gate.
    */
   useEffect(() => {
     const el = wrapRef.current;
@@ -479,9 +590,8 @@ export default function ForceGraph({
 
   /**
    * Keyboard focus follows the frame in and out of the maximised view. Maximising
-   * remounts the wrapper, and focus used to fall to <body>: the arrow keys stopped
-   * panning and Escape went straight to the camera, skipping the path/focus peel.
-   * Skipped on mount so loading a page never steals focus.
+   * remounts the wrapper, and focus used to fall to <body>. Skipped on mount so
+   * loading a page never steals focus.
    */
   const wasExpanded = useRef(expanded);
   useEffect(() => {
@@ -503,17 +613,8 @@ export default function ForceGraph({
     return () => svg.removeEventListener('wheel', h);
   }, [onWheel, expanded]);
 
-  /** Set once per layout, so a user who has panned is not yanked back on every tick. */
-  const fittedFor = useRef<string>('');
-  /**
-   * Bumped when the simulation stops. Fitting has to wait for this: d3 seeds nodes
-   * in a small spiral near the origin, so fitting on the first tick fits the seed
-   * cluster — which is exactly the bug this replaced. It zoomed IN to 1.6x on a
-   * graph whose nodes then spread far outside the frame, leaving 196 of 224 clipped.
-   */
-  const [settledAt, setSettledAt] = useState(0);
-
-  const reduced = typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+  const reduced = typeof window !== 'undefined' && !!window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+  const forced = typeof window !== 'undefined' && !!window.matchMedia?.('(forced-colors: active)').matches;
 
   const stableNodes = useStableList(nodes);
   const stableEdges = useStableList(edges);
@@ -521,76 +622,56 @@ export default function ForceGraph({
   /** Where the reader pinned nodes. Survives a re-layout; released by the button. */
   const pinnedAt = useRef<Map<string, { x: number; y: number }>>(new Map());
 
-  const { simNodes, simLinks, simById } = useMemo(() => {
-    const pinned = pinnedAt.current;
-    const list = stableNodes.map<SimNode>((n) => {
-      const d: SimNode = { n, id: n.id, r: 4 + n.sz * 3.2, cls: shapeClassOf(n.ty) };
-      const p = pinned.get(n.id);
-      if (p) {
-        d.x = d.fx = p.x;
-        d.y = d.fy = p.y;
-      }
-      return d;
-    });
+  const { simNodes, links, simById, linkOf, layoutInput } = useMemo(() => {
+    const list = stableNodes.map<DNode>((n, i) => ({ n, id: n.id, i, r: 4 + n.sz * 3.2, cls: shapeClassOf(n.ty) }));
     const byId = new Map(list.map((d) => [d.id, d]));
-    const links: SimLink[] = [];
+    const ls: DLink[] = [];
     for (const e of stableEdges) {
-      if (byId.has(e.s) && byId.has(e.t)) links.push({ source: e.s, target: e.t, e, i: links.length });
+      const s = byId.get(e.s);
+      const t = byId.get(e.t);
+      if (s && t) ls.push({ e, s: s.i, t: t.i, i: ls.length });
     }
-    return { simNodes: list, simLinks: links, simById: byId };
+    const input: LayoutInput | null = list.length
+      ? {
+          r: Float64Array.from(list, (d) => d.r),
+          band: Int8Array.from(list, (d) => (d.n.fam === 'state' ? -1 : d.n.fam === 'capital' ? 1 : 0)),
+          links: Uint32Array.from(ls.flatMap((l) => [l.s, l.t])),
+          pinned: Float64Array.from(list.flatMap((d) => {
+            const p = pinnedAt.current.get(d.id);
+            return p ? [p.x, p.y] : [NaN, NaN];
+          })),
+        }
+      : null;
+    return { simNodes: list, links: ls, simById: byId, linkOf: new Map(ls.map((l) => [l.e, l])), layoutInput: input };
   }, [stableNodes, stableEdges]);
 
-  /** Cancels whichever tick run is in flight — the layout's or a pin release's. */
-  const cancelRun = useRef<() => void>(() => {});
-  useEffect(() => () => cancelRun.current(), []);
+  // ---- the draw loop: one rAF, only when something changed ----
+  const frameRef = useRef<Frame | null>(null);
+  const raf = useRef(0);
+  const posVersion = useRef(0);
+  const paintRef = useRef<() => void>(() => {});
+  const requestDraw = useCallback(() => {
+    if (!raf.current) raf.current = requestAnimationFrame(() => paintRef.current());
+  }, []);
+  useEffect(() => () => cancelAnimationFrame(raf.current), []);
+  const onLayoutFrame = useCallback(() => {
+    posVersion.current++;
+    requestDraw();
+  }, [requestDraw]);
 
-  /**
-   * The layout runs in its own coordinate space, centred on the origin, and knows
-   * nothing about the viewport. That decoupling is what lets the window resize,
-   * the panel expand and the camera refit WITHOUT re-running the simulation and
-   * throwing away a layout the reader was already reading.
-   */
-  useEffect(() => {
-    cancelRun.current();
-    simRef.current?.stop();
-    if (!simNodes.length) {
-      setTick((t) => t + 1);
-      return;
-    }
-    // Created stopped: d3's own timer is wall-clock driven, which is the thing
-    // that made the picture depend on the machine.
-    const sim = forceSimulation<SimNode>(simNodes)
-      .stop()
-      .force('link', forceLink<SimNode, SimLink>(simLinks as never).id((d) => (d as SimNode).id).distance(78).strength(0.55))
-      .force('charge', forceManyBody().strength(-190))
-      .force('collide', forceCollide<SimNode>().radius((d) => d.r + 7))
-      // Families settle into bands — public power left, capital right — so the
-      // layout reads as a flow rather than a hairball.
-      .force('x', forceX<SimNode>((d) => (d.n.fam === 'state' ? -BAND : d.n.fam === 'capital' ? BAND : 0)).strength(0.09))
-      .force('y', forceY<SimNode>(0).strength(0.05));
-    simRef.current = sim;
-
-    const frame = () => setTick((t) => t + 1);
-    const done = () => setSettledAt((n) => n + 1);
-    if (reduced) {
-      // Reduced motion: the settled picture, pre-ticked, with nothing in between.
-      sim.tick(LAYOUT_TICKS);
-      frame();
-      done();
-      return;
-    }
-    cancelRun.current = stepSim(sim, LAYOUT_TICKS, frame, done);
-    return () => cancelRun.current();
-  }, [simNodes, simLinks, reduced]);
+  const layout = useLayout({ input: layoutInput, reduced, onFrame: onLayoutFrame });
+  const overlayDirty = useRef(true);
+  const synced = useRef({ v: -1, digestV: -1 });
+  const miniShownRef = useRef(false);
 
   /** What is actually drawn: the layout, minus whatever the ego focus hides. */
   const { drawNodes, drawLinks } = useMemo(() => {
-    if (!shown) return { drawNodes: simNodes, drawLinks: simLinks };
+    if (!shown) return { drawNodes: simNodes, drawLinks: links };
     return {
       drawNodes: simNodes.filter((d) => shown.has(d.id)),
-      drawLinks: simLinks.filter((l) => shown.has(l.e.s) && shown.has(l.e.t)),
+      drawLinks: links.filter((l) => shown.has(l.e.s) && shown.has(l.e.t)),
     };
-  }, [simNodes, simLinks, shown]);
+  }, [simNodes, links, shown]);
 
   const isDrawn = useCallback((id: string) => (shown ? shown.has(id) : simById.has(id)), [shown, simById]);
 
@@ -605,80 +686,58 @@ export default function ForceGraph({
   }, [drawLinks]);
 
   /**
-   * Fit the settled layout into the frame.
-   *
-   * Computes the bounding box of the drawn nodes — the focused set when focus is on
-   * — including label overhang, and sets the transform so the whole thing lands
-   * inside the measured frame with a margin. Runs once per layout, once per resize
-   * and once per focus change, so panning is never yanked back but a window change
-   * never strands the graph off-screen either.
+   * Fit the settled layout into the frame: the bounding box of the drawn nodes —
+   * the focused set when focus is on — including label overhang.
    */
   const fitToContent = useCallback(() => {
+    const pos = layout.pos.current;
+    if (!pos) return;
     let x0 = Infinity, x1 = -Infinity, y0 = Infinity, y1 = -Infinity;
     // Labels sit below and either side of a node, so the box is padded asymmetrically.
     const LABEL_PAD_X = 60;
     const LABEL_PAD_Y = 16;
     for (const d of drawNodes) {
-      if (d.x == null || d.y == null) continue;
-      x0 = Math.min(x0, d.x - d.r - LABEL_PAD_X);
-      x1 = Math.max(x1, d.x + d.r + LABEL_PAD_X);
-      y0 = Math.min(y0, d.y - d.r - LABEL_PAD_Y);
-      y1 = Math.max(y1, d.y + d.r + LABEL_PAD_Y * 2);
+      const x = pos[2 * d.i];
+      const y = pos[2 * d.i + 1];
+      x0 = Math.min(x0, x - d.r - LABEL_PAD_X);
+      x1 = Math.max(x1, x + d.r + LABEL_PAD_X);
+      y0 = Math.min(y0, y - d.r - LABEL_PAD_Y);
+      y1 = Math.max(y1, y + d.r + LABEL_PAD_Y * 2);
     }
     if (x0 === Infinity) return;
     fitTo({ x0, x1, y0, y1 });
-  }, [drawNodes, fitTo]);
+  }, [drawNodes, fitTo, layout.pos]);
 
+  /** Set once per layout, so a user who has panned is not yanked back on every tick. */
+  const fittedFor = useRef<string>('');
   // Refit when the layout SETTLES, when the frame RESIZES and when the FOCUS
-  // changes — keyed so each of those happens exactly once, and a deliberate pan is
-  // never overridden.
+  // changes — keyed so each happens exactly once, and a deliberate pan is never
+  // overridden. Fitting waits for the settle: fitting the seed spiral zoomed IN to
+  // 1.6x on a graph whose nodes then spread far outside the frame.
   useEffect(() => {
-    if (!settledAt) return;
-    const key = `${simNodes.length}:${simNodes[0]?.id ?? ''}:${settledAt}:${W}x${H}:${focusKey}`;
+    if (!layout.settled) return;
+    const key = `${simNodes.length}:${simNodes[0]?.id ?? ''}:${layout.settled}:${W}x${H}:${focusKey}`;
     if (fittedFor.current === key) return;
-    if (!simNodes.length || simNodes[0].x == null) return;
+    if (!simNodes.length || !layout.pos.current) return;
     fittedFor.current = key;
     fitToContent();
-  }, [settledAt, simNodes, fitToContent, W, H, focusKey]);
-
-  /**
-   * Keyboard focus must not vanish with the node that held it. When a focus or a
-   * filter hides the focused entity, the browser drops focus to <body>; hand it to
-   * the selected entity if it is still drawn, otherwise to the frame. A hover left
-   * on a hidden node is cleared for the same reason — it would dim everything.
-   */
-  const lastFocusedNode = useRef<string | null>(null);
-  useEffect(() => {
-    if (hover && !isDrawn(hover)) setHover(null);
-    const id = lastFocusedNode.current;
-    if (!id || isDrawn(id)) return;
-    lastFocusedNode.current = null;
-    const active = document.activeElement;
-    if (active && active !== document.body) return;
-    const target =
-      selected && isDrawn(selected)
-        ? ref.current?.querySelector<SVGGElement>(`[data-id="${CSS.escape(selected)}"]`)
-        : null;
-    (target ?? wrapRef.current)?.focus({ preventScroll: true });
-  }, [isDrawn, selected, hover]);
+  }, [layout.settled, layout.pos, simNodes, fitToContent, W, H, focusKey]);
 
   /**
    * What is lit. A path, when there is one, wins outright — it is the question the
    * reader asked. Otherwise the hovered or selected node and its neighbours.
    */
+  const focusNode = hover ?? selected;
   const neighbours = useMemo(() => {
     if (path) return null;
-    const focus = hover ?? selected;
-    if (!focus) return null;
-    const s = new Set<string>([focus]);
+    if (!focusNode) return null;
+    const s = new Set<string>([focusNode]);
     for (const l of drawLinks) {
-      if (l.e.s === focus) s.add(l.e.t);
-      if (l.e.t === focus) s.add(l.e.s);
+      if (l.e.s === focusNode) s.add(l.e.t);
+      if (l.e.t === focusNode) s.add(l.e.s);
     }
     return s;
-  }, [hover, selected, drawLinks, path]);
-
-  const nodeLit = (id: string) => (path ? path.nodes.has(id) : neighbours ? neighbours.has(id) : true);
+  }, [focusNode, drawLinks, path]);
 
   /**
    * Edge emphasis, with the contradiction invariant applied last: a denial is lit
@@ -698,19 +757,84 @@ export default function ForceGraph({
   }, [drawLinks, path, neighbours, denials]);
 
   /**
-   * Which edges are drawn one by one and which are batched. Decided here, per
-   * change of emphasis, never per tick: the tick only rebuilds `d` strings.
-   *
-   * Always drawn individually: denials (they must stay as loud as their claims and
-   * keep their <title>), path edges, the edge on the card, and the hovered or
-   * selected entity's own edges when it has INCIDENT_MAX neighbours or fewer.
+   * A denial's width: at least as wide as the widest DRAWN claim it answers, never
+   * under the 1.5 a denial always had. The join is `answers` only (the claim it
+   * names, or a claim on the same pair) — the looser `mayRelate` entity join never
+   * widens anything, as it never lights anything. GeoNetwork's `widthOf` is NOT the
+   * same rule: it joins every claim sharing an entity with the denial and floors at
+   * 1.1. The one shared `contraWidth` §6.3 asks for is not yet extracted.
    */
-  const focusNode = hover ?? selected;
+  const contraW = useMemo(() => {
+    const m = new Map<GEdge, number>();
+    const drawn = new Set(drawLinks.map((l) => l.e));
+    for (const l of drawLinks) {
+      if (l.e.pred !== 'contra') continue;
+      let w = edgeWidth(l.e);
+      for (const c of denials?.answers.get(l.e) ?? []) if (drawn.has(c)) w = Math.max(w, edgeWidth(c));
+      m.set(l.e, w);
+    }
+    return m;
+  }, [drawLinks, denials]);
+
+  /**
+   * Parallel relationships between the same two entities sit side by side, never on
+   * top of each other: each gets a perpendicular offset by its rank on the pair
+   * (SOTA §7 — a fan-out by rank carries meaning, curvature would not). Without it a
+   * denial, drawn last and at least as wide as its claim, painted the claim out
+   * completely: its tier dash, its ₹ width and its arrow. Ranked per unordered pair
+   * over the drawn edges — claims by amount, predicate, tier, then input order, the
+   * denials after them — and packed edge to edge with a one-unit gap, in layout
+   * units so the fan scales with zoom exactly as the widths do. A lone edge stays
+   * on the centre line. The same offsets are used by the hit-test and the overlay's
+   * lines, so what the pointer and the keyboard find is what is painted.
+   */
+  const off = useMemo(() => {
+    const o = new Float64Array(links.length);
+    const byPair = new Map<string, DLink[]>();
+    for (const l of drawLinks) {
+      if (l.s === l.t) continue;
+      const key = l.s < l.t ? `${l.s}|${l.t}` : `${l.t}|${l.s}`;
+      (byPair.get(key) ?? byPair.set(key, []).get(key)!).push(l);
+    }
+    const GAP = 1;
+    const widthOf = (l: DLink) => contraW.get(l.e) ?? edgeWidth(l.e);
+    for (const list of byPair.values()) {
+      if (list.length < 2) continue;
+      list.sort(
+        (a, b) =>
+          Number(a.e.pred === 'contra') - Number(b.e.pred === 'contra') ||
+          (b.e.a ?? 0) - (a.e.a ?? 0) ||
+          a.e.pred.localeCompare(b.e.pred) ||
+          a.e.tier.localeCompare(b.e.tier) ||
+          a.i - b.i,
+      );
+      const total = list.reduce((w, l) => w + widthOf(l), 0) + GAP * (list.length - 1);
+      let at = -total / 2;
+      for (const l of list) {
+        const w = widthOf(l);
+        // Offsets are laid out along the pair's canonical direction (lower index →
+        // higher) and stored along each edge's own s→t, whose normal is flipped.
+        o[l.i] = (l.s < l.t ? 1 : -1) * (at + w / 2);
+        at += w + GAP;
+      }
+    }
+    return o;
+  }, [links, drawLinks, contraW]);
+
+  /**
+   * Which edges are drawn one by one and which are batched. Decided per change of
+   * emphasis, never per tick.
+   *
+   * Always drawn individually: denials (they must stay as loud as their claims),
+   * path edges, the edge on the card — which is also the hovered edge — and the
+   * hovered or selected entity's own edges when it has INCIDENT_MAX neighbours or
+   * fewer.
+   */
   const { singles, batches, batched } = useMemo(() => {
-    if (drawLinks.length <= BATCH_OVER) return { singles: drawLinks, batches: [], batched: false };
+    if (drawLinks.length <= BATCH_OVER) return { singles: drawLinks, batches: [] as Batch[], batched: false };
     const incident = neighbours && neighbours.size <= INCIDENT_MAX;
-    const one: SimLink[] = [];
-    const groups = new Map<string, { tier: Tier; lit: boolean; w: number; links: SimLink[] }>();
+    const one: DLink[] = [];
+    const groups = new Map<string, Batch>();
     for (const l of drawLinks) {
       const e = l.e;
       if (
@@ -737,72 +861,149 @@ export default function ForceGraph({
     };
   }, [drawLinks, neighbours, edgeLit, path, activeEdge, focusNode]);
 
-  /** Batch `d` strings — rebuilt per tick and per regrouping, never per hover. */
-  const batchPaths = useMemo(() => {
-    void tick;
-    return batches.map((b) => {
-      let d = '';
-      for (const l of b.links) {
-        const s = l.source as SimNode;
-        const t = l.target as SimNode;
-        if (typeof s === 'string' || typeof t === 'string' || s.x == null || t.x == null) continue;
-        d += `M${s.x.toFixed(1)} ${s.y!.toFixed(1)}L${t.x.toFixed(1)} ${t.y!.toFixed(1)}`;
-      }
-      return d;
-    });
-  }, [batches, tick]);
-
-  /**
-   * Node dragging, and the click/drag disambiguation it forces.
-   *
-   * Dragging a node PINS it (d3's fx/fy), because the useful thing to do with a
-   * hairball is pull one strand out of it and have it stay pulled. A drag under
-   * three pixels is treated as a click so selection still works.
-   */
-  const nodeDrag = useRef<{ d: SimNode; ox: number; oy: number; moved: boolean } | null>(null);
-  const suppressClick = useRef(false);
+  // ---- pins ----
   const [pins, setPins] = useState<Set<string>>(new Set());
-  const pinCount = useMemo(() => simNodes.reduce((c, d) => c + (pins.has(d.id) && d.fx != null ? 1 : 0), 0), [simNodes, pins]);
+  const pinnedIds = useMemo(() => [...pins].filter((id) => simById.has(id)), [pins, simById]);
 
-  /** The node under an event, read off `data-id` — one handler per layer, not seven per node. */
-  const nodeAt = (t: EventTarget | null): SimNode | null => {
-    const el = (t as Element | null)?.closest?.('[data-id]');
-    return el ? simById.get(el.getAttribute('data-id') ?? '') ?? null : null;
-  };
-  const edgeAt = (t: EventTarget | null): GEdge | null => {
-    const el = (t as Element | null)?.closest?.('[data-edge]');
-    return el ? simLinks[Number(el.getAttribute('data-edge'))]?.e ?? null : null;
+  /** Release every pinned node and let the layout re-settle around the change. */
+  const releasePins = () => {
+    pinnedAt.current.clear();
+    setPins(new Set());
+    layout.release();
   };
 
-  const onNodePointerDown = (ev: React.PointerEvent<SVGGElement>) => {
+  // ---- hit-testing ----
+  /**
+   * The quadtree indexes the DRAWN set at one positions buffer. It is rebuilt when
+   * either changes — the array identity, not a digest of it: an in-app focus change
+   * swaps the drawn set without re-running the layout, and two ego sets of the same
+   * size with the same first node used to share a stale tree, so the new set's
+   * entities could not be hovered and the hidden ones could still be clicked.
+   */
+  const tree = useRef<{ nodes: DNode[]; pos: Float64Array; v: number; qt: Quadtree<DNode>; maxR: number } | null>(null);
+  const nodeAt = (x: number, y: number): DNode | null => {
+    const pos = layout.pos.current;
+    if (!pos || !drawNodes.length) return null;
+    const t0 = tree.current;
+    if (!t0 || t0.nodes !== drawNodes || t0.pos !== pos || t0.v !== posVersion.current) {
+      tree.current = {
+        nodes: drawNodes,
+        pos,
+        v: posVersion.current,
+        qt: quadtree<DNode>().x((d) => pos[2 * d.i]).y((d) => pos[2 * d.i + 1]).addAll(drawNodes),
+        maxR: drawNodes.reduce((m, d) => Math.max(m, d.r), 0),
+      };
+    }
+    const { qt, maxR } = tree.current!;
+    // A target of at least 24 CSS pixels (WCAG 2.5.8), whatever the zoom, measured
+    // from the middle of the glyph's body.
+    const slack = 12 / cam.view.k;
+    // The furthest a hit can be from a layout point: a square's corner or the
+    // half-round's lower corner (√2·r), a slack circle around the half-round's
+    // body (r/2 + slack), or the outline's outer half.
+    const R = Math.max(Math.SQRT2 * maxR, maxR / 2 + slack) + OUTLINE_MAX / 2;
+    // On the glyph beats near it; among glyphs the topmost (drawn last) wins; among
+    // near misses the nearest body, then the topmost.
+    let onTop: DNode | null = null;
+    let near: DNode | null = null;
+    let nearD = Infinity;
+    qt.visit((q, x0, y0, x1, y1) => {
+      if (x0 > x + R || x1 < x - R || y0 > y + R || y1 < y - R) return true;
+      if (!Array.isArray(q)) {
+        for (let leaf: QuadtreeLeaf<DNode> | undefined = q as QuadtreeLeaf<DNode>; leaf; leaf = leaf.next) {
+          const d = leaf.data;
+          const lx = x - pos[2 * d.i];
+          const ly = y - pos[2 * d.i + 1];
+          if (onGlyph(d.cls, d.r, lx, ly)) {
+            if (!onTop || d.i > onTop.i) onTop = d;
+            continue;
+          }
+          const dist = Math.hypot(lx, ly - bodyDy(d.cls, d.r));
+          if (dist > slack) continue;
+          if (dist < nearD || (dist === nearD && near && d.i > near.i)) {
+            near = d;
+            nearD = dist;
+          }
+        }
+      }
+      return false;
+    });
+    return onTop ?? near;
+  };
+  /**
+   * The nearest individually drawn relationship, on the segment it is painted on.
+   * Candidates are walked in PAINT order — claims, then denials — and a tie goes to
+   * the later one, so where two lines coincide the pointer finds the one on top.
+   */
+  const edgeAt = (x: number, y: number): GEdge | null => {
+    const pos = layout.pos.current;
+    if (!pos) return null;
+    // The hit band the SVG gave each line: max(6, 10/k) wide.
+    const tol = Math.max(3, 5 / cam.view.k);
+    let best: GEdge | null = null;
+    let bestD = tol * tol;
+    const test = (l: DLink) => {
+      const [ax, ay, bx, by] = segOf(pos, l.s, l.t, off[l.i]);
+      const d = segDist2(x, y, ax, ay, bx, by);
+      if (d <= bestD) {
+        best = l.e;
+        bestD = d;
+      }
+    };
+    for (const l of singles) if (l.e.pred !== 'contra') test(l);
+    for (const l of singles) if (l.e.pred === 'contra') test(l);
+    return best;
+  };
+
+  // ---- pointer model ----
+  const nodeDrag = useRef<{ d: DNode; ox: number; oy: number; cx: number; cy: number; moved: boolean } | null>(null);
+  const downAt = useRef<{ x: number; y: number } | null>(null);
+  const suppressClick = useRef(false);
+
+  const onPointerDown = (ev: React.PointerEvent<SVGSVGElement>) => {
     if (ev.button !== 0) return;
-    const d = nodeAt(ev.target);
-    if (!d) return;
-    ev.stopPropagation();
+    downAt.current = { x: ev.clientX, y: ev.clientY };
     const p = toLocal(ev.clientX, ev.clientY);
-    if (!p) return;
-    // Tell the camera to keep its hands off this gesture, then take the pointer.
-    cam.suspend.current = true;
-    nodeDrag.current = { d, ox: (d.x ?? 0) - p.x, oy: (d.y ?? 0) - p.y, moved: false };
-    (ev.target as Element).setPointerCapture?.(ev.pointerId);
+    const d = p ? nodeAt(p.x, p.y) : null;
+    const pos = layout.pos.current;
+    if (d && p && pos) {
+      // Tell the camera to keep its hands off this gesture, then take the pointer.
+      cam.suspend.current = true;
+      nodeDrag.current = { d, ox: pos[2 * d.i] - p.x, oy: pos[2 * d.i + 1] - p.y, cx: ev.clientX, cy: ev.clientY, moved: false };
+      ev.currentTarget.setPointerCapture?.(ev.pointerId);
+      return;
+    }
+    panHandlers.onPointerDown(ev);
   };
 
   const onPointerMove = (ev: React.PointerEvent<SVGSVGElement>) => {
     const nd = nodeDrag.current;
-    if (!nd) {
+    if (nd) {
+      // Under three pixels a drag is still a click.
+      if (!nd.moved && Math.hypot(ev.clientX - nd.cx, ev.clientY - nd.cy) < 3) return;
+      const p = toLocal(ev.clientX, ev.clientY);
+      if (!p) return;
+      const x = p.x + nd.ox;
+      const y = p.y + nd.oy;
+      pinnedAt.current.set(nd.d.id, { x, y });
+      layout.pin(nd.d.i, x, y);
+      if (!nd.moved) {
+        nd.moved = true;
+        setPins((s) => new Set(s).add(nd.d.id));
+      }
+      return;
+    }
+    if (cam.dragging) {
       panHandlers.onPointerMove(ev);
       return;
     }
     const p = toLocal(ev.clientX, ev.clientY);
     if (!p) return;
-    nd.d.fx = nd.d.x = p.x + nd.ox;
-    nd.d.fy = nd.d.y = p.y + nd.oy;
-    pinnedAt.current.set(nd.d.id, { x: nd.d.x, y: nd.d.y });
-    if (!nd.moved) {
-      nd.moved = true;
-      setPins((s) => new Set(s).add(nd.d.id));
-    }
-    setTick((t) => t + 1);
+    const d = nodeAt(p.x, p.y);
+    if ((d?.id ?? null) !== hover && (d || hover)) setHover(d?.id ?? null);
+    if (d) return;
+    const e = edgeAt(p.x, p.y);
+    if (e && e !== activeEdge) onEdgeActive?.(e);
   };
 
   const endDrag = () => {
@@ -812,72 +1013,274 @@ export default function ForceGraph({
     panHandlers.onPointerUp();
   };
 
-  const activate = (d: SimNode, shift: boolean) => {
+  const activate = (d: DNode, shift: boolean) => {
+    setCursor(d.id);
     if (shift && onPathEnd) onPathEnd(d.id);
     else onSelect?.(selected === d.id ? null : d.id);
   };
 
-  const onNodeClick = (ev: React.MouseEvent<SVGGElement>) => {
-    const d = nodeAt(ev.target);
-    if (!d) return;
-    // A drag is not a click. Without this, pulling a node out of the tangle would
-    // also select it.
+  const onClick = (ev: React.MouseEvent<SVGSVGElement>) => {
+    // A drag is not a click. Without this, pulling a node out of the tangle — or
+    // ending a pan over one — would also select it.
+    const from = downAt.current;
+    downAt.current = null;
     if (suppressClick.current) {
       suppressClick.current = false;
       return;
     }
-    activate(d, ev.shiftKey);
-  };
-
-  const onNodeKeyDown = (ev: React.KeyboardEvent<SVGGElement>) => {
-    if (ev.key !== 'Enter' && ev.key !== ' ') return;
-    const d = nodeAt(ev.target);
-    if (!d) return;
-    ev.preventDefault();
-    activate(d, ev.shiftKey);
-  };
-
-  const onLayerFocus = (ev: React.FocusEvent<SVGGElement>) => {
-    const e = edgeAt(ev.target);
-    if (e) {
-      onEdgeActive?.(e);
+    // A click raised on an entity or relationship element itself — element.click(),
+    // a screen reader's default action, voice control, switch access — may carry no
+    // pointer coordinates at all. The element says what was activated; only a click
+    // on the layer's own surface is resolved by position.
+    if (ev.target !== ev.currentTarget) {
+      const d = simById.get(idOf(ev.target) ?? '');
+      if (d && isDrawn(d.id)) {
+        activate(d, ev.shiftKey);
+        return;
+      }
+      const e = edgeOf(ev.target);
+      if (e) {
+        onEdgeActive?.(e);
+        return;
+      }
+    }
+    if (from && Math.hypot(ev.clientX - from.x, ev.clientY - from.y) >= 3) return;
+    const p = toLocal(ev.clientX, ev.clientY);
+    if (!p) return;
+    const d = nodeAt(p.x, p.y);
+    if (d) {
+      activate(d, ev.shiftKey);
       return;
     }
-    const d = nodeAt(ev.target);
-    if (!d) return;
-    lastFocusedNode.current = d.id;
-    setHover(d.id);
+    const e = edgeAt(p.x, p.y);
+    if (e) onEdgeActive?.(e);
   };
 
-  const onLayerBlur = (ev: React.FocusEvent<SVGGElement>) => {
-    // A real destination means the reader moved focus on; none may mean the node
-    // was removed from under it, which the effect above repairs.
-    if (ev.relatedTarget) lastFocusedNode.current = null;
-    if (nodeAt(ev.target)) setHover(null);
-  };
+  // ---- keyboard: the examined set and the cursor ----
+  const [cursor, setCursor] = useState<string | null>(null);
+  const [live, setLive] = useState('');
+  const pendingFocus = useRef<string | null>(null);
 
-  /** Release every pinned node and let the layout re-settle around the change. */
-  const releasePins = () => {
-    for (const d of simNodes) {
-      delete d.fx;
-      delete d.fy;
+  /** Where the cursor starts: the drawn entity nearest the middle of the drawn layout. */
+  const defaultCursor = useMemo(() => {
+    void layout.settled;
+    const pos = layout.pos.current;
+    if (!drawNodes.length) return null;
+    if (!pos) return drawNodes[0].id;
+    let cx = 0, cy = 0;
+    for (const d of drawNodes) {
+      cx += pos[2 * d.i];
+      cy += pos[2 * d.i + 1];
     }
-    pinnedAt.current.clear();
-    setPins(new Set());
-    const sim = simRef.current;
-    if (!sim) return;
-    cancelRun.current();
-    sim.alpha(0.3);
-    const frame = () => setTick((t) => t + 1);
-    const done = () => setSettledAt((n) => n + 1);
-    if (reduced) {
-      sim.tick(RELEASE_TICKS);
-      frame();
-      done();
+    cx /= drawNodes.length;
+    cy /= drawNodes.length;
+    let best = drawNodes[0];
+    let bd = Infinity;
+    for (const d of drawNodes) {
+      const dd = Math.hypot(pos[2 * d.i] - cx, pos[2 * d.i + 1] - cy);
+      if (dd < bd || (dd === bd && d.id < best.id)) {
+        best = d;
+        bd = dd;
+      }
+    }
+    return best.id;
+  }, [drawNodes, layout.settled, layout.pos]);
+
+  const cursorId = cursor && isDrawn(cursor) ? cursor : selected && isDrawn(selected) ? selected : defaultCursor;
+
+  /** One edge's accessible name — the same sentence the SVG version put in its <title>. */
+  const edgeTitle = useCallback(
+    (e: GEdge) =>
+      `${simById.get(e.s)?.n.label ?? e.s} ${isDirected(e.pred) ? '→' : '—'} ${simById.get(e.t)?.n.label ?? e.t} · ${PRED_LABEL[e.pred] ?? e.pred} · ` +
+      `${TIERS[e.tier].label.toLowerCase()}${e.a ? ` · ₹${e.a} cr` : ''}${e.lab ? ` · ${e.lab}` : ''}`,
+    [simById],
+  );
+
+  /**
+   * Relationship stops: reachable by Tab only when they belong to what the reader
+   * is examining, placed straight after the selected entity (or the path's first
+   * end) so Tab walks from the entity into its relationships and then on.
+   */
+  const tabAnchor = selected && isDrawn(selected) ? selected : path?.ends[0] ?? null;
+  const tabEdges = useMemo(
+    () => (tabAnchor ? singles.filter((l) => path?.edges.has(l.e) || (!!selected && (l.e.s === selected || l.e.t === selected))) : []),
+    [singles, path, selected, tabAnchor],
+  );
+
+  /** The examined entities, in a stable order that never depends on the cursor. */
+  const examined = useMemo(() => {
+    const want = new Set<string>();
+    if (selected && isDrawn(selected)) {
+      want.add(selected);
+      for (const l of drawLinks) {
+        if (l.e.s === selected) want.add(l.e.t);
+        if (l.e.t === selected) want.add(l.e.s);
+      }
+    }
+    if (path) for (const id of path.nodes) if (isDrawn(id)) want.add(id);
+    const ids: string[] = [];
+    if (tabAnchor && want.has(tabAnchor)) ids.push(tabAnchor);
+    for (const d of drawNodes) if (want.has(d.id) && d.id !== tabAnchor) ids.push(d.id);
+    return { ids: ids.slice(0, KEYBOARD_CAP), total: ids.length };
+  }, [selected, path, drawLinks, drawNodes, isDrawn, tabAnchor]);
+
+  const overlayNodes = useMemo<A11yNode[]>(() => {
+    const ids = [...examined.ids];
+    const have = new Set(ids);
+    for (const extra of [hover, cursorId]) if (extra && !have.has(extra) && isDrawn(extra)) (have.add(extra), ids.push(extra));
+    return ids.flatMap((id) => {
+      const d = simById.get(id);
+      if (!d) return [];
+      return [{ id, i: d.i, d: shapeFor(d.cls, d.r), name: `${d.n.label}${d.n.sub ? `, ${d.n.sub}` : ''}`, pressed: selected === id }];
+    });
+  }, [examined, hover, cursorId, isDrawn, simById, selected]);
+
+  const overlayEdges = useMemo<A11yEdge[]>(() => {
+    const out: A11yEdge[] = [];
+    const seen = new Set<DLink>();
+    const push = (l: DLink, tabbable: boolean) => {
+      if (seen.has(l)) return;
+      seen.add(l);
+      out.push({ key: l.i, s: l.s, t: l.t, o: off[l.i], title: edgeTitle(l.e), tabbable });
+    };
+    for (const l of tabEdges) push(l, true);
+    const claims = new Set(tabEdges.map((l) => l.e));
+    const act = activeEdge ? linkOf.get(activeEdge) : undefined;
+    if (act && activeEdge && isDrawn(activeEdge.s) && isDrawn(activeEdge.t)) {
+      push(act, false);
+      claims.add(activeEdge);
+    }
+    // A denial answering anything examined is in the layer too: never a claim without its denial.
+    for (const l of drawLinks) {
+      if (l.e.pred === 'contra' && denials?.answers.get(l.e)?.some((c) => claims.has(c))) push(l, false);
+    }
+    return out;
+  }, [tabEdges, activeEdge, linkOf, isDrawn, drawLinks, denials, edgeTitle, off]);
+
+  const describe = (d: DNode) => {
+    let n = 0, alleged = 0, contra = 0;
+    for (const l of drawLinks) {
+      if (l.e.s !== d.id && l.e.t !== d.id) continue;
+      n++;
+      if (l.e.tier === 'alleged') alleged++;
+      if (l.e.pred === 'contra') contra++;
+    }
+    return `${d.n.label}, ${d.n.ty}, ${n} relationship${n === 1 ? '' : 's'} in view, ${alleged} alleged, ${contra} denial${contra === 1 ? '' : 's'}`;
+  };
+
+  /** Arrow keys on an entity: the nearest drawn entity within 30° of that direction, else within 75°. */
+  const moveCursor = (from: DNode, key: string) => {
+    const pos = layout.pos.current;
+    const dir = DIR[key];
+    if (!pos || !dir) return;
+    const fx = pos[2 * from.i];
+    const fy = pos[2 * from.i + 1];
+    const pick = (cosMin: number) => {
+      let best: DNode | null = null;
+      let bd = Infinity;
+      for (const d of drawNodes) {
+        if (d === from) continue;
+        const vx = pos[2 * d.i] - fx;
+        const vy = pos[2 * d.i + 1] - fy;
+        const dist = Math.hypot(vx, vy);
+        if (!dist || (vx * dir[0] + vy * dir[1]) / dist < cosMin) continue;
+        if (dist < bd || (dist === bd && best && d.id < best.id)) {
+          best = d;
+          bd = dist;
+        }
+      }
+      return best;
+    };
+    const to = pick(Math.cos(Math.PI / 6)) ?? pick(Math.cos((75 * Math.PI) / 180));
+    if (!to) {
+      setLive(`No entity further ${dir[2]} of ${from.n.label}.`);
       return;
     }
-    cancelRun.current = stepSim(sim, RELEASE_TICKS, frame, done);
+    // The camera follows the cursor: an entity off-screen is recentred.
+    const v = cam.view;
+    const sx = pos[2 * to.i] * v.k + v.tx;
+    const sy = pos[2 * to.i + 1] * v.k + v.ty;
+    const M = 48;
+    if (sx < M || sy < M || sx > W - M || sy > H - M) cam.panBy(W / 2 - sx, H / 2 - sy);
+    setCursor(to.id);
+    pendingFocus.current = to.id;
+    setLive(describe(to));
   };
+
+  /**
+   * Keyboard focus must not vanish with the node that held it. When a focus or a
+   * filter hides the focused entity, the browser drops focus to <body>; hand it to
+   * the selected entity if it is still drawn, otherwise to the frame. A hover left
+   * on a hidden node is cleared for the same reason — it would dim everything.
+   */
+  const lastFocusedNode = useRef<string | null>(null);
+  useEffect(() => {
+    if (hover && !isDrawn(hover)) setHover(null);
+    const want = pendingFocus.current;
+    if (want) {
+      pendingFocus.current = null;
+      ref.current?.querySelector<SVGGElement>(`g[data-id="${CSS.escape(want)}"]`)?.focus({ preventScroll: true });
+      return;
+    }
+    // The focused entity is always the cursor, and the cursor is always in the
+    // layer, so a drawn entity never loses its element; only hiding it can.
+    const id = lastFocusedNode.current;
+    if (!id || isDrawn(id)) return;
+    lastFocusedNode.current = null;
+    const active = document.activeElement;
+    if (active && active !== document.body) return;
+    const target =
+      selected && isDrawn(selected) ? ref.current?.querySelector<SVGGElement>(`g[data-id="${CSS.escape(selected)}"]`) : null;
+    (target ?? wrapRef.current)?.focus({ preventScroll: true });
+  });
+
+  const idOf = (t: EventTarget | null) => (t as Element | null)?.closest?.('[data-id]')?.getAttribute('data-id') ?? null;
+  const edgeOf = (t: EventTarget | null) => {
+    const el = (t as Element | null)?.closest?.('[data-edge]');
+    return el ? links[Number(el.getAttribute('data-edge'))]?.e ?? null : null;
+  };
+  const handlersRef = useRef<LayerHandlers | null>(null);
+  handlersRef.current = {
+    onKeyDown: (ev) => {
+      const d = simById.get(idOf(ev.target) ?? '');
+      if (!d) return;
+      if (ev.key === 'Enter' || ev.key === ' ') {
+        ev.preventDefault();
+        activate(d, ev.shiftKey);
+      } else if (DIR[ev.key] && !ev.altKey && !ev.metaKey && !ev.ctrlKey) {
+        // On an entity the arrows walk the graph; on the frame they pan it.
+        ev.preventDefault();
+        ev.stopPropagation();
+        moveCursor(d, ev.key);
+      }
+    },
+    onFocus: (ev) => {
+      const e = edgeOf(ev.target);
+      if (e) {
+        onEdgeActive?.(e);
+        return;
+      }
+      const id = idOf(ev.target);
+      if (!id) return;
+      lastFocusedNode.current = id;
+      setCursor(id);
+      setHover(id);
+    },
+    onBlur: (ev) => {
+      // A real destination means the reader moved focus on; none may mean the node
+      // was removed from under it, which the effect above repairs.
+      if (ev.relatedTarget) lastFocusedNode.current = null;
+      if (idOf(ev.target)) setHover(null);
+    },
+  };
+  const handlers = useMemo<LayerHandlers>(
+    () => ({
+      onKeyDown: (ev) => handlersRef.current?.onKeyDown(ev),
+      onFocus: (ev) => handlersRef.current?.onFocus(ev),
+      onBlur: (ev) => handlersRef.current?.onBlur(ev),
+    }),
+    [],
+  );
 
   /**
    * Keyboard camera. Handled on the wrapper so it works whether the frame itself
@@ -893,128 +1296,299 @@ export default function ForceGraph({
     cam.onKeyDown(ev);
   };
 
-  const k = cam.view.k;
+  // ---- the frame ----
+  const probe = useMemo(() => {
+    let best: DNode | null = null;
+    for (const d of drawNodes) if (!best || d.r > best.r || (d.r === best.r && d.id < best.id)) best = d;
+    return best;
+  }, [drawNodes]);
+  const tipNode = hover ? simById.get(hover) ?? null : null;
+  const [miniShown, setMiniShown] = useState(false);
+  const fontRef = useRef('');
 
-  /**
-   * Semantic labels: what is named depends on how closely the reader is looking.
-   * Zoomed out, only the heaviest entities; at 1x, the heavy and the well-connected;
-   * from 2x, everything. Scale times degree, so a hub earns its label sooner as the
-   * reader zooms in — but never on degree alone at a distance, where a hub's label
-   * would read as a claim that it matters.
-   */
-  const labelled = (d: SimNode) => {
-    if (d.id === focusNode || path?.ends.includes(d.id)) return true;
-    if (k >= 2) return true;
-    if (k < 0.6) return d.n.sz === 4;
-    return d.n.sz >= 3 || (degree.get(d.id) ?? 0) * k >= 4;
-  };
-
-  const nameOf = (id: string) => simById.get(id)?.n.label ?? id;
-
-  /** One edge's title — the a11y surface, kept on every individually drawn edge. */
-  const edgeTitle = (e: GEdge) =>
-    `${nameOf(e.s)} ${isDirected(e.pred) ? '→' : '—'} ${nameOf(e.t)} · ${PRED_LABEL[e.pred] ?? e.pred} · ` +
-    `${TIERS[e.tier].label.toLowerCase()}${e.a ? ` · ₹${e.a} cr` : ''}${e.lab ? ` · ${e.lab}` : ''}`;
-
-  /**
-   * Reachable by Tab only when it belongs to what the reader is examining;
-   * otherwise several hundred edges would sit in the tab order. Their focus
-   * stops are placed straight after the selected entity (or the path's first
-   * end), so Tab walks from the entity into its relationships and then on through
-   * the other entities — never through relationships before the first entity.
-   */
-  const tabAnchor = selected && isDrawn(selected) ? selected : path?.ends[0] ?? null;
-  const tabEdges = useMemo(
-    () => (tabAnchor ? singles.filter((l) => path?.edges.has(l.e) || (!!selected && (l.e.s === selected || l.e.t === selected))) : []),
-    [singles, path, selected, tabAnchor],
-  );
-  const tabSet = useMemo(() => new Set(tabEdges), [tabEdges]);
-
-  /** Minimap geometry, only when part of the drawn graph is off-screen. */
-  const mini = useMemo(() => {
-    void tick;
-    if (drawNodes.length < 2 || W < 420) return null;
-    let x0 = Infinity, x1 = -Infinity, y0 = Infinity, y1 = -Infinity;
-    for (const d of drawNodes) {
-      if (d.x == null || d.y == null) continue;
-      x0 = Math.min(x0, d.x);
-      x1 = Math.max(x1, d.x);
-      y0 = Math.min(y0, d.y);
-      y1 = Math.max(y1, d.y);
+  useLayoutEffect(() => {
+    frameRef.current = {
+      W,
+      H,
+      view: cam.view,
+      drawNodes,
+      singles,
+      batches,
+      edgeLit,
+      litNodes: path ? path.nodes : neighbours,
+      path,
+      selected,
+      activeEdge,
+      pins,
+      focusNode,
+      degree,
+      contraW,
+      off,
+      probe,
+      tip: tipNode,
+    };
+    overlayDirty.current = true;
+    requestDraw();
+  });
+  paintRef.current = () => {
+    raf.current = 0;
+    const t0 = performance.now();
+    const f = frameRef.current;
+    const cv = canvasRef.current;
+    const svg = ref.current;
+    if (!f || !cv) return;
+    const ctx = cv.getContext('2d');
+    if (!ctx) return;
+    const dpr = Math.min(2, window.devicePixelRatio || 1);
+    const bw = Math.round(f.W * dpr);
+    const bh = Math.round(f.H * dpr);
+    if (cv.width !== bw || cv.height !== bh) {
+      cv.width = bw;
+      cv.height = bh;
     }
-    if (x0 === Infinity) return null;
-    const v = cam.view;
-    const vx0 = -v.tx / v.k, vy0 = -v.ty / v.k, vx1 = (W - v.tx) / v.k, vy1 = (H - v.ty) / v.k;
-    if (x0 >= vx0 && x1 <= vx1 && y0 >= vy0 && y1 <= vy1) return null;
-    const MW = 140, MH = 100, PAD = 6;
-    const s = Math.min((MW - PAD * 2) / Math.max(1, x1 - x0), (MH - PAD * 2) / Math.max(1, y1 - y0));
-    const ox = PAD + ((MW - PAD * 2) - (x1 - x0) * s) / 2 - x0 * s;
-    const oy = PAD + ((MH - PAD * 2) - (y1 - y0) * s) / 2 - y0 * s;
-    let dots = '';
-    for (const d of drawNodes) {
-      if (d.x == null || d.y == null) continue;
-      dots += `M${(d.x * s + ox - 1).toFixed(1)} ${(d.y * s + oy - 1).toFixed(1)}h2v2h-2z`;
+    if (!fontRef.current) fontRef.current = `9.5px ${getComputedStyle(cv).fontFamily || 'sans-serif'}`;
+    const pal = forced ? FORCED : PAL;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, f.W, f.H);
+    const pos = layout.pos.current;
+    const { k, tx, ty } = f.view;
+
+    if (pos) {
+      const X = (i: number) => pos[2 * i];
+      const Y = (i: number) => pos[2 * i + 1];
+      // Layout space: identical to the SVG's <g transform="translate() scale()">.
+      ctx.setTransform(dpr * k, 0, 0, dpr * k, dpr * tx, dpr * ty);
+      ctx.lineCap = 'butt';
+      ctx.lineJoin = 'miter';
+      ctx.miterLimit = 4;
+
+      // 1. Batched claims: one stroke per (tier, lit, weight). Canvas restarts the
+      //    dash pattern at every moveTo, as SVG does per subpath, so each edge's
+      //    dash phase still starts at its source.
+      for (const b of f.batches) {
+        ctx.beginPath();
+        for (const l of b.links) {
+          const [ax, ay, bx, by] = segOf(pos, l.s, l.t, f.off[l.i]);
+          ctx.moveTo(ax, ay);
+          ctx.lineTo(bx, by);
+        }
+        ctx.setLineDash(DASH[b.tier]);
+        ctx.lineWidth = b.w;
+        ctx.strokeStyle = pal.edge;
+        ctx.globalAlpha = b.lit ? 0.55 : 0.1;
+        ctx.stroke();
+      }
+
+      // 2. Individually drawn claims. Emphasis by tone and opacity only: width is the amount.
+      const denialsLast: DLink[] = [];
+      for (const l of f.singles) {
+        const e = l.e;
+        if (e.pred === 'contra') {
+          denialsLast.push(l);
+          continue;
+        }
+        const lit = f.edgeLit.get(e) ?? true;
+        const isActive = e === f.activeEdge;
+        const onPath = !!f.path?.edges.has(e);
+        const alpha = !lit ? 0.1 : isActive || onPath ? 0.95 : 0.55;
+        const w = edgeWidth(e);
+        ctx.globalAlpha = alpha;
+        ctx.strokeStyle = isActive ? pal.edgeActive : onPath ? pal.edgePath : pal.edge;
+        ctx.lineWidth = w;
+        ctx.setLineDash(DASH[e.tier]);
+        const [ax, ay, bx, by] = segOf(pos, l.s, l.t, f.off[l.i]);
+        ctx.beginPath();
+        ctx.moveTo(ax, ay);
+        ctx.lineTo(bx, by);
+        ctx.stroke();
+        if (isDirected(e.pred)) {
+          // The old <marker>: viewBox 8×8, ref (7,4), 5 stroke-widths wide, at the target.
+          const ang = Math.atan2(by - ay, bx - ax);
+          const sc = (5 * w) / 8;
+          const c = Math.cos(ang);
+          const s = Math.sin(ang);
+          const px = (u: number, v: number) => bx + (u * c - v * s) * sc;
+          const py = (u: number, v: number) => by + (u * s + v * c) * sc;
+          ctx.fillStyle = pal.arrow;
+          ctx.beginPath();
+          ctx.moveTo(px(-7, -4), py(-7, -4));
+          ctx.lineTo(px(1, 0), py(1, 0));
+          ctx.lineTo(px(-7, 4), py(-7, 4));
+          ctx.closePath();
+          ctx.fill();
+        }
+      }
+
+      // 3. Denials last, on top: never batched, never dimmer than a claim they
+      //    answer, at least as wide, with a cross-bar that survives greyscale.
+      for (const l of denialsLast) {
+        const e = l.e;
+        const lit = f.edgeLit.get(e) ?? true;
+        const w = f.contraW.get(e) ?? edgeWidth(e);
+        ctx.globalAlpha = lit ? 0.95 : 0.1;
+        ctx.strokeStyle = pal.contra;
+        ctx.lineWidth = w;
+        ctx.setLineDash(DASH[e.tier]);
+        const [ax, ay, bx, by] = segOf(pos, l.s, l.t, f.off[l.i]);
+        ctx.beginPath();
+        ctx.moveTo(ax, ay);
+        ctx.lineTo(bx, by);
+        ctx.stroke();
+        const mx = (ax + bx) / 2;
+        const my = (ay + by) / 2;
+        const len = Math.hypot(bx - ax, by - ay) || 1;
+        const half = 3 + w;
+        const nx = (-(by - ay) / len) * half;
+        const ny = ((bx - ax) / len) * half;
+        ctx.setLineDash(NO_DASH);
+        ctx.beginPath();
+        ctx.moveTo(mx - nx, my - ny);
+        ctx.lineTo(mx + nx, my + ny);
+        ctx.stroke();
+      }
+
+      // 4. Nodes — the same path strings, family hue, declared size.
+      const vx0 = -tx / k - 30, vy0 = -ty / k - 30, vx1 = (f.W - tx) / k + 30, vy1 = (f.H - ty) / k + 30;
+      const strongIds = new Set<string>(f.path ? f.path.ends : []);
+      if (f.selected) strongIds.add(f.selected);
+      for (const d of f.drawNodes) {
+        const x = X(d.i);
+        const y = Y(d.i);
+        if (x < vx0 || x > vx1 || y < vy0 || y > vy1) continue;
+        const dim = f.litNodes ? !f.litNodes.has(d.id) : false;
+        const a = dim ? 0.16 : 1;
+        const unresolved = d.n.resolved === false;
+        const strong = strongIds.has(d.id);
+        const p = path2d(d.cls, d.r);
+        ctx.setTransform(dpr * k, 0, 0, dpr * k, dpr * (tx + x * k), dpr * (ty + y * k));
+        ctx.globalAlpha = a * (unresolved ? 0.25 : 0.88);
+        ctx.fillStyle = FAMILY_COLOR[d.n.fam];
+        ctx.fill(p);
+        ctx.globalAlpha = a;
+        ctx.setLineDash(unresolved ? UNRESOLVED_DASH : NO_DASH);
+        ctx.lineWidth = strong ? 2 : 0.8;
+        ctx.strokeStyle = strong ? pal.strong : pal.outline;
+        ctx.stroke(p);
+        // A pinned node carries a ring, not a colour or a dash — hue is spoken for
+        // by family and dashes by identity confidence.
+        if (f.pins.has(d.id)) {
+          ctx.globalAlpha = a * 0.85;
+          ctx.setLineDash(NO_DASH);
+          ctx.lineWidth = 1;
+          ctx.strokeStyle = pal.ring;
+          ctx.beginPath();
+          ctx.arc(0, 0, d.r + 3.5, 0, Math.PI * 2);
+          ctx.stroke();
+        }
+      }
+
+      // 5. Semantic labels, in screen space at 9.5 px. What is named depends on how
+      //    closely the reader is looking: zoomed out only the heaviest; at 1x the
+      //    heavy and the well-connected; from 2x everything. Scale times degree, so
+      //    a hub earns its label sooner as the reader zooms in — never on degree
+      //    alone at a distance, where a label would read as a claim that it matters.
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.font = fontRef.current;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'alphabetic';
+      ctx.setLineDash(NO_DASH);
+      ctx.lineWidth = 2.4;
+      ctx.strokeStyle = pal.labelHalo;
+      ctx.fillStyle = pal.labelFill;
+      for (const d of f.drawNodes) {
+        const labelled =
+          d.id === f.focusNode ||
+          !!f.path?.ends.includes(d.id) ||
+          k >= 2 ||
+          (k < 0.6 ? d.n.sz === 4 : d.n.sz >= 3 || (f.degree.get(d.id) ?? 0) * k >= 4);
+        if (!labelled) continue;
+        const sx = tx + X(d.i) * k;
+        const sy = ty + (Y(d.i) + d.r) * k + 11;
+        if (sx < -150 || sx > f.W + 150 || sy < -20 || sy > f.H + 20) continue;
+        ctx.globalAlpha = f.litNodes && !f.litNodes.has(d.id) ? 0.16 : 1;
+        ctx.strokeText(d.n.label, sx, sy);
+        ctx.fillText(d.n.label, sx, sy);
+      }
+
+      // 6. Minimap — only when part of the drawn graph is off-screen. Dots are one
+      //    neutral tone: hue belongs to family, and the inset is for orientation.
+      let x0 = Infinity, x1 = -Infinity, y0 = Infinity, y1 = -Infinity;
+      for (const d of f.drawNodes) {
+        x0 = Math.min(x0, X(d.i));
+        x1 = Math.max(x1, X(d.i));
+        y0 = Math.min(y0, Y(d.i));
+        y1 = Math.max(y1, Y(d.i));
+      }
+      const wx0 = -tx / k, wy0 = -ty / k, wx1 = (f.W - tx) / k, wy1 = (f.H - ty) / k;
+      const clipped = f.drawNodes.length >= 2 && f.W >= 420 && x0 !== Infinity && !(x0 >= wx0 && x1 <= wx1 && y0 >= wy0 && y1 <= wy1);
+      if (clipped) {
+        const MW = 140, MH = 100, PAD = 6;
+        const s = Math.min((MW - PAD * 2) / Math.max(1, x1 - x0), (MH - PAD * 2) / Math.max(1, y1 - y0));
+        const ox = 8 + PAD + ((MW - PAD * 2) - (x1 - x0) * s) / 2 - x0 * s;
+        const oy = 8 + PAD + ((MH - PAD * 2) - (y1 - y0) * s) / 2 - y0 * s;
+        ctx.globalAlpha = 1;
+        ctx.fillStyle = pal.miniBg;
+        ctx.strokeStyle = pal.miniEdge;
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.roundRect(8.5, 8.5, MW - 1, MH - 1, 3);
+        ctx.fill();
+        ctx.stroke();
+        ctx.fillStyle = pal.miniDot;
+        for (const d of f.drawNodes) ctx.fillRect(X(d.i) * s + ox - 1, Y(d.i) * s + oy - 1, 2, 2);
+        ctx.strokeStyle = pal.miniBox;
+        ctx.strokeRect(wx0 * s + ox, wy0 * s + oy, Math.max(2, (wx1 - wx0) * s), Math.max(2, (wy1 - wy0) * s));
+      }
+      if (clipped !== miniShownRef.current) {
+        miniShownRef.current = clipped;
+        setMiniShown(clipped);
+      }
+
+      // The hovered entity's name, beside it.
+      if (tipRef.current && f.tip) {
+        tipRef.current.style.transform = `translate(${tx + X(f.tip.i) * k}px, ${ty + (Y(f.tip.i) - f.tip.r) * k - 6}px) translate(-50%, -100%)`;
+      }
+
+      // The examined set follows the layout without a React render.
+      if (svg && (overlayDirty.current || synced.current.v !== posVersion.current)) {
+        syncOverlay(svg, pos);
+        overlayDirty.current = false;
+        synced.current.v = posVersion.current;
+      }
+
+      // Test probes: camera and layout state, read by scripts/graph-viewport.mjs.
+      if (svg) {
+        svg.setAttribute('data-tick', String(layout.ticks.current));
+        svg.setAttribute('data-tx', tx.toFixed(1));
+        svg.setAttribute('data-ty', ty.toFixed(1));
+        if (synced.current.digestV !== posVersion.current) {
+          synced.current.digestV = posVersion.current;
+          svg.setAttribute('data-layout', digest(pos));
+        }
+        svg.setAttribute('data-extent', x0 === Infinity ? '' : `${x0.toFixed(1)},${y0.toFixed(1)},${x1.toFixed(1)},${y1.toFixed(1)}`);
+        svg.setAttribute('data-count', String(f.drawNodes.length));
+        if (f.probe) {
+          svg.setAttribute('data-probe', `${(tx + X(f.probe.i) * k).toFixed(1)},${(ty + Y(f.probe.i) * k).toFixed(1)}`);
+          svg.setAttribute('data-probe-id', f.probe.id);
+          svg.setAttribute('data-probe-r', String(f.probe.r));
+          svg.setAttribute('data-probe-label', f.probe.n.label);
+        }
+      }
     }
-    return { dots, rect: { x: vx0 * s + ox, y: vy0 * s + oy, w: (vx1 - vx0) * s, h: (vy1 - vy0) * s }, MW, MH };
-  }, [drawNodes, cam.view, W, H, tick]);
-
-  const renderLine = (l: SimLink) => {
-    const s = l.source as SimNode;
-    const t = l.target as SimNode;
-    if (typeof s === 'string' || typeof t === 'string' || s.x == null || t.x == null) return null;
-    const e = l.e;
-    const lit = edgeLit.get(e) ?? true;
-    const isContra = e.pred === 'contra';
-    const isActive = e === activeEdge;
-    const onPath = !!path?.edges.has(e);
-    return (
-      <EdgeLine
-        key={l.i}
-        i={l.i}
-        x1={s.x}
-        y1={s.y!}
-        x2={t.x}
-        y2={t.y!}
-        // Emphasis by tone and opacity only: width is the amount channel.
-        stroke={isContra ? '#c45b5a' : isActive ? 'rgba(244,240,232,1)' : onPath ? 'rgba(232,228,220,0.85)' : 'rgba(232,228,220,0.30)'}
-        width={edgeWidth(e)}
-        dash={TIERS[e.tier].dash}
-        opacity={!lit ? 0.1 : isContra || isActive || onPath ? 0.95 : 0.55}
-        arrow={isDirected(e.pred)}
-        hit={Math.max(6, 10 / k)}
-        title={edgeTitle(e)}
-        // The focus stop carries the accessible name when there is one; this copy
-        // would otherwise be announced twice.
-        hidden={tabSet.has(l)}
-      />
-    );
+    ctx.globalAlpha = 1;
+    // Main-thread cost of this frame, for the perf measurement — not a gate.
+    svg?.setAttribute('data-paint-ms', (performance.now() - t0).toFixed(2));
   };
+  // The canvas remounts when the frame moves in or out of the maximised view.
+  useEffect(() => {
+    fontRef.current = '';
+    overlayDirty.current = true;
+    requestDraw();
+  }, [expanded, requestDraw]);
 
-  const edgeStops = tabEdges.length > 0 && (
-    <g key="edge-stops">
-      {tabEdges.map((l) => {
-        const s = l.source as SimNode;
-        const t = l.target as SimNode;
-        if (typeof s === 'string' || typeof t === 'string' || s.x == null || t.x == null) return null;
-        const title = edgeTitle(l.e);
-        return (
-          <g
-            key={l.i}
-            data-edge={l.i}
-            role="img"
-            aria-roledescription="relationship"
-            aria-label={title}
-            tabIndex={0}
-            pointerEvents="none"
-            className="outline-none [&:focus-visible>line]:stroke-accent"
-          >
-            <line x1={s.x} y1={s.y} x2={t.x} y2={t.y} stroke="transparent" strokeWidth={3 / k} />
-            <title>{title}</title>
-          </g>
-        );
-      })}
-    </g>
-  );
+  const drawnCount = drawNodes.length;
+  const batchedCount = batches.reduce((n, b) => n + b.links.length, 0);
+  const pos = layout.pos.current;
 
   const frame = (
     <div
@@ -1023,145 +1597,79 @@ export default function ForceGraph({
       style={{ height: expanded ? '100%' : height }}
       tabIndex={0}
       onKeyDown={onKeyDown}
-      aria-label="Graph viewport. Arrow keys pan, plus and minus zoom, 0 fits, f expands. Tab moves through entities, and from the selected entity into its relationships; Enter selects; Shift+Enter makes the entity the far end of a path; Escape clears the path, then the focus."
+      aria-label="Graph viewport. Arrow keys pan, plus and minus zoom, 0 fits, f expands. Tab moves into the graph: the keyboard cursor, the selected entity and its relationships, its neighbours and the path. On an entity, arrow keys move to the nearest entity in that direction; Enter selects; Shift+Enter makes the entity the far end of a path; Escape clears the path, then the focus. The table view lists every entity and relationship."
     >
-      <svg
-        ref={ref}
-        // Measured, not assumed: one unit is one pixel, so there is no letterbox
-        // and a drag moves the graph exactly as far as the pointer moved.
-        viewBox={`0 0 ${W} ${H}`}
-        preserveAspectRatio="xMidYMid meet"
-        style={{
-          width: '100%',
-          height: '100%',
-          display: 'block',
-          touchAction: 'none',
-          cursor: cam.dragging ? 'grabbing' : 'grab',
+      <canvas
+        ref={canvasRef}
+        role="img"
+        aria-label={
+          `Connection graph: ${drawnCount} entities, ${drawLinks.length} relationships. Drag to pan, scroll or the on-screen buttons to zoom, drag a node to pull it out of the tangle. A table view of the same data is available below.` +
+          (batched ? ` ${batchedCount} further relationships drawn in batches by tier and not individually inspectable here — the table view lists every one.` : '')
+        }
+        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', display: 'block', pointerEvents: 'none' }}
+      />
+      <GraphA11y
+        svgRef={ref}
+        W={W}
+        H={H}
+        transform={cam.transform}
+        label={
+          `Entities under examination: ${overlayNodes.length}` +
+          (examined.total > KEYBOARD_CAP ? ` — the first ${KEYBOARD_CAP} of ${examined.total}; the table view lists the rest` : '') +
+          '. The selection, its neighbours and relationships, the path and the keyboard cursor. The table view is the complete accessible listing.'
+        }
+        nodes={overlayNodes}
+        edges={overlayEdges}
+        anchor={tabAnchor}
+        pos={pos}
+        handlers={handlers}
+        live={live}
+        svgProps={{
+          style: {
+            position: 'absolute',
+            inset: 0,
+            width: '100%',
+            height: '100%',
+            display: 'block',
+            touchAction: 'none',
+            cursor: cam.dragging ? 'grabbing' : hover && !nodeDrag.current ? 'pointer' : 'grab',
+          },
+          'data-graph': 'canvas',
+          'data-driver': layout.driver,
+          'data-settled': layout.settled,
+          'data-k': cam.view.k.toFixed(3),
+          'data-batched': batched ? 'true' : undefined,
+          'data-pinned': pinnedIds.join(' '),
+          onPointerDown,
+          onPointerMove,
+          onPointerUp: endDrag,
+          onPointerLeave: () => {
+            endDrag();
+            if (hover && !lastFocusedNode.current) setHover(null);
+          },
+          onClick,
         }}
-        // A group, not an img: role="img" makes every child presentational, which
-        // silently removed every focusable node from the accessibility tree.
-        role="group"
-        aria-label={`Connection graph: ${drawNodes.length} entities, ${drawLinks.length} relationships. Drag to pan, scroll or the on-screen buttons to zoom, drag a node to pull it out of the tangle. A table view of the same data is available below.`}
-        data-tick={tick}
-        data-settled={settledAt}
-        data-k={k.toFixed(3)}
-        data-batched={batched ? 'true' : undefined}
-        onPointerDown={panHandlers.onPointerDown}
-        onPointerMove={onPointerMove}
-        onPointerUp={endDrag}
-        onPointerLeave={endDrag}
-      >
-      <defs>
-        <marker id="arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="5" markerHeight="5" orient="auto">
-          <path d="M 0 0 L 8 4 L 0 8 z" fill="rgba(232,228,220,0.35)" />
-        </marker>
-      </defs>
+      />
 
-      <g transform={cam.transform}>
-      {batched && (
-        // Not individually inspectable, so it says so once rather than hiding a
-        // <title> per batch where no pointer or screen reader can reach it.
-        <g
-          pointerEvents="none"
-          role="img"
-          aria-label={`${batches.reduce((n, b) => n + b.links.length, 0)} further relationships drawn in batches by tier and not individually inspectable here — the table view lists every one.`}
+      {tipNode && pos && (
+        <div
+          ref={tipRef}
+          aria-hidden="true"
+          className="absolute left-0 top-0 pointer-events-none font-mono text-[10.5px] leading-tight px-1.5 py-0.5 rounded bg-bg/90 border border-border text-text-secondary whitespace-nowrap"
+          style={{
+            transform: `translate(${cam.view.tx + pos[2 * tipNode.i] * cam.view.k}px, ${cam.view.ty + (pos[2 * tipNode.i + 1] - tipNode.r) * cam.view.k - 6}px) translate(-50%, -100%)`,
+          }}
         >
-          {batches.map((b, i) => (
-            <path
-              key={`${b.tier}|${b.lit}|${b.w}`}
-              d={batchPaths[i]}
-              fill="none"
-              stroke="rgba(232,228,220,0.30)"
-              strokeWidth={b.w}
-              strokeDasharray={TIERS[b.tier].dash || undefined}
-              opacity={b.lit ? 0.55 : 0.1}
-            />
-          ))}
-        </g>
-      )}
-      <g
-        onMouseOver={(ev) => {
-          const e = edgeAt(ev.target);
-          if (e && e !== activeEdge) onEdgeActive?.(e);
-        }}
-        onClick={(ev) => {
-          const e = edgeAt(ev.target);
-          if (e) onEdgeActive?.(e);
-        }}
-      >
-        {singles.map(renderLine)}
-      </g>
-
-      <g
-        onPointerDown={onNodePointerDown}
-        onClick={onNodeClick}
-        onKeyDown={onNodeKeyDown}
-        onFocus={onLayerFocus}
-        onBlur={onLayerBlur}
-        onMouseOver={(ev) => {
-          const d = nodeAt(ev.target);
-          if (d) setHover(d.id);
-        }}
-        onMouseOut={(ev) => {
-          if (!nodeAt(ev.relatedTarget)) setHover(null);
-        }}
-      >
-        {drawNodes.flatMap((d) => {
-          if (d.x == null || d.y == null) return [];
-          const isSel = selected === d.id;
-          const isEnd = !!path?.ends.includes(d.id);
-          const label = labelled(d) ? d.n.label : null;
-          const glyph = (
-            <NodeGlyph
-              key={d.id}
-              id={d.id}
-              x={d.x}
-              y={d.y}
-              shape={shapeFor(d.cls, d.r)}
-              r={d.r}
-              fill={FAMILY_COLOR[d.n.fam]}
-              unresolved={d.n.resolved === false}
-              dim={!nodeLit(d.id)}
-              selected={isSel}
-              strong={isSel || isEnd}
-              pinned={pins.has(d.id)}
-              label={label}
-              k={label ? k : 0}
-              name={`${d.n.label}${d.n.sub ? `, ${d.n.sub}` : ''}`}
-              title={`${d.n.label}${d.n.sub ? ` — ${d.n.sub}` : ''}`}
-            />
-          );
-          return d.id === tabAnchor && edgeStops ? [glyph, edgeStops] : [glyph];
-        })}
-      </g>
-
-      </g>
-
-      {/* Minimap — in the untransformed layer, inert to the pointer so it can never
-          swallow a click meant for a node beneath it. Dots are one neutral tone:
-          hue belongs to family, and the inset is for orientation, not reading. */}
-      {mini && (
-        <svg x={8} y={8} width={mini.MW} height={mini.MH} pointerEvents="none" aria-hidden="true">
-          <rect x={0.5} y={0.5} width={mini.MW - 1} height={mini.MH - 1} rx={3} fill="rgba(10,10,12,0.88)" stroke="rgba(244,240,232,0.15)" />
-          <path d={mini.dots} fill="rgba(232,228,220,0.55)" />
-          <rect
-            x={mini.rect.x}
-            y={mini.rect.y}
-            width={Math.max(2, mini.rect.w)}
-            height={Math.max(2, mini.rect.h)}
-            fill="none"
-            stroke="#c9a86c"
-            strokeWidth={1}
-          />
-        </svg>
+          {tipNode.n.label}
+          {tipNode.n.sub ? ` — ${tipNode.n.sub}` : ''}
+        </div>
       )}
 
-      {!drawNodes.length && (
-        <text x={W / 2} y={H / 2} textAnchor="middle" fill="rgba(232,228,220,0.4)" fontSize="13">
+      {!drawnCount && (
+        <p className="absolute inset-0 grid place-items-center text-[13px] text-text-muted pointer-events-none">
           No entities match these filters.
-        </text>
+        </p>
       )}
-      </svg>
 
       <CameraControls cam={cam} onFit={fitToContent} />
 
@@ -1176,11 +1684,11 @@ export default function ForceGraph({
         <p>
           drag to pan · arrows or the pad to move · +/− or scroll to zoom · 0 fits · f maximises · drag a node to pull it out ·
           shift-click a second entity for the shortest path
-          {pinCount > 0 && (
+          {pinnedIds.length > 0 && (
             <>
               {' '}·{' '}
               <button onClick={releasePins} className="text-accent underline underline-offset-2">
-                release {pinCount} pinned
+                release {pinnedIds.length} pinned
               </button>
             </>
           )}
@@ -1189,11 +1697,11 @@ export default function ForceGraph({
           <p>
             {drawLinks.length} relationships: denials, path steps, the edge on the card and — when it has {INCIDENT_MAX} or
             fewer neighbours — the hovered or selected entity's own edges are drawn one by one; the other{' '}
-            {drawLinks.length - singles.length} are batched by tier, without arrows, and cannot be hovered. Focus or filter
+            {batchedCount} are batched by tier, without arrows, and cannot be hovered. Focus or filter
             to inspect them, or use the table view.
           </p>
         )}
-        {mini && <p>inset: the whole drawn graph · box: your view</p>}
+        {miniShown && <p>inset: the whole drawn graph · box: your view</p>}
       </div>
     </div>
   );
@@ -1202,124 +1710,9 @@ export default function ForceGraph({
     <ExpandShell
       expanded={expanded}
       onClose={() => cam.setExpanded(false)}
-      caption={caption ?? `${drawNodes.length} entities · ${drawLinks.length} relationships · filters stay applied`}
+      caption={caption ?? `${drawnCount} entities · ${drawLinks.length} relationships · filters stay applied`}
     >
       {frame}
     </ExpandShell>
   );
 }
-
-/**
- * One drawn relationship. Memoised so a hover after the layout has settled only
- * re-renders the edges whose emphasis actually changed.
- */
-const EdgeLine = memo(function EdgeLine({
-  i, x1, y1, x2, y2, stroke, width, dash, opacity, arrow, hit, title, hidden,
-}: {
-  i: number;
-  x1: number;
-  y1: number;
-  x2: number;
-  y2: number;
-  stroke: string;
-  width: number;
-  dash: string;
-  opacity: number;
-  arrow: boolean;
-  hit: number;
-  title: string;
-  hidden: boolean;
-}) {
-  return (
-    <g
-      data-edge={i}
-      role={hidden ? undefined : 'img'}
-      aria-roledescription={hidden ? undefined : 'relationship'}
-      aria-label={hidden ? undefined : title}
-      aria-hidden={hidden || undefined}
-    >
-      {/* Hit area. A 0.7-unit dashed line is not something a pointer can find. */}
-      <line x1={x1} y1={y1} x2={x2} y2={y2} stroke="transparent" strokeWidth={hit} pointerEvents="stroke" />
-      <line
-        x1={x1}
-        y1={y1}
-        x2={x2}
-        y2={y2}
-        stroke={stroke}
-        strokeWidth={width}
-        strokeDasharray={dash || undefined}
-        opacity={opacity}
-        markerEnd={arrow ? 'url(#arrow)' : undefined}
-        pointerEvents="none"
-      />
-      <title>{title}</title>
-    </g>
-  );
-});
-
-/**
- * One entity. Handlers live on the layer, not here — the glyph is pure, so after
- * the layout settles a hover re-renders only the glyphs whose emphasis changed.
- */
-const NodeGlyph = memo(function NodeGlyph({
-  id, x, y, shape, r, fill, unresolved, dim, selected, strong, pinned, label, k, name, title,
-}: {
-  id: string;
-  x: number;
-  y: number;
-  shape: string;
-  r: number;
-  fill: string;
-  unresolved: boolean;
-  dim: boolean;
-  selected: boolean;
-  strong: boolean;
-  pinned: boolean;
-  label: string | null;
-  k: number;
-  name: string;
-  title: string;
-}) {
-  return (
-    <g
-      data-id={id}
-      transform={`translate(${x},${y})`}
-      opacity={dim ? 0.16 : 1}
-      style={{ cursor: 'pointer' }}
-      tabIndex={0}
-      role="button"
-      aria-pressed={selected}
-      aria-label={name}
-      className="outline-none [&:focus-visible>path:first-of-type]:stroke-accent [&:focus-visible>path:first-of-type]:[stroke-width:2.5]"
-    >
-      <path
-        d={shape}
-        fill={fill}
-        fillOpacity={unresolved ? 0.25 : 0.88}
-        stroke={strong ? '#e8e4dc' : 'rgba(10,10,12,0.9)'}
-        strokeWidth={strong ? 2 : 0.8}
-        strokeDasharray={unresolved ? '2 2' : undefined}
-      />
-      {/* A pinned node carries a ring, not a colour or a dash — hue is spoken for
-          by family and dashes by identity confidence. */}
-      {pinned && <circle r={r + 3.5} fill="none" stroke="#c9a86c" strokeWidth="1" opacity="0.85" pointerEvents="none" />}
-      {label != null && (
-        // Counter-scaled: the label stays 9.5px on screen at any zoom.
-        <text
-          x={0}
-          y={r + 11 / k}
-          textAnchor="middle"
-          fontSize={9.5 / k}
-          fill="rgba(240,236,228,0.86)"
-          stroke="rgba(10,10,12,0.7)"
-          strokeWidth={2.4 / k}
-          paintOrder="stroke"
-          pointerEvents="none"
-        >
-          {label}
-        </text>
-      )}
-      <title>{title}</title>
-    </g>
-  );
-});

@@ -281,7 +281,8 @@ them.
       serious WCAG findings fixed
 - [x] `/welfare`: 85 criteria, 70 passing + 15 skipped (9 scaffold, 6 data void), 0
       failing; three serious and four moderate WCAG findings fixed; `test:pages` in the gate
-- [ ] Renderer migration per `docs/research/GRAPH_UI_SOTA.md` §5
+- [x] Renderer migration per `docs/research/GRAPH_UI_SOTA.md` §5 — Canvas 2D + worker +
+      a11y overlay; frozen channels pixel-identical; §5.5 edge contrast and §6 additions open
 - [ ] Atlas-vs-national duplicate ids (`gadani`/`per:gautam-s-adani`,
       `joshi`/`pol:pralhad-joshi`)
 
