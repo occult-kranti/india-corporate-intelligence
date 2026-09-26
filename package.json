@@ -15,7 +15,7 @@
     "smoke": "node scripts/smoke.mjs",
     "viewport": "node scripts/graph-viewport.mjs",
     "check": "npm run promote && npm run generate && npm run test:assemble && npm run validate && npm run build && npm run smoke && npm run viewport && npm run test:pages",
-    "test:pages": "node --test \"scripts/pages/*.test.mjs\""
+    "test:pages": "node --test scripts/pages/energy.test.mjs scripts/pages/welfare.test.mjs"
   },
   "dependencies": {
     "d3-force": "^3.0.0",
