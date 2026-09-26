@@ -1,0 +1,368 @@
+{
+  "asOf": "2026-09-26",
+  "domain": "holders-b9",
+  "scope": "Named foreign shareholders (≥1%) of five NIFTY 50 constituents — Tech Mahindra, Titan Company, Trent, UltraTech Cement, Wipro (batch 9 of the holders fleet) — read directly from each company's own latest SEBI Reg. 31(1)(b) quarterly shareholding-pattern filing (Tech Mahindra and Wipro at Q4/Q1 FY26-27 i.e. 31.03.2026 and 30.06.2026; Titan at 30.06.2026; Trent at 31.03.2026; UltraTech's most recent PDF actually reachable on its own site was 31.03.2025, so that is used and flagged as older than the others). For each company this records: every individually-named foreign institutional/portfolio holder crossing 1% in Table III (there were only two across all five companies — Government of Singapore in UltraTech and Amansa Holdings Private Limited, a Mauritius-registered FPI vehicle, in Trent); the mandatory BlackRock/Vanguard/NBIM/GIC/Capital Group/Fidelity/Kuwait Investment Authority/ADIA comparison set, tested against all five and absent as a named ≥1% line in every one; LIC of India as the domestic control, present and named directly in four of five (Tech Mahindra 11.44%, Trent 2.9214%, UltraTech 2.45%, and — via an LIC-managed fund product rather than LIC's own direct line, the same distinction the prior batch's file drew for Bharti Airtel — Wipro 2.69% through 'LICI Index Plus Flexi Smart Growth Fund'; Titan's insurance-company breakdown was not disclosed by name in the filing pages reached, recorded as a gap); the aggregate FPI Category I + II percentage and quarter date for each company; and Wipro's ADR depositary bank (JPMorgan Chase Bank, N.A.), recorded as a custodian holding legal title to depositary receipts, not a beneficial owner. Tech Mahindra's and Titan's promoter groups are themselves Mahindra & Mahindra Ltd and Tata Sons Private Limited / Government of Tamil Nadu respectively — wholly domestic — and are noted for context but not claimed as foreign holdings. UltraTech's and Tech Mahindra's promoter groups each include small (each <1%, so below this file's naming threshold) foreign promoter-group vehicles (UltraTech: four Indonesian/Thai rayon-manufacturing subsidiaries and a Singapore holding company via the historic Aditya Birla Group rayon JV; Tech Mahindra: Mahindra Investment Company Mauritius Limited, 0.42%) — recorded in company notes, not as individual claims, because none crosses the 1% naming threshold used throughout this fleet. This file does not cover adviser mandates or SEBI/RBI rule-change history (out of scope for this batch) and does not re-litigate the BlackRock/Vanguard narrative already calibrated in research/raw/capital/holders.json — it only adds five more data points to that calibration.",
+  "sources": [
+    ["Tech Mahindra Ltd — Shareholding Pattern for quarter ended 31.03.2026 (company IR site, insights.techmahindra.com)", "https://insights.techmahindra.com/investors/shareholding-pattern-for-q4-25-26.pdf"],
+    ["Wipro Ltd — Shareholding Pattern as on 30 June 2026 (company IR site, wipro.com)", "https://www.wipro.com/content/dam/nexus/en/investor/shareholding-pattern/2026/June-30-2026.pdf"],
+    ["Wipro Ltd — Shareholding Pattern index page (link discovery)", "https://www.wipro.com/investors/shareholding-pattern/"],
+    ["Titan Company Ltd — Shareholding Pattern Q1 FY2026-27, quarter ended 30.06.2026 (company IR site, titancompany.in)", "https://www.titancompany.in/sites/default/files/2026-07/Shareholding%20PatternQ1FY27%20-without%20PAN.pdf"],
+    ["Titan Company Ltd — Shareholding Pattern index page (link discovery)", "https://www.titancompany.in/investors/shareholding-pattern"],
+    ["Trent Ltd — Shareholding Pattern for quarter ended 31.03.2026 (company IR site via docs.trent-tata.com)", "https://docs.trent-tata.com/Shareholding_Pattern_Q4_FY26.pdf"],
+    ["Trent Ltd — Shareholding Pattern index page (link discovery)", "https://trentlimited.com/pages/shareholding-pattern-1"],
+    ["UltraTech Cement Ltd — Shareholding Pattern for quarter ended 31.03.2025 (company IR site, ultratechcement.com)", "https://www.ultratechcement.com/content/dam/ultratechcementwebsite/pdf/shareholding-pattern/Shareholding-Pattern-31-03-2025.pdf"],
+    ["UltraTech Cement Ltd — Shareholding Pattern for quarter ended 30.09.2024 (company IR site, superseded by the 31.03.2025 filing above; opened first, before a more recent PDF was located)", "https://www.ultratechcement.com/content/dam/ultratechcementwebsite/pdf/shareholding-pattern/Shareholding-Pattern-30-09-2024.pdf"],
+    ["UltraTech Cement Ltd — shareholding-pattern investor section (link discovery, 404 on the specific path guessed; recent-quarter PDFs not linked from any page reached)", "https://www.ultratechcement.com/investors/shareholding-pattern"]
+  ],
+  "entities": [
+    {
+      "id": "cap:blackrock",
+      "label": "BlackRock, Inc.",
+      "sub": "US asset manager, NYSE: BLK; India exposure via iShares ETFs and BlackRock Global Funds sub-funds, each separately FPI-registered",
+      "ty": "company",
+      "fam": "capital",
+      "st": null,
+      "sz": 4,
+      "al": ["iShares", "BlackRock Global Funds", "iShares MSCI India ETF", "BlackRock Global Funds - India Fund"],
+      "resolved": true,
+      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
+      "publicRole": "Mandatory control per SPEC — never recorded without the comparison set below. Central to the 'BlackRock owns India' narrative calibrated in research/raw/capital/holders.json; this batch adds five more constituents to that sample.",
+      "d": [
+        "Not found as a named ≥1% shareholder in any of the 5 companies checked in this batch (Tech Mahindra 31.03.2026, Wipro 30.06.2026, Titan 30.06.2026, Trent 31.03.2026, UltraTech 31.03.2025) [documented, absence in a 5-company sample]"
+      ],
+      "srcs": []
+    },
+    {
+      "id": "cap:vanguard",
+      "label": "The Vanguard Group, Inc.",
+      "sub": "US asset manager; India exposure via multiple Vanguard index funds, each separately FPI-registered",
+      "ty": "company",
+      "fam": "capital",
+      "st": null,
+      "sz": 4,
+      "al": ["Vanguard Total International Stock Index Fund", "Vanguard Emerging Markets Stock Index Fund"],
+      "resolved": true,
+      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
+      "publicRole": "Mandatory comparison control per SPEC.",
+      "d": [
+        "Not found as a named ≥1% shareholder in any of the 5 companies checked in this batch [documented, absence in sample]"
+      ],
+      "srcs": []
+    },
+    {
+      "id": "cap:nbim",
+      "label": "Norges Bank Investment Management (Government Pension Fund Global)",
+      "sub": "Manager of Norway's sovereign wealth fund",
+      "ty": "fund",
+      "fam": "capital",
+      "st": null,
+      "sz": 4,
+      "al": ["NBIM", "Government Pension Fund Global", "GPFG", "Norges Bank", "Government of Norway"],
+      "resolved": true,
+      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
+      "publicRole": "Mandatory comparison control per SPEC.",
+      "d": [
+        "Not found as a named ≥1% shareholder in any of the 5 companies checked in this batch [documented, absence in sample]"
+      ],
+      "srcs": []
+    },
+    {
+      "id": "cap:gic-singapore",
+      "label": "Government of Singapore / GIC Private Limited",
+      "sub": "Singapore's sovereign wealth fund manager; Indian companies' filings name the registered FPI holder 'GOVERNMENT OF SINGAPORE'",
+      "ty": "fund",
+      "fam": "capital",
+      "st": null,
+      "sz": 4,
+      "al": ["GIC", "GIC Pte Ltd", "GIC Private Limited", "Government of Singapore"],
+      "resolved": true,
+      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
+      "publicRole": "Mandatory comparison control per SPEC. The one mandatory-control holder found named ≥1% in this batch.",
+      "d": [
+        "Named as a ≥1% shareholder, as 'GOVERNMENT OF SINGAPORE', in UltraTech Cement: 1.48% (43,53,015 shares), Foreign Portfolio Investor Category I, quarter ended 31.03.2025 [documented]",
+        "Not found as a named ≥1% holder in Tech Mahindra, Wipro, Titan or Trent as of their respective latest filings opened in this batch [documented, absence in sample]"
+      ],
+      "srcs": [
+        ["UltraTech Cement — Shareholding Pattern, quarter ended 31.03.2025", "https://www.ultratechcement.com/content/dam/ultratechcementwebsite/pdf/shareholding-pattern/Shareholding-Pattern-31-03-2025.pdf"]
+      ]
+    },
+    {
+      "id": "cap:capital-group",
+      "label": "Capital Group Companies, Inc.",
+      "sub": "US asset manager; EuroPacific Growth Fund and New Perspective Fund are its best-known emerging-markets vehicles",
+      "ty": "company",
+      "fam": "capital",
+      "st": null,
+      "sz": 3,
+      "al": ["EuroPacific Growth Fund", "New Perspective Fund", "The Capital Group Companies"],
+      "resolved": true,
+      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
+      "publicRole": "Mandatory comparison control per SPEC.",
+      "d": [
+        "Not found as a named ≥1% holder in any of the 5 companies checked in this batch [documented, absence in sample]"
+      ],
+      "srcs": []
+    },
+    {
+      "id": "cap:fidelity",
+      "label": "Fidelity Investments (FMR LLC)",
+      "sub": "US asset manager, privately held; distinct corporate lineage from Fidelity International Ltd (spun off in 1980, UK-based)",
+      "ty": "company",
+      "fam": "capital",
+      "st": null,
+      "sz": 3,
+      "al": ["FMR LLC", "Fidelity Management & Research"],
+      "resolved": true,
+      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
+      "publicRole": "Mandatory comparison control per SPEC.",
+      "d": [
+        "Not found as a named ≥1% holder (under either the FMR/Fidelity Investments or Fidelity International lineage) in any of the 5 companies checked in this batch [documented, absence in sample]"
+      ],
+      "srcs": []
+    },
+    {
+      "id": "cap:kuwait-investment-authority",
+      "label": "Kuwait Investment Authority",
+      "sub": "Kuwait's sovereign wealth fund",
+      "ty": "fund",
+      "fam": "capital",
+      "st": null,
+      "sz": 2,
+      "al": ["KIA"],
+      "resolved": true,
+      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
+      "publicRole": "Mandatory comparison control per SPEC.",
+      "d": [
+        "Not found as a named ≥1% holder in any of the 5 companies checked in this batch [documented, absence in sample]"
+      ],
+      "srcs": []
+    },
+    {
+      "id": "cap:adia",
+      "label": "Abu Dhabi Investment Authority",
+      "sub": "Abu Dhabi's sovereign wealth fund",
+      "ty": "fund",
+      "fam": "capital",
+      "st": null,
+      "sz": 2,
+      "al": ["ADIA"],
+      "resolved": true,
+      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
+      "publicRole": "Mandatory comparison control per SPEC.",
+      "d": [
+        "Not found as a named ≥1% holder in any of the 5 companies checked in this batch [documented, absence in sample]"
+      ],
+      "srcs": []
+    },
+    {
+      "id": "cap:gqg-partners",
+      "label": "GQG Partners",
+      "sub": "US-based emerging-markets asset manager (Fort Lauderdale; founder Rajiv Jain)",
+      "ty": "company",
+      "fam": "capital",
+      "st": null,
+      "sz": 3,
+      "al": ["GQG Partners Emerging Markets Equity Fund", "GQG Partners LLC"],
+      "resolved": true,
+      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
+      "publicRole": "Not in SPEC's mandatory comparison set but named in the wider holders.json sample; checked again here for consistency.",
+      "d": [
+        "Not found as a named ≥1% holder in any of the 5 companies checked in this batch [documented, absence in sample]"
+      ],
+      "srcs": []
+    },
+    {
+      "id": "cap:amansa-holdings",
+      "label": "Amansa Holdings Private Limited",
+      "sub": "Mauritius-incorporated Foreign Portfolio Investor vehicle of Amansa Capital, a Singapore-based emerging-markets equity manager (founder Akash Prakash)",
+      "ty": "company",
+      "fam": "capital",
+      "st": null,
+      "sz": 2,
+      "al": ["Amansa Capital"],
+      "resolved": true,
+      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
+      "publicRole": "Not in SPEC's mandatory comparison set but the only individually-named foreign holder found ≥1% in Trent's own filing — recorded for accuracy per the domain instruction to record every foreign holder ≥1% by name. This is a diversified emerging-markets FPI fund, not a strategic or promoter stake.",
+      "d": [
+        "Named as a ≥1% shareholder in Trent Limited, Foreign Portfolio Investor Category I, 1.0027% (35,64,417 shares) as of 31.03.2026 — the only individually-named line within Trent's 680-entity, 15.0591%-aggregate FPI Category I category [documented]"
+      ],
+      "srcs": [
+        ["Trent Limited — Shareholding Pattern, quarter ended 31.03.2026", "https://docs.trent-tata.com/Shareholding_Pattern_Q4_FY26.pdf"]
+      ]
+    },
+    {
+      "id": "cap:jpmorgan-chase-bank-na-adr-depositary",
+      "label": "JPMorgan Chase Bank, N.A. (ADR depositary)",
+      "sub": "Depositary bank for Wipro Limited's American Depositary Receipt programme — holds legal title to the underlying equity shares against which ADRs are issued, on behalf of the many US-market ADR holders; not itself a beneficial owner",
+      "ty": "company",
+      "fam": "capital",
+      "st": null,
+      "sz": 2,
+      "al": ["JPMorgan Chase Bank NA"],
+      "resolved": true,
+      "identity": { "cin": null, "din": null, "nse": null, "office": null, "lei": null, "fcra": null },
+      "publicRole": "A custodian/depositary of record, not a beneficial owner — recorded here explicitly to distinguish the two, per the domain instruction that custodian names are custodians, not beneficial owners.",
+      "d": [
+        "Named in Wipro's shareholding pattern as 'Overseas Depositories (holding DRs) (balancing figure)': 22,65,75,282 shares, 2.29% of Wipro's total equity, quarter ended 30.06.2026 [documented]",
+        "This figure is the pool of Wipro shares underlying its ADR programme; JPMorgan Chase Bank NA holds these as depositary of record for the (unnamed, undisclosed-by-Wipro's-own-filing) individual ADR holders on US exchanges — it is not the beneficial owner of the 2.29%, and no claim of ownership is recorded against it below [documented, custodian distinction]"
+      ],
+      "srcs": [
+        ["Wipro Ltd — Shareholding Pattern, quarter ended 30.06.2026", "https://www.wipro.com/content/dam/nexus/en/investor/shareholding-pattern/2026/June-30-2026.pdf"]
+      ]
+    }
+  ],
+  "claims": [
+    {
+      "id": "holders-b9:c001",
+      "s": "co:life-insurance-corporation",
+      "t": "co:tech-mahindra",
+      "pred": "own",
+      "tier": "documented",
+      "d": "11.44% (11,20,59,601 shares), domestic control comparator, direct equity holding under 'Insurance Companies', quarter ended 31.03.2026. No individual foreign holder is named ≥1% anywhere in this filing: Table VI (foreign ownership limits) shows total foreign-ownership utilisation of 19.17% as on the shareholding date, but the Foreign Portfolio Investor Category I/II line items in Table III carry no ≥1%-holder breakout (unlike the Mutual Fund and Insurance Company categories, which do), and the separate 'Foreign Institutional Investors' legacy-category line totals only 1,876 shares (0.00%) — read together, this indicates the ~19% foreign stake is fragmented across many FPIs none of which individually crosses 1%, not that a breakout was omitted. Promoter and promoter group is wholly Mahindra & Mahindra Ltd and its Indian affiliates except one foreign promoter-group vehicle, Mahindra Investment Company Mauritius Limited, 0.42% — below this file's 1% naming threshold, not claimed individually.",
+      "from": "2026-03-31",
+      "srcs": [["Tech Mahindra — Shareholding Pattern, quarter ended 31.03.2026", "https://insights.techmahindra.com/investors/shareholding-pattern-for-q4-25-26.pdf"]],
+      "supersededBy": null
+    },
+    {
+      "id": "holders-b9:c002",
+      "s": "co:life-insurance-corporation",
+      "t": "co:wipro",
+      "pred": "own",
+      "tier": "documented",
+      "d": "LIC does not appear as a direct-equity ≥1% line in this filing; an LIC-managed fund product, 'LICI INDEX PLUS FLEXI SMART GROWTH FUND', holds 2.69% (26,62,02,884 shares) under 'Insurance Companies', quarter ended 30.06.2026 — the closest domestic-control comparator this filing discloses, consistent with the same distinction this fleet drew for LIC's ULIP product in Bharti Airtel (see holders.json holders:c016). No individual foreign FPI is named ≥1%: Foreign Portfolio Investors Category I 8.67% across 765 entities and Category II 0.18% across 36 entities are both given only as aggregates, with no named breakout line for either — Wipro's promoter group (the Premji family and its holding companies, 72.59%) is wholly Indian and contains no foreign entity.",
+      "from": "2026-06-30",
+      "srcs": [["Wipro Ltd — Shareholding Pattern, quarter ended 30.06.2026", "https://www.wipro.com/content/dam/nexus/en/investor/shareholding-pattern/2026/June-30-2026.pdf"]],
+      "supersededBy": null
+    },
+    {
+      "id": "holders-b9:c003",
+      "s": "cap:jpmorgan-chase-bank-na-adr-depositary",
+      "t": "co:wipro",
+      "pred": "own",
+      "tier": "documented",
+      "d": "NOT an ownership claim despite the predicate: recorded here only to make the custodian/beneficial-owner distinction explicit and auditable. JPMorgan Chase Bank NA is named as Wipro's 'Overseas Depositories (holding DRs) (balancing figure)', 22,65,75,282 shares, 2.29%, quarter ended 30.06.2026 — this is the pool of shares underlying Wipro's ADR programme, held by the depositary bank as custodian of record on behalf of unnamed ADR holders on US exchanges, not JPMorgan's own beneficial holding.",
+      "from": "2026-06-30",
+      "srcs": [["Wipro Ltd — Shareholding Pattern, quarter ended 30.06.2026", "https://www.wipro.com/content/dam/nexus/en/investor/shareholding-pattern/2026/June-30-2026.pdf"]],
+      "supersededBy": null
+    },
+    {
+      "id": "holders-b9:c004",
+      "s": "cap:gic-singapore",
+      "t": "co:ultratech-cement",
+      "pred": "own",
+      "tier": "documented",
+      "d": "1.48% (43,53,015 shares) via 'GOVERNMENT OF SINGAPORE', Foreign Portfolio Investor Category I, quarter ended 31.03.2025. This filing is 18 months older than the other four companies in this batch — 31.03.2025 was the most recent shareholding-pattern PDF independently locatable on ultratechcement.com's own dam/ file path within this pass's budget (a later Sep 2024 PDF was found first, then superseded by this Mar 2025 one; six more-recent date-guesses from 30.06.2025 through 30.06.2026 all returned 404, and the site's shareholding-pattern index page itself 404'd) — recorded as the best primary source reached, with the staleness flagged rather than silently used.",
+      "from": "2025-03-31",
+      "srcs": [["UltraTech Cement — Shareholding Pattern, quarter ended 31.03.2025", "https://www.ultratechcement.com/content/dam/ultratechcementwebsite/pdf/shareholding-pattern/Shareholding-Pattern-31-03-2025.pdf"]],
+      "supersededBy": null
+    },
+    {
+      "id": "holders-b9:c005",
+      "s": "co:life-insurance-corporation",
+      "t": "co:ultratech-cement",
+      "pred": "own",
+      "tier": "documented",
+      "d": "2.45% (72,22,273 shares), domestic control comparator, direct equity holding under 'Insurance Companies', quarter ended 31.03.2025. Foreign Portfolio Investors Category I total 14.71% across 836 entities (only Government of Singapore, holders-b9:c004, individually named ≥1%); Category II 0.46% across 90 entities (no individual ≥1%); Overseas Depositories (GDRs) 0.54% — combined Institutions (Foreign) aggregate approx. 15.7%. Promoter and promoter group (Aditya Birla Group, led by Grasim Industries Ltd 57.27%) includes five foreign promoter-group vehicles from the historic Indonesian/Thai rayon joint venture — PT. Indo Bharat Rayon (0.78%), PT. Sunrise Bumi Textiles (0.05%), PT. Elegant Textile Industry (0.03%), Thai Rayon Public Co. Ltd. (0.07%), Surya Kiran Investments Pte. Ltd. (0.00%) — each below this file's 1% naming threshold, not claimed individually.",
+      "from": "2025-03-31",
+      "srcs": [["UltraTech Cement — Shareholding Pattern, quarter ended 31.03.2025", "https://www.ultratechcement.com/content/dam/ultratechcementwebsite/pdf/shareholding-pattern/Shareholding-Pattern-31-03-2025.pdf"]],
+      "supersededBy": null
+    },
+    {
+      "id": "holders-b9:c006",
+      "s": "co:life-insurance-corporation",
+      "t": "co:trent",
+      "pred": "own",
+      "tier": "documented",
+      "d": "2.9214% (1,03,85,300 shares), domestic control comparator, direct equity holding under 'Insurance Companies', quarter ended 31.03.2026. Foreign Portfolio Investors Category I total 15.0591% across 680 entities (only Amansa Holdings Private Limited, holders-b9:c007, individually named ≥1%); Category II 0.5316% across 37 entities; combined Institutions (Foreign) aggregate 15.9256% across 723 entities. Promoter group is wholly Tata Sons Private Limited (32.45%), Tata Investment Corporation Ltd (4.28%) and other wholly-Indian Tata entities — the very large 'Any Other (specify)' promoter-group annexure lists ~360 Tata-group companies worldwide (including many foreign-incorporated TCS and Tata International subsidiaries) but every one holds zero Trent shares; they are legally promoter-group by common control, not by any shareholding.",
+      "from": "2026-03-31",
+      "srcs": [["Trent Limited — Shareholding Pattern, quarter ended 31.03.2026", "https://docs.trent-tata.com/Shareholding_Pattern_Q4_FY26.pdf"]],
+      "supersededBy": null
+    },
+    {
+      "id": "holders-b9:c007",
+      "s": "cap:amansa-holdings",
+      "t": "co:trent",
+      "pred": "own",
+      "tier": "documented",
+      "d": "1.0027% (35,64,417 shares), Foreign Portfolio Investor Category I, quarter ended 31.03.2026 — the only individually-named foreign holder ≥1% in Trent's filing.",
+      "from": "2026-03-31",
+      "srcs": [["Trent Limited — Shareholding Pattern, quarter ended 31.03.2026", "https://docs.trent-tata.com/Shareholding_Pattern_Q4_FY26.pdf"]],
+      "supersededBy": null
+    },
+    {
+      "id": "holders-b9:c008",
+      "s": "co:life-insurance-corporation",
+      "t": "co:titan-company",
+      "pred": "own",
+      "tier": "reported",
+      "d": "LIC's specific direct-equity percentage in Titan could not be confirmed in this pass: Table III's 'Insurance Companies' aggregate is 4.54% (across an unstated number of shareholders), but no ≥1%-holder breakout sub-table naming individual insurance companies appears in the 16 pages of this filing reviewed (the only insurer named anywhere in the document is Tata AIA Life Insurance Company Limited at 0.14%, in a promoter-group footnote explaining why it is NOT part of the promoter group — that footnote does not itemise LIC). Recorded as reported/unconfirmed rather than a hard figure; see gaps. Foreign Portfolio Investors Category I total 14.92% across 888 entities and Category II 0.47% across 57 entities are both given only as aggregates with no named ≥1% breakout either — no individual foreign holder is named ≥1% anywhere in this filing. Promoter and promoter group (52.90%) is wholly domestic: Government of Tamil Nadu via Tamilnadu Industrial Development Corporation Ltd (27.88%) and Tata Sons Private Limited (20.84%) plus other wholly-Indian Tata entities (Tata Investment Corporation Ltd 2.01%, Tata Chemicals Ltd 1.56%, Ewart Investments Ltd 0.56%, Piem Hotels Ltd 0.05%) — no foreign promoter entity.",
+      "from": "2026-06-30",
+      "srcs": [["Titan Company Ltd — Shareholding Pattern, quarter ended 30.06.2026", "https://www.titancompany.in/sites/default/files/2026-07/Shareholding%20PatternQ1FY27%20-without%20PAN.pdf"]],
+      "supersededBy": null
+    }
+  ],
+  "voids": [
+    {
+      "what": "Titan Company's own shareholding-pattern filing does not name individual holders within either its 'Insurance Companies' (4.54% aggregate) or 'Foreign Portfolio Investors Category I/II' (14.92%/0.47% aggregate) categories anywhere in the 16 pages reviewed — unlike Tech Mahindra, Trent and UltraTech's filings, which all include a distinct ≥1%-holder disclosure sub-table wherever an individual entity crosses that threshold. The absence of such a sub-table for Titan's FPI and Insurance categories is consistent with no individual entity crossing 1% in either category, but that inference was not independently confirmed against a differently-formatted version of the same filing (e.g. the NSE/BSE-hosted XBRL render) in this pass.",
+      "whyItMatters": "Means Titan's LIC comparator figure (holders-b9:c008) is recorded as 'reported/unconfirmed' rather than documented, and no individual foreign FPI claim could be made for Titan at all in this batch, weakening the cross-company comparison this file otherwise supports for the other four constituents.",
+      "srcs": [["Titan Company Ltd — Shareholding Pattern, quarter ended 30.06.2026", "https://www.titancompany.in/sites/default/files/2026-07/Shareholding%20PatternQ1FY27%20-without%20PAN.pdf"]]
+    },
+    {
+      "what": "UltraTech Cement's own investor-relations site (ultratechcement.com) has no reachable shareholding-pattern PDF more recent than the quarter ended 31.03.2025 within this pass's budget: the site's dedicated 'investors/shareholding-pattern' index page 404'd, and seven date-guessed direct PDF paths following the site's own established naming convention (30.06.2025 through 30.06.2026, plus 31.03.2026 and 31.12.2025) all 404'd, while 31.03.2025 and 31.12.2024 both resolved. This makes UltraTech's data point in this batch 18 months older than Tech Mahindra, Wipro, Titan and Trent's (all Mar–Jun 2026).",
+      "whyItMatters": "A shareholder percentage 18 months stale can meaningfully understate or overstate a fast-moving FPI position; the Government of Singapore 1.48% and LIC 2.45% figures recorded here for UltraTech should be treated as a 31.03.2025 snapshot, not a current one, when compared against the 2026-quarter figures for the other four companies in this batch.",
+      "srcs": [
+        ["UltraTech Cement — investors/shareholding-pattern (404)", "https://www.ultratechcement.com/investors/shareholding-pattern"],
+        ["UltraTech Cement — Shareholding Pattern, quarter ended 31.03.2025 (most recent reachable)", "https://www.ultratechcement.com/content/dam/ultratechcementwebsite/pdf/shareholding-pattern/Shareholding-Pattern-31-03-2025.pdf"]
+      ]
+    },
+    {
+      "what": "Trent Limited's own investor-relations page (trentlimited.com/pages/shareholding-pattern-1) links to its shareholding-pattern PDFs at docs.trent-tata.com with a filename convention (Shareholding_Pattern_Q<n>_FY<yy>.pdf) that returns HTTP 406 to requests without a browser User-Agent and Referer header — the WebFetch tool's own request (using its default agent) could not open these PDFs directly; they were only reachable via a direct curl request carrying a spoofed browser User-Agent and an explicit Referer header pointing at trentlimited.com.",
+      "whyItMatters": "Recorded per SPEC's instruction to log every probe outcome: docs.trent-tata.com is reachable and not on the known-blocked list, but is more particular about request headers than SPEC's reachability probe anticipated. Worth flagging for other agents in this fleet who may hit the same 406 and wrongly conclude the host is blocked.",
+      "srcs": [["Trent Limited — Shareholding Pattern index page", "https://trentlimited.com/pages/shareholding-pattern-1"]]
+    },
+    {
+      "what": "None of the mandatory comparison-set holders (BlackRock, Vanguard, NBIM, Capital Group, Fidelity, Kuwait Investment Authority, ADIA) were found named ≥1% in any of the 5 companies checked in this batch; GIC/Government of Singapore was found in exactly one (UltraTech).",
+      "whyItMatters": "Consistent with the finding already recorded in research/raw/capital/holders.json's first batch (BlackRock/Vanguard absent in 4 of 5 companies there too, present only via Vanguard/NBIM/GIC in HDFC Bank and Bharti Airtel) — this is now a second independent 5-company sample showing the same pattern, strengthening rather than merely repeating that file's calibration of the 'BlackRock and Vanguard own India' narrative. See that file's narratives section for the full calibration; this file does not re-state it.",
+      "srcs": []
+    }
+  ],
+  "narratives": [],
+  "symmetryCheck": "The same lens (open the primary SEBI shareholding-pattern filing, list every named foreign holder ≥1%, and name LIC's own line alongside it) produced, across this batch's five companies: for the non-BlackRock mandatory controls, exactly one hit — GIC/Government of Singapore at 1.48% of UltraTech, the smallest of the five companies by promoter concentration and the one with the most fragmented FPI base (836 separate Category I entities). BlackRock, Vanguard, NBIM, Capital Group, Fidelity, KIA and ADIA all came back empty in all five, the same result the lens produced on this fleet's first five-company sample (research/raw/capital/holders.json) — two independent samples, ten companies total, and BlackRock/Vanguard have now been individually named ≥1% in zero of them. For LIC, the lens found a directly-named ≥1% line in three of five (Tech Mahindra 11.44%, Trent 2.92%, UltraTech 2.45%) and an LIC-managed fund product (not LIC's own direct line) in a fourth (Wipro 2.69%) — LIC is a more consistently visible, more consistently ≥1%, and on average far larger single named holder across this batch than every mandatory foreign control combined. The one foreign holder that did cross 1% outside the mandatory set, Amansa Holdings Private Limited in Trent (1.00%), is itself a diversified emerging-markets fund manager, not a strategic industrial stake of the kind found in the fleet's first batch (British American Tobacco 22.91% of ITC, Suzuki Motor Corporation's majority stake in Maruti) — no promoter-level or strategic foreign stake was found in any of this batch's five companies, whose promoter groups (Mahindra & Mahindra, the Premji family, Government of Tamil Nadu/Tata Sons, Tata Sons, and the Aditya Birla Group respectively) are overwhelmingly domestic, with only sub-1% foreign promoter-group vehicles surfacing (Mahindra Investment Company Mauritius 0.42% in Tech Mahindra; five Indonesian/Thai rayon-JV entities totalling 0.93% in UltraTech).",
+  "baseRates": [
+    {
+      "property": "constituents in this batch where any single foreign holder (mandatory-control or otherwise) is named ≥5% of the company",
+      "numerator": 0,
+      "denominator": 5,
+      "label": "the 5 companies in batch 9 (Tech Mahindra, Titan, Trent, UltraTech, Wipro)",
+      "srcs": []
+    },
+    {
+      "property": "constituents in this batch where any single foreign holder is named ≥1% of the company (any holder, not just the mandatory-control set)",
+      "numerator": 2,
+      "denominator": 5,
+      "label": "the 5 companies in batch 9 — UltraTech (Government of Singapore 1.48%) and Trent (Amansa Holdings 1.00%); Tech Mahindra, Wipro and Titan had none",
+      "srcs": []
+    },
+    {
+      "property": "constituents in this batch where a mandatory-comparison-set holder (BlackRock/Vanguard/NBIM/GIC/Capital Group/Fidelity/KIA/ADIA) is named ≥1%",
+      "numerator": 1,
+      "denominator": 5,
+      "label": "the 5 companies in batch 9 — GIC/Government of Singapore in UltraTech only",
+      "srcs": []
+    },
+    {
+      "property": "constituents in this batch where LIC of India (direct equity line, not a managed fund product) is named ≥1%",
+      "numerator": 3,
+      "denominator": 5,
+      "label": "the 5 companies in batch 9 — Tech Mahindra, Trent, UltraTech; Wipro's ≥1% LIC-linked line is a managed fund product not LIC's direct book, and Titan's insurance-company holders were not individually named in the filing reviewed",
+      "srcs": []
+    }
+  ],
+  "gaps": [
+    "Titan Company: individual holders within the 'Insurance Companies' (4.54%) and 'Foreign Portfolio Investors Category I/II' (14.92%/0.47%) categories are not named anywhere in the 16-page PDF reviewed — no ≥1%-holder breakout sub-table was found for either category, unlike the other four companies in this batch. LIC's specific percentage in Titan is therefore unconfirmed (recorded tier 'reported' on an inference, not a documented figure). Worth re-checking against Titan's XBRL/NSE-hosted render of the same filing rather than the company's own PDF, in case that format includes the breakout this PDF omits.",
+    "UltraTech Cement: no shareholding-pattern PDF more recent than 31.03.2025 was reachable on ultratechcement.com within this pass's budget (the site's own investors/shareholding-pattern index page 404'd; seven date-guessed direct PDF paths for 2025-Q2 through 2026-Q2 quarters all 404'd). A current (2026) UltraTech figure would need either a working link from the company's IR page (not found) or a BSE/NSE-side XBRL render (both flagged elsewhere in this fleet as difficult to reach from this environment).",
+    "Tech Mahindra: Table VI shows 19.17% total foreign-ownership utilisation as on the shareholding date, but no individual FPI line crosses 1% anywhere in the filing's Mutual Fund/Insurance/Provident Fund/legacy-FII ≥1%-disclosure sub-tables reviewed, nor in the Persons-Acting-in-Concert annexure (which lists several small emerging-markets fund lines, e.g. 'CFSIL RE Commonwealth Emerging Markets Fund 6', each under 0.05%). This is recorded as a documented absence, not confirmed by finding an explicit FPI Category I/II ≥1%-disclosure sub-table (none was present to find, consistent with fragmentation across many small holders) — a residual possibility that such a sub-table exists on a page not captured in this pass's read is not fully closed out.",
+    "Wipro: the 226,575,282-share, 2.29% Overseas Depositories (ADR) line is JPMorgan Chase Bank NA's custodial holding on behalf of Wipro's US ADR holders; the identity and holdings of those underlying ADR holders (which may separately include mandatory-control names like BlackRock or Vanguard via US 13F filings) were not investigated in this pass — SEC EDGAR 13F/N-PORT search for Wipro's ADR (ticker WIT) would be the next step, flagged in SPEC as a reachable source (efts.sec.gov) not yet used in this batch.",
+    "Adviser mandates (Rothschild & Co vs Lazard/Goldman Sachs/Morgan Stanley/JPMorgan/Citi/Kotak/Axis Capital/Avendus) and SEBI/RBI FPI rule-change history were out of scope for this batch and are not covered here; they remain open for whichever batch or companion file in this fleet is assigned them."
+  ]
+}

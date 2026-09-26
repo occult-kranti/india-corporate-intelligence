@@ -1,0 +1,904 @@
+{
+ "asOf": "2026-09-26",
+ "fleet": "finance",
+ "mappings": [
+  {
+   "from": "fin:chasha-lands-joyluck",
+   "to": "fin:chasha-lands",
+   "reason": "Split, not merge: the record conflated two separately registered New Delhi companies (Chasha Lands Pvt. Ltd. and Joyluck Venture India Pvt. Ltd.), each a separate row of the World Bank ineligible-firms feed (cases *441, *443). The id now names Chasha Lands only; Joyluck Venture India gets its own node fin:joyluck-venture-india and its own enforce claim (contracts:c066). One real-world entity, one node.",
+   "files": [
+    "contracts.json"
+   ]
+  },
+  {
+   "from": "fin:departmen-tof-economic-affairs",
+   "to": "min:ministry-of-finance",
+   "reason": "API typo \"Departmen tof Economic Affairs\" (P147820) — the Department of Economic Affairs, Union borrower of record; the fetcher resolves every other DEA spelling to the inventory id min:ministry-of-finance. (id occurs only in the projects[] resolution table; no entity record or claim carried it.)",
+   "files": [
+    "worldbank-projects.json"
+   ]
+  },
+  {
+   "from": "fin:minstry-of-road-transport-and-highways",
+   "to": "min:ministry-of-road-transport-and-highways",
+   "reason": "API typo \"Minstry of Road Transport and Highways\" (P173369) — the inventory ministry id already used by contracts.json and worldbank-projects.json. (id occurs only in the projects[] resolution table; no entity record or claim carried it.)",
+   "files": [
+    "worldbank-projects.json"
+   ]
+  },
+  {
+   "from": "fin:solar-energy-coprporation-of-india",
+   "to": "seci",
+   "reason": "API typo \"Solar Energy Coprporation of India\" listed beside the correct spelling in the same project (P147820); SECI is the Atlas id seci. (id occurs only in the projects[] resolution table; no entity record or claim carried it.)",
+   "files": [
+    "worldbank-projects.json"
+   ]
+  },
+  {
+   "from": "fin:national-capital-region-transport-corporation",
+   "to": "fin:ncrtc",
+   "reason": "Same corporation (NCRTC, P177666 Delhi RRTS); fin:ncrtc is defined in adb-aiib, bilateral-china and contracts with the identical name. (id occurs only in the projects[] resolution table; no entity record or claim carried it.)",
+   "files": [
+    "worldbank-projects.json"
+   ]
+  },
+  {
+   "from": "fin:eesl-energy-efficiency-services-limited",
+   "to": "fin:eesl",
+   "reason": "Same PSU: the API string \"EESL Energy Efficiency Services Limited\" (P132620) is the acronym plus the name of Energy Efficiency Services Limited, already fin:eesl (P162849). (id occurs only in the projects[] resolution table; no entity record or claim carried it.)",
+   "files": [
+    "worldbank-projects.json"
+   ]
+  },
+  {
+   "from": "fin:maharashtra-institute-for-transformation",
+   "to": "fin:maharashtra-institution-for-transformation",
+   "reason": "Same state body: both API strings carry the acronym MITRA and name the Government of Maharashtra's transformation institution (P514088 vs P506340/P515072); \"Institution\" is its gazetted name. (id occurs only in the projects[] resolution table; no entity record or claim carried it.)",
+   "files": [
+    "worldbank-projects.json"
+   ]
+  },
+  {
+   "from": "fin:andhra-pradesh-capital-region-development-authority",
+   "to": "fin:andhra-pradesh-capital-regional-development-authority",
+   "reason": "Same authority: APCRDA, the Amaravati capital-region authority created by the AP CRDA Act 2014, spelled \"Capital Region\" in P159808 and \"Capital Regional\" in P507508 — acronym, state and function identical. (id occurs only in the projects[] resolution table; no entity record or claim carried it.)",
+   "files": [
+    "worldbank-projects.json"
+   ]
+  },
+  {
+   "from": "fin:tamil-nadu-pudhu-vaazhvu-state-society",
+   "to": "fin:pudhu-vaazhvu-society",
+   "reason": "Same society: both implement the Tamil Nadu Empowerment and Poverty Reduction (Pudhu Vaazhvu) programme — P079708 (2005) and its disability TA P129119 (2012). (id occurs only in the projects[] resolution table; no entity record or claim carried it.)",
+   "files": [
+    "worldbank-projects.json"
+   ]
+  },
+  {
+   "from": "fin:state-of-west-bengal-with-the-counter-guarantee-of",
+   "to": "energy:state-west-bengal",
+   "reason": "Truncated borrower string \"State of West Bengal with the counter-guarantee of the Republic of India\" (P172144) — the borrower is the Government of West Bengal, inventory id energy:state-west-bengal. (id occurs only in the projects[] resolution table; no entity record or claim carried it.)",
+   "files": [
+    "worldbank-projects.json"
+   ]
+  },
+  {
+   "from": "fin:rural-development-and-panchayat-raj",
+   "to": "energy:state-karnataka",
+   "reason": "Generic department name \"Rural Development & Panchayat Raj\" on a Karnataka project (P150288); the fetcher places state departments on the state-government node, as it did for P149811 (\"Department of Rural Development and Panchayati Raj, Government of Karnataka\"). (id occurs only in the projects[] resolution table; no entity record or claim carried it.)",
+   "files": [
+    "worldbank-projects.json"
+   ]
+  }
+ ],
+ "refusedMerges": [
+  {
+   "a": "fin:ibrd",
+   "b": "fin:ida",
+   "reason": "Two legal entities of the World Bank Group (IBRD, Articles 1944; IDA, Articles 1960) with separate balance sheets and lending terms; the worldbank-projects claims split IBRD and IDA commitments. \"World Bank\" stays an alias of fin:ibrd only; fin:ida keeps \"World Bank (IDA)\"."
+  },
+  {
+   "a": "fin:ibrd",
+   "b": "fin:world-bank-india-office",
+   "reason": "The lending arm vs the Bank's New Delhi country office (country director, ICR authorship); different roles in worldbank.json (lender vs role/self-evaluation)."
+  },
+  {
+   "a": "fin:ieg",
+   "b": "fin:world-bank-india-office",
+   "reason": "IEG is the Bank's independent evaluator reporting to the Board; the country office authors the ICRs IEG validates. Merging them would erase the independence the enforce edges (worldbank:c052–c054) depend on."
+  },
+  {
+   "a": "fin:ieg",
+   "b": "fin:doc-oed-india-cae-2001",
+   "reason": "The evaluator (IEG, formerly OED) vs one of its reports (2001 India Country Assistance Evaluation)."
+  },
+  {
+   "a": "fin:government-of-china",
+   "b": "fin:china-eximbank",
+   "reason": "Sovereign vs a state-owned policy bank with its own legal personality and loan book; ownership is an own edge, not identity. Same for China Development Bank, Bank of China and ICBC."
+  },
+  {
+   "a": "fin:china-development-bank",
+   "b": "fin:bank-of-china",
+   "reason": "Name similarity only: CDB is a policy bank, BOC a listed commercial bank (SEHK 3988); separate creditors in the RCom/Anil Ambani litigation."
+  },
+  {
+   "a": "fin:icbc",
+   "b": "fin:bank-of-china",
+   "reason": "Two separately listed Chinese commercial banks; co-claimants in the UK judgment, not one entity."
+  },
+  {
+   "a": "co:adani-power",
+   "b": "fin:adani-power-maharashtra",
+   "reason": "Listed parent (NSE: ADANIPOWER) vs its Tiroda subsidiary (APML), the borrower of record in the bilateral-china loan claims; parent and subsidiary are separate legal persons."
+  },
+  {
+   "a": "energy:reliance-power",
+   "b": "fin:sasan-power",
+   "reason": "Reliance Power (listed, ADAG) vs Sasan Power Ltd (its UMPP SPV and the borrower of the Chinese-bank loans); subsidiary, not identity."
+  },
+  {
+   "a": "energy:reliance-power",
+   "b": "fin:reliance-communications",
+   "reason": "Two separately listed Anil Ambani (ADAG) companies; neither is Reliance Industries. Shared \"Reliance\" brand is name similarity only."
+  },
+  {
+   "a": "energy:anil-ambani",
+   "b": "fin:reliance-communications",
+   "reason": "A person (promoter, personal-guarantee dispute) vs the borrowing company; institutions and persons stay separate nodes."
+  },
+  {
+   "a": "fin:mmrda",
+   "b": "fin:mmrc",
+   "reason": "MMRDA (Maharashtra regional development authority; ADB/NDB metro lines 2A/7/6) vs MMRC (GoI–GoM JV for Metro Line 3, JICA-financed) — different bodies with different lenders."
+  },
+  {
+   "a": "fin:sterlite-technologies",
+   "b": "grp:vedanta",
+   "reason": "Sterlite Technologies Ltd (optical fibre/2013 conductor business) is not Vedanta/Sterlite Industries; the bare notice spelling \"STERLITE\" was removed as an alias because the inventory gives \"Sterlite\" to grp:vedanta."
+  },
+  {
+   "a": "fin:sterlite-technologies",
+   "b": "energy:resonia",
+   "reason": "The 2013 POWERGRID conductor award predates the 2015–16 demerger of the power business into Sterlite Power (now Resonia); the contracting entity at the date was Sterlite Technologies Ltd."
+  },
+  {
+   "a": "fin:leap",
+   "b": "leap",
+   "reason": "ADB's Leading Asia's Private Infrastructure Fund (Japan-funded, ADB-administered) vs the Atlas node Leap India (warehousing company): same acronym, unrelated entities."
+  },
+  {
+   "a": "fin:afcons-infrastructure",
+   "b": "fin:shapoorji-pallonji",
+   "reason": "Afcons is a separately listed (2024) former SP-group EPC company; fin:shapoorji-pallonji is an unresolved notice name (resolved:false, no claims) — group affiliation is not identity."
+  },
+  {
+   "a": "fin:tata-projects",
+   "b": "co:tata-power",
+   "reason": "Tata Projects Ltd (EPC contractor) vs The Tata Power Company Ltd (listed utility); shared Tata brand only. Neither is grp:tata."
+  },
+  {
+   "a": "co:larsen-toubro",
+   "b": "lnt",
+   "reason": "Not refused on identity (same company) but not rewritten either: both are inventory ids (companies-by-state vs Money-Trail Atlas) and the energy fleet also uses co:larsen-toubro. The Atlas/companies duplication is upstream of this fleet; noted for the national graph."
+  },
+  {
+   "a": "energy:manmohan-singh",
+   "b": "wel:manmohan-singh",
+   "reason": "Same person held under two inventory ids by the energy and welfare fleets; finance uses energy:manmohan-singh consistently. Upstream duplicate, not this fleet's to rewrite. Distinct from per:jaswant-singh (a different Singh: Finance Minister 2002–04)."
+  },
+  {
+   "a": "per:yv-reddy",
+   "b": "energy:pp-reddy",
+   "reason": "Different Reddys: Y. V. Reddy (RBI Governor 2003–08) vs P. P. Reddy (MEIL). Identity by office-with-dates; also distinct from pol:g-kishan-reddy and energy:s-jaipal-reddy."
+  },
+  {
+   "a": "per:krishnamurthy-subramanian",
+   "b": "per:surjit-bhalla",
+   "reason": "Two successive Indian Executive Directors at the IMF (Bhalla 2019–22, Subramanian 2022–25); same office, different persons and dates."
+  },
+  {
+   "a": "fin:press-note-3-2020",
+   "b": "fin:gfr-2020-land-border-procurement-order",
+   "reason": "Two instruments of the 2020 land-border policy: PN3 (DPIIT, FDI route, 2020-04-17) vs the GFR 2017 amendment and DoE Order (public procurement, 2020-07-23). Same policy family, different legal instruments and subjects."
+  },
+  {
+   "a": "fin:jica",
+   "b": "fin:jica-mahsr-loan",
+   "reason": "The lender vs its MAHSR ODA loan programme (instrument node governed by its own terms)."
+  },
+  {
+   "a": "fin:wb-dpf-pmgky-1",
+   "b": "fin:wb-dpf-pmgky-2",
+   "reason": "Two separately approved operations (P173943, P174027) with separate prior actions; a series is not one loan."
+  },
+  {
+   "a": "fin:ncrtc",
+   "b": "min:ministry-of-housing-and-urban-affairs",
+   "reason": "Implementing agency (NCRTC, a GoI–state JV company) vs executing agency (MoHUA) on the ADB RRTS facility — two roles, two institutions."
+  },
+  {
+   "a": "fin:nmcg",
+   "b": "min:ministry-of-jal-shakti",
+   "reason": "NMCG is a registered society under the Ministry of Jal Shakti and the WB Ganga project's implementing agency; the parent ministry is a separate node."
+  },
+  {
+   "a": "min:ministry-of-agriculture-and-farmers-welfare",
+   "b": "fin:state-haryana",
+   "reason": "The P512898 string \"Department of Agriculture and Farmers Welfare\" had been resolved to the Union ministry on the name alone; in context (\"…, Government of Haryana\", Water Secure Haryana Program) it is Haryana's department. The claim now points at fin:state-haryana; the Union ministry keeps its own id and was not merged with anything."
+  },
+  {
+   "a": "fin:state-haryana",
+   "b": "fin:ai-for-resilient-jobs-urban-air-quality-and-next-gen-skills",
+   "reason": "ARJUN is a Haryana SPV with its own node; P510686's implementing string names ARJUN, so that claim and alias moved to the ARJUN node — the state government and its SPV stay two nodes."
+  },
+  {
+   "a": "energy:state-assam",
+   "b": "fin:assam-society-for-comprehensive-financial-management-system",
+   "reason": "A registered society of the Assam Finance Department is not the state government; P511844 re-pointed to the society, the two nodes kept separate. Same treatment for energy:govt-of-bihar vs BAPEPS (P122096) and BRLPS (P159576)."
+  },
+  {
+   "a": "fin:hppcl",
+   "b": "fin:hpptcl",
+   "reason": "Himachal Pradesh Power Corporation (generation) vs Himachal Pradesh Power Transmission Corporation — sibling state PSUs; also distinct from fin:hpsebl."
+  },
+  {
+   "a": "fin:icar",
+   "b": "fin:icmr",
+   "reason": "Indian Council of Agricultural Research vs Indian Council of Medical Research — name pattern only."
+  },
+  {
+   "a": "fin:satpura-tiger-foundation-madhya-pradesh",
+   "b": "fin:satpura-tiger-foundation-maharashtra",
+   "reason": "Two state tiger-conservation foundations (MP and Maharashtra) named separately by the API; same pattern of name, different states."
+  },
+  {
+   "a": "fin:bcrlip-landscape-society-askot",
+   "b": "fin:bcrlip-landscape-society-lrk",
+   "reason": "Two landscape societies of the Biodiversity Conservation and Rural Livelihood Improvement Project (Askot, Uttarakhand; Little Rann of Kutch, Gujarat)."
+  },
+  {
+   "a": "energy:ap-discoms",
+   "b": "energy:apspdcl",
+   "reason": "The collective AP discoms node vs one of its three discoms; both are inventory ids used as the energy fleet defined them."
+  },
+  {
+   "a": "fin:venus-it-solutions",
+   "b": "fin:venus-softwares",
+   "reason": "The reverse error: one node had conflated three separately listed firms (Venus IT Solutions, Venus Softwares, Zytron Systems) debarred the same day at one address. Co-debarment and a shared address are not identity; split into three nodes."
+  },
+  {
+   "a": "fin:chasha-lands",
+   "b": "fin:joyluck-venture-india",
+   "reason": "Two companies debarred together as controlled affiliates of an unnamed sanctioned entity; separate rows, separate registrations — split (see mapping fin:chasha-lands-joyluck → fin:chasha-lands)."
+  }
+ ],
+ "addedContras": [],
+ "killed": [],
+ "predicateFixes": [
+  {
+   "id": "worldbank:c052",
+   "from": "analytic",
+   "to": "enforce"
+  },
+  {
+   "id": "worldbank:c053",
+   "from": "analytic",
+   "to": "enforce"
+  },
+  {
+   "id": "worldbank:c054",
+   "from": "analytic",
+   "to": "enforce"
+  }
+ ],
+ "entityRecordsConsolidated": [
+  {
+   "id": "fin:aiib",
+   "removedFrom": "contracts.json",
+   "foldedInto": "adb-aiib.json",
+   "reason": "duplicate record of an id defined in another file and referenced by no claim in this file; aliases, facts and sources folded into the surviving record"
+  },
+  {
+   "id": "fin:ndb",
+   "removedFrom": "contracts.json",
+   "foldedInto": "adb-aiib.json",
+   "reason": "duplicate record of an id defined in another file and referenced by no claim in this file; aliases, facts and sources folded into the surviving record"
+  },
+  {
+   "id": "min:ministry-of-finance",
+   "removedFrom": "contracts.json",
+   "foldedInto": "adb-aiib.json",
+   "reason": "duplicate record of an id defined in another file and referenced by no claim in this file; aliases, facts and sources folded into the surviving record"
+  },
+  {
+   "id": "min:ministry-of-housing-and-urban-affairs",
+   "removedFrom": "contracts.json",
+   "foldedInto": "adb-aiib.json",
+   "reason": "duplicate record of an id defined in another file and referenced by no claim in this file; aliases, facts and sources folded into the surviving record"
+  },
+  {
+   "id": "seci",
+   "removedFrom": "adb-aiib.json",
+   "foldedInto": "worldbank-projects.json",
+   "reason": "duplicate record of an id defined in another file and referenced by no claim in this file; aliases, facts and sources folded into the surviving record"
+  },
+  {
+   "id": "fin:ida",
+   "removedFrom": "contracts.json",
+   "foldedInto": "literature.json",
+   "reason": "duplicate record of an id defined in another file and referenced by no claim in this file; aliases, facts and sources folded into the surviving record"
+  },
+  {
+   "id": "fin:wb-dpo-resilient-kerala-1",
+   "removedFrom": "literature.json",
+   "foldedInto": "worldbank.json",
+   "reason": "duplicate record of an id defined in another file and referenced by no claim in this file; aliases, facts and sources folded into the surviving record"
+  }
+ ],
+ "otherFixes": [
+  {
+   "file": "contracts.json",
+   "id": "contracts:c065",
+   "fix": "enforce claim added for a firm split out of a conflated node (same source and date as contracts:c056)"
+  },
+  {
+   "file": "contracts.json",
+   "id": "contracts:c067",
+   "fix": "enforce claim added for a firm split out of a conflated node (same source and date as contracts:c065)"
+  },
+  {
+   "file": "contracts.json",
+   "id": "contracts:c066",
+   "fix": "enforce claim added for a firm split out of a conflated node (same source and date as contracts:c051)"
+  },
+  {
+   "file": "worldbank-projects.json",
+   "id": "worldbank:c0832",
+   "fix": "benefit.who fin:state-haryana → fin:ai-for-resilient-jobs-urban-air-quality-and-next-gen-skills (P510686): ARJUN is its own node (P516517); the Haryana Clean Air operation is implemented by ARJUN, not by the state government at large; the claim's resolution trail and projects[P510686].impagency_ids updated to match"
+  },
+  {
+   "file": "worldbank-projects.json",
+   "id": "fin:state-haryana",
+   "fix": "alias \"Artificial Intelligence for Resilient Jobs, Urban Air Quality, and Next Gen Skills Council (ARJUN), Government of Haryana\" moved to fin:ai-for-resilient-jobs-urban-air-quality-and-next-gen-skills — an alias belongs to exactly one id"
+  },
+  {
+   "file": "worldbank-projects.json",
+   "id": "worldbank:c0833",
+   "fix": "benefit.who energy:state-assam → fin:assam-society-for-comprehensive-financial-management-system (P511844): AS-CFMS is its own node (P157198); the string names the society first; the claim's resolution trail and projects[P511844].impagency_ids updated to match"
+  },
+  {
+   "file": "worldbank-projects.json",
+   "id": "energy:state-assam",
+   "fix": "alias \"Assam Society for Comprehensive Financial Management System (AS-CFMS), Finance Department, Government of Assam\" moved to fin:assam-society-for-comprehensive-financial-management-system — an alias belongs to exactly one id"
+  },
+  {
+   "file": "worldbank-projects.json",
+   "id": "worldbank:c0622",
+   "fix": "benefit.who energy:govt-of-bihar → fin:bihar-aapada-punarwas-evam-punarnirman-society (P122096): BAPEPS is its own node (P127725) and is the named implementing society; the claim's resolution trail and projects[P122096].impagency_ids updated to match"
+  },
+  {
+   "file": "worldbank-projects.json",
+   "id": "energy:govt-of-bihar",
+   "fix": "alias \"Government of Bihar, Bihar Aapada Punarwas Evam Punarnirman Society (BAPEPS)\" moved to fin:bihar-aapada-punarwas-evam-punarnirman-society — an alias belongs to exactly one id"
+  },
+  {
+   "file": "worldbank-projects.json",
+   "id": "worldbank:c0707",
+   "fix": "benefit.who energy:govt-of-bihar → fin:bihar-rural-livelihoods-promotion-society (P159576): BRLPS (JEEViKA) is its own node (P090764, P512959); the claim's resolution trail and projects[P159576].impagency_ids updated to match"
+  },
+  {
+   "file": "worldbank-projects.json",
+   "id": "energy:govt-of-bihar",
+   "fix": "alias \"Bihar Rural Livelihoods Promotion Society , Government of Bihar\" moved to fin:bihar-rural-livelihoods-promotion-society — an alias belongs to exactly one id"
+  },
+  {
+   "file": "worldbank-projects.json",
+   "id": "worldbank:c0835",
+   "fix": "benefit.who min:ministry-of-agriculture-and-farmers-welfare → fin:state-haryana (P512898): the string is the first segment of \"Department of Agriculture and Farmers Welfare, Irrigation & Water Resources Department, Micro Irrigation & Command Area Development Authority, Government of Haryana\" on the Water Secure Haryana Program — Haryana's own department, not the Union ministry of the same name (name-similarity resolution refused); the claim's resolution trail and projects[P512898].impagency_ids updated to match"
+  },
+  {
+   "file": "worldbank-projects.json",
+   "id": "projects[P095901].borrower_id",
+   "fix": "fin:none-as-this-is-a-grant → null: API borrower text \"None as this is a Grant\" is a note, not an institution; the verbatim API text stays in projects[P095901].borrower"
+  },
+  {
+   "file": "worldbank-projects.json",
+   "id": "projects[P167739].borrower_id",
+   "fix": "fin:shri-hanish-chhabra → null: API borrower field names an individual official (\"Shri Hanish Chhabra\"), not an institution; persons are recorded only by office with dates, and no identity was established; the verbatim API text stays in projects[P167739].borrower"
+  },
+  {
+   "file": "worldbank-projects.json",
+   "id": "projects[P173369].borrower_id",
+   "fix": "null → min:ministry-of-finance: API typo \"Minstry of Finance\" left unresolved by the fetcher"
+  },
+  {
+   "file": "worldbank-projects.json",
+   "id": "min:ministry-of-agriculture-and-farmers-welfare",
+   "fix": "record removed: its only fact (\"implementing agency in P512898\") was the mis-resolution corrected above; the id remains an inventory id and no claim in this file references it"
+  },
+  {
+   "file": "worldbank-projects.json",
+   "id": "energy:govt-of-bihar",
+   "fix": "alias \"Department of Social Welfare\" → \"Department of Social Welfare (Bihar)\" (generic department name qualified by state; verbatim API spelling kept in d)"
+  },
+  {
+   "file": "worldbank-projects.json",
+   "id": "energy:govt-of-bihar",
+   "fix": "alias \"Rural Development Department\" → \"Rural Development Department (Bihar)\" (generic department name qualified by state; verbatim API spelling kept in d)"
+  },
+  {
+   "file": "worldbank-projects.json",
+   "id": "energy:govt-of-bihar",
+   "fix": "alias \"Animal and Fisheries Resources Department (AFRD)\" → \"Animal and Fisheries Resources Department (AFRD) (Bihar)\" (generic department name qualified by state; verbatim API spelling kept in d)"
+  },
+  {
+   "file": "worldbank-projects.json",
+   "id": "energy:govt-of-bihar",
+   "fix": "alias \"Rural Works Department (RWD)\" → \"Rural Works Department (RWD) (Bihar)\" (generic department name qualified by state; verbatim API spelling kept in d)"
+  },
+  {
+   "file": "worldbank-projects.json",
+   "id": "energy:govt-of-bihar",
+   "fix": "alias \"Water Resources Department (WRD)\" → \"Water Resources Department (WRD) (Bihar)\" (generic department name qualified by state; verbatim API spelling kept in d)"
+  },
+  {
+   "file": "worldbank-projects.json",
+   "id": "energy:govt-of-gujarat",
+   "fix": "alias \"Urban Development and Urban Housing Department\" → \"Urban Development and Urban Housing Department (Gujarat)\" (generic department name qualified by state; verbatim API spelling kept in d)"
+  },
+  {
+   "file": "worldbank-projects.json",
+   "id": "energy:state-andhra-pradesh",
+   "fix": "alias \"Department of Heath, Medical & Family Welfare\" → \"Department of Heath, Medical & Family Welfare (Andhra Pradesh)\" (generic department name qualified by state; verbatim API spelling kept in d)"
+  },
+  {
+   "file": "worldbank-projects.json",
+   "id": "energy:state-andhra-pradesh",
+   "fix": "alias \"Department of Panchayat Raj and Rural Development\" → \"Department of Panchayat Raj and Rural Development (Andhra Pradesh)\" (generic department name qualified by state; verbatim API spelling kept in d)"
+  },
+  {
+   "file": "worldbank-projects.json",
+   "id": "energy:state-andhra-pradesh",
+   "fix": "alias \"Department of Tribal Welfare\" → \"Department of Tribal Welfare (Andhra Pradesh)\" (generic department name qualified by state; verbatim API spelling kept in d)"
+  },
+  {
+   "file": "worldbank-projects.json",
+   "id": "energy:state-andhra-pradesh",
+   "fix": "alias \"Department of Women Development & Child Welfare\" → \"Department of Women Development & Child Welfare (Andhra Pradesh)\" (generic department name qualified by state; verbatim API spelling kept in d)"
+  },
+  {
+   "file": "worldbank-projects.json",
+   "id": "energy:state-assam",
+   "fix": "alias \"Public Works Roads Department\" → \"Public Works Roads Department (Assam)\" (generic department name qualified by state; verbatim API spelling kept in d)"
+  },
+  {
+   "file": "worldbank-projects.json",
+   "id": "energy:state-himachal-pradesh",
+   "fix": "alias \"Directorate of Energy\" → \"Directorate of Energy (Himachal Pradesh)\" (generic department name qualified by state; verbatim API spelling kept in d)"
+  },
+  {
+   "file": "worldbank-projects.json",
+   "id": "energy:state-karnataka",
+   "fix": "alias \"Department of Health and Family Welfare\" → \"Department of Health and Family Welfare (Karnataka)\" (generic department name qualified by state; verbatim API spelling kept in d)"
+  },
+  {
+   "file": "worldbank-projects.json",
+   "id": "energy:state-karnataka",
+   "fix": "alias \"Department of Horticulture\" → \"Department of Horticulture (Karnataka)\" (generic department name qualified by state; verbatim API spelling kept in d)"
+  },
+  {
+   "file": "worldbank-projects.json",
+   "id": "energy:state-karnataka",
+   "fix": "alias \"Watershed Development Department\" → \"Watershed Development Department (Karnataka)\" (generic department name qualified by state; verbatim API spelling kept in d)"
+  },
+  {
+   "file": "worldbank-projects.json",
+   "id": "energy:state-karnataka",
+   "fix": "alias \"Minor Irrigation & Groundwater Development Department\" → \"Minor Irrigation & Groundwater Development Department (Karnataka)\" (generic department name qualified by state; verbatim API spelling kept in d)"
+  },
+  {
+   "file": "worldbank-projects.json",
+   "id": "energy:state-karnataka",
+   "fix": "alias \"Revenue Department\" → \"Revenue Department (Karnataka)\" (generic department name qualified by state; verbatim API spelling kept in d)"
+  },
+  {
+   "file": "worldbank-projects.json",
+   "id": "energy:state-maharashtra",
+   "fix": "alias \"Department of Cooperation & Marketing\" → \"Department of Cooperation & Marketing (Maharashtra)\" (generic department name qualified by state; verbatim API spelling kept in d)"
+  },
+  {
+   "file": "worldbank-projects.json",
+   "id": "energy:state-maharashtra",
+   "fix": "alias \"Water Supply and Sanitation Department\" → \"Water Supply and Sanitation Department (Maharashtra)\" (generic department name qualified by state; verbatim API spelling kept in d)"
+  },
+  {
+   "file": "worldbank-projects.json",
+   "id": "energy:state-maharashtra",
+   "fix": "alias \"Department of Agriculture\" → \"Department of Agriculture (Maharashtra)\" (generic department name qualified by state; verbatim API spelling kept in d)"
+  },
+  {
+   "file": "worldbank-projects.json",
+   "id": "energy:state-odisha",
+   "fix": "alias \"Housing and Urban Development Department\" → \"Housing and Urban Development Department (Odisha)\" (generic department name qualified by state; verbatim API spelling kept in d)"
+  },
+  {
+   "file": "worldbank-projects.json",
+   "id": "energy:state-odisha",
+   "fix": "alias \"Department of Higher Education\" → \"Department of Higher Education (Odisha)\" (generic department name qualified by state; verbatim API spelling kept in d)"
+  },
+  {
+   "file": "worldbank-projects.json",
+   "id": "energy:state-rajasthan",
+   "fix": "alias \"Department of Transport and Road Safety\" → \"Department of Transport and Road Safety (Rajasthan)\" (generic department name qualified by state; verbatim API spelling kept in d)"
+  },
+  {
+   "file": "worldbank-projects.json",
+   "id": "energy:state-tamil-nadu",
+   "fix": "alias \"Department of Finance\" → \"Department of Finance (Tamil Nadu)\" (generic department name qualified by state; verbatim API spelling kept in d)"
+  },
+  {
+   "file": "worldbank-projects.json",
+   "id": "energy:state-tamil-nadu",
+   "fix": "alias \"Department for the Welfare of Differently Abled Persons (DfWDAP)\" → \"Department for the Welfare of Differently Abled Persons (DfWDAP) (Tamil Nadu)\" (generic department name qualified by state; verbatim API spelling kept in d)"
+  },
+  {
+   "file": "worldbank-projects.json",
+   "id": "energy:state-tamil-nadu",
+   "fix": "alias \"Special Program Implementation Department.\" → \"Special Program Implementation Department. (Tamil Nadu)\" (generic department name qualified by state; verbatim API spelling kept in d)"
+  },
+  {
+   "file": "worldbank-projects.json",
+   "id": "energy:state-uttar-pradesh",
+   "fix": "alias \"Transport Department\" → \"Transport Department (Uttar Pradesh)\" (generic department name qualified by state; verbatim API spelling kept in d)"
+  },
+  {
+   "file": "worldbank-projects.json",
+   "id": "energy:state-uttarakhand",
+   "fix": "alias \"Watershed Management Directorate\" → \"Watershed Management Directorate (Uttarakhand)\" (generic department name qualified by state; verbatim API spelling kept in d)"
+  },
+  {
+   "file": "worldbank-projects.json",
+   "id": "energy:state-uttarakhand",
+   "fix": "alias \"Watershed Management Directorate (WMD)\" → \"Watershed Management Directorate (WMD) (Uttarakhand)\" (generic department name qualified by state; verbatim API spelling kept in d)"
+  },
+  {
+   "file": "worldbank-projects.json",
+   "id": "energy:state-west-bengal",
+   "fix": "alias \"Panchayats and Rural Developemnt Department\" → \"Panchayats and Rural Developemnt Department (West Bengal)\" (generic department name qualified by state; verbatim API spelling kept in d)"
+  },
+  {
+   "file": "worldbank-projects.json",
+   "id": "fin:state-haryana",
+   "fix": "alias \"Irrigation & Water Resources Department\" → \"Irrigation & Water Resources Department (Haryana)\" (generic department name qualified by state; verbatim API spelling kept in d)"
+  },
+  {
+   "file": "worldbank-projects.json",
+   "id": "fin:state-kerala",
+   "fix": "alias \"Local Self Government Department\" → \"Local Self Government Department (Kerala)\" (generic department name qualified by state; verbatim API spelling kept in d)"
+  },
+  {
+   "file": "worldbank-projects.json",
+   "id": "fin:state-punjab",
+   "fix": "alias \"Department of Water Supply and Sanitation\" → \"Department of Water Supply and Sanitation (Punjab)\" (generic department name qualified by state; verbatim API spelling kept in d)"
+  },
+  {
+   "file": "contracts.json",
+   "id": "fin:venus-it-solutions",
+   "fix": "conflated node split: \"Venus IT Solutions / Venus Softwares / Zytron Systems\" were three rows (three firms) in the ineligible-firms feed; now fin:venus-it-solutions, fin:venus-softwares, fin:zytron-systems, each with its own enforce claim (contracts:c056, c065, c067)"
+  },
+  {
+   "file": "contracts.json",
+   "id": "contracts:c037",
+   "fix": "to \"2999-12-31\" (feed sentinel) → null, explained in d"
+  },
+  {
+   "file": "contracts.json",
+   "id": "contracts:c038",
+   "fix": "to \"2999-12-31\" (feed sentinel) → null, explained in d"
+  },
+  {
+   "file": "contracts.json",
+   "id": "contracts:c039",
+   "fix": "to \"2999-12-31\" (feed sentinel) → null, explained in d"
+  },
+  {
+   "file": "contracts.json",
+   "id": "contracts:c040",
+   "fix": "to \"2999-12-31\" (feed sentinel) → null, explained in d"
+  },
+  {
+   "file": "contracts.json",
+   "id": "contracts:c041",
+   "fix": "to \"2999-12-31\" (feed sentinel) → null, explained in d"
+  },
+  {
+   "file": "contracts.json",
+   "id": "contracts:c042",
+   "fix": "to \"2999-12-31\" (feed sentinel) → null, explained in d"
+  },
+  {
+   "file": "contracts.json",
+   "id": "contracts:c043",
+   "fix": "to \"2999-12-31\" (feed sentinel) → null, explained in d"
+  },
+  {
+   "file": "contracts.json",
+   "id": "contracts:c044",
+   "fix": "to \"2999-12-31\" (feed sentinel) → null, explained in d"
+  },
+  {
+   "file": "contracts.json",
+   "id": "contracts:c045",
+   "fix": "to \"2999-12-31\" (feed sentinel) → null, explained in d"
+  },
+  {
+   "file": "contracts.json",
+   "id": "contracts:c046",
+   "fix": "to \"2999-12-31\" (feed sentinel) → null, explained in d"
+  },
+  {
+   "file": "contracts.json",
+   "id": "contracts:c048",
+   "fix": "to \"2999-12-31\" (feed sentinel) → null, explained in d"
+  },
+  {
+   "file": "contracts.json",
+   "id": "contracts:c049",
+   "fix": "to \"2999-12-31\" (feed sentinel) → null, explained in d"
+  },
+  {
+   "file": "contracts.json",
+   "id": "contracts:c050",
+   "fix": "to \"2999-12-31\" (feed sentinel) → null, explained in d"
+  },
+  {
+   "file": "contracts.json",
+   "id": "contracts:c051",
+   "fix": "to \"2999-12-31\" (feed sentinel) → null, explained in d"
+  },
+  {
+   "file": "contracts.json",
+   "id": "contracts:c066",
+   "fix": "to \"2999-12-31\" (feed sentinel) → null, explained in d"
+  },
+  {
+   "file": "contracts.json",
+   "id": "contracts:c052",
+   "fix": "to \"2999-12-31\" (feed sentinel) → null, explained in d"
+  },
+  {
+   "file": "contracts.json",
+   "id": "contracts:c053",
+   "fix": "to \"2999-12-31\" (feed sentinel) → null, explained in d"
+  },
+  {
+   "file": "contracts.json",
+   "id": "contracts:c055",
+   "fix": "to \"2999-12-31\" (feed sentinel) → null, explained in d"
+  },
+  {
+   "file": "contracts.json",
+   "id": "contracts:c056",
+   "fix": "to \"2999-12-31\" (feed sentinel) → null, explained in d"
+  },
+  {
+   "file": "contracts.json",
+   "id": "contracts:c065",
+   "fix": "to \"2999-12-31\" (feed sentinel) → null, explained in d"
+  },
+  {
+   "file": "contracts.json",
+   "id": "contracts:c067",
+   "fix": "to \"2999-12-31\" (feed sentinel) → null, explained in d"
+  },
+  {
+   "file": "contracts.json",
+   "id": "fin:ibrd",
+   "fix": "source [..., \"research/raw/finance/worldbank-projects.json\"] → the World Bank Projects API v3 URL that file was fetched from"
+  },
+  {
+   "file": "contracts.json",
+   "id": "fin:ida",
+   "fix": "source [..., \"research/raw/finance/worldbank-projects.json\"] → the World Bank Projects API v3 URL that file was fetched from"
+  },
+  {
+   "file": "contracts.json",
+   "id": "fin:dfccil",
+   "fix": "source [..., \"research/raw/finance/worldbank-projects.json\"] → the World Bank Projects API v3 URL that file was fetched from"
+  },
+  {
+   "file": "contracts.json",
+   "id": "contracts:c059",
+   "fix": "non-URL source 'research/raw/tenders-centre.json' dropped from srcs (the internal register is already named in d; the claim is analytic and keeps five World Bank URLs)"
+  },
+  {
+   "file": "contracts.json",
+   "id": "fin:sterlite-technologies",
+   "fix": "alias \"STERLITE\" removed (collides with inventory grp:vedanta alias \"Sterlite\"); the notice spelling kept in d"
+  },
+  {
+   "file": "bilateral-china.json",
+   "id": "energy:anil-ambani",
+   "fix": "st \"mh\" → null (persons carry no state code)"
+  },
+  {
+   "file": "bilateral-china.json",
+   "id": "pol:nirmala-sitharaman",
+   "fix": "st \"dl\" → null (persons carry no state code)"
+  },
+  {
+   "file": "bilateral-china.json",
+   "id": "wel:arun-jaitley",
+   "fix": "st \"dl\" → null (persons carry no state code)"
+  },
+  {
+   "file": "bilateral-china.json",
+   "id": "wel:p-chidambaram",
+   "fix": "st \"tn\" → null (persons carry no state code)"
+  },
+  {
+   "file": "bilateral-china.json",
+   "id": "per:pranab-mukherjee",
+   "fix": "st \"wb\" → null (persons carry no state code)"
+  },
+  {
+   "file": "bilateral-china.json",
+   "id": "pol:piyush-goyal",
+   "fix": "st \"mh\" → null (persons carry no state code)"
+  },
+  {
+   "file": "bilateral-china.json",
+   "id": "per:anu-p-mathai",
+   "fix": "st \"dl\" → null (persons carry no state code)"
+  },
+  {
+   "file": "contracts.json",
+   "id": "co:power-grid",
+   "fix": "st 'hr' → \"dl\" (registered office New Delhi, per companies-by-state.json)"
+  },
+  {
+   "file": "literature.json",
+   "id": "fin:wb-dpo-resilient-kerala-1",
+   "fix": "ty/fam mechanism/instrument → law/instrument (a fin: id carries one ty/fam across the fleet)"
+  },
+  {
+   "file": "literature.json",
+   "id": "fin:government-of-china",
+   "fix": "ty/fam ministry/capital → state/state (a fin: id carries one ty/fam across the fleet)"
+  },
+  {
+   "file": "worldbank-projects.json",
+   "id": "co:power-grid",
+   "fix": "st None → \"dl\" (registered office New Delhi, per companies-by-state.json)"
+  },
+  {
+   "file": "worldbank.json",
+   "id": "fin:ieg",
+   "fix": "ty/fam agency/capital → agency/enforce (a fin: id carries one ty/fam across the fleet)"
+  },
+  {
+   "file": "worldbank.json",
+   "id": "pol:nirmala-sitharaman",
+   "fix": "st \"dl\" → null (persons carry no state code)"
+  },
+  {
+   "file": "worldbank.json",
+   "id": "seth",
+   "fix": "st \"dl\" → null (persons carry no state code)"
+  },
+  {
+   "file": "worldbank.json",
+   "id": "per:tarun-bajaj",
+   "fix": "st \"dl\" → null (persons carry no state code)"
+  },
+  {
+   "file": "worldbank.json",
+   "id": "per:anuradha-thakur",
+   "fix": "st \"dl\" → null (persons carry no state code)"
+  },
+  {
+   "file": "worldbank.json",
+   "id": "per:junaid-kamal-ahmad",
+   "fix": "st \"dl\" → null (persons carry no state code)"
+  },
+  {
+   "file": "worldbank.json",
+   "id": "per:auguste-tano-kouame",
+   "fix": "st \"dl\" → null (persons carry no state code)"
+  },
+  {
+   "file": "worldbank.json",
+   "id": "per:sameer-kumar-khare",
+   "fix": "st \"dl\" → null (persons carry no state code)"
+  },
+  {
+   "file": "worldbank.json",
+   "id": "per:c-s-mohapatra",
+   "fix": "st \"dl\" → null (persons carry no state code)"
+  },
+  {
+   "file": "bilateral-china.json",
+   "id": "pol:nirmala-sitharaman",
+   "fix": "identity.office harmonised to the richer dated block shared by every file that defines the person"
+  },
+  {
+   "file": "bilateral-china.json",
+   "id": "per:pranab-mukherjee",
+   "fix": "identity.office harmonised to the richer dated block shared by every file that defines the person"
+  },
+  {
+   "file": "debt-imf-people.json",
+   "id": "per:pranab-mukherjee",
+   "fix": "identity.office harmonised to the richer dated block shared by every file that defines the person"
+  },
+  {
+   "file": "debt-imf-people.json",
+   "id": "per:yv-reddy",
+   "fix": "identity.office harmonised to the richer dated block shared by every file that defines the person"
+  },
+  {
+   "file": "worldbank.json",
+   "id": "pol:nirmala-sitharaman",
+   "fix": "identity.office harmonised to the richer dated block shared by every file that defines the person"
+  },
+  {
+   "file": "worldbank-projects.json",
+   "id": "energy:thdc",
+   "fix": "st null → \"ut\" as stated by the sibling record of the same id"
+  },
+  {
+   "file": "worldbank-projects.json",
+   "id": "min:ministry-of-health-and-family-welfare",
+   "fix": "st null → \"dl\" as stated by the sibling record of the same id"
+  },
+  {
+   "file": "worldbank-projects.json",
+   "id": "min:ministry-of-housing-and-urban-affairs",
+   "fix": "st null → \"dl\" as stated by the sibling record of the same id"
+  },
+  {
+   "file": "worldbank-projects.json",
+   "id": "min:ministry-of-jal-shakti",
+   "fix": "st null → \"dl\" as stated by the sibling record of the same id"
+  },
+  {
+   "file": "worldbank-projects.json",
+   "id": "min:ministry-of-micro-small-and-medium-enterprises",
+   "fix": "st null → \"dl\" as stated by the sibling record of the same id"
+  },
+  {
+   "file": "worldbank-projects.json",
+   "id": "min:ministry-of-new-and-renewable-energy",
+   "fix": "st null → \"dl\" as stated by the sibling record of the same id"
+  },
+  {
+   "file": "worldbank-projects.json",
+   "id": "min:ministry-of-road-transport-and-highways",
+   "fix": "st null → \"dl\" as stated by the sibling record of the same id"
+  },
+  {
+   "file": "worldbank-projects.json",
+   "id": "min:ministry-of-rural-development",
+   "fix": "st null → \"dl\" as stated by the sibling record of the same id"
+  },
+  {
+   "file": "adb-aiib.json",
+   "id": "adb-aiib:c050",
+   "fix": "innocentReading added (analytic predicate on a documented lender self-evaluation)"
+  },
+  {
+   "file": "worldbank.json",
+   "id": "worldbank:c055",
+   "fix": "innocentReading added (analytic predicate on a documented lender self-evaluation)"
+  }
+ ],
+ "notes": [
+  "Mappings are applied in the raw files themselves (entity ids, claim s/t, benefit.who, and the worldbank-projects.json projects[] borrower_id/impagency_ids table); the assembler re-applying them is a no-op. Ten of the eleven mappings touch only the projects[] resolution table, whose typo/duplicate ids (API spellings) were never entity records.",
+  "Before reconciliation the finance files already shared ids for every entity that more than one file described (min:ministry-of-finance in six files, fin:ibrd/fin:ida in four, fin:adb/aiib/ndb/jica/ncrtc/dfccil in two or three, etc.), so no cross-file id rewrite was needed; the entity-resolution faults were inside worldbank-projects.json (implementing agencies placed on the state-government node while the same body had its own node, and one Haryana department resolved to a Union ministry by name) and two conflated debarment nodes in contracts.json.",
+  "No claim needed killing and no contra had to be added: the two alleged non-contra claims (debt:c020, literature:c017) are each answered by a contra in their own file (debt:c021, literature:c018), every analytic-tier claim carries an innocentReading, and the one resolved:false entity (fin:shapoorji-pallonji) carries no claim.",
+  "worldbank-projects.json is written by scripts/finance/fetch-worldbank.mjs; a re-fetch would re-create the fixes listed for that file (the fetcher's hand-alias map resolves \"Department of Agriculture and Farmers Welfare\" to the Union ministry, and composite \"<society>, Government of <state>\" strings to the state). The same corrections belong in the fetcher's HAND/INV_AL tables.",
+  "Sentinel debarment end dates (2999-12-31, the feed's marker for indefinite or conditional-release debarment) were recorded as to: null with the marker explained in d; real end dates (e.g. 2028-01-20, 2031-01-16, 2026-11-08) were kept.",
+  "fin:laxminarayan-construction was kept as one node although the feed lists firm and proprietor variants: a sole proprietorship and its proprietor are one legal person, debarred together under the same cases."
+ ]
+}

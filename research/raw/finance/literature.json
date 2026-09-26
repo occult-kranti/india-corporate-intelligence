@@ -247,12 +247,17 @@
       },
       "publicRole": "Financier of the First Resilient Kerala DPO (US$250m, SDR 115.2m + US$90.4m) on IDA blend terms 'under the amendments approved by the Board based on the IDA18 midterm review'",
       "d": [
-        "Financed the First Resilient Kerala Program DPO (PGD77) as an IDA credit of US$250 million equivalent to the Republic of India, for the Government of Kerala's programme [documented]"
+        "Financed the First Resilient Kerala Program DPO (PGD77) as an IDA credit of US$250 million equivalent to the Republic of India, for the Government of Kerala's programme [documented]",
+        "IDA credit share: P119085 US$199m of US$1,000m; P124639 US$900m of US$1,400m [documented]"
       ],
       "srcs": [
         [
           "Kerala DPO PGD77",
           "https://documents.worldbank.org/curated/en/476681561946430308/text/India-First-Resilient-Kerala-Program-Development-Policy-Operation.txt"
+        ],
+        [
+          "World Bank Projects API v3 (India) — the 1,117-project index fetched into research/raw/finance/worldbank-projects.json",
+          "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=500&os=0&fl=id,project_name,boardapprovaldate,closingdate,status,borrower,impagency,totalcommamt,totalamt,grantamt,ibrdcommamt,curr_ibrd_commitment,idacommamt,curr_ida_commitment,curr_total_commitment,lendprojectcost,lendinginstr,projectfinancialtype,sector1,mjsector1,major_sector_name,theme1,regionname,url,project_abstract,pdo"
         ]
       ]
     },
@@ -523,38 +528,6 @@
       ]
     },
     {
-      "id": "fin:wb-dpo-resilient-kerala-1",
-      "label": "P169907 — First Resilient Kerala Program DPO (PGD77)",
-      "sub": "IDA credit US$250m equivalent to India for Kerala, 2019; 8 prior actions",
-      "ty": "mechanism",
-      "fam": "instrument",
-      "st": null,
-      "sz": 2,
-      "al": [
-        "First Resilient Kerala Program Development Policy Operation"
-      ],
-      "resolved": true,
-      "identity": {
-        "cin": null,
-        "din": null,
-        "nse": null,
-        "office": null,
-        "lei": null,
-        "fcra": null
-      },
-      "publicRole": "A development policy loan to an opposition-run state approved under an NDA Centre — the control case for the partisan-denial narrative and the concrete example of what 'policy strings' look like",
-      "d": [
-        "Prior actions 1–8 are Government of Kerala acts (adoption of the Rebuild Kerala Development Programme, State Disaster Management Plan, river-basin authority, notified criteria-based management contract model, etc.) [documented]",
-        "'While India is currently eligible for only IBRD financial terms, IDA Blend financial terms will be applied to the operation under the amendments approved by the Board based on the IDA18 midterm review' [documented]"
-      ],
-      "srcs": [
-        [
-          "Kerala DPO PGD77",
-          "https://documents.worldbank.org/curated/en/476681561946430308/text/India-First-Resilient-Kerala-Program-Development-Policy-Operation.txt"
-        ]
-      ]
-    },
-    {
       "id": "sc",
       "label": "Supreme Court",
       "sub": "Supreme Court of India",
@@ -680,8 +653,8 @@
       "id": "fin:government-of-china",
       "label": "Government of the People's Republic of China",
       "sub": "State behind China's official development finance and the AIIB's largest shareholder",
-      "ty": "ministry",
-      "fam": "capital",
+      "ty": "state",
+      "fam": "state",
       "st": null,
       "sz": 3,
       "al": [
