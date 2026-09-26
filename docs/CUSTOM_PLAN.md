@@ -115,7 +115,10 @@ refusal surface.
 | `viz-engineer` | `src/components/viz/` | Draw a state as a rectangle; restyle a tier for aesthetics |
 
 Supporting skills in `.claude/skills/`: `evidence-tiering`, `pattern-discipline`,
-`india-map`, `graph-schema`.
+`india-map`, `graph-schema`. Later additions — the fleet agents `cross-examiner` and
+`energy-analyst`, and the skills `cui-bono`, `energy-money-trail`,
+`fact-check-workflow` and `knowledge-graph-construction` — are listed in
+`docs/INDEX.md` §7.
 
 **Division of labour:** research agents (with web access) write to
 `research/raw/*.json` — a quarantine zone. Nothing there is trusted. The
@@ -187,6 +190,8 @@ limit is the intended behaviour.
 - [x] Reproducible run id, hashed from the inputs rather than read from a clock
 - [x] Supersession events and documented voids carried into the report
 - [ ] Promotion *generates* `src/data/*.ts` rather than only auditing it
+      — **closed for the research fleets** by `npm run generate` (Phase F); **still
+      open for the original datasets**, whose `src/data/*.ts` modules remain hand-written
 
 **Acceptance met for the audit:** every published claim traces to a source **and** a
 run id. On the current data: 515 canonical entities from 561 records, 46 merges on
@@ -194,8 +199,9 @@ strong keys only, **218 collision candidates refused** — including the two Rel
 groups, whose fusion is a structural guard that fails the build — and 100
 weakly-identified records quarantined as `resolved: false`, taking no edges.
 
-**Still manual:** the pipeline reports; it does not write the typed data modules.
-The boundary and the audit exist; the codegen does not.
+**Still manual for the original datasets:** `promote` reports; it does not write the
+typed data modules. The fleets have codegen (`scripts/assemble-fleet.mjs`); the
+companies, cabinet and conglomerate data do not.
 
 ### Phase D — Depth and breadth ✅ *(the visual half)*
 - [x] Interlocks analysis, with the false-positive demonstration and the family-control frame
@@ -240,6 +246,74 @@ Carried from the Atlas analysis, as dated, checkable actions:
 - A base-rate study of electoral bonds against every coal/mining award 2019–24,
   with a shuffled control. Until someone runs it, the quid-pro-quo claim is
   unproven in both directions.
+
+### Phase F — energy power map, distribution funds, plugin-shaped fleets ✅ *(welfare page closing)*
+
+Two research fleets, a codegen step, two pages, and a repeatable shape for building
+them.
+
+- [x] A written fleet contract (`docs/research/FLEET_CONTRACT.md`) and a gate with
+      teeth: `validate.mjs` §4 checks every raw fleet file at the quarantine boundary —
+      provenance, no edge on an unresolved entity, a denial for every allegation in
+      the same file, an innocent reading on every analytic claim, ISO dates at the
+      precision written, alias collisions across the whole directory
+- [x] `npm run generate` (`scripts/assemble-fleet.mjs`): reconciliation and
+      cross-examiner verdicts applied, the invariants checked over what survives, typed
+      modules emitted. Kill on a kill verdict or two refuting lenses; move a tier only
+      to the more conservative; add a denial only when found and sourced. Killed claims
+      are kept in `META` with reasons. Output depends on input bytes only
+- [x] `validate.mjs` §5: a generated module that no longer matches its inputs fails
+      the build. Vocabulary in one place (`scripts/lib/vocab.mjs`); the merge a pure
+      function (`src/graph/mergeFleet.ts`); 30 assembler and merge tests in `check` and CI
+- [x] Energy fleet: 12 domains → 404 nodes, 711 edges (310 documented, 304 reported,
+      42 alleged, 55 analytic); 60 verdicts, 22 refuted, 1 killed, 15 denials added at
+      assembly; 22 refused merges
+- [x] Welfare fleet: 7 domains → 286 nodes, 335 claims, 78 schemes, 105 elections, 70
+      coverage declarations; 35 verdicts, 15 refuted, 4 killed; 23 refused merges.
+      Coverage is declared per state, year and category — never `["all"]` — because it
+      is the only thing that may turn "no record" into "searched, none live"
+- [x] Index membership (NIFTY 50: 50, SENSEX 30: 30, SENSEX 50: 49 of 50) joined by
+      company id, shown on the company, industry, map and dashboard pages
+- [x] Graph and geographic network to investigative-tool grade on the shared camera:
+      ego focus, path finder with the view's median separation, time scrubber, edge
+      card, keyboard traversal, a table twin that reads what the graph draws
+- [x] `/energy`: 67 acceptance criteria, 67 passing on three consecutive runs; five
+      serious WCAG findings fixed
+- [ ] `/welfare`: shipped to 85 criteria; corrections to five defective criteria and
+      the three serious WCAG findings outstanding; `test:pages` not yet in the gate
+- [ ] Renderer migration per `docs/research/GRAPH_UI_SOTA.md` §5
+- [ ] Atlas-vs-national duplicate ids (`gadani`/`per:gautam-s-adani`,
+      `joshi`/`pol:pralhad-joshi`)
+
+**The build shape.** Two independent designs per page and a judge; a synthetic
+five-seat UX review applied as amendments; acceptance criteria; a test writer who
+never saw the implementation; a builder; a five-reviewer caucus plus a house
+semantics reviewer (energy 38 findings → 24 by consensus; welfare 39 → 20); a fix
+pass; a WCAG 2.1 AA audit. `docs/PLUGINS.md` records where each stage came from.
+
+**What it learned** — about the subject:
+
+1. **Almost every "who benefits" lens over-fires on incumbency.** Run on the other
+   party, or on states run by other parties, it returns the same shape. What
+   discriminates is process: auction against discretion, auditor and court findings,
+   bid counts, margins.
+2. **Khavda land is the one asymmetric energy case**, and the files disagree on its
+   size (≈61% against ≈38%, on different dates and denominators). Carried, not
+   resolved.
+3. **Pre-election launch timing is symmetric across the UPA and the NDA**, with
+   opposite electoral results in both. It does not discriminate and it predicts
+   outcomes poorly.
+
+— and about itself:
+
+4. **Research capacity is a budget.** The WebSearch session cap (200) ran out
+   mid-fleet. A "none found" written after that point is weaker than it reads.
+5. **Agents drift from the contract in predictable ways**: a tier written as a
+   predicate, free-text endpoints, invented days on month-only dates, merges on
+   name similarity (45 refused across the two fleets). Each is now a gate, not a
+   reminder.
+6. **Acceptance criteria can be the defect.** Six `/energy` criteria were wrong,
+   not the page. The criteria were amended; the tests were not bent to pass.
 
 ---
 

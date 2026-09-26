@@ -65,16 +65,41 @@ thing that does not.
 
 ## State of play
 
-**Shipped and tested.** 21 routes, all rendering clean under a headless smoke test.
-36-state boundary geometry with pole-of-inaccessibility label anchors. A choropleth
-map, a geographic network (entities in place, arcs between them, plus a state-flow
-aggregation), a force-directed graph with a shareable filter rail, a layered flow
-diagram, a computed motif engine, and an ingestion pipeline with a reproducible run
-id. 259 companies, 69 ministers, 10 conglomerate groups, 106 sourced relationships
-in the case study.
+**Shipped and tested.** 32 routes, all rendering clean under a headless smoke test
+that visits every route, several with URL parameters. 36-state boundary geometry with pole-of-inaccessibility label
+anchors. A choropleth map, a geographic network, a force-directed graph with ego
+focus, a path finder and a table twin, a layered flow diagram, a computed motif
+engine, and two ingestion pipelines with reproducible run ids. 259 companies, 69
+ministers, 10 conglomerate groups. The Money-Trail Atlas: 59 nodes, 111 edges.
 
-**Three results worth knowing before you start**, because they shape what is worth
-doing next:
+**The research fleets** (as of 2026-09-25, generator 1.2.0):
+
+| fleet | module | run | nodes | edges | verdicts | killed |
+|---|---|---|---|---|---|---|
+| energy | `src/graph/energy.generated.ts` | `run-4a86ff2b4fe6` | 404 | 711 | 60 (22 refuted) | 1 |
+| welfare | `src/data/welfare.generated.ts` | `run-33317dc6d234` | 286 | 335 | 35 (15 refuted) | 4 |
+
+Energy edges: 310 documented, 304 reported, 42 alleged, 55 analytic; 12 domain
+files; 29 id mappings and 22 refused merges. Welfare: 78 schemes, 105 elections, 70
+coverage declarations; 163 documented, 93 reported, 14 alleged (each answered), 65
+analytic (each with an innocent reading); 7 domain files; 18 mappings and 23 refused
+merges. Killed claims are kept in `META.killed` with their reasons. Nothing was
+deleted.
+
+**Index membership.** NIFTY 50: 50 of 50. SENSEX 30: 30 of 30. SENSEX 50: 49 of 50 —
+the fiftieth could not be confirmed from two independent captures and is a recorded
+gap. Membership joins by company id, never by name.
+
+**Two new pages.** `/energy` (the power map) and `/welfare` (distribution funds,
+2000–2026), each built to a judged spec against a RED acceptance suite written
+without sight of the implementation. `/energy`: 67 of 67 criteria pass, on three
+consecutive runs; its five serious WCAG findings are fixed. `/welfare`: at its
+commit 65 of 85 passed, 15 skipped on fixtures and 5 failed on criteria the build
+showed to be wrong; its three serious WCAG findings (keyboard reach inside the table
+twins; the map's `role="img"`) are **open**.
+
+**Three older results worth knowing before you start**, because they still shape
+what is worth doing next:
 
 1. **The motif engine reports that most of its templates are untestable.** The
    case-study subgraph is star-shaped — nearly every award edge shares one ministry
@@ -92,6 +117,46 @@ doing next:
    1-in-200 shared-surname rate, chance predicts ~19. We found 7 — *fewer* than
    chance. There is no excess to explain.
 
+### What the fleets found about "who benefits"
+
+- **Almost every "who benefits" lens over-fires on incumbency.** "Donor wins the
+  coal block", "law written for the vendor", "audit, then reprisal, then a favoured
+  champion" — each shows the same shape under the other party, or in states run by
+  other parties. What discriminates is **process**: auction against discretion,
+  auditor and court findings, bid counts, margins.
+- **Khavda land is the one asymmetric energy case.** About 61% of the park to one
+  group after 2023 with no recorded bidding — but the files disagree on its size
+  (≈61% of 72,600 ha against ≈38% of the five named developer zones). The
+  disagreement is carried, not resolved.
+- **Pre-election launch timing is symmetric.** The same lens run on the UPA and the
+  NDA returns the same pattern, with opposite electoral results. Timing does not
+  discriminate between parties and is a poor predictor of outcomes.
+- **The lead's own denominator was wrong.** Coal single-bid allocations are 11 of
+  91 mines to Nov 2023, not 11 of 140. Recorded in the energy-money-trail skill.
+
+### What the build learned about itself
+
+- **The WebSearch session cap is 200 and it ran out mid-fleet.** Several agents
+  record `200/200` and fell back to direct fetches of known URLs; several denials
+  are "none found" partly because of it. A "none found" in those files is weaker
+  than it reads.
+- **A per-workflow concurrency cap on agents** — two at a time in this session —
+  made the fleets slower than their plans assumed. This is an observation from the
+  session, not recorded in any repository file.
+- **A tier used as a predicate.** Agents wrote a tier into `pred`. The assembler
+  now excludes such a claim with its reason and never coerces it; `analytic` is the
+  one word that is legitimately both.
+- **Free-text endpoints.** "State officials" and "Adani group" as `s`/`t`. Welfare
+  replaced them with declared beneficiary-class nodes.
+- **Month-only dates.** A researcher who knows only the month must not invent a
+  day. The contract and `vocab.mjs` now accept ISO 8601 at reduced precision.
+- **Name-similar merges refused.** 45 across the two fleets — Reliance Industries
+  against Reliance Power/ADAG, JSPL against JSW, Ladli Laxmi 2007 against Ladli
+  Behna 2023, five distinct Reddys — each with its reason in `RECONCILIATION.json`.
+- **Acceptance criteria can be wrong.** Six `/energy` criteria were defective, not
+  the page. The criteria document is amended where the criterion was wrong; the
+  test was not bent to pass.
+
 ---
 
 ## Where to pick up
@@ -102,24 +167,54 @@ doing next:
    donor, with a date-shuffled control holding donation volume fixed. This is the
    one piece of work that unblocks the motif engine, settles the quid-pro-quo
    question in *both* directions, and is computable from public data today. Nobody
-   has published it.
-2. **Coal India and mining-PSU CSR destinations 2019–24.** The direct analogue of
-   the published ONGC finding, inside the ministry that actually matters. CSR annual
-   reports are public. The single most answerable open question in the file.
-3. **DIN-keyed directorships.** The only reliable join key for Indian directorships.
-   Until every person node carries one, every interlock claim is provisional and
-   the interlock page stays a caveat with a table attached.
-4. **Companies to ~600.** Nine large recent listings were deliberately omitted
+   has published it. The fleets confirm the gap: **per-block bidder counts are not
+   published**; the Ministry publishes only single-bid allocations.
+2. **Coal India and mining-PSU CSR destinations 2019–24.** Still open. The fleet
+   found no itemised destination list: the MoC annual report's PSU chapter is an
+   image-only PDF and CIL's CSR table renders client-side. The annexures are the
+   record.
+3. **The voids the fleets could not fill**, each with where the record would live
+   in the fleet's `voids` array:
+   - ICIJ Offshore Leaks entries for Vinod Adani — the database returned nothing
+     readable through the proxy.
+   - PM CARES after FY2022-23 — no audited statement for FY2023-24 or FY2024-25 as
+     at 25 Sep 2026, and no CAG audit exists.
+   - Bank-wise DBT share, float and fee income — the largest intermediary in the
+     DBT flow, with no split published for SBI, Bank of Baroda or the RRBs.
+   - Lokniti-CSDS cross-tabs by beneficiary status — booth- or constituency-level
+     beneficiary density against vote change is absent for every scheme but one.
+4. **DIN-keyed directorships.** The only reliable join key for Indian directorships.
+   Until every person node carries one, every interlock claim is provisional.
+5. **Companies to ~600.** Nine large recent listings were deliberately omitted
    rather than risk a fabricated ticker — see `research/raw/companies-by-state.json`
-   gaps. Adding them widens the reference class, which is what makes base rates
-   sharper.
+   gaps.
+
+### Queued work
+
+- **Close `/welfare`.** Land the acceptance-suite corrections (in progress in the
+  working tree), fix the three serious WCAG findings in `docs/design/WELFARE_A11Y.md`,
+  then add `test:pages` to `check` and CI.
+- **Renderer migration**, per `docs/research/GRAPH_UI_SOTA.md` §5: Canvas 2D on
+  d3-force in a worker, an accessibility overlay, zero new runtime dependencies.
+  Phase 0 (extract `graphSemantics.ts`, make `camera.tsx` element-agnostic) first.
+- **Index follow-ups.** The fiftieth SENSEX 50 constituent; MapExplorer's other
+  filters into the URL (at `b24eb27` only `idx` lived there; an uncommitted change in
+  the working tree moves the rest — check before starting); apply the announced NIFTY 50
+  review only once it is membership.
+- **Deferred UX amendments** — energy D1–D47 and welfare D1–D35, listed at the end
+  of each page spec. Synthetic; test with real readers before building.
+- **Atlas-vs-national duplicate ids.** `gadani` and `per:gautam-s-adani`; `joshi`
+  and `pol:pralhad-joshi` (also `agarwal` and `per:anil-agarwal`). The fleets reused
+  the Atlas ids as the contract says. Merging them is a repository-level decision
+  for `src/graph/data.ts`, and it must keep the old ids addressable.
 
 ### Known gaps, stated plainly
 
-- Promotion writes a report; it does not yet *generate* `src/data/*.ts`. The
-  boundary and the audit exist; the codegen does not.
+- Promotion writes a report; it does not *generate* `src/data/*.ts` for the original
+  datasets. `npm run generate` does generate the two fleet modules.
 - Media ownership is thin and the page says so. It needs an RNI/MIB register.
-- Base rates are published for six edge types, not computed for all of them.
+- Base rates are published for six edge types in `baseRates.ts`; the fleets add
+  their own (73 energy, 50 welfare), not yet joined to the engine.
 - No time-resolved tenures on corporate roles, so no time-resolved interlocks.
 
 ### Do not
@@ -128,6 +223,10 @@ doing next:
 - Add an allegation without finding the denial first.
 - "Fix" the untestable motifs by loosening the null model.
 - Add a dependency to draw something that can be drawn with SVG and arithmetic.
+- Hand-edit a `*.generated.ts` file. Change the research file, `RECONCILIATION.json`
+  or `AUDIT.json`, and re-run `npm run generate`.
+- Read a "none found" denial in a fleet file as proof of silence. Check whether the
+  search budget was spent.
 
 ---
 
@@ -135,22 +234,32 @@ doing next:
 
 ```bash
 npm install
-npm run dev        # vite dev server
-npm run promote    # research/raw → resolution + grounding report
-npm run generate   # research fleets → src/graph/energy.generated.ts, src/data/welfare.generated.ts
-npm run validate   # the four invariants
-npm run build      # tsc -b && vite build
-npm run smoke      # headless render of all 21 routes; serves dist itself
-npm run check      # all of the above, in order
+npm run dev            # vite dev server
+npm run promote        # research/raw → resolution + grounding report
+npm run generate       # research fleets → src/graph/energy.generated.ts, src/data/welfare.generated.ts
+npm run test:assemble  # assembler and merge rules on a synthetic fixture (30 tests)
+npm run validate       # the four invariants; §4 raw fleet files, §5 generated modules
+npm run build          # tsc -b && vite build
+npm run smoke          # headless render of all 32 routes; serves dist itself
+npm run viewport       # the graph camera gate
+npm run check          # promote, generate, test:assemble, validate, build, smoke, viewport
+npm run test:pages     # /energy and /welfare acceptance suites — NOT in check or CI
 ```
+
+`generate` and `test:assemble` are in `check` and in CI. `test:pages` is not, yet:
+the welfare suite's corrections are still landing, and a gate that is red for a
+known reason teaches people to ignore it. Add it once both suites are green on three
+consecutive runs. The energy suite pins its run to a copy of `dist` (`ENERGY_DIST`)
+so a concurrent rebuild cannot poison it.
 
 `npm run smoke` needs a Chromium. It uses the environment's pinned binary if one
 exists; override with `PLAYWRIGHT_CHROMIUM_PATH`, or `npx playwright install chromium`.
 
 ### The agents
 
-Six are defined in `.claude/agents/`, each with a bounded job and an explicit
-refusal. Use them — they encode the rules above so you do not have to re-derive
+Twelve are defined in `.claude/agents/`, each with a bounded job and an explicit
+refusal. `cross-examiner` (one claim, one lens, default refuted) and
+`energy-analyst` are new with the fleets. Use them — they encode the rules above so you do not have to re-derive
 them. `evidence-auditor` and `base-rate-statistician` in particular exist to tell
 you "no", and a COLLAPSES verdict from them is a successful output, not a setback.
 

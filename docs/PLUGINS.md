@@ -51,3 +51,32 @@ judged design spec (interface-designer ×2 → judge)
    → code-verify / verification-before-completion               evidence, then the claim
    → testing-accessibility                                      WCAG 2.1 AA
 ```
+
+## What actually happened in this session
+
+*Added 2026-09-26, after `/energy` and `/welfare` shipped.*
+
+**Registration.** SweetClaude's agents were not available when the fleets were planned.
+They registered later in the session, roughly an hour in, as `sweetclaude:*` skills and
+`sc-*` agent types. That delay is recorded here from the session, not from any file in
+the repository. The fleets did not wait for it: each stage was run by giving a general
+agent the relevant SweetClaude role file or skill procedure, so the stage's method was
+the plugin's even where its agent type was not. No `.sweetclaude/` state was written —
+the UX reviews say so — because the project is not initialised with `/sweetclaude:init`.
+
+**What each stage produced.**
+
+| stage | `/energy` | `/welfare` | where |
+|---|---|---|---|
+| judged spec | two designs + a solo draft, judged and synthesised | the same | `docs/design/*_PAGE.md`, `docs/design/drafts/` |
+| `design-ux-review` (synthetic, five seats) | 20 must-level amendments applied (A1–A20); 47 deferred (D1–D47) | 91 persona items; 22 must-level applied; 35 deferred (D1–D35) | `docs/design/*_UX_REVIEW.md` |
+| acceptance criteria → isolated test writer | 67 criteria, one test each | 85 criteria, one test each | `docs/design/*_ACCEPTANCE.md`, `scripts/pages/*.test.mjs` |
+| caucus (five `sc-*` reviewers + house semantics reviewer) | 38 findings → 24 by consensus, all addressed | 39 findings → 20 by consensus, all addressed | commit messages `aef08ae`, `b24eb27` |
+| `testing-accessibility` (WCAG 2.1 AA) | 21 findings: 0 critical, 5 serious, 7 moderate, 9 minor. Serious fixed in `9ec7496` | 21 findings: 0 critical, 3 serious, 7 moderate, 11 minor. Serious open | `docs/design/*_A11Y.md` |
+| `code-verify` | 67/67 on three consecutive runs, after six defective criteria were corrected | 65 pass, 15 skip, 5 fail at commit; corrections in progress | — |
+
+**What it did not do.** The UX reviews are synthetic and say so on every heading: no real
+reader has seen either page. The energy audit records that it used no real screen reader, no
+voice control and no forced-colours mode; the welfare audit emulated forced colours but not
+the rest. The acceptance suites were themselves wrong in places — six `/energy` criteria and
+five `/welfare` criteria — which only a build against them exposed.
