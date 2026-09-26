@@ -4,32 +4,8 @@ import { Kicker, PageTitle, Standfirst, Section, Callout, StatGrid, DataTable, P
 import { useData } from '../context/DataContext';
 import { STATE_NAMES, STATE_BY_ID, STATES } from '../data/geo';
 import { ministersByState, RANK_LABEL } from '../data/politics';
-import { INDEX_CHANGES, INDEX_LABEL, INDICES_AS_OF, indexCoverage, membershipOf, type IndexKey } from '../data/indices';
-
-/**
- * Index lists that are short of their published size (or carry constituents with no
- * company record). A company that shows a NIFTY 50 chip but no BSE SENSEX 50 chip
- * reads as "not in SENSEX 50" — which the data cannot say while that list is 49 of 50.
- * Computed once so every profile names the same shortfall.
- */
-const INCOMPLETE_INDICES = indexCoverage().filter((x) => x.confirmed < x.expected || x.unresolved > 0);
-
-/**
- * Index membership is a market fact, not an evidence tier, so the chip borrows no tier
- * colour (sage/blue/amber are frozen to tiers). It links to the map filtered to that
- * index, which is where the rest of the membership is visible.
- */
-function IndexChip({ k }: { k: IndexKey }) {
-  return (
-    <Link
-      to={`/map?idx=${k}`}
-      title={`Show the ${INDEX_LABEL[k]} members on the map`}
-      className="inline-block font-mono text-[10.5px] tracking-[0.06em] px-1.5 py-0.5 border border-border-light rounded text-text-secondary hover:text-accent hover:border-accent/60 whitespace-nowrap"
-    >
-      {INDEX_LABEL[k]}
-    </Link>
-  );
-}
+import { INDEX_CHANGES, INDEX_LABEL, INDICES_AS_OF } from '../data/indices';
+import { IndexChips } from '../components/Domain';
 
 const fmtCr = (v: number) => (v >= 100000 ? `₹${(v / 100000).toFixed(2)} lakh cr` : `₹${Math.round(v).toLocaleString('en-IN')} cr`);
 
@@ -97,12 +73,8 @@ export default function CompanyProfile() {
 
   // Join on the company id only — `co:<id>` is how the index file resolved its rows.
   const coId = `co:${c.id}`;
-  const indices = membershipOf(coId);
-  // Only the shortfalls this company has no chip for are worth naming: if it is already
-  // a confirmed member, the missing row cannot be it.
-  const unconfirmedHere = INCOMPLETE_INDICES.filter((x) => !indices.includes(x.key));
   // An announced review names this company on one side or the other. It is reported,
-  // dated and tiered — and deliberately NOT folded into `indices` above.
+  // dated and tiered — and deliberately NOT folded into the membership chips.
   const indexChanges = INDEX_CHANGES.filter((ch) => ch.out.existingId === coId || ch.in.existingId === coId).sort(
     (a, b) => a.effective.localeCompare(b.effective) || a.index.localeCompare(b.index) || a.out.name.localeCompare(b.out.name),
   );
@@ -140,24 +112,7 @@ export default function CompanyProfile() {
           {c.isin ? ` · ${c.isin}` : ''} · figures as of {asOf}
         </p>
         {/* No chip row at all for a company in no index: an absent chip is not a claim. */}
-        {indices.length > 0 && (
-          <div className="flex flex-wrap items-center gap-1.5 mt-3">
-            {indices.map((k) => (
-              <IndexChip key={k} k={k} />
-            ))}
-            <span className="font-mono text-[11px] text-text-muted ml-1">
-              index constituent lists as of {INDICES_AS_OF}
-              {unconfirmedHere.map((x) => (
-                <span key={x.key}>
-                  {' · '}
-                  {x.label}: {x.confirmed} of {x.expected} constituents confirmed
-                  {x.unresolved > 0 ? `, ${x.unresolved} without a company record` : ''}, so a missing {x.label} chip is
-                  not a claim of non-membership
-                </span>
-              ))}
-            </span>
-          </div>
-        )}
+        <IndexChips companyId={c.id} withCoverageNote />
         {indexChanges.map((ch) => {
           const leaving = ch.out.existingId === coId;
           const other = leaving ? ch.in : ch.out;

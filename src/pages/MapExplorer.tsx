@@ -42,32 +42,52 @@ const COVERAGE = new Map(indexCoverage().map((x) => [x.key, x]));
 /** "one" reads as a sentence; larger shortfalls stay numerals. */
 const countWord = (n: number) => (n === 1 ? 'one' : String(n));
 
-export default function MapExplorer() {
-  const [metric, setMetric] = useState<Metric>('mcap');
-  const [exchange, setExchange] = useState<Exchange>('both');
-  const [sector, setSector] = useState<string>('all');
-  const [scaleMode, setScaleMode] = useState<ScaleMode>('quantile');
-  const [selected, setSelected] = useState<StateCode | null>(null);
-  const [showMarks, setShowMarks] = useState(true);
+/** URL defaults. A param equal to its default is removed, so the bare `/map` is the default view. */
+const DEFAULTS = { metric: 'mcap', exchange: 'both', sector: 'all', scale: 'quantile', marks: 'shown' } as const;
+const EXCHANGES: Exchange[] = ['both', 'NSE', 'BSE'];
+const SCALES: ScaleMode[] = ['quantile', 'log', 'linear'];
+const MARKS = ['shown', 'hidden'] as const;
+/** Built once: the sector control and the URL parser read the same list. */
+const SECTORS = sectorTotals().map((s) => s.sector);
 
-  // The index filter lives in the URL so the Dashboard's coverage tiles (and any reader)
-  // can link straight to `/map?idx=<key>`. Absent param = unfiltered, the default view.
+export default function MapExplorer() {
+  const [selected, setSelected] = useState<StateCode | null>(null);
+
+  // Every filter lives in the URL, so any map view is shareable and the Dashboard's
+  // coverage tiles (and any reader) can link straight to e.g. `/map?idx=<key>`.
+  // A param at its default is removed; replace: true keeps filter clicks out of history.
   const [params, setParams] = useSearchParams();
   const setParam = useCallback(
-    (k: string, v: string | null) => {
+    (k: keyof typeof DEFAULTS | 'idx', v: string | null) => {
       const next = new URLSearchParams(params);
-      if (v == null || v === '') next.delete(k);
+      if (v == null || v === '' || (k !== 'idx' && v === DEFAULTS[k])) next.delete(k);
       else next.set(k, v);
       setParams(next, { replace: true });
     },
     [params, setParams],
   );
-  const idxParam = params.get('idx');
-  // Only a known key filters. An unknown one is reported under the map, not silently
-  // treated as "no members" (which would hatch every state and read as a finding).
-  const idx: IndexKey | null = INDEX_KEYS.find((k) => k === idxParam) ?? null;
+  // Only a known value applies. An unknown one falls back to the default and is
+  // reported under the map, never silently read as "no match" (an unknown sector or
+  // index would hatch every state and read as a finding).
+  const unrecognised: [string, string][] = [];
+  const pick = <T extends string>(k: keyof typeof DEFAULTS | 'idx', allowed: readonly T[], fallback: T | null): T | null => {
+    const raw = params.get(k);
+    if (raw == null) return fallback;
+    const hit = allowed.find((a) => a === raw);
+    if (hit === undefined) {
+      unrecognised.push([k, raw]);
+      return fallback;
+    }
+    return hit;
+  };
+  const metric = pick<Metric>('metric', METRICS.map((m) => m.id), DEFAULTS.metric)!;
+  const exchange = pick<Exchange>('exchange', EXCHANGES, DEFAULTS.exchange)!;
+  const sector = pick<string>('sector', ['all', ...SECTORS], DEFAULTS.sector)!;
+  const scaleMode = pick<ScaleMode>('scale', SCALES, DEFAULTS.scale)!;
+  const showMarks = pick('marks', MARKS, DEFAULTS.marks) === 'shown';
+  const idx: IndexKey | null = pick<IndexKey>('idx', INDEX_KEYS, null);
 
-  const sectors = useMemo(() => sectorTotals().map((s) => s.sector), []);
+  const sectors = SECTORS;
 
   // Exchange and sector first, index second, so the caption can say what the index
   // filter itself removed rather than what all filters removed together.
@@ -194,7 +214,8 @@ export default function MapExplorer() {
               {METRICS.map((m) => (
                 <button
                   key={m.id}
-                  onClick={() => setMetric(m.id)}
+                  onClick={() => setParam('metric', m.id)}
+                  aria-pressed={metric === m.id}
                   title={m.note}
                   className={`font-mono text-[11px] px-2.5 py-1.5 rounded border transition-colors ${
                     metric === m.id ? 'border-accent text-accent bg-accent/10' : 'border-border text-text-muted hover:text-text'
@@ -209,10 +230,11 @@ export default function MapExplorer() {
           <div>
             <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-text-muted mb-1.5">Exchange</p>
             <div className="flex gap-1.5">
-              {(['both', 'NSE', 'BSE'] as Exchange[]).map((x) => (
+              {EXCHANGES.map((x) => (
                 <button
                   key={x}
-                  onClick={() => setExchange(x)}
+                  onClick={() => setParam('exchange', x)}
+                  aria-pressed={exchange === x}
                   className={`font-mono text-[11px] px-2.5 py-1.5 rounded border transition-colors ${
                     exchange === x ? 'border-accent text-accent bg-accent/10' : 'border-border text-text-muted hover:text-text'
                   }`}
@@ -261,10 +283,11 @@ export default function MapExplorer() {
           <div>
             <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-text-muted mb-1.5">Scale</p>
             <div className="flex gap-1.5">
-              {(['quantile', 'log', 'linear'] as ScaleMode[]).map((s) => (
+              {SCALES.map((s) => (
                 <button
                   key={s}
-                  onClick={() => setScaleMode(s)}
+                  onClick={() => setParam('scale', s)}
+                  aria-pressed={scaleMode === s}
                   className={`font-mono text-[11px] px-2.5 py-1.5 rounded border transition-colors ${
                     scaleMode === s ? 'border-accent text-accent bg-accent/10' : 'border-border text-text-muted hover:text-text'
                   }`}
@@ -278,7 +301,7 @@ export default function MapExplorer() {
           {sectors.length > 0 && (
             <div>
               <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-text-muted mb-1.5">Sector</p>
-              <select value={sector} onChange={(e) => setSector(e.target.value)} className="input-field !py-1.5 !text-[12px] !w-auto">
+              <select value={sector} onChange={(e) => setParam('sector', e.target.value)} className="input-field !py-1.5 !text-[12px] !w-auto">
                 <option value="all">All sectors</option>
                 {sectors.map((s) => (
                   <option key={s} value={s}>
@@ -292,7 +315,8 @@ export default function MapExplorer() {
           <div>
             <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-text-muted mb-1.5">Marks</p>
             <button
-              onClick={() => setShowMarks((s) => !s)}
+              onClick={() => setParam('marks', showMarks ? 'hidden' : 'shown')}
+              aria-pressed={showMarks}
               className={`font-mono text-[11px] px-2.5 py-1.5 rounded border transition-colors ${
                 showMarks ? 'border-accent text-accent bg-accent/10' : 'border-border text-text-muted hover:text-text'
               }`}
@@ -316,11 +340,15 @@ export default function MapExplorer() {
               format={(v) => (metric === 'mcap' || metric === 'gsdp' ? fmtCr(v) : String(Math.round(v)))}
             />
             <p className="text-[12px] text-text-muted mt-3 max-w-[70ch]">{activeMetric.note}</p>
-            {idxParam != null && !idx && (
-              <p className="text-[12px] text-text-secondary mt-2 max-w-[70ch]">
-                Unrecognised index “{idxParam}” in the link — the index filter is off and every company is shown.
+            {unrecognised.map(([k, v]) => (
+              <p key={k} className="text-[12px] text-text-secondary mt-2 max-w-[70ch]">
+                {k === 'idx'
+                  ? `Unrecognised index “${v}” in the link — the index filter is off and every company is shown.`
+                  : k === 'sector'
+                    ? `Unrecognised sector “${v}” in the link — the sector filter is off and every sector is shown.`
+                    : `Unrecognised ${k} “${v}” in the link — the default (${k === 'metric' ? METRICS.find((m) => m.id === DEFAULTS.metric)!.label : k === 'exchange' ? 'NSE + BSE' : DEFAULTS[k as keyof typeof DEFAULTS]}) is shown instead.`}
               </p>
-            )}
+            ))}
             {idx && idxCov && (
               <div className="text-[12px] text-text-secondary mt-2 max-w-[70ch] space-y-1 border-l-2 border-border-light pl-3">
                 <p>

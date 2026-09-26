@@ -106,6 +106,8 @@ const ROUTES = [
   ['/welfare', 'welfare'],
   ['/company/wipro', 'company-wipro'],
   ['/map?idx=sensex50', 'map-sensex50'],
+  ['/map?metric=psu&exchange=NSE&sector=Financials&scale=log&marks=hidden&idx=nifty50', 'map-parameterised'],
+  ['/industries?sector=Financials', 'industries-banking'],
 ];
 
 const failures = [];
@@ -137,6 +139,14 @@ for (const [route, name] of ROUTES) {
 
   const text = await page.evaluate(() => document.body.innerText.length);
   if (text < 200) failures.push(`${route}: rendered only ${text} characters — page is probably blank`);
+
+  // A parameterised route in this list is a known-good link. If any of its params is
+  // rejected, the page falls back to a default and says so — which would make the
+  // route test the default view while claiming to test the parameterised one.
+  if (route.includes('?')) {
+    const rejected = await page.evaluate(() => /Unrecognised /.test(document.body.innerText));
+    if (rejected) failures.push(`${route}: a URL param was reported as unrecognised — the smoke route is stale`);
+  }
 
   // Map pages must draw real geometry, not rectangles.
   if (['/map', '/atlas', '/cabinet', '/conglomerates'].includes(route)) {

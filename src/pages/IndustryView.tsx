@@ -1,7 +1,8 @@
-import { useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useCallback, useMemo } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
 import { Kicker, PageTitle, Standfirst, Byline, Section, Callout, StatGrid, DataTable } from '../components/Editorial';
 import IndiaMap from '../components/viz/IndiaMap';
+import { IndexChips } from '../components/Domain';
 import { useData } from '../context/DataContext';
 import { COMPANIES, hhi } from '../data/companies';
 import { STATE_NAMES } from '../data/geo';
@@ -12,8 +13,9 @@ const fmtCr = (v: number) => (v >= 100000 ? `₹${(v / 100000).toFixed(2)}L cr` 
 
 /**
  * Index membership, derived once at module scope from the typed accessor and joined on
- * `co:<id>` only. The Index column, the per-sector count line and the all-sectors
- * column all read these two maps, so they cannot disagree with each other.
+ * `co:<id>` only. The per-sector count line and the all-sectors column read these two
+ * maps; the Index column's <IndexChips> reads the same `membershipOf` accessor on the
+ * same `co:<id>` join, so the three cannot disagree with each other.
  */
 const INDEX_OF = new Map<string, IndexKey[]>(COMPANIES.map((c) => [c.id, membershipOf(`co:${c.id}`)]));
 const INDEXED_BY_SECTOR = new Map<string, number>();
@@ -25,20 +27,6 @@ const INDEX_SHORTFALL = indexCoverage().filter((x) => x.confirmed < x.expected |
 const INDEX_NAMES = INDEX_KEYS.map((k) => INDEX_LABEL[k]);
 const INDEX_NAMES_TEXT = `${INDEX_NAMES.slice(0, -1).join(', ')} or ${INDEX_NAMES[INDEX_NAMES.length - 1]}`;
 
-/** Chips, not links: in a table of many rows the company name is already the link. */
-function IndexChips({ keys }: { keys: IndexKey[] }) {
-  if (keys.length === 0) return <span className="text-text-muted">—</span>;
-  return (
-    <span className="flex flex-wrap gap-1">
-      {keys.map((k) => (
-        <span key={k} className="inline-block font-mono text-[10px] tracking-[0.05em] px-1.5 py-0.5 border border-border-light rounded text-text-secondary whitespace-nowrap">
-          {INDEX_LABEL[k]}
-        </span>
-      ))}
-    </span>
-  );
-}
-
 /**
  * Sector view.
  *
@@ -49,7 +37,24 @@ function IndexChips({ keys }: { keys: IndexKey[] }) {
  */
 export default function IndustryView() {
   const { companies, sectors, groups } = useData();
-  const [sector, setSector] = useState<string>(sectors[0]?.sector ?? '');
+  // The sector lives in the URL (`?sector=`) so a sector view is shareable. The default
+  // (largest sector, first in the list) is the bare `/industries`; replace: true keeps
+  // sector clicks out of history. An unknown sector falls back to the default and is
+  // reported, never read as an empty sector.
+  const [params, setParams] = useSearchParams();
+  const defaultSector = sectors[0]?.sector ?? '';
+  const sectorParam = params.get('sector');
+  const known = sectorParam != null && sectors.some((s) => s.sector === sectorParam);
+  const sector = known ? sectorParam : defaultSector;
+  const setSector = useCallback(
+    (v: string) => {
+      const next = new URLSearchParams(params);
+      if (!v || v === defaultSector) next.delete('sector');
+      else next.set('sector', v);
+      setParams(next, { replace: true });
+    },
+    [params, setParams, defaultSector],
+  );
 
   const inSector = useMemo(() => companies.filter((c) => c.sector === sector), [companies, sector]);
   const conc = useMemo(() => hhi(inSector.map((c) => c.marketCapCr ?? 0)), [inSector]);
@@ -104,6 +109,7 @@ export default function IndustryView() {
           <button
             key={s.sector}
             onClick={() => setSector(s.sector)}
+            aria-pressed={sector === s.sector}
             className={`font-mono text-[11px] px-2.5 py-1.5 rounded border transition-colors ${
               sector === s.sector ? 'border-accent text-accent bg-accent/10' : 'border-border text-text-muted hover:text-text'
             }`}
@@ -112,6 +118,11 @@ export default function IndustryView() {
           </button>
         ))}
       </div>
+      {sectorParam != null && !known && (
+        <p className="text-[12px] text-text-secondary -mt-3 mb-4 max-w-[70ch]">
+          Unrecognised sector “{sectorParam}” in the link — showing {defaultSector || 'the default sector'} instead.
+        </p>
+      )}
 
       <StatGrid
         items={[
@@ -171,7 +182,7 @@ export default function IndustryView() {
               <span key="t" className="font-mono text-[11.5px]">
                 {c.nse ?? c.bse ?? '—'}
               </span>,
-              <IndexChips key="x" keys={INDEX_OF.get(c.id) ?? []} />,
+              <IndexChips key="x" companyId={c.id} size="sm" />,
               <span key="i" className="text-[12.5px]">
                 {c.industry}
               </span>,

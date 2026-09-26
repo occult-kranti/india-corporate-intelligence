@@ -1,6 +1,8 @@
 import { useMemo } from 'react';
+import { Link } from 'react-router-dom';
 import { Cite } from './Editorial';
 import type { Source } from '../graph/schema';
+import { INDEX_LABEL, INDICES_AS_OF, indexCoverage, membershipOf } from '../data/indices';
 
 /**
  * Shared chrome for the four allocation-register domains — PM CARES, government
@@ -487,6 +489,93 @@ export function SourceLedger({ entries }: { entries: LedgerEntry[] }) {
           </li>
         ))}
       </ol>
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// IndexChips
+// ---------------------------------------------------------------------------
+
+/**
+ * Index lists short of their published size (or carrying constituents with no company
+ * record). Computed once so every chip row names the same shortfall.
+ */
+const INCOMPLETE_INDICES = indexCoverage().filter((x) => x.confirmed < x.expected || x.unresolved > 0);
+
+/**
+ * Index-membership chips for one company, joined on `co:<id>` only — never on a name.
+ *
+ * Membership is a market fact, not an evidence tier, so the chip borrows no tier colour
+ * (sage/blue/amber are frozen to tiers).
+ *
+ * - `size="md"` (default) is the page-header variant: each chip links to the map filtered
+ *   to that index, and a company in no index renders nothing — an absent chip is not a claim.
+ * - `size="sm"` is the table variant: plain chips, because in a table the company name is
+ *   already the row's link, and an empty cell prints "—" so the column never reads as blank.
+ * - `withCoverageNote` appends the as-of date and, for each incomplete list this company
+ *   has no chip for, why a missing chip is not a claim of non-membership. A confirmed
+ *   member cannot be the missing row, so only lists it is absent from are named.
+ *
+ * `companyId` is the company record id (`wipro`); a `co:`-prefixed graph id is accepted too.
+ */
+export function IndexChips({
+  companyId,
+  size = 'md',
+  withCoverageNote = false,
+}: {
+  companyId: string;
+  size?: 'sm' | 'md';
+  withCoverageNote?: boolean;
+}) {
+  const coId = companyId.startsWith('co:') ? companyId : `co:${companyId}`;
+  const keys = membershipOf(coId);
+
+  if (keys.length === 0) return size === 'sm' ? <span className="text-text-muted">—</span> : null;
+
+  const chips = keys.map((k) =>
+    size === 'sm' ? (
+      <span
+        key={k}
+        className="inline-block font-mono text-[10px] tracking-[0.05em] px-1.5 py-0.5 border border-border-light rounded text-text-secondary whitespace-nowrap"
+      >
+        {INDEX_LABEL[k]}
+      </span>
+    ) : (
+      <Link
+        key={k}
+        to={`/map?idx=${k}`}
+        title={`Show the ${INDEX_LABEL[k]} members on the map`}
+        className="inline-block font-mono text-[10.5px] tracking-[0.06em] px-1.5 py-0.5 border border-border-light rounded text-text-secondary hover:text-accent hover:border-accent/60 whitespace-nowrap"
+      >
+        {INDEX_LABEL[k]}
+      </Link>
+    ),
+  );
+
+  const note = withCoverageNote && (
+    <span className="font-mono text-[11px] text-text-muted ml-1">
+      index constituent lists as of {INDICES_AS_OF}
+      {INCOMPLETE_INDICES.filter((x) => !keys.includes(x.key)).map((x) => (
+        <span key={x.key}>
+          {' · '}
+          {x.label}: {x.confirmed} of {x.expected} constituents confirmed
+          {x.unresolved > 0 ? `, ${x.unresolved} without a company record` : ''}, so a missing {x.label} chip is
+          not a claim of non-membership
+        </span>
+      ))}
+    </span>
+  );
+
+  return size === 'sm' ? (
+    <span className="flex flex-wrap gap-1">
+      {chips}
+      {note}
+    </span>
+  ) : (
+    <div className="flex flex-wrap items-center gap-1.5 mt-3">
+      {chips}
+      {note}
     </div>
   );
 }

@@ -69,6 +69,8 @@ export default function Dashboard() {
             const missing = x.expected - x.confirmed;
             return {
               value: `${x.confirmed} / ${x.expected}`,
+              // The tile is the route to the map filtered to this index.
+              to: `/map?idx=${x.key}`,
               label:
                 `Index coverage · ${x.label} constituents confirmed / expected, as of ${INDICES_AS_OF}` +
                 (missing > 0 ? ` · ${missing === 1 ? 'one' : missing} could not be verified` : '') +
@@ -77,19 +79,6 @@ export default function Dashboard() {
           }),
         ]}
       />
-      {/* StatGrid tiles take no link, so the route to each filtered map sits directly under them. */}
-      <p className="font-mono text-[11px] text-text-muted -mt-3 mb-2">
-        Index members on the map:{' '}
-        {INDEX_COVERAGE.map((x, i) => (
-          <span key={x.key}>
-            {i > 0 && ' · '}
-            <Link to={`/map?idx=${x.key}`} className="underline underline-offset-2 hover:text-accent">
-              {x.label} →
-            </Link>
-          </span>
-        ))}
-      </p>
-
       <Callout label="Start here" tone="bottomline">
         <p>
           If you are here to look for connections, read{' '}
