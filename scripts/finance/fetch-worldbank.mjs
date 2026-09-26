@@ -24,6 +24,17 @@
  * the last value and says so; a year before its first (1960) gets no ₹ amount and says
  * "amount not stated" (in US$ m only).
  *
+ * Name resolution carries the finance reconciliation of 2026-09-26 (research/raw/finance/
+ * RECONCILIATION.json) as rules, so a re-fetch reproduces it rather than undoing it: API typos
+ * in norm(); spelling variants of one body in SAME_AS; "<body>, Government of <State>" → the body
+ * when the API also names it alone (bodyOfParentGovernment); per-project readings keyed by
+ * World Bank project id (PROJECT_READINGS — never by claim id, which is derived); counter-
+ * guarantee clauses, API notes and persons' names are not institutions; bare portfolio names are
+ * departments (GENERIC_ORGANS); inventory seats in INV_ST (a seat never places a project); state-
+ * node aliases that do not name the state are qualified with it; the 2999-12-31 "no date"
+ * sentinel is recorded as null and explained in d. fetch-worldbank.test.mjs holds each rule
+ * against fixtures/wb-reconciled.json (live rows of the projects the reconciliation touched).
+ *
  * Node 20+, ESM, no dependencies. `node scripts/finance/fetch-worldbank.mjs [--out <path>]`.
  * The pure builder is exported for scripts/finance/fetch-worldbank.test.mjs.
  */
@@ -81,7 +92,10 @@ export function norm(s) {
     .replace(/\bgovt\.?\b/g, 'government')
     .replace(/\bgoverment\b/g, 'government')
     .replace(/\bfinanace\b/g, 'finance')
+    .replace(/\bdepartmen tof\b/g, 'department of')
     .replace(/\bdepartmen t\b/g, 'department')
+    .replace(/\bminstry\b/g, 'ministry')
+    .replace(/\bcoprporation\b/g, 'corporation')
     .replace(/\bdept\.?\b/g, 'department')
     .replace(/\bltd\.?\b/g, 'limited')
     .replace(/\bminsitry\b/g, 'ministry')
@@ -121,6 +135,14 @@ export function detectState(raw) {
   const key = ` ${norm(raw)} `;
   for (const [name, code] of STATES) if (key.includes(` ${name} `)) return code;
   return null;
+}
+
+/** State abbreviations that place a name when they lead it ("UP-PWD", "UP Police Traffic Directorate"). */
+const STATE_ABBR = { up: 'up', mp: 'mp', hp: 'hp', ap: 'ap', tn: 'tn' };
+/** Does a name place itself in state `code` — by the state's name, an old spelling, or a leading abbreviation? */
+export function namesState(name, code) {
+  if (detectState(name) === code) return true;
+  return STATE_ABBR[norm(name).split(' ')[0]] === code;
 }
 
 /** "Government of X", "State of X", "Finance Department, Government of X", "X" alone: the state government itself. */
@@ -178,6 +200,8 @@ export const NEW = {
   'fin:mysuru-city-corporation': { label: 'Mysuru City Corporation', ty: 'agency', fam: 'state', st: 'ka', al: ['Mysore City Corporation'] },
   'fin:midfc': { label: 'Meghalaya Infrastructure Development and Finance Corporation', ty: 'psu', fam: 'state', st: 'ml', al: ['MIDFC'] },
   'fin:octdms': { label: 'Odisha Community Tank Development and Management Society', ty: 'agency', fam: 'state', st: 'or', al: ['OCTDMS', 'Orissa Community Based Tank Management Society'] },
+  // Spelt as adb-aiib.json, bilateral-china.json and contracts.json spell it (P177666 Delhi RRTS).
+  'fin:ncrtc': { label: 'National Capital Region Transport Corporation', ty: 'psu', fam: 'state', st: 'dl', al: ['NCRTC'] },
   'fin:mahatransco-mahagenco': null,
 };
 delete NEW['fin:mahatransco-mahagenco'];
@@ -193,8 +217,26 @@ const INV_AL = {
   'min:ministry-of-statistics-and-programme-implementation-independent-charge-': ['MoSPI'],
   'min:ministry-of-women-and-child-development': ['MWCD'],
   'min:ministry-of-development-of-north-eastern-region': ['MDoNER'],
-  'seci': ['SECI'],
+  'seci': ['SECI', 'Solar Energy Corporation of India'],
   'wel:elcot': ['ELCOT'],
+};
+
+/**
+ * Seat (state code) of inventory bodies whose label names no state or city, as the sibling
+ * finance records of the same id state it (RECONCILIATION.json, finance fleet). Without it
+ * these records carried `st: null` beside a sibling record saying "dl" / "ut".
+ */
+export const INV_ST = {
+  'co:power-grid': 'dl', // registered office New Delhi (companies-by-state.json)
+  'energy:thdc': 'ut',
+  'seci': 'dl',
+  'min:ministry-of-health-and-family-welfare': 'dl',
+  'min:ministry-of-housing-and-urban-affairs': 'dl',
+  'min:ministry-of-jal-shakti': 'dl',
+  'min:ministry-of-micro-small-and-medium-enterprises': 'dl',
+  'min:ministry-of-new-and-renewable-energy': 'dl',
+  'min:ministry-of-road-transport-and-highways': 'dl',
+  'min:ministry-of-rural-development': 'dl',
 };
 
 /** The national graph's ministry id for a portfolio name — src/graph/build.ts ministryNode(). */
@@ -243,7 +285,8 @@ const HAND = {
   'india infrastructure finance company limited': 'fin:iifcl', 'iifcl': 'fin:iifcl',
   'national bank for financing infrastructure and development': 'fin:nabfid', 'nabfid': 'fin:nabfid',
   'national housing bank': 'fin:national-housing-bank', 'nhb': 'fin:national-housing-bank',
-  'energy efficiency services limited': 'fin:eesl', 'eesl': 'fin:eesl',
+  'energy efficiency services limited': 'fin:eesl', 'eesl': 'fin:eesl', 'eesl energy efficiency services limited': 'fin:eesl',
+  'national capital region transport corporation': 'fin:ncrtc', 'national capital region transport corporation limited': 'fin:ncrtc', 'ncrtc': 'fin:ncrtc',
   'dedicated freight corridor corporation of india limited': 'fin:dfccil', 'dfccil': 'fin:dfccil',
   'solar energy corporation of india limited': 'seci', 'solar energy corporation of india': 'seci',
   'national disaster management authority': 'fin:ndma', 'ndma': 'fin:ndma',
@@ -286,6 +329,54 @@ const HAND = {
   'odisha community tank development and management society': 'fin:octdms', 'orissa community based tank management society': 'fin:octdms', 'orissa community tank development and management society': 'fin:octdms',
 };
 
+/**
+ * One body, two API spellings: the variant (key, norm(stripParen(name))) is resolved as the
+ * spelling on the right, so both land on the id the right-hand spelling derives — no hand-made
+ * id. Each pair names the same acronym, state and function (finance reconciliation 2026-09-26).
+ */
+export const SAME_AS = {
+  // P514088 "Institute" vs P506340 / P515072 "Institution" (its gazetted name); both carry MITRA.
+  'maharashtra institute for transformation': 'Maharashtra Institution for Transformation (MITRA)',
+  // P159808 "Capital Region" vs P507508 "Capital Regional": APCRDA, AP CRDA Act 2014.
+  'andhra pradesh capital region development authority': 'Andhra Pradesh Capital Regional Development Authority',
+  // P129119 (TA Disability, 2012) vs P079708 (2005): both the Pudhu Vaazhvu programme society.
+  'tamil nadu pudhu vaazhvu state society': 'Pudhu Vaazhvu Society',
+  // P510686 spells ARJUN out ("Artificial Intelligence …"); P516517 names the SPV "AI for …".
+  'artificial intelligence for resilient jobs urban air quality and next gen skills council': 'AI for Resilient Jobs, Urban Air Quality, and Next Gen Skills Council (ARJUN) SPV',
+};
+
+/**
+ * Per-project readings of one API name, where the string alone resolves wrongly and no general
+ * rule can tell the difference. Keyed by World Bank project id (stable — claim ids are derived)
+ * and the verbatim API segment; `readAs` is resolved in its place. The API text stays verbatim
+ * in the claim's d and in projects[].
+ */
+export const PROJECT_READINGS = {
+  P512898: {
+    agency: {
+      'Department of Agriculture and Farmers Welfare': {
+        readAs: 'Department of Agriculture and Farmers Welfare, Government of Haryana',
+        why: 'first of the agencies the API lists for the Water Secure Haryana Program, a field ending "Government of Haryana": Haryana\'s own department, not the Union department of the same name',
+      },
+    },
+  },
+};
+
+/** Portfolio names the API gives with no "Department" — a department of whichever government the project belongs to. */
+const GENERIC_ORGANS = new Set([
+  'rural development and panchayat raj', 'rural development and panchayati raj',
+  'panchayat raj and rural development', 'panchayati raj and rural development',
+]);
+
+/** Honorific-led names are persons (an official named in the borrower field), never institutions. */
+const PERSON_RE = /^(shri|sri|shrimati|smt|mr|mrs|ms|dr|prof)\s/;
+/** A bare person's name: honorific-led, and no institution, government or state anywhere in it ("Mr. X, Principal Secretary, …, Government of Assam" is the office's government). */
+const isPersonName = (key) => PERSON_RE.test(key) && !TY_GUESS.some(([re]) => re.test(key)) && !/\b(government|ministry|india)\b/.test(key) && !detectState(key);
+/** API notes in a name field — not an institution. */
+const NOT_AN_INSTITUTION = /^(none|nil|none as this is a grant|not applicable|n a)$/;
+/** "State of West Bengal with the counter-guarantee of the Republic of India": the guarantee clause is not part of the borrower's name. */
+const GUARANTEE_RE = /\s+with\s+(?:the\s+)?counter[\s-]?guarantee\b.*$/i;
+
 /** City → state, for `st` on bodies named after a city. */
 const CITIES = [
   ['bangalore', 'ka'], ['bengaluru', 'ka'], ['hubli', 'ka'], ['dharwad', 'ka'], ['mysore', 'ka'], ['mysuru', 'ka'], ['ahmedabad', 'gj'], ['surat', 'gj'], ['vadodara', 'gj'],
@@ -300,8 +391,12 @@ function detectCity(key) {
   return null;
 }
 
-/** Inventory ids by normalised label and alias; only institutional types so a person's name never matches. */
-export function inventoryIndex(inventory) {
+/**
+ * Inventory ids by normalised label and alias; only institutional types so a person's name never
+ * matches. `names` are the verbatim borrower/agency names of the whole fetch: their keys form
+ * `standalone`, the bodies the API names on their own somewhere (see bodyOfParentGovernment).
+ */
+export function inventoryIndex(inventory, names = []) {
   const byKey = new Map();
   const byId = new Map();
   const INST = new Set(['ministry', 'state', 'psu', 'agency', 'company', 'trust', 'fund']);
@@ -314,7 +409,8 @@ export function inventoryIndex(inventory) {
       if (!byKey.has(k)) byKey.set(k, e.id);
     }
   }
-  return { byKey, byId, stateIds: stateIdIndex(inventory) };
+  const standalone = new Set(names.map((n) => unionCore(norm(stripParen(n)))).filter(Boolean));
+  return { byKey, byId, stateIds: stateIdIndex(inventory), standalone };
 }
 
 /** Which inventory id stands for each state government (energy:state-*, energy:govt-of-*). */
@@ -344,7 +440,7 @@ function guessType(key) {
 
 const BODY_RE = /\b(limited|corporation|company|nigam|board|authority|agency|mission|society|university|institute|bank|foundation|parishad|sansthan|council|commission|tribunal|fund|project|unit|palike|municipality|spv)\b/;
 /** A department, directorate or wing: an organ of a government, not a body corporate. */
-const isDepartment = (key) => /\b(department|directorate|secretariat|wing|commissionerate|organisation|organization|finance|planning)\b/.test(key) && !BODY_RE.test(key);
+const isDepartment = (key) => (/\b(department|directorate|secretariat|wing|commissionerate|organisation|organization|finance|planning)\b/.test(key) || GENERIC_ORGANS.has(key)) && !BODY_RE.test(key);
 /** Generic organ names that cannot be placed without a state ("Water Resources Department", "Department of Agriculture"). */
 const isGeneric = (key) => isDepartment(key) && !/\b(india|indian|national|central|union|ministry)\b/.test(key) && !detectState(key);
 /** Strip the Union suffixes and "under/within the ministry of …" tails a WB entry adds to a body's name. */
@@ -352,7 +448,7 @@ const unionCore = (key) => key.replace(/\b(the )?(republic of india|government o
 
 function fromId(id, idx, how) {
   const e = idx.byId.get(id);
-  if (e) return { id, label: e.label, ty: e.ty, fam: e.ty === 'trust' ? 'recipient' : e.ty === 'company' ? 'market' : 'state', st: detectState(e.label) ?? detectCity(norm(e.label)), al: INV_AL[id], how, isNew: false };
+  if (e) return { id, label: e.label, ty: e.ty, fam: e.ty === 'trust' ? 'recipient' : e.ty === 'company' ? 'market' : 'state', st: INV_ST[id] ?? detectState(e.label) ?? detectCity(norm(e.label)), seatOnly: INV_ST[id] != null && !detectState(e.label) && !detectCity(norm(e.label)), al: INV_AL[id], how, isNew: false };
   const n = NEW[id];
   if (n) return { id, label: n.label, ty: n.ty, fam: n.fam, st: n.st, al: n.al, how, isNew: true };
   throw new Error(`hand map points at unknown id ${id}`);
@@ -371,6 +467,29 @@ function unionMinistry(key, how) {
   return { id: ministryId(label), label, ty: 'ministry', fam: 'state', st: 'dl', how: `${how} → min: id by the national ministry rule (not in cabinet.json)`, isNew: true };
 }
 
+/**
+ * "<body>, [<department>, ]Government of <State>" and "Government of <State>, <body>": the API
+ * names a state body together with its parent government. When the body is a node in its own
+ * right — the API names it on its own in some project (idx.standalone), or the hand map, the
+ * spelling table or the inventory knows it — the name is the body's, not the government's
+ * (P159576 BRLPS, P511844 AS-CFMS, P122096 BAPEPS, P510686 ARJUN). A body only ever named with
+ * its government stays on the government node, as a department does; "State Health Society,
+ * Government of Assam, …" could be any state's. Returns the body's part of the raw name, or null.
+ */
+const GOV_CLAUSE = String.raw`(?:the\s+)?(?:government|govt\.?|state)\s+of\s+([a-z &]+?)`;
+const LEAD_GOV_RE = new RegExp(String.raw`^\s*${GOV_CLAUSE}\s*,\s*(.+)$`, 'i');
+const TRAIL_GOV_RE = new RegExp(String.raw`^(.+?)\s*,\s*(?:[^,]*\b(?:department|dept\.?|directorate)\b[^,]*,\s*)*${GOV_CLAUSE}\s*\.?\s*$`, 'i');
+function bodyOfParentGovernment(raw, idx) {
+  const lead = LEAD_GOV_RE.exec(raw);
+  const trail = lead ? null : TRAIL_GOV_RE.exec(raw);
+  const [body, govState] = lead ? [lead[2], lead[1]] : trail ? [trail[1], trail[2]] : [null, null];
+  const code = govState ? detectState(govState) : null;
+  if (!body || !code) return null;
+  const bk = unionCore(norm(stripParen(body)));
+  if (!BODY_RE.test(bk) || isDepartment(bk) || isStateGovernment(bk, code)) return null;
+  return SAME_AS[bk] || HAND[bk] || idx.byKey.has(bk) || idx.standalone?.has(bk) ? body.trim() : null;
+}
+
 /** Segments of a compound name: "Central Water Commission, Ministry of Jal Shakti" → both parts. */
 const segments = (raw) => stripParen(raw).split(/,\s+|\s+under\s+(?:the\s+)?|\s+within\s+|\s*:\s+|\s+-\s+/).map((x) => norm(x)).filter((x) => x.length >= 3);
 
@@ -385,14 +504,31 @@ export function resolveName(raw, idx, role, hintState = null) {
   const key0 = norm(stripParen(raw));
   const stripped = norm(raw);
   if (!key0) return null;
+  // Not an institution: an API note ("None as this is a Grant") or a person's name ("Shri …").
+  // Persons are recorded by office with dates, by the people domain — never from a name field.
+  if (NOT_AN_INSTITUTION.test(key0)) return null;
+  if (isPersonName(key0)) return null;
   if (isUnionBorrower(key0) || isUnionBorrower(stripped)) {
     return { id: 'min:ministry-of-finance', label: 'Ministry of Finance', ty: 'ministry', fam: 'state', st: 'dl', how: 'Union borrower (India / Republic of India / DEA / MoF) → Ministry of Finance', isNew: false };
+  }
+  if (SAME_AS[key0]) {
+    const r = resolveName(SAME_AS[key0], idx, role, hintState);
+    return r && { ...r, how: `API spelling variant of "${SAME_AS[key0]}" → ${r.how}` };
+  }
+  if (GUARANTEE_RE.test(raw)) {
+    const r = resolveName(String(raw).replace(GUARANTEE_RE, ''), idx, role, hintState);
+    return r && { ...r, how: `counter-guarantee clause dropped from the borrower name → ${r.how}` };
   }
   const key = unionCore(key0);
   for (const k of [key0, stripped, key]) {
     if (HAND[k]) return fromId(HAND[k], idx, 'hand alias map');
     const inv = idx.byKey.get(k);
     if (inv) return fromId(inv, idx, 'inventory label/alias match');
+  }
+  const body = bodyOfParentGovernment(raw, idx);
+  if (body) {
+    const r = resolveName(body, idx, role, hintState);
+    if (r) return { ...r, how: `body named with its parent government → the body's own node; ${r.how}` };
   }
   const st = detectState(raw);
   if (st && isStateGovernment(key, st)) return stateNode(st, idx, 'state-government pattern');
@@ -422,6 +558,14 @@ export function resolveName(raw, idx, role, hintState = null) {
   const g = guessType(key);
   const label = stripParen(raw).replace(/\s+,/g, ',').replace(/\s+/g, ' ').replace(/[.\s]+$/, '').trim();
   return { id: `fin:${slug(key)}`, label, ty: g.ty, fam: g.fam, st: st ?? detectCity(key) ?? null, how: `new fin: id; type "${g.ty}" inferred from the name`, isNew: true, role };
+}
+
+/** resolveName, honouring a PROJECT_READINGS entry for this project, role and verbatim API name. */
+export function resolveFor(pid, raw, idx, role, hintState = null) {
+  const o = PROJECT_READINGS[pid]?.[role]?.[raw];
+  if (!o) return resolveName(raw, idx, role, hintState);
+  const r = resolveName(o.readAs, idx, role, hintState);
+  return r && { ...r, how: `per-project reading (${pid}: read as "${o.readAs}") → ${r.how}` };
 }
 
 /** Split a World Bank agency or borrower field. Several bodies are joined with "," and no space; a comma inside one name is followed by a space. */
@@ -472,6 +616,14 @@ export function isoDate(v) {
   return m ? m[1] : null;
 }
 
+/**
+ * The Bank's "no date" markers (2999-12-31 is the debarment feed's DEBAR_TO_DATE for an
+ * indefinite or conditional-release debarment). A sentinel is not a date: the field is
+ * recorded as open (null) and the claim's d says which marker the API carried.
+ */
+export const SENTINEL_DATES = ['2999-12-31', '9999-12-31'];
+export const realDate = (iso) => (iso != null && SENTINEL_DATES.includes(iso) ? null : iso);
+
 // ---------------------------------------------------------------------------
 // Build
 // ---------------------------------------------------------------------------
@@ -486,7 +638,6 @@ const inSpan = (d, [a, b]) => d != null && d >= a && d <= b;
  *   inventory: the id inventory, asOf: 'YYYY-MM-DD', lenderPages: [{ id, url, ok }]
  */
 export function build({ v3Pages, v2Pages = [], fx, inventory, asOf, lenderPages = [] }) {
-  const idx = inventoryIndex(inventory);
   const pages = [];
   const v3 = [];
   for (const p of v3Pages) {
@@ -509,6 +660,9 @@ export function build({ v3Pages, v2Pages = [], fx, inventory, asOf, lenderPages 
   // De-duplicate by project id (a page boundary can repeat a row when the index moves).
   const seen = new Set();
   const projects = v3.filter((p) => (seen.has(p.id) ? false : (seen.add(p.id), true))).sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0));
+  // Every name the fetch carries, so a body named with its parent government can be recognised
+  // as one the API also names on its own.
+  const idx = inventoryIndex(inventory, projects.flatMap((p) => [p.borrower ?? v2.get(p.id)?.borrower, p.impagency ?? v2.get(p.id)?.impagency].flatMap(splitAgencies)));
 
   const apiSrc = ['World Bank Projects API v3 (India)', pages[0].url];
   const entities = new Map();
@@ -578,8 +732,12 @@ export function build({ v3Pages, v2Pages = [], fx, inventory, asOf, lenderPages 
     const v2r = v2.get(p.id);
     const status = p.status ?? null;
     byStatus[status ?? 'unknown'] = (byStatus[status ?? 'unknown'] ?? 0) + 1;
-    const from = isoDate(p.boardapprovaldate);
-    const to = isoDate(p.closingdate ?? v2r?.closingdate);
+    const fromRaw = isoDate(p.boardapprovaldate);
+    const toRaw = isoDate(p.closingdate ?? v2r?.closingdate);
+    const from = realDate(fromRaw);
+    const to = realDate(toRaw);
+    const sentinels = [['approval', fromRaw, from], ['closing', toRaw, to]].filter(([, r, v]) => r != null && v == null)
+      .map(([what, r]) => `${what} date ${r} in the API is the Bank's "no date" marker, not a date: recorded as open (null)`);
     const year = from ? Number(from.slice(0, 4)) : null;
     const pipeline = status === 'Pipeline' || (from != null && from > asOf);
     const instrument = v2r?.lendinginstr ?? null;
@@ -597,18 +755,21 @@ export function build({ v3Pages, v2Pages = [], fx, inventory, asOf, lenderPages 
     const agencyRaw = (p.impagency ?? v2r?.impagency ?? '').trim();
     const titleState = detectState(p.project_name);
     const agencyNames = splitAgencies(agencyRaw);
-    const agencies = agencyNames.map((a) => ({ raw: a, r: resolveName(a, idx, 'agency', titleState) })).filter((x) => x.r);
-    const unplaced = agencyNames.filter((a) => !resolveName(a, idx, 'agency', titleState));
+    const agencyRs = agencyNames.map((a) => ({ raw: a, r: resolveFor(p.id, a, idx, 'agency', titleState) }));
+    const agencies = agencyRs.filter((x) => x.r);
+    const unplaced = agencyRs.filter((x) => !x.r).map((x) => x.raw);
     // Several borrowers joined with "," — the first is the borrower of record here; the rest are noted.
     const borrowerNames = splitAgencies(borrowerRaw);
-    const borrowerRs = borrowerNames.map((b) => resolveName(b, idx, 'borrower', titleState)).filter(Boolean);
+    const borrowerRs = borrowerNames.map((b) => resolveFor(p.id, b, idx, 'borrower', titleState)).filter(Boolean);
     const borrowerR = borrowerRs[0] ?? null;
     // The projects table keeps the row whatever its status; claims are for loans that exist.
     // A state attribution comes from a state-government node, a body seated in a state
-    // (Delhi-seated Union bodies do not make a project a Delhi project), or the title.
+    // (Delhi-seated Union bodies do not make a project a Delhi project; nor does a registered
+    // seat known only from INV_ST — THDC is seated in Uttarakhand and builds in Uttar Pradesh),
+    // or the title.
     const stateCode = (borrowerR && borrowerR.ty === 'state' ? borrowerR.st : null)
       ?? agencies.map((a) => (a.r.ty === 'state' ? a.r.st : null)).find(Boolean)
-      ?? agencies.map((a) => (a.r.st && a.r.st !== 'dl' && a.r.ty !== 'ministry' ? a.r.st : null)).find(Boolean)
+      ?? agencies.map((a) => (a.r.st && a.r.st !== 'dl' && a.r.ty !== 'ministry' && !a.r.seatOnly ? a.r.st : null)).find(Boolean)
       ?? titleState ?? null;
     projectRows.push({
       id: p.id, project_name: p.project_name ?? null, status, boardapprovaldate: from, closingdate: to, pipeline,
@@ -675,6 +836,7 @@ export function build({ v3Pages, v2Pages = [], fx, inventory, asOf, lenderPages 
       parts.push(`status: ${status ?? 'unknown'}`);
       if (pipeline) parts.push('PIPELINE — approval date in the future; not yet a loan; excluded from totals');
       parts.push(`approved ${from ?? 'date not stated'}${to ? `, closes ${to}` : ''}`);
+      for (const s of sentinels) parts.push(s);
       parts.push(`borrower: ${borrowerRaw ? `"${borrowerNames[0]}"` : 'not stated in API — Union (DEA) by default'} → ${t.id}${borrowerRs.length > 1 ? `; co-borrowers: ${borrowerRs.slice(1).map((b, i) => `"${borrowerNames[i + 1]}" → ${b.id}`).join(', ')}` : ''}`);
       parts.push(agencies.length ? `implementing: ${agencies.map((a) => `"${a.raw}" → ${a.r.id}`).join('; ')}${unplaced.length ? `; unplaced (generic name, no state): ${unplaced.map((u) => `"${u}"`).join(', ')}` : ''}` : agencyRaw ? `implementing agency "${agencyRaw}" cannot be placed by name (generic department, no state stated) — benefit recorded to the borrower` : 'implementing agency not stated in API');
       if (sector) parts.push(`sectors: ${sector}`);
@@ -726,6 +888,14 @@ export function build({ v3Pages, v2Pages = [], fx, inventory, asOf, lenderPages 
     } else {
       e.d.push(`Lender on ${byLender[e.id].n} non-pipeline claims in this file, US$${fmtM(Math.round(byLender[e.id].usdM * 100) / 100)} m, ₹${Math.round(byLender[e.id].cr).toLocaleString('en-IN')} crore at PA.NUS.FCRF approval-year rates [documented]`);
     }
+    // A state-government node's alias that does not name the state ("Department of Finance",
+    // "Transport Department") is every state's department: as a bare alias it would resolve
+    // them all to this one. Qualify it with the state; the verbatim API spelling stays in d.
+    if (e.ty === 'state' && e.st) {
+      const stName = e.label.replace(/^Government of /, '');
+      e.al = e.al.map((a) => (namesState(a, e.st) ? a : `${a} (${stName})`));
+    }
+    if (e.ty === 'person') e.st = null; // persons carry no state code (fleet contract)
     delete e._how; delete e._new;
     ents.push(e);
   }

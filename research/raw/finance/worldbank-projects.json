@@ -258,7 +258,7 @@
    "publicRole": "Implementing agency of World Bank-financed operations",
    "d": [
     "Named as implementing agency in 6 World Bank projects (P102627, P118826, P127725, P132665, P155522, P505190) [documented]",
-    "Resolution: state-government pattern → inventory state id | generic department name placed by the state in the project title (Bihar) → inventory state id | inventory label/alias match | state department → state government node → inventory state id; API spellings: \"Department of Panchayati Raj , Government of Bihar\", \"Department of Social Welfare\", \"Rural Development Department\", \"Government of Bihar, Bihar Aapada Punarwas Evam Punarnirman Society (BAPEPS)\", \"Animal and Fisheries Resources Department (AFRD)\", \"Rural Works Department (RWD)\", …"
+    "Resolution: state-government pattern → inventory state id | generic department name placed by the state in the project title (Bihar) → inventory state id | inventory label/alias match | state department → state government node → inventory state id; API spellings: \"Department of Panchayati Raj , Government of Bihar\", \"Department of Social Welfare\", \"Rural Development Department\", \"Animal and Fisheries Resources Department (AFRD)\", \"Rural Works Department (RWD)\", \"Water Resources Department (WRD)\", …"
    ],
    "srcs": [
     [
@@ -1229,10 +1229,10 @@
    "ty": "psu",
    "fam": "state",
    "st": null,
-   "sz": 1,
+   "sz": 2,
    "al": [
-    "AI for Resilient Jobs, Urban Air Quality, and Next Gen Skills Council (ARJUN) SPV",
-    "Artificial Intelligence for Resilient Jobs, Urban Air Quality, and Next Gen Skills Council (ARJUN), Government of Haryana"
+    "Artificial Intelligence for Resilient Jobs, Urban Air Quality, and Next Gen Skills Council (ARJUN), Government of Haryana",
+    "AI for Resilient Jobs, Urban Air Quality, and Next Gen Skills Council (ARJUN) SPV"
    ],
    "resolved": true,
    "identity": {
@@ -1246,7 +1246,7 @@
    "publicRole": "Implementing agency of World Bank-financed operations",
    "d": [
     "Named as implementing agency in 2 World Bank projects (P510686, P516517) [documented]",
-    "Resolution: new fin: id; type \"psu\" inferred from the name",
+    "Resolution: body named with its parent government → the body's own node; API spelling variant of \"AI for Resilient Jobs, Urban Air Quality, and Next Gen Skills Council (ARJUN) SPV\" → new fin: id; type \"psu\" inferred from the name | new fin: id; type \"psu\" inferred from the name; API spellings: \"Artificial Intelligence for Resilient Jobs, Urban Air Quality, and Next Gen Skills Council (ARJUN), Government of Haryana\", \"AI for Resilient Jobs, Urban Air Quality, and Next Gen Skills Council (ARJUN) SPV\"",
     "New to the graph: id created from the API name; type inferred from the name — confirm before adding facts"
    ],
    "srcs": [
@@ -1486,7 +1486,7 @@
    "ty": "agency",
    "fam": "state",
    "st": "as",
-   "sz": 1,
+   "sz": 2,
    "al": [
     "Assam Society for Comprehensive Financial Management System (AS-CFMS)",
     "Assam Society for Comprehensive Financial Management System (AS-CFMS), Finance Department, Government of Assam"
@@ -1503,7 +1503,7 @@
    "publicRole": "Implementing agency of World Bank-financed operations",
    "d": [
     "Named as implementing agency in 2 World Bank projects (P157198, P511844) [documented]",
-    "Resolution: new fin: id; type \"agency\" inferred from the name",
+    "Resolution: new fin: id; type \"agency\" inferred from the name | body named with its parent government → the body's own node; new fin: id; type \"agency\" inferred from the name; API spellings: \"Assam Society for Comprehensive Financial Management System (AS-CFMS)\", \"Assam Society for Comprehensive Financial Management System (AS-CFMS), Finance Department, Government of Assam\"",
     "New to the graph: id created from the API name; type inferred from the name — confirm before adding facts"
    ],
    "srcs": [
@@ -1706,10 +1706,10 @@
    "ty": "agency",
    "fam": "state",
    "st": "br",
-   "sz": 1,
+   "sz": 2,
    "al": [
-    "Bihar Aapada Punarwas Evam Punarnirman Society (BAPEPS)",
-    "Government of Bihar, Bihar Aapada Punarwas Evam Punarnirman Society (BAPEPS)"
+    "Government of Bihar, Bihar Aapada Punarwas Evam Punarnirman Society (BAPEPS)",
+    "Bihar Aapada Punarwas Evam Punarnirman Society (BAPEPS)"
    ],
    "resolved": true,
    "identity": {
@@ -1723,7 +1723,7 @@
    "publicRole": "Implementing agency of World Bank-financed operations",
    "d": [
     "Named as implementing agency in 2 World Bank projects (P122096, P127725) [documented]",
-    "Resolution: new fin: id; type \"agency\" inferred from the name",
+    "Resolution: body named with its parent government → the body's own node; new fin: id; type \"agency\" inferred from the name | new fin: id; type \"agency\" inferred from the name; API spellings: \"Government of Bihar, Bihar Aapada Punarwas Evam Punarnirman Society (BAPEPS)\", \"Bihar Aapada Punarwas Evam Punarnirman Society (BAPEPS)\"",
     "New to the graph: id created from the API name; type inferred from the name — confirm before adding facts"
    ],
    "srcs": [
@@ -1822,7 +1822,7 @@
    "publicRole": "Implementing agency of World Bank-financed operations",
    "d": [
     "Named as implementing agency in 3 World Bank projects (P090764, P159576, P512959) [documented]",
-    "Resolution: new fin: id; type \"agency\" inferred from the name",
+    "Resolution: new fin: id; type \"agency\" inferred from the name | body named with its parent government → the body's own node; new fin: id; type \"agency\" inferred from the name; API spellings: \"Bihar Rural Livelihoods Promotion Society\", \"Bihar Rural Livelihoods Promotion Society , Government of Bihar\"",
     "New to the graph: id created from the API name; type inferred from the name — confirm before adding facts"
    ],
    "srcs": [
@@ -4516,6 +4516,7 @@
    "st": "hr",
    "sz": 3,
    "al": [
+    "Department of Agriculture and Farmers Welfare (Haryana)",
     "Irrigation & Water Resources Department (Haryana)",
     "Micro Irrigation & Command Area Development Authority, Government of Haryana"
    ],
@@ -4532,7 +4533,7 @@
    "d": [
     "Named as borrower in 1 World Bank project (P110051) [documented]",
     "Named as implementing agency in 1 World Bank project (P512898) [documented]",
-    "Resolution: state-government pattern → new fin:state id | generic department name placed by the state in the project title (Haryana) → new fin:state id; API spellings: \"Government of Haryana\", \"Artificial Intelligence for Resilient Jobs, Urban Air Quality, and Next Gen Skills Council (ARJUN), Government of Haryana\", \"Irrigation & Water Resources Department\", \"Micro Irrigation & Command Area Development Authority, Government of Haryana\"",
+    "Resolution: state-government pattern → new fin:state id | per-project reading (P512898: read as \"Department of Agriculture and Farmers Welfare, Government of Haryana\") → state-government pattern → new fin:state id | generic department name placed by the state in the project title (Haryana) → new fin:state id; API spellings: \"Government of Haryana\", \"Department of Agriculture and Farmers Welfare\", \"Irrigation & Water Resources Department\", \"Micro Irrigation & Command Area Development Authority, Government of Haryana\"",
     "New to the graph: id created from the API name; type inferred from the name — confirm before adding facts"
    ],
    "srcs": [
@@ -6037,14 +6038,14 @@
   {
    "id": "seci",
    "label": "SECI",
-   "sub": "Solar Energy Corporation of India — offtaker of the ReNew Vyoman peak-power PPA",
+   "sub": "",
    "ty": "psu",
    "fam": "state",
    "st": "dl",
    "sz": 1,
    "al": [
-    "Solar Energy Corporation of India Limited",
-    "Solar Energy Corporation of India"
+    "Solar Energy Corporation of India",
+    "Solar Energy Corporation of India Limited"
    ],
    "resolved": true,
    "identity": {
@@ -6058,17 +6059,12 @@
    "publicRole": "Implementing agency of World Bank-financed operations",
    "d": [
     "Named as implementing agency in 1 World Bank project (P160379) [documented]",
-    "Resolution: hand alias map",
-    "25-year PPA with ReNew Vyoman at fixed ₹4.69/kWh (AIIB project page) [documented]"
+    "Resolution: hand alias map"
    ],
    "srcs": [
     [
      "World Bank Projects API v3 (India)",
      "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=500&os=0&fl=id,project_name,boardapprovaldate,closingdate,status,borrower,impagency,totalcommamt,totalamt,grantamt,ibrdcommamt,curr_ibrd_commitment,idacommamt,curr_ida_commitment,curr_total_commitment,lendprojectcost,lendinginstr,projectfinancialtype,sector1,mjsector1,major_sector_name,theme1,regionname,url,project_abstract,pdo"
-    ],
-    [
-     "AIIB project 000967 — India: ReNew Peak Power Project",
-     "https://www.aiib.org/en/projects/details/2025/approved/india-renew-peak-power-project.html"
     ]
    ]
   },
@@ -36389,7 +36385,7 @@
   "Ministers, chief ministers, DEA secretaries and the Executive Director at approval are not in this file (people domain); conditions are not in this file (conditions domain); contract awards are not in this file (contracts domain)"
  ],
  "provenance": {
-  "runId": "e29aa5b49c638eb1",
+  "runId": "5594d0e72abaf6ca",
   "fetchedAt": "2026-09-26",
   "script": "scripts/finance/fetch-worldbank.mjs",
   "fx": {
@@ -36434,7 +36430,7 @@
    {
     "api": "v2",
     "url": "https://search.worldbank.org/api/v2/projects?format=json&countrycode_exact=IN&rows=500&os=500&fl=id,lendinginstr,url,sector1,mjsector1,theme1,totalcommamt,ibrdcommamt,idacommamt,status",
-    "sha256_16": "2abff2a96924983b",
+    "sha256_16": "9851bff032a57ac2",
     "bytes": 309752,
     "rows": 382,
     "total": 882
