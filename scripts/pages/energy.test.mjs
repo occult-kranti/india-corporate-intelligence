@@ -1502,6 +1502,13 @@ t('AC-53 — Answers written from outside the canvas move focus to the margin', 
 
 t('AC-54 — Every actionable control is a focusable element with a visible ring', () => withPage('D', async (page) => {
   await load(page, `/energy?path=${FIX.a},${FIX.b}&table=1`);
+  // The criterion enumerates controls in five sections that React renders after the graph
+  // and ledgers are computed. On a loaded machine that lands after SETTLE, so wait for one
+  // control in each section before collecting — the criterion is about what the rendered
+  // page offers the keyboard, not about how fast the machine drew it.
+  for (const sel of ['#benefit button', '#benchmark button', '#contested button', '#offices svg [data-tenure]', '#offices svg [data-tick]']) {
+    await page.locator(sel).first().waitFor({ state: 'attached', timeout: 30_000 });
+  }
   const failures = await page.evaluate(() => {
     const rail = document.querySelector('#gq')?.closest('form, details, fieldset, section, aside, div') ?? null;
     const railEls = rail ? [...rail.querySelectorAll('input, button, select')] : [];

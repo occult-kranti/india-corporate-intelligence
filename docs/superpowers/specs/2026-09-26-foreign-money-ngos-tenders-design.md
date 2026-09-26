@@ -173,7 +173,7 @@ Two predicates are missing from `src/graph/schema.ts` and `scripts/lib/vocab.mjs
 
 - `loan` — lender → borrower. `a` = ₹ crore at the source's stated rate (US$ converted at
   the rate the source used, stated in `d`). `from` = approval date, `to` = closing date.
-  `terms` (new optional field) = `{ instrument, ratePct, tenorYears, gracePeriodYears,
+  `terms` (new optional field) = `{ instrument, ratePct, tenorYears, graceYears,
   conditions: string[] }`.
 - `grant` — donor → recipient association. `a` = ₹ crore for the FY named in `d`.
 
