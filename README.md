@@ -59,7 +59,7 @@ Line style in every graph carries the tier. It is semantic and is never restyled
 Full file-by-file index: [`docs/INDEX.md`](docs/INDEX.md). Picking this up cold:
 [`HANDOFF.md`](HANDOFF.md).
 
-32 routes, grouped as the sidebar groups them.
+33 routes, grouped as the sidebar groups them.
 
 **Markets** — `/` dashboard · `/map` the NSE/BSE map, with an index filter (`idx=nifty50|sensex30|sensex50`)
 · `/geograph` the geographic network · `/industries` sector concentration · `/conglomerates` the ten
@@ -68,7 +68,8 @@ board · `/states/:code` per-state drill-down · `/company/:id`
 
 **Registers** — `/tenders` government awards · `/resources` coal, minerals, hydrocarbons and spectrum
 · `/pmcares` PM CARES against its PMNRF control · `/energy` the energy power map · `/welfare`
-distribution funds, 2000–2026 · `/media` ownership · `/allocation` every register on one graph
+distribution funds, 2000–2026 · `/finance` foreign money: loans, associations, capital · `/media` ownership ·
+`/allocation` every register on one graph
 
 **Power** — `/cabinet` the Union Council of Ministers · `/network` the merged connection graph ·
 `/atlas` the Money-Trail case study
@@ -92,6 +93,24 @@ in the scrubbed year, and three different fills for three different absences: no
 no comparable figure, and declared searched with none live. Party is text, never a colour.
 
 Both pages read generated modules, never the raw research. Both render honestly with zero records.
+
+### Foreign money and the national tender record
+
+`/finance` puts external loans, foreign contributions and foreign capital on one route as three lenses.
+A loan is a contract with terms — lender, borrower, instrument, rate, tenor, grace, conditions — and the
+World Bank census (1,117 India projects) sits beside the hand-researched sample and is never summed with
+it. FCRA receipts and actions are shown with every allegation beside its answer and no classification by
+keyword, religion or stance. Foreign holders of NIFTY 50 companies are a grid that always shows the
+comparison set — Norway's fund, Singapore's, LIC, the promoter — beside BlackRock, and renders nothing
+below four rows. Institutions, not bloodlines: a family, religion or ethnicity is never a node, edge,
+filter or colour; a narrative that names one is rated on the ladder with its strongest counter.
+
+`/tenders?section=national` is the Central Public Procurement Portal award record: 4.92 million scraped
+rows reduced to 3.39 million award decisions by a stated dedup rule, the dataset's own defects printed
+before any rate, single-bidder rates with Wilson intervals over their declared denominator (11.22 %
+overall; central 17.67 %, state 7.59 %), decision windows, concentration by buyer, and the live
+verification in which all 40 sampled portal pages were gone — so every field stays `reported`. The
+pipeline names at most five marked winners per buyer and nobody else.
 
 ### The geographic network
 
@@ -201,6 +220,10 @@ which means a hallucinating researcher cannot corrupt the graph without passing 
 | `indices.json` | NIFTY 50 (50), SENSEX 30 (30), SENSEX 50 (49 of 50) | Joined to companies by id only; the unconfirmed fiftieth is a gap, not a guess |
 | `energy/*.json` | 12 domain files + `RECONCILIATION.json`, `AUDIT.json` | 60 cross-examiner verdicts; 1 claim killed |
 | `welfare/*.json` | 7 domain files + `RECONCILIATION.json`, `AUDIT.json` | 35 cross-examiner verdicts; 4 claims killed |
+| `finance/*.json` | 7 domain files + `RECONCILIATION.json`, `AUDIT.json` | 84 verdicts; 6 killed. `worldbank-projects.json` is fetched by script (1,117 projects, 849 commitments) |
+| `ngo/*.json` | 5 domain files + `RECONCILIATION.json`, `AUDIT.json` | 142 verdicts; 14 killed. FCRA figures routed through Parliament answers, MHA reports and PIB |
+| `capital/*.json` | 16 domain files + `RECONCILIATION.json`, `AUDIT.json` | 61 verdicts; 15 killed. 96 holdings across 38 of 50 NIFTY constituents, 19 controls |
+| `cppp/*.json` | 6 aggregate files from `scripts/cppp/build.py` | 4,921,960 rows → 3,385,233 award decisions; aggregates only, no award row and no unmarked name |
 
 Every figure is stamped `asOf` and is as-of-a-date, never current. Companies are attributed to their
 **registered** headquarters — Coal India is Kolkata-registered though the coal is in Jharkhand and
@@ -211,7 +234,7 @@ corporate maps.
 
 ## Agents and skills
 
-`.claude/agents/` — twelve agents, each hired for a bounded job with an explicit refusal surface.
+`.claude/agents/` — fourteen agents, each hired for a bounded job with an explicit refusal surface.
 The six the graph was built on:
 
 | Agent | Refuses to |
@@ -224,10 +247,13 @@ The six the graph was built on:
 | `viz-engineer` | Draw a state as a rectangle; restyle a tier for aesthetics |
 
 The others: `interface-designer`, `frontend-developer`, `pattern-prospector`, `investigative-desk`,
-`cross-examiner` (one claim, one lens, default refuted) and `energy-analyst`.
+`cross-examiner` (one claim, one lens, default refuted), `energy-analyst`, `finance-analyst` (refuses a
+family or ethnicity as an edge, a holder shown alone, a ₹ total over loans) and `procurement-analyst`
+(refuses an unmarked name, a rate without its family, a rebuild that is not byte-identical).
 
-`.claude/skills/` — fourteen, including `evidence-tiering`, `pattern-discipline`, `india-map`,
-`graph-schema`, `cui-bono` (who benefits, as a ledger row with a falsifier) and `energy-money-trail`.
+`.claude/skills/` — fifteen, including `evidence-tiering`, `pattern-discipline`, `india-map`,
+`graph-schema`, `cui-bono` (who benefits, as a ledger row with a falsifier), `energy-money-trail` and
+`foreign-money-trail` (what the three foreign-money fleets established, with the narratives ladder).
 Full list: [`docs/INDEX.md`](docs/INDEX.md) §7.
 
 Plugins (SweetClaude, superpowers) are installed at user scope and referenced, never vendored. Which
@@ -241,22 +267,25 @@ stages of a build they supply: [`docs/PLUGINS.md`](docs/PLUGINS.md).
 npm install
 npm run dev            # vite dev server
 npm run promote        # research/raw → resolution + grounding report
-npm run generate       # research fleets → the two *.generated.ts modules
+npm run generate       # research fleets → the five *.generated.ts modules
 npm run test:assemble  # assembler and merge tests, synthetic fixture
 npm run validate       # data-integrity gate — the four invariants
 npm run build          # tsc -b && vite build
-npm run smoke          # headless render of all 32 routes; serves dist itself
+npm run smoke          # headless render of all 33 routes; serves dist itself
 npm run viewport       # the graph camera gate
-npm run check          # promote + generate + test:assemble + validate + build + smoke + viewport
-npm run test:pages     # /energy and /welfare acceptance suites — not yet in check or CI
+npm run check          # promote + generate + test:assemble + validate + build + smoke + viewport + test:pages
+npm run test:pages     # the page acceptance suites (explicit file list)
 ```
+
+The CPPP pipeline is Python and offline: `scripts/cppp/README.md` has the rebuild command and the tests.
+CI does not install duckdb or pyarrow; the six JSON files it writes are committed and compiled in.
 
 `npm run smoke` serves `dist` on an ephemeral port itself — there is no preview server to start or
 wait on. Pass a base URL as the first argument to point it somewhere else. It uses the environment's
 pinned Chromium; override with `PLAYWRIGHT_CHROMIUM_PATH`, or `npx playwright install chromium`.
 
-`test:pages` stays out of the gate until the `/welfare` suite's corrections land and both suites
-are green on consecutive runs. See [`HANDOFF.md`](HANDOFF.md).
+A page suite joins `test:pages` only once it is green on three consecutive runs. See
+[`HANDOFF.md`](HANDOFF.md) for which suites are in.
 
 ### Stack
 

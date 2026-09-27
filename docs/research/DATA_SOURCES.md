@@ -1,6 +1,8 @@
-# Open data sources for the energy & natural-resources graph
+# Open data sources for the graph
 
-Audited 2026-09-25 from the sandbox. Reachability tested with `curl` through the
+Two sweeps: the energy and natural-resources audit of 2026-09-25 (below) and the Phase G
+sweep of 2026-09-26 for foreign loans, NGOs, foreign capital and the national tender record
+(the last section). Audited from the sandbox. Reachability tested with `curl` through the
 agent proxy (`$HTTPS_PROXY`, CA bundle `/root/.ccr/ca-bundle.crt`); "blocked" means
 the proxy or the host itself refused the connection during this session, not that
 the source is unavailable in general — re-test before relying on a "blocked" mark.
@@ -201,3 +203,58 @@ coverage, machine-readable formats, a stated open licence, and direct mapping to
   scoped to specific sub-paths (ECI's bond-disclosure section) or is intermittent;
   don't rely on either without re-testing the exact URL/endpoint needed at ingestion
   time.
+
+## Phase G sweep — foreign money, NGOs, foreign capital, tenders (probed 2026-09-26)
+
+Reachability through the same proxy, on the day the Phase G spec was written
+(`docs/superpowers/specs/2026-09-26-foreign-money-ngos-tenders-design.md` §2). "000" is a
+connection that never opened; "void" means the fleet declared the gap and routed round it.
+
+| Source | Reach | What it gives | Tier at ingest |
+|---|---|---|---|
+| World Bank Projects API `search.worldbank.org/api/v3/projects` | 200 | 1,117 India projects: id, name, borrower, implementing agency, IBRD/IDA amounts, approval and closing dates, status, sectors, themes, URL. Fetched by `scripts/finance/fetch-worldbank.mjs` into `research/raw/finance/worldbank-projects.json` (849 loan claims) | documented |
+| World Bank indicators API | 200 | External debt stocks (`DT.DOD.DECT.CD`) and the DT.* family | documented |
+| World Bank Data Catalog "Major Contract Awards" (0037796) | 429 (rate-limited; page 200) | Supplier, supplier country, amount, project — the join from loans to contractors. Only hand-researched contracts landed | documented |
+| ADB `adb.org/projects/country/ind` | 200 (HTML) | Loan numbers, amounts, executing agencies | documented |
+| AIIB `aiib.org/en/projects/list` | 200 (server-rendered) | Approved and proposed projects, amounts, borrowers | documented |
+| JICA | 200 | ODA loan agreements, India | documented |
+| AidData GCDF 3.0 | 200 | Chinese official finance to India by project | reported (academic dataset) |
+| IMF (`imf.org`, `data.imf.org`, `dataservices.imf.org`) | 403 / 502 | — | void; RBI and World Bank mirrors used |
+| KfW | 000 | — | void; annual reports via PIB |
+| FCRA online `fcraonline.nic.in`, `mha.gov.in/en/commoncontent` | 000 | — | void at source; routed via Parliament answers (`sansad.in`, `rsdebate.nic.in`), PIB, MHA annual reports, IndiaSpend — every FCRA figure says so |
+| NGO Darpan | 200 (JS shell) | State- and sector-wise registered NGOs; per-NGO grants | documented once a JSON endpoint is confirmed |
+| data.gov.in API | 504 on the day (200 on 2026-08-12) | FCRA / NGO / external-assistance resources | documented; retry |
+| CPPP live `eprocure.gov.in/cppp` | 200 | Award-of-contract pages — the verification target. All 40 sampled pages were gone (`sample-verification.json`) | documented when a page resolves |
+| Hugging Face `rumourscape/tenders` | 200, range requests | Two Arrow IPC stream files, 1.80 + 1.66 GB, 4,921,960 rows × 24 columns; digests `95e997785ecab0a9`, `d7663349efb13547`. CC-BY-4.0 applied by a re-publisher; anonymous scraper | reported (`docs/INGESTION.md` Stage 0) |
+| `ghalibluvr/tender_dbs_parquet` | 200 | Tender-notice side (bid windows); no licence | reported; not yet joined |
+| BSE shareholding pages / `api.bseindia.com` | 200 shell / 403 | — | company filings and screener.in used instead |
+| SEC EDGAR full-text search `efts.sec.gov` | 200 | BlackRock filings mentioning India | documented |
+| DIPAM, `rothschildandco.com`, PIB, PRS, myneta, OpenCorporates, screener.in | 200 | Mandates, press releases, bills, affidavits, officers, shareholding | documented |
+| GeM, MCA, Kaggle downloads, `web.archive.org` | 000 / 403 / auth | — | void |
+
+### Recipes
+
+**World Bank census.** `node scripts/finance/fetch-worldbank.mjs [--out <path>]` pages the
+projects API for India, resolves borrowers and implementing agencies to entity ids through the
+tables in the script (every hand resolution lives there, not in the output), writes one `loan`
+claim per IBRD/IDA commitment with its `projectId`, and marks each as `countable` or not. A
+re-fetch reproduces the file modulo `runId` and page hashes; 25 tests on fixtures.
+
+**CPPP awards.** `scripts/cppp/README.md`. Download the two Arrow files to a scratch
+directory (about a minute through the proxy), then
+`python3 scripts/cppp/build.py --arrow-dir <dir> --out research/raw/cppp --as-of <date>`.
+Quality first: the file's own defects (duplicate tender ids, null and zero bid counts, dirty
+`tender_type`, the state portal's `organisation_name` being the state) are written before any
+rate, and every rate declares its dedup rule and its denominator. Only aggregates are
+committed; no award row and no unmarked name.
+
+### Gaps and follow-ups (Phase G)
+
+- The Major Contract Awards catalogue needs a paced fetch (429 on the day); it completes the
+  loans → contractors join.
+- FCRA at source would move receipts from `reported` to `documented`; nothing reached
+  `fcraonline.nic.in` from the sandbox.
+- The tender-notice side (`ghalibluvr/tender_dbs_parquet`) would let single bidding be read
+  against notice period; unlicensed, so it stays a lead.
+- NGO Darpan's JSON endpoint was not confirmed; the fleet's `darpan-welfare-join.json` is
+  built from page reads and says so.
