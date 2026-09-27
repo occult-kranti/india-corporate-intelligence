@@ -70,7 +70,7 @@ npm run check      # promote → generate → test:assemble → validate → bui
 
 `npm run smoke` drives a headless Chromium over 49 routes and URLs and serves `dist`
 itself. `npm run test:pages` runs the page acceptance suites the same way (energy 67,
-welfare 85 criteria; finance 110 and tenders-national 86 once they join); point
+welfare 85, tenders national 86, finance 110 criteria); point
 `ENERGY_DIST` / `WELFARE_DIST` / `FINANCE_DIST` / `TENDERS_DIST` at a copied build when
 something else may rebuild `dist` mid-run. All three use a pinned browser
 at `PLAYWRIGHT_CHROMIUM_PATH` (default `/opt/pw-browsers/chromium`) if it exists,
@@ -103,7 +103,7 @@ noted in `HANDOFF.md`):
 | `npm run build` | OK |
 | `npm run smoke` | OK — 49 routes/URLs, no console errors |
 | `npm run viewport` | OK — camera, canvas pixels, hit-testing, keyboard cursor, jump-to / as-of / why-drawn |
-| `npm run test:pages` | OK — energy 67/67; welfare 70 pass, 0 fail, 15 skipped; tenders national 84 pass, 0 fail, 2 skipped |
+| `npm run test:pages` | OK — energy 67/67; welfare 70 pass, 0 fail, 15 skipped; tenders national 84 pass, 0 fail, 2 skipped; finance 109 pass, 0 fail, 1 skipped |
 
 *The table is refreshed when the bundle is re-cut; `HANDOFF.md` names the commit of the last full `npm run check`.*
 

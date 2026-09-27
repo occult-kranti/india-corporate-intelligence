@@ -284,8 +284,8 @@ CI does not install duckdb or pyarrow; the six JSON files it writes are committe
 wait on. Pass a base URL as the first argument to point it somewhere else. It uses the environment's
 pinned Chromium; override with `PLAYWRIGHT_CHROMIUM_PATH`, or `npx playwright install chromium`.
 
-A page suite joins `test:pages` only once it is green on three consecutive runs. See
-[`HANDOFF.md`](HANDOFF.md) for which suites are in.
+All four page suites (energy, welfare, tenders national, finance) are in `test:pages`; each
+joined only after three consecutive green runs on a pinned build. See [`HANDOFF.md`](HANDOFF.md).
 
 ### Stack
 

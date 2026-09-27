@@ -316,7 +316,7 @@ pass; a WCAG 2.1 AA audit. `docs/PLUGINS.md` records where each stage came from.
 6. **Acceptance criteria can be the defect.** Six `/energy` criteria were wrong,
    not the page. The criteria were amended; the tests were not bent to pass.
 
-### Phase G — foreign loans, NGOs and foreign capital; the national tender record ✅ *(page suites joining the gate)*
+### Phase G — foreign loans, NGOs and foreign capital; the national tender record ✅
 
 Design: `docs/superpowers/specs/2026-09-26-foreign-money-ngos-tenders-design.md`. Plan:
 `docs/superpowers/plans/2026-09-26-foreign-money-ngos-tenders.md`. The ask named the
@@ -360,7 +360,7 @@ every side**, so the same lens runs on the other party and on the declared contr
       welfare run ids moved; their counts did not
 - [x] `/finance` — "Foreign money": one route, three lenses (loans, associations, capital), a
       judged spec (two candidates and a judge, 47 decisions), a five-seat synthetic UX review,
-      110 acceptance criteria and a RED suite written blind. First pass, committed `d227c60`: 82 pass / 27 fail / 1 skipped of 110 on a pinned build; twelve failures find the Layout wordmark `h1` (the criterion defect the tenders adjudication corrected), three select a state AC-28 requires to be disabled; a criterion-by-criterion adjudication is running and this line is replaced by its verdict.
+      110 acceptance criteria and a RED suite written blind. First pass 82 / 27 / 1 of 110; adjudication found 24 criterion defects, 2 both (AC-79 placeholder responses headed "Response from", AC-94 the flow's 606 ribbon tab stops), 1 environment (Chromium's own favicon re-fetch), plus AC-20's quotation rule widened to source titles and property statements; verified 109 pass / 0 fail / 1 skipped (AC-38, no zero-amount loan exists) on three consecutive runs against a pinned build, with WCAG S1, S2 and M1–M6 fixed and re-measured; in `test:pages` and CI.
 - [x] `/tenders?section=national`: the CPPP record as a section of the existing register — the
       quality table before any rate, Wilson ribbons, decision-window histogram, concentration,
       red flags as rates over their family, the verification sample, gaps and provenance. 86

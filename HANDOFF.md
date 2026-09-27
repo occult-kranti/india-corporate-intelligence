@@ -131,9 +131,9 @@ options, and the spec and criteria record that supersession. `test:pages` is in
 **Phase G pages.** `/finance` ("Foreign money": loans, associations and capital as three
 lenses on one route; judged from two candidate designs, 47 decisions, 110 criteria written
 blind) and the national section of `/tenders` (`?section=national`, 86 criteria, WCAG audit
-0 critical / 0 serious / 8 moderate, M1–M8 fixed / 13 minor). The tenders section: Verified 84 pass / 0 fail / 2 skipped ("not in this data") of 86 on three consecutive runs against a pinned build after the adjudication (15 criterion defects, 1 page defect, 2 both); in `test:pages` and CI since `9c03db7`. The finance page: First pass, committed `d227c60`: 82 pass / 27 fail / 1 skipped of 110 on a pinned build; twelve failures find the Layout wordmark `h1` (the criterion defect the tenders adjudication corrected), three select a state AC-28 requires to be disabled; a criterion-by-criterion adjudication is running and this line is replaced by its verdict.
-Their suites join `test:pages` (explicit file list — Node 20 does not expand a glob) once
-green on three consecutive runs.
+0 critical / 0 serious / 8 moderate, M1–M8 fixed / 13 minor). The tenders section: Verified 84 pass / 0 fail / 2 skipped ("not in this data") of 86 on three consecutive runs against a pinned build after the adjudication (15 criterion defects, 1 page defect, 2 both); in `test:pages` and CI since `9c03db7`. The finance page: First pass 82 / 27 / 1 of 110; adjudication found 24 criterion defects, 2 both (AC-79 placeholder responses headed "Response from", AC-94 the flow's 606 ribbon tab stops), 1 environment (Chromium's own favicon re-fetch), plus AC-20's quotation rule widened to source titles and property statements; verified 109 pass / 0 fail / 1 skipped (AC-38, no zero-amount loan exists) on three consecutive runs against a pinned build, with WCAG S1, S2 and M1–M6 fixed and re-measured; in `test:pages` and CI.
+Both suites are in `test:pages` (explicit file list — Node 20 does not expand a glob),
+each after three consecutive green runs on a pinned build.
 
 **Three older results worth knowing before you start**, because they still shape
 what is worth doing next:
