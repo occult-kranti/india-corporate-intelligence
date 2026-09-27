@@ -40,6 +40,7 @@ const Allocation = lazy(() => import('./pages/Allocation'));
 const PmCares = lazy(() => import('./pages/PmCares'));
 const Energy = lazy(() => import('./pages/Energy'));
 const Welfare = lazy(() => import('./pages/Welfare'));
+const Finance = lazy(() => import('./pages/Finance'));
 const Competition = lazy(() => import('./pages/Competition'));
 const Provenance = lazy(() => import('./pages/Provenance'));
 const Method = lazy(() => import('./pages/Method'));
@@ -97,6 +98,7 @@ function App() {
                     <Route path="/pmcares" element={<PmCares />} />
                     <Route path="/energy" element={<Energy />} />
                     <Route path="/welfare" element={<Welfare />} />
+                    <Route path="/finance" element={<Finance />} />
                     <Route path="/competition" element={<Competition />} />
                     <Route path="/provenance" element={<Provenance />} />
                     <Route path="/method" element={<Method />} />

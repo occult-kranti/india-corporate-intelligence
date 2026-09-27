@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import {
   Kicker, PageTitle, Standfirst, Byline, Section, Callout, StatGrid, DataTable,
@@ -16,9 +16,14 @@ import {
 import { STATES, STATE_NAMES } from '../data/geo';
 import { TIER_ORDER } from '../graph/schema';
 import type { GNode, GEdge, StateCode, NodeFamily } from '../graph/schema';
+import NationalSection from '../components/tenders/NationalSection';
+import { parseNationalParams, unrecognisedSentence, type Unrecognised } from '../components/tenders/params';
+import { CPPP_PRESENT, loadProvenance } from '../data/cppp';
 
 type Scope = 'centre' | 'states' | 'both';
 type View = 'ledger' | 'map' | 'graph';
+const SCOPES: Scope[] = ['both', 'centre', 'states'];
+const VIEWS: View[] = ['ledger', 'map', 'graph'];
 
 const fmtCr = (v: number | null) =>
   v == null ? '—' : v >= 100000 ? `₹${(v / 100000).toFixed(2)}L cr` : `₹${Math.round(v).toLocaleString('en-IN')} cr`;
@@ -43,8 +48,61 @@ export default function Tenders() {
     [params, setParams],
   );
 
-  const scope = (params.get('scope') ?? 'both') as Scope;
-  const view = (params.get('view') ?? 'ledger') as View;
+  // The national CPPP section (docs/design/TENDERS_NATIONAL.md §2). `view` is the
+  // register's switch, so the section has its own param; `view=national`, the value
+  // the first spec named, is an alias rewritten in place (replace, every other param
+  // kept) so old links still land.
+  const viewRaw = params.get('view');
+  const aliasNational = viewRaw === 'national';
+  const sectionRaw = params.get('section');
+  const showNational = sectionRaw === 'national' || aliasNational;
+  useEffect(() => {
+    if (!aliasNational) return;
+    const next = new URLSearchParams(params);
+    next.delete('view');
+    next.set('section', 'national');
+    setParams(next, { replace: true });
+  }, [aliasNational, params, setParams]);
+
+  const scopeRaw = params.get('scope');
+  const scope: Scope = SCOPES.includes(scopeRaw as Scope) ? (scopeRaw as Scope) : 'both';
+  const view: View = VIEWS.includes(viewRaw as View) ? (viewRaw as View) : 'ledger';
+
+  /** Every value the page could not honour, named once, with what it shows instead. */
+  const unrecognised = useMemo((): Unrecognised[] => {
+    const out: Unrecognised[] = [];
+    if (viewRaw != null && !aliasNational && !VIEWS.includes(viewRaw as View)) out.push({ param: 'view', value: viewRaw, fallback: 'ledger' });
+    if (scopeRaw != null && !SCOPES.includes(scopeRaw as Scope)) out.push({ param: 'scope', value: scopeRaw, fallback: 'both' });
+    if (sectionRaw != null && sectionRaw !== 'national') out.push({ param: 'section', value: sectionRaw, fallback: 'the register only' });
+    if (showNational) out.push(...parseNationalParams(params).unrecognised);
+    return out;
+  }, [viewRaw, aliasNational, scopeRaw, sectionRaw, showNational, params]);
+
+  /** The link that shows the section, and the one inside it that hides it: each keeps every other param. */
+  const withSection = useMemo(() => {
+    const n = new URLSearchParams(params);
+    n.set('section', 'national');
+    return `?${n.toString()}`;
+  }, [params]);
+  const hideSearch = useMemo(() => {
+    const n = new URLSearchParams(params);
+    n.delete('section');
+    if (aliasNational) n.delete('view');
+    const s = n.toString();
+    return s ? `?${s}` : '';
+  }, [params, aliasNational]);
+
+  // The head link states the scrape's size, read from provenance.json (its own small
+  // chunk); with the outputs absent it says so instead of printing a zero.
+  const [cpppRows, setCpppRows] = useState<number | null | undefined>(CPPP_PRESENT ? undefined : null);
+  useEffect(() => {
+    if (!CPPP_PRESENT) return;
+    let live = true;
+    loadProvenance().then((f) => live && setCpppRows(f?.provenance.rows ?? null));
+    return () => {
+      live = false;
+    };
+  }, []);
   const sector = params.get('sector') ?? 'all';
   const query = params.get('q') ?? '';
   const [selected, setSelected] = useState<string | null>(null);
@@ -181,11 +239,53 @@ export default function Tenders() {
           disclose how many parties competed, because without that a ranked list of
           winners measures nothing.
         </Standfirst>
-        <Byline>
-          As of {TENDERS_AS_OF} · every award carries a source · no causal language anywhere
-          in this dataset
-        </Byline>
+        {!showNational && cpppRows !== undefined && (
+          <p className="mt-5 text-[14px]">
+            <Link
+              to={{ search: withSection }}
+              state={{ focusCppp: true }}
+              className="underline underline-offset-2 text-text hover:text-accent focus:outline-2 focus:outline-accent focus:outline-offset-2"
+            >
+              {cpppRows == null
+                ? 'The CPPP award scrape — not present in this build'
+                : `The CPPP award scrape — ${cpppRows.toLocaleString('en-IN')} award rows, reported, not a national statistic`}
+            </Link>{' '}
+            <span aria-hidden="true">→</span>
+          </p>
+        )}
+        {!showNational && (
+          <>
+            <Byline>
+              As of {TENDERS_AS_OF} · every award carries a source · no causal language anywhere
+              in this dataset
+            </Byline>
+            <p className="font-mono text-[11px] text-text-muted mt-1.5 tracking-wide">
+              <Link to={{ search: withSection }} state={{ focusCppp: true }} className="underline underline-offset-2 hover:text-accent">
+                A separate national award scrape (reported, unverified) is in the CPPP section.
+              </Link>
+            </p>
+          </>
+        )}
       </header>
+
+      {unrecognised.length > 0 && (
+        <p role="status" className="mt-4 font-mono text-[11.5px] text-amber leading-relaxed">
+          {unrecognised.map(unrecognisedSentence).join(' ')}
+        </p>
+      )}
+
+      {showNational && (
+        <>
+          <NationalSection hideSearch={hideSearch} />
+          <Byline>
+            As of {TENDERS_AS_OF} · every award carries a source · no causal language anywhere
+            in this dataset
+          </Byline>
+          <p className="font-mono text-[11px] text-text-muted mt-1.5 tracking-wide">
+            Showing the national CPPP scrape (reported, unverified) above the register.
+          </p>
+        </>
+      )}
 
       <StatGrid
         items={[
@@ -219,10 +319,12 @@ export default function Tenders() {
       <div className="flex flex-wrap gap-4 mt-8 mb-5">
         <div>
           <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-text-muted mb-1.5">View</p>
-          <div className="flex gap-1.5">
-            {(['ledger', 'map', 'graph'] as View[]).map((v) => (
+          <div className="flex gap-1.5" role="group" aria-label="View">
+            {VIEWS.map((v) => (
               <button
                 key={v}
+                type="button"
+                aria-pressed={view === v}
                 onClick={() => setParam('view', v)}
                 className={`font-mono text-[11px] px-2.5 py-1.5 rounded border transition-colors ${
                   view === v ? 'border-accent text-accent bg-accent/10' : 'border-border text-text-muted hover:text-text'
@@ -235,10 +337,12 @@ export default function Tenders() {
         </div>
         <div>
           <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-text-muted mb-1.5">Scope</p>
-          <div className="flex gap-1.5">
-            {(['both', 'centre', 'states'] as Scope[]).map((s) => (
+          <div className="flex gap-1.5" role="group" aria-label="Scope">
+            {SCOPES.map((s) => (
               <button
                 key={s}
+                type="button"
+                aria-pressed={scope === s}
                 onClick={() => setParam('scope', s)}
                 className={`font-mono text-[11px] px-2.5 py-1.5 rounded border transition-colors ${
                   scope === s ? 'border-accent text-accent bg-accent/10' : 'border-border text-text-muted hover:text-text'

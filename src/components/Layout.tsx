@@ -58,6 +58,7 @@ const navGroups: { label: string; items: { path: string; label: string; icon: ty
       { path: '/pmcares', label: 'PM CARES', icon: HandCoins },
       { path: '/energy', label: 'Energy power map', icon: Zap },
       { path: '/welfare', label: 'Distribution funds', icon: Coins },
+      { path: '/finance', label: 'Foreign money', icon: Coins },
       { path: '/media', label: 'Media ownership', icon: Newspaper },
       { path: '/allocation', label: 'Allocation graph', icon: Waypoints },
     ],
