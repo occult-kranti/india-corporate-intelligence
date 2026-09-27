@@ -655,6 +655,71 @@ for (const l of shown) {
 }
 check('each of them hovers as itself', shown.length >= 2 && hovered === shown.length, `${hovered}/${shown.length}`);
 
+// ------------------------------------------------------- jump-to, as-of, why-drawn
+// The connection graph's explorer (Task 9): a combobox that selects an entity
+// without requiring it to be visible first, a single-date cut layered on top of
+// every other filter, and a plain-language account of why a given edge is drawn.
+console.log('\nGraphExplorer — /#/atlas jump-to, as-of, why-drawn');
+await page.goto('about:blank');
+await page.goto(`${base}/#/atlas`, { waitUntil: 'networkidle' });
+await settled();
+await page.locator(G).scrollIntoViewIfNeeded();
+await page.waitForTimeout(400);
+
+const jump = page.getByRole('combobox', { name: 'Jump to an entity' });
+await jump.fill('Coal & Mines Ministry');
+const jumpList = page.locator('#jumpto-listbox');
+await jumpList.waitFor({ state: 'visible' });
+const jumpOptions = jumpList.getByRole('option');
+check('jump-to lists the matching entity as label · type · id', (await jumpOptions.count()) >= 1 &&
+  /Coal & Mines Ministry · ministry · coal/.test((await jumpOptions.first().textContent()) ?? ''),
+  (await jumpOptions.first().textContent()) ?? '(none)');
+await jump.press('Enter');
+await page.waitForTimeout(500);
+check('jump-to sets the selection param to the chosen entity', new URL(page.url().replace('/#/', '/')).searchParams.get('sel') === 'coal',
+  page.url().split('#')[1]);
+check('jump-to selects the entity on the graph itself',
+  (await page.locator(`${G} g[role="button"][data-id="coal"][aria-pressed="true"]`).count()) === 1);
+
+// as-of: 2020-01-01 predates every `from` in the atlas subgraph (all 2025/2026), so
+// every one of the 5 dated edges is excluded and the 101 undated ones are kept.
+await page.goto('about:blank');
+await page.goto(`${base}/#/atlas?asof=2020-01-01`, { waitUntil: 'networkidle' });
+await settled();
+await page.locator(G).scrollIntoViewIfNeeded();
+await page.waitForTimeout(400);
+const asofText = ((await page.locator('[data-asof-caption]').textContent()) ?? '').trim();
+const asofMatch = asofText.match(/^As of (\d{4}-\d{2}-\d{2}): ([\d,]+) of ([\d,]+) edges drawn; ([\d,]+) undated edges kept$/);
+check('the as-of caption prints the exact required sentence', !!asofMatch, asofText || '(missing)');
+const [, asofDate, shownStr, totalStr, undatedStr] = asofMatch ?? [, '', '0', '0', '0'];
+const [asofShown, asofTotal, asofUndated] = [shownStr, totalStr, undatedStr].map((s) => Number(s.replace(/,/g, '')));
+check('as-of date in the caption matches the URL', asofDate === '2020-01-01', asofDate);
+check('as-of excludes at least one dated edge (shown < total)', asofShown < asofTotal, `${asofShown} of ${asofTotal}`);
+
+await page.getByRole('button', { name: 'Show table view' }).click();
+await page.waitForTimeout(200);
+const tableRows = await page.locator('table tbody tr').count();
+// The table twin reads exactly what the graph draws when there is no ego focus and
+// no path re-ordering: `view.edges`, which is the as-of–filtered edge set. Every
+// undated edge is already counted inside `shown` (it is drawn, not an addition to
+// it), so the twin's row count is `shown` alone — not `shown + undated`.
+check('the table twin lists exactly the drawn edges (row count == shown)', tableRows === asofShown,
+  `${tableRows} rows vs ${asofShown} shown (${asofUndated} of them undated)`);
+
+// why-drawn: select the ministry, tab to one of its relationships, and read the card.
+await page.goto('about:blank');
+await page.goto(`${base}/#/atlas?sel=coal`, { waitUntil: 'networkidle' });
+await settled();
+await page.locator(G).scrollIntoViewIfNeeded();
+await page.waitForTimeout(400);
+const relStop = page.locator(`${G} g[role="img"][aria-roledescription="relationship"][tabindex="0"]`).first();
+await relStop.focus();
+await page.waitForTimeout(300);
+const why = page.locator('[data-why-drawn]');
+check('selecting a relationship shows a "why drawn" line', (await why.count()) >= 1);
+check('the "why drawn" line names what admitted the edge', /^Drawn because:/.test(((await why.first().textContent()) ?? '').trim()),
+  ((await why.first().textContent()) ?? '').trim());
+
 // --------------------------------------------------------------- geo network
 console.log('\nGeoNetwork — /#/geograph');
 await page.goto(`${base}/#/geograph`, { waitUntil: 'networkidle' });

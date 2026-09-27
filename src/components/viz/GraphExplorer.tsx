@@ -69,6 +69,39 @@ function parseList<T extends string>(raw: string | null, fallback: readonly T[])
   return new Set(raw.split(',').filter(Boolean) as T[]);
 }
 
+/**
+ * As-of date test (`asof` URL param).
+ *
+ * A reduced-precision ISO date (`YYYY`, `YYYY-MM`, `YYYY-MM-DD`) is padded to the
+ * EARLIEST day it could mean before it is compared as a `from`, and to the LATEST
+ * day before it is compared as a `to` — a `from` of "2020" must not exclude an
+ * as-of date of 2020-03-01, and a `to` of "2020" must not exclude 2020-11-01.
+ */
+function padEarliest(iso: string): string {
+  if (iso.length === 4) return `${iso}-01-01`;
+  if (iso.length === 7) return `${iso}-01`;
+  return iso.slice(0, 10);
+}
+function padLatest(iso: string): string {
+  if (iso.length === 4) return `${iso}-12-31`;
+  if (iso.length === 7) {
+    const [y, m] = iso.split('-').map(Number);
+    return `${iso}-${String(new Date(Date.UTC(y, m, 0)).getUTCDate()).padStart(2, '0')}`;
+  }
+  return iso.slice(0, 10);
+}
+/**
+ * Whether an edge's recorded window covers the as-of date. Undated bounds impose no
+ * constraint on their own side, and an edge with neither `from` nor `to` is always
+ * admitted — absence of a date is not evidence about when something happened, the
+ * same rule the existing date-range filter already keeps.
+ */
+function admitsAsof(e: GEdge, asof: string): boolean {
+  if (e.from && padEarliest(e.from) > asof) return false;
+  if (e.to && padLatest(e.to) < asof) return false;
+  return true;
+}
+
 interface Props {
   nodes: GNode[];
   edges: GEdge[];
@@ -128,6 +161,9 @@ export default function GraphExplorer({ nodes, edges, height = 620, defaultQuery
   const minAmount = Number(params.get('amt') ?? 0) || 0;
   const from = params.get('from') ?? '';
   const to = params.get('to') ?? '';
+  /** A single point-in-time test, independent of the `from`/`to` range above: "what
+   * did this graph look like on this date", not "what happened in this window". */
+  const asof = params.get('asof') ?? '';
 
   const byId = useMemo(() => new Map(nodes.map((n) => [n.id, n])), [nodes]);
   const label = (id: string) => byId.get(id)?.label ?? id;
@@ -208,7 +244,25 @@ export default function GraphExplorer({ nodes, edges, height = 620, defaultQuery
   const focusOn = !!focusRoot && layoutIds.has(focusRoot);
 
   /**
-   * The drawn graph: the layout, cut to the ego neighbourhood when focus is on.
+   * The as-of cut: applied on top of every other filter, before the ego focus, so a
+   * date hidden by `asof` never counts as a hop either. Nodes are NOT cut here — an
+   * entity left with zero visible edges stays on the graph, dimmed rather than
+   * removed, because disappearing would say something no filter here claims: that
+   * the entity itself stopped existing on this date.
+   */
+  const datedEdges = useMemo(
+    () => (asof ? layout.edges.filter((e) => admitsAsof(e, asof)) : layout.edges),
+    [layout.edges, asof],
+  );
+  const asofUndated = useMemo(() => datedEdges.filter((e) => !e.from && !e.to).length, [datedEdges]);
+  /** Exact wording is read by the viewport gate — do not reflow it. */
+  const asofCaption = asof
+    ? `As of ${asof}: ${datedEdges.length.toLocaleString('en-IN')} of ${layout.edges.length.toLocaleString('en-IN')} edges drawn; ${asofUndated.toLocaleString('en-IN')} undated edges kept`
+    : null;
+
+  /**
+   * The drawn graph: the as-of cut, then cut again to the ego neighbourhood when
+   * focus is on.
    *
    * One addition beyond k hops, and the caption counts it: when a claim inside the
    * neighbourhood is ANSWERED by a denial whose other end sits outside it, that end
@@ -216,12 +270,12 @@ export default function GraphExplorer({ nodes, edges, height = 620, defaultQuery
    * Denials joined only on the entity do not expand the focus.
    */
   const view = useMemo(() => {
-    if (!focusOn) return { nodes: layout.nodes, edges: layout.edges, shown: null as Set<string> | null, extra: 0 };
+    if (!focusOn) return { nodes: layout.nodes, edges: datedEdges, shown: null as Set<string> | null, extra: 0 };
     const shown = new Set<string>([focusRoot!]);
-    for (const [id, d] of pathLengthProfile(layout.edges, focusRoot!)) if (d <= hops) shown.add(id);
-    const inLayout = new Set(layout.edges);
+    for (const [id, d] of pathLengthProfile(datedEdges, focusRoot!)) if (d <= hops) shown.add(id);
+    const inLayout = new Set(datedEdges);
     let extra = 0;
-    for (const e of layout.edges) {
+    for (const e of datedEdges) {
       if (e.pred !== 'contra' || (shown.has(e.s) && shown.has(e.t))) continue;
       const answersInside = denials.answers.get(e)?.some((c) => inLayout.has(c) && shown.has(c.s) && shown.has(c.t));
       if (!answersInside) continue;
@@ -234,11 +288,11 @@ export default function GraphExplorer({ nodes, edges, height = 620, defaultQuery
     }
     return {
       nodes: layout.nodes.filter((n) => shown.has(n.id)),
-      edges: layout.edges.filter((e) => shown.has(e.s) && shown.has(e.t)),
+      edges: datedEdges.filter((e) => shown.has(e.s) && shown.has(e.t)),
       shown,
       extra,
     };
-  }, [layout, focusOn, focusRoot, hops, denials]);
+  }, [layout.nodes, datedEdges, focusOn, focusRoot, hops, denials]);
 
   const viewIds = useMemo(() => new Set(view.nodes.map((n) => n.id)), [view]);
   const viewEdgeSet = useMemo(() => new Set(view.edges), [view]);
@@ -440,6 +494,51 @@ export default function GraphExplorer({ nodes, edges, height = 620, defaultQuery
   const page = Math.min(tablePage, tablePages - 1);
   const pageRows = tableEdges.slice(page * TABLE_PAGE, (page + 1) * TABLE_PAGE);
 
+  /**
+   * "Why drawn" — every filter this explorer keeps, read back against one edge, in
+   * words. Mirrors `within()` in ForceGraph.tsx (kept byte-identical, so not
+   * imported) to tell a normal admission from a denial RESTORED past the filters
+   * because the claim it answers survived them — the contradiction invariant, which
+   * is not a filter the reader turned on and is named as what it is instead of as a
+   * false "tier X is on".
+   */
+  const whyDrawnText = useCallback(
+    (e: GEdge): string => {
+      const passesBase =
+        tiers.has(e.tier) &&
+        (!activePreds.size || activePreds.has(e.pred)) &&
+        (!minAmount || (e.a ?? 0) >= minAmount) &&
+        (!from || !e.to || e.to >= from) &&
+        (!to || !e.from || e.from <= to);
+      const parts: string[] = [];
+      if (!passesBase) {
+        parts.push('this denial answers a claim that survives every other filter — a claim is never shown without its denial');
+      } else {
+        if (activePreds.size) parts.push(`predicate ${e.pred} is on`);
+        if (tiers.size < TIER_ORDER.length) parts.push(`tier ${e.tier} is on`);
+        if (fams.size < families.length) {
+          const fs = new Set([byId.get(e.s)?.fam, byId.get(e.t)?.fam].filter(Boolean) as NodeFamily[]);
+          for (const f of fs) parts.push(`family ${FAMILY_LABEL[f]} is on`);
+        }
+        if (types.size < SHAPE_IDS.length) {
+          const cs = new Set(
+            [byId.get(e.s), byId.get(e.t)].filter((n): n is GNode => !!n).map((n) => shapeClassOf(n.ty)),
+          );
+          for (const c of cs) parts.push(`type ${c} is on`);
+        }
+        if (minAmount) parts.push(`minimum ₹${minAmount} cr is on (₹${(e.a ?? 0).toLocaleString('en-IN')} cr)`);
+        if (from || to) parts.push(`date range ${from || '…'} – ${to || '…'} is on`);
+      }
+      if (query.trim()) parts.push(`search "${query.trim()}" is on`);
+      if (asof) {
+        const win = e.from && e.to ? `${e.from} → ${e.to}` : e.from ? `${e.from} → open` : e.to ? `open → ${e.to}` : 'undated — kept regardless';
+        parts.push(`within as-of ${asof} (${win})`);
+      }
+      return parts.length ? `Drawn because: ${parts.join('; ')}` : 'Drawn because: no filter excludes it';
+    },
+    [tiers, activePreds, minAmount, from, to, fams, families, types, byId, query, asof],
+  );
+
   const card = (compact: boolean) =>
     activeEdge && (
       <EdgeCard
@@ -447,6 +546,7 @@ export default function GraphExplorer({ nodes, edges, height = 620, defaultQuery
         label={label}
         denials={denials}
         inView={viewEdgeSet.has(activeEdge)}
+        why={whyDrawnText(activeEdge)}
         onClose={() => setActiveEdge(null)}
         compact={compact}
       />
@@ -456,6 +556,8 @@ export default function GraphExplorer({ nodes, edges, height = 620, defaultQuery
     <div className="grid gap-5 lg:grid-cols-[15rem_1fr]" onKeyDown={onRootKeyDown}>
       {/* ---- filter rail ---- */}
       <aside className="space-y-5 lg:sticky lg:top-4 lg:self-start lg:max-h-[calc(100vh-3rem)] lg:overflow-y-auto lg:pr-1">
+        <JumpTo nodes={nodes} onJump={setSelected} />
+
         <div>
           <label htmlFor="gq" className="block font-mono text-[10px] uppercase tracking-[0.14em] text-text-muted mb-2">
             Search entities & aliases
@@ -606,6 +708,34 @@ export default function GraphExplorer({ nodes, edges, height = 620, defaultQuery
           </fieldset>
         )}
 
+        <div>
+          <label htmlFor="asof" className="block font-mono text-[10px] uppercase tracking-[0.14em] text-text-muted mb-2">
+            As of
+          </label>
+          <div className="flex items-center gap-2">
+            <input
+              id="asof"
+              type="date"
+              value={asof}
+              min={dated?.min}
+              max={dated?.max}
+              onChange={(e) => setParam('asof', e.target.value || null)}
+              className="input-field !py-1.5 !text-[12px]"
+            />
+            {asof && (
+              <button onClick={() => setParam('asof', null)} className="btn-ghost !py-1 !px-2 !text-[11px]">
+                clear
+              </button>
+            )}
+          </div>
+          <p className="text-[11px] text-text-muted mt-2 leading-snug">
+            Draws a relationship only if its recorded window covers this single date — a snapshot, not a
+            window. An edge with neither <code>from</code> nor <code>to</code> is always kept: absence of a date
+            is not evidence about when something happened. An entity left with no visible relationship stays on
+            the graph, dimmed rather than removed.
+          </p>
+        </div>
+
         <div className="space-y-1.5">
           <button onClick={() => setShowTable((s) => !s)} className="btn-ghost w-full !text-[12px]">
             {showTable ? 'Hide' : 'Show'} table view
@@ -713,7 +843,7 @@ export default function GraphExplorer({ nodes, edges, height = 620, defaultQuery
         <div className="card-surface !p-0 overflow-hidden">
           <ForceGraph
             nodes={layout.nodes}
-            edges={layout.edges}
+            edges={datedEdges}
             shown={view.shown}
             focusKey={focusOn ? `${focusRoot}:${hops}` : ''}
             path={pathOn ? pathOn.graphPath : null}
@@ -730,12 +860,19 @@ export default function GraphExplorer({ nodes, edges, height = 620, defaultQuery
               focusCaption,
               pathCaption,
               restoredCaption,
+              asofCaption,
             ]
               .filter(Boolean)
               .join(' · ')}
             height={height}
           />
         </div>
+
+        {asofCaption && (
+          <p data-asof-caption className="mt-2 font-mono text-[11px] text-text-muted">
+            {asofCaption}
+          </p>
+        )}
 
         {/* Shape legend — also the node-type filter. */}
         <div className="flex flex-wrap items-center gap-x-2 gap-y-2 mt-3 font-mono text-[10px] text-text-muted" role="group" aria-label="Filter by entity type">
@@ -992,6 +1129,120 @@ export default function GraphExplorer({ nodes, edges, height = 620, defaultQuery
   );
 }
 
+/** At most this many candidates — enough to disambiguate, never a scroll of everyone. */
+const JUMP_MAX = 12;
+
+/**
+ * "Jump to an entity" — a combobox over `label` and `al` (aliases), case-insensitive.
+ * It never resolves a name to an id on its own: two different entities can share a
+ * name, so it lists every match and lets the reader choose. Choosing one writes the
+ * explorer's existing `sel` param — the same thing a click on the node does — so the
+ * camera and detail panel behave exactly as they already do for a selection.
+ */
+function JumpTo({ nodes, onJump }: { nodes: GNode[]; onJump: (id: string) => void }) {
+  const [text, setText] = useState('');
+  const [open, setOpen] = useState(false);
+  const [active, setActive] = useState(-1);
+  const inputId = 'jumpto-input';
+  const listId = 'jumpto-listbox';
+
+  const results = useMemo(() => {
+    const q = text.trim().toLowerCase();
+    if (!q) return [] as GNode[];
+    const hits: GNode[] = [];
+    for (const n of nodes) {
+      if (n.label.toLowerCase().includes(q) || (n.al ?? []).some((a) => a.toLowerCase().includes(q))) {
+        hits.push(n);
+        if (hits.length >= JUMP_MAX) break;
+      }
+    }
+    return hits;
+  }, [nodes, text]);
+
+  useEffect(() => setActive(results.length ? 0 : -1), [results]);
+
+  const choose = (n: GNode) => {
+    onJump(n.id);
+    setText('');
+    setOpen(false);
+    setActive(-1);
+  };
+
+  return (
+    <div>
+      <label htmlFor={inputId} className="block font-mono text-[10px] uppercase tracking-[0.14em] text-text-muted mb-2">
+        Jump to an entity
+      </label>
+      <input
+        id={inputId}
+        role="combobox"
+        aria-expanded={open && results.length > 0}
+        aria-controls={listId}
+        aria-autocomplete="list"
+        aria-activedescendant={open && active >= 0 ? `${listId}-opt-${active}` : undefined}
+        value={text}
+        autoComplete="off"
+        placeholder="name or alias…"
+        className="input-field"
+        onChange={(ev) => {
+          setText(ev.target.value);
+          setOpen(true);
+        }}
+        onFocus={() => {
+          if (text.trim()) setOpen(true);
+        }}
+        onBlur={() => setOpen(false)}
+        onKeyDown={(ev) => {
+          if (ev.key === 'ArrowDown') {
+            ev.preventDefault();
+            if (!open) setOpen(true);
+            if (results.length) setActive((a) => (a + 1) % results.length);
+          } else if (ev.key === 'ArrowUp') {
+            ev.preventDefault();
+            if (results.length) setActive((a) => (a - 1 + results.length) % results.length);
+          } else if (ev.key === 'Enter') {
+            if (open && active >= 0 && results[active]) {
+              ev.preventDefault();
+              choose(results[active]);
+            }
+          } else if (ev.key === 'Escape' && open) {
+            ev.preventDefault();
+            setOpen(false);
+          }
+        }}
+      />
+      {open && results.length > 0 && (
+        <ul
+          id={listId}
+          role="listbox"
+          aria-label="Matching entities"
+          className="mt-1 max-h-56 overflow-y-auto border border-border rounded text-[13px] bg-bg"
+        >
+          {results.map((n, i) => (
+            <li
+              key={n.id}
+              id={`${listId}-opt-${i}`}
+              role="option"
+              aria-selected={i === active}
+              // mousedown, not click: it fires before the input's blur closes the list.
+              onMouseDown={(ev) => {
+                ev.preventDefault();
+                choose(n);
+              }}
+              className={`px-2 py-1 cursor-pointer ${i === active ? 'bg-accent/15 text-accent' : 'text-text-secondary'}`}
+            >
+              {n.label} · {n.ty} · <span className="font-mono text-[11px] text-text-muted">{n.id}</span>
+            </li>
+          ))}
+        </ul>
+      )}
+      {text.trim() && results.length === 0 && (
+        <p className="text-[11px] text-text-muted mt-1.5">No entity matches "{text.trim()}".</p>
+      )}
+    </div>
+  );
+}
+
 function edgeWindow(e: GEdge): string {
   if (!e.from && !e.to) return 'undated';
   return `${e.from?.slice(0, 10) ?? '…'} – ${e.to?.slice(0, 10) ?? '…'}`;
@@ -1009,6 +1260,7 @@ function EdgeCard({
   label,
   denials,
   inView,
+  why,
   onClose,
   compact = false,
 }: {
@@ -1016,6 +1268,8 @@ function EdgeCard({
   label: (id: string) => string;
   denials: DenialIndex;
   inView: boolean;
+  /** "Drawn because: …" — every active filter this edge satisfies, in words. */
+  why: string;
   onClose: () => void;
   /** The in-frame version while maximised: same content, tighter box. */
   compact?: boolean;
@@ -1064,6 +1318,12 @@ function EdgeCard({
         <span>{edgeWindow(e)}</span>
         {e.supersededBy && <span className="text-amber">superseded by {e.supersededBy} — retained, not deleted</span>}
       </div>
+
+      {inView && (
+        <p data-why-drawn className="font-mono text-[10.5px] text-text-muted mt-2 leading-relaxed">
+          {why}
+        </p>
+      )}
 
       {e.lab && <p className="text-[13.5px] text-text-secondary mt-2">{e.lab}</p>}
       {e.d && <p className="text-[13.5px] text-text-muted mt-1 leading-relaxed">{e.d}</p>}
