@@ -3,7 +3,7 @@ import {
 } from '../../data/cppp';
 import { STATES } from '../../data/geo';
 import {
-  Cols, FamilyLink, FINDINGS, FOCUS, GREY, JumpLink, MONO_NOTE, Sub, Twin, csvComments, csvName, fmt, hasInterval, ivCell, ivWidth,
+  Cols, FamilyLink, FINDINGS, FOCUS, GREY, JumpLink, MONO_NOTE, ORIGIN_MISSING, Sub, Twin, csvComments, csvName, fmt, hasInterval, ivCell, ivWidth,
   sourceLine, stamp, useCopy, useWidth,
 } from './ui';
 
@@ -16,6 +16,13 @@ import {
  */
 
 const PORTALS: Portal[] = ['central', 'state'];
+
+/*
+ * The Wilson interval is the chart's honesty device, so its outline is drawn at ≥ 3:1
+ * against the page (A11Y-004 M7): #d2d2d2 at .6 is 4.4:1 and #9e9e9e at .7 is 4.1:1
+ * (at .6 the state grey is 3.3:1). The fill stays faint; the outline carries it.
+ */
+const IV_STROKE: Record<Portal, number> = { central: 0.6, state: 0.7 };
 
 export const RATES_CAPTION_1 =
   "No change of government is marked. The scrape's composition by year (which bodies, which states, which tender types) is not constant, and the two portals are not the same population; a difference between the lines or a slope within one is a fact about the scrape before it is a fact about procurement.";
@@ -122,8 +129,8 @@ function Chart({ plans, scrapeYear, p, notPlotted, denomN }: {
                     fill={colour}
                     fillOpacity={0.22}
                     stroke={colour}
-                    strokeOpacity={0.35}
-                    strokeWidth={0.75}
+                    strokeOpacity={IV_STROKE[pt]}
+                    strokeWidth={1}
                   />
                 );
               })}
@@ -136,7 +143,16 @@ function Chart({ plans, scrapeYear, p, notPlotted, denomN }: {
                   return (
                     <g key={`run-${run[0].row.year}`}>
                       {ok.length > 1 && (
-                        <path data-ribbon="" d={`M${[...upper, ...lower].join('L')}Z`} fill={colour} fillOpacity={0.16} stroke="none" />
+                        <path
+                          data-ribbon=""
+                          d={`M${[...upper, ...lower].join('L')}Z`}
+                          fill={colour}
+                          fillOpacity={0.16}
+                          stroke={colour}
+                          strokeOpacity={IV_STROKE[pt]}
+                          strokeWidth={0.75}
+                          strokeLinejoin="round"
+                        />
                       )}
                       <polyline
                         points={run.map((r) => `${x(Number(r.row.year))},${y(r.row.singleBidderPct)}`).join(' ')}
@@ -228,7 +244,8 @@ export default function Rates({ core, p, params }: { core: CpppCore; p: Provenan
   const sb = core.redflags?.indicators.find((i) => i.indicator === 'singleBidding');
   const c = sb?.byPortal.find((b) => b.portal === 'central');
   const s = sb?.byPortal.find((b) => b.portal === 'state');
-  const source = p.dataset?.name ?? 'dataset origin not yet a field';
+  // The spec's own gap sentence, never a second wording (AC-25).
+  const source = p.dataset?.name ?? ORIGIN_MISSING;
   const figure =
     sb && c && s && hasInterval(sb.wilson95)
       ? `${fmt(sb.count)} of ${fmt(sb.familySize)} award decisions (${sb.ratePct}%, 95% interval ${sb.wilson95[0]} to ${sb.wilson95[1]}) received one bid. ` +

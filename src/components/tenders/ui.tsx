@@ -126,7 +126,7 @@ export function csvComments(core: CpppCore, p: Provenance, family: string, n: nu
  */
 export const ABSENT_STATE = 'not present on the state portal in this scrape; absence here is coverage, not conduct';
 export const UNLISTED_STATE =
-  'no buyer with n ≥ 30 on the state portal in this scrape; smaller buyers are pooled, so the state may still appear there';
+  'no buyer with n ≥ 30 on the state portal in this scrape; smaller buyers are pooled, so the state may still appear there; absence here is coverage, not conduct';
 export const pooledState = (rows: number) => `on the state portal (${fmt(rows)} raw rows), but no buyer with n ≥ 30; its buyers sit in the pooled row`;
 
 /** A table row's words for an unlisted state. */
@@ -138,6 +138,36 @@ export function stateFilterSentence(s: string, st: UnlistedStatus): string {
   if (st.kind === 'pooled') return `“${s}” is on the state portal (${fmt(st.rows)} raw rows), but has no buyer with n ≥ 30; its buyers sit in the pooled row`;
   return `“${s}” has no buyer with n ≥ 30 on the state portal in this scrape; smaller buyers are pooled, so it may still appear there; absence here is coverage, not conduct`;
 }
+
+/**
+ * The active `state=` filter in words (A11Y-004 M5): what the filter is, its effect on
+ * the table's denominator, and a control that clears it. It is printed above every
+ * table the filter narrows, so a reader who arrives by URL can tell why rows are gone.
+ */
+export const stateFilterWords = (state: string, shown: number, of: number) =>
+  `Filtered to buyers whose key begins ‘${state} / ’ · ${fmt(shown)} of ${fmt(of)} buyers`;
+
+export function StateFilterLine({ state, shown, of, onClear }: { state: string; shown: number; of: number; onClear: () => void }) {
+  return (
+    <p data-state-filter className="font-mono text-[12px] leading-relaxed text-text-secondary mt-3">
+      {stateFilterWords(state, shown, of)}
+      <span aria-hidden="true" className="text-text-muted">
+        {' · '}
+      </span>
+      <button
+        type="button"
+        onClick={onClear}
+        aria-label={`clear the state filter (${state})`}
+        className={`underline underline-offset-2 hover:text-accent ${FOCUS}`}
+      >
+        clear
+      </button>
+    </p>
+  );
+}
+
+/** The `n =` clause's words for a state-filtered caption, empty when no state is set. */
+export const stateClause = (state: string | null) => (state ? ` whose key begins ‘${state} / ’` : '');
 
 /**
  * A state-portal key ending "/ unparsed" is not a public body (U6): the tender id carried
@@ -155,6 +185,13 @@ export function UnparsedKey({ k }: { k: string }) {
     </>
   );
 }
+
+/**
+ * The pipeline's README on the code host. The run's commit (provenance.generatedBy)
+ * predates scripts/cppp/, so no pinned URL resolves; this is the current tree, and the
+ * footer says so beside the link rather than dropping it (AC-72).
+ */
+export const README_URL = 'https://github.com/occult-kranti/india-corporate-intelligence/blob/main/scripts/cppp/README.md';
 
 export const ORIGIN_MISSING = 'Dataset origin not yet in provenance.json (recorded in scripts/cppp/README.md)';
 
@@ -182,6 +219,19 @@ const TABLE_BASE =
   // A number or an interval never breaks across lines.
   '[&_.tabular-nums]:whitespace-nowrap';
 
+/*
+ * In the concentration and buyers tables the first cell is the portal and the row header
+ * (the buyer) is second, so pinning only the first cell kept "central" in view and let
+ * the name scroll off (A11Y-004 M6). The column order is the spec's and the CSV's, so
+ * both cells are pinned instead: the portal cell at a fixed width, the buyer beside it
+ * at a capped width that wraps anywhere, so on a phone the scrolling columns keep room.
+ */
+const PIN_TWO =
+  '[&_tr>*:first-child]:w-[4.5rem] [&_tr>*:first-child]:min-w-[4.5rem] ' +
+  '[&_tr>*:nth-child(2)]:sticky [&_tr>*:nth-child(2)]:left-[4.5rem] [&_tr>*:nth-child(2)]:z-[1] [&_tr>*:nth-child(2)]:bg-bg ' +
+  '[&_tr>*:nth-child(2)]:w-[9rem] [&_tr>*:nth-child(2)]:min-w-[9rem] sm:[&_tr>*:nth-child(2)]:w-[15rem] sm:[&_tr>*:nth-child(2)]:min-w-[15rem] ' +
+  '[&_tr>*:nth-child(2)]:[overflow-wrap:anywhere] [&_tr>*:nth-child(2)]:shadow-[inset_-1px_0_0_var(--color-border-light)]';
+
 /**
  * A table twin: a labelled, keyboard-scrollable region (U16), the table with its
  * caption, a `scrolls →` hint for narrow screens, and the CSV export (U1). Tables are
@@ -196,6 +246,7 @@ export function Twin({
   describedBy,
   download,
   minWidth = '38rem',
+  pinTwo = false,
 }: {
   twin?: string;
   label: string;
@@ -205,6 +256,8 @@ export function Twin({
   describedBy?: string;
   download?: Download;
   minWidth?: string;
+  /** Pin the second cell too, for tables whose row header comes after a short portal cell. */
+  pinTwo?: boolean;
 }) {
   return (
     <div className="my-5">
@@ -214,7 +267,7 @@ export function Twin({
         tabIndex={0}
         className={`overflow-x-auto rounded-sm ${FOCUS}`}
       >
-        <table data-twin={twin} aria-describedby={describedBy} className={TABLE_BASE} style={{ minWidth }}>
+        <table data-twin={twin} aria-describedby={describedBy} className={`${TABLE_BASE}${pinTwo ? ` ${PIN_TWO}` : ''}`} style={{ minWidth }}>
           <caption className="text-left font-mono text-[11px] text-text-muted leading-relaxed pb-2">
             <span className="block sticky left-0 max-w-[calc(100vw-2.5rem)] lg:max-w-none">{caption}</span>
           </caption>
@@ -248,7 +301,7 @@ export const Cols = ({ names }: { names: string[] }) => (
 /** A subsection of the national section: an id the jump list and captions target, and its h3. */
 export function Sub({ id, title, children }: { id: string; title: string; children: ReactNode }) {
   return (
-    <section id={id} className="pt-10 scroll-mt-40 lg:scroll-mt-16">
+    <section id={id} className="pt-10 scroll-mt-[var(--cppp-sub-mt,10rem)] lg:scroll-mt-[var(--cppp-sub-mt,4rem)]">
       <h3 className="heading-editorial font-semibold text-xl border-b border-border pb-2 mb-4">{title}</h3>
       {children}
     </section>

@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import {
   Kicker, PageTitle, Standfirst, Byline, Section, Callout, StatGrid, DataTable,
   TierChip, Cite, Prose, Footnote,
@@ -103,6 +103,15 @@ export default function Tenders() {
       live = false;
     };
   }, []);
+  // "Hide the CPPP section" arrives with `cpppHidden`: the head link that brings the
+  // section back takes focus, and a status line says what happened (A11Y-004 M4).
+  // The state is dropped by the next navigation, so the line lasts one view.
+  const loc = useLocation();
+  const cpppHidden = !showNational && (loc.state as { cpppHidden?: boolean } | null)?.cpppHidden === true;
+  const headLink = useRef<HTMLAnchorElement>(null);
+  useEffect(() => {
+    if (cpppHidden) headLink.current?.focus();
+  }, [cpppHidden, cpppRows, loc.key]);
   const sector = params.get('sector') ?? 'all';
   const query = params.get('q') ?? '';
   const [selected, setSelected] = useState<string | null>(null);
@@ -242,6 +251,7 @@ export default function Tenders() {
         {!showNational && cpppRows !== undefined && (
           <p className="mt-5 text-[14px]">
             <Link
+              ref={headLink}
               to={{ search: withSection }}
               state={{ focusCppp: true }}
               className="underline underline-offset-2 text-text hover:text-accent focus:outline-2 focus:outline-accent focus:outline-offset-2"
@@ -253,6 +263,9 @@ export default function Tenders() {
             <span aria-hidden="true">→</span>
           </p>
         )}
+        <p role="status" className="font-mono text-[11px] text-text-muted">
+          {cpppHidden ? 'CPPP section hidden.' : ''}
+        </p>
         {!showNational && (
           <>
             <Byline>
@@ -354,8 +367,12 @@ export default function Tenders() {
           </div>
         </div>
         <div>
-          <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-text-muted mb-1.5">Sector</p>
-          <select value={sector} onChange={(e) => setParam('sector', e.target.value)} className="input-field !py-1.5 !text-[12px] !w-auto">
+          {/* Labels are associated with their controls (A11Y-004 M8): the select was named by its
+              current option, the input by a placeholder that disappears on typing. */}
+          <label htmlFor="tenders-sector" className="block font-mono text-[10px] uppercase tracking-[0.14em] text-text-muted mb-1.5">
+            Sector
+          </label>
+          <select id="tenders-sector" value={sector} onChange={(e) => setParam('sector', e.target.value)} className="input-field !py-1.5 !text-[12px] !w-auto">
             <option value="all">All sectors</option>
             {sectors.map((s) => (
               <option key={s.sector} value={s.sector}>
@@ -365,8 +382,10 @@ export default function Tenders() {
           </select>
         </div>
         <div className="flex-1 min-w-[12rem]">
-          <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-text-muted mb-1.5">Search</p>
-          <input value={query} onChange={(e) => setParam('q', e.target.value)} placeholder="winner, project, body…" className="input-field !py-1.5 !text-[12px]" />
+          <label htmlFor="tenders-search" className="block font-mono text-[10px] uppercase tracking-[0.14em] text-text-muted mb-1.5">
+            Search
+          </label>
+          <input id="tenders-search" value={query} onChange={(e) => setParam('q', e.target.value)} placeholder="winner, project, body…" className="input-field !py-1.5 !text-[12px]" />
         </div>
       </div>
 

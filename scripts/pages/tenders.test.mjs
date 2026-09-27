@@ -60,7 +60,19 @@ const RATES_CAPTION_1 = "No change of government is marked. The scrape's composi
 const RATES_CAPTION_2 = "The interval covers sampling variation only. It does not cover the scrape's agreement with the portal, which is unknown (verification).";
 const BINS_CAPTION = 'Bins are unequal widths; bar heights are counts, not densities.';
 const STATES_CAPTION = "The state portal is not India's states. It is the states and UTs whose bodies publish on one portal.";
-const ABSENT_STATE = 'not present on the state portal in this scrape; absence here is coverage, not conduct';
+/**
+ * What a state with no n ≥ 30 buyer may be called. [Adjudicated] `rates.byOrganisation` is
+ * thresholded at n ≥ 30, so missing from it is not missing from the portal: the absence
+ * claim is printed only when `quality.organisations.statePortalNames` is emitted and gives
+ * the name no rows; otherwise the row says the state may still sit in the pooled row.
+ */
+const UNLISTED_STATE = 'no buyer with n ≥ 30 on the state portal in this scrape; smaller buyers are pooled, so the state may still appear there; absence here is coverage, not conduct';
+const ABSENT_STATE_KNOWN = 'not present on the state portal in this scrape; absence here is coverage, not conduct';
+const pooledState = (rows) => `on the state portal (${rows} raw rows), but no buyer with n ≥ 30; its buyers sit in the pooled row`;
+/** The `state=` filter sentence for a value no emitted key matches, by the same rule. */
+const unmatchedStateSentence = (v, known) => (known
+  ? `“${v}” does not appear on the state portal in this scrape; absence here is coverage, not conduct`
+  : `“${v}” has no buyer with n ≥ 30 on the state portal in this scrape; smaller buyers are pooled, so it may still appear there; absence here is coverage, not conduct`);
 const NOT_ASKED_TABLE = "No body listed here has been asked for comment. That is a weakness of this table, not a neutral fact. Each figure is a rate over the body's own awards, not a finding about it.";
 const SAMPLE_LEAD = 'The portal answered “Invalid Url” to every stored link; the finding below gives the reason it appears to be a validity window on the link token. Nothing was checked, and nothing was contradicted.';
 const NOTHING_CONTRADICTED = 'Nothing was checked, and nothing was contradicted.';
@@ -208,6 +220,15 @@ const norm = (s) => String(s ?? '')
   .replace(/[\u2018\u2019]/g, "'").replace(/[\u201C\u201D]/g, '"')
   .replace(/(\d)[,\u00a0\u2009\u202f](?=\d)/g, '$1')
   .replace(/\s+/g, ' ').trim();
+/**
+ * `norm` without the trim, for the literal parts of `findSentence`: a part such as ' of '
+ * or ' to ' keeps its edge spaces, so it still separates the numbers around it.
+ * [Adjudicated] trimming the parts made ' of ' read 'of' and every rate sentence miss.
+ */
+const normKeep = (s) => String(s ?? '')
+  .replace(/[\u2018\u2019]/g, "'").replace(/[\u201C\u201D]/g, '"')
+  .replace(/(\d)[,\u00a0\u2009\u202f](?=\d)/g, '$1')
+  .replace(/\s+/g, ' ');
 const esc = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 const int = (s) => Number.parseInt(norm(s).replace(/[^\d-]/g, ''), 10);
 const samePct = (a, b) => Math.round(Number(a) * 10) === Math.round(Number(b) * 10);
@@ -230,7 +251,7 @@ const isNoFill = (c) => c === 'none' || c === 'transparent' || (parseRgb(c)?.a =
 function findSentence(text, parts) {
   const checks = [];
   const src = parts.map((p) => {
-    if (typeof p === 'string') return esc(norm(p));
+    if (typeof p === 'string') return esc(normKeep(p));
     if (p.int !== undefined) { checks.push((s) => int(s) === Number(p.int)); return '(\\d+)'; }
     if (p.pct !== undefined) { checks.push((s) => samePct(s, p.pct)); return '(\\d+(?:\\.\\d+)?)'; }
     if (p.re) { checks.push(() => true); return `(${p.re})`; }
@@ -396,10 +417,15 @@ const INIT = `window.__t = {
   },
   block(el) { for (let e = el; e && e !== document.body; e = e.parentElement) { if (!/^inline/.test(getComputedStyle(e).display)) return e; } return document.body; },
   inTierChip(el) { for (let e = el; e && e !== document.body; e = e.parentElement) { if (${JSON.stringify(TIER_WORDS)}.includes(e.textContent.trim())) return true; } return false; },
-  /** A StatGrid: the first block after \`from\` (outside SEC) with 3–12 short children that each carry a figure. */
+  /**
+   * A StatGrid: the first block inside \`main\` after \`from\` (default: the page h1), outside
+   * SEC, with 3–12 short children that each carry a figure. [Adjudicated] scoped to \`main\`
+   * after \`main h1\`: the Layout sidebar's figure block (outside main) is not a StatGrid.
+   */
   statGrid(from) {
     const sec = __t.sec();
-    return [...document.querySelectorAll('main *, body *')].find((el) => (!from || __t.follows(from, el)) && !(sec && sec.contains(el)) && !el.closest('table, nav')
+    const start = from ?? document.querySelector('main h1');
+    return [...document.querySelectorAll('main *')].find((el) => (!start || __t.follows(start, el)) && !(sec && sec.contains(el)) && !el.closest('table, nav, header')
       && el.children.length >= 3 && el.children.length <= 12
       && [...el.children].every((c) => /\\d/.test(c.textContent) && c.textContent.trim().length > 0 && c.textContent.trim().length < 160)
       && !el.querySelector('table, h1, h2, h3, svg, section')) ?? null;
@@ -493,8 +519,10 @@ async function readTable(page, sel) {
     const t = typeof s === 'string' ? document.querySelector(s) : s;
     if (!t) return null;
     const headers = [...t.querySelectorAll('thead th')].map((th) => ({ text: __t.norm(th.textContent), sort: th.getAttribute('aria-sort'), scope: th.getAttribute('scope'), button: !!th.querySelector('button') }));
+    // [Adjudicated] a `/ unparsed` buyer cell renders as label + raw key (AC-42); when matching
+    // rows to the data the cell is read by its raw key, the mono [data-raw-key] element.
     const rows = [...t.querySelectorAll('tbody tr')].map((tr) => ({
-      cells: [...tr.querySelectorAll('th, td')].map((c) => __t.norm(c.textContent)),
+      cells: [...tr.querySelectorAll('th, td')].map((c) => __t.norm((c.querySelector('[data-raw-key]') ?? c).textContent)),
       header: __t.norm(tr.querySelector('th[scope="row"]')?.textContent ?? ''),
       hasRowHeader: !!tr.querySelector('th[scope="row"]'),
       nodata: tr.hasAttribute('data-nodata') || !!tr.querySelector('[data-nodata]'),
@@ -601,7 +629,8 @@ ac('AC-01 — The section renders, error-free, above the registers', () => withP
     return {
       tag: h2.tagName, text: __t.norm(h2.textContent), first: document.querySelector('h2') === h2,
       prev: __t.norm(h2.previousElementSibling?.textContent ?? ''), len: document.body.innerText.length,
-      h1: __t.norm(document.querySelector('h1')?.textContent ?? ''),
+      // [Adjudicated] the page's h1 is `main h1` (PageTitle); the Layout's wordmark h1 is not the page's.
+      h1: __t.norm(document.querySelector('main h1')?.textContent ?? ''),
     };
   });
   assert.equal(head.tag, 'H2', '#cppp is not an h2');
@@ -866,6 +895,10 @@ ac('AC-12 — Tier is spoken text on every table and chart', () => withPage('D',
 async function statesAppearing(page) { const s = await statesSplit(page); assert.ok(s, '[data-twin="states"] missing'); return s; }
 
 async function assertRatesCaptions(page, vp) {
+  // [Adjudicated] wait for the states twin and the rates figcaption to be in the DOM, never
+  // on the settle alone: the caption's third line counts the states twin's rows.
+  await page.waitForSelector('[data-twin="states"]', { state: 'attached' });
+  await page.waitForSelector('#cppp-rates figcaption', { state: 'attached' });
   const s = await statesAppearing(page);
   const k = s.matched.length;
   const r = await page.evaluate(([c1, c2]) => {
@@ -874,10 +907,11 @@ async function assertRatesCaptions(page, vp) {
     const els = [...sect.querySelectorAll('*')].filter((el) => svg && tw && __t.follows(svg, el) && __t.follows(el, tw) && !el.contains(tw));
     const cands = els.filter((el) => __t.norm(el.textContent).includes(__t.norm(c1)) && __t.norm(el.textContent).includes(__t.norm(c2)));
     const el = cands.find((c) => !cands.some((o) => o !== c && c.contains(o))) ?? null;
-    return el ? { text: __t.norm(el.textContent), visible: __t.visible(el), details: !!el.closest('details') } : { text: null };
+    return el ? { text: __t.norm(el.textContent), visible: __t.visible(el), details: !!el.closest('details') } : { text: null, secText: __t.norm(sect.innerText).slice(0, 1500) };
   }, [RATES_CAPTION_1, RATES_CAPTION_2]);
   assert.ok(r, `${vp}: #cppp-rates missing`);
-  assert.ok(r.text, `${vp}: no element between the rates svg and its twin carrying the two frozen caption lines`);
+  // On failure the section's text is recorded so a recurrence can be diagnosed from the log.
+  assert.ok(r.text, `${vp}: no element between the rates svg and its twin carrying the two frozen caption lines; #cppp-rates reads "${r.secText}"`);
   const i1 = r.text.indexOf(norm(RATES_CAPTION_1)); const i2 = r.text.indexOf(norm(RATES_CAPTION_2));
   assert.ok(i1 >= 0 && i2 > i1, `${vp}: caption lines out of order`);
   const line3 = `The state portal is not India's states: ${k} of ${FIX.states.length} states and UTs appear (see §3.2a).`;
@@ -987,7 +1021,9 @@ ac('AC-19 — The verification section leads with its plain reading and says wha
     SAMPLE_LEAD, { sel: '[data-twin="agreement"]' },
     ...Object.values(sample.verdictRule), sample.finding, sample.redraw,
     NOT_ASKED_PARTIES, UPGRADE, HOW_TO_CHECK,
-    String(sample.seed), sample.rng, { sel: '#cppp-sample pre' }, { sel: '[data-twin="sample"]' },
+    // [Adjudicated] the seed is looked up as printed, `seed {seed}`: the bare number is a
+    // substring of the section's dates and would resolve to the agreement caption.
+    `seed ${sample.seed}`, sample.rng, { sel: '#cppp-sample pre' }, { sel: '[data-twin="sample"]' },
   ];
   const r = await page.evaluate((list) => {
     const root = document.getElementById('cppp-sample'); if (!root) return null;
@@ -1072,7 +1108,9 @@ ac('AC-21 — The gaps panel is at findings size, before the footer, and each li
   has((l) => l.text.includes(norm(ELECTION_SENTENCE)), 'Election-calendar sentence');
   has((l) => l.text.includes(norm(NO_COMPARATOR)), 'no external comparator');
   if (rates.byPortalTenderType === undefined) has((l) => /tender-type composition/.test(l.text) && /not emitted/.test(l.text), 'per-portal tender-type composition not emitted');
-  has((l) => l.text.includes(`${s.nodata.length} states and UTs are absent from the state portal`) && l.statesLink, `${s.nodata.length} states and UTs are absent from the state portal (with link)`);
+  // [Adjudicated] the states table is thresholded at n ≥ 30, so the line says what the data can: no buyer at that threshold, not absence.
+  has((l) => l.text.includes(`${s.nodata.length} states and UTs have no buyer with n ≥ 30 on the state portal`) && l.statesLink, `${s.nodata.length} states and UTs have no buyer with n ≥ 30 on the state portal (with link)`);
+  if (!FIX.quality.organisations.statePortalNames) assert.ok(!r.lines.some((l) => /absent from the state portal/.test(l.text)), 'a gap line claims absence from the state portal while statePortalNames is not emitted');
   has((l) => l.text.includes(NO_COMMENT_GAP), NO_COMMENT_GAP);
   for (const f of absentPrereqs) has((l) => l.text.includes(f), `prerequisite field ${f}`);
   assert.ok(r.timing.includes('Election-calendar clustering is not computed'), '#cppp-timing lacks the Election-calendar sentence');
@@ -1096,17 +1134,23 @@ ac('AC-22 — The page\'s own words carry no party or leader', () => withPage('D
 
 ac('AC-23 — Two dates, always labelled', () => withPage('D', async (page) => {
   await openNational(page);
-  const r = await page.evaluate((asOf) => {
+  // [Adjudicated] a verbatim data string that happens to carry the asOf date (the caveat, the
+  // redraw text) and the verification line's `on {fetch date}` are not asOf printed alone.
+  const dataDates = FIX.data.filter((s) => s.includes(FIX.asOf)).map(norm);
+  const r = await page.evaluate(([asOf, dataDates, fetchDate]) => {
     const sec = __t.sec(); const walker = document.createTreeWalker(sec, NodeFilter.SHOW_TEXT);
     const bad = []; let n;
     while ((n = walker.nextNode())) {
       if (!n.nodeValue.includes(asOf)) continue;
       const block = __t.norm(__t.block(n.parentElement).textContent);
+      const node = __t.norm(n.nodeValue);
+      if (dataDates.some((s) => s.includes(node) || block.includes(s))) continue;
+      if (/^Verification:/.test(block) && block.includes(`on ${fetchDate}`)) continue;
       const i = block.indexOf('computed'); const j = block.indexOf(asOf);
       if (!(i >= 0 && i < j)) bad.push(block.slice(0, 120));
     }
     return { bad, captions: [...sec.querySelectorAll('caption')].map((c) => __t.norm(c.textContent)) };
-  }, FIX.asOf);
+  }, [FIX.asOf, dataDates, FIX.fetchDate]);
   assert.deepEqual(r.bad, [], `asOf printed without "computed" before it: ${r.bad.join(' | ')}`);
   assert.ok(r.captions.length, 'no caption in SEC');
   for (const c of r.captions) {
@@ -1205,7 +1249,7 @@ ac('AC-27 — Families: one row per family, every identity sums exactly, every c
       const sum = int(m[1]) + int(m[2]) + (m[3] ? int(m[3]) : 0);
       assert.equal(sum, int(m[4]), `arithmetic fails in "${cell}"`);
       assert.equal(int(m[4]), FIX.dedup, `"${cell}" does not reconcile to ${FIX.dedup}`);
-    } else assert.equal(cell, 'complement not emitted', `reconciliation cell "${cell}"`);
+    } else assert.ok(cell === 'complement not emitted' || cell.endsWith('; complement not emitted'), `reconciliation cell "${cell}" — [Adjudicated] the concentration row prefixes its buyer count`);
   }
   assert.ok(t.rows.some((r) => r.cells[rec] === `${FIX.denomN} + ${FIX.excl} = ${FIX.dedup}`), 'no rates-denominator identity row');
   assert.ok(t.rows.some((r) => r.cells[rec] === `${timing.n} + ${timing.excludedAocBeforeClosing} + ${timing.excludedDateMissing} = ${FIX.dedup}`), 'no timing identity row');
@@ -1497,6 +1541,18 @@ ac('AC-38 — The scrape year is labelled partial', () => withPage('D', async (p
   }
 }));
 
+/**
+ * The words a hatched state row must end with, by the same three-way rule as the page
+ * (AC-39): with `statePortalNames` emitted, exact-name rows > 0 → pooled, 0 → not present;
+ * without it → unlisted, since the n ≥ 30 table cannot establish absence.
+ */
+function unlistedStateText(name) {
+  const list = FIX.quality.organisations.statePortalNames;
+  if (!list) return UNLISTED_STATE;
+  const rows = list.filter((x) => x.name === name).reduce((a, x) => a + x.rows, 0);
+  return rows > 0 ? pooledState(rows) : ABSENT_STATE_KNOWN;
+}
+
 ac('AC-39 — Absent states are hatched, named, and given no reason', () => withPage('D', async (page) => {
   await openNational(page);
   const s = await statesAppearing(page);
@@ -1505,7 +1561,7 @@ ac('AC-39 — Absent states are hatched, named, and given no reason', () => with
   for (const r of nodataRows) {
     assert.ok(FIX.states.includes(r.cells[0]), `hatched row "${r.cells[0]}" is not a state name`);
     assert.ok(!FIX.stateKeys.includes(r.cells[0]), `"${r.cells[0]}" appears on the state portal yet is hatched`);
-    assert.equal(r.text, norm(`${r.cells[0]} ${ABSENT_STATE}`), `hatched row text "${r.text}"`);
+    assert.equal(r.text, norm(`${r.cells[0]} ${unlistedStateText(r.cells[0])}`), `hatched row text "${r.text}"`);
     assert.ok(!/runs its own/.test(r.text), `hatched row "${r.cells[0]}" prints a reason`);
   }
   assert.ok(s.nodata.length + s.matched.length >= FIX.states.length, `${s.nodata.length} hatched + ${s.matched.length} matched < ${FIX.states.length}`);
@@ -1643,7 +1699,8 @@ ac('AC-44 — A row without wilson95 is flagged, never drawn with a band', async
 
 ac('AC-45 — An unmatched state prints its sentence, never an empty table', () => withPage('D', async (page) => {
   await openNational(page, '&state=Nowhere');
-  const sentence = '“Nowhere” does not appear on the state portal in this scrape; absence here is coverage, not conduct';
+  // [Adjudicated] "does not appear" only when statePortalNames is emitted (and gives Nowhere no rows).
+  const sentence = unmatchedStateSentence('Nowhere', !!FIX.quality.organisations.statePortalNames);
   for (const id of ['#cppp-concentration', '#cppp-redflags']) {
     const tx = await page.locator(id).innerText().catch(() => '');
     assert.ok(includes(tx, sentence), `${id} lacks "${sentence}"`);
@@ -1886,7 +1943,14 @@ async function choose(page, container, values, value) {
   await page.locator(`${container} button, ${container} [role="radio"], ${container} label`).filter({ hasText: new RegExp(`^\\s*${esc(value)}\\s*$`) }).first().click();
 }
 const headerButton = (page, name) => page.locator('[data-twin="concentration"] thead th').filter({ hasText: new RegExp(`^\\s*${esc(name)}\\b`, 'i') }).first();
-const headerSort = async (page, name) => headerButton(page, name).getAttribute('aria-sort');
+/** aria-sort of a concentration header. `expected` waits for React's commit after the URL changed (the param
+ *  lands a frame before the DOM does), so the read is of the settled header, not the frame in between. */
+const headerSort = async (page, name, expected) => {
+  const th = headerButton(page, name);
+  let v = await th.getAttribute('aria-sort');
+  for (let i = 0; expected && v !== expected && i < 50; i += 1) { await page.waitForTimeout(100); v = await th.getAttribute('aria-sort'); }
+  return v;
+};
 const stateParam = () => FIX.stateKeys[0];
 
 ac('AC-56 — Every param loads into its control', () => withPage('D', async (page) => {
@@ -2134,7 +2198,9 @@ ac('AC-69 — Top winners are a nested list, one item per emitted name', () => w
   const { buyer } = await concRows(page);
   const rows = await page.evaluate((bi) => [...document.querySelectorAll('[data-twin="concentration"] tbody tr')].map((tr) => {
     const cells = [...tr.querySelectorAll('th, td')]; const ol = tr.querySelector('ol');
-    return { buyer: __t.norm(cells[bi].textContent), buyerRaw: cells[bi].textContent, wbr: cells[bi].querySelectorAll('wbr').length, lis: ol ? [...ol.querySelectorAll('li')].map((li) => __t.norm(li.textContent)) : null };
+    // [Adjudicated] an unparsed buyer is read by its raw key (see readTable).
+    const key = cells[bi].querySelector('[data-raw-key]') ?? cells[bi];
+    return { buyer: __t.norm(key.textContent), buyerRaw: key.textContent, wbr: cells[bi].querySelectorAll('wbr').length, lis: ol ? [...ol.querySelectorAll('li')].map((li) => __t.norm(li.textContent)) : null };
   }), buyer);
   assert.equal(rows.length, FIX.conc.length);
   for (const r of rows) {
@@ -2319,7 +2385,7 @@ ac('AC-75 — Every control is a real control and works by Enter or Space', () =
   await valueBtn.focus();
   await page.keyboard.press('Space');
   await waitForParam(page, 'sort', 'value');
-  assert.equal(await headerSort(page, 'value'), 'descending', 'value header aria-sort after Space');
+  assert.equal(await headerSort(page, 'value', 'descending'), 'descending', 'value header aria-sort after Space');
 }));
 
 ac('AC-76 — Folded material has summaries that name content and count, and nothing counted is folded', () => withPage('D', async (page) => {

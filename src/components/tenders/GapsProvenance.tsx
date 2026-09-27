@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import { STATES } from '../../data/geo';
 import { absentPrerequisites, checkableRows, pooledOnlyNames, splitStates, unlistedStatus, type CpppCore, type Provenance } from '../../data/cppp';
-import { Code, Cols, FINDINGS, JumpLink, MONO_NOTE, ORIGIN_MISSING, Sub, Twin, WRAP, csvComments, csvName, fmt, sourceLine, stamp } from './ui';
+import { Cols, FINDINGS, FOCUS, JumpLink, MONO_NOTE, ORIGIN_MISSING, README_URL, Sub, Twin, WRAP, csvComments, csvName, fmt, sourceLine, stamp } from './ui';
 
 /**
  * §3.9 — the gaps panel, at the size of the findings (U20): absence is a result on this
@@ -90,6 +90,8 @@ export function ProvenanceFooter({ core, p, params }: { core: CpppCore; p: Prove
     ['computed', `computed ${p.asOf}`],
     ['outputs', core.provenance?.outputs?.join(', ') ?? 'not listed'],
   ];
+  // generatedBy is `path@commit`; without the commit the link is still unpinned, and says so.
+  const commit = p.generatedBy.split('@')[1] ?? null;
   return (
     <Sub id="cppp-provenance" title="Provenance">
       <Twin
@@ -127,11 +129,15 @@ export function ProvenanceFooter({ core, p, params }: { core: CpppCore; p: Prove
           </div>
         ))}
       </dl>
-      {/* A path in the repository, not a link: the commit in generatedBy predates
-          scripts/cppp/, so no pinned URL resolves, and an unpinned one drifts from the
-          run the digests describe. Whether a code-host link ships is the owner's call. */}
+      {/* The run's commit predates scripts/cppp/, so the link is to the current tree and
+          says so: the caveat is kept as text, not used as a reason to omit the link. */}
       <p className={`${MONO_NOTE} mt-3`}>
-        The pipeline, its rebuild command and every table's SQL, in the source repository: <Code>scripts/cppp/README.md</Code>.
+        The pipeline, its rebuild command and every table's SQL:{' '}
+        <a href={README_URL} rel="noopener noreferrer" target="_blank" className={`underline underline-offset-2 ${FOCUS}`}>
+          scripts/cppp/README.md
+        </a>{' '}
+        (source repository, current tree;{' '}
+        {commit ? `the run's commit ${commit} predates this directory, so the link is not pinned to it` : 'generatedBy names no commit, so the link is not pinned to the run'}).
       </p>
       <p className={`${MONO_NOTE} mt-2`}>
         <span data-source-line>{sourceLine(p)}</span>

@@ -1,3 +1,4 @@
+import { useLayoutEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { TierChip } from '../Editorial';
 import { checkableRows, type CpppCore, type Provenance } from '../../data/cppp';
@@ -11,7 +12,53 @@ import { FOCUS, JumpLink, MONO_NOTE, fmt, sourceLine, useCopy } from './ui';
 
 const TIER_CLAUSE = "the portal is the primary record; this scrape's agreement with it is unknown (see verification)";
 
+/** The nearest ancestor that scrolls vertically (the layout's `main`). */
+function scrollParent(el: HTMLElement): HTMLElement | null {
+  for (let e = el.parentElement; e; e = e.parentElement) if (/(auto|scroll)/.test(getComputedStyle(e).overflowY)) return e;
+  return null;
+}
+
+/**
+ * While the strip is mounted, the scroll container's scroll-padding covers everything
+ * that overlays it — the fixed header (the container's own top padding below `lg`) and
+ * the strip — so focus scrolling, `scrollIntoView` and fragment landing all put their
+ * target below the band rather than under it (A11Y-004 M1). Two custom properties
+ * replace the heading's and the subsections' fixed scroll margins, which compensated for
+ * the band by hand. Everything is restored when the section unmounts.
+ */
+function useStripPadding() {
+  const ref = useRef<HTMLDivElement>(null);
+  useLayoutEffect(() => {
+    const strip = ref.current;
+    const box = strip && scrollParent(strip);
+    if (!strip || !box) return;
+    const VARS = ['--cppp-h2-mt', '--cppp-sub-mt'];
+    const prevPad = box.style.scrollPaddingTop;
+    const prevVars = VARS.map((v) => box.style.getPropertyValue(v));
+    const apply = () => {
+      const h = Math.ceil(strip.getBoundingClientRect().height);
+      const over = parseFloat(getComputedStyle(box).paddingTop) || 0;
+      box.style.scrollPaddingTop = `${Math.ceil(over + h)}px`;
+      // The heading sits above the strip in flow, so the strip is not over it when it lands.
+      box.style.setProperty('--cppp-h2-mt', `${8 - h}px`);
+      // A subsection's own top padding is its breathing room once the padding covers the band.
+      box.style.setProperty('--cppp-sub-mt', '0px');
+    };
+    apply();
+    const ro = new ResizeObserver(apply);
+    ro.observe(strip);
+    ro.observe(box);
+    return () => {
+      ro.disconnect();
+      box.style.scrollPaddingTop = prevPad;
+      VARS.forEach((v, i) => (prevVars[i] ? box.style.setProperty(v, prevVars[i]) : box.style.removeProperty(v)));
+    };
+  }, []);
+  return ref;
+}
+
 export function Strip({ core, p }: { core: CpppCore; p: Provenance }) {
+  const ref = useStripPadding();
   const facts = [
     `${fmt(p.afterDedupRows)} award decisions after dedup`,
     `from ${fmt(p.rows)} raw rows`,
@@ -23,8 +70,11 @@ export function Strip({ core, p }: { core: CpppCore; p: Provenance }) {
   // Sticky within the section only: it is a child of the section's body, so it
   // releases where the registers begin. The facts flow inline so that on a phone the
   // band stays a few lines deep rather than one line per fact.
+  // `top-0` at every width: below `lg` the scroll container's own 3.5rem top padding
+  // already puts the sticky edge under the fixed header, so `top-14` left a 56px gap
+  // with content scrolling through it (A11Y-004 M2).
   return (
-    <div className="sticky top-14 lg:top-0 z-20 bg-bg border-y border-border py-1 my-1.5 font-mono text-[10.5px] leading-snug text-text-secondary">
+    <div ref={ref} className="sticky top-0 z-20 bg-bg border-y border-border py-1 my-1.5 font-mono text-[10.5px] leading-snug text-text-secondary">
       {facts.map((f, i) => (
         <span key={i}>
           {i > 0 && (
@@ -112,7 +162,9 @@ export function HeadBottom({ core, p, hideSearch }: { core: CpppCore; p: Provena
             {label}
           </JumpLink>
         ))}
-        <Link to={{ search: hideSearch }} replace className={`underline underline-offset-2 text-text-muted hover:text-accent ${FOCUS}`}>
+        {/* The page's head link takes focus on arrival and a status line says the section
+            went (A11Y-004 M4), so focus is never dropped on <body>. */}
+        <Link to={{ search: hideSearch }} replace state={{ cpppHidden: true }} className={`underline underline-offset-2 text-text-muted hover:text-accent ${FOCUS}`}>
           Hide the CPPP section
         </Link>
       </nav>

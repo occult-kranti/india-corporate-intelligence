@@ -21,6 +21,17 @@ swept for names, focus and contrast; findings there are marked "register".*
 | **Minor** | **13** | small friction |
 | total | **21** | |
 
+**Status after the fix pass (2026-09-27).** M1–M8 are fixed in the page and measured with a
+Playwright probe at 1440, 390 and 320: no focused element is fully hidden by the header or the
+sticky strip in a 152-stop Tab walk (M1); the strip sits directly under the header at every
+width (M2); the pressed portal toggle carries a 2 px bar and medium weight, and an underline
+under forced colours (M3); hiding the section moves focus to the head link and fills a status
+line (M4); the `state=` filter is named above both tables with a `clear` control (M5); the
+concentration and buyers tables pin both the portal and the buyer cells (M6); the Wilson
+interval outlines are drawn at 4.4:1 and 4.1:1 by the audit's own figures, greyscale check
+still open (M7); the register's Sector and Search controls have real `<label>`s (M8). The Minor findings
+below are open. The paragraphs that follow describe the page as audited, before those fixes.
+
 **Nothing blocks release under the skill's rule** (Critical findings block). The section is
 built the way the energy and welfare fixes said it should be: every control is reachable by
 Tab and carries a visible 2 px ring; every graphic is `role="img"` with a name that states its

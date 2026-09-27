@@ -3,8 +3,8 @@ import { STATES } from '../../data/geo';
 import { VH, type Patch } from '../energy/hooks';
 import { PORTALS, type NationalParams, type SortKey } from './params';
 import {
-  FINDINGS, FOCUS, FamilyLink, MONO_NOTE, NODATA_STYLE, Sub, Twin, UnparsedKey, WbrText, csvComments, csvName, fmt, inr, isUnparsed, stamp,
-  stateFilterSentence, unparsedLabel,
+  FINDINGS, FOCUS, FamilyLink, MONO_NOTE, NODATA_STYLE, StateFilterLine, Sub, Twin, UnparsedKey, WbrText, csvComments, csvName, fmt, inr, isUnparsed,
+  stamp, stateClause, stateFilterSentence, stateFilterWords, unparsedLabel,
 } from './ui';
 
 /**
@@ -132,6 +132,7 @@ export default function Concentration({
           {ms ? `${fmt(ms.n)} of ${fmt(ms.of)} names shown are admitted by “M/s” alone and may be trading names of individuals.` : MS_MISSING}
         </p>
       </div>
+      {np.state && <StateFilterLine state={np.state} shown={k} of={N} onClear={() => patch({ state: null })} />}
       {stateLine && <p className={`${FINDINGS} max-w-[72ch] mt-3`}>{stateLine}</p>}
 
       <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mt-4">
@@ -144,7 +145,14 @@ export default function Concentration({
                 type="button"
                 aria-pressed={np.portal === v}
                 onClick={() => patch({ portal: v === 'all' ? null : v, state: v === 'state' ? np.state : null })}
-                className={`font-mono text-[11px] px-2.5 py-1 rounded border ${np.portal === v ? 'border-text-secondary text-text bg-bg-card' : 'border-border text-text-muted hover:text-text'} ${FOCUS}`}
+                // Pressed is told by more than lightness (A11Y-004 M3): a 2px accent bar, weight,
+                // and under forced colours a system-coloured bar and an underline, which survive
+                // the fill and border colours being overridden.
+                className={`font-mono text-[11px] px-2.5 py-1 rounded border ${
+                  np.portal === v
+                    ? 'border-text-secondary border-b-2 border-b-accent pb-[3px] text-text bg-bg-card font-medium forced-colors:border-b-[Highlight] forced-colors:underline'
+                    : 'border-border text-text-muted hover:text-text'
+                } ${FOCUS}`}
               >
                 {v}
               </button>
@@ -173,7 +181,7 @@ export default function Concentration({
         </div>
       </div>
       <p aria-live="polite" className={VH}>
-        {fmt(N)} → {fmt(k)} buyers · showing {fmt(limit)}
+        {np.state ? stateFilterWords(np.state, k, N) : `${fmt(N)} → ${fmt(k)} buyers`} · showing {fmt(limit)}
       </p>
 
       {k > 0 && (
@@ -182,9 +190,10 @@ export default function Concentration({
           label="Concentration by buyer"
           describedBy="cppp-conc-desc cppp-conc-reading cppp-conc-counts"
           minWidth="78rem"
+          pinTwo
           caption={
             <>
-              Concentration among marked winners by buyer · n = {fmt(limit)} of {fmt(k)} buyers shown ({fmt(N)} in the family, {fmt(awardsTotal)} award
+              Concentration among marked winners by buyer · n = {fmt(limit)} of {fmt(k)} buyers shown{stateClause(np.state)} ({fmt(N)} in the family, {fmt(awardsTotal)} award
               decisions) · value columns are as reported and unverified (see quality: contract value) · {stamp(p)} · <FamilyLink>family</FamilyLink>
             </>
           }

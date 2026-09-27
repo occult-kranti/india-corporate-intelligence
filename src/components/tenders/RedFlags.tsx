@@ -4,8 +4,8 @@ import { STATES } from '../../data/geo';
 import type { Patch } from '../energy/hooks';
 import type { NationalParams } from './params';
 import {
-  Code, Cols, FINDINGS, FOCUS, FamilyLink, MONO_NOTE, NODATA_STYLE, Sub, Twin, UnparsedKey, WbrText, csvComments, csvName, d1, fmt, hasInterval,
-  isUnparsed, ivCell, rateText, stamp, stateFilterSentence, unparsedLabel,
+  Code, Cols, FINDINGS, FOCUS, FamilyLink, MONO_NOTE, NODATA_STYLE, StateFilterLine, Sub, Twin, UnparsedKey, WbrText, csvComments, csvName, d1, fmt,
+  hasInterval, isUnparsed, ivCell, rateText, stamp, stateClause, stateFilterSentence, unparsedLabel,
 } from './ui';
 
 /**
@@ -152,6 +152,9 @@ export default function RedFlags({ core, p, params, np, patch }: { core: CpppCor
       : []),
   ];
   const lines = np.buyers === 'all' ? allLines : top;
+  // The filter line's denominator: the buyers this table lists before the state filter.
+  const unfiltered = np.buyers === 'all' ? all.filter((r) => r.portal !== 'all').length : rf.singleBiddingByBuyer.length;
+  const shownBuyers = np.buyers === 'all' ? named.length : top.length;
   const fam = rf.singleBiddingByBuyerFamily;
   const frame = fam
     ? `${fmt(rf.singleBiddingByBuyer.length)} of ${fmt(fam.eligibleBuyers)} buyers with at least ${fmt(fam.threshold)} awards`
@@ -198,6 +201,7 @@ export default function RedFlags({ core, p, params, np, patch }: { core: CpppCor
             {effect}
           </span>
         </div>
+        {np.state && <StateFilterLine state={np.state} shown={shownBuyers} of={unfiltered} onClear={() => patch({ state: null })} />}
         {stateUnknown && <p className={`${FINDINGS} max-w-[72ch]`}>{stateFilterSentence(np.state!, unlistedStatus(core.quality, np.state!, names))}</p>}
         <p className={`${FINDINGS} max-w-[72ch]`}>{NOT_ASKED}</p>
         {sb && (
@@ -210,10 +214,11 @@ export default function RedFlags({ core, p, params, np, patch }: { core: CpppCor
           label="Named buyers by single-bidder rate"
           describedBy="cppp-caveat"
           minWidth="46rem"
+          pinTwo
           caption={
             <>
               {np.buyers === 'all' ? 'Every buyer in the rates file, by awards in the denominator' : 'The pipeline’s named buyers'} · n = {fmt(lines.length + base.length)}{' '}
-              rows, the first {base.length} the portal base rates · frame: {rf.singleBiddingByBuyerNote}; {frame} · {stamp(p)} · <FamilyLink>family</FamilyLink>
+              rows{np.state ? `, buyers limited to those${stateClause(np.state)}` : ''}, the first {base.length} the portal base rates · frame: {rf.singleBiddingByBuyerNote}; {frame} · {stamp(p)} · <FamilyLink>family</FamilyLink>
             </>
           }
           head={<Cols names={['portal', 'buyer', 'awards in denominator', 'single-bidder awards', 'single-bidder %', '95% interval (Wilson), %', 'response', 'note']} />}
