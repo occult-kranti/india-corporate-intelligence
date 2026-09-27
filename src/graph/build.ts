@@ -160,27 +160,47 @@ export function buildNationalGraph(): DerivedGraph {
   }
 
   // --- capital layer -------------------------------------------------------
+  // A roster entity that is also in the companies dataset is the SAME node (`co:<company.id>`),
+  // resolved by NSE symbol, then BSE code — never by name. Only an entity the dataset does not
+  // carry is minted from its own symbol. Before this join the graph carried two nodes for 34 of
+  // the 64 roster entities (`co:lt` beside `co:larsen-toubro`, `co:tcs` beside
+  // `co:tata-consultancy-services`), and the Atlas and the finance fleet cite the dataset id.
+  const byNse = new Map(COMPANIES.filter((c) => c.nse).map((c) => [c.nse as string, c]));
+  const byBse = new Map(COMPANIES.filter((c) => c.bse).map((c) => [String(c.bse), c]));
   for (const g of GROUPS) {
     const gid = put(groupNode(g.id, g.name, g.stateCode, g.srcs, g.combinedMcapCr));
     for (const e of g.listedEntities) {
-      const slug = (e.nse ?? e.name).toLowerCase().replace(/[^a-z0-9]+/g, '-');
-      const id = put({
-        id: `co:${slug}`,
-        label: e.name.replace(/ (Ltd|Limited)\.?$/, ''),
-        sub: e.sector,
-        ty: 'company',
-        fam: 'capital',
-        st: e.hqState,
-        sz: (e.mcapCr == null ? 1 : e.mcapCr > 500000 ? 4 : e.mcapCr > 150000 ? 3 : e.mcapCr > 40000 ? 2 : 1) as 1 | 2 | 3 | 4,
-        al: [e.name, e.nse ?? ''].filter(Boolean) as string[],
-        resolved: true,
-        d: [
-          `${e.nse ? `NSE ${e.nse}` : ''}${e.bse ? ` · BSE ${e.bse}` : ''} [documented]`,
-          e.mcapCr != null ? `Market cap ₹${e.mcapCr.toLocaleString('en-IN')} cr [documented]` : 'Market cap not recorded [gap]',
-          ...(e.notes ? [`${e.notes} [documented]`] : []),
-        ],
-        srcs: e.srcs,
-      });
+      const known = (e.nse && byNse.get(e.nse)) || (e.bse && byBse.get(String(e.bse))) || null;
+      const rosterFacts = [
+        e.promoterHoldingPct != null ? `Promoter holding ${e.promoterHoldingPct}%${e.asOfQuarter ? ` as of ${e.asOfQuarter}` : ''} (group roster) [documented]` : null,
+        e.notes ? `${e.notes} [documented]` : null,
+      ].filter((x): x is string => Boolean(x));
+      let id: string;
+      if (known) {
+        id = put(companyNode(known));
+        const n = nodes.get(id)!;
+        for (const f of rosterFacts) if (!n.d?.includes(f)) n.d = [...(n.d ?? []), f];
+        for (const a of [e.name, e.nse ?? '']) if (a && !n.al?.includes(a)) n.al = [...(n.al ?? []), a];
+      } else {
+        const slug = (e.nse ?? e.name).toLowerCase().replace(/[^a-z0-9]+/g, '-');
+        id = put({
+          id: `co:${slug}`,
+          label: e.name.replace(/ (Ltd|Limited)\.?$/, ''),
+          sub: e.sector,
+          ty: 'company',
+          fam: 'capital',
+          st: e.hqState,
+          sz: (e.mcapCr == null ? 1 : e.mcapCr > 500000 ? 4 : e.mcapCr > 150000 ? 3 : e.mcapCr > 40000 ? 2 : 1) as 1 | 2 | 3 | 4,
+          al: [e.name, e.nse ?? ''].filter(Boolean) as string[],
+          resolved: true,
+          d: [
+            `${e.nse ? `NSE ${e.nse}` : ''}${e.bse ? ` · BSE ${e.bse}` : ''} [documented]`,
+            e.mcapCr != null ? `Market cap ₹${e.mcapCr.toLocaleString('en-IN')} cr [documented]` : 'Market cap not recorded [gap]',
+            ...(e.notes ? [`${e.notes} [documented]`] : []),
+          ],
+          srcs: e.srcs,
+        });
+      }
       edges.push({
         s: gid,
         t: id,
