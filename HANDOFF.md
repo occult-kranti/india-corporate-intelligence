@@ -266,7 +266,7 @@ what is worth doing next:
    `ghalibluvr/tender_dbs_parquet`), which would let single bidding be read against
    notice period.
 
-**Last full `npm run check`:** green at `a9b9f35` + docs (2026-09-26): promote, generate, 30 assembler tests, validate (one declared warning), build, smoke over 46 URLs, viewport, page suites 137 pass / 0 fail / 15 skipped of 152. `docs/BUNDLE.md` describes the snapshot cut from that tree.
+**Last full `npm run check`:** green at `b09ca5b` + docs (2026-09-27): promote, generate (five modules, byte-identical), 55 assembler tests, validate (30 declared warnings: 29 court rulings modelled as `enforce` in the frozen fleets, SENSEX 50 at 49 of 50), build, smoke over 49 URLs, viewport (with the explorer's jump-to / as-of / why-drawn checks), page suites 330 pass / 0 fail / 18 skipped of 348 (energy 67, welfare 85, tenders national 86, finance 110). `docs/BUNDLE.md` describes the snapshot cut from that tree.
 
 ### Queued work
 

@@ -105,7 +105,7 @@ noted in `HANDOFF.md`):
 | `npm run viewport` | OK — camera, canvas pixels, hit-testing, keyboard cursor, jump-to / as-of / why-drawn |
 | `npm run test:pages` | OK — energy 67/67; welfare 70 pass, 0 fail, 15 skipped; tenders national 84 pass, 0 fail, 2 skipped; finance 109 pass, 0 fail, 1 skipped |
 
-*The table is refreshed when the bundle is re-cut; `HANDOFF.md` names the commit of the last full `npm run check`.*
+*Cut on 2026-09-27 from the tree after `b09ca5b`; `HANDOFF.md` names the commit of the last full `npm run check`.*
 
 Re-running `npm run promote` and `npm run generate` on an unchanged bundle reproduces
 both run ids byte-for-byte. That is the check that the pipeline is deterministic: if
