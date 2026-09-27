@@ -7,7 +7,7 @@ import {
   censusProjects, unattachedContracts, distinctContractors, distinctDebarredFirms, debarredOverlap, BID_COUNT_BASE, precisionOf,
   yearOf, MODULES, FINANCE_ASOF, byLabel,
 } from '../../data/financeView';
-import { Caption, Twin, Table, Cards, Exports, usePage, SkipLinks, captionLine, TierWord, Src, OpenRecord, Connect, RowActions, Q, NOTHING, Denominator, ResponseCell, type Col, type Row } from './ui';
+import { Caption, Twin, Table, Cards, Exports, usePage, SkipLinks, captionLine, TierWord, Src, OpenRecord, Connect, RowActions, Q, NOTHING, Denominator, ResponseCell, type Col, type Row, ScrollBox } from './ui';
 import { BaseRateLine } from './Control';
 
 // ---------------------------------------------------------------------------
@@ -47,9 +47,9 @@ function officeText(e: GEdge): string {
 export function DataRows({ cols, rows, caption, describedBy, cards }: { cols: Col[]; rows: Row[]; caption: string; describedBy?: string; cards: boolean }) {
   if (cards) return <Cards cols={cols} rows={rows} caption={caption} />;
   return (
-    <div className="overflow-x-auto">
+    <ScrollBox label={caption}>
       <Table caption={caption} cols={cols} rows={rows} describedBy={describedBy} className="min-w-[48rem]" />
-    </div>
+    </ScrollBox>
   );
 }
 
@@ -116,7 +116,7 @@ export function RecordsStrip({ f, captionId }: { f: Filters; captionId: string }
     </figure>
       <Twin twin="records-strip" title={STRIP_H3} rowCount={twinRows.length} open={f.view === 'table'}>
         {() => (
-          <div className="overflow-x-auto">
+          <ScrollBox label={`${STRIP_H3} — table`}>
             <ul className="list-none p-0 my-2 text-[13px] text-text-secondary">
               {lenders.map((l) => <li key={l.id}>{`${l.label}: ${rows.filter((e) => e.s === l.id).length} records in this register, a researched sample, not ${l.label}'s India portfolio`}</li>)}
             </ul>
@@ -125,7 +125,7 @@ export function RecordsStrip({ f, captionId }: { f: Filters; captionId: string }
             <Table caption={captionLine(twinRows.length, 'researched loan records in view, grouped by lender', 'loans', filterText)} className="min-w-[56rem]"
               cols={[{ key: 'l', label: 'Lender' }, { key: 'r', label: 'Record' }, { key: 'f', label: 'Approved' }, { key: 'a', label: 'Amount' }, { key: 'i', label: 'Instrument' }, { key: 'c', label: 'Counting status' }, { key: 't', label: 'Tier' }, { key: 's', label: 'Sources' }]}
               rows={twinRows.length ? twinRows : [{ cells: [NOTHING], out: [] }]} />
-          </div>
+          </ScrollBox>
         )}
       </Twin>
     </>
@@ -253,10 +253,10 @@ export function ProjectList({ f, onPage }: { f: Filters; onPage: (tp: number) =>
             {narrow
               ? <Cards cols={LIST_COLS} rows={shownRows.length ? shownRows : [{ cells: [NOTHING], out: [] }]} caption={cap} />
               : (
-                <div className="overflow-x-auto">
+                <ScrollBox label={`${LIST_H3} — table`}>
                   <Table caption={cap} cols={LIST_COLS} rows={shownRows.length ? shownRows : [{ cells: [NOTHING], out: [] }]} sortCol="approved" className="min-w-[110rem]"
                     captionRef={(el) => { if (el) el.setAttribute('data-list-caption', ''); }} />
-                </div>
+                </ScrollBox>
               )}
           </div>
         )}

@@ -10,7 +10,7 @@ import {
   MODULES, stateName, STATES_BY_NAME, type CaseFile, FINANCE_ASOF, isAggregateId, ASOF, hasRealResponse, isPlaceholder,
 } from '../../data/financeView';
 import { PRED_LABEL } from '../viz/ForceGraph';
-import { Caption, Twin, Table, Cards, Exports, usePage, SkipLinks, captionLine, TierWord, Src, OpenRecord, Connect, RowActions, Q, NOTHING, Denominator, ResponseCell, type Col, type Row } from './ui';
+import { Caption, Twin, Table, Cards, Exports, usePage, SkipLinks, captionLine, TierWord, Src, OpenRecord, Connect, RowActions, Q, NOTHING, Denominator, ResponseCell, type Col, type Row, ScrollBox, TARGET_RING } from './ui';
 import { BaseRateLine } from './Control';
 import { citationFor } from './Panels';
 import { DataRows } from './LoansLens';
@@ -105,29 +105,29 @@ export function ReceiptsByYear({ f, captionId }: { f: Filters; captionId: string
     </figure>
       <Twin twin="receipts" title={RECEIPTS_H3} rowCount={rows.length} open={f.view === 'table' || narrow}>
         {() => (
-          <div className="overflow-x-auto">
+          <ScrollBox label={`${RECEIPTS_H3} — table`}>
             <Exports name={RECEIPTS_H3} twin="receipts" meta={{ table: RECEIPTS_H3, population: 'every FY on the axis, then every superseded and multi-FY national row', lens: 'associations', filters: filterText, rows: rows.length, amounts: true }}
               header={['fy', 'a_cr', 'tier', 'status_display', 'source_class', 'source_urls', 'fy_start', 'status']} rows={() => rows.map((r) => r.out)} />
             <Table caption={captionLine(rows.length, 'national foreign-contribution totals by FY', 'associations', filterText)} cols={recCols} rows={rows.length ? rows : [{ cells: [NOTHING], out: [] }]} className="min-w-[48rem]" />
-          </div>
+          </ScrollBox>
         )}
       </Twin>
       <h3 className="text-[14px] font-semibold text-text mt-4">{DONORS_H3}</h3>
       <Twin twin="receipts-donors" title={DONORS_H3} rowCount={donors.length} open={f.view === 'table'}>
         {() => (
-          <div className="overflow-x-auto">
+          <ScrollBox label={`${DONORS_H3} — table`}>
             <Exports name={DONORS_H3} twin="receipts-donors" meta={{ table: DONORS_H3, population: 'grant rows into the sector aggregate from a named donor', lens: 'associations', filters: filterText, rows: donors.length, amounts: true }} header={['donor', 'from', 'a_cr', 'tier']} rows={() => donors.map((r) => r.out)} />
             <Table caption={captionLine(donors.length, 'donors to the sector as a whole', 'associations', filterText)} cols={[{ key: 'd', label: 'Donor', th: true }, { key: 'f', label: 'FY or window' }, { key: 'a', label: '₹ cr' }, { key: 't', label: 'Tier' }, { key: 's', label: 'Sources' }]} rows={donors.length ? donors : [{ cells: [NOTHING], out: [] }]} />
-          </div>
+          </ScrollBox>
         )}
       </Twin>
       <h3 className="text-[14px] font-semibold text-text mt-4">{REGS_H3}</h3>
       <Twin twin="receipts-registrations" title={REGS_H3} rowCount={regs.length} open={f.view === 'table'}>
         {() => (
-          <div className="overflow-x-auto">
+          <ScrollBox label={`${REGS_H3} — table`}>
             <Exports name={REGS_H3} twin="receipts-registrations" meta={{ table: REGS_H3, population: 'analytic registration and filer counts recorded for the sector', lens: 'associations', filters: filterText, rows: regs.length }} header={['from', 'record', 'tier']} rows={() => regs.map((r) => r.out)} />
             <Table caption={captionLine(regs.length, 'registrations and filers', 'associations', filterText)} cols={[{ key: 'f', label: 'FY or date', th: true }, { key: 'l', label: 'Record' }, { key: 't', label: 'Tier' }, { key: 's', label: 'Sources' }]} rows={regs.length ? regs : [{ cells: [NOTHING], out: [] }]} />
-          </div>
+          </ScrollBox>
         )}
       </Twin>
     </>
@@ -210,11 +210,11 @@ export function StateReceipts({ f }: { f: Filters }) {
     </figure>
       <Twin twin="state-receipts" title={STATE_H3} rowCount={rows.length} open={f.view === 'table'}>
         {() => (
-          <div className="overflow-x-auto">
+          <ScrollBox label={`${STATE_H3} — table`}>
             <Exports name={STATE_H3} twin="state-receipts" meta={{ table: STATE_H3, population: 'every state and union territory by FY; hatch words where the annexure has no row', lens: 'associations', filters: filterText, rows: rows.length, amounts: true }} header={['state', 'st', ...FC_STATE_FYS.map((y) => `received_${y}`)]} rows={() => rows.map((r) => r.out)} />
             <Table caption={captionLine(rows.length, 'FCRA receipts by registered state and FY, Rajya Sabha annexure', 'associations', filterText)} cols={[{ key: 's', label: 'State', th: true }, ...FC_STATE_FYS.map((y) => ({ key: y, label: `FY${y} received` }))]} rows={rows} />
             <ul className="list-none p-0 m-0 font-mono text-[12px] text-text-secondary mt-1">{footer}</ul>
-          </div>
+          </ScrollBox>
         )}
       </Twin>
     </>
@@ -362,12 +362,12 @@ export function ActionsList({ f }: { f: Filters }) {
       <p className="text-[13px] text-text-secondary">{captionLine(rows, 'enforcement actions in named case files and the courts lane, each with its response slot', 'associations', filterText)}</p>
       <Twin twin="actions" title={ACTIONS_H3} rowCount={rows} open={f.view === 'table'}>
         {() => (
-          <div>
+          <ScrollBox label={`${ACTIONS_H3} — table`}>
             <Exports name={ACTIONS_H3} twin="actions" meta={{ table: ACTIONS_H3, population: 'one row per action in a named case file, then one per action in the courts lane; responses joined', lens: 'associations', filters: filterText, rows }} header={['case', 'id', 'from', 'actor', 'record', 'tier', 'responses']}
               rows={() => twinItems.map(({ lane, a }) => [lane, a.id, a.from ?? '', labelOf(a.s), a.lab ?? '', a.tier, responsesTo(a.id).map(responseLine).join(' ‖ ') || NO_RESPONSE])} />
             <Table caption={captionLine(rows, 'actions in named case files and the courts lane', 'associations', filterText)} cols={[{ key: 'c', label: 'Case file or lane', th: true }, { key: 'd', label: 'Date' }, { key: 'a', label: 'Action' }, { key: 't', label: 'Tier' }, { key: 'r', label: 'Response' }]}
               rows={rows ? twinItems.map(({ lane, a }) => ({ cells: [lane, a.from ?? 'undated', <Q key="l">{a.lab ?? ''}</Q>, <TierWord key="t" tier={a.tier} />, responsesCell(a.id)], out: [] })) : [{ cells: [NOTHING], out: [] }]} />
-          </div>
+          </ScrollBox>
         )}
       </Twin>
       {empty && <p className="text-[14px]">{NOTHING}</p>}
@@ -377,7 +377,7 @@ export function ActionsList({ f }: { f: Filters }) {
         const hid = `case-h-${c.id.replace(/[^a-z0-9]+/gi, '-')}`;
         return (
           <section key={c.id} id={`case-${c.id}`} aria-labelledby={hid} className="mt-5 border-t border-border pt-3 scroll-mt-40">
-            <h4 id={hid} tabIndex={-1} className="text-[15px] text-text outline-none">
+            <h4 id={hid} tabIndex={-1} className={`text-[15px] text-text ${TARGET_RING}`}>
               {`${c.label}${c.st ? ` (registered in ${stateName(c.st)})` : ''} — `}
               <span className="font-mono text-[12px] text-text-secondary">{fset ? `${c.actions.length} actions · ${inView} in view under the current filters · ${responded} with a response to that claim` : `${c.actions.length} actions · ${responded} with a response to that claim`}</span>
             </h4>

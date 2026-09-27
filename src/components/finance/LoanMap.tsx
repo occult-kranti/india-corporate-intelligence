@@ -6,7 +6,7 @@ import {
   type Filters, type StateLoanRow, STATES_NORTH_SOUTH, CENSUS, censusInView, rupeeTotal, hasRupee, fmtCr, pooledBins, binOf, strictSt, fetcherSt,
   LOAN_FACT, BASIS_WORDS, yearOf, labelOf, isSampleLender, RESEARCHED, G1, FINANCE_SENSITIVITY, NO_AMOUNT, strictPlacement,
 } from '../../data/financeView';
-import { Caption, Twin, Table, Exports, usePage, SkipLinks, captionLine, type Row } from './ui';
+import { Caption, Twin, Table, Exports, usePage, SkipLinks, captionLine, type Row, ScrollBox } from './ui';
 import { Segmented } from './Control';
 
 /**
@@ -282,12 +282,12 @@ export default function LoanMap({ f, rows, captionIds, onSelect, mapRef, narrow,
       )}
       <Twin twin="loan-map" title={MAP_H3} rowCount={shownRows.length} open={f.view === 'table'}>
         {() => (
-          <div className="overflow-x-auto">
+          <ScrollBox label={`${MAP_H3} — table`}>
             <Exports name={MAP_H3} twin="loan-map" meta={{ table: MAP_H3, population: `${ORDER.length} states and union territories plus the Union row; census records in view`, lens: 'loans', filters: filterText, rows: shownRows.length, amounts: true }}
               header={['state', 'st', 'class', 'cr_strict', 'n_strict', ...(G1 ? ['cr_fetcher', 'basis'] : []), 'n_body', 'n_researched']} rows={() => shownRows.map((r) => r.out)} />
             <Table caption={captionLine(shownRows.length, `${ORDER.length} states and union territories north to south, then the Union row`, 'loans', filterText)}
               cols={twinCols} rows={shownRows.length ? shownRows : [{ cells: ['Nothing recorded yet.'], out: [] }]} className="min-w-[60rem]" />
-          </div>
+          </ScrollBox>
         )}
       </Twin>
     </>

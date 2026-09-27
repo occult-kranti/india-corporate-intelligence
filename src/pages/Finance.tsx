@@ -8,7 +8,7 @@ import {
   loanStateRows, LOANS, strictSt, loanPass, ACTIONS, isAggregateId, nodeOf, EDGE_BY_ID, LENS_OF_EDGE, holderLabel, stateName, STATE_CODES, CASE_TARGETS, derivedFor,
   LENDER_IDS, HOLDER_IDS, labelOf, pToken, CONTRACTS, OWN_IDX, hasRupee, fmtCr, NO_AMOUNT, isCensus, inYear, CENSUS, BAND_A, BAND_B,
 } from '../data/financeView';
-import { Page, useNarrow, openTwinAndFocus, type ListFocus } from '../components/finance/ui';
+import { Page, useNarrow, openTwinAndFocus, TARGET_RING, type ListFocus } from '../components/finance/ui';
 import { Strip, MovedFacts, ReconciliationLine, ActiveFilters, Notices, LensTabs, FilterRail, ReadingKey, ControlCard, lensPopulation } from '../components/finance/Control';
 import LoanMap from '../components/finance/LoanMap';
 import LoanFlow from '../components/finance/LoanFlow';
@@ -37,7 +37,10 @@ import { BaseRatesSection, NarrativesSection, CannotShow, GapsSection, Contested
 // transition in the document off while this page is mounted, the site chrome included:
 // the house stylesheet has no reduced-motion rule of its own, and a reader who asked for
 // no motion gets none anywhere on screen (§13, AC-103). A site-wide rule and neutral
-// tokens in index.css would make both blocks redundant.
+// tokens in index.css would make both blocks redundant. Quoted research text can hold an
+// unbroken URL, so it breaks anywhere rather than widen \`main\` past a phone (A11Y-005 S2).
+// A selected tab and a pressed toggle carry weight and a 2 px bar, not only a hue, and the
+// bar takes the system colour under forced colours (M2).
 const PAGE_CSS = `
 @media (max-width: 639px) {
   .fin-page [class*="text-[9"], .fin-page [class*="text-[10"], .fin-page [class*="text-[11"] { font-size: 12px !important; }
@@ -48,6 +51,15 @@ const PAGE_CSS = `
 .fin-page .text-text-muted { color: var(--fin-grey-muted); }
 @media (prefers-reduced-motion: reduce) {
   html, html *, html *::before, html *::after { transition-property: none !important; transition-duration: 0s !important; animation: none !important; scroll-behavior: auto !important; }
+}
+.fin-page .fin-q { overflow-wrap: anywhere; }
+.fin-page li, .fin-page dd, .fin-page [data-page-copy] { overflow-wrap: break-word; }
+.fin-page .fin-pressed[aria-pressed="true"], .fin-page .fin-pressed[aria-selected="true"] { position: relative; font-weight: 600; }
+.fin-page .fin-pressed[aria-pressed="true"]::after, .fin-page .fin-pressed[aria-selected="true"]::after {
+  content: ""; position: absolute; left: 6px; right: 6px; bottom: 2px; height: 0; border-bottom: 2px solid var(--color-accent); pointer-events: none;
+}
+@media (forced-colors: active) {
+  .fin-page .fin-pressed[aria-pressed="true"]::after, .fin-page .fin-pressed[aria-selected="true"]::after { border-bottom-color: ButtonText; }
 }`;
 
 const WIDE = '(min-width: 1280px)';
@@ -314,7 +326,7 @@ export default function Finance() {
           {!narrow && <LensTabs lens={lens} onPick={pickLens} />}
           <button type="button" className="font-mono text-[12px] border border-border-light rounded px-2 min-h-[32px]"
             onClick={async () => { try { await navigator.clipboard.writeText(location.href); announce('Link copied'); } catch { announce('Copy refused by the browser: the address bar holds the link'); } }}>Copy link</button>
-          <button type="button" aria-pressed={f.view === 'table'} className={`font-mono text-[12px] border rounded px-2 min-h-[32px] ${f.view === 'table' ? 'border-accent text-text' : 'border-border-light'}`}
+          <button type="button" aria-pressed={f.view === 'table'} className={`fin-pressed font-mono text-[12px] border rounded px-2 min-h-[32px] ${f.view === 'table' ? 'border-accent text-text' : 'border-border-light'}`}
             onClick={() => { const on = f.view !== 'table'; patch({ view: on ? 'table' : null }); announce(on ? 'shown as tables' : 'shown as stage'); }}>Table view</button>
           <a href="#twin-first" className="font-mono text-[12px] underline text-text-secondary"
             onClick={(e) => { e.preventDefault(); patch({ view: 'table' }); announce('shown as tables'); const first = document.querySelector('details[data-twin]')?.getAttribute('data-twin'); if (first) openTwinAndFocus(first); }}>
@@ -329,7 +341,7 @@ export default function Finance() {
             <FilterRail lens={lens} f={f} stateCounts={stateCounts} narrow={narrow} />
           </div>
           <div role="tabpanel" id={`fin-panel-${lens}`} aria-labelledby={`fin-tab-${lens}`} className="xl:col-start-1 xl:row-start-1 xl:row-span-2 min-w-0">
-            <h2 ref={lensH2} tabIndex={-1} className="sr-only">{LENS_H2[lens]}</h2>
+            <h2 ref={lensH2} tabIndex={-1} className={`sr-only focus-visible:not-sr-only focus-visible:block focus-visible:text-[15px] focus-visible:text-text focus-visible:mb-2 ${TARGET_RING}`}>{LENS_H2[lens]}</h2>
             {noMatch && (
               <p className="text-[14px] text-text my-2">
                 {`No record in this register matches ${filterText || 'these filters'}. This is a statement about the register, not about India. `}

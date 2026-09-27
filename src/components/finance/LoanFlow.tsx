@@ -1,10 +1,10 @@
-import { useId, useMemo } from 'react';
+import { useId, useMemo, useRef, useState, type KeyboardEvent } from 'react';
 import { TIERS, type GEdge, type NodeFamily, type Tier } from '../../graph/schema';
 import { FAMILY_COLOR } from '../viz/ForceGraph';
 import {
   type Filters, censusInView, hasRupee, rupeeTotal, fmtCr, labelOf, instrumentOf, sectorOf, strictSt, fetcherSt, stateName, weakest, G1, nodeOf,
 } from '../../data/financeView';
-import { Caption, Twin, Table, Exports, usePage, SkipLinks, captionLine, openTwinAndFocus, type Row } from './ui';
+import { Caption, Twin, Table, Exports, usePage, SkipLinks, captionLine, openTwinAndFocus, type Row, ScrollBox } from './ui';
 import { Segmented } from './Control';
 
 /**
@@ -12,8 +12,19 @@ import { Segmented } from './Control';
  * width is ₹ crore of census-counted records only; the researched sample is never in
  * it. Left to right is the order money moved, never influence. Every ribbon is a real
  * button inside a role="group" drawing, so its words are reachable; the drawing itself
- * is aria-hidden. Below 640px the same bands are two ranked lists.
+ * is aria-hidden. The ribbons are one tab stop (a roving tabindex, as the matrix grid
+ * does it): Tab enters on one ribbon and leaves the drawing in one more press, the arrow
+ * keys move between ribbons, Home and End go to the first and the last. Below 640px the
+ * same bands are two ranked lists.
  */
+
+/**
+ * Ribbon marks, page-local (not a frozen channel): the dash is the tier and is kept; the
+ * fill and the stroke are lifted so the edge that carries the dash is ≥ 3:1 on the page
+ * at every tier and the faintest (analytic) fill stays visible, keeping the tiers' order.
+ */
+const RIBBON_FILL = (weight: number) => 0.3 * weight + 0.2;
+const RIBBON_STROKE_OPACITY = 0.7;
 
 export const FLOW_H3 = 'Lender, instrument and place';
 const W = 960;
@@ -105,6 +116,20 @@ export default function LoanFlow({ f, captionId, narrow }: { f: Filters; caption
   const parts = useMemo(() => flowParts(f), [f]);
   const { bands, total, rows, excluded } = parts;
   const lay = useMemo(() => layout(bands, f.mid), [bands, f.mid]);
+  // One roving stop across the ribbons; clamped when a filter shortens the band list.
+  const [active, setActive] = useState(0);
+  const cur = Math.min(active, Math.max(0, bands.length - 1));
+  const ribbons = useRef<(HTMLButtonElement | null)[]>([]);
+  const onRibbonKey = (e: KeyboardEvent<HTMLButtonElement>, i: number) => {
+    const last = bands.length - 1;
+    const next = e.key === 'ArrowDown' || e.key === 'ArrowRight' ? Math.min(last, i + 1)
+      : e.key === 'ArrowUp' || e.key === 'ArrowLeft' ? Math.max(0, i - 1)
+        : e.key === 'Home' ? 0 : e.key === 'End' ? last : null;
+    if (next == null) return;
+    e.preventDefault();
+    setActive(next);
+    ribbons.current[next]?.focus();
+  };
   const allDocumented = rows.every((e) => e.tier === 'documented');
   const midSentence = f.mid === 'sector'
     ? "Sector is the Bank's single major-sector field as the API names it; the taxonomy changed in 2017, so older and newer labels sit apart."
@@ -150,7 +175,7 @@ export default function LoanFlow({ f, captionId, narrow }: { f: Filters; caption
       </div>
       <SkipLinks twins={[{ twin: 'loan-flow', title: FLOW_H3 }]} />
       {!narrow && <p className="font-mono text-[12px] my-1"><a href="#twin-loan-flow" className="text-text-muted underline" onClick={(e) => { e.preventDefault(); openTwinAndFocus('loan-flow'); }}>Skip the diagram to its table</a></p>}
-      <p id={descId} className="sr-only">{`${bands.length} bands, ₹${fmtCr(total)} crore across ${rows.length} records; ${excluded} records without ₹ not drawn`}</p>
+      <p id={descId} className="sr-only">{`${bands.length} bands, ₹${fmtCr(total)} crore across ${rows.length} records; ${excluded} records without ₹ not drawn.${!narrow && bands.length > 1 ? ` The ${bands.length} ribbons are one tab stop: the arrow keys move between them, Home and End go to the first and the last.` : ''}`}</p>
       {empty ? <p className="text-[14px] text-text-secondary">{'Nothing recorded yet.'}</p>
         : !bands.length ? <p className="text-[14px] text-text-secondary">No census record with a ₹ amount matches these filters.</p>
           : narrow ? (
@@ -162,7 +187,7 @@ export default function LoanFlow({ f, captionId, narrow }: { f: Filters; caption
                   {bands.filter((b) => b.col === col).map((b) => (
                     <li key={b.key} className="text-[13px]">
                       <span className="block truncate">{b.name.split(':')[0]}</span>
-                      <span className="flex items-center gap-2"><svg width="100%" height="10" aria-hidden="true" className="max-w-[60%]" style={{ overflow: 'visible' }}><rect x="0.7" y="0.7" width={`${Math.max(1, (100 * b.a) / Math.max(total, 1))}%`} height="8.6" fill="#8aa1a4" fillOpacity={0.35 * TIERS[b.tier].weight + 0.08} stroke="#8aa1a4" strokeWidth={1.4} strokeDasharray={TIERS[b.tier].dash || undefined} /></svg><span className="font-mono text-[12px]">{`₹${fmtCr(b.a)} cr · ${b.tier}`}</span></span>
+                      <span className="flex items-center gap-2"><svg width="100%" height="10" aria-hidden="true" className="max-w-[60%]" style={{ overflow: 'visible' }}><rect x="0.7" y="0.7" width={`${Math.max(1, (100 * b.a) / Math.max(total, 1))}%`} height="8.6" fill="#8aa1a4" fillOpacity={RIBBON_FILL(TIERS[b.tier].weight)} stroke="#8aa1a4" strokeWidth={1.4} strokeDasharray={TIERS[b.tier].dash || undefined} /></svg><span className="font-mono text-[12px]">{`₹${fmtCr(b.a)} cr · ${b.tier}`}</span></span>
                     </li>
                   ))}
                 </ul>
@@ -174,7 +199,7 @@ export default function LoanFlow({ f, captionId, narrow }: { f: Filters; caption
                 style={{ width: '100%', minWidth: 640, height: 'auto', display: 'block' }}>
                 <g aria-hidden="true">
                   {drawn.map(({ b, d }) => (
-                    <path key={b.key} d={d} fill="#8aa1a4" fillOpacity={0.35 * TIERS[b.tier].weight + 0.08} stroke="#8aa1a4" strokeOpacity={0.5}
+                    <path key={b.key} d={d} fill="#8aa1a4" fillOpacity={RIBBON_FILL(TIERS[b.tier].weight)} stroke="#8aa1a4" strokeOpacity={RIBBON_STROKE_OPACITY}
                       strokeWidth={0.6} strokeDasharray={TIERS[b.tier].dash || undefined} onClick={() => pick(b)} style={{ cursor: 'pointer' }} />
                   ))}
                   {[...lay.nodes.values()].map((n) => (
@@ -190,9 +215,11 @@ export default function LoanFlow({ f, captionId, narrow }: { f: Filters; caption
                     </g>
                   ))}
                 </g>
-                {drawn.map(({ b, cx, cy }) => (
+                {drawn.map(({ b, cx, cy }, i) => (
                   <foreignObject key={`fo-${b.key}`} x={cx - 5} y={cy - 5} width={10} height={10}>
-                    <button type="button" aria-label={b.name} onClick={() => pick(b)}
+                    <button type="button" aria-label={b.name} onClick={() => { setActive(i); pick(b); }}
+                      ref={(el) => { ribbons.current[i] = el; }} tabIndex={i === cur ? 0 : -1} data-ribbon=""
+                      onKeyDown={(e) => onRibbonKey(e, i)} onFocus={() => setActive(i)}
                       className="block w-[10px] h-[10px] rounded-full bg-transparent focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent" />
                   </foreignObject>
                 ))}
@@ -205,13 +232,13 @@ export default function LoanFlow({ f, captionId, narrow }: { f: Filters; caption
     </figure>
       <Twin twin="loan-flow" title={FLOW_H3} rowCount={twinRows.length} open={f.view === 'table'}>
         {() => (
-          <div className="overflow-x-auto">
+          <ScrollBox label={`${FLOW_H3} — table`}>
             <Exports name={FLOW_H3} twin="loan-flow" meta={{ table: FLOW_H3, population: 'bands of census-counted records in view; each record in two bands', lens: 'loans', filters: filterText, rows: twinRows.length, amounts: true }}
               header={['from', 'to', 'a_cr', 'records', 'tier']} rows={() => twinRows.map((r) => r.out)} />
             <Table caption={captionLine(twinRows.length, 'bands of census-counted records in view; each record is in one lender band and one place band', 'loans', filterText)}
               cols={[{ key: 'from', label: 'From' }, { key: 'to', label: 'To' }, { key: 'a', label: '₹ cr' }, { key: 'n', label: 'Records merged' }, { key: 'tier', label: 'Tier' }]}
               rows={twinRows.length ? twinRows : [{ cells: ['Nothing recorded yet.'], out: [] }]} />
-          </div>
+          </ScrollBox>
         )}
       </Twin>
     </>

@@ -6,7 +6,7 @@ import {
   MODULES, DOMAIN_OF, stateName, assemblyFor, OWN_IDX, OWN_OUTSIDE, lineKind, MANDATES, BAND_A, holderLabel, BAND_B, pToken,
   type Filters, CASE_FILES, MOF, LOAN_FACT as LF, roleOf, ROLE_WORDS,
 } from '../../data/financeView';
-import { TierWord, usePage, Src, OpenRecord, Q } from './ui';
+import { TierWord, usePage, Src, OpenRecord, Q, TARGET_RING } from './ui';
 import { amountCell, stateGroups } from './LoansLens';
 
 /**
@@ -39,7 +39,7 @@ function PanelShell({ title, onClose, origin, children, headingRef, extraHead }:
   const onKey = (e: KeyboardEvent<HTMLElement>) => { if (e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); onClose(); } };
   return (
     <section onKeyDown={onKey} className="border border-border-light rounded p-3 my-3 bg-bg-elevated/60 min-w-0 break-words scroll-mt-40" data-panel="">
-      <h2 ref={headingRef} tabIndex={-1} className="font-serif text-[18px] text-text outline-none focus-visible:ring-1 focus-visible:ring-accent">{title}</h2>
+      <h2 ref={headingRef} tabIndex={-1} className={`font-serif text-[18px] text-text ${TARGET_RING}`}>{title}</h2>
       <button type="button" onClick={onClose} className="font-mono text-[12px] underline mt-1 mr-3">Close</button>
       {extraHead}
       {children}

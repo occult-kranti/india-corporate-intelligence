@@ -789,7 +789,8 @@ their hue is inconsistent and means nothing.`
   machine columns, ids not labels, nulls as empty cells: `id`, `domain`, `inclusion`,
   `project_key`, `lender_id`, `borrower_id`, `a_cr` (a number or empty; the display text
   stays in `amount_display`), `from` and `to` as recorded, `date_precision` (`year` /
-  `month` / `day`), `approval_year`, `placement_st` (state code), `placement_rule`,
+  `month` / `day`; [Adjudicated] empty when `from` is empty — an undated record has no
+  precision, and nulls export as empty cells), `approval_year`, `placement_st` (state code), `placement_rule`,
   `body_st`, `tier`, `instrument`, `conditions_n`, `contracts_n`, `source_urls`
   (pipe-joined). The map twin adds `st` codes; the receipts twin adds `fy_start` as an
   integer and `status`. Every export button reads `Download .tsv — {table name}, {rows}
@@ -1085,7 +1086,14 @@ improvise.
     tier and dash; nothing collapses them into the action they explain.
   - **Response:** each joined contra (`Response from {responder} [{tier}], {date or
     "undated response"}:` + `lab`, `d`), including audit contras whose text says no denial
-    applies. None → exactly **`No response recorded — asked/not asked unknown`**. When
+    applies. None → exactly **`No response recorded — asked/not asked unknown`**.
+    [Adjudicated] A contra whose `lab` or `d` *begins with* that sentence is a
+    **placeholder**, not a response: the cell reads the exact sentence first, then
+    ` · recorded in the research file as {id} [{tier}]`, never `Response from {responder}`;
+    its square keeps `data-response="false"` and the case-file header counts it unanswered,
+    so the list, the picture and the header agree (AC-79 found 7 such rows headed
+    `Response from Ford Foundation [alleged] …`). A real response may quote the sentence
+    without becoming a placeholder. When
     other claims in the same case file carry responses, a second line follows: `{k}
     response(s) recorded to other claims in this case, shown above/below.` (D23).
   The two halves render side by side from 640 px, stacked below it, **at the same width,
@@ -1706,7 +1714,12 @@ never a figure. Every caption says what the graphic cannot show.
   unreachable or announced without context (welfare D33). Each ribbon is a `<button>`
   named `{from} to {to}: ₹{a} cr across {n} records, {tier}; filters the project list`;
   paths, node rectangles and labels are `aria-hidden`, their words carried by the buttons
-  and the band table. A skip link "Skip the diagram to its table".
+  and the band table. A skip link "Skip the diagram to its table". [Adjudicated] The
+  ribbons are **one tab stop** with a roving tabindex (FINANCE_A11Y.md M1): `tabIndex=0` on
+  the first ribbon only, `-1` on the rest; ArrowUp/Down/Left/Right move focus between
+  ribbons, Home/End to the first/last; the ribbon count is in the group's
+  `aria-describedby`. Every ribbon stays a real `<button>` with the name above. (606 ribbon
+  stops sat between the map and the clock; the skip links stay.)
 - **Clock, timelines, receipts, strip:** the drawing is `aria-hidden`; everything it says is
   in the label column's buttons and the twin; a skip link "Skip to the table" before each.
   [UX review] (U32) Nothing inside an `aria-hidden` drawing is focusable: the clock's brush
@@ -1746,9 +1759,14 @@ never a figure. Every caption says what the graphic cannot show.
   tabular-nums`; contrast ≥ 4.5:1 for text, ≥ 3:1 for hatch, stipple, dotted ground and dash
   strokes against `--color-bg`; the ramp floor ≥ `#2e373f`.
 - **Targets:** 44 px on coarse pointers; 24 px on fine.
-- **Keyboard budget:** from the page top, the map listbox, the matrix table and the graph
-  heading are each reachable in ≤ 25 tab stops at 1280; the `ProjectList`'s first row in
-  ≤ 12 (FG-46).
+- **Keyboard budget:** [Adjudicated] counting from the first focusable element in `<main>`
+  (UD41; the site sidebar is platform chrome), the map listbox and the matrix table are each
+  reachable in ≤ 25 tab stops at 1280 and the `ProjectList`'s first row in ≤ 12 after its
+  twin summary. The graph is reached by its own route (§5.5.1): a `Show connections` button
+  moves focus to `#connections h2`, and once the section is in view (or `Load the graph` is
+  pressed) its controls are the next Tab stops. A "graph heading in ≤ 25 from the page top"
+  is unattainable by any page built to §4/§13 — the sections with per-row Cite links precede
+  the graph by design (FG-46).
 - **Motion:** `prefers-reduced-motion` honoured everywhere.
 
 ---
@@ -2018,9 +2036,13 @@ by the test from the generated modules independently of `financeView.ts`.** Crit
 **Accessibility**
 
 - **FG-45.** axe: 0 serious or critical on each lens and each panel state.
-- **FG-46.** Tabs, map listbox and matrix grid are keyboard-complete; from the page top the
-  map listbox, the matrix and the graph heading are each reachable in ≤ 25 tab stops and the
-  `ProjectList`'s first row in ≤ 12, at 1280.
+- **FG-46.** Tabs, map listbox and matrix grid are keyboard-complete; [Adjudicated] counting
+  from the first focusable element in `<main>`, the map listbox and the matrix are each
+  reachable in ≤ 25 tab stops and the `ProjectList`'s first row in ≤ 12 after its twin
+  summary, at 1280; a `Show connections` button moves focus to `#connections h2`, and with
+  `#connections` in view its controls are reached by Tab; the flow diagram is one tab stop
+  (§13). The former "graph heading in ≤ 25 from the page top" was unattainable by design
+  (§13 keyboard budget) and is withdrawn.
 - **FG-47.** Exactly one `aria-live` region.
 - **FG-48.** The gaps panel's font size equals the findings' body size, and it lists every
   `*_VOIDS` entry of the lens.

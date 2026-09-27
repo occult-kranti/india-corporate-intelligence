@@ -47,6 +47,47 @@ export const usePage = () => useContext(Page);
 
 export const NOTHING = 'Nothing recorded yet.';
 
+/**
+ * The page's one focus ring: a solid 2 px accent outline (8.76:1 on the page). It names
+ * the outline style itself, because under Tailwind v4 `outline-none` beside
+ * `focus-visible:outline-2` reads the style back from a variable `outline-none` has set
+ * to none, and the ring silently disappears (A11Y-005 S1, M6).
+ */
+export const FOCUS_RING = 'focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-accent';
+/** The same ring for an element the page moves focus to (a caption, a heading): drawn tight, with no box of its own. */
+export const TARGET_RING = 'focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-1 focus-visible:outline-accent';
+
+/**
+ * A wide table's scroll box. When its content is wider than the box it is a named
+ * region and one tab stop, so the arrow keys scroll the columns no control reaches
+ * (A11Y-005 M4); when it is not, it is neither, so a box that does not scroll is never a
+ * stop. Below 640 px the phone layout owns the tables (§12: cards, and a scrolling
+ * region only where the spec keeps one), so the box scrolls by touch there and claims
+ * no region of its own. Either way the page itself never scrolls sideways (S2).
+ */
+export function ScrollBox({ label, children, className = '' }: { label: string; children: ReactNode; className?: string }) {
+  const { narrow } = usePage();
+  const ref = useRef<HTMLDivElement>(null);
+  const [over, setOver] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || typeof ResizeObserver === 'undefined') return;
+    const check = () => setOver(el.scrollWidth > el.clientWidth + 1);
+    const ro = new ResizeObserver(check);
+    ro.observe(el);
+    for (const c of el.children) ro.observe(c);
+    check();
+    return () => ro.disconnect();
+  });
+  const reg = over && !narrow;
+  return (
+    <div ref={ref} role={reg ? 'region' : undefined} aria-label={reg ? label : undefined} tabIndex={reg ? 0 : undefined}
+      data-scrollbox="" className={`overflow-x-auto min-w-0 ${reg ? FOCUS_RING : ''} ${className}`}>
+      {children}
+    </div>
+  );
+}
+
 const NARROW = '(max-width: 639px)';
 /** Below 640px. Read synchronously on first render so a phone never paints the desktop layout first. */
 export function useNarrow(): boolean {
@@ -158,7 +199,7 @@ export function RowActions({ children }: { children: ReactNode }) {
 export function LinkButton({ children, onClick, label, className = '' }: { children: ReactNode; onClick: (el: HTMLButtonElement) => void; label?: string; className?: string }) {
   return (
     <button type="button" aria-label={label} onClick={(e) => onClick(e.currentTarget)}
-      className={`text-left underline underline-offset-2 decoration-border-light hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent ${className}`}>
+      className={`text-left underline underline-offset-2 decoration-border-light hover:text-accent ${FOCUS_RING} ${className}`}>
       {children}
     </button>
   );
@@ -226,7 +267,7 @@ export function Table({ id, caption, cols, rows, describedBy, captionRef, sortCo
 }) {
   return (
     <table id={id} aria-describedby={describedBy} className={`w-full border-collapse text-[13.5px] ${className}`}>
-      <caption ref={captionRef} tabIndex={-1} className="text-left text-[12.5px] text-text-muted pb-2 outline-none focus-visible:ring-1 focus-visible:ring-accent">{caption}</caption>
+      <caption ref={captionRef} tabIndex={-1} className={`text-left text-[12.5px] text-text-muted pb-2 ${TARGET_RING}`}>{caption}</caption>
       <thead>
         <tr>
           {cols.map((c) => (

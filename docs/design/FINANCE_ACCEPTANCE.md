@@ -43,10 +43,27 @@ amendments (X1–X18, UD1–UD41) are not criteria.*
   `URLSearchParams`.
 - Every navigation goes through `about:blank` first (smoke's rule: hash-only navigation does
   not reload), then `page.goto(url, { waitUntil: 'networkidle' })`, then waits for
-  `article.pb-20` and for the `h1`, then settles 700 ms. A check that opens the connection
-  graph waits a further 1,800 ms (fixed tick count).
+  `article.pb-20` and for `main h1` (the page's h1; the site chrome's wordmark h1 is outside
+  `main` and not the page's), then settles 700 ms. A check that opens the connection graph
+  waits a further 1,800 ms (fixed tick count). [Adjudicated: the DOM has two h1s — the
+  Layout's wordmark `<h1>ICIP</h1>`, outside `main` and `hidden lg:flex` so invisible at `M`,
+  and the page's `main h1` = `Who lent, …`. Spec §13 assigns the page's h1 to `PageTitle`;
+  FINANCE_A11Y.md m10 records the second h1 as a site-level issue; Layout.tsx is out of
+  scope; tenders.test.mjs already adjudicated `main h1`. A bare `h1` wait resolved to the
+  hidden wordmark and timed out at `M`, failing AC-01, AC-49 and AC-95 … AC-104 on load.]
 - `console` errors and `pageerror` events are collected on every route with smoke's
   `EXTERNAL` allow-list, verbatim; **any other error fails the criterion under way**.
+  [Adjudicated: the allow-list is extended, verbatim: browser-internal favicon fetches
+  blocked by Chromium's private-network-access check are an environment fact → `EXTERNAL`
+  adds `|vite\.svg|is not a secure context and the resource is in more-private address
+  space`, and `withPage` drops a bare `Failed to load resource: net::ERR_FAILED` whose
+  preceding `requestfailed` event was for `/vite.svg`. Instrumented: the blocked request
+  fires with `frame=about:blank`, `type=other` (favicon), the instant after a `find` reset
+  and the `about:blank` navigation — Chromium's own favicon re-fetch of the Vite template's
+  dead `<link rel=icon href="/vite.svg">` (no `public/vite.svg` exists), attributed to the
+  opaque origin and refused on the loopback server. Nothing in the page requests it;
+  0 of 3 probes reproduced it outside the harness's exact timing. Site-level, optional, not
+  this page: removing the dead link from `index.html` removes the request altogether.]
 
 ### 0.2 Browser contexts
 
@@ -108,7 +125,10 @@ Nothing below is a literal in any check.
 | `REC_NO_A` | the first loan in `NO_RUPEE`; skip criteria needing it when none |
 | `REC_RESEARCHED` | the first researched loan with finite `a` |
 | `P_SHARED` | a `P\d{6}` token present in both a census `lab` and a researched `lab`; skip when none |
+| `strictState(e)` | the spec's placement rule (§3.2): `nodeOf(e.t).st` when `ty === "state"`, else `nodeOf(FINANCE_BENEFITS[e.id].who).st` when that node is a state; `null` otherwise. **Never borrower-only.** [Adjudicated: the suite's helper placed a loan only when the borrower `t` was a state (12 loans); §3.2 `placement(e)` and §5.1.5 U5 (`state government is the borrower or implementer`) place 153 loans, 133 census — the page's figures for the State options, `All states (153)`, the AP readout (10, all implementer) and the map twin's Σ. AC-26, AC-28 and AC-75 failed on the helper, not the page.] |
 | `STATE_PLACED` | a state code `st` of a node with `ty === 'state'` that is `t` of ≥ 1 census loan, or the `who` of a `FINANCE_BENEFITS` row whose `claimId` is a census loan; the first by code |
+| `STATE_PLACED_2` | the second placed code by code order; skip AC-60 step (2) when none [Adjudicated: a `(0)` option is `aria-disabled` (AC-28, §6) and Playwright refuses to select it; a zero-count option is not a change a reader can make] |
+| `REC_IN_VIEW` | the first census loan (code-unit order of `id`) with finite `a`, a `P\d{6}` token, `strictState === STATE_PLACED`, approval year ≥ 2014 and `tier !== "alleged"`; skip AC-74 when none [Adjudicated: `REC_CENSUS` is worldbank:c0024, approved 1960-10-28, unplaced, so it is not in the list AC-74 builds (From 2014, `st=STATE_PLACED`); spec §3.4: `find` filters nothing, so typing `bank` does not surface it] |
 | `STATE_NONE` | a state code named by no loan under the strict rule, by no body-registered implementer, and (G1) by no `FINANCE_LOAN_FACTS.st`; skip when none |
 | `LENDER_SAMPLE` | the `s` of `REC_RESEARCHED` |
 | `YEAR_APPROVALS`, `YEAR_NONE` | a calendar year with ≥ 1 census approval (`from`); a year between the earliest `from` and `ASOF_F` with none, skip when none |
@@ -173,9 +193,10 @@ nothing. The page must render fully and say, before any number, that nothing bel
 ### AC-01 — Render the empty page with ≥ 200 characters and no errors
 - **Behaviour:** With all three registers empty, `/finance` renders its chrome, not a blank.
 - **Check:** `goto('/#/finance')`, then `?lens=associations`, then `?lens=capital`: on each,
-  `document.body.innerText.length >= 200`; `article.pb-20` exists; `h1` text is `Who lent,
+  `document.body.innerText.length >= 200`; `article.pb-20` exists; `main h1` text is `Who lent,
   who gave, who holds, and what the record can show`; zero console errors, zero page errors.
-  Repeat at `M`.
+  Repeat at `M`. [Adjudicated: `h1` actual `ICIP` — the Layout's wordmark h1, outside `main`;
+  the page's h1 is `main h1` (§0.1). Patched, AC-01 passes on `D` and `M`, both builds.]
 
 ### AC-02 — Say the register is not promoted, before any figure
 - **Behaviour:** A `Register not yet promoted` callout follows the standfirst on every lens.
@@ -319,9 +340,22 @@ under its graphic, with every figure derived and every percentage beside its `a 
 ### AC-20 — Print no percentage without its `a of b` in the same sentence
 - **Check:** For every element matching `/\d+(\.\d+)?%/` inside `[data-page-copy]`, the
   `ControlCard`, `#baserates` and the strip: the same sentence (split on `. `) matches
-  `/\d[\d,.]* (cr )?of \d[\d,.]*/`. Every `{a} of {b}` where `b < 10` has **no** `%` in its
-  sentence. (Matrix cells and record text are excluded: their `%` is a filed value or a
-  quotation.)
+  `/\d[\d,.]* (cr )?of ₹?\d[\d,.]*/`. Before splitting, every substring equal to a `label`,
+  `note`, `text`, `property` or source title (`srcs[i][0]`) string (≥ 24 chars,
+  whitespace-normalised) of the lens module's `BASE_RATES`/`SYMMETRY` is removed: quoted
+  research text, a base rate's property statement and a citation's title are quotations, not
+  page copy (the source list is printed verbatim, never truncated). A `%` inside a
+  rule-threshold phrase (`at|under|over|above|below|exceeds|at least|more than|less than|≥|≤|>=|<=|>|< N%`) is a filing
+  threshold, not a share, and is not tested. Every `{a} of {b}` where `b < 10` has **no** `%`
+  in its sentence. (Matrix cells and record text are excluded: their `%` is a filed value or
+  a quotation.) [Adjudicated: (1) C1 `₹3,56,864.42 cr of ₹6,47,521.56 cr counted (55.1%)` —
+  the regex rejected the `₹` after `of` that AC-11 and spec §5.1.1 C1 require; (2) every
+  other flagged sentence (`approx 14.0%/yr`, `Tamil Nadu 10%`, `L&T 20.3%`, `Run on both:
+  Japan…`) is verbatim research text, present in FINANCE_SYMMETRY/FINANCE_BASE_RATES, rendered
+  where §5.0.7/§5.4.1 require it verbatim, and §5.0.7 says a label may quote figures this
+  page does not compute; (3) the residue is C11's spec-fixed `by name only at 1% or more …
+  under 1%` — a filing threshold, not a share. With all three the criterion passes on all
+  three lenses.]
 
 ### AC-21 — Label every page-computed count as computed here
 - **Check (`lens=capital`):** The `AdviserComparison` column-group header contains `records in
@@ -362,8 +396,15 @@ are how honest people mislead themselves.*
 - **Check (`lens=loans`):** The strip's `₹{x} cr counted` = `RUPEE_TOTAL` ± 0.5. The same
   figure appears in the `UnionBar` mono line (`of ₹{x} cr counted from {CC} census
   records`) and in C3. No ₹ figure anywhere on the page (all elements matching
-  `/₹[\d,.]+ cr/`) exceeds `RUPEE_TOTAL` + 0.5, and `RESEARCHED`'s `a` values, summed per
-  lender or in total, appear in no element, `aria-label` or TSV `#` header.
+  `/₹[\d,.]+ cr/`) exceeds `RUPEE_TOTAL` + 0.5, and `RESEARCHED`'s `a` values summed per
+  lender (lenders with ≥ 2 ₹ records) or in total appear in no element, `aria-label` or TSV
+  `#` header as a standalone figure (en-IN or plain form, not adjacent to another digit, `#`,
+  `,` or `.`). [Adjudicated: `researched sum 1,500 appears nowhere` — fin:bank-of-china has
+  exactly one researched ₹ record (bilateral-china:c032, a=1500): a per-lender "sum" over one
+  record is that record's own amount, which §5.1.5 requires the page to list. Excluding
+  single-record lenders, the next hit was 5,435 (ICBC, 4535+900), found only as a substring of
+  the record label `AidData #54350 — CDB Facility IV to RCom` — a substring collision, not a ₹
+  figure. Spec §8.2 rule 4 forbids totals, not digits.]
 
 ### AC-25 — Print the reconciliation line whose four terms sum to the loan count
 - **Check (`lens=loans`):** The `ReconciliationLine` matches `/(\d+) loan records = (\d+)
@@ -383,7 +424,11 @@ are how honest people mislead themselves.*
   ₹{f} cr`, `Union body or not placed ₹{u} cr`; `p (+ f) + u` = the strip's ₹ counted under
   the same filters ± 0.5; the mono line contains `{cnr} census records carry no ₹ and are in
   no total · researched records are not on this bar`. Under `m=n`: Σ of state readouts'
-  `{k} census records` + the Union row's count = census rows under the filters.
+  `{k} census records` + the Union row's count = census rows under the filters (placed by
+  `strictState` as defined in §0.5). [Adjudicated: `st=ap m=n: 10 !== 0` — the check's
+  borrower-only helper; the module recount with the spec's §3.2 rule gives AP = 10 (0 borrower,
+  10 implementer), exactly the page's figure. Corrected helper: passes under all five filter
+  sets.]
 
 ### AC-27 — Show the live effect of every rail control as `{N} → {k}` in words
 - **Check:** Each rail control (Year From/To, State, Lender, Holder, Tier) has a
@@ -398,9 +443,14 @@ are how honest people mislead themselves.*
 ### AC-28 — Count every State option, show zero as `(0)` disabled, never hidden
 - **Check:** The State `<select>` has 36 options plus `All states`, alphabetical; each option
   text matches `/\((\d+)\)$/`; options with `(0)` have `aria-disabled="true"` and are still
-  present; Σ of the 36 counts ≤ the lens population and, on Loans, = the number of loans with
-  a strict-rule placement. The control's label contains `placed by state government only`
-  (Loans) or `registered state, not where it works` (Associations).
+  present; Σ of the 36 counts ≤ the lens population and, on Loans, = the number of loans
+  placed by the §3.2 placement rule (state government as borrower or as implementer), i.e.
+  `LOANS.filter(strictState).length` with `strictState` as defined in §0.5. The control's
+  label contains `placed by state government only` (Loans) or `registered state, not where it
+  works` (Associations). [Adjudicated: `Σ counts = loans with a strict-rule placement: 153 !==
+  12` — the module recount with the spec's rule places 153 (133 census + 20 researched),
+  matching the page's option counts and `All states (153)`; 12 is the borrower-only helper.
+  The `(0)` options carry `aria-disabled="true"` and are present, as required.]
 
 ### AC-29 — Group the Lender select by population, with counts that sum to the loans
 - **Check (`lens=loans`):** `select` for Lender has two `<optgroup>`s labelled `World Bank
@@ -449,8 +499,14 @@ are how honest people mislead themselves.*
 - **Check (`lens=capital`):** Every `[data-band]` row's summary cell matches `/(\d+) filing
   line\(s\) in (\d+) of (\d+) companies · (\d+) aggregate\(s\), analytic/`; the filing count
   = that holder's `own` edges in `OWN_IDX` not in `AGG_IDS`; the aggregate count = those in
-  `AGG_IDS`; their sum appears nowhere in the row. Rows in Band B are in alphabetical label
-  order; no control offers a sort by either count.
+  `AGG_IDS`; their sum appears nowhere else in the row as a count: the row text with the
+  summary match, every `{pct}%`/`≥1%` cell value and every `×{n}` multiplier removed contains
+  no standalone `{sum}`. Rows in Band B are in alphabetical label order; no control offers a
+  sort by either count. [Adjudicated: `Capital Group Companies, Inc.: the sum 1 appears
+  nowhere else in the row` — the row is `… 1.35% … 1 filing line(s) in 1 of 35 companies · 0
+  aggregate(s), analytic`: the only other `1` is the `1.35%` cell that spec §5.3.1 requires
+  (`{pct}%` after G3a), a filed percentage, not a count. With those tokens excluded the check
+  passes for every band row.]
 
 ### AC-35 — State the population in every table caption, with the active filters
 - **Check:** Every `<table>` on each lens (twins and section tables included) has a non-empty
@@ -584,7 +640,9 @@ response slot is always rendered, at equal size, and an empty one says so in fix
   `--color-rose` token) beneath, the same width as the square ± 1 px. At `D` the Response
   cell's `getBoundingClientRect().width ≥ 0.9 ×` the Action cell's and its computed
   `font-size` and `font-weight` equal the Action cell's; at `M` the two are stacked, same
-  width ± 2 px, same `font-size`.
+  width ± 2 px, same `font-size`. [Adjudicated: every `D` assertion passed; the `M` half timed
+  out in load() on the hidden Layout `h1` — §0.1 now waits for `main h1`. No change to this
+  criterion's own text.]
 
 ### AC-50 — Keep a stated ground as its own row in its own dash
 - **Check:** For a case file with an `alleged` enforce edge on the same target, its row
@@ -666,12 +724,18 @@ Every control writes with `replace`, and every URL reproduces the view.*
   unchanged between `y` set and unset (same `[data-cell]` sequence) and C11 says so.
 
 ### AC-60 — Round-trip `st` and open the panel on a user act, not on load focus
-- **Check:** ROUND-TRIP(`st=STATE_PLACED`): the map path has the accent outline
+- **Check:** ROUND-TRIP(`st=STATE_PLACED`; step (2) changes the State select to
+  `STATE_PLACED_2`, and is skipped when there is none): the map path has the accent outline
   (`data-selected` or `aria-selected="true"` on its listbox option), the `StatePanel h2` is
   the state's label, `ProjectList` renders the three groups of AC-72, the clock adds
   assembly rules for the state and C4 gains `timing is not cause`. Clicking the selected
   state again removes `st`. On Capital `st` is kept in the URL and the control reads
-  `holdings are not placed by state`.
+  `holdings are not placed by state`. [Adjudicated: `selectOption` timeout — `option being
+  selected is not enabled`: the check picked `STATE_CODES.find(c => c !== STATE_PLACED)` =
+  `an` (Andaman, `(0)`), which AC-28 and spec §6 require to be `aria-disabled="true"`;
+  Playwright treats aria-disabled options as not actionable (the page sets `disabled=false`,
+  spec-exact). With the second placed state (`as`) the round-trip, panel, C4, click-to-clear
+  and Capital wording all pass.]
 
 ### AC-61 — Round-trip `lender`, and explain a sample lender on the map
 - **Check:** ROUND-TRIP(`lender=LENDER_SAMPLE`): the map's figure contains `{label} is not
@@ -766,9 +830,12 @@ Every control writes with `replace`, and every URL reproduces the view.*
 ### AC-72 — Reset everything but `lens` and `view`, and never touch the graph's params
 - **Check:** Load `?lens=capital&view=table&y=2020&holder=cap:blackrock&tier=documented&find=x&focus=fin:ibrd&hops=2&q=abc&pred=own`;
   click `reset` in the active-filter line: URL params are exactly `lens=capital`,
-  `view=table`, `focus=fin:ibrd`, `hops=2`, `q=abc`, `pred=own`. Across every interaction in
-  §6 the page never writes `q`, `fam`, `ty`, `amt` or `path` (assert none appears unless it
-  was in the loaded URL).
+  `view=table`, `focus=fin:ibrd`, `hops=2`, `q=abc`, `pred=own`. Then, from `/#/finance`,
+  toggle `alleged` and choose `STATE_PLACED` in the State select; assert none of `q`, `fam`,
+  `ty`, `amt`, `path` appears. Across every interaction in §6 the page never writes those
+  five (assert none appears unless it was in the loaded URL). [Adjudicated: the reset
+  assertions passed; the check then chose `STATE_CODES[0]` = `an`, a `(0)` aria-disabled
+  option (see AC-60). With `STATE_PLACED` the no-graph-params assertion passes.]
 
 ### AC-73 — Copy the exact link and announce it
 - **Check:** Load `?y=2014-2020&st=STATE_PLACED`, click `Copy link`: clipboard text =
@@ -777,10 +844,14 @@ Every control writes with `replace`, and every URL reproduces the view.*
 
 ### AC-74 — Reproduce the whole view from a URL built through the controls
 - **Check:** From `/#/finance`, through the UI only: set From 2014, choose `STATE_PLACED`,
-  un-press `alleged`, type `bank` in Find, open `REC_CENSUS`. Read `page.url()`; open it in a
-  new page; assert the strip, every `<figure>`, `TWIN(project-list)` (opened), the
+  un-press `alleged`, type `bank` in Find, open `REC_IN_VIEW` (§0.5). Read `page.url()`; open
+  it in a new page; assert the strip, every `<figure>`, `TWIN(project-list)` (opened), the
   `RecordCard` and the active-filter line have identical `innerText`, and
-  `[data-fill-class]` sequences over the 36 paths are identical.
+  `[data-fill-class]` sequences over the 36 paths are identical. [Adjudicated: `Open record:
+  P009609 — ICICI III (DFC)` not found — `REC_CENSUS` (worldbank:c0024, approved 1960-10-28,
+  unplaced) is not in the list the criterion's own filters build, and `find` filters nothing
+  (§3.4). With `REC_IN_VIEW` the whole view (strip, figures, twin, card, filters, 36 fill
+  classes) reproduces from the URL.]
 
 ---
 
@@ -798,8 +869,13 @@ and marks come from the same arrays, and every export reproduces the screen.*
   `path[data-fill-class="hatch|stipple|value|fetcher"]` respectively. No `Class` cell
   contains the bare tokens `hatch`, `stipple`, `hollow` or `value`. The `Researched records
   naming the state government` column is present and Σ of `Census records placed` excludes
-  it (Σ = census rows placed). The summary reads `/Where the census loans were placed as a
-  table · 37 rows/`.
+  it (Σ = census rows placed by `strictState` as defined in §0.5). The summary reads `/Where
+  the census loans were placed as a table · 37 rows/`. [Adjudicated: `Σ Census records placed
+  = census rows placed: 133 !== 9` — 133 is the spec's §3.2 rule (9 borrower + 124
+  implementer), the twin's figure; 9 is the borrower-only helper. Every other assertion
+  (37 rows, Union row last, class words = fill classes, no bare tokens, columns, summary)
+  passes with the corrected helper, unfiltered and under `y=YEAR_APPROVALS`. This
+  criterion's own text is otherwise unchanged.]
 
 ### AC-76 — Match the flow twin to the ribbons, and the strip twin to the marks
 - **Check:** `TWIN(loan-flow)` band-table row count = the number of ribbon `<button>`s in the
@@ -831,10 +907,26 @@ and marks come from the same arrays, and every export reproduces the screen.*
 - **Check:** The number of `<section id^="case-"]` = `[data-lane]` count in the timeline minus
   the `Courts and oversight` lane; Σ of action `<dl>` rows (not response rows) across
   `ActionsList` = `[data-square]` count + undated events in the right gutter (`/undated/` in
-  lane labels summed); rows with the exact sentence = `[data-response="false"]` count; each
+  lane labels summed); rows whose Response `dd` **begins with** the exact sentence =
+  `[data-response="false"]` count = the module-derived count of case-file `enforce` edges
+  (non-aggregate target, not a ministry) with no `contra` whose `lab` or `d` does not begin
+  with the sentence (a real response may quote the sentence; a contra whose text is the
+  sentence is a placeholder, not a response); each
   case section's header matches `/(\d+) actions · (\d+) with a response to that claim/` and
   its rows equal the first figure. Under `st` or `y` the header gains `/(\d+) in view under
   the current filters/` and every row's `<dl>` begins `Filter: in view` or `Filter: outside`.
+  [Adjudicated — both sides: `36 !== 35`. Criterion side: the check counted rows whose text
+  *contains* the sentence anywhere; fcra-actions:c085's real response (People's Watch,
+  `reported`) quotes it, so a genuine answer was counted as unanswered. Page side: 7 rows
+  (fcra-actions:c027, c044, c053, c074, darpan-welfare-join:c028, donors-narratives:c009,
+  fcra-receipts:c038) have only a placeholder contra whose `d` is literally the sentence;
+  `isPlaceholder` rightly leaves their squares `data-response="false"` and the case header
+  counts them unanswered, but `responseLine` headed the list cell `Response from Ford
+  Foundation [alleged], undated response: …` — the twin and the picture disagreed for 7 rows,
+  which is what this criterion exists to catch. Spec §5.2.4 amended: a placeholder contra
+  renders the exact sentence first, its provenance after, never `Response from`. Module
+  count: 73 case-file actions, 35 without a real response (28 with no contra + 7
+  placeholder-only) = the 35 `false` squares.]
 
 ### AC-80 — Match the matrix twins to the grid
 - **Check (`lens=capital`):** `[data-cell]` count = `[data-band]` row count × `COLUMNS.length`;
@@ -864,9 +956,15 @@ and marks come from the same arrays, and every export reproduces the screen.*
   date_precision approval_year placement_st placement_rule body_st tier instrument
   conditions_n contracts_n source_urls`; every `a_cr`, `approval_year`, `conditions_n`,
   `contracts_n` value parses as a number or is empty (never `amount not stated…`, which stays
-  in `amount_display`); `date_precision` ∈ {`year`, `month`, `day`}; the data-row count
-  under the filtered URL = the filtered twin's rows over all pages. The receipts twin's
-  machine columns include `fy_start` (integer) and `status`; the map twin's include `st`.
+  in `amount_display`); `date_precision` ∈ {`year`, `month`, `day`} whenever `from` is
+  non-empty, and empty when `from` is empty (§5.1.5: nulls export as empty cells); the
+  data-row count under the filtered URL = the filtered twin's rows over all pages. The
+  receipts twin's machine columns include `fy_start` (integer) and `status`; the map twin's
+  include `st`. [Adjudicated: `date_precision ("")` — the three empty values belong to
+  bilateral-china:c024, c058, c059, whose `from` is absent in the module (5 loans have no
+  `from`); their `from` cell is also empty. `date_precision (year / month / day)` describes a
+  date that exists; an undated record has no precision. Every dated row prints one of the
+  three; header order, numeric columns, row counts, receipts and map columns all pass.]
 
 ### AC-83 — Give every twin a summary that names its graphic and its rows
 - **Check:** Every `details[data-twin] > summary` text matches `/^.+ as a table · (\d+) rows$/`
@@ -874,7 +972,15 @@ and marks come from the same arrays, and every export reproduces the screen.*
   placed`, `Lender, instrument and place`, `When: approvals against elections and office`,
   `Month of approval`, `Other lenders, one mark each`, `Every loan record`, `National
   receipts by financial year`, `State-wise receipts`, `The Ministry's actions and the
-  responses`, `Named holders in NIFTY 50 filings`, `Holdings outside the index`).
+  responses`, `Named holders in NIFTY 50 filings`); for `rules` (`RulesTimeline`, §5.3.5)
+  only the general rule applies — the summary's `{h3}` equals a visible `h3` of its section —
+  since the spec fixes no wording for it. [Adjudicated: `capital rules: fixed h3 — actual
+  "Rules on foreign capital, by date in force", expected "Holdings outside the index"`.
+  §0.6's twin list ends `…|matrix-lines|matrix-columns|rules`; OutsideIndex (§5.3.2) is a
+  table with no graphic and no twin, while RulesTimeline is the graphic whose twin `rules`
+  is; the spec's list of fixed h3s does not name RulesTimeline's, so the mapping `rules →
+  Holdings outside the index` was the test author's error. `Holdings outside the index` is
+  present as the OutsideIndex h3.]
 
 ### AC-84 — Open the same record from the twin as from the graphic
 - **Check:** In `TWIN(project-list)` the row for `REC_CENSUS` has a button named `Open record:
@@ -949,17 +1055,34 @@ hidden drawing, and one live region says what changed in words.*
 
 ### AC-93 — Keep exactly one live region and speak in words
 - **Check:** `[aria-live]` count = 1, `aria-live="polite"`. After each of: a tier toggle, a
-  State change, a lens change, `Copy link`, `Copy as TSV`, `Table view`, typing in Find, its
+  State change to `STATE_PLACED` [Adjudicated: `STATE_CODES[0]` = `an` is a `(0)`
+  aria-disabled option, see AC-60; with `STATE_PLACED` every assertion passes], a lens
+  change, `Copy link`, `Copy as TSV`, `Table view`, typing in Find, its
   text contains none of `→`, `≥`, `Σ`; filter effects read `/from (\d+) to (\d+) /`. Every
   `aria-describedby` text and every option name contains no `→`.
 
 ### AC-94 — Reach the stage inside the tab-stop budget
-- **Check (`FOLD`):** Counting `Tab` presses from `document.body` (page top): the map listbox in
-  ≤ 25; the first `ProjectList` row's first control in ≤ 12 after the `Every loan record`
-  twin is open under `view=table`; on Capital the matrix grid in ≤ 25; the graph section
-  heading (`#connections h2`) in ≤ 25 after `Load the graph`/intersection. Each `[role="tab"]`,
-  `Find`, each rail control and each twin summary is a stop; the unavailable options are
-  stops (`aria-disabled="true"`, focusable) with the reason in their name.
+- **Check (`FOLD`):** Counting `Tab` presses from the first focusable element in `main` (UD41;
+  the site sidebar is platform chrome): the map listbox in ≤ 25; the first `ProjectList`
+  row's first control in ≤ 12 after its twin summary (`Every loan record`, open under
+  `view=table`); on Capital the matrix grid in ≤ 25. The graph: pressing a `Show connections`
+  button moves focus to `#connections h2`; after `#connections` is scrolled into view (or
+  `Load the graph` pressed) its overlay/controls are reached by Tab. The flow diagram is one
+  tab stop (arrows move between ribbons): consecutive `Tab` presses from the flow's skip
+  link leave the flow SVG in ≤ 2 stops. Each `[role="tab"]`, `Find`, each rail control and
+  each twin summary is a stop; the unavailable options are stops (`aria-disabled="true"`,
+  focusable) with the reason in their name. [Adjudicated — both sides: from `document.body`
+  the map was stop 51: 30 stops are the Layout sidebar (outside `main`, FINANCE_A11Y m10) and
+  22 the page's own → within budget from `main`; the spec's own UD41 and tenders.test.mjs
+  count from `main`. `#connections reached by keyboard` failed because 1,414 stops precede
+  the graph (606 are the flow's ribbon `<button>`s — A11Y M1 — then clock 67, contracts 178,
+  debarments 74, conditions 320, base rates 124) and `#connections` holds no tabbable until
+  the IntersectionObserver fires (its h2 is `tabindex=-1`). FG-46's `graph heading in ≤ 25
+  from the page top` is unattainable by any page built to §4/§13 — spec §13/FG-46 amended to
+  §5.5.1's own route. The 606-stop flow is a real page defect independent of that: spec §13
+  amended to a roving tabindex (`tabIndex=0` on the first ribbon only, arrows move between
+  ribbons, Home/End, the ribbon count in the group's `aria-describedby`), every ribbon still a
+  real `<button>` with its §13 name; the skip links stay.]
 
 ---
 
@@ -972,38 +1095,56 @@ hidden a word. Everything moves; nothing is hidden.*
 - **Check (`M` and `M360`):** For each of `/#/finance`, `?lens=associations`, `?lens=capital`,
   `?view=table` on each lens, `?rec=REC_CENSUS` (arriving by URL, no opener),
   `?lens=capital&holder=cap:blackrock`: `document.scrollingElement.scrollWidth <=
-  window.innerWidth`; after scrolling to the bottom in 600 px steps the same holds at every
-  step; no element's `getBoundingClientRect().right` exceeds `innerWidth` except inside an
-  ancestor with `overflow-x: auto`.
+  window.innerWidth`; after scrolling to the bottom in steps of ten viewport-heights (and at
+  the very bottom) the same holds at every step; no element's `getBoundingClientRect().right`
+  exceeds `innerWidth` except inside an ancestor with `overflow-x: auto`. [Adjudicated:
+  load() timed out on the hidden Layout `h1` at `M` (§0.1, now `main h1`); with it the
+  criterion passes at `M` and `M360` on all eight routes. Step size is performance only,
+  meaning unchanged: right edges do not depend on vertical scroll, so ten-screen sampling
+  loses nothing; the page is 450k–904k px tall at 390 and the 600 px walk with a full-DOM scan
+  per step took ~1 h for this one criterion.]
 
 ### AC-96 — Pin one line of strip and the tabs within 140 px, and move the rest under the map
 - **Check (`M`):** `[data-pinned-stack]` height ≤ 140 px and is `position: sticky|fixed`;
   the strip inside it shows fact 1 and the date only; facts 2–6, the byline and the `Built
   from…` line appear whole in a mono list directly after the map's `figcaption`, with the
   word `nominal` still beside the ₹ figure; the `ReconciliationLine` is a `<ul>` under the
-  `UnionBar` and is not sticky; the active-filter line is not sticky.
+  `UnionBar` and is not sticky; the active-filter line is not sticky. [Adjudicated: load() timed out on the hidden
+  Layout `h1` at `M`; with §0.1's `main h1` the criterion passes. No change to its text.]
 
 ### AC-97 — Keep the strip, tabs and rail summary in the first screen and the bar in two
 - **Check (`M`, `lens=loans`):** At `scrollY = 0` the bottom of the rail summary (`details >
   summary` reading `/Filters \((\d+)\) · (\d+) → (\d+)/`) ≤ 844 px; the `UnionBar`'s bottom
   ≤ 1,688 px; the texture key (`ReadingKey` swatches under the figcaption) is within 844 px
-  of the map's bottom edge. (`FOLD`, D50 twin) the `UnionBar` is within the first 800 px.
+  of the map's bottom edge. (`FOLD`, D50 twin) the `UnionBar` is within the first 800 px. [Adjudicated: load() timed out on the hidden
+  Layout `h1` at `M`; with §0.1's `main h1` the criterion passes. No change to its text.]
 
 ### AC-98 — Collapse the rail into a labelled details block with the effect outside it
 - **Check (`M`):** The rail is a `<details>` whose summary matches `/Filters \((\d+)\) · (\d+) →
   (\d+)/`; the `[data-effect]` line for the last change sits outside the collapsed block and
   stays visible while closed; the selects inside are native `<select>`s; the rail foot's
-  refusal line is present and links to `#refusals`.
+  refusal line is present and links to `#refusals`. [Adjudicated: load() timed out on the hidden
+  Layout `h1` at `M`; with §0.1's `main h1` the criterion passes. No change to its text.]
 
 ### AC-99 — Replace the flow by two ranked lists, and put twins first elsewhere
 - **Check (`M`, `lens=loans`):** No flow SVG is rendered; two lists (lender × middle; place)
   render the same bands ranked by ₹ with the note `the flow diagram needs a wider screen;
   these are the same bands as lists`, and `TWIN(loan-flow)` sits beneath. `LoanClock`,
   `ActionsTimeline` and `RulesTimeline` render their twin by default with a `Show the
-  diagram` button; once shown, each scrolls inside its own container with a sticky 96 px
-  label column, initial `scrollLeft` placing `asOf` at the right edge, and a line `/showing
-  .+–.+/` with `‹ earlier` / `later ›` buttons. `ReceiptsByYear` draws every FY at full width
-  with no horizontal scroll and a legend line `/hatched: no national total recorded — .+/`.
+  diagram` button; once shown, each scrolls inside its **own** container — the innermost
+  `overflow-x: auto|scroll` element holding the drawing and its `[data-lane]`s, never an
+  ancestor scroller such as the site's `main` — with a sticky 96 px label column, initial
+  `scrollLeft` placing `asOf` at the right edge, and a line `/showing .+–.+/` with `‹ earlier`
+  / `later ›` buttons. `ReceiptsByYear` draws every FY at full width with no horizontal
+  scroll and a legend line `/hatched: no national total recorded — .+/`. [Adjudicated: after
+  the `main h1` fix the check failed on `sticky 96 px label column (358)`: its container
+  finder took the *first* `overflow-x: auto|scroll` element in document order containing an
+  `svg` and a `[data-lane]` — the Layout's `<main class="overflow-y-auto">` (overflow-y auto
+  forces overflow-x auto), whose first sticky descendant is the 358 px pinned strip. The
+  clock's own container (358 px wide) has `scrollLeft 501 = max`, a sticky `<ul
+  aria-label="Lanes">` of exactly 96 px, the `showing 1949–2026` line and both buttons; the
+  associations legend is present with no sideways scroll. Every assertion passes against the
+  innermost box.]
 
 ### AC-100 — Transpose the matrix, keep Band A, and make also-named a route
 - **Check (`M`, `lens=capital`):** The grid has one row per `COLUMNS` entry and one column per
@@ -1012,7 +1153,8 @@ hidden a word. Everything moves; nothing is hidden.*
   `HOLDER_B`) button writes `holder` and adds **one** accented column labelled `(selected)`
   after Band A, Band A unchanged; `HolderCard` renders directly under the grid with each
   `own` edge's `d` verbatim and an `http` source. Rotated short labels carry full names in
-  the accessible names. `scrollWidth ≤ innerWidth` throughout.
+  the accessible names. `scrollWidth ≤ innerWidth` throughout. [Adjudicated: load() timed out on the hidden
+  Layout `h1` at `M`; with §0.1's `main h1` the criterion passes. No change to its text.]
 
 ### AC-101 — Show a readout first on tap, then act, with the state select as the route
 - **Check (`M`, `lens=loans`):** Tapping `STATE_PLACED`'s path shows a readout block under the map
@@ -1020,7 +1162,8 @@ hidden a word. Everything moves; nothing is hidden.*
   the state for the list`) and writes no param; a second tap, or `Open state`, writes `st`;
   a `<select>` labelled `Open a state` sits under the figcaption; no on-map state label text
   is drawn. The `StatePanel` renders directly under the map with one `scrollIntoView` and
-  `Close` / `Back to {origin}`.
+  `Close` / `Back to {origin}`. [Adjudicated: load() timed out on the hidden
+  Layout `h1` at `M`; with §0.1's `main h1` the criterion passes. No change to its text.]
 
 ### AC-102 — Render every response-bearing table as cards with the response under the claim
 - **Check (`M`):** `ProjectList`, Contracts, Debarments, Conditions and rules, GrantsNamed,
@@ -1029,19 +1172,22 @@ hidden a word. Everything moves; nothing is hidden.*
   at the same computed `font-size`, never inside a `<details>`, and no Sources list inside a
   `<details>`; every Response and Sources cell's `right ≤ innerWidth`. Only DebtContext, the
   matrix column-status twin and the flow band table keep a scrolling `role="region"` with
-  `aria-label` = the caption and the line `/(\d+) columns · scroll → for the rest/`.
+  `aria-label` = the caption and the line `/(\d+) columns · scroll → for the rest/`. [Adjudicated: load() timed out on the hidden
+  Layout `h1` at `M`; with §0.1's `main h1` the criterion passes. No change to its text.]
 
 ### AC-103 — Keep mono text at or above 12 px, hide the graph behind a button, honour reduced motion
 - **Check (`M`):** Every element whose computed `font-family` contains the mono face has
   `font-size ≥ 12px`. `#connections` shows a `Load the graph` button and no canvas until it
   is pressed; with `sel` in the URL the graph still waits for the button. With
   `reducedMotion: 'reduce'` no element has a non-zero `transition-duration` on `fill`,
-  `stroke` or `background-color`, and `scroll-behavior` is not `smooth`.
+  `stroke` or `background-color`, and `scroll-behavior` is not `smooth`. [Adjudicated: load() timed out on the hidden
+  Layout `h1` at `M`; with §0.1's `main h1` the criterion passes. No change to its text.]
 
 ### AC-104 — Explain the empty state before any number on a phone (EMPTY build)
-- **Check (`M`, EMPTY):** AC-01, AC-02, AC-03 and AC-04 hold at 390; the callout precedes the
-  strip in DOM order and its top is above the map; `scrollWidth ≤ innerWidth` on all three
-  lenses.
+- **Check (`M`, EMPTY):** AC-01 (`main h1` text is `Who lent, …`), AC-02, AC-03 and AC-04 hold
+  at 390; the callout precedes the strip in DOM order and its top is above the map;
+  `scrollWidth ≤ innerWidth` on all three lenses. [Adjudicated: load() timed out on the hidden
+  Layout `h1` at `M` (§0.1); with `main h1` the criterion passes on all three lenses.]
 
 ---
 

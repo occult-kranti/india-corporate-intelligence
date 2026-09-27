@@ -24,6 +24,21 @@ are marked "site".*
 | **Minor** | **12** | small friction |
 | total | **20** | |
 
+**Status after the fix pass (2026-09-27).** S1, S2 and M1–M6 are fixed in the page and
+re-measured by an independent Playwright probe at 1440, 390 and 320 (59 checks): the roving
+grid cell paints a solid 2 px accent outline (S1); `document` and `main` scroll widths equal
+the viewport on every lens, every table view, with a holder chosen and with a record open,
+because quoted research text now breaks anywhere and every wide twin sits in its own scroll
+box (S2); the flow's 606 ribbons are one tab stop with arrow, Home and End movement and the
+count in the group's description, and the map listbox and matrix are reached in 20 and 18
+stops from `main` (M1); selected tabs, the pressed Table view and pressed segmented options
+carry weight 600 and a 2 px bar that survives forced colours (M2); ribbon edges measure 4.04:1
+and the documented fill 2.59:1 (M3); the 11 twins that overflow at 1440 are named regions that
+scroll by arrow key, and boxes that do not overflow are not tab stops (M4); the phone strip
+wraps and keeps its as-of date (M5); captions and headings the page moves focus to paint a
+2 px ring (M6). The Minor findings below are open. The paragraphs that follow describe the
+page as audited, before those fixes.
+
 **Nothing blocks release under the skill's rule** (Critical findings block). The page is
 built the way the energy, welfare and tenders fixes said a page should be: every control in
 `main` carries an accessible name (0 unnamed of 1,139–2,528 per lens); no two enabled controls

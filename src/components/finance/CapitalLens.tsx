@@ -7,7 +7,7 @@ import {
   yearOf, ASOF, inYear, weakest, ROLE_WORDS,
 } from '../../data/financeView';
 import type { Constituent } from '../../data/indices';
-import { Caption, Twin, Table, Exports, usePage, SkipLinks, captionLine, TierWord, Src, OpenRecord, Connect, RowActions, Q, NOTHING, Denominator, ResponseCell, type Row } from './ui';
+import { Caption, Twin, Table, Exports, usePage, SkipLinks, captionLine, TierWord, Src, OpenRecord, Connect, RowActions, Q, NOTHING, Denominator, ResponseCell, type Row, ScrollBox } from './ui';
 import { BaseRateLine } from './Control';
 import { DataRows } from './LoansLens';
 
@@ -140,7 +140,7 @@ export function HolderMatrix({ f, captionId }: { f: Filters; captionId: string }
         title={`${holderLabel(x.holder)}, ${x.company.name}: ${stateWords(x.state, x.edges)}`}
         onFocus={() => setPos([r, c])} onClick={(e) => activate(r, c, e.currentTarget)}
         onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); activate(r, c, e.currentTarget); } }}
-        className={`relative p-0.5 text-center font-mono text-[11px] leading-tight border-0 cursor-pointer outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent ${x.state === 'line' ? 'bg-bg-card text-text' : x.state === 'aggregate' ? 'text-text' : 'text-text-muted'}`}
+        className={`relative p-0.5 text-center font-mono text-[11px] leading-tight border-0 cursor-pointer focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-solid focus-visible:-outline-offset-2 focus-visible:outline-accent ${x.state === 'line' ? 'bg-bg-card text-text' : x.state === 'aggregate' ? 'text-text' : 'text-text-muted'}`}
         style={{ ...(hatched ? { backgroundImage: HATCH_BG } : {}), width: narrow ? 32 : undefined, minWidth: narrow ? 32 : undefined, maxWidth: narrow ? 32 : undefined, height: 26 }}>
         {frames}
         <span className="relative">{cellText(x.state, x.shown.length ? x.shown : x.edges)}</span>
@@ -255,24 +255,24 @@ export function HolderMatrix({ f, captionId }: { f: Filters; captionId: string }
       ); })()}
       <Twin twin="matrix-lines" title={MATRIX_H3} rowCount={lineRows.length} open={f.view === 'table'}>
         {() => (
-          <div className="overflow-x-auto">
+          <ScrollBox label={`${MATRIX_H3} — table`}>
             <Exports name={MATRIX_H3} twin="matrix-lines" meta={{ table: MATRIX_H3, population: 'every recorded holding in a NIFTY 50 company, filing lines and aggregates apart', lens: 'capital', filters: filterText, rows: lineRows.length }}
               header={['holder', 'band', 'kind', 'company', 'from', 'tier', 'record', 'response', 'innocent_reading', 'source_urls']} rows={() => lineRows.map((r) => r.out)} />
             <Table caption={captionLine(lineRows.length, 'holdings in NIFTY 50 companies, long form', 'capital', filterText)} className="min-w-[60rem]"
               cols={[{ key: 'h', label: 'Holder', th: true }, { key: 'b', label: 'Band' }, { key: 'k', label: 'Kind' }, { key: 'c', label: 'Company' }, { key: 'd', label: 'Filing or file date' }, { key: 't', label: 'Tier' }, { key: 'r', label: 'Record text' }, { key: 'resp', label: 'Response' }, { key: 'i', label: 'Innocent reading' }, { key: 's', label: 'Sources' }]}
               rows={lineRows.length ? lineRows : [{ cells: [NOTHING], out: [] }]} />
-          </div>
+          </ScrollBox>
         )}
       </Twin>
       <h3 className="text-[14px] font-semibold text-text mt-4">{COLS_H3}</h3>
       <Twin twin="matrix-columns" title={COLS_H3} rowCount={colRows.length} open={f.view === 'table'}>
         {() => (
-          <div className="overflow-x-auto">
+          <ScrollBox label={`${COLS_H3} — table`}>
             <Exports name={COLS_H3} twin="matrix-columns" meta={{ table: COLS_H3, population: 'every NIFTY 50 constituent and what the register records for it', lens: 'capital', filters: filterText, rows: colRows.length }} header={['company', 'id', 'status', 'dates', 'records']} rows={() => colRows.map((r) => r.out)} />
             <Table caption={captionLine(colRows.length, 'NIFTY 50 constituents by coverage', 'capital', filterText)} className="min-w-[44rem]"
               cols={[{ key: 'c', label: 'Company', th: true }, { key: 's', label: 'Status' }, { key: 'd', label: 'Filing dates' }, { key: 'n', label: 'Named holders recorded' }, { key: 'a', label: 'Comparison-set holders named' }, { key: 'g', label: 'Aggregates recorded' }]}
               rows={colRows.length ? colRows : [{ cells: [NOTHING], out: [] }]} />
-          </div>
+          </ScrollBox>
         )}
       </Twin>
       {!empty && (
@@ -325,7 +325,7 @@ export function MandatesSection({ f, captionId }: { f: Filters; captionId: strin
             cols={[{ key: 'd', label: 'Date' }, { key: 'a', label: 'Awarder' }, { key: 'w', label: 'Awardee' }, { key: 'x', label: 'Mandate' }, { key: 'f', label: 'Fee or value' }, { key: 'b', label: 'Who benefits' }, { key: 't', label: 'Tier' }, { key: 'r', label: 'Response' }, { key: 's', label: 'Sources' }]}
             rows={rows.map((e) => { const b = benefitOf(e); return { cells: [e.from ?? 'undated', labelOf(e.s), <RowActions key="w"><Connect id={e.t} label={labelOf(e.t)} /></RowActions>, <RowActions key="x"><OpenRecord id={e.id!} lab={e.lab ?? e.id!}>{e.lab ?? e.id}</OpenRecord></RowActions>, feeCell(e), b ? `${labelOf(b.who)}: ${b.how ?? 'how not recorded'}` : 'No cui-bono row recorded', <TierWord key="t" tier={e.tier} />, <ResponseCell key="r" id={e.id} />, <Src key="s" srcs={e.srcs} of={e.lab ?? e.id!} />], out: [] }; })} />
           <h3 className="text-[15px] font-semibold mt-4">Advisers beside each other</h3>
-          <div className="overflow-x-auto">
+          <ScrollBox label="Advisers beside each other — table">
             <table aria-describedby={captionId} className="w-full border-collapse text-[13.5px] min-w-[40rem]">
               <caption className="text-left text-[12.5px] text-text-muted pb-2">{captionLine(advisers.length, 'every adviser the research declared or recorded, alphabetical; nothing ranked', 'capital', filterText)}</caption>
               <thead>
@@ -349,7 +349,7 @@ export function MandatesSection({ f, captionId }: { f: Filters; captionId: strin
                 })}
               </tbody>
             </table>
-          </div>
+          </ScrollBox>
           <Caption id={captionId} cap="C12">A mandate is a public appointment; it is not a finding about the adviser. Fees are shown only where disclosed. Counts of records in this register measure the research&apos;s attention as much as the firm&apos;s work; league tables in the records&apos; text rank by fees and deal value; this table ranks nothing.</Caption>
           <ul className="list-none p-0 m-0 text-[13px] mt-2 space-y-1">{base.map((r, i) => <li key={i}><BaseRateLine r={r} /></li>)}</ul>
         </>
@@ -443,12 +443,12 @@ export function RulesSection({ f, captionId }: { f: Filters; captionId: string }
           </div>
           <Twin twin="rules" title={RULES_H3} rowCount={rulesRows.length} open={f.view === 'table'}>
             {() => (
-              <div className="overflow-x-auto">
+              <ScrollBox label={`${RULES_H3} — table`}>
                 <Exports name={RULES_H3} twin="rules" meta={{ table: RULES_H3, population: 'rule edges in the capital register in view', lens: 'capital', filters: filterText, rows: rulesRows.length }} header={['id', 'from', 'to', 'tier', 'governs', 'cui_bono_row', 'superseded_by']} rows={() => rulesRows.map((r) => r.out)} />
                 <Table caption={captionLine(rulesRows.length, 'rules on foreign capital', 'capital', filterText)} className="min-w-[48rem]"
                   cols={[{ key: 'r', label: 'Rule', th: true }, { key: 'd', label: 'Dates' }, { key: 't', label: 'Tier' }, { key: 'g', label: 'Governs' }, { key: 'b', label: 'Cui-bono row' }, { key: 's', label: 'Supersession' }, { key: 'src', label: 'Sources' }]}
                   rows={rulesRows.length ? rulesRows : [{ cells: [NOTHING], out: [] }]} />
-              </div>
+              </ScrollBox>
             )}
           </Twin>
         </>

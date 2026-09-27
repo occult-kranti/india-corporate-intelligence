@@ -368,6 +368,14 @@ export const loanForProject = (k: string): GEdge | null => CENSUS.find((e) => pT
 // Responses (contra edges answer `claim:{id}`)
 // ---------------------------------------------------------------------------
 
+export const NO_RESPONSE = 'No response recorded — asked/not asked unknown';
+/**
+ * A contra the audit added to record that no response was found is kept and printed,
+ * but it is not a response: its words are the no-response sentence, so the timeline
+ * draws the open bracket for it, not the rose rule.
+ */
+export const isPlaceholder = (c: GEdge) => (c.lab ?? '').startsWith(NO_RESPONSE) || (c.d ?? '').startsWith(NO_RESPONSE);
+
 const RESPONSES = new Map<string, GEdge[]>();
 for (const l of LENSES) for (const e of MODULES[l].edges) {
   if (e.pred !== 'contra' || !e.t.startsWith('claim:')) continue;
@@ -375,19 +383,34 @@ for (const l of LENSES) for (const e of MODULES[l].edges) {
   if (!RESPONSES.has(k)) RESPONSES.set(k, []);
   RESPONSES.get(k)!.push(e);
 }
+// A real response leads its claim's list and a placeholder follows it (a stable sort, so
+// file order holds within each kind): a claim that was answered never reads, first, as
+// unanswered, and a list that opens with the no-response sentence is exactly a claim
+// with no real response — the same test the square and the case header use.
+for (const list of RESPONSES.values()) list.sort((a, b) => Number(isPlaceholder(a)) - Number(isPlaceholder(b)));
 export const responsesTo = (id: string | undefined): GEdge[] => (id ? RESPONSES.get(id) ?? [] : []);
-export const NO_RESPONSE = 'No response recorded — asked/not asked unknown';
-/** A response as the list prints it: responder, tier and date first, then its words. */
+/** A field of a placeholder with the no-response sentence taken off its front ('' when that is all it says). */
+const beyondSentence = (x: string | undefined) => {
+  const v = x ?? '';
+  return v.startsWith(NO_RESPONSE) ? v.slice(NO_RESPONSE.length).replace(/^[\s.;:,—–-]+/, '') : v;
+};
+/**
+ * A response as the list prints it: responder, tier and date first, then its words. A
+ * placeholder is not a response, so it prints the exact no-response sentence first and
+ * its provenance after it — never "Response from …", which would head an unanswered
+ * claim's row with a responder the timeline and the case header do not count. The
+ * placeholder's own words (its `lab`, and anything its `d` adds to the sentence) are
+ * research text and stay printed after the provenance.
+ */
 export function responseLine(c: GEdge): string {
-  return `Response from ${labelOf(c.s)} [${c.tier}], ${c.from ?? 'undated response'}: ${c.lab ?? ''}${c.d && !(c.d.startsWith(NO_RESPONSE) && (c.lab ?? '').startsWith(NO_RESPONSE)) ? ` ${c.d}` : ''}`;
+  if (isPlaceholder(c)) {
+    const lab = beyondSentence(c.lab);
+    const rest = beyondSentence(c.d);
+    return `${NO_RESPONSE} · recorded in the research file as ${c.id} [${c.tier}]${lab ? `: ${lab}` : ''}${rest && rest !== lab ? ` — ${rest}` : ''}`;
+  }
+  return `Response from ${labelOf(c.s)} [${c.tier}], ${c.from ?? 'undated response'}: ${c.lab ?? ''}${c.d ? ` ${c.d}` : ''}`;
 }
 export const responseText = (id: string | undefined) => { const r = responsesTo(id); return r.length ? r.map(responseLine).join(' ‖ ') : NO_RESPONSE; };
-/**
- * A contra the audit added to record that no response was found is kept and printed,
- * but it is not a response: its words are the no-response sentence, so the timeline
- * draws the open bracket for it, not the rose rule.
- */
-export const isPlaceholder = (c: GEdge) => (c.lab ?? '').startsWith(NO_RESPONSE) || (c.d ?? '').startsWith(NO_RESPONSE);
 export const hasRealResponse = (id: string | undefined) => responsesTo(id).some((c) => !isPlaceholder(c));
 
 // ---------------------------------------------------------------------------

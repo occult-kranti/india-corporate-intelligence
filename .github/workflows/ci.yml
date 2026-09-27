@@ -77,7 +77,8 @@ jobs:
 
       # The page acceptance suites: /energy (67 criteria), /welfare (85, of which
       # the 9 scaffold criteria skip here because they need an empty build) and the
-      # national section of /tenders (86; 2 skip as "not in this data"). Each
+      # national section of /tenders (86; 2 skip as "not in this data") and /finance
+      # (110; AC-38 skips while no zero-amount loan exists). Each
       # criterion was written against the judged spec before the page existed, so a
       # regression here is a spec violation, not a flaky pixel. Files are named
       # explicitly: Node 20's --test does not expand a glob.

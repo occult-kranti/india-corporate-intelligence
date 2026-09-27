@@ -6,7 +6,7 @@ import {
   sourceClass, hostOf, FAM_SPLITS, nodeOf, strictSt, fmtInt, ASOF, hasRealResponse, type DerivedGap,
 } from '../../data/financeView';
 import type { Void, FleetText } from '../../graph/fleet';
-import { Caption, usePage, TierWord, Src, Q, NOTHING, Denominator, captionLine, Table } from './ui';
+import { Caption, usePage, TierWord, Src, Q, NOTHING, Denominator, captionLine, Table, ScrollBox, TARGET_RING } from './ui';
 import { BaseRateLine } from './Control';
 
 const GraphExplorer = lazy(() => import('../viz/GraphExplorer'));
@@ -285,11 +285,11 @@ export function SourceLedger({ lens, f }: { lens: Lens; f: Filters }) {
     <section className="pt-12" aria-labelledby="fin-ledger-h">
       <h2 id="fin-ledger-h" className={H2}>Sources</h2>
       {empty ? <p className="text-[14px]">{NOTHING}</p> : (
-        <div className="overflow-x-auto">
+        <ScrollBox label="Sources — table">
           <Table caption={captionLine(rows.length, `distinct sources cited by this lens, cited in a file dated ${ASOF[lens] ?? 'not promoted'}`, lens, filterText)} className="min-w-[40rem]"
             cols={[{ key: 's', label: 'Source' }, { key: 'c', label: 'Class' }, { key: 'e', label: 'Establishes' }]}
             rows={rows.map((r) => ({ cells: [<a key="a" href={r.url} target="_blank" rel="noopener noreferrer" aria-label={`${r.label} (${r.url})`} className="underline break-words">{r.label}<span className="font-mono text-[11px] text-text-muted">{` ${hostOf(r.url)}`}</span></a>, sourceClass([r.label, r.url]), `cited by ${r.n} records, e.g. ${r.first}`], out: [] }))} />
-        </div>
+        </ScrollBox>
       )}
       <TierLegend />
       <p className="text-[14px] text-text-secondary max-w-[72ch]">This platform maps public records and published claims about the conduct of public offices, and is a matter of legitimate public interest. It asserts no guilt. Allegations are identified as allegations, attributed, and paired with the response of those they concern. No node adjudicates a quid pro quo.</p>
@@ -325,7 +325,7 @@ export function ConnectionsSection({ f, extraNodes, headingRef, withHook, onShow
   const capText: ReactNode = 'Position carries no meaning. Line dash is evidence tier; hue is the kind of actor; shape is entity type; size is a declared band. Persons appear only in public roles.';
   return (
     <section id="connections" className="pt-12 scroll-mt-40" aria-labelledby="fin-conn-h">
-      <h2 id="fin-conn-h" ref={headingRef} tabIndex={-1} className={`${H2} outline-none`}>Connections across the three registers</h2>
+      <h2 id="fin-conn-h" ref={headingRef} tabIndex={-1} className={`${H2} ${TARGET_RING}`}>Connections across the three registers</h2>
       <p className="text-[14px] text-text-secondary max-w-[80ch]">
         {`${fmtInt(drawn)} relationships across the three registers are drawn under the tier filter (${fmtInt(parts.edges.length)} in all). The World Bank census (${CENSUS.length} loan records) is not drawn here: two lenders to one borrower, ${CENSUS.length} times, would draw two fans of parallel lines that show degree and hide value. It is in the map, the flow and the list. Identity across the three registers is joined only where ids match; the same institution can appear under two ids until reconciled. ${parts.dropped} edges with an endpoint outside every register are not drawn. This graph's own filters are its own; the page's year control does not reach it.${splits}`}
       </p>

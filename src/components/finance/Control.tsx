@@ -100,7 +100,9 @@ export function Strip({ lens, f, narrow }: { lens: Lens; f: Filters; narrow: boo
       {isEmpty(lens) ? (
         <p>register not yet promoted · nothing below is zero · {asOfText(lens)}</p>
       ) : (
-        <p className={narrow ? 'truncate' : ''}>
+        // Below 640px fact 1 and the as-of date wrap rather than truncate, so the date the
+        // strip exists to pin is never cut off behind an ellipsis (A11Y-005 M5).
+        <p>
           {(narrow ? facts.slice(0, 1) : facts).map((x, i) => <span key={x.key}>{i > 0 ? ' · ' : ''}<span>{x.text}</span></span>)}
           {' · '}<span>{asOfText(lens)}</span>
         </p>
@@ -231,7 +233,7 @@ export function LensTabs({ lens, onPick }: { lens: Lens; onPick: (l: Lens) => vo
         <button key={l} ref={(el) => { refs.current[i] = el; }} type="button" role="tab" id={`fin-tab-${l}`} aria-selected={l === lens}
           aria-controls={`fin-panel-${l}`} tabIndex={i === focusIdx ? 0 : -1}
           onKeyDown={(e) => onKey(e, i)} onClick={() => onPick(l)}
-          className={`min-h-[44px] px-4 text-[14px] border rounded ${l === lens ? 'border-accent text-accent bg-accent/[0.08]' : 'border-border-light text-text-secondary hover:text-text'}`}>
+          className={`fin-pressed min-h-[44px] px-3 sm:px-4 text-[14px] border rounded ${l === lens ? 'border-accent text-accent bg-accent/[0.08]' : 'border-border-light text-text-secondary hover:text-text'}`}>
           {LENS_LABEL[l]}
         </button>
       ))}
@@ -468,7 +470,7 @@ export function Segmented({ param, value, options, onPick }: {
           aria-disabled={o.disabled ? 'true' : undefined}
           aria-label={o.disabled ? `${o.label}, unavailable: ${o.disabled}` : undefined}
           onClick={() => { if (!o.disabled) onPick(o.v); }}
-          className={`${TOGGLE} ${value === o.v ? 'border-accent text-text' : 'border-border-light text-text-muted'} ${o.disabled ? 'opacity-60 cursor-not-allowed' : ''}`}>
+          className={`fin-pressed ${TOGGLE} ${value === o.v ? 'border-accent text-text' : 'border-border-light text-text-muted'} ${o.disabled ? 'opacity-60 cursor-not-allowed' : ''}`}>
           {o.label}{o.note ? <span className="text-text-muted">{` · ${o.note}`}</span> : null}
         </button>
       ))}

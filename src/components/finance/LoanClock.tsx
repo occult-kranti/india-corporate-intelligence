@@ -5,7 +5,7 @@ import {
   approvalsByYear, approvalsByMonth, officeOnDate, MOF, datedActs, FINANCE_ASOF, isPipeline, stateName, lokSabhaIn, shareOf, FIRST_LOK_SABHA_YEAR,
   NO_START_WINDOWS,
 } from '../../data/financeView';
-import { Caption, Twin, Table, Exports, usePage, SkipLinks, captionLine, OpenRecord, RowActions, type Row } from './ui';
+import { Caption, Twin, Table, Exports, usePage, SkipLinks, captionLine, OpenRecord, RowActions, type Row, ScrollBox } from './ui';
 
 /**
  * When (spec §5.1.3): a project-count lane, one tick per loan record by lender, one bar
@@ -263,11 +263,11 @@ export default function LoanClock({ f, captionId, narrow }: { f: Filters; captio
     </figure>
       <Twin twin="loan-months" title={MONTHS_H3} rowCount={monthRows.length} open={f.view === 'table'}>
         {() => (
-          <div className="overflow-x-auto">
+          <ScrollBox label={`${MONTHS_H3} — table`}>
             <Exports name={MONTHS_H3} twin="loan-months" meta={{ table: MONTHS_H3, population: 'census projects in view by calendar month of approval', lens: 'loans', filters: filterText, rows: monthRows.length }} header={['month', 'projects', 'of_projects']} rows={() => monthRows.map((r) => r.out)} />
             <Table caption={captionLine(monthRows.length, 'census projects in view by month of approval', 'loans', filterText)} cols={[{ key: 'm', label: 'Month', th: true }, { key: 'n', label: 'Census projects approved' }, { key: 'of', label: 'Of projects' }, { key: 's', label: 'Share' }]}
               rows={monthRows.length ? monthRows : [{ cells: ['Nothing recorded yet.'], out: [] }]} />
-          </div>
+          </ScrollBox>
         )}
       </Twin>
     </>
@@ -288,33 +288,33 @@ export default function LoanClock({ f, captionId, narrow }: { f: Filters; captio
     </figure>
       <Twin twin="loan-lanes" title={CLOCK_H3} rowCount={laneRows.length} open={f.view === 'table' || (narrow && !showDiagram)}>
         {() => (
-          <div className="overflow-x-auto">
+          <ScrollBox label={`${CLOCK_H3} — table`}>
             <Exports name={CLOCK_H3} twin="loan-lanes" meta={{ table: CLOCK_H3, population: 'one row per lane, then one per record drawn in it', lens: 'loans', filters: filterText, rows: laneRows.length }} header={['lane', 'record', 'from', 'to', 'tier', 'source']} rows={() => laneRows.map((r) => r.out)} />
             <Table caption={captionLine(laneRows.length, 'lanes and the records drawn in them', 'loans', filterText)} className="min-w-[48rem]"
               cols={[{ key: 'lane', label: 'Lane' }, { key: 'rec', label: 'Holder or record' }, { key: 'from', label: 'From' }, { key: 'to', label: 'To' }, { key: 'tier', label: 'Tier' }, { key: 'src', label: 'Source' }]}
               rows={laneRows.length ? laneRows : [{ cells: ['Nothing recorded yet.'], out: [] }]} />
-          </div>
+          </ScrollBox>
         )}
       </Twin>
       <h3 className="text-[14px] font-semibold text-text mt-4">{YEARS_H3}</h3>
       <Twin twin="loan-years" title={YEARS_H3} rowCount={yearRows.length} open={f.view === 'table' || (narrow && !showDiagram)}>
         {() => (
-          <div className="overflow-x-auto">
+          <ScrollBox label={`${YEARS_H3} — table`}>
             <Exports name={YEARS_H3} twin="loan-years" meta={{ table: YEARS_H3, population: 'every year from the first loan record to the register date', lens: 'loans', filters: filterText, rows: yearRows.length }} header={['year', 'census_projects', 'researched_records', 'general_election', 'office_mid_year']} rows={() => yearRows.map((r) => r.out)} />
             <Table caption={captionLine(yearRows.length, 'every year from the first loan record to the register date', 'loans', filterText)} className="min-w-[48rem]"
               cols={[{ key: 'y', label: 'Year', th: true }, { key: 'n', label: 'Census projects approved' }, { key: 'r', label: 'Researched records' }, { key: 'e', label: 'Election that year (winner as text)' }, { key: 'o', label: 'Office-holders whose window covers 1 July (mid-year test)' }]}
               rows={yearRows.length ? yearRows : [{ cells: ['Nothing recorded yet.'], out: [] }]} />
-          </div>
+          </ScrollBox>
         )}
       </Twin>
       <h3 className="text-[14px] font-semibold text-text mt-4">{RULES_H3}</h3>
       <Twin twin="loan-rules" title={RULES_H3} rowCount={ruleRows.length} open={f.view === 'table'}>
         {() => (
-          <div className="overflow-x-auto">
+          <ScrollBox label={`${RULES_H3} — table`}>
             <Exports name={RULES_H3} twin="loan-rules" meta={{ table: RULES_H3, population: 'general elections in the register, assembly elections for the selected state, the register date', lens: 'loans', filters: filterText, rows: ruleRows.length }} header={['date', 'kind', 'label']} rows={() => ruleRows.map((r) => r.out)} />
             <Table caption={captionLine(ruleRows.length, 'rules drawn on the clock', 'loans', filterText)} cols={[{ key: 'd', label: 'Date', th: true }, { key: 'k', label: 'Kind' }, { key: 'l', label: 'Label' }]}
               rows={ruleRows.length ? ruleRows : [{ cells: ['Nothing recorded yet.'], out: [] }]} />
-          </div>
+          </ScrollBox>
         )}
       </Twin>
       {monthsFig}
