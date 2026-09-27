@@ -247,7 +247,7 @@ Carried from the Atlas analysis, as dated, checkable actions:
   with a shuffled control. Until someone runs it, the quid-pro-quo claim is
   unproven in both directions.
 
-### Phase F — energy power map, distribution funds, plugin-shaped fleets ✅ *(welfare page closing)*
+### Phase F — energy power map, distribution funds, plugin-shaped fleets ✅
 
 Two research fleets, a codegen step, two pages, and a repeatable shape for building
 them.
@@ -315,6 +315,102 @@ pass; a WCAG 2.1 AA audit. `docs/PLUGINS.md` records where each stage came from.
    reminder.
 6. **Acceptance criteria can be the defect.** Six `/energy` criteria were wrong,
    not the page. The criteria were amended; the tests were not bent to pass.
+
+### Phase G — foreign loans, NGOs and foreign capital; the national tender record ✅ *(page suites joining the gate)*
+
+Design: `docs/superpowers/specs/2026-09-26-foreign-money-ngos-tenders-design.md`. Plan:
+`docs/superpowers/plans/2026-09-26-foreign-money-ngos-tenders.md`. The ask named the
+Rothschilds and BlackRock, the World Bank and the IMF, NGOs and ministers, and a tender
+dataset. The stance the work took, written before any research ran: **institutions, not
+bloodlines** (Rothschild & Co and BlackRock as companies with comparison sets; a family,
+religion or ethnicity is never a node, edge, filter or colour); **loans are contracts with
+terms** (instrument, rate, tenor, grace, conditions), not favours; **identical fields for
+every side**, so the same lens runs on the other party and on the declared control.
+
+- [x] Schema: `loan` (lender → borrower, ₹ crore, `terms`) and `grant` predicates; `projectId`,
+      `countable`/`countedAs`, `holding` on an edge. Assembler generalised to N fleets from one
+      `FLEETS` table; `validate.mjs` §4 gates every fleet directory and §5 re-derives ₹ from US$
+- [x] **CPPP award pipeline** (`scripts/cppp/`, Python, offline): the Hugging Face scrape of the
+      Central Public Procurement Portal, 4,921,960 rows over two Arrow files (3.45 GB, digests
+      recorded). Quality table first: 2,923,713 distinct tender ids, 1,998,247 rows sharing one;
+      the dedup rule "one row per (tender id, normalised winner, award date)" leaves 3,385,233
+      award decisions. Then the rates over their declared denominators: single bidding 11.22 %
+      [11.19, 11.26] of 3,019,420 awards with a bid count (central 17.67 %, state 7.59 %);
+      non-open tender type 4.29 %; award within two days of closing 2.04 % (median 68 days);
+      the same marked winner winning again as sole bidder 51.28 % of 200,813. Concentration by
+      buyer as HHI on value and on count, at most five marked winners named per buyer and
+      nobody else. A seeded 40-row live verification against the portal: **40 of 40 pages gone**,
+      so every field stays `reported` and the page says so. Byte-identical rebuilds; 49 tests
+- [x] **Three research fleets**, cross-examined claim by claim, reconciled per fleet and then
+      across fleets, assembled by `npm run generate`:
+      - finance — 353 nodes, 1,168 edges (1,077 documented, 54 reported, 9 alleged, 28 analytic),
+        945 loan facts with terms; the World Bank census (1,117 projects, 849 commitments) fetched
+        by script and kept beside the hand-researched sample, never summed. 84 verdicts, 40
+        refuted, 6 killed; 36 refused merges
+      - ngo — 138 nodes, 292 edges (95 documented, 128 reported, 51 alleged each with its answer,
+        18 analytic); 102 FCRA state-year rows, each summing to its national figure. 142 verdicts,
+        63 refuted, 14 killed; 23 refused merges. The FCRA portal was unreachable: every figure is
+        routed through Parliament answers, MHA reports and PIB, and says so
+      - capital — 133 nodes, 221 edges (153 documented, 34 reported, 12 alleged, 22 analytic);
+        96 holdings across 38 of the 50 NIFTY constituents read, 19 controls. 61 verdicts, 19
+        refuted, 15 killed; 25 refused merges
+- [x] Cross-fleet reconciliation: `pol:shivraj-singh-chouhan`, `party:inc`, `wel:manmohan-singh`,
+      `co:larsen-toubro` and `ngo:open-society-foundations` chosen as survivors; seven High Court
+      nodes added to the Atlas; `rss` retyped party → sangh with a supersession note. Energy and
+      welfare run ids moved; their counts did not
+- [x] `/finance` — "Foreign money": one route, three lenses (loans, associations, capital), a
+      judged spec (two candidates and a judge, 47 decisions), a five-seat synthetic UX review,
+      110 acceptance criteria and a RED suite written blind. First pass, committed `d227c60`: 82 pass / 27 fail / 1 skipped of 110 on a pinned build; twelve failures find the Layout wordmark `h1` (the criterion defect the tenders adjudication corrected), three select a state AC-28 requires to be disabled; a criterion-by-criterion adjudication is running and this line is replaced by its verdict.
+- [x] `/tenders?section=national`: the CPPP record as a section of the existing register — the
+      quality table before any rate, Wilson ribbons, decision-window histogram, concentration,
+      red flags as rates over their family, the verification sample, gaps and provenance. 86
+      criteria; WCAG audit 0 critical, 0 serious, 8 moderate (M1–M8 fixed), 13 minor. Verified 84 pass / 0 fail / 2 skipped ("not in this data") of 86 on three consecutive runs against a pinned build after the adjudication (15 criterion defects, 1 page defect, 2 both); in `test:pages` and CI since `9c03db7`.
+- [x] Skill `foreign-money-trail` (with the ledger and the narratives ladder as references);
+      agents `finance-analyst` and `procurement-analyst`
+- [x] Explorer additions: jump-to combobox (lists every matching entity, never resolves a
+      name itself), as-of date (`asof=`; caption "As of {d}: {shown} of {total} edges drawn;
+      {undated} undated edges kept"; graph and twin fed one array), and a "why drawn" line
+      under the edge card; three viewport checks; the frozen renderer untouched
+- [x] Roster entities joined to the companies dataset by symbol in `src/graph/build.ts`
+      (34 of 64 had been minted as second nodes; national graph 583 → 552 nodes)
+- [ ] Open from reconciliation: 29 court rulings modelled as `enforce`
+      in the frozen fleets without the `Judicial ruling on` prefix; one West Bengal FCRA row
+      that does not reconcile; the Phase G audits predate their reconciliations
+
+**What it found** — about the subject:
+
+1. **Every actor-selecting lens produced an equally alarming picture on its control.**
+   "BlackRock owns India" becomes "Norway, Singapore and LIC own India" on the same
+   filings (BlackRock's ETF aggregates in NIFTY 50 companies read 0.49–1.78 %). "The
+   Rothschilds run Indian banking" is one adviser among several on DIPAM and private
+   mandates, with fees undisclosed for all of them. Neither survives as an edge; both are
+   on the ladder with their strongest counter.
+2. **The state-share lens over foreign loans shows no party alignment.** Run by state and
+   by ruling party over the World Bank census, the distribution follows population and
+   project pipeline, not incumbency.
+3. **The FCRA record is symmetric where it is loudest.** Retrospective FCRA amendments
+   were made by BJP and Congress governments and are recorded identically; the ₹905 crore
+   "foreign funding of NGOs" reading collapses on inspection of the table it was read
+   from; the "USAID $21 m for turnout" claim was killed as an edge for want of a record.
+4. **The tender dataset's defects are larger than any pattern in it.** Forty-one per cent
+   of rows share a tender id, a tenth of bid counts are null or zero, and the winner field
+   holds hundreds of thousands of personal names. The dedup rule moves the single-bidder
+   rate from 13.2 % to 11.22 %; the pipeline states its rule and its family beside every
+   rate for that reason.
+
+— and about itself:
+
+5. **A census beside a sample cannot be summed.** Facilities beside tranches, MoUs beside
+   agreements, a fetched register beside hand research. `countable`/`countedAs` exists so
+   the page can say "already in the census" instead of adding.
+6. **A fetcher's output is not a research file.** Hand fixes to `worldbank-projects.json`
+   were ported into the fetcher's tables and proven by a byte-identical re-fetch; a
+   reconciliation that had merged hand facts into it was undone.
+7. **Verification can fail honestly.** Forty of forty award pages were gone from the
+   portal. The pipeline records the class of every miss, and the page keeps every field at
+   `reported` rather than promoting on a scrape alone.
+8. **Byte-identical is a gate, not a hope.** Parallel float sums and a runtime field made
+   two rebuilds differ; a single thread and paise rounding fixed it, and the test asserts it.
 
 ---
 

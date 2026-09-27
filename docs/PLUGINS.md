@@ -29,7 +29,8 @@ adoption; rejected candidates listed there.
 
 `evidence-tiering`, `pattern-discipline`, `graph-schema`, `india-map`, `cui-bono`,
 `source-retrieval`, `investigative-desk`, `pattern-prospecting`, `interface-design`,
-`frontend-implementation`. The research fleets' contract is `docs/research/FLEET_CONTRACT.md`.
+`frontend-implementation`, `energy-money-trail`, `foreign-money-trail`. The research fleets'
+contract is `docs/research/FLEET_CONTRACT.md`.
 
 ## Claude.ai skills used by the research lead
 
@@ -80,3 +81,44 @@ reader has seen either page. The energy audit records that it used no real scree
 voice control and no forced-colours mode; the welfare audit emulated forced colours but not
 the rest. The acceptance suites were themselves wrong in places — six `/energy` criteria and
 five `/welfare` criteria — which only a build against them exposed.
+
+## Phase G — foreign money and the national tender record
+
+*Added 2026-09-27, after the finance, ngo and capital fleets, the CPPP pipeline, `/finance` and
+the national section of `/tenders` landed.*
+
+**How the fleets were run.** The Workflow tool (multi-agent orchestration, opted into by the
+user) ran three script shapes from the session scratchpad, each with two agents at a time on
+the four-CPU sandbox: a *fleet split* (one research agent per domain file under the fleet's
+`SPEC.md`, then a `cross-examiner` per contested claim, then an audit written from the
+verdicts), a *reconcile* (an editor per fleet, then a verifier that reads only the files, then
+one cross-fleet pass), and a *page build* (build → caucus → fix → verify + WCAG). The
+superpowers `writing-plans` and `brainstorming` skills produced the spec and the ten-task plan
+before any of it ran; `verification-before-completion` is why every stage's report is a
+printed gate line, not a summary. Agents were killed twice by the monthly spend limit and
+resumed with `resumeFromRunId`, which replays completed agents from cache.
+
+**What each stage produced.**
+
+| stage | `/finance` | `/tenders` national | where |
+|---|---|---|---|
+| judged spec | two candidates (`candidate-A`, `candidate-B`) and a judge: 47 decisions, §3.3 generator prerequisites G1–G4 | one spec, `TENDERS_NATIONAL.md` | `docs/design/FINANCE_*.md`, `docs/design/TENDERS_NATIONAL.md` |
+| `design-ux-review` (synthetic, five seats) | amendments applied in place; deferred ones listed at the end of the spec | the same | `docs/design/*_UX_REVIEW.md` |
+| acceptance criteria → isolated test writer | 110 criteria, one test each, `FINANCE_DIST` pinned | 86 criteria, `TENDERS_DIST` pinned | `docs/design/*_ACCEPTANCE.md`, `scripts/pages/{finance,tenders}.test.mjs` |
+| build | `frontend-developer` from `docs/superpowers/plans/2026-09-26-finance-page.md` | `frontend-developer`; 66 of 86 on the first pass | `src/pages/Finance.tsx`, `src/components/finance/`, `src/data/financeView.ts`; `src/pages/Tenders.tsx`, `src/components/tenders/`, `src/data/cppp*.ts` |
+| caucus + fix | five `sc-*` reviewers and the house semantics reviewer, consensus findings fixed | the 18 failures adjudicated criterion by criterion: defective criteria corrected in the acceptance document, page defects fixed in the page | commit messages |
+| `code-verify` | First pass, committed `d227c60`: 82 pass / 27 fail / 1 skipped of 110 on a pinned build; twelve failures find the Layout wordmark `h1` (the criterion defect the tenders adjudication corrected), three select a state AC-28 requires to be disabled; a criterion-by-criterion adjudication is running and this line is replaced by its verdict. | 84 pass / 0 fail / 2 skip of 86 on three consecutive runs after adjudication (15 criterion defects, 1 page defect, 2 both); one verifier flake (AC-75 read `aria-sort` before React's commit) fixed in the test | — |
+| `testing-accessibility` (WCAG 2.1 AA) | audit written with the verify stage | 0 critical, 0 serious, 8 moderate (M1–M8), 13 minor | `docs/design/*_A11Y.md` |
+
+**What the research side used.** The `research-scholar` calibration ladder for every
+narrative (BlackRock, Rothschild, Soros, IMF/World Bank, FCRA, "China money"), the
+`cross-examiner` on every contested claim (finance 84, ngo 142, capital 61 verdicts), the
+`base-rate-statistician` for the state-share and holder-share denominators, and `skill-creator`
+for `foreign-money-trail`. The CPPP pipeline used none of the plugins: it is duckdb over
+memory-mapped Arrow with the SQL of every table written into its output, and its tests assert a
+byte-identical rebuild.
+
+**What it did not do.** The UX reviews remain synthetic. No real reader has seen either page.
+The tenders audit used no real screen reader. The finance suite's criteria are as likely to be
+wrong as the energy and welfare suites' were; the adjudication rule from Phase F applies — amend
+the criterion in its document, never bend the test.
