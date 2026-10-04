@@ -549,3 +549,189 @@ export function absentPrerequisites(core: CpppCore, p: Provenance): string[] {
   if (core.rates && core.rates.byPortalTenderType === undefined) out.push('rates.byPortalTenderType');
   return out;
 }
+
+// ---------------------------------------------------------------------------
+// The security slice (Phase H2): research/raw/cppp/security.json
+// ---------------------------------------------------------------------------
+
+/**
+ * The slice is written by scripts/cppp/security.py over the same scrape as the six
+ * files above: the awards whose buyer, department code or title names a security body,
+ * cut into eight buyer classes. It is read by /security (the procurement lens) and by the
+ * one cross-reference line in the /tenders national section. Every rate is dataset-only,
+ * exactly as the whole-file rates are, and the file says so in its own words
+ * (`readMeFirst`, `caveat`), which the pages quote rather than paraphrase.
+ */
+
+export type SecurityClass =
+  | 'works' | 'stores' | 'research' | 'dpsu' | 'capf' | 'intelligence-investigation' | 'state-police' | 'other-security';
+
+export interface SecurityRate {
+  n: number;
+  singleBidder: number;
+  singleBidderPct: number;
+  wilson95: Wilson;
+  meanBids?: number;
+  medianBids?: number;
+}
+
+/** A class or class-year rate beside the whole file (and the whole file on the same portal). */
+export interface SecurityClassRate extends SecurityRate {
+  class: SecurityClass | string;
+  portal?: Portal | string;
+  year?: string;
+  wholeFile: SecurityRate;
+  wholeFileSamePortal?: SecurityRate;
+}
+
+export interface SecurityHeadlineRow {
+  class: SecurityClass | string;
+  rawRows: number;
+  dedupRows: number;
+  n: number;
+  singleBidder: number;
+  singleBidderPct: number;
+  wilson95: Wilson;
+  wholeFileSamePortalPct: number;
+  wholeFilePct: number;
+}
+
+export interface SecurityClassDefinition {
+  definition: string;
+  innocentReading: string;
+  note?: string;
+}
+
+export interface SecurityTimingBlock {
+  class: string;
+  dedupRows: number;
+  n: number;
+  excludedAocBeforeClosing: number;
+  excludedDateMissing: number;
+  daysClosingToAoc: { bin: string; n: number }[];
+  shareLe2Days: { count: number; n: number; pct: number; wilson95: Wilson };
+  medianDays: number;
+  meanDays: number;
+  p90Days: number;
+  wholeFile: { shareLe2DaysPct: number; wilson95: Wilson; n: number; medianDays: number };
+  wholeFileSamePortal?: { shareLe2DaysPct: number; wilson95: Wilson; n: number; medianDays: number };
+}
+
+export interface SecurityBuyerConcentration {
+  portal: Portal | string;
+  buyer: string;
+  class: SecurityClass | string;
+  route: string;
+  awards: number;
+  valueSumInr: number;
+  markedAwards: number;
+  unmarkedAwards: number;
+  unmarkedShareOfAwardsPct: number;
+  unmarkedShareOfValuePct: number;
+  distinctMarkedWinners: number;
+  hhiMarkedValue: number;
+  hhiMarkedCount: number;
+  topMarkedWinnerSharePct: number;
+}
+
+export interface SecurityIndicator {
+  indicator: string;
+  definition: string;
+  familyDefinition: string;
+  familySize: number;
+  count: number;
+  ratePct: number;
+  wilson95: Wilson;
+  byClass: { class: string; familySize: number; count: number; ratePct: number; wilson95: Wilson }[];
+  wholeFile: { familySize: number; count: number; ratePct: number; wilson95: Wilson };
+  innocentReading: string;
+}
+
+export interface SecurityFile {
+  readMeFirst: string;
+  sliceRule: {
+    family: string;
+    centralBuyerRegex: string;
+    stateDepartmentCodeRegex: string;
+    stateTitleRegex: string;
+    classRule: string;
+    classMembers: { class: string; member: string; regex: string }[];
+    otherSecurityRegex: string;
+    classes: string[];
+    notInSlice: string;
+    [k: string]: unknown;
+  };
+  classes: {
+    definitions: Record<string, SecurityClassDefinition>;
+    map: { portal: string; buyer: string; class: string; member: string; route: string; rows: number }[];
+    mapNote: string;
+    memberCoverage: { class: string; member: string; rows: number; buyers: number }[];
+    memberCoverageNote: string;
+    unclassified: { portal: string; buyer: string; rows: number }[];
+    unclassifiedNote: string;
+    titleOnlyBuyers: { buyer: string; rows: number; sliceRawRows: number; buyerRawRows: number; sliceShareOfBuyerRawRowsPct: number }[];
+    titleOnlyBuyersTotal: { buyers: number; rows: number };
+    titleOnlyBuyersNote: string;
+    [k: string]: unknown;
+  };
+  headline: SecurityHeadlineRow[];
+  headlineNote: string;
+  quality: {
+    readMeFirst: string;
+    raw: { rows: number; distinctTenderIds: number; byPortal: Record<string, number>; shareOfFileRowsPct: number };
+    afterDedup: { rule: string; rows: number; shareOfFileDedupRowsPct: number };
+    total: Record<string, unknown>;
+    byClass: Record<string, unknown>[];
+    stateRoutes: { route: string; rows: number; buyers: number }[];
+    bareTitleTermsLeftOut: Record<string, number | string>;
+    innocentReading: string;
+  };
+  rates: {
+    denominator: string;
+    denominatorN: number;
+    rateDefinition: string;
+    comparatorRule: string;
+    total: SecurityRate & { wholeFile: SecurityRate; restOfFile: SecurityRate };
+    excludingWorks: SecurityRate & { note: string };
+    byClass: SecurityClassRate[];
+    byClassYear: SecurityClassRate[];
+    byYear: (SecurityRate & { year: string; wholeFile: SecurityRate })[];
+    stateByRoute: (SecurityRate & { route: string })[];
+    innocentReading: string;
+    caveat: string;
+  };
+  bands: {
+    thresholdsInr: ValueBandDef[];
+    implausibleRule: string;
+    definition: string;
+    byClass: { class: string; rows: number; bands: { band: string; rows: number; n?: number; singleBidder?: number; singleBidderPct?: number; wilson95?: Wilson }[] }[];
+    innocentReading: string;
+  };
+  timing: { definition: string; total: SecurityTimingBlock; byClass: SecurityTimingBlock[]; innocentReading: string };
+  concentration: {
+    family: string;
+    hhiDefinition: string;
+    namingRule: string;
+    buyers: number;
+    byBuyer: SecurityBuyerConcentration[];
+    crossFileNote: string;
+    byClass: { class: string; topMarkedWinners: { buyer?: string; winner: string; awards: number; sharePct?: number; [k: string]: unknown }[] }[];
+    msOnlyNamed: { n: number; of: number; note: string };
+    innocentReading: string;
+  };
+  redflags: { stance: string; indicators: SecurityIndicator[] };
+  caveat: string;
+  provenance: Provenance;
+}
+
+let securityPromise: Promise<SecurityFile | null> | null = null;
+
+/**
+ * The slice loads on demand, once per page load, like concentration.json: it is the
+ * second-largest file and only two places read it. Null when the pipeline has not
+ * written it; the readers print the absence and estimate nothing in its place.
+ */
+export function loadSecurity(): Promise<SecurityFile | null> {
+  securityPromise ??= load<SecurityFile>('security');
+  return securityPromise;
+}

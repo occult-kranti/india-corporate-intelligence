@@ -65,7 +65,9 @@
 - [ ] `page-build2.js` with a `security` entry: build → caucus (five `sc-*` + house semantics) → fix → verify 3× pinned → WCAG; adjudication follow-up for red criteria (criterion defect vs page defect, `[Adjudicated]` marks); suite into `test:pages` once green 3×.
 
 ### Task 8: Explorer and register joins
-- [ ] `/tenders` national section gains a "security buyers" line linking to `/security?lens=procurement`; `/network` layer filter gains `force` if layers are enumerated; the as-of filter is exercised on the DAC awards.
+- [x] `/tenders` national section gains a "security buyers" line (`src/components/tenders/SecurityBuyers.tsx`, after the rates subsection) linking to `/security?lens=procurement`; the slice loads through `loadSecurity()` in `src/data/cppp.ts`, which the procurement lens shares.
+- [x] `/network` layer filter: **not extended.** Its layers (`all | atlas | political | capital`) are cut by entity family over `buildNationalGraph()`, not by fleet; no fleet (energy, welfare, finance) is a layer there, so a lone `force` layer would misdescribe the page. The force graph reaches the explorer through `DataContext` like the other fleets, and `/security` carries its own explorer.
+- [ ] The as-of filter is exercised on the DAC awards on `/security` (build stage; the awards carry `date`).
 
 ### Task 9: Skill and agent
 **Files:** `.claude/skills/force-money-trail/{SKILL.md,references/ledger.md,references/narratives.md}`, `.claude/agents/security-analyst.md`

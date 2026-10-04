@@ -12,6 +12,7 @@ import Quality from './Quality';
 import Rates from './Rates';
 import RedFlags from './RedFlags';
 import Sample from './Sample';
+import SecurityBuyers from './SecurityBuyers';
 import States from './States';
 import Timing from './Timing';
 import { MONO_NOTE } from './ui';
@@ -93,6 +94,7 @@ export default function NationalBody({ hideSearch }: { hideSearch: string }) {
       {core.quality ? <Quality {...common} /> : <Missing file="quality.json" id="cppp-quality" title="Dataset quality, before any rate" />}
       <Families core={core} conc={conc.data} p={p} params={params} />
       {core.rates ? <Rates {...common} /> : <Missing file="rates.json" id="cppp-rates" title="Rates by portal and AOC year" />}
+      {core.rates ? <SecurityBuyers /> : null}
       {core.rates ? <States {...common} patch={patch} /> : <Missing file="rates.json" id="cppp-states" title="States on the state portal" />}
       {core.rates ? <BandsTypes {...common} /> : <Missing file="rates.json" id="cppp-bands" title="Value bands and tender types" />}
       {core.timing ? <Timing {...common} /> : <Missing file="timing.json" id="cppp-timing" title="Timing" />}
