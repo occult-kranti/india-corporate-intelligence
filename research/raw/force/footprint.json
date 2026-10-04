@@ -151,7 +151,8 @@
    "sz": 3,
    "al": [
     "DGDE",
-    "Defence Estates Organisation"
+    "Defence Estates Organisation",
+    "DEO"
    ],
    "resolved": true,
    "identity": {
@@ -166,7 +167,8 @@
    "d": [
     "61 cantonments notified under the Cantonments Act 1924 / 2006 (DGDE site, 2025-10) [documented]",
     "62 Cantonment Boards listed state-wise in RS reply of 2023-03-20, including Khasyol (HP) [documented]",
-    "HQ Raksha Sampada Bhawan, Delhi Cantt; Principal Directorates for Northern, Southern, South-Western and Western Commands at Jammu, Pune, Jaipur and Chandigarh (page items 3–6 read; items 1–2 not captured) [documented]"
+    "HQ Raksha Sampada Bhawan, Delhi Cantt; Principal Directorates for Northern, Southern, South-Western and Western Commands at Jammu, Pune, Jaipur and Chandigarh (page items 3–6 read; items 1–2 not captured) [documented]",
+    "Defence Estates Organisation actual 2024-25 ₹720.25 crore; BE 2001-02 ₹43.06 crore [documented]"
    ],
    "srcs": [
     [
@@ -180,6 +182,10 @@
     [
      "DGDE — Principal Directorates, Defence Estates (addresses; DGDE HQ Raksha Sampada Bhawan, Delhi Cantt)",
      "https://dgde.gov.in/en/organization/principal-directorates-defence-estates/"
+    ],
+    [
+     "Expenditure Budget 2026-27, Notes on Demands for Grants, Demands 19–22 (Ministry of Defence)",
+     "https://www.indiabudget.gov.in/doc/eb/sbe20.pdf"
     ]
    ]
   },
@@ -192,7 +198,8 @@
    "st": "dl",
    "sz": 3,
    "al": [
-    "DRDO"
+    "DRDO",
+    "Defence Services - Research and Development"
    ],
    "resolved": true,
    "identity": {
@@ -206,7 +213,10 @@
    "publicRole": "Union R&D body funded under Demand 20/21; its laboratories are public installations",
    "d": [
     "Cluster pages print 42 laboratories/centres with addresses: Bengaluru 9, Delhi 8, Hyderabad 8, Pune 5, Chennai 2, Dehradun 2, Chandigarh 2, Balasore 2, one each at Agra, Ahilyanagar, Gwalior, Jodhpur, Kanpur, Kochi, Visakhapatnam, Ambernath [documented]",
-    "DYSL-AI listed without an address (no row) [documented]"
+    "DYSL-AI listed without an address (no row) [documented]",
+    "Chander was Director General DRDO and Secretary DDR&D from 2013 until his contract ended 31 Jan 2015 (Wikipedia) [reported]",
+    "Revenue head actual 2024-25 ₹10,696.83 crore; capital (Demand 21, Research and Development) actual 2024-25 ₹14,096.58 crore, BE 2026-27 ₹17,250.25 crore [documented]",
+    "No separate R&D demand before 2003-04: in 2001-02 'Research and Development' was a line inside the Army demand (Demand 15) [documented]"
    ],
    "srcs": [
     [
@@ -240,13 +250,21 @@
     [
      "DRDO — Life Sciences / Soldier Support System cluster (lab addresses)",
      "https://www.drdo.gov.in/drdo/en/organisation/technology-cluster/life-sciences"
+    ],
+    [
+     "Wikipedia — Avinash Chander (scientist)",
+     "https://en.wikipedia.org/wiki/Avinash_Chander_(scientist)"
+    ],
+    [
+     "Expenditure Budget 2026-27, Notes on Demands for Grants, Demands 19–22 (Ministry of Defence)",
+     "https://www.indiabudget.gov.in/doc/eb/sbe20.pdf"
     ]
    ]
   },
   {
    "id": "force:indian-army",
    "label": "Indian Army",
-   "sub": "land service of the Union",
+   "sub": "land service; Pay & Allowances of the Army is the single largest revenue line",
    "ty": "agency",
    "fam": "state",
    "st": "dl",
@@ -261,26 +279,58 @@
     "lei": null,
     "fcra": null
    },
-   "publicRole": "Service funded under Demands 20–21; command headquarters are public installations",
-   "d": [
-    "Northern Command HQ at Udhampur (J&K) and Western Command HQ at Chandimandir Military Station (Haryana) — PIB 2025-05-25 [documented]",
-    "Eastern, Southern, Central, South Western and Training Command HQ cities not opened from a primary within budget (official site unreachable) — gap"
-   ],
-   "srcs": [
-    [
-     "PIB 2025-05-25 — CDS visits Northern & Western Commands HQs (Northern Command at Udhampur, J&K; Western Command at Chandimandir Military Station, Haryana)",
-     "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2131197"
-    ],
-    [
-     "PIB Kolkata 2019-02-27 — GOC-in-C Eastern Command visits Panagarh (HQ city not printed)",
-     "https://www.pib.gov.in/PressReleasePage.aspx?PRID=1566504"
-    ]
-   ]
+   "publicRole": "Service whose revenue and pension lines are printed separately in the demands.",
+   "d": [],
+   "srcs": []
   },
   {
    "id": "force:indian-navy",
    "label": "Indian Navy",
-   "sub": "naval service of the Union",
+   "sub": "maritime service; Naval Fleet is the largest naval capital line",
+   "ty": "agency",
+   "fam": "state",
+   "st": "dl",
+   "sz": 3,
+   "al": [],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Service whose revenue, capital and pension lines are printed separately.",
+   "d": [],
+   "srcs": []
+  },
+  {
+   "id": "force:indian-air-force",
+   "label": "Indian Air Force",
+   "sub": "air service; Aircraft and Aero Engines is the largest capital category of all",
+   "ty": "agency",
+   "fam": "state",
+   "st": "dl",
+   "sz": 3,
+   "al": [],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "Service whose revenue, capital and pension lines are printed separately.",
+   "d": [],
+   "srcs": []
+  },
+  {
+   "id": "force:crpf",
+   "label": "Central Reserve Police Force (CRPF)",
+   "sub": "CAPF under MHA; largest by budget and strength",
    "ty": "agency",
    "fam": "state",
    "st": "dl",
@@ -295,104 +345,19 @@
     "lei": null,
     "fcra": null
    },
-   "publicRole": "Service funded under Demands 20–21",
-   "d": [
-    "Western Naval Command HQ Mumbai; Eastern Naval Command Visakhapatnam; Southern Naval Command Kochi (Naval Base) — PIB 2024/2023 [documented]"
-   ],
-   "srcs": [
-    [
-     "PIB 2024-04-06 — RAN delegation visits Headquarters, Western Naval Command, Mumbai",
-     "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2017311"
-    ],
-    [
-     "PIB 2024-03-23 — CNS visit to Eastern Naval Command, Visakhapatnam",
-     "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2016174"
-    ],
-    [
-     "PIB 2023-12-31 — Vice Admiral V Srinivas takes over as FOC-in-C Southern Naval Command, Kochi",
-     "https://www.pib.gov.in/PressReleasePage.aspx?PRID=1991948"
-    ]
-   ]
-  },
-  {
-   "id": "force:indian-air-force",
-   "label": "Indian Air Force",
-   "sub": "air service of the Union",
-   "ty": "agency",
-   "fam": "state",
-   "st": "dl",
-   "sz": 4,
-   "al": [
-    "IAF"
-   ],
-   "resolved": true,
-   "identity": {
-    "cin": null,
-    "din": null,
-    "nse": null,
-    "office": null,
-    "lei": null,
-    "fcra": null
-   },
-   "publicRole": "Service funded under Demands 20–21",
-   "d": [
-    "South Western Air Command HQ at Gandhinagar — PIB 2023-05-01 [documented]",
-    "Training Command AOC-in-C change-over release prints no HQ city (Bengaluru not confirmed from a primary here) — gap"
-   ],
-   "srcs": [
-    [
-     "PIB 2023-05-01 — Air Marshal N Tiwari takes over as AOC-in-C South Western Air Command at Gandhinagar",
-     "https://www.pib.gov.in/PressReleasePage.aspx?PRID=1921204"
-    ],
-    [
-     "PIB 2024-05-01 — Air Marshal Nagesh Kapoor takes over as AOC-in-C Training Command (HQ city not printed)",
-     "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2019284"
-    ]
-   ]
-  },
-  {
-   "id": "force:crpf",
-   "label": "Central Reserve Police Force",
-   "sub": "largest CAPF under MHA",
-   "ty": "agency",
-   "fam": "state",
-   "st": "dl",
-   "sz": 3,
-   "al": [
-    "CRPF"
-   ],
-   "resolved": true,
-   "identity": {
-    "cin": null,
-    "din": null,
-    "nse": null,
-    "office": null,
-    "lei": null,
-    "fcra": null
-   },
-   "publicRole": "CAPF funded under Demand 51",
-   "d": [
-    "Training institutions named by place on the official site menu: CTCs at Neemuch, Coimbatore, Mudkhed, Gwalior; RTCs at Jodhpur, Neemuch, Avadi, Rajgir, Amethi, Latur, Lethpora; CIAT schools at Silchar, Shivpuri, Kalikiri; IED Management Institute Pune; CIT Bengaluru [documented]",
-    "Sector and zone HQ cities are not printed in the menu (English sub-pages 404) — gap"
-   ],
-   "srcs": [
-    [
-     "CRPF — official site home page, navigation menu (Hindi; English sub-pages return 404): training institutions by place",
-     "https://crpf.gov.in"
-    ]
-   ]
+   "publicRole": "A Union armed force funded in the Police demand of the Ministry of Home Affairs; the Union Government is the only payer.",
+   "d": [],
+   "srcs": []
   },
   {
    "id": "force:cisf",
-   "label": "Central Industrial Security Force",
-   "sub": "CAPF guarding industrial undertakings, airports, metros",
+   "label": "Central Industrial Security Force (CISF)",
+   "sub": "CAPF under MHA; installations and airports; budget shown net of recoveries",
    "ty": "agency",
    "fam": "state",
    "st": "dl",
    "sz": 3,
-   "al": [
-    "CISF"
-   ],
+   "al": [],
    "resolved": true,
    "identity": {
     "cin": null,
@@ -402,28 +367,19 @@
     "lei": null,
     "fcra": null
    },
-   "publicRole": "CAPF funded under Demand 51",
-   "d": [
-    "Six Recruit Training Centres named on the site menu: Barwaha, Behror, Bhilai, Deoli, Mundali, Thakkolam; NISA linked (city not printed) [documented]"
-   ],
-   "srcs": [
-    [
-     "CISF — official site, Training menu (NISA; RTCs Barwaha, Behror, Bhilai, Deoli, Mundali, Thakkolam)",
-     "https://cisf.gov.in/organisation_structure.php"
-    ]
-   ]
+   "publicRole": "A Union armed force funded in the Police demand of the Ministry of Home Affairs; the Union Government is the only payer.",
+   "d": [],
+   "srcs": []
   },
   {
    "id": "force:itbp",
-   "label": "Indo-Tibetan Border Police",
-   "sub": "CAPF on the India–China border",
+   "label": "Indo-Tibetan Border Police (ITBP)",
+   "sub": "CAPF under MHA; border-guarding force",
    "ty": "agency",
    "fam": "state",
    "st": "dl",
    "sz": 3,
-   "al": [
-    "ITBP"
-   ],
+   "al": [],
    "resolved": true,
    "identity": {
     "cin": null,
@@ -433,16 +389,9 @@
     "lei": null,
     "fcra": null
    },
-   "publicRole": "CAPF funded under Demand 51",
-   "d": [
-    "MHA AR 2025-26 p. 357–358: 02 Command HQs, 05 Frontier HQs, 15 Sector HQs, 62 battalions, 17 training centres; ITBP Academy Mussoorie; BTC Bhanu, Panchkula [documented]"
-   ],
-   "srcs": [
-    [
-     "MHA Annual Report 2025-26 (PDF, released 2026-03): Ch. 7 CAPF/training, Ch. 8 forensic (para 8.45–8.46 CFSLs), 8.57 NCRB, Ch. 17 gender budgeting (ITBP locations list, p. 358)",
-     "https://www.mha.gov.in/sites/default/files/AREnglish_24032026.pdf"
-    ]
-   ]
+   "publicRole": "A Union armed force funded in the Police demand of the Ministry of Home Affairs; the Union Government is the only payer.",
+   "d": [],
+   "srcs": []
   },
   {
    "id": "force:dfss",
@@ -480,14 +429,12 @@
   {
    "id": "force:ncrb",
    "label": "National Crime Records Bureau",
-   "sub": "MHA attached office; crime and prison statistics",
+   "sub": "MHA bureau; publishes Crime in India (Chapter 16A custodial crimes and complaints against police; 16B police firing and casualties) and Prison Statistics India",
    "ty": "agency",
    "fam": "state",
    "st": "dl",
    "sz": 2,
-   "al": [
-    "NCRB"
-   ],
+   "al": [],
    "resolved": true,
    "identity": {
     "cin": null,
@@ -497,21 +444,9 @@
     "lei": null,
     "fcra": null
    },
-   "publicRole": "Union statistical body whose tables are the primary record for prisons",
-   "d": [
-    "Headquartered at Mahipalpur, New Delhi; branch office at Kolkata (MHA AR 2025-26 para 8.57) [documented]",
-    "Prison Statistics India 2023: 1,332 prisons, 152 central jails, capacity 4,39,119 [documented]"
-   ],
-   "srcs": [
-    [
-     "MHA Annual Report 2025-26 (PDF, released 2026-03): Ch. 7 CAPF/training, Ch. 8 forensic (para 8.45–8.46 CFSLs), 8.57 NCRB, Ch. 17 gender budgeting (ITBP locations list, p. 358)",
-     "https://www.mha.gov.in/sites/default/files/AREnglish_24032026.pdf"
-    ],
-    [
-     "NCRB — Prison Statistics India 2023 (PDF), Table 1.1 Types of Jails and Table 1.4 Capacity, Inmate Population and Occupancy Rate of Central Jails as on 31 Dec 2023",
-     "https://www.ncrb.gov.in/uploads/files/PSI-2023.pdf"
-    ]
-   ]
+   "publicRole": "Publisher of the primary outcome tables used here (deaths in police custody, cases against police personnel, civilians killed in police operations, by state).",
+   "d": [],
+   "srcs": []
   },
   {
    "id": "force:nepa",
@@ -644,14 +579,12 @@
   {
    "id": "force:munitions-india",
    "label": "Munitions India Limited",
-   "sub": "ex-OFB ammunition company (2021), Pune",
+   "sub": "ammunition and explosives (ex-OFB)",
    "ty": "psu",
    "fam": "state",
    "st": "mh",
-   "sz": 2,
-   "al": [
-    "MIL"
-   ],
+   "sz": 1,
+   "al": [],
    "resolved": true,
    "identity": {
     "cin": null,
@@ -661,91 +594,19 @@
     "lei": null,
     "fcra": null
    },
-   "publicRole": "Wholly Union-owned DPSU carved out of the Ordnance Factory Board in 2021",
-   "d": [
-    "Units page names 12 production units (Khadki ×2, Aruvankadu, Bhandara, Badmal, Chanda, Dehuroad, Itarsi, Khamaria, Nalanda, Varangaon, HEPF) and OFIL Khamaria; corporate office Yerwada, Pune [documented]",
-    "HEPF location not printed on the page — no row"
-   ],
-   "srcs": [
-    [
-     "Munitions India Limited — Units page (unit names; corporate office Yerwada, Pune)",
-     "https://munitionsindia.in/units/"
-    ]
-   ]
+   "publicRole": "One of the seven wholly government-owned companies carved out of the Ordnance Factory Board on 1 Oct 2021.",
+   "d": [],
+   "srcs": []
   },
   {
    "id": "force:advanced-weapons-equipment-india",
    "label": "Advanced Weapons and Equipment India Limited",
-   "sub": "ex-OFB guns and small-arms company (2021), Kanpur",
-   "ty": "psu",
-   "fam": "state",
-   "st": "up",
-   "sz": 2,
-   "al": [
-    "AWEIL"
-   ],
-   "resolved": true,
-   "identity": {
-    "cin": null,
-    "din": null,
-    "nse": null,
-    "office": null,
-    "lei": null,
-    "fcra": null
-   },
-   "publicRole": "Wholly Union-owned DPSU carved out of the Ordnance Factory Board in 2021",
-   "d": [
-    "Eight production units named: Field Gun Factory Kanpur, Gun and Shell Factory Cossipore, Gun Carriage Factory Jabalpur, Ordnance Factory Kanpur, OF Project Korwa, OF Tiruchirapalli, Rifle Factory Ishapore, Small Arms Factory Kanpur; HQ OFC Kalpi Road, Kanpur [documented]"
-   ],
-   "srcs": [
-    [
-     "Advanced Weapons and Equipment India Limited — home page, Production Units and Academy (HQ OFC, Kalpi Road, Kanpur)",
-     "https://aweil.in"
-    ]
-   ]
-  },
-  {
-   "id": "force:armoured-vehicles-nigam",
-   "label": "Armoured Vehicles Nigam Limited",
-   "sub": "ex-OFB armoured-vehicle company (2021), Avadi",
-   "ty": "psu",
-   "fam": "state",
-   "st": "tn",
-   "sz": 2,
-   "al": [
-    "AVNL"
-   ],
-   "resolved": true,
-   "identity": {
-    "cin": null,
-    "din": null,
-    "nse": null,
-    "office": null,
-    "lei": null,
-    "fcra": null
-   },
-   "publicRole": "Wholly Union-owned DPSU carved out of the Ordnance Factory Board in 2021",
-   "d": [
-    "Home page names Engine Factory Avadi and 'AVNL IOL Avadi'; the units page returns 404, so HVF Avadi, OF Medak, VFJ Jabalpur and OF Dehradun are not written — void [documented]"
-   ],
-   "srcs": [
-    [
-     "Armoured Vehicles Nigam Limited — home page (units named: Engine Factory Avadi; AVNL IOL Avadi)",
-     "https://avnl.co.in"
-    ]
-   ]
-  },
-  {
-   "id": "force:gliders-india",
-   "label": "Gliders India Limited",
-   "sub": "ex-OFB parachute company (2021), Kanpur",
+   "sub": "small arms and artillery (ex-OFB)",
    "ty": "psu",
    "fam": "state",
    "st": "up",
    "sz": 1,
-   "al": [
-    "GIL"
-   ],
+   "al": [],
    "resolved": true,
    "identity": {
     "cin": null,
@@ -755,111 +616,119 @@
     "lei": null,
     "fcra": null
    },
-   "publicRole": "Wholly Union-owned DPSU carved out of the Ordnance Factory Board in 2021",
-   "d": [
-    "Production unit and headquarters at G.T. Road, DRDO Kanpur, Kanpur 208013 [documented]"
-   ],
-   "srcs": [
-    [
-     "Gliders India Limited — home page (production unit and headquarters, G.T. Road, DRDO Kanpur)",
-     "https://glidersindia.in"
-    ]
-   ]
+   "publicRole": "One of the seven wholly government-owned companies carved out of the Ordnance Factory Board on 1 Oct 2021.",
+   "d": [],
+   "srcs": []
+  },
+  {
+   "id": "force:armoured-vehicles-nigam",
+   "label": "Armoured Vehicles Nigam Limited",
+   "sub": "tanks and armoured vehicles (ex-OFB)",
+   "ty": "psu",
+   "fam": "state",
+   "st": "tn",
+   "sz": 1,
+   "al": [],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "One of the seven wholly government-owned companies carved out of the Ordnance Factory Board on 1 Oct 2021.",
+   "d": [],
+   "srcs": []
+  },
+  {
+   "id": "force:gliders-india",
+   "label": "Gliders India Limited",
+   "sub": "parachutes (ex-OFB)",
+   "ty": "psu",
+   "fam": "state",
+   "st": "up",
+   "sz": 1,
+   "al": [],
+   "resolved": true,
+   "identity": {
+    "cin": null,
+    "din": null,
+    "nse": null,
+    "office": null,
+    "lei": null,
+    "fcra": null
+   },
+   "publicRole": "One of the seven wholly government-owned companies carved out of the Ordnance Factory Board on 1 Oct 2021.",
+   "d": [],
+   "srcs": []
   },
   {
    "id": "co:bharat-dynamics",
    "label": "Bharat Dynamics Limited",
-   "sub": "missile DPSU, Hyderabad (listed)",
+   "sub": "missiles and munitions",
    "ty": "psu",
    "fam": "state",
    "st": "tg",
    "sz": 2,
-   "al": [
-    "BDL"
-   ],
+   "al": [],
    "resolved": true,
    "identity": {
     "cin": null,
     "din": null,
-    "nse": null,
+    "nse": "BDL",
     "office": null,
     "lei": null,
     "fcra": null
    },
-   "publicRole": "Listed DPSU; majority Union-owned",
-   "d": [
-    "Headquartered in Hyderabad; registered office Nanakramguda, Hyderabad 500032 [documented]",
-    "Plant page (Kanchanbagh, Bhanur, Visakhapatnam, Ibrahimpatnam, Amravati) returned 404 — void"
-   ],
-   "srcs": [
-    [
-     "Bharat Dynamics Limited — home page (headquartered in Hyderabad; registered office Nanakramguda)",
-     "https://bdl-india.in"
-    ]
-   ]
+   "publicRole": "Defence public-sector undertaking under the Department of Defence Production; a vendor to the services — identical fields to every other vendor.",
+   "d": [],
+   "srcs": []
   },
   {
    "id": "co:beml",
    "label": "BEML Limited",
-   "sub": "earthmoving, rail and defence equipment PSU (listed)",
+   "sub": "mining, rail and defence vehicles",
    "ty": "psu",
    "fam": "state",
    "st": "ka",
    "sz": 2,
-   "al": [
-    "BEML"
-   ],
+   "al": [],
    "resolved": true,
    "identity": {
     "cin": null,
     "din": null,
-    "nse": null,
+    "nse": "BEML",
     "office": null,
     "lei": null,
     "fcra": null
    },
-   "publicRole": "Listed PSU under the Ministry of Defence",
-   "d": [
-    "Registered office Bangalore 560027 [documented]",
-    "Manufacturing-units page returned 404 (KGF, Mysuru, Palakkad not written) — void"
-   ],
-   "srcs": [
-    [
-     "BEML Limited — home page (registered office Bangalore 560027)",
-     "https://www.bemlindia.in"
-    ]
-   ]
+   "publicRole": "Defence public-sector undertaking under the Department of Defence Production; a vendor to the services — identical fields to every other vendor.",
+   "d": [],
+   "srcs": []
   },
   {
    "id": "co:cochin-shipyard",
    "label": "Cochin Shipyard Limited",
-   "sub": "shipbuilding PSU, Kochi (listed)",
+   "sub": "shipbuilding and repair; aircraft carrier Vikrant; under the Ministry of Ports, not MoD",
    "ty": "psu",
    "fam": "state",
    "st": "kl",
    "sz": 2,
-   "al": [
-    "CSL"
-   ],
+   "al": [],
    "resolved": true,
    "identity": {
     "cin": null,
     "din": null,
-    "nse": null,
+    "nse": "COCHINSHIP",
     "office": null,
     "lei": null,
     "fcra": null
    },
-   "publicRole": "Listed PSU under the Ministry of Ports, Shipping and Waterways building for the Navy",
-   "d": [
-    "Registered office Perumanoor P O, Kochi 682015; keel laying of first NGMV at Kochi on 2026-09-18 [documented]"
-   ],
-   "srcs": [
-    [
-     "Cochin Shipyard Limited — home page (registered office Perumanoor, Kochi 682015)",
-     "https://cochinshipyard.in"
-    ]
-   ]
+   "publicRole": "Defence public-sector undertaking under the Department of Defence Production; a vendor to the services — identical fields to every other vendor.",
+   "d": [],
+   "srcs": []
   },
   {
    "id": "force:guwahati-police",
@@ -2418,7 +2287,9 @@
      "CRPF — official site home page, navigation menu (Hindi; English sub-pages return 404): training institutions by place",
      "https://crpf.gov.in"
     ]
-   ]
+   ],
+   "status": "killed",
+   "killedReason": "AUDIT.json recommendedTier kill: the menu count is incomplete (at least 19 named institutions in at least 12 states; three menu entries unplaced) — held for rewrite with the sourced rows the audit lists"
   }
  ],
  "voids": [
