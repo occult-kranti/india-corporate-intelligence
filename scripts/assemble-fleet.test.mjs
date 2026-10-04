@@ -797,9 +797,10 @@ test('cross-file resolution: a fleet-prefixed id must be defined in the fleet th
   assert.equal(fleetOfId('scheme:mp-ladli-behna'), 'welfare');
   assert.equal(fleetOfId('wel:manmohan-singh'), 'welfare');
   assert.equal(fleetOfId('cap:temasek'), 'capital');
+  assert.equal(fleetOfId('force:fp-pune-cantonment'), 'force');
   for (const id of ['pol:x', 'co:ntpc', 'sc', 'party:inc', 'claim:x:c1', 'India Post and participating banks', null]) assert.equal(fleetOfId(id), null, String(id));
   for (const f of vocab.FLEETS) assert.ok(Array.isArray(f.prefixes) && f.prefixes.length, `${f.key} owns at least one prefix`);
-  assert.deepEqual(vocab.FLEET_PREFIXES, ['energy', 'wel', 'scheme', 'fin', 'ngo', 'cap']);
+  assert.deepEqual(vocab.FLEET_PREFIXES, ['energy', 'wel', 'scheme', 'fin', 'ngo', 'cap', 'force']);
   // The fixture: energy defines energy:fx-power and energy:fx-regulator; nothing defines the wel: person the ngo file cites.
   const defined = new Map([['energy', new Set(['energy:fx-power', 'energy:fx-regulator'])], ['welfare', new Set(['scheme:fx-cash'])], ['ngo', new Set()]]);
   const refs = [
@@ -1302,4 +1303,291 @@ test('G4: no fcByState is an empty export, not an error; the module with rows is
     ...Object.keys(files).map((f) => join(tmp, f)),
   ], { encoding: 'utf8' });
   assert.equal(tsc.status, 0, tsc.stdout + tsc.stderr);
+});
+
+// ---------------------------------------------------------------------------
+// Series — tabular rows per fleet (docs/superpowers/specs/2026-10-04-force-finance-design.md §4.1)
+// ---------------------------------------------------------------------------
+
+const FS = (slug) => ['Fixture record', `https://example.org/${slug}`];
+const budgetRow = (over = {}) => ({ payer: 'union', body: 'force:fx-mod', head: 'Defence Services (Revenue)', component: 'revenue', fy: '2024-25', stage: 'BE', cr: 1000.5, note: null, srcs: [FS('budget')], ...over });
+const strengthRow = (over = {}) => ({ st: 'mh', body: 'force:fx-police', year: 2023, sanctioned: 1000, actual: 900, perLakh: 150.2, womenPct: 12.1, note: null, srcs: [FS('bprd')], ...over });
+const footprintRow = (over = {}) => ({ id: 'force:fp-fx-cantonment', kind: 'cantonment', label: 'FX Cantonment', body: 'force:fx-mod', st: 'mh', city: 'Pune', since: '1817', note: null, srcs: [FS('dgde')], ...over });
+/** A state's police line, ₹0 as published: a stated zero is a row. Sorts before the union row although its file is read second. */
+const POLICE_BUDGET = budgetRow({ payer: 'mh', body: 'force:fx-police', head: 'Police (MH 2055)', component: 'total', stage: 'actual', cr: 0 });
+const FORCE_ENTS = [
+  { id: 'force:fx-mod', label: 'FX Ministry of Defence', ty: 'ministry', fam: 'state', st: 'dl', sz: 3, resolved: true, srcs: [FS('mod')] },
+  { id: 'force:fx-police', label: 'FX State Police', ty: 'agency', fam: 'enforce', st: 'mh', sz: 2, resolved: true, srcs: [FS('police')] },
+];
+/**
+ * A force fleet of two domain files: union-defence.json carries budgets and footprint rows,
+ * state-police.json budgets and strength rows — so a series is read from EVERY file, not one
+ * declared domain. `defence`/`police` override a file's series lists; `extra` adds files.
+ */
+function forceFleet({ defence = {}, police = {}, mappings, extra = {} } = {}) {
+  const doc = (domain, series) => ({
+    asOf: '2026-10-04', domain, scope: 'Synthetic fixture. Not research.', sources: [FS('index')], entities: FORCE_ENTS, claims: [],
+    voids: [], narratives: [], symmetryCheck: 'x', baseRates: [], gaps: [], ...series,
+  });
+  const files = {
+    'union-defence.json': doc('union-defence', { budgets: [budgetRow()], footprint: [footprintRow()], ...defence }),
+    'state-police.json': doc('state-police', { budgets: [POLICE_BUDGET], strength: [strengthRow()], ...police }),
+    ...extra,
+  };
+  if (mappings) files['RECONCILIATION.json'] = { mappings };
+  return mkTmpFleet('force', files);
+}
+const forceErrors = (dir) => assemble({ rawDir: dir }).fleetErrors.force;
+/** Each case refuses the force fleet with the row named, charges no other fleet, and emits nothing. */
+function refusesForce(cases) {
+  for (const [over, re] of cases) {
+    const out = assemble({ rawDir: forceFleet(over) });
+    assert.ok(out.fleetErrors.force.some((e) => re.test(e)), `${JSON.stringify(over)} → ${JSON.stringify(out.fleetErrors.force)}`);
+    assert.equal(out.force.text, null, 'a refused fleet emits nothing');
+    assert.deepEqual(out.fleetErrors.energy, [], 'the fault is charged to the force fleet only');
+  }
+}
+const tscClean = (text, outPath) => {
+  const tmp = scratch();
+  const files = {
+    'src/graph/schema.ts': readFileSync(join(ROOT, 'src/graph/schema.ts'), 'utf8'),
+    'src/graph/fleet.ts': readFileSync(join(ROOT, 'src/graph/fleet.ts'), 'utf8'),
+    [outPath]: text,
+  };
+  for (const [rel, t] of Object.entries(files)) {
+    mkdirSync(dirname(join(tmp, rel)), { recursive: true });
+    writeFileSync(join(tmp, rel), t);
+  }
+  const tsc = spawnSync(process.execPath, [
+    join(ROOT, 'node_modules/typescript/bin/tsc'), '--noEmit', '--strict', '--noUnusedLocals', '--noUnusedParameters',
+    '--isolatedModules', '--skipLibCheck', '--target', 'ES2020', '--module', 'ESNext', '--moduleResolution', 'bundler',
+    ...Object.keys(files).map((f) => join(tmp, f)),
+  ], { encoding: 'utf8' });
+  assert.equal(tsc.status, 0, tsc.stdout + tsc.stderr);
+};
+
+test('series: the registry and the force row are exactly the spec\'s (§4.1)', () => {
+  assert.deepEqual(vocab.BUDGET_KEYS, ['payer', 'body', 'head', 'component', 'fy', 'stage', 'cr', 'note', 'srcs']);
+  assert.deepEqual(vocab.STRENGTH_KEYS, ['st', 'body', 'year', 'sanctioned', 'actual', 'perLakh', 'womenPct', 'note', 'srcs']);
+  assert.deepEqual(vocab.FOOTPRINT_KEYS, ['id', 'kind', 'label', 'body', 'st', 'city', 'since', 'note', 'srcs']);
+  assert.deepEqual(vocab.BUDGET_COMPONENTS, ['total', 'revenue', 'capital', 'pension', 'pay', 'grant-to-states', 'other']);
+  assert.deepEqual(vocab.BUDGET_STAGES, ['BE', 'RE', 'actual']);
+  assert.deepEqual(vocab.FOOTPRINT_KINDS, ['cantonment', 'dpsu-plant', 'drdo-lab', 'command-hq', 'capf-hq', 'commissionerate', 'prison', 'forensic-lab', 'training', 'ordnance', 'other']);
+  assert.deepEqual(Object.keys(vocab.SERIES), ['budgets', 'strength', 'footprint']);
+  assert.deepEqual([vocab.SERIES.budgets.keys, vocab.SERIES.budgets.type, vocab.SERIES.budgets.export], [vocab.BUDGET_KEYS, 'BudgetRow', 'BUDGETS']);
+  assert.deepEqual([vocab.SERIES.strength.keys, vocab.SERIES.strength.type, vocab.SERIES.strength.export], [vocab.STRENGTH_KEYS, 'StrengthRow', 'STRENGTH']);
+  assert.deepEqual([vocab.SERIES.footprint.keys, vocab.SERIES.footprint.type, vocab.SERIES.footprint.export], [vocab.FOOTPRINT_KEYS, 'FootprintRow', 'FOOTPRINT']);
+  for (const s of Object.values(vocab.SERIES)) assert.equal(typeof s.problems, 'function', 'one row-problem function per series');
+  const force = vocab.FLEETS.find((f) => f.key === 'force');
+  assert.deepEqual(force, { key: 'force', dir: 'force', out: 'src/graph/force.generated.ts', kind: 'graph', prefix: 'FORCE', prefixes: ['force'], series: ['budgets', 'strength', 'footprint'] });
+  assert.equal(OUTPUTS.force, 'src/graph/force.generated.ts');
+  for (const f of vocab.FLEETS.filter((x) => x.key !== 'force')) assert.equal('series' in f, false, `${f.key} declares no series`);
+  // The pure functions are the one rule: valid rows have no problems, and a resolver may be passed.
+  assert.deepEqual(vocab.budgetRowProblems(budgetRow()), []);
+  assert.deepEqual(vocab.strengthRowProblems(strengthRow()), []);
+  assert.deepEqual(vocab.footprintRowProblems(footprintRow()), []);
+  assert.deepEqual(vocab.budgetRowProblems(budgetRow(), () => false).length, 1, 'with a resolver, an unknown body is the one problem');
+  assert.deepEqual(vocab.seriesKey('budgets', budgetRow()), 'union | force:fx-mod | Defence Services (Revenue) | revenue | 2024-25 | BE');
+  assert.deepEqual(vocab.seriesKey('strength', strengthRow()), 'force:fx-police | 2023');
+  assert.deepEqual(vocab.seriesKey('footprint', footprintRow()), 'force:fp-fx-cantonment');
+});
+
+test('series: a force fleet with two budgets rows, one strength row and one footprint row assembles — every file read, each array sorted, the literal is the data', () => {
+  const out = assemble({ rawDir: forceFleet() });
+  assert.deepEqual(out.errors, []);
+  const s = out.force.data.series;
+  assert.deepEqual(Object.keys(s), ['budgets', 'strength', 'footprint']);
+  assert.deepEqual(s.budgets.map((r) => `${r.payer}/${r.body}`), ['mh/force:fx-police', 'union/force:fx-mod'], 'rows from every file');
+  assert.deepEqual(s.budgets[0], POLICE_BUDGET);
+  assert.equal(s.budgets[0].cr, 0, 'a stated zero is a row');
+  assert.deepEqual(s.budgets[1], budgetRow());
+  assert.deepEqual(s.strength, [strengthRow()]);
+  assert.deepEqual(s.footprint, [footprintRow()]);
+  for (const [name, keys] of [['budgets', vocab.BUDGET_KEYS], ['strength', vocab.STRENGTH_KEYS], ['footprint', vocab.FOOTPRINT_KEYS]]) {
+    for (const r of s[name]) assert.deepEqual(Object.keys(r), keys, `${name}: exactly the contract keys, in order`);
+  }
+  assert.match(out.force.text, /import type \{ BudgetRow, StrengthRow, FootprintRow \} from '\.\/fleet';/);
+  assert.match(out.force.text, /\n\/\*\* [^\n]+ \*\/\nexport const FORCE_BUDGETS: BudgetRow\[\] = \[\n/, 'a doc comment precedes the export');
+  assert.match(out.force.text, /\n\/\*\* [^\n]+ \*\/\nexport const FORCE_STRENGTH: StrengthRow\[\] = \[\n/);
+  assert.match(out.force.text, /\n\/\*\* [^\n]+ \*\/\nexport const FORCE_FOOTPRINT: FootprintRow\[\] = \[\n/);
+  assert.deepEqual(grab(out.force.text, 'FORCE_BUDGETS'), s.budgets);
+  assert.deepEqual(grab(out.force.text, 'FORCE_STRENGTH'), s.strength);
+  assert.deepEqual(grab(out.force.text, 'FORCE_FOOTPRINT'), s.footprint);
+  assert.deepEqual(out.force.data.meta.series, { budgets: 2, strength: 1, footprint: 1 });
+  assert.deepEqual(grab(out.force.text, 'FORCE_META').series, { budgets: 2, strength: 1, footprint: 1 });
+  assert.deepEqual(out.force.data.meta.files.map((f) => f.domain), ['state-police', 'union-defence']);
+  for (const f of vocab.FLEETS.filter((x) => !x.series)) {
+    assert.doesNotMatch(out[f.key].text, /_BUDGETS|_STRENGTH|_FOOTPRINT|BudgetRow|StrengthRow|FootprintRow/, `${f.key} carries no series exports`);
+    assert.equal('series' in out[f.key].data.meta, false, `${f.key} META has no series field`);
+  }
+  // Sorting is by every key field in order, numerically where the field is a number.
+  const many = assemble({ rawDir: forceFleet({
+    defence: { budgets: [budgetRow({ stage: 'RE' }), budgetRow({ fy: '2025-26' }), budgetRow({ component: 'capital' }), budgetRow()] },
+    // state-police.json is read first (name order); its wb row must still emit last.
+    police: { budgets: [budgetRow({ payer: 'wb', body: 'force:fx-police', head: 'Police (MH 2055)', component: 'total' })], strength: [strengthRow({ year: 2024 }), strengthRow({ year: 1999 }), strengthRow({ body: 'force:fx-mod', st: null, year: 2024 })] },
+  }) });
+  assert.deepEqual(many.errors, []);
+  assert.deepEqual(many.force.data.series.budgets.map((r) => `${r.payer}/${r.component}/${r.fy}/${r.stage}`), ['union/capital/2024-25/BE', 'union/revenue/2024-25/BE', 'union/revenue/2024-25/RE', 'union/revenue/2025-26/BE', 'wb/total/2024-25/BE'], 'sorted on the key fields, not in file order');
+  assert.deepEqual(many.force.data.series.strength.map((r) => `${r.body}/${r.year}`), ['force:fx-mod/2024', 'force:fx-police/1999', 'force:fx-police/2024']);
+  assert.equal(assemble({ rawDir: forceFleet() }).force.text, out.force.text, 'deterministic — a function of the input bytes only');
+  tscClean(out.force.text, OUTPUTS.force);
+});
+
+test('series: a row with a wrong key set, a key out of order, or a list that is not a list fails with the row named', () => {
+  const { note, ...noNote } = budgetRow();
+  void note;
+  refusesForce([
+    [{ defence: { budgets: [{ ...budgetRow(), crore: 1 }] } }, /force\/union-defence\.json:budgets\[0\]: keys payer, body, head, component, fy, stage, cr, note, srcs, crore — expected payer, body, head, component, fy, stage, cr, note, srcs \(unknown crore\)/],
+    [{ defence: { budgets: [noNote] } }, /union-defence\.json:budgets\[0\]: keys .* — expected .* \(missing note\)/],
+    [{ police: { strength: [Object.fromEntries(Object.entries(strengthRow()).reverse())] } }, /state-police\.json:strength\[0\]: keys srcs, note, .* are not in the contract's order — write them as st, body, year, sanctioned, actual, perLakh, womenPct, note, srcs/],
+    [{ defence: { footprint: { id: 'force:fp-x' } } }, /union-defence\.json:footprint: must be a list of \{ id, kind, label, body, st, city, since, note, srcs \} rows/],
+    [{ defence: { budgets: ['a row'] } }, /union-defence\.json:budgets\[0\]: row must be an object/],
+    [{ defence: { budgets: [null] } }, /budgets\[0\]: row must be an object/],
+  ]);
+  // Null is a stated absence: a note written as null is in the key set.
+  assert.deepEqual(forceErrors(forceFleet({ defence: { budgets: [budgetRow({ note: 'as printed' })] } })), []);
+});
+
+test('series: budgets — payer union or a state code, a body the graph knows, a known component and stage, a financial year, cr ≥ 0, sourced', () => {
+  const b = (over) => ({ defence: { budgets: [budgetRow(over)] } });
+  refusesForce([
+    [b({ payer: 'centre' }), /union-defence\.json:budgets\[0\]: payer "centre" is neither "union" nor a state code/],
+    [b({ payer: 'MH' }), /payer "MH" is neither "union" nor a state code/],
+    [b({ payer: null }), /payer null is neither "union" nor a state code/],
+    [b({ body: 'force:fx-nobody' }), /body "force:fx-nobody" is neither a fleet id nor an inventory-prefixed id \(pol\|min\|sec\|co\|grp\|per\|for:\) nor an atlas id/],
+    [b({ body: '' }), /body is required — the entity id the row describes/],
+    [b({ body: 7 }), /body is required/],
+    [b({ head: '' }), /head is required — the demand or major head as the budget document prints it/],
+    [b({ component: 'salaries' }), /component "salaries" is not one of total \| revenue \| capital \| pension \| pay \| grant-to-states \| other/],
+    [b({ fy: '2024-2025' }), /fy "2024-2025" is not a financial year written YYYY-YY \("2024-25"\)/],
+    [b({ fy: '2024-26' }), /fy "2024-26" is not a financial year/],
+    [b({ fy: 2024 }), /fy 2024 is not a financial year/],
+    [b({ stage: 'be' }), /stage "be" is not one of BE \| RE \| actual/],
+    [b({ cr: -1 }), /cr -1 is not a number ≥ 0/],
+    [b({ cr: '1000' }), /cr "1000" is not a number ≥ 0 — a figure that is not a number is a gap, and a line with no figure is not a row/],
+    [b({ cr: null }), /cr null is not a number ≥ 0/],
+    [b({ note: 42 }), /note 42 must be text or null/],
+    [b({ srcs: [] }), /srcs needs at least one \[label, url\] source — the budget document the row is read from/],
+    [b({ srcs: null }), /srcs needs at least one \[label, url\] source/],
+    [b({ srcs: [['Budget', 'indiabudget.gov.in/doc.pdf']] }), /srcs\[0\] url "indiabudget.gov.in\/doc.pdf" is not an http\(s\) URL/],
+    [b({ srcs: ['https://example.org/x'] }), /srcs\[0\] must be \[label, url\], found "https:\/\/example.org\/x"/],
+    [b({ srcs: [['', 'https://example.org/x']] }), /srcs\[0\] must be \[label, url\]/],
+  ]);
+  // A state payer; an inventory body and an Atlas body resolve without being fleet entities.
+  assert.deepEqual(forceErrors(forceFleet({ defence: { budgets: [budgetRow({ payer: 'dl' }), budgetRow({ body: 'min:ministry-of-home-affairs' }), budgetRow({ body: 'sebi' })] } })), []);
+});
+
+test('series: strength — st a state code or null, an integer year 1990–2030, whole counts not both null, rates ≥ 0 or null', () => {
+  const s = (over) => ({ police: { strength: [strengthRow(over)] } });
+  refusesForce([
+    [s({ st: 'xx' }), /state-police\.json:strength\[0\]: st "xx" is not a state code or null/],
+    [s({ st: 'MH' }), /st "MH" is not a state code or null/],
+    [s({ body: 'force:fx-nobody' }), /body "force:fx-nobody" is neither a fleet id/],
+    [s({ year: 1989 }), /year 1989 is not a whole year 1990–2030/],
+    [s({ year: 2031 }), /year 2031 is not a whole year 1990–2030/],
+    [s({ year: 2023.5 }), /year 2023\.5 is not a whole year 1990–2030/],
+    [s({ year: '2023' }), /year "2023" is not a whole year 1990–2030/],
+    [s({ sanctioned: -1 }), /sanctioned -1 is not a whole number ≥ 0 or null/],
+    [s({ actual: 1.5 }), /actual 1\.5 is not a whole number ≥ 0 or null/],
+    [s({ actual: '900' }), /actual "900" is not a whole number ≥ 0 or null/],
+    [s({ sanctioned: null, actual: null }), /sanctioned and actual are both null — a row with no count is not a row/],
+    [s({ perLakh: -1 }), /perLakh -1 is not a number ≥ 0 or null/],
+    [s({ womenPct: '12' }), /womenPct "12" is not a number ≥ 0 or null/],
+    [s({ note: ['x'] }), /note \["x"\] must be text or null/],
+    [s({ srcs: [] }), /srcs needs at least one \[label, url\] source/],
+  ]);
+  // Absence is said, never defaulted: a national body has st null; one of the two counts may be null; rates may be null.
+  assert.deepEqual(forceErrors(forceFleet({ police: { strength: [strengthRow({ st: null, body: 'force:fx-mod', sanctioned: null, perLakh: null, womenPct: null }), strengthRow({ actual: null })] } })), []);
+});
+
+test('series: footprint — a force:fp- id, a known kind, a label, a state the map can place, a city, an ISO since', () => {
+  const f = (over) => ({ defence: { footprint: [footprintRow(over)] } });
+  refusesForce([
+    [f({ id: 'force:pune-cantonment' }), /union-defence\.json:footprint\[0\]: id "force:pune-cantonment" is not a footprint id — write force:fp-<slug>/],
+    [f({ id: 'force:fp-' }), /id "force:fp-" is not a footprint id/],
+    [f({ id: 'force:fp-Pune' }), /id "force:fp-Pune" is not a footprint id/],
+    [f({ id: null }), /id null is not a footprint id/],
+    [f({ kind: 'base' }), /kind "base" is not one of cantonment \| dpsu-plant \| drdo-lab \| command-hq \| capf-hq \| commissionerate \| prison \| forensic-lab \| training \| ordnance \| other/],
+    [f({ label: '' }), /label is required/],
+    [f({ body: 'force:fx-nobody' }), /body "force:fx-nobody" is neither a fleet id/],
+    [f({ st: null }), /st null is not a state code — a footprint row the map cannot place is not a footprint row/],
+    [f({ st: 'xx' }), /st "xx" is not a state code — a footprint row the map cannot place/],
+    [f({ city: '' }), /city is required — the city the readout names/],
+    [f({ city: null }), /city is required/],
+    [f({ since: '1817-13' }), /since "1817-13" is not an ISO date \(YYYY, YYYY-MM or YYYY-MM-DD\) or null/],
+    [f({ since: 1817 }), /since 1817 is not an ISO date/],
+    [f({ note: 1 }), /note 1 must be text or null/],
+    [f({ srcs: [['DGDE', 'ftp://x']] }), /srcs\[0\] url "ftp:\/\/x" is not an http\(s\) URL/],
+  ]);
+  assert.deepEqual(forceErrors(forceFleet({ defence: { footprint: [footprintRow({ since: null, note: 'date of establishment not in the list' }), footprintRow({ id: 'force:fp-fx-lab-2', kind: 'drdo-lab', since: '2001-03' })] } })), []);
+});
+
+test('series: a duplicate key — budgets on payer × body × head × component × fy × stage, strength on body × year, footprint on id — refuses the fleet, across files too', () => {
+  refusesForce([
+    [{ defence: { budgets: [budgetRow(), budgetRow({ cr: 2000, note: 'the same line again' })] } }, /union-defence\.json:budgets\[1\]: budgets row union \| force:fx-mod \| Defence Services \(Revenue\) \| revenue \| 2024-25 \| BE appears twice \(first in force\/union-defence\.json:budgets\[0\]\)/],
+    // Files are read in name order, so state-police.json comes first and the repeat is the union-defence row.
+    [{ police: { budgets: [POLICE_BUDGET, budgetRow()] } }, /union-defence\.json:budgets\[0\]: budgets row union \| force:fx-mod .* appears twice \(first in force\/state-police\.json:budgets\[1\]\)/],
+    [{ police: { strength: [strengthRow(), strengthRow({ st: null, actual: 1 })] } }, /state-police\.json:strength\[1\]: strength row force:fx-police \| 2023 appears twice/],
+    [{ defence: { footprint: [footprintRow(), footprintRow({ label: 'Another', city: 'Khadki' })] } }, /union-defence\.json:footprint\[1\]: footprint row force:fp-fx-cantonment appears twice/],
+  ]);
+  // A different stage, FY, component, head, payer or body is another row; a different year or id likewise.
+  const ok = assemble({ rawDir: forceFleet({
+    defence: { budgets: [budgetRow(), budgetRow({ stage: 'RE' }), budgetRow({ stage: 'actual' }), budgetRow({ fy: '2023-24' }), budgetRow({ component: 'capital' }), budgetRow({ head: 'Defence Pensions', component: 'pension' })] },
+    police: { budgets: [POLICE_BUDGET, budgetRow({ payer: 'mh', body: 'force:fx-police', head: 'Police (MH 2055)', component: 'total', stage: 'RE' })], strength: [strengthRow(), strengthRow({ year: 2022 })] },
+  }) });
+  assert.deepEqual(ok.errors, []);
+  assert.deepEqual(ok.force.data.meta.series, { budgets: 8, strength: 2, footprint: 1 });
+});
+
+test('series: a body not defined in the fleet fails; a mapping that renames an entity id rewrites body before the check and before the duplicate rule', () => {
+  const bad = forceErrors(forceFleet({ defence: { budgets: [budgetRow({ body: 'force:fx-ministry-of-defence' })], footprint: [footprintRow({ body: 'force:fx-ministry-of-defence' })] } }));
+  assert.ok(bad.some((e) => /union-defence\.json:budgets\[0\]: body "force:fx-ministry-of-defence" is neither a fleet id/.test(e)), JSON.stringify(bad));
+  assert.ok(bad.some((e) => /union-defence\.json:footprint\[0\]: body "force:fx-ministry-of-defence" is neither a fleet id/.test(e)), JSON.stringify(bad));
+  const mappings = [{ from: 'force:fx-ministry-of-defence', to: 'force:fx-mod', reason: 'the same ministry under its long name' }];
+  const out = assemble({ rawDir: forceFleet({
+    defence: { budgets: [budgetRow({ body: 'force:fx-ministry-of-defence' })], footprint: [footprintRow({ body: 'force:fx-ministry-of-defence' })] },
+    police: { strength: [strengthRow({ body: 'force:fx-ministry-of-defence', st: null })] },
+    mappings,
+  }) });
+  assert.deepEqual(out.errors, []);
+  assert.equal(out.force.data.series.budgets.find((r) => r.payer === 'union').body, 'force:fx-mod');
+  assert.equal(out.force.data.series.footprint[0].body, 'force:fx-mod');
+  assert.equal(out.force.data.series.strength[0].body, 'force:fx-mod');
+  assert.doesNotMatch(out.force.text.split('export const FORCE_META')[0], /fx-ministry-of-defence/, 'the old id reaches the module only through META.reconciliation');
+  assert.deepEqual(out.force.data.meta.reconciliation.mappings, [{ from: 'force:fx-ministry-of-defence', to: 'force:fx-mod', note: 'the same ministry under its long name' }]);
+  // Two rows that differ only by the alias are one row twice once the mapping is applied.
+  const dup = forceErrors(forceFleet({ defence: { budgets: [budgetRow(), budgetRow({ body: 'force:fx-ministry-of-defence' })] }, mappings }));
+  assert.ok(dup.some((e) => /budgets\[1\]: budgets row union \| force:fx-mod \| .* appears twice/.test(e)), JSON.stringify(dup));
+});
+
+test('series: an absent or empty force directory emits the three arrays empty with empty: true; an undeclared series list elsewhere is warned about, never exported', () => {
+  const emptyDir = scratch();
+  mkdirSync(join(emptyDir, 'force'), { recursive: true });
+  for (const [label, dir] of [['absent', scratch()], ['empty', emptyDir]]) {
+    const out = assemble({ rawDir: dir });
+    assert.deepEqual(out.errors, [], label);
+    assert.equal(out.force.data.meta.empty, true, label);
+    assert.match(out.force.data.meta.note, /no research files under research\/raw\/force\//);
+    assert.match(out.force.text, /export const FORCE_BUDGETS: BudgetRow\[\] = \[\n\];/, label);
+    assert.match(out.force.text, /export const FORCE_STRENGTH: StrengthRow\[\] = \[\n\];/, label);
+    assert.match(out.force.text, /export const FORCE_FOOTPRINT: FootprintRow\[\] = \[\n\];/, label);
+    assert.match(out.force.text, /export const FORCE_NODES: GNode\[\] = \[\n\];/, label);
+    assert.deepEqual(out.force.data.series, { budgets: [], strength: [], footprint: [] }, label);
+    assert.deepEqual(out.force.data.meta.series, { budgets: 0, strength: 0, footprint: 0 }, label);
+    assert.equal(out.force.data.meta.fleet, 'force');
+    tscClean(out.force.text, OUTPUTS.force);
+  }
+  // A file in a fleet without series carries budgets[]: a warning names it; the list is not read and nothing is exported.
+  const dir = scratch();
+  writeFixture(dir);
+  put(join(dir, 'energy/budgets.json'), { asOf: '2026-10-04', domain: 'budgets', sources: [FS('index')], entities: [], claims: [], budgets: [budgetRow({ body: 'co:ntpc' })], strength: [] });
+  const out = assemble({ rawDir: dir });
+  assert.deepEqual(out.errors, []);
+  assert.ok(out.warnings.some((w) => /energy\/budgets\.json:budgets: the energy fleet declares no budgets series — this list is not exported/.test(w)), JSON.stringify(out.warnings));
+  assert.ok(out.warnings.some((w) => /energy\/budgets\.json:strength: the energy fleet declares no strength series/.test(w)), JSON.stringify(out.warnings));
+  assert.doesNotMatch(out.energy.text, /_BUDGETS|BudgetRow/);
+  assert.equal(out.energy.data.series, undefined);
+  // A force file carrying a list the registry does not know is left alone (the contract's other sections live there).
+  const odd = assemble({ rawDir: forceFleet({ defence: { pensions: [budgetRow()] } }) });
+  assert.deepEqual(odd.errors, []);
 });

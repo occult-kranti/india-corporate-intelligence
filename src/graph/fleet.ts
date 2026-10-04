@@ -1,7 +1,7 @@
 /**
  * Types for the research-fleet modules that scripts/assemble-fleet.mjs generates —
  * one per row of FLEETS in scripts/lib/vocab.mjs (src/graph/energy.generated.ts,
- * src/data/welfare.generated.ts, src/graph/{finance,ngo,capital}.generated.ts).
+ * src/data/welfare.generated.ts, src/graph/{finance,ngo,capital,force}.generated.ts).
  *
  * Hand-written on purpose. The generator emits data and never types, so changing a
  * shape is a reviewed edit here that every generated literal must then satisfy under
@@ -280,6 +280,85 @@ export interface CapitalControl {
 }
 
 // ---------------------------------------------------------------------------
+// Tabular series (docs/superpowers/specs/2026-10-04-force-finance-design.md §4.1)
+// ---------------------------------------------------------------------------
+//
+// A FLEETS row with `series: [name…]` (scripts/lib/vocab.mjs SERIES) emits one typed
+// array per series beside the graph: <PREFIX>_BUDGETS, _STRENGTH, _FOOTPRINT. The rows
+// are read from every research file in the fleet directory, checked row by row, and
+// sorted on their key fields. The key lists the generator enforces are BUDGET_KEYS,
+// STRENGTH_KEYS and FOOTPRINT_KEYS there; these interfaces restate them for the compiler.
+
+/** What a budget line is: the whole demand, its revenue or capital side, pensions, pay, a grant to states, or anything else the document itemises. */
+export type BudgetComponent = 'total' | 'revenue' | 'capital' | 'pension' | 'pay' | 'grant-to-states' | 'other';
+/** Budget Estimate, Revised Estimate, or the actual as later published. */
+export type BudgetStage = 'BE' | 'RE' | 'actual';
+
+/**
+ * One budget line: payer × body × head × component × FY × stage, ₹ crore as published
+ * (no conversion). `srcs` is the budget document the figure is read from — the assembler
+ * refuses a row without one — and a 0 is a figure, not an absence.
+ */
+export interface BudgetRow {
+  /** Who pays: the Union, or the state whose budget carries the line. */
+  payer: 'union' | StateCode;
+  /** The entity the line funds — a fleet, inventory or Atlas id the graph defines. */
+  body: string;
+  /** The demand or major head as the document prints it ("Defence Services (Revenue)", "Police (MH 2055)"). */
+  head: string;
+  component: BudgetComponent;
+  /** The Indian financial year as labelled: "2024-25" is 2024-04-01 to 2025-03-31. */
+  fy: string;
+  stage: BudgetStage;
+  /** ₹ crore, as published. */
+  cr: number;
+  note: string | null;
+  srcs: [string, string][];
+}
+
+/** One strength row per body × year, as the primary table (BPR&D DoPO, a state budget) prints it. */
+export interface StrengthRow {
+  /** The state the body serves; null for a national body (a CAPF, a central agency). */
+  st: StateCode | null;
+  /** The entity counted — a fleet, inventory or Atlas id the graph defines. */
+  body: string;
+  /** Calendar year of the table, 1990–2030. */
+  year: number;
+  /** Sanctioned posts; null when the table gives none (then `actual` is not null). */
+  sanctioned: number | null;
+  /** Posts filled; null when the table gives none (then `sanctioned` is not null). */
+  actual: number | null;
+  /** Police per lakh population as the table prints it, or null. */
+  perLakh: number | null;
+  /** Women as a percentage of actual strength as printed, or null. */
+  womenPct: number | null;
+  note: string | null;
+  srcs: [string, string][];
+}
+
+export type FootprintKind =
+  | 'cantonment' | 'dpsu-plant' | 'drdo-lab' | 'command-hq' | 'capf-hq' | 'commissionerate' | 'prison' | 'forensic-lab' | 'training' | 'ordnance' | 'other';
+
+/**
+ * One installation a primary record places. The id is `force:fp-<slug>`; the state is
+ * required because a row the map cannot place is not a footprint row.
+ */
+export interface FootprintRow {
+  id: string;
+  kind: FootprintKind;
+  label: string;
+  /** The body that runs it — a fleet, inventory or Atlas id the graph defines. */
+  body: string;
+  st: StateCode;
+  /** The city the readout names. */
+  city: string;
+  /** ISO 8601 at the precision the record gives (YYYY, YYYY-MM or YYYY-MM-DD), or null. */
+  since: string | null;
+  note: string | null;
+  srcs: [string, string][];
+}
+
+// ---------------------------------------------------------------------------
 // Claims that did not become edges — retained, never deleted
 // ---------------------------------------------------------------------------
 
@@ -372,7 +451,7 @@ export interface MergedRecord {
 
 export interface FleetMeta {
   /** The fleet's key in FLEETS (scripts/lib/vocab.mjs). */
-  fleet: 'energy' | 'welfare' | 'finance' | 'ngo' | 'capital';
+  fleet: 'energy' | 'welfare' | 'finance' | 'ngo' | 'capital' | 'force';
   generator: string;
   generatorVersion: string;
   /** The latest `asOf` among the research files; null when the fleet has not run. */
@@ -384,6 +463,8 @@ export interface FleetMeta {
   inputs: string[];
   files: FleetFileMeta[];
   counts: Record<string, number>;
+  /** Rows per tabular series the fleet's FLEETS row declares (series name → count); absent for a fleet without series. */
+  series?: Record<string, number>;
   reconciliation: { mappings: ReconciliationMapping[]; merged: MergedRecord[] };
   audit: { asOf: string | null; verdicts: AuditRecord[]; unmatched: AuditRecord[] } | null;
   killed: KilledClaim[];

@@ -18,7 +18,7 @@ import {
 } from './lib/vocab.mjs';
 import {
   TIERS, PREDS, NODE_TYPES, FAMILIES, STATE_CODES, NARRATIVE_STATUS, SCHEME_STATUS, SCHEME_CATEGORIES, ISO_DATE, INVENTORY,
-  FLEETS, TERMS_KEYS, amountProblem, FC_STATE_KEYS, fySpan, fcStateSumProblems,
+  FLEETS, TERMS_KEYS, amountProblem, FC_STATE_KEYS, fySpan, fcStateSumProblems, SERIES, seriesKey,
 } from './lib/vocab.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -222,7 +222,7 @@ if (existsSync(rawDir)) {
 
 // ---------------------------------------------------------------------------
 // 4. Fleet research files — research/raw/<fleet>/*.json for every fleet in FLEETS
-//    (energy, welfare, finance, ngo, capital), and research/raw/indices.json
+//    (energy, welfare, finance, ngo, capital, force), and research/raw/indices.json
 // ---------------------------------------------------------------------------
 //
 // The research fleets write to a contract (docs/research/FLEET_CONTRACT.md). The
@@ -404,7 +404,8 @@ for (const rel of FLEET_DIRS) {
   if (!existsSync(dir)) continue;
   const fleetKey = FLEETS.find((f) => `research/raw/${f.dir}` === rel).key;
   const defined = definedByFleet.get(fleetKey);
-  const ownership = FLEETS.find((f) => f.key === fleetKey).ownership === true;
+  const fleetSpec = FLEETS.find((f) => f.key === fleetKey);
+  const ownership = fleetSpec.ownership === true;
   // An ownership fleet's declarations (coverage.json, controls.json) carry no claims or
   // entities: they are checked by their own rules after this loop, not as research.
   const files = readdirSync(dir).filter((f) => f.endsWith('.json') && !/^[A-Z]/.test(f) && !(ownership && OWNERSHIP_DECLARATIONS[f]));
@@ -412,6 +413,8 @@ for (const rel of FLEET_DIRS) {
   // different ids is the entity-resolution failure the reconciler exists to catch.
   const dirAlias = new Map();
   const dirIds = new Set();
+  // Series name → (duplicate key → where first seen) across the whole directory: a series is one table however many files write to it.
+  const dirSeries = new Map();
   for (const f of files) {
     const where = `${rel}/${f}`;
     let j;
@@ -606,6 +609,40 @@ for (const rel of FLEET_DIRS) {
     for (const n of j.narratives ?? []) {
       if (!NARRATIVE_STATUS.includes(n.status)) err(where, `narrative "${String(n.claim).slice(0, 60)}" has unknown status "${n.status}"`);
       if (!(n.srcs?.length)) warn(where, `narrative "${String(n.claim).slice(0, 60)}" carries no sources`);
+    }
+    // Tabular series (docs/superpowers/specs/2026-10-04-force-finance-design.md §4.1): every list
+    // the fleet declares is checked row by row with the one function in scripts/lib/vocab.mjs
+    // (error, as a bad fcByState row is); a body resolves as a claim endpoint does and is a fleet
+    // reference for the cross-file check; no key repeats anywhere in the directory. A list the
+    // fleet does not declare is warned about, as an fcByState list outside its file is.
+    const declaredSeries = fleetSpec.series ?? [];
+    for (const name of Object.keys(SERIES)) {
+      if (j[name] == null) continue;
+      if (!declaredSeries.includes(name)) {
+        warn(`${where}:${name}`, `the ${fleetKey} fleet declares no ${name} series — this list is not exported`);
+        continue;
+      }
+      const s = SERIES[name];
+      if (!Array.isArray(j[name])) {
+        err(`${where}:${name}`, `must be a list of { ${s.keys.join(', ')} } rows`);
+        continue;
+      }
+      if (!dirSeries.has(name)) dirSeries.set(name, new Map());
+      const seen = dirSeries.get(name);
+      const known = (id) => ids.has(id) || (KNOWN_PREFIX.test(id) && !String(id).startsWith('claim:')) || atlasIds.has(id);
+      let okRows = 0;
+      for (const [i, r] of j[name].entries()) {
+        const w = `${where}:${name}[${i}]`;
+        const problems = s.problems(r, known);
+        for (const pr of problems) err(w, pr);
+        if (typeof r?.body === 'string' && r.body.includes(':')) fleetRefs.push({ where: w, id: r.body });
+        if (problems.length) continue;
+        const k = seriesKey(name, r);
+        if (seen.has(k)) err(w, `${name} row ${k} appears twice (first in ${seen.get(k)})`);
+        else seen.set(k, w);
+        okRows++;
+      }
+      notes.push(`${where}: ${okRows} ${name} row(s)`);
     }
     notes.push(`${where}: ${(j.entities ?? []).length} entities, ${(j.claims ?? []).length} claims, ${(j.schemes ?? []).length} schemes, ${(j.narratives ?? []).length} narratives`);
   }
@@ -1010,6 +1047,39 @@ for (const m of generated) {
   notes.push(`${m.file}: ${ok.length} state row(s) (${withCode} with a state code, ${new Set(ok.filter((r) => r.st).map((r) => r.st)).size} distinct states/UTs) over ${new Set(ok.map((r) => r.fy)).size} FY(s)${fcSummary(ok, national)}`);
 }
 
+// Tabular series — docs/superpowers/specs/2026-10-04-force-finance-design.md §4.1, for every
+// FLEETS row with `series`. Re-checked from the literals with the one rule in
+// scripts/lib/vocab.mjs: every declared export readable (a module without one is stale), every
+// row valid with a body that resolves, no key twice, META.series counting the rows. Whether each
+// export equals a fresh assembly is checked below, beside the whole-module comparison.
+for (const m of generated) {
+  if (!m) continue;
+  const spec = FLEETS.find((f) => f.key === m.fleet);
+  if (!spec?.series) continue;
+  const P = spec.prefix;
+  const known = (id) => fleetNodeIds.has(id) || atlasIds.has(id) || INVENTORY.test(id);
+  m.series = {};
+  for (const name of spec.series) {
+    const s = SERIES[name];
+    const rows = grabConst(m.file, m.src, `${P}_${s.export}`);
+    if (rows == null) {
+      err(m.file, `no readable ${P}_${s.export} literal — run npm run generate`);
+      continue;
+    }
+    m.series[name] = rows;
+    const seen = new Set();
+    for (const [i, r] of rows.entries()) {
+      const w = `${m.fleet}:${name}[${i}]`;
+      for (const pr of s.problems(r, known)) err(w, pr);
+      const k = seriesKey(name, r);
+      if (seen.has(k)) err(w, `${name} row ${k} appears twice`);
+      seen.add(k);
+    }
+    if (m.meta.series?.[name] !== rows.length) err(m.file, `META.series.${name} is ${JSON.stringify(m.meta.series?.[name])} but ${P}_${s.export} has ${rows.length} row(s)`);
+    notes.push(`${m.file}: ${rows.length} ${name} row(s)`);
+  }
+}
+
 let assembled = null;
 try {
   assembled = assembleFleet({ root });
@@ -1027,6 +1097,13 @@ if (assembled) {
       for (const e of fleetErrors) err(`generate:${m.fleet}`, `assembler refuses the ${m.fleet} research — ${e}; ${m.file} is the last clean assembly`);
     } else if (m.src !== assembled[`${m.fleet}Ts`]) {
       err(m.file, 'generated module is stale — run npm run generate');
+      // Name the series export that drifted, when one did.
+      for (const [name, rows] of Object.entries(m.series ?? {})) {
+        const fresh = assembled[m.fleet]?.series?.[name] ?? [];
+        if (JSON.stringify(rows) !== JSON.stringify(fresh)) {
+          err(m.file, `${FLEETS.find((f) => f.key === m.fleet).prefix}_${SERIES[name].export} (${rows.length} row(s)) differs from a fresh assembly (${fresh.length} row(s)) — run npm run generate`);
+        }
+      }
     }
   }
 }

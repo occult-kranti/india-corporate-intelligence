@@ -52,9 +52,12 @@ export const TERMS_KEYS = ['instrument', 'ratePct', 'tenorYears', 'graceYears', 
  * modules must exist and be fresh). `kind: 'welfare'` keeps the scheme sections;
  * `kind: 'graph'` emits nodes, edges and the discipline sections only.
  * `out` is relative to the repository root. `prefixes` are the id prefixes the fleet
- * owns (`energy:`, `wel:`/`scheme:`, `fin:`, `ngo:`, `cap:`): an id under one of them
+ * owns (`energy:`, `wel:`/`scheme:`, `fin:`, `ngo:`, `cap:`, `force:`): an id under one of them
  * must be defined as an entity or scheme somewhere in that fleet's directory, whichever
  * fleet's claim references it (validate.mjs §4, scripts/lib/fleet-refs.mjs).
+ * `series` names the tabular lists (SERIES, below) the assembler reads from every file of
+ * the fleet and emits as typed rows beside the graph — the force fleet's budgets, strength
+ * and footprint tables (docs/superpowers/specs/2026-10-04-force-finance-design.md §4.1).
  */
 export const FLEETS = [
   { key: 'energy', dir: 'energy', out: 'src/graph/energy.generated.ts', kind: 'graph', prefix: 'ENERGY', prefixes: ['energy'] },
@@ -62,6 +65,7 @@ export const FLEETS = [
   { key: 'finance', dir: 'finance', out: 'src/graph/finance.generated.ts', kind: 'graph', prefix: 'FINANCE', prefixes: ['fin'], loanCensus: 'worldbank-projects' },
   { key: 'ngo', dir: 'ngo', out: 'src/graph/ngo.generated.ts', kind: 'graph', prefix: 'NGO', prefixes: ['ngo'], fcState: 'fcra-receipts' },
   { key: 'capital', dir: 'capital', out: 'src/graph/capital.generated.ts', kind: 'graph', prefix: 'CAPITAL', prefixes: ['cap'], ownership: true },
+  { key: 'force', dir: 'force', out: 'src/graph/force.generated.ts', kind: 'graph', prefix: 'FORCE', prefixes: ['force'], series: ['budgets', 'strength', 'footprint'] },
 ];
 
 /**
@@ -182,6 +186,139 @@ export function fcStateSumProblems(rows, claims) {
       }
     }
   }
+  return out;
+}
+
+/**
+ * Tabular series (docs/superpowers/specs/2026-10-04-force-finance-design.md §4.1). A FLEETS
+ * row with `series: [name…]` names lists the assembler reads as a top-level array of that
+ * name from EVERY research file in the fleet directory, concatenates in file order, checks
+ * row by row with the one row-problem function per series below (a bad row refuses the
+ * fleet, as a bad fcByState row does), refuses a repeated key, sorts on the key fields and
+ * emits as <PREFIX>_<export>: <type>[]. The hand-written types are in src/graph/fleet.ts;
+ * the key lists here are what a row must carry, in this order, null for a stated absence.
+ * validate.mjs §4 runs the same functions on the raw rows and §5 on the emitted literal.
+ */
+export const BUDGET_KEYS = ['payer', 'body', 'head', 'component', 'fy', 'stage', 'cr', 'note', 'srcs'];
+export const STRENGTH_KEYS = ['st', 'body', 'year', 'sanctioned', 'actual', 'perLakh', 'womenPct', 'note', 'srcs'];
+export const FOOTPRINT_KEYS = ['id', 'kind', 'label', 'body', 'st', 'city', 'since', 'note', 'srcs'];
+export const BUDGET_COMPONENTS = ['total', 'revenue', 'capital', 'pension', 'pay', 'grant-to-states', 'other'];
+export const BUDGET_STAGES = ['BE', 'RE', 'actual'];
+export const FOOTPRINT_KINDS = ['cantonment', 'dpsu-plant', 'drdo-lab', 'command-hq', 'capf-hq', 'commissionerate', 'prison', 'forensic-lab', 'training', 'ordnance', 'other'];
+/** A footprint row's id: the force fleet's prefix, `fp-`, then a slug. */
+export const FOOTPRINT_ID = /^force:fp-[a-z0-9][a-z0-9-]*$/;
+/** The calendar years a strength table may be dated to, inclusive. */
+export const STRENGTH_YEARS = [1990, 2030];
+
+/**
+ * The registry: `keys` a row carries in order; `type` the interface in src/graph/fleet.ts
+ * and `export` the suffix of the emitted constant (<PREFIX>_<export>); `unique` the fields
+ * that make a row one row (the duplicate key, and the emitted sort order); `problems` the
+ * row-problem function. Adding a series is one entry here, one interface there.
+ */
+export const SERIES = {
+  budgets: { keys: BUDGET_KEYS, type: 'BudgetRow', export: 'BUDGETS', unique: ['payer', 'body', 'head', 'component', 'fy', 'stage'], problems: budgetRowProblems },
+  strength: { keys: STRENGTH_KEYS, type: 'StrengthRow', export: 'STRENGTH', unique: ['body', 'year'], problems: strengthRowProblems },
+  footprint: { keys: FOOTPRINT_KEYS, type: 'FootprintRow', export: 'FOOTPRINT', unique: ['id'], problems: footprintRowProblems },
+};
+
+/** A row's duplicate key: its series' `unique` fields, joined. Two rows with one key are one row twice. */
+export function seriesKey(name, row) {
+  return SERIES[name].unique.map((k) => String(row?.[k])).join(' | ');
+}
+
+/** Why `srcs` is not a non-empty list of [label, http(s) url] pairs, or null. `need` says what the source is. */
+export function srcsProblem(v, need = '') {
+  if (!Array.isArray(v) || !v.length) return `srcs needs at least one [label, url] source${need}`;
+  for (const [i, s] of v.entries()) {
+    if (!Array.isArray(s) || s.length !== 2 || typeof s[0] !== 'string' || s[0].trim() === '' || typeof s[1] !== 'string') return `srcs[${i}] must be [label, url], found ${JSON.stringify(s)}`;
+    if (!/^https?:\/\//.test(s[1])) return `srcs[${i}] url ${JSON.stringify(s[1])} is not an http(s) URL`;
+  }
+  return null;
+}
+
+/**
+ * The key check every series row starts with: exactly `keys`, in order. A wrong set is the
+ * one problem reported (each value check would only repeat it); a wrong order is reported
+ * and the values are still checked, because the row may otherwise be sound.
+ */
+function rowKeys(r, keys) {
+  if (!r || typeof r !== 'object' || Array.isArray(r)) return { stop: true, problems: ['row must be an object'] };
+  const ks = Object.keys(r);
+  if (ks.join() === keys.join()) return { stop: false, problems: [] };
+  const missing = keys.filter((k) => !ks.includes(k));
+  const unknown = ks.filter((k) => !keys.includes(k));
+  if (!missing.length && !unknown.length) return { stop: false, problems: [`keys ${ks.join(', ')} are not in the contract's order — write them as ${keys.join(', ')}`] };
+  return {
+    stop: true,
+    problems: [`keys ${ks.join(', ')} — expected ${keys.join(', ')}${missing.length ? ` (missing ${missing.join(', ')})` : ''}${unknown.length ? ` (unknown ${unknown.join(', ')})` : ''}`],
+  };
+}
+
+const isText = (v) => typeof v === 'string' && v.trim() !== '';
+const isCount = (v) => Number.isInteger(v) && v >= 0;
+const isRate = (v) => typeof v === 'number' && Number.isFinite(v) && v >= 0;
+const show = (v) => (v === undefined ? 'undefined' : JSON.stringify(v));
+/**
+ * `known` is the caller's resolver — the assembler's isKnown (every fleet's entity ids, the
+ * Atlas, the inventory prefixes), validate.mjs §4's per-file test. Without one, only the
+ * shape is checked; a `force:` body must still be defined in the force fleet, which the
+ * cross-file rule (scripts/lib/fleet-refs.mjs) enforces from the references §4 collects.
+ */
+function bodyProblems(v, known) {
+  if (!isText(v)) return ['body is required — the entity id the row describes'];
+  if (known && !known(v)) return [`body ${show(v)} is neither a fleet id nor an inventory-prefixed id (pol|min|sec|co|grp|per|for:) nor an atlas id`];
+  return [];
+}
+const noteProblems = (v) => (v === null || typeof v === 'string' ? [] : [`note ${show(v)} must be text or null`]);
+
+/** Why a budgets row is not one (spec §4.1), or []: payer union or a state; body resolving; head; component, fy, stage from the lists; cr a number ≥ 0 (0 is a figure); note; srcs. */
+export function budgetRowProblems(r, known = null) {
+  const { stop, problems: out } = rowKeys(r, BUDGET_KEYS);
+  if (stop) return out;
+  if (!(r.payer === 'union' || STATE_CODES.includes(r.payer))) out.push(`payer ${show(r.payer)} is neither "union" nor a state code`);
+  out.push(...bodyProblems(r.body, known));
+  if (!isText(r.head)) out.push('head is required — the demand or major head as the budget document prints it');
+  if (!BUDGET_COMPONENTS.includes(r.component)) out.push(`component ${show(r.component)} is not one of ${BUDGET_COMPONENTS.join(' | ')}`);
+  if (!fySpan(r.fy)) out.push(`fy ${show(r.fy)} is not a financial year written YYYY-YY ("2024-25")`);
+  if (!BUDGET_STAGES.includes(r.stage)) out.push(`stage ${show(r.stage)} is not one of ${BUDGET_STAGES.join(' | ')}`);
+  if (!isRate(r.cr)) out.push(`cr ${show(r.cr)} is not a number ≥ 0 — a figure that is not a number is a gap, and a line with no figure is not a row`);
+  out.push(...noteProblems(r.note));
+  const s = srcsProblem(r.srcs, ' — the budget document the row is read from');
+  if (s) out.push(s);
+  return out;
+}
+
+/** Why a strength row is not one, or []: st a state code or null; body resolving; a whole year in STRENGTH_YEARS; sanctioned/actual whole numbers or null, not both null; perLakh/womenPct ≥ 0 or null; note; srcs. */
+export function strengthRowProblems(r, known = null) {
+  const { stop, problems: out } = rowKeys(r, STRENGTH_KEYS);
+  if (stop) return out;
+  if (!(r.st === null || STATE_CODES.includes(r.st))) out.push(`st ${show(r.st)} is not a state code or null`);
+  out.push(...bodyProblems(r.body, known));
+  if (!(Number.isInteger(r.year) && r.year >= STRENGTH_YEARS[0] && r.year <= STRENGTH_YEARS[1])) out.push(`year ${show(r.year)} is not a whole year ${STRENGTH_YEARS[0]}–${STRENGTH_YEARS[1]}`);
+  for (const k of ['sanctioned', 'actual']) if (!(r[k] === null || isCount(r[k]))) out.push(`${k} ${show(r[k])} is not a whole number ≥ 0 or null`);
+  if (r.sanctioned === null && r.actual === null) out.push('sanctioned and actual are both null — a row with no count is not a row');
+  for (const k of ['perLakh', 'womenPct']) if (!(r[k] === null || isRate(r[k]))) out.push(`${k} ${show(r[k])} is not a number ≥ 0 or null`);
+  out.push(...noteProblems(r.note));
+  const s = srcsProblem(r.srcs, ' — the table the row is read from');
+  if (s) out.push(s);
+  return out;
+}
+
+/** Why a footprint row is not one, or []: a force:fp- slug id; a kind from the list; label; body resolving; st a state code (required — a row the map cannot place is not a footprint row); city; since ISO or null; note; srcs. */
+export function footprintRowProblems(r, known = null) {
+  const { stop, problems: out } = rowKeys(r, FOOTPRINT_KEYS);
+  if (stop) return out;
+  if (!(typeof r.id === 'string' && FOOTPRINT_ID.test(r.id))) out.push(`id ${show(r.id)} is not a footprint id — write force:fp-<slug>`);
+  if (!FOOTPRINT_KINDS.includes(r.kind)) out.push(`kind ${show(r.kind)} is not one of ${FOOTPRINT_KINDS.join(' | ')}`);
+  if (!isText(r.label)) out.push('label is required — the installation as the list names it');
+  out.push(...bodyProblems(r.body, known));
+  if (!STATE_CODES.includes(r.st)) out.push(`st ${show(r.st)} is not a state code — a footprint row the map cannot place is not a footprint row`);
+  if (!isText(r.city)) out.push('city is required — the city the readout names');
+  if (!(r.since === null || (typeof r.since === 'string' && ISO_DATE.test(r.since)))) out.push(`since ${show(r.since)} is not an ISO date (YYYY, YYYY-MM or YYYY-MM-DD) or null`);
+  out.push(...noteProblems(r.note));
+  const s = srcsProblem(r.srcs, ' — the list the installation is read from');
+  if (s) out.push(s);
   return out;
 }
 

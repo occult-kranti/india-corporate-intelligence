@@ -19,7 +19,8 @@
  *   4. gate       the four invariants over what survives — any failure exits 1 and
  *                 writes nothing
  *   5. emit       one module per row of FLEETS (scripts/lib/vocab.mjs): energy and
- *                 welfare, and finance, ngo and capital (Phase G)
+ *                 welfare, finance, ngo and capital (Phase G), and force (whose row
+ *                 declares tabular `series` emitted beside the graph)
  *
  * It never fails on a killed or unresolved record: those are held out of the edges
  * and carried whole in META, because nothing is deleted. It never reads a clock. And
@@ -47,7 +48,7 @@ import {
   TIERS, PREDS, NODE_TYPES, FAMILIES, STATE_CODES, NARRATIVE_STATUS, SCHEME_STATUS, SCHEME_CATEGORIES, ISO_DATE, INVENTORY,
   FLEETS, TERMS_KEYS, amountProblem, STATE_BASES, WB_TOTAL_KEYS, WB_PROJECT_ID,
   OWNERSHIP_DECLARATIONS, HOLDING_CATEGORIES, HOLDING_KEYS, COVERAGE_READ, CONTROL_ROLES, holdingTextProblem,
-  FC_STATE_KEYS, fySpan, fcStateSumProblems, NOT_COUNTABLE_CLASSES,
+  FC_STATE_KEYS, fySpan, fcStateSumProblems, NOT_COUNTABLE_CLASSES, SERIES, seriesKey,
 } from './lib/vocab.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -934,7 +935,8 @@ function prepareFleet(read, sink) {
   }
   for (const { c, reason } of excluded) sink.warn(`${c.file}:${c.id}`, `excluded — ${reason}`);
 
-  return { ...read, mappings, entityGroups, schemeGroups, claims, survivors, killed, excluded, audit, contras };
+  // `rewrite` stays on the prepared fleet: series rows name entities by id too (readSeries).
+  return { ...read, mappings, rewrite, entityGroups, schemeGroups, claims, survivors, killed, excluded, audit, contras };
 }
 
 /** The alleged-needs-a-denial test, applied exactly as validate.mjs §4 applies it per file. */
@@ -1423,6 +1425,85 @@ function fcStateRows(p, edges, survivors, sink) {
 }
 
 // ---------------------------------------------------------------------------
+// 4c. Series — tabular rows per fleet (docs/superpowers/specs/2026-10-04-force-finance-design.md §4.1)
+// ---------------------------------------------------------------------------
+
+/** The doc comment over each series export. One line: the literal grab reads what follows. */
+const SERIES_DOC = {
+  budgets: 'Budget lines — one row per payer × body × head × component × FY × stage, ₹ crore as published (no conversion), read from every research file\'s budgets[] and sorted on those keys; a 0 is a figure, and each row\'s srcs is the budget document it is read from.',
+  strength: 'Sanctioned and actual strength — one row per body × year as the primary table (BPR&D DoPO, a state budget) prints it; perLakh and womenPct beside it only where published, else null.',
+  footprint: 'Installations a primary record places — one row per id (force:fp-<slug>), each with the state the map draws it in and the city the readout names; since is the record\'s date at the precision it gives, or null.',
+};
+
+/** Rows in key-field order (SERIES[name].unique): numbers numerically, everything else in code-unit order. */
+function seriesCompare(name) {
+  const fields = SERIES[name].unique;
+  return (a, b) => {
+    for (const f of fields) {
+      const x = a[f];
+      const y = b[f];
+      const c = typeof x === 'number' && typeof y === 'number' ? x - y : cmp(String(x), String(y));
+      if (c) return c;
+    }
+    return 0;
+  };
+}
+
+/**
+ * The series a fleet's FLEETS row declares (`series: [name…]`, names from SERIES in
+ * scripts/lib/vocab.mjs), read from EVERY research file in the directory — a budgets list in
+ * union-defence.json and one in state-police.json are one table — in file order. Each row
+ * is checked with the series' one row-problem function, so a bad row refuses the fleet
+ * exactly as a bad fcByState row does; `body` is rewritten by the reconciliation first, so
+ * an alias resolves and two rows that differ only by alias are one row twice; a repeated
+ * key is refused; the rows are then sorted on the key fields. A list the fleet does not
+ * declare is warned about and left unread, in every fleet. No list anywhere is an empty
+ * export, never an error. Returns null for a fleet without series.
+ */
+function readSeries(p, isKnown, sink) {
+  const declared = p.spec.series ?? [];
+  for (const f of p.files) {
+    for (const name of Object.keys(SERIES)) {
+      if (!declared.includes(name) && f.doc[name] != null) sink.warn(`${p.dir}/${f.name}:${name}`, `the ${p.fleet} fleet declares no ${name} series — this list is not exported`);
+    }
+  }
+  if (!p.spec.series) return null;
+  const out = {};
+  for (const name of declared) {
+    const spec = SERIES[name];
+    const rows = [];
+    const seen = new Map();
+    for (const f of p.files) {
+      const list = f.doc[name];
+      if (list == null) continue;
+      const where = `${p.dir}/${f.name}:${name}`;
+      if (!Array.isArray(list)) {
+        sink.error(where, `must be a list of { ${spec.keys.join(', ')} } rows`);
+        continue;
+      }
+      for (const [i, raw] of list.entries()) {
+        const w = `${where}[${i}]`;
+        // Only a body that is there is rewritten: adding the key would hide a missing one from the key check.
+        const row = raw && typeof raw === 'object' && !Array.isArray(raw) && 'body' in raw ? { ...raw, body: p.rewrite(raw.body) } : raw;
+        const problems = spec.problems(row, isKnown);
+        for (const msg of problems) sink.error(w, msg);
+        if (problems.length) continue;
+        const key = seriesKey(name, row);
+        if (seen.has(key)) {
+          sink.error(w, `${name} row ${key} appears twice (first in ${seen.get(key)})`);
+          continue;
+        }
+        seen.set(key, w);
+        rows.push(Object.fromEntries(spec.keys.map((k) => [k, row[k]])));
+      }
+    }
+    rows.sort(seriesCompare(name));
+    out[name] = rows;
+  }
+  return out;
+}
+
+// ---------------------------------------------------------------------------
 // 5. Emit
 // ---------------------------------------------------------------------------
 
@@ -1666,6 +1747,8 @@ function emitFleet(p, sink) {
   const own = spec.ownership ? p.ownership ?? { holdings: [], coverage: [], controls: [] } : null;
   // G4: the annexure's state rows, added up against this fleet's own national rows.
   const fc = spec.fcState ? fcStateRows(p, edges, survivors, sink) : null;
+  // Tabular series, read in assembleFleet after the gate (a body resolves against every fleet's ids).
+  const series = spec.series ? p.series ?? Object.fromEntries(spec.series.map((n) => [n, []])) : null;
   const benefits = [];
   for (const [i, c] of survivors.entries()) {
     if (!c.benefit || typeof c.benefit !== 'object') continue;
@@ -1732,6 +1815,7 @@ function emitFleet(p, sink) {
     inputs: p.inputs.map((i) => i.name),
     files,
     counts,
+    ...(series ? { series: Object.fromEntries(spec.series.map((n) => [n, series[n].length])) } : {}),
     reconciliation: {
       mappings: p.mappings,
       merged: [...p.entityGroups.values(), ...p.schemeGroups.values()]
@@ -1752,6 +1836,7 @@ function emitFleet(p, sink) {
   if (welfare) out.push(`import type { Coverage, Election, Scheme } from '${importPath(spec.out, 'src/data/welfare')}';`);
   if (own) out.push(`import type { CapitalControl, CapitalCoverage, Holding } from '${importPath(spec.out, 'src/graph/fleet')}';`);
   if (fc) out.push(`import type { FcStateRow } from '${importPath(spec.out, 'src/graph/fleet')}';`);
+  if (series) out.push(`import type { ${spec.series.map((n) => SERIES[n].type).join(', ')} } from '${importPath(spec.out, 'src/graph/fleet')}';`);
   out.push('');
   if (welfare) {
     out.push(arrayConst('WELFARE_SCHEMES', 'Scheme[]', schemes, (s) => indent(JSON.stringify(s, null, 2), '  ')));
@@ -1812,6 +1897,13 @@ function emitFleet(p, sink) {
     out.push(`/** G4. State/UT × FY rows of the Parliament annexure transcribed in ${HOME}/${fleet}/${spec.fcState}.json fcByState; each FY's receivedCr sums to that file's current national grant claim within ₹1 crore. Empty until the annexure is transcribed. */`);
     out.push(arrayConst(`${P}_FC_STATE`, 'FcStateRow[]', fc, row(FC_STATE_KEYS)));
   }
+  if (series) {
+    for (const name of spec.series) {
+      const s = SERIES[name];
+      out.push(`/** ${SERIES_DOC[name]} */`);
+      out.push(arrayConst(`${P}_${s.export}`, `${s.type}[]`, series[name], row(s.keys)));
+    }
+  }
   out.push(`export const ${P}_META: FleetMeta = ${JSON.stringify(meta, null, 2)};\n`);
 
   return {
@@ -1821,6 +1913,7 @@ function emitFleet(p, sink) {
       ...(loans ? { loanFacts: loans.facts, wbTotals: loans.wbTotals } : {}),
       ...(own ? { holdings: Object.fromEntries(own.holdings), coverage: own.coverage, controls: own.controls } : {}),
       ...(fc ? { fcState: fc } : {}),
+      ...(series ? { series } : {}),
     },
   };
 }
@@ -1858,6 +1951,7 @@ export function assembleFleet({ root = ROOT, dir = HOME } = {}) {
   const isKnown = (id) => fleetIds.has(id) || atlasIds.has(id) || INVENTORY.test(id);
   for (const p of prepared) gateFleet(p, isKnown, sinks[p.fleet]);
   for (const p of prepared) if (p.spec.ownership) p.ownership = readOwnership(p, isKnown, sinks[p.fleet]);
+  for (const p of prepared) p.series = readSeries(p, isKnown, sinks[p.fleet]);
 
   const res = { fleets: {}, fleetErrors: {}, errors: [...shared.errors], warnings: [...shared.warnings] };
   for (const p of prepared) {
@@ -1911,6 +2005,7 @@ function main() {
     console.log(
       `  · ${f.key.padEnd(8)} ${d.meta.runId}  ${String(c.files).padStart(3)} file(s)  ${String(c.nodes).padStart(4)} nodes  ${String(c.edges).padStart(4)} edges  ` +
         `${c.killed} killed  ${c.excluded} excluded  ${c.contrasAdded} denial(s) added${f.kind === 'welfare' ? `  ${c.schemes} schemes` : ''}` +
+        (d.meta.series ? `  ${Object.entries(d.meta.series).map(([k, v]) => `${v} ${k}`).join(', ')}` : '') +
         (d.meta.empty ? '  (empty — no research yet)' : ''),
     );
   }

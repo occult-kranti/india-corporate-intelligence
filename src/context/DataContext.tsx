@@ -10,6 +10,7 @@ import { WELFARE_ENTITIES, WELFARE_SCHEME_NODES, WELFARE_CLAIMS } from '../data/
 import { FINANCE_NODES, FINANCE_EDGES } from '../graph/finance.generated';
 import { NGO_NODES, NGO_EDGES } from '../graph/ngo.generated';
 import { CAPITAL_NODES, CAPITAL_EDGES } from '../graph/capital.generated';
+import { FORCE_NODES, FORCE_EDGES } from '../graph/force.generated';
 import type { GNode, GEdge, StateCode } from '../graph/schema';
 
 /**
@@ -99,6 +100,8 @@ export function DataProvider({ children }: { children: ReactNode }) {
       { nodes: FINANCE_NODES, edges: FINANCE_EDGES },
       { nodes: NGO_NODES, edges: NGO_EDGES },
       { nodes: CAPITAL_NODES, edges: CAPITAL_EDGES },
+      // The force fleet (budgets, strength and footprint ride beside its graph in FORCE_BUDGETS etc.).
+      { nodes: FORCE_NODES, edges: FORCE_EDGES },
     ]);
   }, []);
 

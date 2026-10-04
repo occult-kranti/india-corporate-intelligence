@@ -17,6 +17,7 @@ here.
 | `research/raw/finance/` | external finance — lenders, loans, conditions (`finance`) | graph | `src/graph/finance.generated.ts` (`FINANCE_`) | entities, claims (`loan` with `terms`), voids, narratives, base rates, symmetry check |
 | `research/raw/ngo/` | NGOs and foreign contributions (`ngo`) | graph | `src/graph/ngo.generated.ts` (`NGO_`) | entities, claims (`grant`, `enforce` with `contra`), voids, narratives, base rates, symmetry check |
 | `research/raw/capital/` | foreign capital in listed India (`capital`) | graph | `src/graph/capital.generated.ts` (`CAPITAL_`) | entities, claims (`own`, `role`, `award`, `law`), voids, narratives, base rates, symmetry check |
+| `research/raw/force/` | the money India spends on force — defence, central and state police, intelligence, prisons (`force`) | graph + series | `src/graph/force.generated.ts` (`FORCE_`) | entities, claims (`award`, `own`, `role`, `law`, `enforce`, `bond`), voids, narratives, base rates, symmetry check, **and three tabular series** `budgets[]`, `strength[]`, `footprint[]` (below) |
 
 A **graph** module exports `<P>_NODES`, `<P>_EDGES`, `<P>_EDGE_DOMAIN`, `<P>_BENEFITS`,
 `<P>_VOIDS`, `<P>_NARRATIVES`, `<P>_BASE_RATES`, `<P>_SYMMETRY`, `<P>_GAPS`,
@@ -552,3 +553,31 @@ claim in the same file whose `from`/`to` span exactly that FY (`YYYY-04-01` →
 `YYYY+1-03-31`) and that cites a source URL the rows cite; an FY with no such national
 claim is an error. Record the national total first; a state table nobody can add up is not
 a table.
+
+## Phase H — the money India spends on force (`force` fleet): tabular series
+
+Any `<domain>.json` in `research/raw/force/` may carry three top-level arrays besides its
+claims. The assembler reads every file's arrays, applies RECONCILIATION mappings to `body`,
+rejects any row that breaks a rule, sorts deterministically and emits `FORCE_BUDGETS`,
+`FORCE_STRENGTH`, `FORCE_FOOTPRINT` with the counts in `META.series`. Validator §4 applies
+the same rules at the quarantine boundary; §5 re-assembles and compares. Exact keys, in
+this order (`scripts/lib/vocab.mjs`: `BUDGET_KEYS`, `STRENGTH_KEYS`, `FOOTPRINT_KEYS`):
+
+```jsonc
+"budgets":   [{ "payer": "union" | "<state code>", "body": "<entity id defined in the fleet, or min:/co:>",
+                "head": "the demand or major head as printed", "component": "total|revenue|capital|pension|pay|grant-to-states|other",
+                "fy": "2024-25", "stage": "BE|RE|actual", "cr": 31543.2, "note": null | "reported: …", "srcs": [["label","https://…"]] }]
+"strength":  [{ "st": "<state code>" | null, "body": "<entity id>", "year": 2023, "sanctioned": 232000, "actual": 196000,
+                "perLakh": 155.3 | null, "womenPct": 12.1 | null, "note": null, "srcs": [...] }]
+"footprint": [{ "id": "force:fp-<slug>", "kind": "cantonment|dpsu-plant|drdo-lab|command-hq|capf-hq|commissionerate|prison|forensic-lab|training|ordnance|other",
+                "label": "Pune Cantonment", "body": "<entity id>", "st": "mh", "city": "Pune", "since": "1817" | null, "note": null, "srcs": [...] }]
+```
+
+A budgets row is unique on (payer, body, head, component, fy, stage); strength on (body,
+year); footprint on `id`, and a footprint row must carry `st` and `city` — a row the map
+cannot place is not a row. `cr` is ₹ crore as printed and may be 0; a line the document
+does not print is a void, not a row. `fy` is an Indian financial-year label. A row's `body`
+must resolve to an entity (a `force:` body inside this fleet). A row transcribed from a
+secondary (PRS, press) keeps its source but begins `note` with `reported:`; the page prints
+that tier in its caption. No row names a person. No row carries a city budget that the
+payer does not publish (Delhi Police is the one city police with a Union demand).
