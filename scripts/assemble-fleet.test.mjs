@@ -184,7 +184,16 @@ const edge = (id) => E.edges.find((e) => e.id === id);
 function grab(src, name) {
   const m = src.match(new RegExp(`export const ${name}\\b[^=]*=\\s*(\\[[\\s\\S]*?\\n\\];|\\{[\\s\\S]*?\\n\\};)`, 'm'));
   assert.ok(m, `no literal for ${name}`);
-  return Function(`"use strict"; return (${m[1].replace(/;$/, '')});`)();
+  const body = m[1].replace(/;$/, '');
+  // The same rule validate.mjs grabConst applies: a body made only of spreads names chunk constants.
+  if (/^\[\s*(?:\.\.\.[A-Za-z0-9_]+,?\s*)+\]$/.test(body)) {
+    return [...body.matchAll(/\.\.\.([A-Za-z0-9_]+)/g)].flatMap(([, part]) => {
+      const pm = src.match(new RegExp(`(?:^|\\n)const ${part}\\b[^=]*=\\s*(\\[[\\s\\S]*?\\n\\];)`, 'm'));
+      assert.ok(pm, `no chunk ${part} for ${name}`);
+      return Function(`"use strict"; return (${pm[1].replace(/;$/, '')});`)();
+    });
+  }
+  return Function(`"use strict"; return (${body});`)();
 }
 
 // ---------------------------------------------------------------------------
@@ -1430,6 +1439,27 @@ test('series: a force fleet with two budgets rows, one strength row and one foot
   assert.deepEqual(many.force.data.series.budgets.map((r) => `${r.payer}/${r.component}/${r.fy}/${r.stage}`), ['union/capital/2024-25/BE', 'union/revenue/2024-25/BE', 'union/revenue/2024-25/RE', 'union/revenue/2025-26/BE', 'wb/total/2024-25/BE'], 'sorted on the key fields, not in file order');
   assert.deepEqual(many.force.data.series.strength.map((r) => `${r.body}/${r.year}`), ['force:fx-mod/2024', 'force:fx-police/1999', 'force:fx-police/2024']);
   assert.equal(assemble({ rawDir: forceFleet() }).force.text, out.force.text, 'deterministic — a function of the input bytes only');
+  tscClean(out.force.text, OUTPUTS.force);
+});
+
+test('series: more than 1,000 rows are emitted as chunk constants that the export spreads — the public shape and the read-back are unchanged, and tsc accepts it', () => {
+  const heads = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'];
+  const fys = ['2000-01', '2001-02', '2002-03', '2003-04', '2004-05', '2005-06', '2006-07', '2007-08', '2008-09', '2009-10', '2010-11', '2011-12', '2012-13', '2013-14', '2014-15', '2015-16', '2016-17', '2017-18', '2018-19', '2019-20', '2020-21', '2021-22', '2022-23', '2023-24', '2024-25', '2025-26', '2026-27'];
+  const rows = [];
+  for (const head of heads) for (const fy of fys) for (const stage of ['BE', 'RE', 'actual']) for (const component of ['total', 'revenue', 'capital']) rows.push(budgetRow({ head: `Demand ${head}`, fy, stage, component, cr: rows.length }));
+  assert.ok(rows.length > 2000 && rows.length <= 2000 + 1000, `fixture size ${rows.length}`);
+  const out = assemble({ rawDir: forceFleet({ defence: { budgets: rows } }) });
+  assert.deepEqual(out.errors, []);
+  const n = out.force.data.series.budgets.length;
+  assert.equal(n, rows.length + 1, 'every row plus the police row');
+  assert.match(out.force.text, /\nconst FORCE_BUDGETS_0: BudgetRow\[\] = \[\n/, 'first chunk');
+  assert.match(out.force.text, /\nconst FORCE_BUDGETS_2: BudgetRow\[\] = \[\n/, 'third chunk');
+  assert.doesNotMatch(out.force.text, /\nconst FORCE_BUDGETS_3\b/, 'no fourth chunk for this size');
+  assert.match(out.force.text, /\n\/\*\* [^\n]+ \*\/\nconst FORCE_BUDGETS_0/, 'the doc comment stays with the series');
+  assert.match(out.force.text, /\nexport const FORCE_BUDGETS: BudgetRow\[\] = \[\n  \.\.\.FORCE_BUDGETS_0,\n  \.\.\.FORCE_BUDGETS_1,\n  \.\.\.FORCE_BUDGETS_2,\n\];\n/, 'the export spreads the chunks in order');
+  assert.deepEqual(grab(out.force.text, 'FORCE_BUDGETS'), out.force.data.series.budgets, 'the read-back is the data, in order');
+  assert.match(out.force.text, /\nexport const FORCE_STRENGTH: StrengthRow\[\] = \[\n\s*\{/, 'a small series is still one literal');
+  assert.deepEqual(grab(out.force.text, 'FORCE_META').series.budgets, n);
   tscClean(out.force.text, OUTPUTS.force);
 });
 

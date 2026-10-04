@@ -1528,6 +1528,28 @@ function arrayConst(name, type, rows, fmt) {
   return `export const ${name}: ${type} = [\n${rows.map((r) => `${fmt(r)},\n`).join('')}];\n`;
 }
 
+/**
+ * TypeScript gives up on one array literal of a few thousand object rows ("union type too
+ * complex", TS2590 — seen at 4,096 budgets rows). Above CHUNK_ROWS the rows are emitted as
+ * non-exported chunk constants `${name}_0`, `${name}_1`, … and the export spreads them, so the
+ * public shape (`export const NAME: T = [`) is unchanged and validate.mjs reads the chunks back
+ * (grabConst follows a body made only of spreads). Below the threshold the output is exactly
+ * arrayConst's, so every existing module stays byte-identical.
+ */
+const CHUNK_ROWS = 1000;
+function chunkedArrayConst(name, type, rows, fmt) {
+  if (rows.length <= CHUNK_ROWS) return arrayConst(name, type, rows, fmt);
+  const parts = [];
+  const names = [];
+  for (let i = 0; i * CHUNK_ROWS < rows.length; i += 1) {
+    const chunk = rows.slice(i * CHUNK_ROWS, (i + 1) * CHUNK_ROWS);
+    names.push(`${name}_${i}`);
+    parts.push(`const ${name}_${i}: ${type} = [\n${chunk.map((r) => `${fmt(r)},\n`).join('')}];\n`);
+  }
+  parts.push(`export const ${name}: ${type} = [\n${names.map((n) => `  ...${n},\n`).join('')}];\n`);
+  return parts.join('\n');
+}
+
 const NODE_KEYS = ['id', 'label', 'sub', 'ty', 'fam', 'st', 'sz', 'al', 'resolved', 'collisionRisk', 'd', 'srcs'];
 const EDGE_KEYS = ['id', 's', 't', 'pred', 'tier', 'a', 'lab', 'projectId', 'd', 'from', 'to', 'terms', 'srcs', 'innocentReading', 'upgradeIf', 'killIf', 'supersededBy'];
 const BENEFIT_KEYS = ['claimId', 's', 't', 'pred', 'tier', 'who', 'how', 'amountCr', 'confidence', 'srcs', 'domain'];
@@ -1901,7 +1923,7 @@ function emitFleet(p, sink) {
     for (const name of spec.series) {
       const s = SERIES[name];
       out.push(`/** ${SERIES_DOC[name]} */`);
-      out.push(arrayConst(`${P}_${s.export}`, `${s.type}[]`, series[name], row(s.keys)));
+      out.push(chunkedArrayConst(`${P}_${s.export}`, `${s.type}[]`, series[name], row(s.keys)));
     }
   }
   out.push(`export const ${P}_META: FleetMeta = ${JSON.stringify(meta, null, 2)};\n`);

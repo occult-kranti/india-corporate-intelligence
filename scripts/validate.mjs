@@ -65,6 +65,19 @@ function grabConst(where, src, name) {
   const m = src.match(new RegExp(`export const ${name}\\b[^=]*=\\s*(\\[[\\s\\S]*?\\n\\];|\\{[\\s\\S]*?\\n\\};)`, 'm'));
   if (!m) return null;
   const body = m[1].replace(/;$/, '');
+  // A large series is emitted as chunk constants and an export that only spreads them
+  // (assemble-fleet.mjs chunkedArrayConst): read each chunk and concatenate, in order.
+  const spreads = body.match(/^\[\s*(?:\.\.\.[A-Za-z0-9_]+,?\s*)+\]$/) ? [...body.matchAll(/\.\.\.([A-Za-z0-9_]+)/g)].map((x) => x[1]) : null;
+  if (spreads) {
+    const out = [];
+    for (const part of spreads) {
+      const pm = src.match(new RegExp(`(?:^|\\n)const ${part}\\b[^=]*=\\s*(\\[[\\s\\S]*?\\n\\];)`, 'm'));
+      if (!pm) { err(where, `could not find chunk ${part} of ${name}`); return null; }
+      try { out.push(...Function(`"use strict"; return (${pm[1].replace(/;$/, '')});`)()); }
+      catch (e) { err(where, `could not parse chunk ${part} of ${name}: ${e.message}`); return null; }
+    }
+    return out;
+  }
   try {
     return Function(`"use strict"; return (${body});`)();
   } catch (e) {
