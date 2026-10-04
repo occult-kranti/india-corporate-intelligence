@@ -23,9 +23,10 @@ sys.path.insert(0, str(HERE / "fixtures"))
 
 import build  # noqa: E402
 import make_fixture  # noqa: E402
+import security  # noqa: E402
 
 FIXTURE_DIR = HERE / "fixtures"
-OUTPUTS = ["quality.json", "rates.json", "concentration.json", "timing.json", "redflags.json", "provenance.json"]
+OUTPUTS = ["quality.json", "rates.json", "concentration.json", "timing.json", "redflags.json", "security.json", "provenance.json"]
 EXPECTED_BANDS = ["<₹10 L", "₹10 L–1 cr", "₹1–10 cr", "₹10–100 cr", ">₹100 cr"]
 
 
@@ -258,7 +259,7 @@ class BuildOnFixture(unittest.TestCase):
     def test_selected_bidder_address_never_emitted(self):
         self.assertNotIn("ADDR-SENTINEL", self.blob)
         self.assertNotIn("Fixture Street", self.blob)
-        for text in build.SQL.values():
+        for text in list(build.SQL.values()) + list(security.SQL.values()):
             self.assertNotIn("selected_bidder_address", text)
 
     # --- timing --------------------------------------------------------------------------
@@ -310,13 +311,281 @@ class BuildOnFixture(unittest.TestCase):
         self.assertIn("ORDER BY value_sum DESC, bidder_norm LIMIT 5", sql["concentration"])
         self.assertIn("arg_max(f.selected_bidder, (f.v, f.selected_bidder))", sql["concentration"])
         self.assertIn("ORDER BY b.awards DESC, b.portal, b.buyer", sql["concentration"])
-        # a second run over the same fixture reproduces every file byte for byte
+        ssql = security.SQL
+        self.assertIn("ORDER BY value_sum DESC, bidder_norm LIMIT 5", ssql["concentration"])
+        self.assertIn("ORDER BY b.awards DESC, b.portal, b.buyer", ssql["concentration"])
+        self.assertIn("ORDER BY a.awards DESC, a.value_sum DESC, a.bidder_norm", ssql["concentration_by_class"])
+        for name in ("unclassified", "class_map"):
+            self.assertIn("ORDER BY rows DESC, portal, buyer", ssql[name])
+        self.assertIn("ORDER BY tb.rows DESC, tb.buyer", ssql["title_only_buyers"])
+        # a second run over the same fixture reproduces every file — all seven — byte for byte
+        self.assertEqual(sorted(p.name for p in self.tmp.glob("*.json")), sorted(OUTPUTS))
         with tempfile.TemporaryDirectory() as d2:
             build.run(arrow_dir=FIXTURE_DIR, out_dir=d2, as_of="2026-09-26", log=lambda *_: None)
             for name in OUTPUTS:
-                a = json.loads((self.tmp / name).read_text()); b = json.loads((Path(d2) / name).read_text())
-                a.pop("runtimeSeconds", None); b.pop("runtimeSeconds", None)
-                self.assertEqual(a, b, name)
+                self.assertEqual((self.tmp / name).read_bytes(), (Path(d2) / name).read_bytes(), name)
+
+# --------------------------------------------------------------------------------------
+# security.json — the slice is recomputed here from the FIXTURE'S DECLARATIONS
+# (make_fixture.SECURITY_*), not from security.py's regexes
+# --------------------------------------------------------------------------------------
+_CODE = re.compile(r"^\d{4}_([A-Za-z][A-Za-z0-9]*)_\d+_\d+$")
+
+
+def _junk(org) -> bool:
+    return org is None or org.strip() == "" or org.lower().startswith("test")
+
+
+def _buyer(row) -> str | None:
+    org = row["organisation_name"]
+    if row["portal_type"] == 0:
+        return None if org is None else org.split("||")[0].split("/")[0].strip()
+    m = _CODE.match(row["tender_id"] or "")
+    return None if org is None else f"{org} / {m.group(1) if m else 'unparsed'}"
+
+
+def _expected_class(row) -> str | None:
+    """The class the fixture's author declared for this row, or None if it must stay out of the slice."""
+    org = row["organisation_name"]
+    if _junk(org):
+        return None
+    if row["portal_type"] == 0:
+        return make_fixture.SECURITY_CENTRAL_ORGS.get(org)
+    m = _CODE.match(row["tender_id"] or "")
+    if m and make_fixture.SECURITY_STATE_CODES.get(m.group(1)) == org:
+        return "state-police"
+    titles = make_fixture.SECURITY_TITLES + [make_fixture.TITLE_ONLY_SECURITY_BODY[2]]
+    return "state-police" if row["title"] in titles else None
+
+
+def _dedup(rows: list[dict]) -> list[dict]:
+    first: dict = {}
+    for r in sorted(rows, key=lambda r: r["internal_id"]):
+        b = r["selected_bidder"]
+        first.setdefault((r["tender_id"], None if b is None else b.strip().lower(), r["aoc_at"]), r)
+    return list(first.values())
+
+
+def _plausible(v) -> bool:
+    return v is not None and 0 < v <= 1e12
+
+
+class SecuritySliceOnFixture(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        make_fixture.write_fixture(FIXTURE_DIR / "fixture.arrow", seed=2026)
+        cls.tmpdir = tempfile.TemporaryDirectory()
+        cls.tmp = Path(cls.tmpdir.name)
+        build.run(arrow_dir=FIXTURE_DIR, out_dir=cls.tmp, as_of="2026-10-04", log=lambda *_: None)
+        cls.sec = json.loads((cls.tmp / "security.json").read_text())
+        cls.text = (cls.tmp / "security.json").read_text()
+        cls.docs = {n: json.loads((cls.tmp / n).read_text()) for n in OUTPUTS}
+        cls.rows = _fixture_table().to_pylist()
+        cls.survivors = _dedup(cls.rows)
+        for r in cls.rows:
+            r["_class"] = _expected_class(r)
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.tmpdir.cleanup()
+
+    def test_security_class_map_each_invented_buyer_in_its_class(self):
+        cmap = {(r["portal"], r["buyer"]): r for r in self.sec["classes"]["map"]}
+        for org, cls in make_fixture.SECURITY_CENTRAL_ORGS.items():
+            key = ("central", org.split("||")[0].split("/")[0].strip())
+            self.assertIn(key, cmap, org)
+            self.assertEqual(cmap[key]["class"], cls, org)
+            self.assertEqual(cmap[key]["route"], "buyer")
+            if cls != "other-security":  # the member that put it there really matches the buyer key
+                rx = next(m[2] for m in security.MEMBERS if m[1] == cmap[key]["member"])
+                self.assertRegex(key[1].lower(), rx)
+        for code, state in make_fixture.SECURITY_STATE_CODES.items():
+            row = cmap[("state", f"{state} / {code}")]
+            self.assertEqual((row["class"], row["route"]), ("state-police", "department code"))
+        # the excluded code, the decoys and the junk organisation are nowhere in the slice
+        excluded = " / ".join(make_fixture.EXCLUDED_STATE_CODE)
+        self.assertIn(excluded, security.STATE_CODE_EXCLUDED)
+        self.assertTrue(re.search(security.STATE_CODE_RE, make_fixture.EXCLUDED_STATE_CODE[1].lower()), "the exclusion is exercised")
+        listed = {r["buyer"] for r in self.sec["classes"]["map"]} | {r["buyer"] for r in self.sec["classes"]["titleOnlyBuyers"]}
+        self.assertNotIn(excluded, listed)
+        for decoy in make_fixture.DECOY_CENTRAL_ORGS:
+            self.assertNotIn(decoy, self.text, decoy)
+        self.assertNotIn("test / FXPOL", self.text)
+        # other-security is listed for the reader to see what the regex caught
+        unc = {r["buyer"] for r in self.sec["classes"]["unclassified"]}
+        self.assertEqual(unc, {k[1] for k, r in cmap.items() if r["class"] == "other-security"})
+        self.assertEqual(set(r["class"] for r in self.sec["classes"]["map"]) | {"state-police"}, set(security.CLASS_ORDER))
+        state, code, title = make_fixture.TITLE_ONLY_SECURITY_BODY
+        title_rows = sum(1 for r in self.survivors if r["_class"] == "state-police" and r["title"] in make_fixture.SECURITY_TITLES + [title])
+        self.assertEqual(self.sec["classes"]["titleOnlyBuyersTotal"]["rows"], title_rows)
+        body = f"{state} / {code}"
+        for t in self.sec["classes"]["titleOnlyBuyers"]:  # the share of the buyer's own raw rows the title rule took
+            own = [r for r in self.rows if r["portal_type"] == 1 and _buyer(r) == t["buyer"]]
+            self.assertEqual(t["buyerRawRows"], len(own), t["buyer"])
+            self.assertEqual(t["sliceRawRows"], sum(1 for r in own if r["_class"]), t["buyer"])
+            if t["buyer"] != body:
+                self.assertLess(t["sliceRawRows"], t["buyerRawRows"], "an ordinary department: most of its rows stay out")
+        mostly = self.sec["classes"]["titleOnlyBuyersMostlySecurityTitled"]
+        self.assertEqual([m["buyer"] for m in mostly], [body], "only the police-housing body reads as mostly security-titled")
+        self.assertEqual(mostly[0]["sliceShareOfBuyerRawRowsPct"], 100.0)
+        self.assertNotIn(body, cmap and {k[1] for k in cmap}, "a reading aid: nothing is added to the class map")
+        self.assertEqual([c["class"] for c in self.sec["headline"]], security.CLASS_ORDER)
+
+    def test_security_quality_and_rates_reconcile_to_fixture_counts(self):
+        q = {r["class"]: r for r in self.sec["quality"]["byClass"]}
+        rt = {r["class"]: r for r in self.sec["rates"]["byClass"]}
+        for cls in security.CLASS_ORDER:
+            raw = [r for r in self.rows if r["_class"] == cls]
+            dd = [r for r in self.survivors if r["_class"] == cls]
+            rated = [r for r in dd if r["bids_received"] is not None and 1 <= r["bids_received"] <= 1000]
+            single = sum(r["bids_received"] == 1 for r in rated)
+            self.assertGreater(len(dd), 0, cls)
+            self.assertEqual(q[cls]["rawRows"], len(raw), cls)
+            self.assertEqual(q[cls]["dedupRows"], len(dd), cls)
+            self.assertEqual(q[cls]["bidsReceived"]["null"], sum(r["bids_received"] is None for r in dd), cls)
+            self.assertEqual(q[cls]["contractValue"]["null"], sum(r["contract_value_amount"] is None for r in dd), cls)
+            self.assertEqual(q[cls]["winnerMarkers"]["marked"], sum(build.is_marked(r["selected_bidder"]) for r in dd), cls)
+            self.assertEqual(q[cls]["bidsReceived"]["inDenominator"] + q[cls]["bidsReceived"]["excludedFromDenominator"], len(dd))
+            self.assertEqual((rt[cls]["n"], rt[cls]["singleBidder"]), (len(rated), single), cls)
+            lo, hi = rt[cls]["wilson95"]
+            self.assertTrue(lo <= rt[cls]["singleBidderPct"] <= hi, cls)
+        all_dd = [r for r in self.survivors if r["_class"]]
+        self.assertEqual(self.sec["quality"]["afterDedup"]["rows"], len(all_dd))
+        self.assertEqual(self.sec["quality"]["raw"]["rows"], sum(1 for r in self.rows if r["_class"]))
+        self.assertLess(self.sec["quality"]["afterDedup"]["rows"], self.sec["quality"]["raw"]["rows"], "the dedup rule bites in the slice")
+        self.assertEqual(self.sec["rates"]["denominatorN"], sum(r["n"] for r in self.sec["rates"]["byClass"]))
+        self.assertEqual(sum(r["n"] for r in self.sec["rates"]["byClassYear"]), self.sec["rates"]["denominatorN"])
+        # the declared contrast: works draw many bidders, stores and DPSUs few
+        self.assertLess(rt["works"]["singleBidderPct"], rt["stores"]["singleBidderPct"])
+        self.assertLess(rt["works"]["singleBidderPct"], rt["dpsu"]["singleBidderPct"])
+
+    def test_security_comparators_are_read_from_the_same_run(self):
+        rates, redflags, timing = self.docs["rates.json"], self.docs["redflags.json"], self.docs["timing.json"]
+        by_year, by_py = {}, {}
+        for r in rates["byPortalYear"]:
+            a = by_year.setdefault(r["year"], [0, 0]); a[0] += r["n"]; a[1] += r["singleBidder"]
+            by_py[(r["portal"], r["year"])] = (r["n"], r["singleBidder"])
+        for row in self.sec["rates"]["byClassYear"]:
+            self.assertEqual([row["wholeFile"]["n"], row["wholeFile"]["singleBidder"]], by_year[row["year"]], row)
+            self.assertEqual((row["wholeFileSamePortal"]["n"], row["wholeFileSamePortal"]["singleBidder"]), by_py[(row["portal"], row["year"])])
+        single = next(i for i in redflags["indicators"] if i["indicator"] == "singleBidding")
+        self.assertEqual(self.sec["rates"]["total"]["wholeFile"]["n"], single["familySize"])
+        self.assertEqual(self.sec["rates"]["total"]["wholeFile"]["singleBidderPct"], single["ratePct"])
+        rest = self.sec["rates"]["total"]["restOfFile"]
+        self.assertEqual(rest["n"] + self.sec["rates"]["total"]["n"], single["familySize"])
+        for ind in self.sec["redflags"]["indicators"]:
+            wf = next(i for i in redflags["indicators"] if i["indicator"] == ind["indicator"])
+            self.assertEqual(ind["wholeFile"], {k: wf[k] for k in ("familySize", "count", "ratePct", "wilson95")})
+            self.assertEqual(sum(c["familySize"] for c in ind["byClass"]), ind["familySize"], ind["indicator"])
+            self.assertEqual(sum(c["count"] for c in ind["byClass"]), ind["count"], ind["indicator"])
+            self.assertTrue(len(ind["innocentReading"]) > 20)
+        self.assertEqual(self.sec["timing"]["total"]["wholeFile"]["shareLe2DaysPct"], timing["shareLe2Days"]["pct"])
+        wf_bands = {r["key"]: r for r in rates["byValueBand"]}
+        for b in self.sec["bands"]["byClass"][0]["bands"]:
+            if b["band"] in wf_bands:
+                self.assertEqual(b["wholeFile"]["singleBidderPct"], wf_bands[b["band"]]["singleBidderPct"])
+        # every class carries every band, the 'value missing or implausible' row included
+        for c in self.sec["bands"]["byClass"]:
+            self.assertEqual([b["band"] for b in c["bands"]], [b["band"] for b in build.VALUE_BANDS] + [build.VALUE_BAND_OTHER])
+            self.assertEqual(sum(b["rows"] for b in c["bands"]), c["rows"])
+
+    def test_security_timing_n_accounting_identity(self):
+        q = {r["class"]: r["dedupRows"] for r in self.sec["quality"]["byClass"]}
+        q[None] = self.sec["quality"]["afterDedup"]["rows"]
+        self.assertIn(security.TIMING_BIN_CASE, build.SQL["timing_hist"], "the slice's bins are the pipeline's bins")
+        rows = [self.sec["timing"]["total"]] + self.sec["timing"]["byClass"]
+        for row in rows:
+            key = None if row["class"] == "all slice" else row["class"]
+            self.assertEqual(row["n"] + row["excludedAocBeforeClosing"] + row["excludedDateMissing"], row["dedupRows"], row["class"])
+            self.assertEqual(row["dedupRows"], q[key], row["class"])
+            self.assertEqual(sum(b["n"] for b in row["daysClosingToAoc"]), row["n"], row["class"])
+            self.assertEqual([b["bin"] for b in row["daysClosingToAoc"]], security.TIMING_BINS)
+        total = self.sec["timing"]["total"]
+        self.assertGreater(total["excludedAocBeforeClosing"], 0, "the fixture carries date-order defects in the slice")
+        self.assertGreater(total["excludedDateMissing"], 0, "the fixture carries missing dates in the slice")
+        dd = [r for r in self.survivors if r["_class"]]
+        self.assertEqual(total["excludedDateMissing"], sum(r["aoc_at"] is None or r["closing_at"] is None for r in dd))
+        short = next(i for i in self.sec["redflags"]["indicators"] if i["indicator"] == "shortDecisionWindow")
+        self.assertEqual(short["familySize"], total["n"])
+
+    def test_security_naming_rule(self):
+        fam: dict = {}
+        for r in self.survivors:
+            if r["_class"] and r["selected_bidder"] is not None and _plausible(r["contract_value_amount"]):
+                key = (r["_class"], _buyer(r), r["selected_bidder"].strip().lower())
+                fam[key] = fam.get(key, 0) + 1
+        c = self.sec["concentration"]
+        named = 0
+        for row in c["byBuyer"]:
+            self.assertGreaterEqual(row["markedAwards"], 50)
+            self.assertLessEqual(len(row["topMarkedWinners"]), 5)
+            for w in row["topMarkedWinners"]:
+                named += 1
+                self.assertTrue(build.is_marked(w["name"]), w["name"])
+                self.assertGreaterEqual(w["awards"], 5)
+                self.assertGreaterEqual(fam[(row["class"], row["buyer"], w["name"].strip().lower())], 5, w["name"])
+        for cl in c["byClass"]:
+            self.assertLessEqual(len(cl["topMarkedWinners"]), 10)
+            for w in cl["topMarkedWinners"]:
+                named += 1
+                self.assertTrue(build.is_marked(w["name"]), w["name"])
+                self.assertGreaterEqual(w["maxAwardsFromOneBuyer"], 5)
+                best = max(k for (cls, _, n), k in fam.items() if cls == cl["class"] and n == w["name"].strip().lower())
+                self.assertGreaterEqual(best, 5, w["name"])
+        self.assertGreater(named, 0)
+        self.assertIn(make_fixture.SECURITY_WINNER, self.text)
+        # the rare marked winner has exactly four awards from one buyer: never named
+        rare = [r for r in self.survivors if r["selected_bidder"] == make_fixture.RARE_MARKED_WINNER]
+        self.assertEqual(len(rare), 4, "the sentinel is not vacuous")
+        self.assertNotIn(make_fixture.RARE_MARKED_WINNER.lower(), self.text.lower())
+        # no bare name, no joined list holding one, no component of one
+        low = self.text.lower()
+        for name in make_fixture.UNMARKED_WINNERS + make_fixture.MIXED_WINNERS:
+            self.assertNotIn(name.lower(), low, name)
+        for name in make_fixture.MIXED_WINNERS:
+            for part in build.name_components(name):
+                if not build.is_marked(part):
+                    self.assertNotIn(part.lower(), low, part)
+        self.assertEqual(c["msOnlyNamed"]["of"], len({w["name"] for row in c["byBuyer"] for w in row["topMarkedWinners"]}
+                                                     | {w["name"] for cl in c["byClass"] for w in cl["topMarkedWinners"]}))
+        rep = next(i for i in self.sec["redflags"]["indicators"] if i["indicator"] == "repeatSingleBidderMarkedWinners")
+        self.assertEqual(rep["noNames"], "pairs are counted, never listed")
+        # a central buyer's slice family is its concentration.json family: same counts, HHIs and named winners
+        whole = {(r["portal"], r["buyer"]): r for r in self.docs["concentration.json"]["byBuyer"]}
+        shared = [r for r in c["byBuyer"] if r["portal"] == "central" and (r["portal"], r["buyer"]) in whole]
+        self.assertTrue(shared)
+        for r in shared:
+            w = whole[(r["portal"], r["buyer"])]
+            for k in ("awards", "markedAwards", "unmarkedAwards", "hhiMarkedCount", "hhiMarkedValue", "topMarkedWinnerShareOfCountPct"):
+                self.assertEqual(r[k], w[k], (r["buyer"], k))
+            self.assertEqual([x["name"] for x in r["topMarkedWinners"]], [x["name"] for x in w["topMarkedWinners"]])
+            self.assertAlmostEqual(r["valueSumInr"], w["valueSumInr"], delta=1.0)
+
+    def test_security_read_me_first_rule_provenance_and_innocent_readings(self):
+        s = self.sec
+        self.assertEqual(list(s)[0], "readMeFirst")
+        for phrase in ("not on CPPP", "Defence Procurement Portal", "Defence Acquisition Procedure", "GeM", "state police",
+                       "central armed police forces", "DRDO", "BRO", "MES", "Defence Estates", "DPSUs", "prisons", "fire", "forensic"):
+            self.assertIn(phrase, s["readMeFirst"], phrase)
+        top = max(s["classes"]["map"], key=lambda r: (r["rows"], r["buyer"]))
+        self.assertIn(f"{top['buyer']} ({top['class']}) alone is {build.pct(top['rows'], s['quality']['afterDedup']['rows'])}%", s["readMeFirst"])
+        rule = s["sliceRule"]
+        self.assertEqual(rule["centralBuyerRegex"], security.CENTRAL_SLICE_RE)
+        self.assertEqual(rule["stateTitleRegex"], security.STATE_TITLE_RE)
+        self.assertEqual(rule["stateDepartmentCodeRegex"], security.STATE_CODE_RE)
+        self.assertEqual(rule["classes"], security.CLASS_ORDER)
+        self.assertEqual(s["provenance"]["sliceRule"], rule)
+        self.assertEqual(s["provenance"]["sliceSql"], security.SQL)
+        self.assertEqual(s["provenance"]["sql"], self.docs["provenance.json"]["provenance"]["sql"], "the shared block is the shared block")
+        self.assertIn("security.json", self.docs["provenance.json"]["outputs"])
+        for section in ("quality", "rates", "bands", "timing", "concentration"):
+            self.assertTrue(isinstance(s[section]["innocentReading"], str) and len(s[section]["innocentReading"]) > 40, section)
+        for c in security.CLASS_ORDER:
+            self.assertTrue(len(s["classes"]["definitions"][c]["innocentReading"]) > 40, c)
+        self.assertEqual(s["caveat"], build.RATES_CAVEAT)
+        cov = {m["member"]: m["rows"] for m in s["classes"]["memberCoverage"]}
+        self.assertEqual(set(cov), {m[1] for m in security.MEMBERS})
+        self.assertEqual(cov["HAL"], 0, "a member without a buyer key of its own is shown at 0, not dropped")
 
 
 if __name__ == "__main__":

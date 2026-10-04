@@ -4,7 +4,9 @@
     python3 scripts/cppp/build.py --arrow-dir <dir with *.arrow> --out research/raw/cppp --as-of 2026-09-26
 
 Reads every *.arrow file in --arrow-dir (Arrow IPC stream or file format, memory-mapped),
-registers the concatenated table in duckdb and writes six JSON files. Every file carries a
+registers the concatenated table in duckdb and writes seven JSON files (the seventh,
+security.json, is the security-buyer slice written by security.py over the same connection,
+dedup rule and provenance). Every file carries a
 `provenance` block with the input digests, raw and deduplicated row counts, the dedup rule
 and the exact SQL of every table (the module-level constants in SQL below, verbatim), so a
 reader can re-derive any number.
@@ -34,6 +36,10 @@ from pathlib import Path
 import duckdb
 import pyarrow as pa
 import pyarrow.ipc as ipc
+
+# security.py does `import build`; when this file runs as a script it is __main__, so register it
+# under its module name once, so the slice reads these very constants rather than a second copy.
+sys.modules.setdefault("build", sys.modules[__name__])
 
 # --------------------------------------------------------------------------------------
 # Rules, stated once and written into every provenance block
@@ -608,10 +614,16 @@ def run(arrow_dir, out_dir, as_of: str, log=print) -> dict:
         "provenance": provenance,
     }
     _write(out_dir / "redflags.json", redflags)
+    log(f"redflags.json in {time.time() - t_start:.1f}s")
+
+    # ---- the security slice: same connection, same dedup view, same provenance; comparators from this run
+    import security  # noqa: E402  (imported here: it imports this module)
+    sec = security.write_security(con, out_dir, provenance, rates=rates, timing=timing, redflags=redflags, log=log)
+    log(f"security.json in {time.time() - t_start:.1f}s")
     # runtimeSeconds deliberately NOT written: it is the one field that cannot be reproduced.
-    _write(out_dir / "provenance.json", {"provenance": provenance, "outputs": ["quality.json", "rates.json", "concentration.json", "timing.json", "redflags.json"]})
+    _write(out_dir / "provenance.json", {"provenance": provenance, "outputs": ["quality.json", "rates.json", "concentration.json", "timing.json", "redflags.json", "security.json"]})
     log(f"done in {time.time() - t_start:.1f}s → {out_dir}")
-    return {"quality": quality, "rates": rates, "concentration": concentration, "timing": timing, "redflags": redflags, "provenance": provenance}
+    return {"quality": quality, "rates": rates, "concentration": concentration, "timing": timing, "redflags": redflags, "security": sec, "provenance": provenance}
 
 
 def _money(x):

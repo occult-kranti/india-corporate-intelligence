@@ -16,6 +16,14 @@ state, state tender_ids without a department code, dirty tender_type values ('1'
 None, 'Open'), junk organisations ('test …', '', None), central hierarchies written with
 '||' and with '/', and marked, unmarked and comma-joined (marked+bare) winners.
 
+The security slice (scripts/cppp/security.py) gets invented buyers of every class, appended
+after the rows above so those rows are unchanged: SECURITY_CENTRAL_ORGS maps each invented
+central organisation_name to the class it must land in; SECURITY_STATE_CODES and
+SECURITY_TITLES declare the state rows that must enter the slice by department code or by
+title; the DECOY_* lists must stay out. The tests recompute the slice from these declarations,
+not from security.py's regexes. RARE_MARKED_WINNER wins exactly four awards from one security
+buyer and must never be named; SECURITY_WINNER dominates the heavy security buyers and is named.
+
 Schema (column names and Arrow types) matches the real files exactly.
 
 Usage: python3 scripts/cppp/fixtures/make_fixture.py [--out PATH] [--seed 2026]
@@ -70,6 +78,43 @@ TENDER_TYPES_DIRTY = ["1", "2", "", None, "Open", "open", "LIMITED", "Open Tende
 TITLES = ["Construction of road", "Supply of pipes", "Repair of building", "Consultancy services",
           "Supply of transformers", "Drain works", "Annual maintenance", "Civil works ward 7"]
 COMPLETION = ["3 Months", "6 Months", "12 Months", "45 Days", None]
+
+# --- the security slice: invented bodies, each with the class it must land in -------------------
+SECURITY_CENTRAL_ORGS = {  # organisation_name as the portal writes it → class; (rows per org below)
+    "Fixture Military Engineer Works||Zone North||Division 4": "works",
+    "Fixture Border Roads Directorate/Task Force 9": "works",
+    "IHQ of Fixture MoD (Army)||Command One||Supply Depot": "stores",
+    "Fixture Coast Guard Region||District 2": "stores",
+    "Fixture Defence Research Laboratory||Lab 3": "research",
+    "Ordnance Factory Fixtureabad": "dpsu",
+    "Fixture Gun Carriage Factory": "dpsu",
+    "DG,Fixture Border Security Force,MHA||Frontier 1": "capf",
+    "Fixture Narcotics Control Unit": "intelligence-investigation",
+    "Fixture Police Wireless Directorate": "other-security",
+}
+SECURITY_CENTRAL_TENDERS = {  # tenders per org: the first three reach >= 50 marked plausible awards
+    "Fixture Military Engineer Works||Zone North||Division 4": 170, "IHQ of Fixture MoD (Army)||Command One||Supply Depot": 110,
+    "DG,Fixture Border Security Force,MHA||Frontier 1": 100,
+}
+SECURITY_SINGLE_P = {"works": 0.03, "stores": 0.6, "research": 0.3, "dpsu": 0.5, "capf": 0.2,
+                     "intelligence-investigation": 0.4, "other-security": 0.3, "state-police": 0.15}
+DECOY_CENTRAL_ORGS = [  # near misses: must NOT enter the slice
+    "Fixture Directorate of Estates", "Fixture Corporate Research and Development Centre", "Fixture Firefly Lighting Board",
+]
+SECURITY_STATE_CODES = {"FXPOL": "Kerala", "FXJAIL": "West Bengal"}  # department code → state; enter by code
+EXCLUDED_STATE_CODE = ("Maharashtra", "DGPSP")  # caught by the code regex, excluded by name (government printing)
+SECURITY_TITLES = [  # enter by title from an ordinary department
+    "Construction of police station building at ward 3 (synthetic)", "Supply of diet articles to district jail (synthetic)",
+    "Repair of fire station quarters (synthetic)",
+]
+# a police-housing body whose code does not name it: every row enters by title, so it is 'mostly security-titled'
+TITLE_ONLY_SECURITY_BODY = ("Kerala", "FXHSG", "Construction of police quarters block (synthetic)")
+DECOY_TITLES = [  # bare terms the title rule deliberately does not use: must NOT enter the slice
+    "Fire fighting system in district hospital (synthetic)", "Canal lining up to FSL (synthetic)",
+    "Supply of CID joints for water mains (synthetic)", "Road works 12/DGP/2023 (synthetic)",
+]
+SECURITY_WINNER = "Sigma Fortress Suppliers Pvt Ltd"   # marked; dominant at the heavy security buyers → named
+RARE_MARKED_WINNER = "Upsilon Seldom Traders"          # marked; exactly 4 awards from one buyer → never named
 
 
 def _hex_id(rng: random.Random) -> str:
@@ -210,7 +255,116 @@ def make_rows(seed: int = 2026, n_tenders: int = 950) -> list[dict]:
         elif r < 0.50 and aoc is not None:  # same bidder, later AOC (a re-award, kept by the dedup rule)
             rows.append(base_row(tender_id, portal_type, year, org, aoc + timedelta(days=rng.randint(1, 60)), closing,
                                  bidder, draw_bids(), draw_amount(), ttype, dept))
+    _security_rows(rng, rows, base_row)
     return rows
+
+
+def _security_rows(rng: random.Random, rows: list[dict], base_row) -> None:
+    """Append the security-slice rows (after the original rows, so those are unchanged)."""
+    t0 = datetime(2018, 1, 1)
+
+    def dates():
+        closing = t0 + timedelta(days=rng.randint(0, 365 * 7), hours=rng.randint(9, 17))
+        aoc = closing + timedelta(days=rng.choice([0, 1, 2, 4, 9, 20, 35, 70, 120, 200, 500]))
+        r = rng.random()
+        if r < 0.05:
+            aoc = closing - timedelta(days=rng.randint(1, 30))   # date-order defect
+        elif r < 0.07:
+            aoc = None                                         # missing date
+        elif r < 0.08:
+            closing = None
+        return aoc, closing
+
+    def bids(single_p):
+        r = rng.random()
+        if r < 0.05:
+            return None
+        if r < 0.08:
+            return 0
+        if r < 0.08 + single_p * 0.9:
+            return 1
+        if r < 0.99:
+            return rng.randint(2, 30)
+        return rng.randint(1001, 3000)
+
+    def amount():
+        r = rng.random()
+        if r < 0.05:
+            return None
+        if r < 0.08:
+            return 0.0
+        if r < 0.09:
+            return 5e12
+        return float(round(10 ** rng.uniform(4.5, 9.8), 2))
+
+    def winner(heavy):
+        r = rng.random()
+        if heavy and r < 0.28:
+            return SECURITY_WINNER
+        if heavy and r < 0.36:
+            return MIXED_WINNERS[0]          # 'Beta Constructions,ramesh kumar': many awards, never named
+        if r < 0.05:
+            return None
+        return rng.choice(MARKED_WINNERS) if rng.random() < 0.8 else rng.choice(UNMARKED_WINNERS)
+
+    def ttype(cls):
+        r = rng.random()
+        if r < 0.1:
+            return rng.choice(["Limited", "LT", "Single Tender(Urg-M)", "Nomination", None, "1"])
+        return "Works" if cls in ("works", "state-police") and r < 0.8 else rng.choice(["Goods", "Services", "Works"])
+
+    def add(tender_id, portal_type, year, org, cls, title=None, heavy=False, dept=None, code_for_address=None):
+        aoc, closing = dates()
+        row = base_row(tender_id, portal_type, year, org, aoc, closing, winner(heavy), bids(SECURITY_SINGLE_P[cls]), amount(), ttype(cls), dept)
+        if title is not None:
+            row["title"] = title
+        rows.append(row)
+        if rng.random() < 0.15:  # exact duplicate (same bidder and AOC, new internal_id): removed by the dedup rule
+            dup = dict(row)
+            dup["internal_id"] = _hex_id(rng)
+            rows.append(dup)
+
+    serial = 500000
+    for org, cls in SECURITY_CENTRAL_ORGS.items():
+        heavy = org in SECURITY_CENTRAL_TENDERS
+        for _ in range(SECURITY_CENTRAL_TENDERS.get(org, 30)):
+            serial += 1
+            year = rng.choice([2019, 2020, 2021, 2022, 2023, 2024])
+            add(f"{year}_FXSEC_{serial}_1", 0, year, org, cls, heavy=heavy)
+    for org in DECOY_CENTRAL_ORGS:
+        for _ in range(10):
+            serial += 1
+            add(f"2022_FXDEC_{serial}_1", 0, 2022, org, "other-security")
+    for code, state in SECURITY_STATE_CODES.items():
+        for _ in range(60 if code == "FXPOL" else 30):
+            serial += 1
+            year = rng.choice([2020, 2021, 2022, 2023])
+            add(f"{year}_{code}_{serial}_1", 1, year, state, "state-police", title="Supply of stores (synthetic)", dept=code)
+    for _ in range(15):  # the excluded code: in the code regex, out by name; its titles name no security body
+        serial += 1
+        add(f"2021_{EXCLUDED_STATE_CODE[1]}_{serial}_1", 1, 2021, EXCLUDED_STATE_CODE[0], "state-police",
+            title="Supply of printing ink (synthetic)", dept=EXCLUDED_STATE_CODE[1])
+    for i in range(60):  # enter by title from an ordinary department
+        serial += 1
+        state, dept = STATE_ORGS[i % len(STATE_ORGS)], DEPT_CODES[i % len(DEPT_CODES)]
+        add(f"2022_{dept}_{serial}_1", 1, 2022, state, "state-police", title=SECURITY_TITLES[i % len(SECURITY_TITLES)], dept=dept)
+    state, dept, title = TITLE_ONLY_SECURITY_BODY
+    for _ in range(25):
+        serial += 1
+        add(f"2023_{dept}_{serial}_1", 1, 2023, state, "state-police", title=title, dept=dept)
+    for i in range(24):  # decoy titles: stay out
+        serial += 1
+        state, dept = STATE_ORGS[i % len(STATE_ORGS)], DEPT_CODES[i % len(DEPT_CODES)]
+        add(f"2022_{dept}_{serial}_1", 1, 2022, state, "state-police", title=DECOY_TITLES[i % len(DECOY_TITLES)], dept=dept)
+    serial += 1  # a junk organisation with a police code: junk organisations never enter the slice
+    add(f"2022_FXPOL_{serial}_1", 1, 2022, "test", "state-police", title="Supply of stores (synthetic)", dept="FXPOL")
+    works_org = next(o for o, c in SECURITY_CENTRAL_ORGS.items() if c == "works")
+    for k in range(4):  # the rare marked winner: four awards, distinct tenders, values large enough to top the buyer's
+        serial += 1     # list by value — so only the >= 5-awards rule keeps it unnamed
+        closing = datetime(2023, 1, 10 + k, 11)
+        row = base_row(f"2023_FXSEC_{serial}_1", 0, 2023, works_org, closing + timedelta(days=12), closing,
+                       RARE_MARKED_WINNER, 3, 50_000_000_000.0 + k, "Works", None)
+        rows.append(row)
 
 
 def to_table(rows: list[dict]) -> pa.Table:

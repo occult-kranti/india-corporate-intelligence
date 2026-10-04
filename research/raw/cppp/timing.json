@@ -296,8 +296,8 @@
    "redflag_repeat": "WITH single AS (SELECT portal, buyer, bidder_norm FROM rated WHERE bids_received = 1 AND marked AND NOT junk_org),\npairs AS (SELECT portal, buyer, bidder_norm, count(*) AS k FROM single GROUP BY 1, 2, 3)\nSELECT portal, sum(k) AS family, sum(k) FILTER (WHERE k >= 5) AS flagged,\n       count(*) AS pairs, count(*) FILTER (WHERE k >= 5) AS repeat_pairs\nFROM pairs GROUP BY GROUPING SETS ((portal), ()) ORDER BY portal NULLS FIRST",
    "redflag_single_by_buyer": "SELECT portal, buyer, count(*) AS n, count(*) FILTER (WHERE bids_received = 1) AS single\nFROM rated WHERE NOT junk_org GROUP BY 1, 2 HAVING count(*) >= 50 ORDER BY single * 1.0 / n DESC, n DESC, portal, buyer LIMIT 25"
   },
-  "generatedBy": "scripts/cppp/build.py@9e80f75",
-  "asOf": "2026-09-26",
+  "generatedBy": "scripts/cppp/build.py@6a99f11",
+  "asOf": "2026-10-04",
   "refusal": "winner names are emitted only when they are marked — a selected_bidder is 'marked' only when every non-empty component of the string split on ',' or ';' matches markerRegex (case-insensitive); a joined list holding one bare personal name is unmarked as a whole and never written — and, per buyer, only with >= 5 awards; unmarked names are counted and never written; the bidder address column is never read"
  }
 }
