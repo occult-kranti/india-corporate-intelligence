@@ -1024,5 +1024,523 @@
   "Duplicates are held, not deleted: the 16 minister-tenure edges in money-people duplicate union-defence/union-home (the roster belongs to those domains), pay-pensions:c027 duplicates union-defence:c010, and literature:c005/c009/c014/c028 duplicate money-people:c067/c088/c089/c087. Each killed copy's sources were folded into its survivor.",
   "Claim ids were never renumbered, so every AUDIT.json verdict still lands on its claim.",
   "No research was added beyond what the audit had opened: the sources added to claims are the URLs the cross-examiners record as opened in AUDIT.json."
+ ],
+ "auditCorrections": [
+  {
+   "claimId": "narrative:0",
+   "domain": "union-home",
+   "outcome": "applied",
+   "note": "strongestCase: like-for-like rates (actuals 14.4% UPA-II vs 21.5% NDA; BE 16.2% vs 19.0%, all nominal) and series label (ED revenue line MH 2047; capital excluded); strongestCounter: dropped \"workload data move with the budget\", replaced with the flat-then-jump ECIR series (110-187 through FY2018-19 while the line rose x3.5; 557 FY2019-20; peak 1,116; 775), cadre point (2,063 in 2011; 2,030 now; no cadre review in 14 years; ED AR 2024-25 p.183 opened), FATF MER 2024 para 251 recorded as the audit cites it (not opened). srcs added: EB 2015-16 sbe43, EB 2005-06 sbe42, BaG 2026-27 and 2015-16 (all opened). Status stays contested."
+  },
+  {
+   "claimId": "narrative:1",
+   "domain": "union-home",
+   "outcome": "applied",
+   "note": "Amount relabelled (establishment line Demand 51 item 5; 14.02 Delhi Police infrastructure Rs 342.50 cr separate; Rs 12,846.15 cr together); growth wording \"roughly in line\" with both windows (10.1% vs 10.1% FY15-25; 10.1% vs 10.3% from FY2013-14; ex-J&K 9.4%/9.7%); AAP-run periods scoped and the Feb-2025 BJP-BJP alignment stated; AAP named assertion recorded (Saurabh Bhardwaj, Outlook/IANS 5 Nov 2019, opened) and the absence of a Delhi Police/MHA response (not asked) recorded in strongestCounter and gaps; symmetry comparators replaced with NDA-I (1998-2004) and the Jan 2014 dharna, J&K UT Police kept. Tier analytic, status contested; \"used against\" not promoted."
+  },
+  {
+   "claimId": "narrative:2",
+   "domain": "union-home",
+   "outcome": "applied",
+   "note": "Band restated as 2.6-4.0% over sixteen years FY2009-10 to FY2024-25 actuals with CAPF-lines 2.1-2.4% as period means and the J&K composition caveat; 2.0% capital qualified as inside the establishment lines with 14.01/16/12/13.02 figures and the adjusted ~6.3% / ~10% (sbe51 2026-27 opened); ex-Agniveer quota updated to 50% in the BSF from Dec 2025 (Tribune and AIR News opened and cited); symmetry result added (12.3% UPA-II vs 10.1% NDA; 12.3% because the c030 base was corrected); gaps record that no named proponent was found."
+  },
+  {
+   "claimId": "union-home:c001",
+   "domain": "union-home",
+   "outcome": "applied",
+   "note": "d: Deputy Prime Minister from 2002-06-29 added; upgradeIf added; Wikidata Q468324 opened and added as a corroborating secondary source (labelled not independent of the list). Tier stays reported."
+  },
+  {
+   "claimId": "union-home:c002",
+   "domain": "union-home",
+   "outcome": "applied",
+   "note": "Partial: d and per:shivraj-patil identity.office/d reworded (RS member for Maharashtra from July 2004; lost Latur; minister without a seat 22/23 May to July 2004; sworn in 22 May, list 23 May, took charge 24 May; end = resignation after the Mumbai attacks); upgradeIf added. Deferred sub-items: the Sify/IBNLive archive sources are on web.archive.org (blocked from this environment) so they were not opened and are not cited and the tier stays reported; the optional lifespan (1935-2025) was not added (not verified here)."
+  },
+  {
+   "claimId": "union-home:c003",
+   "domain": "union-home",
+   "outcome": "applied",
+   "note": "d sentence replaced as the verdict words it (appointed 2008-11-30 by reallocation, took charge 2008-12-01; reappointed 2009-05-22, portfolios 2009-05-23). Optional PIB communiques not located; tier stays reported."
+  },
+  {
+   "claimId": "union-home:c004",
+   "domain": "union-home",
+   "outcome": "applied",
+   "note": "No date change needed (verified c003.to = c004.from = 2012-07-31, no gap); PRS \"Cabinet Reshuffles since 2009\" opened and added as a second source with a d note. The optional raise to documented was not taken: Wikipedia is a secondary compilation, so PRS is the only credible outlet of the tier-table standard; stays reported."
+  },
+  {
+   "claimId": "union-home:c005",
+   "domain": "union-home",
+   "outcome": "applied",
+   "note": "d: swearing-in vs portfolio-notification dates (about 27 May 2014 and 31 May 2019) noted; upgradeIf added; secondary-compilation label kept. PIB releases not opened; tier stays reported."
+  },
+  {
+   "claimId": "union-home:c006",
+   "domain": "union-home",
+   "outcome": "applied",
+   "note": "d: date precision (sworn 2019-05-30; portfolio 2019-05-31; charge 2019-06-01), re-sworn 2024-06-09 (Modi III), MHA page attributed to incumbency only and the start date to the Wikipedia list; upgradeIf added. from kept at 2019-05-30 (swearing-in, consistent with c005.to)."
+  },
+  {
+   "claimId": "union-home:c030",
+   "domain": "union-home",
+   "outcome": "applied",
+   "note": "Refuted figure fixed from the source opened (EB 2011-12 Demand 54, \"Total- Assam Rifles\" 2422.94): budgets rows FY2009-10 actual total 2320.23 -> 2422.94, revenue 2320.23 -> 2320.47 (6.01 + 6.02 plan 0.24), capital row 102.47 (MH 4055) added, notes explain the page-break fault; d: Rs 22,083.97 -> 22,186.68 cr, x1.60 -> x1.59, 12.4% -> 12.3%, \"nominal\", the FY2014-15 step (+13.2%) and the 11-year 10.4% stated; symmetryCheck 12.4% -> 12.3%; c031 2.13% recomputed (2.131%, unchanged at two decimals, noted). srcs: EB 2011-12 sbe54, EB 2015-16 sbe55, EB 2020-21 sbe48 added (opened); EB 2013-14 sbe55 relabelled context-only. The other six FY2009-10 force totals were re-checked against the same edition and agree. Deferred sub-item 5 (re-extract every pre-2016 edition for page-break-split blocks): outside this pass; recorded in gaps."
+  },
+  {
+   "claimId": "union-home:c031",
+   "domain": "union-home",
+   "outcome": "applied",
+   "note": "d: ranges attributed to their periods, year-by-year series added, 7th-CPC driver, FY2020-21 to FY2023-24 (2.61-2.81%) written as \"at or below the UPA-II low (2.80%)\" because the verdict's \"below every UPA-II year\" is not exact (2.81 > 2.80); FY2014-15 straddle (NDA mean ~3.29% without it); composition changes. innocentReading: numerator fell 10% (capital 8,901.98 -> 4,934.84, from the file's whole-demand rows). srcs: 14 per-year EB editions added (all reachable, 200)."
+  },
+  {
+   "claimId": "union-home:c032",
+   "domain": "union-home",
+   "outcome": "applied",
+   "note": "d: FY2021-22 step attributed to Professional Services (172.20 / 252.00 / 2,132.05 / 2,152.16 / RE 2022-23 1,572.00; Salaries 6,179.93 -> 6,713.98) from MHA DDG Vol I 2022-23 and 2023-24 (both opened, figures verified in Rs thousand); sub-head .01 vs Total- note (2,704.31 / 4,210.59 verified in EB 2011-12 and EB 2015-16); J&K ex-growth 9.4%; innocentReading, upgradeIf, killIf reworded as asked; srcs added: EB 2011-12 sbe54, EB 2015-16 sbe55, EB 2016-17 sbe48, EB 2023-24 sbe51, both DDGs."
+  },
+  {
+   "claimId": "union-home:c033",
+   "domain": "union-home",
+   "outcome": "applied",
+   "note": "srcs added (EB 2015-16 sbe55, EB 2016-17 sbe48, EB 2011-12 sbe52; opened, figures 1050.20 / 1122.97 / 824.18+18.67+35.52 verified); d: \"nominal\", Police-demand and CRPF comparators (12.2%/10.1%; 11.7%/10.3%), sensitivity (13.0% from FY2013-14; +6.9% step), Police Infrastructure 14.01 carries IB buildings, BE 2026-27 +63% on RE / +74% on BE; ThePrint (1 Feb 2026) and The Wire opened and cited for the Pahalgam/Red Fort linkage with \"no official explanation\"."
+  },
+  {
+   "claimId": "union-home:c034",
+   "domain": "union-home",
+   "outcome": "applied",
+   "note": "srcs: endpoint editions added (EB 2015-16 sbe43 60.57/81.01; sbe73 444.24; EB 2011-12 sbe41 35.34; sbe72 386.21; EB 2016-17 sbe48 NIA 77.59/92.59; all opened and verified) and the three non-endpoint sources relabelled; d: scope (ED revenue-only MH 2047; CBI/NIA include 4055), FY2022-23 step 306.39 -> 495.48 with the nil \"Other Expenditure\" actual verified in EB 2024-25 Demand 35 (opened); killIf widened. CBI revenue-only x2.29 not written (CBI FY2024-25 revenue is not in the file)."
+  },
+  {
+   "claimId": "union-home:c035",
+   "domain": "union-home",
+   "outcome": "applied",
+   "note": "src EB 2013-14 sbe42 replaced by EB 2015-16 sbe43 (opened; Actual 2013-14 60.57); d: \"nominal\", ~x1.15 at constant CPI, searches-window caveat, endpoint sensitivity (0.20/0.80/1.40/0.27/0.67; 2015-16, 2018-19 and 2021-22 recomputed from the file's ED actuals and the USQ 1310 ECIR counts), FY2013-14 ECIRs from the AR alone; lab carries the FEMA/FEOA caveat."
+  },
+  {
+   "claimId": "union-home:c036",
+   "domain": "union-home",
+   "outcome": "applied",
+   "note": "d: \"nominal\"; denominator added (BE 2004-05 Rs 4,77,829 cr verified in BaG 2004-05 bag1, since the verdict's bag2 is the receipts page; BE 2013-14 16,65,297 and BE 2014-15 17,94,892 verified in bag2 2013-14/2014-15; BE 2025-26 50,65,345 verified in BaG 2026-27), 14.9% vs 9.9%, gap 1 -> 9 points; sentence softened as worded; \"nine years (ten budgets)\" / \"eleven years (twelve budgets)\"; BE 2026-27 Rs 594.97 cr endpoint (18.1%); innocentReading endpoint caveat (UPA-II BE 8.3%, BE 2009-10 overshoot, 6th CPC). srcs added: the four BaG files opened."
+  },
+  {
+   "claimId": "union-home:c037",
+   "domain": "union-home",
+   "outcome": "applied",
+   "note": "d: year-by-year capital shares (3.30 -> 1.85 within UPA-II; NDA 1.16-2.08, recomputed from the file's force rows), 7th-CPC denominator phrase, pointer to the budgets rows; FY2009-10 omission reworded (AR split recovered on audit, window kept); innocentReading replaced with the explicit separate-line figures (607.15 / 1,760.17 / 992.46 verified in EB 2013-14 sbe55; 1,894.58 / 3,649.79 / 119.24 verified in EB 2026-27 sbe51); killIf extended; 11 EB editions added to srcs. SSB spelling: d does not spell the name out, nothing to fix."
+  },
+  {
+   "claimId": "union-home:c038",
+   "domain": "union-home",
+   "outcome": "applied",
+   "note": "d: scope sentence with items 16/12/14.01/13.02 (verified in sbe51 2026-27), ~2.2% / ~6.3% / ~10%, CISF net of Rs 855 cr (gross 16,828.85; lines gross ~1,17,442 cr), strength cited as 10,26,879 (PRS Table 4 sum) with PRS's \"about 10.5 lakh\" (verified on the PRS page); innocentReading attributes the low share partly to booking; symmetryCheck row added (BE 2013-14 2.66% beside BE 2026-27 1.98%, from the file's force rows); upgradeIf made testable."
+  },
+  {
+   "claimId": "union-home:c039",
+   "domain": "union-home",
+   "outcome": "applied",
+   "note": "d: 155 actual (197 sanctioned) per lakh with the BPR&D-vs-NCP base caveat (PRS Table 22 verified), MoSPI denominator (1,363.00 / 1,425.90 mn; 1,400.74 interpolated), vacancy series with force coverage (2017 incl. NSG; 2024 six forces; 8.0% July 2024), 2017 jump from 9.7 -> 10.8 lakh sanctioned (matches the file's strength rows). killIf kept."
+  },
+  {
+   "claimId": "union-home:c040",
+   "domain": "union-home",
+   "outcome": "applied",
+   "note": "src EB 2026-27 sbe51 replaced by EB 2024-25 sbe51 item 27.01 (opened; Actual 2022-23 34.72 verified); EB 2023-24 item 28.01 relabelled (621.45 / 152.52 verified); d: line renamed in full (includes CCTNS), ASUMP FY2022-23 States+UTs Rs 36.51 cr (31.06 + 5.45 from the file's rows), Table II note on guidelines of 08.08.2022, \"7.1-30.4%\", FY2024-25 as on 27.03.2025, controls not run and no West Bengal response found recorded."
+  },
+  {
+   "claimId": "union-home:c041",
+   "domain": "union-home",
+   "outcome": "applied",
+   "note": "Partial: d reworded (\"56 instances of judgments on merits on the money-laundering issue\"; \"53 convictions against 6,444 ECIRs recorded in the same window (0.82%)\" with cohorts-not-matched and the 1,883 pre-2014 ECIRs; \"2.19% of PCs plus supplementary PCs (2.88% of the 1,843 main PCs)\"; AR 47/44/3 marked all-time); symmetryCheck gains the UPA-base lens sentence. Deferred sub-item 5: the RS answer of 04.08.2026 was not located as a PDF and press figures conflict, so no later data point is added (recorded in gaps); killIf not triggered."
+  },
+  {
+   "claimId": "narrative:0",
+   "domain": "union-defence",
+   "outcome": "applied",
+   "note": "strongestCounter rewritten: SIPRI v1.2 peer ratios (above CN/FR/DE, below UK/US/PK), fifth in 2025 / sixth in 2024 with the PRS-vintage note, UPA-II control (11.0% vs GDP 15.3%; ratio fell under both), PRS 8.8% vs central-expenditure 10.2% and the file-own 10.0% GDP CAGR flagged; innocent reading folded into the counter text. Item 5 refused in part: \"analytic\" is not a narrative status in the vocabulary (NARRATIVE_STATUS) and narratives carry no tier — status stays contested; MoF response kept, sourced to PRS. Demand PDFs sbe19–22 (2026-27), ub2009-10 sbe27 and ub2014-15 sbe27 added as sources (opened)."
+  },
+  {
+   "claimId": "narrative:1",
+   "domain": "union-defence",
+   "outcome": "applied",
+   "note": "status well-supported → contested; Agnipath removed as a cause of the 2026-27 slowdown and replaced by the OROP-arrears/denominator wording with the PRS 75% note; capital labelled Demand 21 ₹2,19,306.47 crore (PRS ₹2,31,010 incl. MoD Civil capital); stage note on the ₹8,000 crore Deduct Recovery (gross ₹179,338.22 crore ≈ 22.6%; 6.24% gross-on-gross per the demand note; +1.3% over RE); PRS 16% vs 16.9% noted; sources: ub2001-02 sbe13–19, budget2020-21 sbe18–21, sbe21/sbe22 2026-27 (sbe20 citation dropped), PIB PRID 2221612 — all opened."
+  },
+  {
+   "claimId": "narrative:2",
+   "domain": "union-defence",
+   "outcome": "applied",
+   "note": "status unsupported → contested (share decline and 2016-20 committed-liability shortfall documented; no rupee collapse). strongestCase: PRS Table 6 / Standing Committee Dec 2019 (15/25/33/29%), undisclosed since 2019-20, actuals below BE 2022-23/2023-24/2024-25, PRS 27% vs 40%; 37.6% flagged as a one-year peak beside 25.3%. strongestCounter: +17.6% on Demand 21 with the PRS aggregate noted, 2018-19 and 2020-21 exceedances with figures, 2016-17 like-for-like +₹282 crore (OF 716.70 + R&D 6,771.50 verified in ub2018-19 sbe21), MoD 2 Apr 2026 statement (Akashvani News article opened), actual 2024-25 ≈ RE so the gap was an RE-stage cut, BE-to-BE stage basis and lower-bound caveat, PRS ~9% nominal. whatWouldChangeThis rewritten around the post-2019-20 tables. Sources replaced per item 7 (sbe21 2024-25, ub2005-06 sbe28, ub2009-10 sbe27, ub2017-18/ub2018-19 sbe21, budget2020-21 sbe20, budget2022-23 sbe21, ES Table 1.1) — all opened. The 2014-15 scope break (item 4) applied on c044 and as budget-row notes. The 2023-24 actual ₹154,256.28 crore is attributed to PRS (budget2025-26 sbe21 not opened)."
+  },
+  {
+   "claimId": "union-defence:c001",
+   "domain": "union-defence",
+   "outcome": "applied",
+   "note": "d now carries the Wikipedia template inconsistency (1998-12-05 vs the displayed 1998-03-19), the 15 Mar 2001 resignation and the file-wide date convention; party fix carried out on c003; killIf watch on 15 Oct 2001 recorded on c002/c003. No second source for the 16 Mar 2001 acceptance was opened, so tier stays reported and no source was added."
+  },
+  {
+   "claimId": "union-defence:c002",
+   "domain": "union-defence",
+   "outcome": "applied",
+   "note": "from 2001-03-18 and the Tribune 19 Mar source were already in place from the prior pass; this pass added The Tribune 20 Mar 2001 (took charge 19 Mar), the additional-charge/Tehelka wording in d, the 15 Oct 2001 watch note and a sharper upgradeIf. Tier kept reported (end date rests on one source)."
+  },
+  {
+   "claimId": "union-defence:c003",
+   "domain": "union-defence",
+   "outcome": "applied",
+   "note": "d: \"Samata Party at appointment (the Wikipedia row lists Janata Dal (United), the party Samata merged into in 2003)\"; MP for Nalanda added from the person node; 21 Oct start watched under killIf against the secondary 15 Oct 2001 date; upgradeIf unchanged."
+  },
+  {
+   "claimId": "union-defence:c004",
+   "domain": "union-defence",
+   "outcome": "applied",
+   "note": "tier reported → documented on PIB relid=1772 (took over 24 May 2004) and relid=21514 (Antony took over 25 Oct 2006), both opened and added. Convention chosen and stated on every roster row: from/to = portfolio-assignment dates as the Wikipedia list prints them, PIB take-over dates in d (the verdict's alternative; the c006/c009/c010 verdicts ask for the same). from kept 2004-05-23 (allocation; sworn in 22 May, took over 24 May all in d); to 2006-10-26 → 2006-10-25 (the PIB boundary, because Antony's 24 Oct allocation date was not opened and the Wikipedia 26 Oct matches no convention). upgradeIf cleared; killIf reworded. Same check applied to c005."
+  },
+  {
+   "claimId": "union-defence:c005",
+   "domain": "union-defence",
+   "outcome": "applied",
+   "note": "from 2006-10-26 → 2006-10-25 (PIB relid=21514 take-over; sworn in 24 Oct noted); tier → documented (PIB on both ends: relid=21514 start, relid=105217 shows Jaitley took over 27 May 2014 after the 26 May 2014 swearing-in); mod.gov.in 503 recorded in d; the swearing-in/take-over day gap noted as the verdict asks."
+  },
+  {
+   "claimId": "union-defence:c006",
+   "domain": "union-defence",
+   "outcome": "applied",
+   "note": "PIB relid=105217 (Arun Jaitley takes over as Defence Minister, 27 May 2014) opened and added; tier → documented under the record's own upgradeIf, with the 26/27 May swearing-in/take-over note and the Wikipedia mis-dating noted; Parrikar 9 Nov allocation / 10 Nov take-over added. Item 3 (wel:arun-jaitley → per:) deferred: an entity id change is outside this pass (ids were reconciled; the wel: id is the inventory id)."
+  },
+  {
+   "claimId": "union-defence:c007",
+   "domain": "union-defence",
+   "outcome": "applied",
+   "note": "The Hindu 14 Mar 2017 opened and added (confirms the 13 Mar 2017 end and states the tenure 9 Nov 2014 → 13 Mar 2017); d notes 9 Nov swearing-in / 10 Nov take-over (the latter marked as not independently opened — Business Standard 10 Nov 2014 was not fetched). Tier stays reported; upgradeIf names the missing second outlet."
+  },
+  {
+   "claimId": "union-defence:c008",
+   "domain": "union-defence",
+   "outcome": "applied",
+   "note": "from/to kept; d now says \"additional charge\", notification dates, physical take-over 14 Mar 2017 and hand-over c. 7 Sep 2017 after the Tokyo ministerial; Deccan Herald and The Tribune (both 14 Mar 2017, both quoting the Rashtrapati Bhavan communiqué) and The Hindu opened and added; tier → documented on the two-independent-outlets rule as the verdict anticipates."
+  },
+  {
+   "claimId": "union-defence:c009",
+   "domain": "union-defence",
+   "outcome": "applied",
+   "note": "Hindustan Times 7 Sep 2017 and PIB PRID 1502172 (Sitharaman takes over, 7 Sep 2017) opened and added, plus PIB PRID 1573089 for the 30/31 May – 1 Jun 2019 end; d notes swearing-in vs take-charge and the Modi-II dates; tier → documented (the verdict: fetching PRID 1502172 would justify it)."
+  },
+  {
+   "claimId": "union-defence:c010",
+   "domain": "union-defence",
+   "outcome": "applied",
+   "note": "d rewritten per the verdict (sworn 30 May 2019, charge 1 Jun 2019 PRID 1573089; re-sworn 9 Jun 2024, charge 13 Jun 2024 PRID 2025004); both PIB releases opened via curl and added; tier → documented; killIf → \"an official record shows a break in tenure or a different oath date\". Optional item 4 (a 2026 incumbency record) not done — none opened; noted in d."
+  },
+  {
+   "claimId": "union-defence:c011",
+   "domain": "union-defence",
+   "outcome": "applied",
+   "note": "d: 71.64% unchanged in every screener quarter Sep 2023 → Jun 2026 (opened), the audit's longer history attributed to the audit, \"Promoters\"-only label, President of India attribution, 0.07% Government row excluded; from 2026-06 → 2023-09 (first verified quarter, stated as a window start); NSE shareholding master + Jun 2026 XBRL opened (holder \"President of India\", 71.64%) and added, so the record's own upgradeIf is met and tier → documented. BSE API void recorded in gaps."
+  },
+  {
+   "claimId": "union-defence:c012",
+   "domain": "union-defence",
+   "outcome": "applied",
+   "note": "d: 51.14% unchanged Sep 2023 → Jun 2026 (screener opened; the Mar 2017→Mar 2020 steps attributed to the audit), promoter named as the President of India acting through MoD/DDP; NSE master + XBRL (holder \"PRESIDENT OF INDIA\", 51.14%) opened and added; tier → documented as item 3 asks; from → 2023-09; BSE API void in gaps."
+  },
+  {
+   "claimId": "union-defence:c013",
+   "domain": "union-defence",
+   "outcome": "applied",
+   "note": "tier → documented; NSE XBRL SHP_1689883 (PRESIDENT OF INDIA; 74.93%, submitted 09-Jul-2026) and the NSE master added; lab \"(30 Jun 2026; NSE shareholding filing)\"; d \"held in the name of the President of India; administrative ministry MoD/DDP\" with the 87.75%→74.93% history attributed to the audit; from → 2023-09 (first verified quarter); upgradeIf cleared; co:bharat-dynamics fact re-tagged [documented: NSE SHP filing 30-Jun-2026]."
+  },
+  {
+   "claimId": "union-defence:c014",
+   "domain": "union-defence",
+   "outcome": "applied",
+   "note": "tier → documented; NSE master (remark: \"The Promoter of our Company is the President of India acting through the Ministry of Defence, GOI.\") and XBRL SHP_1696530 opened and added; lab \"(30 Jun 2026; NSE shareholding filing)\"; d \"unchanged since the Jun 2025 quarter (84.83% through Mar 2025, before the April 2025 OFS)\" verified on screener; DDP wording replaced by the filing's own remark; from → 2025-06; upgradeIf null; entity fact re-tagged."
+  },
+  {
+   "claimId": "union-defence:c015",
+   "domain": "union-defence",
+   "outcome": "applied",
+   "note": "d: 74.50% in every quarter Sep 2023–Jun 2026 (screener opened), \"Promoters\"-only label noted; the XBRL for the Jun 2026 quarter (holder \"THE PRESIDENT OF INDIA\", 74.50%) was fetched, which is exactly the record's upgradeIf, so tier → documented; from → 2023-09. Optional public-float breakdown not added (not extracted)."
+  },
+  {
+   "claimId": "union-defence:c016",
+   "domain": "union-defence",
+   "outcome": "applied",
+   "note": "s was already min:ministry-of-ports-shipping-and-waterways and the d/publicRole already corrected by the prior pass. This pass: to → 2026-07 (OFS ended 8 Jul 2026); from → 2024-12 (first quarter at 67.91%; 72.86% through Sep 2024, verified on screener); killIf adds the post-OFS reading; XBRL (holder \"The President of India\", 67.91%) added → documented; identity.cin L63032KL1972GOI002414 verified on cochinshipyard.in/investors; DDP Annual Report 2024-25 downloaded and searched — zero mentions of Cochin — so dropped from the node's sources; superseding edge union-defence:c047 (reported) added from Business Standard 10 Jul 2026 (1,20,49,170 shares sold 7–8 Jul 2026 for ₹1,713.28 crore) with the ≈63.33% computed on the filing's 26,30,80,780 shares and an upgradeIf on the Sep 2026 filing; c016.supersededBy set. The Week URL returned Access Denied and is not cited (gaps)."
+  },
+  {
+   "claimId": "union-defence:c017",
+   "domain": "union-defence",
+   "outcome": "applied",
+   "note": "d: 54.03% in every screener quarter Sep 2023–Jun 2026 (the Mar 2017 start attributed to the audit); sole promoter of record President of India; the DDP Annual Report 2024-25 was opened and its \"about 54%\" sentence confirmed, so the report is now in srcs; XBRL (PRESIDENT OF INDIA, 54.03%) added → documented; from → 2023-09."
+  },
+  {
+   "claimId": "union-defence:c018",
+   "domain": "union-defence",
+   "outcome": "applied",
+   "note": "d: 74.00% in every screener quarter Sep 2023–Jun 2026 (post-IPO constancy attributed to the audit) and the screener \"President Of India\" row quoted; force:midhani identity.cin L14292TG1973GOI001660 verified on midhani-india.in/investors (BSE scrip code not verified, omitted); XBRL (PRESIDENT OF INDIA, 74.00%) opened and added → documented; from → 2023-09."
+  },
+  {
+   "claimId": "union-defence:c041",
+   "domain": "union-defence",
+   "outcome": "applied",
+   "note": "Numerator sources added: ub2001-02 sbe13–19 (BE 2000-01), ub2011-12 sbe20–27 (actual 2009-10), 2026-27 sbe19–22 — all opened; d adds the Demand 18 netting (−₹215.04 crore), the Kargil start-point caveat (3.16% / 2.80% alternatives), the spliced-back-series caveat (MoSPI official back-series from 2004-05), the BaG projection explained as 10% nominal over the 2025-26 FAE, and the Feb 2026 2022-23-base series; upgradeIf extended."
+  },
+  {
+   "claimId": "union-defence:c042",
+   "domain": "union-defence",
+   "outcome": "applied",
+   "note": "srcs: sbe20 \"Demands 19–22\" replaced by sbe19–22 individually plus ub2009-10 sbe20–27 and ub2014-15 sbe20–27 (opened) and ES Table 1.1; d notes the GNI-deflator vs nominal-GDP mismatch, the interim vs July 2014 BE 2014-15 (15.4% vs 9.1% including first-budget increments, attributed to the audit computation), and the ₹37,200 crore spectrum effect (ex-spectrum ≈ 8.4%); innocentReading says the spectrum line affects only the BE 2026-27 endpoint and shares."
+  },
+  {
+   "claimId": "union-defence:c043",
+   "domain": "union-defence",
+   "outcome": "applied",
+   "note": "srcs: one demand PDF per data point (ub2001-02 sbe14, ub2009-10 sbe21, ub2014-15 sbe21, budget2020-21 sbe21, 2026-27 sbe22 plus sbe19–21) and the denominator demands for each FY — all opened; d adds the ₹8,000 crore Deduct Recovery (gross ₹179,338.22 crore ≈ 22.6%), the demand note's 6.24% gross-on-gross vs +6.6% net-on-net, PIB 21.84% / +6.56%, and the capital-growth framing. The generic \"https://www.indiabudget.gov.in/\" source on 54 baseRates entries was replaced by the demand PDFs the budgets rows of that FY/stage cite."
+  },
+  {
+   "claimId": "union-defence:c044",
+   "domain": "union-defence",
+   "outcome": "applied",
+   "note": "d rewritten: BE-to-BE stated with endpoints (₹54,824 → ₹86,740.71 crore; ₹94,587.95 → ₹180,000 crore), ≈2.5% against RE 2025-26, BE 2014-15 above BE 2015-16/2016-17, the 2016-17 artefact fixed (like-for-like +₹282 crore; OF 716.70 + R&D 6,771.50 verified in ub2018-19 sbe21) and the 2014-15 actual scope break confirmed in ub2016-17 sbe20/sbe23 (OF 746.19 + R&D 7,482.52 moved to MoD Misc; like-for-like shortfall ₹12,958 crore); 27.95% noted; the 2000-01 netting explained. Budget rows 2014-15 actual, 2015-16 BE/RE, 2016-17 BE/actual (capital) carry scope notes (note field only). Sources per item 1 added (sbe19–22, archives, ES Table 1.1). Item 2 refused: a budgets row with cr = −215.04 is rejected by the series rule (cr must be a number ≥ 0, scripts/lib/vocab.mjs) — the void already records the negative Demand 18 figure and the claim text now explains why the rows alone give 25.2%."
+  },
+  {
+   "claimId": "union-defence:c045",
+   "domain": "union-defence",
+   "outcome": "applied",
+   "note": "t and benefit.who were already fin:department-of-telecommunications from the prior pass. This pass: lab adds the gross difference ₹40,122.96 crore (359,007.64 − 318,884.68, sbe20) and names DoT as payee; benefit.how reworded (arrears/late fees plus current charges, no new equipment); d adds the June 2025 Cabinet settlement [reported: The Bridge Chronicle, opened; no PIB release located], the ORF 70% reading (opened) and the PRS \"8% higher\" caveat; both sources added; upgradeIf unchanged."
+  },
+  {
+   "claimId": "union-defence:c046",
+   "domain": "union-defence",
+   "outcome": "applied",
+   "note": "innocentReading: Pakistan's GDP \"a fifth\" → \"about a tenth\" (US$377bn vs US$3.85tn), China wording replaced by \"SIPRI's own estimate above the official budget (fn 55)\"; d adds Pakistan fn 60 and US fn 44 coverage, the 2025 column (India 2.30%) and why 2024 is used; the WDI source relabelled \"corroborating, different vintage/denominator\" with its differing 2024 values listed."
+  },
+  {
+   "claimId": "narrative:0",
+   "domain": "state-police",
+   "outcome": "applied",
+   "note": "strongestCounter rebuilt on NHRC encounter-death cases (LS UQ 1459 opened: UP 16/11 vs GJ 0/0, MH 1/1, PB 1/2, AS 4/18, CT 24/30, J&K 5/45; per-crore reading) and on the UP government's on-record self-defence position in the PUCL petition (UP affidavit to SC, Lawbeat 2023-10-04 and Deccan Herald/PTI opened; the 2018 affidavit itself was not opened, so the 2023 affidavit is cited); \"encounter deaths fall outside both series\" replaced with the documented 16B.4 discrepancy (column 9 \"Accidentally in Police Operations/Encounters\", UP 0; 23 of 28 states 0 in the total column — the audit's \"25 of 28\" did not reproduce from the opened table). State tallies recorded as reported (the state's own claim): 217 to 2024-12-28 (India TV) and 266 cumulative / 48 in 2025 (DH-PTI 2025-12-31) — the audit's 303 total and year-wise 41/34/26/26/13/26/25/48 could not be verified (the DGP's own figure is 266) so they were not written; gap recorded. Strength denominator flagged as derived. Status stays contested; strongestCase/strongestCounter both present. No \"tier\" field existed on the narrative (item 7 needed no change). No later MHA/NHRC encounter-death answer located (gap)."
+  },
+  {
+   "claimId": "narrative:1",
+   "domain": "state-police",
+   "outcome": "applied",
+   "note": "strongestCase: Kerala IJR police-pillar ranks 13/14/17/15 of 18 (IJR 1–4) with overall 4th, prisons 3rd, HR theme 1st read from the IJR 4 National Factsheet Table 1 and Map 3 (opened; the rankings map pages are client-rendered and carry no data, cited as the pointer); narrative origin recorded as SPIR 2019 (Lokniti launch page and Business Standard/IndiaSpend article opened: Delhi, then Kerala, then Maharashtra on staffing/infrastructure/budget use) and a gap says the money framing is the file's. Claim text dated to constable vacancy 4.6% as of 01.01.2022 (1st of 18), BPR&D Jan 2024 total vacancy 11.0% 3rd of 20 behind TN and HP, officer vacancy 23.9% 9th. strongestCounter: all 12 states above Kerala listed (HP, UK, CT included), the 20-state set declared as the file's own, per-police-person spend added as derived (Kerala ≈₹7.9 lakh, 17th of 20; TG ≈14.6, PB ≈11.2 — recomputed from the file's own rows). whatWouldChangeThis keeps the MH 4055 killIf with the ₹165 crore / ₹46 per person gap to Karnataka. Status stays unsupported."
+  },
+  {
+   "claimId": "narrative:2",
+   "domain": "state-police",
+   "outcome": "applied",
+   "note": "No \"tier\" field existed on the narrative (item 1 needed no change; innocentReading lives on the analytic claims c021/c022). strongestCounter: Bihar 1 / WB 0 in NCRB 2024 vs NHRC 10 / 7 in FY2024-25 (Bihar 19 in FY2025-26, highest; Rajasthan 18); 5-year NHRC cases per lakh police recomputed from the opened tables (GJ ≈91, MH ≈49, BR ≈76, WB ≈40, TN ≈22 — match the audit); r across the 18 IJR large states came out ≈0.21 on the file's computation (audit ≈0.14) — written as \"weak, ≈0.2; the cross-examiner's run gave ≈0.14\"; outcome scoped to custodial-death rates only; garbled UP clause rewritten (sanctioned 183.19 → 181, actual 133.85 → 134, RS UQ 3266 and PRS Table 22); \"highest in both series\" qualified for FY2025-26; 21%/40%/36% marked derived and the PRS asterisk on Bihar noted. Status stays contested."
+  },
+  {
+   "claimId": "state-police:c001",
+   "domain": "state-police",
+   "outcome": "applied",
+   "note": "Unit corrected to \"NHRC cases registered in respect of deaths in police custody, FY2024-25 (registration year): 11\"; NCRB 0 specified as Tables 16A.1 + 16A.2 as provided by the state; population-vintage note (2–3% inflation of per-capita and of the derived ≈313,686) added; NCRB CII 2024 Vol III, NCRB CII 2022 Vol I and the Wikipedia CM list were already in the edge srcs (confirmed present, no duplicate added). The meta sentence \"One such claim per large state, c001–c020\" is not in the current d (already removed in a prior pass). Party kept as dated text."
+  },
+  {
+   "claimId": "state-police:c021",
+   "domain": "state-police",
+   "outcome": "applied",
+   "note": "Period heading restated (party FY2024-25; spend 2023-24 Accounts; strength 01.01.2024; NHRC FY2024-25); the ₹1,727 / 20.7% medians stated plainly as Chhattisgarh values from a year under the outgoing INC government with the regrouped BJP median (~₹1,937) noted; large-state subset redefined as population ≥ 3 crore (drops CT, HR; adds AS and JH) with per-capita, strength, vacancy, counts AND rates listed; symmetryCheck ranges updated to 3.51–21.93 vs 1.64–11.77; Manipur listed among the exclusions with reason (BJP CM to 2025-02-09, President's Rule from 2025-02-13); RBI id=23701 aggregate replaced by the Appendix II state pages actually used (23755–23761, all opened earlier in this sandbox) plus NCRB 2022 Vol I; opposition median written 7.56 (7.555 rounded). Item 5 (re-anchoring s/t away from force:bprd → min:ministry-of-home-affairs) DEFERRED: the edge endpoints were reconciled and this pass may not change them; d now states the edge anchors the symmetry check and asserts no BPR&D-to-MHA relation."
+  },
+  {
+   "claimId": "state-police:c022",
+   "domain": "state-police",
+   "outcome": "applied",
+   "note": "lab/d: \"NHRC cases registered (FY2024-25) 140\", \"NHRC is 2.15× NCRB\", FY2023-24 157 (2.4×) neutralising the period mismatch; Gujarat/Maharashtra stated as NCRB higher (17 vs 14, 16 vs 14); Assam 1 vs 13 added as the largest single-state gap with party spread (BJP, BJP, JD(U)-NDA, AITC); NCRB caveat sentence quoted; innocentReading drops the remand clause (16A.2 includes remand; 25 of 65) and adds registration-date timing. Base rate: the audit's \"86% of states\" did not reproduce — from the opened tables NHRC exceeds NCRB in 18 of 27 states with both figures, 7 of 28 return NCRB 0 against NHRC > 0, 13 of 28 return NCRB 0; those figures were written instead. killIf clause 2 marked checked (LS UQ 5115 annexure is headed \"death in Police custody\"). IndiaSpend and BOOM opened and added; NCRB Vol III and LS UQ 5115 were already present."
+  },
+  {
+   "claimId": "state-police:c023",
+   "domain": "state-police",
+   "outcome": "applied",
+   "note": "Column order verified against the opened 2010-11 Grant 26 text (MH 2055 row 39,079,204 / 47,346,743 / 49,417,163 / 65,330,692 ₹ thousand = Actual 2008-09 / BE 2009-10 / RE 2009-10 / BE 2010-11; revenue total 40,320,082 reconciles) and written into d; killIf narrowed to the 2014-15 file; lab reworded to \"budgeted at 9.7×\" with like-for-like 7.2× Actual→Actual (≈13.1%/yr) and 8.0× BE→BE (BE 2009-10 ₹4,734.67 crore); capital ratio corrected to \"ranges 5–14% of the revenue head\" (6.1 / 10.4 / 4.8 / 13.6 / 10.7%); \"MH 2055 within Grant 26 (voted); charged excluded\" added; 6th CPC dated 2008-10 with arrears in innocentReading."
+  },
+  {
+   "claimId": "state-police:c024",
+   "domain": "state-police",
+   "outcome": "applied",
+   "note": "sbe51 2024-25 and 2025-26 opened: item 6 J&K Police BE 2024-25 ₹9,789.42 (9,046.17 + 743.25), RE 2024-25 ₹8,665.94, BE 2025-26 ₹9,325.73 — added as srcs with the overlap arithmetic (BE 2025-26 both lines ₹11,574 crore; ₹11,146 crore revenue-only; vs ₹8,396 crore 2023-24); the 2024-25 Actual ₹8,553.38 crore is mentioned as carried in the union-home file because the 2026-27 sbe51 returned 404 here (not cited as a source). FM statement via Kashmir Observer 2024-07-23 (opened) and the opposition reading via The Wire 2024-08-01 (opened: Masoodi, Jairam Ramesh, Tarigami) added; \"accounting transfer\" replaced; lab reworded \"moved to the Union line, which is larger\"; innocentReading notes the unexplained ₹2,248 crore residual; upgradeIf marked met in part; killIf kept. Node energy:state-jammu-kashmir confirmed present in the inventory."
+  },
+  {
+   "claimId": "state-police:c025",
+   "domain": "state-police",
+   "outcome": "applied",
+   "note": "Set defined as \"20 states with population above 70 lakh (IJR's 18 plus Assam and Himachal)\" with \"11th of IJR's 18\"; vacancy clause dated (4.6% constable, IJR, 01.01.2022) and BPR&D Jan 2024 total vacancy 11.0% (3rd of 20 behind TN 7.0%, HP 10.3%) added to d; NCRB 2022 Vol I and PRS DFG 2026-27 Table 22 added to the edge srcs (IJR 4 factsheet too); the RBI id=23758 page noted as intermittently blocked with a local copy kept — no archive URL could be added because web.archive.org is unreachable from this sandbox; killIf extended with the Karnataka ₹1,212 check."
+  },
+  {
+   "claimId": "state-police:c026",
+   "domain": "state-police",
+   "outcome": "applied",
+   "note": "Unit corrected to \"11 cases of death in UP police custody\"; Table 16A.5 UP row rewritten from the opened table (88 registered, 1 quashed, 39 cases charge-sheeted, 13 final reports, 51 arrested, 53 personnel charge-sheeted, 8 withdrawn, trials completed in 50, 4 convicted, 46 acquitted); base rate 7 of 28 (AP, JH, ML, OD, UP, UK, WB) with UP's gap of 11 the largest; 16B.4 column 9 \"Accidentally in Police Operations/Encounters\" named with UP 0 — the audit's \"25 of 28 states report 0 in 16B.4\" did not reproduce (23 of 28 in the total column: AS 2, CT 1, HR 5, KA 2, TG 6 are non-zero), 23 written. UP Police tally added as reported: 217 to 2024-12-28 (India TV, opened) plus 266 / 48-in-2025 (DH-PTI, opened); tier stays analytic; upgradeIf marked partially met."
+  },
+  {
+   "claimId": "state-police:c027",
+   "domain": "state-police",
+   "outcome": "applied",
+   "note": "lab rewritten per the audit (most in NCRB 2024 17 of 65, Maharashtra 16; level with Maharashtra on NHRC FY2024-25 at 14 each; below-average strength 132 vs 155 per lakh, reported via PRS); d: 5-year total 85 second to Maharashtra 101 with the window 01.04.2021–15.03.2026; Arunachal (≈45.6), Meghalaya (≈22.9) and Assam (≈21.9) above Gujarat on FY2024-25 cases per lakh police (recomputed); Maharashtra's MVA → BJP-led coalition placed beside the BJP label as the symmetry reading; Gujarat State Law Commission (The Wire 2023-09-29, opened) added as the counter-source in d and innocentReading. The audit's \"16 of 28 states report 0 to NCRB\" did not reproduce from the opened tables (13 of 28), 13 written. Tier analytic kept; party stays in d only."
+  },
+  {
+   "claimId": "state-police:c028",
+   "domain": "state-police",
+   "outcome": "applied",
+   "note": "lab scoped to the 28 states with J&K 479 and Chandigarh 4,069 noted among UTs; normalised rate ≈1.57 per 1,000 actual police, 6th of 24 reporting states (AR 9.2, MZ 9.2, KL 2.4, TG 2.2, RJ 2.0 — recomputed and matching the audit); custodial-death rate ≈6.8 vs Gujarat ≈15 per lakh police added; \"43 trials completed\" → \"43 personnel whose trials were completed\", with 115 personnel charge-sheeted and 231 withdrawn/disposed from the same row; the NCRB window (calendar 2024) stated in d while from/to keeps the NHRC FY span. Tier analytic. Node energy:state-maharashtra confirmed present in the inventory."
+  },
+  {
+   "claimId": "state-police:c029",
+   "domain": "state-police",
+   "outcome": "applied",
+   "note": "lab rewritten to NHRC-registered police-custody death cases FY2025-26 to 15.03.2026 (19; Rajasthan 18) and third over five years (76 after MH 101, GJ 85); the Table 16A.5 zero stated precisely (only large state with zero; MN, ML, SK also zero); government label dated — Nitish Kumar (JD(U)) to April 2026, NDA from 2024-01-28, Home Department to BJP Deputy CM Samrat Choudhary from 2025-11-20 (Wikipedia Home Ministers list, opened; Oneindia 2025-11-21, opened — The Hindu is unreachable from this sandbox so it is not cited), BJP CM Samrat Choudhary from 2026-04-15 (Wikipedia CM list, opened); ₹862 population-vintage note added; RBI Appendix II id=23755 and NCRB Vol III added to the edge srcs (both opened); upgradeIf extended with the CII 2022/2023 recurrence check. File-level symmetryCheck corrected: the Table 16A.5 zero-return states are Bihar, Manipur, Meghalaya and Sikkim (UP 88, WB 16); the zero-death states against NHRC > 0 listed separately."
+  },
+  {
+   "claimId": "narrative:0",
+   "domain": "procurement-industry",
+   "outcome": "applied",
+   "note": "strongestCase: \"only PIB-named award\" replaced with the two PIB-named contracts (CQB carbine ₹2,770 cr joint, reported 60/40 BF L1 / Adani-PLR L2; DRDO-CABS AEW&C Mk-II DcPP with ADSTL 2026-07-22, sole vendor, amount not stated — PIB 2288009 opened) plus the AR-listed deliveries; \"₹4.07 lakh crore PIB-named awards\" → \"this file's sample of 45 claims; universe larger (FY2025-26 ₹1,82,492 cr per 2209832)\"; strongestCounter: \"no sole-vendor award / ventures not shown as MoD orders\" replaced with \"no priced sole-vendor capital acquisition in the sample; AEW&C DcPP unpriced; AR deliveries with no values\". Added award edge c066 force:drdo → force:adani-defence (a null, from 2026-07-22). Chakra Newz split added to c044/c045 and the void. Status kept \"unsupported\" as the audit allows once the case is rewritten. Narratives carry no tier/innocentReading field in the file shape, so \"tier: analytic\" is recorded here, not in the file."
+  },
+  {
+   "claimId": "narrative:1",
+   "domain": "procurement-industry",
+   "outcome": "applied",
+   "note": "Offset \"twice the policy floor\" → \"50% against a 30% floor (Scroll 2020-09-24)\"; CAG sentence reworded to the no-discrepancy finding with HT attribution; Mediapart/Segalen 2017-05-11 remark added as reported via ThePrint 2018-10-11 (opened) with Dassault's \"freely chosen\" contra; Hollande's AFP qualification added (Scroll 895491, 2018-09-23, opened); 24 Apr 2015 incorporation marked as the petitioners' submission accepted by the Court (\"in the recent past\" — judgment re-opened and quoted), CIN gap noted; srcs added: review dismissal 2019-11-14 (Indian Kanoon 26499003, opened), PIB 1592470, ThePrint 2025-09-05 for the 51%; whatWouldChange: PNF inquiry opened 2021 (The Wire 2026-02-23) and the Nov 2022 cooperation request reportedly not executed (The Wire 2023-12-14), both opened — the 14 June 2021 date not confirmed in an opened source and so not asserted. Item 8 (carry the steering claim as an alleged edge) DEFERRED inside the record: no predicate in the vocabulary expresses \"steered\" and a new alleged edge would misuse award/own; the contras are written into the narrative. Status stays contested."
+  },
+  {
+   "claimId": "narrative:2",
+   "domain": "procurement-industry",
+   "outcome": "applied",
+   "note": "Volume series now −32% / −9.3% / −4.0% with windows and the share series 14% → 9.2% → 8.3% → 8.2% (SIPRI fs_2003_at_2019 opened and added); \"large foreign orders\" → signed IGA (Rafale-M) versus AoNs that are not orders, with the ministry's majority-made-in-India statement (newsonair opened); newsonair already in the narrative srcs. Status split written into strongestCounter (past-tense unsupported on SIPRI volume; forward-looking contested) — the single status field keeps \"contested\" because the schema allows one value. Control added to the narrative and symmetryCheck with figures verified in the fact sheets: Pakistan −39% (2010-14→2015-19, 2019 sheet) then +61%/+66%; Saudi Arabia −41% (2015-19→2020-24, 2025 sheet) — the audit's pairing of Pakistan −39% with Saudi −41% in one window was corrected to the windows the sheets print. PIB ₹ vs SIPRI TIV non-commensurability kept."
+  },
+  {
+   "claimId": "narrative:3",
+   "domain": "procurement-industry",
+   "outcome": "applied",
+   "note": "Production shares restated to the MoD AR 2024-25 table (73.8% 2023-24) and PIB 2273824 (~76% 2025-26); \"77% of PIB-named award ₹\" → \"77% of the ₹4.07 lakh crore sample of 45 contracts, not universe\"; srcs added: PIB 2086514, 1694844, 2116411 (2010528, 2209832, 2171108 already present); strongestCase: nomination mechanism with the CVC April 2021 memo quote via Defense News 2022-08-08 (opened); strongestCounter: K9 VAJRA-T repeat Buy (Indian) order to private incumbent L&T, and AMCA shortlisting from ThePrint 2026-02-04 (opened; the audit's 2026-05-27 piece was not opened — the February piece carries the same substance), moved out of whatWouldChange; 23% → 22% restatement noted. \"tier: narrative → analytic\" REFUSED in-file: narratives have no tier field."
+  },
+  {
+   "claimId": "procurement-industry:c046",
+   "domain": "procurement-industry",
+   "outcome": "applied",
+   "note": "d: ADSTL stated as wholly owned (100%) on the AEL March 2026 exchange announcement as relayed by Angel One 2026-03-19 and ScanX 2026-03-11 (both opened); \"under Adani New Industries Ltd\" → \"under AEL's Adani New Industries segment\"; from left null; Air Works stakes (85.8% → 99.98%) noted inside d. Tier kept reported (the filing itself was not opened — two brokerage relays are not two independent outlets); upgradeIf names the filing/AOC-1. Optional separate ADSTL → Air Works edge not added."
+  },
+  {
+   "claimId": "procurement-industry:c047",
+   "domain": "procurement-industry",
+   "outcome": "applied",
+   "note": "Tier reported → documented on PTI/Devdiscourse 2020-09-11 (AEL BSE filing quoted) and Business Today 2025-12-30 (both opened); holder named as Adani Land Defence Systems and Technologies Ltd (step-down subsidiary) with force:adani-defence standing in; \"JV with IWI\" → \"acquired 51% from Fouraces Systems India Pvt Ltd on 2020-09-10; IWI holds 49%\" in the claim and the force:plr-systems node; AR page relabelled as supporting the Gwalior facility only; trade-press hedge removed. Side note applied to c044/c045/void: \"not in PIB; reported 60/40 (Chakra Newz)\"."
+  },
+  {
+   "claimId": "procurement-industry:c050",
+   "domain": "procurement-industry",
+   "outcome": "applied",
+   "note": "\"inferred\" removed from lab/d; ThePrint 2025-09-05 (\"from 49 percent to 51 percent\") and Business Standard 2025-09-05 added (both opened); tier → documented for the 49% as of Sep 2025; to → 2025-11-01 marked expected/unconfirmed; d reworded so the SC judgment supports only the Feb 2017 JV formation; counterparty named Reliance Aerostructure Ltd; Reuters naming slip noted; c051 date fix applied."
+  },
+  {
+   "claimId": "procurement-industry:c051",
+   "domain": "procurement-industry",
+   "outcome": "applied",
+   "note": "Text rewritten per the verdict (₹1.76 bn = ₹175.96 cr; completion expected 1 Nov 2025, unverified); from → 2025-09-05; upgradeIf added (R-Infra filing + completion filing / FY26 AR / Dassault URD); Business Standard added (opened — not 403 this time); Reuters label dated 2025-09-05 everywhere; c050 \"to\" and c052 \"to\" fixed."
+  },
+  {
+   "claimId": "procurement-industry:c052",
+   "domain": "procurement-industry",
+   "outcome": "applied",
+   "note": "s kept as energy:reliance-infrastructure and the holding marked indirect via Reliance Aerostructure Ltd; lab/d restated as the audit asks (51% pre-Nov 2025, stated by BS/ThePrint/ConstructionWorld and implied by Reuters arithmetic); to → 2025-11 with the expected-close note; ConstructionWorld added (opened; the R-Infra filing was not retrievable so tier stays reported with upgradeIf); SC judgment limited to formation and identity; supersededBy c053 kept."
+  },
+  {
+   "claimId": "procurement-industry:c053",
+   "domain": "procurement-industry",
+   "outcome": "applied",
+   "note": "Tier → documented (Business Standard, ThePrint, ConstructionWorld, Reuters — all opened, all reporting the R-Infra filing); d rewritten per the verdict; from → 2025-11-01 marked unconfirmed; ₹175.96 cr put in d rather than `a` (own claims in this file carry a = null); \"inferred\" removed from c052; CIN U35999MH2017PLC291083 and Mumbai registered office added to force:dral from Tofler (opened; MCA unreachable), st → mh; Reuters misnaming noted."
+  },
+  {
+   "claimId": "procurement-industry:c057",
+   "domain": "procurement-industry",
+   "outcome": "applied",
+   "note": "HT attribution for the \"20% incl. DRAL\" breakdown; report named as the offsets performance audit tabled 23 Sep 2020 with the number recorded as press usage only (the cag.gov.in PDF was not found — a search result says the full report was never posted; part 2 DEFERRED for the primary PDF, tier stays reported); Oct 2019 MoD statement already present; base rate added from Scroll (46 contracts, ₹19,223 cr due, ₹11,396 cr claimed = 59%, ₹5,457 cr accepted — verified in the opened article). Part 5 (change pred enforce → audit/observation) REFUSED: predicates are frozen and the vocabulary has none; d says so."
+  },
+  {
+   "claimId": "procurement-industry:c058",
+   "domain": "procurement-industry",
+   "outcome": "applied",
+   "note": "Text → \"formerly Anil Ambani group; under a resolution professional since January 2020\"; upgradeIf names the NCLT order of 2022-12-23 / Swan-RNEL disclosure. Part 1 (pred enforce → adjudicate/approve) REFUSED: predicates are frozen and no such predicate exists; d notes it. Part 4 (CIN on the target node) already present (L35110GJ1997PLC033193) — no change needed."
+  },
+  {
+   "claimId": "procurement-industry:c059",
+   "domain": "procurement-industry",
+   "outcome": "applied",
+   "note": "Text → 45-award sample with the ₹1,82,492 cr FY2025-26 universe marker; Adani line → ₹0 sole; PLR one of two vendors on the split award (0.68% full / ≈0.27% at reported 40% L2, PIB prints no split); Chakra Newz added as the reported source (opened); innocentReading: L1/L2 split provision and the unpriced AEW&C DcPP (PIB 2288009, now c066) lie outside the ₹ lens — the Netra Mk2 CCS July 2025 selection was not opened and is not asserted; YER sources already in srcs; tier analytic kept."
+  },
+  {
+   "claimId": "procurement-industry:c060",
+   "domain": "procurement-industry",
+   "outcome": "applied",
+   "note": "s was already force:plr-systems and lab already singular (prior pass); a set explicitly to null; \"gun-towing-vehicle half\" dropped — TASL share not printed by PIB, 60:40 press split referenced on c040 (Defense Post not opened, its ₹4,140 cr figure not asserted); \"first-ever or early private awards\" → PIB's ATAGS statement only; reported CQB split (BF 60% / PLR 40%, units) added from Chakra Newz with the \"reported\" marker — the ₹1,661.9 cr Kotak Neo/Multibagg figures were not opened and are not asserted; upgradeIf rewritten (BFL filings give BFL only; others by subtraction); competing DPSUs named (BEML, AWEIL/MIL, HAL); PRID 1884353 kept."
+  },
+  {
+   "claimId": "procurement-industry:c061",
+   "domain": "procurement-industry",
+   "outcome": "applied",
+   "note": "Text → \"contracts totalling ₹10,147 crore (total also covers BEL SHAKTI)\"; lab drops \"joint\"; ThePrint 2025-02-06 added as independent confirmation (opened). Solar's BSE/NSE filing of 2025-02-06 not opened — recorded as a gap in d, Business Upturn kept as the secondary; tier analytic, upgradeIf/killIf kept."
+  },
+  {
+   "claimId": "procurement-industry:c062",
+   "domain": "procurement-industry",
+   "outcome": "applied",
+   "note": "d rewritten with BEL restricted to radar/AD items (Arudhra, Swathi, Akashteer-Sarang pair) and Shakti marked EW; windows made explicit (BEL calendar 2023 / FY2022-23; L&T and Shakti FY2023-24); \"seven\" → \"eight contracts\"; L&T's \"won competitively after extensive trial evaluation\" added from the 2024-03-01 press release (opened) with \"no bid counts published\" kept; co:larsen-toubro node \"sole-vendor\" wording replaced; PRID 1912309 added to srcs; L&T CIN L99999MH1946PLC004768 filled from the company investor site (opened). BEL CIN DEFERRED: bel-india.in failed TLS through the proxy and MCA is unreachable — recorded in gaps."
+  },
+  {
+   "claimId": "procurement-industry:c063",
+   "domain": "procurement-industry",
+   "outcome": "applied",
+   "note": "lab/d → \"selected PIB releases naming vendor and ₹, non-exhaustive\"; WASS ₹1,896 cr (verified in PRID 2209832) added: 2025 → DPSU 85.2 / private 6.6 / mixed 6.9 / foreign 1.3% of ₹1,46,783 cr; pooled → DPSU 76.8 / private 8.7 / JV ≈5.5 / foreign 5.8 / mixed 2.5 / other PSU 0.7% of ≈₹4.09 lakh cr (recomputed, matches the audit within rounding); Ashwini (2110849) and Arjun Mk-1A (1757320) opened and listed as excluded with reason, with MDL/Naval Group and BDL Astra listed as excluded-not-opened; universe benchmark (193 contracts / ₹2,09,050 cr / 81%; FY2025-26 ₹1,82,492 cr) placed beside the shares; killIf widened to a >5 pp class-wise split. The 2024-12-30 AIP/EHWT release was not opened so not cited; the c001 signing-date note was optional and not applied."
+  },
+  {
+   "claimId": "procurement-industry:c064",
+   "domain": "procurement-industry",
+   "outcome": "applied",
+   "note": "Export sentence rewritten so \"fell\" is a share and private exports rose in absolute terms (≈₹15,209 cr → ≈₹17,353 cr; DPSU ₹5,874 → ₹21,071 cr); AR 2023-24, AR 2024-25 and PIB 2154551 were already in the claim srcs (addSrc no-op); 2024-25 and 2025-26 production marked provisional; AR page numbers (p. 88 / p. 105) noted."
+  },
+  {
+   "claimId": "procurement-industry:c065",
+   "domain": "procurement-industry",
+   "outcome": "applied",
+   "note": "Part 1 already applied in a prior pass (PRID 2273824 and 2248124 were in the claim srcs); share per window already present and left; production marked nominal ₹ with the Asia-Oceania −20-21% and global +9.2% context (SIPRI 2026 opened); SIPRI 2026 quotes added (\"substantial delays\", \"probably increasing reliance\"); total production (PIB 2273824) separated from the indigenous-production series (PIB 2191937) and \"81% domestic\" marked as MoD's vendor classification; tier and pred analytic kept."
+  },
+  {
+   "claimId": "footprint:c010",
+   "domain": "footprint",
+   "outcome": "applied",
+   "note": "Tier analytic -> documented (audit recommendation; pred analytic kept, innocentReading kept and rewritten as the confirmed mechanism). PIB 1942023 opened and added (KhasYol de-notified w.e.f. 27.04.2023; modalities for 58 cantonments shared with states); TOI 2023-04-29 and APAC 2023-05-05 opened and added as reported for the 19 Jan 2023 excision approval. d rewritten without the \"gazette record was not opened\" hedge; upgradeIf marked MET; 2012 PIB list label corrected to name KhasYol under Western Command (confirmed in the page). DGDE entity d-list dated the 62->61 change to 27.04.2023 and gained the DGDE historical-perspective facts; the Khasyol gap entry updated."
+  },
+  {
+   "claimId": "footprint:c011",
+   "domain": "footprint",
+   "outcome": "applied",
+   "note": "Added DGDE historical perspective (opened: 61 notified; six created after Independence; Ajmer 1962 the last) to srcs; PIB 1908805 was already present. lab/innocentReading reworded to \"55 of 61 predate 1947 and none notified since 1962; pre-1962 garrison geography, not present allocation\" and the blanket \"hill-station\" label dropped. d gives UP 0.054, India 0.043, Uttarakhand 11.99m, runners-up Meghalaya and J&K, and states the 36-unit universe (19 host, 17 none). Deviation: the audit\"s Meghalaya denominator 3.31m was NOT reproduced — RGI Table 8 (opened) prints 3,440 thousand for 2026, so Meghalaya is 0.29, matching the file\"s existing base rate; noted in d. upgradeIf updated to \"which six are post-1947\". The all-India base-rate label corrected from \"20 states/UTs, none in 16\" to \"19 of 36, none in 17\" (the file\"s own 61 rows fall in 19 states)."
+  },
+  {
+   "claimId": "footprint:c012",
+   "domain": "footprint",
+   "outcome": "applied",
+   "note": "lab and d changed to 22 of 42 (Bengaluru 8, Delhi 7, Hyderabad 7; Pune 4; sum 42) — recounted from the file\"s own 42 drdo-lab rows, which match the audit; DG cluster-HQ offices and DIT&CS excluded, DYSL-AI unaddressed. killIf replaced by the scope note (HR-cluster centres and labs on no cluster page excluded) plus the falsifier \"complete establishment list puts the three-city share below 45%\". Tier/pred/s/t unchanged. Correction (4): the corporate-clusters page was opened but truncates the HR paragraph and names no centre, so it is cited only for that absence. DRDO entity d[0] corrected to the same 8/7/7/4 count."
+  },
+  {
+   "claimId": "footprint:c013",
+   "domain": "footprint",
+   "outcome": "applied",
+   "note": "innocentReading reworded to \"undertrial load (88.8% of Delhi inmates vs 73.5% national, PSI Table 2.2), capacity additions and court throughput, as much as policing\" and says the evidence does not exclude policing; d gained all-jail occupancy 200.2% (Table 1.3) so the ranking does not depend on the >=2-central-jail cutoff; NCRB src label now names Tables 1.3 and 2.2. The \"not policing\" phrase existed only in the generated module\"s rendering of the old innocentReading, not in the raw file. No change to tier, figures, date or nodes."
+  },
+  {
+   "claimId": "footprint:c014",
+   "domain": "footprint",
+   "outcome": "applied",
+   "note": "Claim stays killed (audit recommendedTier kill; a prior pass set status killed — not reversed, no tier raised). Applied the rewrite fixes to the held record: lab -> \"at least 23 institutions in 13 states; MP 4\", d names every placed institution and the 404/Hindi-page route, upgradeIf -> NCDE location and annual-report check, killedReason updated. Added seven footprint rows from Hindi sub-pages opened 2026-10-04: the three the audit named (force:fp-crpf-isa-mount-abu rj; force:fp-crpf-academy-gurugram hr; force:fp-crpf-rtc-peringome kl, Kannur address printed) and, because the official pages do give their cities, the three the audit said to hold as a void (force:fp-crpf-ctc-tit-ranchi jh — history says moved to Ranchi Dec 1986; force:fp-crpf-csjwt-belagavi ka — page heading \"CSJWT Belgaum\"; force:fp-crpf-dbts-bengaluru ka — Taralu, Bengaluru) plus force:fp-crpf-rapo-meerut up (note begins \"reported:\" — placed only by a headline on its own page). NCDE remains unplaced and is recorded in gaps, not as a row."
+  },
+  {
+   "claimId": "narrative:0",
+   "domain": "footprint",
+   "outcome": "applied",
+   "note": "Status stays speculative (the narrative sentence is the builders motive; the audit says that half stays speculative/unsupported). strongestCase now carries the documented excision programme: PIB 1942023 (opened: 58 cantonments, KhasYol 27.04.2023), the March 2024 notification of 10 cantonments (Tribune 2024-03-08, opened, reported), the six HP cantonments (Tribune 2025-02-04, opened, reported) and the 50% income-sharing clause (Deccan Chronicle 2024-08-09, opened, reported). strongestCounter drops \"one de-notification in thirteen years\" and records state/municipality transferees, assets at no cost, vacant land staying with MoD, Khasyol\"s military station, MoD\"s stated reason, the cross-party excision list and the summary line the audit asked for; the innocent reading sits in strongestCounter because the narrative schema has no innocentReading field. whatWouldChangeThis rewritten (private-developer allotment for; post-2024 completions with the same transferees against). Six srcs added; 2012 PIB label corrected to name KhasYol under Western Command."
+  }
  ]
 }
