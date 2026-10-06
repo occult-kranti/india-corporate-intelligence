@@ -1,0 +1,756 @@
+{
+  "researchWindow": {
+    "start": "2021-10-06",
+    "end": "2026-10-06"
+  },
+  "sources_reviewed": 62,
+  "searchCalls": 8,
+  "fullTextFetches": 19,
+  "coverageStatement": "Curated source-backed starting corpus and source discovery; not exhaustive locality or five-year data ingestion. Historical methodology is explicitly outside window.",
+  "records": [
+    {
+      "id": "wx-imd-drought-2023",
+      "title": "Drought Condition Assessment: September and June–September 2023",
+      "url": "https://imdpune.gov.in/caui/drought_rep.pdf",
+      "publisher": "India Meteorological Department, Climate Research and Services",
+      "publishedAt": null,
+      "period": {
+        "start": "2023-06-01",
+        "end": "2023-09-30",
+        "label": "June–September 2023; separate September assessment"
+      },
+      "geoscope": "district",
+      "stateCodes": [],
+      "localityNames": [],
+      "kind": "government-report",
+      "domain": "drought",
+      "domains": [
+        "drought",
+        "weather"
+      ],
+      "summary": "IMD combines SPI, SPEI and aridity anomaly indicators in a district assessment.",
+      "supportedFacts": [
+        "Summary reports dry/arid classifications from multiple drought indices.",
+        "District names and indicator-specific tables are provided; classifications are historical."
+      ],
+      "limitations": [
+        "Publication date not stated in fetched text; period is not a publication date.",
+        "Extracted text includes a September 2022 table caption within the 2023 report and an implausible 30 states / 11 UTs phrase. Reconcile against original pages before loading numerical tables.",
+        "Meteorological indicators do not establish household tap reliability or an administrative drought declaration."
+      ],
+      "locator": "Summary; Figures 1–6; Tables 1–3",
+      "retrieval": {
+        "retrievedAt": "2026-10-06",
+        "method": "Exa search followed by Exa full-page/PDF text fetch",
+        "fullDocumentAudit": false
+      },
+      "temporalType": "historical-observation",
+      "dataQuality": "manual-review-required"
+    },
+    {
+      "id": "wx-imd-hydroclimate-2026-06",
+      "title": "Monthly Hydroclimate Summary Bulletin: June 2026",
+      "url": "https://imdpune.gov.in/caui/rainfall_summary/bulletin.pdf",
+      "publisher": "India Meteorological Department, Pune",
+      "publishedAt": null,
+      "period": {
+        "start": "2026-06-01",
+        "end": "2026-06-30",
+        "label": "June 2026"
+      },
+      "geoscope": "district",
+      "stateCodes": [],
+      "localityNames": [],
+      "kind": "government-report",
+      "domain": "drought",
+      "domains": [
+        "drought",
+        "weather"
+      ],
+      "summary": "District hydroclimate bulletin reports SPI, SPEI, aridity, rainfall and temperature for June 2026.",
+      "supportedFacts": [
+        "The document explicitly identifies June 2026 and separates SPI, SPEI and AAI.",
+        "It provides maps and region-wise district classifications."
+      ],
+      "limitations": [
+        "Undated mutable bulletin URL; retrieved content is June 2026, not October conditions.",
+        "Extracted SPI region rows and All India extreme-wet totals do not reconcile. Verify PDF/table extraction before any district count metric.",
+        "Rainfall and hydroclimate classifications alone are not village drought declarations."
+      ],
+      "locator": "Summary; sections 1.1–1.2, 2.1–2.2 and 3.1–3.2",
+      "retrieval": {
+        "retrievedAt": "2026-10-06",
+        "method": "Exa search followed by Exa full-page/PDF text fetch",
+        "fullDocumentAudit": false
+      },
+      "temporalType": "historical-observation",
+      "dataQuality": "manual-review-required"
+    },
+    {
+      "id": "wx-imd-climate-2025",
+      "title": "Statement on the Climate of India during 2025",
+      "url": "https://internal.imd.gov.in/press_release/20260101_pr_4602.pdf",
+      "publisher": "India Meteorological Department",
+      "publishedAt": "2026-01-01",
+      "period": {
+        "start": "2025-01-01",
+        "end": "2025-12-31",
+        "label": "Calendar year 2025"
+      },
+      "geoscope": "national",
+      "stateCodes": [],
+      "localityNames": [],
+      "kind": "government-report",
+      "domain": "weather",
+      "domains": [
+        "weather",
+        "drought",
+        "flood"
+      ],
+      "summary": "National climate statement with regional rainfall differences and documented extreme-weather events.",
+      "supportedFacts": [
+        "All-India annual rainfall is reported as 1,274 mm and 110% of the 1971–2020 long-period average.",
+        "Southwest monsoon rainfall is reported as 127% of LPA for Northwest India and 80% for East & Northeast India, illustrating why national surplus does not rule out regional shortfall."
+      ],
+      "limitations": [
+        "National and homogeneous-region aggregates do not establish city/village conditions.",
+        "Document says extreme-weather casualties use media and disaster-management reports; avoid treating every casualty as a direct instrument measurement."
+      ],
+      "locator": "Press release header; Highlights; Rainfall section",
+      "retrieval": {
+        "retrievedAt": "2026-10-06",
+        "method": "Exa search followed by Exa full-page/PDF text fetch",
+        "fullDocumentAudit": false
+      },
+      "temporalType": "historical-observation",
+      "observations": [
+        {
+          "indicator": "annual_rainfall",
+          "value": 1274,
+          "unit": "mm",
+          "period": "2025-01-01/2025-12-31",
+          "geography": "India",
+          "attribution": "IMD"
+        }
+      ]
+    },
+    {
+      "id": "wx-imd-rainfall-2024",
+      "title": "Rainfall Statistics of India – 2024",
+      "url": "https://hydro.imd.gov.in/hydrometweb/(S(4jwlae45z2suuuqf1ruew345))/PRODUCTS/Publications/Rainfall%20Statistics%20of%20India%20-%202024/Rainfall%20Statistics%20of%20India%202024.pdf",
+      "publisher": "India Meteorological Department, Hydrometeorology Division",
+      "publishedAt": null,
+      "period": {
+        "start": "2024-01-01",
+        "end": "2024-12-31",
+        "label": "Calendar year 2024"
+      },
+      "geoscope": "national",
+      "stateCodes": [],
+      "localityNames": [],
+      "kind": "government-report",
+      "domain": "weather",
+      "domains": [
+        "weather",
+        "irrigation"
+      ],
+      "summary": "Official compilation of monthly, seasonal and annual 2024 rainfall.",
+      "supportedFacts": [
+        "Report identifier is ESSO/MoES/IMD/HS/Rainfall Report/02(2025)/66.",
+        "Annual map reports all-India rainfall 1,206.6 mm against 1,160.0 mm normal, a rounded 4% departure."
+      ],
+      "limitations": [
+        "Publication year is 2025 in report identifier; exact publication day is not stated in extracted opening pages.",
+        "Fetched URL contains a session token and may require replacing with a stable official locator.",
+        "Only opening pages were fetched; no district observations have been transcribed."
+      ],
+      "locator": "Annual sub-divisional rainfall map; report title page; forewords",
+      "retrieval": {
+        "retrievedAt": "2026-10-06",
+        "method": "Exa search followed by Exa full-page/PDF text fetch",
+        "fullDocumentAudit": false
+      },
+      "publishedYear": 2025,
+      "temporalType": "historical-observation",
+      "observations": [
+        {
+          "indicator": "annual_rainfall",
+          "value": 1206.6,
+          "unit": "mm",
+          "period": "2024-01-01/2024-12-31",
+          "geography": "India",
+          "attribution": "IMD"
+        }
+      ]
+    },
+    {
+      "id": "wx-imd-state-climate-archive",
+      "title": "State-wise Annual Climate Statements, 2021–2024",
+      "url": "https://imdpune.gov.in/Reports/Statewise%20annual%20climate/statewise_annual_climate.html",
+      "publisher": "India Meteorological Department, Climate Research and Services",
+      "publishedAt": null,
+      "period": {
+        "start": "2021-01-01",
+        "end": "2024-12-31",
+        "label": "Archive selectors for 2021, 2022, 2023 and 2024"
+      },
+      "geoscope": "state",
+      "stateCodes": [],
+      "localityNames": [],
+      "kind": "official-data-portal",
+      "domain": "weather",
+      "domains": [
+        "weather",
+        "drought",
+        "flood"
+      ],
+      "summary": "Discovery route to state climate statements covering temperature, rainfall, SPI and extreme-weather impacts.",
+      "supportedFacts": [
+        "Portal says the 2021 state climate statements were first prepared in 2022.",
+        "Selectors show 2021–2024 and state names."
+      ],
+      "limitations": [
+        "Discovery index, not an ingested state-level dataset.",
+        "2021 annual documents partly precede the requested window beginning 2021-10-06; finer-period records are needed to filter strictly.",
+        "No individual state report values were extracted in this workstream."
+      ],
+      "locator": "Introductory description and year/state selectors",
+      "retrieval": {
+        "retrievedAt": "2026-10-06",
+        "method": "Exa search followed by Exa full-page/PDF text fetch",
+        "fullDocumentAudit": false
+      },
+      "temporalType": "source-directory",
+      "windowStatus": "partially-overlapping"
+    },
+    {
+      "id": "wx-cwc-reservoir-archive",
+      "title": "CWC reservoir storage bulletin archive: 2024 snapshots",
+      "url": "https://cwc.gov.in/reservoirs-storage-bulletin",
+      "publisher": "Central Water Commission",
+      "publishedAt": null,
+      "period": {
+        "start": "2024-01-04",
+        "end": "2024-06-13",
+        "label": "Dated weekly entries visible in fetched index"
+      },
+      "geoscope": "reservoir",
+      "stateCodes": [],
+      "localityNames": [],
+      "kind": "official-data-portal",
+      "domain": "reservoirs",
+      "domains": [
+        "reservoirs",
+        "water-supply",
+        "irrigation"
+      ],
+      "summary": "Official directory lists dated live-storage reports for 150 monitored reservoirs.",
+      "supportedFacts": [
+        "Visible index includes 21 March, 28 March, 25 April and 13 June 2024 bulletins.",
+        "Page text says last updated 14 June 2024."
+      ],
+      "limitations": [
+        "Archive snapshot is stale relative to October 2026; this is not live storage.",
+        "Underlying reservoir PDFs were not individually fetched; no reservoir volume is asserted.",
+        "Monitored reservoirs are not a census of every local tank, village source or groundwater aquifer."
+      ],
+      "locator": "Reservoirs Storage Bulletin table; page last-updated label",
+      "retrieval": {
+        "retrievedAt": "2026-10-06",
+        "method": "Exa search followed by Exa full-page/PDF text fetch",
+        "fullDocumentAudit": false
+      },
+      "temporalType": "source-directory"
+    },
+    {
+      "id": "wx-cwc-flood-portal",
+      "title": "CWC Flood Forecast portal",
+      "url": "https://ffs.india-water.gov.in/",
+      "publisher": "Central Water Commission",
+      "publishedAt": null,
+      "period": {
+        "start": null,
+        "end": null,
+        "label": "Dynamic portal; no dated forecast ingested"
+      },
+      "geoscope": "river-station",
+      "stateCodes": [],
+      "localityNames": [],
+      "kind": "official-data-portal",
+      "domain": "flood",
+      "domains": [
+        "flood",
+        "weather"
+      ],
+      "summary": "Official source discovery for river-level and inflow forecasts.",
+      "supportedFacts": [
+        "Fetched page identifies itself as CWC Flood Forecast."
+      ],
+      "limitations": [
+        "JavaScript portal returned no station observations, issue times or validity data to the text fetch.",
+        "No current flood status or live alert can be inferred from this record."
+      ],
+      "locator": "Portal title",
+      "retrieval": {
+        "retrievedAt": "2026-10-06",
+        "method": "Exa search followed by Exa full-page/PDF text fetch",
+        "fullDocumentAudit": false
+      },
+      "temporalType": "source-directory",
+      "issuedAt": null,
+      "validUntil": null,
+      "currentAlertEligible": false
+    },
+    {
+      "id": "wx-tn-disaster-2023",
+      "title": "Tamil Nadu Gazette: cyclone- and flood-affected districts declaration",
+      "url": "https://www.stationeryprinting.tn.gov.in/extraordinary/2023/421_Ex_II_1_2023.pdf",
+      "publisher": "Tamil Nadu Revenue and Disaster Management Department",
+      "publishedAt": "2023-12-29",
+      "period": {
+        "start": "2023-12-03",
+        "end": "2023-12-18",
+        "label": "Michaung December 3–4 and southern-district rain December 17–18"
+      },
+      "geoscope": "district",
+      "stateCodes": [
+        "TN"
+      ],
+      "localityNames": [
+        "Chennai",
+        "Tiruvallur",
+        "Chengalpattu",
+        "Kancheepuram",
+        "Tirunelveli",
+        "Thoothukudi",
+        "Kanniyakumari",
+        "Tenkasi",
+        "Ramanathapuram",
+        "Virudhunagar"
+      ],
+      "kind": "government-order",
+      "domain": "flood",
+      "domains": [
+        "flood",
+        "water-supply",
+        "agriculture"
+      ],
+      "summary": "G.O. 604 formally declares named cyclone- and flood-affected districts in December 2023.",
+      "supportedFacts": [
+        "Order declares Chennai, Tiruvallur, Chengalpattu and Kancheepuram cyclone affected.",
+        "It declares six southern districts flood affected and describes damage to crops and water-supply infrastructure."
+      ],
+      "limitations": [
+        "Historical declaration is not a present warning.",
+        "Rainfall quantities in the order require station/aggregation interpretation before numerical reuse; only declaration and described impacts used here."
+      ],
+      "locator": "G.O. Ms. No. 604; pages 1–3; paragraph 3",
+      "retrieval": {
+        "retrievedAt": "2026-10-06",
+        "method": "Exa search followed by Exa full-page/PDF text fetch",
+        "fullDocumentAudit": false
+      },
+      "temporalType": "historical-event"
+    },
+    {
+      "id": "wx-nrsc-tn-inundation-2023",
+      "title": "NRSC Michaung inundation map: 7 December 2023",
+      "url": "https://ndem.nrsc.gov.in/documents/Disaster_Document/2023/TN/tncyclone50dsc07122023_0600hrs/tncyclone50dsc07122023_0600hrs_report.pdf",
+      "publisher": "ISRO National Remote Sensing Centre",
+      "publishedAt": "2023-12-07",
+      "period": {
+        "start": "2023-12-07",
+        "end": "2023-12-07",
+        "label": "RISAT-1A acquisition, 07 December 2023 0600 hours; time zone not stated"
+      },
+      "geoscope": "district",
+      "stateCodes": [
+        "TN"
+      ],
+      "localityNames": [
+        "Kanchipuram",
+        "Chengalpattu",
+        "Cuddalore",
+        "Ranippettai",
+        "Tiruvallur",
+        "Tiruvannamalai",
+        "Villupuram",
+        "Thiruvarur",
+        "Chennai",
+        "Vellore"
+      ],
+      "kind": "government-report",
+      "domain": "flood",
+      "domains": [
+        "flood",
+        "agriculture"
+      ],
+      "summary": "Rapid satellite inundation mapping provides a historical footprint with explicit uncertainty.",
+      "supportedFacts": [
+        "Table 2 totals 148,360 hectares of mapped inundation/standing water over listed districts.",
+        "Report requests field feedback and says no ground verification was done."
+      ],
+      "limitations": [
+        "Preliminary rapid map; inundation can include rain accumulation or water in paddy fields.",
+        "Satellite scale, resolution, date and interpretation limit conclusions; mapped water is not automatically crop loss or unsafe drinking water.",
+        "Acquisition time zone is unstated; do not append IST without confirmation."
+      ],
+      "locator": "NRSC/DMSG/2023/CY/TN/01; Tables 1–2; Disclaimer",
+      "retrieval": {
+        "retrievedAt": "2026-10-06",
+        "method": "Exa search followed by Exa full-page/PDF text fetch",
+        "fullDocumentAudit": false
+      },
+      "temporalType": "historical-observation",
+      "observations": [
+        {
+          "indicator": "mapped_inundation_or_standing_water",
+          "value": 148360,
+          "unit": "ha",
+          "period": "2023-12-07",
+          "geography": "listed Tamil Nadu districts",
+          "attribution": "NRSC rapid preliminary mapping",
+          "qualifier": "includes possible paddy water; no ground verification"
+        }
+      ]
+    },
+    {
+      "id": "wx-ngt-ennore-2024",
+      "title": "IIT Madras assessment of Ennore oil spill, filed with TNPCB report at NGT",
+      "url": "https://www.greentribunal.gov.in/sites/default/files/news_updates/OA%20180%20of%202023%20Report%20by%20TNPCB_0.pdf",
+      "publisher": "IIT Madras / Tamil Nadu Pollution Control Board; hosted by National Green Tribunal",
+      "publishedAt": "2024-03",
+      "period": {
+        "start": "2023-12-14",
+        "end": "2023-12-26",
+        "label": "Field survey December 14–26, 2023; March 2024 assessment of Michaung spill"
+      },
+      "geoscope": "locality",
+      "stateCodes": [
+        "TN"
+      ],
+      "localityNames": [
+        "Ennore",
+        "Ernavoor",
+        "Sathyamoorthy Nagar",
+        "Kosasthalaiyar River",
+        "Buckingham Canal",
+        "Chennai"
+      ],
+      "kind": "court-filed-technical-report",
+      "domain": "water-quality",
+      "domains": [
+        "water-quality",
+        "flood",
+        "food-safety"
+      ],
+      "summary": "Technical assessment describes flood-driven industrial oil contamination of waterways and adjoining residential areas.",
+      "supportedFacts": [
+        "Report maps contamination zones and says affected open wells are groundwater sources.",
+        "Executive summary calls for remediation and further assessment of prolonged exposure via air, water and fish."
+      ],
+      "limitations": [
+        "Technical report filed in proceedings is not a final court finding or a present water-quality clearance.",
+        "Avoid adding oil mass and oily-sludge mass as comparable quantities; report itself uses different estimates and discusses uncertainty.",
+        "March 2024 is the report month; exact filing/publication day not established."
+      ],
+      "locator": "O.A. 180/2023 and 183/2023; report title page; Executive Summary; section 2, Zone 11",
+      "retrieval": {
+        "retrievedAt": "2026-10-06",
+        "method": "Exa search followed by Exa full-page/PDF text fetch",
+        "fullDocumentAudit": false
+      },
+      "temporalType": "historical-event",
+      "publicationPrecision": "month"
+    },
+    {
+      "id": "wx-bengaluru-shortage-2024",
+      "title": "Bengaluru facing 500 MLD shortfall, Chief Minister says",
+      "url": "https://www.thehindu.com/news/cities/bangalore/bengaluru-facing-shortage-of-500-mld-water-daily-admits-chief-minister-siddaramaiah/article67964439.ece",
+      "publisher": "The Hindu",
+      "publishedAt": "2024-03-18",
+      "period": {
+        "start": "2024-03-18",
+        "end": "2024-03-18",
+        "label": "Chief Minister's review meeting"
+      },
+      "geoscope": "city",
+      "stateCodes": [
+        "KA"
+      ],
+      "localityNames": [
+        "Bengaluru"
+      ],
+      "kind": "news",
+      "domain": "water-supply",
+      "domains": [
+        "water-supply",
+        "groundwater",
+        "drought"
+      ],
+      "summary": "Reporting attributes a quantified water deficit and borewell stress to Karnataka's Chief Minister.",
+      "supportedFacts": [
+        "Chief Minister is quoted giving demand 2,600 MLD, Cauvery supply 1,450 MLD, groundwater supply 650 MLD and shortfall 500 MLD.",
+        "He said 6,900 of 14,000 government borewells had dried and named outer areas without Cauvery service as affected."
+      ],
+      "limitations": [
+        "Attributed official statements reported by news; not independently audited measurements.",
+        "A city-wide average cannot establish supply at a selected ward or village.",
+        "Historical March 2024 snapshot, not current 2026 supply."
+      ],
+      "locator": "Opening paragraphs; quoted demand/supply breakdown; outer-zone paragraph",
+      "retrieval": {
+        "retrievedAt": "2026-10-06",
+        "method": "Exa search followed by Exa full-page/PDF text fetch",
+        "fullDocumentAudit": false
+      },
+      "temporalType": "historical-reported-claim",
+      "observations": [
+        {
+          "indicator": "reported_daily_supply_shortfall",
+          "value": 500,
+          "unit": "MLD",
+          "period": "2024-03-18",
+          "geography": "Bengaluru",
+          "attribution": "Chief Minister Siddaramaiah, as reported by The Hindu"
+        }
+      ]
+    },
+    {
+      "id": "wx-bengaluru-bwssb-response-2024",
+      "title": "BWSSB chairman interview on drinking-water reserves and peripheral shortages",
+      "url": "https://www.thehindu.com/news/cities/bangalore/water-situation-is-of-concern-but-not-as-alarming-as-it-is-being-projected-bwssb-chairman/article67954969.ece",
+      "publisher": "The Hindu",
+      "publishedAt": "2024-03-16",
+      "period": {
+        "start": "2024-03-16",
+        "end": "2024-03-16",
+        "label": "Interview published March 16, 2024"
+      },
+      "geoscope": "city",
+      "stateCodes": [
+        "KA"
+      ],
+      "localityNames": [
+        "Bengaluru",
+        "Cauvery basin"
+      ],
+      "kind": "news-interview",
+      "domain": "water-supply",
+      "domains": [
+        "water-supply",
+        "groundwater",
+        "reservoirs"
+      ],
+      "summary": "Utility response distinguishes basin water available for drinking from shortages in areas reliant on borewells.",
+      "supportedFacts": [
+        "BWSSB chairman said 110 villages relied on borewells and groundwater levels had fallen.",
+        "He said basin storage would be sufficient for drinking needs until monsoon and urged treated-water use for other purposes."
+      ],
+      "limitations": [
+        "Utility official's attributed assessment is not independent verification of every household's supply.",
+        "Different dates, service boundaries and drinking/non-drinking scopes must be aligned before comparing with other estimates.",
+        "An expectation about future supply in March 2024 is an expired historical statement."
+      ],
+      "locator": "Interview answers on crisis extent, reservoir reserves and treated water",
+      "retrieval": {
+        "retrievedAt": "2026-10-06",
+        "method": "Exa search followed by Exa full-page/PDF text fetch",
+        "fullDocumentAudit": false
+      },
+      "temporalType": "historical-reported-claim"
+    },
+    {
+      "id": "wx-bengaluru-community-2024",
+      "title": "Families, schools and hospitals describe Bengaluru water shortage",
+      "url": "https://citizenmatters.in/bengaluru-krishnanapalya-water-shortage-tankers-cauvery/",
+      "publisher": "Citizen Matters",
+      "publishedAt": "2024-03-22",
+      "period": {
+        "start": "2024-02",
+        "end": "2024-03-22",
+        "label": "Residents and institutions interviewed during early-2024 shortage"
+      },
+      "geoscope": "locality",
+      "stateCodes": [
+        "KA"
+      ],
+      "localityNames": [
+        "Bengaluru",
+        "Krishnanapalya",
+        "KR Puram",
+        "Thanisandra",
+        "Hegde Nagar"
+      ],
+      "kind": "local-news",
+      "domain": "water-supply",
+      "domains": [
+        "water-supply",
+        "education",
+        "groundwater"
+      ],
+      "summary": "Local reporting documents reported interruptions, tanker dependence and pressure on schools and a hospital.",
+      "supportedFacts": [
+        "Residents in Krishnanapalya describe shortened Cauvery supply.",
+        "Inspire Public School in Thanisandra and Sai Hospital in Hegde Nagar report dry borewells and dependence on tankers.",
+        "Article explicitly says a reported 1,500-foot borewell-depth claim could not be independently verified."
+      ],
+      "limitations": [
+        "Interviews are qualitative community evidence and are not a representative city survey.",
+        "Keep named institution and neighbourhood scope; reported tanker prices need delivery date/volume/radius matching.",
+        "Do not reuse the unverified borewell depth as a measurement."
+      ],
+      "locator": "Resident interviews; school and hospital paragraphs; reporter's qualification",
+      "retrieval": {
+        "retrievedAt": "2026-10-06",
+        "method": "Exa search followed by Exa full-page/PDF text fetch",
+        "fullDocumentAudit": false
+      },
+      "temporalType": "historical-community-report"
+    },
+    {
+      "id": "wx-imd-forecast-2024-05-23",
+      "title": "IMD press release: May 23, 2024 weather outlook",
+      "url": "https://internal.imd.gov.in/press_release/20240523_pr_3011.pdf",
+      "publisher": "India Meteorological Department",
+      "publishedAt": "2024-05-23",
+      "period": {
+        "start": "2024-05-23",
+        "end": null,
+        "label": "Issued May 23, 2024; separate hazard-specific horizons, no single exact expiry"
+      },
+      "geoscope": "region",
+      "stateCodes": [
+        "WB",
+        "MP",
+        "GJ"
+      ],
+      "localityNames": [
+        "Northwest India",
+        "West Bengal coast",
+        "Madhya Pradesh",
+        "Gujarat"
+      ],
+      "kind": "historical-forecast",
+      "domain": "weather",
+      "domains": [
+        "weather",
+        "flood",
+        "heat"
+      ],
+      "summary": "Archived bulletin demonstrates timestamped forecast evidence, including cyclone and heatwave expectations.",
+      "supportedFacts": [
+        "Issued May 23, 2024 at 1410 IST.",
+        "Subject forecasts a cyclonic storm approaching Bangladesh/adjoining West Bengal by May 26 evening and heatwave conditions over named regions during the next five days."
+      ],
+      "limitations": [
+        "Expired forecast; it is neither evidence that all predicted impacts occurred nor a current alert.",
+        "Different hazards have different valid windows. No single precise expiry time is stated for the whole release.",
+        "Use observed follow-up bulletins to evaluate forecast outcomes."
+      ],
+      "locator": "Press-release header; Subject items i–iii",
+      "retrieval": {
+        "retrievedAt": "2026-10-06",
+        "method": "Exa search followed by Exa full-page/PDF text fetch",
+        "fullDocumentAudit": false
+      },
+      "temporalType": "historical-forecast",
+      "issuedAt": "2024-05-23T14:10:00+05:30",
+      "validUntil": null,
+      "validityText": "Cyclone expectation by 26 May evening; heatwave outlook next five days; whole-bulletin exact expiry unstated.",
+      "currentAlertEligible": false
+    },
+    {
+      "id": "wx-drought-manual-2016",
+      "title": "Manual for Drought Management, December 2016",
+      "url": "https://www.preventionweb.net/files/57453_indiadroughtmanual2016.pdf?startDownload=true",
+      "publisher": "Government of India, Department of Agriculture, Cooperation & Farmers Welfare; mirrored by PreventionWeb",
+      "publishedAt": "2016-12",
+      "period": {
+        "start": null,
+        "end": null,
+        "label": "Historical methodological baseline outside the requested five-year window"
+      },
+      "geoscope": "national",
+      "stateCodes": [],
+      "localityNames": [],
+      "kind": "historical-methodology",
+      "domain": "drought",
+      "domains": [
+        "drought",
+        "agriculture"
+      ],
+      "summary": "Government manual provides historical drought-monitoring and response methodology.",
+      "supportedFacts": [
+        "Title page identifies December 2016 and the Government of India agriculture department.",
+        "Manual concerns monitoring, drought declaration, relief and mitigation."
+      ],
+      "limitations": [
+        "Outside 2021-10-06 to 2026-10-06 evidence window; include only as clearly marked background.",
+        "Fetched from an intergovernmental disaster-information mirror, not the original ministry host.",
+        "Only opening portion fetched; current amendments and applicable state rules must be checked before operational use."
+      ],
+      "locator": "Title page; Contents; foreword",
+      "retrieval": {
+        "retrievedAt": "2026-10-06",
+        "method": "Exa search followed by Exa full-page/PDF text fetch",
+        "fullDocumentAudit": false
+      },
+      "temporalType": "historical-methodology",
+      "windowStatus": "outside-window",
+      "publicationPrecision": "month"
+    },
+    {
+      "id": "wx-agromet-cuttack-2025-07",
+      "title": "Cuttack block-wise Agromet Advisory, July 1–5, 2025",
+      "url": "https://icar-crri.in/wp-content/uploads/2025/07/IAAS_DAMU_01.07.2025.pdf",
+      "publisher": "IMD Gramin Krishi Mausam Sewa / District Agromet Unit, KVK Cuttack, ICAR-NRRI",
+      "publishedAt": "2025-07-01",
+      "period": {
+        "start": "2025-07-01",
+        "end": "2025-07-05",
+        "label": "Bulletin date cells July 1–5; forecast explicitly valid through July 6 at 08:30 IST"
+      },
+      "geoscope": "block",
+      "stateCodes": [
+        "OD"
+      ],
+      "localityNames": [
+        "Cuttack",
+        "Athagad",
+        "Badamba"
+      ],
+      "kind": "historical-agromet-advisory",
+      "domain": "weather",
+      "domains": [
+        "weather",
+        "agriculture",
+        "irrigation",
+        "seed"
+      ],
+      "summary": "Expired block-level advisory links forecast rain to rice nursery drainage, irrigation timing and crop stages.",
+      "supportedFacts": [
+        "Athagad and Badamba sections explicitly say forecast period from today 08:30 IST to July 6, 2025 08:30 IST.",
+        "General advice discusses draining excess water from rice nurseries, delaying irrigation and weather-dependent farm operations.",
+        "The bulletin separately dates NDVI to June 12–18 and SPI to May 29–June 25, 2025."
+      ],
+      "limitations": [
+        "Historical expired advice, not present planting or chemical-use instructions.",
+        "Issue clock time is not stated; 08:30 is the forecast-period boundary, not necessarily issuance time.",
+        "Block advisory cannot be relabelled as village field conditions or proof that a pest/disease occurred."
+      ],
+      "locator": "Title page; NDVI/SPI page; Athagad and Badamba forecast-period and General Advisory sections",
+      "retrieval": {
+        "retrievedAt": "2026-10-06",
+        "method": "Exa search followed by Exa full-page/PDF text fetch",
+        "fullDocumentAudit": false
+      },
+      "temporalType": "historical-forecast",
+      "issuedAt": "2025-07-01",
+      "issuedTime": null,
+      "validFrom": "2025-07-01T08:30:00+05:30",
+      "validUntil": "2025-07-06T08:30:00+05:30",
+      "currentAlertEligible": false
+    }
+  ]
+}

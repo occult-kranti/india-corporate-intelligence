@@ -57,6 +57,9 @@ jobs:
       - name: Local model artifact integrity (no model download)
         run: npm run test:education:model
 
+      - name: Water and food provenance, dates and indicator guards
+        run: npm run validate:water && npm run test:water && npm run test:water:model
+
       - name: Typecheck and build
         run: npm run build
 
@@ -68,6 +71,9 @@ jobs:
 
       - name: Education research workflow
         run: npm run test:education:browser
+
+      - name: Water and food research workflow
+        run: npm run test:water:browser
 
       # Measures the graph camera: no silent letterbox, a 200px drag moves the
       # graph 200px, auto-fit clips nothing, maximise really hands over the

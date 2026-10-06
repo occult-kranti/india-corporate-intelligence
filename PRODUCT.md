@@ -13,3 +13,5 @@ Product priorities:
 5. Keep the existing React/TypeScript/Vite architecture and reproducible data pipeline.
 
 This brief is inferred from the requested work and repository evidence, not user interviews. Claims about audience preference or task success have not been validated with participants.
+
+The water and food-security register extends the same research workflow across drinking water, groundwater, weather and hazards, public works, farming and food systems. Its publication window is 6 October 2021–6 October 2026. State, city and village searches expose the available evidence at its actual geographic level. Food-chain stages organize independent source records; they do not establish a traced shipment or causal chain. Historic bulletins and events remain dated research, with their original issue and validity periods.

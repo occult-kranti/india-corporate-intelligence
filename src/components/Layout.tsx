@@ -5,7 +5,7 @@ import {
   Bookmark, Menu, X, Building2, GitBranch, Scale, Ruler, BookOpen,
   Waypoints, Users, Radar, ShieldCheck, Shield, Gavel, Telescope,
   Notebook, Mountain, Crosshair, HandCoins, Zap, Coins, GraduationCap,
-  ArrowUpRight, ChevronRight,
+  ArrowUpRight, ChevronRight, Droplets,
 } from 'lucide-react';
 import { COMPANIES, COMPANIES_AS_OF } from '../data/companies';
 
@@ -25,6 +25,7 @@ const navGroups: { label: string; items: { path: string; label: string; icon: ty
     label: 'Registers',
     items: [
       { path: '/education', label: 'Education funding', icon: GraduationCap },
+      { path: '/water', label: 'Water & food security', icon: Droplets },
       { path: '/tenders', label: 'Govt awards', icon: Gavel },
       { path: '/resources', label: 'Natural resources', icon: Mountain },
       { path: '/pmcares', label: 'PM CARES', icon: HandCoins },

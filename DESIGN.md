@@ -28,3 +28,7 @@ Chromium at `/usr/bin/chromium`, against the Vite development server:
 - Core text tokens measure at least 6.29:1 on the three shared dark surfaces; action brass at least 8.50:1. These token measurements are not a comprehensive contrast audit of every legacy chart.
 
 This is a bounded Chromium visual and keyboard review. Screen-reader use, other browser engines and participant usability research were not performed. Repository build, data and regression gate outcomes are recorded separately by the implementation lead.
+
+## Water and food-security extension
+
+The water register reuses the reading-room frame and introduces a restrained teal domain accent. Geography and evidence filters precede an eight-stage seed-to-distribution index. Source rows retain visible geographic level, publication date, observation period and retrieval date; dated hazards carry validity context. The shared navigation and a compact home entry expose the new register without changing frame widths or graph styling. Water-specific review evidence is recorded in `docs/water/DESIGN_REVIEW.md`.

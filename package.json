@@ -18,8 +18,12 @@
     "test:education": "node --test scripts/education/education.test.mjs",
     "test:education:browser": "node scripts/education/browser.mjs",
     "test:education:model": "node scripts/education/model-corpus.mjs && python3 scripts/education/model-rank.py --input research/education/model-corpus.json --verify && python3 scripts/education/model-rank.test.py",
-    "check": "npm run promote && npm run generate && npm run test:assemble && npm run validate && npm run validate:education && npm run test:education && npm run test:education:model && npm run build && npm run smoke && npm run test:education:browser && npm run viewport && npm run test:pages",
-    "test:pages": "node --test scripts/pages/energy.test.mjs scripts/pages/welfare.test.mjs scripts/pages/tenders.test.mjs scripts/pages/finance.test.mjs"
+    "check": "npm run promote && npm run generate && npm run test:assemble && npm run validate && npm run validate:education && npm run test:education && npm run test:education:model && npm run validate:water && npm run test:water && npm run test:water:model && npm run build && npm run smoke && npm run test:education:browser && npm run test:water:browser && npm run viewport && npm run test:pages",
+    "test:pages": "node --test scripts/pages/energy.test.mjs scripts/pages/welfare.test.mjs scripts/pages/tenders.test.mjs scripts/pages/finance.test.mjs",
+    "validate:water": "node scripts/water/validate.mjs",
+    "test:water": "node --test scripts/water/water.test.mjs",
+    "test:water:browser": "node scripts/water/browser.mjs",
+    "test:water:model": "node scripts/education/model-corpus.mjs src/data/water-research.json research/water/model-corpus.json && python3 scripts/water/model-rank.py --verify"
   },
   "dependencies": {
     "d3-force": "^3.0.0",

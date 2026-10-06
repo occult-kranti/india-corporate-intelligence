@@ -76,14 +76,30 @@ Research, the two-round panel decisions, and the expansion roadmap live in
 [`docs/education`](docs/education). The optional open-source document-ranking
 workflow runs locally and produces research suggestions, never verified claims.
 
-35 routes, grouped as the sidebar groups them.
+### Water and food security
+
+`/water` follows drinking water, groundwater, weather, procurement and the food
+chain from seeds to grain, rice and vegetables. Its publication review window is
+**6 October 2021–6 October 2026**. Observation periods, publication dates and
+forecast validity remain separate; undated and older sources are available through
+explicit filters. State, place, subject and stage filters are shareable; source
+exports retain limitations and forecast status, and the reading list stays local.
+
+All 36 states/UTs are navigable, with bounded city, district and village evidence
+and official local retrieval routes. Connections are not safe-supply outcomes,
+rainfall is not a drought declaration, and production is not food distribution.
+This is a curated historical evidence desk, not a live warning service or an
+exhaustive local census. Panel decisions and the expansion roadmap are in
+[`docs/water`](docs/water).
+
+36 routes, grouped as the sidebar groups them.
 
 **Markets** — `/` dashboard · `/map` the NSE/BSE map, with an index filter (`idx=nifty50|sensex30|sensex50`)
 · `/geograph` the geographic network · `/industries` sector concentration · `/conglomerates` the ten
 largest groups, and `/conglomerates/:id` each group in depth · `/interlocks` who sits on more than one
 board · `/states/:code` per-state drill-down · `/company/:id`
 
-**Registers** — `/education` education funding and access · `/security` security spending · `/tenders` government awards · `/resources` coal, minerals, hydrocarbons and spectrum
+**Registers** — `/water` water and food security · `/education` education funding and access · `/security` security spending · `/tenders` government awards · `/resources` coal, minerals, hydrocarbons and spectrum
 · `/pmcares` PM CARES against its PMNRF control · `/energy` the energy power map · `/welfare`
 distribution funds, 2000–2026 · `/finance` foreign money: loans, associations, capital · `/media` ownership ·
 `/allocation` every register on one graph
@@ -291,8 +307,12 @@ npm run validate:education # education sources, accounting stages and geographic
 npm run test:education # filters, counting and population-comparison guards
 npm run test:education:browser # built page: export, saved work, filters/history and district coverage
 npm run test:education:model # pinned suggestion provenance; Python 3, no model download
+npm run validate:water # water source dates, provenance and assembled data
+npm run test:water     # geographic, accounting and forecast-validity guards
+npm run test:water:browser # filters, historical bulletins, export and local gaps
+npm run test:water:model # verify locally executed reading suggestions; no model download
 npm run build          # tsc -b && vite build
-npm run smoke          # headless render of all 35 routes; serves dist itself
+npm run smoke          # headless render of all 36 routes; serves dist itself
 npm run viewport       # the graph camera gate
 npm run check          # research, education, model integrity, build and browser regression gates
 npm run test:pages     # the page acceptance suites (explicit file list)
