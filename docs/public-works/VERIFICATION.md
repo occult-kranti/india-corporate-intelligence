@@ -52,3 +52,23 @@ This release does not claim a full rerun of the unrelated legacy page acceptance
 and canvas-camera suites, nor a fresh CPPP Arrow scan or live national tender
 census. CI retains those existing gates. No production site deployment is part
 of this branch publication.
+
+## GitHub Pages deployment follow-up — 6 October 2026
+
+Deployment run `37529332131` passed every configured gate and published source
+commit `2c68385` as Pages commit `825b8b46`. The normal public URL served the
+exact published index and all four checked application bundles. Education,
+water and public works loaded with valid TLS, HTTP 200, expected headings and
+no JavaScript or first-party asset errors.
+
+A further live mobile journey (`sector=all&state=KA&networkView=table`) exposed
+hidden new-tab annotations escaping the relationship table: the document was
+677px wide at a 390px viewport, although its body and main content were 390px.
+The absolutely positioned screen-reader spans inherited the body as their
+positioning boundary. Adding `position: relative` to `.pw-network-table-wrap`
+contains those annotations within the table's existing scroll area.
+
+The added regression failed on the old build, then passed after that single CSS
+property changed. The rebuilt production workflow passes 76 checks, including
+outer-width containment and preserved local table scrolling at both 390px and
+320px. Source data, research claims and model artifacts are unchanged.

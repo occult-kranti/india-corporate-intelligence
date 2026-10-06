@@ -212,6 +212,20 @@ try {
   });
   check(await page.locator('.pw-network-plot').evaluate(plot => plot.scrollLeft > 0), 'mobile URL-selected entity is centered inside the scrolling graph');
 
+  // A wide relationship table must retain its own scroll boundary, including
+  // absolutely positioned screen-reader annotations inside source links.
+  await open('sector=all&state=KA&networkView=table');
+  await page.locator('.pw-network-table-wrap tbody tr').first().waitFor();
+  for (const width of [390, 320]) {
+    await page.setViewportSize({ width, height: 1000 });
+    await page.evaluate(() => document.fonts.ready);
+    check(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1 && document.querySelector('main').scrollWidth <= document.querySelector('main').clientWidth + 1), `${width}px all-sector Karnataka relationship table does not leak horizontal overflow`);
+    check(await page.locator('.pw-network-table-wrap').evaluate(node => {
+      node.scrollLeft = node.scrollWidth;
+      return node.scrollWidth > node.clientWidth && node.scrollLeft > 0;
+    }), `${width}px relationship table retains local horizontal scrolling`);
+  }
+  await page.setViewportSize({ width: 1440, height: 1000 });
   await open();
   const screenshots = process.env.PUBLIC_WORKS_SCREENSHOTS;
   if (screenshots) mkdirSync(screenshots, { recursive: true });
