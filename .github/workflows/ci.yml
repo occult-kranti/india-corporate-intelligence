@@ -56,6 +56,13 @@ jobs:
       - name: Data integrity
         run: npm run validate
 
+      # The force-money-trail skill is generated from the raw files and FORCE_META
+      # (scripts/skills/force-money-trail/gen.mjs): no figure in it is typed by hand.
+      # Regenerate it and fail if the committed copy differs, so a research change
+      # cannot leave the skill quoting figures the files no longer hold.
+      - name: Skill freshness
+        run: npm run check:skills
+
       - name: Typecheck and build
         run: npm run build
 
