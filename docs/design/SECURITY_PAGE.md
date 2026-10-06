@@ -11,6 +11,13 @@ Focus 1–3 (`docs/superpowers/plans/2026-10-04-force-finance.md`). House form:
 brief calls it §8) and §8 (no partisan frame in the page's own words). Skills:
 `interface-design`, `india-map`, `graph-schema`, `cui-bono`.*
 
+*[UX review] Revised 2026-10-04 after a five-persona **SYNTHETIC** UX review (journalist,
+policy researcher, hostile skeptic, screen-reader user, 390 px phone on a slow connection):
+`SECURITY_UX_REVIEW.md`. No real reader was consulted and no page was rendered; the findings
+are hypotheses to test with real readers. The 33 must-level amendments are applied in place,
+each marked `[UX review] (Un)`; the 46 should- and could-level amendments are listed at the
+end under "Deferred amendments" as UD1–UD46 (`UD`, because §15 already uses D1–D61).*
+
 *Data contract: `src/graph/force.generated.ts` (`FORCE_NODES`, `FORCE_EDGES`,
 `FORCE_EDGE_DOMAIN`, `FORCE_BENEFITS`, `FORCE_VOIDS`, `FORCE_NARRATIVES`, `FORCE_BASE_RATES`,
 `FORCE_SYMMETRY`, `FORCE_GAPS`, `FORCE_IDENTITY`, `FORCE_BUDGETS`, `FORCE_STRENGTH`,
@@ -236,14 +243,14 @@ Gates SG-40–44 script them at 1280×800 and 390×844.
 
 | # | Reader, question | Path | Steps |
 |---|---|---|---|
-| B-J1 | J: "How much goes on defence pensions, and is it growing?" | at rest: Q1's pension band carries `{p}%, computed here` on every column and `₹{cr} cr` on the latest; choose the FY on the axis → `FYReadout`: the demands with head, ₹, tier, source; the published total and the reconciliation sentence; the pension row's `crContext` (share of the published total; previous FY at the same stage) | 1 |
+| B-J1 | J: "How much goes on defence pensions, and is it growing?" | at rest: [UX review] (U10) Q1's answer sentence, the first text in the figure, names the latest FY's pensions ₹ and share; (U9) the pension band carries `{p}% of published total` on every column that has a published total and `{p}% of stack, computed here` on the others, and `₹{cr} cr` on the latest; choose the FY on the axis → `FYReadout`: the demands with head, ₹, tier, source and `read to {asOf}`; the published total and the reconciliation sentence; the pension row's `crContext` (share of the published total; previous FY at the same stage); (U14) `Copy citation` on the pension row | 1 (2 to a pasted citation) |
 | B-J2 | J: "What did CRPF get in 2024-25, against what?" | Find `CRPF` → `Show its budget lines` (writes `body`, scrolls to Q3, CRPF lanes accented) → open the 2024-25 cell → `CellCard`: BE, RE, actual with sources; `₹{a} of ₹{b} cr, {k}% of the published Police demand, computed here`; `FY2023-24 {stage}: ₹{x} cr`; Copy citation | 3 |
-| B-J3 | J: "What does Mumbai Police cost?" | Find `Mumbai` → the `Mumbai Police Commissionerate` row with the verb `Show its budget line` → the `CityLedger` row reads exactly `inside Maharashtra's police head (MH 2055) — no city budget is published`, with `Maharashtra's police head →` (sets `st=mh`) and the strength void | 2 |
+| B-J3 | J: "What does Mumbai Police cost?" | Find `Mumbai` → the `Mumbai Police Commissionerate` result prints the fixed city sentence, then the verb `Where its police money sits` [UX review] (U29) → the `CityLedger` row reads exactly `inside Maharashtra's police head (MH 2055) — no city budget is published`, with `Maharashtra's police head →` (sets `st=mh`) and the strength void | 2 |
 | B-P | P: "Union police by force, actuals, 2009-10 → 2024-25, as a table" | rail Stage = actual → FY from 2009-10 → Q3 twin → Download .tsv (machine columns `fy`, `fy_start`, `stage`, `body_id`, `head`, `component`, `cr`, `tier`, `lane_key`, `is_demand_level`, `source_urls`) | 4 |
 | B-S | S: "You picked a year that flatters one government" / "you add things twice" | at rest: every FY of the stage is on one axis; the published total is a tick over each column that has one; the glyph row says where the stack equals it; Q2's lanes show both governments' ministers; the `ReconciliationLine` says `no total on this page adds rows from two levels`; `ControlCard` quotes the `union-defence` and `union-home` symmetry texts verbatim (UPA-II beside NDA) | 0 |
 | F-J | J: "Which cantonments are in Uttarakhand?" | tab Footprint → `kind=cantonment` chip → choose Uttarakhand on the map (or the State select) → `PlaceList` filtered: label, city, body, source | 3 |
 | F-S | S: "Your map says Manipur has no defence presence" / "you put installations where one party rules" | tab Footprint → Manipur is hatched `no row of the selected kinds in this register`, never 0; C11 says hatch is not absence; F-Q4 quotes the footprint symmetry text (installations per million on both groups of states) | 1 |
-| P-J | J: "Did Adani get defence contracts?" | tab Procurement → Find `Adani` → `Show vendor` (writes `vendor`) → `VendorCard`: Adani Defence beside L&T and Tata Advanced Systems (its declared comparators), identical fields: `0 named awards`, `owns PLR Systems (51%, reported)` whose own card shows one joint, unsplit carbine contract; the `procurement-industry` base rate "Adani-linked vendors' share of award ₹, 2021-25" printed verbatim above the chapter; `rated in Q5` → the ladder's "Adani is being handed defence" with its rating | 2 |
+| P-J | J: "Did Adani get defence contracts?" | tab Procurement → Find `Adani` → `Show vendor` (writes `vendor`) → `VendorCard`: Adani Defence beside L&T and Tata Advanced Systems (its declared comparators), identical fields: field 4 `none named in the Ministry releases the research read`, and [UX review] (U15) field 3b `Recorded holdings` in the same `<dl>`: `PLR Systems (51%, reported): {k} named award(s) — listed, not added to this vendor`, whose own card shows the joint, unsplit carbine contract; the `procurement-industry` base rate "Adani-linked vendors' share of award ₹, 2021-25" printed verbatim above the chapter; `rated in Q5` → the ladder's "Adani is being handed defence" with its rating | 2 |
 | P-S | S: "You list Rafale but bury Bofors" (or the reverse) | tab Procurement → P-Q4: the first pair row is Bofors \| Rafale, two equal columns, identical field rows, each with its court records and counters; the `literature` symmetry text above it | 1 |
 | P-P | P: "Single-bidder rate for CAPF tenders by year, with intervals" | tab Procurement → P-Q2's CAPF by-year multiple → Download .tsv | 2 |
 | any | J or S: "Who is connected to {vendor / case / body}?" | the name → `Show connections` → the graph opens focused, one hop | 1 |
@@ -298,6 +305,7 @@ export const MONEY_PEOPLE = 'money-people';                                  // 
 export const PAY_PENSIONS = 'pay-pensions';
 export const PROCUREMENT = 'procurement-industry';
 export const CITY_POLICE_TEXT = (state: string) => `inside ${state}'s police head (MH 2055) — no city budget is published`; // Review Focus 2
+export const LAKH_NOTE = 'RBI Appendix II prints ₹ lakh; converted to ₹ crore (÷100).'; // [UX review] (U13) a note prefix; retired by a unit field
 export const LENS_DOMAINS = {
   budgets: ['union-defence', 'union-home', 'state-police', 'pay-pensions'],
   footprint: ['footprint'],
@@ -317,6 +325,7 @@ denominator sentence that goes with them):
 | `nodeOf(id)` | `FORCE_NODES`, then `useData().nodes` | first hit; unresolved → `{id} (not in the register)` in amber mono, never blank |
 | `rowTier(r)` | `note` | `'reported'` when `note` starts with `REPORTED_PREFIX`, else `'documented'`; with S4, `r.tier`. Applied to budget, strength and footprint rows |
 | `hasCr(r)` | `cr` | `Number.isFinite(r.cr)`. **`0` is a value and prints `₹0 cr — as recorded`**; absence is a missing row, never a 0 |
+| `hiddenBy(rows, filters)` [UX review] (U18) | the rows behind a slot, map unit or cell; the parsed `tier`, `payer` | `{k, filter}` when rows exist but every one is hidden by a filter. Such an element is **dimmed as `fy` dims, never hatched**, and its accessible name, readout, legend entry and twin cell read `{k} rows hidden by the {filter} filter — not absent`; `no row in this register` is printed only where no row exists |
 | `FY_AXIS`, `fyStart(fy)` | `FORCE_BUDGETS.fy` | every FY label from the minimum to the maximum start year, **gaps included**; `fyStart` the integer start year |
 | `UNION_ROWS`, `STATE_ROWS` | `FORCE_BUDGETS` | `payer === 'union'` / not |
 | `isDemandLevel(r)` | `head` | S1 `level === 'demand'`, else `DEMAND_LEVEL.test(head)` |
@@ -332,12 +341,13 @@ denominator sentence that goes with them):
 | `laneKey(r)` | `body`, `component`, `head` | `${body}|${component}|${head minus DEMAND_PREFIX minus EDITION_SUFFIX}`; with S1 `${body}|${line}` |
 | `LANES`, `laneGroups` | `UNION_ROWS` minus `grant-to-states` | one lane per key `{key, body, component, line, rows, fyFirst, fyLast, cells: Map<fy, {BE?, RE?, actual?}>}`; a slot with two rows keeps both (E3). Groups in fixed order: **Published totals** (the `PUBLISHED_TOTALS` lanes, "as the document publishes it"); **Bodies** — one group per body, alphabetical by label, lanes by component order (`total`, `revenue`, `capital`, `pay`, `pension`, `other`), then line, then `fyFirst`, so a renamed line sits under its predecessor labelled `renamed or restructured in the document — not joined`; **The one city line** — Delhi Police. **No order by ₹, ever** |
 | `bodyCoverage(body)` | rows | `{BE: k, RE: k, actual: k, of: FY_AXIS.length, first, last}` |
-| `crContext(row)` | `PUBLISHED_TOTALS`, `UNION_ROWS`, `STATE_ROWS`, S3 | **the denominator**: the row's published parent, same FY and stage — for a line inside a demand, the demand-level row (or the `WHOLE_DEMAND` row of the same component where the whole demand prints components, else `total`) with the same demand number and title; for a demand-level MoD-side row, the `MOD_ALL_DEMANDS` row — printed `₹{a} of ₹{b} cr, {k}% of the published {title}, computed here`; no parent → `no published total for this line's demand in FY{fy}`; a state MH 2055 row → `{pct}% of GSDP {gsdpFy} (reported series), computed here` when the FY matches and GSDP exists, else `no same-year denominator in this register (S3)`; a grant row → `no denominator published for this line`. **The comparison**: the same lane's previous FY at the same stage, `FY{fy−1} {stage}: ₹{x} cr`, or `no {stage} row for FY{fy−1}`. Every ₹ the page prints goes through this (D4). With S1 `parent` replaces the title match |
+| `crContext(row)` | `PUBLISHED_TOTALS`, `UNION_ROWS`, `STATE_ROWS`, S3 | **the denominator**: the row's published parent, same FY and stage — for a line inside a demand, the demand-level row (or the `WHOLE_DEMAND` row of the same component where the whole demand prints components, else `total`) with the same demand number and title; for a demand-level MoD-side row, the `MOD_ALL_DEMANDS` row — printed `₹{a} of ₹{b} cr, {k}% of the published {title}, computed here`; no parent → `no published total for this line's demand in FY{fy}`; a state MH 2055 row → `{pct}% of GSDP {gsdpFy} (reported series), computed here` when the FY matches and GSDP exists, else `no same-year denominator in this register (S3)`; a grant row → `no denominator published for this line`. **The comparison**: the same lane's previous FY at the same stage, `FY{fy−1} {stage}: ₹{x} cr`, or `no {stage} row for FY{fy−1}`. Every ₹ the page prints goes through this (D4). With S1 `parent` replaces the title match. [UX review] (U9) **The pension share has one basis everywhere** (band label, strip fact 2, answer sentence, readout, twin): the published all-demands total of that `(fy, stage)` where one exists, printed `{p}% of published total`; else the stack, printed `{p}% of stack, computed here`; the basis words are never dropped. (U13) Where a row's `note` begins with `LAKH_NOTE`, every element that prints its ₹ adds, in the same element, `as published: {cr × 100} ₹ lakh; shown here in ₹ crore` |
+| `rowCitation(row, laneKey)` [UX review] (U12) | the row, `crContext`, `nodeOf`, `FORCE_META.asOf` | `{body label} — {head verbatim} — ₹{cr} cr ({stage}, FY{fy}) — {the U13 as-published line, where it applies} — {crContext denominator} — {crContext comparison} — {tier} — {note, or 'no note'} — {every source: label url} — ICIP {origin}#/security?cell={slug}@{fy}, read to {FORCE_META.asOf}`; the deep link is absolute and built at copy time. The citation for a budget row in `CellCard`, `FYReadout` and `StatePanel`, rendered also as visible `<output>` text beside its button; edge records keep finance's `citationFor` |
 | `STATE_PAIRS`, `defaultStatePair(m)` | `STATE_SERIES_HEAD` rows, the metric's denominator years | the `(fy, stage)` pairs present with their state count; the default is, among pairs the metric can divide (under `gsdp`, pairs whose FY equals the GSDP FY; under `cr`, all), the one with the most states, ties → stage order actual > RE > BE, then latest FY. **Derived, never hand-set.** Today `2024-25:RE` under `gsdp`, `2023-24:actual` under `cr` |
-| `stateSpend(fy, stage, m)` | `STATE_SERIES_HEAD` rows, `STATE_ECONOMY`, S3 | per map unit `{cls, value, cr, denom, denomLabel, tier}`; `cls ∈ value · union-funded (dl) · no-row · no-denominator`; `m='gsdp'` divides by `gsdpCr` only when `gsdpYear` matches `fy`; `m='percap'` requires S3; `m='cr'` prints ₹ crore with `{share}% of the {k} drawn states' sum, computed here`; `tier` = the weaker of the row's tier and the denominator's (`reported` for GSDP) |
+| `stateSpend(fy, stage, m)` | `STATE_SERIES_HEAD` rows, `STATE_ECONOMY`, S3 | per map unit `{cls, value, cr, denom, denomLabel, tier}`; `cls ∈ value · union-funded (dl) · no-row · no-denominator`; `m='gsdp'` divides by `gsdpCr` only when `gsdpYear` matches `fy`; `m='percap'` requires S3; `m='cr'` prints ₹ crore per state and **no share** ([UX review] (U33): a share of the drawn states' sum is a share of a page-computed ₹ total, which D4 rejects and §8.2.3 does not allow; the dot strip is the comparison); `tier` = the weaker of the row's tier and the denominator's (`reported` for GSDP) |
 | `stateStrength(year)`, `defaultStrengthYear`, `perLakhBins` | `FORCE_STRENGTH` with `st` | per unit `{cls, perLakh, sanctioned, actual, womenPct, derived, tier}`; `perLakh` null with a row → `cls: 'counts-only'`; the default year is the one with most states carrying `perLakh`, ties → latest; bins are quantiles **pooled over every state row of every year with no filters**, fixed |
 | `STATE_TABLE` | `STATE_ROWS`, `FORCE_STRENGTH`, the 36 `StateCode`s, `FORCE_FOOTPRINT`, `COMMISSIONERATES` | 36 rows `{st, mh2055: Map<fy·stage, row>, own: row[], prs: row[], strength: Map<year, row>, footprint, commissionerates}`; every empty part carries its null words and the unit's reason (`Delhi's police is a Union demand line — see Q7`; `no RBI row for this UT`) |
-| `stateRecords(st)` | `state-police` `analytic` edges whose `s` is that state's police body | verbatim `lab`, `d`, tier, srcs; **no figure parsed** |
+| `stateRecords(st)` | `state-police` `analytic` edges whose `s` is that state's police body | verbatim `lab`, `d`, tier, srcs and [UX review] (U21) `innocentReading`, printed directly beneath at the same size; **no figure parsed** |
 | `GRANT_ROWS`, `grantRecipient(r)` | `component === 'grant-to-states'` | head verbatim; with S2 `r.recipient` (a `StateCode`, `'la'`, `'dn+dd'` or `null` for a total row); **no name parsing** |
 | `ROLE_WINDOWS`, `officeOn(date, bodyIds)` | `role` edges | grouped by `(s, t, from, to)`, each record kept; the finance three-block rule (covers / start recorded, end not / same day); dates compare at the record's precision |
 | `PAY_LAWS`, `CONTRACTS`, `responseChain(id)` | `law` edges with domain `PAY_PENSIONS`; `contra` edges | pay levels: law edges whose source is a pay-commission node and whose target has `ty: 'group'`; contracts: the rest, each with its chain (responses to `claim:{id}`, then to each of those, depth ≤ 3) and the `FORCE_BENEFITS` row by `claimId` and any `enforce` edge on the law node |
@@ -348,7 +358,7 @@ denominator sentence that goes with them):
 | `vendorClass(id)` | S5, else `nodeOf(id).fam` | interim `'public'` (`fam: 'state'`) · `'private'` (`fam: 'capital'`) · `'unclassified'` (anything else, listed by name); **never from `ty` or `own`** |
 | `VENDORS` | `AWARDS.t` (alleged included) ∪ the other endpoint of every `analytic` edge with one endpoint in that set and the other with `ty ∈ {company, psu}` ∪ footprint `dpsu-plant`/`other` bodies with `ty ∈ {company, psu}` ∪ `bond.s` ∪ `role.t` with `ty ∈ {company, psu}` | one card each, identical fields (§5.3.1); grouped by `vendorClass`, alphabetical |
 | `comparatorsOf(v)` | `analytic` edges joining `v` to another member of `VENDORS` | declared comparators; empty → `{familyGroup: the other class's VENDORS}` |
-| `vendorFields(v)` | `AWARDS`, `own`, `bond`, `role`, `enforce`, footprint rows by body, `FORCE_IDENTITY` | the identical-field record of §5.3.1, every field with its null words |
+| `vendorFields(v)` | `AWARDS`, `own`, `bond`, `role`, `enforce`, footprint rows by body, `FORCE_IDENTITY` | the identical-field record of §5.3.1, every field with its null words; [UX review] (U15) field 3b reads `own` edges **from** the vendor, each owned body with its own named-award count |
 | `BONDS` | `pred === 'bond'` | grouped by donor `s`, every party per donor, by date; labels via `nodeOf` |
 | `BOARD_PAIRS`, `POST_RETIREMENT_RULES` | `role` edges; `law` edges in `MONEY_PEOPLE` with target `ty: 'group'` | persons with a role into `ty ∈ {ministry, agency}` and one into `ty ∈ {company, psu}`; `gapMonths` = board `from` − office `to`, `computed here`, at the coarser precision, only when both exist; the cooling-off rules verbatim |
 | `CASES`, `CASE_PAIRS`, `caseFile(c)`, `caseFields(c)` | nodes with `CASE_PREFIX`; `analytic` edges with both endpoints in `CASES`; edges touching `c` or a party of `c` (joined by `direct`, `award` or `sector`) minus `contra` and pair edges | pairs deduplicated by unordered pair, each keeping its edge ids and files; pairs ordered by the earlier member's first dated record; unpaired cases last; fields classified by the **source node's `ty` and `fam`**, never by text (S11 replaces the touch rule) |
@@ -357,9 +367,10 @@ denominator sentence that goes with them):
 | `GRAPH_NODES`, `GRAPH_EDGES`, `dropped` | `FORCE_EDGES`, `nodeOf` | an endpoint resolving nowhere drops its edge; the count is printed |
 | `famSplits`, `splitIds` | `FORCE_NODES` | as finance U24; labels carried by more than one id |
 | `derivedGaps(f)` | all | §5.5.3 |
-| `tsv(rows, header, meta)` | — | finance `tsv()`: `#` header with table name, population, filters, `runId`, `asOf`; wherever ₹ appear, `# amounts: ₹ crore, nominal, as published; not deflated; stage {stage}` |
+| `tsv(meta, header, rows)` [UX review] (U16) | — | **security's own**, in `securityView.ts` (≈ 25 lines). Finance's `tsv()` writes its three fleets' names and run ids and a loan-specific amounts sentence (`src/data/financeView.ts`), and its download button names the file `finance-…`, so it cannot be reused unchanged. Security's keeps finance's cell rule (tabs and newlines to one space, trimmed) and finance's first lines (`# table: {name} — {population}`, `# rows:`, `# url:`, `# lens: … · filters: …`), then `# force {FORCE_META.runId} asOf {FORCE_META.asOf}`, `# open-market slice {provenance.inputs[].sha256_16} asOf {provenance.asOf}` where the table reads the slice, and, wherever ₹ appear, `# amounts: ₹ crore, nominal, as published; not deflated; stage {stage}`. The security `Exports` names the file `security-{lens}-{slug}-{asOf}-{runId}.tsv`. Finance's helper is not modified (D45) |
 | `sourceClass(src)` | `srcs` | finance `sourceClass` (parliament / primary / secondary) |
 | `asOfLabel` | `FORCE_META.asOf`, `SLICE.provenance.asOf` | one date when equal, else both |
+| `baseRateForm(r)` [UX review] (U19) | a `FORCE_BASE_RATES` row | `'share'` when both figures are integers and `numerator ≤ denominator` (with S12, also when `kind` is a share), else `'two-figures'`. A `two-figures` row renders `{numerator} and {denominator} — {label}` with the chip `two figures as the research states them, not a share`: no percentage, no whisker, no `of`. Rendered by a security wrapper; finance's `BaseRateLine` is not modified (D45) |
 
 ### 3.3 Prerequisites (generator or data changes; the page works without each and improves with it)
 
@@ -384,10 +395,11 @@ the upgrade.
 | **S11** | `caseId` on claims, or `FORCE_CASES: {id, members: claimId[], parties: nodeId[]}[]` | the `money-people` and `literature` files | case files by the touch rule; decision and office fields read `not joined to this case in the register` | complete case files; decision date and office on that date for every case |
 | **S12** | `BaseRateRow.fy`, `BaseRateRow.kind` | the research files (the FY and the ratio kind are in `property` today, F30) | base rates as verbatim cards | a `% of GDP` lane aligned to the stack's FY axis without S3's full series |
 | **S13** | `replaces: claimId \| null` on `law` edges in `pay-pensions` | the pay-pensions file | the Agnipath card says the record does not join it to the terms it replaced and links to the pay-levels table | old and new terms side by side with identical fields |
-| **G5** | split `force.generated.ts` into a graph part (`_NODES`, `_EDGES`) and a page part | the generator (finance G5) | page-only exports and the three series ride in the entry chunk; SG-50 prints the growth | the entry carries nodes and edges only |
+| **G5** [UX review] (U1): **a build prerequisite, not an upgrade** | split `force.generated.ts` into a graph part (`_NODES`, `_EDGES`) and a page part | the generator (finance G5) | none to ship: `DataContext` imports the module, so the three series and every page-only export ride in the entry chunk today (`dist/assets/index-Bp_P7S4Y.js`, 9.8 MB raw, 2.3 MB gzipped, 2026-10-04) and delay first paint on every route | the entry carries nodes and edges only; SG-50 fails, not prints, if a string unique to the series or the page part is in the entry |
 
 The smallest first steps are S8 (a typed accessor, no research) and S1 and S4 (fields the
-transcriber already knows). S3's population rows are the only research among the first four.
+transcriber already knows). [UX review] (U1) G5 comes before the page is built: it splits what the
+generator already writes, and no page decision can take the series out of the entry without it. S3's population rows are the only research among the first four.
 
 ### 3.4 URL parameters
 
@@ -415,13 +427,14 @@ default and one amber line under the strip reads `ignored an unrecognised {param
 | `sel` | a node id | none | Show connections; the graph | `GraphExplorer`'s selection, shared by design; **never used for vendor accent** (D37) |
 | `tier` | comma list of the four tiers, or `none` | all | rail toggles | **shared with `GraphExplorer`**; series rows are `documented` or `reported` by `rowTier`; a response is re-admitted whenever its claim is shown (finance D35) |
 | `find` | text | empty | `Find` | the results list only |
-| `view` | `stage` \| `table` | `stage` | Table view | every twin open |
+| `view` | `stage` \| `table` | `stage` | Table view | every twin open; [UX review] (U23) kept on lens switch |
 | `tp` | integer ≥ 1 | 1 | pagination | 400 rows per page |
 
 **`GraphExplorer` owns** `q`, `fam`, `pred`, `ty`, `amt`, `from`, `to`, `focus`, `hops`,
 `path`; the page writes them only through "Show connections" and "Apply {fy} to the graph"
-and never reads them. Switching lens keeps `fy`, `st`, `stage`, `tier`, `find`, `sel`;
-clears `rec`, `cell`; keeps `body`, `vendor`, `case`, `kind`, `payer`, `comp` inactive with
+and never reads them. Switching lens keeps `fy`, `st`, `stage`, `tier`, `find`, `sel` and
+[UX review] (U23) `view` (under `view=table` the twins are the reader's page, and a tab change must not
+close them); clears `rec`, `cell`; keeps `body`, `vendor`, `case`, `kind`, `payer`, `comp` inactive with
 a reason where they do not reach the lens. **No param pre-selects a party, a company, a
 person or a case; there is no `party`, `vendor-class` or `era` param** (D46).
 
@@ -484,8 +497,8 @@ unavailable: no population series in this build; a 2011 Census base would re-ran
 - **Fold budget at 1280×800 (Budgets):** head ≤ 160, statement ≤ 132, strip and lines ≈ 64,
   tabs ≈ 44, rail ≈ 44, `DemandStack` `clamp(360px, 100vh − 460px, 520px)` with its
   reconciliation row and denominator line inside the figure; **the pension band and its
-  share label on the latest column are in the first viewport** (SG-33). At 390×844 the
-  budget is two viewports (§12).
+  share label on the latest column are in the first viewport** (SG-33). [UX review] (U2) At 390×844 the
+  budget is measured on the first build, not assumed (§12, SG-33, D58).
 - **Chrome is constant across lenses.** Head, statement, strip, tabs, rail, the last "not
   published" block, graph, contested, gaps, refusals and sources are the same components.
   Only the answer sequence changes.
@@ -525,8 +538,9 @@ unavailable: no population series in this build; a 2011 Census base would re-ran
 Each component gives, in order: **Reads** (exact exports), **Encoding**, **Caption** (body
 size, 14 px `text-text-secondary`, left rule, ≤ 72ch, directly under the graphic, referenced
 by `aria-describedby`; the full text of every caption is repeated verbatim in §9), **Twin**,
-**Empty / void / partial**. Every graphic is a `<figure>` with a visible `h3` free of
-figures, the denominator line inside the figure (mono 12 px, above the caption), the
+**Empty / void / partial**. [UX review] (U26) Every graphic is a `<figure>` labelled by its Q-block's `h3` (one `h3` per
+block; a figure-internal title such as a panel name is an `h4` or plain text, never a second
+`h3`), the denominator line inside the figure (mono 12 px, above the caption), the
 caption, and a `<details>` twin whose summary reads `{h3} as a table · {rows} rows`. The
 finance twin contract (U15) applies verbatim: a closed twin exposes nothing to assistive
 technology; its controls are tabbable exactly when open; the skip link before each graphic
@@ -538,7 +552,12 @@ class's meaning, never the token.
 `h3` reads `Q{n} — {question}` verbatim from §2.1. Its first child is an `AnswerLine` (one
 or two sentences, every figure derived, every ₹ through `crContext`) **or** a graphic, never
 both above the block's fold; when a graphic leads, its one-sentence denominator is the first
-sentence of its denominator line. The block ends with its caption and its twin.
+sentence of its denominator line. [UX review] (U10) A graphic-led block whose question asks for a
+figure (Budgets Q1) also carries one derived **answer sentence** as the first text node of its
+`<figure>`, before the drawing and first in the drawing's `aria-describedby`: one line, every
+figure derived, every ₹ through `crContext`, with its basis words. It is not an `AnswerLine`
+(it sits inside the figure, under the `h3`), it is the same text at every width, and the
+twin's `<caption>` repeats it. The block ends with its caption and its twin.
 
 ### 5.0 Chrome
 
@@ -570,12 +589,15 @@ to {FORCE_META.asOf}`. Fact 1 on every lens ends with the link `what resolves at
 
 | lens | facts |
 |---|---|
-| Budgets | 1 `{rows} of {FORCE_BUDGETS.length} budget rows · {stage}` · 2 `defence {stage} {fy}: ₹{sum} cr across {demands} demands, computed here; pensions {p}% · published total ₹{pub} cr ({recon words})` (the latest FY of the stage with a full stack) · 3 `{covered} of {FY_AXIS.length} FYs have a {stage} stack · actuals for {fyAct}` · 4 `{statesWithRow} of 36 map units have a state police row · Delhi's police is a Union line` · 5 `{reported} rows transcribed from a secondary (reported)` · 6 `{zeros} rows print ₹0 as recorded` |
+| Budgets | 1 `{rows} of {FORCE_BUDGETS.length} budget rows · {stage}` · 2 `defence {stage} {fy}: ₹{sum} cr across {demands} demands, computed here; pensions {p}% {basis words} · published total ₹{pub} cr ({recon words})` (the latest FY of the stage with a full stack); [UX review] (U9) where that FY has no published total, the tail reads `no published all-demands total for FY{fy}; latest published: ₹{pub} cr (FY{fy′}, {stage}) →`, linking to that column's readout · 3 `{covered} of {FY_AXIS.length} FYs have a {stage} stack · actuals for {fyAct}` · 4 `{statesWithRow} of 36 map units have a state police row · Delhi's police is a Union line` · 5 `{reported} rows transcribed from a secondary (reported)` · 6 `{zeros} rows print ₹0 as recorded` |
 | Footprint | 1 `{rows} of {FORCE_FOOTPRINT.length} installations` · 2 `{kindsWithRows} of {FOOTPRINT_KINDS.length} kinds recorded; {emptyKinds} with no row` · 3 `{statesWith} of 36 map units with any row · {cities} cities named · no coordinates` · 4 `{dated} of {n} dated` · 5 `{commissionerates} commissionerates; budget inside the state's police head; city strength: no primary table` |
 | Procurement | 1 `{awards} contracts MoD named ({priced} with ₹, {unpriced} unpriced) to {vendors} vendors` · 2 `{public} public-sector beside {private} private, JV or foreign — vendor class not a field` · 3 `{CASES.length} cases, {pairs} control pairs, {unpaired} unpaired · {records} court and audit records` · 4 `{answered} of {alleged} alleged claims with a recorded response` · 5 `{bonds} bond records, {donors} donors, {parties} parties` · 6 `open market: {dedup} award decisions in {classes} buyer classes, {works}% one works buyer — read by class` (or `open-market slice not built in this copy`) |
 
-Below 640 px the strip keeps fact 1 and the date; facts 2–6 move, whole, to a mono list
-directly under the lens's first figcaption (finance U26).
+Below 640 px the strip keeps fact 1 and the date on one line, [UX review] (U3) `{rows} of {N} rows ·
+{stage} · read to {asOf} · levels`, where `levels` is the link whose accessible name stays `what
+resolves at which level`; facts 2–6 move, whole, to a mono list directly under the lens's first
+figcaption (finance U26), except Budgets fact 2, which Q1's answer sentence carries (U10) and
+which is not printed twice.
 
 #### 5.0.3 `ReconciliationLine` (in the sticky wrapper; mono 12 px, always rendered)
 
@@ -604,12 +626,16 @@ Below 640 px it is a `<ul>`, not sticky, under the first figure.
   `city`, budget `head`, edge `lab`. Result groups: **Bodies** (`Show its budget lines` →
   `body`, `lens=budgets`; `Show connections`), **Places** (`Show in footprint` →
   `lens=footprint&st`; a commissionerate row prints its budget cell, the fixed sentence,
-  in the result itself), **Vendors** (`Show vendor` → `vendor`, `lens=procurement`, always
+  in the result itself; [UX review] (U29) a commissionerate or any non-Delhi city body is never
+  offered `Show its budget lines`, because `body` takes only `LANES` bodies (§3.4): after the
+  fixed sentence its verb is `Where its police money sits`, which writes `st` and `lens=budgets`), **Vendors** (`Show vendor` → `vendor`, `lens=procurement`, always
   opening with comparators), **Cases** (`Show the pair` → `case`), **Records** (`Open
   record` → `rec`). Order: exact label, alias, label substring, `lab` substring; ties by
   label. **Never by amount or degree.** A unique match is not auto-selected. Empty: `No body,
   place, vendor, case or record in this register matches "{find}". This is a statement about
-  the register, not about the world.`
+  the register, not about the world.` [UX review] (U4) At 390 Find is a full-width `type=search`
+  rendered as the first element under the tabs, outside the rail `<details>`, never pinned,
+  its results inline directly beneath it.
 - **`ReadingKey`** (margin at rest): the four tier dashes with their words; family hue
   swatches; the shape key; textures — hatch `no row in this register` (never zero), the
   Delhi crosshatch `police paid by the Union`, stipple `counts recorded without per-lakh`,
@@ -623,11 +649,17 @@ Below 640 px it is a `<ul>`, not sticky, under the first figure.
   grant as Parliament votes it; `line` a sub-head inside a demand as the document prints it;
   `published total` a total the document itself prints; `computed here` a figure this page
   computed, with its a of b; `reported` transcribed from a secondary source; `derived`
-  computed by the research from a ratio, not a printed count. When `famSplits` is not empty,
+  computed by the research from a ratio, not a printed count; [UX review] (U9) `of published
+  total` / `of stack, computed here` the two bases of the pension share (the published total
+  where the Summary prints one, else the stack); (U18) `hidden by filter` rows that exist but a
+  filter hides, drawn dimmed, never hatched — not absent; (U13) `as published: ₹ lakh` the unit
+  the source printed before the research converted it. When `famSplits` is not empty,
   finance U24's inconsistent-hue sentence.
 - **`ControlCard`** (margin at rest; "The same lens on the other side"): the lens's pinned
   domains (`LENS_DOMAINS`), each one block: base-rate rows (`{numerator} of {denominator} —
-  {label}`; a percentage only when the denominator is an integer ≥ 10; `null` → `not computed
+  {label}`; a percentage only when the denominator is an integer ≥ 10; [UX review] (U19) a row
+  `baseRateForm` marks `two-figures` renders `{numerator} and {denominator} — {label}` with its
+  chip, no percentage and no whisker; `null` → `not computed
   in this file` with the chip `figure in the research file's wording, not computed by this
   page`), then that domain's `FORCE_SYMMETRY` text verbatim in the same element, with
   `wording: {domain} research file, run {runId}`. On Procurement the card holds only links to
@@ -654,8 +686,9 @@ Below 640 px it is a `<ul>`, not sticky, under the first figure.
   - Defence bands, bottom to top in fixed order: revenue · capital · MoD civil and misc. ·
     pensions. Bands are **lightness steps of one neutral series with 1 px separators and
     direct labels at the right edge** (never family hue: a component is not an actor
-    family). Pensions is the topmost band and carries, on every column, a mono label `{p}%`
-    (share of that column's stack, `computed here`) and, on the latest column, `₹{cr} cr`.
+    family). Pensions is the topmost band and carries, on every column, a mono label [UX review] (U9)
+    `{p}% of published total` where the column has one, else `{p}% of stack, computed here`
+    (one basis rule, §3.2 `crContext`), and, on the latest column, `₹{cr} cr`.
     Pre-2015-16 columns hold one revenue band per service demand (6–8 demands); the bands of
     one component share a lightness step and are separated by 1 px rules, so the composition
     change is visible without a hue.
@@ -667,7 +700,8 @@ Below 640 px it is a `<ul>`, not sticky, under the first figure.
     vertical tick on the axis reads `pay lines {k} → {k'}`. FYs with no pay rows draw an empty
     bracket cap with the words in the twin. Pay is never a band (F3).
   - **Agnipath tick:** a short horizontal tick inside the revenue band at Σ Agnipath height
-    from the band's base, labelled once `Agnipath lines`, linked to its contract card (Q5).
+    from the band's base, labelled once `Agnipath lines`; [UX review] (U25) the tick is drawing only (`aria-hidden`, not a
+    link): the link `Agnipath lines → contract card` is text in the `FYReadout` and the twin.
   - Police bands: revenue · capital (verified disjoint, F10). **Delhi Police bracket:** an
     outline bracket on the police column at `delhiLine.total`, labelled once `Delhi Police
     (the one city budget)`. **Police pay ticks:** up to three labelled ticks at their FY and
@@ -692,8 +726,20 @@ Below 640 px it is a `<ul>`, not sticky, under the first figure.
   the published total` / `the stack exceeds the published total by ₹{Δ} cr ({pct}%),
   computed here` / `no published all-demands total for this FY`); each band's `crContext`;
   the pay lines listed; the police demand's revenue/capital/total check; Delhi Police; the
-  base-rate rows whose `property` names this FY, verbatim. Coarse pointers: first tap shows
-  the readout line under the figure, second tap opens.
+  base-rate rows whose `property` names this FY, verbatim. [UX review] (U12) Beneath every ₹ in
+  the readout, mono: `read to {FORCE_META.asOf} · document: {first source label}`. (U14) Every
+  demand row has its own `Copy citation` (`rowCitation`), and the readout has `Copy this year as
+  text` (every row, the published total, the reconciliation sentence, `read to {asOf}`); each is
+  announced through the live region and also rendered as visible `<output>` text. (U5) Coarse
+  pointers: the first tap shows the readout line under the figure; a second tap on the **same**
+  FY opens it, and a tap on a different FY re-reads instead of opening. Below 640 px a step
+  control sits under the chart, `‹ earlier · FY{fy} · later ›`, three 44 px buttons bound to the
+  same roving FY state, so the 11 px columns are not the only route to a year; the chosen
+  column's label is always visible.
+- **Answer sentence** [UX review] (U10) (the first text in the figure, before the drawing): `FY{latest}
+  {stage}: pensions ₹{cr} cr, {p}% {basis words}; defence ₹{sum} cr across {k} demands, computed
+  here; {k} pay lines inside revenue.`, every ₹ through `crContext`; where that FY has no
+  published total it adds `latest published all-demands total: ₹{pub} cr (FY{fy′})`.
 - **Denominator line (inside the figure):** `{stage}, ₹ crore, nominal, as published ·
   {covered} of {FY_AXIS.length} FYs drawn · defence stack = {k} demand totals per FY,
   computed here; equals the published all-demands total in {eq} of {pub} FYs that print one ·
@@ -702,10 +748,19 @@ Below 640 px it is a `<ul>`, not sticky, under the first figure.
 - **S3 / S12 present:** a 48 px strip under each panel on the same x, `defence ÷ GDP` and
   `police ÷ Union expenditure` as dot-on-rule per FY with the denominator source; missing
   years hatched.
-- **Twin:** one row per `(FY, panel)`: `FY · stage · band · head · ₹ cr · tier · source ·
-  published total · reconciliation (computed here) · pay lines (k) · pay ₹ · Agnipath ₹ ·
-  Delhi Police ₹`; a missing FY reads `no {stage} rows recorded`; a recorded zero reads
-  `₹0 cr — as recorded`. TSV with `# amounts:` and `stage`.
+- **Twin:** [UX review] (U11) one row per **drawn band row** (`kind: band`): `FY · stage · panel ·
+  band (component word) · demand head · ₹ cr (with crContext) · share (with the U9 basis
+  words) · tier · source`; one row per `(FY, panel)` of `kind: published total` carrying the
+  published total, the stack sum (`computed here`), Δ, and the reconciliation **in words**
+  (`equals the published total` / `exceeds the published total by ₹{Δ} cr ({pct}%), computed
+  here` / `no published all-demands total for this FY`); one row per hatched `(FY, panel)`
+  reading `no {stage} rows recorded`; pay lines, Agnipath, Delhi Police and police pay as rows
+  of their own `kind` (`pay lines ({k})`, `Agnipath lines`, `Delhi Police (inside the Police
+  demand)`), never as columns on a band row. A recorded zero reads `₹0 cr — as recorded`. No
+  twin cell holds `=`, `≠` or `·`. The `<caption>` repeats the answer sentence (U10). Machine
+  columns `kind`, `fy`, `fy_start`, `stage`, `panel`, `component`, `head`, `cr`,
+  `published_cr`, `stack_sum_cr`, `delta_cr`, `tier`, `source_urls`; TSV with `# amounts:` and
+  `stage`.
 - **Empty:** no budget rows → both panels draw the axis with every FY hatched and the line
   `This register holds no budget rows in this build. Nothing below is zero.`
 
@@ -747,19 +802,30 @@ missing period visible as a missing period**.
   actual** (position = stage). In a slot with a row: a vertical bar, height ∝ ₹ on the
   **lane's own linear scale from zero to the lane's maximum** (printed at the row's right as
   `lane max ₹{x} cr`); outline = the row's tier dash; fill one neutral tone. A slot with no
-  row: **hatch** (`no row in this register`). A row with `cr === 0`: a 1 px baseline tick on
+  row: **hatch** (`no row in this register`); [UX review] (U18) a slot whose rows exist but are
+  hidden by `tier` or `payer` is dimmed as `fy` dims, never hatched, and is named `{k} rows hidden
+  by the {filter} filter — not absent`. A row with `cr === 0`: a 1 px baseline tick on
   `ZERO_FILL` (`₹0 cr — as recorded`). Two rows in one slot (two editions, E3): two thin bars
   side by side. Pay, pension, revenue, capital are words in the lane label, never hue. **No
   column is summed and no residual row is computed** (D14): a line's size against its demand
   is `crContext`'s share.
-- **Accents:** `body` accents every lane of that body (left rule; others unchanged). `fy` dims
+- **Accents:** `body` accents every lane of that body (left rule; others unchanged; [UX review]
+  (U24) each accented lane's row header carries `aria-current="true"` and the visually hidden
+  words `selected body`, and `BodyCard` has `Go to its {k} lanes in the ledger`, which moves
+  focus to the first). `fy` dims
   columns outside the range to 20% and never removes them. `comp` removes lanes of other
   components and says so in the heading (`{k} of {n} lanes under the component filter`).
 - **Interaction:** a cell is a button (one tab stop for the grid, roving tabindex; arrows move
   by lane and FY; Home/End to the lane's first/last FY) named `{body} — {component} — {line},
-  FY{fy}: BE ₹{a} crore, RE no row, actual ₹{c} crore`; Enter writes `cell` and opens
+  FY{fy}: BE ₹{a} crore, RE no row, actual ₹{c} crore — open for its share of the demand and
+  the previous year` ([UX review] (U32): the grid's cell names are the one sanctioned place a ₹
+  is named without its denominator, because the name points to the card that carries it; §13,
+  SG-9); Enter writes `cell` and opens
   `CellCard` (every row of that lane × FY, each with `crContext`, note, tier, sources, Copy
-  citation). First tap on a coarse pointer shows the readout block (≤ 4 lines); second opens.
+  citation; [UX review] (U12) the citation is `rowCitation`, also rendered as visible `<output>`
+  text beside its button, and beneath each ₹ `read to {FORCE_META.asOf} · document: {first
+  source label}`; (U13) a converted row's ₹ element carries `as published: {x} ₹ lakh; shown
+  here in ₹ crore`). First tap on a coarse pointer shows the readout block (≤ 4 lines); second opens.
 - **Denominator line:** `{lanes} lanes · {cells} slots drawn, {hatched} hatched · {stage
   words}`.
 - **Caption C4 (+ C4b when `fy` is set):** §9.
@@ -771,8 +837,10 @@ missing period visible as a missing period**.
   `stage`, `cr` (number; `0` stays `0`), `tier`, `lane_key`, `is_demand_level`, `source_urls`.
 - **Below 640 px:** one stage at a time (`stage`, default BE with the reason on the
   control), FY columns 14 px, sticky 120 px labels, inner horizontal scroll with `‹ earlier`
-  / `later ›` and a mono `showing FY{a}–FY{b}` line; body groups as `<details>` **open by
-  default** with lane counts; the twin renders beneath by default.
+  / `later ›` and a mono `showing FY{a}–FY{b}` line; [UX review] (U6) body groups as `<details>`,
+  **closed by default** except the Published-totals group and any group accented by `body`,
+  each summary `{k} lanes · BE {a} RE {b} actual {c} of {n} FYs`; both twins closed by default
+  (the finance twin contract), the long form as `StackTable` cards when opened.
 - **Empty / partial:** filters leave no row → every lane hatched across the range with `No
   budget row matches {filters}` naming the most-removing filter with a one-click reset;
   `META.empty` → the axis with no lanes and `Register not yet promoted — nothing below is
@@ -784,7 +852,11 @@ missing period visible as a missing period**.
   `FORCE_NARRATIVES` of those domains for one link line.
 - **Form:** the house base-rate cards (energy D11; finance §5.4.1) grouped by domain; each
   card `{numerator} of {denominator} — {label}`; a Wilson whisker only when both are integers
-  and the denominator ≥ 10; the label verbatim; a ₹ numerator prints `₹{n} cr of ₹{d} cr`;
+  and the denominator ≥ 10; [UX review] (U19) a row that `baseRateForm` marks `two-figures`
+  (today the `state-police` party-group medians, of ₹ per head and of vacancy %) prints
+  `{numerator} and {denominator} — {label}` with the chip `two figures as the research states
+  them, not a share`: no percentage, no whisker, no `of`, so the page computes no ratio
+  between two groups of states; the label verbatim; a ₹ numerator prints `₹{n} cr of ₹{d} cr`;
   each domain's symmetry text **directly beneath its cards in the same `<section>`**, body
   size, with `wording: {domain} research file`. Domains in order on Budgets: `union-defence`
   (GDP and Union-spending shares by FY, pension and capital shares, SIPRI peers),
@@ -815,8 +887,9 @@ Stance rule 2: pay and pensions are contracts with people; no salary of a named 
   `enforce` edge targets the law node, each with responder, date, tier, text, source. Both
   columns use identical field rows. **The assignment to a column is by the responder node's
   `ty` and `fam`**, printed in the card foot as the rule, so no hand classification enters
-  (D30). A response to a response is indented under the response it answers, same size,
-  depth ≤ 3 (E32).
+  (D30). A response to a response is [UX review] (U27) a child `<li>` in a nested `<ul>` under the
+  response it answers (indented, same size, depth ≤ 3), and its text begins `in reply to
+  {responder}, {date or undated}:` (E32).
 - **Agnipath's old terms:** "The record does not join the Agnipath terms to the terms they
   replaced (prerequisite S13). The regular-entry pay level for the same rank is in the pay
   table above." with an in-page link to the Level 3 row.
@@ -842,7 +915,7 @@ finance `LoanMap` pattern (own SVG over `STATES`, `TexturePatterns`, `TextureSwa
     ratio on this map is reported: its denominator is a secondary series`.
   - `m=percap` (S3 default): ₹ per person on the S3 basis, label `per person, {basis} {year}`.
     Without S3 the option is `aria-disabled` with F17's reason.
-  - `m=cr`: ₹ crore, ramp, plus `{share}% of the {k} drawn states' sum, computed here`; the
+  - `m=cr`: ₹ crore, ramp; [UX review] (U33) no share of the drawn states' sum (D4); the
     caption adds that a ₹ choropleth of states is a population map.
 - **Right, strength — "Police strength by state":** `stateStrength(sy)` — `perLakh` as
   printed; **the map frame is drawn in the reported dash** because every row behind it is
@@ -854,15 +927,20 @@ finance `LoanMap` pattern (own SVG over `STATES`, `TexturePatterns`, `TextureSwa
   for `dl` on the spend map `police paid by the Union: Delhi Police is a line in the Police
   demand` · **stipple** on the strength map for `counts-only` (`dl`: sanctioned counts, no
   per-lakh) · hatch `GSDP not in this build` (`jk`, `tr` under `m=gsdp`). The ramp floor
-  ≥ `#2e373f`. An empty class is named in the legend as empty.
+  ≥ `#2e373f`. An empty class is named in the legend as empty. [UX review] (U18) A unit whose rows
+  exist but are hidden by `tier` is dimmed, never hatched, and the legend names `hidden by filter
+  ({k})` beside `no row in this register ({j})`.
 - **Dot strip under each map (the comparison instrument):** every drawn state on the map's
   value axis, state codes as labels, sorted by value (a declared external quantity), with the
   median rule labelled `median of {k} drawn`. The map is for finding a state; the strip is
-  for comparing (D19).
+  for comparing (D19). [UX review] (U30) The strip is a drawing (`aria-hidden`); its text is the
+  denominator line's `median of {k} drawn states: {value} {unit}`, the same line in the
+  `StateTable` caption, and the table's sort buttons.
 - **Denominator lines:** spend `{k} of 36 drawn · {fy} {stage} · head Police (MH 2055),
   revenue account only (capital outlay MH 4055 is not in the RBI row) · ÷ {denom} (reported)`;
   strength `{k} of 36 drawn · per lakh as printed, BPR&D via secondary sources · {reported}
-  of {rows} reported · {counts-only} counts only`.
+  of {rows} reported · {counts-only} counts only`; [UX review] (U30) each line ends `· median of
+  {k} drawn states: {value} {unit}`.
 - **Readout** (hover, focus, first tap; a reserved block of up to four lines below 640):
   `{State}: {class in words}, {value with unit} · ₹{cr} cr {fy} {stage} · {crContext
   denominator} · {crContext comparison} — open the state for the rows`.
@@ -875,15 +953,25 @@ finance `LoanMap` pattern (own SVG over `STATES`, `TexturePatterns`, `TextureSwa
   lakh for each strength year · Sanctioned and actual counts **as the research file records
   them — read the note** (derived flagged by S4 when present) · Women % · Installations ·
   Commissionerates (count, link) · Sources. A unit with no row of any kind reads its reason in
-  every cell, never blank. TSV with `st`, `fy`, `fy_start`, `stage`, `cr`, `gsdp_cr`,
-  `pct_gsdp`, `per_lakh`, `tier`.
+  every cell, never blank. [UX review] (U17) The export is **two machine tables**, each its own TSV with its own `# table:`
+  line: (1) spend, `st, state, fy, fy_start, stage, head, cr, tier, note, gsdp_cr, gsdp_fy,
+  gsdp_tier, pct_gsdp, source_urls`, one row per budget row (own-series and PRS rows are rows
+  with their own `head` and `tier`, never merged into MH 2055; E11, E12); (2) strength, `st,
+  state, year, per_lakh, sanctioned, actual, women_pct, derived_counts, tier, note,
+  source_urls`, where `derived_counts` is `true` when the note carries the research's DERIVED
+  sentence (interim, by anchored text; S4: `StrengthRow.derived`). (U30) Sort buttons on the `%
+  of GSDP`, `₹ cr` and `per lakh` columns (declared external quantities, §8.2.12), `aria-sort`
+  on the sorted column; the default order stays north to south.
 - **`StatePanel`** (margin, `st`): the state's MH 2055 rows (all four pairs) with tier and
   note; its other heads (UP's Grant 26, the PRS line) under `other heads, not comparable
   across states`; its strength rows with sanctioned, actual (and `derived by the research
   from per-lakh` when the note says so), women %, and the vacancy share `computed here` only
   when both counts are recorded and not derived; `stateRecords(st)` verbatim with tier and
   source (the research's per-capita and custodial-death sentences as quoted text, never
-  parsed); its installations by kind (link to Footprint); its commissionerates with the
+  parsed), [UX review] (U21) each with its `innocentReading` directly beneath at the same size,
+  labelled `the reading in which nothing is wrong`; (U12, U13) every ₹ row with `read to {asOf} ·
+  document: {first source label}` and, for a converted RBI row, `as published: {x} ₹ lakh; shown
+  here in ₹ crore`; its installations by kind (link to Footprint); its commissionerates with the
   fixed city sentence; ASUMP heads naming the state (S2: rows). **No party line is written by
   the page**; a party appears only inside quoted research text. For `dl`: the first line is
   "Delhi's police is a Union demand line — see Q7" with the `DelhiLine` link; for `jk`: the
@@ -899,7 +987,9 @@ finance `LoanMap` pattern (own SVG over `STATES`, `TexturePatterns`, `TextureSwa
   stack's FY axis — BE (solid), RE, actual — ₹ crore; points only where a row exists, **no
   line drawn across a missing FY**; under it a `shareOfPolice` dot row (`computed here`).
   Strength rows (sanctioned counts, no per-lakh) as three labelled ticks. Twin: one row per
-  `(fy, stage)`: total, revenue, capital, share of the Police demand, tier, source.
+  `(fy, stage)`: total, revenue, capital, share of the Police demand, tier, source, and
+  [UX review] (U25) a button `Open the line: Delhi Police {fy} {stage}` (the points are drawing
+  only, `aria-hidden`).
 - **`CityLedger`** — "City police: what is recorded" (also Footprint Q3, same component):
   one row per commissionerate in the footprint plus Delhi Police: city · state · body ·
   **budget** · **strength** · installations in that city (count, link).
@@ -961,7 +1051,9 @@ finance `LoanMap` pattern (own SVG over `STATES`, `TexturePatterns`, `TextureSwa
   states, not addresses`.
 - **Caption C11:** §9.
 - **Twin:** `KindMatrix` (§5.2.2).
-- **Mobile:** full width; tap → readout → `Open the state`; the chips become a `<select>`.
+- **Mobile:** full width; tap → readout → `Open the state`; [UX review] (U8) the chips become a
+  group of checkboxes inside the rail `<details>`, with counts and the 0-row reasons as text,
+  plus one `all kinds` control (`kind` is a list, which a single `<select>` cannot hold).
 - **Empty:** all states hatched; `No installation matches {filters}` / `This register holds
   no installation rows in this build.`
 
@@ -1034,7 +1126,9 @@ appear only inside it).
     vendors' share`, `L&T sole-vendor share`) as base-rate cards, each `₹{n} cr of ₹{d} cr`,
     with `wording: procurement-industry research file`.
   - **Readout:** `{vendor} ({class}), {date}: {lab} — ₹{a} cr or amount not stated — {tier} —
-    {source}`; the mark is a button that opens `rec`.
+    {source}`; [UX review] (U25) on pointer hover or first tap
+    only: the marks are drawing (`aria-hidden`), and each twin row has `Open record: {vendor},
+    {date}`, which writes `rec`.
   - **Denominator line:** `{priced} contracts with ₹ · {unpriced} without · {public} public
     sector, {private} private, JV or foreign · a sample of PIB releases, not every contract
     signed; no share is computed here`.
@@ -1050,10 +1144,16 @@ appear only inside it).
   - **Identical field rows, in this order, on every card** (`vendorFields`), each with its
     null words: 1 Class (hue swatch + word) · `vendor class not a field (S5)` until S5 · 2
     Listing and identity (`nse`, `cin` from `FORCE_IDENTITY`) · 3 Recorded owner (`own` edges
-    into the vendor: owner, share as recorded in `lab`) / `no owner recorded` · 4 Named awards
-    `{n} ({withRupee} with ₹), FY{first}–FY{last}` / `none named` · 5 Installations (footprint
+    into the vendor: owner, share as recorded in `lab`) / `no owner recorded` · [UX review] (U15)
+    3b Recorded holdings (`own` edges **from** the vendor: the owned body, its share as
+    recorded in `lab`, tier, and that body's named-award count inline, e.g. `PLR Systems (51%,
+    reported): {k} named award(s) — listed, not added to this vendor`, linked to its card) / `no
+    holding recorded` · 4 Named awards
+    `{n} ({withRupee} with ₹), FY{first}–FY{last}` / `none named in the Ministry releases the
+    research read` · 5 Installations (footprint
     rows by body: count, states) / `none recorded` · 6 Declared comparison (`comparatorsOf`):
-    comparator names as buttons with the analytic edge's `lab` and its figures as recorded /
+    comparator names as buttons with the analytic edge's `lab` and its figures as recorded,
+    [UX review] (U21) and its `innocentReading` directly beneath at the same size /
     `no head-to-head declared — compared with the {other class} band` · 7 Electoral bonds
     (`bond` edges from the vendor or a recorded owner) / `no bond recorded in this register`
     + the `money-people` bond void verbatim at the same size · 8 Retired officers on the board
@@ -1061,7 +1161,8 @@ appear only inside it).
     and investigation records (`enforce` edges targeting the vendor) / `none recorded` · 10
     Role in the record (`publicRole` verbatim) · 11 Stories told about vendors: one identical
     link on every card, `rated in Q5` · 12 Sources.
-  - **`vendor` set:** the card is accented in place and **`VendorCard` opens in the margin
+  - **`vendor` set:** the card is accented in place ([UX review] (U24) `aria-current="true"` on
+    its `<dl>` and the words `selected vendor`; `VendorCard` has `Go to the card in the grid`) and **`VendorCard` opens in the margin
     with the vendor and its comparators side by side as equal columns** (or with the other
     class band's summary rows, `{k} vendors, {n} named awards` each, alphabetical, when none
     is declared). There is no state of the page in which one vendor's fields render without
@@ -1069,7 +1170,11 @@ appear only inside it).
     `VENDORS` prints `{label} is not a vendor in this register` and offers Show connections.
   - **Caption C15:** §9.
   - **Twin:** vendor × field table, one row per vendor, all fields as text.
-  - **390 px:** one card per row; `VendorCard` opens inline after the card with its
+  - **390 px:** one card per row, [UX review] (U6) each card's `<dl>` inside a `<details>` whose
+    summary has the identical form on every card, `{vendor} · {class} · {n} named awards ({k}
+    with ₹) · 13 fields`; the selected vendor's card and its comparators open; every card stays
+    in the DOM with the same `dt`s, and an open card shows every field, sources included (D61);
+    `VendorCard` opens inline after the card with its
     comparators stacked directly beneath it, field by field.
 
 #### 5.3.2 Chapter 2 — Q2 Who bought on the open market, and how many bid? (`SliceBesideFile`, new; A's two forms, B's order and reference rows)
@@ -1097,7 +1202,8 @@ appear only inside it).
   the file — read by class; one works buyer is {works}% of decisions`.
 - **Caption C14:** §9.
 - **Twin:** per class and per class-year: class · definition · portal · year · raw rows ·
-  dedup rows · n · single · rate · Wilson low · high · whole file same portal · whole file ·
+  dedup rows · [UX review] (U31) share of slice decisions (%) (dedup rows over the slice's dedup
+  total, `computed here`, or the file's own field where it has one: Form A's bar) · n · single · rate · Wilson low · high · whole file same portal · whole file ·
   innocent reading; TSV with `#` provenance (input digests, dedup rule).
 - **S8 absent:** `The open-market slice is not built in this copy of the register. Nothing
   here is zero.`
@@ -1116,7 +1222,8 @@ appear only inside it).
   rule (`POST_RETIREMENT_RULES` text verbatim, with the void on the rule's number and date) ·
   Tier · Sources; then the base rate `0 of 2` verbatim and the void "No retired Defence
   Secretary, DGP or vice chief…"; then the declared board control (the analytic edge into the
-  retired-officers class) quoted. **Caption C17:** §9.
+  retired-officers class) quoted, with [UX review] (U21) its `innocentReading` beneath at the same
+  size. **Caption C17:** §9.
 - **Twins:** the tables themselves; TSV.
 
 #### 5.3.4 Chapter 4 — Q4 What did courts and auditors record? (`CaseTimeline` + `CasePairs`; from B)
@@ -1139,8 +1246,11 @@ Stance rule 5: cases are records; Bofors sits beside Rafale by design.
 - **`CasePairs` (the reading surface, and the spine):**
   - One **row per pair**, two **equal columns** (CSS grid `1fr 1fr`, field rows aligned with
     `subgrid`); the left column is the member whose first record is earlier (a date rule,
-    never a party rule). Above the row: the pair's analytic edge `lab` and its file names, and
-    the **symmetry sentences of the files that recorded the pair, verbatim**.
+    never a party rule). [UX review] (U20) The row's `h4` is page-authored from the two case labels
+    in date order, `{earlier case} beside {later case}`, and contains no word on SG-RF4's list.
+    Beneath it, in a quoted block headed `wording: {file}`, every pair edge that recorded the
+    pair prints its `lab`, its `d` and its `innocentReading`, at the same size and in that
+    order; then the **symmetry sentences of the files that recorded the pair, verbatim**.
   - **Unpaired case (Adarsh today):** its own row, its record in the left column, and in the
     right column at equal width, size and weight **`No control pairing recorded for this case
     in the register.`** in amber, followed by the split-ids gap line where one applies (E23).
@@ -1157,11 +1267,13 @@ Stance rule 5: cases are records; Bofors sits beside Rafale by design.
     'enforce'` and is a court or tribunal, by date / `none recorded` · 7 Audit: records whose
     source is the auditor / `none recorded` · 8 Latest record: the latest dated record's `lab`
     verbatim · 9 Counter-record: every response in the file, `Response from {responder}
-    [{tier}], {date or "undated response"}` with its text; an audit-added response reads `the
+    [{tier}], {date or "undated response"}` with its text, replies nested as in §5.1.5
+    ([UX review] (U27)); an audit-added response reads `the
     audit (recorded on {subject})` (E31); none → exactly **`No response recorded — asked/not
     asked unknown`** · 10 Stories told about it: `rated in Q5` on every column · 11 Sources.
   - **`case` set:** scrolls to the pair row and accents **both columns' borders**; never
-    filters, never isolates.
+    filters, never isolates; [UX review] (U24) the pair row's `<section>` carries
+    `aria-current="true"` and the words `selected case`.
   - **Caption C19:** §9.
   - **Twin:** the `CaseTimeline` twin plus a field table (case · field · value or null words).
 - **Empty:** `No case record in this register.`; a pair whose filtered records are empty keeps
@@ -1284,14 +1396,14 @@ component) plus stage and tier. A control that does not reach the active lens st
 
 | control | type | effect line beside it (live) | honours? (printed on the control) |
 |---|---|---|---|
-| Find | `type=search`, first after the tabs | `{k} matches` | filters nothing |
+| Find | `type=search`, first after the tabs; [UX review] (U4) at 390 full width, first under the tabs, outside the rail `<details>`, never pinned | `{k} matches` | filters nothing |
 | Payer | segmented `All · Union · States` | Budgets `{N} → {k} budget rows`; else `does not apply to {lens}` | "the Union stack is Union-only; States affects the ledger, the state table and the panels" |
 | State | `<select>` of 36 map units alphabetical with per-lens counts; `(0)` options shown and `aria-disabled`, never hidden | Budgets `{N} → {k} state rows · Union lines not placed by state`; Footprint `{N} → {k} installations`; Procurement `does not apply: a vendor's registered office is not where its work is` | the label reads `State (where the record places it)`; on Budgets `a state's own police head; Delhi's police is a Union line; grants: recipient not a field (S2)` |
 | FY from / to | two `<select>` over `FY_AXIS` + "All years", with a coverage ribbon for the active stage (one tick per FY with a stack; hatched FYs named) | Budgets `{N} → {k} rows · {fyIn} of {FY_AXIS.length} FYs`; Procurement `{N} → {k} records · {undated} undated shown under all years only`; Footprint `does not apply: {dated} of {n} installations dated` | "dims years outside the range; the axis does not move"; "strength tables dated 1 January Y count in FY Y−1–Y"; on Procurement "calendar dates of the record" |
 | Stage | segmented `BE · RE · actual`, each option `{k} of {n} FYs` | `{N} → {k} rows` | "actuals arrive two years after the budget" and, while true, "BE is the only stage recorded for every year" (derived) |
 | Component | seven checkboxes with counts; `Select all` | Budgets `{N} → {k} ledger rows`; the stack `not affected` | "components overlap by level; this filter never adds rows; pay sits inside revenue demands" |
-| Tier | four toggles with dash swatches (`aria-hidden`; the word is the label) | `{N} → {k}` for the lens population; `also filters the connection graph` | "series rows are documented or reported by their note; responses follow their claim" |
-| Kind (Footprint) | chips, all eleven kinds with counts; 0-row kinds `aria-disabled` `none in this register` | `{N} → {k} installations` | — |
+| Tier | four toggles with dash swatches (`aria-hidden`; the word is the label) | `{N} → {k}` for the lens population; `also filters the connection graph`; [UX review] (U18) every figure that loses rows to it adds `{hidden} rows hidden by filters` to its denominator line | "series rows are documented or reported by their note; responses follow their claim" |
+| Kind (Footprint) | chips, all eleven kinds with counts ([UX review] (U8) checkboxes inside the rail at 390); 0-row kinds `aria-disabled` `none in this register` | `{N} → {k} installations` | — |
 | Spend metric · state pair · strength year (Budgets Q6, map controls) | segmented · `<select>` · segmented | per option `{k} of 36 drawable` · `{states} states` · `{rows} rows in {sy}` | `per person` `aria-disabled` without S3, reason in name; undrawable pairs `aria-disabled` with `GSDP in this build is for {gsdpFy} only` |
 | Reset | button | clears page params except `lens` and `view` | never touches the graph's params |
 | Copy link · Table view | button · toggle (`aria-pressed`) | `Link copied` | — |
@@ -1306,10 +1418,10 @@ government, era, vendor-class-only, 'risk' and city-budget filters — why →".
 
 | verb | trigger | writes | result | focus |
 |---|---|---|---|---|
-| Read a year | an FY axis button on `DemandStack`; a column (pointer) | — (in-page) | `FYReadout` in the margin (inline below 640) | the readout `h2`; `Close` / `Back to the chart` |
-| Open the line | a ledger cell; a `DelhiLine` point | `cell` | `CellCard`: every row of that lane × FY, each with `crContext`, note, tier, sources, Copy citation | the card `h2` |
+| Read a year | an FY axis button on `DemandStack`; a column (pointer); [UX review] (U5) the step control below 640 | — (in-page) | `FYReadout` in the margin (inline below 640), with `Copy citation` per row and `Copy this year as text` (U14) | the readout `h2`; `Close` / `Back to the chart` |
+| Open the line | a ledger cell; [UX review] (U25) a `DelhiLine` twin row's button | `cell` | `CellCard`: every row of that lane × FY, each with `crContext`, note, tier, sources, `read to {asOf}`, Copy citation (`rowCitation`, U12) | the card `h2` |
 | Show its budget lines | a body in Find, a `BodyCard`, a `PlaceList` "run by" | `body` (+ `lens=budgets`) | the body's lanes accented and scrolled into view; `BodyCard` | the card `h2` |
-| Open record | an edge label anywhere | `rec` | finance `RecordCard` (its citation: `{lab or line} — ₹{x} cr ({stage}, FY{fy}) or the record's date — {denominator} — {comparison} — {tier} — {first source} {url} — ICIP {deep link}, read to {asOf}`, also rendered as visible `<output>` text) | the card `h2` |
+| Open record | an edge label anywhere; [UX review] (U25) an award twin row's `Open record` button | `rec` | finance `RecordCard` (its citation: `{lab or line} — ₹{x} cr ({stage}, FY{fy}) or the record's date — {denominator} — {comparison} — {tier} — {first source} {url} — ICIP {deep link}, read to {asOf}`, also rendered as visible `<output>` text) | the card `h2` |
 | Select state | any map option; State select; Find `Show in footprint` | `st` | both maps (or the footprint map) accent the state; `StatePanel`; lists filtered | the panel `h2`; clicking the selected state clears it |
 | Show vendor | a vendor label; Find | `vendor` (+ `lens=procurement`) | card accented in place; `VendorCard` with comparators; **both bands stay** | the card `h2` |
 | Show the pair | a case label; Find | `case` (+ `lens=procurement`) | scroll to the pair row; both columns accented | the pair row's `h4` |
@@ -1323,7 +1435,8 @@ government, era, vendor-class-only, 'risk' and city-budget filters — why →".
 
 Coarse pointers: the first tap on a column, a map state, a mark or a case tick shows its
 text in a reserved readout under the graphic (one line where it fits; a block of up to four
-lines below 640 px); a second tap or the readout's button acts. Copy is device-neutral
+lines below 640 px); a second tap [UX review] (U5) on the **same** target, or the readout's button, acts; a second
+tap on a different target re-reads (replaces the readout) and does not act. Copy is device-neutral
 ("open", "choose"), never "hover" or "click". Reduced motion: no transitions on fill, no
 animated scroll, no graph warm-up beyond what `GraphExplorer` honours.
 
@@ -1387,12 +1500,14 @@ The five stance rules of the brief's §3 are page rules here (items 3, 7, 8, 10,
    Police and every sub-line are brackets, ticks or lanes, never stacked. The ledger has no
    column total and no residual row. No ₹ sum across Union and states, across stages, across
    the tender slice and named contracts, or across awards exists anywhere, including TSV
-   headers and `aria-label`s.
+   headers and `aria-label`s. [UX review] (U33) No ₹ sum across states exists either, so no share of
+   one is printed (the `m=cr` map prints ₹ per state only).
 4. **One FY axis** for the stack, the office lanes and the ledger, and **one ₹ scale** for
    both stack panels; linear from 0; no axis rescales to the years that happen to have data;
    missing FYs are hatched columns or slots, never closed up; `fy` dims, it does not crop.
 5. Hatch ≠ zero. A recorded `cr === 0` prints `₹0 cr — as recorded` on `ZERO_FILL`; an absent
-   row is hatch with `no row in this register`. Never `—`, `NaN`, blank or `0` for absence.
+   row is hatch with `no row in this register`; [UX review] (U18) a row hidden by a filter is never
+   hatch: it is dimmed as `fy` dims and reads `{k} rows hidden by the {filter} filter — not absent`. Never `—`, `NaN`, blank or `0` for absence.
    Hatch, crosshatch, stipple, `ZERO_FILL`, hollow, the dot, the ramp floor and the ground are
    pairwise distinct in a greyscale screenshot at 390 and 1280 (SG-30).
 6. **No city ₹ other than Delhi Police**: no element, `title`, accessible name, tooltip or
@@ -1404,7 +1519,7 @@ The five stance rules of the brief's §3 are page rules here (items 3, 7, 8, 10,
    rule printed in the foot; an empty column prints exactly `No response recorded —
    asked/not asked unknown`; no salary of a named person appears anywhere.
 8. **Vendors are identical and never alone** (stance rule 3): every vendor card has the same
-   twelve field rows; `VendorGrid` always renders every vendor; `vendor` accents and never
+   thirteen field rows ([UX review] (U15): the twelve plus 3b, recorded holdings); `VendorGrid` always renders every vendor; `vendor` accents and never
    filters; `VendorCard` always opens with its comparators or the other class band; a filter
    that would leave one class band empty greys its cards and shows `Comparison set required`
    rather than removing them. No share of awards by vendor or class is computed by the page.
@@ -1414,7 +1529,10 @@ The five stance rules of the brief's §3 are page rules here (items 3, 7, 8, 10,
     figure is coloured, filtered, sorted or framed by party; party, government and era are
     text only, as recorded, inside quoted research text, record text and role labels; the
     page's own words never use `UPA`, `NDA`, `BJP`, `Congress`, `ruling`, `opposition` or
-    `government of the day` (SG-RF4). Rose is response only.
+    `government of the day`, [UX review] (U22) nor any label or alias of a party node in the merged
+    graph, nor `era`, `regime`, `incumbent` or `government's`, in any page-authored string,
+    captions, `aria-label`s, TSV `#` headers and the refusals included (SG-RF4). Rose is
+    response only.
 11. **Cases are records, Bofors beside Rafale** (stance rule 5): every case renders in its
     recorded pair row, two equal columns, identical field rows, each `enforce` or `alleged`
     record with a response or the exact sentence; an unpaired case keeps an equal-width
@@ -1432,7 +1550,9 @@ The five stance rules of the brief's §3 are page rules here (items 3, 7, 8, 10,
     `readMeFirst` and `caveat` render at body size above the chart, never collapsed; no
     winner name appears on this page.
 15. `a of b` is always printed; a percentage only when `b` is an integer ≥ 10 or for a ₹
-    share labelled `computed here`.
+    share labelled `computed here`. [UX review] (U19) Two figures that are not a part and its
+    whole (a numerator larger than its denominator, or non-integer figures with no declared
+    share kind) print `{a} and {b}`, never `a of b`, a percentage or a whisker.
 16. Nulls read `no row in this register`, `not recorded`, `not stated`, `none named`, `not
     computed`; never `0`, never a bare `—`, never `NaN`. An empty `srcs` reads `no source in
     file` in amber.
@@ -1445,7 +1565,9 @@ The five stance rules of the brief's §3 are page rules here (items 3, 7, 8, 10,
     `₹0 cr — as recorded`, `no row in this register`, `amount not stated`, `No response
     recorded — asked/not asked unknown`, `No control pairing recorded for this case in the
     register.`, `Comparison set required`, `computed here`, `not joined to this case in the
-    register`.
+    register`; [UX review] `{k} rows hidden by the {filter} filter — not absent` (U18), `listed, not
+    added to this vendor` (U15), `two figures as the research states them, not a share` (U19),
+    `Where its police money sits` (U29).
 
 ---
 
@@ -1476,7 +1598,10 @@ record text, role labels or the verbatim symmetry texts.
   stack equals it: in {eq} of {pub} such years it does, and in the rest the stack exceeds it
   by under {maxPct}%. Missing years are hatched, not skipped; every Union row here is
   {tierWord}. Amounts are nominal and not adjusted for inflation; shares of GDP are in Q4
-  until the denominator series is exported. The police panel uses the same scale; Delhi
+  until the denominator series is exported. [UX review] (U9) The pension share is pensions' share
+  of the Ministry's published total for all demands where the Summary prints one, and of the
+  stack, computed here, where it does not; the label says which. A pension is a payment under
+  the terms in Q5, and this page does not rate whether the share is high. The police panel uses the same scale; Delhi
   Police is bracketed because it is the only city police force with its own budget line."
 - **C3 — `OfficeLanes`:** "A window is drawn where a dated role record exists; who held the
   Defence and Home portfolios on each date, from those records. A budget is presented in
@@ -1578,7 +1703,7 @@ record text, role labels or the verbatim symmetry texts.
 - **C18 — `CaseTimeline`:** "Each lane is one case file as the register holds it; each tick a
   court order, an audit paragraph, an investigation step or an allegation, in its evidence
   tier's dash. Rose ticks are recorded answers. Lanes are paired as the research recorded
-  them, so each government's case sits beside the case recorded as its control. A dense lane
+  them, so each case sits beside the case recorded as its control [UX review] (U22). A dense lane
   is a well-documented case, not a worse one."
 - **C19 — `CasePairs`:** "A case is shown as its records: what a court, an auditor or an
   investigator recorded, on what date, and what the other side answered. Each case sits
@@ -1602,7 +1727,7 @@ record text, role labels or the verbatim symmetry texts.
 
 | state | render |
 |---|---|
-| Loading | The route chunk and the lazy graph. `FORCE_NODES`/`FORCE_EDGES` are already in the entry through `DataContext` (a platform decision this page does not change); the three series, the other page-only exports, `securityView.ts` and `src/components/security/*` must reach the reader only in the `/security` chunk — until G5 splits the module the series ride in the entry and SG-50 prints the growth. `loadSecurity()` resolves after mount: P-Q2 shows a 320 px block `Loading the open-market slice…`. Route fallback: PageTitle + Standfirst. Graph fallback: a 620 px block "Drawing the connection graph…" with its node and edge counts |
+| Loading | The route chunk and the lazy graph. `FORCE_NODES`/`FORCE_EDGES` are already in the entry through `DataContext` (a platform decision this page does not change); the three series, the other page-only exports, `securityView.ts` and `src/components/security/*` must reach the reader only in the `/security` chunk — [UX review] (U1) G5 splits the module before the page is built, and SG-50 fails if a string unique to the series or the page part is in the entry. `loadSecurity()` resolves after mount: P-Q2 shows a 320 px block `Loading the open-market slice…`. Route fallback: PageTitle, Standfirst and the `ResolutionStatement`'s fixed words, which need no data (U1). Graph fallback: a 620 px block "Drawing the connection graph…" with its node and edge counts |
 | `FORCE_META.empty` | Full chrome. `Callout label="Register not yet promoted"` under the Standfirst; the resolution statement keeps its words and its mono lines read `register not yet promoted — nothing below is zero`; the strip likewise; every Q-block renders its heading and `Nothing recorded yet.`; the stack and the ledger draw the FY axis with no columns or lanes; every map hatched; the vendor grid, the case pairs and the 36-row table render their frames empty. Smoke passes (SG-2) |
 | **Zero rows in a series** (budgets, strength or footprint `[]`, graph non-empty) | the series' blocks render their headings, axis or 36-row table hatched, and `This register holds no {budget / strength / installation} rows in this build. Nothing below is zero.`; the resolution row for that level reads `no rows in this build`; the other lenses are unchanged (SG-2, ZERO-SERIES fixture) |
 | `SLICE === null` | P-Q2 prints the absence sentence; the strip's fact 6 reads `open-market slice not built in this copy` |
@@ -1613,7 +1738,7 @@ record text, role labels or the verbatim symmetry texts.
 | Partial kinds | 0-row kinds listed `none in this register`; hatch in every empty state |
 | Partial slice | class-years with n < 10 draw no dot |
 | Partial case files | each field prints its null words; counters read `{answered} of {claims}` |
-| Filters → 0 | strip `N → 0`; each Q-block shows `No record in this register matches {filters}. This is a statement about the register, not about India.` naming the most-removing filter with a one-click reset; the stack keeps its axis; the vendor grid, the case pairs and the 36-row table keep their rows |
+| Filters → 0 | strip `N → 0`; [UX review] (U18) every slot, unit or cell whose rows a filter hid reads `{k} rows hidden by the {filter} filter — not absent`, never `no row in this register`; each Q-block shows `No record in this register matches {filters}. This is a statement about the register, not about India.` naming the most-removing filter with a one-click reset; the stack keeps its axis; the vendor grid, the case pairs and the 36-row table keep their rows |
 | Unknown `rec` / `cell` / `body` / `vendor` / `case` / `sel` / `st` / `fy` / `stage` / `sfy` / `sy` / `kind` / `m` | the default, with `ignored an unrecognised {param} value`; `rec` unknown: `No record {id} in this register.`; `vendor` outside `VENDORS`: `{label} is not a vendor in this register` |
 
 ---
@@ -1640,7 +1765,7 @@ record text, role labels or the verbatim symmetry texts.
 | E16 | Many installations in one small unit (Delhi 11, Chandigarh 4) | footprint map | jitter clamped to clearance; overflow drawn as `+{k}`; all listed in readout and twin |
 | E17 | A footprint row whose `st` fails to resolve | footprint map | never with a `StateCode` (gate); listed under `not placed on the map: {code}` if it ever happens |
 | E18 | A grant recipient that is not a map unit (Ladakh; the merged UT) | grants | listed verbatim, never placed; S2 adds text-only codes; **no name parser** (Ladakh would resolve to `jk`) |
-| E19 | A vendor with no award (a declared comparator or a plant body) | awards, grid | no mark; a full card with `none named` |
+| E19 | A vendor with no award (a declared comparator or a plant body) | awards, grid | no mark; a full card with `none named in the Ministry releases the research read` and, [UX review] (U15), its recorded holdings with their award counts in field 3b |
 | E20 | The same minister's window in two or three files | office lanes | one bar `×{k} records`, each record in the twin with tier and file; never merged by name |
 | E21 | An open-ended window | office lanes, `officeOn` | outline to `asOf`, `end not recorded`; listed under "start recorded, no end recorded" |
 | E22 | A decision date before the first role window (Bofors 1986–87) | case field 3 | `no recorded office window covers {date}` |
@@ -1653,7 +1778,7 @@ record text, role labels or the verbatim symmetry texts.
 | E29 | A board pair with a missing office end date | board roles | `not computable: office end date not recorded` |
 | E30 | `vendor` set to a node outside `VENDORS` | margin | `{label} is not a vendor in this register`; Show connections offered |
 | E31 | Audit-added response whose responder `s` is the subject itself | every response slot | responder printed `the audit (recorded on {subject})`; counted as a response |
-| E32 | A response to a response (the Army answering the Congress objection on Agnipath) | contract card, case column | indented under the response it answers, same size, depth ≤ 3 |
+| E32 | A response to a response (the Army answering the Congress objection on Agnipath) | contract card, case column | [UX review] (U27) a child `<li>` of the response it answers, its text beginning `in reply to {responder}, {date}:`; same size, depth ≤ 3 |
 | E33 | Undated record | timelines, lanes | right gutter `undated`, counted in the lane label |
 | E34 | `fy` range with no stack column of the stage | stack | the axis and hatched columns stay; the live region says `0 {stage} columns in {range}` |
 | E35 | `st` set on Procurement | rail | inactive with its reason; the param kept |
@@ -1661,7 +1786,7 @@ record text, role labels or the verbatim symmetry texts.
 | E37 | `security.json` from a different scrape than `rates.json` | slice | provenance digests printed; whole-file marks come from the slice file's own comparator fields only |
 | E38 | Module regenerated with merged ids or moved counts | everywhere | every count derived; anchors re-checked at load; no gate pins a §0 number |
 | E39 | 390 px | page | §12; no horizontal page scroll |
-| E40 | `view=table` | every lens | every twin open; graphics hidden; Q-headings and `AnswerLine`s stay |
+| E40 | `view=table` | every lens | every twin open; graphics hidden; Q-headings, `AnswerLine`s and answer sentences stay; [UX review] (U23) kept on lens switch: the newly mounted lens's twins are open before focus moves to the lens heading |
 | E41 | A state with a strength row and no budget row (`dl`) or the reverse (`py` has both; `an ch dd dn ld` have neither) | state table | each cell names its reason; nothing dropped |
 | E42 | GSDP FY does not match the selected pair | spend map | the pair's option is `aria-disabled` with `GSDP in this build is for {gsdpFy} only`; the map is not drawn with a mismatched denominator |
 
@@ -1673,10 +1798,21 @@ record text, role labels or the verbatim symmetry texts.
 
 - **Head:** kicker, title, standfirst, standing line, then the `ResolutionStatement` stacked
   (label above words, mono line beneath). Byline and strip facts 2–6 move whole to the mono
-  list under the first figcaption (moved, not hidden).
-- **Pinned stack:** site header + one-line strip (fact 1 + date) + tabs ≤ 140 px. The
+  list under the first figcaption (moved, not hidden), [UX review] Budgets fact 2 excepted (U10).
+  (U2) The head is long at 390 by design, because D1 keeps the statement whole: about 1,100 px
+  before the strip (estimate). SG-33's 390 budget is measured on the first build and recorded
+  in `SECURITY_ACCEPTANCE.md`, never an aspiration; the ceilings are the strip, tabs, Find and
+  rail summary within 2 viewports (1,688 px) and the top of the stack within 2.5 viewports
+  (2,110 px). The 1280 budget is unchanged (D58).
+- **Pinned stack:** site header + one-line strip (fact 1 + date, in U3's short form) + one row of
+  tabs ≤ 140 px ([UX review] (U3)). The
   `ReconciliationLine` is a `<ul>` under Q1's caption, not sticky.
-- **Tabs:** full-width segmented control, 44 px targets, wrap to two lines, never a menu.
+- **Tabs:** full-width segmented control, 44 px targets, never a menu; [UX review] (U3) **one row**:
+  the visible labels at 390 are `Budgets · Footprint · Procurement`, and each tab's accessible
+  name and the panel's `h2` keep the full name (`Procurement and people`).
+- **Find** [UX review] (U4): full-width `type=search`, the first element under the tabs, outside
+  the rail `<details>`, never pinned; results inline beneath it; a commissionerate result prints
+  the fixed city sentence in the result itself, so SG-42 completes without opening the ledger.
 - **Rail:** `<details>` labelled `Filters ({active}) · {N} → {k}`; the effect line stays
   outside; native selects.
 - **`DemandStack`:** drawn at full width **without horizontal scroll** (it has no label
@@ -1685,23 +1821,35 @@ record text, role labels or the verbatim symmetry texts.
   latest column and on the chosen FY; direct band labels move to a legend row beneath; the
   reconciliation row keeps one glyph per column at 10 px mono (`aria-hidden`, duplicated in
   the twin). Panel heights defence `clamp(220px, 60vw, 300px)`, police on the same scale.
-  The twin renders open by default beneath.
-- **`OfficeLanes`:** share the stack's column grid and width; labels in a sticky 96 px column
-  inside the same container as the stack when the stack scrolls (it does not, so none).
+  [UX review] (U5) The step control `‹ earlier · FY{fy} · later ›` (44 px) sits under the chart;
+  the chosen column's label is always visible. (U6) The twin is a closed `<details>` like every
+  other twin, summary `Q1 as a table · {rows} rows`; opened, it renders as `StackTable` cards,
+  never a sideways table; the inline `FYReadout` is the phone's per-year reading surface.
+- **`OfficeLanes`:** share the stack's column grid and width; [UX review] (U7) the bars stay
+  unlabelled for alignment, and directly beneath them one `<ol>` per office in date order lists
+  `{person} · {from} – {to, or end not recorded} · {tier} · ×{k} records`; choosing a bar
+  accents its list item, and choosing a list item accents its bar.
 - **`LineLedger`:** one stage at a time (`stage`, default BE with the reason on the control),
   14 px FY columns, sticky 120 px labels, inner horizontal scroll with `‹ earlier` / `later ›`
-  and `showing FY{a}–FY{b}`, `role="region"` named by the caption, right-edge fade; body
-  groups as open `<details>`; the twin renders by default beneath; the drawing is behind
-  `Show the ledger` only if a lane label would truncate below 12 px.
+  and `showing FY{a}–FY{b}`, `role="region"` named by the caption, right-edge fade; [UX review] (U6) body
+  groups as `<details>` closed by default except the Published-totals group and any group
+  accented by `body`, each summary `{k} lanes · BE {a} RE {b} actual {c} of {n} FYs`; both twins
+  closed by default, the long form as `StackTable` cards when opened; the drawing is always
+  drawn and lane labels wrap to two lines at 12 px (no conditional `Show the ledger`).
 - **`StatePair`:** maps stacked, each full width `clamp(300px, 70vw, 420px)`; dot strips wrap
   labels to codes; the `Open a state` select under each figcaption; no on-map labels; legend
-  swatches ≥ 12 px; the `StateTable` as `StackTable` cards (state, Police head by
-  stage-year, % of GSDP, strength, sources first).
+  swatches ≥ 12 px; [UX review] (U6) the `StateTable` is a closed `<details>` (`Q6 as a table ·
+  36 rows, always all 36`), opened as `StackTable` cards (state, Police head by
+  stage-year, % of GSDP, strength, sources first); when `st` is set the selected state's card
+  renders open inline as the `StatePanel` under the maps. Nothing is dropped.
 - **`DelhiLine`:** full width; points and lines only; the twin beneath.
-- **`FootprintMap`:** full width; dot radius ≥ 3 screen px; the kind chips become a
-  `<select>`; tap → readout block → `Open the state`.
+- **`FootprintMap`:** full width; dot radius ≥ 3 screen px; [UX review] (U8) the kind chips become
+  checkboxes inside the rail `<details>`, with counts and 0-row reasons, plus `all kinds`; tap →
+  readout block → `Open the state`.
 - **`AwardsByClass`, `CaseTimeline`:** inner horizontal scroll, sticky 96 px label column
   (cases) or the year axis labelled every second year (awards), initial scroll at `asOf`;
+  [UX review] (U8) never swipe-only: 44 px `‹ earlier` / `later ›` buttons, an `earliest` jump and
+  a mono `showing {a}–{b} of {first}–{last}` line, as the ledger has;
   the AoN void card stacks directly under the award chart, before the caption.
 - **`SliceBesideFile`:** rows stack (label line, then bar, then the rate scale); the
   by-year multiples one per row; reference values in text at the row end.
@@ -1709,20 +1857,29 @@ record text, role labels or the verbatim symmetry texts.
   case, field 2 left, …), each field block labelled with its case, so a pair is still read
   side by side in sequence; the pairing sentence for an unpaired case sits in the right
   case's slot of every field.
-- **`VendorGrid`:** one card per row; `VendorCard` opens inline after the card, with its
+- **`VendorGrid`:** one card per row, [UX review] (U6) each card's `<dl>` in a `<details>` with the
+  identical summary of §5.3.1 (D61); `VendorCard` opens inline after the card, with its
   comparators stacked directly beneath it, field by field.
 - **Tables with a response, source, rule or comparison column** (contracts, bonds, board
   roles, cases, contested, places, city ledger, grants): `StackTable` cards, every field, the
   response directly under the claim at the same size; sources never behind a disclosure.
+- **Every other twin and table** [UX review] (U8) has a named 390 form: the stack twin, the ledger
+  long form and coverage twin, the awards, slice, office, case-timeline and `DelhiLine` twins,
+  and the `StateTable` render as `StackTable` cards; `KindMatrix` renders one card per state
+  listing its kinds with counts and the 0-row kinds as `no row`; a table that keeps the table
+  form at 390 has a sticky first column, at most three further columns visible, and a `{k}
+  columns · later ›` step button with its hint text (never swipe-only).
 - **Margin panels:** render directly under the component that opened them, with one
   `scrollIntoView` and `scroll-margin-top` = the pinned stack; a panel with no opener on
   screen renders under the Find block; every panel has `Close` and `Back to {origin}`.
 - **Graph:** behind `Load the graph`.
 - **Mono floor:** 12 px (10 px only for the reconciliation glyph row, `aria-hidden`).
 - **Gates:** at 360 and 390, `document.scrollingElement.scrollWidth ≤ innerWidth` on every
-  lens, with `view=table`, with `cell`, `vendor`, `case` and `rec` set by URL, with `st=dl`
-  (SG-31); at 390×844 the strip, tabs and rail summary are within the first 844 px and the
-  stack within 1,688 px; the pinned stack ≤ 140 px (SG-33).
+  lens, with `view=table`, with `cell`, `vendor`, `case` and `rec` set by URL, with `st=dl`, and
+  [UX review] (U8) no open twin's `<table>` wider than its container unless it carries the step
+  control (SG-31); (U2) at 390×844 the strip, tabs, Find and rail summary within 1,688 px and
+  the top of the stack within 2,110 px, measured and recorded; the pinned stack ≤ 140 px with one
+  tab row (SG-33); (U6) the page length at rest within its budget (SG-53).
 
 ---
 
@@ -1731,36 +1888,53 @@ record text, role labels or the verbatim symmetry texts.
 - **Landmarks and outline:** `h1` PageTitle; the `ResolutionStatement` a `<section
   aria-labelledby>` with a visible `h2`; `nav` (rail); `main`; an `h2` per lens panel and
   shared section; an `h3` per Q-block (`Q{n} — {question}`), `h4` for groups inside (ledger
-  body groups, chapter heads, pair rows); every graphic a `<figure>` with a visible `h3` free
-  of figures; `aside` margin with card `h2`s and `h3` sub-blocks; the strip a `<section
+  body groups, chapter heads, pair rows); [UX review] (U26) every graphic a `<figure>` labelled by its Q-block's `h3`
+  (exactly one `h3` per Q-block; titles inside a figure are `h4` or plain text); `aside` margin with card `h2`s and `h3` sub-blocks; the strip a `<section
   aria-label="Denominators">` with a hidden `h2`. No level skipped (SG-49).
 - **Tabs:** WAI-ARIA tabs, manual activation; the panel `aria-labelledby` its tab.
 - **`DemandStack`:** the SVG is `role="group"`, `aria-labelledby` its `h3`,
-  `aria-describedby` the denominator line. Bands, brackets, ticks and glyphs are
+  `aria-describedby` [UX review] (U10) the answer sentence first, then the denominator line. Bands, brackets, ticks and glyphs are
   `aria-hidden`; the FY axis buttons are the only focusables (**one tab stop**, roving
   tabindex, Left/Right/Home/End), each named per §5.1.1. A skip link `Skip to the table`
   precedes it.
 - **`LineLedger`:** `role="grid"` with `aria-rowcount`/`aria-colcount`; lane labels are `th
   scope="row"`, FYs `th scope="col"`; one tab stop (roving), arrows move, Home/End to the
-  lane's first/last FY, Enter opens; each cell button's name is the full cell sentence; a slot
+  lane's first/last FY, Enter opens; each cell button's name is the full cell sentence, ending `— open for its share of the demand
+  and the previous year` ([UX review] (U32): the one sanctioned place a ₹ is named without its
+  denominator; SG-9 covers rendered text and twin cells); a slot
   without a row is named `no row in this register`. The bars are `aria-hidden`.
 - **Maps (both state maps, the footprint map):** the finance `LoanMap` listbox model
   (`role="listbox"` of 36 options north to south; each option's name carries the class in
   words and the value with unit — `Delhi: police paid by the Union, not a state line`;
   `Manipur: no row in this register`; `{State}: {k} installations in {c} cities`); Enter
   selects, Escape clears; SVG shapes `aria-hidden`.
-- **Office lanes, award marks, slice rows, case timeline:** drawings `aria-hidden`;
-  everything in their label-column buttons and twins; a skip link before each. [Adjudicated
+- **Office lanes, award marks, slice rows, case timeline, [UX review] (U25) `DelhiLine`, the dot
+  strips and the AoN card's chart frame:** drawings `aria-hidden`, with **no interactive element
+  inside** (award marks are not buttons, the Agnipath tick is not a link, `DelhiLine` points
+  are not buttons); everything in their twins and readouts (`Open record: {vendor}, {date}`,
+  `Agnipath lines → contract card`, `Open the line: Delhi Police {fy} {stage}`); a skip link
+  before each. [Adjudicated
   in finance] nothing focusable inside an `aria-hidden` subtree.
 - **Case pairs:** each pair row a `<section aria-labelledby>`; each column a `<dl>` whose
   `dt`s are the field names, so a screen reader reads field, then value, in the same order for
   both cases; the pairing sentence is a `dd`, never `aria-hidden`.
 - **Vendor cards:** each a `<dl>` with identical `dt`s; the comparators in `VendorCard` are
-  sibling `<dl>`s under one `h2` `"{vendor} beside {comparators}"`.
+  sibling `<dl>`s under one `h2` `"{vendor} beside {comparators}"`. [UX review] (U28) Each card has a
+  navigable `h4` (the vendor label) and its buttons in natural tab order; no card is a composite
+  widget. A skip link before the grid, `Skip the {n} vendor cards to chapter 2`, and the
+  `SymmetryContents` chapter links keep the keyboard budget.
 - **Response pairs and contract cards:** one `<dl>` per item; the response is never
-  `aria-hidden` or collapsed.
+  `aria-hidden` or collapsed; [UX review] (U27) replies are nested lists, each beginning `in reply
+  to {responder}`.
 - **Live region:** exactly one, polite, debounced (SG-47); words, never the arrow glyph.
 - **Unavailable options:** `aria-disabled="true"`, focusable, reason in the accessible name.
+- **Selection states** [UX review] (U24): every accented element carries state, not only a rule or
+  a border: `aria-current="true"` on the accented ledger lane headers (`body`), the vendor card's
+  `<dl>` (`vendor`), the pair row's `<section>` (`case`), the cell (`cell`) and the chosen FY axis
+  button; `aria-selected` on the selected map option (`st`); each with words (`selected body`,
+  `selected vendor`, `selected case`). Each margin card has a link that moves focus to the first
+  accented element (`Go to its {k} lanes in the ledger`, `Go to the card in the grid`, `Go to
+  the pair row`).
 - **Repeated controls name their row** (`Open the line: CRPF revenue FY2024-25`, `Show
   connections for {label}`, `Show vendor: Larsen & Toubro`, `Show the pair: Bofors and
   Rafale`, `Show places in {State}`, `Cite {lab}`). No two enabled buttons or links in one
@@ -1776,8 +1950,9 @@ record text, role labels or the verbatim symmetry texts.
 - **Targets:** 44 px on coarse pointers, 24 px on fine.
 - **Keyboard budget:** counting from the first focusable element in `<main>`: the stack's FY
   axis in ≤ 15 tab stops at 1280; the ledger grid in ≤ 20; the spend map listbox in ≤ 30; on
-  Procurement the first case pair row in ≤ 40 (vendor cards are one tab stop each, inner
-  buttons reached by Enter); the graph by its own route (`Show connections` moves focus to
+  Procurement the first case pair row in ≤ 40 through the `SymmetryContents` chapter 4 link or the
+  vendor-grid skip link ([UX review] (U28): vendor cards are not composite widgets; their buttons
+  are in natural tab order); the graph by its own route (`Show connections` moves focus to
   `#connections h2`).
 - **Motion:** `prefers-reduced-motion` honoured everywhere.
 
@@ -1841,7 +2016,7 @@ builder has nothing left to choose.
 | D15 | Base rates as verbatim cards grouped by domain with the symmetry text beneath, placed as Q4 and in the margin; no chart until S12 | parsing the FY from `property` to chart GDP shares | F30 |
 | D16 | Delhi Police is a lane group of its own, the one city line of Q7, a bracket on the police panel, and the first row of every city table | Delhi only in the footprint lens | F11; "which city?" is answered on Budgets |
 | D17 | **`CITY_POLICE_TEXT(state)` — `inside {State}'s police head (MH 2055) — no city budget is published` — is the only content a non-Delhi city budget cell may hold**, with a link to the state's Police-head row | B's shorter `inside the state's police head`; a blank; `n/a`; a share of the state head | Review Focus 2's words, plus the state and the head so the reader can act; one string, one gate (SG-RF2) |
-| D18 | **The spend map draws today on `% of GSDP`** (same FY, `STATE_ECONOMY`, reported) with the frame in the reported dash; `m=percap` `aria-disabled` with F17's reason until S3; `m=cr` offered with its caveat | B's void card in the map's frame; per capita on the 2011 Census; a ₹ choropleth as default | The brief asks for a choropleth; a declared same-year denominator that says its tier is honest; the 2011 base re-ranks states (F17) |
+| D18 | **The spend map draws today on `% of GSDP`** (same FY, `STATE_ECONOMY`, reported) with the frame in the reported dash; `m=percap` `aria-disabled` with F17's reason until S3; `m=cr` offered with its caveat and no share of the states' sum ([UX review] (U33)) | B's void card in the map's frame; per capita on the 2011 Census; a ₹ choropleth as default | The brief asks for a choropleth; a declared same-year denominator that says its tier is honest; the 2011 base re-ranks states (F17) |
 | D19 | **One state head** (`Police (MH 2055)`) and one `(fy, stage)` pair on the spend map; the **dot strip** under each map is the comparison instrument | mixing UP's grant and PRS lines into the fill; the map alone | F15; a map finds a state, a strip compares |
 | D20 | Delhi is its own crosshatch class on the spend map | hatch (reads "no data") or Delhi Police's ₹ on the state map (wrong payer) | F11 |
 | D21 | Grants to states: a table with the head verbatim; no map; `st` inactive on grants until S2; **no name parser** | parsing the recipient from the head and matching names | F13: `resolveState` sends Ladakh to `jk` and four names to `null` |
@@ -1871,7 +2046,7 @@ builder has nothing left to choose.
 | D45 | **No shared component is modified**: maps on the finance `LoanMap` pattern over the welfare primitives; office lanes on `LoanClock`; finance chrome reused by name | A's `TenureLanes` `asOf` prop; B's `WelfareMap` `frameDash` and `TenureLanes` `xGrid` | Energy 67/67 and the welfare and finance suites stay untouched (SG-38) |
 | D46 | No `party`, `vendor-class` or `era` param; the rail foot says so and links to `#refusals` | silent absence | Stance rules 4–5; refusals are method |
 | D47 | `stage` filters the stack and `DelhiLine` at every width; the ledger draws all three slots at ≥ 640 px and one stage below 640, defaulting to BE with the reason on the control | three slots at 390 (84 slots do not fit); one stage everywhere | The ledger's question is "which stages are missing", which the slots answer; a phone cannot hold them |
-| D48 | Lens switching keeps `fy`, `st`, `stage`, `tier`, `find`, `sel`; clears `rec`, `cell`; keeps the rest inactive with a reason | resetting on tab change | Finance D44 |
+| D48 | Lens switching keeps `fy`, `st`, `stage`, `tier`, `find`, `sel` and [UX review] (U23) `view`; clears `rec`, `cell`; keeps the rest inactive with a reason | resetting on tab change | Finance D44 |
 | D49 | `tier` shares name and format with `GraphExplorer`; series rows are documented or reported by `rowTier`; a response is re-admitted whenever its claim is shown | a separate series tier param | One evidence filter means one thing (finance D35) |
 | D50 | The graph draws the module's edges only; series rows are never edges | synthetic edges from budget rows | A budget line is not a relationship; 4,096 edges from one payer would be a hairball |
 | D51 | Every twin exports TSV with the `#` header (table, population, filters, `runId`, `asOf`, `# amounts:` with the stage) | CSV without provenance | P must reproduce the screen (finance D39) |
@@ -1881,9 +2056,10 @@ builder has nothing left to choose.
 | D55 | Ids are never merged by name; split pairs render twice and the gap line states the rule | merging `per:ak-antony` with `per:a-k-antony` on the page | Resolution is the assembler's job (F27) |
 | D56 | Exact strings reconciled to the house: `No response recorded — asked/not asked unknown` (finance), `₹0 cr — as recorded`, `no row in this register`, `amount not stated` | A's `sought/not sought unknown`; B's `₹0 crore, as published` | One string across pages, one gate |
 | D57 | Stage is never a dash or a hue: it is the `stage` param, the axis title and slot position | a stage dash or tint | Dash is tier (frozen); hue is family (frozen) |
-| D58 | Fold at 1280×800: the pension band and its share label are in the first viewport; at 390 the stack is within 1,688 px | B's Q1 sentences above the fold with the picture below | The brief's first reading is the stack with pensions called out |
-| D59 | Finance's `Strip`, `ReconciliationLine`, `LensTabs`, `FilterRail`, `ReadingKey`, `ControlCard`, `Segmented`, `RecordCard`, `StatePanel` shell, `BaseRatesSection`, `NarrativesSection`, `CannotShow`, `GapsSection`, `tsv`, `sourceClass` are reused by name; welfare `NarrativeLadder`, `TexturePatterns`, `TextureSwatch`; energy `StackTable`; viz `GraphExplorer`, `IndiaMap` geometry and ramp | new chrome | Reuse over new components; the reader learns the chrome once |
+| D58 | Fold at 1280×800: the pension band and its share label are in the first viewport; [UX review] (U2) at 390 the budget is measured on the first build and recorded (ceilings: strip, tabs, Find and rail summary within 1,688 px; top of the stack within 2,110 px), because D1 keeps the resolution statement whole and the head is about 1,100 px | B's Q1 sentences above the fold with the picture below | The brief's first reading is the stack with pensions called out |
+| D59 | Finance's `Strip`, `ReconciliationLine`, `LensTabs`, `FilterRail`, `ReadingKey`, `ControlCard`, `Segmented`, `RecordCard`, `StatePanel` shell, `BaseRatesSection`, `NarrativesSection`, `CannotShow`, `GapsSection`, `sourceClass` are reused by name ([UX review] (U16): `tsv` and the export buttons are security's own, because finance's write finance's provenance); welfare `NarrativeLadder`, `TexturePatterns`, `TextureSwatch`; energy `StackTable`; viz `GraphExplorer`, `IndiaMap` geometry and ramp | new chrome | Reuse over new components; the reader learns the chrome once |
 | D60 | **Run-drift rule:** no component holds a count; anchors are checked at load; every gate computes its expectation from the module; §0's figures are evidence, not copy | gates that pin §0 numbers | The run will be reconciled (F1) |
+| D61 | [UX review] (U6) At 390 each vendor card's field rows sit in a `<details>` whose summary has the identical form on every card; the selected vendor and its comparators open; every card stays in the DOM with the same `dt`s, and an open card shows every field, sources included | about 40 always-open thirteen-field cards (≈ 24,000 px before chapter 2) | Identical and never alone still holds (same summary, same collapse state, same fields); the disclosure is the whole record, never a source list cut short |
 
 ---
 
@@ -1920,7 +2096,10 @@ asserting both the interim and the post-prerequisite behaviour, whichever the bu
   `Comparison set required` is visible; no DOM state contains exactly one vendor `<dl>`.
 - **SG-RF4.** No page-authored string (outside quoted symmetry text, narrative text, record
   `lab`/`d`, role labels and node `sub`) contains `UPA`, `NDA`, `BJP`, `Congress`, `ruling`,
-  `opposition` or `government of the day`; no element's fill or stroke is keyed to party,
+  `opposition` or `government of the day`, [UX review] (U22) nor any label or alias of a `ty: 'party'`
+  node in `useData()` (the test derives the list), nor `era`, `regime`, `incumbent` or
+  `government's`; the check covers captions C1–C21, `aria-label`s, TSV `#` headers, the refusals
+  and every chapter and pair-row `h4`; no element's fill or stroke is keyed to party,
   government or era text.
 - **SG-RF5.** For every node with the case prefix: it renders inside a pair row whose other
   column is its recorded pair (the test reads the analytic case↔case edges itself) or the
@@ -1929,9 +2108,17 @@ asserting both the interim and the post-prerequisite behaviour, whichever the bu
   case file shows a response or the exact sentence `No response recorded — asked/not asked
   unknown` (U+2014); **the `CASE_PAIR` anchor's two cases are in one pair row and that row is
   the first**, at 1280 with equal computed column widths (±1 px) and equal font sizes, at 390
-  consecutive.
+  consecutive. [UX review] (U20) Every pair row's `h4` is `{earlier} beside {later}` and contains no
+  word on SG-RF4's list; the row contains the `lab`, `d` and `innocentReading` of every pair edge
+  between its two cases.
 - **SG-RF6.** Every rendered base-rate row has its domain's `SYMMETRY` text, when one exists,
   inside the same section element (Q4 `CompareBlock`, `ControlCard`, the award frame).
+- **SG-RF7.** [UX review] (U19) No rendered base-rate card prints a percentage, a whisker or the
+  word `of` between its figures where the numerator exceeds the denominator or either figure is
+  not an integer; a fixture row `{numerator: 1727, denominator: 1458}` renders `1727 and 1458`
+  with the two-figures chip.
+- **SG-RF8.** [UX review] (U21) For every `analytic` edge whose `lab` or `d` appears in the DOM,
+  its `innocentReading` appears in the same section element at the same computed font size.
 
 **Data integrity**
 
@@ -1948,13 +2135,17 @@ asserting both the interim and the post-prerequisite behaviour, whichever the bu
   column's sum of demand-level rows of one `(fy, stage)` labelled `computed here`; the police
   demand's revenue + capital; a `crContext` share labelled `computed here`. No other ₹ exists;
   no export header or `aria-label` carries a total.
-- **SG-5.** (S) The regex anchors select exactly the rows the test's independent rule
-  selects; with S1 present, `level` selection and the anchors agree on every row, and the
+- **SG-5.** (S) The regex anchors (and [UX review] (U13) `LAKH_NOTE`) select exactly the rows the
+  test's independent rule selects; with S1 present, `level` selection and the anchors agree on every row, and the
   anchors are deleted.
 - **SG-6.** For every stack column: band values equal the test's own selection of demand-level
   defence rows for that `(fy, stage)` (Summary rows only where no other rows exist) to ±0.5;
   no `component === 'pay'` row value is a band; where a `MOD_ALL_DEMANDS` row exists the tick
   is drawn at its value and the glyph is `=` iff |Δ| ≤ 0.5, else `≠` with Δ in the twin.
+  [UX review] (U9) The pension percentage in the band label, strip fact 2, the answer sentence,
+  the readout and the twin is one figure per FY (±0.01) and names its basis: `of published total`
+  where the test finds a `MOD_ALL_DEMANDS` row of that `(fy, stage)`, else `of stack, computed
+  here`.
 - **SG-7.** Every police column satisfies `total === revenue + capital` (±0.5) or draws `≠`;
   the Delhi bracket equals the Delhi total row of that `(fy, stage)`.
 - **SG-8.** Every `cr === 0` row renders `₹0 cr — as recorded` wherever it appears and never a
@@ -1962,6 +2153,11 @@ asserting both the interim and the post-prerequisite behaviour, whichever the bu
   the accessible name `no row in this register`; no element reads `0` for a missing row.
 - **SG-9.** Every ₹ element has, within the same element, a denominator text (`a of b,
   computed here`, or one of the no-denominator sentences) and a comparison text (`crContext`).
+  [UX review] The gate covers rendered text and twin cells; the ledger grid's cell names are the
+  sanctioned exception, and each ends `— open for its share of the demand and the previous year`
+  (U32). (U12) Every ₹ element in `CellCard`, `StatePanel` and `FYReadout` has `read to {asOf}`
+  within its card; (U13) every ₹ element of a row whose note begins `LAKH_NOTE` contains `₹ lakh`
+  and the value × 100.
 - **SG-10.** The spend map fills only from `STATE_SERIES_HEAD` rows of the chosen pair, and
   only under a pair whose FY matches the denominator's year; a fixture adding a PRS row for
   Bihar with a larger `cr` leaves Bihar's fill unchanged; Delhi's option name contains "paid
@@ -2001,16 +2197,24 @@ asserting both the interim and the post-prerequisite behaviour, whichever the bu
 
 **Twins and exports**
 
-- **SG-21.** For each graphic, twin rows = axis positions ∪ marks: stack `FY_AXIS` × panels;
+- **SG-21.** For each graphic, twin rows = axis positions ∪ marks: stack [UX review] (U11) = drawn
+  band rows + one published-total row per `(FY, panel)` + one row per hatched `(FY, panel)` +
+  the pay, Agnipath and Delhi Police rows, with no `=`, `≠` or `·` in any cell;
   ledger long form = rows in view and coverage = lanes × FYs; maps 36; footprint matrix
   36 × 11; awards = marks + unpriced + empty years; slice = classes + 2 reference rows +
   class-years; office twin = role records; case twin = case ticks. Every row for a hatched or
   empty position carries the null words, never blank or 0; no twin cell contains the bare
-  tokens `hatch`, `stipple`, `crosshatch`, `hollow` or `value`.
+  tokens `hatch`, `stipple`, `crosshatch`, `hollow` or `value`. [UX review] (U30) The `StateTable`'s
+  sortable columns hold the dot strips' values; (U31) the slice twin's share column equals each
+  class's dedup rows over the slice's dedup total.
 - **SG-22.** Every TSV begins with `#` lines including the table name, `runId`, `asOf`, the
   filters and, where ₹ appear, `# amounts: ₹ crore, nominal, as published; not deflated;
   stage {stage}`; data rows equal the union over every `tp`; numeric machine columns parse as
-  numbers or are empty, never text; `cr` of a zero row exports as `0`.
+  numbers or are empty, never text; `cr` of a zero row exports as `0`. [UX review] (U16) Every
+  security export carries `# force {runId} asOf {asOf}` (and the slice digest line where it reads
+  the slice), its file name begins `security-`, and no finance, NGO or capital fleet name or run
+  id appears in it; (U17) the `StateTable` exports two tables, spend and strength, and
+  `derived_counts` is `true` for every strength row whose note carries the DERIVED sentence.
 - **SG-23.** `FY_AXIS` includes every FY between min and max; the stack's and the ledger's
   column counts equal its length.
 
@@ -2022,12 +2226,18 @@ asserting both the interim and the post-prerequisite behaviour, whichever the bu
   distinct; the reported-dash map frame distinct from solid.
 - **SG-31.** At 360 and 390, on each lens, with `view=table`, with `cell`, `vendor`, `case` and
   `rec` set by URL, and with `st=dl`: `document.scrollingElement.scrollWidth ≤ innerWidth`.
+  [UX review] (U8) No `<table>` in an open twin has `scrollWidth > clientWidth` unless it carries
+  the step control and its hint text; the award and case-timeline containers carry `‹ earlier` /
+  `later ›` buttons.
 - **SG-32.** No `fill` or `stroke` is a function of party, state government, footprint kind,
   stage or component; the two stack panels share one y-scale (the test reads both axes' max
   tick); footprint dots share one fill.
 - **SG-33.** At 1280×800 on Budgets the pension band of the latest drawn column and its share
-  label are in the first viewport; at 390×844 the strip, tabs and rail summary are within 844
-  px and the stack within 1,688 px; the pinned stack ≤ 140 px.
+  label are in the first viewport; [UX review] (U2) at 390×844 the strip, tabs, Find and rail
+  summary are within 1,688 px and the top of the stack within 2,110 px, the measured values
+  printed and recorded in `SECURITY_ACCEPTANCE.md`; (U3) the pinned stack ≤ 140 px with the tabs
+  on one row; (U4) the Find input follows the tabs in the DOM, outside the rail `<details>`; (U5)
+  at 390 the stack's step-control buttons are ≥ 44 px.
 - **SG-34.** Changing `fy` never changes the stack's, the lanes' or the ledger's x-domain.
 
 **URL and interaction**
@@ -2038,24 +2248,44 @@ asserting both the interim and the post-prerequisite behaviour, whichever the bu
 - **SG-37.** Changing `tier` changes the graph's drawn edge count; a claim shown keeps its
   response visible whatever the response's tier.
 - **SG-38.** The page never writes `q`, `fam`, `ty`, `amt`, `path`; changing `lens` keeps `fy`,
-  `st`, `stage`, `tier`, `sel` and removes `rec`, `cell`; the energy, welfare and finance
+  `st`, `stage`, `tier`, `sel`, [UX review] (U23) `view` and removes `rec`, `cell`; the energy, welfare and finance
   suites keep their pinned counts (no shared component changed).
 - **SG-39.** `rec`, `cell`, `st`, `vendor`, `case` and `body` can each be cleared by a pointer
   control (`Close`, `Back to {origin}`) that returns focus to the invoking control; Escape
   closes a row or panel only when focus is inside it.
+- **SG-51.** [UX review] (U24) For each of `body`, `vendor`, `case`, `cell` and `st` set by URL, the
+  elements carrying `aria-current="true"` (`aria-selected="true"` for `st`) equal the test's own
+  count of accented items, and each margin card's `Go to …` link moves focus to the first.
+- **SG-52.** [UX review] (U18) With `tier=documented`, and again with `tier=alleged`, no element
+  whose underlying rows exist reads `no row in this register`; each reads `{k} rows hidden by the
+  {filter} filter — not absent`, and none is drawn with the hatch pattern.
+- **SG-53.** [UX review] (U6) At 390×844, cold load, at rest, on each lens: the heading of the
+  lens's last Q-block is within 12 viewports (10,128 px) and no single Q-block exceeds 4
+  viewports; the measured values are recorded in `SECURITY_ACCEPTANCE.md`.
 
 **Reader paths (scripted, 1280 and 390)**
 
 - **SG-40.** B-J1: activate the latest FY axis button; the `FYReadout` shows the pension row
   with a ₹, its share `computed here`, the published total or the no-total sentence, the
-  reconciliation sentence and an `http` source, in ≤ 1 interaction.
+  reconciliation sentence and an `http` source, in ≤ 1 interaction. [UX review] (U14) A
+  pension-row citation containing the head verbatim, the stage word, the FY, an `http` URL and
+  `read to` is copied, or visible in its `<output>`, in ≤ 2 interactions; (U10) at rest, the
+  answer sentence before the drawing and the twin's caption name the latest FY's pension ₹ and
+  its share with its basis words.
 - **SG-41.** B-J2: type a CAPF's label, `Show its budget lines`, open a cell: the `CellCard`
   shows a ₹ with stage and FY, a denominator text, a comparison text, a tier, an `http` source
-  and a citation, in ≤ 3 interactions.
+  and a citation, in ≤ 3 interactions. [UX review] (U12) The citation is `rowCitation`: it holds
+  the head verbatim, the stage word, the FY, an `http` URL and `read to`, and is visible as
+  `<output>` text.
 - **SG-42.** B-J3 / F-J: type a commissionerate's city: the result and the row it opens show
-  the exact city sentence and no ₹, in ≤ 2 interactions.
+  the exact city sentence and no ₹, in ≤ 2 interactions. [UX review] (U29) No button or link
+  associated with a non-Delhi city body has an accessible name containing `budget line`; its
+  verb is `Where its police money sits`.
 - **SG-43.** P-J: type a vendor label with no award (a declared comparator): `VendorCard` shows
   it beside its comparators with identical `dt`s and an `http` source, in ≤ 2 interactions.
+  [UX review] (U15) On `force:adani-defence`'s card, field 3b names each owned body with its share
+  and named-award count in the same `<dl>`, with `listed, not added to this vendor`; every card
+  with no `own` edge from its vendor reads `no holding recorded` in field 3b.
 - **SG-44.** P-S: activate Procurement; within one scroll of the chapter 4 heading, the Bofors
   and Rafale columns are in one row with equal computed widths (±1 px) and equal font sizes;
   P-P: the CAPF by-year multiple and its TSV are reached in ≤ 2 interactions.
@@ -2065,21 +2295,25 @@ asserting both the interim and the post-prerequisite behaviour, whichever the bu
 - **SG-45.** axe: 0 serious or critical on each lens and each panel state.
 - **SG-46.** Tabs, the stack's axis, the ledger grid and the map listboxes are
   keyboard-complete within the §13 budgets; nothing focusable inside an `aria-hidden` or
-  `role="img"` subtree.
+  `role="img"` subtree, [UX review] (U25) the award graphic, the stack's Agnipath tick, `DelhiLine`
+  and the dot strips included; (U28) no vendor card is a composite widget.
 - **SG-47.** Exactly one `aria-live` region; no message or `aria-describedby` text contains
   `→`.
 - **SG-48.** The gaps panel and every `CannotShow` render at the findings' body size and list
   every `FORCE_VOIDS` entry of the lens's domains.
 - **SG-49.** Finance FG-49's structural checks: closed twins expose nothing; every control
   inside an open twin is tabbable; every `<table>` captioned; no heading skips in `main` or
-  `aside`; no duplicate accessible names within a section; every `aria-describedby` resolves.
+  `aside`; no duplicate accessible names within a section; every `aria-describedby` resolves; [UX review] (U26) exactly one `h3` per
+  `section[aria-labelledby]` Q-block; (U27) each reply's DOM nesting depth equals its chain depth
+  and its text names the responder it answers.
 
 **Loading**
 
 - **SG-50.** Build with and without the route; print entry and `/security` chunk sizes; fail
   if a string unique to `src/components/security/*` or `securityView.ts` is in the entry, or
-  if `security.json` content is in any chunk other than its own; with G5, fail if the entry
-  grows.
+  if `security.json` content is in any chunk other than its own; [UX review] (U1) G5 is in place
+  before the build, so it also fails if a string unique to `FORCE_BUDGETS`, `FORCE_STRENGTH`,
+  `FORCE_FOOTPRINT` or the module's page part is in the entry, and if the entry grows.
 
 ---
 
@@ -2090,7 +2324,7 @@ asserting both the interim and the post-prerequisite behaviour, whichever the bu
 | file | contents | est. lines |
 |---|---|---|
 | `src/data/security.ts` | re-exports, prerequisite shims (`null` when absent), `loadSecurity` re-export | 70 |
-| `src/data/securityView.ts` | §3.2 derivations: `crContext`, `defenceStack`, `payBracket`, `policeStack`, `LANES`/`laneGroups`, `stateSpend`/`stateStrength`/`STATE_TABLE`, `VENDORS`/`comparatorsOf`/`vendorFields`, `CASE_PAIRS`/`caseFile`/`caseFields`, `derivedGaps`, `tsv` reuse | 720 |
+| `src/data/securityView.ts` | §3.2 derivations: `crContext`, `defenceStack`, `payBracket`, `policeStack`, `LANES`/`laneGroups`, `stateSpend`/`stateStrength`/`STATE_TABLE`, `VENDORS`/`comparatorsOf`/`vendorFields`, `CASE_PAIRS`/`caseFile`/`caseFields`, `derivedGaps`, [UX review] own `tsv` (U16), `rowCitation` (U12), `hiddenBy` (U18), `baseRateForm` (U19) | 780 |
 | `src/pages/Security.tsx` | composition, URL wiring, lens tabs, margin precedence, all states (replaces the scaffold) | 400 |
 | `src/components/security/Head.tsx` | `ResolutionStatement`, strip facts, `ReconciliationLine` wiring | 200 |
 | `src/components/security/DemandStack.tsx` | two panels, bands, brackets, ticks, glyph row, structure rules, `FYReadout`, narrow layout | 420 |
@@ -2116,7 +2350,9 @@ asserting both the interim and the post-prerequisite behaviour, whichever the bu
 `ActiveFilters`, `Notices`, `LensTabs`, `FilterRail`, `ReadingKey`, `ControlCard`,
 `Segmented`, `BaseRateLine`, `RecordCard`, `Responses`, `OfficeOnDate`, `useFocusOnce`,
 `BaseRatesSection`, `NarrativesSection`, `CannotShow`, `GapsSection`, `citationFor`, the
-`tsv` and `sourceClass` helpers; welfare `NarrativeLadder` (`RUNGS`), `TexturePatterns`,
+`sourceClass` helper ([UX review] (U16) `tsv`, the export buttons and `rowCitation` are security's
+own, in `securityView.ts`; (U19) two-figure base rates render through a security wrapper beside
+`BaseRateLine`, which is unchanged); welfare `NarrativeLadder` (`RUNGS`), `TexturePatterns`,
 `TextureSwatch`, `ZERO_FILL`, `MAP_ORDER`; energy `StackTable`; viz `GraphExplorer`,
 `IndiaMap`'s geometry, `DEFAULT_RAMP` and bins; `Editorial`'s `GapsPanel`,
 `DenominatorStrip`, `ContestedList`, `SourceLedger`, `TierLegend`, `Callout`.
@@ -2131,7 +2367,7 @@ population rows ≈ 1 day of research plus 0.5 in the assembler.
 
 1. **The stack's interim regex anchors** depend on the head's printed form. A transcription
    that adds a colon to a demand title would silently drop a band. Mitigated by SG-5 and
-   SG-6, the published-total tick and the glyph; removed by S1. **Recommend S1 before build.**
+   SG-6, the published-total tick and the glyph; removed by S1. **Recommend S1 before build**, [UX review] (U1) and G5, which is now a build prerequisite.
 2. **The stack is drawn where B refused it.** Its honesty rests on three facts: the demands
    are disjoint voted grants; the Summary itself adds them; the tick and glyph show the
    ≤ 0.76% difference. If reconciliation produces a demand-level row that is not disjoint (a
@@ -2171,4 +2407,70 @@ population rows ≈ 1 day of research plus 0.5 in the assembler.
     nodes may merge and counts may move. Every gate computes its expectation from the module;
     no gate pins a §0 number; the §0 facts are stamped to run-92066c7bcf73.
 13. **The entry chunk** carries the force module's nodes and edges through `DataContext` (all
-    fleets do); the three series and the page code must stay out of it (G5, SG-50).
+    fleets do); the three series and the page code must stay out of it (G5, SG-50). [UX review] (U1) Today
+    they are in it (entry 9.8 MB raw, 2.3 MB gzipped), which is why G5 now precedes the build.
+
+---
+
+## Deferred amendments
+
+### Deferred UX amendments ([UX review], SYNTHETIC)
+
+From the five-persona **SYNTHETIC** review in `SECURITY_UX_REVIEW.md` (seats: J journalist, P
+policy researcher, S hostile skeptic, A screen-reader user, M 390 px phone on a slow
+connection). These are should- and could-level amendments that are not applied. Each is a
+hypothesis to test with real readers before it is built. Ids are `UD` because §15 already
+uses D1–D61. The grade is the seat's own; where two seats raised an item, both are named.
+
+| id | amendment | seat (grade) | sections |
+|---|---|---|---|
+| UD1 | **The `FYReadout` lists every stage of the chosen FY** for the demand-level rows: `BE ₹{a} · RE ₹{b} · actual ₹{c}`, or `no RE row` / `no actual row for this FY yet (actuals arrive two years after the budget)`, each with a `switch stage` control; a BE readout opens with the Words definition `the budget's first estimate, not spend`. S also asks for `actual was {k}% of BE, computed here` where both exist; that is a new page-computed ratio and needs an SG-4 allow-list entry first. SG-40 asserts `not spend` and the other stages' values or null words. | J (should), S (should) | §5.1.1, §6, SG-40 |
+| UD2 | The comparison adds `change ₹{Δ} cr ({pct}%), nominal, computed here` when both rows exist at the same stage and level; `nominal` joins the Words block; SG-4's allow-list and SG-9 extended. | J (should) | §3.2 `crContext`, §5.0.4, SG-4, SG-9 |
+| UD3 | At ≥ 640 px Find joins the sticky wrapper beside the strip, is labelled `Find a body, place, vendor or case`, and takes the `/` shortcut (not when focus is in an input); SG-33 asserts it stays visible after scrolling to Q3. The 390 placement is applied as U4; the 1280 pinned height must be re-measured. | J (should) | §4, §5.0.4, §12, SG-33 |
+| UD4 | Find tokenises its query: `YYYY-YY` tokens and the words BE, RE, actual become a pre-set (`fy`, `stage`) on `Show its budget lines`; the remaining tokens must all be present in label, alias or head. SG-41 adds a run with `CRPF 2024-25`. | J (should) | §5.0.4, SG-41 |
+| UD5 | Each Bodies result prints `bodyCoverage` in mono (`FY{first}–FY{last} · BE {k}/{n} · RE {k}/{n} · actual {k}/{n}`) and its lane count, with no ₹. | J (should) | §5.0.4, SG-41 |
+| UD6 | `StatePanel` orders a state's MH 2055 rows latest first, stage word leading, and opens with `latest actual: FY{fy} ₹{cr} cr — a state figure, not {city}'s`; the `CityLedger` row links to the `state-police` void that no state publishes a city budget. | J (could) | §5.1.6, §5.1.7 |
+| UD7 | Case field 8 reads `{date} — {source node} — "{lab}" [{tier}] — {first source url}` with its own Copy citation, plus `{k} later undated records exist` when the gutter is non-empty; SG-RF5 asserts a date or `undated` and an `http` source. | J (could) | §5.3.4, SG-RF5 |
+| UD8 | The ledger long form gains machine columns `level`, `parent_head`, `parent_cr`, `share_of_parent_pct`, `prev_fy_cr`, and the header line `# warning: rows overlap by level; sum only level=demand within one (fy, stage); published-total rows are the document's own totals`; SG-22 checks the share column. | P (should) | §5.1.3, SG-22 |
+| UD9 | Every export carries `# denominator: {the figure's denominator line}`, `# cannot show: {caption text}` and `# excluded: {what the table leaves out and where it lives}`. | P (should) | §3.2 `tsv`, SG-22 |
+| UD10 | Promote S8 to a build prerequisite beside S1 and G5; state in §5.3.2 that the absence sentence is a fixture state, not an expected launch state. P-Q2 is the one block built for P's own question, and the file is already in the repository. | P (should) | §3.3, §5.3.2, §18 |
+| UD11 | The slice's denominator line names its bid-count coverage (`{n} of {dedup} decisions ({pct}%) carry a bid count and enter the rates; {dedup − n} do not`), per class in the twin (`bid_count_coverage_pct`), and the year basis of `byClassYear`. | P (should) | §5.3.2 |
+| UD12 | When `m` changes and `sfy` is unset, keep the current pair if it is drawable under the new metric; otherwise announce `pair changed to {fy} {stage} ({k} states drawable)` and print the pair in the map's visible title. | P (should) | §3.4, §5.1.6, §3.5 |
+| UD13 | The strength denominator line and the `StateTable` caption say `population base for per-lakh: as the source states, not recorded in this register`; a derived gap records that the population base is not a field. | P (should) | §5.1.6, §5.5.3 |
+| UD14 | The Q4 twin and TSV gain `property` verbatim, `numerator_unit`, `denominator_unit` and, with S12, `fy` and `kind`, with the header note `# note: fy and kind are in the property text until S12`. | P (should) | §5.1.4 |
+| UD15 | C10 and the grants TSV say that two lines are the answer's own totals and are not states, and that rows are not to be added across the table; with S2, an `is_total` column and the two rows last. | P (should) | §5.1.8, §9 C10 |
+| UD16 | The resolution statement's Union mono line splits `{UNION_ROWS.length} Union rows` by level using the `ReconciliationLine`'s terms. | P (could) | §5.0.1 |
+| UD17 | `BodyCard` offers a scoped export of that body's lanes; the ledger itself stays unfiltered. | P (could) | §5.1.3, §7 |
+| UD18 | The spend legend and the `gsdp_cr` header say `GSDP {gsdpFy}, as transcribed (price basis and estimate status not recorded in this register)`, with a derived gap while S3 is absent. | P (could) | §5.1.6, §5.5.3 |
+| UD19 | The byline's `{counts.killed} claim killed` uses the house `countOf()`. | P (could) | §4.1 |
+| UD20 | An audit-added response renders `Denial found in the public record by the audit — {first source title}; not a statement made to this platform`, with its sources inline; every response count is split `{fromRecord} from the record, {fromAudit} found by the audit`, in the strip, Contested, the case counters and the TSV. | S (should) | §11 E31, §5.0.2, §5.3.4, §5.5.2 |
+| UD21 | `--color-rose` (#c45b5a) is the same hex as `FAMILY_COLOR.enforce`, so on the case timeline a denial tick can read as a prosecution. C18 and the `ReadingKey` say that on this page's timelines rose is a response only; the response tick takes a distinct glyph (hollow circle), and SG-30 asserts the shapes differ. Record the coincidence in §18 as a house-level risk. | S (should) | §8.1, §5.3.4, §5.0.4, SG-30, §18 |
+| UD22 | Every symmetry block opens with `Wording and the grouping of states and governments are the {domain} research file's, read to {asOf}; this page assigned no state, case or vendor to any party.`; the block heading becomes `The same lens, run on the comparison group — {domain} research file`; prerequisite S14 adds sources and as-of dates for the research's party assignments. | S (should) | §5.3.0, §5.0.4, §5.1.4, §3.3 |
+| UD23 | Chapter 4's denominator line states the selection: `{n} case files from {files} research files; the register records no selection rule — these are the cases the files opened, not a census of cases`; a derived gap; a link from the chapter head to the two-sided narrative's rating in Q5. | S (should) | §5.3.4, §5.5.3 |
+| UD24 | With S11, a case's empty response slot names a related void the file records (Pegasus's affidavit, the Bofors discharge); until then a line `Voids recorded in this case's files: {k}` links to Gaps. | S (could) | §5.3.4, §3.3 S11 |
+| UD25 | A derived gap for every office that narratives or case records name but no role record covers (`No role record for {office} in this register; {n} narratives or case records name it`); no lane is drawn from text. | S (could) | §5.1.2, §5.5.3 |
+| UD26 | The Words block gets `id="words"` and a link after the tabs (`Words used on this page: BE, RE, actual, computed here, reported, derived`); `<abbr title>` is not relied on: each table's first ₹ prints `crore` in full and its caption ends with the stage abbreviations spelt out; SG-49 asserts it. | A (should) | §5.0.4, §13 |
+| UD27 | The `OfficeLanes` twin gains `FYs overlapped`; the `FYReadout` names the Defence and Home office-holders on 1 April of its FY via `officeOn`, with C3's sentence. | A (should) | §5.1.2, §5.1.1 |
+| UD28 | The FY axis's roving tabindex starts on the latest FY with a drawn stack (or the `fy` range's upper bound). | A (should) | §5.1.1, §13, SG-40 |
+| UD29 | The filter rail is a labelled `<section>` or `<form>` (`Filters`), not a `nav` landmark. | A (should) | §13, SG-49 |
+| UD30 | Arrow glyphs in link text are `aria-hidden` (`{State}'s police head`); SG-47 extends to link and button names. | A (could) | §5.1.7, SG-47 |
+| UD31 | The ` · ` separator becomes list items or `;` in accessible text; SG-47 bans U+00B7 in names and descriptions. | A (could) | §5.0.1, §5.0.2, SG-47 |
+| UD32 | `ReconciliationLine` links are named `show the {n} {term} rows in the ledger table`. | A (could) | §5.0.3 |
+| UD33 | The coverage twin is one row per lane with FY columns, or paged at 400 like the long form; SG-21 says which. | A (could) | §5.1.3, SG-21 |
+| UD34 | The Standfirst ends `Every graphic here has a table version.`; the toggle is named `Table view: show every graphic on this lens as a table`. | A (could) | §4.1, §6 |
+| UD35 | The live region stays silent when focus moves to a panel heading; it announces only when focus does not move. | A (could) | §3.5, §7 |
+| UD36 | At 390, text lines under the stack panels: the police demand's total with Delhi Police's share (`computed here`), and the sum of the pay lines inside revenue, because the shared scale makes them a few pixels tall. | M (should) | §5.1.1, §12 |
+| UD37 | The spend map's metric, pair and tier sit in the first line under its `h3` at every width; at 390 the `Open a state` select and that line sit above the map (tests §18 risk 3). | M (should) | §5.1.6, §12 |
+| UD38 | At 390 each dot strip turns vertical: one row per drawn state, a dot on a shared value axis, the median labelled. | M (should) | §5.1.6, §12 |
+| UD39 | At 390 each domain's base-rate cards sit in a `<details>` (`{domain}: {n} ratios, {m} with a Wilson interval`), with the symmetry text outside it and always visible (SG-RF6 holds); the first pinned domain opens. | M (should) | §5.1.4, §12 |
+| UD40 | At 390 the `GrantsTable` groups rows by the head's exact string as closed `<details>` (`{k} rows · FY{a}–FY{b}`); the ASUMP base rates stay above. | M (should) | §5.1.8, §12 |
+| UD41 | At 390 `PlaceList` groups by state as closed `<details>` (`{k} installations in {c} cities`), opened where `st` or `kind` matches. | M (should) | §5.2.2, §12 |
+| UD42 | At 390 the `GraphExplorer` chunk loads on the `Load the graph` press only, and the button prints the node and edge counts. | M (should) | §5.5.1, §12 |
+| UD43 | Captions put their "cannot show" sentence first, without shortening (C2, C7 and C13 are 120–150 words). | M (could) | §9 |
+| UD44 | At 390 each stacked contract column keeps its heading as a visible `h4`, with the column rule printed between the two. | M (could) | §5.1.5 |
+| UD45 | At 390 each case pair row has a one-line sticky header (`{earlier} \| {later} · control pair`), `aria-hidden` while the `h4` is visible. | M (could) | §5.3.4, §12 |
+| UD46 | At 390 each twin's controls put Copy before Download and name the row count in both. | M (could) | §7, §12 |
+
+**Take first when the build has room:** UD1 (two seats; the misreading of BE as spend that
+§1.2 names), UD10 (S8 before build), UD20 (the audit-added denials), UD8 (the ledger's level
+columns) and UD21 (the rose glyph).
