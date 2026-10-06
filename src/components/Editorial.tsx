@@ -6,13 +6,13 @@ import { TIERS, type Tier } from '../graph/schema';
 
 export function Kicker({ children }: { children: ReactNode }) {
   return (
-    <p className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-text-muted mb-4">{children}</p>
+    <p className="editorial-kicker font-mono text-[11px] uppercase tracking-[0.16em] text-accent mb-4">{children}</p>
   );
 }
 
 export function PageTitle({ children }: { children: ReactNode }) {
   return (
-    <h1 className="heading-editorial font-bold text-3xl sm:text-4xl lg:text-[2.9rem] text-balance mb-4">{children}</h1>
+    <h1 className="editorial-page-title heading-editorial font-bold text-3xl sm:text-4xl lg:text-[2.9rem] text-balance mb-4">{children}</h1>
   );
 }
 
@@ -26,8 +26,8 @@ export function Byline({ children }: { children: ReactNode }) {
 
 export function Section({ id, title, note, children }: { id?: string; title: string; note?: string; children: ReactNode }) {
   return (
-    <section id={id} className="pt-12">
-      <h2 className="heading-editorial font-bold text-2xl border-b border-border-light pb-2.5 mb-1">{title}</h2>
+    <section id={id} className="editorial-section pt-12">
+      <h2 className="heading-editorial font-bold text-2xl border-b border-border-light pb-3.5 mb-2">{title}</h2>
       {note && <p className="font-mono text-[11px] text-text-muted tracking-wide mb-6">{note}</p>}
       {!note && <div className="mb-6" />}
       {children}
@@ -126,11 +126,11 @@ export function StatGrid({
 }) {
   const tone = { accent: 'text-accent', rose: 'text-rose', sage: 'text-sage', amber: 'text-amber', muted: 'text-text-muted' };
   return (
-    <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4 my-7">
+    <div className="editorial-stats grid gap-5 sm:grid-cols-2 lg:grid-cols-4 my-7">
       {items.map((s) => {
         const body = (
           <>
-            <p className={`font-mono text-[clamp(1.5rem,4vw,2.2rem)] leading-none font-semibold ${tone[s.tone ?? 'accent']}`}>
+            <p className={`font-mono tabular-nums text-[clamp(1.5rem,4vw,2.2rem)] leading-none font-semibold ${tone[s.tone ?? 'accent']}`}>
               {s.value}
             </p>
             <p className="text-[13px] text-text-muted mt-2 leading-snug">{s.label}</p>
@@ -165,14 +165,15 @@ export function DataTable({
   caption?: string;
 }) {
   return (
-    <div className="overflow-x-auto -mx-4 px-4 my-5">
-      <table className="w-full border-collapse text-[14px] min-w-[34rem]">
+    <div className="editorial-table-wrap overflow-x-auto my-5" role="region" aria-label={caption ?? `${columns.join(", ")} table`} tabIndex={0}>
+      <table className="editorial-table w-full border-collapse text-[14px] min-w-[34rem]">
         {caption && <caption className="text-left font-mono text-[11px] text-text-muted pb-2">{caption}</caption>}
         <thead>
           <tr>
             {columns.map((c) => (
               <th
                 key={c}
+                scope="col"
                 className="text-left font-mono text-[10px] uppercase tracking-[0.11em] text-text-muted border-b border-border-light pb-2 pr-4 font-medium"
               >
                 {c}

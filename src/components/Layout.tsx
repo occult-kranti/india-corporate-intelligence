@@ -1,45 +1,19 @@
-import { useState } from 'react';
-import { Outlet, NavLink, useLocation } from 'react-router-dom';
+import { useEffect, useRef, useState } from 'react';
+import { Link, Outlet, NavLink, useLocation, useNavigationType } from 'react-router-dom';
 import {
-  LayoutDashboard,
-  Map,
-  Network,
-  Factory,
-  Landmark,
-  Newspaper,
-  Search,
-  Bookmark,
-  Menu,
-  X,
-  Globe,
-  Building2,
-  GitBranch,
-  Scale,
-  Ruler,
-  BookOpen,
-  Waypoints,
-  Users,
-  Radar,
-  ShieldCheck,
-  Shield,
-  Gavel,
-  Telescope,
-  Notebook,
-  Mountain,
-  Crosshair,
-  HandCoins,
-  Zap,
-  Coins,
+  LayoutDashboard, Map, Network, Factory, Landmark, Newspaper, Search,
+  Bookmark, Menu, X, Building2, GitBranch, Scale, Ruler, BookOpen,
+  Waypoints, Users, Radar, ShieldCheck, Shield, Gavel, Telescope,
+  Notebook, Mountain, Crosshair, HandCoins, Zap, Coins, GraduationCap,
+  ArrowUpRight, ChevronRight,
 } from 'lucide-react';
 import { COMPANIES, COMPANIES_AS_OF } from '../data/companies';
-import { MINISTERS } from '../data/politics';
-import { EDGES } from '../graph/data';
 
 const navGroups: { label: string; items: { path: string; label: string; icon: typeof Map }[] }[] = [
   {
     label: 'Markets',
     items: [
-      { path: '/', label: 'Dashboard', icon: LayoutDashboard },
+      { path: '/', label: 'Overview', icon: LayoutDashboard },
       { path: '/map', label: 'NSE / BSE map', icon: Map },
       { path: '/geograph', label: 'Geographic network', icon: Radar },
       { path: '/industries', label: 'Industries', icon: Factory },
@@ -48,12 +22,9 @@ const navGroups: { label: string; items: { path: string; label: string; icon: ty
     ],
   },
   {
-    // The allocation registers sit together because they are the same KIND of thing —
-    // records of how public value was handed over — and the comparison across them is
-    // the point. Media is here as the coverage register: who owns the outlets that
-    // report on the other three.
     label: 'Registers',
     items: [
+      { path: '/education', label: 'Education funding', icon: GraduationCap },
       { path: '/tenders', label: 'Govt awards', icon: Gavel },
       { path: '/resources', label: 'Natural resources', icon: Mountain },
       { path: '/pmcares', label: 'PM CARES', icon: HandCoins },
@@ -98,124 +69,124 @@ const navGroups: { label: string; items: { path: string; label: string; icon: ty
   },
 ];
 
-const navItems = navGroups.flatMap((g) => g.items);
-const MOBILE_NAV_ID = 'site-nav-mobile';
-
-export default function Layout() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const location = useLocation();
-
-  const isActive = (path: string) => location.pathname === path;
+function Navigation({ query, onNavigate, label }: { query: string; onNavigate?: () => void; label: string }) {
+  const groups = navGroups.map((group) => ({
+    ...group,
+    items: group.items.filter((item) => `${group.label} ${item.label}`.toLowerCase().includes(query.trim().toLowerCase())),
+  })).filter((group) => group.items.length);
 
   return (
-    <div className="flex h-screen bg-bg text-text overflow-hidden">
-      {/* Desktop Sidebar */}
-      <aside className="hidden lg:flex flex-col w-64 bg-bg-elevated border-r border-border flex-shrink-0">
-        <div className="p-6 border-b border-border">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center">
-              <Globe className="w-5 h-5 text-accent" />
-            </div>
-            <div>
-              <h1 className="font-serif font-bold text-lg leading-tight">ICIP</h1>
-              <p className="text-[10px] text-text-muted uppercase tracking-wider">Intelligence Platform</p>
-            </div>
-          </div>
-        </div>
-        
-        <nav className="flex-1 p-3 space-y-4 overflow-y-auto">
-          {navGroups.map((group) => (
-            <div key={group.label}>
-              <p className="font-mono text-[9.5px] uppercase tracking-[0.16em] text-text-muted px-3 mb-1.5">
-                {group.label}
-              </p>
-              <div className="space-y-0.5">
-                {group.items.map((item) => {
-                  const Icon = item.icon;
-                  const active = isActive(item.path);
-                  return (
-                    <NavLink
-                      key={item.path}
-                      to={item.path}
-                      className={`flex items-center gap-3 px-3 py-2 rounded-lg text-[13.5px] font-medium transition-all ${
-                        active
-                          ? 'bg-accent/10 text-accent border border-accent/20'
-                          : 'text-text-secondary hover:text-text hover:bg-bg-card border border-transparent'
-                      }`}
-                    >
-                      <Icon className="w-3.5 h-3.5 flex-shrink-0" />
-                      {item.label}
-                    </NavLink>
-                  );
-                })}
-              </div>
-            </div>
+    <nav className="site-navigation" aria-label={label}>
+      {groups.map((group) => (
+        <div className="nav-group" key={group.label}>
+          <p className="nav-group-label">{group.label}</p>
+          {group.items.map(({ path, label: itemLabel, icon: Icon }) => (
+            <NavLink key={path} to={path} end={path === '/'} onClick={onNavigate}
+              className={({ isActive }) => `site-nav-link${isActive ? ' is-active' : ''}`}>
+              <Icon size={16} strokeWidth={1.6} aria-hidden="true" />
+              <span>{itemLabel}</span>
+              {path === '/education' && <span className="nav-new">New</span>}
+            </NavLink>
           ))}
-        </nav>
+        </div>
+      ))}
+      {groups.length === 0 && <p className="nav-empty" role="status">No pages match “{query}”. Try “education”, “map”, or “evidence”.</p>}
+    </nav>
+  );
+}
 
-        <div className="p-4 border-t border-border">
-          <div className="font-mono text-[10px] text-text-muted leading-relaxed">
-            <p>{COMPANIES.length} listed companies</p>
-            <p>{MINISTERS.length} union ministers</p>
-            <p>{EDGES.length} sourced relationships</p>
-            <p className="mt-1.5 text-text-muted/70">as of {COMPANIES_AS_OF || '—'}</p>
-          </div>
+function Brand() {
+  return (
+    <Link to="/" className="site-brand" aria-label="ICIP — platform overview">
+      <span className="site-brand-mark" aria-hidden="true"><Landmark size={23} strokeWidth={1.4} /></span>
+      <span><strong>ICIP<span className="brand-period">.</span></strong><small>India intelligence</small></span>
+    </Link>
+  );
+}
+
+export default function Layout() {
+  const [query, setQuery] = useState('');
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const dialogRef = useRef<HTMLDialogElement>(null);
+  const menuRef = useRef<HTMLButtonElement>(null);
+  const mainRef = useRef<HTMLElement>(null);
+  const location = useLocation();
+  const navigationType = useNavigationType();
+  const previousPath = useRef(location.pathname);
+  const currentGroup = navGroups.find((group) => group.items.some((item) => item.path === location.pathname));
+  const currentItem = currentGroup?.items.find((item) => item.path === location.pathname);
+  const routeTitle = currentItem?.label ?? (location.pathname.startsWith('/company/') ? 'Company profile' : location.pathname.startsWith('/states/') ? 'State profile' : location.pathname.startsWith('/conglomerates/') ? 'Group deep dive' : 'Intelligence platform');
+
+  useEffect(() => {
+    document.title = `${routeTitle} · ICIP`;
+    if (previousPath.current !== location.pathname && navigationType !== 'POP') {
+      mainRef.current?.scrollTo({ top: 0 });
+      mainRef.current?.focus({ preventScroll: true });
+    }
+    previousPath.current = location.pathname;
+    setMobileMenuOpen(false);
+  }, [location.pathname, navigationType, routeTitle]);
+
+  useEffect(() => {
+    const dialog = dialogRef.current;
+    if (!dialog) return;
+    if (mobileMenuOpen && !dialog.open) dialog.showModal();
+    if (!mobileMenuOpen && dialog.open) dialog.close();
+  }, [mobileMenuOpen]);
+
+  useEffect(() => {
+    const breakpoint = window.matchMedia('(min-width: 1024px)');
+    const closeOnDesktop = () => { if (breakpoint.matches) setMobileMenuOpen(false); };
+    breakpoint.addEventListener('change', closeOnDesktop);
+    return () => breakpoint.removeEventListener('change', closeOnDesktop);
+  }, []);
+
+  function closeNavigation() {
+    setMobileMenuOpen(false);
+    menuRef.current?.focus();
+  }
+
+  return (
+    <div className="site-shell">
+      <a href="#main-content" className="skip-link" onClick={(event) => {
+        event.preventDefault();
+        mainRef.current?.focus();
+      }}>Skip to content</a>
+
+      <aside className="site-sidebar">
+        <div className="sidebar-brand"><Brand /><p className="brand-caption">Public records. Clearer connections.</p></div>
+        <div className="nav-search-wrap">
+          <Search size={15} aria-hidden="true" />
+          <input type="text" aria-label="Find a page" placeholder="Find a page…" value={query} onChange={(event) => setQuery(event.target.value)} className="nav-search" />
+        </div>
+        <Navigation query={query} label="Primary navigation" />
+        <div className="sidebar-footer">
+          <Link to="/provenance"><ShieldCheck size={16} aria-hidden="true" /><span>Follow the evidence</span><ArrowUpRight size={13} aria-hidden="true" /></Link>
+          <p>{COMPANIES.length} listed companies · {COMPANIES_AS_OF || 'Date not recorded'}</p>
         </div>
       </aside>
 
-      {/* Mobile Header */}
-      <div className="lg:hidden fixed top-0 left-0 right-0 z-50 bg-bg-elevated/95 backdrop-blur-sm border-b border-border">
-        <div className="flex items-center justify-between px-4 h-14">
-          <div className="flex items-center gap-2">
-            <Globe className="w-5 h-5 text-accent" />
-            <span className="font-serif font-bold">ICIP</span>
+      <div className="site-workspace">
+        <header className="site-masthead">
+          <div className="mobile-brand"><Brand /></div>
+          <div className="masthead-context"><span>India intelligence</span><ChevronRight size={13} aria-hidden="true" /><span>{currentGroup?.label ?? 'Records'}</span><span className="masthead-current">{routeTitle}</span></div>
+          <div className="masthead-actions">
+            <Link className="masthead-search" to="/search"><Search size={16} aria-hidden="true" /><span>Search records</span></Link>
+            <Link className="masthead-method" to="/method">About the evidence <ArrowUpRight size={13} aria-hidden="true" /></Link>
+            <button type="button" ref={menuRef} className="mobile-menu-button" aria-label="Open navigation" aria-expanded={mobileMenuOpen} aria-controls="site-nav-mobile" onClick={() => setMobileMenuOpen(true)}><Menu size={21} aria-hidden="true" /></button>
           </div>
-          {/* Icon-only, so it carries its own name and state (WCAG 4.1.2, audit A11Y-001 S4).
-              aria-controls only while the menu exists: it is unmounted when closed. */}
-          <button
-            type="button"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            aria-label={mobileMenuOpen ? 'Close navigation' : 'Open navigation'}
-            aria-expanded={mobileMenuOpen}
-            aria-controls={mobileMenuOpen ? MOBILE_NAV_ID : undefined}
-            className="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-bg-card"
-          >
-            {mobileMenuOpen ? <X className="w-5 h-5" aria-hidden="true" /> : <Menu className="w-5 h-5" aria-hidden="true" />}
-          </button>
-        </div>
-        
-        {/* Mobile Menu */}
-        {mobileMenuOpen && (
-          <nav id={MOBILE_NAV_ID} className="bg-bg-elevated border-b border-border p-4 space-y-1">
-            {navItems.map((item) => {
-              const Icon = item.icon;
-              const active = isActive(item.path);
-              return (
-                <NavLink
-                  key={item.path}
-                  to={item.path}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all ${
-                    active 
-                      ? 'bg-accent/10 text-accent' 
-                      : 'text-text-secondary hover:text-text hover:bg-bg-card'
-                  }`}
-                >
-                  <Icon className="w-4 h-4" />
-                  {item.label}
-                </NavLink>
-              );
-            })}
-          </nav>
-        )}
+        </header>
+        <main id="main-content" ref={mainRef} tabIndex={-1} className="site-main">
+          <div className="site-content"><Outlet /></div>
+          <footer className="site-page-footer"><span>ICIP / Public-record intelligence</span><p>A connection is a question. Its source is the starting point.</p><Link to="/method">Read the method <ArrowUpRight size={13} aria-hidden="true" /></Link></footer>
+        </main>
       </div>
 
-      {/* Main Content */}
-      <main className="flex-1 overflow-y-auto lg:pt-0 pt-14">
-        <div className="p-4 lg:p-8 max-w-7xl mx-auto">
-          <Outlet />
-        </div>
-      </main>
+      <dialog ref={dialogRef} id="site-nav-mobile" className="mobile-nav-dialog" aria-labelledby="mobile-nav-title" onCancel={(event) => { event.preventDefault(); closeNavigation(); }} onClose={() => setMobileMenuOpen(false)} onClick={(event) => { if (event.target === event.currentTarget) closeNavigation(); }}>
+        <div className="mobile-nav-heading"><div><p className="eyebrow">ICIP / Explore</p><h2 id="mobile-nav-title">The intelligence library</h2></div><button type="button" className="mobile-menu-button" aria-label="Close navigation" onClick={closeNavigation} autoFocus><X size={21} aria-hidden="true" /></button></div>
+        <div className="nav-search-wrap"><Search size={16} aria-hidden="true" /><input type="text" aria-label="Find a page in navigation" placeholder="Find a page…" value={query} onChange={(event) => setQuery(event.target.value)} className="nav-search" /></div>
+        <Navigation query={query} label="Mobile navigation" onNavigate={() => { dialogRef.current?.close(); setMobileMenuOpen(false); }} />
+      </dialog>
     </div>
   );
 }

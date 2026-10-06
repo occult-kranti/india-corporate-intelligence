@@ -59,6 +59,7 @@ const F = {};
 const EXTERNAL = /fonts\.(googleapis|gstatic)\.com|ERR_CONNECTION_RESET|ERR_NAME_NOT_RESOLVED|ERR_INTERNET_DISCONNECTED|ERR_CERT_AUTHORITY_INVALID/;
 const PINNED = process.env.PLAYWRIGHT_CHROMIUM_PATH ?? '/opt/pw-browsers/chromium';
 const SETTLE = 700;
+const H1 = 'Who announced the money, when, and what the voters did next';
 
 const CTX = {
   desktop: { viewport: { width: 1440, height: 900 } },
@@ -196,9 +197,10 @@ window.__ac = {
   controlCard() {
     return this.cardFor('Every assembly election in the file, with and without a fresh state scheme', '12 m ·');
   },
-  /** StatePanel / SchemeCard: the ancestor of the close control that carries an h2. */
+  /** StatePanel / SchemeCard: the article close control’s ancestor carrying an h2.
+   * The shared navigation dialog has its own Close control outside the article. */
   panel() {
-    const btn = document.querySelector('button[aria-label^="Close "]');
+    const btn = document.querySelector('article button[aria-label^="Close "]');
     let el = btn?.parentElement ?? null;
     while (el && el !== document.body && !el.querySelector('h2')) el = el.parentElement;
     return el && el !== document.body ? el : null;
@@ -310,7 +312,13 @@ async function withPage(kind, fn, { ignoreErrors = false } = {}) {
   await ctx.addInitScript(HELPERS);
   const page = await ctx.newPage();
   const errors = [];
-  page.on('console', (m) => { if (m.type() === 'error' && !EXTERNAL.test(m.text())) errors.push(m.text()); });
+  page.on('console', (m) => {
+    if (m.type() !== 'error') return;
+    // Resource errors can omit their URL from the message. Match the existing
+    // font-host exclusions against the source location, keeping local failures.
+    const detail = [m.text(), m.location().url].filter(Boolean).join(' ');
+    if (!EXTERNAL.test(detail)) errors.push(detail);
+  });
   page.on('pageerror', (e) => errors.push(`pageerror: ${e.message}`));
   try {
     const out = await fn(page, ctx);
@@ -326,7 +334,8 @@ async function withPage(kind, fn, { ignoreErrors = false } = {}) {
 async function go(page, search = '') {
   await page.goto('about:blank');
   await page.goto(`${base}/#/welfare${search}`, { waitUntil: 'networkidle' });
-  await page.waitForSelector('article', { timeout: 15000 }).catch(() => {});
+  // Do not treat shared shell text or a timed-out lazy import as page readiness.
+  await page.getByRole('heading', { level: 1, name: H1, exact: true }).waitFor({ timeout: 30_000 });
   await page.waitForTimeout(SETTLE);
 }
 
@@ -334,7 +343,8 @@ async function go(page, search = '') {
 async function goUrl(page, url) {
   await page.goto('about:blank');
   await page.goto(url, { waitUntil: 'networkidle' });
-  await page.waitForSelector('article', { timeout: 15000 }).catch(() => {});
+  // Do not treat shared shell text or a timed-out lazy import as page readiness.
+  await page.getByRole('heading', { level: 1, name: H1, exact: true }).waitFor({ timeout: 30_000 });
   await page.waitForTimeout(SETTLE);
 }
 
@@ -456,7 +466,7 @@ async function assertDefaults(page) {
     return document.querySelectorAll('[role="listbox"] [aria-selected="true"], [role="group"] input[type="checkbox"]:checked').length;
   });
   assert.equal(party, 0, 'Party has no selection');
-  assert.equal(await count(page, 'button[aria-label^="Close "]'), 0, 'no StatePanel / SchemeCard');
+  assert.equal(await count(page, 'article button[aria-label^="Close "]'), 0, 'no StatePanel / SchemeCard');
   assert.equal(await count(page, '[data-caption="C11"]'), 0, 'no SchemeCard');
   assert.equal(await count(page, 'figure'), 1, 'view = map: figure present');
   assert.equal(await count(page, '#stage-tables details[open]'), 0, 'twins closed');
@@ -1693,7 +1703,7 @@ test('AC-53 — Round-trip q, list ≤ 8 matches as links, and never auto-select
   await withPage('desktop', async (page, ctx) => {
     await roundTrip(page, ctx, `?q=${encodeURIComponent(q)}`, 'q', async (p) => {
       assert.equal(await p.inputValue(SEARCH), q);
-      const r = await p.evaluate(() => { const A = window.__ac; const eff = document.querySelector('[data-effect]'); const k = +(A.txt(eff).match(/(\d+) → (\d+) schemes/)?.[2] ?? NaN); return { k, links: [...eff.querySelectorAll('a')].map((a) => a.getAttribute('href')), card: !!document.querySelector('button[aria-label^="Close "]') }; });
+      const r = await p.evaluate(() => { const A = window.__ac; const eff = document.querySelector('[data-effect]'); const k = +(A.txt(eff).match(/(\d+) → (\d+) schemes/)?.[2] ?? NaN); return { k, links: [...eff.querySelectorAll('a')].map((a) => a.getAttribute('href')), card: !!document.querySelector('article button[aria-label^="Close "]') }; });
       if (r.k <= 8) { assert.equal(r.links.length, r.k, 'k links'); assert.ok(r.links.every((h) => h.includes('s=') && h.includes('q=')), `links carry s= and q=: ${r.links}`); }
       assert.ok(!r.card, 'no SchemeCard auto-opened');
     }, async (p) => { await p.locator(SEARCH).press('End'); await p.keyboard.type('a'); });
@@ -2033,9 +2043,9 @@ test('AC-68 — Name the close and back controls', async (t) => {
     assert.ok(await reach(close), 'close reachable by Tab from the h2');
     await go(page, `?st=${F.STATE_WITH_VALUE}&s=${F.SCHEME_ID}`);
     const back = `[aria-label="Back to ${F.STATE_WITH_VALUE_NAME}"]`;
-    assert.equal(await count(page, back), 1); assert.ok(await count(page, 'button[aria-label^="Close "]'));
+    assert.equal(await count(page, back), 1); assert.ok(await count(page, 'article button[aria-label^="Close "]'));
     assert.ok(await reach(back), 'back reachable by Tab from the h2');
-    assert.ok(await reach('button[aria-label^="Close "]'), 'close reachable by Tab from the h2');
+    assert.ok(await reach('article button[aria-label^="Close "]'), 'close reachable by Tab from the h2');
   });
 });
 

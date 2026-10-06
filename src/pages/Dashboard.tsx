@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { Kicker, PageTitle, Standfirst, Byline, Section, Callout, StatGrid, DataTable, TierChip } from '../components/Editorial';
+import { ArrowUpRight, ArrowRight, Map, Network, BookOpen } from 'lucide-react';
+import { Kicker, PageTitle, Section, Callout, StatGrid, DataTable, TierChip } from '../components/Editorial';
 import { useData } from '../context/DataContext';
 import { STATE_NAMES } from '../data/geo';
 import { hhi } from '../data/companies';
@@ -42,21 +43,48 @@ export default function Dashboard() {
 
   return (
     <article className="pb-20">
-      <header className="pt-2 pb-6 border-b-2 border-border-light">
-        <Kicker>India Corporate Intelligence Platform</Kicker>
-        <PageTitle>Who owns what, who decides what, and how much any of it proves</PageTitle>
-        <Standfirst>
-          A map of India's listed corporate landscape joined to a provenance-bearing graph of political
-          and ownership connections — built so that every claim carries its evidence tier, and every
-          pattern carries its denominator. The platform is as interested in what it cannot show as in
-          what it can.
-        </Standfirst>
-        <Byline>
-          {companies.length} listed companies · {ministers.length} union ministers · {groups.length}{' '}
-          conglomerate groups · {edges.length} relationships · as of {asOf}
-        </Byline>
+      <header className="home-intro">
+        <div>
+          <Kicker>India / Public-record intelligence</Kicker>
+          <PageTitle>Follow the money.<br />Understand the evidence.</PageTitle>
+          <p className="home-deck">
+            Explore India's companies, public funding and political connections.
+            Every relationship carries an evidence tier. Every pattern needs a denominator.
+          </p>
+        </div>
+        <div className="home-edition"><span>THE PUBLIC RECORD</span>Listed-company data<br />as of {asOf}<br />Other registers dated separately</div>
       </header>
 
+      <section className="home-feature" aria-labelledby="education-feature-title">
+        <div>
+          <p className="eyebrow">New research desk / Education</p>
+          <h2 id="education-feature-title">Schools, colleges &amp; the money behind them.</h2>
+          <p>
+            Follow education funding across states and cities. Compare government programmes,
+            private funding and NGO records, then examine school closures against the evidence
+            needed to explain them.
+          </p>
+          <Link to="/education" className="feature-link">Explore education funding <ArrowRight size={17} aria-hidden="true" /></Link>
+        </div>
+        <dl className="feature-index">
+          <div><dt>01 / Institutions</dt><dd>Government &amp; private · Schools &amp; colleges</dd></div>
+          <div><dt>02 / Funding channels</dt><dd>Public budgets · CSR · NGOs · Foreign finance</dd></div>
+          <div><dt>03 / Questions to test</dt><dd>Access, school closures &amp; population change</dd></div>
+        </dl>
+      </section>
+
+      <nav className="home-paths" aria-label="Start exploring">
+        {[
+          { to: '/map', icon: Map, title: 'Explore the corporate map', text: 'Listed capital, state by state, with coverage in view.' },
+          { to: '/network', icon: Network, title: 'Trace a connection', text: 'Ownership and public power, joined by sourced claims.' },
+          { to: '/patterns', icon: BookOpen, title: 'Read a pattern carefully', text: 'Start with the baseline and the alternative explanation.' },
+        ].map(({ to, icon: Icon, title, text }) => (
+          <Link key={to} to={to} className="home-path"><Icon size={20} strokeWidth={1.5} aria-hidden="true" /><div><h2>{title}</h2><p>{text}</p></div><ArrowUpRight size={15} aria-hidden="true" /></Link>
+        ))}
+      </nav>
+
+      <section aria-labelledby="corporate-record-title">
+      <div className="home-section-label"><h2 id="corporate-record-title">The corporate record</h2><p>{companies.length} companies · {ministers.length} ministers · {groups.length} groups · as of {asOf}</p></div>
       <StatGrid
         items={[
           { value: fmtCr(totalMcap), label: `recorded listed market cap${unpriced ? ` · ${unpriced} companies unpriced, so this is a floor` : ''}` },
@@ -79,6 +107,7 @@ export default function Dashboard() {
           }),
         ]}
       />
+      </section>
       <Callout label="Start here" tone="bottomline">
         <p>
           If you are here to look for connections, read{' '}
@@ -101,19 +130,16 @@ export default function Dashboard() {
       </Callout>
 
       <Section title="The geographic concentration" note={`Herfindahl–Hirschman index ${Math.round(stateHHI)} across ${states.length} states — listed capital is not evenly spread`}>
-        <div className="space-y-2">
+        <div>
           {states.slice(0, 12).map((s) => (
-            <div key={s.stateCode} className="flex items-center gap-3">
-              <Link to={`/states/${s.stateCode}`} className="text-[13.5px] w-32 truncate text-text-secondary hover:text-accent">
-                {STATE_NAMES[s.stateCode]}
-              </Link>
-              <span
-                className="h-4 bg-teal/60 rounded-sm"
-                style={{ width: `${Math.max(1.5, (s.totalMcapCr / (states[0].totalMcapCr || 1)) * 58)}%` }}
-              />
-              <span className="font-mono text-[11px] text-text-muted whitespace-nowrap">
-                {fmtCr(s.totalMcapCr)} · {s.count} co
-              </span>
+            <div key={s.stateCode} className="concentration-row">
+              <div className="concentration-label">
+                <Link to={`/states/${s.stateCode}`}>{STATE_NAMES[s.stateCode]}</Link>
+                <span>{fmtCr(s.totalMcapCr)} · {s.count} companies</span>
+              </div>
+              <div className="concentration-track" aria-hidden="true">
+                <span style={{ width: `${Math.max(1, (s.totalMcapCr / (states[0]?.totalMcapCr || 1)) * 100)}%` }} />
+              </div>
             </div>
           ))}
         </div>
@@ -150,7 +176,7 @@ export default function Dashboard() {
               <TierChip tier={t} />
               <p className="font-mono text-2xl mt-2">{tierCounts[t]}</p>
               <p className="text-[11.5px] text-text-muted">
-                {((tierCounts[t] / edges.length) * 100).toFixed(1)}% of relationships
+                {(edges.length ? (tierCounts[t] / edges.length) * 100 : 0).toFixed(1)}% of relationships
               </p>
             </div>
           ))}
@@ -167,7 +193,7 @@ export default function Dashboard() {
       </Section>
 
       <Section title="Where to go" note="">
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="home-directory">
           {[
             ['/map', 'NSE / BSE map', 'Every state and UT drawn from real boundary geometry, shaded by what is listed there.'],
             ['/cabinet', 'Union cabinet', '69 ministers, portfolios with dates, and the map of regulatory reach.'],
@@ -176,10 +202,7 @@ export default function Dashboard() {
             ['/atlas', 'Money-trail atlas', 'The depth case study, including the documented void — the integrity check on the whole exercise.'],
             ['/method', 'How this is built', 'The four invariants, the agent roster, and a live integrity check.'],
           ].map(([to, title, blurb]) => (
-            <Link key={to} to={to} className="card-surface p-4 block">
-              <h3 className="heading-editorial font-bold text-lg">{title}</h3>
-              <p className="text-[13px] text-text-muted mt-1.5 leading-snug">{blurb}</p>
-            </Link>
+            <Link key={to} to={to}><div><h3>{title}</h3><p>{blurb}</p></div><ArrowUpRight size={18} aria-hidden="true" /></Link>
           ))}
         </div>
       </Section>

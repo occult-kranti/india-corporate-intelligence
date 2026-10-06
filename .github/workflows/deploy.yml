@@ -51,6 +51,12 @@ jobs:
       - name: Data integrity
         run: npm run validate
 
+      - name: Education provenance and comparison guards
+        run: npm run validate:education && npm run test:education
+
+      - name: Local model artifact integrity (no model download)
+        run: npm run test:education:model
+
       - name: Typecheck and build
         run: npm run build
 
@@ -59,6 +65,9 @@ jobs:
 
       - name: Headless render smoke test
         run: npm run smoke
+
+      - name: Education research workflow
+        run: npm run test:education:browser
 
       # Measures the graph camera: no silent letterbox, a 200px drag moves the
       # graph 200px, auto-fit clips nothing, maximise really hands over the

@@ -40,6 +40,8 @@ const SETTLE = 700;
 const TEST_TIMEOUT = 180_000;
 /** Playwright's per-action wait; long enough for a React commit, short enough to fail a missing section fast. */
 const ACTION_TIMEOUT = 5_000;
+/** Lazy-route navigation/readiness has a separate budget from locator actions. */
+const PAGE_READY_TIMEOUT = 30_000;
 
 /** The twelve declared sweeps and their display labels (spec §5.3, in order). */
 const SWEEP_LABEL = {
@@ -292,7 +294,14 @@ const external = /fonts\.(googleapis|gstatic)\.com|ERR_CONNECTION_RESET|ERR_NAME
 async function withPage(vp, fn) {
   const page = await contexts[vp].newPage();
   const errors = [];
-  page.on('console', (m) => { if (m.type() === 'error' && !external.test(m.text())) errors.push(m.text()); });
+  page.on('console', (m) => {
+    if (m.type() !== 'error') return;
+    // Chromium can report only "Failed to load resource" for an optional font.
+    // Retain its URL so the existing font-host exclusion can classify it without
+    // suppressing generic failures from application assets on our own server.
+    const detail = [m.text(), m.location().url].filter(Boolean).join(' ');
+    if (!external.test(detail)) errors.push(detail);
+  });
   page.on('pageerror', (e) => errors.push(`pageerror: ${e.message}`));
   try {
     await fn(page);
@@ -302,12 +311,20 @@ async function withPage(vp, fn) {
   }
 }
 
+/** Wait for the lazy page's data-bearing content after navigation OR reload. */
+async function energyReady(page) {
+  // The shared shell has text before this lazy route resolves. Await the page,
+  // then its denominator strip: a visible heading alone is not a ready snapshot.
+  await page.getByRole('heading', { level: 1, name: H1, exact: true }).waitFor({ timeout: PAGE_READY_TIMEOUT });
+  await page.locator('[data-strip-fact="1"]').first().waitFor({ state: 'attached', timeout: PAGE_READY_TIMEOUT });
+  await page.waitForTimeout(SETTLE);
+}
+
 /** about:blank first so a hash-only navigation cannot carry state between loads. */
 async function load(page, route, base = full.base) {
-  await page.goto('about:blank');
-  await page.goto(`${base}/#${route}`, { waitUntil: 'networkidle' });
-  await page.waitForFunction(() => document.body && document.body.innerText.trim().length > 0, null, { timeout: 5_000 }).catch(() => {});
-  await page.waitForTimeout(SETTLE);
+  await page.goto('about:blank', { timeout: PAGE_READY_TIMEOUT });
+  await page.goto(`${base}/#${route}`, { waitUntil: 'networkidle', timeout: PAGE_READY_TIMEOUT });
+  await energyReady(page);
 }
 
 const hashParams = (page) => new URLSearchParams((new URL(page.url()).hash.split('?')[1] ?? ''));
@@ -1216,8 +1233,10 @@ t('AC-40 — A reload reproduces the view exactly', async () => {
         await text(page.locator('main aside [tabindex="-1"]').first()),
       ];
       const a = await snap();
-      await page.reload({ waitUntil: 'networkidle' });
-      await page.waitForTimeout(SETTLE);
+      // Navigation includes fetching and evaluating the lazy route; it should
+      // use the route-ready budget, not the five-second locator-action budget.
+      await page.reload({ waitUntil: 'networkidle', timeout: PAGE_READY_TIMEOUT });
+      await energyReady(page);
       assert.deepEqual(await snap(), a, `${r}: view changed on reload`);
     });
   }

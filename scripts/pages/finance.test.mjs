@@ -53,6 +53,8 @@ const GRAPH_SETTLE = 1800;
 const FIND_SETTLE = 400;
 /** Playwright's per-action wait: long enough for a React commit, short enough to fail a missing anchor fast. */
 const ACTION_TIMEOUT = 5_000;
+/** Lazy-route initialization has a separate budget from interactions within a ready page. */
+const PAGE_READY_TIMEOUT = 30_000;
 
 const H1 = 'Who lent, who gave, who holds, and what the record can show';
 const STANDFIRST_HEAD = 'Money from abroad reaches India in three ways this page records';
@@ -484,7 +486,8 @@ before(async () => {
   // Detect which build `dist` is from the DOM (§0.3) unless FINANCE_BUILD says.
   if (!BUILD) {
     const page = await contexts.D.newPage();
-    await page.goto(`${served.base}/#/finance`, { waitUntil: 'networkidle' });
+    await page.goto(`${served.base}/#/finance`, { waitUntil: 'networkidle', timeout: PAGE_READY_TIMEOUT });
+    await financeReady(page);
     await page.waitForTimeout(SETTLE);
     const hasCallout = await page.evaluate(() => window.__ac.deepestAll(document.body, '^Register not yet promoted$').length > 0);
     await page.close();
@@ -530,10 +533,13 @@ async function withPage(vp, fn) {
   let lastFailed = null;
   page.on('requestfailed', (r) => { lastFailed = r.url(); });
   page.on('console', (m) => {
-    if (m.type() !== 'error' || EXTERNAL.test(m.text())) return;
+    // Chromium's resource error text can omit the URL; retain the established
+    // font/CDN allow-list by checking its reported source location as well.
+    const detail = [m.text(), m.location()?.url ?? ''].join(' ');
+    if (m.type() !== 'error' || EXTERNAL.test(detail)) return;
     // [Adjudicated] a bare `Failed to load resource: net::ERR_FAILED` whose preceding requestfailed was /vite.svg (§0.1).
     if (/^Failed to load resource: net::ERR_FAILED$/.test(m.text().trim()) && (/\/vite\.svg$/.test(lastFailed ?? '') || /\/vite\.svg$/.test(m.location()?.url ?? ''))) return;
-    errors.push(m.text());
+    errors.push(detail);
   });
   page.on('pageerror', (e) => errors.push(`pageerror: ${e.message}`));
   try {
@@ -544,14 +550,19 @@ async function withPage(vp, fn) {
   }
 }
 
-/** about:blank first (smoke's rule), then networkidle, article.pb-20, `main h1`, and the settle. */
-async function load(page, route, { base = full?.base, graph = false } = {}) {
-  await page.goto('about:blank');
-  await page.goto(`${base}/#${route}`, { waitUntil: 'networkidle' });
-  await page.waitForSelector('article.pb-20', { timeout: ACTION_TIMEOUT });
+/** Wait for the lazy route rather than treating the already-visible shell as ready. */
+async function financeReady(page) {
+  await page.waitForSelector('article.pb-20', { timeout: PAGE_READY_TIMEOUT });
   // [Adjudicated] the page's h1 is `main h1` (PageTitle, spec §13); the Layout's wordmark `<h1>ICIP</h1>` sits
   // outside `main` and is `hidden lg:flex`, so a bare `h1` wait resolved to it and timed out at M (FINANCE_A11Y m10).
-  await page.waitForSelector('main h1', { timeout: ACTION_TIMEOUT });
+  await page.waitForSelector('main h1', { timeout: PAGE_READY_TIMEOUT });
+}
+
+/** about:blank first (smoke's rule), then networkidle, article.pb-20, `main h1`, and the settle. */
+async function load(page, route, { base = full?.base, graph = false } = {}) {
+  await page.goto('about:blank', { timeout: PAGE_READY_TIMEOUT });
+  await page.goto(`${base}/#${route}`, { waitUntil: 'networkidle', timeout: PAGE_READY_TIMEOUT });
+  await financeReady(page);
   await page.waitForTimeout(SETTLE);
   if (graph) await page.waitForTimeout(GRAPH_SETTLE);
 }
@@ -619,6 +630,25 @@ async function allProjectPages(page, query) {
   return out;
 }
 
+/** Reset pagination, waiting for the route and rendered table after each click. */
+async function resetProjectPage(page) {
+  for (let i = 0; i < 3; i++) {
+    const prev = page.locator('details[data-twin="project-list"] button, details[data-twin="project-list"] a').filter({ hasText: /Previous|Prev/ }).first();
+    if (!(await prev.count()) || !(hashParams(page).has('tp'))) break;
+    const expectedPage = Number(hashParams(page).get('tp')) - 1;
+    // Keep the 5s action budget. A completed click can trigger a slower hash-route
+    // commit, which belongs to the separate navigation/readiness budget.
+    await prev.click({ noWaitAfter: true });
+    await page.waitForFunction((expected) => {
+      const params = new URLSearchParams(location.hash.split('?')[1] ?? '');
+      const caption = document.querySelector('details[data-twin="project-list"] caption');
+      return Number(params.get('tp') ?? '1') === expected
+        && caption?.textContent.includes(` · page ${expected} of `);
+    }, expectedPage, { timeout: PAGE_READY_TIMEOUT });
+    await page.waitForTimeout(100);
+  }
+}
+
 /** ROUND-TRIP(param=value) (§0.7). `change` alters the control once via the UI and returns the new value; `reset` returns it to its default. */
 async function roundTrip(page, { lens = 'loans', param, value, check, change, reset }) {
   await load(page, lensRoute(lens, `${param}=${encodeURIComponent(value)}`));
@@ -639,9 +669,9 @@ async function roundTrip(page, { lens = 'loans', param, value, check, change, re
   const first = await snap(page);
   const twinPage = await page.context().newPage();
   try {
-    await twinPage.goto('about:blank');
-    await twinPage.goto(page.url(), { waitUntil: 'networkidle' });
-    await twinPage.waitForSelector('article.pb-20');
+    await twinPage.goto('about:blank', { timeout: PAGE_READY_TIMEOUT });
+    await twinPage.goto(page.url(), { waitUntil: 'networkidle', timeout: PAGE_READY_TIMEOUT });
+    await financeReady(twinPage);
     await twinPage.waitForTimeout(SETTLE);
     assert.deepEqual(await snap(twinPage), first, `${param}=${nv}: a fresh page reproduces the strip, every figure and the active-filter line`);
   } finally {
@@ -2461,7 +2491,7 @@ test('AC-70 — Round-trip tp, paging at 400 without truncation', async (t) => {
     await page.locator('details[data-twin="project-list"] button, details[data-twin="project-list"] a').filter({ hasText: /^Next/ }).first().click();
     await waitParam(page, 'tp', '2');
     assert.ok(await page.evaluate(() => document.activeElement.tagName === 'CAPTION' || document.activeElement.closest('caption')), "focus moves to the twin's caption");
-    await roundTrip(page, { param: 'tp', value: '2', check: async (p) => assert.ok((await twinTable(p, 'project-list')).caption.includes('page 2')), change: async (p) => { await p.locator('details[data-twin="project-list"] button, details[data-twin="project-list"] a').filter({ hasText: /^Next/ }).first().click(); return '3'; }, reset: async (p) => { for (let i = 0; i < 3; i++) { const prev = p.locator('details[data-twin="project-list"] button, details[data-twin="project-list"] a').filter({ hasText: /Previous|Prev/ }).first(); if (!(await prev.count()) || !(hashParams(p).has('tp'))) break; await prev.click(); await p.waitForTimeout(100); } } });
+    await roundTrip(page, { param: 'tp', value: '2', check: async (p) => assert.ok((await twinTable(p, 'project-list')).caption.includes('page 2')), change: async (p) => { await p.locator('details[data-twin="project-list"] button, details[data-twin="project-list"] a').filter({ hasText: /^Next/ }).first().click(); return '3'; }, reset: resetProjectPage });
     const pages = await allProjectPages(page, 'lens=loans');
     const ids = pages.flatMap((p) => p.rows.map((r) => r.join('|')));
     assert.equal(ids.length, LOANS.length, 'union over every tp = LOANS.length');
@@ -2542,7 +2572,10 @@ test('AC-74 — Reproduce the whole view from a URL built through the controls',
     const url = page.url();
     const fresh = await page.context().newPage();
     try {
-      await fresh.goto('about:blank'); await fresh.goto(url, { waitUntil: 'networkidle' }); await fresh.waitForSelector('article.pb-20'); await fresh.waitForTimeout(SETTLE);
+      await fresh.goto('about:blank', { timeout: PAGE_READY_TIMEOUT });
+      await fresh.goto(url, { waitUntil: 'networkidle', timeout: PAGE_READY_TIMEOUT });
+      await financeReady(fresh);
+      await fresh.waitForTimeout(SETTLE);
       await openTwin(fresh, 'project-list');
       assert.deepEqual(await snap(fresh), a, 'the URL reproduces the view');
     } finally { await fresh.close(); }

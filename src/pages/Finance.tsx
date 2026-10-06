@@ -44,6 +44,8 @@ import { BaseRatesSection, NarrativesSection, CannotShow, GapsSection, Contested
 const PAGE_CSS = `
 @media (max-width: 639px) {
   .fin-page [class*="text-[9"], .fin-page [class*="text-[10"], .fin-page [class*="text-[11"] { font-size: 12px !important; }
+  .fin-page > header .editorial-kicker { margin-bottom: 4px; }
+  .fin-page [data-pinned-stack] { margin-top: 4px; }
 }
 .fin-page { --fin-grey-secondary: rgb(176, 176, 176); --fin-grey-muted: rgb(150, 150, 150); }
 .fin-page .fin-q { color: var(--color-text); }

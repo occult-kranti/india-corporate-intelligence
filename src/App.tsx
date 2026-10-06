@@ -42,6 +42,7 @@ const Energy = lazy(() => import('./pages/Energy'));
 const Welfare = lazy(() => import('./pages/Welfare'));
 const Finance = lazy(() => import('./pages/Finance'));
 const Security = lazy(() => import('./pages/Security'));
+const Education = lazy(() => import('./pages/Education'));
 const Competition = lazy(() => import('./pages/Competition'));
 const Provenance = lazy(() => import('./pages/Provenance'));
 const Method = lazy(() => import('./pages/Method'));
@@ -101,6 +102,7 @@ function App() {
                     <Route path="/welfare" element={<Welfare />} />
                     <Route path="/finance" element={<Finance />} />
                     <Route path="/security" element={<Security />} />
+                    <Route path="/education" element={<Education />} />
                     <Route path="/competition" element={<Competition />} />
                     <Route path="/provenance" element={<Provenance />} />
                     <Route path="/method" element={<Method />} />

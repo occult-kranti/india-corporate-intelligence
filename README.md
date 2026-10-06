@@ -59,14 +59,31 @@ Line style in every graph carries the tier. It is semantic and is never restyled
 Full file-by-file index: [`docs/INDEX.md`](docs/INDEX.md). Picking this up cold:
 [`HANDOFF.md`](HANDOFF.md).
 
-33 routes, grouped as the sidebar groups them.
+### Education funding and access
+
+`/education` is a source-led research desk for school and college funding, public
+and private institutions, government schemes, CSR, NGOs, foreign contributions,
+development loans and private capital. Filter evidence by state/UT, locality,
+management, level and channel; save a reading list locally and export the selected
+sources. Filters are shareable in the route URL.
+
+School-count changes are **net changes in reported institution stocks**, not
+verified closure events. All-state navigation does not imply complete local
+coverage. Each source and funding figure retains its scope, period and limitation;
+commitments, outlays, releases and expenditure are not summed together.
+
+Research, the two-round panel decisions, and the expansion roadmap live in
+[`docs/education`](docs/education). The optional open-source document-ranking
+workflow runs locally and produces research suggestions, never verified claims.
+
+35 routes, grouped as the sidebar groups them.
 
 **Markets** — `/` dashboard · `/map` the NSE/BSE map, with an index filter (`idx=nifty50|sensex30|sensex50`)
 · `/geograph` the geographic network · `/industries` sector concentration · `/conglomerates` the ten
 largest groups, and `/conglomerates/:id` each group in depth · `/interlocks` who sits on more than one
 board · `/states/:code` per-state drill-down · `/company/:id`
 
-**Registers** — `/tenders` government awards · `/resources` coal, minerals, hydrocarbons and spectrum
+**Registers** — `/education` education funding and access · `/security` security spending · `/tenders` government awards · `/resources` coal, minerals, hydrocarbons and spectrum
 · `/pmcares` PM CARES against its PMNRF control · `/energy` the energy power map · `/welfare`
 distribution funds, 2000–2026 · `/finance` foreign money: loans, associations, capital · `/media` ownership ·
 `/allocation` every register on one graph
@@ -270,10 +287,14 @@ npm run promote        # research/raw → resolution + grounding report
 npm run generate       # research fleets → the five *.generated.ts modules
 npm run test:assemble  # assembler and merge tests, synthetic fixture
 npm run validate       # data-integrity gate — the four invariants
+npm run validate:education # education sources, accounting stages and geographic reconciliation
+npm run test:education # filters, counting and population-comparison guards
+npm run test:education:browser # built page: export, saved work, filters/history and district coverage
+npm run test:education:model # pinned suggestion provenance; Python 3, no model download
 npm run build          # tsc -b && vite build
-npm run smoke          # headless render of all 33 routes; serves dist itself
+npm run smoke          # headless render of all 35 routes; serves dist itself
 npm run viewport       # the graph camera gate
-npm run check          # promote + generate + test:assemble + validate + build + smoke + viewport + test:pages
+npm run check          # research, education, model integrity, build and browser regression gates
 npm run test:pages     # the page acceptance suites (explicit file list)
 ```
 

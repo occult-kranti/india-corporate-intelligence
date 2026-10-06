@@ -45,6 +45,8 @@ const SETTLE = 700;
 const TEST_TIMEOUT = 300_000;
 /** Playwright's per-action wait; long enough for a React commit, short enough to fail a missing section fast. */
 const ACTION_TIMEOUT = 5_000;
+/** Lazy-route navigation is separate from interactions with a ready page. */
+const PAGE_READY_TIMEOUT = 30_000;
 
 const ROUTE = '/tenders';
 const NATIONAL = `${ROUTE}?section=national`;
@@ -444,10 +446,17 @@ const external = /fonts\.(googleapis|gstatic)\.com|ERR_CONNECTION_RESET|ERR_NAME
 async function withPage(vp, fn) {
   const ctx = await browser.newContext({ ...VIEWPORT[vp], reducedMotion: 'reduce', permissions: ['clipboard-read', 'clipboard-write'], acceptDownloads: true });
   ctx.setDefaultTimeout(ACTION_TIMEOUT);
+  ctx.setDefaultNavigationTimeout(PAGE_READY_TIMEOUT);
   await ctx.addInitScript(INIT);
   const page = await ctx.newPage();
   const errors = [];
-  page.on('console', (m) => { if (m.type() === 'error' && !external.test(m.text())) errors.push(m.text()); });
+  page.on('console', (m) => {
+    if (m.type() !== 'error') return;
+    // A generic 503/ERR_FAILED message still belongs to its reported resource;
+    // use that URL with the existing allow-list, never ignore local 503s.
+    const detail = [m.text(), m.location().url].filter(Boolean).join(' ');
+    if (!external.test(detail)) errors.push(detail);
+  });
   page.on('pageerror', (e) => errors.push(`pageerror: ${e.message}`));
   try {
     await fn(page);
@@ -465,7 +474,9 @@ async function withPage(vp, fn) {
 async function load(page, route, { base = full?.base, section = true, waitUntil = 'networkidle' } = {}) {
   await page.goto('about:blank');
   await page.goto(`${base}/#${route}`, { waitUntil });
-  await page.waitForFunction(() => document.body && document.body.innerText.trim().length > 0, null, { timeout: ACTION_TIMEOUT }).catch(() => {});
+  // Shell text is available before the lazy tender route. Wait for the actual
+  // page before deciding whether its optional national section is present.
+  await page.getByRole('heading', { level: 1, name: H1, exact: true }).waitFor({ timeout: PAGE_READY_TIMEOUT });
   if (section) {
     // A missing section is a failed criterion, not something to wait 20s for: only a
     // present section is given time for its dynamic imports to land.
@@ -646,6 +657,7 @@ ac('AC-02 — view=national lands on section=national with every other param kep
   await page.goto('about:blank');
   const before = await historyLength(page);
   await page.goto(`${full.base}/#${ROUTE}?view=national&scope=centre`, { waitUntil: 'networkidle' });
+  await page.getByRole('heading', { level: 1, name: H1, exact: true }).waitFor({ timeout: PAGE_READY_TIMEOUT });
   await page.waitForSelector('#cppp', { state: 'attached' }).catch(() => {});
   await page.waitForTimeout(SETTLE);
   assertParamsExactly(page, { section: 'national', scope: 'centre' });
@@ -750,6 +762,7 @@ ac('AC-06 — A pending import shows a named placeholder, never the absence sent
   });
   await page.goto('about:blank');
   await page.goto(`${full.base}/#${NATIONAL}`, { waitUntil: 'commit' });
+  await page.getByRole('heading', { level: 1, name: H1, exact: true }).waitFor({ timeout: PAGE_READY_TIMEOUT });
   await page.waitForSelector('#cppp', { state: 'attached', timeout: 10_000 });
   const pending = page.locator('#cppp-concentration [data-pending]');
   await pending.first().waitFor({ state: 'attached', timeout: 3_500 }).catch(() => {});
@@ -2067,6 +2080,7 @@ ac('AC-63 — A reload reproduces the view exactly', () => withPage('D', async (
     const a = await snapshot();
     assert.ok(a.effects.length && Object.keys(a.rows).length && a.figure, `${q || 'default'}: nothing to snapshot`);
     await page.reload({ waitUntil: 'networkidle' });
+    await page.getByRole('heading', { level: 1, name: H1, exact: true }).waitFor({ timeout: PAGE_READY_TIMEOUT });
     await page.waitForFunction(() => { const s = window.__t?.sec(); return !!s && !/\bloading\b/i.test(s.innerText); }, null, { timeout: 20_000 }).catch(() => {});
     await page.waitForTimeout(SETTLE);
     assert.deepEqual(await snapshot(), a, `${q || 'default'}: reload changed the view`);
@@ -2589,6 +2603,7 @@ ac('AC-86 — The initial national chunk is within budget and the data is split,
   await load(page, ROUTE, { section: false });
   const firstLoad = new Set(responses.map((r) => r.url));
   await page.goto(`${full.base}/#${NATIONAL}`);
+  await page.getByRole('heading', { level: 1, name: H1, exact: true }).waitFor({ timeout: PAGE_READY_TIMEOUT });
   await page.waitForSelector('#cppp', { state: 'attached' }).catch(() => {});
   await page.waitForFunction(() => { const s = window.__t?.sec(); return !!s && !/\bloading\b/i.test(s.innerText); }, null, { timeout: 20_000 }).catch(() => {});
   await page.waitForTimeout(SETTLE);

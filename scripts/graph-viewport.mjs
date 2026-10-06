@@ -84,8 +84,9 @@ const camera = (sel) =>
       rectW: Math.round(r.width), rectH: Math.round(r.height),
       vbW: vb[2], vbH: vb[3],
       tx: +m[1], ty: +m[2], k: +m[3],
-      /** viewBox units per CSS pixel — 1 when the viewBox is measured, <1 when fixed. */
-      ctmScale: +ctm.a.toFixed(4),
+      // The screen CTM maps viewBox units TO CSS pixels. Pointer deltas need its
+      // inverse; the old direct scale only happened to pass near a 1:1 frame.
+      ctmScale: +ctm.inverse().a.toFixed(6),
     };
   }, sel);
 
@@ -432,6 +433,12 @@ const tipText = () =>
     return document.querySelector(s).parentElement.querySelector(':scope > div[aria-hidden="true"].whitespace-nowrap')?.textContent ?? null;
   }, G);
 
+const tipId = () =>
+  page.evaluate(async (s) => {
+    await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
+    return document.querySelector(s).parentElement.querySelector(':scope > div[data-node-id]')?.getAttribute('data-node-id') ?? null;
+  }, G);
+
 /** Points inside each examined glyph's fill, relative to the layer's box, with ink under them, not inside another examined glyph. */
 const glyphSamples = () =>
   page.evaluate(async (s) => {
@@ -469,8 +476,7 @@ const glyphSamples = () =>
           pts.push({ x: c.x - box.x, y: c.y - box.y });
         }
       }
-      const cc = new DOMPoint(b.x + b.width / 2, b.y + b.height / 2).matrixTransform(m);
-      if (pts.length) out.push({ id: g.getAttribute('data-id'), kind, centre: { x: cc.x - box.x, y: cc.y - box.y }, pts });
+      if (pts.length) out.push({ id: g.getAttribute('data-id'), kind, pts });
     }
     return out;
   }, G);
@@ -483,16 +489,17 @@ async function sweep(label) {
   const tally = {};
   let wrong = 0;
   for (const g of glyphs) {
-    const b = await layerBox();
-    await page.mouse.move(b.x + g.centre.x, b.y + g.centre.y);
-    const own = await tipText();
+    // A glyph's centre can sit under frame annotations while some of its fill is
+    // still visible. Deriving the expected identity from that centre hover made
+    // correct hits on those visible samples fail. Compare to the known node ID,
+    // independently of any other pointer position or tooltip label formatting.
     const t = (tally[g.kind] ??= { n: 0, miss: 0 });
     for (const p of g.pts) {
       const bb = await layerBox();
       await page.mouse.move(bb.x + p.x, bb.y + p.y);
-      const tip = await tipText();
+      const tip = await tipId();
       t.n++;
-      if (!own || tip !== own) {
+      if (tip !== g.id) {
         t.miss++;
         if (tip) wrong++;
       }
@@ -755,6 +762,19 @@ await page.locator('svg[data-geo]').locator('..').getByRole('button', { name: 'F
 await page.waitForTimeout(700);
 const g4 = await camera('svg[data-geo]');
 check('map maximises', g4.rectH > 780, `${g4.rectW}×${g4.rectH}`);
+
+// Exercise the inverse conversion on both sides of 1:1 scaling. The inline map
+// is narrower than its fixed viewBox; its maximised frame is larger. Multiplying
+// a CSS-pixel delta by the forward CTM must fail one or both of these checks.
+const largeGeoBox = await page.locator('svg[data-geo]').boundingBox();
+await page.mouse.move(largeGeoBox.x + largeGeoBox.width / 2, largeGeoBox.y + largeGeoBox.height / 2);
+await page.mouse.down();
+await page.mouse.move(largeGeoBox.x + largeGeoBox.width / 2 + 150, largeGeoBox.y + largeGeoBox.height / 2, { steps: 8 });
+await page.mouse.up();
+const g5 = await camera('svg[data-geo]');
+check('maximised drag preserves pointer distance at a different SVG scale',
+  Math.abs(g5.tx - g4.tx - 150 * g4.ctmScale) < 2 && Math.abs(g4.ctmScale - g0.ctmScale) > 0.01,
+  `moved ${Math.round(g5.tx - g4.tx)} viewBox units for 150px at ${g4.ctmScale} units/px`);
 
 await browser.close();
 server?.close();

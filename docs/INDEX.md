@@ -91,7 +91,7 @@ then the fleets through `mergeFleet.ts` — and memoises it.
 | `finance/*` | `/finance` only: the chrome (lens tabs, filter rail, Find, one live region), the loans lens (map with pooled quantile bins and the fetcher class, the census-against-sample union bar, flow, clock, project list, contracts, debarments, conditions, debt), the associations lens (receipts chart with hatched missing years, state table and map, FCRA actions timeline with every case's `dl`, grants, welfare join), the capital lens (a `role="grid"` of holders × companies with roving tabindex, the Σ aggregate cells, the below-four guard, mandates, adviser comparison, rules). Read `src/data/financeView.ts`; import nothing from `energy/` or `welfare/` |
 | `tenders/*` | The national section of `/tenders`: quality table first, single-bidder rates by portal and year with Wilson ribbons, decision-window histogram, concentration by buyer (HHI on value and on count), red-flag indicators as rates over their declared family, the live-verification sample, gaps and provenance footer. Read `src/data/cppp.ts`. Every graphic is `role="img"` with an n in its name and a table twin below |
 
-## 5. Pages — `src/pages/` (33 routes)
+## 5. Pages — `src/pages/` (35 routes)
 
 Routes are declared in `src/App.tsx` and lazily loaded, except the dashboard. The nav
 is in `src/components/Layout.tsx`.
@@ -101,7 +101,7 @@ is in `src/components/Layout.tsx`.
 `/conglomerates/:id` · `Interlocks` `/interlocks` · `StateProfile` `/states/:code` ·
 `CompanyProfile` `/company/:id`
 
-**Registers** — `Tenders` `/tenders` · `Resources` `/resources` · `PmCares` `/pmcares`
+**Registers** — `Education` `/education` · `Security` `/security` · `Tenders` `/tenders` · `Resources` `/resources` · `PmCares` `/pmcares`
 · **`Energy` `/energy`** · **`Welfare` `/welfare`** · **`Finance` `/finance`** · `MediaView` `/media` ·
 `Allocation` `/allocation`
 

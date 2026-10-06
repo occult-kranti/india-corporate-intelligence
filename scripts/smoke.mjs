@@ -105,6 +105,7 @@ const ROUTES = [
   ['/energy', 'energy'],
   ['/welfare', 'welfare'],
   ['/finance', 'finance'],
+  ['/education', 'education'],
   ['/finance?lens=capital', 'finance-capital'],
   ['/security', 'security'],
   ['/security?lens=footprint', 'security-footprint'],
