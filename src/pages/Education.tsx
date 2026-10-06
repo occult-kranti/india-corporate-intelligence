@@ -1,3 +1,5 @@
+import { useHistorySearchDrafts } from '../lib/useHistorySearchDrafts';
+import { preserveWorkspaceParams } from '../lib/dossierNavigation';
 import { useEffect, useMemo, useState, type FormEvent, type ReactNode } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { ArrowDownRight, Bookmark, Check, Download, Link as LinkIcon, Search } from 'lucide-react';
@@ -152,6 +154,7 @@ export default function Education() {
   }), [paramsKey]);
   const [queryDraft, setQueryDraft] = useState(filters.q ?? '');
   const [placeDraft, setPlaceDraft] = useState(filters.place ?? '');
+  useHistorySearchDrafts(setQueryDraft, setPlaceDraft);
   const [visibleSources, setVisibleSources] = useState(8);
   const [visibleFlows, setVisibleFlows] = useState(6);
   const [visibleLeads, setVisibleLeads] = useState(4);
@@ -198,7 +201,7 @@ export default function Education() {
     // A committed filter is a navigable step; Back restores the previous research view.
     setParams(next);
   };
-  const reset = () => { setQueryDraft(''); setPlaceDraft(''); setParams(new URLSearchParams()); };
+  const reset = () => { setQueryDraft(''); setPlaceDraft(''); setParams(preserveWorkspaceParams(new URLSearchParams(), params)); };
   const submitSearch = (event: FormEvent) => {
     event.preventDefault();
     patch({ q: queryDraft.trim() || undefined, place: placeDraft.trim() || undefined });

@@ -20,6 +20,7 @@
 import { test, before, after } from 'node:test';
 import assert from 'node:assert/strict';
 import { chromium } from 'playwright';
+import { dossierRoute, dossierUrl, dossier } from './dossier-navigation.mjs';
 import { createServer } from 'node:http';
 import {
   existsSync, readFileSync, writeFileSync, mkdtempSync, cpSync, rmSync, symlinkSync, mkdirSync,
@@ -323,7 +324,7 @@ async function energyReady(page) {
 /** about:blank first so a hash-only navigation cannot carry state between loads. */
 async function load(page, route, base = full.base) {
   await page.goto('about:blank', { timeout: PAGE_READY_TIMEOUT });
-  await page.goto(`${base}/#${route}`, { waitUntil: 'networkidle', timeout: PAGE_READY_TIMEOUT });
+  await page.goto(dossierUrl(base, route), { waitUntil: 'networkidle', timeout: PAGE_READY_TIMEOUT });
   await energyReady(page);
 }
 
@@ -339,7 +340,7 @@ const int = (s) => Number.parseInt(s.replace(/,/g, ''), 10);
 const ne = (cond, msg) => assert.ok(cond, msg);
 
 /** A sweep chip by slug — chips carry their label, and the label is what the spec declares. */
-const chip = (page, slug) => page.locator('button[aria-pressed]').filter({ hasText: new RegExp('^\\s*' + esc(SWEEP_LABEL[slug]) + '\\b', 'i') }).first();
+const chip = (page, slug) => dossier(page).locator('button[aria-pressed]').filter({ hasText: new RegExp('^\\s*' + esc(SWEEP_LABEL[slug]) + '\\b', 'i') }).first();
 /**
  * All sweep chips — the strip's toggles only. The page has other `button[aria-pressed]`
  * toggles the spec also requires (the shape legend in #stage, the narrative-status
@@ -348,7 +349,7 @@ const chip = (page, slug) => page.locator('button[aria-pressed]').filter({ hasTe
  * starting with one of the twelve declared sweep labels.
  */
 const SWEEP_CHIP_TEXT = new RegExp('^\\s*(' + Object.values(SWEEP_LABEL).map(esc).join('|') + ')\\b', 'i');
-const sweepChips = (page, extra = '') => page.locator('button[aria-pressed]' + extra).filter({ hasText: SWEEP_CHIP_TEXT });
+const sweepChips = (page, extra = '') => dossier(page).locator('button[aria-pressed]' + extra).filter({ hasText: SWEEP_CHIP_TEXT });
 const fact = (page, n) => page.locator(`[data-strip-fact="${n}"]`).first();
 const factNum = async (page, n) => { const t = await text(fact(page, n)); const m = t.match(/^(\d+) of (\d+)/); assert.ok(m, `[data-strip-fact="${n}"] reads "${t}"`); return [int(m[1]), int(m[2])]; };
 const noDetailsAncestor = (loc) => loc.evaluate((el) => !el.closest('details'));
@@ -417,7 +418,7 @@ t('AC-02 — Zero records still renders a page that says so', async () => {
         assert.equal(await page.locator(id).count(), 0, `${vp}: ${id} rendered in the empty state`);
       }
       assert.equal(await page.locator('[role=combobox]').count(), 0, `${vp}: company box rendered in the empty state`);
-      const chips = page.locator('button[aria-pressed]');
+      const chips = dossier(page).locator('button[aria-pressed]');
       const n = await chips.count();
       assert.ok(n > 0, `${vp}: no sweep chips`);
       for (let i = 0; i < n; i += 1) {
@@ -1269,7 +1270,7 @@ t('AC-42 — A stale or killed id is named in an announced amber line', () => wi
 
 t('AC-43 — Reset clears only the graph\'s own keys', () => withPage('D', async (page) => {
   await load(page, `/energy?dom=coal&bsort=amount&tier=alleged&sel=${FIX.company}`);
-  await page.getByRole('button', { name: /^reset\b/i }).first().click();
+  await dossier(page).getByRole('button', { name: /^reset\b/i }).first().click();
   await page.waitForFunction(() => !new URLSearchParams(location.hash.split('?')[1] ?? '').has('tier'), null, { timeout: 5_000 });
   const p = hashParams(page);
   assert.ok(!p.has('tier') && !p.has('sel'), `graph keys survive reset: ${p}`);
@@ -1279,8 +1280,8 @@ t('AC-43 — Reset clears only the graph\'s own keys', () => withPage('D', async
 
 t('AC-44 — Nothing is selected or filtered by default', () => withPage('D', async (page) => {
   await load(page, '/energy');
-  assert.equal(new URL(page.url()).hash.split('?')[1] ?? '', '', 'search part not empty');
-  assert.equal(await page.locator('button[aria-pressed="true"]').evaluateAll((els) => els.filter((e) => !e.closest('#stage') && !e.closest('#benefit') && !e.closest('#contested')).length), 0, 'a chip is pressed');
+  assert.equal(new URL(page.url()).hash, `#${dossierRoute('/energy')}`, 'no legacy filter or selection is set; dossier surface remains explicit');
+  assert.equal(await page.locator('button[aria-pressed="true"]').evaluateAll((els) => els.filter((e) => e.closest('.iw-dossier-content') && !e.closest('#stage') && !e.closest('#benefit') && !e.closest('#contested')).length), 0, 'a chip is pressed');
   assert.equal(await page.locator('#stage g[aria-pressed="true"]').count(), 0, 'a node is pressed');
   assert.ok(await page.locator('input[type=radio][value="none"]').first().isChecked(), 'index radio is not none');
   const sortName = await page.locator('#benefit').evaluate((sec) => {
@@ -1532,7 +1533,7 @@ t('AC-54 — Every actionable control is a focusable element with a visible ring
     const rail = document.querySelector('#gq')?.closest('form, details, fieldset, section, aside, div') ?? null;
     const railEls = rail ? [...rail.querySelectorAll('input, button, select')] : [];
     const groups = {
-      chips: [...document.querySelectorAll('button[aria-pressed]')],
+      chips: [...document.querySelectorAll('.iw-dossier-content button[aria-pressed]')],
       rail: railEls,
       benefit: [...document.querySelectorAll('#benefit button')],
       benchmark: [...document.querySelectorAll('#benchmark button')],
@@ -1707,13 +1708,13 @@ t('AC-61 — The first phone screen answers "what, how much, as of when, what is
 
 t('AC-62 — Sweep chips wrap and the caption names what is absent', () => withPage('M', async (page) => {
   await load(page, '/energy');
-  const rows = await page.locator('button[aria-pressed]').evaluateAll((els) => {
+  const rows = await dossier(page).locator('button[aria-pressed]').evaluateAll((els) => {
     const parents = [...new Set(els.map((e) => e.parentElement))];
     return parents.map((p) => ({ sw: p.scrollWidth, cw: p.clientWidth }));
   });
   assert.ok(rows.length > 0, 'no chip rows');
   rows.forEach((r, i) => assert.ok(r.sw <= r.cw, `chip row ${i} scrolls sideways (${r.sw} > ${r.cw})`));
-  const chips = await page.locator('button[aria-pressed]').allInnerTexts();
+  const chips = await dossier(page).locator('button[aria-pressed]').allInnerTexts();
   for (const c of chips) {
     const tx = c.replace(/\s+/g, ' ').trim();
     assert.ok(/^.+?\s\d+$/.test(tx) || tx.includes('not yet researched'), `chip "${tx}" is not label + integer`);

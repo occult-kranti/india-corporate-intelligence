@@ -30,6 +30,7 @@
 import { test, before, after } from 'node:test';
 import assert from 'node:assert/strict';
 import { chromium } from 'playwright';
+import { dossierUrl, dossier } from './dossier-navigation.mjs';
 import { createServer } from 'node:http';
 import { readFileSync, existsSync, mkdirSync } from 'node:fs';
 import { join, extname, dirname } from 'node:path';
@@ -70,7 +71,7 @@ const CTX = {
 // Selectors the criteria fix outright.
 const TIERS = ['documented', 'reported', 'alleged', 'analytic'];
 const CITE = 'a[href^="http"]';
-const LIVE = '[aria-live="polite"]';
+const LIVE = '.iw-dossier-content [aria-live="polite"]';
 const RANGE = 'input[type="range"][aria-label="Year"]';
 const MAP = 'svg[role="listbox"][tabindex="0"]'; // S3 (WELFARE_A11Y): the map is a listbox of state options, not an image
 const SKIP_LINK = 'a[href="#stage-tables"]';
@@ -333,7 +334,7 @@ async function withPage(kind, fn, { ignoreErrors = false } = {}) {
 /** Navigate the way smoke does: about:blank first, so no route inherits another's crash. */
 async function go(page, search = '') {
   await page.goto('about:blank');
-  await page.goto(`${base}/#/welfare${search}`, { waitUntil: 'networkidle' });
+  await page.goto(dossierUrl(base, `/welfare${search}`), { waitUntil: 'networkidle' });
   // Do not treat shared shell text or a timed-out lazy import as page readiness.
   await page.getByRole('heading', { level: 1, name: H1, exact: true }).waitFor({ timeout: 30_000 });
   await page.waitForTimeout(SETTLE);
@@ -1193,7 +1194,7 @@ test('AC-29 — Say none recorded in this file in the readout, never 0', async (
     assert.ok(txt.startsWith(F.STATE_NONE_NAME), `reached ${F.STATE_NONE_NAME} (last: ${txt})`);
     assert.ok(txt.includes('none recorded in this file'), txt);
     assert.doesNotMatch(txt, /:\s*0\b/);
-    const visible = await page.evaluate((s) => window.__ac.deepestAll(document.body, s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).some((e) => !e.closest('[aria-live]')), txt);
+    const visible = await page.evaluate((s) => window.__ac.deepestAll(document.body, s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).some((e) => !e.closest('.iw-dossier-content [aria-live]')), txt);
     assert.ok(visible, 'visible readout shows the same words');
   });
 });
@@ -1632,7 +1633,7 @@ test('AC-49 — Round-trip st and move focus to the panel on a user action', asy
     await page.keyboard.press('ArrowRight');
     await page.keyboard.press('Enter');
     await page.waitForFunction(() => window.__ac.urlParams().has('st'), null, { timeout: 3000 });
-    const r = await page.evaluate(() => ({ isH2: document.activeElement?.tagName === 'H2', tab: document.activeElement?.tabIndex, live: window.__ac.txt(document.querySelector('[aria-live="polite"]')) }));
+    const r = await page.evaluate(() => ({ isH2: document.activeElement?.tagName === 'H2', tab: document.activeElement?.tabIndex, live: window.__ac.txt(document.querySelector('.iw-dossier-content [aria-live="polite"]')) }));
     assert.ok(r.isH2 && r.tab === -1, 'focus on the panel h2 (tabIndex -1)');
     assert.match(r.live, /opened: \d+ state schemes, \d+ elections in the file/);
     await page.keyboard.press('Escape');
@@ -1687,7 +1688,7 @@ test('AC-52 — Round-trip view, and open the twins under the table view or the 
       assert.ok(r.n > 0 && r.open === r.n, `all ${r.n} twins open`);
       assert.equal(await count(p, SEARCH), 1, 'FilterBar present');
       assert.ok((await p.getByRole('button', { name: 'Copy as TSV' }).count()) >= r.n && (await p.getByRole('button', { name: 'Download .tsv' }).count()) >= r.n, 'export buttons above each twin');
-    }, async (p) => { await p.getByRole('button', { name: 'Reset' }).first().click(); });
+    }, async (p) => { await dossier(p).getByRole('button', { name: 'Reset' }).first().click(); });
     assert.equal((await params(page)).view, 'table', 'Reset keeps view');
     await go(page, '#stage-tables');
     const open = await page.evaluate(() => [...document.querySelectorAll('#stage-tables details')].map((d) => d.open));
@@ -1731,12 +1732,14 @@ test('AC-55 — Reset everything but view, and copy the exact link', async (t) =
   if (!requireFull(t) || !need(t, 'Y_WITH_BALLOTS', 'C1', 'PARTY', 'STATE_WITH_VALUE')) return;
   await withPage('desktop', async (page) => {
     await go(page, `?y=${F.Y_WITH_BALLOTS}&m=live&cat=${F.C1}&party=${encodeURIComponent(F.PARTY)}&lvl=state&st=${F.STATE_WITH_VALUE}&tier=documented&view=map&q=a`);
-    await page.getByRole('button', { name: 'Reset' }).first().click();
-    await page.waitForFunction(() => { const p = window.__ac.urlParams(); return [...p.keys()].every((k) => k === 'view'); }, null, { timeout: 3000 });
+    await dossier(page).getByRole('button', { name: 'Reset' }).first().click();
+    await page.waitForFunction(() => { const p = window.__ac.urlParams(); return p.get('iw_view') === 'dossier' && [...p.keys()].every((k) => k === 'view' || k === 'iw_view'); }, null, { timeout: 3000 });
     const p = await params(page);
-    assert.ok(Object.keys(p).length === 0 || (Object.keys(p).length === 1 && p.view === 'map'), JSON.stringify(p));
+    assert.equal(p.iw_view, 'dossier');
+    const dossierKeys = Object.keys(p).filter(key => key !== 'iw_view');
+    assert.ok(dossierKeys.length === 0 || (dossierKeys.length === 1 && p.view === 'map'), JSON.stringify(p));
     await page.getByRole('button', { name: 'Copy link' }).first().click();
-    await page.waitForFunction(() => window.__ac.txt(document.querySelector('[aria-live="polite"]')) === 'Link copied', null, { timeout: 3000 });
+    await page.waitForFunction(() => window.__ac.txt(document.querySelector('.iw-dossier-content [aria-live="polite"]')) === 'Link copied', null, { timeout: 3000 });
     const clip = await page.evaluate(() => navigator.clipboard.readText());
     assert.equal(clip, await page.evaluate(() => location.href));
   });
@@ -1901,7 +1904,7 @@ test('AC-62 — Export exactly the rows on screen, with the caption line first',
       assert.ok(await copy.count() && await dl.count(), `${tb.sel}: export buttons`);
       assert.ok(await copy.evaluate((b, sel) => { const t = document.querySelector(sel); return !!(b.compareDocumentPosition(t) & Node.DOCUMENT_POSITION_FOLLOWING); }, `table[data-ac-idx="${tables.indexOf(tb)}"]`), `${tb.sel}: buttons sit above the table`);
       await copy.click();
-      await page.waitForFunction((n) => window.__ac.txt(document.querySelector('[aria-live="polite"]')) === `Table copied, ${n} rows`, tb.rows, { timeout: 3000 });
+      await page.waitForFunction((n) => window.__ac.txt(document.querySelector('.iw-dossier-content [aria-live="polite"]')) === `Table copied, ${n} rows`, tb.rows, { timeout: 3000 });
       const clip = await page.evaluate(() => navigator.clipboard.readText());
       const lines = clip.replace(/\n$/, '').split('\n');
       assert.equal(lines.length, tb.rows + 2, `${tb.sel}: caption + header + rows`);
@@ -1982,7 +1985,7 @@ test('AC-65 — Drive the map by keyboard and announce each state', async (t) =>
       const txt = await live(page);
       assert.notEqual(txt, prev, 'live region changes'); prev = txt;
       assert.ok(F.STATE_NAMES.some((n) => txt.startsWith(n)), `begins with a state name: ${txt}`);
-      const vis = await page.evaluate((s) => window.__ac.deepestAll(document.body, s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).some((e) => !e.closest('[aria-live]')), txt);
+      const vis = await page.evaluate((s) => window.__ac.deepestAll(document.body, s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).some((e) => !e.closest('.iw-dossier-content [aria-live]')), txt);
       assert.ok(vis, 'visible readout shows the same text');
     }
   });
@@ -2055,7 +2058,7 @@ test('AC-69 — Keep exactly one live region, and hide decorative swatches', asy
   await withPage('desktop', async (page) => {
     for (const search of routes) {
       await go(page, search);
-      const r = await page.evaluate(() => ({ n: document.querySelectorAll('[aria-live]').length, polite: document.querySelectorAll('[aria-live="polite"]').length }));
+      const r = await page.evaluate(() => ({ n: document.querySelectorAll('.iw-dossier-content [aria-live]').length, polite: document.querySelectorAll('.iw-dossier-content [aria-live="polite"]').length }));
       assert.equal(r.n, 1, `one live region at ${search || '/'}`); assert.equal(r.polite, 1);
     }
     await go(page);
@@ -2077,7 +2080,7 @@ test('AC-70 — Keep the DOM order the reader hears', async (t) => {
       await go(page);
       const r = await page.evaluate(() => {
         const A = window.__ac;
-        const seq = [['FilterBar', document.querySelector('input[type="search"]')], ['skip link', document.querySelector('a[href="#stage-tables"]')], ['figure', A.figure()], ['margin', A.margin()], ['TimeLanes', A.lanesSvg()], ['C1', document.querySelector('[data-caption="C1"]')], ['#stage-tables', document.querySelector('#stage-tables')]];
+        const seq = [['FilterBar', document.querySelector('.iw-dossier-content input[type="search"]')], ['skip link', document.querySelector('a[href="#stage-tables"]')], ['figure', A.figure()], ['margin', A.margin()], ['TimeLanes', A.lanesSvg()], ['C1', document.querySelector('[data-caption="C1"]')], ['#stage-tables', document.querySelector('#stage-tables')]];
         const missing = seq.filter(([, e]) => !e).map(([n]) => n);
         const bad = [];
         for (let i = 1; i < seq.length; i++) if (seq[i - 1][1] && seq[i][1] && !A.precedes(seq[i - 1][1], seq[i][1])) bad.push(`${seq[i - 1][0]} !< ${seq[i][0]}`);
@@ -2323,8 +2326,16 @@ test('AC-81 — Keep the scrubber in the first viewport at 1280×800', async (t)
   if (!requireFull(t)) return;
   await withPage('fold', async (page) => {
     await go(page);
-    const r = await page.evaluate(() => { const i = document.querySelector('input[type="range"][aria-label="Year"]'); const fig = window.__ac.figure(); return { scrollY: window.scrollY, bottom: i?.parentElement.getBoundingClientRect().bottom, figH: fig?.getBoundingClientRect().height }; });
-    assert.equal(r.scrollY, 0); assert.ok(r.bottom !== undefined && r.bottom <= 800, `scrubber row bottom ${r.bottom}`);
+    const r = await page.evaluate(() => {
+      const article = document.querySelector('.iw-dossier-content article');
+      const origin = article.getBoundingClientRect().top;
+      const i = article.querySelector('input[type="range"][aria-label="Year"]');
+      const fig = window.__ac.figure();
+      // Shared workspace controls precede the embedded dossier. Keep the same
+      // fold budget from its reading origin and retain the figure-size check.
+      return { scrollY: window.scrollY, bottom: i ? i.parentElement.getBoundingClientRect().bottom - origin : undefined, figH: fig?.getBoundingClientRect().height };
+    });
+    assert.equal(r.scrollY, 0); assert.ok(r.bottom !== undefined && r.bottom <= 800, `scrubber row bottom ${r.bottom} from dossier origin`);
     assert.ok(r.figH >= 420 && r.figH <= 620, `figure height ${r.figH}`);
   });
 });

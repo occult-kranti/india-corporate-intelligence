@@ -1,0 +1,374 @@
+{
+  "schemaVersion": 1,
+  "evidenceAsOf": "2026-10-06",
+  "sourceRegistries": [
+    {
+      "path": "research/raw/investigation/finance-research.json",
+      "sha256": "9260b34a119e1b84798d05259e6643c3d88d4d3bf5823889f146362b7dea2035",
+      "domain": "finance"
+    },
+    {
+      "path": "research/raw/investigation/justice-research.json",
+      "sha256": "c11e78dcfc33288bb100a1e7fafb3563e8d77181c5a33bfdba1233cabac92687",
+      "domain": "justice"
+    },
+    {
+      "path": "research/raw/investigation/welfare-research.json",
+      "sha256": "e4ff4ac6672e8966ab804f43edd79d72491e7b0245bddfe04c213f6849e103e6",
+      "domain": "welfare"
+    }
+  ],
+  "inputKind": "Public researcher-authored source summaries and limitations; not full documents, not legal or corruption findings",
+  "documents": [
+    {
+      "id": "finance:adani-ar23",
+      "title": "Adani Power annual report FY2022-23, filed 27 June 2023",
+      "text": "Reports Essar Power MP acquisition/control on 16 March 2022, rename to Mahan Energen, ₹1 crore equity infusion and ₹600 crore upfront lender payment; locates 1,200MW plant in Singrauli. Issuer disclosure, not an independent assessment of acquisition fairness. ₹1 crore equity, ₹600 crore upfront and ₹2,500 crore plan-realizable figure are different stages and must not be summed as separate awards.",
+      "url": "https://www.msei.in/SX-Content/Listing/Annual-Reports/2023/ADANIPOWER-2023.pdf",
+      "evidenceTier": "self-reported",
+      "retrievedAt": "2026-10-06",
+      "sourceId": "adani-ar23",
+      "domain": "finance"
+    },
+    {
+      "id": "finance:essar-sc-summary",
+      "title": "IBBI summary of Supreme Court Essar Steel judgment",
+      "text": "Official regulator summary explains Supreme Court reversal of the July 2019 NCLAT approach and treatment of resolution claims. Summary is not the full Supreme Court judgment. Historical legal context; not proof of later execution or current balances.",
+      "url": "https://ibbi.gov.in/uploads/order/120420f392f6245a1f0be0adb41102d9.pdf",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06",
+      "sourceId": "essar-sc-summary",
+      "domain": "finance"
+    },
+    {
+      "id": "finance:ibbi-june26",
+      "title": "Insolvency and Bankruptcy News, April–June 2026",
+      "text": "1,484 resolution plans; ₹435,469.89 crore creditor realization measure against ₹1,426,665.38 crore admitted claims; methodology and fair-value denominator caveats. Snapshot is 30 June 2026; exact issue-publication date not established. Table labels use realizable value while surrounding text uses realized. It is not independently verified cash collected by the snapshot. Fair-value ratio covers 1,359 cases, not all 1,484.",
+      "url": "https://ibbi.gov.in/uploads/publication/2a6b0d98890fdf684bb77baa10b131bc.pdf",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06",
+      "sourceId": "ibbi-june26",
+      "domain": "finance"
+    },
+    {
+      "id": "finance:ibbi-named",
+      "title": "Corporate insolvency resolutions as at 30 September 2022",
+      "text": "Named debtor CINs, admitted financial/operational claims and realizable amounts under approved plans. Data supplied by resolution professionals. Amounts are realizable, not NPV and not verified cash recovery. 2022 snapshot cannot settle subsequent implementation, appeals or guarantee recoveries.",
+      "url": "https://ibbi.gov.in/uploads/whatsnew/5c568c1287a3b7fc7ed25827acb9e3f9.pdf",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06",
+      "sourceId": "ibbi-named",
+      "domain": "finance"
+    },
+    {
+      "id": "finance:pm-about",
+      "title": "PM CARES current About page and account index",
+      "text": "Six statements through FY2024-25 are now linked. Ex officio PM chair and Defence, Home and Finance ministers; current nominated trustees K. T. Thomas and Kariya Munda. Webpage update is not the publication date of each PDF. A self-description of legal status is not a court determination.",
+      "url": "https://pmcares.gov.in/en/web/page/about_us",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06",
+      "sourceId": "pm-about",
+      "domain": "finance"
+    },
+    {
+      "id": "finance:pm-deed",
+      "title": "PM CARES registered trust deed",
+      "text": "Deed recites non-governmental character while assigning ex officio trusteeship and PMO administrative support. Earlier than the five-year recent-record window; constitutional background. The trust recital does not decide the statutory public-authority test.",
+      "url": "https://pmcares.gov.in/assets/donation/pdf/Trust_Deed.pdf",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06",
+      "sourceId": "pm-deed",
+      "domain": "finance"
+    },
+    {
+      "id": "finance:pm-faq",
+      "title": "PM CARES current FAQs",
+      "text": "PMO honorary administration, contribution eligibility, current auditor KKC appointed for three years and FCRA position. Appointment start date and FCRA exemption instrument are not supplied by these passages.",
+      "url": "https://pmcares.gov.in/en/web/page/faq",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06",
+      "sourceId": "pm-faq",
+      "domain": "finance"
+    },
+    {
+      "id": "finance:pm-fy24",
+      "title": "PM CARES audited Receipts and Payments FY2023-24",
+      "text": "Original scan signed by KKC partner Tejas Parikh on 7 August 2026; net domestic donations, interest, refunds, payments and balances. Audit signature date is known; publication date is not. Notes 1–16 and the separate referenced audit report are absent from this linked PDF.",
+      "url": "https://pmcares.gov.in/assets/donation/pdf/Audited_Statement_2023_24.pdf",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06",
+      "sourceId": "pm-fy24",
+      "domain": "finance"
+    },
+    {
+      "id": "finance:pm-fy25",
+      "title": "PM CARES audited Receipts and Payments FY2024-25",
+      "text": "Original scan separates domestic and foreign donations net of refunds, savings and FD interest, TDS refund and implementing-agency refunds. Cash account does not identify donors, implementing agencies or final recipients. Signature 7 August 2026 is not a publication date.",
+      "url": "https://pmcares.gov.in/assets/donation/pdf/Audited_Statement_2024_25.pdf",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06",
+      "sourceId": "pm-fy25",
+      "domain": "finance"
+    },
+    {
+      "id": "finance:pm-sc",
+      "title": "Centre for Public Interest Litigation v Union of India, WP(C)546/2020",
+      "text": "Court refused a direction requiring transfer of PM CARES funds to NDRF and discussed the charitable trust audit context. The judgment does not adjudicate RTI section 2(h). Pre-window legal background, not a current case-status determination.",
+      "url": "https://api.sci.gov.in/supremecourt/2020/12392/12392_2020_35_1501_23456_Judgement_18-Aug-2020.pdf",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06",
+      "sourceId": "pm-sc",
+      "domain": "finance"
+    },
+    {
+      "id": "finance:pmnrf-about",
+      "title": "PMNRF current accounts index",
+      "text": "Current original page links audited FY2023-24 and FY2024-25 accounts; both were downloaded. Comparator supplies context, not a causal or intent test.",
+      "url": "https://pmnrf.gov.in/en/about",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06",
+      "sourceId": "pmnrf-about",
+      "domain": "finance"
+    },
+    {
+      "id": "finance:rbi-2023",
+      "title": "Framework for Compromise Settlements and Technical Write-offs",
+      "text": "Technical write-off preserves borrower claims; compromise can waive claims to an agreed extent. Sets policy, approval, reporting and cooling-period rules. Historical circular; current commercial-bank provisions are read from the 2025 Directions as updated 1 October 2026.",
+      "url": "https://www.rbi.org.in/Scripts/NotificationUser.aspx?Id=12513",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06",
+      "sourceId": "rbi-2023",
+      "domain": "finance"
+    },
+    {
+      "id": "finance:rbi-current",
+      "title": "Commercial Banks – Resolution of Stressed Assets Directions, 2025, updated 1 October 2026",
+      "text": "Defines compromise and technical write-off separately; board governance, criminal-proceedings preservation and continued penal measures for wilful default/fraud. Commercial-bank applicability; do not substitute similarly titled rural cooperative-bank directions. The current consolidation includes amendments; original issue date alone does not identify the operative version.",
+      "url": "https://rbidocs.rbi.org.in/rdocs/notification/PDFs/165MD.PDF",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06",
+      "sourceId": "rbi-current",
+      "domain": "finance"
+    },
+    {
+      "id": "finance:writeoffs-q120",
+      "title": "Lok Sabha Q120: Waiver of loans",
+      "text": "PSB Large–Industries & Services domestic write-offs and actual recoveries; all-borrower ≥₹100 crore write-off count; confidentiality and mixed-vintage recovery caveats. FY2025-26 figures provisional. Corporate-loan category not separately collected. Annual recoveries are not a cohort recovery rate; all-type CRILC count is not a corporate or billionaire list.",
+      "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU120_rCBUdx.pdf",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06",
+      "sourceId": "writeoffs-q120",
+      "domain": "finance"
+    },
+    {
+      "id": "justice:src-adicorp-order",
+      "title": "SEBI final order: Adicorp transactions — 31671/2025-26",
+      "text": "SEBI found the specified show-cause allegations unestablished under the rules applicable to the transactions and disposed of proceedings without directions. Only the issues and parties covered by this dated record are established. Later appeals, implementation and unrelated proceedings are not exhaustively tracked. A final regulatory decision on specified noticees/transactions, not a criminal acquittal or clearance of every allegation involving a corporate group. Original cover identities reviewed; personal tax identifiers excluded from the retained excerpts.",
+      "url": "https://www.sebi.gov.in/sebi_data/attachdocs/sep-2025/order_matter_adicorp.pdf",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06",
+      "sourceId": "src-adicorp-order",
+      "domain": "justice"
+    },
+    {
+      "id": "justice:src-cag-proceedings-parliament",
+      "title": "Parliament reply: proceedings based on CAG findings — Lok Sabha Q.2191",
+      "text": "The Ministry reports CBI RC33/2022-EO-III-Delhi, registered 12 July 2022 on a coal-allocation audit, with a closure report filed 31 March 2025; it describes ATN/PAC follow-up. Only the issues and parties covered by this dated record are established. Later appeals, implementation and unrelated proceedings are not exhaustively tracked. The answer reports a CBI case, not a complete census of all state or agency actions on CAG reports. Filing a closure report does not establish court acceptance. The underlying case file and closure order were not retrieved.",
+      "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU2191_FwhMf9.pdf",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06",
+      "sourceId": "src-cag-proceedings-parliament",
+      "domain": "justice"
+    },
+    {
+      "id": "justice:src-electoral-bonds-judgment",
+      "title": "Electoral bonds constitutional judgment — 2024 INSC 113",
+      "text": "The Court struck down the scheme and specified statutory amendments, and ordered disclosure. This constitutional decision does not adjudicate whether an individual donation bought an award. Only the issues and parties covered by this dated record are established. Later appeals, implementation and unrelated proceedings are not exhaustively tracked.",
+      "url": "https://api.sci.gov.in/supremecourt/2017/27935/27935_2017_1_1501_50573_Judgement_15-Feb-2024.pdf",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06",
+      "sourceId": "src-electoral-bonds-judgment",
+      "domain": "justice"
+    },
+    {
+      "id": "justice:src-electoral-bonds-sit-order",
+      "title": "Common Cause electoral-bonds investigation petitions — 2 August 2024",
+      "text": "The Court declined an omnibus SIT under Article 32 where ordinary remedies had not been pursued. Timing proximity was treated as an assumption requiring case-specific investigation, not proof of quid pro quo. Only the issues and parties covered by this dated record are established. Later appeals, implementation and unrelated proceedings are not exhaustively tracked.",
+      "url": "https://api.sci.gov.in/supremecourt/2024/17622/17622_2024_1_30_54391_Order_02-Aug-2024.pdf",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06",
+      "sourceId": "src-electoral-bonds-sit-order",
+      "domain": "justice"
+    },
+    {
+      "id": "justice:src-kejriwal-arrest-review",
+      "title": "Arvind Kejriwal arrest review and interim bail — 2024 INSC 512",
+      "text": "The Court considered the PMLA arrest challenge, referred questions about necessity of arrest, and granted interim bail. Paragraph 88 expressly reserves criminal merits. Only the issues and parties covered by this dated record are established. Later appeals, implementation and unrelated proceedings are not exhaustively tracked.",
+      "url": "https://api.sci.gov.in/supremecourt/2024/16350/16350_2024_2_1501_53587_Judgement_12-Jul-2024.pdf",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06",
+      "sourceId": "src-kejriwal-arrest-review",
+      "domain": "justice"
+    },
+    {
+      "id": "justice:src-kerala-borrowing-order",
+      "title": "Kerala borrowing ceiling: interim relief and reference — 2024 INSC 253",
+      "text": "Interim borrowing relief was refused and constitutional questions referred to five judges. Paragraph 39 reserves the final outcome of the original suit. Only the issues and parties covered by this dated record are established. Later appeals, implementation and unrelated proceedings are not exhaustively tracked.",
+      "url": "https://api.sci.gov.in/supremecourt/2023/51385/51385_2023_4_1501_51772_Judgement_01-Apr-2024.pdf",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06",
+      "sourceId": "src-kerala-borrowing-order",
+      "domain": "justice"
+    },
+    {
+      "id": "justice:src-milestone-order",
+      "title": "SEBI final order: Milestone/Rehvar transactions — 31672/2025-26",
+      "text": "SEBI disposed of these specified proceedings without directions; the prior related-party definition, prospective amendments and absence of independent fraud evidence were material. Only the issues and parties covered by this dated record are established. Later appeals, implementation and unrelated proceedings are not exhaustively tracked. A final regulatory decision on specified noticees/transactions, not a criminal acquittal or clearance of every allegation involving a corporate group. Original cover identities reviewed; personal tax identifiers excluded from the retained excerpts.",
+      "url": "https://www.sebi.gov.in/sebi_data/attachdocs/sep-2025/order_matter_milestone_rehvar.pdf",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06",
+      "sourceId": "src-milestone-order",
+      "domain": "justice"
+    },
+    {
+      "id": "justice:src-pmcares-judgment",
+      "title": "PM CARES / NDRF fund-transfer judgment — W.P.(C) 546/2020",
+      "text": "Historical judgment refuses compulsory transfer of PM CARES funds to NDRF and distinguishes their legal/audit regimes. It is not a transaction-level audit or an RTI-status determination. Only the issues and parties covered by this dated record are established. Later appeals, implementation and unrelated proceedings are not exhaustively tracked. Historical background, outside the 6 October 2021–6 October 2026 recent window. Does not establish current financial balances, donor identities, procurement delivery or general RTI status.",
+      "url": "https://api.sci.gov.in/supremecourt/2020/12392/12392_2020_35_1501_23456_Judgement_18-Aug-2020.pdf",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06",
+      "sourceId": "src-pmcares-judgment",
+      "domain": "justice"
+    },
+    {
+      "id": "justice:src-sbi-disclosure-order",
+      "title": "SBI disclosure extension refused — 2024 INSC 195",
+      "text": "SBI sought time until 30 June 2024. The Court required disclosure by 12 March and ECI publication by 15 March; contempt jurisdiction was not exercised at that stage. Only the issues and parties covered by this dated record are established. Later appeals, implementation and unrelated proceedings are not exhaustively tracked.",
+      "url": "https://api.sci.gov.in/supremecourt/2024/10382/10382_2024_1_301_51365_Judgement_11-Mar-2024.pdf",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06",
+      "sourceId": "src-sbi-disclosure-order",
+      "domain": "justice"
+    },
+    {
+      "id": "justice:src-sita-soren-immunity",
+      "title": "Sita Soren legislative-immunity reference — 2024 INSC 161",
+      "text": "The seven-judge bench held legislative speech/vote immunity does not immunise bribery prosecution. The reference answers the constitutional question, not individual criminal guilt. Only the issues and parties covered by this dated record are established. Later appeals, implementation and unrelated proceedings are not exhaustively tracked.",
+      "url": "https://api.sci.gov.in/supremecourt/2014/10177/10177_2014_1_1501_51211_Judgement_04-Mar-2024.pdf",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06",
+      "sourceId": "src-sita-soren-immunity",
+      "domain": "justice"
+    },
+    {
+      "id": "justice:src-swamih-rti-order",
+      "title": "SWAMIH / Gayatri Aura information dispute — Delhi HC W.P.(C) 4353/2025",
+      "text": "The Court declined the RTI petition on forum/territorial grounds with liberty to approach the jurisdictional High Court; all rights and contentions remain open. Only the issues and parties covered by this dated record are established. Later appeals, implementation and unrelated proceedings are not exhaustively tracked.",
+      "url": "https://delhihighcourt.nic.in/app/showFileJudgment/59612032026CW43532025_122846.pdf",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06",
+      "sourceId": "src-swamih-rti-order",
+      "domain": "justice"
+    },
+    {
+      "id": "justice:src-vishal-tiwari-judgment",
+      "title": "Vishal Tiwari v Union of India — 2024 INSC 3",
+      "text": "No ground was shown to transfer SEBI investigations; the Court directed completion of two pending matters and expressly did not interfere with investigation outcomes. Only the issues and parties covered by this dated record are established. Later appeals, implementation and unrelated proceedings are not exhaustively tracked.",
+      "url": "https://api.sci.gov.in/supremecourt/2023/5354/5354_2023_1_1501_49132_Judgement_03-Jan-2024.pdf",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06",
+      "sourceId": "src-vishal-tiwari-judgment",
+      "domain": "justice"
+    },
+    {
+      "id": "welfare:disability-grants-2026",
+      "title": "Lok Sabha AU241: Deendayal Divyangjan Rehabilitation Scheme",
+      "text": "Department supplies district and named special-school NGO release figures, beneficiary counts and state grant tables. Release is not a utilisation certificate or independently verified service outcome. The dash for FY2025-26 is preserved as a dash; it does not prove closure, fraud or zero services. The named NGO is tied to Keonjhar Lok Sabha constituency in the source; no district or town location is inferred. Annexure II lists AGP recipients without recipient-level amounts; these must not inherit DDRS table totals. Original PDF fetched with HTTP 200 and SHA-256 archived.",
+      "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU241_oAndcE.pdf",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06",
+      "sourceId": "disability-grants-2026",
+      "domain": "welfare"
+    },
+    {
+      "id": "welfare:jharkhand-ekalyan-audit",
+      "title": "CAG Jharkhand Report 3/2023: Direct Benefit Transfer, Chapter 6 e-Kalyan",
+      "text": "Audit of the scholarship portal identifies doubtful ₹40.31 lakh linked to differing UID entries and absent validation controls. Official report catalogue 119516 establishes tabling on 21 December 2023; June 2023 signatures are not publication dates. Doubtful grant entries are not adjudicated fraud and do not establish every student’s intent. Audit 2017-18 to July 2020 includes older background; government observations remained unanswered in the retained chapter after referral in October 2022. Direct original PDF returned HTTP 503; indexed original-document text archived. Original-site availability is not asserted.",
+      "url": "https://cag.gov.in/uploads/download_audit_report/2023/10-Chapter-6-065841f5b99d0d6.80980413.pdf",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06",
+      "sourceId": "jharkhand-ekalyan-audit",
+      "domain": "welfare"
+    },
+    {
+      "id": "welfare:kerala-scholarship-audit",
+      "title": "CAG Kerala Report 3/2024: pre- and post-matric scholarships",
+      "text": "The audit follows scholarship instructions, application approval, bank rejection and money returned to treasury, showing why payment initiated is not payment received. Four sampled districts: Kollam, Ernakulam, Kozhikode and Wayanad; 144 institutions. The e-grantz data snapshot was obtained in June 2022; subsequent payment updates were not included in analysis. Transaction counts are not necessarily unique students; rejected money returned to government is not an established embezzlement amount. Direct original PDF returned HTTP 503; indexed original-document text archived. Original-site availability is not asserted.",
+      "url": "https://cag.gov.in/webroot/uploads/download_audit_report/2022/Report-No.3-of-2024---Performance-Audit-on-Pre-and-Post-Matric-Scholarship-Schemes-for-Scheduled-Caste,-Scheduled-Tribe-and-Minority-Students-0668f9da678b7c7.26879741.pdf",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06",
+      "sourceId": "kerala-scholarship-audit",
+      "domain": "welfare"
+    },
+    {
+      "id": "welfare:mission-shakti-2026",
+      "title": "Lok Sabha AU969: Mission Shakti implementation and releases",
+      "text": "Scheme release tables explicitly explain that Uttar Pradesh PMMVY received no fresh release because sufficient funds remained in its Single Nodal Agency account. Central release is distinct from state spending or beneficiary payment. Reasons for one state’s zero release must not be applied to another state without its own footnote. The source’s service/impact descriptions are government reports, not independent outcome validation. Original PDF fetched with HTTP 200 and SHA-256 archived.",
+      "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU969_u3VK7M.pdf",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06",
+      "sourceId": "mission-shakti-2026",
+      "domain": "welfare"
+    },
+    {
+      "id": "welfare:mp-thr-audit",
+      "title": "CAG Madhya Pradesh Report 8/2024: Take Home Ration compliance audit",
+      "text": "Final report examines beneficiary verification and take-home-ration supply during 2018-21, including the December 2022 government rebuttal. The final audit replaces reliance on a 2022 draft reported in the prior NGO corpus. Supply value, cash paid, unpaid bills and estimated avoidable expenditure are different stages; they must not be added. The retained long extract is capped at 500,000 characters; the decisive THR section and response are fully present. Direct original PDF returned HTTP 503; indexed original-document text archived. Original-site availability is not asserted.",
+      "url": "https://cag.gov.in/uploads/download_audit_report/2024/Final-Report-No.08-MP-English---25.11.2024-signed-06764038458ad31.02667470.pdf",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06",
+      "sourceId": "mp-thr-audit",
+      "domain": "welfare"
+    },
+    {
+      "id": "welfare:nsap-audit",
+      "title": "CAG Report 10/2023: National Social Assistance Programme",
+      "text": "National pension audit separates diversion of administrative publicity funds from short-payment of entitled pensions; December 2022 Ministry replies retained. Audit fieldwork covered 179 districts, 358 blocks, 699 Gram Panchayats and 8,461 surveyed beneficiaries; selected-district findings are not whole-population estimates. Audit period precedes the recent five-year window; the report and response are recent evidence about historical delivery. Direct original PDF returned HTTP 503; indexed original-document text archived. Original-site availability is not asserted.",
+      "url": "https://cag.gov.in/uploads/download_audit_report/2023/Report-No.-10-of-2023_NSAP_English_PDF-A-064d229f832dad7.55068084.pdf",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06",
+      "sourceId": "nsap-audit",
+      "domain": "welfare"
+    },
+    {
+      "id": "welfare:odisha-icds-audit",
+      "title": "CAG Odisha Report 9/2025: POSHAN implementation, Chapter II ICDS",
+      "text": "Six-district nutrition delivery audit records enrolment-to-service gaps, interrupted hot cooked meals and responses about Aadhaar, migration, COVID and heat waves. The retained chapter identifies Odisha; exact publication day is unconfirmed and is not inferred from the upload URL. 2018-23 cumulative beneficiary entries are not established as distinct people across all years. Survey and AWC inspection results are sample-specific. Direct original PDF returned HTTP 503; indexed original-document text archived. Original-site availability is not asserted.",
+      "url": "https://cag.gov.in/uploads/download_audit_report/2025/chapter-2-069ccbe6aaff952.82761140.pdf",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06",
+      "sourceId": "odisha-icds-audit",
+      "domain": "welfare"
+    },
+    {
+      "id": "welfare:svanidhi-2026",
+      "title": "Lok Sabha AU695: loans sanctioned and disbursed under PM-SVANidhi",
+      "text": "Parliament reports 1.15 crore loan disbursements to 76.95 lakh vendors, with state-year tables and government-cited impact study. Loan counts are not distinct vendor counts because borrowers can take successive tranches. ₹18,475.06 crore is loan principal disbursed, not a government grant or demonstrated net fiscal cost. The reply discusses repayment schedules but does not supply the requested numeric repayment rate. ISB impact findings are the Ministry’s description of a study; the study itself was not independently reviewed. Original PDF fetched with HTTP 200 and SHA-256 archived.",
+      "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU695_v6Zr1E.pdf",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06",
+      "sourceId": "svanidhi-2026",
+      "domain": "welfare"
+    },
+    {
+      "id": "welfare:tn-pmay-audit",
+      "title": "CAG Tamil Nadu Report 6/2022: implementation of PMAY-G",
+      "text": "Audit describes replacement of UNKNOWN beneficiary names in AwaasSoft, physical checks and estimated loss from identified suspect housing sanctions. The title page explicitly says Tamil Nadu; an Assam search query surfaced this URL and does not determine geography. A sampled verification result is not extrapolated into a verified fraud total for every similar record. Private beneficiary names and account identifiers are not reproduced in the graph. Direct original PDF returned HTTP 503; indexed original-document text archived. Original-site availability is not asserted.",
+      "url": "https://cag.gov.in/webroot/uploads/download_audit_report/2021/Report-No-6-of-2022-PMAY-G-2020-21-English-064427d5a33aa49.69300243.pdf",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06",
+      "sourceId": "tn-pmay-audit",
+      "domain": "welfare"
+    }
+  ]
+}

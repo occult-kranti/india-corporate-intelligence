@@ -14,18 +14,7 @@ import {
 const cr = (v: number | undefined | null) =>
   v == null ? '—' : `₹${v.toLocaleString('en-IN', { maximumFractionDigits: 2 })} cr`;
 
-/**
- * PM CARES — a fund.
- *
- * The centre is a flow ledger with financial years as columns and the unpublished
- * years drawn as holes rather than omitted. But the page does not open with it,
- * because the investigation's own headline is that a CONTROL governs everything
- * said here: the 1948 PMNRF, administered from the same office, is identical on the
- * two properties most often presented as PM CARES-specific.
- *
- * An unusual property that a comparable institution also has is a fact about the
- * category, not about the institution. So the control leads.
- */
+/** Source-backed disclosure ledger with explicitly bounded comparisons. */
 export default function PmCares() {
   const cov = useMemo(() => coverage(), []);
   const completeness = useMemo(() => statementCompleteness(), []);
@@ -60,13 +49,12 @@ export default function PmCares() {
   return (
     <div className="max-w-[1180px]">
       <Kicker>PM CARES · a fund</Kicker>
-      <PageTitle>What the record establishes, and what a control does to it</PageTitle>
+      <PageTitle>Follow the fund, disclosures and oversight</PageTitle>
       <Standfirst>
-        Two claims are made about this fund more often than any others: that it was created to
-        escape the Right to Information Act, and that its accounts have gone dark. Both were
-        tested against the only proper comparator — the 1948 Prime Minister's National Relief
-        Fund, run from the same office — and neither survived. What does survive is narrower,
-        better sourced, and largely unreported.
+        Follow audited receipts, payments and balances through FY2024-25, with the limits of
+        the published record alongside them. The newer accounts include interest and returned
+        funds in receipts and net donation refunds differently from earlier statements.
+        PMNRF provides context; a comparison cannot establish intent or settle RTI status.
       </Standfirst>
       <Byline>
         {cov.published} of {cov.elapsed} elapsed financial years published · as of {PM_AS_OF}
@@ -78,13 +66,13 @@ export default function PmCares() {
           facts={[
             { n: cov.published, of: cov.elapsed, label: 'financial years published' },
             { n: completeness.withAuditorsReport, of: cov.published, label: 'with an auditor’s report' },
-            { n: Number(agg.namedDisbursementHeadsAcrossFourYears ?? 0), label: 'named payment heads' },
+            { n: Number(agg.namedDisbursementHeadsAcrossPublishedYears ?? 0), label: 'payment lines across years' },
             { n: Number(agg.recipientNamesPublished ?? 0), label: 'recipients named' },
           ]}
         />
       </div>
 
-      <Section title="The control governs this page" note="Run first, because it decides what the rest of the evidence can mean">
+      <Section title="Disclosure and the PMNRF comparison" note="Current files, historical context and unresolved questions">
         <Callout label={`Comparator: ${PM_CONTROL.comparator}`} tone="bottomline">
           {PMCARES.headline}
         </Callout>
@@ -135,21 +123,20 @@ export default function PmCares() {
           </table>
         </div>
         <p className="text-[13px] text-text-muted mt-3 max-w-[74ch] leading-relaxed">
-          Identical on {identical} of {PM_CONTROL.resultsIdentical.length} properties tested. A
-          property shared with the comparator cannot be evidence about PM CARES specifically — it
-          is evidence about how relief funds administered from the Prime Minister's Office are
-          run, which is a different and much older question.
+          The reviewed comparison matches on {identical} of {PM_CONTROL.resultsIdentical.length}
+          {' '}properties. Shared practices can inform institutional context, but do not establish
+          appropriate conduct, rule out wrongdoing, or prove a purpose for creating either fund.
         </p>
       </Section>
 
-      <Section title="What the control killed" note="A killed claim is a result, and it names the check that killed it">
+      <Section title="Claims checked and qualified" note="Superseded facts and propositions the reviewed evidence does not establish">
         <div className="space-y-4">
           {PMCARES.rejected.map((r) => (
             <div key={r.id} className="border-l-2 border-rose/40 pl-3">
               <p className="font-medium text-[14.5px]">
                 <span className="font-mono text-[10.5px] text-rose mr-2">{r.id}</span>“{r.claim}”
               </p>
-              <p className="font-mono text-[10.5px] text-text-muted mt-1">killed by: {r.killedBy}</p>
+              <p className="font-mono text-[10.5px] text-text-muted mt-1">assessment: {r.killedBy}</p>
               <p className="text-[13.5px] text-text-muted mt-1 max-w-[76ch] leading-relaxed">
                 {r.reason}
               </p>
@@ -159,8 +146,8 @@ export default function PmCares() {
       </Section>
 
       <Section
-        title="The four departures that survive the control"
-        note="Narrower than the claims that died, and better sourced"
+        title="Differences and historical comparisons"
+        note="Keep each comparison within its stated period and evidence"
       >
         <div className="space-y-5">
           {PM_CONTROL.departuresThatSurvive.map((d) => (
@@ -209,8 +196,8 @@ export default function PmCares() {
       </Section>
 
       <Section
-        title="The ledger, with the holes drawn"
-        note="Unpublished years are rendered, not omitted — the gap in the series is the most informative thing in it"
+        title="Annual receipts and payments"
+        note="Receipts exclude opening balances; newer donation figures are net of refunds"
       >
         <div className="space-y-2">
           {PM_FINANCIALS.map((f) => {
@@ -279,8 +266,8 @@ export default function PmCares() {
             { value: cr(Number(agg.totalContributionsCr)), label: 'contributions, FY20 to FY23' },
             { value: cr(Number(agg.totalPaymentsCr)), label: 'payments over the same period' },
             {
-              value: cr(Number(agg.closingBalanceAt31Mar2023Cr)),
-              label: 'closing balance at 31 Mar 2023 — the last published figure',
+              value: cr(Number(agg.closingBalanceAt31Mar2025Cr)),
+              label: 'closing balance at 31 Mar 2025 — latest published year',
               tone: 'accent',
             },
             {
@@ -291,17 +278,20 @@ export default function PmCares() {
           ]}
         />
 
-        <Callout label="Published is not the same as readable" tone="warn">
-          Every one of the {completeness.years} published years is a single-page Receipts and
-          Payments Account. Each references accompanying notes — and{' '}
+        <Callout label="What the linked statements contain" tone="warn">
+          The {completeness.years} reviewed years publish Receipts and Payments Accounts.
+          Each references accompanying notes, and{' '}
           <strong className="text-text">
             none of the {completeness.years} publishes them
           </strong>
-          . No auditor's report and no balance sheet has been published for any year. Across all
-          four statements there are {String(agg.namedDisbursementHeadsAcrossFourYears)} named
-          payment heads, {String(agg.recipientNamesPublished)} named recipients and{' '}
-          {String(agg.transactionDatesPublished)} transaction dates. The same is true of the
-          control, which is why this is a fact about the format rather than about the fund.
+          . The linked files do not contain a separate auditor's report or balance sheet.
+          Across these statements there are {String(agg.namedDisbursementHeadsAcrossPublishedYears)}
+          {' '}listed payment lines, {String(agg.recipientNamesPublished)} named recipients and{' '}
+          {String(agg.transactionDatesPublished)} individual transaction dates. FY2023-24 and
+          FY2024-25 use donations net of refunds. The FY2022-23 standalone statement shown above
+          uses gross donations; its later comparative presentation nets ₹1.51 crore from both
+          receipts and payments with no change to closing balance. A payment caption is not
+          proof of delivery to a beneficiary, and a bank balance is not spending.
         </Callout>
 
         {lag.length > 1 && (
@@ -460,7 +450,7 @@ export default function PmCares() {
         <p>
           <strong>Standing.</strong> Nothing on this page asserts misappropriation, intent or
           wrongdoing. It reports what the published record establishes, what it does not, and
-          what a control does to the claims most commonly made. Where a question is live before a
+          how comparisons qualify the claims considered. Where a question is live before a
           court, both positions are carried and neither is adjudicated here.{' '}
           <Link to="/desk" className="underline underline-offset-2">
             How the desk works

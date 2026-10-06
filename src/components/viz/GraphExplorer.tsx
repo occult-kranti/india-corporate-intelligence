@@ -1,3 +1,4 @@
+import { preserveWorkspaceParams } from '../../lib/dossierNavigation';
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import ForceGraph, {
@@ -748,7 +749,7 @@ export default function GraphExplorer({ nodes, edges, height = 620, defaultQuery
               >
                 copy link to this view
               </button>
-              <button onClick={() => setParams(new URLSearchParams(), { replace: true })} className="btn-ghost w-full !text-[12px]">
+              <button onClick={() => setParams(preserveWorkspaceParams(new URLSearchParams(), params), { replace: true })} className="btn-ghost w-full !text-[12px]">
                 reset filters
               </button>
             </>

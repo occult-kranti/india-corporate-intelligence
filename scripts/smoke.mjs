@@ -15,6 +15,7 @@ import { mkdirSync, existsSync, readFileSync } from 'node:fs';
 import { createServer } from 'node:http';
 import { join, extname, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { dossierUrl } from './pages/dossier-navigation.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -63,6 +64,9 @@ if (shots) mkdirSync(shots, { recursive: true });
 
 const ROUTES = [
   ['/', 'dashboard'],
+  ['/investigate', 'investigate'],
+  ['/justice', 'justice'],
+  ['/debt', 'debt'],
   ['/map', 'map'],
   ['/states/mh', 'state-maharashtra'],
   ['/states/jh', 'state-jharkhand'],
@@ -129,7 +133,12 @@ const PINNED = process.env.PLAYWRIGHT_CHROMIUM_PATH ?? '/opt/pw-browsers/chromiu
 const browser = await chromium.launch(existsSync(PINNED) ? { executablePath: PINNED } : {});
 const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
 
+// Every known route must support both the default linked map and its complete
+// dossier. Keeping separate checks prevents the shared map from masking a broken
+// legacy map or a blank dossier behind a healthy workspace shell.
+for (const surface of ['map', 'dossier']) {
 for (const [route, name] of ROUTES) {
+  const label = `${route} [${surface}]`;
   const errors = [];
   // Third-party font/CDN failures are an environment fact, not an app defect —
   // every family has a system fallback. Everything else is a real error.
@@ -147,40 +156,63 @@ for (const [route, name] of ROUTES) {
   // Hash-only navigation does not reload, so a crash on one route would poison
   // every route after it. Force a full document load per route.
   await page.goto('about:blank');
-  await page.goto(`${base}/#${route}`, { waitUntil: 'networkidle' });
+  await page.goto(surface === 'dossier' ? dossierUrl(base, route) : `${base}/#${route}`, { waitUntil: 'networkidle' });
+  if (surface === 'dossier') {
+    // The workspace shell can finish before its lazy route starts loading. A
+    // real dossier heading, rather than the shared shell or Loading status,
+    // establishes readiness before the original content/geometry assertions.
+    await page.locator('.iw-dossier-content h1, .iw-dossier-content h2').first().waitFor({ timeout: 30_000 });
+  }
   await page.waitForTimeout(route === '/network' || route === '/atlas' ? 1800 : 700);
 
-  const text = await page.evaluate(() => document.body.innerText.length);
-  if (text < 200) failures.push(`${route}: rendered only ${text} characters — page is probably blank`);
+  const text = await page.evaluate((surface) => (surface === 'dossier'
+    ? document.querySelector('.iw-dossier-content')?.textContent ?? ''
+    : document.body.innerText).length, surface);
+  if (text < 200) failures.push(`${label}: rendered only ${text} characters — page is probably blank`);
+  if (await page.locator(`.iw-surface-${surface}`).count() !== 1) failures.push(`${label}: requested workspace surface is not active`);
+
+  if (surface === 'map') {
+    const states = await page.locator('.iw-map-panel .iw-map-state').evaluateAll(paths => ({
+      count: paths.length,
+      codes: new Set(paths.map(path => path.getAttribute('data-state-code'))).size,
+      real: paths.filter(path => (path.getAttribute('d') ?? '').length > 100).length,
+      keyboard: paths.filter(path => path.getAttribute('tabindex') === '0').length,
+    }));
+    if (states.count !== 36 || states.codes !== 36 || states.real !== 36) failures.push(`${label}: map must render 36 distinct real state/UT paths (${JSON.stringify(states)})`);
+    if (states.keyboard !== 1) failures.push(`${label}: geographic map must have one keyboard entry point`);
+    if (await page.locator('.iw-dossier-content').count()) failures.push(`${label}: original dossier unexpectedly rendered on the default map surface`);
+    if (await page.locator('.iw-surfaces button[aria-pressed="true"]').innerText() !== 'Map') failures.push(`${label}: map surface control is not selected`);
+  }
 
   // A parameterised route in this list is a known-good link. If any of its params is
   // rejected, the page falls back to a default and says so — which would make the
   // route test the default view while claiming to test the parameterised one.
-  if (route.includes('?')) {
-    const rejected = await page.evaluate(() => /Unrecognised /.test(document.body.innerText));
-    if (rejected) failures.push(`${route}: a URL param was reported as unrecognised — the smoke route is stale`);
+  if (surface === 'dossier' && route.includes('?')) {
+    const rejected = await page.locator('.iw-dossier-content').evaluate(el => /Unrecognised /.test(el.textContent));
+    if (rejected) failures.push(`${label}: a URL param was reported as unrecognised — the smoke route is stale`);
   }
 
   // Map pages must draw real geometry, not rectangles.
-  if (['/map', '/atlas', '/cabinet', '/conglomerates'].includes(route)) {
+  if (surface === 'dossier' && ['/map', '/atlas', '/cabinet', '/conglomerates'].includes(route)) {
     const paths = await page.evaluate(
-      () => document.querySelectorAll('svg path[d^="m"], svg path[d^="M"]').length,
+      () => document.querySelectorAll('.iw-dossier-content svg path[d^="m"], .iw-dossier-content svg path[d^="M"]').length,
     );
-    if (paths < 36) failures.push(`${route}: only ${paths} SVG paths — expected at least 36 state polygons`);
+    if (paths < 36) failures.push(`${label}: only ${paths} SVG paths — expected at least 36 state polygons`);
   }
 
-  if (errors.length) failures.push(`${route}: ${errors.length} console error(s) — ${errors[0]}`);
-  if (shots) await page.screenshot({ path: `${shots}/${name}.png`, fullPage: false });
+  if (errors.length) failures.push(`${label}: ${errors.length} console error(s) — ${errors[0]}`);
+  if (shots) await page.screenshot({ path: `${shots}/${surface}-${name}.png`, fullPage: false });
 
   page.off('console', onConsole);
   page.off('pageerror', onPageError);
-  console.log(`  ${errors.length ? '✗' : '·'} ${route}  (${text} chars)`);
+  console.log(`  ${errors.length ? '✗' : '·'} ${label}  (${text} chars)`);
+}
 }
 
 // Keyboard reachability on the map.
-await page.goto(`${base}/#/map`, { waitUntil: 'networkidle' });
+await page.goto(dossierUrl(base, '/map'), { waitUntil: 'networkidle' });
 await page.waitForTimeout(600);
-const focusable = await page.evaluate(() => document.querySelectorAll('svg[tabindex="0"]').length);
+const focusable = await page.evaluate(() => document.querySelectorAll('.iw-dossier-content svg[tabindex="0"]').length);
 if (focusable === 0) failures.push('/map: map svg is not keyboard-focusable');
 
 await browser.close();

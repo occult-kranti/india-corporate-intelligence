@@ -1,7 +1,8 @@
 # scripts/cppp — the CPPP award pipeline
 
 Offline, not in CI. Reads the 4.92 M-row CPPP award scrape (two Arrow IPC files, 3.45 GB,
-HF `rumourscape/tenders`, CC-BY-4.0) with duckdb over memory-mapped pyarrow tables and writes
+HF `rumourscape/tenders`, CC-BY-4.0 asserted by the republisher; underlying portal licensing
+unresolved) with duckdb over memory-mapped pyarrow tables and writes
 seven JSON files to `research/raw/cppp/` — the seventh, `security.json`, is the security-buyer slice
 (see "The security slice" below), written by `security.py` inside the same run. Quality first, then
 rates. Every file carries a
@@ -83,13 +84,14 @@ drops them without a judgement call.
   (1,215 buyers): HHI of award value and of award count among MARKED winners, top marked winner's
   share, the unmarked share as a number, and at most five marked winners with ≥ 5 awards for that
   buyer. Nobody else is named.
-- `timing.json` — closing → AOC days histogram over 3,374,747 dedup rows (10,486 rows with AOC
-  before closing excluded and counted); share ≤ 2 days = 2.04 %; AOC by month of the
-  financial year (April = 1) and by portal.
+- `timing.json` — recorded dataset-date gaps between fields labelled `closing_at` and `aoc_at`,
+  over 3,374,747 dedup rows (10,486 rows whose recorded AOC field precedes the recorded closing
+  field excluded and counted); share ≤ 2 days = 2.04 %; recorded AOC by financial-year month
+  (April = 1) and portal. These field meanings are unresolved; the gaps do not measure evaluation speed.
 - `redflags.json` — four Fazekas-style indicators, each as a rate over its declared family with the
   family size, a Wilson interval and an innocent reading: single bidding 11.22 % of
   3,019,420; `Limited` tender type 4.29 % of 2,729,190 (a floor: 15,755 rows carry
-  Single/Nomination/STE-style labels that sit in Other/unknown); decisions ≤ 2 days 2.04 % of
+  Single/Nomination/STE-style labels that sit in Other/unknown); recorded dataset-date gaps ≤ 2 days 2.04 % of
   3,374,747; repeat single-bidder marked winners 51.28 % of 200,813 single-bidder
   awards to marked winners (7,777 of 74,940 buyer–winner pairs; pairs are counted, never
   listed). Plus the 25 public bodies with the highest single-bidder rate among buyers with ≥ 50 awards;
@@ -249,3 +251,73 @@ The sample file itself is a redraw: the first draw of 2026-09-26 tested the mark
 whole `selected_bidder` string and admitted comma-joined lists carrying bare personal names; the
 component rule (below) shrinks the candidate set, so with the same seed the 40 rows differ, and the
 JSON says so (`redraw`). Both draws were 40/40 page_gone.
+
+## Source attribution audit, 2026-10-06
+
+`provenance.py` adds `dataset`, `scrapedAt` and `lineageAudit` to the eight retained JSON
+files. This is a metadata-only repair: no extraction, conversion, SQL, metrics or portal
+verification was rerun; original `asOf`, `generatedBy`, input records and every analytical
+field remain unchanged. The source chain is CPPP → Sarthak Sidhant's publisher →
+[Rohan Verma's conversion gist](https://gist.github.com/rhnvrm/8060dedb15ae592dae492ec62f725c0c)
+→ HF `rumourscape/tenders` → retained Arrow input records → the recorded local SQL.
+The award conversion joins award listings to award details within the award stage;
+this Arrow corpus is not a join between tender notices and awards.
+The opened receipts in `research/raw/tender-portal-audit/evidence/` identify observed gist
+revision `593ed6da09866ca75bd016fecd863546a4c48df2` and HF revision
+`401d093cc74d7a05e7d48326c1bc11edb289d7bb`. The pinned HF tree receipt, retrieved
+`2026-10-06T23:05:51.913316+00:00`, reports full LFS SHA-256 hashes and sizes for both
+Arrow shards. Both match the retained filenames, byte sizes and 16-hex hash prefixes;
+`lineageAudit.inputCheck.remoteSnapshot` records the full remote hashes. This supports
+the snapshot linkage at prefix-and-size level. The historical Arrow files were absent
+and were not locally rehashed; no local full-hash verification or converter revision
+used is established. CC-BY-4.0 is the HF republisher's assertion;
+underlying portal licensing remains unresolved. The award-detail scrape range is
+`2026-06-18T11:05:10.031221` to `2026-06-24T01:26:48.718329`, observed in
+`research/raw/tender-portal-audit/analysis.json` → `queries.detail_integrity` from the
+publisher-fullhash-verified `aoc_tenders.db` (download receipt in the evidence directory).
+This corrects the older approximate June 19–24 catalogue range. It measures the award
+detail stage, separately from the June 16–17 notice-detail stage; no source timezone
+or fresh Arrow measurement is asserted. Original computation dates remain unchanged.
+
+The pipeline now emits the same source reference and checks filename, size and prefix
+against the retained input record. Different inputs, including fixtures, are explicitly
+unattributed and have no claimed scrape date; the historical chain stays labelled as a
+reference. The audit date remains separate from each run's computation date.
+
+```bash
+python3 scripts/cppp/provenance.py --annotate-dir research/raw/cppp
+python3 -m unittest scripts/cppp/test_provenance.py
+```
+
+The focused test requires only Python's standard library and checks all eight complete
+pre-repair payload digests after removing the attribution fields and restoring the explicitly
+approved interpretation-copy fields described below. It also checks source receipts,
+unrelated-input handling and idempotent annotation. Update its baseline digests only
+when an intentional analytical rerun replaces this archived baseline.
+
+## Date-field interpretation correction — 2026-10-06
+
+The original SQLite audit in
+`research/raw/tender-portal-audit/closing-field-semantics.json` compares strict one-to-one
+listing keys on the central portal. Its older notice subset is heavily concentrated in
+Neyveli Lignite Corporation Limited; it is not random or representative. The field labelled
+award `closing_date` aligns with notice publication in the observed subset, rather than
+establishing a submission deadline. The corpus-wide event meaning is unresolved.
+
+`timing.json`, the legacy `shortDecisionWindow` entry in `redflags.json`, and their security
+slice equivalents now describe **recorded dataset-date gaps** between fields labelled
+`closing_at` and `aoc_at`. They retain every historical number, SQL query, denominator,
+machine key, `asOf` and generator. `fieldSemanticsAudit` and
+`provenance.dateFieldSemanticsAudit` link the correction to the source artifact and
+`procurement-audit:record:closing-field-semantics`. The machine key is retained for compatibility;
+its name does not establish an evaluation or decision period.
+
+The earlier automated-evaluation and fiscal-spending explanations are withdrawn. Collector
+mapping, amendments, record versions and time precision need original notices, corrigenda
+and award documents before the gap can be interpreted as elapsed procurement time. No
+conclusion about evaluation speed or suspiciously fast awards follows from the retained gap.
+
+```bash
+python3 scripts/cppp/date_semantics.py --annotate-dir research/raw/cppp
+python3 -m unittest scripts/cppp/test_provenance.py scripts/cppp/test_date_semantics.py
+```

@@ -7,13 +7,15 @@ import {
   Notebook, Mountain, Crosshair, HandCoins, Zap, Coins, GraduationCap,
   ArrowUpRight, ChevronRight, Droplets,
 } from 'lucide-react';
-import { COMPANIES, COMPANIES_AS_OF } from '../data/companies';
+import Workspace from './investigation/Workspace';
+import { normalizeInvestigationState } from '../data/investigation';
+import './investigation/shell.css';
 
 const navGroups: { label: string; items: { path: string; label: string; icon: typeof Map }[] }[] = [
   {
     label: 'Markets',
     items: [
-      { path: '/', label: 'Overview', icon: LayoutDashboard },
+      { path: '/', label: 'Investigate India', icon: LayoutDashboard },
       { path: '/map', label: 'NSE / BSE map', icon: Map },
       { path: '/geograph', label: 'Geographic network', icon: Radar },
       { path: '/industries', label: 'Industries', icon: Factory },
@@ -32,7 +34,9 @@ const navGroups: { label: string; items: { path: string; label: string; icon: ty
       { path: '/pmcares', label: 'PM CARES', icon: HandCoins },
       { path: '/energy', label: 'Energy power map', icon: Zap },
       { path: '/welfare', label: 'Distribution funds', icon: Coins },
-      { path: '/finance', label: 'Foreign money', icon: Coins },
+      { path: '/finance', label: 'Finance & lenders', icon: Coins },
+      { path: '/debt', label: 'Debt & recovery', icon: Building2 },
+      { path: '/justice', label: 'Justice & oversight', icon: Scale },
       { path: '/security', label: 'Security spend', icon: Shield },
       { path: '/media', label: 'Media ownership', icon: Newspaper },
       { path: '/allocation', label: 'Allocation graph', icon: Waypoints },
@@ -71,7 +75,20 @@ const navGroups: { label: string; items: { path: string; label: string; icon: ty
   },
 ];
 
+function contextualRoute(path: string, search: string, currentPath: string, dossier = false) {
+  const carried = new URLSearchParams();
+  const keep = new Set(['iw_state', 'iw_compare', 'iw_q', 'iw_layers', 'iw_tier', 'iw_from', 'iw_to', 'iw_undated', 'iw_national', 'iw_geo', 'iw_view']);
+  for (const [key, value] of new URLSearchParams(search)) if (keep.has(key)) carried.set(key, value);
+  if (!carried.has('iw_state') && currentPath.startsWith('/states/')) {
+    const state = normalizeInvestigationState(currentPath.split('/')[2]);
+    if (state) carried.set('iw_state', state);
+  }
+  if (dossier) carried.set('iw_view', 'dossier');
+  return `${path}${carried.size ? `?${carried}` : ''}`;
+}
+
 function Navigation({ query, onNavigate, label }: { query: string; onNavigate?: () => void; label: string }) {
+  const location = useLocation();
   const groups = navGroups.map((group) => ({
     ...group,
     items: group.items.filter((item) => `${group.label} ${item.label}`.toLowerCase().includes(query.trim().toLowerCase())),
@@ -83,11 +100,10 @@ function Navigation({ query, onNavigate, label }: { query: string; onNavigate?: 
         <div className="nav-group" key={group.label}>
           <p className="nav-group-label">{group.label}</p>
           {group.items.map(({ path, label: itemLabel, icon: Icon }) => (
-            <NavLink key={path} to={path} end={path === '/'} onClick={onNavigate}
+            <NavLink key={path} to={contextualRoute(path, location.search, location.pathname)} end={path === '/'} onClick={onNavigate}
               className={({ isActive }) => `site-nav-link${isActive ? ' is-active' : ''}`}>
               <Icon size={16} strokeWidth={1.6} aria-hidden="true" />
               <span>{itemLabel}</span>
-              {path === '/education' && <span className="nav-new">New</span>}
             </NavLink>
           ))}
         </div>
@@ -99,7 +115,7 @@ function Navigation({ query, onNavigate, label }: { query: string; onNavigate?: 
 
 function Brand() {
   return (
-    <Link to="/" className="site-brand" aria-label="ICIP — platform overview">
+    <Link to="/" className="site-brand" aria-label="ICIP — investigate India">
       <span className="site-brand-mark" aria-hidden="true"><Landmark size={23} strokeWidth={1.4} /></span>
       <span><strong>ICIP<span className="brand-period">.</span></strong><small>India intelligence</small></span>
     </Link>
@@ -110,14 +126,14 @@ export default function Layout() {
   const [query, setQuery] = useState('');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const dialogRef = useRef<HTMLDialogElement>(null);
-  const menuRef = useRef<HTMLButtonElement>(null);
+  const menuRef = useRef<HTMLButtonElement | null>(null);
   const mainRef = useRef<HTMLElement>(null);
   const location = useLocation();
   const navigationType = useNavigationType();
   const previousPath = useRef(location.pathname);
   const currentGroup = navGroups.find((group) => group.items.some((item) => item.path === location.pathname));
   const currentItem = currentGroup?.items.find((item) => item.path === location.pathname);
-  const routeTitle = currentItem?.label ?? (location.pathname.startsWith('/company/') ? 'Company profile' : location.pathname.startsWith('/states/') ? 'State profile' : location.pathname.startsWith('/conglomerates/') ? 'Group deep dive' : 'Intelligence platform');
+  const routeTitle = currentItem?.label ?? (location.pathname.startsWith('/company/') ? 'Company profile' : location.pathname.startsWith('/states/') ? 'State profile' : location.pathname.startsWith('/conglomerates/') ? 'Group deep dive' : 'Investigation workspace');
 
   useEffect(() => {
     document.title = `${routeTitle} · ICIP`;
@@ -136,12 +152,6 @@ export default function Layout() {
     if (!mobileMenuOpen && dialog.open) dialog.close();
   }, [mobileMenuOpen]);
 
-  useEffect(() => {
-    const breakpoint = window.matchMedia('(min-width: 1024px)');
-    const closeOnDesktop = () => { if (breakpoint.matches) setMobileMenuOpen(false); };
-    breakpoint.addEventListener('change', closeOnDesktop);
-    return () => breakpoint.removeEventListener('change', closeOnDesktop);
-  }, []);
 
   function closeNavigation() {
     setMobileMenuOpen(false);
@@ -149,43 +159,49 @@ export default function Layout() {
   }
 
   return (
-    <div className="site-shell">
+    <div className="site-shell investigation-shell">
       <a href="#main-content" className="skip-link" onClick={(event) => {
         event.preventDefault();
         mainRef.current?.focus();
       }}>Skip to content</a>
 
-      <aside className="site-sidebar">
-        <div className="sidebar-brand"><Brand /><p className="brand-caption">Public records. Clearer connections.</p></div>
-        <div className="nav-search-wrap">
-          <Search size={15} aria-hidden="true" />
-          <input type="text" aria-label="Find a page" placeholder="Find a page…" value={query} onChange={(event) => setQuery(event.target.value)} className="nav-search" />
-        </div>
-        <Navigation query={query} label="Primary navigation" />
-        <div className="sidebar-footer">
-          <Link to="/provenance"><ShieldCheck size={16} aria-hidden="true" /><span>Follow the evidence</span><ArrowUpRight size={13} aria-hidden="true" /></Link>
-          <p>{COMPANIES.length} listed companies · {COMPANIES_AS_OF || 'Date not recorded'}</p>
-        </div>
+      <aside className="iw-navigation-rail" aria-label="Investigation lenses">
+        <Link to="/" className="iw-rail-brand" aria-label="ICIP — investigate India">IC<span>IP</span></Link>
+        <nav aria-label="Primary navigation">
+          {[
+            { path: '/', label: 'Investigate', icon: Radar },
+            { path: '/public-works', label: 'Works', icon: Waypoints },
+            { path: '/education', label: 'Education', icon: GraduationCap },
+            { path: '/water', label: 'Water', icon: Droplets },
+            { path: '/energy', label: 'Energy', icon: Zap },
+            { path: '/welfare', label: 'Welfare', icon: Coins },
+            { path: '/finance', label: 'Finance', icon: Building2 },
+            { path: '/debt', label: 'Debt', icon: Landmark },
+            { path: '/justice', label: 'Justice', icon: Scale },
+            { path: '/pmcares', label: 'PM CARES', icon: HandCoins },
+            { path: '/security', label: 'Security', icon: Shield },
+          ].map(({ path, label, icon: Icon }) => <NavLink key={path} to={contextualRoute(path, location.search, location.pathname)} end={path === '/'} className={({ isActive }) => `iw-rail-link${isActive ? ' is-active' : ''}`}><Icon size={19} strokeWidth={1.6} aria-hidden="true" /><span>{label}</span></NavLink>)}
+        </nav>
+        <button type="button" className="iw-rail-more" aria-label="Open all lenses and registers" aria-expanded={mobileMenuOpen} aria-controls="site-nav-mobile" onClick={event => { menuRef.current = event.currentTarget; setMobileMenuOpen(true); }}><Menu size={19} aria-hidden="true" /><span>All lenses</span></button>
       </aside>
 
       <div className="site-workspace">
         <header className="site-masthead">
           <div className="mobile-brand"><Brand /></div>
-          <div className="masthead-context"><span>India intelligence</span><ChevronRight size={13} aria-hidden="true" /><span>{currentGroup?.label ?? 'Records'}</span><span className="masthead-current">{routeTitle}</span></div>
+          <div className="masthead-context"><span>ICIP</span><ChevronRight size={13} aria-hidden="true" /><span>Investigation workspace</span><span className="masthead-current">{routeTitle}</span></div>
           <div className="masthead-actions">
-            <Link className="masthead-search" to="/search"><Search size={16} aria-hidden="true" /><span>Search records</span></Link>
-            <Link className="masthead-method" to="/method">About the evidence <ArrowUpRight size={13} aria-hidden="true" /></Link>
-            <button type="button" ref={menuRef} className="mobile-menu-button" aria-label="Open navigation" aria-expanded={mobileMenuOpen} aria-controls="site-nav-mobile" onClick={() => setMobileMenuOpen(true)}><Menu size={21} aria-hidden="true" /></button>
+            <Link className="masthead-search" to={contextualRoute('/search', location.search, location.pathname)}><Search size={16} aria-hidden="true" /><span>Find records</span></Link>
+            <Link className="masthead-method" to={contextualRoute('/method', location.search, location.pathname, true)}>Evidence method <ArrowUpRight size={13} aria-hidden="true" /></Link>
+            <button type="button" ref={menuRef} className="mobile-menu-button iw-all-lenses-button" aria-label="Open navigation" aria-expanded={mobileMenuOpen} aria-controls="site-nav-mobile" onClick={event => { menuRef.current = event.currentTarget; setMobileMenuOpen(true); }}><Menu size={21} aria-hidden="true" /></button>
           </div>
         </header>
         <main id="main-content" ref={mainRef} tabIndex={-1} className="site-main">
-          <div className="site-content"><Outlet /></div>
-          <footer className="site-page-footer"><span>ICIP / Public-record intelligence</span><p>A connection is a question. Its source is the starting point.</p><Link to="/method">Read the method <ArrowUpRight size={13} aria-hidden="true" /></Link></footer>
+          <div className="site-content iw-shell-content"><Workspace routeTitle={routeTitle} routeKey={location.pathname}><Outlet /></Workspace></div>
         </main>
       </div>
 
       <dialog ref={dialogRef} id="site-nav-mobile" className="mobile-nav-dialog" aria-labelledby="mobile-nav-title" onCancel={(event) => { event.preventDefault(); closeNavigation(); }} onClose={() => setMobileMenuOpen(false)} onClick={(event) => { if (event.target === event.currentTarget) closeNavigation(); }}>
-        <div className="mobile-nav-heading"><div><p className="eyebrow">ICIP / Explore</p><h2 id="mobile-nav-title">The intelligence library</h2></div><button type="button" className="mobile-menu-button" aria-label="Close navigation" onClick={closeNavigation} autoFocus><X size={21} aria-hidden="true" /></button></div>
+        <div className="mobile-nav-heading"><div><p className="eyebrow">ICIP / Explore</p><h2 id="mobile-nav-title">Lenses, registers & methods</h2></div><button type="button" className="mobile-menu-button" aria-label="Close navigation" onClick={closeNavigation} autoFocus><X size={21} aria-hidden="true" /></button></div>
         <div className="nav-search-wrap"><Search size={16} aria-hidden="true" /><input type="text" aria-label="Find a page in navigation" placeholder="Find a page…" value={query} onChange={(event) => setQuery(event.target.value)} className="nav-search" /></div>
         <Navigation query={query} label="Mobile navigation" onNavigate={() => { dialogRef.current?.close(); setMobileMenuOpen(false); }} />
       </dialog>

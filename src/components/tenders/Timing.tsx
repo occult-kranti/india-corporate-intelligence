@@ -1,11 +1,10 @@
 import type { CpppCore, Provenance } from '../../data/cppp';
+import { ProcurementAuditLink } from '../investigation/ProcurementTrail';
 import { Cols, FINDINGS, FamilyLink, GREY, MONO_NOTE, Sub, Twin, csvComments, csvName, d1, fmt, rateText, stamp, useWidth } from './ui';
 
 /**
- * §3.4 — days from tender closing to award of contract (AOC), and AOC by month of the
- * financial year (U8). The two-day share is followed at once, at the same size, by the
- * reading that fits it without anyone's conduct: e-procurement auto-evaluation and
- * financial-year spending rules.
+ * Historical stored-date differences and recorded AOC month. Field meanings are
+ * not verified event semantics; the original numeric calculation remains visible.
  */
 
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -48,7 +47,7 @@ function Histogram({ bins, aria }: { bins: { bin: string; n: number }[]; aria: s
           );
         })}
         <text x={0} y={H - 6} fontSize={10} fill="#9a9a9a">
-          days from closing to AOC (bins of unequal width)
+          recorded dataset-date gap (days; unequal bins)
         </text>
       </svg>
     </div>
@@ -66,16 +65,18 @@ export default function Timing({ core, p, params }: { core: CpppCore; p: Provena
   return (
     <Sub id="cppp-timing" title="Timing">
       <p data-rate className={`${FINDINGS} max-w-[72ch]`}>
-        Two days or fewer from closing to AOC: {rateText(le2.count, le2.n, le2.pct, le2.wilson95)}
+        Recorded dataset-date gap of two days or fewer: {rateText(le2.count, le2.n, le2.pct, le2.wilson95)}
       </p>
+      <p data-date-semantics className={`${FINDINGS} max-w-[72ch]`}>These intervals subtract the stored <code>closing_at</code> field from <code>aoc_at</code>. Field meaning is unverified: this is not a measurement of evaluation duration or actual award speed. The retained calculation and its date are unchanged.</p>
+      <ProcurementAuditLink findingId="closing-field-semantics" label="Inspect the bounded date-field semantic check" />
       <p data-innocent className={`${FINDINGS} max-w-[72ch]`}>
         {t.innocentReading}
       </p>
 
       <div className={`${MONO_NOTE} mt-3 space-y-1 max-w-[76ch]`}>
         <p>
-          AOC dated before closing: {q ? fmt(q.dates.aocBeforeClosing) : 'not present in this build:'} raw rows (quality table);{' '}
-          {fmt(t.excludedAocBeforeClosing)} award decisions after dedup, excluded here. A date-order defect, excluded, not read as conduct.
+          Recorded aoc_at before recorded closing_at: {q ? fmt(q.dates.aocBeforeClosing) : 'not present in this build:'} raw rows (quality table);{' '}
+          {fmt(t.excludedAocBeforeClosing)} award decisions after dedup, excluded here. A stored-field ordering difference, not a verified event-order violation or conduct finding.
         </p>
         <p>
           Dates missing, in raw rows (quality table, nulls): aoc_at null {nullCount('aoc_at_null')}; closing_at null {nullCount('closing_at_null')};{' '}
@@ -86,7 +87,7 @@ export default function Timing({ core, p, params }: { core: CpppCore; p: Provena
       <figure className="mt-5">
         <Histogram
           bins={t.daysClosingToAoc}
-          aria={`Days from closing to AOC, histogram, n = ${fmt(t.n)} award decisions; ${fmt(t.excludedAocBeforeClosing)} excluded for an AOC dated before closing and ${fmt(t.excludedDateMissing)} for a missing date; table follows.`}
+          aria={`Recorded dataset-date gap, histogram, n = ${fmt(t.n)} award decisions; ${fmt(t.excludedAocBeforeClosing)} excluded for recorded aoc_at before closing_at and ${fmt(t.excludedDateMissing)} for a missing date; field meaning unverified; table follows.`}
         />
         <figcaption className="mt-3 space-y-1 text-[14px] leading-relaxed text-text-secondary max-w-[76ch]">
           <p>Bins are unequal widths; bar heights are counts, not densities.</p>
@@ -98,17 +99,17 @@ export default function Timing({ core, p, params }: { core: CpppCore; p: Provena
 
       <Twin
         twin="hist"
-        label="Days from closing to AOC"
+        label="Recorded dataset-date gap"
         caption={
           <>
-            Days from closing to AOC · n = {fmt(t.n)} award decisions in {t.daysClosingToAoc.length} bins · {stamp(p)} · <FamilyLink>family</FamilyLink>
+            Recorded dataset-date gap · n = {fmt(t.n)} award decisions in {t.daysClosingToAoc.length} bins · field meaning unverified · {stamp(p)} · <FamilyLink>family</FamilyLink>
           </>
         }
         head={<Cols names={['bin', 'width in days', 'n', 'share']} />}
         minWidth="26rem"
         download={{
           filename: csvName('hist', p),
-          comments: csvComments(core, p, t.definition, t.n, params),
+          comments: [...csvComments(core, p, t.definition, t.n, params), 'Stored aoc_at minus closing_at; field meaning unverified. Not a measurement of evaluation duration or actual award speed.'],
           columns: ['bin_days', 'width_days', 'n', 'share_pct'],
           rows: () => t.daysClosingToAoc.map((b) => [b.bin, binWidth(b.bin), String(b.n), String((100 * b.n) / total)]),
         }}

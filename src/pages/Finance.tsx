@@ -1,3 +1,4 @@
+import { preserveWorkspaceParams } from '../lib/dossierNavigation';
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Kicker } from '../components/Editorial';
@@ -222,7 +223,7 @@ export default function Finance() {
   const recKnown = f.rec && EDGE_BY_ID.has(f.rec);
   const panel: ReactNode = f.rec ? (
     <RecordCard key={`rec-${f.rec}`} id={f.rec} lens={lens} origin={recKnown ? 'the list' : 'the page'} headingRef={panelH2} onClose={() => closePanel('rec')}
-      onGo={(l, id) => `?${new URLSearchParams({ lens: l, rec: id }).toString()}`} />
+      onGo={(l, id) => `?${preserveWorkspaceParams(new URLSearchParams({ lens: l, rec: id }), params).toString()}`} />
   ) : f.st && lens !== 'capital' ? (
     <StatePanel key={`st-${f.st}`} st={f.st} lens={lens} f={f} origin="the map" headingRef={panelH2} onClose={() => closePanel('st')} />
   ) : f.holder && lens === 'capital' ? (

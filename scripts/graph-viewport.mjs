@@ -24,6 +24,7 @@
  */
 
 import { chromium } from 'playwright';
+import { dossierUrl } from './pages/dossier-navigation.mjs';
 import { createServer } from 'node:http';
 import { readFileSync, existsSync } from 'node:fs';
 import { join, extname, dirname } from 'node:path';
@@ -205,7 +206,7 @@ const probeInk = (sel) =>
   }, sel);
 
 console.log('\nForceGraph — /#/cabinet');
-await page.goto(`${base}/#/cabinet`, { waitUntil: 'networkidle' });
+await page.goto(dossierUrl(base, '/cabinet'), { waitUntil: 'networkidle' });
 await page.waitForSelector(G);
 await page.waitForFunction((s) => Number(document.querySelector(s)?.getAttribute('data-settled')) > 0, G, { timeout: 20000 });
 await page.locator(G).scrollIntoViewIfNeeded();
@@ -310,7 +311,7 @@ const layoutState = () =>
   }, G);
 
 await page.goto('about:blank');
-await page.goto(`${base}/#/atlas`, { waitUntil: 'networkidle' });
+await page.goto(dossierUrl(base, '/atlas'), { waitUntil: 'networkidle' });
 await settled();
 await page.locator(G).scrollIntoViewIfNeeded();
 await page.waitForTimeout(400);
@@ -392,7 +393,7 @@ for (const key of ['ArrowRight', 'ArrowLeft', 'ArrowDown', 'ArrowUp']) {
   if (k1 && k1 !== k0) break;
 }
 check('an arrow on an entity moves the cursor to another entity', !!k1 && k1 !== k0, `${k0} → ${k1}`);
-const said = await page.evaluate(() => [...document.querySelectorAll('[aria-live="polite"]')].map((e) => e.textContent).join(' | '));
+const said = await page.evaluate(() => [...document.querySelectorAll('.iw-dossier-content [aria-live="polite"]')].map((e) => e.textContent).join(' | '));
 check('the cursor move is announced', /\d+ relationships? in view, \d+ alleged, \d+ denials?/.test(said), said.slice(0, 90));
 await page.keyboard.press('Enter');
 await page.waitForTimeout(600);
@@ -513,7 +514,7 @@ async function sweep(label) {
 }
 
 await page.goto('about:blank');
-await page.goto(`${base}/#/atlas?sel=adani`, { waitUntil: 'networkidle' });
+await page.goto(dossierUrl(base, '/atlas?sel=adani'), { waitUntil: 'networkidle' });
 await settled();
 await page.locator(G).scrollIntoViewIfNeeded();
 await page.waitForTimeout(500);
@@ -542,7 +543,7 @@ const examinedNow = () =>
     });
   }, G);
 await page.goto('about:blank');
-await page.goto(`${base}/#/atlas?sel=jsw&focus=jsw&hops=1`, { waitUntil: 'networkidle' });
+await page.goto(dossierUrl(base, '/atlas?sel=jsw&focus=jsw&hops=1'), { waitUntil: 'networkidle' });
 await settled();
 await page.locator(G).scrollIntoViewIfNeeded();
 await page.waitForTimeout(600);
@@ -552,7 +553,7 @@ for (const n of egoA) {
   await page.mouse.move(b.x + n.x, b.y + n.y);
   await tipText();
 }
-await page.evaluate(() => { location.hash = '#/atlas?sel=cavill&focus=cavill&hops=1'; });
+await page.evaluate(() => { location.hash = '#/atlas?sel=cavill&focus=cavill&hops=1&iw_view=dossier'; });
 await page.waitForFunction((s) => document.querySelector(`${s} g[data-id="cavill"]`), G, { timeout: 5000 });
 await page.waitForTimeout(900);
 const egoB = await examinedNow();
@@ -592,7 +593,7 @@ check('an entity the focus hides is not a hit target', probed > 0 && ghost === 0
 // element with no pointer coordinates at all.
 console.log('\nForceGraph — /#/atlas a coordinate-less click on an entity');
 await page.goto('about:blank');
-await page.goto(`${base}/#/atlas`, { waitUntil: 'networkidle' });
+await page.goto(dossierUrl(base, '/atlas'), { waitUntil: 'networkidle' });
 await settled();
 await page.locator(G).scrollIntoViewIfNeeded();
 await page.waitForTimeout(400);
@@ -611,7 +612,7 @@ check('a click dispatched on the focused entity selects it', new URL(page.url().
 // painted, in their own colours, and that each hovers as itself.
 console.log('\nForceGraph — /#/network a claim beside its same-pair denial');
 await page.goto('about:blank');
-await page.goto(`${base}/#/network?sel=coal&focus=coal&hops=1`, { waitUntil: 'networkidle' });
+await page.goto(dossierUrl(base, '/network?sel=coal&focus=coal&hops=1'), { waitUntil: 'networkidle' });
 await settled();
 await page.locator(G).scrollIntoViewIfNeeded();
 await page.waitForTimeout(600);
@@ -668,7 +669,7 @@ check('each of them hovers as itself', shown.length >= 2 && hovered === shown.le
 // every other filter, and a plain-language account of why a given edge is drawn.
 console.log('\nGraphExplorer — /#/atlas jump-to, as-of, why-drawn');
 await page.goto('about:blank');
-await page.goto(`${base}/#/atlas`, { waitUntil: 'networkidle' });
+await page.goto(dossierUrl(base, '/atlas'), { waitUntil: 'networkidle' });
 await settled();
 await page.locator(G).scrollIntoViewIfNeeded();
 await page.waitForTimeout(400);
@@ -691,7 +692,7 @@ check('jump-to selects the entity on the graph itself',
 // as-of: 2020-01-01 predates every `from` in the atlas subgraph (all 2025/2026), so
 // every one of the 5 dated edges is excluded and the 101 undated ones are kept.
 await page.goto('about:blank');
-await page.goto(`${base}/#/atlas?asof=2020-01-01`, { waitUntil: 'networkidle' });
+await page.goto(dossierUrl(base, '/atlas?asof=2020-01-01'), { waitUntil: 'networkidle' });
 await settled();
 await page.locator(G).scrollIntoViewIfNeeded();
 await page.waitForTimeout(400);
@@ -715,7 +716,7 @@ check('the table twin lists exactly the drawn edges (row count == shown)', table
 
 // why-drawn: select the ministry, tab to one of its relationships, and read the card.
 await page.goto('about:blank');
-await page.goto(`${base}/#/atlas?sel=coal`, { waitUntil: 'networkidle' });
+await page.goto(dossierUrl(base, '/atlas?sel=coal'), { waitUntil: 'networkidle' });
 await settled();
 await page.locator(G).scrollIntoViewIfNeeded();
 await page.waitForTimeout(400);
@@ -729,7 +730,7 @@ check('the "why drawn" line names what admitted the edge', /^Drawn because:/.tes
 
 // --------------------------------------------------------------- geo network
 console.log('\nGeoNetwork — /#/geograph');
-await page.goto(`${base}/#/geograph`, { waitUntil: 'networkidle' });
+await page.goto(dossierUrl(base, '/geograph'), { waitUntil: 'networkidle' });
 await page.waitForSelector('svg[data-geo]');
 await page.waitForTimeout(600);
 await page.locator('svg[data-geo]').scrollIntoViewIfNeeded();

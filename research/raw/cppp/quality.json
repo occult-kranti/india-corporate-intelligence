@@ -1262,7 +1262,124 @@
   },
   "generatedBy": "scripts/cppp/build.py@6a99f11",
   "asOf": "2026-10-04",
-  "refusal": "winner names are emitted only when they are marked — a selected_bidder is 'marked' only when every non-empty component of the string split on ',' or ';' matches markerRegex (case-insensitive); a joined list holding one bare personal name is unmarked as a whole and never written — and, per buyer, only with >= 5 awards; unmarked names are counted and never written; the bidder address column is never read"
+  "refusal": "winner names are emitted only when they are marked — a selected_bidder is 'marked' only when every non-empty component of the string split on ',' or ';' matches markerRegex (case-insensitive); a joined list holding one bare personal name is unmarked as a whole and never written — and, per buyer, only with >= 5 awards; unmarked names are counted and never written; the bidder address column is never read",
+  "dataset": {
+   "name": "CPPP award scrape, HF rumourscape/tenders Arrow mirror",
+   "url": "https://huggingface.co/datasets/rumourscape/tenders",
+   "licence": "CC-BY-4.0 asserted by the HF republisher; underlying portal licensing unresolved",
+   "scraper": "Sarthak Sidhant, tender.sarthaksidhant.com (credited by the HF dataset card)"
+  },
+  "lineageAudit": {
+   "asOf": "2026-10-06",
+   "mode": "metadata-only annotation",
+   "note": "Attribution added without rerunning extraction, conversion, SQL, metrics or portal verification; existing asOf, generatedBy, inputs and analytical payload are preserved.",
+   "inputCheck": {
+    "status": "matches-retained-input-record",
+    "method": "Exact multiset comparison of filenames, byte sizes and retained 16-hex SHA-256 prefixes",
+    "recordedInputs": [
+     {
+      "file": "data-00000-of-00002.arrow",
+      "bytes": 1796891632,
+      "sha256_16": "95e997785ecab0a9"
+     },
+     {
+      "file": "data-00001-of-00002.arrow",
+      "bytes": 1656131440,
+      "sha256_16": "d7663349efb13547"
+     }
+    ],
+    "hfSnapshotCryptographicLink": "retained filenames, sizes and SHA-256 prefixes match remotely reported HF LFS hashes",
+    "remoteSnapshot": {
+     "revision": "401d093cc74d7a05e7d48326c1bc11edb289d7bb",
+     "url": "https://huggingface.co/api/datasets/rumourscape/tenders/tree/401d093cc74d7a05e7d48326c1bc11edb289d7bb?recursive=true&expand=true",
+     "retrievedAt": "2026-10-06T23:05:51.913316+00:00",
+     "hashSource": "HF tree API lfs.oid (SHA-256) and lfs.size; remotely reported, not a local full-file rehash",
+     "files": [
+      {
+       "file": "data-00000-of-00002.arrow",
+       "bytes": 1796891632,
+       "sha256": "95e997785ecab0a93abe02cb1ca7c4c246270f554bc4f03d3994d2b1b3c3b909"
+      },
+      {
+       "file": "data-00001-of-00002.arrow",
+       "bytes": 1656131440,
+       "sha256": "d7663349efb13547078a21983144e2f20823e610555403f2d10e402200797349"
+      }
+     ],
+     "retainedPrefixAndSizeMatch": true,
+     "localFullHashVerified": false,
+     "evidence": [
+      "research/raw/tender-portal-audit/evidence/hf-tree.json",
+      "research/raw/tender-portal-audit/evidence/hf-tree.receipt.json"
+     ]
+    },
+    "limitation": "The retained Arrow filenames, sizes and 64-bit SHA-256 prefixes match the full LFS hashes remotely reported for the pinned HF snapshot. Historical provenance retains only prefixes, not verified local full hashes or the revision at download. The absent historical Arrow files were not locally rehashed during this metadata audit. This supports the snapshot linkage at prefix-and-size level; it does not establish a local full-hash match, the converter revision used, or agreement with official portal records."
+   },
+   "referenceChain": [
+    {
+     "stage": "official portal",
+     "name": "Central Public Procurement Portal (CPPP)",
+     "url": "https://eprocure.gov.in/",
+     "basis": "Source claimed by publisher and HF dataset card; row agreement unverified"
+    },
+    {
+     "stage": "scraper and original publisher",
+     "name": "Sarthak Sidhant",
+     "url": "https://tender.sarthaksidhant.com/",
+     "evidence": [
+      "research/raw/tender-portal-audit/evidence/portal-home.html",
+      "research/raw/tender-portal-audit/evidence/portal-home.receipt.json",
+      "research/raw/tender-portal-audit/evidence/hf-readme.body"
+     ]
+    },
+    {
+     "stage": "conversion recipe",
+     "name": "Rohan Verma (rhnvrm)",
+     "url": "https://gist.github.com/rhnvrm/8060dedb15ae592dae492ec62f725c0c",
+     "observedRevision": "593ed6da09866ca75bd016fecd863546a4c48df2",
+     "basis": "HF README credits this recipe. Its awards_core joins award listings to award details within the award stage, not tender notices to awards; observing its revision does not identify the version used for the Arrow files",
+     "evidence": [
+      "research/raw/tender-portal-audit/evidence/conversion-gist.json",
+      "research/raw/tender-portal-audit/evidence/conversion-gist.receipt.json"
+     ]
+    },
+    {
+     "stage": "HF republisher and Arrow mirror",
+     "name": "rumourscape/tenders",
+     "url": "https://huggingface.co/datasets/rumourscape/tenders",
+     "observedRevision": "401d093cc74d7a05e7d48326c1bc11edb289d7bb",
+     "licence": "CC-BY-4.0 asserted by the HF republisher; underlying portal licensing unresolved",
+     "basis": "The retained Arrow schema is award listings plus award details within the award stage, not a notice-to-award join",
+     "evidence": [
+      "research/raw/tender-portal-audit/evidence/hf-meta.body",
+      "research/raw/tender-portal-audit/evidence/hf-meta.receipt.json",
+      "research/raw/tender-portal-audit/evidence/hf-readme.body",
+      "research/raw/tender-portal-audit/evidence/hf-readme.receipt.json",
+      "research/raw/tender-portal-audit/evidence/hf-state.json",
+      "research/raw/tender-portal-audit/evidence/hf-state.receipt.json",
+      "research/raw/tender-portal-audit/evidence/hf-schema.json",
+      "research/raw/tender-portal-audit/evidence/hf-tree.json",
+      "research/raw/tender-portal-audit/evidence/hf-tree.receipt.json"
+     ]
+    },
+    {
+     "stage": "retained local Arrow input record",
+     "basis": "See provenance.inputs and lineageAudit.inputCheck; prefixes are not full hashes"
+    },
+    {
+     "stage": "local analysis",
+     "basis": "See provenance.generatedBy and provenance.sql where present; sample verification has its own generator"
+    }
+   ],
+   "referenceScrapedAt": {
+    "value": "2026-06-18T11:05:10.031221 to 2026-06-24T01:26:48.718329",
+    "method": "Observed min/max of aoc_details.scraped_at after TIMESTAMP parsing, award-detail stage only: research/raw/tender-portal-audit/analysis.json queries.detail_integrity rows[grain=awards], analysis retrievedAt 2026-10-06T23:04:37.424875+00:00. Source aoc_tenders.db SHA-256 ec8ef7711a17b7cae9e0414c2403b119a0a31c4dec49ed7055b38ec0df5f7586 matches the publisher's full hash; see research/raw/tender-portal-audit/evidence/aoc_tenders.db.download-receipt.json. Supersedes the older approximate June 19-24 catalogue range. Notice-detail dates are a separate stage. No timezone is asserted for these source timestamps; this is not a fresh Arrow measurement or the original analytical computation date."
+   }
+  },
+  "scrapedAt": {
+   "value": "2026-06-18T11:05:10.031221 to 2026-06-24T01:26:48.718329",
+   "method": "Observed min/max of aoc_details.scraped_at after TIMESTAMP parsing, award-detail stage only: research/raw/tender-portal-audit/analysis.json queries.detail_integrity rows[grain=awards], analysis retrievedAt 2026-10-06T23:04:37.424875+00:00. Source aoc_tenders.db SHA-256 ec8ef7711a17b7cae9e0414c2403b119a0a31c4dec49ed7055b38ec0df5f7586 matches the publisher's full hash; see research/raw/tender-portal-audit/evidence/aoc_tenders.db.download-receipt.json. Supersedes the older approximate June 19-24 catalogue range. Notice-detail dates are a separate stage. No timezone is asserted for these source timestamps; this is not a fresh Arrow measurement or the original analytical computation date."
+  }
  },
  "headline": {
   "rows": 4921960,

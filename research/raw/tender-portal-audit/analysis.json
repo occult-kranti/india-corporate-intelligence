@@ -1,0 +1,606 @@
+{
+  "retrievedAt": "2026-10-06T23:04:37.424875+00:00",
+  "duckdbVersion": "1.5.6",
+  "sourceHashes": {
+    "aoc_tenders.db": "ec8ef7711a17b7cae9e0414c2403b119a0a31c4dec49ed7055b38ec0df5f7586",
+    "tenders_vps.db": "b1994cfb6dd2d5da9ed1d9ac8d6bbc7083178f155e92a65628e87a38e4c64d01"
+  },
+  "queries": {
+    "source_counts": {
+      "sql": "SELECT 'award_listings' AS table_name,count(*) AS n FROM src_a.aoc_tenders UNION ALL SELECT 'award_details',count(*) FROM src_a.aoc_details UNION ALL SELECT 'notice_listings',count(*) FROM src_t.tenders UNION ALL SELECT 'notice_details',count(*) FROM src_t.tender_details",
+      "seconds": 19.126,
+      "rows": [
+        {
+          "table_name": "award_listings",
+          "n": 4921960
+        },
+        {
+          "table_name": "award_details",
+          "n": 4540739
+        },
+        {
+          "table_name": "notice_listings",
+          "n": 3952191
+        },
+        {
+          "table_name": "notice_details",
+          "n": 3178485
+        }
+      ]
+    },
+    "build_award_details": {
+      "sql": "CREATE TABLE award_details AS SELECT internal_id,tender_id,try_cast(scraped_at AS TIMESTAMP) AS scraped_at,json_valid(details_json) AS json_valid,\n json_extract_string(try_cast(details_json AS JSON),'$.\"Name of the selected bidder(s)\"') AS bidder,\n json_extract_string(try_cast(details_json AS JSON),'$.\"Number of bids received\"') AS bids_raw,\n json_extract_string(try_cast(details_json AS JSON),'$.\"Contract Value\"') AS value_raw,\n json_extract_string(try_cast(details_json AS JSON),'$.\"Contract Date\"') AS contract_raw,\n json_extract_string(try_cast(details_json AS JSON),'$.\"Tender Type\"') AS tender_type,\n json_extract_string(try_cast(details_json AS JSON),'$.\"Tender Document\"') AS document_url\n FROM src_a.aoc_details",
+      "seconds": 34.73,
+      "rows": null
+    },
+    "build_awards": {
+      "sql": "CREATE TABLE awards AS SELECT a.internal_id,a.tender_id,a.portal_type AS portal,a.year AS portal_year,a.org_name AS buyer,a.ref_no AS reference,a.title,\n portal_ts(a.aoc_date) AS aoc_at,portal_ts(a.closing_date) AS closing_at,d.scraped_at,d.internal_id IS NOT NULL AS has_details,\n a.tender_id IS DISTINCT FROM d.tender_id AND d.internal_id IS NOT NULL AS detail_id_mismatch,\n d.bidder,lower(trim(d.bidder)) AS bidder_norm,d.bids_raw,try_cast(clean_num(d.bids_raw) AS INTEGER) AS bids,d.value_raw,clean_num(d.value_raw) AS value_amount,portal_ts(d.contract_raw) AS contract_at,d.tender_type,d.document_url\n FROM src_a.aoc_tenders a LEFT JOIN award_details d USING(internal_id)",
+      "seconds": 50.66,
+      "rows": null
+    },
+    "build_notice_details": {
+      "sql": "CREATE TABLE notice_details AS SELECT internal_id,tender_id,try_cast(scraped_at AS TIMESTAMP) AS scraped_at,json_valid(details_json) AS json_valid,\n json_extract_string(try_cast(details_json AS JSON),'$.\"Location\"') AS location,\n json_extract_string(try_cast(details_json AS JSON),'$.\"Product Category\"') AS product_category,\n json_extract_string(try_cast(details_json AS JSON),'$.\"Tender Category\"') AS tender_category,\n json_extract_string(try_cast(details_json AS JSON),'$.\"Tender Type\"') AS tender_type,\n coalesce(json_extract_string(try_cast(details_json AS JSON),'$.\"EMD *\"'),json_extract_string(try_cast(details_json AS JSON),'$.\"EMD\"')) AS emd_raw,\n coalesce(json_extract_string(try_cast(details_json AS JSON),'$.\"Tender Fee *\"'),json_extract_string(try_cast(details_json AS JSON),'$.\"Tender Fee\"')) AS fee_raw,\n json_extract_string(try_cast(details_json AS JSON),'$.\"Bid Submission Start Date\"') AS bid_start_raw,\n json_extract_string(try_cast(details_json AS JSON),'$.\"Document Download Start Date\"') AS download_start_raw,\n json_extract_string(try_cast(details_json AS JSON),'$.\"Document Download End Date\"') AS download_end_raw,\n json_extract_string(try_cast(details_json AS JSON),'$.\"Tender Document\"') AS document_url\n FROM src_t.tender_details",
+      "seconds": 52.815,
+      "rows": null
+    },
+    "build_notices": {
+      "sql": "CREATE TABLE notices AS SELECT t.internal_id,t.tender_id,CASE t.portal_type WHEN 'org' THEN 'central' ELSE t.portal_type END AS portal,t.portal_type AS original_portal,t.organisation_name AS buyer,t.reference_number AS reference,t.title,t.status,t.corrigendum_url,\n portal_ts(t.e_published_date) AS published_at,portal_ts(t.bid_submission_closing_date) AS closing_at,portal_ts(t.tender_opening_date) AS opening_at,try_cast(t.scraped_at AS TIMESTAMP) AS listing_scraped_at,d.scraped_at AS detail_scraped_at,d.internal_id IS NOT NULL AS has_details,\n t.tender_id IS DISTINCT FROM d.tender_id AND d.internal_id IS NOT NULL AS detail_id_mismatch,\n d.location,d.product_category,d.tender_category,d.tender_type,d.emd_raw,clean_num(d.emd_raw) AS emd_amount,d.fee_raw,clean_num(d.fee_raw) AS fee_amount,portal_ts(d.bid_start_raw) AS bid_start_at,portal_ts(d.download_start_raw) AS download_start_at,portal_ts(d.download_end_raw) AS download_end_at,d.document_url\n FROM src_t.tenders t LEFT JOIN notice_details d USING(internal_id)",
+      "seconds": 43.347,
+      "rows": null
+    },
+    "portal_population": {
+      "sql": "SELECT 'awards' AS grain,portal,count(*) AS rows,count(DISTINCT tender_id) AS distinct_tender_ids,count(*) FILTER(WHERE has_details) AS detailed FROM awards GROUP BY portal UNION ALL SELECT 'notices',portal,count(*),count(DISTINCT tender_id),count(*) FILTER(WHERE has_details) FROM notices GROUP BY portal",
+      "seconds": 2.194,
+      "rows": [
+        {
+          "grain": "awards",
+          "portal": "central",
+          "rows": 2005258,
+          "distinct_tender_ids": 1027090,
+          "detailed": 1739680
+        },
+        {
+          "grain": "awards",
+          "portal": "state",
+          "rows": 2916702,
+          "distinct_tender_ids": 1952310,
+          "detailed": 2801059
+        },
+        {
+          "grain": "notices",
+          "portal": "state",
+          "rows": 41825,
+          "distinct_tender_ids": 41825,
+          "detailed": 41825
+        },
+        {
+          "grain": "notices",
+          "portal": "central",
+          "rows": 3910366,
+          "distinct_tender_ids": 3335298,
+          "detailed": 3136659
+        }
+      ]
+    },
+    "detail_integrity": {
+      "sql": "SELECT 'awards' AS grain,count(*) FILTER(WHERE NOT json_valid) AS invalid_json,count(*) FILTER(WHERE internal_id='test_id_1') AS test_rows,count(*) FILTER(WHERE NOT EXISTS(SELECT 1 FROM awards a WHERE a.internal_id=award_details.internal_id)) AS orphan_details,min(scraped_at) AS earliest_scrape,max(scraped_at) AS latest_scrape FROM award_details UNION ALL SELECT 'notices',count(*) FILTER(WHERE NOT json_valid),count(*) FILTER(WHERE internal_id='test_id_1'),count(*) FILTER(WHERE NOT EXISTS(SELECT 1 FROM notices n WHERE n.internal_id=notice_details.internal_id)),min(scraped_at),max(scraped_at) FROM notice_details",
+      "seconds": 1.762,
+      "rows": [
+        {
+          "grain": "awards",
+          "invalid_json": 0,
+          "test_rows": 0,
+          "orphan_details": 0,
+          "earliest_scrape": "2026-06-18 11:05:10.031221",
+          "latest_scrape": "2026-06-24 01:26:48.718329"
+        },
+        {
+          "grain": "notices",
+          "invalid_json": 0,
+          "test_rows": 1,
+          "orphan_details": 1,
+          "earliest_scrape": "2026-06-16 03:12:18.054842",
+          "latest_scrape": "2026-06-17 14:09:39.667624"
+        }
+      ]
+    },
+    "listing_detail_id_mismatch": {
+      "sql": "SELECT 'awards' AS grain,count(*) FILTER(WHERE detail_id_mismatch) AS mismatches FROM awards UNION ALL SELECT 'notices',count(*) FILTER(WHERE detail_id_mismatch) FROM notices",
+      "seconds": 0.014,
+      "rows": [
+        {
+          "grain": "awards",
+          "mismatches": 0
+        },
+        {
+          "grain": "notices",
+          "mismatches": 0
+        }
+      ]
+    },
+    "notice_status": {
+      "sql": "SELECT portal,status,count(*) AS rows FROM notices GROUP BY ALL ORDER BY ALL",
+      "seconds": 0.039,
+      "rows": [
+        {
+          "portal": "central",
+          "status": "active",
+          "rows": 30749
+        },
+        {
+          "portal": "central",
+          "status": "archived",
+          "rows": 3879617
+        },
+        {
+          "portal": "state",
+          "status": "active",
+          "rows": 41825
+        }
+      ]
+    },
+    "notice_field_coverage": {
+      "sql": "SELECT portal,count(*) AS rows,count(*) FILTER(WHERE has_details) AS detailed,count(*) FILTER(WHERE nullif(trim(location),'') IS NOT NULL) AS location_present,count(*) FILTER(WHERE nullif(trim(product_category),'') IS NOT NULL) AS category_present,count(*) FILTER(WHERE emd_amount IS NOT NULL) AS emd_parseable,count(*) FILTER(WHERE fee_amount IS NOT NULL) AS fee_parseable,count(*) FILTER(WHERE emd_amount<0) AS negative_emd,count(*) FILTER(WHERE fee_amount<0) AS negative_fee,count(*) FILTER(WHERE nullif(trim(corrigendum_url),'') IS NOT NULL) AS corrigendum_link,count(*) FILTER(WHERE nullif(trim(document_url),'') IS NOT NULL) AS tender_document_link FROM notices GROUP BY portal",
+      "seconds": 2.803,
+      "rows": [
+        {
+          "portal": "central",
+          "rows": 3910366,
+          "detailed": 3136659,
+          "location_present": 3135779,
+          "category_present": 3136659,
+          "emd_parseable": 3136659,
+          "fee_parseable": 3136659,
+          "negative_emd": 0,
+          "negative_fee": 0,
+          "corrigendum_link": 552620,
+          "tender_document_link": 3136659
+        },
+        {
+          "portal": "state",
+          "rows": 41825,
+          "detailed": 41825,
+          "location_present": 41825,
+          "category_present": 41825,
+          "emd_parseable": 41825,
+          "fee_parseable": 41825,
+          "negative_emd": 0,
+          "negative_fee": 0,
+          "corrigendum_link": 7560,
+          "tender_document_link": 41825
+        }
+      ]
+    },
+    "notice_date_quality": {
+      "sql": "SELECT portal,count(*) AS rows,count(*) FILTER(WHERE published_at IS NULL) AS publication_unparsed,count(*) FILTER(WHERE closing_at IS NULL) AS closing_unparsed,count(*) FILTER(WHERE published_at>closing_at) AS closes_before_publication,count(*) FILTER(WHERE published_at>listing_scraped_at) AS publication_after_listing_scrape,count(*) FILTER(WHERE closing_at>listing_scraped_at) AS closing_after_listing_scrape,count(*) FILTER(WHERE opening_at<closing_at) AS opening_before_closing,count(*) FILTER(WHERE bid_start_at>closing_at) AS bid_start_after_closing,min(published_at) AS earliest_publication,max(published_at) AS latest_publication,min(listing_scraped_at) AS earliest_listing_scrape,max(listing_scraped_at) AS latest_listing_scrape FROM notices GROUP BY portal",
+      "seconds": 0.137,
+      "rows": [
+        {
+          "portal": "central",
+          "rows": 3910366,
+          "publication_unparsed": 0,
+          "closing_unparsed": 0,
+          "closes_before_publication": 2052,
+          "publication_after_listing_scrape": 40,
+          "closing_after_listing_scrape": 27832,
+          "opening_before_closing": 6208,
+          "bid_start_after_closing": 1702,
+          "earliest_publication": "0001-01-01 00:00:00",
+          "latest_publication": "5023-04-28 09:00:00",
+          "earliest_listing_scrape": "2026-06-16 02:41:39.952292",
+          "latest_listing_scrape": "2026-06-16 02:47:00.166687"
+        },
+        {
+          "portal": "state",
+          "rows": 41825,
+          "publication_unparsed": 0,
+          "closing_unparsed": 0,
+          "closes_before_publication": 0,
+          "publication_after_listing_scrape": 0,
+          "closing_after_listing_scrape": 39104,
+          "opening_before_closing": 5,
+          "bid_start_after_closing": 1,
+          "earliest_publication": "2022-04-26 18:00:00",
+          "latest_publication": "2026-06-15 16:30:00",
+          "earliest_listing_scrape": "2026-06-16 02:45:48.336919",
+          "latest_listing_scrape": "2026-06-16 02:45:55.491601"
+        }
+      ]
+    },
+    "notice_year_coverage": {
+      "sql": "SELECT portal,year(published_at) AS publication_year,count(*) AS rows FROM notices GROUP BY ALL ORDER BY ALL",
+      "seconds": 0.037,
+      "rows": [
+        {
+          "portal": "central",
+          "publication_year": 1,
+          "rows": 5
+        },
+        {
+          "portal": "central",
+          "publication_year": 1753,
+          "rows": 1
+        },
+        {
+          "portal": "central",
+          "publication_year": 1970,
+          "rows": 1
+        },
+        {
+          "portal": "central",
+          "publication_year": 2005,
+          "rows": 2
+        },
+        {
+          "portal": "central",
+          "publication_year": 2006,
+          "rows": 4
+        },
+        {
+          "portal": "central",
+          "publication_year": 2007,
+          "rows": 1
+        },
+        {
+          "portal": "central",
+          "publication_year": 2008,
+          "rows": 26
+        },
+        {
+          "portal": "central",
+          "publication_year": 2009,
+          "rows": 225
+        },
+        {
+          "portal": "central",
+          "publication_year": 2010,
+          "rows": 3091
+        },
+        {
+          "portal": "central",
+          "publication_year": 2011,
+          "rows": 8735
+        },
+        {
+          "portal": "central",
+          "publication_year": 2012,
+          "rows": 94087
+        },
+        {
+          "portal": "central",
+          "publication_year": 2013,
+          "rows": 119209
+        },
+        {
+          "portal": "central",
+          "publication_year": 2014,
+          "rows": 219060
+        },
+        {
+          "portal": "central",
+          "publication_year": 2015,
+          "rows": 325666
+        },
+        {
+          "portal": "central",
+          "publication_year": 2016,
+          "rows": 366949
+        },
+        {
+          "portal": "central",
+          "publication_year": 2017,
+          "rows": 398629
+        },
+        {
+          "portal": "central",
+          "publication_year": 2018,
+          "rows": 430224
+        },
+        {
+          "portal": "central",
+          "publication_year": 2019,
+          "rows": 387599
+        },
+        {
+          "portal": "central",
+          "publication_year": 2020,
+          "rows": 291614
+        },
+        {
+          "portal": "central",
+          "publication_year": 2021,
+          "rows": 263827
+        },
+        {
+          "portal": "central",
+          "publication_year": 2022,
+          "rows": 270578
+        },
+        {
+          "portal": "central",
+          "publication_year": 2023,
+          "rows": 219739
+        },
+        {
+          "portal": "central",
+          "publication_year": 2024,
+          "rows": 205077
+        },
+        {
+          "portal": "central",
+          "publication_year": 2025,
+          "rows": 194319
+        },
+        {
+          "portal": "central",
+          "publication_year": 2026,
+          "rows": 111686
+        },
+        {
+          "portal": "central",
+          "publication_year": 2027,
+          "rows": 1
+        },
+        {
+          "portal": "central",
+          "publication_year": 2031,
+          "rows": 1
+        },
+        {
+          "portal": "central",
+          "publication_year": 2202,
+          "rows": 9
+        },
+        {
+          "portal": "central",
+          "publication_year": 5023,
+          "rows": 1
+        },
+        {
+          "portal": "state",
+          "publication_year": 2022,
+          "rows": 1
+        },
+        {
+          "portal": "state",
+          "publication_year": 2024,
+          "rows": 3
+        },
+        {
+          "portal": "state",
+          "publication_year": 2025,
+          "rows": 224
+        },
+        {
+          "portal": "state",
+          "publication_year": 2026,
+          "rows": 41597
+        }
+      ]
+    },
+    "bid_window_summary": {
+      "sql": "SELECT portal,count(*) AS eligible,median(date_diff('minute',published_at,closing_at)/1440.0) AS median_days,count(*) FILTER(WHERE date_diff('minute',published_at,closing_at)<72*60) AS under_72h,count(*) FILTER(WHERE date_diff('minute',published_at,closing_at)<24*60) AS under_24h FROM notices WHERE published_at<=closing_at AND published_at<=listing_scraped_at AND year(published_at)>=2011 GROUP BY portal",
+      "seconds": 0.326,
+      "rows": [
+        {
+          "portal": "state",
+          "eligible": 41825,
+          "median_days": 13.9375,
+          "under_72h": 46,
+          "under_24h": 2
+        },
+        {
+          "portal": "central",
+          "eligible": 3904960,
+          "median_days": 14.086805555555555,
+          "under_72h": 82117,
+          "under_24h": 18690
+        }
+      ]
+    },
+    "join_id_only": {
+      "sql": "WITH n AS(SELECT tender_id,count(*) AS n FROM notices WHERE nullif(trim(tender_id),'') IS NOT NULL GROUP BY tender_id),a AS(SELECT tender_id,count(*) AS n FROM awards WHERE nullif(trim(tender_id),'') IS NOT NULL GROUP BY tender_id) SELECT count(*) AS shared_keys,sum(n.n::HUGEINT*a.n) AS candidate_pair_rows,sum(n.n) AS matched_notice_rows,sum(a.n) AS matched_award_rows,count(*) FILTER(WHERE n.n=1 AND a.n=1) AS one_to_one_keys,count(*) FILTER(WHERE n.n>1 AND a.n>1) AS many_to_many_keys,max(n.n::HUGEINT*a.n) AS max_pairs_one_key FROM n JOIN a ON n.tender_id=a.tender_id",
+      "seconds": 3.007,
+      "rows": [
+        {
+          "shared_keys": 508296,
+          "candidate_pair_rows": 2730656872,
+          "matched_notice_rows": 1021326,
+          "matched_award_rows": 1133339,
+          "one_to_one_keys": 248988,
+          "many_to_many_keys": 82932,
+          "max_pairs_one_key": 2579823328
+        }
+      ]
+    },
+    "join_portal_id": {
+      "sql": "WITH n AS(SELECT portal,tender_id,count(*) AS n FROM notices WHERE nullif(trim(portal),'') IS NOT NULL AND nullif(trim(tender_id),'') IS NOT NULL GROUP BY portal,tender_id),a AS(SELECT portal,tender_id,count(*) AS n FROM awards WHERE nullif(trim(portal),'') IS NOT NULL AND nullif(trim(tender_id),'') IS NOT NULL GROUP BY portal,tender_id) SELECT count(*) AS shared_keys,sum(n.n::HUGEINT*a.n) AS candidate_pair_rows,sum(n.n) AS matched_notice_rows,sum(a.n) AS matched_award_rows,count(*) FILTER(WHERE n.n=1 AND a.n=1) AS one_to_one_keys,count(*) FILTER(WHERE n.n>1 AND a.n>1) AS many_to_many_keys,max(n.n::HUGEINT*a.n) AS max_pairs_one_key FROM n JOIN a ON n.portal=a.portal AND n.tender_id=a.tender_id",
+      "seconds": 4.077,
+      "rows": [
+        {
+          "shared_keys": 499213,
+          "candidate_pair_rows": 2729360552,
+          "matched_notice_rows": 1003959,
+          "matched_award_rows": 1007230,
+          "one_to_one_keys": 251085,
+          "many_to_many_keys": 71472,
+          "max_pairs_one_key": 2578993536
+        }
+      ]
+    },
+    "join_portal_buyer_id": {
+      "sql": "WITH n AS(SELECT portal,buyer,tender_id,count(*) AS n FROM notices WHERE nullif(trim(portal),'') IS NOT NULL AND nullif(trim(buyer),'') IS NOT NULL AND nullif(trim(tender_id),'') IS NOT NULL GROUP BY portal,buyer,tender_id),a AS(SELECT portal,buyer,tender_id,count(*) AS n FROM awards WHERE nullif(trim(portal),'') IS NOT NULL AND nullif(trim(buyer),'') IS NOT NULL AND nullif(trim(tender_id),'') IS NOT NULL GROUP BY portal,buyer,tender_id) SELECT count(*) AS shared_keys,sum(n.n::HUGEINT*a.n) AS candidate_pair_rows,sum(n.n) AS matched_notice_rows,sum(a.n) AS matched_award_rows,count(*) FILTER(WHERE n.n=1 AND a.n=1) AS one_to_one_keys,count(*) FILTER(WHERE n.n>1 AND a.n>1) AS many_to_many_keys,max(n.n::HUGEINT*a.n) AS max_pairs_one_key FROM n JOIN a ON n.portal=a.portal AND n.buyer=a.buyer AND n.tender_id=a.tender_id",
+      "seconds": 5.775,
+      "rows": [
+        {
+          "shared_keys": 31756,
+          "candidate_pair_rows": 140066480,
+          "matched_notice_rows": 127765,
+          "matched_award_rows": 49419,
+          "one_to_one_keys": 20738,
+          "many_to_many_keys": 421,
+          "max_pairs_one_key": 140005953
+        }
+      ]
+    },
+    "join_portal_buyer_id_reference": {
+      "sql": "WITH n AS(SELECT portal,buyer,tender_id,reference,count(*) AS n FROM notices WHERE nullif(trim(portal),'') IS NOT NULL AND nullif(trim(buyer),'') IS NOT NULL AND nullif(trim(tender_id),'') IS NOT NULL AND nullif(trim(reference),'') IS NOT NULL GROUP BY portal,buyer,tender_id,reference),a AS(SELECT portal,buyer,tender_id,reference,count(*) AS n FROM awards WHERE nullif(trim(portal),'') IS NOT NULL AND nullif(trim(buyer),'') IS NOT NULL AND nullif(trim(tender_id),'') IS NOT NULL AND nullif(trim(reference),'') IS NOT NULL GROUP BY portal,buyer,tender_id,reference) SELECT count(*) AS shared_keys,sum(n.n::HUGEINT*a.n) AS candidate_pair_rows,sum(n.n) AS matched_notice_rows,sum(a.n) AS matched_award_rows,count(*) FILTER(WHERE n.n=1 AND a.n=1) AS one_to_one_keys,count(*) FILTER(WHERE n.n>1 AND a.n>1) AS many_to_many_keys,max(n.n::HUGEINT*a.n) AS max_pairs_one_key FROM n JOIN a ON n.portal=a.portal AND n.buyer=a.buyer AND n.tender_id=a.tender_id AND n.reference=a.reference",
+      "seconds": 7.425,
+      "rows": [
+        {
+          "shared_keys": 2625,
+          "candidate_pair_rows": 3877,
+          "matched_notice_rows": 2625,
+          "matched_award_rows": 3877,
+          "one_to_one_keys": 1714,
+          "many_to_many_keys": 0,
+          "max_pairs_one_key": 12
+        }
+      ]
+    },
+    "largest_ambiguous_keys": {
+      "sql": "WITH n AS(SELECT tender_id,count(*) AS n,count(DISTINCT buyer) AS notice_buyers FROM notices GROUP BY tender_id),a AS(SELECT tender_id,count(*) AS n,count(DISTINCT buyer) AS award_buyers FROM awards GROUP BY tender_id) SELECT tender_id,n.n AS notice_rows,a.n AS award_rows,n.n::HUGEINT*a.n AS candidate_pairs,notice_buyers,award_buyers FROM n JOIN a USING(tender_id) ORDER BY candidate_pairs DESC,tender_id LIMIT 10",
+      "seconds": 8.192,
+      "rows": [
+        {
+          "tender_id": "1",
+          "notice_rows": 207448,
+          "award_rows": 12436,
+          "candidate_pairs": 2579823328,
+          "notice_buyers": 98,
+          "award_buyers": 22
+        },
+        {
+          "tender_id": "2018_BHEL_1",
+          "notice_rows": 4171,
+          "award_rows": 8620,
+          "candidate_pairs": 35954020,
+          "notice_buyers": 1,
+          "award_buyers": 1
+        },
+        {
+          "tender_id": "2017_BHEL_1",
+          "notice_rows": 3989,
+          "award_rows": 7492,
+          "candidate_pairs": 29885588,
+          "notice_buyers": 1,
+          "award_buyers": 1
+        },
+        {
+          "tender_id": "2015_BHEL_1",
+          "notice_rows": 3505,
+          "award_rows": 6183,
+          "candidate_pairs": 21671415,
+          "notice_buyers": 1,
+          "award_buyers": 1
+        },
+        {
+          "tender_id": "2016_BHEL_1",
+          "notice_rows": 3071,
+          "award_rows": 5908,
+          "candidate_pairs": 18143468,
+          "notice_buyers": 1,
+          "award_buyers": 1
+        },
+        {
+          "tender_id": "2019_BHEL_1",
+          "notice_rows": 2433,
+          "award_rows": 6989,
+          "candidate_pairs": 17004237,
+          "notice_buyers": 2,
+          "award_buyers": 1
+        },
+        {
+          "tender_id": "2014_BHEL_1",
+          "notice_rows": 3619,
+          "award_rows": 3341,
+          "candidate_pairs": 12091079,
+          "notice_buyers": 1,
+          "award_buyers": 2
+        },
+        {
+          "tender_id": "2020_BHEL_1",
+          "notice_rows": 2047,
+          "award_rows": 5858,
+          "candidate_pairs": 11991326,
+          "notice_buyers": 1,
+          "award_buyers": 1
+        },
+        {
+          "tender_id": "2021_BHEL_1",
+          "notice_rows": 514,
+          "award_rows": 2216,
+          "candidate_pairs": 1139024,
+          "notice_buyers": 1,
+          "award_buyers": 1
+        },
+        {
+          "tender_id": "2",
+          "notice_rows": 1539,
+          "award_rows": 99,
+          "candidate_pairs": 152361,
+          "notice_buyers": 57,
+          "award_buyers": 14
+        }
+      ]
+    },
+    "award_date_quality": {
+      "sql": "SELECT portal,count(*) AS rows,count(*) FILTER(WHERE aoc_at>scraped_at) AS aoc_after_own_detail_scrape,count(*) FILTER(WHERE aoc_at>TIMESTAMP '2026-06-26 23:59:59') AS aoc_after_publication_cutoff,count(*) FILTER(WHERE contract_at>scraped_at) AS contract_after_own_detail_scrape,count(*) FILTER(WHERE aoc_at<closing_at) AS aoc_before_closing,count(*) FILTER(WHERE year(aoc_at)<>portal_year) AS portal_year_differs,min(aoc_at) AS min_aoc,max(aoc_at) AS max_aoc FROM awards GROUP BY portal",
+      "seconds": 0.516,
+      "rows": [
+        {
+          "portal": "central",
+          "rows": 2005258,
+          "aoc_after_own_detail_scrape": 201,
+          "aoc_after_publication_cutoff": 180,
+          "contract_after_own_detail_scrape": 201,
+          "aoc_before_closing": 15415,
+          "portal_year_differs": 479875,
+          "min_aoc": "0002-12-02 00:00:00",
+          "max_aoc": "9999-01-01 00:00:00"
+        },
+        {
+          "portal": "state",
+          "rows": 2916702,
+          "aoc_after_own_detail_scrape": 628,
+          "aoc_after_publication_cutoff": 568,
+          "contract_after_own_detail_scrape": 628,
+          "aoc_before_closing": 767,
+          "portal_year_differs": 895015,
+          "min_aoc": "2011-03-31 00:00:00",
+          "max_aoc": "2027-05-25 00:00:00"
+        }
+      ]
+    },
+    "legacy_dedup_key_collisions": {
+      "sql": "WITH k AS(SELECT tender_id,bidder_norm,aoc_at,count(*) AS rows,count(DISTINCT portal) AS portals,count(DISTINCT buyer) AS buyers,count(DISTINCT reference) AS reference_variants,count(DISTINCT coalesce(cast(value_amount AS VARCHAR),'<NULL>')) AS amount_variants,count(DISTINCT coalesce(cast(bids AS VARCHAR),'<NULL>')) AS bid_variants,count(DISTINCT coalesce(cast(closing_at AS VARCHAR),'<NULL>')) AS closing_variants FROM awards GROUP BY ALL) SELECT count(*) AS legacy_keys,sum(rows) AS raw_rows,count(*) FILTER(WHERE portals>1) AS cross_portal_keys,sum(rows) FILTER(WHERE portals>1) AS cross_portal_rows,count(*) FILTER(WHERE buyers>1) AS cross_buyer_keys,sum(rows) FILTER(WHERE buyers>1) AS cross_buyer_rows,count(*) FILTER(WHERE reference_variants>1) AS multiple_reference_keys,count(*) FILTER(WHERE amount_variants>1) AS conflicting_value_keys,count(*) FILTER(WHERE bid_variants>1) AS conflicting_bid_count_keys,count(*) FILTER(WHERE closing_variants>1) AS conflicting_closing_keys FROM k",
+      "seconds": 48.195,
+      "rows": [
+        {
+          "legacy_keys": 3385233,
+          "raw_rows": 4921960,
+          "cross_portal_keys": 22,
+          "cross_portal_rows": 49,
+          "cross_buyer_keys": 310,
+          "cross_buyer_rows": 1496,
+          "multiple_reference_keys": 426,
+          "conflicting_value_keys": 1757,
+          "conflicting_bid_count_keys": 928,
+          "conflicting_closing_keys": 3204
+        }
+      ]
+    },
+    "scoped_dedup_counts": {
+      "sql": "SELECT (SELECT count(*) FROM (SELECT tender_id,bidder_norm,aoc_at FROM awards GROUP BY ALL)) AS legacy_rows,(SELECT count(*) FROM (SELECT portal,buyer,tender_id,bidder_norm,aoc_at FROM awards GROUP BY ALL)) AS scoped_rows,(SELECT count(*) FROM (SELECT portal,buyer,tender_id,reference,bidder_norm,aoc_at FROM awards GROUP BY ALL)) AS reference_scoped_rows",
+      "seconds": 6.906,
+      "rows": [
+        {
+          "legacy_rows": 3385233,
+          "scoped_rows": 3385618,
+          "reference_scoped_rows": 3386584
+        }
+      ]
+    }
+  },
+  "derivationFingerprint": "bb1cdeb9d16dc5ee0da3ac3940755c1d27ada162baa4529401e36167c1168c77"
+}

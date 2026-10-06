@@ -1,17 +1,8 @@
 import raw from '../../research/raw/pmcares.json';
 
 /**
- * PM CARES — a fund, and the control that governs everything said about it.
- *
- * The organising fact of this dataset is not a number. It is that the investigation
- * ran a control — PMNRF, the 1948 fund administered from the same office — and the
- * control killed the two claims most often made about PM CARES.
- *
- * That is why the page leads with the comparison rather than with the money: an
- * unusual-looking property that a comparable institution also has is not a finding
- * about the institution, it is a finding about the category. The desk skill calls
- * this the control test, and it is the check with the highest kill rate in the whole
- * procedure after the date test.
+ * PM CARES disclosure ledger. Comparator evidence supplies context but cannot
+ * establish intent or decide the trust's statutory legal status.
  */
 
 export interface PmSource {
@@ -52,6 +43,7 @@ export interface FinancialYear {
   payments?: { heads?: { head: string; amountRs: number }[]; totalRs?: number; totalCr?: number };
   closingBalanceCr?: number;
   notesReferencedButNotPublished?: string;
+  notesPublished?: boolean;
   auditorsReportPublished?: boolean;
   balanceSheetPublished?: boolean;
   castsExactly?: boolean;
@@ -157,10 +149,8 @@ export function coverage(): {
 /**
  * How much of the fund's own accounting is visible.
  *
- * Four statements exist and every one is a single-page Receipts and Payments Account.
- * The notes they themselves reference, the auditor's report and the balance sheet are
- * not published for any year — so "the accounts are published" and "the accounts can
- * be read" are different statements, and this function is the difference.
+ * Coverage is computed from reviewed files; unknown future entries do not silently
+ * become complete. Notes and separate auditor reports are distinct artifacts.
  */
 export function statementCompleteness(): {
   years: number;
@@ -171,7 +161,7 @@ export function statementCompleteness(): {
   const pub = PM_FINANCIALS.filter((f) => f.published);
   return {
     years: pub.length,
-    withNotes: 0, // every published year references notes 1–6 and publishes none
+    withNotes: pub.filter((f) => f.notesPublished === true).length,
     withAuditorsReport: pub.filter((f) => f.auditorsReportPublished === true).length,
     withBalanceSheet: pub.filter((f) => f.balanceSheetPublished === true).length,
   };

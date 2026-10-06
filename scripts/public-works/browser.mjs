@@ -6,6 +6,7 @@ import { existsSync, readFileSync, mkdirSync } from 'node:fs';
 import { extname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright';
+import { dossierUrl, dossier } from '../pages/dossier-navigation.mjs';
 
 const root = fileURLToPath(new URL('../../', import.meta.url));
 const dist = resolve(root, process.env.PUBLIC_WORKS_DIST ?? 'dist');
@@ -54,15 +55,22 @@ try {
   page.on('pageerror', error => errors.push(error.message));
   const ready = () => page.getByRole('heading', { name: 'Roads, bridges & public works.', exact: true }).waitFor({ timeout: 30000 });
   const open = async (query = '') => {
-    await page.goto(`${base}/#/public-works${query ? `?${query}` : ''}`); await ready();
+    await page.goto(dossierUrl(base, `/public-works${query ? `?${query}` : ''}`)); await ready();
     const params = new URLSearchParams(query);
+    const state = data.states.find(state => state.code === params.get('state'));
+    const sector = params.get('sector') === 'all' ? 'All sectors' : ({ electricity: 'Electricity', water: 'Water', hospitals: 'Hospitals & health', schools: 'Schools & colleges', police: 'Police', military: 'Military', recruitment: 'Recruitment', administration: 'Administration' })[params.get('sector')] ?? 'Roads & bridges';
+    const context = [sector, state?.name, params.get('place')?.trim(), params.get('saved') === '1' ? 'saved sources only' : null].filter(Boolean).join(' · ');
     await page.waitForFunction(expected => {
       const page = document.querySelector('.public-works-page');
       const fields = page?.querySelectorAll('.pw-fields input');
       const state = page?.querySelector('.pw-fields select');
       return state?.value === expected.state && fields?.[0]?.value === expected.place && fields?.[1]?.value === expected.q
-        && page?.querySelector('.pw-sector[aria-pressed="true"]')?.textContent === expected.sector;
-    }, { state: data.states.some(state => state.code === params.get('state')) ? params.get('state') : '', place: params.get('place') ?? '', q: params.get('q') ?? '', sector: params.get('sector') === 'all' ? 'All sectors' : ({ electricity: 'Electricity', water: 'Water', hospitals: 'Hospitals & health', schools: 'Schools & colleges', police: 'Police', military: 'Military', recruitment: 'Recruitment', administration: 'Administration' })[params.get('sector')] ?? 'Roads & bridges' });
+        && page?.querySelector('.pw-sector[aria-pressed="true"]')?.textContent === expected.sector
+        // Draft inputs can restore before React commits the filtered records.
+        // Require the visible committed place/sector description as well; never
+        // wait for an expected record count to make an incorrect filter pass.
+        && page?.querySelector('.pw-count')?.innerText.split('\n').at(-1) === expected.context;
+    }, { state: state?.code ?? '', place: params.get('place') ?? '', q: params.get('q') ?? '', sector, context });
   };
   const exported = async name => {
     const downloading = page.waitForEvent('download'); await page.getByRole('button', { name, exact: true }).click();
@@ -70,7 +78,7 @@ try {
   };
   await open();
   check(await page.getByRole('button', { name: 'Roads & bridges', exact: true }).getAttribute('aria-pressed') === 'true', 'roads is the declared initial sector');
-  check(await page.getByLabel('State or union territory', { exact: true }).locator('option').count() === data.states.length + 1, 'all states and UTs are navigable');
+  check(await dossier(page).getByLabel('State or union territory', { exact: true }).locator('option').count() === data.states.length + 1, 'all states and UTs are navigable');
   check((await page.locator('#pw-procurement').innerText()).includes('Agreement is unknown'), 'unavailable verification is not rendered as disagreement');
   check((await page.locator('#pw-repeat').innerText()).toLowerCase().includes('not assessable'), 'aggregate repeat work status is visible');
   const sections = await page.locator('.pw-nav button').all();
@@ -99,24 +107,24 @@ try {
     check(rows.length === data.sources.filter(source => source.sectors.includes(sector)).length, `${sector} source coverage matches its corpus`);
   }
   await open('sector=all');
-  await page.getByLabel('Supporting source type', { exact: true }).selectOption('news');
+  await dossier(page).getByLabel('Supporting source type', { exact: true }).selectOption('news');
   await page.waitForFunction(() => document.querySelector('#pw-source-type-label + select')?.value === 'news');
   const newsRows = await exported('Export sources CSV');
   check(newsRows.length === data.sources.filter(source => source.type === 'news').length && newsRows.every(row => row.type === 'news'), 'source type filters the ledger and its full export');
   await open('sector=all');
-  await page.getByLabel('State or union territory', { exact: true }).selectOption('KA');
-  await page.getByLabel('Project, buyer, scheme or topic', { exact: true }).fill('water');
-  await page.getByRole('button', { name: 'Search', exact: true }).click();
+  await dossier(page).getByLabel('State or union territory', { exact: true }).selectOption('KA');
+  await dossier(page).getByLabel('Project, buyer, scheme or topic', { exact: true }).fill('water');
+  await dossier(page).getByRole('button', { name: 'Search', exact: true }).click();
   await page.waitForURL(url => url.hash.includes('state=KA') && url.hash.includes('q=water'));
   check(new URLSearchParams(new URL(page.url()).hash.split('?')[1]).get('state') === 'KA', 'state and submitted search compose in the URL');
   await page.goBack(); await ready();
   await page.waitForFunction(() => document.querySelectorAll('.pw-fields input')[1]?.value === '');
-  check(await page.getByLabel('State or union territory', { exact: true }).inputValue() === 'KA', 'Back restores the previous state and search form');
+  check(await dossier(page).getByLabel('State or union territory', { exact: true }).inputValue() === 'KA', 'Back restores the previous state and search form');
   await page.goForward(); await ready();
   await page.waitForFunction(() => document.querySelectorAll('.pw-fields input')[1]?.value === 'water');
-  check(await page.getByLabel('Project, buyer, scheme or topic', { exact: true }).inputValue() === 'water', 'Forward restores the query');
+  check(await dossier(page).getByLabel('Project, buyer, scheme or topic', { exact: true }).inputValue() === 'water', 'Forward restores the query');
   await open('sector=all');
-  await page.getByLabel('Project, buyer, scheme or topic', { exact: true }).fill('bridge');
+  await dossier(page).getByLabel('Project, buyer, scheme or topic', { exact: true }).fill('bridge');
   await page.evaluate(() => {
     const state = document.querySelector('.pw-fields select'); state.value = 'GJ'; state.dispatchEvent(new Event('change', { bubbles: true }));
     document.querySelector('form[aria-label="Search public works evidence"]').requestSubmit();
@@ -151,7 +159,7 @@ try {
   await open('sector=all');
   const preciseRule = data.rules.find(rule => /^\d{4}-\d{2}-\d{2}$/u.test(rule.effectiveFrom ?? ''));
   if (preciseRule) {
-    await page.getByLabel('Optional procurement event date', { exact: true }).fill('1900-01-01');
+    await dossier(page).getByLabel('Optional procurement event date', { exact: true }).fill('1900-01-01');
     await page.waitForURL(url => url.hash.includes('event=1900-01-01'));
     await page.locator(`[data-rule-id="${preciseRule.id}"] .pw-status`).filter({ hasText: 'predates' }).waitFor();
     check((await page.locator(`[data-rule-id="${preciseRule.id}"]`).innerText()).includes('predates'), 'earlier events are not judged against a later rule');
@@ -185,12 +193,12 @@ try {
   await page.locator('.pw-network-table-wrap').waitFor();
   check(await page.locator('.pw-network-table-wrap tbody tr').count() === data.relationships.length, 'table alternative contains every relationship');
   const selectedEntity = data.entities.find(entity => entity.resolved && data.relationships.some(edge => edge.from === entity.id || edge.to === entity.id));
-  await page.getByLabel('Focus an entity', { exact: true }).selectOption(selectedEntity.id);
+  await dossier(page).getByLabel('Focus an entity', { exact: true }).selectOption(selectedEntity.id);
   await page.waitForURL(url => url.hash.includes(`node=${encodeURIComponent(selectedEntity.id)}`));
   await page.getByRole('button', { name: '2 steps', exact: true }).click();
   await page.waitForURL(url => url.hash.includes('hops=2'));
   await page.reload(); await ready();
-  check(await page.getByLabel('Focus an entity', { exact: true }).inputValue() === selectedEntity.id, 'focused network entity round-trips through reload');
+  check(await dossier(page).getByLabel('Focus an entity', { exact: true }).inputValue() === selectedEntity.id, 'focused network entity round-trips through reload');
   check(await page.getByRole('button', { name: 'Relationship table', exact: true }).getAttribute('aria-pressed') === 'true', 'graph/table selection round-trips through reload');
   await page.getByRole('button', { name: 'Network', exact: true }).click();
   const node = page.locator('[data-network-node]').first();
@@ -242,6 +250,17 @@ try {
     }
     if (screenshots && [1440, 390].includes(width)) await page.screenshot({ path: resolve(screenshots, width === 1440 ? 'desktop.png' : 'mobile.png'), fullPage: false });
   }
+  // Clearing route filters keeps the reader in the dossier and preserves the
+  // shared investigation place while removing the legacy sector/state/query.
+  await open('sector=military&state=KA&q=budget&iw_state=TN');
+  await dossier(page).getByRole('button', { name: 'Reset filters', exact: true }).click();
+  await page.waitForFunction(() => {
+    const params = new URLSearchParams(location.hash.split('?')[1]);
+    return params.get('iw_view') === 'dossier' && params.get('iw_state') === 'TN'
+      && !params.has('sector') && !params.has('state') && !params.has('q')
+      && document.querySelector('.pw-sector[aria-pressed="true"]')?.textContent === 'Roads & bridges';
+  });
+  check(true, 'dossier reset clears only its filters and retains investigation context');
   await page.emulateMedia({ reducedMotion: 'reduce' });
   check(await page.evaluate(() => matchMedia('(prefers-reduced-motion: reduce)').matches), 'reduced-motion preference is active');
   check(errors.length === 0, `no browser page errors: ${errors.join('; ')}`);

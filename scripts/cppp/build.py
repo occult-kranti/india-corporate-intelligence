@@ -37,6 +37,13 @@ import duckdb
 import pyarrow as pa
 import pyarrow.ipc as ipc
 
+if __package__:
+    from .provenance import lineage_metadata
+    from .date_semantics import date_field_semantics, timing_definition, short_gap_definition, short_gap_family, DATE_GAP_READING, DATE_GAP_STANCE
+else:
+    from provenance import lineage_metadata
+    from date_semantics import date_field_semantics, timing_definition, short_gap_definition, short_gap_family, DATE_GAP_READING, DATE_GAP_STANCE
+
 # security.py does `import build`; when this file runs as a script it is __main__, so register it
 # under its module name once, so the slice reads these very constants rather than a second copy.
 sys.modules.setdefault("build", sys.modules[__name__])
@@ -432,6 +439,7 @@ def run(arrow_dir, out_dir, as_of: str, log=print) -> dict:
     tt_norm = rows_of(con, SQL["quality_tender_type_norm"])
 
     provenance = {
+        **lineage_metadata(inputs),
         "inputs": inputs, "rows": raw["rows"], "distinctTenderIds": raw["distinct_tender_ids"],
         "afterDedupRows": dd["dedup_rows"], "dedupRule": DEDUP_RULE, "dedupRuleDetail": DEDUP_RULE_DETAIL,
         "buyerRule": BUYER_RULE, "markerRegex": MARKER_RE, "markedRule": MARKED_RULE, "valueBandsInr": VALUE_BANDS,
@@ -565,8 +573,7 @@ def run(arrow_dir, out_dir, as_of: str, log=print) -> dict:
     fy_all = {r["fy_month"]: r["n"] for r in fy if r["portal"] is None}
     fy_n = sum(fy_all.values()) or 1
     timing = {
-        "definition": ("days = date_diff('day', closing_at, aoc_at) on dedup rows; rows with aoc_at < closing_at, and rows where either "
-                       "date is NULL, are excluded and counted below so that n + excludedAocBeforeClosing + excludedDateMissing = dedup rows"),
+        "definition": timing_definition(),
         "n": total["n"], "excludedAocBeforeClosing": excluded, "excludedDateMissing": date_missing,
         "daysClosingToAoc": hist,
         "shareLe2Days": {"count": total["le2"], "n": total["n"], "pct": pct(total["le2"], total["n"]), "wilson95": wilson95(total["le2"], total["n"])},
@@ -575,10 +582,9 @@ def run(arrow_dir, out_dir, as_of: str, log=print) -> dict:
                       "medianDays": r["median_days"], "meanDays": r["mean_days"], "p90Days": r["p90_days"]} for r in summ if r["portal"] is not None],
         "aocByFinancialYearMonth": [{"fyMonth": m, "calendarMonth": ((m + 2) % 12) + 1, "n": fy_all.get(m, 0), "pct": round(100 * fy_all.get(m, 0) / fy_n, 2),
                                      "byPortal": {r["portal"]: r["n"] for r in fy if r["portal"] is not None and r["fy_month"] == m}} for m in range(1, 13)],
-        "innocentReading": ("Very short closing→AOC windows are consistent with e-procurement auto-evaluation of small works and single-bid tenders; "
-                            "clustering before March reflects financial-year spending rules, not conduct. Election-calendar clustering is not "
-                            "computed here: it needs the state election dates from the welfare fleet joined per state."),
-        "provenance": provenance,
+        "innocentReading": DATE_GAP_READING,
+        "fieldSemanticsAudit": date_field_semantics(),
+        "provenance": {**provenance, "dateFieldSemanticsAudit": date_field_semantics()},
     }
     _write(out_dir / "timing.json", timing)
     log(f"timing.json in {time.time() - t_start:.1f}s")
@@ -588,7 +594,7 @@ def run(arrow_dir, out_dir, as_of: str, log=print) -> dict:
     _nonopen = one(con, SQL["redflag_non_open_labels"])
     rep_total = next(r for r in rep if r["portal"] is None)
     redflags = {
-        "stance": "Fazekas-style indicators computable from these fields, each as a rate over its declared family with the family size. Rates over a family, never a list of culprits.",
+        "stance": "Fazekas-style indicators computable from these fields, each as a rate over its declared family with the family size. Rates over a family, never a list of culprits." + DATE_GAP_STANCE,
         "indicators": [
             indicator("singleBidding", "bids_received = 1", DENOMINATOR, rows_of(con, SQL["redflag_single"]),
                       "Single bidding is common for small works in thin local markets and for specialised supply; the national base rate is the comparison, not zero."),
@@ -597,10 +603,9 @@ def run(arrow_dir, out_dir, as_of: str, log=print) -> dict:
                       "Limited tenders are lawful under GFR 2017 rule 162 below stated thresholds and for urgent or proprietary purchases; the field mixes category (Works/Goods/Services) with method (Limited), so this rate is a floor on non-open procedures, not a measure of them.",
                       {"limitedLabelRegex": LIMITED_RE, "nonOpenLabelsLeftInOtherUnknown": _nonopen, "nonOpenLabelRegex": NON_OPEN_LABEL_RE,
                        "note": "Single/Nomination/STE/Rate Contract labels are non-open methods too but are not 'Limited'; they sit in Other/unknown, outside this family, and are counted here so the rate is read as a floor"}),
-            indicator("shortDecisionWindow", f"days from closing_at to aoc_at <= {SHORT_DECISION_DAYS}",
-                      "awards after dedup with aoc_at >= closing_at (rows with aoc_at < closing_at or either date NULL are excluded and counted in timing.json)",
+            indicator("shortDecisionWindow", short_gap_definition(SHORT_DECISION_DAYS), short_gap_family(),
                       rows_of(con, SQL["redflag_short"]),
-                      "Same-day or next-day awards follow from automated bid opening and single-bid or two-envelope tenders with a pre-set technical evaluation; the window says nothing about the evaluation's quality."),
+                      DATE_GAP_READING, {"fieldSemanticsAudit": date_field_semantics()}),
             indicator("repeatSingleBidderMarkedWinners", f"single-bidder awards to a (buyer, marked winner) pair with >= {NAME_MIN_AWARDS} single-bidder awards from that buyer",
                       "single-bidder awards after dedup to MARKED winners (unmarked winners cannot be counted as repeat winners without identifying private individuals)", rep,
                       "Repeat single-bidder winners are what a rate-contracted supplier, an OEM, or the only qualified contractor in a district looks like; the pair count is a question for the verification sample, not a finding.",
@@ -611,7 +616,7 @@ def run(arrow_dir, out_dir, as_of: str, log=print) -> dict:
         "singleBiddingByBuyerNote": (f"the 25 buyers (public bodies) with the highest single-bidder rate among those with >= {CONCENTRATION_MIN_AWARDS} awards in the "
                                      "denominator; buyers are public bodies and may be named; a buyer is the body under the buyer rule, so '/'- and '||'-separated "
                                      "central sub-units are folded into their parent body"),
-        "provenance": provenance,
+        "provenance": {**provenance, "dateFieldSemanticsAudit": date_field_semantics()},
     }
     _write(out_dir / "redflags.json", redflags)
     log(f"redflags.json in {time.time() - t_start:.1f}s")

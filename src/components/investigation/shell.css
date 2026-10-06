@@ -1,0 +1,16 @@
+/* A compact navigation frame leaves the working surface to the map and evidence. */
+.investigation-shell{background:#0b1114}
+.iw-navigation-rail{display:none;width:78px;flex:0 0 78px;min-height:0;flex-direction:column;background:#10191e;border-inline-end:1px solid #2b3b43}
+.iw-rail-brand{height:57px;flex:0 0 57px;display:flex;align-items:center;justify-content:center;font:600 17px var(--font-mono);letter-spacing:-.05em;color:#e1ebe8;border-bottom:1px solid #2b3b43}.iw-rail-brand span{color:#93c4bb}
+.iw-navigation-rail nav{flex:1;min-height:0;overflow-y:auto;scrollbar-width:thin;padding:.4rem .35rem}
+.iw-rail-link,.iw-rail-more{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.3rem;width:100%;min-height:52px;color:#a9bbc1;font-size:9px;line-height:1.2;border-radius:3px;border:1px solid transparent;margin-bottom:.2rem}
+.iw-rail-link:hover,.iw-rail-more:hover{background:#1c2c32;color:#e0ece8}.iw-rail-link.is-active{color:#c7e5dc;background:#1d3639;border-color:#496a69}.iw-rail-more{flex:0 0 57px;margin:0;border-radius:0;border-top:1px solid #2b3b43}
+.investigation-shell .site-masthead{min-height:57px;padding-inline:1rem;background:#0e171b;border-bottom-color:#2b3b43}
+.investigation-shell .masthead-context{font-size:10px;gap:.7rem}.investigation-shell .masthead-context>span:first-child{color:#9bc6bb;font-family:var(--font-mono);letter-spacing:.12em}.investigation-shell .masthead-current{font-size:12px}
+.investigation-shell .site-main{scroll-padding-top:12px}.investigation-shell .iw-shell-content{width:100%;max-width:none;padding:0;margin:0;min-height:100%}
+.investigation-shell .iw-all-lenses-button{display:flex;width:37px;height:37px;min-height:37px}
+.investigation-shell .masthead-actions{gap:.8rem}.investigation-shell .masthead-search,.investigation-shell .masthead-method{font-size:10px}
+.investigation-shell .mobile-nav-dialog{width:min(540px,100vw);background:#10191e}.investigation-shell .mobile-nav-heading h2{font:500 21px var(--font-sans)}
+.investigation-shell .mobile-nav-dialog .site-navigation{padding-bottom:1rem}.investigation-shell .mobile-nav-dialog .site-nav-link{min-height:42px}.investigation-shell .mobile-nav-dialog .nav-search{font-size:16px}
+@media(min-width:1024px){.iw-navigation-rail{display:flex}.investigation-shell .mobile-brand{display:none}.investigation-shell .masthead-context{display:flex}}
+@media(max-width:639px){.investigation-shell .site-masthead{padding-inline:.8rem}.investigation-shell .masthead-search span{display:none}.investigation-shell .mobile-brand .site-brand strong{font-size:23px}.investigation-shell .masthead-actions{gap:.5rem}.investigation-shell .iw-all-lenses-button{width:44px;height:44px}.investigation-shell .masthead-search{width:40px;justify-content:center}}

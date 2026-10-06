@@ -6,6 +6,7 @@ import { readFileSync, existsSync } from 'node:fs';
 import { resolve, extname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright';
+import { dossierUrl, dossier } from '../pages/dossier-navigation.mjs';
 
 const root = fileURLToPath(new URL('../../', import.meta.url));
 const dist = resolve(root, process.env.EDUCATION_DIST ?? 'dist');
@@ -18,8 +19,13 @@ const server = createServer((req, res) => {
   try { res.writeHead(200, { 'content-type': mime[extname(file)] ?? 'application/octet-stream' }).end(readFileSync(file)); }
   catch { res.writeHead(404).end(); }
 });
-await new Promise(done => server.listen(0, '127.0.0.1', done));
-const base = `http://127.0.0.1:${server.address().port}`;
+let listening = false;
+let base = process.env.EDUCATION_BASE_URL;
+if (!base) {
+  await new Promise(done => server.listen(0, '127.0.0.1', done));
+  listening = true;
+  base = `http://127.0.0.1:${server.address().port}`;
+}
 const pinned = process.env.PLAYWRIGHT_CHROMIUM_PATH ?? '/opt/pw-browsers/chromium';
 let browser;
 try {
@@ -28,9 +34,9 @@ try {
   const errors = [];
   page.on('pageerror', error => errors.push(error.message));
   const ready = async () => page.getByRole('heading', { name: 'Who funds the classroom?' }).waitFor();
-  await page.goto(`${base}/#/education`);
+  await page.goto(dossierUrl(base, '/education'));
   await ready();
-  assert.equal(await page.getByLabel('State or union territory').locator('option').count(), 37, 'all jurisdictions are navigable');
+  assert.equal(await dossier(page).getByLabel('State or union territory').locator('option').count(), 37, 'all jurisdictions are navigable');
 
   // Export must include every matching record, including sources below pagination.
   const downloadReady = page.waitForEvent('download');
@@ -57,28 +63,28 @@ try {
   await page.waitForFunction(() => document.querySelectorAll('.edu-source').length > 1);
 
   // A committed filter creates a history entry; Back/Forward restore the state.
-  await page.getByLabel('State or union territory').selectOption('UP');
+  await dossier(page).getByLabel('State or union territory').selectOption('UP');
   await page.waitForURL(/state=UP/);
-  await page.getByLabel('Funding channel').selectOption('government');
+  await dossier(page).getByLabel('Funding channel').selectOption('government');
   await page.waitForURL(/channel=government/);
   assert.ok(page.url().includes('state=UP') && page.url().includes('channel=government'));
   await page.goBack();
   await page.waitForFunction(() => !window.location.hash.includes('channel='));
-  await page.waitForFunction(select => select.value === '', await page.getByLabel('Funding channel').elementHandle());
-  assert.equal(await page.getByLabel('State or union territory').inputValue(), 'UP');
-  assert.equal(await page.getByLabel('Funding channel').inputValue(), '');
+  await page.waitForFunction(select => select.value === '', await dossier(page).getByLabel('Funding channel').elementHandle());
+  assert.equal(await dossier(page).getByLabel('State or union territory').inputValue(), 'UP');
+  assert.equal(await dossier(page).getByLabel('Funding channel').inputValue(), '');
   await page.goForward();
   await page.waitForFunction(() => window.location.hash.includes('channel=government'));
-  await page.waitForFunction(select => select.value === 'government', await page.getByLabel('Funding channel').elementHandle());
-  assert.equal(await page.getByLabel('Funding channel').inputValue(), 'government');
+  await page.waitForFunction(select => select.value === 'government', await dossier(page).getByLabel('Funding channel').elementHandle());
+  assert.equal(await dossier(page).getByLabel('Funding channel').inputValue(), 'government');
 
   // The URL can commit before React renders it: a rapid search must retain that state.
-  await page.getByLabel('State or union territory').selectOption('MH');
+  await dossier(page).getByLabel('State or union territory').selectOption('MH');
   await page.waitForURL(/state=MH/);
-  await page.getByLabel('Topic, organisation or document', { exact: true }).fill('Samagra');
-  await page.getByLabel('Topic, organisation or document', { exact: true }).press('Enter');
+  await dossier(page).getByLabel('Topic, organisation or document', { exact: true }).fill('Samagra');
+  await dossier(page).getByLabel('Topic, organisation or document', { exact: true }).press('Enter');
   await page.waitForURL(/q=Samagra/);
-  await page.waitForFunction(select => select.value === 'MH', await page.getByLabel('State or union territory').elementHandle());
+  await page.waitForFunction(select => select.value === 'MH', await dossier(page).getByLabel('State or union territory').elementHandle());
   assert.ok(page.url().includes('state=MH') && page.url().includes('channel=government'), 'rapid topic submission must preserve prior committed filters');
 
   // Internal jumps must not overwrite the HashRouter route or active filters.
@@ -91,8 +97,8 @@ try {
   }
 
   // A locality gap is explicit and does not become zero funding.
-  await page.getByLabel('City or district', { exact: true }).fill('UnrecordedLocality987');
-  await page.getByRole('button', { name: 'Search', exact: true }).click();
+  await dossier(page).getByLabel('City or district', { exact: true }).fill('UnrecordedLocality987');
+  await dossier(page).getByRole('button', { name: 'Search', exact: true }).click();
   await page.getByRole('heading', { name: 'No source records match this view.' }).waitFor();
   assert.equal(await page.locator('.edu-source').count(), 0);
   assert.equal(await page.getByRole('button', { name: 'Export CSV' }).isDisabled(), true);
@@ -101,8 +107,8 @@ try {
   assert.ok(await page.locator('.edu-source').count() > 0);
 
   // The district slice retains its actual administrative grain and academic period.
-  await page.getByLabel('State or union territory').selectOption('UP');
-  await page.getByLabel('School-count geography').selectOption('district');
+  await dossier(page).getByLabel('State or union territory').selectOption('UP');
+  await dossier(page).getByLabel('School-count geography').selectOption('district');
   assert.ok((await page.locator('.edu-table caption').innerText()).includes('not identify school closures'));
   const allDistricts = page.getByRole('button', { name: 'Show all 75 matching geographies' });
   await allDistricts.click();
@@ -116,7 +122,7 @@ try {
   await page.reload();
   await ready();
   await page.getByRole('button', { name: /^Saved \(0\)$/ }).waitFor();
-  await page.goto(`${base}/#/education?state=ZZ&channel=unknown`);
+  await page.goto(dossierUrl(base, '/education?state=ZZ&channel=unknown'));
   await page.locator('.edu-invalid').waitFor();
   assert.ok((await page.locator('.edu-invalid').innerText()).includes('ignored'));
   await page.getByRole('button', { name: 'Reset filters', exact: true }).click();
@@ -125,5 +131,5 @@ try {
   console.log('education browser: OK — export, persistence, filters/history, section navigation, empty locality and 75-district coverage');
 } finally {
   await browser?.close();
-  await new Promise(done => server.close(done));
+  if (listening) await new Promise(done => server.close(done));
 }

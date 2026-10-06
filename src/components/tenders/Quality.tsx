@@ -74,7 +74,7 @@ function rowsOf(q: QualityFile): QRow[] {
       base: RAW,
       of: raw,
     },
-    { key: 'aocb', text: 'AOC dated before closing (a date-order violation)', head: 'AOC dated before closing (a date-order violation)', count: q.dates.aocBeforeClosing, unit: 'rows', base: RAW, of: raw },
+    { key: 'aocb', text: 'Recorded aoc_at before closing_at (stored-field ordering difference)', head: 'Recorded aoc_at before closing_at (stored-field ordering difference)', count: q.dates.aocBeforeClosing, unit: 'rows', base: RAW, of: raw },
     { key: 'aocr', text: `AOC years outside ${y0}–${y1}`, head: `AOC years outside ${y0}–${y1}`, count: q.dates.aocYearOutOfRange, unit: 'rows', base: RAW, of: raw },
     {
       key: 'pyd',

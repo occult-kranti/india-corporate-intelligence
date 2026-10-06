@@ -8225,7 +8225,7 @@
   "innocentReading": "Large works and ships are few and draw specialised bidders; small local purchases are many and draw one or two; a band's value sum is as reported by the scrape and unverified, and one mis-keyed value can dominate a band."
  },
  "timing": {
-  "definition": "days = date_diff('day', closing_at, aoc_at) on slice dedup rows; rows with aoc_at < closing_at, and rows where either date is NULL, are excluded and counted so that n + excludedAocBeforeClosing + excludedDateMissing = dedupRows, per class and in total — the same rule as timing.json",
+  "definition": "Recorded dataset-date gap: days = date_diff('day', closing_at, aoc_at) on slice dedup rows. These are recorded field labels with unresolved event semantics, not verified submission-deadline and evaluation events. Rows with aoc_at < closing_at, and rows where either date is NULL, are excluded and counted so that n + excludedAocBeforeClosing + excludedDateMissing = dedupRows, per class and in total.",
   "total": {
    "class": "all slice",
    "dedupRows": 411943,
@@ -8974,7 +8974,17 @@
     }
    }
   ],
-  "innocentReading": "Same-day and next-day awards follow from automated opening of single-bid and small tenders; long windows follow from technical evaluation, trials and approvals in stores and DPSU purchases. The window says nothing about the quality of an evaluation."
+  "innocentReading": "Collector field mapping, record versions, amendments and timestamp precision remain unresolved. The observed exact-key subset challenges whether closing_at denotes the submission deadline; it does not establish the field's meaning throughout the corpus. These gaps cannot establish evaluation speed, a suspiciously fast award or a fiscal-spending explanation. Original notices, corrigenda and award documents with their event labels are required before interpreting the gap.",
+  "fieldSemanticsAudit": {
+   "asOf": "2026-10-06",
+   "mode": "metadata-only interpretation correction",
+   "source": "research/raw/tender-portal-audit/closing-field-semantics.json",
+   "recordId": "procurement-audit:record:closing-field-semantics",
+   "scope": "Strict one-to-one original-database candidate subset on the central portal, notice-publication years 2013–2018, heavily concentrated in Neyveli Lignite Corporation Limited; not a random or representative corpus sample",
+   "finding": "The original award-listing field labelled closing_date aligns with notice publication in the observed subset rather than establishing the notice submission deadline. Field meanings outside this bounded subset and the reasons for the mapping remain unresolved.",
+   "interpretation": "Collector field mapping, record versions, amendments and timestamp precision remain unresolved. The observed exact-key subset challenges whether closing_at denotes the submission deadline; it does not establish the field's meaning throughout the corpus. These gaps cannot establish evaluation speed, a suspiciously fast award or a fiscal-spending explanation. Original notices, corrigenda and award documents with their event labels are required before interpreting the gap.",
+   "preservation": "Only interpretation metadata changed; historical numbers, denominator membership, SQL, asOf and generatedBy were not recomputed or rewritten."
+  }
  },
  "concentration": {
   "family": "slice award decisions after dedup with a named winner and a plausible value (NOT (contract_value_amount IS NULL OR contract_value_amount <= 0 OR contract_value_amount > 1e12)), for buyers with >= 50 such awards to MARKED winners (concentration.json thresholds on all named awards; this file on marked awards, so every HHI here rests on at least 50 marked awards); for a state buyer that entered by title, only its slice rows",
@@ -11862,7 +11872,7 @@
   "innocentReading": "A buyer with a specialised need, an approved-source list, a developed vendor for a DPSU, or a thin local contractor pool concentrates awards for reasons that involve nobody's conduct; a high HHI is a question, not a finding, and a named winner is a firm that won, nothing more."
  },
  "redflags": {
-  "stance": "The four indicators of redflags.json over the slice, each as a rate over its declared family, by class, beside the whole-file rate. Rates over a family, never a list of culprits.",
+  "stance": "The four indicators of redflags.json over the slice, each as a rate over its declared family, by class, beside the whole-file rate. Rates over a family, never a list of culprits. The retained date-gap entry is a dataset-field diagnostic with unresolved event semantics, not a measure of evaluation speed.",
   "indicators": [
    {
     "indicator": "singleBidding",
@@ -12079,8 +12089,8 @@
    },
    {
     "indicator": "shortDecisionWindow",
-    "definition": "days from closing_at to aoc_at <= 2",
-    "familyDefinition": "slice award decisions after dedup with aoc_at >= closing_at (aoc_at < closing_at or either date NULL excluded and counted in timing)",
+    "definition": "recorded dataset-date gap date_diff('day', closing_at, aoc_at) <= 2; event semantics unresolved",
+    "familyDefinition": "slice deduplicated dataset rows with aoc_at >= closing_at; rows with aoc_at < closing_at or either field NULL are excluded and counted in slice timing. This is a recorded-field population, not a verified evaluation-period population.",
     "familySize": 411835,
     "count": 2043,
     "ratePct": 0.5,
@@ -12179,7 +12189,17 @@
       2.06
      ]
     },
-    "innocentReading": "Same-day or next-day awards follow from automated opening and single-bid tenders; the window says nothing about the evaluation's quality."
+    "innocentReading": "Collector field mapping, record versions, amendments and timestamp precision remain unresolved. The observed exact-key subset challenges whether closing_at denotes the submission deadline; it does not establish the field's meaning throughout the corpus. These gaps cannot establish evaluation speed, a suspiciously fast award or a fiscal-spending explanation. Original notices, corrigenda and award documents with their event labels are required before interpreting the gap.",
+    "fieldSemanticsAudit": {
+     "asOf": "2026-10-06",
+     "mode": "metadata-only interpretation correction",
+     "source": "research/raw/tender-portal-audit/closing-field-semantics.json",
+     "recordId": "procurement-audit:record:closing-field-semantics",
+     "scope": "Strict one-to-one original-database candidate subset on the central portal, notice-publication years 2013–2018, heavily concentrated in Neyveli Lignite Corporation Limited; not a random or representative corpus sample",
+     "finding": "The original award-listing field labelled closing_date aligns with notice publication in the observed subset rather than establishing the notice submission deadline. Field meanings outside this bounded subset and the reasons for the mapping remain unresolved.",
+     "interpretation": "Collector field mapping, record versions, amendments and timestamp precision remain unresolved. The observed exact-key subset challenges whether closing_at denotes the submission deadline; it does not establish the field's meaning throughout the corpus. These gaps cannot establish evaluation speed, a suspiciously fast award or a fiscal-spending explanation. Original notices, corrigenda and award documents with their event labels are required before interpreting the gap.",
+     "preservation": "Only interpretation metadata changed; historical numbers, denominator membership, SQL, asOf and generatedBy were not recomputed or rewritten."
+    }
    },
    {
     "indicator": "repeatSingleBidderMarkedWinners",
@@ -12722,6 +12742,133 @@
    "redflag_non_open_labels": "SELECT count(*) AS n, count(DISTINCT tender_type) AS distinct_labels FROM sec\nWHERE tender_type_norm = 'Other/unknown' AND regexp_matches(lower(trim(tender_type)), 'single|nomination|nom($|[^a-z])|ste($|[^a-z])|rate contract|repeat order|committee|closed|pac|oem|proprietary')",
    "redflag_short": "SELECT class, count(*) AS family, count(*) FILTER (WHERE days_to_aoc <= 2) AS flagged FROM sec WHERE days_to_aoc >= 0 GROUP BY GROUPING SETS ((class), ()) ORDER BY class NULLS FIRST",
    "redflag_repeat": "WITH single AS (SELECT class, portal, buyer, bidder_norm FROM sec_rated WHERE bids_received = 1 AND marked),\npairs AS (SELECT class, portal, buyer, bidder_norm, count(*) AS k FROM single GROUP BY 1, 2, 3, 4)\nSELECT class, sum(k) AS family, sum(k) FILTER (WHERE k >= 5) AS flagged,\n       count(*) AS pairs, count(*) FILTER (WHERE k >= 5) AS repeat_pairs\nFROM pairs GROUP BY GROUPING SETS ((class), ()) ORDER BY class NULLS FIRST"
+  },
+  "dataset": {
+   "name": "CPPP award scrape, HF rumourscape/tenders Arrow mirror",
+   "url": "https://huggingface.co/datasets/rumourscape/tenders",
+   "licence": "CC-BY-4.0 asserted by the HF republisher; underlying portal licensing unresolved",
+   "scraper": "Sarthak Sidhant, tender.sarthaksidhant.com (credited by the HF dataset card)"
+  },
+  "lineageAudit": {
+   "asOf": "2026-10-06",
+   "mode": "metadata-only annotation",
+   "note": "Attribution added without rerunning extraction, conversion, SQL, metrics or portal verification; existing asOf, generatedBy, inputs and analytical payload are preserved.",
+   "inputCheck": {
+    "status": "matches-retained-input-record",
+    "method": "Exact multiset comparison of filenames, byte sizes and retained 16-hex SHA-256 prefixes",
+    "recordedInputs": [
+     {
+      "file": "data-00000-of-00002.arrow",
+      "bytes": 1796891632,
+      "sha256_16": "95e997785ecab0a9"
+     },
+     {
+      "file": "data-00001-of-00002.arrow",
+      "bytes": 1656131440,
+      "sha256_16": "d7663349efb13547"
+     }
+    ],
+    "hfSnapshotCryptographicLink": "retained filenames, sizes and SHA-256 prefixes match remotely reported HF LFS hashes",
+    "remoteSnapshot": {
+     "revision": "401d093cc74d7a05e7d48326c1bc11edb289d7bb",
+     "url": "https://huggingface.co/api/datasets/rumourscape/tenders/tree/401d093cc74d7a05e7d48326c1bc11edb289d7bb?recursive=true&expand=true",
+     "retrievedAt": "2026-10-06T23:05:51.913316+00:00",
+     "hashSource": "HF tree API lfs.oid (SHA-256) and lfs.size; remotely reported, not a local full-file rehash",
+     "files": [
+      {
+       "file": "data-00000-of-00002.arrow",
+       "bytes": 1796891632,
+       "sha256": "95e997785ecab0a93abe02cb1ca7c4c246270f554bc4f03d3994d2b1b3c3b909"
+      },
+      {
+       "file": "data-00001-of-00002.arrow",
+       "bytes": 1656131440,
+       "sha256": "d7663349efb13547078a21983144e2f20823e610555403f2d10e402200797349"
+      }
+     ],
+     "retainedPrefixAndSizeMatch": true,
+     "localFullHashVerified": false,
+     "evidence": [
+      "research/raw/tender-portal-audit/evidence/hf-tree.json",
+      "research/raw/tender-portal-audit/evidence/hf-tree.receipt.json"
+     ]
+    },
+    "limitation": "The retained Arrow filenames, sizes and 64-bit SHA-256 prefixes match the full LFS hashes remotely reported for the pinned HF snapshot. Historical provenance retains only prefixes, not verified local full hashes or the revision at download. The absent historical Arrow files were not locally rehashed during this metadata audit. This supports the snapshot linkage at prefix-and-size level; it does not establish a local full-hash match, the converter revision used, or agreement with official portal records."
+   },
+   "referenceChain": [
+    {
+     "stage": "official portal",
+     "name": "Central Public Procurement Portal (CPPP)",
+     "url": "https://eprocure.gov.in/",
+     "basis": "Source claimed by publisher and HF dataset card; row agreement unverified"
+    },
+    {
+     "stage": "scraper and original publisher",
+     "name": "Sarthak Sidhant",
+     "url": "https://tender.sarthaksidhant.com/",
+     "evidence": [
+      "research/raw/tender-portal-audit/evidence/portal-home.html",
+      "research/raw/tender-portal-audit/evidence/portal-home.receipt.json",
+      "research/raw/tender-portal-audit/evidence/hf-readme.body"
+     ]
+    },
+    {
+     "stage": "conversion recipe",
+     "name": "Rohan Verma (rhnvrm)",
+     "url": "https://gist.github.com/rhnvrm/8060dedb15ae592dae492ec62f725c0c",
+     "observedRevision": "593ed6da09866ca75bd016fecd863546a4c48df2",
+     "basis": "HF README credits this recipe. Its awards_core joins award listings to award details within the award stage, not tender notices to awards; observing its revision does not identify the version used for the Arrow files",
+     "evidence": [
+      "research/raw/tender-portal-audit/evidence/conversion-gist.json",
+      "research/raw/tender-portal-audit/evidence/conversion-gist.receipt.json"
+     ]
+    },
+    {
+     "stage": "HF republisher and Arrow mirror",
+     "name": "rumourscape/tenders",
+     "url": "https://huggingface.co/datasets/rumourscape/tenders",
+     "observedRevision": "401d093cc74d7a05e7d48326c1bc11edb289d7bb",
+     "licence": "CC-BY-4.0 asserted by the HF republisher; underlying portal licensing unresolved",
+     "basis": "The retained Arrow schema is award listings plus award details within the award stage, not a notice-to-award join",
+     "evidence": [
+      "research/raw/tender-portal-audit/evidence/hf-meta.body",
+      "research/raw/tender-portal-audit/evidence/hf-meta.receipt.json",
+      "research/raw/tender-portal-audit/evidence/hf-readme.body",
+      "research/raw/tender-portal-audit/evidence/hf-readme.receipt.json",
+      "research/raw/tender-portal-audit/evidence/hf-state.json",
+      "research/raw/tender-portal-audit/evidence/hf-state.receipt.json",
+      "research/raw/tender-portal-audit/evidence/hf-schema.json",
+      "research/raw/tender-portal-audit/evidence/hf-tree.json",
+      "research/raw/tender-portal-audit/evidence/hf-tree.receipt.json"
+     ]
+    },
+    {
+     "stage": "retained local Arrow input record",
+     "basis": "See provenance.inputs and lineageAudit.inputCheck; prefixes are not full hashes"
+    },
+    {
+     "stage": "local analysis",
+     "basis": "See provenance.generatedBy and provenance.sql where present; sample verification has its own generator"
+    }
+   ],
+   "referenceScrapedAt": {
+    "value": "2026-06-18T11:05:10.031221 to 2026-06-24T01:26:48.718329",
+    "method": "Observed min/max of aoc_details.scraped_at after TIMESTAMP parsing, award-detail stage only: research/raw/tender-portal-audit/analysis.json queries.detail_integrity rows[grain=awards], analysis retrievedAt 2026-10-06T23:04:37.424875+00:00. Source aoc_tenders.db SHA-256 ec8ef7711a17b7cae9e0414c2403b119a0a31c4dec49ed7055b38ec0df5f7586 matches the publisher's full hash; see research/raw/tender-portal-audit/evidence/aoc_tenders.db.download-receipt.json. Supersedes the older approximate June 19-24 catalogue range. Notice-detail dates are a separate stage. No timezone is asserted for these source timestamps; this is not a fresh Arrow measurement or the original analytical computation date."
+   }
+  },
+  "scrapedAt": {
+   "value": "2026-06-18T11:05:10.031221 to 2026-06-24T01:26:48.718329",
+   "method": "Observed min/max of aoc_details.scraped_at after TIMESTAMP parsing, award-detail stage only: research/raw/tender-portal-audit/analysis.json queries.detail_integrity rows[grain=awards], analysis retrievedAt 2026-10-06T23:04:37.424875+00:00. Source aoc_tenders.db SHA-256 ec8ef7711a17b7cae9e0414c2403b119a0a31c4dec49ed7055b38ec0df5f7586 matches the publisher's full hash; see research/raw/tender-portal-audit/evidence/aoc_tenders.db.download-receipt.json. Supersedes the older approximate June 19-24 catalogue range. Notice-detail dates are a separate stage. No timezone is asserted for these source timestamps; this is not a fresh Arrow measurement or the original analytical computation date."
+  },
+  "dateFieldSemanticsAudit": {
+   "asOf": "2026-10-06",
+   "mode": "metadata-only interpretation correction",
+   "source": "research/raw/tender-portal-audit/closing-field-semantics.json",
+   "recordId": "procurement-audit:record:closing-field-semantics",
+   "scope": "Strict one-to-one original-database candidate subset on the central portal, notice-publication years 2013–2018, heavily concentrated in Neyveli Lignite Corporation Limited; not a random or representative corpus sample",
+   "finding": "The original award-listing field labelled closing_date aligns with notice publication in the observed subset rather than establishing the notice submission deadline. Field meanings outside this bounded subset and the reasons for the mapping remain unresolved.",
+   "interpretation": "Collector field mapping, record versions, amendments and timestamp precision remain unresolved. The observed exact-key subset challenges whether closing_at denotes the submission deadline; it does not establish the field's meaning throughout the corpus. These gaps cannot establish evaluation speed, a suspiciously fast award or a fiscal-spending explanation. Original notices, corrigenda and award documents with their event labels are required before interpreting the gap.",
+   "preservation": "Only interpretation metadata changed; historical numbers, denominator membership, SQL, asOf and generatedBy were not recomputed or rewritten."
   }
  }
 }

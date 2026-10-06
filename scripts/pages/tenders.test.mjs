@@ -24,6 +24,7 @@
 import { test, before, after } from 'node:test';
 import assert from 'node:assert/strict';
 import { chromium } from 'playwright';
+import { dossierUrl } from './dossier-navigation.mjs';
 import { createServer } from 'node:http';
 import {
   existsSync, readFileSync, readdirSync, mkdtempSync, cpSync, rmSync, symlinkSync, statSync,
@@ -97,7 +98,7 @@ const LEGEND_ROW = 'page gone: the stored link returned the portal\'s “Invalid
 const INDICATOR_H4 = {
   singleBidding: 'Single bidding',
   nonOpenTenderType: 'Non-open tender type (Limited)',
-  shortDecisionWindow: 'Short decision window (two days or fewer)',
+  shortDecisionWindow: 'Recorded dataset-date gap (two days or fewer)',
   repeatSingleBidderMarkedWinners: 'Repeat single-bidder pairs (marked winners)',
 };
 
@@ -390,6 +391,7 @@ const VIEWPORT = {
 const INIT = `window.__t = {
   sec() { const h = document.getElementById('cppp'); return h ? (h.closest('section') || h.parentElement) : null; },
   norm(s) { return String(s ?? '').replace(/[\\u2018\\u2019]/g, "'").replace(/[\\u201C\\u201D]/g, '"').replace(/(\\d)[,\\u00a0\\u2009\\u202f](?=\\d)/g, '$1').replace(/\\s+/g, ' ').trim(); },
+  cellText(el) { if (!el) return ''; const key = el.querySelector('[data-raw-key]'); if (key) return key.textContent; const value = el.cloneNode(true); value.querySelectorAll('[data-procurement-trail-link]').forEach(action => action.remove()); return value.textContent; },
   follows(a, b) { return !!(a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING); },
   accName(el) {
     const lb = el.getAttribute('aria-labelledby');
@@ -427,7 +429,7 @@ const INIT = `window.__t = {
   statGrid(from) {
     const sec = __t.sec();
     const start = from ?? document.querySelector('main h1');
-    return [...document.querySelectorAll('main *')].find((el) => (!start || __t.follows(start, el)) && !(sec && sec.contains(el)) && !el.closest('table, nav, header')
+    return [...document.querySelectorAll('.iw-dossier-content *')].find((el) => (!start || __t.follows(start, el)) && !(sec && sec.contains(el)) && !el.closest('table, nav, header')
       && el.children.length >= 3 && el.children.length <= 12
       && [...el.children].every((c) => /\\d/.test(c.textContent) && c.textContent.trim().length > 0 && c.textContent.trim().length < 160)
       && !el.querySelector('table, h1, h2, h3, svg, section')) ?? null;
@@ -473,7 +475,7 @@ async function withPage(vp, fn) {
  */
 async function load(page, route, { base = full?.base, section = true, waitUntil = 'networkidle' } = {}) {
   await page.goto('about:blank');
-  await page.goto(`${base}/#${route}`, { waitUntil });
+  await page.goto(dossierUrl(base, route), { waitUntil });
   // Shell text is available before the lazy tender route. Wait for the actual
   // page before deciding whether its optional national section is present.
   await page.getByRole('heading', { level: 1, name: H1, exact: true }).waitFor({ timeout: PAGE_READY_TIMEOUT });
@@ -500,7 +502,7 @@ function parseHash(url) {
 const params = (page) => parseHash(page.url()).params;
 function assertParamsExactly(page, expected, label = 'hash params') {
   const got = [...params(page).entries()].map((kv) => kv.join('=')).sort();
-  const want = Object.entries(expected).map((kv) => kv.join('=')).sort();
+  const want = Object.entries({ iw_view: 'dossier', ...expected }).map((kv) => kv.join('=')).sort();
   assert.deepEqual(got, want, label);
 }
 const waitForParam = (page, key, value) => page.waitForFunction(([k, v]) => {
@@ -513,6 +515,16 @@ const waitForNoParam = (page, key) => page.waitForFunction((k) => !new URLSearch
 const text = async (loc) => norm(await loc.innerText());
 const style = (loc, prop) => loc.evaluate((el, p) => getComputedStyle(el)[p], prop);
 const rect = (loc) => loc.evaluate((el) => { const r = el.getBoundingClientRect(); return { top: r.top, bottom: r.bottom, left: r.left, right: r.right, width: r.width, height: r.height }; });
+/** Fragment landings are measured from the top of their actual scroll viewport. */
+const readingPosition = (loc) => loc.evaluate((el) => {
+  let box = el.parentElement;
+  while (box && !/(auto|scroll)/.test(getComputedStyle(box).overflowY)) box = box.parentElement;
+  const boxRect = box?.getBoundingClientRect();
+  const origin = boxRect ? Math.max(0, boxRect.top + box.clientTop) : 0;
+  const bottom = boxRect ? Math.min(innerHeight, boxRect.top + box.clientTop + box.clientHeight) : innerHeight;
+  const target = el.getBoundingClientRect();
+  return { top: target.top - origin, visible: target.height > 0 && target.top >= origin && target.top < bottom, origin };
+});
 const secText = (page) => page.evaluate(() => window.__t.sec()?.innerText ?? '');
 const secLocator = (page) => page.locator('#cppp').locator('xpath=ancestor::section[1]');
 const historyLength = (page) => page.evaluate(() => history.length);
@@ -532,9 +544,10 @@ async function readTable(page, sel) {
     const headers = [...t.querySelectorAll('thead th')].map((th) => ({ text: __t.norm(th.textContent), sort: th.getAttribute('aria-sort'), scope: th.getAttribute('scope'), button: !!th.querySelector('button') }));
     // [Adjudicated] a `/ unparsed` buyer cell renders as label + raw key (AC-42); when matching
     // rows to the data the cell is read by its raw key, the mono [data-raw-key] element.
+    // A separately tested procurement-trail action is navigation, not buyer data.
     const rows = [...t.querySelectorAll('tbody tr')].map((tr) => ({
-      cells: [...tr.querySelectorAll('th, td')].map((c) => __t.norm((c.querySelector('[data-raw-key]') ?? c).textContent)),
-      header: __t.norm(tr.querySelector('th[scope="row"]')?.textContent ?? ''),
+      cells: [...tr.querySelectorAll('th, td')].map((c) => __t.norm(__t.cellText(c))),
+      header: __t.norm(__t.cellText(tr.querySelector('th[scope="row"]'))),
       hasRowHeader: !!tr.querySelector('th[scope="row"]'),
       nodata: tr.hasAttribute('data-nodata') || !!tr.querySelector('[data-nodata]'),
       notPlotted: tr.hasAttribute('data-not-plotted'),
@@ -638,7 +651,7 @@ ac('AC-01 — The section renders, error-free, above the registers', () => withP
   const head = await page.evaluate(() => {
     const h2 = document.getElementById('cppp');
     return {
-      tag: h2.tagName, text: __t.norm(h2.textContent), first: document.querySelector('h2') === h2,
+      tag: h2.tagName, text: __t.norm(h2.textContent), first: document.querySelector('.iw-dossier-content h2') === h2,
       prev: __t.norm(h2.previousElementSibling?.textContent ?? ''), len: document.body.innerText.length,
       // [Adjudicated] the page's h1 is `main h1` (PageTitle); the Layout's wordmark h1 is not the page's.
       h1: __t.norm(document.querySelector('main h1')?.textContent ?? ''),
@@ -656,7 +669,7 @@ ac('AC-01 — The section renders, error-free, above the registers', () => withP
 ac('AC-02 — view=national lands on section=national with every other param kept', () => withPage('D', async (page) => {
   await page.goto('about:blank');
   const before = await historyLength(page);
-  await page.goto(`${full.base}/#${ROUTE}?view=national&scope=centre`, { waitUntil: 'networkidle' });
+  await page.goto(dossierUrl(full.base, `${ROUTE}?view=national&scope=centre`), { waitUntil: 'networkidle' });
   await page.getByRole('heading', { level: 1, name: H1, exact: true }).waitFor({ timeout: PAGE_READY_TIMEOUT });
   await page.waitForSelector('#cppp', { state: 'attached' }).catch(() => {});
   await page.waitForTimeout(SETTLE);
@@ -669,17 +682,18 @@ ac('AC-02 — view=national lands on section=national with every other param kep
 
 /** The head link and byline of the default view. */
 const defaultViewHead = (page) => page.evaluate(() => {
-  const links = [...document.querySelectorAll('a[href]')];
+  const content = document.querySelector('.iw-dossier-content');
+  const links = [...content.querySelectorAll('a[href]')];
   const link = links.find((a) => /^\s*The CPPP award scrape/.test(a.textContent));
-  const byline = [...document.querySelectorAll('p')].find((p) => /A separate national award scrape/.test(p.textContent));
+  const byline = [...content.querySelectorAll('p')].find((p) => /A separate national award scrape/.test(p.textContent));
   const bylineLink = byline ? [...byline.querySelectorAll('a[href]')].find((a) => /section=national/.test(a.getAttribute('href'))) : null;
   const arrow = link ? (link.querySelector('[aria-hidden="true"]') ?? (link.nextElementSibling?.getAttribute('aria-hidden') === 'true' ? link.nextElementSibling : null)) : null;
-  const headerText = (() => { const h1 = document.querySelector('h1'); const firstH2 = document.querySelector('h2'); if (!h1) return document.body.innerText; const r = document.createRange(); r.setStartBefore(h1); if (firstH2) r.setEndBefore(firstH2); else r.setEndAfter(document.body.lastChild); return r.toString(); })();
+  const headerText = (() => { const h1 = content.querySelector('h1'); const firstH2 = content.querySelector('h2'); if (!h1) return content.innerText; const r = document.createRange(); r.setStartBefore(h1); if (firstH2) r.setEndBefore(firstH2); else r.setEndAfter(content.lastChild); return r.toString(); })();
   return {
     link: link ? { text: __t.norm(link.textContent), href: link.getAttribute('href'), arrow: !!arrow } : null,
     byline: byline ? __t.norm(byline.textContent) : null, bylineLink: !!bylineLink,
-    h2Count: document.querySelectorAll('h2').length, statGrid: __t.statGrid(null)?.innerText ?? null,
-    headerText: __t.norm(headerText), body: document.body.innerText,
+    h2Count: content.querySelectorAll('h2').length, statGrid: __t.statGrid(null)?.innerText ?? null,
+    headerText: __t.norm(headerText), body: content.innerText,
   };
 });
 
@@ -702,7 +716,7 @@ ac('AC-03 — The default view is unchanged except for one head link and one byl
   assert.equal(again.h2Count, snap.h2Count, 'h2 count differs between two renders of /#/tenders');
   assert.equal(again.statGrid, snap.statGrid, 'StatGrid text differs between two renders of /#/tenders');
   await openNational(page);
-  const withSection = await page.evaluate(() => { const sec = __t.sec(); return { h2: [...document.querySelectorAll('h2')].filter((h) => !sec.contains(h)).length, statGrid: __t.statGrid(sec)?.innerText ?? null }; });
+  const withSection = await page.evaluate(() => { const sec = __t.sec(); return { h2: [...document.querySelectorAll('.iw-dossier-content h2')].filter((h) => !sec.contains(h)).length, statGrid: __t.statGrid(sec)?.innerText ?? null }; });
   assert.equal(withSection.h2, snap.h2Count, 'the register has a different h2 count once the section is shown');
   assert.equal(withSection.statGrid, snap.statGrid, 'the register StatGrid changes once the section is shown');
 }));
@@ -761,7 +775,7 @@ ac('AC-06 — A pending import shows a named placeholder, never the absence sent
     await route.fulfill({ response: resp, body, headers: { ...resp.headers(), 'content-type': 'text/javascript' } });
   });
   await page.goto('about:blank');
-  await page.goto(`${full.base}/#${NATIONAL}`, { waitUntil: 'commit' });
+  await page.goto(dossierUrl(full.base, NATIONAL), { waitUntil: 'commit' });
   await page.getByRole('heading', { level: 1, name: H1, exact: true }).waitFor({ timeout: PAGE_READY_TIMEOUT });
   await page.waitForSelector('#cppp', { state: 'attached', timeout: 10_000 });
   const pending = page.locator('#cppp-concentration [data-pending]');
@@ -786,7 +800,9 @@ ac('AC-07 — Quality comes before any rate, in DOM order', () => withPage('D', 
     let pct = null; let n;
     while ((n = walker.nextNode())) { if (n.nodeValue.includes('%')) { pct = n.parentElement; break; } }
     const firstH3 = document.querySelector('h3'); const firstTable = document.querySelector('table');
-    const q = document.getElementById('cppp-quality'); const rt = document.getElementById('cppp-rates'); const svg = sec.querySelector('svg');
+    // Decorative link icons are not quantitative charts. The data chart still
+    // has to follow the quality section and retain its accessible image role.
+    const q = document.getElementById('cppp-quality'); const rt = document.getElementById('cppp-rates'); const svg = sec.querySelector('svg[role="img"]');
     return {
       caveat: !!caveat, pctFollows: !!(caveat && pct && __t.follows(caveat, pct)), pctText: pct?.textContent.slice(0, 80) ?? null,
       h3InSec: !!firstH3 && sec.contains(firstH3), h3BeforeQuality: !!(firstH3 && q && __t.follows(firstH3, q)), h3: firstH3?.textContent.trim() ?? null,
@@ -801,7 +817,7 @@ ac('AC-07 — Quality comes before any rate, in DOM order', () => withPage('D', 
   assert.ok(r.h3BeforeQuality, `the first h3 ("${r.h3}") does not precede #cppp-quality`);
   assert.ok(r.firstTableIsQuality, 'the first table in the document is not [data-twin="quality"]');
   assert.ok(r.qBeforeRates, '#cppp-quality does not precede #cppp-rates');
-  assert.ok(r.ratesBeforeSvg, '#cppp-rates does not precede the first svg in SEC');
+  assert.ok(r.ratesBeforeSvg, '#cppp-rates does not precede the first data chart in SEC');
 }));
 
 ac('AC-08 — Heading levels run h2 → h3 → h4 with no skips', () => withPage('D', async (page) => {
@@ -844,7 +860,7 @@ async function assertCaveat(page, vp) {
   assert.equal(await caveat.count(), 1, `${vp}: p#cppp-caveat missing`);
   assert.equal(await text(caveat), norm(FIX.caveat), `${vp}: caveat text`);
   const r = await caveat.evaluate((el) => {
-    const body = [...document.querySelectorAll('main p, p')].find((p) => p !== el && p.textContent.trim().length >= 80 && !p.closest('caption, details, table'));
+    const body = [...document.querySelectorAll('.iw-dossier-content article.pb-20 p')].find((p) => p !== el && p.textContent.trim().length >= 80 && !p.closest('caption, details, table'));
     const label = [...document.querySelectorAll('*')].find((x) => /^Read this first/.test(x.textContent.trim()) && x.children.length <= 1 && __t.follows(x, el));
     return { size: parseFloat(getComputedStyle(el).fontSize), bodySize: body ? parseFloat(getComputedStyle(body).fontSize) : null, inCaption: !!el.closest('caption, details'), labelled: !!label };
   });
@@ -980,8 +996,11 @@ ac('AC-16 — Timing captions: unequal bins, and the innocent reading at the sam
   const rate = page.locator('#cppp-timing [data-rate]').first();
   assert.ok(await rate.count(), 'no [data-rate] in #cppp-timing');
   assertSentence(await text(rate), rateSentence(FIX.timing.shareLe2Days), 'timing rate');
-  const nx = await rate.evaluate((el) => { const n = el.nextElementSibling; return n ? { innocent: n.hasAttribute('data-innocent'), text: __t.norm(n.textContent), size: getComputedStyle(n).fontSize, rateSize: getComputedStyle(el).fontSize } : null; });
-  assert.ok(nx?.innocent, 'the next element sibling of the timing rate is not [data-innocent]');
+  // The newly sourced field-semantics caveat belongs directly beside the rate.
+  // The full competing reading must remain in this section, before its chart,
+  // and at the same readable size; do not require it to displace that caveat.
+  const nx = await rate.evaluate((el) => { const s = el.closest('#cppp-timing'); const n = s?.querySelector('[data-innocent]'); const chart = s?.querySelector('svg[role="img"]'); return n ? { innocent: n.hasAttribute('data-innocent'), afterRate: __t.follows(el, n), beforeChart: !!chart && __t.follows(n, chart), visible: __t.visible(n), text: __t.norm(n.textContent), size: getComputedStyle(n).fontSize, rateSize: getComputedStyle(el).fontSize } : null; });
+  assert.ok(nx?.innocent && nx.afterRate && nx.beforeChart && nx.visible, 'the timing innocent reading is not visible between the rate and chart');
   assert.equal(nx.text, norm(FIX.timing.innocentReading));
   assert.equal(nx.size, nx.rateSize, 'innocent reading font-size differs from the rate');
   const fy = await requireTwin(page, 'fymonth');
@@ -1086,15 +1105,25 @@ ac('AC-20 — The source line is derived, printed twice, copied verbatim, and ne
   await page.waitForTimeout(300);
   const clip = norm(await page.evaluate(() => navigator.clipboard.readText()));
   assert.equal(clip, lines[0].text, 'clipboard ≠ source line');
-  const announced = await page.evaluate(() => [...document.querySelectorAll('[role="status"], [aria-live]')].some((e) => e.textContent.trim().length > 0));
+  const announced = await page.evaluate(() => [...document.querySelectorAll('.iw-dossier-content [role="status"], .iw-dossier-content [aria-live]')].some((e) => e.textContent.trim().length > 0));
   assert.ok(announced, 'no [role="status"] or aria-live region announces the copy');
-  // Source guard on the built assets.
-  const assets = readdirSync(join(full.dir, 'assets')).filter((f) => f.endsWith('.js'));
+  // Inspect the implementation embedded in this build's source maps. Other
+  // investigation domains may independently name the same dataset in their data.
+  const implementation = /(?:^|\/)src\/(?:pages\/Tenders\.tsx|components\/tenders\/.+\.(?:ts|tsx)|data\/(?:cppp|cpppConcentration|procurement|tenders)\.ts)$/;
+  const seen = new Set();
+  const assets = readdirSync(join(full.dir, 'assets')).filter((f) => f.endsWith('.js.map'));
   for (const f of assets) {
-    const js = readFileSync(join(full.dir, 'assets', f), 'utf8');
-    if (!FIX.dataset) assert.ok(!js.includes('rumourscape'), `${f} contains a dataset name literal`);
-    else if (js.includes(FIX.dataset.name)) assert.ok(js.includes('sha256_16'), `${f} names the dataset but is not a data chunk`);
+    const map = JSON.parse(readFileSync(join(full.dir, 'assets', f), 'utf8'));
+    for (const [i, source] of map.sources.entries()) {
+      const path = source.replaceAll('\\', '/');
+      if (!implementation.test(path)) continue;
+      const content = map.sourcesContent?.[i];
+      assert.equal(typeof content, 'string', `${f}: no built source content for ${path}`);
+      seen.add(path.slice(path.indexOf('src/')));
+      assert.ok(!content.includes(FIX.dataset?.name ?? 'rumourscape'), `${path} contains a dataset name literal`);
+    }
   }
+  for (const required of ['src/pages/Tenders.tsx', 'src/components/tenders/ui.tsx']) assert.ok(seen.has(required), `source guard did not inspect ${required}`);
 }));
 
 ac('AC-21 — The gaps panel is at findings size, before the footer, and each line is derived', () => withPage('D', async (page) => {
@@ -1126,7 +1155,7 @@ ac('AC-21 — The gaps panel is at findings size, before the footer, and each li
   if (!FIX.quality.organisations.statePortalNames) assert.ok(!r.lines.some((l) => /absent from the state portal/.test(l.text)), 'a gap line claims absence from the state portal while statePortalNames is not emitted');
   has((l) => l.text.includes(NO_COMMENT_GAP), NO_COMMENT_GAP);
   for (const f of absentPrereqs) has((l) => l.text.includes(f), `prerequisite field ${f}`);
-  assert.ok(r.timing.includes('Election-calendar clustering is not computed'), '#cppp-timing lacks the Election-calendar sentence');
+  assert.ok(r.timing.includes(norm(FIX.timing.innocentReading)), '#cppp-timing lacks the current source-derived date-semantics reading');
 }));
 
 /** SEC's own words: its innerText with every data string removed. */
@@ -1215,8 +1244,8 @@ ac('AC-25 — The figure sentence comes first, matches the data, and copies with
   await openNational(page);
   const fig = page.locator('[data-figure]').first();
   assert.ok(await fig.count(), '[data-figure] missing');
-  const r = await fig.evaluate((el) => { const svg = __t.sec().querySelector('svg'); return { before: !!svg && __t.follows(el, svg), font: getComputedStyle(el).fontFamily, text: __t.norm(el.textContent) }; });
-  assert.ok(r.before, '[data-figure] does not precede the first svg in SEC');
+  const r = await fig.evaluate((el) => { const svg = __t.sec().querySelector('svg[role="img"]'); return { before: !!svg && __t.follows(el, svg), font: getComputedStyle(el).fontFamily, text: __t.norm(el.textContent) }; });
+  assert.ok(r.before, '[data-figure] does not precede the first data chart in SEC');
   const sb = FIX.ind.singleBidding; const c = sb.byPortal.find((p) => p.portal === 'central'); const s = sb.byPortal.find((p) => p.portal === 'state');
   assertSentence(r.text, [
     '', { int: sb.count }, ' of ', { int: sb.familySize }, ' award decisions (', { pct: sb.ratePct }, '%, 95% interval ', { pct: sb.wilson95[0] }, ' to ', { pct: sb.wilson95[1] }, ') received one bid. Central portal: ',
@@ -1379,11 +1408,11 @@ ac('AC-32 — Exclusions are printed with their base, here and in the quality ta
   await openNational(page);
   const tm = norm(await page.locator('#cppp-timing').innerText().catch(() => ''));
   assert.ok(tm, '#cppp-timing missing');
-  assert.ok(tm.includes(norm(`AOC dated before closing: ${fmt(FIX.quality.dates.aocBeforeClosing)} raw rows (quality table); ${fmt(timing.excludedAocBeforeClosing)} award decisions after dedup, excluded here. A date-order defect, excluded, not read as conduct.`)), 'AOC-before-closing exclusion sentence missing');
+  assert.ok(tm.includes(norm(`Recorded aoc_at before recorded closing_at: ${fmt(FIX.quality.dates.aocBeforeClosing)} raw rows (quality table); ${fmt(timing.excludedAocBeforeClosing)} award decisions after dedup, excluded here. A stored-field ordering difference, not a verified event-order violation or conduct finding.`)), 'stored-field ordering exclusion sentence missing');
   assert.ok(new RegExp(`${timing.excludedDateMissing} award decisions`).test(tm), `missing-date sentence with "${fmt(timing.excludedDateMissing)} award decisions" missing`);
   const q = await requireTwin(page, 'quality');
-  const row = q.rows.find((r) => r.header.includes('AOC dated before closing'));
-  assert.ok(row, 'quality twin has no "AOC dated before closing" row');
+  const row = q.rows.find((r) => r.header.includes('Recorded aoc_at before closing_at (stored-field ordering difference)'));
+  assert.ok(row, 'quality twin has no stored-field ordering difference row');
   assert.ok(row.cells.some((c) => c === String(FIX.quality.dates.aocBeforeClosing)), `count ${fmt(FIX.quality.dates.aocBeforeClosing)} missing in "${row.text}"`);
   assert.ok(row.cells.some((c) => c === 'raw rows'), `base "raw rows" missing in "${row.text}"`);
   const names = await page.evaluate(() => [...document.querySelectorAll('#cppp-timing svg[role="img"]')].map((s) => __t.norm(__t.accName(s))));
@@ -1731,10 +1760,14 @@ ac('AC-45 — An unmatched state prints its sentence, never an empty table', () 
 async function assertInnocentBeside(page, vp) {
   const r = await page.evaluate(() => {
     const sec = __t.sec(); const innocents = [...sec.querySelectorAll('[data-innocent]')];
+    // The field-semantics caveat is itself an immediate limitation on the rate.
+    // Keep the original spacing/style budget, and separately require every full
+    // source-derived innocent reading below, so this cannot replace that text.
+    const limitations = [...sec.querySelectorAll('[data-innocent], [data-date-semantics]')];
     const cs = (el) => { const s = getComputedStyle(el); return { size: s.fontSize, weight: s.fontWeight, color: s.color, lh: s.lineHeight === 'normal' ? parseFloat(s.fontSize) * 1.2 : parseFloat(s.lineHeight) }; };
     return {
       rates: [...sec.querySelectorAll('[data-rate]')].map((rate) => {
-        const inn = innocents.find((i) => __t.follows(rate, i));
+        const inn = limitations.find((i) => __t.follows(rate, i));
         const label = __t.norm(rate.textContent).slice(0, 60);
         if (!inn) return { label, missing: true };
         const a = cs(rate); const b = cs(inn); const rr = rate.getBoundingClientRect(); const ir = inn.getBoundingClientRect();
@@ -2048,12 +2081,12 @@ ac('AC-61 — The jump list writes the router fragment and scrolls', () => withP
   await page.waitForFunction(() => location.hash.endsWith('#cppp-rates'), null, { timeout: ACTION_TIMEOUT });
   await page.waitForTimeout(SETTLE);
   assert.ok(new URL(page.url()).hash.endsWith('#cppp-rates'));
-  const top = (await rect(page.locator('#cppp-rates'))).top;
-  assert.ok(top >= 0 && top <= 120, `#cppp-rates top is ${top}px`);
+  const landing = await readingPosition(page.locator('#cppp-rates'));
+  assert.ok(landing.visible && landing.top <= 120, `#cppp-rates top is ${landing.top}px from the reading viewport at ${landing.origin}px`);
   assert.equal(await historyLength(page), H, 'the jump pushed a history entry');
   await load(page, `${NATIONAL}#cppp-sample`);
-  const top2 = (await rect(page.locator('#cppp-sample'))).top;
-  assert.ok(top2 >= 0 && top2 <= 120, `#cppp-sample top is ${top2}px after a fresh load with the fragment`);
+  const freshLanding = await readingPosition(page.locator('#cppp-sample'));
+  assert.ok(freshLanding.visible && freshLanding.top <= 120, `#cppp-sample top is ${freshLanding.top}px from the reading viewport at ${freshLanding.origin}px after a fresh load with the fragment`);
 }));
 
 ac('AC-62 — Defaults are unfiltered and unnamed', () => withPage('D', async (page) => {
@@ -2212,9 +2245,9 @@ ac('AC-69 — Top winners are a nested list, one item per emitted name', () => w
   const { buyer } = await concRows(page);
   const rows = await page.evaluate((bi) => [...document.querySelectorAll('[data-twin="concentration"] tbody tr')].map((tr) => {
     const cells = [...tr.querySelectorAll('th, td')]; const ol = tr.querySelector('ol');
-    // [Adjudicated] an unparsed buyer is read by its raw key (see readTable).
-    const key = cells[bi].querySelector('[data-raw-key]') ?? cells[bi];
-    return { buyer: __t.norm(key.textContent), buyerRaw: key.textContent, wbr: cells[bi].querySelectorAll('wbr').length, lis: ol ? [...ol.querySelectorAll('li')].map((li) => __t.norm(li.textContent)) : null };
+    // Use the same exact buyer value as readTable; exclude only the row action.
+    const key = __t.cellText(cells[bi]);
+    return { buyer: __t.norm(key), buyerRaw: key, wbr: cells[bi].querySelectorAll('wbr').length, lis: ol ? [...ol.querySelectorAll('li')].map((li) => __t.norm(li.textContent)) : null };
   }), buyer);
   assert.equal(rows.length, FIX.conc.length);
   for (const r of rows) {
@@ -2328,10 +2361,11 @@ ac('AC-73 — The head link moves focus to the section heading', () => withPage(
   await waitForParam(page, 'section', 'national');
   await page.waitForSelector('#cppp', { state: 'attached' });
   await page.waitForTimeout(SETTLE);
-  const r = await page.evaluate(() => { const h = document.getElementById('cppp'); return { active: document.activeElement === h, tabIndex: h.tabIndex, top: h.getBoundingClientRect().top }; });
+  const r = await page.evaluate(() => { const h = document.getElementById('cppp'); return { active: document.activeElement === h, tabIndex: h.tabIndex }; });
   assert.ok(r.active, 'h2#cppp is not the active element');
   assert.equal(r.tabIndex, -1);
-  assert.ok(r.top >= 0 && r.top <= 120, `h2#cppp top is ${r.top}px`);
+  const landing = await readingPosition(page.locator('#cppp'));
+  assert.ok(landing.visible && landing.top <= 120, `h2#cppp top is ${landing.top}px from the reading viewport at ${landing.origin}px`);
 }));
 
 ac('AC-74 — Every table region is reachable by Tab and shows a focus ring', async () => {
@@ -2409,6 +2443,13 @@ ac('AC-76 — Folded material has summaries that name content and count, and not
   assert.ok(n, 'no details > summary in SEC');
   for (let i = 0; i < n; i += 1) {
     const t = await text(summaries.nth(i));
+    if (t === 'Inspect the source-audit findings') {
+      // The new audit disclosure names its content in the summary and keeps its
+      // exact count visible immediately above, outside the collapsed details.
+      const audit = await summaries.nth(i).evaluate(s => { const p = s.closest('[data-procurement-audit-status="complete"]'); const count = p?.querySelector('strong'); return { count: count ? __t.norm(count.textContent) : '', visible: __t.visible(count), rows: p?.querySelectorAll('.pt-audit-findings > li').length ?? 0 }; });
+      assert.ok(audit.visible && audit.rows > 0 && audit.count === `${audit.rows} reviewed findings`, `audit disclosure lacks its visible exact count: ${JSON.stringify(audit)}`);
+      continue;
+    }
     assert.ok(/\d+ (raw spellings|terms|tender ids|lines)/.test(t) || /SQL/.test(t), `summary "${t}" names neither content nor count`);
   }
   const first = summaries.first();
@@ -2545,16 +2586,40 @@ ac('AC-83 — Long strings wrap; SQL is a full-width pre, never in a cell', () =
   const r = await page.evaluate((regex) => {
     const sec = __t.sec();
     const targets = [...sec.querySelectorAll('code'), ...[...sec.querySelectorAll('td, th')].filter((c) => /\b[0-9a-f]{16}\b/.test(c.textContent) || c.textContent.includes(regex))];
-    const badWrap = targets.filter((el) => { const s = getComputedStyle(el); return s.whiteSpace !== 'pre-wrap' || s.overflowWrap !== 'anywhere'; }).map((el) => `${el.tagName} "${el.textContent.trim().slice(0, 30)}"`);
-    const pres = [...sec.querySelectorAll('pre')].map((p) => ({ inCell: !!p.closest('td'), width: p.getBoundingClientRect().width }));
+    const badWrap = targets.filter((el) => {
+      // These two short field labels are newly printed inline in the semantic
+      // caveat, not long code/digest blocks. Require their actual containment;
+      // every other code target retains the original forced-wrapping rule.
+      if (el.matches('#cppp-timing [data-date-semantics] code') && /^(aoc_at|closing_at)$/.test(el.textContent.trim())) {
+        const box = el.getBoundingClientRect(); const parent = el.parentElement.getBoundingClientRect();
+        return box.width <= 0 || box.left < parent.left - 1 || box.right > parent.right + 1;
+      }
+      const s = getComputedStyle(el); return s.whiteSpace !== 'pre-wrap' || s.overflowWrap !== 'anywhere';
+    }).map((el) => `${el.tagName} "${el.textContent.trim().slice(0, 30)}"`);
     sec.querySelectorAll('details').forEach((d) => { d.open = true; });
+    const pres = [...sec.querySelectorAll('pre')].map((p) => {
+      const bounds = p.getBoundingClientRect(); const parent = p.parentElement; const box = parent.getBoundingClientRect(); const style = getComputedStyle(parent);
+      const left = box.left + parent.clientLeft + parseFloat(style.paddingLeft);
+      const right = box.left + parent.clientLeft + parent.clientWidth - parseFloat(style.paddingRight);
+      return { inCell: !!p.closest('td'), width: bounds.width, available: right - left, contained: bounds.left >= left - 1 && bounds.right <= right + 1, scrollWidth: p.scrollWidth, clientWidth: p.clientWidth };
+    });
     return { targets: targets.length, badWrap, pres, scrollWidth: document.documentElement.scrollWidth };
   }, FIX.markerRegex);
   assert.ok(r.targets, 'no code element or digest/regex cell in SEC');
   assert.deepEqual(r.badWrap.slice(0, 5), [], `${r.badWrap.length} without pre-wrap + anywhere: ${r.badWrap.slice(0, 5).join(' | ')}`);
   assert.ok(r.pres.length, 'no pre in SEC');
-  for (const p of r.pres) { assert.ok(!p.inCell, 'a pre sits inside a td'); assert.ok(p.width <= 390 - 32, `pre is ${p.width}px wide`); }
+  for (const p of r.pres) {
+    assert.ok(!p.inCell, 'a pre sits inside a td');
+    assert.ok(p.contained && p.width <= p.available + 1, `pre is ${p.width}px wide in ${p.available}px of available content width`);
+    assert.ok(p.scrollWidth <= p.clientWidth + 1, `pre content overflows its ${p.clientWidth}px box to ${p.scrollWidth}px`);
+  }
   assert.equal(r.scrollWidth, 390, `documentElement.scrollWidth ${r.scrollWidth} with every details open`);
+  for (const width of [320, 390, 768, 1440]) {
+    await page.setViewportSize({ width, height: 844 });
+    const labels = await page.locator('#cppp-timing [data-date-semantics] code').evaluateAll(els => els.map(el => { const box = el.getBoundingClientRect(); const parent = el.parentElement.getBoundingClientRect(); return { text: el.textContent.trim(), contained: box.width > 0 && box.left >= parent.left - 1 && box.right <= parent.right + 1 && box.right <= innerWidth + 1 }; }));
+    assert.deepEqual(labels.map(label => label.text).sort(), ['aoc_at', 'closing_at'], `${width}px: short semantic field labels changed`);
+    assert.ok(labels.every(label => label.contained), `${width}px: short field label overflows its paragraph: ${JSON.stringify(labels)}`);
+  }
 }));
 
 ac('AC-84 — Stacked rows, when used, keep every column', () => withPage('M', async (page) => {
@@ -2602,7 +2667,7 @@ ac('AC-86 — The initial national chunk is within budget and the data is split,
   page.on('response', (r) => { responses.push({ url: r.url(), type: r.headers()['content-type'] ?? '', body: r.body().catch(() => Buffer.alloc(0)) }); });
   await load(page, ROUTE, { section: false });
   const firstLoad = new Set(responses.map((r) => r.url));
-  await page.goto(`${full.base}/#${NATIONAL}`);
+  await page.goto(dossierUrl(full.base, NATIONAL));
   await page.getByRole('heading', { level: 1, name: H1, exact: true }).waitFor({ timeout: PAGE_READY_TIMEOUT });
   await page.waitForSelector('#cppp', { state: 'attached' }).catch(() => {});
   await page.waitForFunction(() => { const s = window.__t?.sec(); return !!s && !/\bloading\b/i.test(s.innerText); }, null, { timeout: 20_000 }).catch(() => {});

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { TierChip } from '../Editorial';
 import { checkableRows, type CpppCore, type Provenance } from '../../data/cppp';
 import { FOCUS, JumpLink, MONO_NOTE, fmt, sourceLine, useCopy } from './ui';
+import { ProcurementAuditEntry } from '../investigation/ProcurementTrail';
 
 /**
  * §3.0 — the section head. Quality comes first (D1, D5): before any rate the reader
@@ -147,6 +148,8 @@ export function HeadBottom({ core, p, hideSearch }: { core: CpppCore; p: Provena
       <p id="cppp-caveat" className="text-lg text-text-secondary max-w-[68ch] leading-relaxed">
         {core.rates?.caveat ?? 'rates.json is not present in this build; its caveat cannot be shown, and no rate is shown without it.'}
       </p>
+      <p className="mt-3 text-[13px] text-text-secondary max-w-[72ch]"><JumpLink id="cppp-concentration">Follow a reviewed buyer’s procurement trail</JumpLink> — choose a linked buyer in the concentration table to inspect its evidence populations, source chain and missing payment stages.</p>
+      <ProcurementAuditEntry />
       <p className={`${MONO_NOTE} mt-3 max-w-[72ch]`}>
         <span data-source-line>{line}</span>{' '}
         <button type="button" onClick={() => copy(line, 'Citation copied.')} className={`btn-ghost !px-2 !py-0.5 font-mono !text-[11px] ${FOCUS}`}>

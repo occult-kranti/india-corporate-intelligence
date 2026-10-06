@@ -59,9 +59,11 @@ if (!existsSync(geoPath)) {
  * them, extract the literals with a narrow parse — enough to enforce the rules,
  * and it fails loudly rather than silently passing on an unreadable file. The
  * grab takes `export const NAME: T = [ … ];` or `= { … };` with the closer alone
- * on its line, so the literal must be plain data: no imports, calls or casts.
+ * on its line. No imported values or TypeScript casts are evaluated. Motifs
+ * receive the already-read EDGES array so their censuses can count retained
+ * membership instead of drifting after graph corrections.
  */
-function grabConst(where, src, name) {
+function grabConst(where, src, name, bindings = {}) {
   const m = src.match(new RegExp(`export const ${name}\\b[^=]*=\\s*(\\[[\\s\\S]*?\\n\\];|\\{[\\s\\S]*?\\n\\};)`, 'm'));
   if (!m) return null;
   const body = m[1].replace(/;$/, '');
@@ -79,7 +81,7 @@ function grabConst(where, src, name) {
     return out;
   }
   try {
-    return Function(`"use strict"; return (${body});`)();
+    return Function(...Object.keys(bindings), `"use strict"; return (${body});`)(...Object.values(bindings));
   } catch (e) {
     err(where, `could not parse ${name}: ${e.message}`);
     return null;
@@ -90,10 +92,11 @@ function loadGraph() {
   const file = join(root, 'src/graph/data.ts');
   if (!existsSync(file)) return null;
   const src = readFileSync(file, 'utf8');
+  const edges = grabConst('graph', src, 'EDGES');
   return {
     nodes: grabConst('graph', src, 'NODES'),
-    edges: grabConst('graph', src, 'EDGES'),
-    motifs: grabConst('graph', src, 'MOTIFS'),
+    edges,
+    motifs: grabConst('graph', src, 'MOTIFS', { EDGES: edges ?? [] }),
   };
 }
 

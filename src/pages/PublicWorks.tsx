@@ -1,9 +1,13 @@
+import { useHistorySearchDrafts } from '../lib/useHistorySearchDrafts';
+import { preserveWorkspaceParams } from '../lib/dossierNavigation';
 import { useEffect, useMemo, useState, type FormEvent, type ReactNode } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { ArrowRight, ArrowUpRight, Bookmark, Check, Download, Link as LinkIcon, Search } from 'lucide-react';
 import { Kicker, PageTitle } from '../components/Editorial';
 import NetworkGraph from '../components/public-works/NetworkGraph';
 import RepeatWorkReview from '../components/public-works/RepeatWorkReview';
+import { ProcurementTrailLink, ProcurementGuidedEntry, ProcurementAuditEntry } from '../components/investigation/ProcurementTrail';
+import { getProcurementTrail } from '../data/procurementTrails';
 import {
   PUBLIC_WORKS_UPDATED_AT, PUBLIC_WORKS_SECTORS, PUBLIC_WORKS_STATES, PUBLIC_WORKS_LOCALITIES,
   PUBLIC_WORKS_SOURCES, PUBLIC_WORKS_BUYERS, PUBLIC_WORKS_CASES, PUBLIC_WORKS_DATASET,
@@ -95,12 +99,14 @@ function downloadCsv(csv: string, name: string) {
 /** Static public-record desk: each evidence stage and each coverage limit remains visible. */
 export default function PublicWorks() {
   const [params, setParams] = useSearchParams();
+  const dossierTrail = getProcurementTrail(params.get('trail') ?? '');
   const paramsKey = params.toString();
   const sectorValue = params.get('sector');
   // Serialized URL state follows reloads, pasted links and history.
   const filters = useMemo(() => readFilters(new URLSearchParams(paramsKey)), [paramsKey]);
   const [queryDraft, setQueryDraft] = useState(filters.q ?? '');
   const [placeDraft, setPlaceDraft] = useState(filters.place ?? '');
+  useHistorySearchDrafts(setQueryDraft, setPlaceDraft);
   const [visibleBuyers, setVisibleBuyers] = useState(12);
   const [visibleSources, setVisibleSources] = useState(8);
   const [status, setStatus] = useState('');
@@ -125,6 +131,7 @@ export default function PublicWorks() {
   ].filter(Boolean);
   useEffect(() => { setQueryDraft(filters.q ?? ''); }, [filters.q]);
   useEffect(() => { setPlaceDraft(filters.place ?? ''); }, [filters.place]);
+
   useEffect(() => { setVisibleBuyers(12); setVisibleSources(8); setStatus(''); setShareUrl(''); }, [paramsKey]);
   const patch = (values: Record<string, string | undefined>) => {
     // Compose rapid actions against the actual latest HashRouter URL, including
@@ -133,7 +140,7 @@ export default function PublicWorks() {
     for (const [key, value] of Object.entries(values)) { if (value) next.set(key, value); else next.delete(key); }
     setParams(next);
   };
-  const reset = () => { setQueryDraft(''); setPlaceDraft(''); setParams(new URLSearchParams()); };
+  const reset = () => { setQueryDraft(''); setPlaceDraft(''); setParams(preserveWorkspaceParams(new URLSearchParams(), params)); };
   const submit = (event: FormEvent) => { event.preventDefault(); patch({ q: queryDraft.trim() || undefined, place: placeDraft.trim() || undefined }); };
   const matchedSources = useMemo(() => getPublicWorksSources(filters), [filters]);
   const sources = useMemo(() => savedOnly ? matchedSources.filter(source => saved.includes(source.id)) : matchedSources, [matchedSources, savedOnly, saved]);
@@ -187,6 +194,7 @@ export default function PublicWorks() {
       <Kicker>India / Public works &amp; public money</Kicker>
       <PageTitle>Roads, bridges &amp; public works.</PageTitle>
       <p className="pw-intro">Follow procurement, funding and institutional connections across roads, electricity, water, health, education and government. Inspect the award, the work and the response — with evidence for every connection.</p>
+      <button className="pw-button" onClick={() => jumpTo('pw-procurement')}>Follow the procurement trail <ArrowRight size={14} aria-hidden="true" /></button>
       <p className="pw-snapshot">Research snapshot · {dateLabel(PUBLIC_WORKS_UPDATED_AT)}<br />Historical datasets and dated case files · Coverage varies by sector and place</p>
     </div><aside className="pw-hero-note" aria-labelledby="pw-intro-note">
       <p className="pw-overline">Read the chain of evidence</p><h2 id="pw-intro-note">A contract is a starting point.</h2>
@@ -231,6 +239,8 @@ export default function PublicWorks() {
 
     <section id="pw-procurement" className="pw-section">
       <Heading index="01" title="Procurement dataset" count={`${buyers.length} matching buyer aggregates`} />
+      {params.has('trail') && <div className="pw-note" data-procurement-dossier-context="">{dossierTrail ? <><strong>Selected cohort: {dossierTrail.buyer}.</strong> The desk filters below are retained; this selection does not broaden their results. <ProcurementTrailLink portal={dossierTrail.portal} buyer={dossierTrail.buyer} /></> : 'This link names a cohort outside the retained reviewed trail set. The buyer table below still follows your filters.'}</div>}
+      <p className="pw-section-intro"><strong>Follow the procurement trail.</strong> Choose “Inspect procurement trail” beside a buyer to compare its evidence populations, examine supplier labels and retain a sourced record. Award values, payments and completed work stay separate.</p>
       <p className="pw-section-intro">The government e-procurement dataset preserves <span className="pw-value">{number.format(PUBLIC_WORKS_DATASET.afterDedupRows)}</span> rows after its committed deduplication rule, from <span className="pw-value">{number.format(PUBLIC_WORKS_DATASET.rawRows)}</span> raw scraped rows. This desk reuses the committed aggregate outputs. Individual award files and work-site records are not loaded here.</p>
       <div className="pw-invalid"><strong>Dataset period:</strong> {PUBLIC_WORKS_DATASET.period} · <strong>Dataset as of:</strong> {dateLabel(PUBLIC_WORKS_DATASET.asOf)}<br /><strong>Verification boundary:</strong> In the check dated {dateLabel(PUBLIC_WORKS_DATASET.sampleAsOf)}, {number.format(PUBLIC_WORKS_DATASET.unavailableRows)} of {number.format(PUBLIC_WORKS_DATASET.verificationSample)} sampled stored portal URLs were unavailable. Agreement with the official records could not be established. Agreement is unknown; this is not a measured disagreement rate. The aggregate dataset remains {PUBLIC_WORKS_DATASET.tier}.<br /><strong>Deduplication:</strong> {PUBLIC_WORKS_DATASET.dedupRule}</div>
       {buyers.length > 0 ? <>
@@ -238,7 +248,7 @@ export default function PublicWorks() {
           <caption>{selectedSector?.label ?? 'All sectors'} · {number.format(singleBidderCount)} records with one usable bidder out of {number.format(awardDenominator)} with usable bid counts. Missing bidder counts are outside this denominator. A single recorded bidder does not establish wrongdoing.</caption>
           <thead><tr><th scope="col">Buyer / classification</th><th scope="col">Recorded coverage</th><th scope="col">Usable bid counts</th><th scope="col">One bidder</th><th scope="col">Share / 95% interval</th></tr></thead>
           <tbody>{buyers.slice(0, visibleBuyers).map(buyer => <tr key={buyer.id} data-buyer-id={buyer.id}>
-            <td><span className="pw-record-title">{buyer.buyer}</span><small>{buyer.classificationBasis}</small><Sources ids={buyer.sourceIds} /></td>
+            <td><span className="pw-record-title">{buyer.buyer}</span><small>{buyer.classificationBasis}</small><ProcurementTrailLink portal={buyer.portal} buyer={buyer.buyer} /><Sources ids={buyer.sourceIds} /></td>
             <td>{placeLabel(buyer)}<small>{buyer.portal} · {buyer.period}</small><small>Reported aggregate</small></td>
             <td className="pw-value">{number.format(buyer.n)}</td><td className="pw-value">{number.format(buyer.singleBidder)}</td>
             <td><span className="pw-value">{number.format(buyer.singleBidderPct)}%</span><small>Wilson 95%: {buyer.wilson95.map(value => `${number.format(value)}%`).join('–')}</small></td>
@@ -247,6 +257,8 @@ export default function PublicWorks() {
       </> : <Empty title="No buyer aggregates match this view.">This is a coverage gap in the available aggregate outputs. It does not mean there were no tenders, awards or public spending in this place or sector. Case files and the research routes below may provide a different form of evidence.</Empty>}
       <Sources ids={PUBLIC_WORKS_DATASET.sourceIds} />
       <p className="pw-note">{PUBLIC_WORKS_DATASET.limitations.join(' ')}</p>
+      <ProcurementAuditEntry />
+      <ProcurementGuidedEntry />
     </section>
 
     <section id="pw-repeat" className="pw-section"><Heading index="02" title="Repeat-work review" />

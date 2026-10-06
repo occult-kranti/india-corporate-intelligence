@@ -1,0 +1,46 @@
+# Finance and PM CARES research panel
+
+Snapshot: **6 October 2026**. Recent-event window: **6 October 2021–6 October 2026**. Older law and resolutions are retained as explicitly dated background. Selected corpus: **14 sources, 20 reviewed entities, 17 typed relationships, 13 records and one district locality**. This is not a census of Indian borrowing, a registry of wealthy beneficiaries or complete judicial case tracking.
+
+## Panel round 1 — research and design decisions
+
+The accounting reviewer required separate stages for write-off, liability waiver, compromise, admitted claim, plan-realizable amount, upfront payment, equity infusion and actual recovery. RBI's original commercial-bank directions, updated 1 October 2026, establish that technical write-off preserves claims. The 2023 framework is historical context, not silently treated as the latest operative text. A similarly named rural-cooperative-bank direction returned in discovery was excluded from selected sources.
+
+The banking reviewer rejected a “loan waivers to billionaires” national total. Lok Sabha Q120, answered 20 July 2026, says RBI does not collect “corporate loans” separately, uses Large–Industries & Services, and cannot disclose borrower-level CRILC information under the stated confidentiality provision. The 1,249 borrowers/₹419,380 crore threshold aggregate covers **all borrower types**, not identified industrialists. Annual recoveries mix write-off vintages, preventing a cohort recovery percentage or write-offs-minus-recoveries outstanding balance.
+
+The insolvency reviewer required denominators. IBBI's June 2026 table shows 30.52% of admitted claims and 166.58% of liquidation value. The fair-value ratio is based on a smaller 1,359-case set; it must not be recomputed using all-case realization. “Realizable” table labels and “realised” prose do not independently verify every cash distribution. Bank write-offs and IBC claims overlap and cannot be summed into a national loss number.
+
+The institutional reviewer required original-site rechecks. Direct PM CARES and PMNRF pages now link FY2023-24 and FY2024-25, while indexed PM CARES text remained stale. Original one-page scans show KKC signatures. The old four-of-seven coverage and no-KKC-statement claims are superseded. The PMNRF comparator cannot prove or rule out PM CARES's intent, and the 2020 Supreme Court NDRF judgment does not resolve RTI status.
+
+The map reviewer required evidence for location. Only the Mahan plant is placed in Singrauli, from the issuer's filed annual report. An NCLT bench, CIN registered state or a national ministry address is not a substitute for asset or expenditure geography. National bank/fund aggregates remain national; historical debtor-table examples have unknown asset geography.
+
+## Decisive records
+
+1. **PM CARES accounts:** FY2023-24 receipts excluding opening ₹904.9496492 crore, payments ₹15.5999669 crore, close ₹7,173.0327605 crore. FY2024-25 receipts ₹1,279.9128444 crore, payments ₹0.8785291 crore, close ₹8,452.0670758 crore. Both cast exactly. FY2024-25 includes ₹324.6580919 crore returned by implementing agencies and ₹475.1447175 crore interest; these are not new donations. Signature 7 August 2026; publication date unknown.
+2. **Presentation change:** FY2022-23 comparative figures net ₹1,51,23,111 refund from domestic donations and remove that payment line; closing balance is unchanged. Historical standalone gross figures remain dated and labeled. No mixed-basis lifetime aggregate is asserted.
+3. **Disclosure/legal context:** Latest linked PM CARES PDFs reference notes 1–16 and an audit report absent from those files. Trust deed clauses 5.3, 6.2 and 6.8 establish the stated legal character and public-office roles without resolving RTI. PMNRF now has the same six-year coverage in the comparison window.
+4. **PSB Q120:** FY2021-22 to provisional FY2025-26 annual write-offs/recoveries are retained as separate flows. FY2025-26 is ₹15,213 crore/₹4,456 crore, without a cohort-rate claim. Financial-year coverage partly precedes the exact five-year window.
+5. **Mahan/Essar Power MP:** IBBI September 2022 row 429 records ₹12,723.60 crore total claims, ₹12,067.58 crore FC claims, ₹1,733.40 crore liquidation value and ₹2,500 crore FC-realizable amount. Adani Power's exchange-filed annual report states NCLT approval 1 November 2021 and control acquisition 16 March 2022 with ₹600 crore upfront to lenders and ₹1 crore equity. These are distinct measures, not a cash waiver or unencumbered ₹1 crore plant purchase. Full plan and later cash distributions remain gaps.
+6. **Historical comparators:** Bhushan Steel, Alok Industries and Essar Steel use exact erstwhile CINs and IBBI realizable amounts. They are dated background, not current balances or personal debt. Essar's July 2019 NCLAT distribution approach was superseded by the November 2019 Supreme Court decision summarized by IBBI.
+
+## Retrieval and retained evidence
+
+Discovery used **15 Exa searches / 80 requested result slots**, not 80 verified sources. Two batch full-fetch receipts retain indexed material; direct RBI, Parliament, IBBI, Supreme Court, fund and exchange-filed documents were then downloaded. The 2023 RBI framework remains indexed-primary text; its current commercial-bank successor was downloaded as an original 62-page PDF. PM CARES original HTML supersedes the stale indexed About/FAQ material. The primary-fetch receipt also contains an excluded rural-cooperative-bank source; its presence does not make it selected evidence.
+
+Scanned fund statements were OCR'd and visually checked. Large trust-deed and issuer-report originals were downloaded, reviewed and hashed; selected unaltered pages are retained with original page numbers, byte counts and hashes in `excerpt-provenance.json`. The complete original URLs remain in every source record. `sha256-manifest.json` lists each retained artifact's path, byte count and digest; the manifest excludes itself.
+
+## Panel round 2 — independent review and corrections
+
+The welfare/services reviewer independently inspected both new PM CARES scans and reproduced all receipts, payments and closing balances to the rupee. They confirmed the ₹1,51,23,111 prior-year presentation change, the split savings/FD interest, separate TDS refund, and distinction between fund signature, audit signature and unknown publication date. No numerical corrections were needed. They identified stale method/deed prose; those current assertions were updated and the original snapshot retained.
+
+The legacy route now presents six-of-seven coverage, latest balance, KKC audit, net/gross presentation note and bounded PMNRF comparison. The notes counter is derived from per-year evidence, no longer hardcoded zero. The graph's fund node and RTI label are corrected; false money arrows to CAG/MNRE were removed, and news-only incoming donation edges are reported. Exact prior lines and original prose are retained as superseded history. No allegation of corruption or political exchange is made from these relations.
+
+Actual rendered journey and schema/build results will be appended once the shared workspace is ready. Open questions include current RTI case disposition, referenced fund notes, implementing-agency refund schedules, full Mahan distribution waterfall, deferred installments, and later creditor cash recovery. Their absence narrows claims rather than becoming a misconduct finding.
+
+### Actual rendered loop 2
+
+Chromium (`/usr/bin/chromium`) exercised the running HashRouter site on 6 October 2026. Seven checks passed: current PM CARES six-of-seven coverage and ₹8,452.07 crore balance; removal of the “neither survived” comparator inference; Mahan claims/₹2,500 crore plan/₹600 crore upfront/₹1 crore equity separation; visible original sources and deferred-payment evidence gap; project exclusion from Uttar Pradesh with national context off; inclusion in Madhya Pradesh; historical Bhushan approval excluded by the five-year event filter; and the PM CARES dossier at 390 pixels with document scroll width equal to viewport width. There were no JavaScript page errors. Related assertions are grouped into seven browser checks in the temporary review harness `/tmp/finance-loop2.mjs`; this is review evidence rather than a maintained test suite.
+
+Financial checks reproduced both original newer accounts to the rupee and verified all 34 retained artifact hashes. Shared `tsc -b` initially reported only Layout ref assignment and Workspace details/defaultOpen errors, forwarded to the UI owners. No error named a finance-owned file; the final integration build remains the root agent's responsibility.
+
+A reciprocal independent welfare review checked the retained extracts for MP Take Home Ration (§2.2.11.1), Tamil Nadu PMAY-G (§4.1.1), Odisha ICDS (Table 2.5), and the original DDRS parliamentary answer (page 3). It confirmed ₹122.99 crore = ₹100.90 paid + ₹22.09 pending, with ₹110.78 crore an overlapping estimate; 981 + 566 = 1,547 rather than adding all 5,949 similar records; cumulative Odisha entries rather than deduplicated people; and Keonjhar constituency association with an unexplained dash, not a zero or school-closure claim. No substantive corrections were needed for these four records.

@@ -18,8 +18,8 @@
     "test:education": "node --test scripts/education/education.test.mjs",
     "test:education:browser": "node scripts/education/browser.mjs",
     "test:education:model": "node scripts/education/model-corpus.mjs && python3 scripts/education/model-rank.py --input research/education/model-corpus.json --verify && python3 scripts/education/model-rank.test.py",
-    "check": "npm run promote && npm run generate && npm run test:assemble && npm run validate && npm run validate:education && npm run test:education && npm run test:education:model && npm run validate:water && npm run test:water && npm run test:water:model && npm run validate:public-works && npm run test:public-works && npm run test:public-works:model && npm run build && npm run smoke && npm run test:education:browser && npm run test:water:browser && npm run test:public-works:browser && npm run viewport && npm run test:pages",
-    "test:pages": "node --test scripts/pages/energy.test.mjs scripts/pages/welfare.test.mjs scripts/pages/tenders.test.mjs scripts/pages/finance.test.mjs",
+    "check": "npm run promote && npm run generate && npm run test:assemble && npm run validate && npm run validate:education && npm run test:education && npm run test:education:model && npm run validate:water && npm run test:water && npm run test:water:model && npm run validate:public-works && npm run test:public-works && npm run test:public-works:model && npm run validate:investigation && npm run test:investigation && npm run test:investigation:model && npm run test:procurement && npm run build && npm run smoke && npm run test:education:browser && npm run test:water:browser && npm run test:public-works:browser && npm run test:dossier:history && npm run test:investigation:browser && npm run test:procurement:browser && npm run viewport && npm run test:pages",
+    "test:pages": "node --test --test-concurrency=2 scripts/pages/energy.test.mjs scripts/pages/welfare.test.mjs scripts/pages/tenders.test.mjs scripts/pages/finance.test.mjs",
     "validate:water": "node scripts/water/validate.mjs",
     "test:water": "node --test scripts/water/water.test.mjs",
     "test:water:browser": "node scripts/water/browser.mjs",
@@ -28,7 +28,14 @@
     "validate:public-works": "node scripts/public-works/validate.mjs",
     "test:public-works": "node --test scripts/public-works/public-works.test.mjs scripts/public-works/network.test.mjs && python3 scripts/public-works/audit-connections.py",
     "test:public-works:browser": "node scripts/public-works/browser.mjs",
-    "test:public-works:model": "node scripts/education/model-corpus.mjs src/data/public-works-research.json research/public-works/model-corpus.json && python3 scripts/public-works/model-rank.py --verify"
+    "test:public-works:model": "node scripts/education/model-corpus.mjs src/data/public-works-research.json research/public-works/model-corpus.json && python3 scripts/public-works/model-rank.py --verify",
+    "validate:investigation": "node scripts/investigation/validate.mjs",
+    "test:investigation": "node --test scripts/investigation/investigation.test.mjs scripts/investigation/graph.test.mjs scripts/investigation/casebook.test.mjs scripts/pages/dossier-navigation.test.mjs",
+    "test:investigation:model": "node scripts/investigation/model-corpus.mjs --verify && python3 scripts/investigation/model-rank.py --verify && python3 scripts/investigation/model-rank.test.py",
+    "test:investigation:browser": "node scripts/investigation/browser.mjs && node scripts/investigation/graph-browser.mjs && node scripts/investigation/workspace-browser.mjs",
+    "test:dossier:history": "node scripts/pages/dossier-history.browser.mjs",
+    "test:procurement": "node --test scripts/cppp/trails.test.mjs && python3 -m unittest scripts/cppp/test_provenance.py scripts/cppp/test_date_semantics.py && python3 research/raw/tender-portal-audit/test_audit.py",
+    "test:procurement:browser": "node scripts/investigation/procurement-trail-browser.mjs"
   },
   "dependencies": {
     "d3-force": "^3.0.0",

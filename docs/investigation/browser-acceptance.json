@@ -1,0 +1,683 @@
+{
+  "schema": "icip.browser-acceptance.v2",
+  "reviewedAt": "2026-10-06",
+  "summary": "The latest publication candidate passed one complete 669-assertion, 12-scenario sweep after a bounded mobile-entry correction and source-summary updates. Three earlier stable full runs are retained separately. The final harness additionally waits for the selected source inspector to commit before reading its locator.",
+  "latestCandidate": {
+    "buildDirectory": "dist-publish",
+    "indexSha256": "2a25a9abafe3baa5156b062ecea25e2cf81660d585484f157581d2ccc4f45592",
+    "harnessSha256": "4366075ba36e191c10a483fe7640b8133cb2cb3f83fe67f88b664a1ca04b901a",
+    "originalReportSha256": "eb86bebd34a80059ac77152d18338156f426ccbfdc9459381756f6c837117447",
+    "report": {
+      "testedAt": "2026-10-06T22:57:37.562Z",
+      "base": "http://127.0.0.1:43557",
+      "distIndexSha256": "2a25a9abafe3baa5156b062ecea25e2cf81660d585484f157581d2ccc4f45592",
+      "scenarioFilter": null,
+      "browser": "/usr/bin/chromium via Playwright (151.0.7922.173)",
+      "checks": 669,
+      "routes": [
+        "/",
+        "/investigate",
+        "/justice",
+        "/debt",
+        "/map",
+        "/network",
+        "/geograph",
+        "/cabinet",
+        "/tenders",
+        "/resources",
+        "/conglomerates",
+        "/atlas",
+        "/patterns",
+        "/evidence",
+        "/base-rates",
+        "/interlocks",
+        "/motifs",
+        "/prospector",
+        "/desk",
+        "/capture",
+        "/allocation",
+        "/pmcares",
+        "/energy",
+        "/welfare",
+        "/finance",
+        "/security",
+        "/education",
+        "/water",
+        "/public-works",
+        "/competition",
+        "/provenance",
+        "/method",
+        "/industries",
+        "/political",
+        "/media",
+        "/search",
+        "/watchlist",
+        "/states/ka",
+        "/company/reliance-industries",
+        "/conglomerates/adani"
+      ],
+      "results": [
+        {
+          "name": "Every registered route opens the shared 36-state workspace",
+          "status": "passed",
+          "milliseconds": 11489
+        },
+        {
+          "name": "Route lenses and geographic controls preserve context through history",
+          "status": "passed",
+          "milliseconds": 3133
+        },
+        {
+          "name": "State routes preserve an explicit All India choice and reject ambiguous old boundaries",
+          "status": "passed",
+          "milliseconds": 3034
+        },
+        {
+          "name": "Search drafts reset when history reverses a just-submitted query",
+          "status": "passed",
+          "milliseconds": 1825
+        },
+        {
+          "name": "Evidence inspector retains original source, response and separate money stages",
+          "status": "passed",
+          "milliseconds": 1672
+        },
+        {
+          "name": "Casebook pins, notes, saved views, JSON/Markdown and safe additive import",
+          "status": "passed",
+          "milliseconds": 2085
+        },
+        {
+          "name": "Pinned relationship export retains explicitly linked counter-evidence",
+          "status": "passed",
+          "milliseconds": 722
+        },
+        {
+          "name": "Capacity-limited imports reject the complete merge without losing local work",
+          "status": "passed",
+          "milliseconds": 4748
+        },
+        {
+          "name": "Invalid and empty URLs are explicit, reversible and preserve valid geography",
+          "status": "passed",
+          "milliseconds": 1329
+        },
+        {
+          "name": "Every dossier remains accessible with geographic context",
+          "status": "passed",
+          "milliseconds": 28982
+        },
+        {
+          "name": "Responsive map, evidence, casebook and dossier have no body overflow",
+          "status": "passed",
+          "milliseconds": 26736
+        },
+        {
+          "name": "No uncaught browser exceptions",
+          "status": "passed",
+          "milliseconds": 0
+        }
+      ],
+      "pageErrors": [],
+      "screenshots": [
+        "/tmp/investigation-browser-publish-final/workspace-320.png",
+        "/tmp/investigation-browser-publish-final/workspace-390.png",
+        "/tmp/investigation-browser-publish-final/workspace-768.png",
+        "/tmp/investigation-browser-publish-final/workspace-1440.png"
+      ],
+      "note": "Rendered workspace and casebook acceptance. Graph traversal/zoom/pan workflow is owned by its separate suite."
+    }
+  },
+  "priorStability": {
+    "schema": "icip.browser-acceptance.v1",
+    "reviewedAt": "2026-10-06",
+    "candidate": "dist-release",
+    "releaseIndexSha256": "70b710558f84be342c3e6e0ff66894443d0040396d18199e97b6d55b058088f4",
+    "harnessSha256": "39d672e7258e76f22a18b88ea3a3af9c6ae784f2cb4b2b9079a934d449c9dace",
+    "browser": "/usr/bin/chromium via Playwright (151.0.7922.173)",
+    "summary": "Three consecutive complete runs against an unchanged production candidate and unchanged acceptance harness. Screenshots were retained in each reported temporary artifact directory; the four first-run viewport screenshots were visually inspected.",
+    "runs": [
+      {
+        "run": 1,
+        "originalReportSha256": "54bce6fbebd8756afcf6695150e8b372e60a5a7e5c4675122881725cc3d1d41c",
+        "report": {
+          "testedAt": "2026-10-06T22:39:51.176Z",
+          "base": "http://127.0.0.1:33955",
+          "distIndexSha256": "70b710558f84be342c3e6e0ff66894443d0040396d18199e97b6d55b058088f4",
+          "scenarioFilter": null,
+          "browser": "/usr/bin/chromium via Playwright (151.0.7922.173)",
+          "checks": 669,
+          "routes": [
+            "/",
+            "/investigate",
+            "/justice",
+            "/debt",
+            "/map",
+            "/network",
+            "/geograph",
+            "/cabinet",
+            "/tenders",
+            "/resources",
+            "/conglomerates",
+            "/atlas",
+            "/patterns",
+            "/evidence",
+            "/base-rates",
+            "/interlocks",
+            "/motifs",
+            "/prospector",
+            "/desk",
+            "/capture",
+            "/allocation",
+            "/pmcares",
+            "/energy",
+            "/welfare",
+            "/finance",
+            "/security",
+            "/education",
+            "/water",
+            "/public-works",
+            "/competition",
+            "/provenance",
+            "/method",
+            "/industries",
+            "/political",
+            "/media",
+            "/search",
+            "/watchlist",
+            "/states/ka",
+            "/company/reliance-industries",
+            "/conglomerates/adani"
+          ],
+          "results": [
+            {
+              "name": "Every registered route opens the shared 36-state workspace",
+              "status": "passed",
+              "milliseconds": 27658
+            },
+            {
+              "name": "Route lenses and geographic controls preserve context through history",
+              "status": "passed",
+              "milliseconds": 7493
+            },
+            {
+              "name": "State routes preserve an explicit All India choice and reject ambiguous old boundaries",
+              "status": "passed",
+              "milliseconds": 5003
+            },
+            {
+              "name": "Search drafts reset when history reverses a just-submitted query",
+              "status": "passed",
+              "milliseconds": 3618
+            },
+            {
+              "name": "Evidence inspector retains original source, response and separate money stages",
+              "status": "passed",
+              "milliseconds": 2872
+            },
+            {
+              "name": "Casebook pins, notes, saved views, JSON/Markdown and safe additive import",
+              "status": "passed",
+              "milliseconds": 3778
+            },
+            {
+              "name": "Pinned relationship export retains explicitly linked counter-evidence",
+              "status": "passed",
+              "milliseconds": 1412
+            },
+            {
+              "name": "Capacity-limited imports reject the complete merge without losing local work",
+              "status": "passed",
+              "milliseconds": 7484
+            },
+            {
+              "name": "Invalid and empty URLs are explicit, reversible and preserve valid geography",
+              "status": "passed",
+              "milliseconds": 1494
+            },
+            {
+              "name": "Every dossier remains accessible with geographic context",
+              "status": "passed",
+              "milliseconds": 49155
+            },
+            {
+              "name": "Responsive map, evidence, casebook and dossier have no body overflow",
+              "status": "passed",
+              "milliseconds": 47673
+            },
+            {
+              "name": "No uncaught browser exceptions",
+              "status": "passed",
+              "milliseconds": 0
+            }
+          ],
+          "pageErrors": [],
+          "screenshots": [
+            "/tmp/investigation-browser-release-1/workspace-320.png",
+            "/tmp/investigation-browser-release-1/workspace-390.png",
+            "/tmp/investigation-browser-release-1/workspace-768.png",
+            "/tmp/investigation-browser-release-1/workspace-1440.png"
+          ],
+          "note": "Rendered workspace and casebook acceptance. Graph traversal/zoom/pan workflow is owned by its separate suite."
+        }
+      },
+      {
+        "run": 2,
+        "originalReportSha256": "79e22c7666b4ff77ee90f5671c472927b9b9f7ebe85d5a98b9b562bef6fce853",
+        "report": {
+          "testedAt": "2026-10-06T22:41:48.539Z",
+          "base": "http://127.0.0.1:45801",
+          "distIndexSha256": "70b710558f84be342c3e6e0ff66894443d0040396d18199e97b6d55b058088f4",
+          "scenarioFilter": null,
+          "browser": "/usr/bin/chromium via Playwright (151.0.7922.173)",
+          "checks": 669,
+          "routes": [
+            "/",
+            "/investigate",
+            "/justice",
+            "/debt",
+            "/map",
+            "/network",
+            "/geograph",
+            "/cabinet",
+            "/tenders",
+            "/resources",
+            "/conglomerates",
+            "/atlas",
+            "/patterns",
+            "/evidence",
+            "/base-rates",
+            "/interlocks",
+            "/motifs",
+            "/prospector",
+            "/desk",
+            "/capture",
+            "/allocation",
+            "/pmcares",
+            "/energy",
+            "/welfare",
+            "/finance",
+            "/security",
+            "/education",
+            "/water",
+            "/public-works",
+            "/competition",
+            "/provenance",
+            "/method",
+            "/industries",
+            "/political",
+            "/media",
+            "/search",
+            "/watchlist",
+            "/states/ka",
+            "/company/reliance-industries",
+            "/conglomerates/adani"
+          ],
+          "results": [
+            {
+              "name": "Every registered route opens the shared 36-state workspace",
+              "status": "passed",
+              "milliseconds": 20574
+            },
+            {
+              "name": "Route lenses and geographic controls preserve context through history",
+              "status": "passed",
+              "milliseconds": 7120
+            },
+            {
+              "name": "State routes preserve an explicit All India choice and reject ambiguous old boundaries",
+              "status": "passed",
+              "milliseconds": 3900
+            },
+            {
+              "name": "Search drafts reset when history reverses a just-submitted query",
+              "status": "passed",
+              "milliseconds": 2631
+            },
+            {
+              "name": "Evidence inspector retains original source, response and separate money stages",
+              "status": "passed",
+              "milliseconds": 2365
+            },
+            {
+              "name": "Casebook pins, notes, saved views, JSON/Markdown and safe additive import",
+              "status": "passed",
+              "milliseconds": 3474
+            },
+            {
+              "name": "Pinned relationship export retains explicitly linked counter-evidence",
+              "status": "passed",
+              "milliseconds": 825
+            },
+            {
+              "name": "Capacity-limited imports reject the complete merge without losing local work",
+              "status": "passed",
+              "milliseconds": 5299
+            },
+            {
+              "name": "Invalid and empty URLs are explicit, reversible and preserve valid geography",
+              "status": "passed",
+              "milliseconds": 2115
+            },
+            {
+              "name": "Every dossier remains accessible with geographic context",
+              "status": "passed",
+              "milliseconds": 38378
+            },
+            {
+              "name": "Responsive map, evidence, casebook and dossier have no body overflow",
+              "status": "passed",
+              "milliseconds": 23883
+            },
+            {
+              "name": "No uncaught browser exceptions",
+              "status": "passed",
+              "milliseconds": 0
+            }
+          ],
+          "pageErrors": [],
+          "screenshots": [
+            "/tmp/investigation-browser-release-2/workspace-320.png",
+            "/tmp/investigation-browser-release-2/workspace-390.png",
+            "/tmp/investigation-browser-release-2/workspace-768.png",
+            "/tmp/investigation-browser-release-2/workspace-1440.png"
+          ],
+          "note": "Rendered workspace and casebook acceptance. Graph traversal/zoom/pan workflow is owned by its separate suite."
+        }
+      },
+      {
+        "run": 3,
+        "originalReportSha256": "ad924615eb12c111c5325903bc359535d3eae32e310cf385adc8671506c0b086",
+        "report": {
+          "testedAt": "2026-10-06T22:43:14.961Z",
+          "base": "http://127.0.0.1:33825",
+          "distIndexSha256": "70b710558f84be342c3e6e0ff66894443d0040396d18199e97b6d55b058088f4",
+          "scenarioFilter": null,
+          "browser": "/usr/bin/chromium via Playwright (151.0.7922.173)",
+          "checks": 669,
+          "routes": [
+            "/",
+            "/investigate",
+            "/justice",
+            "/debt",
+            "/map",
+            "/network",
+            "/geograph",
+            "/cabinet",
+            "/tenders",
+            "/resources",
+            "/conglomerates",
+            "/atlas",
+            "/patterns",
+            "/evidence",
+            "/base-rates",
+            "/interlocks",
+            "/motifs",
+            "/prospector",
+            "/desk",
+            "/capture",
+            "/allocation",
+            "/pmcares",
+            "/energy",
+            "/welfare",
+            "/finance",
+            "/security",
+            "/education",
+            "/water",
+            "/public-works",
+            "/competition",
+            "/provenance",
+            "/method",
+            "/industries",
+            "/political",
+            "/media",
+            "/search",
+            "/watchlist",
+            "/states/ka",
+            "/company/reliance-industries",
+            "/conglomerates/adani"
+          ],
+          "results": [
+            {
+              "name": "Every registered route opens the shared 36-state workspace",
+              "status": "passed",
+              "milliseconds": 10800
+            },
+            {
+              "name": "Route lenses and geographic controls preserve context through history",
+              "status": "passed",
+              "milliseconds": 2823
+            },
+            {
+              "name": "State routes preserve an explicit All India choice and reject ambiguous old boundaries",
+              "status": "passed",
+              "milliseconds": 2565
+            },
+            {
+              "name": "Search drafts reset when history reverses a just-submitted query",
+              "status": "passed",
+              "milliseconds": 1618
+            },
+            {
+              "name": "Evidence inspector retains original source, response and separate money stages",
+              "status": "passed",
+              "milliseconds": 1582
+            },
+            {
+              "name": "Casebook pins, notes, saved views, JSON/Markdown and safe additive import",
+              "status": "passed",
+              "milliseconds": 2274
+            },
+            {
+              "name": "Pinned relationship export retains explicitly linked counter-evidence",
+              "status": "passed",
+              "milliseconds": 919
+            },
+            {
+              "name": "Capacity-limited imports reject the complete merge without losing local work",
+              "status": "passed",
+              "milliseconds": 3860
+            },
+            {
+              "name": "Invalid and empty URLs are explicit, reversible and preserve valid geography",
+              "status": "passed",
+              "milliseconds": 1092
+            },
+            {
+              "name": "Every dossier remains accessible with geographic context",
+              "status": "passed",
+              "milliseconds": 31849
+            },
+            {
+              "name": "Responsive map, evidence, casebook and dossier have no body overflow",
+              "status": "passed",
+              "milliseconds": 23770
+            },
+            {
+              "name": "No uncaught browser exceptions",
+              "status": "passed",
+              "milliseconds": 1
+            }
+          ],
+          "pageErrors": [],
+          "screenshots": [
+            "/tmp/investigation-browser-release-3/workspace-320.png",
+            "/tmp/investigation-browser-release-3/workspace-390.png",
+            "/tmp/investigation-browser-release-3/workspace-768.png",
+            "/tmp/investigation-browser-release-3/workspace-1440.png"
+          ],
+          "note": "Rendered workspace and casebook acceptance. Graph traversal/zoom/pan workflow is owned by its separate suite."
+        }
+      }
+    ]
+  },
+  "mobileEntryProbe": {
+    "buildDirectory": "dist-final",
+    "note": "Independent Energy heading check on the mobile-entry build, before bounded data-only PM CARES/CAG updates. The subsequent publication candidate passed the complete responsive suite.",
+    "originalReportSha256": "f22aa43e7ae025708e1c6c67d3f890b2a498bada0a13e41e0e4d38b1fdd68c16",
+    "report": {
+      "testedAt": "2026-10-06T22:51:23.022Z",
+      "indexSha256": "3323f576d49e808f4ebeee79637af5e6f0af58738bbb726137d358931d769d29",
+      "browser": "151.0.7922.173",
+      "results": [
+        {
+          "width": 320,
+          "height": 844,
+          "title": "Who decides over energy, and who is recorded as gaining",
+          "top": 69.171875,
+          "bottom": 158.421875,
+          "focused": true,
+          "overflow": {
+            "width": 320,
+            "body": 320,
+            "html": 320
+          },
+          "screenshot": "/tmp/investigation-mobile-entry-final/energy-entry-320.png"
+        },
+        {
+          "width": 390,
+          "height": 844,
+          "title": "Who decides over energy, and who is recorded as gaining",
+          "top": 69.0625,
+          "bottom": 128.5625,
+          "focused": true,
+          "overflow": {
+            "width": 390,
+            "body": 390,
+            "html": 390
+          },
+          "screenshot": "/tmp/investigation-mobile-entry-final/energy-entry-390.png"
+        }
+      ],
+      "errors": []
+    }
+  },
+  "interimDiagnostic": {
+    "buildDirectory": "dist-final",
+    "finding": "The locator assertion observed the URL update before React committed the matching source inspector. The retained failure screenshot already shows the correct CAG locator. The harness now waits for matching data-investigation-source before asserting source text.",
+    "originalReportSha256": "355bf9991d62932d4f6f17892f3a07f8f2b9552b5e60c8c7ca8e9dbb069dbaac",
+    "report": {
+      "testedAt": "2026-10-06T22:52:41.240Z",
+      "base": "http://127.0.0.1:32943",
+      "distIndexSha256": "3323f576d49e808f4ebeee79637af5e6f0af58738bbb726137d358931d769d29",
+      "scenarioFilter": null,
+      "browser": "/usr/bin/chromium via Playwright (151.0.7922.173)",
+      "checks": 665,
+      "routes": [
+        "/",
+        "/investigate",
+        "/justice",
+        "/debt",
+        "/map",
+        "/network",
+        "/geograph",
+        "/cabinet",
+        "/tenders",
+        "/resources",
+        "/conglomerates",
+        "/atlas",
+        "/patterns",
+        "/evidence",
+        "/base-rates",
+        "/interlocks",
+        "/motifs",
+        "/prospector",
+        "/desk",
+        "/capture",
+        "/allocation",
+        "/pmcares",
+        "/energy",
+        "/welfare",
+        "/finance",
+        "/security",
+        "/education",
+        "/water",
+        "/public-works",
+        "/competition",
+        "/provenance",
+        "/method",
+        "/industries",
+        "/political",
+        "/media",
+        "/search",
+        "/watchlist",
+        "/states/ka",
+        "/company/reliance-industries",
+        "/conglomerates/adani"
+      ],
+      "results": [
+        {
+          "name": "Every registered route opens the shared 36-state workspace",
+          "status": "passed",
+          "milliseconds": 11754
+        },
+        {
+          "name": "Route lenses and geographic controls preserve context through history",
+          "status": "passed",
+          "milliseconds": 5333
+        },
+        {
+          "name": "State routes preserve an explicit All India choice and reject ambiguous old boundaries",
+          "status": "passed",
+          "milliseconds": 5013
+        },
+        {
+          "name": "Search drafts reset when history reverses a just-submitted query",
+          "status": "passed",
+          "milliseconds": 2614
+        },
+        {
+          "name": "Evidence inspector retains original source, response and separate money stages",
+          "status": "failed",
+          "message": "source inspector exposes exact locator",
+          "url": "http://127.0.0.1:32943/#/welfare?iw_state=MP&iw_view=evidence&iw_q=Take+Home+Ration&iw_scope=all&iw_national=0&iw_record=welfare-research%3Arecord%3Amp-thr-beneficiary-reconciliation&iw_source=welfare-research%3Asource%3Amp-thr-audit",
+          "screenshot": "/tmp/investigation-browser-mobile-final/failure-5.png",
+          "milliseconds": 1391
+        },
+        {
+          "name": "Casebook pins, notes, saved views, JSON/Markdown and safe additive import",
+          "status": "passed",
+          "milliseconds": 3001
+        },
+        {
+          "name": "Pinned relationship export retains explicitly linked counter-evidence",
+          "status": "passed",
+          "milliseconds": 750
+        },
+        {
+          "name": "Capacity-limited imports reject the complete merge without losing local work",
+          "status": "passed",
+          "milliseconds": 6982
+        },
+        {
+          "name": "Invalid and empty URLs are explicit, reversible and preserve valid geography",
+          "status": "passed",
+          "milliseconds": 1919
+        },
+        {
+          "name": "Every dossier remains accessible with geographic context",
+          "status": "passed",
+          "milliseconds": 51654
+        },
+        {
+          "name": "Responsive map, evidence, casebook and dossier have no body overflow",
+          "status": "passed",
+          "milliseconds": 39576
+        },
+        {
+          "name": "No uncaught browser exceptions",
+          "status": "passed",
+          "milliseconds": 0
+        }
+      ],
+      "pageErrors": [],
+      "screenshots": [
+        "/tmp/investigation-browser-mobile-final/workspace-320.png",
+        "/tmp/investigation-browser-mobile-final/workspace-390.png",
+        "/tmp/investigation-browser-mobile-final/workspace-768.png",
+        "/tmp/investigation-browser-mobile-final/workspace-1440.png"
+      ],
+      "note": "Rendered workspace and casebook acceptance. Graph traversal/zoom/pan workflow is owned by its separate suite."
+    }
+  }
+}

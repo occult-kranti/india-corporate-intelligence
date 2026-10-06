@@ -8,6 +8,39 @@ The platform is as interested in what it cannot show as in what it can.
 
 ---
 
+## Geographic investigation workspace
+
+Every route now starts with a geographic India map linked to a relationship
+graph and an evidence inspector. Choose a place, change layers or dates, trace
+recorded paths, compare coverage, and save records with analyst notes in a local
+casebook. JSON and Markdown exports carry sources, financial stages, limitations
+and explicitly linked responses. **Dossier** opens each route's original tools.
+
+The workspace combines the retained education, water/food, public works,
+corporate, political, finance, welfare, NGO and security registers. New primary
+research adds **`/justice`** and **`/debt`**, and refreshes PM CARES accounts through
+FY2024-25. Current 36-unit map geometry distinguishes activity/programme coverage
+from headquarters and constituency associations. Historical ambiguous boundaries
+remain unassigned; missing records are not an absence of activity.
+
+The [supplied tender publication](https://tender.sarthaksidhant.com/) now connects
+to 156 reviewed buyer-cohort trails, source-bearing exports and nine reproducible
+corpus-audit findings. The analysis checks both original databases, join cardinality,
+deduplication, time coverage and field semantics. Follow the
+[analysis and review](docs/tender-investigation/ANALYSIS_PANEL.md); award values
+remain distinct from payments and delivery.
+
+This is a curated public-record corpus, not an exhaustive government database or
+live corruption-detection service. Allegations, charges, audit findings, court
+outcomes, write-offs and recoveries retain their distinct meanings. The graph
+uses verified record identities and bounded previews with complete ledgers.
+
+- [Architecture](docs/investigation/ARCHITECTURE.md)
+- [Two-round panel decisions](docs/investigation/PANEL.md)
+- [Source and data contracts](docs/investigation/DATA.md)
+- [Programme roadmap](docs/investigation/ROADMAP.md)
+- [Verification](docs/investigation/VERIFICATION.md)
+
 ## Why it is built this way
 
 Two projects merged here from opposite ends.
@@ -113,7 +146,7 @@ This is a curated historical evidence desk, not a live warning service or an
 exhaustive local census. Panel decisions and the expansion roadmap are in
 [`docs/water`](docs/water).
 
-37 routes, grouped as the sidebar groups them.
+40 routes, grouped by their original dossiers. The shared navigation rail and all-lenses menu keep map context across topic changes.
 
 **Markets** — `/` dashboard · `/map` the NSE/BSE map, with an index filter (`idx=nifty50|sensex30|sensex50`)
 · `/geograph` the geographic network · `/industries` sector concentration · `/conglomerates` the ten
@@ -135,6 +168,8 @@ compared to what? · `/competition` bidder counts · `/provenance` the ingestion
 this is built, with a live integrity check
 
 **Tools** — `/search` · `/political` donations, with the flow diagram · `/watchlist`
+
+**Investigation additions** — `/investigate` geographic workspace alias · `/justice` decisions and oversight · `/debt` corporate debt and recovery
 
 ### The energy power map and distribution funds
 
@@ -238,9 +273,16 @@ something structural rather than on the substance it claims to detect.
 
 ---
 
-## The map
+## Current and historical maps
 
-`src/data/india-geo.json` — 36 real state and UT boundary paths at `viewBox 0 0 612 696`.
+The shared workspace uses `src/components/investigation/assets/india-current36.json`
+with the current 36 administrative units, including separate Ladakh and merged
+Dadra and Nagar Haveli and Daman and Diu. Its source, licence and transformation
+are recorded in the adjacent asset README.
+
+The following describes the historical dossier map, `src/data/india-geo.json`,
+with 36 older boundary paths at `viewBox 0 0 612 696`. It must not be reused as
+current administrative geography.
 
 - Label anchors are the **pole of inaccessibility** of each state's largest sub-polygon — the interior
   point furthest from any edge. Bounding-box centres fall outside Gujarat, Kerala, Odisha and West
@@ -337,7 +379,7 @@ npm run test:public-works # comparison, graph and exact-source controls
 npm run test:public-works:model # verify actual local model provenance
 npm run test:public-works:browser # nine-sector workflow and responsive network
 npm run build          # tsc -b && vite build
-npm run smoke          # headless render of all 37 routes; serves dist itself
+npm run smoke          # 140 map/dossier loads across 70 route/query variants; serves dist itself
 npm run viewport       # the graph camera gate
 npm run check          # research, education, model integrity, build and browser regression gates
 npm run test:pages     # the page acceptance suites (explicit file list)

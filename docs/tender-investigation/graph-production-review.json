@@ -1,0 +1,34 @@
+{
+  "passed": true,
+  "completedAt": "2026-10-06T23:32:11.661217+00:00",
+  "command": "INVESTIGATION_DIST=dist-procurement node scripts/investigation/graph-browser.mjs",
+  "dist": "dist-procurement",
+  "checks": 15,
+  "uncaughtBrowserErrors": [],
+  "indexSha256": "3534a5ed0ab199fa7c56cc0e1c9139638e44aab31173477acf6822676e03e045",
+  "entryAsset": "assets/index-Drc0P6Ym.js",
+  "entryAssetBytes": 11532942,
+  "entryAssetSha256": "0e738bcdfdd28d3413da858ba230c00df270f1fe91f6266a88543fcf339545b5",
+  "screenshots": [
+    {
+      "path": "docs/investigation/screenshots/map-graph-desktop.png",
+      "bytes": 253963,
+      "sha256": "8e034d9b10702d972d456b05df8d65897e865998fe83e620effbf9f54a73e8bf"
+    },
+    {
+      "path": "docs/investigation/screenshots/graph-mobile-focus.png",
+      "bytes": 124475,
+      "sha256": "1dce2c932c875c7e67551cebc21b16cd769409d88a081a530f9c583a7a9a752a"
+    },
+    {
+      "path": "docs/investigation/screenshots/map-mobile-ladakh.png",
+      "bytes": 70627,
+      "sha256": "5a4278b0536f3477a4c11473fae55d01aa444d8f062bc11436f411760169f36b"
+    }
+  ],
+  "visualReview": {
+    "desktop": "36-unit map and bounded graph fit their panes. Drawn/total counts, preview limits, missing-location counts, tier legend and full ledger alternative are visible. No observed clipping of the overview.",
+    "mobile": "Requested focus centered and labelled; distinct namespace identities remain separate. Edge direction/type labels and full ledger link visible. Browser assertions confirm no horizontal page overflow at 390 px.",
+    "limits": "Overview labels are intentionally suppressed at this density, with the limitation shown and full names available via focus and ledger. One run of 15 acceptance checks on this candidate; previous-release stability runs are separate."
+  }
+}

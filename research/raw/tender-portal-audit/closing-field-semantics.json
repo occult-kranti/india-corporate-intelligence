@@ -1,0 +1,384 @@
+{
+  "sourceHashes": {
+    "aoc_tenders.db": "ec8ef7711a17b7cae9e0414c2403b119a0a31c4dec49ed7055b38ec0df5f7586",
+    "tenders_vps.db": "b1994cfb6dd2d5da9ed1d9ac8d6bbc7083178f155e92a65628e87a38e4c64d01"
+  },
+  "scope": "Exact listing-only portal+buyer+tender_id+reference keys unique on both sides; no detail-reference fallback; not a random or representative sample.",
+  "queries": {
+    "field_equality": {
+      "sql": "WITH nk AS(SELECT portal,buyer,tender_id,reference,count(*) AS n FROM notices WHERE nullif(trim(tender_id),'') IS NOT NULL AND nullif(trim(buyer),'') IS NOT NULL AND nullif(trim(reference),'') IS NOT NULL GROUP BY ALL),ak AS(SELECT portal,buyer,tender_id,reference,count(*) AS n FROM awards WHERE nullif(trim(tender_id),'') IS NOT NULL AND nullif(trim(buyer),'') IS NOT NULL AND nullif(trim(reference),'') IS NOT NULL GROUP BY ALL),matched AS(SELECT n.*,a.internal_id AS award_internal_id,a.aoc_at,a.closing_at AS award_closing,a.scraped_at AS award_scraped,a.bids_raw,a.value_raw,a.value_amount,a.document_url AS award_document_url,ak.n AS award_versions FROM notices n JOIN nk USING(portal,buyer,tender_id,reference) JOIN awards a USING(portal,buyer,tender_id,reference) JOIN ak USING(portal,buyer,tender_id,reference) WHERE nk.n=1 AND ak.n=1) SELECT count(*) AS pairs,count(*) FILTER(WHERE closing_at=award_closing) AS identical_closing_timestamp,count(*) FILTER(WHERE closing_at::DATE=award_closing::DATE) AS identical_closing_day,count(*) FILTER(WHERE award_closing=published_at) AS award_closing_equals_notice_publication,count(*) FILTER(WHERE award_closing::TIME=TIME '00:00:00') AS award_closing_midnight,min(published_at) AS earliest_notice,max(published_at) AS latest_notice FROM matched",
+      "rows": [
+        {
+          "pairs": 1714,
+          "identical_closing_timestamp": 0,
+          "identical_closing_day": 0,
+          "award_closing_equals_notice_publication": 1709,
+          "award_closing_midnight": 0,
+          "earliest_notice": "2013-12-02 17:00:00",
+          "latest_notice": "2018-12-31 12:35:00"
+        }
+      ],
+      "seconds": 5.180555105209351
+    },
+    "by_buyer": {
+      "sql": "WITH nk AS(SELECT portal,buyer,tender_id,reference,count(*) AS n FROM notices WHERE nullif(trim(tender_id),'') IS NOT NULL AND nullif(trim(buyer),'') IS NOT NULL AND nullif(trim(reference),'') IS NOT NULL GROUP BY ALL),ak AS(SELECT portal,buyer,tender_id,reference,count(*) AS n FROM awards WHERE nullif(trim(tender_id),'') IS NOT NULL AND nullif(trim(buyer),'') IS NOT NULL AND nullif(trim(reference),'') IS NOT NULL GROUP BY ALL),matched AS(SELECT n.*,a.internal_id AS award_internal_id,a.aoc_at,a.closing_at AS award_closing,a.scraped_at AS award_scraped,a.bids_raw,a.value_raw,a.value_amount,a.document_url AS award_document_url,ak.n AS award_versions FROM notices n JOIN nk USING(portal,buyer,tender_id,reference) JOIN awards a USING(portal,buyer,tender_id,reference) JOIN ak USING(portal,buyer,tender_id,reference) WHERE nk.n=1 AND ak.n=1) SELECT portal,buyer,count(*) AS pairs,count(*) FILTER(WHERE award_closing=published_at) AS equals_publication,count(*) FILTER(WHERE award_closing=closing_at) AS equals_closing,min(published_at) AS earliest_notice,max(published_at) AS latest_notice FROM matched GROUP BY ALL ORDER BY pairs DESC,portal,buyer",
+      "rows": [
+        {
+          "portal": "central",
+          "buyer": "Neyveli Lignite Corporation Limited",
+          "pairs": 1632,
+          "equals_publication": 1627,
+          "equals_closing": 0,
+          "earliest_notice": "2014-05-20 14:40:00",
+          "latest_notice": "2018-12-31 12:35:00"
+        },
+        {
+          "portal": "central",
+          "buyer": "MMTC Limited",
+          "pairs": 9,
+          "equals_publication": 9,
+          "equals_closing": 0,
+          "earliest_notice": "2013-12-31 12:30:00",
+          "latest_notice": "2018-03-01 18:20:00"
+        },
+        {
+          "portal": "central",
+          "buyer": "Banaras Hindu University",
+          "pairs": 8,
+          "equals_publication": 8,
+          "equals_closing": 0,
+          "earliest_notice": "2018-06-18 15:00:00",
+          "latest_notice": "2018-08-01 13:20:00"
+        },
+        {
+          "portal": "central",
+          "buyer": "MOIL Limited",
+          "pairs": 8,
+          "equals_publication": 8,
+          "equals_closing": 0,
+          "earliest_notice": "2014-08-27 13:00:00",
+          "latest_notice": "2018-07-12 17:00:00"
+        },
+        {
+          "portal": "central",
+          "buyer": "National Council for Cement and Building Materials",
+          "pairs": 7,
+          "equals_publication": 7,
+          "equals_closing": 0,
+          "earliest_notice": "2016-02-10 17:45:00",
+          "latest_notice": "2018-03-28 17:30:00"
+        },
+        {
+          "portal": "central",
+          "buyer": "Central Water and Power Research Station",
+          "pairs": 6,
+          "equals_publication": 6,
+          "equals_closing": 0,
+          "earliest_notice": "2017-10-27 18:30:00",
+          "latest_notice": "2018-11-12 18:00:00"
+        },
+        {
+          "portal": "central",
+          "buyer": "Sikkim University",
+          "pairs": 6,
+          "equals_publication": 6,
+          "equals_closing": 0,
+          "earliest_notice": "2016-08-12 15:05:00",
+          "latest_notice": "2018-08-27 17:30:00"
+        },
+        {
+          "portal": "central",
+          "buyer": "Indian Institute of Management Ahmedabad",
+          "pairs": 4,
+          "equals_publication": 4,
+          "equals_closing": 0,
+          "earliest_notice": "2017-01-09 11:00:00",
+          "latest_notice": "2018-09-26 16:30:00"
+        },
+        {
+          "portal": "central",
+          "buyer": "Central Pollution Control Board",
+          "pairs": 3,
+          "equals_publication": 3,
+          "equals_closing": 0,
+          "earliest_notice": "2017-07-25 12:05:00",
+          "latest_notice": "2017-08-03 15:50:00"
+        },
+        {
+          "portal": "central",
+          "buyer": "Institute of Secretariat Training and Management",
+          "pairs": 3,
+          "equals_publication": 3,
+          "equals_closing": 0,
+          "earliest_notice": "2017-12-21 17:15:00",
+          "latest_notice": "2018-08-23 16:30:00"
+        },
+        {
+          "portal": "central",
+          "buyer": "Amaravati Development Corporation Limited",
+          "pairs": 2,
+          "equals_publication": 2,
+          "equals_closing": 0,
+          "earliest_notice": "2017-07-31 15:00:00",
+          "latest_notice": "2017-07-31 15:00:00"
+        },
+        {
+          "portal": "central",
+          "buyer": "Chittaranjan National Cancer Institute - Kolkata",
+          "pairs": 2,
+          "equals_publication": 2,
+          "equals_closing": 0,
+          "earliest_notice": "2018-02-19 15:20:00",
+          "latest_notice": "2018-04-25 14:00:00"
+        },
+        {
+          "portal": "central",
+          "buyer": "Delhi Milk Scheme",
+          "pairs": 2,
+          "equals_publication": 2,
+          "equals_closing": 0,
+          "earliest_notice": "2014-01-28 16:00:00",
+          "latest_notice": "2014-03-21 13:00:00"
+        },
+        {
+          "portal": "central",
+          "buyer": "Integrated Costal Marine Area Managment",
+          "pairs": 2,
+          "equals_publication": 2,
+          "equals_closing": 0,
+          "earliest_notice": "2014-06-24 10:00:00",
+          "latest_notice": "2014-09-16 10:00:00"
+        },
+        {
+          "portal": "central",
+          "buyer": "National Buildings Construction Corporation Limited",
+          "pairs": 2,
+          "equals_publication": 2,
+          "equals_closing": 0,
+          "earliest_notice": "2014-05-09 13:00:00",
+          "latest_notice": "2014-07-18 13:00:00"
+        },
+        {
+          "portal": "central",
+          "buyer": "National Institute of Wind Energy (NIWE)",
+          "pairs": 2,
+          "equals_publication": 2,
+          "equals_closing": 0,
+          "earliest_notice": "2018-02-21 18:25:00",
+          "latest_notice": "2018-03-28 17:40:00"
+        },
+        {
+          "portal": "central",
+          "buyer": "North Eastern Coalfields, Margherita",
+          "pairs": 2,
+          "equals_publication": 2,
+          "equals_closing": 0,
+          "earliest_notice": "2018-01-12 12:00:00",
+          "latest_notice": "2018-01-30 12:00:00"
+        },
+        {
+          "portal": "central",
+          "buyer": "Spices Board India",
+          "pairs": 2,
+          "equals_publication": 2,
+          "equals_closing": 0,
+          "earliest_notice": "2013-12-05 13:00:00",
+          "latest_notice": "2014-01-06 17:00:00"
+        },
+        {
+          "portal": "central",
+          "buyer": "The Singareni Collieries Company Limited",
+          "pairs": 2,
+          "equals_publication": 2,
+          "equals_closing": 0,
+          "earliest_notice": "2018-02-28 18:55:00",
+          "latest_notice": "2018-04-11 18:55:00"
+        },
+        {
+          "portal": "central",
+          "buyer": "Chennai Port Trust",
+          "pairs": 1,
+          "equals_publication": 1,
+          "equals_closing": 0,
+          "earliest_notice": "2018-02-07 17:00:00",
+          "latest_notice": "2018-02-07 17:00:00"
+        },
+        {
+          "portal": "central",
+          "buyer": "Container Corporation of India Limited",
+          "pairs": 1,
+          "equals_publication": 1,
+          "equals_closing": 0,
+          "earliest_notice": "2013-12-02 17:00:00",
+          "latest_notice": "2013-12-02 17:00:00"
+        },
+        {
+          "portal": "central",
+          "buyer": "Indian Institute of Packaging",
+          "pairs": 1,
+          "equals_publication": 1,
+          "equals_closing": 0,
+          "earliest_notice": "2018-06-16 09:00:00",
+          "latest_notice": "2018-06-16 09:00:00"
+        },
+        {
+          "portal": "central",
+          "buyer": "Indian Institute of Science Education and Research - Pune",
+          "pairs": 1,
+          "equals_publication": 1,
+          "equals_closing": 0,
+          "earliest_notice": "2018-06-01 17:00:00",
+          "latest_notice": "2018-06-01 17:00:00"
+        },
+        {
+          "portal": "central",
+          "buyer": "Indian Institute of Technology Jammu",
+          "pairs": 1,
+          "equals_publication": 1,
+          "equals_closing": 0,
+          "earliest_notice": "2018-07-19 16:00:00",
+          "latest_notice": "2018-07-19 16:00:00"
+        },
+        {
+          "portal": "central",
+          "buyer": "Institute of Pesticides Formulation Technology",
+          "pairs": 1,
+          "equals_publication": 1,
+          "equals_closing": 0,
+          "earliest_notice": "2017-10-16 17:00:00",
+          "latest_notice": "2017-10-16 17:00:00"
+        },
+        {
+          "portal": "central",
+          "buyer": "Karnataka State Office",
+          "pairs": 1,
+          "equals_publication": 1,
+          "equals_closing": 0,
+          "earliest_notice": "2017-07-13 18:00:00",
+          "latest_notice": "2017-07-13 18:00:00"
+        },
+        {
+          "portal": "central",
+          "buyer": "Kendriya Vidyalaya Sangathan",
+          "pairs": 1,
+          "equals_publication": 1,
+          "equals_closing": 0,
+          "earliest_notice": "2018-09-14 14:00:00",
+          "latest_notice": "2018-09-14 14:00:00"
+        },
+        {
+          "portal": "central",
+          "buyer": "National Institute of Hydrology - Roorkee",
+          "pairs": 1,
+          "equals_publication": 1,
+          "equals_closing": 0,
+          "earliest_notice": "2017-07-05 11:00:00",
+          "latest_notice": "2017-07-05 11:00:00"
+        },
+        {
+          "portal": "central",
+          "buyer": "Rural Electrification Corporation Limited",
+          "pairs": 1,
+          "equals_publication": 1,
+          "equals_closing": 0,
+          "earliest_notice": "2014-07-25 11:00:00",
+          "latest_notice": "2014-07-25 11:00:00"
+        }
+      ],
+      "seconds": 4.545132398605347
+    },
+    "by_year": {
+      "sql": "WITH nk AS(SELECT portal,buyer,tender_id,reference,count(*) AS n FROM notices WHERE nullif(trim(tender_id),'') IS NOT NULL AND nullif(trim(buyer),'') IS NOT NULL AND nullif(trim(reference),'') IS NOT NULL GROUP BY ALL),ak AS(SELECT portal,buyer,tender_id,reference,count(*) AS n FROM awards WHERE nullif(trim(tender_id),'') IS NOT NULL AND nullif(trim(buyer),'') IS NOT NULL AND nullif(trim(reference),'') IS NOT NULL GROUP BY ALL),matched AS(SELECT n.*,a.internal_id AS award_internal_id,a.aoc_at,a.closing_at AS award_closing,a.scraped_at AS award_scraped,a.bids_raw,a.value_raw,a.value_amount,a.document_url AS award_document_url,ak.n AS award_versions FROM notices n JOIN nk USING(portal,buyer,tender_id,reference) JOIN awards a USING(portal,buyer,tender_id,reference) JOIN ak USING(portal,buyer,tender_id,reference) WHERE nk.n=1 AND ak.n=1) SELECT portal,year(published_at) AS notice_year,count(*) AS pairs,count(*) FILTER(WHERE award_closing=published_at) AS equals_publication FROM matched GROUP BY ALL ORDER BY ALL",
+      "rows": [
+        {
+          "portal": "central",
+          "notice_year": 2013,
+          "pairs": 3,
+          "equals_publication": 3
+        },
+        {
+          "portal": "central",
+          "notice_year": 2014,
+          "pairs": 199,
+          "equals_publication": 194
+        },
+        {
+          "portal": "central",
+          "notice_year": 2015,
+          "pairs": 462,
+          "equals_publication": 462
+        },
+        {
+          "portal": "central",
+          "notice_year": 2016,
+          "pairs": 286,
+          "equals_publication": 286
+        },
+        {
+          "portal": "central",
+          "notice_year": 2017,
+          "pairs": 278,
+          "equals_publication": 278
+        },
+        {
+          "portal": "central",
+          "notice_year": 2018,
+          "pairs": 486,
+          "equals_publication": 486
+        }
+      ],
+      "seconds": 4.57806396484375
+    },
+    "small_examples": {
+      "sql": "WITH nk AS(SELECT portal,buyer,tender_id,reference,count(*) AS n FROM notices WHERE nullif(trim(tender_id),'') IS NOT NULL AND nullif(trim(buyer),'') IS NOT NULL AND nullif(trim(reference),'') IS NOT NULL GROUP BY ALL),ak AS(SELECT portal,buyer,tender_id,reference,count(*) AS n FROM awards WHERE nullif(trim(tender_id),'') IS NOT NULL AND nullif(trim(buyer),'') IS NOT NULL AND nullif(trim(reference),'') IS NOT NULL GROUP BY ALL),matched AS(SELECT n.*,a.internal_id AS award_internal_id,a.aoc_at,a.closing_at AS award_closing,a.scraped_at AS award_scraped,a.bids_raw,a.value_raw,a.value_amount,a.document_url AS award_document_url,ak.n AS award_versions FROM notices n JOIN nk USING(portal,buyer,tender_id,reference) JOIN awards a USING(portal,buyer,tender_id,reference) JOIN ak USING(portal,buyer,tender_id,reference) WHERE nk.n=1 AND ak.n=1) SELECT internal_id AS notice_internal_id,award_internal_id,portal,buyer,tender_id,reference,title,published_at,closing_at AS notice_closing,award_closing,aoc_at,document_url AS notice_document_url,award_document_url FROM matched WHERE award_closing=published_at ORDER BY published_at DESC,tender_id LIMIT 3",
+      "rows": [
+        {
+          "notice_internal_id": "5757417",
+          "award_internal_id": "d7c0ee39669c58c2ddd7f10b47c0db0f",
+          "portal": "central",
+          "buyer": "Neyveli Lignite Corporation Limited",
+          "tender_id": "1819003987",
+          "reference": "ENQ/18-19/003987/BP26(03)",
+          "title": "CONSUMABLES FOR BP",
+          "published_at": "2018-12-31 12:35:00",
+          "notice_closing": "2019-01-02 15:00:00",
+          "award_closing": "2018-12-31 12:35:00",
+          "aoc_at": "2019-01-07 00:00:00",
+          "notice_document_url": null,
+          "award_document_url": ""
+        },
+        {
+          "notice_internal_id": "5743092",
+          "award_internal_id": "f515c75bafceb4fbc78e6fa7929edc37",
+          "portal": "central",
+          "buyer": "Neyveli Lignite Corporation Limited",
+          "tender_id": "1819003881",
+          "reference": "ENQ/18-19/003881/MM11(02)",
+          "title": "METALS AND ELECTRODES",
+          "published_at": "2018-12-21 17:08:00",
+          "notice_closing": "2019-01-04 15:00:00",
+          "award_closing": "2018-12-21 17:08:00",
+          "aoc_at": "2019-01-10 00:00:00",
+          "notice_document_url": null,
+          "award_document_url": ""
+        },
+        {
+          "notice_internal_id": "5706096",
+          "award_internal_id": "80b13fbad359482230a18f0c40e89662",
+          "portal": "central",
+          "buyer": "Neyveli Lignite Corporation Limited",
+          "tender_id": "1819003648",
+          "reference": "ENQ/18-19/003648/MM17(02)",
+          "title": "RUBBER",
+          "published_at": "2018-12-04 17:54:00",
+          "notice_closing": "2018-12-19 15:00:00",
+          "award_closing": "2018-12-04 17:54:00",
+          "aoc_at": "2019-01-03 00:00:00",
+          "notice_document_url": "http://eproc.nlcindia.com/ShowEnquiry.pdf?enqNo=1819003648",
+          "award_document_url": null
+        }
+      ],
+      "seconds": 4.222502946853638
+    }
+  }
+}

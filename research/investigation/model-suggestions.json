@@ -1,0 +1,250 @@
+{
+  "schemaVersion": 1,
+  "purpose": "research-discovery-only",
+  "automaticallyVerified": false,
+  "limitation": "Cosine similarity ranks public researcher-authored source summaries. It is not factual confidence, an identity match, a corruption verdict, a legal finding, an award-influence finding, or proof of misconduct. No model-generated claim or risk classification is promoted to the evidence registry.",
+  "model": {
+    "id": "sentence-transformers/all-MiniLM-L6-v2",
+    "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+    "license": "Apache-2.0",
+    "modelCard": "https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/blob/1110a243fdf4706b3f48f1d95db1a4f5529b4d41/README.md",
+    "format": "ONNX uint8 AVX2",
+    "dimensions": 384,
+    "maxTokens": 256,
+    "pooling": "attention-mask-weighted mean, L2 normalized",
+    "assetSha256": {
+      "onnx/model_quint8_avx2.onnx": "b941bf19f1f1283680f449fa6a7336bb5600bdcd5f84d10ddc5cd72218a0fd21",
+      "tokenizer.json": "be50c3628f2bf5bb5e3a7f17b1f74611b2561a3a27eeab05e5aa30f411572037"
+    }
+  },
+  "execution": {
+    "provider": "CPUExecutionProvider",
+    "python": "3.12.14",
+    "onnxruntime": "1.23.2",
+    "tokenizers": "0.22.1",
+    "numpy": "2.3.4",
+    "inferenceSeconds": 1.097,
+    "publicTextUploadedToModelService": false
+  },
+  "corpusSha256": "a293af3ed27759f35c7e612302f5fec86999f1617725460124840438a5226e20",
+  "documentCount": 35,
+  "smokeCheck": {
+    "passed": true,
+    "relatedSimilarity": 0.808023,
+    "unrelatedSimilarity": 0.01586,
+    "meaning": "Pipeline wiring check only; not an evidence or model accuracy evaluation"
+  },
+  "queries": {
+    "pmcares-governance": {
+      "text": "PM CARES public charitable trust governance trustees audit receipts donations expenditure disclosure and Right to Information legal status",
+      "matches": [
+        {
+          "documentId": "finance:pm-sc",
+          "title": "Centre for Public Interest Litigation v Union of India, WP(C)546/2020",
+          "url": "https://api.sci.gov.in/supremecourt/2020/12392/12392_2020_35_1501_23456_Judgement_18-Aug-2020.pdf",
+          "similarity": 0.66985
+        },
+        {
+          "documentId": "finance:pm-fy25",
+          "title": "PM CARES audited Receipts and Payments FY2024-25",
+          "url": "https://pmcares.gov.in/assets/donation/pdf/Audited_Statement_2024_25.pdf",
+          "similarity": 0.636866
+        },
+        {
+          "documentId": "finance:pm-deed",
+          "title": "PM CARES registered trust deed",
+          "url": "https://pmcares.gov.in/assets/donation/pdf/Trust_Deed.pdf",
+          "similarity": 0.623821
+        },
+        {
+          "documentId": "finance:pm-fy24",
+          "title": "PM CARES audited Receipts and Payments FY2023-24",
+          "url": "https://pmcares.gov.in/assets/donation/pdf/Audited_Statement_2023_24.pdf",
+          "similarity": 0.617029
+        },
+        {
+          "documentId": "finance:pm-about",
+          "title": "PM CARES current About page and account index",
+          "url": "https://pmcares.gov.in/en/web/page/about_us",
+          "similarity": 0.542554
+        }
+      ]
+    },
+    "debt-accounting": {
+      "text": "Bank loan write off versus loan waiver recoveries corporate insolvency resolution settlement haircut RBI accounting public funds financial statement evidence",
+      "matches": [
+        {
+          "documentId": "finance:writeoffs-q120",
+          "title": "Lok Sabha Q120: Waiver of loans",
+          "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU120_rCBUdx.pdf",
+          "similarity": 0.602735
+        },
+        {
+          "documentId": "finance:rbi-2023",
+          "title": "Framework for Compromise Settlements and Technical Write-offs",
+          "url": "https://www.rbi.org.in/Scripts/NotificationUser.aspx?Id=12513",
+          "similarity": 0.560967
+        },
+        {
+          "documentId": "welfare:svanidhi-2026",
+          "title": "Lok Sabha AU695: loans sanctioned and disbursed under PM-SVANidhi",
+          "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU695_v6Zr1E.pdf",
+          "similarity": 0.506312
+        },
+        {
+          "documentId": "finance:ibbi-named",
+          "title": "Corporate insolvency resolutions as at 30 September 2022",
+          "url": "https://ibbi.gov.in/uploads/whatsnew/5c568c1287a3b7fc7ed25827acb9e3f9.pdf",
+          "similarity": 0.501677
+        },
+        {
+          "documentId": "finance:ibbi-june26",
+          "title": "Insolvency and Bankruptcy News, April–June 2026",
+          "url": "https://ibbi.gov.in/uploads/publication/2a6b0d98890fdf684bb77baa10b131bc.pdf",
+          "similarity": 0.500711
+        }
+      ]
+    },
+    "court-procedure": {
+      "text": "Judicial proceedings FIR investigation arrest bail discharge conviction acquittal appeal allegations exact procedural status dated court orders",
+      "matches": [
+        {
+          "documentId": "justice:src-kejriwal-arrest-review",
+          "title": "Arvind Kejriwal arrest review and interim bail — 2024 INSC 512",
+          "url": "https://api.sci.gov.in/supremecourt/2024/16350/16350_2024_2_1501_53587_Judgement_12-Jul-2024.pdf",
+          "similarity": 0.56198
+        },
+        {
+          "documentId": "justice:src-kerala-borrowing-order",
+          "title": "Kerala borrowing ceiling: interim relief and reference — 2024 INSC 253",
+          "url": "https://api.sci.gov.in/supremecourt/2023/51385/51385_2023_4_1501_51772_Judgement_01-Apr-2024.pdf",
+          "similarity": 0.461778
+        },
+        {
+          "documentId": "justice:src-cag-proceedings-parliament",
+          "title": "Parliament reply: proceedings based on CAG findings — Lok Sabha Q.2191",
+          "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU2191_FwhMf9.pdf",
+          "similarity": 0.453946
+        },
+        {
+          "documentId": "justice:src-sbi-disclosure-order",
+          "title": "SBI disclosure extension refused — 2024 INSC 195",
+          "url": "https://api.sci.gov.in/supremecourt/2024/10382/10382_2024_1_301_51365_Judgement_11-Mar-2024.pdf",
+          "similarity": 0.45033
+        },
+        {
+          "documentId": "justice:src-milestone-order",
+          "title": "SEBI final order: Milestone/Rehvar transactions — 31672/2025-26",
+          "url": "https://www.sebi.gov.in/sebi_data/attachdocs/sep-2025/order_matter_milestone_rehvar.pdf",
+          "similarity": 0.411849
+        }
+      ]
+    },
+    "judicial-appointments": {
+      "text": "Judges appointment constitutional offices collegium recommendations notification tenure court roster separate judge identity and adjudication",
+      "matches": [
+        {
+          "documentId": "justice:src-sita-soren-immunity",
+          "title": "Sita Soren legislative-immunity reference — 2024 INSC 161",
+          "url": "https://api.sci.gov.in/supremecourt/2014/10177/10177_2014_1_1501_51211_Judgement_04-Mar-2024.pdf",
+          "similarity": 0.395628
+        },
+        {
+          "documentId": "justice:src-kerala-borrowing-order",
+          "title": "Kerala borrowing ceiling: interim relief and reference — 2024 INSC 253",
+          "url": "https://api.sci.gov.in/supremecourt/2023/51385/51385_2023_4_1501_51772_Judgement_01-Apr-2024.pdf",
+          "similarity": 0.361807
+        },
+        {
+          "documentId": "justice:src-cag-proceedings-parliament",
+          "title": "Parliament reply: proceedings based on CAG findings — Lok Sabha Q.2191",
+          "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU2191_FwhMf9.pdf",
+          "similarity": 0.346585
+        },
+        {
+          "documentId": "finance:essar-sc-summary",
+          "title": "IBBI summary of Supreme Court Essar Steel judgment",
+          "url": "https://ibbi.gov.in/uploads/order/120420f392f6245a1f0be0adb41102d9.pdf",
+          "similarity": 0.333536
+        },
+        {
+          "documentId": "justice:src-kejriwal-arrest-review",
+          "title": "Arvind Kejriwal arrest review and interim bail — 2024 INSC 512",
+          "url": "https://api.sci.gov.in/supremecourt/2024/16350/16350_2024_2_1501_53587_Judgement_12-Jul-2024.pdf",
+          "similarity": 0.284957
+        }
+      ]
+    },
+    "welfare-delivery": {
+      "text": "Government welfare cash transfer scheme announcement budget appropriation eligibility sanction payment delivery outcomes audit response India",
+      "matches": [
+        {
+          "documentId": "finance:pm-fy25",
+          "title": "PM CARES audited Receipts and Payments FY2024-25",
+          "url": "https://pmcares.gov.in/assets/donation/pdf/Audited_Statement_2024_25.pdf",
+          "similarity": 0.562682
+        },
+        {
+          "documentId": "welfare:nsap-audit",
+          "title": "CAG Report 10/2023: National Social Assistance Programme",
+          "url": "https://cag.gov.in/uploads/download_audit_report/2023/Report-No.-10-of-2023_NSAP_English_PDF-A-064d229f832dad7.55068084.pdf",
+          "similarity": 0.561462
+        },
+        {
+          "documentId": "welfare:mission-shakti-2026",
+          "title": "Lok Sabha AU969: Mission Shakti implementation and releases",
+          "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU969_u3VK7M.pdf",
+          "similarity": 0.54368
+        },
+        {
+          "documentId": "welfare:jharkhand-ekalyan-audit",
+          "title": "CAG Jharkhand Report 3/2023: Direct Benefit Transfer, Chapter 6 e-Kalyan",
+          "url": "https://cag.gov.in/uploads/download_audit_report/2023/10-Chapter-6-065841f5b99d0d6.80980413.pdf",
+          "similarity": 0.538539
+        },
+        {
+          "documentId": "welfare:svanidhi-2026",
+          "title": "Lok Sabha AU695: loans sanctioned and disbursed under PM-SVANidhi",
+          "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU695_v6Zr1E.pdf",
+          "similarity": 0.53745
+        }
+      ]
+    },
+    "exact-connections": {
+      "text": "Source documented canonical entity corporate ownership official role tenure court case party funding connections historical dates and counter evidence no causal inference",
+      "matches": [
+        {
+          "documentId": "justice:src-cag-proceedings-parliament",
+          "title": "Parliament reply: proceedings based on CAG findings — Lok Sabha Q.2191",
+          "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU2191_FwhMf9.pdf",
+          "similarity": 0.316961
+        },
+        {
+          "documentId": "finance:pm-sc",
+          "title": "Centre for Public Interest Litigation v Union of India, WP(C)546/2020",
+          "url": "https://api.sci.gov.in/supremecourt/2020/12392/12392_2020_35_1501_23456_Judgement_18-Aug-2020.pdf",
+          "similarity": 0.314946
+        },
+        {
+          "documentId": "justice:src-sita-soren-immunity",
+          "title": "Sita Soren legislative-immunity reference — 2024 INSC 161",
+          "url": "https://api.sci.gov.in/supremecourt/2014/10177/10177_2014_1_1501_51211_Judgement_04-Mar-2024.pdf",
+          "similarity": 0.302735
+        },
+        {
+          "documentId": "justice:src-electoral-bonds-sit-order",
+          "title": "Common Cause electoral-bonds investigation petitions — 2 August 2024",
+          "url": "https://api.sci.gov.in/supremecourt/2024/17622/17622_2024_1_30_54391_Order_02-Aug-2024.pdf",
+          "similarity": 0.30148
+        },
+        {
+          "documentId": "finance:pm-about",
+          "title": "PM CARES current About page and account index",
+          "url": "https://pmcares.gov.in/en/web/page/about_us",
+          "similarity": 0.299927
+        }
+      ]
+    }
+  },
+  "researchDomain": "cross-domain-investigation"
+}

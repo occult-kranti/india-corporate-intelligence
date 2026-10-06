@@ -1,0 +1,1089 @@
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" type="image/png" sizes="16x16" href="/IRCTC/resources/admin/assets/images/favicon.png">
+    <title> || IRCTC ||</title>
+    <link href="/IRCTC/resources/admin/assets/libs/flot/css/float-chart.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/IRCTC/resources/admin/assets/libs/select2/dist/css/select2.min.css">
+    <link href="/IRCTC/resources/admin/dist/css/style.min.css" rel="stylesheet">
+    <link href="/IRCTC/resources/admin/dist/css/admin.css" rel="stylesheet">
+    <link rel="stylesheet" href="/IRCTC/resources/admin/assets/libs/select2/dist/css/jquery-ui.css">
+    <link rel="stylesheet" href="/IRCTC/resources/admin/assets/libs/select2/dist/css/font-awesome.min.css">
+    <style>
+        .box {
+            display: none;
+        }
+    </style>
+    <style type="text/css">
+        .btn-teext {
+            background: #1f262d;
+            padding: 10px;
+            color: #fff;
+            cursor: pointer;
+        }
+        td {
+            padding-left: 5px;
+            padding-top: 2px;
+        }
+        .active-tender-flag {
+            position: absolute;
+            background: #0000005e;
+            content: '';
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+        /* Modal styling */
+        .modal-content {
+            border-radius: 5px;
+        }
+        .modal-header {
+            background-color: #007bff;
+            color: white;
+        }
+        .modal-body a {
+            display: block;
+            margin-bottom: 10px;
+            color: #007bff;
+            text-decoration: none;
+        }
+        .modal-body a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page-wrapper">
+        <div class="container-fluid" style="background-color: white;">
+            <div class="inner-page-header active-tender-page-header" style="position: fixed; background: #0000005e; width: 100%; height: 27%; top: 0; left: 0; margin-top: 64px;">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12 text-center" style="margin-top: 40px;">
+                            <h2 class="tagline">Active Tender</h2>
+                            <p><a href="www.irctc.com">Home</a> | Active Tender</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row human-resource" style="max-height: auto; margin-top: 280px; margin-left: -288px;">
+                <div>
+                    <button type="button" id="btn" class="btn btn-success">Export to Excel</button>
+                    <br>
+                </div>
+                <table id="table" border="2" width="100%" style='font-family:"Courier New", Courier, monospace; font-size:-10%'>
+                    <thead>
+                        <tr style="size: 52px; background-color: lightgoldenrodyellow;">
+                            <th style="font-size: 20px; background-color: lightgoldenrodyellow; text-align: center;" width="2%"><b>Tender Id</b></th>
+                              <th style="font-size: 20px;background-color:lightgoldenrodyellow;text-align:center;" width="2%"><b>Tender No.</b></th>
+                            <th style="font-size: 20px; background-color: lightgoldenrodyellow; text-align: center;" width="8%"><b>Title</b></th>
+                            <th style="font-size: 20px; background-color: lightgoldenrodyellow; text-align: center;" width="1%">Item name</th>
+                            <th style="font-size: 20px; background-color: lightgoldenrodyellow; text-align: center;" width="1%">Zone</th>
+                            <th style="font-size: 20px; background-color: lightgoldenrodyellow; text-align: center;" width="1%">Last Date</th>
+                            <th style="font-size: 20px; background-color: lightgoldenrodyellow; text-align: center;" width="1%">Language</th>
+                            <th style="font-size: 20px; background-color: lightgoldenrodyellow; text-align: center;" width="1%">RFQ</th>
+                            <th style="font-size: 20px; background-color: lightgoldenrodyellow; text-align: center;" width="1%">Corrigendum</th>
+                            <th style="font-size: 20px; background-color: lightgoldenrodyellow; text-align: center;" width="1%">VC Link</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                        
+                        <tr style="font-size: 20px; background-color: lightblue; text-align: center;">
+                            <td>LT/2026/22446</td>
+                             <td>2026/IRCTC/WCB/06/M3/ OCTOBER/02</td>
+                            <td>LIMITED E-TENDER BID DOCUMENT FOR PROVISION OF ONBOARD
+CATERING SERVICES IN MAIL / EXPRESS / SUPER FAST TRAINS HAVING
+PANTRY CAR / MINI PANTRIES IN PARTIAL / COMPLETE UNBUNDLING
+MODEL FOR A PERIOD OF 06 MONTHS OR FINALIZATION &
+COMMENCEMENT OF LONG-TERM TENDERS WHICHEVER IS EARLIER</td>
+                            <td>On Board Services</td>
+                            <td>Corporate</td>
+                            <td>07-OCT-2026</td>
+                            <td>English</td>
+                            <td><a href="/IRCTC/downloadUploadTenderFile?fileName=uploadTender-8323.pdf">uploadTender-8323.pdf</a></td>
+                            <td>
+                                
+                                <a href="#" data-toggle="modal" data-target="#corrigendumModal1">View Corrigendum</a>
+                                <!-- Modal for Corrigendum -->
+                                <div class="modal fade" id="corrigendumModal1" tabindex="-1" role="dialog" aria-labelledby="corrigendumModalLabel1" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="corrigendumModalLabel1">Corrigendum Documents</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                  
+                                                
+                                               <h3>No Corrigendum Available</h3>
+                                                
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </td>
+                            <td><a target="_blank" href="#">-</a></td>
+                        </tr>
+                        
+                        
+                        <tr style="font-size: 20px; background-color: lightblue; text-align: center;">
+                            <td>OT/2026/22445</td>
+                             <td>GEM/2026/B/8118978</td>
+                            <td>Bid through GeM for printing of different stationery items for IRCTC
+Zonal Office (Kolkata).</td>
+                            <td>Miscellaneous</td>
+                            <td>East Zone</td>
+                            <td>15-OCT-2026</td>
+                            <td>English</td>
+                            <td><a href="/IRCTC/downloadUploadTenderFile?fileName=uploadTender-8321.pdf">uploadTender-8321.pdf</a></td>
+                            <td>
+                                
+                                <a href="#" data-toggle="modal" data-target="#corrigendumModal2">View Corrigendum</a>
+                                <!-- Modal for Corrigendum -->
+                                <div class="modal fade" id="corrigendumModal2" tabindex="-1" role="dialog" aria-labelledby="corrigendumModalLabel2" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="corrigendumModalLabel2">Corrigendum Documents</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                  
+                                                
+                                               <h3>No Corrigendum Available</h3>
+                                                
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </td>
+                            <td><a target="_blank" href="#">-</a></td>
+                        </tr>
+                        
+                        
+                        <tr style="font-size: 20px; background-color: lightblue; text-align: center;">
+                            <td>OT/2026/22429</td>
+                             <td>2026/IRCTC/WZ/Catg./ Refreshment Room/OCT/01</td>
+                            <td>OPEN E-TENDER CUM E-AUCTION BID DOCUMENT FOR PROVISION OF
+CATERING SERVICES IN REFRESHMENT ROOMS FOR A PERIOD OF 5 YEARS.</td>
+                            <td>Refreshments Rooms</td>
+                            <td>West Zone</td>
+                            <td>23-OCT-2026</td>
+                            <td>English</td>
+                            <td><a href="/IRCTC/downloadUploadTenderFile?fileName=uploadTender-8305.pdf">uploadTender-8305.pdf</a></td>
+                            <td>
+                                
+                                <a href="#" data-toggle="modal" data-target="#corrigendumModal3">View Corrigendum</a>
+                                <!-- Modal for Corrigendum -->
+                                <div class="modal fade" id="corrigendumModal3" tabindex="-1" role="dialog" aria-labelledby="corrigendumModalLabel3" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="corrigendumModalLabel3">Corrigendum Documents</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                  
+                                                
+                                               <h3>No Corrigendum Available</h3>
+                                                
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </td>
+                            <td><a target="_blank" href="#">-</a></td>
+                        </tr>
+                        
+                        
+                        <tr style="font-size: 20px; background-color: lightblue; text-align: center;">
+                            <td>OT/2026/22428</td>
+                             <td>IRCTC/WZ/E-tendering/ FFU/2026-27/I</td>
+                            <td>E-TENDER CUM AUCTION FOR SETTING UP, OPERATION AND MANAGEMENT OF FAST-
+FOOD UNIT AT FOLLOWING RAILWAY STATIONS</td>
+                            <td>Fast Food</td>
+                            <td>West Zone</td>
+                            <td>23-OCT-2026</td>
+                            <td>English</td>
+                            <td><a href="/IRCTC/downloadUploadTenderFile?fileName=uploadTender-8304.pdf">uploadTender-8304.pdf</a></td>
+                            <td>
+                                
+                                <a href="#" data-toggle="modal" data-target="#corrigendumModal4">View Corrigendum</a>
+                                <!-- Modal for Corrigendum -->
+                                <div class="modal fade" id="corrigendumModal4" tabindex="-1" role="dialog" aria-labelledby="corrigendumModalLabel4" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="corrigendumModalLabel4">Corrigendum Documents</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                  
+                                                
+                                               <h3>No Corrigendum Available</h3>
+                                                
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </td>
+                            <td><a target="_blank" href="#">-</a></td>
+                        </tr>
+                        
+                        
+                        <tr style="font-size: 20px; background-color: lightblue; text-align: center;">
+                            <td>OT/2026/22427</td>
+                             <td>IRCTC/WZ/E-tendering/FP-MAN/ 2026-27/I</td>
+                            <td>E-TENDER CUM AUCTION FOR SETTING UP, OPERATION AND MANAGEMENT OF FOOD PLAZA AT
+FOLLOWING RAILWAY STATION</td>
+                            <td>Food Plazas</td>
+                            <td>West Zone</td>
+                            <td>23-OCT-2026</td>
+                            <td>English</td>
+                            <td><a href="/IRCTC/downloadUploadTenderFile?fileName=uploadTender-8303.pdf">uploadTender-8303.pdf</a></td>
+                            <td>
+                                
+                                <a href="#" data-toggle="modal" data-target="#corrigendumModal5">View Corrigendum</a>
+                                <!-- Modal for Corrigendum -->
+                                <div class="modal fade" id="corrigendumModal5" tabindex="-1" role="dialog" aria-labelledby="corrigendumModalLabel5" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="corrigendumModalLabel5">Corrigendum Documents</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                  
+                                                
+                                               <h3>No Corrigendum Available</h3>
+                                                
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </td>
+                            <td><a target="_blank" href="#">-</a></td>
+                        </tr>
+                        
+                        
+                        <tr style="font-size: 20px; background-color: lightblue; text-align: center;">
+                            <td>OT/2026/22426</td>
+                             <td>2026/IRCTC/SCZ/1/NIT/FFU/09</td>
+                            <td>E-TENDER CUM AUCTION FOR SETTING UP, OPERATION AND
+MANAGEMENT OF FAST-FOOD UNIT AT RAILWAY STATION</td>
+                            <td>Fast Food</td>
+                            <td>South Central Zone</td>
+                            <td>21-OCT-2026</td>
+                            <td>English</td>
+                            <td><a href="/IRCTC/downloadUploadTenderFile?fileName=uploadTender-8302.pdf">uploadTender-8302.pdf</a></td>
+                            <td>
+                                
+                                <a href="#" data-toggle="modal" data-target="#corrigendumModal6">View Corrigendum</a>
+                                <!-- Modal for Corrigendum -->
+                                <div class="modal fade" id="corrigendumModal6" tabindex="-1" role="dialog" aria-labelledby="corrigendumModalLabel6" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="corrigendumModalLabel6">Corrigendum Documents</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                  
+                                                
+                                               <h3>No Corrigendum Available</h3>
+                                                
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </td>
+                            <td><a target="_blank" href="#">-</a></td>
+                        </tr>
+                        
+                        
+                        <tr style="font-size: 20px; background-color: lightblue; text-align: center;">
+                            <td>OT/2026/22425</td>
+                             <td>2026/IRCTC/LCS/1/SCZ/ Refreshment Room-11</td>
+                            <td>OPEN E-TENDER CUM E-AUCTION BID DOCUMENT FOR PROVISION OF CATERING SERVICES IN Refreshment Room FOR A PERIOD OF 5 YEARS.</td>
+                            <td>Refreshments Rooms</td>
+                            <td>South Central Zone</td>
+                            <td>21-OCT-2026</td>
+                            <td>English</td>
+                            <td><a href="/IRCTC/downloadUploadTenderFile?fileName=uploadTender-8301.pdf">uploadTender-8301.pdf</a></td>
+                            <td>
+                                
+                                <a href="#" data-toggle="modal" data-target="#corrigendumModal7">View Corrigendum</a>
+                                <!-- Modal for Corrigendum -->
+                                <div class="modal fade" id="corrigendumModal7" tabindex="-1" role="dialog" aria-labelledby="corrigendumModalLabel7" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="corrigendumModalLabel7">Corrigendum Documents</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                  
+                                                
+                                               <h3>No Corrigendum Available</h3>
+                                                
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </td>
+                            <td><a target="_blank" href="#">-</a></td>
+                        </tr>
+                        
+                        
+                        <tr style="font-size: 20px; background-color: lightblue; text-align: center;">
+                            <td>LT/2026/22424</td>
+                             <td>2026/IRCTC/LCS/1/SCZ/JAN AAHAAR-8</td>
+                            <td>OPEN E-TENDER CUM E-AUCTION BID DOCUMENT FOR PROVISION OF CATERING SERVICES IN JAN AAHAAR FOR A PERIOD OF 5 YEARS.</td>
+                            <td>Miscellaneous</td>
+                            <td>South Central Zone</td>
+                            <td>21-OCT-2026</td>
+                            <td>English</td>
+                            <td><a href="/IRCTC/downloadUploadTenderFile?fileName=uploadTender-8300.pdf">uploadTender-8300.pdf</a></td>
+                            <td>
+                                
+                                <a href="#" data-toggle="modal" data-target="#corrigendumModal8">View Corrigendum</a>
+                                <!-- Modal for Corrigendum -->
+                                <div class="modal fade" id="corrigendumModal8" tabindex="-1" role="dialog" aria-labelledby="corrigendumModalLabel8" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="corrigendumModalLabel8">Corrigendum Documents</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                  
+                                                
+                                               <h3>No Corrigendum Available</h3>
+                                                
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </td>
+                            <td><a target="_blank" href="#">-</a></td>
+                        </tr>
+                        
+                        
+                        <tr style="font-size: 20px; background-color: lightblue; text-align: center;">
+                            <td>OT/2026/22423</td>
+                             <td>GEM/2026/B/8102397</td>
+                            <td>OPEN E-TENDER BID DOCUMENT FOR SUPPLY AND
+INSTALLATION OF ALL-IN-ONE PCAS PER SPECIFICATION AT
+ANNEXURE A & B</td>
+                            <td>IT</td>
+                            <td>Corporate</td>
+                            <td>11-OCT-2026</td>
+                            <td>English</td>
+                            <td><a href="/IRCTC/downloadUploadTenderFile?fileName=uploadTender-8299.pdf">uploadTender-8299.pdf</a></td>
+                            <td>
+                                
+                                <a href="#" data-toggle="modal" data-target="#corrigendumModal9">View Corrigendum</a>
+                                <!-- Modal for Corrigendum -->
+                                <div class="modal fade" id="corrigendumModal9" tabindex="-1" role="dialog" aria-labelledby="corrigendumModalLabel9" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="corrigendumModalLabel9">Corrigendum Documents</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                  
+                                                
+                                               <h3>No Corrigendum Available</h3>
+                                                
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </td>
+                            <td><a target="_blank" href="#">-</a></td>
+                        </tr>
+                        
+                        
+                        <tr style="font-size: 20px; background-color: lightblue; text-align: center;">
+                            <td>EOI/2026/22413</td>
+                             <td>EOI- Sponsorship</td>
+                            <td>Empanelment of Advertising Agencies for supply of catering
+disposables, Railneer bottles labels, other permissible items,
+etc. on sponsorship basis to IRCTC</td>
+                            <td>On Board Services</td>
+                            <td>Corporate</td>
+                            <td>15-OCT-2026</td>
+                            <td>English</td>
+                            <td><a href="/IRCTC/downloadUploadTenderFile?fileName=uploadTender-8287.pdf">uploadTender-8287.pdf</a></td>
+                            <td>
+                                
+                                <a href="#" data-toggle="modal" data-target="#corrigendumModal10">View Corrigendum</a>
+                                <!-- Modal for Corrigendum -->
+                                <div class="modal fade" id="corrigendumModal10" tabindex="-1" role="dialog" aria-labelledby="corrigendumModalLabel10" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="corrigendumModalLabel10">Corrigendum Documents</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                  
+                                                
+                                               <h3>No Corrigendum Available</h3>
+                                                
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </td>
+                            <td><a target="_blank" href="#">-</a></td>
+                        </tr>
+                        
+                        
+                        <tr style="font-size: 20px; background-color: lightblue; text-align: center;">
+                            <td>OT/2026/22391</td>
+                             <td>GEM/2026/B/8069023</td>
+                            <td>Third Party Food Safety & Hygiene Audit of IRCTC/EZ identified 90 cluster base-kitchens over East-Zone for a period of 01 (ONE) year.</td>
+                            <td>Miscellaneous</td>
+                            <td>East Zone</td>
+                            <td>12-OCT-2026</td>
+                            <td>English</td>
+                            <td><a href="/IRCTC/downloadUploadTenderFile?fileName=uploadTender-8265.pdf">uploadTender-8265.pdf</a></td>
+                            <td>
+                                
+                                <a href="#" data-toggle="modal" data-target="#corrigendumModal11">View Corrigendum</a>
+                                <!-- Modal for Corrigendum -->
+                                <div class="modal fade" id="corrigendumModal11" tabindex="-1" role="dialog" aria-labelledby="corrigendumModalLabel11" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="corrigendumModalLabel11">Corrigendum Documents</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                  
+                                                
+                                               <h3>No Corrigendum Available</h3>
+                                                
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </td>
+                            <td><a target="_blank" href="#">-</a></td>
+                        </tr>
+                        
+                        
+                        <tr style="font-size: 20px; background-color: lightblue; text-align: center;">
+                            <td>EOI/2026/22372</td>
+                             <td>IRCTC/EZ/ZO/SCS/SEPT/2026</td>
+                            <td>Empanelment for Service Providers for provision of catering, housekeeping & facility management at Non-Railway Catering Services under IRCTC</td>
+                            <td>Miscellaneous</td>
+                            <td>East Zone</td>
+                            <td>15-OCT-2026</td>
+                            <td>English</td>
+                            <td><a href="/IRCTC/downloadUploadTenderFile?fileName=uploadTender-8245.pdf">uploadTender-8245.pdf</a></td>
+                            <td>
+                                
+                                <a href="#" data-toggle="modal" data-target="#corrigendumModal12">View Corrigendum</a>
+                                <!-- Modal for Corrigendum -->
+                                <div class="modal fade" id="corrigendumModal12" tabindex="-1" role="dialog" aria-labelledby="corrigendumModalLabel12" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="corrigendumModalLabel12">Corrigendum Documents</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                  
+                                                
+                                               <h3>No Corrigendum Available</h3>
+                                                
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </td>
+                            <td><a target="_blank" href="#">-</a></td>
+                        </tr>
+                        
+                        
+                        <tr style="font-size: 20px; background-color: lightblue; text-align: center;">
+                            <td>EOI/2026/22352</td>
+                             <td>GEM/2026/B/7995296-(2026/EOI/OBCS/OCTOBER)</td>
+                            <td>Empanelment for Provision of onboard catering services in various types of trains on Indian Railways</td>
+                            <td>On Board Services</td>
+                            <td>Corporate</td>
+                            <td>13-OCT-2026</td>
+                            <td>English</td>
+                            <td><a href="/IRCTC/downloadUploadTenderFile?fileName=uploadTender-8225.pdf">uploadTender-8225.pdf</a></td>
+                            <td>
+                                
+                                <a href="#" data-toggle="modal" data-target="#corrigendumModal13">View Corrigendum</a>
+                                <!-- Modal for Corrigendum -->
+                                <div class="modal fade" id="corrigendumModal13" tabindex="-1" role="dialog" aria-labelledby="corrigendumModalLabel13" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="corrigendumModalLabel13">Corrigendum Documents</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                  
+                                              <a target="_blank" href="/IRCTC/downloadUploadTenderFile?fileName=uploadTender-8298-08_10_2026.pdf">Corrigendum 1 uploadTender-8298-08_10_2026.pdf</a>
+                                               
+                                               
+                                              <a target="_blank" href="/IRCTC/downloadUploadTenderFile?fileName=uploadTender-8322-13_10_2026.pdf">Corrigendum 2 uploadTender-8322-13_10_2026.pdf</a>
+                                               
+                                               
+                                                
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </td>
+                            <td><a target="_blank" href="#">-</a></td>
+                        </tr>
+                        
+                        
+                        <tr style="font-size: 20px; background-color: lightblue; text-align: center;">
+                            <td>17824</td>
+                             <td></td>
+                            <td>LIMITED E-TENDER FOR SELECTION OF INSURANCE-COMPANY FOR GROUP LIFE INSURANCE OF IRCTC EMPLOYEES.
+2023/IRCTC/GLI/2023-24</td>
+                            <td>Miscellaneous</td>
+                            <td>Corporate</td>
+                            <td></td>
+                            <td>English</td>
+                            <td><a href="/IRCTC/downloadUploadTenderFile?fileName=uploadTender-3038.pdf">uploadTender-3038.pdf</a></td>
+                            <td>
+                                
+                                <a href="#" data-toggle="modal" data-target="#corrigendumModal14">View Corrigendum</a>
+                                <!-- Modal for Corrigendum -->
+                                <div class="modal fade" id="corrigendumModal14" tabindex="-1" role="dialog" aria-labelledby="corrigendumModalLabel14" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="corrigendumModalLabel14">Corrigendum Documents</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                  
+                                              <a target="_blank" href="/IRCTC/downloadUploadTenderFile?fileName=uploadTender-3395-31_12_4712.pdf">Corrigendum 1 uploadTender-3395-31_12_4712.pdf</a>
+                                               
+                                               
+                                                
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </td>
+                            <td><a target="_blank" href="#">-</a></td>
+                        </tr>
+                        
+                        
+                        <tr style="font-size: 20px; background-color: lightblue; text-align: center;">
+                            <td>17652</td>
+                             <td></td>
+                            <td>OPEN E TENDER FOR SETTING UP OPERATION AND MANAGEMENT OF FAST FOOD UNIT AT RAILWAY STATIONS OVER SOUTH ZONE.
+2023/OT/FFU/OCT-2023/02</td>
+                            <td>Fast Food</td>
+                            <td>South Zone</td>
+                            <td></td>
+                            <td>English</td>
+                            <td><a href="/IRCTC/downloadUploadTenderFile?fileName=uploadTender-2846.pdf">uploadTender-2846.pdf</a></td>
+                            <td>
+                                
+                                <a href="#" data-toggle="modal" data-target="#corrigendumModal15">View Corrigendum</a>
+                                <!-- Modal for Corrigendum -->
+                                <div class="modal fade" id="corrigendumModal15" tabindex="-1" role="dialog" aria-labelledby="corrigendumModalLabel15" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="corrigendumModalLabel15">Corrigendum Documents</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                  
+                                                
+                                               <h3>No Corrigendum Available</h3>
+                                                
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </td>
+                            <td><a target="_blank" href="#">-</a></td>
+                        </tr>
+                        
+                        
+                        <tr style="font-size: 20px; background-color: lightblue; text-align: center;">
+                            <td>15436</td>
+                             <td></td>
+                            <td>Application for the appointment of PSA for Marteking promotion and sale of Buddhist Circuit Tourist Train packages worldwide-2018/IRCTC/Tourism/Marketing/EOI(BT)</td>
+                            <td>Tourism and Marketing</td>
+                            <td>Corporate</td>
+                            <td></td>
+                            <td>English</td>
+                            <td><a href="/IRCTC/downloadUploadTenderFile?fileName=uploadTender-1217-.pdf">uploadTender-1217-.pdf</a></td>
+                            <td>
+                                
+                                <a href="#" data-toggle="modal" data-target="#corrigendumModal16">View Corrigendum</a>
+                                <!-- Modal for Corrigendum -->
+                                <div class="modal fade" id="corrigendumModal16" tabindex="-1" role="dialog" aria-labelledby="corrigendumModalLabel16" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="corrigendumModalLabel16">Corrigendum Documents</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                  
+                                                
+                                               <h3>No Corrigendum Available</h3>
+                                                
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </td>
+                            <td><a target="_blank" href="#">-</a></td>
+                        </tr>
+                        
+                        
+                        <tr style="font-size: 20px; background-color: lightblue; text-align: center;">
+                            <td>14800</td>
+                             <td></td>
+                            <td>RFQ for Empanelment of Hotels in Delhi NCR for its services to be utilized by IRCTC</td>
+                            <td>Tourism & Marketing</td>
+                            <td>Corporate</td>
+                            <td>14-SEP-2028</td>
+                            <td>English</td>
+                            <td><a href="/IRCTC/downloadUploadTenderFile?fileName=uploadTender-424-14_09_2028.pdf">uploadTender-424-14_09_2028.pdf</a></td>
+                            <td>
+                                
+                                <a href="#" data-toggle="modal" data-target="#corrigendumModal17">View Corrigendum</a>
+                                <!-- Modal for Corrigendum -->
+                                <div class="modal fade" id="corrigendumModal17" tabindex="-1" role="dialog" aria-labelledby="corrigendumModalLabel17" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="corrigendumModalLabel17">Corrigendum Documents</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                  
+                                                
+                                               <h3>No Corrigendum Available</h3>
+                                                
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </td>
+                            <td><a target="_blank" href="#">-</a></td>
+                        </tr>
+                        
+                        
+                        <tr style="font-size: 20px; background-color: lightblue; text-align: center;">
+                            <td>14748</td>
+                             <td></td>
+                            <td>SPECIAL OFFERS FOR HOTELS ROOMS TO BE UTILIZED BY IRCTC
+LTD. FOR ITS CUSTOMERS OR/AND IN ITS TOUR PACKAGES-2020/IRCTC/CO/ECR/Hotel Tie Ups </td>
+                            <td>Budget Hotels</td>
+                            <td>Corporate</td>
+                            <td>13-AUG-2032</td>
+                            <td>English</td>
+                            <td><a href="/IRCTC/downloadUploadTenderFile?fileName=uploadTender-422-.pdf">uploadTender-422-.pdf</a></td>
+                            <td>
+                                
+                                <a href="#" data-toggle="modal" data-target="#corrigendumModal18">View Corrigendum</a>
+                                <!-- Modal for Corrigendum -->
+                                <div class="modal fade" id="corrigendumModal18" tabindex="-1" role="dialog" aria-labelledby="corrigendumModalLabel18" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="corrigendumModalLabel18">Corrigendum Documents</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                  
+                                              <a target="_blank" href="/IRCTC/downloadUploadTenderFile?fileName=uploadTender-423-13_08_2032.pdf">Corrigendum 1 uploadTender-423-13_08_2032.pdf</a>
+                                               
+                                               
+                                                
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </td>
+                            <td><a target="_blank" href="#">-</a></td>
+                        </tr>
+                        
+                        
+                        <tr style="font-size: 20px; background-color: lightblue; text-align: center;">
+                            <td>14617</td>
+                             <td></td>
+                            <td>:- Empanelment of Advertisement Agencies for selling of interior & exterior of both
+the Tejas trains.</td>
+                            <td>Tourism and Marketing</td>
+                            <td>Corporate</td>
+                            <td></td>
+                            <td>English</td>
+                            <td><a href="/IRCTC/downloadUploadTenderFile?fileName=uploadTender-262-.pdf">uploadTender-262-.pdf</a></td>
+                            <td>
+                                
+                                <a href="#" data-toggle="modal" data-target="#corrigendumModal19">View Corrigendum</a>
+                                <!-- Modal for Corrigendum -->
+                                <div class="modal fade" id="corrigendumModal19" tabindex="-1" role="dialog" aria-labelledby="corrigendumModalLabel19" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="corrigendumModalLabel19">Corrigendum Documents</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                  
+                                              <a target="_blank" href="/IRCTC/downloadUploadTenderFile?fileName=uploadTender-263-26_07_2022.pdf">Corrigendum 1 uploadTender-263-26_07_2022.pdf</a>
+                                               
+                                               
+                                                
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </td>
+                            <td><a target="_blank" href="#">-</a></td>
+                        </tr>
+                        
+                        
+                        <tr style="font-size: 20px; background-color: lightblue; text-align: center;">
+                            <td>12688</td>
+                             <td></td>
+                            <td>Limited E-Tender for Group Insurance Part 2.</td>
+                            <td>Misc.s</td>
+                            <td>Corporate</td>
+                            <td></td>
+                            <td>English</td>
+                            <td><a href="/IRCTC/downloadUploadTenderFile?fileName=uploadTender-6-.pdf">uploadTender-6-.pdf</a></td>
+                            <td>
+                                
+                                <a href="#" data-toggle="modal" data-target="#corrigendumModal20">View Corrigendum</a>
+                                <!-- Modal for Corrigendum -->
+                                <div class="modal fade" id="corrigendumModal20" tabindex="-1" role="dialog" aria-labelledby="corrigendumModalLabel20" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="corrigendumModalLabel20">Corrigendum Documents</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                  
+                                                
+                                               <h3>No Corrigendum Available</h3>
+                                                
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </td>
+                            <td><a target="_blank" href="#">-</a></td>
+                        </tr>
+                        
+                        
+                        <tr style="font-size: 20px; background-color: lightblue; text-align: center;">
+                            <td>12687</td>
+                             <td></td>
+                            <td>Limited E-Tender for Group Insurance Part 1.</td>
+                            <td>Misc.s</td>
+                            <td>Corporate</td>
+                            <td></td>
+                            <td>English</td>
+                            <td><a href="/IRCTC/downloadUploadTenderFile?fileName=uploadTender-5-.pdf">uploadTender-5-.pdf</a></td>
+                            <td>
+                                
+                                <a href="#" data-toggle="modal" data-target="#corrigendumModal21">View Corrigendum</a>
+                                <!-- Modal for Corrigendum -->
+                                <div class="modal fade" id="corrigendumModal21" tabindex="-1" role="dialog" aria-labelledby="corrigendumModalLabel21" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="corrigendumModalLabel21">Corrigendum Documents</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                  
+                                                
+                                               <h3>No Corrigendum Available</h3>
+                                                
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </td>
+                            <td><a target="_blank" href="#">-</a></td>
+                        </tr>
+                        
+                        
+                        <tr style="font-size: 20px; background-color: lightblue; text-align: center;">
+                            <td>10872</td>
+                             <td></td>
+                            <td>Empanelment of Printing Firms/Companies for providing printing works/jobs at IRCTC, Corporate Office.</td>
+                            <td>Misc.s</td>
+                            <td>Corporate</td>
+                            <td></td>
+                            <td>English</td>
+                            <td><a href="/IRCTC/downloadUploadTenderFile?fileName=uploadTender-2-.pdf">uploadTender-2-.pdf</a></td>
+                            <td>
+                                
+                                <a href="#" data-toggle="modal" data-target="#corrigendumModal22">View Corrigendum</a>
+                                <!-- Modal for Corrigendum -->
+                                <div class="modal fade" id="corrigendumModal22" tabindex="-1" role="dialog" aria-labelledby="corrigendumModalLabel22" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="corrigendumModalLabel22">Corrigendum Documents</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                  
+                                                
+                                               <h3>No Corrigendum Available</h3>
+                                                
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </td>
+                            <td><a target="_blank" href="#">-</a></td>
+                        </tr>
+                        
+                        
+                        <tr style="font-size: 20px; background-color: lightblue; text-align: center;">
+                            <td>10402</td>
+                             <td></td>
+                            <td> EOI for Empanelment of Accommodation Partner for association to provide Online Accommodation inventory for sales on IRCTC Tourism website and its associate portal</td>
+                            <td>Tourism and Marketing</td>
+                            <td>Corporate</td>
+                            <td></td>
+                            <td>English</td>
+                            <td><a href="/IRCTC/downloadUploadTenderFile?fileName=uploadTender-1.pdf">uploadTender-1.pdf</a></td>
+                            <td>
+                                
+                                <a href="#" data-toggle="modal" data-target="#corrigendumModal23">View Corrigendum</a>
+                                <!-- Modal for Corrigendum -->
+                                <div class="modal fade" id="corrigendumModal23" tabindex="-1" role="dialog" aria-labelledby="corrigendumModalLabel23" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="corrigendumModalLabel23">Corrigendum Documents</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                  
+                                                
+                                               <h3>No Corrigendum Available</h3>
+                                                
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </td>
+                            <td><a target="_blank" href="#">-</a></td>
+                        </tr>
+                        
+                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/IRCTC/resources/admin/assets/libs/jquery/dist/jquery.min.js"></script>
+    <script src="/IRCTC/resources/admin/assets/libs/select2/dist/js/jquery-ui.js"></script>
+    <script type="text/javascript" src="/IRCTC/resources/admin/assets/libs/jquery/dist/jquery.table2excel.js"></script>
+    <script type="text/javascript" src="/IRCTC/resources/admin/assets/libs/jquery/dist/jquery.table2excel.min.js"></script>
+    <script type="text/javascript">
+        $('#btn').click(function() {
+            $('#table').table2excel({
+                exclude: ".noExl",
+                name: "Data Records",
+                filename: "Upload Tender Report"
+            });
+        });
+    </script>
+    <script src="/IRCTC/resources/admin/assets/libs/popper.js/dist/umd/popper.min.js"></script>
+    <script src="/IRCTC/resources/admin/assets/libs/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="/IRCTC/resources/admin/assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js"></script>
+    <script src="/IRCTC/resources/admin/assets/extra-libs/sparkline/sparkline.js"></script>
+    <script src="/IRCTC/resources/admin/dist/js/waves.js"></script>
+    <script src="/IRCTC/resources/admin/dist/js/sidebarmenu.js"></script>
+    <script src="/IRCTC/resources/admin/dist/js/custom.min.js"></script>
+    <script src="/IRCTC/resources/admin/assets/libs/flot/excanvas.js"></script>
+    <script src="/IRCTC/resources/admin/assets/libs/flot/jquery.flot.js"></script>
+    <script src="/IRCTC/resources/admin/assets/libs/flot/jquery.flot.pie.js"></script>
+    <script src="/IRCTC/resources/admin/assets/libs/flot/jquery.flot.time.js"></script>
+    <script src="/IRCTC/resources/admin/assets/libs/flot/jquery.flot.stack.js"></script>
+    <script src="/IRCTC/resources/admin/assets/libs/flot/jquery.flot.crosshair.js"></script>
+    <script src="/IRCTC/resources/admin/assets/libs/flot.tooltip/js/jquery.flot.tooltip.min.js"></script>
+    <script src="/IRCTC/resources/admin/dist/js/pages/chart/chart-page-init.js"></script>
+    <script src="/IRCTC/resources/admin/assets/libs/select2/dist/js/select2.full.min.js"></script>
+    <script src="/IRCTC/resources/admin/assets/libs/select2/dist/js/select2.min.js"></script>
+</body>
+</html>

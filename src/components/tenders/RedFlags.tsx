@@ -3,6 +3,7 @@ import { onStatePortal, unlistedStatus, type CpppCore, type Indicator, type OrgR
 import { STATES } from '../../data/geo';
 import type { Patch } from '../energy/hooks';
 import type { NationalParams } from './params';
+import { ProcurementAuditLink } from '../investigation/ProcurementTrail';
 import {
   Code, Cols, FINDINGS, FOCUS, FamilyLink, MONO_NOTE, NODATA_STYLE, StateFilterLine, Sub, Twin, UnparsedKey, WbrText, csvComments, csvName, d1, fmt,
   hasInterval, isUnparsed, ivCell, rateText, stamp, stateClause, stateFilterSentence, unparsedLabel,
@@ -19,7 +20,7 @@ import {
 const H4: Record<string, string> = {
   singleBidding: 'Single bidding',
   nonOpenTenderType: 'Non-open tender type (Limited)',
-  shortDecisionWindow: 'Short decision window (two days or fewer)',
+  shortDecisionWindow: 'Recorded dataset-date gap (two days or fewer)',
   repeatSingleBidderMarkedWinners: 'Repeat single-bidder pairs (marked winners)',
 };
 
@@ -44,6 +45,8 @@ function Card({ ind, core, p, params }: { ind: Indicator; core: CpppCore; p: Pro
   return (
     <section className="mt-6 border-l-2 border-border-light pl-3 sm:pl-4">
       <h4 className="font-semibold text-[15.5px] text-text mb-2">{title ?? <code>{ind.indicator}</code>}</h4>
+      {ind.indicator === 'shortDecisionWindow' && <p data-date-semantics className={`${FINDINGS} max-w-[72ch] mb-3`}>This is the retained difference between stored aoc_at and closing_at fields. Their event meaning is unverified; the result does not establish evaluation speed or suspiciously fast awards.</p>}
+      {ind.indicator === 'shortDecisionWindow' && <ProcurementAuditLink findingId="closing-field-semantics" label="Inspect the bounded date-field semantic check" />}
       <dl className="space-y-1">
         <Row label="Definition" className="text-[13.5px] text-text-secondary">
           <Code>{ind.definition}</Code>

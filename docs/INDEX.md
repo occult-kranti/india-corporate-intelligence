@@ -4,8 +4,7 @@ Every file in this repository, what it is, and what depends on it. Read this bef
 changing anything — several files are load-bearing for the project's editorial
 guarantees, not just for its build.
 
-*Updated 2026-09-27, after the finance, ngo and capital fleets, the CPPP award pipeline and
-the `/finance` page landed. Counts below are read
+*Updated 2026-10-06 for the shared map workspace and finance/justice/welfare research. Counts below are read
 from the files named beside them; where a file and this index disagree, the file is
 right and this index is stale.*
 
@@ -28,12 +27,34 @@ right and this index is stale.*
 
 ---
 
+## Shared investigation workspace — current entry points
+
+| Path | Responsibility |
+| --- | --- |
+| `src/components/investigation/Workspace.tsx` | Shared map/graph/evidence/casebook/dossier surfaces, URL filters and source inspection |
+| `InvestigationMap.tsx`, `assets/india-current36.json` | Current 36-unit geometry, declared geographic basis and coverage legend |
+| `InvestigationGraph.tsx`, `graphHelpers.ts` | Bounded visual graph, complete ledger, exact paths and source-bearing CSV |
+| `Casebook.tsx`, `casebookStore.ts` | Local pins/notes/views, additive imports, response-closed JSON/Markdown exports |
+| `src/data/procurementTrails.ts`, `procurementAudit.ts` | Exact-key buyer trails and separate source-backed corpus findings |
+| `research/raw/tender-portal-audit/`, `docs/tender-investigation/` | Original-database receipts, reproducible SQL/notebook, source checks and independent analysis panel |
+| `src/data/investigation.ts` | Namespaced adapters, sectors, dated/geographic selectors and analysis questions |
+| `src/pages/InvestigationDossier.tsx` | Justice and debt/recovery primary-record dossiers |
+| `src/lib/dossierNavigation.ts`, `useHistorySearchDrafts.ts` | Preserve shared context and restore draft fields on rapid browser history navigation |
+| `research/raw/investigation/` | Finance, justice and welfare slices and retained original-document archives |
+| `evidence/investigation/` | Justice and geographic originals, transformation/archival evidence |
+| `research/investigation/` | Actual pinned open-model relevance corpus/output |
+| `scripts/investigation/` | Provenance, archive, selectors, graph, casebook, model and browser gates |
+| `docs/investigation/` | Architecture, roadmap, panel decisions, domain source notes and release verification |
+
+Original dossier maps using `src/data/india-geo.json` retain historical boundaries.
+Use the current map asset for new work, and read the updated india-map skill.
+
 ## 2. The graph engine — `src/graph/`
 
 | File | Role | Load-bearing because |
 |---|---|---|
 | `schema.ts` | Node / edge / motif types, the four tiers, `hasProvenance()`, `validateGraph()`; since Phase G the `loan` and `grant` predicates, `LoanTerms` (`instrument`, `ratePct`, `tenorYears`, `graceYears`, `conditions[]`), `projectId` and `holding` on an edge | **The provenance invariant lives here.** Every other module's guarantees reduce to this file |
-| `data.ts` | The Money-Trail Atlas subgraph: 66 nodes, 111 edges, 11 motifs | Generated from the reviewed artefact, then extended by hand. Five dated edges were appended on 2026-09-26 for the DOJ, SEC and SEBI outcomes; four older edges carry `supersededBy` and stay addressable. The cross-fleet reconciliation of 2026-09-26 added seven High Court nodes (`delhi-hc`, `bombay-hc`, `madras-hc`, `jharkhand-hc`, `ap-hc`, `allahabad-hc`, `sikkim-hc`), renamed `lnt` to `co:larsen-toubro` (the roster id) and retyped `rss` from party to sangh with a supersession note. Do not hand-edit census figures |
+| `data.ts` | The Money-Trail Atlas subgraph: 66 nodes, 109 edges, 11 motifs | Generated from the reviewed artefact, then extended by hand. Five dated edges were appended on 2026-09-26 for the DOJ, SEC and SEBI outcomes; four older edges carry `supersededBy` and stay addressable. The cross-fleet reconciliation of 2026-09-26 added seven High Court nodes (`delhi-hc`, `bombay-hc`, `madras-hc`, `jharkhand-hc`, `ap-hc`, `allahabad-hc`, `sikkim-hc`), renamed `lnt` to `co:larsen-toubro` (the roster id) and retyped `rss` from party to sangh with a supersession note. PM CARES corrections remove two unsupported recipient arrows; their originals remain archived. M7 counts current retained membership directly. Do not hand-edit census figures |
 | `build.ts` | Derives the national graph from the factual datasets | **Never** creates an edge between a person and a company on shared state or shared sector |
 | `baseRates.ts` | Published denominators with sources; `computeRate()`; Benjamini–Hochberg FDR | The numbers that kill most proposed edges |
 | `nullModel.ts` | Maslov–Sneppen degree-preserving rewiring, motif z-scores, path-length profile, `shortestPath` | Predicate-preserving: a donation edge can never rewire into a family edge. The path finder's median separation is printed beside every path |
@@ -91,7 +112,7 @@ then the fleets through `mergeFleet.ts` — and memoises it.
 | `finance/*` | `/finance` only: the chrome (lens tabs, filter rail, Find, one live region), the loans lens (map with pooled quantile bins and the fetcher class, the census-against-sample union bar, flow, clock, project list, contracts, debarments, conditions, debt), the associations lens (receipts chart with hatched missing years, state table and map, FCRA actions timeline with every case's `dl`, grants, welfare join), the capital lens (a `role="grid"` of holders × companies with roving tabindex, the Σ aggregate cells, the below-four guard, mandates, adviser comparison, rules). Read `src/data/financeView.ts`; import nothing from `energy/` or `welfare/` |
 | `tenders/*` | The national section of `/tenders`: quality table first, single-bidder rates by portal and year with Wilson ribbons, decision-window histogram, concentration by buyer (HHI on value and on count), red-flag indicators as rates over their declared family, the live-verification sample, gaps and provenance footer. Read `src/data/cppp.ts`. Every graphic is `role="img"` with an n in its name and a table twin below |
 
-## 5. Pages — `src/pages/` (37 routes)
+## 5. Pages — `src/pages/` (40 routes)
 
 Routes are declared in `src/App.tsx` and lazily loaded, except the dashboard. The nav
 is in `src/components/Layout.tsx`.
@@ -165,7 +186,7 @@ source reviews and release verification in [`public-works/`](public-works/).
 | `public-works/assemble.mjs`, `validate.mjs` | `npm run assemble:public-works`, `npm run validate:public-works` | Required dimensions, exact source/identity references, amounts and dates, assembly or retained artifact hashes fail |
 | `public-works/public-works.test.mjs`, `network.test.mjs`, `audit-connections.py` | `npm run test:public-works` | Geography, comparison, graph traversal/export or primary connection accounting/chronology controls regress |
 | `public-works/model-rank.py`, `browser.mjs` | `npm run test:public-works:model`, `npm run test:public-works:browser` | Model artifact is stale/promoted to verified, or nine-sector filters, exports, history, repeat-work review, graph keyboard and responsive workflow fail |
-| `smoke.mjs` | `npm run smoke` | Any route renders blank or throws; the map draws fewer than 36 state paths; the map is not keyboard-focusable. Serves `dist` itself; visits all 37 routes and parameterised variants |
+| `smoke.mjs` | `npm run smoke` | Any route renders blank or throws; the map draws fewer than 36 state paths; the map is not keyboard-focusable. Serves `dist` itself; visits all 40 routes and parameterised variants, both map and dossier surfaces |
 | `graph-viewport.mjs` | `npm run viewport` | The graph camera letterboxes, a drag does not move the graph by the drag, auto-fit clips, maximise does not take the window, or selecting and path-finding move the camera. Since the canvas renderer: canvas backing store ≠ frame × DPR, no ink under the largest node, pin ring absent (with a before-pin control), any in-fill point of any glyph class fails to hover its glyph, stale hit-testing after a focus change, a same-pair denial hiding its claim, keyboard cursor not announced |
 | `pages/energy.test.mjs`, `pages/welfare.test.mjs` | `npm run test:pages` | A `/energy` or `/welfare` acceptance criterion fails (67 and 85 criteria; headless Playwright against `dist`; the energy suite builds its scaffold `dist-empty` itself, the welfare suite takes `WELFARE_DIST` and skips its 9 scaffold criteria on a FULL build). Last in `check` and CI. The script names its files explicitly because Node 20's `--test` does not expand a glob; the finance and tenders suites joined it on 2026-09-27 |
 | `pages/finance.test.mjs`, `pages/tenders.test.mjs`, `pages/finance-review.test.mjs` | `npm run test:pages` (the first two); `FINANCE_DIST=… node --test scripts/pages/finance-review.test.mjs` | A `/finance` (110 criteria; 109 pass, AC-38 skips for want of a zero-amount loan) or `/tenders` national-section (86; 84 pass, 2 skip as "not in this data") acceptance criterion fails. Both written blind to the implementation, both adjudicated criterion by criterion after the first build (`[Adjudicated]` marks in the acceptance documents), both in the gate since green on three consecutive runs. The review suite (R1–R4) holds the caucus's own checks apart from the blind suite |

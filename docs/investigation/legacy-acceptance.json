@@ -1,0 +1,1366 @@
+{
+  "reviewedAt": "2026-10-06",
+  "browser": "/usr/bin/chromium",
+  "browserVersion": "Chromium151.0.7922.173 (Debian13)",
+  "fullRun": {
+    "build": "dist/index-DDprgRLJ.js",
+    "command": "PLAYWRIGHT_CHROMIUM_PATH=/usr/bin/chromium ENERGY_REBUILD_EMPTY=1 FINANCE_REBUILD_EMPTY=1 FINANCE_REBUILD_THREE=1 TENDERS_REBUILD_EMPTY=1 node --test --test-concurrency=5 scripts/pages/energy.test.mjs scripts/pages/welfare.test.mjs scripts/pages/tenders.test.mjs scripts/pages/finance.test.mjs scripts/pages/finance-review.test.mjs scripts/pages/dossier-navigation.test.mjs",
+    "suites": [
+      {
+        "suite": "Navigation unit",
+        "total": 4,
+        "passed": 4,
+        "failed": 0,
+        "skipped": 0,
+        "exceptions": [],
+        "currentEvidence": {
+          "passed": 4,
+          "failed": 0,
+          "skipped": 0
+        }
+      },
+      {
+        "suite": "Energy",
+        "total": 67,
+        "passed": 65,
+        "failed": 2,
+        "skipped": 0,
+        "exceptions": [
+          {
+            "id": "AC-61",
+            "status": "fail",
+            "description": "AC-61 — The first phone screen answers \"what, how much, as of when, what is missing\" (9114.816115ms)"
+          },
+          {
+            "id": "AC-64",
+            "status": "fail",
+            "description": "AC-64 — The canvas lets a vertical swipe through at rest (10690.900884ms)"
+          }
+        ],
+        "currentEvidence": {
+          "passed": 67,
+          "failed": 0,
+          "skipped": 0
+        }
+      },
+      {
+        "suite": "Finance review",
+        "total": 4,
+        "passed": 4,
+        "failed": 0,
+        "skipped": 0,
+        "exceptions": [],
+        "currentEvidence": {
+          "passed": 4,
+          "failed": 0,
+          "skipped": 0
+        }
+      },
+      {
+        "suite": "Finance",
+        "total": 110,
+        "passed": 103,
+        "failed": 6,
+        "skipped": 1,
+        "exceptions": [
+          {
+            "id": "AC-38",
+            "status": "skip",
+            "description": "AC-38 — Print a zero amount as recorded, never as blank (0.791298ms) # SKIPPED: no zero-amount loan (the spec's F2 says none exists today)"
+          },
+          {
+            "id": "AC-63",
+            "status": "fail",
+            "description": "AC-63 — Round-trip tier as a comma list shared with the graph (30696.966515ms)"
+          },
+          {
+            "id": "AC-67",
+            "status": "fail",
+            "description": "AC-67 — Round-trip m, scale and mid, disabling what the build cannot honour (G) (29290.787544ms)"
+          },
+          {
+            "id": "AC-69",
+            "status": "fail",
+            "description": "AC-69 — Round-trip inc from the reconciliation line as a chip (23241.856391ms)"
+          },
+          {
+            "id": "AC-97",
+            "status": "fail",
+            "description": "AC-97 — Keep the strip, tabs and rail summary in the first screen and the bar in two (7084.332177ms)"
+          },
+          {
+            "id": "AC-105",
+            "status": "fail",
+            "description": "AC-105 — Keep the UnionBar in the first viewport at 1280×800 (5325.005196ms)"
+          },
+          {
+            "id": "AC-107",
+            "status": "fail",
+            "description": "AC-107 — Colour nothing by party, country or religion; rank nothing the page computes (12328.0466ms)"
+          }
+        ],
+        "currentEvidence": {
+          "passed": 109,
+          "failed": 0,
+          "skipped": 1
+        }
+      },
+      {
+        "suite": "Tenders",
+        "total": 86,
+        "passed": 74,
+        "failed": 10,
+        "skipped": 2,
+        "exceptions": [
+          {
+            "id": "AC-02",
+            "status": "fail",
+            "description": "AC-02 — view=national lands on section=national with every other param kept (10052.664655ms)"
+          },
+          {
+            "id": "AC-03",
+            "status": "fail",
+            "description": "AC-03 — The default view is unchanged except for one head link and one byline sentence (28305.678676ms)"
+          },
+          {
+            "id": "AC-09",
+            "status": "fail",
+            "description": "AC-09 — Hide removes section and keeps every other param (8273.654033ms)"
+          },
+          {
+            "id": "AC-10",
+            "status": "fail",
+            "description": "AC-10 — The caveat is a body paragraph, verbatim, before any rate, and every rates table points at it (7093.978951ms)"
+          },
+          {
+            "id": "AC-20",
+            "status": "fail",
+            "description": "AC-20 — The source line is derived, printed twice, copied verbatim, and never a literal (9191.575913ms)"
+          },
+          {
+            "id": "AC-36",
+            "status": "skip",
+            "description": "AC-36 — An in-range year with n < 30 keeps a hatched slot labelled n < 30 (5576.569784ms) # SKIPPED: no in-range year with n < 30 in this data"
+          },
+          {
+            "id": "AC-44",
+            "status": "skip",
+            "description": "AC-44 — A row without wilson95 is flagged, never drawn with a band (9120.769437ms) # SKIPPED: every emitted row carries wilson95"
+          },
+          {
+            "id": "AC-61",
+            "status": "fail",
+            "description": "AC-61 — The jump list writes the router fragment and scrolls (5798.516832ms)"
+          },
+          {
+            "id": "AC-62",
+            "status": "fail",
+            "description": "AC-62 — Defaults are unfiltered and unnamed (5525.06117ms)"
+          },
+          {
+            "id": "AC-73",
+            "status": "fail",
+            "description": "AC-73 — The head link moves focus to the section heading (7067.54676ms)"
+          },
+          {
+            "id": "AC-82",
+            "status": "fail",
+            "description": "AC-82 — The first phone screen carries the verification line and the start of the caveat (4578.487295ms)"
+          },
+          {
+            "id": "AC-83",
+            "status": "fail",
+            "description": "AC-83 — Long strings wrap; SQL is a full-width pre, never in a cell (4934.174535ms)"
+          }
+        ],
+        "currentEvidence": {
+          "passed": 84,
+          "failed": 0,
+          "skipped": 2
+        }
+      },
+      {
+        "suite": "Welfare",
+        "total": 85,
+        "passed": 0,
+        "failed": 85,
+        "skipped": 0,
+        "exceptions": [
+          {
+            "id": "AC-01",
+            "status": "fail",
+            "description": "AC-01 — Render the empty page with ≥ 200 characters and no errors (36500.518386ms)"
+          },
+          {
+            "id": "AC-02",
+            "status": "fail",
+            "description": "AC-02 — Say the register is not promoted, above the byline (14.140057ms)"
+          },
+          {
+            "id": "AC-03",
+            "status": "fail",
+            "description": "AC-03 — Replace the byline counts and the strip with the empty wording (0.194185ms)"
+          },
+          {
+            "id": "AC-04",
+            "status": "fail",
+            "description": "AC-04 — Name the empty state in the skip link (0.121165ms)"
+          },
+          {
+            "id": "AC-05",
+            "status": "fail",
+            "description": "AC-05 — Hatch all 36 states and say so in the map's name (0.100828ms)"
+          },
+          {
+            "id": "AC-06",
+            "status": "fail",
+            "description": "AC-06 — Label every twin as empty, not as zero rows of data (0.068582ms)"
+          },
+          {
+            "id": "AC-07",
+            "status": "fail",
+            "description": "AC-07 — Say the control cannot run, and mark every section empty (0.066616ms)"
+          },
+          {
+            "id": "AC-08",
+            "status": "fail",
+            "description": "AC-08 — Draw the clock axis and the derived gaps anyway (0.080015ms)"
+          },
+          {
+            "id": "AC-09",
+            "status": "fail",
+            "description": "AC-09 — Always render the in-frame status line as a list of clauses (19.109293ms)"
+          },
+          {
+            "id": "AC-10",
+            "status": "fail",
+            "description": "AC-10 — Render C1 and C6 on every view at body size, capped at 72ch (0.14678ms)"
+          },
+          {
+            "id": "AC-11",
+            "status": "fail",
+            "description": "AC-11 — Show C2 only for the live metric, with the no-coverage sentence when undeclared (0.06755ms)"
+          },
+          {
+            "id": "AC-12",
+            "status": "fail",
+            "description": "AC-12 — Swap C3 and C4 with the money and per-head metrics (0.117159ms)"
+          },
+          {
+            "id": "AC-13",
+            "status": "fail",
+            "description": "AC-13 — Show C5 and the ballot key only when a year is set (0.081403ms)"
+          },
+          {
+            "id": "AC-14",
+            "status": "fail",
+            "description": "AC-14 — State the partial range in C7 with a figure that matches the strip (0.058016ms)"
+          },
+          {
+            "id": "AC-15",
+            "status": "fail",
+            "description": "AC-15 — Carry C8–C15 in their sections (0.172408ms)"
+          },
+          {
+            "id": "AC-16",
+            "status": "fail",
+            "description": "AC-16 — Declare a one-sided view when the party filter is on (0.055579ms)"
+          },
+          {
+            "id": "AC-17",
+            "status": "fail",
+            "description": "AC-17 — Show the six strip facts with their populations and as-of (0.045898ms)"
+          },
+          {
+            "id": "AC-18",
+            "status": "fail",
+            "description": "AC-18 — Show the live effect of every filter as {N} → {k} (0.038313ms)"
+          },
+          {
+            "id": "AC-19",
+            "status": "fail",
+            "description": "AC-19 — Count every category chip, and keep zero-count chips present (0.036841ms)"
+          },
+          {
+            "id": "AC-20",
+            "status": "fail",
+            "description": "AC-20 — Show metric coverage per option and say why an option is unavailable (0.036412ms)"
+          },
+          {
+            "id": "AC-21",
+            "status": "fail",
+            "description": "AC-21 — Print the control's three windows, n, points, selection and foot lines at rest (0.036002ms)"
+          },
+          {
+            "id": "AC-22",
+            "status": "fail",
+            "description": "AC-22 — Print no percentage under b = 10, and always print a of b (0.038994ms)"
+          },
+          {
+            "id": "AC-23",
+            "status": "fail",
+            "description": "AC-23 — Count every legend class, including empty ones, and total 36 (0.268733ms)"
+          },
+          {
+            "id": "AC-24",
+            "status": "fail",
+            "description": "AC-24 — Head every section with its denominator line (0.052465ms)"
+          },
+          {
+            "id": "AC-25",
+            "status": "fail",
+            "description": "AC-25 — Never print a rate from a missing or tiny denominator (0.033787ms)"
+          },
+          {
+            "id": "AC-26",
+            "status": "fail",
+            "description": "AC-26 — Back every control count with a list of exactly that many rows (0.117137ms)"
+          },
+          {
+            "id": "AC-27",
+            "status": "fail",
+            "description": "AC-27 — Hatch every state without a value, and count them in the status line (0.036135ms)"
+          },
+          {
+            "id": "AC-28",
+            "status": "fail",
+            "description": "AC-28 — Paint no flat zero unless a coverage declaration exists (0.032884ms)"
+          },
+          {
+            "id": "AC-29",
+            "status": "fail",
+            "description": "AC-29 — Say none recorded in this file in the readout, never 0 (0.040152ms)"
+          },
+          {
+            "id": "AC-30",
+            "status": "fail",
+            "description": "AC-30 — Class hatched states as none recorded in the year-slice twin (0.041052ms)"
+          },
+          {
+            "id": "AC-31",
+            "status": "fail",
+            "description": "AC-31 — Fill every matrix cell with a word or a value, never a bare dash (0.03564ms)"
+          },
+          {
+            "id": "AC-32",
+            "status": "fail",
+            "description": "AC-32 — Never render a bare null anywhere on the page (0.068342ms)"
+          },
+          {
+            "id": "AC-33",
+            "status": "fail",
+            "description": "AC-33 — Stipple partial money, and state the lower bound (0.281254ms)"
+          },
+          {
+            "id": "AC-34",
+            "status": "fail",
+            "description": "AC-34 — Say in the key and the panel that no texture means zero (2.632619ms)"
+          },
+          {
+            "id": "AC-35",
+            "status": "fail",
+            "description": "AC-35 — Pair every alleged finding with a Response in DOM order (0.106635ms)"
+          },
+          {
+            "id": "AC-36",
+            "status": "fail",
+            "description": "AC-36 — Render the response at the same size and weight as the allegation (0.075243ms)"
+          },
+          {
+            "id": "AC-37",
+            "status": "fail",
+            "description": "AC-37 — Mark a missing response as missing data, and record two gaps (0.075352ms)"
+          },
+          {
+            "id": "AC-38",
+            "status": "fail",
+            "description": "AC-38 — Add the rose-rule line to the ReadingKey when an alleged item is in view (0.222564ms)"
+          },
+          {
+            "id": "AC-39",
+            "status": "fail",
+            "description": "AC-39 — Name both sides in every contested claim, never \"critics\" (0.06763ms)"
+          },
+          {
+            "id": "AC-40",
+            "status": "fail",
+            "description": "AC-40 — Keep a Response column in the benefits ledger (0.122306ms)"
+          },
+          {
+            "id": "AC-41",
+            "status": "fail",
+            "description": "AC-41 — Pair allegations in the SchemeCard, and refuse to imply none (0.048133ms)"
+          },
+          {
+            "id": "AC-42",
+            "status": "fail",
+            "description": "AC-42 — Filter findings by tier without filtering schemes (0.039829ms)"
+          },
+          {
+            "id": "AC-43",
+            "status": "fail",
+            "description": "AC-43 — Default to unfiltered, nothing selected, no year (0.135084ms)"
+          },
+          {
+            "id": "AC-44",
+            "status": "fail",
+            "description": "AC-44 — Round-trip y (0.061482ms)"
+          },
+          {
+            "id": "AC-45",
+            "status": "fail",
+            "description": "AC-45 — Round-trip m, and fall back when it cannot be honoured (0.03736ms)"
+          },
+          {
+            "id": "AC-46",
+            "status": "fail",
+            "description": "AC-46 — Round-trip cat as a comma list (0.05552ms)"
+          },
+          {
+            "id": "AC-47",
+            "status": "fail",
+            "description": "AC-47 — Round-trip party, and prove the control ignores it (0.034633ms)"
+          },
+          {
+            "id": "AC-48",
+            "status": "fail",
+            "description": "AC-48 — Round-trip lvl without touching the map (0.100247ms)"
+          },
+          {
+            "id": "AC-49",
+            "status": "fail",
+            "description": "AC-49 — Round-trip st and move focus to the panel on a user action (0.055325ms)"
+          },
+          {
+            "id": "AC-50",
+            "status": "fail",
+            "description": "AC-50 — Round-trip s, and answer an unknown scheme plainly (0.040318ms)"
+          },
+          {
+            "id": "AC-51",
+            "status": "fail",
+            "description": "AC-51 — Round-trip tier (0.036115ms)"
+          },
+          {
+            "id": "AC-52",
+            "status": "fail",
+            "description": "AC-52 — Round-trip view, and open the twins under the table view or the hash (0.064376ms)"
+          },
+          {
+            "id": "AC-53",
+            "status": "fail",
+            "description": "AC-53 — Round-trip q, list ≤ 8 matches as links, and never auto-select (0.034075ms)"
+          },
+          {
+            "id": "AC-54",
+            "status": "fail",
+            "description": "AC-54 — Ignore unknown values with a visible notice, and fall back to defaults (0.031999ms)"
+          },
+          {
+            "id": "AC-55",
+            "status": "fail",
+            "description": "AC-55 — Reset everything but view, and copy the exact link (0.036495ms)"
+          },
+          {
+            "id": "AC-56",
+            "status": "fail",
+            "description": "AC-56 — Reproduce the whole view from a URL built through the controls (0.03261ms)"
+          },
+          {
+            "id": "AC-57",
+            "status": "fail",
+            "description": "AC-57 — Match the year-slice twin to the 36 painted states, class for class (0.033328ms)"
+          },
+          {
+            "id": "AC-58",
+            "status": "fail",
+            "description": "AC-58 — Count the same elections on the map, in the card, and in the twins (0.033631ms)"
+          },
+          {
+            "id": "AC-59",
+            "status": "fail",
+            "description": "AC-59 — Match the schemes twin to the filter effect and the strip (0.052649ms)"
+          },
+          {
+            "id": "AC-60",
+            "status": "fail",
+            "description": "AC-60 — Match lane counts to their headers and the lanes twin (0.052923ms)"
+          },
+          {
+            "id": "AC-61",
+            "status": "fail",
+            "description": "AC-61 — Give the scrubber twin one row per year, agreeing with the readout (4.277989ms)"
+          },
+          {
+            "id": "AC-62",
+            "status": "fail",
+            "description": "AC-62 — Export exactly the rows on screen, with the caption line first (0.090568ms)"
+          },
+          {
+            "id": "AC-63",
+            "status": "fail",
+            "description": "AC-63 — Make the TwoByTwo its own twin (0.04137ms)"
+          },
+          {
+            "id": "AC-64",
+            "status": "fail",
+            "description": "AC-64 — Put the skip link first in the stage, and make it work (0.036138ms)"
+          },
+          {
+            "id": "AC-65",
+            "status": "fail",
+            "description": "AC-65 — Drive the map by keyboard and announce each state (0.034178ms)"
+          },
+          {
+            "id": "AC-66",
+            "status": "fail",
+            "description": "AC-66 — Name the scrubber for assistive technology, including the null year (0.03679ms)"
+          },
+          {
+            "id": "AC-67",
+            "status": "fail",
+            "description": "AC-67 — Reach every lane by a real button, and nothing inside the drawing (0.034125ms)"
+          },
+          {
+            "id": "AC-68",
+            "status": "fail",
+            "description": "AC-68 — Name the close and back controls (0.128202ms)"
+          },
+          {
+            "id": "AC-69",
+            "status": "fail",
+            "description": "AC-69 — Keep exactly one live region, and hide decorative swatches (0.04109ms)"
+          },
+          {
+            "id": "AC-70",
+            "status": "fail",
+            "description": "AC-70 — Keep the DOM order the reader hears (0.035465ms)"
+          },
+          {
+            "id": "AC-71",
+            "status": "fail",
+            "description": "AC-71 — Caption or label every table (0.035473ms)"
+          },
+          {
+            "id": "AC-72",
+            "status": "fail",
+            "description": "AC-72 — Scroll the page vertically only (0.038091ms)"
+          },
+          {
+            "id": "AC-73",
+            "status": "fail",
+            "description": "AC-73 — Collapse the filters into a labelled details block (0.064757ms)"
+          },
+          {
+            "id": "AC-74",
+            "status": "fail",
+            "description": "AC-74 — Pin one scrubber above the map within the 140 px budget (0.040565ms)"
+          },
+          {
+            "id": "AC-75",
+            "status": "fail",
+            "description": "AC-75 — Open the state panel directly under the map on tap, readout first (0.037881ms)"
+          },
+          {
+            "id": "AC-76",
+            "status": "fail",
+            "description": "AC-76 — Scroll the clock inside its own box, opened on the latest years (0.043861ms)"
+          },
+          {
+            "id": "AC-77",
+            "status": "fail",
+            "description": "AC-77 — Scroll each table in its own region, with a column count (0.036977ms)"
+          },
+          {
+            "id": "AC-78",
+            "status": "fail",
+            "description": "AC-78 — Keep mono text at or above 12 px, and move strip facts rather than hide them (0.040091ms)"
+          },
+          {
+            "id": "AC-79",
+            "status": "fail",
+            "description": "AC-79 — Make ballots legible and the filter clause visible on a phone (0.03423ms)"
+          },
+          {
+            "id": "AC-80",
+            "status": "fail",
+            "description": "AC-80 — Explain the empty state before any number on a phone (EMPTY build) (0.036179ms)"
+          },
+          {
+            "id": "AC-81",
+            "status": "fail",
+            "description": "AC-81 — Keep the scrubber in the first viewport at 1280×800 (0.035499ms)"
+          },
+          {
+            "id": "AC-82",
+            "status": "fail",
+            "description": "AC-82 — Dash only for tier, and one analytic edge (0.037287ms)"
+          },
+          {
+            "id": "AC-83",
+            "status": "fail",
+            "description": "AC-83 — Keep the five fills distinct and never transition them (0.189204ms)"
+          },
+          {
+            "id": "AC-84",
+            "status": "fail",
+            "description": "AC-84 — Label every page-computed figure, and source none of them (0.036486ms)"
+          },
+          {
+            "id": "AC-85",
+            "status": "fail",
+            "description": "AC-85 — Use British spelling in prose and no motion (0.044045ms)"
+          }
+        ],
+        "currentEvidence": {
+          "passed": 70,
+          "failed": 0,
+          "skipped": 15
+        }
+      }
+    ],
+    "log": "/tmp/pages-dossier-final-current.log",
+    "sha256": "5a3a1d98dbd297ef4bb280ba8fe1de0c3242ea1f68840bab792dc1352610c864"
+  },
+  "focusedReruns": [
+    {
+      "suite": "Energy",
+      "build": "dist-final/index-B8R4qcK1.js",
+      "reason": "Actual mobile dossier entry focus/scroll fix; original checks unchanged.",
+      "cases": [
+        {
+          "id": "AC-61",
+          "status": "pass",
+          "description": "AC-61 — The first phone screen answers \"what, how much, as of when, what is missing\" (13897.592424ms)"
+        },
+        {
+          "id": "AC-64",
+          "status": "pass",
+          "description": "AC-64 — The canvas lets a vertical swipe through at rest (7898.053257ms)"
+        }
+      ],
+      "diagnostics": [],
+      "log": "/tmp/focused-energy-mobile-fixed.log",
+      "sha256": "42746e9f424bab87a5986a5fc371394cbccac8ef3651cbb2f3ac0f51f42a83e6"
+    },
+    {
+      "suite": "Finance",
+      "build": "dist-release",
+      "reason": "Reset selectors scoped to the finance article; AC67 unchanged targeted rerun.",
+      "cases": [
+        {
+          "id": "AC-63",
+          "status": "pass",
+          "description": "AC-63 — Round-trip tier as a comma list shared with the graph (45676.366508ms)"
+        },
+        {
+          "id": "AC-67",
+          "status": "pass",
+          "description": "AC-67 — Round-trip m, scale and mid, disabling what the build cannot honour (G) (59604.515029ms)"
+        },
+        {
+          "id": "AC-69",
+          "status": "pass",
+          "description": "AC-69 — Round-trip inc from the reconciliation line as a chip (28654.91458ms)"
+        }
+      ],
+      "diagnostics": [],
+      "log": "/tmp/focused-finance-roundtrip-final.log",
+      "sha256": "06ac536be604a6bbf83bb84477046bf0aa26949640f5cd0df62989dfb18917c7"
+    },
+    {
+      "suite": "Finance",
+      "build": "dist-final",
+      "reason": "Wait for visible m/scale/mid control commit before independently comparing full figure snapshots.",
+      "cases": [
+        {
+          "id": "AC-67",
+          "status": "pass",
+          "description": "AC-67 — Round-trip m, scale and mid, disabling what the build cannot honour (G) (73014.634509ms)"
+        }
+      ],
+      "diagnostics": [],
+      "log": "/tmp/focused-finance-commit-final.log",
+      "sha256": "0135a51321a27cb170822d34a63874d53883d81b5f44096e2ccb469b7b092fd0"
+    },
+    {
+      "suite": "Finance",
+      "build": "dist-final",
+      "reason": "Finance-only scan retains shared and legacy neutral foregrounds; other political hues and prohibited controls/sorts remain rejected.",
+      "cases": [
+        {
+          "id": "AC-107",
+          "status": "pass",
+          "description": "AC-107 — Colour nothing by party, country or religion; rank nothing the page computes (20401.467991ms)"
+        }
+      ],
+      "diagnostics": [],
+      "log": "/tmp/focused-finance-colour-scoped.log",
+      "sha256": "5a67f5f14ff1fcf6cf2ebd6b9ba43291c36aa96b148bce9fc36e4a1ddab15d05"
+    },
+    {
+      "suite": "Finance",
+      "build": "dist-release",
+      "reason": "Original pixel and dimension budgets retained relative to the finance article reading origin.",
+      "cases": [
+        {
+          "id": "AC-97",
+          "status": "pass",
+          "description": "AC-97 — Keep the strip, tabs and rail summary in the first screen and the bar in two (21256.898627ms)"
+        },
+        {
+          "id": "AC-105",
+          "status": "pass",
+          "description": "AC-105 — Keep the UnionBar in the first viewport at 1280×800 (4800.369439ms)"
+        }
+      ],
+      "diagnostics": [],
+      "log": "/tmp/focused-finance-fold-origin.log",
+      "sha256": "a35dfe81087b3dbdc3d9c980550400c826d1d7b31d1ead321b3ba24caaae1e84"
+    },
+    {
+      "suite": "Tenders",
+      "build": "dist",
+      "reason": "Scope old controls/headings to dossier; AC10 failure superseded by the next run.",
+      "cases": [
+        {
+          "id": "AC-02",
+          "status": "pass",
+          "description": "AC-02 — view=national lands on section=national with every other param kept (5727.982545ms)"
+        },
+        {
+          "id": "AC-03",
+          "status": "pass",
+          "description": "AC-03 — The default view is unchanged except for one head link and one byline sentence (11220.385559ms)"
+        },
+        {
+          "id": "AC-09",
+          "status": "pass",
+          "description": "AC-09 — Hide removes section and keeps every other param (6488.769647ms)"
+        },
+        {
+          "id": "AC-10",
+          "status": "fail",
+          "description": "AC-10 — The caveat is a body paragraph, verbatim, before any rate, and every rates table points at it (6532.49618ms)"
+        },
+        {
+          "id": "AC-62",
+          "status": "pass",
+          "description": "AC-62 — Defaults are unfiltered and unnamed (6212.133005ms)"
+        }
+      ],
+      "diagnostics": [],
+      "log": "/tmp/focused-tenders-final.log",
+      "sha256": "465b1a78e578a16f274c4a48bf760a1d3938a23d1a8407e8e225970a72e39eb6"
+    },
+    {
+      "suite": "Tenders",
+      "build": "dist",
+      "reason": "Original body typography/caveat check scoped to legacy article, excluding shared historical-map note.",
+      "cases": [
+        {
+          "id": "AC-10",
+          "status": "pass",
+          "description": "AC-10 — The caveat is a body paragraph, verbatim, before any rate, and every rates table points at it (16066.160281ms)"
+        }
+      ],
+      "diagnostics": [],
+      "log": "/tmp/focused-tenders-caveat-final.log",
+      "sha256": "bd89ea344fe71b2a9782a3936103156b296f04c6bfb9e7207bae07d35ad2437d"
+    },
+    {
+      "suite": "Tenders",
+      "build": "dist-final",
+      "reason": "Built legacy source boundary; actual scroll viewport landing; container width and overflow; unchanged phone first-screen criterion.",
+      "cases": [
+        {
+          "id": "AC-20",
+          "status": "pass",
+          "description": "AC-20 — The source line is derived, printed twice, copied verbatim, and never a literal (5649.123949ms)"
+        },
+        {
+          "id": "AC-61",
+          "status": "pass",
+          "description": "AC-61 — The jump list writes the router fragment and scrolls (8072.921113ms)"
+        },
+        {
+          "id": "AC-73",
+          "status": "pass",
+          "description": "AC-73 — The head link moves focus to the section heading (4486.826776ms)"
+        },
+        {
+          "id": "AC-82",
+          "status": "pass",
+          "description": "AC-82 — The first phone screen carries the verification line and the start of the caveat (3045.209836ms)"
+        },
+        {
+          "id": "AC-83",
+          "status": "pass",
+          "description": "AC-83 — Long strings wrap; SQL is a full-width pre, never in a cell (3488.057335ms)"
+        }
+      ],
+      "diagnostics": [],
+      "log": "/tmp/tenders-remaining-final.log",
+      "sha256": "8e9aa26e245d278910388199f288eae8d2a1252290427e40a02580bb7cd63c6c"
+    },
+    {
+      "suite": "Welfare",
+      "build": "dist",
+      "reason": "Reset preserves explicit workspace parameter; original legacy clearing criteria remain.",
+      "cases": [
+        {
+          "id": "AC-55",
+          "status": "pass",
+          "description": "AC-55 — Reset everything but view, and copy the exact link (58563.130106ms)"
+        }
+      ],
+      "diagnostics": [],
+      "log": "/tmp/focused-welfare-final.log",
+      "sha256": "ec53dbedd03d66a9385410e19e668c25d47b1074496023d46ff3e5b16caea9de"
+    },
+    {
+      "suite": "Welfare",
+      "build": "dist-final",
+      "reason": "Complete isolated rerun after full-run before-hook timeout; explicit build-only and data-gap skips retained.",
+      "cases": [
+        {
+          "id": "AC-01",
+          "status": "skip",
+          "description": "AC-01 — Render the empty page with ≥ 200 characters and no errors (27961.290874ms) # SKIPPED: EMPTY-build criterion; this dist is the FULL build (set WELFARE_DIST to an empty build)"
+        },
+        {
+          "id": "AC-02",
+          "status": "skip",
+          "description": "AC-02 — Say the register is not promoted, above the byline (7.710957ms) # SKIPPED: EMPTY-build criterion; this dist is the FULL build (set WELFARE_DIST to an empty build)"
+        },
+        {
+          "id": "AC-03",
+          "status": "skip",
+          "description": "AC-03 — Replace the byline counts and the strip with the empty wording (0.391268ms) # SKIPPED: EMPTY-build criterion; this dist is the FULL build (set WELFARE_DIST to an empty build)"
+        },
+        {
+          "id": "AC-04",
+          "status": "skip",
+          "description": "AC-04 — Name the empty state in the skip link (0.343067ms) # SKIPPED: EMPTY-build criterion; this dist is the FULL build (set WELFARE_DIST to an empty build)"
+        },
+        {
+          "id": "AC-05",
+          "status": "skip",
+          "description": "AC-05 — Hatch all 36 states and say so in the map's name (0.382736ms) # SKIPPED: EMPTY-build criterion; this dist is the FULL build (set WELFARE_DIST to an empty build)"
+        },
+        {
+          "id": "AC-06",
+          "status": "skip",
+          "description": "AC-06 — Label every twin as empty, not as zero rows of data (0.416171ms) # SKIPPED: EMPTY-build criterion; this dist is the FULL build (set WELFARE_DIST to an empty build)"
+        },
+        {
+          "id": "AC-07",
+          "status": "skip",
+          "description": "AC-07 — Say the control cannot run, and mark every section empty (0.168328ms) # SKIPPED: EMPTY-build criterion; this dist is the FULL build (set WELFARE_DIST to an empty build)"
+        },
+        {
+          "id": "AC-08",
+          "status": "skip",
+          "description": "AC-08 — Draw the clock axis and the derived gaps anyway (0.180267ms) # SKIPPED: EMPTY-build criterion; this dist is the FULL build (set WELFARE_DIST to an empty build)"
+        },
+        {
+          "id": "AC-09",
+          "status": "pass",
+          "description": "AC-09 — Always render the in-frame status line as a list of clauses (11768.525179ms)"
+        },
+        {
+          "id": "AC-10",
+          "status": "pass",
+          "description": "AC-10 — Render C1 and C6 on every view at body size, capped at 72ch (12458.374752ms)"
+        },
+        {
+          "id": "AC-11",
+          "status": "skip",
+          "description": "AC-11 — Show C2 only for the live metric, with the no-coverage sentence when undeclared (0.526585ms) # SKIPPED: documented void, not a missing test — the page matches no share-of-state-budget figure in the register to any financial year: the scrubber twin's \"States with a money figure (Share of state budget, FY)\" column reads 0 in every year 2000–2026"
+        },
+        {
+          "id": "AC-12",
+          "status": "skip",
+          "description": "AC-12 — Swap C3 and C4 with the money and per-head metrics (0.157895ms) # SKIPPED: documented void, not a missing test — the page matches no share-of-state-budget figure in the register to any financial year: the scrubber twin's \"States with a money figure (Share of state budget, FY)\" column reads 0 in every year 2000–2026"
+        },
+        {
+          "id": "AC-13",
+          "status": "pass",
+          "description": "AC-13 — Show C5 and the ballot key only when a year is set (13846.12256ms)"
+        },
+        {
+          "id": "AC-14",
+          "status": "pass",
+          "description": "AC-14 — State the partial range in C7 with a figure that matches the strip (8534.102521ms)"
+        },
+        {
+          "id": "AC-15",
+          "status": "pass",
+          "description": "AC-15 — Carry C8–C15 in their sections (18617.641478ms)"
+        },
+        {
+          "id": "AC-16",
+          "status": "pass",
+          "description": "AC-16 — Declare a one-sided view when the party filter is on (7867.043259ms)"
+        },
+        {
+          "id": "AC-17",
+          "status": "pass",
+          "description": "AC-17 — Show the six strip facts with their populations and as-of (6083.138779ms)"
+        },
+        {
+          "id": "AC-18",
+          "status": "pass",
+          "description": "AC-18 — Show the live effect of every filter as {N} → {k} (6550.198849ms)"
+        },
+        {
+          "id": "AC-19",
+          "status": "pass",
+          "description": "AC-19 — Count every category chip, and keep zero-count chips present (5481.481184ms)"
+        },
+        {
+          "id": "AC-20",
+          "status": "skip",
+          "description": "AC-20 — Show metric coverage per option and say why an option is unavailable (0.650619ms) # SKIPPED: documented void, not a missing test — the page matches no share-of-state-budget figure in the register to any financial year: the scrubber twin's \"States with a money figure (Share of state budget, FY)\" column reads 0 in every year 2000–2026"
+        },
+        {
+          "id": "AC-21",
+          "status": "pass",
+          "description": "AC-21 — Print the control's three windows, n, points, selection and foot lines at rest (8152.407038ms)"
+        },
+        {
+          "id": "AC-22",
+          "status": "pass",
+          "description": "AC-22 — Print no percentage under b = 10, and always print a of b (12098.991379ms)"
+        },
+        {
+          "id": "AC-23",
+          "status": "pass",
+          "description": "AC-23 — Count every legend class, including empty ones, and total 36 (6077.599974ms)"
+        },
+        {
+          "id": "AC-24",
+          "status": "pass",
+          "description": "AC-24 — Head every section with its denominator line (4775.478996ms)"
+        },
+        {
+          "id": "AC-25",
+          "status": "pass",
+          "description": "AC-25 — Never print a rate from a missing or tiny denominator (4850.540162ms)"
+        },
+        {
+          "id": "AC-26",
+          "status": "pass",
+          "description": "AC-26 — Back every control count with a list of exactly that many rows (5759.03173ms)"
+        },
+        {
+          "id": "AC-27",
+          "status": "pass",
+          "description": "AC-27 — Hatch every state without a value, and count them in the status line (5287.431606ms)"
+        },
+        {
+          "id": "AC-28",
+          "status": "pass",
+          "description": "AC-28 — Paint no flat zero unless a coverage declaration exists (6108.787098ms)"
+        },
+        {
+          "id": "AC-29",
+          "status": "pass",
+          "description": "AC-29 — Say none recorded in this file in the readout, never 0 (12845.255405ms)"
+        },
+        {
+          "id": "AC-30",
+          "status": "pass",
+          "description": "AC-30 — Class hatched states as none recorded in the year-slice twin (4921.688502ms)"
+        },
+        {
+          "id": "AC-31",
+          "status": "pass",
+          "description": "AC-31 — Fill every matrix cell with a word or a value, never a bare dash (4581.809189ms)"
+        },
+        {
+          "id": "AC-32",
+          "status": "pass",
+          "description": "AC-32 — Never render a bare null anywhere on the page (21853.903947ms)"
+        },
+        {
+          "id": "AC-33",
+          "status": "skip",
+          "description": "AC-33 — Stipple partial money, and state the lower bound (8.738268ms) # SKIPPED: documented void, not a missing test — the page matches no share-of-state-budget figure in the register to any financial year: the scrubber twin's \"States with a money figure (Share of state budget, FY)\" column reads 0 in every year 2000–2026"
+        },
+        {
+          "id": "AC-34",
+          "status": "pass",
+          "description": "AC-34 — Say in the key and the panel that no texture means zero (13203.029575ms)"
+        },
+        {
+          "id": "AC-35",
+          "status": "pass",
+          "description": "AC-35 — Pair every alleged finding with a Response in DOM order (5374.573852ms)"
+        },
+        {
+          "id": "AC-36",
+          "status": "pass",
+          "description": "AC-36 — Render the response at the same size and weight as the allegation (5668.063508ms)"
+        },
+        {
+          "id": "AC-37",
+          "status": "pass",
+          "description": "AC-37 — Mark a missing response as missing data, and record two gaps (6625.332638ms)"
+        },
+        {
+          "id": "AC-38",
+          "status": "pass",
+          "description": "AC-38 — Add the rose-rule line to the ReadingKey when an alleged item is in view (14422.959651ms)"
+        },
+        {
+          "id": "AC-39",
+          "status": "pass",
+          "description": "AC-39 — Name both sides in every contested claim, never \"critics\" (5331.251125ms)"
+        },
+        {
+          "id": "AC-40",
+          "status": "pass",
+          "description": "AC-40 — Keep a Response column in the benefits ledger (4728.339167ms)"
+        },
+        {
+          "id": "AC-41",
+          "status": "pass",
+          "description": "AC-41 — Pair allegations in the SchemeCard, and refuse to imply none (4821.209916ms)"
+        },
+        {
+          "id": "AC-42",
+          "status": "pass",
+          "description": "AC-42 — Filter findings by tier without filtering schemes (25242.155341ms)"
+        },
+        {
+          "id": "AC-43",
+          "status": "pass",
+          "description": "AC-43 — Default to unfiltered, nothing selected, no year (10168.411719ms)"
+        },
+        {
+          "id": "AC-44",
+          "status": "pass",
+          "description": "AC-44 — Round-trip y (18800.417226ms)"
+        },
+        {
+          "id": "AC-45",
+          "status": "skip",
+          "description": "AC-45 — Round-trip m, and fall back when it cannot be honoured (6.28155ms) # SKIPPED: documented void, not a missing test — the page matches no share-of-state-budget figure in the register to any financial year: the scrubber twin's \"States with a money figure (Share of state budget, FY)\" column reads 0 in every year 2000–2026"
+        },
+        {
+          "id": "AC-46",
+          "status": "pass",
+          "description": "AC-46 — Round-trip cat as a comma list (15473.564334ms)"
+        },
+        {
+          "id": "AC-47",
+          "status": "pass",
+          "description": "AC-47 — Round-trip party, and prove the control ignores it (23043.733742ms)"
+        },
+        {
+          "id": "AC-48",
+          "status": "pass",
+          "description": "AC-48 — Round-trip lvl without touching the map (26992.073597ms)"
+        },
+        {
+          "id": "AC-49",
+          "status": "pass",
+          "description": "AC-49 — Round-trip st and move focus to the panel on a user action (23955.458479ms)"
+        },
+        {
+          "id": "AC-50",
+          "status": "pass",
+          "description": "AC-50 — Round-trip s, and answer an unknown scheme plainly (30959.544942ms)"
+        },
+        {
+          "id": "AC-51",
+          "status": "pass",
+          "description": "AC-51 — Round-trip tier (17275.878965ms)"
+        },
+        {
+          "id": "AC-52",
+          "status": "pass",
+          "description": "AC-52 — Round-trip view, and open the twins under the table view or the hash (40843.209423ms)"
+        },
+        {
+          "id": "AC-53",
+          "status": "pass",
+          "description": "AC-53 — Round-trip q, list ≤ 8 matches as links, and never auto-select (11438.72288ms)"
+        },
+        {
+          "id": "AC-54",
+          "status": "pass",
+          "description": "AC-54 — Ignore unknown values with a visible notice, and fall back to defaults (15144.816559ms)"
+        },
+        {
+          "id": "AC-55",
+          "status": "pass",
+          "description": "AC-55 — Reset everything but view, and copy the exact link (7879.902326ms)"
+        },
+        {
+          "id": "AC-56",
+          "status": "skip",
+          "description": "AC-56 — Reproduce the whole view from a URL built through the controls (1.157235ms) # SKIPPED: documented void, not a missing test — the page matches no share-of-state-budget figure in the register to any financial year: the scrubber twin's \"States with a money figure (Share of state budget, FY)\" column reads 0 in every year 2000–2026"
+        },
+        {
+          "id": "AC-57",
+          "status": "pass",
+          "description": "AC-57 — Match the year-slice twin to the 36 painted states, class for class (11801.382657ms)"
+        },
+        {
+          "id": "AC-58",
+          "status": "pass",
+          "description": "AC-58 — Count the same elections on the map, in the card, and in the twins (9169.663118ms)"
+        },
+        {
+          "id": "AC-59",
+          "status": "pass",
+          "description": "AC-59 — Match the schemes twin to the filter effect and the strip (20554.315596ms)"
+        },
+        {
+          "id": "AC-60",
+          "status": "pass",
+          "description": "AC-60 — Match lane counts to their headers and the lanes twin (12750.874853ms)"
+        },
+        {
+          "id": "AC-61",
+          "status": "pass",
+          "description": "AC-61 — Give the scrubber twin one row per year, agreeing with the readout (6529.466579ms)"
+        },
+        {
+          "id": "AC-62",
+          "status": "pass",
+          "description": "AC-62 — Export exactly the rows on screen, with the caption line first (20344.49405ms)"
+        },
+        {
+          "id": "AC-63",
+          "status": "pass",
+          "description": "AC-63 — Make the TwoByTwo its own twin (9107.293548ms)"
+        },
+        {
+          "id": "AC-64",
+          "status": "pass",
+          "description": "AC-64 — Put the skip link first in the stage, and make it work (7038.953375ms)"
+        },
+        {
+          "id": "AC-65",
+          "status": "pass",
+          "description": "AC-65 — Drive the map by keyboard and announce each state (9902.19491ms)"
+        },
+        {
+          "id": "AC-66",
+          "status": "pass",
+          "description": "AC-66 — Name the scrubber for assistive technology, including the null year (24504.263817ms)"
+        },
+        {
+          "id": "AC-67",
+          "status": "pass",
+          "description": "AC-67 — Reach every lane by a real button, and nothing inside the drawing (7654.36888ms)"
+        },
+        {
+          "id": "AC-68",
+          "status": "pass",
+          "description": "AC-68 — Name the close and back controls (11719.717038ms)"
+        },
+        {
+          "id": "AC-69",
+          "status": "pass",
+          "description": "AC-69 — Keep exactly one live region, and hide decorative swatches (39866.232838ms)"
+        },
+        {
+          "id": "AC-70",
+          "status": "pass",
+          "description": "AC-70 — Keep the DOM order the reader hears (16475.096856ms)"
+        },
+        {
+          "id": "AC-71",
+          "status": "pass",
+          "description": "AC-71 — Caption or label every table (6564.839104ms)"
+        },
+        {
+          "id": "AC-72",
+          "status": "pass",
+          "description": "AC-72 — Scroll the page vertically only (30197.24941ms)"
+        },
+        {
+          "id": "AC-73",
+          "status": "pass",
+          "description": "AC-73 — Collapse the filters into a labelled details block (6295.795248ms)"
+        },
+        {
+          "id": "AC-74",
+          "status": "pass",
+          "description": "AC-74 — Pin one scrubber above the map within the 140 px budget (6188.878398ms)"
+        },
+        {
+          "id": "AC-75",
+          "status": "pass",
+          "description": "AC-75 — Open the state panel directly under the map on tap, readout first (9755.90574ms)"
+        },
+        {
+          "id": "AC-76",
+          "status": "pass",
+          "description": "AC-76 — Scroll the clock inside its own box, opened on the latest years (12446.441623ms)"
+        },
+        {
+          "id": "AC-77",
+          "status": "pass",
+          "description": "AC-77 — Scroll each table in its own region, with a column count (14147.305727ms)"
+        },
+        {
+          "id": "AC-78",
+          "status": "pass",
+          "description": "AC-78 — Keep mono text at or above 12 px, and move strip facts rather than hide them (10819.925021ms)"
+        },
+        {
+          "id": "AC-79",
+          "status": "pass",
+          "description": "AC-79 — Make ballots legible and the filter clause visible on a phone (13209.865387ms)"
+        },
+        {
+          "id": "AC-80",
+          "status": "skip",
+          "description": "AC-80 — Explain the empty state before any number on a phone (EMPTY build) (0.660274ms) # SKIPPED: EMPTY-build criterion; this dist is the FULL build (set WELFARE_DIST to an empty build)"
+        },
+        {
+          "id": "AC-81",
+          "status": "fail",
+          "description": "AC-81 — Keep the scrubber in the first viewport at 1280×800 (5283.865396ms)"
+        },
+        {
+          "id": "AC-82",
+          "status": "pass",
+          "description": "AC-82 — Dash only for tier, and one analytic edge (5089.866593ms)"
+        },
+        {
+          "id": "AC-83",
+          "status": "pass",
+          "description": "AC-83 — Keep the five fills distinct and never transition them (4903.954715ms)"
+        },
+        {
+          "id": "AC-84",
+          "status": "pass",
+          "description": "AC-84 — Label every page-computed figure, and source none of them (10717.047654ms)"
+        },
+        {
+          "id": "AC-85",
+          "status": "pass",
+          "description": "AC-85 — Use British spelling in prose and no motion (5125.652246ms)"
+        }
+      ],
+      "diagnostics": [
+        "no zero-count chip value learnt; the filtered-panel sentence is unchecked"
+      ],
+      "log": "/tmp/welfare-dossier-clean-final.log",
+      "sha256": "0591271348e985c1904b3eb0dde903f16017b438bf9c20b4bd6770d00f2eb663"
+    },
+    {
+      "suite": "Welfare",
+      "build": "dist-final",
+      "reason": "Original800px fold and420–620px figure-height limits retained relative to dossier reading origin.",
+      "cases": [
+        {
+          "id": "AC-81",
+          "status": "pass",
+          "description": "AC-81 — Keep the scrubber in the first viewport at 1280×800 (37935.520744ms)"
+        }
+      ],
+      "diagnostics": [],
+      "log": "/tmp/welfare-fold-origin-final.log",
+      "sha256": "3e2453a51a3d167cc5aee5170c618d1bef45fea2bc18da8ee59df477b2858fb6"
+    },
+    {
+      "suite": "Finance review",
+      "build": "dist",
+      "reason": "Standalone four-case review, including lazy-route readiness.",
+      "cases": [
+        {
+          "id": "R1",
+          "status": "pass",
+          "description": "R1 — FG-30: every matrix cell is drawn in its own tier dash, and reported is not documented in greyscale (12629.557739ms)"
+        },
+        {
+          "id": "R2",
+          "status": "pass",
+          "description": "R2 — the strip counts only real responses as answers (7668.629899ms)"
+        },
+        {
+          "id": "R3",
+          "status": "pass",
+          "description": "R3 — the strip places ₹ by the spec's strict rule (borrower or benefit who) (8620.11998ms)"
+        },
+        {
+          "id": "R4",
+          "status": "pass",
+          "description": "R4 — a band and the unplaced segment narrow the project list, shown as a removable chip (15243.961184ms)"
+        }
+      ],
+      "diagnostics": [],
+      "log": "/tmp/focused-finance-review-final.log",
+      "sha256": "2997e04d4905603ea9123f770595267e632a9c4172675364e8869792900ea0b1"
+    }
+  ],
+  "unresolved": [],
+  "workflows": [
+    {
+      "suite": "Smoke",
+      "checks": 140,
+      "unit": "route/surface loads",
+      "status": "pass",
+      "build": "dist",
+      "log": "/tmp/workspace-smoke-final.log",
+      "sha256": "b2afdabf6541952fe74e4e71403aa7fa8cde07f4d6662e3241efa8435ff776c5"
+    },
+    {
+      "suite": "Graph viewport",
+      "checks": 59,
+      "unit": "checks",
+      "status": "pass",
+      "build": "dist",
+      "log": "/tmp/graph-dossier-final.log",
+      "sha256": "afeccb59e69a949a1da5e5314571ac0817c80a27083262b61840977fd1bef59c"
+    },
+    {
+      "suite": "Education",
+      "checks": 1,
+      "unit": "workflow",
+      "status": "pass",
+      "build": "dist",
+      "log": "/tmp/education-dossier-final.log",
+      "sha256": "45ea98750bc5c4b263e0b1f0e84215c0321685e3ce40847c072a3ed60226118f"
+    },
+    {
+      "suite": "Water",
+      "checks": 1,
+      "unit": "workflow",
+      "status": "pass",
+      "build": "dist",
+      "log": "/tmp/water-dossier-final.log",
+      "sha256": "a5763b9d1c37803dbbf3b4f71a169c2e93efe8e70d72559500d12f4222b56b56"
+    },
+    {
+      "suite": "Public Works",
+      "checks": 77,
+      "unit": "checks",
+      "status": "pass",
+      "build": "dist-next",
+      "log": "/tmp/public-works-context-final.log",
+      "sha256": "62c7e123ca454bc504f55c6a152ad4a45efb2e8d191b5aec556f1195e278f341"
+    },
+    {
+      "suite": "Rapid dossier history",
+      "checks": 15,
+      "unit": "cycles",
+      "status": "pass",
+      "build": "dist-next",
+      "log": "/tmp/dossier-history-final-corrected.log",
+      "sha256": "6efa4fad0972f8c36e9a53ebff2a1e8eff1c317126bb1c7e8fe8f4968b66b705"
+    }
+  ],
+  "currentEvidenceTotals": {
+    "passed": 338,
+    "failed": 0,
+    "skipped": 18
+  }
+}

@@ -12,10 +12,11 @@ import { DataProvider } from './context/DataContext';
  * substantial dataset — but a reader arriving at the dashboard should not download
  * the ingestion audit to see it.
  *
- * The dashboard is deliberately NOT lazy: it is the landing route, and splitting it
- * only adds a round trip before the first paint.
+ * The original dashboard is a lazy dossier too. The shared investigation
+ * workspace owns the default landing surface and only mounts a route dossier
+ * when the reader explicitly opens it.
  */
-import Dashboard from './pages/Dashboard';
+const Dashboard = lazy(() => import('./pages/Dashboard'));
 
 const MapExplorer = lazy(() => import('./pages/MapExplorer'));
 const StateProfile = lazy(() => import('./pages/StateProfile'));
@@ -45,6 +46,7 @@ const Security = lazy(() => import('./pages/Security'));
 const Education = lazy(() => import('./pages/Education'));
 const Water = lazy(() => import('./pages/Water'));
 const PublicWorks = lazy(() => import('./pages/PublicWorks'));
+const InvestigationDossier = lazy(() => import('./pages/InvestigationDossier'));
 const Competition = lazy(() => import('./pages/Competition'));
 const Provenance = lazy(() => import('./pages/Provenance'));
 const Method = lazy(() => import('./pages/Method'));
@@ -79,6 +81,9 @@ function App() {
                 <Suspense fallback={<RouteFallback />}>
                   <Routes>
                     <Route path="/" element={<Dashboard />} />
+                    <Route path="/investigate" element={<Dashboard />} />
+                    <Route path="/justice" element={<InvestigationDossier domain="justice" />} />
+                    <Route path="/debt" element={<InvestigationDossier domain="debt-relief" />} />
                     <Route path="/map" element={<MapExplorer />} />
                     <Route path="/states/:code" element={<StateProfile />} />
                     <Route path="/company/:id" element={<CompanyProfile />} />

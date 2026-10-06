@@ -9704,19 +9704,19 @@
     "inputs": [
       {
         "file": "research/raw/cppp/rates.json",
-        "sha256": "a217520d146acd5d965641307aec08f908178f8c90d550d6fb3efc1fd872c75b"
+        "sha256": "647fb39806ddcf4bdae2639a7e3e179733eb2c99d60e13223a43784b22df6ae7"
       },
       {
         "file": "research/raw/cppp/quality.json",
-        "sha256": "b0a7cceb8b12a476188bb41c97f836858d30189a2d4de1fa661362586db7b871"
+        "sha256": "76c48843633cd3e8405e701750d2f63655008579ed71f98edcf03392fcc7fc32"
       },
       {
         "file": "research/raw/cppp/redflags.json",
-        "sha256": "555112a36d34c3a5b0197a0005e987f75c0c6c18c74d2893e00c6b17bedb8faa"
+        "sha256": "74fd62c005ab6b2a0120a8352ce1c687d0e180b2b107e384b2d41f120259afb1"
       },
       {
         "file": "research/raw/cppp/sample-verification.json",
-        "sha256": "3846cc34122385d8e33101e0220bf2f33a4922d21661ba85e0fa711e438e53c3"
+        "sha256": "8f8926f41f5f5922a19aad089b57ecd644182aa2930d08d92a2f094801e012e9"
       },
       {
         "file": "research/raw/public-works/roads-research.json",
@@ -9792,10 +9792,10 @@
       "meaning": "Missing is not zero bids; stage and extraction gaps remain."
     },
     {
-      "label": "AOC before closing date",
+      "label": "AOC field precedes recorded comparison-date field",
       "count": 16182,
       "denominator": 4921960,
-      "meaning": "Chronology defect in raw data; excluded from the comparable timing analysis."
+      "meaning": "Ordering of recorded source fields; closing-field meaning is unresolved. The historical gap calculation excludes negative gaps; this is not verified procurement chronology."
     },
     {
       "label": "Sampled portal pages expired",

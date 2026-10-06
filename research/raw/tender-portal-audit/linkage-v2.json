@@ -1,0 +1,516 @@
+{
+  "asOf": "2026-10-06",
+  "sourceHashes": {
+    "aoc_tenders.db": "ec8ef7711a17b7cae9e0414c2403b119a0a31c4dec49ed7055b38ec0df5f7586",
+    "tenders_vps.db": "b1994cfb6dd2d5da9ed1d9ac8d6bbc7083178f155e92a65628e87a38e4c64d01"
+  },
+  "derivationVersion": "linkage-v2-detail-reference-fallback",
+  "scriptSHA256": "dcf2a9d675af36174f7820cdde1d271cac1d02d417ea59270900f7bf622b6a6c",
+  "queries": {
+    "build_reference_fallback": {
+      "sql": "CREATE OR REPLACE TABLE award_reference AS SELECT internal_id,json_extract_string(try_cast(details_json AS JSON),'$.\"Tender Ref. No.\"') AS detail_reference FROM raw_a.aoc_details",
+      "rows": null,
+      "seconds": 12.495
+    },
+    "reference_agreement": {
+      "sql": "SELECT count(*) AS award_rows,count(*) FILTER(WHERE nullif(trim(a.reference),'') IS NULL) AS listing_ref_missing,count(*) FILTER(WHERE nullif(trim(a.reference),'') IS NULL AND nullif(trim(d.detail_reference),'') IS NOT NULL) AS filled_from_same_internal_id,count(*) FILTER(WHERE nullif(trim(a.reference),'') IS NOT NULL AND nullif(trim(d.detail_reference),'') IS NOT NULL AND trim(a.reference)<>trim(d.detail_reference)) AS nonblank_ref_conflicts FROM audit.awards a LEFT JOIN award_reference d USING(internal_id)",
+      "rows": [
+        {
+          "award_rows": 4921960,
+          "listing_ref_missing": 4715493,
+          "filled_from_same_internal_id": 4358118,
+          "nonblank_ref_conflicts": 118342
+        }
+      ],
+      "seconds": 4.931
+    },
+    "build_scoped_keys": {
+      "sql": "CREATE OR REPLACE TABLE award_keys AS SELECT a.internal_id,a.portal,a.buyer,a.tender_id,coalesce(nullif(trim(a.reference),''),nullif(trim(d.detail_reference),'')) AS reference_key FROM audit.awards a LEFT JOIN award_reference d USING(internal_id)",
+      "rows": null,
+      "seconds": 9.525
+    },
+    "build_unique_pairs": {
+      "sql": "CREATE OR REPLACE TABLE unique_pairs AS WITH n AS(SELECT internal_id,portal,buyer,tender_id,trim(reference) AS reference_key,count(*) OVER(PARTITION BY portal,buyer,tender_id,trim(reference)) AS k FROM audit.notices WHERE nullif(trim(reference),'') IS NOT NULL AND nullif(trim(buyer),'') IS NOT NULL AND nullif(trim(tender_id),'') IS NOT NULL),a AS(SELECT *,count(*) OVER(PARTITION BY portal,buyer,tender_id,reference_key) AS k FROM award_keys WHERE reference_key IS NOT NULL AND nullif(trim(buyer),'') IS NOT NULL AND nullif(trim(tender_id),'') IS NOT NULL) SELECT n.internal_id AS notice_internal_id,a.internal_id AS award_internal_id FROM n JOIN a USING(portal,buyer,tender_id,reference_key) WHERE n.k=1 AND a.k=1",
+      "rows": null,
+      "seconds": 18.125
+    },
+    "fallback_join_cardinality": {
+      "sql": "WITH n AS(SELECT portal,buyer,tender_id,trim(reference) AS reference_key,count(*) AS n FROM audit.notices WHERE nullif(trim(reference),'') IS NOT NULL AND nullif(trim(buyer),'') IS NOT NULL AND nullif(trim(tender_id),'') IS NOT NULL GROUP BY ALL),a AS(SELECT portal,buyer,tender_id,reference_key,count(*) AS n FROM award_keys WHERE reference_key IS NOT NULL AND nullif(trim(buyer),'') IS NOT NULL AND nullif(trim(tender_id),'') IS NOT NULL GROUP BY ALL) SELECT count(*) AS shared_keys,sum(n.n::HUGEINT*a.n) AS candidate_pairs,count(*) FILTER(WHERE n.n=1 AND a.n=1) AS one_to_one_keys,count(*) FILTER(WHERE n.n>1 AND a.n>1) AS many_to_many_keys FROM n JOIN a USING(portal,buyer,tender_id,reference_key)",
+      "rows": [
+        {
+          "shared_keys": 24809,
+          "candidate_pairs": 34261,
+          "one_to_one_keys": 17704,
+          "many_to_many_keys": 3
+        }
+      ],
+      "seconds": 12.055
+    },
+    "closing_field_semantics": {
+      "sql": "SELECT count(*) AS unique_pairs,count(*) FILTER(WHERE a.closing_at=n.published_at) AS award_closing_equals_notice_publication,count(*) FILTER(WHERE a.closing_at=n.closing_at) AS award_closing_equals_notice_closing,count(*) FILTER(WHERE a.closing_at::DATE=n.closing_at::DATE) AS same_closing_day,count(*) FILTER(WHERE a.closing_at::TIME=TIME '00:00:00') AS award_closing_midnight,count(*) FILTER(WHERE n.closing_at>a.aoc_at) AS award_before_notice_closing FROM unique_pairs p JOIN audit.notices n ON n.internal_id=p.notice_internal_id JOIN audit.awards a ON a.internal_id=p.award_internal_id",
+      "rows": [
+        {
+          "unique_pairs": 17704,
+          "award_closing_equals_notice_publication": 15816,
+          "award_closing_equals_notice_closing": 0,
+          "same_closing_day": 66,
+          "award_closing_midnight": 1198,
+          "award_before_notice_closing": 321
+        }
+      ],
+      "seconds": 1.084
+    },
+    "closing_semantics_by_buyer": {
+      "sql": "SELECT n.portal,n.buyer,count(*) AS unique_pairs,count(*) FILTER(WHERE a.closing_at=n.published_at) AS close_equals_published,count(*) FILTER(WHERE a.closing_at=n.closing_at) AS close_equals_close FROM unique_pairs p JOIN audit.notices n ON n.internal_id=p.notice_internal_id JOIN audit.awards a ON a.internal_id=p.award_internal_id GROUP BY ALL ORDER BY unique_pairs DESC,n.portal,n.buyer LIMIT 20",
+      "rows": [
+        {
+          "portal": "central",
+          "buyer": "Neyveli Lignite Corporation Limited",
+          "unique_pairs": 7372,
+          "close_equals_published": 6167,
+          "close_equals_close": 0
+        },
+        {
+          "portal": "central",
+          "buyer": "Bharat Petroleum Corporation Limited",
+          "unique_pairs": 5185,
+          "close_equals_published": 4736,
+          "close_equals_close": 0
+        },
+        {
+          "portal": "central",
+          "buyer": "Banaras Hindu University",
+          "unique_pairs": 368,
+          "close_equals_published": 367,
+          "close_equals_close": 0
+        },
+        {
+          "portal": "central",
+          "buyer": "MOIL Limited",
+          "unique_pairs": 288,
+          "close_equals_published": 288,
+          "close_equals_close": 0
+        },
+        {
+          "portal": "central",
+          "buyer": "Delhi Milk Scheme",
+          "unique_pairs": 234,
+          "close_equals_published": 234,
+          "close_equals_close": 0
+        },
+        {
+          "portal": "central",
+          "buyer": "Central Water and Power Research Station",
+          "unique_pairs": 225,
+          "close_equals_published": 225,
+          "close_equals_close": 0
+        },
+        {
+          "portal": "central",
+          "buyer": "National Institute of Technology Karnataka",
+          "unique_pairs": 167,
+          "close_equals_published": 167,
+          "close_equals_close": 0
+        },
+        {
+          "portal": "central",
+          "buyer": "Power Grid Corporation of India Limited",
+          "unique_pairs": 141,
+          "close_equals_published": 141,
+          "close_equals_close": 0
+        },
+        {
+          "portal": "central",
+          "buyer": "Indian Institute of Management Ahmedabad",
+          "unique_pairs": 137,
+          "close_equals_published": 137,
+          "close_equals_close": 0
+        },
+        {
+          "portal": "central",
+          "buyer": "Central Public Works Department (CPWD)",
+          "unique_pairs": 136,
+          "close_equals_published": 0,
+          "close_equals_close": 0
+        },
+        {
+          "portal": "central",
+          "buyer": "National Council of Science Museums",
+          "unique_pairs": 131,
+          "close_equals_published": 131,
+          "close_equals_close": 0
+        },
+        {
+          "portal": "central",
+          "buyer": "General Services Organisation (GSO)",
+          "unique_pairs": 113,
+          "close_equals_published": 113,
+          "close_equals_close": 0
+        },
+        {
+          "portal": "central",
+          "buyer": "Balmer Lawrie and Company Limited",
+          "unique_pairs": 109,
+          "close_equals_published": 19,
+          "close_equals_close": 0
+        },
+        {
+          "portal": "central",
+          "buyer": "Assam Rifles - MHA",
+          "unique_pairs": 105,
+          "close_equals_published": 105,
+          "close_equals_close": 0
+        },
+        {
+          "portal": "central",
+          "buyer": "Indian Institute of Science Education and Research - Tirupati",
+          "unique_pairs": 105,
+          "close_equals_published": 105,
+          "close_equals_close": 0
+        },
+        {
+          "portal": "central",
+          "buyer": "Indian Railway Catering and Tourism Corpn Ltd",
+          "unique_pairs": 91,
+          "close_equals_published": 91,
+          "close_equals_close": 0
+        },
+        {
+          "portal": "central",
+          "buyer": "Jhabua Power Ltd",
+          "unique_pairs": 83,
+          "close_equals_published": 83,
+          "close_equals_close": 0
+        },
+        {
+          "portal": "central",
+          "buyer": "National Council for Cement and Building Materials",
+          "unique_pairs": 81,
+          "close_equals_published": 81,
+          "close_equals_close": 0
+        },
+        {
+          "portal": "central",
+          "buyer": "Sikkim University",
+          "unique_pairs": 76,
+          "close_equals_published": 76,
+          "close_equals_close": 0
+        },
+        {
+          "portal": "central",
+          "buyer": "Harish-Chandra Research Institute",
+          "unique_pairs": 65,
+          "close_equals_published": 65,
+          "close_equals_close": 0
+        }
+      ],
+      "seconds": 0.601
+    },
+    "candidate_eligibility_by_closing_semantics": {
+      "sql": "SELECT count(*) AS exact_key_chronology_eligible,count(*) FILTER(WHERE a.closing_at=n.closing_at) AS closing_timestamp_confirmed,count(*) FILTER(WHERE a.closing_at=n.published_at) AS award_closing_is_notice_publication,count(*) FILTER(WHERE cast(a.bids_raw AS INTEGER)=1 AND date_diff('minute',n.published_at,n.closing_at)<72*60) AS short_window_single_bid FROM unique_pairs p JOIN audit.notices n ON n.internal_id=p.notice_internal_id JOIN audit.awards a ON a.internal_id=p.award_internal_id WHERE n.published_at>=TIMESTAMP '2021-06-16' AND n.published_at<=n.closing_at AND n.closing_at<=a.aoc_at AND a.aoc_at<=a.scraped_at AND regexp_full_match(n.tender_id,'[0-9]{4}_[A-Za-z][A-Za-z0-9]*_[0-9]+_[0-9]+') AND regexp_full_match(trim(a.bids_raw),'[0-9]+') AND try_cast(trim(a.bids_raw) AS INTEGER) BETWEEN 1 AND 1000 AND regexp_full_match(trim(a.value_raw),'[0-9]+(?:\\.[0-9]+)?') AND a.value_amount BETWEEN 100000 AND 10000000000",
+      "rows": [
+        {
+          "exact_key_chronology_eligible": 2071,
+          "closing_timestamp_confirmed": 0,
+          "award_closing_is_notice_publication": 2071,
+          "short_window_single_bid": 2
+        }
+      ],
+      "seconds": 2.883
+    },
+    "bounded_field_semantics_leads": {
+      "sql": "SELECT n.internal_id AS notice_internal_id,a.internal_id AS award_internal_id,n.portal,n.buyer,n.tender_id,k.reference_key AS reference,n.title,n.tender_category,n.product_category,n.tender_type,n.status,n.published_at,n.closing_at AS notice_closing,a.closing_at AS award_closing,a.aoc_at,a.bids_raw,a.value_raw,a.value_amount,date_diff('minute',n.published_at,n.closing_at)/60.0 AS listed_window_hours,nullif(trim(n.corrigendum_url),'') IS NOT NULL AS corrigendum_link,n.document_url AS notice_document_url,a.document_url AS award_document_url FROM unique_pairs p JOIN audit.notices n ON n.internal_id=p.notice_internal_id JOIN audit.awards a ON a.internal_id=p.award_internal_id JOIN award_keys k ON k.internal_id=a.internal_id WHERE n.published_at>=TIMESTAMP '2021-06-16' AND n.published_at<=n.closing_at AND n.closing_at<=a.aoc_at AND a.aoc_at<=a.scraped_at AND regexp_full_match(n.tender_id,'[0-9]{4}_[A-Za-z][A-Za-z0-9]*_[0-9]+_[0-9]+') AND regexp_full_match(trim(a.bids_raw),'[0-9]+') AND try_cast(trim(a.bids_raw) AS INTEGER) BETWEEN 1 AND 1000 AND regexp_full_match(trim(a.value_raw),'[0-9]+(?:\\.[0-9]+)?') AND a.value_amount BETWEEN 100000 AND 10000000000 ORDER BY CASE WHEN cast(a.bids_raw AS INTEGER)=1 AND date_diff('minute',n.published_at,n.closing_at)<72*60 THEN 0 ELSE 1 END,listed_window_hours,n.tender_id LIMIT 12",
+      "rows": [
+        {
+          "notice_internal_id": "13322253",
+          "award_internal_id": "b0b95c8497a5f34f420daee2f7157c49",
+          "portal": "central",
+          "buyer": "Indian Railway Catering and Tourism Corpn Ltd",
+          "tender_id": "2025_IRCTC_817462_1",
+          "reference": "2025/IRCTC/TSV/06/OCTOBER/76",
+          "title": "LIMITED E-TENDER BID DOCUMENT FOR PROVISION OF ONBOARD CATERING SERVICES INTRAINS WITHOUT PANTRY CAR (THROUGH TSV) FOR A PERIOD OF 03 MONTHS FURTHER EXTENDABLE UPTO 03 MONTH AT SOLE DISCRETION OF IRCTC OR FINALIZATION COMMENCEMENT OF LONG TERM TENDER",
+          "tender_category": "Services",
+          "product_category": "Miscellaneous Services",
+          "tender_type": "Limited",
+          "status": "archived",
+          "published_at": "2025-10-31 13:00:00",
+          "notice_closing": "2025-11-03 12:00:00",
+          "award_closing": "2025-10-31 13:00:00",
+          "aoc_at": "2025-11-10 00:00:00",
+          "bids_raw": "1",
+          "value_raw": "117999",
+          "value_amount": 117999.0,
+          "listed_window_hours": 71.0,
+          "corrigendum_link": false,
+          "notice_document_url": "https://eprocure.gov.in/epublish/app?page=FrontEndTenderDetailsExternal&service=page&tnid=1122373",
+          "award_document_url": "https://eprocure.gov.in/epublish/app?page=FrontEndTenderDetailsExternal&service=page&tnid=1122373"
+        },
+        {
+          "notice_internal_id": "13355484",
+          "award_internal_id": "c572850a85adff8b517f65fd1bb50add",
+          "portal": "central",
+          "buyer": "Indian Railway Catering and Tourism Corpn Ltd",
+          "tender_id": "2025_IRCTC_819046_1",
+          "reference": "2025/IRCTC/TSV/06/NOVEMBER/26",
+          "title": "LIMITED E-TENDER BID DOCUMENT FOR PROVISION OF ONBOARD CATERING SERVICES INTRAINS WITHOUT PANTRY CAR (THROUGH TSV) FOR A PERIOD OF 03 MONTHS FURTHER EXTENDABLE UPTO 03 MONTH AT SOLE DISCRETION OF IRCTC OR FINALIZATION COMMENCEMENT OF LONG TERM TENDER",
+          "tender_category": "Services",
+          "product_category": "Miscellaneous Services",
+          "tender_type": "Limited",
+          "status": "archived",
+          "published_at": "2025-11-15 13:00:00",
+          "notice_closing": "2025-11-18 12:00:00",
+          "award_closing": "2025-11-15 13:00:00",
+          "aoc_at": "2025-11-21 00:00:00",
+          "bids_raw": "1",
+          "value_raw": "109859",
+          "value_amount": 109859.0,
+          "listed_window_hours": 71.0,
+          "corrigendum_link": false,
+          "notice_document_url": "https://eprocure.gov.in/epublish/app?page=FrontEndTenderDetailsExternal&service=page&tnid=1123989",
+          "award_document_url": "https://eprocure.gov.in/epublish/app?page=FrontEndTenderDetailsExternal&service=page&tnid=1123989"
+        },
+        {
+          "notice_internal_id": "13349406",
+          "award_internal_id": "40fbacde86cc4dddad92fd86f217a708",
+          "portal": "central",
+          "buyer": "Indian Railway Catering and Tourism Corpn Ltd",
+          "tender_id": "2025_IRCTC_818788_1",
+          "reference": "2025/IRCTC/TSV/06/NOVEMBER/22",
+          "title": "LIMITED E-TENDER BID DOCUMENT FOR PROVISION OF ONBOARD CATERING SERVICES INTRAINS WITHOUT PANTRY CAR (THROUGH TSV) FOR A PERIOD OF 03 MONTHS FURTHER EXTENDABLE UPTO 03 MONTH AT SOLE DISCRETION OF IRCTC OR FINALIZATION COMMENCEMENT OF LONG TERM TENDER",
+          "tender_category": "Services",
+          "product_category": "Miscellaneous Services",
+          "tender_type": "Limited",
+          "status": "archived",
+          "published_at": "2025-11-13 12:00:00",
+          "notice_closing": "2025-11-14 12:00:00",
+          "award_closing": "2025-11-13 12:00:00",
+          "aoc_at": "2025-11-19 00:00:00",
+          "bids_raw": "2",
+          "value_raw": "277062",
+          "value_amount": 277062.0,
+          "listed_window_hours": 24.0,
+          "corrigendum_link": false,
+          "notice_document_url": "https://eprocure.gov.in/epublish/app?page=FrontEndTenderDetailsExternal&service=page&tnid=1123729",
+          "award_document_url": "https://eprocure.gov.in/epublish/app?page=FrontEndTenderDetailsExternal&service=page&tnid=1123729"
+        },
+        {
+          "notice_internal_id": "13329135",
+          "award_internal_id": "89e481bfe740ec9a811fff517ec54a24",
+          "portal": "central",
+          "buyer": "Indian Railway Catering and Tourism Corpn Ltd",
+          "tender_id": "2025_IRCTC_817795_1",
+          "reference": "2025/IRCTC/TSV/06/NOVEMBER/03",
+          "title": "LIMITED E-TENDER BID DOCUMENT FOR PROVISION OF ONBOARD CATERING SERVICES INTRAINS WITHOUT PANTRY CAR (THROUGH TSV) FOR A PERIOD OF 03 MONTHS FURTHER EXTENDABLE UPTO 03 MONTH AT SOLE DISCRETION OF IRCTC OR FINALIZATION COMMENCEMENT",
+          "tender_category": "Services",
+          "product_category": "Miscellaneous Services",
+          "tender_type": "Limited",
+          "status": "archived",
+          "published_at": "2025-11-04 11:00:00",
+          "notice_closing": "2025-11-06 12:00:00",
+          "award_closing": "2025-11-04 11:00:00",
+          "aoc_at": "2025-11-12 00:00:00",
+          "bids_raw": "3",
+          "value_raw": "152303",
+          "value_amount": 152303.0,
+          "listed_window_hours": 49.0,
+          "corrigendum_link": false,
+          "notice_document_url": "https://eprocure.gov.in/epublish/app?page=FrontEndTenderDetailsExternal&service=page&tnid=1122721",
+          "award_document_url": "https://eprocure.gov.in/epublish/app?page=FrontEndTenderDetailsExternal&service=page&tnid=1122721"
+        },
+        {
+          "notice_internal_id": "13341906",
+          "award_internal_id": "03ff518f327ba81ba12fc00e34e310d9",
+          "portal": "central",
+          "buyer": "Indian Railway Catering and Tourism Corpn Ltd",
+          "tender_id": "2025_IRCTC_818368_1",
+          "reference": "2025/IRCTC/TSV/06/NOVEMBER/12",
+          "title": "LIMITED E-TENDER BID DOCUMENT FOR PROVISION OF ONBOARD CATERING SERVICES INTRAINS WITHOUT PANTRY CAR (THROUGH TSV) FOR A PERIOD OF 03 MONTHS FURTHER EXTENDABLE UPTO 03 MONTH AT SOLE DISCRETION OF IRCTC OR FINALIZATION COMMENCEMENT OF LONG TERM TENDER",
+          "tender_category": "Services",
+          "product_category": "Miscellaneous Services",
+          "tender_type": "Limited",
+          "status": "archived",
+          "published_at": "2025-11-10 11:00:00",
+          "notice_closing": "2025-11-12 12:00:00",
+          "award_closing": "2025-11-10 11:00:00",
+          "aoc_at": "2025-11-18 00:00:00",
+          "bids_raw": "2",
+          "value_raw": "411937",
+          "value_amount": 411937.0,
+          "listed_window_hours": 49.0,
+          "corrigendum_link": false,
+          "notice_document_url": "https://eprocure.gov.in/epublish/app?page=FrontEndTenderDetailsExternal&service=page&tnid=1123309",
+          "award_document_url": "https://eprocure.gov.in/epublish/app?page=FrontEndTenderDetailsExternal&service=page&tnid=1123309"
+        },
+        {
+          "notice_internal_id": "13341907",
+          "award_internal_id": "1b4ccd9a1fda15b2127b36d57e89d5ca",
+          "portal": "central",
+          "buyer": "Indian Railway Catering and Tourism Corpn Ltd",
+          "tender_id": "2025_IRCTC_818369_1",
+          "reference": "2025/IRCTC/TSV/06/NOVEMBER/13",
+          "title": "LIMITED E-TENDER BID DOCUMENT FOR PROVISION OF ONBOARD CATERING SERVICES INTRAINS WITHOUT PANTRY CAR (THROUGH TSV) FOR A PERIOD OF 03 MONTHS FURTHER EXTENDABLE UPTO 03 MONTH AT SOLE DISCRETION OF IRCTC OR FINALIZATION COMMENCEMENT OF LONG TERM TENDER",
+          "tender_category": "Services",
+          "product_category": "Miscellaneous Services",
+          "tender_type": "Limited",
+          "status": "archived",
+          "published_at": "2025-11-10 11:00:00",
+          "notice_closing": "2025-11-12 12:00:00",
+          "award_closing": "2025-11-10 11:00:00",
+          "aoc_at": "2025-11-17 00:00:00",
+          "bids_raw": "2",
+          "value_raw": "852431",
+          "value_amount": 852431.0,
+          "listed_window_hours": 49.0,
+          "corrigendum_link": false,
+          "notice_document_url": "https://eprocure.gov.in/epublish/app?page=FrontEndTenderDetailsExternal&service=page&tnid=1123310",
+          "award_document_url": "https://eprocure.gov.in/epublish/app?page=FrontEndTenderDetailsExternal&service=page&tnid=1123310"
+        },
+        {
+          "notice_internal_id": "13370399",
+          "award_internal_id": "020cadfa8690524c536bdb263dc23e15",
+          "portal": "central",
+          "buyer": "Indian Railway Catering and Tourism Corpn Ltd",
+          "tender_id": "2025_IRCTC_819836_1",
+          "reference": "2025/IRCTC/TSV/06/NOVEMBER/46",
+          "title": "LIMITED E-TENDER BID DOCUMENT FOR PROVISION OF ONBOARD CATERING SERVICES INTRAINS WITHOUT PANTRY CAR (THROUGH TSV) FOR A PERIOD OF 03 MONTHS FURTHER EXTENDABLE UPTO 03 MONTH AT SOLE DISCRETION OF IRCTC OR FINALIZATION COMMENCEMENT OF LONG TERM TENDER",
+          "tender_category": "Services",
+          "product_category": "Miscellaneous Services",
+          "tender_type": "Limited",
+          "status": "archived",
+          "published_at": "2025-11-21 18:00:00",
+          "notice_closing": "2025-11-24 12:00:00",
+          "award_closing": "2025-11-21 18:00:00",
+          "aoc_at": "2025-11-27 00:00:00",
+          "bids_raw": "2",
+          "value_raw": "309157",
+          "value_amount": 309157.0,
+          "listed_window_hours": 66.0,
+          "corrigendum_link": false,
+          "notice_document_url": "https://eprocure.gov.in/epublish/app?page=FrontEndTenderDetailsExternal&service=page&tnid=1124787",
+          "award_document_url": "https://eprocure.gov.in/epublish/app?page=FrontEndTenderDetailsExternal&service=page&tnid=1124787"
+        },
+        {
+          "notice_internal_id": "12565750",
+          "award_internal_id": "54ab38c0b5d8a21187c4905065629c51",
+          "portal": "central",
+          "buyer": "Jhabua Power Ltd",
+          "tender_id": "2024_JPL_221354_2",
+          "reference": "JPL-CnM-LT-1100012242",
+          "title": "Supply of High Pressure drain valves",
+          "tender_category": "Goods",
+          "product_category": "Mechanical Equipment",
+          "tender_type": "Limited",
+          "status": "archived",
+          "published_at": "2025-01-03 11:00:00",
+          "notice_closing": "2025-01-06 18:00:00",
+          "award_closing": "2025-01-03 11:00:00",
+          "aoc_at": "2025-06-14 00:00:00",
+          "bids_raw": "3",
+          "value_raw": "626250",
+          "value_amount": 626250.0,
+          "listed_window_hours": 79.0,
+          "corrigendum_link": false,
+          "notice_document_url": "https://etenders.gov.in/eprocure/app?page=FrontEndTenderDetailsExternal&service=page&tnid=247978",
+          "award_document_url": "https://etenders.gov.in/eprocure/app?page=FrontEndTenderDetailsExternal&service=page&tnid=247978"
+        },
+        {
+          "notice_internal_id": "12653046",
+          "award_internal_id": "c85dc12ea2ec168326bf4bba86a8faa8",
+          "portal": "central",
+          "buyer": "Indian Railway Catering and Tourism Corpn Ltd",
+          "tender_id": "2025_IRCTC_787217_1",
+          "reference": "2025/IRCTC/TSV/06/JANUARY/14",
+          "title": "LIMITED E-TENDER BID DOCUMENT FOR PROVISION OF ONBOARD CATERING SERVICES IN TRAINS WITHOUT PANTRY CAR (THROUGH TSV) FOR A PERIOD OF 03 MONTHS FURTHER EXTENDABLE UPTO 01 MONTH AT SOLE DISCRETION OF IRCTC OR FINALIZATION COMMENCEMENT OF LONG TERM TENDE",
+          "tender_category": "Services",
+          "product_category": "Miscellaneous Services",
+          "tender_type": "Limited",
+          "status": "archived",
+          "published_at": "2025-01-30 18:00:00",
+          "notice_closing": "2025-02-03 12:00:00",
+          "award_closing": "2025-01-30 18:00:00",
+          "aoc_at": "2026-01-12 00:00:00",
+          "bids_raw": "2",
+          "value_raw": "139577",
+          "value_amount": 139577.0,
+          "listed_window_hours": 90.0,
+          "corrigendum_link": false,
+          "notice_document_url": "https://eprocure.gov.in/epublish/app?page=FrontEndTenderDetailsExternal&service=page&tnid=1091563",
+          "award_document_url": "https://eprocure.gov.in/epublish/app?page=FrontEndTenderDetailsExternal&service=page&tnid=1091563"
+        },
+        {
+          "notice_internal_id": "12902773",
+          "award_internal_id": "239da5de10671ab339f0c318ee8a19ec",
+          "portal": "central",
+          "buyer": "Container Corporation of India Limited",
+          "tender_id": "2025_CONCR_806999_1",
+          "reference": "CON/A-II/T/96401/K/SPARES",
+          "title": "Supply of Spares for KONE RSTs at CONCOR Terminals",
+          "tender_category": "Goods",
+          "product_category": "Miscellaneous Goods",
+          "tender_type": "Limited",
+          "status": "archived",
+          "published_at": "2025-07-28 17:30:00",
+          "notice_closing": "2025-08-01 13:00:00",
+          "award_closing": "2025-07-28 17:30:00",
+          "aoc_at": "2025-08-18 00:00:00",
+          "bids_raw": "1",
+          "value_raw": "1921826",
+          "value_amount": 1921826.0,
+          "listed_window_hours": 91.5,
+          "corrigendum_link": false,
+          "notice_document_url": "https://eprocure.gov.in/epublish/app?page=FrontEndTenderDetailsExternal&service=page&tnid=1111735",
+          "award_document_url": "https://eprocure.gov.in/epublish/app?page=FrontEndTenderDetailsExternal&service=page&tnid=1111735"
+        },
+        {
+          "notice_internal_id": "11989015",
+          "award_internal_id": "3b9d3d9ba82d2b4e33ca46030dacbff7",
+          "portal": "central",
+          "buyer": "Jhabua Power Ltd",
+          "tender_id": "2024_JPL_199619_1",
+          "reference": "JPL/CnM/24-25/1100012168",
+          "title": "Supply of SS designed Shield",
+          "tender_category": "Goods",
+          "product_category": "Mechanical Equipment",
+          "tender_type": "Limited",
+          "status": "archived",
+          "published_at": "2024-06-27 16:15:00",
+          "notice_closing": "2024-07-01 13:00:00",
+          "award_closing": "2024-06-27 16:15:00",
+          "aoc_at": "2024-07-04 00:00:00",
+          "bids_raw": "1",
+          "value_raw": "952500",
+          "value_amount": 952500.0,
+          "listed_window_hours": 92.75,
+          "corrigendum_link": false,
+          "notice_document_url": "https://etenders.gov.in/eprocure/app?page=FrontEndTenderDetailsExternal&service=page&tnid=218522",
+          "award_document_url": "https://etenders.gov.in/eprocure/app?page=FrontEndTenderDetailsExternal&service=page&tnid=218522"
+        },
+        {
+          "notice_internal_id": "11716548",
+          "award_internal_id": "4f47661dbb2698a9aca1633159a5bee0",
+          "portal": "central",
+          "buyer": "Jhabua Power Ltd",
+          "tender_id": "2024_JPL_193146_1",
+          "reference": "JPL/CnM/24-25/1100012108",
+          "title": "supply of LT Dry Type Transformer",
+          "tender_category": "Goods",
+          "product_category": "Electrical Goods/Equipment",
+          "tender_type": "Single",
+          "status": "archived",
+          "published_at": "2024-04-09 18:00:00",
+          "notice_closing": "2024-04-13 18:00:00",
+          "award_closing": "2024-04-09 18:00:00",
+          "aoc_at": "2024-05-15 00:00:00",
+          "bids_raw": "1",
+          "value_raw": "5801250",
+          "value_amount": 5801250.0,
+          "listed_window_hours": 96.0,
+          "corrigendum_link": false,
+          "notice_document_url": "https://etenders.gov.in/eprocure/app?page=FrontEndTenderDetailsExternal&service=page&tnid=211507",
+          "award_document_url": "https://etenders.gov.in/eprocure/app?page=FrontEndTenderDetailsExternal&service=page&tnid=211507"
+        }
+      ],
+      "seconds": 5.703
+    }
+  }
+}

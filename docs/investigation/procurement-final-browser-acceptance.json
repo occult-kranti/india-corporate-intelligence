@@ -1,0 +1,120 @@
+{
+  "testedAt": "2026-10-06T23:37:56.332Z",
+  "base": "http://127.0.0.1:45859",
+  "distIndexSha256": "929d47431973d293a16795a7dbd2195557cb8574d6c7721e02889b7d8b1a4478",
+  "scenarioFilter": null,
+  "browser": "/usr/bin/chromium via Playwright (151.0.7922.173)",
+  "checks": 669,
+  "routes": [
+    "/",
+    "/investigate",
+    "/justice",
+    "/debt",
+    "/map",
+    "/network",
+    "/geograph",
+    "/cabinet",
+    "/tenders",
+    "/resources",
+    "/conglomerates",
+    "/atlas",
+    "/patterns",
+    "/evidence",
+    "/base-rates",
+    "/interlocks",
+    "/motifs",
+    "/prospector",
+    "/desk",
+    "/capture",
+    "/allocation",
+    "/pmcares",
+    "/energy",
+    "/welfare",
+    "/finance",
+    "/security",
+    "/education",
+    "/water",
+    "/public-works",
+    "/competition",
+    "/provenance",
+    "/method",
+    "/industries",
+    "/political",
+    "/media",
+    "/search",
+    "/watchlist",
+    "/states/ka",
+    "/company/reliance-industries",
+    "/conglomerates/adani"
+  ],
+  "results": [
+    {
+      "name": "Every registered route opens the shared 36-state workspace",
+      "status": "passed",
+      "milliseconds": 14126
+    },
+    {
+      "name": "Route lenses and geographic controls preserve context through history",
+      "status": "passed",
+      "milliseconds": 4720
+    },
+    {
+      "name": "State routes preserve an explicit All India choice and reject ambiguous old boundaries",
+      "status": "passed",
+      "milliseconds": 4136
+    },
+    {
+      "name": "Search drafts reset when history reverses a just-submitted query",
+      "status": "passed",
+      "milliseconds": 2294
+    },
+    {
+      "name": "Evidence inspector retains original source, response and separate money stages",
+      "status": "passed",
+      "milliseconds": 1617
+    },
+    {
+      "name": "Casebook pins, notes, saved views, JSON/Markdown and safe additive import",
+      "status": "passed",
+      "milliseconds": 2772
+    },
+    {
+      "name": "Pinned relationship export retains explicitly linked counter-evidence",
+      "status": "passed",
+      "milliseconds": 842
+    },
+    {
+      "name": "Capacity-limited imports reject the complete merge without losing local work",
+      "status": "passed",
+      "milliseconds": 4608
+    },
+    {
+      "name": "Invalid and empty URLs are explicit, reversible and preserve valid geography",
+      "status": "passed",
+      "milliseconds": 1406
+    },
+    {
+      "name": "Every dossier remains accessible with geographic context",
+      "status": "passed",
+      "milliseconds": 29111
+    },
+    {
+      "name": "Responsive map, evidence, casebook and dossier have no body overflow",
+      "status": "passed",
+      "milliseconds": 24830
+    },
+    {
+      "name": "No uncaught browser exceptions",
+      "status": "passed",
+      "milliseconds": 0
+    }
+  ],
+  "pageErrors": [],
+  "screenshots": [
+    "/tmp/investigation-browser-procurement-final/workspace-320.png",
+    "/tmp/investigation-browser-procurement-final/workspace-390.png",
+    "/tmp/investigation-browser-procurement-final/workspace-768.png",
+    "/tmp/investigation-browser-procurement-final/workspace-1440.png"
+  ],
+  "note": "Rendered workspace and casebook acceptance. Graph traversal/zoom/pan workflow is owned by its separate suite."
+}

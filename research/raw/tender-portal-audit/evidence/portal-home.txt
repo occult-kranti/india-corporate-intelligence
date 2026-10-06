@@ -1,0 +1,415 @@
+
+
+
+    
+    
+    Index of /db/procurement
+    
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #fafaf8;
+            color: #111111;
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 16px;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+        h1 {
+            font-size: 1.3em;
+            margin-bottom: 4px;
+            border-bottom: 2px solid #111111;
+            padding-bottom: 8px;
+            letter-spacing: 0.02em;
+        }
+        h3 {
+            margin-top: 24px;
+            margin-bottom: 8px;
+            font-size: 1em;
+        }
+        pre {
+            margin: 16px 0;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            line-height: 1.65;
+            overflow-x: auto;
+        }
+        a {
+            color: #0000cc;
+            text-decoration: underline;
+        }
+        a:visited {
+            color: #551a8b;
+        }
+        a:hover {
+            color: #cc0000;
+        }
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+            margin-top: 12px;
+            margin-bottom: 28px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 600px;
+        }
+        th, td {
+            text-align: left;
+            padding: 7px 12px;
+            border-bottom: 1px solid #e0e0e0;
+            vertical-align: top;
+        }
+        th {
+            border-bottom: 2px solid #111111;
+            font-weight: bold;
+            background-color: #f0f0ee;
+        }
+        tr:hover td {
+            background-color: #f5f5f2;
+        }
+        .header-meta {
+            color: #666666;
+            font-size: 0.88em;
+            margin-bottom: 18px;
+            margin-top: 4px;
+        }
+        .section-title {
+            font-weight: bold;
+            text-transform: uppercase;
+            background-color: #111111;
+            color: #ffffff;
+            padding: 4px 10px;
+            display: inline-block;
+            margin-top: 0;
+            margin-bottom: 12px;
+            font-size: 0.85em;
+            letter-spacing: 0.08em;
+        }
+        .download-bar {
+            margin: 14px 0 24px 0;
+            padding: 12px 14px;
+            border: 1px solid #bbbbbb;
+            background-color: #f0f0ee;
+        }
+        .discord-box {
+            border: 1px solid #bbbbbb;
+            background-color: #f0f0ee;
+            padding: 18px 20px;
+            margin: 28px 0;
+            font-size: 1.1em;
+            text-align: center;
+            line-height: 1.8;
+        }
+        .discord-box a {
+            font-weight: bold;
+        }
+        hr {
+            border: none;
+            border-top: 1px solid #cccccc;
+            margin: 30px 0;
+        }
+        .c-red  { color: #cc2200; font-weight: bold; }
+        .c-blue { color: #0044bb; }
+        .c-grn  { color: #1a7a1a; }
+        .c-num  { color: #b85c00; font-weight: bold; }
+        .c-head { color: #000; font-weight: bold; text-decoration: underline; text-underline-offset: 3px; }
+        .c-kw   { color: #0044bb; }
+        .c-str  { color: #1a7a1a; }
+        .c-cmt  { color: #aaaaaa; }
+    
+
+
+
+    Index of /db/procurement (tender.sarthaksidhant.com)
+    
+        Date: 2026-06-26 | Host: tender.sarthaksidhant.com | Mirror Status: Sync Complete
+    
+
+    Database Downloads
+    
+    
+        
+            
+                File / Mirrors
+                Format
+                Record Count
+                Description
+                SHA-256
+            
+        
+        
+            
+                
+                    aoc_tenders.db
+                    ⤷ [Google Drive]
+                    ⤷ [S3 Mirror]
+                    ⤷ [MEGA Mirror]
+                
+                SQLite 3
+                ~4.9M records
+                Awards of Contract database. Contains winner metadata, contract values, dates.
+                ec8ef7711a17b7cae9e0414c2403b119a0a31c4dec49ed7055b38ec0df5f7586
+            
+            
+                
+                    tenders_vps.db
+                    ⤷ [Google Drive]
+                    ⤷ [S3 Mirror]
+                    ⤷ [MEGA Mirror]
+                
+                SQLite 3
+                ~3.9M records
+                Active/Archived Tenders database. Contains published notices, EMDs, fee information.
+                b1994cfb6dd2d5da9ed1d9ac8d6bbc7083178f155e92a65628e87a38e4c64d01
+            
+            
+                
+                    Consolidated Archive (both DBs)
+                    ⤷ [MEGA Mirror]
+                    ⤷ [R2 Mirror] .zip
+                    ⤷ [S3 Mirror] .zip
+                    ⤷ [file.kiwi Mirror]
+                
+                Archive
+                —
+                Single download containing both databases.
+                —
+            
+        
+    
+    
+
+    
+    ================================================================================
+AN OPEN INVITATION TO DATA SCIENTISTS, RESEARCHERS, JOURNALISTS,
+AND ANYONE WHO BELIEVES PUBLIC MONEY DESERVES PUBLIC SCRUTINY:
+
+Every rupee the government spends goes through a tender. A notice is published,
+bids are invited, a winner is selected, a contract is signed. This process
+is, in theory, the immune system of public finance. In practice, it is where
+most large-scale procurement corruption quietly occurs.
+
+While many paid and subscription based databases exist,
+this data is public data and needs to be easily accessible
+for it to be studied and analysed by every Indian. 
+
+I spent two weeks building a high-throughput scraper that has systematically
+crawled and archived the Central Public Procurement Portal (CPPP) of India
+-- the government's own public-facing procurement database. The result is two
+flat SQLite databases totalling over 8.8 million records, covering both the
+initial tender notices and the final award outcomes, with full structured detail.
+
+No captcha. No paywalls. No throttled APIs. No pagination traps. No obfuscated HTML.
+Just the data, as it was published.
+
+The database is now yours. Here is what we ask in return:
+
+  1. Download it.
+  2. Look at who keeps winning.
+  3. Look at how short the bid windows are.
+  4. Look at how many tenders receive exactly one bid.
+  5. Run the numbers. Write the queries. Publish the findings.
+
+Corruption is not invisible. It is just tedious to find. This dataset removes
+the tedium. The analysis, and the courage to share it, is still on us.
+
+COORDINATION GROUP (Discuss, share queries, and post findings):
+Discord: https://discord.gg/7Zsgyg86Mq
+================================================================================
+    
+
+    Scope of Data
+    SOURCE
+  Portal   : Central Public Procurement Portal (CPPP) -- eprocure.gov.in
+  Coverage : National and state-level procurement across all sectors
+             (Works, Goods, Services, Consultancies)
+  Portal Types Covered:
+    - Central Government Ministries & Departments
+    - State Government Portals (via CPPP aggregation)
+    - Defence Procurement (defproc.gov.in mirror entries)
+    - State-specific portals (e.g., wbtenders.gov.in, etenders.kerala.gov.in)
+
+CORPUS SIZE
+  aoc_tenders.db  :  4,921,960  award of contract listing records
+  aoc_details     :  4,540,739  fully parsed detail pages (JSON)
+  tenders_vps.db  :  3,952,191  published tender notice records
+  tender_details  :  3,178,485  fully parsed tender detail pages (JSON)
+  -------------------------
+  Total           :  ~16,592,415 structured records across both databases
+
+
+
+KEY AUDITABLE FIELDS & RESEARCH ANGLES
+  Bid Competition Analysis:
+    * Number of bids received per award -- identify single-bid contracts at scale
+    * Bid submission windows (e_published_date vs bid_submission_closing_date)
+      -- artificially short windows are a known indicator of pre-selected winners
+
+  Vendor Concentration:
+    * Name of the selected bidder(s) -- aggregate winner frequency by vendor name
+    * Address of the selected bidder(s) -- cluster by geography or address overlap
+    * Cross-reference multiple contracts won by same entity across departments
+
+  Financial Anomaly Detection:
+    * Contract Value vs. EMD ratio -- unusually low EMDs can deter legitimate bidders
+    * Tender Fee structures -- high document fees as gatekeeping mechanism
+    * Contract Value outliers per category and per organisation
+
+  Timeline & Process Integrity:
+    * Corrigendum frequency -- repeated amendments can signal process manipulation
+    * Bid opening vs. closing gap -- very short gaps reduce competitive legitimacy
+    * Document download window vs. submission window asymmetries
+
+  Sector & Department Mapping:
+    * Organisation Type (Central / State / Defence / PSU)
+    * Product Category & Sub-category breakdowns for sector-level analysis
+    * Department-level award concentration over time
+    
+
+
+
+    Database Schemas
+
+    1. aoc_tenders.db Schema Overview
+    -- TABLE: aoc_tenders (~4,921,960 rows)
+-- Preliminary listing metadata for award notifications.
+CREATE TABLE aoc_tenders (
+    internal_id   TEXT PRIMARY KEY,  -- MD5 hash of detail_url (used as unique key)
+    portal_type   TEXT,              -- Source portal classifier
+    year          INTEGER,           -- Calendar year of listing
+    sl_no         TEXT,              -- List serial number
+    aoc_date      TEXT,              -- Contract award date timestamp
+    closing_date  TEXT,              -- Original bid closing date
+    title         TEXT,              -- Subject line/title of the award
+    ref_no        TEXT,              -- Tender reference number
+    tender_id     TEXT,              -- Public tender ID key
+    org_name      TEXT,              -- Purchasing department or state agency
+    detail_url    TEXT,              -- CPPP details page source URL
+    partition_id  INTEGER            -- Hash partition index
+);
+
+-- TABLE: aoc_details (~4,540,739 rows)
+-- Deep crawled values corresponding to award details.
+CREATE TABLE aoc_details (
+    internal_id   TEXT PRIMARY KEY,  -- FK mapping to aoc_tenders.internal_id
+    tender_id     TEXT,              -- Public tender ID key
+    scraped_at    TEXT,              -- Timestamp of crawler execution
+    details_json  TEXT               -- JSON representation of raw HTML table key-values
+);
+
+-- JSON Schema keys inside aoc_details.details_json:
+{
+  "Tender Type": string,
+  "Contract Date": string,
+  "Contract Value": string (currency value),
+  "Published Date": string,
+  "Tender Document": string (URL),
+  "Tender Ref. No.": string,
+  "Organisation Name": string,
+  "Tender Description": string,
+  "Number of bids received": string,
+  "Name of the selected bidder(s)": string,
+  "Address of the selected bidder(s)": string,
+  "Date of Completion/Completion Period in Days": string
+}
+    
+
+    2. tenders_vps.db Schema Overview
+    -- TABLE: tenders (~3,952,191 rows)
+-- Listing metadata for active/archived tenders.
+CREATE TABLE tenders (
+    internal_id                  TEXT PRIMARY KEY,  -- Base64 decoded internal identifier
+    tender_id                    TEXT,              -- Public tender ID key
+    detail_url                   TEXT,              -- URL link to detail view
+    status                       TEXT,              -- Scraper classification ('active' / 'archived')
+    organisation_name            TEXT,              -- Organisation or state department name
+    title                        TEXT,              -- Tender title or description
+    reference_number             TEXT,              -- Department tender reference code
+    portal_type                  TEXT,              -- Source category (org / state)
+    serial_number                TEXT,              -- List serial number
+    e_published_date             TEXT,              -- Published date timestamp
+    bid_submission_closing_date  TEXT,              -- Closing date timestamp
+    tender_opening_date          TEXT,              -- Bid opening date timestamp
+    corrigendum_url              TEXT,              -- Link to corrigendum updates page (if any)
+    scraped_at                   TEXT,              -- Crawl execution timestamp
+    partition_id                 INTEGER            -- Hash partition index
+);
+
+-- TABLE: tender_details (~3,178,485 rows)
+-- Deep metadata and full parsed html values.
+CREATE TABLE tender_details (
+    internal_id   TEXT PRIMARY KEY,  -- FK mapping to tenders.internal_id
+    tender_id     TEXT,              -- Public tender ID key
+    details_json  TEXT,              -- JSON representation of raw HTML details table
+    scraped_at    TEXT               -- Timestamp of deep crawl
+);
+
+-- JSON Schema keys inside tender_details.details_json:
+{
+  "Tender Reference Number": string,
+  "Tender Title": string,
+  "Organisation Name": string,
+  "Organisation Type": string,
+  "Tender Category": string,
+  "Tender Type": string,
+  "Product Category": string,
+  "Product Sub-Category": string,
+  "ePublished Date": string,
+  "Bid Opening Date": string,
+  "Bid Submission Start Date": string,
+  "Bid Submission End Date": string,
+  "Document Download Start Date": string,
+  "Document Download End Date": string,
+  "EMD": string (Earned Money Deposit),
+  "Tender Fee": string,
+  "Location": string,
+  "Address": string,
+  "Name": string (Contact officer name),
+  "Work Description": string,
+  "Tender Document": string (URL)
+}
+    
+
+    
+
+    Verifying File Integrity (SHA-256)
+    After downloading, verify the file has not been corrupted or tampered with by comparing
+its SHA-256 hash against the values below.
+
+EXPECTED HASHES
+  aoc_tenders.db  :  ec8ef7711a17b7cae9e0414c2403b119a0a31c4dec49ed7055b38ec0df5f7586
+  tenders_vps.db  :  b1994cfb6dd2d5da9ed1d9ac8d6bbc7083178f155e92a65628e87a38e4c64d01
+
+WINDOWS — POWERSHELL
+  # Run in the folder where the file was downloaded
+  Get-FileHash -Path aoc_tenders.db -Algorithm SHA256
+  Get-FileHash -Path tenders_vps.db  -Algorithm SHA256
+
+  # The "Hash" field in the output should match exactly.
+
+WINDOWS — COMMAND PROMPT (cmd.exe)
+  # Run in the folder where the file was downloaded
+  certutil -hashfile aoc_tenders.db SHA256
+  certutil -hashfile tenders_vps.db  SHA256
+
+  # Compare the long hex string printed to the expected hash above.
+
+LINUX / MACOS — TERMINAL
+  # Run in the folder where the file was downloaded
+  sha256sum aoc_tenders.db
+  sha256sum tenders_vps.db
+
+  # Output format:  <hash>  <filename>
+  # The hash on the left should match exactly.
+
+WHAT TO DO IF THE HASHES DO NOT MATCH
+  ✗ Do not use the file.
+  The download may be incomplete or the file may have been modified in transit.
+  Delete it and re-download from a different mirror listed above.
+    
+
+
+
+

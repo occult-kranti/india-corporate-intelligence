@@ -6,6 +6,7 @@ import { readFileSync, existsSync } from 'node:fs';
 import { resolve, extname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright';
+import { dossierUrl, dossier } from '../pages/dossier-navigation.mjs';
 
 const root = fileURLToPath(new URL('../../', import.meta.url));
 const dist = resolve(root, process.env.WATER_DIST ?? 'dist');
@@ -59,7 +60,7 @@ try {
   page.on('pageerror', error => errors.push(error.message));
   const ready = () => page.getByRole('heading', { name: 'Water, from source to plate.', exact: true }).waitFor();
   const open = async (query = '') => {
-    await page.goto(`${base}/#/water${query ? `?${query}` : ''}`); await ready();
+    await page.goto(dossierUrl(base, `/water${query ? `?${query}` : ''}`)); await ready();
     const params = new URLSearchParams(query);
     // A same-document hash navigation can leave the previous page heading present.
     // Wait for the new form state before reading cards or clicking their controls.
@@ -101,7 +102,7 @@ try {
   };
 
   await open();
-  assert.equal(await page.getByLabel('State or union territory', { exact: true }).locator('option').count(), data.states.length + 1, 'all jurisdictions are navigable');
+  assert.equal(await dossier(page).getByLabel('State or union territory', { exact: true }).locator('option').count(), data.states.length + 1, 'all jurisdictions are navigable');
   await selected('Publication window', 'in-window');
   assert.ok((await page.locator('.water-window').innerText()).includes('Not a live alert service'));
   await page.locator('.water-window-summary').waitFor();
@@ -112,7 +113,7 @@ try {
 
   // Context and date uncertainty stay accessible without entering the five-year view.
   for (const window of ['background', 'undated', 'all']) {
-    await page.getByLabel('Publication window', { exact: true }).selectOption(window);
+    await dossier(page).getByLabel('Publication window', { exact: true }).selectOption(window);
     await selected('Publication window', window);
     const expected = data.sources.filter(source => window === 'all' || source.windowStatus === window);
     await page.waitForFunction(count => document.querySelector('.water-result-count strong')?.textContent === String(count), expected.length);
@@ -145,7 +146,7 @@ try {
   await page.waitForFunction(() => document.querySelectorAll('.water-source').length === 1);
   assert.equal(await page.locator('.water-source').getAttribute('id'), `water-source-${firstWaterId}`);
   assert.equal(await page.evaluate(() => localStorage.getItem('icip-education-reading-list-v1')), JSON.stringify([educationId]));
-  await page.goto(`${base}/#/education?saved=1`);
+  await page.goto(dossierUrl(base, '/education?saved=1'));
   await page.getByRole('heading', { name: 'Who funds the classroom?', exact: true }).waitFor();
   await page.waitForFunction(() => document.querySelectorAll('.edu-source').length === 1);
   assert.equal(await page.locator('.edu-source').getAttribute('id'), `edu-source-${educationId}`);
@@ -156,7 +157,7 @@ try {
   // Filter navigation creates actual history and restores rendered control state.
   await open();
   const stateCode = data.states.find(state => state.code === 'KA')?.code ?? data.states[0].code;
-  await page.getByLabel('State or union territory', { exact: true }).selectOption(stateCode);
+  await dossier(page).getByLabel('State or union territory', { exact: true }).selectOption(stateCode);
   await selected('State or union territory', stateCode);
   await page.getByRole('group', { name: 'Filter by subject lens' }).getByRole('button', { name: 'Farming', exact: true }).click();
   await page.waitForFunction(() => document.querySelector('.water-lenses button[aria-pressed="true"]')?.textContent === 'Farming');
@@ -172,10 +173,10 @@ try {
 
   // Rapid successive edits must compose even before a router render commits.
   await open();
-  await page.getByLabel('State or union territory', { exact: true }).selectOption(stateCode);
+  await dossier(page).getByLabel('State or union territory', { exact: true }).selectOption(stateCode);
   await page.waitForURL(new RegExp(`state=${stateCode}`));
-  await page.getByLabel('Topic, crop, scheme or document', { exact: true }).fill('rice');
-  await page.getByLabel('Topic, crop, scheme or document', { exact: true }).press('Enter');
+  await dossier(page).getByLabel('Topic, crop, scheme or document', { exact: true }).fill('rice');
+  await dossier(page).getByLabel('Topic, crop, scheme or document', { exact: true }).press('Enter');
   await page.waitForURL(/q=rice/);
   await selected('State or union territory', stateCode);
   assert.ok(page.url().includes(`state=${stateCode}`), 'rapid topic submission must retain the prior state selection');
@@ -194,8 +195,8 @@ try {
   await open();
   const allDiscovery = await page.locator('.water-discovery').count();
   assert.ok(allDiscovery > 0, 'official discovery routes must be loaded');
-  await page.getByLabel('City, district or village', { exact: true }).fill('UnrecordedVillage987654321');
-  await page.getByRole('button', { name: 'Search', exact: true }).click();
+  await dossier(page).getByLabel('City, district or village', { exact: true }).fill('UnrecordedVillage987654321');
+  await dossier(page).getByRole('button', { name: 'Search', exact: true }).click();
   await page.getByRole('heading', { name: 'No recorded sources match this view.', exact: true }).waitFor();
   assert.equal(await page.locator('.water-source').count(), 0);
   assert.equal(await page.getByRole('button', { name: 'Export CSV', exact: true }).isDisabled(), true);

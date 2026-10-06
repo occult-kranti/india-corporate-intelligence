@@ -22,6 +22,7 @@
 import { test, before, after } from 'node:test';
 import assert from 'node:assert/strict';
 import { chromium } from 'playwright';
+import { dossierUrl } from './dossier-navigation.mjs';
 import { createServer } from 'node:http';
 import { existsSync, readFileSync, writeFileSync, mkdtempSync } from 'node:fs';
 import { tmpdir } from 'node:os';
@@ -113,9 +114,11 @@ async function withPage(fn) {
   try { await fn(page); assert.deepEqual(errors, [], `page errors: ${errors.join(' | ')}`); } finally { await page.close(); }
 }
 async function load(page, route) {
-  await page.goto('about:blank');
-  await page.goto(`${base}/#${route}`, { waitUntil: 'networkidle' });
-  await page.waitForSelector('article.pb-20');
+  await page.goto('about:blank', { timeout: 30_000 });
+  await page.goto(dossierUrl(base, route), { waitUntil: 'networkidle', timeout: 30_000 });
+  // Lazy route readiness has the same budget as the main finance acceptance suite;
+  // individual interactions retain this review suite's five-second action limit.
+  await page.waitForSelector('.iw-dossier-content article.pb-20', { timeout: 30_000 });
   await page.waitForTimeout(SETTLE);
 }
 const stripText = async (page) => (await page.locator('section[aria-label="Denominators"]').first().innerText()).replace(/\s+/g, ' ');

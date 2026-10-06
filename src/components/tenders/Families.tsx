@@ -43,7 +43,7 @@ export function familyRows(core: CpppCore, conc: Concentration | null, p: Proven
   const indicatorLabel: Record<string, string> = {
     singleBidding: 'red flag: single bidding',
     nonOpenTenderType: 'red flag: non-open tender type',
-    shortDecisionWindow: 'red flag: short decision window',
+    shortDecisionWindow: 'recorded dataset-date gap; field meaning unverified',
     repeatSingleBidderMarkedWinners: 'red flag: repeat single-bidder pairs',
   };
   for (const ind of redflags?.indicators ?? []) {
@@ -61,7 +61,7 @@ export function familyRows(core: CpppCore, conc: Concentration | null, p: Proven
     add({
       definition: timing.definition,
       n: timing.n,
-      usedIn: 'timing: days from closing to AOC, financial-year months',
+      usedIn: 'recorded dataset-date gaps; field meaning unverified; recorded AOC financial-year months',
       parts: [timing.n, timing.excludedAocBeforeClosing, timing.excludedDateMissing],
     });
   }

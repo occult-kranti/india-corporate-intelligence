@@ -571,14 +571,11 @@ def write_security(con, out_dir, provenance: dict, rates: dict, timing: dict, re
         return out
 
     timing_doc = {
-        "definition": ("days = date_diff('day', closing_at, aoc_at) on slice dedup rows; rows with aoc_at < closing_at, and rows where either "
-                       "date is NULL, are excluded and counted so that n + excludedAocBeforeClosing + excludedDateMissing = dedupRows, per class "
-                       "and in total — the same rule as timing.json"),
+        "definition": B.timing_definition(sliced=True),
         "total": trow(None, ts_total, tx_total),
         "byClass": [trow(c, ts.get(c), tx.get(c)) for c in CLASS_ORDER],
-        "innocentReading": ("Same-day and next-day awards follow from automated opening of single-bid and small tenders; long windows follow "
-                            "from technical evaluation, trials and approvals in stores and DPSU purchases. The window says nothing about the "
-                            "quality of an evaluation."),
+        "innocentReading": B.DATE_GAP_READING,
+        "fieldSemanticsAudit": B.date_field_semantics(),
     }
 
     # ---- concentration ---------------------------------------------------------------
@@ -648,7 +645,7 @@ def write_security(con, out_dir, provenance: dict, rates: dict, timing: dict, re
     rep_total = rep_total or {"pairs": 0, "repeat_pairs": 0}
     wf_rep = W["indicators"]["repeatSingleBidderMarkedWinners"]
     redflags_doc = {
-        "stance": "The four indicators of redflags.json over the slice, each as a rate over its declared family, by class, beside the whole-file rate. Rates over a family, never a list of culprits.",
+        "stance": "The four indicators of redflags.json over the slice, each as a rate over its declared family, by class, beside the whole-file rate. Rates over a family, never a list of culprits." + B.DATE_GAP_STANCE,
         "indicators": [
             indicator("singleBidding", "bids_received = 1", f"slice award decisions after dedup with {_RATED}", rows_of(con, SQL["redflag_single"]),
                       "Proprietary spares, developed-source DPSU components and specialised laboratory items draw one bid by design; works draw many. The class, not the slice, is the unit to read."),
@@ -657,10 +654,9 @@ def write_security(con, out_dir, provenance: dict, rates: dict, timing: dict, re
                       rows_of(con, SQL["redflag_non_open"]),
                       "Limited tenders are lawful below thresholds, for urgent needs and for proprietary or security-classified items; the field mixes category with method, so this rate is a floor on non-open procedures.",
                       {"nonOpenLabelsLeftInOtherUnknown": one(con, SQL["redflag_non_open_labels"]), "nonOpenLabelRegex": B.NON_OPEN_LABEL_RE}),
-            indicator("shortDecisionWindow", f"days from closing_at to aoc_at <= {B.SHORT_DECISION_DAYS}",
-                      "slice award decisions after dedup with aoc_at >= closing_at (aoc_at < closing_at or either date NULL excluded and counted in timing)",
+            indicator("shortDecisionWindow", B.short_gap_definition(B.SHORT_DECISION_DAYS), B.short_gap_family(sliced=True),
                       rows_of(con, SQL["redflag_short"]),
-                      "Same-day or next-day awards follow from automated opening and single-bid tenders; the window says nothing about the evaluation's quality."),
+                      B.DATE_GAP_READING, {"fieldSemanticsAudit": B.date_field_semantics()}),
             indicator("repeatSingleBidderMarkedWinners",
                       f"single-bidder awards to a (buyer, marked winner) pair with >= {B.NAME_MIN_AWARDS} single-bidder awards from that buyer",
                       "slice single-bidder awards after dedup to MARKED winners", rep,
@@ -696,7 +692,7 @@ def write_security(con, out_dir, provenance: dict, rates: dict, timing: dict, re
         "concentration": concentration_doc,
         "redflags": redflags_doc,
         "caveat": B.RATES_CAVEAT,
-        "provenance": {**provenance, "sliceRule": SLICE_RULE, "sliceSql": dict(SQL)},
+        "provenance": {**provenance, "sliceRule": SLICE_RULE, "sliceSql": dict(SQL), "dateFieldSemanticsAudit": B.date_field_semantics()},
     }
     B._write(out_dir / "security.json", doc)
     log(f"security.json: {quality['afterDedup']['rows']:,} slice award decisions")

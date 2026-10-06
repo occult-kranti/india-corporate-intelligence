@@ -1,0 +1,33 @@
+{
+  "passed": true,
+  "completedAt": "2026-10-06T23:36:49.116979+00:00",
+  "command": "INVESTIGATION_DIST=dist-procurement-final node scripts/investigation/graph-browser.mjs",
+  "dist": "dist-procurement-final",
+  "checks": 15,
+  "uncaughtBrowserErrors": [],
+  "indexSha256": "929d47431973d293a16795a7dbd2195557cb8574d6c7721e02889b7d8b1a4478",
+  "entryAsset": "assets/index-BCw8brm5.js",
+  "entryAssetBytes": 11533003,
+  "entryAssetSha256": "e410c948a6656207d2bab84d2d83363217c8bf0ddfc84309a4c1189200a0dd8c",
+  "screenshots": [
+    {
+      "path": "docs/investigation/screenshots/map-graph-desktop.png",
+      "bytes": 253963,
+      "sha256": "8e034d9b10702d972d456b05df8d65897e865998fe83e620effbf9f54a73e8bf"
+    },
+    {
+      "path": "docs/investigation/screenshots/graph-mobile-focus.png",
+      "bytes": 124475,
+      "sha256": "1dce2c932c875c7e67551cebc21b16cd769409d88a081a530f9c583a7a9a752a"
+    },
+    {
+      "path": "docs/investigation/screenshots/map-mobile-ladakh.png",
+      "bytes": 70627,
+      "sha256": "5a4278b0536f3477a4c11473fae55d01aa444d8f062bc11436f411760169f36b"
+    }
+  ],
+  "scope": "Final targeted map/graph acceptance after the inspector scroll-wrapper selection key change. Source research and prior source review were not repeated.",
+  "previousReceipt": "docs/tender-investigation/graph-production-review.json",
+  "previousReceiptPreserved": true,
+  "limits": "One requested run of 15 checks on this final artifact. No new production changes by the reviewer."
+}

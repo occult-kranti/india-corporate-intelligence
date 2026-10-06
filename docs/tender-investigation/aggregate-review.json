@@ -1,0 +1,245 @@
+{
+  "scope": "Derived from retained aggregate JSON only. Same underlying scrape, not independent corroboration; no new raw-data execution or portal verification.",
+  "inputs": [
+    {
+      "path": "research/raw/cppp/quality.json",
+      "sha256": "76c48843633cd3e8405e701750d2f63655008579ed71f98edcf03392fcc7fc32"
+    },
+    {
+      "path": "research/raw/cppp/rates.json",
+      "sha256": "647fb39806ddcf4bdae2639a7e3e179733eb2c99d60e13223a43784b22df6ae7"
+    },
+    {
+      "path": "research/raw/cppp/timing.json",
+      "sha256": "2d96da3df628275f488792daf5d36126f85d2dd9de750c43b69924a790caf14f"
+    },
+    {
+      "path": "research/raw/cppp/redflags.json",
+      "sha256": "74fd62c005ab6b2a0120a8352ce1c687d0e180b2b107e384b2d41f120259afb1"
+    },
+    {
+      "path": "research/raw/cppp/concentration.json",
+      "sha256": "e71454c54bd6e7f640e57df67a5fd0d79c835bf02d4d28b3b7cf37016ae2d224"
+    },
+    {
+      "path": "research/raw/cppp/sample-verification.json",
+      "sha256": "8f8926f41f5f5922a19aad089b57ecd644182aa2930d08d92a2f094801e012e9"
+    }
+  ],
+  "aggregateAsOf": "2026-10-04",
+  "rawRows": 4921960,
+  "dedupRows": 3385233,
+  "allRatedSingleBid": {
+    "numerator": 338909,
+    "denominator": 3019420,
+    "pct": 11.224307979678215
+  },
+  "portalYearMismatchRawRows": {
+    "numerator": 1374890,
+    "denominator": 4921960,
+    "pct": 27.933790603743223
+  },
+  "yearComparisons": [
+    {
+      "year": 2015,
+      "pooledSingleBid": {
+        "numerator": 20311,
+        "denominator": 112494,
+        "pct": 18.055185165431045
+      },
+      "centralPortalShare": {
+        "numerator": 73313,
+        "denominator": 112494,
+        "pct": 65.17058687574449
+      },
+      "equalPortalWeightPct": 16.403407457042263,
+      "note": "50:50 portal reweighting is descriptive sensitivity, not adjustment for buyer/category/value composition or evidence of causation."
+    },
+    {
+      "year": 2021,
+      "pooledSingleBid": {
+        "numerator": 27353,
+        "denominator": 256087,
+        "pct": 10.681135707786806
+      },
+      "centralPortalShare": {
+        "numerator": 85951,
+        "denominator": 256087,
+        "pct": 33.563203130186224
+      },
+      "equalPortalWeightPct": 11.848187883441067,
+      "note": "50:50 portal reweighting is descriptive sensitivity, not adjustment for buyer/category/value composition or evidence of causation."
+    },
+    {
+      "year": 2025,
+      "pooledSingleBid": {
+        "numerator": 28767,
+        "denominator": 406391,
+        "pct": 7.078650855949074
+      },
+      "centralPortalShare": {
+        "numerator": 73735,
+        "denominator": 406391,
+        "pct": 18.14385653225588
+      },
+      "equalPortalWeightPct": 8.686091468303683,
+      "note": "50:50 portal reweighting is descriptive sensitivity, not adjustment for buyer/category/value composition or evidence of causation."
+    },
+    {
+      "year": 2026,
+      "pooledSingleBid": {
+        "numerator": 10512,
+        "denominator": 173713,
+        "pct": 6.0513605775042745
+      },
+      "centralPortalShare": {
+        "numerator": 30915,
+        "denominator": 173713,
+        "pct": 17.796595534012997
+      },
+      "equalPortalWeightPct": 8.29584036825695,
+      "note": "50:50 portal reweighting is descriptive sensitivity, not adjustment for buyer/category/value composition or evidence of causation."
+    }
+  ],
+  "fiveCalendarYears2021Through2025": [
+    {
+      "portal": "central",
+      "singleBid": {
+        "numerator": 53174,
+        "denominator": 399919,
+        "pct": 13.296192478976993
+      },
+      "note": "Whole AOC calendar years; not the exact rolling five-year window and not proof of complete coverage."
+    },
+    {
+      "portal": "state",
+      "singleBid": {
+        "numerator": 98399,
+        "denominator": 1351416,
+        "pct": 7.281177668460341
+      },
+      "note": "Whole AOC calendar years; not the exact rolling five-year window and not proof of complete coverage."
+    }
+  ],
+  "missingnessSensitivity": [
+    {
+      "group": "value missing or implausible",
+      "singleBidRate": {
+        "numerator": 52498,
+        "denominator": 83599,
+        "pct": 62.797401882797644
+      },
+      "shareOfRatedRows": {
+        "numerator": 83599,
+        "denominator": 3019420,
+        "pct": 2.768710547058707
+      },
+      "shareOfAllSingles": {
+        "numerator": 52498,
+        "denominator": 338909,
+        "pct": 15.490293854692558
+      },
+      "complementSingleBidRate": {
+        "numerator": 286411,
+        "denominator": 2935821,
+        "pct": 9.755737832790214
+      },
+      "note": "Not a recommendation to silently discard this group. Publish both populations and investigate the missingness mechanism."
+    },
+    {
+      "group": "Other/unknown",
+      "singleBidRate": {
+        "numerator": 104782,
+        "denominator": 292383,
+        "pct": 35.837240879257685
+      },
+      "shareOfRatedRows": {
+        "numerator": 292383,
+        "denominator": 3019420,
+        "pct": 9.683416020295288
+      },
+      "shareOfAllSingles": {
+        "numerator": 104782,
+        "denominator": 338909,
+        "pct": 30.91744391562337
+      },
+      "complementSingleBidRate": {
+        "numerator": 234127,
+        "denominator": 2727037,
+        "pct": 8.585398731297008
+      },
+      "note": "Not a recommendation to silently discard this group. Publish both populations and investigate the missingness mechanism."
+    }
+  ],
+  "outOfRangeOrFutureYearRatedRows": [
+    {
+      "portal": "central",
+      "year": "out-of-range year",
+      "n": 175,
+      "singleBidder": 36
+    },
+    {
+      "portal": "state",
+      "year": "2027",
+      "n": 16,
+      "singleBidder": 2
+    }
+  ],
+  "sameDayShareOfLeTwoDayRecords": {
+    "numerator": 61028,
+    "denominator": 68942,
+    "pct": 88.52078558788547
+  },
+  "timingWarning": "Current timing SQL excludes negative gaps but does not require realistic event years or event dates before original scrape cutoff. AOC publication is not necessarily the contract decision date.",
+  "concentrationSubset": {
+    "buyers": 1215,
+    "markedAwardsBelow50": 350,
+    "markedAwardsBelow10": 47,
+    "markedAwardCoverageBelow50Pct": 624,
+    "countHhi10000Cases": [
+      {
+        "markedAwards": 1,
+        "allNamedAwards": 125
+      },
+      {
+        "markedAwards": 2,
+        "allNamedAwards": 102
+      },
+      {
+        "markedAwards": 1,
+        "allNamedAwards": 93
+      },
+      {
+        "markedAwards": 1,
+        "allNamedAwards": 85
+      },
+      {
+        "markedAwards": 1,
+        "allNamedAwards": 76
+      },
+      {
+        "markedAwards": 1,
+        "allNamedAwards": 60
+      },
+      {
+        "markedAwards": 2,
+        "allNamedAwards": 57
+      }
+    ],
+    "valueCountHhiAbsoluteDifferenceAtLeast2500": 180,
+    "note": "All-named >=50 threshold does not ensure >=50 observations in the marked subset used for HHI. No supplier names emitted."
+  },
+  "verification": {
+    "sample": 40,
+    "pageGone": 40,
+    "note": "40 unavailable stored detail URLs do not establish agreement, disagreement or national missing-record rates."
+  },
+  "notComputed": [
+    "raw dedup collision frequency",
+    "exact rolling five-year window",
+    "notice-to-award row match",
+    "any contractor identity or political match",
+    "actual payments or physical delivery",
+    "causal effect or wrongdoing score"
+  ]
+}

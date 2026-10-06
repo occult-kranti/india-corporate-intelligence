@@ -1,0 +1,26 @@
+---
+license: cc-by-4.0
+language:
+- en
+---
+
+# Indian Government Tenders and Awards Dataset
+
+A dataset of tenders and awards scraped from the Central Public Procurement Portal (CPPP) of India. Data sourced from https://tender.sarthaksidhant.com/ and then joined and converted to parquet via https://gist.github.com/rhnvrm/8060dedb15ae592dae492ec62f725c0c.
+
+## Using the dataset
+
+```python
+from datasets import load_dataset
+
+data = load_dataset("rumourscape/tenders")
+```
+
+## Acknowledgements
+
+- [Sarthak Siddhant](https://sarthaksidhant.com/) for scraping and publishing the data.
+- [Rohan Verma](https://github.com/rhnvrm) for creating the data conversion script
+
+## License
+
+This dataset is licensed under the [Creative Commons Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/).

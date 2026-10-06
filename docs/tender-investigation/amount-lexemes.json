@@ -1,0 +1,130 @@
+{
+  "scope": "Only raw public procurement amount strings; format diagnostics, no contractor/contact data; examples are not a representative sample.",
+  "queries": {
+    "central_nonplain_amounts": {
+      "sql": "WITH x AS(SELECT 'emd' AS field,emd_raw AS raw FROM notices WHERE portal='central' UNION ALL SELECT 'fee',fee_raw FROM notices WHERE portal='central') SELECT field,raw,count(*) AS n FROM x WHERE nullif(trim(raw),'') IS NOT NULL AND NOT regexp_full_match(trim(raw),'[0-9]+(\\.[0-9]+)?') GROUP BY ALL ORDER BY field,n DESC,raw",
+      "rows": [
+        {
+          "field": "emd",
+          "raw": "1.10452223283167e44",
+          "n": 1
+        },
+        {
+          "field": "emd",
+          "raw": "1.3699031849545501e17",
+          "n": 1
+        },
+        {
+          "field": "emd",
+          "raw": "1.3720003400001626e19",
+          "n": 1
+        },
+        {
+          "field": "emd",
+          "raw": "1.51704122880625e16",
+          "n": 1
+        },
+        {
+          "field": "emd",
+          "raw": "1.94982518452703e20",
+          "n": 1
+        },
+        {
+          "field": "emd",
+          "raw": "1e17",
+          "n": 1
+        },
+        {
+          "field": "emd",
+          "raw": "2.09110242485159e28",
+          "n": 1
+        },
+        {
+          "field": "emd",
+          "raw": "2.15788270949879e18",
+          "n": 1
+        },
+        {
+          "field": "emd",
+          "raw": "2.4063701481274e15",
+          "n": 1
+        },
+        {
+          "field": "emd",
+          "raw": "4.5418000353250004e32",
+          "n": 1
+        },
+        {
+          "field": "emd",
+          "raw": "6.024800040165e24",
+          "n": 1
+        },
+        {
+          "field": "emd",
+          "raw": "6.6200213154483e20",
+          "n": 1
+        },
+        {
+          "field": "emd",
+          "raw": "6.8620079860024e17",
+          "n": 1
+        },
+        {
+          "field": "emd",
+          "raw": "9.26320143230795e35",
+          "n": 1
+        },
+        {
+          "field": "fee",
+          "raw": "6.8620079860024e17",
+          "n": 1
+        }
+      ]
+    },
+    "state_amount_format_examples": {
+      "sql": "SELECT emd_raw,fee_raw,count(*) AS n FROM notices WHERE portal='state' GROUP BY ALL ORDER BY n DESC,emd_raw,fee_raw LIMIT 8",
+      "rows": [
+        {
+          "emd_raw": "₹ 0",
+          "fee_raw": "₹ 0",
+          "n": 619
+        },
+        {
+          "emd_raw": "₹ 83200",
+          "fee_raw": "₹ 860",
+          "n": 282
+        },
+        {
+          "emd_raw": "₹ 20000",
+          "fee_raw": "₹ 1000",
+          "n": 242
+        },
+        {
+          "emd_raw": "₹ 10000",
+          "fee_raw": "₹ 0",
+          "n": 240
+        },
+        {
+          "emd_raw": "₹ 30000",
+          "fee_raw": "₹ 500",
+          "n": 183
+        },
+        {
+          "emd_raw": "₹ 10000",
+          "fee_raw": "₹ 300",
+          "n": 178
+        },
+        {
+          "emd_raw": "₹ 5000",
+          "fee_raw": "₹ 0",
+          "n": 169
+        },
+        {
+          "emd_raw": "₹ 30000",
+          "fee_raw": "₹ 600",
+          "n": 150
+        }
+      ]
+    }
+  }
+}

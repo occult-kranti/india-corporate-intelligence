@@ -4,6 +4,43 @@
 
 ---
 
+## Investigation workspace release — 6 October 2026
+
+Working branch: `codex/education-funding-intelligence`. The default surface on
+all 40 routes is now an India geographic map with linked relationships and a
+source inspector. **Dossier** opens the original page; preserve `iw_*` context
+when changing its original filters. State profiles can supply an implicit state,
+which must be materialized when navigating to a different lens.
+
+Read [the current architecture](docs/investigation/ARCHITECTURE.md),
+[data contract](docs/investigation/DATA.md), [two-round review](docs/investigation/PANEL.md),
+[verification](docs/investigation/VERIFICATION.md) and
+[roadmap](docs/investigation/ROADMAP.md) before extending it. Use the reusable
+[investigation workspace skill](.claude/skills/investigation-workspace/SKILL.md).
+
+The shared registry contains 2,009 entity records, 3,687 sourced relationships,
+5,313 records and 3,073 source citations. New finance, justice and welfare
+research retains primary originals and hash manifests. PM CARES accounts were
+refreshed through FY2024-25 with a before/after correction ledger. Do not restore
+older publication-gap or comparator-intent claims from historical snapshots.
+
+The supplied tender publication now has a reproducible two-database audit, nine
+corpus findings and 156 reviewed buyer-cohort trails. Read
+[the tender analysis panel](docs/tender-investigation/ANALYSIS_PANEL.md) and
+[cohort contract](docs/public-works/PROCUREMENT_TRAILS.md). Payment and completion
+stages remain missing unless independently sourced. Run `npm run test:procurement`
+for compact-artifact freshness, provenance and audit guards without downloading databases.
+
+The current map asset is `src/components/investigation/assets/india-current36.json`.
+The original `india-geo.json` is historical geometry and still appears, labelled,
+in some original dossiers. Ambiguous legacy territory associations are withheld
+from modern state attribution. Casebooks are local, with explicit response
+closure in portable exports; authenticated sharing remains future work.
+
+Run `npm run check` for the full release gates. Browser suites start their own
+servers over `dist`; avoid rebuilding/deleting that directory while they run.
+Use a separate Vite output directory for a candidate under concurrent review.
+
 ## What this is
 
 A map of India's listed corporate landscape joined to a **provenance-bearing
@@ -11,8 +48,8 @@ knowledge graph** of political and ownership connections. Every claim carries an
 evidence tier; every pattern carries its denominator. The platform is as interested
 in what it cannot show as in what it can.
 
-It is a React + TypeScript + Vite single-page app with no runtime dependencies, no
-backend, and no network calls. All data is compiled in. `npm install && npm run dev`.
+It is a React + TypeScript + Vite single-page app with no application backend or live data API. Evidence data is compiled in;
+original citations open their publishers and font/assets load over the web. `npm install && npm run dev`.
 
 ## Why it is built the way it is
 
@@ -63,7 +100,7 @@ thing that does not.
 
 ---
 
-## State of play
+## Historical baseline — before the October investigation release
 
 **Shipped and tested.** 33 routes, all rendering clean under a headless smoke test
 that visits every route (49 URLs), several with URL parameters. 36-state boundary geometry with pole-of-inaccessibility label
@@ -243,8 +280,11 @@ what is worth doing next:
    in the fleet's `voids` array:
    - ICIJ Offshore Leaks entries for Vinod Adani — the database returned nothing
      readable through the proxy.
-   - PM CARES after FY2022-23 — no audited statement for FY2023-24 or FY2024-25 as
-     at 25 Sep 2026, and no CAG audit exists.
+   - PM CARES referenced notes, separate auditor reports and transaction-level
+     implementation records. The former post-FY2022-23 publication gap is
+     superseded: original FY2023-24 and FY2024-25 statements were retrieved on
+     6 October 2026. A CAG observation about funded infrastructure must not be
+     described as an audit of the fund's accounts.
    - Bank-wise DBT share, float and fee income — the largest intermediary in the
      DBT flow, with no split published for SBI, Bank of Baroda or the RRBs.
    - Lokniti-CSDS cross-tabs by beneficiary status — booth- or constituency-level
@@ -336,9 +376,9 @@ npm run generate       # research fleets → the five *.generated.ts modules (en
 npm run test:assemble  # assembler and merge rules on a synthetic fixture (30 tests)
 npm run validate       # the four invariants; §4 raw fleet files, §5 generated modules
 npm run build          # tsc -b && vite build
-npm run smoke          # headless render of all 33 routes (49 URLs); serves dist itself
+npm run smoke          # 140 map/dossier loads across 70 route/query variants; serves dist itself
 npm run viewport       # the graph camera gate
-npm run check          # promote, generate, test:assemble, validate, build, smoke, viewport
+npm run check          # all provenance, unit/model, build, workspace and dossier browser gates
 npm run test:pages     # the page acceptance suites (explicit file list; in check and CI)
 
 # offline, Python 3.11 + duckdb + pyarrow; not in CI — see scripts/cppp/README.md

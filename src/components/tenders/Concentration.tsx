@@ -2,6 +2,8 @@ import { onStatePortal, unlistedStatus, type Concentration as Conc, type Concent
 import { STATES } from '../../data/geo';
 import { VH, type Patch } from '../energy/hooks';
 import { PORTALS, type NationalParams, type SortKey } from './params';
+import { ProcurementTrailLink } from '../investigation/ProcurementTrail';
+import { PROCUREMENT_TRAIL_SCOPE } from '../../data/procurementTrails';
 import {
   FINDINGS, FOCUS, FamilyLink, MONO_NOTE, NODATA_STYLE, StateFilterLine, Sub, Twin, UnparsedKey, WbrText, csvComments, csvName, fmt, inr, isUnparsed,
   stamp, stateClause, stateFilterSentence, stateFilterWords, unparsedLabel,
@@ -117,6 +119,7 @@ export default function Concentration({
     <Sub id="cppp-concentration" title="Concentration">
 
       <div className="space-y-2 text-[13.5px] leading-relaxed text-text-secondary max-w-[76ch]">
+        <p>{PROCUREMENT_TRAIL_SCOPE} Reviewed buyer rows include an “Inspect procurement trail” action for source lineage, distinct populations and missing payment evidence. Other rows remain available here without an inferred identity link.</p>
         <p id="cppp-conc-desc">
           Family: {conc.family}. {conc.hhiDefinition}. Naming: {conc.namingRule}.
         </p>
@@ -237,6 +240,7 @@ export default function Concentration({
               <td>{r.portal}</td>
               <th scope="row" style={isUnparsed(r.buyer) ? NODATA_STYLE : undefined}>
                 {isUnparsed(r.buyer) ? <UnparsedKey k={r.buyer} /> : <WbrText text={r.buyer} />}
+                <ProcurementTrailLink portal={r.portal} buyer={r.buyer} />
               </th>
               <td className="font-mono tabular-nums">{fmt(r.awards)}</td>
               <td className="font-mono tabular-nums">{fmt(r.markedAwards)}</td>
