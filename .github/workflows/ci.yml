@@ -71,6 +71,11 @@ jobs:
       - name: Investigation provenance, graph, casebook and local model
         run: npm run validate:investigation && npm run test:investigation && npm run test:investigation:model
 
+      # The immutable before/after guards read this exact historical commit.
+      # Default checkout is shallow; fetch only the required baseline tree.
+      - name: Fetch pinned procurement comparison baseline
+        run: git fetch --no-tags --depth=1 origin 11a78e22a9998796c3c90b31fc4b708e98196c9c
+
       - name: Procurement provenance, cohort freshness and audit invariants
         run: npm run test:procurement
 

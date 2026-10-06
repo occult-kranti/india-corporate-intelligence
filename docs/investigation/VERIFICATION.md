@@ -114,3 +114,13 @@ be exported for backup or transfer; authenticated collaboration is future work.
 Open-model output is document relevance, never verified extraction or a legal
 finding. The roadmap distinguishes the implemented release from later source,
 identity, spatial, ingestion, collaboration and query services.
+
+## Deployment checkout correction
+
+The first deployment of source commit `5deffc1` stopped before building or
+publishing: Actions checks out a shallow history, while the immutable CPPP
+comparison tests read baseline `11a78e22a9998796c3c90b31fc4b708e98196c9c`.
+Both CI and deployment now explicitly fetch that single pinned commit with
+`--no-tags --depth=1` before the procurement gate. A separate local depth-one
+clone reproduced the required checkout shape; after the exact fetch, all 12
+provenance/date comparison tests passed. No application or evidence data changed.
