@@ -412,6 +412,180 @@ every side**, so the same lens runs on the other party and on the declared contr
 8. **Byte-identical is a gate, not a hope.** Parallel float sums and a runtime field made
    two rebuilds differ; a single thread and paise rounding fixed it, and the test asserts it.
 
+### Phase H — the money India spends on force: military and police budgets, tenders, pay ✅ *(research, slice, spec, tests, skill and agent; the page build outstanding)*
+
+Design: `docs/superpowers/specs/2026-10-04-force-finance-design.md`. Plan:
+`docs/superpowers/plans/2026-10-04-force-finance.md`. Page build plan:
+`docs/superpowers/plans/2026-10-04-security-page.md`. Twenty-four commits since `447e854`
+(`git log --oneline 447e854..HEAD`, at `878edcd`).
+
+**What was asked (2026-10-04).** A page for military and police budgets, for each city and
+state and for the other departments; tenders, funding and salaries checked; connections
+found with skills, plugins and subagents. The spec read each word before any research ran
+(§0): "military" is the Union defence establishment, funded by the Union alone; "police" is
+three payers — the Union's own police, the state police, and the city commissionerates inside
+the state budgets; "other departments" are Home Guards, Civil Defence, fire, prisons,
+forensic laboratories, the ED, the CBI, the NIA, the NCB, the SPG and the Cabinet
+Secretariat lines; "tenders" is the CPPP award scrape sliced to security buyers, plus the
+Defence Acquisition Council approvals PIB publishes, because defence capital acquisition is
+not on CPPP; "salaries" is pay scales and pensions, never a named person's pay;
+"connections" are documented joins, each with a denominator and an innocent reading. The
+stance (§3): spending on force is a policy choice, not a scandal; pay and pensions are
+contracts with people; vendors are vendors, with identical fields and never alone; outcomes
+are rates, with party as text; cases are records with their counter, Bofors beside Rafale.
+
+**What resolves at which level, and why.** The reconnaissance critic's reading (spec §2),
+kept by the judge from candidate A (`e0e7119`) and printed on the page as fixed copy
+(`docs/design/SECURITY_PAGE.md` §5.0.1):
+
+- **Union → the budget line.** Every Union demand is a text-extractable PDF on
+  indiabudget.gov.in with Actual, BE and RE per line (spec §2). `FORCE_BUDGETS` holds 3,906
+  Union rows over 35 bodies, FY1999-00 to FY2026-27. No defence demand is printed by place
+  (`union-defence.json → voids[0]`), so there is no state or city defence figure.
+- **State → the Police head.** Each state's police money resolves to its Police major head
+  (MH 2055) from RBI State Finances and no further. The state finance portals did not open;
+  only Uttar Pradesh's Grant 26 did (`state-police.json → voids[2]`). `FORCE_BUDGETS` holds 191
+  state rows for 30 states and UTs, 70 of them Uttar Pradesh's own series from FY2008-09.
+  Strength comes through secondary transcriptions while BPR&D is unreachable, and says so
+  (`state-police.json → voids[0]`); `FORCE_STRENGTH` holds 142 rows.
+- **City → the footprint only.** No city police budget is published except Delhi's. Every
+  other commissionerate's money sits inside its state's MH 2055 (`state-police.json →
+  voids[1]`). Cities appear through what is located in them: `FORCE_FOOTPRINT` holds 228 rows
+  across 124 state–city pairs, 18 of them commissionerates.
+- **Delhi Police is the one published city budget**, and it is a Union demand line under the
+  Home Ministry: 177 rows, FY1999-00 to FY2026-27.
+
+The reason is the house rule on provenance. A figure is shown at the level its source
+publishes it, and no lower. A city figure apportioned from a state head would be an estimate
+carrying a ₹ sign. The page prints "inside the state's police head" in its place.
+*(Row counts by payer, body, year and kind are counted over `FORCE_BUDGETS`,
+`FORCE_STRENGTH` and `FORCE_FOOTPRINT` in `src/graph/force.generated.ts`.)*
+
+- [x] **H0 — spec and plan** (`dfeab6c`). Reconnaissance on 2026-10-04: seven source-family
+      probes, a critic and three fills. Every reachable route and every blocked one is named,
+      with its secondary. The ten-task plan follows the spec.
+- [x] **H1 — tabular `series`** (`6a99f11`). A fleet may declare budgets, strength and
+      footprint rows beside its graph. Each row has exact keys in order, a body the graph
+      knows, closed lists, a financial-year label and ₹ crore ≥ 0; a footprint row carries its
+      state and city. `validate.mjs` §4 gates the rows; §5 re-assembles and compares. Tests 55
+      → 64; a 65th covers chunked emission (`8671e8d`)
+- [x] **H2 — CPPP security slice** (`1e37783`). `scripts/cppp/security.py` writes
+      `research/raw/cppp/security.json` in the same run as the six sibling files. 558,291 raw rows
+      (11.34 % of the file) become 411,943 award decisions after the dedup rule, in eight buyer
+      classes. Single bidding 3.17 % [3.11, 3.22] of 365,600, against 11.22 % for the whole
+      file. That is a works rate: the Military Engineer Services is 74.41 % of the slice's award
+      decisions and the works class single-bids at 0.42 %. Without works the slice reads
+      12.20 % [11.98, 12.42] of 85,108. By class: stores 12.87 %, research 18.49 %, dpsu
+      11.33 %, capf 9.53 %, intelligence-investigation 10.11 % of 178, state-police 8.11 %
+      (state portal, whole file 7.59 %), other-security 37.83 % of 304. The file's first field
+      says what is not here: defence capital acquisition, GeM, and most state police buying.
+      Every field is dataset-only; the 40-row live sample found every stored link expired.
+      Tests 21 → 27. `/tenders?section=national` gains one "security buyers" line beside the
+      whole-file rates, linking to `/security?lens=procurement` (`76c0c35`); `/network` gains no
+      force layer, because its layers are cut by entity family, not by fleet
+- [x] **H3 — research fleet `force`**, eight domains (union-defence, union-home,
+      state-police, procurement-industry, footprint, money-people, pay-pensions, literature),
+      cross-examined claim by claim, reconciled, corrected and assembled (`d648a26`, `8671e8d`,
+      `8dc2a68`, `3cb37ed`, `08062a9`, `d9bc302`, `76e265d`). Run `run-122278453551`: 359 claims
+      in, 266 nodes, 394 edges (187 documented, 82 reported, 79 analytic, 46 alleged), 22 killed
+      and held, 57 contras added, 13 benefit rows, 67 voids, 46 narratives, 307 base rates;
+      series 4,097 budgets, 142 strength, 228 footprint. `AUDIT.json` holds 214 verdicts, both
+      lenses, 47 refuted; `RECONCILIATION.json → auditCorrections` records an outcome for all
+      214: 196 applied, 15 refused, 3 deferred. 7 id mappings, 34 refused merges, 64 entity
+      records consolidated. The 22 killed are 21 duplicates and one claim on an audit kill verdict
+      (`footprint:c014`)
+- [ ] **H4 — `/security`, "Security spend" under Registers.** Done: the route scaffold, which
+      prints what is loaded and draws no placeholder (`0073a0f`); the design duel, candidate A
+      graphic-first and candidate B question-first, the judgement and the judged spec
+      (`e0e7119`); a five-seat synthetic UX review, 95 items, 33 must-level amendments applied
+      and UD1–UD46 deferred, and 152 acceptance criteria (`7e100e7`); the RED suite, written
+      blind, 152 of 152 failing against the scaffold, each on a missing element and none on a
+      test error (`fdcfedc`, `7e2e474`, `2f922b2`); the builder's plan (`956952c`); a build
+      checkpoint (`878edcd`). Build, caucus, fix, verify three times on a pinned build, WCAG
+      audit, adjudication, and the suite into `test:pages` and CI:
+      [/security build status: pending — filled when the build stage reports]
+- [ ] **H5 — skill, agent, documents, full check, bundle.** Done: the `force-money-trail`
+      skill and the `security-analyst` agent (`657f895`, `7e2e474`, `4a6e079`). Six pressure
+      testers acted as the agent on requests the house rules forbid; two held, four held in
+      part; 54 gaps found, 51 closed and 3 closed in part. A figure check sampled 506 figures:
+      494 matched; the 12 that did not were written against an older run and now read the
+      current one. The skill is generated by `scripts/skills/force-money-trail/gen.mjs` with no
+      figure typed by hand, and `npm run check:skills` fails the build on any difference, in
+      `check` and in CI (`67f27ab`). The fleet brief, contract addendum and reconnaissance
+      moved into `docs/research/force/` (`4a6e079`). The `DATA_SOURCES` sweep (8,751
+      references, 746 distinct URLs, 137 hosts), `FORCE_LITERATURE.md` and the `PLUGINS`
+      entry (`3a7ff00`). Outstanding: the documents that record the built page, the full
+      `npm run check`, and the bundle re-cut
+- [ ] Open from reconciliation and review: three deferred audit corrections
+      (`literature:c007`, `c014`, `c028`); `literature.json` still carries the spec's first-cut
+      CPPP probe figures, corrected after the page build so its fixtures do not move; five test
+      interpretations left for adjudication after the build (`2f922b2`); UD1–UD46
+
+**What was refused, and why.** Spec §1 non-goals, `docs/design/SECURITY_PAGE.md` §14, and
+the refusals that open `.claude/skills/force-money-trail/SKILL.md`. Six pressure testers
+tried each one (`4a6e079`).
+
+- **City police budgets that are not published.** No number, share of a state head,
+  estimate or per-capita figure for any city but Delhi. None is published; the page prints
+  where the money sits. A map of defence money by state or city is refused for the same
+  reason (`union-defence.json → voids[0]`).
+- **CPPP winner names.** No CPPP winner is a node, a fact or an edge, and this register names
+  none. The slice is dataset-only and its verification links were all dead
+  (`security.json → caveat`); a winner string cannot be held to the comparator rule this page
+  holds vendors to. The pipeline never writes an unmarked name (`security.json →
+  provenance.refusal`). A list of the firms with the most single-bid awards is a list of
+  culprits; indicators are rates over a family, and repeat pairs are counted, never listed.
+- **Operational detail.** No unit, deployment, order of battle, stock, depot, readiness
+  state, forward or border site, or procurement the Ministry has not announced. Only
+  published budgets, awards, lists of installations and court and audit records. A refusal
+  is not a void: these are out of scope by rule, not unreached.
+- **Persons below public rank.** A person is named only while holding, or for an act done
+  in, an office on a closed list: minister, legislator, party office-bearer, Secretary or
+  Chief Secretary, service chief, Director General, head of a Union agency, Commissioner of
+  Police heading a commissionerate, a judge or the CAG acting in office, a listed-company
+  director. Everyone else is named by office and force. No private individual; no salary of
+  a named person.
+- **Party colour.** Party is text: never a colour, a filter, a sort or a government-era
+  toggle. The symmetry check runs the same lens on states and governments of each party and
+  prints what it finds.
+- With them: a "security spending" grand total that adds overlapping rows; DAC approvals by
+  vendor (approvals name no vendor and no value); a vendor shown alone; any ranking, score or
+  index of states, forces, vendors, officers or cases.
+
+**What it found** — about the subject:
+
+1. **Defence's falling share of GDP is the denominator.** The MoD total grew 11.0 % a year
+   nominal under UPA-II while GDP grew 15.3 %; under the NDA 8.8 % against 10.0 %
+   (`union-defence.json → symmetryCheck`).
+2. **Pensions are the line that grew.** Defence Pensions actuals rose from ₹45,499.54 crore
+   (2013-14) to ₹157,653.65 crore (2024-25), 3.47×, against 2.33× for service pay and 2.02×
+   for capital (`pay-pensions.json`).
+3. **The security slice's low single-bid rate is a works rate.** Read by buyer class, never
+   for the slice as a whole (H2).
+4. **The cases are records with a thin result.** Of seven named cases — Bofors, Rafale,
+   AgustaWestland, Tatra, Adarsh, Sukna, Pegasus — none has a final conviction in the records
+   opened (`money-people.json → baseRates[5]`).
+5. **The footprint does not follow the party in office.** Over the 177 footprint rows of the
+   first pass, 0.12 installations per million residents on BJP-run large states against 0.14
+   on opposition-run ones, party as the file records it (`footprint.json`).
+
+— and about itself:
+
+6. **Supersede, never edit.** A changed fact is a new claim with `supersededBy` on the old one.
+   Fourteen money-people corrections were refused because they fell on held duplicates; the
+   survivors already carried the fixes (`08062a9`).
+7. **A schema rule can meet a printed negative.** The Ordnance Factories demand printed
+   negative nets in several years. They are kept as a void with every value, never forced into
+   a row and never zeroed (`union-defence.json → voids[3]`).
+8. **Scale reached the type checker.** TypeScript rejected one 4,096-row literal; any series
+   above 1,000 rows is now emitted as chunks the export spreads, and the five older modules
+   stayed byte-identical (`8671e8d`).
+9. **Research capacity is still a budget.** The corrections pass stopped on a usage limit
+   after five of eight domains (`3cb37ed`) and was resumed from cache (`08062a9`).
+10. **A skill can go stale like a module.** The agent's register block quoted 12 figures from
+    an older run. The skill is now generated from the files and gated in CI (`4a6e079`,
+    `67f27ab`).
+
 ---
 
 ## 7. What this project will not do

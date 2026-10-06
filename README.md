@@ -59,7 +59,7 @@ Line style in every graph carries the tier. It is semantic and is never restyled
 Full file-by-file index: [`docs/INDEX.md`](docs/INDEX.md). Picking this up cold:
 [`HANDOFF.md`](HANDOFF.md).
 
-33 routes, grouped as the sidebar groups them.
+34 routes, grouped as the sidebar groups them.
 
 **Markets** — `/` dashboard · `/map` the NSE/BSE map, with an index filter (`idx=nifty50|sensex30|sensex50`)
 · `/geograph` the geographic network · `/industries` sector concentration · `/conglomerates` the ten
@@ -68,7 +68,8 @@ board · `/states/:code` per-state drill-down · `/company/:id`
 
 **Registers** — `/tenders` government awards · `/resources` coal, minerals, hydrocarbons and spectrum
 · `/pmcares` PM CARES against its PMNRF control · `/energy` the energy power map · `/welfare`
-distribution funds, 2000–2026 · `/finance` foreign money: loans, associations, capital · `/media` ownership ·
+distribution funds, 2000–2026 · `/finance` foreign money: loans, associations, capital · `/security` the
+money India spends on force: budgets, footprint, procurement and people · `/media` ownership ·
 `/allocation` every register on one graph
 
 **Power** — `/cabinet` the Union Council of Ministers · `/network` the merged connection graph ·
@@ -112,6 +113,34 @@ overall; central 17.67 %, state 7.59 %), decision windows, concentration by buye
 verification in which all 40 sampled portal pages were gone — so every field stays `reported`. The
 pipeline names at most five marked winners per buyer and nobody else.
 
+Beside the whole-file rates, one "security buyers" line reads the CPPP security slice
+(`research/raw/cppp/security.json`) and links to `/security?lens=procurement`. The slice is what the
+forces, the DPSUs and the police bodies bought on the open market and published on CPPP: 411,943
+award decisions after the same dedup rule, 12.17 % of the file's. Its single-bidder rate is 3.17 % of
+365,600 against 11.22 % for the whole file, because the Military Engineer Services works buyer is
+74.41 % of the slice. Without the works class the rate is 12.2 %. Defence capital acquisition is not
+on CPPP, so the slice is not India's security procurement.
+
+### The money India spends on force
+
+`/security` records what India's governments spend on force, on three lenses that share one filter
+rail. Budgets: the Union's defence and police lines by demand, year and stage, with pensions and pay
+called out; each state's Police head beside its police strength; Delhi Police as the one published city
+budget. Footprint: cantonments, laboratories, plants, headquarters and commissionerates, placed in
+their states. Procurement and people: named defence contracts by vendor class, the CPPP security
+slice by buyer class, electoral bonds, retired officers' board roles, and the cases in their control
+pairs, Bofors beside Rafale. Spending on force is a policy choice. A large number is not a finding. The
+page refuses a city police budget other than Delhi's in any form, a total that adds rows from two
+levels, a vendor alone or ranked, the names of open-market winners, party as a colour, filter or sort,
+and operational detail. The questions in order and the full refusal list are in the judged spec,
+[`docs/design/SECURITY_PAGE.md`](docs/design/SECURITY_PAGE.md) §2 and §14.
+
+The design is complete: two candidates, a judgement, a synthetic five-seat UX review whose 33
+must-level amendments are applied, 152 acceptance criteria, and a RED suite of 152 Playwright checks
+(`scripts/pages/security.test.mjs`), all 152 failing on the scaffold.
+
+[/security build status: pending — filled when the build stage reports]
+
 ### The geographic network
 
 `/geograph` draws the graph in place rather than making the reader join a map and a
@@ -150,7 +179,9 @@ The fleets write to `docs/research/FLEET_CONTRACT.md`. `npm run generate` applie
 reconciliation (id mappings, refused merges) and its cross-examiner verdicts, checks the four
 invariants over what survives, and emits typed modules. A killed claim is kept in the module's
 `META` with its reason. The energy fleet assembles to 404 nodes and 711 edges; the welfare fleet to
-286 nodes, 335 claims and 78 schemes.
+286 nodes, 335 claims and 78 schemes. The force fleet (`run-122278453551`) assembles to 266 nodes and
+394 edges from eight domain files, with 22 duplicate claims killed and held, and carries three tabular
+series: 4,097 budget rows, 142 strength rows and 228 footprint rows.
 
 `research/raw/` is a quarantine zone. `npm run promote` runs extraction → resolution → grounding →
 assembly with a run id derived from a hash of the inputs, not a clock, so it is reproducible.
@@ -223,7 +254,8 @@ which means a hallucinating researcher cannot corrupt the graph without passing 
 | `finance/*.json` | 7 domain files + `RECONCILIATION.json`, `AUDIT.json` | 84 verdicts; 6 killed. `worldbank-projects.json` is fetched by script (1,117 projects, 849 commitments) |
 | `ngo/*.json` | 5 domain files + `RECONCILIATION.json`, `AUDIT.json` | 142 verdicts; 14 killed. FCRA figures routed through Parliament answers, MHA reports and PIB |
 | `capital/*.json` | 16 domain files + `RECONCILIATION.json`, `AUDIT.json` | 61 verdicts; 15 killed. 96 holdings across 38 of 50 NIFTY constituents, 19 controls |
-| `cppp/*.json` | 6 aggregate files from `scripts/cppp/build.py` | 4,921,960 rows → 3,385,233 award decisions; aggregates only, no award row and no unmarked name |
+| `force/*.json` | 8 domain files + `RECONCILIATION.json`, `AUDIT.json` | 214 verdicts; 22 killed; 214 audit corrections recorded. Series: 4,097 budget, 142 strength, 228 footprint rows. Fleet documents in `docs/research/force/` |
+| `cppp/*.json` | 7 aggregate files from `scripts/cppp/build.py` | 4,921,960 rows → 3,385,233 award decisions; aggregates only, no award row and no unmarked name. `security.json` is the security-buyer slice: 558,291 rows → 411,943 award decisions |
 
 Every figure is stamped `asOf` and is as-of-a-date, never current. Companies are attributed to their
 **registered** headquarters — Coal India is Kolkata-registered though the coal is in Jharkhand and
@@ -234,7 +266,7 @@ corporate maps.
 
 ## Agents and skills
 
-`.claude/agents/` — fourteen agents, each hired for a bounded job with an explicit refusal surface.
+`.claude/agents/` — fifteen agents, each hired for a bounded job with an explicit refusal surface.
 The six the graph was built on:
 
 | Agent | Refuses to |
@@ -248,12 +280,16 @@ The six the graph was built on:
 
 The others: `interface-designer`, `frontend-developer`, `pattern-prospector`, `investigative-desk`,
 `cross-examiner` (one claim, one lens, default refuted), `energy-analyst`, `finance-analyst` (refuses a
-family or ethnicity as an edge, a holder shown alone, a ₹ total over loans) and `procurement-analyst`
-(refuses an unmarked name, a rate without its family, a rebuild that is not byte-identical).
+family or ethnicity as an edge, a holder shown alone, a ₹ total over loans), `procurement-analyst`
+(refuses an unmarked name, a rate without its family, a rebuild that is not byte-identical) and
+`security-analyst` (refuses operational detail, any person below the public rank or any private
+individual, and city money that is not published).
 
 `.claude/skills/` — fifteen, including `evidence-tiering`, `pattern-discipline`, `india-map`,
-`graph-schema`, `cui-bono` (who benefits, as a ledger row with a falsifier), `energy-money-trail` and
-`foreign-money-trail` (what the three foreign-money fleets established, with the narratives ladder).
+`graph-schema`, `cui-bono` (who benefits, as a ledger row with a falsifier), `energy-money-trail`,
+`foreign-money-trail` (what the three foreign-money fleets established, with the narratives ladder) and
+`force-money-trail` (what the force fleet established; generated from the raw files by
+`scripts/skills/force-money-trail/gen.mjs`, and `npm run check:skills` fails on any difference).
 Full list: [`docs/INDEX.md`](docs/INDEX.md) §7.
 
 Plugins (SweetClaude, superpowers) are installed at user scope and referenced, never vendored. Which
@@ -267,25 +303,27 @@ stages of a build they supply: [`docs/PLUGINS.md`](docs/PLUGINS.md).
 npm install
 npm run dev            # vite dev server
 npm run promote        # research/raw → resolution + grounding report
-npm run generate       # research fleets → the five *.generated.ts modules
+npm run generate       # research fleets → the six *.generated.ts modules
 npm run test:assemble  # assembler and merge tests, synthetic fixture
 npm run validate       # data-integrity gate — the four invariants
 npm run build          # tsc -b && vite build
-npm run smoke          # headless render of all 33 routes; serves dist itself
+npm run check:skills   # regenerate force-money-trail and fail on any difference
+npm run smoke          # headless render of all 34 routes; serves dist itself
 npm run viewport       # the graph camera gate
-npm run check          # promote + generate + test:assemble + validate + build + smoke + viewport + test:pages
+npm run check          # promote + generate + test:assemble + validate + check:skills + build + smoke + viewport + test:pages
 npm run test:pages     # the page acceptance suites (explicit file list)
 ```
 
 The CPPP pipeline is Python and offline: `scripts/cppp/README.md` has the rebuild command and the tests.
-CI does not install duckdb or pyarrow; the six JSON files it writes are committed and compiled in.
+CI does not install duckdb or pyarrow; the seven JSON files it writes are committed and compiled in.
 
 `npm run smoke` serves `dist` on an ephemeral port itself — there is no preview server to start or
 wait on. Pass a base URL as the first argument to point it somewhere else. It uses the environment's
 pinned Chromium; override with `PLAYWRIGHT_CHROMIUM_PATH`, or `npx playwright install chromium`.
 
 All four page suites (energy, welfare, tenders national, finance) are in `test:pages`; each
-joined only after three consecutive green runs on a pinned build. See [`HANDOFF.md`](HANDOFF.md).
+joined only after three consecutive green runs on a pinned build. The `/security` suite is not in
+`test:pages` and joins on the same rule. See [`HANDOFF.md`](HANDOFF.md).
 
 ### Stack
 

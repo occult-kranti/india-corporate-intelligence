@@ -65,14 +65,16 @@ thing that does not.
 
 ## State of play
 
-**Shipped and tested.** 33 routes, all rendering clean under a headless smoke test
-that visits every route (49 URLs), several with URL parameters. 36-state boundary geometry with pole-of-inaccessibility label
+**Shipped and tested.** 34 routes, all rendering clean under a headless smoke test
+that visits every route (52 URLs), several with URL parameters. The 34th is the `/security`
+scaffold (Phase H, below), which renders what is loaded and draws no page yet. 36-state boundary geometry with pole-of-inaccessibility label
 anchors. A choropleth map, a geographic network, a force-directed graph with ego
 focus, a path finder and a table twin, a layered flow diagram, a computed motif
 engine, and two ingestion pipelines with reproducible run ids. 259 companies, 69
 ministers, 10 conglomerate groups. The Money-Trail Atlas: 59 nodes, 111 edges.
 
-**The research fleets** (as of 2026-09-26, generator 1.4.1):
+**The research fleets** (generator 1.4.1; the first five as of 2026-09-26, `force` as of
+2026-10-04 with its audit corrected to 2026-10-06):
 
 | fleet | module | run | nodes | edges | verdicts | killed |
 |---|---|---|---|---|---|---|
@@ -81,6 +83,7 @@ ministers, 10 conglomerate groups. The Money-Trail Atlas: 59 nodes, 111 edges.
 | finance | `src/graph/finance.generated.ts` | `run-e10a8edef94a` | 353 | 1,168 | 84 (40 refuted) | 6 |
 | ngo | `src/graph/ngo.generated.ts` | `run-169c3129a1ec` | 138 | 292 | 142 (63 refuted) | 14 |
 | capital | `src/graph/capital.generated.ts` | `run-916d30d537ff` | 133 | 221 | 61 (19 refuted) | 15 |
+| force | `src/graph/force.generated.ts` | `run-122278453551` | 266 | 394 | 214 (47 refuted) | 22 |
 
 Energy edges: 310 documented, 304 reported, 42 alleged, 55 analytic; 12 domain
 files; 29 id mappings and 22 refused merges. Welfare: 78 schemes, 105 elections, 70
@@ -104,7 +107,8 @@ nodes added to the Atlas; `rss` retyped party → sangh with a supersession note
 
 **The national tender record.** `scripts/cppp/` (Python, offline, not in CI) reduces the
 4,921,960-row CPPP award scrape to 3,385,233 award decisions by a stated dedup rule and
-writes six aggregate JSON files to `research/raw/cppp/` — quality first, then rates over
+writes six aggregate JSON files to `research/raw/cppp/` (a seventh, `security.json`, since
+Phase H) — quality first, then rates over
 declared denominators (single bidding 11.22 % [11.19, 11.26] of 3,019,420; central 17.67 %,
 state 7.59 %), timing (median 68 days closing → award; 2.04 % within two days),
 concentration (HHI by buyer, at most five marked winners named), red flags, and a seeded
@@ -134,6 +138,67 @@ blind) and the national section of `/tenders` (`?section=national`, 86 criteria,
 0 critical / 0 serious / 8 moderate, M1–M8 fixed / 13 minor). The tenders section: Verified 84 pass / 0 fail / 2 skipped ("not in this data") of 86 on three consecutive runs against a pinned build after the adjudication (15 criterion defects, 1 page defect, 2 both); in `test:pages` and CI since `9c03db7`. The finance page: First pass 82 / 27 / 1 of 110; adjudication found 24 criterion defects, 2 both (AC-79 placeholder responses headed "Response from", AC-94 the flow's 606 ribbon tab stops), 1 environment (Chromium's own favicon re-fetch), plus AC-20's quotation rule widened to source titles and property statements; verified 109 pass / 0 fail / 1 skipped (AC-38, no zero-amount loan exists) on three consecutive runs against a pinned build, with WCAG S1, S2 and M1–M6 fixed and re-measured; in `test:pages` and CI.
 Both suites are in `test:pages` (explicit file list — Node 20 does not expand a glob),
 each after three consecutive green runs on a pinned build.
+
+**Phase H (2026-10-04 to 2026-10-06): the money India spends on force.** One research
+fleet, one CPPP slice, one page. Spec `docs/superpowers/specs/2026-10-04-force-finance-design.md`;
+ten-task plan `docs/superpowers/plans/2026-10-04-force-finance.md`. 23 commits since `447e854`
+(`git log --oneline 447e854..HEAD`). Everything except the page build is committed.
+
+- **The `force` fleet.** Eight domain files in `research/raw/force/` — union-defence,
+  union-home, state-police, procurement-industry, footprint, money-people, pay-pensions,
+  literature — with `AUDIT.json` and `RECONCILIATION.json`, assembled as `run-122278453551`
+  into `src/graph/force.generated.ts`. `FORCE_META.counts`: 359 claims in, 266 nodes, 394
+  edges, 22 killed, 0 excluded, 57 contras added, 13 benefits, 67 voids, 46 narratives, 307
+  base rates. Edges by tier, counted over `FORCE_EDGES`: 187 documented, 82 reported, 79
+  analytic, 46 alleged. The 22 killed are held, not deleted (`FORCE_META.killed`): 21
+  duplicates — 16 minister-tenure edges in money-people, `pay-pensions:c027` and four
+  literature claims — and `footprint:c014` on its own `killIf`. `AUDIT.json` holds 214
+  cross-examiner verdicts, 47 refuted. `RECONCILIATION.json → auditCorrections` records an
+  outcome for all 214: 196 applied, 15 refused, 3 deferred, each with its reason. 7 id
+  mappings; 34 refused merges.
+- **Three tabular series.** New in Phase H (`6a99f11`): `BUDGET_KEYS`, `STRENGTH_KEYS` and
+  `FOOTPRINT_KEYS` in `scripts/lib/vocab.mjs`, emitted as `FORCE_BUDGETS`, `FORCE_STRENGTH`
+  and `FORCE_FOOTPRINT`. `FORCE_META.series`: 4,097 budget rows, 142 strength rows, 228
+  footprint rows. The Union budget rows run FY2000-01 to FY2026-27 (`8671e8d`).
+- **The CPPP security slice.** `research/raw/cppp/security.json`, written by
+  `scripts/cppp/security.py` inside the same `build.py` run as the six sibling files
+  (`1e37783`). 558,291 raw rows (11.34 % of the file) become 411,943 award decisions after the
+  dedup rule, in eight buyer classes. Single bidding: 3.17 % [3.11, 3.22] of 365,600, against
+  11.22 % for the whole file. That is a works rate. MES alone is 74.41 % of the slice's award
+  decisions, and the works class single-bids at 0.42 %. Without works the slice reads 12.20 %
+  [11.98, 12.42] of 85,108. By class: stores 12.87 %, research 18.49 %, dpsu 11.33 %, capf
+  9.53 %, intelligence-investigation 10.11 % (of 178), state-police 8.11 % (same portal
+  7.59 %), other-security 37.83 % (of 304). Defence capital acquisition and GeM are not on
+  CPPP; the file's first field says so. Every figure is dataset-only: the 40-row live sample
+  found every stored link expired. Naming follows `concentration.json`'s marked-winner rule,
+  unchanged; red flags count pairs and never list them.
+- **`/tenders` joins it.** The national section carries one "security buyers" line beside the
+  whole-file rates, linking to `/security?lens=procurement`
+  (`src/components/tenders/SecurityBuyers.tsx`; `loadSecurity()` in `src/data/cppp.ts`;
+  `76c0c35`). `/network` gains no force layer: its layers are cut by entity family, not by
+  fleet (plan, Task 8).
+- **The page, designed.** Two candidates (graphic-first, question-first), a judgement and
+  the judged spec (`docs/design/SECURITY_PAGE.candidate-{A,B}.md`, `SECURITY_JUDGEMENT.md`,
+  `SECURITY_PAGE.md`). A synthetic five-seat UX review (`SECURITY_UX_REVIEW.md`): 33
+  must-level amendments, U1–U33, applied in place; 46 deferred, UD1–UD46; one new decision,
+  D61. 152 acceptance criteria, AC-1 to AC-152 (`SECURITY_ACCEPTANCE.md`). The RED suite,
+  `scripts/pages/security.test.mjs`, written blind: 152 of 152 fail against the scaffold, each
+  on a missing element, none on a test error (`2f922b2`). The route scaffold: lazy route,
+  "Security spend" under Registers, three smoke URLs (`0073a0f`). The builder's plan:
+  `docs/superpowers/plans/2026-10-04-security-page.md`.
+- **The page, built.** [/security build status: pending — filled when the build stage reports]
+- **Skill and agent.** `.claude/skills/force-money-trail/` (`SKILL.md`, `references/ledger.md`,
+  `narratives.md`, `tables.md`) is generated. `scripts/skills/force-money-trail/gen.mjs` fills
+  four templates (`*.src.md`) from the raw files, `FORCE_META` and `security.json`, stops on
+  any placeholder that does not resolve, and is byte-identical on a re-run. `npm run
+  check:skills` regenerates it and fails on any difference; it runs in `check` and in CI after
+  `validate` (`67f27ab`). `.claude/agents/security-analyst.md` owns the fleet, the slice
+  (shared with `procurement-analyst`) and the page's data layer. Six pressure testers: two
+  held, four held in part; 54 gaps found, 51 closed, 3 closed in part (`4a6e079`).
+- **Documents.** `docs/research/force/` (the fleet contract addendum, brief and reconnaissance);
+  `docs/research/FORCE_LITERATURE.md`, the literature by question; the Phase H sweep in
+  `docs/research/DATA_SOURCES.md` (8,751 references, 746 distinct URLs, 137 hosts); the Phase H
+  entry in `docs/PLUGINS.md` (`3a7ff00`).
 
 **Three older results worth knowing before you start**, because they still shape
 what is worth doing next:
@@ -184,6 +249,16 @@ what is worth doing next:
 - **The tender dataset's defects are larger than any pattern in it.** Forty-one per
   cent of rows share a tender id; the dedup rule moves the single-bidder rate from
   13.2 % to 11.22 %, which is why every rate prints its rule and its family.
+- **The security slice's single-bid rate is a works rate.** The slice reads 3.17 % against
+  11.22 % for the file. Most of it is MES and BRO, whose works tenders draw many local
+  contractors (0.42 %). The headquarters stores buyers read 12.87 %; a proprietary spare
+  draws one bid by procedure. DRDO reads 18.49 %; few vendors qualify for laboratory items.
+  Every class prints beside the file with its own innocent reading
+  (`research/raw/cppp/security.json → classes`).
+- **No city police budget is published except Delhi's, and it is a Union demand.** Every
+  other commissionerate's money sits inside its state's Police head (MH 2055). The fleet
+  records that as a void with each state's figure (`state-police.json → voids[1]`); the page
+  prints the sentence, never a number.
 
 ### What the build learned about itself
 
@@ -223,9 +298,71 @@ what is worth doing next:
 - **The Phase G audits predate their reconciliations.** A verdict's claim id may have
   moved; the assembler applies the mapping before the verdict.
 
+Phase H added four rules, each because it bit (`.claude/skills/force-money-trail/references/tables.md` §9):
+
+- **Supersede, never edit.** A changed fact is a new claim, and the old one gets
+  `supersededBy`: `pay-pensions:c014` → `c015`, `union-home:c026` → `c027`,
+  `procurement-industry:c050` → `c051` and `c052` → `c053`, `union-defence:c016` → `c047`,
+  `money-people:c024` → `c095`. The audit's reason for the last: an undated rule number
+  presented a superseded rule as current law. The same holds for killed copies: edit the
+  survivor, never the held copy. Fourteen money-people corrections were refused for that
+  reason.
+- **`cr` ≥ 0.** `scripts/lib/vocab.mjs` rejects a budget row whose `cr` is not a number ≥ 0.
+  The Ordnance Factories demand printed negative nets in several years. They are kept as a
+  void with every value listed (`union-defence.json → voids[3]`), never forced into a row and
+  never zeroed.
+- **Chunked emission above 1,000 rows.** TypeScript gave up on one array literal at 4,096
+  budget rows (TS2590). The assembler now emits any series above `CHUNK_ROWS = 1000` as
+  unexported chunks (`FORCE_BUDGETS_0` to `_4`) that the export spreads; below the threshold
+  the output is unchanged, so the five older modules stay byte-identical. `validate.mjs`
+  reads the chunks back. Never hand-join them.
+- **City money only for Delhi Police.** `npm run validate` accepts a city budget row, so the
+  check is the author's. Delhi Police is the one city budget line, a Union demand; every other
+  city reads "inside the state's police head".
+
 ---
 
 ## Where to pick up
+
+### Phase H — open, in order
+
+1. **A credential was exposed in a session transcript.** The owner must revoke it. Nothing
+   in the repository depends on it.
+2. **The `/security` build.** `src/pages/Security.tsx`, `src/components/security/*` and
+   `src/data/securityView.ts`, to the judged spec and the builder's plan
+   (`docs/superpowers/plans/2026-10-04-security-page.md`; plan Task 7): build, caucus, fix,
+   verify three times on a pinned `SECURITY_DIST`, WCAG audit. The as-of filter on the DAC
+   awards is part of it (plan Task 8). The suite joins `test:pages` and CI only after three
+   consecutive green runs on a pinned build.
+   [/security build status: pending — filled when the build stage reports]
+3. **Five test interpretations under adjudication.** The RED suite's writer left five for
+   after the build (`2f922b2`): which URL params the active-filter line must name; where "no
+   most/top" applies; the slug of three data hooks; the cell parameter; option elements in the
+   Tab order. Adjudicate each as criterion defect, page defect or both, mark it
+   `[Adjudicated]` in `SECURITY_ACCEPTANCE.md`, and amend the criterion where the criterion
+   was wrong. Do not bend a test to pass.
+4. **`literature.json` carries the first-cut CPPP probe figures.** Two places print the
+   spec's probe (`docs/research/force/SPEC.md`, "leads, not findings") instead of the
+   published slice: an entity's "Does not establish" line (works 0.1 %, services' HQs 40 %+)
+   and a narrative's strongest case and counter (HQs 40 %+; works 79 % of the slice at
+   0.1 %). The slice says MES 74.41 % of award decisions, works 0.42 %, stores 12.87 %,
+   research 18.49 % (`security.json`). `docs/research/FORCE_LITERATURE.md` already quotes
+   the slice and names the probe. The correction to `literature.json` is being made after the
+   page build, so the build's fixtures do not move under it. After it: `npm run generate`, then `node
+   scripts/skills/force-money-trail/gen.mjs`, then `npm run check:skills`.
+5. **Deferred UX amendments UD1–UD46**, at the end of `docs/design/SECURITY_PAGE.md` under
+   "Deferred amendments". Synthetic; test with real readers first. UD1 (every stage in the
+   readout, so BE is not read as spend) is first in line; it adds a page-computed ratio that
+   needs an allow-list entry before it is built (`SECURITY_UX_REVIEW.md` §4, §7.2).
+6. **Three deferred audit corrections** (`RECONCILIATION.json → auditCorrections`,
+   `outcome: deferred`): `literature:c007` needs a split into two new claim ids and its
+   ruling re-pointed; `literature:c014` and `c028` are held killed and their corrections
+   belong on the money-people survivors.
+7. **The force voids.** 67 in `FORCE_VOIDS`, each with where the record would live. The
+   widest: BPR&D's *Data on Police Organisations*, the one national table of state and
+   commissionerate strength and police spend, was unreachable on 2026-10-04
+   (`state-police.json → voids[0]`). The 90 strength rows in `state-police.json` derive
+   their absolute counts from per-lakh ratios and say so in `note`.
 
 ### Highest value, in order
 
@@ -267,6 +404,9 @@ what is worth doing next:
    notice period.
 
 **Last full `npm run check`:** green at `b09ca5b` + docs (2026-09-27): promote, generate (five modules, byte-identical), 55 assembler tests, validate (30 declared warnings: 29 court rulings modelled as `enforce` in the frozen fleets, SENSEX 50 at 49 of 50), build, smoke over 49 URLs, viewport (with the explorer's jump-to / as-of / why-drawn checks), page suites 330 pass / 0 fail / 18 skipped of 348 (energy 67, welfare 85, tenders national 86, finance 110). `docs/BUNDLE.md` describes the snapshot cut from that tree.
+That check predates Phase H. `check` now also runs `check:skills` after `validate`, and
+`generate` writes six modules. The next full check records Phase H with the page.
+[/security build status: pending — filled when the build stage reports]
 
 ### Queued work
 
@@ -290,7 +430,8 @@ what is worth doing next:
   the working tree moves the rest — check before starting); apply the announced NIFTY 50
   review only once it is membership.
 - **Deferred UX amendments** — energy D1–D47 and welfare D1–D35, listed at the end
-  of each page spec. Synthetic; test with real readers before building.
+  of each page spec; `/security` UD1–UD46 (Phase H, above). Synthetic; test with real
+  readers before building.
 - **Atlas-vs-national duplicate ids.** `gadani` and `per:gautam-s-adani`; `joshi`
   and `pol:pralhad-joshi` (also `agarwal` and `per:anil-agarwal`). The fleets reused
   the Atlas ids as the contract says. Merging them is a repository-level decision
@@ -323,6 +464,12 @@ what is worth doing next:
   or `AUDIT.json`, and re-run `npm run generate`.
 - Read a "none found" denial in a fleet file as proof of silence. Check whether the
   search budget was spent.
+- Hand-edit `.claude/skills/force-money-trail/`. Change a template in
+  `scripts/skills/force-money-trail/` or the raw files, and re-run its generator;
+  `check:skills` fails on a hand edit.
+- Print a city police budget other than Delhi's, name a person below the public rank, or
+  name a CPPP winner outside `concentration.json`'s marked-winner rule. Party is text, never
+  colour.
 
 ---
 
@@ -332,38 +479,53 @@ what is worth doing next:
 npm install
 npm run dev            # vite dev server
 npm run promote        # research/raw → resolution + grounding report
-npm run generate       # research fleets → the five *.generated.ts modules (energy, finance, ngo, capital; welfare)
+npm run generate       # research fleets → the six *.generated.ts modules (energy, finance, ngo, capital, force; welfare)
 npm run test:assemble  # assembler and merge rules on a synthetic fixture (30 tests)
 npm run validate       # the four invariants; §4 raw fleet files, §5 generated modules
+npm run check:skills   # regenerate force-money-trail and fail on any difference from the committed copy
 npm run build          # tsc -b && vite build
 npm run smoke          # headless render of all 33 routes (49 URLs); serves dist itself
 npm run viewport       # the graph camera gate
-npm run check          # promote, generate, test:assemble, validate, build, smoke, viewport
+npm run check          # promote, generate, test:assemble, validate, check:skills, build, smoke, viewport, test:pages
 npm run test:pages     # the page acceptance suites (explicit file list; in check and CI)
+node scripts/skills/force-money-trail/gen.mjs   # rewrite the force-money-trail skill from the raw files, FORCE_META and security.json
+npm run build && SECURITY_DIST=<pinned dist copy> node --test scripts/pages/security.test.mjs   # the /security suite; not in test:pages yet
 
 # offline, Python 3.11 + duckdb + pyarrow; not in CI — see scripts/cppp/README.md
 python3 scripts/cppp/build.py --arrow-dir <dir> --out research/raw/cppp --as-of 2026-09-26
+#   the same run calls scripts/cppp/security.py and writes security.json, the seventh file;
+#   security.py has no command line of its own (README, "The security slice")
 node scripts/finance/fetch-worldbank.mjs   # re-fetch the World Bank census (byte-identical modulo runId)
 ```
 
 `generate`, `test:assemble` and `test:pages` are in `check` and in CI. A page suite
 joins `test:pages` only once green on three consecutive runs: a gate that is red for a
 known reason teaches people to ignore it. Every suite pins its run to a copy of `dist`
-(`ENERGY_DIST`, `WELFARE_DIST`, `FINANCE_DIST`, `TENDERS_DIST`) so a concurrent rebuild
-cannot poison it. In a gate chain assert on the printed `OK` line, never on a piped exit
-code.
+(`ENERGY_DIST`, `WELFARE_DIST`, `FINANCE_DIST`, `TENDERS_DIST`, and `SECURITY_DIST` for the
+`/security` suite) so a concurrent rebuild cannot poison it. In a gate chain assert on the
+printed `OK` line, never on a piped exit code.
+
+**The gates by exit string.** `promote: OK` (or `promote: FAILED`), `generate: OK`,
+`validate: OK`, `smoke: OK`, `graph-viewport: OK`. `check:skills` prints no `OK` line: it
+passes when the regenerated skill matches the committed copy and `git diff --exit-code`
+prints nothing, and it fails by printing the diff. The page suites report through
+`node --test`; in the welfare, tenders, finance and security suites a skip prints
+`SKIPPED: <reason>` and is never a pass.
 
 `npm run smoke` needs a Chromium. It uses the environment's pinned binary if one
 exists; override with `PLAYWRIGHT_CHROMIUM_PATH`, or `npx playwright install chromium`.
 
 ### The agents
 
-Fourteen are defined in `.claude/agents/`, each with a bounded job and an explicit
+Fifteen are defined in `.claude/agents/`, each with a bounded job and an explicit
 refusal. `cross-examiner` (one claim, one lens, default refuted) and
 `energy-analyst` came with the first fleets; `finance-analyst` (foreign loans, FCRA,
 foreign holders — refuses a family as an edge, a holder alone, a ₹ total over loans)
 and `procurement-analyst` (owns `scripts/cppp/` — refuses an unmarked name or a rate
-without its family) with Phase G. Use them — they encode the rules above so you do not have to re-derive
+without its family) with Phase G; `security-analyst` with Phase H (owns `research/raw/force/`,
+the CPPP security slice with `procurement-analyst`, and the `/security` data layer; refuses
+operational detail, a person below the public rank or a private individual, and city money
+that is not published). Use them — they encode the rules above so you do not have to re-derive
 them. `evidence-auditor` and `base-rate-statistician` in particular exist to tell
 you "no", and a COLLAPSES verdict from them is a successful output, not a setback.
 
