@@ -122,3 +122,85 @@ byte-identical rebuild.
 The tenders audit used no real screen reader. The finance suite's criteria are as likely to be
 wrong as the energy and welfare suites' were; the adjudication rule from Phase F applies — amend
 the criterion in its document, never bend the test.
+
+## Phase H — the money India spends on force
+
+*Added 2026-10-06, after the `force` fleet was reconciled, corrected and audited, the
+`/security` spec was judged and reviewed, its RED suite written, and the `force-money-trail`
+skill and `security-analyst` agent pressure-tested. The `/security` build is under way; this
+section records what had landed by `956952c`. Every step is a commit in
+`git log --oneline 447e854..956952c`.*
+
+**How the fleets were run.** The ten-task plan names the Workflow scripts: `fleet-split.js`,
+`reconcile2.js` and `page-build2.js` (Tasks 3, 4 and 7). The session also ran `force-refute.js`, `force-corrections.js` and `security-duel.js`, and inline workflows for the second corrections round, the skill and this documentation (session record; the scripts are not in the repository). A *fleet split*: one research agent
+per domain file under `docs/research/force/SPEC.md`, the first two domains in `d648a26` and six
+more in `8671e8d`. A *refute*: one `cross-examiner` per contested claim, its verdict written to
+`research/raw/force/AUDIT.json`. A *reconcile*: one id space across the eight files, then an
+independent verifier (`8dc2a68`). A *corrections* pass: one editor per domain applying the
+verdicts' prose and figure rewrites, each outcome recorded under `auditCorrections` in
+`research/raw/force/RECONCILIATION.json`, then an independent verifier (`3cb37ed`, `08062a9`,
+`76e265d`). A *page build*: the shape in "How a build fleet is composed" above. The ten-task
+plan (`docs/superpowers/plans/2026-10-04-force-finance.md`) was committed with the spec in
+`dfeab6c`, after the first two domains had landed in `d648a26`. The `/security` build plan
+(`docs/superpowers/plans/2026-10-04-security-page.md`) is in the superpowers `writing-plans`
+shape and was committed before the build started (`956952c`). One emitter failure is recorded
+in `8671e8d`: TypeScript rejected a single 4,096-row literal (TS2590), so the fix is in the
+emitter, not the data (`scripts/assemble-fleet.mjs`, `CHUNK_ROWS`). Every force fleet commit
+closes on its gate line.
+
+**What each stage produced.**
+
+| stage | `force` fleet and `/security` | where |
+|---|---|---|
+| fleet split + refute | first two domains, 101 verdicts, 27 refuted (`d648a26`); six more domains, 4,096 budget rows, 142 strength rows, 221 footprint rows (`8671e8d`) | `research/raw/force/*.json`, commit messages |
+| reconcile | 7 mappings, 34 refused merges, 22 killed, 203 verdicts applied at assembly | `research/raw/force/RECONCILIATION.json`, `AUDIT.json`, `8dc2a68` |
+| corrections | 214 corrections recorded: 196 applied, 15 refused, 3 deferred | `research/raw/force/RECONCILIATION.json` (`auditCorrections`) |
+| refute, second round | eleven verdicts on the records the corrections pass added; 214 verdicts in all | `research/raw/force/AUDIT.json`, `d9bc302` |
+| assembled module | 266 nodes, 394 edges, 22 killed; series 4,097 budgets, 142 strength, 228 footprint; run `run-122278453551` | `src/graph/force.generated.ts` (`FORCE_META`) |
+| judged spec | `interface-designer` duel: candidate A graphic-first (1,410 lines), candidate B question-first (1,698 lines), then a judge | `docs/design/SECURITY_PAGE.candidate-A.md`, `SECURITY_PAGE.candidate-B.md`, `SECURITY_JUDGEMENT.md`, `SECURITY_PAGE.md` |
+| `design-ux-review` (synthetic, five seats) | 95 persona items (27 must, 47 should, 21 could); 33 must-level amendments applied; UD1–UD46 deferred | `docs/design/SECURITY_UX_REVIEW.md` |
+| acceptance criteria (`product-user-stories` shape) | 152 criteria, each one observable behaviour, every expected value computed | `docs/design/SECURITY_ACCEPTANCE.md` |
+| test writer in the `sc-test-writer` role, blind to the implementation (session record): RED | 152 of 152 fail against the scaffold, each on a missing element; three vacuous passes (AC-61, AC-109, AC-110) made to fail first | `scripts/pages/security.test.mjs`, `2f922b2` |
+| build → caucus → fix → verify → WCAG | not yet run. The build plan is committed; the five `sc-*` caucus reviewers (`sc-code-reviewer`, `sc-security-reviewer`, `sc-performance-reviewer`, `sc-tests-reviewer`, `sc-architecture-reviewer`) and the house semantics reviewer follow the build | `docs/superpowers/plans/2026-10-04-security-page.md` |
+
+**What was new.** Three things. The `force-money-trail` skill
+(`.claude/skills/force-money-trail/`, with `references/ledger.md`, `narratives.md` and
+`tables.md`) has no figure typed by hand: `scripts/skills/force-money-trail/gen.mjs` fills every
+placeholder in its four `*.src.md` templates from the raw files, `FORCE_META` and
+`research/raw/cppp/security.json`, and stops on any placeholder that does not resolve. Run
+`node scripts/skills/force-money-trail/gen.mjs`. The `security-analyst` agent
+(`.claude/agents/security-analyst.md`) owns `research/raw/force/`, the CPPP security slice and the
+`/security` data layer, and opens with its refusals. The fleet schema gained a tabular `series`
+mechanism (`6a99f11`): budgets, strength and footprint rows beside the usual nodes and edges.
+Above 1,000 rows a series is emitted as chunk constants the export spreads (`CHUNK_ROWS` in
+`scripts/assemble-fleet.mjs`), and `validate.mjs` reads the chunks back.
+
+**What actually happened.**
+
+- *The usage limit.* The corrections pass stopped mid-way. Five of eight domains landed
+  (`3cb37ed`: 86 corrections, run `run-f4c0a3507b17`); the money-people, pay-pensions and
+  literature editors and the pass's verifier stopped on a usage limit. The last three domains
+  landed in `08062a9` under a new run, `run-15d207f55054`. The interrupted corrections pass and the
+  RED stage were relaunched with the Workflow tool's resume: completed agents replayed from cache
+  and only the stopped editors, the verifier and the test writer ran live (session record).
+- *The eleven added records.* The corrections pass added nine claims as successors or date
+  splits and split one narrative in two (`08062a9`). No cross-examiner had seen them, so they were held.
+  A second refute round gave eleven verdicts: ten survive, one narrative is refuted on its record
+  and rewritten as contested (`d9bc302`). The editors applied all eleven and refused two of the
+  verdicts' own figures after re-deriving them (`76e265d`). `research/raw/force/AUDIT.json` holds
+  214 verdicts.
+- *The pressure tests.* Following the superpowers `writing-skills` procedure for testing a skill
+  with subagents (session record), six testers acted as the agent on requests the house rules forbid: an unpublished city
+  police budget with a per-capita map, bonds read as payment for contracts, named CPPP winners
+  ranked by single-bid awards, party-coloured states, named officers below public rank, and
+  operational sites. Two held and four held in part. 54 gaps were found; 51 closed outright and
+  3 in part, each with its reason. A re-test of the three hardest held. A figure check sampled
+  506 figures against the raw files: 494 matched, and the 12 that did not were in the agent's
+  register block, written against an older run (all from the `4a6e079` commit message).
+
+**What it did not do.** The UX review is synthetic and labelled so throughout (`7e100e7`): no
+real reader has seen the spec. The RED suite is not in `test:pages` or CI; it joins them after three
+consecutive green runs on a pinned build. Five interpretations in the suite are left for
+adjudication after the build (`2f922b2`). The pressure testers were agents acting as the
+`security-analyst` (`4a6e079`). The Phase F rule stands: amend a wrong criterion in its document, never bend
+the test.
