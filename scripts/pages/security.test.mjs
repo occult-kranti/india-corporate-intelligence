@@ -699,6 +699,8 @@ window.__ac = {
     return null;
   },
   q(id) { return document.querySelector('[data-q="' + id + '"]'); },
+  /** A Q-block, or an empty detached one when the page has none: counts then read 0 and the assertion names the absence. */
+  qq(id) { return this.q(id) ?? document.createElement('section'); },
   fillClasses(root) { return [...(root ?? document).querySelectorAll('path[data-fill-class]')].map((p) => p.getAttribute('data-fill-class')); },
   figuresText() { return [...document.querySelectorAll('figure')].map((f) => this.txt(f)); },
   activeFilter() { const e = this.deepest(document.querySelector('main') ?? document.body, '^filters: '); return e ? this.txt(e) : null; },
@@ -1137,7 +1139,7 @@ test('AC-06 — Draw the FY axis with no columns and hatch all 36 units', async 
   await withPage('D', async (page) => {
     await load(page, '/security', { base: empty.base });
     const r = await page.evaluate(() => {
-      const fig = document.querySelector('[data-q="B1"] figure');
+      const fig = document.querySelector('[data-q="B1"] figure') ?? document.createElement('figure');
       const b3 = window.__ac.q('B3');
       const b6 = window.__ac.q('B6');
       const maps = b6 ? [...b6.querySelectorAll('svg[role="listbox"]')] : [];
@@ -1712,7 +1714,7 @@ test('AC-30 — Give the pension share one basis everywhere and name it', async 
       if (m) assert.equal(m[2], BASIS(c.fy, DEFAULT_STAGE), `column FY${c.fy}: basis words`);
     }
     check((await stripText(page)).match(/pensions [\d.]+% (of published total|of stack, computed here)/)?.[0], 'strip fact 2');
-    const answer = await page.evaluate(() => { const f = document.querySelector('[data-q="B1"] figure'); const w = document.createTreeWalker(f, NodeFilter.SHOW_TEXT); let n; while ((n = w.nextNode())) { if (n.textContent.trim()) return n.parentElement ? window.__ac.txt(n.parentElement) : n.textContent; } return null; });
+    const answer = await page.evaluate(() => { const f = document.querySelector('[data-q="B1"] figure'); if (!f) return null; const w = document.createTreeWalker(f, NodeFilter.SHOW_TEXT); let n; while ((n = w.nextNode())) { if (n.textContent.trim()) return n.parentElement ? window.__ac.txt(n.parentElement) : n.textContent; } return null; });
     check(answer, 'the answer sentence');
     const twinRowsText = await (async () => { await openTwin(page, 'stack'); return page.evaluate(() => [...document.querySelectorAll('details[data-twin="stack"] tbody tr')].map((r) => window.__ac.txt(r))); })();
     check(twinRowsText.find((r) => r.includes(fy) && /pension/i.test(r) && /%/.test(r)), 'stack twin pension row');
@@ -2538,10 +2540,16 @@ test('AC-52 — Print a recorded zero as `₹0 cr — as recorded` on `ZERO_FILL
   });
 });
 
-const mapOptions = (page, q, i) => page.evaluate(([id, k]) => {
+const mapOptionsRaw = (page, q, i) => page.evaluate(([id, k]) => {
   const m = [...(window.__ac.q(id)?.querySelectorAll('svg[role="listbox"]') ?? [])][k];
   return m ? { fills: window.__ac.fillClasses(m), options: [...m.querySelectorAll('[role="option"]')].map((o) => ({ name: window.__ac.name(o), selected: o.getAttribute('aria-selected'), id: o.id })), legend: window.__ac.txt(m.closest('figure')) } : null;
 }, [q, i]);
+/** The i-th svg[role="listbox"] map in a Q-block, asserted present so a missing map fails with its name. */
+async function mapOptions(page, q, i) {
+  const m = await mapOptionsRaw(page, q, i);
+  assert.ok(m, `${q}: map ${i + 1} is an svg[role="listbox"]`);
+  return m;
+}
 
 test('AC-53 — Paint the spend map\'s classes to the module and name every class in the legend', async (t) => {
   if (!requireFull(t)) return;
@@ -2774,9 +2782,11 @@ test('AC-61 — Print the null words everywhere: never a bare dash, `NaN` or `0`
           const den = window.__ac.deepestAll(document.querySelector('main'), ' · ').filter((e) => e.closest('figure'));
           return [...els, ...den].filter((e) => badList.includes(window.__ac.txt(e))).map((e) => `${e.tagName.toLowerCase()} "${window.__ac.txt(e)}" in ${window.__ac.txt(e.closest('tr, dl, figure'))?.slice(0, 80)}`);
         }, BAD_NULLS);
+        assert.ok(await count(page, 'main td, main dd') > 0, `${lens}${v ? ' ' + v : ''}: the lens prints table and list values to check`);
         assert.deepEqual(bad, [], `${lens}${v ? ' ' + v : ''}: no bare dash, NaN, 0 or empty value`);
         if (lens === 'procurement' && !v) {
           const dds = await page.evaluate(() => [...document.querySelectorAll('[data-vendor-card]')].map((c) => [...c.querySelectorAll('dd')].map((d) => window.__ac.txt(d))));
+          assert.equal(dds.length, VENDORS.length, `${VENDORS.length} vendor cards to check`);
           for (const d of dds) {
             assert.equal(d.length, 13, 'every vendor card has thirteen dds');
             assert.ok(d.every((x) => x.length > 0), 'every vendor dd is non-empty');
@@ -3934,7 +3944,7 @@ test('AC-97 — Match the stack twin to bands, totals, hatched columns and the b
     const r = await page.evaluate(() => ({
       bands: document.querySelectorAll('[data-band]').length,
       hatched: document.querySelectorAll('[data-column][data-column-state="hatched"]').length,
-      answer: (() => { const f = document.querySelector('[data-q="B1"] figure'); const w = document.createTreeWalker(f, NodeFilter.SHOW_TEXT); let n; while ((n = w.nextNode())) if (n.textContent.trim()) return window.__ac.txt(n.parentElement); return null; })(),
+      answer: (() => { const f = document.querySelector('[data-q="B1"] figure'); if (!f) return null; const w = document.createTreeWalker(f, NodeFilter.SHOW_TEXT); let n; while ((n = w.nextNode())) if (n.textContent.trim()) return window.__ac.txt(n.parentElement); return null; })(),
     }));
     await openTwin(page, 'stack');
     const tbl = await twinTable(page, 'stack');
@@ -4026,7 +4036,7 @@ test('AC-100 — Match the spend map twin to 36 units and make its sortable colu
     await page.locator('details[data-twin="spend-map"] th button').filter({ hasText: /% of GSDP/ }).first().click();
     const sorted = (await twinTable(page, 'spend-map')).rows.map((r) => [...STATE_NAME.entries()].find(([, n]) => n === r[0])?.[0]);
     const strip = await page.evaluate(() => {
-      const fig = [...window.__ac.q('B6').querySelectorAll('figure')][0];
+      const fig = [...window.__ac.qq('B6').querySelectorAll('figure')][0];
       const labels = [...fig.querySelectorAll('[aria-hidden="true"] text, [aria-hidden="true"] span')].map((e) => ({ t: (e.textContent ?? '').trim().toLowerCase(), x: e.getBoundingClientRect().x })).filter((e) => /^[a-z]{2}$/.test(e.t));
       return labels.sort((a, b) => a.x - b.x).map((e) => e.t);
     });
@@ -4278,6 +4288,7 @@ test('AC-109 — Print the class\'s meaning in every twin, never the token', asy
   await withPage('D', async (page) => {
     for (const lens of LENSES) {
       await load(page, route(lens, 'view=table'), { slice: lens === 'procurement' && S8 });
+      assert.ok(await count(page, 'details[data-twin] td') > 0, `${lens}: the twins print cells to check`);
       const bad = await page.evaluate((tok) => [...document.querySelectorAll('details[data-twin] td')].map((c) => window.__ac.txt(c)).filter((s) => tok.includes(s)), TOKENS);
       assert.deepEqual(bad, [], `${lens}: no twin cell holds a bare class token`);
     }
@@ -4295,6 +4306,7 @@ test('AC-110 — Open every twin under `view=table` and hide the drawings', asyn
         svgs: [...document.querySelectorAll('figure svg')].filter((s) => window.__ac.visible(s) && !s.closest('details[data-twin]')).length,
         rows: Object.fromEntries([...document.querySelectorAll('details[data-twin]')].map((d) => [d.getAttribute('data-twin'), d.querySelectorAll('tbody tr').length])),
       }));
+      assert.ok(Object.keys(r.rows).length > 0, `${lens}: the lens has table twins`);
       assert.equal(r.closed, 0, `${lens}: no closed twin`);
       assert.equal(r.noCaption, 0, `${lens}: every twin table has a <caption>`);
       assert.equal(r.svgs, 0, `${lens}: no visible svg inside a <figure>`);
@@ -4437,7 +4449,7 @@ test('AC-114 — Drive the three maps as listboxes and announce each unit', asyn
         const n = FOOTPRINT.filter((r) => r.st === UNITS[i]).length;
         if (n) assert.ok(new RegExp(`^${esc(STATE_NAME.get(UNITS[i]))}: ${n} installations? in \\d+ cit(y|ies)`).test(o.name), `F1 ${UNITS[i]}: "{State}: {k} installations in {c} cities"`);
       }
-      const bad = await page.evaluate(([id, kk]) => { const s = [...window.__ac.q(id).querySelectorAll('svg[role="listbox"]')][kk]; return { focusPaths: [...s.querySelectorAll('path')].filter((p) => p.hasAttribute('tabindex') && p.getAttribute('tabindex') !== '-1').length, shapes: [...s.querySelectorAll('path, circle, rect')].filter((e) => !e.closest('[aria-hidden="true"]')).length }; }, [q, k]);
+      const bad = await page.evaluate(([id, kk]) => { const s = [...window.__ac.qq(id).querySelectorAll('svg[role="listbox"]')][kk]; return { focusPaths: [...s.querySelectorAll('path')].filter((p) => p.hasAttribute('tabindex') && p.getAttribute('tabindex') !== '-1').length, shapes: [...s.querySelectorAll('path, circle, rect')].filter((e) => !e.closest('[aria-hidden="true"]')).length }; }, [q, k]);
       assert.equal(bad.focusPaths, 0, `${q} map ${k + 1}: no path is focusable`);
       assert.equal(bad.shapes, 0, `${q} map ${k + 1}: every shape is aria-hidden`);
     }
@@ -4845,7 +4857,7 @@ test('AC-127 — Measure the 390 fold against its ceilings and record it', async
     await load(page, '/security');
     const r = await page.evaluate(() => {
       const sum = [...document.querySelectorAll('details > summary')].find((s) => /^Filters \(\d+\) · \d+ → \d+/.test(window.__ac.txt(s)));
-      const fig = document.querySelector('[data-q="B1"] figure');
+      const fig = document.querySelector('[data-q="B1"] figure') ?? document.createElement('figure');
       const y = (e) => (e ? e.getBoundingClientRect() : null);
       const strip = y(document.querySelector('[data-pinned-stack]')); const find = y(document.querySelector('input[type="search"]'));
       return { rail: y(sum)?.bottom ?? null, fig: y(fig)?.top ?? null, stripBottom: strip?.bottom ?? null, findBottom: find?.bottom ?? null };
@@ -4868,7 +4880,7 @@ test('AC-128 — Draw the stack at full width with a 44 px step control', async 
   await withPage('M', async (page) => {
     await load(page, '/security');
     const r = await page.evaluate(() => {
-      const fig = document.querySelector('[data-q="B1"] figure');
+      const fig = document.querySelector('[data-q="B1"] figure') ?? document.createElement('figure');
       const steps = [...fig.querySelectorAll('button')].filter((b) => /^(‹ earlier|later ›|FY\d{4}-\d{2})$/.test(window.__ac.txt(b))).map((b) => ({ text: window.__ac.txt(b), w: b.getBoundingClientRect().width, h: b.getBoundingClientRect().height }));
       const pensionLabels = [...fig.querySelectorAll('[data-column]')].filter((c) => /% of (published total|stack)/.test(window.__ac.txt(c))).map((c) => c.getAttribute('data-column'));
       return { sw: fig.scrollWidth, cw: fig.clientWidth, cols: fig.querySelectorAll('[data-column][data-panel="defence"]').length, steps, pensionLabels };
@@ -4953,10 +4965,10 @@ test('AC-131 — Stack the maps, close the state table, and open the selected st
   await withPage('M', async (page) => {
     await load(page, '/security');
     const r = await page.evaluate(() => {
-      const maps = [...window.__ac.q('B6').querySelectorAll('svg[role="listbox"]')].map((m) => m.getBoundingClientRect());
+      const maps = [...window.__ac.qq('B6').querySelectorAll('svg[role="listbox"]')].map((m) => m.getBoundingClientRect());
       const vw = window.innerWidth;
-      const selects = [...window.__ac.q('B6').querySelectorAll('select')].filter((s) => /Open a state/.test(window.__ac.name(s)));
-      const sw = [...window.__ac.q('B6').querySelectorAll('figcaption svg, [data-legend] svg, figure svg:not([role]) rect')].map((e) => e.getBoundingClientRect().width).filter((w) => w > 0);
+      const selects = [...window.__ac.qq('B6').querySelectorAll('select')].filter((s) => /Open a state/.test(window.__ac.name(s)));
+      const sw = [...window.__ac.qq('B6').querySelectorAll('figcaption svg, [data-legend] svg, figure svg:not([role]) rect')].map((e) => e.getBoundingClientRect().width).filter((w) => w > 0);
       return { maps: maps.map((m) => ({ top: m.top, bottom: m.bottom, w: m.width, h: m.height })), vw, selects: selects.length, swatches: sw };
     });
     assert.equal(r.maps.length, 2, 'two maps');
@@ -4973,7 +4985,7 @@ test('AC-131 — Stack the maps, close the state table, and open the selected st
     await openTwin(page, 'state-table');
     assert.ok(await page.locator('details[data-twin="state-table"] [data-row]').count() > 0, 'opens as StackTable cards');
     await load(page, `/security?st=${STATE_SAMPLE}`);
-    const inline = await page.evaluate((name) => { const c = window.__ac.card((t) => t === name); const maps = [...window.__ac.q('B6').querySelectorAll('svg[role="listbox"]')]; return c ? { below: window.__ac.precedes(maps.at(-1), c), aside: !!c.closest('aside') } : null; }, STATE_NAME.get(STATE_SAMPLE));
+    const inline = await page.evaluate((name) => { const c = window.__ac.card((t) => t === name); const maps = [...window.__ac.qq('B6').querySelectorAll('svg[role="listbox"]')]; return c ? { below: window.__ac.precedes(maps.at(-1), c), aside: !!c.closest('aside') } : null; }, STATE_NAME.get(STATE_SAMPLE));
     assert.ok(inline?.below && !inline.aside, 'the StatePanel renders inline under the maps');
   });
 });
@@ -5458,7 +5470,7 @@ test('AC-148 — B-J1: read the latest year\'s pensions and copy a citation in t
   for (const vp of ['FOLD', 'M']) {
     await withPage(vp, async (page) => {
       await load(page, '/security');
-      const answer = await page.evaluate(() => { const f = document.querySelector('[data-q="B1"] figure'); const w = document.createTreeWalker(f, NodeFilter.SHOW_TEXT); let n; while ((n = w.nextNode())) if (n.textContent.trim()) return window.__ac.txt(n.parentElement); return null; });
+      const answer = await page.evaluate(() => { const f = document.querySelector('[data-q="B1"] figure'); if (!f) return null; const w = document.createTreeWalker(f, NodeFilter.SHOW_TEXT); let n; while ((n = w.nextNode())) if (n.textContent.trim()) return window.__ac.txt(n.parentElement); return null; });
       const m = ungroup(answer).match(/^FY(\d{4}-\d{2}) (BE|RE|actual): pensions ₹[\d,.]+ cr, ([\d.]+)% (of published total|of stack, computed here); defence ₹[\d,.]+ cr across \d+ demands, computed here; \d+ pay lines inside revenue\./);
       assert.ok(m, `${vp}: the answer sentence (reads "${answer}")`);
       assert.equal(m[1], fy, `${vp}: the latest FY`);
