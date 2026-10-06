@@ -2154,7 +2154,7 @@ test('AC-41 — Put the symmetry text in the same section as its base rates', as
     }
     if (S8) {
       const r = await page.evaluate(([a, c]) => {
-        const b = window.__ac.q('P2'); const t = window.__ac.txt(b);
+        const b = window.__ac.qq('P2'); const t = window.__ac.txt(b);
         const first = b?.querySelector('table, figure');
         const el = window.__ac.deepest(b, a.slice(0, 50).replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
         return { ia: t.indexOf(a), ic: t.indexOf(c), before: !first || window.__ac.precedes(el, first) };
@@ -2227,7 +2227,7 @@ test('AC-44 — Frame the footprint map with rows, kinds, units and the position
     const f = ungroup(await text(block(page, 'F1')));
     const line = `${FOOTPRINT.length} of ${FOOTPRINT.length} installations · ${k} of ${KINDS.length} kinds · ${u} of 36 units with any row · positions are states, not addresses`;
     assert.ok(f.includes(line), `F1 denominator line "${line}"`);
-    const dots = await page.evaluate(() => { const b = window.__ac.q('F1'); return { dots: b.querySelectorAll('[data-dot]').length, over: [...b.querySelectorAll('[data-overflow]')].reduce((s, e) => s + Number(e.getAttribute('data-overflow')), 0) }; });
+    const dots = await page.evaluate(() => { const b = window.__ac.qq('F1'); return { dots: b.querySelectorAll('[data-dot]').length, over: [...b.querySelectorAll('[data-overflow]')].reduce((s, e) => s + Number(e.getAttribute('data-overflow')), 0) }; });
     assert.equal(dots.dots + dots.over, FOOTPRINT.length, `dots ${dots.dots} + overflow ${dots.over} = ${FOOTPRINT.length}`);
   });
 });
@@ -2258,7 +2258,7 @@ test('AC-46 — Equate every slice rate to `security.json` and keep the slice-wi
     await load(page, '/security?lens=procurement', { slice: true });
     const r = await page.evaluate(() => {
       const rows = [...document.querySelectorAll('[data-class]:not([data-rate])')];
-      const b = window.__ac.q('P2');
+      const b = window.__ac.qq('P2');
       const refA = window.__ac.deepest(b, 'excluding the works class');
       const refB = window.__ac.deepest(b, 'the slice as a whole');
       return {
@@ -2912,7 +2912,7 @@ test('AC-64 — Print the exact no-response sentence for every unanswered record
     if (unanswered) {
       await load(page, '/security');
       const r = await page.evaluate(([lab, sentence]) => {
-        const b = window.__ac.q('B5');
+        const b = window.__ac.qq('B5');
         const card = [...b.querySelectorAll('article, li, section, div')].filter((x) => window.__ac.txt(x).includes(lab) && x.querySelectorAll('dl').length >= 2).pop();
         if (!card) return null;
         const [left, right] = card.querySelectorAll('dl');
@@ -3563,7 +3563,7 @@ test('AC-83 — Round-trip `kind` as a comma list, with 0-row kinds always liste
   if (!requireFull(t)) return;
   const dotsFor = (kinds) => FOOTPRINT.filter((r) => kinds.includes(r.kind)).length;
   const check = (kinds) => async (p) => {
-    const r = await p.evaluate(() => { const b = window.__ac.q('F1'); return { dots: b.querySelectorAll('[data-dot]').length, over: [...b.querySelectorAll('[data-overflow]')].reduce((s, e) => s + Number(e.getAttribute('data-overflow')), 0), fills: window.__ac.fillClasses(b) }; });
+    const r = await p.evaluate(() => { const b = window.__ac.qq('F1'); return { dots: b.querySelectorAll('[data-dot]').length, over: [...b.querySelectorAll('[data-overflow]')].reduce((s, e) => s + Number(e.getAttribute('data-overflow')), 0), fills: window.__ac.fillClasses(b) }; });
     assert.equal(r.dots + r.over, dotsFor(kinds), `kind=${kinds}: dots + overflow = ${dotsFor(kinds)}`);
     assert.equal(r.fills.filter((c) => c === 'hatch').length, UNITS.filter((u) => !FOOTPRINT.some((x) => x.st === u && kinds.includes(x.kind))).length, `kind=${kinds}: hatch = units with none`);
     await openTwin(p, 'places');
@@ -4122,7 +4122,7 @@ test('AC-103 — Match the kind matrix to 36 × every declared kind, and the pla
       });
     });
     assert.equal(total, FOOTPRINT.length, 'Σ cells = FORCE_FOOTPRINT.length');
-    const dots = await page.evaluate(() => { const b = window.__ac.q('F1'); return b.querySelectorAll('[data-dot]').length + [...b.querySelectorAll('[data-overflow]')].reduce((s, e) => s + Number(e.getAttribute('data-overflow')), 0); });
+    const dots = await page.evaluate(() => { const b = window.__ac.qq('F1'); return b.querySelectorAll('[data-dot]').length + [...b.querySelectorAll('[data-overflow]')].reduce((s, e) => s + Number(e.getAttribute('data-overflow')), 0); });
     const pages = await allTwinPages(page, 'places', '/security?lens=footprint');
     const rows = pages.flatMap((p) => p.rows);
     assert.equal(rows.length, dots, 'TWIN(places) rows = dots + overflow');
@@ -4938,7 +4938,7 @@ test('AC-130 — Draw the ledger one stage at a time, groups closed, with step b
   await withPage('M', async (page) => {
     await load(page, '/security');
     const r = await page.evaluate(() => {
-      const b = window.__ac.q('B3');
+      const b = window.__ac.qq('B3');
       const lanes = [...b.querySelectorAll('[data-lane]')];
       const perLane = lanes.map((th) => th.closest('tr, [role="row"]')?.querySelectorAll('[data-slot]').length ?? 0);
       const region = b.querySelector('[role="region"]');
@@ -4995,7 +4995,7 @@ test('AC-132 — Stack each case pair field by field and each vendor card behind
   await withPage('M', async (page) => {
     await load(page, '/security?lens=procurement');
     const p = await page.evaluate(() => {
-      const row = document.querySelector('[data-pair]');
+      const row = document.querySelector('[data-pair]') ?? document.createElement('section');
       const blocks = [...row.querySelectorAll('[data-case] dt')].map((d) => ({ caseId: d.closest('[data-case]').getAttribute('data-case'), dt: window.__ac.txt(d), y: d.getBoundingClientRect().top }));
       return blocks.sort((a, b) => a.y - b.y);
     });
@@ -5027,7 +5027,7 @@ test('AC-133 — Give every wide drawing and table step buttons, never swipe onl
     await load(page, '/security?lens=procurement');
     for (const q of ['P1', 'P4']) {
       const r = await page.evaluate((id) => {
-        const b = window.__ac.q(id);
+        const b = window.__ac.qq(id);
         const btns = [...b.querySelectorAll('button')].map((x) => ({ t: window.__ac.txt(x), r: x.getBoundingClientRect() }));
         return { btns: btns.filter((x) => /^(‹ earlier|later ›|earliest)$/.test(x.t)).map((x) => ({ t: x.t, h: x.r.height, w: x.r.width })), line: /showing .+–.+ of .+–.+/.test(window.__ac.txt(b)) };
       }, q);
