@@ -502,6 +502,38 @@
   [
    "Deccan Chronicle (ANI), 30 Jul 2020 — Tehelka expose: Jaya Jaitly, two others sentenced to 4 years in jail",
    "https://www.deccanchronicle.com/nation/current-affairs/300720/tehalka-expose-jaya-jaitly-two-others-sentenced-to-4-years-in-jail-f.html"
+  ],
+  [
+   "Gazette of India Extraordinary, G.S.R. 868(E), 20 Dec 2021 — CCS (Pension) Rules 2021 (PDF copy hosted by StaffNews; Rule 2 application, Rule 9 commercial employment, Rule 87 repeal and saving)",
+   "https://www.staffnews.in/wp-content/uploads/2021/12/CSS_PensionRules_2021_Book_Eng-1.pdf"
+  ],
+  [
+   "PIB (MoD), 27 Mar 2025 — Aatmanirbhar Bharat: MoD inks Rs 2,500 crore contracts for NAMIS Tracked version of anti-tank weapon platform & 5,000 Light Vehicles (Release ID 2115804)",
+   "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2115804&reg=3&lang=1"
+  ],
+  [
+   "Mobility Outlook, 29 Mar 2025 — Force Motors secures order for 2,978 vehicles from Indian Defence Forces (company announcement)",
+   "https://mobilityoutlook.com/news/force-motors-secures-order-for-2978-vehicles-from-indian-defence-forces"
+  ],
+  [
+   "ThePrint, 28 Mar 2025 — MoD signs Rs 2,500-cr contracts for Nag anti-tank missile systems & 5,000 Light Vehicles",
+   "https://theprint.in/defence/mod-signs-rs-2500-cr-contracts-for-nag-anti-tank-missile-systems-5000-light-vehicles/2568601/"
+  ],
+  [
+   "PSU Watch, 22 Mar 2021 — Mahindra Defence to supply Light Specialist Vehicles to Indian Army (1,300 LSVs, Rs 1,056 crore)",
+   "https://psuwatch.com/defencewatch/mahindra-defence-to-supply-light-specialist-vehicles-to-indian-army"
+  ],
+  [
+   "Reliance Infrastructure Ltd, Reg. 30 disclosure to BSE/NSE, 5 Sep 2025 — Transfer of 2% equity shares to Dassault Aviation in Dassault Reliance Aerospace Ltd (agreement 5 Sep 2025; expected completion 1 Nov 2025; ~Rs 175.96 crore)",
+   "https://www.rinfra.com/documents/1142822/9691388/SEDisDRALStakeSale_05092025.pdf"
+  ],
+  [
+   "Dassault Aviation, 2025 Annual Report, p. 14 (Profile): 'Dassault Reliance Aerospace Limited (DRAL) is now 51% owned by Dassault Aviation'",
+   "https://dassault-aviation.publispeak.com/2025-annual-report/doc/article/14/"
+  ],
+  [
+   "Reliance Infrastructure Ltd, exchange filing, 16 Feb 2017 — DRAL incorporated; RAL 51%, Dassault 49% (media release of wholly owned subsidiary Reliance Defence Ltd)",
+   "https://www.rinfra.com/documents/1142822/10641881/Incorporation_DRA_16.02.17.pdf"
   ]
  ],
  "entities": [
@@ -654,7 +686,7 @@
   },
   {
    "id": "force:retired-group-a-civil-servants",
-   "label": "Retired Central Service Group A officers (class governed by CCS (Pension) Rule 10 of 1972, now Rule 9 of 2021)",
+   "label": "Retired Central Service Group A officers appointed on or before 31 Dec 2003 (old-pension cohort; class governed by Rule 10 of 1972, now Rule 9 of 2021)",
    "sub": "class node, not a person",
    "ty": "group",
    "fam": "state",
@@ -670,14 +702,19 @@
     "lei": null,
     "fcra": null
    },
-   "publicRole": "The class Rule 10 governs.",
+   "publicRole": "The class governed by Rule 10 (1972 Rules, to 19 Dec 2021) and Rule 9 (2021 Rules, from 20 Dec 2021).",
    "d": [
-    "Class node [documented]"
+    "Class node [documented]",
+    "Scope: CCS (Pension) Rules 2021, Rule 2 — Government servants appointed on or before 31 Dec 2003; railway servants and All India Services members excluded; officers appointed from 1 Jan 2004 are under the CCS (Implementation of NPS) Rules 2021 (Gazette G.S.R. 868(E)) [documented]"
    ],
    "srcs": [
     [
      "StaffNews — Commercial employment after retirement for Group A officer: FAQ by DoPT (Rule 10, CCS (Pension) Rules 1972)",
      "https://www.staffnews.in/2013/04/commercial-employment-after-retirement.html"
+    ],
+    [
+     "Gazette of India Extraordinary, G.S.R. 868(E), 20 Dec 2021 — CCS (Pension) Rules 2021 (PDF copy hosted by StaffNews; Rule 2 application, Rule 9 commercial employment, Rule 87 repeal and saving)",
+     "https://www.staffnews.in/wp-content/uploads/2021/12/CSS_PensionRules_2021_Book_Eng-1.pdf"
     ]
    ]
   },
@@ -1169,7 +1206,7 @@
   {
    "id": "force:dral",
    "label": "Dassault Reliance Aerospace Ltd (DRAL)",
-   "sub": "offset JV, Nagpur (MIHAN); Dassault 49% / Reliance Aerostructure 51% from 2017; Dassault 51% after a 2% transfer slated by 1 Nov 2025",
+   "sub": "offset JV, Nagpur (MIHAN); Dassault 49% / Reliance Aerostructure 51% from 2017; Dassault 51% after a 2% transfer (expected completion 1 Nov 2025; completion confirmed by Dassault 2025 Annual Report)",
    "ty": "company",
    "fam": "capital",
    "st": null,
@@ -1186,7 +1223,8 @@
    },
    "publicRole": "JV through which part of the Rafale offsets is discharged",
    "d": [
-    "Created 10 Feb 2017 (Dassault statement); Dassault 49%, Reliance Aerostructure Ltd 51% until the Sep 2025 agreement transferring 2% to Dassault for about Rs 175.96 crore, after which DRAL becomes a Dassault subsidiary (Reliance Infrastructure exchange filing as reported) [documented]"
+    "Created 10 Feb 2017 (Dassault statement); Dassault 49%, Reliance Aerostructure Ltd 51% until the Sep 2025 agreement transferring 2% to Dassault for about Rs 175.96 crore, after which DRAL becomes a Dassault subsidiary (Reliance Infrastructure exchange filing as reported) [documented]",
+    "Incorporation announced in Reliance Infrastructure's exchange filing of 16 Feb 2017 (RAL 51%, Dassault 49%); Dassault 2025 Annual Report: 'DRAL is now 51% owned by Dassault Aviation' [documented]"
    ],
    "srcs": [
     [
@@ -1196,6 +1234,18 @@
     [
      "Business Standard, 5 Sep 2025 — Dassault Aviation to raise stake in Dassault Reliance Aerospace to 51% (2% from RAL for about Rs 175.96 cr)",
      "https://www.business-standard.com/companies/news/dassault-aviation-to-raise-stake-in-dassault-reliance-aerospace-to-51-125090500894_1.html"
+    ],
+    [
+     "Reliance Infrastructure Ltd, exchange filing, 16 Feb 2017 — DRAL incorporated; RAL 51%, Dassault 49% (media release of wholly owned subsidiary Reliance Defence Ltd)",
+     "https://www.rinfra.com/documents/1142822/10641881/Incorporation_DRA_16.02.17.pdf"
+    ],
+    [
+     "Reliance Infrastructure Ltd, Reg. 30 disclosure to BSE/NSE, 5 Sep 2025 — Transfer of 2% equity shares to Dassault Aviation in Dassault Reliance Aerospace Ltd (agreement 5 Sep 2025; expected completion 1 Nov 2025; ~Rs 175.96 crore)",
+     "https://www.rinfra.com/documents/1142822/9691388/SEDisDRALStakeSale_05092025.pdf"
+    ],
+    [
+     "Dassault Aviation, 2025 Annual Report, p. 14 (Profile): 'Dassault Reliance Aerospace Limited (DRAL) is now 51% owned by Dassault Aviation'",
+     "https://dassault-aviation.publispeak.com/2025-annual-report/doc/article/14/"
     ]
    ]
   },
@@ -2236,7 +2286,7 @@
    },
    "publicRole": "Listed vehicle maker and MoD vendor (light vehicles, 2025); an electoral-bond donor in the SC-ordered disclosure.",
    "d": [
-    "27 Mar 2025: MoD contract for light vehicles shared with Mahindra & Mahindra Ltd under Buy (Indian-IDDM) (Devdiscourse) [reported]",
+    "27 Mar 2025: MoD contract for light vehicles shared with Mahindra & Mahindra Ltd under Buy (Indian-IDDM) (PIB release 2115804); company announced 2,978 vehicles for the Army and Air Force [documented]",
     "Electoral bonds: Rs 6.35 crore, all to the BJP (ADR matched list) [documented]"
    ],
    "srcs": [
@@ -2247,6 +2297,14 @@
     [
      "ADR/MyNeta — Electoral Bonds, who paid whom, donor-wise (alphabetical), pages 1–56; data: SBI list released by ECI 2024-03-21",
      "https://myneta.info/electoral_bonds/donor_alphabetical.php"
+    ],
+    [
+     "PIB (MoD), 27 Mar 2025 — Aatmanirbhar Bharat: MoD inks Rs 2,500 crore contracts for NAMIS Tracked version of anti-tank weapon platform & 5,000 Light Vehicles (Release ID 2115804)",
+     "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2115804&reg=3&lang=1"
+    ],
+    [
+     "Mobility Outlook, 29 Mar 2025 — Force Motors secures order for 2,978 vehicles from Indian Defence Forces (company announcement)",
+     "https://mobilityoutlook.com/news/force-motors-secures-order-for-2978-vehicles-from-indian-defence-forces"
     ]
    ]
   },
@@ -3922,10 +3980,14 @@
    "pred": "own",
    "tier": "documented",
    "lab": "Dassault Aviation – Dassault Reliance Aerospace Ltd: 49% (Reliance Aerostructure 51%), from 10 Feb 2017",
-   "d": "49% Dassault, 51% Reliance Aerostructure Ltd (a Reliance Infrastructure subsidiary), per the Reliance Infrastructure exchange filing as reported in Sep 2025 (Business Today; Business Standard). JV created 10 February 2017 per Dassault's statement; the joint statement of 3 Oct 2016 announced the JV (Wikipedia). The Sep 2025 transfer of 2% to Dassault was slated for completion by 1 Nov 2025 (c100); actual completion not confirmed here.",
+   "d": "49% Dassault, 51% Reliance Aerostructure Ltd (a wholly owned subsidiary of Reliance Infrastructure): split stated at incorporation in Reliance Infrastructure's exchange filing of 16 Feb 2017 and again in its Reg. 30 filing of 5 Sep 2025. JV created 10 February 2017 per Dassault's statement; the joint statement of 3 Oct 2016 announced the JV (Wikipedia). The 5 Sep 2025 transfer of 2% to Dassault had an expected completion date of 1 Nov 2025 (c100); completion confirmed by Dassault Aviation's 2025 Annual Report; exact closing date not disclosed, so the to-date is the expected completion date.",
    "from": "2017-02-10",
    "to": "2025-11-01",
    "srcs": [
+    [
+     "Reliance Infrastructure Ltd, exchange filing, 16 Feb 2017 — DRAL incorporated; RAL 51%, Dassault 49% (media release of wholly owned subsidiary Reliance Defence Ltd)",
+     "https://www.rinfra.com/documents/1142822/10641881/Incorporation_DRA_16.02.17.pdf"
+    ],
     [
      "ThePrint — Picking Reliance as partner was our choice, Dassault says again (Dassault statement of 10 Oct 2018)",
      "https://theprint.in/defence/picking-reliance-as-partner-was-our-choice-dassault-says-again-after-new-rafale-row/132659/"
@@ -3941,6 +4003,14 @@
     [
      "Business Standard, 5 Sep 2025 — Dassault Aviation to raise stake in Dassault Reliance Aerospace to 51% (2% from RAL for about Rs 175.96 cr)",
      "https://www.business-standard.com/companies/news/dassault-aviation-to-raise-stake-in-dassault-reliance-aerospace-to-51-125090500894_1.html"
+    ],
+    [
+     "Reliance Infrastructure Ltd, Reg. 30 disclosure to BSE/NSE, 5 Sep 2025 — Transfer of 2% equity shares to Dassault Aviation in Dassault Reliance Aerospace Ltd (agreement 5 Sep 2025; expected completion 1 Nov 2025; ~Rs 175.96 crore)",
+     "https://www.rinfra.com/documents/1142822/9691388/SEDisDRALStakeSale_05092025.pdf"
+    ],
+    [
+     "Dassault Aviation, 2025 Annual Report, p. 14 (Profile): 'Dassault Reliance Aerospace Limited (DRAL) is now 51% owned by Dassault Aviation'",
+     "https://dassault-aviation.publispeak.com/2025-annual-report/doc/article/14/"
     ]
    ],
    "supersededBy": "money-people:c100"
@@ -4567,9 +4637,9 @@
    "tier": "documented",
    "a": 6.35,
    "lab": "Force Motors → BJP: Rs 6.35 crore of electoral bonds (ADR matched list)",
-   "d": "ADR/SBI matched list: Rs 6.35 crore, 100% of Force Motors' bonds, all to the BJP; purchase dates 2019-05-06 and 2023-10-11 per the ADR bond-level table cited in voids. Disclosure ordered by the Supreme Court (15 Feb and 11 Mar 2024). Same lens as the Megha, Mahindra and Cyient bond claims: a donation, not evidence of exchange; the MoD light-vehicle contract (c097) followed the second purchase by about 17 months.",
+   "d": "ADR/SBI matched list: Rs 6.35 crore, 100% of Force Motors' bonds, all to the BJP (the only Force Motors row in the donor-wise list). Tranches per the bond-level table (srcs[1], 23 bonds, all rows read including the four script-rendered ones): Rs 0.75 crore (12 bonds: 7 of Rs 10 lakh, 5 of Rs 1 lakh) bought 2019-05-06 and encashed by the BJP 2019-05-10; Rs 5.60 crore (11 bonds: 5 of Rs 1 crore, 6 of Rs 10 lakh) bought 2023-10-11 and encashed 2023-10-19/21/25. Disclosure ordered by the Supreme Court (15 Feb and 11 Mar 2024); the edge ends at the last purchase because the scheme was struck down on 15 Feb 2024. Comparison base: 372 of 1,280 normalised donors (29.1%) gave only to the BJP (baseRates); Force Motors is below the Rs 10 crore threshold used for the larger-donor rate. Same lens as the Megha, Mahindra and Cyient bond claims: a donation, not evidence of exchange; the MoD light-vehicle contract (c097) followed the second purchase by about 17 months. The contract was shared with Mahindra & Mahindra (also BJP-only); a DPSU comparison is impossible because Companies Act s.182 bars government companies from political contributions. Denial: none found; not asked.",
    "from": "2019-05-06",
-   "to": null,
+   "to": "2023-10-11",
    "srcs": [
     [
      "ADR/MyNeta — Electoral Bonds, who paid whom, donor-wise (alphabetical), pages 1–56; data: SBI list released by ECI 2024-03-21",
@@ -4587,36 +4657,58 @@
    "s": "min:ministry-of-defence",
    "t": "force:force-motors",
    "pred": "award",
-   "tier": "reported",
+   "tier": "documented",
    "lab": "MoD → Force Motors: light vehicles for the armed forces (27 Mar 2025), shared with Mahindra & Mahindra",
-   "d": "Category: Buy (Indian-IDDM); about 5,000 light vehicles split between Force Motors Ltd and Mahindra & Mahindra Ltd; the day's contracts, with AVNL's NAMIS (Tracked), totalled about Rs 2,500 crore; the per-vendor amount is not stated in the opened source (amount not stated). AoN date not stated. Reported from Devdiscourse's account of the MoD release; the PIB release itself was not opened.",
+   "d": "Category: Buy (Indian-IDDM); about 5,000 light vehicles (800 kg payload) split between Force Motors Ltd and Mahindra & Mahindra Ltd; signed in New Delhi on 27 Mar 2025 in the presence of the Defence Secretary; the day's contracts, with AVNL's NAMIS (Tracked) at Rs 1,801.34 crore, totalled about Rs 2,500 crore (PIB release 2115804, opened). The per-vendor amount is not stated (amount not stated); by subtraction the two light-vehicle contracts together come to roughly Rs 700 crore — our inference, not a stated figure, and no source says whether the Rs 2,500 crore is exact. Force Motors' own announcement (Mobility Outlook, 29 Mar 2025): an order for 2,978 vehicles for the Army and the Air Force (General Service Vehicles); MD Prasan Firodia: 'We are honoured to continue our association with the Indian Defence Forces through this substantial order.' AoN date not stated.",
    "from": "2025-03-27",
    "to": null,
    "srcs": [
     [
+     "PIB (MoD), 27 Mar 2025 — Aatmanirbhar Bharat: MoD inks Rs 2,500 crore contracts for NAMIS Tracked version of anti-tank weapon platform & 5,000 Light Vehicles (Release ID 2115804)",
+     "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2115804&reg=3&lang=1"
+    ],
+    [
      "Devdiscourse — MoD signs Rs 2,500 cr contracts for NAMIS tracked system and light vehicles (AVNL, Force Motors, Mahindra & Mahindra), 27 Mar 2025",
      "https://www.devdiscourse.com/article/law-order/3324534-mod-signs-2500-cr-contracts-for-namis-tracked-system-light-vehicles"
+    ],
+    [
+     "Mobility Outlook, 29 Mar 2025 — Force Motors secures order for 2,978 vehicles from Indian Defence Forces (company announcement)",
+     "https://mobilityoutlook.com/news/force-motors-secures-order-for-2978-vehicles-from-indian-defence-forces"
     ]
    ],
-   "supersededBy": null
+   "supersededBy": null,
+   "innocentReading": "A routine indigenous procurement under Buy (Indian-IDDM): the order was split between two private vehicle makers and signed the same day as a DPSU contract (AVNL), and Force Motors describes it as a continuation of an existing supply association. The bond-timing juxtaposition is carried only by the analytic claims, not by this award."
   },
   {
    "id": "money-people:c098",
    "s": "min:ministry-of-defence",
    "t": "co:mahindra-mahindra",
    "pred": "award",
-   "tier": "reported",
+   "tier": "documented",
    "lab": "MoD → Mahindra & Mahindra Ltd: light vehicles for the armed forces (27 Mar 2025), shared with Force Motors",
-   "d": "Category: Buy (Indian-IDDM); about 5,000 light vehicles split between Mahindra & Mahindra Ltd and Force Motors Ltd (amount not stated per vendor; about Rs 2,500 crore for all three contracts signed that day, including AVNL's NAMIS). This contract is with the listed parent that bought Rs 25 crore of bonds on 27 Jan 2023, about 26 months earlier. Reported from Devdiscourse's account of the MoD release; the PIB release itself was not opened.",
+   "d": "Category: Buy (Indian-IDDM); about 5,000 light vehicles (800 kg payload) split between Mahindra & Mahindra Ltd and Force Motors Ltd; signed in New Delhi on 27 Mar 2025 in the presence of the Defence Secretary (PIB release 2115804, opened; ThePrint carries the same MoD statement). Amount not stated per vendor; about Rs 2,500 crore for all three contracts signed that day, including AVNL's NAMIS (Rs 1,801.34 crore). Force Motors announced 2,978 vehicles as its share (c097); M&M's vehicle count was not found in an opened source, and no per-vendor rupee amount is derived. The counterparty is the listed parent, not the subsidiary Mahindra Defence Systems Ltd; this contract is separate from MoD's 22 Mar 2021 contract with Mahindra Defence Systems Ltd for 1,300 Light Specialist Vehicles at Rs 1,056 crore (PSU Watch), and from the 2021 IADS award (c020). This contract is with the listed parent that bought Rs 25 crore of bonds on 27 Jan 2023, about 26 months earlier (timing only).",
    "from": "2025-03-27",
    "to": null,
    "srcs": [
     [
+     "PIB (MoD), 27 Mar 2025 — Aatmanirbhar Bharat: MoD inks Rs 2,500 crore contracts for NAMIS Tracked version of anti-tank weapon platform & 5,000 Light Vehicles (Release ID 2115804)",
+     "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2115804&reg=3&lang=1"
+    ],
+    [
      "Devdiscourse — MoD signs Rs 2,500 cr contracts for NAMIS tracked system and light vehicles (AVNL, Force Motors, Mahindra & Mahindra), 27 Mar 2025",
      "https://www.devdiscourse.com/article/law-order/3324534-mod-signs-2500-cr-contracts-for-namis-tracked-system-light-vehicles"
+    ],
+    [
+     "ThePrint, 28 Mar 2025 — MoD signs Rs 2,500-cr contracts for Nag anti-tank missile systems & 5,000 Light Vehicles",
+     "https://theprint.in/defence/mod-signs-rs-2500-cr-contracts-for-nag-anti-tank-missile-systems-5000-light-vehicles/2568601/"
+    ],
+    [
+     "PSU Watch, 22 Mar 2021 — Mahindra Defence to supply Light Specialist Vehicles to Indian Army (1,300 LSVs, Rs 1,056 crore)",
+     "https://psuwatch.com/defencewatch/mahindra-defence-to-supply-light-specialist-vehicles-to-indian-army"
     ]
    ],
-   "supersededBy": null
+   "supersededBy": null,
+   "innocentReading": "A routine competitive Buy (Indian-IDDM) procurement of light vehicles split between two established domestic makers and signed alongside a DPSU contract at the end of the financial year; the earlier bond purchase is background for any large listed vendor, not evidence of exchange."
   },
   {
    "id": "money-people:c095",
@@ -4625,10 +4717,14 @@
    "pred": "law",
    "tier": "documented",
    "lab": "CCS (Pension) Rules 2021, Rule 9 (G.S.R. 868(E), 20 Dec 2021): previous sanction for commercial employment within one year of retirement (Central Service Group A)",
-   "d": "Rule 9(1) as printed: a pensioner who 'immediately before his retirement was a member of Central Service Group A' and 'wishes to accept any commercial employment before the expiry of one year from the date of his retirement' shall obtain the previous sanction of the Government by an application in Form 1. Supersedes Rule 10 of the 1972 Rules (c024). Text read in TaxGuru's reproduction of the Gazette notification.",
+   "d": "Rule 9(1) as printed: a pensioner who 'immediately before his retirement was a member of Central Service Group A' and 'wishes to accept any commercial employment before the expiry of one year from the date of his retirement' shall obtain the previous sanction of the Government by an application in Form 1. Supersedes Rule 10 of the 1972 Rules (c024) by Rule 87(1) (Repeal and Saving): every rule 'including Central Civil Services (Pension) Rules, 1972' shall, in so far as it provides for any of the matters in the 2021 Rules, 'cease to operate'; Rule 1(2): in force from the date of publication (20 Dec 2021). Scope (Rule 2): the 2021 Rules apply to Government servants appointed on or before 31 Dec 2003 (including civilian Government servants in the Defence Services; the Explanation extends them to a few narrow post-2003 cases); railway servants and members of the All India Services are excluded. Group A officers appointed from 1 Jan 2004 fall under the CCS (Implementation of NPS) Rules 2021 (equivalent commercial-employment clause not verified), so any use of this edge for a named officer must first check that the officer was appointed on or before 31 Dec 2003. Text read in the Gazette PDF and TaxGuru's reproduction.",
    "from": "2021-12-20",
    "to": null,
    "srcs": [
+    [
+     "Gazette of India Extraordinary, G.S.R. 868(E), 20 Dec 2021 — CCS (Pension) Rules 2021 (PDF copy hosted by StaffNews; Rule 2 application, Rule 9 commercial employment, Rule 87 repeal and saving)",
+     "https://www.staffnews.in/wp-content/uploads/2021/12/CSS_PensionRules_2021_Book_Eng-1.pdf"
+    ],
     [
      "TaxGuru — Central Civil Services (Pension) Rules 2021, G.S.R. 868(E), 20 Dec 2021 (reproduction of the Gazette text; Rule 9 commercial employment, Rule 7(4) publication clearance)",
      "https://taxguru.in/corporate-law/central-civil-services-pension-rules-2021.html"
@@ -4665,10 +4761,18 @@
    "pred": "own",
    "tier": "documented",
    "lab": "Dassault Aviation – DRAL: 51% after buying 2% from Reliance Aerostructure for about Rs 175.96 crore (completion slated by 1 Nov 2025)",
-   "d": "Agreement disclosed by Reliance Infrastructure in a stock-exchange filing (Sep 2025): Reliance Aerostructure Ltd transfers 2% of DRAL to Dassault Aviation for about Rs 175.96 crore on an independent valuation; DRAL becomes a Dassault subsidiary and an associate of Reliance Infrastructure; completion slated by 1 Nov 2025 (actual completion date not confirmed here).",
+   "d": "Agreement of 5 Sep 2025 disclosed by Reliance Infrastructure in a Reg. 30 stock-exchange filing (srcs[0]): Reliance Aerostructure Ltd, a wholly owned subsidiary, transfers 2% of DRAL to Dassault Aviation for about Rs 175.96 crore on an independent valuation; expected completion 1 Nov 2025; DRAL then ceases to be a 51% subsidiary of Reliance Infrastructure and becomes its associate with 49%; buyer not a promoter-group company and not a related-party transaction. Completion confirmed by Dassault Aviation's 2025 Annual Report ('DRAL is now 51% owned by Dassault Aviation'); exact closing date not disclosed; the from-date is the filing's expected completion date.",
    "from": "2025-11-01",
    "to": null,
    "srcs": [
+    [
+     "Reliance Infrastructure Ltd, Reg. 30 disclosure to BSE/NSE, 5 Sep 2025 — Transfer of 2% equity shares to Dassault Aviation in Dassault Reliance Aerospace Ltd (agreement 5 Sep 2025; expected completion 1 Nov 2025; ~Rs 175.96 crore)",
+     "https://www.rinfra.com/documents/1142822/9691388/SEDisDRALStakeSale_05092025.pdf"
+    ],
+    [
+     "Dassault Aviation, 2025 Annual Report, p. 14 (Profile): 'Dassault Reliance Aerospace Limited (DRAL) is now 51% owned by Dassault Aviation'",
+     "https://dassault-aviation.publispeak.com/2025-annual-report/doc/article/14/"
+    ],
     [
      "Business Today, 5 Sep 2025 — Dassault Aviation to take majority control of Dassault Reliance Aerospace with 51% stake (Reliance Infrastructure exchange filing)",
      "https://www.businesstoday.in/latest/corporate/story/dassault-aviation-to-take-majority-control-of-dassault-reliance-aerospace-with-51-stake-check-details-492808-2025-09-05"
@@ -4678,7 +4782,8 @@
      "https://www.business-standard.com/companies/news/dassault-aviation-to-raise-stake-in-dassault-reliance-aerospace-to-51-125090500894_1.html"
     ]
    ],
-   "supersededBy": null
+   "supersededBy": null,
+   "upgradeIf": "An exchange filing or MCA record giving the actual closing date of the 2% transfer replaces the expected date 2025-11-01 (here and on c069, c101, c102)."
   },
   {
    "id": "money-people:c101",
@@ -4687,10 +4792,18 @@
    "pred": "own",
    "tier": "documented",
    "lab": "Reliance Infrastructure (through Reliance Aerostructure Ltd) – DRAL: 51% from 10 Feb 2017",
-   "d": "Held through the subsidiary Reliance Aerostructure Ltd (RAL): 51%, Dassault 49%, until the Sep 2025 transfer of 2% (c102).",
+   "d": "Held through the subsidiary Reliance Aerostructure Ltd (RAL): 51%, Dassault 49%, until the Sep 2025 transfer of 2% (c102). Incorporation and 51/49 split per RInfra exchange filing of 16 Feb 2017 (media release of its wholly owned subsidiary Reliance Defence Ltd); creation date 10 Feb 2017 per Dassault statement; 51% as of Sep 2025 per RInfra's Reg. 30 filing; no interim change found. The to-date 2025-11-01 is the slated (expected) completion date, not a confirmed closing date.",
    "from": "2017-02-10",
    "to": "2025-11-01",
    "srcs": [
+    [
+     "Reliance Infrastructure Ltd, exchange filing, 16 Feb 2017 — DRAL incorporated; RAL 51%, Dassault 49% (media release of wholly owned subsidiary Reliance Defence Ltd)",
+     "https://www.rinfra.com/documents/1142822/10641881/Incorporation_DRA_16.02.17.pdf"
+    ],
+    [
+     "ThePrint — Dassault statement of 10 Oct 2018 (DRAL created 10 Feb 2017)",
+     "https://theprint.in/defence/picking-reliance-as-partner-was-our-choice-dassault-says-again-after-new-rafale-row/132659/"
+    ],
     [
      "Business Today, 5 Sep 2025 — Dassault Aviation to take majority control of Dassault Reliance Aerospace with 51% stake (Reliance Infrastructure exchange filing)",
      "https://www.businesstoday.in/latest/corporate/story/dassault-aviation-to-take-majority-control-of-dassault-reliance-aerospace-with-51-stake-check-details-492808-2025-09-05"
@@ -4698,6 +4811,10 @@
     [
      "Business Standard, 5 Sep 2025 — Dassault Aviation to raise stake in Dassault Reliance Aerospace to 51% (2% from RAL for about Rs 175.96 cr)",
      "https://www.business-standard.com/companies/news/dassault-aviation-to-raise-stake-in-dassault-reliance-aerospace-to-51-125090500894_1.html"
+    ],
+    [
+     "Reliance Infrastructure Ltd, Reg. 30 disclosure to BSE/NSE, 5 Sep 2025 — Transfer of 2% equity shares to Dassault Aviation in Dassault Reliance Aerospace Ltd (agreement 5 Sep 2025; expected completion 1 Nov 2025; ~Rs 175.96 crore)",
+     "https://www.rinfra.com/documents/1142822/9691388/SEDisDRALStakeSale_05092025.pdf"
     ]
    ],
    "supersededBy": "money-people:c102"
@@ -4709,10 +4826,18 @@
    "pred": "own",
    "tier": "documented",
    "lab": "Reliance Infrastructure (through Reliance Aerostructure Ltd) – DRAL: 49% after the 2% sale to Dassault (completion slated by 1 Nov 2025)",
-   "d": "RAL's stake falls to 49% and DRAL is reclassified as an associate of Reliance Infrastructure; consideration about Rs 175.96 crore; completion slated by 1 Nov 2025 (actual date not confirmed here).",
+   "d": "RAL's stake falls to 49% and DRAL is reclassified as an associate of Reliance Infrastructure (Reg. 30 filing of 5 Sep 2025); consideration about Rs 175.96 crore on independent valuation. Completion confirmed by Dassault Aviation's 2025 Annual Report ('DRAL is now 51% owned by Dassault Aviation'); exact closing date not confirmed — the from-date is the slated long-stop of 1 Nov 2025, the same boundary used on c069, c100 and c101.",
    "from": "2025-11-01",
    "to": null,
    "srcs": [
+    [
+     "Reliance Infrastructure Ltd, Reg. 30 disclosure to BSE/NSE, 5 Sep 2025 — Transfer of 2% equity shares to Dassault Aviation in Dassault Reliance Aerospace Ltd (agreement 5 Sep 2025; expected completion 1 Nov 2025; ~Rs 175.96 crore)",
+     "https://www.rinfra.com/documents/1142822/9691388/SEDisDRALStakeSale_05092025.pdf"
+    ],
+    [
+     "Dassault Aviation, 2025 Annual Report, p. 14 (Profile): 'Dassault Reliance Aerospace Limited (DRAL) is now 51% owned by Dassault Aviation'",
+     "https://dassault-aviation.publispeak.com/2025-annual-report/doc/article/14/"
+    ],
     [
      "Business Today, 5 Sep 2025 — Dassault Aviation to take majority control of Dassault Reliance Aerospace with 51% stake (Reliance Infrastructure exchange filing)",
      "https://www.businesstoday.in/latest/corporate/story/dassault-aviation-to-take-majority-control-of-dassault-reliance-aerospace-with-51-stake-check-details-492808-2025-09-05"
