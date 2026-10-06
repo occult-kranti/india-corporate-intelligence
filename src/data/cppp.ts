@@ -647,6 +647,19 @@ export interface SecurityIndicator {
   innocentReading: string;
 }
 
+/**
+ * quality.total and quality.byClass[] (security.py writes the same block for both). Only
+ * the row counts are typed: the nested null and plausibility tallies stay open, because
+ * no page reads them and a typed guess would claim a shape the file never promised.
+ */
+export interface SecurityQualityCounts {
+  rawRows: number;
+  rawDistinctTenderIds?: number;
+  dedupRows: number;
+  dedupDistinctTenderIds?: number;
+  [k: string]: unknown;
+}
+
 export interface SecurityFile {
   readMeFirst: string;
   sliceRule: {
@@ -680,8 +693,10 @@ export interface SecurityFile {
     readMeFirst: string;
     raw: { rows: number; distinctTenderIds: number; byPortal: Record<string, number>; shareOfFileRowsPct: number };
     afterDedup: { rule: string; rows: number; shareOfFileDedupRowsPct: number };
-    total: Record<string, unknown>;
-    byClass: Record<string, unknown>[];
+    /** The slice's own counts before and after the dedup rule; /security prints raw → dedup from here. */
+    total: SecurityQualityCounts;
+    /** The same counts per buyer class, in file order; a class's share of slice decisions is its dedupRows over total.dedupRows. */
+    byClass: (SecurityQualityCounts & { class: SecurityClass | string })[];
     stateRoutes: { route: string; rows: number; buyers: number }[];
     bareTitleTermsLeftOut: Record<string, number | string>;
     innocentReading: string;
