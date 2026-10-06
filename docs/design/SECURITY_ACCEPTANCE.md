@@ -15,7 +15,12 @@ Playwright check against `dist`, the way `scripts/smoke.mjs`, `scripts/pages/ene
 `welfare.test.mjs`, `tenders.test.mjs` and `finance.test.mjs` already work: the check serves
 `dist` itself, opens `${base}/#/security…` (HashRouter, so search params sit inside the hash)
 and reads the DOM. No criterion reads `src/pages/`, `src/components/` or
-`src/data/securityView.ts`. Expected values are computed by the check from the **generated
+`src/data/securityView.ts`, with one exception: AC-139 reads the `FAMILY_COLOR` literal of
+`src/components/viz/ForceGraph.tsx` as text, never by import (§0.5), and no other file under
+`src/components/`. [Adjudicated 2026-10-06: spec §8.1 fixes family hue as "unchanged from
+`ForceGraph`" and the data contract places `FAMILY_COLOR` only in that shared house component,
+which this page consumes but does not own, so it is the spec's reference value, not the code
+under test; `KINDS` is read as text from `src/graph/fleet.ts` the same way.] Expected values are computed by the check from the **generated
 module** (`src/graph/force.generated.ts`), from `research/raw/cppp/security.json`, from
 `src/data/india-geo.json` and from the Atlas and fleet data modules it needs for labels, as spec
 §16 requires — never from a brief, a caption, spec §0.2 or this document. The module under
@@ -141,6 +146,7 @@ Atlas (`src/graph/data.ts`) and the other fleets' `_NODES`; a miss is `{id} (not
 | `LANE_KEY(r)` | `${r.body}\|${r.component}\|${r.head.replace(/^Demand \d+ — /, '').replace(/ \(Summary of Demands for Grants, BE\)$/, '')}`; `LANES` = distinct keys over `UNION_ROWS` minus `grant-to-states`; `LANE_ROWS(key)` |
 | `CAPF_SAMPLE` | the Union `body` with the most budget rows whose id is not in `DEFENCE_BODIES`, not `MHA`, not `DELHI_POLICE`, and whose node label matches `/CRPF|BSF|CISF|ITBP|SSB|Assam Rifles|NSG/`; else the Union body with the most rows outside those ids |
 | `CELL_SAMPLE` | the `(LANE_KEY, fy)` of `CAPF_SAMPLE` with rows at ≥ 2 stages; else at 1 |
+| `CELL_PARAM` | the value the page itself writes for `CELL_SAMPLE`: load `?body={CELL_SAMPLE body}`, focus the ledger cell button whose accessible name begins `{body label} — {component} — {line}, FY{fy}:` (matched on body, component **and** line), press `Enter`, read `cell` from the URL. Wherever this document writes `cell=CELL_SAMPLE` it means `cell=CELL_PARAM`. [Adjudicated 2026-10-06: spec §4 fixes `cell` as `{laneKey slug}@{fy}` but never defines the slug, and `CELL_SAMPLE` is a pair, not a URL value; the check neither builds a slug nor reads one from source, and holds the page only to what §4 fixes (AC-85)] |
 | `ZERO_ROW`, `ZERO_COUNT` | the first `FORCE_BUDGETS` row with `cr === 0` (code-unit order of `head`, then `fy`); the count; skip AC-52 when none |
 | `REPORTED_ROWS` | budget, strength and footprint rows whose `note` begins `reported:` (S4: `tier === 'reported'`) |
 | `LAKH_ROWS` | budget rows whose `note` begins `RBI Appendix II prints ₹ lakh; converted to ₹ crore (÷100).`; skip the (U13) clauses when none |
@@ -154,6 +160,7 @@ Atlas (`src/graph/data.ts`) and the other fleets' `_NODES`; a miss is `{id} (not
 | `UNITS` | the 36 `StateCode`s of `src/data/india-geo.json`, north to south by `MAP_ORDER`'s rule (label anchor latitude descending, as the welfare suite derives it) |
 | `COMMISSIONERATES`, `CITY_SAMPLE` | footprint rows with `kind === 'commissionerate'`; the first by `(UNITS order of st, city)` — its `city`, `body`, `st` |
 | `CITY_BODIES` | `COMMISSIONERATES.body` ∪ every node id matching `/-police$/` that is not `DELHI_POLICE` and not a `body` of a `STATE_SERIES` row |
+| `FAMILY_COLOR` | the object literal of the `const FAMILY_COLOR` declaration in `src/components/viz/ForceGraph.tsx`, read as text (never imported), key → 6-digit hex; the run aborts with the handle and file named unless `state` and `capital` each parse to a `#rrggbb` value and the two differ [Adjudicated 2026-10-06: the only source the spec names for the frozen family hues (data contract; §8.1); the house palette has no data-module home] |
 | `KINDS` | the eleven `FootprintKind` literals as `src/graph/fleet.ts` lists them (read as text from that type file) ∪ distinct `FORCE_FOOTPRINT.kind`; `EMPTY_KINDS` = those with no row |
 | `FP_BY_STATE(kinds)`, `FP_NONE` | counts per unit; a unit with no footprint row |
 | `AWARDS` | `FORCE_EDGES` with `pred === 'award'`, `s === MOD`, `tier !== 'alleged'`; `PRICED` / `UNPRICED` by `Number.isFinite(a)`; `AWARD_YEARS` = calendar years of `from`; `EMPTY_YEARS` = years between min and max with none |
@@ -188,26 +195,32 @@ Atlas (`src/graph/data.ts`) and the other fleets' `_NODES`; a miss is `{id} (not
 
 The spec fixes most text and roles. Where it fixes none, the build emits these attributes.
 They carry no style and no meaning (spec §8.2 rule 2: no new channel) and exist only so a
-check can count things the way a reader sees them. Every value is a word, never a token the
-reader would see.
+check can count things the way a reader sees them. Every value is a fixed word from this
+table or, for `data-column`, `data-lane` and `data-case`, the register key the row names, copied
+exactly; none is printed, styled or announced. A check reads these values and never falls back
+to label text or DOM position. [Adjudicated 2026-10-06] The three rows named no value while
+AC-34, AC-49, AC-50, AC-73, AC-87, AC-127, AC-128, AC-140 and AC-144 address "the column for that
+FY" or "`[data-case]` for `force:case-bofors`", and falling back to position assumes the order
+AC-49 and AC-144 exist to verify; the FY label is allowed as a value although the axis shows it,
+because an attribute value is never read as page copy.
 
 | hook | on | why |
 |---|---|---|
 | `data-caption="C1"…"C21"` (and `"C4b"`) | each spec caption element (§9) | a caption is found by id, not by matching prose whose `{braces}` vary |
 | `data-q="B1"…"B9" \| "F1"…"F5" \| "P0"…"P6"` | each Q-block `<section aria-labelledby>` | numbering never shifts; blocks are found by address |
 | `data-twin="stack \| office \| ledger-long \| ledger-coverage \| compare \| pay \| contracts \| spend-map \| strength-map \| state-table \| delhi \| city-ledger \| grants \| footprint-matrix \| places \| awards \| vendors \| slice \| bonds \| board \| case-timeline \| case-fields \| narratives"` | each twin `<details>` | twins are found by name, not position |
-| `data-column` with `data-column-state="full \| partial \| hatched \| hidden"` and `data-panel="defence \| police"` | each stack column group | columns are counted against `FY_AXIS` and their state read without parsing |
+| `data-column="{fy}"`, the `FY_AXIS` label exactly (e.g. `2024-25`, no `FY` prefix), with `data-column-state="full \| partial \| hatched \| hidden"` and `data-panel="defence \| police"` [Adjudicated 2026-10-06: value fixed, see above] | each stack column group | columns are counted against `FY_AXIS` and matched to it by value, never by position (a reordered or closed-up axis fails), and their state read without parsing |
 | `data-band="revenue \| capital \| civil \| pension"` with `data-cr` | each drawn stack band | band values against `STACK` |
 | `data-glyph="equal \| differs \| none"` | each reconciliation glyph (the visible `=`/`≠`/`·` is `aria-hidden`) | reconciliation against `STACK.recon` |
 | `data-tick="published \| agnipath \| pay \| delhi \| police-pay"` | each stack tick or bracket | ticks are drawings; their values are read from the twin |
-| `data-lane` and `data-lane-group="published \| body \| city"` | each ledger lane `th[scope="row"]` | lane counts |
+| `data-lane="{key}"`, the `LANE_KEY` (§0.5; spec §3.2 `laneKey(r)`: `{body}\|{component}\|{line}`, the `Demand N — ` prefix and edition suffix stripped; with S1 `{body}\|{line}`) exactly, one value per lane, and `data-lane-group="published \| body \| city"` [Adjudicated 2026-10-06: value fixed, see above] | each ledger lane `th[scope="row"]` | lane counts, and each lane matched to `LANE_ROWS(key)` by value, never by label text; every lane carries one |
 | `data-slot="BE \| RE \| actual"` with `data-slot-state="row \| two \| zero \| hatch \| hidden"` | each ledger cell slot | slot states against `LANE_ROWS` |
 | `data-fill-class="value \| hatch \| zero \| crosshatch \| stipple \| hollow \| hidden"` | each unit `<path>` on the two state maps and the footprint map | legend and twin classes compared to painted classes |
 | `data-dot` | each footprint installation dot (and `data-overflow="{k}"` on a `+{k}` mark) | dot counts against `FP_BY_STATE` |
 | `data-mark="award \| award-unpriced \| office \| case \| response \| delhi"` with `data-cr` where priced | each drawn mark | mark counts against twin rows |
 | `data-class="{key}"` and `data-rate` with `data-n` | each slice class row and each drawn rate dot | rates against `SLICE` |
 | `data-cr` | **every** element whose text prints a ₹ figure | the denominator, as-of and SG-4 checks find every ₹ without parsing layout |
-| `data-pair` and `data-case` | each pair-row `<section>` and each case column `<dl>` | pair order and column equality |
+| `data-pair`, and `data-case="{id}"`, the case node id exactly (e.g. `force:case-bofors`); the right `<dl>` of an `UNPAIRED` case's row, which holds the pairing sentence, carries `data-case="none"` [Adjudicated 2026-10-06: value fixed, see above; AC-73 reads that `<dl>` as the row's second `[data-case]`, so it needs a value that is not a case] | each pair-row `<section>` and each case column `<dl>` | pair order and column equality, read by id, never by label text; `[data-case]:not([data-case="none"])` count = `CASES.length` |
 | `data-vendor-card` and `data-field="1"…"12" \| "3b"` | each vendor `<dl>` and each of its `dt`s | identical fields |
 | `data-response="true \| false"` | each response slot (contract cards, case fields, Contested) | slots against responses |
 | `data-reply-depth="1"…"3"` | each reply `<li>` | nesting against chain depth |
@@ -223,9 +236,29 @@ reader would see.
   state named; (2) change the control once through the UI and assert `history.length` is
   unchanged (`replace`, not push) and the URL now carries the new value; (3) open
   `page.url()` in a fresh page and assert the `innerText` of the strip, of every `<figure>`
-  and of the active-filter line equals the first page's; (4) the active-filter line names the
-  value in words (never the param code); (5) set the control back to its default and assert
-  `{param}` leaves the URL (defaults are elided).
+  and of the active-filter line equals the first page's; (4) when `{param}` is a page filter
+  (`payer`, `st`, `fy`, `stage`, `comp`, `kind`, `tier`; spec §6), an active-filter line is
+  present and names the value in the words its control shows, never the param code or the raw
+  value code: the unit's name (not its code), the FY or `FY {a}–{b}`, `stage {s}`,
+  `components: {list}`, each kind's and each tier's word. Step (4) does not require the line
+  to name `lens` or `view` (tab and display state, which `reset` never clears), `tp` (a page of
+  a table), `sfy`, `m` or `sy` (one map's pair, metric or year), `body`, `vendor` or `case`
+  (accents that spec §3.4 says never filter) or `cell` or `rec` (open cards); the line must not
+  present any of them as a filter, it is still compared in step (3), and the value's visible
+  state is asserted instead by the criterion's own check (the control selected or pressed, or
+  the value printed in the card, the denominator line or the map heading it names); (5) set
+  the control back to its default and assert `{param}` leaves the URL (defaults are elided).
+  [Adjudicated 2026-10-06] Step (4) as first written applied to every param, which would put
+  selections, the tab and the table mode on a line headed `filters:` that appears only when a
+  page filter is set (finance §5.0.4, adopted by spec §5.0.4) and would say a never-filtering
+  accent narrows the register (§3.4, Review Focus 3).
+  [Open adjudication 2026-10-06 — `find`; not chosen] Reading A: `find` is a page filter for
+  step (4) — `reset` clears it, AC-95 groups it with `st`, `kind`, `tier` and `fy`, finance
+  required it on the line, and §3.4 does not mark it "never filters" (it narrows the results
+  list) — so the line names the Find text. Reading B: `find` is not a filter — spec §6 prints
+  "filters nothing" on the control and §4 gives its reach as "the results list only", and AC-91
+  is titled "filter nothing by it" — so the line is not required to name it, must not present
+  it as a filter, and the Find input showing the query is its visible state.
 - **TWIN(name)** — `details[data-twin="{name}"]`: opened by clicking its `summary`, or already
   open under `view=table`; row count = `tbody tr` inside it (at `M`, the `StackTable` cards:
   `[data-row]` inside it).
@@ -989,7 +1022,9 @@ nothing selected. Every control writes with `replace`, and every URL reproduces 
 - **Check (Budgets):** ROUND-TRIP(`sy={a STRENGTH_YEARS member ≠ DEFAULT_SY}`): the strength
   map's fill classes equal `STRENGTH_CLASS(st, sy)`; `TWIN(state-table)` still shows a per-lakh
   column for every `STRENGTH_YEARS` member; the legend's bin edges are identical under every
-  `sy` tried (AC-145).
+  `sy` tried (AC-145); the selected strength-year segment is pressed or checked and the
+  strength map's visible title or legend names `{sy}`. [Adjudicated 2026-10-06: `sy` is exempt
+  from the active-filter line (§0.7 step 4), so its visible state is asserted here.]
 
 ### AC-83 — Round-trip `kind` as a comma list, with 0-row kinds always listed
 - **Check (Footprint):** ROUND-TRIP(`kind=cantonment`): `[data-dot]` count + Σ overflow = rows
@@ -1006,11 +1041,25 @@ nothing selected. Every control writes with `replace`, and every URL reproduces 
   an unrecognised body value`.
 
 ### AC-85 — Round-trip `cell`, opening the `CellCard`
-- **Check (Budgets):** ROUND-TRIP(`cell=CELL_SAMPLE`): the `CellCard h2` names the body, line
+- **Check (Budgets):** ROUND-TRIP(`cell=CELL_PARAM`): the `CellCard h2` names the body, line
   and FY; its rows = `LANE_ROWS` at that FY; each row has `Copy citation` whose activation
   writes to the clipboard and renders an `<output>` containing the head verbatim, the stage
-  word, the FY, an `http` URL and `read to {ASOF}` (U12); the cell carries `aria-current="true"`.
+  word, the FY, an `http` URL, `#/security?cell=` followed by `CELL_PARAM` (raw or
+  percent-encoded) and `read to {ASOF}` (U12); the cell carries `aria-current="true"`.
   `Close` removes `cell` and returns focus to the cell.
+- **The slug (§4 `{laneKey slug}@{fy}`):** `CELL_PARAM` has a non-empty slug and ends
+  `@{CELL_SAMPLE.fy}`; harvesting it again from a fresh load with `comp={CELL_SAMPLE component}`
+  gives the identical string (the slug names the lane, not its position on screen); the same
+  lane's button at another `FY_AXIS` year writes the same slug with that FY after the `@`;
+  another lane of `CAPF_SAMPLE` at the same FY writes a different slug (`SKIPPED: one lane` when
+  the body has one, never a pass).
+- **Unknown value (spec §10, unknown-value row):** `?cell=x@1900-01` opens no `CellCard`, selects no cell, and
+  exactly one amber line under the strip reads `ignored an unrecognised cell value`; the bad
+  value is not re-written into the URL by the page (as AC-94).
+- [Adjudicated 2026-10-06] `cell=CELL_SAMPLE` named a `(LANE_KEY, fy)` pair, not a URL value,
+  and §4 leaves the slug to the builder; the check takes the page's own value and asserts only
+  what §4 and §10 fix: the `@{fy}` suffix, a slug that is a function of the lane key, the deep
+  link carrying it, and the unknown-value line AC-94's list omitted.
 
 ### AC-86 — Round-trip `vendor`, accenting and opening with comparators, never filtering
 - **Check (Procurement):** ROUND-TRIP(`vendor={VENDOR_NO_AWARD}`): `[data-vendor-card]` count
@@ -1058,6 +1107,7 @@ nothing selected. Every control writes with `replace`, and every URL reproduces 
   Police` once (300 ms debounce). The results' verbs are exactly `Show its budget lines`, `Show
   connections`, `Show in footprint`, `Where its police money sits`, `Show vendor`, `Show the
   pair`, `Open record`; a `CITY_BODIES` result never carries `Show its budget lines` (U29).
+  Whether the active-filter line names the Find text is an open adjudication under §0.7 step (4).
 
 ### AC-92 — Round-trip `view=table` and keep it across a lens change
 - **Check:** ROUND-TRIP(`view=table`): every `details[data-twin]` on the lens has `open`; every
@@ -1177,7 +1227,9 @@ marks come from the same arrays, and every export reproduces the screen.*
   decision} and agrees with the check's own classification of the source node's `ty`/`fam`
   (a fixture whose `lab` says `CBI` but whose source is a court must read `court` — asserted
   on the module where such a record exists, else SKIPPED); `TWIN(case-fields)` rows =
-  `[data-case]` count × 11 (one per field), each value or its null words.
+  `[data-case]:not([data-case="none"])` count (= `CASES.length`) × 11 (one per field), each
+  value or its null words. [Adjudicated 2026-10-06: the pairing-sentence `<dl>` of an unpaired
+  case carries `data-case="none"` (§0.6) and has no fields of its own.]
 
 ### AC-107 — Match the Delhi line twin to its points and the city ledger to the commissionerates plus Delhi
 - **Check (Budgets `B7`):** `TWIN(delhi)` rows = distinct `(fy, stage)` over `DELHI_POLICE`
@@ -1280,12 +1332,25 @@ drawing, and one live region says what changed in words.*
   readout's title; no `aria-describedby` target contains `→` (SG-47); two filter changes within
   150 ms produce one message.
 
-### AC-118 — Keep unavailable options focusable, disabled, with the reason in the name
+### AC-118 — Keep unavailable options reachable by keyboard, never `disabled`, with the reason in the name
 - **Check:** Every `aria-disabled="true"` element on the page (State `(0)` options, undrawable
-  pairs, `m=percap` without S3, 0-row kind chips, inactive rail controls) is focusable by
-  `Tab`, has no `disabled` attribute, and its accessible name or `aria-describedby` text
-  contains a reason (`GSDP in this build is for`, `no population series`, `none in this
-  register`, `does not apply`, or `not budget rows`).
+  pairs, `m=percap` without S3, 0-row kind chips, inactive rail controls) has no `disabled`
+  attribute and is reachable from the keyboard:
+  - a native `<option>` (State `(0)` options, undrawable `sfy` pairs) through its enclosing
+    `<select>`, which exists, has no `disabled` attribute and is itself focusable by `Tab`
+    (`tabIndex ≥ 0`);
+  - a `role="option"` (the map listboxes, AC-114) through its `role="listbox"` ancestor, which
+    has `tabIndex ≥ 0`, the option carrying an `id` for `aria-activedescendant`;
+  - every other element by `Tab` itself (`tabIndex ≥ 0`).
+
+  Its accessible name or `aria-describedby` text (for a native `<option>`, its text) contains a
+  reason (`GSDP in this build is for`, `no population series`, `none in this register`, `does
+  not apply`, or `not budget rows`); for a State `<option>` only, its `(0)` count is the reason
+  (spec §6, State row).
+  [Adjudicated 2026-10-06] Browsers never Tab to an individual option, so "focusable by `Tab`"
+  failed the native `<option>`s the spec itself prescribes (§6 State row, §5.1.6) and the
+  listbox options of AC-114; §3.5 and §13 require only "focusable", so the exemption covers Tab
+  focus alone and reachability moves to the option's single tab stop.
 
 ### AC-119 — Mark every selection with state and move focus to it from the margin
 - **Check:** For `body`, `vendor`, `case`, `cell` set by URL: `[aria-current="true"]` count =
@@ -1485,8 +1550,14 @@ own words carry no party.*
   function only of: tier (dash), `fam` (hue, on graph nodes, vendor band headers and award
   marks), texture class, selection accent, rose (response) or amber (absence); for the office
   lanes the bar colours are identical across windows whose twin `party as recorded` cells
-  differ; `[data-dot]` fills are all one value; `[data-mark="award"]` fills take exactly the
-  two `FAMILY_COLOR` values for `state` and `capital` (S5: still family hue); the two stack
+  differ; `[data-dot]` fills are all one value; each filled `[data-mark="award"]` with `data-cr`
+  has the fill `FAMILY_COLOR[nodeOf(e.t).fam]` of a `PRICED` edge `e` whose `a` is within 0.005
+  of `data-cr` (S5: still family hue, never the declared class); the set of award fills equals
+  { `FAMILY_COLOR[nodeOf(e.t).fam]` : e ∈ `PRICED` } (on this build the `state` and `capital`
+  hues), with ≥ 1 filled award mark; no award mark's stroke colour varies except by tier dash
+  or selection accent [Adjudicated 2026-10-06: "take exactly the two" was checked as set
+  membership, which let a page key the two hues to something other than the vendor's `fam`;
+  `FAMILY_COLOR` is the §0.5 fixture]; the two stack
   panels' y-axes have the same max tick label (one shared scale); `[data-band]` fills are
   lightness steps of one hue (equal hue angle ± 2°) (SG-32).
 
@@ -1528,6 +1599,33 @@ own words carry no party.*
   here` share, a count the page computed, a party column or a vendor's award count; no element
   reads `most`, `top`, `rank`, `score`, `index` or `risk` outside `[data-quoted]` and the
   refusals.
+- [Open adjudication 2026-10-06 — the rank-word clause; not chosen] Both judges hold that the
+  clause as written cannot be met by a page built to the spec: page-authored text outside
+  `[data-quoted]` and `#refusals` must read C2 `not added on top`, C6 `for a rank, never a
+  person`, C11 `Most installations are older than any government`, C12 `most DPSU plants` and
+  `most command headquarters`, C17 `at the public rank`, the `PayTerms` column head `Rank
+  class` (§5.1.5) and the per-person option's name `… a 2011 Census base would re-rank states
+  (S3)` (§3.5, asserted by AC-81), where the words name a grade, a preposition, a quantifier or
+  a refusal to rank, not an order. They disagree on what replaces it.
+  - **Reading A (scope by element):** on each lens, no heading (`h1`–`h6`), `th`, control
+    (`button`, `option`, `summary`, `label`), `legend`, `[data-effect]` line, or `aria-label`
+    attribute value (the attribute only, not the labelled container's text) inside `main` reads
+    `most`, `top`, `rank`, `ranked`, `ranking`, `score`, `index` or `risk` as a word, outside
+    `[data-quoted]`, `#refusals` and the rail-foot `Not offered:` line; `top` in `on top` / `top
+    of` is a preposition; `Rank class` and `… would re-rank states (S3)` are excepted. Page prose
+    (captions, gaps list, AnswerLines) is not scanned: principle 12 and §14 forbid a presented
+    ranking, held by the order checks above and by §2's caption checks, which fix the prose.
+  - **Reading B (scan everything, except by exact phrase):** on every lens, at rest and under
+    `view=table`, the visible text of every element in `main` and the live region (headings,
+    row and column heads, table and figure captions, cells, controls, options, labels, chart
+    legends and annotations, SVG `<text>` and `<title>`) plus every `aria-label`,
+    `aria-description`, `title` and `alt`, outside `[data-quoted]`, `#refusals` and the
+    rail-foot `Not offered:` line, contains none of `most`, `top`, `rank`, `ranks`, `ranked`,
+    `ranking`, `score`, `scores`, `scored`, `index`, `indices`, `risk`, `risks`, `risky`,
+    `riskiest` or `leaderboard`, after removing verbatim only the fixed spec phrases listed
+    above; a record label printed verbatim is research wording and carries `data-quoted`.
+    Scoping by element would let `Top 5 states…` or `spends the most` through in a caption,
+    cell, annotation, tooltip or the live region, where §14 and principle 12 forbid it.
 
 ### AC-145 — Keep map bins fixed under every filter
 - **Check (Budgets):** the spend map legend's bin edges are byte-identical under `sfy` set to
@@ -1643,7 +1741,8 @@ detection; `SECURITY_SHOTS=<dir>` saves the greyscale screenshots of AC-138. The
 ZERO-SERIES builds are made in a scratchpad copy of the repository (§0.3), cached at
 `dist-empty-security` and `dist-zero-security`, never by editing `research/raw/` or
 `*.generated.ts`. Nothing in the script imports from `src/pages/`, `src/components/` or
-`src/data/securityView.ts`; it reads the generated module, `security.json`, `india-geo.json`
+`src/data/securityView.ts` (it reads the `FAMILY_COLOR` literal of
+`src/components/viz/ForceGraph.tsx` as text for AC-139, §0.5 [Adjudicated 2026-10-06]); it reads the generated module, `security.json`, `india-geo.json`
 and the data modules it needs for labels and GSDP the way `finance.test.mjs` does, and the
 criteria document is the whole contract. The two measurement tables (AC-127, AC-134) are
 filled in from the first build's printed values and amended, never aspired to. Add the file to
