@@ -59,6 +59,27 @@ Line style in every graph carries the tier. It is semantic and is never restyled
 Full file-by-file index: [`docs/INDEX.md`](docs/INDEX.md). Picking this up cold:
 [`HANDOFF.md`](HANDOFF.md).
 
+### Roads, bridges and public works
+
+`/public-works` examines roads and bridges alongside electricity, water,
+hospitals, schools, police, military, recruitment and administration. Sector,
+state, locality and source filters lead to historical procurement aggregates,
+attributed case files, legal changes and source-backed relationship subgraphs.
+Network focus, depth and table view can be shared in the URL. Sources and
+relationships export with their dates and evidence limits.
+
+The CPPP figures describe the retained third-party scrape and its stated dedup
+rule, not a verified national procurement census. Buyer labels identify bodies,
+not project locations. Repeated work is assessed only when asset, authority,
+location, scope, stage and periods are comparable; a manual two-record check
+exposes those requirements. Political contributions and public roles remain typed
+facts, never an automatic claim of award influence.
+
+Research, both panel rounds and verification are in
+[`docs/public-works`](docs/public-works). The reusable
+[`public-procurement-investigation` skill](.claude/skills/public-procurement-investigation/SKILL.md)
+records the source, identity, procurement-stage and legal-applicability workflow.
+
 ### Education funding and access
 
 `/education` is a source-led research desk for school and college funding, public
@@ -92,14 +113,14 @@ This is a curated historical evidence desk, not a live warning service or an
 exhaustive local census. Panel decisions and the expansion roadmap are in
 [`docs/water`](docs/water).
 
-36 routes, grouped as the sidebar groups them.
+37 routes, grouped as the sidebar groups them.
 
 **Markets** — `/` dashboard · `/map` the NSE/BSE map, with an index filter (`idx=nifty50|sensex30|sensex50`)
 · `/geograph` the geographic network · `/industries` sector concentration · `/conglomerates` the ten
 largest groups, and `/conglomerates/:id` each group in depth · `/interlocks` who sits on more than one
 board · `/states/:code` per-state drill-down · `/company/:id`
 
-**Registers** — `/water` water and food security · `/education` education funding and access · `/security` security spending · `/tenders` government awards · `/resources` coal, minerals, hydrocarbons and spectrum
+**Registers** — `/public-works` roads, bridges and public procurement · `/water` water and food security · `/education` education funding and access · `/security` security spending · `/tenders` government awards · `/resources` coal, minerals, hydrocarbons and spectrum
 · `/pmcares` PM CARES against its PMNRF control · `/energy` the energy power map · `/welfare`
 distribution funds, 2000–2026 · `/finance` foreign money: loans, associations, capital · `/media` ownership ·
 `/allocation` every register on one graph
@@ -311,8 +332,12 @@ npm run validate:water # water source dates, provenance and assembled data
 npm run test:water     # geographic, accounting and forecast-validity guards
 npm run test:water:browser # filters, historical bulletins, export and local gaps
 npm run test:water:model # verify locally executed reading suggestions; no model download
+npm run validate:public-works # source, geography, identity and archive integrity
+npm run test:public-works # comparison, graph and exact-source controls
+npm run test:public-works:model # verify actual local model provenance
+npm run test:public-works:browser # nine-sector workflow and responsive network
 npm run build          # tsc -b && vite build
-npm run smoke          # headless render of all 36 routes; serves dist itself
+npm run smoke          # headless render of all 37 routes; serves dist itself
 npm run viewport       # the graph camera gate
 npm run check          # research, education, model integrity, build and browser regression gates
 npm run test:pages     # the page acceptance suites (explicit file list)

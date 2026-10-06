@@ -32,3 +32,14 @@ This is a bounded Chromium visual and keyboard review. Screen-reader use, other 
 ## Water and food-security extension
 
 The water register reuses the reading-room frame and introduces a restrained teal domain accent. Geography and evidence filters precede an eight-stage seed-to-distribution index. Source rows retain visible geographic level, publication date, observation period and retrieval date; dated hazards carry validity context. The shared navigation and a compact home entry expose the new register without changing frame widths or graph styling. Water-specific review evidence is recorded in `docs/water/DESIGN_REVIEW.md`.
+
+## Roads and public-works extension
+
+The public-works desk uses a ruled procurement ledger as its main view, with nine
+sector lenses. Case files place attribution and the response side by side; the
+legal timeline states jurisdiction and applicability beside dates. Sparse typed
+subgraphs preserve relationship direction and evidence tiers, with a matching
+table and source export. A collapsible two-record checker makes comparability
+requirements explicit without fabricating sample contracts. Implementation and
+rendered-review findings are recorded in `docs/public-works/PANEL.md` and
+`docs/public-works/VERIFICATION.md`.

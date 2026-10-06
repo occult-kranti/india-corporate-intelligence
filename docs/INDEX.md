@@ -91,7 +91,7 @@ then the fleets through `mergeFleet.ts` — and memoises it.
 | `finance/*` | `/finance` only: the chrome (lens tabs, filter rail, Find, one live region), the loans lens (map with pooled quantile bins and the fetcher class, the census-against-sample union bar, flow, clock, project list, contracts, debarments, conditions, debt), the associations lens (receipts chart with hatched missing years, state table and map, FCRA actions timeline with every case's `dl`, grants, welfare join), the capital lens (a `role="grid"` of holders × companies with roving tabindex, the Σ aggregate cells, the below-four guard, mandates, adviser comparison, rules). Read `src/data/financeView.ts`; import nothing from `energy/` or `welfare/` |
 | `tenders/*` | The national section of `/tenders`: quality table first, single-bidder rates by portal and year with Wilson ribbons, decision-window histogram, concentration by buyer (HHI on value and on count), red-flag indicators as rates over their declared family, the live-verification sample, gaps and provenance footer. Read `src/data/cppp.ts`. Every graphic is `role="img"` with an n in its name and a table twin below |
 
-## 5. Pages — `src/pages/` (36 routes)
+## 5. Pages — `src/pages/` (37 routes)
 
 Routes are declared in `src/App.tsx` and lazily loaded, except the dashboard. The nav
 is in `src/components/Layout.tsx`.
@@ -101,7 +101,7 @@ is in `src/components/Layout.tsx`.
 `/conglomerates/:id` · `Interlocks` `/interlocks` · `StateProfile` `/states/:code` ·
 `CompanyProfile` `/company/:id`
 
-**Registers** — `Water` `/water` · `Education` `/education` · `Security` `/security` · `Tenders` `/tenders` · `Resources` `/resources` · `PmCares` `/pmcares`
+**Registers** — `PublicWorks` `/public-works` · `Water` `/water` · `Education` `/education` · `Security` `/security` · `Tenders` `/tenders` · `Resources` `/resources` · `PmCares` `/pmcares`
 · **`Energy` `/energy`** · **`Welfare` `/welfare`** · **`Finance` `/finance`** · `MediaView` `/media` ·
 `Allocation` `/allocation`
 
@@ -141,6 +141,15 @@ denominator, and the 40-page live verification whose every page was gone.
 `AdaniDeepDive.tsx` and `RelianceDeepDive.tsx` are not routed; `GroupDeepDive`
 replaced them.
 
+`/public-works` defaults to roads/bridges and offers nine sector lenses. The page
+reads `src/data/publicWorks.ts` and the deterministically assembled
+`public-works-research.json`. `components/public-works/` contains an accessible
+typed-relationship graph/table and a two-record comparability tool. Fresh source
+research lives under `research/raw/public-works`; historical CPPP outputs are
+read, hashed and reclassified by explicit buyer-label rules without implying a
+fresh raw-row scan or work-site geography. See the contract, panel decisions,
+source reviews and release verification in [`public-works/`](public-works/).
+
 ## 6. Scripts — `scripts/`
 
 | File | Command | Fails when |
@@ -153,13 +162,16 @@ replaced them.
 | `assemble-fleet.test.mjs`, `merge-fleet.test.mjs` | `npm run test:assemble` | The assembler's rules or the graph merge regress, on a synthetic fixture. Research-independent: a red here is a code fault |
 | `finance/fetch-worldbank.mjs`, `finance/fetch-worldbank.test.mjs`, `finance/mark-loans.mjs` | offline | Fetches the World Bank Projects API for India (1,117 projects) and writes `research/raw/finance/worldbank-projects.json`: one entity per borrower and implementing agency, one `loan` claim per IBRD/IDA commitment (849), each with a `projectId`, `countable`/`countedAs`/`notCountableReason`, and the placement rule's branch; hand resolutions live in its tables so a re-fetch reproduces the file. 25 tests on fixtures. `mark-loans.mjs` marks which hand-researched loans are already in the census so nothing is counted twice |
 | `cppp/build.py`, `cppp/verify_sample.py`, `cppp/test_build.py`, `cppp/test_verify.py`, `cppp/README.md` | offline, Python 3.11 + duckdb + pyarrow, **not in CI** | The CPPP award pipeline over the 4.92 M-row Hugging Face scrape (two Arrow IPC stream files, 3.45 GB, digests recorded): quality first, then rates, timing, concentration, red flags, and a seeded 40-row live verification. Writes the six JSON files in `research/raw/cppp/`, each with the exact SQL of every table in its `provenance`. `SET threads TO 1` and paise rounding make a rebuild byte-identical; 21 + 28 tests on a synthetic fixture where every name is invented |
-| `smoke.mjs` | `npm run smoke` | Any route renders blank or throws; the map draws fewer than 36 state paths; the map is not keyboard-focusable. Serves `dist` itself; visits all 36 routes and parameterised variants |
+| `public-works/assemble.mjs`, `validate.mjs` | `npm run assemble:public-works`, `npm run validate:public-works` | Required dimensions, exact source/identity references, amounts and dates, assembly or retained artifact hashes fail |
+| `public-works/public-works.test.mjs`, `network.test.mjs`, `audit-connections.py` | `npm run test:public-works` | Geography, comparison, graph traversal/export or primary connection accounting/chronology controls regress |
+| `public-works/model-rank.py`, `browser.mjs` | `npm run test:public-works:model`, `npm run test:public-works:browser` | Model artifact is stale/promoted to verified, or nine-sector filters, exports, history, repeat-work review, graph keyboard and responsive workflow fail |
+| `smoke.mjs` | `npm run smoke` | Any route renders blank or throws; the map draws fewer than 36 state paths; the map is not keyboard-focusable. Serves `dist` itself; visits all 37 routes and parameterised variants |
 | `graph-viewport.mjs` | `npm run viewport` | The graph camera letterboxes, a drag does not move the graph by the drag, auto-fit clips, maximise does not take the window, or selecting and path-finding move the camera. Since the canvas renderer: canvas backing store ≠ frame × DPR, no ink under the largest node, pin ring absent (with a before-pin control), any in-fill point of any glyph class fails to hover its glyph, stale hit-testing after a focus change, a same-pair denial hiding its claim, keyboard cursor not announced |
 | `pages/energy.test.mjs`, `pages/welfare.test.mjs` | `npm run test:pages` | A `/energy` or `/welfare` acceptance criterion fails (67 and 85 criteria; headless Playwright against `dist`; the energy suite builds its scaffold `dist-empty` itself, the welfare suite takes `WELFARE_DIST` and skips its 9 scaffold criteria on a FULL build). Last in `check` and CI. The script names its files explicitly because Node 20's `--test` does not expand a glob; the finance and tenders suites joined it on 2026-09-27 |
 | `pages/finance.test.mjs`, `pages/tenders.test.mjs`, `pages/finance-review.test.mjs` | `npm run test:pages` (the first two); `FINANCE_DIST=… node --test scripts/pages/finance-review.test.mjs` | A `/finance` (110 criteria; 109 pass, AC-38 skips for want of a zero-amount loan) or `/tenders` national-section (86; 84 pass, 2 skip as "not in this data") acceptance criterion fails. Both written blind to the implementation, both adjudicated criterion by criterion after the first build (`[Adjudicated]` marks in the acceptance documents), both in the gate since green on three consecutive runs. The review suite (R1–R4) holds the caucus's own checks apart from the blind suite |
 | `build-procurement.mjs`, `prospect-procurement.mjs`, `verify-sample.mjs` | — | Offline: the bid-count dataset from the OCDS files, the procurement pattern search, and the Stage 0 verification sampler |
 
-`npm run check` runs `promote → generate → test:assemble → validate → education data/model guards → water data guards → build → smoke → education/water browser workflows → viewport → test:pages`, in that order. CI (`.github/workflows/ci.yml`) runs the same steps.
+`npm run check` runs `promote → generate → test:assemble → validate → education data/model guards → water/public-works data and model guards → build → smoke → education/water/public-works browser workflows → viewport → test:pages`, in that order. CI (`.github/workflows/ci.yml`) runs the same steps.
 
 ## 7. Agents and skills — `.claude/`
 

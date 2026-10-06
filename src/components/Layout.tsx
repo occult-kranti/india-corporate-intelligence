@@ -26,6 +26,7 @@ const navGroups: { label: string; items: { path: string; label: string; icon: ty
     items: [
       { path: '/education', label: 'Education funding', icon: GraduationCap },
       { path: '/water', label: 'Water & food security', icon: Droplets },
+      { path: '/public-works', label: 'Roads & public works', icon: Waypoints },
       { path: '/tenders', label: 'Govt awards', icon: Gavel },
       { path: '/resources', label: 'Natural resources', icon: Mountain },
       { path: '/pmcares', label: 'PM CARES', icon: HandCoins },

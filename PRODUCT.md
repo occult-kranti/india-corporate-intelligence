@@ -15,3 +15,10 @@ Product priorities:
 This brief is inferred from the requested work and repository evidence, not user interviews. Claims about audience preference or task success have not been validated with participants.
 
 The water and food-security register extends the same research workflow across drinking water, groundwater, weather and hazards, public works, farming and food systems. Its publication window is 6 October 2021–6 October 2026. State, city and village searches expose the available evidence at its actual geographic level. Food-chain stages organize independent source records; they do not establish a traced shipment or causal chain. Historic bulletins and events remain dated research, with their original issue and validity periods.
+
+The public-works investigation desk connects procurement evidence to roads and
+bridges, electricity, water, health, education, police, military, recruitment and
+administration. Audits, contractor relationships, legal changes and government
+responses are separate evidence layers. Repeated notices, repeated suppliers and
+repeat physical work remain distinct. The user can inspect a sourced subgraph or
+compare two records against explicit identity, location, scope and date gates.

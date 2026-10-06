@@ -1,0 +1,1358 @@
+{
+  "snapshot": "2026-10-06",
+  "window": {
+    "from": "2021-10-06",
+    "to": "2026-10-06"
+  },
+  "methodology": [
+    "Curated road and bridge dossiers, not a national defect inventory.",
+    "Sources report historic audit or incident dates. Publication date is distinct from observation period.",
+    "No personal political influence or corruption edge is inferred from contract, corporate or geographic co-occurrence."
+  ],
+  "sources": [
+    {
+      "id": "rw-bharatmala-audit",
+      "title": "CAG Report 19 of 2023: Bharatmala Phase I",
+      "url": "https://cag.gov.in/uploads/download_audit_report/2023/Report-No.-19-of-203--Bharatmala-English-064d5db7bc63c20.06754442.pdf",
+      "publisher": "Comptroller and Auditor General of India",
+      "publishedAt": "2023-08-10",
+      "period": "Audit 2017-18 to 2020-21; updates through March 2023",
+      "sectors": [
+        "roads"
+      ],
+      "stateCodes": [
+        "DL",
+        "HR"
+      ],
+      "localityIds": [
+        "rw-delhi",
+        "rw-gurugram"
+      ],
+      "tier": "documented",
+      "summary": "Audit questions project prioritisation, appraisal, elevated design justification and execution. Includes MoRTH replies and auditor rejoinders.",
+      "locator": "Paras 3.5.2.2 and 5.1.3–5.1.5",
+      "limitations": [
+        "The ₹18.20 crore/km programme norm and ₹250.77 crore/km sanctioned urban expressway civil cost have different scope; their ratio is not a measured like-for-like overrun.",
+        "Primary-host indexed text was read; original PDF retrieval returned HTTP503. Layout repetition/truncation limits downstream extraction.",
+        "Publication day corroborated by contemporaneous report; audit period predates much of the publication window."
+      ],
+      "retrieval": "indexed-primary-text",
+      "type": "document",
+      "retrievalStatus": "indexed-primary-text",
+      "retrievedAt": "2026-10-06",
+      "scope": "multi-state"
+    },
+    {
+      "id": "rw-dwarka-response",
+      "title": "Ministry official disputes Dwarka cost comparison",
+      "url": "https://www.thehindu.com/news/national/cag-report-on-dwarka-expressway-erroneous-says-highways-ministry-official/article67201929.ece",
+      "publisher": "The Hindu / Jagriti Chandra",
+      "publishedAt": "2023-08-17",
+      "period": "Ministry response to August 2023 audit",
+      "sectors": [
+        "roads"
+      ],
+      "stateCodes": [
+        "DL",
+        "HR"
+      ],
+      "localityIds": [
+        "rw-delhi",
+        "rw-gurugram"
+      ],
+      "tier": "reported",
+      "summary": "A senior ministry official says elevated urban works are not comparable with the corridor norm and describes competitive bidding and appraisal.",
+      "locator": "Article body: cost comparison, procurement and competing infrastructure",
+      "limitations": [
+        "Official is unnamed in the article; this is a reported response, not a signed ministry order.",
+        "The article’s aggregate estimate and per-km estimate do not form a clean internally consistent denominator; not used to calculate savings."
+      ],
+      "retrieval": "indexed-news-text",
+      "type": "news",
+      "retrievalStatus": "indexed-news-text",
+      "retrievedAt": "2026-10-06",
+      "scope": "multi-state"
+    },
+    {
+      "id": "rw-dwarka-award",
+      "title": "NHAI letter of award: Dwarka Expressway Package 4",
+      "url": "https://www.pib.gov.in/newsite/PrintRelease.aspx?relid=177355",
+      "publisher": "MoRTH / Press Information Bureau",
+      "publishedAt": "2018-03-13",
+      "period": "Package 4 award announcement; historic background",
+      "sectors": [
+        "roads"
+      ],
+      "stateCodes": [
+        "HR"
+      ],
+      "localityIds": [
+        "rw-gurugram"
+      ],
+      "tier": "documented",
+      "summary": "PIB identifies Larsen and Toubro as contractor for the Basai RoB–NH8/SPR package, 8.76 km, ₹1,047.007 crore, with two-year construction and four-year maintenance periods.",
+      "locator": "Release paragraph 1–2",
+      "limitations": [
+        "Outside the five-year publication window; retained to resolve the historical contracting entity.",
+        "Award announcement is not payment, completion certification or the total Dwarka project cost."
+      ],
+      "retrieval": "indexed-primary-text",
+      "type": "document",
+      "retrievalStatus": "indexed-primary-text",
+      "retrievedAt": "2026-10-06",
+      "scope": "project"
+    },
+    {
+      "id": "rw-bharatmala-parliament",
+      "title": "Bharatmala corridors and state-wise awarded programme snapshot",
+      "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2003467",
+      "publisher": "MoRTH / Rajya Sabha written reply via PIB",
+      "publishedAt": "2024-02-07",
+      "period": "Programme position reported 7 February 2024",
+      "sectors": [
+        "roads"
+      ],
+      "stateCodes": [],
+      "localityIds": [],
+      "tier": "documented",
+      "summary": "Annexures identify 25 greenfield corridors and state-wise total/awarded lengths and tentative capital costs. National awarded length is 26,418 km; awarded tentative capital cost ₹8,53,264 crore.",
+      "locator": "Annexures I and II",
+      "limitations": [
+        "Tentative capital cost, award and expenditure are separate stages. Not current status or a contractor ledger.",
+        "State rows are programme allocation geography, not company addresses."
+      ],
+      "retrieval": "indexed-primary-text",
+      "type": "document",
+      "retrievalStatus": "indexed-primary-text",
+      "retrievedAt": "2026-10-06",
+      "scope": "national"
+    },
+    {
+      "id": "rw-wb-audit",
+      "title": "CAG West Bengal Report 1 of 2026: bridge maintenance and road renovation",
+      "url": "https://cag.gov.in/webroot/uploads/download_audit_report/2026/CA-Report_23-24_Full-Book-06a6733a1bb3691.97966215.pdf",
+      "publisher": "Comptroller and Auditor General of India",
+      "publishedAt": null,
+      "period": "Report year 2026; audited 2019-20 to 2023-24 with replies/updates through 2025",
+      "sectors": [
+        "roads",
+        "water",
+        "electricity"
+      ],
+      "stateCodes": [
+        "WB"
+      ],
+      "localityIds": [
+        "rw-hooghly",
+        "rw-coochbehar",
+        "rw-alipurduar",
+        "rw-uttar-dinajpur"
+      ],
+      "tier": "documented",
+      "summary": "Road and bridge audit includes utility coordination failures, delayed reconstruction and failed Jagatpur–Dharampota road renovation with departmental responses.",
+      "locator": "Paras 4.6.1–4.6.2.1 (printed pp. 72–76), 4.9 (pp. 87–91), Appendix 4.5",
+      "limitations": [
+        "Exact publication/tabling day not verified; not assigned an invented date.",
+        "Primary-host indexed text was read; original PDF request received403. Repeated OCR/layout blocks do not represent repeated incidents.",
+        "Test-checked samples are not statewide prevalence or a current engineering safety assessment."
+      ],
+      "retrieval": "indexed-primary-text",
+      "type": "document",
+      "retrievalStatus": "indexed-primary-text",
+      "retrievedAt": "2026-10-06",
+      "scope": "state"
+    },
+    {
+      "id": "rw-cherkkala-2025",
+      "title": "NHAI action after Cherkkala slope-protection collapse",
+      "url": "https://www.pib.gov.in/Pressreleaseshare.aspx?PRID=2136929",
+      "publisher": "MoRTH / NHAI via PIB",
+      "publishedAt": "2025-06-17",
+      "period": "Incident 16 June 2025; statement 17 June 2025",
+      "sectors": [
+        "roads"
+      ],
+      "stateCodes": [
+        "KL"
+      ],
+      "localityIds": [
+        "rw-cherkkala",
+        "rw-kasaragod"
+      ],
+      "tier": "documented",
+      "summary": "NHAI attributes slope collapse to design, protection and drainage deficiencies, announces debarment and a show-cause notice for one year/up to ₹9 crore, and says reconstruction is at concessionaire cost.",
+      "locator": "Full release, paragraphs 1–4",
+      "limitations": [
+        "Show-cause proposed duration/maximum penalty is not a verified final penalty or present-day debarment status.",
+        "No contractor response or final expert committee report was located in this source set.",
+        "HAM 15-year maintenance and own-cost reconstruction mean repair does not establish a second public payment."
+      ],
+      "retrieval": "indexed-primary-text",
+      "type": "document",
+      "retrievalStatus": "indexed-primary-text",
+      "retrievedAt": "2026-10-06",
+      "scope": "project"
+    },
+    {
+      "id": "rw-kerala-vup-2022",
+      "title": "NHAI preliminary report on under-construction Kerala VUP slab collapse",
+      "url": "https://www.pib.gov.in/Pressreleaseshare.aspx?PRID=1872019",
+      "publisher": "MoRTH / NHAI via PIB",
+      "publishedAt": "2022-10-30",
+      "period": "Incident 29 October 2022",
+      "sectors": [
+        "roads"
+      ],
+      "stateCodes": [
+        "KL"
+      ],
+      "localityIds": [
+        "rw-kasaragod"
+      ],
+      "tier": "documented",
+      "summary": "Deck slab collapsed while concreting on Chengala–Neeleshwaram NH66. NHAI’s preliminary explanation is scaffolding failure; an NIT expert committee was constituted.",
+      "locator": "Release body paragraph 1",
+      "limitations": [
+        "Headline says no injuries; body records one minor injury and no casualties. Body is retained.",
+        "This VUP incident is a different asset and mechanism from the 2025 slope collapse on the same corridor.",
+        "Preliminary cause is not a final inquiry finding.",
+        "The August 2024 parliamentary annexure lists a Kerala NH66 VUP staging failure at km 72+297 (PDF pp. 13–14) and reports suspensions/penalty; the 2022 release does not give chainage, so this is not automatically merged as the same asset."
+      ],
+      "retrieval": "indexed-primary-text",
+      "type": "document",
+      "retrievalStatus": "indexed-primary-text",
+      "retrievedAt": "2026-10-06",
+      "scope": "project"
+    },
+    {
+      "id": "rw-bihar-bridge-2023",
+      "title": "NHAI report on Meachi bridge foundation settlement, NH327E",
+      "url": "https://www.pib.gov.in/newsite/erelcontent.aspx?relid=244971",
+      "publisher": "MoRTH / NHAI via PIB",
+      "publishedAt": "2023-06-25",
+      "period": "Settlement 23 June 2023; project appointed date 10 January 2022",
+      "sectors": [
+        "roads"
+      ],
+      "stateCodes": [
+        "BR"
+      ],
+      "localityIds": [],
+      "tier": "documented",
+      "summary": "At chainage 24+461 on the Galgalia–Bahadurganj section, the bridge under construction experienced about 600 mm pile-foundation settlement; the preliminary inquiry considered constricted river flow and scour.",
+      "locator": "Full release: structure details, preliminary cause, agency names and inquiry",
+      "limitations": [
+        "Preliminary causal explanation and temporary personnel suspensions do not establish final liability.",
+        "Release names GR Infra Projects Highway Ltd and project concessionaire GR Galgalia Bahadurganj Highway Private Limited distinctly; parent ownership is not inferred.",
+        "No final inquiry report or contractor reply retrieved.",
+        "Galgalia and Bahadurganj name corridor endpoints; the exact bridge at chainage 24+461 is not assigned to either locality without geolocation."
+      ],
+      "retrieval": "indexed-primary-text",
+      "type": "document",
+      "retrievalStatus": "indexed-primary-text",
+      "retrievedAt": "2026-10-06",
+      "scope": "project"
+    },
+    {
+      "id": "rw-bridge-annex-2024",
+      "title": "Parliament bridge/tunnel collapse annexure and actions taken",
+      "url": "https://static.pib.gov.in/WriteReadData/specificdocs/documents/2024/aug/doc202488370401.pdf",
+      "publisher": "MoRTH / Lok Sabha via PIB",
+      "publishedAt": "2024-08-08",
+      "period": "Previous five years and current year as reported in August 2024",
+      "sectors": [
+        "roads"
+      ],
+      "stateCodes": [],
+      "localityIds": [],
+      "tier": "documented",
+      "summary": "Official incident table distinguishes existing permanent/temporary bridges, under-construction bridges and tunnels, fatalities and actions taken.",
+      "locator": "Annexure I, 20 PDF pages; parent release 2043008 dated 8 August 2024",
+      "limitations": [
+        "The source window is relative to August 2024, not the dashboard’s 2021-10-06–2026-10-06 window.",
+        "NH/MoRTH reporting scope does not cover every municipal, rural or private bridge.",
+        "Different structures and weather conditions require separate reference classes."
+      ],
+      "retrieval": "original-pdf",
+      "type": "document",
+      "retrievalStatus": "original-pdf",
+      "retrievedAt": "2026-10-06",
+      "scope": "national"
+    },
+    {
+      "id": "rw-bridge-annex-parent",
+      "title": "Infrastructure stability and progress: parliamentary reply",
+      "url": "https://pib.gov.in/PressReleasePage.aspx?PRID=2043008",
+      "publisher": "MoRTH / Lok Sabha via PIB",
+      "publishedAt": "2024-08-08",
+      "period": "Written reply 8 August 2024",
+      "sectors": [
+        "roads"
+      ],
+      "stateCodes": [],
+      "localityIds": [],
+      "tier": "documented",
+      "summary": "Parent release links the bridge/tunnel collapse annexure and explains national highway programme scope.",
+      "locator": "Hindi release 2043008; date stamp and annexure link",
+      "limitations": [
+        "Publication provenance for the annexure; not an independent corroborating incident source."
+      ],
+      "retrieval": "indexed-primary-text",
+      "type": "document",
+      "retrievalStatus": "indexed-primary-text",
+      "retrievedAt": "2026-10-06",
+      "scope": "national"
+    },
+    {
+      "id": "rw-works-2022",
+      "title": "Manual for Procurement of Works, updated June 2022",
+      "url": "https://doe.gov.in/files/manuals_documents/Manual_for_Procurement_of_Works_Updated%20June%2C%202022.pdf",
+      "publisher": "Department of Expenditure",
+      "publishedAt": "2022-07-01",
+      "period": "Manual updated June 2022; official catalogue publication 1 July 2022",
+      "sectors": [
+        "roads"
+      ],
+      "stateCodes": [],
+      "localityIds": [],
+      "tier": "documented",
+      "summary": "Consolidated guidance includes quality-cum-cost selection and debarment procedures; laws and original instructions prevail if inconsistent.",
+      "locator": "Preface; section 4.9.1A (printed p. 59); section 7.5 (printed pp. 118–122)",
+      "limitations": [
+        "Generic central procurement guidance; check authority-specific manuals and governing tender date.",
+        "Not a new Act, not retroactive proof that an earlier contract violated later guidance."
+      ],
+      "retrieval": "original-pdf",
+      "type": "document",
+      "retrievalStatus": "original-pdf",
+      "retrievedAt": "2026-10-06",
+      "scope": "national"
+    },
+    {
+      "id": "rw-debarment-2021",
+      "title": "Guidelines on debarment of firms from bidding",
+      "url": "https://doe.gov.in/files/circulars_document/Guidelines_on_Debarment_of_firms_from_Bidding.pdf",
+      "publisher": "Department of Expenditure",
+      "publishedAt": "2021-11-02",
+      "period": "OM F.1/20/2018-PPD issued 2 November 2021",
+      "sectors": [
+        "roads"
+      ],
+      "stateCodes": [],
+      "localityIds": [],
+      "tier": "documented",
+      "summary": "Guidelines separate ministry/entity debarment from cross-government debarment, require an opportunity to respond and preserve contracts concluded before an order.",
+      "locator": "OM, 7 pages: ministry-specific scope; cross-ministry procedure; other provisions 16–22",
+      "limitations": [
+        "Debarment scope, commencement, expiry and allied-firm identity must be read from the actual order.",
+        "A show-cause notice is not interchangeable with a final order."
+      ],
+      "retrieval": "original-pdf",
+      "type": "document",
+      "retrievalStatus": "original-pdf",
+      "retrievedAt": "2026-10-06",
+      "scope": "national"
+    },
+    {
+      "id": "rw-qcbs-2023",
+      "title": "QCBS clarification for works and non-consultancy services",
+      "url": "https://doe.gov.in/files/circulars_document/Quality_cum_Cost_Based_Selection_QCBS_Method_in_Procurement_of_Works_and_Non_Consultancy_Services_NCS.pdf",
+      "publisher": "Department of Expenditure",
+      "publishedAt": "2023-11-01",
+      "period": "OM F.3/26/2023-PPD of 1 November 2023",
+      "sectors": [
+        "roads"
+      ],
+      "stateCodes": [],
+      "localityIds": [],
+      "tier": "documented",
+      "summary": "Clarifies that works of any value may use QCBS following Quality Oriented Procurement procedure; NCS above ₹10 crore require QOP procedure while lower-value NCS follow the specified 2021 route.",
+      "locator": "PDF page 1, paragraph 3A–B",
+      "limitations": [
+        "Clarification of 29 October 2021 instructions, not a blanket replacement of lowest-cost selection.",
+        "Use depends on prescribed approvals/procedure and the actual procurement."
+      ],
+      "retrieval": "original-pdf-ocr",
+      "type": "document",
+      "retrievalStatus": "original-pdf-ocr",
+      "retrievedAt": "2026-10-06",
+      "scope": "national"
+    },
+    {
+      "id": "rw-works-2025",
+      "title": "Manual for Procurement of Works, second edition 2025 (final)",
+      "url": "https://cdnbbsr.s3waas.gov.in/s316026d60ff9b54410b3435b403afd226/uploads/2026/07/202607281189034909.pdf",
+      "publisher": "Department of Expenditure; official copy Ministry of Panchayati Raj",
+      "publishedAt": "2026-07-28",
+      "period": "Foreword 23 December 2025; rules/OMs consolidated through December 2025; official republication 28 July 2026",
+      "sectors": [
+        "roads"
+      ],
+      "stateCodes": [],
+      "localityIds": [],
+      "tier": "documented",
+      "summary": "Final edition incorporates GFR, DFPR 2024 and mediation developments. It mainly guides ministries with limited engineering capacity; major engineering organisations may retain approved frameworks.",
+      "locator": "Foreword paragraphs 2–3; Preface paragraph 1; parent: panchayat.gov.in/en/document/manual-for-procurement-of-works-2025/",
+      "limitations": [
+        "PublishedAt records verified republication, not original effective date. The official DoE indexed catalogue lists 5 January 2026 release.",
+        "The March 2025 draft is excluded. Subsequent amendments require separate verification.",
+        "The manual does not establish improper favour or retroactively rewrite contracts."
+      ],
+      "retrieval": "original-pdf",
+      "type": "document",
+      "retrievalStatus": "original-pdf",
+      "retrievedAt": "2026-10-06",
+      "scope": "national"
+    }
+  ],
+  "localities": [
+    {
+      "id": "rw-delhi",
+      "name": "Delhi",
+      "stateCode": "DL",
+      "kind": "city",
+      "aliases": []
+    },
+    {
+      "id": "rw-gurugram",
+      "name": "Gurugram",
+      "stateCode": "HR",
+      "kind": "city",
+      "aliases": [
+        "Gurgaon"
+      ]
+    },
+    {
+      "id": "rw-hooghly",
+      "name": "Hooghly",
+      "stateCode": "WB",
+      "kind": "district",
+      "aliases": [
+        "Hugli",
+        "Jagatpur-Dharampota"
+      ]
+    },
+    {
+      "id": "rw-coochbehar",
+      "name": "Cooch Behar",
+      "stateCode": "WB",
+      "kind": "district",
+      "aliases": [
+        "Coochbehar"
+      ]
+    },
+    {
+      "id": "rw-alipurduar",
+      "name": "Alipurduar",
+      "stateCode": "WB",
+      "kind": "district",
+      "aliases": []
+    },
+    {
+      "id": "rw-uttar-dinajpur",
+      "name": "Uttar Dinajpur",
+      "stateCode": "WB",
+      "kind": "district",
+      "aliases": []
+    },
+    {
+      "id": "rw-cherkkala",
+      "name": "Cherkkala",
+      "stateCode": "KL",
+      "kind": "locality",
+      "aliases": []
+    },
+    {
+      "id": "rw-kasaragod",
+      "name": "Kasaragod",
+      "stateCode": "KL",
+      "kind": "district",
+      "aliases": [
+        "Kasaragod district"
+      ]
+    }
+  ],
+  "entities": [
+    {
+      "id": "rw-nhai",
+      "label": "National Highways Authority of India",
+      "type": "authority",
+      "identityBasis": "Named statutory highway authority in official MoRTH releases",
+      "sourceIds": [
+        "rw-dwarka-award",
+        "rw-cherkkala-2025",
+        "rw-bihar-bridge-2023"
+      ],
+      "sectors": [
+        "roads"
+      ],
+      "stateCodes": [],
+      "localityIds": [],
+      "resolved": true,
+      "scope": "national"
+    },
+    {
+      "id": "rw-morth",
+      "label": "Ministry of Road Transport and Highways",
+      "type": "authority",
+      "identityBasis": "Named issuing ministry on official parliamentary reply",
+      "sourceIds": [
+        "rw-bharatmala-parliament"
+      ],
+      "sectors": [
+        "roads"
+      ],
+      "stateCodes": [],
+      "localityIds": [],
+      "resolved": true,
+      "scope": "national"
+    },
+    {
+      "id": "rw-wb-pwd",
+      "label": "West Bengal Public Works Department",
+      "type": "authority",
+      "identityBasis": "Named state department, not an individual office-holder",
+      "sourceIds": [
+        "rw-wb-audit"
+      ],
+      "sectors": [
+        "roads",
+        "water",
+        "electricity"
+      ],
+      "stateCodes": [
+        "WB"
+      ],
+      "localityIds": [],
+      "resolved": true,
+      "scope": "state"
+    },
+    {
+      "id": "rw-wb-phed",
+      "label": "West Bengal Public Health Engineering Department",
+      "type": "authority",
+      "identityBasis": "Named department in para4.6.2.1",
+      "sourceIds": [
+        "rw-wb-audit"
+      ],
+      "sectors": [
+        "roads",
+        "water"
+      ],
+      "stateCodes": [
+        "WB"
+      ],
+      "localityIds": [],
+      "resolved": true,
+      "scope": "state"
+    },
+    {
+      "id": "rw-larsen-toubro",
+      "label": "Larsen and Toubro Limited",
+      "type": "company",
+      "identityBasis": "Named contractor in the PIB Package 4 letter-of-award announcement; no group ownership inferred.",
+      "sourceIds": [
+        "rw-dwarka-award"
+      ],
+      "sectors": [
+        "roads"
+      ],
+      "stateCodes": [
+        "HR"
+      ],
+      "localityIds": [
+        "rw-gurugram"
+      ],
+      "resolved": true,
+      "scope": "project"
+    },
+    {
+      "id": "rw-dwarka-package4",
+      "label": "Dwarka Expressway Package 4: Basai RoB–NH8/SPR",
+      "type": "project",
+      "identityBasis": "Package, endpoints and highway NH248BB identified by the official award.",
+      "sourceIds": [
+        "rw-dwarka-award"
+      ],
+      "sectors": [
+        "roads"
+      ],
+      "stateCodes": [
+        "HR"
+      ],
+      "localityIds": [
+        "rw-gurugram"
+      ],
+      "resolved": true,
+      "scope": "project"
+    },
+    {
+      "id": "rw-dwarka",
+      "label": "Dwarka Expressway",
+      "type": "project",
+      "identityBasis": "Project NH248BB, Delhi–Gurugram; whole project distinct from Package 4.",
+      "sourceIds": [
+        "rw-bharatmala-audit"
+      ],
+      "sectors": [
+        "roads"
+      ],
+      "stateCodes": [
+        "DL",
+        "HR"
+      ],
+      "localityIds": [
+        "rw-delhi",
+        "rw-gurugram"
+      ],
+      "resolved": true,
+      "scope": "project"
+    },
+    {
+      "id": "rw-meil",
+      "label": "Megha Engineering and Infrastructure Limited",
+      "type": "company",
+      "identityBasis": "Named promoter in the 17 June 2025 NHAI release; source spelling retained.",
+      "sourceIds": [
+        "rw-cherkkala-2025"
+      ],
+      "sectors": [
+        "roads"
+      ],
+      "stateCodes": [
+        "KL"
+      ],
+      "localityIds": [
+        "rw-cherkkala",
+        "rw-kasaragod"
+      ],
+      "resolved": true,
+      "scope": "project"
+    },
+    {
+      "id": "rw-nh66-chengala",
+      "label": "NH66 Chengala–Neeleshwaram concession",
+      "type": "project",
+      "identityBasis": "Named corridor in both official releases; VUP and slope protection remain separate assets.",
+      "sourceIds": [
+        "rw-cherkkala-2025",
+        "rw-kerala-vup-2022"
+      ],
+      "sectors": [
+        "roads"
+      ],
+      "stateCodes": [
+        "KL"
+      ],
+      "localityIds": [
+        "rw-cherkkala",
+        "rw-kasaragod"
+      ],
+      "resolved": true,
+      "scope": "project"
+    },
+    {
+      "id": "rw-gr-galgalia-spv",
+      "label": "GR Galgalia Bahadurganj Highway Private Limited",
+      "type": "company",
+      "identityBasis": "Exact project concessionaire name in the PIB release; not fused with GR Infra Projects Highway Ltd.",
+      "sourceIds": [
+        "rw-bihar-bridge-2023"
+      ],
+      "sectors": [
+        "roads"
+      ],
+      "stateCodes": [
+        "BR"
+      ],
+      "localityIds": [],
+      "resolved": true,
+      "scope": "project"
+    },
+    {
+      "id": "rw-chaitanya",
+      "label": "Chaitanya Project Consultancy Private Limited",
+      "type": "company",
+      "identityBasis": "Named Independent Engineer in the 25 June 2023 official release.",
+      "sourceIds": [
+        "rw-bihar-bridge-2023"
+      ],
+      "sectors": [
+        "roads"
+      ],
+      "stateCodes": [
+        "BR"
+      ],
+      "localityIds": [],
+      "resolved": true,
+      "scope": "project"
+    },
+    {
+      "id": "rw-meachi-bridge",
+      "label": "Meachi river bridge at NH327E chainage 24+461",
+      "type": "project",
+      "identityBasis": "Chainage, 222 m span configuration and section identify the bridge.",
+      "sourceIds": [
+        "rw-bihar-bridge-2023"
+      ],
+      "sectors": [
+        "roads"
+      ],
+      "stateCodes": [
+        "BR"
+      ],
+      "localityIds": [],
+      "resolved": true,
+      "scope": "project"
+    },
+    {
+      "id": "rw-jagatpur-road",
+      "label": "Jagatpur–Dharampota road, km 0–24.60",
+      "type": "project",
+      "identityBasis": "Hooghly Construction Division, named asset and chainage in para 4.9.",
+      "sourceIds": [
+        "rw-wb-audit"
+      ],
+      "sectors": [
+        "roads"
+      ],
+      "stateCodes": [
+        "WB"
+      ],
+      "localityIds": [
+        "rw-hooghly"
+      ],
+      "resolved": true,
+      "scope": "project"
+    },
+    {
+      "id": "rw-mansai-bridge",
+      "label": "Mansai bridge at Sagardighi Ghat",
+      "type": "project",
+      "identityBasis": "Named bridge on Dinhata–Sitalkuchi/Sitai Road, Cooch Behar; para 4.6.2.1.",
+      "sourceIds": [
+        "rw-wb-audit"
+      ],
+      "sectors": [
+        "roads",
+        "electricity"
+      ],
+      "stateCodes": [
+        "WB"
+      ],
+      "localityIds": [
+        "rw-coochbehar"
+      ],
+      "resolved": true,
+      "scope": "project"
+    }
+  ],
+  "relationships": [
+    {
+      "id": "rw-morth-nhai",
+      "from": "rw-morth",
+      "to": "rw-nhai",
+      "kind": "oversight",
+      "label": "Ministry / national highway authority",
+      "tier": "documented",
+      "sourceIds": [
+        "rw-bharatmala-audit"
+      ],
+      "fromDate": null,
+      "toDate": null,
+      "summary": "Audit identifies NHAI as an implementing agency under MoRTH; institutional connection is not proof of personal control.",
+      "limitations": [],
+      "sectors": [
+        "roads"
+      ],
+      "stateCodes": [],
+      "localityIds": [],
+      "scope": "national"
+    },
+    {
+      "id": "rw-nhai-dwarka",
+      "from": "rw-nhai",
+      "to": "rw-dwarka",
+      "kind": "implementing-authority",
+      "label": "Implementing authority",
+      "tier": "documented",
+      "sourceIds": [
+        "rw-bharatmala-audit"
+      ],
+      "fromDate": null,
+      "toDate": null,
+      "summary": "NHAI appraised, approved and implemented the audited expressway packages. Approval is reported for January–March 2018.",
+      "limitations": [
+        "Exact commencement day not reported; no first-of-month date invented."
+      ],
+      "sectors": [
+        "roads"
+      ],
+      "stateCodes": [
+        "DL",
+        "HR"
+      ],
+      "localityIds": [
+        "rw-delhi",
+        "rw-gurugram"
+      ],
+      "scope": "project"
+    },
+    {
+      "id": "rw-dwarka-package",
+      "from": "rw-dwarka",
+      "to": "rw-dwarka-package4",
+      "kind": "project-component",
+      "label": "Includes Package 4",
+      "tier": "documented",
+      "sourceIds": [
+        "rw-dwarka-award"
+      ],
+      "fromDate": null,
+      "toDate": null,
+      "summary": "Package 4 is a component of the wider expressway, not its entire cost.",
+      "limitations": [],
+      "sectors": [
+        "roads"
+      ],
+      "stateCodes": [
+        "HR"
+      ],
+      "localityIds": [
+        "rw-gurugram"
+      ],
+      "scope": "project"
+    },
+    {
+      "id": "rw-lt-award",
+      "from": "rw-larsen-toubro",
+      "to": "rw-dwarka-package4",
+      "kind": "contract-award",
+      "label": "Package 4 award announcement",
+      "tier": "documented",
+      "sourceIds": [
+        "rw-dwarka-award"
+      ],
+      "fromDate": "2018-03-13",
+      "toDate": "2018-03-13",
+      "summary": "The official 2018 award announcement names Larsen and Toubro, ₹1,047.007 crore and 8.76 km.",
+      "limitations": [
+        "Announcement date, not payment date. No current completion claim.",
+        "Dates identify the public announcement, not a complete contract/debarment duration."
+      ],
+      "sectors": [
+        "roads"
+      ],
+      "stateCodes": [
+        "HR"
+      ],
+      "localityIds": [
+        "rw-gurugram"
+      ],
+      "scope": "project"
+    },
+    {
+      "id": "rw-nhai-kerala",
+      "from": "rw-nhai",
+      "to": "rw-nh66-chengala",
+      "kind": "implementing-authority",
+      "label": "Highway authority",
+      "tier": "documented",
+      "sourceIds": [
+        "rw-cherkkala-2025"
+      ],
+      "fromDate": null,
+      "toDate": null,
+      "summary": "NHAI announced engineering review and contractual action after the 2025 slope failure. Observed in the release dated 2025-06-17; the relationship’s commencement date is not established.",
+      "limitations": [],
+      "sectors": [
+        "roads"
+      ],
+      "stateCodes": [
+        "KL"
+      ],
+      "localityIds": [
+        "rw-cherkkala",
+        "rw-kasaragod"
+      ],
+      "scope": "project"
+    },
+    {
+      "id": "rw-meil-kerala",
+      "from": "rw-meil",
+      "to": "rw-nh66-chengala",
+      "kind": "promoter",
+      "label": "Named concession promoter",
+      "tier": "documented",
+      "sourceIds": [
+        "rw-cherkkala-2025"
+      ],
+      "fromDate": null,
+      "toDate": null,
+      "summary": "PIB names Megha Engineering as concessionaire/promoter in the contractual action statement. Observed in the release dated 2025-06-17; the relationship’s commencement date is not established.",
+      "limitations": [
+        "The SPV legal name is not given in the release; no ownership percentage inferred."
+      ],
+      "sectors": [
+        "roads"
+      ],
+      "stateCodes": [
+        "KL"
+      ],
+      "localityIds": [
+        "rw-cherkkala",
+        "rw-kasaragod"
+      ],
+      "scope": "project"
+    },
+    {
+      "id": "rw-nhai-meil-action",
+      "from": "rw-nhai",
+      "to": "rw-meil",
+      "kind": "regulatory-action",
+      "label": "Debarment / show-cause announced",
+      "tier": "documented",
+      "sourceIds": [
+        "rw-cherkkala-2025"
+      ],
+      "fromDate": "2025-06-17",
+      "toDate": "2025-06-17",
+      "summary": "As of 17 June 2025, NHAI announced debarment and a separate show-cause notice for one year and up to ₹9 crore.",
+      "limitations": [
+        "Historical announcement: final duration, current status and penalty collection not verified.",
+        "Dates identify the public announcement, not a complete contract/debarment duration.",
+        "Geography identifies the incident triggering this announcement, not a Kerala-only restriction on future bids."
+      ],
+      "sectors": [
+        "roads"
+      ],
+      "stateCodes": [
+        "KL"
+      ],
+      "localityIds": [
+        "rw-cherkkala",
+        "rw-kasaragod"
+      ],
+      "scope": "project"
+    },
+    {
+      "id": "rw-nhai-meachi",
+      "from": "rw-nhai",
+      "to": "rw-meachi-bridge",
+      "kind": "implementing-authority",
+      "label": "Authority investigation",
+      "tier": "documented",
+      "sourceIds": [
+        "rw-bihar-bridge-2023"
+      ],
+      "fromDate": null,
+      "toDate": null,
+      "summary": "NHAI constituted an expert investigation after foundation settlement. Observed in the release dated 2023-06-25; the relationship’s commencement date is not established.",
+      "limitations": [],
+      "sectors": [
+        "roads"
+      ],
+      "stateCodes": [
+        "BR"
+      ],
+      "localityIds": [],
+      "scope": "project"
+    },
+    {
+      "id": "rw-gr-meachi",
+      "from": "rw-gr-galgalia-spv",
+      "to": "rw-meachi-bridge",
+      "kind": "concessionaire",
+      "label": "Named project concessionaire",
+      "tier": "documented",
+      "sourceIds": [
+        "rw-bihar-bridge-2023"
+      ],
+      "fromDate": null,
+      "toDate": null,
+      "summary": "The release identifies project concessionaire managers and the investigation. Observed in the release dated 2023-06-25; the relationship’s commencement date is not established.",
+      "limitations": [
+        "No ownership relationship inferred from similar company names."
+      ],
+      "sectors": [
+        "roads"
+      ],
+      "stateCodes": [
+        "BR"
+      ],
+      "localityIds": [],
+      "scope": "project"
+    },
+    {
+      "id": "rw-chaitanya-meachi",
+      "from": "rw-chaitanya",
+      "to": "rw-meachi-bridge",
+      "kind": "consultant",
+      "label": "Independent Engineer",
+      "tier": "documented",
+      "sourceIds": [
+        "rw-bihar-bridge-2023"
+      ],
+      "fromDate": null,
+      "toDate": null,
+      "summary": "The release identifies the Independent Engineer and temporarily suspended personnel. Observed in the release dated 2023-06-25; the relationship’s commencement date is not established.",
+      "limitations": [
+        "Personnel action is not a final finding of corporate liability."
+      ],
+      "sectors": [
+        "roads"
+      ],
+      "stateCodes": [
+        "BR"
+      ],
+      "localityIds": [],
+      "scope": "project"
+    },
+    {
+      "id": "rw-pwd-jagatpur",
+      "from": "rw-wb-pwd",
+      "to": "rw-jagatpur-road",
+      "kind": "implementing-authority",
+      "label": "Road works department",
+      "tier": "documented",
+      "sourceIds": [
+        "rw-wb-audit"
+      ],
+      "fromDate": null,
+      "toDate": null,
+      "summary": "PWD Western Circle II / Hooghly Construction Division awarded and managed the road renovation in March 2019.",
+      "limitations": [
+        "The exact March 2019 award day was not reported."
+      ],
+      "sectors": [
+        "roads"
+      ],
+      "stateCodes": [
+        "WB"
+      ],
+      "localityIds": [
+        "rw-hooghly"
+      ],
+      "scope": "project"
+    },
+    {
+      "id": "rw-pwd-mansai",
+      "from": "rw-wb-pwd",
+      "to": "rw-mansai-bridge",
+      "kind": "implementing-authority",
+      "label": "Bridge works authority",
+      "tier": "documented",
+      "sourceIds": [
+        "rw-wb-audit"
+      ],
+      "fromDate": null,
+      "toDate": null,
+      "summary": "Coochbehar Highway Division completed the bridge in December 2020; an electrical duct omission was later audited.",
+      "limitations": [
+        "Project completion predates the publication window; utility installation in 2022 is covered by the later audit."
+      ],
+      "sectors": [
+        "roads",
+        "electricity"
+      ],
+      "stateCodes": [
+        "WB"
+      ],
+      "localityIds": [
+        "rw-coochbehar"
+      ],
+      "scope": "project"
+    },
+    {
+      "id": "rw-phed-pwd",
+      "from": "rw-wb-phed",
+      "to": "rw-wb-pwd",
+      "kind": "utility-interface",
+      "label": "Water pipeline approval interface",
+      "tier": "documented",
+      "sourceIds": [
+        "rw-wb-audit"
+      ],
+      "fromDate": null,
+      "toDate": null,
+      "summary": "CAG reports PHED water pipelines on 14 bridges without prior PWD approval; PWD accepted the observation in April 2025.",
+      "limitations": [
+        "The exact April 2025 reply day was not reported. The 14 bridges in seven divisions form a separate sample from five of 30 old bridges.",
+        "No personal or political influence is inferred."
+      ],
+      "sectors": [
+        "roads",
+        "water"
+      ],
+      "stateCodes": [
+        "WB"
+      ],
+      "localityIds": [],
+      "scope": "state"
+    }
+  ],
+  "cases": [
+    {
+      "id": "rw-case-dwarka",
+      "title": "Dwarka: audit design justification, then compare comparable costs",
+      "summary": "CAG questioned why an eight-lane elevated carriageway was chosen where 90 m right-of-way was available and questioned independent appraisal of ₹7,287.29 crore sanctioned civil cost. The frequently cited ₹18.20 versus ₹250.77 crore/km compares different design scopes.",
+      "sectors": [
+        "roads"
+      ],
+      "stateCodes": [
+        "DL",
+        "HR"
+      ],
+      "localityIds": [
+        "rw-delhi",
+        "rw-gurugram"
+      ],
+      "sourceIds": [
+        "rw-bharatmala-audit",
+        "rw-dwarka-response",
+        "rw-dwarka-award"
+      ],
+      "kind": "audit-finding",
+      "attribution": "CAG Report 19/2023, paras 3.5.2.2 and 5.1.3–5.1.4; audit 2017–21 with 2023 updates.",
+      "response": "MoRTH’s April 2022 reply says grade separation and minimal access allow interstate traffic, existing local roads serve commuters, and underpasses were coordinated with authorities. The August 2023 reported reply disputes comparability and cites competitive bids. CAG rejoined that an at-grade carriageway with selected underpasses was a feasible alternative.",
+      "alternativeExplanations": [
+        "Elevated structures, interchanges, utility coordination and urban constraints change unit cost.",
+        "Cabinet programme norm, sanctioned civil cost, award cost and total capital cost are different measures."
+      ],
+      "falsifier": "Obtain contemporaneous alternatives analysis, approved DPR, package BOQs and independent appraisal; a justified like-for-like engineering comparison could resolve or weaken the audit objection.",
+      "scope": "project"
+    },
+    {
+      "id": "rw-case-jagatpur",
+      "title": "Jagatpur–Dharampota: damage soon after renovation",
+      "summary": "CAG para 4.9 says road strengthening completed in March 2021 for ₹48.64 crore was damaged within seven months; ₹7.17 crore expenditure on affected stretches was unfruitful. A ₹12.85 crore permanent restoration estimate prepared in November 2021 remained unapproved in May 2025. This is an estimate, not proof that a second contract was paid.",
+      "sectors": [
+        "roads"
+      ],
+      "stateCodes": [
+        "WB"
+      ],
+      "localityIds": [
+        "rw-hooghly"
+      ],
+      "sourceIds": [
+        "rw-wb-audit"
+      ],
+      "kind": "audit-finding",
+      "attribution": "CAG West Bengal Report 1/2026, para 4.9, printed pp. 87–91 and Appendix 4.5.",
+      "response": "The department’s December 2023 / September 2024 reply cited vegetation, soil chemistry, steep slopes and unprecedented October 2021 flood velocity; it claimed 917 m damaged and 1,145 m repaired by the agency. CAG said known hydrology and soil needed design mitigation and cited a defect-liability relaxation request covering wider stretches.",
+      "alternativeExplanations": [
+        "Extreme flood loading and expansive soil can require changed engineering design.",
+        "Contractor defect rectification, restoration estimate and new public payment must be resolved separately."
+      ],
+      "falsifier": "Match chainage-level damage, measurement books, defect-liability records, final repair certificate and any restoration award/payment; completed contractor-funded repairs would change the unresolved repeat-spending question.",
+      "scope": "project"
+    },
+    {
+      "id": "rw-case-bridge-utilities",
+      "title": "Bridge utilities: separate samples show coordination gaps",
+      "summary": "CAG examined 15 of 67 new bridges in 17 test-checked divisions: essential utility provisions beyond optical fibre and electric lamp posts were missing. In a separate 30-bridge joint-visit sample, five old bridges had unauthorised utilities. Separate verification found PHED pipelines on 14 bridges without prior PWD approval.",
+      "sectors": [
+        "roads",
+        "water",
+        "electricity"
+      ],
+      "stateCodes": [
+        "WB"
+      ],
+      "localityIds": [
+        "rw-coochbehar",
+        "rw-alipurduar",
+        "rw-uttar-dinajpur"
+      ],
+      "sourceIds": [
+        "rw-wb-audit"
+      ],
+      "kind": "audit-finding",
+      "attribution": "CAG West Bengal Report 1/2026, paras 4.6.1–4.6.2.1; audited 2019–24, field visits in 2024.",
+      "response": "The department accepted the pipeline observation in April 2025 and said future bridge construction would consult stakeholders. Mansai bridge’s 2022 high-voltage cable was approved after bridge completion but had no designated duct.",
+      "alternativeExplanations": [
+        "Utility demand can evolve after initial bridge construction; structural capacity must be checked before inferring actual damage.",
+        "These overlapping samples must not be summed into a single affected-bridge count."
+      ],
+      "falsifier": "Retrieve bridge-specific load assessments, approved utility drawings and remedial completion records; authorised capacity-checked installations would narrow the safety concern.",
+      "scope": "state"
+    },
+    {
+      "id": "rw-case-cherkkala",
+      "title": "Cherkkala slope collapse: reconstruction at concessionaire cost",
+      "summary": "After the 16 June 2025 NH66 slope-protection collapse, NHAI attributed failure to design, protection and drainage and announced debarment plus a show-cause notice for one year / up to ₹9 crore. The official release says the HAM contract requires 15-year maintenance and reconstruction at the concessionaire’s own cost.",
+      "sectors": [
+        "roads"
+      ],
+      "stateCodes": [
+        "KL"
+      ],
+      "localityIds": [
+        "rw-cherkkala",
+        "rw-kasaragod"
+      ],
+      "sourceIds": [
+        "rw-cherkkala-2025",
+        "rw-kerala-vup-2022",
+        "rw-debarment-2021"
+      ],
+      "kind": "reported-event",
+      "attribution": "MoRTH/NHAI official statement of 17 June 2025; causes attributed to NHAI, not independently verified here.",
+      "response": "NHAI constituted a CRRI / IIT Palakkad / GSI expert committee. Contractor response and the final committee or debarment order were not located; no silence-as-admission inference is made.",
+      "alternativeExplanations": [
+        "The same corridor’s 2022 VUP scaffolding incident is a different asset and failure mechanism.",
+        "Own-cost contractual rectification can explain two recorded works without two public payments."
+      ],
+      "falsifier": "Obtain the final expert report, contractor representation, final order and repair payment records; these could revise attribution, duration, penalty and who bore the cost.",
+      "scope": "project"
+    },
+    {
+      "id": "rw-case-meachi",
+      "title": "Meachi bridge: foundation settlement and river-flow constriction",
+      "summary": "NHAI reported about 600 mm settlement at pier P3, chainage 24+461 on Galgalia–Bahadurganj NH327E on 23 June 2023. The 222 m bridge was under construction and not open; the official release reported no casualties.",
+      "sectors": [
+        "roads"
+      ],
+      "stateCodes": [
+        "BR"
+      ],
+      "localityIds": [],
+      "sourceIds": [
+        "rw-bihar-bridge-2023"
+      ],
+      "kind": "reported-event",
+      "attribution": "MoRTH/NHAI release of 25 June 2023: preliminary investigation, not a final inquiry verdict.",
+      "response": "NHAI reported preliminary flow constriction and scour following increased river flow, ordered rectification and constituted an expert committee. Certain concessionaire and Independent Engineer personnel were suspended during inquiry; contractor response and final report were not retrieved.",
+      "alternativeExplanations": [
+        "Sudden river flow, construction staging, scour protection and foundation design need joint assessment.",
+        "Temporary personnel suspension does not establish criminal or corporate culpability."
+      ],
+      "falsifier": "The final geotechnical/hydrological report, as-built drawings, method statement and contractor response could confirm or revise the preliminary cause and responsibility.",
+      "scope": "project"
+    }
+  ],
+  "rules": [
+    {
+      "id": "rw-rule-debarment",
+      "title": "2021: separate the scope and stage of debarment",
+      "summary": "The 2 November 2021 OM sets procedural guidelines, ministry/entity versus cross-government reach, a right to represent, and treatment of existing contracts.",
+      "sourceIds": [
+        "rw-debarment-2021"
+      ],
+      "sectors": [
+        "roads",
+        "electricity",
+        "water",
+        "hospitals",
+        "schools",
+        "police",
+        "military",
+        "administration"
+      ],
+      "effectiveFrom": "2021-11-02",
+      "effectiveTo": null,
+      "jurisdiction": "Central Government procurement; authority-specific adoption and contracts must be checked",
+      "applicability": "Central government procurement under the OM; read the particular order and firm identity.",
+      "change": "Guidelines require alignment of existing debarment guidelines and bid documents; they distinguish issue, scope, expiry and revocation.",
+      "limitations": [
+        "Announcement, show-cause notice, final order, expiry and stay are different states.",
+        "No automatic claim that all contracts with a named company are illegal."
+      ],
+      "stateCodes": [],
+      "localityIds": [],
+      "scope": "national"
+    },
+    {
+      "id": "rw-rule-works2022",
+      "title": "2022: updated works procurement guidance",
+      "summary": "The June 2022 consolidation includes QCBS and debarment guidance and preserves priority of law and original instructions.",
+      "sourceIds": [
+        "rw-works-2022"
+      ],
+      "sectors": [
+        "roads",
+        "electricity",
+        "water",
+        "hospitals",
+        "schools",
+        "police",
+        "military",
+        "administration"
+      ],
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "jurisdiction": "Central Government procurement; authority-specific adoption and contracts must be checked",
+      "applicability": "Central ministries/departments using the generic Works Manual; specialist procedures may apply.",
+      "change": "Updated manual versus the 2019 edition; section 4.9.1A records the QCBS mechanism and section 7.5 covers debarment.",
+      "limitations": [
+        "Consolidation date is not a single effective date for all sourced rules.",
+        "The manual is guidance, not an Act; it is not applied retroactively."
+      ],
+      "stateCodes": [],
+      "localityIds": [],
+      "scope": "national"
+    },
+    {
+      "id": "rw-rule-qcbs",
+      "title": "2023: QCBS is available for works of any value under QOP",
+      "summary": "The 1 November 2023 clarification permits QCBS for works of any value when the Quality Oriented Procurement procedure is followed.",
+      "sourceIds": [
+        "rw-qcbs-2023"
+      ],
+      "sectors": [
+        "roads",
+        "electricity",
+        "water",
+        "hospitals",
+        "schools",
+        "police",
+        "military",
+        "administration"
+      ],
+      "effectiveFrom": "2023-11-01",
+      "effectiveTo": null,
+      "jurisdiction": "Central Government procurement; authority-specific adoption and contracts must be checked",
+      "applicability": "Works and non-consultancy services covered by the 29 October 2021 general instructions; specified approvals and procedure are mandatory.",
+      "change": "Clarifies the works QOP route and NCS routes above / not above ₹10 crore.",
+      "limitations": [
+        "Higher technical weight or a lowest bidder not winning is not by itself proof of irregularity; read the tender’s published criteria.",
+        "This does not abolish competitive procurement or permit arbitrary selection."
+      ],
+      "stateCodes": [],
+      "localityIds": [],
+      "scope": "national"
+    },
+    {
+      "id": "rw-rule-works2025",
+      "title": "2025 final edition: check capacity, hierarchy and applicable framework",
+      "summary": "The final Works Manual foreword dated 23 December 2025 consolidates GFR, DFPR 2024 and mediation developments; law and GFR prevail.",
+      "sourceIds": [
+        "rw-works-2025"
+      ],
+      "sectors": [
+        "roads",
+        "electricity",
+        "water",
+        "hospitals",
+        "schools",
+        "police",
+        "military",
+        "administration"
+      ],
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "jurisdiction": "Central Government procurement; authority-specific adoption and contracts must be checked",
+      "applicability": "Primarily ministries with limited in-house engineering capacity: small repairs up to ₹60 lakh and larger works through PWOs/CPSEs; major engineering bodies may retain approved frameworks.",
+      "change": "New final edition after the 2022 update; the preface clarifies textual hierarchy and the meaning of may / should / shall.",
+      "limitations": [
+        "Official-copy republication on 28 July 2026 is not an effective date for every contract.",
+        "The DoE original publication is listed as 5 January 2026; subsequent amendments are not fully audited in this slice.",
+        "The March 2025 draft was excluded."
+      ],
+      "stateCodes": [],
+      "localityIds": [],
+      "scope": "national"
+    }
+  ]
+}

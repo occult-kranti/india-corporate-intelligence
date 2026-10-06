@@ -1,0 +1,250 @@
+{
+  "schemaVersion": 1,
+  "purpose": "research-discovery-only",
+  "automaticallyVerified": false,
+  "limitation": "Cosine similarity ranks public researcher-authored source summaries. It is not factual confidence, a contract match, a corruption verdict, an award-influence finding, or proof of misconduct. No model-generated claim or risk classification is promoted to the evidence registry.",
+  "model": {
+    "id": "sentence-transformers/all-MiniLM-L6-v2",
+    "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+    "license": "Apache-2.0",
+    "modelCard": "https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/blob/1110a243fdf4706b3f48f1d95db1a4f5529b4d41/README.md",
+    "format": "ONNX uint8 AVX2",
+    "dimensions": 384,
+    "maxTokens": 256,
+    "pooling": "attention-mask-weighted mean, L2 normalized",
+    "assetSha256": {
+      "onnx/model_quint8_avx2.onnx": "b941bf19f1f1283680f449fa6a7336bb5600bdcd5f84d10ddc5cd72218a0fd21",
+      "tokenizer.json": "be50c3628f2bf5bb5e3a7f17b1f74611b2561a3a27eeab05e5aa30f411572037"
+    }
+  },
+  "execution": {
+    "provider": "CPUExecutionProvider",
+    "python": "3.12.14",
+    "onnxruntime": "1.23.2",
+    "tokenizers": "0.22.1",
+    "numpy": "2.3.4",
+    "inferenceSeconds": 1.168,
+    "publicTextUploadedToModelService": false
+  },
+  "corpusSha256": "ccb10fe4726698621a94b7c29da3e0a01e0db3edb0bbbc20afd464b4879fba84",
+  "documentCount": 56,
+  "smokeCheck": {
+    "passed": true,
+    "relatedSimilarity": 0.808023,
+    "unrelatedSimilarity": 0.01586,
+    "meaning": "Pipeline wiring check only; not an evidence or model accuracy evaluation"
+  },
+  "queries": {
+    "road-contract-delivery": {
+      "text": "Government roads bridges highway works tender contract award construction quality defect maintenance and completion records in India",
+      "matches": [
+        {
+          "documentId": "rw-wb-audit",
+          "title": "CAG West Bengal Report 1 of 2026: bridge maintenance and road renovation",
+          "url": "https://cag.gov.in/webroot/uploads/download_audit_report/2026/CA-Report_23-24_Full-Book-06a6733a1bb3691.97966215.pdf",
+          "similarity": 0.590293
+        },
+        {
+          "documentId": "rw-bihar-bridge-2023",
+          "title": "NHAI report on Meachi bridge foundation settlement, NH327E",
+          "url": "https://www.pib.gov.in/newsite/erelcontent.aspx?relid=244971",
+          "similarity": 0.52232
+        },
+        {
+          "documentId": "state-src-odisha",
+          "title": "Odisha e-Procurement IT Audit, Report 1 of 2025",
+          "url": "https://cag.gov.in/webroot/uploads/download_audit_report/2025/Report-of-the-CAG_e-Procurement_Government-of-Odisha-068d4e08b303b21.95073538.pdf",
+          "similarity": 0.506414
+        },
+        {
+          "documentId": "rw-bharatmala-audit",
+          "title": "CAG Report 19 of 2023: Bharatmala Phase I",
+          "url": "https://cag.gov.in/uploads/download_audit_report/2023/Report-No.-19-of-203--Bharatmala-English-064d5db7bc63c20.06754442.pdf",
+          "similarity": 0.496663
+        },
+        {
+          "documentId": "rw-dwarka-award",
+          "title": "NHAI letter of award: Dwarka Expressway Package 4",
+          "url": "https://www.pib.gov.in/newsite/PrintRelease.aspx?relid=177355",
+          "similarity": 0.483092
+        }
+      ]
+    },
+    "repeat-work-review": {
+      "text": "Repeated public works overlapping contracts same asset scope chainage location periods corrigendum retender cancelled work maintenance and audit findings",
+      "matches": [
+        {
+          "documentId": "rw-debarment-2021",
+          "title": "Guidelines on debarment of firms from bidding",
+          "url": "https://doe.gov.in/files/circulars_document/Guidelines_on_Debarment_of_firms_from_Bidding.pdf",
+          "similarity": 0.402397
+        },
+        {
+          "documentId": "rw-bharatmala-audit",
+          "title": "CAG Report 19 of 2023: Bharatmala Phase I",
+          "url": "https://cag.gov.in/uploads/download_audit_report/2023/Report-No.-19-of-203--Bharatmala-English-064d5db7bc63c20.06754442.pdf",
+          "similarity": 0.374318
+        },
+        {
+          "documentId": "state-src-odisha",
+          "title": "Odisha e-Procurement IT Audit, Report 1 of 2025",
+          "url": "https://cag.gov.in/webroot/uploads/download_audit_report/2025/Report-of-the-CAG_e-Procurement_Government-of-Odisha-068d4e08b303b21.95073538.pdf",
+          "similarity": 0.367168
+        },
+        {
+          "documentId": "svc-ka-jjm-audit",
+          "title": "CAG Karnataka Report No. 12 of 2025: implementation of Jal Jeevan Mission",
+          "url": "https://cag.gov.in/webroot/uploads/download_audit_report/2025/Combined-Pdf_JJM-Final-03.03.26-069c25b7fcf4287.01649139.pdf",
+          "similarity": 0.359403
+        },
+        {
+          "documentId": "svc-kl-jjm-audit",
+          "title": "Kerala CAG audit, Chapter IV: implementation of schemes",
+          "url": "https://cag.gov.in/uploads/download_audit_report/2025/9.Chapter-IV---Implementation-of-Schemes-0699d4ee539fc57.51076092.pdf",
+          "similarity": 0.357386
+        }
+      ]
+    },
+    "utilities-and-services": {
+      "text": "Electricity water hospital schools public and private institutions procurement delivery quality audit findings government funding",
+      "matches": [
+        {
+          "documentId": "svc-pmjay-claims-audit",
+          "title": "CAG PMJAY 11/2023, Chapter V: claims management",
+          "url": "https://cag.gov.in/uploads/download_audit_report/2023/09_Chapter-V-064d22bab412c53.02505839.pdf",
+          "similarity": 0.397033
+        },
+        {
+          "documentId": "state-src-odisha",
+          "title": "Odisha e-Procurement IT Audit, Report 1 of 2025",
+          "url": "https://cag.gov.in/webroot/uploads/download_audit_report/2025/Report-of-the-CAG_e-Procurement_Government-of-Odisha-068d4e08b303b21.95073538.pdf",
+          "similarity": 0.377116
+        },
+        {
+          "documentId": "svc-up-school-audit",
+          "title": "UP CAG Compliance Audit-I 1/2023: incomplete Azamgarh KGBVs",
+          "url": "https://cag.gov.in/uploads/download_audit_report/2023/7-CH-2.2-2.17-064059e4a56ff38.74751167.pdf",
+          "similarity": 0.376589
+        },
+        {
+          "documentId": "svc-rte-ka-reimbursement",
+          "title": "Quota for EWS Seats in Private Unaided Schools — Lok Sabha Question 1260",
+          "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU1260_aW0kcJ.pdf",
+          "similarity": 0.372321
+        },
+        {
+          "documentId": "pw-cppp-portal",
+          "title": "Central Public Procurement Portal — tender and award discovery",
+          "url": "https://eprocure.gov.in/cppp/",
+          "similarity": 0.366709
+        }
+      ]
+    },
+    "security-and-recruitment": {
+      "text": "Police military public administration recruitment examination funding procurement audit legal jurisdiction and official response",
+      "matches": [
+        {
+          "documentId": "state-src-police-budget",
+          "title": "Union Budget 2026-27, Demand 51: Police",
+          "url": "https://www.indiabudget.gov.in/doc/eb/sbe51.pdf",
+          "similarity": 0.478118
+        },
+        {
+          "documentId": "state-src-army-audit",
+          "title": "CAG Army audit Report 11 of 2024: official press release",
+          "url": "https://cag.gov.in/uploads/PressRelease/PR-English-Press-Release-on-Audit-Report-No-11-of-2024-0676193eab6e9e8-69621331.pdf",
+          "similarity": 0.455719
+        },
+        {
+          "documentId": "state-src-dpm2025",
+          "title": "Defence Procurement Manual 2025 release and transition",
+          "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2181894",
+          "similarity": 0.447003
+        },
+        {
+          "documentId": "state-src-defence-revenue",
+          "title": "Union Budget 2026-27, Demand 20: Defence Services(Revenue)",
+          "url": "https://www.indiabudget.gov.in/doc/eb/sbe20.pdf",
+          "similarity": 0.425899
+        },
+        {
+          "documentId": "pw-cppp-portal",
+          "title": "Central Public Procurement Portal — tender and award discovery",
+          "url": "https://eprocure.gov.in/cppp/",
+          "similarity": 0.36778
+        }
+      ]
+    },
+    "rules-and-dates": {
+      "text": "Public procurement law regulation amendment effective date works goods services state central government contract applicability",
+      "matches": [
+        {
+          "documentId": "rw-works-2022",
+          "title": "Manual for Procurement of Works, updated June 2022",
+          "url": "https://doe.gov.in/files/manuals_documents/Manual_for_Procurement_of_Works_Updated%20June%2C%202022.pdf",
+          "similarity": 0.586839
+        },
+        {
+          "documentId": "state-src-dap2022",
+          "title": "DAP 2020 amendments announced 25 April 2022",
+          "url": "https://pib.gov.in/Pressreleaseshare.aspx?PRID=1819937",
+          "similarity": 0.511077
+        },
+        {
+          "documentId": "state-src-dpm2025",
+          "title": "Defence Procurement Manual 2025 release and transition",
+          "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2181894",
+          "similarity": 0.498195
+        },
+        {
+          "documentId": "state-src-odisha",
+          "title": "Odisha e-Procurement IT Audit, Report 1 of 2025",
+          "url": "https://cag.gov.in/webroot/uploads/download_audit_report/2025/Report-of-the-CAG_e-Procurement_Government-of-Odisha-068d4e08b303b21.95073538.pdf",
+          "similarity": 0.465069
+        },
+        {
+          "documentId": "pw-cppp-portal",
+          "title": "Central Public Procurement Portal — tender and award discovery",
+          "url": "https://eprocure.gov.in/cppp/",
+          "similarity": 0.462772
+        }
+      ]
+    },
+    "verified-connections": {
+      "text": "Exact corporate legal entity subsidiary ownership public official dated office tenure political party contributions electoral bonds and limitations of evidence of award influence",
+      "matches": [
+        {
+          "documentId": "pwg-irb-fy24",
+          "title": "IRB annual report FY2023-24 — ownership and scope-separated donations",
+          "url": "https://www.irb.co.in/home/wp-content/uploads/2024/08/annual-report-fy2023-24.pdf",
+          "similarity": 0.53804
+        },
+        {
+          "documentId": "pwg-irbmp-fy24",
+          "title": "IRB MP Expressway Private Limited audited financial statements FY2023-24",
+          "url": "https://www.irb.co.in/home/wp-content/uploads/2024/08/Annual_Accounts_of_Subsidiary_Companies_FY2023-24/12.IRBMP_Audited%20FS%20March2024.pdf",
+          "similarity": 0.427505
+        },
+        {
+          "documentId": "pw-cppp-aggregate",
+          "title": "CPPP historical award scrape — retained aggregate analysis",
+          "url": "https://huggingface.co/datasets/rumourscape/tenders",
+          "similarity": 0.349983
+        },
+        {
+          "documentId": "pwg-mrm-fy24",
+          "title": "Modern Road Makers Private Limited audited financial statements FY2023-24",
+          "url": "https://www.irb.co.in/home/wp-content/uploads/2024/08/Annual_Accounts_of_Subsidiary_Companies_FY2023-24/16.MRMPL%20Audited%20FS%20March24.pdf",
+          "similarity": 0.343461
+        },
+        {
+          "documentId": "pwg-pm-roster",
+          "title": "Official Union Council portfolio roster — snapshot as on25July2026",
+          "url": "https://www.pmindia.gov.in/en/news_updates/portfolios-of-the-union-council-of-ministers-2/",
+          "similarity": 0.308617
+        }
+      ]
+    }
+  },
+  "researchDomain": "public-works-procurement"
+}

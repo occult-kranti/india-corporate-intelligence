@@ -1,0 +1,151 @@
+{
+  "snapshot": "2026-10-06",
+  "notes": [
+    "Original CAG PDF requests returned HTTP503 (Bharatmala) and HTTP403 (West Bengal); indexed primary-host extracts retain audit findings and responses but have OCR/layout repetition.",
+    "Works 2025 is the final published edition on the Ministry of Panchayati Raj host; the March 2025 draft was deliberately excluded.",
+    "The QCBS original PDF is 10.2 MB and image-only; OCR is archived and the original hash retained instead of a redundant large PDF."
+  ],
+  "artifacts": [
+    {
+      "path": "research/raw/public-works/evidence/roads/bridge-annex-2024.pdf",
+      "url": "https://static.pib.gov.in/WriteReadData/specificdocs/documents/2024/aug/doc202488370401.pdf",
+      "retrievedAt": "2026-10-06",
+      "retrieval": "original-pdf",
+      "sha256": "0e0d8b0593ed474c5aa54097a6d311bba61421cc279ee854a2fe00f963377201",
+      "bytes": 1060393,
+      "originalSha256": "0e0d8b0593ed474c5aa54097a6d311bba61421cc279ee854a2fe00f963377201",
+      "originalBytes": 1060393,
+      "originalPageCount": 20,
+      "originalPageNumbers": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20
+      ]
+    },
+    {
+      "path": "research/raw/public-works/evidence/roads/debarment-2021.pdf",
+      "url": "https://doe.gov.in/files/circulars_document/Guidelines_on_Debarment_of_firms_from_Bidding.pdf",
+      "retrievedAt": "2026-10-06",
+      "retrieval": "original-pdf",
+      "sha256": "eadb393b0aed5279c344a95c2987948695376eb1adfd42c2e3918c0e7f8f14fc",
+      "bytes": 2410491,
+      "originalSha256": "eadb393b0aed5279c344a95c2987948695376eb1adfd42c2e3918c0e7f8f14fc",
+      "originalBytes": 2410491,
+      "originalPageCount": 7,
+      "originalPageNumbers": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ]
+    },
+    {
+      "path": "research/raw/public-works/evidence/roads/works-2025-excerpt.pdf",
+      "url": "https://cdnbbsr.s3waas.gov.in/s316026d60ff9b54410b3435b403afd226/uploads/2026/07/202607281189034909.pdf",
+      "retrievedAt": "2026-10-06",
+      "retrieval": "page-excerpt-from-original-pdf",
+      "sha256": "d64396f40362f9e3c15194c086ece392b382022d97cd0e7b31a23f09a24ef416",
+      "bytes": 651322,
+      "originalSha256": "bfa6a7b80e253594b638119868cea34a3c7ee1135c5744588cb9655dd5955c87",
+      "originalBytes": 2546160,
+      "originalPageCount": 299,
+      "originalPageNumbers": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "path": "research/raw/public-works/evidence/roads/works-2022-excerpt.pdf",
+      "url": "https://doe.gov.in/files/manuals_documents/Manual_for_Procurement_of_Works_Updated%20June%2C%202022.pdf",
+      "retrievedAt": "2026-10-06",
+      "retrieval": "page-excerpt-from-original-pdf",
+      "sha256": "ecbc6603cd7221727e6efd5b82af895d3323a25c43c6703110838911c81d795f",
+      "bytes": 2509682,
+      "originalSha256": "9a965a9d7dfef09653475d257ac40ef629dd64cfa2b4a2d6d84aac0ccf3d80c8",
+      "originalBytes": 4222673,
+      "originalPageCount": 214,
+      "originalPageNumbers": [
+        1,
+        2,
+        3,
+        4,
+        82,
+        83,
+        84,
+        141,
+        142,
+        143,
+        144,
+        145
+      ]
+    },
+    {
+      "path": "research/raw/public-works/evidence/roads/qcbs-2023-ocr.txt",
+      "url": "https://doe.gov.in/files/circulars_document/Quality_cum_Cost_Based_Selection_QCBS_Method_in_Procurement_of_Works_and_Non_Consultancy_Services_NCS.pdf",
+      "retrievedAt": "2026-10-06",
+      "retrieval": "ocr-from-original-pdf",
+      "sha256": "71add8b15f8be1fe977393f71575d50a83456943589a98a171f14b8b76709d8e",
+      "bytes": 2438,
+      "originalSha256": "47d5d85ff4a5c5a1b0d6fdf8aa240ca7bfb6212c71dcd7ee6dc93454dbc25ddd",
+      "originalBytes": 10187666,
+      "originalPageCount": 2,
+      "originalArchived": false
+    },
+    {
+      "path": "research/raw/public-works/evidence/roads/rw-fetch1.json",
+      "retrieval": "Exa indexed extraction; not original file",
+      "sha256": "f802b1658c62bf80927cf923e9a88d1e058a3021cee65e137ff86e5a5f95a491",
+      "bytes": 19636
+    },
+    {
+      "path": "research/raw/public-works/evidence/roads/rule-official-indexed.json",
+      "retrieval": "Exa indexed extraction; not original file",
+      "sha256": "12acc309f8459de35cc30ab1cfdf413bc94d452ec3a57a9055b81d53a121c776",
+      "bytes": 16296
+    },
+    {
+      "path": "research/raw/public-works/evidence/roads/rules-indexed-extracts.json",
+      "retrieval": "Exa indexed extraction; not original file",
+      "sha256": "e8a0f6800bb2b7578cfd0670278d3bddaf14a4e15f24dab045567074d964fc9c",
+      "bytes": 41663
+    },
+    {
+      "path": "research/raw/public-works/evidence/roads/audit-indexed-extracts.json",
+      "retrieval": "Exa indexed extraction; not original file",
+      "sha256": "610ec8262f82660af75b6a3f4fa510e7a920be70bc723c6a3b37635fd9f213a6",
+      "bytes": 911668
+    },
+    {
+      "path": "research/raw/public-works/evidence/roads/bridge-annex-2024.txt",
+      "retrieval": "pypdf text extracted from original PDF",
+      "sha256": "de846b081b61a502f5a65bef0ee218a8fa6a985855a9532014cb01035587d2bd",
+      "bytes": 21126
+    }
+  ]
+}

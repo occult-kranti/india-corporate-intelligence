@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowUpRight, ArrowRight, Map, Network, BookOpen, Droplets } from 'lucide-react';
+import { ArrowUpRight, ArrowRight, Map, Network, BookOpen, Droplets, Waypoints } from 'lucide-react';
 import { Kicker, PageTitle, Section, Callout, StatGrid, DataTable, TierChip } from '../components/Editorial';
 import { useData } from '../context/DataContext';
 import { STATE_NAMES } from '../data/geo';
@@ -78,6 +78,15 @@ export default function Dashboard() {
         <div>
           <h2 className="heading-editorial text-xl group-hover:text-accent">Water &amp; food security</h2>
           <p className="mt-2 text-[13px] leading-relaxed text-text-muted">Water, weather, public works and the food chain — a five-year evidence register, from source to plate.</p>
+        </div>
+        <ArrowUpRight size={18} className="ml-auto mt-1 shrink-0 text-accent" aria-hidden="true" />
+      </Link>
+
+      <Link to="/public-works" className="group flex items-start gap-4 border-b border-border-light px-1 py-5">
+        <Waypoints size={23} strokeWidth={1.5} className="mt-1 shrink-0 text-accent" aria-hidden="true" />
+        <div>
+          <h2 className="heading-editorial text-xl group-hover:text-accent">Roads, bridges &amp; the public contract</h2>
+          <p className="mt-2 text-[13px] leading-relaxed text-text-muted">Inspect procurement, repeat-work questions, rule changes and documented connections across infrastructure and public services.</p>
         </div>
         <ArrowUpRight size={18} className="ml-auto mt-1 shrink-0 text-accent" aria-hidden="true" />
       </Link>

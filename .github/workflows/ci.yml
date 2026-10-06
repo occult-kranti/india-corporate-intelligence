@@ -9,7 +9,7 @@ on:
   pull_request:
 
 # Supersede in-flight runs for the same branch. The suite installs a browser and
-# renders 21 routes, so a run made obsolete by the next push is worth cancelling.
+# renders all routes, so a run made obsolete by the next push is worth cancelling.
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
   cancel-in-progress: true
@@ -65,6 +65,9 @@ jobs:
       - name: Water and food provenance, dates and indicator guards
         run: npm run validate:water && npm run test:water && npm run test:water:model
 
+      - name: Public works provenance, comparisons, connections and local model
+        run: npm run validate:public-works && npm run test:public-works && npm run test:public-works:model
+
       - name: Typecheck and build
         run: npm run build
 
@@ -81,6 +84,10 @@ jobs:
 
       - name: Water and food research workflow
         run: npm run test:water:browser
+
+      # Added after three consecutive 72-check passes against the frozen build.
+      - name: Public works research workflow
+        run: npm run test:public-works:browser
 
       # Measures the graph camera: no silent letterbox, a 200px drag moves the
       # graph 200px, auto-fit clips nothing, maximise really hands over the

@@ -1,0 +1,1644 @@
+{
+  "researchAsOf": "2026-10-06",
+  "window": {
+    "start": "2021-10-06",
+    "end": "2026-10-06"
+  },
+  "workstream": "Electricity, water, hospitals and schools: procurement and payment evidence",
+  "searchProvider": "Exa",
+  "searchCalls": 13,
+  "sources_reviewed": 67,
+  "searchMetricDefinition": "Requested result slots across 13 successful searches, not distinct fully read documents; four schema-rejected calls returned no sources and are excluded.",
+  "coverageNotes": [
+    "Curated cases, not a census of corruption, awards, hospitals, schools or service failures.",
+    "Evidence publication date, audited period, response date and current status are separate.",
+    "No political patronage or oligarch-control claim is inferred. A named parliamentary question and corporate equity disclosure are typed context edges.",
+    "Existing electricity graph remains its own vetted corpus; no names-only joins into it.",
+    "No personal beneficiary identifiers or medical records are published."
+  ],
+  "sources": [
+    {
+      "id": "svc-up-electricity-audit",
+      "title": "Uttar Pradesh CAG 7/2025: DDUGJY and SAUBHAGYA",
+      "url": "https://cag.gov.in/en/audit-report/download/123721",
+      "publisher": "Comptroller and Auditor General of India",
+      "publishedAt": "2025-12-24",
+      "period": "Audit 2014-15 to December 2022; government reply December 2023 and management updates January–February 2024",
+      "sectors": [
+        "electricity"
+      ],
+      "stateCodes": [
+        "UP"
+      ],
+      "localityIds": [],
+      "tier": "documented",
+      "summary": "Paragraph 3.3.4 attributes ₹46.27 crore paid for overlapping manpower/PMA work. The duplicate-connection headline is ₹26.65 crore; paragraphs 3.3.8–3.3.9 include grid and standalone-solar categories. Both responses and reported recovery progress accompany these historical findings.",
+      "limitations": [
+        "These are attributed audit conclusions, not criminal adjudications or current unrecovered loss.",
+        "Audit period substantially predates the recent publication window.",
+        "Chapter-only extraction lost body text; the full official report endpoint supplied readable indexed text.",
+        "Original full-report binary returned HTTP 503; indexed primary text retained.",
+        "Do not add the separately stated ₹4.41 crore standalone-solar duplicate category to the ₹26.65 crore headline: 3.3.8 listed amounts round to ₹22.24 crore, plus 3.3.9 ₹4.41 crore rounds to that headline."
+      ],
+      "locator": "Printed pp. 21–27, paragraphs 3.3.4 and 3.3.8–3.3.9",
+      "retrievedAt": "2026-10-06",
+      "retrievalStatus": "Primary indexed text fetched through Exa; archived receipt available.",
+      "type": "document",
+      "scope": "state"
+    },
+    {
+      "id": "svc-up-electricity-index",
+      "title": "CAG landing record: UP electricity performance audit 7/2025",
+      "url": "https://cag.gov.in/ag1/uttar-pradesh/en/audit-report/details/123721",
+      "publisher": "Comptroller and Auditor General of India",
+      "publishedAt": "2025-12-24",
+      "period": "Report tabled 24 December 2025; sent to government 25 September 2025",
+      "sectors": [
+        "electricity"
+      ],
+      "stateCodes": [
+        "UP"
+      ],
+      "localityIds": [],
+      "tier": "documented",
+      "summary": "Establishes the audit publication date and coverage through December 2022.",
+      "limitations": [
+        "Tabling date is not the date of the expenditure or government reply."
+      ],
+      "locator": "Report metadata",
+      "retrievedAt": "2026-10-06",
+      "retrievalStatus": "Primary indexed text fetched through Exa; archived receipt available.",
+      "type": "portal",
+      "scope": "state"
+    },
+    {
+      "id": "svc-amisp-model",
+      "title": "REC model guidance for AMISP smart system metering",
+      "url": "https://recindia.nic.in/uploads/files/Guidance-NoteAMISP-System-Metering-SBDv113072022.pdf",
+      "publisher": "REC / Ministry of Power",
+      "publishedAt": null,
+      "period": "Model guidance version in filename 13 July 2022; underlying RDSS guidelines 31 March 2022",
+      "sectors": [
+        "electricity"
+      ],
+      "stateCodes": [],
+      "localityIds": [],
+      "tier": "documented",
+      "summary": "DBFOOT service includes supply, installation, integration, operations and maintenance; payment is by operational meter-months and specified lump sums. Meter ownership remains with AMISP during the contract.",
+      "limitations": [
+        "Model terms are not evidence that a particular DISCOM adopted every clause.",
+        "A filename version is not an independently established publication day.",
+        "TOTEX lifecycle prices cannot be compared directly to meter hardware prices.",
+        "Origin fetch HTTP 503; official indexed text reviewed."
+      ],
+      "locator": "Guidance points 7, 9, 13 and 19",
+      "retrievedAt": "2026-10-06",
+      "retrievalStatus": "Primary indexed text fetched through Exa; archived receipt available.",
+      "type": "document",
+      "scope": "national"
+    },
+    {
+      "id": "svc-electricity-rules2023",
+      "title": "Electricity (Rights of Consumers) Amendment Rules, 2023 — G.S.R. 437(E)",
+      "url": "https://apserc.nic.in/pdf/Acts%20Rules%20Policies/1-30_d_Electricity_Rights_of_Consumers_Amendment_Rules_2023.pdf",
+      "publisher": "Ministry of Power; Gazette copy hosted by AP State Electricity Regulatory Commission",
+      "publishedAt": "2023-06-14",
+      "period": "Notification and printed Gazette issue dated 14 June 2023; staggered tariff deadlines 2024/2025",
+      "sectors": [
+        "electricity"
+      ],
+      "stateCodes": [],
+      "localityIds": [],
+      "tier": "documented",
+      "summary": "Requires daily remote smart-meter reading and daily consumer data access; inserts time-of-day tariff rules and advance display/notification requirements.",
+      "limitations": [
+        "Use the Gazette wording: commercial/industrial maximum demand more than 10 kW; some government summaries paraphrase this differently.",
+        "National rules require the applicable State Commission tariff/supply-code instruments to establish a particular consumer bill.",
+        "Commencement is publication in the Official Gazette; header issue is dated 14 June, while electronic Gazette identifier contains 15062023."
+      ],
+      "locator": "English pages 3–4, rules 5(5), 5A–5B and 8A–8B",
+      "retrievedAt": "2026-10-06",
+      "retrievalStatus": "Original PDF HTTP 200, archived with SHA-256 and pdftotext extract.",
+      "type": "document",
+      "scope": "national"
+    },
+    {
+      "id": "svc-ka-jjm-audit",
+      "title": "CAG Karnataka Report No. 12 of 2025: implementation of Jal Jeevan Mission",
+      "url": "https://cag.gov.in/webroot/uploads/download_audit_report/2025/Combined-Pdf_JJM-Final-03.03.26-069c25b7fcf4287.01649139.pdf",
+      "publisher": "Comptroller and Auditor General of India",
+      "publishedAt": null,
+      "period": "Audit 2019–24; field inspection August 2024; Government response May 2025",
+      "sectors": [
+        "water"
+      ],
+      "stateCodes": [
+        "KA"
+      ],
+      "localityIds": [
+        "svc-village-ka-hebbal-gadag"
+      ],
+      "tier": "documented",
+      "summary": "Section 3.3.1 records incomplete work in Hebbal, Shirahatti taluk, Gadag district during 2024 despite Har Ghar Jal reported status. Government responded in May 2025 that the elevated reservoir was completed by 8 April 2025, with 200 m pipeline and 20 FHTCs remaining before certification/trial run. Section 3.5 discusses 33 tenders worth ₹251.75 crore invited/awarded after 31 March 2024; Government cites timely administrative approvals and delays from non-participation and re-tendering. Sections 3.7.1–3.7.2 identify missing cross-system project/contractor keys and 9,342 first-call single-bid awards among 38,231 finalised works, with government response.",
+      "limitations": [
+        "Report sample is 28 villages in seven districts; it is not a statewide failure rate.",
+        "Har Ghar Jal reported status and certified status differ.",
+        "Audit period begins before requested window; Hebbal implementation findings from 2024 and response from 2025 are separately dated.",
+        "No evidence of current 2026 conditions or individual guilt is inferred.",
+        "Exact original publication day unconfirmed; direct PDF retrieval returned HTTP 503.",
+        "Section 3.5 distinguishes extended award deadlines: 15 March 2024 for in-village works and 31 March 2024 for multi-village schemes. The 33 flagged tenders were after the later date; no universal 31 March deadline is inferred."
+      ],
+      "locator": "Sections 1.2, 3.3.1, 3.5, 3.7.1–3.7.2; CAG findings and May 2025 government responses",
+      "retrievedAt": "2026-10-06",
+      "retrievalStatus": "CAG indexed primary-document text extracted, including responses; direct PDF HTTP 503",
+      "reusedFrom": "wp-cag-karnataka",
+      "type": "document",
+      "scope": "state"
+    },
+    {
+      "id": "svc-kl-jjm-audit",
+      "title": "Kerala CAG audit, Chapter IV: implementation of schemes",
+      "url": "https://cag.gov.in/uploads/download_audit_report/2025/9.Chapter-IV---Implementation-of-Schemes-0699d4ee539fc57.51076092.pdf",
+      "publisher": "Comptroller and Auditor General of India",
+      "publishedAt": null,
+      "period": "Audit observations 2019–24; November 2024 works update; Government response June 2025",
+      "sectors": [
+        "water"
+      ],
+      "stateCodes": [
+        "KL"
+      ],
+      "localityIds": [],
+      "tier": "documented",
+      "summary": "Audit reports 2,726 completed out of 5,318 JJM works as at November 2024. 122 of 342 surveyed beneficiaries reported no, limited or infrequent supply. Government response cites 21 lakh additional taps in four years and implementation constraints.",
+      "limitations": [
+        "Survey findings describe the audit sample, not all Kerala households.",
+        "Part of the audited period precedes the requested 6 October 2021 window.",
+        "Exact publication date is unconfirmed; 2025 report archive path is not assigned as a publication day.",
+        "Direct original URL returned HTTP 503; Exa primary-document indexed extract was reviewed.",
+        "Audit observations are not a finding of criminal intent and not proof the conditions continue in 2026."
+      ],
+      "locator": "Chapter IV section 4.1, Table 4.3; service adequacy and Government reply",
+      "retrievedAt": "2026-10-06",
+      "retrievalStatus": "CAG indexed primary-document text extracted; original download HTTP 503",
+      "reusedFrom": "wp-cag-kerala",
+      "type": "document",
+      "scope": "state"
+    },
+    {
+      "id": "svc-amrut2-policy",
+      "title": "Cabinet approves AMRUT 2.0 till 2025–26",
+      "url": "https://www.pmindia.gov.in/en/news_updates/cabinet-approves-the-atal-mission-for-rejuvenation-and-urban-transformation-amrut-2-0-till-2025-26/",
+      "publisher": "Prime Minister's Office",
+      "publishedAt": "2021-10-12",
+      "period": "AMRUT 2.0 programme approval 2021",
+      "sectors": [
+        "water"
+      ],
+      "stateCodes": [],
+      "localityIds": [],
+      "tier": "documented",
+      "summary": "City Water Balance Plans are intended to quantify source, demand, supply and service gaps, feeding city/state action plans.",
+      "limitations": [
+        "Approved programme design is not measured city-level achievement.",
+        "Later extensions or revisions need separate dated orders."
+      ],
+      "locator": "Mission structure and City Water Balance Plans",
+      "retrievedAt": "2026-10-06",
+      "retrievalStatus": "Exa indexed text extracted; relevant sections reviewed",
+      "reusedFrom": "wp-amrut-policy",
+      "type": "document",
+      "scope": "national"
+    },
+    {
+      "id": "svc-jjm-functionality",
+      "title": "National report on functionality assessment of tap connections, 2024",
+      "url": "https://jaljeevanmission.gov.in/sites/default/files/2025-12/FHTC_National%20Report%202024.pdf",
+      "publisher": "Department of Drinking Water and Sanitation",
+      "publishedAt": null,
+      "period": "Functionality Assessment 2024",
+      "sectors": [
+        "water"
+      ],
+      "stateCodes": [
+        "AN",
+        "AP",
+        "AR",
+        "AS",
+        "BR",
+        "CG",
+        "DN",
+        "GA",
+        "GJ",
+        "HP",
+        "HR",
+        "JH",
+        "JK",
+        "KA",
+        "KL",
+        "LA",
+        "LD",
+        "MH",
+        "ML",
+        "MN",
+        "MP",
+        "MZ",
+        "NL",
+        "OD",
+        "PB",
+        "PY",
+        "RJ",
+        "SK",
+        "TN",
+        "TR",
+        "TS",
+        "UK",
+        "UP",
+        "WB"
+      ],
+      "localityIds": [],
+      "tier": "documented",
+      "summary": "Survey covered 19,812 Har Ghar Jal villages, 237,608 households, 761 districts and 34 states/UTs. Table 6 publishes separate regularity, quantity, tested-quality and minimum-of-three index percentages. Section 4.7 explicitly says the sampling design cannot identify the same household fulfilling all three parameters; the published functionality index takes their minimum. Table 6 household-quality assessment uses microbiological laboratory testing and on-site pH; source-water chemical testing is analysed separately in the report.",
+      "limitations": [
+        "Selected Har Ghar Jal villages are not all rural villages.",
+        "Published minimum index is not the observed joint share of functional household supply.",
+        "The Table 6 household-quality percentage does not establish full BIS chemical safety, including arsenic or fluoride; source-water chemical tests are a separate sample.",
+        "Quantity and quality have different sampling units; do not combine as household intersection.",
+        "Exact original publication day is unconfirmed; URL folder date is not used as publication date."
+      ],
+      "locator": "PDF page 18 fact sheet; page 49 quality methods; page 52 section 4.7; page 54 (printed 38), Table 6",
+      "retrievedAt": "2026-10-06",
+      "retrievalStatus": "Original PDF downloaded (HTTP 200); 116 pages; cited sections extracted with pypdf",
+      "reusedFrom": "wp-jjm-functionality-2024",
+      "type": "document",
+      "scope": "national"
+    },
+    {
+      "id": "svc-pmjay-claims-audit",
+      "title": "CAG PMJAY 11/2023, Chapter V: claims management",
+      "url": "https://cag.gov.in/uploads/download_audit_report/2023/09_Chapter-V-064d22bab412c53.02505839.pdf",
+      "publisher": "Comptroller and Auditor General of India",
+      "publishedAt": "2023-08-08",
+      "period": "Main audit September 2018–March 2021; NHA replies August 2022 and claim status updates November 2022",
+      "sectors": [
+        "hospitals"
+      ],
+      "stateCodes": [
+        "AP",
+        "PB"
+      ],
+      "localityIds": [],
+      "tier": "documented",
+      "summary": "Paragraph 5.4 records ₹1.37 crore paid in 458 Andhra Pradesh cases and ₹3.61 crore in 1,080 Punjab cases for private-hospital procedures reserved for public hospitals. NHA cites temporary opening of public-reserved packages during COVID. Chapter also separates public-hospital use of claim revenue from private-hospital claim payments.",
+      "limitations": [
+        "Service claims are not hospital-construction tender values or private equity funding.",
+        "Package, referral exception and treatment date must be reconciled before identifying an impermissible claim.",
+        "Original PDF fetch returned HTTP 503; indexed original chapter text retained."
+      ],
+      "locator": "Paragraphs 5.3–5.5: public claim-revenue use, reserved procedures and claim deadlines",
+      "retrievedAt": "2026-10-06",
+      "retrievalStatus": "Primary indexed text fetched through Exa; archived receipt available.",
+      "type": "document",
+      "scope": "multi-state"
+    },
+    {
+      "id": "svc-pmjay-audit-index",
+      "title": "CAG landing record: PMJAY performance audit 11/2023",
+      "url": "https://cag.gov.in/pt/delhi/en/audit-report/details/119060",
+      "publisher": "Comptroller and Auditor General of India",
+      "publishedAt": "2023-08-08",
+      "period": "Report tabled 8 August 2023; audit September 2018–March 2021",
+      "sectors": [
+        "hospitals"
+      ],
+      "stateCodes": [],
+      "localityIds": [],
+      "tier": "documented",
+      "summary": "Official metadata dates the PMJAY performance audit and defines its audited period.",
+      "limitations": [
+        "Publication within the recent window does not move historical claims into that window."
+      ],
+      "locator": "Overview and report tabling date",
+      "retrievedAt": "2026-10-06",
+      "retrievalStatus": "Primary indexed text fetched through Exa; archived receipt available.",
+      "type": "portal",
+      "scope": "national"
+    },
+    {
+      "id": "svc-pmjay70-approval",
+      "title": "Cabinet approval: PMJAY coverage for people aged 70 and above",
+      "url": "https://www.pib.gov.in/Pressreleaseshare.aspx?PRID=2053883",
+      "publisher": "Ministry of Health and Family Welfare / PIB",
+      "publishedAt": "2024-09-11",
+      "period": "Cabinet approval 11 September 2024",
+      "sectors": [
+        "hospitals"
+      ],
+      "stateCodes": [],
+      "localityIds": [],
+      "tier": "documented",
+      "summary": "Approves coverage for all people aged 70 and above regardless of income; specifies separate top-up for already-covered families and choice conditions for certain public schemes.",
+      "limitations": [
+        "Scheme policy approval, not an Act of Parliament or proof of a hospital payment.",
+        "Coverage ceiling is not actual expenditure; adoption and eligible hospital records remain necessary."
+      ],
+      "locator": "Cabinet announcement",
+      "retrievedAt": "2026-10-06",
+      "retrievalStatus": "Primary indexed text fetched through Exa; archived receipt available.",
+      "type": "document",
+      "scope": "national"
+    },
+    {
+      "id": "svc-pmjay70-launch",
+      "title": "PMJAY age-70 coverage expansion launch",
+      "url": "https://www.pmindia.gov.in/en/news_updates/pm-launches-inaugurates-and-lays-the-foundation-stone-of-multiple-projects-related-to-health-sector-worth-over-rs-12850-crore/",
+      "publisher": "Prime Minister’s Office",
+      "publishedAt": "2024-10-29",
+      "period": "Launch 29 October 2024",
+      "sectors": [
+        "hospitals"
+      ],
+      "stateCodes": [],
+      "localityIds": [],
+      "tier": "documented",
+      "summary": "Records launch of the age-70 coverage expansion and Ayushman Vay Vandana Card.",
+      "limitations": [
+        "The ₹12,850 crore headline spans multiple launched, inaugurated and foundation-stone projects; do not assign it to the coverage expansion.",
+        "State implementation mentioned in the historical speech is not a current all-state status ledger."
+      ],
+      "locator": "Expansion launch paragraph",
+      "retrievedAt": "2026-10-06",
+      "retrievalStatus": "Primary indexed text fetched through Exa; archived receipt available.",
+      "type": "document",
+      "scope": "national"
+    },
+    {
+      "id": "svc-up-school-audit",
+      "title": "UP CAG Compliance Audit-I 1/2023: incomplete Azamgarh KGBVs",
+      "url": "https://cag.gov.in/uploads/download_audit_report/2023/7-CH-2.2-2.17-064059e4a56ff38.74751167.pdf",
+      "publisher": "Comptroller and Auditor General of India",
+      "publishedAt": "2023-02-28",
+      "period": "Works 2011 onward; inspection updates and government response June 2022",
+      "sectors": [
+        "schools"
+      ],
+      "stateCodes": [
+        "UP"
+      ],
+      "localityIds": [
+        "svc-district-up-azamgarh"
+      ],
+      "tier": "documented",
+      "summary": "Paragraph 2.2 records ₹1.17 crore unfruitful expenditure on two incomplete KGBVs in Lalganj and Thekma; quality-check failures, revised estimates, and recovery/re-allotment concerns are detailed with government response.",
+      "limitations": [
+        "Historical sample of two buildings out of 15 sanctioned KGBVs; not all UP schools.",
+        "Reconstruction and completion estimates are not additional paid expenditure.",
+        "Original chapter fetch was refused with HTTP 403; full-report alternate returned 503. Only indexed primary text is archived."
+      ],
+      "locator": "Paragraph 2.2: finding, government response and CAG rejoinder",
+      "retrievedAt": "2026-10-06",
+      "retrievalStatus": "Primary indexed text fetched through Exa; archived receipt available.",
+      "type": "document",
+      "scope": "district"
+    },
+    {
+      "id": "svc-up-school-index",
+      "title": "CAG UP register: Compliance Audit-I 1/2023",
+      "url": "https://cag.gov.in/ag2/uttar-pradesh/en/audit-report?sector%5B0%5D=36",
+      "publisher": "Comptroller and Auditor General of India",
+      "publishedAt": "2023-02-28",
+      "period": "Register lists report dated 28 February 2023",
+      "sectors": [
+        "schools"
+      ],
+      "stateCodes": [
+        "UP"
+      ],
+      "localityIds": [],
+      "tier": "documented",
+      "summary": "Official register identifies the 2023 Compliance Audit-I report publication date.",
+      "limitations": [
+        "Index is metadata; detailed findings and replies come from paragraph 2.2."
+      ],
+      "locator": "Report No. 1 of 2023 listing",
+      "retrievedAt": "2026-10-06",
+      "retrievalStatus": "Primary indexed text fetched through Exa; archived receipt available.",
+      "type": "portal",
+      "scope": "state"
+    },
+    {
+      "id": "svc-rte-ka-reimbursement",
+      "title": "Quota for EWS Seats in Private Unaided Schools — Lok Sabha Question 1260",
+      "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU1260_aW0kcJ.pdf",
+      "publisher": "Ministry of Education / Lok Sabha",
+      "publishedAt": "2026-07-27",
+      "period": "FY 2021-22 to FY 2025-26",
+      "sectors": [
+        "schools"
+      ],
+      "stateCodes": [
+        "KA"
+      ],
+      "localityIds": [],
+      "tier": "documented",
+      "summary": "Provides sanctioned and reimbursed-to-school amounts under RTE for Karnataka for five years. FY 2025-26 sanctioned ₹156.10 crore and reimbursed ₹148.68 crore. Government says reimbursement is timely, based on information from the state. Describes 2018 Karnataka neighbourhood-school exemption.",
+      "limitations": [
+        "Including Bengaluru does not make this city-level funding.",
+        "The table covers the reimbursement claim population; do not interpret as uniquely new entry-grade admissions without checking definitions.",
+        "Sanctioned less reimbursed does not establish overdue obligations or misuse.",
+        "Distinct from central releases to the state; do not sum with Samagra central share as independent money."
+      ],
+      "locator": "PDF page 2, PRABANDH table",
+      "retrievedAt": "2026-10-06",
+      "retrievalStatus": "Original official PDF downloaded and independently read; archived SHA-256 recorded.",
+      "reusedFrom": "rte-karnataka-2026",
+      "type": "document",
+      "scope": "state"
+    },
+    {
+      "id": "svc-rte-statute",
+      "title": "Right of Children to Free and Compulsory Education Act, 2009",
+      "url": "https://dsel.education.gov.in/sites/default/files/rte/RTE_Ac_%202009_amendments.pdf",
+      "publisher": "Government of India / Ministry of Education",
+      "publishedAt": "2009-08-26",
+      "period": "Consolidated copy last updated 26 July 2021",
+      "sectors": [
+        "schools"
+      ],
+      "stateCodes": [],
+      "localityIds": [],
+      "tier": "documented",
+      "summary": "Section 12(1)(c) provides entry-level admissions for eligible disadvantaged/weaker-section children of at least 25% in specified categories of schools. Section 12(2) provides private unaided school reimbursement capped at state per-child expenditure or actual charge, whichever is lower, with provisos for pre-existing free-education obligations.",
+      "limitations": [
+        "Not an unrestricted private-school capital grant.",
+        "School eligibility, constitutional/applicability exclusions, neighbourhood rules and claims are determined by applicable law and state implementation.",
+        "Statutory eligibility is not evidence of payment."
+      ],
+      "locator": "Sections 12(1)(c) and 12(2), consolidated copy updated 26 July 2021",
+      "retrievedAt": "2026-10-06",
+      "retrievalStatus": "Official indexed PDF text fetched through Exa",
+      "reusedFrom": "rte-statute",
+      "type": "document",
+      "scope": "national"
+    },
+    {
+      "id": "svc-cg-school-plan",
+      "title": "Chhattisgarh Samagra Shiksha 2025-26 revised PAB minutes",
+      "url": "https://dsel.education.gov.in/sites/default/files/pab/CG2526.pdf",
+      "publisher": "Department of School Education and Literacy, Ministry of Education",
+      "publishedAt": "2025-07-07",
+      "period": "FY 2025-26",
+      "sectors": [
+        "schools"
+      ],
+      "stateCodes": [
+        "CG"
+      ],
+      "localityIds": [],
+      "tier": "documented",
+      "summary": "Approved annual work plan: ₹232,029.17 lakh including ₹82,492.13 lakh spillover. Planned central share to be released: ₹112,900.28 lakh; corresponding state share ₹75,267.52 lakh. Supplementary ICT labs and smart classrooms approval: ₹14,133.80 lakh.",
+      "limitations": [
+        "Supersedes sections of earlier 9 May 2025 minutes; preserve version history.",
+        "The section heading says Actual Release, but the line explicitly says to be released: classify as planned/approved, not actual disbursement.",
+        "Opening balances and spillover make the approved plan different from fresh allocations.",
+        "OCR affects table layout; use explicit prose figures and reconcile original PDF before bulk extraction.",
+        "Origin PDF returned HTTP 404 on 2026-10-06; preserve indexed-text access status and locate replacement archive before treating as live-verified."
+      ],
+      "locator": "Prose paragraphs 3–4 and financial section 2",
+      "retrievedAt": "2026-10-06",
+      "retrievalStatus": "Official indexed PDF extract retrieved through Exa; origin direct fetch HTTP404",
+      "reusedFrom": "samagra-cg-pab-2025",
+      "type": "document",
+      "scope": "state"
+    },
+    {
+      "id": "svc-lighthouse-investment",
+      "title": "KKR and PSP invest in Lighthouse Learning",
+      "url": "https://www.investpsp.com/en/news/kkr-further-invests-in-lighthouse-learning-to-support-next-phase-of-growth/",
+      "publisher": "PSP Investments / KKR joint announcement",
+      "publishedAt": "2025-11-25",
+      "period": "Investment announced November 2025",
+      "sectors": [
+        "schools"
+      ],
+      "stateCodes": [],
+      "localityIds": [],
+      "tier": "documented",
+      "summary": "Primary corporate announcement on 25 November 2025 says KKR-managed funds invested alongside new investor PSP Investments and KKR would continue holding a majority stake in Lighthouse Learning, an education services platform.",
+      "limitations": [
+        "No transaction amount disclosed in the primary announcement.",
+        "Do not substitute media transaction estimates as primary-verified values.",
+        "Equity in services platform is distinct from donations to schools, ownership of regulated educational trusts, or FCRA contributions.",
+        "Presence is not proof investment proceeds were spent in every named city; Delhi NCR crosses administrative borders.",
+        "Delhi-NCR presence is a regional label; it does not establish a school or spending location within Delhi's administrative boundary.",
+        "Corporate self-disclosure documents what was announced; no government contract, donation quid pro quo, political control, or shareholding percentage is established."
+      ],
+      "locator": "Opening announcement paragraphs, 25 November 2025; KKR majority and PSP participation",
+      "retrievedAt": "2026-10-06",
+      "retrievalStatus": "Primary page fetched; claims bounded to observed content",
+      "reusedFrom": "lighthouse-kkr-psp-2025",
+      "type": "document",
+      "scope": "national"
+    }
+  ],
+  "entities": [
+    {
+      "id": "svc-mvvnl",
+      "label": "Madhyanchal Vidyut Vitran Nigam Limited (MVVNL)",
+      "type": "authority",
+      "sectors": [
+        "electricity"
+      ],
+      "stateCodes": [
+        "UP"
+      ],
+      "localityIds": [],
+      "sourceIds": [
+        "svc-up-electricity-audit"
+      ],
+      "identityBasis": "Named UP DISCOM and unambiguous acronym in CAG report 7/2025; contract mapping in paragraph 3.3.4 footnote 21.",
+      "resolved": true,
+      "scope": "state"
+    },
+    {
+      "id": "svc-puvvnl",
+      "label": "Purvanchal Vidyut Vitran Nigam Limited (PuVVNL)",
+      "type": "authority",
+      "sectors": [
+        "electricity"
+      ],
+      "stateCodes": [
+        "UP"
+      ],
+      "localityIds": [],
+      "sourceIds": [
+        "svc-up-electricity-audit"
+      ],
+      "identityBasis": "Named UP DISCOM and unambiguous acronym in CAG report 7/2025; contract mapping in paragraph 3.3.4 footnote 21.",
+      "resolved": true,
+      "scope": "state"
+    },
+    {
+      "id": "svc-pvvnl",
+      "label": "Paschimanchal Vidyut Vitran Nigam Limited (PVVNL)",
+      "type": "authority",
+      "sectors": [
+        "electricity"
+      ],
+      "stateCodes": [
+        "UP"
+      ],
+      "localityIds": [],
+      "sourceIds": [
+        "svc-up-electricity-audit"
+      ],
+      "identityBasis": "Named UP DISCOM and unambiguous acronym in CAG report 7/2025; contract mapping in paragraph 3.3.4 footnote 21.",
+      "resolved": true,
+      "scope": "state"
+    },
+    {
+      "id": "svc-dvvnl",
+      "label": "Dakshinanchal Vidyut Vitran Nigam Limited (DVVNL)",
+      "type": "authority",
+      "sectors": [
+        "electricity"
+      ],
+      "stateCodes": [
+        "UP"
+      ],
+      "localityIds": [],
+      "sourceIds": [
+        "svc-up-electricity-audit"
+      ],
+      "identityBasis": "Named UP DISCOM and unambiguous acronym in CAG report 7/2025; contract mapping in paragraph 3.3.4 footnote 21.",
+      "resolved": true,
+      "scope": "state"
+    },
+    {
+      "id": "svc-ga-digital",
+      "label": "G.A. Digital Web World (P) Ltd",
+      "type": "company",
+      "sectors": [
+        "electricity"
+      ],
+      "stateCodes": [
+        "UP"
+      ],
+      "localityIds": [],
+      "sourceIds": [
+        "svc-up-electricity-audit"
+      ],
+      "identityBasis": "Company named against this DISCOM in CAG paragraph 3.3.4 footnote 21; no promoter/director inference.",
+      "resolved": true,
+      "scope": "state"
+    },
+    {
+      "id": "svc-tm-services",
+      "label": "T&M Services Consulting Pvt. Ltd",
+      "type": "company",
+      "sectors": [
+        "electricity"
+      ],
+      "stateCodes": [
+        "UP"
+      ],
+      "localityIds": [],
+      "sourceIds": [
+        "svc-up-electricity-audit"
+      ],
+      "identityBasis": "Company named against this DISCOM in CAG paragraph 3.3.4 footnote 21; no promoter/director inference.",
+      "resolved": true,
+      "scope": "state"
+    },
+    {
+      "id": "svc-collabera",
+      "label": "Collabera Technologies Pvt. Ltd",
+      "type": "company",
+      "sectors": [
+        "electricity"
+      ],
+      "stateCodes": [
+        "UP"
+      ],
+      "localityIds": [],
+      "sourceIds": [
+        "svc-up-electricity-audit"
+      ],
+      "identityBasis": "Company named against this DISCOM in CAG paragraph 3.3.4 footnote 21; no promoter/director inference.",
+      "resolved": true,
+      "scope": "state"
+    },
+    {
+      "id": "svc-bvg",
+      "label": "BVG India Ltd",
+      "type": "company",
+      "sectors": [
+        "electricity"
+      ],
+      "stateCodes": [
+        "UP"
+      ],
+      "localityIds": [],
+      "sourceIds": [
+        "svc-up-electricity-audit"
+      ],
+      "identityBasis": "Company named against this DISCOM in CAG paragraph 3.3.4 footnote 21; no promoter/director inference.",
+      "resolved": true,
+      "scope": "state"
+    },
+    {
+      "id": "svc-az-dbeo",
+      "label": "District Basic Education Officer, Azamgarh",
+      "type": "authority",
+      "sectors": [
+        "schools"
+      ],
+      "stateCodes": [
+        "UP"
+      ],
+      "localityIds": [],
+      "sourceIds": [
+        "svc-up-school-audit"
+      ],
+      "identityBasis": "Public office named as counterparty to the June 2011 UPRNN agreement.",
+      "resolved": true,
+      "scope": "state"
+    },
+    {
+      "id": "svc-uprnn",
+      "label": "Uttar Pradesh Rajkiya Nirman Nigam (UPRNN)",
+      "type": "company",
+      "sectors": [
+        "schools"
+      ],
+      "stateCodes": [
+        "UP"
+      ],
+      "localityIds": [],
+      "sourceIds": [
+        "svc-up-school-audit"
+      ],
+      "identityBasis": "Full named executing agency in CAG paragraph 2.2, paired with Azamgarh agreement.",
+      "resolved": true,
+      "scope": "state"
+    },
+    {
+      "id": "svc-azamgarh-kgbvs",
+      "label": "Lalganj and Thekma KGBV building works",
+      "type": "project",
+      "sectors": [
+        "schools"
+      ],
+      "stateCodes": [
+        "UP"
+      ],
+      "localityIds": [
+        "svc-district-up-azamgarh"
+      ],
+      "sourceIds": [
+        "svc-up-school-audit"
+      ],
+      "identityBasis": "Two named KGBV sites in Azamgarh, distinguished from the 15-school sanctioned cohort.",
+      "resolved": true,
+      "scope": "district"
+    },
+    {
+      "id": "svc-nha",
+      "label": "National Health Authority",
+      "type": "authority",
+      "sectors": [
+        "hospitals"
+      ],
+      "stateCodes": [],
+      "localityIds": [],
+      "sourceIds": [
+        "svc-pmjay-audit-index",
+        "svc-pmjay-claims-audit"
+      ],
+      "identityBasis": "Union authority named in report title and claims workflow.",
+      "resolved": true,
+      "scope": "national"
+    },
+    {
+      "id": "svc-pmjay",
+      "label": "Ayushman Bharat PM-JAY",
+      "type": "project",
+      "sectors": [
+        "hospitals"
+      ],
+      "stateCodes": [],
+      "localityIds": [],
+      "sourceIds": [
+        "svc-pmjay-audit-index"
+      ],
+      "identityBasis": "Named health-assurance scheme, distinct from PM-ABHIM capital infrastructure grants.",
+      "resolved": true,
+      "scope": "national"
+    },
+    {
+      "id": "svc-rte-ka",
+      "label": "Karnataka RTE private unaided school reimbursements",
+      "type": "project",
+      "sectors": [
+        "schools"
+      ],
+      "stateCodes": [
+        "KA"
+      ],
+      "localityIds": [],
+      "sourceIds": [
+        "svc-rte-ka-reimbursement"
+      ],
+      "identityBasis": "State reimbursement cohort in Lok Sabha AU1260, PRABANDH table.",
+      "resolved": true,
+      "scope": "state"
+    },
+    {
+      "id": "svc-pc-mohan",
+      "label": "P. C. Mohan — parliamentary questioner",
+      "type": "person",
+      "sectors": [
+        "schools"
+      ],
+      "stateCodes": [],
+      "localityIds": [],
+      "sourceIds": [
+        "svc-rte-ka-reimbursement"
+      ],
+      "identityBasis": "Lok Sabha Unstarred Question 1260 dated 27 July 2026 names Shri P C Mohan as questioner; identity is this dated parliamentary record, not a names-only contractor match.",
+      "resolved": true,
+      "scope": "national"
+    },
+    {
+      "id": "svc-kkr",
+      "label": "KKR-managed funds",
+      "type": "company",
+      "sectors": [
+        "schools"
+      ],
+      "stateCodes": [],
+      "localityIds": [],
+      "sourceIds": [
+        "svc-lighthouse-investment"
+      ],
+      "identityBasis": "Exact investor/platform named in the joint primary announcement of 25 November 2025; no trust or school legal entity is fused with the services platform.",
+      "resolved": true,
+      "scope": "national"
+    },
+    {
+      "id": "svc-psp",
+      "label": "PSP Investments",
+      "type": "company",
+      "sectors": [
+        "schools"
+      ],
+      "stateCodes": [],
+      "localityIds": [],
+      "sourceIds": [
+        "svc-lighthouse-investment"
+      ],
+      "identityBasis": "Exact investor/platform named in the joint primary announcement of 25 November 2025; no trust or school legal entity is fused with the services platform.",
+      "resolved": true,
+      "scope": "national"
+    },
+    {
+      "id": "svc-lighthouse",
+      "label": "Lighthouse Learning Group",
+      "type": "company",
+      "sectors": [
+        "schools"
+      ],
+      "stateCodes": [],
+      "localityIds": [],
+      "sourceIds": [
+        "svc-lighthouse-investment"
+      ],
+      "identityBasis": "Exact investor/platform named in the joint primary announcement of 25 November 2025; no trust or school legal entity is fused with the services platform.",
+      "resolved": true,
+      "scope": "national"
+    },
+    {
+      "id": "svc-ka-rdwsd",
+      "label": "Karnataka Rural Drinking Water and Sanitation Department",
+      "type": "authority",
+      "sectors": [
+        "water"
+      ],
+      "stateCodes": [
+        "KA"
+      ],
+      "localityIds": [],
+      "sourceIds": [
+        "svc-ka-jjm-audit"
+      ],
+      "identityBasis": "CAG Karnataka JJM report section 1.2 explicitly names the department and Commissioner as responsible for implementation.",
+      "resolved": true,
+      "scope": "state"
+    },
+    {
+      "id": "svc-ka-jjm",
+      "label": "Jal Jeevan Mission — Karnataka implementation",
+      "type": "project",
+      "sectors": [
+        "water"
+      ],
+      "stateCodes": [
+        "KA"
+      ],
+      "localityIds": [],
+      "sourceIds": [
+        "svc-ka-jjm-audit"
+      ],
+      "identityBasis": "State programme audited in CAG Karnataka Report 12/2025; distinct from a specific works contractor.",
+      "resolved": true,
+      "scope": "state"
+    },
+    {
+      "id": "svc-hebbal-works",
+      "label": "Hebbal (Gadag) JJM works",
+      "type": "project",
+      "sectors": [
+        "water"
+      ],
+      "stateCodes": [
+        "KA"
+      ],
+      "localityIds": [
+        "svc-village-ka-hebbal-gadag"
+      ],
+      "sourceIds": [
+        "svc-ka-jjm-audit"
+      ],
+      "identityBasis": "Section 3.3.1 identifies Hebbal village, Shirahatti taluk, Gadag; not similarly named Hebbal localities in Bengaluru.",
+      "resolved": true,
+      "scope": "village"
+    }
+  ],
+  "relationships": [
+    {
+      "id": "svc-manpower-contract-0",
+      "from": "svc-mvvnl",
+      "to": "svc-ga-digital",
+      "kind": "contracted",
+      "label": "Contracted manpower supply",
+      "sectors": [
+        "electricity"
+      ],
+      "sourceIds": [
+        "svc-up-electricity-audit"
+      ],
+      "tier": "documented",
+      "fromDate": null,
+      "toDate": null,
+      "stateCodes": [
+        "UP"
+      ],
+      "localityIds": [],
+      "summary": "CAG records February–March 2018 manpower agreements and ₹16.73 crore paid by this DISCOM (footnote 23). Contracts terminated between December 2018 and February 2019; exact company-specific termination day not supplied.",
+      "limitations": [
+        "Contract/payment link only. CAG overlap finding and government distinct-role reply are preserved in the associated case.",
+        "No political patronage or beneficial owner inference."
+      ],
+      "scope": "state"
+    },
+    {
+      "id": "svc-manpower-contract-1",
+      "from": "svc-puvvnl",
+      "to": "svc-tm-services",
+      "kind": "contracted",
+      "label": "Contracted manpower supply",
+      "sectors": [
+        "electricity"
+      ],
+      "sourceIds": [
+        "svc-up-electricity-audit"
+      ],
+      "tier": "documented",
+      "fromDate": null,
+      "toDate": null,
+      "stateCodes": [
+        "UP"
+      ],
+      "localityIds": [],
+      "summary": "CAG records February–March 2018 manpower agreements and ₹15.44 crore paid by this DISCOM (footnote 23). Contracts terminated between December 2018 and February 2019; exact company-specific termination day not supplied.",
+      "limitations": [
+        "Contract/payment link only. CAG overlap finding and government distinct-role reply are preserved in the associated case.",
+        "No political patronage or beneficial owner inference."
+      ],
+      "scope": "state"
+    },
+    {
+      "id": "svc-manpower-contract-2",
+      "from": "svc-pvvnl",
+      "to": "svc-collabera",
+      "kind": "contracted",
+      "label": "Contracted manpower supply",
+      "sectors": [
+        "electricity"
+      ],
+      "sourceIds": [
+        "svc-up-electricity-audit"
+      ],
+      "tier": "documented",
+      "fromDate": null,
+      "toDate": null,
+      "stateCodes": [
+        "UP"
+      ],
+      "localityIds": [],
+      "summary": "CAG records February–March 2018 manpower agreements and ₹6.85 crore paid by this DISCOM (footnote 23). Contracts terminated between December 2018 and February 2019; exact company-specific termination day not supplied.",
+      "limitations": [
+        "Contract/payment link only. CAG overlap finding and government distinct-role reply are preserved in the associated case.",
+        "No political patronage or beneficial owner inference."
+      ],
+      "scope": "state"
+    },
+    {
+      "id": "svc-manpower-contract-3",
+      "from": "svc-dvvnl",
+      "to": "svc-bvg",
+      "kind": "contracted",
+      "label": "Contracted manpower supply",
+      "sectors": [
+        "electricity"
+      ],
+      "sourceIds": [
+        "svc-up-electricity-audit"
+      ],
+      "tier": "documented",
+      "fromDate": null,
+      "toDate": null,
+      "stateCodes": [
+        "UP"
+      ],
+      "localityIds": [],
+      "summary": "CAG records February–March 2018 manpower agreements and ₹7.25 crore paid by this DISCOM (footnote 23). Contracts terminated between December 2018 and February 2019; exact company-specific termination day not supplied.",
+      "limitations": [
+        "Contract/payment link only. CAG overlap finding and government distinct-role reply are preserved in the associated case.",
+        "No political patronage or beneficial owner inference."
+      ],
+      "scope": "state"
+    },
+    {
+      "id": "svc-uprnn-agreement",
+      "from": "svc-az-dbeo",
+      "to": "svc-uprnn",
+      "kind": "contracted",
+      "label": "School-building agreement",
+      "sectors": [
+        "schools"
+      ],
+      "sourceIds": [
+        "svc-up-school-audit"
+      ],
+      "tier": "documented",
+      "fromDate": null,
+      "toDate": null,
+      "stateCodes": [
+        "UP"
+      ],
+      "localityIds": [],
+      "summary": "CAG records the June 2011 agreement after a March 2011 award for 15 KGBVs. The two-building case is a subset.",
+      "limitations": [
+        "Month-level date only; no precise day invented.",
+        "Authority relationship does not establish political influence."
+      ],
+      "scope": "state"
+    },
+    {
+      "id": "svc-uprnn-kgbv",
+      "from": "svc-uprnn",
+      "to": "svc-azamgarh-kgbvs",
+      "kind": "implemented",
+      "label": "Executing agency",
+      "sectors": [
+        "schools"
+      ],
+      "sourceIds": [
+        "svc-up-school-audit"
+      ],
+      "tier": "documented",
+      "fromDate": null,
+      "toDate": null,
+      "stateCodes": [
+        "UP"
+      ],
+      "localityIds": [],
+      "summary": "UPRNN was responsible for the named school-building works discussed in paragraph 2.2.",
+      "limitations": [
+        "Historical project identity; completion status after the audit remains unverified."
+      ],
+      "scope": "state"
+    },
+    {
+      "id": "svc-nha-pmjay",
+      "from": "svc-nha",
+      "to": "svc-pmjay",
+      "kind": "administers",
+      "label": "Administers programme",
+      "sectors": [
+        "hospitals"
+      ],
+      "sourceIds": [
+        "svc-pmjay-audit-index"
+      ],
+      "tier": "documented",
+      "fromDate": null,
+      "toDate": null,
+      "stateCodes": [],
+      "localityIds": [],
+      "summary": "NHA administers PMJAY; State Health Authorities/insurers process hospital claims as described in Chapter V.",
+      "limitations": [
+        "Does not imply NHA directly paid every individual hospital claim."
+      ],
+      "scope": "national"
+    },
+    {
+      "id": "svc-mohan-question",
+      "from": "svc-pc-mohan",
+      "to": "svc-rte-ka",
+      "kind": "parliamentary-question",
+      "label": "Asked parliamentary question",
+      "sectors": [
+        "schools"
+      ],
+      "sourceIds": [
+        "svc-rte-ka-reimbursement"
+      ],
+      "tier": "documented",
+      "fromDate": "2026-07-27",
+      "toDate": "2026-07-27",
+      "stateCodes": [
+        "KA"
+      ],
+      "localityIds": [],
+      "summary": "Asked about Karnataka RTE seats, the 2018 neighbourhood exemption and reimbursement timeliness.",
+      "limitations": [
+        "Oversight record only; no contractor, ownership, receipt of funds, or improper influence connection is established."
+      ],
+      "scope": "state"
+    },
+    {
+      "id": "svc-kkr-lighthouse",
+      "from": "svc-kkr",
+      "to": "svc-lighthouse",
+      "kind": "investment",
+      "label": "Majority stake announced",
+      "sectors": [
+        "schools"
+      ],
+      "sourceIds": [
+        "svc-lighthouse-investment"
+      ],
+      "tier": "documented",
+      "fromDate": "2025-11-25",
+      "toDate": "2025-11-25",
+      "stateCodes": [],
+      "localityIds": [],
+      "summary": "Announcement says KKR-managed funds invested and KKR would continue holding a majority stake.",
+      "limitations": [
+        "No exact stake or consideration disclosed.",
+        "Equity in education services is not a government grant or ownership of each affiliated educational trust.",
+        "The date is the announcement event, not the beginning of ownership or proof of a current shareholding."
+      ],
+      "scope": "national"
+    },
+    {
+      "id": "svc-psp-lighthouse",
+      "from": "svc-psp",
+      "to": "svc-lighthouse",
+      "kind": "investment",
+      "label": "New investor announced",
+      "sectors": [
+        "schools"
+      ],
+      "sourceIds": [
+        "svc-lighthouse-investment"
+      ],
+      "tier": "documented",
+      "fromDate": "2025-11-25",
+      "toDate": "2025-11-25",
+      "stateCodes": [],
+      "localityIds": [],
+      "summary": "PSP Investments is named as a new investor alongside KKR-managed funds.",
+      "limitations": [
+        "No exact stake or consideration disclosed.",
+        "No political or government-procurement relationship is established.",
+        "The date is the announcement event, not the beginning of ownership or proof of a current shareholding."
+      ],
+      "scope": "national"
+    },
+    {
+      "id": "svc-rdwsd-jjm",
+      "from": "svc-ka-rdwsd",
+      "to": "svc-ka-jjm",
+      "kind": "programme-implementation",
+      "label": "Implements state programme",
+      "tier": "documented",
+      "sourceIds": [
+        "svc-ka-jjm-audit"
+      ],
+      "fromDate": null,
+      "toDate": null,
+      "sectors": [
+        "water"
+      ],
+      "stateCodes": [
+        "KA"
+      ],
+      "localityIds": [],
+      "summary": "CAG section 1.2 states that the Commissioner, RDWSD is responsible for effective implementation of JJM.",
+      "limitations": [
+        "Programme/implementation relationship only; no contractor identity, current service failure, or improper influence inferred."
+      ],
+      "scope": "state"
+    },
+    {
+      "id": "svc-jjm-hebbal",
+      "from": "svc-ka-jjm",
+      "to": "svc-hebbal-works",
+      "kind": "programme-implementation",
+      "label": "Contains audited village works",
+      "tier": "documented",
+      "sourceIds": [
+        "svc-ka-jjm-audit"
+      ],
+      "fromDate": null,
+      "toDate": null,
+      "sectors": [
+        "water"
+      ],
+      "stateCodes": [
+        "KA"
+      ],
+      "localityIds": [
+        "svc-village-ka-hebbal-gadag"
+      ],
+      "summary": "Section 3.3.1 documents a 2024 inspection of Hebbal works. Government says reservoir completed 8 April 2025 with remaining connections/pipeline before certification and trial run; later status unverified.",
+      "limitations": [
+        "Programme/implementation relationship only; no contractor identity, current service failure, or improper influence inferred."
+      ],
+      "scope": "village"
+    }
+  ],
+  "cases": [
+    {
+      "id": "svc-overlapping-manpower",
+      "title": "UP electricity: overlapping manpower and project-management scopes",
+      "summary": "CAG paragraph 3.3.4 concluded that ₹46.27 crore paid to four manpower firms was infructuous because their scope substantially overlapped project-management agencies. Agreements were worth ₹73.47 crore; award value and paid amount are separate.",
+      "sectors": [
+        "electricity"
+      ],
+      "stateCodes": [
+        "UP"
+      ],
+      "localityIds": [],
+      "sourceIds": [
+        "svc-up-electricity-audit",
+        "svc-up-electricity-index"
+      ],
+      "kind": "audit-finding",
+      "attribution": "CAG attributed audit finding",
+      "response": "Government (December 2023) said PMAs ensured implementation/quality while mission managers motivated households, organised camps and ledgerised e-sanyojan. Contracts were terminated when no longer required. Management (January 2024) said costs came from the PMA head. CAG rejected the distinction because PMA scope already covered concept-to-commissioning support.",
+      "alternativeExplanations": [
+        "Surge capacity and household mobilisation can be legitimate separate outputs even where job descriptions overlap.",
+        "A repeated scope is not proof that the same worker-hour or asset was paid twice.",
+        "Actual deliverables, attendance, approval authority and termination accounts are needed; no post-audit recovery status established."
+      ],
+      "falsifier": "Reconcile company-level deliverables and invoices to show distinct contracted outputs, or produce audited recovery/settlement records that update the historical amount.",
+      "amounts": [
+        {
+          "value": 73.47,
+          "currency": "INR",
+          "unit": "crore",
+          "stage": "agreement value",
+          "period": "February–March 2018 agreements"
+        },
+        {
+          "value": 46.27,
+          "currency": "INR",
+          "unit": "crore",
+          "stage": "paid amount characterised by CAG as infructuous",
+          "period": "Historical agreements terminated December 2018–February 2019"
+        }
+      ],
+      "scope": "state"
+    },
+    {
+      "id": "svc-duplicate-connections",
+      "title": "UP electricity: duplicate connection payments and recovery trail",
+      "summary": "CAG reports ₹26.65 crore excess payments for duplicate connections across sampled grid and standalone-solar records (paragraphs 3.3.8–3.3.9). Matching keys varied across account numbers, meter numbers and names/addresses. The separately stated ₹4.41 crore solar category must not be added again to the headline.",
+      "sectors": [
+        "electricity"
+      ],
+      "stateCodes": [
+        "UP"
+      ],
+      "localityIds": [],
+      "sourceIds": [
+        "svc-up-electricity-audit"
+      ],
+      "kind": "audit-finding",
+      "attribution": "CAG attributed audit finding",
+      "response": "UPPCL directed verification and recovery in January 2024. In February 2024 management reported MVVNL would recover ₹6.53 crore; PuVVNL imposed ₹8.66 crore penalty and had recovered ₹4.54 crore; PVVNL recovery was made/in progress. DVVNL disputed some matches and described other recoveries. CAG acknowledged recovery action but rejected the claim that no DVVNL connections predated the scheme, citing 1,316.",
+      "alternativeExplanations": [
+        "Same-name matches require household/connection identity verification.",
+        "Re-metering, replacement and migration can generate legitimate multiple records; scheme eligibility and actual bills distinguish them.",
+        "₹4.54 crore is a reported recovered amount for PuVVNL, not proof that the full ₹26.65 crore is recovered or still outstanding.",
+        "The report places the ₹26.65 crore headline inside 3.3.8; its five listed categories total ₹22.2351 crore, which with the ₹4.41 crore category in 3.3.9 rounds to ₹26.65 crore. Keep this aggregation note rather than double count."
+      ],
+      "falsifier": "Obtain the matched connection ledger, original installation/commissioning records and recovery receipts, reconcile duplicate categories without overlap, and update each DISCOM’s outstanding amount.",
+      "amounts": [
+        {
+          "value": 26.65,
+          "currency": "INR",
+          "unit": "crore",
+          "stage": "CAG-assessed historical excess payments",
+          "period": "Audited through December 2022"
+        },
+        {
+          "value": 4.54,
+          "currency": "INR",
+          "unit": "crore",
+          "stage": "PuVVNL management-reported recovery",
+          "period": "February 2024 response"
+        }
+      ],
+      "scope": "state"
+    },
+    {
+      "id": "svc-water-retendering",
+      "title": "Karnataka water: late tenders and the re-tender explanation",
+      "summary": "CAG section 3.5 records 33 tenders worth ₹251.75 crore invited/awarded after the later extended tender-award deadline of 31 March 2024 for multi-village schemes; the in-village works deadline was 15 March 2024. This is a procurement-timing and central-share eligibility question, not evidence that 33 works were paid twice.",
+      "sectors": [
+        "water"
+      ],
+      "stateCodes": [
+        "KA"
+      ],
+      "localityIds": [],
+      "sourceIds": [
+        "svc-ka-jjm-audit"
+      ],
+      "kind": "audit-finding",
+      "attribution": "CAG attributed audit finding",
+      "response": "Government (May 2025) cited timely administrative approvals, lack of bidder participation and repeated tender calls. CAG replied that only 13 of 33 tenders were recalled, so the explanation did not cover all tenders and central-share eligibility remained unanswered.",
+      "alternativeExplanations": [
+        "Re-tendering can reflect insufficient competition, revised scope, or failed bids.",
+        "Tender value, award value, payment, completed asset and operational supply are different stages.",
+        "Later extensions or authorized revisions could change eligibility; none is inferred."
+      ],
+      "falsifier": "Retrieve all 33 tender IDs, corrigenda, bidder responses, cancellation/re-invitation links, award orders, authorized deadline extensions and central-share release decisions.",
+      "amounts": [
+        {
+          "value": 251.75,
+          "currency": "INR",
+          "unit": "crore",
+          "stage": "value of 33 tenders in audit timing observation",
+          "period": "Invited/awarded after 31 March 2024"
+        }
+      ],
+      "scope": "state"
+    },
+    {
+      "id": "svc-pmjay-reserved-packages",
+      "title": "Hospitals: reconcile private claims with public-reserved package exceptions",
+      "summary": "CAG paragraph 5.4 records ₹1.37 crore approved/paid in 458 Andhra Pradesh cases and ₹3.61 crore paid in 1,080 Punjab cases for procedures described as public-hospital reserved. Government and private providers face different package/referral rules; these are service payments, not construction procurement.",
+      "sectors": [
+        "hospitals"
+      ],
+      "stateCodes": [
+        "AP",
+        "PB"
+      ],
+      "localityIds": [],
+      "sourceIds": [
+        "svc-pmjay-claims-audit",
+        "svc-pmjay-audit-index"
+      ],
+      "kind": "audit-finding",
+      "attribution": "CAG attributed audit finding",
+      "response": "NHA replied in August 2022 that many public hospitals became COVID-care facilities and states temporarily opened public-reserved packages to private hospitals. The audit also notes Andhra Pradesh private-teaching-hospital exceptions and Punjab’s August 2020 referral guidelines.",
+      "alternativeExplanations": [
+        "A valid dated emergency relaxation or referral can authorize a private claim.",
+        "Package version, hospital category and treatment date must match; no generic private-hospital misconduct finding follows.",
+        "Audit findings cover September 2018–March 2021, with subsequent replies; current compliance was not measured."
+      ],
+      "falsifier": "Join each treatment to its package version, hospital empanelment category, referral order and effective emergency exception; valid authorization removes the impermissible-payment interpretation for that claim.",
+      "amounts": [
+        {
+          "value": 1.37,
+          "currency": "INR",
+          "unit": "crore",
+          "stage": "approved and paid service claims, Andhra Pradesh",
+          "period": "Audit September 2018–March 2021"
+        },
+        {
+          "value": 3.61,
+          "currency": "INR",
+          "unit": "crore",
+          "stage": "paid service claims, Punjab",
+          "period": "Audit September 2018–March 2021"
+        }
+      ],
+      "scope": "multi-state"
+    },
+    {
+      "id": "svc-school-rework",
+      "title": "Azamgarh schools: quality checks, incomplete works and revised costs",
+      "summary": "CAG paragraph 2.2 describes two KGBV buildings in Lalganj and Thekma remaining incomplete in June 2022 after starts in 2011, with ₹1.17 crore characterised as unfruitful spending. A ₹1.46 crore revised completion estimate and an earlier ₹2.01 crore reconstruction estimate must not be summed as payments.",
+      "sectors": [
+        "schools"
+      ],
+      "stateCodes": [
+        "UP"
+      ],
+      "localityIds": [
+        "svc-district-up-azamgarh"
+      ],
+      "sourceIds": [
+        "svc-up-school-audit",
+        "svc-up-school-index"
+      ],
+      "kind": "audit-finding",
+      "attribution": "CAG attributed audit finding",
+      "response": "Government (June 2022) accepted that later instalments were released without quality reports; said substandard work was found in August 2015, responsible employees were terminated and an FIR lodged, and 50% of revised estimates was released in January 2022 with district transfer in progress. CAG said recovery/action against UPRNN and safeguards over re-allotment remained inadequate.",
+      "alternativeExplanations": [
+        "The 2019 structural committee recommended repair/restoration instead of the earlier demolition/reconstruction proposal; changed remedial engineering explains different estimates.",
+        "School classes continued in transit premises; an incomplete building does not establish a closed school.",
+        "An FIR is not a conviction; individual employee identities and case disposition are not asserted."
+      ],
+      "falsifier": "Obtain revised technical sanction, quality reports, completion certificate, school occupancy record and recovery ledger; separately reconcile release-to-district, transfer-to-agency and certified work.",
+      "amounts": [
+        {
+          "value": 1.17,
+          "currency": "INR",
+          "unit": "crore",
+          "stage": "historical expenditure characterised by CAG as unfruitful",
+          "period": "Initial releases July 2011–September 2014; status June 2022"
+        },
+        {
+          "value": 1.46,
+          "currency": "INR",
+          "unit": "crore",
+          "stage": "revised completion estimate, not expenditure",
+          "period": "October 2019"
+        }
+      ],
+      "scope": "district"
+    },
+    {
+      "id": "svc-rte-payment-stage",
+      "title": "Private schools: sanction-to-reimbursement differences need dated claims",
+      "summary": "Karnataka’s parliamentary table records FY2025-26 ₹156.10 crore sanctioned and ₹148.68 crore reimbursed to schools. The ₹7.42 crore arithmetic difference does not establish overdue debt, diversion or a tender irregularity.",
+      "sectors": [
+        "schools"
+      ],
+      "stateCodes": [
+        "KA"
+      ],
+      "localityIds": [],
+      "sourceIds": [
+        "svc-rte-ka-reimbursement",
+        "svc-rte-statute"
+      ],
+      "kind": "analytic-question",
+      "attribution": "Analytic follow-up to a dated Ministry of Education parliamentary answer",
+      "response": "The Ministry’s 27 July 2026 answer says reimbursement is timely as informed by Karnataka. It describes the state’s 2018 neighbourhood-school exemption and a PRABANDH claim population covering elementary classes.",
+      "alternativeExplanations": [
+        "Claims may be conditional, adjusted or not yet due; a sanction is not an unconditional payment obligation.",
+        "Private-school RTE reimbursement is distinct from capital works grants and foreign equity in a services company.",
+        "The state table including Bengaluru is not city-level spending."
+      ],
+      "falsifier": "Reconcile eligible school IDs, claim periods, state per-child rate, approved amounts, due dates and bank credits; overdue eligible claims rather than the aggregate difference would justify a payment-delay finding.",
+      "amounts": [
+        {
+          "value": 156.1,
+          "currency": "INR",
+          "unit": "crore",
+          "stage": "sanctioned RTE reimbursement",
+          "period": "FY 2025-26"
+        },
+        {
+          "value": 148.68,
+          "currency": "INR",
+          "unit": "crore",
+          "stage": "reimbursed to schools",
+          "period": "FY 2025-26"
+        }
+      ],
+      "scope": "state"
+    },
+    {
+      "id": "svc-water-single-bids",
+      "title": "Karnataka water: single-bid awards and missing contractor joins",
+      "summary": "CAG records 9,342 of 38,231 finalised in-village works awarded after single-bid participation on the first call (about 24%). Among those 9,342, 791 had tender premium above 5%, up to 61%. These are audited tender counts, not the share of villages with failed water supply or a finding that all awards were unlawful.",
+      "sectors": [
+        "water"
+      ],
+      "stateCodes": [
+        "KA"
+      ],
+      "localityIds": [],
+      "sourceIds": [
+        "svc-ka-jjm-audit"
+      ],
+      "kind": "audit-finding",
+      "attribution": "CAG Karnataka JJM report, sections 3.7.1–3.7.2",
+      "response": "Government (May 2025) said mission-mode deadlines required expediting work under Finance Department directions. CAG said recall was the first option and negotiation was allowed in exceptional cases above 5% premium; mission mode could not be a blanket exception for all 791. On missing B15/e-procurement project and contractor links, Government said a Contract Management Module had been mandated in March 2025.",
+      "alternativeExplanations": [
+        "Thin local supplier markets, geography, packaging and deadlines can produce a single bid without collusion.",
+        "A premium relative to an estimate does not alone prove overpricing; estimate vintage, scope and market inputs matter.",
+        "Anonymous bidder login IDs in Table 3.7 are not resolved legal-company or political identities; no names were guessed.",
+        "CAG audit population and the separate CPPP dataset are different universes and must not be pooled."
+      ],
+      "falsifier": "Retrieve tender-level bid logs, estimate versions, competent-authority exceptions, negotiation results, cancellation/re-invitation chains and the new module crosswalk; compare like-for-like works and authorized exceptions before attributing misconduct.",
+      "amounts": [],
+      "scope": "state"
+    }
+  ],
+  "rules": [
+    {
+      "id": "svc-electricity-rule-change",
+      "title": "Electricity consumer rules: daily smart-meter data and time-of-day tariff",
+      "summary": "G.S.R. 437(E), notified 14 June 2023, commences on Gazette publication. Printed Gazette issue is dated 14 June 2023; electronic identifier includes 15 June.",
+      "sourceIds": [
+        "svc-electricity-rules2023"
+      ],
+      "sectors": [
+        "electricity"
+      ],
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "jurisdiction": "Union of India; State Commission tariff and supply-code implementation",
+      "applicability": "Smart-meter reading and consumer access; ToD deadlines for commercial/industrial demand >10 kW by 1 April 2024 and other non-agricultural consumers by 1 April 2025. Rule 8A additionally requires ToD to be made effective immediately after installation of smart meters for consumers with smart meters; applicable State Commission tariff orders and subsequent amendments still need review.",
+      "change": "Daily remote readings/data access; no retrospective maximum-demand penalty for pre-installation periods; ToD energy-charge framework and tariff display notice.",
+      "limitations": [
+        "Commencement day is left null rather than resolve the printed/electronic Gazette discrepancy by assumption.",
+        "State tariff orders, subsequent amendments and category-specific dates are needed before calculating a bill.",
+        "Does not prove any awarded meter contract is overpriced."
+      ],
+      "stateCodes": [],
+      "localityIds": [],
+      "scope": "national"
+    },
+    {
+      "id": "svc-amisp-procurement-model",
+      "title": "Smart metering: model DBFOOT contract and meter-month payment basis",
+      "summary": "REC guidance describes a lifecycle service procurement model and rules for departures from the standard bidding document.",
+      "sourceIds": [
+        "svc-amisp-model"
+      ],
+      "sectors": [
+        "electricity"
+      ],
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "jurisdiction": "RDSS/REC model procurement guidance for participating DISCOMs",
+      "applicability": "A tender must incorporate the relevant model/version and approved variations; this is not a universal statutory tariff.",
+      "change": "Supply, finance, operation and maintenance are bundled; meter-months and direct-debit payment security change cost and risk allocation.",
+      "limitations": [
+        "Versioned model guidance; exact issue/effective day unconfirmed.",
+        "Tender-specific adoption and amendments must be checked."
+      ],
+      "stateCodes": [],
+      "localityIds": [],
+      "scope": "national"
+    },
+    {
+      "id": "svc-amrut-policy-change",
+      "title": "AMRUT 2.0: city water-balance planning",
+      "summary": "Cabinet approved AMRUT 2.0 on 12 October 2021 with City Water Balance Plans feeding city/state action plans.",
+      "sourceIds": [
+        "svc-amrut2-policy"
+      ],
+      "sectors": [
+        "water"
+      ],
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "jurisdiction": "Union scheme; participating urban local bodies and states",
+      "applicability": "AMRUT 2.0 urban projects, not every rural JJM contract.",
+      "change": "Planning explicitly links source, demand, service gaps and reuse; compare DPRs against the relevant city plan.",
+      "limitations": [
+        "Approval date is not a separately verified legal commencement date.",
+        "Policy design is not actual service output; later extensions need dated orders."
+      ],
+      "stateCodes": [],
+      "localityIds": [],
+      "scope": "national"
+    },
+    {
+      "id": "svc-pmjay70-policy-change",
+      "title": "PMJAY: age-70 coverage expansion",
+      "summary": "Cabinet approval was 11 September 2024; the age-70 expansion launched on 29 October 2024.",
+      "sourceIds": [
+        "svc-pmjay70-approval",
+        "svc-pmjay70-launch"
+      ],
+      "sectors": [
+        "hospitals"
+      ],
+      "effectiveFrom": "2024-10-29",
+      "effectiveTo": null,
+      "jurisdiction": "Union health-assurance scheme with state implementation",
+      "applicability": "Age 70+ regardless of income; distinct top-up/choice conditions for existing coverage, as described in the approval.",
+      "change": "Eligibility expansion changes the relevant claim denominator and cannot be used to judge pre-expansion claims retroactively.",
+      "limitations": [
+        "Scheme launch date, not enactment of a new statute.",
+        "Hospital empanelment, covered package and implementation dates still control an individual claim."
+      ],
+      "stateCodes": [],
+      "localityIds": [],
+      "scope": "national"
+    },
+    {
+      "id": "svc-ka-rte-background",
+      "title": "Karnataka RTE neighbourhood exemption: pre-window rule context",
+      "summary": "A 2026 parliamentary answer says Karnataka’s 2018 amendment limits section 12(1)(c) admissions to places without a government/aided school offering the class within the defined neighbourhood.",
+      "sourceIds": [
+        "svc-rte-ka-reimbursement",
+        "svc-rte-statute"
+      ],
+      "sectors": [
+        "schools"
+      ],
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "jurisdiction": "Karnataka; RTE implementation subject to constitutional/applicability exclusions",
+      "applicability": "Private unaided school admission/reimbursement under applicable state rules; not all private schools or all school capital grants.",
+      "change": "The reported 2018 change alters eligible seats and reimbursement cohorts; preserve it as historical background.",
+      "limitations": [
+        "Original Karnataka Gazette/effective day not independently retrieved; do not treat parliamentary summary as a complete current legal consolidation.",
+        "Rule predates 6 October 2021; no invented within-window law change."
+      ],
+      "stateCodes": [
+        "KA"
+      ],
+      "localityIds": [],
+      "scope": "state"
+    }
+  ],
+  "localities": [
+    {
+      "id": "svc-district-up-azamgarh",
+      "name": "Azamgarh",
+      "stateCode": "UP",
+      "kind": "district",
+      "aliases": [
+        "Azamgarh district"
+      ]
+    },
+    {
+      "id": "svc-village-ka-hebbal-gadag",
+      "name": "Hebbal",
+      "stateCode": "KA",
+      "kind": "village",
+      "districtName": "Gadag",
+      "aliases": [
+        "Hebbal Gadag",
+        "Hebbal Shirahatti"
+      ]
+    }
+  ]
+}
