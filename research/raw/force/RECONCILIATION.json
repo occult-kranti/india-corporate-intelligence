@@ -930,6 +930,38 @@
    "file": "state-police.json",
    "id": "state-police:c001, state-police:c002, state-police:c003, state-police:c004, state-police:c005, state-police:c006, state-police:c007, state-police:c008, state-police:c009, state-police:c010, state-police:c011, state-police:c012, state-police:c013, state-police:c014, state-police:c015, state-police:c016, state-police:c017, state-police:c018, state-police:c019, state-police:c020, state-police:c025, state-police:c026, state-police:c027, state-police:c028, state-police:c029",
    "fix": "a removed: the values were ₹ per capita (c001–c020, c025), counts of deaths/cases (c026–c028) or police per lakh (c029), not ₹ crore — pages sum `a` as ₹ crore; every figure stays in d"
+  },
+  {
+   "domain": "literature",
+   "id": "force:lit-cag-report-4-2007",
+   "field": "entities[18].d[1]",
+   "from": "the fleet's CPPP slice separately shows single bidding varies by buyer class (works 0.1% vs services' HQs 40%+) [analytic]",
+   "to": "the published CPPP security slice, a different population (open-market CPPP awards, not capital acquisition; dataset-only: all 40 verification links were dead (security.json → caveat)), shows single bidding varies by buyer class: works (MES and BRO) 0.42% [0.40, 0.45] of n 280,492 (rates.byClass[class=works]) and the services' headquarters and stores buyers 12.87% [12.58, 13.18] of n 48,645 (rates.byClass[class=stores]), beside 17.67% for the whole file on the same (central) portal (n 1,087,967) and 11.22% for the whole file (n 3,019,420); innocent readings (classes.definitions): works, \"Works tenders (buildings, roads, repairs) draw many local contractors, so this class's low single-bidder rate is a works rate, not a defence rate; its size dominates the slice.\"; stores, \"Headquarters stores buyers purchase rations, medical stores, spares and equipment; spares are often proprietary or from an approved or OEM source, where one bid is what the procedure expects; a single bid on a proprietary spare is the rule working, not failing.\"; the figures earlier carried here were the first-cut probe in docs/research/force/SPEC.md; superseded by the published slice [analytic]",
+   "source": "research/raw/cppp/security.json → rates.byClass[class=works], rates.byClass[class=stores] (n, singleBidderPct, wilson95, wholeFileSamePortal, wholeFile), classes.definitions.works.innocentReading, classes.definitions.stores.innocentReading, caveat"
+  },
+  {
+   "domain": "literature",
+   "id": "literature:c016",
+   "field": "claims[15].d",
+   "from": "The fleet's CPPP slice (works 0.1% single-bid; services' HQs 40%+) is the modern, different-universe comparison.",
+   "to": "The modern, different-universe comparison is the published CPPP security slice (research/raw/cppp/security.json; dataset-only: all 40 verification links were dead (security.json → caveat)), read by buyer class: works (MES and BRO) single-bid at 0.42% [0.40, 0.45] of n 280,492 (rates.byClass[class=works]); the services' headquarters and stores buyers at 12.87% [12.58, 13.18] of n 48,645 (rates.byClass[class=stores]); beside 17.67% for the whole file on the same (central) portal (n 1,087,967) and 11.22% for the whole file (n 3,019,420). Innocent readings (classes.definitions): works, \"Works tenders (buildings, roads, repairs) draw many local contractors, so this class's low single-bidder rate is a works rate, not a defence rate; its size dominates the slice.\" Stores, \"Headquarters stores buyers purchase rations, medical stores, spares and equipment; spares are often proprietary or from an approved or OEM source, where one bid is what the procedure expects; a single bid on a proprietary spare is the rule working, not failing.\" The figures earlier carried here were the first-cut probe in docs/research/force/SPEC.md; superseded by the published slice.",
+   "source": "research/raw/cppp/security.json → rates.byClass[class=works], rates.byClass[class=stores] (n, singleBidderPct, wilson95, wholeFileSamePortal, wholeFile), classes.definitions.works.innocentReading, classes.definitions.stores.innocentReading, caveat"
+  },
+  {
+   "domain": "literature",
+   "id": "literature:narrative:11",
+   "field": "narratives[11].strongestCase",
+   "from": "the fleet's CPPP slice shows services' headquarters buying with 40%+ single bids.",
+   "to": "in the published CPPP security slice (a different population: open-market CPPP awards, not capital acquisition; dataset-only: all 40 verification links were dead (security.json → caveat)) the services' headquarters and stores buyers single-bid at 12.87% [12.58, 13.18] of n 48,645, above the whole-file 11.22% (n 3,019,420) and below the same-portal 17.67% (n 1,087,967) (security.json → rates.byClass[class=stores]); innocent reading (classes.definitions.stores.innocentReading): \"Headquarters stores buyers purchase rations, medical stores, spares and equipment; spares are often proprietary or from an approved or OEM source, where one bid is what the procedure expects; a single bid on a proprietary spare is the rule working, not failing.\" The services'-headquarters figure earlier carried here was the first-cut probe in docs/research/force/SPEC.md; superseded by the published slice.",
+   "source": "research/raw/cppp/security.json → rates.byClass[class=stores] (n, singleBidderPct, wilson95, wholeFileSamePortal, wholeFile), classes.definitions.stores.innocentReading, caveat"
+  },
+  {
+   "domain": "literature",
+   "id": "literature:narrative:11",
+   "field": "narratives[11].strongestCounter",
+   "from": "the works branch (79% of the security slice) single-bids at 0.1%;",
+   "to": "in the published CPPP security slice the works class (MES and BRO; MES alone is 74.41% of the slice's 411,943 award decisions (security.json → readMeFirst)) single-bids at 0.42% [0.40, 0.45] of n 280,492, beside 17.67% for the whole file on the same (central) portal (n 1,087,967) and 11.22% for the whole file (n 3,019,420) (security.json → rates.byClass[class=works]; innocent reading, classes.definitions.works.innocentReading: \"Works tenders (buildings, roads, repairs) draw many local contractors, so this class's low single-bidder rate is a works rate, not a defence rate; its size dominates the slice.\"); the whole slice is 3.17% [3.11, 3.22] of n 365,600 (rates.total) and 12.2% [11.98, 12.42] of n 85,108 without works (rates.excludingWorks), against 11.22% of n 3,019,420 for the whole file (rates.total.wholeFile); dataset-only: all 40 verification links were dead (security.json → caveat); the works share and rate earlier carried here were the first-cut probe in docs/research/force/SPEC.md; superseded by the published slice;",
+   "source": "research/raw/cppp/security.json → readMeFirst, rates.byClass[class=works] (n, singleBidderPct, wilson95, wholeFileSamePortal, wholeFile), rates.total, rates.excludingWorks, classes.definitions.works.innocentReading, caveat"
   }
  ],
  "criticItems": [
