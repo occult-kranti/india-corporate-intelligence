@@ -216,7 +216,7 @@ const MODES = [
     ['money-people:narrative:0', 'money-people:narrative:1', 'money-people:narrative:6', 'literature:narrative:7', 'literature:narrative:10', 'literature:narrative:14'],
     'Each fact keeps its tier; the join is analytic with an innocent reading, or it is a narrative on the ladder.'],
   ['The control or the comparator dissolves the headline, or the counter itself is wrong',
-    ['money-people:c021', 'money-people:c022', 'pay-pensions:c023', 'pay-pensions:c026', 'literature:c026', 'literature:narrative:0', 'literature:narrative:6', 'union-defence:narrative:0', 'union-defence:narrative:2', 'state-police:narrative:0', 'state-police:narrative:2', 'state-police:c027', 'footprint:narrative:0'],
+    ['money-people:c021', 'money-people:c022', 'pay-pensions:c023', 'pay-pensions:c026', 'literature:c026', 'literature:narrative:0', 'literature:narrative:6', 'literature:narrative:11', 'union-defence:narrative:0', 'union-defence:narrative:2', 'state-police:narrative:0', 'state-police:narrative:2', 'state-police:c027', 'footprint:narrative:0'],
     'Run the like-for-like control (same size, same years, same series) before the headline; run the narrative\'s own falsifier first.'],
 ];
 {

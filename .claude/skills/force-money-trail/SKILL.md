@@ -5,7 +5,7 @@ description: Use when extending the force-finance map — adding or checking a U
 
 # Force money trail
 
-What the eight-domain `force` fleet (`research/raw/force/*.json`, asOf 2026-10-04, corrected to 2026-10-06, run `run-ffce1d437c30`) and the CPPP security slice (`research/raw/cppp/security.json`) established, so the next pass starts from it. Every figure names the file it came from; the primary is in that file's `srcs`.
+What the eight-domain `force` fleet (`research/raw/force/*.json`, asOf 2026-10-04, corrected to 2026-10-06, run `run-96e7211bfc4e`) and the CPPP security slice (`research/raw/cppp/security.json`) established, so the next pass starts from it. Every figure names the file it came from; the primary is in that file's `srcs`.
 
 ## Refuse first
 

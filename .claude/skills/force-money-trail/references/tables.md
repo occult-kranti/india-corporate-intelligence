@@ -1,6 +1,6 @@
 # Force fleet — the working tables
 
-The tables `SKILL.md` points to: ids, predicates and series, denominators, controls, symmetry, voids, sources, the ladder, failure modes and disagreements. They describe the eight-domain `force` fleet (`research/raw/force/*.json`, asOf 2026-10-04, corrected to 2026-10-06, assembled as run `run-ffce1d437c30`) and the CPPP security slice (`research/raw/cppp/security.json`). Every figure names the file it came from; the primary is in that file's `srcs`. Read `SKILL.md` first: its refusals bind every row here.
+The tables `SKILL.md` points to: ids, predicates and series, denominators, controls, symmetry, voids, sources, the ladder, failure modes and disagreements. They describe the eight-domain `force` fleet (`research/raw/force/*.json`, asOf 2026-10-04, corrected to 2026-10-06, assembled as run `run-96e7211bfc4e`) and the CPPP security slice (`research/raw/cppp/security.json`). Every figure names the file it came from; the primary is in that file's `srcs`. Read `SKILL.md` first: its refusals bind every row here.
 
 **Records audited late (the brief's pending set).** The brief that commissioned this skill listed eleven records as pending cross-examination: `money-people:c095`, `c096`, `c097`, `c098`, `c100`, `c101`, `c102`; `union-defence:c047`; `procurement-industry:c066`; `literature` narratives 15 and 16. Their state when this file was generated: 11 of 11 settled (verdict in AUDIT.json, outcome in RECONCILIATION.json): 10 hold, 1 refuted (`literature:narrative:15` → alleged, correction applied). A record whose state reads *pending* is never cited as established; a settled one is cited only from a `FORCE_META` run that postdates its correction (`ledger.md` §12).
 
@@ -172,7 +172,7 @@ Status is the file's after the 2026-10-06 correction pass; the verdict is the cr
 | | Make in India has not reduced imports | procurement-industry · 2 | contested | holds; recommends analytic |
 | | India is the largest importer, so Make in India failed | literature · 12 | contested | holds; recommends analytic |
 | | DPSUs are protected from competition | procurement-industry · 3 | contested | holds; recommends analytic |
-| | Procurement is rigged through single-vendor tenders | literature · 11 | contested | holds; recommends analytic |
+| | Procurement is rigged through single-vendor tenders | literature · 11 | contested | refuted; recommends analytic |
 | | Cantonments are abolished to hand land to builders | footprint · 0 | speculative | refuted; recommends analytic |
 | people | Vendors bought bonds to win orders | money-people · 0 | unsupported | refuted; recommends analytic |
 | | Retired chiefs get board seats as reward or for access | money-people · 1 | unsupported | refuted; recommends analytic |
@@ -199,7 +199,7 @@ Status is the file's after the 2026-10-06 correction pass; the verdict is the cr
 | | The Government used Pegasus on Indian citizens | money-people · 8 | contested | holds; recommends alleged |
 | | Pegasus was used on the opposition, journalists and SC staff | literature · 3 | contested | holds; recommends alleged |
 
-Counts: 46 narratives — contested 35, unsupported 7, speculative 2, well-supported 2; none established, none debunked. The cross-examiner refuted the earlier text of 47 of 214 records in all.
+Counts: 46 narratives — contested 35, unsupported 7, speculative 2, well-supported 2; none established, none debunked. The cross-examiner refuted the earlier text of 48 of 215 records in all.
 
 ## 9. Failure modes seen in this fleet — check before you write
 
