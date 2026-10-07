@@ -7,7 +7,7 @@ import {
   fmtInt, NATIONAL_STATE_RECORDS, UNFILED_STATE_RECORDS, GRANT_SPLIT, countWord, fileOf, FOOTPRINT, GRANT_ROWS, GRANT_FYS, grantStageWord, budgetPass, lensPopulation, crContext, ZERO_WORDS, NO_RESPONSE, fyStart, kindWord, last,
 } from '../../data/securityView';
 import {
-  usePage, QBlock, Caption, Twin, TwinTable, Exports, captionText, Src, Quote, Tx, Lab, TierWord, Roving, Anchor, Denominator, NoMatch, Pager, FOCUS, SkipLink, End, type Row, type Col,
+  usePage, useTp, QBlock, Caption, Twin, TwinTable, Exports, captionText, Src, Quote, Tx, Lab, TierWord, Roving, Anchor, Denominator, NoMatch, Pager, FOCUS, SkipLink, End, type Row, type Col,
 } from './ui';
 import { DemandStack, Q1 } from './Stack';
 import { OfficeLanes, LineLedger, Q2, Q3 } from './Ledger';
@@ -439,11 +439,12 @@ export function CityLedgerTwin() {
 
 function Grants() {
   const { f, filterWords, patch } = usePage();
+  const tp = useTp();
   if (EMPTY) return <p data-page-copy="" className="text-[14px]">{NOTHING}</p>;
   if (!BUDGETS.length) return <p data-page-copy="" className="text-[14px]">{NO_BUDGET_ROWS}</p>;
   const shown = GRANT_ROWS.filter((r) => budgetPass(f, r));
   const pages = Math.max(1, Math.ceil(shown.length / 400));
-  const page = Math.min(f.tp, pages);
+  const page = Math.min(tp, pages);
   const slice = shown.slice((page - 1) * 400, page * 400);
   const rows: Row[] = slice.map((r) => ({
     cells: [<Quote>{r.head}</Quote>, `FY${r.fy}`, grantStageWord(r), r.cr === 0 ? <span data-cr={0}>{`${ZERO_WORDS} — ${crContext(r).denom}`}</span> : <GrantCr r={r} />, rowTier(r), <Src srcs={r.srcs} of={`${r.head.slice(0, 60)} FY${r.fy}`} inline />],

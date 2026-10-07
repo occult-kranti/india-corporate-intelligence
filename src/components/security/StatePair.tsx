@@ -5,7 +5,7 @@ import {
   type Filters, type BudgetRow, type StatePair as Pair, type SpendMetric, UNITS, stateName, STATE_SERIES, STATE_PAIRS, STATE_ROWS, STATE_SERIES_HEAD, GSDP_FY, gsdpOf,
   stateSpend, gsdpShare, vacancyPct, SPEND_BINS, binOf, STRENGTH_ST, STRENGTH_YEARS, stateStrength, STRENGTH_BINS, isDerivedStrength, derivedSentence, pairDrawable, budgetPass, rowTier,
   fmtInt, fmtCr, round2, median, FOOTPRINT, COMMISSIONERATES, EMPTY, NOTHING, ASOF, fyStart, } from '../../data/securityView';
-import { usePage, Caption, Twin, TwinTable, Exports, captionText, Cr, Src, FOCUS, type Row, type Col } from './ui';
+import { usePage, Caption, Twin, TwinTable, Exports, captionText, Cr, Src, FOCUS, SkipLink, type Row, type Col } from './ui';
 
 /**
  * The state maps (§5.1.6) and the map primitive the footprint lens shares. A map is a
@@ -320,6 +320,7 @@ export function StatePair() {
       <div className="grid lg:grid-cols-2 gap-x-6 gap-y-4 items-start">
         <figure className="m-0 min-w-0" aria-labelledby="sec-b6-spend-title" aria-describedby="sec-c7">
           <h4 id="sec-b6-spend-title" className="text-[14px] font-semibold text-text m-0 mb-1">Police spending by state</h4>
+          <SkipLink twin="spend-map" title="Police spending by state" />
           <UnitMap id="sec-map-spend" label={`Police spending by state, ${sp.m === 'cr' ? '₹ crore as published' : 'as a share of GSDP'}: 36 states and union territories, north to south`} describedBy="sec-c7"
             opts={spendOpts} selected={f.st} onPick={pick} frame={FRAME_DASH[spendTier]} onHover={setHoverL} narrow={narrow} />
           {!noState && <DotStrip items={UNITS.filter((st) => sp.units.get(st)!.cls === 'value').map((st) => ({ st, v: sp.units.get(st)!.value! }))} lo={sp.edges[0]} hi={sp.edges[sp.edges.length - 1]} med={sp.med} unit={unitWord(sp.m)} />}
@@ -340,6 +341,7 @@ export function StatePair() {
         </figure>
         <figure className="m-0 min-w-0" aria-labelledby="sec-b6-strength-title" aria-describedby="sec-c7">
           <h4 id="sec-b6-strength-title" className="text-[14px] font-semibold text-text m-0 mb-1">Police strength by state</h4>
+          <SkipLink twin="strength-map" title="Police strength by state" />
           <UnitMap id="sec-map-strength" label="Police strength by state, per lakh people as printed: 36 states and union territories, north to south" describedBy="sec-c7"
             opts={strOpts} selected={f.st} onPick={pick} frame={FRAME_DASH[strTier]} onHover={setHoverR} narrow={narrow} />
           {strValues.length > 0 && <DotStrip items={UNITS.filter((st) => strength.get(st)!.cls === 'value').map((st) => ({ st, v: strength.get(st)!.perLakh! }))} lo={STRENGTH_BINS[0]} hi={STRENGTH_BINS[STRENGTH_BINS.length - 1]} med={strMed} unit=" per lakh" />}

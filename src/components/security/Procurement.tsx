@@ -75,15 +75,12 @@ function Contents({ slice }: { slice: SecurityFile | null | undefined }) {
 
 /** A chapter's opening block: the research's symmetry text verbatim, before any table or graphic. */
 function ChapterHead({ domain }: { domain: string }) {
-  const { narrow } = usePage();
   const sym = symmetryOf(domain);
   const head = `The same lens, run on the other side — ${domain} research file`;
   const text = sym ? <Quote as="p" className="text-[14px] text-text-secondary mt-1 mb-0">{sym}</Quote> : <p className="text-[14px] text-amber mt-1 mb-0">{CONTROL_EMPTY}</p>;
-  const h = <h4 tabIndex={-1} className={`text-[14px] font-semibold text-text m-0 ${TARGET} ${narrow ? 'inline' : ''}`}>{head}</h4>;
-  // Below 640px a chapter's symmetry text sits behind its own heading, first in the chapter;
-  // the cases chapter keeps its text open, because its control pairs are read against it (AC-152).
-  if (narrow && sym && domain !== 'literature') return <details className="border border-border-light rounded px-3 my-2"><summary className={`cursor-pointer py-2 ${FOCUS}`}>{h}</summary>{text}</details>;
-  return <div className="border border-border-light rounded p-3 my-2">{h}{text}</div>;
+  // Open at every width: each chapter begins with its symmetry text verbatim, at body size, before
+  // any table or graphic (§5.3.0, UD39 "always visible"); it is never behind a disclosure.
+  return <div className="border border-border-light rounded p-3 my-2"><h4 tabIndex={-1} className={`text-[14px] font-semibold text-text m-0 ${TARGET}`}>{head}</h4>{text}</div>;
 }
 
 // ---------------------------------------------------------------------------
@@ -636,7 +633,8 @@ function Chapter4() {
   const span = narrow ? 12 : y1 - y0 + 1;
   const from = narrow ? Math.max(y0, Math.min(y1 - span + 1, y0 + win)) : y0;
   const to = from + span - 1;
-  const W = 640, L = 110, R = 40, laneH = 18;
+  // Ticks are 20 units long so each tier's dash shows at least one full period (A11Y-006 m9).
+  const W = 640, L = 110, R = 40, laneH = 26;
   const xOf = (d: string | null | undefined) => (d ? L + ((Number(d.slice(0, 4)) + (d.length >= 7 ? (Number(d.slice(5, 7)) - 1) / 12 : 0.5) - from) / (to - from + 1)) * (W - L - R) : W - R + 14);
   const inWin = (d: string | null | undefined) => !narrow || !d || (Number(d.slice(0, 4)) >= from && Number(d.slice(0, 4)) <= to);
   const timelineRows: Row[] = marks.map((m) => ({
@@ -656,16 +654,16 @@ function Chapter4() {
         <svg aria-hidden="true" viewBox={`0 0 ${W} ${PAIR_ORDER.length * laneH + 24}`} className="block w-full h-auto">
           {PAIR_ORDER.map((c, i) => (
             <g key={c}>
-              <text x="2" y={i * laneH + 13} fontSize="12" fill="var(--color-text-secondary)">{labelOf(c).replace(/^Case: /, '').slice(0, 16)}</text>
-              <line x1={L} x2={W - R} y1={i * laneH + 9} y2={i * laneH + 9} stroke="var(--color-border)" />
+              <text x="2" y={i * laneH + 17} fontSize="12" fill="var(--color-text-secondary)">{labelOf(c).replace(/^Case: /, '').slice(0, 16)}</text>
+              <line x1={L} x2={W - R} y1={i * laneH + 13} y2={i * laneH + 13} stroke="var(--color-border)" />
             </g>
           ))}
           {marks.filter((m) => inWin(m.e.from)).map((m, i) => {
             const lane = PAIR_ORDER.indexOf(m.c);
             const x = xOf(m.e.from);
             return m.response
-              ? <circle key={`r${i}`} data-mark="response" cx={x} cy={lane * laneH + 9} r="3.6" fill="none" stroke="var(--color-rose)" strokeWidth="1.6" strokeDasharray={DASH[m.e.tier]} />
-              : <line key={`c${i}`} data-mark="case" x1={x} x2={x} y1={lane * laneH + 3} y2={lane * laneH + 15} stroke="var(--color-text)" strokeWidth="2" strokeDasharray={DASH[m.e.tier]} />;
+              ? <circle key={`r${i}`} data-mark="response" cx={x} cy={lane * laneH + 13} r="3.6" fill="none" stroke="var(--color-rose)" strokeWidth="1.6" strokeDasharray={DASH[m.e.tier]} />
+              : <line key={`c${i}`} data-mark="case" x1={x} x2={x} y1={lane * laneH + 3} y2={lane * laneH + 23} stroke="var(--color-text)" strokeWidth="2" strokeDasharray={DASH[m.e.tier]} />;
           })}
           <text x={L} y={PAIR_ORDER.length * laneH + 18} fontSize="12" fill="var(--color-text-muted)">{from}</text>
           <text x={W - R} y={PAIR_ORDER.length * laneH + 18} fontSize="12" textAnchor="end" fill="var(--color-text-muted)">{to}</text>

@@ -557,7 +557,7 @@ export function rowCitation(r: BudgetRow, href: string): string {
   const c = crContext(r);
   const lakh = lakhLine(r);
   return [
-    labelOf(r.body), r.head, `₹${fmtCr(r.cr)} cr (${r.stage}, FY${r.fy})`, ...(lakh ? [lakh] : []), c.denom, c.compare, rowTier(r), r.note ?? 'no note',
+    labelOf(r.body), r.head, `${r.cr === 0 ? ZERO_WORDS : `₹${fmtCr(r.cr)} cr`} (${r.stage}, FY${r.fy})`, ...(lakh ? [lakh] : []), c.denom, c.compare, rowTier(r), r.note ?? 'no note',
     ...(r.srcs.length ? r.srcs.map(([l, u]) => `${l} ${u}`) : ['no source in file']),
     `ICIP ${href}, read to ${ASOF}`,
   ].join(' — ');

@@ -2,6 +2,7 @@ import { createContext, memo, useCallback, useContext, useEffect, useId, useRef,
 import { flushSync } from 'react-dom';
 import { TIERS, type Source, type Tier } from '../../graph/schema';
 import type { StateCode } from '../../graph/schema';
+import * as FORCE from '../../graph/force.generated';
 import { type Filters, type BudgetRow, type TsvMeta, tsv, tsvName, hostOf, crContext, fmtCr, lakhLine, rowTier, ASOF, firstSource, ZERO_WORDS, fmtInt, labelOf, quotedCr, quotedRow } from '../../data/securityView';
 
 /**
@@ -41,6 +42,22 @@ export interface PageCtx {
   reset: () => void;
 }
 export const Page = createContext<PageCtx>(null as unknown as PageCtx);
+/**
+ * The page number of the paged twins (`tp`), in a context of its own: a page press re-renders
+ * only the paged twins and their pagers, never the rest of the page, whose `f` stays the same
+ * object (AC-52, AC-93).
+ */
+const TpCtx = createContext(1);
+const NoTp = createContext(1);
+export const TpProvider = TpCtx.Provider;
+export const useTp = () => useContext(TpCtx);
+/**
+ * A page opened under Table view opens every twin at once: about 5,000 rows on Budgets, several
+ * seconds of layout. The page first draws without the twins' rows (each twin open, its summary
+ * naming its row count), and the rows follow in the next task, all at once, so the page is on
+ * screen at once and no reader or check ever sees half the tables (AC-52, AC-92, AC-93).
+ */
+export const TablesReady = createContext(true);
 export const usePage = () => useContext(Page);
 
 const NARROW = '(max-width: 639px)';
@@ -108,14 +125,40 @@ export function Dash({ tier, w = 22 }: { tier: Tier; w?: number }) {
  * records citing one document never give two same-named links in one list. The title is
  * never copied into an aria-label: it is the publisher's wording, not the page's.
  */
+/**
+ * Source titles the register gives to more than one document (same title, different URL). Inline
+ * links with such a title carry a name that tells them apart — the title as printed first, then the
+ * host and what the source is for — because two of them can sit in one toolbar (A11Y-006 m4).
+ */
+const SHARED_TITLES: ReadonlySet<string> = (() => {
+  const urls = new Map<string, Set<string>>();
+  const walk = (o: unknown): void => {
+    if (Array.isArray(o)) {
+      if (o.length === 2 && typeof o[0] === 'string' && typeof o[1] === 'string' && /^https?:\/\//.test(o[1])) {
+        const set = urls.get(o[0]) ?? new Set<string>();
+        set.add(o[1]);
+        urls.set(o[0], set);
+      } else for (const x of o) walk(x);
+    } else if (o && typeof o === 'object') for (const v of Object.values(o)) walk(v);
+  };
+  walk(FORCE);
+  return new Set([...urls].filter(([, u]) => u.size > 1).map(([l]) => l));
+})();
 export function Src({ srcs, of, inline, declared, record }: { srcs: Source[] | [string, string][] | null | undefined; of: string; inline?: boolean; declared?: readonly (number | null | undefined)[]; record?: { s: string } | null }) {
   if (!srcs || !srcs.length) return <span className="font-mono text-[12px] text-amber">no source in file</span>;
   const list = (srcs as [string, string][]).filter(([, u], i, a) => a.findIndex((x) => x[1] === u) === i);
-  const link = (label: string, url: string) => <QuotedLink label={label} url={url} declared={declared} record={record} className={`sec-link underline underline-offset-2 decoration-border-light hover:text-accent break-words ${FOCUS}`} />;
+  const link = (label: string, url: string, name?: string) => <QuotedLink label={label} url={url} declared={declared} record={record} name={name} className={`sec-link underline underline-offset-2 decoration-border-light hover:text-accent break-words ${FOCUS}`} />;
   if (inline) {
+    // Two links of one title in one list, or a title the register gives to several documents, are
+    // told apart in the name, which starts with the visible title (A11Y-006 m4); a name that would
+    // carry a ₹ is not set, so a quoted figure keeps its note and no aria-label holds a ₹ (AC-47).
+    const twice = new Set(list.map(([l]) => l).filter((l, i, a) => a.indexOf(l) !== i));
     return (
       <ul className="inline list-none p-0 m-0 text-[12.5px] leading-snug" data-quoted="" data-sources-for={of.slice(0, 80)}>
-        {list.map(([label, url], i) => <li key={url} className="inline">{i > 0 ? ' · ' : ''}{link(label, url)}</li>)}
+        {list.map(([label, url], i) => {
+          const name = twice.has(label) || SHARED_TITLES.has(label) ? `${label} (${hostOf(url)}, for ${of})` : undefined;
+          return <li key={url} className="inline">{i > 0 ? ' · ' : ''}{link(label, url, name && !name.includes('₹') ? name : undefined)}</li>;
+        })}
       </ul>
     );
   }
@@ -147,11 +190,13 @@ const PENSION_PCT = /[Pp]ension[^.;]*?\d[\d.]*%/;
  */
 export const QUOTED_CR_NOTE = " (₹ in the research's own words: no denominator published for this line on this page; previous year not applicable)";
 /** A source link, its label verbatim; a label that prints a ₹ figure carries the quoted-figure hook and note. */
-export function QuotedLink({ label, url, declared, record, className }: { label: string; url: string; declared?: readonly (number | null | undefined)[]; record?: { s: string } | null; className: string }) {
+/** The one description every source link points at: it opens a new tab (A11Y-006 m5, G201). */
+export const NEW_TAB_ID = 'sec-newtab';
+export function QuotedLink({ label, url, declared, record, className, name }: { label: string; url: string; declared?: readonly (number | null | undefined)[]; record?: { s: string } | null; className: string; name?: string }) {
   const row = quotedRow(label, record);
   const fig = row ? row.cr : quotedCr(label, declared);
   return (
-    <a href={url} target="_blank" rel="noopener noreferrer" data-cr={fig ?? undefined} data-quoted={fig != null ? '' : undefined} className={className}>
+    <a href={url} target="_blank" rel="noopener noreferrer" aria-label={fig == null ? name : undefined} aria-describedby={NEW_TAB_ID} data-cr={fig ?? undefined} data-quoted={fig != null ? '' : undefined} className={className}>
       {label}{fig != null && <span className="sr-only">{QUOTED_CR_NOTE}{row ? <RowNote row={row} /> : null}</span>}
     </a>
   );
@@ -217,17 +262,20 @@ export function Reason({ id, children }: { id?: string; children: string }) {
 }
 
 /** One ₹ beside its denominator and its comparison, in the same element (D4). */
-export function Cr({ row, lead, tail }: { row: BudgetRow; lead?: ReactNode; tail?: ReactNode }) {
+export function Cr({ row, lead, tail, block }: { row: BudgetRow; lead?: ReactNode; tail?: ReactNode; block?: boolean }) {
   const c = crContext(row);
   const lakh = lakhLine(row);
+  // `block`: the element holds a whole card row (its head, note, sources and citation), so every ₹
+  // the row prints sits inside the one [data-cr] that carries its denominator and comparison (AC-29).
+  const Tag = block ? 'div' : 'span';
   return (
-    <span data-cr={row.cr} className="sec-cr">
+    <Tag data-cr={row.cr} className="sec-cr">
       {lead}
       <span className="font-mono tabular-nums text-text">{row.cr === 0 ? ZERO_WORDS : `₹${fmtCr(row.cr)} cr`}</span>
       <span className="text-text-secondary">{` — ${c.denom} · ${c.compare}`}</span>
       {lakh && <span className="block font-mono text-[12px] text-text-muted">{lakh}</span>}
       {tail}
-    </span>
+    </Tag>
   );
 }
 /** "read to {asOf} · document: {first source label}" beneath every ₹ in a card (U12). */
@@ -293,12 +341,16 @@ export function Exports({ name, twin, meta, header, rows }: { name: string; twin
  */
 export function Twin({ twin, title, rowCount, children, suffix = '', paged = false }: { twin: string; title: string; rowCount: number; children: () => ReactNode; suffix?: string; paged?: boolean }) {
   const { f } = usePage();
+  // Only a paged twin reads the page number (`paged` never changes for a twin), so a page press
+  // leaves every other twin alone.
+  const tp = useContext(paged ? TpCtx : NoTp);
   // A link that names a page of a paged table (tp > 1) arrives with that table open on that page.
-  const open = f.view === 'table' || (paged && f.tp > 1);
+  const open = f.view === 'table' || (paged && tp > 1);
   const ref = useRef<HTMLDetailsElement>(null);
   const [isOpen, setIsOpen] = useState(open);
   const [shown, setShown] = useState(open);
   useEffect(() => { setIsOpen(open); if (open) setShown(true); }, [open]);
+  const ready = useContext(TablesReady);
   useEffect(() => {
     const d = ref.current;
     if (!d) return;
@@ -310,7 +362,7 @@ export function Twin({ twin, title, rowCount, children, suffix = '', paged = fal
     <details ref={ref} data-twin={twin} id={`twin-${twin}`} open={isOpen} onToggle={() => { const o = !!ref.current?.open; setIsOpen(o); if (o) setShown(true); }} className="mt-3 min-w-0">
       {/* The rows render inside the click itself, before the browser opens the details, so an opened twin is never empty. */}
       <summary onClick={() => { if (!shown) flushSync(() => setShown(true)); }} className={`cursor-pointer text-[13.5px] text-text-secondary hover:text-text ${FOCUS}`}>{`${title} as a table · ${rowCount} rows${suffix}`}</summary>
-      <div className="mt-2 min-w-0">{shown || isOpen ? children() : null}</div>
+      <div className="mt-2 min-w-0">{(shown || isOpen) && ready ? children() : null}</div>
     </details>
   );
 }

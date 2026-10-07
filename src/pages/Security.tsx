@@ -7,7 +7,7 @@ import {
   type Lens, parseFilters, PAGE_PARAMS, LENS_LABEL, EMPTY, BUDGETS, FOOTPRINT, EDGE_BY_ID, VENDOR_SET, parseCell, labelOf, stateName,
   DEFAULT_STAGE, lensPopulation,
 } from '../data/securityView';
-import { Page, useNarrow, useWide, FOCUS, TARGET, openTwinAndFocus, reveal, type PageCtx } from '../components/security/ui';
+import { Page, TpProvider, TablesReady, useNarrow, useWide, FOCUS, TARGET, openTwinAndFocus, reveal, NEW_TAB_ID, type PageCtx } from '../components/security/ui';
 import {
   Head, EmptyCallout, Resolution, Strip, ReconLine, ActiveFilters, Notices, LensTabs, Find, FilterRail, ReadingKey, ControlCard, filterTerms,
 } from '../components/security/Chrome';
@@ -83,7 +83,19 @@ export default function Security() {
   const [key, setKey] = useState(routerKey);
   useEffect(() => { setKey(routerKey); }, [routerKey]);
   const params = useMemo(() => new URLSearchParams(key), [key]);
-  const f = useMemo(() => parseFilters(params), [params]);
+  const parsed = useMemo(() => parseFilters(params), [params]);
+  // A page press (`tp`) changes only the paged twins, which read it from its own context (useTp):
+  // the rest of the page keeps the same `f` and is not drawn again (AC-52, AC-93).
+  const restKey = useMemo(() => { const p = new URLSearchParams(key); p.delete('tp'); return `${p.toString()}|${parsed.unknown.includes('tp')}`; }, [key, parsed]);
+  const f = useMemo(() => parsed, [restKey]); // eslint-disable-line react-hooks/exhaustive-deps
+  // Opened under Table view, the page draws first and the twins' rows one task later (TablesReady).
+  const [tablesReady, setTablesReady] = useState(() => parsed.view !== 'table');
+  useEffect(() => {
+    if (tablesReady) return;
+    let t = 0;
+    const r = requestAnimationFrame(() => { t = window.setTimeout(() => setTablesReady(true), 0); });
+    return () => { cancelAnimationFrame(r); window.clearTimeout(t); };
+  }, [tablesReady]);
   const lens = f.lens;
 
   const [slice, setSlice] = useState<SecurityFile | null | undefined>(undefined);
@@ -246,18 +258,6 @@ export default function Security() {
 
   const filterWords = filterTerms(f).join(' · ');
 
-  // At ≥ 1280px the open panel sits in the margin as a layer of its own, first in the
-  // document's reading order: Close is the first stop after its heading, and no heading on
-  // the page shares an ancestor with it (§5.0.5).
-  const [layer, setLayer] = useState<HTMLElement | null>(null);
-  useEffect(() => {
-    const el = document.createElement('div');
-    el.setAttribute('data-sec-layer', '');
-    document.body.prepend(el);
-    setLayer(el);
-    return () => { el.remove(); };
-  }, []);
-
   // At ≥ 1280px the open panel is fixed over the margin. Its height is measured so the margin's
   // own controls (rail, key, control card) stick beneath it, in view, instead of taking focus
   // underneath it (A11Y-006 S3).
@@ -272,9 +272,11 @@ export default function Security() {
     layerObs.current.observe(el);
     measure();
   }, []);
-  // The layer sits outside <main> (§5.0.5), so it is joined to the page's tab order by hand:
-  // Shift+Tab from its first stop returns to the control that opened it, and Tab from its last
-  // stop continues with the control after the opener, as if the panel followed it in the page.
+  // At ≥ 1280px the panel is the first block of the page's <article>, inside <main> (A11Y-006 S3):
+  // first in the document's reading order (§5.0.5), drawn fixed over the head of the margin. Its
+  // keyboard order follows its opener: Shift+Tab from its first stop returns to the control that
+  // opened it, and Tab from its last stop continues with the control after the opener, as if the
+  // panel followed it in the page.
   const tabbablesIn = (root: ParentNode) => [...root.querySelectorAll<HTMLElement>('a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea, summary, [tabindex]')]
     .filter((e) => e.tabIndex >= 0 && e.getClientRects().length > 0 && !e.closest('details:not([open]) > :not(summary)'));
   const onLayerKey = (e: React.KeyboardEvent<HTMLDivElement>) => {
@@ -311,14 +313,17 @@ export default function Security() {
   else if (f.st && lens !== 'procurement') kind = 'st';
   const origin: Record<PanelKind, string> = { rec: 'the record list', cell: 'the ledger', fy: 'the chart', vendor: 'the vendor grid', case: 'the pair row', body: 'the ledger', st: 'the map' };
   const panelProps = (k: PanelKind) => ({ headingRef: panelH2, onClose: () => closePanel(k), origin: origin[k] });
-  const panel: ReactNode = kind === 'rec' ? <RecordCard key={`rec-${f.rec}`} id={f.rec!} {...panelProps('rec')} />
+  // Built once per panel state, so the page context (which carries `inlinePanel`) keeps its identity
+  // across renders that change nothing a component reads.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const panel: ReactNode = useMemo(() => kind === 'rec' ? <RecordCard key={`rec-${f.rec}`} id={f.rec!} {...panelProps('rec')} />
     : kind === 'cell' ? <CellCard key={`cell-${f.cell}`} param={f.cell!} {...panelProps('cell')} />
       : kind === 'fy' ? <FYReadout key={`fy-${fyOpen}`} fy={fyOpen!} stage={f.stage} {...panelProps('fy')} />
         : kind === 'vendor' ? <VendorCard key={`v-${f.vendor}`} id={f.vendor!} {...panelProps('vendor')} />
           : kind === 'case' ? <CaseCard key={`c-${f.case}`} id={f.case!} {...panelProps('case')} />
             : kind === 'body' ? <BodyCard key={`b-${f.body}`} id={f.body!} {...panelProps('body')} />
               : kind === 'st' ? (lens === 'footprint' ? <FootprintStatePanel key={`fst-${f.st}`} st={f.st!} {...panelProps('st')} /> : <StatePanel key={`st-${f.st}`} st={f.st!} {...panelProps('st')} />)
-                : null;
+                : null, [kind, f, fyOpen, lens, closePanel]);
   const inlinePanel = useCallback((slot: string) => (!wide && kind && SLOT[kind] === slot ? panel : null), [wide, kind, panel]);
 
   const extra: string[] = [];
@@ -336,9 +341,20 @@ export default function Security() {
     </p>
   ) : null;
 
-  const lensBody = lens === 'budgets'
+  // The lens and the sections under it are the same elements until something they read changes,
+  // so a render of this component for a page press or an announcement does not redraw them.
+  const lensBody = useMemo(() => (lens === 'budgets'
     ? <BudgetsLens slice={slice} fyCurrent={fyCurrent} setFyCurrent={setFyCurrent} />
-    : lens === 'footprint' ? <FootprintLens /> : <ProcurementLens slice={slice} />;
+    : lens === 'footprint' ? <FootprintLens /> : <ProcurementLens slice={slice} />), [lens, slice, fyCurrent]);
+  const sections = useMemo(() => (
+    <>
+      <Connections f={f} />
+      <Contested f={f} />
+      <Gaps />
+      <Refusals slice={slice} />
+      <SourceLedger slice={slice} />
+    </>
+  ), [f, slice]);
 
   const pop = lensPopulation(f);
   const noMatch = !EMPTY && pop.k === 0 && pop.n > 0;
@@ -346,11 +362,17 @@ export default function Security() {
 
   return (
     <Page.Provider value={ctx}>
+    <TpProvider value={parsed.tp}>
+    <TablesReady.Provider value={tablesReady}>
       <article className={`pb-20 sec-page${f.view === 'table' ? ' sec-tables' : ''}`}>
         {/* The page's styles live in <head>, not in <main>: a stylesheet is not page text (AC-144). */}
         {createPortal(<style data-security-page="">{PAGE_CSS}</style>, document.head)}
         <Head slice={slice} wideHead={!narrow} />
         {EMPTY && <EmptyCallout />}
+        {/* After the page's h1 and before any h2 of the page: the panel is first in reading order. */}
+        {wide && panel && (
+          <div ref={layerBox} data-sec-layer="" role="region" aria-label="Open panel" onKeyDown={onLayerKey} className="fixed right-4 top-16 z-40 w-[23rem] max-h-[60vh] overflow-y-auto bg-bg shadow-xl rounded-md">{panel}</div>
+        )}
         <Resolution />
         <div data-pinned-stack="" className={`sticky ${narrow ? 'top-14' : 'top-0'} z-30 bg-bg border-b border-border py-1.5 space-y-1`}>
           <Strip f={f} narrow={narrow} slice={slice} />
@@ -403,17 +425,12 @@ export default function Security() {
         {!wide && <ControlCard lens={lens} />}
         {!wide && !narrow && <ReadingKey />}
 
-        <Connections f={f} />
-        <Contested f={f} />
-        <Gaps />
-        <Refusals slice={slice} />
-        <SourceLedger slice={slice} />
+        {sections}
         <div aria-live="polite" className="sr-only">{live}</div>
-        {wide && panel && layer && createPortal(
-          <div ref={layerBox} role="region" aria-label="Open panel" onKeyDown={onLayerKey} className="sec-page fixed right-4 top-16 z-40 w-[23rem] max-h-[60vh] overflow-y-auto bg-bg shadow-xl rounded-md">{panel}</div>,
-          layer,
-        )}
+        <span id={NEW_TAB_ID} hidden>opens in a new tab</span>
       </article>
+    </TablesReady.Provider>
+    </TpProvider>
     </Page.Provider>
   );
 }

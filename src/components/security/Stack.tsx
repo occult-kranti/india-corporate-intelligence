@@ -5,7 +5,7 @@ import {
   payBracketAt, agnipathTicks, agnipathLines, POLICE_PAY_TICKS, reconSummary, structureBreaks, fmtCr, fyStart, crContext, rowTier, BAND_WORD, MOD_ALL_DEMANDS, DEFAULT_STAGE, coveredFys,
   budgetPass, EMPTY_WORDS, NO_BUDGET_ROWS, NOTHING, type BandName, last, DEMAND_LEVEL, hostOf, COMP_WORD, prevFy, otherDocument, otherPayWords, pensionSpoken,
 } from '../../data/securityView';
-import { usePage, Caption, Twin, TwinTable, SkipLink, Exports, captionText, FOCUS, type Row, type Col } from './ui';
+import { usePage, Caption, Twin, TwinTable, SkipLink, Exports, captionText, FOCUS, NEW_TAB_ID, type Row, type Col } from './ui';
 import { MovedFacts } from './Chrome';
 
 /**
@@ -137,6 +137,34 @@ export function DemandStack({ fyCurrent, setFyCurrent, slice }: { fyCurrent: str
   const readFy = hover ?? armed;
   const readCol = readFy ? m.cols.find((c) => c.fy === readFy) : null;
 
+  // The words a defence column carries: its "partial" label and, on the latest column, the pension
+  // label. A column the FY or tier filter dims keeps its words at full strength: they are then drawn
+  // over the column from outside it, never under its opacity (A11Y-006 M6).
+  const faded = (c: StackCol) => !c.missing && (!inRange(c.fy) || !seriesTierOn);
+  const colWords = (c: StackCol) => {
+    if (c.missing) return null;
+    const top = c.bands.reduce((s, b) => s + b.row.cr * k, 0);
+    const pensionRow = c.fy === m.latest ? c.rows.find((r) => r.component === 'pension') : undefined;
+    const prev = m.cols.filter((x) => !x.missing && x.fy < c.fy).pop();
+    const prevPension = prev?.rows.find((r) => r.component === 'pension');
+    return (
+      <>
+        {c.partial && <span className="absolute left-0 whitespace-nowrap font-mono text-[11px] text-text-secondary bg-bg/80 px-0.5" style={{ bottom: Math.min(H - 14, top + 2) }}>{`partial: ${c.partial.k} of ${c.partial.n} demands`}</span>}
+        {pensionRow && (
+          <span data-cr={pensionRow.cr} className={`absolute right-0 text-right font-mono text-[12px] leading-tight text-text ${narrow ? 'w-[15rem] whitespace-normal' : 'whitespace-nowrap'}`} style={{ bottom: H + 2 }}>
+            {`pensions ₹${fmtCr(pensionRow.cr)} cr · ${c.pensionWords}`}
+            <br />
+            {prevPension ? `FY${prev!.fy} ${f.stage}: ₹${fmtCr(prevPension.cr)} cr` : `no ${f.stage} pension row for FY${prev?.fy ?? prevFy(c.fy)}`}
+          </span>
+        )}
+      </>
+    );
+  };
+  const nCols = m.cols.length;
+  const fadedWords = m.cols.map((c, i) => (faded(c) && (c.partial || c.fy === m.latest) ? (
+    <div key={`w-${c.fy}`} className="absolute bottom-0 pointer-events-none" style={{ left: `calc((100% - ${(nCols - 1) * 2}px) * ${i} / ${nCols} + ${i * 2}px)`, width: `calc((100% - ${(nCols - 1) * 2}px) / ${nCols})`, height: H }}>{colWords(c)}</div>
+  ) : null));
+
   const column = (c: StackCol, panel: 'defence' | 'police') => {
     const fy = c.fy;
     const dim = !inRange(fy);
@@ -172,13 +200,8 @@ export function DemandStack({ fyCurrent, setFyCurrent, slice }: { fyCurrent: str
       );
     }
     let y = 0;
-    const isLatest = fy === m.latest;
-    const isChosen = fy === current && fy !== m.latest && !narrow ? false : false;
     const pay = payBracketAt(fy, f.stage);
     const agni = agniAt.get(fy) ?? 0;
-    const pensionRow = c.rows.find((r) => r.component === 'pension');
-    const prev = m.cols.filter((x) => !x.missing && x.fy < fy).pop();
-    const prevPension = prev?.rows.find((r) => r.component === 'pension');
     const state = !seriesTierOn ? 'hidden' : c.partial ? 'partial' : 'full';
     return (
       <div key={`d-${fy}`} data-column={fy} data-panel="defence" data-column-state={state} className={`relative flex-1 min-w-0 ${breakSet.has(fy) ? 'border-l border-dotted border-text-muted' : ''}`}
@@ -190,18 +213,11 @@ export function DemandStack({ fyCurrent, setFyCurrent, slice }: { fyCurrent: str
           return el;
         })}
         {c.partial && <div className="absolute left-[1px] right-[1px] sec-hatch" style={{ bottom: y, top: 0 }} />}
-        {c.partial && <span className="absolute left-0 whitespace-nowrap font-mono text-[11px] text-text-secondary bg-bg/80 px-0.5" style={{ bottom: Math.min(H - 14, y + 2) }}>{`partial: ${c.partial.k} of ${c.partial.n} demands`}</span>}
         {c.published && <div data-tick="published" className="absolute -left-[1px] -right-[1px] h-0 border-t-2 border-accent" style={{ bottom: c.published.cr * k }} />}
         {pay.cr != null && <div data-tick="pay" className="absolute right-0 w-[3px] border-r-2 border-t border-b border-text" style={{ bottom: 0, height: Math.max(2, pay.cr * k) }} />}
         {pay.other.map((r) => <div key={r.head} data-tick="other-pay" title={`${r.head}: another document's pay, not in the bracket`} className="absolute right-[5px] w-[6px] h-[6px] -mb-[3px] border border-text-secondary bg-bg" style={{ bottom: r.cr * k }} />)}
         {agni > 0 && <div data-tick="agnipath" className="absolute left-[2px] w-[60%] h-0 border-t-2 border-text" style={{ bottom: agni * k }} />}
-        {(isLatest || isChosen) && pensionRow && (
-          <span data-cr={pensionRow.cr} className={`absolute right-0 text-right font-mono text-[12px] leading-tight text-text ${narrow ? 'w-[15rem] whitespace-normal' : 'whitespace-nowrap'}`} style={{ bottom: H + 2 }}>
-            {`pensions ₹${fmtCr(pensionRow.cr)} cr · ${c.pensionWords}`}
-            <br />
-            {prevPension ? `FY${prev!.fy} ${f.stage}: ₹${fmtCr(prevPension.cr)} cr` : `no ${f.stage} pension row for FY${prev?.fy ?? prevFy(fy)}`}
-          </span>
-        )}
+        {!faded(c) && colWords(c)}
       </div>
     );
   };
@@ -249,7 +265,7 @@ export function DemandStack({ fyCurrent, setFyCurrent, slice }: { fyCurrent: str
                 <p className="font-mono text-[12px] text-text-muted m-0">Defence (the Ministry of Defence&apos;s demands)</p>
                 <div className="flex items-end" style={{ paddingTop: headroom }}>
                   {yAxis('defence scale, ₹ crore')}
-                  <div className="flex flex-1 min-w-0 gap-[2px] border-b border-border-light" style={{ marginRight: narrow ? 0 : 12 }}>{m.cols.map((c) => column(c, 'defence'))}</div>
+                  <div className="relative flex flex-1 min-w-0 gap-[2px] border-b border-border-light" style={{ marginRight: narrow ? 0 : 12 }}>{m.cols.map((c) => column(c, 'defence'))}{fadedWords}</div>
                 </div>
                 {/* The reconciliation marks sit in their own row under the columns, so the FY filter dims the
                     drawing and never these words (A11Y-006 M6). One mark per defence column. */}
@@ -336,7 +352,7 @@ function StackTwin({ m }: { m: StackModel }) {
   // The twin names each source by its host: a document title carries other years in its
   // words ("Expenditure Budget 2026-27" for a 2025-26 row), and a row here is read by its FY
   // cell alone. The full titles are in the ledger, the readout and the TSV.
-  const srcCell = (r: BudgetRow | null | undefined) => (r?.srcs.length ? <ul className="list-none p-0 m-0">{[...new Set(r.srcs.map(([, u]) => u))].map((u, i) => <li key={i}><a href={u} target="_blank" rel="noopener noreferrer" className="underline break-words">{hostOf(u)}</a></li>)}</ul> : <span className="text-amber">no source in file</span>);
+  const srcCell = (r: BudgetRow | null | undefined) => (r?.srcs.length ? <ul className="list-none p-0 m-0">{[...new Set(r.srcs.map(([, u]) => u))].map((u, i) => <li key={i}><a href={u} target="_blank" rel="noopener noreferrer" aria-describedby={NEW_TAB_ID} className="underline break-words">{hostOf(u)}</a></li>)}</ul> : <span className="text-amber">no source in file</span>);
   // Per FY: each panel's published-total row first, then its bands, then the brackets, so a
   // reader scanning a year meets the total before the parts it is checked against.
   const headCell = (h: string) => (DEMAND_LEVEL.test(h) ? h : `line as printed: ${h}`);

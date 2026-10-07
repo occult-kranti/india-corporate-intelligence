@@ -31,6 +31,9 @@ function Shell({ title, headingRef, onClose, origin, children }: PanelProps & { 
   );
 }
 
+/** A share in percent, two decimals at most, as the page prints its computed shares. */
+const share = (a: number, b: number) => Number(((a / b) * 100).toFixed(2));
+
 /** Copy citation: the button and the pasteable text, which stays visible in an <output>. */
 function Citation({ text, label }: { text: string; label: string }) {
   const { announce } = usePage();
@@ -50,12 +53,17 @@ function RowBlock({ r, lead, cellParam }: { r: BudgetRow; lead?: string; cellPar
   const href = absHref(cellParam ? { cell: cellParam } : {});
   return (
     <li className="border-l border-border-light pl-2 min-w-0">
-      <Cr row={r} lead={lead ? `${lead} ` : undefined} />
-      <span className="block text-[13px]">{r.head}</span>
-      <span className="block text-[13px]">{'note: '}{r.note ? <Quote declared={[r.cr]}>{r.note}</Quote> : 'no note'}{' · '}<TierWord tier={rowTier(r)} /></span>
-      <Src srcs={r.srcs} of={`${r.head} ${r.fy} ${r.stage}`} inline declared={[r.cr]} record={{ s: r.body }} />
-      <ReadTo srcs={r.srcs} />
-      <Citation text={rowCitation(r, href)} label={`${r.stage} FY${r.fy}, ${r.head.slice(0, 60)}`} />
+      {/* The row's head, note, sources and citation sit inside its [data-cr], so the citation's ₹ is
+          read with the row's denominator and comparison (AC-29). */}
+      <Cr row={r} lead={lead ? `${lead} ` : undefined} block tail={(
+        <>
+          <span className="block text-[13px]">{r.head}</span>
+          <span className="block text-[13px]">{'note: '}{r.note ? <Quote declared={[r.cr]}>{r.note}</Quote> : 'no note'}{' · '}<TierWord tier={rowTier(r)} /></span>
+          <Src srcs={r.srcs} of={`${r.head} ${r.fy} ${r.stage}`} inline declared={[r.cr]} record={{ s: r.body }} />
+          <ReadTo srcs={r.srcs} />
+          <Citation text={rowCitation(r, href)} label={`${r.stage} FY${r.fy}, ${r.head.slice(0, 60)}`} />
+        </>
+      )} />
     </li>
   );
 }
@@ -91,7 +99,7 @@ export function CellCard({ param, ...p }: PanelProps & { param: string }) {
     <Shell title={`${labelOf(c.lane.body)} — ${c.lane.line} (${c.lane.component}), FY${c.fy}`} {...p}>
       {!rows.length && <p className="m-0">{`no row in this register for FY${c.fy} in this lane`}</p>}
       <ul className="list-none p-0 m-0 space-y-2">{rows.map((r, i) => <RowBlock key={i} r={r} lead={`${r.stage}:`} cellParam={param} />)}</ul>
-      <p className="m-0 font-mono text-[12px] text-text-muted">{`lane max ₹${fmtCr(c.lane.max)} cr (FY${c.lane.maxRow.fy} ${c.lane.maxRow.stage}) — the lane's own scale`}</p>
+      <p className="m-0 font-mono text-[12px] text-text-muted">{`the lane's bars are drawn on its own scale, up to its largest row (FY${c.lane.maxRow.fy} ${c.lane.maxRow.stage}), whose figure is printed at the lane's right in the ledger`}</p>
     </Shell>
   );
 }
@@ -104,13 +112,20 @@ export function FYReadout({ fy, stage, ...p }: PanelProps & { fy: string; stage:
   const pays = pb.rows;
   const pol = policeAt(fy, stage);
   const d = delhiLineAt(fy, stage);
+  const prevStack = col ? defenceStack(stage).filter((x) => x.fy < fy && !x.missing && !x.partial).pop() ?? null : null;
   const lane = (r: BudgetRow) => LANES.find((l) => l.rows.includes(r)) ?? null;
   const cp = (r: BudgetRow) => { const l = lane(r); return l ? `${l.slug}@${r.fy}` : undefined; };
   return (
     <Shell title={`FY${fy} ${stage}: the Union's force demands`} {...p}>
       {!col || col.missing ? <p className="m-0">{`no ${stage} rows recorded for FY${fy}: the column is hatched, not zero`}</p> : (
         <>
-          <p className="m-0 text-text">{`${rows.length} demands; ${col.pension != null ? `pensions ${col.pensionWords}` : 'no pension demand in this year'}; ${col.partial ? 'partial, no sum printed' : `stack ₹${fmtCr(col.sum)} cr, computed here`}`}</p>
+          {col.partial ? (
+            <p className="m-0 text-text">{`${rows.length} demands; ${col.pension != null ? `pensions ${col.pensionWords}` : 'no pension demand in this year'}; partial, no sum printed`}</p>
+          ) : (
+            // The stack's sum is the page's own figure: it carries its basis and the previous year's
+            // full stack in the same element (AC-29), or says no previous year applies.
+            <p className="m-0 text-text" data-cr={col.sum}>{`${rows.length} demands; ${col.pension != null ? `pensions ${col.pensionWords}` : 'no pension demand in this year'}; stack ₹${fmtCr(col.sum)} cr, computed here — ${col.published ? `₹${fmtCr(col.sum)} of ₹${fmtCr(col.published.cr)} cr, ${share(col.sum, col.published.cr)}% of the published all-demands total, computed here` : 'no denominator published for this line: no all-demands total is printed for this FY'} · ${prevStack ? `the latest full stack before it, FY${prevStack.fy} ${stage}: ₹${fmtCr(prevStack.sum)} cr, computed here` : 'previous year not applicable: no full stack the year before'}`}</p>
+          )}
           <ul className="list-none p-0 m-0 space-y-2">{rows.map((r) => <RowBlock key={r.head} r={r} cellParam={cp(r)} />)}</ul>
         </>
       )}
@@ -128,7 +143,9 @@ export function FYReadout({ fy, stage, ...p }: PanelProps & { fy: string; stage:
       {policeDrawn(pol) ? (
         <>
           <ul className="list-none p-0 m-0 space-y-2">{(['revenue', 'capital', 'total'] as const).map((k) => pol![k] ? <RowBlock key={k} r={pol![k]!} lead={`police ${k}:`} /> : null)}</ul>
-          <p className="m-0">{pol!.check !== 'incomplete' && pol!.sum != null ? `police check: revenue + capital, computed here, ${pol!.check === 'equal' ? 'equals' : 'differs from'} the published total (₹${fmtCr(pol!.sum)} cr)` : 'police check: not all three parts are printed for this year'}</p>
+          {pol!.check !== 'incomplete' && pol!.sum != null && pol!.total ? (
+            <p className="m-0" data-cr={pol!.sum}>{`police check: revenue + capital, computed here, ${pol!.check === 'equal' ? 'equals' : 'differs from'} the published total — ₹${fmtCr(pol!.sum)} of ₹${fmtCr(pol!.total.cr)} cr, ${share(pol!.sum, pol!.total.cr)}% of the published Police demand total, computed here · previous year not applicable: a check of one year's parts against its own total`}</p>
+          ) : <p className="m-0">police check: not all three parts are printed for this year</p>}
         </>
       ) : <p className="m-0">{`no police demand rows recorded for FY${fy} ${stage}`}</p>}
       <p className="m-0 font-mono text-[12px] text-text-muted">Delhi Police, inside the Police demand</p>
@@ -151,7 +168,7 @@ export function BodyCard({ id, ...p }: PanelProps & { id: string }) {
     <Shell title={labelOf(id)} {...p}>
       <p className="m-0">{`${rows.length} budget rows in ${lanes.length} lanes, FY${fys[0] ?? 'none'}–FY${fys[fys.length - 1] ?? 'none'}; its lanes are accented in the ledger, and no other lane is removed.`}</p>
       <p className="m-0"><a href="#sec-B3-h" onClick={(e) => { e.preventDefault(); go(); }} className={`underline underline-offset-2 ${FOCUS}`}>{`Go to its ${lanes.length} lanes in the ledger`}</a></p>
-      <ul className="list-none p-0 m-0 text-[13px]">{lanes.map((l) => <li key={l.key}>{`${l.component} — ${l.line} · lane max ₹${fmtCr(l.max)} cr, FY${l.maxRow.fy} ${l.maxRow.stage}`}</li>)}</ul>
+      <ul className="list-none p-0 m-0 text-[13px] space-y-1">{lanes.map((l) => <li key={l.key}><Cr row={l.maxRow} lead={`${l.component} — ${l.line} · lane max, FY${l.maxRow.fy} ${l.maxRow.stage}: `} /></li>)}</ul>
       <p className="m-0"><button type="button" className={`underline underline-offset-2 ${FOCUS}`} onClick={(e) => showConnections(id, e.currentTarget)}>Show connections</button></p>
     </Shell>
   );

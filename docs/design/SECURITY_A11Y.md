@@ -24,12 +24,12 @@ page; findings there are marked "site".*
 | total | **23** | |
 
 **Fix pass, 2026-10-07 (frontend):**
-- Fixed: S1, S2 and S4; M1–M5 and M7; minors m2, m7, m8 and m10.
-- Fixed in part:
-  - S3: the panel is still outside `main`, because the suite's AC-120 helper locates panels by that placement.
-  - M6: the pension label stays inside the stack column that the criteria pin.
-  - Minors m3, m9 and m12.
-- Not fixed: m1 and m4, which suite checks block.
+- Fixed: all four Serious (S1–S4) and all seven Moderate (M1–M7); minors m2, m4, m5, m7, m8, m9,
+  m10 and m12.
+- Fixed in part: m3 (the graph's jump-to input belongs to the shared `GraphExplorer`, which this
+  page does not modify, D45).
+- Not fixed: m1, whose names the suite pins (AC-107 and the per-person check); m6 (site) and m11
+  (advisory), as recorded.
 
 Each finding below carries its mark.
 
@@ -177,7 +177,7 @@ the `<aside data-margin>` it belongs to (Security.tsx:349–357), before the rai
 order after Find, and pushes the rail down instead of covering it. The spec's §5.0.5 wish ("first
 in the document's reading order") is met by placing it first in the aside, not first in `<body>`.
 
-*Fixed 2026-10-07 (in part): the layer is a named region ("Open panel"). Shift+Tab from its heading or first stop returns to the control that opened it (Find when that is gone), and Tab from its last stop continues with the control after the opener in `main`, as if the panel followed it. The margin `<aside>` sticks beneath the open panel (top = the panel's bottom + 12 px, with its own scroll), and the panel is capped at 60vh, so nothing in the margin column is covered. Measured at 1440 with a cell panel open: 0 of 22 rail controls lie under the panel when focused (`elementFromPoint`), and Shift+Tab / Tab from the panel land on the ledger cell and on the next stop after it. Not done: moving the panel into the `<aside>` inside `main`. The suite's AC-120 check finds a panel's `h2` as the first `h2` on the page with an ancestor that holds a `Close`/`Back to` control (`__ac.card`). With the panel anywhere inside `main`, the resolution statement's `h2` matches first, so AC-120 fails on a page that conforms. That helper is the test writer's to change. Until it is, the panel stays a layer outside `main` and the screen-reader reading order is unchanged.*
+*Fixed 2026-10-07: the open panel is no longer portalled to `<body>`. At ≥ 1280 px it renders inside `main`, as the first block of the page's `<article>` after its `h1` and before any `h2` (§5.0.5's "first in the document's reading order"), drawn fixed over the head of the margin as a named region ("Open panel"). Its keyboard order follows its opener: Shift+Tab from its heading or first stop returns to the control that opened it (Find when that is gone), and Tab from its last stop continues with the control after the opener. The margin `<aside>` sticks beneath the open panel (top = the panel's bottom + 12 px, with its own scroll) and the panel is capped at 60vh, so nothing in the margin is covered. Measured on a pinned build at 1440 × 900 with a ledger-cell panel open: the layer is inside `main` and its `h2` is the first `h2` on the page; focus moves to the panel heading; Shift+Tab from it lands on the ledger cell that opened it; Tab from "Back to the ledger" lands on the next stop after the ledger grid (in `main`); 0 of 23 margin controls lie under the panel when focused (`elementFromPoint`).*
 
 **M1 · Moderate — the active option on every map is a 0.47 px hairline (2.4.7).** On the spend
 and strength maps (B6) and the footprint map (F1) the option under `aria-activedescendant` is
@@ -260,7 +260,7 @@ rendered; the graph's jump-to input carries `aria-controls="jumpto-listbox"` whi
 closed. *Fix:* set `aria-controls` only on the selected tab (WAI-ARIA allows it), and only while
 the listbox is open.
 
-*Fixed 2026-10-07 (in part): only the selected lens tab carries `aria-controls`. The graph's jump-to input belongs to the shared `GraphExplorer` and was not changed.*
+*Fixed 2026-10-07 (in part): only the selected lens tab carries `aria-controls`. The graph's jump-to input belongs to the shared `GraphExplorer`, which this page does not modify (D45), and was not changed.*
 
 **m12 · Minor — five of seven figures have no accessible name; the B6 maps have no skip link.**
 The ledger figure, both B6 map figures, the Delhi-line figure and the connections figure are
@@ -268,7 +268,7 @@ The ledger figure, both B6 map figures, the Delhi-line figure and the connection
 skip link costs little, but the spec (§13) asks for one before every drawing. *Fix:*
 `aria-labelledby` the Q-block's `h3` on each figure, as B1 and B2 do.
 
-*Fixed 2026-10-07 (in part): the ledger figure is named by `sec-B3-h`, the two B6 map figures and the Delhi-line figure by their own `h4`s (given ids), and the connections figure by `sec-conn-h`. No skip link was added before the B6 maps, because AC-121 caps the spend map at 30 Tab stops and the audit measured 27.*
+*Fixed 2026-10-07: the ledger figure is named by `sec-B3-h`, the two B6 map figures and the Delhi-line figure by their own `h4`s (given ids), and the connections figure by `sec-conn-h`. Each B6 map now has a "Skip to the table" link after its heading that opens its twin (`spend-map`, `strength-map`) and focuses the caption. Measured on a pinned build at 1440: the spend map is reached in 27 Tab presses from the first stop in `main` (AC-121 allows 30).*
 
 **m4 · Minor — two links with one name in one list (2.4.4).** The Contested toolbar holds two
 links named "Bombay High Court, Union of India through the Indian Army v State of Maharashtra …"
@@ -277,7 +277,7 @@ and the Gaps toolbar two named "Expenditure Budget 2026-27, Notes on Demands for
 already prints the host after the title in its list form; add it, visually hidden, in the inline
 form.
 
-*Not fixed 2026-10-07: visually hidden text inside a source link changes the link's `innerText`, which AC-47's quoted-figure check reads to the character. Left for the test writer and the lead.*
+*Fixed 2026-10-07: the inline source list gives a link a name only where its title is not unique — the same title twice in one list, or a title the register gives to more than one document — as `{title} ({host}, for {what the sources are for})`. The name starts with the visible title (2.5.3), and the link's visible text and `innerText` are unchanged, so AC-47's quoted-figure check reads the same characters. A name that would carry a ₹ is not set (AC-47: no `aria-label` holds a ₹), so a quoted figure keeps its note.*
 
 ### 1.4.10 Reflow · 1.4.4 Resize Text · 1.4.12 Text Spacing
 
@@ -331,7 +331,7 @@ exception for de-emphasised text. *Fix:* dim the drawing, not the words: keep te
 `--color-text-muted` without opacity (5.32:1) and mark out-of-range columns with a hatch-free
 band or a bracket.
 
-*Fixed 2026-10-07 (in part): the ledger's year headers are no longer dimmed; under an FY filter the in-range headers are drawn in `--color-text` over a 2 px accent rule. The stack's reconciliation marks (=, ≠, ·) moved out of the columns into their own row beneath them, still one per defence column, at full `--color-text-muted`. Not done: the latest year's pension label and the "partial: k of n demands" label still sit inside their stack column. AC-78 and AC-141 pin that column element's opacity to 0.2–0.3, and AC-128 reads the pension label from inside it, so the label stays dimmed (1.93:1) when the latest year is outside the range. This needs a criterion decision.*
+*Fixed 2026-10-07: the ledger's year headers are no longer dimmed; under an FY filter the in-range headers are drawn in `--color-text` over a 2 px accent rule. The stack's reconciliation marks (=, ≠, ·) sit in their own row beneath the columns, one per defence column, at full `--color-text-muted`. The latest year's pension label and a column's "partial: k of n demands" label stay inside their column while it is at full strength (where AC-128 reads them), and when the FY or tier filter dims that column they are drawn over it from outside it, at the column's own place, never under its opacity; the column element keeps the 0.2–0.3 opacity AC-78 and AC-141 pin. Measured on a pinned build at 1440 with `fy=2010-11..2015-16`: the pension label "pensions ₹1,71,338.22 cr · 21.84% of sta…" composites to opacity 1 (text 15.60:1); at rest it is inside the latest column (`2026-27`).*
 
 **M7 · Moderate — under forced colours the Budgets drawings vanish (1.4.1, 1.4.11).** In a
 `forced-colors: active` context the stack's 210 bands and the ledger's bars become `Canvas`
@@ -353,7 +353,7 @@ The case timeline's ticks are 12 units long, too short to tell `6 3` (reported) 
 (analytic). Both twins carry the tier word. *Fix:* draw the lanes as SVG lines with the tier's
 `strokeDasharray`; lengthen the ticks or show the tier as a cap shape on the response circle.
 
-*Fixed 2026-10-07 (in part): each office window that is not documented now draws its outline as an SVG rect with the tier's own `strokeDasharray` (non-scaling). Documented windows keep the solid border, and the `[data-mark="office"]` element and its computed style are unchanged. The case timeline's 12-unit ticks were not changed.*
+*Fixed 2026-10-07: each office window that is not documented draws its outline as an SVG rect with the tier's own `strokeDasharray` (non-scaling); documented windows keep the solid border, and the `[data-mark="office"]` element and its computed style are unchanged. The case timeline's lanes are 26 units high and its record ticks 20 units long (were 18 and 12), so each tier's dash shows at least one full period (`6 3` reported, `8 3 2 3` analytic).*
 
 **m7 · Minor (advisory) — reason text inside `aria-disabled` controls is under 4.5:1.** The kind
 chips "prison (0)" and "ordnance (0)" at opacity .7 (3.78:1, their reason line 3.13:1) and the
@@ -398,6 +398,8 @@ those audits.
 **m5 · Minor (site pattern) — 278–2,774 links open a new tab without saying so.** Every source link
 is `target="_blank"` (822 on Budgets at rest, 2,774 under `view=table`); none says so (G201,
 advisory). *Fix:* a visually hidden ", opens in a new tab" in `QuotedLink`.
+
+*Fixed 2026-10-07: every source link on the page (`QuotedLink`, and the stack twin's host links) carries `aria-describedby` pointing at one hidden element that reads "opens in a new tab". The description is not part of the link's name or text, so no check that reads a link's words changes.*
 
 ## 3. Checklist results (skill steps 3–5)
 

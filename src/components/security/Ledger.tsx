@@ -6,7 +6,7 @@ import {
   fyIn, DOMAIN,
 } from '../../data/securityView';
 import { Fold } from './Shared';
-import { usePage, Caption, Twin, TwinTable, SkipLink, Exports, captionText, Pager, FOCUS, TARGET, Effect, Denominator, Src, Quote, type Row, type Col } from './ui';
+import { usePage, useTp, Caption, Twin, TwinTable, SkipLink, Exports, captionText, Pager, FOCUS, TARGET, Effect, Denominator, Src, Quote, type Row, type Col } from './ui';
 
 export const Q2 = 'Q2 — Who held the Defence and Home portfolios on each date?';
 export const Q3 = 'Q3 — How has each Union line moved, and which years are missing?';
@@ -215,14 +215,14 @@ export function LineLedger() {
   const figureRef = useRef<HTMLElement>(null);
   const focusCell = (li: number, fi: number) => {
     setPos({ lane: li, fy: fi });
-    requestAnimationFrame(() => {
-      const b = figureRef.current?.querySelector<HTMLButtonElement>(`button[data-cell="${li}-${fi}"]`);
-      if (!b) return;
-      let opened = false;
-      for (let d = b.closest('details'); d; d = d.parentElement?.closest('details') ?? null) if (!d.open) { d.open = true; opened = true; }
-      if (opened) requestAnimationFrame(() => b.focus());
-      else b.focus();
-    });
+    // Every cell is in the DOM: focus moves in the same key press, so the next key reads the new
+    // cell. A cell in a closed group opens it first and takes focus on the next frame.
+    const b = figureRef.current?.querySelector<HTMLButtonElement>(`button[data-cell="${li}-${fi}"]`);
+    if (!b) return;
+    let opened = false;
+    for (let d = b.closest('details'); d; d = d.parentElement?.closest('details') ?? null) if (!d.open) { d.open = true; opened = true; }
+    if (opened) requestAnimationFrame(() => b.focus());
+    else b.focus();
   };
   const onKey = (e: KeyboardEvent<HTMLButtonElement>, li: number, fi: number) => {
     let n: [number, number] | null = null;
@@ -375,12 +375,13 @@ const budgetSig = (f: { payer: string | null; st: string | null; fyFrom: string 
   `${f.payer}|${f.st}|${f.fyFrom}|${f.fyTo}|${[...f.comp].sort().join(',')}|${[...f.tiers].sort().join(',')}`;
 function LedgerTwins({ lanes, bsig, visible, why, onPage }: { lanes: Lane[]; bsig: string; visible: (r: BudgetRow) => boolean; why: (r: BudgetRow) => string; onPage: (tp: number) => void }) {
   const { f, filterWords } = usePage();
+  const tp = useTp();
   const all = useMemo(() => {
     const laneSet = new Set(lanes.map((l) => l.key));
     return LANE_SOURCE.filter((r) => budgetPass(f, r) && laneSet.has(laneKeyOf(r)));
   }, [lanes, bsig]); // eslint-disable-line react-hooks/exhaustive-deps
   const pages = Math.max(1, Math.ceil(all.length / PAGE));
-  const page = Math.min(f.tp, pages);
+  const page = Math.min(tp, pages);
   const slice = all.slice((page - 1) * PAGE, page * PAGE);
   const longCols: Col[] = [
     { key: 'payer', label: 'Payer' }, { key: 'body', label: 'Body', th: true }, { key: 'title', label: 'Demand title' }, { key: 'line', label: 'Line as printed' }, { key: 'comp', label: 'Component' },

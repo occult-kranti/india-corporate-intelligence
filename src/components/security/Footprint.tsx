@@ -4,7 +4,7 @@ import {
   type FootprintRow, FOOTPRINT, KINDS, KIND_COUNT, EMPTY_KINDS, EMPTY_UNREACHED, EMPTY_BY_RULE, ORDNANCE_RULE, kindWord, UNITS, stateName, EMPTY, NOTHING, NO_FP_ROWS, FP_DATED, PLACES_ORDER, rowTier, labelOf,
   lensPopulation, LANE_BODIES,
 } from '../../data/securityView';
-import { usePage, QBlock, Caption, Twin, TwinTable, Exports, captionText, Src, Denominator, NoMatch, Pager, FOCUS, SkipLink, type Row, type Col } from './ui';
+import { usePage, useTp, QBlock, Caption, Twin, TwinTable, Exports, captionText, Src, Denominator, NoMatch, Pager, FOCUS, SkipLink, type Row, type Col } from './ui';
 import { KindChips } from './Chrome';
 import { UnitMap, capOf, type UnitOpt, type MapDot } from './StatePair';
 import { CityLedger, CityLedgerTwin, CompareBlock } from './BudgetBlocks';
@@ -89,6 +89,7 @@ function FootprintMap() {
 
 function KindsAndPlaces() {
   const { f, filterWords, patch, showConnections, openBody } = usePage();
+  const tp = useTp();
   if (EMPTY) return <p data-page-copy="" className="text-[14px]">{NOTHING}</p>;
   const matrixCols: Col[] = [
     { key: 'st', label: 'State', th: true },
@@ -106,7 +107,7 @@ function KindsAndPlaces() {
   });
   const places = PLACES_ORDER(FOOTPRINT.filter((r) => selected(f, r) && (!f.st || r.st === f.st)));
   const pages = Math.max(1, Math.ceil(places.length / 400));
-  const page = Math.min(f.tp, pages);
+  const page = Math.min(tp, pages);
   const shown = places.slice((page - 1) * 400, page * 400);
   const placeRows: Row[] = shown.map((r) => ({
     cells: [r.label, kindWord(r.kind), r.city, stateName(r.st),
