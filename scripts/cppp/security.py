@@ -700,4 +700,8 @@ def write_security(con, out_dir, provenance: dict, rates: dict, timing: dict, re
     }
     B._write(out_dir / "security.json", doc)
     log(f"security.json: {quality['afterDedup']['rows']:,} slice award decisions")
+    # the page's file: the blocks /security and /tenders read, with every winner-bearing field
+    # dropped and a guard that refuses to write if a winner string survives (security_page.py)
+    import security_page  # noqa: E402
+    security_page.project(out_dir / "security.json", out_dir / "security-page.json", log=log)
     return doc

@@ -3,7 +3,8 @@
 Offline, not in CI. Reads the 4.92 M-row CPPP award scrape (two Arrow IPC files, 3.45 GB,
 HF `rumourscape/tenders`, CC-BY-4.0) with duckdb over memory-mapped pyarrow tables and writes
 seven JSON files to `research/raw/cppp/` — the seventh, `security.json`, is the security-buyer slice
-(see "The security slice" below), written by `security.py` inside the same run. Quality first, then
+(see "The security slice" below), written by `security.py` inside the same run, which then writes
+`security-page.json`, its winner-free projection for the page (see "The page's file" below). Quality first, then
 rates. Every file carries a
 `provenance` block: input digests (`sha256_16`), raw rows, distinct `tender_id`s, rows after
 dedup, the dedup rule, the buyer rule, the marker regex, the value-band thresholds, the exact
@@ -196,6 +197,36 @@ by awards across the class, each with ≥ 5 awards from at least one buyer of th
 the family is concentration.json's own, and counts, HHIs and names are identical there (value sums can
 differ in the last paise: float sums in a different row order). Red flags count pairs, never list them.
 `concentration.msOnlyNamed` counts the names admitted by "m/s" alone (16 of 255).
+
+## The page's file (`security-page.json`)
+
+`security_page.py` projects `security.json` into `security-page.json`. It carries what /security and
+the /tenders security-buyers line read, plus the spec's SLICE list (`docs/design/SECURITY_PAGE.md`
+§3.2, prerequisite S8). Those are `readMeFirst`, `classes.definitions`, `classes.map`, `headline`,
+`quality.afterDedup`, `quality.total`, `quality.byClass`, `rates.total`, `rates.excludingWorks`,
+`rates.byClass`, `rates.byClassYear`, `rates.innocentReading`, `caveat` and `provenance`. Each
+subtree is verbatim and in the source's key order, written by the same `json.dumps` call as every
+other file. Everything else is dropped. `dropped` lists each path with its reason. The two winner
+lists (`concentration.byBuyer[].topMarkedWinners` and `concentration.byClass[].topMarkedWinners`)
+read "names a winner; the page names none (spec C14)". `projectedFrom` gives the source file and
+its `sha256_16`.
+
+The guard collects every string held under a winner-list key in the source. It refuses to write if
+any of them survives in the output, case-insensitively, inside any key or value. The error names
+the path, never the string. There is one exemption. A DPSU that is a buyer in `classes.map` and
+also a marked winner elsewhere (BEL today) keeps its map row as a buyer. Its string may be the whole
+`classes.map[].buyer` value and nothing else.
+
+`security.py` calls the projection after writing `security.json`, so every build refreshes it. On
+its own it needs neither Arrow inputs nor duckdb:
+
+```
+python3 scripts/cppp/security_page.py                  # research/raw/cppp/security.json → security-page.json
+python3 -m unittest scripts/cppp/test_security_page.py # stdlib only
+```
+
+On 2026-10-07 the projection took the file from 316,236 bytes to 170,174 bytes. `provenance`
+(57 KB, with the verbatim SQL) is kept whole as the audit trail.
 
 ## The refusal
 

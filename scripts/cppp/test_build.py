@@ -26,7 +26,7 @@ import make_fixture  # noqa: E402
 import security  # noqa: E402
 
 FIXTURE_DIR = HERE / "fixtures"
-OUTPUTS = ["quality.json", "rates.json", "concentration.json", "timing.json", "redflags.json", "security.json", "provenance.json"]
+OUTPUTS = ["quality.json", "rates.json", "concentration.json", "timing.json", "redflags.json", "security.json", "security-page.json", "provenance.json"]
 EXPECTED_BANDS = ["<₹10 L", "₹10 L–1 cr", "₹1–10 cr", "₹10–100 cr", ">₹100 cr"]
 
 
@@ -318,7 +318,7 @@ class BuildOnFixture(unittest.TestCase):
         for name in ("unclassified", "class_map"):
             self.assertIn("ORDER BY rows DESC, portal, buyer", ssql[name])
         self.assertIn("ORDER BY tb.rows DESC, tb.buyer", ssql["title_only_buyers"])
-        # a second run over the same fixture reproduces every file — all seven — byte for byte
+        # a second run over the same fixture reproduces every file — all eight — byte for byte
         self.assertEqual(sorted(p.name for p in self.tmp.glob("*.json")), sorted(OUTPUTS))
         with tempfile.TemporaryDirectory() as d2:
             build.run(arrow_dir=FIXTURE_DIR, out_dir=d2, as_of="2026-09-26", log=lambda *_: None)
