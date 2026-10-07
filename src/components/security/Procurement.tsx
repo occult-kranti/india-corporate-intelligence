@@ -6,13 +6,13 @@ import {
   type VendorClass, EMPTY, NOTHING, CONTROL_EMPTY, SLICE_ABSENT, NO_RESPONSE, NO_PAIRING, RUN, ASOF, EDGES, VOIDS, FOOTPRINT, IDENTITY, MOD,
   AWARDS, PRICED, UNPRICED, ALLEGED_AWARDS, AWARD_SPAN, VENDORS, CLASS_WORDS, vendorClass, vendorsOf, comparatorEdges, comparatorsOf, awardsOf,
   CASES, CASE_PAIRS, UNPAIRED, caseFile, firstRecord, recordKind, responsesTo, responseChain, BONDS, BOND_DONORS, bondsOf, BOARD_PAIRS, ROLE_EDGES, RULES,
-  monthsBetween, officeOn, labelOf, nodeOf, symmetryOf, fileOf, finite, fmtCr, round2, yearOf, dateInFy, edgePass, fyLabel, stateName, ANALYTIC, DOMAIN,
-  fmtInt, lensPopulation, last,
+  gapMonths, sliceFigures, WORKS_CLASS_WORDS, officeOn, labelOf, nodeOf, symmetryOf, fileOf, finite, fmtCr, yearOf, dateInFy, edgePass, fyLabel, stateName, ANALYTIC, DOMAIN,
+  fmtInt, lensPopulation, last, responseHeadWords, JOINT_AWARDS, BOND_AND_AWARD_VENDORS, countWord,
 } from '../../data/securityView';
 import {
-  usePage, QBlock, Caption, Twin, TwinTable, Exports, captionText, Src, Quote, TierWord, Denominator, NoMatch, FOCUS, TARGET, SkipLink, type Row, type Col,
+  usePage, QBlock, Caption, Twin, TwinTable, Exports, captionText, Src, Quote, Tx, TierWord, Denominator, NoMatch, FOCUS, TARGET, SkipLink, type Row, type Col,
 } from './ui';
-import { BaseRateSection, CompareTwin, C5_TEXT, Responses, responseHead, Narratives, CannotShow, Fold, zeroCount } from './Shared';
+import { BaseRateSection, CompareTwin, C5_TEXT, Responses, ResponseHead, Narratives, CannotShow, Fold, zeroCount } from './Shared';
 
 /**
  * The Procurement and people lens (§5.3). Its spine is the symmetry chapters: each
@@ -77,7 +77,7 @@ function ChapterHead({ domain }: { domain: string }) {
   const text = sym ? <Quote as="p" className="text-[14px] text-text-secondary mt-1 mb-0">{sym}</Quote> : <p className="text-[14px] text-amber mt-1 mb-0">{CONTROL_EMPTY}</p>;
   const h = <h4 tabIndex={-1} className={`text-[14px] font-semibold text-text m-0 ${TARGET} ${narrow ? 'inline' : ''}`}>{head}</h4>;
   // Below 640px a chapter's symmetry text sits behind its own heading, first in the chapter;
-  // the cases chapter keeps its text open, because its control pairs are read against it.
+  // the cases chapter keeps its text open, because its control pairs are read against it (AC-152).
   if (narrow && sym && domain !== 'literature') return <details className="border border-border-light rounded px-3 my-2"><summary className={`cursor-pointer py-2 ${FOCUS}`}>{h}</summary>{text}</details>;
   return <div className="border border-border-light rounded p-3 my-2">{h}{text}</div>;
 }
@@ -180,9 +180,9 @@ function AwardsTwin() {
     const name = n > 1 ? `${base} (${n})` : base;
     const resp = responsesTo(e.id);
     return {
-      cells: [e.from ?? 'undated', labelOf(e.t), CLASS_WORDS[vendorClass(e.t)], <Quote>{e.lab}</Quote>,
+      cells: [e.from ?? 'undated', labelOf(e.t), CLASS_WORDS[vendorClass(e.t)], <Quote declared={[e.a]}>{e.lab}</Quote>,
         finite(e.a) ? <span data-cr={e.a}>{`₹${fmtCr(e.a)} cr — amount as the release states it; no denominator published for this line; previous year not applicable`}</span> : 'amount not stated',
-        'not a joint total', <TierWord tier={e.tier} />, resp.length ? resp.map((r) => `${responseHead(r)} ${r.lab ?? ''}`).join(' · ') : NO_RESPONSE, <Src srcs={e.srcs} of={`${labelOf(e.t)} ${e.from ?? ''}`} inline />,
+        JOINT_AWARDS.includes(e) ? `joint total ₹${fmtCr(e.a as number)} cr announced for ${VENDORS.filter((v) => `${e.lab ?? ''} ${e.d ?? ''}`.includes(labelOf(v))).map(labelOf).join(' and ')}; not split` : 'not a joint total', <TierWord tier={e.tier} />, resp.length ? resp.map((r) => `${responseHeadWords(r)} ${r.lab ?? ''}`).join(' · ') : NO_RESPONSE, <Src srcs={e.srcs} of={`${labelOf(e.t)} ${e.from ?? ''}`} inline declared={[e.a]} record={e} />,
         <button type="button" className={`underline underline-offset-2 text-left ${FOCUS}`} onClick={(ev) => openRecord(e.id!, ev.currentTarget)}>{name}</button>],
       out: [e.from ?? '', labelOf(e.t), CLASS_WORDS[vendorClass(e.t)], e.lab ?? '', finite(e.a) ? e.a : '', e.tier, resp.length ? 'response recorded' : NO_RESPONSE, src(e)],
     };
@@ -248,12 +248,12 @@ function vendorFields(v: string, scope: string, page: ReturnType<typeof usePage>
         <span key={e.id} className="block">
           <button type="button" aria-label={`${labelOf(c)}, compared with ${labelOf(v)} — open both`} className={`underline underline-offset-2 ${FOCUS}`} onClick={(ev) => openVendor(c, ev.currentTarget)}>{labelOf(c)}</button>
           {': '}<Quote>{e.lab}</Quote>
-          {e.innocentReading && <span className="block">{'the reading in which nothing is wrong: '}<Quote>{e.innocentReading}</Quote></span>}
+          {e.innocentReading && <span className="block"><Tx>the reading in which nothing is wrong: </Tx><Quote>{e.innocentReading}</Quote></span>}
         </span>
       );
     })}</> : `no head-to-head declared — compared with the ${other} band`,
     bonds.length ? <>{bonds.map((b) => <span key={b.id} className="block" data-cr={finite(b.a) ? b.a : undefined}>{`${labelOf(b.s)} → ${labelOf(b.t)}: ${finite(b.a) ? `₹${fmtCr(b.a)} cr — as the disclosure lists it; no denominator published for this line; previous year not applicable` : 'amount not stated'}, ${b.from ?? 'undated'}${b.to ? `–${b.to}` : ''} (${b.tier})`}</span>)}</>
-      : <>{'no bond recorded in this register'}{bondVoid && <span className="block">{' — '}<Quote>{bondVoid.what}</Quote></span>}</>,
+      : <>{'no bond recorded in this register'}{bondVoid && <span className="block"><Tx>{' — '}</Tx><Quote>{bondVoid.what}</Quote></span>}</>,
     boards.length ? boards.map((b) => `${labelOf(b.s)}: ${b.lab ?? 'role'} (${b.from ?? 'start not recorded'})`).join('; ') : 'no board role recorded',
     enforce.length || alleged.length ? <>{enforce.map((e) => <span key={e.id} className="block">{`${labelOf(e.s)}, ${e.from ?? 'undated'} [${e.tier}]: `}<Quote>{e.lab}</Quote></span>)}{alleged.map((e) => <span key={e.id} className="block">{`alleged [${e.tier}]: `}<Quote>{e.lab}</Quote></span>)}</> : 'none recorded',
     id?.publicRole ? <Quote>{id.publicRole}</Quote> : 'not recorded',
@@ -302,7 +302,7 @@ function VendorCardInGrid({ v }: { v: string }) {
   const toggle = (e: React.MouseEvent<HTMLButtonElement>) => { if (current) { patch({ vendor: null }); announce(`${labelOf(v)} closed`, 0); } else openVendor(v, e.currentTarget); };
   return (
     <>
-      <details data-vendor-card={v} aria-current={current ? 'true' : undefined} open={open} className={`${cls} px-2 py-1`}>
+      <details data-vendor-card={v} aria-current={current ? 'true' : undefined} open={open} className={`${cls} px-2 py-0.5`}>
         <summary className={`cursor-pointer text-[12.5px] leading-tight truncate ${FOCUS}`}>
           <h4 className="inline text-[13.5px] font-semibold text-text m-0">{labelOf(v)}</h4>{` · ${CLASS_WORDS[vendorClass(v)]} · ${aw.length} named awards (${aw.filter((e) => finite(e.a)).length} with ₹) · 13 fields`}
         </summary>
@@ -318,6 +318,7 @@ function VendorCardInGrid({ v }: { v: string }) {
 }
 
 function VendorGrid() {
+  const { narrow } = usePage();
   const bands: VendorClass[] = ['public', 'private', 'unclassified'];
   return (
     <div className="mt-4" aria-describedby="sec-c15">
@@ -328,10 +329,10 @@ function VendorGrid() {
         const vs = vendorsOf(b);
         if (b === 'unclassified' && !vs.length) return null;
         return (
-          <section key={b} aria-labelledby={`sec-band-${b}`} className="mt-3">
+          <section key={b} aria-labelledby={`sec-band-${b}`} className={narrow ? 'mt-2' : 'mt-3'}>
             <h4 id={`sec-band-${b}`} className="text-[14px] font-semibold text-text m-0 mb-1">{`${CLASS_WORDS[b]}${b === 'unclassified' ? ': listed by name beneath the two bands' : ''} (${vs.length} vendors)`}</h4>
             {!vs.length && <p className="text-[14px] text-text-secondary">No vendor of this class in the register.</p>}
-            <div className="grid sm:grid-cols-2 2xl:grid-cols-3 gap-1 sm:gap-2">{vs.map((v) => <VendorCardInGrid key={v} v={v} />)}</div>
+            <div className={`grid sm:grid-cols-2 2xl:grid-cols-3 ${narrow ? 'gap-0.5' : 'gap-1 sm:gap-2'}`}>{vs.map((v) => <VendorCardInGrid key={v} v={v} />)}</div>
           </section>
         );
       })}
@@ -373,9 +374,12 @@ function Chapter2({ slice }: { slice: SecurityFile | null | undefined }) {
   if (slice === undefined) return <>{EMPTY && <p className="text-[14px]">{NOTHING}</p>}{head}<p className="text-[14px] text-text-secondary">Loading the open-market slice…</p></>;
   if (slice === null) return <>{EMPTY && <p className="text-[14px]">{NOTHING}</p>}{head}<p className="text-[14px] text-text-secondary">{SLICE_ABSENT}</p></>;
   const q = slice.quality, r = slice.rates;
-  const works = q.byClass.find((c) => c.class === 'works');
-  const worksShare = works ? round2((works.dedupRows / q.total.dedupRows) * 100) : null;
-  const share = (cls: string) => { const c = q.byClass.find((x) => x.class === cls); return c ? round2((c.dedupRows / q.total.dedupRows) * 100) : null; };
+  const sf = sliceFigures(slice);
+  // Two works figures, each under its own label: the class (MES and BRO) and the one largest buyer.
+  const worksShare = sf.worksClassPct;
+  const worksClassWords = worksShare != null ? `${WORKS_CLASS_WORDS} is ${worksShare}% of the slice` : `${WORKS_CLASS_WORDS} has no quality row in the file`;
+  const oneBuyerWords = sf.worksBuyer ? `one works buyer is ${sf.worksBuyer.pct}% of decisions (${sf.worksBuyer.member})` : 'no single works buyer in the file';
+  const share = sf.classShare;
   const maxPct = Math.ceil(Math.max(...r.byClass.flatMap((c) => [c.wilson95?.[1] ?? c.singleBidderPct, c.wholeFile.singleBidderPct, c.wholeFileSamePortal?.singleBidderPct ?? 0])) / 10) * 10 || 10;
   const X = (p: number) => `${(p / maxPct) * 100}%`;
   const def = slice.classes.definitions;
@@ -394,7 +398,7 @@ function Chapter2({ slice }: { slice: SecurityFile | null | undefined }) {
     { cells: ['excluding the works class', r.excludingWorks.note, 'both', 'all years', 'not stated', 'not stated', 'reference row', zeroCount(r.excludingWorks.n), zeroCount(r.excludingWorks.singleBidder), `${r.excludingWorks.singleBidderPct}%`, r.excludingWorks.wilson95 ? zeroCount(r.excludingWorks.wilson95[0]) : 'not stated', r.excludingWorks.wilson95 ? zeroCount(r.excludingWorks.wilson95[1]) : 'not stated', 'not applicable', 'not applicable', 'a reference row, never a class mark'], out: ['excluding-works', '', '', '', '', '', r.excludingWorks.n, r.excludingWorks.singleBidder, r.excludingWorks.singleBidderPct, r.excludingWorks.wilson95?.[0] ?? '', r.excludingWorks.wilson95?.[1] ?? '', '', ''] },
     { cells: ['the slice as a whole', 'every class together', 'both', 'all years', String(q.total.rawRows), String(q.total.dedupRows), '100% of slice decisions', zeroCount(r.total.n), zeroCount(r.total.singleBidder), `${r.total.singleBidderPct}%`, r.total.wilson95 ? zeroCount(r.total.wilson95[0]) : 'not stated', r.total.wilson95 ? zeroCount(r.total.wilson95[1]) : 'not stated', 'not applicable', `${r.total.wholeFile.singleBidderPct}%`, 'a works rate: read by class'], out: ['slice', '', '', q.total.rawRows, q.total.dedupRows, 100, r.total.n, r.total.singleBidder, r.total.singleBidderPct, r.total.wilson95?.[0] ?? '', r.total.wilson95?.[1] ?? '', '', r.total.wholeFile.singleBidderPct] },
     ...r.byClassYear.map((y) => ({
-      cells: [`${y.class} ${y.year}`, def[y.class]?.definition ?? 'not stated', y.portal ? `${y.portal} portal` : 'not stated', yearWords(y.year), 'not stated', 'not stated', 'not stated', zeroCount(y.n), zeroCount(y.singleBidder), y.n >= 10 ? `${y.singleBidderPct}%` : `n ${y.n}: no rate drawn`, y.n >= 10 && y.wilson95 ? zeroCount(y.wilson95[0]) : 'not drawn', y.n >= 10 && y.wilson95 ? zeroCount(y.wilson95[1]) : 'not drawn', y.wholeFileSamePortal ? `${y.wholeFileSamePortal.singleBidderPct}%` : 'not stated', `${y.wholeFile.singleBidderPct}%`, 'see the class row'],
+      cells: [`${y.class} ${y.year}`, 'see the class row', y.portal ? `${y.portal} portal` : 'not stated', yearWords(y.year), 'not stated', 'not stated', 'not stated', zeroCount(y.n), zeroCount(y.singleBidder), y.n >= 10 ? `${y.singleBidderPct}%` : `n ${y.n}: no rate drawn`, y.n >= 10 && y.wilson95 ? zeroCount(y.wilson95[0]) : 'not drawn', y.n >= 10 && y.wilson95 ? zeroCount(y.wilson95[1]) : 'not drawn', y.wholeFileSamePortal ? `${y.wholeFileSamePortal.singleBidderPct}%` : 'not stated', `${y.wholeFile.singleBidderPct}%`, 'see the class row'],
       out: [y.class, y.year ?? '', y.portal ?? '', '', '', '', y.n, y.singleBidder, y.n >= 10 ? y.singleBidderPct : '', y.n >= 10 ? y.wilson95?.[0] ?? '' : '', y.n >= 10 ? y.wilson95?.[1] ?? '' : '', y.wholeFileSamePortal?.singleBidderPct ?? '', y.wholeFile.singleBidderPct],
     })),
   ];
@@ -404,24 +408,25 @@ function Chapter2({ slice }: { slice: SecurityFile | null | undefined }) {
     ['slice', '', '', q.total.rawRows, q.total.dedupRows, 100, r.total.n, r.total.singleBidder, r.total.singleBidderPct, r.total.wilson95?.[0] ?? '', r.total.wilson95?.[1] ?? '', '', r.total.wholeFile.singleBidderPct],
     ...r.byClassYear.map((y) => [y.class, /^\d{4}$/.test(y.year ?? '') ? y.year : '', y.portal ?? '', '', '', '', y.n, y.singleBidder, y.n >= 10 ? y.singleBidderPct : '', y.n >= 10 ? y.wilson95?.[0] ?? '' : '', y.n >= 10 ? y.wilson95?.[1] ?? '' : '', y.wholeFileSamePortal?.singleBidderPct ?? '', y.wholeFile.singleBidderPct]),
   ];
-  const sliceLines = `# open-market slice ${slice.provenance.inputs.map((i) => i.sha256_16).join(',')} asOf ${slice.provenance.asOf ?? 'not stated'}\n# dedup rule: ${slice.quality.afterDedup?.rule ?? slice.provenance.dedupRule}`;
+  const sliceLines = `# open-market slice ${sf.hashes.join(',')} asOf ${sf.asOf ?? 'not stated'}\n# dedup rule: ${slice.quality.afterDedup?.rule ?? slice.provenance.dedupRule}`;
   return (
     <>
       {EMPTY && <p className="text-[14px]">{NOTHING}</p>}
+      {/* §5.3.2: readMeFirst → caveat → Form A → Form B → the class definitions with their innocent readings. Never collapsed, at any width. */}
       <div className="border border-border-light rounded p-3 my-2">
         {head}
-        <Fold on={narrow} summary="Read me first, then the caveat: the slice's own words">
-          <Quote as="p" className="text-[14px] text-text-secondary m-0">{slice.readMeFirst}</Quote>
-          <Quote as="p" className="text-[14px] text-text-secondary mt-2 mb-0">{slice.caveat}</Quote>
-        </Fold>
+        <Quote as="p" className="text-[14px] text-text-secondary m-0">{slice.readMeFirst}</Quote>
+        <Quote as="p" className="text-[14px] text-text-secondary mt-2 mb-0">{slice.caveat}</Quote>
       </div>
       <SkipLink twin="slice" title="The open-market slice by class and year" />
       <figure className="m-0 my-3 min-w-0" aria-describedby="sec-c14">
         <h4 className="text-[14px] font-semibold text-text m-0 mb-1">Each buyer class beside the whole tender file</h4>
         <div className="space-y-1.5">
           {r.byClass.map((c) => {
-            const sh = share(c.class) ?? 0;
+            const sh = share(c.class);
             const on = pick === c.class;
+            const wil = c.wilson95 ? `Wilson 95% ${c.wilson95[0]}–${c.wilson95[1]}` : 'Wilson 95% not stated';
+            const reading = def[c.class]?.innocentReading;
             return (
               <div key={c.class} data-class={c.class} className="grid grid-cols-[minmax(0,9rem)_minmax(0,1fr)] sm:grid-cols-[minmax(0,12rem)_minmax(0,1fr)_minmax(0,16rem)] gap-x-2 items-center text-[13px]">
                 <div className="min-w-0">
@@ -429,48 +434,32 @@ function Chapter2({ slice }: { slice: SecurityFile | null | undefined }) {
                   <span className="block font-mono text-[12px] text-text-muted">{`${c.singleBidder} of ${c.n}`}</span>
                 </div>
                 <div aria-hidden="true" className="relative h-6 min-w-0">
-                  <div className="absolute left-0 top-0 h-1.5 bg-text-muted/40" style={{ width: `${sh}%` }} />
+                  {/* No quality row for the class: the share is absent, drawn as the no-data hatch, never as a 0% bar. */}
+                  {sh == null ? <div className="absolute left-0 top-0 h-1.5 w-6 sec-hatch" /> : <div className="absolute left-0 top-0 h-1.5 bg-text-muted/40" style={{ width: `${sh}%` }} />}
                   <div className="absolute top-3 h-px bg-text-secondary" style={{ left: X(c.wilson95?.[0] ?? c.singleBidderPct), width: `calc(${X(c.wilson95?.[1] ?? c.singleBidderPct)} - ${X(c.wilson95?.[0] ?? c.singleBidderPct)})` }} />
                   <div className="absolute top-2 w-2 h-2 -ml-1 rounded-full bg-text" style={{ left: X(c.singleBidderPct) }} />
                   {c.wholeFileSamePortal && <div className="absolute top-1.5 h-3 w-px bg-text-secondary" style={{ left: X(c.wholeFileSamePortal.singleBidderPct) }} />}
                   <div className="absolute top-0 bottom-0 w-px bg-border-light" style={{ left: X(c.wholeFile.singleBidderPct) }} />
                 </div>
-                <div className="font-mono text-[12px] text-text-secondary col-span-2 sm:col-span-1">{narrow ? `${c.singleBidderPct}% · same portal ${c.wholeFileSamePortal?.singleBidderPct ?? 'not stated'}% · file ${c.wholeFile.singleBidderPct}%` : `${c.singleBidderPct}% single-bidder (Wilson 95% ${c.wilson95?.[0] ?? 'not stated'}–${c.wilson95?.[1] ?? 'not stated'}) · ${sh}% of slice decisions, computed here · whole file, same portal ${c.wholeFileSamePortal?.singleBidderPct ?? 'not stated'}% · whole file ${c.wholeFile.singleBidderPct}%`}</div>
+                <div className="font-mono text-[12px] text-text-secondary col-span-2 sm:col-span-1">{narrow ? `${c.singleBidderPct}% (${wil}) · same portal ${c.wholeFileSamePortal?.singleBidderPct ?? 'not stated'}% · file ${c.wholeFile.singleBidderPct}%` : `${c.singleBidderPct}% single-bidder (${wil}) · ${sh == null ? 'share of slice decisions not computed: no quality row for the class' : `${sh}% of slice decisions, computed here`} · whole file, same portal ${c.wholeFileSamePortal?.singleBidderPct ?? 'not stated'}% · whole file ${c.wholeFile.singleBidderPct}%`}</div>
+                {reading && <p className="col-span-2 sm:col-span-3 m-0 text-[13px] text-text-secondary"><Tx>the reading in which nothing is wrong: </Tx><Quote>{reading}</Quote></p>}
               </div>
             );
           })}
         </div>
         <div className="border-t border-border mt-2 pt-1 text-[13px] font-mono text-text-secondary space-y-0.5">
-          <div>{`excluding the works class: ${r.excludingWorks.singleBidder} of ${r.excludingWorks.n}, ${r.excludingWorks.singleBidderPct}% — the works buyers are ${worksShare ?? 'an unstated share'}% of the slice`}</div>
-          <div>{`the slice as a whole: ${r.total.singleBidder} of ${r.total.n}, ${r.total.singleBidderPct}% — a works rate, because the works buyers are ${worksShare ?? 'an unstated share'}% of it`}</div>
+          <div>{`excluding the works class: ${r.excludingWorks.singleBidder} of ${r.excludingWorks.n}, ${r.excludingWorks.singleBidderPct}% — ${worksClassWords}`}</div>
+          <div>{`the slice as a whole: ${r.total.singleBidder} of ${r.total.n}, ${r.total.singleBidderPct}% — a works rate, because ${worksClassWords}`}</div>
         </div>
         <h5 className="text-[13px] font-semibold text-text mt-3 mb-1">By year, each class beside the same-portal file that year</h5>
-        <Fold on={narrow} summary={`${r.byClass.length} small multiples, one per class: open to read them`}>
-        <div className="grid sm:grid-cols-2 gap-2">
-          {r.byClass.map((c) => {
-            const ys = r.byClassYear.filter((y) => y.class === c.class);
-            return (
-              <div key={c.class} className={`border rounded p-1.5 ${pick === c.class ? 'border-accent' : 'border-border'}`}>
-                <p className="font-mono text-[12px] text-text-muted m-0">{c.class}</p>
-                <div className="relative h-14" aria-hidden="true">
-                  {ys.map((y, i) => y.n >= 10
-                    ? <div key={i} data-rate={y.singleBidderPct} data-class={c.class} data-n={y.n} className="absolute w-1.5 h-1.5 -ml-[3px] rounded-full bg-text" style={{ left: `${(i / Math.max(1, ys.length - 1)) * 96 + 2}%`, bottom: `${(y.singleBidderPct / 100) * 90}%` }} />
-                    : null)}
-                </div>
-                <p className="font-mono text-[12px] text-text-muted m-0">{ys.filter((y) => y.n < 10).map((y) => `${y.year}: n ${y.n}: no rate drawn`).join(' · ') || `${ys.length} years drawn`}</p>
-              </div>
-            );
-          })}
-        </div>
-        </Fold>
-        <figcaption data-page-copy="" className="font-mono text-[12px] text-text-muted mt-2">{`${q.total.dedupRows} award decisions after dedup (${q.afterDedup.shareOfFileDedupRowsPct}% of the file) · rate denominator ${r.total.n} with a bid count · slice-wide single bidding ${r.total.singleBidderPct}% against ${r.total.wholeFile.singleBidderPct}% for the file — read by class; one works buyer is ${worksShare ?? 'an unstated share'}% of decisions`}</figcaption>
+        <FormB slice={slice} pick={pick} />
+        <figcaption data-page-copy="" className="font-mono text-[12px] text-text-muted mt-2">{`${q.total.dedupRows} award decisions after dedup (${q.afterDedup.shareOfFileDedupRowsPct}% of the file) · rate denominator ${r.total.n} with a bid count · slice-wide single bidding ${r.total.singleBidderPct}% against ${r.total.wholeFile.singleBidderPct}% for the file — read by class; ${worksClassWords}, and ${oneBuyerWords}`}</figcaption>
       </figure>
-      <Fold on={narrow} summary={`The ${Object.keys(def).length} buyer classes defined, each with its innocent reading`}>
+      <h5 className="text-[13px] font-semibold text-text mt-3 mb-1">{`The ${Object.keys(def).length} buyer classes defined, each with its innocent reading`}</h5>
       <ul className="list-none p-0 m-0 space-y-1 text-[13.5px] text-text-secondary">
         {Object.entries(def).map(([k, d]) => <li key={k}><span className="font-mono text-[12px] text-text">{`${k}: `}</span><Quote>{d.definition}</Quote>{d.innocentReading && <> — <Quote>{d.innocentReading}</Quote></>}</li>)}
       </ul>
-      </Fold>
-      <Caption id="sec-c14" cap="C14">{`This is the slice of the central and state tender portals' award records whose buyer is a security body, not India's security procurement: capital acquisition runs on another portal, and GeM is not here. Single-bidder rate is the share of award decisions with exactly one bid, over decisions with a recorded bid count. The works buyers alone are ${worksShare ?? 'an unstated share'}% of the slice, so the slice's overall rate is a works rate; read each class beside the whole file on its own portal. A low rate for works buyers reflects many local contractors; a high rate for laboratories or headquarters reflects specialised items. Every figure is dataset-only: the stored links had expired when the sample was checked. No winner is named here; the tender register names marked winners under its own rule.`}</Caption>
+      <Caption id="sec-c14" cap="C14">{`This is the slice of the central and state tender portals' award records whose buyer is a security body, not India's security procurement: capital acquisition runs on another portal, and GeM is not here. Single-bidder rate is the share of award decisions with exactly one bid, over decisions with a recorded bid count. ${worksShare != null ? `The works class (MES and BRO) alone is ${worksShare}% of the slice` : 'The works class (MES and BRO) has no quality row in the file'}, so the slice's overall rate is a works rate; read each class beside the whole file on its own portal. A low rate for works buyers reflects many local contractors; a high rate for laboratories or headquarters reflects specialised items. Every figure is dataset-only: the stored links had expired when the sample was checked. No winner is named here; the tender register names marked winners under its own rule.`}</Caption>
       <Twin twin="slice" title="The open-market slice by class and year" rowCount={twinRows.length}>
         {() => (
           <>
@@ -483,6 +472,59 @@ function Chapter2({ slice }: { slice: SecurityFile | null | undefined }) {
         )}
       </Twin>
     </>
+  );
+}
+
+/**
+ * Form B (§5.3.2): per class, the single-bidder rate by year as a dot with its Wilson 95%
+ * whisker, beside the same-portal whole-file rate that year as a short tick. Every class shares
+ * one year axis (a year with no row for the class is left blank, never closed up) and one frozen
+ * 0–max% scale, rounded up to the next 10% over every drawn class-year's whisker and tick. It is
+ * not Form A's scale: class-year whiskers reach past the class rows' maximum, and a mark is never
+ * clipped to a ceiling it exceeds. Both ends are labelled. A class-year with n < 10 draws nothing
+ * and says so (D43).
+ */
+function FormB({ slice, pick }: { slice: SecurityFile; pick: string | null }) {
+  const r = slice.rates;
+  const maxPct = Math.ceil(Math.max(10, ...r.byClassYear.filter((y) => y.n >= 10).flatMap((y) => [y.wilson95?.[1] ?? y.singleBidderPct, y.singleBidderPct, y.wholeFileSamePortal?.singleBidderPct ?? 0])) / 10) * 10;
+  const isYear = (y: string | undefined) => /^\d{4}$/.test(y ?? '');
+  const years = [...new Set(r.byClassYear.map((y) => y.year).filter(isYear))].sort() as string[];
+  const y0 = Number(years[0]), y1 = Number(last(years));
+  // A year the file cannot place on the axis sits in the right gutter, never on a year it is not.
+  const xPct = (y: string | undefined) => (!isYear(y) ? 99 : y1 > y0 ? ((Number(y) - y0) / (y1 - y0)) * 90 + 4 : 50);
+  const yPct = (p: number) => (p / maxPct) * 88 + 4;
+  return (
+    <div className="grid sm:grid-cols-2 gap-2">
+      {r.byClass.map((c) => {
+        const ys = r.byClassYear.filter((y) => y.class === c.class);
+        const drawn = ys.filter((y) => y.n >= 10);
+        const small = ys.filter((y) => y.n < 10);
+        const undatable = ys.filter((y) => y.n >= 10 && !isYear(y.year));
+        return (
+          <div key={c.class} className={`border rounded p-1.5 ${pick === c.class ? 'border-accent' : 'border-border'}`}>
+            <p className="font-mono text-[12px] text-text-muted m-0">{c.class}</p>
+            <div className="flex gap-1">
+              <div aria-hidden="true" className="flex flex-col justify-between font-mono text-[12px] text-text-muted leading-none py-px"><span>{`${maxPct}%`}</span><span>0%</span></div>
+              <div className="relative h-16 flex-1 min-w-0 border-l border-b border-border" aria-hidden="true">
+                {drawn.map((y) => (
+                  <div key={`${y.year}`} className="absolute top-0 bottom-0" style={{ left: `${xPct(y.year)}%` }}>
+                    {y.wilson95 && <div className="absolute w-px -ml-px bg-text-secondary" style={{ bottom: `${yPct(y.wilson95[0])}%`, height: `${yPct(y.wilson95[1]) - yPct(y.wilson95[0])}%` }} />}
+                    {y.wholeFileSamePortal && <div className="absolute h-px w-2.5 -ml-[5px] bg-text-muted" style={{ bottom: `${yPct(y.wholeFileSamePortal.singleBidderPct)}%` }} />}
+                    <div data-rate={y.singleBidderPct} data-class={c.class} data-n={y.n} className="absolute w-1.5 h-1.5 -ml-[3px] -mb-[3px] rounded-full bg-text" style={{ bottom: `${yPct(y.singleBidderPct)}%` }} />
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div aria-hidden="true" className="flex justify-between font-mono text-[12px] text-text-muted pl-7"><span>{years[0]}</span><span>{last(years)}</span></div>
+            <p className="font-mono text-[12px] text-text-muted m-0">{[
+              `${drawn.length - undatable.length} years drawn, each a dot with its Wilson 95% whisker beside a short tick at the same-portal file that year`,
+              ...small.map((y) => `${y.year}: n ${y.n}: no rate drawn`),
+              ...undatable.map((y) => `${y.year ?? 'year not stated'}: outside the ${years[0]}–${last(years)} years the file lists, drawn in the right gutter`),
+            ].join(' · ')}</p>
+          </div>
+        );
+      })}
+    </div>
   );
 }
 
@@ -502,12 +544,13 @@ function Chapter3() {
     const roles = ROLE_EDGES.filter((e) => e.s === p);
     const office = roles.find((e) => ['ministry', 'agency'].includes(nodeOf(e.t)?.ty ?? '') || nodeOf(e.t)?.fam === 'state');
     const board = roles.find((e) => ['company', 'psu'].includes(nodeOf(e.t)?.ty ?? '') && e !== office);
-    const m = monthsBetween(office?.to, board?.from);
+    const gap = gapMonths(office?.to, board?.from);
+    const m = gap.months;
     const rule = RULES[0];
     return {
       cells: [labelOf(p), office ? <><Quote>{office.lab}</Quote>{` (${office.from ?? 'start not recorded'} – ${office.to ?? 'end not recorded'})`}</> : 'no public office recorded',
         board ? <>{`${labelOf(board.t)}: `}<Quote>{board.lab}</Quote>{` (from ${board.from ?? 'not recorded'})`}</> : 'no board role recorded',
-        m == null ? `not computable: ${!office?.to ? 'office end' : 'board start'} date not recorded` : `${m} months, computed here from the dates the records give`,
+        m == null ? `not computable: ${gap.why}` : `${m} months, computed here from the dates the records give`,
         rule ? <Quote>{rule.lab}</Quote> : 'no rule recorded', <TierWord tier={board?.tier ?? office?.tier ?? 'documented'} />, <Src srcs={[...(office?.srcs ?? []), ...(board?.srcs ?? [])]} of={labelOf(p)} inline />],
       out: [labelOf(p), office?.lab ?? '', office?.from ?? '', office?.to ?? '', board ? labelOf(board.t) : '', board?.lab ?? '', board?.from ?? '', m ?? '', board?.tier ?? '', [...(office?.srcs ?? []), ...(board?.srcs ?? [])].map(([, u]) => u).join(' ')],
     };
@@ -527,12 +570,12 @@ function Chapter3() {
       <Fold on={narrow} summary="The rule's own voids, and the declared board control">
       <ul className="list-none p-0 m-0 mt-2 space-y-1.5 text-[14px] text-text-secondary">
         {ruleVoids.map((v, i) => <li key={i}><Quote>{v.what}</Quote></li>)}
-        {control && <li><Quote>{control.lab}</Quote>{control.innocentReading && <span className="block">{'the reading in which nothing is wrong: '}<Quote>{control.innocentReading}</Quote></span>}<Src srcs={control.srcs} of="the declared board control" inline /></li>}
+        {control && <li><Quote>{control.lab}</Quote>{control.innocentReading && <span className="block"><Tx>the reading in which nothing is wrong: </Tx><Quote>{control.innocentReading}</Quote></span>}<Src srcs={control.srcs} of="the declared board control" inline /></li>}
       </ul>
       </Fold>
       <BaseRateSection domain="money-people" />
-      <Caption id="sec-c16" cap="C16">A bond is a recorded purchase for a party; each donor&apos;s purchases for every party are shown together, as the Supreme Court-ordered disclosure lists them. Vendors not listed bought no bond under their own name in the disclosure the research read; that is recorded as a void, not as innocence or guilt. A purchase is not a payment for a contract: no order is joined to a bond except where a record dates both, and the research could date both for one vendor only. The base rates above give every party&apos;s share for comparison.</Caption>
-      <Caption id="sec-c17" cap="C17">Persons appear only in public roles at the public rank. A board seat after the cooling-off period is lawful; the page prints the interval, computed from the dates the records give at the coarsest precision either gives, and the rule, not a judgement.</Caption>
+      <Caption id="sec-c16" cap="C16">A bond is a recorded purchase for a party; each donor&apos;s purchases for every party are shown together, as the Supreme Court-ordered disclosure lists them. Vendors not listed bought no bond under their own name in the disclosure the research read; that is recorded as a void, not as innocence or guilt. A purchase is not a payment for a contract: {`no order is joined to a bond except where a record dates both, and the register dates both a bond and a named award for ${countWord(BOND_AND_AWARD_VENDORS.length)} vendor${BOND_AND_AWARD_VENDORS.length === 1 ? '' : 's'}${BOND_AND_AWARD_VENDORS.length ? ` (${BOND_AND_AWARD_VENDORS.map(labelOf).join(', ')}), each in its own row and never joined here` : ''}. The base rates above give every party's share for comparison.`}</Caption>
+      <Caption id="sec-c17" cap="C17">Persons appear only in public roles at the public rank. A board seat after the cooling-off period is lawful; the page prints the interval in months, computed only where both dates carry a month (otherwise the table says why), and the rule, not a judgement.</Caption>
       <Twin twin="bonds" title="Electoral bonds by donor" rowCount={bondRows.length}>
         {() => (
           <>
@@ -586,7 +629,7 @@ function Chapter4() {
   const inWin = (d: string | null | undefined) => !narrow || !d || (Number(d.slice(0, 4)) >= from && Number(d.slice(0, 4)) <= to);
   const timelineRows: Row[] = marks.map((m) => ({
     cells: [labelOf(m.c), m.e.from ?? 'undated', <Quote>{m.e.lab}</Quote>, labelOf(m.e.s), recordKind(m.e), <TierWord tier={m.e.tier} />,
-      m.response ? `answers: ${m.claim?.lab ?? 'a record'}` : responsesTo(m.e.id).length ? responsesTo(m.e.id).map((r) => `${responseHead(r)} ${r.lab ?? ''}`).join(' · ') : NO_RESPONSE,
+      m.response ? `answers: ${m.claim?.lab ?? 'a record'}` : responsesTo(m.e.id).length ? responsesTo(m.e.id).map((r) => `${responseHeadWords(r)} ${r.lab ?? ''}`).join(' · ') : NO_RESPONSE,
       <Src srcs={m.e.srcs} of={`${m.e.lab ?? m.e.id} (${labelOf(m.c)}${m.response ? ', response' : ''})`} inline />],
     out: [labelOf(m.c), m.e.from ?? '', m.e.lab ?? '', labelOf(m.e.s), recordKind(m.e), m.e.tier, m.response ? 'response' : responsesTo(m.e.id).length ? 'response recorded' : NO_RESPONSE, src(m.e)],
   }));
@@ -648,6 +691,17 @@ function Chapter4() {
 /** A case's short name for a phone summary, from its id (force:case-bofors → Bofors). */
 const shortCase = (c: string) => { const w = c.replace(/^force:case-/, ''); return w.charAt(0).toUpperCase() + w.slice(1); };
 const CASE_DTS = ['Case', 'Decision record', 'Office on the decision date', 'Allegation', 'Investigation', 'Court', 'Audit', 'Latest record', 'Counter-record', 'Stories told about it', 'Sources'];
+/**
+ * The fields that hold records and the answers to them. They are never folded, at any width:
+ * the denial beside the claim, in full, is the page's central rule (invariant 4, AC-65). Below
+ * 640 px they take the column's full width, their name above them, so a record and its answer
+ * stack at one width.
+ */
+const RECORD_FIELDS = new Set(['Allegation', 'Investigation', 'Court', 'Audit', 'Counter-record']);
+/** Below 640 px only these fields sit behind a summary: none of them is a record's answer, and each is read in full elsewhere on the page. */
+const FOLD_AT_M = new Set(['Decision record', 'Latest record', 'Sources']);
+/** Below 640 px these fields take the full width with their name above them: the record fields, and the case's own long summary line. */
+const WIDE_AT_M = new Set([...RECORD_FIELDS, 'Case']);
 function caseCells(c: string, f: ReturnType<typeof usePage>['f']): { cells: ReactNode[]; words: string[]; summary: string[] } {
   const file = caseFile(c).filter((e) => edgePass(f, e));
   const dated = file.filter((e) => e.from).sort((a, b) => (a.from! < b.from! ? -1 : 1));
@@ -660,7 +714,7 @@ function caseCells(c: string, f: ReturnType<typeof usePage>['f']): { cells: Reac
   const recs = (es: GEdge[], none: string): { node: ReactNode; word: string } => es.length ? {
     node: <>{es.map((e) => (
       <div key={e.id} className="mb-1.5">
-        <Quote as="p" className="m-0 text-text">{e.lab}</Quote>
+        <Quote as="p" className="m-0 text-text" declared={[e.a]} record={e}>{e.lab}</Quote>
         <p className="m-0 font-mono text-[12px] text-text-muted">{`${labelOf(e.s)} · ${e.from ?? 'undated'} · ${e.tier}`}</p>
         <Responses claim={e} />
       </div>
@@ -671,7 +725,7 @@ function caseCells(c: string, f: ReturnType<typeof usePage>['f']): { cells: Reac
   const latest = last(dated);
   const fields = [
     { node: `${labelOf(c)} · ${file.length} records · first ${dated[0]?.from ?? 'not dated'} · latest ${latest?.from ?? 'not dated'} · ${answered.length} of ${answerable.length} answerable records with a recorded response`, word: `${file.length} records` },
-    decision ? { node: <>{`${decision.from ?? 'undated'} · ${labelOf(decision.s)} → ${labelOf(decision.t)} · `}{finite(decision.a) ? <span data-cr={decision.a}>{`₹${fmtCr(decision.a)} cr — as the record states it; no denominator published for this line; previous year not applicable`}</span> : 'amount not stated'}{' · '}<Quote>{decision.lab}</Quote></>, word: decision.lab ?? '' }
+    decision ? { node: <>{`${decision.from ?? 'undated'} · ${labelOf(decision.s)} → ${labelOf(decision.t)} · `}{finite(decision.a) ? <span data-cr={decision.a}>{`₹${fmtCr(decision.a)} cr — as the record states it; no denominator published for this line; previous year not applicable`}</span> : 'amount not stated'}{' · '}<Quote declared={[decision.a]}>{decision.lab}</Quote></>, word: decision.lab ?? '' }
       : { node: 'decision record not joined to this case in the register (S11)', word: 'decision record not joined to this case in the register (S11)' },
     decision ? (holders.length ? { node: holders.map((w) => `${labelOf(w.s)} (${w.from ?? 'start not recorded'} – ${w.to ?? 'end not recorded'})`).join('; '), word: 'office holders' } : { node: `no recorded office window covers ${decision.from ?? 'an undated decision'}`, word: 'no office window' }) : { node: 'no decision date joined', word: 'no decision date joined' },
     recs(allegations, 'no allegation recorded in this case file'),
@@ -679,7 +733,7 @@ function caseCells(c: string, f: ReturnType<typeof usePage>['f']): { cells: Reac
     recs(kindOf('court'), 'none recorded'),
     recs(kindOf('audit'), 'none recorded'),
     latest ? { node: <Quote>{latest.lab}</Quote>, word: latest.lab ?? '' } : { node: 'not recorded', word: 'not recorded' },
-    allRes.length ? { node: <>{allRes.map((r) => <p key={r.id} className="m-0 mb-1">{`${responseHead(r)} `}<Quote>{r.lab}</Quote></p>)}</>, word: `${allRes.length} responses` } : { node: <p className="m-0">{NO_RESPONSE}</p>, word: NO_RESPONSE },
+    allRes.length ? { node: <>{allRes.map((r) => <p key={r.id} className="m-0 mb-1"><ResponseHead r={r} /><Tx> </Tx><Quote>{r.lab}</Quote></p>)}</>, word: `${allRes.length} responses` } : { node: <p className="m-0">{NO_RESPONSE}</p>, word: NO_RESPONSE },
     { node: <a href="#sec-P5-h" aria-label={`rated in Q5: the stories about ${labelOf(c)}`} onClick={(e) => { e.preventDefault(); document.getElementById('sec-P5-h')?.scrollIntoView({ block: 'start' }); }} className={`underline underline-offset-2 ${FOCUS}`}>rated in Q5</a>, word: 'rated in Q5' },
     { node: <Src srcs={[...(nodeOf(c)?.srcs ?? []) as [string, string][], ...file.flatMap((e) => e.srcs ?? [])].filter((s, i, a) => a.findIndex((x) => x[1] === s[1]) === i)} of={labelOf(c)} inline />, word: 'sources' },
   ];
@@ -701,7 +755,7 @@ function CasePairs() {
     return { a, b, edges: p.edges };
   }), ...UNPAIRED.map((u) => ({ a: u, b: null, edges: [] }))];
   return (
-    <div className="space-y-6 mt-4" aria-describedby="sec-c19">
+    <div className={`${narrow ? 'space-y-3' : 'space-y-6'} mt-4`} aria-describedby="sec-c19">
       {rows.map(({ a, b, edges }) => {
         const current = !!f.case && (f.case === a || f.case === b);
         const ca = caseCells(a, f);
@@ -711,11 +765,13 @@ function CasePairs() {
         // Field rows align across the two columns (subgrid ≥ 640 px); below 640 they interleave, left then right.
         const fieldStyle = (side: 0 | 1, i: number) => (narrow ? { gridRow: 2 * i + 1 + side, gridColumn: 1 } : { gridRow: i + 1 });
         // Below 640px each field is one row, its name beside its value, left case then right.
-        const fieldCls = `flex items-baseline gap-2 border-t ${current ? 'border-accent' : 'border-border'} pt-0.5 text-[13px] min-w-0`;
-        const dtCls = narrow ? 'font-mono text-[12px] text-text-muted w-[6.5rem] shrink-0' : 'font-mono text-[12px] text-text-muted';
+        const rule = `border-t ${current ? 'border-accent' : 'border-border'} min-w-0`;
+        const fieldCls = (t: string) => (WIDE_AT_M.has(t) ? `${rule} text-[14px] py-0.5` : `flex items-baseline gap-2 ${rule} text-[13px] leading-tight`);
+        const dtCls = (t: string) => (!narrow ? 'font-mono text-[12px] text-text-muted' : WIDE_AT_M.has(t) ? `font-mono text-[12px] leading-tight text-text-muted py-0.5` : 'font-mono text-[12px] leading-tight tracking-tight text-text-muted w-[9.25rem] shrink-0 py-0.5');
+        const cell = (side: string, x: ReturnType<typeof caseCells>, t: string, i: number) => (narrow && FOLD_AT_M.has(t) ? <Fold on small summary={`${shortCase(side)}: ${x.summary[i]}`}>{x.cells[i]}</Fold> : x.cells[i]);
         return (
           <section key={a} data-pair="" aria-current={current ? 'true' : undefined} aria-labelledby={`sec-pair-${a}`} className="min-w-0 scroll-mt-40">
-            <h4 id={`sec-pair-${a}`} tabIndex={-1} className={`text-[15px] font-semibold text-text m-0 ${TARGET}`}>
+            <h4 id={`sec-pair-${a}`} tabIndex={-1} className={`${narrow ? 'text-[14px] leading-tight' : 'text-[15px]'} font-semibold text-text m-0 ${TARGET}`}>
               <button type="button" className={`text-left underline underline-offset-2 decoration-border-light ${FOCUS}`} onClick={(e) => openCase(a, e.currentTarget)}>{b ? `${labelOf(a)} beside ${labelOf(b)}` : `${labelOf(a)}, without a recorded control`}</button>
             </h4>
             {current && <span className="sr-only">selected case</span>}
@@ -727,25 +783,25 @@ function CasePairs() {
                     <p className="font-mono text-[12px] text-text-muted m-0">{`wording: ${e.id!.split(':')[0]}`}</p>
                     <Quote as="p" className="m-0 text-text">{e.lab}</Quote>
                     {e.d && <Quote as="p" className="m-0">{e.d}</Quote>}
-                    {e.innocentReading && <p className="m-0">{'the reading in which nothing is wrong: '}<Quote>{e.innocentReading}</Quote></p>}
+                    {e.innocentReading && <p className="m-0"><Tx>the reading in which nothing is wrong: </Tx><Quote>{e.innocentReading}</Quote></p>}
                   </div>
                 ))}
                 {files.map((fl) => symmetryOf(fl) ? <div key={fl} className="mt-1"><p className="font-mono text-[12px] text-text-muted m-0">{`symmetry, ${fl} research file:`}</p><Quote as="p" className="m-0">{symmetryOf(fl)}</Quote></div> : null)}
               </div>
               </Fold>
             )}
-            <div className="grid gap-x-5 gap-y-1 mt-2" style={{ gridTemplateColumns: narrow ? 'minmax(0,1fr)' : 'minmax(0,1fr) minmax(0,1fr)', gridTemplateRows: narrow ? undefined : `repeat(${CASE_DTS.length}, auto)` }}>
+            <div className={`grid gap-x-5 ${narrow ? 'gap-y-0 mt-1' : 'gap-y-1 mt-2'}`} style={{ gridTemplateColumns: narrow ? 'minmax(0,1fr)' : 'minmax(0,1fr) minmax(0,1fr)', gridTemplateRows: narrow ? undefined : `repeat(${CASE_DTS.length}, auto)` }}>
               <dl data-case={a} className={`m-0 ${colCls}`} style={narrow ? { display: 'contents' } : { display: 'grid', gridTemplateRows: 'subgrid', gridRow: `1 / span ${CASE_DTS.length}`, gridColumn: 1 }}>
-                {CASE_DTS.map((t, i) => <div key={t} style={fieldStyle(0, i)} className={narrow ? fieldCls : 'min-w-0'}><dt className={dtCls}>{t}</dt><dd className="m-0 min-w-0 break-words">{narrow && typeof ca.cells[i] !== 'string' && i !== 9 ? <Fold on small summary={`${shortCase(a)}: ${ca.summary[i]}`}>{ca.cells[i]}</Fold> : ca.cells[i]}</dd></div>)}
+                {CASE_DTS.map((t, i) => <div key={t} style={fieldStyle(0, i)} className={narrow ? fieldCls(t) : 'min-w-0'}><dt className={dtCls(t)}>{t}</dt><dd className="m-0 min-w-0 break-words">{cell(a, ca, t, i)}</dd></div>)}
               </dl>
               {cb ? (
                 <dl data-case={b!} className={`m-0 ${colCls}`} style={narrow ? { display: 'contents' } : { display: 'grid', gridTemplateRows: 'subgrid', gridRow: `1 / span ${CASE_DTS.length}`, gridColumn: 2 }}>
-                  {CASE_DTS.map((t, i) => <div key={t} style={fieldStyle(1, i)} className={narrow ? fieldCls : 'min-w-0'}><dt className={dtCls}>{t}</dt><dd className="m-0 min-w-0 break-words">{narrow && typeof cb.cells[i] !== 'string' && i !== 9 ? <Fold on small summary={`${shortCase(b!)}: ${cb.summary[i]}`}>{cb.cells[i]}</Fold> : cb.cells[i]}</dd></div>)}
+                  {CASE_DTS.map((t, i) => <div key={t} style={fieldStyle(1, i)} className={narrow ? fieldCls(t) : 'min-w-0'}><dt className={dtCls(t)}>{t}</dt><dd className="m-0 min-w-0 break-words">{cell(b!, cb, t, i)}</dd></div>)}
                 </dl>
               ) : (
-                <dl data-case="no-control" className={`m-0 ${colCls}`} style={narrow ? { display: 'contents' } : { gridRow: `1 / span ${CASE_DTS.length}`, gridColumn: 2 }}>
+                <dl data-case="none" className={`m-0 ${colCls}`} style={narrow ? { display: 'contents' } : { gridRow: `1 / span ${CASE_DTS.length}`, gridColumn: 2 }}>
                   {narrow
-                    ? CASE_DTS.map((t, i) => <dd key={t} style={fieldStyle(1, i)} className={`m-0 text-amber ${colCls}`}>{NO_PAIRING}</dd>)
+                    ? CASE_DTS.map((t, i) => <dd key={t} style={fieldStyle(1, i)} className={`m-0 text-amber border-t ${current ? 'border-accent' : 'border-border'} text-[12.5px] leading-tight py-0.5 min-w-0`}>{NO_PAIRING}</dd>)
                     : <dd className="m-0 text-amber">{NO_PAIRING}</dd>}
                 </dl>
               )}
@@ -759,11 +815,13 @@ function CasePairs() {
 
 function CaseFieldsTwin() {
   const { f, filterWords } = usePage();
-  const cases = [...CASE_PAIRS.flatMap((p) => [p.a, p.b]), ...UNPAIRED.flatMap((u) => [u, null])];
+  // One row per case and field: an unpaired case's missing control has no fields of its own (AC-106);
+  // its pairing sentence is on the case's own rows.
+  const cases = [...CASE_PAIRS.flatMap((p) => [p.a, p.b]), ...UNPAIRED];
   const rows: Row[] = cases.flatMap((c) => {
-    if (!c) return CASE_DTS.map((t) => ({ cells: ['no control recorded', t, NO_PAIRING], out: ['', t, NO_PAIRING] }));
     const w = caseCells(c, f).words;
-    return CASE_DTS.map((t, i) => ({ cells: [labelOf(c), t, w[i] || 'not recorded'], out: [c, t, w[i]] }));
+    const unpaired = UNPAIRED.includes(c);
+    return CASE_DTS.map((t, i) => ({ cells: [labelOf(c), t, `${w[i] || 'not recorded'}${unpaired ? ` · ${NO_PAIRING}` : ''}`], out: [c, t, w[i]] }));
   });
   return (
     <Twin twin="case-fields" title="Each case's fields" rowCount={rows.length}>

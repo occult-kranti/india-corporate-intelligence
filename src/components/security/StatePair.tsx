@@ -3,9 +3,8 @@ import type { StateCode } from '../../graph/schema';
 import { STATE_BY_ID, VIEWBOX } from '../../data/geo';
 import {
   type Filters, type BudgetRow, type StatePair as Pair, type SpendMetric, UNITS, stateName, STATE_SERIES, STATE_PAIRS, STATE_ROWS, STATE_SERIES_HEAD, GSDP_FY, gsdpOf,
-  stateSpend, SPEND_BINS, binOf, STRENGTH_ST, STRENGTH_YEARS, stateStrength, STRENGTH_BINS, isDerivedStrength, derivedSentence, pairDrawable, budgetPass, rowTier,
-  fmtInt, fmtCr, round2, median, FOOTPRINT, COMMISSIONERATES, EMPTY, NOTHING, ASOF, fyStart, pct,
-} from '../../data/securityView';
+  stateSpend, gsdpShare, vacancyPct, SPEND_BINS, binOf, STRENGTH_ST, STRENGTH_YEARS, stateStrength, STRENGTH_BINS, isDerivedStrength, derivedSentence, pairDrawable, budgetPass, rowTier,
+  fmtInt, fmtCr, round2, median, FOOTPRINT, COMMISSIONERATES, EMPTY, NOTHING, ASOF, fyStart, } from '../../data/securityView';
 import { usePage, Caption, Twin, TwinTable, Exports, captionText, Cr, Src, FOCUS, type Row, type Col } from './ui';
 
 /**
@@ -446,7 +445,7 @@ function StrengthTwin({ sy, opts, filterWords }: { sy: number | null; opts: Unit
     if (!r) return { v: null, row: { cells: [stateName(u), cls, 'no row in this register', 'no row in this register', 'no row in this register', 'no row in this register'], out: [u, stateName(u), sy ?? '', '', '', '', '', ''] } };
     const derived = isDerivedStrength(r);
     const counts = `${r.sanctioned != null ? `sanctioned ${fmtInt(r.sanctioned)}` : 'sanctioned not recorded'}; ${r.actual != null ? `actual ${fmtInt(r.actual)}` : 'actual not recorded'}${derived ? ` — ${derivedSentence(r.note)}` : ''}`;
-    const vac = r.sanctioned && r.actual != null && !derived ? `vacancy ${pct(r.sanctioned - r.actual, r.sanctioned)}%, computed here from the two printed counts` : 'not computed: two printed counts are needed';
+    const vac = vacancyPct(r) != null ? `vacancy ${vacancyPct(r)}%, computed here from the two printed counts` : 'not computed: two printed counts are needed';
     return {
       v: r.perLakh,
       row: {
@@ -500,8 +499,8 @@ function StateTable() {
       return <Cr row={r} />;
     });
     const gRow = gsPair ? series.find((x) => x.fy === gsPair.fy && x.stage === gsPair.stage) : undefined;
-    const g = gsdpOf(st);
-    const pctCell = st === 'dl' ? none : !gRow ? 'no row in this register' : !vis(gRow) ? `1 row hidden by the ${hiddenWhy(f, gRow)} filter — not absent` : g == null ? 'GSDP not in this build' : `${pct(gRow.cr, g)}% of GSDP ${GSDP_FY} (${gsPair!.stage}), computed here`;
+    const gp = gRow ? gsdpShare(gRow) : null;
+    const pctCell = st === 'dl' ? none : !gRow ? 'no row in this register' : !vis(gRow) ? `1 row hidden by the ${hiddenWhy(f, gRow)} filter — not absent` : gp == null ? 'GSDP not in this build' : `${gp}% of GSDP ${gRow.fy} (${gsPair!.stage}), computed here`;
     const own = STATE_ROWS.filter((r) => r.payer === st && r.head !== STATE_SERIES_HEAD && !/PRS/.test(r.head));
     const ownFys = [...new Set(own.map((r) => r.fy))].sort();
     const ownCell = own.length ? (
@@ -526,7 +525,7 @@ function StateTable() {
   });
   const spendRows = () => STATE_ROWS.filter(vis).map((r) => {
     const g = gsdpOf(r.payer);
-    const p = r.head === STATE_SERIES_HEAD && g != null && r.fy === GSDP_FY ? pct(r.cr, g) : '';
+    const p = gsdpShare(r) ?? '';
     return [r.payer, stateName(r.payer), r.fy, fyStart(r.fy), r.stage, r.head, r.cr, rowTier(r), r.note ?? '', g ?? '', GSDP_FY ?? '', 'reported', p, r.srcs.map(([, u]) => u).join(' ')];
   });
   const strRows = () => STRENGTH_ST.filter((r) => f.tiers.has(rowTier(r))).map((r) => [r.st ?? '', stateName(r.st ?? ''), r.year, r.perLakh ?? '', r.sanctioned ?? '', r.actual ?? '', r.womenPct ?? '', isDerivedStrength(r) ? 'true' : 'false', rowTier(r), r.note ?? '', r.srcs.map(([, u]) => u).join(' ')]);

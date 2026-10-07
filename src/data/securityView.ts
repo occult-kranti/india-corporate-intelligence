@@ -29,6 +29,7 @@ import { STATES } from './geo';
 import { STATE_ECONOMY } from './companies';
 import type { GEdge, GNode, Source, StateCode, Tier } from '../graph/schema';
 import type { BudgetComponent, BudgetRow, BudgetStage, FootprintKind, FootprintRow, StrengthRow, BaseRateRow, Narrative, Void, FleetText } from '../graph/fleet';
+import type { SecurityFile } from './cppp';
 
 // ---------------------------------------------------------------------------
 // Anchors (spec §3.2). Each names a head, an id or a pattern the research writes.
@@ -195,8 +196,8 @@ export interface StackCol {
   fy: string;
   missing: boolean;
   rows: BudgetRow[];
-  /** One entry per demand-level row, bottom to top in the fixed band order. */
-  bands: { band: BandName; row: BudgetRow }[];
+  /** One entry per demand-level row, bottom to top in the fixed band order; `share` on the U9 basis, null on a partial stack. */
+  bands: { band: BandName; row: BudgetRow; share: number | null }[];
   sum: number;
   published: BudgetRow | null;
   recon: 'equal' | 'differs' | 'none';
@@ -206,9 +207,21 @@ export interface StackCol {
   /** The pension share on the one basis (U9): the published total where printed, else the stack. */
   pensionPct: number | null;
   basis: 'of published total' | 'of stack, computed here';
+  /** The pension share in words, basis included; a partial stack with no published total computes no share. */
+  pensionWords: string;
+  /** Stack minus published total as a share of the published total, computed here; null without both. */
+  deltaPct: number | null;
   revenueDemands: number;
 }
 
+/**
+ * The one reconciliation rule: two ₹ crore figures agree when they differ by no more than
+ * half a crore (the rounding of a printed figure). Every 'equal'/'differs' on the page — the
+ * defence stack against the published total, the Police demand's revenue + capital against
+ * its total — is decided here, so the graphic and its table twin cannot disagree.
+ */
+export const RECON_TOLERANCE = 0.5;
+export const reconciles = (a: number, b: number) => Math.abs(a - b) <= RECON_TOLERANCE;
 const stackCache = new Map<BudgetStage, StackCol[]>();
 export function defenceStack(stage: BudgetStage): StackCol[] {
   const hit = stackCache.get(stage);
@@ -219,32 +232,47 @@ export function defenceStack(stage: BudgetStage): StackCol[] {
   const out = per.map(({ fy, rows }): StackCol => {
     const pub = publishedTotal(fy, stage);
     if (!rows.length) {
-      return { fy, missing: true, rows, bands: [], sum: 0, published: pub, recon: 'none', delta: 0, partial: null, pension: null, pensionPct: null, basis: pub ? 'of published total' : 'of stack, computed here', revenueDemands: 0 };
+      return { fy, missing: true, rows, bands: [], sum: 0, published: pub, recon: 'none', delta: 0, partial: null, pension: null, pensionPct: null, basis: pub ? 'of published total' : 'of stack, computed here', pensionWords: `no ${stage} rows recorded`, deltaPct: null, revenueDemands: 0 };
     }
-    const bands = [...rows].map((row) => ({ band: BAND_OF[row.component] ?? 'civil', row }))
-      .sort((a, b) => BAND_ORDER.indexOf(a.band) - BAND_ORDER.indexOf(b.band) || cmp(a.row.head, b.row.head));
     const sum = rows.reduce((s, r) => s + r.cr, 0);
-    const recon = pub == null ? 'none' : Math.abs(sum - pub.cr) <= 0.5 ? 'equal' : 'differs';
+    const recon = pub == null ? 'none' : reconciles(sum, pub.cr) ? 'equal' : 'differs';
     const comps = new Set(rows.map((r) => r.component));
     const partial = rows.length < maxCount && comps.size < unionComps.size && [...comps].every((c) => unionComps.has(c)) ? { k: rows.length, n: maxCount } : null;
     const pensionRows = rows.filter((r) => r.component === 'pension');
     const pension = pensionRows.length ? pensionRows.reduce((s, r) => s + r.cr, 0) : null;
     const base = pub ? pub.cr : sum;
+    // A partial stack is missing demands, not holding zeros: a share of it has the wrong
+    // denominator, so none is computed unless the Summary prints the whole (audit, 2013-14 actual).
+    const shareable = base > 0 && !(partial && !pub);
+    const basis = pub ? 'of published total' : 'of stack, computed here';
+    const pensionPct = pension != null && shareable ? pct(pension, base) : null;
+    const bands = [...rows].map((row) => ({ band: BAND_OF[row.component] ?? 'civil', row, share: shareable ? pct(row.cr, base) : null }))
+      .sort((a, b) => BAND_ORDER.indexOf(a.band) - BAND_ORDER.indexOf(b.band) || cmp(a.row.head, b.row.head));
+    const pensionWords = pension == null ? 'no pension row' : pensionPct == null ? `${partial!.k} of ${partial!.n} demands recorded; no share computed` : `${pensionPct}% ${basis}`;
     return {
       fy, missing: false, rows, bands, sum: round2(sum), published: pub, recon, delta: pub ? round2(sum - pub.cr) : 0, partial,
-      pension, pensionPct: pension != null && base > 0 ? pct(pension, base) : null,
-      basis: pub ? 'of published total' : 'of stack, computed here',
+      pension, pensionPct, basis, pensionWords,
+      deltaPct: pub && pub.cr > 0 && recon === 'differs' ? pct(sum - pub.cr, pub.cr) : null,
       revenueDemands: rows.filter((r) => r.component === 'revenue').length,
     };
   });
   stackCache.set(stage, out);
   return out;
 }
+/** The pension share as an axis name speaks it: a recorded 0 is "0 percent", never dropped; no share reads its words. */
+export const pensionSpoken = (c: StackCol) => (c.pensionPct != null ? `${c.pensionPct} percent` : c.pensionWords);
 export const coveredFys = (stage: BudgetStage) => defenceStack(stage).filter((c) => !c.missing).map((c) => c.fy);
 const STAGE_RANK: Record<BudgetStage, number> = { actual: 0, RE: 1, BE: 2 };
 /** The stage with the widest coverage of the stack, ties to actual > RE > BE (D9). Derived, never hand-set. */
 export const DEFAULT_STAGE: BudgetStage = [...STAGES].sort((a, b) => coveredFys(b).length - coveredFys(a).length || STAGE_RANK[a] - STAGE_RANK[b])[0];
 export const latestFy = (stage: BudgetStage) => last(coveredFys(stage)) ?? null;
+/** C2's reconciliation figures: years equal to the published total, years with one, and the largest excess as a share, rounded up to 0.1. */
+export function reconSummary(stage: BudgetStage) {
+  const withPub = defenceStack(stage).filter((c) => !c.missing && c.published);
+  // From the unrounded excess, so "under {maxPct}%" stays true after rounding.
+  const diffs = withPub.filter((c) => c.recon === 'differs').map((c) => (c.delta / c.published!.cr) * 100);
+  return { equal: withPub.filter((c) => c.recon === 'equal').length, checkable: withPub.length, differ: diffs.length, maxPct: diffs.length ? Math.ceil(Math.max(...diffs) * 10) / 10 : null };
+}
 /** FYs where the number of revenue demands changes from the previous drawn FY (D8). */
 export function structureBreaks(stage: BudgetStage) {
   const cols = defenceStack(stage).filter((c) => !c.missing);
@@ -253,22 +281,57 @@ export function structureBreaks(stage: BudgetStage) {
   return out;
 }
 
-/** Pay lines inside the defence demands: a bracket and a count, never a band (F8). */
+/**
+ * Pay lines inside the defence demands: a bracket and a count, never a band (F8). Only the
+ * demand documents' own lines count (a head under DEMAND_PREFIX): a pay row another document
+ * prints (the Expenditure Profile's Statement 22, "Pay (Salary)" of the Civil demand) is a
+ * different definition and is its own labelled tick, never added into the bracket.
+ */
+export const isDemandPay = (r: BudgetRow) => r.component === 'pay' && isDefence(r) && DEMAND_PREFIX.test(r.head);
 export function payLines(fy: string, stage: BudgetStage) {
-  return rowsAt(fy, stage).filter((r) => r.component === 'pay' && isDefence(r));
+  return rowsAt(fy, stage).filter(isDemandPay);
 }
-export function payBreaks(stage: BudgetStage) {
-  const out: { fy: string; from: number; to: number }[] = [];
+/** Defence pay rows from a document other than the demands, each printed with its head verbatim. */
+export function otherPayRows(fy: string, stage: BudgetStage) {
+  return rowsAt(fy, stage).filter((r) => r.component === 'pay' && isDefence(r) && !DEMAND_PREFIX.test(r.head));
+}
+export interface PayBracket { fy: string; lines: number; cr: number | null; rows: BudgetRow[]; other: BudgetRow[] }
+const payCache = new Map<BudgetStage, PayBracket[]>();
+/** §3.2 payBracket: per FY the demand pay lines, their count and Σ (the bracket's height, never a printed ₹), and the other documents' pay rows beside them. */
+export function payBracket(stage: BudgetStage): PayBracket[] {
+  const hit = payCache.get(stage);
+  if (hit) return hit;
+  const out = FY_AXIS.map((fy) => {
+    const rows = payLines(fy, stage);
+    return { fy, lines: rows.length, cr: rows.length ? round2(rows.reduce((s, r) => s + r.cr, 0)) : null, rows, other: otherPayRows(fy, stage) };
+  });
+  payCache.set(stage, out);
+  return out;
+}
+export const payBracketAt = (fy: string, stage: BudgetStage) => payBracket(stage).find((p) => p.fy === fy) ?? { fy, lines: 0, cr: null, rows: [], other: [] };
+/**
+ * §3.2 compositionBreaks: drawn FYs where the number of pay lines changes. A drawn FY with
+ * no pay line transcribed (a Summary-only year) is not a change to zero: it is listed apart
+ * and skipped, because absence is never zero.
+ */
+export function compositionBreaks(stage: BudgetStage): { breaks: { fy: string; from: number; to: number }[]; untranscribed: string[] } {
+  const breaks: { fy: string; from: number; to: number }[] = [];
+  const untranscribed: string[] = [];
   let prev: number | null = null;
   for (const c of defenceStack(stage)) {
     if (c.missing) continue;
-    const k = payLines(c.fy, stage).length;
-    if (prev != null && k !== prev) out.push({ fy: c.fy, from: prev, to: k });
+    const k = payBracketAt(c.fy, stage).lines;
+    if (!k) { untranscribed.push(c.fy); continue; }
+    if (prev != null && k !== prev) breaks.push({ fy: c.fy, from: prev, to: k });
     prev = k;
   }
-  return out;
+  return { breaks, untranscribed };
 }
 export const agnipathLines = (fy: string, stage: BudgetStage) => rowsAt(fy, stage).filter((r) => isDefence(r) && /Agnipath/i.test(r.head));
+/** §3.2 agnipathTicks: per FY the Agnipath service lines and their Σ (a tick's height inside revenue, not added on top). */
+export function agnipathTicks(stage: BudgetStage): { fy: string; rows: BudgetRow[]; cr: number }[] {
+  return FY_AXIS.map((fy) => ({ fy, rows: agnipathLines(fy, stage) })).filter((t) => t.rows.length).map((t) => ({ ...t, cr: round2(t.rows.reduce((s, r) => s + r.cr, 0)) }));
+}
 
 /** The Union Police demand's whole-demand rows of one (fy, stage), by component (F10). */
 export function policeDemand(fy: string, stage: BudgetStage): Partial<Record<BudgetComponent, BudgetRow>> | null {
@@ -279,19 +342,78 @@ export function policeDemand(fy: string, stage: BudgetStage): Partial<Record<Bud
   return by;
 }
 export const policeChecked = (stage: BudgetStage) => FY_AXIS.filter((fy) => { const p = policeDemand(fy, stage); return !!(p?.revenue && p.capital && p.total); });
-export const policeEqual = (p: Partial<Record<BudgetComponent, BudgetRow>>) => !!(p.revenue && p.capital && p.total) && Math.abs(p.total!.cr - (p.revenue!.cr + p.capital!.cr)) <= 0.5;
-export function delhiAt(fy: string, stage: BudgetStage): Partial<Record<BudgetComponent, BudgetRow>> | null {
+function delhiAt(fy: string, stage: BudgetStage): Partial<Record<BudgetComponent, BudgetRow>> | null {
   const rows = rowsAt(fy, stage).filter((r) => r.body === DELHI_POLICE);
   if (!rows.length) return null;
   const by: Partial<Record<BudgetComponent, BudgetRow>> = {};
   for (const r of rows) by[r.component] = r;
   return by;
 }
-export const policePay = (fy: string, stage: BudgetStage) => rowsAt(fy, stage).filter((r) => r.component === 'pay' && r.body === MHA);
+/**
+ * The document a Union row comes from when it is not a demand's line: the head's first part
+ * ("Expenditure Profile Statement 22"); null for a demand's line (DEMAND_PREFIX) and for the
+ * two published totals, which the demands documents print.
+ */
+export const otherDocument = (r: BudgetRow): string | null =>
+  r.payer !== 'union' || DEMAND_PREFIX.test(r.head) || r.head === MOD_ALL_DEMANDS || r.component === 'grant-to-states' ? null : r.head.split(' — ')[0];
+/** The words for a pay row another document prints: never a line of the demand it sits beside. */
+export const otherPayWords = (r: BudgetRow, demand: string) => `from the ${otherDocument(r) ?? 'another document'}, another definition of pay; not part of the ${demand} demand's lines`;
+/** §3.2 policePayTicks: every MHA pay row, each with its stage and FY (a tick at its year only). Every one is a Statement 22 row today: see otherPayWords. */
+export const POLICE_PAY_TICKS = UNION_ROWS.filter((r) => r.component === 'pay' && r.body === MHA)
+  .sort((a, b) => cmp(a.fy, b.fy) || STAGES.indexOf(a.stage) - STAGES.indexOf(b.stage));
+
+export interface PoliceCol {
+  fy: string;
+  revenue: BudgetRow | null;
+  capital: BudgetRow | null;
+  total: BudgetRow | null;
+  /** revenue + capital, computed here, where both are printed. */
+  sum: number | null;
+  check: 'equal' | 'differs' | 'incomplete';
+  /** A part's share of revenue + capital, computed here; null without both. */
+  shareOf: (r: BudgetRow) => number | null;
+}
+const policeCache = new Map<BudgetStage, PoliceCol[]>();
+/** §3.2 policeStack: the Police demand's revenue, capital and total per FY, and the check total = revenue + capital. */
+export function policeStack(stage: BudgetStage): PoliceCol[] {
+  const hit = policeCache.get(stage);
+  if (hit) return hit;
+  const out = FY_AXIS.map((fy): PoliceCol => {
+    const p = policeDemand(fy, stage);
+    const revenue = p?.revenue ?? null, capital = p?.capital ?? null, total = p?.total ?? null;
+    const sum = revenue && capital ? round2(revenue.cr + capital.cr) : null;
+    const check = total && sum != null ? (reconciles(total.cr, sum) ? 'equal' : 'differs') : 'incomplete';
+    return { fy, revenue, capital, total, sum, check, shareOf: (r) => (sum ? pct(r.cr, sum) : null) };
+  });
+  policeCache.set(stage, out);
+  return out;
+}
+export const policeAt = (fy: string, stage: BudgetStage) => policeStack(stage).find((p) => p.fy === fy) ?? null;
+/** The police column is drawn when any part of the demand is printed for that FY. */
+export const policeDrawn = (p: PoliceCol | null) => !!(p && (p.revenue || p.capital || p.total));
 export const DELHI_ROWS = UNION_ROWS.filter((r) => r.body === DELHI_POLICE);
 export const DELHI_POINTS = uniq(DELHI_ROWS.map((r) => `${r.fy}:${r.stage}`))
   .map((k) => { const [fy, stage] = k.split(':'); return { fy, stage: stage as BudgetStage }; })
   .sort((a, b) => cmp(a.fy, b.fy) || STAGES.indexOf(a.stage) - STAGES.indexOf(b.stage));
+export interface DelhiPoint {
+  fy: string;
+  stage: BudgetStage;
+  total: BudgetRow | null;
+  revenue: BudgetRow | null;
+  capital: BudgetRow | null;
+  /** The Police demand's whole-demand total of the same (fy, stage), or null. */
+  police: BudgetRow | null;
+  /** Delhi's total ÷ the Police demand total, computed here, only where both exist in the same (fy, stage). */
+  shareOfPolice: number | null;
+}
+/** §3.2 delhiLine: Delhi Police per (fy, stage), with its share of the Police demand where both are printed. */
+export const DELHI_LINE: DelhiPoint[] = DELHI_POINTS.map(({ fy, stage }) => {
+  const d = delhiAt(fy, stage);
+  const police = policeDemand(fy, stage)?.total ?? null;
+  const total = d?.total ?? null;
+  return { fy, stage, total, revenue: d?.revenue ?? null, capital: d?.capital ?? null, police, shareOfPolice: total && police && police.cr > 0 ? pct(total.cr, police.cr) : null };
+});
+export const delhiLineAt = (fy: string, stage: BudgetStage) => DELHI_LINE.find((p) => p.fy === fy && p.stage === stage) ?? null;
 
 // ---------------------------------------------------------------------------
 // The ledger: one lane per body × component × line as printed (D11)
@@ -371,7 +493,17 @@ export const GSDP_FY: string | null = (() => {
   for (const s of STATE_ECONOMY as unknown as { gsdpYear?: string | null }[]) if (s.gsdpYear) by.set(s.gsdpYear, (by.get(s.gsdpYear) ?? 0) + 1);
   return toFyLabel([...by.entries()].sort((a, b) => b[1] - a[1])[0]?.[0] ?? null);
 })();
-export const gsdpOf = (st: string) => GSDP.get(st) ?? null;
+/** Each state's own GSDP year: a share divides by a state's GSDP only in the FY that GSDP is for. */
+const GSDP_YEAR = new Map<string, string | null>((STATE_ECONOMY as unknown as { stateCode: string; gsdpYear?: string | null }[]).map((s) => [s.stateCode, toFyLabel(s.gsdpYear ?? null)]));
+/** A state's GSDP (₹ crore, reported series); with `fy`, null unless that state's GSDP year is `fy`. */
+export const gsdpOf = (st: string, fy?: string) => {
+  const g = GSDP.get(st) ?? null;
+  if (g == null) return null;
+  return fy && GSDP_YEAR.get(st) !== fy ? null : g;
+};
+
+/** A state MH 2055 row as a share of that state's GSDP of the same FY, computed here; null otherwise. */
+export const gsdpShare = (r: BudgetRow) => { const g = r.head === STATE_SERIES_HEAD ? gsdpOf(r.payer, r.fy) : null; return g != null && g > 0 ? pct(r.cr, g) : null; };
 
 function parentOf(r: BudgetRow): BudgetRow | null {
   if (r.payer !== 'union') return null;
@@ -381,7 +513,10 @@ function parentOf(r: BudgetRow): BudgetRow | null {
   if (isDefence(r) && isDemandLevel(r)) return peers.find((x) => x.head === MOD_ALL_DEMANDS) ?? null;
   if (!no) return null;
   const title = demandTitle(r.head);
-  const cands = peers.filter((x) => x !== r && demandNo(x.head) === no && demandTitle(x.head) === title && (isDemandLevel(x) || x.head.includes(WHOLE_DEMAND)));
+  const all = peers.filter((x) => x !== r && demandNo(x.head) === no && demandTitle(x.head) === title && (isDemandLevel(x) || x.head.includes(WHOLE_DEMAND)));
+  // Where the plain edition and the Summary edition both print the demand, the plain one is the parent.
+  const plain = all.filter((x) => !EDITION_SUFFIX.test(x.head));
+  const cands = plain.length ? plain : all;
   if (!cands.length) return null;
   return cands.find((x) => x.component === r.component) ?? cands.find((x) => x.component === 'total') ?? (cands.length === 1 ? cands[0] : null);
 }
@@ -393,13 +528,17 @@ export function crContext(r: BudgetRow): CrContext {
   let share: number | null = null;
   if (r.component === 'grant-to-states') denom = 'no denominator published for this line';
   else if (r.payer !== 'union') {
-    const g = gsdpOf(r.payer);
-    if (r.head === STATE_SERIES_HEAD && g != null && r.fy === GSDP_FY) { share = pct(r.cr, g); denom = `${share}% of GSDP ${GSDP_FY} (reported series), computed here`; }
+    const g = gsdpOf(r.payer, r.fy);
+    if (r.head === STATE_SERIES_HEAD && g != null) { share = pct(r.cr, g); denom = `${share}% of GSDP ${r.fy} (reported series), computed here`; }
     else denom = 'no same-year denominator in this register (S3)';
   } else if (r.head === MOD_ALL_DEMANDS || (r.body === MHA && r.head.includes(WHOLE_DEMAND))) denom = 'no denominator published for this line';
+  // A line another document prints (the Expenditure Profile's Statement 22) belongs to no demand, so no demand total is its parent.
+  else if (otherDocument(r)) denom = `no denominator published for this line: a line of ${otherDocument(r)}, not of a demand`;
   else {
     parent = parentOf(r);
     if (parent && parent.cr > 0) { share = pct(r.cr, parent.cr); denom = `₹${fmtCr(r.cr)} of ₹${fmtCr(parent.cr)} cr, ${share}% of the published ${stripDemand(parent.head)}, computed here`; }
+    // A demand-level defence row's parent is the Summary's all-demands total, printed for BE only in some years.
+    else if (isDefence(r) && isDemandLevel(r)) denom = `no published total for this line's demand in FY${r.fy}: the Ministry's all-demands total is not printed for ${r.stage} that year`;
     else denom = `no published total for this line's demand in FY${r.fy}`;
   }
   const pf = prevFy(r.fy);
@@ -448,19 +587,29 @@ export function defaultStatePair(m: SpendMetric): StatePair | null {
   return [...pairs].sort((a, b) => b.states - a.states || STAGE_RANK[a.stage] - STAGE_RANK[b.stage] || cmp(b.fy, a.fy))[0] ?? null;
 }
 export type SpendClass = 'value' | 'union-funded' | 'no-row' | 'no-denominator' | 'hidden';
-export interface SpendUnit { st: StateCode; cls: SpendClass; value: number | null; row: BudgetRow | null; hiddenBy: string | null }
+export interface SpendUnit {
+  st: StateCode;
+  cls: SpendClass;
+  value: number | null;
+  row: BudgetRow | null;
+  hiddenBy: string | null;
+  /** The weaker of the row's tier and the denominator's (GSDP is a reported series); null without a row. */
+  tier: Tier | null;
+  /** The denominator in words, as every surface prints it. */
+  denom: string;
+}
 export function stateSpend(pair: StatePair | null, m: SpendMetric, visible: (r: BudgetRow) => boolean, hiddenWord: string | null): Map<StateCode, SpendUnit> {
   const out = new Map<StateCode, SpendUnit>();
   for (const st of UNITS) {
-    if (st === 'dl') { out.set(st, { st, cls: 'union-funded', value: null, row: null, hiddenBy: null }); continue; }
+    if (st === 'dl') { out.set(st, { st, cls: 'union-funded', value: null, row: null, hiddenBy: null, tier: null, denom: "Delhi's police is a Union demand line" }); continue; }
     const row = pair ? STATE_SERIES.find((r) => r.payer === st && r.fy === pair.fy && r.stage === pair.stage) ?? null : null;
-    if (!row) { out.set(st, { st, cls: 'no-row', value: null, row: null, hiddenBy: null }); continue; }
-    if (!visible(row)) { out.set(st, { st, cls: 'hidden', value: null, row, hiddenBy: hiddenWord }); continue; }
+    if (!row) { out.set(st, { st, cls: 'no-row', value: null, row: null, hiddenBy: null, tier: null, denom: NO_ROW }); continue; }
+    if (!visible(row)) { out.set(st, { st, cls: 'hidden', value: null, row, hiddenBy: hiddenWord, tier: rowTier(row), denom: 'hidden by a filter — not absent' }); continue; }
     if (m === 'gsdp') {
-      const g = gsdpOf(st);
-      if (g == null || row.fy !== GSDP_FY) { out.set(st, { st, cls: 'no-denominator', value: null, row, hiddenBy: null }); continue; }
-      out.set(st, { st, cls: 'value', value: (row.cr / g) * 100, row, hiddenBy: null });
-    } else out.set(st, { st, cls: 'value', value: row.cr, row, hiddenBy: null });
+      const g = gsdpOf(st, row.fy);
+      if (g == null) { out.set(st, { st, cls: 'no-denominator', value: null, row, hiddenBy: null, tier: rowTier(row), denom: `no GSDP for FY${row.fy} in this build` }); continue; }
+      out.set(st, { st, cls: 'value', value: (row.cr / g) * 100, row, hiddenBy: null, tier: 'reported', denom: `% of GSDP ${row.fy} (reported series), computed here` });
+    } else out.set(st, { st, cls: 'value', value: row.cr, row, hiddenBy: null, tier: rowTier(row), denom: '₹ crore as printed; no share computed' });
   }
   return out;
 }
@@ -474,7 +623,7 @@ function quantileEdges(values: number[], k = 5): number[] {
   return edges;
 }
 export const SPEND_BINS: Record<'gsdp' | 'cr', number[]> = {
-  gsdp: quantileEdges(STATE_SERIES.filter((r) => r.fy === GSDP_FY && gsdpOf(r.payer) != null).map((r) => (r.cr / gsdpOf(r.payer)!) * 100)),
+  gsdp: quantileEdges(STATE_SERIES.filter((r) => gsdpOf(r.payer, r.fy) != null).map((r) => (r.cr / gsdpOf(r.payer, r.fy)!) * 100)),
   cr: quantileEdges(STATE_SERIES.map((r) => r.cr)),
 };
 export const binOf = (v: number, edges: number[]) => {
@@ -499,6 +648,8 @@ export function stateStrength(sy: number | null): Map<StateCode, StrengthUnit> {
 }
 export const STRENGTH_BINS = quantileEdges(STRENGTH_ST.map((r) => r.perLakh).filter(finite));
 export const isDerivedStrength = (r: StrengthRow) => /DERIVED/.test(r.note ?? '');
+/** Vacancy share, computed here, only when both counts are printed and neither was derived by the research from a ratio. */
+export const vacancyPct = (r: StrengthRow) => (r.sanctioned && r.actual != null && !isDerivedStrength(r) ? pct(r.sanctioned - r.actual, r.sanctioned) : null);
 export const derivedSentence = (note: string | null) => (note ?? '').split(/(?<=\.)\s+/).find((s) => s.includes('DERIVED'))?.trim() ?? null;
 
 // ---------------------------------------------------------------------------
@@ -521,11 +672,21 @@ export const KINDS: FootprintKind[] = uniq([...DECLARED_KINDS, ...FOOTPRINT.map(
 export const KIND_COUNT = new Map(KINDS.map((k) => [k, FOOTPRINT.filter((r) => r.kind === k).length]));
 export const EMPTY_KINDS = KINDS.filter((k) => !KIND_COUNT.get(k));
 export const kindWord = (k: string) => k.replace(/-/g, ' ');
-/** A void or gap that names why a kind has no row, verbatim (prison, ordnance). */
+/**
+ * Why a kind has no row. `ordnance` is unused by rule, not unreached: a refusal is not a void,
+ * so it reads the fixed rule sentence. Any other kind reads a footprint void that names it,
+ * verbatim; a void of another domain (pay, demands) never explains the footprint.
+ */
+export const ORDNANCE_RULE = 'unused by rule: the ex-OFB factories are recorded as dpsu-plant rows, and this kind never means a depot or magazine';
+const FOOTPRINT_VOIDS = VOIDS.filter((v) => v.domain === 'footprint');
 export const kindReason = (k: FootprintKind): string | null => {
-  const re = k === 'prison' ? /prison|jail/i : new RegExp(k, 'i');
-  return VOIDS.find((v) => re.test(v.what))?.what ?? null;
+  if (k === 'ordnance') return ORDNANCE_RULE;
+  const re = k === 'prison' ? /prison|jail/i : new RegExp(k.replace(/-/g, '[ -]'), 'i');
+  return FOOTPRINT_VOIDS.find((v) => re.test(v.what))?.what ?? null;
 };
+/** Empty kinds split by why: `ordnance` is unused by rule (a refusal, not a void); every other empty kind is unreached. */
+export const EMPTY_BY_RULE = EMPTY_KINDS.filter((k) => k === 'ordnance');
+export const EMPTY_UNREACHED = EMPTY_KINDS.filter((k) => k !== 'ordnance');
 export const FP_STATES = uniq(FOOTPRINT.map((r) => r.st));
 export const FP_CITIES = uniq(FOOTPRINT.map((r) => r.city));
 export const FP_DATED = FOOTPRINT.filter((r) => r.since !== null).length;
@@ -537,6 +698,13 @@ export const PLACES_ORDER = (rows: FootprintRow[]) => [...rows].sort((a, b) => U
 
 export const GRANT_ROWS = [...UNION_ROWS.filter((r) => r.component === 'grant-to-states')].sort((a, b) => cmp(a.head, b.head) || cmp(a.fy, b.fy) || STAGES.indexOf(a.stage) - STAGES.indexOf(b.stage));
 export const GRANT_FYS = uniq(GRANT_ROWS.filter((r) => /ASUMP|modernisation/i.test(r.head)).map((r) => r.fy)).sort();
+/** The per-state split of the modernisation scheme: its lines, the documents they come from, and the lines that are the document's own totals (C10). */
+const PER_STATE_GRANTS = GRANT_ROWS.filter((r) => / — (Allocation|Released)$/.test(r.head));
+const grantLine = (r: BudgetRow) => r.head.replace(/ — (Allocation|Released)$/, '');
+export const GRANT_SPLIT = {
+  sources: uniq(PER_STATE_GRANTS.flatMap((r) => r.srcs.map(([l]) => l))),
+  totalLines: uniq(PER_STATE_GRANTS.filter((r) => /\btotal\)/i.test(r.head)).map(grantLine)).length,
+};
 export const grantStageWord = (r: BudgetRow) => (/— Allocation$/.test(r.head) ? 'allocation' : /— Released$/.test(r.head) ? 'released' : r.stage);
 
 // ---------------------------------------------------------------------------
@@ -557,7 +725,18 @@ export function responseChain(id: string | undefined, depth = 1, parent?: GEdge)
   for (const r of responsesTo(id)) { out.push({ edge: r, depth, parent: p! }); out.push(...responseChain(r.id, depth + 1, r)); }
   return out;
 }
-export const responderWords = (r: GEdge) => (isAuditContra(r) ? `the audit (recorded on ${labelOf(r.s)})` : labelOf(r.s));
+/**
+ * Who answered a record, as parts: the words around the responder's register label. The one
+ * source of the responder and response-head wording — the string forms (exports, twin cells)
+ * and the on-screen form (the label kept as the research's words) both render from it.
+ */
+export interface ResponderParts { pre: string; id: string; post: string }
+export const responderParts = (r: GEdge): ResponderParts => (isAuditContra(r) ? { pre: 'the audit (recorded on ', id: r.s, post: ')' } : { pre: '', id: r.s, post: '' });
+export const responderWords = (r: GEdge) => { const p = responderParts(r); return `${p.pre}${labelOf(p.id)}${p.post}`; };
+/** `Response from {responder} [{tier}], {date}:` as its three parts. */
+export const RESPONSE_HEAD_PRE = 'Response from ';
+export const responseHeadPost = (r: GEdge) => ` [${r.tier}], ${r.from ?? 'undated response'}:`;
+export const responseHeadWords = (r: GEdge) => `${RESPONSE_HEAD_PRE}${responderWords(r)}${responseHeadPost(r)}`;
 export const ALLEGED = EDGES.filter((e) => e.tier === 'alleged' && e.pred !== 'contra');
 export const ANSWERED = ALLEGED.filter((e) => responsesTo(e.id).length > 0);
 export const EMPTY_SRCS = EDGES.filter((e) => !(e.srcs?.length));
@@ -584,8 +763,13 @@ export function officeOn(date: string | null | undefined, office: string) {
   if (!date) return null;
   return ROLE_WINDOWS.filter((w) => w.t === office && w.from && w.from.slice(0, date.length) <= date && (!w.to || date <= w.to.slice(0, date.length) || w.to.slice(0, date.length) >= date.slice(0, w.to.length)));
 }
+/**
+ * Party as text, the span the record prints, verbatim. No role edge declares a party field
+ * yet, so this is a labelled fallback over the record's own words: the first span naming a
+ * party; a bracketed suffix ("Janata Dal (United)") is kept whole. Never a colour or a sort.
+ */
 export const partyText = (e: GEdge) => {
-  const m = `${e.lab ?? ''} ${e.d ?? ''}`.match(/\b(BJP|INC|Congress|Janata Dal[^,;.)]*|Samata Party|NCP)\b/);
+  const m = `${e.lab ?? ''} ${e.d ?? ''}`.match(/\b(BJP|INC|Congress|Janata Dal(?: \([^)]*\))?|Samata Party|NCP)/);
   return m ? m[1] : null;
 };
 
@@ -624,6 +808,12 @@ export const comparatorEdges = (v: string) => EDGES.filter((e) => e.pred === 'an
 export const comparatorsOf = (v: string) => uniq(comparatorEdges(v).map((e) => (e.s === v ? e.t : e.s)));
 export const awardsOf = (v: string) => AWARDS.filter((e) => e.t === v);
 export const JOINT_AWARDS = AWARDS.filter((e) => finite(e.a) && VENDORS.filter((v) => `${e.lab ?? ''} ${e.d ?? ''}`.includes(nodeOf(v)?.label ?? '\u0000')).length >= 2);
+
+/** Vendors the register holds both a dated bond and a dated named award for, each by its own id (C16). Neither is joined to the other. */
+export const BOND_AND_AWARD_VENDORS = VENDORS.filter((v) => EDGES.some((e) => e.pred === 'bond' && e.s === v && e.from) && awardsOf(v).some((e) => e.from));
+const NUMBER_WORDS = ['no', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'];
+/** A small count in words, as running prose prints it; 11 and over as digits. */
+export const countWord = (n: number) => NUMBER_WORDS[n] ?? fmtInt(n);
 
 export const CASES = FORCE_NODES.filter((n) => n.id.startsWith(CASE_PREFIX)).map((n) => n.id).sort();
 const CASE_SET = new Set(CASES);
@@ -671,14 +861,18 @@ export const BOND_PARTIES = uniq(BONDS.map((e) => e.t));
 export const bondsOf = (donor: string) => BONDS.filter((e) => e.s === donor).sort((a, b) => cmp(a.from ?? '', b.from ?? ''));
 export const BOARD_PAIRS = uniq(ROLE_EDGES.map((e) => e.s)).filter((p) => ROLE_EDGES.some((e) => e.s === p && ['ministry', 'agency'].includes(nodeOf(e.t)?.ty ?? '')) && ROLE_EDGES.some((e) => e.s === p && isCo(e.t)));
 export const RULES = EDGES.filter((e) => e.pred === 'law' && DOMAIN[e.id ?? ''] === MONEY_PEOPLE && nodeOf(e.t)?.ty === 'group');
-/** Months from office end to board start, at the coarser precision either date gives (D39). */
-export function monthsBetween(end: string | null | undefined, start: string | null | undefined): number | null {
-  if (!end || !start) return null;
-  const y1 = Number(end.slice(0, 4)), y2 = Number(start.slice(0, 4));
-  const m1 = end.length >= 7 ? Number(end.slice(5, 7)) : null, m2 = start.length >= 7 ? Number(start.slice(5, 7)) : null;
-  if (m1 == null || m2 == null) return (y2 - y1) * 12;
-  return (y2 - y1) * 12 + (m2 - m1);
+/**
+ * Months from office end to board start (D39). Only when both dates carry a month: at year
+ * precision the gap could be anywhere from 1 to 23 months, and the cooling-off test is on
+ * that number, so none is computed and `why` says so.
+ */
+export function gapMonths(end: string | null | undefined, start: string | null | undefined): { months: number | null; why: string | null } {
+  if (!end) return { months: null, why: 'office end date not recorded' };
+  if (!start) return { months: null, why: 'board start date not recorded' };
+  if (end.length < 7 || start.length < 7) return { months: null, why: 'year precision only — not computed' };
+  return { months: (Number(start.slice(0, 4)) - Number(end.slice(0, 4))) * 12 + (Number(start.slice(5, 7)) - Number(end.slice(5, 7))), why: null };
 }
+export const monthsBetween = (end: string | null | undefined, start: string | null | undefined) => gapMonths(end, start).months;
 
 export const LAWS = EDGES.filter((e) => e.pred === 'law' && DOMAIN[e.id ?? ''] === PAY_PENSIONS);
 export const CONTRACTS = LAWS.filter((e) => !/Pay Commission/.test(nodeOf(e.s)?.label ?? '') || nodeOf(e.t)?.ty !== 'group')
@@ -691,26 +885,88 @@ export const leftResponder = (id: string) => { const n = nodeOf(id); return n?.t
 
 export const ANALYTIC = EDGES.filter((e) => e.pred === 'analytic');
 export const analyticOfDomain = (d: string) => ANALYTIC.filter((e) => DOMAIN[e.id ?? ''] === d);
-export const stateRecords = (st: string) => ANALYTIC.filter((e) => DOMAIN[e.id ?? ''] === 'state-police' && nodeOf(e.s)?.st === st);
+/**
+ * The national bodies among the `state-police` sources: they publish tables across every
+ * state and are headquartered in Delhi, so their node's `st` is `dl` — which is why a record
+ * is never filed by the node's state alone (audit: c021, c022 are not Delhi's police).
+ */
+export const NATIONAL_POLICE_BODIES: readonly string[] = ['force:bprd', 'force:ncrb'];
+const NATIONAL_SET = new Set(NATIONAL_POLICE_BODIES);
+const STATE_POLICE_ANALYTIC = ANALYTIC.filter((e) => DOMAIN[e.id ?? ''] === 'state-police');
+/** The state a `state-police` record belongs to: its source node's own `st`, unless the source is a declared national body. */
+const recordState = (e: GEdge): string | null => {
+  if (NATIONAL_SET.has(e.s)) return null;
+  const n = nodeOf(e.s);
+  return n && n.fam === 'state' && n.st ? n.st : null;
+};
+/** §3.2 stateRecords(st): `state-police` analytic records whose source node is that state's (its own `st`), never a national body. */
+export const stateRecords = (st: string) => STATE_POLICE_ANALYTIC.filter((e) => recordState(e) === st);
+/**
+ * The `state-police` comparisons whose source is a declared national body (the party-group
+ * medians, the NCRB and NHRC custody counts): read on the comparison surface with every set
+ * and coding they carry, never filed under one state.
+ */
+export const NATIONAL_STATE_RECORDS = STATE_POLICE_ANALYTIC.filter((e) => NATIONAL_SET.has(e.s));
+/** Records that are neither a state's nor a declared national body's. Empty by construction; a test fails on any. */
+export const UNFILED_STATE_RECORDS = STATE_POLICE_ANALYTIC.filter((e) => !NATIONAL_SET.has(e.s) && recordState(e) == null);
 
-/** The ₹ figures the register holds as rows or declared fields: budget rows, base-rate figures, award and bond amounts, stated savings. */
-const DECLARED_CR = [
-  ...BUDGETS.map((r) => r.cr),
-  ...BASE_RATES.flatMap((r) => [r.numerator, r.denominator]).filter(finite),
-  ...EDGES.filter((e) => (e.pred === 'award' || e.pred === 'bond') && finite(e.a)).map((e) => e.a as number),
-  ...FORCE_BENEFITS.map((b) => b.amountCr).filter(finite),
-].sort((a, b) => a - b);
-/** The budget row that holds a quoted figure, when the register holds it as a row (nearest within ₹0.5 cr). */
-const BY_CR = [...BUDGETS].sort((a, b) => a.cr - b.cr);
-export function budgetRowFor(v: number): BudgetRow | null {
-  let lo = 0, hi = BY_CR.length - 1;
-  while (lo <= hi) { const m = (lo + hi) >> 1; if (BY_CR[m].cr < v - 0.5) lo = m + 1; else if (BY_CR[m].cr > v + 0.5) hi = m - 1; else return BY_CR[m]; }
-  return null;
+/**
+ * A ₹ figure inside research wording ("₹1,197,328 crore", "~₹670 cr"). The unit is anchored
+ * so "cr" is never read out of a longer word, and "crore"/"crores" count.
+ */
+const QUOTED_RUPEE = /₹\s?([\d,]+(?:\.\d+)?)\s?(?:crores?|crs?)\b/g;
+/** Every ₹ crore figure a piece of research wording prints, in order. */
+export const quotedCrs = (text: string): number[] => [...text.matchAll(QUOTED_RUPEE)].map((m) => Number(m[1].replace(/,/g, ''))).filter(Number.isFinite);
+/** Budget rows by body, then by FY: a quoted figure is only ever looked up among one body's rows of the years its wording names. */
+const ROWS_OF_BODY_FY = new Map<string, Map<string, BudgetRow[]>>();
+for (const r of BUDGETS) {
+  let m = ROWS_OF_BODY_FY.get(r.body);
+  if (!m) ROWS_OF_BODY_FY.set(r.body, (m = new Map()));
+  if (!m.has(r.fy)) m.set(r.fy, []);
+  m.get(r.fy)!.push(r);
 }
-export function isDeclaredCr(v: number) {
-  let lo = 0, hi = DECLARED_CR.length - 1;
-  while (lo <= hi) { const m = (lo + hi) >> 1; if (DECLARED_CR[m] < v - 0.5) lo = m + 1; else if (DECLARED_CR[m] > v + 0.5) hi = m - 1; else return true; }
-  return false;
+const FY_IN_TEXT = /\b\d{4}-\d{2}\b/g;
+const quotedRowCache = new Map<string, BudgetRow | null>();
+/**
+ * The budget row a record's own wording names, where it names one: a row of the record's own
+ * source body, of a financial year the wording prints, at a figure the wording prints — to the
+ * paisa when the wording prints decimals, within RECON_TOLERANCE when it prints a rounded
+ * crore. Never a row of another body and never a year the wording does not name: a value that
+ * merely equals some line elsewhere in the register is not that line (review, 2026-10-07).
+ * Memoised by body and wording: the ledger asks it for every source label of every row.
+ */
+export function quotedRow(text: string, record: { s: string } | null | undefined): BudgetRow | null {
+  if (!record || !text.includes('₹')) return null;
+  const byFy = ROWS_OF_BODY_FY.get(record.s);
+  if (!byFy) return null;
+  const key = `${record.s}\u0000${text}`;
+  const hit = quotedRowCache.get(key);
+  if (hit !== undefined) return hit;
+  const rows = [...new Set(text.match(FY_IN_TEXT) ?? [])].flatMap((fy) => byFy.get(fy) ?? []);
+  let found: BudgetRow | null = null;
+  if (rows.length) {
+    for (const m of text.matchAll(QUOTED_RUPEE)) {
+      const v = Number(m[1].replace(/,/g, ''));
+      const rounded = !m[1].includes('.');
+      found = rows.find((r) => (rounded ? reconciles(v, r.cr) : Math.abs(v - r.cr) < 0.005)) ?? null;
+      if (found) break;
+    }
+  }
+  quotedRowCache.set(key, found);
+  return found;
+}
+/**
+ * The hook value for research wording that prints a ₹ figure: a figure the same record
+ * declares (its own award or bond amount, its own base-rate figures) where the wording prints
+ * one, otherwise the first figure the wording prints. Never a value matched against the rest
+ * of the register: a figure in the research's words is the research's, and a value that
+ * happens to equal an unrelated budget row is not that row (review, 2026-10-07).
+ */
+export function quotedCr(text: string, declared: readonly (number | null | undefined)[] = []): number | null {
+  const figs = quotedCrs(text);
+  if (!figs.length) return null;
+  const own = declared.filter(finite);
+  return figs.find((v) => own.some((d) => reconciles(v, d))) ?? figs[0];
 }
 
 // ---------------------------------------------------------------------------
@@ -723,6 +979,8 @@ export function baseRateForm(r: BaseRateRow): 'share' | 'two-figures' | 'null' {
   if (r.numerator == null || r.denominator == null) return 'null';
   return isInt(r.numerator) && isInt(r.denominator) && r.numerator <= r.denominator ? 'share' : 'two-figures';
 }
+/** A share-form base rate as a percentage, computed here from a of b; null below a denominator of 10 or for any other form. */
+export const baseRateShare = (r: BaseRateRow) => (baseRateForm(r) === 'share' && r.denominator! >= 10 ? pct(r.numerator!, r.denominator!) : null);
 export const baseRatesOf = (d: string) => BASE_RATES.filter((r) => r.domain === d);
 export const symmetryOf = (d: string) => SYMMETRY.find((s) => s.domain === d)?.text ?? null;
 export const voidsOf = (ds: string[]): Void[] => VOIDS.filter((v) => ds.includes(v.domain));
@@ -751,6 +1009,113 @@ export const GRAPH_EDGES = (): GEdge[] => EDGES.filter((e) => resolves(e.s) && r
 export const UNDATED_EDGES = EDGES.filter((e) => !e.from).length;
 
 // ---------------------------------------------------------------------------
+// The chrome's counts (§5.0.1–§5.0.3): derived here so the chrome only formats
+// ---------------------------------------------------------------------------
+
+const span = (xs: string[]) => { const s = uniq(xs).sort(); return s.length ? { first: s[0], last: last(s)! } : null; };
+/** A state's own budget opened: a head other than MH 2055 on a row that is not a secondary (PRS) transcription. */
+export const isOwnStateRow = (r: BudgetRow) => r.payer !== 'union' && r.head !== STATE_SERIES_HEAD && rowTier(r) !== 'reported';
+/** The three resolution lines' counts (C1). */
+export const RESOLUTION_COUNTS = (() => {
+  const commBodies = new Set(COMMISSIONERATES.map((r) => r.body));
+  return {
+    unionRows: UNION_ROWS.length,
+    unionBodies: uniq(UNION_ROWS.map((r) => r.body)).length,
+    actualFys: uniq(UNION_ROWS.filter((r) => r.stage === 'actual').map((r) => r.fy)).length,
+    reFys: uniq(UNION_ROWS.filter((r) => r.stage === 'RE').map((r) => r.fy)).length,
+    seriesStates: uniq(STATE_SERIES.map((r) => r.payer)).length,
+    seriesSpan: span(STATE_SERIES.map((r) => r.fy)),
+    /** States whose own budget opened (spec §5.0.1); PRS transcriptions excluded. */
+    statesWithOwn: uniq(STATE_ROWS.filter(isOwnStateRow).map((r) => r.payer)),
+    strengthStates: uniq(STRENGTH_ST.map((r) => r.st)).length,
+    reportedStrength: STRENGTH.filter((r) => rowTier(r) === 'reported').length,
+    delhiRows: DELHI_ROWS.length,
+    delhiSpan: span(DELHI_ROWS.map((r) => r.fy)),
+    commissionerates: COMMISSIONERATES.length,
+    commWithStrength: uniq(STRENGTH.filter((r) => commBodies.has(r.body)).map((r) => r.body)).length,
+    fpCities: FP_CITIES.length,
+  };
+})();
+
+/** The Budgets strip's counts that do not move with the filters. */
+export const BUDGET_STRIP = {
+  stateUnits: RESOLUTION_COUNTS.seriesStates,
+  reportedRows: BUDGETS.filter((r) => rowTier(r) === 'reported').length,
+  zeroRows: BUDGETS.filter((r) => r.cr === 0).length,
+};
+/** The Budgets reconciliation line: every row in exactly one term (AC-33). */
+export const BUDGET_RECON = (() => {
+  const isPub = (r: BudgetRow) => r.head === MOD_ALL_DEMANDS || (r.body === MHA && r.head.includes(WHOLE_DEMAND));
+  const pub = UNION_ROWS.filter(isPub).length;
+  const grants = UNION_ROWS.filter((r) => r.component === 'grant-to-states' && !isPub(r)).length;
+  const demand = UNION_ROWS.filter((r) => !isPub(r) && r.component !== 'grant-to-states' && isDemandLevel(r)).length;
+  const rbi = STATE_ROWS.filter((r) => r.head === STATE_SERIES_HEAD).length;
+  const prs = STATE_ROWS.filter((r) => r.head !== STATE_SERIES_HEAD && rowTier(r) === 'reported').length;
+  return { total: BUDGETS.length, union: UNION_ROWS.length, demand, inside: UNION_ROWS.length - pub - grants - demand, grants, pub, state: STATE_ROWS.length, rbi, own: STATE_ROWS.length - rbi - prs, prs, zero: BUDGET_STRIP.zeroRows };
+})();
+/** The Procurement strip and reconciliation counts. */
+export const PROCUREMENT_COUNTS = (() => {
+  const by = (p: string) => EDGES.filter((e) => e.pred === p).length;
+  const known = ['award', 'enforce', 'contra', 'role', 'bond', 'law', 'analytic'];
+  return {
+    awardVendors: uniq(AWARDS.map((e) => e.t)).length,
+    publicVendors: VENDORS.filter((v) => vendorClass(v) === 'public').length,
+    privateVendors: VENDORS.filter((v) => vendorClass(v) === 'private').length,
+    award: by('award'), enforce: by('enforce'), contra: by('contra'), role: by('role'), bond: by('bond'), law: by('law'), analytic: by('analytic'),
+    other: EDGES.filter((e) => !known.includes(e.pred)).length,
+  };
+})();
+
+// ---------------------------------------------------------------------------
+// SLICE (§3.2): the open-market slice's figures, read from the slim page file
+// ---------------------------------------------------------------------------
+
+/** The works class key in the slice, and its words: MES and the two BRO buyers (classes.definitions.works). */
+export const WORKS_CLASS = 'works';
+export const WORKS_CLASS_WORDS = 'the works class (MES and BRO)';
+export interface SliceFigures {
+  decisions: number;
+  rawRows: number;
+  classes: number;
+  /** One class's share of the slice's award decisions, computed here; null when the class has no quality row. */
+  classShare: (cls: string) => number | null;
+  /** The works class's share of decisions (all its buyers). */
+  worksClassPct: number | null;
+  /** The largest single works buyer (classes.map) and its share of decisions — "one works buyer". */
+  worksBuyer: { buyer: string; member: string; rows: number; pct: number } | null;
+  hashes: string[];
+  asOf: string | null;
+}
+const sliceCache = new WeakMap<SecurityFile, SliceFigures>();
+export function sliceFigures(slice: SecurityFile): SliceFigures {
+  const hit = sliceCache.get(slice);
+  if (hit) return hit;
+  const total = slice.quality.total.dedupRows;
+  const shares = new Map(slice.quality.byClass.map((c) => [String(c.class), total > 0 ? pct(c.dedupRows, total) : null]));
+  const byBuyer = new Map<string, { buyer: string; member: string; rows: number }>();
+  for (const r of slice.classes.map ?? []) {
+    if (r.class !== WORKS_CLASS) continue;
+    const b = byBuyer.get(r.buyer) ?? { buyer: r.buyer, member: r.member, rows: 0 };
+    b.rows += r.rows;
+    byBuyer.set(r.buyer, b);
+  }
+  // Largest by rows, ties by buyer name, so the choice reproduces.
+  const top = [...byBuyer.values()].sort((a, b) => b.rows - a.rows || cmp(a.buyer, b.buyer))[0] ?? null;
+  const out: SliceFigures = {
+    decisions: total,
+    rawRows: slice.quality.total.rawRows,
+    classes: slice.rates.byClass.length,
+    classShare: (cls) => shares.get(cls) ?? null,
+    worksClassPct: shares.get(WORKS_CLASS) ?? null,
+    worksBuyer: top && total > 0 ? { ...top, pct: pct(top.rows, total) } : null,
+    hashes: slice.provenance.inputs.map((i) => i.sha256_16),
+    asOf: slice.provenance.asOf ?? null,
+  };
+  sliceCache.set(slice, out);
+  return out;
+}
+
+// ---------------------------------------------------------------------------
 // Derived gaps (§5.5.3): each printed only while its condition holds
 // ---------------------------------------------------------------------------
 
@@ -766,8 +1131,11 @@ export function derivedGaps(): { lens: Lens | 'all'; text: string }[] {
   const act = uniq(UNION_ROWS.filter((r) => r.stage === 'actual').map((r) => r.fy)).sort();
   const re = uniq(UNION_ROWS.filter((r) => r.stage === 'RE').map((r) => r.fy));
   if (act.length) out.push({ lens: 'budgets', text: `Union actuals in this register begin in FY${act[0]}; actual spend is recorded for ${act.length} of ${FY_AXIS.length} FYs, RE for ${re.length}` });
-  const pb = payBreaks(DEFAULT_STAGE);
-  if (pb.length) out.push({ lens: 'budgets', text: `Pay lines change composition in ${pb.map((b) => `FY${b.fy}`).join(', ')}; no pay trend is drawn across a change` });
+  const pb = compositionBreaks(DEFAULT_STAGE);
+  if (pb.breaks.length) out.push({ lens: 'budgets', text: `Pay lines change composition in ${pb.breaks.map((b) => `FY${b.fy}`).join(', ')}; no pay trend is drawn across a change` });
+  if (pb.untranscribed.length) out.push({ lens: 'budgets', text: `No pay line is transcribed for ${DEFAULT_STAGE} in ${pb.untranscribed.map((fy) => `FY${fy}${defenceDemands(fy, DEFAULT_STAGE).every((r) => EDITION_SUFFIX.test(r.head)) ? ' (demands read from the Summary only)' : ''}`).join(', ')}: no pay bracket is drawn there and no change in composition is counted` });
+  const otherPay = UNION_ROWS.filter((r) => r.component === 'pay' && isDefence(r) && !DEMAND_PREFIX.test(r.head));
+  if (otherPay.length) out.push({ lens: 'budgets', text: `${otherPay.length} defence pay row(s) come from another document (${uniq(otherPay.map((r) => r.head.split(' — ')[0])).join(', ')}) with another definition of pay; each is its own tick, never added to the demand pay lines` });
   out.push({ lens: 'budgets', text: `Grants to states name their recipient in the line's text only; ${GRANT_ROWS.length} rows are not placed on any map` });
   out.push({ lens: 'budgets', text: 'No population series: per-person spending is not drawn; a 2011 Census base would re-rank states' });
   out.push({ lens: 'budgets', text: `The spend map's denominator is a secondary GSDP series for one FY; ${UNITS.filter((u) => gsdpOf(u) == null).length} of 36 units have none` });
@@ -777,17 +1145,19 @@ export function derivedGaps(): { lens: Lens | 'all'; text: string }[] {
   if (derived) out.push({ lens: 'budgets', text: `${derived} strength rows give absolute counts derived by the research from a ratio` });
   const commBodies = new Set(COMMISSIONERATES.map((c) => c.body));
   if (!STRENGTH.some((s) => commBodies.has(s.body))) out.push({ lens: 'all', text: `${COMMISSIONERATES.filter((c) => !STRENGTH.some((s) => s.body === c.body)).length} commissionerates have no strength row` });
-  out.push({ lens: 'budgets', text: 'No budget row for prisons, fire services, home guards, civil defence or forensic laboratories' });
+  const UNBUDGETED = /prison|jail|fire|home guard|civil defence|forensic/i;
+  if (!BUDGETS.some((r) => UNBUDGETED.test(r.head) || UNBUDGETED.test(labelOf(r.body)))) out.push({ lens: 'budgets', text: 'No budget row for prisons, fire services, home guards, civil defence or forensic laboratories' });
   const noState = UNITS.filter((u) => !STATE_SERIES.some((r) => r.payer === u));
   const noStr = UNITS.filter((u) => !STRENGTH_ST.some((r) => r.st === u));
   const noFp = UNITS.filter((u) => !FOOTPRINT.some((r) => r.st === u));
   out.push({ lens: 'all', text: `${noState.length} of 36 map units have no Police-head row: ${noState.map(stateName).join(', ') || 'none'}; ${noStr.length} have no strength row; ${noFp.length} have no installation` });
-  if (EMPTY_KINDS.length) out.push({ lens: 'footprint', text: `${EMPTY_KINDS.length} declared installation kinds have no row: ${EMPTY_KINDS.map(kindWord).join(', ')}` });
+  // A refusal is not a void: ordnance is named with its rule, every other empty kind as not reached.
+  if (EMPTY_KINDS.length) out.push({ lens: 'footprint', text: `${EMPTY_KINDS.length} declared installation kinds have no row: ${EMPTY_KINDS.map((k) => (k === 'ordnance' ? `${kindWord(k)} (${ORDNANCE_RULE}; a rule, not a gap)` : kindWord(k))).join(', ')}` });
   out.push({ lens: 'footprint', text: `Installations have no coordinates; ${FOOTPRINT.filter((r) => r.since === null).length} of ${FOOTPRINT.length} carry no date` });
   out.push({ lens: 'procurement', text: 'Vendor class is not a field; vendors are grouped by actor family' });
   out.push({ lens: 'procurement', text: `${UNPRICED.length} named contracts have no ₹; ${JOINT_AWARDS.length} are joint totals not split by vendor` });
   out.push({ lens: 'procurement', text: 'DAC approvals name no vendor and no value: approvals by vendor class cannot be drawn' });
-  out.push({ lens: 'budgets', text: `Outcome rates by state exist only in research prose (${ANALYTIC.filter((e) => DOMAIN[e.id ?? ''] === 'state-police').length} records); no per-state outcome surface is drawn` });
+  out.push({ lens: 'budgets', text: `Outcome rates by state exist only in research prose (${STATE_POLICE_ANALYTIC.length} state-police analytic records, of spend, strength and outcomes alike; ${NATIONAL_STATE_RECORDS.length} of them national, read under Q4); no per-state outcome surface is drawn` });
   out.push({ lens: 'procurement', text: `${CASES.filter((c) => !caseFile(c).some((e) => e.pred === 'award')).length} of ${CASES.length} case files have no decision record joined` });
   if (UNPAIRED.length) out.push({ lens: 'procurement', text: `${UNPAIRED.length} case(s) have no recorded control pairing` });
   const enf = EDGES.filter((e) => e.pred === 'enforce');

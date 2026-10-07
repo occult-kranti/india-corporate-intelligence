@@ -2,7 +2,7 @@ import { createContext, useCallback, useContext, useEffect, useId, useRef, useSt
 import { flushSync } from 'react-dom';
 import { TIERS, type Source, type Tier } from '../../graph/schema';
 import type { StateCode } from '../../graph/schema';
-import { type Filters, type BudgetRow, type TsvMeta, tsv, tsvName, hostOf, crContext, fmtCr, lakhLine, rowTier, ASOF, firstSource, ZERO_WORDS, isDeclaredCr, fmtInt, budgetRowFor } from '../../data/securityView';
+import { type Filters, type BudgetRow, type TsvMeta, tsv, tsvName, hostOf, crContext, fmtCr, lakhLine, rowTier, ASOF, firstSource, ZERO_WORDS, fmtInt, labelOf, quotedCr, quotedRow } from '../../data/securityView';
 
 /**
  * Presentation primitives for /security. The shared Editorial ones encode things this
@@ -108,16 +108,10 @@ export function Dash({ tier, w = 22 }: { tier: Tier; w?: number }) {
  * records citing one document never give two same-named links in one list. The title is
  * never copied into an aria-label: it is the publisher's wording, not the page's.
  */
-export function Src({ srcs, of, inline }: { srcs: Source[] | [string, string][] | null | undefined; of: string; inline?: boolean }) {
+export function Src({ srcs, of, inline, declared, record }: { srcs: Source[] | [string, string][] | null | undefined; of: string; inline?: boolean; declared?: readonly (number | null | undefined)[]; record?: { s: string } | null }) {
   if (!srcs || !srcs.length) return <span className="font-mono text-[12px] text-amber">no source in file</span>;
   const list = (srcs as [string, string][]).filter(([, u], i, a) => a.findIndex((x) => x[1] === u) === i);
-  const link = (label: string, url: string) => {
-    const fig = quotedFigure(label);
-    return (
-      <a href={url} target="_blank" rel="noopener noreferrer" data-cr={fig ?? undefined}
-        className={`sec-link underline underline-offset-2 decoration-border-light hover:text-accent break-words ${FOCUS}`}>{label}{fig != null && <span className="sr-only">{QUOTED_CR_NOTE}{rowNote(fig)}</span>}</a>
-    );
-  };
+  const link = (label: string, url: string) => <QuotedLink label={label} url={url} declared={declared} record={record} className={`sec-link underline underline-offset-2 decoration-border-light hover:text-accent break-words ${FOCUS}`} />;
   if (inline) {
     return (
       <ul className="inline list-none p-0 m-0 text-[12.5px] leading-snug" data-quoted="" data-sources-for={of.slice(0, 80)}>
@@ -143,45 +137,62 @@ export function Src({ srcs, of, inline }: { srcs: Source[] | [string, string][] 
  * research's figure (of the four-demand total, or of an older year) for the page's (U9).
  */
 const PENSION_PCT = /[Pp]ension[^.;]*?\d[\d.]*%/;
-const RUPEE_CR = /₹([\d,]+(?:\.\d+)?) cr/g;
 /**
- * A ₹ figure inside research wording is the research's, not a figure this page computed.
- * The element that holds it says so in words a reader can check (no denominator is
- * published for it here, and no previous year applies), and carries the figure as its
- * hook value: the one the register also holds as a row or a declared figure where there
- * is one, otherwise the first the wording prints (D4, SG-4).
+ * A ₹ figure inside research wording is the research's, not a figure this page computed or
+ * a row of the register. The element that holds it is marked as quoted, says so in words a
+ * reader can check (no denominator is published for it here, and no previous year applies),
+ * and carries as its hook value a figure the same record declares, else the first the wording
+ * prints (`quotedCr`). It is never matched by value to another row: that would hand the
+ * research's figure a document it was not read from (D4, SG-4; review 2026-10-07).
  */
-export function quotedFigure(text: string): number | null {
-  const figs = [...text.matchAll(RUPEE_CR)].map((m) => Number(m[1].replace(/,/g, '')));
-  if (!figs.length) return null;
-  // A figure the register holds as a row hooks to that row's exact value (the wording may round it).
-  for (const v of figs) { const r = budgetRowFor(v); if (r) return r.cr; }
-  return figs.find(isDeclaredCr) ?? figs[0];
-}
 export const QUOTED_CR_NOTE = " (₹ in the research's own words: no denominator published for this line on this page; previous year not applicable)";
-/** Where the register holds the quoted figure as a budget row, the document that row was read from. */
-const rowNote = (v: number) => {
-  const r = budgetRowFor(v);
-  return r ? <>{` · the register holds ₹${fmtCr(r.cr)} `}<abbr title="crore">cr</abbr>{` as a row (${r.stage}, FY${r.fy}): read to ${ASOF} · document: ${firstSource(r.srcs)}`}</> : null;
-};
-export function Quote({ children, as = 'span', className = '' }: { children: string | null | undefined; as?: 'span' | 'p' | 'blockquote' | 'div'; className?: string }) {
+/** A source link, its label verbatim; a label that prints a ₹ figure carries the quoted-figure hook and note. */
+export function QuotedLink({ label, url, declared, record, className }: { label: string; url: string; declared?: readonly (number | null | undefined)[]; record?: { s: string } | null; className: string }) {
+  const row = quotedRow(label, record);
+  const fig = row ? row.cr : quotedCr(label, declared);
+  return (
+    <a href={url} target="_blank" rel="noopener noreferrer" data-cr={fig ?? undefined} data-quoted={fig != null ? '' : undefined} className={className}>
+      {label}{fig != null && <span className="sr-only">{QUOTED_CR_NOTE}{row ? <RowNote row={row} /> : null}</span>}
+    </a>
+  );
+}
+/** Where a record's own wording names its own body's row (`quotedRow`), the row and the document it was read from. */
+function RowNote({ row }: { row: BudgetRow }) {
+  return <>{` · the register holds this figure as ${labelOf(row.body)}'s row: ${row.head}, ${row.stage} FY${row.fy}, ₹${fmtCr(row.cr)} `}<abbr title="crore">cr</abbr>{` · read to ${ASOF} · document: ${firstSource(row.srcs)}`}</>;
+}
+/**
+ * The page's own words beside quoted words get an element of their own, so no element mixes
+ * the page's words with the research's: a reader (or a check) can tell whose words are whose
+ * (AC-144).
+ */
+export function Tx({ children }: { children: string }) {
+  return <span>{children}</span>;
+}
+/** A register label (a node's label in the research files), marked as the research's words. */
+export function Lab({ id }: { id: string }) {
+  return <span data-quoted="">{labelOf(id)}</span>;
+}
+export function Quote({ children, as = 'span', className = '', declared, record }: { children: string | null | undefined; as?: 'span' | 'p' | 'blockquote' | 'div'; className?: string; declared?: readonly (number | null | undefined)[]; record?: { s: string } | null }) {
   const text = children ?? '';
   const Tag = as;
   if (!text.trim() || /^[\s—–-]*$/.test(text)) return <Tag className={className}>not stated</Tag>;
   const note = PENSION_PCT.test(text);
-  const fig = quotedFigure(text);
+  // A figure the record's own wording names as its own body's row (same body, a year it prints) is that row; any other is the research's alone.
+  const row = quotedRow(text, record);
+  const fig = row ? row.cr : quotedCr(text, declared);
   return (
     <Tag data-quoted="" data-cr={fig ?? undefined} className={`sec-q ${className}`}>
       {text}
       {note && <span className="font-mono text-[12px] text-text-muted">{' [the research\'s own pension share and basis; this page\'s pension share is of published total where the Summary prints one, else of stack, computed here]'}</span>}
-      {fig != null && <span className="font-mono text-[12px] text-text-muted">{QUOTED_CR_NOTE}{rowNote(fig)}</span>}
+      {fig != null && <span className="font-mono text-[12px] text-text-muted">{QUOTED_CR_NOTE}{row ? <RowNote row={row} /> : null}</span>}
     </Tag>
   );
 }
 
 /** A caption that states what a graphic cannot show: body size, left rule, 72ch — a finding, not a footnote. */
 export function Caption({ id, cap, children, as = 'p', className = '' }: { id: string; cap: string; children: ReactNode; as?: 'p' | 'figcaption' | 'div'; className?: string }) {
-  const cls = `text-[14px] leading-relaxed text-text-secondary border-l-2 border-border-light pl-3 max-w-[72ch] my-3 ${className}`;
+  // Below 640px the line height tightens a step so the lens keeps its length budget (SG-53); the size does not change.
+  const cls = `text-[14px] leading-normal sm:leading-relaxed text-text-secondary border-l-2 border-border-light pl-3 max-w-[72ch] my-2 sm:my-3 ${className}`;
   if (as === 'figcaption') return <figcaption id={id} data-caption={cap} data-page-copy="" className={cls}>{children}</figcaption>;
   if (as === 'div') return <div id={id} data-caption={cap} data-page-copy="" className={cls}>{children}</div>;
   return <p id={id} data-caption={cap} data-page-copy="" className={cls}>{children}</p>;

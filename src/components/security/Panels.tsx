@@ -2,11 +2,11 @@ import { useState, type KeyboardEvent, type ReactNode, type RefObject } from 're
 import type { StateCode } from '../../graph/schema';
 import {
   type BudgetRow, type BudgetStage, EDGE_BY_ID, labelOf, fileOf, finite, fmtCr, ASOF, rowCitation, parseCell, rowTier, defenceStack, defenceDemands, publishedTotal,
-  payLines, policeDemand, policeEqual, delhiAt, round2, LANES, LANE_BY_SLUG, comparatorsOf, vendorClass, vendorsOf, CLASS_WORDS, caseFile, firstRecord,
-  responsesTo, pairOf, stateName, STATE_SERIES, STATE_ROWS, STATE_SERIES_HEAD, STRENGTH_ST, isDerivedStrength, derivedSentence, pct, stateRecords, FOOTPRINT, KINDS,
+  payBracketAt, policeAt, policeDrawn, delhiLineAt, vacancyPct, LANES, LANE_BY_SLUG, comparatorsOf, vendorClass, vendorsOf, CLASS_WORDS, caseFile, firstRecord,
+  responsesTo, pairOf, stateName, STATE_SERIES, STATE_ROWS, STATE_SERIES_HEAD, STRENGTH_ST, isDerivedStrength, derivedSentence, stateRecords, FOOTPRINT, KINDS,
   fmtInt, kindWord, COMMISSIONERATES, CITY_POLICE_TEXT, GRANT_ROWS, LAKH_NOTE, UNION_ROWS, fileOf as fileOfEdge,
 } from '../../data/securityView';
-import { usePage, Cr, ReadTo, Src, Quote, TierWord, Anchor, FOCUS, TARGET } from './ui';
+import { usePage, Cr, ReadTo, Src, Quote, Tx, TierWord, Anchor, FOCUS, TARGET } from './ui';
 import { Responses } from './Shared';
 import { VendorFieldsDl } from './Procurement';
 
@@ -52,8 +52,8 @@ function RowBlock({ r, lead, cellParam }: { r: BudgetRow; lead?: string; cellPar
     <li className="border-l border-border-light pl-2 min-w-0">
       <Cr row={r} lead={lead ? `${lead} ` : undefined} />
       <span className="block text-[13px]">{r.head}</span>
-      <span className="block text-[13px]">{'note: '}{r.note ? <Quote>{r.note}</Quote> : 'no note'}{' · '}<TierWord tier={rowTier(r)} /></span>
-      <Src srcs={r.srcs} of={`${r.head} ${r.fy} ${r.stage}`} inline />
+      <span className="block text-[13px]">{'note: '}{r.note ? <Quote declared={[r.cr]}>{r.note}</Quote> : 'no note'}{' · '}<TierWord tier={rowTier(r)} /></span>
+      <Src srcs={r.srcs} of={`${r.head} ${r.fy} ${r.stage}`} inline declared={[r.cr]} record={{ s: r.body }} />
       <ReadTo srcs={r.srcs} />
       <Citation text={rowCitation(r, href)} label={`${r.stage} FY${r.fy}, ${r.head.slice(0, 60)}`} />
     </li>
@@ -71,11 +71,11 @@ export function RecordCard({ id, ...p }: PanelProps & { id: string }) {
   return (
     <Shell title={e.lab ?? id} {...p}>
       <p className="m-0 font-mono text-[12px] text-text-muted">{`${labelOf(e.s)} → ${labelOf(String(e.t).replace(/^claim:/, ''))} · ${e.pred} · ${e.from ?? 'undated'} · ${fileOfEdge(e)} research file`} <TierWord tier={e.tier} /></p>
-      {e.d && <Quote as="p" className="m-0">{e.d}</Quote>}
-      {e.innocentReading && <p className="m-0">{'the reading in which nothing is wrong: '}<Quote>{e.innocentReading}</Quote></p>}
+      {e.d && <Quote as="p" className="m-0" record={e} declared={[e.a]}>{e.d}</Quote>}
+      {e.innocentReading && <p className="m-0"><Tx>the reading in which nothing is wrong: </Tx><Quote record={e} declared={[e.a]}>{e.innocentReading}</Quote></p>}
       {finite(e.a) && <p className="m-0" data-cr={e.a}>{`₹${fmtCr(e.a)} cr — as the record states it; no denominator published for this line; previous year not applicable`}</p>}
       <div><p className="m-0 font-mono text-[12px] text-text-muted">Responses</p><Responses claim={e} /></div>
-      <div><p className="m-0 font-mono text-[12px] text-text-muted">Sources</p><Src srcs={e.srcs} of={e.lab ?? id} /></div>
+      <div><p className="m-0 font-mono text-[12px] text-text-muted">Sources</p><Src srcs={e.srcs} of={e.lab ?? id} record={e} declared={[e.a]} /></div>
       <p className="m-0"><button type="button" className={`underline underline-offset-2 ${FOCUS}`} onClick={(ev) => showConnections(e.s, ev.currentTarget)}>Show connections</button></p>
       <Citation text={cite} label="this record" />
     </Shell>
@@ -100,16 +100,17 @@ export function FYReadout({ fy, stage, ...p }: PanelProps & { fy: string; stage:
   const col = defenceStack(stage).find((x) => x.fy === fy);
   const rows = defenceDemands(fy, stage);
   const pub = publishedTotal(fy, stage);
-  const pays = payLines(fy, stage);
-  const pol = policeDemand(fy, stage);
-  const d = delhiAt(fy, stage);
+  const pb = payBracketAt(fy, stage);
+  const pays = pb.rows;
+  const pol = policeAt(fy, stage);
+  const d = delhiLineAt(fy, stage);
   const lane = (r: BudgetRow) => LANES.find((l) => l.rows.includes(r)) ?? null;
   const cp = (r: BudgetRow) => { const l = lane(r); return l ? `${l.slug}@${r.fy}` : undefined; };
   return (
     <Shell title={`FY${fy} ${stage}: the Union's force demands`} {...p}>
       {!col || col.missing ? <p className="m-0">{`no ${stage} rows recorded for FY${fy}: the column is hatched, not zero`}</p> : (
         <>
-          <p className="m-0 text-text">{`${rows.length} demands; ${col.pension != null ? `pensions ${col.pensionPct}% ${col.basis}` : 'no pension demand in this year'}; ${col.partial ? 'partial, no sum printed' : `stack ₹${fmtCr(col.sum)} cr, computed here`}`}</p>
+          <p className="m-0 text-text">{`${rows.length} demands; ${col.pension != null ? `pensions ${col.pensionWords}` : 'no pension demand in this year'}; ${col.partial ? 'partial, no sum printed' : `stack ₹${fmtCr(col.sum)} cr, computed here`}`}</p>
           <ul className="list-none p-0 m-0 space-y-2">{rows.map((r) => <RowBlock key={r.head} r={r} cellParam={cp(r)} />)}</ul>
         </>
       )}
@@ -117,11 +118,17 @@ export function FYReadout({ fy, stage, ...p }: PanelProps & { fy: string; stage:
       {pub ? <ul className="list-none p-0 m-0"><RowBlock r={pub} lead="published total:" /></ul> : <p className="m-0">no published all-demands total for this FY</p>}
       <p className="m-0">{`${pays.length} pay lines inside the revenue demands: a bracket, not added on top`}</p>
       {pays.length > 0 && <ul className="list-none p-0 m-0 space-y-2">{pays.map((r) => <RowBlock key={r.head} r={r} cellParam={cp(r)} />)}</ul>}
-      <p className="m-0 font-mono text-[12px] text-text-muted">The police demand</p>
-      {pol ? (
+      {pb.other.length > 0 && (
         <>
-          <ul className="list-none p-0 m-0 space-y-2">{(['revenue', 'capital', 'total'] as const).map((k) => pol[k] ? <RowBlock key={k} r={pol[k]!} lead={`police ${k}:`} /> : null)}</ul>
-          <p className="m-0">{pol.revenue && pol.capital && pol.total ? `police check: revenue + capital, computed here, ${policeEqual(pol) ? 'equals' : 'differs from'} the published total (₹${fmtCr(round2(pol.revenue.cr + pol.capital.cr))} cr)` : 'police check: not all three parts are printed for this year'}</p>
+          <p className="m-0">{`${pb.other.length} pay row(s) from another document, with another definition of pay: a tick of its own, not in the bracket`}</p>
+          <ul className="list-none p-0 m-0 space-y-2">{pb.other.map((r) => <RowBlock key={r.head} r={r} cellParam={cp(r)} />)}</ul>
+        </>
+      )}
+      <p className="m-0 font-mono text-[12px] text-text-muted">The police demand</p>
+      {policeDrawn(pol) ? (
+        <>
+          <ul className="list-none p-0 m-0 space-y-2">{(['revenue', 'capital', 'total'] as const).map((k) => pol![k] ? <RowBlock key={k} r={pol![k]!} lead={`police ${k}:`} /> : null)}</ul>
+          <p className="m-0">{pol!.check !== 'incomplete' && pol!.sum != null ? `police check: revenue + capital, computed here, ${pol!.check === 'equal' ? 'equals' : 'differs from'} the published total (₹${fmtCr(pol!.sum)} cr)` : 'police check: not all three parts are printed for this year'}</p>
         </>
       ) : <p className="m-0">{`no police demand rows recorded for FY${fy} ${stage}`}</p>}
       <p className="m-0 font-mono text-[12px] text-text-muted">Delhi Police, inside the Police demand</p>
@@ -223,7 +230,7 @@ export function StatePanel({ st, ...p }: PanelProps & { st: StateCode }) {
         <ul className="list-none p-0 m-0 space-y-1 text-[13px]">
           {str.map((r, i) => (
             <li key={i}>
-              {`${r.year}: ${r.perLakh != null ? `${r.perLakh} per lakh` : 'no per-lakh printed'}; ${r.sanctioned != null ? `sanctioned ${fmtInt(r.sanctioned)}` : 'sanctioned not recorded'}; ${r.actual != null ? `actual ${fmtInt(r.actual)}` : 'actual not recorded'}${isDerivedStrength(r) ? ` (derived by the research from per-lakh: ${derivedSentence(r.note)})` : ''}; women ${r.womenPct != null ? `${r.womenPct}%` : 'not recorded'}${r.sanctioned && r.actual != null && !isDerivedStrength(r) ? `; vacancy ${pct(r.sanctioned - r.actual, r.sanctioned)}%, computed here` : ''} · `}
+              {`${r.year}: ${r.perLakh != null ? `${r.perLakh} per lakh` : 'no per-lakh printed'}; ${r.sanctioned != null ? `sanctioned ${fmtInt(r.sanctioned)}` : 'sanctioned not recorded'}; ${r.actual != null ? `actual ${fmtInt(r.actual)}` : 'actual not recorded'}${isDerivedStrength(r) ? ` (derived by the research from per-lakh: ${derivedSentence(r.note)})` : ''}; women ${r.womenPct != null ? `${r.womenPct}%` : 'not recorded'}${vacancyPct(r) != null ? `; vacancy ${vacancyPct(r)}%, computed here` : ''} · `}
               <TierWord tier={rowTier(r)} />{' '}<Src srcs={r.srcs} of={`${name} strength ${r.year}`} inline />
             </li>
           ))}
@@ -235,9 +242,9 @@ export function StatePanel({ st, ...p }: PanelProps & { st: StateCode }) {
           <ul className="list-none p-0 m-0 space-y-2">
             {recs.map((e) => (
               <li key={e.id} className="text-[14px]">
-                <Quote>{e.lab}</Quote>{' '}<TierWord tier={e.tier} />
-                {e.innocentReading && <span className="block">{'the reading in which nothing is wrong: '}<Quote>{e.innocentReading}</Quote></span>}
-                <Src srcs={e.srcs} of={e.lab ?? e.id ?? 'record'} inline />
+                <Quote record={e}>{e.lab}</Quote>{' '}<TierWord tier={e.tier} />
+                {e.innocentReading && <span className="block"><Tx>the reading in which nothing is wrong: </Tx><Quote record={e}>{e.innocentReading}</Quote></span>}
+                <Src srcs={e.srcs} of={e.lab ?? e.id ?? 'record'} inline record={e} />
               </li>
             ))}
           </ul>

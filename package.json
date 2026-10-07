@@ -11,6 +11,7 @@
     "promote": "node scripts/promote.mjs",
     "generate": "node scripts/assemble-fleet.mjs",
     "test:assemble": "node --test scripts/assemble-fleet.test.mjs scripts/merge-fleet.test.mjs",
+    "test:security-view": "node --test scripts/security-view.test.mjs",
     "check:skills": "node scripts/skills/force-money-trail/gen.mjs > /dev/null && git diff --exit-code -- .claude/skills/force-money-trail",
     "validate": "node scripts/validate.mjs",
     "smoke": "node scripts/smoke.mjs",

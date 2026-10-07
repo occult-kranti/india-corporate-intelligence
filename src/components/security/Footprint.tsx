@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { StateCode } from '../../graph/schema';
 import {
-  type FootprintRow, FOOTPRINT, KINDS, KIND_COUNT, EMPTY_KINDS, kindWord, UNITS, stateName, EMPTY, NOTHING, NO_FP_ROWS, FP_DATED, PLACES_ORDER, rowTier, labelOf,
+  type FootprintRow, FOOTPRINT, KINDS, KIND_COUNT, EMPTY_KINDS, EMPTY_UNREACHED, EMPTY_BY_RULE, ORDNANCE_RULE, kindWord, UNITS, stateName, EMPTY, NOTHING, NO_FP_ROWS, FP_DATED, PLACES_ORDER, rowTier, labelOf,
   lensPopulation, LANE_BODIES,
 } from '../../data/securityView';
 import { usePage, QBlock, Caption, Twin, TwinTable, Exports, captionText, Src, Denominator, NoMatch, Pager, FOCUS, SkipLink, type Row, type Col } from './ui';
@@ -82,7 +82,7 @@ function FootprintMap() {
         </figcaption>
       </figure>
       {inlinePanel('map')}
-      <Caption id="sec-c11" cap="C11">{`One dot per installation that an official list places in a state and a city. Dots are positioned within their state, not at their address: no row carries a coordinate. A dot is a place, not money: no installation here has a budget of its own on this page. A hatched state has no row of the selected kinds in this register, which is not the same as having none: some lists were complete, some were not reachable. Kinds the register declares but holds no row for — ${EMPTY_KINDS.map(kindWord).join(', ') || 'none'} — are not absent from India, only from this register. Most installations are older than any government in this register's office lanes; ${FP_DATED} of ${FOOTPRINT.length} rows print a date.`}</Caption>
+      <Caption id="sec-c11" cap="C11">{`One dot per installation that an official list places in a state and a city. Dots are positioned within their state, not at their address: no row carries a coordinate. A dot is a place, not money: no installation here has a budget of its own on this page. A hatched state has no row of the selected kinds in this register, which is not the same as having none: some lists were complete, some were not reachable. Kinds the register declares but holds no row for — ${EMPTY_UNREACHED.map(kindWord).join(', ') || 'none'} — are not absent from India, only from this register.${EMPTY_BY_RULE.map((k) => ` ${kindWord(k).charAt(0).toUpperCase()}${kindWord(k).slice(1)} is ${ORDNANCE_RULE}: a rule, not a gap.`).join('')} Most installations are older than any government in this register's office lanes; ${FP_DATED} of ${FOOTPRINT.length} rows print a date.`}</Caption>
     </>
   );
 }
@@ -122,7 +122,7 @@ function KindsAndPlaces() {
     <>
       <Denominator>{`${FOOTPRINT.length} installations in ${new Set(FOOTPRINT.map((r) => r.city)).size} cities · ${KINDS.length} declared kinds, ${EMPTY_KINDS.length} with no row · ${places.length} in the place list under the current kind, tier and state`}</Denominator>
       {!FOOTPRINT.length && <p data-page-copy="" className="text-[14px]">{NO_FP_ROWS}</p>}
-      <Caption id="sec-c12" cap="C12">Counts are of rows in official lists the research could open. A state&apos;s count measures what was listed and reachable, not the size of its forces: the BSF, SSB, Assam Rifles and NSG sites, most DPSU plants, every jail address and most command headquarters are not in these lists (see Q5).</Caption>
+      <Caption id="sec-c12" cap="C12">Counts are of rows in official lists the research could open. A state&apos;s count measures what was listed and reachable, not the size of its forces: the BSF, SSB, Assam Rifles and NSG sites, most DPSU plants and most command headquarters are not in these lists (see Q5); jail addresses are refused by rule, not unreached.</Caption>
       <div aria-describedby="sec-c12"><Twin twin="footprint-matrix" title="Installations by state and kind" rowCount={36} suffix=", always all 36">
         {() => (
           <>

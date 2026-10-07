@@ -8,7 +8,8 @@
  * that can fail is the thing under test), drives the pinned Chromium, and reads the
  * DOM. Nothing here imports from src/pages/, src/components/ or src/data/securityView.ts;
  * every expected value is derived before the run from the generated module
- * (src/graph/force.generated.ts), research/raw/cppp/security.json, src/data/india-geo.json,
+ * (src/graph/force.generated.ts), research/raw/cppp/security-page.json (the slim page file;
+ * security.json carries winner lists the page must not load), src/data/india-geo.json,
  * the GSDP fields behind src/data/companies.ts (research/raw/state-economy.json) and the
  * Atlas and fleet modules it needs for labels, exactly as the criteria's §0.5 prescribes.
  * Where the criteria name a component rather than a selector (CellCard, StatePanel,
@@ -188,7 +189,8 @@ for (const [rel, tag] of [
 ]) {
   if (existsSync(join(root, rel))) OTHER_FLEETS.push(await importRel(rel, tag));
 }
-const SLICE_FILE = join(root, 'research/raw/cppp/security.json');
+/** §0.5 SLICE: the slim page file the page itself loads — never security.json, which carries winner lists (C14). */
+const SLICE_FILE = join(root, 'research/raw/cppp/security-page.json');
 let SLICE = null;
 try { SLICE = JSON.parse(readFileSync(SLICE_FILE, 'utf8')); } catch { SLICE = null; }
 const geo = JSON.parse(readFileSync(join(root, 'src/data/india-geo.json'), 'utf8'));
@@ -505,6 +507,20 @@ const isInt = (x) => finite(x) && Number.isInteger(x);
 const TWO_FIGURES = F.FORCE_BASE_RATES.find((r) => finite(r.numerator) && finite(r.denominator) && (r.numerator > r.denominator || !isInt(r.numerator) || !isInt(r.denominator)) && !(S12 && r.kind === 'share')) ?? null;
 const SMALL_YEARS = S8 ? SLICE.rates.byClassYear.filter((r) => r.n < 10) : [];
 const CAPF_CLASS = S8 ? SLICE.rates.byClass.find((r) => r.class === 'capf') ?? null : null;
+/**
+ * The two works figures (AC-24, AC-32) [Adjudicated 2026-10-07]. "One works buyer" is the
+ * largest works-class buyer's rows over the slice's dedup decisions, read from `classes.map`
+ * (74.41 in this build); the class share (works dedup rows over the same total, 75.79) is a
+ * different figure and is labelled "the works class (MES and BRO)".
+ */
+const WORKS_BUYER_PCT = (() => {
+  if (!S8) return null;
+  const byBuyer = new Map();
+  for (const r of SLICE.classes?.map ?? []) if (r.class === 'works') byBuyer.set(r.buyer, (byBuyer.get(r.buyer) ?? 0) + r.rows);
+  if (!byBuyer.size) throw new Error('security.test: §0.5 SLICE has no works buyer in classes.map (research/raw/cppp/security-page.json)');
+  return round2((Math.max(...byBuyer.values()) / SLICE.quality.total.dedupRows) * 100);
+})();
+const WORKS_CLASS_PCT = S8 ? round2((SLICE.quality.byClass.find((c) => c.class === 'works').dedupRows / SLICE.quality.total.dedupRows) * 100) : null;
 const UNRESOLVED = EDGES.filter((e) => !resolves(e.s) || (!String(e.t).startsWith('claim:') && !resolves(e.t))).map((e) => e.id);
 const EMPTY_SRCS = EDGES.filter((e) => !(e.srcs?.length));
 const edgeById = new Map(EDGES.map((e) => [e.id, e]));
@@ -549,7 +565,7 @@ function newestInput() {
     if (st.isDirectory()) { for (const f of readdirSync(p)) walk(join(p, f)); return; }
     if (st.mtimeMs > newest) newest = st.mtimeMs;
   };
-  for (const rel of ['src', 'research/raw/force', 'research/raw/cppp/security.json', 'vite.config.ts', 'index.html', 'package.json']) walk(join(root, rel));
+  for (const rel of ['src', 'research/raw/force', 'research/raw/cppp/security-page.json', 'vite.config.ts', 'index.html', 'package.json']) walk(join(root, rel));
   return newest;
 }
 
@@ -869,13 +885,29 @@ async function allTwinPages(page, name, base) {
   return out;
 }
 
+/** §0.7 step (4), Patch B: does the active-filter line present a non-filter param (its code, an accent's label, the Find text) as a filter? */
+async function nonFilterNamed(page, param, nv) {
+  const line = await page.evaluate(() => window.__ac.activeFilter());
+  if (!line) return false;
+  if (new RegExp(`\\b${esc(param)}[=:]`).test(line)) return true;
+  if (['body', 'vendor', 'case'].includes(param)) return line.includes(labelOf(nv)) || line.includes(nv);
+  if (param === 'find') return line.toLowerCase().includes(String(nv).toLowerCase());
+  return false;
+}
+
 /**
  * ROUND-TRIP(param=value) (§0.7). `change` alters the control once through the UI and
- * returns the new value; `reset` returns it to its default. `filter` marks a param the
- * active-filter line must name (selections and display choices are not filters: spec
- * §5.0.4 lists only filters on that line).
+ * returns the new value; `reset` returns it to its default. `filter` marks a page filter —
+ * `payer`, `st`, `fy`, `stage`, `comp`, `kind`, `tier` (amended §0.7 step (4), spec §6) —
+ * whose value the active-filter line must name in the words its control shows: `words(nv,
+ * page)` returns the RegExp(s) (or plain strings, matched case-insensitively) that must
+ * match the line, and `rawCode(nv)` the escaped raw value code that must not be printed.
+ * Every other param is exempt from step (4) — `lens`, `view`, `tp`, `sfy`, `m`, `sy`, `body`,
+ * `vendor`, `case`, `cell`, `rec` and, under the adjudicated Reading B (2026-10-07), `find` —
+ * and is asserted instead through `visible(page, nv)`, its visible state; the line must not
+ * present any of them as a filter.
  */
-async function roundTrip(page, { lens = 'budgets', param, value, check, change, reset, filter = true }) {
+async function roundTrip(page, { lens = 'budgets', param, value, check, change, reset, filter = true, words, rawCode, visible }) {
   await load(page, route(lens, `${param}=${encodeURIComponent(value)}`));
   if (check) await check(page);
   let nv = value;
@@ -903,8 +935,18 @@ async function roundTrip(page, { lens = 'budgets', param, value, check, change, 
   }
   if (filter) {
     assert.ok(first.filters, `${param}=${nv}: an active-filter line is present`);
-    assert.ok(!first.filters.includes(`${param}=`), `${param}: the active-filter line names the value in words, not the param code (reads "${first.filters}")`);
+    assert.ok(!first.filters.includes(`${param}=`) && !new RegExp(`\\b${param}:`).test(first.filters), `${param}: the line does not print the param code (reads "${first.filters}")`);
+    assert.ok(typeof words === 'function', `${param}: a filter round-trip must say which words name the value`);
+    const line = first.filters.replace(/\s*·\s*reset\s*$/, '');
+    for (const w of [].concat(await words(nv, page))) {
+      const ok = w instanceof RegExp ? w.test(line) : line.toLowerCase().includes(String(w).toLowerCase());
+      assert.ok(ok, `${param}=${nv}: the active-filter line names the value in words, ${w} (reads "${first.filters}")`);
+    }
+    if (rawCode) assert.ok(!new RegExp(`(^|[\\s:·])${rawCode(nv)}([\\s·]|$)`).test(first.filters), `${param}=${nv}: the raw code is not printed (reads "${first.filters}")`);
+  } else if (visible) {
+    await visible(page, nv);
   }
+  if (!filter && first.filters) assert.ok(!(await nonFilterNamed(page, param, nv)), `${param}: a non-filter is not presented on the "filters:" line (reads "${first.filters}")`);
   if (reset) {
     await reset(page);
     await waitNoParam(page, param);
@@ -932,23 +974,30 @@ const rupeeElements = (page, scope = 'main') => page.evaluate((sc) => {
   });
 }, scope);
 
-/** The cell param for CELL_SAMPLE, written by the ledger's own cell button (the slug is the page's, not the test's). */
+/**
+ * Harvest the `cell` value the page itself writes for a (lane, FY): load `?body=`, focus the
+ * ledger cell button named `{body label} — {component} — {line}, FY{fy}: …` (matched on body,
+ * component and line), press Enter, read `cell` from the URL (§0.5 CELL_PARAM; AC-85).
+ */
+async function harvestCell(page, { key, fy, query = '' }) {
+  const [body, comp, ...rest] = key.split('|'); const line = rest.join('|');
+  await load(page, `/security?body=${encodeURIComponent(body)}${query ? '&' + query : ''}`);
+  const label = labelOf(body);
+  const cells = page.locator('[role="grid"] [aria-label]');
+  const idx = await cells.evaluateAll((els, [pfx]) => els.findIndex((e) => (e.getAttribute('aria-label') ?? '').startsWith(pfx)), [`${label} — ${comp} — ${line}, FY${fy}:`]);
+  assert.ok(idx >= 0, `a ledger cell button named "${label} — ${comp} — ${line}, FY${fy}: …" exists`);
+  await cells.nth(idx).focus();
+  await page.keyboard.press('Enter');
+  await waitParam(page, 'cell');
+  return hashParams(page).get('cell');
+}
+/** §0.5 CELL_PARAM: the cell param for CELL_SAMPLE, written by the ledger's own cell button (the slug is the page's, not the test's). */
 let CELL_PARAM = null;
 async function cellParam(page) {
   if (CELL_PARAM) return CELL_PARAM;
   if (!CELL_SAMPLE) return null;
-  await load(page, `/security?body=${encodeURIComponent(CELL_SAMPLE.body)}`);
-  const label = labelOf(CELL_SAMPLE.body);
-  const cells = page.locator('[role="grid"] [aria-label]');
-  const idx = await cells.evaluateAll((els, [l, comp, fy]) => els.findIndex((e) => {
-    const n = e.getAttribute('aria-label') ?? '';
-    return n.startsWith(l) && n.includes(` — ${comp} — `) && n.includes(`, FY${fy}:`);
-  }), [label, CELL_SAMPLE.component, CELL_SAMPLE.fy]);
-  assert.ok(idx >= 0, `a ledger cell button for ${CELL_SAMPLE.key} @ ${CELL_SAMPLE.fy} exists (named "${label} — ${CELL_SAMPLE.component} — …, FY${CELL_SAMPLE.fy}: …")`);
-  await cells.nth(idx).focus();
-  await page.keyboard.press('Enter');
-  await waitParam(page, 'cell');
-  CELL_PARAM = hashParams(page).get('cell');
+  CELL_PARAM = await harvestCell(page, { key: CELL_SAMPLE.key, fy: CELL_SAMPLE.fy });
+  assert.match(CELL_PARAM ?? '', new RegExp(`^.+@${esc(CELL_SAMPLE.fy)}$`), `the cell param has the form {laneKey slug}@${CELL_SAMPLE.fy} (got "${CELL_PARAM}")`);
   return CELL_PARAM;
 }
 
@@ -1003,6 +1052,27 @@ async function tabsTo(page, limit, predSrc) {
   }
   return Infinity;
 }
+
+test('§0.6 — keyed hooks carry their register key', async (t) => {
+  if (!requireFull(t)) return;
+  await withPage('D', async (page) => {
+    await load(page, '/security');
+    const r = await page.evaluate(() => ({
+      def: [...document.querySelectorAll('[data-column][data-panel="defence"]')].map((c) => c.getAttribute('data-column')),
+      pol: [...document.querySelectorAll('[data-column][data-panel="police"]')].map((c) => c.getAttribute('data-column')),
+      lanes: [...document.querySelectorAll('[data-lane]')].map((e) => e.getAttribute('data-lane')),
+    }));
+    assert.deepEqual(r.def, FY_AXIS, 'data-column = FY_AXIS labels, in order');
+    assert.ok(r.pol.every((v) => FY_AXIS.includes(v)), 'police data-column values ∈ FY_AXIS');
+    assert.ok(r.lanes.every((v) => LANES.includes(v)), 'every data-lane ∈ LANES');
+    assert.equal(new Set(r.lanes).size, r.lanes.length, 'data-lane values distinct');
+    await load(page, '/security?lens=procurement');
+    const cs = await page.evaluate(() => [...document.querySelectorAll('[data-case]')].map((d) => d.getAttribute('data-case')));
+    const real = cs.filter((v) => v !== 'none');
+    assert.deepEqual([...real].sort(), [...CASES].sort(), 'each CASES id exactly once');
+    assert.equal(cs.length - real.length, UNPAIRED.length, 'one data-case="none" per unpaired case');
+  });
+});
 
 // ---------------------------------------------------------------------------
 // §1 Scaffold state — EMPTY and ZERO-SERIES builds
@@ -1328,7 +1398,11 @@ function containsAll(hay, needles, what) {
 }
 
 /** §5.0.1 mono lines, derived from the module (AC-14, AC-31). */
-const statesWithOwn = uniq(STATE_ROWS.filter((r) => r.head !== STATE_SERIES_HEAD).map((r) => r.payer));
+// [Adjudicated 2026-10-07] "with their own budget series" counts a state whose own budget opened
+// (spec §5.0.1, "except where a state's own budget opened"): a non-MH 2055 head that is not a
+// reported PRS transcription. The PRS "District Police line" rows are tier reported and are
+// excluded; in this build only Uttar Pradesh (Grant 26) qualifies.
+const statesWithOwn = uniq(STATE_ROWS.filter((r) => r.head !== STATE_SERIES_HEAD && !isReported(r)).map((r) => r.payer));
 const strengthStates = uniq(STRENGTH_ST.map((r) => r.st));
 const delhiRows = UNION_ROWS.filter((r) => r.body === DELHI_POLICE);
 const delhiFys = uniq(delhiRows.map((r) => r.fy)).sort();
@@ -1544,11 +1618,15 @@ test('AC-24 — Say in C14 what the slice is not, and name the works share', asy
     }
     const c14 = await capText(page, 'C14');
     containsAll(c14, ["not India's security procurement", 'capital acquisition runs on another portal, and GeM is not here', "the slice's overall rate is a works rate", 'No winner is named here'], 'C14');
-    const works = SLICE.quality.byClass.find((c) => c.class === 'works');
-    const share = round2((works.dedupRows / SLICE.quality.total.dedupRows) * 100);
-    const m = c14.match(/works buyers alone are ([\d.]+)% of the slice/);
-    assert.ok(m, 'C14 prints {worksShare}');
-    assert.ok(Math.abs(num(m[1]) - share) <= 0.01, `worksShare ${m[1]} = ${share}`);
+    // [Adjudicated 2026-10-07] {worksShare} is the class share, labelled as the class.
+    const m = c14.match(/the works class \(MES and BRO\)[^.%]*?([\d.]+)% of the slice/i);
+    assert.ok(m, `C14 prints {worksShare} labelled "the works class (MES and BRO)" (reads "${c14.slice(0, 400)}")`);
+    assert.ok(Math.abs(num(m[1]) - WORKS_CLASS_PCT) <= 0.01, `worksShare ${m[1]} = ${WORKS_CLASS_PCT}`);
+    // "One works buyer" is the largest works buyer's share (classes.map), never the class share.
+    const all = ungroup(await bodyText(page));
+    const oneBuyer = [...all.matchAll(/one works buyer(?: is)? ([\d.]+)%|([\d.]+)% one works buyer/gi)].map((x) => num(x[1] ?? x[2]));
+    for (const v of oneBuyer) assert.ok(Math.abs(v - WORKS_BUYER_PCT) <= 0.01, `"one works buyer" prints ${WORKS_BUYER_PCT}% (the largest works buyer's rows ÷ dedup decisions), not ${v}%`);
+    assert.ok(!/one works buyer/i.test(c14) || c14.includes(`${WORKS_BUYER_PCT}%`), 'C14 never gives the class share to one buyer');
   });
 });
 
@@ -1633,12 +1711,12 @@ async function openReadout(page, fy) {
   return panel(page, esc(fy));
 }
 
-/** Every stack column: its FY (attribute value, else axis order), state, bands, ticks and glyph. */
-const stackColumns = (page, panelName = 'defence') => page.evaluate(([p, axis]) => {
+/** Every stack column: its FY (its required `data-column` value, the FY_AXIS label — §0.6), state, bands, ticks and glyph. */
+const stackColumns = (page, panelName = 'defence') => page.evaluate(([p]) => {
   const cols = [...document.querySelectorAll(`[data-column][data-panel="${p}"]`)];
   const glyphs = [...document.querySelectorAll('[data-glyph]')];
   return cols.map((c, i) => ({
-    fy: axis.includes(c.getAttribute('data-column')) ? c.getAttribute('data-column') : axis[i],
+    fy: c.getAttribute('data-column'),
     state: c.getAttribute('data-column-state'),
     bands: [...c.querySelectorAll('[data-band]')].map((b) => ({ band: b.getAttribute('data-band'), cr: b.getAttribute('data-cr') == null ? null : Number(b.getAttribute('data-cr')), dash: window.__ac.dash(b) })),
     ticks: [...c.querySelectorAll('[data-tick]')].map((x) => x.getAttribute('data-tick')),
@@ -1647,7 +1725,7 @@ const stackColumns = (page, panelName = 'defence') => page.evaluate(([p, axis]) 
     text: window.__ac.txt(c),
     opacity: Number(getComputedStyle(c).opacity),
   }));
-}, [panelName, FY_AXIS]);
+}, [panelName]);
 const BAND_OF = { revenue: 'revenue', capital: 'capital', pension: 'pension', total: 'civil' };
 
 test('AC-29 — Put a denominator and a comparison in the same element as every ₹', async (t) => {
@@ -1775,6 +1853,7 @@ test('AC-32 — Show the strip facts for each lens with their populations', asyn
       assert.ok(m, 'Procurement fact 6 (S8)');
       assert.equal(int(m[1]), SLICE.quality.total.dedupRows, 'fact 6 dedup decisions');
       assert.equal(int(m[2]), SLICE.rates.byClass.length, 'fact 6 buyer classes');
+      assert.ok(Math.abs(num(m[3]) - WORKS_BUYER_PCT) <= 0.01, `fact 6: one works buyer = ${WORKS_BUYER_PCT}% (largest works buyer in classes.map ÷ quality.total.dedupRows), not the works class's ${WORKS_CLASS_PCT}% (reads ${m[3]}%)`);
     } else assert.ok(s.includes('open-market slice not built in this copy'), 'fact 6 without S8');
   });
 });
@@ -1883,6 +1962,7 @@ test('AC-35 — Check the police stack and the Delhi bracket against the rows', 
   await withPage('D', async (page) => {
     await load(page, '/security');
     const cols = await stackColumns(page, 'police');
+    assert.ok(cols.every((c) => FY_AXIS.includes(c.fy)), `every police column carries a data-column ∈ FY_AXIS (${cols.map((c) => c.fy)})`);
     await openTwin(page, 'stack');
     const tbl = await twinTable(page, 'stack');
     const rowsText = tbl.rows.map((r) => r.join(' | '));
@@ -1921,14 +2001,13 @@ test('AC-36 — Print each lane\'s own max and the cell\'s share of its demand',
   const COMP_ORDER = ['total', 'revenue', 'capital', 'pay', 'pension', 'other'];
   const lane = [...CAPF_LANES].sort((a, b) => COMP_ORDER.indexOf(a.split('|')[1]) - COMP_ORDER.indexOf(b.split('|')[1]) || cmp(a, b))[0];
   const max = Math.max(...LANE_ROWS(lane).map((r) => r.cr));
-  const line = lane.split('|').slice(2).join('|');
   await withPage('D', async (page) => {
     await load(page, '/security');
-    const right = await page.evaluate(([key, ln]) => {
-      const th = [...document.querySelectorAll('[data-lane]')].find((e) => e.getAttribute('data-lane') === key) ?? [...document.querySelectorAll('[data-lane]')].find((e) => window.__ac.txt(e).includes(ln));
+    const right = await page.evaluate((key) => {
+      const th = [...document.querySelectorAll('[data-lane]')].find((e) => e.getAttribute('data-lane') === key);
       const tr = th?.closest('tr, [role="row"]');
       return tr ? window.__ac.txt(tr) : null;
-    }, [lane, line]);
+    }, lane);
     assert.ok(right, `the lane row for ${lane}`);
     const m = ungroup(right).match(/lane max ₹([\d.]+) cr/);
     assert.ok(m && Math.abs(num(m[1]) - max) <= 0.5, `lane max ₹${max} cr (reads "${right.slice(-80)}")`);
@@ -2402,13 +2481,9 @@ test('AC-48 — Carry the as-of date and a source beside every figure', async (t
 // §4 No-data ≠ zero — FULL build
 // ---------------------------------------------------------------------------
 
-/** A ledger lane's key from its `data-lane` value (the key itself) or, failing that, its label text. */
+/** A ledger lane's key: its `data-lane` value, which §0.6 fixes as the LANES key (required; never its label text). */
 function resolveLane(attr, label) {
-  if (LANES.includes(attr)) return attr;
-  const byLine = LANES.filter((k) => label.includes(k.split('|').slice(2).join('|')));
-  if (byLine.length === 1) return byLine[0];
-  const byComp = byLine.filter((k) => new RegExp(`\\b${k.split('|')[1]}\\b`, 'i').test(label));
-  return byComp.length === 1 ? byComp[0] : null;
+  return LANES.includes(attr) ? attr : null;
 }
 /** Every ledger lane with its slots in DOM order (FY-major, BE · RE · actual within a year). */
 const ledgerLanes = (page) => page.evaluate(() => [...document.querySelectorAll('[data-lane]')].map((th) => {
@@ -2435,7 +2510,7 @@ test('AC-49 — Hatch every missing stack column with its name and never close t
       await load(page, stage === DEFAULT_STAGE ? '/security' : `/security?stage=${stage}`);
       const attrs = await page.evaluate(() => [...document.querySelectorAll('[data-column][data-panel="defence"]')].map((c) => c.getAttribute('data-column')));
       assert.equal(attrs.length, FY_AXIS.length, `${stage}: ${FY_AXIS.length} defence columns`);
-      if (attrs.every((a) => /^\d{4}-\d{2}$/.test(a))) assert.deepEqual(attrs, FY_AXIS, `${stage}: column order equals FY_AXIS`);
+      assert.deepEqual(attrs, FY_AXIS, `${stage}: data-column values equal FY_AXIS in order`);
       const cols = await stackColumns(page);
       const names = (await axisButtons(page)).map((b) => b.name);
       await openTwin(page, 'stack');
@@ -2483,6 +2558,7 @@ test('AC-51 — Hatch every empty ledger slot and name it, never `0`', async (t)
   await withPage('D', async (page) => {
     await load(page, '/security');
     const lanes = await ledgerLanes(page);
+    for (const l of lanes) assert.ok(LANES.includes(l.attr), `lane "${l.label}" carries data-lane from LANES (got "${l.attr}")`);
     for (const key of CAPF_LANES) {
       const lane = lanes.find((l) => resolveLane(l.attr, l.label) === key);
       assert.ok(lane, `the ledger lane ${key}`);
@@ -2714,7 +2790,7 @@ test('AC-59 — Dim, never hatch, a row hidden by a filter, and name the filter'
       const lanes = await ledgerLanes(page);
       for (const lane of lanes) {
         const key = resolveLane(lane.attr, lane.label);
-        if (!key) continue;
+        assert.ok(key, `lane "${lane.label}" carries a LANES key (reads "${lane.attr}")`);
         lane.slots.forEach((s, i) => {
           const fy = FY_AXIS[Math.floor(i / 3)];
           const rows = LANE_ROWS(key).filter((r) => r.fy === fy && r.stage === s.stage);
@@ -2869,17 +2945,16 @@ test('AC-63 — Print the exact city sentence, and no ₹, for every city body o
 // §5 Denials beside claims — FULL build
 // ---------------------------------------------------------------------------
 
-/** The case column <dl> for a case: `data-case` carrying the id, else the [data-case] naming its label. */
-const caseColumnSel = (id) => `[data-case="${id}"]`;
-const caseColumn = (page, id) => page.evaluate(([cid, label]) => {
-  const el = document.querySelector(`[data-case="${cid}"]`) ?? [...document.querySelectorAll('[data-case]')].find((d) => window.__ac.txt(d).includes(label));
+/** The case column <dl> for a case: `[data-case="{id}"]` (§0.6; the value is required, never matched by label text). */
+const caseColumn = (page, id) => page.evaluate((cid) => {
+  const el = document.querySelector(`[data-case="${cid}"]`);
   if (!el) return null;
   return {
     text: window.__ac.txt(el), width: el.getBoundingClientRect().width, fontSize: getComputedStyle(el).fontSize,
     dts: [...el.querySelectorAll('dt')].map((d) => window.__ac.txt(d)),
     responses: [...el.querySelectorAll('[data-response]')].map((r) => ({ v: r.getAttribute('data-response'), text: window.__ac.txt(r) })),
   };
-}, [id, labelOf(id)]);
+}, id);
 /** In-page: the element holding a record's text, and its response slot (AC-64, AC-65, AC-67). */
 const recordAndResponse = (page, scopeSel, recText, respText) => page.evaluate(([sc, rt, pt]) => {
   const scope = document.querySelector(sc);
@@ -2937,12 +3012,12 @@ test('AC-65 — Show every recorded response in full, at the claim\'s size and w
   for (const vp of ['D', 'M']) {
     await withPage(vp, async (page) => {
       await load(page, '/security?lens=procurement');
-      const sel = await page.evaluate(([cid, label]) => {
-        const el = document.querySelector(`[data-case="${cid}"]`) ?? [...document.querySelectorAll('[data-case]')].find((d) => window.__ac.txt(d).includes(label));
+      const sel = await page.evaluate((cid) => {
+        const el = document.querySelector(`[data-case="${cid}"]`);
         if (!el) return null;
         el.setAttribute('data-ac65', '1');
         return '[data-ac65]';
-      }, [c, labelOf(c)]);
+      }, c);
       assert.ok(sel, `${vp}: the case column for ${c}`);
       const r = await recordAndResponse(page, sel, e.lab, contra.lab);
       assert.ok(r?.rec && r.resp, `${vp}: the record and its response render`);
@@ -3230,6 +3305,7 @@ test('AC-73 — Put the two anchor cases in one pair row first, equal columns, a
     for (const u of UNPAIRED) {
       const row = pairs.find((p) => p.cases.includes(u));
       assert.ok(row, `the unpaired case ${u} has a row`);
+      assert.equal(row.cases[1], 'none', `${u}: the pairing <dl> carries data-case="none"`);
       assert.equal(row.pairing?.text, NO_PAIRING, `${u}: the right <dl> reads exactly "${NO_PAIRING}"`);
       assert.equal(row.pairing.color, amber, `${u}: in amber`);
       assert.ok(Math.abs(row.widths[0] - row.widths[1]) <= 1 && row.sizes[0] === row.sizes[1], `${u}: at the left's width and font-size`);
@@ -3294,6 +3370,32 @@ test('AC-74 — Default to Budgets, unfiltered, nothing selected, nothing in the
   });
 });
 
+/** §0.7 step (4) words for `fy` (AC-78): `FY {a}–{b}` for a range, else `FY {fy}` not followed by a range dash. */
+const fyWords = (v) => {
+  const [a, b] = String(v).split('..');
+  return b ? new RegExp(`FY ${esc(a)}\\s*[–-]\\s*(FY )?${esc(b)}`) : new RegExp(`FY ${esc(v)}(?![–\\d])`);
+};
+/** A control's label as the page prints it, cut before any count, reason or separator (AC-80, AC-83). */
+const labelHead = (n) => (n ?? '').replace(/\s*[(\d·:,—].*$/, '').trim();
+/** §0.7 step (4) words for `comp` (AC-80): each component's Component-checkbox label, under `components:`. */
+const compWords = async (v, page) => {
+  const names = await page.evaluate(() => [...document.querySelectorAll('input[type="checkbox"], [role="checkbox"]')].map((c) => window.__ac.name(c)));
+  return String(v).split(',').map((k) => {
+    const lab = labelHead(names.find((n) => new RegExp(`^${esc(k)}\\b`, 'i').test(n)));
+    assert.ok(lab, `comp=${k}: a Component checkbox is named for it`);
+    return new RegExp(`components:[^·]*\\b${esc(lab)}\\b`, 'i');
+  });
+};
+/** §0.7 step (4) words for `kind` (AC-83): each kind's chip accessible name. */
+const kindWords = async (v, page) => {
+  const chips = await kindChips(page);
+  return String(v).split(',').map((k) => {
+    const lab = labelHead(chips.find((c) => c.kind === k && c.found)?.name);
+    assert.ok(lab, `kind=${k}: a chip is named for it`);
+    return new RegExp(esc(lab), 'i');
+  });
+};
+
 test('AC-75 — Round-trip `lens`, keeping the shared params and dropping `rec` and `cell`', async (t) => {
   if (!requireFull(t)) return;
   await withPage('D', async (page) => {
@@ -3341,6 +3443,7 @@ test('AC-76 — Round-trip `payer`, and say where it does not reach', async (t) 
       },
       change: async (p) => { await payerButton(p, 'Union').click(); return 'union'; },
       reset: async (p) => { await payerButton(p, 'All').click(); },
+      words: (v) => ({ union: /\bUnion\b/, states: /\bStates?\b/ })[v],
     });
     await load(page, '/security?payer=union');
     await openTwin(page, 'state-table');
@@ -3363,6 +3466,7 @@ test('AC-77 — Round-trip `st`, opening the panel and accenting both maps', asy
   await withPage('D', async (page) => {
     await roundTrip(page, {
       param: 'st', value: st,
+      words: (v) => new RegExp(esc(STATE_NAME.get(v))), rawCode: (v) => esc(v),
       check: async (p) => {
         const sel = await p.evaluate(() => [...(window.__ac.q('B6')?.querySelectorAll('svg[role="listbox"]') ?? [])].map((m) => [...m.querySelectorAll('[role="option"][aria-selected="true"]')].map((o) => window.__ac.name(o))));
         assert.equal(sel.length, 2, 'two maps');
@@ -3414,7 +3518,7 @@ test('AC-78 — Round-trip `fy` as a year or a range, dimming and never cropping
     await load(page, '/security');
     const axisRest = (await axisButtons(page)).map((x) => x.name.slice(0, 7));
     await roundTrip(page, {
-      param: 'fy', value: one,
+      param: 'fy', value: one, words: fyWords, rawCode: (v) => esc(v),
       check: async (p) => {
         const cols = await stackColumns(p);
         assert.equal(cols.length, FY_AXIS.length, 'the column count is unchanged');
@@ -3427,7 +3531,7 @@ test('AC-78 — Round-trip `fy` as a year or a range, dimming and never cropping
       reset: async (p) => { await fySelects(p).nth(0).selectOption({ label: 'All years' }); await fySelects(p).nth(1).selectOption({ label: 'All years' }); },
     });
     await roundTrip(page, {
-      param: 'fy', value: `${a}..${b}`,
+      param: 'fy', value: `${a}..${b}`, words: fyWords, rawCode: (v) => esc(v),
       check: async (p) => {
         const sel = await fySelects(p).evaluateAll((els) => els.map((s) => s.options[s.selectedIndex]?.textContent.trim()));
         assert.deepEqual(sel.slice(0, 2), [a, b], 'From/To read the range');
@@ -3460,7 +3564,7 @@ test('AC-79 — Round-trip `stage` with each option\'s coverage', async (t) => {
     await load(page, '/security');
     const slotsRest = await count(page, '[data-slot]');
     await roundTrip(page, {
-      param: 'stage', value: 'actual',
+      param: 'stage', value: 'actual', words: (v) => new RegExp(`stage ${v}\\b`),
       check: async (p) => {
         const cols = await stackColumns(p);
         for (const c of cols) assert.equal(c.state === 'hatched', MISSING('actual').includes(c.fy), `FY${c.fy}: hatched iff no actual rows`);
@@ -3480,7 +3584,7 @@ test('AC-80 — Round-trip `comp` as a comma list that reaches the ledger and no
     await load(page, '/security');
     const restBands = (await stackColumns(page)).map((c) => c.bands.map((b) => b.band).join(','));
     await roundTrip(page, {
-      param: 'comp', value: 'pay,pension',
+      param: 'comp', value: 'pay,pension', words: compWords,
       check: async (p) => {
         assert.equal(await count(p, '[data-lane]'), k, `[data-lane] = ${k} pay and pension lanes`);
         assert.ok((await text(block(p, 'B3'))).includes(`${k} of ${LANES.length} lanes under the component filter`), 'the ledger heading names the filter');
@@ -3546,6 +3650,14 @@ test('AC-82 — Round-trip `sy`, keeping every year in the table', async (t) => 
     const restBins = legendBins((await mapOptions(page, 'B6', 1))?.legend);
     await roundTrip(page, {
       param: 'sy', value: String(other), filter: false,
+      visible: async (p, v) => {
+        const seg = await p.evaluate((y) => {
+          const e = [...document.querySelectorAll('button, [role="radio"], [role="tab"], [role="option"], [aria-pressed], [aria-checked]')].find((x) => window.__ac.name(x).startsWith(`${y} ·`));
+          return e ? (e.getAttribute('aria-pressed') ?? e.getAttribute('aria-checked') ?? e.getAttribute('aria-selected')) : null;
+        }, v);
+        assert.equal(seg, 'true', `sy=${v}: the strength-year segment named "${v} · …" is pressed or checked`);
+        assert.ok((await text(p.locator('[data-q="B6"] figure').nth(1))).includes(v), `sy=${v}: the strength map's title or legend names the year`);
+      },
       check: async (p) => {
         const m = await mapOptions(p, 'B6', 1);
         const want = countBy(UNITS, (st) => ({ value: 'value', 'no-row': 'hatch', 'counts-only': 'stipple' })[STRENGTH_CLASS(st, other)]);
@@ -3576,7 +3688,7 @@ test('AC-83 — Round-trip `kind` as a comma list, with 0-row kinds always liste
   };
   await withPage('D', async (page) => {
     await roundTrip(page, {
-      lens: 'footprint', param: 'kind', value: 'cantonment', check: check(['cantonment']),
+      lens: 'footprint', param: 'kind', value: 'cantonment', check: check(['cantonment']), words: kindWords,
       change: async (p) => { await p.locator('button, [role="checkbox"], input[type="checkbox"]').filter({ hasText: /^drdo[ -]lab/i }).first().click(); return 'cantonment,drdo-lab'; },
     });
     await load(page, '/security?lens=footprint&kind=cantonment,drdo-lab');
@@ -3618,12 +3730,21 @@ test('AC-85 — Round-trip `cell`, opening the `CellCard`', async (t) => {
   await withPage('D', async (page) => {
     const cell = await cellParam(page);
     const rows = LANE_ROWS(CELL_SAMPLE.key).filter((r) => r.fy === CELL_SAMPLE.fy);
+    // [Adjudicated 2026-10-06] the slug is stable under a component filter, only the part after @ varies by FY, and lanes differ.
+    const slug = cell.slice(0, cell.lastIndexOf('@'));
+    assert.equal(await harvestCell(page, { key: CELL_SAMPLE.key, fy: CELL_SAMPLE.fy, query: `comp=${CELL_SAMPLE.component}` }), cell, 'the slug is stable under a component filter');
+    const otherFy = uniq(LANE_ROWS(CELL_SAMPLE.key).map((r) => r.fy)).find((f) => f !== CELL_SAMPLE.fy) ?? FY_AXIS.find((f) => f !== CELL_SAMPLE.fy);
+    const v2 = await harvestCell(page, { key: CELL_SAMPLE.key, fy: otherFy });
+    assert.ok(v2 === `${slug}@${otherFy}`, `same lane, FY${otherFy}: only the part after @ changes (got "${v2}")`);
+    const otherLane = CAPF_LANES.find((k) => k !== CELL_SAMPLE.key);
+    if (otherLane) assert.notEqual((await harvestCell(page, { key: otherLane, fy: LANE_ROWS(otherLane).some((r) => r.fy === CELL_SAMPLE.fy) ? CELL_SAMPLE.fy : LANE_ROWS(otherLane)[0].fy })).split('@')[0], slug, 'another lane writes a different slug');
+    else t.diagnostic('SKIPPED: one lane for CAPF_SAMPLE — slug distinctness not checked');
     await roundTrip(page, {
       param: 'cell', value: cell, filter: false,
       check: async (p) => {
         const card = await panel(p, esc(CELL_SAMPLE.fy));
         assert.ok(card, 'the CellCard opens');
-        assert.ok(card.h2.includes(labelOf(CELL_SAMPLE.body)) || card.h2.includes(CELL_SAMPLE.line), 'its h2 names the body and line');
+        assert.ok(card.h2.includes(labelOf(CELL_SAMPLE.body)) && card.h2.includes(CELL_SAMPLE.line) && card.h2.includes(CELL_SAMPLE.fy), `its h2 names the body, the line and the FY (reads "${card.h2}")`);
         const btns = p.getByRole('button', { name: /^Copy citation/ });
         assert.equal(await btns.count(), rows.length, `${rows.length} Copy citation buttons`);
         await btns.first().click();
@@ -3632,6 +3753,7 @@ test('AC-85 — Round-trip `cell`, opening the `CellCard`', async (t) => {
         for (const s of [clip, out]) {
           assert.ok(rows.some((r) => s.includes(r.head)), 'the citation carries the head verbatim');
           assert.ok(STAGES.some((st) => s.includes(st)) && s.includes(CELL_SAMPLE.fy) && /https?:\/\//.test(s) && s.includes(`read to ${ASOF}`), 'stage, FY, an http URL and read to');
+          assert.ok(s.includes(`#/security?cell=${cell}`) || s.includes(`#/security?cell=${encodeURIComponent(cell)}`), 'the citation deep link carries the same cell value');
         }
         assert.ok(await p.locator('[role="grid"] [aria-current="true"]').count() >= 1, 'the cell carries aria-current');
         await p.getByRole('button', { name: /^Close$/ }).first().click();
@@ -3639,6 +3761,11 @@ test('AC-85 — Round-trip `cell`, opening the `CellCard`', async (t) => {
         assert.ok(await p.evaluate(() => !!document.activeElement?.closest('[role="grid"]')), 'Close returns focus to the cell');
       },
     });
+    await load(page, '/security?cell=x%401900-01');
+    assert.equal(await deepestCount(page, '^ignored an unrecognised cell value$'), 1, 'an unknown cell: one amber line');
+    assert.equal(await page.locator('[role="grid"] [aria-current="true"]').count(), 0, 'no cell is selected');
+    const q = hashParams(page);
+    assert.ok(!q.has('cell') || q.get('cell') === 'x@1900-01', 'an unknown cell: the page does not write a different value');
   });
 });
 
@@ -3779,7 +3906,7 @@ test('AC-90 — Round-trip `tier` as a comma list shared with the graph', async 
     await load(page, '/security', { graph: true });
     const restCount = ungroup(await text(page.locator('#connections'))).match(/(\d+) edges/)?.[1];
     await roundTrip(page, {
-      param: 'tier', value: 'documented,reported',
+      param: 'tier', value: 'documented,reported', words: (v) => v.split(',').map((tr) => new RegExp(`\\b${tr}\\b`)),
       check: async (p) => {
         for (const tr of TIER_WORDS) assert.equal(await tierToggle(p, tr).getAttribute('aria-pressed'), ['documented', 'reported'].includes(tr) ? 'true' : 'false', `${tr} pressed iff in the set`);
         await openTwin(p, 'ledger-long');
@@ -3812,7 +3939,13 @@ test('AC-91 — Round-trip `find` and filter nothing by it', async (t) => {
     await load(page, '/security?view=table');
     const restRows = await page.evaluate(() => [...document.querySelectorAll('details[data-twin]')].map((d) => [d.getAttribute('data-twin'), d.querySelectorAll('tbody tr').length]));
     await roundTrip(page, {
-      param: 'find', value: 'Police',
+      param: 'find', value: 'Police', filter: false,
+      // [Adjudicated 2026-10-07, §0.7 Reading B] `find` filters nothing: the Find input showing the query is its visible state.
+      visible: async (p, v) => {
+        assert.equal(await findInput(p).inputValue(), v, `find=${v}: the Find input shows the query`);
+        const line = await p.evaluate(() => window.__ac.activeFilter());
+        assert.ok(!line || !line.includes('Police'), `find: the active-filter line, if present, does not name the Find text (reads "${line}")`);
+      },
       check: async (p) => {
         const q = hashParams(p);
         for (const k of ['st', 'body', 'vendor']) assert.ok(!q.has(k), `no result is auto-selected (no ${k})`);
@@ -4208,7 +4341,8 @@ test('AC-106 — Match the case-timeline twin to the ticks and the field table t
       const row = tbl.rows.find((r) => r.some((c) => c.includes(fixture.lab)));
       assert.equal(row?.[iKind], 'court', `${fixture.id}: a CBI-worded record whose source is a court reads "court"`);
     } else t.diagnostic('AC-106: SKIPPED clause — no CBI-worded record from a court in the module');
-    const cases = await count(page, '[data-case]');
+    const cases = await count(page, '[data-case]:not([data-case="none"])');
+    assert.equal(cases, CASES.length, `[data-case]:not([data-case="none"]) = CASES.length (${CASES.length})`);
     assert.equal(await openTwinRows(page, 'case-fields'), cases * 11, `TWIN(case-fields) = ${cases} × 11`);
   });
 });
@@ -4572,7 +4706,7 @@ test('AC-117 — Announce every change through one live region, in words', async
   });
 });
 
-test('AC-118 — Keep unavailable options focusable, disabled, with the reason in the name', async (t) => {
+test('AC-118 — Keep unavailable options reachable by keyboard, never `disabled`, with the reason in the name', async (t) => {
   if (!requireFull(t)) return;
   const REASONS = /GSDP in this build is for|no population series|none in this register|does not apply|not budget rows/;
   await withPage('D', async (page) => {
@@ -4580,13 +4714,17 @@ test('AC-118 — Keep unavailable options focusable, disabled, with the reason i
       await load(page, LENS_ROUTE[lens]);
       const els = await page.evaluate(() => [...document.querySelectorAll('[aria-disabled="true"]')].map((e) => ({
         tag: e.tagName.toLowerCase(), disabledAttr: e.hasAttribute('disabled'),
-        focusable: e.tagName === 'OPTION' ? !e.closest('select')?.disabled : e.tabIndex >= 0,
+        focusable: (() => {
+          if (e.tagName === 'OPTION') { const s = e.closest('select'); return !!s && !s.disabled && s.tabIndex >= 0; }
+          if (e.getAttribute('role') === 'option') { const lb = e.closest('[role="listbox"]'); return !!lb && lb.tabIndex >= 0 && !!e.id; }
+          return e.tabIndex >= 0;
+        })(),
         reason: `${window.__ac.name(e)} ${window.__ac.described(e)} ${e.tagName === 'OPTION' ? e.textContent : ''}`,
       })));
       assert.ok(els.length > 0, `${lens}: unavailable options exist`);
       for (const e of els) {
         assert.ok(!e.disabledAttr, `${lens} ${e.tag} "${e.reason.slice(0, 60)}": no disabled attribute`);
-        assert.ok(e.focusable, `${lens} ${e.tag} "${e.reason.slice(0, 60)}": focusable by Tab`);
+        assert.ok(e.focusable, `${lens} ${e.tag} "${e.reason.slice(0, 60)}": reachable from the keyboard (Tab, or its select/listbox tab stop)`);
         assert.ok(REASONS.test(e.reason) || (e.tag === 'option' && /\(0\)/.test(e.reason)), `${lens} ${e.tag}: the reason is in its name ("${e.reason.slice(0, 100)}")`);
       }
     }
@@ -4894,7 +5032,7 @@ test('AC-128 — Draw the stack at full width with a 44 px step control', async 
     await page.locator('[data-q="B1"] figure button').filter({ hasText: /^‹ earlier$/ }).first().click();
     const after = (await page.evaluate(() => [...document.querySelectorAll('[data-q="B1"] figure button')].map((b) => window.__ac.txt(b)).find((x) => /^FY\d{4}-\d{2}$/.test(x))));
     assert.notEqual(after, before, 'the step control moves the roving FY');
-    const col = page.locator(`[data-column][data-panel="defence"]`).nth(FY_AXIS.indexOf(LATEST_FY(DEFAULT_STAGE)));
+    const col = page.locator(`[data-column="${LATEST_FY(DEFAULT_STAGE)}"][data-panel="defence"]`);
     await col.tap();
     assert.ok(!(await page.evaluate(() => !!window.__ac.card((t) => /^FY?\d{4}-\d{2}/.test(t)))), 'a first tap shows the readout line, not the panel');
     await col.tap();
@@ -5128,11 +5266,13 @@ test('AC-136 — Keep the mono floor at 12 px and the graph behind a button', as
 // §10 Frozen channels, fold and house rules — FULL build
 // ---------------------------------------------------------------------------
 
-/** The frozen family hues, read as text (never imported) from the shared graph component that owns them. */
+/** The frozen family hues, read as text (never imported) — the one src/components read, adjudicated in the criteria preamble (§0.5). */
 const FAMILY_COLOR = (() => {
   const src = readFileSync(join(root, 'src/components/viz/ForceGraph.tsx'), 'utf8');
-  const block = src.match(/FAMILY_COLOR[^{]*\{([^}]+)\}/)?.[1] ?? '';
-  return Object.fromEntries([...block.matchAll(/(\w+):\s*'([^']+)'/g)].map((m) => [m[1], m[2]]));
+  const block = src.match(/\bconst\s+FAMILY_COLOR\b[^=]*=\s*\{([^}]+)\}/)?.[1] ?? '';
+  const out = Object.fromEntries([...block.matchAll(/['"]?(\w+)['"]?\s*:\s*['"](#[0-9a-fA-F]{6})['"]/g)].map((m) => [m[1], m[2].toLowerCase()]));
+  if (!out.state || !out.capital || out.state === out.capital) throw new Error(`§0.5 FAMILY_COLOR: state/capital did not parse as two distinct #rrggbb values from src/components/viz/ForceGraph.tsx (${JSON.stringify(out)})`);
+  return out;
 })();
 const hexToRgb = (h) => { const m = h.replace('#', '').match(/.{2}/g).map((x) => parseInt(x, 16)); return `rgb(${m[0]}, ${m[1]}, ${m[2]})`; };
 const lumOf = (rgb) => { const m = (rgb ?? '').match(/\d+(\.\d+)?/g)?.map(Number) ?? [0, 0, 0]; return 0.2126 * m[0] + 0.7152 * m[1] + 0.0722 * m[2]; };
@@ -5164,7 +5304,8 @@ test('AC-137 — Draw tier as dash on every mark and never as stage; draw report
         const lanes = await ledgerLanes(page);
         for (const lane of lanes.slice(0, 40)) {
           const key = resolveLane(lane.attr, lane.label);
-          if (!key || LANE_ROWS(key).some(isReported)) continue;
+          assert.ok(key, `lane "${lane.label}" carries a LANES key (reads "${lane.attr}")`);
+          if (LANE_ROWS(key).some(isReported)) continue;
           const dashes = await page.evaluate((attr) => { const th = [...document.querySelectorAll('[data-lane]')].find((e) => e.getAttribute('data-lane') === attr); const tr = th?.closest('tr, [role="row"]'); return [...(tr?.querySelectorAll('[data-slot]') ?? [])].filter((s) => ['row', 'two', 'zero'].includes(s.getAttribute('data-slot-state'))).map((s) => window.__ac.dash(s.querySelector('rect, path') ?? s)); }, lane.attr);
           assert.ok(dashes.every((d) => d === TIER_DASH.documented), `${key}: BE, RE and actual slots of a documented lane share the documented dash (never by stage)`);
         }
@@ -5232,15 +5373,16 @@ test('AC-138 — Keep hatch, crosshatch, stipple, zero, hollow, dot, ramp floor 
 
 test('AC-139 — Key no fill or stroke to party, kind, stage or component; share one y-scale; one dot fill', async (t) => {
   if (!requireFull(t)) return;
-  const famFills = new Set([hexToRgb(FAMILY_COLOR.state), hexToRgb(FAMILY_COLOR.capital)]);
   await withPage('D', async (page) => {
     await load(page, '/security');
     const r = await page.evaluate(() => ({
       office: [...new Set([...document.querySelectorAll('[data-mark="office"]')].map((e) => getComputedStyle(e).fill))],
+      officeStroke: [...new Set([...document.querySelectorAll('[data-mark="office"]')].map((e) => getComputedStyle(e).stroke))],
       bands: [...new Set([...document.querySelectorAll('[data-band]')].map((e) => getComputedStyle(e).fill))],
       ticks: [...document.querySelectorAll('[data-q="B1"] figure svg text')].map((e) => e.textContent.trim()).filter((s) => /^₹?[\d,]+(\.\d+)?( cr| k| lakh)?$/.test(s)),
     }));
     assert.ok(r.office.length <= 1, `office bars share one fill across windows whatever their party text (${r.office})`);
+    assert.ok(r.officeStroke.length <= 1, `office bars share one stroke across windows whatever their party text (${r.officeStroke})`);
     const hues = r.bands.map((c) => hslOf(c).h);
     assert.ok(hues.length >= 2, 'stack bands drawn');
     for (const h of hues) assert.ok(Math.abs(h - hues[0]) <= 2 || Math.abs(Math.abs(h - hues[0]) - 360) <= 2, `band fills share one hue (± 2°): ${hues.map((x) => x.toFixed(1))}`);
@@ -5251,8 +5393,20 @@ test('AC-139 — Key no fill or stroke to party, kind, stage or component; share
     const dots = await page.evaluate(() => [...new Set([...document.querySelectorAll('[data-dot]')].map((e) => getComputedStyle(e).fill))]);
     assert.equal(dots.length, 1, 'every [data-dot] has one fill');
     await load(page, '/security?lens=procurement');
-    const aw = await page.evaluate(() => [...new Set([...document.querySelectorAll('[data-mark="award"]')].map((e) => getComputedStyle(e).fill).filter((f) => f !== 'none' && f !== 'rgba(0, 0, 0, 0)'))]);
-    for (const f of aw) assert.ok(famFills.has(f), `award mark fill ${f} is the state or capital family hue`);
+    if (!PRICED.length) { t.diagnostic('SKIPPED: no priced non-alleged award in the module'); return; }
+    const aw = await page.evaluate(() => [...document.querySelectorAll('[data-mark="award"]')].map((e) => { const cs = getComputedStyle(e); return { cr: e.getAttribute('data-cr'), fill: cs.fill, stroke: cs.stroke }; }));
+    const solid = (f) => f && f !== 'none' && f !== 'rgba(0, 0, 0, 0)';
+    const hueOf = (v) => { const f = nodeOf(v)?.fam; return FAMILY_COLOR[f] ? hexToRgb(FAMILY_COLOR[f]) : null; };
+    assert.ok(aw.some((x) => solid(x.fill)), 'at least one award mark carries a fill');
+    for (const m of aw.filter((x) => x.cr != null && solid(x.fill))) {
+      const cands = PRICED.filter((e) => Math.abs(e.a - Number(m.cr)) <= 0.005);
+      if (!cands.length) continue;
+      const ok = new Set(cands.map((e) => hueOf(e.t)).filter(Boolean));
+      assert.ok(ok.has(m.fill), `award ₹${m.cr}: fill ${m.fill} is its vendor's family hue (${[...ok]}), not another key`);
+    }
+    const expected = new Set(PRICED.map((e) => hueOf(e.t)).filter(Boolean));
+    assert.deepEqual([...new Set(aw.map((x) => x.fill).filter(solid))].sort(), [...expected].sort(), "award fills are exactly the family hues of the priced vendors' classes");
+    assert.ok(new Set(aw.map((x) => x.stroke).filter(solid)).size <= 2 + expected.size, 'award strokes vary by no key beyond family hue and selection accent');
   });
 });
 
@@ -5361,6 +5515,7 @@ test('AC-144 — Rank nothing by a page-computed figure', async (t) => {
     for (const s of sorts) assert.ok(/% of GSDP|₹ cr|per lakh/.test(s), `aria-sort only on a declared external quantity ("${s}")`);
     await load(page, '/security?lens=procurement', { slice: S8 });
     const pairs = await page.evaluate(() => [...document.querySelectorAll('[data-pair]')].map((p) => [...p.querySelectorAll('[data-case]')].map((c) => c.getAttribute('data-case'))));
+    assert.ok(pairs.flat().filter((id) => id !== 'none').every((id) => CASES.includes(id)), 'every [data-case] carries a force:case- id');
     assert.deepEqual(pairs.slice(0, CASE_PAIRS.length).map((p) => [...p].sort().join('|')), CASE_PAIRS.map((p) => [p.a, p.b].sort().join('|')), 'case pairs in FIRST_RECORD order');
     if (S8) assert.deepEqual(await page.evaluate(() => [...document.querySelectorAll('[data-class]:not([data-rate])')].map((e) => e.getAttribute('data-class'))), SLICE.rates.byClass.map((c) => c.class), 'slice class rows in file order');
     await openTwin(page, 'bonds');
@@ -5370,15 +5525,30 @@ test('AC-144 — Rank nothing by a page-computed figure', async (t) => {
     assert.deepEqual(donors, [...donors].sort((a, b) => a.localeCompare(b)), 'bond donors alphabetical');
     const allSorts = await page.evaluate(() => [...document.querySelectorAll('th[aria-sort], button')].filter((b) => /^Sort by /.test(window.__ac.txt(b)) || b.hasAttribute('aria-sort')).map((b) => window.__ac.txt(b)));
     for (const s of allSorts) assert.ok(!/computed here|count|awards|party/i.test(s), `no sort on a computed share, a page count, a party or an award count ("${s}")`);
+    // [Adjudicated 2026-10-07 — Reading B] Scan all page-authored text (main and the live region,
+    // at rest and under view=table, plus aria-label/-description, title, alt, placeholder) outside
+    // [data-quoted], #refusals and the rail-foot `Not offered:` line, after removing verbatim only
+    // the spec's fixed phrases (C2, C6, C11, C12, C17, `Rank class`, the per-person option's name).
+    const RANK = /\b(most|top|rank|ranks|ranked|ranking|rankings|score|scores|scored|scoring|index|indexes|indices|risk|risks|risky|riskier|riskiest|leaderboard)\b/i;
+    const FIXED = [/not added on top/gi, /Most installations are older than any government/gi, /most DPSU plants/gi, /most command headquarters/gi, /for a rank, never a person/gi, /at the public rank/gi, /would re-rank states/gi, /^Rank class$/i];
+    const strip = (s) => FIXED.reduce((a, re) => a.replace(re, ' '), s);
+    const scan = () => page.evaluate(() => {
+      const norm = (s) => (s ?? '').replace(/\s+/g, ' ').trim();
+      const out = [];
+      for (const root of document.querySelectorAll('main, [aria-live]')) for (const e of [root, ...root.querySelectorAll('*')]) {
+        if (e.closest('[data-quoted], #refusals')) continue;
+        if ([...e.childNodes].some((n) => n.nodeType === 3 && n.textContent.trim())) out.push(norm(e.textContent));
+        for (const a of ['aria-label', 'aria-description', 'title', 'alt', 'placeholder']) if (e.hasAttribute(a)) out.push(norm(e.getAttribute(a)));
+      }
+      return [...new Set(out)];
+    });
     for (const lens of LENSES) {
-      await load(page, LENS_ROUTE[lens]);
-      // Rank words where a rank would be presented: headings, column heads, controls, legends and labels.
-      // `top` as a preposition ("added on top", C2's fixed words) is not a rank.
-      const hits = await page.evaluate(() => [...document.querySelectorAll('main h1, main h2, main h3, main h4, main h5, main h6, main th, main button, main label, main summary, main legend, main option, main [data-effect], main [aria-label]')]
-        .filter((e) => !e.closest('[data-quoted], #refusals'))
-        .map((e) => `${window.__ac.txt(e)} ${e.getAttribute('aria-label') ?? ''}`)
-        .filter((s) => /\b(most|rank|ranked|ranking|score|index|risk)\b/i.test(s) || /\btop\b(?! of\b)/i.test(s.replace(/\bon top\b/gi, ''))));
-      assert.deepEqual(hits.filter((h) => !h.startsWith('Not offered:')), [], `${lens}: no rank word outside quoted text and the refusals`);
+      const r = LENS_ROUTE[lens];
+      for (const rt of [r, `${r}${r.includes('?') ? '&' : '?'}view=table`]) {
+        await load(page, rt);
+        const hits = (await scan()).filter((s) => !s.startsWith('Not offered:')).filter((s) => RANK.test(strip(s)));
+        assert.deepEqual(hits, [], `${rt}: no rank word in page-authored text outside quoted text, the refusals and the spec's fixed phrases`);
+      }
     }
   });
 });
@@ -5476,7 +5646,7 @@ test('AC-148 — B-J1: read the latest year\'s pensions and copy a citation in t
       assert.equal(m[1], fy, `${vp}: the latest FY`);
       assert.ok(Math.abs(num(m[3]) - share) <= 0.01, `${vp}: the pension share ${m[3]} = ${share}`);
       if (vp === 'M') {
-        const col = page.locator('[data-column][data-panel="defence"]').nth(FY_AXIS.indexOf(fy));
+        const col = page.locator(`[data-column="${fy}"][data-panel="defence"]`);
         await col.tap(); await col.tap();
       } else {
         await focusAxis(page, fy);
@@ -5514,7 +5684,7 @@ test('AC-149 — B-J2: reach a CAPF\'s cell card in three interactions', async (
       assert.ok(acc?.inView, `${vp}: the lanes are accented and scrolled into view`);
       const label = labelOf(CAPF_SAMPLE);
       const cells = page.locator('[role="grid"] [aria-label]');
-      const idx = await cells.evaluateAll((els, [l, fy]) => els.findIndex((e) => (e.getAttribute('aria-label') ?? '').startsWith(l) && (e.getAttribute('aria-label') ?? '').includes(`, FY${fy}:`)), [label, CELL_SAMPLE.fy]);
+      const idx = await cells.evaluateAll((els, [l, mid]) => els.findIndex((e) => (e.getAttribute('aria-label') ?? '').startsWith(l) && (e.getAttribute('aria-label') ?? '').includes(mid)), [label, ` — ${CELL_SAMPLE.component} — ${CELL_SAMPLE.line}, FY${CELL_SAMPLE.fy}:`]);
       assert.ok(idx >= 0, `${vp}: a cell for FY${CELL_SAMPLE.fy}`);
       await cells.nth(idx).click();
       await waitParam(page, 'cell');

@@ -40,7 +40,7 @@ const PAGE_CSS = `
 .sec-page .sec-stipple-swatch { background: radial-gradient(circle, rgba(232,228,220,0.5) 1.2px, #1b1d24 1.6px) 0 0 / 6px 6px; }
 .sec-page .sec-zero, .sec-page .sec-zero-swatch { background: #15171c; box-shadow: inset 0 0 0 1px var(--color-text-muted); }
 .sec-page .sec-hidden-slot { background: #23272f; opacity: .45; }
-.sec-page.sec-tables figure svg, .sec-page.sec-tables figure [data-column], .sec-page.sec-tables figure [data-dot] { display: none !important; }
+.sec-page.sec-tables figure svg, .sec-page.sec-tables figure [data-column], .sec-page.sec-tables figure [data-dot], .sec-page.sec-tables figure [role="grid"] { display: none !important; }
 .sec-page li, .sec-page dd, .sec-page [data-page-copy] { overflow-wrap: break-word; }
 .sec-page .sec-pressed[aria-pressed="true"], .sec-page .sec-pressed[aria-selected="true"] { font-weight: 600; }
 .sec-page .sec-sticky { position: sticky; left: 0; background: var(--color-bg); z-index: 1; }
@@ -304,7 +304,8 @@ export default function Security() {
   return (
     <Page.Provider value={ctx}>
       <article className={`pb-20 sec-page${f.view === 'table' ? ' sec-tables' : ''}`}>
-        <style>{PAGE_CSS}</style>
+        {/* The page's styles live in <head>, not in <main>: a stylesheet is not page text (AC-144). */}
+        {createPortal(<style data-security-page="">{PAGE_CSS}</style>, document.head)}
         <Head slice={slice} wideHead={!narrow} />
         {EMPTY && <EmptyCallout />}
         <Resolution />
@@ -361,7 +362,7 @@ export default function Security() {
         <Connections f={f} />
         <Contested f={f} />
         <Gaps />
-        <Refusals />
+        <Refusals slice={slice} />
         <SourceLedger slice={slice} />
         <div aria-live="polite" className="sr-only">{live}</div>
         {wide && panel && layer && createPortal(

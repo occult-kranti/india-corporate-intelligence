@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useRef, useState, type KeyboardEvent } from 'react';
 import type { SecurityFile } from '../../data/cppp';
 import {
-  type BudgetRow, type BudgetStage, type StackCol, FY_AXIS, EMPTY, BUDGETS, UNION_ROWS, defenceStack, latestFy, policeDemand, delhiAt, payLines, agnipathLines,
-  policePay, structureBreaks, fmtCr, pct, round2, fyStart, crContext, rowTier, BAND_WORD, MOD_ALL_DEMANDS, DEFAULT_STAGE, coveredFys, policeChecked, policeEqual,
-  budgetPass, EMPTY_WORDS, NO_BUDGET_ROWS, NOTHING, type BandName, last, DEMAND_LEVEL, hostOf, COMP_WORD,
+  type BudgetRow, type BudgetStage, type StackCol, type PoliceCol, FY_AXIS, EMPTY, BUDGETS, UNION_ROWS, defenceStack, latestFy, policeStack, policeDrawn, delhiLineAt,
+  payBracketAt, agnipathTicks, agnipathLines, POLICE_PAY_TICKS, reconSummary, structureBreaks, fmtCr, fyStart, crContext, rowTier, BAND_WORD, MOD_ALL_DEMANDS, DEFAULT_STAGE, coveredFys,
+  budgetPass, EMPTY_WORDS, NO_BUDGET_ROWS, NOTHING, type BandName, last, DEMAND_LEVEL, hostOf, COMP_WORD, prevFy, otherDocument, otherPayWords, pensionSpoken,
 } from '../../data/securityView';
 import { usePage, Caption, Twin, TwinTable, SkipLink, Exports, captionText, FOCUS, type Row, type Col } from './ui';
 import { MovedFacts } from './Chrome';
@@ -37,18 +37,21 @@ const fmtTick = (x: number) => x.toLocaleString('en-IN', { maximumFractionDigits
 export interface StackModel {
   stage: BudgetStage;
   cols: StackCol[];
-  police: Map<string, { revenue?: BudgetRow; capital?: BudgetRow; total?: BudgetRow } | null>;
+  /** The Police demand per FY; null where no part of it is printed. */
+  police: Map<string, PoliceCol | null>;
   max: number;
   latest: string | null;
 }
 export function stackModel(stage: BudgetStage): StackModel {
   const cols = defenceStack(stage);
-  const police = new Map(FY_AXIS.map((fy) => [fy, policeDemand(fy, stage)]));
+  const police = new Map(policeStack(stage).map((p) => [p.fy, policeDrawn(p) ? p : null]));
+  // The shared scale's ceiling: the tallest drawn column or tick, read from the derivations.
   let m = 0;
   for (const c of cols) { if (!c.missing) m = Math.max(m, c.sum); if (c.published) m = Math.max(m, c.published.cr); }
-  for (const p of police.values()) if (p) m = Math.max(m, p.total?.cr ?? 0, (p.revenue?.cr ?? 0) + (p.capital?.cr ?? 0));
+  for (const p of police.values()) if (p) m = Math.max(m, p.total?.cr ?? 0, p.sum ?? p.revenue?.cr ?? p.capital?.cr ?? 0);
   return { stage, cols, police, max: niceMax(m), latest: latestFy(stage) };
 }
+/** The pension share in an axis name: the derived words, with "percent" spelt out for a screen reader. */
 
 /** The axis button's name (§5.1.1): its text, never an aria-label — no ₹ is named outside the ledger grid. */
 export function axisName(m: StackModel, fy: string) {
@@ -56,8 +59,10 @@ export function axisName(m: StackModel, fy: string) {
   if (c.missing) return `${fy}, no ${m.stage} rows recorded`;
   const recon = c.recon === 'equal' ? 'equals the published total' : c.recon === 'differs' ? `exceeds the published total by ₹${fmtCr(c.delta)} crore, computed here` : 'no published total';
   const p = m.police.get(fy);
-  const police = p?.total ? `₹${fmtCr(p.total.cr)} crore` : p?.revenue && p.capital ? `₹${fmtCr(round2(p.revenue.cr + p.capital.cr))} crore` : 'no row';
-  return `${fy}, ${m.stage}: defence ₹${fmtCr(c.sum)} crore in ${c.rows.length} demands, computed here, pensions ${c.pensionPct ?? 0} percent, ${recon}; police ${police}`;
+  const police = p?.total ? `₹${fmtCr(p.total.cr)} crore` : p?.sum != null ? `₹${fmtCr(p.sum)} crore, computed here` : 'no row';
+  // A partial column holds some demands, not the year: its sum is never read as the year's total.
+  const demands = c.partial ? `${c.partial.k} of ${c.partial.n} demands recorded (partial, not the year's total)` : `${c.rows.length} demands`;
+  return `${fy}, ${m.stage}: defence ₹${fmtCr(c.sum)} crore in ${demands}, computed here, pensions ${pensionSpoken(c)}, ${recon}; police ${police}`;
 }
 
 /** Q1's answer sentence (U10): the first text in the figure, every ₹ beside its basis and the previous year. */
@@ -69,8 +74,8 @@ export function answerSentence(m: StackModel) {
   const prev = m.cols.filter((x) => !x.missing && x.fy < fy).pop();
   const prevPension = prev?.rows.find((r) => r.component === 'pension');
   const pubLast = [...m.cols].reverse().find((x) => x.published);
-  const pay = payLines(fy, m.stage).length;
-  const text = `FY${fy} ${m.stage}: pensions ₹${fmtCr(c.pension ?? 0)} cr, ${c.pensionPct}% ${c.basis}; defence ₹${fmtCr(c.sum)} cr across ${c.rows.length} demands, computed here; ${pay} pay lines inside revenue.`
+  const pay = payBracketAt(fy, m.stage).lines;
+  const text = `FY${fy} ${m.stage}: ${c.pension != null ? `pensions ₹${fmtCr(c.pension)} cr, ${c.pensionWords}` : 'no pension row'}; defence ₹${fmtCr(c.sum)} cr across ${c.rows.length} demands, computed here; ${pay} pay lines inside revenue.`
     + (c.published ? '' : pubLast?.published ? ` Latest published all-demands total: ₹${fmtCr(pubLast.published.cr)} cr (FY${pubLast.fy}).` : '')
     + (prevPension ? ` Previous year: FY${prev!.fy} ${m.stage}: ₹${fmtCr(prevPension.cr)} cr in pensions.` : ' Previous year not applicable.');
   return { text, cr: pension?.cr ?? c.sum };
@@ -93,11 +98,12 @@ export function DemandStack({ fyCurrent, setFyCurrent, slice }: { fyCurrent: str
   const hiddenRows = UNION_ROWS.filter((r) => !f.tiers.has(rowTier(r))).length;
   const breaks = structureBreaks(f.stage);
   const breakSet = new Set(breaks.map((b) => b.fy));
+  const agniAt = useMemo(() => new Map(agnipathTicks(f.stage).map((t) => [t.fy, t.cr])), [f.stage]);
   const answer = answerSentence(m);
-  const withPub = m.cols.filter((c) => !c.missing && c.published);
-  const eq = withPub.filter((c) => c.recon === 'equal').length;
-  const chk = policeChecked(f.stage);
-  const eqPolice = chk.filter((fy) => policeEqual(m.police.get(fy)!)).length;
+  const { equal: eq, checkable } = reconSummary(f.stage);
+  const pstack = policeStack(f.stage);
+  const chk = pstack.filter((p) => p.check !== 'incomplete');
+  const eqPolice = chk.filter((p) => p.check === 'equal').length;
   const covered = coveredFys(f.stage).length;
   const titleId = 'sec-B1-h';
 
@@ -137,8 +143,8 @@ export function DemandStack({ fyCurrent, setFyCurrent, slice }: { fyCurrent: str
     if (panel === 'police') {
       const p = m.police.get(fy);
       const state = !p ? 'hatched' : !seriesTierOn ? 'hidden' : 'full';
-      const d = delhiAt(fy, f.stage);
-      const pp = policePay(fy, f.stage);
+      const d = delhiLineAt(fy, f.stage);
+      const pp = POLICE_PAY_TICKS.filter((r) => r.fy === fy && r.stage === f.stage);
       let y = 0;
       return (
         <div key={`p-${fy}`} data-column={fy} data-panel="police" data-column-state={state} className="relative flex-1 min-w-0" style={{ height: H, opacity: dim || state === 'hidden' ? 0.25 : 1 }}
@@ -153,7 +159,7 @@ export function DemandStack({ fyCurrent, setFyCurrent, slice }: { fyCurrent: str
             return el;
           })}
           {d?.total && <div data-tick="delhi" className="absolute right-0 w-[3px] border-r-2 border-t-2 border-b-2 border-text" style={{ bottom: 0, height: Math.max(2, d.total.cr * k) }} />}
-          {pp.map((r) => <div key={r.head} data-tick="police-pay" className="absolute left-0 right-0 h-0 border-t-2 border-dotted border-text-secondary" style={{ bottom: r.cr * k }} />)}
+          {pp.map((r) => <div key={r.head} data-tick="police-pay" title={otherDocument(r) ? `${r.head}: ${otherPayWords(r, 'Police')}` : r.head} className="absolute left-0 right-0 h-0 border-t-2 border-dotted border-text-secondary" style={{ bottom: r.cr * k }} />)}
         </div>
       );
     }
@@ -169,9 +175,8 @@ export function DemandStack({ fyCurrent, setFyCurrent, slice }: { fyCurrent: str
     let y = 0;
     const isLatest = fy === m.latest;
     const isChosen = fy === current && fy !== m.latest && !narrow ? false : false;
-    const pays = payLines(fy, f.stage);
-    const paySum = pays.reduce((s, r) => s + r.cr, 0);
-    const agni = agnipathLines(fy, f.stage).reduce((s, r) => s + r.cr, 0);
+    const pay = payBracketAt(fy, f.stage);
+    const agni = agniAt.get(fy) ?? 0;
     const pensionRow = c.rows.find((r) => r.component === 'pension');
     const prev = m.cols.filter((x) => !x.missing && x.fy < fy).pop();
     const prevPension = prev?.rows.find((r) => r.component === 'pension');
@@ -188,13 +193,14 @@ export function DemandStack({ fyCurrent, setFyCurrent, slice }: { fyCurrent: str
         {c.partial && <div className="absolute left-[1px] right-[1px] sec-hatch" style={{ bottom: y, top: 0 }} />}
         {c.partial && <span className="absolute left-0 whitespace-nowrap font-mono text-[11px] text-text-secondary bg-bg/80 px-0.5" style={{ bottom: Math.min(H - 14, y + 2) }}>{`partial: ${c.partial.k} of ${c.partial.n} demands`}</span>}
         {c.published && <div data-tick="published" className="absolute -left-[1px] -right-[1px] h-0 border-t-2 border-accent" style={{ bottom: c.published.cr * k }} />}
-        {pays.length > 0 && <div data-tick="pay" className="absolute right-0 w-[3px] border-r-2 border-t border-b border-text" style={{ bottom: 0, height: Math.max(2, paySum * k) }} />}
+        {pay.cr != null && <div data-tick="pay" className="absolute right-0 w-[3px] border-r-2 border-t border-b border-text" style={{ bottom: 0, height: Math.max(2, pay.cr * k) }} />}
+        {pay.other.map((r) => <div key={r.head} data-tick="other-pay" title={`${r.head}: another document's pay, not in the bracket`} className="absolute right-[5px] w-[6px] h-[6px] -mb-[3px] border border-text-secondary bg-bg" style={{ bottom: r.cr * k }} />)}
         {agni > 0 && <div data-tick="agnipath" className="absolute left-[2px] w-[60%] h-0 border-t-2 border-text" style={{ bottom: agni * k }} />}
         {(isLatest || isChosen) && pensionRow && (
           <span data-cr={pensionRow.cr} className={`absolute right-0 text-right font-mono text-[12px] leading-tight text-text ${narrow ? 'w-[15rem] whitespace-normal' : 'whitespace-nowrap'}`} style={{ bottom: H + 2 }}>
-            {`pensions ₹${fmtCr(pensionRow.cr)} cr · ${c.pensionPct}% ${c.basis}`}
+            {`pensions ₹${fmtCr(pensionRow.cr)} cr · ${c.pensionWords}`}
             <br />
-            {prevPension ? `FY${prev!.fy} ${f.stage}: ₹${fmtCr(prevPension.cr)} cr` : `no ${f.stage} row for FY${fy}`}
+            {prevPension ? `FY${prev!.fy} ${f.stage}: ₹${fmtCr(prevPension.cr)} cr` : `no ${f.stage} pension row for FY${prev?.fy ?? prevFy(fy)}`}
           </span>
         )}
         <span data-glyph={c.recon} aria-hidden="true" className="absolute left-0 right-0 text-center font-mono text-[10px] text-text-muted" style={{ top: H + 2 }}>{c.recon === 'equal' ? '=' : c.recon === 'differs' ? '≠' : '·'}</span>
@@ -219,7 +225,7 @@ export function DemandStack({ fyCurrent, setFyCurrent, slice }: { fyCurrent: str
   const denominator = empty ? null : [
     `${f.stage}, ₹ crore, nominal, as published`,
     `${covered} of ${FY_AXIS.length} FYs drawn`,
-    `defence stack = demand totals, computed here; equal to the published total in ${eq} of ${withPub.length} FYs that print one`,
+    `defence stack = demand totals, computed here; equal to the published total in ${eq} of ${checkable} FYs that print one`,
     `police stack = revenue + capital of the Police demand, checked in ${chk.length} of ${chk.length} FYs that print all three parts; equal in ${eqPolice}`,
     ...(breaks.length && narrow ? [`demand structure changes: ${breaks.map((b) => `FY${b.fy} from ${b.from} to ${b.to} revenue demands`).join('; ')}`] : []),
     ...(f.payer ? ['the Union stack is not affected by the payer filter'] : []),
@@ -286,7 +292,7 @@ export function DemandStack({ fyCurrent, setFyCurrent, slice }: { fyCurrent: str
               <div className="min-h-[1.5em] font-mono text-[12px] text-text-secondary mt-1">
                 {readCol && (readCol.missing
                   ? <span>{`FY${readCol.fy}: no ${f.stage} rows recorded — the column is hatched, not zero`}</span>
-                  : <span data-cr={readCol.sum}>{`FY${readCol.fy} ${f.stage}: defence ₹${fmtCr(readCol.sum)} cr in ${readCol.rows.length} demands, computed here; pensions ${readCol.pensionPct}% ${readCol.basis}; ${(() => { const p = m.cols.filter((x) => !x.missing && x.fy < readCol.fy).pop(); return p ? `FY${p.fy} ${f.stage}: ₹${fmtCr(p.sum)} cr, computed here` : 'previous year not applicable'; })()} — ${narrow ? 'tap again to open' : 'choose the year to open'}`}</span>)}
+                  : <span data-cr={readCol.sum}>{`FY${readCol.fy} ${f.stage}: defence ₹${fmtCr(readCol.sum)} cr in ${readCol.rows.length} demands, computed here; pensions ${readCol.pensionWords}; ${(() => { const p = m.cols.filter((x) => !x.missing && x.fy < readCol.fy).pop(); return p ? `FY${p.fy} ${f.stage}: ₹${fmtCr(p.sum)} cr, computed here` : 'previous year not applicable'; })()} — ${narrow ? 'tap again to open' : 'choose the year to open'}`}</span>)}
               </div>
             </div>
             <figcaption id="sec-b1-den" data-page-copy="" className="font-mono text-[12px] sm:text-[11px] text-text-muted mt-1 leading-snug">{denominator}</figcaption>
@@ -302,15 +308,11 @@ export function DemandStack({ fyCurrent, setFyCurrent, slice }: { fyCurrent: str
 }
 
 function c2Text() {
-  const m = stackModel(DEFAULT_STAGE);
-  const withPub = m.cols.filter((c) => !c.missing && c.published);
-  const eq = withPub.filter((c) => c.recon === 'equal').length;
-  const diffs = withPub.filter((c) => c.recon === 'differs').map((c) => (c.delta / c.published!.cr) * 100);
-  const maxPct = diffs.length ? Math.ceil(Math.max(...diffs) * 10) / 10 : 0;
+  const { equal: eq, checkable, differ, maxPct } = reconSummary(DEFAULT_STAGE);
   const breaks = structureBreaks(DEFAULT_STAGE);
   const lastBreak = breaks.filter((b) => b.to === 1).pop() ?? last(breaks);
   const tierWord = UNION_ROWS.some((r) => rowTier(r) === 'reported') ? 'reported where its note says so, documented otherwise' : 'documented';
-  return `Each defence column stacks the Ministry of Defence's demands for grants as Parliament votes them; before ${lastBreak ? `FY${lastBreak.fy}` : 'the first year drawn'} the services had revenue demands of their own, one band each. Pay is a line inside revenue, so it is drawn as a bracket, not added on top. A total the Summary prints for all demands is drawn as a tick across the column, and the mark beneath says whether the stack equals it: in ${eq} of ${withPub.length} such years it does${diffs.length ? `, and in the rest the stack exceeds it by under ${maxPct}%` : ''}. Missing years are hatched, not skipped; every Union row here is ${tierWord}. Amounts are nominal and not adjusted for inflation. The pension share is of the published total where one is printed, else of the stack, computed here; the label says which, and this page does not rate whether the share is high. Delhi Police is bracketed in the police panel, on the same scale, as the only city police force with its own budget line.`;
+  return `Each defence column stacks the Ministry of Defence's demands for grants as Parliament votes them; before ${lastBreak ? `FY${lastBreak.fy}` : 'the first year drawn'} the services had revenue demands of their own, one band each. Pay is a line inside revenue, so it is drawn as a bracket, not added on top. A total the Summary prints for all demands is drawn as a tick across the column, and the mark beneath says whether the stack equals it: in ${eq} of ${checkable} such years it does${differ && maxPct != null ? `, and in the rest the stack exceeds it by under ${maxPct}%` : ''}. Missing years are hatched, not skipped; every Union row here is ${tierWord}. Amounts are nominal and not adjusted for inflation. The pension share is of the published total where one is printed, else of the stack, computed here; the label says which, and this page does not rate whether the share is high. Delhi Police is bracketed in the police panel, on the same scale, as the only city police force with its own budget line.`;
 }
 
 /** The stack twin (U11): one row per drawn band, two published-total rows per FY, one per hatched column, and the bracket rows. */
@@ -335,24 +337,27 @@ function StackTwin({ m }: { m: StackModel }) {
     if (anySeries) {
       const pub = c.published;
       const sumWords = c.missing ? 'no stack' : c.partial ? 'partial, no sum printed' : `stack ₹${fmtCr(c.sum)} cr, computed here`;
-      const recon = c.missing ? 'no stack to reconcile' : !pub ? 'no published all-demands total for this FY' : c.recon === 'equal' ? 'the stack equals the published total' : `the stack exceeds the published total by ₹${fmtCr(c.delta)} cr (${pct(c.delta, pub.cr)}%), computed here`;
+      const recon = c.missing ? 'no stack to reconcile' : !pub ? 'no published all-demands total for this FY' : c.recon === 'equal' ? 'the stack equals the published total' : `the stack exceeds the published total by ₹${fmtCr(c.delta)} cr (${c.deltaPct}%), computed here`;
       rows.push({
         cells: ['published total', fy, m.stage, 'defence', 'total', pub ? MOD_ALL_DEMANDS : 'no published all-demands total for this FY', pub ? `₹${fmtCr(pub.cr)} cr — published; ${sumWords}` : sumWords, recon, pub ? rowTier(pub) : 'not applicable', pub ? srcCell(pub) : 'not applicable'],
-        out: out('published total', fy, 'defence', 'total', pub ? MOD_ALL_DEMANDS : 'no published all-demands total for this FY', '', pub?.cr ?? '', c.missing || c.partial ? '' : c.sum, c.recon === 'differs' ? `stack exceeds published by ${c.delta}` : recon, pub ? rowTier(pub) : '', pub ? src(pub) : ''),
+        out: out('published total', fy, 'defence', 'total', pub ? MOD_ALL_DEMANDS : 'no published all-demands total for this FY', '', pub?.cr ?? '', c.missing || c.partial ? '' : c.sum, c.recon === 'differs' ? `stack exceeds published by ${c.delta}, computed here` : c.missing || c.partial ? recon : `${recon}; stack sum computed here`, pub ? rowTier(pub) : '', pub ? src(pub) : ''),
       });
     }
     if (c.missing) {
       if (anySeries) rows.push({ cells: ['hatched column', fy, m.stage, 'defence', 'no row', `no ${m.stage} rows recorded`, 'no row in this register', 'not applicable', 'not applicable', 'not applicable'], out: out('hatched', fy, 'defence', '', `no ${m.stage} rows recorded`, '', '', '', '', '', '') });
     } else {
-      for (const { band, row } of c.bands) {
+      for (const { band, row, share: sh } of c.bands) {
         if (!seriesOn(row)) continue;
         const ctx = crContext(row);
-        const share = c.published ? `${pct(row.cr, c.published.cr)}% of published total` : `${pct(row.cr, c.sum)}% of stack, computed here`;
+        const share = sh != null ? `${sh}% ${c.basis}` : c.partial ? `${c.partial.k} of ${c.partial.n} demands recorded; no share computed` : 'not computed';
         rows.push({ cells: [`${band} (${BAND_WORD[band]})`, fy, m.stage, 'defence', COMP_WORD[row.component], headCell(row.head), `₹${fmtCr(row.cr)} cr — ${ctx.denom} · ${ctx.compare}`, share, rowTier(row), srcCell(row)], out: out('band', fy, 'defence', row.component, row.head, row.cr, '', '', '', rowTier(row), src(row)) });
       }
       if (anySeries) {
-        const pays = payLines(fy, m.stage);
-        if (pays.length) rows.push({ cells: [`pay lines (${pays.length})`, fy, m.stage, 'defence', 'pay', `lines as printed: ${pays.map((r) => r.head).join('; ')}`, `${pays.length} pay lines inside revenue; each is in the ledger and the year's readout`, 'a bracket, not added on top', 'documented', 'see the ledger'], out: out(`pay lines (${pays.length})`, fy, 'defence', 'pay', pays.map((r) => r.head).join('; '), '', '', '', '', 'documented', '') });
+        const pb = payBracketAt(fy, m.stage);
+        const pays = pb.rows;
+        // Another document's pay row (Statement 22) is named beside the bracket, never inside it.
+        const otherWords = pb.other.length ? `; not in the bracket, from another document with another definition of pay: ${pb.other.map((r) => r.head).join('; ')}` : '';
+        if (pays.length) rows.push({ cells: [`pay lines (${pays.length})`, fy, m.stage, 'defence', 'pay', `lines as printed: ${pays.map((r) => r.head).join('; ')}`, `${pays.length} pay lines inside revenue; each is in the ledger and the year's readout${otherWords}`, 'a bracket, not added on top', 'documented', 'see the ledger'], out: out(`pay lines (${pays.length})`, fy, 'defence', 'pay', pays.map((r) => r.head).join('; '), '', '', '', otherWords.replace(/^; /, ''), 'documented', '') });
         const ag = agnipathLines(fy, m.stage);
         if (ag.length) rows.push({ cells: ['Agnipath lines', fy, m.stage, 'defence', 'other', `lines as printed: ${ag.map((r) => r.head).join('; ')}`, `${ag.length} lines inside revenue; Agnipath lines → contract card (Q5)`, 'a tick, not added on top', 'documented', 'see the ledger'], out: out('Agnipath lines', fy, 'defence', 'other', ag.map((r) => r.head).join('; '), '', '', '', '', 'documented', '') });
       }
@@ -360,35 +365,37 @@ function StackTwin({ m }: { m: StackModel }) {
     const p = m.police.get(fy);
     if (anySeries) {
       const t = p?.total;
-      const rc = p?.revenue && p.capital ? round2(p.revenue.cr + p.capital.cr) : null;
-      const words = t && rc != null ? (Math.abs(t.cr - rc) <= 0.5 ? `equals revenue + capital, computed here (₹${fmtCr(rc)} cr)` : `differs from revenue + capital, computed here (₹${fmtCr(rc)} cr)`) : 'not all three parts are printed';
+      const rc = p?.sum ?? null;
+      // The check is policeStack's own (one tolerance, RECON_TOLERANCE): the graphic and this row read the same verdict.
+      const words = p && p.check !== 'incomplete' ? `${p.check === 'equal' ? 'equals' : 'differs from'} revenue + capital, computed here (₹${fmtCr(p.sum!)} cr)` : 'not all three parts are printed';
       rows.push({
         cells: ['published total', fy, m.stage, 'police', 'total', t ? headCell(t.head) : 'no published Police demand total for this FY', t ? `₹${fmtCr(t.cr)} cr — published` : 'no row in this register', words, t ? rowTier(t) : 'not applicable', t ? srcCell(t) : 'not applicable'],
-        out: out('published total', fy, 'police', 'total', t?.head ?? 'no published Police demand total for this FY', '', t?.cr ?? '', rc ?? '', t && rc != null ? `revenue + capital, computed here: ${Math.abs(t.cr - rc) <= 0.5 ? 'equal' : 'differs'}` : '', t ? rowTier(t) : '', t ? src(t) : ''),
+        out: out('published total', fy, 'police', 'total', t?.head ?? 'no published Police demand total for this FY', '', t?.cr ?? '', rc ?? '', p && p.check !== 'incomplete' ? `revenue + capital, computed here: ${p.check}` : '', t ? rowTier(t) : '', t ? src(t) : ''),
       });
     }
     if (!p) {
       if (anySeries) rows.push({ cells: ['hatched column', fy, m.stage, 'police', 'no row', `no ${m.stage} rows recorded`, 'no row in this register', 'not applicable', 'not applicable', 'not applicable'], out: out('hatched', fy, 'police', '', `no ${m.stage} rows recorded`, '', '', '', '', '', '') });
     } else {
-      const rc = p.revenue && p.capital ? round2(p.revenue.cr + p.capital.cr) : null;
       for (const comp of ['revenue', 'capital'] as const) {
         const r = p[comp];
         if (!r || !seriesOn(r)) continue;
         const ctx = crContext(r);
-        rows.push({ cells: [`${comp} (Police demand)`, fy, m.stage, 'police', COMP_WORD[comp], headCell(r.head), `₹${fmtCr(r.cr)} cr — ${ctx.denom} · ${ctx.compare}`, rc ? `${pct(r.cr, rc)}% of stack, computed here` : 'not computed', rowTier(r), srcCell(r)], out: out('band', fy, 'police', comp, r.head, r.cr, '', '', '', rowTier(r), src(r)) });
+        const sh = p.shareOf(r);
+        rows.push({ cells: [`${comp} (Police demand)`, fy, m.stage, 'police', COMP_WORD[comp], headCell(r.head), `₹${fmtCr(r.cr)} cr — ${ctx.denom} · ${ctx.compare}`, sh != null ? `${sh}% of stack, computed here` : 'not computed', rowTier(r), srcCell(r)], out: out('band', fy, 'police', comp, r.head, r.cr, '', '', '', rowTier(r), src(r)) });
       }
     }
-    const d = delhiAt(fy, m.stage);
-    if (d?.total && anySeries && p?.total) {
-      const share = pct(d.total.cr, p.total.cr);
+    const d = delhiLineAt(fy, m.stage);
+    if (d?.total && anySeries && p?.total && d.shareOfPolice != null) {
+      const share = d.shareOfPolice;
       rows.push({ cells: ['Delhi Police (inside the Police demand)', fy, m.stage, 'police', 'total', headCell(d.total.head), `₹${fmtCr(d.total.cr)} cr — ${share}% of the Police demand, computed here`, 'a bracket, not added on top', rowTier(d.total), srcCell(d.total)], out: out('Delhi Police (inside the Police demand)', fy, 'police', 'total', d.total.head, d.total.cr, '', '', `${share}% of the Police demand, computed here`, rowTier(d.total), src(d.total)) });
     } else if (d?.total && anySeries) {
       rows.push({ cells: ['Delhi Police (inside the Police demand)', fy, m.stage, 'police', 'total', headCell(d.total.head), `₹${fmtCr(d.total.cr)} cr — no Police demand total for this FY`, 'a bracket, not added on top', rowTier(d.total), srcCell(d.total)], out: out('Delhi Police (inside the Police demand)', fy, 'police', 'total', d.total.head, d.total.cr, '', '', '', rowTier(d.total), src(d.total)) });
     }
-    for (const r of policePay(fy, m.stage)) {
+    for (const r of POLICE_PAY_TICKS.filter((x) => x.fy === fy && x.stage === m.stage)) {
       if (!seriesOn(r)) continue;
       const ctx = crContext(r);
-      rows.push({ cells: ['police pay', fy, m.stage, 'police', 'pay', headCell(r.head), `₹${fmtCr(r.cr)} cr — ${ctx.denom} · ${ctx.compare}`, 'a tick at its year only', rowTier(r), srcCell(r)], out: out('police pay', fy, 'police', 'pay', r.head, r.cr, '', '', '', rowTier(r), src(r)) });
+      const other = otherDocument(r) ? `; ${otherPayWords(r, 'Police')}` : '';
+      rows.push({ cells: ['police pay', fy, m.stage, 'police', 'pay', headCell(r.head), `₹${fmtCr(r.cr)} cr — ${ctx.denom} · ${ctx.compare}`, `a tick at its year only${other}`, rowTier(r), srcCell(r)], out: out('police pay', fy, 'police', 'pay', r.head, r.cr, '', '', other.replace(/^; /, ''), rowTier(r), src(r)) });
     }
   }
   const cols: Col[] = [

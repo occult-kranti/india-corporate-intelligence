@@ -3,12 +3,12 @@ import type { SecurityFile } from '../../data/cppp';
 import type { Tier } from '../../graph/schema';
 import {
   type Filters, type Lens, LENS_LABEL, LENS_SHORT, LENS_DOMAINS, LENSES, STAGES, COMPONENTS, TIER_LIST, KINDS, KIND_COUNT, EMPTY_KINDS,
-  EMPTY, META, RUN, ASOF, FILES, VERDICTS, KILLED, BUDGETS, STRENGTH, FOOTPRINT, EDGES, UNION_ROWS, STATE_ROWS, STATE_SERIES, STATE_SERIES_HEAD,
-  FY_AXIS, DEFAULT_STAGE, coveredFys, defenceStack, latestFy, MOD_ALL_DEMANDS, MHA, WHOLE_DEMAND, isDemandLevel, rowTier, fmtCr, fmtInt,
-  STRENGTH_ST, COMMISSIONERATES, FP_CITIES, FP_STATES, FP_DATED, DELHI_ROWS, UNITS_ALPHA, stateName, budgetPass, lensPopulation,
-  AWARDS, PRICED, UNPRICED, VENDORS, vendorClass, CASES, CASE_PAIRS, UNPAIRED, ALLEGED, ANSWERED, BONDS, BOND_DONORS, BOND_PARTIES, AUDIT_CONTRAS,
+  EMPTY, META, RUN, ASOF, FILES, VERDICTS, KILLED, BUDGETS, STRENGTH, FOOTPRINT, EDGES, STATE_ROWS, FY_AXIS, DEFAULT_STAGE, coveredFys, defenceStack, latestFy, fmtCr, fmtInt,
+  COMMISSIONERATES, FP_CITIES, FP_STATES, FP_DATED, UNITS_ALPHA, stateName, budgetPass, lensPopulation,
+  AWARDS, PRICED, UNPRICED, VENDORS, CASES, CASE_PAIRS, UNPAIRED, ALLEGED, ANSWERED, BONDS, BOND_DONORS, BOND_PARTIES, AUDIT_CONTRAS,
   EMPTY_MONO, CONTROL_EMPTY, symmetryOf, kindWord, kindReason, nodeOf, labelOf, CASE_PREFIX, VENDOR_SET, CITY_BODIES, CITY_POLICE_TEXT,
   LANE_BODIES, last, edgePass, dateInFy, FY_DOMAIN, GRANT_ROWS, STATE_NAME, FORCE_NODE_LIST, CASES as CASE_IDS, parseFilters,
+  ORDNANCE_RULE, RESOLUTION_COUNTS, BUDGET_STRIP, BUDGET_RECON, PROCUREMENT_COUNTS, sliceFigures,
 } from '../../data/securityView';
 import { usePage, Effect, Reason, Dash, FOCUS, TARGET, Quote, Anchor } from './ui';
 
@@ -36,7 +36,8 @@ const NO_ROWS = 'no rows in this build';
 export function sliceLine(slice: SecurityFile | null | undefined) {
   if (slice === undefined) return 'open-market slice loading';
   if (slice === null) return 'open-market slice not built in this copy';
-  return `open-market slice from the CPPP scrape ${slice.provenance.inputs.map((i) => i.sha256_16).join(' ')} (as of ${slice.provenance.asOf ?? 'date not stated'})`;
+  const sf = sliceFigures(slice);
+  return `open-market slice from the CPPP scrape ${sf.hashes.join(' ')} (as of ${sf.asOf ?? 'date not stated'})`;
 }
 export function Head({ slice, wideHead }: { slice: SecurityFile | null | undefined; wideHead: boolean }) {
   const byline = EMPTY
@@ -69,25 +70,18 @@ export function EmptyCallout() {
 // The resolution statement (§5.0.1, C1): fixed words, derived counts
 // ---------------------------------------------------------------------------
 
-const uniqN = <T,>(xs: T[]) => new Set(xs).size;
 export function resolutionMono(): Record<'union' | 'state' | 'city', string> {
   if (EMPTY) return { union: EMPTY_MONO, state: EMPTY_MONO, city: EMPTY_MONO };
-  const actualFys = uniqN(UNION_ROWS.filter((r) => r.stage === 'actual').map((r) => r.fy));
-  const union = UNION_ROWS.length
-    ? `${fmtInt(UNION_ROWS.length)} line rows · ${uniqN(UNION_ROWS.map((r) => r.body))} bodies · FY${FY_AXIS[0]}–FY${last(FY_AXIS)} · actuals for ${actualFys} of ${FY_AXIS.length} FYs`
+  const c = RESOLUTION_COUNTS;
+  const union = c.unionRows
+    ? `${fmtInt(c.unionRows)} line rows · ${c.unionBodies} bodies · FY${FY_AXIS[0]}–FY${last(FY_AXIS)} · actuals for ${c.actualFys} of ${FY_AXIS.length} FYs`
     : NO_ROWS;
-  const stateFys = [...new Set(STATE_SERIES.map((r) => r.fy))].sort();
-  const own = uniqN(STATE_ROWS.filter((r) => r.head !== STATE_SERIES_HEAD).map((r) => r.payer));
-  const rep = STRENGTH.filter((r) => rowTier(r) === 'reported').length;
   const statePart = STATE_ROWS.length
-    ? `${uniqN(STATE_SERIES.map((r) => r.payer))} of 36 states and UTs carry a Police-head row (FY${stateFys[0]}–FY${last(stateFys)}) · ${own} with their own budget series`
+    ? `${c.seriesStates} of 36 states and UTs carry a Police-head row${c.seriesSpan ? ` (FY${c.seriesSpan.first}–FY${c.seriesSpan.last})` : ''} · ${c.statesWithOwn.length} with their own budget series`
     : `state budget rows: ${NO_ROWS}`;
-  const strPart = STRENGTH.length ? `${uniqN(STRENGTH_ST.map((r) => r.st))} with a strength row; ${rep} of ${STRENGTH.length} strength rows reported` : `strength rows: ${NO_ROWS}`;
-  const commBodies = new Set(COMMISSIONERATES.map((r) => r.body));
-  const commStr = uniqN(STRENGTH.filter((r) => commBodies.has(r.body)).map((r) => r.body));
-  const dfys = [...new Set(DELHI_ROWS.map((r) => r.fy))].sort();
-  const delhi = DELHI_ROWS.length ? `Delhi Police: ${fmtInt(DELHI_ROWS.length)} line rows, FY${dfys[0]}–FY${last(dfys)}` : `Delhi Police: ${NO_ROWS}`;
-  const city = FOOTPRINT.length ? `${COMMISSIONERATES.length} commissionerates placed, ${commStr} with a strength row · ${FP_CITIES.length} cities with an installation` : `installations: ${NO_ROWS}`;
+  const strPart = STRENGTH.length ? `${c.strengthStates} with a strength row; ${c.reportedStrength} of ${STRENGTH.length} strength rows reported` : `strength rows: ${NO_ROWS}`;
+  const delhi = c.delhiRows && c.delhiSpan ? `Delhi Police: ${fmtInt(c.delhiRows)} line rows, FY${c.delhiSpan.first}–FY${c.delhiSpan.last}` : `Delhi Police: ${NO_ROWS}`;
+  const city = FOOTPRINT.length ? `${c.commissionerates} commissionerates placed, ${c.commWithStrength} with a strength row · ${c.fpCities} cities with an installation` : `installations: ${NO_ROWS}`;
   return { union, state: `${statePart} · ${strPart}`, city: `${delhi} · ${city}` };
 }
 export function Resolution() {
@@ -128,7 +122,7 @@ function stripFacts(f: Filters, slice: SecurityFile | null | undefined): ReactNo
       const pubLast = [...cols].reverse().find((c) => c.published);
       facts.push(
         <span key="f2" data-cr={col.sum}>
-          {`defence ${f.stage} ${col.fy}: ₹${fmtCr(col.sum)} cr across ${col.rows.length} demands, computed here; pensions ${col.pensionPct}% ${col.basis} · `}
+          {`defence ${f.stage} ${col.fy}: ₹${fmtCr(col.sum)} cr across ${col.rows.length} demands, computed here; pensions ${col.pensionWords} · `}
           {col.published
             ? `published total ₹${fmtCr(col.published.cr)} cr (${col.recon === 'equal' ? 'the stack equals it' : `the stack exceeds it by ₹${fmtCr(col.delta)} cr`})`
             : `no published all-demands total for FY${col.fy}${pubLast?.published ? `; latest published: ₹${fmtCr(pubLast.published.cr)} cr (FY${pubLast.fy}, ${f.stage})` : ''}`}
@@ -136,11 +130,10 @@ function stripFacts(f: Filters, slice: SecurityFile | null | undefined): ReactNo
         </span>,
       );
     }
-    const fyAct = new Set(UNION_ROWS.filter((r) => r.stage === 'actual').map((r) => r.fy)).size;
-    facts.push(`${coveredFys(f.stage).length} of ${FY_AXIS.length} FYs have a ${f.stage} stack · actuals for ${fyAct} of ${FY_AXIS.length} FYs`);
-    facts.push(`${new Set(STATE_SERIES.map((r) => r.payer)).size} of 36 map units have a state police row · Delhi's police is a Union line`);
-    facts.push(`${BUDGETS.filter((r) => rowTier(r) === 'reported').length} rows transcribed from a secondary (reported)`);
-    facts.push(`${BUDGETS.filter((r) => r.cr === 0).length} rows print ₹0 as recorded`);
+    facts.push(`${coveredFys(f.stage).length} of ${FY_AXIS.length} FYs have a ${f.stage} stack · actuals for ${RESOLUTION_COUNTS.actualFys} of ${FY_AXIS.length} FYs`);
+    facts.push(`${BUDGET_STRIP.stateUnits} of 36 map units have a state police row · Delhi's police is a Union line`);
+    facts.push(`${BUDGET_STRIP.reportedRows} rows transcribed from a secondary (reported)`);
+    facts.push(`${BUDGET_STRIP.zeroRows} rows print ₹0 as recorded`);
     return facts;
   }
   if (f.lens === 'footprint') {
@@ -155,18 +148,16 @@ function stripFacts(f: Filters, slice: SecurityFile | null | undefined): ReactNo
       `${COMMISSIONERATES.length} commissionerates; budget inside the state's police head; city strength: no primary table`,
     ];
   }
-  const pub = VENDORS.filter((v) => vendorClass(v) === 'public').length;
-  const priv = VENDORS.filter((v) => vendorClass(v) === 'private').length;
-  const enforce = EDGES.filter((e) => e.pred === 'enforce').length;
-  const works = slice ? slice.quality.byClass.find((c) => c.class === 'works') : null;
+  const pc = PROCUREMENT_COUNTS;
+  const sf = slice ? sliceFigures(slice) : null;
   return [
-    `${AWARDS.length} contracts MoD named (${PRICED.length} with ₹, ${UNPRICED.length} unpriced) to ${new Set(AWARDS.map((e) => e.t)).size} vendors`,
-    `${pub} public-sector beside ${priv} private, JV or foreign — vendor class not a field`,
-    `${CASES.length} cases, ${CASE_PAIRS.length} control pairs, ${UNPAIRED.length} unpaired · ${enforce} court and audit records`,
+    `${AWARDS.length} contracts MoD named (${PRICED.length} with ₹, ${UNPRICED.length} unpriced) to ${pc.awardVendors} vendors`,
+    `${pc.publicVendors} public-sector beside ${pc.privateVendors} private, JV or foreign — vendor class not a field`,
+    `${CASES.length} cases, ${CASE_PAIRS.length} control pairs, ${UNPAIRED.length} unpaired · ${pc.enforce} court and audit records`,
     `${ANSWERED.length} of ${ALLEGED.length} alleged claims with a recorded response`,
     `${BONDS.length} bond records, ${BOND_DONORS.length} donors, ${BOND_PARTIES.length} parties`,
-    slice && works
-      ? `open market: ${slice.quality.total.dedupRows} award decisions in ${slice.rates.byClass.length} buyer classes, ${Math.round((works.dedupRows / slice.quality.total.dedupRows) * 10000) / 100}% one works buyer — read by class`
+    sf
+      ? `open market: ${sf.decisions} award decisions in ${sf.classes} buyer classes, ${sf.worksBuyer ? `${sf.worksBuyer.pct}% one works buyer` : 'no works buyer in the file'} — read by class`
       : slice === undefined ? 'open market: loading the slice' : 'open-market slice not built in this copy',
   ];
 }
@@ -214,24 +205,17 @@ export function reconText(lens: Lens, slice: SecurityFile | null | undefined): s
   if (EMPTY) return 'register not yet promoted — nothing below is zero';
   if (lens === 'budgets') {
     if (!BUDGETS.length) return 'no budget rows in this build · no total on this page adds rows from two levels';
-    const pub = UNION_ROWS.filter((r) => r.head === MOD_ALL_DEMANDS || (r.body === MHA && r.head.includes(WHOLE_DEMAND)));
-    const grants = UNION_ROWS.filter((r) => r.component === 'grant-to-states' && !pub.includes(r));
-    const dl = UNION_ROWS.filter((r) => !pub.includes(r) && r.component !== 'grant-to-states' && isDemandLevel(r));
-    const sub = UNION_ROWS.length - pub.length - grants.length - dl.length;
-    const rbi = STATE_ROWS.filter((r) => r.head === STATE_SERIES_HEAD).length;
-    const prs = STATE_ROWS.filter((r) => r.head !== STATE_SERIES_HEAD && /PRS/.test(r.head)).length;
-    const own = STATE_ROWS.length - rbi - prs;
-    return `${fmtInt(BUDGETS.length)} rows = ${fmtInt(UNION_ROWS.length)} Union (${fmtInt(dl.length)} demand-level + ${fmtInt(sub)} lines inside a demand + ${fmtInt(grants.length)} grants to states + ${fmtInt(pub.length)} published totals) + ${fmtInt(STATE_ROWS.length)} state (${rbi} RBI Police head + ${own} a state's own budget + ${prs} PRS transcriptions, reported) · ${BUDGETS.filter((r) => r.cr === 0).length} recorded as ₹0 · no total on this page adds rows from two levels`;
+    const b = BUDGET_RECON;
+    return `${fmtInt(b.total)} rows = ${fmtInt(b.union)} Union (${fmtInt(b.demand)} demand-level + ${fmtInt(b.inside)} lines inside a demand + ${fmtInt(b.grants)} grants to states + ${fmtInt(b.pub)} published totals) + ${fmtInt(b.state)} state (${b.rbi} RBI Police head + ${b.own} a state's own budget + ${b.prs} PRS transcriptions, reported) · ${b.zero} recorded as ₹0 · no total on this page adds rows from two levels`;
   }
   if (lens === 'footprint') {
     const terms = KINDS.map((k) => { const n = KIND_COUNT.get(k) ?? 0; return n ? `${n} ${kindWord(k)}` : `0 ${kindWord(k)} (none in this register)`; });
     return `${FOOTPRINT.length} installations = ${terms.join(' + ')}`;
   }
-  const by = (p: string) => EDGES.filter((e) => e.pred === p).length;
-  const known = ['award', 'enforce', 'contra', 'role', 'bond', 'law', 'analytic'];
-  const other = EDGES.filter((e) => !known.includes(e.pred)).length;
-  const sliceTerm = slice ? ` · tender slice ${slice.quality.total.rawRows} raw rows → ${slice.quality.total.dedupRows} after dedup` : slice === null ? ' · tender slice not built in this copy' : '';
-  return `${EDGES.length} records = ${by('award')} awards + ${by('enforce')} court, audit and investigation records + ${by('contra')} responses (${AUDIT_CONTRAS.length} added by the audit) + ${by('role')} office and board + ${by('bond')} bonds + ${by('law')} rules + ${by('analytic')} comparisons + ${other} other${sliceTerm}`;
+  const pc = PROCUREMENT_COUNTS;
+  const sf = slice ? sliceFigures(slice) : null;
+  const sliceTerm = sf ? ` · tender slice ${sf.rawRows} raw rows → ${sf.decisions} after dedup` : slice === null ? ' · tender slice not built in this copy' : '';
+  return `${EDGES.length} records = ${pc.award} awards + ${pc.enforce} court, audit and investigation records + ${pc.contra} responses (${AUDIT_CONTRAS.length} added by the audit) + ${pc.role} office and board + ${pc.bond} bonds + ${pc.law} rules + ${pc.analytic} comparisons + ${pc.other} other${sliceTerm}`;
 }
 export function ReconLine({ lens, slice }: { lens: Lens; slice: SecurityFile | null | undefined }) {
   return (
@@ -247,14 +231,15 @@ export function ReconLine({ lens, slice }: { lens: Lens; slice: SecurityFile | n
 
 export function filterTerms(f: Filters): string[] {
   const t: string[] = [];
-  if (f.payer) t.push(`payer: ${f.payer === 'union' ? 'Union' : 'states'}`);
+  // A filter is named in the words its control shows, never by its URL code (§0.7 step 4).
+  if (f.payer) t.push(`Payer — ${f.payer === 'union' ? 'Union' : 'States'}`);
   if (f.st) t.push(stateName(f.st));
   if (f.fyFrom) t.push(f.fyFrom === f.fyTo ? `FY ${f.fyFrom}` : `FY ${f.fyFrom}–${f.fyTo}`);
   if (f.stageSet) t.push(`stage ${f.stage}`);
   if (f.compSet) t.push(`components: ${[...f.comp].join(', ') || 'none'}`);
   if (f.tierSet) t.push(`tiers: ${[...f.tiers].join(', ') || 'none'}`);
   if (f.kindSet) t.push(`kinds: ${[...f.kind].map(kindWord).join(', ')}`);
-  if (f.find) t.push(`find "${f.find}" (filters nothing)`);
+  // Find filters nothing, so it is not on this line; the Find box shows the query (Reading B).
   return t;
 }
 export function ActiveFilters({ f, onReset }: { f: Filters; onReset: () => void }) {
@@ -676,7 +661,7 @@ export function KindChips({ f }: { f: Filters }) {
           <button key={k} type="button" aria-pressed={on} aria-disabled={n ? undefined : 'true'}
             onClick={() => { if (!n) return; const v = kindToggle(f, k); patch({ kind: v }); const kk = v ? v.split(',') : KINDS; const k2 = FOOTPRINT.filter((r) => kk.includes(r.kind) && (!f.st || r.st === f.st)).length; announce(`kind filter: ${v ? v.replace(/,/g, ', ') : 'all kinds'}; from ${FOOTPRINT.length} to ${k2} installations`); }}
             className={`sec-pressed font-mono text-[12px] px-2 min-h-[32px] border rounded text-left ${on ? 'border-accent text-text bg-accent/10' : 'border-border-light text-text-secondary'} ${n ? '' : 'opacity-70'} ${FOCUS}`}>
-            {`${kindWord(k)} (${n})`}{reason ? <span className="block text-amber">{reason}</span> : null}
+            {`${kindWord(k)} (${n})`}{reason ? <span className={`block ${kindReason(k) === ORDNANCE_RULE ? 'text-text-muted' : 'text-amber'}`}>{reason}</span> : null}
           </button>
         );
       })}

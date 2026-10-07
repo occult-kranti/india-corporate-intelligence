@@ -21,7 +21,8 @@ and reads the DOM. No criterion reads `src/pages/`, `src/components/` or
 `ForceGraph`" and the data contract places `FAMILY_COLOR` only in that shared house component,
 which this page consumes but does not own, so it is the spec's reference value, not the code
 under test; `KINDS` is read as text from `src/graph/fleet.ts` the same way.] Expected values are computed by the check from the **generated
-module** (`src/graph/force.generated.ts`), from `research/raw/cppp/security.json`, from
+module** (`src/graph/force.generated.ts`), from `research/raw/cppp/security-page.json` (the slim
+page file; §0.5 `SLICE` [Adjudicated 2026-10-07]), from
 `src/data/india-geo.json` and from the Atlas and fleet data modules it needs for labels, as spec
 §16 requires — never from a brief, a caption, spec §0.2 or this document. The module under
 test on 2026-10-04 is already a different run from the one the spec's §0.2 was read against
@@ -112,7 +113,7 @@ from the page, and asserts the one that applies. On 2026-10-04 only `S8` holds.
 | `S5` | `FORCE_VENDOR_CLASS` is exported and non-empty | four vendor classes as labels inside the family hue |
 | `S6` | `FORCE_OUTCOMES` is exported and non-empty | a 36 × years outcomes table |
 | `S7` | a footprint row carries `lat` and `lon` | point layer at addresses |
-| `S8` | `research/raw/cppp/security.json` exists and parses with `rates.byClass` | the open-market slice renders instead of the absence sentence |
+| `S8` | `research/raw/cppp/security-page.json` exists and parses with `rates.byClass` [Adjudicated 2026-10-07: the slim page file; see `SLICE`] | the open-market slice renders instead of the absence sentence |
 | `S9` | a `FORCE_STRENGTH` row's `body` is a commissionerate body (`force:{city}-police` of a footprint `commissionerate` row) | strength on the city ledger |
 | `S10` | the footprint file declares per-kind `coverage` (visible as a `FORCE_FOOTPRINT_COVERAGE` export) | hollow empty state for an enumerated kind |
 | `S11` | claims carry `caseId`, or `FORCE_CASES` is exported | complete case files; decision and office fields |
@@ -187,7 +188,7 @@ Atlas (`src/graph/data.ts`) and the other fleets' `_NODES`; a miss is `{id} (not
 | `VOIDS(domains)`, `GAPS(domains)` | `FORCE_VOIDS` / `FORCE_GAPS` filtered by `domain`; `LENS_DOMAINS` as spec §3.2 |
 | `BASE_RATES(domain)`, `SYMMETRY(domain)` | `FORCE_BASE_RATES` by `domain`; the `FORCE_SYMMETRY` text for the domain or null |
 | `TWO_FIGURES` | a base-rate row with `numerator > denominator` or a non-integer figure and no (S12) share kind; skip AC-40's last clause when none |
-| `SLICE` | the parsed `security.json`: `readMeFirst`, `caveat`, `rates.byClass`, `rates.byClassYear`, `rates.total`, `rates.excludingWorks`, `quality.total`, `classes.definitions`, `provenance`; `SMALL_YEARS` = class-years with `n < 10`; `CAPF_CLASS` = the class whose key is `capf` |
+| `SLICE` | the parsed `research/raw/cppp/security-page.json`: `readMeFirst`, `caveat`, `rates.byClass`, `rates.byClassYear`, `rates.total`, `rates.excludingWorks`, `quality.total`, `quality.byClass`, `classes.definitions`, `classes.map`, `provenance`; `SMALL_YEARS` = class-years with `n < 10`; `CAPF_CLASS` = the class whose key is `capf`; `WORKS_BUYER_PCT` = the largest works-class buyer's `rows` in `classes.map` ÷ `quality.total.dedupRows` × 100, to 2 dp (74.41 in this build); `WORKS_CLASS_PCT` = the works class's `quality.byClass` `dedupRows` ÷ `quality.total.dedupRows` × 100, to 2 dp (75.79) [Adjudicated 2026-10-07: the check reads the slim page file the page itself loads (spec §3.2 SLICE), projected from `security.json`, whose `byClass`/`byClassYear`/`quality`/`readMeFirst`/`caveat` fields it carries unchanged; `security.json` also carries `topMarkedWinners`, winner lists the page must not load (C14)] |
 | `UNRESOLVED` | edge ids with an endpoint that `nodeOf` cannot resolve anywhere |
 | `EMPTY_SRCS` | edges with `srcs.length === 0` and `tier ∉ {alleged, analytic}` or with `srcs.length === 0` at all; skip AC-62 when none |
 
@@ -473,7 +474,13 @@ the eye lands after the picture. A limitation in footer grey is an argument, not
 - **Check (Procurement, S8):** `[data-caption="C14"]` contains `not India's security
   procurement`, `capital acquisition runs on another portal, and GeM is not here`, `the
   slice's overall rate is a works rate`, `No winner is named here`; `{worksShare}` equals the
-  works class's share of dedup decisions in `SLICE` to 2 dp. (S8 absent: the Q2 block prints
+  works class's share of dedup decisions in `SLICE` to 2 dp (`WORKS_CLASS_PCT`) and is labelled
+  `the works class (MES and BRO)` in its sentence (`… the works class (MES and BRO) … {worksShare}%
+  of the slice`); wherever the page prints `one works buyer`, its figure is `WORKS_BUYER_PCT`,
+  never the class share. [Adjudicated 2026-10-07: the spec prints two works figures — the class
+  share (works rows ÷ dedup decisions, 75.79%) and "one works buyer" (the largest works buyer's
+  rows ÷ dedup decisions, 74.41%, `readMeFirst`'s "E-IN-C BRANCH - MILITARY ENGINEER SERVICES
+  (works) alone is 74.41%"); each is held to its own label.] (S8 absent: the Q2 block prints
   `The open-market slice is not built in this copy of the register. Nothing here is zero.` and
   no C14.)
 
@@ -536,7 +543,10 @@ its population; nothing is summed across levels.*
   `UNION_ROWS`, `k` = distinct `fy` over Union `actual` rows; the State line `{s} of 36 states
   and UTs carry a Police-head row` with `s` = distinct `payer` over `STATE_SERIES`, `{o} with
   their own budget series` with `o` = distinct state payers having a non-`Police (MH 2055)`
-  head, `{t} with a strength row` and `{r} of {FORCE_STRENGTH.length} strength rows reported`;
+  head on a row that is not `reported` [Adjudicated 2026-10-07: spec §5.0.1 counts a state
+  "except where a state's own budget opened"; the PRS "District Police line" rows are
+  secondary transcriptions (tier `reported`), not a state's own budget, so they do not count —
+  in this build only Uttar Pradesh's Grant 026 qualifies], `{t} with a strength row` and `{r} of {FORCE_STRENGTH.length} strength rows reported`;
   the City line `Delhi Police: {d} line rows, FY{a}–FY{b}`, `{COMMISSIONERATES.length}
   commissionerates placed, {c} with a strength row` and `{cities} cities with an installation`
   with `cities` = distinct `city` over `FORCE_FOOTPRINT`. The strip's fact 1 contains a link
@@ -559,7 +569,10 @@ its population; nothing is summed across levels.*
   {UNPAIRED.length} unpaired`; fact 4 `{ANSWERED.length} of {ALLEGED.length} alleged claims with
   a recorded response`; fact 5 `{BONDS.length} bond records, {DONORS.length} donors,
   {PARTIES.length} parties`; fact 6 (S8) `open market: {dedup} award decisions in {classes}
-  buyer classes, {works}% one works buyer — read by class` from `SLICE`, else `open-market
+  buyer classes, {works}% one works buyer — read by class` from `SLICE` with `{works}` =
+  `WORKS_BUYER_PCT` ± 0.01 [Adjudicated 2026-10-07: the largest works buyer's rows ÷
+  `quality.total.dedupRows` (74.41%), not the works class's share (75.79%, labelled `the works
+  class (MES and BRO)`, AC-24)], else `open-market
   slice not built in this copy`.
 
 ### AC-33 — Print the reconciliation lines whose terms sum to the series lengths
@@ -1752,7 +1765,7 @@ ZERO-SERIES builds are made in a scratchpad copy of the repository (§0.3), cach
 `dist-empty-security` and `dist-zero-security`, never by editing `research/raw/` or
 `*.generated.ts`. Nothing in the script imports from `src/pages/`, `src/components/` or
 `src/data/securityView.ts` (it reads the `FAMILY_COLOR` literal of
-`src/components/viz/ForceGraph.tsx` as text for AC-139, §0.5 [Adjudicated 2026-10-06]); it reads the generated module, `security.json`, `india-geo.json`
+`src/components/viz/ForceGraph.tsx` as text for AC-139, §0.5 [Adjudicated 2026-10-06]); it reads the generated module, `security-page.json` (§0.5 `SLICE` [Adjudicated 2026-10-07]), `india-geo.json`
 and the data modules it needs for labels and GSDP the way `finance.test.mjs` does, and the
 criteria document is the whole contract. The two measurement tables (AC-127, AC-134) are
 filled in from the first build's printed values and amended, never aspired to. Add the file to

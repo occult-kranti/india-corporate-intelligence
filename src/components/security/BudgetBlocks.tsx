@@ -3,16 +3,15 @@ import type { GEdge, Tier } from '../../graph/schema';
 import type { SecurityFile } from '../../data/cppp';
 import {
   type Lens, type BudgetRow, LENS_DOMAINS, EMPTY, NOTHING, NO_BUDGET_ROWS, CONTROL_EMPTY, BUDGETS, UNION_ROWS, FY_AXIS, STAGES, MOD, PAY_LAWS, CONTRACTS, LAWS,
-  responseChain, responderWords, leftResponder, benefitOf, officeOn, labelOf, nodeOf, EDGES, analyticOfDomain, symmetryOf, baseRatesOf, rowTier, fmtCr, pct,
-  DELHI_POLICE, DELHI_ROWS, DELHI_POINTS, delhiAt, policeDemand, LANES, cellParam, COMMISSIONERATES, CITY_POLICE_TEXT, CITY_STRENGTH_VOID, strengthOfBody, stateName,
-  fmtInt, FOOTPRINT, GRANT_ROWS, GRANT_FYS, grantStageWord, budgetPass, lensPopulation, crContext, ZERO_WORDS, NO_RESPONSE, fyStart, kindWord, last,
+  responseChain, responderWords, leftResponder, benefitOf, officeOn, labelOf, nodeOf, EDGES, analyticOfDomain, symmetryOf, baseRatesOf, rowTier, fmtCr, DELHI_POLICE, DELHI_ROWS, DELHI_POINTS, DELHI_LINE, delhiLineAt, type DelhiPoint, LANES, cellParam, COMMISSIONERATES, CITY_POLICE_TEXT, CITY_STRENGTH_VOID, strengthOfBody, stateName,
+  fmtInt, NATIONAL_STATE_RECORDS, UNFILED_STATE_RECORDS, GRANT_SPLIT, countWord, fileOf, FOOTPRINT, GRANT_ROWS, GRANT_FYS, grantStageWord, budgetPass, lensPopulation, crContext, ZERO_WORDS, NO_RESPONSE, fyStart, kindWord, last,
 } from '../../data/securityView';
 import {
-  usePage, QBlock, Caption, Twin, TwinTable, Exports, captionText, Src, Quote, TierWord, Roving, Anchor, Denominator, NoMatch, Pager, FOCUS, SkipLink, End, type Row, type Col,
+  usePage, QBlock, Caption, Twin, TwinTable, Exports, captionText, Src, Quote, Tx, Lab, TierWord, Roving, Anchor, Denominator, NoMatch, Pager, FOCUS, SkipLink, End, type Row, type Col,
 } from './ui';
 import { DemandStack, Q1 } from './Stack';
 import { OfficeLanes, LineLedger, Q2, Q3 } from './Ledger';
-import { BaseRateSection, CompareTwin, C5_TEXT, CannotShow, Fold } from './Shared';
+import { BaseRateSection, CompareTwin, C5_TEXT, CannotShow, Fold, Responder, ResponseHead } from './Shared';
 import { StatePair, Q6 } from './StatePair';
 
 /**
@@ -55,12 +54,50 @@ export function CompareBlock({ lens, domains: only }: { lens: Lens; domains?: st
   return (
     <div id={lens === 'procurement' ? undefined : 'baserates'} aria-describedby={`sec-c5-${lens}`}>
       <Roving label="Base rates, their sources and the symmetry texts">
-        {domains.map((d) => <BaseRateSection key={d} domain={d} roving={false} />)}
+        {domains.map((d) => <BaseRateSection key={d} domain={d} roving={false} extra={d === 'state-police' && (NATIONAL_STATE_RECORDS.length || UNFILED_STATE_RECORDS.length) ? <NationalRecords /> : undefined} />)}
       </Roving>
       {missing.length > 0 && missing.every((d) => !baseRatesOf(d).length) && <p className="text-[14px] text-amber">{CONTROL_EMPTY}</p>}
       <Caption id={`sec-c5-${lens}`} cap="C5">{C5_TEXT}</Caption>
       <CompareTwin domains={domains} title={lens === 'footprint' ? 'Q4 — Compared with what?' : lens === 'procurement' ? 'Base rates in the procurement chapters' : Q4} />
     </div>
+  );
+}
+
+/**
+ * The state-police comparisons made by a national body (the party-group medians, the two
+ * custody counts): they compare states, so they sit here beside the base rates, quoted whole
+ * with every set and coding they carry, never filed under the one state whose capital
+ * houses the body that published them.
+ */
+/** C10's source words, from the per-state rows' own sources: a Parliament answer is named as one, anything else as a document. */
+const capWord = (w: string) => w.charAt(0).toUpperCase() + w.slice(1);
+function grantDocWords() {
+  const n = GRANT_SPLIT.sources.length;
+  const kind = GRANT_SPLIT.sources.every((l) => /Lok Sabha|Rajya Sabha/.test(l)) ? 'Parliament answer' : 'document';
+  return `${countWord(n)} ${kind}${n === 1 ? '' : 's'}`;
+}
+function NationalRecords() {
+  const { f } = usePage();
+  const shown = NATIONAL_STATE_RECORDS.filter((e) => f.tiers.has(e.tier));
+  // Rendered inside the state-police file's section, so below 640px it folds with that file's base rates (SG-53).
+  return (
+    <section aria-labelledby="sec-br-national" className="mt-4 border-t border-border pt-2 min-w-0">
+      <h4 id="sec-br-national" className="text-[14px] font-semibold text-text mb-1">Comparisons across states in the state-police research file</h4>
+      <p data-page-copy="" className="text-[13.5px] text-text-secondary m-0 mb-1 max-w-[80ch]">{`${NATIONAL_STATE_RECORDS.length} records compare groups of states or two national counts. Each is quoted whole, with every set and coding it states, and none is placed on any one state.`}</p>
+      {UNFILED_STATE_RECORDS.length > 0 && <p data-page-copy="" className="text-[13.5px] text-amber m-0 mb-1">{`${UNFILED_STATE_RECORDS.length} records have a source that is neither a state's police nor a declared national body, so they are filed under no state: ${UNFILED_STATE_RECORDS.map((e) => e.id).join(', ')}.`}</p>}
+      {shown.length < NATIONAL_STATE_RECORDS.length && <p className="text-[13px] text-text-secondary m-0">{`${NATIONAL_STATE_RECORDS.length - shown.length} records hidden by the tier filter — not absent`}</p>}
+      <ul className="list-none p-0 m-0 space-y-3">
+        {shown.map((e) => (
+          <li key={e.id} className="text-[14px] border-l border-border-light pl-2">
+            <Quote record={e}>{e.lab}</Quote>{' '}<TierWord tier={e.tier} />
+            {e.d && <Quote as="p" className="text-[13.5px] text-text-secondary m-0 mt-1" record={e}>{e.d}</Quote>}
+            {e.innocentReading && <span className="block mt-1"><Tx>the reading in which nothing is wrong: </Tx><Quote record={e}>{e.innocentReading}</Quote></span>}
+            <Src srcs={e.srcs} of={e.lab ?? e.id ?? 'record'} inline record={e} />
+            <span className="block font-mono text-[12px] text-text-muted">{`record ${e.id}, quoted from the ${fileOf(e)} research file`}</span>
+          </li>
+        ))}
+      </ul>
+    </section>
   );
 }
 
@@ -78,7 +115,7 @@ function PayTerms() {
   // The post class is the record's own node label, so it is a cell, not a row header the page writes.
   const cols: Col[] = [{ key: 'post', label: 'Post class' }, { key: 'lvl', label: 'Pay level and entry pay as the record states' }, { key: 'rule', label: 'Rule' }, { key: 'from', label: 'From' }, { key: 'tier', label: 'Tier' }, { key: 'src', label: 'Sources' }];
   const payRows: Row[] = pay.map((e) => ({
-    cells: [labelOf(e.t), <Quote>{e.lab}</Quote>, labelOf(e.s), e.from ?? 'not recorded', <TierWord tier={e.tier} />, <Src srcs={e.srcs} of={e.lab ?? e.id ?? 'pay level'} inline />],
+    cells: [<Lab id={e.t} />, <Quote>{e.lab}</Quote>, <Lab id={e.s} />, e.from ?? 'not recorded', <TierWord tier={e.tier} />, <Src srcs={e.srcs} of={e.lab ?? e.id ?? 'pay level'} inline />],
     attrs: /Level 3\b/.test(e.lab ?? '') ? { id: 'sec-pay-l3' } : undefined,
     out: [labelOf(e.t), e.lab ?? '', labelOf(e.s), e.from ?? '', e.tier, (e.srcs ?? []).map(([, u]) => u).join(' ')],
   }));
@@ -88,7 +125,7 @@ function PayTerms() {
     const chain = responseChain(k.id);
     if (!chain.length) return [{ cells: [<Quote>{k.lab}</Quote>, 'right', 'not recorded', 'not recorded', 'not recorded', NO_RESPONSE, 'not recorded'], out: [k.lab ?? '', 'right', '', '', '', NO_RESPONSE, ''] }];
     return chain.map((c) => ({
-      cells: [<Quote>{k.lab}</Quote>, leftResponder(c.edge.s) ? 'left' : 'right', responderWords(c.edge), c.edge.from ?? 'undated response', <TierWord tier={c.edge.tier} />, <><Quote>{c.edge.lab}</Quote>{c.edge.d ? <> — <Quote>{c.edge.d}</Quote></> : null}</>, <Src srcs={c.edge.srcs} of={c.edge.lab ?? 'response'} inline />],
+      cells: [<Quote>{k.lab}</Quote>, leftResponder(c.edge.s) ? 'left' : 'right', <Responder r={c.edge} />, c.edge.from ?? 'undated response', <TierWord tier={c.edge.tier} />, <><Quote>{c.edge.lab}</Quote>{c.edge.d ? <><Tx> — </Tx><Quote>{c.edge.d}</Quote></> : null}</>, <Src srcs={c.edge.srcs} of={c.edge.lab ?? 'response'} inline />],
       out: [k.lab ?? '', leftResponder(c.edge.s) ? 'left' : 'right', responderWords(c.edge), c.edge.from ?? '', c.edge.tier, `${c.edge.lab ?? ''}${c.edge.d ? ` — ${c.edge.d}` : ''}`, (c.edge.srcs ?? []).map(([, u]) => u).join(' ')],
     }));
   });
@@ -155,9 +192,9 @@ function sideResponses(k: GEdge, left: boolean): ReactNode {
     <ul className="list-none p-0 m-0 space-y-1.5">
       {chain.map((c) => (
         <li key={c.edge.id} className="border-l-2 border-border-light pl-2">
-          {c.depth > 1 ? `in reply to ${labelOf(c.parent.s)}, ${c.edge.from ?? 'undated'}: ` : `Response from ${responderWords(c.edge)} [${c.edge.tier}], ${c.edge.from ?? 'undated response'}: `}
-          <Quote>{c.edge.lab}</Quote>{c.edge.d ? <> — <Quote>{c.edge.d}</Quote></> : null}
-          {c.depth > 1 && <span className="block text-[13px]">{`${responderWords(c.edge)} · ${c.edge.tier}`}</span>}
+          {c.depth > 1 ? <><Tx>in reply to </Tx><Lab id={c.parent.s} /><Tx>{`, ${c.edge.from ?? 'undated'}: `}</Tx></> : <><ResponseHead r={c.edge} /><Tx> </Tx></>}
+          <Quote>{c.edge.lab}</Quote>{c.edge.d ? <><Tx> — </Tx><Quote>{c.edge.d}</Quote></> : null}
+          {c.depth > 1 && <span className="block text-[13px]"><Responder r={c.edge} /><Tx>{` · ${c.edge.tier}`}</Tx></span>}
         </li>
       ))}
     </ul>
@@ -169,7 +206,9 @@ function ContractCard({ k }: { k: GEdge }) {
   const chain = responseChain(k.id);
   const courts = EDGES.filter((e) => e.pred === 'enforce' && e.t === k.s);
   const holders = officeOn(k.from, MOD) ?? [];
-  const rightWho = [...new Set(chain.filter((c) => !leftResponder(c.edge.s)).map((c) => responderWords(c.edge)))];
+  // One entry per distinct responder, in the record's words; the audit's denials are named as the audit's.
+  const rightWho = chain.filter((c) => !leftResponder(c.edge.s)).map((c) => c.edge)
+    .filter((e, i, xs) => xs.findIndex((x) => responderWords(x) === responderWords(e)) === i);
   const leftSrcs = [...(k.srcs ?? []), ...chain.filter((c) => leftResponder(c.edge.s)).flatMap((c) => c.edge.srcs ?? [])];
   const rightSrcs = [...courts.flatMap((e) => e.srcs ?? []), ...chain.filter((c) => !leftResponder(c.edge.s)).flatMap((c) => c.edge.srcs ?? [])];
   const agni = /agnipath/i.test(`${k.s} ${k.lab}`);
@@ -183,16 +222,16 @@ function ContractCard({ k }: { k: GEdge }) {
   );
   return (
     <article className="border border-border rounded p-3 min-w-0">
-      <h5 className="text-[14px] font-semibold text-text m-0">{`${labelOf(k.t)}: the terms from ${k.from ?? 'an undated record'}`}</h5>
+      <h5 className="text-[14px] font-semibold text-text m-0"><Lab id={k.t} /><Tx>{`: the terms from ${k.from ?? 'an undated record'}`}</Tx></h5>
       <div className="grid sm:grid-cols-2 gap-x-5 gap-y-3 mt-2">
         <div className="min-w-0">
           <h6 className="text-[13px] font-semibold text-text m-0">The terms and the stated case</h6>
           {col([
-            `${labelOf(k.s)} → ${labelOf(k.t)} [${k.tier}]`,
-            <><Quote>{k.lab}</Quote>{k.d ? <> — <Quote>{k.d}</Quote></> : null}</>,
+            <><Lab id={k.s} /><Tx> → </Tx><Lab id={k.t} /><Tx>{` [${k.tier}]`}</Tx></>,
+            <><Quote>{k.lab}</Quote>{k.d ? <><Tx> — </Tx><Quote>{k.d}</Quote></> : null}</>,
             b && b.amountCr != null
-              ? <span data-cr={b.amountCr}>{`₹${fmtCr(b.amountCr)} cr (${b.confidence ?? 'confidence not stated'}) — cost or saving stated by the Ministry; no denominator published for this line; previous year not applicable`}{b.how ? <> — <Quote>{b.how}</Quote></> : null}</span>
-              : <><span className="text-amber">no stated saving recorded</span>{b?.how ? <> — <Quote>{b.how}</Quote></> : null}</>,
+              ? <span data-cr={b.amountCr}><Tx>{`₹${fmtCr(b.amountCr)} cr (${b.confidence ?? 'confidence not stated'}) — cost or saving stated by the Ministry; no denominator published for this line; previous year not applicable`}</Tx>{b.how ? <><Tx> — </Tx><Quote>{b.how}</Quote></> : null}</span>
+              : <><span className="text-amber">no stated saving recorded</span>{b?.how ? <><Tx> — </Tx><Quote>{b.how}</Quote></> : null}</>,
             holders.length ? holders.map((w) => `${labelOf(w.s)} (${w.from ?? 'start not recorded'} – ${w.to ?? 'end not recorded'})`).join('; ') : `no recorded office window covers ${k.from ?? 'an undated record'}`,
             sideResponses(k, true),
             leftSrcs.length ? <Src srcs={leftSrcs} of={`${k.lab ?? k.id}, terms`} inline /> : <span className="text-amber">no source in file</span>,
@@ -201,9 +240,9 @@ function ContractCard({ k }: { k: GEdge }) {
         <div className="min-w-0">
           <h6 className="text-[13px] font-semibold text-text m-0">The stated objections and the answers</h6>
           {col([
-            rightWho.length ? rightWho.join('; ') : 'none recorded',
-            courts.length ? <>{courts.map((e) => <span key={e.id} className="block">{`${labelOf(e.s)}, ${e.from ?? 'undated'} [${e.tier}]: `}<Quote>{e.lab}</Quote>{e.d ? <> — <Quote>{e.d}</Quote></> : null}</span>)}</> : 'no court holding recorded',
-            'not applicable: a cost is stated by the Ministry, in the left column',
+            rightWho.length ? <>{rightWho.map((e, i) => <span key={e.id}>{i ? <Tx>; </Tx> : null}<Responder r={e} /></span>)}</> : 'none recorded',
+            courts.length ? <>{courts.map((e) => <span key={e.id} className="block"><Lab id={e.s} /><Tx>{`, ${e.from ?? 'undated'} [${e.tier}]: `}</Tx><Quote>{e.lab}</Quote>{e.d ? <><Tx> — </Tx><Quote>{e.d}</Quote></> : null}</span>)}</> : 'no court holding recorded',
+            b?.amountCr != null ? 'not applicable: a cost is stated by the Ministry, in the left column' : 'not applicable: no cost or saving is stated by the Ministry',
             'not applicable: the office is on the left',
             sideResponses(k, false),
             rightSrcs.length ? <Src srcs={rightSrcs} of={`${k.lab ?? k.id}, objections`} inline /> : 'none recorded',
@@ -211,7 +250,7 @@ function ContractCard({ k }: { k: GEdge }) {
         </div>
         {agni && (
           <p className="text-[14px] text-text-secondary m-0 sm:col-span-2">
-            The record does not join the Agnipath terms to the terms they replaced (prerequisite S13). The regular-entry pay level for the same rank is in{' '}
+            The record does not join the Agnipath terms to the terms they replaced (prerequisite S13). The regular-entry pay level for the same post class is in{' '}
             <Anchor to="sec-pay-l3">the pay table above</Anchor>.
           </p>
         )}
@@ -231,16 +270,16 @@ const DELHI_TOTAL_LANE = LANES.find((l) => l.body === DELHI_POLICE && l.componen
 function CityBlock() {
   const { f, filterWords, openCell } = usePage();
   if (EMPTY) return <p data-page-copy="" className="text-[14px]">{NOTHING}</p>;
-  const pts = DELHI_POINTS.map((p) => ({ ...p, d: delhiAt(p.fy, p.stage) })).filter((p) => p.d?.total && f.tiers.has(rowTier(p.d.total)));
-  const delhiRows: Row[] = pts.map(({ fy, stage, d }) => {
-    const t = d!.total!;
-    const pol = policeDemand(fy, stage);
-    const share = pol?.total ? `${pct(t.cr, pol.total.cr)}% of the Police demand total, computed here` : 'no Police demand total for this FY';
+  const pts = DELHI_LINE.filter((p) => p.total && f.tiers.has(rowTier(p.total)));
+  const delhiRows: Row[] = pts.map((d) => {
+    const { fy, stage } = d;
+    const t = d.total!;
+    const share = d.shareOfPolice != null ? `${d.shareOfPolice}% of the Police demand total, computed here` : 'no Police demand total for this FY';
     const lane = DELHI_TOTAL_LANE;
     return {
-      cells: [`FY${fy}`, stage, <span data-cr={t.cr}>{`₹${fmtCr(t.cr)} cr`}</span>, d!.revenue ? <span data-cr={d!.revenue.cr}>{`₹${fmtCr(d!.revenue.cr)} cr`}</span> : 'no row in this register', d!.capital ? <span data-cr={d!.capital.cr}>{`₹${fmtCr(d!.capital.cr)} cr`}</span> : 'no row in this register', share, rowTier(t), <Src srcs={t.srcs} of={`Delhi Police ${fy} ${stage}`} inline />,
+      cells: [`FY${fy}`, stage, <span data-cr={t.cr}>{`₹${fmtCr(t.cr)} cr`}</span>, d.revenue ? <span data-cr={d.revenue.cr}>{`₹${fmtCr(d.revenue.cr)} cr`}</span> : 'no row in this register', d.capital ? <span data-cr={d.capital.cr}>{`₹${fmtCr(d.capital.cr)} cr`}</span> : 'no row in this register', share, rowTier(t), <Src srcs={t.srcs} of={`Delhi Police ${fy} ${stage}`} inline />,
         lane ? <button type="button" aria-label={`Open the line: Delhi Police ${fy} ${stage}`} className={`underline underline-offset-2 font-mono text-[12px] ${FOCUS}`} onClick={(e) => openCell(cellParam(lane, fy), e.currentTarget)}>{`line ${fy} ${stage} ↗`}</button> : 'no lane'],
-      out: [fy, stage, t.cr, d!.revenue?.cr ?? '', d!.capital?.cr ?? '', pol?.total ? pct(t.cr, pol.total.cr) : '', rowTier(t), t.srcs.map(([, u]) => u).join(' ')],
+      out: [fy, stage, t.cr, d.revenue?.cr ?? '', d.capital?.cr ?? '', d.shareOfPolice ?? '', rowTier(t), t.srcs.map(([, u]) => u).join(' ')],
     };
   });
   return (
@@ -264,9 +303,9 @@ function CityBlock() {
 }
 
 /** Three lines on the stack's FY axis, points only where a row exists, no line across a missing FY. */
-function DelhiLine({ pts }: { pts: { fy: string; stage: string; d: ReturnType<typeof delhiAt> }[] }) {
+function DelhiLine({ pts }: { pts: DelhiPoint[] }) {
   const W = 640, H = 150, L = 46, R = 12, T = 10, B = 24;
-  const max = Math.max(1, ...pts.map((p) => p.d!.total!.cr));
+  const max = Math.max(1, ...pts.map((p) => p.total!.cr));
   const x = (fy: string) => L + (FY_AXIS.indexOf(fy) / Math.max(1, FY_AXIS.length - 1)) * (W - L - R);
   const y = (v: number) => T + (1 - v / max) * (H - T - B);
   const runs: { stage: string; fys: string[] }[] = [];
@@ -278,8 +317,8 @@ function DelhiLine({ pts }: { pts: { fy: string; stage: string; d: ReturnType<ty
     }
     if (cur.length) runs.push({ stage: s, fys: cur });
   }
-  const val = (fy: string, s: string) => pts.find((p) => p.fy === fy && p.stage === s)!.d!.total!.cr;
-  const dash = (fy: string, s: string) => (rowTier(pts.find((p) => p.fy === fy && p.stage === s)!.d!.total!) === 'reported' ? '6 3' : undefined);
+  const val = (fy: string, s: string) => pts.find((p) => p.fy === fy && p.stage === s)!.total!.cr;
+  const dash = (fy: string, s: string) => (rowTier(pts.find((p) => p.fy === fy && p.stage === s)!.total!) === 'reported' ? '6 3' : undefined);
   return (
     <figure className="m-0 my-2 min-w-0" aria-describedby="sec-c8">
       <h4 className="text-[14px] font-semibold text-text m-0 mb-1">The one city police budget</h4>
@@ -290,7 +329,7 @@ function DelhiLine({ pts }: { pts: { fy: string; stage: string; d: ReturnType<ty
           <path key={i} d={r.fys.map((fy, j) => `${j ? 'L' : 'M'}${x(fy).toFixed(1)} ${y(val(fy, r.stage)).toFixed(1)}`).join(' ')} fill="none" stroke="var(--color-text-secondary)" strokeWidth="1.4" />
         ))}
         {pts.map((p) => {
-          const cx = x(p.fy), cy = y(p.d!.total!.cr);
+          const cx = x(p.fy), cy = y(p.total!.cr);
           return p.stage === 'BE'
             ? <circle key={`${p.fy}${p.stage}`} data-mark="delhi" cx={cx} cy={cy} r="3" fill="var(--color-text-secondary)" stroke="var(--color-text)" strokeWidth="0.8" strokeDasharray={dash(p.fy, p.stage)} />
             : <rect key={`${p.fy}${p.stage}`} data-mark="delhi" x={cx - 2.6} y={cy - 2.6} width="5.2" height="5.2" transform={p.stage === 'actual' ? `rotate(45 ${cx} ${cy})` : undefined} fill="var(--color-text-secondary)" stroke="var(--color-text)" strokeWidth="0.8" strokeDasharray={dash(p.fy, p.stage)} />;
@@ -311,7 +350,7 @@ function cityRows(lens: Lens, forTwin: boolean, tiers: Set<Tier>): { rows: Row[]
   const out: (string | number)[][] = [];
   const dBe = [...new Set(DELHI_ROWS.filter((r) => r.stage === 'BE').map((r) => r.fy))].sort();
   const latestBe = last(dBe);
-  const tot = latestBe ? delhiAt(latestBe, 'BE')?.total ?? null : null;
+  const tot = latestBe ? delhiLineAt(latestBe, 'BE')?.total ?? null : null;
   const dStr = strengthOfBody(DELHI_POLICE);
   const dInst = FOOTPRINT.filter((r) => r.st === 'dl').length;
   const ctx = tot ? crContext(tot) : null;
@@ -335,7 +374,7 @@ function cityRows(lens: Lens, forTwin: boolean, tiers: Set<Tier>): { rows: Row[]
     rows.push({
       cells: [c.city, st, labelOf(c.body),
         <><span data-city-body={c.body}>{CITY_POLICE_TEXT(st)}</span>{!forTwin ? ' ' : ' · '}<StateLink st={c.st} city={c.city} /></>,
-        s.length ? s.map((x) => `${x.year}: ${x.sanctioned ?? 'sanctioned not recorded'} sanctioned (${rowTier(x)})`).join(' · ') : CITY_STRENGTH_VOID,
+        s.length ? s.map((x) => `${x.year}: ${x.sanctioned != null ? `sanctioned ${fmtInt(x.sanctioned)}` : 'sanctioned not recorded'} (${rowTier(x)})`).join(' · ') : CITY_STRENGTH_VOID,
         inst.length ? `${inst.length} installation${inst.length === 1 ? '' : 's'}${lens === 'footprint' ? `: ${kinds}` : ''}` : 'none recorded'],
     });
     out.push([c.city, st, labelOf(c.body), CITY_POLICE_TEXT(st), s.length ? `${s.length} strength rows` : CITY_STRENGTH_VOID, inst.length, c.srcs.map(([, u]) => u).join(' ')]);
@@ -415,7 +454,7 @@ function Grants() {
       <p data-page-copy="" className="text-[14px] text-text-secondary max-w-[80ch]">{`${GRANT_ROWS.length} grant lines to states as printed; the recipient is named inside each line's title, so they are a table, not a map.`}</p>
       {f.st && <p className="text-[13px] text-amber">the recipient state is in the line&apos;s text, not a field (S2): the state selection does not reach this table</p>}
       {!shown.length && <p className="text-[14px]">{`No grant line matches ${filterWords || 'these filters'}.`}</p>}
-      <Caption id="sec-c10" cap="C10">{`Allocation is what the Union set aside for a state; released is what it paid out by the date in the note. A release of ₹0 is a recorded figure. The per-state split exists here only for the modernisation scheme${GRANT_FYS.length ? `, FY${GRANT_FYS[0]}–FY${last(GRANT_FYS)}` : ''}, from one Parliament answer, and the state is named inside the line's title, so this is a table, not a map. Two lines are the answer's own totals and are not states; rows are not to be added across the table.`}</Caption>
+      <Caption id="sec-c10" cap="C10">{`Allocation is what the Union set aside for a state; released is what it paid out by the date in the note. A release of ₹0 is a recorded figure. The per-state split exists here only for the modernisation scheme${GRANT_FYS.length ? `, FY${GRANT_FYS[0]}–FY${last(GRANT_FYS)}` : ''}, from ${grantDocWords()}, and the state is named inside the line's title, so this is a table, not a map. ${GRANT_SPLIT.totalLines ? `${capWord(countWord(GRANT_SPLIT.totalLines))} line${GRANT_SPLIT.totalLines === 1 ? ' is the document\'s own total and is not a state' : 's are the document\'s own totals and are not states'}; ` : ''}rows are not to be added across the table.`}</Caption>
       <div aria-describedby="sec-c10"><Twin twin="grants" title={Q8} rowCount={shown.length} paged>
         {() => (
           <>
