@@ -326,6 +326,20 @@ Phase H added four rules, each because it bit (`.claude/skills/force-money-trail
 
 ## Where to pick up
 
+### Parallel branches (as of 2026-10-07)
+
+Another agent works on `codex/education-funding-intelligence`. It forked from this branch at
+`76c0c35` and adds the education, water and food, and public-works pages; `gh-pages` is a deploy of
+its head. `master` has not moved since `9a5dc18`, and `main` is an older ancestor of this branch.
+Neither line of work pushes to the other's branches. A dry merge (`git merge-tree --write-tree
+HEAD origin/codex/education-funding-intelligence`) conflicts in two files only, `package.json` and
+`.github/workflows/ci.yml`: both sides added scripts and CI steps, so keep both lists. `README.md`
+and `docs/INDEX.md` changed on both sides as well and need the same union. That branch also
+reworks `src/components/Layout.tsx` and `src/index.css`, so after any merge re-run
+`scripts/pages/security.test.mjs` (its 390 px and navigation checks read the shared chrome) and the
+other page suites. Which branch merges first is the owner's call.
+
+
 ### Phase H — open, in order
 
 1. **A credential was exposed in a session transcript.** The owner must revoke it. Nothing
