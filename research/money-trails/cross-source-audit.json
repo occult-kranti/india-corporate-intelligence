@@ -1,0 +1,1502 @@
+{
+  "schemaVersion": 1,
+  "evidenceAsOf": "2026-10-07",
+  "registry": {
+    "entities": 2469,
+    "relationships": 4202,
+    "records": 5616,
+    "sources": 3314
+  },
+  "relationshipProjectionSha256": "99f486a7f68fd00a778eefa4988acae7e1f687d36233bba60ce31336c67abbd0",
+  "method": "Deterministic audit of explicitly authored hops and separately displayed two-hop exact identity/ownership/role context. No fuzzy names, inferred cash hops, shared-address joins, new adverse claims or amount totals.",
+  "limitation": "Retained context keeps its original source review date. Source-family labels describe provenance grouping, not a guarantee of independent corroboration. A stopped path does not prove there was no further transfer.",
+  "trails": [
+    {
+      "trailId": "money-trails-djb:trail:djb-flowmeter",
+      "caseRecordId": "money-trails-djb:record:djb-trace",
+      "hopEvidence": [
+        {
+          "id": "money-trails-djb:hop:eligibility",
+          "basis": "court-recorded-agency-allegation",
+          "flowState": "context",
+          "financialStage": "procurement eligibility; no payment",
+          "relationshipIds": [
+            "money-trails-djb:relationship:certificate",
+            "money-trails-djb:relationship:mittal-certificate",
+            "money-trails-djb:relationship:sadhan-role"
+          ],
+          "sourceIds": [
+            "money-trails-djb:source:tribunal"
+          ],
+          "sourceFamilies": [
+            "ED-origin allegations in tribunal"
+          ],
+          "allSourcesInClosure": true,
+          "stopReason": null,
+          "missingNextDocument": "NIT 22 full conditions; three performance certificates (2/3 January and 12 March 2018); the 24 March inspection report; the 8 April note-sheet; certification emails and the original deviation schedule"
+        },
+        {
+          "id": "money-trails-djb:hop:award",
+          "basis": "contract-commitment",
+          "flowState": "commitment",
+          "financialStage": "contract commitment",
+          "relationshipIds": [
+            "money-trails-djb:relationship:award"
+          ],
+          "sourceIds": [
+            "money-trails-djb:source:bail"
+          ],
+          "sourceFamilies": [
+            "reported response or court mirror"
+          ],
+          "allSourcesInClosure": true,
+          "stopReason": null,
+          "missingNextDocument": "Executed award/contract including BOQ, O&M period, GST, variations and completion milestones"
+        },
+        {
+          "id": "money-trails-djb:hop:released",
+          "basis": "court-recorded-agency-allegation",
+          "flowState": "alleged-transfer",
+          "financialStage": "agency-asserted gross released payments",
+          "relationshipIds": [
+            "money-trails-djb:relationship:released"
+          ],
+          "sourceIds": [
+            "money-trails-djb:source:recall"
+          ],
+          "sourceFamilies": [
+            "ED-origin allegations in judicial recital"
+          ],
+          "allSourcesInClosure": true,
+          "stopReason": null,
+          "missingNextDocument": "DJB certified running-account/final bills, treasury/payment register and redacted UTR confirmation tied to NIT 22/Package C"
+        },
+        {
+          "id": "money-trails-djb:hop:subcontract",
+          "basis": "court-recorded-agency-allegation",
+          "flowState": "alleged-transfer",
+          "financialStage": "gross subcontract receipts, not net profit",
+          "relationshipIds": [
+            "money-trails-djb:relationship:subcontract"
+          ],
+          "sourceIds": [
+            "money-trails-djb:source:bail"
+          ],
+          "sourceFamilies": [
+            "reported response or court mirror"
+          ],
+          "allSourcesInClosure": true,
+          "stopReason": null,
+          "missingNextDocument": "Executed agreement dated 15 November 2018; subcontract invoices, receipt ledger, GST returns and paired redacted bank transactions"
+        },
+        {
+          "id": "money-trails-djb:hop:nkg-bribe",
+          "basis": "court-recorded-agency-allegation",
+          "flowState": "alleged-transfer",
+          "financialStage": "alleged bribe allocation; no observed payment instrument",
+          "relationshipIds": [
+            "money-trails-djb:relationship:nkg-bribe"
+          ],
+          "sourceIds": [
+            "money-trails-djb:source:tribunal"
+          ],
+          "sourceFamilies": [
+            "ED-origin allegations in tribunal"
+          ],
+          "allSourcesInClosure": true,
+          "stopReason": null,
+          "missingNextDocument": "Dated debit/credit evidence or cash-hand-over proof for ₹56 lakh, plus NKG branch reconciliation"
+        },
+        {
+          "id": "money-trails-djb:hop:bank-route",
+          "basis": "court-recorded-agency-allegation",
+          "flowState": "alleged-transfer",
+          "financialStage": "agency-alleged bank-channel bribe; legal recipients unresolved",
+          "relationshipIds": [
+            "money-trails-djb:relationship:bank-route"
+          ],
+          "sourceIds": [
+            "money-trails-djb:source:tribunal"
+          ],
+          "sourceFamilies": [
+            "ED-origin allegations in tribunal"
+          ],
+          "allSourcesInClosure": true,
+          "stopReason": null,
+          "missingNextDocument": "₹73.50 lakh transfer schedule, corporate/payee identity records, paired bank statements and onward-debit exhibits with private identifiers redacted"
+        },
+        {
+          "id": "money-trails-djb:hop:cash-route",
+          "basis": "court-recorded-agency-allegation",
+          "flowState": "alleged-transfer",
+          "financialStage": "agency-alleged cash beneficiary allocation",
+          "relationshipIds": [
+            "money-trails-djb:relationship:cash-route"
+          ],
+          "sourceIds": [
+            "money-trails-djb:source:tribunal",
+            "money-trails-djb:source:recall"
+          ],
+          "sourceFamilies": [
+            "ED-origin allegations in judicial recital",
+            "ED-origin allegations in tribunal"
+          ],
+          "allSourcesInClosure": true,
+          "stopReason": null,
+          "missingNextDocument": "Seized Excel workbook and hash/forensic report, source cash-withdrawal ledger, delivery witnesses, approver testimony and cross-examination"
+        },
+        {
+          "id": "money-trails-djb:hop:political-claim",
+          "basis": "agency-published-allegation",
+          "flowState": "alleged-transfer",
+          "financialStage": "unquantified alleged party-funding route; combined pool not party allocation",
+          "relationshipIds": [
+            "money-trails-djb:relationship:party-route"
+          ],
+          "sourceIds": [
+            "money-trails-djb:source:ed-april",
+            "money-trails-djb:source:aap-response"
+          ],
+          "sourceFamilies": [
+            "ED public statements",
+            "reported response or court mirror"
+          ],
+          "allSourcesInClosure": true,
+          "stopReason": null,
+          "missingNextDocument": "Recipient-wise ₹2 crore schedule, fund collector/recipient testimony, receipts and party election-account entries linked by exact transaction"
+        },
+        {
+          "id": "money-trails-djb:hop:reconciliation",
+          "basis": "accounting-reconciliation",
+          "flowState": "context",
+          "financialStage": "reconciliation of overlapping allegation components",
+          "relationshipIds": [],
+          "sourceIds": [
+            "money-trails-djb:source:tribunal",
+            "money-trails-djb:source:recall",
+            "money-trails-djb:source:ed-february",
+            "money-trails-djb:source:ed-april",
+            "money-trails-djb:source:bail"
+          ],
+          "sourceFamilies": [
+            "ED public statements",
+            "ED-origin allegations in judicial recital",
+            "ED-origin allegations in tribunal",
+            "reported response or court mirror"
+          ],
+          "allSourcesInClosure": true,
+          "stopReason": null,
+          "missingNextDocument": "Agency schedule reconciling the ₹17 crore February execution claim with the ₹14 crore April claim; matched tax/O&M/period scopes"
+        },
+        {
+          "id": "money-trails-djb:hop:ownership",
+          "basis": "ownership-role-context",
+          "flowState": "context",
+          "financialStage": "share-class ownership, not money flow",
+          "relationshipIds": [
+            "money-trails-djb:relationship:ownership-pradeep",
+            "money-trails-djb:relationship:ownership-archit",
+            "money-trails-djb:relationship:ownership-pradeep-sons",
+            "money-trails-djb:relationship:ownership-aman"
+          ],
+          "sourceIds": [
+            "money-trails-djb:source:annual",
+            "money-trails-djb:source:tribunal"
+          ],
+          "sourceFamilies": [
+            "ED-origin allegations in tribunal",
+            "company public disclosure"
+          ],
+          "allSourcesInClosure": true,
+          "stopReason": null,
+          "missingNextDocument": "Current and transaction-period MCA ownership/beneficial-owner filings; NKG project ledger, related-party, dividend/loan and expense schedules"
+        },
+        {
+          "id": "money-trails-djb:hop:attachment",
+          "basis": "judicial-procedural-finding",
+          "flowState": "context",
+          "financialStage": "equivalent-value attachment, not direct purchase or recovered cash",
+          "relationshipIds": [
+            "money-trails-djb:relationship:attachment"
+          ],
+          "sourceIds": [
+            "money-trails-djb:source:tribunal"
+          ],
+          "sourceFamilies": [
+            "ED-origin allegations in tribunal"
+          ],
+          "allSourcesInClosure": true,
+          "stopReason": null,
+          "missingNextDocument": "For actual recovery: final confiscation/restitution order and realization record; for a direct trace: acquisition-funding bank schedule"
+        },
+        {
+          "id": "money-trails-djb:hop:procedure",
+          "basis": "judicial-procedural-finding",
+          "flowState": "context",
+          "financialStage": "procedural outcome, not payment or merits guilt",
+          "relationshipIds": [
+            "money-trails-djb:relationship:recall-dismissal"
+          ],
+          "sourceIds": [
+            "money-trails-djb:source:recall",
+            "money-trails-djb:source:bail"
+          ],
+          "sourceFamilies": [
+            "ED-origin allegations in judicial recital",
+            "reported response or court mirror"
+          ],
+          "allSourcesInClosure": true,
+          "stopReason": null,
+          "missingNextDocument": "Current CT Case 12/2024 and predicate CBI trial docket, charges, evidence/cross-examination and controlling later appeals"
+        },
+        {
+          "id": "money-trails-djb:hop:cash-stop",
+          "basis": "unresolved-cash-path-stop",
+          "flowState": "gap",
+          "financialStage": "unresolved onward cash-path stop",
+          "relationshipIds": [],
+          "sourceIds": [
+            "money-trails-djb:source:tribunal",
+            "money-trails-djb:source:recall",
+            "money-trails-djb:source:ed-april"
+          ],
+          "sourceFamilies": [
+            "ED public statements",
+            "ED-origin allegations in judicial recital",
+            "ED-origin allegations in tribunal"
+          ],
+          "allSourcesInClosure": true,
+          "stopReason": null,
+          "missingNextDocument": "Certified paired transaction-level debits/credits; subcontract/GST/bill reconciliation; ultimate-recipient schedules; current merits docket"
+        }
+      ],
+      "exactPathRelationshipIds": [
+        "money-trails-djb:relationship:award",
+        "money-trails-djb:relationship:bank-route",
+        "money-trails-djb:relationship:cash-route",
+        "money-trails-djb:relationship:nkg-bribe",
+        "money-trails-djb:relationship:party-route",
+        "money-trails-djb:relationship:released",
+        "money-trails-djb:relationship:subcontract"
+      ],
+      "separateContext": [
+        {
+          "id": "crosswalk:relationship:money-trails-djb:aggarwal:metro-public-finance:entity:aggarwal",
+          "from": "money-trails-djb:entity:aggarwal",
+          "to": "metro-public-finance:entity:aggarwal",
+          "kind": "identity-crosswalk",
+          "namespace": "crosswalk",
+          "sourceIds": [
+            "money-trails-djb:source:tribunal",
+            "money-trails-djb:source:recall",
+            "metro-public-finance:source:djb-court"
+          ]
+        },
+        {
+          "id": "crosswalk:relationship:money-trails-djb:arora:metro-public-finance:entity:arora",
+          "from": "money-trails-djb:entity:arora",
+          "to": "metro-public-finance:entity:arora",
+          "kind": "identity-crosswalk",
+          "namespace": "crosswalk",
+          "sourceIds": [
+            "money-trails-djb:source:tribunal",
+            "money-trails-djb:source:recall",
+            "metro-public-finance:source:djb-court"
+          ]
+        },
+        {
+          "id": "crosswalk:relationship:money-trails-djb:dhc:metro-public-finance:entity:dhc",
+          "from": "money-trails-djb:entity:dhc",
+          "to": "metro-public-finance:entity:dhc",
+          "kind": "identity-crosswalk",
+          "namespace": "crosswalk",
+          "sourceIds": [
+            "money-trails-djb:source:recall",
+            "money-trails-djb:source:bail",
+            "metro-public-finance:source:djb-court"
+          ]
+        },
+        {
+          "id": "crosswalk:relationship:money-trails-djb:djb:metro-public-finance:entity:djb",
+          "from": "money-trails-djb:entity:djb",
+          "to": "metro-public-finance:entity:djb",
+          "kind": "identity-crosswalk",
+          "namespace": "crosswalk",
+          "sourceIds": [
+            "money-trails-djb:source:tribunal",
+            "money-trails-djb:source:recall",
+            "metro-public-finance:source:djb-court"
+          ]
+        },
+        {
+          "id": "crosswalk:relationship:money-trails-djb:integral:metro-public-finance:entity:integral",
+          "from": "money-trails-djb:entity:integral",
+          "to": "metro-public-finance:entity:integral",
+          "kind": "identity-crosswalk",
+          "namespace": "crosswalk",
+          "sourceIds": [
+            "money-trails-djb:source:tribunal",
+            "money-trails-djb:source:recall",
+            "metro-public-finance:source:djb-court"
+          ]
+        },
+        {
+          "id": "crosswalk:relationship:money-trails-djb:nkg:metro-public-finance:entity:nkg",
+          "from": "money-trails-djb:entity:nkg",
+          "to": "metro-public-finance:entity:nkg",
+          "kind": "identity-crosswalk",
+          "namespace": "crosswalk",
+          "sourceIds": [
+            "money-trails-djb:source:tribunal",
+            "money-trails-djb:source:annual",
+            "metro-public-finance:source:djb-court"
+          ]
+        },
+        {
+          "id": "crosswalk:relationship:money-trails-djb:tajinder:metro-public-finance:entity:tajinder",
+          "from": "money-trails-djb:entity:tajinder",
+          "to": "metro-public-finance:entity:tajinder",
+          "kind": "identity-crosswalk",
+          "namespace": "crosswalk",
+          "sourceIds": [
+            "money-trails-djb:source:tribunal",
+            "money-trails-djb:source:recall",
+            "metro-public-finance:source:djb-court"
+          ]
+        },
+        {
+          "id": "metro-public-finance:relationship:djb-arora-role",
+          "from": "metro-public-finance:entity:arora",
+          "to": "metro-public-finance:entity:djb",
+          "kind": "role",
+          "namespace": "metro-public-finance",
+          "sourceIds": [
+            "metro-public-finance:source:djb-court"
+          ]
+        },
+        {
+          "id": "metro-public-finance:relationship:integral-aggarwal",
+          "from": "metro-public-finance:entity:aggarwal",
+          "to": "metro-public-finance:entity:integral",
+          "kind": "role",
+          "namespace": "metro-public-finance",
+          "sourceIds": [
+            "metro-public-finance:source:djb-court"
+          ]
+        },
+        {
+          "id": "money-trails-djb:relationship:attachment",
+          "from": "money-trails-djb:entity:ed",
+          "to": "money-trails-djb:entity:aggarwal",
+          "kind": "equivalent-value-attachment",
+          "namespace": "money-trails-djb",
+          "sourceIds": [
+            "money-trails-djb:source:tribunal"
+          ]
+        },
+        {
+          "id": "money-trails-djb:relationship:certificate",
+          "from": "money-trails-djb:entity:nbcc",
+          "to": "money-trails-djb:entity:nkg",
+          "kind": "alleged-eligibility-document",
+          "namespace": "money-trails-djb",
+          "sourceIds": [
+            "money-trails-djb:source:tribunal"
+          ]
+        },
+        {
+          "id": "money-trails-djb:relationship:mittal-certificate",
+          "from": "money-trails-djb:entity:mittal",
+          "to": "money-trails-djb:entity:nbcc",
+          "kind": "historical-role",
+          "namespace": "money-trails-djb",
+          "sourceIds": [
+            "money-trails-djb:source:tribunal"
+          ]
+        },
+        {
+          "id": "money-trails-djb:relationship:operator",
+          "from": "money-trails-djb:entity:aggarwal",
+          "to": "money-trails-djb:entity:integral",
+          "kind": "role",
+          "namespace": "money-trails-djb",
+          "sourceIds": [
+            "money-trails-djb:source:tribunal",
+            "money-trails-djb:source:recall"
+          ]
+        },
+        {
+          "id": "money-trails-djb:relationship:ownership-aman",
+          "from": "money-trails-djb:entity:aman",
+          "to": "money-trails-djb:entity:nkg",
+          "kind": "historical-equity-holding",
+          "namespace": "money-trails-djb",
+          "sourceIds": [
+            "money-trails-djb:source:annual"
+          ]
+        },
+        {
+          "id": "money-trails-djb:relationship:ownership-archit",
+          "from": "money-trails-djb:entity:archit",
+          "to": "money-trails-djb:entity:nkg",
+          "kind": "historical-equity-holding",
+          "namespace": "money-trails-djb",
+          "sourceIds": [
+            "money-trails-djb:source:annual"
+          ]
+        },
+        {
+          "id": "money-trails-djb:relationship:ownership-pradeep",
+          "from": "money-trails-djb:entity:pradeep",
+          "to": "money-trails-djb:entity:nkg",
+          "kind": "historical-equity-holding",
+          "namespace": "money-trails-djb",
+          "sourceIds": [
+            "money-trails-djb:source:annual"
+          ]
+        },
+        {
+          "id": "money-trails-djb:relationship:ownership-pradeep-sons",
+          "from": "money-trails-djb:entity:pradeep-sons",
+          "to": "money-trails-djb:entity:nkg",
+          "kind": "historical-equity-holding",
+          "namespace": "money-trails-djb",
+          "sourceIds": [
+            "money-trails-djb:source:annual"
+          ]
+        },
+        {
+          "id": "money-trails-djb:relationship:recall-dismissal",
+          "from": "money-trails-djb:entity:dhc",
+          "to": "money-trails-djb:entity:nkg",
+          "kind": "legal-outcome",
+          "namespace": "money-trails-djb",
+          "sourceIds": [
+            "money-trails-djb:source:recall"
+          ]
+        },
+        {
+          "id": "money-trails-djb:relationship:sadhan-role",
+          "from": "money-trails-djb:entity:sadhan",
+          "to": "money-trails-djb:entity:nbcc",
+          "kind": "historical-role",
+          "namespace": "money-trails-djb",
+          "sourceIds": [
+            "money-trails-djb:source:tribunal"
+          ]
+        }
+      ],
+      "contextNamespaces": [
+        "crosswalk",
+        "metro-public-finance",
+        "money-trails-djb"
+      ],
+      "explicitGaps": [
+        {
+          "id": "money-trails-djb:hop:cash-stop",
+          "relationshipIds": [],
+          "documentHolder": "DJB finance; NKG/Integral finance; court-permitted ED exhibits; lawful bank records",
+          "nextDocument": "Certified paired transaction-level debits/credits; subcontract/GST/bill reconciliation; ultimate-recipient schedules; current merits docket"
+        }
+      ],
+      "evidenceCounts": {
+        "entities": 19,
+        "relationships": 19,
+        "records": 16,
+        "sources": 7
+      }
+    },
+    {
+      "trailId": "money-trails-mumbai:trail:mumbai-khichdi-bank-routes",
+      "caseRecordId": "money-trails-mumbai:record:khichdi-trace",
+      "hopEvidence": [
+        {
+          "id": "money-trails-mumbai:hop:municipal-sahyadri",
+          "basis": "court-recorded-agency-allegation",
+          "flowState": "alleged-transfer",
+          "financialStage": "Court-recorded gross municipal receipts; not adjudicated loss",
+          "relationshipIds": [
+            "money-trails-mumbai:relationship:bmc-sahyadri"
+          ],
+          "sourceIds": [
+            "money-trails-mumbai:source:tribunal-2026"
+          ],
+          "sourceFamilies": [
+            "Original attachment order, distinct from bank exhibits"
+          ],
+          "allSourcesInClosure": true,
+          "stopReason": null,
+          "missingNextDocument": "BMC payment vouchers and FY 2020–21 Sahyadri account statement showing each municipal credit and budget head."
+        },
+        {
+          "id": "money-trails-mumbai:hop:sahyadri-fnj",
+          "basis": "court-recorded-agency-allegation",
+          "flowState": "alleged-transfer",
+          "financialStage": "Court-recorded subcontract payment; no diversion inferred from receipt alone",
+          "relationshipIds": [
+            "money-trails-mumbai:relationship:sahyadri-fnj"
+          ],
+          "sourceIds": [
+            "money-trails-mumbai:source:tribunal-2026"
+          ],
+          "sourceFamilies": [
+            "Original attachment order, distinct from bank exhibits"
+          ],
+          "allSourcesInClosure": true,
+          "stopReason": null,
+          "missingNextDocument": "FNJ invoice/contract and public court exhibit tying sender debits to recipient credits; vendor KYC crosswalk to statutory company identifier; FNJ use-of-funds statement."
+        },
+        {
+          "id": "money-trails-mumbai:hop:sahyadri-force",
+          "basis": "court-recorded-agency-allegation",
+          "flowState": "alleged-transfer",
+          "financialStage": "Inter-vendor transfer from Sahyadri receipts; do not add to BMC source total",
+          "relationshipIds": [
+            "money-trails-mumbai:relationship:sahyadri-force"
+          ],
+          "sourceIds": [
+            "money-trails-mumbai:source:tribunal-2026"
+          ],
+          "sourceFamilies": [
+            "Original attachment order, distinct from bank exhibits"
+          ],
+          "allSourcesInClosure": true,
+          "stopReason": null,
+          "missingNextDocument": "Separate ledger for the Sahyadri subcontract and Force One inward receipt reference, then invoice-level allocation of subsequent payments."
+        },
+        {
+          "id": "money-trails-mumbai:hop:municipal-force",
+          "basis": "court-recorded-agency-allegation",
+          "flowState": "alleged-transfer",
+          "financialStage": "Rounded BMC receipts stated in order, not loss or complete credits including Sahyadri",
+          "relationshipIds": [
+            "money-trails-mumbai:relationship:bmc-force"
+          ],
+          "sourceIds": [
+            "money-trails-mumbai:source:tribunal-2026"
+          ],
+          "sourceFamilies": [
+            "Original attachment order, distinct from bank exhibits"
+          ],
+          "allSourcesInClosure": true,
+          "stopReason": null,
+          "missingNextDocument": "BMC-to-Force One credit schedule, with gross/net/GST treatment and corrected source for the malformed paise figure."
+        },
+        {
+          "id": "money-trails-mumbai:hop:force-sneha",
+          "basis": "court-recorded-agency-allegation",
+          "flowState": "alleged-transfer",
+          "financialStage": "Court-recorded subcontract payment; two recipient banks, no account-level allocation",
+          "relationshipIds": [
+            "money-trails-mumbai:relationship:force-sneha"
+          ],
+          "sourceIds": [
+            "money-trails-mumbai:source:tribunal-2026"
+          ],
+          "sourceFamilies": [
+            "Original attachment order, distinct from bank exhibits"
+          ],
+          "allSourcesInClosure": true,
+          "stopReason": null,
+          "missingNextDocument": "Invoices, actual meal/weight acceptance and date-level statement matches for Sneha; separate both receiving banks without guessing the split."
+        },
+        {
+          "id": "money-trails-mumbai:hop:force-golden",
+          "basis": "court-recorded-agency-allegation",
+          "flowState": "alleged-transfer",
+          "financialStage": "Court-recorded subcontract payment; not a proven loss",
+          "relationshipIds": [
+            "money-trails-mumbai:relationship:force-golden"
+          ],
+          "sourceIds": [
+            "money-trails-mumbai:source:tribunal-2026"
+          ],
+          "sourceFamilies": [
+            "Original attachment order, distinct from bank exhibits"
+          ],
+          "allSourcesInClosure": true,
+          "stopReason": null,
+          "missingNextDocument": "Golden Star invoice/payment register, accepted quantities and reconciliation to earlier ₹84 lakh narrative."
+        },
+        {
+          "id": "money-trails-mumbai:hop:individual-receipt",
+          "basis": "court-recorded-agency-allegation",
+          "flowState": "alleged-transfer",
+          "financialStage": "Individual receipt in attachment proceeding; overlaps earlier aggregate, not additive",
+          "relationshipIds": [
+            "money-trails-mumbai:relationship:force-chavan"
+          ],
+          "sourceIds": [
+            "money-trails-mumbai:source:tribunal-2026",
+            "money-trails-mumbai:source:bail-2025"
+          ],
+          "sourceFamilies": [
+            "Earlier High Court bail assessment",
+            "Original attachment order, distinct from bank exhibits"
+          ],
+          "allSourcesInClosure": true,
+          "stopReason": null,
+          "missingNextDocument": "Dated transfer schedule, payroll/TDS records, appointment documents, loan agreement and repayment ledger lawfully disclosed in the proceedings."
+        },
+        {
+          "id": "money-trails-mumbai:hop:attachment",
+          "basis": "judicial-procedural-finding",
+          "flowState": "context",
+          "financialStage": "Attachment value and appellate procedure, not a financial-flow amount",
+          "relationshipIds": [
+            "money-trails-mumbai:relationship:tribunal-attachment"
+          ],
+          "sourceIds": [
+            "money-trails-mumbai:source:tribunal-2026"
+          ],
+          "sourceFamilies": [
+            "Original attachment order, distinct from bank exhibits"
+          ],
+          "allSourcesInClosure": true,
+          "stopReason": null,
+          "missingNextDocument": "Certified attachment schedule, source-linked property acquisition documents and any later appeal/order; omit residential addresses from publication."
+        },
+        {
+          "id": "money-trails-mumbai:hop:control",
+          "basis": "ownership-role-context",
+          "flowState": "context",
+          "financialStage": "Court-scoped business roles; no transfer or inferred beneficial-shareholding share",
+          "relationshipIds": [
+            "money-trails-mumbai:relationship:kadam-role",
+            "money-trails-mumbai:relationship:salunkhe-role",
+            "money-trails-mumbai:relationship:mali-role",
+            "money-trails-mumbai:relationship:keer-role",
+            "money-trails-mumbai:relationship:mashilkar-force"
+          ],
+          "sourceIds": [
+            "money-trails-mumbai:source:tribunal-2026",
+            "money-trails-mumbai:source:bail-2025",
+            "money-trails-mumbai:source:rti-role-2023"
+          ],
+          "sourceFamilies": [
+            "Dated secondary reporting",
+            "Earlier High Court bail assessment",
+            "Original attachment order, distinct from bank exhibits"
+          ],
+          "allSourcesInClosure": true,
+          "stopReason": null,
+          "missingNextDocument": "Relevant-year partnership deeds, company registry records and vendor identity schedules."
+        },
+        {
+          "id": "money-trails-mumbai:hop:business-branch",
+          "basis": "ownership-role-context",
+          "flowState": "context",
+          "financialStage": "Reported historical association only; no money-flow arrow",
+          "relationshipIds": [
+            "money-trails-mumbai:relationship:mashilkar-force",
+            "money-trails-mumbai:relationship:mashilkar-multibuild",
+            "money-trails-mumbai:relationship:vaze-multibuild"
+          ],
+          "sourceIds": [
+            "money-trails-mumbai:source:rti-role-2023"
+          ],
+          "sourceFamilies": [
+            "Dated secondary reporting"
+          ],
+          "allSourcesInClosure": true,
+          "stopReason": null,
+          "missingNextDocument": "Original historical company filing, dates and audited accounts; any alleged transfer would need its own matching source and destination records."
+        },
+        {
+          "id": "money-trails-mumbai:hop:reconcile",
+          "basis": "accounting-reconciliation",
+          "flowState": "context",
+          "financialStage": "Analytical reconciliation; no new loss or cash edge",
+          "relationshipIds": [],
+          "sourceIds": [
+            "money-trails-mumbai:source:tribunal-2026",
+            "money-trails-mumbai:source:bail-2025",
+            "money-trails-mumbai:source:eow-2025"
+          ],
+          "sourceFamilies": [
+            "Dated secondary reporting",
+            "Earlier High Court bail assessment",
+            "Original attachment order, distinct from bank exhibits"
+          ],
+          "allSourcesInClosure": true,
+          "stopReason": null,
+          "missingNextDocument": "Complete bank/expense/GST reconciliation, original MoU with forensic/provenance evidence, BMC ward acceptance and measured-weight registers, current trial docket."
+        },
+        {
+          "id": "money-trails-mumbai:hop:funding-origin-gap",
+          "basis": "unresolved-cash-path-stop",
+          "flowState": "gap",
+          "financialStage": "Unresolved upstream public funding source",
+          "relationshipIds": [],
+          "sourceIds": [
+            "money-trails-mumbai:source:tribunal-2026"
+          ],
+          "sourceFamilies": [
+            "Original attachment order, distinct from bank exhibits"
+          ],
+          "allSourcesInClosure": true,
+          "stopReason": "The underlying order does not identify the originating public fund; no inferred financial edge is drawn.",
+          "missingNextDocument": "2020 emergency-food sanction file, budget reappropriation, municipal fund/ledger head and voucher-to-bank debit schedule."
+        },
+        {
+          "id": "money-trails-mumbai:hop:onward-gap",
+          "basis": "unresolved-cash-path-stop",
+          "flowState": "gap",
+          "financialStage": "Unresolved onward use of funds; no network-completion claim",
+          "relationshipIds": [],
+          "sourceIds": [
+            "money-trails-mumbai:source:tribunal-2026"
+          ],
+          "sourceFamilies": [
+            "Original attachment order, distinct from bank exhibits"
+          ],
+          "allSourcesInClosure": true,
+          "stopReason": "No independently accessible underlying ledgers or onward-transfer exhibits complete these paths.",
+          "missingNextDocument": "Legally public vendor ledgers, bank-exhibit transfer schedules, invoices and beneficial ownership/partnership records for the relevant dates; attachment asset acquisition linkage."
+        }
+      ],
+      "exactPathRelationshipIds": [
+        "money-trails-mumbai:relationship:bmc-force",
+        "money-trails-mumbai:relationship:bmc-sahyadri",
+        "money-trails-mumbai:relationship:force-chavan",
+        "money-trails-mumbai:relationship:force-golden",
+        "money-trails-mumbai:relationship:force-sneha",
+        "money-trails-mumbai:relationship:sahyadri-fnj",
+        "money-trails-mumbai:relationship:sahyadri-force"
+      ],
+      "separateContext": [
+        {
+          "id": "crosswalk:relationship:metro-public-finance:bmc:allegations-institutions:entity:lh-bmc",
+          "from": "metro-public-finance:entity:bmc",
+          "to": "allegations-institutions:entity:lh-bmc",
+          "kind": "identity-crosswalk",
+          "namespace": "crosswalk",
+          "sourceIds": [
+            "metro-public-finance:source:bmc-budget",
+            "metro-public-finance:source:khichdi-court",
+            "metro-public-finance:source:bmc-audit-summary",
+            "allegations-institutions:source:lifeline-bisure-court-2025",
+            "allegations-institutions:source:lifeline-bmc-response-2023"
+          ]
+        },
+        {
+          "id": "crosswalk:relationship:money-trails-mumbai:bmc:metro-public-finance:entity:bmc",
+          "from": "money-trails-mumbai:entity:bmc",
+          "to": "metro-public-finance:entity:bmc",
+          "kind": "identity-crosswalk",
+          "namespace": "crosswalk",
+          "sourceIds": [
+            "money-trails-mumbai:source:tribunal-2026",
+            "metro-public-finance:source:bmc-budget",
+            "metro-public-finance:source:khichdi-court",
+            "metro-public-finance:source:bmc-audit-summary"
+          ]
+        },
+        {
+          "id": "crosswalk:relationship:money-trails-mumbai:chavan:metro-public-finance:entity:chavan",
+          "from": "money-trails-mumbai:entity:chavan",
+          "to": "metro-public-finance:entity:chavan",
+          "kind": "identity-crosswalk",
+          "namespace": "crosswalk",
+          "sourceIds": [
+            "money-trails-mumbai:source:tribunal-2026",
+            "money-trails-mumbai:source:bail-2025",
+            "metro-public-finance:source:khichdi-court"
+          ]
+        },
+        {
+          "id": "crosswalk:relationship:money-trails-mumbai:force-one:metro-public-finance:entity:force-one",
+          "from": "money-trails-mumbai:entity:force-one",
+          "to": "metro-public-finance:entity:force-one",
+          "kind": "identity-crosswalk",
+          "namespace": "crosswalk",
+          "sourceIds": [
+            "money-trails-mumbai:source:tribunal-2026",
+            "money-trails-mumbai:source:bail-2025",
+            "metro-public-finance:source:khichdi-court"
+          ]
+        },
+        {
+          "id": "crosswalk:relationship:money-trails-mumbai:golden:metro-public-finance:entity:golden",
+          "from": "money-trails-mumbai:entity:golden",
+          "to": "metro-public-finance:entity:golden",
+          "kind": "identity-crosswalk",
+          "namespace": "crosswalk",
+          "sourceIds": [
+            "money-trails-mumbai:source:tribunal-2026",
+            "money-trails-mumbai:source:bail-2025",
+            "metro-public-finance:source:khichdi-court"
+          ]
+        },
+        {
+          "id": "crosswalk:relationship:money-trails-mumbai:sneha:metro-public-finance:entity:sneha",
+          "from": "money-trails-mumbai:entity:sneha",
+          "to": "metro-public-finance:entity:sneha",
+          "kind": "identity-crosswalk",
+          "namespace": "crosswalk",
+          "sourceIds": [
+            "money-trails-mumbai:source:tribunal-2026",
+            "money-trails-mumbai:source:bail-2025",
+            "metro-public-finance:source:khichdi-court"
+          ]
+        },
+        {
+          "id": "metro-public-finance:relationship:chavan-fire-role",
+          "from": "metro-public-finance:entity:chavan",
+          "to": "metro-public-finance:entity:fire-fighters",
+          "kind": "role",
+          "namespace": "metro-public-finance",
+          "sourceIds": [
+            "metro-public-finance:source:khichdi-court"
+          ]
+        },
+        {
+          "id": "money-trails-mumbai:relationship:kadam-role",
+          "from": "money-trails-mumbai:entity:kadam",
+          "to": "money-trails-mumbai:entity:sahyadri",
+          "kind": "role",
+          "namespace": "money-trails-mumbai",
+          "sourceIds": [
+            "money-trails-mumbai:source:tribunal-2026"
+          ]
+        },
+        {
+          "id": "money-trails-mumbai:relationship:keer-role",
+          "from": "money-trails-mumbai:entity:keer",
+          "to": "money-trails-mumbai:entity:golden",
+          "kind": "role",
+          "namespace": "money-trails-mumbai",
+          "sourceIds": [
+            "money-trails-mumbai:source:tribunal-2026"
+          ]
+        },
+        {
+          "id": "money-trails-mumbai:relationship:mali-role",
+          "from": "money-trails-mumbai:entity:mali",
+          "to": "money-trails-mumbai:entity:sneha",
+          "kind": "role",
+          "namespace": "money-trails-mumbai",
+          "sourceIds": [
+            "money-trails-mumbai:source:tribunal-2026"
+          ]
+        },
+        {
+          "id": "money-trails-mumbai:relationship:mashilkar-force",
+          "from": "money-trails-mumbai:entity:mashilkar",
+          "to": "money-trails-mumbai:entity:force-one",
+          "kind": "role",
+          "namespace": "money-trails-mumbai",
+          "sourceIds": [
+            "money-trails-mumbai:source:bail-2025",
+            "money-trails-mumbai:source:rti-role-2023"
+          ]
+        },
+        {
+          "id": "money-trails-mumbai:relationship:mashilkar-multibuild",
+          "from": "money-trails-mumbai:entity:mashilkar",
+          "to": "money-trails-mumbai:entity:multibuild",
+          "kind": "reported-role-context",
+          "namespace": "money-trails-mumbai",
+          "sourceIds": [
+            "money-trails-mumbai:source:rti-role-2023"
+          ]
+        },
+        {
+          "id": "money-trails-mumbai:relationship:salunkhe-role",
+          "from": "money-trails-mumbai:entity:salunkhe",
+          "to": "money-trails-mumbai:entity:sahyadri",
+          "kind": "role",
+          "namespace": "money-trails-mumbai",
+          "sourceIds": [
+            "money-trails-mumbai:source:tribunal-2026"
+          ]
+        },
+        {
+          "id": "money-trails-mumbai:relationship:tribunal-attachment",
+          "from": "money-trails-mumbai:entity:tribunal",
+          "to": "money-trails-mumbai:entity:attachment-pool",
+          "kind": "legal-outcome",
+          "namespace": "money-trails-mumbai",
+          "sourceIds": [
+            "money-trails-mumbai:source:tribunal-2026"
+          ]
+        },
+        {
+          "id": "money-trails-mumbai:relationship:vaze-multibuild",
+          "from": "money-trails-mumbai:entity:vaze",
+          "to": "money-trails-mumbai:entity:multibuild",
+          "kind": "reported-role-context",
+          "namespace": "money-trails-mumbai",
+          "sourceIds": [
+            "money-trails-mumbai:source:rti-role-2023"
+          ]
+        }
+      ],
+      "contextNamespaces": [
+        "crosswalk",
+        "metro-public-finance",
+        "money-trails-mumbai"
+      ],
+      "explicitGaps": [
+        {
+          "id": "money-trails-mumbai:hop:funding-origin-gap",
+          "relationshipIds": [],
+          "documentHolder": "BMC Chief Accountant Finance, Planning Department and municipal Standing Committee record office.",
+          "nextDocument": "2020 emergency-food sanction file, budget reappropriation, municipal fund/ledger head and voucher-to-bank debit schedule."
+        },
+        {
+          "id": "money-trails-mumbai:hop:onward-gap",
+          "relationshipIds": [],
+          "documentHolder": "EOW/ED and relevant courts for public exhibits; contractor records and statutory registry filings.",
+          "nextDocument": "Legally public vendor ledgers, bank-exhibit transfer schedules, invoices and beneficial ownership/partnership records for the relevant dates; attachment asset acquisition linkage."
+        }
+      ],
+      "evidenceCounts": {
+        "entities": 18,
+        "relationships": 16,
+        "records": 10,
+        "sources": 4
+      }
+    },
+    {
+      "trailId": "money-trails-corporate:trail:gvpr-port",
+      "caseRecordId": "money-trails-corporate:record:port-case",
+      "hopEvidence": [
+        {
+          "id": "money-trails-corporate:hop:mumbai-approval",
+          "basis": "contract-commitment",
+          "flowState": "commitment",
+          "financialStage": "Accepted bid/appointment approval, not expenditure",
+          "relationshipIds": [
+            "metro-mumbai-security:relationship:city-cctv-gvpr"
+          ],
+          "sourceIds": [
+            "metro-mumbai-security:source:cctv-gr"
+          ],
+          "sourceFamilies": [],
+          "allSourcesInClosure": true,
+          "stopReason": null,
+          "missingNextDocument": "Executed work order, stage invoices, acceptance certificates and treasury/bank payment advice"
+        },
+        {
+          "id": "money-trails-corporate:hop:port-ownership",
+          "basis": "ownership-role-context",
+          "flowState": "context",
+          "financialStage": "Dated shareholding; not a transfer",
+          "relationshipIds": [
+            "money-trails-corporate:relationship:gvpr-hppl"
+          ],
+          "sourceIds": [
+            "money-trails-corporate:source:gvpr-icra-2025",
+            "money-trails-corporate:source:honnavar-care-2026"
+          ],
+          "sourceFamilies": [],
+          "allSourcesInClosure": true,
+          "stopReason": null,
+          "missingNextDocument": "Current register of members and audited related-party funding schedule"
+        },
+        {
+          "id": "money-trails-corporate:hop:pfc-public-ownership",
+          "basis": "ownership-role-context",
+          "flowState": "context",
+          "financialStage": "Institutional shareholding; no cash transfer",
+          "relationshipIds": [
+            "money-trails-corporate:relationship:goi-pfc"
+          ],
+          "sourceIds": [
+            "money-trails-corporate:source:pfc-shareholding-2025"
+          ],
+          "sourceFamilies": [],
+          "allSourcesInClosure": true,
+          "stopReason": null,
+          "missingNextDocument": "None required for this dated ownership fact; a loan decision would need its own approval record"
+        },
+        {
+          "id": "money-trails-corporate:hop:pfc-policy-scope",
+          "basis": "ownership-role-context",
+          "flowState": "context",
+          "financialStage": "Dated policy-scope context; no loan payment",
+          "relationshipIds": [
+            "money-trails-corporate:relationship:pfc-infra-scope"
+          ],
+          "sourceIds": [
+            "money-trails-corporate:source:pfc-board-2023"
+          ],
+          "sourceFamilies": [],
+          "allSourcesInClosure": true,
+          "stopReason": null,
+          "missingNextDocument": "Underlying government approval, operative MoA and loan-specific eligibility review"
+        },
+        {
+          "id": "money-trails-corporate:hop:pfc-sanction",
+          "basis": "contract-commitment",
+          "flowState": "commitment",
+          "financialStage": "Sanctioned loan; not cash drawn",
+          "relationshipIds": [
+            "money-trails-corporate:relationship:pfc-sanction"
+          ],
+          "sourceIds": [
+            "money-trails-corporate:source:honnavar-care-2026",
+            "money-trails-corporate:source:pfc-board-2023"
+          ],
+          "sourceFamilies": [],
+          "allSourcesInClosure": true,
+          "stopReason": null,
+          "missingNextDocument": "Executed PFC agreement, drawdown requests, disbursement advice and end-use certificates after 31 December 2025"
+        },
+        {
+          "id": "money-trails-corporate:hop:promoter-infusion",
+          "basis": "documented-financial-disclosure",
+          "flowState": "documented-transfer",
+          "financialStage": "Cumulative issuer-disclosed promoter infusion, mixed equity/loan",
+          "relationshipIds": [
+            "money-trails-corporate:relationship:promoter-infusion"
+          ],
+          "sourceIds": [
+            "money-trails-corporate:source:honnavar-care-2026"
+          ],
+          "sourceFamilies": [],
+          "allSourcesInClosure": true,
+          "stopReason": null,
+          "missingNextDocument": "Contributor-wise share allotment returns, unsecured-loan ledger, bank advice and source-of-funds reconciliation"
+        },
+        {
+          "id": "money-trails-corporate:hop:port-cash-stop",
+          "basis": "unresolved-cash-path-stop",
+          "flowState": "gap",
+          "financialStage": "Unresolved source of cash",
+          "relationshipIds": [],
+          "sourceIds": [
+            "money-trails-corporate:source:gvpr-icra-2025",
+            "money-trails-corporate:source:honnavar-care-2026"
+          ],
+          "sourceFamilies": [],
+          "allSourcesInClosure": true,
+          "stopReason": "Parent and SPV bank-ledger reconciliation, project receipts and contributor-wise financing entries",
+          "missingNextDocument": "Parent and SPV bank-ledger reconciliation, project receipts and contributor-wise financing entries"
+        }
+      ],
+      "exactPathRelationshipIds": [
+        "metro-mumbai-security:relationship:city-cctv-gvpr",
+        "money-trails-corporate:relationship:pfc-sanction",
+        "money-trails-corporate:relationship:promoter-infusion"
+      ],
+      "separateContext": [
+        {
+          "id": "crosswalk:relationship:money-trails-corporate:gvpr:metro-mumbai-security:entity:gvpr",
+          "from": "money-trails-corporate:entity:gvpr",
+          "to": "metro-mumbai-security:entity:gvpr",
+          "kind": "identity-crosswalk",
+          "namespace": "crosswalk",
+          "sourceIds": [
+            "money-trails-corporate:source:gvpr-icra-2025",
+            "money-trails-corporate:source:mumbai-cctv",
+            "metro-mumbai-security:source:cctv-gr"
+          ]
+        },
+        {
+          "id": "money-trails-corporate:relationship:goi-pfc",
+          "from": "money-trails-corporate:entity:goi-holder",
+          "to": "money-trails-corporate:entity:pfc",
+          "kind": "ownership",
+          "namespace": "money-trails-corporate",
+          "sourceIds": [
+            "money-trails-corporate:source:pfc-shareholding-2025"
+          ]
+        },
+        {
+          "id": "money-trails-corporate:relationship:gvpr-hppl",
+          "from": "money-trails-corporate:entity:gvpr",
+          "to": "money-trails-corporate:entity:hppl",
+          "kind": "ownership",
+          "namespace": "money-trails-corporate",
+          "sourceIds": [
+            "money-trails-corporate:source:gvpr-icra-2025",
+            "money-trails-corporate:source:honnavar-care-2026"
+          ]
+        },
+        {
+          "id": "money-trails-corporate:relationship:gvpr-promoter",
+          "from": "money-trails-corporate:entity:veera-reddy",
+          "to": "money-trails-corporate:entity:gvpr",
+          "kind": "role",
+          "namespace": "money-trails-corporate",
+          "sourceIds": [
+            "money-trails-corporate:source:gvpr-icra-2023"
+          ]
+        },
+        {
+          "id": "money-trails-corporate:relationship:gvpr-vijaya",
+          "from": "money-trails-corporate:entity:gvpr",
+          "to": "money-trails-corporate:entity:vijaya",
+          "kind": "ownership",
+          "namespace": "money-trails-corporate",
+          "sourceIds": [
+            "money-trails-corporate:source:gvpr-icra-2025"
+          ]
+        },
+        {
+          "id": "money-trails-corporate:relationship:pfc-infra-scope",
+          "from": "money-trails-corporate:entity:goi-policy",
+          "to": "money-trails-corporate:entity:pfc",
+          "kind": "policy-context",
+          "namespace": "money-trails-corporate",
+          "sourceIds": [
+            "money-trails-corporate:source:pfc-board-2023"
+          ]
+        }
+      ],
+      "contextNamespaces": [
+        "crosswalk",
+        "money-trails-corporate"
+      ],
+      "explicitGaps": [
+        {
+          "id": "money-trails-corporate:hop:port-cash-stop",
+          "relationshipIds": [],
+          "documentHolder": "GVPR / Honnavar Port / funding banks",
+          "nextDocument": "Parent and SPV bank-ledger reconciliation, project receipts and contributor-wise financing entries"
+        }
+      ],
+      "evidenceCounts": {
+        "entities": 11,
+        "relationships": 8,
+        "records": 12,
+        "sources": 9
+      }
+    },
+    {
+      "trailId": "money-trails-corporate:trail:gvpr-meters",
+      "caseRecordId": "money-trails-corporate:record:meter-case",
+      "hopEvidence": [
+        {
+          "id": "money-trails-corporate:hop:mumbai-approval",
+          "basis": "contract-commitment",
+          "flowState": "commitment",
+          "financialStage": "Accepted bid/appointment approval, not expenditure",
+          "relationshipIds": [
+            "metro-mumbai-security:relationship:city-cctv-gvpr"
+          ],
+          "sourceIds": [
+            "metro-mumbai-security:source:cctv-gr"
+          ],
+          "sourceFamilies": [],
+          "allSourcesInClosure": true,
+          "stopReason": null,
+          "missingNextDocument": "Executed work order, stage invoices, acceptance certificates and treasury/bank payment advice"
+        },
+        {
+          "id": "money-trails-corporate:hop:meter-ownership",
+          "basis": "ownership-role-context",
+          "flowState": "context",
+          "financialStage": "Dated shareholding and incorporation context",
+          "relationshipIds": [
+            "money-trails-corporate:relationship:gvpr-vijaya"
+          ],
+          "sourceIds": [
+            "money-trails-corporate:source:gvpr-icra-2025",
+            "money-trails-corporate:source:vijaya-icra-2025"
+          ],
+          "sourceFamilies": [],
+          "allSourcesInClosure": true,
+          "stopReason": null,
+          "missingNextDocument": "Current shareholder and related-party disclosure"
+        },
+        {
+          "id": "money-trails-corporate:hop:meter-contract",
+          "basis": "contract-commitment",
+          "flowState": "commitment",
+          "financialStage": "Estimated contract value, not project capex or actual receipts",
+          "relationshipIds": [
+            "money-trails-corporate:relationship:meter-contract"
+          ],
+          "sourceIds": [
+            "money-trails-corporate:source:vijaya-icra-2025"
+          ],
+          "sourceFamilies": [],
+          "allSourcesInClosure": true,
+          "stopReason": null,
+          "missingNextDocument": "Signed AMISP contract, assignment/novation to SPV, installation milestones and invoicing schedules"
+        },
+        {
+          "id": "money-trails-corporate:hop:meter-waterfall",
+          "basis": "contract-commitment",
+          "flowState": "commitment",
+          "financialStage": "Contractual payment waterfall; no observed collection",
+          "relationshipIds": [
+            "money-trails-corporate:relationship:consumer-ddf"
+          ],
+          "sourceIds": [
+            "money-trails-corporate:source:vijaya-icra-2025"
+          ],
+          "sourceFamilies": [],
+          "allSourcesInClosure": true,
+          "stopReason": null,
+          "missingNextDocument": "DDF/escrow agreement, aggregate monthly collections, service-level bills and certified payment waterfall reconciliations"
+        },
+        {
+          "id": "money-trails-corporate:hop:meter-priority",
+          "basis": "contract-commitment",
+          "flowState": "commitment",
+          "financialStage": "Contractual priority, not actual receipts",
+          "relationshipIds": [
+            "money-trails-corporate:relationship:ddf-priority"
+          ],
+          "sourceIds": [
+            "money-trails-corporate:source:vijaya-icra-2025"
+          ],
+          "sourceFamilies": [],
+          "allSourcesInClosure": true,
+          "stopReason": null,
+          "missingNextDocument": "Aggregate DDF waterfall reconciliations matched to approved bills and service-level certificates"
+        },
+        {
+          "id": "money-trails-corporate:hop:meter-finance",
+          "basis": "contract-commitment",
+          "flowState": "commitment",
+          "financialStage": "Facilities and guarantee, not drawdowns",
+          "relationshipIds": [
+            "money-trails-corporate:relationship:gvpr-guarantee"
+          ],
+          "sourceIds": [
+            "money-trails-corporate:source:vijaya-icra-2025"
+          ],
+          "sourceFamilies": [],
+          "allSourcesInClosure": true,
+          "stopReason": null,
+          "missingNextDocument": "Facility sanction letters, lender identities, drawdown register, guarantee deed and utilisation certificates"
+        },
+        {
+          "id": "money-trails-corporate:hop:meter-cash-stop",
+          "basis": "unresolved-cash-path-stop",
+          "flowState": "gap",
+          "financialStage": "Unresolved receipts and payment execution",
+          "relationshipIds": [],
+          "sourceIds": [
+            "money-trails-corporate:source:vijaya-icra-2025"
+          ],
+          "sourceFamilies": [],
+          "allSourcesInClosure": true,
+          "stopReason": "Aggregated DDF receipts and service bills, grants received, supplier invoices and related-party ledger matched to bank advice",
+          "missingNextDocument": "Aggregated DDF receipts and service bills, grants received, supplier invoices and related-party ledger matched to bank advice"
+        }
+      ],
+      "exactPathRelationshipIds": [
+        "metro-mumbai-security:relationship:city-cctv-gvpr",
+        "money-trails-corporate:relationship:consumer-ddf",
+        "money-trails-corporate:relationship:ddf-priority",
+        "money-trails-corporate:relationship:gvpr-guarantee",
+        "money-trails-corporate:relationship:meter-contract"
+      ],
+      "separateContext": [
+        {
+          "id": "crosswalk:relationship:money-trails-corporate:gvpr:metro-mumbai-security:entity:gvpr",
+          "from": "money-trails-corporate:entity:gvpr",
+          "to": "metro-mumbai-security:entity:gvpr",
+          "kind": "identity-crosswalk",
+          "namespace": "crosswalk",
+          "sourceIds": [
+            "money-trails-corporate:source:gvpr-icra-2025",
+            "money-trails-corporate:source:mumbai-cctv",
+            "metro-mumbai-security:source:cctv-gr"
+          ]
+        },
+        {
+          "id": "money-trails-corporate:relationship:gvpr-hppl",
+          "from": "money-trails-corporate:entity:gvpr",
+          "to": "money-trails-corporate:entity:hppl",
+          "kind": "ownership",
+          "namespace": "money-trails-corporate",
+          "sourceIds": [
+            "money-trails-corporate:source:gvpr-icra-2025",
+            "money-trails-corporate:source:honnavar-care-2026"
+          ]
+        },
+        {
+          "id": "money-trails-corporate:relationship:gvpr-promoter",
+          "from": "money-trails-corporate:entity:veera-reddy",
+          "to": "money-trails-corporate:entity:gvpr",
+          "kind": "role",
+          "namespace": "money-trails-corporate",
+          "sourceIds": [
+            "money-trails-corporate:source:gvpr-icra-2023"
+          ]
+        },
+        {
+          "id": "money-trails-corporate:relationship:gvpr-vijaya",
+          "from": "money-trails-corporate:entity:gvpr",
+          "to": "money-trails-corporate:entity:vijaya",
+          "kind": "ownership",
+          "namespace": "money-trails-corporate",
+          "sourceIds": [
+            "money-trails-corporate:source:gvpr-icra-2025"
+          ]
+        }
+      ],
+      "contextNamespaces": [
+        "crosswalk",
+        "money-trails-corporate"
+      ],
+      "explicitGaps": [
+        {
+          "id": "money-trails-corporate:hop:meter-cash-stop",
+          "relationshipIds": [],
+          "documentHolder": "WBSEDCL / Vijaya WB Smart Meters / escrow bank",
+          "nextDocument": "Aggregated DDF receipts and service bills, grants received, supplier invoices and related-party ledger matched to bank advice"
+        }
+      ],
+      "evidenceCounts": {
+        "entities": 10,
+        "relationships": 8,
+        "records": 12,
+        "sources": 6
+      }
+    },
+    {
+      "trailId": "money-trails-corporate:trail:gvpr-bonds",
+      "caseRecordId": "money-trails-corporate:record:donor-case",
+      "hopEvidence": [
+        {
+          "id": "money-trails-corporate:hop:bond-bjp",
+          "basis": "documented-financial-disclosure",
+          "flowState": "reported-transfer",
+          "financialStage": "Serial-matched bond redemption from mirror records",
+          "relationshipIds": [
+            "money-trails-corporate:relationship:bond-bjp"
+          ],
+          "sourceIds": [
+            "money-trails-corporate:source:eci-purchase-mirror",
+            "money-trails-corporate:source:eci-redemption-mirror",
+            "money-trails-corporate:source:adr-gvpr"
+          ],
+          "sourceFamilies": [],
+          "allSourcesInClosure": true,
+          "stopReason": null,
+          "missingNextDocument": "Original ECI PDF byte validation and company-specific audited political-contribution disclosure"
+        },
+        {
+          "id": "money-trails-corporate:hop:bond-aicc",
+          "basis": "documented-financial-disclosure",
+          "flowState": "reported-transfer",
+          "financialStage": "Serial-matched bond redemption from mirror records",
+          "relationshipIds": [
+            "money-trails-corporate:relationship:bond-aicc"
+          ],
+          "sourceIds": [
+            "money-trails-corporate:source:eci-purchase-mirror",
+            "money-trails-corporate:source:eci-redemption-mirror",
+            "money-trails-corporate:source:adr-gvpr"
+          ],
+          "sourceFamilies": [],
+          "allSourcesInClosure": true,
+          "stopReason": null,
+          "missingNextDocument": "Original ECI PDF byte validation and company-specific audited political-contribution disclosure"
+        },
+        {
+          "id": "money-trails-corporate:hop:donor-identity-stop",
+          "basis": "unresolved-cash-path-stop",
+          "flowState": "gap",
+          "financialStage": "Identity gap; no financial edge",
+          "relationshipIds": [],
+          "sourceIds": [
+            "money-trails-corporate:source:eci-purchase-mirror",
+            "money-trails-corporate:source:gvpr-icra-2025"
+          ],
+          "sourceFamilies": [],
+          "allSourcesInClosure": true,
+          "stopReason": "Company audited donation note and exact registered-identity confirmation; no private KYC publication",
+          "missingNextDocument": "Company audited donation note and exact registered-identity confirmation; no private KYC publication"
+        },
+        {
+          "id": "money-trails-corporate:hop:donor-cash-stop",
+          "basis": "unresolved-cash-path-stop",
+          "flowState": "gap",
+          "financialStage": "Unresolved upstream source; no quid-pro-quo finding",
+          "relationshipIds": [],
+          "sourceIds": [
+            "money-trails-corporate:source:eci-purchase-mirror",
+            "money-trails-corporate:source:eci-redemption-mirror",
+            "metro-mumbai-security:source:cctv-gr"
+          ],
+          "sourceFamilies": [],
+          "allSourcesInClosure": true,
+          "stopReason": "Audited contribution schedule, lawful company bank-ledger tracing and dated procurement decision records for a specified contract",
+          "missingNextDocument": "Audited contribution schedule, lawful company bank-ledger tracing and dated procurement decision records for a specified contract"
+        }
+      ],
+      "exactPathRelationshipIds": [
+        "money-trails-corporate:relationship:bond-aicc",
+        "money-trails-corporate:relationship:bond-bjp"
+      ],
+      "separateContext": [
+        {
+          "id": "crosswalk:relationship:money-trails-corporate:gvpr:metro-mumbai-security:entity:gvpr",
+          "from": "money-trails-corporate:entity:gvpr",
+          "to": "metro-mumbai-security:entity:gvpr",
+          "kind": "identity-crosswalk",
+          "namespace": "crosswalk",
+          "sourceIds": [
+            "money-trails-corporate:source:gvpr-icra-2025",
+            "money-trails-corporate:source:mumbai-cctv",
+            "metro-mumbai-security:source:cctv-gr"
+          ]
+        },
+        {
+          "id": "money-trails-corporate:relationship:gvpr-hppl",
+          "from": "money-trails-corporate:entity:gvpr",
+          "to": "money-trails-corporate:entity:hppl",
+          "kind": "ownership",
+          "namespace": "money-trails-corporate",
+          "sourceIds": [
+            "money-trails-corporate:source:gvpr-icra-2025",
+            "money-trails-corporate:source:honnavar-care-2026"
+          ]
+        },
+        {
+          "id": "money-trails-corporate:relationship:gvpr-promoter",
+          "from": "money-trails-corporate:entity:veera-reddy",
+          "to": "money-trails-corporate:entity:gvpr",
+          "kind": "role",
+          "namespace": "money-trails-corporate",
+          "sourceIds": [
+            "money-trails-corporate:source:gvpr-icra-2023"
+          ]
+        },
+        {
+          "id": "money-trails-corporate:relationship:gvpr-vijaya",
+          "from": "money-trails-corporate:entity:gvpr",
+          "to": "money-trails-corporate:entity:vijaya",
+          "kind": "ownership",
+          "namespace": "money-trails-corporate",
+          "sourceIds": [
+            "money-trails-corporate:source:gvpr-icra-2025"
+          ]
+        }
+      ],
+      "contextNamespaces": [
+        "crosswalk",
+        "money-trails-corporate"
+      ],
+      "explicitGaps": [
+        {
+          "id": "money-trails-corporate:hop:donor-identity-stop",
+          "relationshipIds": [],
+          "documentHolder": "GVPR corporate records / SBI via lawful disclosure",
+          "nextDocument": "Company audited donation note and exact registered-identity confirmation; no private KYC publication"
+        },
+        {
+          "id": "money-trails-corporate:hop:donor-cash-stop",
+          "relationshipIds": [],
+          "documentHolder": "Identified purchaser / relevant procurement authority",
+          "nextDocument": "Audited contribution schedule, lawful company bank-ledger tracing and dated procurement decision records for a specified contract"
+        }
+      ],
+      "evidenceCounts": {
+        "entities": 4,
+        "relationships": 2,
+        "records": 4,
+        "sources": 6
+      }
+    }
+  ]
+}

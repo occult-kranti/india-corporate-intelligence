@@ -1,0 +1,2483 @@
+{
+  "sources": [
+    {
+      "id": "tribunal-2026",
+      "title": "Official SAFEMA appellate order: Suraj Satish Chavan, 13 July 2026",
+      "url": "https://atfp.gov.in/writereaddata/upload/Judgement/Judgement_3TNQJUZQQX_721202655135PM.PDF",
+      "publisher": "Appellate Tribunal under SAFEMA, New Delhi",
+      "publishedAt": "2026-07-13",
+      "retrievedAt": "2026-10-07",
+      "locator": "FPA-PMLA-1785/MUM/2024; §§2–8 (pp 2–6), §§9–13 (pp 7–8), §§16–20 (pp 9–10)",
+      "summary": "Original attachment-appeal order supplies previously unretained bank-analysis summaries, two Sahyadri subcontract routes, exact Force One downstream values and the attachment disposition.",
+      "tier": "documented",
+      "limitations": [
+        "Full official PDF retrieved and SHA 256 recorded. Repository retains a full text extract with bank-account numbers redacted; original is not published locally.",
+        "Financial narratives reproduce investigation/account analysis; underlying bank statements and counterparty inward receipts were not independently obtained.",
+        "An attachment-stage holding secures property pending trial; it is not a criminal conviction. Figures, typography and reasoning differ from prior bail record and contain unreconciled arithmetic."
+      ]
+    },
+    {
+      "id": "bail-2025",
+      "title": "Bombay High Court bail assessment, 2025:BHC-AS:5193",
+      "url": "https://courtkutchehry.com/judgments/suraj-satish-chavan-appellant-hash-directorate-of-enforcement-anr-respondent",
+      "publisher": "Bombay High Court; public CourtKutchehry transcription",
+      "publishedAt": "2025-02-04",
+      "retrievedAt": "2026-10-07",
+      "locator": "BA 4141/2024, §§2, 9.2, 10.1, 15.1, 20–24",
+      "summary": "Earlier bail record identifies contractor documentation, licensed kitchens, completion records and gaps in proof of underweight packets.",
+      "tier": "reported",
+      "limitations": [
+        "Official court PDF returned 503; complete legal mirror text retained and not upgraded to a downloaded original.",
+        "Bail-specific observations are preserved as dated counterevidence; subsequent predicate chargesheet and attachment decision are distinct later events."
+      ]
+    },
+    {
+      "id": "eow-2025",
+      "title": "EOW predicate chargesheet filed against eight: dated news report",
+      "url": "https://indianexpress.com/article/cities/mumbai/eow-files-chargesheet-in-khichdi-scam-sena-ubt-shinde-sena-leaders-among-8-named-9993453/",
+      "publisher": "The Indian Express reporting EOW statement",
+      "publishedAt": "2025-05-09",
+      "retrievedAt": "2026-10-07",
+      "locator": "Paragraphs identifying 47th Esplanade court, eight accused, MoU/forgery allegation and final partner list",
+      "summary": "Reported filing updates earlier absence of a predicate chargesheet and supplies an allegation about document authenticity.",
+      "tier": "reported",
+      "limitations": [
+        "Original chargesheet, EOW statement and exhibits not retrieved. Authored factual notes retained.",
+        "Reported ₹14.57 crore wrongful-gain figure is not accepted as an audited loss or added to earlier totals. Source reports ₹6.27 crore where original tribunal later says ₹6.37 crore."
+      ]
+    },
+    {
+      "id": "rti-role-2023",
+      "title": "RTI-based report: Force One partners and separate historical police-officer business link",
+      "url": "https://indianexpress.com/article/political-pulse/under-khichdi-scam-scanner-sanjay-mashilkar-shinde-sena-leader-ex-partner-of-sacked-cop-vaze-9051829/",
+      "publisher": "The Indian Express, Vallabh Ozarkar",
+      "publishedAt": "2023-12-03",
+      "retrievedAt": "2026-10-07",
+      "locator": "RTI ownership paragraph; Multibuild paragraph; final Mashilkar response paragraph",
+      "summary": "Reported BMC RTI identifies Force One partners; separately reports Mashilkar/Vaze business association and Mashilkar’s no-contracts response.",
+      "tier": "reported",
+      "limitations": [
+        "Original RTI annexures and company filings not obtained. Authored notes retain reported status.",
+        "Reporter calls private-limited-company participants partners; no director title, share percentage, exact tenure or COVID money transfer inferred.",
+        "Party roles are dated context, not evidence of a minister receiving money."
+      ]
+    }
+  ],
+  "entities": [
+    {
+      "id": "bmc",
+      "label": "Brihanmumbai Municipal Corporation",
+      "type": "public-body",
+      "resolved": true,
+      "identityBasis": "Exact identity as named in the specified court case or attributed report; case-scoped reference, not a name-only join to a company registry, DIN or unrelated namesake.",
+      "summary": "Municipal payer and food-programme commissioning institution.",
+      "domains": [
+        "public-funds",
+        "welfare",
+        "disaster-relief",
+        "justice"
+      ],
+      "layers": [
+        "organisations"
+      ],
+      "geography": [
+        {
+          "scope": "city",
+          "stateCodes": [
+            "MH"
+          ],
+          "localityIds": [
+            "mumbai"
+          ],
+          "basis": "programme-coverage",
+          "note": "Mumbai food-distribution programme association, not a private address or transaction GPS. Tribunal sits in New Delhi; that is not where the underlying public money was spent.",
+          "sourceIds": [
+            "tribunal-2026"
+          ]
+        }
+      ],
+      "route": "/money-trails",
+      "sourceIds": [
+        "tribunal-2026"
+      ],
+      "limitations": [],
+      "canonicalId": "metro-public-finance:entity:bmc"
+    },
+    {
+      "id": "sahyadri",
+      "label": "Sahyadri Refreshment — court-scoped contractor",
+      "type": "contractor",
+      "resolved": true,
+      "identityBasis": "Exact identity as named in the specified court case or attributed report; case-scoped reference, not a name-only join to a company registry, DIN or unrelated namesake.",
+      "summary": "Tribunal §2 uses Vaishnavi Kitchen (Sahyadri Refreshment); §5 identifies the Sahyadri account. The account recipient is scoped to this proceeding; separate legal-registration continuity is not established.",
+      "domains": [
+        "public-funds",
+        "welfare",
+        "disaster-relief",
+        "justice"
+      ],
+      "layers": [
+        "organisations"
+      ],
+      "geography": [
+        {
+          "scope": "city",
+          "stateCodes": [
+            "MH"
+          ],
+          "localityIds": [
+            "mumbai"
+          ],
+          "basis": "programme-coverage",
+          "note": "Mumbai food-distribution programme association, not a private address or transaction GPS. Tribunal sits in New Delhi; that is not where the underlying public money was spent.",
+          "sourceIds": [
+            "tribunal-2026"
+          ]
+        }
+      ],
+      "route": "/money-trails",
+      "sourceIds": [
+        "tribunal-2026"
+      ],
+      "limitations": []
+    },
+    {
+      "id": "force-one",
+      "label": "Force One Multi Services — food contractor",
+      "type": "contractor",
+      "resolved": true,
+      "identityBasis": "Exact identity as named in the specified court case or attributed report; case-scoped reference, not a name-only join to a company registry, DIN or unrelated namesake.",
+      "summary": "The private food-supply partnership in the khichdi proceedings; not Maharashtra Police Force One.",
+      "domains": [
+        "public-funds",
+        "welfare",
+        "disaster-relief",
+        "justice"
+      ],
+      "layers": [
+        "organisations"
+      ],
+      "geography": [
+        {
+          "scope": "city",
+          "stateCodes": [
+            "MH"
+          ],
+          "localityIds": [
+            "mumbai"
+          ],
+          "basis": "programme-coverage",
+          "note": "Mumbai food-distribution programme association, not a private address or transaction GPS. Tribunal sits in New Delhi; that is not where the underlying public money was spent.",
+          "sourceIds": [
+            "tribunal-2026",
+            "bail-2025"
+          ]
+        }
+      ],
+      "route": "/money-trails",
+      "sourceIds": [
+        "tribunal-2026",
+        "bail-2025"
+      ],
+      "limitations": [],
+      "canonicalId": "metro-public-finance:entity:force-one"
+    },
+    {
+      "id": "fnj",
+      "label": "FNJ Enterprises Pvt Ltd — court payment recipient",
+      "type": "contractor",
+      "resolved": true,
+      "identityBasis": "Exact identity as named in the specified court case or attributed report; case-scoped reference, not a name-only join to a company registry, DIN or unrelated namesake.",
+      "summary": "Recipient named in tribunal §5, tasked with food preparation. No CIN or beneficial-owner match to a corporate directory is asserted.",
+      "domains": [
+        "public-funds",
+        "welfare",
+        "disaster-relief",
+        "justice"
+      ],
+      "layers": [
+        "organisations"
+      ],
+      "geography": [
+        {
+          "scope": "city",
+          "stateCodes": [
+            "MH"
+          ],
+          "localityIds": [
+            "mumbai"
+          ],
+          "basis": "programme-coverage",
+          "note": "Mumbai food-distribution programme association, not a private address or transaction GPS. Tribunal sits in New Delhi; that is not where the underlying public money was spent.",
+          "sourceIds": [
+            "tribunal-2026"
+          ]
+        }
+      ],
+      "route": "/money-trails",
+      "sourceIds": [
+        "tribunal-2026"
+      ],
+      "limitations": []
+    },
+    {
+      "id": "sneha",
+      "label": "Sneha Caterers & Decorators",
+      "type": "contractor",
+      "resolved": true,
+      "identityBasis": "Exact identity as named in the specified court case or attributed report; case-scoped reference, not a name-only join to a company registry, DIN or unrelated namesake.",
+      "summary": "Named downstream food supplier; tribunal §6 describes inward receipt across two banks.",
+      "domains": [
+        "public-funds",
+        "welfare",
+        "disaster-relief",
+        "justice"
+      ],
+      "layers": [
+        "organisations"
+      ],
+      "geography": [
+        {
+          "scope": "city",
+          "stateCodes": [
+            "MH"
+          ],
+          "localityIds": [
+            "mumbai"
+          ],
+          "basis": "programme-coverage",
+          "note": "Mumbai food-distribution programme association, not a private address or transaction GPS. Tribunal sits in New Delhi; that is not where the underlying public money was spent.",
+          "sourceIds": [
+            "tribunal-2026",
+            "bail-2025"
+          ]
+        }
+      ],
+      "route": "/money-trails",
+      "sourceIds": [
+        "tribunal-2026",
+        "bail-2025"
+      ],
+      "limitations": [],
+      "canonicalId": "metro-public-finance:entity:sneha"
+    },
+    {
+      "id": "golden",
+      "label": "Golden Star Banquet Hall & Catering Services",
+      "type": "contractor",
+      "resolved": true,
+      "identityBasis": "Exact identity as named in the specified court case or attributed report; case-scoped reference, not a name-only join to a company registry, DIN or unrelated namesake.",
+      "summary": "Named downstream food supplier; legal identity remains case-scoped.",
+      "domains": [
+        "public-funds",
+        "welfare",
+        "disaster-relief",
+        "justice"
+      ],
+      "layers": [
+        "organisations"
+      ],
+      "geography": [
+        {
+          "scope": "city",
+          "stateCodes": [
+            "MH"
+          ],
+          "localityIds": [
+            "mumbai"
+          ],
+          "basis": "programme-coverage",
+          "note": "Mumbai food-distribution programme association, not a private address or transaction GPS. Tribunal sits in New Delhi; that is not where the underlying public money was spent.",
+          "sourceIds": [
+            "tribunal-2026",
+            "bail-2025"
+          ]
+        }
+      ],
+      "route": "/money-trails",
+      "sourceIds": [
+        "tribunal-2026",
+        "bail-2025"
+      ],
+      "limitations": [],
+      "canonicalId": "metro-public-finance:entity:golden"
+    },
+    {
+      "id": "chavan",
+      "label": "Suraj Satish Chavan — khichdi proceedings",
+      "type": "person",
+      "resolved": true,
+      "identityBasis": "Exact identity as named in the specified court case or attributed report; case-scoped reference, not a name-only join to a company registry, DIN or unrelated namesake.",
+      "summary": "Exact individual in BA 4141/2024 and FPA-PMLA-1785/MUM/2024; not a same-name actor, Latur activist or unverified directory director.",
+      "domains": [
+        "public-funds",
+        "welfare",
+        "disaster-relief",
+        "justice"
+      ],
+      "layers": [
+        "people"
+      ],
+      "geography": [
+        {
+          "scope": "city",
+          "stateCodes": [
+            "MH"
+          ],
+          "localityIds": [
+            "mumbai"
+          ],
+          "basis": "programme-coverage",
+          "note": "Mumbai food-distribution programme association, not a private address or transaction GPS. Tribunal sits in New Delhi; that is not where the underlying public money was spent.",
+          "sourceIds": [
+            "tribunal-2026",
+            "bail-2025"
+          ]
+        }
+      ],
+      "route": "/money-trails",
+      "sourceIds": [
+        "tribunal-2026",
+        "bail-2025"
+      ],
+      "limitations": [],
+      "canonicalId": "metro-public-finance:entity:chavan"
+    },
+    {
+      "id": "attachment-pool",
+      "label": "Chavan property attachment — ₹88,51,500",
+      "type": "legal-asset-pool",
+      "resolved": true,
+      "identityBasis": "Exact identity as named in the specified court case or attributed report; case-scoped reference, not a name-only join to a company registry, DIN or unrelated namesake.",
+      "summary": "Value of property attached in tribunal §7; not a further payment, recovery or purchase-price ledger. No private address or parcel number retained.",
+      "domains": [
+        "public-funds",
+        "welfare",
+        "disaster-relief",
+        "justice"
+      ],
+      "layers": [
+        "organisations"
+      ],
+      "geography": [
+        {
+          "scope": "city",
+          "stateCodes": [
+            "MH"
+          ],
+          "localityIds": [
+            "mumbai"
+          ],
+          "basis": "programme-coverage",
+          "note": "Mumbai food-distribution programme association, not a private address or transaction GPS. Tribunal sits in New Delhi; that is not where the underlying public money was spent.",
+          "sourceIds": [
+            "tribunal-2026"
+          ]
+        }
+      ],
+      "route": "/money-trails",
+      "sourceIds": [
+        "tribunal-2026"
+      ],
+      "limitations": []
+    },
+    {
+      "id": "tribunal",
+      "label": "Appellate Tribunal under SAFEMA",
+      "type": "judicial-body",
+      "resolved": true,
+      "identityBasis": "Exact identity as named in the specified court case or attributed report; case-scoped reference, not a name-only join to a company registry, DIN or unrelated namesake.",
+      "summary": "Forum deciding PMLA attachment appeal, not a criminal trial verdict.",
+      "domains": [
+        "public-funds",
+        "welfare",
+        "disaster-relief",
+        "justice"
+      ],
+      "layers": [
+        "organisations"
+      ],
+      "geography": [
+        {
+          "scope": "city",
+          "stateCodes": [
+            "MH"
+          ],
+          "localityIds": [
+            "mumbai"
+          ],
+          "basis": "programme-coverage",
+          "note": "Mumbai food-distribution programme association, not a private address or transaction GPS. Tribunal sits in New Delhi; that is not where the underlying public money was spent.",
+          "sourceIds": [
+            "tribunal-2026"
+          ]
+        }
+      ],
+      "route": "/money-trails",
+      "sourceIds": [
+        "tribunal-2026"
+      ],
+      "limitations": []
+    },
+    {
+      "id": "bhc",
+      "label": "Bombay High Court",
+      "type": "judicial-body",
+      "resolved": true,
+      "identityBasis": "Exact identity as named in the specified court case or attributed report; case-scoped reference, not a name-only join to a company registry, DIN or unrelated namesake.",
+      "summary": "Forum granting dated conditional bail.",
+      "domains": [
+        "public-funds",
+        "welfare",
+        "disaster-relief",
+        "justice"
+      ],
+      "layers": [
+        "organisations"
+      ],
+      "geography": [
+        {
+          "scope": "city",
+          "stateCodes": [
+            "MH"
+          ],
+          "localityIds": [
+            "mumbai"
+          ],
+          "basis": "programme-coverage",
+          "note": "Mumbai food-distribution programme association, not a private address or transaction GPS. Tribunal sits in New Delhi; that is not where the underlying public money was spent.",
+          "sourceIds": [
+            "bail-2025"
+          ]
+        }
+      ],
+      "route": "/money-trails",
+      "sourceIds": [
+        "bail-2025"
+      ],
+      "limitations": []
+    },
+    {
+      "id": "kadam",
+      "label": "Sunil Kadam / Bala Kadam — Sahyadri proceeding",
+      "type": "person",
+      "resolved": true,
+      "identityBasis": "Exact identity as named in the specified court case or attributed report; case-scoped reference, not a name-only join to a company registry, DIN or unrelated namesake.",
+      "summary": "Tribunal §2 names ownership and §5 describes acting on behalf of Sahyadri; no unrelated Kadam identity linked.",
+      "domains": [
+        "public-funds",
+        "welfare",
+        "disaster-relief",
+        "justice"
+      ],
+      "layers": [
+        "people"
+      ],
+      "geography": [
+        {
+          "scope": "city",
+          "stateCodes": [
+            "MH"
+          ],
+          "localityIds": [
+            "mumbai"
+          ],
+          "basis": "programme-coverage",
+          "note": "Mumbai food-distribution programme association, not a private address or transaction GPS. Tribunal sits in New Delhi; that is not where the underlying public money was spent.",
+          "sourceIds": [
+            "tribunal-2026"
+          ]
+        }
+      ],
+      "route": "/money-trails",
+      "sourceIds": [
+        "tribunal-2026"
+      ],
+      "limitations": []
+    },
+    {
+      "id": "salunkhe",
+      "label": "Rajiv Salunkhe — Sahyadri proceeding",
+      "type": "person",
+      "resolved": true,
+      "identityBasis": "Exact identity as named in the specified court case or attributed report; case-scoped reference, not a name-only join to a company registry, DIN or unrelated namesake.",
+      "summary": "Tribunal §2 names ownership; secondary chargesheet account supplies fuller name. No external company identity merged.",
+      "domains": [
+        "public-funds",
+        "welfare",
+        "disaster-relief",
+        "justice"
+      ],
+      "layers": [
+        "people"
+      ],
+      "geography": [
+        {
+          "scope": "city",
+          "stateCodes": [
+            "MH"
+          ],
+          "localityIds": [
+            "mumbai"
+          ],
+          "basis": "programme-coverage",
+          "note": "Mumbai food-distribution programme association, not a private address or transaction GPS. Tribunal sits in New Delhi; that is not where the underlying public money was spent.",
+          "sourceIds": [
+            "tribunal-2026"
+          ]
+        }
+      ],
+      "route": "/money-trails",
+      "sourceIds": [
+        "tribunal-2026"
+      ],
+      "limitations": []
+    },
+    {
+      "id": "mali",
+      "label": "Sanjay Mali — Sneha Caterers proceeding",
+      "type": "person",
+      "resolved": true,
+      "identityBasis": "Exact identity as named in the specified court case or attributed report; case-scoped reference, not a name-only join to a company registry, DIN or unrelated namesake.",
+      "summary": "Tribunal §§3–4 associates him with Sneha preparation and payment. Exact statutory title or shareholding not inferred.",
+      "domains": [
+        "public-funds",
+        "welfare",
+        "disaster-relief",
+        "justice"
+      ],
+      "layers": [
+        "people"
+      ],
+      "geography": [
+        {
+          "scope": "city",
+          "stateCodes": [
+            "MH"
+          ],
+          "localityIds": [
+            "mumbai"
+          ],
+          "basis": "programme-coverage",
+          "note": "Mumbai food-distribution programme association, not a private address or transaction GPS. Tribunal sits in New Delhi; that is not where the underlying public money was spent.",
+          "sourceIds": [
+            "tribunal-2026"
+          ]
+        }
+      ],
+      "route": "/money-trails",
+      "sourceIds": [
+        "tribunal-2026"
+      ],
+      "limitations": []
+    },
+    {
+      "id": "keer",
+      "label": "Amanpreet Keer — Golden Star proceeding",
+      "type": "person",
+      "resolved": true,
+      "identityBasis": "Exact identity as named in the specified court case or attributed report; case-scoped reference, not a name-only join to a company registry, DIN or unrelated namesake.",
+      "summary": "Spelling used by original tribunal §4. Some news uses Kir; no external identity merger is made.",
+      "domains": [
+        "public-funds",
+        "welfare",
+        "disaster-relief",
+        "justice"
+      ],
+      "layers": [
+        "people"
+      ],
+      "geography": [
+        {
+          "scope": "city",
+          "stateCodes": [
+            "MH"
+          ],
+          "localityIds": [
+            "mumbai"
+          ],
+          "basis": "programme-coverage",
+          "note": "Mumbai food-distribution programme association, not a private address or transaction GPS. Tribunal sits in New Delhi; that is not where the underlying public money was spent.",
+          "sourceIds": [
+            "tribunal-2026"
+          ]
+        }
+      ],
+      "route": "/money-trails",
+      "sourceIds": [
+        "tribunal-2026"
+      ],
+      "limitations": []
+    },
+    {
+      "id": "mashilkar",
+      "label": "Sanjay Mashilkar — Force One partner",
+      "type": "person",
+      "resolved": true,
+      "identityBasis": "Exact identity as named in the specified court case or attributed report; case-scoped reference, not a name-only join to a company registry, DIN or unrelated namesake.",
+      "summary": "Bail §9.2 identifies partnership statement/deed; RTI-based reporting identifies ownership and sons’ partnership.",
+      "domains": [
+        "public-funds",
+        "welfare",
+        "disaster-relief",
+        "justice"
+      ],
+      "layers": [
+        "people"
+      ],
+      "geography": [
+        {
+          "scope": "city",
+          "stateCodes": [
+            "MH"
+          ],
+          "localityIds": [
+            "mumbai"
+          ],
+          "basis": "programme-coverage",
+          "note": "Mumbai food-distribution programme association, not a private address or transaction GPS. Tribunal sits in New Delhi; that is not where the underlying public money was spent.",
+          "sourceIds": [
+            "bail-2025",
+            "rti-role-2023",
+            "eow-2025"
+          ]
+        }
+      ],
+      "route": "/money-trails",
+      "sourceIds": [
+        "bail-2025",
+        "rti-role-2023",
+        "eow-2025"
+      ],
+      "limitations": []
+    },
+    {
+      "id": "multibuild",
+      "label": "Multibuild Infraprojects — reported business association",
+      "type": "source-mention",
+      "resolved": true,
+      "identityBasis": "Exact identity as named in the specified court case or attributed report; case-scoped reference, not a name-only join to a company registry, DIN or unrelated namesake.",
+      "summary": "Company named by attributed report; formal registry identity, company status and historical shareholding not verified.",
+      "domains": [
+        "public-funds",
+        "welfare",
+        "disaster-relief",
+        "justice"
+      ],
+      "layers": [
+        "organisations"
+      ],
+      "geography": [
+        {
+          "scope": "city",
+          "stateCodes": [
+            "MH"
+          ],
+          "localityIds": [
+            "mumbai"
+          ],
+          "basis": "programme-coverage",
+          "note": "Mumbai food-distribution programme association, not a private address or transaction GPS. Tribunal sits in New Delhi; that is not where the underlying public money was spent.",
+          "sourceIds": [
+            "rti-role-2023"
+          ]
+        }
+      ],
+      "route": "/money-trails",
+      "sourceIds": [
+        "rti-role-2023"
+      ],
+      "limitations": []
+    },
+    {
+      "id": "vaze",
+      "label": "Sachin Vaze — reported former business associate",
+      "type": "person",
+      "resolved": true,
+      "identityBasis": "Exact identity as named in the specified court case or attributed report; case-scoped reference, not a name-only join to a company registry, DIN or unrelated namesake.",
+      "summary": "Dismissed police officer specifically named in the report; context only. No food-contract receipt or wrongdoing inference from this business link.",
+      "domains": [
+        "public-funds",
+        "welfare",
+        "disaster-relief",
+        "justice"
+      ],
+      "layers": [
+        "people"
+      ],
+      "geography": [
+        {
+          "scope": "city",
+          "stateCodes": [
+            "MH"
+          ],
+          "localityIds": [
+            "mumbai"
+          ],
+          "basis": "programme-coverage",
+          "note": "Mumbai food-distribution programme association, not a private address or transaction GPS. Tribunal sits in New Delhi; that is not where the underlying public money was spent.",
+          "sourceIds": [
+            "rti-role-2023"
+          ]
+        }
+      ],
+      "route": "/money-trails",
+      "sourceIds": [
+        "rti-role-2023"
+      ],
+      "limitations": []
+    },
+    {
+      "id": "eow",
+      "label": "Mumbai Police Economic Offences Wing",
+      "type": "investigating-body",
+      "resolved": true,
+      "identityBasis": "Exact identity as named in the specified court case or attributed report; case-scoped reference, not a name-only join to a company registry, DIN or unrelated namesake.",
+      "summary": "Predicate investigating agency; distinct from private contractor Force One.",
+      "domains": [
+        "public-funds",
+        "welfare",
+        "disaster-relief",
+        "justice"
+      ],
+      "layers": [
+        "organisations"
+      ],
+      "geography": [
+        {
+          "scope": "city",
+          "stateCodes": [
+            "MH"
+          ],
+          "localityIds": [
+            "mumbai"
+          ],
+          "basis": "programme-coverage",
+          "note": "Mumbai food-distribution programme association, not a private address or transaction GPS. Tribunal sits in New Delhi; that is not where the underlying public money was spent.",
+          "sourceIds": [
+            "tribunal-2026",
+            "eow-2025"
+          ]
+        }
+      ],
+      "route": "/money-trails",
+      "sourceIds": [
+        "tribunal-2026",
+        "eow-2025"
+      ],
+      "limitations": []
+    }
+  ],
+  "relationships": [
+    {
+      "id": "bmc-sahyadri",
+      "from": "bmc",
+      "to": "sahyadri",
+      "kind": "court-recorded-payment",
+      "label": "Court account: ₹5,92,17,002.90 municipal receipts",
+      "tier": "reported",
+      "status": "court-recorded-account-analysis-not-independent-ledger",
+      "statusAsOf": "2026-07-13",
+      "fromDate": null,
+      "toDate": null,
+      "dateBasis": "Order date is source/status date. Account analysis covers 1 April 2020–31 March 2021 where specified; individual transaction dates are not available.",
+      "summary": "Tribunal §5 recites bank examination showing BMC receipts to Sahyadri through Vaishya Sahakari Bank Ltd during FY 2020–21.",
+      "alternativeExplanations": [
+        "Commercial subcontract payments can pay for genuine services. Gross receipts or unallocated balances are not automatically profit, stolen funds or personal benefit.",
+        "Emergency implementation, rounding, tax, other costs or period scope may explain differences; original records are needed to decide."
+      ],
+      "falsifier": "Original bank statements, matched receipt vouchers, procurement invoices, returns or a subsequent controlling order could qualify this narrative.",
+      "responseIds": [
+        "bail-counter",
+        "tribunal-response",
+        "reconciliation"
+      ],
+      "recordIds": [
+        "khichdi-trace"
+      ],
+      "amounts": [
+        {
+          "value": 5.92170029,
+          "currency": "INR",
+          "unit": "crore",
+          "stage": "Court-recorded gross municipal receipts; not adjudicated loss",
+          "period": "FY 2020–21 account-analysis period"
+        }
+      ],
+      "domains": [
+        "public-funds",
+        "welfare",
+        "disaster-relief",
+        "justice"
+      ],
+      "layers": [
+        "funding",
+        "legal"
+      ],
+      "geography": [
+        {
+          "scope": "city",
+          "stateCodes": [
+            "MH"
+          ],
+          "localityIds": [
+            "mumbai"
+          ],
+          "basis": "programme-coverage",
+          "note": "Mumbai food-distribution programme association, not a private address or transaction GPS. Tribunal sits in New Delhi; that is not where the underlying public money was spent.",
+          "sourceIds": [
+            "tribunal-2026"
+          ]
+        }
+      ],
+      "route": "/money-trails",
+      "sourceIds": [
+        "tribunal-2026"
+      ],
+      "limitations": [
+        "This court-recorded narrative is not an independently inspected transaction-level bank ledger."
+      ]
+    },
+    {
+      "id": "sahyadri-fnj",
+      "from": "sahyadri",
+      "to": "fnj",
+      "kind": "court-recorded-payment",
+      "label": "Court account: ₹2.65 crore to FNJ",
+      "tier": "reported",
+      "status": "court-recorded-account-analysis-not-independent-ledger",
+      "statusAsOf": "2026-07-13",
+      "fromDate": null,
+      "toDate": null,
+      "dateBasis": "Order date is source/status date. Account analysis covers 1 April 2020–31 March 2021 where specified; individual transaction dates are not available.",
+      "summary": "Tribunal §5 says Sahyadri transferred ₹2.65 crore to FNJ at HDFC Bank, with inward receipt confirmation. Underlying matching bank entries and dates are not public in this order.",
+      "alternativeExplanations": [
+        "Commercial subcontract payments can pay for genuine services. Gross receipts or unallocated balances are not automatically profit, stolen funds or personal benefit.",
+        "Emergency implementation, rounding, tax, other costs or period scope may explain differences; original records are needed to decide."
+      ],
+      "falsifier": "Original bank statements, matched receipt vouchers, procurement invoices, returns or a subsequent controlling order could qualify this narrative.",
+      "responseIds": [
+        "bail-counter",
+        "tribunal-response",
+        "reconciliation"
+      ],
+      "recordIds": [
+        "khichdi-trace"
+      ],
+      "amounts": [
+        {
+          "value": 2.65,
+          "currency": "INR",
+          "unit": "crore",
+          "stage": "Court-recorded subcontract payment; no diversion inferred from receipt alone",
+          "period": "FY 2020–21 account-analysis period"
+        }
+      ],
+      "domains": [
+        "public-funds",
+        "welfare",
+        "disaster-relief",
+        "justice"
+      ],
+      "layers": [
+        "funding",
+        "legal"
+      ],
+      "geography": [
+        {
+          "scope": "city",
+          "stateCodes": [
+            "MH"
+          ],
+          "localityIds": [
+            "mumbai"
+          ],
+          "basis": "programme-coverage",
+          "note": "Mumbai food-distribution programme association, not a private address or transaction GPS. Tribunal sits in New Delhi; that is not where the underlying public money was spent.",
+          "sourceIds": [
+            "tribunal-2026"
+          ]
+        }
+      ],
+      "route": "/money-trails",
+      "sourceIds": [
+        "tribunal-2026"
+      ],
+      "limitations": [
+        "This court-recorded narrative is not an independently inspected transaction-level bank ledger."
+      ]
+    },
+    {
+      "id": "sahyadri-force",
+      "from": "sahyadri",
+      "to": "force-one",
+      "kind": "court-recorded-payment",
+      "label": "Court account: ₹45 lakh between prime contractors",
+      "tier": "reported",
+      "status": "court-recorded-account-analysis-not-independent-ledger",
+      "statusAsOf": "2026-07-13",
+      "fromDate": null,
+      "toDate": null,
+      "dateBasis": "Order date is source/status date. Account analysis covers 1 April 2020–31 March 2021 where specified; individual transaction dates are not available.",
+      "summary": "Tribunal §5 records ₹45 lakh from Sahyadri to Force One at Thane Bharat Co-op Bank for preparation. This is an inter-vendor transfer of already-received public money, not another independent BMC expenditure.",
+      "alternativeExplanations": [
+        "Commercial subcontract payments can pay for genuine services. Gross receipts or unallocated balances are not automatically profit, stolen funds or personal benefit.",
+        "Emergency implementation, rounding, tax, other costs or period scope may explain differences; original records are needed to decide."
+      ],
+      "falsifier": "Original bank statements, matched receipt vouchers, procurement invoices, returns or a subsequent controlling order could qualify this narrative.",
+      "responseIds": [
+        "bail-counter",
+        "tribunal-response",
+        "reconciliation"
+      ],
+      "recordIds": [
+        "khichdi-trace"
+      ],
+      "amounts": [
+        {
+          "value": 0.45,
+          "currency": "INR",
+          "unit": "crore",
+          "stage": "Inter-vendor transfer from Sahyadri receipts; do not add to BMC source total",
+          "period": "FY 2020–21 account-analysis period"
+        }
+      ],
+      "domains": [
+        "public-funds",
+        "welfare",
+        "disaster-relief",
+        "justice"
+      ],
+      "layers": [
+        "funding",
+        "legal"
+      ],
+      "geography": [
+        {
+          "scope": "city",
+          "stateCodes": [
+            "MH"
+          ],
+          "localityIds": [
+            "mumbai"
+          ],
+          "basis": "programme-coverage",
+          "note": "Mumbai food-distribution programme association, not a private address or transaction GPS. Tribunal sits in New Delhi; that is not where the underlying public money was spent.",
+          "sourceIds": [
+            "tribunal-2026"
+          ]
+        }
+      ],
+      "route": "/money-trails",
+      "sourceIds": [
+        "tribunal-2026"
+      ],
+      "limitations": [
+        "This court-recorded narrative is not an independently inspected transaction-level bank ledger."
+      ]
+    },
+    {
+      "id": "bmc-force",
+      "from": "bmc",
+      "to": "force-one",
+      "kind": "court-recorded-payment",
+      "label": "Court account: approximately ₹8.64 crore municipal receipts",
+      "tier": "reported",
+      "status": "court-recorded-account-analysis-not-independent-ledger",
+      "statusAsOf": "2026-07-13",
+      "fromDate": null,
+      "toDate": null,
+      "dateBasis": "Order date is source/status date. Account analysis covers 1 April 2020–31 March 2021 where specified; individual transaction dates are not available.",
+      "summary": "Tribunal §§2,6,8 records BMC money to Force One. §6 prints malformed ₹8,63,94.985.68 and §8 prints ₹8,63,94,985 without paise. Only explicit rounded ₹8.64 crore is exposed as numeric amount; precision conflict is retained.",
+      "alternativeExplanations": [
+        "Commercial subcontract payments can pay for genuine services. Gross receipts or unallocated balances are not automatically profit, stolen funds or personal benefit.",
+        "Emergency implementation, rounding, tax, other costs or period scope may explain differences; original records are needed to decide."
+      ],
+      "falsifier": "Original bank statements, matched receipt vouchers, procurement invoices, returns or a subsequent controlling order could qualify this narrative.",
+      "responseIds": [
+        "bail-counter",
+        "tribunal-response",
+        "reconciliation"
+      ],
+      "recordIds": [
+        "khichdi-trace"
+      ],
+      "amounts": [
+        {
+          "value": 8.64,
+          "currency": "INR",
+          "unit": "crore",
+          "stage": "Rounded BMC receipts stated in order, not loss or complete credits including Sahyadri",
+          "period": "FY 2020–21 account-analysis period"
+        }
+      ],
+      "domains": [
+        "public-funds",
+        "welfare",
+        "disaster-relief",
+        "justice"
+      ],
+      "layers": [
+        "funding",
+        "legal"
+      ],
+      "geography": [
+        {
+          "scope": "city",
+          "stateCodes": [
+            "MH"
+          ],
+          "localityIds": [
+            "mumbai"
+          ],
+          "basis": "programme-coverage",
+          "note": "Mumbai food-distribution programme association, not a private address or transaction GPS. Tribunal sits in New Delhi; that is not where the underlying public money was spent.",
+          "sourceIds": [
+            "tribunal-2026"
+          ]
+        }
+      ],
+      "route": "/money-trails",
+      "sourceIds": [
+        "tribunal-2026"
+      ],
+      "limitations": [
+        "Court typography does not support inventing a corrected paise-precise receipt. Separate ₹45 lakh Sahyadri credit is not silently included in this BMC amount."
+      ]
+    },
+    {
+      "id": "force-sneha",
+      "from": "force-one",
+      "to": "sneha",
+      "kind": "court-recorded-payment",
+      "label": "Court account: ₹4,14,73,000 to Sneha",
+      "tier": "reported",
+      "status": "court-recorded-account-analysis-not-independent-ledger",
+      "statusAsOf": "2026-07-13",
+      "fromDate": null,
+      "toDate": null,
+      "dateBasis": "Order date is source/status date. Account analysis covers 1 April 2020–31 March 2021 where specified; individual transaction dates are not available.",
+      "summary": "Tribunal §6 describes ₹4,14,73,000 transferred and inward receipts at Thane Bharat Co-op Bank and Karnataka Bank. The order does not split amounts by those two banks.",
+      "alternativeExplanations": [
+        "Commercial subcontract payments can pay for genuine services. Gross receipts or unallocated balances are not automatically profit, stolen funds or personal benefit.",
+        "Emergency implementation, rounding, tax, other costs or period scope may explain differences; original records are needed to decide."
+      ],
+      "falsifier": "Original bank statements, matched receipt vouchers, procurement invoices, returns or a subsequent controlling order could qualify this narrative.",
+      "responseIds": [
+        "bail-counter",
+        "tribunal-response",
+        "reconciliation"
+      ],
+      "recordIds": [
+        "khichdi-trace"
+      ],
+      "amounts": [
+        {
+          "value": 4.1473,
+          "currency": "INR",
+          "unit": "crore",
+          "stage": "Court-recorded subcontract payment; two recipient banks, no account-level allocation",
+          "period": "FY 2020–21 account-analysis period"
+        }
+      ],
+      "domains": [
+        "public-funds",
+        "welfare",
+        "disaster-relief",
+        "justice"
+      ],
+      "layers": [
+        "funding",
+        "legal"
+      ],
+      "geography": [
+        {
+          "scope": "city",
+          "stateCodes": [
+            "MH"
+          ],
+          "localityIds": [
+            "mumbai"
+          ],
+          "basis": "programme-coverage",
+          "note": "Mumbai food-distribution programme association, not a private address or transaction GPS. Tribunal sits in New Delhi; that is not where the underlying public money was spent.",
+          "sourceIds": [
+            "tribunal-2026"
+          ]
+        }
+      ],
+      "route": "/money-trails",
+      "sourceIds": [
+        "tribunal-2026"
+      ],
+      "limitations": [
+        "This court-recorded narrative is not an independently inspected transaction-level bank ledger."
+      ]
+    },
+    {
+      "id": "force-golden",
+      "from": "force-one",
+      "to": "golden",
+      "kind": "court-recorded-payment",
+      "label": "Court account: ₹82,05,000 to Golden Star",
+      "tier": "reported",
+      "status": "court-recorded-account-analysis-not-independent-ledger",
+      "statusAsOf": "2026-07-13",
+      "fromDate": null,
+      "toDate": null,
+      "dateBasis": "Order date is source/status date. Account analysis covers 1 April 2020–31 March 2021 where specified; individual transaction dates are not available.",
+      "summary": "Tribunal §6 describes ₹82,05,000 transferred and inward receipt at Bank of Maharashtra; date/UTR and accepted meal quantities are absent.",
+      "alternativeExplanations": [
+        "Commercial subcontract payments can pay for genuine services. Gross receipts or unallocated balances are not automatically profit, stolen funds or personal benefit.",
+        "Emergency implementation, rounding, tax, other costs or period scope may explain differences; original records are needed to decide."
+      ],
+      "falsifier": "Original bank statements, matched receipt vouchers, procurement invoices, returns or a subsequent controlling order could qualify this narrative.",
+      "responseIds": [
+        "bail-counter",
+        "tribunal-response",
+        "reconciliation"
+      ],
+      "recordIds": [
+        "khichdi-trace"
+      ],
+      "amounts": [
+        {
+          "value": 0.8205,
+          "currency": "INR",
+          "unit": "crore",
+          "stage": "Court-recorded subcontract payment; not a proven loss",
+          "period": "FY 2020–21 account-analysis period"
+        }
+      ],
+      "domains": [
+        "public-funds",
+        "welfare",
+        "disaster-relief",
+        "justice"
+      ],
+      "layers": [
+        "funding",
+        "legal"
+      ],
+      "geography": [
+        {
+          "scope": "city",
+          "stateCodes": [
+            "MH"
+          ],
+          "localityIds": [
+            "mumbai"
+          ],
+          "basis": "programme-coverage",
+          "note": "Mumbai food-distribution programme association, not a private address or transaction GPS. Tribunal sits in New Delhi; that is not where the underlying public money was spent.",
+          "sourceIds": [
+            "tribunal-2026"
+          ]
+        }
+      ],
+      "route": "/money-trails",
+      "sourceIds": [
+        "tribunal-2026"
+      ],
+      "limitations": [
+        "This court-recorded narrative is not an independently inspected transaction-level bank ledger."
+      ]
+    },
+    {
+      "id": "force-chavan",
+      "from": "force-one",
+      "to": "chavan",
+      "kind": "attributed-personal-benefit",
+      "label": "Attachment proceeding: ₹1.25 crore individual receipt",
+      "tier": "alleged",
+      "status": "attachment-stage-holding-not-criminal-conviction",
+      "statusAsOf": "2026-07-13",
+      "fromDate": null,
+      "toDate": null,
+      "dateBasis": "Order date is source/status date. Account analysis covers 1 April 2020–31 March 2021 where specified; individual transaction dates are not available.",
+      "summary": "Tribunal §§8,16 says ₹1.25 crore went to Chavan via banking channel and §§17–19 rejects the explanations advanced on this attachment record. This is the individual account amount; it must not be added to the earlier ₹1.35 crore combined-benefit allegation.",
+      "alternativeExplanations": [
+        "Commercial subcontract payments can pay for genuine services. Gross receipts or unallocated balances are not automatically profit, stolen funds or personal benefit.",
+        "Emergency implementation, rounding, tax, other costs or period scope may explain differences; original records are needed to decide."
+      ],
+      "falsifier": "Original bank statements, matched receipt vouchers, procurement invoices, returns or a subsequent controlling order could qualify this narrative.",
+      "responseIds": [
+        "tribunal-response",
+        "bail-counter",
+        "bail-outcome",
+        "attachment-outcome",
+        "reconciliation"
+      ],
+      "recordIds": [
+        "khichdi-trace"
+      ],
+      "amounts": [
+        {
+          "value": 1.25,
+          "currency": "INR",
+          "unit": "crore",
+          "stage": "Individual receipt in attachment proceeding; overlaps earlier aggregate, not additive",
+          "period": "Exact payment date unavailable; earlier bail narrative describes June–December 2020"
+        }
+      ],
+      "domains": [
+        "public-funds",
+        "welfare",
+        "disaster-relief",
+        "justice"
+      ],
+      "layers": [
+        "funding",
+        "legal"
+      ],
+      "geography": [
+        {
+          "scope": "city",
+          "stateCodes": [
+            "MH"
+          ],
+          "localityIds": [
+            "mumbai"
+          ],
+          "basis": "programme-coverage",
+          "note": "Mumbai food-distribution programme association, not a private address or transaction GPS. Tribunal sits in New Delhi; that is not where the underlying public money was spent.",
+          "sourceIds": [
+            "tribunal-2026"
+          ]
+        }
+      ],
+      "route": "/money-trails",
+      "sourceIds": [
+        "tribunal-2026"
+      ],
+      "limitations": [
+        "This court-recorded narrative is not an independently inspected transaction-level bank ledger."
+      ]
+    },
+    {
+      "id": "tribunal-attachment",
+      "from": "tribunal",
+      "to": "attachment-pool",
+      "kind": "legal-outcome",
+      "label": "13 July 2026: attachment appeal dismissed",
+      "tier": "documented",
+      "status": "attachment-appeal-dismissed-not-conviction",
+      "statusAsOf": "2026-07-13",
+      "fromDate": "2026-07-13",
+      "toDate": "2026-07-13",
+      "dateBasis": "Exact appellate decision date 13 July 2026, not acquisition or payment date.",
+      "summary": "Tribunal §7 values attached property at ₹88,51,500 and §§19–20 dismisses appeal to preserve assets until trial concludes. This is neither money paid by the tribunal nor a criminal conviction.",
+      "alternativeExplanations": [
+        "Commercial subcontract payments can pay for genuine services. Gross receipts or unallocated balances are not automatically profit, stolen funds or personal benefit.",
+        "Emergency implementation, rounding, tax, other costs or period scope may explain differences; original records are needed to decide."
+      ],
+      "falsifier": "Original bank statements, matched receipt vouchers, procurement invoices, returns or a subsequent controlling order could qualify this narrative.",
+      "responseIds": [
+        "tribunal-response",
+        "bail-counter"
+      ],
+      "recordIds": [
+        "attachment-outcome"
+      ],
+      "amounts": [],
+      "domains": [
+        "public-funds",
+        "welfare",
+        "disaster-relief",
+        "justice"
+      ],
+      "layers": [
+        "legal"
+      ],
+      "geography": [
+        {
+          "scope": "city",
+          "stateCodes": [
+            "MH"
+          ],
+          "localityIds": [
+            "mumbai"
+          ],
+          "basis": "programme-coverage",
+          "note": "Mumbai food-distribution programme association, not a private address or transaction GPS. Tribunal sits in New Delhi; that is not where the underlying public money was spent.",
+          "sourceIds": [
+            "tribunal-2026"
+          ]
+        }
+      ],
+      "route": "/money-trails",
+      "sourceIds": [
+        "tribunal-2026"
+      ],
+      "limitations": [
+        "No attachment schedule, property purchase price or final confiscation order retrieved."
+      ]
+    },
+    {
+      "id": "bail-order",
+      "from": "bhc",
+      "to": "chavan",
+      "kind": "legal-outcome",
+      "label": "4 February 2025: conditional bail",
+      "tier": "reported",
+      "status": "conditional-bail-not-acquittal",
+      "statusAsOf": "2025-02-04",
+      "fromDate": "2025-02-04",
+      "toDate": "2025-02-04",
+      "dateBasis": "Exact bail decision date 4 February 2025; not a current custody or final innocence finding.",
+      "summary": "High Court granted bail based on prolonged custody and trial delay, with substantive prima-facie evidential observations reserved to bail.",
+      "alternativeExplanations": [
+        "Commercial subcontract payments can pay for genuine services. Gross receipts or unallocated balances are not automatically profit, stolen funds or personal benefit.",
+        "Emergency implementation, rounding, tax, other costs or period scope may explain differences; original records are needed to decide."
+      ],
+      "falsifier": "Original bank statements, matched receipt vouchers, procurement invoices, returns or a subsequent controlling order could qualify this narrative.",
+      "responseIds": [
+        "bail-counter"
+      ],
+      "recordIds": [
+        "bail-outcome"
+      ],
+      "amounts": [],
+      "domains": [
+        "public-funds",
+        "welfare",
+        "disaster-relief",
+        "justice"
+      ],
+      "layers": [
+        "legal"
+      ],
+      "geography": [
+        {
+          "scope": "city",
+          "stateCodes": [
+            "MH"
+          ],
+          "localityIds": [
+            "mumbai"
+          ],
+          "basis": "programme-coverage",
+          "note": "Mumbai food-distribution programme association, not a private address or transaction GPS. Tribunal sits in New Delhi; that is not where the underlying public money was spent.",
+          "sourceIds": [
+            "bail-2025"
+          ]
+        }
+      ],
+      "route": "/money-trails",
+      "sourceIds": [
+        "bail-2025"
+      ],
+      "limitations": [
+        "Mirror text; official PDF unavailable."
+      ]
+    },
+    {
+      "id": "kadam-role",
+      "from": "kadam",
+      "to": "sahyadri",
+      "kind": "role",
+      "label": "Court-named contractor role",
+      "tier": "documented",
+      "status": "court-named-role-context",
+      "statusAsOf": "2026-07-13",
+      "fromDate": null,
+      "toDate": null,
+      "dateBasis": "Order date is source/status date. Account analysis covers 1 April 2020–31 March 2021 where specified; individual transaction dates are not available.",
+      "summary": "Tribunal §2 describes Sunil Kadam and Rajiv Salunkhe ownership of the case-scoped contractor; §5 describes Kadam acting on its behalf.",
+      "alternativeExplanations": [
+        "Commercial subcontract payments can pay for genuine services. Gross receipts or unallocated balances are not automatically profit, stolen funds or personal benefit.",
+        "Emergency implementation, rounding, tax, other costs or period scope may explain differences; original records are needed to decide."
+      ],
+      "falsifier": "Original bank statements, matched receipt vouchers, procurement invoices, returns or a subsequent controlling order could qualify this narrative.",
+      "responseIds": [
+        "bail-counter"
+      ],
+      "recordIds": [
+        "contractor-roles"
+      ],
+      "amounts": [],
+      "domains": [
+        "public-funds",
+        "welfare",
+        "disaster-relief",
+        "justice"
+      ],
+      "layers": [
+        "people",
+        "organisations"
+      ],
+      "geography": [
+        {
+          "scope": "city",
+          "stateCodes": [
+            "MH"
+          ],
+          "localityIds": [
+            "mumbai"
+          ],
+          "basis": "programme-coverage",
+          "note": "Mumbai food-distribution programme association, not a private address or transaction GPS. Tribunal sits in New Delhi; that is not where the underlying public money was spent.",
+          "sourceIds": [
+            "tribunal-2026"
+          ]
+        }
+      ],
+      "route": "/money-trails",
+      "sourceIds": [
+        "tribunal-2026"
+      ],
+      "limitations": [
+        "Court-scoped business role, not a verified beneficial-shareholding percentage or separate financial transfer."
+      ]
+    },
+    {
+      "id": "salunkhe-role",
+      "from": "salunkhe",
+      "to": "sahyadri",
+      "kind": "role",
+      "label": "Court-named contractor role",
+      "tier": "documented",
+      "status": "court-named-role-context",
+      "statusAsOf": "2026-07-13",
+      "fromDate": null,
+      "toDate": null,
+      "dateBasis": "Order date is source/status date. Account analysis covers 1 April 2020–31 March 2021 where specified; individual transaction dates are not available.",
+      "summary": "Tribunal §2 names Salunkhe as owner. No percentage, registry identity or onward personal transfer established.",
+      "alternativeExplanations": [
+        "Commercial subcontract payments can pay for genuine services. Gross receipts or unallocated balances are not automatically profit, stolen funds or personal benefit.",
+        "Emergency implementation, rounding, tax, other costs or period scope may explain differences; original records are needed to decide."
+      ],
+      "falsifier": "Original bank statements, matched receipt vouchers, procurement invoices, returns or a subsequent controlling order could qualify this narrative.",
+      "responseIds": [
+        "bail-counter"
+      ],
+      "recordIds": [
+        "contractor-roles"
+      ],
+      "amounts": [],
+      "domains": [
+        "public-funds",
+        "welfare",
+        "disaster-relief",
+        "justice"
+      ],
+      "layers": [
+        "people",
+        "organisations"
+      ],
+      "geography": [
+        {
+          "scope": "city",
+          "stateCodes": [
+            "MH"
+          ],
+          "localityIds": [
+            "mumbai"
+          ],
+          "basis": "programme-coverage",
+          "note": "Mumbai food-distribution programme association, not a private address or transaction GPS. Tribunal sits in New Delhi; that is not where the underlying public money was spent.",
+          "sourceIds": [
+            "tribunal-2026"
+          ]
+        }
+      ],
+      "route": "/money-trails",
+      "sourceIds": [
+        "tribunal-2026"
+      ],
+      "limitations": [
+        "Court-scoped business role, not a verified beneficial-shareholding percentage or separate financial transfer."
+      ]
+    },
+    {
+      "id": "mali-role",
+      "from": "mali",
+      "to": "sneha",
+      "kind": "role",
+      "label": "Court-named contractor role",
+      "tier": "documented",
+      "status": "court-named-role-context",
+      "statusAsOf": "2026-07-13",
+      "fromDate": null,
+      "toDate": null,
+      "dateBasis": "Order date is source/status date. Account analysis covers 1 April 2020–31 March 2021 where specified; individual transaction dates are not available.",
+      "summary": "Tribunal §§3–4 names Sanjay Mali of Sneha; business role only, no independent personal receipt inferred.",
+      "alternativeExplanations": [
+        "Commercial subcontract payments can pay for genuine services. Gross receipts or unallocated balances are not automatically profit, stolen funds or personal benefit.",
+        "Emergency implementation, rounding, tax, other costs or period scope may explain differences; original records are needed to decide."
+      ],
+      "falsifier": "Original bank statements, matched receipt vouchers, procurement invoices, returns or a subsequent controlling order could qualify this narrative.",
+      "responseIds": [
+        "bail-counter"
+      ],
+      "recordIds": [
+        "contractor-roles"
+      ],
+      "amounts": [],
+      "domains": [
+        "public-funds",
+        "welfare",
+        "disaster-relief",
+        "justice"
+      ],
+      "layers": [
+        "people",
+        "organisations"
+      ],
+      "geography": [
+        {
+          "scope": "city",
+          "stateCodes": [
+            "MH"
+          ],
+          "localityIds": [
+            "mumbai"
+          ],
+          "basis": "programme-coverage",
+          "note": "Mumbai food-distribution programme association, not a private address or transaction GPS. Tribunal sits in New Delhi; that is not where the underlying public money was spent.",
+          "sourceIds": [
+            "tribunal-2026"
+          ]
+        }
+      ],
+      "route": "/money-trails",
+      "sourceIds": [
+        "tribunal-2026"
+      ],
+      "limitations": [
+        "Court-scoped business role, not a verified beneficial-shareholding percentage or separate financial transfer."
+      ]
+    },
+    {
+      "id": "keer-role",
+      "from": "keer",
+      "to": "golden",
+      "kind": "role",
+      "label": "Court-named contractor role",
+      "tier": "documented",
+      "status": "court-named-role-context",
+      "statusAsOf": "2026-07-13",
+      "fromDate": null,
+      "toDate": null,
+      "dateBasis": "Order date is source/status date. Account analysis covers 1 April 2020–31 March 2021 where specified; individual transaction dates are not available.",
+      "summary": "Tribunal §4 identifies Amanpreet Keer of Golden Star; no personal-benefit finding inferred from supplier role.",
+      "alternativeExplanations": [
+        "Commercial subcontract payments can pay for genuine services. Gross receipts or unallocated balances are not automatically profit, stolen funds or personal benefit.",
+        "Emergency implementation, rounding, tax, other costs or period scope may explain differences; original records are needed to decide."
+      ],
+      "falsifier": "Original bank statements, matched receipt vouchers, procurement invoices, returns or a subsequent controlling order could qualify this narrative.",
+      "responseIds": [
+        "bail-counter"
+      ],
+      "recordIds": [
+        "contractor-roles"
+      ],
+      "amounts": [],
+      "domains": [
+        "public-funds",
+        "welfare",
+        "disaster-relief",
+        "justice"
+      ],
+      "layers": [
+        "people",
+        "organisations"
+      ],
+      "geography": [
+        {
+          "scope": "city",
+          "stateCodes": [
+            "MH"
+          ],
+          "localityIds": [
+            "mumbai"
+          ],
+          "basis": "programme-coverage",
+          "note": "Mumbai food-distribution programme association, not a private address or transaction GPS. Tribunal sits in New Delhi; that is not where the underlying public money was spent.",
+          "sourceIds": [
+            "tribunal-2026"
+          ]
+        }
+      ],
+      "route": "/money-trails",
+      "sourceIds": [
+        "tribunal-2026"
+      ],
+      "limitations": [
+        "Court-scoped business role, not a verified beneficial-shareholding percentage or separate financial transfer."
+      ]
+    },
+    {
+      "id": "mashilkar-force",
+      "from": "mashilkar",
+      "to": "force-one",
+      "kind": "role",
+      "label": "Partner identified by court and RTI reporting",
+      "tier": "reported",
+      "status": "dated-partnership-role-context",
+      "statusAsOf": "2025-02-04",
+      "fromDate": null,
+      "toDate": null,
+      "dateBasis": "Order date is source/status date. Account analysis covers 1 April 2020–31 March 2021 where specified; individual transaction dates are not available.",
+      "summary": "Bail §9.2 cites Sanjay Mashilkar’s partner statement and deed; Indian Express’s RTI-based account says he owned Force One with his sons as partners.",
+      "alternativeExplanations": [
+        "Commercial subcontract payments can pay for genuine services. Gross receipts or unallocated balances are not automatically profit, stolen funds or personal benefit.",
+        "Emergency implementation, rounding, tax, other costs or period scope may explain differences; original records are needed to decide."
+      ],
+      "falsifier": "Original bank statements, matched receipt vouchers, procurement invoices, returns or a subsequent controlling order could qualify this narrative.",
+      "responseIds": [
+        "bail-counter",
+        "mashilkar-response"
+      ],
+      "recordIds": [
+        "contractor-roles"
+      ],
+      "amounts": [],
+      "domains": [
+        "public-funds",
+        "welfare",
+        "disaster-relief",
+        "justice"
+      ],
+      "layers": [
+        "people",
+        "organisations"
+      ],
+      "geography": [
+        {
+          "scope": "city",
+          "stateCodes": [
+            "MH"
+          ],
+          "localityIds": [
+            "mumbai"
+          ],
+          "basis": "programme-coverage",
+          "note": "Mumbai food-distribution programme association, not a private address or transaction GPS. Tribunal sits in New Delhi; that is not where the underlying public money was spent.",
+          "sourceIds": [
+            "bail-2025",
+            "rti-role-2023"
+          ]
+        }
+      ],
+      "route": "/money-trails",
+      "sourceIds": [
+        "bail-2025",
+        "rti-role-2023"
+      ],
+      "limitations": [
+        "Original partnership deed and RTI annexure not independently retrieved; no ownership percentages."
+      ]
+    },
+    {
+      "id": "mashilkar-multibuild",
+      "from": "mashilkar",
+      "to": "multibuild",
+      "kind": "reported-role-context",
+      "label": "Reported historical business association — no cash link",
+      "tier": "reported",
+      "status": "historical-reported-business-context-no-cash-link",
+      "statusAsOf": "2023-12-03",
+      "fromDate": null,
+      "toDate": null,
+      "dateBasis": "Order date is source/status date. Account analysis covers 1 April 2020–31 March 2021 where specified; individual transaction dates are not available.",
+      "summary": "December 2023 reporting names Mashilkar and Vaze as business associates in Multibuild. Mashilkar says it shut within months without contracts. No source supplies any flow between this firm, Force One, Vaze or municipal food money.",
+      "alternativeExplanations": [
+        "A lawful, short-lived business venture is consistent with Mashilkar’s response. The association does not establish procurement influence or proceeds."
+      ],
+      "falsifier": "Original bank statements, matched receipt vouchers, procurement invoices, returns or a subsequent controlling order could qualify this narrative.",
+      "responseIds": [
+        "mashilkar-response"
+      ],
+      "recordIds": [
+        "historical-role-context"
+      ],
+      "amounts": [],
+      "domains": [
+        "public-funds",
+        "welfare",
+        "disaster-relief",
+        "justice"
+      ],
+      "layers": [
+        "people",
+        "organisations"
+      ],
+      "geography": [
+        {
+          "scope": "city",
+          "stateCodes": [
+            "MH"
+          ],
+          "localityIds": [
+            "mumbai"
+          ],
+          "basis": "programme-coverage",
+          "note": "Mumbai food-distribution programme association, not a private address or transaction GPS. Tribunal sits in New Delhi; that is not where the underlying public money was spent.",
+          "sourceIds": [
+            "rti-role-2023"
+          ]
+        }
+      ],
+      "route": "/money-trails",
+      "sourceIds": [
+        "rti-role-2023"
+      ],
+      "limitations": [
+        "No exact appointment/cessation dates, CIN or formal shareholding verified. Never treat this as a money transfer."
+      ]
+    },
+    {
+      "id": "vaze-multibuild",
+      "from": "vaze",
+      "to": "multibuild",
+      "kind": "reported-role-context",
+      "label": "Reported historical business association — no cash link",
+      "tier": "reported",
+      "status": "historical-reported-business-context-no-cash-link",
+      "statusAsOf": "2023-12-03",
+      "fromDate": null,
+      "toDate": null,
+      "dateBasis": "Order date is source/status date. Account analysis covers 1 April 2020–31 March 2021 where specified; individual transaction dates are not available.",
+      "summary": "December 2023 reporting names Mashilkar and Vaze as business associates in Multibuild. Mashilkar says it shut within months without contracts. No source supplies any flow between this firm, Force One, Vaze or municipal food money.",
+      "alternativeExplanations": [
+        "A lawful, short-lived business venture is consistent with Mashilkar’s response. The association does not establish procurement influence or proceeds."
+      ],
+      "falsifier": "Original bank statements, matched receipt vouchers, procurement invoices, returns or a subsequent controlling order could qualify this narrative.",
+      "responseIds": [
+        "mashilkar-response"
+      ],
+      "recordIds": [
+        "historical-role-context"
+      ],
+      "amounts": [],
+      "domains": [
+        "public-funds",
+        "welfare",
+        "disaster-relief",
+        "justice"
+      ],
+      "layers": [
+        "people",
+        "organisations"
+      ],
+      "geography": [
+        {
+          "scope": "city",
+          "stateCodes": [
+            "MH"
+          ],
+          "localityIds": [
+            "mumbai"
+          ],
+          "basis": "programme-coverage",
+          "note": "Mumbai food-distribution programme association, not a private address or transaction GPS. Tribunal sits in New Delhi; that is not where the underlying public money was spent.",
+          "sourceIds": [
+            "rti-role-2023"
+          ]
+        }
+      ],
+      "route": "/money-trails",
+      "sourceIds": [
+        "rti-role-2023"
+      ],
+      "limitations": [
+        "No exact appointment/cessation dates, CIN or formal shareholding verified. Never treat this as a money transfer."
+      ]
+    }
+  ],
+  "records": [
+    {
+      "id": "khichdi-trace",
+      "title": "Mumbai food money: municipal receipts, two prime contractors and an attachment ruling",
+      "summary": "New official July 2026 attachment order adds Sahyadri → FNJ ₹2.65 crore and Sahyadri → Force One ₹45 lakh, exact Force One caterer receipts and ₹1.25 crore individual receipt. Underlying bank exhibits, ultimate end-use and procurement acceptance reconciliation remain unavailable. The earlier ₹1.35 crore allegation is retained once as overlapping aggregate, not added to ₹1.25 crore or attachment value.",
+      "kind": "investigation-case",
+      "tier": "alleged",
+      "status": "attachment-appeal-dismissed-criminal-merits-not-determined-here",
+      "statusAsOf": "2026-07-13",
+      "fromDate": null,
+      "toDate": null,
+      "dateBasis": "Source dates are shown separately from 2020 conduct/accounting periods; no exact missing transaction date invented.",
+      "entityIds": [
+        "bmc",
+        "sahyadri",
+        "force-one",
+        "fnj",
+        "sneha",
+        "golden",
+        "chavan",
+        "tribunal",
+        "attachment-pool"
+      ],
+      "relationshipIds": [
+        "bmc-sahyadri",
+        "sahyadri-fnj",
+        "sahyadri-force",
+        "bmc-force",
+        "force-sneha",
+        "force-golden",
+        "force-chavan",
+        "tribunal-attachment"
+      ],
+      "period": "FY 2020–21 payments; 2025 bail; 13 July 2026 attachment appeal",
+      "response": "Read the retained February 2025 bail counterevidence, July 2026 attachment response, source inconsistencies and missing underlying ledgers together.",
+      "alternativeExplanations": [
+        "Commercial subcontract payments can pay for genuine services. Gross receipts or unallocated balances are not automatically profit, stolen funds or personal benefit.",
+        "Emergency implementation, rounding, tax, other costs or period scope may explain differences; original records are needed to decide."
+      ],
+      "falsifier": "Primary work-order/bank/acceptance records, a corrected judicial record or later controlling disposition may require revision.",
+      "amounts": [
+        {
+          "value": 1.35,
+          "currency": "INR",
+          "unit": "crore",
+          "stage": "Earlier alleged combined individual/partnership benefit; overlaps ₹1.25 crore individual receipt, not a second flow",
+          "period": "June–December 2020 narrative in February 2025 bail record"
+        }
+      ],
+      "domains": [
+        "public-funds",
+        "welfare",
+        "disaster-relief",
+        "justice"
+      ],
+      "layers": [
+        "funding",
+        "legal"
+      ],
+      "geography": [
+        {
+          "scope": "city",
+          "stateCodes": [
+            "MH"
+          ],
+          "localityIds": [
+            "mumbai"
+          ],
+          "basis": "programme-coverage",
+          "note": "Mumbai food-distribution programme association, not a private address or transaction GPS. Tribunal sits in New Delhi; that is not where the underlying public money was spent.",
+          "sourceIds": [
+            "tribunal-2026",
+            "bail-2025",
+            "eow-2025"
+          ]
+        }
+      ],
+      "route": "/money-trails",
+      "sourceIds": [
+        "tribunal-2026",
+        "bail-2025",
+        "eow-2025"
+      ],
+      "limitations": [
+        "Not a complete source-and-application-of-funds ledger. No exact ₹10 lakh partnership split inferred by subtracting figures in different proceedings."
+      ]
+    },
+    {
+      "id": "attachment-outcome",
+      "title": "13 July 2026: appeal dismissed; ₹88,51,500 attached-property value",
+      "summary": "FPA-PMLA-1785/MUM/2024 challenged confirmation dated 28 August 2024 of provisional attachment dated 12 March 2024. Tribunal §§17–20 rejected salary/loan explanations on the material shown and dismissed appeal. §19 expressly secures property until trial concludes.",
+      "kind": "case-outcome",
+      "tier": "documented",
+      "status": "attachment-appeal-dismissed-not-conviction",
+      "statusAsOf": "2026-07-13",
+      "fromDate": "2026-07-13",
+      "toDate": "2026-07-13",
+      "dateBasis": "Source dates are shown separately from 2020 conduct/accounting periods; no exact missing transaction date invented.",
+      "entityIds": [
+        "tribunal",
+        "chavan",
+        "attachment-pool"
+      ],
+      "relationshipIds": [
+        "tribunal-attachment",
+        "force-chavan"
+      ],
+      "period": "FY 2020–21 payments; 2025 bail; 13 July 2026 attachment appeal",
+      "response": "Counsel contested opportunity to be heard, involvement in obtaining contracts and the alleged character of receipts; tribunal rejected the salary and loan explanations for attachment. Criminal merits remain a separate process.",
+      "alternativeExplanations": [
+        "Commercial subcontract payments can pay for genuine services. Gross receipts or unallocated balances are not automatically profit, stolen funds or personal benefit.",
+        "Emergency implementation, rounding, tax, other costs or period scope may explain differences; original records are needed to decide."
+      ],
+      "falsifier": "Primary work-order/bank/acceptance records, a corrected judicial record or later controlling disposition may require revision.",
+      "amounts": [
+        {
+          "value": 88.515,
+          "currency": "INR",
+          "unit": "lakh",
+          "stage": "Property attachment value, not individual receipt, cash recovery or criminal fine",
+          "period": "Attachment 12 March 2024; confirmation 28 August 2024; appeal 13 July 2026"
+        }
+      ],
+      "domains": [
+        "public-funds",
+        "welfare",
+        "disaster-relief",
+        "justice"
+      ],
+      "layers": [
+        "funding",
+        "legal"
+      ],
+      "geography": [
+        {
+          "scope": "city",
+          "stateCodes": [
+            "MH"
+          ],
+          "localityIds": [
+            "mumbai"
+          ],
+          "basis": "programme-coverage",
+          "note": "Mumbai food-distribution programme association, not a private address or transaction GPS. Tribunal sits in New Delhi; that is not where the underlying public money was spent.",
+          "sourceIds": [
+            "tribunal-2026"
+          ]
+        }
+      ],
+      "route": "/money-trails",
+      "sourceIds": [
+        "tribunal-2026"
+      ],
+      "limitations": [
+        "No later controlling appeal located in bounded 7 October 2026 search; not a certified complete docket."
+      ]
+    },
+    {
+      "id": "tribunal-response",
+      "title": "Attachment response: salary, loan and hearing objections considered",
+      "summary": "Tribunal §§9–13 records Chavan’s complaints about opportunity to respond, denial of any role obtaining the contract, salary and loan explanations. §§17–18 says counsel did not show an appointment order, loan document or repayment and §20 dismisses appeal.",
+      "kind": "response",
+      "tier": "documented",
+      "status": "dated-source-record",
+      "statusAsOf": "2026-07-13",
+      "fromDate": null,
+      "toDate": null,
+      "dateBasis": "Source dates are shown separately from 2020 conduct/accounting periods; no exact missing transaction date invented.",
+      "entityIds": [
+        "chavan",
+        "tribunal"
+      ],
+      "relationshipIds": [
+        "force-chavan",
+        "tribunal-attachment"
+      ],
+      "period": "FY 2020–21 payments; 2025 bail; 13 July 2026 attachment appeal",
+      "response": "These are arguments as presented and assessed in the attachment appeal, not a finding that no document could ever exist. February 2025 bail text discusses appointment letters; the difference is explicitly retained.",
+      "alternativeExplanations": [
+        "Commercial subcontract payments can pay for genuine services. Gross receipts or unallocated balances are not automatically profit, stolen funds or personal benefit.",
+        "Emergency implementation, rounding, tax, other costs or period scope may explain differences; original records are needed to decide."
+      ],
+      "falsifier": "Primary work-order/bank/acceptance records, a corrected judicial record or later controlling disposition may require revision.",
+      "amounts": [],
+      "domains": [
+        "public-funds",
+        "welfare",
+        "disaster-relief",
+        "justice"
+      ],
+      "layers": [
+        "funding",
+        "legal"
+      ],
+      "geography": [
+        {
+          "scope": "city",
+          "stateCodes": [
+            "MH"
+          ],
+          "localityIds": [
+            "mumbai"
+          ],
+          "basis": "programme-coverage",
+          "note": "Mumbai food-distribution programme association, not a private address or transaction GPS. Tribunal sits in New Delhi; that is not where the underlying public money was spent.",
+          "sourceIds": [
+            "tribunal-2026"
+          ]
+        }
+      ],
+      "route": "/money-trails",
+      "sourceIds": [
+        "tribunal-2026"
+      ],
+      "limitations": [
+        "Different proceedings and records; absence of a document shown to this tribunal is not universal proof of non-existence."
+      ]
+    },
+    {
+      "id": "bail-counter",
+      "title": "Earlier court counterevidence: licensed kitchens, completion records and packet-proof gap",
+      "summary": "Bail §15.1 records valid caterer licences, no shown requirement that Force One own a kitchen, municipal completion/satisfaction approval and prima-facie absence of official BMC proof of underweight packets. §9.2 identifies partnership deed and 1 December 2019 premises agreement. §20 restricts observations to bail.",
+      "kind": "counter-evidence",
+      "tier": "reported",
+      "status": "dated-source-record",
+      "statusAsOf": "2025-02-04",
+      "fromDate": null,
+      "toDate": null,
+      "dateBasis": "Source dates are shown separately from 2020 conduct/accounting periods; no exact missing transaction date invented.",
+      "entityIds": [
+        "bmc",
+        "force-one",
+        "sneha",
+        "golden",
+        "chavan"
+      ],
+      "relationshipIds": [
+        "bmc-force",
+        "force-sneha",
+        "force-golden",
+        "force-chavan"
+      ],
+      "period": "2020–21 documentation assessed 4 February 2025",
+      "response": "Later tribunal §16 accepts the lighter-packet narrative for attachment; the two assessments are shown with forum/date/purpose. This record is neither erased nor treated as a final acquittal.",
+      "alternativeExplanations": [
+        "Commercial subcontract payments can pay for genuine services. Gross receipts or unallocated balances are not automatically profit, stolen funds or personal benefit.",
+        "Emergency implementation, rounding, tax, other costs or period scope may explain differences; original records are needed to decide."
+      ],
+      "falsifier": "Primary work-order/bank/acceptance records, a corrected judicial record or later controlling disposition may require revision.",
+      "amounts": [],
+      "domains": [
+        "public-funds",
+        "welfare",
+        "disaster-relief",
+        "justice"
+      ],
+      "layers": [
+        "funding",
+        "legal"
+      ],
+      "geography": [
+        {
+          "scope": "city",
+          "stateCodes": [
+            "MH"
+          ],
+          "localityIds": [
+            "mumbai"
+          ],
+          "basis": "programme-coverage",
+          "note": "Mumbai food-distribution programme association, not a private address or transaction GPS. Tribunal sits in New Delhi; that is not where the underlying public money was spent.",
+          "sourceIds": [
+            "bail-2025"
+          ]
+        }
+      ],
+      "route": "/money-trails",
+      "sourceIds": [
+        "bail-2025"
+      ],
+      "limitations": [
+        "The source contains an impossible 30 February 2021 approval date in §15.1; §2 says 10 February 2021. Original municipal resolution is required, no silent date correction."
+      ]
+    },
+    {
+      "id": "bail-outcome",
+      "title": "4 February 2025: conditional bail, not final merits",
+      "summary": "High Court granted conditional bail after prolonged custody, completed ED investigation and likely trial delay. Its statement that predicate chargesheet was then unfiled is time-bounded and updated by May 2025 reporting.",
+      "kind": "case-outcome",
+      "tier": "reported",
+      "status": "conditional-bail-not-acquittal",
+      "statusAsOf": "2025-02-04",
+      "fromDate": "2025-02-04",
+      "toDate": "2025-02-04",
+      "dateBasis": "Source dates are shown separately from 2020 conduct/accounting periods; no exact missing transaction date invented.",
+      "entityIds": [
+        "chavan",
+        "bhc"
+      ],
+      "relationshipIds": [
+        "bail-order"
+      ],
+      "period": "FY 2020–21 payments; 2025 bail; 13 July 2026 attachment appeal",
+      "response": "Bail remained analytically distinct from later attachment appeal and does not resolve criminal guilt.",
+      "alternativeExplanations": [
+        "Commercial subcontract payments can pay for genuine services. Gross receipts or unallocated balances are not automatically profit, stolen funds or personal benefit.",
+        "Emergency implementation, rounding, tax, other costs or period scope may explain differences; original records are needed to decide."
+      ],
+      "falsifier": "Primary work-order/bank/acceptance records, a corrected judicial record or later controlling disposition may require revision.",
+      "amounts": [],
+      "domains": [
+        "public-funds",
+        "welfare",
+        "disaster-relief",
+        "justice"
+      ],
+      "layers": [
+        "funding",
+        "legal"
+      ],
+      "geography": [
+        {
+          "scope": "city",
+          "stateCodes": [
+            "MH"
+          ],
+          "localityIds": [
+            "mumbai"
+          ],
+          "basis": "programme-coverage",
+          "note": "Mumbai food-distribution programme association, not a private address or transaction GPS. Tribunal sits in New Delhi; that is not where the underlying public money was spent.",
+          "sourceIds": [
+            "bail-2025",
+            "eow-2025"
+          ]
+        }
+      ],
+      "route": "/money-trails",
+      "sourceIds": [
+        "bail-2025",
+        "eow-2025"
+      ],
+      "limitations": [
+        "No assertion of present custody or latest trial stage."
+      ]
+    },
+    {
+      "id": "reconciliation",
+      "title": "Reconciliation check: four money populations and inconsistent rounding",
+      "summary": "Sahyadri gross receipts ₹5,92,17,002.90 minus named ₹2.65 crore+₹45 lakh transfers leaves ₹2,82,17,002.90 before other costs. Force One exact named caterer payments sum ₹4,96,78,000; order rounds to ₹4.96 crore and retained ₹3.68 crore. §6 BMC receipt typography is malformed, while §8 omits paise. Earlier rounded ₹8.64−₹4.20−₹0.84=₹3.60 crore, not the narrative ₹3.64 crore. These are reconciliation gaps, not new loss findings.",
+      "kind": "review-question",
+      "tier": "analytic",
+      "status": "dated-source-record",
+      "statusAsOf": "2026-07-13",
+      "fromDate": null,
+      "toDate": null,
+      "dateBasis": "Source dates are shown separately from 2020 conduct/accounting periods; no exact missing transaction date invented.",
+      "entityIds": [
+        "bmc",
+        "sahyadri",
+        "force-one",
+        "fnj",
+        "sneha",
+        "golden",
+        "chavan",
+        "attachment-pool"
+      ],
+      "relationshipIds": [
+        "bmc-sahyadri",
+        "sahyadri-fnj",
+        "sahyadri-force",
+        "bmc-force",
+        "force-sneha",
+        "force-golden",
+        "force-chavan"
+      ],
+      "period": "FY 2020–21 payments; 2025 bail; 13 July 2026 attachment appeal",
+      "response": "Tax, rounding, omitted costs, different periods and different litigation propositions must be checked before labelling the balance profit or proceeds. ₹1.25 crore receipt, ₹1.35 crore combined allegation and ₹88.515 lakh attachment must never be summed.",
+      "alternativeExplanations": [
+        "Commercial subcontract payments can pay for genuine services. Gross receipts or unallocated balances are not automatically profit, stolen funds or personal benefit.",
+        "Emergency implementation, rounding, tax, other costs or period scope may explain differences; original records are needed to decide."
+      ],
+      "falsifier": "Primary work-order/bank/acceptance records, a corrected judicial record or later controlling disposition may require revision.",
+      "amounts": [],
+      "domains": [
+        "public-funds",
+        "welfare",
+        "disaster-relief",
+        "justice"
+      ],
+      "layers": [
+        "funding",
+        "legal"
+      ],
+      "geography": [
+        {
+          "scope": "city",
+          "stateCodes": [
+            "MH"
+          ],
+          "localityIds": [
+            "mumbai"
+          ],
+          "basis": "programme-coverage",
+          "note": "Mumbai food-distribution programme association, not a private address or transaction GPS. Tribunal sits in New Delhi; that is not where the underlying public money was spent.",
+          "sourceIds": [
+            "tribunal-2026",
+            "bail-2025",
+            "eow-2025"
+          ]
+        }
+      ],
+      "route": "/money-trails",
+      "sourceIds": [
+        "tribunal-2026",
+        "bail-2025",
+        "eow-2025"
+      ],
+      "limitations": [
+        "Arithmetic is a diagnostic based on reported source figures, not an audited financial reconstruction. No balance is attached as a new financial graph edge."
+      ]
+    },
+    {
+      "id": "predicate-update",
+      "title": "9 May 2025: reported predicate chargesheet against eight",
+      "summary": "Indian Express reports EOW filed before 47th Esplanade court against Kadam, Salunkhe, Patkar, Mashilkar and sons, Chavan and Amol Kirtikar; additional forgery allegations concerned MoU authenticity. This updates the February 2025 procedural absence of predicate filing.",
+      "kind": "procedural-update",
+      "tier": "reported",
+      "status": "dated-source-record",
+      "statusAsOf": "2025-05-09",
+      "fromDate": null,
+      "toDate": null,
+      "dateBasis": "Source dates are shown separately from 2020 conduct/accounting periods; no exact missing transaction date invented.",
+      "entityIds": [
+        "eow",
+        "chavan",
+        "force-one",
+        "sahyadri",
+        "mashilkar"
+      ],
+      "relationshipIds": [],
+      "period": "FY 2020–21 payments; 2025 bail; 13 July 2026 attachment appeal",
+      "response": "Chargesheet is an accusation, not conviction. Original filing, exhibits and defendants’ specific responses to later forgery allegation remain needed.",
+      "alternativeExplanations": [
+        "Commercial subcontract payments can pay for genuine services. Gross receipts or unallocated balances are not automatically profit, stolen funds or personal benefit.",
+        "Emergency implementation, rounding, tax, other costs or period scope may explain differences; original records are needed to decide."
+      ],
+      "falsifier": "Primary work-order/bank/acceptance records, a corrected judicial record or later controlling disposition may require revision.",
+      "amounts": [],
+      "domains": [
+        "public-funds",
+        "welfare",
+        "disaster-relief",
+        "justice"
+      ],
+      "layers": [
+        "funding",
+        "legal"
+      ],
+      "geography": [
+        {
+          "scope": "city",
+          "stateCodes": [
+            "MH"
+          ],
+          "localityIds": [
+            "mumbai"
+          ],
+          "basis": "programme-coverage",
+          "note": "Mumbai food-distribution programme association, not a private address or transaction GPS. Tribunal sits in New Delhi; that is not where the underlying public money was spent.",
+          "sourceIds": [
+            "eow-2025"
+          ]
+        }
+      ],
+      "route": "/money-trails",
+      "sourceIds": [
+        "eow-2025"
+      ],
+      "limitations": [
+        "No monetary edge based on inconsistent media ₹14.57 crore wrongful-gain description."
+      ]
+    },
+    {
+      "id": "contractor-roles",
+      "title": "Control and execution roles explicitly named in the record",
+      "summary": "Tribunal names Kadam/Salunkhe for Sahyadri, Mali for Sneha and Keer for Golden Star. BHC identifies Mashilkar partner statement/deed. These provide named records to request; they do not establish the destination of contractor balances.",
+      "kind": "ownership-role-context",
+      "tier": "reported",
+      "status": "dated-source-record",
+      "statusAsOf": "2026-07-13",
+      "fromDate": null,
+      "toDate": null,
+      "dateBasis": "Source dates are shown separately from 2020 conduct/accounting periods; no exact missing transaction date invented.",
+      "entityIds": [
+        "kadam",
+        "salunkhe",
+        "sahyadri",
+        "mali",
+        "sneha",
+        "keer",
+        "golden",
+        "mashilkar",
+        "force-one"
+      ],
+      "relationshipIds": [
+        "kadam-role",
+        "salunkhe-role",
+        "mali-role",
+        "keer-role",
+        "mashilkar-force"
+      ],
+      "period": "FY 2020–21 payments; 2025 bail; 13 July 2026 attachment appeal",
+      "response": "Formal partnership shares, historic registry continuity and personal bank receipts remain unverified.",
+      "alternativeExplanations": [
+        "Commercial subcontract payments can pay for genuine services. Gross receipts or unallocated balances are not automatically profit, stolen funds or personal benefit.",
+        "Emergency implementation, rounding, tax, other costs or period scope may explain differences; original records are needed to decide."
+      ],
+      "falsifier": "Primary work-order/bank/acceptance records, a corrected judicial record or later controlling disposition may require revision.",
+      "amounts": [],
+      "domains": [
+        "public-funds",
+        "welfare",
+        "disaster-relief",
+        "justice"
+      ],
+      "layers": [
+        "funding",
+        "legal"
+      ],
+      "geography": [
+        {
+          "scope": "city",
+          "stateCodes": [
+            "MH"
+          ],
+          "localityIds": [
+            "mumbai"
+          ],
+          "basis": "programme-coverage",
+          "note": "Mumbai food-distribution programme association, not a private address or transaction GPS. Tribunal sits in New Delhi; that is not where the underlying public money was spent.",
+          "sourceIds": [
+            "tribunal-2026",
+            "bail-2025",
+            "rti-role-2023"
+          ]
+        }
+      ],
+      "route": "/money-trails",
+      "sourceIds": [
+        "tribunal-2026",
+        "bail-2025",
+        "rti-role-2023"
+      ],
+      "limitations": [
+        "No company-directory legal identity inferred from name matches."
+      ]
+    },
+    {
+      "id": "historical-role-context",
+      "title": "Separate historical business link: contractor partner and former police officer",
+      "summary": "RTI-based reporting names Mashilkar and Sachin Vaze in Multibuild. Mashilkar says the venture closed within months and received no contracts. The branch has no sourced food-money transfer into Multibuild or to Vaze.",
+      "kind": "ownership-role-context",
+      "tier": "reported",
+      "status": "dated-source-record",
+      "statusAsOf": "2023-12-03",
+      "fromDate": null,
+      "toDate": null,
+      "dateBasis": "Source dates are shown separately from 2020 conduct/accounting periods; no exact missing transaction date invented.",
+      "entityIds": [
+        "mashilkar",
+        "vaze",
+        "multibuild",
+        "force-one"
+      ],
+      "relationshipIds": [
+        "mashilkar-force",
+        "mashilkar-multibuild",
+        "vaze-multibuild"
+      ],
+      "period": "FY 2020–21 payments; 2025 bail; 13 July 2026 attachment appeal",
+      "response": "Association is context only; Mashilkar’s response is included. No inference against a minister, party or officer follows from proximity.",
+      "alternativeExplanations": [
+        "A lawful business relationship which generated no contracts is compatible with the reported facts."
+      ],
+      "falsifier": "Primary work-order/bank/acceptance records, a corrected judicial record or later controlling disposition may require revision.",
+      "amounts": [],
+      "domains": [
+        "public-funds",
+        "welfare",
+        "disaster-relief",
+        "justice"
+      ],
+      "layers": [
+        "funding",
+        "legal"
+      ],
+      "geography": [
+        {
+          "scope": "city",
+          "stateCodes": [
+            "MH"
+          ],
+          "localityIds": [
+            "mumbai"
+          ],
+          "basis": "programme-coverage",
+          "note": "Mumbai food-distribution programme association, not a private address or transaction GPS. Tribunal sits in New Delhi; that is not where the underlying public money was spent.",
+          "sourceIds": [
+            "rti-role-2023"
+          ]
+        }
+      ],
+      "route": "/money-trails",
+      "sourceIds": [
+        "rti-role-2023"
+      ],
+      "limitations": [
+        "Formal company identity/tenure not resolved; cannot be traversed as a financial arrow."
+      ]
+    },
+    {
+      "id": "mashilkar-response",
+      "title": "Mashilkar’s response: lawful association; venture received no contracts",
+      "summary": "December 2023 report records Mashilkar defending business association with a police officer and saying the company stopped within months because it won no contracts.",
+      "kind": "counter-evidence",
+      "tier": "reported",
+      "status": "dated-source-record",
+      "statusAsOf": "2023-12-03",
+      "fromDate": null,
+      "toDate": null,
+      "dateBasis": "Source dates are shown separately from 2020 conduct/accounting periods; no exact missing transaction date invented.",
+      "entityIds": [
+        "mashilkar",
+        "vaze",
+        "multibuild"
+      ],
+      "relationshipIds": [
+        "mashilkar-multibuild",
+        "vaze-multibuild"
+      ],
+      "period": "FY 2020–21 payments; 2025 bail; 13 July 2026 attachment appeal",
+      "response": "A direct response to the reported business link, preserved without endorsing or disproving it.",
+      "alternativeExplanations": [
+        "Closure/no contracts would undermine a theory that this venture routed food-contract money."
+      ],
+      "falsifier": "Primary work-order/bank/acceptance records, a corrected judicial record or later controlling disposition may require revision.",
+      "amounts": [],
+      "domains": [
+        "public-funds",
+        "welfare",
+        "disaster-relief",
+        "justice"
+      ],
+      "layers": [
+        "funding",
+        "legal"
+      ],
+      "geography": [
+        {
+          "scope": "city",
+          "stateCodes": [
+            "MH"
+          ],
+          "localityIds": [
+            "mumbai"
+          ],
+          "basis": "programme-coverage",
+          "note": "Mumbai food-distribution programme association, not a private address or transaction GPS. Tribunal sits in New Delhi; that is not where the underlying public money was spent.",
+          "sourceIds": [
+            "rti-role-2023"
+          ]
+        }
+      ],
+      "route": "/money-trails",
+      "sourceIds": [
+        "rti-role-2023"
+      ],
+      "limitations": [
+        "Original annual accounts and closure filings not obtained."
+      ]
+    }
+  ],
+  "localities": [
+    {
+      "id": "mumbai",
+      "name": "Mumbai",
+      "stateCode": "MH",
+      "kind": "city",
+      "aliases": [
+        "Bombay"
+      ]
+    }
+  ]
+}

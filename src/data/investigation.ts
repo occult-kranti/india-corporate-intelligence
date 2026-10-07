@@ -62,6 +62,9 @@ import metroMumbaiSecurity from '../../research/raw/metro-spending/mumbai-securi
 import metroDefence from '../../research/raw/metro-spending/defence.json';
 import metroPublicFinance from '../../research/raw/metro-spending/public-finance.json';
 import metroTenderScan from '../../research/raw/metro-spending/tender-scan.json';
+import moneyTrailsCorporate from '../../research/raw/money-trails/corporate/slice.json';
+import moneyTrailsDjb from '../../research/raw/money-trails/djb/slice.json';
+import moneyTrailsMumbai from '../../research/raw/money-trails/mumbai/slice.json';
 
 // Exact retained legal-institution IDs reviewed in finance/RECONCILIATION.json and the source-backed finance fleet.
 // This is topic classification only: evidence tiers, financial stages and source review dates do not change.
@@ -188,7 +191,7 @@ export function buildInvestigationRegistry():InvestigationRegistry{
   addRecord({id:correction.recordId,originalId:correction.originalId,namespace:'legacy',title:correction.title,summary:correction.rationale,kind:'withdrawn-correction',tier:'documented',status:correction.status,statusAsOf:allegationCorrections.reviewedAt,sourceIds,entityIds:[correction.originalEdge.s,correction.originalEdge.t].filter(id=>legacyNodeIds.has(id)).map(id=>ns('legacy','entity',id)),relationshipIds:[],domains:['governance','capital'],layers:['review'],geography:unknown(sourceIds,'The unsupported withdrawn assertion establishes no payment or event location.'),route:'/allegations',fromDate:null,toDate:null,dateBasis:'Review date is not an alleged payment date.',period:'Original claim retained for correction history',response:correction.response,alternativeExplanations:correction.alternativeExplanations,falsifier:correction.falsifier,amounts:[],limitations:correction.limitations});
  }
  // New slices use strict declared IDs; arrays are explicitly supplied by the researchers.
- for(const [space,input] of [['finance-research',financeResearch],['justice-research',justiceResearch],['welfare-research',welfareResearch],['procurement-trails',PROCUREMENT_TRAIL_SLICE],['procurement-audit',PROCUREMENT_AUDIT_SLICE],['deep-procurement',deepProcurement],['deep-corporate',deepCorporate],['deep-services',deepServices],['deep-governance',deepGovernance],['atlas-oversight',atlasOversight],['atlas-institutions',atlasInstitutions],['atlas-policy',atlasPolicy],['atlas-international-finance',atlasInternationalFinance],['atlas-defence-trade',atlasDefenceTrade],['allegations-institutions',allegationsInstitutions],['allegations-policy',allegationsPolicy],['metro-delhi-security',metroDelhiSecurity],['metro-mumbai-security',metroMumbaiSecurity],['metro-defence',metroDefence],['metro-public-finance',metroPublicFinance],['metro-tender-scan',metroTenderScan]] as [string,unknown][]){
+ for(const [space,input] of [['finance-research',financeResearch],['justice-research',justiceResearch],['welfare-research',welfareResearch],['procurement-trails',PROCUREMENT_TRAIL_SLICE],['procurement-audit',PROCUREMENT_AUDIT_SLICE],['deep-procurement',deepProcurement],['deep-corporate',deepCorporate],['deep-services',deepServices],['deep-governance',deepGovernance],['atlas-oversight',atlasOversight],['atlas-institutions',atlasInstitutions],['atlas-policy',atlasPolicy],['atlas-international-finance',atlasInternationalFinance],['atlas-defence-trade',atlasDefenceTrade],['allegations-institutions',allegationsInstitutions],['allegations-policy',allegationsPolicy],['metro-delhi-security',metroDelhiSecurity],['metro-mumbai-security',metroMumbaiSecurity],['metro-defence',metroDefence],['metro-public-finance',metroPublicFinance],['metro-tender-scan',metroTenderScan],['money-trails-corporate',moneyTrailsCorporate],['money-trails-djb',moneyTrailsDjb],['money-trails-mumbai',moneyTrailsMumbai]] as [string,unknown][]){
   const raw=input as InvestigationRawSlice;docSources(space,raw.sources);addLocalities(space,raw.localities??[]);
   const refs=(ids:string[],kind:string)=>(ids??[]).map(id=>ns(space,kind,id));
   const dimensions=(row:InvestigationDimensions)=>({domains:row.domains,layers:row.layers,geography:row.geography.map(geo=>({...geo,sourceIds:refs(geo.sourceIds,'source'),localityIds:refs(geo.localityIds,'locality')})),route:row.route,sourceIds:refs(row.sourceIds,'source'),limitations:row.limitations});
@@ -197,7 +200,7 @@ export function buildInvestigationRegistry():InvestigationRegistry{
   for(const row of raw.records)addRecord({...row,id:ns(space,'record',row.id),originalId:row.id,namespace:space,entityIds:refs(row.entityIds,'entity'),relationshipIds:refs(row.relationshipIds,'relationship'),...dimensions(row)});
   // New case authors may explicitly retain a reviewed same-identity canonical ID.
   // There is deliberately no name/symbol matching fallback.
-  if(space.startsWith('deep-')||space.startsWith('atlas-')||space.startsWith('metro-'))for(const row of raw.entities)if(row.canonicalId)pendingIdentityBridges.push({space,raw,row});
+  if(space.startsWith('deep-')||space.startsWith('atlas-')||space.startsWith('metro-')||space.startsWith('money-trails-'))for(const row of raw.entities)if(row.canonicalId)pendingIdentityBridges.push({space,raw,row});
  }
  for(const {space,raw,row} of pendingIdentityBridges){
   const canonical=row.canonicalId!,targetId=canonical.includes(':entity:')?canonical:ns('legacy','entity',canonical);

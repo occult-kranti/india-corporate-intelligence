@@ -17,6 +17,7 @@ const navGroups: { label: string; items: { path: string; label: string; icon: ty
     label: 'Markets',
     items: [
       { path: '/', label: 'Investigate India', icon: LayoutDashboard },
+      { path: '/money-trails', label: 'Trace investigations', icon: Waypoints },
       { path: '/follow-the-money', label: 'Follow the money', icon: GitBranch },
       { path: '/map', label: 'NSE / BSE map', icon: Map },
       { path: '/geograph', label: 'Geographic network', icon: Radar },
@@ -208,6 +209,7 @@ export default function Layout() {
         <nav aria-label="Primary navigation">
           <div className="atlas-primary-routes">{[
             { path: '/', label: 'National atlas', icon: Globe2 },
+            { path: '/money-trails', label: 'Trace investigations', icon: Waypoints },
             { path: '/follow-the-money', label: 'Money trails', icon: GitBranch },
             { path: '/allegations', label: 'Allegations', icon: ShieldCheck },
           ].map(({ path, label, icon: Icon }) => <NavLink key={path} to={contextualRoute(path, location.search, location.pathname)} end={path === '/'} className={({ isActive }) => `iw-rail-link${isActive ? ' is-active' : ''}`}><Icon size={19} strokeWidth={1.6} aria-hidden="true" /><span>{label}</span></NavLink>)}</div>
@@ -227,9 +229,9 @@ export default function Layout() {
             <button type="button" ref={menuRef} className="mobile-menu-button iw-all-lenses-button" aria-label="Open navigation" aria-expanded={mobileMenuOpen} aria-controls="site-nav-mobile" onClick={event => { menuRef.current = event.currentTarget; setMobileMenuOpen(true); }}><Menu size={21} aria-hidden="true" /></button>
           </div>
         </header>
-        <nav ref={sectorRef} className="atlas-mobile-sectors" aria-label="Sector shortcuts"><NavLink to={contextualRoute('/', location.search, location.pathname)} end><Globe2 size={15} aria-hidden="true" />All India</NavLink><NavLink to={contextualRoute('/follow-the-money', location.search, location.pathname)}><GitBranch size={15} aria-hidden="true" />Money trails</NavLink><NavLink to="/allegations"><ShieldCheck size={15} aria-hidden="true" />Allegations</NavLink>{sectorNavigation.map(({ path, label, icon: Icon }) => <NavLink key={path} to={contextualRoute(path, location.search, location.pathname)}><Icon size={15} aria-hidden="true" />{label}</NavLink>)}</nav>
+        <nav ref={sectorRef} className="atlas-mobile-sectors" aria-label="Sector shortcuts"><NavLink to={contextualRoute('/', location.search, location.pathname)} end><Globe2 size={15} aria-hidden="true" />All India</NavLink><NavLink to="/money-trails"><Waypoints size={15} aria-hidden="true" />Trace investigations</NavLink><NavLink to={contextualRoute('/follow-the-money', location.search, location.pathname)}><GitBranch size={15} aria-hidden="true" />Money trails</NavLink><NavLink to="/allegations"><ShieldCheck size={15} aria-hidden="true" />Allegations</NavLink>{sectorNavigation.map(({ path, label, icon: Icon }) => <NavLink key={path} to={contextualRoute(path, location.search, location.pathname)}><Icon size={15} aria-hidden="true" />{label}</NavLink>)}</nav>
         <main id="main-content" ref={mainRef} tabIndex={-1} className="site-main">
-          <div className="site-content iw-shell-content">{['/follow-the-money', '/allegations'].includes(location.pathname) ? <Outlet /> : <Workspace routeTitle={routeTitle} routeKey={location.pathname}><Outlet /></Workspace>}</div>
+          <div className="site-content iw-shell-content">{['/follow-the-money', '/money-trails', '/allegations'].includes(location.pathname) ? <Outlet /> : <Workspace routeTitle={routeTitle} routeKey={location.pathname}><Outlet /></Workspace>}</div>
         </main>
       </div>
 

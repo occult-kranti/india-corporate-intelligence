@@ -1,0 +1,1088 @@
+{
+  "schemaVersion": 1,
+  "namespace": "money-trails-corporate",
+  "cutoff": "2026-10-07",
+  "trails": [
+    {
+      "id": "money-trails-corporate:trail:gvpr-port",
+      "title": "Mumbai CCTV → corporate ownership → port and PFC finance",
+      "city": "mumbai",
+      "caseRecordId": "money-trails-corporate:record:port-case",
+      "question": "Where does the contractor’s disclosed corporate and project-finance network lead?",
+      "conclusion": "Verified corporate ownership reaches Honnavar Port and a named PFC sanction. Sponsor infusion is reported as a mixed aggregate; procurement-to-port cash origin and later debt drawdown remain untraced.",
+      "sourceStatus": "Original rating disclosures and retained government GR; bond trail separately marked pinned-mirror/reported. No corruption finding is inferred.",
+      "cutoff": "2026-10-07",
+      "hopIds": [
+        "money-trails-corporate:hop:mumbai-approval",
+        "money-trails-corporate:hop:port-ownership",
+        "money-trails-corporate:hop:pfc-public-ownership",
+        "money-trails-corporate:hop:pfc-policy-scope",
+        "money-trails-corporate:hop:pfc-sanction",
+        "money-trails-corporate:hop:promoter-infusion",
+        "money-trails-corporate:hop:port-cash-stop"
+      ],
+      "hypothesisIds": [
+        "money-trails-corporate:hypothesis:port-source"
+      ],
+      "limitations": [
+        "Branches show different entities, financial stages and dates. No total is computed across hops.",
+        "Public ratings are not the underlying bank ledger, signed contract or ultimate-beneficial-owner return."
+      ]
+    },
+    {
+      "id": "money-trails-corporate:trail:gvpr-meters",
+      "title": "Mumbai CCTV → smart-meter SPV → consumer-payment controls",
+      "city": "mumbai",
+      "caseRecordId": "money-trails-corporate:record:meter-case",
+      "question": "How is the same contractor’s meter subsidiary contracted, financed and paid?",
+      "conclusion": "Published disclosure establishes a separate SPV, estimated contract, parent guarantee and payment priority. Actual collections, drawings and onward supplier payments remain unverified.",
+      "sourceStatus": "Original rating disclosures and retained government GR; bond trail separately marked pinned-mirror/reported. No corruption finding is inferred.",
+      "cutoff": "2026-10-07",
+      "hopIds": [
+        "money-trails-corporate:hop:mumbai-approval",
+        "money-trails-corporate:hop:meter-ownership",
+        "money-trails-corporate:hop:meter-contract",
+        "money-trails-corporate:hop:meter-waterfall",
+        "money-trails-corporate:hop:meter-priority",
+        "money-trails-corporate:hop:meter-finance",
+        "money-trails-corporate:hop:meter-cash-stop"
+      ],
+      "hypothesisIds": [
+        "money-trails-corporate:hypothesis:meter-controls"
+      ],
+      "limitations": [
+        "Branches show different entities, financial stages and dates. No total is computed across hops.",
+        "Public ratings are not the underlying bank ledger, signed contract or ultimate-beneficial-owner return."
+      ]
+    },
+    {
+      "id": "money-trails-corporate:trail:gvpr-bonds",
+      "title": "GVPR donor label → ten bond serials → two political recipients",
+      "city": "mumbai",
+      "caseRecordId": "money-trails-corporate:record:donor-case",
+      "question": "What do original-form bond rows establish, and where does identity and cash-origin tracing stop?",
+      "conclusion": "Ten mirror-reproduced bond redemptions identify ₹5 crore each to BJP and President, AICC. The legal-contractor identity bridge and any procurement-funded cash path remain held.",
+      "sourceStatus": "Original rating disclosures and retained government GR; bond trail separately marked pinned-mirror/reported. No corruption finding is inferred.",
+      "cutoff": "2026-10-07",
+      "hopIds": [
+        "money-trails-corporate:hop:bond-bjp",
+        "money-trails-corporate:hop:bond-aicc",
+        "money-trails-corporate:hop:donor-identity-stop",
+        "money-trails-corporate:hop:donor-cash-stop"
+      ],
+      "hypothesisIds": [
+        "money-trails-corporate:hypothesis:donor-contract"
+      ],
+      "limitations": [
+        "Branches show different entities, financial stages and dates. No total is computed across hops.",
+        "Public ratings are not the underlying bank ledger, signed contract or ultimate-beneficial-owner return."
+      ]
+    }
+  ],
+  "hops": [
+    {
+      "id": "money-trails-corporate:hop:mumbai-approval",
+      "title": "Mumbai: approval of a negotiated bid",
+      "summary": "Home Department approved GVPR appointment at ₹2,098.92 crore including GST on 15 April 2026; GR directs subsequent work-order action. It is not payment.",
+      "basis": "contract-commitment",
+      "flowState": "commitment",
+      "fromEntityId": "metro-mumbai-security:entity:city-cctv",
+      "toEntityId": "metro-mumbai-security:entity:gvpr",
+      "entityIds": [
+        "metro-mumbai-security:entity:city-cctv",
+        "metro-mumbai-security:entity:gvpr"
+      ],
+      "relationshipIds": [
+        "metro-mumbai-security:relationship:city-cctv-gvpr"
+      ],
+      "recordIds": [
+        "metro-mumbai-security:record:city-cctv-award"
+      ],
+      "sourceIds": [
+        "metro-mumbai-security:source:cctv-gr"
+      ],
+      "sourceLocators": [
+        {
+          "sourceId": "metro-mumbai-security:source:cctv-gr",
+          "locator": "GR CCT-3125; PDF pp.2–4",
+          "role": "supports"
+        }
+      ],
+      "date": "2026-04-15",
+      "dateBasis": "Dated disclosure; exact event or snapshot is stated in the summary.",
+      "financialStage": "Accepted bid/appointment approval, not expenditure",
+      "amountRefs": [
+        {
+          "kind": "relationship",
+          "id": "metro-mumbai-security:relationship:city-cctv-gvpr",
+          "amountIndex": 0
+        }
+      ],
+      "responseRecordIds": [],
+      "counterEvidenceRecordIds": [],
+      "response": "The GR describes four bids, two technically qualified bidders and a negotiated QCBS H1 approval. It directs subsequent work-order action; no payment or duplicate billing is established.",
+      "alternatives": [
+        "The disclosed arrangement can be lawful; a document gap does not establish misconduct."
+      ],
+      "missingNextDocument": "Executed work order, stage invoices, acceptance certificates and treasury/bank payment advice",
+      "documentHolder": "Maharashtra Home Department / Mumbai Police procurement office",
+      "limitations": [
+        "Four bids and two qualified bidders; QCBS H1 is not generic price L1."
+      ]
+    },
+    {
+      "id": "money-trails-corporate:hop:port-ownership",
+      "title": "Same contractor, separate port borrower",
+      "summary": "ICRA dated Annexure II and CARE identify GVPR’s 94% holding in Honnavar Port. Ownership is context, not a route taken by CCTV money.",
+      "basis": "ownership-role-context",
+      "flowState": "context",
+      "fromEntityId": "money-trails-corporate:entity:gvpr",
+      "toEntityId": "money-trails-corporate:entity:hppl",
+      "entityIds": [
+        "money-trails-corporate:entity:gvpr",
+        "money-trails-corporate:entity:hppl"
+      ],
+      "relationshipIds": [
+        "money-trails-corporate:relationship:gvpr-hppl"
+      ],
+      "recordIds": [
+        "money-trails-corporate:record:port-case"
+      ],
+      "sourceIds": [
+        "money-trails-corporate:source:gvpr-icra-2025",
+        "money-trails-corporate:source:honnavar-care-2026"
+      ],
+      "sourceLocators": [
+        {
+          "sourceId": "money-trails-corporate:source:gvpr-icra-2025",
+          "locator": "PDF pp.1–4; Annexure II at PDF p.6",
+          "role": "supports"
+        },
+        {
+          "sourceId": "money-trails-corporate:source:honnavar-care-2026",
+          "locator": "PDF pp.1–4; Annexure 1",
+          "role": "supports"
+        }
+      ],
+      "date": "2025-11-26",
+      "dateBasis": "Dated disclosure; exact event or snapshot is stated in the summary.",
+      "financialStage": "Dated shareholding; not a transfer",
+      "amountRefs": [],
+      "responseRecordIds": [],
+      "counterEvidenceRecordIds": [],
+      "response": "Both rating sources identify 94% ownership at their dated disclosures. Neither identifies a specific procurement receipt as the source of subsidiary funding.",
+      "alternatives": [
+        "The disclosed arrangement can be lawful; a document gap does not establish misconduct."
+      ],
+      "missingNextDocument": "Current register of members and audited related-party funding schedule",
+      "documentHolder": "GVPR / Honnavar Port / Registrar of Companies",
+      "limitations": [
+        "No ultimate beneficial-owner percentages asserted."
+      ]
+    },
+    {
+      "id": "money-trails-corporate:hop:pfc-sanction",
+      "title": "Public lender: sanctioned, still undrawn at snapshot",
+      "summary": "PFC sanctioned ₹540.64 crore at financial closure on 24 September 2025. CARE says debt drawal was pending on 31 December 2025.",
+      "basis": "contract-commitment",
+      "flowState": "commitment",
+      "fromEntityId": "money-trails-corporate:entity:pfc",
+      "toEntityId": "money-trails-corporate:entity:hppl",
+      "entityIds": [
+        "money-trails-corporate:entity:pfc",
+        "money-trails-corporate:entity:hppl"
+      ],
+      "relationshipIds": [
+        "money-trails-corporate:relationship:pfc-sanction"
+      ],
+      "recordIds": [
+        "money-trails-corporate:record:port-counter"
+      ],
+      "sourceIds": [
+        "money-trails-corporate:source:honnavar-care-2026",
+        "money-trails-corporate:source:pfc-board-2023"
+      ],
+      "sourceLocators": [
+        {
+          "sourceId": "money-trails-corporate:source:honnavar-care-2026",
+          "locator": "PDF pp.1–4; Annexure 1",
+          "role": "supports"
+        },
+        {
+          "sourceId": "money-trails-corporate:source:pfc-board-2023",
+          "locator": "PDF p.1, printed p.42: logistics/infrastructure approval and ports",
+          "role": "counterevidence"
+        }
+      ],
+      "date": "2025-09-24",
+      "dateBasis": "Exact sanction/financial-closure event: 24 September 2025; undrawn-debt snapshot: 31 December 2025; reported by CARE on 31 March 2026.",
+      "financialStage": "Sanctioned loan; not cash drawn",
+      "amountRefs": [
+        {
+          "kind": "relationship",
+          "id": "money-trails-corporate:relationship:pfc-sanction",
+          "amountIndex": 0
+        }
+      ],
+      "responseRecordIds": [],
+      "counterEvidenceRecordIds": [
+        "money-trails-corporate:record:port-counter",
+        "money-trails-corporate:record:pfc-policy-counter"
+      ],
+      "response": "CARE explicitly says debt drawal was pending on 31 December 2025. The separate ₹500 crore rated scope is not another disbursement; PFC’s Board reports authority to enter port financing.",
+      "alternatives": [
+        "The disclosed arrangement can be lawful; a document gap does not establish misconduct."
+      ],
+      "missingNextDocument": "Executed PFC agreement, drawdown requests, disbursement advice and end-use certificates after 31 December 2025",
+      "documentHolder": "PFC / Honnavar Port",
+      "limitations": [
+        "Rated facility ₹500 crore is a different scope and is not added to sanction."
+      ],
+      "eventPeriod": "Sanction 24 September 2025; draw-status snapshot 31 December 2025; report 31 March 2026"
+    },
+    {
+      "id": "money-trails-corporate:hop:promoter-infusion",
+      "title": "Sponsor side: an aggregate contribution is disclosed",
+      "summary": "CARE discloses ₹79.48 crore cumulative equity and unsecured loans from promoters at 31 December 2025. Contributor and instrument splits are unavailable.",
+      "basis": "documented-financial-disclosure",
+      "flowState": "documented-transfer",
+      "fromEntityId": "money-trails-corporate:entity:hppl-promoters",
+      "toEntityId": "money-trails-corporate:entity:hppl",
+      "entityIds": [
+        "money-trails-corporate:entity:hppl-promoters",
+        "money-trails-corporate:entity:hppl"
+      ],
+      "relationshipIds": [
+        "money-trails-corporate:relationship:promoter-infusion"
+      ],
+      "recordIds": [
+        "money-trails-corporate:record:port-counter"
+      ],
+      "sourceIds": [
+        "money-trails-corporate:source:honnavar-care-2026"
+      ],
+      "sourceLocators": [
+        {
+          "sourceId": "money-trails-corporate:source:honnavar-care-2026",
+          "locator": "PDF pp.1–4; Annexure 1",
+          "role": "supports"
+        }
+      ],
+      "date": "2025-12-31",
+      "dateBasis": "31 December 2025 is a cumulative reporting snapshot, not a single-day payment. CARE published the amount on 31 March 2026; individual infusion dates are not supplied.",
+      "financialStage": "Cumulative issuer-disclosed promoter infusion, mixed equity/loan",
+      "amountRefs": [
+        {
+          "kind": "relationship",
+          "id": "money-trails-corporate:relationship:promoter-infusion",
+          "amountIndex": 0
+        }
+      ],
+      "responseRecordIds": [],
+      "counterEvidenceRecordIds": [
+        "money-trails-corporate:record:port-counter"
+      ],
+      "response": "CARE attributes ₹79.48 crore to promoters collectively and combines equity with unsecured loans. It cannot be assigned entirely to GVPR, an individual, or a named public contract.",
+      "alternatives": [
+        "The disclosed arrangement can be lawful; a document gap does not establish misconduct."
+      ],
+      "missingNextDocument": "Contributor-wise share allotment returns, unsecured-loan ledger, bank advice and source-of-funds reconciliation",
+      "documentHolder": "Honnavar Port / its contributing promoters",
+      "limitations": [
+        "Not allocated entirely to GVPR or any individual. Not summed with earlier ₹61.86 crore snapshot."
+      ],
+      "eventPeriod": "Cumulative promoter contribution through 31 December 2025; exact transfer dates unavailable"
+    },
+    {
+      "id": "money-trails-corporate:hop:port-cash-stop",
+      "title": "Stop: no procurement-to-port cash path",
+      "summary": "No retained document traces Mumbai CCTV receipts into Honnavar equity, unsecured loans or PFC debt service. The ownership connection alone does not do that.",
+      "basis": "unresolved-cash-path-stop",
+      "flowState": "gap",
+      "fromEntityId": "money-trails-corporate:entity:gvpr",
+      "toEntityId": "money-trails-corporate:entity:hppl",
+      "entityIds": [
+        "money-trails-corporate:entity:gvpr",
+        "money-trails-corporate:entity:hppl"
+      ],
+      "relationshipIds": [],
+      "recordIds": [
+        "money-trails-corporate:record:port-case",
+        "money-trails-corporate:record:port-counter"
+      ],
+      "sourceIds": [
+        "money-trails-corporate:source:gvpr-icra-2025",
+        "money-trails-corporate:source:honnavar-care-2026"
+      ],
+      "sourceLocators": [
+        {
+          "sourceId": "money-trails-corporate:source:gvpr-icra-2025",
+          "locator": "PDF pp.1–4; Annexure II at PDF p.6",
+          "role": "supports"
+        },
+        {
+          "sourceId": "money-trails-corporate:source:honnavar-care-2026",
+          "locator": "PDF pp.1–4; Annexure 1",
+          "role": "supports"
+        }
+      ],
+      "date": null,
+      "dateBasis": "Dated disclosure; exact event or snapshot is stated in the summary.",
+      "financialStage": "Unresolved source of cash",
+      "amountRefs": [],
+      "responseRecordIds": [],
+      "counterEvidenceRecordIds": [
+        "money-trails-corporate:record:port-counter"
+      ],
+      "response": "The records establish ownership and disclosed financing stages. None reconciles a CCTV receipt to port funding, and PFC debt was still undrawn at the stated snapshot.",
+      "alternatives": [
+        "The disclosed arrangement can be lawful; a document gap does not establish misconduct."
+      ],
+      "missingNextDocument": "Parent and SPV bank-ledger reconciliation, project receipts and contributor-wise financing entries",
+      "documentHolder": "GVPR / Honnavar Port / funding banks",
+      "limitations": [
+        "No criminal allegation is created by this missing link."
+      ],
+      "stopReason": "Parent and SPV bank-ledger reconciliation, project receipts and contributor-wise financing entries"
+    },
+    {
+      "id": "money-trails-corporate:hop:meter-ownership",
+      "title": "Same contractor, separate meter SPV",
+      "summary": "ICRA lists 100% GVPR ownership of Vijaya WB Smart Meters. The SPV was incorporated 30 October 2023.",
+      "basis": "ownership-role-context",
+      "flowState": "context",
+      "fromEntityId": "money-trails-corporate:entity:gvpr",
+      "toEntityId": "money-trails-corporate:entity:vijaya",
+      "entityIds": [
+        "money-trails-corporate:entity:gvpr",
+        "money-trails-corporate:entity:vijaya"
+      ],
+      "relationshipIds": [
+        "money-trails-corporate:relationship:gvpr-vijaya"
+      ],
+      "recordIds": [
+        "money-trails-corporate:record:meter-case"
+      ],
+      "sourceIds": [
+        "money-trails-corporate:source:gvpr-icra-2025",
+        "money-trails-corporate:source:vijaya-icra-2025"
+      ],
+      "sourceLocators": [
+        {
+          "sourceId": "money-trails-corporate:source:gvpr-icra-2025",
+          "locator": "PDF pp.1–4; Annexure II at PDF p.6",
+          "role": "supports"
+        },
+        {
+          "sourceId": "money-trails-corporate:source:vijaya-icra-2025",
+          "locator": "PDF pp.1–3 and Annexure I",
+          "role": "supports"
+        }
+      ],
+      "date": "2025-11-26",
+      "dateBasis": "Dated disclosure; exact event or snapshot is stated in the summary.",
+      "financialStage": "Dated shareholding and incorporation context",
+      "amountRefs": [],
+      "responseRecordIds": [],
+      "counterEvidenceRecordIds": [],
+      "response": "The 100% holding is dated ICRA disclosure. The parent’s ownership does not merge the SPV’s contracts, debts or cash with the parent.",
+      "alternatives": [
+        "The disclosed arrangement can be lawful; a document gap does not establish misconduct."
+      ],
+      "missingNextDocument": "Current shareholder and related-party disclosure",
+      "documentHolder": "GVPR / Vijaya WB Smart Meters",
+      "limitations": []
+    },
+    {
+      "id": "money-trails-corporate:hop:meter-contract",
+      "title": "WBSEDCL contract: value is a commitment",
+      "summary": "ICRA reports a ₹857.05 crore estimated AMISP contract and 20 February 2024 agreement signed by GVPR and WBSEDCL; SPV implements 7.78 lakh meters.",
+      "basis": "contract-commitment",
+      "flowState": "commitment",
+      "fromEntityId": "money-trails-corporate:entity:wbsedcl",
+      "toEntityId": "money-trails-corporate:entity:vijaya",
+      "entityIds": [
+        "money-trails-corporate:entity:wbsedcl",
+        "money-trails-corporate:entity:vijaya"
+      ],
+      "relationshipIds": [
+        "money-trails-corporate:relationship:meter-contract"
+      ],
+      "recordIds": [
+        "money-trails-corporate:record:meter-case",
+        "money-trails-corporate:record:meter-counter"
+      ],
+      "sourceIds": [
+        "money-trails-corporate:source:vijaya-icra-2025"
+      ],
+      "sourceLocators": [
+        {
+          "sourceId": "money-trails-corporate:source:vijaya-icra-2025",
+          "locator": "PDF pp.1–3 and Annexure I",
+          "role": "supports"
+        }
+      ],
+      "date": "2024-02-20",
+      "dateBasis": "Dated disclosure; exact event or snapshot is stated in the summary.",
+      "financialStage": "Estimated contract value, not project capex or actual receipts",
+      "amountRefs": [
+        {
+          "kind": "relationship",
+          "id": "money-trails-corporate:relationship:meter-contract",
+          "amountIndex": 0
+        }
+      ],
+      "responseRecordIds": [],
+      "counterEvidenceRecordIds": [
+        "money-trails-corporate:record:meter-counter"
+      ],
+      "response": "ICRA identifies the parent as contract signatory and SPV as implementer. It attributes execution delay to the authority and mentions contractual penalties and vendor risk-sharing.",
+      "alternatives": [
+        "The disclosed arrangement can be lawful; a document gap does not establish misconduct."
+      ],
+      "missingNextDocument": "Signed AMISP contract, assignment/novation to SPV, installation milestones and invoicing schedules",
+      "documentHolder": "WBSEDCL / GVPR / Vijaya WB Smart Meters",
+      "limitations": [
+        "Source identifies the parent as agreement signatory and SPV as implementer; their legal roles are not merged."
+      ]
+    },
+    {
+      "id": "money-trails-corporate:hop:meter-waterfall",
+      "title": "Consumer payments: contracted routing to DDF",
+      "summary": "The DDF is designed to receive assigned consumer online payments. The retained rating describes this obligation, not actual account receipts.",
+      "basis": "contract-commitment",
+      "flowState": "commitment",
+      "fromEntityId": "money-trails-corporate:entity:consumers",
+      "toEntityId": "money-trails-corporate:entity:ddf",
+      "entityIds": [
+        "money-trails-corporate:entity:consumers",
+        "money-trails-corporate:entity:ddf"
+      ],
+      "relationshipIds": [
+        "money-trails-corporate:relationship:consumer-ddf"
+      ],
+      "recordIds": [
+        "money-trails-corporate:record:meter-counter"
+      ],
+      "sourceIds": [
+        "money-trails-corporate:source:vijaya-icra-2025"
+      ],
+      "sourceLocators": [
+        {
+          "sourceId": "money-trails-corporate:source:vijaya-icra-2025",
+          "locator": "PDF pp.1–3 and Annexure I",
+          "role": "supports"
+        }
+      ],
+      "date": "2025-03-05",
+      "dateBasis": "Dated disclosure; exact event or snapshot is stated in the summary.",
+      "financialStage": "Contractual payment waterfall; no observed collection",
+      "amountRefs": [],
+      "responseRecordIds": [],
+      "counterEvidenceRecordIds": [
+        "money-trails-corporate:record:meter-counter"
+      ],
+      "response": "ICRA describes intended receipt routing only. No retained DDF statement establishes a consumer debit, balance or executed payment.",
+      "alternatives": [
+        "The disclosed arrangement can be lawful; a document gap does not establish misconduct."
+      ],
+      "missingNextDocument": "DDF/escrow agreement, aggregate monthly collections, service-level bills and certified payment waterfall reconciliations",
+      "documentHolder": "WBSEDCL / escrow bank / Vijaya WB Smart Meters",
+      "limitations": [
+        "No consumer identities or account numbers requested or published. Priority mechanism is not diversion."
+      ]
+    },
+    {
+      "id": "money-trails-corporate:hop:meter-finance",
+      "title": "Bank support: term and bridge limits",
+      "summary": "₹151 crore tied-up term loan and ₹110 crore sanctioned bridge loan are separate facilities. The rating covers ₹101.87 crore bridge scope, not an additional loan.",
+      "basis": "contract-commitment",
+      "flowState": "commitment",
+      "fromEntityId": "money-trails-corporate:entity:gvpr",
+      "toEntityId": "money-trails-corporate:entity:vijaya",
+      "entityIds": [
+        "money-trails-corporate:entity:gvpr",
+        "money-trails-corporate:entity:vijaya"
+      ],
+      "relationshipIds": [
+        "money-trails-corporate:relationship:gvpr-guarantee"
+      ],
+      "recordIds": [
+        "money-trails-corporate:record:meter-finance"
+      ],
+      "sourceIds": [
+        "money-trails-corporate:source:vijaya-icra-2025"
+      ],
+      "sourceLocators": [
+        {
+          "sourceId": "money-trails-corporate:source:vijaya-icra-2025",
+          "locator": "PDF pp.1–3 and Annexure I",
+          "role": "supports"
+        }
+      ],
+      "date": "2025-03-05",
+      "dateBasis": "Dated disclosure; exact event or snapshot is stated in the summary.",
+      "financialStage": "Facilities and guarantee, not drawdowns",
+      "amountRefs": [
+        {
+          "kind": "record",
+          "id": "money-trails-corporate:record:meter-finance",
+          "amountIndex": 2
+        },
+        {
+          "kind": "record",
+          "id": "money-trails-corporate:record:meter-finance",
+          "amountIndex": 3
+        },
+        {
+          "kind": "record",
+          "id": "money-trails-corporate:record:meter-finance",
+          "amountIndex": 4
+        }
+      ],
+      "responseRecordIds": [],
+      "counterEvidenceRecordIds": [
+        "money-trails-corporate:record:meter-counter"
+      ],
+      "response": "₹110 crore bridge sanction and ₹101.87 crore rated bridge scope are not additive. Interchangeable LC is a sublimit; no drawdown or invoked parent guarantee is shown.",
+      "alternatives": [
+        "The disclosed arrangement can be lawful; a document gap does not establish misconduct."
+      ],
+      "missingNextDocument": "Facility sanction letters, lender identities, drawdown register, guarantee deed and utilisation certificates",
+      "documentHolder": "Vijaya WB Smart Meters / lenders / GVPR",
+      "limitations": [
+        "Interchangeable ₹151 crore LC is a sublimit, not extra funding."
+      ]
+    },
+    {
+      "id": "money-trails-corporate:hop:meter-cash-stop",
+      "title": "Stop: actual collections and onward payments unavailable",
+      "summary": "The records establish a contract structure and parent guarantee, not observed consumer debits, public grants, bank drawings or related-party extraction.",
+      "basis": "unresolved-cash-path-stop",
+      "flowState": "gap",
+      "fromEntityId": "money-trails-corporate:entity:ddf",
+      "toEntityId": "money-trails-corporate:entity:vijaya",
+      "entityIds": [
+        "money-trails-corporate:entity:ddf",
+        "money-trails-corporate:entity:vijaya"
+      ],
+      "relationshipIds": [],
+      "recordIds": [
+        "money-trails-corporate:record:meter-case",
+        "money-trails-corporate:record:meter-counter"
+      ],
+      "sourceIds": [
+        "money-trails-corporate:source:vijaya-icra-2025"
+      ],
+      "sourceLocators": [
+        {
+          "sourceId": "money-trails-corporate:source:vijaya-icra-2025",
+          "locator": "PDF pp.1–3 and Annexure I",
+          "role": "supports"
+        }
+      ],
+      "date": null,
+      "dateBasis": "Dated disclosure; exact event or snapshot is stated in the summary.",
+      "financialStage": "Unresolved receipts and payment execution",
+      "amountRefs": [],
+      "responseRecordIds": [],
+      "counterEvidenceRecordIds": [
+        "money-trails-corporate:record:meter-counter"
+      ],
+      "response": "Installation conditions, authority-related delays and penalties remain visible. No actual consumer collections, grants, lender drawings or onward supplier payments have been reconciled.",
+      "alternatives": [
+        "The disclosed arrangement can be lawful; a document gap does not establish misconduct."
+      ],
+      "missingNextDocument": "Aggregated DDF receipts and service bills, grants received, supplier invoices and related-party ledger matched to bank advice",
+      "documentHolder": "WBSEDCL / Vijaya WB Smart Meters / escrow bank",
+      "limitations": [],
+      "stopReason": "Aggregated DDF receipts and service bills, grants received, supplier invoices and related-party ledger matched to bank advice"
+    },
+    {
+      "id": "money-trails-corporate:hop:bond-bjp",
+      "title": "Donor-label redemption: BJP",
+      "summary": "Five ₹1 crore bonds matched by OC prefix plus bond number and equal denomination; original-form pinned mirrors; ADR corroborates eight of ten selected serials, not the two omitted rows.",
+      "basis": "documented-financial-disclosure",
+      "flowState": "reported-transfer",
+      "fromEntityId": "money-trails-corporate:entity:donor-label",
+      "toEntityId": "money-trails-corporate:entity:bjp",
+      "entityIds": [
+        "money-trails-corporate:entity:donor-label",
+        "money-trails-corporate:entity:bjp"
+      ],
+      "relationshipIds": [
+        "money-trails-corporate:relationship:bond-bjp"
+      ],
+      "recordIds": [
+        "money-trails-corporate:record:donor-case",
+        "money-trails-corporate:record:donor-counter"
+      ],
+      "sourceIds": [
+        "money-trails-corporate:source:eci-purchase-mirror",
+        "money-trails-corporate:source:eci-redemption-mirror",
+        "money-trails-corporate:source:adr-gvpr"
+      ],
+      "sourceLocators": [
+        {
+          "sourceId": "money-trails-corporate:source:eci-purchase-mirror",
+          "locator": "Exact page and row IDs in eci-purchase-selected.json; OC prefix plus bond number joined",
+          "role": "supports"
+        },
+        {
+          "sourceId": "money-trails-corporate:source:eci-redemption-mirror",
+          "locator": "Exact page and row IDs in eci-redemption-selected.json; OC prefix plus bond number joined",
+          "role": "supports"
+        },
+        {
+          "sourceId": "money-trails-corporate:source:adr-gvpr",
+          "locator": "Retrieved donor detail renders eight of the ten selected serials; OC15934 and OC16990 absent from the retained HTML",
+          "role": "supports"
+        }
+      ],
+      "date": "2023-10-16",
+      "dateBasis": "Dated disclosure; exact event or snapshot is stated in the summary.",
+      "financialStage": "Serial-matched bond redemption from mirror records",
+      "amountRefs": [
+        {
+          "kind": "relationship",
+          "id": "money-trails-corporate:relationship:bond-bjp",
+          "amountIndex": 0
+        }
+      ],
+      "responseRecordIds": [],
+      "counterEvidenceRecordIds": [
+        "money-trails-corporate:record:donor-counter"
+      ],
+      "response": "Five selected mirror instruments total ₹5 crore. The donor label also funded President, AICC; its legal-company identity and source of funds remain unverified.",
+      "alternatives": [
+        "The disclosed arrangement can be lawful; a document gap does not establish misconduct."
+      ],
+      "missingNextDocument": "Original ECI PDF byte validation and company-specific audited political-contribution disclosure",
+      "documentHolder": "ECI / SBI / disclosed purchaser",
+      "limitations": [
+        "Source tier remains reported because primary-host files were not retrieved. Source label is not a verified legal-contractor identity."
+      ],
+      "identityStatus": "Exact documentary donor-label object; legal-company identity unresolved",
+      "sourceFamily": "SBI disclosure through pinned public mirror; ADR secondary comparison"
+    },
+    {
+      "id": "money-trails-corporate:hop:bond-aicc",
+      "title": "Donor-label redemption: President, AICC",
+      "summary": "Five ₹1 crore bonds matched by OC prefix plus bond number and equal denomination; original-form pinned mirrors; ADR corroborates eight of ten selected serials, not the two omitted rows.",
+      "basis": "documented-financial-disclosure",
+      "flowState": "reported-transfer",
+      "fromEntityId": "money-trails-corporate:entity:donor-label",
+      "toEntityId": "money-trails-corporate:entity:aicc",
+      "entityIds": [
+        "money-trails-corporate:entity:donor-label",
+        "money-trails-corporate:entity:aicc"
+      ],
+      "relationshipIds": [
+        "money-trails-corporate:relationship:bond-aicc"
+      ],
+      "recordIds": [
+        "money-trails-corporate:record:donor-case",
+        "money-trails-corporate:record:donor-counter"
+      ],
+      "sourceIds": [
+        "money-trails-corporate:source:eci-purchase-mirror",
+        "money-trails-corporate:source:eci-redemption-mirror",
+        "money-trails-corporate:source:adr-gvpr"
+      ],
+      "sourceLocators": [
+        {
+          "sourceId": "money-trails-corporate:source:eci-purchase-mirror",
+          "locator": "Exact page and row IDs in eci-purchase-selected.json; OC prefix plus bond number joined",
+          "role": "supports"
+        },
+        {
+          "sourceId": "money-trails-corporate:source:eci-redemption-mirror",
+          "locator": "Exact page and row IDs in eci-redemption-selected.json; OC prefix plus bond number joined",
+          "role": "supports"
+        },
+        {
+          "sourceId": "money-trails-corporate:source:adr-gvpr",
+          "locator": "Retrieved donor detail renders eight of the ten selected serials; OC15934 and OC16990 absent from the retained HTML",
+          "role": "supports"
+        }
+      ],
+      "date": "2024-01-16",
+      "dateBasis": "Dated disclosure; exact event or snapshot is stated in the summary.",
+      "financialStage": "Serial-matched bond redemption from mirror records",
+      "amountRefs": [
+        {
+          "kind": "relationship",
+          "id": "money-trails-corporate:relationship:bond-aicc",
+          "amountIndex": 0
+        }
+      ],
+      "responseRecordIds": [],
+      "counterEvidenceRecordIds": [
+        "money-trails-corporate:record:donor-counter"
+      ],
+      "response": "Five selected mirror instruments total ₹5 crore. The donor label also funded BJP; its legal-company identity and source of funds remain unverified.",
+      "alternatives": [
+        "The disclosed arrangement can be lawful; a document gap does not establish misconduct."
+      ],
+      "missingNextDocument": "Original ECI PDF byte validation and company-specific audited political-contribution disclosure",
+      "documentHolder": "ECI / SBI / disclosed purchaser",
+      "limitations": [
+        "Source tier remains reported because primary-host files were not retrieved. Source label is not a verified legal-contractor identity."
+      ],
+      "identityStatus": "Exact documentary donor-label object; legal-company identity unresolved",
+      "sourceFamily": "SBI disclosure through pinned public mirror; ADR secondary comparison"
+    },
+    {
+      "id": "money-trails-corporate:hop:donor-identity-stop",
+      "title": "Stop: donor label is not a verified company identity",
+      "summary": "GVPR ENGINEERS LTD appears in SBI purchase rows. The retained public rows contain no CIN or purchaser KYC; similarity to the CCTV contractor’s name is insufficient for a verified bridge.",
+      "basis": "unresolved-cash-path-stop",
+      "flowState": "gap",
+      "fromEntityId": "money-trails-corporate:entity:donor-label",
+      "toEntityId": "money-trails-corporate:entity:gvpr",
+      "entityIds": [
+        "money-trails-corporate:entity:donor-label",
+        "money-trails-corporate:entity:gvpr"
+      ],
+      "relationshipIds": [],
+      "recordIds": [
+        "money-trails-corporate:record:donor-case"
+      ],
+      "sourceIds": [
+        "money-trails-corporate:source:eci-purchase-mirror",
+        "money-trails-corporate:source:gvpr-icra-2025"
+      ],
+      "sourceLocators": [
+        {
+          "sourceId": "money-trails-corporate:source:eci-purchase-mirror",
+          "locator": "Exact page and row IDs in eci-purchase-selected.json; OC prefix plus bond number joined",
+          "role": "supports"
+        },
+        {
+          "sourceId": "money-trails-corporate:source:gvpr-icra-2025",
+          "locator": "PDF pp.1–4; Annexure II at PDF p.6",
+          "role": "supports"
+        }
+      ],
+      "date": null,
+      "dateBasis": "Dated disclosure; exact event or snapshot is stated in the summary.",
+      "financialStage": "Identity gap; no financial edge",
+      "amountRefs": [],
+      "responseRecordIds": [],
+      "counterEvidenceRecordIds": [],
+      "response": "The disclosure contains a purchaser label but no CIN/KYC. The site keeps a separate source-mention node and draws no donor-to-contractor identity edge.",
+      "alternatives": [
+        "The disclosed arrangement can be lawful; a document gap does not establish misconduct."
+      ],
+      "missingNextDocument": "Company audited donation note and exact registered-identity confirmation; no private KYC publication",
+      "documentHolder": "GVPR corporate records / SBI via lawful disclosure",
+      "limitations": [
+        "No canonical identity bridge, ownership assumption or cash-flow inference is made."
+      ],
+      "identityStatus": "Exact documentary donor-label object; legal-company identity unresolved",
+      "stopReason": "Company audited donation note and exact registered-identity confirmation; no private KYC publication"
+    },
+    {
+      "id": "money-trails-corporate:hop:donor-cash-stop",
+      "title": "Stop: procurement revenue is not traced into bonds",
+      "summary": "Donations occurred in 2023/24 and the Mumbai CCTV approval is April 2026. No ledger ties either bond batch to any government project receipt or ministerial benefit.",
+      "basis": "unresolved-cash-path-stop",
+      "flowState": "gap",
+      "fromEntityId": "money-trails-corporate:entity:gvpr",
+      "toEntityId": "money-trails-corporate:entity:donor-label",
+      "entityIds": [
+        "money-trails-corporate:entity:gvpr",
+        "money-trails-corporate:entity:donor-label"
+      ],
+      "relationshipIds": [],
+      "recordIds": [
+        "money-trails-corporate:record:donor-case",
+        "money-trails-corporate:record:donor-counter"
+      ],
+      "sourceIds": [
+        "money-trails-corporate:source:eci-purchase-mirror",
+        "money-trails-corporate:source:eci-redemption-mirror",
+        "metro-mumbai-security:source:cctv-gr"
+      ],
+      "sourceLocators": [
+        {
+          "sourceId": "money-trails-corporate:source:eci-purchase-mirror",
+          "locator": "Exact page and row IDs in eci-purchase-selected.json; OC prefix plus bond number joined",
+          "role": "supports"
+        },
+        {
+          "sourceId": "money-trails-corporate:source:eci-redemption-mirror",
+          "locator": "Exact page and row IDs in eci-redemption-selected.json; OC prefix plus bond number joined",
+          "role": "supports"
+        },
+        {
+          "sourceId": "metro-mumbai-security:source:cctv-gr",
+          "locator": "GR CCT-3125; PDF pp.2–4",
+          "role": "supports"
+        }
+      ],
+      "date": null,
+      "dateBasis": "Dated disclosure; exact event or snapshot is stated in the summary.",
+      "financialStage": "Unresolved upstream source; no quid-pro-quo finding",
+      "amountRefs": [],
+      "responseRecordIds": [],
+      "counterEvidenceRecordIds": [
+        "money-trails-corporate:record:donor-counter"
+      ],
+      "response": "The 2023/24 purchases precede the April 2026 CCTV approval by over two years and name two rival recipients. Neither timing nor a shared-looking name proves procurement-funded donations.",
+      "alternatives": [
+        "The disclosed arrangement can be lawful; a document gap does not establish misconduct."
+      ],
+      "missingNextDocument": "Audited contribution schedule, lawful company bank-ledger tracing and dated procurement decision records for a specified contract",
+      "documentHolder": "Identified purchaser / relevant procurement authority",
+      "limitations": [
+        "Two rival recipients and more than a two-year gap are visible counterevidence against a simple recent award-for-donation story."
+      ],
+      "identityStatus": "Exact documentary donor-label object; legal-company identity unresolved",
+      "stopReason": "Audited contribution schedule, lawful company bank-ledger tracing and dated procurement decision records for a specified contract"
+    },
+    {
+      "id": "money-trails-corporate:hop:pfc-public-ownership",
+      "title": "Why PFC is a public-sector connection",
+      "summary": "PFC’s own presentation identifies 55.99% held by the President of India institutionally at 30 June 2025. This adds a public ownership layer; it does not show ministerial direction of the loan.",
+      "basis": "ownership-role-context",
+      "flowState": "context",
+      "fromEntityId": "money-trails-corporate:entity:goi-holder",
+      "toEntityId": "money-trails-corporate:entity:pfc",
+      "entityIds": [
+        "money-trails-corporate:entity:goi-holder",
+        "money-trails-corporate:entity:pfc"
+      ],
+      "relationshipIds": [
+        "money-trails-corporate:relationship:goi-pfc"
+      ],
+      "recordIds": [],
+      "sourceIds": [
+        "money-trails-corporate:source:pfc-shareholding-2025"
+      ],
+      "sourceLocators": [
+        {
+          "sourceId": "money-trails-corporate:source:pfc-shareholding-2025",
+          "locator": "PDF p.4: majority owned by Government of India; p.26: shareholder outlook as of 30 June 2025",
+          "role": "supports"
+        }
+      ],
+      "date": "2025-06-30",
+      "dateBasis": "Dated disclosure; exact event or snapshot is stated in the summary.",
+      "financialStage": "Institutional shareholding; no cash transfer",
+      "amountRefs": [],
+      "responseRecordIds": [],
+      "counterEvidenceRecordIds": [],
+      "response": "PFC reports 55.99% institutional government ownership at 30 June 2025. This is not a personal asset of the President or evidence of political direction of this loan.",
+      "alternatives": [
+        "The disclosed arrangement can be lawful; a document gap does not establish misconduct."
+      ],
+      "missingNextDocument": "None required for this dated ownership fact; a loan decision would need its own approval record",
+      "documentHolder": "PFC",
+      "limitations": [
+        "Not the personal shareholding of the President; no sovereign guarantee or political instruction inferred."
+      ]
+    },
+    {
+      "id": "money-trails-corporate:hop:pfc-policy-scope",
+      "title": "Policy change: port lending is within the disclosed expansion",
+      "summary": "PFC’s FY 2022–23 Board report says Government of India approved logistics/infrastructure lending in August 2022 and describes entry into ports. This challenges a sector-name-only diversion theory.",
+      "basis": "ownership-role-context",
+      "flowState": "context",
+      "fromEntityId": "money-trails-corporate:entity:goi-policy",
+      "toEntityId": "money-trails-corporate:entity:pfc",
+      "entityIds": [
+        "money-trails-corporate:entity:goi-policy",
+        "money-trails-corporate:entity:pfc"
+      ],
+      "relationshipIds": [
+        "money-trails-corporate:relationship:pfc-infra-scope"
+      ],
+      "recordIds": [
+        "money-trails-corporate:record:pfc-policy-counter"
+      ],
+      "sourceIds": [
+        "money-trails-corporate:source:pfc-board-2023"
+      ],
+      "sourceLocators": [
+        {
+          "sourceId": "money-trails-corporate:source:pfc-board-2023",
+          "locator": "PDF p.1, printed annual-report p.42, section 1(i)",
+          "role": "supports"
+        }
+      ],
+      "date": null,
+      "dateBasis": "Approval month August 2022, reported in FY 2022–23 Board report; no exact event day asserted.",
+      "financialStage": "Dated policy-scope context; no loan payment",
+      "amountRefs": [],
+      "responseRecordIds": [],
+      "counterEvidenceRecordIds": [
+        "money-trails-corporate:record:pfc-policy-counter"
+      ],
+      "response": "PFC’s Board explicitly says government approved infrastructure lending in August 2022 and describes lending to ports. Sector diversification alone therefore does not show misuse of power-sector funds.",
+      "alternatives": [
+        "The disclosed arrangement can be lawful; a document gap does not establish misconduct."
+      ],
+      "missingNextDocument": "Underlying government approval, operative MoA and loan-specific eligibility review",
+      "documentHolder": "PFC / Government of India",
+      "limitations": [
+        "A general lending-scope expansion does not establish that an individual loan complied with all conditions."
+      ]
+    },
+    {
+      "id": "money-trails-corporate:hop:meter-priority",
+      "title": "DDF: contracted priority to the service provider",
+      "summary": "ICRA states the DDF will first clear payments to the SPV and should receive average monthly inflows of at least five times the estimated monthly AMISP payment. This is a control term, not observed transfers.",
+      "basis": "contract-commitment",
+      "flowState": "commitment",
+      "fromEntityId": "money-trails-corporate:entity:ddf",
+      "toEntityId": "money-trails-corporate:entity:vijaya",
+      "entityIds": [
+        "money-trails-corporate:entity:ddf",
+        "money-trails-corporate:entity:vijaya"
+      ],
+      "relationshipIds": [
+        "money-trails-corporate:relationship:ddf-priority"
+      ],
+      "recordIds": [
+        "money-trails-corporate:record:meter-counter"
+      ],
+      "sourceIds": [
+        "money-trails-corporate:source:vijaya-icra-2025"
+      ],
+      "sourceLocators": [
+        {
+          "sourceId": "money-trails-corporate:source:vijaya-icra-2025",
+          "locator": "PDF pp.1–3 and Annexure I",
+          "role": "supports"
+        }
+      ],
+      "date": "2025-03-05",
+      "dateBasis": "Dated disclosure; exact event or snapshot is stated in the summary.",
+      "financialStage": "Contractual priority, not actual receipts",
+      "amountRefs": [],
+      "responseRecordIds": [],
+      "counterEvidenceRecordIds": [
+        "money-trails-corporate:record:meter-counter"
+      ],
+      "response": "The source describes payment priority and a five-times inflow control; no retained bank or service-level records demonstrate whether this control operated compliantly.",
+      "alternatives": [
+        "The disclosed arrangement can be lawful; a document gap does not establish misconduct."
+      ],
+      "missingNextDocument": "Aggregate DDF waterfall reconciliations matched to approved bills and service-level certificates",
+      "documentHolder": "WBSEDCL / escrow bank / Vijaya WB Smart Meters",
+      "limitations": [
+        "Actual compliance, debits and deductions are not established."
+      ]
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "money-trails-corporate:hypothesis:port-source",
+      "question": "Which disclosed cash sources funded the port contribution, and did PFC subsequently disburse?",
+      "observation": "A ₹79.48 crore aggregate contribution is disclosed while PFC debt remained undrawn at the snapshot.",
+      "expectedDocumentaryFootprints": [
+        "Contributor-level equity/loan split",
+        "PFC sanction and disbursement ledger",
+        "Parent/SPV cash-source reconciliation"
+      ],
+      "supportingEvidence": [
+        {
+          "kind": "relationship",
+          "id": "money-trails-corporate:relationship:promoter-infusion"
+        },
+        {
+          "kind": "relationship",
+          "id": "money-trails-corporate:relationship:pfc-sanction"
+        }
+      ],
+      "refutingEvidence": [
+        {
+          "kind": "record",
+          "id": "money-trails-corporate:record:port-counter"
+        }
+      ],
+      "disconfirmationTest": "A contributor-resolved funding ledger reconciled to lawful cash balances and bank advice can establish ordinary financing; absence of any CCTV receipts would defeat that proposed upstream route.",
+      "documentHolder": "Honnavar Port / GVPR / PFC",
+      "neededRecords": [
+        "Contributor-level equity/loan split",
+        "PFC sanction and disbursement ledger",
+        "Parent/SPV cash-source reconciliation"
+      ],
+      "status": "open",
+      "limitations": [
+        "This is a testable review question; missing documents and network proximity do not establish wrongdoing."
+      ]
+    },
+    {
+      "id": "money-trails-corporate:hypothesis:meter-controls",
+      "question": "Did actual DDF payments respect the contracted service-level and milestone conditions?",
+      "observation": "The rating describes a consumer-payment priority mechanism and authority-related execution delays.",
+      "expectedDocumentaryFootprints": [
+        "DDF agreement and monthly reconciliation",
+        "Certified milestone and service-level reports",
+        "Approved invoices, deductions and grant-release statements"
+      ],
+      "supportingEvidence": [
+        {
+          "kind": "relationship",
+          "id": "money-trails-corporate:relationship:ddf-priority"
+        }
+      ],
+      "refutingEvidence": [
+        {
+          "kind": "record",
+          "id": "money-trails-corporate:record:meter-counter"
+        }
+      ],
+      "disconfirmationTest": "Reconcile aggregated DDF inflows to approved bills, SLA performance, penalties and funds released; compliant receipts and deductions would refute leakage.",
+      "documentHolder": "WBSEDCL / SPV / escrow bank",
+      "neededRecords": [
+        "DDF agreement and monthly reconciliation",
+        "Certified milestone and service-level reports",
+        "Approved invoices, deductions and grant-release statements"
+      ],
+      "status": "open",
+      "limitations": [
+        "This is a testable review question; missing documents and network proximity do not establish wrongdoing."
+      ]
+    },
+    {
+      "id": "money-trails-corporate:hypothesis:donor-contract",
+      "question": "Can either bond batch be connected to a specific legal contractor and a particular procurement cash receipt?",
+      "observation": "Serial matches identify two party recipients, but purchaser legal identity and upstream account transactions are missing.",
+      "expectedDocumentaryFootprints": [
+        "Audited company contribution disclosure",
+        "Exact registered identity confirmation",
+        "Specified procurement payment and decision record"
+      ],
+      "supportingEvidence": [
+        {
+          "kind": "relationship",
+          "id": "money-trails-corporate:relationship:bond-bjp"
+        },
+        {
+          "kind": "relationship",
+          "id": "money-trails-corporate:relationship:bond-aicc"
+        }
+      ],
+      "refutingEvidence": [
+        {
+          "kind": "record",
+          "id": "money-trails-corporate:record:donor-counter"
+        }
+      ],
+      "disconfirmationTest": "Reject the bridge if registered identity or audited donor disclosure differs. Even a valid identity match does not prove exchange: reconcile original cash sources and decision records; date proximity alone is insufficient.",
+      "documentHolder": "Disclosed purchaser / procurement authority",
+      "neededRecords": [
+        "Audited company contribution disclosure",
+        "Exact registered identity confirmation",
+        "Specified procurement payment and decision record"
+      ],
+      "status": "weakened",
+      "limitations": [
+        "This is a testable review question; missing documents and network proximity do not establish wrongdoing."
+      ]
+    }
+  ]
+}

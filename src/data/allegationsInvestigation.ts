@@ -2,7 +2,7 @@ import type { InvestigationFilters, InvestigationRecord, InvestigationRegistry, 
 import { createInvestigationMatcher, investigationPlacement } from './investigationFilters';
 import { getAtlasEvidenceClosure, type AtlasSelection } from './atlasInvestigation';
 
-export const ALLEGATIONS_NAMESPACES=['allegations-policy','allegations-institutions','metro-delhi-security','metro-mumbai-security','metro-defence','metro-public-finance','metro-tender-scan'] as const;
+export const ALLEGATIONS_NAMESPACES=['allegations-policy','allegations-institutions','metro-delhi-security','metro-mumbai-security','metro-defence','metro-public-finance','metro-tender-scan','money-trails-djb','money-trails-mumbai'] as const;
 export type AllegationCohort='new'|'retained'|'all';
 export type AllegationCategory='case'|'allegation'|'finding'|'outcome'|'alleged-link';
 export type AllegationClaimState='active'|'withdrawn'|'superseded'|'outcome-record'|'unknown';

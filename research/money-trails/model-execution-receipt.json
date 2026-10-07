@@ -1,0 +1,35 @@
+{
+  "recordedAt": "2026-10-07T19:34:11.459514+00:00",
+  "command": "/tmp/india-education-model-env/bin/python scripts/money-trails/model-rank.py --offline",
+  "input": "research/money-trails/model-corpus.json",
+  "inputSha256": "dd40a46cc1ea4f8ebe1103f87fef3bbcf2a1748eee317840e2f5597a57575914",
+  "output": "research/money-trails/model-suggestions.json",
+  "outputSha256": "2ffc6d1590845328de58328be708c97c472b5e0aeb8f297082ce73b9825c4493",
+  "documentCount": 3314,
+  "queryCount": 10,
+  "model": {
+    "id": "sentence-transformers/all-MiniLM-L6-v2",
+    "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+    "license": "Apache-2.0",
+    "modelCard": "https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/blob/1110a243fdf4706b3f48f1d95db1a4f5529b4d41/README.md",
+    "format": "ONNX uint8 AVX2",
+    "dimensions": 384,
+    "maxTokens": 256,
+    "pooling": "attention-mask-weighted mean, L2 normalized",
+    "assetSha256": {
+      "onnx/model_quint8_avx2.onnx": "b941bf19f1f1283680f449fa6a7336bb5600bdcd5f84d10ddc5cd72218a0fd21",
+      "tokenizer.json": "be50c3628f2bf5bb5e3a7f17b1f74611b2561a3a27eeab05e5aa30f411572037"
+    }
+  },
+  "execution": {
+    "provider": "CPUExecutionProvider",
+    "python": "3.12.14",
+    "onnxruntime": "1.23.2",
+    "tokenizers": "0.22.1",
+    "numpy": "2.3.4",
+    "inferenceSeconds": 88.305,
+    "publicTextUploadedToModelService": false
+  },
+  "limitations": "Complete retained source-summary registry discovery only; this is not full-document or bank-ledger analysis. Similarity is not an identity bridge, probability of misconduct, actual money transfer, or proof of corruption. Every graph relationship is separately source-reviewed; no ranking is promoted automatically.",
+  "verification": "Exact corpus/model artifact verification and seven adversarial integrity tests passed."
+}

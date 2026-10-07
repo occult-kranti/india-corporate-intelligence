@@ -3,7 +3,7 @@ import { createInvestigationMatcher } from './investigationFilters';
 import { getAllegationsView, type AllegationsOptions } from './allegationsInvestigation';
 import { getAtlasEvidenceClosure, type AtlasSelection } from './atlasInvestigation';
 
-export const METRO_REVIEW_NAMESPACES = ['metro-delhi-security', 'metro-mumbai-security', 'metro-defence', 'metro-public-finance', 'metro-tender-scan'] as const;
+export const METRO_REVIEW_NAMESPACES = ['metro-delhi-security', 'metro-mumbai-security', 'metro-defence', 'metro-public-finance', 'metro-tender-scan', 'money-trails-djb', 'money-trails-mumbai'] as const;
 export const METRO_CITY_LABELS = { all: 'All reviewed', both: 'Delhi + Mumbai', delhi: 'Delhi', mumbai: 'Mumbai' } as const;
 export const METRO_TOPIC_LABELS = { all: 'All topics', police: 'Police review', defence: 'Border & defence', funds: 'Public funds' } as const;
 export const METRO_CONTEXT_LABELS = {
@@ -48,7 +48,7 @@ function topicMatches(row: { namespace: string; domains: string[] }, topic: Metr
     return row.domains.includes('public-funds') && !row.domains.includes('security');
   }
   if (topic === 'police') return ['metro-delhi-security', 'metro-mumbai-security'].includes(row.namespace);
-  return row.namespace === (topic === 'defence' ? 'metro-defence' : 'metro-public-finance');
+  return topic === 'defence' ? row.namespace === 'metro-defence' : ['metro-public-finance', 'money-trails-djb', 'money-trails-mumbai'].includes(row.namespace);
 }
 
 /** Narrow display populations; response/identity closure intentionally survives these filters. */

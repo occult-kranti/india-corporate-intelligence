@@ -6,7 +6,7 @@ import {
 import universe from './deep-universe.json';
 import discoveryModel from '../../research/deep-investigation/model-suggestions.json';
 
-export const DEEP_INVESTIGATION_NAMESPACES=['deep-procurement','deep-corporate','deep-services','deep-governance','atlas-policy','atlas-institutions','atlas-oversight','atlas-international-finance','atlas-defence-trade'];
+export const DEEP_INVESTIGATION_NAMESPACES=['deep-procurement','deep-corporate','deep-services','deep-governance','atlas-policy','atlas-institutions','atlas-oversight','atlas-international-finance','atlas-defence-trade','money-trails-corporate','money-trails-djb','money-trails-mumbai'];
 const spaces=new Set(DEEP_INVESTIGATION_NAMESPACES);
 const registry=INVESTIGATION_REGISTRY;
 const entitiesById=new Map(registry.entities.map(row=>[row.id,row]));

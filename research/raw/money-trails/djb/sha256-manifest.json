@@ -1,0 +1,105 @@
+{
+  "cutoff": "2026-10-07",
+  "artifacts": [
+    {
+      "path": "research/raw/money-trails/djb/aap-response-note.txt",
+      "sha256": "ee8cb25fcb6508ff976f7fc9815fc1988bfb2ccbba8de992a79a99609d781adc",
+      "bytes": 508
+    },
+    {
+      "path": "research/raw/money-trails/djb/annual-extract.txt",
+      "sha256": "eb87cd616e0e181ebc315c78954e69e4e561cf663ffc75282c28c8302c5867d6",
+      "bytes": 19686
+    },
+    {
+      "path": "research/raw/money-trails/djb/bail-mirror.txt",
+      "sha256": "cae8f958204a2b574c65b19de76c8d85f4f8634fe9d976750e58c116e9925312",
+      "bytes": 81722
+    },
+    {
+      "path": "research/raw/money-trails/djb/ed-april.pdf",
+      "sha256": "9e5f8f287a7f1313a0190396cd4d9dbef9b37210f75687c608b2dc6be74724de",
+      "bytes": 127993
+    },
+    {
+      "path": "research/raw/money-trails/djb/ed-april.txt",
+      "sha256": "6444a6340c1d25debb50359e94fc295a6005cf8d1832272be839aa682cab438d",
+      "bytes": 2395
+    },
+    {
+      "path": "research/raw/money-trails/djb/ed-february.pdf",
+      "sha256": "c9caac8dde61f0735f5aa32de03e60f5f0833c945d15e9a21cfb796a3d4e9936",
+      "bytes": 225055
+    },
+    {
+      "path": "research/raw/money-trails/djb/ed-february.txt",
+      "sha256": "2e4bacfe25c646df636b3cfe53762cd5b87789ec533a620f8cd32ae0b3c321d5",
+      "bytes": 2256
+    },
+    {
+      "path": "research/raw/money-trails/djb/recall-extract.txt",
+      "sha256": "5a1aa01d1d2d2914fe3865fd737714e5128d1ec68b61047dfa1978ebf14303bd",
+      "bytes": 87726
+    },
+    {
+      "path": "research/raw/money-trails/djb/retrieval-receipts.json",
+      "sha256": "7550d0158a87fa51ce1f8351c995c92857033937eca8824f6b47403392aaf0c4",
+      "bytes": 3598
+    },
+    {
+      "path": "research/raw/money-trails/djb/search-log.json",
+      "sha256": "8b665eda068d3ac7297593552c33891659f564ea5ad05105f285a9c975392da4",
+      "bytes": 2642
+    },
+    {
+      "path": "research/raw/money-trails/djb/tribunal-extract.txt",
+      "sha256": "2a290ba648d1b7ac53cab9d880ca8d6f43fc2846c973d1186c390feebbb3e491",
+      "bytes": 36948
+    }
+  ],
+  "sourceArtifacts": [
+    {
+      "sourceId": "money-trails-djb:source:tribunal",
+      "paths": [
+        "research/raw/money-trails/djb/tribunal-extract.txt"
+      ]
+    },
+    {
+      "sourceId": "money-trails-djb:source:recall",
+      "paths": [
+        "research/raw/money-trails/djb/recall-extract.txt"
+      ]
+    },
+    {
+      "sourceId": "money-trails-djb:source:annual",
+      "paths": [
+        "research/raw/money-trails/djb/annual-extract.txt"
+      ]
+    },
+    {
+      "sourceId": "money-trails-djb:source:ed-april",
+      "paths": [
+        "research/raw/money-trails/djb/ed-april.pdf"
+      ]
+    },
+    {
+      "sourceId": "money-trails-djb:source:ed-february",
+      "paths": [
+        "research/raw/money-trails/djb/ed-february.pdf"
+      ]
+    },
+    {
+      "sourceId": "money-trails-djb:source:bail",
+      "paths": [
+        "research/raw/money-trails/djb/bail-mirror.txt"
+      ]
+    },
+    {
+      "sourceId": "money-trails-djb:source:aap-response",
+      "paths": [
+        "research/raw/money-trails/djb/aap-response-note.txt"
+      ]
+    }
+  ],
+  "note": "Original PDF hashes/receipts distinguish privacy-safe extracts from full archived originals."
+}

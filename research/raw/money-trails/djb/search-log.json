@@ -1,0 +1,48 @@
+{
+  "cutoff": "2026-10-07",
+  "queries": [
+    "site.delhihighcourt.nic.in \"4825/2024\" \"2025\"",
+    "site.atfp.gov.in \"NKG\" \"2026\"",
+    "\"NKG\" \"FPA-PMLA\" \"2026\"",
+    "\"Tajinder Pal Singh\" \"04.07.2026\" pdf",
+    "\"NKG Infrastructure\" annual report",
+    "April 3 2024 Delhi Jal Board AAP 2 crore election fund response denied ED"
+  ],
+  "discovery": [
+    "Search results led to tribunal case FPA-PMLA-2052/2059/2060/DLI/2024; original retrieved through ATFP public form POST z=NKG, DDMONTH=04, DDYEAR=2026.",
+    "ED important-judgments public API language=English linked original 4 July 2026 judgment. Empty language=en result did not mean no judgment.",
+    "ED press-release public API language=English restored migrated original releases from obsolete URLs.",
+    "Corporate public FY2019–20 annual report retrieved from company host; no MCA master data or present-day ownership inferred."
+  ],
+  "failedRetrievals": [
+    {
+      "url": "https://enforcementdirectorate.gov.in/sites/default/files/latestnews/Press_Release_PAO_DJB-02.04.2024.pdf",
+      "result": "HTTP404; no successful original retrieval claimed"
+    },
+    {
+      "url": "https://enforcementdirectorate.gov.in/sites/default/files/latestnews/Press%20Release%20Delhi%20Jal%20Board%2025.07.2023.pdf",
+      "result": "HTTP404"
+    },
+    {
+      "url": "https://indiankanoon.org/doc/185869728/",
+      "result": "direct HTTP403; superseded by original judgment from government ED host"
+    },
+    {
+      "url": "https://niyam.ai/judgements/high-court/2025/april/anil-kumar-aggarwal-vs-directorate-of-enforcement",
+      "result": "direct HTTP403; search open showed metadata but official PDF not obtained"
+    }
+  ],
+  "notObtained": [
+    "DJB certified bills/payment ledger and UTR schedules",
+    "Executed subcontract dated 15 November 2018",
+    "Original bank statements, section50 statements and seized Excel workbook with forensic report",
+    "MCA current ownership/beneficial-owner register",
+    "Full trial docket after July2026; absence of new indexed outcome is not proof no subsequent hearing occurred"
+  ],
+  "excludedJoins": [
+    "Satyendar Jain STP prosecution is a separate four-tender case in ED release 8 December2025, not the NKG electromagnetic-flowmeter chain.",
+    "NKG Infrastructure IT is a separate company; annual report shows a preference-shareholder relationship, not an identity merge.",
+    "No minister, individual party treasurer or other named person inferred as recipient of the unallocated political-funding allegation.",
+    "No N.K. Garg to Naresh Kumar Garg merge based only on initials/surname."
+  ]
+}

@@ -1,0 +1,981 @@
+{
+  "schemaVersion": 1,
+  "namespace": "money-trails-mumbai",
+  "cutoff": "2026-10-07",
+  "trails": [
+    {
+      "id": "money-trails-mumbai:trail:mumbai-khichdi-bank-routes",
+      "title": "Mumbai · where the food-contract money went",
+      "city": "mumbai",
+      "caseRecordId": "money-trails-mumbai:record:khichdi-trace",
+      "question": "What can the newly retrieved attachment order actually trace from municipal receipts through contractors to an individual, and where do the books stop?",
+      "conclusion": "The July 2026 original supplies two newly retained Sahyadri routes, precise caterer values and a distinct ₹1.25 crore individual receipt. It confirms an attachment appeal concerning property valued at ₹88,51,500, not a criminal conviction. Original transfer schedules, ultimate use and specific public financing remain gaps; historical political/police business links stay non-financial.",
+      "sourceStatus": "Official 13 July 2026 attachment order; retained 4 February 2025 bail counterassessment; dated 9 May 2025 predicate filing report; separate RTI-based ownership report. Court-recited bank analysis is not an independently inspected bank ledger.",
+      "cutoff": "2026-10-07",
+      "hopIds": [
+        "money-trails-mumbai:hop:municipal-sahyadri",
+        "money-trails-mumbai:hop:sahyadri-fnj",
+        "money-trails-mumbai:hop:sahyadri-force",
+        "money-trails-mumbai:hop:municipal-force",
+        "money-trails-mumbai:hop:force-sneha",
+        "money-trails-mumbai:hop:force-golden",
+        "money-trails-mumbai:hop:individual-receipt",
+        "money-trails-mumbai:hop:attachment",
+        "money-trails-mumbai:hop:control",
+        "money-trails-mumbai:hop:business-branch",
+        "money-trails-mumbai:hop:reconcile",
+        "money-trails-mumbai:hop:funding-origin-gap",
+        "money-trails-mumbai:hop:onward-gap"
+      ],
+      "hypothesisIds": [
+        "money-trails-mumbai:hypothesis:cross-prime-allocation",
+        "money-trails-mumbai:hypothesis:receipt-character",
+        "money-trails-mumbai:hypothesis:packet-proof",
+        "money-trails-mumbai:hypothesis:historical-role-cash-test"
+      ],
+      "limitations": [
+        "Not every rupee, department or ultimate beneficiary has been traced. No cross-hop monetary total is meaningful.",
+        "₹1.25 crore individual receipt overlaps the earlier ₹1.35 crore allegation; ₹88.515 lakh is asset-attachment value and not additional proceeds.",
+        "Related-party roles and political/police associations cannot substitute for transaction evidence. Corporate-directory candidates remain held."
+      ]
+    }
+  ],
+  "hops": [
+    {
+      "id": "money-trails-mumbai:hop:municipal-sahyadri",
+      "title": "01 · BMC receipts into Sahyadri",
+      "summary": "The new appellate record identifies ₹5,92,17,002.90 credited from BMC to Sahyadri at Vaishya Sahakari Bank. This provides a gross receipt population before onward transfers.",
+      "basis": "court-recorded-agency-allegation",
+      "flowState": "alleged-transfer",
+      "fromEntityId": "money-trails-mumbai:entity:bmc",
+      "toEntityId": "money-trails-mumbai:entity:sahyadri",
+      "entityIds": [
+        "money-trails-mumbai:entity:bmc",
+        "money-trails-mumbai:entity:sahyadri"
+      ],
+      "relationshipIds": [
+        "money-trails-mumbai:relationship:bmc-sahyadri"
+      ],
+      "recordIds": [
+        "money-trails-mumbai:record:khichdi-trace"
+      ],
+      "sourceIds": [
+        "money-trails-mumbai:source:tribunal-2026"
+      ],
+      "sourceLocators": [
+        {
+          "sourceId": "money-trails-mumbai:source:tribunal-2026",
+          "locator": "§5, PDF pp 3–4",
+          "role": "supports",
+          "sourceFamily": "Original attachment order, distinct from bank exhibits"
+        }
+      ],
+      "date": null,
+      "dateBasis": "Financial source covers FY 2020–21 where stated; no individual payment dates are supplied by the order.",
+      "financialStage": "Court-recorded gross municipal receipts; not adjudicated loss",
+      "amountRefs": [
+        {
+          "kind": "relationship",
+          "id": "money-trails-mumbai:relationship:bmc-sahyadri",
+          "amountIndex": 0
+        }
+      ],
+      "responseRecordIds": [
+        "money-trails-mumbai:record:tribunal-response"
+      ],
+      "counterEvidenceRecordIds": [
+        "money-trails-mumbai:record:bail-counter",
+        "money-trails-mumbai:record:reconciliation"
+      ],
+      "response": "High Court’s earlier bail assessment retained licensed kitchens and completion evidence; the later attachment tribunal adopted the agency narrative for its limited purpose. Receipt alone does not establish criminality.",
+      "alternatives": [
+        "Subcontract payments may pay for actual food preparation; taxes, costs and other credits need reconciliation."
+      ],
+      "missingNextDocument": "BMC payment vouchers and FY 2020–21 Sahyadri account statement showing each municipal credit and budget head.",
+      "documentHolder": "BMC Planning/Accounts; EOW/ED court exhibit custodian; contractor and bank records obtainable only through lawful public disclosure.",
+      "limitations": [
+        "Court narrative is available; underlying transaction-by-transaction bank exhibits are not. No complete source-and-use reconstruction is claimed."
+      ],
+      "eventPeriod": "FY 2020–21 account-analysis period",
+      "identityStatus": "Exact case-scoped recipient; no external registry identity merger",
+      "overlapGroup": "khichdi-2020-internal-flow-do-not-sum-hops"
+    },
+    {
+      "id": "money-trails-mumbai:hop:sahyadri-fnj",
+      "title": "02 · Sahyadri’s recipient: FNJ",
+      "summary": "Tribunal §5 identifies ₹2.65 crore from Sahyadri to FNJ and says the receiving HDFC account confirms it. Neither FNJ’s ultimate beneficiaries nor a company-register identifier is supplied.",
+      "basis": "court-recorded-agency-allegation",
+      "flowState": "alleged-transfer",
+      "fromEntityId": "money-trails-mumbai:entity:sahyadri",
+      "toEntityId": "money-trails-mumbai:entity:fnj",
+      "entityIds": [
+        "money-trails-mumbai:entity:sahyadri",
+        "money-trails-mumbai:entity:fnj"
+      ],
+      "relationshipIds": [
+        "money-trails-mumbai:relationship:sahyadri-fnj"
+      ],
+      "recordIds": [
+        "money-trails-mumbai:record:khichdi-trace"
+      ],
+      "sourceIds": [
+        "money-trails-mumbai:source:tribunal-2026"
+      ],
+      "sourceLocators": [
+        {
+          "sourceId": "money-trails-mumbai:source:tribunal-2026",
+          "locator": "§5, PDF pp 3–4",
+          "role": "supports",
+          "sourceFamily": "Original attachment order, distinct from bank exhibits"
+        }
+      ],
+      "date": null,
+      "dateBasis": "Financial source covers FY 2020–21 where stated; no individual payment dates are supplied by the order.",
+      "financialStage": "Court-recorded subcontract payment; no diversion inferred from receipt alone",
+      "amountRefs": [
+        {
+          "kind": "relationship",
+          "id": "money-trails-mumbai:relationship:sahyadri-fnj",
+          "amountIndex": 0
+        }
+      ],
+      "responseRecordIds": [
+        "money-trails-mumbai:record:tribunal-response"
+      ],
+      "counterEvidenceRecordIds": [
+        "money-trails-mumbai:record:bail-counter",
+        "money-trails-mumbai:record:reconciliation"
+      ],
+      "response": "High Court’s earlier bail assessment retained licensed kitchens and completion evidence; the later attachment tribunal adopted the agency narrative for its limited purpose. Receipt alone does not establish criminality.",
+      "alternatives": [
+        "Subcontract payments may pay for actual food preparation; taxes, costs and other credits need reconciliation."
+      ],
+      "missingNextDocument": "FNJ invoice/contract and public court exhibit tying sender debits to recipient credits; vendor KYC crosswalk to statutory company identifier; FNJ use-of-funds statement.",
+      "documentHolder": "BMC Planning/Accounts; EOW/ED court exhibit custodian; contractor and bank records obtainable only through lawful public disclosure.",
+      "limitations": [
+        "Recipient identity is case-scoped. Directory matches to a renamed hotel company remain held research leads. No receipt is labelled laundering merely because it is downstream."
+      ],
+      "eventPeriod": "FY 2020–21 account-analysis period",
+      "identityStatus": "Exact case-scoped recipient; no external registry identity merger",
+      "overlapGroup": "khichdi-2020-internal-flow-do-not-sum-hops"
+    },
+    {
+      "id": "money-trails-mumbai:hop:sahyadri-force",
+      "title": "03 · ₹45 lakh crosses between contractors",
+      "summary": "Sahyadri also paid Force One ₹45 lakh. Force One therefore appears both as a directly paid prime and as a recipient of another prime’s receipts. A shared bank period does not reveal which subsequent invoice each rupee funded.",
+      "basis": "court-recorded-agency-allegation",
+      "flowState": "alleged-transfer",
+      "fromEntityId": "money-trails-mumbai:entity:sahyadri",
+      "toEntityId": "money-trails-mumbai:entity:force-one",
+      "entityIds": [
+        "money-trails-mumbai:entity:sahyadri",
+        "money-trails-mumbai:entity:force-one"
+      ],
+      "relationshipIds": [
+        "money-trails-mumbai:relationship:sahyadri-force"
+      ],
+      "recordIds": [
+        "money-trails-mumbai:record:khichdi-trace"
+      ],
+      "sourceIds": [
+        "money-trails-mumbai:source:tribunal-2026"
+      ],
+      "sourceLocators": [
+        {
+          "sourceId": "money-trails-mumbai:source:tribunal-2026",
+          "locator": "§5, PDF p 4",
+          "role": "supports",
+          "sourceFamily": "Original attachment order, distinct from bank exhibits"
+        }
+      ],
+      "date": null,
+      "dateBasis": "Financial source covers FY 2020–21 where stated; no individual payment dates are supplied by the order.",
+      "financialStage": "Inter-vendor transfer from Sahyadri receipts; do not add to BMC source total",
+      "amountRefs": [
+        {
+          "kind": "relationship",
+          "id": "money-trails-mumbai:relationship:sahyadri-force",
+          "amountIndex": 0
+        }
+      ],
+      "responseRecordIds": [
+        "money-trails-mumbai:record:tribunal-response"
+      ],
+      "counterEvidenceRecordIds": [
+        "money-trails-mumbai:record:bail-counter",
+        "money-trails-mumbai:record:reconciliation"
+      ],
+      "response": "High Court’s earlier bail assessment retained licensed kitchens and completion evidence; the later attachment tribunal adopted the agency narrative for its limited purpose. Receipt alone does not establish criminality.",
+      "alternatives": [
+        "Force One may have legitimately supplied services to both BMC and Sahyadri; the cross-payment alone is not duplicate billing."
+      ],
+      "missingNextDocument": "Separate ledger for the Sahyadri subcontract and Force One inward receipt reference, then invoice-level allocation of subsequent payments.",
+      "documentHolder": "BMC Planning/Accounts; EOW/ED court exhibit custodian; contractor and bank records obtainable only through lawful public disclosure.",
+      "limitations": [
+        "Court narrative is available; underlying transaction-by-transaction bank exhibits are not. No complete source-and-use reconstruction is claimed."
+      ],
+      "eventPeriod": "FY 2020–21 account-analysis period",
+      "identityStatus": "Exact case-scoped recipient; no external registry identity merger",
+      "overlapGroup": "khichdi-2020-internal-flow-do-not-sum-hops"
+    },
+    {
+      "id": "money-trails-mumbai:hop:municipal-force",
+      "title": "04 · Force One’s separate municipal receipts",
+      "summary": "The order separately reports approximately ₹8.64 crore received directly from BMC by Force One. The ₹45 lakh inter-vendor credit must not be silently added as a fresh government expenditure or treated as already included.",
+      "basis": "court-recorded-agency-allegation",
+      "flowState": "alleged-transfer",
+      "fromEntityId": "money-trails-mumbai:entity:bmc",
+      "toEntityId": "money-trails-mumbai:entity:force-one",
+      "entityIds": [
+        "money-trails-mumbai:entity:bmc",
+        "money-trails-mumbai:entity:force-one"
+      ],
+      "relationshipIds": [
+        "money-trails-mumbai:relationship:bmc-force"
+      ],
+      "recordIds": [
+        "money-trails-mumbai:record:khichdi-trace"
+      ],
+      "sourceIds": [
+        "money-trails-mumbai:source:tribunal-2026"
+      ],
+      "sourceLocators": [
+        {
+          "sourceId": "money-trails-mumbai:source:tribunal-2026",
+          "locator": "§§2,6,8, PDF pp 2,5–6",
+          "role": "supports",
+          "sourceFamily": "Original attachment order, distinct from bank exhibits"
+        }
+      ],
+      "date": null,
+      "dateBasis": "Financial source covers FY 2020–21 where stated; no individual payment dates are supplied by the order.",
+      "financialStage": "Rounded BMC receipts stated in order, not loss or complete credits including Sahyadri",
+      "amountRefs": [
+        {
+          "kind": "relationship",
+          "id": "money-trails-mumbai:relationship:bmc-force",
+          "amountIndex": 0
+        }
+      ],
+      "responseRecordIds": [
+        "money-trails-mumbai:record:tribunal-response"
+      ],
+      "counterEvidenceRecordIds": [
+        "money-trails-mumbai:record:bail-counter",
+        "money-trails-mumbai:record:reconciliation"
+      ],
+      "response": "High Court’s earlier bail assessment retained licensed kitchens and completion evidence; the later attachment tribunal adopted the agency narrative for its limited purpose. Receipt alone does not establish criminality.",
+      "alternatives": [
+        "Subcontract payments may pay for actual food preparation; taxes, costs and other credits need reconciliation."
+      ],
+      "missingNextDocument": "BMC-to-Force One credit schedule, with gross/net/GST treatment and corrected source for the malformed paise figure.",
+      "documentHolder": "BMC Planning/Accounts; EOW/ED court exhibit custodian; contractor and bank records obtainable only through lawful public disclosure.",
+      "limitations": [
+        "Numeric display uses the order’s explicit rounded ₹8.64 crore. §6 prints 8,63,94.985.68; §8 omits paise. No corrected precision is invented."
+      ],
+      "eventPeriod": "FY 2020–21 account-analysis period",
+      "identityStatus": "Exact case-scoped recipient; no external registry identity merger",
+      "overlapGroup": "khichdi-2020-internal-flow-do-not-sum-hops"
+    },
+    {
+      "id": "money-trails-mumbai:hop:force-sneha",
+      "title": "05 · Exact caterer route: Sneha",
+      "summary": "The later order gives ₹4,14,73,000 paid to Sneha, rather than the earlier rounded ₹4.20 crore. Two receiving banks are named but amounts are not allocated between them.",
+      "basis": "court-recorded-agency-allegation",
+      "flowState": "alleged-transfer",
+      "fromEntityId": "money-trails-mumbai:entity:force-one",
+      "toEntityId": "money-trails-mumbai:entity:sneha",
+      "entityIds": [
+        "money-trails-mumbai:entity:force-one",
+        "money-trails-mumbai:entity:sneha"
+      ],
+      "relationshipIds": [
+        "money-trails-mumbai:relationship:force-sneha"
+      ],
+      "recordIds": [
+        "money-trails-mumbai:record:khichdi-trace"
+      ],
+      "sourceIds": [
+        "money-trails-mumbai:source:tribunal-2026"
+      ],
+      "sourceLocators": [
+        {
+          "sourceId": "money-trails-mumbai:source:tribunal-2026",
+          "locator": "§6, PDF p 5",
+          "role": "supports",
+          "sourceFamily": "Original attachment order, distinct from bank exhibits"
+        }
+      ],
+      "date": null,
+      "dateBasis": "Financial source covers FY 2020–21 where stated; no individual payment dates are supplied by the order.",
+      "financialStage": "Court-recorded subcontract payment; two recipient banks, no account-level allocation",
+      "amountRefs": [
+        {
+          "kind": "relationship",
+          "id": "money-trails-mumbai:relationship:force-sneha",
+          "amountIndex": 0
+        }
+      ],
+      "responseRecordIds": [
+        "money-trails-mumbai:record:tribunal-response"
+      ],
+      "counterEvidenceRecordIds": [
+        "money-trails-mumbai:record:bail-counter",
+        "money-trails-mumbai:record:reconciliation"
+      ],
+      "response": "High Court’s earlier bail assessment retained licensed kitchens and completion evidence; the later attachment tribunal adopted the agency narrative for its limited purpose. Receipt alone does not establish criminality.",
+      "alternatives": [
+        "Subcontract payments may pay for actual food preparation; taxes, costs and other credits need reconciliation."
+      ],
+      "missingNextDocument": "Invoices, actual meal/weight acceptance and date-level statement matches for Sneha; separate both receiving banks without guessing the split.",
+      "documentHolder": "BMC Planning/Accounts; EOW/ED court exhibit custodian; contractor and bank records obtainable only through lawful public disclosure.",
+      "limitations": [
+        "Court narrative is available; underlying transaction-by-transaction bank exhibits are not. No complete source-and-use reconstruction is claimed."
+      ],
+      "eventPeriod": "FY 2020–21 account-analysis period",
+      "identityStatus": "Exact case-scoped recipient; no external registry identity merger",
+      "overlapGroup": "khichdi-2020-internal-flow-do-not-sum-hops"
+    },
+    {
+      "id": "money-trails-mumbai:hop:force-golden",
+      "title": "06 · Exact caterer route: Golden Star",
+      "summary": "The later order identifies ₹82,05,000 to Golden Star through Bank of Maharashtra. The earlier bail narrative’s ₹84 lakh is retained as a separate rounded/source-version figure.",
+      "basis": "court-recorded-agency-allegation",
+      "flowState": "alleged-transfer",
+      "fromEntityId": "money-trails-mumbai:entity:force-one",
+      "toEntityId": "money-trails-mumbai:entity:golden",
+      "entityIds": [
+        "money-trails-mumbai:entity:force-one",
+        "money-trails-mumbai:entity:golden"
+      ],
+      "relationshipIds": [
+        "money-trails-mumbai:relationship:force-golden"
+      ],
+      "recordIds": [
+        "money-trails-mumbai:record:khichdi-trace"
+      ],
+      "sourceIds": [
+        "money-trails-mumbai:source:tribunal-2026"
+      ],
+      "sourceLocators": [
+        {
+          "sourceId": "money-trails-mumbai:source:tribunal-2026",
+          "locator": "§6, PDF p 5",
+          "role": "supports",
+          "sourceFamily": "Original attachment order, distinct from bank exhibits"
+        }
+      ],
+      "date": null,
+      "dateBasis": "Financial source covers FY 2020–21 where stated; no individual payment dates are supplied by the order.",
+      "financialStage": "Court-recorded subcontract payment; not a proven loss",
+      "amountRefs": [
+        {
+          "kind": "relationship",
+          "id": "money-trails-mumbai:relationship:force-golden",
+          "amountIndex": 0
+        }
+      ],
+      "responseRecordIds": [
+        "money-trails-mumbai:record:tribunal-response"
+      ],
+      "counterEvidenceRecordIds": [
+        "money-trails-mumbai:record:bail-counter",
+        "money-trails-mumbai:record:reconciliation"
+      ],
+      "response": "High Court’s earlier bail assessment retained licensed kitchens and completion evidence; the later attachment tribunal adopted the agency narrative for its limited purpose. Receipt alone does not establish criminality.",
+      "alternatives": [
+        "Subcontract payments may pay for actual food preparation; taxes, costs and other credits need reconciliation."
+      ],
+      "missingNextDocument": "Golden Star invoice/payment register, accepted quantities and reconciliation to earlier ₹84 lakh narrative.",
+      "documentHolder": "BMC Planning/Accounts; EOW/ED court exhibit custodian; contractor and bank records obtainable only through lawful public disclosure.",
+      "limitations": [
+        "Court narrative is available; underlying transaction-by-transaction bank exhibits are not. No complete source-and-use reconstruction is claimed."
+      ],
+      "eventPeriod": "FY 2020–21 account-analysis period",
+      "identityStatus": "Exact case-scoped recipient; no external registry identity merger",
+      "overlapGroup": "khichdi-2020-internal-flow-do-not-sum-hops"
+    },
+    {
+      "id": "money-trails-mumbai:hop:individual-receipt",
+      "title": "07 · Individual receipt, contested character",
+      "summary": "The tribunal identifies ₹1.25 crore received by Chavan and rejects salary/loan explanations on the attachment record. The underlying source links this payment to contractor receipts, but a public transfer schedule is absent.",
+      "basis": "court-recorded-agency-allegation",
+      "flowState": "alleged-transfer",
+      "fromEntityId": "money-trails-mumbai:entity:force-one",
+      "toEntityId": "money-trails-mumbai:entity:chavan",
+      "entityIds": [
+        "money-trails-mumbai:entity:force-one",
+        "money-trails-mumbai:entity:chavan"
+      ],
+      "relationshipIds": [
+        "money-trails-mumbai:relationship:force-chavan"
+      ],
+      "recordIds": [
+        "money-trails-mumbai:record:khichdi-trace"
+      ],
+      "sourceIds": [
+        "money-trails-mumbai:source:tribunal-2026",
+        "money-trails-mumbai:source:bail-2025"
+      ],
+      "sourceLocators": [
+        {
+          "sourceId": "money-trails-mumbai:source:tribunal-2026",
+          "locator": "§§8,16–19, PDF pp 6,9–10",
+          "role": "supports",
+          "sourceFamily": "Original attachment order, distinct from bank exhibits"
+        },
+        {
+          "sourceId": "money-trails-mumbai:source:bail-2025",
+          "locator": "§§7–10.1,15.1,20",
+          "role": "counterevidence",
+          "sourceFamily": "Earlier High Court bail assessment"
+        }
+      ],
+      "date": null,
+      "dateBasis": "The July 2026 attachment order does not provide individual transfer dates. The earlier bail narrative describes June–December 2020; that period is context, not a date assigned to each transfer.",
+      "financialStage": "Individual receipt in attachment proceeding; overlaps earlier aggregate, not additive",
+      "amountRefs": [
+        {
+          "kind": "relationship",
+          "id": "money-trails-mumbai:relationship:force-chavan",
+          "amountIndex": 0
+        }
+      ],
+      "responseRecordIds": [
+        "money-trails-mumbai:record:tribunal-response"
+      ],
+      "counterEvidenceRecordIds": [
+        "money-trails-mumbai:record:bail-counter",
+        "money-trails-mumbai:record:reconciliation"
+      ],
+      "response": "Chavan denied involvement in obtaining the contract and argued salary/loan receipt and lack of hearing opportunity. Tribunal §§17–19 rejected those explanations for attachment; a criminal conviction is not supplied.",
+      "alternatives": [
+        "Genuine salary or loan would require documentary support; the attachment tribunal says such support was not shown, while the earlier bail record discussed appointment letters."
+      ],
+      "missingNextDocument": "Dated transfer schedule, payroll/TDS records, appointment documents, loan agreement and repayment ledger lawfully disclosed in the proceedings.",
+      "documentHolder": "BMC Planning/Accounts; EOW/ED court exhibit custodian; contractor and bank records obtainable only through lawful public disclosure.",
+      "limitations": [
+        "Court narrative is available; underlying transaction-by-transaction bank exhibits are not. No complete source-and-use reconstruction is claimed."
+      ],
+      "eventPeriod": "Payment dates not supplied; prior bail narrative June–December 2020",
+      "identityStatus": "Exact case-scoped recipient; no external registry identity merger",
+      "overlapGroup": "chavan-overlap-1.25-receipt-1.35-aggregate-0.88515-attached-assets"
+    },
+    {
+      "id": "money-trails-mumbai:hop:attachment",
+      "title": "08 · Where legal action reached: attached property",
+      "summary": "The confirmed attachment is ₹88,51,500 of property value. It is not an additional bank transfer, cash recovered or the ₹1.25 crore receipt. The tribunal dismissed the appeal on 13 July 2026, expressly securing assets until trial.",
+      "basis": "judicial-procedural-finding",
+      "flowState": "context",
+      "fromEntityId": "money-trails-mumbai:entity:tribunal",
+      "toEntityId": "money-trails-mumbai:entity:attachment-pool",
+      "entityIds": [
+        "money-trails-mumbai:entity:tribunal",
+        "money-trails-mumbai:entity:attachment-pool"
+      ],
+      "relationshipIds": [
+        "money-trails-mumbai:relationship:tribunal-attachment"
+      ],
+      "recordIds": [
+        "money-trails-mumbai:record:attachment-outcome",
+        "money-trails-mumbai:record:tribunal-response",
+        "money-trails-mumbai:record:bail-outcome"
+      ],
+      "sourceIds": [
+        "money-trails-mumbai:source:tribunal-2026"
+      ],
+      "sourceLocators": [
+        {
+          "sourceId": "money-trails-mumbai:source:tribunal-2026",
+          "locator": "§§1,7–8,17–20, PDF pp 1,6,9–10",
+          "role": "supports",
+          "sourceFamily": "Original attachment order, distinct from bank exhibits"
+        }
+      ],
+      "date": "2026-07-13",
+      "dateBasis": "Exact final-order date in attachment appeal; underlying property-purchase dates not established.",
+      "financialStage": "Attachment value and appellate procedure, not a financial-flow amount",
+      "amountRefs": [
+        {
+          "kind": "record",
+          "id": "money-trails-mumbai:record:attachment-outcome",
+          "amountIndex": 0
+        }
+      ],
+      "responseRecordIds": [
+        "money-trails-mumbai:record:tribunal-response"
+      ],
+      "counterEvidenceRecordIds": [
+        "money-trails-mumbai:record:bail-counter",
+        "money-trails-mumbai:record:reconciliation"
+      ],
+      "response": "The tribunal rejected the explanations advanced for attachment. High Court’s 2025 bail and the pending criminal merits remain distinct.",
+      "alternatives": [
+        "Assets may be preserved while criminal guilt remains undecided; attachment does not prove that every gross contractor receipt was diverted."
+      ],
+      "missingNextDocument": "Certified attachment schedule, source-linked property acquisition documents and any later appeal/order; omit residential addresses from publication.",
+      "documentHolder": "BMC Planning/Accounts; EOW/ED court exhibit custodian; contractor and bank records obtainable only through lawful public disclosure.",
+      "limitations": [
+        "Court narrative is available; underlying transaction-by-transaction bank exhibits are not. No complete source-and-use reconstruction is claimed."
+      ],
+      "eventPeriod": "PAO 12 March 2024; confirmation 28 August 2024; appeal 13 July 2026",
+      "identityStatus": "Exact case-scoped recipient; no external registry identity merger",
+      "overlapGroup": "chavan-overlap-1.25-receipt-1.35-aggregate-0.88515-attached-assets"
+    },
+    {
+      "id": "money-trails-mumbai:hop:control",
+      "title": "09 · Who can answer for the contractor books",
+      "summary": "The source names Kadam and Salunkhe for Sahyadri, Mali for Sneha, Keer for Golden Star and Mashilkar for Force One. These roles identify document custodians and possible interview subjects; they do not trace the missing balances to their personal accounts.",
+      "basis": "ownership-role-context",
+      "flowState": "context",
+      "fromEntityId": null,
+      "toEntityId": null,
+      "entityIds": [
+        "money-trails-mumbai:entity:kadam",
+        "money-trails-mumbai:entity:salunkhe",
+        "money-trails-mumbai:entity:sahyadri",
+        "money-trails-mumbai:entity:mali",
+        "money-trails-mumbai:entity:sneha",
+        "money-trails-mumbai:entity:keer",
+        "money-trails-mumbai:entity:golden",
+        "money-trails-mumbai:entity:mashilkar",
+        "money-trails-mumbai:entity:force-one"
+      ],
+      "relationshipIds": [
+        "money-trails-mumbai:relationship:kadam-role",
+        "money-trails-mumbai:relationship:salunkhe-role",
+        "money-trails-mumbai:relationship:mali-role",
+        "money-trails-mumbai:relationship:keer-role",
+        "money-trails-mumbai:relationship:mashilkar-force"
+      ],
+      "recordIds": [
+        "money-trails-mumbai:record:contractor-roles"
+      ],
+      "sourceIds": [
+        "money-trails-mumbai:source:tribunal-2026",
+        "money-trails-mumbai:source:bail-2025",
+        "money-trails-mumbai:source:rti-role-2023"
+      ],
+      "sourceLocators": [
+        {
+          "sourceId": "money-trails-mumbai:source:tribunal-2026",
+          "locator": "§§2–6, PDF pp 2–5",
+          "role": "supports",
+          "sourceFamily": "Original attachment order, distinct from bank exhibits"
+        },
+        {
+          "sourceId": "money-trails-mumbai:source:bail-2025",
+          "locator": "§9.2, partner statement/deed references",
+          "role": "counterevidence",
+          "sourceFamily": "Earlier High Court bail assessment"
+        },
+        {
+          "sourceId": "money-trails-mumbai:source:rti-role-2023",
+          "locator": "RTI partnership paragraph",
+          "role": "supports",
+          "sourceFamily": "Dated secondary reporting"
+        }
+      ],
+      "date": null,
+      "dateBasis": "Roles are described in the 2025 and 2026 court records and December 2023 reporting. Exact appointment and cessation dates are not established; this is non-financial context.",
+      "financialStage": "Court-scoped business roles; no transfer or inferred beneficial-shareholding share",
+      "amountRefs": [],
+      "responseRecordIds": [],
+      "counterEvidenceRecordIds": [
+        "money-trails-mumbai:record:bail-counter"
+      ],
+      "response": "Corporate-directory same-name hits were not merged. Formal shares and exact role dates remain missing.",
+      "alternatives": [
+        "Persons may act in ordinary commercial capacities; role or political party association alone does not establish receipt of public funds."
+      ],
+      "missingNextDocument": "Relevant-year partnership deeds, company registry records and vendor identity schedules.",
+      "documentHolder": "BMC Planning/Accounts; EOW/ED court exhibit custodian; contractor and bank records obtainable only through lawful public disclosure.",
+      "limitations": [
+        "Court narrative is available; underlying transaction-by-transaction bank exhibits are not. No complete source-and-use reconstruction is claimed."
+      ],
+      "eventPeriod": "2020 contracts; court narratives 2025/2026 and RTI reporting 2023",
+      "identityStatus": "Exact case-scoped recipient; no external registry identity merger",
+      "overlapGroup": "nonfinancial-role-context"
+    },
+    {
+      "id": "money-trails-mumbai:hop:business-branch",
+      "title": "10 · Test the police-business connection; stop at the evidence",
+      "summary": "RTI-based reporting separately identifies Mashilkar and former officer Sachin Vaze as business associates in Multibuild. Mashilkar says the venture shut without winning contracts. No supplied source traces food money into that firm or to Vaze.",
+      "basis": "ownership-role-context",
+      "flowState": "context",
+      "fromEntityId": null,
+      "toEntityId": null,
+      "entityIds": [
+        "money-trails-mumbai:entity:mashilkar",
+        "money-trails-mumbai:entity:force-one",
+        "money-trails-mumbai:entity:multibuild",
+        "money-trails-mumbai:entity:vaze"
+      ],
+      "relationshipIds": [
+        "money-trails-mumbai:relationship:mashilkar-force",
+        "money-trails-mumbai:relationship:mashilkar-multibuild",
+        "money-trails-mumbai:relationship:vaze-multibuild"
+      ],
+      "recordIds": [
+        "money-trails-mumbai:record:historical-role-context",
+        "money-trails-mumbai:record:mashilkar-response"
+      ],
+      "sourceIds": [
+        "money-trails-mumbai:source:rti-role-2023"
+      ],
+      "sourceLocators": [
+        {
+          "sourceId": "money-trails-mumbai:source:rti-role-2023",
+          "locator": "RTI report: Multibuild paragraph and final response paragraph",
+          "role": "supports",
+          "sourceFamily": "Dated secondary reporting"
+        }
+      ],
+      "date": null,
+      "dateBasis": "The business association and response were reported on 3 December 2023. Historical start and end dates remain unresolved; no payment date is asserted.",
+      "financialStage": "Reported historical association only; no money-flow arrow",
+      "amountRefs": [],
+      "responseRecordIds": [
+        "money-trails-mumbai:record:mashilkar-response"
+      ],
+      "counterEvidenceRecordIds": [
+        "money-trails-mumbai:record:mashilkar-response"
+      ],
+      "response": "Mashilkar defended lawful business association and said the venture received no contracts. This response is retained next to the link.",
+      "alternatives": [
+        "An ordinary inactive venture with no contracts would refute the hypothesis of this branch receiving procurement proceeds."
+      ],
+      "missingNextDocument": "Original historical company filing, dates and audited accounts; any alleged transfer would need its own matching source and destination records.",
+      "documentHolder": "Original RTI and company filing custodians; relevant company records via lawful public access.",
+      "limitations": [
+        "Original RTI and formal company registry identity not retrieved. No criminal or financial conclusion is drawn from this association."
+      ],
+      "eventPeriod": "Historical association reported 3 December 2023; start/end dates unresolved",
+      "identityStatus": "Exact case-scoped recipient; no external registry identity merger",
+      "overlapGroup": "nonfinancial-role-context"
+    },
+    {
+      "id": "money-trails-mumbai:hop:reconcile",
+      "title": "11 · Challenge the arithmetic and competing documents",
+      "summary": "The named subcontract debits total ₹4,96,78,000, while rounded narrative figures and claimed residuals vary. The 2025 chargesheet report also alleges a false MoU, while the bail judgment describes valid licences/completion evidence. These differences need exhibits, not a larger headline sum.",
+      "basis": "accounting-reconciliation",
+      "flowState": "context",
+      "fromEntityId": null,
+      "toEntityId": null,
+      "entityIds": [
+        "money-trails-mumbai:entity:bmc",
+        "money-trails-mumbai:entity:sahyadri",
+        "money-trails-mumbai:entity:force-one",
+        "money-trails-mumbai:entity:sneha",
+        "money-trails-mumbai:entity:golden",
+        "money-trails-mumbai:entity:chavan"
+      ],
+      "relationshipIds": [],
+      "recordIds": [
+        "money-trails-mumbai:record:reconciliation",
+        "money-trails-mumbai:record:predicate-update",
+        "money-trails-mumbai:record:bail-counter",
+        "money-trails-mumbai:record:tribunal-response"
+      ],
+      "sourceIds": [
+        "money-trails-mumbai:source:tribunal-2026",
+        "money-trails-mumbai:source:bail-2025",
+        "money-trails-mumbai:source:eow-2025"
+      ],
+      "sourceLocators": [
+        {
+          "sourceId": "money-trails-mumbai:source:tribunal-2026",
+          "locator": "§§2,4–8,16–19",
+          "role": "supports",
+          "sourceFamily": "Original attachment order, distinct from bank exhibits"
+        },
+        {
+          "sourceId": "money-trails-mumbai:source:bail-2025",
+          "locator": "§§2,4.2,9.2,15.1,20",
+          "role": "counterevidence",
+          "sourceFamily": "Earlier High Court bail assessment"
+        },
+        {
+          "sourceId": "money-trails-mumbai:source:eow-2025",
+          "locator": "MoU/forgery and chargesheet paragraphs",
+          "role": "supports",
+          "sourceFamily": "Dated secondary reporting"
+        }
+      ],
+      "date": null,
+      "dateBasis": "Comparison of FY 2020–21 account narratives and documentary assessments published in February/May 2025 and July 2026; not a single transaction date.",
+      "financialStage": "Analytical reconciliation; no new loss or cash edge",
+      "amountRefs": [],
+      "responseRecordIds": [
+        "money-trails-mumbai:record:tribunal-response"
+      ],
+      "counterEvidenceRecordIds": [
+        "money-trails-mumbai:record:bail-counter",
+        "money-trails-mumbai:record:reconciliation"
+      ],
+      "response": "Primary bank/contract records may resolve the apparent differences. The earlier statement that predicate filing was absent is updated by dated May 2025 reporting.",
+      "alternatives": [
+        "Rounding, litigation-stage changes, costs and newly filed evidence may explain differences. Different forums decide different questions."
+      ],
+      "missingNextDocument": "Complete bank/expense/GST reconciliation, original MoU with forensic/provenance evidence, BMC ward acceptance and measured-weight registers, current trial docket.",
+      "documentHolder": "BMC Planning/Accounts; EOW/ED court exhibit custodian; contractor and bank records obtainable only through lawful public disclosure.",
+      "limitations": [
+        "Court narrative is available; underlying transaction-by-transaction bank exhibits are not. No complete source-and-use reconstruction is claimed."
+      ],
+      "eventPeriod": "2020–21 accounts; 2025 and 2026 source versions",
+      "identityStatus": "Exact case-scoped recipient; no external registry identity merger",
+      "overlapGroup": "no-cross-stage-total"
+    },
+    {
+      "id": "money-trails-mumbai:hop:funding-origin-gap",
+      "title": "12 · Stop: which public financing line funded these bills?",
+      "summary": "Court narratives identify BMC as payer, but do not disclose the specific appropriation, grant, internal reserve draw, treasury voucher or budget head financing each 2020 invoice. A modern city budget cannot fill that missing source-of-funds link.",
+      "basis": "unresolved-cash-path-stop",
+      "flowState": "gap",
+      "fromEntityId": null,
+      "toEntityId": null,
+      "entityIds": [
+        "money-trails-mumbai:entity:bmc"
+      ],
+      "relationshipIds": [],
+      "recordIds": [
+        "money-trails-mumbai:record:khichdi-trace",
+        "money-trails-mumbai:record:reconciliation"
+      ],
+      "sourceIds": [
+        "money-trails-mumbai:source:tribunal-2026"
+      ],
+      "sourceLocators": [
+        {
+          "sourceId": "money-trails-mumbai:source:tribunal-2026",
+          "locator": "§§2,5–6 identify BMC payments but no originating appropriation",
+          "role": "supports",
+          "sourceFamily": "Original attachment order, distinct from bank exhibits"
+        }
+      ],
+      "date": null,
+      "dateBasis": "Underlying invoices concern the 2020 food programme. Dates of the originating sanction, appropriation and treasury debit are not supplied by the retained court sources.",
+      "financialStage": "Unresolved upstream public funding source",
+      "amountRefs": [],
+      "responseRecordIds": [],
+      "counterEvidenceRecordIds": [],
+      "response": "No response from the public body was sought in this task. Missing public evidence is not proof of an unauthorized payment.",
+      "alternatives": [
+        "Lawful emergency budget reallocation or ordinary municipal revenue may have financed the programme."
+      ],
+      "missingNextDocument": "2020 emergency-food sanction file, budget reappropriation, municipal fund/ledger head and voucher-to-bank debit schedule.",
+      "documentHolder": "BMC Chief Accountant Finance, Planning Department and municipal Standing Committee record office.",
+      "limitations": [
+        "The trail begins with evidenced municipal payment accounts, not a verified all-source appropriation ledger."
+      ],
+      "eventPeriod": "FY 2020–21 account-analysis period",
+      "identityStatus": "Exact case-scoped recipient; no external registry identity merger",
+      "overlapGroup": "khichdi-2020-internal-flow-do-not-sum-hops",
+      "stopReason": "The underlying order does not identify the originating public fund; no inferred financial edge is drawn."
+    },
+    {
+      "id": "money-trails-mumbai:hop:onward-gap",
+      "title": "13 · Stop: ultimate use and beneficial owners remain unproved",
+      "summary": "The public order does not expose FNJ’s onward disbursements, complete prime-contractor expenses or a purchase-by-purchase link from Chavan’s receipt to the attached asset pool. These are separate missing links, not imaginary arrows to ministers or associated companies.",
+      "basis": "unresolved-cash-path-stop",
+      "flowState": "gap",
+      "fromEntityId": null,
+      "toEntityId": null,
+      "entityIds": [
+        "money-trails-mumbai:entity:fnj",
+        "money-trails-mumbai:entity:sahyadri",
+        "money-trails-mumbai:entity:force-one",
+        "money-trails-mumbai:entity:chavan",
+        "money-trails-mumbai:entity:attachment-pool"
+      ],
+      "relationshipIds": [],
+      "recordIds": [
+        "money-trails-mumbai:record:khichdi-trace",
+        "money-trails-mumbai:record:attachment-outcome",
+        "money-trails-mumbai:record:reconciliation"
+      ],
+      "sourceIds": [
+        "money-trails-mumbai:source:tribunal-2026"
+      ],
+      "sourceLocators": [
+        {
+          "sourceId": "money-trails-mumbai:source:tribunal-2026",
+          "locator": "§§5–8,17–20; source narrates selected receipts and attachment, not complete end use",
+          "role": "supports",
+          "sourceFamily": "Original attachment order, distinct from bank exhibits"
+        }
+      ],
+      "date": null,
+      "dateBasis": "The court records selected FY 2020–21 receipts and a July 2026 attachment outcome, but does not establish dates for the missing onward transactions or asset acquisitions.",
+      "financialStage": "Unresolved onward use of funds; no network-completion claim",
+      "amountRefs": [],
+      "responseRecordIds": [
+        "money-trails-mumbai:record:tribunal-response"
+      ],
+      "counterEvidenceRecordIds": [
+        "money-trails-mumbai:record:bail-counter"
+      ],
+      "response": "Chavan’s defences and attachment ruling are visible; no new adverse inference is assigned to an unverified recipient or minister.",
+      "alternatives": [
+        "Unshown balances can include genuine food costs, wages, tax, refunds or other lawful expenses."
+      ],
+      "missingNextDocument": "Legally public vendor ledgers, bank-exhibit transfer schedules, invoices and beneficial ownership/partnership records for the relevant dates; attachment asset acquisition linkage.",
+      "documentHolder": "EOW/ED and relevant courts for public exhibits; contractor records and statutory registry filings.",
+      "limitations": [
+        "No bank accounts, homes or private identifiers are published. Same-name directory companies remain unmerged."
+      ],
+      "eventPeriod": "FY 2020–21 account-analysis period",
+      "identityStatus": "Exact case-scoped recipient; no external registry identity merger",
+      "overlapGroup": "khichdi-2020-internal-flow-do-not-sum-hops",
+      "stopReason": "No independently accessible underlying ledgers or onward-transfer exhibits complete these paths."
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "money-trails-mumbai:hypothesis:cross-prime-allocation",
+      "question": "Was the ₹45 lakh inter-vendor payment a separately delivered service or an overlapping claim?",
+      "observation": "Court §5 identifies a payment between two directly paid prime contractors; no duplicated invoice or food quantity is yet identified.",
+      "expectedDocumentaryFootprints": [
+        "Distinct work-order/invoice references for the cross-prime subcontract",
+        "Sender debit and recipient credit on matching dates",
+        "Ward-level accepted packet quantities matched once to each invoice"
+      ],
+      "supportingEvidence": [
+        {
+          "kind": "relationship",
+          "id": "money-trails-mumbai:relationship:sahyadri-force"
+        }
+      ],
+      "refutingEvidence": [
+        {
+          "kind": "record",
+          "id": "money-trails-mumbai:record:bail-counter"
+        }
+      ],
+      "disconfirmationTest": "A complete, non-overlapping invoice/quantity reconciliation and authorized subcontract terms would weaken a duplicate-billing theory. No duplicate-payment claim is published without that test.",
+      "documentHolder": "BMC Planning/Accounts and public court exhibit custodian",
+      "neededRecords": [
+        "Both prime work orders dated 14/17 April 2020",
+        "Subcontract agreement and ₹45 lakh voucher",
+        "Ward receipt and meal acceptance registers"
+      ],
+      "status": "open",
+      "limitations": [
+        "Inter-vendor payment alone does not establish duplication or collusion."
+      ]
+    },
+    {
+      "id": "money-trails-mumbai:hypothesis:receipt-character",
+      "question": "What contemporaneous records distinguish employment/loan from alleged procurement benefit?",
+      "observation": "Attachment tribunal rejected explanations for ₹1.25 crore because the proof was not shown; earlier bail text discusses appointment letters.",
+      "expectedDocumentaryFootprints": [
+        "Contemporaneous appointment terms/payroll/TDS",
+        "Loan agreement and actual repayment schedule",
+        "Dated agency exhibit for each individual receipt"
+      ],
+      "supportingEvidence": [
+        {
+          "kind": "relationship",
+          "id": "money-trails-mumbai:relationship:force-chavan"
+        },
+        {
+          "kind": "record",
+          "id": "money-trails-mumbai:record:attachment-outcome"
+        }
+      ],
+      "refutingEvidence": [
+        {
+          "kind": "record",
+          "id": "money-trails-mumbai:record:bail-counter"
+        },
+        {
+          "kind": "record",
+          "id": "money-trails-mumbai:record:tribunal-response"
+        }
+      ],
+      "disconfirmationTest": "Authentic contemporaneous employment services/payroll or loan-plus-repayment evidence may rebut the alleged characterization; a final criminal merits decision would be decisive for guilt.",
+      "documentHolder": "Public court exhibit custodian; relevant firm and statutory payroll/tax records through lawful disclosure",
+      "neededRecords": [
+        "Appointment letters and forensic provenance",
+        "Bank transfer schedule with private identifiers redacted",
+        "Payroll/TDS or loan and repayment documents"
+      ],
+      "status": "supported-with-limits",
+      "limitations": [
+        "Supported here means the attachment tribunal rejected the defence on its record, not that this project independently established criminal guilt."
+      ]
+    },
+    {
+      "id": "money-trails-mumbai:hypothesis:packet-proof",
+      "question": "Can original acceptance evidence resolve conflicting assessments of eligibility, MoU authenticity and meal weights?",
+      "observation": "Earlier bail court found no official BMC proof of underweight packets; later predicate reporting alleges forged MoU and later attachment order accepts reduced weights.",
+      "expectedDocumentaryFootprints": [
+        "Original 2020 eligibility and subcontract clauses",
+        "FSSAI/health licences valid on award dates",
+        "Measured-weight/acceptance register and complaint log",
+        "Original MoU, provenance and forensic reports if relied on"
+      ],
+      "supportingEvidence": [
+        {
+          "kind": "record",
+          "id": "money-trails-mumbai:record:predicate-update"
+        },
+        {
+          "kind": "record",
+          "id": "money-trails-mumbai:record:attachment-outcome"
+        }
+      ],
+      "refutingEvidence": [
+        {
+          "kind": "record",
+          "id": "money-trails-mumbai:record:bail-counter"
+        }
+      ],
+      "disconfirmationTest": "Authorized subcontract terms and trustworthy acceptance/weight records meeting the contract would weaken ineligibility/underweight theories; genuine original MoU and authenticated signing history would test forgery claims.",
+      "documentHolder": "BMC Planning, Health and ward offices; EOW/ED public court exhibits",
+      "neededRecords": [
+        "Original 14/17 April 2020 work orders",
+        "Standing Committee minutes 7 April 2020 and completion resolution",
+        "Signed ward acceptance/weight registers",
+        "Original MoU with forensic/provenance annexures"
+      ],
+      "status": "open",
+      "limitations": [
+        "A later food tender cannot establish what the 2020 contract required."
+      ]
+    },
+    {
+      "id": "money-trails-mumbai:hypothesis:historical-role-cash-test",
+      "question": "Does the reported contractor–police business association have any evidenced money connection to the food programme?",
+      "observation": "A dated report names a historical association but identifies no COVID cash transfer; Mashilkar says the business won no contracts and closed.",
+      "expectedDocumentaryFootprints": [
+        "Relevant-year company legal identity, directors/shareholders and accounts",
+        "Documented actual transaction between the specific company and food contractor if any",
+        "Contract/revenue and closure records"
+      ],
+      "supportingEvidence": [
+        {
+          "kind": "record",
+          "id": "money-trails-mumbai:record:historical-role-context"
+        }
+      ],
+      "refutingEvidence": [
+        {
+          "kind": "record",
+          "id": "money-trails-mumbai:record:mashilkar-response"
+        }
+      ],
+      "disconfirmationTest": "Verified closure before the programme or no matching transaction/contracts would refute the proposed financial route. The present record already lacks support for such a cash link.",
+      "documentHolder": "Statutory company registry and lawfully public company/court records",
+      "neededRecords": [
+        "Original company identity and historical annual returns",
+        "Relevant-year audited accounts and closure/cessation documents",
+        "Any legally public transaction exhibit, if it exists"
+      ],
+      "status": "weakened",
+      "limitations": [
+        "Only the historical role context is graphed. The unsupported financial route is not drawn."
+      ]
+    }
+  ]
+}

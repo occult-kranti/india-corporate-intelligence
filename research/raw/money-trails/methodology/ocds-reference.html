@@ -1,0 +1,2688 @@
+
+
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+
+  <script src="https://use.typekit.net/xpw3jps.js"></script>
+  <script>try{Typekit.load({ async: true });}catch(e){}</script>
+
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.18: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Release Reference &mdash; Open Contracting Data Standard 1.1.5 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/favicon-16x16.ico"/>
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+    <link rel="stylesheet" href="../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" type="text/css" />
+  
+    <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../genindex/"/>
+        <link rel="search" title="Search" href="../../search/"/>
+    <link rel="top" title="Open Contracting Data Standard 1.1.5 documentation" href="../../"/>
+        <link rel="up" title="Reference" href="../"/>
+        <link rel="next" title="Release Schema" href="../release/"/>
+        <link rel="prev" title="Reference" href="../"/> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+  <script src="https://cdn.usefathom.com/script.js" data-site="HTWZHRIZ" defer data-excluded-domains="localhost,127.0.0.1,0.0.0.0"></script>
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  
+<div style="display: none; visibility: hidden;">
+  <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <defs><path id="a" d="M0 38h481.857V.138H0V38z"/></defs>
+    <symbol id="icon-search" viewBox="0 0 25 25"><path d="M9.316 15.75c1.788 0 3.307-.625 4.558-1.876 1.25-1.25 1.877-2.77 1.877-4.558 0-1.787-.625-3.306-1.876-4.557-1.25-1.252-2.77-1.878-4.558-1.878-1.787 0-3.306.626-4.557 1.877C3.507 6.01 2.88 7.53 2.88 9.315c0 1.788.626 3.307 1.877 4.558 1.25 1.25 2.77 1.877 4.556 1.877zm8.58 0L25 22.856 22.855 25l-7.104-7.105v-1.14l-.4-.4c-1.7 1.473-3.71 2.21-6.034 2.21-2.59 0-4.792-.893-6.602-2.68C.904 14.097 0 11.908 0 9.315c0-2.59.905-4.79 2.714-6.6C4.524.904 6.724 0 9.316 0c2.592 0 4.78.905 6.57 2.714 1.786 1.81 2.68 4.01 2.68 6.602 0 2.324-.738 4.335-2.212 6.033l.402.4h1.14z" fill="inherit" fill-rule="evenodd"/></symbol>
+    <symbol id="ocp-logo-only" viewBox="0 0 80 38"><title>ocp-logo-only</title><g fill="none" fill-rule="evenodd"><path d="M33.568 4.227L25.216.14 7.952 7.072l7.94 5.81L0 20.664 16.92 38l16.648-12.182L50.216 38l16.92-17.336-15.89-7.78 7.937-5.81L41.917.138l-8.35 4.087z" fill="#D9E021"/><path d="M25.216.138L7.952 7.073l7.94 5.81 17.676-8.656-8.352-4.09z" fill="#B9C504"/><path d="M33.568 25.818L50.216 38l16.92-17.336-15.89-7.78-17.678 12.934z" fill="#D9E021"/><path d="M51.245 12.884L33.568 25.818V4.228l17.677 8.656z" fill="#B9C504"/><path d="M33.568 4.227v21.59L15.89 12.885 33.57 4.227z" fill="#9DAD01"/><path d="M0 20.664L16.92 38l16.648-12.182L15.89 12.884 0 20.664zM41.916.138l-8.348 4.09 17.676 8.656 7.94-5.81L41.915.137z" fill="#D9E021"/></g></symbol>
+  </svg>
+</div>
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+
+      
+
+      <div class="oc-switchers">
+        <form method="get" action="/switcher">
+          <select class="oc-custom-select" name="branch" onchange="this.form.submit()">
+            
+<option>Version</option>
+<option value="latest">1.1.5 (latest)</option>
+<option value="1.0">1.0.3</option>
+
+
+          </select>  
+          <noscript>
+             <input class="oc-custom-submit" type="submit" value="Go" />
+          </noscript>
+        </form>
+        <form method="get" action="../../../switcher/">
+          <select class="oc-custom-select" name="lang" onchange="this.form.submit()">
+            
+            <option>Language</option>
+            <optgroup label="Supported translations">
+                <option value="en">English</option>
+                <option value="es">Español</option>
+                <option value="fr">Français</option>
+            </optgroup>
+
+          </select>  
+          <noscript>
+            <input class="oc-custom-submit" type="submit" value="Go" />
+          </noscript>
+        </form>
+      </div>
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+<a href="../../">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 330.7 163.07" style="enable-background:new 0 0 330.7 163.07; width: 100%" xml:space="preserve">
+    <title>Open Contracting Data Standard</title>
+    <style>.st0{fill:#c8d419}.st1{fill:#fff}</style><g id="Layer_1"><path class="st0" d="M77.07 45.97c0 8.36-6.27 13.87-14.17 13.87s-14.17-5.51-14.17-13.87S55 32.1 62.9 32.1s14.17 5.52 14.17 13.87zm-20.74 0c0 4.14 2.81 6.65 6.57 6.65 3.76 0 6.57-2.51 6.57-6.65 0-4.14-2.81-6.65-6.57-6.65-3.76.01-6.57 2.51-6.57 6.65z"/><path class="st1" d="M101.36 42.06c0 5.36-3.19 9.38-10.79 9.38h-3.15v7.83H80.2v-26.6h10.37c7.59.01 10.79 4.03 10.79 9.39zm-7.45 0c0-2.01-1.44-3-3.53-3h-2.96v6h2.96c2.08 0 3.53-.99 3.53-3zm27.7 10.6v6.61h-17.52v-26.6h16.95v6.61h-9.73v3.15h8.55v6.27h-8.55v3.95h10.3zm29.14 6.61h-5.62l-12.54-14.29h-.08v14.29h-7.22v-26.6h5.62l12.54 14.29h.08V32.68h7.22v26.59zM24.2 79.83c0-8.81 6.38-13.87 14.63-13.87 4.22 0 7.48 1.29 9.84 2.93l-3.8 6.19c-1.82-1.25-3.5-2.01-5.81-2.01-3.91 0-7.26 2.36-7.26 6.76 0 4.41 3.34 6.76 7.26 6.76 2.32 0 3.99-.76 5.81-2.01l3.8 6.19a17.03 17.03 0 0 1-9.84 2.93c-8.25 0-14.63-5.05-14.63-13.87z"/><path class="st0" d="M77.09 79.83c0 8.36-6.27 13.87-14.17 13.87s-14.17-5.51-14.17-13.87 6.27-13.87 14.17-13.87 14.17 5.51 14.17 13.87zm-20.75 0c0 4.14 2.81 6.65 6.57 6.65 3.76 0 6.57-2.51 6.57-6.65 0-4.14-2.81-6.65-6.57-6.65-3.75 0-6.57 2.51-6.57 6.65z"/><path class="st1" d="M105.66 93.13h-5.62L87.5 78.85h-.08v14.29H80.2v-26.6h5.62l12.54 14.29h.08v-14.3h7.22v26.6zm23.26-19.98h-6.65v19.98h-7.22V73.15h-6.65v-6.61h20.52v6.61zm16.8 19.98-6.84-9.88v9.88h-7.22v-26.6h11.36c7.03 0 10.03 4.14 10.03 8.74 0 3.53-1.79 6.69-5.7 7.98l7.37 9.88h-9zm-6.84-20.21v5.7h3.15c2.2 0 3.53-.91 3.53-2.89s-1.33-2.81-3.53-2.81h-3.15zm36.18 15.23h-9.08l-1.63 4.98h-7.98l10.3-26.6h7.71l10.3 26.6h-7.98l-1.64-4.98zm-1.82-5.7-2.7-8.32-2.74 8.32h5.44zm10.95-2.62c0-8.81 6.38-13.87 14.63-13.87 4.22 0 7.49 1.29 9.84 2.93l-3.8 6.19c-1.82-1.25-3.5-2.01-5.81-2.01-3.91 0-7.26 2.36-7.26 6.76 0 4.41 3.34 6.76 7.26 6.76 2.32 0 3.99-.76 5.81-2.01l3.8 6.19a17.03 17.03 0 0 1-9.84 2.93c-8.25 0-14.63-5.05-14.63-13.87zm46.82-6.68h-6.65v19.98h-7.22V73.15h-6.65v-6.61h20.52v6.61zm9.96 19.98h-7.22v-26.6h7.22v26.6zm30.09 0h-5.62L252.9 78.85h-.08v14.29h-7.22v-26.6h5.62l12.54 14.29h.08v-14.3h7.22v26.6zm30.51-12.88c0 7.79-4.48 13.45-12.96 13.45-8.66 0-14.44-5.66-14.44-13.91 0-7.9 5.32-13.83 14.82-13.83 4.29 0 7.6 1.22 10.64 3.42l-4.41 5.93a9.9 9.9 0 0 0-6.46-2.43c-4.37 0-6.99 2.85-6.99 6.95 0 3.88 2.36 6.95 7.18 6.95 3.42 0 5.05-1.52 5.36-3.34h-6.57v-6.08h13.72c.08 1.03.11 2.13.11 2.89zM62.8 107.94l-6.19 19h-7.98l10.3-26.6h7.71l10.3 26.6h-7.98l-6.16-19z"/></g><path class="st1" d="M49.59 113.61c0 8.28-5.55 13.3-14.48 13.3h-9.08v-26.6h9.08c9.01 0 14.48 5.01 14.48 13.3zm-16.34-6.84v13.68h1.9c4.1 0 6.84-2.28 6.84-6.84s-2.74-6.84-6.84-6.84h-1.9zm60.88-.12h-6.65v19.99h-7.22v-19.99h-6.65v-6.61h20.52v6.61zm14.52 15.28h-9.08l-1.63 4.98h-7.98l10.3-26.6h7.71l10.3 26.6h-7.98l-1.64-4.98zm-1.82-5.7-2.7-8.32-2.74 8.32h5.44zm37.24-14.25-3.12 6.42a12.66 12.66 0 0 0-6.5-2.13c-1.14 0-1.63.3-1.63.99 0 .49.3.87 1.41 1.44l5.47 2.81c2.81 1.44 4.94 3.34 4.94 7.52 0 5.47-3.65 8.44-10.45 8.44-3.95 0-7.64-.99-11.25-3l3.31-6.92c3.15 2.24 5.74 3.27 8.32 3.27 1.41 0 2.24-.3 2.24-1.18 0-.65-.46-.99-1.29-1.41l-5.81-2.92a8.05 8.05 0 0 1-4.71-7.52c0-4.75 3.31-8.05 9.99-8.05 2.77 0 5.66.57 9.08 2.24zm21.34 4.94h-6.65v19.99h-7.22v-19.99h-6.65v-6.61h20.52v6.61zm13.91 15.01h-9.08l-1.63 4.98h-7.98l10.3-26.6h7.71l10.3 26.6h-7.98l-1.64-4.98zm-1.83-5.7-2.7-8.32-2.74 8.32h5.44zm38.29 10.67h-5.62l-12.54-14.29h-.08v14.29h-7.22v-26.6h5.62l12.54 14.29h.08V100.3h7.22v26.6zm25.8-13.29c0 8.28-5.55 13.3-14.48 13.3h-9.08v-26.6h9.08c9.01 0 14.48 5.01 14.48 13.3zm-16.33-6.84v13.68h1.9c4.1 0 6.84-2.28 6.84-6.84s-2.74-6.84-6.84-6.84h-1.9zm32.14 15.16h-9.08l-1.63 4.98h-7.98l10.3-26.6h7.71l10.3 26.6h-7.98l-1.64-4.98zm-1.82-5.7-2.7-8.32-2.74 8.32h5.44zm26.89 10.67-6.84-9.88v9.88h-7.22v-26.6h11.36c7.03 0 10.03 4.14 10.03 8.74 0 3.53-1.79 6.69-5.7 7.98l7.37 9.88h-9zm-6.84-20.21v5.7h3.15c2.2 0 3.53-.91 3.53-2.89s-1.33-2.81-3.53-2.81h-3.15zm41.75 6.92c0 8.28-5.55 13.3-14.48 13.3h-9.08v-26.6h9.08c9 0 14.48 5.01 14.48 13.3zm-16.34-6.84v13.68h1.9c4.1 0 6.84-2.28 6.84-6.84s-2.74-6.84-6.84-6.84h-1.9z" id="Layer_2"/><path class="st1" d="M164.29 47.61c0 4.14 2.81 6.65 6.57 6.65 3.76 0 6.57-2.51 6.57-6.65 0-4.14-2.81-6.65-6.57-6.65-3.76 0-6.57 2.51-6.57 6.65zm22.95 0c0 4.14 2.81 6.65 6.57 6.65 3.76 0 6.57-2.51 6.57-6.65 0-4.14-2.81-6.65-6.57-6.65-3.76 0-6.57 2.51-6.57 6.65zm22.94 0c0 4.14 2.81 6.65 6.57 6.65 3.76 0 6.57-2.51 6.57-6.65 0-4.14-2.81-6.65-6.57-6.65-3.76 0-6.57 2.51-6.57 6.65zm45.89 0c0 4.14 2.81 6.65 6.57 6.65 3.76 0 6.57-2.51 6.57-6.65 0-4.14-2.81-6.65-6.57-6.65-3.75 0-6.57 2.51-6.57 6.65zm-22.94 0c0 4.14 2.81 6.65 6.57 6.65 3.76 0 6.57-2.51 6.57-6.65 0-4.14-2.81-6.65-6.57-6.65-3.76 0-6.57 2.51-6.57 6.65zm42.56 0c0 6.24 4.24 10.02 9.9 10.02 5.67 0 9.9-3.78 9.9-10.02s-4.24-10.02-9.9-10.02-9.9 3.78-9.9 10.02z" id="Layer_3"/>
+  </svg>
+</a>
+
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../primer/">Primer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guidance/">Guidance</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../">Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Release Reference</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#release-handling">Release handling</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#empty-fields">Empty fields</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#emptying-fields-and-values">Emptying fields and values</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#language">Language</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#worked-example">Worked example</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#release-structure">Release structure</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#package-metadata">Package Metadata</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#release">Release</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parties">Parties</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#planning">Planning</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="#budget">Budget</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#tender">Tender</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#bids">Bids</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#award">Award</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#contract">Contract</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#implementation">Implementation</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="#transaction">Transaction</a></li>
+<li class="toctree-l5"><a class="reference internal" href="#milestones">Milestones</a></li>
+<li class="toctree-l5"><a class="reference internal" href="#documents">Documents</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#amendment">Amendment</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="#changes">Changes</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#building-block-reference">Building block reference</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#organizationreference">OrganizationReference</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#organization">Organization</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="#identifier">Identifier</a></li>
+<li class="toctree-l5"><a class="reference internal" href="#address">Address</a></li>
+<li class="toctree-l5"><a class="reference internal" href="#contactpoint">ContactPoint</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#document">Document</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#period">Period</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="#date">Date</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#item">Item</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="#classification">Classification</a></li>
+<li class="toctree-l5"><a class="reference internal" href="#unit">Unit</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#milestone">Milestone</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#value">Value</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#relatedprocess">RelatedProcess</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#location">Location</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#publisher">Publisher</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../release/">Release Schema</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../release_package/">Release Package Schema</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../records_reference/">Record Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../record_package/">Record Package Schema</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../merging/">Merging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../identifiers/">Identifiers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../codelists/">Codelists</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../conformance_and_extensions/">Conformance and extensions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../support/">Getting Help</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../governance/">Governance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../history/">History</a></li>
+</ul>
+
+            
+            
+<ul class="oc-extra-nav">
+   <li class="toctree-l1"><a class="reference internal" href="https://review.standard.open-contracting.org/">Data Review Tool</a></li>
+   <li class="toctree-l1"><a class="reference internal" href="https://data.open-contracting.org/" title="Download OCDS data">Data Registry</a></li>
+</ul>
+
+          
+          
+<div class="oc-searchbox-wrapper">
+  <div role="search">
+    <form id="rtd-search-form" class="wy-form" action="../../search/" method="get">
+      <input type="text" name="q" placeholder="Search" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+  </div>
+  <svg class="oc-search-icon">
+    <use xlink:href="#icon-search" />
+  </svg>
+</div>
+          
+          <p class="oc-developed-by">Developed by</p>
+          <a class="oc-logo-text" href="https://www.open-contracting.org">
+            <img src="../../_static/images/ocp-logo.png" alt="Open Contracting Partnership" width="200" height="69">
+          </a>
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+       
+<i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+<a href="../../">Open Contracting Data Standard <small>v1.1</small></a>
+
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../">Docs</a> &raquo;</li>
+      
+        <li><a href="../">Reference</a> &raquo;</li>
+      
+    <li>Release Reference</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        
+          <a href="../../_sources/schema/reference.md.txt" rel="nofollow"> View page source</a>
+        
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <section id="release-reference">
+<h1>Release Reference<a class="headerlink" href="#release-reference" title="Permalink to this heading">¶</a></h1>
+<p>The <a class="reference internal" href="../release/"><span class="doc std std-doc">Release Schema</span></a> provides a detailed specification of the fields and data structures to use when publishing contracting data. Supplementary schemas show how to combine releases into release packages and how to compile releases into records.</p>
+<p>Releases are immutable – presenting information about a particular event in the lifetime of a contracting process. Publishers must not edit a release after publication; a new release can be created by changing the release's <code class="docutils literal notranslate"><span class="pre">id</span></code> and <code class="docutils literal notranslate"><span class="pre">date</span></code>.</p>
+<p><strong>Note: If any conflicts are found between this text, and the text within the schema, the schema takes precedence.</strong></p>
+<div class="note admonition">
+<p class="admonition-title">Browsing the schema</p>
+<p>This page presents the release schema in tables, with additional information in paragraphs. You can also download the canonical version of the release schema as <a class="reference download internal" download="" href="../../_downloads/923a57528bfa8bcabcc16c449b636b26/release-schema.json"><span class="xref download myst">JSON Schema</span></a>, download it as a <a class="reference download internal" download="" href="../../_downloads/f51663a723247740b30a1c24a3032b23/release-schema.csv"><span class="xref download myst">CSV spreadsheet</span></a>, view it in an <a class="reference internal" href="../release/"><span class="doc std std-doc">interactive browser</span></a>, or access it through the <a class="reference external" href="https://www.open-contracting.org/resources/ocds-field-level-mapping-template/">Field-Level Mapping Template</a>.</p>
+</div>
+<section id="release-handling">
+<h2>Release handling<a class="headerlink" href="#release-handling" title="Permalink to this heading">¶</a></h2>
+<p>The full OCDS data model is based on the idea of publishing a new release every time information about a contracting process changes. This way, users can gain a full view of change over time, and third-parties can  understand what needs to be updated in any system that is tracking the progress of a contracting process.</p>
+<p>Publishers will need to choose how to generate new releases, and whether to repeat information in each release, or just to provide changes. This choice ought to be based on an understanding of the <a class="reference internal" href="../merging/"><span class="doc std std-doc">merging process</span></a> that is used to generate a snapshot record of a full contracting process.</p>
+<p>In this model, publishers need to to pay careful attention to null values and missing fields.</p>
+<section id="empty-fields">
+<h3>Empty fields<a class="headerlink" href="#empty-fields" title="Permalink to this heading">¶</a></h3>
+<p>Fields that are not being used, or that have no value, should be excluded in their entirety (key and value) from a published file.</p>
+<p>Only including fields which have values will keep versioned datasets cleaner.</p>
+</section>
+<section id="emptying-fields-and-values">
+<h3>Emptying fields and values<a class="headerlink" href="#emptying-fields-and-values" title="Permalink to this heading">¶</a></h3>
+<p>There can be cases where a publisher needs to remove, rather than update, a value which was set in a previous release. In this case, the fields must be set to <code class="docutils literal notranslate"><span class="pre">null</span></code>. See the <a class="reference internal" href="../merging/"><span class="doc std std-doc">merging documentation</span></a> for more details.</p>
+</section>
+</section>
+<section id="language">
+<h2>Language<a class="headerlink" href="#language" title="Permalink to this heading">¶</a></h2>
+<p>Many publishers need to be able to share key data in multiple languages. All free-text title and description fields in the Open Contracting Data Standard can be given in one or more languages.</p>
+<p>Language variations are included by a copy of multi-lingual fields, suffixed with a language code.</p>
+<p>E.g. <code class="docutils literal notranslate"><span class="pre">title</span></code> and <code class="docutils literal notranslate"><span class="pre">title_es</span></code></p>
+<p>In order to allow users to identify the language used in non-suffixed fields, OCDS release and records should declare the default language in the <code class="docutils literal notranslate"><span class="pre">language</span></code> field.</p>
+<p>Languages must be identified using language tags taken from <a class="reference external" href="https://tools.ietf.org/html/bcp47">BCP47</a>. The specification allows BCP47 values in order to accommodate variations in dialect where this is important. However, publishers <strong>should</strong> use the lowercase two-letter <a class="reference external" href="https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes">ISO639-1 language tags</a> in the vast majority of circumstances, to avoid users having to distinguish between sub-tag variations (for example, OCDS publishers should use 'en' instead of 'en_US' or 'en_GB').</p>
+<p>To include a language variation of a field, the field name must be suffixed with _ and the appropriate language tag. For example: <code class="docutils literal notranslate"><span class="pre">title_es</span></code> for Spanish.</p>
+<section id="worked-example">
+<h3>Worked example<a class="headerlink" href="#worked-example" title="Permalink to this heading">¶</a></h3>
+<p>A contract for ‘Software consultancy services’ is published in a release with the default language sent to ‘en’ (the ISO639-1 code for English). The following examples give the description of an item as English, French and Spanish.</p>
+<p><strong>json</strong></p>
+<div class="file-language expandjson expand-tender expandjson expand-item docutils container">
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;language&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;en&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;tender&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;item&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Software consultancy services&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;description_es&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Servicios de consultoria en software&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;description_fr&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Services de conseil en logiciels&quot;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<p><strong>csv</strong></p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>description</p></th>
+<th class="head"><p>description_es</p></th>
+<th class="head"><p>description_fr</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Software consultancy services</p></td>
+<td><p>Servicios de consultoria en software</p></td>
+<td><p>Services de conseil en logiciels</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="release-structure">
+<h2>Release structure<a class="headerlink" href="#release-structure" title="Permalink to this heading">¶</a></h2>
+<p>The majority of OCDS data is held within a release structure. One or more releases can be published within a release package. Releases are made up of a number of sections, arranged in the following structure.</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#package-metadata"><span class="std std-doc">package</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#release"><span class="std std-doc">release</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#parties"><span class="std std-doc">parties</span></a></p></li>
+<li><p><a class="reference internal" href="#planning"><span class="std std-doc">planning</span></a></p></li>
+<li><p><a class="reference internal" href="#tender"><span class="std std-doc">tender</span></a></p></li>
+<li><p><a class="reference internal" href="#award"><span class="std std-doc">award</span></a></p></li>
+<li><p><a class="reference internal" href="#contract"><span class="std std-doc">contract</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#implementation"><span class="std std-doc">implementation</span></a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>Releases are given a <a class="reference internal" href="../codelists/#release-tag"><span class="std std-doc">tag</span></a> to indicate the specific stage of a contracting process they represent. However, there are no formal restrictions on when information about a stage of the contracting process can be provided.</p>
+<p>For example, a publisher announcing the signing of a contract with a 'contract' tag might also include information in the award and tender blocks in order to provide a comprehensive picture of the contracting process to date which led to that contract being signed.</p>
+<section id="package-metadata">
+<h3>Package Metadata<a class="headerlink" href="#package-metadata" title="Permalink to this heading">¶</a></h3>
+<p>Releases must be published within a <a class="reference internal" href="../release_package/"><span class="doc std std-doc">release package</span></a>. The release package provides metadata about the release(s) that it contains.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head" colspan="1"><p>Title</p></th>
+<th class="head" colspan="1"><p>Description</p></th>
+<th class="head" colspan="1"><p>Type</p></th>
+<th class="head" colspan="1"><p>Format</p></th>
+<th class="head" colspan="1"><p>Required</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-package-schema.json,,uri"><span class="pre">uri</span></code></td>
+<td colspan="1"><p>string</p></td>
+<td colspan="1"><p>uri</p></td>
+<td colspan="1"><p>Required</p></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Package identifier</p></td>
+<td colspan="4"><p>The URI of this package that identifies it uniquely in the world. Recommended practice is to use a dereferenceable URI, where a persistent copy of this package is available.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-package-schema.json,,version"><span class="pre">version</span></code></td>
+<td colspan="1"><p>string</p></td>
+<td colspan="1"></td>
+<td colspan="1"><p>Required</p></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>OCDS schema version</p></td>
+<td colspan="4"><p>The version of the OCDS schema used in this package, expressed as major.minor For example: 1.0 or 1.1</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-package-schema.json,,extensions"><span class="pre">extensions</span></code></td>
+<td colspan="1"><p>array[string]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>OCDS extensions</p></td>
+<td colspan="4"><p>An array of OCDS extensions used in this package, in which each array item is the URL of an extension.json file.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-package-schema.json,,publishedDate"><span class="pre">publishedDate</span></code></td>
+<td colspan="1"><p>string</p></td>
+<td colspan="1"><p>date-time</p></td>
+<td colspan="1"><p>Required</p></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Published date</p></td>
+<td colspan="4"><p>The date that this package was published. If this package is generated 'on demand', this date should reflect the date of the last change to the underlying contents of the package.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-package-schema.json,,releases"><span class="pre">releases</span></code></td>
+<td colspan="1"><p>array[object]</p></td>
+<td colspan="1"></td>
+<td colspan="1"><p>Required</p></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Releases</p></td>
+<td colspan="4"><p>An array of one or more OCDS releases.</p>
+<p>
+
+See <a class="reference external" href="#release-schema-json">release-schema.json</a></p>
+</td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-package-schema.json,,publisher"><span class="pre">publisher</span></code></td>
+<td colspan="1"><p>object</p></td>
+<td colspan="1"></td>
+<td colspan="1"><p>Required</p></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Publisher</p></td>
+<td colspan="4"><p>Information to uniquely identify the publisher of this package.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-package-schema.json,,license"><span class="pre">license</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"><p>uri</p></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>License</p></td>
+<td colspan="4"><p>A link to the license that applies to the data in this package. A Public Domain Dedication or <a class="reference external" href="https://opendefinition.org/licenses/">Open Definition Conformant</a> license is recommended. The canonical URI of the license should be used. Documents linked from this file may be under other license conditions.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-package-schema.json,,publicationPolicy"><span class="pre">publicationPolicy</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"><p>uri</p></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Publication policy</p></td>
+<td colspan="4"><p>A link to a document describing the publishers <a class="reference external" href="https://standard.open-contracting.org/1.1/en/guidance/publish/#finalize-your-publication-policy">publication policy</a>.</p></td>
+</tr>
+</tbody>
+</table>
+<p>See the <a class="reference internal" href="../../guidance/publish/#license-your-data"><span class="std std-doc">licensing guidance</span></a> for more details on selecting a license, and publishing license information.</p>
+<p>See the <a class="reference internal" href="../../guidance/publish/#finalize-your-publication-policy"><span class="std std-doc">publication policy</span></a> guidance for more details on what to include in a publication policy.</p>
+</section>
+<section id="release">
+<h3>Release<a class="headerlink" href="#release" title="Permalink to this heading">¶</a></h3>
+<p>All new information about a contracting process is described within a release.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head" colspan="1"><p>Title</p></th>
+<th class="head" colspan="1"><p>Description</p></th>
+<th class="head" colspan="1"><p>Type</p></th>
+<th class="head" colspan="1"><p>Format</p></th>
+<th class="head" colspan="1"><p>Required</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,,ocid"><span class="pre">ocid</span></code></td>
+<td colspan="1"><p>string</p></td>
+<td colspan="1"></td>
+<td colspan="1"><p>Required</p></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Open Contracting ID</p></td>
+<td colspan="4"><p>A globally unique identifier for this Open Contracting Process. Composed of an ocid prefix and an identifier for the contracting process. For more information see the <a class="reference external" href="https://standard.open-contracting.org/1.1/en/schema/identifiers/">Open Contracting Identifier guidance</a></p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,,id"><span class="pre">id</span></code></td>
+<td colspan="1"><p>string</p></td>
+<td colspan="1"></td>
+<td colspan="1"><p>Required</p></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Release ID</p></td>
+<td colspan="4"><p>An identifier for this particular release of information. A release identifier must be unique within the scope of its related contracting process (defined by a common ocid). A release identifier must not contain the # character.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,,date"><span class="pre">date</span></code></td>
+<td colspan="1"><p>string</p></td>
+<td colspan="1"><p>date-time</p></td>
+<td colspan="1"><p>Required</p></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Release Date</p></td>
+<td colspan="4"><p>The date on which the information contained in the release was first recorded in, or published by, any system.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,,tag"><span class="pre">tag</span></code></td>
+<td colspan="1"><p>array[string]</p></td>
+<td colspan="1"></td>
+<td colspan="1"><p>Required</p></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Release Tag</p></td>
+<td colspan="4"><p>One or more values from the closed <a class="reference external" href="https://standard.open-contracting.org/1.1/en/schema/codelists/#release-tag">releaseTag</a> codelist. Tags can be used to filter releases and to understand the kind of information that releases might contain.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,,initiationType"><span class="pre">initiationType</span></code></td>
+<td colspan="1"><p>string</p></td>
+<td colspan="1"></td>
+<td colspan="1"><p>Required</p></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Initiation type</p></td>
+<td colspan="4"><p>The type of initiation process used for this contract, from the closed <a class="reference external" href="https://standard.open-contracting.org/1.1/en/schema/codelists/#initiation-type">initiationType</a> codelist.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,,parties"><span class="pre">parties</span></code></td>
+<td colspan="1"><p>array[Organization]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Parties</p></td>
+<td colspan="4"><p>Information on the parties (organizations, economic operators and other participants) who are involved in the contracting process and their roles, e.g. buyer, procuring entity, supplier etc. Organization references elsewhere in the schema are used to refer back to this entries in this list.</p>
+<p>
+
+See <a class="reference external" href="#organization">Organization</a></p>
+</td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,,buyer"><span class="pre">buyer</span></code></td>
+<td colspan="1"><p>object</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Buyer</p></td>
+<td colspan="4"><p>A buyer is an entity whose budget will be used to pay for goods, works or services related to a contract. This may be different from the procuring entity who may be specified in the tender data.</p>
+<p>
+
+See <a class="reference external" href="#organizationreference">OrganizationReference</a></p>
+</td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,,planning"><span class="pre">planning</span></code></td>
+<td colspan="1"><p>object</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Planning</p></td>
+<td colspan="4"><p>Information from the planning phase of the contracting process. This includes information related to the process of deciding what to contract, when and how.</p>
+<p>
+
+See <a class="reference external" href="#planning">Planning</a></p>
+</td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,,tender"><span class="pre">tender</span></code></td>
+<td colspan="1"><p>object</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Tender</p></td>
+<td colspan="4"><p>The activities undertaken in order to enter into a contract.</p>
+<p>
+
+See <a class="reference external" href="#tender">Tender</a></p>
+</td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,,awards"><span class="pre">awards</span></code></td>
+<td colspan="1"><p>array[Award]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Awards</p></td>
+<td colspan="4"><p>Information from the award phase of the contracting process. There can be more than one award per contracting process e.g. because the contract is split among different providers, or because it is a standing offer.</p>
+<p>
+
+See <a class="reference external" href="#award">Award</a></p>
+</td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,,contracts"><span class="pre">contracts</span></code></td>
+<td colspan="1"><p>array[Contract]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Contracts</p></td>
+<td colspan="4"><p>Information from the contract creation phase of the procurement process.</p>
+<p>
+
+See <a class="reference external" href="#contract">Contract</a></p>
+</td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,,language"><span class="pre">language</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Release language</p></td>
+<td colspan="4"><p>The default language of the data using either two-letter <a class="reference external" href="https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes">ISO639-1</a>, or extended <a class="reference external" href="https://www.w3.org/International/articles/language-tags/">BCP47 language tags</a>. The use of lowercase two-letter codes from <a class="reference external" href="https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes">ISO639-1</a> is recommended.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,,relatedProcesses"><span class="pre">relatedProcesses</span></code></td>
+<td colspan="1"><p>array[Related Process]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Related processes</p></td>
+<td colspan="4"><p>The details of related processes: for example, if this process follows on from one or more other processes, represented under a separate open contracting identifier (ocid). This is commonly used to relate mini-competitions to their parent frameworks or individual tenders to a broader planning process.</p>
+<p>
+
+See <a class="reference external" href="#relatedprocess">RelatedProcess</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note extension_list" id="extensionlist-release">
+<p class="admonition-title">The following extensions are available for release</p>
+<dl class="simple">
+<dt><a class="reference external" href="https://extensions.open-contracting.org/en/extensions/process_title/v1.1.5/">Process level title and description</a></dt><dd><p>For providing overall process titles and descriptions, often to give a free-text summary of the contracting process as a whole.</p>
+</dd>
+</dl>
+<p class="hide">The following are community extensions and are not maintained by Open Contracting Partnership.</p>
+</div>
+</section>
+<section id="parties">
+<h3>Parties<a class="headerlink" href="#parties" title="Permalink to this heading">¶</a></h3>
+<p>Each of the parties (organizations or other participants) referenced in a release must be included in the parties section.</p>
+<div class="note admonition">
+<p class="admonition-title">Parties</p>
+<p>Version 1.1 of OCDS introduces a new approach to describing the buyers,  suppliers, economic operators, and other participants in a contracting process. Instead of embedding organization information at various points within an OCDS release, information on all the parties involved in a contracting process is collected together in a top-level section, and the parties indicated by a cross-reference to their id at other points.</p>
+<p>This reduces repetition of information on parties who appear at multiple points in the contracting process, and supports publication of information about additional parties to the contracting process, including auditors, multiple buyers, and consortia partners of a winning bidder.</p>
+<p>The old, embedded data, approach to organization data is deprecated in OCDS 1.1, and will be removed in version 2.0.</p>
+</div>
+<p>The following details can be provided for each party.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head" colspan="1"><p>Title</p></th>
+<th class="head" colspan="1"><p>Description</p></th>
+<th class="head" colspan="1"><p>Type</p></th>
+<th class="head" colspan="1"><p>Format</p></th>
+<th class="head" colspan="1"><p>Required</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Organization,name"><span class="pre">name</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Common name</p></td>
+<td colspan="4"><p>A common name for this organization or other participant in the contracting process. The identifier object provides a space for the formal legal name, and so this may either repeat that value, or may provide the common name by which this organization or entity is known. This field may also include details of the department or sub-unit involved in this contracting process.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Organization,id"><span class="pre">id</span></code></td>
+<td colspan="1"><p>string</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Entity ID</p></td>
+<td colspan="4"><p>The ID used for cross-referencing to this party from other sections of the release. This field may be built with the following structure {identifier.scheme}-{identifier.id}(-{department-identifier}).</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Organization,identifier"><span class="pre">identifier</span></code></td>
+<td colspan="1"><p>object</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Primary identifier</p></td>
+<td colspan="4"><p>The primary identifier for this organization or participant. Identifiers that uniquely pick out a legal entity should be preferred. Consult the <a class="reference external" href="https://standard.open-contracting.org/1.1/en/schema/identifiers/">organization identifier guidance</a> for the preferred scheme and identifier to use.</p>
+<p>
+
+See <a class="reference external" href="#identifier">Identifier</a></p>
+</td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Organization,additionalIdentifiers"><span class="pre">additionalIdentifiers</span></code></td>
+<td colspan="1"><p>array[Identifier]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Additional identifiers</p></td>
+<td colspan="4"><p>A list of additional / supplemental identifiers for the organization or participant, using the <a class="reference external" href="https://standard.open-contracting.org/1.1/en/schema/identifiers/">organization identifier guidance</a>. This can be used to provide an internally used identifier for this organization in addition to the primary legal entity identifier.</p>
+<p>
+
+See <a class="reference external" href="#identifier">Identifier</a></p>
+</td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Organization,address"><span class="pre">address</span></code></td>
+<td colspan="1"><p>object</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Address</p></td>
+<td colspan="4"><p>An address. This may be the legally registered address of the organization, or may be a correspondence address for this particular contracting process.</p>
+<p>
+
+See <a class="reference external" href="#address">Address</a></p>
+</td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Organization,contactPoint"><span class="pre">contactPoint</span></code></td>
+<td colspan="1"><p>object</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Contact point</p></td>
+<td colspan="4"><p>Contact details that can be used for this party.</p>
+<p>
+
+See <a class="reference external" href="#contactpoint">ContactPoint</a></p>
+</td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Organization,roles"><span class="pre">roles</span></code></td>
+<td colspan="1"><p>array[string]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Party roles</p></td>
+<td colspan="4"><p>The party's role(s) in the contracting process, using the open <a class="reference external" href="https://standard.open-contracting.org/1.1/en/schema/codelists/#party-role">partyRole</a> codelist.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Organization,details"><span class="pre">details</span></code></td>
+<td colspan="1"><p>[object, null]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Details</p></td>
+<td colspan="4"><p>Additional classification information about parties can be provided using partyDetail extensions that define particular fields and classification schemes.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note extension_list" id="extensionlist-parties">
+<p class="admonition-title">The following extensions are available for parties</p>
+<dl class="simple">
+</dl>
+<p class="hide">The following are community extensions and are not maintained by Open Contracting Partnership.</p>
+</div>
+<p>Each party has a <code class="docutils literal notranslate"><span class="pre">details</span></code> object. Through extensions, this can be used to provide detailed classification of parties.</p>
+<div class="admonition note extension_list" id="extensionlist-partyDetail">
+<p class="admonition-title">The following extensions are available for party details</p>
+<dl class="simple">
+</dl>
+<p class="hide">The following are community extensions and are not maintained by Open Contracting Partnership.</p>
+</div>
+</section>
+<section id="planning">
+<h3>Planning<a class="headerlink" href="#planning" title="Permalink to this heading">¶</a></h3>
+<p>The planning section can be used to describe the background to a contracting process. This can include details of the budget from which funds are drawn, or related projects for this contracting process. Background documents such as a needs assessment, feasibility study and project plan can also be included in this section.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head" colspan="1"><p>Title</p></th>
+<th class="head" colspan="1"><p>Description</p></th>
+<th class="head" colspan="1"><p>Type</p></th>
+<th class="head" colspan="1"><p>Format</p></th>
+<th class="head" colspan="1"><p>Required</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Planning,rationale"><span class="pre">rationale</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Rationale</p></td>
+<td colspan="4"><p>The rationale for the procurement provided in free text. More detail can be provided in an attached document.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Planning,budget"><span class="pre">budget</span></code></td>
+<td colspan="1"><p>object</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Budget</p></td>
+<td colspan="4"><p>Details of the budget that funds this contracting process.</p>
+<p>
+
+See <a class="reference external" href="#budget">Budget</a></p>
+</td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Planning,documents"><span class="pre">documents</span></code></td>
+<td colspan="1"><p>array[Document]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Documents</p></td>
+<td colspan="4"><p>A list of documents related to the planning process.</p>
+<p>
+
+See <a class="reference external" href="#document">Document</a></p>
+</td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Planning,milestones"><span class="pre">milestones</span></code></td>
+<td colspan="1"><p>array[Milestone]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Planning milestones</p></td>
+<td colspan="4"><p>A list of milestones associated with the planning stage.</p>
+<p>
+
+See <a class="reference external" href="#milestone">Milestone</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note extension_list" id="extensionlist-planning">
+<p class="admonition-title">The following extensions are available for planning</p>
+<dl class="simple">
+</dl>
+<p class="hide">The following are community extensions and are not maintained by Open Contracting Partnership.</p>
+</div>
+<section id="budget">
+<h4>Budget<a class="headerlink" href="#budget" title="Permalink to this heading">¶</a></h4>
+<p>Apart from documents, the majority of planning information is held within the budget block. This is designed to allow both machine-readable linkable data about budgets, cross-referencing to data held in other standards such as the <a class="reference external" href="https://specs.frictionlessdata.io/fiscal-data-package/">Fiscal Data Package</a> or <a class="reference external" href="https://iatistandard.org/en/">International Aid Transparency Initiative Standard</a>, and human readable description of the related budgets and projects, supporting users to understand the relationship of the contracting process to existing projects and budgets even where linked data is not available.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head" colspan="1"><p>Title</p></th>
+<th class="head" colspan="1"><p>Description</p></th>
+<th class="head" colspan="1"><p>Type</p></th>
+<th class="head" colspan="1"><p>Format</p></th>
+<th class="head" colspan="1"><p>Required</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Budget,id"><span class="pre">id</span></code></td>
+<td colspan="1"><p>[string, integer, null]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>ID</p></td>
+<td colspan="4"><p>An identifier for the budget line item which provides funds for this contracting process. This identifier should be possible to cross-reference against the provided data source.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Budget,description"><span class="pre">description</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Budget Source</p></td>
+<td colspan="4"><p>A short free text description of the budget source. May be used to provide the title of the budget line, or the programme used to fund this project.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Budget,amount"><span class="pre">amount</span></code></td>
+<td colspan="1"><p>object</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Amount</p></td>
+<td colspan="4"><p>The value reserved in the budget for this contracting process. A negative value indicates anticipated income to the budget as a result of this contracting process, rather than expenditure. Where the budget is drawn from multiple sources, the budget breakdown extension can be used.</p>
+<p>
+
+See <a class="reference external" href="#value">Value</a></p>
+</td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Budget,project"><span class="pre">project</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Project title</p></td>
+<td colspan="4"><p>The name of the project through which this contracting process is funded (if applicable). Some organizations maintain a registry of projects, and the data should use the name by which the project is known in that registry. No translation option is offered for this string, as translated values can be provided in third-party data, linked from the data source above.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Budget,projectID"><span class="pre">projectID</span></code></td>
+<td colspan="1"><p>[string, integer, null]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Project identifier</p></td>
+<td colspan="4"><p>An external identifier for the project that this contracting process forms part of, or is funded via (if applicable). Some organizations maintain a registry of projects, and the data should use the identifier from the relevant registry of projects.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Budget,uri"><span class="pre">uri</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"><p>uri</p></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Linked budget information</p></td>
+<td colspan="4"><p>A URI pointing directly to a machine-readable record about the budget line-item or line-items that fund this contracting process. Information can be provided in a range of formats, including using IATI, the Open Fiscal Data Standard or any other standard which provides structured data on budget sources. Human readable documents can be included using the planning.documents block.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Budget,source"><span class="pre">source</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"><p>uri</p></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Data Source</p></td>
+<td colspan="4"><p>(Deprecated in 1.1) Used to point either to a corresponding Budget Data Package, or to a machine or human-readable source where users can find further information on the budget line item identifiers, or project identifiers, provided here.</p>
+<p>This property was deprecated in version 1.1</p>
+<p>The budget data source field was intended to link to machine-readable data about the budget for a contracting process, but has been widely mis-used to provide free-text descriptions of budget providers. As a result, it has been removed from version 1.1. budget/uri can be used to provide a link to machine-readable budget information, and budget/description can be used to provide human-readable information on the budget source.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note extension_list" id="extensionlist-budget">
+<p class="admonition-title">The following extensions are available for budget</p>
+<dl class="simple">
+</dl>
+<p class="hide">The following are community extensions and are not maintained by Open Contracting Partnership.</p>
+</div>
+</section>
+</section>
+<section id="tender">
+<h3>Tender<a class="headerlink" href="#tender" title="Permalink to this heading">¶</a></h3>
+<p>The tender section includes details of the announcement that an organization intends to source some particular goods, works or services, and to establish one or more contract(s) for these.</p>
+<p>It can contain details of a forthcoming process to receive and evaluate proposals to supply these goods and services, and can also be used to record details of a completed tender process, including details of bids received.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head" colspan="1"><p>Title</p></th>
+<th class="head" colspan="1"><p>Description</p></th>
+<th class="head" colspan="1"><p>Type</p></th>
+<th class="head" colspan="1"><p>Format</p></th>
+<th class="head" colspan="1"><p>Required</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Tender,id"><span class="pre">id</span></code></td>
+<td colspan="1"><p>[string, integer]</p></td>
+<td colspan="1"></td>
+<td colspan="1"><p>Required</p></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Tender ID</p></td>
+<td colspan="4"><p>An identifier for this tender process. This may be the same as the ocid, or may be an internal identifier for this tender.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Tender,title"><span class="pre">title</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Tender title</p></td>
+<td colspan="4"><p>A title for this tender. This will often be used by applications as a headline to attract interest, and to help analysts understand the nature of this procurement.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Tender,description"><span class="pre">description</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Tender description</p></td>
+<td colspan="4"><p>A summary description of the tender. This complements any structured information provided using the items array. Descriptions should be short and easy to read. Avoid using ALL CAPS.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Tender,status"><span class="pre">status</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Tender status</p></td>
+<td colspan="4"><p>The current status of the tender, from the closed <a class="reference external" href="https://standard.open-contracting.org/1.1/en/schema/codelists/#tender-status">tenderStatus</a> codelist.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Tender,procuringEntity"><span class="pre">procuringEntity</span></code></td>
+<td colspan="1"><p>object</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Procuring entity</p></td>
+<td colspan="4"><p>The entity managing the procurement. This may be different from the buyer who pays for, or uses, the items being procured.</p>
+<p>
+
+See <a class="reference external" href="#organizationreference">OrganizationReference</a></p>
+</td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Tender,items"><span class="pre">items</span></code></td>
+<td colspan="1"><p>array[Item]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Items to be procured</p></td>
+<td colspan="4"><p>The goods and services to be purchased, broken into line items wherever possible. Items should not be duplicated, but the quantity specified instead.</p>
+<p>
+
+See <a class="reference external" href="#item">Item</a></p>
+</td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Tender,value"><span class="pre">value</span></code></td>
+<td colspan="1"><p>object</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Value</p></td>
+<td colspan="4"><p>The total upper estimated value of the procurement. A negative value indicates that the contracting process may involve payments from the supplier to the buyer (commonly used in concession contracts).</p>
+<p>
+
+See <a class="reference external" href="#value">Value</a></p>
+</td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Tender,minValue"><span class="pre">minValue</span></code></td>
+<td colspan="1"><p>object</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Minimum value</p></td>
+<td colspan="4"><p>The minimum estimated value of the procurement.  A negative value indicates that the contracting process may involve payments from the supplier to the buyer (commonly used in concession contracts).</p>
+<p>
+
+See <a class="reference external" href="#value">Value</a></p>
+</td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Tender,procurementMethod"><span class="pre">procurementMethod</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Procurement method</p></td>
+<td colspan="4"><p>The procurement method, from the closed <a class="reference external" href="https://standard.open-contracting.org/1.1/en/schema/codelists/#method">method</a> codelist.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Tender,procurementMethodDetails"><span class="pre">procurementMethodDetails</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Procurement method details</p></td>
+<td colspan="4"><p>Additional detail on the procurement method used. This field can be used to provide the local name of the particular procurement method used.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Tender,procurementMethodRationale"><span class="pre">procurementMethodRationale</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Procurement method rationale</p></td>
+<td colspan="4"><p>Rationale for the chosen procurement method. This is especially important to provide a justification in the case of limited tenders or direct awards.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Tender,mainProcurementCategory"><span class="pre">mainProcurementCategory</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Main procurement category</p></td>
+<td colspan="4"><p>The primary category describing the main object of this contracting process, from the closed <a class="reference external" href="https://standard.open-contracting.org/1.1/en/schema/codelists/#procurement-category">procurementCategory</a> codelist.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Tender,additionalProcurementCategories"><span class="pre">additionalProcurementCategories</span></code></td>
+<td colspan="1"><p>array[string]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Additional procurement categories</p></td>
+<td colspan="4"><p>Any additional categories describing the objects of this contracting process, using the open <a class="reference external" href="https://standard.open-contracting.org/1.1/en/schema/codelists/#extended-procurement-category">extendedProcurementCategory</a> codelist.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Tender,awardCriteria"><span class="pre">awardCriteria</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Award criteria</p></td>
+<td colspan="4"><p>The award criteria for the procurement, using the open <a class="reference external" href="https://standard.open-contracting.org/1.1/en/schema/codelists/#award-criteria">awardCriteria</a> codelist.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Tender,awardCriteriaDetails"><span class="pre">awardCriteriaDetails</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Award criteria details</p></td>
+<td colspan="4"><p>Any detailed or further information on the award or selection criteria.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Tender,submissionMethod"><span class="pre">submissionMethod</span></code></td>
+<td colspan="1"><p>array[string]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Submission method</p></td>
+<td colspan="4"><p>The methods by which bids are submitted, using the open <a class="reference external" href="https://standard.open-contracting.org/1.1/en/schema/codelists/#submission-method">submissionMethod</a> codelist.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Tender,submissionMethodDetails"><span class="pre">submissionMethodDetails</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Submission method details</p></td>
+<td colspan="4"><p>Any detailed or further information on the submission method. This can include the address, e-mail address or online service to which bids are submitted, and any special requirements to be followed for submissions.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Tender,tenderPeriod"><span class="pre">tenderPeriod</span></code></td>
+<td colspan="1"><p>object</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Tender period</p></td>
+<td colspan="4"><p>The period when the tender is open for submissions. The end date is the closing date for tender submissions.</p>
+<p>
+
+See <a class="reference external" href="#period">Period</a></p>
+</td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Tender,enquiryPeriod"><span class="pre">enquiryPeriod</span></code></td>
+<td colspan="1"><p>object</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Enquiry period</p></td>
+<td colspan="4"><p>The period during which potential bidders may submit questions and requests for clarification to the entity managing procurement. Details of how to submit enquiries should be provided in attached notices, or in submissionMethodDetails. Structured dates for when responses to questions will be made can be provided using tender milestones.</p>
+<p>
+
+See <a class="reference external" href="#period">Period</a></p>
+</td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Tender,hasEnquiries"><span class="pre">hasEnquiries</span></code></td>
+<td colspan="1"><p>[boolean, null]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Has enquiries?</p></td>
+<td colspan="4"><p>A true/false field to indicate whether any enquiries were received during the tender process. Structured information on enquiries that were received, and responses to them, can be provided using the enquiries extension.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Tender,eligibilityCriteria"><span class="pre">eligibilityCriteria</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Eligibility criteria</p></td>
+<td colspan="4"><p>A description of any eligibility criteria for potential suppliers.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Tender,awardPeriod"><span class="pre">awardPeriod</span></code></td>
+<td colspan="1"><p>object</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Evaluation and award period</p></td>
+<td colspan="4"><p>The period for decision making regarding the contract award. The end date should be the date on which an award decision is due to be finalized. The start date may be used to indicate the start of an evaluation period.</p>
+<p>
+
+See <a class="reference external" href="#period">Period</a></p>
+</td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Tender,contractPeriod"><span class="pre">contractPeriod</span></code></td>
+<td colspan="1"><p>object</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Contract period</p></td>
+<td colspan="4"><p>The period over which the contract is estimated or required to be active. If the tender does not specify explicit dates, the duration field may be used.</p>
+<p>
+
+See <a class="reference external" href="#period">Period</a></p>
+</td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Tender,numberOfTenderers"><span class="pre">numberOfTenderers</span></code></td>
+<td colspan="1"><p>[integer, null]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Number of tenderers</p></td>
+<td colspan="4"><p>The number of parties who submit a bid.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Tender,tenderers"><span class="pre">tenderers</span></code></td>
+<td colspan="1"><p>array[Organization reference]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Tenderers</p></td>
+<td colspan="4"><p>All parties who submit a bid on a tender. More detailed information on bids and the bidding organization can be provided using the bid extension.</p>
+<p>
+
+See <a class="reference external" href="#organizationreference">OrganizationReference</a></p>
+</td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Tender,documents"><span class="pre">documents</span></code></td>
+<td colspan="1"><p>array[Document]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Documents</p></td>
+<td colspan="4"><p>All documents and attachments related to the tender, including any notices. See the <a class="reference external" href="https://standard.open-contracting.org/1.1/en/schema/codelists/#document-type">documentType</a> codelist for details of potential documents to include. Common documents include official legal notices of tender, technical specifications, evaluation criteria, and, as a tender process progresses, clarifications and replies to queries.</p>
+<p>
+
+See <a class="reference external" href="#document">Document</a></p>
+</td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Tender,milestones"><span class="pre">milestones</span></code></td>
+<td colspan="1"><p>array[Milestone]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Milestones</p></td>
+<td colspan="4"><p>A list of milestones associated with the tender.</p>
+<p>
+
+See <a class="reference external" href="#milestone">Milestone</a></p>
+</td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Tender,amendments"><span class="pre">amendments</span></code></td>
+<td colspan="1"><p>array[Amendment]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Amendments</p></td>
+<td colspan="4"><p>A tender amendment is a formal change to the tender, and generally involves the publication of a new tender notice/release. The rationale and a description of the changes made can be provided here.</p>
+<p>
+
+See <a class="reference external" href="#amendment">Amendment</a></p>
+</td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Tender,amendment"><span class="pre">amendment</span></code></td>
+<td colspan="1"><p>object</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Amendment</p></td>
+<td colspan="4"><p>The use of individual amendment objects has been deprecated. From OCDS 1.1 information should be provided in the amendments array.</p>
+<p>
+
+See <a class="reference external" href="#amendment">Amendment</a></p>
+<p>This property was deprecated in version 1.1</p>
+<p>The single amendment object has been deprecated in favour of including amendments in an amendments (plural) array.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note extension_list" id="extensionlist-tender">
+<p class="admonition-title">The following extensions are available for the tender section</p>
+<dl class="simple">
+<dt><a class="reference external" href="https://extensions.open-contracting.org/en/extensions/enquiries/v1.1.5/">Enquiries</a></dt><dd><p>The enquiries extension can be used to record questions raised during a contracting process, and the answers provided.</p>
+</dd>
+<dt><a class="reference external" href="https://extensions.open-contracting.org/en/extensions/lots/v1.1.5/">Lots</a></dt><dd><p>A tender process can be divided into lots, where bidders can bid on one or more lots. Details of each lot can be provided here. Items, documents and other features may then reference the lot they are related to using relatedLot. Where no relatedLot identifier is given, the values ought to be interpreted as applicable to the whole tender.</p>
+</dd>
+<dt><a class="reference external" href="https://extensions.open-contracting.org/en/extensions/participation_fee/v1.1.5/">Participation Fees</a></dt><dd><p>Where a tender process involves payment of fees to access documents, submit a proposal, or be awarded a contract, this extension can be used to provide fee details.</p>
+</dd>
+</dl>
+<p class="hide">The following are community extensions and are not maintained by Open Contracting Partnership.</p>
+</div>
+</section>
+<section id="bids">
+<h3>Bids<a class="headerlink" href="#bids" title="Permalink to this heading">¶</a></h3>
+<p>The <a class="reference external" href="https://extensions.open-contracting.org/en/extensions/bids/v1.1.4/">Bid statistics and details</a> extension can be used to provide bid statistics and detailed information about individual bids.</p>
+</section>
+<section id="award">
+<h3>Award<a class="headerlink" href="#award" title="Permalink to this heading">¶</a></h3>
+<p>The award section is used to announce any awards issued for this tender. There can be multiple awards made. Releases can contain all, or a subset, of these awards. A related award block is required for every contract block, as the award contains information on the suppliers.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head" colspan="1"><p>Title</p></th>
+<th class="head" colspan="1"><p>Description</p></th>
+<th class="head" colspan="1"><p>Type</p></th>
+<th class="head" colspan="1"><p>Format</p></th>
+<th class="head" colspan="1"><p>Required</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Award,id"><span class="pre">id</span></code></td>
+<td colspan="1"><p>[string, integer]</p></td>
+<td colspan="1"></td>
+<td colspan="1"><p>Required</p></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Award ID</p></td>
+<td colspan="4"><p>The identifier for this award. It must be unique and must not change within the Open Contracting Process it is part of (defined by a single ocid). See the <a class="reference external" href="https://standard.open-contracting.org/1.1/en/schema/identifiers/">identifier guidance</a> for further details.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Award,title"><span class="pre">title</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Title</p></td>
+<td colspan="4"><p>Award title</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Award,description"><span class="pre">description</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Description</p></td>
+<td colspan="4"><p>Award description</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Award,status"><span class="pre">status</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Award status</p></td>
+<td colspan="4"><p>The current status of the award, from the closed <a class="reference external" href="https://standard.open-contracting.org/1.1/en/schema/codelists/#award-status">awardStatus</a> codelist.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Award,date"><span class="pre">date</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"><p>date-time</p></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Award date</p></td>
+<td colspan="4"><p>The date of the contract award. This is usually the date on which a decision to award was made.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Award,value"><span class="pre">value</span></code></td>
+<td colspan="1"><p>object</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Value</p></td>
+<td colspan="4"><p>The total value of this award. In the case of a framework contract this may be the total estimated lifetime value, or maximum value, of the agreement. There may be more than one award per procurement. A negative value indicates that the award may involve payments from the supplier to the buyer (commonly used in concession contracts).</p>
+<p>
+
+See <a class="reference external" href="#value">Value</a></p>
+</td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Award,suppliers"><span class="pre">suppliers</span></code></td>
+<td colspan="1"><p>array[Organization reference]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Suppliers</p></td>
+<td colspan="4"><p>The suppliers awarded this award. If different suppliers have been awarded different items or values, these should be split into separate award blocks.</p>
+<p>
+
+See <a class="reference external" href="#organizationreference">OrganizationReference</a></p>
+</td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Award,items"><span class="pre">items</span></code></td>
+<td colspan="1"><p>array[Item]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Items awarded</p></td>
+<td colspan="4"><p>The goods and services awarded in this award, broken into line items wherever possible. Items should not be duplicated, but the quantity specified instead.</p>
+<p>
+
+See <a class="reference external" href="#item">Item</a></p>
+</td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Award,contractPeriod"><span class="pre">contractPeriod</span></code></td>
+<td colspan="1"><p>object</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Contract period</p></td>
+<td colspan="4"><p>The period for which the contract has been awarded.</p>
+<p>
+
+See <a class="reference external" href="#period">Period</a></p>
+</td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Award,documents"><span class="pre">documents</span></code></td>
+<td colspan="1"><p>array[Document]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Documents</p></td>
+<td colspan="4"><p>All documents and attachments related to the award, including any notices.</p>
+<p>
+
+See <a class="reference external" href="#document">Document</a></p>
+</td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Award,amendments"><span class="pre">amendments</span></code></td>
+<td colspan="1"><p>array[Amendment]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Amendments</p></td>
+<td colspan="4"><p>An award amendment is a formal change to the details of the award, and generally involves the publication of a new award notice/release. The rationale and a description of the changes made can be provided here.</p>
+<p>
+
+See <a class="reference external" href="#amendment">Amendment</a></p>
+</td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Award,amendment"><span class="pre">amendment</span></code></td>
+<td colspan="1"><p>object</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Amendment</p></td>
+<td colspan="4"><p>The use of individual amendment objects has been deprecated. From OCDS 1.1 information should be provided in the amendments array.</p>
+<p>
+
+See <a class="reference external" href="#amendment">Amendment</a></p>
+<p>This property was deprecated in version 1.1</p>
+<p>The single amendment object has been deprecated in favour of including amendments in an amendments (plural) array.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note extension_list" id="extensionlist-award">
+<p class="admonition-title">The following extensions are available for award</p>
+<dl class="simple">
+</dl>
+<p class="hide">The following are community extensions and are not maintained by Open Contracting Partnership.</p>
+</div>
+</section>
+<section id="contract">
+<h3>Contract<a class="headerlink" href="#contract" title="Permalink to this heading">¶</a></h3>
+<p>The contract section is used to provide details of contracts that have been entered into. Every contract must have a related award, linked via the <code class="docutils literal notranslate"><span class="pre">awardID</span></code> field. This is because supplier information is contained within the 'award'. The framework contract details below help illustrate the reasons for this.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head" colspan="1"><p>Title</p></th>
+<th class="head" colspan="1"><p>Description</p></th>
+<th class="head" colspan="1"><p>Type</p></th>
+<th class="head" colspan="1"><p>Format</p></th>
+<th class="head" colspan="1"><p>Required</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Contract,id"><span class="pre">id</span></code></td>
+<td colspan="1"><p>[string, integer]</p></td>
+<td colspan="1"></td>
+<td colspan="1"><p>Required</p></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Contract ID</p></td>
+<td colspan="4"><p>The identifier for this contract. It must be unique and must not change within the Open Contracting Process it is part of (defined by a single ocid). See the <a class="reference external" href="https://standard.open-contracting.org/1.1/en/schema/identifiers/">identifier guidance</a> for further details.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Contract,awardID"><span class="pre">awardID</span></code></td>
+<td colspan="1"><p>[string, integer]</p></td>
+<td colspan="1"></td>
+<td colspan="1"><p>Required</p></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Award ID</p></td>
+<td colspan="4"><p>The award.id against which this contract is being issued.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Contract,title"><span class="pre">title</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Contract title</p></td>
+<td colspan="4"><p>Contract title</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Contract,description"><span class="pre">description</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Contract description</p></td>
+<td colspan="4"><p>Contract description</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Contract,status"><span class="pre">status</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Contract status</p></td>
+<td colspan="4"><p>The current status of the contract, from the closed <a class="reference external" href="https://standard.open-contracting.org/1.1/en/schema/codelists/#contract-status">contractStatus</a> codelist.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Contract,period"><span class="pre">period</span></code></td>
+<td colspan="1"><p>object</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Period</p></td>
+<td colspan="4"><p>The start and end date for the contract.</p>
+<p>
+
+See <a class="reference external" href="#period">Period</a></p>
+</td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Contract,value"><span class="pre">value</span></code></td>
+<td colspan="1"><p>object</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Value</p></td>
+<td colspan="4"><p>The total value of this contract. A negative value indicates that the contract will involve payments from the supplier to the buyer (commonly used in concession contracts).</p>
+<p>
+
+See <a class="reference external" href="#value">Value</a></p>
+</td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Contract,items"><span class="pre">items</span></code></td>
+<td colspan="1"><p>array[Item]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Items contracted</p></td>
+<td colspan="4"><p>The goods, services, and any intangible outcomes in this contract. Note: If the items are the same as the award do not repeat.</p>
+<p>
+
+See <a class="reference external" href="#item">Item</a></p>
+</td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Contract,dateSigned"><span class="pre">dateSigned</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"><p>date-time</p></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Date signed</p></td>
+<td colspan="4"><p>The date the contract was signed. In the case of multiple signatures, the date of the last signature.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Contract,documents"><span class="pre">documents</span></code></td>
+<td colspan="1"><p>array[Document]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Documents</p></td>
+<td colspan="4"><p>All documents and attachments related to the contract, including any notices.</p>
+<p>
+
+See <a class="reference external" href="#document">Document</a></p>
+</td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Contract,implementation"><span class="pre">implementation</span></code></td>
+<td colspan="1"><p>object</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Implementation</p></td>
+<td colspan="4"><p>Information related to the implementation of the contract in accordance with the obligations laid out therein.</p>
+<p>
+
+See <a class="reference external" href="#implementation">Implementation</a></p>
+</td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Contract,relatedProcesses"><span class="pre">relatedProcesses</span></code></td>
+<td colspan="1"><p>array[Related Process]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Related processes</p></td>
+<td colspan="4"><p>The details of related processes: for example, if this process is followed by one or more contracting processes, represented under a separate open contracting identifier (ocid). This is commonly used to refer to subcontracts and to renewal or replacement processes for this contract.</p>
+<p>
+
+See <a class="reference external" href="#relatedprocess">RelatedProcess</a></p>
+</td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Contract,milestones"><span class="pre">milestones</span></code></td>
+<td colspan="1"><p>array[Milestone]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Contract milestones</p></td>
+<td colspan="4"><p>A list of milestones associated with the finalization of this contract.</p>
+<p>
+
+See <a class="reference external" href="#milestone">Milestone</a></p>
+</td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Contract,amendments"><span class="pre">amendments</span></code></td>
+<td colspan="1"><p>array[Amendment]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Amendments</p></td>
+<td colspan="4"><p>A contract amendment is a formal change to, or extension of, a contract, and generally involves the publication of a new contract notice/release, or some other documents detailing the change. The rationale and a description of the changes made can be provided here.</p>
+<p>
+
+See <a class="reference external" href="#amendment">Amendment</a></p>
+</td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Contract,amendment"><span class="pre">amendment</span></code></td>
+<td colspan="1"><p>object</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Amendment</p></td>
+<td colspan="4"><p>The use of individual amendment objects has been deprecated. From OCDS 1.1 information should be provided in the amendments array.</p>
+<p>
+
+See <a class="reference external" href="#amendment">Amendment</a></p>
+<p>This property was deprecated in version 1.1</p>
+<p>The single amendment object has been deprecated in favour of including amendments in an amendments (plural) array.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note extension_list" id="extensionlist-contract">
+<p class="admonition-title">The following extensions are available for contracts</p>
+<dl class="simple">
+</dl>
+<p class="hide">The following are community extensions and are not maintained by Open Contracting Partnership.</p>
+</div>
+</section>
+<section id="implementation">
+<h3>Implementation<a class="headerlink" href="#implementation" title="Permalink to this heading">¶</a></h3>
+<p>Implementation information can be updated over the course of a contract. It belongs nested within the contract it relates to. Implementation blocks include the following elements:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head" colspan="1"><p>Title</p></th>
+<th class="head" colspan="1"><p>Description</p></th>
+<th class="head" colspan="1"><p>Type</p></th>
+<th class="head" colspan="1"><p>Format</p></th>
+<th class="head" colspan="1"><p>Required</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Implementation,transactions"><span class="pre">transactions</span></code></td>
+<td colspan="1"><p>array[Transaction information]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Transactions</p></td>
+<td colspan="4"><p>A list of the spending transactions made against this contract</p>
+<p>
+
+See <a class="reference external" href="#transaction">Transaction</a></p>
+</td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Implementation,milestones"><span class="pre">milestones</span></code></td>
+<td colspan="1"><p>array[Milestone]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Milestones</p></td>
+<td colspan="4"><p>As milestones are completed, the milestone's status and dates should be updated.</p>
+<p>
+
+See <a class="reference external" href="#milestone">Milestone</a></p>
+</td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Implementation,documents"><span class="pre">documents</span></code></td>
+<td colspan="1"><p>array[Document]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Documents</p></td>
+<td colspan="4"><p>Documents and reports that are part of the implementation phase e.g. audit and evaluation reports.</p>
+<p>
+
+See <a class="reference external" href="#document">Document</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note extension_list" id="extensionlist-implementation">
+<p class="admonition-title">The following extensions are available for implementation</p>
+<dl class="simple">
+</dl>
+<p class="hide">The following are community extensions and are not maintained by Open Contracting Partnership.</p>
+</div>
+<p>Information on subcontracts is not currently included in the core OCDS schema, but might be handled by <a class="reference internal" href="../conformance_and_extensions/"><span class="doc std std-doc">proposed extensions</span></a></p>
+<section id="transaction">
+<h4>Transaction<a class="headerlink" href="#transaction" title="Permalink to this heading">¶</a></h4>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head" colspan="1"><p>Title</p></th>
+<th class="head" colspan="1"><p>Description</p></th>
+<th class="head" colspan="1"><p>Type</p></th>
+<th class="head" colspan="1"><p>Format</p></th>
+<th class="head" colspan="1"><p>Required</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Transaction,id"><span class="pre">id</span></code></td>
+<td colspan="1"><p>[string, integer]</p></td>
+<td colspan="1"></td>
+<td colspan="1"><p>Required</p></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>ID</p></td>
+<td colspan="4"><p>A unique identifier for this transaction. This identifier should be possible to cross-reference against the provided data source. For IATI this is the transaction reference.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Transaction,source"><span class="pre">source</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"><p>uri</p></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Data source</p></td>
+<td colspan="4"><p>Used to point either to a corresponding Fiscal Data Package, IATI file, or machine or human-readable source where users can find further information on the budget line item identifiers, or project identifiers, provided here.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Transaction,date"><span class="pre">date</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"><p>date-time</p></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Date</p></td>
+<td colspan="4"><p>The date of the transaction</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Transaction,value"><span class="pre">value</span></code></td>
+<td colspan="1"><p>object</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Value</p></td>
+<td colspan="4"><p>The value of the transaction.</p>
+<p>
+
+See <a class="reference external" href="#value">Value</a></p>
+</td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Transaction,payer"><span class="pre">payer</span></code></td>
+<td colspan="1"><p>object</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Payer</p></td>
+<td colspan="4"><p>An organization reference for the organization from which the funds in this transaction originate.</p>
+<p>
+
+See <a class="reference external" href="#organizationreference">OrganizationReference</a></p>
+</td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Transaction,payee"><span class="pre">payee</span></code></td>
+<td colspan="1"><p>object</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Payee</p></td>
+<td colspan="4"><p>An organization reference for the organization which receives the funds in this transaction.</p>
+<p>
+
+See <a class="reference external" href="#organizationreference">OrganizationReference</a></p>
+</td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Transaction,uri"><span class="pre">uri</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"><p>uri</p></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Linked spending information</p></td>
+<td colspan="4"><p>A URI pointing directly to a machine-readable record about this spending transaction.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Transaction,amount"><span class="pre">amount</span></code></td>
+<td colspan="1"><p>object</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Amount</p></td>
+<td colspan="4"><p>(Deprecated in 1.1. Use transaction.value instead) The value of the transaction. A negative value indicates a refund or correction.</p>
+<p>
+
+See <a class="reference external" href="#value">Value</a></p>
+<p>This property was deprecated in version 1.1</p>
+<p>This field has been replaced by the `transaction.value` field for consistency with the use of value and amount elsewhere in the standard.</p>
+</td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Transaction,providerOrganization"><span class="pre">providerOrganization</span></code></td>
+<td colspan="1"><p>object</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Provider organization</p></td>
+<td colspan="4"><p>(Deprecated in 1.1. Use transaction.payer instead.) The Organization Identifier for the organization from which the funds in this transaction originate. Expressed following the Organizational Identifier standard - consult the documentation and the codelist.</p>
+<p>
+
+See <a class="reference external" href="#identifier">Identifier</a></p>
+<p>This property was deprecated in version 1.1</p>
+<p>This field has been replaced by the `transaction.payer` field to resolve ambiguity arising from 'provider' being interpreted as relating to the goods or services procured rather than the flow of funds between the parties.</p>
+</td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Transaction,receiverOrganization"><span class="pre">receiverOrganization</span></code></td>
+<td colspan="1"><p>object</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Receiver organization</p></td>
+<td colspan="4"><p>(Deprecated in 1.1. Use transaction.payee instead). The Organization Identifier for the organization which receives the funds in this transaction. Expressed following the Organizational Identifier standard - consult the documentation and the codelist.</p>
+<p>
+
+See <a class="reference external" href="#identifier">Identifier</a></p>
+<p>This property was deprecated in version 1.1</p>
+<p>This field has been replaced by the `transaction.payee` field to resolve ambiguity arising from 'receiver' being interpreted as relating to the goods or services procured rather than the flow of funds between the parties.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>The transaction block is modelled on the <a class="reference external" href="https://iatistandard.org/en/iati-standard/203/activity-standard/iati-activities/iati-activity/transaction/">International Aid Transparency Initiative (IATI) transaction element</a>, and can be used to represent actual flows of money between organizations in relation to this contract. As with the <a class="reference internal" href="#budget"><span class="std std-doc">budget</span></a> block, this can be used to cross-reference to a third party <code class="docutils literal notranslate"><span class="pre">source</span></code> of data, and ought to reuse identifiers from that source.</p>
+<p>In most circumstances, the <code class="docutils literal notranslate"><span class="pre">payer</span></code> identifier will match that of the <code class="docutils literal notranslate"><span class="pre">buyer</span></code>, and the <code class="docutils literal notranslate"><span class="pre">payee</span></code> identifier will match that of the <code class="docutils literal notranslate"><span class="pre">supplier</span></code>.</p>
+<div class="admonition note extension_list" id="extensionlist-transaction">
+<p class="admonition-title">The following extensions are available for transactions</p>
+<dl class="simple">
+</dl>
+<p class="hide">The following are community extensions and are not maintained by Open Contracting Partnership.</p>
+</div>
+</section>
+<section id="milestones">
+<h4>Milestones<a class="headerlink" href="#milestones" title="Permalink to this heading">¶</a></h4>
+<p>See <a class="reference internal" href="#milestone"><span class="std std-doc">milestone</span></a> reference below.</p>
+<p>The implementation milestones should be updated to reflect when they are met.</p>
+</section>
+<section id="documents">
+<h4>Documents<a class="headerlink" href="#documents" title="Permalink to this heading">¶</a></h4>
+<p>Documents related to contract implementation are stored here. This can include subcontracts.</p>
+<p>See <a class="reference internal" href="#document"><span class="std std-doc">document</span></a> reference below.</p>
+</section>
+</section>
+<section id="amendment">
+<h3>Amendment<a class="headerlink" href="#amendment" title="Permalink to this heading">¶</a></h3>
+<p>A release may amend values from a previous release. Whilst the release &amp; record model of OCDS offers the opportunity to keep a full versioned history of changes, in many cases it is important for changes to a tender, award or contract to be explicitly declared.</p>
+<p>The amendment array in a tender, award or contract block provides the ability to detail the amendments that have taken place with dates, rationale and free-text descriptions of the change, as well as to point to the releases that contain information from before and after the amendment.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head" colspan="1"><p>Title</p></th>
+<th class="head" colspan="1"><p>Description</p></th>
+<th class="head" colspan="1"><p>Type</p></th>
+<th class="head" colspan="1"><p>Format</p></th>
+<th class="head" colspan="1"><p>Required</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Amendment,date"><span class="pre">date</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"><p>date-time</p></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Amendment date</p></td>
+<td colspan="4"><p>The date of this amendment.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Amendment,rationale"><span class="pre">rationale</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Rationale</p></td>
+<td colspan="4"><p>An explanation for the amendment.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Amendment,id"><span class="pre">id</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>ID</p></td>
+<td colspan="4"><p>An identifier for this amendment: often the amendment number</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Amendment,description"><span class="pre">description</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Description</p></td>
+<td colspan="4"><p>A free text, or semi-structured, description of the changes made in this amendment.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Amendment,amendsReleaseID"><span class="pre">amendsReleaseID</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Amended release (identifier)</p></td>
+<td colspan="4"><p>Provide the identifier (release.id) of the OCDS release (from this contracting process) that provides the values for this contracting process <strong>before</strong> the amendment was made.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Amendment,releaseID"><span class="pre">releaseID</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Amending release (identifier)</p></td>
+<td colspan="4"><p>Provide the identifier (release.id) of the OCDS release (from this contracting process) that provides the values for this contracting process <strong>after</strong> the amendment was made.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Amendment,changes"><span class="pre">changes</span></code></td>
+<td colspan="1"><p>array[object]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Amended fields</p></td>
+<td colspan="4"><p>An array of change objects describing the fields changed, and their former values. (Deprecated in 1.1)</p>
+<p>This property was deprecated in version 1.1</p>
+<p>A free-text or semi-structured string describing the changes made in each amendment can be provided in the amendment.description field. To provide structured information on the fields that have changed, publishers should provide releases indicating the state of the contracting process before and after the amendment.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<section id="changes">
+<h4>Changes<a class="headerlink" href="#changes" title="Permalink to this heading">¶</a></h4>
+<p>The changes array was deprecated in OCDS 1.1. Structured information on the former value of specific fields may be provided by:</p>
+<ul class="simple">
+<li><p>Including releases from <strong>before</strong> and <strong>after</strong> a change within a release package;</p></li>
+<li><p>Using the amendment array in tender, contract or award to explicitly relate these releases to an amendment.</p></li>
+</ul>
+<p>See the <a class="reference internal" href="../../guidance/map/amendments/"><span class="doc std std-doc">amendment implementation guidance</span></a> for more details.</p>
+</section>
+</section>
+</section>
+<section id="building-block-reference">
+<h2>Building block reference<a class="headerlink" href="#building-block-reference" title="Permalink to this heading">¶</a></h2>
+<p>The following building blocks are commonly re-used throughout the standard.</p>
+<section id="organizationreference">
+<h3>OrganizationReference<a class="headerlink" href="#organizationreference" title="Permalink to this heading">¶</a></h3>
+<div class="note admonition">
+<p class="admonition-title">Organizations</p>
+<p>The approach to including organizations information has changed in OCDS 1.1. Instead of embedding all the details of an organization, publishers should use an organization reference to indicate the entry in the parties section that contains full details of this organization.</p>
+</div>
+<p>An organization reference consists of two main components:</p>
+<ul class="simple">
+<li><p>An <code class="docutils literal notranslate"><span class="pre">id</span></code> used to cross-reference the entry in the <a class="reference internal" href="#parties"><span class="std std-doc">parties</span></a> section that contains full information on this organization or entity;</p></li>
+<li><p>A <code class="docutils literal notranslate"><span class="pre">name</span></code> field that repeats the name given in the <a class="reference internal" href="#parties"><span class="std std-doc">parties</span></a> section, provided for the convenience of users viewing the data, and to support detection of mistakes in cross-referencing.</p></li>
+</ul>
+<p>The Organization Reference schema contains deprecated fields to prevent validation failures of OCDS 1.0 data.</p>
+</section>
+<section id="organization">
+<h3>Organization<a class="headerlink" href="#organization" title="Permalink to this heading">¶</a></h3>
+<p>See the <a class="reference internal" href="#parties"><span class="std std-doc">parties</span></a> section</p>
+<section id="identifier">
+<h4>Identifier<a class="headerlink" href="#identifier" title="Permalink to this heading">¶</a></h4>
+<p>The identifier block provides a way to <a class="reference internal" href="../identifiers/#organization-ids"><span class="std std-doc">identify the legal entities</span></a> involved in a contracting process.</p>
+<p>If a contracting process represents a contract arranged by the department or branch of a larger organization, the legal entity (usually the registered organization) should be described in the <a class="reference internal" href="#identifier"><span class="std std-doc">identifier</span></a> section, with details of the branch or department given in the name, <a class="reference internal" href="#address"><span class="std std-doc">address</span></a> and <a class="reference internal" href="#contactpoint"><span class="std std-doc">contact point</span></a> as relevant.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head" colspan="1"><p>Title</p></th>
+<th class="head" colspan="1"><p>Description</p></th>
+<th class="head" colspan="1"><p>Type</p></th>
+<th class="head" colspan="1"><p>Format</p></th>
+<th class="head" colspan="1"><p>Required</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Identifier,scheme"><span class="pre">scheme</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Scheme</p></td>
+<td colspan="4"><p>Organization identifiers should be taken from an existing organization identifier list. The scheme field is used to indicate the list or register from which the identifier is taken. This value should be taken from the <a class="reference external" href="https://standard.open-contracting.org/1.1/en/schema/codelists/#organization-identifier-scheme">Organization Identifier Scheme</a> codelist.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Identifier,id"><span class="pre">id</span></code></td>
+<td colspan="1"><p>[string, integer, null]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>ID</p></td>
+<td colspan="4"><p>The identifier of the organization in the selected scheme.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Identifier,legalName"><span class="pre">legalName</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Legal Name</p></td>
+<td colspan="4"><p>The legally registered name of the organization.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Identifier,uri"><span class="pre">uri</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"><p>uri</p></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>URI</p></td>
+<td colspan="4"><p>A URI to identify the organization, such as those provided by <a class="reference external" href="https://opencorporates.com">Open Corporates</a> or some other relevant URI provider. This is not for listing the website of the organization: that can be done through the URL field of the Organization contact point.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="address">
+<h4>Address<a class="headerlink" href="#address" title="Permalink to this heading">¶</a></h4>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head" colspan="1"><p>Title</p></th>
+<th class="head" colspan="1"><p>Description</p></th>
+<th class="head" colspan="1"><p>Type</p></th>
+<th class="head" colspan="1"><p>Format</p></th>
+<th class="head" colspan="1"><p>Required</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Address,streetAddress"><span class="pre">streetAddress</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Street address</p></td>
+<td colspan="4"><p>The street address. For example, 1600 Amphitheatre Pkwy.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Address,locality"><span class="pre">locality</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Locality</p></td>
+<td colspan="4"><p>The locality. For example, Mountain View.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Address,region"><span class="pre">region</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Region</p></td>
+<td colspan="4"><p>The region. For example, CA.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Address,postalCode"><span class="pre">postalCode</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Postal code</p></td>
+<td colspan="4"><p>The postal code. For example, 94043.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Address,countryName"><span class="pre">countryName</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Country name</p></td>
+<td colspan="4"><p>The country name. For example, United States.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="contactpoint">
+<h4>ContactPoint<a class="headerlink" href="#contactpoint" title="Permalink to this heading">¶</a></h4>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head" colspan="1"><p>Title</p></th>
+<th class="head" colspan="1"><p>Description</p></th>
+<th class="head" colspan="1"><p>Type</p></th>
+<th class="head" colspan="1"><p>Format</p></th>
+<th class="head" colspan="1"><p>Required</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/ContactPoint,name"><span class="pre">name</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Name</p></td>
+<td colspan="4"><p>The name of the contact person, department, or contact point, for correspondence relating to this contracting process.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/ContactPoint,email"><span class="pre">email</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Email</p></td>
+<td colspan="4"><p>The e-mail address of the contact point/person.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/ContactPoint,telephone"><span class="pre">telephone</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Telephone</p></td>
+<td colspan="4"><p>The telephone number of the contact point/person. This should include the international dialing code.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/ContactPoint,faxNumber"><span class="pre">faxNumber</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Fax number</p></td>
+<td colspan="4"><p>The fax number of the contact point/person. This should include the international dialing code.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/ContactPoint,url"><span class="pre">url</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"><p>uri</p></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>URL</p></td>
+<td colspan="4"><p>A web address for the contact point/person.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="document">
+<h3>Document<a class="headerlink" href="#document" title="Permalink to this heading">¶</a></h3>
+<p>Documents can be attached at a number of points within the standard: to planning, tenders, awards, contracts and implementation. Each document block can consist of multiple documents, classified using the <a class="reference internal" href="../codelists/#document-type"><span class="std std-doc">documentType</span></a> codelist.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head" colspan="1"><p>Title</p></th>
+<th class="head" colspan="1"><p>Description</p></th>
+<th class="head" colspan="1"><p>Type</p></th>
+<th class="head" colspan="1"><p>Format</p></th>
+<th class="head" colspan="1"><p>Required</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Document,id"><span class="pre">id</span></code></td>
+<td colspan="1"><p>[string, integer]</p></td>
+<td colspan="1"></td>
+<td colspan="1"><p>Required</p></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>ID</p></td>
+<td colspan="4"><p>A local, unique identifier for this document. This field is used to keep track of multiple revisions of a document through the compilation from release to record mechanism.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Document,documentType"><span class="pre">documentType</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Document type</p></td>
+<td colspan="4"><p>A classification of the document described, using the open <a class="reference external" href="https://standard.open-contracting.org/1.1/en/schema/codelists/#document-type">documentType</a> codelist.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Document,title"><span class="pre">title</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Title</p></td>
+<td colspan="4"><p>The document title.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Document,description"><span class="pre">description</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Description</p></td>
+<td colspan="4"><p>A short description of the document. Descriptions are recommended to not exceed 250 words. In the event the document is not accessible online, the description field can be used to describe arrangements for obtaining a copy of the document.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Document,url"><span class="pre">url</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"><p>uri</p></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>URL</p></td>
+<td colspan="4"><p>A direct link to the document or attachment. The server providing access to this document ought to be configured to correctly report the document mime type.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Document,datePublished"><span class="pre">datePublished</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"><p>date-time</p></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Date published</p></td>
+<td colspan="4"><p>The date on which the document was first published. This is particularly important for legally important documents such as notices of a tender.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Document,dateModified"><span class="pre">dateModified</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"><p>date-time</p></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Date modified</p></td>
+<td colspan="4"><p>Date that the document was last modified</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Document,format"><span class="pre">format</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Format</p></td>
+<td colspan="4"><p>The format of the document, using the open <a class="reference external" href="https://www.iana.org/assignments/media-types/media-types.xhtml">IANA Media Types</a> codelist (see the values in the 'Template' column), or using the 'offline/print' code if the described document is published offline. For example, web pages have a format of 'text/html'.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Document,language"><span class="pre">language</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Language</p></td>
+<td colspan="4"><p>The language of the linked document using either two-letter <a class="reference external" href="https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes">ISO639-1</a>, or extended <a class="reference external" href="https://www.w3.org/International/articles/language-tags/">BCP47 language tags</a>. The use of lowercase two-letter codes from <a class="reference external" href="https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes">ISO639-1</a> is recommended unless there is a clear user need for distinguishing the language subtype.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note extension_list" id="extensionlist-document">
+<p class="admonition-title">The following extensions are available for document</p>
+<dl class="simple">
+</dl>
+<p class="hide">The following are community extensions and are not maintained by Open Contracting Partnership.</p>
+</div>
+</section>
+<section id="period">
+<h3>Period<a class="headerlink" href="#period" title="Permalink to this heading">¶</a></h3>
+<p>A period has a start date, end date, and/or duration. Start and end dates are represented using date-times. Durations are represented as a number of days.</p>
+<p>Periods can also include a <code class="docutils literal notranslate"><span class="pre">maxExtentDate</span></code> which indicates the latest possible end date of this period, or the latest date up until which the period could be extended without an amendment.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head" colspan="1"><p>Title</p></th>
+<th class="head" colspan="1"><p>Description</p></th>
+<th class="head" colspan="1"><p>Type</p></th>
+<th class="head" colspan="1"><p>Format</p></th>
+<th class="head" colspan="1"><p>Required</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Period,startDate"><span class="pre">startDate</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"><p>date-time</p></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Start date</p></td>
+<td colspan="4"><p>The start date for the period. When known, a precise start date must be provided.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Period,endDate"><span class="pre">endDate</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"><p>date-time</p></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>End date</p></td>
+<td colspan="4"><p>The end date for the period. When known, a precise end date must be provided.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Period,maxExtentDate"><span class="pre">maxExtentDate</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"><p>date-time</p></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Maximum extent</p></td>
+<td colspan="4"><p>The period cannot be extended beyond this date. This field can be used to express the maximum available date for extension or renewal of this period.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Period,durationInDays"><span class="pre">durationInDays</span></code></td>
+<td colspan="1"><p>[integer, null]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Duration (days)</p></td>
+<td colspan="4"><p>The maximum duration of this period in days. A user interface can collect or display this data in months or years as appropriate, and then convert it into days when storing this field. This field can be used when exact dates are not known. If a startDate and endDate are set, this field, if used, should be equal to the difference between startDate and endDate. Otherwise, if a startDate and maxExtentDate are set, this field, if used, should be equal to the difference between startDate and maxExtentDate.</p></td>
+</tr>
+</tbody>
+</table>
+<section id="date">
+<h4>Date<a class="headerlink" href="#date" title="Permalink to this heading">¶</a></h4>
+<p>OCDS makes use of <a class="reference external" href="https://en.wikipedia.org/wiki/ISO_8601">ISO8601</a> date-times, following <a class="reference external" href="https://tools.ietf.org/html/rfc3339#section-5.6">RFC3339 §5.6</a>.</p>
+<p>A time and timezone/offset must be provided in a date-time.</p>
+<p>The following are valid date-times:</p>
+<ul class="simple">
+<li><p>'2014-10-21T09:30:00Z' - 9:30 am on the 21st October 2014, UTC</p></li>
+<li><p>'2014-11-18T18:00:00-06:00' - 6pm on 18th November 2014 CST (Central Standard Time)</p></li>
+</ul>
+<p>The following are not valid:</p>
+<ul class="simple">
+<li><p>'2014-10-21' - Missing time portion</p></li>
+<li><p>'2014-10-21T18:00' - missing seconds in time portion.</p></li>
+<li><p>'2014-11-18T18:00:00' - Missing timezone/offset portion</p></li>
+<li><p>'11/18/2014 18:00' - Not following the pattern at all!</p></li>
+</ul>
+<p>Accurately including the time and timezone offsets is particular important for tender deadlines and other dates which can have legal significance, and where users of the data might be from different timezones. The character Z on the end of a date-time indicates the <a class="reference external" href="https://en.wikipedia.org/wiki/Coordinated_Universal_Time">UTC</a> (or Zero offset) timezone, whereas other timezones are indicated by their value '+/-hh:mm' UTC on the end of the date-time value.</p>
+<p>In the event that the system from which data is drawn only includes dates, and does not include time information, publishers should use sensible defaults for each field. For example, the startDate time of a clarification period can be set to '00:00:00Z' to indicate that clarifications can be requested from any time on the date stated, with the endDate time set to 23:59:59Z to indicate that clarifications can be sent up until the end of the endDate given. Alternatively, if clarification requests are only accepted in standard office hours, these values might be 09:00:00Z and 17:00:00Z respectively.</p>
+<p>In the event that a date field is not bound to a specific time at all, publishers should choose a default time value of '23:59:59' and either 'Z' (for UTC) or the timezone of the publisher, indicating that the time refers to the end of the given date.</p>
+</section>
+</section>
+<section id="item">
+<h3>Item<a class="headerlink" href="#item" title="Permalink to this heading">¶</a></h3>
+<p>The items block is used to list the line-items associated with a tender, award or contract.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head" colspan="1"><p>Title</p></th>
+<th class="head" colspan="1"><p>Description</p></th>
+<th class="head" colspan="1"><p>Type</p></th>
+<th class="head" colspan="1"><p>Format</p></th>
+<th class="head" colspan="1"><p>Required</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Item,id"><span class="pre">id</span></code></td>
+<td colspan="1"><p>[string, integer]</p></td>
+<td colspan="1"></td>
+<td colspan="1"><p>Required</p></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>ID</p></td>
+<td colspan="4"><p>A local identifier to reference and merge the items by. Must be unique within a given array of items.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Item,description"><span class="pre">description</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Description</p></td>
+<td colspan="4"><p>A description of the goods, services to be provided.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Item,classification"><span class="pre">classification</span></code></td>
+<td colspan="1"><p>object</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Classification</p></td>
+<td colspan="4"><p>The primary classification for the item.</p>
+<p>
+
+See <a class="reference external" href="#classification">Classification</a></p>
+</td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Item,additionalClassifications"><span class="pre">additionalClassifications</span></code></td>
+<td colspan="1"><p>array[Classification]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Additional classifications</p></td>
+<td colspan="4"><p>An array of additional classifications for the item.</p>
+<p>
+
+See <a class="reference external" href="#classification">Classification</a></p>
+</td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Item,quantity"><span class="pre">quantity</span></code></td>
+<td colspan="1"><p>[number, null]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Quantity</p></td>
+<td colspan="4"><p>The number of units to be provided.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Item,unit"><span class="pre">unit</span></code></td>
+<td colspan="1"><p>object</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Unit</p></td>
+<td colspan="4"><p>A description of the unit in which the supplies, services or works are provided (e.g. hours, kilograms) and the unit-price.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note extension_list" id="extensionlist-item">
+<p class="admonition-title">These are extensions related to Items.</p>
+<dl class="simple">
+<dt><a class="reference external" href="https://extensions.open-contracting.org/en/extensions/location/v1.1.5/">Location</a></dt><dd><p>Allows the point of delivery or site of works for a given line item to be indicated in tender, award and contract objects.</p>
+</dd>
+</dl>
+<p class="hide">The following are community extensions and are not maintained by Open Contracting Partnership.</p>
+</div>
+<section id="classification">
+<h4>Classification<a class="headerlink" href="#classification" title="Permalink to this heading">¶</a></h4>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head" colspan="1"><p>Title</p></th>
+<th class="head" colspan="1"><p>Description</p></th>
+<th class="head" colspan="1"><p>Type</p></th>
+<th class="head" colspan="1"><p>Format</p></th>
+<th class="head" colspan="1"><p>Required</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Classification,scheme"><span class="pre">scheme</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Scheme</p></td>
+<td colspan="4"><p>The scheme or codelist from which the classification code is taken. For line item classifications, this uses the open <a class="reference external" href="https://standard.open-contracting.org/1.1/en/schema/codelists/#item-classification-scheme">itemClassificationScheme</a> codelist.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Classification,id"><span class="pre">id</span></code></td>
+<td colspan="1"><p>[string, integer, null]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>ID</p></td>
+<td colspan="4"><p>The classification code taken from the scheme.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Classification,description"><span class="pre">description</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Description</p></td>
+<td colspan="4"><p>A textual description or title for the classification code.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Classification,uri"><span class="pre">uri</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"><p>uri</p></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>URI</p></td>
+<td colspan="4"><p>A URI to uniquely identify the classification code.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="unit">
+<h4>Unit<a class="headerlink" href="#unit" title="Permalink to this heading">¶</a></h4>
+<p>The <code class="docutils literal notranslate"><span class="pre">unit</span></code> block allows detailed specification of the parameters and price of units that make up a line-item.</p>
+<p>If the <a class="reference external" href="https://www.qudt.org/qudt/owl/1.0.0/unit/">Quantities, Units, Dimensions and Data Types Ontologies</a> unit classification scheme is used, then publishers can use its CamelCase unit names, such as &quot;SquareMile&quot;, in the <code class="docutils literal notranslate"><span class="pre">unit.name</span></code> field.</p>
+<p>Other unit classification schemes can be used, including those in the <a class="reference internal" href="../codelists/#unit-classification-scheme"><span class="std std-doc">unitClassificationScheme codelist</span></a>.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head" colspan="1"><p>Title</p></th>
+<th class="head" colspan="1"><p>Description</p></th>
+<th class="head" colspan="1"><p>Type</p></th>
+<th class="head" colspan="1"><p>Format</p></th>
+<th class="head" colspan="1"><p>Required</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Item/properties/unit,scheme"><span class="pre">scheme</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Scheme</p></td>
+<td colspan="4"><p>The list from which identifiers for units of measure are taken, using the open <a class="reference external" href="https://standard.open-contracting.org/1.1/en/schema/codelists/#unit-classification-scheme">unitClassificationScheme</a> codelist. 'UNCEFACT' is recommended.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Item/properties/unit,id"><span class="pre">id</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>ID</p></td>
+<td colspan="4"><p>The identifier from the codelist referenced in the <code class="docutils literal notranslate"><span class="pre">scheme</span></code> field. Check the <a class="reference external" href="https://standard.open-contracting.org/1.1/en/schema/codelists/#unit-classification-scheme">unitClassificationScheme</a> codelist for details of how to find and use identifiers from the scheme in use.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Item/properties/unit,name"><span class="pre">name</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Name</p></td>
+<td colspan="4"><p>Name of the unit.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Item/properties/unit,value"><span class="pre">value</span></code></td>
+<td colspan="1"><p>object</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Value</p></td>
+<td colspan="4"><p>The monetary value of a single unit.</p>
+<p>
+
+See <a class="reference external" href="#value">Value</a></p>
+</td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Item/properties/unit,uri"><span class="pre">uri</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"><p>uri</p></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>URI</p></td>
+<td colspan="4"><p>The machine-readable URI for the unit of measure, provided by the scheme.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="milestone">
+<h3>Milestone<a class="headerlink" href="#milestone" title="Permalink to this heading">¶</a></h3>
+<p>Milestone information can be included in the <a class="reference internal" href="#planning"><span class="std std-doc">planning</span></a>, <a class="reference internal" href="#tender"><span class="std std-doc">tender</span></a>, <a class="reference internal" href="#contract"><span class="std std-doc">contract</span></a> and <a class="reference internal" href="#implementation"><span class="std std-doc">contract implementation</span></a> blocks.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head" colspan="1"><p>Title</p></th>
+<th class="head" colspan="1"><p>Description</p></th>
+<th class="head" colspan="1"><p>Type</p></th>
+<th class="head" colspan="1"><p>Format</p></th>
+<th class="head" colspan="1"><p>Required</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Milestone,id"><span class="pre">id</span></code></td>
+<td colspan="1"><p>[string, integer]</p></td>
+<td colspan="1"></td>
+<td colspan="1"><p>Required</p></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>ID</p></td>
+<td colspan="4"><p>A local identifier for this milestone, unique within this block. This field is used to keep track of multiple revisions of a milestone through the compilation from release to record mechanism.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Milestone,title"><span class="pre">title</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Title</p></td>
+<td colspan="4"><p>Milestone title</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Milestone,type"><span class="pre">type</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Milestone type</p></td>
+<td colspan="4"><p>The nature of the milestone, using the open <a class="reference external" href="https://standard.open-contracting.org/1.1/en/schema/codelists/#milestone-type">milestoneType</a> codelist.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Milestone,description"><span class="pre">description</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Description</p></td>
+<td colspan="4"><p>A description of the milestone.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Milestone,code"><span class="pre">code</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Milestone code</p></td>
+<td colspan="4"><p>Milestone codes can be used to track specific events that take place for a particular kind of contracting process. For example, a code of 'approvalLetter' can be used to allow applications to understand this milestone represents the date an approvalLetter is due or signed.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Milestone,dueDate"><span class="pre">dueDate</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"><p>date-time</p></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Due date</p></td>
+<td colspan="4"><p>The date the milestone is due.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Milestone,dateMet"><span class="pre">dateMet</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"><p>date-time</p></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Date met</p></td>
+<td colspan="4"><p>The date on which the milestone was met.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Milestone,dateModified"><span class="pre">dateModified</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"><p>date-time</p></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Date modified</p></td>
+<td colspan="4"><p>The date the milestone was last reviewed or modified and the status was altered or confirmed to still be correct.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Milestone,status"><span class="pre">status</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Status</p></td>
+<td colspan="4"><p>The status that was realized on the date provided in <code class="docutils literal notranslate"><span class="pre">dateModified</span></code>, from the closed <a class="reference external" href="https://standard.open-contracting.org/1.1/en/schema/codelists/#milestone-status">milestoneStatus</a> codelist.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Milestone,documents"><span class="pre">documents</span></code></td>
+<td colspan="1"><p>array[Document]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Documents</p></td>
+<td colspan="4"><p>List of documents associated with this milestone (Deprecated in 1.1).</p>
+<p>
+
+See <a class="reference external" href="#document">Document</a></p>
+<p>This property was deprecated in version 1.1</p>
+<p>Inclusion of documents at the milestone level is now deprecated. Documentation should be attached in the tender, award, contract or implementation sections, and titles and descriptions used to highlight the related milestone. Publishers who wish to continue to provide documents at the milestone level should explicitly declare this by using the milestone documents extension.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Notes:</p>
+<ul class="simple">
+<li><p>The <code class="docutils literal notranslate"><span class="pre">dateModified</span></code> field should be changed whenever the progress towards a milestone is reviewed, and the <code class="docutils literal notranslate"><span class="pre">status</span></code> either updated, or re-confirmed.</p></li>
+</ul>
+</section>
+<section id="value">
+<h3>Value<a class="headerlink" href="#value" title="Permalink to this heading">¶</a></h3>
+<p>Financial values should be published with a currency attached.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head" colspan="1"><p>Title</p></th>
+<th class="head" colspan="1"><p>Description</p></th>
+<th class="head" colspan="1"><p>Type</p></th>
+<th class="head" colspan="1"><p>Format</p></th>
+<th class="head" colspan="1"><p>Required</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Value,amount"><span class="pre">amount</span></code></td>
+<td colspan="1"><p>[number, null]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Amount</p></td>
+<td colspan="4"><p>Amount as a number.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/Value,currency"><span class="pre">currency</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Currency</p></td>
+<td colspan="4"><p>The currency of the amount, from the closed <a class="reference external" href="https://standard.open-contracting.org/1.1/en/schema/codelists/#currency">currency</a> codelist.</p></td>
+</tr>
+</tbody>
+</table>
+<p>Support for exchange rates, and tax information, can be provided using extensions.</p>
+</section>
+<section id="relatedprocess">
+<h3>RelatedProcess<a class="headerlink" href="#relatedprocess" title="Permalink to this heading">¶</a></h3>
+<p>In OCDS each contracting process can have only one planning and tender stage. There are a number of cases where it is important to know about related planning and tendering processes, including:</p>
+<ul class="simple">
+<li><p>When one planning process results in many tenders;</p></li>
+<li><p>What a contract is awarded following two distinct, but related, tender processes, such as in national frameworks with locally run mini-competitions;</p></li>
+<li><p>When a contract results in the award of sub-contracts - and those sub-contracts are also tracked using OCDS;</p></li>
+<li><p>When a contract is coming up for renewal or replacement, and there is a contracting process to award  the renewal/replacement contract;</p></li>
+</ul>
+<p>In all these cases, the <code class="docutils literal notranslate"><span class="pre">relatedProcess</span></code> block should be used to cross-reference between the relevant open contracting processes using their <code class="docutils literal notranslate"><span class="pre">ocid</span></code>.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head" colspan="1"><p>Title</p></th>
+<th class="head" colspan="1"><p>Description</p></th>
+<th class="head" colspan="1"><p>Type</p></th>
+<th class="head" colspan="1"><p>Format</p></th>
+<th class="head" colspan="1"><p>Required</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/RelatedProcess,id"><span class="pre">id</span></code></td>
+<td colspan="1"><p>string</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Relationship ID</p></td>
+<td colspan="4"><p>A local identifier for this relationship, unique within this array.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/RelatedProcess,relationship"><span class="pre">relationship</span></code></td>
+<td colspan="1"><p>array[string]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Relationship</p></td>
+<td colspan="4"><p>The type of relationship, using the open <a class="reference external" href="https://standard.open-contracting.org/1.1/en/schema/codelists/#related-process">relatedProcess</a> codelist.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/RelatedProcess,title"><span class="pre">title</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Related process title</p></td>
+<td colspan="4"><p>The title of the related process, where referencing an open contracting process, this field should match the tender/title field in the related process.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/RelatedProcess,scheme"><span class="pre">scheme</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Scheme</p></td>
+<td colspan="4"><p>The identification scheme used by this cross-reference, using the open <a class="reference external" href="https://standard.open-contracting.org/1.1/en/schema/codelists/#related-process-scheme">relatedProcessScheme</a> codelist.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/RelatedProcess,identifier"><span class="pre">identifier</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Identifier</p></td>
+<td colspan="4"><p>The identifier of the related process. If the scheme is 'ocid', this must be an Open Contracting ID (ocid).</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-schema.json,/definitions/RelatedProcess,uri"><span class="pre">uri</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"><p>uri</p></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Related process URI</p></td>
+<td colspan="4"><p>A URI pointing to a machine-readable document, release or record package containing the identified related process.</p></td>
+</tr>
+</tbody>
+</table>
+<p>A related process can be declared at two points in an OCDS release.</p>
+<p><strong>(1) At the release level</strong> - used to point backwards to prior processes, such as planning or framework establishment.</p>
+<p><strong>(2) At the contract level</strong> - used to point onward to sub-contracts, renewal or replacement processes that relate solely to the particular contract the field appears in.</p>
+<p>As well as providing this machine-readable link between processes, publishers may also provide links to human-readable documentation in the relevant <code class="docutils literal notranslate"><span class="pre">documents</span></code> blocks. For example:</p>
+<ul class="simple">
+<li><p>When recording a <code class="docutils literal notranslate"><span class="pre">release/relatedProcess</span></code> pointing to the ocid of the planning process that resulted in a tender, a <code class="docutils literal notranslate"><span class="pre">tender/documents</span></code> entry with a <code class="docutils literal notranslate"><span class="pre">documentType</span></code> of 'procurementPlan' and a link to web pages about the procurement plan could be provided;</p></li>
+<li><p>When recording a <code class="docutils literal notranslate"><span class="pre">contract/relatedProcess</span></code> pointing to the ocid of a  sub-contracting process, a <code class="docutils literal notranslate"><span class="pre">contract/documents</span></code> entry with a <code class="docutils literal notranslate"><span class="pre">documentType</span></code> of 'subContract' and a title that describes it as the subcontracting process, could be provided;</p></li>
+<li><p>When recording a <code class="docutils literal notranslate"><span class="pre">contract/relatedProcess</span></code> pointing to the ocid of a tender process to renew a given contract, a <code class="docutils literal notranslate"><span class="pre">contract/documents</span></code> entry with a <code class="docutils literal notranslate"><span class="pre">documentType</span></code> of 'tenderNotice' and a title that describes it as the successor process, could be provided;</p></li>
+</ul>
+</section>
+<section id="location">
+<h3>Location<a class="headerlink" href="#location" title="Permalink to this heading">¶</a></h3>
+<p>The <a class="reference external" href="https://extensions.open-contracting.org/en/extensions/location/v1.1.4/">Location</a> extension can be used to provide location information.</p>
+</section>
+<section id="publisher">
+<h3>Publisher<a class="headerlink" href="#publisher" title="Permalink to this heading">¶</a></h3>
+<p>The publisher block is used in release and record packages to identify the source of a dataset.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head" colspan="1"><p>Title</p></th>
+<th class="head" colspan="1"><p>Description</p></th>
+<th class="head" colspan="1"><p>Type</p></th>
+<th class="head" colspan="1"><p>Format</p></th>
+<th class="head" colspan="1"><p>Required</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-package-schema.json,,publisher"><span class="pre">publisher</span></code></td>
+<td colspan="1"><p>object</p></td>
+<td colspan="1"></td>
+<td colspan="1"><p>Required</p></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Publisher</p></td>
+<td colspan="4"><p>Information to uniquely identify the publisher of this package.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-package-schema.json,,publisher/name"><span class="pre">publisher/name</span></code></td>
+<td colspan="1"><p>string</p></td>
+<td colspan="1"></td>
+<td colspan="1"><p>Required</p></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Name</p></td>
+<td colspan="4"><p>The name of the organization or department responsible for publishing this data.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-package-schema.json,,publisher/scheme"><span class="pre">publisher/scheme</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>Scheme</p></td>
+<td colspan="4"><p>The scheme that holds the unique identifiers used to identify the item being identified.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-package-schema.json,,publisher/uid"><span class="pre">publisher/uid</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>uid</p></td>
+<td colspan="4"><p>The unique ID for this entity under the given ID scheme.</p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><code class="docutils literal notranslate" id="release-package-schema.json,,publisher/uri"><span class="pre">publisher/uri</span></code></td>
+<td colspan="1"><p>[string, null]</p></td>
+<td colspan="1"><p>uri</p></td>
+<td colspan="1"></td>
+</tr>
+<tr class="row-odd"><td colspan="1"><p>URI</p></td>
+<td colspan="4"><p>A URI to identify the publisher.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../release/" class="btn btn-neutral float-right" title="Release Schema" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../" class="btn btn-neutral" title="Reference" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+      Copyright (c) Open Contracting Partnership, and released under the <a href="https://github.com/open-contracting/standard/blob/HEAD/LICENSE">Apache License 2.0</a>, <a href="https://github.com/open-contracting/standard">source available on GitHub</a>.
+<a href="https://www.open-contracting.org/terms-of-use/">Privacy notice</a>.
+
+  </div>
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+      <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+      <script src="../../_static/jquery.js"></script>
+      <script src="../../_static/underscore.js"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+      <script src="../../_static/doctools.js"></script>
+      <script src="../../_static/sphinx_highlight.js"></script>
+      <script src="../../_static/design-tabs.js"></script>
+      <script src="../../_static/renderjson.js"></script>
+      <script src="../../_static/script.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495" integrity="sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==" data-cf-beacon='{"version":"2024.11.0","token":"4a16ac83313b460fbdfb3abc8b6d73d9","r":1,"spa":2}' crossorigin="anonymous"></script>
+</body>
+</html>
