@@ -8,6 +8,7 @@ import { extname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright';
 import { loadInvestigation } from './load.mjs';
+import { loadMoneyTrails } from '../money-trails/load.mjs';
 
 const root = fileURLToPath(new URL('../../', import.meta.url));
 const out = resolve(root, process.env.INVESTIGATION_BROWSER_ARTIFACTS ?? '/tmp/investigation-browser-review');
@@ -28,6 +29,7 @@ if (!base) { await new Promise(done => server.listen(0, '127.0.0.1', done)); lis
 base = base.replace(/\/$/u, '');
 const api = await loadInvestigation();
 const registry = api.INVESTIGATION_REGISTRY;
+const moneyTrails = (await loadMoneyTrails()).getMoneyTrailsView(registry).trails;
 const results = []; const pageErrors = []; const screenshots = [];
 const scenarioFilter = process.env.INVESTIGATION_BROWSER_SCENARIO ?? '';
 let checks = 0;
@@ -40,6 +42,7 @@ const routes = [...new Set([...routePaths, '/states/ka', '/company/reliance-indu
 const dedicatedRoutes = new Map([
   ['/follow-the-money', { marker: '[data-follow-the-money]', stateLabel: 'State or union territory' }],
   ['/allegations', { marker: '[data-allegations-page]', stateLabel: 'State association', filtersButton: 'Filters' }],
+  ['/money-trails', { marker: '[data-money-trails-page]', workflow: 'authored-money-trail' }],
 ]);
 const sharedRoutes = routes.filter(route => !dedicatedRoutes.has(route));
 const binary = process.env.PLAYWRIGHT_CHROMIUM_PATH ?? '/usr/bin/chromium';
@@ -115,7 +118,52 @@ try {
       const codes = await page.locator('.iw-map-state').evaluateAll(items => items.map(item => item.getAttribute('data-state-code')));
       check(codes.length === 36 && new Set(codes).size === 36, `${route}: 36 distinct geographic shapes`);
       check(codes.includes('LA') && codes.includes('DN') && !codes.includes('DD') && codes.includes('OD') && codes.includes('CG'), `${route}: current state/UT codes`);
-      check(await page.getByRole('combobox', { name: dedicated?.stateLabel ?? 'Place', exact: true }).locator('option').count() === 37, `${route}: all 36 places plus the unfiltered national view`);
+      if (dedicated?.workflow === 'authored-money-trail') {
+        // This dedicated page selects an authored investigation, then a geographic
+        // evidence hub. Its full original dossier opens in the evidence reader.
+        const investigations = page.getByRole('combobox', { name: 'Choose money-trail investigation', exact: true });
+        const optionIds = await investigations.locator('option').evaluateAll(items => items.map(item => item.value));
+        check(moneyTrails.length > 0 && JSON.stringify(optionIds) === JSON.stringify(moneyTrails.map(trail => trail.id)), `${route}: every authored investigation is selectable`);
+        const selectedTrailId = await investigations.inputValue();
+        const selectedTrail = moneyTrails.find(trail => trail.id === selectedTrailId);
+        check(!!selectedTrail, `${route}: selected investigation is a retained exact trail`);
+        check(await page.locator('[data-money-trails-page]').getAttribute('data-money-view') === 'map', `${route}: geographic map is the default surface`);
+        // Delhi's small boundary is covered by its visible evidence-hub marker;
+        // activate that user-facing geographic target instead of forcing through it.
+        await page.locator('[data-flat-map-hub="state:DL"]').click();
+        await page.locator('[data-map-place="state:DL"]').waitFor();
+        await page.waitForFunction(() => new URLSearchParams(location.hash.split('?')[1] ?? '').get('mt_selection') === 'state:state:DL');
+        check(await page.locator('.iw-map-state[data-state-code="DL"]').getAttribute('aria-pressed') === 'true', `${route}: state selection updates its geographic control`);
+        check(await page.getByRole('region', { name: 'Selected state evidence', exact: true }).count() === 1, `${route}: state selection opens the sourced geographic evidence hub`);
+        await page.getByRole('button', { name: 'Close place details', exact: true }).click();
+        await page.locator('[data-map-place]').waitFor({ state: 'hidden' });
+        await page.waitForFunction(() => !new URLSearchParams(location.hash.split('?')[1] ?? '').has('mt_selection'));
+        check(await page.locator('.iw-map-state[data-state-code="DL"]').getAttribute('aria-pressed') === 'false', `${route}: clearing the geographic hub clears the selected map state`);
+        await page.getByRole('button', { name: 'Open investigation dossier', exact: true }).click();
+        const reader = page.locator('.atlas-evidence-popover');
+        await reader.waitFor();
+        check(await reader.getAttribute('data-selection-id') === selectedTrail.caseRecordId, `${route}: dossier opens the exact original case record`);
+        const original = registry.records.find(record => record.id === selectedTrail.caseRecordId);
+        check(!!original && (await reader.innerText()).includes(original.title), `${route}: the full original dossier title is rendered`);
+        check(await reader.locator('.atlas-reader-summary').textContent() === original.summary, `${route}: the complete original case summary is rendered`);
+        await reader.getByRole('tab', { name: /^Sources/ }).click();
+        check(original.sourceIds.length > 0, `${route}: original dossier declares source provenance`);
+        for (const sourceId of original.sourceIds) {
+          const source = registry.sources.find(row => row.id === sourceId);
+          check(!!source, `${route}: original source ${sourceId} resolves exactly`);
+          // Exact-ID search verifies every citation, including sources beyond the
+          // first reader page; an unrelated visible link cannot satisfy this check.
+          await reader.getByRole('searchbox', { name: 'Search sources', exact: true }).fill(sourceId);
+          const sourceLink = reader.getByRole('tabpanel').getByRole('link', { name: `${source.title} ↗`, exact: true });
+          await sourceLink.waitFor();
+          check(await sourceLink.getAttribute('href') === source.url, `${route}: original source ${sourceId} exposes its exact retained URL`);
+        }
+        await reader.getByRole('button', { name: 'Close evidence details', exact: true }).click();
+        await reader.waitFor({ state: 'hidden' });
+        check(await page.locator('.iw-map-state').count() === 36, `${route}: closing the dossier preserves all geographic shapes`);
+      } else {
+        check(await page.getByRole('combobox', { name: dedicated?.stateLabel ?? 'Place', exact: true }).locator('option').count() === 37, `${route}: all 36 places plus the unfiltered national view`);
+      }
       await overflow(route);
     }
   });

@@ -1,0 +1,33 @@
+{
+  "testedAt": "2026-10-07T19:56:41.032Z",
+  "dist": "dist-money-trails-release",
+  "distIndexSha256": "a76cade33269a6a735cbeec7482fc8c292a2dbfcf32965caa3678df45267dac9",
+  "harnessPath": "scripts/investigation/browser.mjs",
+  "harnessSha256": "da035ac5a981e4b101bb58c8595e83ab8dadca8cc7861f5dc6765febc274aa57",
+  "fullHarness": {
+    "checks": 778,
+    "passedScenarios": 12,
+    "totalScenarios": 12,
+    "errors": [],
+    "receipt": "/tmp/money-trails-route-fix-full/results.json"
+  },
+  "finalStrengthenedGeographicScenario": {
+    "checks": 287,
+    "passedScenarios": 1,
+    "totalScenarios": 1,
+    "errors": [],
+    "receipt": "/tmp/money-trails-route-fix-strengthened/results.json"
+  },
+  "graph": {
+    "checks": 15,
+    "passed": true,
+    "errors": [],
+    "artifacts": "/tmp/money-trails-route-fix-graph"
+  },
+  "workspace": {
+    "checks": 54,
+    "passed": true,
+    "artifacts": "/tmp/money-trails-route-fix-workspace"
+  },
+  "scope": "Harness-only dedicated-route recognition. Full 12-scenario run precedes stronger native case-summary and all-citation href assertions; the entire geographic scenario was rerun successfully after those assertions. Application and data files unchanged."
+}

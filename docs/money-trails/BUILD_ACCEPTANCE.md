@@ -31,3 +31,11 @@ The 34 new engine/editorial data assertions passed, as did the shared registry, 
 ## Executed browser acceptance
 
 The immutable build passed 96 new-workspace checks, 34 independent source-meaning checks, 44 retained metro checks, 43 retained allegation checks and 72 shared atlas integration checks: 289 browser assertions with zero runtime exceptions. Receipts are retained alongside the build manifest. Independent reviewers visually inspected desktop maps/networks and narrow-screen cash-path and counterevidence readers. The exact served index hash was checked before/after acceptance; app and data files remained frozen.
+
+## Deployment harness correction
+
+The first deployment attempt, [run 37676146597](https://github.com/occult-kranti/india-corporate-intelligence/actions/runs/37676146597), stopped in the retained geographic browser suite. Its route enumeration treated the new standalone `/money-trails` page as a shared Workspace/Dossier route, then waited for controls that the page intentionally does not use. The page itself rendered its 36 current boundaries and native dossier reader.
+
+The harness now explicitly declares this dedicated route, retains all geographic-shape, current-boundary and overflow assertions, and tests its actual investigation selector, geographic hub selection/clear, exact original-case reader and source references. Existing routes keep their prior assertions. Application files, research data and the accepted build are unchanged. Full geographic, graph and workspace regression results are retained separately; deployment is rerun after they pass.
+
+The corrected harness passed all 12 scenarios and 778 assertions. After independent review strengthened source checks to exact summary equality and every cited URL, the final geographic scenario passed 287 assertions. The unchanged graph and workspace suites passed 15 and 54 checks respectively; all reported zero browser exceptions. `acceptance/route-harness-recheck.json` records the unchanged served-index hash and final harness hash.
