@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "stage": "immutable-local-release",
+  "verifiedAt": "2026-10-07T18:22:54.767846+00:00",
+  "baseUrl": "http://127.0.0.1:5196",
+  "buildDirectory": "dist-metro-release",
+  "buildIndexSha256": "ffe0ad93c809ca12b33257e21aa932f2d25c0a5db8494a1954bed3f1a2b115ae",
+  "indexUnchangedBeforeAfter": true,
+  "checks": 87,
+  "runtimeErrors": 0,
+  "suites": [
+    {
+      "name": "Metro spending",
+      "script": "scripts/metro-spending/browser.mjs",
+      "status": "passed",
+      "checks": 44,
+      "runtimeErrors": 0,
+      "receipt": "metro-browser.json",
+      "artifactDirectory": "/tmp/metro-final-browser"
+    },
+    {
+      "name": "Retained Allegations",
+      "script": "scripts/allegations-map/browser.mjs",
+      "status": "passed",
+      "checks": 43,
+      "runtimeErrors": 0,
+      "receipt": "allegations-browser.json",
+      "artifactDirectory": "/tmp/metro-final-allegations"
+    }
+  ],
+  "notes": [
+    "Both full suites ran sequentially against this exact final build.",
+    "The initial attempt could not connect to the static server before any browser assertion. The read-only server was restarted and both complete suites then passed.",
+    "No application source was edited during this final acceptance pass."
+  ]
+}

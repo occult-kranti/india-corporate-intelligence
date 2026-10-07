@@ -1,0 +1,1562 @@
+{
+  "sources": [
+    {
+      "id": "portal-snapshot",
+      "title": "Public tender archive: separate notice and award SQLite snapshots",
+      "url": "https://tender.sarthaksidhant.com/",
+      "publisher": "Sarthak Sidhant",
+      "publishedAt": "2026-06-26",
+      "retrievedAt": "2026-10-06",
+      "locator": "Published SQLite schemas and SHA256 values; retained June 2026 archive",
+      "summary": "Third-party mirror of notice and award listings, with different row grains. The analysis uses original publisher-hash-verified SQLite files, not the displayed website grand total.",
+      "tier": "reported",
+      "limitations": [
+        "A mirrored row is not a revalidated original procurement document, award payment, legal-company identity or corruption finding."
+      ]
+    },
+    {
+      "id": "executed-cohort-scan",
+      "title": "Executed Delhi, Mumbai and security buyer-cohort scan",
+      "url": "https://github.com/occult-kranti/india-corporate-intelligence/blob/codex/education-funding-intelligence/research/raw/metro-spending/tender-scan/analysis.json",
+      "publisher": "ICIP reproducible source analysis",
+      "publishedAt": "2026-10-07",
+      "retrievedAt": "2026-10-07",
+      "locator": "cohorts, queries: full_listing_denominators, *_cohort_counts, *_repeated_keys, award_bid_lexemes; exact SQL and execution times",
+      "summary": "Read-only scan of two rehashed original SQLite inputs and a fingerprint-verified derivation. Thirteen disjoint buyer-name probes keep notice/award rows, date eligibility, repeated keys and bid-count coverage separate. No money sum or corruption inference is produced.",
+      "tier": "analytic",
+      "limitations": [
+        "Notice and award listings are different grains. No notice-to-award join or payment trail is inferred.",
+        "No prices are summed. Detail bidder labels are not resolved legal-company identities.",
+        "Listing counts include historical, undated and date-invalid rows; dated eligible rows are reported separately.",
+        "Repeated full buyer/portal/tender/reference keys are repeated source records, not evidence of repeated paid work.",
+        "Single-bid observations require the original procurement method, qualification rules, corrigenda and award documents before any adverse conclusion.",
+        "Zero matches under the declared buyer-name probe are a coverage gap, not proof that an institution has no tenders.",
+        "No contact names, private addresses, bank details or tactical installation locations are extracted."
+      ]
+    },
+    {
+      "id": "original-download-receipts",
+      "title": "Original archive retrieval, ZIP integrity and full SQLite SHA256 receipts",
+      "url": "https://github.com/occult-kranti/india-corporate-intelligence/blob/528948966c1015ea25bcf2539004561e8fd68963/research/raw/tender-portal-audit/evidence/",
+      "publisher": "ICIP original source retrieval receipts",
+      "publishedAt": null,
+      "retrievedAt": "2026-10-06",
+      "locator": "aoc_tenders.db.download-receipt.json and tenders_vps.db.download-receipt.json; complete byte counts and publisher SHA256s; scan sourceSnapshots reverified 7 October",
+      "summary": "The two original databases contain 4,921,960 award-listing rows and 3,952,191 notice-listing rows. Listing/detail storage must not be added into a count of distinct procurements.",
+      "tier": "analytic",
+      "limitations": [
+        "Hashes establish the retained bytes and lineage, not truth of every source field or completeness of procurement coverage."
+      ]
+    }
+  ],
+  "entities": [
+    {
+      "domains": [
+        "public-funds",
+        "public-finance",
+        "security"
+      ],
+      "layers": [
+        "procurement",
+        "review"
+      ],
+      "sourceIds": [
+        "portal-snapshot",
+        "executed-cohort-scan",
+        "original-download-receipts"
+      ],
+      "route": "/allegations",
+      "geography": [
+        {
+          "scope": "city",
+          "stateCodes": [
+            "DL"
+          ],
+          "localityIds": [
+            "delhi"
+          ],
+          "basis": "state-association",
+          "note": "Buyer-name cohort associated with this city; source-record discovery, not a project pin, city expenditure allocation or entity address.",
+          "sourceIds": [
+            "portal-snapshot",
+            "executed-cohort-scan",
+            "original-download-receipts"
+          ]
+        }
+      ],
+      "limitations": [
+        "Notice and award listings are different grains. No notice-to-award join or payment trail is inferred.",
+        "No prices are summed. Detail bidder labels are not resolved legal-company identities.",
+        "Listing counts include historical, undated and date-invalid rows; dated eligible rows are reported separately.",
+        "Repeated full buyer/portal/tender/reference keys are repeated source records, not evidence of repeated paid work.",
+        "Single-bid observations require the original procurement method, qualification rules, corrigenda and award documents before any adverse conclusion.",
+        "Zero matches under the declared buyer-name probe are a coverage gap, not proof that an institution has no tenders.",
+        "No contact names, private addresses, bank details or tactical installation locations are extracted."
+      ],
+      "id": "delhi-police",
+      "label": "Delhi Police buyer names",
+      "type": "source-cohort",
+      "resolved": true,
+      "identityBasis": "Exactly the source rows matching the published buyerRegex '^(delhi police|prov\\\\. and logistics unit,delhi police)($|[|/])'. This node is a declared dataset cohort, not a merged legal institution or company.",
+      "summary": "The retained snapshot contains 699 notice-listing rows and 0 award-listing rows under this declared buyer-name probe. Date-eligible listing rows: 699 notices and 0 awards (publication/AOC on or after 7 October 2011, no later than the row's capture and the June 2026 snapshot). Among 0 eligible award listings with strictly parseable bid counts, 0 record one bid. These are listing rows, not deduplicated competitions; one bid is not proof of misconduct. Repeated nonblank portal/buyer/tender/reference keys: 0 notice keys and 0 award keys. Repeated captured records do not establish repeated paid work. No cross-stage notice-to-award match, supplier identity or cash payment is established by these counts."
+    },
+    {
+      "domains": [
+        "public-funds",
+        "public-finance",
+        "security"
+      ],
+      "layers": [
+        "procurement",
+        "review"
+      ],
+      "sourceIds": [
+        "portal-snapshot",
+        "executed-cohort-scan",
+        "original-download-receipts"
+      ],
+      "route": "/allegations",
+      "geography": [
+        {
+          "scope": "city",
+          "stateCodes": [
+            "DL"
+          ],
+          "localityIds": [
+            "delhi"
+          ],
+          "basis": "state-association",
+          "note": "Buyer-name cohort associated with this city; source-record discovery, not a project pin, city expenditure allocation or entity address.",
+          "sourceIds": [
+            "portal-snapshot",
+            "executed-cohort-scan",
+            "original-download-receipts"
+          ]
+        }
+      ],
+      "limitations": [
+        "Notice and award listings are different grains. No notice-to-award join or payment trail is inferred.",
+        "No prices are summed. Detail bidder labels are not resolved legal-company identities.",
+        "Listing counts include historical, undated and date-invalid rows; dated eligible rows are reported separately.",
+        "Repeated full buyer/portal/tender/reference keys are repeated source records, not evidence of repeated paid work.",
+        "Single-bid observations require the original procurement method, qualification rules, corrigenda and award documents before any adverse conclusion.",
+        "Zero matches under the declared buyer-name probe are a coverage gap, not proof that an institution has no tenders.",
+        "No contact names, private addresses, bank details or tactical installation locations are extracted."
+      ],
+      "id": "delhi-police-housing",
+      "label": "Delhi Police Housing Corporation buyer names",
+      "type": "source-cohort",
+      "resolved": true,
+      "identityBasis": "Exactly the source rows matching the published buyerRegex '^delhi police housing corporation ltd($|[|/])'. This node is a declared dataset cohort, not a merged legal institution or company.",
+      "summary": "The retained snapshot contains 1,837 notice-listing rows and 0 award-listing rows under this declared buyer-name probe. Date-eligible listing rows: 1,837 notices and 0 awards (publication/AOC on or after 7 October 2011, no later than the row's capture and the June 2026 snapshot). Among 0 eligible award listings with strictly parseable bid counts, 0 record one bid. These are listing rows, not deduplicated competitions; one bid is not proof of misconduct. Repeated nonblank portal/buyer/tender/reference keys: 0 notice keys and 0 award keys. Repeated captured records do not establish repeated paid work. No cross-stage notice-to-award match, supplier identity or cash payment is established by these counts."
+    },
+    {
+      "domains": [
+        "public-funds",
+        "public-finance",
+        "security"
+      ],
+      "layers": [
+        "procurement",
+        "review"
+      ],
+      "sourceIds": [
+        "portal-snapshot",
+        "executed-cohort-scan",
+        "original-download-receipts"
+      ],
+      "route": "/allegations",
+      "geography": [
+        {
+          "scope": "city",
+          "stateCodes": [
+            "MH"
+          ],
+          "localityIds": [
+            "mumbai"
+          ],
+          "basis": "state-association",
+          "note": "Buyer-name cohort associated with this city; source-record discovery, not a project pin, city expenditure allocation or entity address.",
+          "sourceIds": [
+            "portal-snapshot",
+            "executed-cohort-scan",
+            "original-download-receipts"
+          ]
+        }
+      ],
+      "limitations": [
+        "Notice and award listings are different grains. No notice-to-award join or payment trail is inferred.",
+        "No prices are summed. Detail bidder labels are not resolved legal-company identities.",
+        "Listing counts include historical, undated and date-invalid rows; dated eligible rows are reported separately.",
+        "Repeated full buyer/portal/tender/reference keys are repeated source records, not evidence of repeated paid work.",
+        "Single-bid observations require the original procurement method, qualification rules, corrigenda and award documents before any adverse conclusion.",
+        "Zero matches under the declared buyer-name probe are a coverage gap, not proof that an institution has no tenders.",
+        "No contact names, private addresses, bank details or tactical installation locations are extracted."
+      ],
+      "id": "mumbai-police",
+      "label": "Mumbai Police exact buyer-name probe",
+      "type": "source-cohort",
+      "resolved": true,
+      "identityBasis": "Exactly the source rows matching the published buyerRegex '^mumbai police($|[|/])'. This node is a declared dataset cohort, not a merged legal institution or company.",
+      "summary": "The retained snapshot contains 0 notice-listing rows and 0 award-listing rows under this declared buyer-name probe. Date-eligible listing rows: 0 notices and 0 awards (publication/AOC on or after 7 October 2011, no later than the row's capture and the June 2026 snapshot). Among 0 eligible award listings with strictly parseable bid counts, 0 record one bid. These are listing rows, not deduplicated competitions; one bid is not proof of misconduct. Repeated nonblank portal/buyer/tender/reference keys: 0 notice keys and 0 award keys. Repeated captured records do not establish repeated paid work. No matching notice or award buyer strings were found under this exact probe. Other aliases, state portals and missing coverage remain untested; this is not an absence-of-tenders claim."
+    },
+    {
+      "domains": [
+        "public-funds",
+        "public-finance"
+      ],
+      "layers": [
+        "procurement",
+        "review"
+      ],
+      "sourceIds": [
+        "portal-snapshot",
+        "executed-cohort-scan",
+        "original-download-receipts"
+      ],
+      "route": "/allegations",
+      "geography": [
+        {
+          "scope": "city",
+          "stateCodes": [
+            "DL"
+          ],
+          "localityIds": [
+            "delhi"
+          ],
+          "basis": "state-association",
+          "note": "Buyer-name cohort associated with this city; source-record discovery, not a project pin, city expenditure allocation or entity address.",
+          "sourceIds": [
+            "portal-snapshot",
+            "executed-cohort-scan",
+            "original-download-receipts"
+          ]
+        }
+      ],
+      "limitations": [
+        "Notice and award listings are different grains. No notice-to-award join or payment trail is inferred.",
+        "No prices are summed. Detail bidder labels are not resolved legal-company identities.",
+        "Listing counts include historical, undated and date-invalid rows; dated eligible rows are reported separately.",
+        "Repeated full buyer/portal/tender/reference keys are repeated source records, not evidence of repeated paid work.",
+        "Single-bid observations require the original procurement method, qualification rules, corrigenda and award documents before any adverse conclusion.",
+        "Zero matches under the declared buyer-name probe are a coverage gap, not proof that an institution has no tenders.",
+        "No contact names, private addresses, bank details or tactical installation locations are extracted."
+      ],
+      "id": "delhi-municipal",
+      "label": "Delhi municipal buyer-name cohort",
+      "type": "source-cohort",
+      "resolved": true,
+      "identityBasis": "Exactly the source rows matching the published buyerRegex '^(municipal corporation of delhi|south delhi municipal corporation|north delhi municipal corporation|east delhi municipal corporation \\\\(edmc\\\\))($|[|/])'. This node is a declared dataset cohort, not a merged legal institution or company.",
+      "summary": "The retained snapshot contains 55,670 notice-listing rows and 31,526 award-listing rows under this declared buyer-name probe. Date-eligible listing rows: 55,670 notices and 31,514 awards (publication/AOC on or after 7 October 2011, no later than the row's capture and the June 2026 snapshot). Among 31,514 eligible award listings with strictly parseable bid counts, 4,330 record one bid. These are listing rows, not deduplicated competitions; one bid is not proof of misconduct. Repeated nonblank portal/buyer/tender/reference keys: 1 notice keys and 157 award keys. Repeated captured records do not establish repeated paid work. No cross-stage notice-to-award match, supplier identity or cash payment is established by these counts."
+    },
+    {
+      "domains": [
+        "public-funds",
+        "public-finance"
+      ],
+      "layers": [
+        "procurement",
+        "review"
+      ],
+      "sourceIds": [
+        "portal-snapshot",
+        "executed-cohort-scan",
+        "original-download-receipts"
+      ],
+      "route": "/allegations",
+      "geography": [
+        {
+          "scope": "city",
+          "stateCodes": [
+            "DL"
+          ],
+          "localityIds": [
+            "delhi"
+          ],
+          "basis": "state-association",
+          "note": "Buyer-name cohort associated with this city; source-record discovery, not a project pin, city expenditure allocation or entity address.",
+          "sourceIds": [
+            "portal-snapshot",
+            "executed-cohort-scan",
+            "original-download-receipts"
+          ]
+        }
+      ],
+      "limitations": [
+        "Notice and award listings are different grains. No notice-to-award join or payment trail is inferred.",
+        "No prices are summed. Detail bidder labels are not resolved legal-company identities.",
+        "Listing counts include historical, undated and date-invalid rows; dated eligible rows are reported separately.",
+        "Repeated full buyer/portal/tender/reference keys are repeated source records, not evidence of repeated paid work.",
+        "Single-bid observations require the original procurement method, qualification rules, corrigenda and award documents before any adverse conclusion.",
+        "Zero matches under the declared buyer-name probe are a coverage gap, not proof that an institution has no tenders.",
+        "No contact names, private addresses, bank details or tactical installation locations are extracted."
+      ],
+      "id": "delhi-development",
+      "label": "Delhi Development Authority buyer names",
+      "type": "source-cohort",
+      "resolved": true,
+      "identityBasis": "Exactly the source rows matching the published buyerRegex '^delhi development authority($|[|/])'. This node is a declared dataset cohort, not a merged legal institution or company.",
+      "summary": "The retained snapshot contains 40,652 notice-listing rows and 1,211 award-listing rows under this declared buyer-name probe. Date-eligible listing rows: 40,652 notices and 959 awards (publication/AOC on or after 7 October 2011, no later than the row's capture and the June 2026 snapshot). Among 959 eligible award listings with strictly parseable bid counts, 48 record one bid. These are listing rows, not deduplicated competitions; one bid is not proof of misconduct. Repeated nonblank portal/buyer/tender/reference keys: 0 notice keys and 38 award keys. Repeated captured records do not establish repeated paid work. No cross-stage notice-to-award match, supplier identity or cash payment is established by these counts."
+    },
+    {
+      "domains": [
+        "public-funds",
+        "public-finance"
+      ],
+      "layers": [
+        "procurement",
+        "review"
+      ],
+      "sourceIds": [
+        "portal-snapshot",
+        "executed-cohort-scan",
+        "original-download-receipts"
+      ],
+      "route": "/allegations",
+      "geography": [
+        {
+          "scope": "city",
+          "stateCodes": [
+            "MH"
+          ],
+          "localityIds": [
+            "mumbai"
+          ],
+          "basis": "state-association",
+          "note": "Buyer-name cohort associated with this city; source-record discovery, not a project pin, city expenditure allocation or entity address.",
+          "sourceIds": [
+            "portal-snapshot",
+            "executed-cohort-scan",
+            "original-download-receipts"
+          ]
+        }
+      ],
+      "limitations": [
+        "Notice and award listings are different grains. No notice-to-award join or payment trail is inferred.",
+        "No prices are summed. Detail bidder labels are not resolved legal-company identities.",
+        "Listing counts include historical, undated and date-invalid rows; dated eligible rows are reported separately.",
+        "Repeated full buyer/portal/tender/reference keys are repeated source records, not evidence of repeated paid work.",
+        "Single-bid observations require the original procurement method, qualification rules, corrigenda and award documents before any adverse conclusion.",
+        "Zero matches under the declared buyer-name probe are a coverage gap, not proof that an institution has no tenders.",
+        "No contact names, private addresses, bank details or tactical installation locations are extracted."
+      ],
+      "id": "mumbai-municipal",
+      "label": "BMC exact buyer-name probe",
+      "type": "source-cohort",
+      "resolved": true,
+      "identityBasis": "Exactly the source rows matching the published buyerRegex '^(municipal corporation of greater mumbai|brihanmumbai municipal corporation|municipal corporation of mumbai)($|[|/])'. This node is a declared dataset cohort, not a merged legal institution or company.",
+      "summary": "The retained snapshot contains 0 notice-listing rows and 0 award-listing rows under this declared buyer-name probe. Date-eligible listing rows: 0 notices and 0 awards (publication/AOC on or after 7 October 2011, no later than the row's capture and the June 2026 snapshot). Among 0 eligible award listings with strictly parseable bid counts, 0 record one bid. These are listing rows, not deduplicated competitions; one bid is not proof of misconduct. Repeated nonblank portal/buyer/tender/reference keys: 0 notice keys and 0 award keys. Repeated captured records do not establish repeated paid work. No matching notice or award buyer strings were found under this exact probe. Other aliases, state portals and missing coverage remain untested; this is not an absence-of-tenders claim."
+    },
+    {
+      "domains": [
+        "public-funds",
+        "public-finance"
+      ],
+      "layers": [
+        "procurement",
+        "review"
+      ],
+      "sourceIds": [
+        "portal-snapshot",
+        "executed-cohort-scan",
+        "original-download-receipts"
+      ],
+      "route": "/allegations",
+      "geography": [
+        {
+          "scope": "city",
+          "stateCodes": [
+            "MH"
+          ],
+          "localityIds": [
+            "mumbai"
+          ],
+          "basis": "state-association",
+          "note": "Buyer-name cohort associated with this city; source-record discovery, not a project pin, city expenditure allocation or entity address.",
+          "sourceIds": [
+            "portal-snapshot",
+            "executed-cohort-scan",
+            "original-download-receipts"
+          ]
+        }
+      ],
+      "limitations": [
+        "Notice and award listings are different grains. No notice-to-award join or payment trail is inferred.",
+        "No prices are summed. Detail bidder labels are not resolved legal-company identities.",
+        "Listing counts include historical, undated and date-invalid rows; dated eligible rows are reported separately.",
+        "Repeated full buyer/portal/tender/reference keys are repeated source records, not evidence of repeated paid work.",
+        "Single-bid observations require the original procurement method, qualification rules, corrigenda and award documents before any adverse conclusion.",
+        "Zero matches under the declared buyer-name probe are a coverage gap, not proof that an institution has no tenders.",
+        "No contact names, private addresses, bank details or tactical installation locations are extracted."
+      ],
+      "id": "mumbai-port",
+      "label": "Mumbai Port buyer names",
+      "type": "source-cohort",
+      "resolved": true,
+      "identityBasis": "Exactly the source rows matching the published buyerRegex '^mumbai port (trust|authority)($|[|/])'. This node is a declared dataset cohort, not a merged legal institution or company.",
+      "summary": "The retained snapshot contains 2,383 notice-listing rows and 209 award-listing rows under this declared buyer-name probe. Date-eligible listing rows: 2,383 notices and 193 awards (publication/AOC on or after 7 October 2011, no later than the row's capture and the June 2026 snapshot). Among 193 eligible award listings with strictly parseable bid counts, 2 record one bid. These are listing rows, not deduplicated competitions; one bid is not proof of misconduct. Repeated nonblank portal/buyer/tender/reference keys: 0 notice keys and 1 award keys. Repeated captured records do not establish repeated paid work. No cross-stage notice-to-award match, supplier identity or cash payment is established by these counts."
+    },
+    {
+      "domains": [
+        "public-funds",
+        "public-finance",
+        "security",
+        "defence-trade"
+      ],
+      "layers": [
+        "procurement",
+        "review"
+      ],
+      "sourceIds": [
+        "portal-snapshot",
+        "executed-cohort-scan",
+        "original-download-receipts"
+      ],
+      "route": "/allegations",
+      "geography": [
+        {
+          "scope": "city",
+          "stateCodes": [
+            "MH"
+          ],
+          "localityIds": [
+            "mumbai"
+          ],
+          "basis": "state-association",
+          "note": "Buyer-name cohort associated with this city; source-record discovery, not a project pin, city expenditure allocation or entity address.",
+          "sourceIds": [
+            "portal-snapshot",
+            "executed-cohort-scan",
+            "original-download-receipts"
+          ]
+        }
+      ],
+      "limitations": [
+        "Notice and award listings are different grains. No notice-to-award join or payment trail is inferred.",
+        "No prices are summed. Detail bidder labels are not resolved legal-company identities.",
+        "Listing counts include historical, undated and date-invalid rows; dated eligible rows are reported separately.",
+        "Repeated full buyer/portal/tender/reference keys are repeated source records, not evidence of repeated paid work.",
+        "Single-bid observations require the original procurement method, qualification rules, corrigenda and award documents before any adverse conclusion.",
+        "Zero matches under the declared buyer-name probe are a coverage gap, not proof that an institution has no tenders.",
+        "No contact names, private addresses, bank details or tactical installation locations are extracted."
+      ],
+      "id": "mumbai-shipbuilder",
+      "label": "Mazagon Dock buyer-name cohort",
+      "type": "source-cohort",
+      "resolved": true,
+      "identityBasis": "Exactly the source rows matching the published buyerRegex '^mazagon dock( shipbuilders)? (limited|ltd\\\\.?)($|[|/])'. This node is a declared dataset cohort, not a merged legal institution or company.",
+      "summary": "The retained snapshot contains 9,468 notice-listing rows and 271 award-listing rows under this declared buyer-name probe. Date-eligible listing rows: 9,468 notices and 202 awards (publication/AOC on or after 7 October 2011, no later than the row's capture and the June 2026 snapshot). Among 202 eligible award listings with strictly parseable bid counts, 133 record one bid. These are listing rows, not deduplicated competitions; one bid is not proof of misconduct. Repeated nonblank portal/buyer/tender/reference keys: 0 notice keys and 1 award keys. Repeated captured records do not establish repeated paid work. No cross-stage notice-to-award match, supplier identity or cash payment is established by these counts."
+    },
+    {
+      "domains": [
+        "public-funds",
+        "public-finance",
+        "security",
+        "defence-trade"
+      ],
+      "layers": [
+        "procurement",
+        "review"
+      ],
+      "sourceIds": [
+        "portal-snapshot",
+        "executed-cohort-scan",
+        "original-download-receipts"
+      ],
+      "route": "/allegations",
+      "geography": [
+        {
+          "scope": "national",
+          "stateCodes": [],
+          "localityIds": [],
+          "basis": "national-context",
+          "note": "National buyer-name cohort; a Delhi or Mumbai parent-office label does not place projects or expenditure in either city.",
+          "sourceIds": [
+            "portal-snapshot",
+            "executed-cohort-scan",
+            "original-download-receipts"
+          ]
+        }
+      ],
+      "limitations": [
+        "Notice and award listings are different grains. No notice-to-award join or payment trail is inferred.",
+        "No prices are summed. Detail bidder labels are not resolved legal-company identities.",
+        "Listing counts include historical, undated and date-invalid rows; dated eligible rows are reported separately.",
+        "Repeated full buyer/portal/tender/reference keys are repeated source records, not evidence of repeated paid work.",
+        "Single-bid observations require the original procurement method, qualification rules, corrigenda and award documents before any adverse conclusion.",
+        "Zero matches under the declared buyer-name probe are a coverage gap, not proof that an institution has no tenders.",
+        "No contact names, private addresses, bank details or tactical installation locations are extracted."
+      ],
+      "id": "bsf",
+      "label": "BSF national buyer-name cohort",
+      "type": "source-cohort",
+      "resolved": true,
+      "identityBasis": "Exactly the source rows matching the published buyerRegex '^(dg,bsf,mha|border security force)($|[|/])'. This node is a declared dataset cohort, not a merged legal institution or company.",
+      "summary": "The retained snapshot contains 36,437 notice-listing rows and 2,194 award-listing rows under this declared buyer-name probe. Date-eligible listing rows: 36,437 notices and 1,867 awards (publication/AOC on or after 7 October 2011, no later than the row's capture and the June 2026 snapshot). Among 1,867 eligible award listings with strictly parseable bid counts, 289 record one bid. These are listing rows, not deduplicated competitions; one bid is not proof of misconduct. Repeated nonblank portal/buyer/tender/reference keys: 0 notice keys and 37 award keys. Repeated captured records do not establish repeated paid work. No cross-stage notice-to-award match, supplier identity or cash payment is established by these counts."
+    },
+    {
+      "domains": [
+        "public-funds",
+        "public-finance",
+        "security",
+        "defence-trade"
+      ],
+      "layers": [
+        "procurement",
+        "review"
+      ],
+      "sourceIds": [
+        "portal-snapshot",
+        "executed-cohort-scan",
+        "original-download-receipts"
+      ],
+      "route": "/allegations",
+      "geography": [
+        {
+          "scope": "national",
+          "stateCodes": [],
+          "localityIds": [],
+          "basis": "national-context",
+          "note": "National buyer-name cohort; a Delhi or Mumbai parent-office label does not place projects or expenditure in either city.",
+          "sourceIds": [
+            "portal-snapshot",
+            "executed-cohort-scan",
+            "original-download-receipts"
+          ]
+        }
+      ],
+      "limitations": [
+        "Notice and award listings are different grains. No notice-to-award join or payment trail is inferred.",
+        "No prices are summed. Detail bidder labels are not resolved legal-company identities.",
+        "Listing counts include historical, undated and date-invalid rows; dated eligible rows are reported separately.",
+        "Repeated full buyer/portal/tender/reference keys are repeated source records, not evidence of repeated paid work.",
+        "Single-bid observations require the original procurement method, qualification rules, corrigenda and award documents before any adverse conclusion.",
+        "Zero matches under the declared buyer-name probe are a coverage gap, not proof that an institution has no tenders.",
+        "No contact names, private addresses, bank details or tactical installation locations are extracted."
+      ],
+      "id": "itbp",
+      "label": "ITBP national buyer-name cohort",
+      "type": "source-cohort",
+      "resolved": true,
+      "identityBasis": "Exactly the source rows matching the published buyerRegex '^(dg, indo-tibetan border police force|indo tibetan border police)($|[|/])'. This node is a declared dataset cohort, not a merged legal institution or company.",
+      "summary": "The retained snapshot contains 16,019 notice-listing rows and 2,544 award-listing rows under this declared buyer-name probe. Date-eligible listing rows: 16,019 notices and 2,218 awards (publication/AOC on or after 7 October 2011, no later than the row's capture and the June 2026 snapshot). Among 2,218 eligible award listings with strictly parseable bid counts, 233 record one bid. These are listing rows, not deduplicated competitions; one bid is not proof of misconduct. Repeated nonblank portal/buyer/tender/reference keys: 0 notice keys and 29 award keys. Repeated captured records do not establish repeated paid work. No cross-stage notice-to-award match, supplier identity or cash payment is established by these counts."
+    },
+    {
+      "domains": [
+        "public-funds",
+        "public-finance",
+        "security",
+        "defence-trade"
+      ],
+      "layers": [
+        "procurement",
+        "review"
+      ],
+      "sourceIds": [
+        "portal-snapshot",
+        "executed-cohort-scan",
+        "original-download-receipts"
+      ],
+      "route": "/allegations",
+      "geography": [
+        {
+          "scope": "national",
+          "stateCodes": [],
+          "localityIds": [],
+          "basis": "national-context",
+          "note": "National buyer-name cohort; a Delhi or Mumbai parent-office label does not place projects or expenditure in either city.",
+          "sourceIds": [
+            "portal-snapshot",
+            "executed-cohort-scan",
+            "original-download-receipts"
+          ]
+        }
+      ],
+      "limitations": [
+        "Notice and award listings are different grains. No notice-to-award join or payment trail is inferred.",
+        "No prices are summed. Detail bidder labels are not resolved legal-company identities.",
+        "Listing counts include historical, undated and date-invalid rows; dated eligible rows are reported separately.",
+        "Repeated full buyer/portal/tender/reference keys are repeated source records, not evidence of repeated paid work.",
+        "Single-bid observations require the original procurement method, qualification rules, corrigenda and award documents before any adverse conclusion.",
+        "Zero matches under the declared buyer-name probe are a coverage gap, not proof that an institution has no tenders.",
+        "No contact names, private addresses, bank details or tactical installation locations are extracted."
+      ],
+      "id": "ssb",
+      "label": "SSB national buyer-name cohort",
+      "type": "source-cohort",
+      "resolved": true,
+      "identityBasis": "Exactly the source rows matching the published buyerRegex '^(dg sashastra seema bal,mha|sashastra seema bal)($|[|/])'. This node is a declared dataset cohort, not a merged legal institution or company.",
+      "summary": "The retained snapshot contains 2,605 notice-listing rows and 677 award-listing rows under this declared buyer-name probe. Date-eligible listing rows: 2,605 notices and 610 awards (publication/AOC on or after 7 October 2011, no later than the row's capture and the June 2026 snapshot). Among 610 eligible award listings with strictly parseable bid counts, 52 record one bid. These are listing rows, not deduplicated competitions; one bid is not proof of misconduct. Repeated nonblank portal/buyer/tender/reference keys: 0 notice keys and 3 award keys. Repeated captured records do not establish repeated paid work. No cross-stage notice-to-award match, supplier identity or cash payment is established by these counts."
+    },
+    {
+      "domains": [
+        "public-funds",
+        "public-finance",
+        "security",
+        "defence-trade"
+      ],
+      "layers": [
+        "procurement",
+        "review"
+      ],
+      "sourceIds": [
+        "portal-snapshot",
+        "executed-cohort-scan",
+        "original-download-receipts"
+      ],
+      "route": "/allegations",
+      "geography": [
+        {
+          "scope": "national",
+          "stateCodes": [],
+          "localityIds": [],
+          "basis": "national-context",
+          "note": "National buyer-name cohort; a Delhi or Mumbai parent-office label does not place projects or expenditure in either city.",
+          "sourceIds": [
+            "portal-snapshot",
+            "executed-cohort-scan",
+            "original-download-receipts"
+          ]
+        }
+      ],
+      "limitations": [
+        "Notice and award listings are different grains. No notice-to-award join or payment trail is inferred.",
+        "No prices are summed. Detail bidder labels are not resolved legal-company identities.",
+        "Listing counts include historical, undated and date-invalid rows; dated eligible rows are reported separately.",
+        "Repeated full buyer/portal/tender/reference keys are repeated source records, not evidence of repeated paid work.",
+        "Single-bid observations require the original procurement method, qualification rules, corrigenda and award documents before any adverse conclusion.",
+        "Zero matches under the declared buyer-name probe are a coverage gap, not proof that an institution has no tenders.",
+        "No contact names, private addresses, bank details or tactical installation locations are extracted."
+      ],
+      "id": "border-roads",
+      "label": "Border Roads national buyer-name cohort",
+      "type": "source-cohort",
+      "resolved": true,
+      "identityBasis": "Exactly the source rows matching the published buyerRegex '^(border roads organisation|dte general border roads organisation|border roads orgn\\\\.)'. This node is a declared dataset cohort, not a merged legal institution or company.",
+      "summary": "The retained snapshot contains 43,100 notice-listing rows and 7,432 award-listing rows under this declared buyer-name probe. Date-eligible listing rows: 43,100 notices and 6,253 awards (publication/AOC on or after 7 October 2011, no later than the row's capture and the June 2026 snapshot). Among 6,253 eligible award listings with strictly parseable bid counts, 1,006 record one bid. These are listing rows, not deduplicated competitions; one bid is not proof of misconduct. Repeated nonblank portal/buyer/tender/reference keys: 0 notice keys and 176 award keys. Repeated captured records do not establish repeated paid work. No cross-stage notice-to-award match, supplier identity or cash payment is established by these counts."
+    },
+    {
+      "domains": [
+        "public-funds",
+        "public-finance",
+        "security",
+        "defence-trade"
+      ],
+      "layers": [
+        "procurement",
+        "review"
+      ],
+      "sourceIds": [
+        "portal-snapshot",
+        "executed-cohort-scan",
+        "original-download-receipts"
+      ],
+      "route": "/allegations",
+      "geography": [
+        {
+          "scope": "national",
+          "stateCodes": [],
+          "localityIds": [],
+          "basis": "national-context",
+          "note": "National buyer-name cohort; a Delhi or Mumbai parent-office label does not place projects or expenditure in either city.",
+          "sourceIds": [
+            "portal-snapshot",
+            "executed-cohort-scan",
+            "original-download-receipts"
+          ]
+        }
+      ],
+      "limitations": [
+        "Notice and award listings are different grains. No notice-to-award join or payment trail is inferred.",
+        "No prices are summed. Detail bidder labels are not resolved legal-company identities.",
+        "Listing counts include historical, undated and date-invalid rows; dated eligible rows are reported separately.",
+        "Repeated full buyer/portal/tender/reference keys are repeated source records, not evidence of repeated paid work.",
+        "Single-bid observations require the original procurement method, qualification rules, corrigenda and award documents before any adverse conclusion.",
+        "Zero matches under the declared buyer-name probe are a coverage gap, not proof that an institution has no tenders.",
+        "No contact names, private addresses, bank details or tactical installation locations are extracted."
+      ],
+      "id": "military-engineers",
+      "label": "Military Engineer Services national buyer-name cohort",
+      "type": "source-cohort",
+      "resolved": true,
+      "identityBasis": "Exactly the source rows matching the published buyerRegex '^e-in-c branch - military engineer services($|[|/])'. This node is a declared dataset cohort, not a merged legal institution or company.",
+      "summary": "The retained snapshot contains 73,129 notice-listing rows and 418,485 award-listing rows under this declared buyer-name probe. Date-eligible listing rows: 73,129 notices and 381,601 awards (publication/AOC on or after 7 October 2011, no later than the row's capture and the June 2026 snapshot). Among 381,601 eligible award listings with strictly parseable bid counts, 544 record one bid. These are listing rows, not deduplicated competitions; one bid is not proof of misconduct. Repeated nonblank portal/buyer/tender/reference keys: 0 notice keys and 7,656 award keys. Repeated captured records do not establish repeated paid work. No cross-stage notice-to-award match, supplier identity or cash payment is established by these counts."
+    }
+  ],
+  "relationships": [],
+  "records": [
+    {
+      "domains": [
+        "public-funds",
+        "public-finance",
+        "security"
+      ],
+      "layers": [
+        "procurement",
+        "review"
+      ],
+      "sourceIds": [
+        "portal-snapshot",
+        "executed-cohort-scan",
+        "original-download-receipts"
+      ],
+      "route": "/allegations",
+      "geography": [
+        {
+          "scope": "city",
+          "stateCodes": [
+            "DL"
+          ],
+          "localityIds": [
+            "delhi"
+          ],
+          "basis": "state-association",
+          "note": "Buyer-name cohort associated with this city; source-record discovery, not a project pin, city expenditure allocation or entity address.",
+          "sourceIds": [
+            "portal-snapshot",
+            "executed-cohort-scan",
+            "original-download-receipts"
+          ]
+        }
+      ],
+      "limitations": [
+        "Notice and award listings are different grains. No notice-to-award join or payment trail is inferred.",
+        "No prices are summed. Detail bidder labels are not resolved legal-company identities.",
+        "Listing counts include historical, undated and date-invalid rows; dated eligible rows are reported separately.",
+        "Repeated full buyer/portal/tender/reference keys are repeated source records, not evidence of repeated paid work.",
+        "Single-bid observations require the original procurement method, qualification rules, corrigenda and award documents before any adverse conclusion.",
+        "Zero matches under the declared buyer-name probe are a coverage gap, not proof that an institution has no tenders.",
+        "No contact names, private addresses, bank details or tactical installation locations are extracted."
+      ],
+      "id": "delhi-police",
+      "title": "Delhi Police buyer names · snapshot coverage",
+      "summary": "The retained snapshot contains 699 notice-listing rows and 0 award-listing rows under this declared buyer-name probe. Date-eligible listing rows: 699 notices and 0 awards (publication/AOC on or after 7 October 2011, no later than the row's capture and the June 2026 snapshot). Among 0 eligible award listings with strictly parseable bid counts, 0 record one bid. These are listing rows, not deduplicated competitions; one bid is not proof of misconduct. Repeated nonblank portal/buyer/tender/reference keys: 0 notice keys and 0 award keys. Repeated captured records do not establish repeated paid work. No cross-stage notice-to-award match, supplier identity or cash payment is established by these counts.",
+      "kind": "procurement-context",
+      "tier": "analytic",
+      "status": "executed-source-cohort-not-allegation",
+      "statusAsOf": "2026-10-07",
+      "fromDate": "2026-06-26",
+      "toDate": null,
+      "dateBasis": "Publisher snapshot date; historical row dates have their own eligibility audit. This is not a contract, payment or event date.",
+      "entityIds": [
+        "delhi-police"
+      ],
+      "relationshipIds": [],
+      "period": "June 2026 source snapshot; separately audited historical listing dates",
+      "response": "Procurement methods, proprietary compatibility, emergency rules, market size, re-tendering and incomplete mirroring can explain apparent concentration or gaps. No authority or vendor is accused by this analysis.",
+      "alternativeExplanations": [
+        "Repeated source rows can arise from repeated captures or listings.",
+        "A one-bid procurement can have a lawful procurement-method or market explanation.",
+        "Missing buyer strings may reflect alternate naming or incomplete source coverage."
+      ],
+      "falsifier": "Rerun the published SQL on the same hash-verified inputs. A changed row, corrected field semantics, original award document or complete portal coverage can change the discovery result.",
+      "amounts": []
+    },
+    {
+      "domains": [
+        "public-funds",
+        "public-finance",
+        "security"
+      ],
+      "layers": [
+        "procurement",
+        "review"
+      ],
+      "sourceIds": [
+        "portal-snapshot",
+        "executed-cohort-scan",
+        "original-download-receipts"
+      ],
+      "route": "/allegations",
+      "geography": [
+        {
+          "scope": "city",
+          "stateCodes": [
+            "DL"
+          ],
+          "localityIds": [
+            "delhi"
+          ],
+          "basis": "state-association",
+          "note": "Buyer-name cohort associated with this city; source-record discovery, not a project pin, city expenditure allocation or entity address.",
+          "sourceIds": [
+            "portal-snapshot",
+            "executed-cohort-scan",
+            "original-download-receipts"
+          ]
+        }
+      ],
+      "limitations": [
+        "Notice and award listings are different grains. No notice-to-award join or payment trail is inferred.",
+        "No prices are summed. Detail bidder labels are not resolved legal-company identities.",
+        "Listing counts include historical, undated and date-invalid rows; dated eligible rows are reported separately.",
+        "Repeated full buyer/portal/tender/reference keys are repeated source records, not evidence of repeated paid work.",
+        "Single-bid observations require the original procurement method, qualification rules, corrigenda and award documents before any adverse conclusion.",
+        "Zero matches under the declared buyer-name probe are a coverage gap, not proof that an institution has no tenders.",
+        "No contact names, private addresses, bank details or tactical installation locations are extracted."
+      ],
+      "id": "delhi-police-housing",
+      "title": "Delhi Police Housing Corporation buyer names · snapshot coverage",
+      "summary": "The retained snapshot contains 1,837 notice-listing rows and 0 award-listing rows under this declared buyer-name probe. Date-eligible listing rows: 1,837 notices and 0 awards (publication/AOC on or after 7 October 2011, no later than the row's capture and the June 2026 snapshot). Among 0 eligible award listings with strictly parseable bid counts, 0 record one bid. These are listing rows, not deduplicated competitions; one bid is not proof of misconduct. Repeated nonblank portal/buyer/tender/reference keys: 0 notice keys and 0 award keys. Repeated captured records do not establish repeated paid work. No cross-stage notice-to-award match, supplier identity or cash payment is established by these counts.",
+      "kind": "procurement-context",
+      "tier": "analytic",
+      "status": "executed-source-cohort-not-allegation",
+      "statusAsOf": "2026-10-07",
+      "fromDate": "2026-06-26",
+      "toDate": null,
+      "dateBasis": "Publisher snapshot date; historical row dates have their own eligibility audit. This is not a contract, payment or event date.",
+      "entityIds": [
+        "delhi-police-housing"
+      ],
+      "relationshipIds": [],
+      "period": "June 2026 source snapshot; separately audited historical listing dates",
+      "response": "Procurement methods, proprietary compatibility, emergency rules, market size, re-tendering and incomplete mirroring can explain apparent concentration or gaps. No authority or vendor is accused by this analysis.",
+      "alternativeExplanations": [
+        "Repeated source rows can arise from repeated captures or listings.",
+        "A one-bid procurement can have a lawful procurement-method or market explanation.",
+        "Missing buyer strings may reflect alternate naming or incomplete source coverage."
+      ],
+      "falsifier": "Rerun the published SQL on the same hash-verified inputs. A changed row, corrected field semantics, original award document or complete portal coverage can change the discovery result.",
+      "amounts": []
+    },
+    {
+      "domains": [
+        "public-funds",
+        "public-finance",
+        "security"
+      ],
+      "layers": [
+        "procurement",
+        "review"
+      ],
+      "sourceIds": [
+        "portal-snapshot",
+        "executed-cohort-scan",
+        "original-download-receipts"
+      ],
+      "route": "/allegations",
+      "geography": [
+        {
+          "scope": "city",
+          "stateCodes": [
+            "MH"
+          ],
+          "localityIds": [
+            "mumbai"
+          ],
+          "basis": "state-association",
+          "note": "Buyer-name cohort associated with this city; source-record discovery, not a project pin, city expenditure allocation or entity address.",
+          "sourceIds": [
+            "portal-snapshot",
+            "executed-cohort-scan",
+            "original-download-receipts"
+          ]
+        }
+      ],
+      "limitations": [
+        "Notice and award listings are different grains. No notice-to-award join or payment trail is inferred.",
+        "No prices are summed. Detail bidder labels are not resolved legal-company identities.",
+        "Listing counts include historical, undated and date-invalid rows; dated eligible rows are reported separately.",
+        "Repeated full buyer/portal/tender/reference keys are repeated source records, not evidence of repeated paid work.",
+        "Single-bid observations require the original procurement method, qualification rules, corrigenda and award documents before any adverse conclusion.",
+        "Zero matches under the declared buyer-name probe are a coverage gap, not proof that an institution has no tenders.",
+        "No contact names, private addresses, bank details or tactical installation locations are extracted."
+      ],
+      "id": "mumbai-police",
+      "title": "Mumbai Police exact buyer-name probe · snapshot coverage",
+      "summary": "The retained snapshot contains 0 notice-listing rows and 0 award-listing rows under this declared buyer-name probe. Date-eligible listing rows: 0 notices and 0 awards (publication/AOC on or after 7 October 2011, no later than the row's capture and the June 2026 snapshot). Among 0 eligible award listings with strictly parseable bid counts, 0 record one bid. These are listing rows, not deduplicated competitions; one bid is not proof of misconduct. Repeated nonblank portal/buyer/tender/reference keys: 0 notice keys and 0 award keys. Repeated captured records do not establish repeated paid work. No matching notice or award buyer strings were found under this exact probe. Other aliases, state portals and missing coverage remain untested; this is not an absence-of-tenders claim.",
+      "kind": "procurement-context",
+      "tier": "analytic",
+      "status": "executed-source-cohort-not-allegation",
+      "statusAsOf": "2026-10-07",
+      "fromDate": "2026-06-26",
+      "toDate": null,
+      "dateBasis": "Publisher snapshot date; historical row dates have their own eligibility audit. This is not a contract, payment or event date.",
+      "entityIds": [
+        "mumbai-police"
+      ],
+      "relationshipIds": [],
+      "period": "June 2026 source snapshot; separately audited historical listing dates",
+      "response": "Procurement methods, proprietary compatibility, emergency rules, market size, re-tendering and incomplete mirroring can explain apparent concentration or gaps. No authority or vendor is accused by this analysis.",
+      "alternativeExplanations": [
+        "Repeated source rows can arise from repeated captures or listings.",
+        "A one-bid procurement can have a lawful procurement-method or market explanation.",
+        "Missing buyer strings may reflect alternate naming or incomplete source coverage."
+      ],
+      "falsifier": "Rerun the published SQL on the same hash-verified inputs. A changed row, corrected field semantics, original award document or complete portal coverage can change the discovery result.",
+      "amounts": []
+    },
+    {
+      "domains": [
+        "public-funds",
+        "public-finance"
+      ],
+      "layers": [
+        "procurement",
+        "review"
+      ],
+      "sourceIds": [
+        "portal-snapshot",
+        "executed-cohort-scan",
+        "original-download-receipts"
+      ],
+      "route": "/allegations",
+      "geography": [
+        {
+          "scope": "city",
+          "stateCodes": [
+            "DL"
+          ],
+          "localityIds": [
+            "delhi"
+          ],
+          "basis": "state-association",
+          "note": "Buyer-name cohort associated with this city; source-record discovery, not a project pin, city expenditure allocation or entity address.",
+          "sourceIds": [
+            "portal-snapshot",
+            "executed-cohort-scan",
+            "original-download-receipts"
+          ]
+        }
+      ],
+      "limitations": [
+        "Notice and award listings are different grains. No notice-to-award join or payment trail is inferred.",
+        "No prices are summed. Detail bidder labels are not resolved legal-company identities.",
+        "Listing counts include historical, undated and date-invalid rows; dated eligible rows are reported separately.",
+        "Repeated full buyer/portal/tender/reference keys are repeated source records, not evidence of repeated paid work.",
+        "Single-bid observations require the original procurement method, qualification rules, corrigenda and award documents before any adverse conclusion.",
+        "Zero matches under the declared buyer-name probe are a coverage gap, not proof that an institution has no tenders.",
+        "No contact names, private addresses, bank details or tactical installation locations are extracted."
+      ],
+      "id": "delhi-municipal",
+      "title": "Delhi municipal buyer-name cohort · snapshot coverage",
+      "summary": "The retained snapshot contains 55,670 notice-listing rows and 31,526 award-listing rows under this declared buyer-name probe. Date-eligible listing rows: 55,670 notices and 31,514 awards (publication/AOC on or after 7 October 2011, no later than the row's capture and the June 2026 snapshot). Among 31,514 eligible award listings with strictly parseable bid counts, 4,330 record one bid. These are listing rows, not deduplicated competitions; one bid is not proof of misconduct. Repeated nonblank portal/buyer/tender/reference keys: 1 notice keys and 157 award keys. Repeated captured records do not establish repeated paid work. No cross-stage notice-to-award match, supplier identity or cash payment is established by these counts.",
+      "kind": "procurement-context",
+      "tier": "analytic",
+      "status": "executed-source-cohort-not-allegation",
+      "statusAsOf": "2026-10-07",
+      "fromDate": "2026-06-26",
+      "toDate": null,
+      "dateBasis": "Publisher snapshot date; historical row dates have their own eligibility audit. This is not a contract, payment or event date.",
+      "entityIds": [
+        "delhi-municipal"
+      ],
+      "relationshipIds": [],
+      "period": "June 2026 source snapshot; separately audited historical listing dates",
+      "response": "Procurement methods, proprietary compatibility, emergency rules, market size, re-tendering and incomplete mirroring can explain apparent concentration or gaps. No authority or vendor is accused by this analysis.",
+      "alternativeExplanations": [
+        "Repeated source rows can arise from repeated captures or listings.",
+        "A one-bid procurement can have a lawful procurement-method or market explanation.",
+        "Missing buyer strings may reflect alternate naming or incomplete source coverage."
+      ],
+      "falsifier": "Rerun the published SQL on the same hash-verified inputs. A changed row, corrected field semantics, original award document or complete portal coverage can change the discovery result.",
+      "amounts": []
+    },
+    {
+      "domains": [
+        "public-funds",
+        "public-finance"
+      ],
+      "layers": [
+        "procurement",
+        "review"
+      ],
+      "sourceIds": [
+        "portal-snapshot",
+        "executed-cohort-scan",
+        "original-download-receipts"
+      ],
+      "route": "/allegations",
+      "geography": [
+        {
+          "scope": "city",
+          "stateCodes": [
+            "DL"
+          ],
+          "localityIds": [
+            "delhi"
+          ],
+          "basis": "state-association",
+          "note": "Buyer-name cohort associated with this city; source-record discovery, not a project pin, city expenditure allocation or entity address.",
+          "sourceIds": [
+            "portal-snapshot",
+            "executed-cohort-scan",
+            "original-download-receipts"
+          ]
+        }
+      ],
+      "limitations": [
+        "Notice and award listings are different grains. No notice-to-award join or payment trail is inferred.",
+        "No prices are summed. Detail bidder labels are not resolved legal-company identities.",
+        "Listing counts include historical, undated and date-invalid rows; dated eligible rows are reported separately.",
+        "Repeated full buyer/portal/tender/reference keys are repeated source records, not evidence of repeated paid work.",
+        "Single-bid observations require the original procurement method, qualification rules, corrigenda and award documents before any adverse conclusion.",
+        "Zero matches under the declared buyer-name probe are a coverage gap, not proof that an institution has no tenders.",
+        "No contact names, private addresses, bank details or tactical installation locations are extracted."
+      ],
+      "id": "delhi-development",
+      "title": "Delhi Development Authority buyer names · snapshot coverage",
+      "summary": "The retained snapshot contains 40,652 notice-listing rows and 1,211 award-listing rows under this declared buyer-name probe. Date-eligible listing rows: 40,652 notices and 959 awards (publication/AOC on or after 7 October 2011, no later than the row's capture and the June 2026 snapshot). Among 959 eligible award listings with strictly parseable bid counts, 48 record one bid. These are listing rows, not deduplicated competitions; one bid is not proof of misconduct. Repeated nonblank portal/buyer/tender/reference keys: 0 notice keys and 38 award keys. Repeated captured records do not establish repeated paid work. No cross-stage notice-to-award match, supplier identity or cash payment is established by these counts.",
+      "kind": "procurement-context",
+      "tier": "analytic",
+      "status": "executed-source-cohort-not-allegation",
+      "statusAsOf": "2026-10-07",
+      "fromDate": "2026-06-26",
+      "toDate": null,
+      "dateBasis": "Publisher snapshot date; historical row dates have their own eligibility audit. This is not a contract, payment or event date.",
+      "entityIds": [
+        "delhi-development"
+      ],
+      "relationshipIds": [],
+      "period": "June 2026 source snapshot; separately audited historical listing dates",
+      "response": "Procurement methods, proprietary compatibility, emergency rules, market size, re-tendering and incomplete mirroring can explain apparent concentration or gaps. No authority or vendor is accused by this analysis.",
+      "alternativeExplanations": [
+        "Repeated source rows can arise from repeated captures or listings.",
+        "A one-bid procurement can have a lawful procurement-method or market explanation.",
+        "Missing buyer strings may reflect alternate naming or incomplete source coverage."
+      ],
+      "falsifier": "Rerun the published SQL on the same hash-verified inputs. A changed row, corrected field semantics, original award document or complete portal coverage can change the discovery result.",
+      "amounts": []
+    },
+    {
+      "domains": [
+        "public-funds",
+        "public-finance"
+      ],
+      "layers": [
+        "procurement",
+        "review"
+      ],
+      "sourceIds": [
+        "portal-snapshot",
+        "executed-cohort-scan",
+        "original-download-receipts"
+      ],
+      "route": "/allegations",
+      "geography": [
+        {
+          "scope": "city",
+          "stateCodes": [
+            "MH"
+          ],
+          "localityIds": [
+            "mumbai"
+          ],
+          "basis": "state-association",
+          "note": "Buyer-name cohort associated with this city; source-record discovery, not a project pin, city expenditure allocation or entity address.",
+          "sourceIds": [
+            "portal-snapshot",
+            "executed-cohort-scan",
+            "original-download-receipts"
+          ]
+        }
+      ],
+      "limitations": [
+        "Notice and award listings are different grains. No notice-to-award join or payment trail is inferred.",
+        "No prices are summed. Detail bidder labels are not resolved legal-company identities.",
+        "Listing counts include historical, undated and date-invalid rows; dated eligible rows are reported separately.",
+        "Repeated full buyer/portal/tender/reference keys are repeated source records, not evidence of repeated paid work.",
+        "Single-bid observations require the original procurement method, qualification rules, corrigenda and award documents before any adverse conclusion.",
+        "Zero matches under the declared buyer-name probe are a coverage gap, not proof that an institution has no tenders.",
+        "No contact names, private addresses, bank details or tactical installation locations are extracted."
+      ],
+      "id": "mumbai-municipal",
+      "title": "BMC exact buyer-name probe · snapshot coverage",
+      "summary": "The retained snapshot contains 0 notice-listing rows and 0 award-listing rows under this declared buyer-name probe. Date-eligible listing rows: 0 notices and 0 awards (publication/AOC on or after 7 October 2011, no later than the row's capture and the June 2026 snapshot). Among 0 eligible award listings with strictly parseable bid counts, 0 record one bid. These are listing rows, not deduplicated competitions; one bid is not proof of misconduct. Repeated nonblank portal/buyer/tender/reference keys: 0 notice keys and 0 award keys. Repeated captured records do not establish repeated paid work. No matching notice or award buyer strings were found under this exact probe. Other aliases, state portals and missing coverage remain untested; this is not an absence-of-tenders claim.",
+      "kind": "procurement-context",
+      "tier": "analytic",
+      "status": "executed-source-cohort-not-allegation",
+      "statusAsOf": "2026-10-07",
+      "fromDate": "2026-06-26",
+      "toDate": null,
+      "dateBasis": "Publisher snapshot date; historical row dates have their own eligibility audit. This is not a contract, payment or event date.",
+      "entityIds": [
+        "mumbai-municipal"
+      ],
+      "relationshipIds": [],
+      "period": "June 2026 source snapshot; separately audited historical listing dates",
+      "response": "Procurement methods, proprietary compatibility, emergency rules, market size, re-tendering and incomplete mirroring can explain apparent concentration or gaps. No authority or vendor is accused by this analysis.",
+      "alternativeExplanations": [
+        "Repeated source rows can arise from repeated captures or listings.",
+        "A one-bid procurement can have a lawful procurement-method or market explanation.",
+        "Missing buyer strings may reflect alternate naming or incomplete source coverage."
+      ],
+      "falsifier": "Rerun the published SQL on the same hash-verified inputs. A changed row, corrected field semantics, original award document or complete portal coverage can change the discovery result.",
+      "amounts": []
+    },
+    {
+      "domains": [
+        "public-funds",
+        "public-finance"
+      ],
+      "layers": [
+        "procurement",
+        "review"
+      ],
+      "sourceIds": [
+        "portal-snapshot",
+        "executed-cohort-scan",
+        "original-download-receipts"
+      ],
+      "route": "/allegations",
+      "geography": [
+        {
+          "scope": "city",
+          "stateCodes": [
+            "MH"
+          ],
+          "localityIds": [
+            "mumbai"
+          ],
+          "basis": "state-association",
+          "note": "Buyer-name cohort associated with this city; source-record discovery, not a project pin, city expenditure allocation or entity address.",
+          "sourceIds": [
+            "portal-snapshot",
+            "executed-cohort-scan",
+            "original-download-receipts"
+          ]
+        }
+      ],
+      "limitations": [
+        "Notice and award listings are different grains. No notice-to-award join or payment trail is inferred.",
+        "No prices are summed. Detail bidder labels are not resolved legal-company identities.",
+        "Listing counts include historical, undated and date-invalid rows; dated eligible rows are reported separately.",
+        "Repeated full buyer/portal/tender/reference keys are repeated source records, not evidence of repeated paid work.",
+        "Single-bid observations require the original procurement method, qualification rules, corrigenda and award documents before any adverse conclusion.",
+        "Zero matches under the declared buyer-name probe are a coverage gap, not proof that an institution has no tenders.",
+        "No contact names, private addresses, bank details or tactical installation locations are extracted."
+      ],
+      "id": "mumbai-port",
+      "title": "Mumbai Port buyer names · snapshot coverage",
+      "summary": "The retained snapshot contains 2,383 notice-listing rows and 209 award-listing rows under this declared buyer-name probe. Date-eligible listing rows: 2,383 notices and 193 awards (publication/AOC on or after 7 October 2011, no later than the row's capture and the June 2026 snapshot). Among 193 eligible award listings with strictly parseable bid counts, 2 record one bid. These are listing rows, not deduplicated competitions; one bid is not proof of misconduct. Repeated nonblank portal/buyer/tender/reference keys: 0 notice keys and 1 award keys. Repeated captured records do not establish repeated paid work. No cross-stage notice-to-award match, supplier identity or cash payment is established by these counts.",
+      "kind": "procurement-context",
+      "tier": "analytic",
+      "status": "executed-source-cohort-not-allegation",
+      "statusAsOf": "2026-10-07",
+      "fromDate": "2026-06-26",
+      "toDate": null,
+      "dateBasis": "Publisher snapshot date; historical row dates have their own eligibility audit. This is not a contract, payment or event date.",
+      "entityIds": [
+        "mumbai-port"
+      ],
+      "relationshipIds": [],
+      "period": "June 2026 source snapshot; separately audited historical listing dates",
+      "response": "Procurement methods, proprietary compatibility, emergency rules, market size, re-tendering and incomplete mirroring can explain apparent concentration or gaps. No authority or vendor is accused by this analysis.",
+      "alternativeExplanations": [
+        "Repeated source rows can arise from repeated captures or listings.",
+        "A one-bid procurement can have a lawful procurement-method or market explanation.",
+        "Missing buyer strings may reflect alternate naming or incomplete source coverage."
+      ],
+      "falsifier": "Rerun the published SQL on the same hash-verified inputs. A changed row, corrected field semantics, original award document or complete portal coverage can change the discovery result.",
+      "amounts": []
+    },
+    {
+      "domains": [
+        "public-funds",
+        "public-finance",
+        "security",
+        "defence-trade"
+      ],
+      "layers": [
+        "procurement",
+        "review"
+      ],
+      "sourceIds": [
+        "portal-snapshot",
+        "executed-cohort-scan",
+        "original-download-receipts"
+      ],
+      "route": "/allegations",
+      "geography": [
+        {
+          "scope": "city",
+          "stateCodes": [
+            "MH"
+          ],
+          "localityIds": [
+            "mumbai"
+          ],
+          "basis": "state-association",
+          "note": "Buyer-name cohort associated with this city; source-record discovery, not a project pin, city expenditure allocation or entity address.",
+          "sourceIds": [
+            "portal-snapshot",
+            "executed-cohort-scan",
+            "original-download-receipts"
+          ]
+        }
+      ],
+      "limitations": [
+        "Notice and award listings are different grains. No notice-to-award join or payment trail is inferred.",
+        "No prices are summed. Detail bidder labels are not resolved legal-company identities.",
+        "Listing counts include historical, undated and date-invalid rows; dated eligible rows are reported separately.",
+        "Repeated full buyer/portal/tender/reference keys are repeated source records, not evidence of repeated paid work.",
+        "Single-bid observations require the original procurement method, qualification rules, corrigenda and award documents before any adverse conclusion.",
+        "Zero matches under the declared buyer-name probe are a coverage gap, not proof that an institution has no tenders.",
+        "No contact names, private addresses, bank details or tactical installation locations are extracted."
+      ],
+      "id": "mumbai-shipbuilder",
+      "title": "Mazagon Dock buyer-name cohort · snapshot coverage",
+      "summary": "The retained snapshot contains 9,468 notice-listing rows and 271 award-listing rows under this declared buyer-name probe. Date-eligible listing rows: 9,468 notices and 202 awards (publication/AOC on or after 7 October 2011, no later than the row's capture and the June 2026 snapshot). Among 202 eligible award listings with strictly parseable bid counts, 133 record one bid. These are listing rows, not deduplicated competitions; one bid is not proof of misconduct. Repeated nonblank portal/buyer/tender/reference keys: 0 notice keys and 1 award keys. Repeated captured records do not establish repeated paid work. No cross-stage notice-to-award match, supplier identity or cash payment is established by these counts.",
+      "kind": "procurement-context",
+      "tier": "analytic",
+      "status": "executed-source-cohort-not-allegation",
+      "statusAsOf": "2026-10-07",
+      "fromDate": "2026-06-26",
+      "toDate": null,
+      "dateBasis": "Publisher snapshot date; historical row dates have their own eligibility audit. This is not a contract, payment or event date.",
+      "entityIds": [
+        "mumbai-shipbuilder"
+      ],
+      "relationshipIds": [],
+      "period": "June 2026 source snapshot; separately audited historical listing dates",
+      "response": "Procurement methods, proprietary compatibility, emergency rules, market size, re-tendering and incomplete mirroring can explain apparent concentration or gaps. No authority or vendor is accused by this analysis.",
+      "alternativeExplanations": [
+        "Repeated source rows can arise from repeated captures or listings.",
+        "A one-bid procurement can have a lawful procurement-method or market explanation.",
+        "Missing buyer strings may reflect alternate naming or incomplete source coverage."
+      ],
+      "falsifier": "Rerun the published SQL on the same hash-verified inputs. A changed row, corrected field semantics, original award document or complete portal coverage can change the discovery result.",
+      "amounts": []
+    },
+    {
+      "domains": [
+        "public-funds",
+        "public-finance",
+        "security",
+        "defence-trade"
+      ],
+      "layers": [
+        "procurement",
+        "review"
+      ],
+      "sourceIds": [
+        "portal-snapshot",
+        "executed-cohort-scan",
+        "original-download-receipts"
+      ],
+      "route": "/allegations",
+      "geography": [
+        {
+          "scope": "national",
+          "stateCodes": [],
+          "localityIds": [],
+          "basis": "national-context",
+          "note": "National buyer-name cohort; a Delhi or Mumbai parent-office label does not place projects or expenditure in either city.",
+          "sourceIds": [
+            "portal-snapshot",
+            "executed-cohort-scan",
+            "original-download-receipts"
+          ]
+        }
+      ],
+      "limitations": [
+        "Notice and award listings are different grains. No notice-to-award join or payment trail is inferred.",
+        "No prices are summed. Detail bidder labels are not resolved legal-company identities.",
+        "Listing counts include historical, undated and date-invalid rows; dated eligible rows are reported separately.",
+        "Repeated full buyer/portal/tender/reference keys are repeated source records, not evidence of repeated paid work.",
+        "Single-bid observations require the original procurement method, qualification rules, corrigenda and award documents before any adverse conclusion.",
+        "Zero matches under the declared buyer-name probe are a coverage gap, not proof that an institution has no tenders.",
+        "No contact names, private addresses, bank details or tactical installation locations are extracted."
+      ],
+      "id": "bsf",
+      "title": "BSF national buyer-name cohort · snapshot coverage",
+      "summary": "The retained snapshot contains 36,437 notice-listing rows and 2,194 award-listing rows under this declared buyer-name probe. Date-eligible listing rows: 36,437 notices and 1,867 awards (publication/AOC on or after 7 October 2011, no later than the row's capture and the June 2026 snapshot). Among 1,867 eligible award listings with strictly parseable bid counts, 289 record one bid. These are listing rows, not deduplicated competitions; one bid is not proof of misconduct. Repeated nonblank portal/buyer/tender/reference keys: 0 notice keys and 37 award keys. Repeated captured records do not establish repeated paid work. No cross-stage notice-to-award match, supplier identity or cash payment is established by these counts.",
+      "kind": "procurement-context",
+      "tier": "analytic",
+      "status": "executed-source-cohort-not-allegation",
+      "statusAsOf": "2026-10-07",
+      "fromDate": "2026-06-26",
+      "toDate": null,
+      "dateBasis": "Publisher snapshot date; historical row dates have their own eligibility audit. This is not a contract, payment or event date.",
+      "entityIds": [
+        "bsf"
+      ],
+      "relationshipIds": [],
+      "period": "June 2026 source snapshot; separately audited historical listing dates",
+      "response": "Procurement methods, proprietary compatibility, emergency rules, market size, re-tendering and incomplete mirroring can explain apparent concentration or gaps. No authority or vendor is accused by this analysis.",
+      "alternativeExplanations": [
+        "Repeated source rows can arise from repeated captures or listings.",
+        "A one-bid procurement can have a lawful procurement-method or market explanation.",
+        "Missing buyer strings may reflect alternate naming or incomplete source coverage."
+      ],
+      "falsifier": "Rerun the published SQL on the same hash-verified inputs. A changed row, corrected field semantics, original award document or complete portal coverage can change the discovery result.",
+      "amounts": []
+    },
+    {
+      "domains": [
+        "public-funds",
+        "public-finance",
+        "security",
+        "defence-trade"
+      ],
+      "layers": [
+        "procurement",
+        "review"
+      ],
+      "sourceIds": [
+        "portal-snapshot",
+        "executed-cohort-scan",
+        "original-download-receipts"
+      ],
+      "route": "/allegations",
+      "geography": [
+        {
+          "scope": "national",
+          "stateCodes": [],
+          "localityIds": [],
+          "basis": "national-context",
+          "note": "National buyer-name cohort; a Delhi or Mumbai parent-office label does not place projects or expenditure in either city.",
+          "sourceIds": [
+            "portal-snapshot",
+            "executed-cohort-scan",
+            "original-download-receipts"
+          ]
+        }
+      ],
+      "limitations": [
+        "Notice and award listings are different grains. No notice-to-award join or payment trail is inferred.",
+        "No prices are summed. Detail bidder labels are not resolved legal-company identities.",
+        "Listing counts include historical, undated and date-invalid rows; dated eligible rows are reported separately.",
+        "Repeated full buyer/portal/tender/reference keys are repeated source records, not evidence of repeated paid work.",
+        "Single-bid observations require the original procurement method, qualification rules, corrigenda and award documents before any adverse conclusion.",
+        "Zero matches under the declared buyer-name probe are a coverage gap, not proof that an institution has no tenders.",
+        "No contact names, private addresses, bank details or tactical installation locations are extracted."
+      ],
+      "id": "itbp",
+      "title": "ITBP national buyer-name cohort · snapshot coverage",
+      "summary": "The retained snapshot contains 16,019 notice-listing rows and 2,544 award-listing rows under this declared buyer-name probe. Date-eligible listing rows: 16,019 notices and 2,218 awards (publication/AOC on or after 7 October 2011, no later than the row's capture and the June 2026 snapshot). Among 2,218 eligible award listings with strictly parseable bid counts, 233 record one bid. These are listing rows, not deduplicated competitions; one bid is not proof of misconduct. Repeated nonblank portal/buyer/tender/reference keys: 0 notice keys and 29 award keys. Repeated captured records do not establish repeated paid work. No cross-stage notice-to-award match, supplier identity or cash payment is established by these counts.",
+      "kind": "procurement-context",
+      "tier": "analytic",
+      "status": "executed-source-cohort-not-allegation",
+      "statusAsOf": "2026-10-07",
+      "fromDate": "2026-06-26",
+      "toDate": null,
+      "dateBasis": "Publisher snapshot date; historical row dates have their own eligibility audit. This is not a contract, payment or event date.",
+      "entityIds": [
+        "itbp"
+      ],
+      "relationshipIds": [],
+      "period": "June 2026 source snapshot; separately audited historical listing dates",
+      "response": "Procurement methods, proprietary compatibility, emergency rules, market size, re-tendering and incomplete mirroring can explain apparent concentration or gaps. No authority or vendor is accused by this analysis.",
+      "alternativeExplanations": [
+        "Repeated source rows can arise from repeated captures or listings.",
+        "A one-bid procurement can have a lawful procurement-method or market explanation.",
+        "Missing buyer strings may reflect alternate naming or incomplete source coverage."
+      ],
+      "falsifier": "Rerun the published SQL on the same hash-verified inputs. A changed row, corrected field semantics, original award document or complete portal coverage can change the discovery result.",
+      "amounts": []
+    },
+    {
+      "domains": [
+        "public-funds",
+        "public-finance",
+        "security",
+        "defence-trade"
+      ],
+      "layers": [
+        "procurement",
+        "review"
+      ],
+      "sourceIds": [
+        "portal-snapshot",
+        "executed-cohort-scan",
+        "original-download-receipts"
+      ],
+      "route": "/allegations",
+      "geography": [
+        {
+          "scope": "national",
+          "stateCodes": [],
+          "localityIds": [],
+          "basis": "national-context",
+          "note": "National buyer-name cohort; a Delhi or Mumbai parent-office label does not place projects or expenditure in either city.",
+          "sourceIds": [
+            "portal-snapshot",
+            "executed-cohort-scan",
+            "original-download-receipts"
+          ]
+        }
+      ],
+      "limitations": [
+        "Notice and award listings are different grains. No notice-to-award join or payment trail is inferred.",
+        "No prices are summed. Detail bidder labels are not resolved legal-company identities.",
+        "Listing counts include historical, undated and date-invalid rows; dated eligible rows are reported separately.",
+        "Repeated full buyer/portal/tender/reference keys are repeated source records, not evidence of repeated paid work.",
+        "Single-bid observations require the original procurement method, qualification rules, corrigenda and award documents before any adverse conclusion.",
+        "Zero matches under the declared buyer-name probe are a coverage gap, not proof that an institution has no tenders.",
+        "No contact names, private addresses, bank details or tactical installation locations are extracted."
+      ],
+      "id": "ssb",
+      "title": "SSB national buyer-name cohort · snapshot coverage",
+      "summary": "The retained snapshot contains 2,605 notice-listing rows and 677 award-listing rows under this declared buyer-name probe. Date-eligible listing rows: 2,605 notices and 610 awards (publication/AOC on or after 7 October 2011, no later than the row's capture and the June 2026 snapshot). Among 610 eligible award listings with strictly parseable bid counts, 52 record one bid. These are listing rows, not deduplicated competitions; one bid is not proof of misconduct. Repeated nonblank portal/buyer/tender/reference keys: 0 notice keys and 3 award keys. Repeated captured records do not establish repeated paid work. No cross-stage notice-to-award match, supplier identity or cash payment is established by these counts.",
+      "kind": "procurement-context",
+      "tier": "analytic",
+      "status": "executed-source-cohort-not-allegation",
+      "statusAsOf": "2026-10-07",
+      "fromDate": "2026-06-26",
+      "toDate": null,
+      "dateBasis": "Publisher snapshot date; historical row dates have their own eligibility audit. This is not a contract, payment or event date.",
+      "entityIds": [
+        "ssb"
+      ],
+      "relationshipIds": [],
+      "period": "June 2026 source snapshot; separately audited historical listing dates",
+      "response": "Procurement methods, proprietary compatibility, emergency rules, market size, re-tendering and incomplete mirroring can explain apparent concentration or gaps. No authority or vendor is accused by this analysis.",
+      "alternativeExplanations": [
+        "Repeated source rows can arise from repeated captures or listings.",
+        "A one-bid procurement can have a lawful procurement-method or market explanation.",
+        "Missing buyer strings may reflect alternate naming or incomplete source coverage."
+      ],
+      "falsifier": "Rerun the published SQL on the same hash-verified inputs. A changed row, corrected field semantics, original award document or complete portal coverage can change the discovery result.",
+      "amounts": []
+    },
+    {
+      "domains": [
+        "public-funds",
+        "public-finance",
+        "security",
+        "defence-trade"
+      ],
+      "layers": [
+        "procurement",
+        "review"
+      ],
+      "sourceIds": [
+        "portal-snapshot",
+        "executed-cohort-scan",
+        "original-download-receipts"
+      ],
+      "route": "/allegations",
+      "geography": [
+        {
+          "scope": "national",
+          "stateCodes": [],
+          "localityIds": [],
+          "basis": "national-context",
+          "note": "National buyer-name cohort; a Delhi or Mumbai parent-office label does not place projects or expenditure in either city.",
+          "sourceIds": [
+            "portal-snapshot",
+            "executed-cohort-scan",
+            "original-download-receipts"
+          ]
+        }
+      ],
+      "limitations": [
+        "Notice and award listings are different grains. No notice-to-award join or payment trail is inferred.",
+        "No prices are summed. Detail bidder labels are not resolved legal-company identities.",
+        "Listing counts include historical, undated and date-invalid rows; dated eligible rows are reported separately.",
+        "Repeated full buyer/portal/tender/reference keys are repeated source records, not evidence of repeated paid work.",
+        "Single-bid observations require the original procurement method, qualification rules, corrigenda and award documents before any adverse conclusion.",
+        "Zero matches under the declared buyer-name probe are a coverage gap, not proof that an institution has no tenders.",
+        "No contact names, private addresses, bank details or tactical installation locations are extracted."
+      ],
+      "id": "border-roads",
+      "title": "Border Roads national buyer-name cohort · snapshot coverage",
+      "summary": "The retained snapshot contains 43,100 notice-listing rows and 7,432 award-listing rows under this declared buyer-name probe. Date-eligible listing rows: 43,100 notices and 6,253 awards (publication/AOC on or after 7 October 2011, no later than the row's capture and the June 2026 snapshot). Among 6,253 eligible award listings with strictly parseable bid counts, 1,006 record one bid. These are listing rows, not deduplicated competitions; one bid is not proof of misconduct. Repeated nonblank portal/buyer/tender/reference keys: 0 notice keys and 176 award keys. Repeated captured records do not establish repeated paid work. No cross-stage notice-to-award match, supplier identity or cash payment is established by these counts.",
+      "kind": "procurement-context",
+      "tier": "analytic",
+      "status": "executed-source-cohort-not-allegation",
+      "statusAsOf": "2026-10-07",
+      "fromDate": "2026-06-26",
+      "toDate": null,
+      "dateBasis": "Publisher snapshot date; historical row dates have their own eligibility audit. This is not a contract, payment or event date.",
+      "entityIds": [
+        "border-roads"
+      ],
+      "relationshipIds": [],
+      "period": "June 2026 source snapshot; separately audited historical listing dates",
+      "response": "Procurement methods, proprietary compatibility, emergency rules, market size, re-tendering and incomplete mirroring can explain apparent concentration or gaps. No authority or vendor is accused by this analysis.",
+      "alternativeExplanations": [
+        "Repeated source rows can arise from repeated captures or listings.",
+        "A one-bid procurement can have a lawful procurement-method or market explanation.",
+        "Missing buyer strings may reflect alternate naming or incomplete source coverage."
+      ],
+      "falsifier": "Rerun the published SQL on the same hash-verified inputs. A changed row, corrected field semantics, original award document or complete portal coverage can change the discovery result.",
+      "amounts": []
+    },
+    {
+      "domains": [
+        "public-funds",
+        "public-finance",
+        "security",
+        "defence-trade"
+      ],
+      "layers": [
+        "procurement",
+        "review"
+      ],
+      "sourceIds": [
+        "portal-snapshot",
+        "executed-cohort-scan",
+        "original-download-receipts"
+      ],
+      "route": "/allegations",
+      "geography": [
+        {
+          "scope": "national",
+          "stateCodes": [],
+          "localityIds": [],
+          "basis": "national-context",
+          "note": "National buyer-name cohort; a Delhi or Mumbai parent-office label does not place projects or expenditure in either city.",
+          "sourceIds": [
+            "portal-snapshot",
+            "executed-cohort-scan",
+            "original-download-receipts"
+          ]
+        }
+      ],
+      "limitations": [
+        "Notice and award listings are different grains. No notice-to-award join or payment trail is inferred.",
+        "No prices are summed. Detail bidder labels are not resolved legal-company identities.",
+        "Listing counts include historical, undated and date-invalid rows; dated eligible rows are reported separately.",
+        "Repeated full buyer/portal/tender/reference keys are repeated source records, not evidence of repeated paid work.",
+        "Single-bid observations require the original procurement method, qualification rules, corrigenda and award documents before any adverse conclusion.",
+        "Zero matches under the declared buyer-name probe are a coverage gap, not proof that an institution has no tenders.",
+        "No contact names, private addresses, bank details or tactical installation locations are extracted."
+      ],
+      "id": "military-engineers",
+      "title": "Military Engineer Services national buyer-name cohort · snapshot coverage",
+      "summary": "The retained snapshot contains 73,129 notice-listing rows and 418,485 award-listing rows under this declared buyer-name probe. Date-eligible listing rows: 73,129 notices and 381,601 awards (publication/AOC on or after 7 October 2011, no later than the row's capture and the June 2026 snapshot). Among 381,601 eligible award listings with strictly parseable bid counts, 544 record one bid. These are listing rows, not deduplicated competitions; one bid is not proof of misconduct. Repeated nonblank portal/buyer/tender/reference keys: 0 notice keys and 7,656 award keys. Repeated captured records do not establish repeated paid work. No cross-stage notice-to-award match, supplier identity or cash payment is established by these counts.",
+      "kind": "procurement-context",
+      "tier": "analytic",
+      "status": "executed-source-cohort-not-allegation",
+      "statusAsOf": "2026-10-07",
+      "fromDate": "2026-06-26",
+      "toDate": null,
+      "dateBasis": "Publisher snapshot date; historical row dates have their own eligibility audit. This is not a contract, payment or event date.",
+      "entityIds": [
+        "military-engineers"
+      ],
+      "relationshipIds": [],
+      "period": "June 2026 source snapshot; separately audited historical listing dates",
+      "response": "Procurement methods, proprietary compatibility, emergency rules, market size, re-tendering and incomplete mirroring can explain apparent concentration or gaps. No authority or vendor is accused by this analysis.",
+      "alternativeExplanations": [
+        "Repeated source rows can arise from repeated captures or listings.",
+        "A one-bid procurement can have a lawful procurement-method or market explanation.",
+        "Missing buyer strings may reflect alternate naming or incomplete source coverage."
+      ],
+      "falsifier": "Rerun the published SQL on the same hash-verified inputs. A changed row, corrected field semantics, original award document or complete portal coverage can change the discovery result.",
+      "amounts": []
+    }
+  ],
+  "localities": [
+    {
+      "id": "delhi",
+      "name": "Delhi",
+      "stateCode": "DL",
+      "kind": "city",
+      "aliases": [
+        "New Delhi"
+      ]
+    },
+    {
+      "id": "mumbai",
+      "name": "Mumbai",
+      "stateCode": "MH",
+      "kind": "city",
+      "aliases": [
+        "Bombay"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,74 @@
+{
+  "executedAt": "2026-10-07T17:13:10.552560+00:00",
+  "purpose": "Pinned local CPU discovery across public authored source summaries; no model-generated factual relationship is admitted.",
+  "documentCount": 397,
+  "queryCount": 8,
+  "newMetroSourceSummaries": 38,
+  "model": {
+    "id": "sentence-transformers/all-MiniLM-L6-v2",
+    "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+    "license": "Apache-2.0",
+    "modelCard": "https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/blob/1110a243fdf4706b3f48f1d95db1a4f5529b4d41/README.md",
+    "format": "ONNX uint8 AVX2",
+    "dimensions": 384,
+    "maxTokens": 256,
+    "pooling": "attention-mask-weighted mean, L2 normalized",
+    "assetSha256": {
+      "onnx/model_quint8_avx2.onnx": "b941bf19f1f1283680f449fa6a7336bb5600bdcd5f84d10ddc5cd72218a0fd21",
+      "tokenizer.json": "be50c3628f2bf5bb5e3a7f17b1f74611b2561a3a27eeab05e5aa30f411572037"
+    }
+  },
+  "execution": {
+    "provider": "CPUExecutionProvider",
+    "python": "3.12.14",
+    "onnxruntime": "1.23.2",
+    "tokenizers": "0.22.1",
+    "numpy": "2.3.4",
+    "inferenceSeconds": 16.35,
+    "publicTextUploadedToModelService": false
+  },
+  "sourceRegistries": [
+    {
+      "path": "research/allegations-map/model-corpus.json",
+      "sha256": "e019a1885f18239b9547b01320b0b64e7a0d3909ac4152595d3fde1a07bb9705",
+      "namespace": "retained-authored-summaries"
+    },
+    {
+      "path": "research/raw/metro-spending/delhi-security.json",
+      "sha256": "252ac65b0b8965ba846e23363a0e134612f0255fc6306150529d29299cfc5f53",
+      "namespace": "metro-delhi-security"
+    },
+    {
+      "path": "research/raw/metro-spending/mumbai-security.json",
+      "sha256": "511d33962edb482345b8311726dd4d02b83a40320a34a1cec5b25f3223de3909",
+      "namespace": "metro-mumbai-security"
+    },
+    {
+      "path": "research/raw/metro-spending/defence.json",
+      "sha256": "1198abdb655972989259dd0983cf625a2da5956f96d66da8bc0136b7b9481d30",
+      "namespace": "metro-defence"
+    },
+    {
+      "path": "research/raw/metro-spending/public-finance.json",
+      "sha256": "416ffecd76c03950a5f7b8fc4de5f68b562054b7264b4a4098d399c09a507b48",
+      "namespace": "metro-public-finance"
+    },
+    {
+      "path": "research/raw/metro-spending/tender-scan.json",
+      "sha256": "867fed0836eb42997f24eaf3762783fbbd0734ec2235fd208dcd9e970e32b040",
+      "namespace": "metro-tender-scan"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "research/metro-spending/model-corpus.json",
+      "bytes": 347855,
+      "sha256": "871ef7dbcb4b87f752b5e0edb4501683a0494dd5b9e52fea101ac45f9ea71f1c"
+    },
+    {
+      "path": "research/metro-spending/model-suggestions.json",
+      "bytes": 16604,
+      "sha256": "e5bfe2e1973e521dd99d2e5d1eabc8d28f44518c4ba994cee17a160e974bc07e"
+    }
+  ]
+}

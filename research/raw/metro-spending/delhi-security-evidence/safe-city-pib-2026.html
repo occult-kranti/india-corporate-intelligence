@@ -1,0 +1,1154 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head id="Head1"><title>
+	Press Release Page | Press Information Bureau
+</title><link href="css/style.css?v=1" rel="stylesheet" type="text/css" /><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><link rel="alternate stylesheet" href="css/change.css?v=1" media="screen" title="change" /><link rel="alternate stylesheet" href="css/green.css?v=1" media="screen" title="green" /><link rel="alternate stylesheet" href="css/yellow.css" media="screen" title="yellow" /><link rel="stylesheet" type="text/css" href="css/prtint.css" media="print" /><link rel="stylesheet" href="css/style3.1.css" type="text/css" /><link id="pibA11yCss" rel="stylesheet" href="/css/accessibility.css?v=7" type="text/css" />
+      <script type="text/javascript">
+        /* Stamps the saved theme on <html> before the page paints. The
+           switcher in js/accessibility.js settles the rest, but on inner
+           pages it does not run until the end of the body and inside the
+           release frame it is a separate download - either way the reader
+           would otherwise watch a light page turn dark in front of them. */
+        (function (d) {
+            var t = "";
+            try {
+                t = window.localStorage.getItem("pibStyle") || "";
+            } catch (e) {
+                t = "";
+            }
+            if (t === "orange") {
+                t = "yellow";
+            }
+            var c = t === "change" ? " pib-hc"
+                : t === "green" ? " pib-theme-green"
+                : t === "yellow" ? " pib-theme-yellow" : "";
+            d.documentElement.className += c + " pib-a11y-content";
+        }(document));
+      </script>
+
+
+      <script src="js/jquery.min.js" type="text/javascript"></script>
+      <script type="text/javascript" src="/js/accessibility.js?v=7"></script>
+
+      <script type="text/javascript">
+            $(document).ready(function () {
+                  function getParameterByName(name) {
+                        var url = window.location.href;
+                        name = name.replace(/[\[\]]/g, '\\$&');
+                        var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+                              results = regex.exec(url);
+                        if (!results) return null;
+                        if (!results[2]) return '';
+                        return decodeURIComponent(results[2].replace(/\+/g, ' '));
+                  }
+                  // Get the IDs from the current page's URL
+                  let prid = parseInt(getParameterByName('PRID'), 10);
+
+                  if (!isNaN(prid) && prid > 0) {
+                        $.ajax({
+                              type: "POST",
+                              url: "AjaxMethod.aspx/UpdatePRHitCount",
+                              async: false,
+                              data: JSON.stringify({ 'PermId': prid }),
+                              contentType: "application/json; charset=utf-8",
+                              dataType: "json",
+                              success: function (response) {
+                                    console.log(response);
+                              },
+                              error: function (error) {
+                                    console.log("Error in AJAX request", error);
+                              }
+                        });
+                  } else {
+                        console.log("Invalid parameters:", prid);
+                  }
+
+            });
+      </script>
+      <style type="text/css">
+            .table-responsive {
+                  width: 100%;
+                  overflow-x: auto;
+            }
+
+            .banner {
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  background-color: #000;
+                  color: #fff;
+                  padding: 20px;
+            }
+
+            full-width {
+                  width: 100%;
+            }
+
+            .logo-left, .logo-center, .countdown {
+                  display: flex;
+                  align-items: center;
+            }
+
+                  .logo-left img, .logo-center img {
+                        height: 70px;
+                  }
+
+            .countdown {
+                  text-align: center;
+                  background-color: var(--dbim-text, #150202);
+                  border-radius: 10px;
+                  padding: 10px;
+                  border: 2px solid grey;
+            }
+
+            .firstnumber {
+                  color: #000000;
+                  position: absolute;
+                  top: 50px;
+                  right: 90px;
+                  font-size: 30px;
+            }
+
+            .secondnumber {
+                  position: absolute;
+                  color: #000000;
+                  right: 45px;
+                  top: 50px;
+                  font-size: 30px;
+            }
+
+            .countdown .days {
+                  font-size: 35px;
+                  color: gold;
+            }
+
+            .countdown p {
+                  margin: 0;
+            }
+
+            .countdown .text {
+                  font-size: 16px;
+            }
+
+            a {
+                  word-break: break-all;
+            }
+
+            iframe, img {
+                  max-width: 100%;
+            }
+
+            @media(max-width:1199px) {
+                  .firstnumber {
+                        top: 40px;
+                        right: 72px;
+                        font-size: 30px;
+                  }
+
+                  .secondnumber {
+                        right: 35px;
+                        top: 40px;
+                        font-size: 30px;
+                  }
+            }
+
+            @media(max-width:990px) {
+                  .firstnumber {
+                        top: 25px;
+                        right: 54px;
+                        font-size: 30px;
+                  }
+
+                  .secondnumber {
+                        right: 25px;
+                        top: 25px;
+                        font-size: 30px;
+                  }
+            }
+
+            @media(max-width:768px) {
+                  .countdown, .days {
+                        font-size: 12px !important;
+                  }
+
+
+                  .firstnumber {
+                        top: 25%;
+                        right: 8%;
+                        font-size: 30px;
+                  }
+
+                  .secondnumber {
+                        right: 4.5%;
+                        top: 25%;
+                        font-size: 30px;
+                  }
+            }
+
+            @media(max-width:475px) {
+                  .countdown, .days {
+                        font-size: 10px !important;
+                        top: 20%;
+                  }
+
+                  .bannerimgdiv {
+                        padding: 0 !important;
+                  }
+
+                  .bannerimg {
+                        width: 108% !important;
+                  }
+            }
+      </style>
+      <script type="text/javascript">
+            $(function () {
+                  $("[id*=printPDF]").click(function () {
+                        $("[id*=hfGridHtml]").val($("#PdfDiv").html());
+                  });
+            });
+            $(function () {
+                  $("[id*=printPDFEvent]").click(function () {
+                        $("[id*=hfGridHtml]").val($("#PdfDiv").html());
+                  });
+            });
+      </script>
+
+      
+
+      <link id="pibConsentCss" href="/css/consent.css?v=8" rel="stylesheet" type="text/css" /><link id="pibFontsCss" href="/css/fonts-noto.css?v=6" rel="stylesheet" type="text/css" /><link id="pibDbimCss" href="/css/dbim.css?v=1120" rel="stylesheet" type="text/css" /><meta property="og:title" content="Union Home Minister and Minister of Cooperation Shri Amit Shah addresses the 79th Raising Day ceremony of Delhi Police as the Chief Guest in New Delhi" /><meta property="og:url" content="www.pib.gov.in/Pressreleaseshare.aspx?PRID=2228674" /><meta property="og:description" content="Union Home Minister and Minister of Cooperation Shri Amit Shah addressed the 79th Raising Day ceremo" /><meta property="og:image" content="https:/pib.gov.in/images/indian-emblem.png" />
+                                <script>!function(e){var n="https://s.go-mpulse.net/boomerang/";if("False"=="True")e.BOOMR_config=e.BOOMR_config||{},e.BOOMR_config.PageParams=e.BOOMR_config.PageParams||{},e.BOOMR_config.PageParams.pci=!0,n="https://s2.go-mpulse.net/boomerang/";if(window.BOOMR_API_key="C4E7H-KSCMC-422L4-W3EM5-U36MF",function(){function e(){if(!i){var e=document.createElement("script");e.id="boomr-scr-as",e.src=window.BOOMR.url,e.async=!0,o.parentNode.appendChild(e),i=!0}}function t(e){i=!0;var n,t,a,r,d=document,O=window;if(window.BOOMR.snippetMethod=e?"if":"i",t=function(e,n){var t=d.createElement("script");t.id=n||"boomr-if-as",t.src=window.BOOMR.url,BOOMR_lstart=(new Date).getTime(),e=e||d.body,e.appendChild(t)},!window.addEventListener&&window.attachEvent&&navigator.userAgent.match(/MSIE [67]\./))return window.BOOMR.snippetMethod="s",void t(o.parentNode,"boomr-async");a=document.createElement("IFRAME"),a.src="about:blank",a.title="",a.role="presentation",a.loading="eager",r=(a.frameElement||a).style,r.width=0,r.height=0,r.border=0,r.display="none",o.parentNode.appendChild(a);try{O=a.contentWindow,d=O.document.open()}catch(_){n=document.domain,a.src="javascript:var d=document.open();d.domain='"+n+"';void(0);",O=a.contentWindow,d=O.document.open()}if(n)d._boomrl=function(){this.domain=n,t()},d.write("<bo"+"dy onload='document._boomrl();'>");else if(O._boomrl=function(){t()},O.addEventListener)O.addEventListener("load",O._boomrl,!1);else if(O.attachEvent)O.attachEvent("onload",O._boomrl);d.close()}function a(e){window.BOOMR_onload=e&&e.timeStamp||(new Date).getTime()}if(!window.BOOMR||!window.BOOMR.version&&!window.BOOMR.snippetExecuted){window.BOOMR=window.BOOMR||{},window.BOOMR.snippetStart=(new Date).getTime(),window.BOOMR.snippetExecuted=!0,window.BOOMR.snippetVersion=12,window.BOOMR.url=n+"C4E7H-KSCMC-422L4-W3EM5-U36MF";var o=document.currentScript||document.getElementsByTagName("script")[0],i=!1,r=document.createElement("link");if(r.relList&&"function"==typeof r.relList.supports&&r.relList.supports("preload")&&"as"in r)window.BOOMR.snippetMethod="p",r.href=window.BOOMR.url,r.rel="preload",r.as="script",r.addEventListener("load",e),r.addEventListener("error",function(){t(!0)}),setTimeout(function(){if(!i)t(!0)},3e3),BOOMR_lstart=(new Date).getTime(),o.parentNode.appendChild(r);else t(!1);if(window.addEventListener)window.addEventListener("load",a,!1);else if(window.attachEvent)window.attachEvent("onload",a)}}(),"".length>0)if(e&&"performance"in e&&e.performance&&"function"==typeof e.performance.setResourceTimingBufferSize)e.performance.setResourceTimingBufferSize();!function(){if(BOOMR=e.BOOMR||{},BOOMR.plugins=BOOMR.plugins||{},!BOOMR.plugins.AK){var n=""=="true"?1:0,t="",a="ljqllrax2fkcq2wgpata-f-b917c4f2b-clientnsv4-s.akamaihd.net",o="false"=="true"?2:1,i={"ak.v":"41","ak.cp":"1825201","ak.ai":parseInt("1215205",10),"ak.ol":"0","ak.cr":9,"ak.ipv":4,"ak.proto":"h2","ak.rid":"2e1099e","ak.r":46091,"ak.a2":n,"ak.m":"dscb","ak.n":"ff","ak.cport":59299,"ak.gh":"23.201.193.76","ak.quicv":"","ak.tlsv":"tls1.3","ak.0rtt":"","ak.0rtt.ed":"","ak.csrc":"-","ak.acc":"","ak.t":"1791391782","ak.ak":"hOBiQwZUYzCg5VSAfCLimQ==PFSPOKoO1HR5vBffTyUn8QsqQrk8yWO+9qGdhVmPyuEHPc7KFVWOwWTWH35q3fCC7n/P62dM8FWKWRwPaKLYQabsSb3CZDMQNY+FZj5E+qF+2lSxqqWLA1PUThPwBKGPKG4sInGAeGsvoKVpzfaKF53bK28BsaOWQE+0GlCEYeP/v04n2LARV/VkFf9BQSk2te6MAntsO0AAESQoGmyKWFIpZCw9PjBk4q6j8x5IheqJELNS2NnP7okTm8hX8l/9HiaA08HzyntpklkujiXdhxIzccB24ZVjN6O2BW8NPIVZBjzTiFI1UWiWM6qGPKPn1+Ra7PADAVFOWSD16PxpsAF93PppIYeZ2jJNbiXQLS1sBFQImKwdMJ5eb+DEcZGIlgofnbanIvpHBksXbflC3vT2ksuq04ZZgh/Bz6cms0M=","ak.pv":"9","ak.dpoabenc":"","ak.tf":o};if(""!==t)i["ak.ruds"]=t;var r={i:!1,av:function(n){var t="http.initiator";if(n&&(!n[t]||"spa_hard"===n[t]))i["ak.feo"]=void 0!==e.aFeoApplied?1:0,BOOMR.addVar(i)},rv:function(){var e=["ak.cport","ak.cr","ak.csrc","ak.gh","ak.ipv","ak.m","ak.n","ak.ol","ak.proto","ak.quicv","ak.tlsv","ak.0rtt","ak.0rtt.ed","ak.r","ak.acc","ak.t","ak.tf"];BOOMR.removeVar(e)}};BOOMR.plugins.AK={akVars:i,akDNSPreFetchDomain:a,init:function(){if(!r.i){var e=BOOMR.subscribe;e("before_beacon",r.av,null,null),e("onbeacon",r.rv,null,null),r.i=!0}return this},is_complete:function(){return!0}}}}()}(window);</script></head>
+<body>
+    
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"
+     style="position:absolute;width:0;height:0;overflow:hidden" id="dbim-icon-sprite">
+    <defs>
+        <symbol id="icon-angle-double-left" viewBox="0 0 24 24"><path d="M11.6 4.6 4.2 12l7.4 7.4 2.2-2.2L8.6 12l5.2-5.2z"/><path d="M19 4.6 11.6 12 19 19.4l2.2-2.2L16 12l5.2-5.2z"/></symbol>
+        <symbol id="icon-angle-double-right" viewBox="0 0 24 24"><path d="M12.4 4.6 10.2 6.8 15.4 12l-5.2 5.2 2.2 2.2L19.8 12z"/><path d="M5 4.6 2.8 6.8 8 12l-5.2 5.2L5 19.4 12.4 12z"/></symbol>
+        <symbol id="icon-arrow-left" viewBox="0 0 24 24"><path d="M20.8 10.6H9.6v2.8h11.2z"/><path d="M10.8 5.6 3.2 12l7.6 6.4z"/></symbol>
+        <symbol id="icon-arrow-right" viewBox="0 0 24 24"><path d="M3.2 10.6h11.2v2.8H3.2z"/><path d="M13.2 5.6 20.8 12l-7.6 6.4z"/></symbol>
+        <symbol id="icon-blogger" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M6.4 2.4h11.2a4 4 0 0 1 4 4v11.2a4 4 0 0 1-4 4H6.4a4 4 0 0 1-4-4V6.4a4 4 0 0 1 4-4zm2.8 5.2a2 2 0 0 0 0 4h2.4a2 2 0 0 0 0-4zm0 5.6a2 2 0 0 0 0 4h5.6a2 2 0 0 0 0-4z"/></symbol>
+        <symbol id="icon-calendar" viewBox="0 0 24 24"><path d="M7.6 2.4H10v2.4H7.6z"/><path d="M14 2.4h2.4v2.4H14z"/><path fill-rule="evenodd" d="M4 4.8h16a1.6 1.6 0 0 1 1.6 1.6v13.2a1.6 1.6 0 0 1-1.6 1.6H4a1.6 1.6 0 0 1-1.6-1.6V6.4A1.6 1.6 0 0 1 4 4.8zm.4 5.6v8.4h15.2v-8.4z"/><path d="M6.4 12.4h3.2v3.2H6.4z"/></symbol>
+        <symbol id="icon-chevron-left" viewBox="0 0 24 24"><path d="M15.4 4.6 8 12l7.4 7.4 2.2-2.2L12.4 12l5.2-5.2z"/></symbol>
+        <symbol id="icon-chevron-right" viewBox="0 0 24 24"><path d="M8.6 4.6 6.4 6.8 11.6 12l-5.2 5.2 2.2 2.2L16 12z"/></symbol>
+        <symbol id="icon-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/></symbol>
+        <symbol id="icon-download" viewBox="0 0 24 24"><path d="M10.8 3h2.4v7.6h3.4L12 16.6l-4.6-6h3.4z"/><path d="M4 17.2h2.4v2.4h11.2v-2.4H20v3.2a1.4 1.4 0 0 1-1.4 1.4H5.4A1.4 1.4 0 0 1 4 20.4z"/></symbol>
+        <symbol id="icon-facebook" viewBox="0 0 24 24"><path d="M13.6 21.6v-8.4h2.8l.42-3.3h-3.22V7.8c0-.95.27-1.6 1.64-1.6h1.74V3.26a23 23 0 0 0-2.54-.13c-2.5 0-4.22 1.53-4.22 4.34v2.43H7.4v3.3h2.82v8.4z"/></symbol>
+        <symbol id="icon-fact-check" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2.4 3.6 5.6v6.2c0 4.6 3.4 8.6 8.4 9.8 5-1.2 8.4-5.2 8.4-9.8V5.6zm-1 13.2-3.6-3.6 1.7-1.7 1.9 1.9 4.5-4.5 1.7 1.7z"/></symbol>
+        <symbol id="icon-hashtag" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M8.8 3h2.4l-1 6h3.2l1-6h2.4l-1 6h3.4v2.4h-3.8l-.6 3.2h3.6V17h-4l-1 5h-2.4l1-5h-3.2l-1 5H5.4l1-5H3V14.6h3.8l.6-3.2H3.8V9h4zm.6 8.4-.6 3.2h3.2l.6-3.2z"/></symbol>
+        <symbol id="icon-home" viewBox="0 0 24 24"><path d="M12 3.4 2.8 11.6h2.4v8.4a1 1 0 0 0 1 1h3.3v-5.4h5v5.4h3.3a1 1 0 0 0 1-1v-8.4h2.4z"/></symbol>
+        <symbol id="icon-instagram" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M7.6 2.4h8.8a5.2 5.2 0 0 1 5.2 5.2v8.8a5.2 5.2 0 0 1-5.2 5.2H7.6a5.2 5.2 0 0 1-5.2-5.2V7.6a5.2 5.2 0 0 1 5.2-5.2zm0 2.4a2.8 2.8 0 0 0-2.8 2.8v8.8a2.8 2.8 0 0 0 2.8 2.8h8.8a2.8 2.8 0 0 0 2.8-2.8V7.6a2.8 2.8 0 0 0-2.8-2.8z"/><path fill-rule="evenodd" d="M12 6.8a5.2 5.2 0 1 0 0 10.4 5.2 5.2 0 0 0 0-10.4zm0 2.4a2.8 2.8 0 1 1 0 5.6 2.8 2.8 0 0 1 0-5.6z"/><circle cx="17.3" cy="6.7" r="1.3"/></symbol>
+        <symbol id="icon-linkedin" viewBox="0 0 24 24"><path d="M4.8 8.8h3.6v12H4.8z"/><circle cx="6.6" cy="5.4" r="2.1"/><path d="M10.8 8.8h3.45v1.65h.05c.48-.9 1.65-1.85 3.4-1.85 3.63 0 4.3 2.35 4.3 5.4v6.6h-3.6v-5.85c0-1.4-.03-3.2-1.95-3.2-1.95 0-2.25 1.52-2.25 3.1v5.95h-3.6z"/></symbol>
+        <symbol id="icon-mail" viewBox="0 0 24 24"><path d="M2.4 7.6v9.2a1.6 1.6 0 0 0 1.6 1.6h16a1.6 1.6 0 0 0 1.6-1.6V7.6L12 14z"/><path d="M21.2 5.4H2.8L12 11.8z"/></symbol>
+        <symbol id="icon-mail-open" viewBox="0 0 24 24"><path d="M2.4 9.8h19.2v9.6A1.6 1.6 0 0 1 20 21H4a1.6 1.6 0 0 1-1.6-1.6z"/><path d="M12 2.6 21.6 9.2h-3.8L12 5.3 6.2 9.2H2.4z"/><path d="m3.9 11.2 8.1 5.4 8.1-5.4 1.5 1.3-9.6 6.4-9.6-6.4z"/></symbol>
+        <symbol id="icon-map-marker" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2.4a7 7 0 0 0-7 7c0 5.2 7 12.2 7 12.2s7-7 7-12.2a7 7 0 0 0-7-7zm0 9.6a2.6 2.6 0 1 1 0-5.2 2.6 2.6 0 0 1 0 5.2z"/></symbol>
+        <symbol id="icon-newspaper" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M2.8 4.4h14.8v15.2H2.8zm2 2v11.2h10.8V6.4z"/><path d="M6 7.6h8.4v1.6H6z"/><path d="M6 10.8h8.4v1.6H6z"/><path d="M6 14h5.2v1.6H6z"/><path d="M18.4 8.4h2.8v9.6a1.4 1.4 0 0 1-2.8 0z"/></symbol>
+        <symbol id="icon-pause" viewBox="0 0 24 24"><rect x="7.4" y="4" width="3.6" height="16" rx="0.9"/><rect x="13" y="4" width="3.6" height="16" rx="0.9"/></symbol>
+    <symbol id="icon-play" viewBox="0 0 24 24"><path d="M8 4.5v15l12-7.5z"/></symbol>
+        <symbol id="icon-picture" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M2.4 5.2h19.2v13.6H2.4zm2 2v9.6h15.2V7.2z"/><path d="M5.6 16.4 10 11l2.6 3 2-2.2 4 4.6z"/><circle cx="8" cy="10.4" r="1.5"/></symbol>
+        <symbol id="icon-press-conference" viewBox="0 0 24 24"><circle cx="12" cy="5.2" r="2.6"/><path d="M7.6 12.2a4.4 4.4 0 0 1 8.8 0z"/><circle cx="4.9" cy="9.6" r="2.2"/><path d="M1.8 15.2a3.1 3.1 0 0 1 6.2 0z"/><circle cx="19.1" cy="9.6" r="2.2"/><path d="M16 15.2a3.1 3.1 0 0 1 6.2 0z"/><path d="M6.6 13.6h10.8l2.2 7.8H4.4z"/></symbol>
+        <symbol id="icon-print" viewBox="0 0 24 24"><path d="M6.4 2.8h11.2v4.4H6.4z"/><path d="M4 8.4h16a1.6 1.6 0 0 1 1.6 1.6v5.6a1.6 1.6 0 0 1-1.6 1.6h-1.6v-2.8H6v2.8H4a1.6 1.6 0 0 1-1.6-1.6V10A1.6 1.6 0 0 1 4 8.4z"/><path d="M7.2 15.6h9.6v5.6H7.2z"/></symbol>
+        <symbol id="icon-rss" viewBox="0 0 24 24"><circle cx="4.8" cy="19.2" r="2.4"/><path d="M2.4 11.2v3.2a6.4 6.4 0 0 1 6.4 6.4H12A9.6 9.6 0 0 0 2.4 11.2z"/><path d="M2.4 4.8V8A13.6 13.6 0 0 1 16 21.6h3.2A16.8 16.8 0 0 0 2.4 4.8z"/></symbol>
+        <symbol id="icon-search-plus" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M10 2.8a7.2 7.2 0 1 0 0 14.4 7.2 7.2 0 0 0 0-14.4zm0 2.4a4.8 4.8 0 1 1 0 9.6 4.8 4.8 0 0 1 0-9.6z"/><path d="M15.3 14.6 21.2 20.5l-1.5 1.5-5.9-5.9z"/><path d="M9.2 6.8h1.6v2.4h2.4v1.6h-2.4v2.4H9.2v-2.4H6.8V9.2h2.4z"/></symbol>
+        <symbol id="icon-share" viewBox="0 0 24 24"><circle cx="18" cy="5.6" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="18.4" r="3"/><path d="M8.3 10.9 15.7 7.2l.9 1.8-7.4 3.7z"/><path d="M9.2 13.1 16.6 16.8l-.9 1.8-7.4-3.7z"/></symbol>
+        <symbol id="icon-twitter" viewBox="0 0 24 24"><path d="M4.2 3h4.3l11.3 18h-4.3z"/><path d="M19.3 3h-2.6L4.2 21h2.6z"/></symbol>
+        <symbol id="icon-university" viewBox="0 0 24 24"><path d="M12 2.4 21.6 7.2v1.6H2.4V7.2z"/><path d="M4.8 10.4h2.4v8H4.8z"/><path d="M9.2 10.4h2.4v8H9.2z"/><path d="M13.4 10.4h2.4v8h-2.4z"/><path d="M17.6 10.4H20v8h-2.4z"/><path d="M3.2 19.8h17.6v1.8H3.2z"/></symbol>
+        <symbol id="icon-volume-up" viewBox="0 0 24 24"><path d="M3.2 9.2h3.3l5-4.2v14l-5-4.2H3.2z"/><path d="M14.6 8.4a5 5 0 0 1 0 7.2l1.6 1.6a7.2 7.2 0 0 0 0-10.4z"/><path d="M17.4 5.6a8.8 8.8 0 0 1 0 12.8l1.5 1.5a10.9 10.9 0 0 0 0-15.8z"/></symbol>
+        <symbol id="icon-whatsapp" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2.4a9.5 9.5 0 0 0-8.1 14.5L2.4 21.6l4.8-1.4A9.5 9.5 0 1 0 12 2.4zm0 2.2a7.3 7.3 0 1 1-3.8 13.5l-.4-.2-2.6.7.7-2.5-.3-.4A7.3 7.3 0 0 1 12 4.6z"/><path d="M9.4 7.8c-.2-.5-.4-.5-.6-.5h-.5a1 1 0 0 0-.7.3c-.3.3-.9.9-.9 2.1s.9 2.4 1 2.6c.1.2 1.7 2.8 4.3 3.8 2.1.8 2.6.7 3 .6.5 0 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2l-.5-.3-1.6-.8c-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6 6 0 0 1-1.8-1.1 6.6 6.6 0 0 1-1.2-1.6c-.1-.2 0-.4.1-.5l.4-.5.3-.5v-.5z"/></symbol>
+        <symbol id="icon-youtube" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M21.6 7.2a2.8 2.8 0 0 0-2-2C17.9 4.8 12 4.8 12 4.8s-5.9 0-7.6.4a2.8 2.8 0 0 0-2 2A29 29 0 0 0 2 12a29 29 0 0 0 .4 4.8 2.8 2.8 0 0 0 2 2c1.7.4 7.6.4 7.6.4s5.9 0 7.6-.4a2.8 2.8 0 0 0 2-2A29 29 0 0 0 22 12a29 29 0 0 0-.4-4.8zM10.2 15.1V8.9l5.1 3.1z"/></symbol>
+    </defs>
+</svg>
+
+      <form method="post" action="./PressReleasePage.aspx?PRID=2228674&amp;reg=48&amp;lang=2" id="form1">
+<input type="hidden" name="sc_HiddenField" id="sc_HiddenField" value="" />
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="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" />
+
+
+<script src="/ScriptResource.axd?d=x6wALODbMJK5e0eRC_p1LdIxBJXt0U_WW5GWfJqHAqo6frgCmGRfEywglicTersO2OKrFhK1gAIp0Wk2al2YrpdR3uWqH6f4nfjBsCyRUfTUUVmb0&amp;t=ffffffffecf8d3f2" type="text/javascript"></script>
+<script src="/PressReleasePage.aspx?_TSM_HiddenField_=sc_HiddenField&amp;_TSM_CombinedScripts_=%3b%3bAjaxControlToolkit%2c+Version%3d3.5.7.123%2c+Culture%3dneutral%2c+PublicKeyToken%3d28f01b0e84b6d53e%3aen-US%3a5a4df314-b4a2-4da2-a207-9284f1b1e96c%3ade1feab2%3af2c8e708%3a8613aea7%3af9cec9bc%3a3202a5a2%3aab09e3fe%3a87104b7c%3a720a52bf%3a589eaa30%3aa67c2700%3abe6fb298" type="text/javascript"></script>
+<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="59B53027" />
+<input type="hidden" name="__VIEWSTATEENCRYPTED" id="__VIEWSTATEENCRYPTED" value="" />
+<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="TObrHLUriQJA7E6bSDSCdJmivZLL3838qiV06+AnOwDulqF0uvrhgNQiRAnLcsHX9+FaysyshO6qcEULkipwSIncW8FMTYgeGwPZ4Q1szy/kqkAB4NGpEQ9EmqxQ+/uWuWHVk5WwO1+SlncHRx7Y4t/oqqbme335JA6e8j/XMF/qiUx46BuO9SoYLxTl7Kdzxs1taMsAPDtTSRIibSxJeQcutbwPIDATh+QX3srklK9yxSAjo4Wzk3u7vkEkn1c58ZmyWCtk5lQL0qejkvs9F7qWVZQ=" />
+                              
+            <div id="templateCss"></div>
+            
+            <input type="hidden" name="hfGridHtml" id="hfGridHtml" />
+            <div class="container" style='margin-bottom: 50px;'>
+                  <div id="accessories">
+
+                        
+                        <div class="pull-right" style="display: flex">
+                              <div id="voll"></div>
+                              <div id="vollDT"></div>
+                              
+                              
+
+<span class="print-icons">
+<input type="image" name="Print1$print" id="Print1_print" aria-label="Print" src="images/printer_icon.png" alt="print page button" style="padding: 5px 10px 5px 10px;" />
+</span>
+                        </div>
+                  </div>
+                  <input type="hidden" name="hydpermid" id="hydpermid" value="2228674" />
+                  
+
+
+
+                  <div class="innner-page-main-about-us-content-right-part">
+
+                        <div id="MinistryName" class="MinistryNameSubhead text-center">
+                              Ministry of Home Affairs
+                        </div>
+                        
+                        <div id="lg_g"><div class='log_oo'>  <img src='https://static.pib.gov.in/WriteReadData/specificdocs/photo/2026/sep/ph_9768_20260902_10000501.png' alt='azadi ka amrit mahotsav' /> </div></div>
+
+
+
+
+
+                        <div class="text-center event-heading-background">
+                              
+                              <h1 id="Titleh2">
+                                    Union Home Minister and Minister of Cooperation Shri Amit Shah addresses the 79th Raising Day ceremony of Delhi Police as the Chief Guest in New Delhi
+                              </h1>
+                              <h3 id="Subtitleh3">
+                                    <span id="ltrSubtitle"><br/>Whether its drug syndicates, counterfeit currency rackets, complex cybercrimes, or organized crime, Delhi Police has worked successfully in every area of maintaining peace and security<br/><br/>12 years from 2014 to 2026 under the leadership of Prime Minister, Shri Narendra Modi will be recorded as a golden era in the history of the country’s internal security<br/><br/>After the full implementation of the three New Nyaya Sanhita, the conviction rate across the country will increase significantly<br/><br/>Naxalism, which has been a major challenge to the country’s internal security, is on the verge of being eradicated, and the nation will be completely free from Naxalism before 31 March<br/><br/>It is our resolve to build such a strong security system that not even a single infiltrator is able to cross the border<br/><br/>The Integrated Headquarters of the Delhi Police’s Special Cell, being built at a cost of ₹368 crore, will become an effective means to deal with terrorism and crime<br/><br/>With the establishment of the modern Integrated Command, Control, Communication and Computer Centre (C4I) at a cost of ₹857 crore, the Delhi Police will become even more modern and empowere<br/></span>
+                              </h3>
+                        </div>
+
+                        <div id="PrDateTime" class="ReleaseDateSubHeaddateTime text-center pt20">
+                              Posted On:
+                16 FEB 2026 3:31PM by PIB Delhi
+                        </div>
+                        
+                        <div class='pt20'>
+                        </div>
+                        <input type="hidden" name="hydphotoUrl" id="hydphotoUrl" />
+                        
+                        <p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Union Home Minister and Minister of Cooperation Shri Amit Shah addressed the 79<sup>th</sup> Raising Day ceremony of the Delhi Police as the Chief Guest in New Delhi today. On this occasion, many dignitaries including Delhi Police Commissioner, Shri Satish Golchha were present.</span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Union Home Minister and Minister of Cooperation, Shri Amit Shah said that from its establishment till today, the Delhi Police has never left any stone unturned in fulfilling its commitment to peace, service, and justice. He stated that Delhi, besides being the capital of the country, is the heartbeat and the center of the nation&rsquo;s democracy and identity. As the national capital, it is extremely important that Delhi&rsquo;s security meets the highest global standards. Shri Amit Shah said that due to the many national and international events held in Delhi, as well as the offices and residences of the President and the Prime Minister, the responsibility of the Delhi Police increases significantly. He added that the Delhi Police has always remained at the forefront and discharged its responsibilities with excellence and success.</span></span></p>
+
+<p style="text-align:center"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><img alt="CR3_4238.JPG.jpeg" id="Picture_x0020_0" src="https://static.pib.gov.in/WriteReadData/userfiles/image/image0017ESM.jpg" style="height:400px; width:600px" /> </span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Shri Amit Shah said that to further strengthen the Delhi Police, the e-foundation stone laying of the Special Cell&rsquo;s integrated headquarters was carried out today. Built at a cost of approximately ₹368 crore, this integrated headquarters of the Special Cell will become the country&rsquo;s most modern center for tackling narcotics and terrorism. He said that the headquarters will be equipped with a state-of-the-art indoor firing range, war room, cyber lab, training hall, and various modern facilities, and will serve as a model Special Cell headquarters for police forces across the country. Shri Shah added that the Special Cell of Delhi Police has played a successful and significant role in investigating narcotics syndicates, fake Indian currency notes, complex cybercrimes, organized crime, and several major terrorist incidents not only in Delhi but across the country.</span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Union Home Minister said that today the foundation stones for 10 new projects of the Delhi Police have been laid, and the first phase of the Safe City Project, built at a cost of about ₹857 crore, has also been inaugurated. Under this, the modern Integrated Command, Control, Communication and Computer Centre (C4I) has been dedicated to the people of Delhi. He further said that under the first phase of the program to connect Delhi with 10,000 cameras, 2,100 cameras have already gone live, and the work of integrating more than 15,000 existing cameras with the system has been completed. Shri Shah added that the Safe City Project will significantly enhance Delhi&rsquo;s security in the coming days.</span></span></p>
+
+<p style="text-align:center"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><img alt="CR5_3918.JPG.jpeg" id="Picture_x0020_1" src="https://static.pib.gov.in/WriteReadData/userfiles/image/image0029DFH.jpg" style="height:400px; width:600px" /> </span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Shri Amit Shah said that over the past 11 years, under the leadership of Prime Minister Shri Narendra Modi, the country has achieved several significant milestones. He stated that whenever justice is discussed in the country, the three new Nyaya Sanhita will certainly be mentioned. He said that the laws enacted by the British 150 years ago have now been repealed and a justice-centric legal system has been established. The Home Minister added that within the next two years, after the full implementation of these laws, any FIR filed anywhere in the country will receive a final decision up to the Supreme Court within three years.</span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Union Home Minister said that in the new Nyaya Sanhita, a separate chapter has been added for crimes against children and women, and e-FIR and Zero FIR have been given legal backing. Under ICJS (Integrated Criminal Justice System), the police, judiciary, forensic science, prosecution, and prisons have been integrated, and their services have been made online. He said that for the first time, community service has been legally introduced as a form of punishment for minor offenses. Shri Shah said that forensic visits have been made mandatory in crimes having a punishment of more than 7 years. For the first time in the country&#39;s laws, terrorism has been defined, and a provision for trial in absentia has been made for fugitives who flee the country. He said that provisions have been made to attach the properties of declared offenders located outside India. Further, in the new laws, the Director of Prosecution has been given more importance. The definition of documents has been expanded to grant legal recognition to electronic and digital records.</span></span></p>
+
+<p style="text-align:center"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><img alt="CR3_3766.JPG.jpeg" id="Picture_x0020_2" src="https://static.pib.gov.in/WriteReadData/userfiles/image/image0032WW5.jpg" style="height:400px; width:600px" /> </span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Shri Amit Shah said that after the full implementation of the new Nyaya Sanhita, our justice system will become the most modern in the world. He said that the new laws will reduce delays in the justice system and will also help in increasing the conviction rate. Shri Amit Shah said that an unprecedented rise in the conviction rate has been recorded in states such as Assam, Haryana, and Gujarat.</span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Union Home Minister and Minister of Cooperation said that under the leadership of Prime Minister Modi Ji, the 12 years from 2014 to 2026 will always be recorded in the history of the country&#39;s internal security as a golden period. He said that before 2014, our country faced three problems&mdash;Jammu and Kashmir, Left-wing extremism, and the Northeast&mdash;that had been challenging our internal security for decades. </span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Shri Amit Shah said that Naxalism, which has spread across 11 states, has always been a major challenge to the country&#39;s internal security. The Home Minister said that we are very close to completely eradicating Naxalism, and we will certainly succeed in making the entire country free from Naxal violence by March 31, 2026. He said that in the Northeast as well, more than 10,000 youths have laid down their arms and joined the mainstream, and through more than 12 peace agreements, we have done very significant work in establishing peace in the Northeast.</span></span></p>
+
+<p style="text-align:center"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><img alt="CR3_3360.JPG.jpeg" id="Picture_x0020_3" src="https://static.pib.gov.in/WriteReadData/userfiles/image/image0043X02.jpg" style="height:400px; width:600px" /> </span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Union Home Minister and Minister of Cooperation said that in the coming time, the Ministry of Home Affairs (MHA) will weave a network of CCTV cameras across the entire country to establish a new security system. He said that the entire focus of the MHA will remain on modernizing security system at every land border of the country, making the nation free from infiltrators, and the full implementation of the three new Nyaya Sanhita.</span></span></p>
+
+<p style="text-align:center"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">*****</span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><strong>RK/PR/PS</strong></span></span></p>
+
+
+                        
+                        <div id="reel_pic">
+                        </div>
+
+
+
+                        
+                        <br />
+                        <span id="ReleaseId">(Release ID: 2228674)</span>
+                        <span id="lblViews">Visitor Counter : 1924</span>
+                        <div>
+                              
+                        </div>
+                        
+
+                        <span id="lblRefPhoto"></span>
+
+                        <div class="BackgroundRelease">
+                              
+                        </div>
+                        <div>
+                              
+                        </div>
+                        <div class="ReleaseLang">Read this release in: 
+                        
+                                    
+                                    <a href='https://pib.gov.in/PressReleasePage.aspx?PRID=2228755' target="_blank">
+                                          Urdu </a>
+                              
+                                    ,
+                              
+                                    
+                                    <a href='https://pib.gov.in/PressReleasePage.aspx?PRID=2228922' target="_blank">
+                                          Marathi </a>
+                              
+                                    ,
+                              
+                                    
+                                    <a href='https://pib.gov.in/PressReleasePage.aspx?PRID=2228653' target="_blank">
+                                          हिन्दी </a>
+                              
+                                    ,
+                              
+                                    
+                                    <a href='https://pib.gov.in/PressReleasePage.aspx?PRID=2228775' target="_blank">
+                                          Assamese </a>
+                              
+                                    ,
+                              
+                                    
+                                    <a href='https://pib.gov.in/PressReleasePage.aspx?PRID=2229164' target="_blank">
+                                          Punjabi </a>
+                              
+                                    ,
+                              
+                                    
+                                    <a href='https://pib.gov.in/PressReleasePage.aspx?PRID=2228690' target="_blank">
+                                          Gujarati </a>
+                              
+                                    ,
+                              
+                                    
+                                    <a href='https://pib.gov.in/PressReleasePage.aspx?PRID=2228925' target="_blank">
+                                          Odia </a>
+                              
+                                    ,
+                              
+                                    
+                                    <a href='https://pib.gov.in/PressReleasePage.aspx?PRID=2228765' target="_blank">
+                                          Tamil </a>
+                              
+                                    ,
+                              
+                                    
+                                    <a href='https://pib.gov.in/PressReleasePage.aspx?PRID=2228852' target="_blank">
+                                          Telugu </a>
+                              
+                                    ,
+                              
+                                    
+                                    <a href='https://pib.gov.in/PressReleasePage.aspx?PRID=2228727' target="_blank">
+                                          Kannada </a>
+                              
+                                    ,
+                              
+                                    
+                                    <a href='https://pib.gov.in/PressReleasePage.aspx?PRID=2228843' target="_blank">
+                                          Malayalam </a>
+                              
+                        </div>
+
+                        <div class="RelTag">
+                              <ul>
+                                    
+                              </ul>
+                        </div>
+                        <div class="clear">
+                        </div>
+                        
+                        <div class="pr-share pr-share--footer" role="group" aria-label="Share this press release">
+                              <span class="pr-share__label" aria-hidden="true">Share</span>
+                              <ul class="pr-share__list">
+                                    <li><a class="pr-share__btn pr-share__btn--facebook"
+                                           href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fpib.gov.in%2fPressReleasePage.aspx%3fPRID%3d2228674"
+                                           target="_blank" rel="noopener noreferrer"
+                                           aria-label="Share on Facebook">
+                                        <svg class="dbim-icon dbim-icon-24" width="24" height="24" fill="currentColor" aria-hidden="true" focusable="false"><use href="#icon-facebook" xlink:href="#icon-facebook"></use></svg>
+                                    </a></li>
+                                    <li><a class="pr-share__btn pr-share__btn--twitter"
+                                           href="https://twitter.com/intent/tweet?url=https%3a%2f%2fpib.gov.in%2fPressReleasePage.aspx%3fPRID%3d2228674"
+                                           target="_blank" rel="noopener noreferrer"
+                                           aria-label="Share on X">
+                                        <svg class="dbim-icon dbim-icon-24" width="24" height="24" fill="currentColor" aria-hidden="true" focusable="false"><use href="#icon-twitter" xlink:href="#icon-twitter"></use></svg>
+                                    </a></li>
+                                    <li><a class="pr-share__btn pr-share__btn--whatsapp"
+                                           href="https://api.whatsapp.com/send?text=https%3a%2f%2fpib.gov.in%2fPressReleasePage.aspx%3fPRID%3d2228674"
+                                           target="_blank" rel="noopener noreferrer"
+                                           aria-label="Share on WhatsApp">
+                                        <svg class="dbim-icon dbim-icon-24" width="24" height="24" fill="currentColor" aria-hidden="true" focusable="false"><use href="#icon-whatsapp" xlink:href="#icon-whatsapp"></use></svg>
+                                    </a></li>
+                                    <li><a class="pr-share__btn pr-share__btn--linkedin"
+                                           href="https://www.linkedin.com/sharing/share-offsite/?url=https%3a%2f%2fpib.gov.in%2fPressReleasePage.aspx%3fPRID%3d2228674"
+                                           target="_blank" rel="noopener noreferrer"
+                                           aria-label="Share on LinkedIn">
+                                        <svg class="dbim-icon dbim-icon-24" width="24" height="24" fill="currentColor" aria-hidden="true" focusable="false"><use href="#icon-linkedin" xlink:href="#icon-linkedin"></use></svg>
+                                    </a></li>
+                                    <li><a class="pr-share__btn pr-share__btn--mail"
+                                           href="mailto:?subject=Press+release+from+PIB&amp;body=https%3a%2f%2fpib.gov.in%2fPressReleasePage.aspx%3fPRID%3d2228674"
+                                           aria-label="Share by email">
+                                        <svg class="dbim-icon dbim-icon-24" width="24" height="24" fill="currentColor" aria-hidden="true" focusable="false"><use href="#icon-mail" xlink:href="#icon-mail"></use></svg>
+                                    </a></li>
+                              </ul>
+                        </div>
+                        <div id="RelLink" class="RelLink">
+                              <ul>
+                                    
+                                    
+                              </ul>
+                        </div>
+                        <center>
+                              
+                        </center>
+                  </div>
+
+                  <div id="update12">
+	
+                              
+                              <input type="hidden" name="Hidden" id="Hidden" />
+                              <div id="P_CategoryManagement" class="ModalWindow" style="display: none">
+		
+                                    <div>
+                                          <input type="image" name="btnClose" id="btnClose" src="images/close_flat_icon.png" />
+                                    </div>
+                                    <div id="description">
+                                    </div>
+                                    <div class="text-center">
+                                          <h2>
+                                                
+                                                <br>
+                                                
+                                          </h2>
+                                    </div>
+                                    <br />
+                                    <div class="clear">
+                                    </div>
+                                    
+                              
+	</div>
+                        
+</div>
+            </div>
+            
+            <div id="PdfDiv" style="display: none;">
+                  <table width="100%">
+                        <tr>
+                              <td style="font-weight: 200; text-align: center">
+                                    Ministry of Home Affairs
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                                    <div style="font-weight: 200; text-align: center; font-size: 30px;">
+                                          Union Home Minister and Minister of Cooperation Shri Amit Shah addresses the 79th Raising Day ceremony of Delhi Police as the Chief Guest in New Delhi
+                                    </div>
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                                    <div style="font-weight: 200; text-align: center; font-size: 30px;">
+                                          <div style='height:30px;width:100%;'></div>Whether its drug syndicates, counterfeit currency rackets, complex cybercrimes, or organized crime, Delhi Police has worked successfully in every area of maintaining peace and security<div style='height:30px;width:100%;'></div><div style='height:30px;width:100%;'></div>12 years from 2014 to 2026 under the leadership of Prime Minister, Shri Narendra Modi will be recorded as a golden era in the history of the country’s internal security<div style='height:30px;width:100%;'></div><div style='height:30px;width:100%;'></div>After the full implementation of the three New Nyaya Sanhita, the conviction rate across the country will increase significantly<div style='height:30px;width:100%;'></div><div style='height:30px;width:100%;'></div>Naxalism, which has been a major challenge to the country’s internal security, is on the verge of being eradicated, and the nation will be completely free from Naxalism before 31 March<div style='height:30px;width:100%;'></div><div style='height:30px;width:100%;'></div>It is our resolve to build such a strong security system that not even a single infiltrator is able to cross the border<div style='height:30px;width:100%;'></div><div style='height:30px;width:100%;'></div>The Integrated Headquarters of the Delhi Police’s Special Cell, being built at a cost of ₹368 crore, will become an effective means to deal with terrorism and crime<div style='height:30px;width:100%;'></div><div style='height:30px;width:100%;'></div>With the establishment of the modern Integrated Command, Control, Communication and Computer Centre (C4I) at a cost of ₹857 crore, the Delhi Police will become even more modern and empowere<div style='height:30px;width:100%;'></div>
+                                    </div>
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                                    <div style="text-align: center; font-size: 14px;">
+                                          Posted On:
+                        16 FEB 2026 3:31PM by PIB Delhi
+                                    </div>
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                                    <div style="font-weight: 200; text-align: left; font-size: 16px;">
+                                          <p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Union Home Minister and Minister of Cooperation Shri Amit Shah addressed the 79<sup>th</sup> Raising Day ceremony of the Delhi Police as the Chief Guest in New Delhi today. On this occasion, many dignitaries including Delhi Police Commissioner, Shri Satish Golchha were present.</span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Union Home Minister and Minister of Cooperation, Shri Amit Shah said that from its establishment till today, the Delhi Police has never left any stone unturned in fulfilling its commitment to peace, service, and justice. He stated that Delhi, besides being the capital of the country, is the heartbeat and the center of the nation&rsquo;s democracy and identity. As the national capital, it is extremely important that Delhi&rsquo;s security meets the highest global standards. Shri Amit Shah said that due to the many national and international events held in Delhi, as well as the offices and residences of the President and the Prime Minister, the responsibility of the Delhi Police increases significantly. He added that the Delhi Police has always remained at the forefront and discharged its responsibilities with excellence and success.</span></span></p>
+
+<p style="text-align:center"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><img alt="CR3_4238.JPG.jpeg" id="Picture_x0020_0" src="https://static.pib.gov.in/WriteReadData/userfiles/image/image0017ESM.jpg" style="height:400px; width:600px" /> </span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Shri Amit Shah said that to further strengthen the Delhi Police, the e-foundation stone laying of the Special Cell&rsquo;s integrated headquarters was carried out today. Built at a cost of approximately ₹368 crore, this integrated headquarters of the Special Cell will become the country&rsquo;s most modern center for tackling narcotics and terrorism. He said that the headquarters will be equipped with a state-of-the-art indoor firing range, war room, cyber lab, training hall, and various modern facilities, and will serve as a model Special Cell headquarters for police forces across the country. Shri Shah added that the Special Cell of Delhi Police has played a successful and significant role in investigating narcotics syndicates, fake Indian currency notes, complex cybercrimes, organized crime, and several major terrorist incidents not only in Delhi but across the country.</span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Union Home Minister said that today the foundation stones for 10 new projects of the Delhi Police have been laid, and the first phase of the Safe City Project, built at a cost of about ₹857 crore, has also been inaugurated. Under this, the modern Integrated Command, Control, Communication and Computer Centre (C4I) has been dedicated to the people of Delhi. He further said that under the first phase of the program to connect Delhi with 10,000 cameras, 2,100 cameras have already gone live, and the work of integrating more than 15,000 existing cameras with the system has been completed. Shri Shah added that the Safe City Project will significantly enhance Delhi&rsquo;s security in the coming days.</span></span></p>
+
+<p style="text-align:center"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><img alt="CR5_3918.JPG.jpeg" id="Picture_x0020_1" src="https://static.pib.gov.in/WriteReadData/userfiles/image/image0029DFH.jpg" style="height:400px; width:600px" /> </span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Shri Amit Shah said that over the past 11 years, under the leadership of Prime Minister Shri Narendra Modi, the country has achieved several significant milestones. He stated that whenever justice is discussed in the country, the three new Nyaya Sanhita will certainly be mentioned. He said that the laws enacted by the British 150 years ago have now been repealed and a justice-centric legal system has been established. The Home Minister added that within the next two years, after the full implementation of these laws, any FIR filed anywhere in the country will receive a final decision up to the Supreme Court within three years.</span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Union Home Minister said that in the new Nyaya Sanhita, a separate chapter has been added for crimes against children and women, and e-FIR and Zero FIR have been given legal backing. Under ICJS (Integrated Criminal Justice System), the police, judiciary, forensic science, prosecution, and prisons have been integrated, and their services have been made online. He said that for the first time, community service has been legally introduced as a form of punishment for minor offenses. Shri Shah said that forensic visits have been made mandatory in crimes having a punishment of more than 7 years. For the first time in the country&#39;s laws, terrorism has been defined, and a provision for trial in absentia has been made for fugitives who flee the country. He said that provisions have been made to attach the properties of declared offenders located outside India. Further, in the new laws, the Director of Prosecution has been given more importance. The definition of documents has been expanded to grant legal recognition to electronic and digital records.</span></span></p>
+
+<p style="text-align:center"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><img alt="CR3_3766.JPG.jpeg" id="Picture_x0020_2" src="https://static.pib.gov.in/WriteReadData/userfiles/image/image0032WW5.jpg" style="height:400px; width:600px" /> </span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Shri Amit Shah said that after the full implementation of the new Nyaya Sanhita, our justice system will become the most modern in the world. He said that the new laws will reduce delays in the justice system and will also help in increasing the conviction rate. Shri Amit Shah said that an unprecedented rise in the conviction rate has been recorded in states such as Assam, Haryana, and Gujarat.</span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Union Home Minister and Minister of Cooperation said that under the leadership of Prime Minister Modi Ji, the 12 years from 2014 to 2026 will always be recorded in the history of the country&#39;s internal security as a golden period. He said that before 2014, our country faced three problems&mdash;Jammu and Kashmir, Left-wing extremism, and the Northeast&mdash;that had been challenging our internal security for decades. </span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Shri Amit Shah said that Naxalism, which has spread across 11 states, has always been a major challenge to the country&#39;s internal security. The Home Minister said that we are very close to completely eradicating Naxalism, and we will certainly succeed in making the entire country free from Naxal violence by March 31, 2026. He said that in the Northeast as well, more than 10,000 youths have laid down their arms and joined the mainstream, and through more than 12 peace agreements, we have done very significant work in establishing peace in the Northeast.</span></span></p>
+
+<p style="text-align:center"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><img alt="CR3_3360.JPG.jpeg" id="Picture_x0020_3" src="https://static.pib.gov.in/WriteReadData/userfiles/image/image0043X02.jpg" style="height:400px; width:600px" /> </span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Union Home Minister and Minister of Cooperation said that in the coming time, the Ministry of Home Affairs (MHA) will weave a network of CCTV cameras across the entire country to establish a new security system. He said that the entire focus of the MHA will remain on modernizing security system at every land border of the country, making the nation free from infiltrators, and the full implementation of the three new Nyaya Sanhita.</span></span></p>
+
+<p style="text-align:center"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">*****</span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><strong>RK/PR/PS</strong></span></span></p>
+
+                                    </div>
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                                    <div style="font-weight: 100; text-align: left; font-size: 16px;">
+                                          (Release ID: 2228674)
+                                    </div>
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                              </td>
+                        </tr>
+                        <tr>
+                              <td style="font-weight: 200; text-align: center; font-size: 24px;"></td>
+                        </tr>
+                  </table>
+            </div>
+            <div class="clearfix">
+            </div>
+
+            
+
+            <div class="section1">
+                  <div id="frst_t">
+                        <div id="arr_rm"><div class='sticky-social_mb'><ul class='social_mb'><a href='http://www.facebook.com/share.php?u=https://pib.gov.in/PressReleasePage.aspx?PRID=2228674' target='_blank'><li class='fb_b'   ></li></a><a href='https://twitter.com/intent/tweet?url=https://pib.gov.in/PressReleasePage.aspx?PRID=2228674&text=Union Home Minister and Minister of Cooperation Shri Amit Shah addresses the 79th Raising Day ceremony of Delhi Police as the Chief Guest in New Delhi' target='_blank'><li class='twitter_r'  > </li></a><a href='https://api.whatsapp.com/send?text=https://pib.gov.in/PressReleasePage.aspx?PRID=2228674' target='_blank'><li class='whatsapp_r'  ></li></a><a href='https://mail.google.com/mail/?view=cm&fs=1&tf=1&to=&su=Union Home Minister and Minister of Cooperation Shri Amit Shah addresses the 79th Raising Day ceremony of Delhi Police as the Chief Guest in New Delhi&body=https://pib.gov.in/PressReleasePage.aspx?PRID=2228674&ui=2&tf=1&pli=1' title='Share by Email' target='_blank'><li class='fa-envelope_r' ></li></a><a href='https://www.linkedin.com/shareArticle?mini=true&url=https://pib.gov.in/PressReleasePage.aspx?PRID=2228674&title=Union Home Minister and Minister of Cooperation Shri Amit Shah addresses the 79th Raising Day ceremony of Delhi Police as the Chief Guest in New Delhi&summary=My%20favorite%20developer%20program&source=LinkedIn' target='_blank'><li class='fa-linkedin_r'  ></li></a></ul></div></div>
+                  </div>
+                  <div id="second_t">
+                        <div id="sndr_rm"><div class='sticky-social'><ul class='social'><a href='http://www.facebook.com/share.php?u=https://pib.gov.in/PressReleasePage.aspx?PRID=2228674' target='_blank'><li class='fb_b'   ></li></a><a href='https://twitter.com/intent/tweet?url=https://pib.gov.in/PressReleasePage.aspx?PRID=2228674&text=Union Home Minister and Minister of Cooperation Shri Amit Shah addresses the 79th Raising Day ceremony of Delhi Police as the Chief Guest in New Delhi' target='_blank'><li class='twitter_r'  > </li></a><a href='https://api.whatsapp.com/send?text=https://pib.gov.in/PressReleasePage.aspx?PRID=2228674' target='_blank'><li class='whatsapp_r'  ></li></a><a href='https://mail.google.com/mail/?view=cm&fs=1&tf=1&to=&su=Union Home Minister and Minister of Cooperation Shri Amit Shah addresses the 79th Raising Day ceremony of Delhi Police as the Chief Guest in New Delhi&body=https://pib.gov.in/PressReleasePage.aspx?PRID=2228674&ui=2&tf=1&pli=1' title='Share by Email' target='_blank'><li class='fa-envelope_r' ></li></a><a href='https://www.linkedin.com/shareArticle?mini=true&url=https://pib.gov.in/PressReleasePage.aspx?PRID=2228674&title=Union Home Minister and Minister of Cooperation Shri Amit Shah addresses the 79th Raising Day ceremony of Delhi Police as the Chief Guest in New Delhi&summary=My%20favorite%20developer%20program&source=LinkedIn' target='_blank'><li class='fa-linkedin_r'  ></li></a></ul></div></div>
+                  </div>
+            </div>
+            <input type="hidden" name="ltrTitlee" id="ltrTitlee" value="Union Home Minister and Minister of Cooperation Shri Amit Shah addresses the 79th Raising Day ceremony of Delhi Police as the Chief Guest in New Delhi" />
+            <input type="hidden" name="ltrSubtitlee" id="ltrSubtitlee" value="&lt;br/>Whether its drug syndicates, counterfeit currency rackets, complex cybercrimes, or organized crime, Delhi Police has worked successfully in every area of maintaining peace and security&lt;br/>&lt;br/>12 years from 2014 to 2026 under the leadership of Prime Minister, Shri Narendra Modi will be recorded as a golden era in the history of the country’s internal security&lt;br/>&lt;br/>After the full implementation of the three New Nyaya Sanhita, the conviction rate across the country will increase significantly&lt;br/>&lt;br/>Naxalism, which has been a major challenge to the country’s internal security, is on the verge of being eradicated, and the nation will be completely free from Naxalism before 31 March&lt;br/>&lt;br/>It is our resolve to build such a strong security system that not even a single infiltrator is able to cross the border&lt;br/>&lt;br/>The Integrated Headquarters of the Delhi Police’s Special Cell, being built at a cost of ₹368 crore, will become an effective means to deal with terrorism and crime&lt;br/>&lt;br/>With the establishment of the modern Integrated Command, Control, Communication and Computer Centre (C4I) at a cost of ₹857 crore, the Delhi Police will become even more modern and empowere&lt;br/>" />
+            <input type="hidden" name="ltrDescriptionn" id="ltrDescriptionn" value="&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>Union Home Minister and Minister of Cooperation Shri Amit Shah addressed the 79th Raising Day ceremony of the Delhi Police as the Chief Guest in New Delhi today. On this occasion, many dignitaries including Delhi Police Commissioner, Shri Satish Golchha were present.&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>Union Home Minister and Minister of Cooperation, Shri Amit Shah said that from its establishment till today, the Delhi Police has never left any stone unturned in fulfilling its commitment to peace, service, and justice. He stated that Delhi, besides being the capital of the country, is the heartbeat and the center of the nation&amp;rsquo;s democracy and identity. As the national capital, it is extremely important that Delhi&amp;rsquo;s security meets the highest global standards. Shri Amit Shah said that due to the many national and international events held in Delhi, as well as the offices and residences of the President and the Prime Minister, the responsibility of the Delhi Police increases significantly. He added that the Delhi Police has always remained at the forefront and discharged its responsibilities with excellence and success.&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:center&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>&lt;img alt=&quot;CR3_4238.JPG.jpeg&quot; id=&quot;Picture_x0020_0&quot; src=&quot;https://static.pib.gov.in/WriteReadData/userfiles/image/image0017ESM.jpg&quot; style=&quot;height:400px; width:600px&quot; /> &lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>Shri Amit Shah said that to further strengthen the Delhi Police, the e-foundation stone laying of the Special Cell&amp;rsquo;s integrated headquarters was carried out today. Built at a cost of approximately ₹368 crore, this integrated headquarters of the Special Cell will become the country&amp;rsquo;s most modern center for tackling narcotics and terrorism. He said that the headquarters will be equipped with a state-of-the-art indoor firing range, war room, cyber lab, training hall, and various modern facilities, and will serve as a model Special Cell headquarters for police forces across the country. Shri Shah added that the Special Cell of Delhi Police has played a successful and significant role in investigating narcotics syndicates, fake Indian currency notes, complex cybercrimes, organized crime, and several major terrorist incidents not only in Delhi but across the country.&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>Union Home Minister said that today the foundation stones for 10 new projects of the Delhi Police have been laid, and the first phase of the Safe City Project, built at a cost of about ₹857 crore, has also been inaugurated. Under this, the modern Integrated Command, Control, Communication and Computer Centre (C4I) has been dedicated to the people of Delhi. He further said that under the first phase of the program to connect Delhi with 10,000 cameras, 2,100 cameras have already gone live, and the work of integrating more than 15,000 existing cameras with the system has been completed. Shri Shah added that the Safe City Project will significantly enhance Delhi&amp;rsquo;s security in the coming days.&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:center&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>&lt;img alt=&quot;CR5_3918.JPG.jpeg&quot; id=&quot;Picture_x0020_1&quot; src=&quot;https://static.pib.gov.in/WriteReadData/userfiles/image/image0029DFH.jpg&quot; style=&quot;height:400px; width:600px&quot; /> &lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>Shri Amit Shah said that over the past 11 years, under the leadership of Prime Minister Shri Narendra Modi, the country has achieved several significant milestones. He stated that whenever justice is discussed in the country, the three new Nyaya Sanhita will certainly be mentioned. He said that the laws enacted by the British 150 years ago have now been repealed and a justice-centric legal system has been established. The Home Minister added that within the next two years, after the full implementation of these laws, any FIR filed anywhere in the country will receive a final decision up to the Supreme Court within three years.&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>Union Home Minister said that in the new Nyaya Sanhita, a separate chapter has been added for crimes against children and women, and e-FIR and Zero FIR have been given legal backing. Under ICJS (Integrated Criminal Justice System), the police, judiciary, forensic science, prosecution, and prisons have been integrated, and their services have been made online. He said that for the first time, community service has been legally introduced as a form of punishment for minor offenses. Shri Shah said that forensic visits have been made mandatory in crimes having a punishment of more than 7 years. For the first time in the country&amp;#39;s laws, terrorism has been defined, and a provision for trial in absentia has been made for fugitives who flee the country. He said that provisions have been made to attach the properties of declared offenders located outside India. Further, in the new laws, the Director of Prosecution has been given more importance. The definition of documents has been expanded to grant legal recognition to electronic and digital records.&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:center&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>&lt;img alt=&quot;CR3_3766.JPG.jpeg&quot; id=&quot;Picture_x0020_2&quot; src=&quot;https://static.pib.gov.in/WriteReadData/userfiles/image/image0032WW5.jpg&quot; style=&quot;height:400px; width:600px&quot; /> &lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>Shri Amit Shah said that after the full implementation of the new Nyaya Sanhita, our justice system will become the most modern in the world. He said that the new laws will reduce delays in the justice system and will also help in increasing the conviction rate. Shri Amit Shah said that an unprecedented rise in the conviction rate has been recorded in states such as Assam, Haryana, and Gujarat.&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>Union Home Minister and Minister of Cooperation said that under the leadership of Prime Minister Modi Ji, the 12 years from 2014 to 2026 will always be recorded in the history of the country&amp;#39;s internal security as a golden period. He said that before 2014, our country faced three problems&amp;mdash;Jammu and Kashmir, Left-wing extremism, and the Northeast&amp;mdash;that had been challenging our internal security for decades. &lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>Shri Amit Shah said that Naxalism, which has spread across 11 states, has always been a major challenge to the country&amp;#39;s internal security. The Home Minister said that we are very close to completely eradicating Naxalism, and we will certainly succeed in making the entire country free from Naxal violence by March 31, 2026. He said that in the Northeast as well, more than 10,000 youths have laid down their arms and joined the mainstream, and through more than 12 peace agreements, we have done very significant work in establishing peace in the Northeast.&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:center&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>&lt;img alt=&quot;CR3_3360.JPG.jpeg&quot; id=&quot;Picture_x0020_3&quot; src=&quot;https://static.pib.gov.in/WriteReadData/userfiles/image/image0043X02.jpg&quot; style=&quot;height:400px; width:600px&quot; /> &lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>Union Home Minister and Minister of Cooperation said that in the coming time, the Ministry of Home Affairs (MHA) will weave a network of CCTV cameras across the entire country to establish a new security system. He said that the entire focus of the MHA will remain on modernizing security system at every land border of the country, making the nation free from infiltrators, and the full implementation of the three new Nyaya Sanhita.&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:center&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>*****&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>&lt;strong>RK/PR/PS&lt;/strong>&lt;/span>&lt;/span>&lt;/p>
+" />
+            <script type="text/javascript">
+                  var mPlayer = document.getElementById("background_music");
+                  var mPlayAction = document.getElementById("playbutton");
+
+                  var isPlaying = false;
+
+                  function playAudio() {
+                        mPlayer.play();
+                        isPlaying = true;
+                        document.getElementById('stopA').style.display = "block";
+                        document.getElementById('playA').style.display = "none";
+                  }
+
+                  function pauseAudio() {
+                        mPlayer.pause();
+                        isPlaying = false;
+                        document.getElementById('playA').style.display = "block";
+                        document.getElementById('stopA').style.display = "none";
+                  }
+                  //function HandleAudio() {
+                  //    if (isPlaying == true) {
+                  //        //Playing already Pause it
+                  //        pauseAudio();
+                  //    } else {
+                  //        //Play the music
+                  //        playAudio();
+                  //    }
+                  //}
+            </script>
+            <script type="text/javascript">
+                  var synth = window.speechSynthesis;
+
+            
+                  function CleanHtml(html) {
+
+                        html = html.replace(/<script[\s\S]*?<\/script>/gi, '');
+
+                        return html;
+                  }
+                  function stripHtml(html) {
+                        let tmp = document.createElement("DIV");
+                        tmp.innerHTML = CleanHtml(html);
+                        return tmp.textContent || tmp.innerText || "";
+                  }
+            </script>
+            <script type="text/javascript">
+                  $(document).ready(function () {
+                        //for responsive tables
+                        $("table").each(function () {
+                              if (!$(this).closest(".table-responsive").length) {
+                                    $(this).wrap("<div class='table-responsive'></div>");
+                              }
+                        });
+
+                        var width = $(window).width();
+                        if (width < 768) {
+
+                              // Extra Small Device
+                              document.getElementById('frst_t').style.display = "block";
+                              document.getElementById('second_t').style.display = "none";
+
+                        } else if (width < 991) {
+                              document.getElementById('frst_t').style.display = "block";
+                              document.getElementById('second_t').style.display = "none";
+                              // Small Device
+
+                        } else if (width < 1199) {
+                              document.getElementById('frst_t').style.display = "none";
+                              document.getElementById('second_t').style.display = "block";
+                              // Medium Device
+
+                        } else {
+                              document.getElementById('frst_t').style.display = "none";
+                              document.getElementById('second_t').style.display = "block";
+                              // Large Device
+
+                        }
+                  });
+            </script>
+            <script type="text/javascript">
+                  $(document).ready(function () {
+                        var width = $(window).width();
+                        if (width < 768) {
+
+                              // Extra Small Device
+                              document.getElementById('frst_t').style.display = "block";
+                              document.getElementById('second_t').style.display = "none";
+
+                        } else if (width < 991) {
+                              document.getElementById('frst_t').style.display = "block";
+                              document.getElementById('second_t').style.display = "none";
+                              // Small Device
+
+                        } else if (width < 1199) {
+                              document.getElementById('frst_t').style.display = "none";
+                              document.getElementById('second_t').style.display = "block";
+                              // Medium Device
+
+                        } else {
+                              document.getElementById('frst_t').style.display = "none";
+                              document.getElementById('second_t').style.display = "block";
+                              // Large Device
+
+                        }
+                  });
+            </script>
+            
+            <style type="text/css">
+                  @media print {
+                        .sticky-social, .sticky-social_mb, .pull-right, #printPDF {
+                              display: none !important;
+                        }
+                  }
+
+                  .f_vl {
+                        padding-right: 30px;
+                        font-size: 17px;
+                        cursor: pointer;
+                  }
+
+                  .log_oo {
+                        // width: 20%;
+                        display: flex;
+                        justify-content: space-between;
+                  }
+
+                        .log_oo img {
+                              width: 150px;
+                              /*width: 100%;
+                    height: auto;*/
+                        }
+
+                  .sticky-social_mb {
+                        position: fixed;
+                        bottom: 0px;
+                        padding: 0px;
+                        margin: 0px;
+                        width: 100%;
+                  }
+
+                  .social_mb {
+                        list-style: none;
+                        display: flex;
+                        width: 100%;
+                        margin-bottom: -8px;
+                  }
+
+                        .social_mb a {
+                              padding: 8px 0px;
+                              font-size: 30px;
+                              transition: all 0.8s ease-in-out;
+                              width: 20% !important;
+                              text-align: center;
+                        }
+            </style>
+            <style type="text/css">
+                  .section1 {
+                        position: relative;
+                        padding: 10px 0px;
+                        width: 100%;
+                  }
+
+
+
+                  .sticky-social {
+                        position: fixed;
+                        top: 20px;
+                        left: 0px;
+                        padding: 0px;
+                        margin: 0px;
+                  }
+
+                  .social {
+                        list-style: none;
+                  }
+
+                        .social a li {
+                              padding: 8px 12px;
+                              font-size: 25px;
+                              transition: all 0.8s ease-in-out;
+                        }
+
+                              .social a li:hover {
+                                    margin-right: -30px;
+                                    box-shadow: 2px 5px 10px grey;
+                              }
+
+                                    .social a li:hover .fa {
+                                          margin-left: 20px;
+                                    }
+
+                  .fb_b {
+                        /* background-color: var(--dbim-key, #0F5757);*/
+                        background-color: var(--dbim-key, #0F5757);
+                  }
+
+                  .twitter_r {
+                        /* background-color: rgb(29, 161, 242);*/
+                        background-color: var(--dbim-key, #0F5757);
+                  }
+
+                  .whatsapp_r {
+                        /* background-color: var(--dbim-key, #0F5757);*/
+                        background-color: var(--dbim-key, #0F5757);
+                  }
+
+                  .fa-envelope_r {
+                        /* background-color: var(--dbim-key, #0F5757);*/
+                        background-color: var(--dbim-key, #0F5757);
+                  }
+
+                  .fa-linkedin_r {
+                        background-color: var(--dbim-key, #0F5757);
+                  }
+            </style>
+            <style type="text/css">
+                  @media only screen and (max-device-width: 767px) {
+                        p span img {
+                              max-width: 90% !important;
+                              height: auto !important;
+                        }
+
+                        p img {
+                              max-width: 90% !important;
+                              height: auto !important;
+                        }
+
+                        h2 {
+                              font-size: var(--dbim-h2, 20px);   /* was 20px !important - the !important blocked A+/A- */
+                              font-weight: 600 !important;
+                        }
+
+                        h3 {
+                              font-size: var(--dbim-h3, 16px);   /* was 16px !important */
+                              font-weight: 600 !important;
+                        }
+                  }
+            </style>
+            <style type="text/css">
+                  /* === Film Roll Badge Styling(IFFI2025 countdown) === */
+                  .film-roll-badge {
+                        position: absolute;
+                        top:82%;
+                        right: 20px;
+                        width: 230px;
+                        height: 70px;
+                        background: repeating-linear-gradient( to right, var(--dbim-green-key, #0F5757) 0px, var(--dbim-green-key, #0F5757) 18px, var(--dbim-text, #150202) 18px, var(--dbim-text, #150202) 36px );
+                        border-top: 8px solid var(--dbim-green-key, #0F5757);
+                        border-bottom: 8px solid var(--dbim-green-key, #0F5757);
+                        border-radius: 8px;
+                        overflow: hidden;
+                        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+                        animation: moveFilm 8s linear infinite;
+                        z-index: 10;
+                  }
+
+                        /* film sprocket holes */
+                        .film-roll-badge::before,
+                        .film-roll-badge::after {
+                              content: "";
+                              position: absolute;
+                              width: 100%;
+                              height: 10px;
+                              background: repeating-linear-gradient( to right, var(--dbim-green-key, #0F5757) 0px, var(--dbim-green-key, #0F5757) 10px, #fff 10px, #fff 20px );
+                              left: 0;
+                              z-index: 2;
+                        }
+
+                        .film-roll-badge::before {
+                              top: -4px;
+                        }
+
+                        .film-roll-badge::after {
+                              bottom: -4px;
+                        }
+
+                  .film-roll-inner {
+                        position: relative;
+                        height: 100%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        animation: flicker 2s infinite ease-in-out;
+                  }
+
+                  .countdown-text {
+                        font-size: 1.3rem;
+                        font-weight: 700;
+                        color: #fff;
+                        text-shadow: 0 0 6px rgba(255, 255, 255, 0.4), 0 0 10px #000;
+                        white-space: nowrap;
+                  }
+
+                  /* === Animations === */
+                  @keyframes moveFilm {
+                        0% {
+                              background-position: 0 0;
+                        }
+
+                        100% {
+                              background-position: 120px 0;
+                        }
+                  }
+
+                  @keyframes flicker {
+                        0%, 100% {
+                              opacity: 1;
+                        }
+
+                        50% {
+                              opacity: 0.9;
+                        }
+
+                        25% {
+                              opacity: 0.95;
+                        }
+
+                        75% {
+                              opacity: 0.85;
+                        }
+                  }
+
+                  /* === Responsive Adjustments === */
+                  @media (max-width: 1500px) {
+                        .film-roll-badge {
+                              top: 68%;
+                              right: 18px;
+                              /* width: 220px; */
+                              height: 65px;
+                              font-size: 0.85rem;
+                        }
+
+                        .press-section {
+                              margin-top: 35px;
+                        }
+                  }
+
+                  @media (max-width: 992px) {
+                        .film-roll-badge {
+                              top: 52%;
+                              right: 10px;
+                               width: 200px; 
+                              height: 60px;
+                        }
+                  }
+
+                  @media (max-width: 768px) {
+                        .film-roll-badge {
+                              top: 56%;
+                              right: 10px;
+                               width: 124px; 
+                              height: 55px;
+                        }
+
+                        .countdown-text {
+                              font-size: 0.9rem;
+                        }
+                  }
+
+                  @media (max-width: 576px) {
+                        .film-roll-badge {
+                              top: 59%;
+                              right: 5px;
+                              /* width: 160px; */
+                              height: 50px;
+                        }
+
+                        .countdown-text {
+                              font-size: 0.85rem;
+                        }
+                  }
+            </style>
+          <script type="text/javascript">
+                const festivalStart = new Date("2025-11-20T00:00:00").getTime();
+                const festivalEnd = new Date("2025-11-28T23:59:59").getTime();
+
+                const countdownElement = document.getElementById("countdown");
+
+                const interval = setInterval(() => {
+                      const now = new Date().getTime();
+
+                      // BEFORE FESTIVAL — show days + hours left
+                      if (now < festivalStart) {
+                            const diff = festivalStart - now;
+                            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+
+                            countdownElement.innerHTML = `
+              ${days} Day${days !== 1 ? 's' : ''} 
+              ${hours} Hour${hours !== 1 ? 's' : ''} to go
+          `;
+
+                      }
+
+                      // DURING FESTIVAL — show 56th IFFI - Day X
+                      else if (now >= festivalStart && now <= festivalEnd) {
+                            const dayNumber = Math.floor((now - festivalStart) / (1000 * 60 * 60 * 24)) + 1;
+                            countdownElement.innerHTML = `56th IFFI - Day ${dayNumber}`;
+                      }
+
+                      // AFTER FESTIVAL — new message
+                      else {
+                            countdownElement.innerHTML = `✨ IFFI closes but never ends…`;
+
+                            // Width change logic
+                            const elements = document.querySelectorAll('.film-roll-badge');
+                            elements.forEach(el => el.style.width = "350px");
+
+                            clearInterval(interval);
+                      }
+
+                }, 1000);
+          </script>
+ <script type="text/javascript">
+
+               const miffStart = new Date("2026-06-15T00:00:00").getTime();
+               const miffEnd = new Date("2026-06-15T23:59:59").getTime();
+
+               const miffElement = document.getElementById("miff");
+
+               if (miffElement) {
+
+                   const miffInterval = setInterval(() => {
+
+                       const now = new Date().getTime();
+
+                       // Before MIFF
+                       if (now < miffStart) {
+
+                           const diff = miffStart - now;
+                           const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                           const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+
+        
+
+                   /*  miffElement.innerHTML = `${days} Day${days !== 1 ? 's' : ''} ${hours} Hour${hours !== 1 ? 's' : ''} to MIFF`;*/
+                           miffElement.innerHTML = `${days} Day${days === 1 ? '' : 's'} to MIFF ...`;
+
+
+                     }
+
+                       // During MIFF
+                       else if (now >= miffStart && now <= miffEnd) {
+
+                           const dayNumber =
+                               Math.floor((now - miffStart) / (1000 * 60 * 60 * 24)) + 1;
+
+                           miffElement.innerHTML = `19th MIFF - Day ${dayNumber}`;
+                       }
+
+                       // After MIFF
+                       else {
+
+                           miffElement.innerHTML = `✨ MIFF concludes, cinema lives on...`;
+
+                           document.querySelectorAll('.film-roll-badge')
+                               .forEach(el => el.style.width = "350px");
+
+                           clearInterval(miffInterval);
+                       }
+
+                   }, 1000);
+               }
+
+</script>
+
+      
+
+<script type="text/javascript">
+//<![CDATA[
+(function() {var fn = function() {$get("sc_HiddenField").value = '';Sys.Application.remove_init(fn);};Sys.Application.add_init(fn);})();Sys.Application.add_init(function() {
+    $create(Sys.Extended.UI.ModalPopupBehavior, {"BackgroundCssClass":"modalBackground","PopupControlID":"P_CategoryManagement","dynamicServicePath":"/PressReleasePage.aspx","id":"mpe"}, null, null, $get("Hidden"));
+});
+//]]>
+</script>
+<input type="hidden" name="__ncforminfo" value="67cnt8f3z898I78fP0f0g1X6aMo-N7nYE8CBJyMse99ahOSOCRt9EYRvelmE8SujiauZp0B-TB83Bd4rCcTyCxVu-46-wPze"/></form>
+      
+      
+
+<script type="application/json" id="pibConsentConfig">{"ga4Id":"G-Q414Y0X6EE,G-QJJ6LZ8LHV","policyUrl":"/CookiePolicy.aspx","text":{"bannerLabel":"Cookie consent","title":"Cookies on this website","body":"We use essential cookies to make this website work. We also set analytics cookies when you arrive, so we can see how the site is used and improve it - you can switch these off below or at any time from the Cookie Policy page. Cookies from embedded social media content are set only if you allow them.","policyLink":"Read our Cookie Policy","accept":"Accept all","reject":"Reject optional","customize":"Customise","prefsTitle":"Cookie preferences","prefsIntro":"Choose which cookies this website may set. Essential cookies cannot be switched off because the site does not work without them. Analytics cookies are on unless you turn them off. Social media cookies stay off until you allow them. You can change these choices at any time from the Cookie Policy page.","essentialName":"Essential cookies","essentialDesc":"Needed for the site to function. These remember your session, your language and region, your text size and colour theme, and verify the security check on forms. They are always on.","analyticsName":"Analytics cookies","analyticsDesc":"Help us understand how visitors use the site - which pages are read and how long people stay - so it can be improved. The information is collected in a form that does not directly identify you. These are on when you arrive; switching them off here stops them and deletes the ones already set.","socialName":"Social media cookies","socialDesc":"Set by content embedded from X, Facebook and YouTube, such as timelines and videos. These platforms may use them to track you across websites. They stay off until you allow them.","save":"Save preferences","cancel":"Cancel"}}</script>
+<script type="text/javascript" src='/js/consent.js?v=10'></script>
+
+<script type="text/javascript" src='/js/consent-embeds.js?v=10'></script>
+
+    
+
+<script type="text/javascript">
+    (function () {
+        try {
+            if (window.self === window.top) { return; }
+        } catch (e) { return; }
+        var s = document.createElement("style");
+        s.textContent =
+            ".sticky-social, .sticky-social_mb { display: none !important; }";
+        (document.head || document.documentElement).appendChild(s);
+    }());
+</script>
+</body>
+</html>
+

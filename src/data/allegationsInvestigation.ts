@@ -2,7 +2,7 @@ import type { InvestigationFilters, InvestigationRecord, InvestigationRegistry, 
 import { createInvestigationMatcher, investigationPlacement } from './investigationFilters';
 import { getAtlasEvidenceClosure, type AtlasSelection } from './atlasInvestigation';
 
-export const ALLEGATIONS_NAMESPACES=['allegations-policy','allegations-institutions'] as const;
+export const ALLEGATIONS_NAMESPACES=['allegations-policy','allegations-institutions','metro-delhi-security','metro-mumbai-security','metro-defence','metro-public-finance','metro-tender-scan'] as const;
 export type AllegationCohort='new'|'retained'|'all';
 export type AllegationCategory='case'|'allegation'|'finding'|'outcome'|'alleged-link';
 export type AllegationClaimState='active'|'withdrawn'|'superseded'|'outcome-record'|'unknown';
@@ -20,6 +20,7 @@ export function allegationClaimState(row:InvestigationRecord|InvestigationRelati
  if(withdrawnStatuses.has(row.status)||('kind' in row&&row.kind==='withdrawn-correction'))return {claimState:'withdrawn',statusBasis:'The retained claim was withdrawn or held. This does not establish that no underlying event occurred.'};
  if(row.status==='superseded')return {claimState:'superseded',statusBasis:'A later retained record supersedes this assertion. This is not a blanket merits acquittal.'};
  if(['allegations-policy:record:pacl-land-cis-refunds','allegations-policy:record:chapwa-toll-debarment'].includes(row.id))return {claimState:'outcome-record',statusBasis:'This reviewed case is framed by an explicit regulatory or court outcome. PACL recovery remains ongoing; the Chapwa debarment was set aside. Neither classification supplies a criminal-conviction claim.'};
+ if(row.id==='metro-defence:record:bsf-sharma-result'&&row.status==='conviction-upheld-on-two-charges-slp-dismissed')return {claimState:'outcome-record',statusBasis:'The reviewed orders retain acquittal on charge 1 and upheld convictions on charges 2 and 3. The later Supreme Court refusal of special leave is not a new trial or a finding against every participant.'};
  if(category==='outcome'||category==='finding')return {claimState:'outcome-record',statusBasis:'Read the precise scope and date of this outcome or finding; it does not resolve unrelated allegations.'};
  if(reviewed(row.namespace)&&activeStatuses.has(row.status))return {claimState:'active',statusBasis:'The newly reviewed record explicitly carries this pending procedural stage as of its stated status date; guilt is not inferred.'};
  return {claimState:'unknown',statusBasis:reviewed(row.namespace)?'The detailed reviewed procedural status is retained verbatim; it is not automatically classified as an active accusation.':'Inherited assertion. Current procedural status was not independently refreshed in this review; read linked responses and the original source.'};
@@ -30,6 +31,7 @@ function recordCategory(row:InvestigationRecord,relationships:Map<string,Investi
  if(row.kind==='withdrawn-correction')return 'outcome';
  if(['response','counter-evidence','denial','relationship-record','policy-change'].includes(row.kind))return null;
  if(['audit-finding','judicial-finding','court-finding','finding','audit'].includes(row.kind)&&row.tier==='documented')return 'finding';
+ if(row.kind==='audit-finding'&&row.namespace.startsWith('metro-')&&row.tier==='reported')return 'finding';
  if(['judgment','judicial-decision','regulatory-decision','case-outcome','outcome-record','court-order','order','procedural-status','proceeding','legal-proceeding'].includes(row.kind))return 'outcome';
  if(['allegation','filed-allegation','allegation-record','charge','indictment'].includes(row.kind))return 'allegation';
  if(row.kind==='investigation-case'&&(reviewed(row.namespace)||row.tier==='alleged'||retainedAuditCaseIds.has(row.id)||row.relationshipIds.some(id=>{const edge=relationships.get(id);return edge&&(edge.tier==='alleged'||proceedingEdgeKinds.has(edge.kind));})))return 'case';

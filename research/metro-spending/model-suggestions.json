@@ -1,0 +1,320 @@
+{
+  "schemaVersion": 1,
+  "purpose": "research-discovery-only",
+  "automaticallyVerified": false,
+  "limitation": "Public authored-summary discovery only. Similarity is not an identity bridge, probability of misconduct, actual money transfer, or proof of corruption. Every graph relationship is separately source-reviewed; no ranking is promoted automatically.",
+  "model": {
+    "id": "sentence-transformers/all-MiniLM-L6-v2",
+    "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+    "license": "Apache-2.0",
+    "modelCard": "https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/blob/1110a243fdf4706b3f48f1d95db1a4f5529b4d41/README.md",
+    "format": "ONNX uint8 AVX2",
+    "dimensions": 384,
+    "maxTokens": 256,
+    "pooling": "attention-mask-weighted mean, L2 normalized",
+    "assetSha256": {
+      "onnx/model_quint8_avx2.onnx": "b941bf19f1f1283680f449fa6a7336bb5600bdcd5f84d10ddc5cd72218a0fd21",
+      "tokenizer.json": "be50c3628f2bf5bb5e3a7f17b1f74611b2561a3a27eeab05e5aa30f411572037"
+    }
+  },
+  "execution": {
+    "provider": "CPUExecutionProvider",
+    "python": "3.12.14",
+    "onnxruntime": "1.23.2",
+    "tokenizers": "0.22.1",
+    "numpy": "2.3.4",
+    "inferenceSeconds": 16.35,
+    "publicTextUploadedToModelService": false
+  },
+  "corpusSha256": "871ef7dbcb4b87f752b5e0edb4501683a0494dd5b9e52fea101ac45f9ea71f1c",
+  "documentCount": 397,
+  "smokeCheck": {
+    "passed": true,
+    "relatedSimilarity": 0.808023,
+    "unrelatedSimilarity": 0.01586,
+    "meaning": "Pipeline wiring check only; not an evidence or model accuracy evaluation"
+  },
+  "queries": {
+    "delhi-police-procurement": {
+      "text": "Delhi Police procurement public tender CCTV radio communications app nomination single bidder audit PAC government response contract payments",
+      "matches": [
+        {
+          "documentId": "metro-delhi-security:source:pac32-2025",
+          "title": "PAC 32nd action-taken report on Delhi Police",
+          "url": "https://sansad.in/getFile/lsscommittee/Public%20Accounts/18_Public_Accounts_32.pdf?source=loksabhadocs",
+          "similarity": 0.702196
+        },
+        {
+          "documentId": "metro-delhi-security:source:pac140-2024",
+          "title": "PAC 140th report: Delhi Police audit and updated responses",
+          "url": "https://sansad.in/getFile/lsscommittee/Public%20Accounts/17_Public_Accounts_140.pdf?source=loksabhadocs",
+          "similarity": 0.634752
+        },
+        {
+          "documentId": "metro-delhi-security:source:dphcl-projects-2025",
+          "title": "Delhi Police Housing Corporation: ongoing projects as at 30 May 2025",
+          "url": "https://www.dphcl.com/uploaded_files/project-status/1748948127.pdf",
+          "similarity": 0.618444
+        },
+        {
+          "documentId": "public-works:source:state-src-odisha",
+          "title": "Odisha e-Procurement IT Audit, Report 1 of 2025",
+          "url": "https://cag.gov.in/webroot/uploads/download_audit_report/2025/Report-of-the-CAG_e-Procurement_Government-of-Odisha-068d4e08b303b21.95073538.pdf",
+          "similarity": 0.52032
+        },
+        {
+          "documentId": "public-works:source:state-src-police-budget",
+          "title": "Union Budget 2026-27, Demand 51: Police",
+          "url": "https://www.indiabudget.gov.in/doc/eb/sbe51.pdf",
+          "similarity": 0.511318
+        }
+      ]
+    },
+    "mumbai-police-financing": {
+      "text": "Mumbai Maharashtra police housing surveillance coastal procurement government resolution budget borrowing guarantee contract ceiling accepted bid",
+      "matches": [
+        {
+          "documentId": "public-works:source:state-src-odisha",
+          "title": "Odisha e-Procurement IT Audit, Report 1 of 2025",
+          "url": "https://cag.gov.in/webroot/uploads/download_audit_report/2025/Report-of-the-CAG_e-Procurement_Government-of-Odisha-068d4e08b303b21.95073538.pdf",
+          "similarity": 0.505428
+        },
+        {
+          "documentId": "metro-mumbai-security:source:housing-gr",
+          "title": "Mumbai Police Housing Township: financing, implementing agency and public-land monetisation",
+          "url": "https://gr.maharashtra.gov.in/Site/Upload/Government%20Resolutions/English/202601301710509529.pdf",
+          "similarity": 0.498339
+        },
+        {
+          "documentId": "metro-tender-scan:source:executed-cohort-scan",
+          "title": "Executed Delhi, Mumbai and security buyer-cohort scan",
+          "url": "https://github.com/occult-kranti/india-corporate-intelligence/blob/codex/education-funding-intelligence/research/raw/metro-spending/tender-scan/analysis.json",
+          "similarity": 0.483048
+        },
+        {
+          "documentId": "metro-delhi-security:source:dphcl-projects-2025",
+          "title": "Delhi Police Housing Corporation: ongoing projects as at 30 May 2025",
+          "url": "https://www.dphcl.com/uploaded_files/project-status/1748948127.pdf",
+          "similarity": 0.469368
+        },
+        {
+          "documentId": "metro-mumbai-security:source:coastal-pib",
+          "title": "Coastal Security Scheme: Maharashtra allocation and central shipyard payments",
+          "url": "https://www.pib.gov.in/newsite/PrintRelease.aspx?lang=2&reg=48&relid=70061",
+          "similarity": 0.462559
+        }
+      ]
+    },
+    "defence-border-expenditure": {
+      "text": "Ministry Defence Home Affairs border road construction navy shipbuilding public budget audit expenditure contractor delays recovery response",
+      "matches": [
+        {
+          "documentId": "metro-defence:source:cag-navy-2014",
+          "title": "CAG Report 4/2014: Navy compliance audit",
+          "url": "https://cag.gov.in/webroot/uploads/download_audit_report/2014/Union_Compliance_Defence_Air_force_Navy_4_2014.pdf",
+          "similarity": 0.439951
+        },
+        {
+          "documentId": "metro-public-finance:source:bmc-roads-response",
+          "title": "Reported CAG roads/bridges controls and BMC engineer response",
+          "url": "https://indianexpress.com/article/cities/mumbai/bmc-awarded-work-to-contractors-without-registering-them-cag-8522503/",
+          "similarity": 0.430927
+        },
+        {
+          "documentId": "metro-public-finance:source:bmc-audit-summary",
+          "title": "Reported BMC special audit: no-tender works and missing agreements",
+          "url": "https://indianexpress.com/article/cities/mumbai/cag-report-finds-major-systemic-problems-careless-use-of-funds-in-bmc-8518388/",
+          "similarity": 0.415772
+        },
+        {
+          "documentId": "public-works:source:state-src-army-audit",
+          "title": "CAG Army audit Report 11 of 2024: official press release",
+          "url": "https://cag.gov.in/uploads/PressRelease/PR-English-Press-Release-on-Audit-Report-No-11-of-2024-0676193eab6e9e8-69621331.pdf",
+          "similarity": 0.413809
+        },
+        {
+          "documentId": "allegations-institutions:source:lifeline-bmc-response-2023",
+          "title": "BMC response: manpower payments and denial of inflated headline claim",
+          "url": "https://www.freepressjournal.in/mumbai/mumbai-covid-centre-scam-bmc-commissioner-iqbal-singh-chahal-says-allegation-of-100-crore-is-baseless",
+          "similarity": 0.39669
+        }
+      ]
+    },
+    "city-versus-national-scope": {
+      "text": "National ministry headquarters Delhi Mumbai company headquarters city association versus project site Maharashtra statewide allocation not city expenditure",
+      "matches": [
+        {
+          "documentId": "metro-public-finance:source:bmc-budget",
+          "title": "BMC Budget Estimates 2025–26: Municipal Commissioner’s speech",
+          "url": "https://www.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Chief%20Accountant%20%28Finance%29/Budget/Budget%20Estimate%202025-2026/1-%20MC%27s%20Speech/BUDGET%20A,B,G/ENGLISH%20SPEECH.pdf",
+          "similarity": 0.588511
+        },
+        {
+          "documentId": "education:source:mca-csr-company",
+          "title": "National CSR Portal: company-wise project disclosures",
+          "url": "https://www.csr.gov.in/content/csr/global/master/home/ExploreCsrData/company-wise.html",
+          "similarity": 0.542339
+        },
+        {
+          "documentId": "metro-public-finance:source:delhi-budget",
+          "title": "GNCTD Budget Speech 2025–26, reproduced government PDF",
+          "url": "https://jmkresearch.com/wp-content/uploads/2026/03/DELHI-GOVERNMENT.pdf",
+          "similarity": 0.538934
+        },
+        {
+          "documentId": "education:source:pm-shri-cabinet",
+          "title": "Cabinet approves PM SHRI Schools",
+          "url": "https://www.pmindia.gov.in/en/news_updates/cabinet-approves-a-new-centrally-sponsored-scheme-pm-shri-schools-pm-schools-for-rising-india/",
+          "similarity": 0.529413
+        },
+        {
+          "documentId": "metro-delhi-security:source:dphcl-projects-2025",
+          "title": "Delhi Police Housing Corporation: ongoing projects as at 30 May 2025",
+          "url": "https://www.dphcl.com/uploaded_files/project-status/1748948127.pdf",
+          "similarity": 0.503581
+        }
+      ]
+    },
+    "notice-award-payment-separation": {
+      "text": "Original tender notice corrigendum bid award contract signed supplier invoice actual disbursement payment distinct stages exact identifier",
+      "matches": [
+        {
+          "documentId": "atlas-international-finance:source:tn-awards",
+          "title": "World Bank procurement notices P150395: OP00218737 and OP00187128",
+          "url": "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P150395&rows=200",
+          "similarity": 0.584654
+        },
+        {
+          "documentId": "public-works:source:pw-cppp-portal",
+          "title": "Central Public Procurement Portal — tender and award discovery",
+          "url": "https://eprocure.gov.in/cppp/",
+          "similarity": 0.512177
+        },
+        {
+          "documentId": "metro-tender-scan:source:executed-cohort-scan",
+          "title": "Executed Delhi, Mumbai and security buyer-cohort scan",
+          "url": "https://github.com/occult-kranti/india-corporate-intelligence/blob/codex/education-funding-intelligence/research/raw/metro-spending/tender-scan/analysis.json",
+          "similarity": 0.491698
+        },
+        {
+          "documentId": "deep-procurement:source:prior-rw-debarment-2021",
+          "title": "Guidelines on debarment of firms from bidding",
+          "url": "https://doe.gov.in/files/circulars_document/Guidelines_on_Debarment_of_firms_from_Bidding.pdf",
+          "similarity": 0.487534
+        },
+        {
+          "documentId": "public-works:source:rw-debarment-2021",
+          "title": "Guidelines on debarment of firms from bidding",
+          "url": "https://doe.gov.in/files/circulars_document/Guidelines_on_Debarment_of_firms_from_Bidding.pdf",
+          "similarity": 0.475158
+        }
+      ]
+    },
+    "audit-claim-and-later-outcome": {
+      "text": "Audit observation management reply PAC follow up allegation court bail acquittal discharge set aside later outcome procedural status current date",
+      "matches": [
+        {
+          "documentId": "justice-research:source:src-cag-proceedings-parliament",
+          "title": "Parliament reply: proceedings based on CAG findings — Lok Sabha Q.2191",
+          "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU2191_FwhMf9.pdf",
+          "similarity": 0.540506
+        },
+        {
+          "documentId": "metro-public-finance:source:bmc-audit-response",
+          "title": "BMC response to special-audit observations",
+          "url": "https://www.hindustantimes.com/cities/mumbai-news/cag-slams-bmc-for-irregularities-mismanagement-and-callous-handling-of-public-funds-101679770237610.html",
+          "similarity": 0.518181
+        },
+        {
+          "documentId": "metro-public-finance:source:djb-court",
+          "title": "Delhi High Court: Anil Kumar Aggarwal / Jagdish Kumar Arora bail, 9 April 2025",
+          "url": "https://courtkutchehry.com/judgments/anil-kumar-aggarwal-vs-directorate-of-enforcement",
+          "similarity": 0.507359
+        },
+        {
+          "documentId": "metro-delhi-security:source:pac140-2024",
+          "title": "PAC 140th report: Delhi Police audit and updated responses",
+          "url": "https://sansad.in/getFile/lsscommittee/Public%20Accounts/17_Public_Accounts_140.pdf?source=loksabhadocs",
+          "similarity": 0.496376
+        },
+        {
+          "documentId": "justice-research:source:src-kejriwal-arrest-review",
+          "title": "Arvind Kejriwal arrest review and interim bail — 2024 INSC 512",
+          "url": "https://api.sci.gov.in/supremecourt/2024/16350/16350_2024_2_1501_53587_Judgement_12-Jul-2024.pdf",
+          "similarity": 0.488932
+        }
+      ]
+    },
+    "identity-and-money-direction": {
+      "text": "Exact legal institution company buyer supplier public agency identity cross reference ownership budget borrower creditor beneficiary money direction",
+      "matches": [
+        {
+          "documentId": "deep-corporate:source:ael-report-2026",
+          "title": "Adani Enterprises integrated annual report FY2025–26",
+          "url": "https://nsearchives.nseindia.com/annual_reports/AR_29299_ADANIENT_2025_2026_A_17942605_29052026223750.pdf",
+          "similarity": 0.485668
+        },
+        {
+          "documentId": "public-works:source:pwg-irb-fy24",
+          "title": "IRB annual report FY2023-24 — ownership and scope-separated donations",
+          "url": "https://www.irb.co.in/home/wp-content/uploads/2024/08/annual-report-fy2023-24.pdf",
+          "similarity": 0.473979
+        },
+        {
+          "documentId": "deep-procurement:source:nhsrcl-equity",
+          "title": "NHSRCL: public ownership and JICA financing terms",
+          "url": "https://nhsrcl.in/en/media/press-release/information-nhsrcl",
+          "similarity": 0.470691
+        },
+        {
+          "documentId": "allegations-institutions:source:srmf-ed-2026",
+          "title": "ED: alleged SRMF impersonation, sale and asset freezing",
+          "url": "https://enforcementdirectorate.gov.in/media/press-release-documents/58486e21-6f04-4a3f-9349-a897355bc398_PRESS%20RELEASE-%20Search-Arrest-15-05-2026.pdf",
+          "similarity": 0.456547
+        },
+        {
+          "documentId": "public-works:source:state-src-capital-contracts",
+          "title": "MoD signs five capital acquisition contracts,1 March 2024",
+          "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2010528",
+          "similarity": 0.456365
+        }
+      ]
+    },
+    "loss-recovery-and-financing": {
+      "text": "Appropriation budget estimate revised estimate actual expenditure questioned expenditure alleged loss recovery cash debt guarantee overlapping amount non additive",
+      "matches": [
+        {
+          "documentId": "metro-public-finance:source:bmc-budget",
+          "title": "BMC Budget Estimates 2025–26: Municipal Commissioner’s speech",
+          "url": "https://www.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Chief%20Accountant%20%28Finance%29/Budget/Budget%20Estimate%202025-2026/1-%20MC%27s%20Speech/BUDGET%20A,B,G/ENGLISH%20SPEECH.pdf",
+          "similarity": 0.606361
+        },
+        {
+          "documentId": "deep-corporate:source:air-budget-actual-2023",
+          "title": "Civil Aviation Demand 8, Budget 2023–24: actual debt-cleanup funding",
+          "url": "https://www.indiabudget.gov.in/budget2023-24/doc/eb/sbe8.pdf",
+          "similarity": 0.575873
+        },
+        {
+          "documentId": "deep-corporate:source:air-budget-2022",
+          "title": "Civil Aviation Demand 8, Budget 2022–23",
+          "url": "https://www.indiabudget.gov.in/budget2022-23/doc/eb/sbe8.pdf",
+          "similarity": 0.553385
+        },
+        {
+          "documentId": "metro-public-finance:source:delhi-budget",
+          "title": "GNCTD Budget Speech 2025–26, reproduced government PDF",
+          "url": "https://jmkresearch.com/wp-content/uploads/2026/03/DELHI-GOVERNMENT.pdf",
+          "similarity": 0.52783
+        },
+        {
+          "documentId": "welfare-research:source:svanidhi-2026",
+          "title": "Lok Sabha AU695: loans sanctioned and disbursed under PM-SVANidhi",
+          "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU695_v6Zr1E.pdf",
+          "similarity": 0.492884
+        }
+      ]
+    }
+  },
+  "researchDomain": "metro-spending"
+}

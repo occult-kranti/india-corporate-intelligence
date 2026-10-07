@@ -53,6 +53,7 @@ export function atlasCaseCategory(row:InvestigationRecord):AtlasCaseCategory|nul
  const allegation=['allegation','filed-allegation','allegation-record','charge','indictment'].includes(row.kind)||row.tier==='alleged';
  if(allegation&&(reviewedCase||['allegation','filed-allegation','allegation-record','charge','indictment','case'].includes(row.kind)))return 'allegation';
  if(['audit-finding','judicial-finding','court-finding','finding','judgment','audit'].includes(row.kind)&&row.tier==='documented')return 'finding';
+ if(row.kind==='audit-finding'&&row.namespace.startsWith('metro-')&&row.tier==='reported')return 'finding';
  if(['proceeding','legal-proceeding','case-outcome','outcome-record','court-order','order','judicial-decision','regulatory-decision','procedural-status'].includes(row.kind))return 'proceeding';
  return reviewedCase?'case':null;
 }
