@@ -252,7 +252,12 @@ because an attribute value is never read as page copy.
   selections, the tab and the table mode on a line headed `filters:` that appears only when a
   page filter is set (finance §5.0.4, adopted by spec §5.0.4) and would say a never-filtering
   accent narrows the register (§3.4, Review Focus 3).
-  [Open adjudication 2026-10-06 — `find`; not chosen] Reading A: `find` is a page filter for
+  [Adjudicated 2026-10-07 — `find`: Reading B, decided by the lead] The spec's own tables settle
+  it: §4 gives `find` the reach "the results list only" and §6 prints "filters nothing" on the
+  control, and AC-91 is titled "filter nothing by it". So the active-filter line need not name
+  the Find text and must not present it as a filter; the Find input showing the query is its
+  visible state; `reset` still clears it (AC-95 is unchanged). Reading A is kept below as the
+  record of the disagreement. Reading A: `find` is a page filter for
   step (4) — `reset` clears it, AC-95 groups it with `st`, `kind`, `tier` and `fy`, finance
   required it on the line, and §3.4 does not mark it "never filters" (it narrows the results
   list) — so the line names the Find text. Reading B: `find` is not a filter — spec §6 prints
@@ -1107,7 +1112,7 @@ nothing selected. Every control writes with `replace`, and every URL reproduces 
   Police` once (300 ms debounce). The results' verbs are exactly `Show its budget lines`, `Show
   connections`, `Show in footprint`, `Where its police money sits`, `Show vendor`, `Show the
   pair`, `Open record`; a `CITY_BODIES` result never carries `Show its budget lines` (U29).
-  Whether the active-filter line names the Find text is an open adjudication under §0.7 step (4).
+  The active-filter line does not name the Find text: adjudicated under §0.7 step (4) (Reading B, 2026-10-07).
 
 ### AC-92 — Round-trip `view=table` and keep it across a lens change
 - **Check:** ROUND-TRIP(`view=table`): every `details[data-twin]` on the lens has `open`; every
@@ -1599,7 +1604,12 @@ own words carry no party.*
   here` share, a count the page computed, a party column or a vendor's award count; no element
   reads `most`, `top`, `rank`, `score`, `index` or `risk` outside `[data-quoted]` and the
   refusals.
-- [Open adjudication 2026-10-06 — the rank-word clause; not chosen] Both judges hold that the
+- [Adjudicated 2026-10-07 — the rank-word clause: Reading B, decided by the lead] Reading A
+  would let `Top 5 states…` or `spends the most` through in a caption, cell, annotation, tooltip
+  or the live region, which §14 and principle 12 forbid; Reading B can still be met by a page
+  built to the spec because it removes the spec's fixed phrases verbatim and a record label
+  carries `data-quoted`. The test patch to apply after the build is Patch B in the patch record.
+  Both readings stay below as the record. Both judges hold that the
   clause as written cannot be met by a page built to the spec: page-authored text outside
   `[data-quoted]` and `#refusals` must read C2 `not added on top`, C6 `for a rank, never a
   person`, C11 `Most installations are older than any government`, C12 `most DPSU plants` and
