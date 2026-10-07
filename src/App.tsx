@@ -57,6 +57,7 @@ const Search = lazy(() => import('./pages/Search'));
 const Watchlist = lazy(() => import('./pages/Watchlist'));
 const FollowTheMoney = lazy(() => import('./pages/FollowTheMoney'));
 const MoneyTrails = lazy(() => import('./pages/MoneyTrails'));
+const ResearchRadar = lazy(() => import('./pages/ResearchRadar'));
 const Allegations = lazy(() => import('./pages/Allegations'));
 
 /**
@@ -87,6 +88,7 @@ function App() {
                     <Route path="/investigate" element={<Dashboard />} />
                     <Route path="/follow-the-money" element={<FollowTheMoney />} />
                     <Route path="/money-trails" element={<MoneyTrails />} />
+                    <Route path="/research-radar" element={<ResearchRadar />} />
                     <Route path="/allegations" element={<Allegations />} />
                     <Route path="/international-finance" element={<InvestigationDossier domain="international-finance" />} />
                     <Route path="/defence-trade" element={<InvestigationDossier domain="defence-trade" />} />

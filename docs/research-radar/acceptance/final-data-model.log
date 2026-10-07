@@ -1,0 +1,88 @@
+
+> india-corporate-intelligence@0.1.0 validate:radar
+> node scripts/research-radar/validate.mjs && node scripts/research-radar/forecast-registry.mjs --verify && node scripts/research-radar/queue.mjs --verify
+
+{
+  "valid": true,
+  "errors": [],
+  "warnings": [
+    "radar-north:punjab-chapter: unknown publication date excluded from recent-source filter",
+    "radar-north:punjab-report: unknown publication date excluded from recent-source filter",
+    "radar-north:dehradun-index: unknown publication date excluded from recent-source filter",
+    "radar-south-east:source:swasthya-audit: unknown publication date excluded from recent-source filter",
+    "radar-south-east:source:kiifb-resources: unknown publication date excluded from recent-source filter",
+    "radar-south-east:source:hal-annual: unknown publication date excluded from recent-source filter"
+  ],
+  "counts": {
+    "regions": 4,
+    "cases": 23,
+    "sources": 64,
+    "actors": 10,
+    "plannedCities": 46
+  },
+  "interpretation": "Schema/provenance checks do not certify the truth of allegations or complete city/sector coverage."
+}
+Forecast registry matches current source-backed scenarios; every probability remains null.
+Research queue: 690 city/sector + 10 public-role + 69 inherited roster refresh packets; planned, not dispatched.
+
+> india-corporate-intelligence@0.1.0 test:radar
+> node --test scripts/research-radar/evidence.test.mjs scripts/research-radar/challenge.test.mjs scripts/research-radar/integration.test.mjs
+
+✔ Actual retained cases have no numerical prediction or resolved outcome (6.315101ms)
+✔ Every actual edge has cited endpoints and never turns office oversight into a payment (1.062663ms)
+✔ Synthetic math: Brier and log loss independently match hand calculations (9.673216ms)
+✔ Synthetic math: unknown and censored outcomes remain excluded, never negative labels (0.908495ms)
+✔ Synthetic timing: later reporting, features, missing citations and premature negatives are rejected (0.433879ms)
+✔ Synthetic math: wrong absolute certainty incurs infinite log loss and probability one has a final bin (0.270076ms)
+✔ Synthetic split: time-separated entity groups pass only necessary timestamp gates (5.79088ms)
+✔ Valid synthetic schema and exact future horizon pass (7.499041ms)
+✔ Impossible calendar dates are rejected, not normalized (0.959826ms)
+✔ A future publication or retrieval cannot masquerade as latest research (1.620223ms)
+✔ Unsupported claim stage is not promoted from a court source (0.512288ms)
+✔ Dangling entities and missing edge sources fail exact graph validation (0.65071ms)
+✔ An unavailable page cannot be sole evidence (0.400217ms)
+✔ Missing counterevidence is rejected (0.517876ms)
+✔ Source frequency is never a probability (1.03607ms)
+✔ Legacy or lower-case state aliases are not silently mapped (2.817151ms)
+✔ Horizon must match calendar cutoff and target remains future (1.582135ms)
+✔ Counterevidence cannot disappear from the complete case source list (3.006713ms)
+✔ Article-only link cannot acquire documented official provenance (0.492641ms)
+✔ Brier and proper log loss match independently calculable binary examples (4.087915ms)
+✔ Unknown and censored cases are counted but never negative outcomes (0.593384ms)
+✔ Wrong certainty has infinite log loss, not an arbitrary hidden epsilon (0.992867ms)
+✔ Outcome observed after evaluation and late-arriving features cannot leak (1.327228ms)
+✔ Absent event cannot resolve negative before observation window ends (0.340897ms)
+✔ Outcome requires a source and cannot be known before its publication date (0.364047ms)
+✔ Forecast target excludes individual guilt and duplicate weighting (0.662658ms)
+✔ Temporal split uses document availability and disjoint entity groups (0.617348ms)
+✔ Historical training rows reject features learned after their own prediction/outcome (0.324288ms)
+✔ All retained research satisfies provenance, time and source-stage guards (48.526912ms)
+✔ National planning covers all 36 jurisdictions without moving Chandigarh into Punjab or Haryana (6.807405ms)
+✔ Map backlog is an explicit planning denominator, not implied clean-city evidence (5.996843ms)
+✔ Unknown city or entity does not silently display unrelated cases or invented links (0.804758ms)
+✔ Case exports keep counterevidence and complete provenance even beyond visible map nodes (1.61351ms)
+✔ Graph uses case-local identities and never adds cross-case same-name or office connections (1.076608ms)
+✔ Latest filter uses publication time, never retrieval or case update time (1.405171ms)
+✔ City, sector and claim-stage filters intersect without changing source meaning (1.717949ms)
+✔ Actual forecast registry remains unresolved with a disabled calibration gate (42.891722ms)
+✔ Explicit facet aliases find power and school evidence without rewriting original tags (3.784294ms)
+ℹ tests 38
+ℹ suites 0
+ℹ pass 38
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 587.118775
+
+> india-corporate-intelligence@0.1.0 test:radar:model
+> node scripts/research-radar/model-corpus.mjs --verify && python3 scripts/research-radar/model-rank.py --verify && python3 scripts/research-radar/model-rank.test.py && python3 scripts/research-radar/model-receipt.py --verify
+
+Verified 87 retained source/case summaries and all four exact input hashes.
+Validated 87 summaries, 10 queries and exact pinned model/corpus.
+........
+----------------------------------------------------------------------
+Ran 8 tests in 0.164s
+
+OK
+Verified executed model receipt for 87 summaries and all four catalogs.

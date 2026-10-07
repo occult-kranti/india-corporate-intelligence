@@ -61,7 +61,13 @@
     "test:money-trails": "node --test scripts/money-trails/evidence.test.mjs scripts/money-trails/challenge.test.mjs",
     "test:money-trails:model": "node scripts/money-trails/model-corpus.mjs --verify && python3 scripts/money-trails/model-rank.py --verify && python3 scripts/money-trails/model-rank.test.py",
     "test:money-trails:audit": "node scripts/money-trails/cross-source-audit.mjs --verify",
-    "test:money-trails:browser": "node scripts/money-trails/browser.mjs"
+    "test:money-trails:browser": "node scripts/money-trails/browser.mjs",
+    "generate:radar:queue": "node scripts/research-radar/queue.mjs",
+    "validate:radar": "node scripts/research-radar/validate.mjs && node scripts/research-radar/forecast-registry.mjs --verify && node scripts/research-radar/queue.mjs --verify",
+    "test:radar": "node --test scripts/research-radar/evidence.test.mjs scripts/research-radar/challenge.test.mjs scripts/research-radar/integration.test.mjs",
+    "test:radar:model": "node scripts/research-radar/model-corpus.mjs --verify && python3 scripts/research-radar/model-rank.py --verify && python3 scripts/research-radar/model-rank.test.py && python3 scripts/research-radar/model-receipt.py --verify",
+    "test:radar:browser": "node scripts/research-radar/browser.mjs",
+    "test:radar:challenge-browser": "node scripts/research-radar/challenge-browser.mjs"
   },
   "dependencies": {
     "d3-force": "^3.0.0",

@@ -1,0 +1,897 @@
+{
+  "schemaVersion": 1,
+  "cutoff": "2026-10-07",
+  "forecastStatus": "untrained-uncalibrated",
+  "population": "Retained research scenarios, a purposive sample rather than a statistical event population",
+  "rows": [
+    {
+      "id": "radar-north:delhi-procurement",
+      "targetType": "institutional-outcome",
+      "target": "A public PAC or departmental action-taken record reconciles at least one identified shared-credential tender cohort and its award notices.",
+      "registeredAt": "2026-10-07",
+      "evaluationAt": "2027-01-05",
+      "horizonDays": 90,
+      "status": "unknown",
+      "outcome": null,
+      "probability": null,
+      "forecastStatus": "untrained-uncalibrated",
+      "baseline": "Audit reporting is available; original bid-level tables and current action-taken notes remain unacquired.",
+      "triggers": [
+        "A named tender retains multiple bidders with the same verified legal owner.",
+        "Award records conflict with treasury or contract records."
+      ],
+      "alternatives": [
+        "Common consultant or network gateway explains shared identifiers.",
+        "Archived award files exist outside the portal."
+      ],
+      "falsifiers": [
+        "Verified independent ownership, segregated bids and complete award/payment reconciliation resolve the selected cohort."
+      ],
+      "requiredData": [
+        "Original audit annexures",
+        "Full bid population and award identifiers",
+        "Corporate-ID matching",
+        "Departmental response and PAC status"
+      ],
+      "sourceIds": [
+        "radar-north:delhi-ie",
+        "radar-north:delhi-ht"
+      ],
+      "resolutionSourceIds": [],
+      "outcomeObservedAt": null,
+      "resolvedAt": null
+    },
+    {
+      "id": "radar-north:lucknow-smart-meter",
+      "targetType": "institutional-outcome",
+      "target": "The required STS replacement roadmap is filed and the regulator records how remaining or newly identified eligible refunds are handled.",
+      "registeredAt": "2026-10-07",
+      "evaluationAt": "2026-11-21",
+      "horizonDays": 45,
+      "status": "unknown",
+      "outcome": null,
+      "probability": null,
+      "forecastStatus": "untrained-uncalibrated",
+      "baseline": "Proceedings disposed 27 August 2026 after recorded credits; roadmap performance has not been acquired.",
+      "triggers": [
+        "Roadmap absent after its directed due date.",
+        "Matched eligible accounts show no credit despite inclusion criteria."
+      ],
+      "alternatives": [
+        "Roadmap filed but not indexed online.",
+        "Differences arise from genuinely different meter or connection populations."
+      ],
+      "falsifiers": [
+        "Dated filing and anonymised complete reconciliation resolve all eligible accounts with verified exclusions."
+      ],
+      "requiredData": [
+        "Official roadmap filing receipt",
+        "Discom compliance annexures",
+        "Meter-specific eligibility rules",
+        "Anonymised credit ledger"
+      ],
+      "sourceIds": [
+        "radar-north:up-order",
+        "radar-north:up-early",
+        "radar-north:up-closure"
+      ],
+      "resolutionSourceIds": [],
+      "outcomeObservedAt": null,
+      "resolvedAt": null
+    },
+    {
+      "id": "radar-north:jaipur-jjm",
+      "targetType": "institutional-outcome",
+      "target": "A subsequent trial order records whether charges are framed and identifies the accepted qualification-certificate and financial-document issues.",
+      "registeredAt": "2026-10-07",
+      "evaluationAt": "2027-04-05",
+      "horizonDays": 180,
+      "status": "unknown",
+      "outcome": null,
+      "probability": null,
+      "forecastStatus": "untrained-uncalibrated",
+      "baseline": "As of 29 September 2026 charges were not framed; allegations and roles expressly left open.",
+      "triggers": [
+        "Authenticated warnings predate approvals with no recorded resolution.",
+        "Legally obtained transfer records contradict stated consideration and align with specific payments."
+      ],
+      "alternatives": [
+        "Warnings were investigated or authenticity clarified before award.",
+        "Lawful independent commercial consideration explains a transfer.",
+        "Agency characterisation or identity matching is disproved."
+      ],
+      "falsifiers": [
+        "Certified records refute certificate falsity, establish adequate official action, or disprove the alleged transfer/identity step."
+      ],
+      "requiredData": [
+        "Separate PMLA and ACB dockets",
+        "Certificate and complaint receipt chronology",
+        "Certified financial annexures",
+        "Defence exhibits and corporate identifiers"
+      ],
+      "sourceIds": [
+        "radar-north:jaipur-sc",
+        "radar-north:joshi-sc",
+        "radar-north:jaipur-hc",
+        "radar-north:jaipur-response"
+      ],
+      "resolutionSourceIds": [],
+      "outcomeObservedAt": null,
+      "resolvedAt": null
+    },
+    {
+      "id": "radar-north:chandigarh-procurement",
+      "targetType": "institutional-outcome",
+      "target": "An action-taken record supplies testable evidence that single-bid and credential-verification controls or lawful exception processes were implemented.",
+      "registeredAt": "2026-10-07",
+      "evaluationAt": "2027-01-05",
+      "horizonDays": 90,
+      "status": "unknown",
+      "outcome": null,
+      "probability": null,
+      "forecastStatus": "untrained-uncalibrated",
+      "baseline": "Historical audit and responses throughNovember 2024 inspected; current control state and tabling date unverified.",
+      "triggers": [
+        "Repeated post-remediation exceptions without required reasons.",
+        "A claimed fix lacks accepted test evidence."
+      ],
+      "alternatives": [
+        "Rules allow documented exceptions.",
+        "Controls have been implemented since the audited period."
+      ],
+      "falsifiers": [
+        "Dated acceptance tests and sampled lawful exceptions demonstrate the cited gaps were remedied."
+      ],
+      "requiredData": [
+        "PAC action-taken notes",
+        "Authorised control-test report",
+        "Versioned rule mappings",
+        "Post-fix tender sample"
+      ],
+      "sourceIds": [
+        "radar-north:punjab-chapter",
+        "radar-north:punjab-report"
+      ],
+      "resolutionSourceIds": [],
+      "outcomeObservedAt": null,
+      "resolvedAt": null
+    },
+    {
+      "id": "radar-north:dehradun-smart-city",
+      "targetType": "institutional-outcome",
+      "target": "A public compliance record documents recovered agency funds and funded operation of the audited school and waste-monitoring assets.",
+      "registeredAt": "2026-10-07",
+      "evaluationAt": "2027-01-05",
+      "horizonDays": 90,
+      "status": "unknown",
+      "outcome": null,
+      "probability": null,
+      "forecastStatus": "untrained-uncalibrated",
+      "baseline": "Audit records accepted recommendations but later completion evidence has not been acquired.",
+      "triggers": [
+        "Continuing zero uptime despite maintenance payments.",
+        "Recovery amounts remain outstanding after accepted deadlines."
+      ],
+      "alternatives": [
+        "Assets already restored after the audit snapshot.",
+        "Operating budget and utility issues, not procurement fraud, explain outage."
+      ],
+      "falsifiers": [
+        "Dated service logs and verified recovery vouchers demonstrate completed remediation."
+      ],
+      "requiredData": [
+        "Asset uptime and operating budgets",
+        "Recovery treasury vouchers",
+        "Recommendation-wise compliance",
+        "Independent service-user verification"
+      ],
+      "sourceIds": [
+        "radar-north:dehradun-summary",
+        "radar-north:dehradun-index",
+        "radar-north:dehradun-news"
+      ],
+      "resolutionSourceIds": [],
+      "outcomeObservedAt": null,
+      "resolvedAt": null
+    },
+    {
+      "id": "radar-north:patna-police-vehicles",
+      "targetType": "institutional-outcome",
+      "target": "A published tender or award for the approved fleet exposes quantities, specifications, selection method and a documented needs assessment.",
+      "registeredAt": "2026-10-07",
+      "evaluationAt": "2027-01-05",
+      "horizonDays": 90,
+      "status": "unknown",
+      "outcome": null,
+      "probability": null,
+      "forecastStatus": "untrained-uncalibrated",
+      "baseline": "Only administrative approval is established as of cutoff; no supplier or paid amount identified.",
+      "triggers": [
+        "Unexplained supplier-specific criteria.",
+        "Material divergence from approved quantities or rates without authorisation.",
+        "Missing acceptance evidence despite recorded payment."
+      ],
+      "alternatives": [
+        "Legitimate technical safety standards narrow suppliers.",
+        "Published estimates change through competitive price discovery or scope approval."
+      ],
+      "falsifiers": [
+        "Open comparable competition, reasoned needs and compliant delivery/payment records explain the procurement."
+      ],
+      "requiredData": [
+        "Original sanction",
+        "Tender and evaluation records",
+        "Ownership and conflicts declarations",
+        "Delivery and payment documents"
+      ],
+      "sourceIds": [
+        "radar-north:patna-ie",
+        "radar-north:patna-hindu"
+      ],
+      "resolutionSourceIds": [],
+      "outcomeObservedAt": null,
+      "resolvedAt": null
+    },
+    {
+      "id": "radar-west:gim-case",
+      "targetType": "institutional-outcome",
+      "target": "By evaluation date, an identifiable public corrective-action record reconciles the sampled Maharashtra utilization figures and reports a repeat survival check.",
+      "registeredAt": "2026-10-07",
+      "evaluationAt": "2027-04-05",
+      "horizonDays": 180,
+      "status": "unknown",
+      "outcome": null,
+      "probability": null,
+      "forecastStatus": "untrained-uncalibrated",
+      "baseline": "The latest inspected article is October 4, 2026; historical discrepancies and delayed-transfer explanations remain unresolved in admitted sources.",
+      "triggers": [
+        "PAC or departmental action-taken note references these amounts and sampled sites.",
+        "A repeat physical inspection publishes site identifiers and measurement method."
+      ],
+      "alternatives": [
+        "Delayed releases and grazing damage rather than diversion may dominate.",
+        "Corrective work may occur before its public record is indexed."
+      ],
+      "falsifiers": [
+        "Reconciled dated ledgers show different reporting scopes account for the utilization gap.",
+        "Independent site measurements and invoice reconciliation substantiate the original claims."
+      ],
+      "requiredData": [
+        "Dated utilization certificates",
+        "Audited sub-ledgers",
+        "Payment-to-work identifiers",
+        "Comparable survival counts"
+      ],
+      "sourceIds": [
+        "radar-west:gim-report",
+        "radar-west:gim-press",
+        "radar-west:gim-maharashtra"
+      ],
+      "resolutionSourceIds": [],
+      "outcomeObservedAt": null,
+      "resolvedAt": null
+    },
+    {
+      "id": "radar-west:ports-case",
+      "targetType": "institutional-outcome",
+      "target": "GPPL or GMB publishes a subsequent concession-processing disclosure identifying submission, decision or final terms by evaluation date.",
+      "registeredAt": "2026-10-07",
+      "evaluationAt": "2027-01-05",
+      "horizonDays": 90,
+      "status": "unknown",
+      "outcome": null,
+      "probability": null,
+      "forecastStatus": "untrained-uncalibrated",
+      "baseline": "August 26 comfort letter is the latest primary event admitted; final renewal and valuation absent.",
+      "triggers": [
+        "New regulation-30 filing identifies performance-plan submission.",
+        "GMB publishes reasoned renewal terms, revenue formula and enforceable capex milestones."
+      ],
+      "alternatives": [
+        "Time needed for appraisal may legitimately delay a decision.",
+        "A competitive process or shorter conditional extension may replace rollover."
+      ],
+      "falsifiers": [
+        "Disclosed terms show independent valuation, public-return protection and enforceable investment obligations.",
+        "Operator receives no extension and its existing term remains unchanged."
+      ],
+      "requiredData": [
+        "Complete GMB letter",
+        "Latest exchange filings",
+        "Concession valuation and royalty schedules",
+        "Milestone security and default clauses"
+      ],
+      "sourceIds": [
+        "radar-west:pipavav-filing",
+        "radar-west:port-renewal-news",
+        "radar-west:port-history",
+        "radar-west:pipavav-mou",
+        "radar-west:pipavav-call"
+      ],
+      "resolutionSourceIds": [],
+      "outcomeObservedAt": null,
+      "resolvedAt": null
+    },
+    {
+      "id": "radar-west:tara-case",
+      "targetType": "institutional-outcome",
+      "target": "Within 180 days, a publicly identifiable statutory-clearance or consultation milestone is issued for Tara Revised with its exact revised boundary.",
+      "registeredAt": "2026-10-07",
+      "evaluationAt": "2027-04-05",
+      "horizonDays": 180,
+      "status": "unknown",
+      "outcome": null,
+      "probability": null,
+      "forecastStatus": "untrained-uncalibrated",
+      "baseline": "Auction reported completed in September; inspected statements do not establish commencement permission.",
+      "triggers": [
+        "PARIVESH proposal or clearance publishes matching block polygon.",
+        "Mining-plan or lease order references the auction winner’s exact legal identity."
+      ],
+      "alternatives": [
+        "Project can be delayed or refused on ecological grounds.",
+        "Boundary change may materially reduce the disputed impact."
+      ],
+      "falsifiers": [
+        "Versioned independent GIS and clearance reasoning resolve corridor concerns.",
+        "No physical work occurs before requisite approvals and conditions are independently complied with."
+      ],
+      "requiredData": [
+        "Versioned GIS boundaries",
+        "Clearance status history",
+        "Gram Sabha proceedings",
+        "Award and security documents"
+      ],
+      "sourceIds": [
+        "radar-west:tara-pib",
+        "radar-west:tara-cmdc",
+        "radar-west:cg-incorporation",
+        "radar-west:tara-opposition"
+      ],
+      "resolutionSourceIds": [],
+      "outcomeObservedAt": null,
+      "resolvedAt": null
+    },
+    {
+      "id": "radar-west:goa-case",
+      "targetType": "institutional-outcome",
+      "target": "By evaluation date, a court or competent Goa authority publishes a case-specific post-quashing update identifying closure, review/appeal or separately numbered surviving proceedings.",
+      "registeredAt": "2026-10-07",
+      "evaluationAt": "2027-01-05",
+      "horizonDays": 90,
+      "status": "unknown",
+      "outcome": null,
+      "probability": null,
+      "forecastStatus": "untrained-uncalibrated",
+      "baseline": "Two reports agree on quashing, but original order and separate-proceeding inventory are missing.",
+      "triggers": [
+        "A dated registry update identifies closure, appeal or review of the exact proceeding.",
+        "The department publishes a separately numbered recovery or prosecution status with the legal basis."
+      ],
+      "alternatives": [
+        "Some recoveries may be administrative or civil and independent of the FIR.",
+        "No proceedings may survive for a specific entity."
+      ],
+      "falsifiers": [
+        "Certified order and subsequent registry records show no remaining proceeding for the exact case/entity.",
+        "Independent records demonstrate a surviving track rests on evidence other than the invalidated foundation."
+      ],
+      "requiredData": [
+        "Certified orders",
+        "FIR number and dates",
+        "Recovery register and receipt reconciliation"
+      ],
+      "sourceIds": [
+        "radar-west:goa-quash",
+        "radar-west:goa-reasons"
+      ],
+      "resolutionSourceIds": [],
+      "outcomeObservedAt": null,
+      "resolvedAt": null
+    },
+    {
+      "id": "radar-west:mithi-case",
+      "targetType": "institutional-outcome",
+      "target": "A subsequent court, audit or procurement record explicitly resolves a disputed machinery or bill-quantity issue by evaluation date.",
+      "registeredAt": "2026-10-07",
+      "evaluationAt": "2027-04-05",
+      "horizonDays": 180,
+      "status": "unknown",
+      "outcome": null,
+      "probability": null,
+      "forecastStatus": "untrained-uncalibrated",
+      "baseline": "Latest October reporting continues inquiries; April bail counterevidence remains the latest specific judicial reasoning inspected.",
+      "triggers": [
+        "New order addresses machine procurement or invoice evidence.",
+        "BMC publishes invoice reconciliation or independent work-measurement review."
+      ],
+      "alternatives": [
+        "Valid hired machinery and certified work can explain contractor arrangements.",
+        "Quantity discrepancies may be recordkeeping errors or legally priced contingencies."
+      ],
+      "falsifiers": [
+        "Machine serials, deployment logs and independent measurement match paid quantities.",
+        "Final judicial findings reject the specific claim; update and retire that hypothesis."
+      ],
+      "requiredData": [
+        "Original bail and later orders",
+        "Contract-specific measurement books",
+        "Invoice/log/receipt joins",
+        "Matched physical-work audit"
+      ],
+      "sourceIds": [
+        "radar-west:mithi-latest",
+        "radar-west:mithi-bail"
+      ],
+      "resolutionSourceIds": [],
+      "outcomeObservedAt": null,
+      "resolvedAt": null
+    },
+    {
+      "id": "radar-west:amc-case",
+      "targetType": "institutional-outcome",
+      "target": "Municipal or state records document completion, revision or challenge of the police allocation by evaluation date.",
+      "registeredAt": "2026-10-07",
+      "evaluationAt": "2027-01-05",
+      "horizonDays": 90,
+      "status": "unknown",
+      "outcome": null,
+      "probability": null,
+      "forecastStatus": "untrained-uncalibrated",
+      "baseline": "September report describes committee approval; deed, receipt and public-service valuation not inspected.",
+      "triggers": [
+        "Published resolution identifies terms, valuation and public-purpose restrictions.",
+        "Police planning or budget record identifies service capacity and funding."
+      ],
+      "alternatives": [
+        "Statutory refusal may lawfully block the commercial sale.",
+        "Public safety benefits may exceed opportunity cost even with lower cash receipt."
+      ],
+      "falsifiers": [
+        "Independent appraisal, lawful approval and measurable police-service need substantiate allocation.",
+        "No private onward benefit or unauthorized change of use occurs under the registered terms."
+      ],
+      "requiredData": [
+        "Collector refusal and appeal status",
+        "Standing-committee minutes",
+        "Allotment deed and receipt",
+        "Service-needs appraisal"
+      ],
+      "sourceIds": [
+        "radar-west:amc-police-land",
+        "radar-west:amc-clearance"
+      ],
+      "resolutionSourceIds": [],
+      "outcomeObservedAt": null,
+      "resolvedAt": null
+    },
+    {
+      "id": "radar-west:shivpuri-case",
+      "targetType": "institutional-outcome",
+      "target": "Within 180 days, at least one identifiable public financing, project-entity or statutory-approval milestone becomes available for the announced Shivpuri project.",
+      "registeredAt": "2026-10-07",
+      "evaluationAt": "2027-04-05",
+      "horizonDays": 180,
+      "status": "unknown",
+      "outcome": null,
+      "probability": null,
+      "forecastStatus": "untrained-uncalibrated",
+      "baseline": "Groundbreaking and investment plan dated July 5; no later implementation milestone independently admitted through October 7.",
+      "triggers": [
+        "Specific company/SPV filing identifies funding or capital commitment.",
+        "Industrial allotment or statutory register identifies project, conditions and approval dates."
+      ],
+      "alternatives": [
+        "Ordinary private finance and standard industrial approvals may explain the project completely.",
+        "A long construction schedule can produce limited near-term financial disclosure."
+      ],
+      "falsifiers": [
+        "Exact-entity financing and support records reconcile to ordinary disclosed terms with no unexplained public concession.",
+        "Announcement is revised or delayed and no public payment has occurred."
+      ],
+      "requiredData": [
+        "Exact legal identity",
+        "Financing and charge records",
+        "Public incentive/land terms if any",
+        "Approval and milestone register"
+      ],
+      "sourceIds": [
+        "radar-west:shivpuri-filing",
+        "radar-west:shivpuri-release",
+        "radar-west:shivpuri-timeline"
+      ],
+      "resolutionSourceIds": [],
+      "outcomeObservedAt": null,
+      "resolvedAt": null
+    },
+    {
+      "id": "radar-south-east:case:bmrcl-finance",
+      "targetType": "institutional-outcome",
+      "target": "By 5 April 2027, a publicly inspectable action-taken record establishes whether tax-basis estimation and land-readiness controls were implemented for new Phase 2 packages.",
+      "registeredAt": "2026-10-07",
+      "evaluationAt": "2027-04-05",
+      "horizonDays": 180,
+      "status": "unknown",
+      "outcome": null,
+      "probability": null,
+      "forecastStatus": "untrained-uncalibrated",
+      "baseline": "August 2026 publication describes deficiencies in an older audit window; current implementation evidence has not been obtained.",
+      "triggers": [
+        "A new award repeats tax-inclusive estimates against tax-exclusive bids.",
+        "Land handover deadlines are missed and compensated without updated readiness checks."
+      ],
+      "alternatives": [
+        "Revised SOPs and ready land make the old sample unrepresentative.",
+        "Costs reflect legitimate scope/market changes rather than an estimate defect."
+      ],
+      "falsifiers": [
+        "Dated adopted controls plus a sample of new tenders demonstrate consistent tax treatment.",
+        "Package records show timely land availability and no repeat compensation cause."
+      ],
+      "requiredData": [
+        "New-tender comparison cohort",
+        "Control effective dates",
+        "Package-level bids, scope changes and payments"
+      ],
+      "sourceIds": [
+        "radar-south-east:source:bmrcl-audit",
+        "radar-south-east:source:bmrcl-release"
+      ],
+      "resolutionSourceIds": [],
+      "outcomeObservedAt": null,
+      "resolvedAt": null
+    },
+    {
+      "id": "radar-south-east:case:kaleshwaram-equipment",
+      "targetType": "institutional-outcome",
+      "target": "By 5 April 2027, an original public investigation/status or action-taken record confirms whether package-level equipment-cost reconciliation has been required or completed.",
+      "registeredAt": "2026-10-07",
+      "evaluationAt": "2027-04-05",
+      "horizonDays": 180,
+      "status": "unknown",
+      "outcome": null,
+      "probability": null,
+      "forecastStatus": "untrained-uncalibrated",
+      "baseline": "Historical audit identifies a testable scope/price discrepancy; October 2026 agency activity is only reported.",
+      "triggers": [
+        "A formal notice seeks supplier invoices and package-level reconciliation.",
+        "A new action-taken note concedes unreconciled equipment costs."
+      ],
+      "alternatives": [
+        "Original scope/installation evidence reconciles the amounts.",
+        "No formal inquiry has been registered despite press accounts."
+      ],
+      "falsifiers": [
+        "Documented reconciliations independently substantiate the disputed scope and rates.",
+        "An original judicial or agency record closes the specific cost issue on examined evidence."
+      ],
+      "requiredData": [
+        "EPC scope and bill-of-quantity equivalents",
+        "Invoice/payment lineage",
+        "Current docket and agency status"
+      ],
+      "sourceIds": [
+        "radar-south-east:source:kaleshwaram-audit",
+        "radar-south-east:source:kaleshwaram-probe",
+        "radar-south-east:source:kaleshwaram-response"
+      ],
+      "resolutionSourceIds": [],
+      "outcomeObservedAt": null,
+      "resolvedAt": null
+    },
+    {
+      "id": "radar-south-east:case:chennai-meter-retenders",
+      "targetType": "institutional-outcome",
+      "target": "By 5 April 2027, the October consumer-meter packages have a publicly identifiable award, cancellation or revised tender, with enough terms to compare ten-year cost and bidder participation.",
+      "registeredAt": "2026-10-07",
+      "evaluationAt": "2027-04-05",
+      "horizonDays": 180,
+      "status": "unknown",
+      "outcome": null,
+      "probability": null,
+      "forecastStatus": "untrained-uncalibrated",
+      "baseline": "Latest source reports invitations, not awards; original schedules remain uninspected.",
+      "triggers": [
+        "Qualification changes reduce comparable bidder participation.",
+        "A repeat cancellation lacks a recorded reason or a new award materially changes payment obligations."
+      ],
+      "alternatives": [
+        "Competition improves after prices fall.",
+        "Scope is transparently phased and lifecycle cost declines."
+      ],
+      "falsifiers": [
+        "Published evaluations show comparable bids, competition and justified lifecycle pricing.",
+        "Versioned documents explain changes without preferential exceptions."
+      ],
+      "requiredData": [
+        "Original and revised tender IDs",
+        "Bidder counts and evaluations",
+        "Capital grant plus ten-year service-fee schedules"
+      ],
+      "sourceIds": [
+        "radar-south-east:source:chennai-retender-aug",
+        "radar-south-east:source:chennai-retender-oct",
+        "radar-south-east:source:tn-uday"
+      ],
+      "resolutionSourceIds": [],
+      "outcomeObservedAt": null,
+      "resolvedAt": null
+    },
+    {
+      "id": "radar-south-east:case:kolkata-health-claims",
+      "targetType": "institutional-outcome",
+      "target": "By 5 April 2027, a public action-taken or recovery record identifies which sampled hospital overpayments and insurer penalties were recovered, disputed or written off.",
+      "registeredAt": "2026-10-07",
+      "evaluationAt": "2027-04-05",
+      "horizonDays": 180,
+      "status": "unknown",
+      "outcome": null,
+      "probability": null,
+      "forecastStatus": "untrained-uncalibrated",
+      "baseline": "Historical audit was reported in July 2026; current recoveries and provider grades are unverified.",
+      "triggers": [
+        "Same sampled providers retain higher grades without meeting criteria.",
+        "Penalty obligations remain unassessed after the action-taken deadline."
+      ],
+      "alternatives": [
+        "Documented regrading and valid settlements resolve audit objections.",
+        "Reconciled enrolment removes apparent duplication without reducing legitimate coverage."
+      ],
+      "falsifiers": [
+        "Recovery receipts or reasoned resolutions account for the specific audit sample.",
+        "New independent claims and grading checks demonstrate that the control defect has ended."
+      ],
+      "requiredData": [
+        "Sample-level recovery ledger",
+        "Dated regrading and insurer decisions",
+        "De-identified current validation sample"
+      ],
+      "sourceIds": [
+        "radar-south-east:source:swasthya-audit",
+        "radar-south-east:source:swasthya-news"
+      ],
+      "resolutionSourceIds": [],
+      "outcomeObservedAt": null,
+      "resolvedAt": null
+    },
+    {
+      "id": "radar-south-east:case:odisha-mining-welfare",
+      "targetType": "institutional-outcome",
+      "target": "By 5 April 2027, an official DMF action-taken record resolves the police-vehicle interest issue and identifies correction or justification of the questioned stadium funding.",
+      "registeredAt": "2026-10-07",
+      "evaluationAt": "2027-04-05",
+      "horizonDays": 180,
+      "status": "unknown",
+      "outcome": null,
+      "probability": null,
+      "forecastStatus": "untrained-uncalibrated",
+      "baseline": "Two news accounts report one CAG audit; original audit, payment vouchers and current replies are missing.",
+      "triggers": [
+        "An official audit paragraph confirms unsupported purpose or unrecovered interest.",
+        "Fresh releases repeat the same purpose without legal justification."
+      ],
+      "alternatives": [
+        "Funding was lawfully substituted or amounts and interest were returned.",
+        "Original replies and applicable rules justify the allocation or correct its reported stage."
+      ],
+      "falsifiers": [
+        "Contemporaneous rules and reasoned audit settlement establish eligibility.",
+        "Certified repayment records resolve the specific principal/interest questions."
+      ],
+      "requiredData": [
+        "Original audit and departmental reply",
+        "Applicable rule versions",
+        "Sanction/payment/redeposit ledger"
+      ],
+      "sourceIds": [
+        "radar-south-east:source:odisha-dmf-ie",
+        "radar-south-east:source:odisha-dmf-ht"
+      ],
+      "resolutionSourceIds": [],
+      "outcomeObservedAt": null,
+      "resolvedAt": null
+    },
+    {
+      "id": "radar-south-east:case:kiifb-publicity",
+      "targetType": "institutional-outcome",
+      "target": "By 5 April 2027, an official response or subsequent assurance report states whether the missing lower-tier invoices and vendor-selection documentation were produced and the specific publicity qualification resolved.",
+      "registeredAt": "2026-10-07",
+      "evaluationAt": "2027-04-05",
+      "horizonDays": 180,
+      "status": "unknown",
+      "outcome": null,
+      "probability": null,
+      "forecastStatus": "untrained-uncalibrated",
+      "baseline": "September annual accounts and October reporting expose a bounded documentation issue with management responses retained.",
+      "triggers": [
+        "Auditor follow-up repeats the same unresolved invoice tiers.",
+        "Further publicity work is sanctioned without activity-level budgets or documented selection."
+      ],
+      "alternatives": [
+        "Delayed documentation is supplied and independently matches delivered services.",
+        "Competitive procurement and a lawful fundraising purpose substantiate management's explanation."
+      ],
+      "falsifiers": [
+        "Auditor-reviewed invoice chains and selection records close the specified qualification.",
+        "Independent service reconciliation accounts for the questioned documentation population without unexplained differences."
+      ],
+      "requiredData": [
+        "Tier-by-tier invoices and legal-entity identifiers",
+        "Approval dates and selection criteria",
+        "Auditor follow-up and project-cost journals"
+      ],
+      "sourceIds": [
+        "radar-south-east:source:kiifb-report",
+        "radar-south-east:source:kiifb-news",
+        "radar-south-east:source:kiifb-resources",
+        "radar-south-east:source:kiifb-ceo-notice"
+      ],
+      "resolutionSourceIds": [],
+      "outcomeObservedAt": null,
+      "resolvedAt": null
+    },
+    {
+      "id": "radar-south-east:case:hal-engine-delivery",
+      "targetType": "institutional-outcome",
+      "target": "By 31 March 2027, at least ten first-tranche Mk1A aircraft have publicly documented acceptance by the Indian Air Force.",
+      "registeredAt": "2026-10-07",
+      "evaluationAt": "2027-03-31",
+      "horizonDays": 175,
+      "status": "unknown",
+      "outcome": null,
+      "probability": null,
+      "forecastStatus": "untrained-uncalibrated",
+      "baseline": "The named September management interview projected ten deliveries by March. October reporting separately described a 16–18-aircraft squadron ambition. This scenario tests the lower, explicitly defined ten-aircraft threshold; shipments alone do not count as IAF acceptance, and lack of a public acceptance record leaves the outcome unobserved rather than proving zero deliveries.",
+      "triggers": [
+        "Supplier receipts or certification milestones slip beyond revised dates.",
+        "Public damages are assessed but recovery remains unresolved."
+      ],
+      "alternatives": [
+        "Recent shipments and completed tests enable delivery.",
+        "A revised transparent acceptance schedule explains slippage without misconduct."
+      ],
+      "falsifiers": [
+        "Public IAF acceptance records establish at least ten first-tranche deliveries by 31 March 2027, defeating the shortfall concern.",
+        "Audited remedy disclosures reconcile assessed and recovered damages where due; this tests enforcement separately from the aircraft-count outcome."
+      ],
+      "requiredData": [
+        "Timestamped engines shipped/received series",
+        "Public aircraft acceptance milestones",
+        "Contractual targets and remedy disclosures"
+      ],
+      "sourceIds": [
+        "radar-south-east:source:ge-contract",
+        "radar-south-east:source:mod-lca-contract",
+        "radar-south-east:source:ge-shipment-oct",
+        "radar-south-east:source:ravi-interview",
+        "radar-south-east:source:hal-annual"
+      ],
+      "resolutionSourceIds": [],
+      "outcomeObservedAt": null,
+      "resolvedAt": null
+    },
+    {
+      "id": "radar-national:case:navy-lease",
+      "targetType": "institutional-outcome",
+      "target": "A public acceptance, contract-variation or audited-expenditure record for this exact August 17 lease becomes available by 2027-04-05.",
+      "registeredAt": "2026-10-07",
+      "evaluationAt": "2027-04-05",
+      "horizonDays": 180,
+      "status": "unknown",
+      "outcome": null,
+      "probability": null,
+      "forecastStatus": "untrained-uncalibrated",
+      "baseline": "Signed-contract announcement only; no accepted milestone or transaction ledger retained.",
+      "triggers": [
+        "A variation notice or audit entry identifies the exact lease and scope."
+      ],
+      "alternatives": [
+        "Normal contractual implementation can proceed without public operational detail.",
+        "Different acquisition and leasing scopes can explain different headline amounts."
+      ],
+      "falsifiers": [
+        "A linked acceptance/expenditure record reconciles the signed scope with paid milestones.",
+        "A purported anomaly concerns a different contract, time period or support package."
+      ],
+      "requiredData": [
+        "Exact contract identifier",
+        "Public milestone schedule",
+        "Scope-comparable pricing",
+        "Certified aggregate payment and acceptance record"
+      ],
+      "sourceIds": [
+        "radar-national:source:ga-lease"
+      ],
+      "resolutionSourceIds": [],
+      "outcomeObservedAt": null,
+      "resolvedAt": null
+    },
+    {
+      "id": "radar-national:case:psb-writeoffs",
+      "targetType": "institutional-outcome",
+      "target": "RBI or DFS publishes a nonprovisional FY 2025–26 update of the same domestic Large–Industry & Services write-off/recovery categories by 2027-04-05.",
+      "registeredAt": "2026-10-07",
+      "evaluationAt": "2027-04-05",
+      "horizonDays": 180,
+      "status": "unknown",
+      "outcome": null,
+      "probability": null,
+      "forecastStatus": "untrained-uncalibrated",
+      "baseline": "The retained July 20 table labels FY 2025–26 provisional and provides no matched-vintage recovery cohort.",
+      "triggers": [
+        "A later annual report or parliamentary answer repeats the same definitions and revises the provisional figures."
+      ],
+      "alternatives": [
+        "Category changes can explain differences without lost recoveries.",
+        "A later publication may revise one measure only; missing matched cohorts prevent the proposed comparison."
+      ],
+      "falsifiers": [
+        "Reconciled tables show category-consistent figures and explain revisions.",
+        "A claim of a waiver lacks any legal discharge order and is only a write-off entry."
+      ],
+      "requiredData": [
+        "Same-perimeter nonprovisional aggregates",
+        "Vintage-matched recoveries if evaluating a recovery rate",
+        "Exact borrower identity and legal order for case-specific forgiveness"
+      ],
+      "sourceIds": [
+        "radar-national:source:psb-answer"
+      ],
+      "resolutionSourceIds": [],
+      "outcomeObservedAt": null,
+      "resolvedAt": null
+    },
+    {
+      "id": "radar-national:case:fdi-control",
+      "targetType": "institutional-outcome",
+      "target": "A public government update distinguishes reported proposals from realized FDI under this specific amended framework by 2027-04-05.",
+      "registeredAt": "2026-10-07",
+      "evaluationAt": "2027-04-05",
+      "horizonDays": 180,
+      "status": "unknown",
+      "outcome": null,
+      "probability": null,
+      "forecastStatus": "untrained-uncalibrated",
+      "baseline": "29 reports/₹4,895.65 crore proposed as ofAugust 20; no investee-level identities or realization totals retained.",
+      "triggers": [
+        "A later DPIIT/RBI report publishes realized amounts and consistent regime-specific counts."
+      ],
+      "alternatives": [
+        "Long implementation lags can explain proposal/receipt differences.",
+        "Confidentiality may limit investee detail; nonpublication does not establish evasion."
+      ],
+      "falsifiers": [
+        "Same-regime aggregate data reconcile reported proposals, withdrawals and actual receipts.",
+        "A proposed company-level theory fails exact-identity or effective-control checks."
+      ],
+      "requiredData": [
+        "Regime-specific data definition and reporting date",
+        "Realization versus proposal status",
+        "Public control/ownership and approval evidence before company-level allegations"
+      ],
+      "sourceIds": [
+        "radar-national:source:fdi-pn2",
+        "radar-national:source:fdi-gazette",
+        "radar-national:source:fdi-clarification",
+        "radar-national:source:fdi-cabinet"
+      ],
+      "resolutionSourceIds": [],
+      "outcomeObservedAt": null,
+      "resolvedAt": null
+    }
+  ],
+  "calibrationGate": {
+    "enabled": false,
+    "missing": [
+      "Defined eligible event population",
+      "Prospectively adjudicated positive, negative, unknown and censored outcomes",
+      "Publication-time feature snapshots",
+      "Frozen temporal and entity-group holdout",
+      "Baseline comparison",
+      "Empirical calibration and uncertainty",
+      "Subgroup performance",
+      "Independent calibration-bundle review"
+    ]
+  },
+  "interpretation": "Every outcome and probability is unresolved/null. This is a prospective adjudication register, not a trained forecast or estimated likelihood of corruption."
+}

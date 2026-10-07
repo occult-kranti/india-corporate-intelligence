@@ -9,6 +9,7 @@ import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright';
 import { loadInvestigation } from './load.mjs';
 import { loadMoneyTrails } from '../money-trails/load.mjs';
+import { loadResearchRadar } from '../research-radar/load.mjs';
 
 const root = fileURLToPath(new URL('../../', import.meta.url));
 const out = resolve(root, process.env.INVESTIGATION_BROWSER_ARTIFACTS ?? '/tmp/investigation-browser-review');
@@ -30,6 +31,7 @@ base = base.replace(/\/$/u, '');
 const api = await loadInvestigation();
 const registry = api.INVESTIGATION_REGISTRY;
 const moneyTrails = (await loadMoneyTrails()).getMoneyTrailsView(registry).trails;
+const radar = await loadResearchRadar();
 const results = []; const pageErrors = []; const screenshots = [];
 const scenarioFilter = process.env.INVESTIGATION_BROWSER_SCENARIO ?? '';
 let checks = 0;
@@ -43,6 +45,7 @@ const dedicatedRoutes = new Map([
   ['/follow-the-money', { marker: '[data-follow-the-money]', stateLabel: 'State or union territory' }],
   ['/allegations', { marker: '[data-allegations-page]', stateLabel: 'State association', filtersButton: 'Filters' }],
   ['/money-trails', { marker: '[data-money-trails-page]', workflow: 'authored-money-trail' }],
+  ['/research-radar', { marker: '[data-research-radar-page]', workflow: 'research-radar' }],
 ]);
 const sharedRoutes = routes.filter(route => !dedicatedRoutes.has(route));
 const binary = process.env.PLAYWRIGHT_CHROMIUM_PATH ?? '/usr/bin/chromium';
@@ -118,7 +121,42 @@ try {
       const codes = await page.locator('.iw-map-state').evaluateAll(items => items.map(item => item.getAttribute('data-state-code')));
       check(codes.length === 36 && new Set(codes).size === 36, `${route}: 36 distinct geographic shapes`);
       check(codes.includes('LA') && codes.includes('DN') && !codes.includes('DD') && codes.includes('OD') && codes.includes('CG'), `${route}: current state/UT codes`);
-      if (dedicated?.workflow === 'authored-money-trail') {
+      if (dedicated?.workflow === 'research-radar') {
+        const cityControl = page.getByRole('combobox', { name: 'Research city', exact: true });
+        const cityOptions = await cityControl.locator('option').evaluateAll(items => items.map(item => item.value));
+        check(JSON.stringify(cityOptions) === JSON.stringify(['', ...radar.RADAR_CITIES.map(city => city.id)]), `${route}: all exact planning cities remain selectable`);
+        // The keyboard interaction follows the map's accessible city-node control.
+        await page.locator('[data-radar-city="delhi"]').press('Enter');
+        await page.waitForFunction(() => new URLSearchParams(location.hash.split('?')[1] ?? '').get('rr_city') === 'delhi' && document.querySelector('select[aria-label="Research city"]')?.value === 'delhi' && document.querySelector('[data-radar-city="delhi"]')?.getAttribute('aria-pressed') === 'true');
+        check(await cityControl.inputValue() === 'delhi', `${route}: map node updates its native city filter`);
+        check(await page.locator('[data-radar-city="delhi"]').getAttribute('aria-pressed') === 'true', `${route}: selected city retains geographic emphasis`);
+        const selectedCaseId = await page.locator('[data-research-radar-page]').getAttribute('data-radar-case');
+        const original = radar.radarCaseById(selectedCaseId);
+        check(!!original && original.cityIds.includes('delhi'), `${route}: map selection opens an exact retained Delhi-context investigation`);
+        const dossier = page.locator(`[data-radar-dossier="${original.id}"]`);
+        check(await dossier.locator('.rr-case-summary').textContent() === original.summary, `${route}: complete authored case summary remains visible`);
+        const renderedCounterevidence = await dossier.locator('[data-radar-counterevidence] > p').allTextContents();
+        check(JSON.stringify(renderedCounterevidence) === JSON.stringify(original.counterevidence.map(item => item.text)), `${route}: every counterevidence statement is retained verbatim`);
+        check(await dossier.locator('[data-radar-node]').count() === original.entities.length, `${route}: graph retains every authored case entity`);
+        check((await dossier.locator('[data-radar-scenario]').innerText()).includes('Probability: not estimated'), `${route}: scenario does not invent a probability`);
+        const packet = JSON.parse((await exported('Export complete radar research packet')).text);
+        check(JSON.stringify(packet.case) === JSON.stringify(original), `${route}: export retains the full exact case, alternatives, falsifiers and source references`);
+        check(packet.forecastStatus === 'untrained-uncalibrated' && packet.case.scenario.probability === null, `${route}: exported scenario preserves unavailable calibration`);
+        check(packet.missingSourceIds.length === 0, `${route}: exported provenance has no dangling sources`);
+        await dossier.locator('.rr-all-sources > summary').click();
+        for (const sourceId of original.sourceIds) {
+          const source = radar.radarSourceById(sourceId);
+          check(!!source && packet.sources.some(item => item.id === sourceId && item.url === source.url), `${route}: export retains exact source ${sourceId}`);
+          await dossier.locator(`.rr-all-sources [data-radar-source="${sourceId}"]`).click();
+          const reader = page.locator(`[data-radar-reader="${sourceId}"]`);
+          await reader.waitFor();
+          check(await reader.getByRole('link', { name: 'Read original source', exact: true }).getAttribute('href') === source.url, `${route}: ${sourceId} opens its exact original URL`);
+          check((await reader.innerText()).includes(source.locator), `${route}: ${sourceId} exposes the complete retained source locator`);
+          await reader.getByRole('button', { name: 'Close radar evidence reader', exact: true }).click();
+          await reader.waitFor({ state: 'hidden' });
+        }
+        check(await page.locator('.iw-map-state').count() === 36, `${route}: reader and export preserve all geographic shapes`);
+      } else if (dedicated?.workflow === 'authored-money-trail') {
         // This dedicated page selects an authored investigation, then a geographic
         // evidence hub. Its full original dossier opens in the evidence reader.
         const investigations = page.getByRole('combobox', { name: 'Choose money-trail investigation', exact: true });

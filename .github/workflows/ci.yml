@@ -83,7 +83,7 @@ jobs:
         run: npm run validate:deep-investigation && npm run test:deep-investigation && npm run test:deep-investigation:model
 
       - name: Atlas sources, financial-stage guards and open-model receipts
-        run: npm run validate:atlas && npm run test:atlas && npm run test:atlas:model && npm run test:map && npm run validate:allegations && npm run test:allegations && npm run test:allegations:model && npm run validate:metro && npm run test:metro && npm run test:metro:model && npm run validate:money-trails && npm run test:money-trails && npm run test:money-trails:model && npm run test:money-trails:audit
+        run: npm run validate:atlas && npm run test:atlas && npm run test:atlas:model && npm run test:map && npm run validate:allegations && npm run test:allegations && npm run test:allegations:model && npm run validate:metro && npm run test:metro && npm run test:metro:model && npm run validate:money-trails && npm run test:money-trails && npm run test:money-trails:model && npm run test:money-trails:audit && npm run validate:radar && npm run test:radar && npm run test:radar:model
 
       - name: Typecheck and build
         run: npm run build
@@ -117,7 +117,7 @@ jobs:
         run: npm run test:deep-investigation:browser
 
       - name: Integrated atlas, multihop readers and WebGL fallback workflows
-        run: npm run test:atlas:browser && npm run test:atlas:integration && npm run test:atlas:audit && npm run test:allegations:browser && npm run test:metro:browser && npm run test:money-trails:browser && npm run test:map:browser && npm run test:places:browser
+        run: npm run test:atlas:browser && npm run test:atlas:integration && npm run test:atlas:audit && npm run test:allegations:browser && npm run test:metro:browser && npm run test:money-trails:browser && npm run test:radar:browser && npm run test:radar:challenge-browser && npm run test:map:browser && npm run test:places:browser
 
       - name: Source-backed procurement trail workflow
         run: npm run test:procurement:browser
