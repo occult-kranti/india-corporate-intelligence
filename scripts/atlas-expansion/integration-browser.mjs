@@ -1,0 +1,37 @@
+#!/usr/bin/env node
+import assert from 'node:assert/strict';
+import { createServer } from 'node:http';
+import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
+import { resolve, extname } from 'node:path';
+import { chromium } from 'playwright';
+import { loadInvestigation } from '../investigation/load.mjs';
+import { loadAtlas } from './load.mjs';
+const dist=resolve(process.env.INVESTIGATION_DIST??'dist'),out=resolve(process.env.ATLAS_ARTIFACTS??'/tmp/atlas-integration');mkdirSync(out,{recursive:true});
+const mime={'.html':'text/html','.js':'text/javascript','.css':'text/css','.json':'application/json','.svg':'image/svg+xml','.woff2':'font/woff2'};
+const server=createServer((req,res)=>{const path=new URL(req.url,'http://localhost').pathname,file=resolve(dist,`.${path==='/'?'/index.html':path}`);if(!file.startsWith(`${dist}/`))return res.writeHead(403).end();try{const body=readFileSync(file);res.writeHead(200,{'content-type':mime[extname(file)]??'application/octet-stream'}).end(body);}catch{res.writeHead(404).end();}});
+let base=process.env.INVESTIGATION_BASE_URL;if(!base){await new Promise(done=>server.listen(0,'127.0.0.1',done));base=`http://127.0.0.1:${server.address().port}`;}base=base.replace(/\/$/u,'');
+const api=await loadInvestigation(),atlas=await loadAtlas(),registry=api.INVESTIGATION_REGISTRY,results=[],errors=[];
+let count=0;const check=(condition,message)=>{assert.ok(condition,message);count++;results.push(message);};
+const binary=process.env.PLAYWRIGHT_CHROMIUM_PATH??'/usr/bin/chromium',browser=await chromium.launch(existsSync(binary)?{executablePath:binary}:{});
+const page=await browser.newPage({viewport:{width:1440,height:1000},reducedMotion:'reduce'});page.setDefaultTimeout(20000);page.on('pageerror',error=>errors.push(error.message));
+const open=async(route='/',values={})=>{const q=new URLSearchParams(values);await page.goto(`${base}/#${route}${q.size?`?${q}`:''}`);await page.locator(`[data-workspace-route="${route}"]`).waitFor();await page.locator('.iw-map-state').first().waitFor();};
+const params=()=>new URLSearchParams(new URL(page.url()).hash.split('?')[1]??'');
+const overflow=async(label)=>check(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1&&document.body.scrollWidth<=innerWidth+1),`${label}: no overflow`);
+try{
+ await open();check(await page.locator('.atlas-sector-strip nav a').count()===23,'Unified homepage has23 sector destinations');check(await page.locator('.iw-map-state').count()===36,'All36 current boundaries remain in2D');
+ const map=await page.locator('.iw-linked-canvases>.iw-map-panel').boundingBox(),dock=await page.locator('.atlas-evidence-dock').boundingBox();check(map.width>dock.width*1.45,'Geography dominates desktop case dock');
+ const feed=atlas.getAtlasCaseFeed(registry);check((await page.locator('.atlas-record-count').textContent()).includes(feed.total.toLocaleString()),'Feed denominator matches typed records');
+ await page.getByRole('button',{name:'15-year window',exact:true}).click();check(params().get('iw_from')==='2011-10-06'&&params().get('iw_to')==='2026-10-06','15year range persists in URL');
+ await page.locator('#atlas-through-year').fill('2018');check(params().get('iw_to')==='2018-12-31','Year scrubber filters actual records');
+ await page.getByRole('button',{name:'All history',exact:true}).click();check(!params().has('iw_from')&&!params().has('iw_to'),'All history restores retained archive');
+ await page.locator('.atlas-sector-picker summary').click();await page.getByRole('button',{name:'Clear layers',exact:true}).click();await page.waitForFunction(()=>document.querySelector('.iw-result-bar strong')?.textContent==='0');check(params().get('iw_domains')==='none','Explicit empty sector scope retained');check((await page.locator('.atlas-record-count').textContent()).startsWith('0'),'Empty overlay also clears cases');
+ await page.getByRole('button',{name:'All sectors',exact:true}).click();await page.locator('.atlas-sector-picker summary').click();check(!params().has('iw_domains'),'All sectors restores overlay');
+ await page.screenshot({path:resolve(out,'home-desktop.png')});await overflow('home desktop');
+ for(const route of ['/international-finance','/defence-trade','/health','/ngo','/disaster-relief','/transport','/public-funds','/policy','/public-records','/energy','/water','/education','/security','/media']){await open(route);check(await page.locator('.atlas-case-feed').count()===1,`${route}: map cases and allegations`);check(await page.getByRole('button',{name:'3D atlas',exact:true}).count()===1,`${route}:3D/2D controls`);await overflow(route);}
+ const release=registry.records.find(row=>row.namespace==='atlas-institutions'&&row.kind==='investigation-case'&&row.domains.includes('public-records'));check(Boolean(release),'Public release route has reviewed research');await open('/public-records',{iw_record:release.id});await page.locator(`[data-investigation-selection="${release.id}"]`).waitFor();check((await page.locator('.iw-selected-record').textContent()).includes(release.response),'Public release reader retains exact response');await page.locator('.iw-inspector').press('Escape');check(!params().has('iw_record'),'Escape clears evidence selection URL');
+ await open('/policy');check(await page.locator('.atlas-policy-timeline li').count()>=8,'Policy page exposes original-instrument timeline');
+ await open('/',{iw_state:'TN'});const sites=atlas.getAtlasVisibleSites(registry,{stateCode:'TN'});check(sites.length>0,'Sourced publicfacility data available');await page.getByLabel('Find a public site').selectOption(sites[0].id);const site=page.getByRole('region',{name:'Selected site details',exact:true});check(await site.isVisible(),'2D site opens its coordinate evidence');check((await site.textContent()).includes('Schematic'),'Site geometryprecision disclosed');check(await page.locator('.iw-inspector').count()===0,'Site does not unexpectedly open global reader');await site.getByRole('button',{name:/Inspect linked identity/}).first().click();await page.locator('.iw-selected-record').waitFor();check((await page.locator('.iw-selected-record').textContent()).includes('Identity basis'),'Explicit siteidentity CTA opens evidence reader');
+ for(const width of [768,390,320]){await page.setViewportSize({width,height:900});await open('/');await overflow(`home${width}`);check(await page.locator('.atlas-case-feed').isVisible(),`${width}px feed reachable`);await page.screenshot({path:resolve(out,`home-${width}.png`)});}
+ await page.setViewportSize({width:1440,height:1000});const nextCase=registry.records.find(row=>row.namespace==='atlas-oversight'&&row.kind==='investigation-case');await page.goto(`${base}/#/follow-the-money?ftm_case=${encodeURIComponent(nextCase.id)}`);await page.locator('[data-follow-the-money]').waitFor();check(await page.locator('#fm-case-title').textContent()===nextCase.title,'New case integrated into dedicated money trail');check(await page.locator('.fm-atlas-casefeed .atlas-case-feed').count()===1,'Money trail includes scoped allegations and cases');await overflow('money desktop');
+ check(errors.length===0,`No runtime exceptions (${errors.length})`);writeFileSync(resolve(out,'acceptance.json'),JSON.stringify({base,checks:count,results,errors},null,2)+'\n');console.log(`Atlas integration: ${count} checks passed; ${out}`);
+}finally{await browser.close();server.close();}

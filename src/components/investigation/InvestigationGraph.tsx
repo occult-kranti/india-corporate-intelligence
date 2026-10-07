@@ -1,16 +1,19 @@
 import { useId, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { forceCollide, forceLink, forceManyBody, forceSimulation, forceX, forceY, type SimulationNodeDatum } from 'd3-force';
-import type { InvestigationEntity, InvestigationRelationship, InvestigationSource, InvestigationTier } from '../../data/investigation';
-import { GRAPH_LIMITS, investigationEdgePaths, investigationGraphCsv, investigationGraphSlice, investigationRelationshipDate, isTraversalRelationship, relationshipDirected } from './graphHelpers';
+import type { InvestigationEntity, InvestigationRecord, InvestigationRelationship, InvestigationSource, InvestigationTier } from '../../data/investigation';
+import { GRAPH_LIMITS, investigationEdgePaths, investigationGraphCsv, investigationGraphSlice, investigationGraphLabels, type GraphDirection, investigationRelationshipDate, isTraversalRelationship, relationshipDirected } from './graphHelpers';
 import './graph.css';
 
 export interface InvestigationGraphProps {
   entities: InvestigationEntity[];
   relationships: InvestigationRelationship[];
   sources: InvestigationSource[];
+  records?: InvestigationRecord[];
   selectedNode: string | null;
   selectedEdge: string | null;
-  depth: 1 | 2;
+  depth: 1 | 2 | 3 | 4 | 5;
+  direction?: GraphDirection;
+  hideDepthControls?: boolean;
   view: 'graph' | 'table';
   onNodeSelect: (id: string | null) => void;
   onEdgeSelect: (id: string | null) => void;
@@ -21,9 +24,9 @@ export interface InvestigationGraphProps {
 }
 const DASH: Record<InvestigationTier,string> = {documented:'',reported:'6 3',alleged:'2 4',analytic:'8 3 2 3','self-reported':'4 2'};
 const FAMILY_COLORS: Record<string,string> = {state:'#5a8ec4',capital:'#c9a86c',recipient:'#8b7ec4',instrument:'#5aa89e',enforce:'#c45b5a',market:'#7a9e7e'};
-const COLORS: Record<string,string> = {company:'#c9a86c',group:'#c9a86c',shell:'#c9a86c',person:'#5a8ec4',party:'#5a8ec4',ministry:'#5a8ec4',authority:'#5a8ec4',agency:'#5a8ec4',psu:'#5a8ec4',institution:'#5a8ec4',fund:'#8b7ec4',trust:'#8b7ec4',ngo:'#8b7ec4',sangh:'#8b7ec4',law:'#5aa89e',mechanism:'#5aa89e',project:'#5aa89e',court:'#c45b5a',regulator:'#c45b5a',state:'#7a9e7e',industry:'#7a9e7e',exchange:'#7a9e7e'};
+const COLORS: Record<string,string> = {company:'#c9a86c',group:'#c9a86c',shell:'#c9a86c',person:'#5a8ec4',party:'#5a8ec4',ministry:'#5a8ec4',authority:'#5a8ec4',agency:'#5a8ec4',psu:'#5a8ec4',institution:'#5a8ec4',country:'#5a8ec4',sovereign:'#5a8ec4',fund:'#8b7ec4',trust:'#8b7ec4',ngo:'#8b7ec4',sangh:'#8b7ec4',law:'#5aa89e',mechanism:'#5aa89e',project:'#5aa89e',court:'#c45b5a',regulator:'#c45b5a',state:'#7a9e7e',industry:'#7a9e7e',exchange:'#7a9e7e'};
 function shape(type:string) {
-  if (['authority','agency','ministry','institution','court','psu'].includes(type)) return 'M-13,-13h26v26h-26z';
+  if (['authority','agency','ministry','institution','country','sovereign','court','psu'].includes(type)) return 'M-13,-13h26v26h-26z';
   if (type==='party') return 'M0,-17 17,0 0,17 -17,0Z';
   if (['law','project','mechanism'].includes(type)) return 'M0,-17 16,12 -16,12Z';
   if (type==='person') return 'M-15,12a15,15 0 1 1 30,0z';
@@ -35,12 +38,14 @@ function graphPositions(entities: InvestigationEntity[], relationships: Investig
   const links=relationships.filter(edge=>edge.from!==edge.to).map(edge=>({source:edge.from,target:edge.to}));
   const simulation=forceSimulation(nodes).stop().force('links',forceLink<Point,{source:string;target:string}>(links).id(node=>node.id).distance(155)).force('charge',forceManyBody().strength(-650)).force('collide',forceCollide(52)).force('x',forceX(0).strength(.09)).force('y',forceY(0).strength(.12));
   simulation.tick(130);simulation.stop();
-  const width=nodes.length>40?1440:nodes.length<=8?600:1000,height=nodes.length>40?900:nodes.length<=8?480:640;
-  const maxX=Math.max(100,...nodes.map(node=>Math.abs(node.x??0))),maxY=Math.max(100,...nodes.map(node=>Math.abs(node.y??0)));
-  return {width,height,points:new Map(nodes.map(node=>[node.id,{x:width/2+(node.x??0)/maxX*(width/2-105),y:height/2+(node.y??0)/maxY*(height/2-75)}]))};
+  // Preserve simulation spacing; fitting the viewport must not compress nodes into labels.
+  const minX=Math.min(-180,...nodes.map(node=>node.x??0)),maxX=Math.max(180,...nodes.map(node=>node.x??0));
+  const minY=Math.min(-140,...nodes.map(node=>node.y??0)),maxY=Math.max(140,...nodes.map(node=>node.y??0));
+  const width=Math.max(720,maxX-minX+360),height=Math.max(540,maxY-minY+220);
+  return {width,height,points:new Map(nodes.map(node=>[node.id,{x:(node.x??0)-minX+180,y:(node.y??0)-minY+110}]))};
 }
 const EMPTY_HIGHLIGHTS:string[]=[];
-export function InvestigationGraph({entities,relationships,sources,selectedNode,selectedEdge,depth,view,onNodeSelect,onEdgeSelect,onDepthChange,onViewChange,highlightEdgeIds=EMPTY_HIGHLIGHTS,onSourceSelect}:InvestigationGraphProps) {
+export function InvestigationGraph({entities,relationships,sources,selectedNode,selectedEdge,depth,view,onNodeSelect,onEdgeSelect,onDepthChange,onViewChange,highlightEdgeIds=EMPTY_HIGHLIGHTS,onSourceSelect,direction='both',hideDepthControls=false,records=[]}:InvestigationGraphProps) {
   const uid=useId().replace(/:/gu,'');
   const plot=useRef<HTMLDivElement>(null);
   const [viewport,setViewport]=useState({width:0,height:0});
@@ -49,7 +54,7 @@ export function InvestigationGraph({entities,relationships,sources,selectedNode,
   const [ledgerQuery,setLedgerQuery]=useState('');
   const [hintNode,setHintNode]=useState<string|null>(null);
   const priority=useMemo(()=>[...new Set([...highlightEdgeIds,...selectedEdge?[selectedEdge]:[]])],[highlightEdgeIds,selectedEdge]);
-  const slice=useMemo(()=>investigationGraphSlice(entities,relationships,sources,selectedNode,depth,priority),[entities,relationships,sources,selectedNode,depth,priority]);
+  const slice=useMemo(()=>investigationGraphSlice(entities,relationships,sources,selectedNode,depth,priority,undefined,direction),[entities,relationships,sources,selectedNode,depth,priority,direction]);
   const layout=useMemo(()=>graphPositions(slice.entities,slice.relationships,selectedNode),[slice.entities,slice.relationships,selectedNode]);
   const zoomContext=`${selectedNode}|${depth}|${slice.entities.map(node=>node.id).join(',')}`;
   const fittedZoom=viewport.width&&viewport.height?Math.min(1,viewport.width/layout.width,viewport.height/layout.height):.5;
@@ -92,15 +97,16 @@ export function InvestigationGraph({entities,relationships,sources,selectedNode,
   },[selectedNode,layout,zoom,view]);
   const fit=()=>setZoomOverride(null);
   const exportLedger=()=>{
-    const url=URL.createObjectURL(new Blob(['\uFEFF',investigationGraphCsv(entities,ledger,sources)],{type:'text/csv;charset=utf-8'}));
+    const url=URL.createObjectURL(new Blob(['\uFEFF',investigationGraphCsv(entities,ledger,sources,records)],{type:'text/csv;charset=utf-8'}));
     const link=document.createElement('a');link.href=url;link.download='investigation-relationships.csv';document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);
   };
   const selectedEntity=selectedNode?nodeById.get(selectedNode):null;
   const hintedEntity=hintNode?nodeById.get(hintNode):null;
-  const displayLabels=slice.entities.length<=32 && zoom>=.65;
+  const displayLabels=true;
+  const labels=investigationGraphLabels(slice.entities,layout.points,{zoom,width:layout.width,height:layout.height,showAll:displayLabels,priorityIds:[...selectedNode?[selectedNode]:[],...hintNode?[hintNode]:[],...highlightedNodes]});
   return <section className="iw-graph" aria-labelledby={`${uid}-title`}>
     <div className="iw-graph-heading"><div><p className="iw-graph-eyebrow">RELATIONSHIP EXPLORER</p><h2 id={`${uid}-title`}>Recorded connections</h2></div><div className="iw-graph-view" aria-label="Relationship view"><button type="button" aria-pressed={view==='graph'} onClick={()=>onViewChange('graph')}>Graph</button><button type="button" aria-pressed={view==='table'} onClick={()=>onViewChange('table')}>Ledger</button></div></div>
-    <div className="iw-graph-controls"><span className="iw-graph-focus">{selectedEntity?<><span>Focused on</span> <strong>{selectedEntity.label}</strong></>:<><strong>Filtered overview</strong><span>Choose any entity to inspect its neighborhood.</span></>}</span><div className="iw-graph-depth" aria-label="Neighborhood depth"><button type="button" aria-pressed={depth===1} onClick={()=>onDepthChange(1)}>1 hop</button><button type="button" aria-pressed={depth===2} onClick={()=>onDepthChange(2)}>2 hops</button>{selectedNode&&<button type="button" onClick={()=>onNodeSelect(null)}>Clear focus</button>}</div></div>
+    <div className="iw-graph-controls"><span className="iw-graph-focus">{selectedEntity?<><span>Focused on</span> <strong>{selectedEntity.label}</strong></>:<><strong>Filtered overview</strong><span>Choose any entity to inspect its neighborhood.</span></>}</span>{!hideDepthControls&&<div className="iw-graph-depth" aria-label="Neighborhood depth"><button type="button" aria-pressed={depth===1} onClick={()=>onDepthChange(1)}>1 hop</button><button type="button" aria-pressed={depth===2} onClick={()=>onDepthChange(2)}>2 hops</button>{selectedNode&&<button type="button" onClick={()=>onNodeSelect(null)}>Clear focus</button>}</div>}</div>
     <p className="iw-graph-count" role="status"><strong>{slice.entities.length.toLocaleString()} / {slice.totalEntities.toLocaleString()}</strong> entities drawn · <strong>{slice.relationships.length.toLocaleString()} / {slice.totalRelationships.toLocaleString()}</strong> relationships drawn. {slice.truncated?`Preview capped at ${GRAPH_LIMITS.entities} entities and ${GRAPH_LIMITS.relationships} relationships; every matching relationship remains in the ledger.`:'Complete current neighborhood.'} {selectedNode?'':'Preview uses stable IDs, not an influence ranking.'}</p>
     {slice.invalidSelection&&<p className="iw-graph-notice">The selected entity is unavailable under these filters. The overview is shown; clear focus or adjust the filters.</p>}
     {slice.excludedRelationships>0&&<p className="iw-graph-notice">{slice.excludedRelationships.toLocaleString()} relationships are withheld here because an endpoint is unresolved or a source is unavailable.</p>}
@@ -113,16 +119,17 @@ export function InvestigationGraph({entities,relationships,sources,selectedNode,
         {slice.entities.length===0?<p className="iw-graph-empty">No resolved entities with matching context. Adjust the geography, evidence or layer filters.</p>:<svg viewBox={`0 0 ${layout.width} ${layout.height}`} width={layout.width*zoom} height={layout.height*zoom} style={{minWidth:layout.width*zoom,marginLeft:Math.max(0,(viewport.width-layout.width*zoom)/2),marginTop:Math.max(0,(viewport.height-layout.height*zoom)/2)}} role="group" aria-labelledby={`${uid}-diagram-title ${uid}-diagram-desc`}>
           <title id={`${uid}-diagram-title`}>{selectedEntity?`${selectedEntity.label}: ${depth}-hop neighborhood`:'Bounded relationship overview'}</title><desc id={`${uid}-diagram-desc`}>Entities are selectable by keyboard. Directed arrows preserve each source's grammatical relationship; they are not necessarily money flows. Distance, position and adjacency are not evidence of influence or wrongdoing. Every edge is accessible in the ledger.</desc>
           <defs><marker id={`${uid}-arrow`} viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="context-stroke"/></marker></defs>
-          {slice.relationships.map((edge,index)=><g key={edge.id} className={`iw-graph-edge${selectedEdge===edge.id?' is-selected':''}${highlight.has(edge.id)?' is-path':''}`} data-relationship-id={edge.id} data-from={edge.from} data-to={edge.to} data-traversable={isTraversalRelationship(edge)} onClick={()=>onEdgeSelect(edge.id)}><path d={paths.get(edge.id)} strokeWidth="14" stroke="transparent" fill="none" className="iw-graph-edge-hit"/><path id={`${uid}-edge-${index}`} d={paths.get(edge.id)} strokeDasharray={DASH[edge.tier]} fill="none" markerEnd={relationshipDirected(edge.kind)?`url(#${uid}-arrow)`:undefined}/>{selectedNode&&slice.relationships.length<=12&&zoom>=.45&&<text className="iw-graph-edge-label" dy={-5/zoom} style={{fontSize:10/zoom}}><textPath href={`#${uid}-edge-${index}`} startOffset="50%" textAnchor="middle">{edge.kind.replace(/[-_]/gu,' ')}</textPath></text>}<title>{nodeById.get(edge.from)?.label} → {nodeById.get(edge.to)?.label}: {edge.label}. {edge.tier}; {investigationRelationshipDate(edge)}. {edge.status}.</title></g>)}
+          {slice.relationships.map((edge,index)=><g key={edge.id} className={`iw-graph-edge${selectedEdge===edge.id?' is-selected':''}${highlight.has(edge.id)?' is-path':''}`} data-relationship-id={edge.id} data-from={edge.from} data-to={edge.to} data-traversable={isTraversalRelationship(edge)} onClick={()=>onEdgeSelect(edge.id)}><path d={paths.get(edge.id)} strokeWidth="14" stroke="transparent" fill="none" className="iw-graph-edge-hit"/><path id={`${uid}-edge-${index}`} d={paths.get(edge.id)} strokeDasharray={DASH[edge.tier]} fill="none" markerEnd={relationshipDirected(edge.kind)?`url(#${uid}-arrow)`:undefined}/><title>{nodeById.get(edge.from)?.label} → {nodeById.get(edge.to)?.label}: {edge.label}. {edge.tier}; {investigationRelationshipDate(edge)}. {edge.status}.</title></g>)}
           {slice.entities.map(node=>{
-            const position=layout.points.get(node.id)!;const selected=node.id===selectedNode;const displayName=`${node.label}${(duplicateLabels.get(node.label)??0)>1?` · ${node.namespace}`:''}`;const labeled=displayLabels||selected||highlightedNodes.has(node.id)||hintNode===node.id;
+            const position=layout.points.get(node.id)!;const selected=node.id===selectedNode;const displayName=`${node.label}${(duplicateLabels.get(node.label)??0)>1?` · ${node.namespace}`:''}`;
             return <g key={node.id} transform={`translate(${position.x},${position.y})`} role="button" tabIndex={0} aria-pressed={selected} aria-label={`${displayName}, ${node.type}. Select to focus neighborhood.`} className={`iw-graph-node${selected?' is-selected':''}`} data-entity-id={node.id} onClick={()=>onNodeSelect(node.id)} onMouseEnter={()=>setHintNode(node.id)} onMouseLeave={()=>setHintNode(null)} onBlur={()=>setHintNode(null)} onFocus={event=>{setHintNode(node.id);if(event.currentTarget.matches(':focus-visible'))centerPoint(node.id);}} onKeyDown={event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();onNodeSelect(node.id);}if(event.key==='Escape')onNodeSelect(null);}}>
-              <circle r={Math.max(24,24/zoom)} fill="transparent" className="iw-graph-node-hit"/><circle r="22" className="iw-graph-node-ring"/><path d={shape(node.type)} fill={(node.family && FAMILY_COLORS[node.family]) || COLORS[node.type] || '#99a39d'} stroke="#0c1012" strokeWidth="1.5"/>{labeled&&<text y="34" textAnchor="middle" style={{fontSize:12/zoom}}>{displayName.length>42?`${displayName.slice(0,40)}…`:displayName}</text>}<title>{node.label} · {node.namespace} · {node.type}. {node.identityBasis}</title>
+              <circle r={Math.max(24,24/zoom)} fill="transparent" className="iw-graph-node-hit"/><circle r="22" className="iw-graph-node-ring"/><path d={shape(node.type)} fill={(node.family && FAMILY_COLORS[node.family]) || COLORS[node.type] || '#99a39d'} stroke="#0c1012" strokeWidth="1.5"/><title>{node.label} · {node.namespace} · {node.type}. {node.identityBasis}</title>
             </g>;
           })}
+          {labels.map(label=><g key={`label-${label.id}`} className="iw-graph-packed-label" data-label-for={label.id} data-label-bounds={`${label.x},${label.y},${label.width},${label.height}`} pointerEvents="none"><rect x={label.x} y={label.y} width={label.width} height={label.height} rx={3/zoom}/><text x={label.x+6/zoom} y={label.y+14/zoom} textLength={label.width-12/zoom} lengthAdjust="spacingAndGlyphs" style={{fontSize:12/zoom}}>{label.text}</text></g>)}
         </svg>}
       </div>
-      <p className="iw-graph-caption">{displayLabels?'Entity labels are shown.':'In dense or zoomed-out views, labels appear on selected and traced entities; full names remain in the ledger.'} Squares: public bodies; half-circles: people; diamonds: parties; triangles: projects or instruments. Other entity types use circles.</p>
+      <p className="iw-graph-caption">{`${labels.length} non-overlapping labels shown. Full identities remain in the focus strip and ledger.`} Squares: public bodies; half-circles: people; diamonds: parties; triangles: projects or instruments. Other entity types use circles.</p>
       <div className="iw-graph-legend" aria-label="Relationship evidence legend">{Object.entries(DASH).map(([tier,dash])=><span key={tier}><svg width="26" height="10" aria-hidden="true"><line x1="0" y1="5" x2="26" y2="5" stroke="currentColor" strokeWidth="1.5" strokeDasharray={dash}/></svg>{tier}</span>)}</div>
       <p className="iw-graph-caption">Arrows describe recorded relationships. Proximity is a layout choice. Analytic comparisons, denials and superseding records do not expand discovery paths. Open a relationship to read its sources, dates, limitations and responses.</p>
       <button type="button" className="iw-graph-open-ledger" onClick={()=>onViewChange('table')}>Inspect all {slice.totalRelationships.toLocaleString()} relationships in the ledger →</button>

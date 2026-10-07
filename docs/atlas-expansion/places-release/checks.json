@@ -1,0 +1,23 @@
+{
+  "places": {
+    "command": "INVESTIGATION_DIST=dist-atlas-shipping PLACES_LIVE=1 PLACES_BROWSER_ARTIFACTS=/tmp/atlas-places-shipping npm run test:places:browser",
+    "passed": true,
+    "checks": 20,
+    "live": "OpenFreeMap vector features rendered"
+  },
+  "spatial": {
+    "command": "INVESTIGATION_DIST=dist-atlas-verified SPATIAL_BROWSER_ARTIFACTS=/tmp/atlas-spatial-release npm run test:spatial:browser",
+    "passed": true,
+    "checks": 18
+  },
+  "productionCapture": {
+    "command": "INVESTIGATION_DIST=dist-atlas-production PLACES_BROWSER_ARTIFACTS=/tmp/atlas-places-production node scripts/atlas-expansion/capture-places-release.mjs",
+    "passed": true,
+    "capturedAt": "2026-10-07T03:05:26.682Z",
+    "zoom": 15.5,
+    "pitch": 50,
+    "tileResponses200": 6,
+    "runtimeErrors": []
+  },
+  "interpretation": "The complete Places suite ran on the shipping candidate; the final production change was a 1px mobile money-page title reduction. Spatial passed before the final mobile Places-stage correction. Geographic engine logic was unchanged. Final production street/provenance capture and mobile title confirmation were run again against the final emitted build. Deterministic engine checks intercept only a test basemap/geocoder; the retained screenshots and street tile evidence use the actual public service."
+}

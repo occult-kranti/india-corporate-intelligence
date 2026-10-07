@@ -120,6 +120,7 @@ const ROUTES = [
   ['/security', 'security'],
   ['/security?lens=footprint', 'security-footprint'],
   ['/security?lens=procurement', 'security-procurement'],
+  ...['health', 'ngo', 'disaster-relief', 'transport', 'public-funds', 'policy', 'public-records', 'international-finance', 'defence-trade'].map(sector => [`/${sector}`, sector]),
   ['/tenders?section=national', 'tenders-national'],
   ['/company/wipro', 'company-wipro'],
   ['/map?idx=sensex50', 'map-sensex50'],
@@ -131,7 +132,9 @@ const failures = [];
 // The environment ships a pinned Chromium; use it rather than downloading one.
 const PINNED = process.env.PLAYWRIGHT_CHROMIUM_PATH ?? '/opt/pw-browsers/chromium';
 const browser = await chromium.launch(existsSync(PINNED) ? { executablePath: PINNED } : {});
-const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
+// The all-route gate verifies the offline, reduced-motion surface. Real Places/3D
+// engines, tile failures and normal-motion behavior have dedicated spatial gates.
+const page = await browser.newPage({ viewport: { width: 1440, height: 1000 }, reducedMotion: 'reduce' });
 
 // Every known route must support both the default linked map and its complete
 // dossier. Keeping separate checks prevents the shared map from masking a broken

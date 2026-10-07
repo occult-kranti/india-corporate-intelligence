@@ -8,7 +8,14 @@ import InvestigationGraph from '../components/investigation/InvestigationGraph';
 import Casebook, { pinCasebookItem, useCasebook } from '../components/investigation/Casebook';
 import { buildCasebookPacket, emptyCasebook, type CasebookSelection } from '../components/investigation/casebookStore';
 import { useHistorySearchDrafts } from '../lib/useHistorySearchDrafts';
+import { AtlasCaseFeed, AtlasPolicyTimeline } from '../components/investigation/AtlasCaseFeed';
+import { AtlasNetwork } from '../components/investigation/AtlasNetwork';
+import { AtlasTimeControl } from '../components/investigation/AtlasControls';
+import { getAtlasVisibleSites, ATLAS_DISCOVERY_MODEL } from '../data/atlasInvestigation';
+import { createInvestigationMatcher } from '../data/investigationFilters';
 import './follow-the-money.css';
+import '../components/investigation/atlas-workspace.css';
+import './follow-the-money-atlas.css';
 
 const registry = INVESTIGATION_REGISTRY;
 const entities = new Map(registry.entities.map(row => [row.id, row]));
@@ -20,6 +27,7 @@ const domainNames = new Map(INVESTIGATION_DOMAINS.map(row => [row.value, row.lab
 const unique = <T,>(values: T[]) => [...new Set(values)];
 const labelOf = (item: InvestigationEntity | InvestigationRecord | InvestigationRelationship) => 'title' in item ? item.title : item.label;
 const pretty = (value: string) => value.replace(/[-_]/gu, ' ');
+const isoDate = (value: string | null): value is string => Boolean(value && /^\d{4}-\d{2}-\d{2}$/u.test(value) && Number.isFinite(Date.parse(`${value}T00:00:00Z`)) && new Date(`${value}T00:00:00Z`).toISOString().slice(0, 10) === value);
 const dateLabel = (value: string | null) => {
   if (!value) return 'Date not recorded';
   const date = /^\d{4}-\d{2}-\d{2}/u.test(value) ? new Date(`${value.slice(0, 10)}T00:00:00Z`) : null;
@@ -27,6 +35,12 @@ const dateLabel = (value: string | null) => {
 };
 const sourceIdsOf = (item: InvestigationEntity | InvestigationRecord | InvestigationRelationship) => unique([...item.sourceIds, ...item.geography.flatMap(geo => geo.sourceIds)]);
 const casePlaces = (item: InvestigationRecord) => unique(item.geography.flatMap(geo => geo.stateCodes));
+const countryNames: Record<string, string> = { IN: 'India', BD: 'Bangladesh', US: 'United States', GB: 'United Kingdom', ES: 'Spain', FR: 'France', RU: 'Russia', PH: 'Philippines', JP: 'Japan', DE: 'Germany', LK: 'Sri Lanka', NP: 'Nepal', BT: 'Bhutan', SG: 'Singapore', AE: 'United Arab Emirates' };
+const casePlaceLabel = (item: InvestigationRecord) => {
+  const states = casePlaces(item).map(code => stateNames.get(code) ?? code);
+  const countries = unique(item.geography.flatMap(geo => geo.countryCodes ?? [])).map(code => countryNames[code] ?? `Country ${code}`);
+  return [...states, ...countries].join(' · ') || (item.geography.some(geo => geo.scope === 'national') ? 'India · national context' : 'Location not established');
+};
 function download(content: string, name: string) {
   const url = URL.createObjectURL(new Blob([content], { type: 'application/json' }));
   const anchor = document.createElement('a'); anchor.href = url; anchor.download = name; anchor.click();
@@ -92,9 +106,15 @@ export default function FollowTheMoney() {
   const graphEntities = focusedEntity ? registry.entities : graphEvidence?.entities ?? [];
   const graphRelationships = focusedEntity ? registry.relationships : graphEvidence?.relationships ?? [];
   const graphSources = focusedEntity ? registry.sources : graphEvidence?.sources ?? [];
-  const coverage = useMemo(() => getInvestigationStateCoverage(), []);
-  const allView = useMemo(() => getInvestigationView(), []);
-  const visibleCases = DEEP_INVESTIGATION_CASES.filter(item => (!domain || item.domains.includes(domain)) && (!state || casePlaces(item).includes(state) || item.geography.some(geo => geo.scope === 'national')));
+  const rawAtlasFrom = params.get('ftm_from'), rawAtlasTo = params.get('ftm_to');
+  const reversedAtlasDates = isoDate(rawAtlasFrom) && isoDate(rawAtlasTo) && rawAtlasFrom > rawAtlasTo;
+  const atlasFrom = !reversedAtlasDates && isoDate(rawAtlasFrom) ? rawAtlasFrom : undefined;
+  const atlasTo = !reversedAtlasDates && isoDate(rawAtlasTo) ? rawAtlasTo : undefined;
+  const atlasFilters = useMemo(() => ({ stateCode: state ?? undefined, domains: domain ? [domain] : undefined, from: atlasFrom, to: atlasTo, includeUndated: true, includeNational: true }), [state, domain, atlasFrom, atlasTo]);
+  const atlasSites = useMemo(() => getAtlasVisibleSites(registry, atlasFilters), [atlasFilters]);
+  const coverage = useMemo(() => getInvestigationStateCoverage({ ...atlasFilters, stateCode: undefined }), [atlasFilters]);
+  const allView = useMemo(() => getInvestigationView(atlasFilters), [atlasFilters]);
+  const visibleCases = useMemo(() => DEEP_INVESTIGATION_CASES.filter(createInvestigationMatcher(registry, atlasFilters)), [atlasFilters]);
   const caseOutsideScope = activeCase && !visibleCases.some(item => item.id === activeCase.id);
   const timeline = useMemo(() => [...(evidence?.relationships ?? [])].sort((a, b) => (a.fromDate ?? '9999').localeCompare(b.fromDate ?? '9999') || a.id.localeCompare(b.id)), [evidence]);
   const responses = useMemo(() => {
@@ -103,13 +123,13 @@ export default function FollowTheMoney() {
     return unique(edges.flatMap(edge => edge.responseIds)).map(id => records.get(id) ?? relationships.get(id)).filter((row): row is InvestigationRecord | InvestigationRelationship => !!row);
   }, [inspected, incident]);
   const discovery = useMemo(() => {
-    const view = getInvestigationView({ stateCode: state ?? undefined, domains: domain ? [domain] : undefined, q: urlQuery, includeNational: true, geographyMode: 'all' });
+    const view = getInvestigationView({ ...atlasFilters, q: urlQuery, geographyMode: 'all' });
     return [
       ...view.entities.map(item => ({ kind: 'entity' as const, item })),
       ...view.records.map(item => ({ kind: 'record' as const, item })),
       ...view.relationships.map(item => ({ kind: 'relationship' as const, item })),
     ];
-  }, [urlQuery, domain, state]);
+  }, [urlQuery, atlasFilters]);
   const securities = useMemo(() => {
     const q = urlQuery.trim().toLocaleLowerCase('en-IN');
     return DEEP_INVESTIGATION_UNIVERSE.securities.filter(row => !q || `${row.name} ${row.symbol} ${row.isin}`.toLocaleLowerCase('en-IN').includes(q));
@@ -117,7 +137,7 @@ export default function FollowTheMoney() {
   const pageSize = 20;
   const resultCount = universe ? securities.length : discovery.length;
   const page = Math.min(Math.max(0, Number.parseInt(params.get('ftm_page') ?? '0', 10) || 0), Math.max(0, Math.ceil(resultCount / pageSize) - 1));
-  const unavailable = [nodeId && !selectedNode && 'entity', edgeId && !selectedEdge && 'relationship', recordId && !selectedRecord && 'record', sourceId && !selectedSource && 'source'].filter(Boolean);
+  const unavailable = [(rawAtlasFrom && !isoDate(rawAtlasFrom) || rawAtlasTo && !isoDate(rawAtlasTo) || reversedAtlasDates) && 'date range (valid defaults shown)', nodeId && !selectedNode && 'entity', edgeId && !selectedEdge && 'relationship', recordId && !selectedRecord && 'record', sourceId && !selectedSource && 'source'].filter(Boolean);
   function patch(values: Record<string, string | null>) {
     const next = new URL(window.location.hash.slice(1), window.location.origin).searchParams;
     for (const [key, value] of Object.entries(values)) { if (value === null || value === '') next.delete(key); else next.set(key, value); }
@@ -157,14 +177,15 @@ export default function FollowTheMoney() {
     {notice && <p className="fm-notice" role="status">{notice}<button type="button" onClick={() => setNotice('')} aria-label="Dismiss notice"><X size={14} /></button></p>}
     {unavailable.length > 0 && <p className="fm-notice" role="status">The requested {unavailable.join(', ')} is unavailable in this snapshot. <button type="button" onClick={focusCase}>Return to the case</button></p>}
     {requestedState && requestedState !== 'all' && !state && <p className="fm-notice">The place identifier “{requestedState}” does not resolve to a current state or union territory. All India is shown.</p>}
+    <AtlasTimeControl filters={atlasFilters} records={allView.records} onChange={({ from, to }) => patch({ ftm_from: from ?? null, ftm_to: to ?? null })} />
     <section className="fm-atlas" aria-label="Money trail investigation atlas">
       <aside className="fm-case-index" aria-labelledby="fm-cases-title"><div className="fm-section-top"><p className="fm-eyebrow">Start with a question</p><h2 id="fm-cases-title">Research casefiles <span>{visibleCases.length}</span></h2><label htmlFor="fm-domain">Investigation field</label><select id="fm-domain" value={domain} onChange={event => patch({ ftm_domain: event.target.value, ftm_page: null })}><option value="">Across all fields</option>{INVESTIGATION_DOMAINS.map(row => <option key={row.value} value={row.value}>{row.label}</option>)}</select></div>
         {state && <div className="fm-place-filter"><MapPin size={12} aria-hidden="true" />{stateNames.get(state)} + national context<button type="button" onClick={() => patch({ ftm_state: 'all' })} aria-label="Clear place filter"><X size={13} /></button></div>}
-        <ol className="fm-case-list">{visibleCases.map((item, index) => <li key={item.id}><button type="button" aria-pressed={activeCase?.id === item.id} onClick={() => openCase(item)} data-case-option={item.id}><span className="fm-case-order">{String(index + 1).padStart(2, '0')}</span><span><small>{item.domains.slice(0, 2).map(value => domainNames.get(value) ?? pretty(value)).join(' / ')}</small><strong>{item.title}</strong><em>{casePlaces(item).map(code => stateNames.get(code) ?? code).join(' · ') || 'National context'}</em></span><ArrowRight size={15} aria-hidden="true" /></button></li>)}</ol>
+        <ol className="fm-case-list">{visibleCases.map((item, index) => <li key={item.id}><button type="button" aria-pressed={activeCase?.id === item.id} onClick={() => openCase(item)} data-case-option={item.id}><span className="fm-case-order">{String(index + 1).padStart(2, '0')}</span><span><small>{item.domains.slice(0, 2).map(value => domainNames.get(value) ?? pretty(value)).join(' / ')}</small><strong>{item.title}</strong><em>{casePlaceLabel(item)}</em></span><ArrowRight size={15} aria-hidden="true" /></button></li>)}</ol>
         {!visibleCases.length && <div className="fm-empty"><h3>No casefiles in this scope</h3><p>The retained registry may still contain evidence for this place or field.</p><button type="button" onClick={() => patch({ ftm_domain: null, ftm_state: 'all' })}>Show every casefile</button></div>}
         <p className="fm-index-note">Casefiles are research questions, including lawful transactions. Inclusion is not a finding of misconduct.</p>
       </aside>
-      <div className="fm-map-panel"><InvestigationMap indexLabel="ALL RETAINED GEOGRAPHIC EVIDENCE" coverage={coverage} highlightedStateCodes={activeCase ? casePlaces(activeCase) : []} selectedState={state} onStateSelect={value => patch({ ftm_state: value ?? 'all' })} geographyMode="all" nationalRecords={allView.nationalRecords} unknownRecords={allView.unknownRecords} />{activeCase && <div className="fm-case-geography"><MapPin size={15} aria-hidden="true" /><div><strong>Selected case geography · gold outline</strong>{activeCase.geography.map((geo, index) => <p key={index}>{pretty(geo.basis)} · {geo.stateCodes.map(code => stateNames.get(code) ?? code).join(', ') || pretty(geo.scope)}<small>{geo.note}</small></p>)}</div></div>}</div>
+      <div className="fm-map-panel"><InvestigationMap sites={atlasSites} onEntitySelect={id => inspect('entity', id)} spatial timeLabel={atlasFrom || atlasTo ? `${atlasFrom ?? 'Earliest'} — ${atlasTo ?? 'Latest'}` : 'All retained dates'} indexLabel="RETAINED GEOGRAPHIC EVIDENCE IN SCOPE" coverage={coverage} highlightedStateCodes={activeCase ? casePlaces(activeCase) : []} selectedState={state} onStateSelect={value => patch({ ftm_state: value ?? 'all' })} geographyMode="all" nationalRecords={allView.nationalRecords} unknownRecords={allView.unknownRecords} internationalRecords={allView.internationalRecords} />{activeCase && <div className="fm-case-geography"><MapPin size={15} aria-hidden="true" /><div><strong>Selected case geography · gold outline</strong>{activeCase.geography.map((geo, index) => <p key={index}>{pretty(geo.basis)} · {[...geo.stateCodes.map(code => stateNames.get(code) ?? code), ...(geo.countryCodes ?? []).map(code => countryNames[code] ?? `Country ${code}`)].join(', ') || pretty(geo.scope)}<small>{geo.note}</small></p>)}</div></div>}</div>
       <article className="fm-case-brief" aria-labelledby="fm-case-title">{activeCase ? <><div className="fm-case-overline"><p className="fm-eyebrow">Casefile / {activeCase.namespace.replace('deep-', '')}</p><span>{activeCase.tier}</span></div><h2 id="fm-case-title">{activeCase.title}</h2>{caseOutsideScope && <p className="fm-notice">This selected case is outside the current casefile filter. Selection is preserved.</p>}<p className="fm-case-summary">{activeCase.summary}</p><div className="fm-status"><span>Status in the record</span><strong>{pretty(activeCase.status)}</strong><small>As of {dateLabel(activeCase.statusAsOf)}</small></div>
         <div className="fm-case-amounts">{activeCase.amounts.slice(0, 3).map((amount, index) => <div key={index}><strong>{amount.currency === 'INR' ? '₹' : `${amount.currency} `}{amount.value.toLocaleString('en-IN')} <span>{amount.unit}</span></strong><p>{pretty(amount.stage)}</p><small>{amount.period}</small></div>)}</div>{activeCase.amounts.length > 0 && <p className="fm-amount-note">Separate accounting stages. These figures are not added together.</p>}
         <div className="fm-case-actions"><a href="#fm-trail" className="fm-primary" onClick={event => { event.preventDefault(); const trail = document.getElementById('fm-trail'); trail?.scrollIntoView({ block: 'start' }); trail?.focus({ preventScroll: true }); }}>Follow this trail <ArrowDown size={15} aria-hidden="true" /></a><button type="button" onClick={exportCase}><Download size={15} aria-hidden="true" />Evidence JSON</button><button type="button" onClick={() => setNotice(pinCasebookItem('record', activeCase.id) ? 'Case saved in your local casebook.' : 'Casebook is full. Export a copy before removing pins.')}><BookmarkPlus size={15} aria-hidden="true" />{book.isPinned('record', activeCase.id) ? 'Case saved' : 'Save case'}</button></div>
@@ -175,6 +196,7 @@ export default function FollowTheMoney() {
     <section id="fm-trail" tabIndex={-1} className="fm-trail" aria-labelledby="fm-trail-title"><header className="fm-section-heading"><div><p className="fm-eyebrow">01 / Follow the record</p><h2 id="fm-trail-title">Money, control & the missing steps</h2></div><p>Arrows preserve the source’s direction. An award, loan commitment or ownership link is not automatically a payment.</p></header>
       <ol className="fm-timeline">{timeline.map((edge, index) => <li key={edge.id}><button type="button" onClick={() => inspect('relationship', edge.id)} aria-pressed={edgeId === edge.id}><span className="fm-trail-date"><b>{String(index + 1).padStart(2, '0')}</b>{dateLabel(edge.fromDate)}</span><span className={`fm-relation-kind fm-tier-${edge.tier}`}>{pretty(edge.kind)} · {edge.tier}</span><strong>{entities.get(edge.from)?.label ?? 'Unresolved source entity'} <ArrowRight size={13} aria-hidden="true" /> {entities.get(edge.to)?.label ?? 'Unresolved target entity'}</strong><p>{edge.label}</p>{edge.amounts.map((amount, i) => <span className="fm-trail-amount" key={i}>{amount.currency} {amount.value.toLocaleString('en-IN')} {amount.unit}<small>{pretty(amount.stage)} · {amount.period}</small></span>)}<span className="fm-trail-source">{sourceIdsOf(edge).length} sources · Inspect step <ArrowUpRight size={12} aria-hidden="true" /></span></button></li>)}</ol>{!timeline.length && <p className="fm-empty">No typed relationships are available for this case. The missing trail remains unresolved.</p>}
     </section>
+    <section className="fm-atlas-casefeed" aria-label="Cases and allegations in the selected map view"><AtlasCaseFeed registry={registry} filters={atlasFilters} onRelationshipSelect={id => inspect('relationship', id)} onRecordSelect={id => inspect('record', id)} onSourceSelect={inspectSource} /></section>
     <section className="fm-connections" aria-label="Connected entities and source inspection"><div className="fm-graph-column"><div className="fm-section-heading"><div><p className="fm-eyebrow">02 / Follow a connection</p><h2>The evidence network</h2></div>{(selectedNode || selectedEdge || selectedRecord) && <button type="button" onClick={focusCase}>Return to case network</button>}</div><p className="fm-network-context">{focusedEntity ? `${focusedEntity.label}: every retained incident connection is available; expand to two hops or open the ledger.` : inspectedPacket && inspected ? `Graph for the inspected ${selectedEdge ? 'relationship' : 'record'}: ${labelOf(inspected)}. Its explicitly linked records and responses supply the context.` : 'The selected case’s retained entities and typed relationships. Select an entity to explore its retained connections across the full registry.'}</p><InvestigationGraph entities={graphEntities} relationships={graphRelationships} sources={graphSources} selectedNode={focusedEntity?.id ?? null} selectedEdge={edgeId} depth={graphDepth} view={graphView} onNodeSelect={id => id ? inspect('entity', id, false) : focusCase()} onEdgeSelect={id => id ? inspect('relationship', id) : patch({ ftm_edge: null })} onDepthChange={depth => patch({ ftm_depth: String(depth) })} onViewChange={view => patch({ ftm_graph: view === 'table' ? 'table' : null })} onSourceSelect={inspectSource} highlightEdgeIds={highlightedEdges} /><p className="fm-network-export-note">Relationship CSV exports edge rows and their direct sources. It excludes linked response and record content. Save the selected evidence, then export evidence JSON or a reading brief from the casebook to retain that complete context.</p>
         {incident && <details className="fm-incident"><summary>{incident.totalRelationships.toLocaleString('en-IN')} retained connections for this exact entity</summary><ul>{incident.relationships.map(edge => <li key={edge.id}><button type="button" onClick={() => inspect('relationship', edge.id)}><span>{pretty(edge.kind)} · {edge.tier}</span>{entities.get(edge.from)?.label} → {entities.get(edge.to)?.label}<small>{edge.label}</small></button></li>)}</ul></details>}
       </div>
@@ -203,6 +225,7 @@ export default function FollowTheMoney() {
       <details className="fm-held" onToggle={event => setHeldOpen(event.currentTarget.open)}><summary>Responses & unresolved records retained outside the graph · {registry.held.length}</summary><p>These entries have a recorded hold reason. They are retained for review; they are not inferred links or a list of suspicious entities.</p><ul>{heldOpen && registry.held.map(row => <li key={row.id}><strong>{pretty(row.kind)} · {row.namespace}</strong>{records.has(row.id) && <button className="fm-text-button" type="button" onClick={() => inspect('record', row.id)}>{records.get(row.id)!.title} · Inspect retained response <ArrowUpRight size={12} /></button>}<p>{row.reason}</p><code>{row.id}</code><SourceList ids={row.sourceIds} onSelect={inspectSource} /></li>)}</ul></details>
     </section>
     {showBook && <section ref={casebookRef} className="fm-book" aria-label="Local investigation casebook"><Casebook selection={selection} viewUrl={`#${location.pathname}${location.search}`} onInspect={value => inspect(value.kind, value.id)} /></section>}
-    <footer className="fm-footer"><div><p className="fm-eyebrow">A trail is a question you can verify.</p><p>Ownership, funding, allegation and adjudication remain distinct. Graph proximity does not establish influence, causation or wrongdoing.</p></div><details><summary>Coverage, method & reproducibility</summary><p>The map indexes retained geography and associations. National context and unknown locations stay unplaced. Research casefiles do not constitute nationwide case coverage.</p>{DEEP_INVESTIGATION_UNIVERSE.limitations.map(text => <p key={text}>{text}</p>)}<p>Security file retrieved {DEEP_INVESTIGATION_UNIVERSE.retrievedAt}. Exact ISIN joins only.</p><p className="fm-hash">SHA-256: {DEEP_INVESTIGATION_UNIVERSE.sha256}</p><button type="button" onClick={() => download(`${JSON.stringify({ coverage: DEEP_INVESTIGATION_COVERAGE, model: DEEP_INVESTIGATION_MODEL, registryUpdatedAt: registry.updatedAt }, null, 2)}\n`, 'follow-the-money-method.json')}>Download coverage & model metadata <Download size={13} /></button><Link to="/method?iw_view=dossier">Read the evidence method <ArrowUpRight size={13} /></Link></details></footer>
+    <section className="fm-atlas-exploration"><AtlasNetwork registry={registry} filters={atlasFilters} onSourceSelect={inspectSource} /><details className="atlas-policy-section"><summary>Policy &amp; ownership changes</summary><AtlasPolicyTimeline registry={registry} filters={atlasFilters} onRecordSelect={id => inspect('record', id)} /></details></section>
+    <footer className="fm-footer"><div><p className="fm-eyebrow">A trail is a question you can verify.</p><p>Ownership, funding, allegation and adjudication remain distinct. Graph proximity does not establish influence, causation or wrongdoing.</p></div><details><summary>Coverage, method & reproducibility</summary><p>The map indexes retained geography and associations. National context and unknown locations stay unplaced. Research casefiles do not constitute nationwide case coverage.</p>{DEEP_INVESTIGATION_UNIVERSE.limitations.map(text => <p key={text}>{text}</p>)}<p>Security file retrieved {DEEP_INVESTIGATION_UNIVERSE.retrievedAt}. Exact ISIN joins only.</p><p className="fm-hash">SHA-256: {DEEP_INVESTIGATION_UNIVERSE.sha256}</p><button type="button" onClick={() => download(`${JSON.stringify({ coverage: DEEP_INVESTIGATION_COVERAGE, previousModel: DEEP_INVESTIGATION_MODEL, expandedModel: ATLAS_DISCOVERY_MODEL, registryUpdatedAt: registry.updatedAt }, null, 2)}\n`, 'follow-the-money-method.json')}>Download coverage & model metadata <Download size={13} /></button><Link to="/method?iw_view=dossier">Read the evidence method <ArrowUpRight size={13} /></Link></details></footer>
   </div>;
 }

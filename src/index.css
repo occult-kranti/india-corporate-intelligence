@@ -1,20 +1,20 @@
 @import "tailwindcss";
 
 @theme {
-  --color-bg: #0c1012;
-  --color-bg-elevated: #12181b;
-  --color-bg-card: #192124;
-  --color-bg-card-hover: #202a2d;
-  --color-text: #eeeae1;
-  --color-text-secondary: #b7bcb6;
+  --color-bg: #071c24;
+  --color-bg-elevated: #102a34;
+  --color-bg-card: #17343e;
+  --color-bg-card-hover: #20444e;
+  --color-text: #f1eee4;
+  --color-text-secondary: #bdcdce;
   /* Muted copy remains readable on all three dark reading surfaces. */
-  --color-text-muted: #99a39d;
-  --color-border: rgba(238, 234, 225, 0.11);
-  --color-border-light: rgba(238, 234, 225, 0.22);
+  --color-text-muted: #9eb5b9;
+  --color-border: rgba(172, 210, 209, 0.14);
+  --color-border-light: rgba(172, 210, 209, 0.3);
   
-  --color-accent: #d6b77b;
-  --color-accent-hover: #e5c997;
-  --color-accent-dim: #8b7347;
+  --color-accent: #b0d8c4;
+  --color-accent-hover: #d0eadb;
+  --color-accent-dim: #658f85;
   
   --color-sage: #7a9e7e;
   --color-sage-dim: #5a7e5e;
@@ -33,7 +33,7 @@
   --color-tier-documented: #7a9e7e;
   --color-tier-reported: #5a8ec4;
   --color-tier-alleged: #d4a03d;
-  --color-tier-analytic: #99a39d; /* kept equal to --color-text-muted (A11Y-001 S1) */
+  --color-tier-analytic: #9eb5b9; /* kept equal to --color-text-muted (A11Y-001 S1) */
 
   --radius-sm: 6px;
   --radius-md: 6px;

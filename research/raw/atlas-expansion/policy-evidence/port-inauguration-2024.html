@@ -1,0 +1,1063 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="hi">
+<head id="Head1"><title>
+	Press Release:Press Information Bureau
+</title><link href="css/style.css?v=1" rel="stylesheet" type="text/css" /><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><link rel="alternate stylesheet" href="css/change.css?v=1" media="screen" title="change" /><link rel="alternate stylesheet" href="css/green.css?v=1" media="screen" title="green" /><link rel="alternate stylesheet" href="css/yellow.css" media="screen" title="yellow" /><link rel="stylesheet" type="text/css" href="css/prtint.css" media="print" /><link rel="stylesheet" href="css/style3.1.css" type="text/css" />
+
+
+      <script src="js/jquery.min.js" type="text/javascript"></script>
+
+      <script type="text/javascript">
+            $(document).ready(function () {
+                  function getParameterByName(name) {
+                        var url = window.location.href;
+                        name = name.replace(/[\[\]]/g, '\\$&');
+                        var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+                              results = regex.exec(url);
+                        if (!results) return null;
+                        if (!results[2]) return '';
+                        return decodeURIComponent(results[2].replace(/\+/g, ' '));
+                  }
+                  // Get the IDs from the current page's URL
+                  let prid = parseInt(getParameterByName('PRID'), 10);
+
+                  if (!isNaN(prid) && prid > 0) {
+                        $.ajax({
+                              type: "POST",
+                              url: "AjaxMethod.aspx/UpdatePRHitCount",
+                              async: false,
+                              data: JSON.stringify({ 'PermId': prid }),
+                              contentType: "application/json; charset=utf-8",
+                              dataType: "json",
+                              success: function (response) {
+                                    console.log(response);
+                              },
+                              error: function (error) {
+                                    console.log("Error in AJAX request", error);
+                              }
+                        });
+                  } else {
+                        console.log("Invalid parameters:", prid);
+                  }
+
+            });
+      </script>
+      <style type="text/css">
+            .table-responsive {
+                  width: 100%;
+                  overflow-x: auto;
+            }
+
+            .banner {
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  background-color: #000;
+                  color: #fff;
+                  padding: 20px;
+            }
+
+            full-width {
+                  width: 100%;
+            }
+
+            .logo-left, .logo-center, .countdown {
+                  display: flex;
+                  align-items: center;
+            }
+
+                  .logo-left img, .logo-center img {
+                        height: 70px;
+                  }
+
+            .countdown {
+                  text-align: center;
+                  background-color: var(--dbim-text, #150202);
+                  border-radius: 10px;
+                  padding: 10px;
+                  border: 2px solid grey;
+            }
+
+            .firstnumber {
+                  color: #000000;
+                  position: absolute;
+                  top: 50px;
+                  right: 90px;
+                  font-size: 30px;
+            }
+
+            .secondnumber {
+                  position: absolute;
+                  color: #000000;
+                  right: 45px;
+                  top: 50px;
+                  font-size: 30px;
+            }
+
+            .countdown .days {
+                  font-size: 35px;
+                  color: gold;
+            }
+
+            .countdown p {
+                  margin: 0;
+            }
+
+            .countdown .text {
+                  font-size: 16px;
+            }
+
+            a {
+                  word-break: break-all;
+            }
+
+            iframe, img {
+                  max-width: 100%;
+            }
+
+            @media(max-width:1199px) {
+                  .firstnumber {
+                        top: 40px;
+                        right: 72px;
+                        font-size: 30px;
+                  }
+
+                  .secondnumber {
+                        right: 35px;
+                        top: 40px;
+                        font-size: 30px;
+                  }
+            }
+
+            @media(max-width:990px) {
+                  .firstnumber {
+                        top: 25px;
+                        right: 54px;
+                        font-size: 30px;
+                  }
+
+                  .secondnumber {
+                        right: 25px;
+                        top: 25px;
+                        font-size: 30px;
+                  }
+            }
+
+            @media(max-width:768px) {
+                  .countdown, .days {
+                        font-size: 12px !important;
+                  }
+
+
+                  .firstnumber {
+                        top: 25%;
+                        right: 8%;
+                        font-size: 30px;
+                  }
+
+                  .secondnumber {
+                        right: 4.5%;
+                        top: 25%;
+                        font-size: 30px;
+                  }
+            }
+
+            @media(max-width:475px) {
+                  .countdown, .days {
+                        font-size: 10px !important;
+                        top: 20%;
+                  }
+
+                  .bannerimgdiv {
+                        padding: 0 !important;
+                  }
+
+                  .bannerimg {
+                        width: 108% !important;
+                  }
+            }
+      </style>
+      <script type="text/javascript">
+            $(function () {
+                  $("[id*=printPDF]").click(function () {
+                        $("[id*=hfGridHtml]").val($("#PdfDiv").html());
+                  });
+            });
+            $(function () {
+                  $("[id*=printPDFEvent]").click(function () {
+                        $("[id*=hfGridHtml]").val($("#PdfDiv").html());
+                  });
+            });
+      </script>
+
+      
+
+      <link id="pibConsentCss" href="/css/consent.css?v=8" rel="stylesheet" type="text/css" /><link id="pibFontsCss" href="/css/fonts-noto.css?v=6" rel="stylesheet" type="text/css" /><link id="pibDbimCss" href="/css/dbim.css?v=1112" rel="stylesheet" type="text/css" /><meta property="og:title" content="Prime Minister Shri Narendra Modi Addresses the Inauguration of Tuticorin International Container Terminal" /><meta property="og:url" content="www.pib.gov.in/Pressreleaseshare.aspx?PRID=2055412" /><meta property="og:description" content="The Union Minister of Ports, Shipping &amp; Waterways, Shri Sarbananda Sonowal dedicated the Tuticorin I" /><meta property="og:image" content="https:/pib.gov.in/images/indian-emblem.png" />
+                                <script>!function(e){var n="https://s.go-mpulse.net/boomerang/";if("False"=="True")e.BOOMR_config=e.BOOMR_config||{},e.BOOMR_config.PageParams=e.BOOMR_config.PageParams||{},e.BOOMR_config.PageParams.pci=!0,n="https://s2.go-mpulse.net/boomerang/";if(window.BOOMR_API_key="C4E7H-KSCMC-422L4-W3EM5-U36MF",function(){function e(){if(!i){var e=document.createElement("script");e.id="boomr-scr-as",e.src=window.BOOMR.url,e.async=!0,o.parentNode.appendChild(e),i=!0}}function t(e){i=!0;var n,t,a,r,d=document,O=window;if(window.BOOMR.snippetMethod=e?"if":"i",t=function(e,n){var t=d.createElement("script");t.id=n||"boomr-if-as",t.src=window.BOOMR.url,BOOMR_lstart=(new Date).getTime(),e=e||d.body,e.appendChild(t)},!window.addEventListener&&window.attachEvent&&navigator.userAgent.match(/MSIE [67]\./))return window.BOOMR.snippetMethod="s",void t(o.parentNode,"boomr-async");a=document.createElement("IFRAME"),a.src="about:blank",a.title="",a.role="presentation",a.loading="eager",r=(a.frameElement||a).style,r.width=0,r.height=0,r.border=0,r.display="none",o.parentNode.appendChild(a);try{O=a.contentWindow,d=O.document.open()}catch(_){n=document.domain,a.src="javascript:var d=document.open();d.domain='"+n+"';void(0);",O=a.contentWindow,d=O.document.open()}if(n)d._boomrl=function(){this.domain=n,t()},d.write("<bo"+"dy onload='document._boomrl();'>");else if(O._boomrl=function(){t()},O.addEventListener)O.addEventListener("load",O._boomrl,!1);else if(O.attachEvent)O.attachEvent("onload",O._boomrl);d.close()}function a(e){window.BOOMR_onload=e&&e.timeStamp||(new Date).getTime()}if(!window.BOOMR||!window.BOOMR.version&&!window.BOOMR.snippetExecuted){window.BOOMR=window.BOOMR||{},window.BOOMR.snippetStart=(new Date).getTime(),window.BOOMR.snippetExecuted=!0,window.BOOMR.snippetVersion=12,window.BOOMR.url=n+"C4E7H-KSCMC-422L4-W3EM5-U36MF";var o=document.currentScript||document.getElementsByTagName("script")[0],i=!1,r=document.createElement("link");if(r.relList&&"function"==typeof r.relList.supports&&r.relList.supports("preload")&&"as"in r)window.BOOMR.snippetMethod="p",r.href=window.BOOMR.url,r.rel="preload",r.as="script",r.addEventListener("load",e),r.addEventListener("error",function(){t(!0)}),setTimeout(function(){if(!i)t(!0)},3e3),BOOMR_lstart=(new Date).getTime(),o.parentNode.appendChild(r);else t(!1);if(window.addEventListener)window.addEventListener("load",a,!1);else if(window.attachEvent)window.attachEvent("onload",a)}}(),"".length>0)if(e&&"performance"in e&&e.performance&&"function"==typeof e.performance.setResourceTimingBufferSize)e.performance.setResourceTimingBufferSize();!function(){if(BOOMR=e.BOOMR||{},BOOMR.plugins=BOOMR.plugins||{},!BOOMR.plugins.AK){var n=""=="true"?1:0,t="",a="ljqllrax2fkcq2wfuarq-f-b3938a802-clientnsv4-s.akamaihd.net",o="false"=="true"?2:1,i={"ak.v":"41","ak.cp":"1825201","ak.ai":parseInt("1215205",10),"ak.ol":"0","ak.cr":9,"ak.ipv":4,"ak.proto":"h2","ak.rid":"d7c5e0","ak.r":46091,"ak.a2":n,"ak.m":"dscb","ak.n":"ff","ak.cport":44813,"ak.gh":"23.201.193.76","ak.quicv":"","ak.tlsv":"tls1.3","ak.0rtt":"","ak.0rtt.ed":"","ak.csrc":"-","ak.acc":"","ak.t":"1791336483","ak.ak":"hOBiQwZUYzCg5VSAfCLimQ==JjOA0GO/sSs3S6RzeImKv+z3qP5CjZTb7u3Ld8GS+f41jlwMkOYmEjCo9L8fOMyurtNbRtQCYE4LMGZxVKkCvVasp7Yd+LtpLPMBKf7lGawWnaTCtLRHBnXBK6Utql6MuR45mQNjUDE232lMC2HJTKFiikWsSllRHsjU1RbU15yQ6KFlJyBxB+0pby/dJmveqypDYOEhBXLPcE01vgi/BCIOKRQiD4Wd8DFP3CGDw6FA/1GYk+M4ml+/1VLCh3RAHsKGiee87A52S0cfEHY/K9Vz0QSaHFK7241MRxCpEHGMMkjvtfjAXKFmNEmE7fq7j0EaonzVzxSSJzA0X4aDZGzLIZ6K6WQ6qMCIbj4xVZS/D1aGvvSkoPFZC5p6pOYLefL0LnaTC7FSP3826Jw20k+VV/425UE1vIL3OtZHQSM=","ak.pv":"9","ak.dpoabenc":"","ak.tf":o};if(""!==t)i["ak.ruds"]=t;var r={i:!1,av:function(n){var t="http.initiator";if(n&&(!n[t]||"spa_hard"===n[t]))i["ak.feo"]=void 0!==e.aFeoApplied?1:0,BOOMR.addVar(i)},rv:function(){var e=["ak.cport","ak.cr","ak.csrc","ak.gh","ak.ipv","ak.m","ak.n","ak.ol","ak.proto","ak.quicv","ak.tlsv","ak.0rtt","ak.0rtt.ed","ak.r","ak.acc","ak.t","ak.tf"];BOOMR.removeVar(e)}};BOOMR.plugins.AK={akVars:i,akDNSPreFetchDomain:a,init:function(){if(!r.i){var e=BOOMR.subscribe;e("before_beacon",r.av,null,null),e("onbeacon",r.rv,null,null),r.i=!0}return this},is_complete:function(){return!0}}}}()}(window);</script></head>
+<body>
+    
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"
+     style="position:absolute;width:0;height:0;overflow:hidden" id="dbim-icon-sprite">
+    <defs>
+        <symbol id="icon-angle-double-left" viewBox="0 0 24 24"><path d="M11.6 4.6 4.2 12l7.4 7.4 2.2-2.2L8.6 12l5.2-5.2z"/><path d="M19 4.6 11.6 12 19 19.4l2.2-2.2L16 12l5.2-5.2z"/></symbol>
+        <symbol id="icon-angle-double-right" viewBox="0 0 24 24"><path d="M12.4 4.6 10.2 6.8 15.4 12l-5.2 5.2 2.2 2.2L19.8 12z"/><path d="M5 4.6 2.8 6.8 8 12l-5.2 5.2L5 19.4 12.4 12z"/></symbol>
+        <symbol id="icon-arrow-left" viewBox="0 0 24 24"><path d="M20.8 10.6H9.6v2.8h11.2z"/><path d="M10.8 5.6 3.2 12l7.6 6.4z"/></symbol>
+        <symbol id="icon-arrow-right" viewBox="0 0 24 24"><path d="M3.2 10.6h11.2v2.8H3.2z"/><path d="M13.2 5.6 20.8 12l-7.6 6.4z"/></symbol>
+        <symbol id="icon-blogger" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M6.4 2.4h11.2a4 4 0 0 1 4 4v11.2a4 4 0 0 1-4 4H6.4a4 4 0 0 1-4-4V6.4a4 4 0 0 1 4-4zm2.8 5.2a2 2 0 0 0 0 4h2.4a2 2 0 0 0 0-4zm0 5.6a2 2 0 0 0 0 4h5.6a2 2 0 0 0 0-4z"/></symbol>
+        <symbol id="icon-calendar" viewBox="0 0 24 24"><path d="M7.6 2.4H10v2.4H7.6z"/><path d="M14 2.4h2.4v2.4H14z"/><path fill-rule="evenodd" d="M4 4.8h16a1.6 1.6 0 0 1 1.6 1.6v13.2a1.6 1.6 0 0 1-1.6 1.6H4a1.6 1.6 0 0 1-1.6-1.6V6.4A1.6 1.6 0 0 1 4 4.8zm.4 5.6v8.4h15.2v-8.4z"/><path d="M6.4 12.4h3.2v3.2H6.4z"/></symbol>
+        <symbol id="icon-chevron-left" viewBox="0 0 24 24"><path d="M15.4 4.6 8 12l7.4 7.4 2.2-2.2L12.4 12l5.2-5.2z"/></symbol>
+        <symbol id="icon-chevron-right" viewBox="0 0 24 24"><path d="M8.6 4.6 6.4 6.8 11.6 12l-5.2 5.2 2.2 2.2L16 12z"/></symbol>
+        <symbol id="icon-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/></symbol>
+        <symbol id="icon-download" viewBox="0 0 24 24"><path d="M10.8 3h2.4v7.6h3.4L12 16.6l-4.6-6h3.4z"/><path d="M4 17.2h2.4v2.4h11.2v-2.4H20v3.2a1.4 1.4 0 0 1-1.4 1.4H5.4A1.4 1.4 0 0 1 4 20.4z"/></symbol>
+        <symbol id="icon-facebook" viewBox="0 0 24 24"><path d="M13.6 21.6v-8.4h2.8l.42-3.3h-3.22V7.8c0-.95.27-1.6 1.64-1.6h1.74V3.26a23 23 0 0 0-2.54-.13c-2.5 0-4.22 1.53-4.22 4.34v2.43H7.4v3.3h2.82v8.4z"/></symbol>
+        <symbol id="icon-fact-check" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2.4 3.6 5.6v6.2c0 4.6 3.4 8.6 8.4 9.8 5-1.2 8.4-5.2 8.4-9.8V5.6zm-1 13.2-3.6-3.6 1.7-1.7 1.9 1.9 4.5-4.5 1.7 1.7z"/></symbol>
+        <symbol id="icon-hashtag" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M8.8 3h2.4l-1 6h3.2l1-6h2.4l-1 6h3.4v2.4h-3.8l-.6 3.2h3.6V17h-4l-1 5h-2.4l1-5h-3.2l-1 5H5.4l1-5H3V14.6h3.8l.6-3.2H3.8V9h4zm.6 8.4-.6 3.2h3.2l.6-3.2z"/></symbol>
+        <symbol id="icon-home" viewBox="0 0 24 24"><path d="M12 3.4 2.8 11.6h2.4v8.4a1 1 0 0 0 1 1h3.3v-5.4h5v5.4h3.3a1 1 0 0 0 1-1v-8.4h2.4z"/></symbol>
+        <symbol id="icon-instagram" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M7.6 2.4h8.8a5.2 5.2 0 0 1 5.2 5.2v8.8a5.2 5.2 0 0 1-5.2 5.2H7.6a5.2 5.2 0 0 1-5.2-5.2V7.6a5.2 5.2 0 0 1 5.2-5.2zm0 2.4a2.8 2.8 0 0 0-2.8 2.8v8.8a2.8 2.8 0 0 0 2.8 2.8h8.8a2.8 2.8 0 0 0 2.8-2.8V7.6a2.8 2.8 0 0 0-2.8-2.8z"/><path fill-rule="evenodd" d="M12 6.8a5.2 5.2 0 1 0 0 10.4 5.2 5.2 0 0 0 0-10.4zm0 2.4a2.8 2.8 0 1 1 0 5.6 2.8 2.8 0 0 1 0-5.6z"/><circle cx="17.3" cy="6.7" r="1.3"/></symbol>
+        <symbol id="icon-linkedin" viewBox="0 0 24 24"><path d="M4.8 8.8h3.6v12H4.8z"/><circle cx="6.6" cy="5.4" r="2.1"/><path d="M10.8 8.8h3.45v1.65h.05c.48-.9 1.65-1.85 3.4-1.85 3.63 0 4.3 2.35 4.3 5.4v6.6h-3.6v-5.85c0-1.4-.03-3.2-1.95-3.2-1.95 0-2.25 1.52-2.25 3.1v5.95h-3.6z"/></symbol>
+        <symbol id="icon-mail" viewBox="0 0 24 24"><path d="M2.4 7.6v9.2a1.6 1.6 0 0 0 1.6 1.6h16a1.6 1.6 0 0 0 1.6-1.6V7.6L12 14z"/><path d="M21.2 5.4H2.8L12 11.8z"/></symbol>
+        <symbol id="icon-mail-open" viewBox="0 0 24 24"><path d="M2.4 9.8h19.2v9.6A1.6 1.6 0 0 1 20 21H4a1.6 1.6 0 0 1-1.6-1.6z"/><path d="M12 2.6 21.6 9.2h-3.8L12 5.3 6.2 9.2H2.4z"/><path d="m3.9 11.2 8.1 5.4 8.1-5.4 1.5 1.3-9.6 6.4-9.6-6.4z"/></symbol>
+        <symbol id="icon-map-marker" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2.4a7 7 0 0 0-7 7c0 5.2 7 12.2 7 12.2s7-7 7-12.2a7 7 0 0 0-7-7zm0 9.6a2.6 2.6 0 1 1 0-5.2 2.6 2.6 0 0 1 0 5.2z"/></symbol>
+        <symbol id="icon-newspaper" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M2.8 4.4h14.8v15.2H2.8zm2 2v11.2h10.8V6.4z"/><path d="M6 7.6h8.4v1.6H6z"/><path d="M6 10.8h8.4v1.6H6z"/><path d="M6 14h5.2v1.6H6z"/><path d="M18.4 8.4h2.8v9.6a1.4 1.4 0 0 1-2.8 0z"/></symbol>
+        <symbol id="icon-pause" viewBox="0 0 24 24"><rect x="7.4" y="4" width="3.6" height="16" rx="0.9"/><rect x="13" y="4" width="3.6" height="16" rx="0.9"/></symbol>
+    <symbol id="icon-play" viewBox="0 0 24 24"><path d="M8 4.5v15l12-7.5z"/></symbol>
+        <symbol id="icon-picture" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M2.4 5.2h19.2v13.6H2.4zm2 2v9.6h15.2V7.2z"/><path d="M5.6 16.4 10 11l2.6 3 2-2.2 4 4.6z"/><circle cx="8" cy="10.4" r="1.5"/></symbol>
+        <symbol id="icon-press-conference" viewBox="0 0 24 24"><circle cx="12" cy="5.2" r="2.6"/><path d="M7.6 12.2a4.4 4.4 0 0 1 8.8 0z"/><circle cx="4.9" cy="9.6" r="2.2"/><path d="M1.8 15.2a3.1 3.1 0 0 1 6.2 0z"/><circle cx="19.1" cy="9.6" r="2.2"/><path d="M16 15.2a3.1 3.1 0 0 1 6.2 0z"/><path d="M6.6 13.6h10.8l2.2 7.8H4.4z"/></symbol>
+        <symbol id="icon-print" viewBox="0 0 24 24"><path d="M6.4 2.8h11.2v4.4H6.4z"/><path d="M4 8.4h16a1.6 1.6 0 0 1 1.6 1.6v5.6a1.6 1.6 0 0 1-1.6 1.6h-1.6v-2.8H6v2.8H4a1.6 1.6 0 0 1-1.6-1.6V10A1.6 1.6 0 0 1 4 8.4z"/><path d="M7.2 15.6h9.6v5.6H7.2z"/></symbol>
+        <symbol id="icon-rss" viewBox="0 0 24 24"><circle cx="4.8" cy="19.2" r="2.4"/><path d="M2.4 11.2v3.2a6.4 6.4 0 0 1 6.4 6.4H12A9.6 9.6 0 0 0 2.4 11.2z"/><path d="M2.4 4.8V8A13.6 13.6 0 0 1 16 21.6h3.2A16.8 16.8 0 0 0 2.4 4.8z"/></symbol>
+        <symbol id="icon-search-plus" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M10 2.8a7.2 7.2 0 1 0 0 14.4 7.2 7.2 0 0 0 0-14.4zm0 2.4a4.8 4.8 0 1 1 0 9.6 4.8 4.8 0 0 1 0-9.6z"/><path d="M15.3 14.6 21.2 20.5l-1.5 1.5-5.9-5.9z"/><path d="M9.2 6.8h1.6v2.4h2.4v1.6h-2.4v2.4H9.2v-2.4H6.8V9.2h2.4z"/></symbol>
+        <symbol id="icon-share" viewBox="0 0 24 24"><circle cx="18" cy="5.6" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="18.4" r="3"/><path d="M8.3 10.9 15.7 7.2l.9 1.8-7.4 3.7z"/><path d="M9.2 13.1 16.6 16.8l-.9 1.8-7.4-3.7z"/></symbol>
+        <symbol id="icon-twitter" viewBox="0 0 24 24"><path d="M4.2 3h4.3l11.3 18h-4.3z"/><path d="M19.3 3h-2.6L4.2 21h2.6z"/></symbol>
+        <symbol id="icon-university" viewBox="0 0 24 24"><path d="M12 2.4 21.6 7.2v1.6H2.4V7.2z"/><path d="M4.8 10.4h2.4v8H4.8z"/><path d="M9.2 10.4h2.4v8H9.2z"/><path d="M13.4 10.4h2.4v8h-2.4z"/><path d="M17.6 10.4H20v8h-2.4z"/><path d="M3.2 19.8h17.6v1.8H3.2z"/></symbol>
+        <symbol id="icon-volume-up" viewBox="0 0 24 24"><path d="M3.2 9.2h3.3l5-4.2v14l-5-4.2H3.2z"/><path d="M14.6 8.4a5 5 0 0 1 0 7.2l1.6 1.6a7.2 7.2 0 0 0 0-10.4z"/><path d="M17.4 5.6a8.8 8.8 0 0 1 0 12.8l1.5 1.5a10.9 10.9 0 0 0 0-15.8z"/></symbol>
+        <symbol id="icon-whatsapp" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2.4a9.5 9.5 0 0 0-8.1 14.5L2.4 21.6l4.8-1.4A9.5 9.5 0 1 0 12 2.4zm0 2.2a7.3 7.3 0 1 1-3.8 13.5l-.4-.2-2.6.7.7-2.5-.3-.4A7.3 7.3 0 0 1 12 4.6z"/><path d="M9.4 7.8c-.2-.5-.4-.5-.6-.5h-.5a1 1 0 0 0-.7.3c-.3.3-.9.9-.9 2.1s.9 2.4 1 2.6c.1.2 1.7 2.8 4.3 3.8 2.1.8 2.6.7 3 .6.5 0 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2l-.5-.3-1.6-.8c-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6 6 0 0 1-1.8-1.1 6.6 6.6 0 0 1-1.2-1.6c-.1-.2 0-.4.1-.5l.4-.5.3-.5v-.5z"/></symbol>
+        <symbol id="icon-youtube" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M21.6 7.2a2.8 2.8 0 0 0-2-2C17.9 4.8 12 4.8 12 4.8s-5.9 0-7.6.4a2.8 2.8 0 0 0-2 2A29 29 0 0 0 2 12a29 29 0 0 0 .4 4.8 2.8 2.8 0 0 0 2 2c1.7.4 7.6.4 7.6.4s5.9 0 7.6-.4a2.8 2.8 0 0 0 2-2A29 29 0 0 0 22 12a29 29 0 0 0-.4-4.8zM10.2 15.1V8.9l5.1 3.1z"/></symbol>
+    </defs>
+</svg>
+
+      <form method="post" action="./PressReleaseIframePage.aspx?PRID=2055412&amp;reg=48&amp;lang=2" id="form1">
+<div class="aspNetHidden">
+<input type="hidden" name="sc_HiddenField" id="sc_HiddenField" value="" />
+<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
+<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="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" />
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+var theForm = document.forms['form1'];
+if (!theForm) {
+    theForm = document.form1;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</script>
+
+
+<script src="/WebResource.axd?d=pynGkmcFUV13He1Qd6_TZPQet1wIx1Q48y3xJY2k25Y7qxH5RrQ9qQcN-OiTC9guZtri9w2&amp;t=639246310404186790" type="text/javascript"></script>
+
+
+<script src="/ScriptResource.axd?d=x6wALODbMJK5e0eRC_p1LdIxBJXt0U_WW5GWfJqHAqo6frgCmGRfEywglicTersO2OKrFhK1gAIp0Wk2al2YrpdR3uWqH6f4nfjBsCyRUfTUUVmb0&amp;t=ffffffffecf8d3f2" type="text/javascript"></script>
+<script src="/ScriptResource.axd?d=P5lTttoqSeZXoYRLQMIScH645UK3RD852IErF2548Wz9Ssv0rLjB4fhVKnHcMpqkaMHpNAGOeWY02Lf4aBYN9-dVBme_SNK5KJwmFQNpMixYDZ7M0&amp;t=ffffffffecf8d3f2" type="text/javascript"></script>
+<script src="/PressReleaseIframePage.aspx?_TSM_HiddenField_=sc_HiddenField&amp;_TSM_CombinedScripts_=%3b%3bAjaxControlToolkit%2c+Version%3d3.5.7.123%2c+Culture%3dneutral%2c+PublicKeyToken%3d28f01b0e84b6d53e%3aen-US%3a5a4df314-b4a2-4da2-a207-9284f1b1e96c%3ade1feab2%3af2c8e708%3a8613aea7%3af9cec9bc%3a3202a5a2%3aab09e3fe%3a87104b7c%3a720a52bf%3a589eaa30%3aa67c2700%3abe6fb298" type="text/javascript"></script>
+<div class="aspNetHidden">
+
+	<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="8166A38A" />
+	<input type="hidden" name="__VIEWSTATEENCRYPTED" id="__VIEWSTATEENCRYPTED" value="" />
+	<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="j3xYtBZopFMqq4IG0MridpIfq1feowTJsg0G7ce8P0yrB0keyCsc+rHH+VdMKqU59APxbwow661rHuql3kenhO+Kzq1zrfHWYUCmJ2TBvoMdQkM5/ETVHwiiJC45LdZarSSKsdwhUTF0SlvvR0ltOBuvAp10OusjXyXHpyGc/P5CWGZCyTZsssB1l4c2j8n0lCy7ArlG20ko/5sfE5tt04VAUlwiWGtrZq8+y/XbwPQInIdA80MlvhNJYGlSZcLdcbubcO5p4xMesv7Khu2SGVC20xQ=" />
+</div>
+                              
+            <div id="templateCss"></div>
+            <script type="text/javascript">
+//<![CDATA[
+Sys.WebForms.PageRequestManager._initialize('sc', 'form1', ['tupdate12','update12'], [], [], 90, '');
+//]]>
+</script>
+
+            <input type="hidden" name="hfGridHtml" id="hfGridHtml" />
+            <div class="container" style='margin-bottom: 50px;'>
+                  <div id="accessories">
+
+                        
+                        <div class="pull-right" style="display: flex">
+                              <div id="voll"></div>
+                              <div id="vollDT"></div>
+                              
+                              
+
+<span class="print-icons">
+<input type="image" name="Print1$print" id="Print1_print" aria-label="Print" src="images/printer_icon.png" alt="print page button" style="padding: 5px 10px 5px 10px;" />
+</span>
+                        </div>
+                  </div>
+                  <input type="hidden" name="hydpermid" id="hydpermid" value="2055412" />
+                  
+
+
+
+                  <div class="innner-page-main-about-us-content-right-part">
+
+                        <div id="MinistryName" class="MinistryNameSubhead text-center">
+                              Ministry of Ports, Shipping and Waterways
+                        </div>
+                        
+                        <div id="lg_g"><div class='log_oo'>  <img src='https://static.pib.gov.in/WriteReadData/specificdocs/photo/2021/aug/ph202183101.png' alt='azadi ka amrit mahotsav' /> </div></div>
+
+
+
+
+
+                        <div class="text-center event-heading-background">
+                              
+                              <h1 id="Titleh2">
+                                    Prime Minister Shri Narendra Modi Addresses the Inauguration of Tuticorin International Container Terminal
+                              </h1>
+                              <h3 id="Subtitleh3">
+                                    <span id="ltrSubtitle"><br/>Union Minister Shri Sarbananda Sonowal Dedicates Tuticorin International Terminal to the Nation<br/><br/>Shri Sarbananda Sonowal Launched Major Infra Projects, mega Investment by Govt to Upgrade Facilities<br/><br/>Shri Sonowal inaugurated Green Hydrogen Project; Sonowal dubs it as a major step towards “PM Narendra Modi ji’s vision of Making India Global  Hub of Green Hydrogen”<br/><br/>Shri Sonowal also Launched Ambitious “Mission 50” Campaign for Tuticorin Port as it Aims to Handle 50 Million Tonnes Cargo in FY2024-25<br/><br/>“Completed ahead of schedule, the new terminal is a landmark achievement in the First 100 Days of Narendra Modi ji led Govt”: Shri Sarbananda Sonowal<br/><br/>Shri Sonowal Inaugurated 400 KW Rooftop Solar Power Plant as part of ‘Harit Sagar Green Port Initiative’</span>
+                              </h3>
+                        </div>
+
+                        <div id="PrDateTime" class="ReleaseDateSubHeaddateTime text-center pt20">
+                              प्रविष्टि तिथि:
+                16 SEP 2024 6:28PM by PIB Delhi
+                        </div>
+                        
+                        <div class='pt20'>
+                        </div>
+                        <input type="hidden" name="hydphotoUrl" id="hydphotoUrl" />
+                        
+                        <p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">The Union Minister of Ports, Shipping &amp; Waterways, Shri Sarbananda Sonowal dedicated the Tuticorin International Container Terminal (TICT) to the nation at the VO Chidambaranar Port Authority (VOCPA) here today. The Union Minister also inaugurated key infra projects as well as laid foundation stones for several initiatives. </span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">The Prime Minister Shri Narendra Modi addressed the inauguration of Tuticorin International Container Terminal via video message today. Speaking on the occasion, the Prime Minister underlined that today marks a significant milestone in India&rsquo;s journey towards becoming a developed nation and hailed the new Tuticorin International Container Terminal as the &lsquo;new star of India&#39;s marine infrastructure&rsquo;. Highlighting its role in expanding the capacity of the V.O. Chidambaranar Port, the Prime Minister said, &ldquo;With a deep draft of more than 14 meters and a berth over 300 meters long, this terminal will play a crucial role in enhancing the capacity of the V.O.C. port.&rdquo; The PM further added that the new terminal is expected to reduce logistics costs at the port and save foreign exchange for India. He congratulated the people of Tamil Nadu and recalled several projects related to V.O.C. Port that had been initiated during his visit two years ago. He expressed satisfaction with the rapid completion. He emphasized that one of the terminal&#39;s key achievements is its commitment to gender diversity with 40% of its employees being women, symbolizing women-led Development in the maritime sector.</span></span></p>
+
+<p style="text-align:center"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><img src="https://static.pib.gov.in/WriteReadData/userfiles/image/image001N74R.jpg" style="height:427px; width:643px" /></span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Shri Sonowal also flagged off the maiden Container Vessel from the new TICT terminal marking the beginning of operation for one of significant port infrastructure project in the country. The port has been developed with an investment of more than ₹434 crores, with a capacity to handle 6 lakh TEUs annually. The terminal has a draft of 14.20 meters which allows it to accommodate container vessels of up to 10,000 TEUs. </span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">The Union Minister also inaugurated the newly constructed Green Hydrogen Project, which he dubbed as a &lsquo;major step towards realising PM Narendra Modi&rsquo;s vision of making India global hub of Green Hydrogen&rsquo;. Shri Sarbananda Sonowal also inaugurated a 400 kW Rooftop Solar Power Plant as part of the &lsquo;Harit Sagar Green Port Initiative.&rsquo; The Union Minister also witnessed exchange of Land Lease Agreements for new ventures as the VOCPA expands its industrial landscape, unlocking huge potential for growth. </span></span></p>
+
+<p style="text-align:center"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><img src="https://static.pib.gov.in/WriteReadData/userfiles/image/image002EQ43.jpg" style="height:427px; width:643px" /></span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">PM Modi spoke about India&rsquo;s broader maritime mission, which extends beyond infrastructure development. &ldquo;India is showing the world the path to sustainable and forward-thinking development,&rdquo; he said, pointing out that the V.O.C. Port is being recognised as a Green Hydrogen hub and a nodal port for offshore wind energy. These initiatives will play a significant role in tackling the global challenges of climate change.</span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Speaking on the occasion, the Union Minister, Shri Sarbananda Sonowal said, &ldquo;India is on cruise to becoming world&rsquo;s top marine power. Under the dynamic leadership of Prime Minister Shri Narendra Modi ji, the marine sector has received tremendous boost to modernise, mechanise and digitise our assets in order to drive efficiency and productivity. Today, this initiative got another shot in the arm as our effort towards providing a smooth &amp; swift service for the trading community lead to the growth of EXIM trade, ultimately contributing to the growth of India&rsquo;s wealth. This new terminal will reduce delays, bypass transshipment and economise operations by saving upto US$ 200 per container. This will optimise our cost of operation by up to US$ 4 million annually. Completed ahead of schedule, this terminal is a landmark achievement in the First 100 days of PM Shri Narendra Modi ji led NDA Government. Our workforce, which is the backbone of our ports, are very hardworking and I want to commend them for their work. It is heartening to know that this port has been instrumental in creating employment. To recognise the power of Nari Shakti, at least 40% of workforce should be women which will greatly contribute towards inclusive growth.&rdquo;</span></span></p>
+
+<p style="text-align:center"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><img src="https://static.pib.gov.in/WriteReadData/userfiles/image/image003631G.jpg" style="height:428px; width:643px" /></span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">The Union Minister also inaugurated various other projects including the upgradation of 22 kV Circuit Breaker Panels at the Red Gate and Oil Jetty Control Rooms, commissioning of 24 High Mast Lights, and a Drone Surveillance System to enhance port safety. The Union Minister also laid foundations stone for the Green Hydrogen Demonstration Project, a 400 kW Rooftop Solar Power Plant, and the Link Conveyor System from Coal Jetty-I to the Coal Stockyard. Additionally, projects like the De-Addiction Centre and awareness artwork at Muthiapuram Bridge were launched under the port&rsquo;s Corporate Social Responsibility (CSR) initiatives. </span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">The Minister witnessed the signing of land lease agreements with major companies, including ACME and Green Infra-Renewable Energy Farms Pvt Ltd, Renew e-Fuels Private Limited, and Amplus Ganges Solar Private Limited. With these initiatives, the drive towards developing sustainable energy in the region will get a major boost, confided Sonowal. </span></span></p>
+
+<p style="text-align:center"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><img src="https://static.pib.gov.in/WriteReadData/userfiles/image/image004Z2RW.jpg" style="height:336px; width:643px" /></span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Union Minister Shri Sarbananda Sonowal also launched an ambitions campaign of VOCPA &lsquo;Mission 50&rsquo; with an aim to handle 50 million tonnes of cargo by end of this fiscal, i.e., FY2024-25. Sonowal called upon all the workers and stakeholders to lend their best foot forward to realise this goal. The Minister also led a plantation drive at the VOC Orchard, as part of the nationwide campaign &ldquo;Ek Ped Maa Ke Naam&rdquo; launched by the Prime Minister earlier this year. </span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Shri Sarbananda Sonowal also lauded the VOCPA&rsquo;s effort to ramp up renewable energy production via the new Green Hydrogen Demonstration Project and the 400 kW Rooftop Solar Power plant. Sarbananda Sonowal exuded confidence when he said,&nbsp; &ldquo;These initiatives are in line with the vision of our dynamic Prime Minister Shri Narendra Modiji of transforming India into the global hub of Green Hydrogen. These projects will attract new investments and fuel economic growth while advancing India&rsquo;s renewable energy objectives.&rdquo;</span></span></p>
+
+<p style="text-align:center"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><img src="https://static.pib.gov.in/WriteReadData/userfiles/image/image0057AK4.jpg" style="height:428px; width:643px" /></span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">On the launch of CSR initiatives, the Minister emphasised the port&rsquo;s commitment to work for the betterment of the society and give back through various means towards improvement of quality of lives of people. The launch of initiatives like the De-addiction Centre and the Muthiapuram Bridge artwork reflects the port&rsquo;s commitment to local welfare. &ldquo;The well-being of communities is integral to national development, and I am pleased to see VOCPA taking steps that will positively impact the lives of people in this region,&rdquo; Shri Sarbananda Sonowal concluded.</span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">The Tuticorin International Container Terminal (TICT), the VOCPA port&rsquo;s third, is operated by JM Baxi Group. It boasts a draft of 14.20 meters, an overall length of 370 meters, and spans 10 hectares, including the berth and backup area. The terminal is equipped to handle 6 TEUs (Twenty-foot Equivalent Units) of containers, significantly bolstering the port&rsquo;s cargo handling capacity.</span></span></p>
+
+<p style="text-align:center"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><img src="https://static.pib.gov.in/WriteReadData/userfiles/image/image0062EAH.jpg" style="height:428px; width:643px" /></span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">&ldquo;The dedication of the Tuticorin International Container Terminal marks a significant step forward in India&rsquo;s maritime development, aligning with our vision of modern, sustainable infrastructure. This terminal, along with the green energy initiatives and community-focused projects launched today, will not only enhance the efficiency of our ports but also foster inclusive growth, creating jobs and driving economic progress for the region and the nation,&rdquo; said Shantanu Thakur, the Union Minister of State, Ministry of Ports, Shipping &amp; Waterways (MoPSW).</span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Susanta Kumar Purohit, IRSEE, Chairperson of VOCPA, welcomed the attendees and outlined the port&rsquo;s ongoing capacity enhancement projects, expressing optimism about future growth. The event was also graced by the presence of Kanimozhi Karunanidhi, Member of Parliament for the Thoothukudi Constituency; T. K. Ramachandran, Secretary, MoPSW.</span></span></p>
+
+<p style="text-align:center">***</p>
+
+<p style="text-align:justify"><strong><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">NB/AK</span></span></strong></p>
+
+
+                        
+                        <div id="reel_pic">
+                        </div>
+
+
+
+                        
+                        <br />
+                        <span id="ReleaseId">(रिलीज़ आईडी: 2055412)</span>
+                        <span id="lblViews">	आगंतुक पटल  : 3040</span>
+                        <div>
+                              
+                        </div>
+                        
+
+                        <span id="lblRefPhoto"></span>
+
+                        <div class="BackgroundRelease">
+                              
+                        </div>
+                        <div>
+                              
+                        </div>
+                        <div class="ReleaseLang">इस विज्ञप्ति को इन भाषाओं में पढ़ें: 
+                        
+                                    
+                                    <a href='https://pib.gov.in/PressReleasePage.aspx?PRID=2055450' target="_blank">
+                                          Urdu </a>
+                              
+                                    ,
+                              
+                                    
+                                    <a href='https://pib.gov.in/PressReleasePage.aspx?PRID=2055467' target="_blank">
+                                          हिन्दी </a>
+                              
+                                    ,
+                              
+                                    
+                                    <a href='https://pib.gov.in/PressReleasePage.aspx?PRID=2055459' target="_blank">
+                                          Tamil </a>
+                              
+                                    ,
+                              
+                                    
+                                    <a href='https://pib.gov.in/PressReleasePage.aspx?PRID=2055865' target="_blank">
+                                          Telugu </a>
+                              
+                                    ,
+                              
+                                    
+                                    <a href='https://pib.gov.in/PressReleasePage.aspx?PRID=2055589' target="_blank">
+                                          Kannada </a>
+                              
+                        </div>
+
+                        <div class="RelTag">
+                              <ul>
+                                    
+                              </ul>
+                        </div>
+                        <div class="clear">
+                        </div>
+                        <div id="RelLink" class="RelLink">
+                              <ul>
+                                    
+                                    
+                              </ul>
+                        </div>
+                        <center>
+                              
+                        </center>
+                  </div>
+
+                  <div id="update12">
+	
+                              
+                              <input type="hidden" name="Hidden" id="Hidden" />
+                              <div id="P_CategoryManagement" class="ModalWindow" style="border-width:0px;height:60%;width:60%;overflow:auto;display: none">
+		
+                                    <div>
+                                          <input type="image" name="btnClose" id="btnClose" src="images/close_flat_icon.png" />
+                                    </div>
+                                    <div id="description">
+                                    </div>
+                                    <div class="text-center">
+                                          <h2>
+                                                
+                                                <br>
+                                                
+                                          </h2>
+                                    </div>
+                                    <br />
+                                    <div class="clear">
+                                    </div>
+                                    
+                              
+	</div>
+                        
+</div>
+            </div>
+            
+            <div id="PdfDiv" style="display: none;">
+                  <table width="100%">
+                        <tr>
+                              <td style="font-weight: 200; text-align: center">
+                                    Ministry of Ports, Shipping and Waterways
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                                    <div style="font-weight: 200; text-align: center; font-size: 30px;">
+                                          Prime Minister Shri Narendra Modi Addresses the Inauguration of Tuticorin International Container Terminal
+                                    </div>
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                                    <div style="font-weight: 200; text-align: center; font-size: 30px;">
+                                          <div style='height:30px;width:100%;'></div>Union Minister Shri Sarbananda Sonowal Dedicates Tuticorin International Terminal to the Nation<div style='height:30px;width:100%;'></div><div style='height:30px;width:100%;'></div>Shri Sarbananda Sonowal Launched Major Infra Projects, mega Investment by Govt to Upgrade Facilities<div style='height:30px;width:100%;'></div><div style='height:30px;width:100%;'></div>Shri Sonowal inaugurated Green Hydrogen Project; Sonowal dubs it as a major step towards “PM Narendra Modi ji’s vision of Making India Global  Hub of Green Hydrogen”<div style='height:30px;width:100%;'></div><div style='height:30px;width:100%;'></div>Shri Sonowal also Launched Ambitious “Mission 50” Campaign for Tuticorin Port as it Aims to Handle 50 Million Tonnes Cargo in FY2024-25<div style='height:30px;width:100%;'></div><div style='height:30px;width:100%;'></div>“Completed ahead of schedule, the new terminal is a landmark achievement in the First 100 Days of Narendra Modi ji led Govt”: Shri Sarbananda Sonowal<div style='height:30px;width:100%;'></div><div style='height:30px;width:100%;'></div>Shri Sonowal Inaugurated 400 KW Rooftop Solar Power Plant as part of ‘Harit Sagar Green Port Initiative’
+                                    </div>
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                                    <div style="text-align: center; font-size: 14px;">
+                                          प्रविष्टि तिथि:
+                        16 SEP 2024 6:28PM by PIB Delhi
+                                    </div>
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                                    <div style="font-weight: 200; text-align: left; font-size: 16px;">
+                                          <p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">The Union Minister of Ports, Shipping &amp; Waterways, Shri Sarbananda Sonowal dedicated the Tuticorin International Container Terminal (TICT) to the nation at the VO Chidambaranar Port Authority (VOCPA) here today. The Union Minister also inaugurated key infra projects as well as laid foundation stones for several initiatives. </span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">The Prime Minister Shri Narendra Modi addressed the inauguration of Tuticorin International Container Terminal via video message today. Speaking on the occasion, the Prime Minister underlined that today marks a significant milestone in India&rsquo;s journey towards becoming a developed nation and hailed the new Tuticorin International Container Terminal as the &lsquo;new star of India&#39;s marine infrastructure&rsquo;. Highlighting its role in expanding the capacity of the V.O. Chidambaranar Port, the Prime Minister said, &ldquo;With a deep draft of more than 14 meters and a berth over 300 meters long, this terminal will play a crucial role in enhancing the capacity of the V.O.C. port.&rdquo; The PM further added that the new terminal is expected to reduce logistics costs at the port and save foreign exchange for India. He congratulated the people of Tamil Nadu and recalled several projects related to V.O.C. Port that had been initiated during his visit two years ago. He expressed satisfaction with the rapid completion. He emphasized that one of the terminal&#39;s key achievements is its commitment to gender diversity with 40% of its employees being women, symbolizing women-led Development in the maritime sector.</span></span></p>
+
+<p style="text-align:center"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><img src="https://static.pib.gov.in/WriteReadData/userfiles/image/image001N74R.jpg" style="height:427px; width:643px" /></span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Shri Sonowal also flagged off the maiden Container Vessel from the new TICT terminal marking the beginning of operation for one of significant port infrastructure project in the country. The port has been developed with an investment of more than ₹434 crores, with a capacity to handle 6 lakh TEUs annually. The terminal has a draft of 14.20 meters which allows it to accommodate container vessels of up to 10,000 TEUs. </span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">The Union Minister also inaugurated the newly constructed Green Hydrogen Project, which he dubbed as a &lsquo;major step towards realising PM Narendra Modi&rsquo;s vision of making India global hub of Green Hydrogen&rsquo;. Shri Sarbananda Sonowal also inaugurated a 400 kW Rooftop Solar Power Plant as part of the &lsquo;Harit Sagar Green Port Initiative.&rsquo; The Union Minister also witnessed exchange of Land Lease Agreements for new ventures as the VOCPA expands its industrial landscape, unlocking huge potential for growth. </span></span></p>
+
+<p style="text-align:center"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><img src="https://static.pib.gov.in/WriteReadData/userfiles/image/image002EQ43.jpg" style="height:427px; width:643px" /></span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">PM Modi spoke about India&rsquo;s broader maritime mission, which extends beyond infrastructure development. &ldquo;India is showing the world the path to sustainable and forward-thinking development,&rdquo; he said, pointing out that the V.O.C. Port is being recognised as a Green Hydrogen hub and a nodal port for offshore wind energy. These initiatives will play a significant role in tackling the global challenges of climate change.</span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Speaking on the occasion, the Union Minister, Shri Sarbananda Sonowal said, &ldquo;India is on cruise to becoming world&rsquo;s top marine power. Under the dynamic leadership of Prime Minister Shri Narendra Modi ji, the marine sector has received tremendous boost to modernise, mechanise and digitise our assets in order to drive efficiency and productivity. Today, this initiative got another shot in the arm as our effort towards providing a smooth &amp; swift service for the trading community lead to the growth of EXIM trade, ultimately contributing to the growth of India&rsquo;s wealth. This new terminal will reduce delays, bypass transshipment and economise operations by saving upto US$ 200 per container. This will optimise our cost of operation by up to US$ 4 million annually. Completed ahead of schedule, this terminal is a landmark achievement in the First 100 days of PM Shri Narendra Modi ji led NDA Government. Our workforce, which is the backbone of our ports, are very hardworking and I want to commend them for their work. It is heartening to know that this port has been instrumental in creating employment. To recognise the power of Nari Shakti, at least 40% of workforce should be women which will greatly contribute towards inclusive growth.&rdquo;</span></span></p>
+
+<p style="text-align:center"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><img src="https://static.pib.gov.in/WriteReadData/userfiles/image/image003631G.jpg" style="height:428px; width:643px" /></span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">The Union Minister also inaugurated various other projects including the upgradation of 22 kV Circuit Breaker Panels at the Red Gate and Oil Jetty Control Rooms, commissioning of 24 High Mast Lights, and a Drone Surveillance System to enhance port safety. The Union Minister also laid foundations stone for the Green Hydrogen Demonstration Project, a 400 kW Rooftop Solar Power Plant, and the Link Conveyor System from Coal Jetty-I to the Coal Stockyard. Additionally, projects like the De-Addiction Centre and awareness artwork at Muthiapuram Bridge were launched under the port&rsquo;s Corporate Social Responsibility (CSR) initiatives. </span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">The Minister witnessed the signing of land lease agreements with major companies, including ACME and Green Infra-Renewable Energy Farms Pvt Ltd, Renew e-Fuels Private Limited, and Amplus Ganges Solar Private Limited. With these initiatives, the drive towards developing sustainable energy in the region will get a major boost, confided Sonowal. </span></span></p>
+
+<p style="text-align:center"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><img src="https://static.pib.gov.in/WriteReadData/userfiles/image/image004Z2RW.jpg" style="height:336px; width:643px" /></span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Union Minister Shri Sarbananda Sonowal also launched an ambitions campaign of VOCPA &lsquo;Mission 50&rsquo; with an aim to handle 50 million tonnes of cargo by end of this fiscal, i.e., FY2024-25. Sonowal called upon all the workers and stakeholders to lend their best foot forward to realise this goal. The Minister also led a plantation drive at the VOC Orchard, as part of the nationwide campaign &ldquo;Ek Ped Maa Ke Naam&rdquo; launched by the Prime Minister earlier this year. </span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Shri Sarbananda Sonowal also lauded the VOCPA&rsquo;s effort to ramp up renewable energy production via the new Green Hydrogen Demonstration Project and the 400 kW Rooftop Solar Power plant. Sarbananda Sonowal exuded confidence when he said,&nbsp; &ldquo;These initiatives are in line with the vision of our dynamic Prime Minister Shri Narendra Modiji of transforming India into the global hub of Green Hydrogen. These projects will attract new investments and fuel economic growth while advancing India&rsquo;s renewable energy objectives.&rdquo;</span></span></p>
+
+<p style="text-align:center"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><img src="https://static.pib.gov.in/WriteReadData/userfiles/image/image0057AK4.jpg" style="height:428px; width:643px" /></span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">On the launch of CSR initiatives, the Minister emphasised the port&rsquo;s commitment to work for the betterment of the society and give back through various means towards improvement of quality of lives of people. The launch of initiatives like the De-addiction Centre and the Muthiapuram Bridge artwork reflects the port&rsquo;s commitment to local welfare. &ldquo;The well-being of communities is integral to national development, and I am pleased to see VOCPA taking steps that will positively impact the lives of people in this region,&rdquo; Shri Sarbananda Sonowal concluded.</span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">The Tuticorin International Container Terminal (TICT), the VOCPA port&rsquo;s third, is operated by JM Baxi Group. It boasts a draft of 14.20 meters, an overall length of 370 meters, and spans 10 hectares, including the berth and backup area. The terminal is equipped to handle 6 TEUs (Twenty-foot Equivalent Units) of containers, significantly bolstering the port&rsquo;s cargo handling capacity.</span></span></p>
+
+<p style="text-align:center"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><img src="https://static.pib.gov.in/WriteReadData/userfiles/image/image0062EAH.jpg" style="height:428px; width:643px" /></span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">&ldquo;The dedication of the Tuticorin International Container Terminal marks a significant step forward in India&rsquo;s maritime development, aligning with our vision of modern, sustainable infrastructure. This terminal, along with the green energy initiatives and community-focused projects launched today, will not only enhance the efficiency of our ports but also foster inclusive growth, creating jobs and driving economic progress for the region and the nation,&rdquo; said Shantanu Thakur, the Union Minister of State, Ministry of Ports, Shipping &amp; Waterways (MoPSW).</span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Susanta Kumar Purohit, IRSEE, Chairperson of VOCPA, welcomed the attendees and outlined the port&rsquo;s ongoing capacity enhancement projects, expressing optimism about future growth. The event was also graced by the presence of Kanimozhi Karunanidhi, Member of Parliament for the Thoothukudi Constituency; T. K. Ramachandran, Secretary, MoPSW.</span></span></p>
+
+<p style="text-align:center">***</p>
+
+<p style="text-align:justify"><strong><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">NB/AK</span></span></strong></p>
+
+                                    </div>
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                                    <div style="font-weight: 100; text-align: left; font-size: 16px;">
+                                          (रिलीज़ आईडी: 2055412)
+                                    </div>
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                              </td>
+                        </tr>
+                        <tr>
+                              <td style="font-weight: 200; text-align: center; font-size: 24px;"></td>
+                        </tr>
+                  </table>
+            </div>
+            <div class="clearfix">
+            </div>
+
+            
+
+            <div class="section1">
+                  <div id="frst_t">
+                        <div id="arr_rm"><div class='sticky-social_mb'><ul class='social_mb'><a href='http://www.facebook.com/share.php?u=https://pib.gov.in/PressReleasePage.aspx?PRID=2055412' target='_blank'><li class='fb_b'   ></li></a><a href='https://twitter.com/intent/tweet?url=https://pib.gov.in/PressReleasePage.aspx?PRID=2055412&text=Prime Minister Shri Narendra Modi Addresses the Inauguration of Tuticorin International Container Terminal' target='_blank'><li class='twitter_r'  > </li></a><a href='https://api.whatsapp.com/send?text=https://pib.gov.in/PressReleasePage.aspx?PRID=2055412' target='_blank'><li class='whatsapp_r'  ></li></a><a href='https://mail.google.com/mail/?view=cm&fs=1&tf=1&to=&su=Prime Minister Shri Narendra Modi Addresses the Inauguration of Tuticorin International Container Terminal&body=https://pib.gov.in/PressReleasePage.aspx?PRID=2055412&ui=2&tf=1&pli=1' title='Share by Email' target='_blank'><li class='fa-envelope_r' ></li></a><a href='https://www.linkedin.com/shareArticle?mini=true&url=https://pib.gov.in/PressReleasePage.aspx?PRID=2055412&title=Prime Minister Shri Narendra Modi Addresses the Inauguration of Tuticorin International Container Terminal&summary=My%20favorite%20developer%20program&source=LinkedIn' target='_blank'><li class='fa-linkedin_r'  ></li></a></ul></div></div>
+                  </div>
+                  <div id="second_t">
+                        <div id="sndr_rm"><div class='sticky-social'><ul class='social'><a href='http://www.facebook.com/share.php?u=https://pib.gov.in/PressReleasePage.aspx?PRID=2055412' target='_blank'><li class='fb_b'   ></li></a><a href='https://twitter.com/intent/tweet?url=https://pib.gov.in/PressReleasePage.aspx?PRID=2055412&text=Prime Minister Shri Narendra Modi Addresses the Inauguration of Tuticorin International Container Terminal' target='_blank'><li class='twitter_r'  > </li></a><a href='https://api.whatsapp.com/send?text=https://pib.gov.in/PressReleasePage.aspx?PRID=2055412' target='_blank'><li class='whatsapp_r'  ></li></a><a href='https://mail.google.com/mail/?view=cm&fs=1&tf=1&to=&su=Prime Minister Shri Narendra Modi Addresses the Inauguration of Tuticorin International Container Terminal&body=https://pib.gov.in/PressReleasePage.aspx?PRID=2055412&ui=2&tf=1&pli=1' title='Share by Email' target='_blank'><li class='fa-envelope_r' ></li></a><a href='https://www.linkedin.com/shareArticle?mini=true&url=https://pib.gov.in/PressReleasePage.aspx?PRID=2055412&title=Prime Minister Shri Narendra Modi Addresses the Inauguration of Tuticorin International Container Terminal&summary=My%20favorite%20developer%20program&source=LinkedIn' target='_blank'><li class='fa-linkedin_r'  ></li></a></ul></div></div>
+                  </div>
+            </div>
+            <input type="hidden" name="ltrTitlee" id="ltrTitlee" value="Prime Minister Shri Narendra Modi Addresses the Inauguration of Tuticorin International Container Terminal" />
+            <input type="hidden" name="ltrSubtitlee" id="ltrSubtitlee" value="&lt;br/>Union Minister Shri Sarbananda Sonowal Dedicates Tuticorin International Terminal to the Nation&lt;br/>&lt;br/>Shri Sarbananda Sonowal Launched Major Infra Projects, mega Investment by Govt to Upgrade Facilities&lt;br/>&lt;br/>Shri Sonowal inaugurated Green Hydrogen Project; Sonowal dubs it as a major step towards “PM Narendra Modi ji’s vision of Making India Global  Hub of Green Hydrogen”&lt;br/>&lt;br/>Shri Sonowal also Launched Ambitious “Mission 50” Campaign for Tuticorin Port as it Aims to Handle 50 Million Tonnes Cargo in FY2024-25&lt;br/>&lt;br/>“Completed ahead of schedule, the new terminal is a landmark achievement in the First 100 Days of Narendra Modi ji led Govt”: Shri Sarbananda Sonowal&lt;br/>&lt;br/>Shri Sonowal Inaugurated 400 KW Rooftop Solar Power Plant as part of ‘Harit Sagar Green Port Initiative’" />
+            <input type="hidden" name="ltrDescriptionn" id="ltrDescriptionn" value="&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>The Union Minister of Ports, Shipping &amp;amp; Waterways, Shri Sarbananda Sonowal dedicated the Tuticorin International Container Terminal (TICT) to the nation at the VO Chidambaranar Port Authority (VOCPA) here today. The Union Minister also inaugurated key infra projects as well as laid foundation stones for several initiatives. &lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>The Prime Minister Shri Narendra Modi addressed the inauguration of Tuticorin International Container Terminal via video message today. Speaking on the occasion, the Prime Minister underlined that today marks a significant milestone in India&amp;rsquo;s journey towards becoming a developed nation and hailed the new Tuticorin International Container Terminal as the &amp;lsquo;new star of India&amp;#39;s marine infrastructure&amp;rsquo;. Highlighting its role in expanding the capacity of the V.O. Chidambaranar Port, the Prime Minister said, &amp;ldquo;With a deep draft of more than 14 meters and a berth over 300 meters long, this terminal will play a crucial role in enhancing the capacity of the V.O.C. port.&amp;rdquo; The PM further added that the new terminal is expected to reduce logistics costs at the port and save foreign exchange for India. He congratulated the people of Tamil Nadu and recalled several projects related to V.O.C. Port that had been initiated during his visit two years ago. He expressed satisfaction with the rapid completion. He emphasized that one of the terminal&amp;#39;s key achievements is its commitment to gender diversity with 40% of its employees being women, symbolizing women-led Development in the maritime sector.&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:center&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>&lt;img src=&quot;https://static.pib.gov.in/WriteReadData/userfiles/image/image001N74R.jpg&quot; style=&quot;height:427px; width:643px&quot; />&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>Shri Sonowal also flagged off the maiden Container Vessel from the new TICT terminal marking the beginning of operation for one of significant port infrastructure project in the country. The port has been developed with an investment of more than ₹434 crores, with a capacity to handle 6 lakh TEUs annually. The terminal has a draft of 14.20 meters which allows it to accommodate container vessels of up to 10,000 TEUs. &lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>The Union Minister also inaugurated the newly constructed Green Hydrogen Project, which he dubbed as a &amp;lsquo;major step towards realising PM Narendra Modi&amp;rsquo;s vision of making India global hub of Green Hydrogen&amp;rsquo;. Shri Sarbananda Sonowal also inaugurated a 400 kW Rooftop Solar Power Plant as part of the &amp;lsquo;Harit Sagar Green Port Initiative.&amp;rsquo; The Union Minister also witnessed exchange of Land Lease Agreements for new ventures as the VOCPA expands its industrial landscape, unlocking huge potential for growth. &lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:center&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>&lt;img src=&quot;https://static.pib.gov.in/WriteReadData/userfiles/image/image002EQ43.jpg&quot; style=&quot;height:427px; width:643px&quot; />&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>PM Modi spoke about India&amp;rsquo;s broader maritime mission, which extends beyond infrastructure development. &amp;ldquo;India is showing the world the path to sustainable and forward-thinking development,&amp;rdquo; he said, pointing out that the V.O.C. Port is being recognised as a Green Hydrogen hub and a nodal port for offshore wind energy. These initiatives will play a significant role in tackling the global challenges of climate change.&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>Speaking on the occasion, the Union Minister, Shri Sarbananda Sonowal said, &amp;ldquo;India is on cruise to becoming world&amp;rsquo;s top marine power. Under the dynamic leadership of Prime Minister Shri Narendra Modi ji, the marine sector has received tremendous boost to modernise, mechanise and digitise our assets in order to drive efficiency and productivity. Today, this initiative got another shot in the arm as our effort towards providing a smooth &amp;amp; swift service for the trading community lead to the growth of EXIM trade, ultimately contributing to the growth of India&amp;rsquo;s wealth. This new terminal will reduce delays, bypass transshipment and economise operations by saving upto US$ 200 per container. This will optimise our cost of operation by up to US$ 4 million annually. Completed ahead of schedule, this terminal is a landmark achievement in the First 100 days of PM Shri Narendra Modi ji led NDA Government. Our workforce, which is the backbone of our ports, are very hardworking and I want to commend them for their work. It is heartening to know that this port has been instrumental in creating employment. To recognise the power of Nari Shakti, at least 40% of workforce should be women which will greatly contribute towards inclusive growth.&amp;rdquo;&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:center&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>&lt;img src=&quot;https://static.pib.gov.in/WriteReadData/userfiles/image/image003631G.jpg&quot; style=&quot;height:428px; width:643px&quot; />&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>The Union Minister also inaugurated various other projects including the upgradation of 22 kV Circuit Breaker Panels at the Red Gate and Oil Jetty Control Rooms, commissioning of 24 High Mast Lights, and a Drone Surveillance System to enhance port safety. The Union Minister also laid foundations stone for the Green Hydrogen Demonstration Project, a 400 kW Rooftop Solar Power Plant, and the Link Conveyor System from Coal Jetty-I to the Coal Stockyard. Additionally, projects like the De-Addiction Centre and awareness artwork at Muthiapuram Bridge were launched under the port&amp;rsquo;s Corporate Social Responsibility (CSR) initiatives. &lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>The Minister witnessed the signing of land lease agreements with major companies, including ACME and Green Infra-Renewable Energy Farms Pvt Ltd, Renew e-Fuels Private Limited, and Amplus Ganges Solar Private Limited. With these initiatives, the drive towards developing sustainable energy in the region will get a major boost, confided Sonowal. &lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:center&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>&lt;img src=&quot;https://static.pib.gov.in/WriteReadData/userfiles/image/image004Z2RW.jpg&quot; style=&quot;height:336px; width:643px&quot; />&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>Union Minister Shri Sarbananda Sonowal also launched an ambitions campaign of VOCPA &amp;lsquo;Mission 50&amp;rsquo; with an aim to handle 50 million tonnes of cargo by end of this fiscal, i.e., FY2024-25. Sonowal called upon all the workers and stakeholders to lend their best foot forward to realise this goal. The Minister also led a plantation drive at the VOC Orchard, as part of the nationwide campaign &amp;ldquo;Ek Ped Maa Ke Naam&amp;rdquo; launched by the Prime Minister earlier this year. &lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>Shri Sarbananda Sonowal also lauded the VOCPA&amp;rsquo;s effort to ramp up renewable energy production via the new Green Hydrogen Demonstration Project and the 400 kW Rooftop Solar Power plant. Sarbananda Sonowal exuded confidence when he said,&amp;nbsp; &amp;ldquo;These initiatives are in line with the vision of our dynamic Prime Minister Shri Narendra Modiji of transforming India into the global hub of Green Hydrogen. These projects will attract new investments and fuel economic growth while advancing India&amp;rsquo;s renewable energy objectives.&amp;rdquo;&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:center&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>&lt;img src=&quot;https://static.pib.gov.in/WriteReadData/userfiles/image/image0057AK4.jpg&quot; style=&quot;height:428px; width:643px&quot; />&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>On the launch of CSR initiatives, the Minister emphasised the port&amp;rsquo;s commitment to work for the betterment of the society and give back through various means towards improvement of quality of lives of people. The launch of initiatives like the De-addiction Centre and the Muthiapuram Bridge artwork reflects the port&amp;rsquo;s commitment to local welfare. &amp;ldquo;The well-being of communities is integral to national development, and I am pleased to see VOCPA taking steps that will positively impact the lives of people in this region,&amp;rdquo; Shri Sarbananda Sonowal concluded.&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>The Tuticorin International Container Terminal (TICT), the VOCPA port&amp;rsquo;s third, is operated by JM Baxi Group. It boasts a draft of 14.20 meters, an overall length of 370 meters, and spans 10 hectares, including the berth and backup area. The terminal is equipped to handle 6 TEUs (Twenty-foot Equivalent Units) of containers, significantly bolstering the port&amp;rsquo;s cargo handling capacity.&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:center&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>&lt;img src=&quot;https://static.pib.gov.in/WriteReadData/userfiles/image/image0062EAH.jpg&quot; style=&quot;height:428px; width:643px&quot; />&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>&amp;ldquo;The dedication of the Tuticorin International Container Terminal marks a significant step forward in India&amp;rsquo;s maritime development, aligning with our vision of modern, sustainable infrastructure. This terminal, along with the green energy initiatives and community-focused projects launched today, will not only enhance the efficiency of our ports but also foster inclusive growth, creating jobs and driving economic progress for the region and the nation,&amp;rdquo; said Shantanu Thakur, the Union Minister of State, Ministry of Ports, Shipping &amp;amp; Waterways (MoPSW).&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>Susanta Kumar Purohit, IRSEE, Chairperson of VOCPA, welcomed the attendees and outlined the port&amp;rsquo;s ongoing capacity enhancement projects, expressing optimism about future growth. The event was also graced by the presence of Kanimozhi Karunanidhi, Member of Parliament for the Thoothukudi Constituency; T. K. Ramachandran, Secretary, MoPSW.&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:center&quot;>***&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;strong>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>NB/AK&lt;/span>&lt;/span>&lt;/strong>&lt;/p>
+" />
+            <script type="text/javascript">
+                  var mPlayer = document.getElementById("background_music");
+                  var mPlayAction = document.getElementById("playbutton");
+
+                  var isPlaying = false;
+
+                  function playAudio() {
+                        mPlayer.play();
+                        isPlaying = true;
+                        document.getElementById('stopA').style.display = "block";
+                        document.getElementById('playA').style.display = "none";
+                  }
+
+                  function pauseAudio() {
+                        mPlayer.pause();
+                        isPlaying = false;
+                        document.getElementById('playA').style.display = "block";
+                        document.getElementById('stopA').style.display = "none";
+                  }
+                  //function HandleAudio() {
+                  //    if (isPlaying == true) {
+                  //        //Playing already Pause it
+                  //        pauseAudio();
+                  //    } else {
+                  //        //Play the music
+                  //        playAudio();
+                  //    }
+                  //}
+            </script>
+            <script type="text/javascript">
+                  var synth = window.speechSynthesis;
+
+            
+                  function CleanHtml(html) {
+
+                        html = html.replace(/<script[\s\S]*?<\/script>/gi, '');
+
+                        return html;
+                  }
+                  function stripHtml(html) {
+                        let tmp = document.createElement("DIV");
+                        tmp.innerHTML = CleanHtml(html);
+                        return tmp.textContent || tmp.innerText || "";
+                  }
+            </script>
+            <script type="text/javascript">
+                  $(document).ready(function () {
+                        //for responsive tables
+                        $("table").each(function () {
+                              if (!$(this).closest(".table-responsive").length) {
+                                    $(this).wrap("<div class='table-responsive'></div>");
+                              }
+                        });
+
+                        var width = $(window).width();
+                        if (width < 768) {
+
+                              // Extra Small Device
+                              document.getElementById('frst_t').style.display = "block";
+                              document.getElementById('second_t').style.display = "none";
+
+                        } else if (width < 991) {
+                              document.getElementById('frst_t').style.display = "block";
+                              document.getElementById('second_t').style.display = "none";
+                              // Small Device
+
+                        } else if (width < 1199) {
+                              document.getElementById('frst_t').style.display = "none";
+                              document.getElementById('second_t').style.display = "block";
+                              // Medium Device
+
+                        } else {
+                              document.getElementById('frst_t').style.display = "none";
+                              document.getElementById('second_t').style.display = "block";
+                              // Large Device
+
+                        }
+                  });
+            </script>
+            <script type="text/javascript">
+                  $(document).ready(function () {
+                        var width = $(window).width();
+                        if (width < 768) {
+
+                              // Extra Small Device
+                              document.getElementById('frst_t').style.display = "block";
+                              document.getElementById('second_t').style.display = "none";
+
+                        } else if (width < 991) {
+                              document.getElementById('frst_t').style.display = "block";
+                              document.getElementById('second_t').style.display = "none";
+                              // Small Device
+
+                        } else if (width < 1199) {
+                              document.getElementById('frst_t').style.display = "none";
+                              document.getElementById('second_t').style.display = "block";
+                              // Medium Device
+
+                        } else {
+                              document.getElementById('frst_t').style.display = "none";
+                              document.getElementById('second_t').style.display = "block";
+                              // Large Device
+
+                        }
+                  });
+            </script>
+            
+            <style type="text/css">
+                  @media print {
+                        .sticky-social, .sticky-social_mb, .pull-right, #printPDF {
+                              display: none !important;
+                        }
+                  }
+
+                  .f_vl {
+                        padding-right: 30px;
+                        font-size: 17px;
+                        cursor: pointer;
+                  }
+
+                  .log_oo {
+                        // width: 20%;
+                        display: flex;
+                        justify-content: space-between;
+                  }
+
+                        .log_oo img {
+                              width: 150px;
+                              /*width: 100%;
+                    height: auto;*/
+                        }
+
+                  .sticky-social_mb {
+                        position: fixed;
+                        bottom: 0px;
+                        padding: 0px;
+                        margin: 0px;
+                        width: 100%;
+                  }
+
+                  .social_mb {
+                        list-style: none;
+                        display: flex;
+                        width: 100%;
+                        margin-bottom: -8px;
+                  }
+
+                        .social_mb a {
+                              padding: 8px 0px;
+                              font-size: 30px;
+                              transition: all 0.8s ease-in-out;
+                              width: 20% !important;
+                              text-align: center;
+                        }
+            </style>
+            <style type="text/css">
+                  .section1 {
+                        position: relative;
+                        padding: 10px 0px;
+                        width: 100%;
+                  }
+
+
+
+                  .sticky-social {
+                        position: fixed;
+                        top: 20px;
+                        left: 0px;
+                        padding: 0px;
+                        margin: 0px;
+                  }
+
+                  .social {
+                        list-style: none;
+                  }
+
+                        .social a li {
+                              padding: 8px 12px;
+                              font-size: 25px;
+                              transition: all 0.8s ease-in-out;
+                        }
+
+                              .social a li:hover {
+                                    margin-right: -30px;
+                                    box-shadow: 2px 5px 10px grey;
+                              }
+
+                                    .social a li:hover .fa {
+                                          margin-left: 20px;
+                                    }
+
+                  .fb_b {
+                        /* background-color: var(--dbim-key, #0F5757);*/
+                        background-color: var(--dbim-key, #0F5757);
+                  }
+
+                  .twitter_r {
+                        /* background-color: rgb(29, 161, 242);*/
+                        background-color: var(--dbim-key, #0F5757);
+                  }
+
+                  .whatsapp_r {
+                        /* background-color: var(--dbim-key, #0F5757);*/
+                        background-color: var(--dbim-key, #0F5757);
+                  }
+
+                  .fa-envelope_r {
+                        /* background-color: var(--dbim-key, #0F5757);*/
+                        background-color: var(--dbim-key, #0F5757);
+                  }
+
+                  .fa-linkedin_r {
+                        background-color: var(--dbim-key, #0F5757);
+                  }
+            </style>
+            <style type="text/css">
+                  @media only screen and (max-device-width: 767px) {
+                        p span img {
+                              max-width: 90% !important;
+                              height: auto !important;
+                        }
+
+                        p img {
+                              max-width: 90% !important;
+                              height: auto !important;
+                        }
+
+                        h2 {
+                              font-size: var(--dbim-h2, 20px);   /* was 20px !important - the !important blocked A+/A- */
+                              font-weight: 600 !important;
+                        }
+
+                        h3 {
+                              font-size: var(--dbim-h3, 16px);   /* was 16px !important */
+                              font-weight: 600 !important;
+                        }
+                  }
+            </style>
+            <style type="text/css">
+                  /* === Film Roll Badge Styling(IFFI2025 countdown) === */
+                  .film-roll-badge {
+                        position: absolute;
+                        top:82%;
+                        right: 20px;
+                        width: 230px;
+                        height: 70px;
+                        background: repeating-linear-gradient( to right, var(--dbim-green-key, #0F5757) 0px, var(--dbim-green-key, #0F5757) 18px, var(--dbim-text, #150202) 18px, var(--dbim-text, #150202) 36px );
+                        border-top: 8px solid var(--dbim-green-key, #0F5757);
+                        border-bottom: 8px solid var(--dbim-green-key, #0F5757);
+                        border-radius: 8px;
+                        overflow: hidden;
+                        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+                        animation: moveFilm 8s linear infinite;
+                        z-index: 10;
+                  }
+
+                        /* film sprocket holes */
+                        .film-roll-badge::before,
+                        .film-roll-badge::after {
+                              content: "";
+                              position: absolute;
+                              width: 100%;
+                              height: 10px;
+                              background: repeating-linear-gradient( to right, var(--dbim-green-key, #0F5757) 0px, var(--dbim-green-key, #0F5757) 10px, #fff 10px, #fff 20px );
+                              left: 0;
+                              z-index: 2;
+                        }
+
+                        .film-roll-badge::before {
+                              top: -4px;
+                        }
+
+                        .film-roll-badge::after {
+                              bottom: -4px;
+                        }
+
+                  .film-roll-inner {
+                        position: relative;
+                        height: 100%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        animation: flicker 2s infinite ease-in-out;
+                  }
+
+                  .countdown-text {
+                        font-size: 1.3rem;
+                        font-weight: 700;
+                        color: #fff;
+                        text-shadow: 0 0 6px rgba(255, 255, 255, 0.4), 0 0 10px #000;
+                        white-space: nowrap;
+                  }
+
+                  /* === Animations === */
+                  @keyframes moveFilm {
+                        0% {
+                              background-position: 0 0;
+                        }
+
+                        100% {
+                              background-position: 120px 0;
+                        }
+                  }
+
+                  @keyframes flicker {
+                        0%, 100% {
+                              opacity: 1;
+                        }
+
+                        50% {
+                              opacity: 0.9;
+                        }
+
+                        25% {
+                              opacity: 0.95;
+                        }
+
+                        75% {
+                              opacity: 0.85;
+                        }
+                  }
+
+                  /* === Responsive Adjustments === */
+                  @media (max-width: 1500px) {
+                        .film-roll-badge {
+                              top: 68%;
+                              right: 18px;
+                              /* width: 220px; */
+                              height: 65px;
+                              font-size: 0.85rem;
+                        }
+
+                        .press-section {
+                              margin-top: 35px;
+                        }
+                  }
+
+                  @media (max-width: 992px) {
+                        .film-roll-badge {
+                              top: 52%;
+                              right: 10px;
+                               width: 200px; 
+                              height: 60px;
+                        }
+                  }
+
+                  @media (max-width: 768px) {
+                        .film-roll-badge {
+                              top: 56%;
+                              right: 10px;
+                               width: 124px; 
+                              height: 55px;
+                        }
+
+                        .countdown-text {
+                              font-size: 0.9rem;
+                        }
+                  }
+
+                  @media (max-width: 576px) {
+                        .film-roll-badge {
+                              top: 59%;
+                              right: 5px;
+                              /* width: 160px; */
+                              height: 50px;
+                        }
+
+                        .countdown-text {
+                              font-size: 0.85rem;
+                        }
+                  }
+            </style>
+                        <script type="text/javascript">
+                  const festivalStart = new Date("2025-11-20T00:00:00").getTime();
+                  const festivalEnd = new Date("2025-11-28T23:59:59").getTime();
+
+                  const countdownElement = document.getElementById("countdown");
+
+                  const interval = setInterval(() => {
+                        const now = new Date().getTime();
+
+                        // BEFORE FESTIVAL — show days + hours left
+                        if (now < festivalStart) {
+                              const diff = festivalStart - now;
+                              const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                              const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+
+                              countdownElement.innerHTML = `
+                ${days} Day${days !== 1 ? 's' : ''} 
+                ${hours} Hour${hours !== 1 ? 's' : ''} to go
+            `;
+
+                        }
+
+                        // DURING FESTIVAL — show 56th IFFI - Day X
+                        else if (now >= festivalStart && now <= festivalEnd) {
+                              const dayNumber = Math.floor((now - festivalStart) / (1000 * 60 * 60 * 24)) + 1;
+                              countdownElement.innerHTML = `56th IFFI - Day ${dayNumber}`;
+                        }
+
+                        // AFTER FESTIVAL — new message
+                        else {
+                              countdownElement.innerHTML = `✨ IFFI closes but never ends…`;
+
+                              // Width change logic
+                              const elements = document.querySelectorAll('.film-roll-badge');
+                              elements.forEach(el => el.style.width = "350px");
+
+                              clearInterval(interval);
+                        }
+
+                  }, 1000);
+            </script>
+
+      
+
+<script type="text/javascript">
+//<![CDATA[
+(function() {var fn = function() {$get("sc_HiddenField").value = '';Sys.Application.remove_init(fn);};Sys.Application.add_init(fn);})();Sys.Application.add_init(function() {
+    $create(Sys.Extended.UI.ModalPopupBehavior, {"BackgroundCssClass":"modalBackground","PopupControlID":"P_CategoryManagement","dynamicServicePath":"/PressReleaseIframePage.aspx","id":"mpe"}, null, null, $get("Hidden"));
+});
+//]]>
+</script>
+</form>
+      
+      
+
+<script type="application/json" id="pibConsentConfig">{"ga4Id":"G-Q414Y0X6EE,G-QJJ6LZ8LHV","policyUrl":"/CookiePolicy.aspx","text":{"bannerLabel":"कुकी सहमति","title":"इस वेबसाइट पर कुकीज़","body":"इस वेबसाइट को चलाने के लिए हम आवश्यक कुकीज़ का उपयोग करते हैं। आपके आने पर हम विश्लेषण कुकीज़ भी सेट करते हैं, ताकि हम देख सकें कि साइट का उपयोग कैसे हो रहा है और उसे बेहतर बना सकें - आप इन्हें नीचे या कभी भी कुकी नीति पृष्ठ से बंद कर सकते हैं। सोशल मीडिया सामग्री की कुकीज़ केवल आपकी अनुमति से ही सेट की जाती हैं।","policyLink":"हमारी कुकी नीति पढ़ें","accept":"सभी स्वीकार करें","reject":"वैकल्पिक अस्वीकार करें","customize":"अनुकूलित करें","prefsTitle":"कुकी प्राथमिकताएं","prefsIntro":"चुनें कि यह वेबसाइट कौन सी कुकीज़ सेट कर सकती है। आवश्यक कुकीज़ बंद नहीं की जा सकतीं क्योंकि उनके बिना साइट काम नहीं करती। विश्लेषण कुकीज़ तब तक चालू रहती हैं जब तक आप उन्हें बंद न करें। सोशल मीडिया कुकीज़ तब तक बंद रहती हैं जब तक आप अनुमति न दें। आप ये विकल्प कभी भी कुकी नीति पृष्ठ से बदल सकते हैं।","essentialName":"आवश्यक कुकीज़","essentialDesc":"साइट के कार्य करने के लिए आवश्यक। ये आपका सत्र, आपकी भाषा और क्षेत्र, आपके पाठ का आकार और रंग थीम याद रखती हैं, तथा फ़ॉर्म की सुरक्षा जांच सत्यापित करती हैं। ये हमेशा चालू रहती हैं।","analyticsName":"विश्लेषण कुकीज़","analyticsDesc":"ये हमें यह समझने में मदद करती हैं कि आगंतुक साइट का उपयोग कैसे करते हैं - कौन से पृष्ठ पढ़े जाते हैं और लोग कितनी देर रुकते हैं - ताकि इसे बेहतर बनाया जा सके। यह जानकारी ऐसे रूप में एकत्र की जाती है जो सीधे आपकी पहचान नहीं करती। आपके आने पर ये चालू रहती हैं; इन्हें यहां बंद करने पर ये रुक जाती हैं और पहले से सेट कुकीज़ हटा दी जाती हैं।","socialName":"सोशल मीडिया कुकीज़","socialDesc":"ये X, फेसबुक और यूट्यूब से एम्बेड की गई सामग्री, जैसे टाइमलाइन और वीडियो, द्वारा सेट की जाती हैं। ये प्लेटफ़ॉर्म इनका उपयोग विभिन्न वेबसाइटों पर आपको ट्रैक करने के लिए कर सकते हैं। ये तब तक बंद रहती हैं जब तक आप अनुमति न दें।","save":"प्राथमिकताएं सहेजें","cancel":"रद्द करें"}}</script>
+<script type="text/javascript" src='/js/consent.js?v=10'></script>
+
+<script type="text/javascript" src='/js/consent-embeds.js?v=10'></script>
+
+    
+</body>
+</html>

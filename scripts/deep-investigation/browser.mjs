@@ -78,6 +78,7 @@ try {
  ok(!params().has('ftm_q'), 'Back restores both submitted query and search draft');
  const unmatched = api.DEEP_INVESTIGATION_UNIVERSE.securities.find(row => row.registryEntityIds.length === 0);
  await go(`?ftm_scope=securities&ftm_q=${encodeURIComponent(unmatched.isin)}`);
+ await page.locator('.fm-security-list>li').filter({ hasText: unmatched.isin }).waitFor();
  ok(await page.locator('.fm-security-list>li').count() === 1 && (await page.locator('.fm-security-list').innerText()).includes('No verified registry join'), 'Exact ISIN search exposes unmatched listing without inventing connections');
  ok(await page.locator('.fm-security-list button').count() === 0, 'Unmatched security does not offer a falsely joined graph');
  const matched = api.DEEP_INVESTIGATION_UNIVERSE.securities.find(row => row.registryEntityIds.length > 0);

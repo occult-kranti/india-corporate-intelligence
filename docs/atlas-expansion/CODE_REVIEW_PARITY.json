@@ -1,0 +1,81 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "filters": {
+        "q": "Adani"
+      },
+      "cases": 11,
+      "relationships": 273,
+      "international": 0
+    },
+    {
+      "filters": {
+        "q": "CAG"
+      },
+      "cases": 27,
+      "relationships": 149,
+      "international": 0
+    },
+    {
+      "filters": {
+        "q": "World Bank"
+      },
+      "cases": 1,
+      "relationships": 994,
+      "international": 0
+    },
+    {
+      "filters": {
+        "stateCode": "KA",
+        "includeNational": false,
+        "geographyMode": "associations"
+      },
+      "cases": 3,
+      "relationships": 139,
+      "international": 0
+    },
+    {
+      "filters": {
+        "stateCode": "TN",
+        "includeNational": false,
+        "geographyMode": "associations"
+      },
+      "cases": 4,
+      "relationships": 113,
+      "international": 0
+    },
+    {
+      "filters": {
+        "domains": [
+          "international-finance"
+        ]
+      },
+      "cases": 3,
+      "relationships": 993,
+      "international": 2
+    },
+    {
+      "filters": {
+        "domains": [
+          "defence-trade"
+        ]
+      },
+      "cases": 3,
+      "relationships": 32,
+      "international": 6
+    },
+    {
+      "stateCode": "TN",
+      "reviewedCases": 11,
+      "associationOnlyCases": [
+        "deep-services:record:byju-credit-bcci"
+      ]
+    },
+    {
+      "stateCode": "KA",
+      "reviewedCases": 10,
+      "associationOnlyCases": []
+    }
+  ]
+}

@@ -84,6 +84,15 @@ function App() {
                     <Route path="/" element={<Dashboard />} />
                     <Route path="/investigate" element={<Dashboard />} />
                     <Route path="/follow-the-money" element={<FollowTheMoney />} />
+                    <Route path="/international-finance" element={<InvestigationDossier domain="international-finance" />} />
+                    <Route path="/defence-trade" element={<InvestigationDossier domain="defence-trade" />} />
+                    <Route path="/health" element={<InvestigationDossier domain="health" />} />
+                    <Route path="/ngo" element={<InvestigationDossier domain="ngo" />} />
+                    <Route path="/disaster-relief" element={<InvestigationDossier domain="disaster-relief" />} />
+                    <Route path="/transport" element={<InvestigationDossier domain="transport" />} />
+                    <Route path="/public-funds" element={<InvestigationDossier domain="public-funds" />} />
+                    <Route path="/policy" element={<InvestigationDossier domain="policy" />} />
+                    <Route path="/public-records" element={<InvestigationDossier domain="public-records" />} />
                     <Route path="/justice" element={<InvestigationDossier domain="justice" />} />
                     <Route path="/debt" element={<InvestigationDossier domain="debt-relief" />} />
                     <Route path="/map" element={<MapExplorer />} />

@@ -22,7 +22,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '24'
           cache: npm
 
       - run: npm ci
@@ -77,6 +77,9 @@ jobs:
       - name: Follow-the-money cases, official universe and model provenance
         run: npm run validate:deep-investigation && npm run test:deep-investigation && npm run test:deep-investigation:model
 
+      - name: Atlas sources, financial-stage guards and open-model receipts
+        run: npm run validate:atlas && npm run test:atlas && npm run test:atlas:model
+
       - name: Typecheck and build
         run: npm run build
 
@@ -105,6 +108,9 @@ jobs:
 
       - name: Follow-the-money map, response and export workflow
         run: npm run test:deep-investigation:browser
+
+      - name: Integrated atlas, multihop readers and WebGL fallback workflows
+        run: npm run test:atlas:browser && npm run test:atlas:integration && npm run test:atlas:audit && npm run test:spatial:browser && npm run test:places:browser
 
       - name: Source-backed procurement trail workflow
         run: npm run test:procurement:browser

@@ -18,12 +18,14 @@ if(!base){
  });
  await new Promise(done=>server.listen(0,'127.0.0.1',done));base=`http://127.0.0.1:${server.address().port}`;
 }
-const screenshots=resolve('docs/investigation/screenshots');mkdirSync(screenshots,{recursive:true});
+const screenshots=resolve(process.env.INVESTIGATION_GRAPH_ARTIFACTS??'docs/investigation/screenshots');mkdirSync(screenshots,{recursive:true});
 const binary=process.env.PLAYWRIGHT_CHROMIUM_PATH??'/usr/bin/chromium';
 const browser=await chromium.launch(existsSync(binary)?{executablePath:binary}:{});
 const errors=[];let checks=0;const check=(condition,message)=>{assert.ok(condition,message);checks++;};
 try{
- const page=await browser.newPage({viewport:{width:1440,height:1100},acceptDownloads:true});page.on('pageerror',error=>errors.push(error.message));
+ // This suite exercises the offline keyboard map and URL-linked Connections view.
+ // The map's new local five-hop explorer and Places engine have separate suites.
+ const page=await browser.newPage({viewport:{width:1440,height:1100},acceptDownloads:true,reducedMotion:'reduce'});page.on('pageerror',error=>errors.push(error.message));
  const ready=()=>page.locator('.iw-map').first().waitFor({timeout:90000});
  await page.goto(`${base}/#/public-works?iw_scope=all&iw_view=map`);await ready();
  const map=page.locator('.iw-map').first();
@@ -32,9 +34,11 @@ try{
  const ladakh=map.locator('path[data-state-code="LA"]');await ladakh.focus();await page.keyboard.press('Enter');
  await page.waitForURL(/iw_state=LA/);await map.locator('path[data-state-code="LA"][aria-pressed="true"]').waitFor();check(await ladakh.getAttribute('aria-pressed')==='true','Keyboard-selected Ladakh remains its own modern unit');
  await map.getByRole('button',{name:'All India',exact:true}).click();await page.waitForURL(url=>!url.hash.includes('iw_state='));
- await map.getByLabel('State or union territory',{exact:true}).selectOption('MH');await page.waitForURL(/iw_state=MH/);await map.getByRole('heading',{name:'Maharashtra',exact:true}).waitFor();
+ await page.getByLabel('Place',{exact:true}).selectOption('MH');await page.waitForURL(/iw_state=MH/);await map.getByRole('heading',{name:'Maharashtra',exact:true}).waitFor();
  check(await map.getByRole('heading',{name:'Maharashtra',exact:true}).count()===1,'State selection updates map heading and URL');
  await map.getByRole('button',{name:'All India',exact:true}).click();await map.getByRole('heading',{name:'India · geographic evidence',exact:true}).waitFor();
+ await page.locator('.iw-surfaces').getByRole('button',{name:'Connections',exact:true}).click();
+ await page.waitForURL(/iw_view=connections/);
  const graph=page.locator('.iw-graph').first();await graph.locator('.iw-graph-node').first().waitFor({timeout:60000});
  await page.waitForFunction(()=>{const plot=document.querySelector('.iw-graph-plot'),svg=plot?.querySelector('svg');return plot&&svg&&svg.getBoundingClientRect().width<=plot.clientWidth+1&&svg.getBoundingClientRect().height<=plot.clientHeight+1;});
  check(true,'Initial camera auto-fits the actual graph pane');

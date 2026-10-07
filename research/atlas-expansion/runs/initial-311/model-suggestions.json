@@ -1,0 +1,390 @@
+{
+  "schemaVersion": 1,
+  "purpose": "research-discovery-only",
+  "automaticallyVerified": false,
+  "limitation": "Cosine similarity ranks retained researcher-authored summaries for unverified research discovery only. It is not a verified fact, an identity crosswalk, a probability of wrongdoing, a causal inference or a claim that all NSE companies were analysed. No generated relationship is promoted to the graph.",
+  "model": {
+    "id": "sentence-transformers/all-MiniLM-L6-v2",
+    "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+    "license": "Apache-2.0",
+    "modelCard": "https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/blob/1110a243fdf4706b3f48f1d95db1a4f5529b4d41/README.md",
+    "format": "ONNX uint8 AVX2",
+    "dimensions": 384,
+    "maxTokens": 256,
+    "pooling": "attention-mask-weighted mean, L2 normalized",
+    "assetSha256": {
+      "onnx/model_quint8_avx2.onnx": "b941bf19f1f1283680f449fa6a7336bb5600bdcd5f84d10ddc5cd72218a0fd21",
+      "tokenizer.json": "be50c3628f2bf5bb5e3a7f17b1f74611b2561a3a27eeab05e5aa30f411572037"
+    }
+  },
+  "execution": {
+    "provider": "CPUExecutionProvider",
+    "python": "3.12.14",
+    "onnxruntime": "1.23.2",
+    "tokenizers": "0.22.1",
+    "numpy": "2.3.4",
+    "inferenceSeconds": 6.763,
+    "publicTextUploadedToModelService": false
+  },
+  "corpusSha256": "39ddcd32b8c4e450561fb578a5264e842fa5e079251de5389d829908bff37f34",
+  "documentCount": 311,
+  "smokeCheck": {
+    "passed": true,
+    "relatedSimilarity": 0.808023,
+    "unrelatedSimilarity": 0.01586,
+    "meaning": "Pipeline wiring check only; not an evidence or model accuracy evaluation"
+  },
+  "queries": {
+    "policy-asset-transfer": {
+      "text": "Indian policy change privatisation port public asset concession tariff reform auction public finance recovery government payment distinction",
+      "matches": [
+        {
+          "documentId": "atlas-policy:source:bonds-judgment-2024",
+          "title": "Association for Democratic Reforms v Union of India, 2024 INSC 113",
+          "url": "https://api.sci.gov.in/supremecourt/2017/27935/27935_2017_1_1501_50573_Judgement_15-Feb-2024.pdf",
+          "similarity": 0.514843
+        },
+        {
+          "documentId": "deep-corporate:source:mangaluru-concession",
+          "title": "AAI–Adani Mangaluru concession signed 14 February 2020",
+          "url": "https://www.civilaviation.gov.in/sites/default/files/2023-07/1%20Concession%20Agreement_compressed%20%283%29.pdf",
+          "similarity": 0.507896
+        },
+        {
+          "documentId": "atlas-policy:source:procurement-2020",
+          "title": "Public Procurement (Preference to Make in India) revised order 2020",
+          "url": "https://www.dpiit.gov.in/static/uploads/2025/07/b0b4d27d65a0fc55c918c693e9f24b2a.pdf",
+          "similarity": 0.506179
+        },
+        {
+          "documentId": "atlas-policy:source:port-concession-2022",
+          "title": "V.O.Chidambaranar–TICTPL concession agreement announcement",
+          "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=1856626",
+          "similarity": 0.505346
+        },
+        {
+          "documentId": "atlas-policy:source:ports-tariff-2021",
+          "title": "Tariff Guidelines 2021 for future PPP concessionaires",
+          "url": "https://shipmin.gov.in/sites/default/files/Tariff%20Guidelines%202021.pdf",
+          "similarity": 0.503545
+        }
+      ]
+    },
+    "media-trust-institution": {
+      "text": "Media ownership company acquisition warrants trust charity FCRA public authority court judgment response source exact legal identity",
+      "matches": [
+        {
+          "documentId": "finance-research:source:pm-sc",
+          "title": "Centre for Public Interest Litigation v Union of India, WP(C)546/2020",
+          "url": "https://api.sci.gov.in/supremecourt/2020/12392/12392_2020_35_1501_23456_Judgement_18-Aug-2020.pdf",
+          "similarity": 0.491991
+        },
+        {
+          "documentId": "deep-governance:source:sec-consent",
+          "title": "SEC files proposed consent judgments: $6 m and $12 m",
+          "url": "https://www.sec.gov/enforcement-litigation/litigation-releases/lr-26554",
+          "similarity": 0.450553
+        },
+        {
+          "documentId": "deep-corporate:source:hzl-target-2023",
+          "title": "HZL proposed acquisition structure and government objection",
+          "url": "https://www.newindianexpress.com/business/2023/Feb/21/hindustan-zincsbuyout-plan-formauritius-thl-zinc-hits-roadblock-2549448.html",
+          "similarity": 0.44648
+        },
+        {
+          "documentId": "atlas-institutions:source:ndtv-completion-2022",
+          "title": "NDTV: ownership, direct holdings and founder resignations",
+          "url": "https://drop.ndtv.com/uploads/convergence/images/disclosureunderregulation30changeindirectors_30122022_2318556.pdf",
+          "similarity": 0.438456
+        },
+        {
+          "documentId": "atlas-policy:source:fcra-judgment-2022",
+          "title": "Noel Harper v Union of India, WPC 566/2021 and connected matters",
+          "url": "https://api.sci.gov.in/supremecourt/2021/10824/10824_2021_3_1501_34940_Judgement_08-Apr-2022.pdf",
+          "similarity": 0.426037
+        }
+      ]
+    },
+    "disaster-reconstruction": {
+      "text": "Disaster relief reconstruction sovereign loan borrower executing agency public finance advances recovery audit response outcome",
+      "matches": [
+        {
+          "documentId": "atlas-oversight:source:ov-src-uk-cag",
+          "title": "CAG Report 2 of 2018: reconstruction after Uttarakhand’s 2013 disaster",
+          "url": "https://www.cag.gov.in/webroot/uploads/download_audit_report/2018/Report_No_2_of_2018_Performance_audit_on_Reconstruction_of_Infrastructure_Post_2013_Disaster_in_Uttarakhand_Government_of_Uttarakhand.pdf",
+          "similarity": 0.522862
+        },
+        {
+          "documentId": "atlas-oversight:source:ov-src-adb-completion",
+          "title": "ADB completion report: Uttarakhand Emergency Assistance Project, January 2021",
+          "url": "https://www.adb.org/sites/default/files/project-documents/47229/47229-001-pcr-en.pdf",
+          "similarity": 0.505704
+        },
+        {
+          "documentId": "finance-research:source:writeoffs-q120",
+          "title": "Lok Sabha Q120: Waiver of loans",
+          "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU120_rCBUdx.pdf",
+          "similarity": 0.461731
+        },
+        {
+          "documentId": "deep-procurement:source:adani-close",
+          "title": "Adani Enterprises: Ganga Groups II–IV financing closure filing",
+          "url": "https://www.adanienterprises.com/-/media/Project/Enterprises/Investors/Corporate-Announcement/FY-2021-22-Announcements/FY-2022-23-Announcement/454-Ganga-Expressway-Financial-Closure29092022.pdf",
+          "similarity": 0.452598
+        },
+        {
+          "documentId": "finance-research:source:pm-fy25",
+          "title": "PM CARES audited Receipts and Payments FY2024-25",
+          "url": "https://pmcares.gov.in/assets/donation/pdf/Audited_Statement_2024_25.pdf",
+          "similarity": 0.424488
+        }
+      ]
+    },
+    "public-contract-to-owner": {
+      "text": "Indian government concession tender award project company subsidiary promoter ownership funding debt lender capital recycling monetisation financial close payment",
+      "matches": [
+        {
+          "documentId": "deep-procurement:source:adani-close",
+          "title": "Adani Enterprises: Ganga Groups II–IV financing closure filing",
+          "url": "https://www.adanienterprises.com/-/media/Project/Enterprises/Investors/Corporate-Announcement/FY-2021-22-Announcements/FY-2022-23-Announcement/454-Ganga-Expressway-Financial-Closure29092022.pdf",
+          "similarity": 0.573687
+        },
+        {
+          "documentId": "deep-procurement:source:irb-close",
+          "title": "IRB: Group I financial closure",
+          "url": "https://www.irb.co.in/home/wp-content/uploads/2022/06/PressRelease_FC-GangaExpresswayBOT_Final_16thJune.2022.pdf",
+          "similarity": 0.553746
+        },
+        {
+          "documentId": "public-works:source:state-src-capital-contracts",
+          "title": "MoD signs five capital acquisition contracts,1 March 2024",
+          "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2010528",
+          "similarity": 0.5151
+        },
+        {
+          "documentId": "atlas-oversight:source:ov-src-adb-completion",
+          "title": "ADB completion report: Uttarakhand Emergency Assistance Project, January 2021",
+          "url": "https://www.adb.org/sites/default/files/project-documents/47229/47229-001-pcr-en.pdf",
+          "similarity": 0.510949
+        },
+        {
+          "documentId": "atlas-policy:source:tata-bhushan-close-2018",
+          "title": "Acquisition of Bhushan Steel Limited",
+          "url": "https://www.tatasteel.com/media/6847/press-release.pdf",
+          "similarity": 0.509743
+        }
+      ]
+    },
+    "loan-recovery-versus-loss": {
+      "text": "Loan lending debt default corporate insolvency recovery approved settlement debt assumed write off public treasury cash proceeds distinct stage",
+      "matches": [
+        {
+          "documentId": "atlas-policy:source:ibbi-named",
+          "title": "Corporate insolvency resolutions as at 30 September 2022",
+          "url": "https://ibbi.gov.in/uploads/whatsnew/5c568c1287a3b7fc7ed25827acb9e3f9.pdf",
+          "similarity": 0.527426
+        },
+        {
+          "documentId": "finance-research:source:ibbi-named",
+          "title": "Corporate insolvency resolutions as at 30 September 2022",
+          "url": "https://ibbi.gov.in/uploads/whatsnew/5c568c1287a3b7fc7ed25827acb9e3f9.pdf",
+          "similarity": 0.516299
+        },
+        {
+          "documentId": "atlas-policy:source:ibc-original-2016",
+          "title": "Insolvency and Bankruptcy Code 2016, Act 31",
+          "url": "https://ibbi.gov.in/webadmin/pdf/legalframwork/2017/Jul/IBC%202016.pdf",
+          "similarity": 0.507072
+        },
+        {
+          "documentId": "finance-research:source:rbi-2023",
+          "title": "Framework for Compromise Settlements and Technical Write-offs",
+          "url": "https://www.rbi.org.in/Scripts/NotificationUser.aspx?Id=12513",
+          "similarity": 0.485653
+        },
+        {
+          "documentId": "finance-research:source:rbi-current",
+          "title": "Commercial Banks – Resolution of Stressed Assets Directions, 2025, updated 1 October 2026",
+          "url": "https://rbidocs.rbi.org.in/rdocs/notification/PDFs/165MD.PDF",
+          "similarity": 0.472987
+        }
+      ]
+    },
+    "hospital-public-payment": {
+      "text": "Hospital medical insurance PMJAY public payment claim reimbursement false claims patient deaths audit investigation response prosecution outcome",
+      "matches": [
+        {
+          "documentId": "public-works:source:svc-pmjay-claims-audit",
+          "title": "CAG PMJAY 11/2023, Chapter V: claims management",
+          "url": "https://cag.gov.in/uploads/download_audit_report/2023/09_Chapter-V-064d22bab412c53.02505839.pdf",
+          "similarity": 0.652192
+        },
+        {
+          "documentId": "finance-research:source:pm-sc",
+          "title": "Centre for Public Interest Litigation v Union of India, WP(C)546/2020",
+          "url": "https://api.sci.gov.in/supremecourt/2020/12392/12392_2020_35_1501_23456_Judgement_18-Aug-2020.pdf",
+          "similarity": 0.433943
+        },
+        {
+          "documentId": "deep-services:source:pmjay-parliament-2025",
+          "title": "Rajya Sabha reply: measures to prevent misuse of AB-PMJAY",
+          "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2099542",
+          "similarity": 0.423791
+        },
+        {
+          "documentId": "deep-corporate:source:parsa-transport-2025",
+          "title": "Adani-led firm charged Rajasthan PSU over ₹1,400 cr: court finding and stay",
+          "url": "https://scroll.in/article/1088684/adani-led-firm-charged-rajasthan-psu-over-rs-1400-crore-it-wasnt-entitled-to-jaipur-court",
+          "similarity": 0.411456
+        },
+        {
+          "documentId": "atlas-institutions:source:ipi-kpmg-2020",
+          "title": "KPMG forensic review of IPI transactions involving Epstein-linked entities",
+          "url": "https://www.ipinst.org/wp-content/uploads/2020/12/IPI-KPMG-Forensic-Review-12-18-2020.pdf",
+          "similarity": 0.408704
+        }
+      ]
+    },
+    "school-charity-csr": {
+      "text": "Schools meals NGO charity corporate social responsibility donations public grant school delivery annual financial statement audit government response",
+      "matches": [
+        {
+          "documentId": "deep-services:source:akshaya-annual-2025",
+          "title": "The Akshaya Patra Foundation Annual Report 2024–25",
+          "url": "https://www.akshayapatra.org/includefiles/financialreports/Annual_Report_24-25_Tapestry_web.pdf",
+          "similarity": 0.54854
+        },
+        {
+          "documentId": "education:source:tata-trusts-annual-2025",
+          "title": "Tata Trusts Annual Report 2024–25",
+          "url": "https://www.tatatrusts.org/Upload/PDF/tata-trusts-annual-report-2024-2025.pdf",
+          "similarity": 0.50892
+        },
+        {
+          "documentId": "education:source:educate-girls-fcra-2024",
+          "title": "Educate Girls FCRA financial statements for year ended 31 March 2024",
+          "url": "https://www.educategirls.ngo/wp-content/uploads/2026/01/FCRA_Financials_FY-23-24.pdf",
+          "similarity": 0.501976
+        },
+        {
+          "documentId": "education:source:pratham-annual-2025",
+          "title": "Pratham Education Foundation Annual Report 2024–25",
+          "url": "https://www.pratham.org/wp-content/uploads/2026/01/AR-NEW_2JAN.pdf",
+          "similarity": 0.491301
+        },
+        {
+          "documentId": "education:source:akshaya-patra-annual-2025",
+          "title": "Akshaya Patra Annual Report 2024–25",
+          "url": "https://www.akshayapatra.org/includefiles/financialreports/Annual_Report_24-25_Tapestry_web.pdf",
+          "similarity": 0.481039
+        }
+      ]
+    },
+    "startup-money-trail": {
+      "text": "Startup unicorn overseas loan subsidiary lender transfer insolvency settlement court judgment company respondent denial final outcome",
+      "matches": [
+        {
+          "documentId": "atlas-policy:source:ibbi-named",
+          "title": "Corporate insolvency resolutions as at 30 September 2022",
+          "url": "https://ibbi.gov.in/uploads/whatsnew/5c568c1287a3b7fc7ed25827acb9e3f9.pdf",
+          "similarity": 0.469802
+        },
+        {
+          "documentId": "deep-services:source:byju-sc-2024",
+          "title": "GLAS Trust Company LLC v BYJU Raveendran: 2024 INSC 811",
+          "url": "https://api.sci.gov.in/supremecourt/2024/35406/35406_2024_1_1502_56620_Judgement_23-Oct-2024.pdf",
+          "similarity": 0.452896
+        },
+        {
+          "documentId": "finance-research:source:ibbi-named",
+          "title": "Corporate insolvency resolutions as at 30 September 2022",
+          "url": "https://ibbi.gov.in/uploads/whatsnew/5c568c1287a3b7fc7ed25827acb9e3f9.pdf",
+          "similarity": 0.428593
+        },
+        {
+          "documentId": "deep-procurement:source:irb-ar25",
+          "title": "IRB Infrastructure Trust annual report 2024–25",
+          "url": "https://www.irbinfratrust.co.in/home/wp-content/uploads/2025/06/IRB-Infra-Trust-AR-2024-25.pdf",
+          "similarity": 0.425081
+        },
+        {
+          "documentId": "deep-procurement:source:adani-close",
+          "title": "Adani Enterprises: Ganga Groups II–IV financing closure filing",
+          "url": "https://www.adanienterprises.com/-/media/Project/Enterprises/Investors/Corporate-Announcement/FY-2021-22-Announcements/FY-2022-23-Announcement/454-Ganga-Expressway-Financial-Closure29092022.pdf",
+          "similarity": 0.416902
+        }
+      ]
+    },
+    "challenge-the-allegation": {
+      "text": "Counter evidence company denial exculpatory court decision audit reply innocent explanation allegation not established attribution factual correction",
+      "matches": [
+        {
+          "documentId": "deep-governance:source:company-denial",
+          "title": "Adani response: alleges incorrect reporting, disputes bribery assertions",
+          "url": "https://www.ndtv.com/india-news/no-bribery-charges-against-gautam-adani-nephew-sagar-adani-and-vneet-jain-adani-group-on-us-allegations-7114911",
+          "similarity": 0.507702
+        },
+        {
+          "documentId": "atlas-policy:source:vedanta-appeal-2026-mirror",
+          "title": "Vedanta/Coal Ministry cross-appeals LPA 83 and 84/2026",
+          "url": "https://pub-cc8438e664ef4d32a54c800c7c408282.r2.dev/0d6a1a65-1956-4073-a293-c13e8b78ca4b.pdf",
+          "similarity": 0.459531
+        },
+        {
+          "documentId": "justice-research:source:src-cag-proceedings-parliament",
+          "title": "Parliament reply: proceedings based on CAG findings — Lok Sabha Q.2191",
+          "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU2191_FwhMf9.pdf",
+          "similarity": 0.456346
+        },
+        {
+          "documentId": "atlas-institutions:source:padma-sc-2021",
+          "title": "Supreme Court: Temple Trust audit clarification",
+          "url": "https://www.advocatekhoj.com/library/judgments/index.php?go=2021%2Fseptember%2Fsri-marthanda-varma-d-through-lrs-vs-state-of-kerala-91",
+          "similarity": 0.438491
+        },
+        {
+          "documentId": "deep-corporate:source:hzl-government-response-2022",
+          "title": "DIPAM disputes CBI premises in HZL sale inquiry",
+          "url": "https://theprint.in/judiciary/modi-govt-vs-cbi-in-sc-heres-why-govt-has-questioned-probe-in-hindustan-zinc-divestment/826129/",
+          "similarity": 0.43589
+        }
+      ]
+    },
+    "missing-connection-proof": {
+      "text": "Exact legal identity ISIN CIN project identifier contract number beneficiary parent subsidiary public funding link avoid inference from shared names geography political donation",
+      "matches": [
+        {
+          "documentId": "public-works:source:pwg-irb-fy24",
+          "title": "IRB annual report FY2023-24 — ownership and scope-separated donations",
+          "url": "https://www.irb.co.in/home/wp-content/uploads/2024/08/annual-report-fy2023-24.pdf",
+          "similarity": 0.518294
+        },
+        {
+          "documentId": "public-works:source:pwg-irbmp-fy24",
+          "title": "IRB MP Expressway Private Limited audited financial statements FY2023-24",
+          "url": "https://www.irb.co.in/home/wp-content/uploads/2024/08/Annual_Accounts_of_Subsidiary_Companies_FY2023-24/12.IRBMP_Audited%20FS%20March2024.pdf",
+          "similarity": 0.500441
+        },
+        {
+          "documentId": "welfare-research:source:tn-pmay-audit",
+          "title": "CAG Tamil Nadu Report 6/2022: implementation of PMAY-G",
+          "url": "https://cag.gov.in/webroot/uploads/download_audit_report/2021/Report-No-6-of-2022-PMAY-G-2020-21-English-064427d5a33aa49.69300243.pdf",
+          "similarity": 0.438964
+        },
+        {
+          "documentId": "atlas-institutions:source:ipi-kpmg-2020",
+          "title": "KPMG forensic review of IPI transactions involving Epstein-linked entities",
+          "url": "https://www.ipinst.org/wp-content/uploads/2020/12/IPI-KPMG-Forensic-Review-12-18-2020.pdf",
+          "similarity": 0.415989
+        },
+        {
+          "documentId": "atlas-policy:source:bonds-judgment-2024",
+          "title": "Association for Democratic Reforms v Union of India, 2024 INSC 113",
+          "url": "https://api.sci.gov.in/supremecourt/2017/27935/27935_2017_1_1501_50573_Judgement_15-Feb-2024.pdf",
+          "similarity": 0.410776
+        }
+      ]
+    }
+  },
+  "researchDomain": "atlas-expansion"
+}

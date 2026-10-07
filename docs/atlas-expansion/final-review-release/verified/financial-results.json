@@ -1,0 +1,82 @@
+{
+  "reviewedAt": "2026-10-07T02:58:01.663Z",
+  "scope": "financial-context-followup",
+  "base": "http://127.0.0.1:36505",
+  "passed": true,
+  "checks": 10,
+  "failures": [],
+  "results": [
+    {
+      "passed": true,
+      "title": "IMF account status is presented as financial context",
+      "details": ""
+    },
+    {
+      "passed": true,
+      "title": "IMF account record is not classified as an allegation or loan award",
+      "details": ""
+    },
+    {
+      "passed": true,
+      "title": "Financial context opens the exact reviewed record",
+      "details": ""
+    },
+    {
+      "passed": true,
+      "title": "Financial context preserves the account qualifications",
+      "details": ""
+    },
+    {
+      "passed": true,
+      "title": "Closing financial context preserves its map underlay",
+      "details": ""
+    },
+    {
+      "passed": true,
+      "title": "Case category counts partition their stated record denominator",
+      "details": ""
+    },
+    {
+      "passed": true,
+      "title": "Alleged-link population has allegation tier and citations",
+      "details": ""
+    },
+    {
+      "passed": true,
+      "title": "Count interpretations distinguish records, assertions and adjudicated findings",
+      "details": ""
+    },
+    {
+      "passed": true,
+      "title": "New investigated cases contain response, alternatives and disconfirmation test",
+      "details": ""
+    },
+    {
+      "passed": true,
+      "title": "No uncaught page errors in independent acceptance",
+      "details": ""
+    }
+  ],
+  "measurements": [
+    {
+      "registry": {
+        "entities": 2222,
+        "relationships": 3943,
+        "records": 5450,
+        "sources": 3237
+      },
+      "feed": {
+        "total": 65,
+        "counts": {
+          "allegation": 2,
+          "finding": 23,
+          "proceeding": 13,
+          "case": 27
+        }
+      },
+      "alleged": 99,
+      "atlasRecords": 52
+    }
+  ],
+  "errors": []
+}

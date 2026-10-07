@@ -64,3 +64,12 @@ test('map has exactly the current36 LGD identities and allmultipart geometry wit
  assert.equal(map.states.reduce((n,state)=>n+state.parts,0),832);
  for(const state of map.states){assert.ok(state.path.startsWith('M'));assert.ok(state.path.length>25);assert.ok(Number.isFinite(state.x)&&Number.isFinite(state.y));assert.ok(state.x>0&&state.x<640&&state.y>0&&state.y<720);}
 });
+
+test('label placement never overlaps labels or node symbols across mobile and desktop zoom levels',async()=>{
+ const {investigationGraphLabels}=await import(`data:text/javascript;base64,${Buffer.from(compiled).toString('base64')}`);
+ const nodes=Array.from({length:30},(_,i)=>({...node(`n${i}`),label:`A long institution name ${i}`,namespace:'test'}));
+ const points=new Map(nodes.map((n,i)=>[n.id,{x:160+(i%6)*165,y:100+Math.floor(i/6)*120}]));
+ for(const zoom of [.35,.65,1,1.6]){const labels=investigationGraphLabels(nodes,points,{zoom,width:1300,height:800,showAll:true,priorityIds:['n14']});assert.ok(labels.length>0);for(let a=0;a<labels.length;a++)for(let b=a+1;b<labels.length;b++){const x=labels[a],y=labels[b];assert.ok(!(x.x<y.x+y.width&&x.x+x.width>y.x&&x.y<y.y+y.height&&x.y+x.height>y.y),`${zoom}: ${x.id} overlaps ${y.id}`);}assert.deepEqual(labels,investigationGraphLabels([...nodes].reverse(),points,{zoom,width:1300,height:800,showAll:true,priorityIds:['n14']}));}
+});
+
+test('CSV includes supplied response text and response-only provenance without a quadratic full-registry scan',()=>{const responseSource={...sources[0],id:'response-source',title:'Respondent original filing',url:'https://example.gov.in/response'},response={id:'denial',title:'Company reply',summary:'The company disputes the allegation',response:'Read the filed denial',sourceIds:['response-source'],geography:[]};const csv=investigationGraphCsv([node('a'),node('b')],[edge('ab','a','b',{responseIds:['denial']})],[...sources,responseSource],[response]);assert.ok(csv.includes('The company disputes the allegation'));assert.ok(csv.includes('https://example.gov.in/response'));assert.ok(csv.includes('missing_response_ids'));});

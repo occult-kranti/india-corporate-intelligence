@@ -615,6 +615,17 @@ await page.goto('about:blank');
 await page.goto(dossierUrl(base, '/network?sel=coal&focus=coal&hops=1'), { waitUntil: 'networkidle' });
 await settled();
 await page.locator(G).scrollIntoViewIfNeeded();
+// The dossier scroll region can be shorter than this 700px graph. Clicking its
+// zoom toolbar scrolls the toolbar into view, leaving the chosen pair below the
+// viewport. Use the actual full-window control so pixel/hover assertions sample
+// painted, visible lines rather than points hidden behind the workspace footer.
+await page.locator(G).focus();
+await page.keyboard.press('f');
+await page.waitForFunction((selector) => {
+  const box = document.querySelector(selector)?.getBoundingClientRect();
+  return box && box.width > innerWidth * .9 && box.height > innerHeight * .8 && box.top >= 0 && box.bottom <= innerHeight;
+}, G);
+check('same-pair inspection uses a visible full-window graph', true);
 await page.waitForTimeout(600);
 await page.getByRole('button', { name: 'Zoom in' }).first().click();
 await page.waitForTimeout(300);

@@ -7,9 +7,10 @@ const ROOT=fileURLToPath(new URL('../../',import.meta.url));
 const validDate=value=>value===null||typeof value==='string'&&/^\d{4}-\d{2}-\d{2}$/u.test(value)&&Number.isFinite(Date.parse(`${value}T00:00:00Z`))&&new Date(`${value}T00:00:00Z`).toISOString().slice(0,10)===value;
 const validPublication=value=>validDate(value)||typeof value==='string'&&/^\d{4}-(0[1-9]|1[0-2])$/u.test(value);
 const tiers=new Set(['documented','reported','alleged','analytic','self-reported']);
+const countryCodes=new Set(JSON.parse(readFileSync(new URL('./iso3166-codes.json',import.meta.url),'utf8')));
 const layers=new Set(['people','organisations','funding','procurement','legal','welfare','services','policy','review']);
-const scopes=new Set(['national','state','multi-state','district','city','village','block','project','unknown']);
-const bases=new Set(['project-location','programme-coverage','headquarters','constituency','institution-location','state-association','national-context','unknown']);
+const scopes=new Set(['national','country','state','multi-state','district','city','village','block','project','unknown']);
+const bases=new Set(['project-location','programme-coverage','headquarters','constituency','institution-location','state-association','national-context','country-context','unknown']);
 const strArray=(row,key)=>Array.isArray(row?.[key])&&row[key].every(value=>typeof value==='string');
 const object=row=>row!==null&&typeof row==='object'&&!Array.isArray(row);
 const text=value=>typeof value==='string'&&value.trim().length>0;
@@ -52,7 +53,8 @@ export function validateInvestigation(data){
    for(const id of geo.localityIds){const locality=sets.localities.get(id);if(locality&&!geo.stateCodes.includes(locality.stateCode))fail(`${row.id}: locality outside declared state`);}
    if(['headquarters','constituency','state-association'].includes(geo.basis)&&['project','village'].includes(geo.scope))fail(`${row.id}: association cannot be a project/village location`);
    if(geo.scope==='unknown'&&(geo.stateCodes.length||geo.localityIds.length))fail(`${row.id}: unknown geography cannot assert a local footprint`);
-   if(!['national','unknown'].includes(geo.scope)&&!geo.stateCodes.length)fail(`${row.id}: subnational scope requires a state`);
+   if(geo.scope==='country'&&(!Array.isArray(geo.countryCodes)||!geo.countryCodes.length||geo.countryCodes.some(code=>typeof code!=='string'||!countryCodes.has(code))||geo.stateCodes.length||geo.localityIds.length||geo.basis!=='country-context'))fail(`${row.id}: country context requires explicit ISO2 country codes and no invented Indian state or site`);
+   if(!['national','country','unknown'].includes(geo.scope)&&!geo.stateCodes.length)fail(`${row.id}: subnational scope requires a state`);
   }
  }
  for(const source of data.sources){

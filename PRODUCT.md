@@ -22,3 +22,7 @@ administration. Audits, contractor relationships, legal changes and government
 responses are separate evidence layers. Repeated notices, repeated suppliers and
 repeat physical work remain distinct. The user can inspect a sourced subgraph or
 compare two records against explicit identity, location, scope and date gates.
+
+The Public Record Atlas is the unified geographic entry point. Researchers move from a national or state view into a sector, institution, case, dated policy change or exact relationship, then inspect sources and responses beside the map. Optional 3D represents the spatial surface; it must not imply that illustrative building height, node prominence, or camera position measures money, guilt, or completeness. Time controls state whether they filter dated evidence or change a view. The original registers remain available as dossiers, and saved casebook records and existing deep links remain valid.
+
+The current redesign is explicitly authorized across all pages. Its evaluation is an independent AI design and technical review, not invented user interviews, participant testing, or editorial adjudication of allegations.

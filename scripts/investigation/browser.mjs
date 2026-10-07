@@ -200,7 +200,7 @@ try {
       return Boolean(sourceId) && document.querySelector('[data-investigation-source]')?.getAttribute('data-investigation-source') === sourceId;
     });
     check((await inspector.innerText()).includes('2.2.11.1'), 'source inspector exposes exact locator');
-    const origin = inspector.getByRole('link', { name: /Read original source/u }).first();
+    const origin = inspector.getByRole('link', { name: /Read cited source/u }).first();
     check((await origin.getAttribute('href')).includes('cag.gov.in'), 'source URL remains official CAG origin');
     check(await origin.getAttribute('target') === '_blank', 'opening origin preserves workspace tab');
     await page.goBack();

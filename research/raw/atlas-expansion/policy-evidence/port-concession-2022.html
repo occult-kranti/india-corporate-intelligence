@@ -1,0 +1,1055 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head id="Head1"><title>
+	Press Release Page | Press Information Bureau
+</title><link href="css/style.css?v=1" rel="stylesheet" type="text/css" /><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><link rel="alternate stylesheet" href="css/change.css?v=1" media="screen" title="change" /><link rel="alternate stylesheet" href="css/green.css?v=1" media="screen" title="green" /><link rel="alternate stylesheet" href="css/yellow.css" media="screen" title="yellow" /><link rel="stylesheet" type="text/css" href="css/prtint.css" media="print" /><link rel="stylesheet" href="css/style3.1.css" type="text/css" /><link id="pibA11yCss" rel="stylesheet" href="/css/accessibility.css?v=7" type="text/css" />
+      <script type="text/javascript">
+        /* Stamps the saved theme on <html> before the page paints. The
+           switcher in js/accessibility.js settles the rest, but on inner
+           pages it does not run until the end of the body and inside the
+           release frame it is a separate download - either way the reader
+           would otherwise watch a light page turn dark in front of them. */
+        (function (d) {
+            var t = "";
+            try {
+                t = window.localStorage.getItem("pibStyle") || "";
+            } catch (e) {
+                t = "";
+            }
+            if (t === "orange") {
+                t = "yellow";
+            }
+            var c = t === "change" ? " pib-hc"
+                : t === "green" ? " pib-theme-green"
+                : t === "yellow" ? " pib-theme-yellow" : "";
+            d.documentElement.className += c + " pib-a11y-content";
+        }(document));
+      </script>
+
+
+      <script src="js/jquery.min.js" type="text/javascript"></script>
+      <script type="text/javascript" src="/js/accessibility.js?v=7"></script>
+
+      <script type="text/javascript">
+            $(document).ready(function () {
+                  function getParameterByName(name) {
+                        var url = window.location.href;
+                        name = name.replace(/[\[\]]/g, '\\$&');
+                        var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+                              results = regex.exec(url);
+                        if (!results) return null;
+                        if (!results[2]) return '';
+                        return decodeURIComponent(results[2].replace(/\+/g, ' '));
+                  }
+                  // Get the IDs from the current page's URL
+                  let prid = parseInt(getParameterByName('PRID'), 10);
+
+                  if (!isNaN(prid) && prid > 0) {
+                        $.ajax({
+                              type: "POST",
+                              url: "AjaxMethod.aspx/UpdatePRHitCount",
+                              async: false,
+                              data: JSON.stringify({ 'PermId': prid }),
+                              contentType: "application/json; charset=utf-8",
+                              dataType: "json",
+                              success: function (response) {
+                                    console.log(response);
+                              },
+                              error: function (error) {
+                                    console.log("Error in AJAX request", error);
+                              }
+                        });
+                  } else {
+                        console.log("Invalid parameters:", prid);
+                  }
+
+            });
+      </script>
+      <style type="text/css">
+            .table-responsive {
+                  width: 100%;
+                  overflow-x: auto;
+            }
+
+            .banner {
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  background-color: #000;
+                  color: #fff;
+                  padding: 20px;
+            }
+
+            full-width {
+                  width: 100%;
+            }
+
+            .logo-left, .logo-center, .countdown {
+                  display: flex;
+                  align-items: center;
+            }
+
+                  .logo-left img, .logo-center img {
+                        height: 70px;
+                  }
+
+            .countdown {
+                  text-align: center;
+                  background-color: var(--dbim-text, #150202);
+                  border-radius: 10px;
+                  padding: 10px;
+                  border: 2px solid grey;
+            }
+
+            .firstnumber {
+                  color: #000000;
+                  position: absolute;
+                  top: 50px;
+                  right: 90px;
+                  font-size: 30px;
+            }
+
+            .secondnumber {
+                  position: absolute;
+                  color: #000000;
+                  right: 45px;
+                  top: 50px;
+                  font-size: 30px;
+            }
+
+            .countdown .days {
+                  font-size: 35px;
+                  color: gold;
+            }
+
+            .countdown p {
+                  margin: 0;
+            }
+
+            .countdown .text {
+                  font-size: 16px;
+            }
+
+            a {
+                  word-break: break-all;
+            }
+
+            iframe, img {
+                  max-width: 100%;
+            }
+
+            @media(max-width:1199px) {
+                  .firstnumber {
+                        top: 40px;
+                        right: 72px;
+                        font-size: 30px;
+                  }
+
+                  .secondnumber {
+                        right: 35px;
+                        top: 40px;
+                        font-size: 30px;
+                  }
+            }
+
+            @media(max-width:990px) {
+                  .firstnumber {
+                        top: 25px;
+                        right: 54px;
+                        font-size: 30px;
+                  }
+
+                  .secondnumber {
+                        right: 25px;
+                        top: 25px;
+                        font-size: 30px;
+                  }
+            }
+
+            @media(max-width:768px) {
+                  .countdown, .days {
+                        font-size: 12px !important;
+                  }
+
+
+                  .firstnumber {
+                        top: 25%;
+                        right: 8%;
+                        font-size: 30px;
+                  }
+
+                  .secondnumber {
+                        right: 4.5%;
+                        top: 25%;
+                        font-size: 30px;
+                  }
+            }
+
+            @media(max-width:475px) {
+                  .countdown, .days {
+                        font-size: 10px !important;
+                        top: 20%;
+                  }
+
+                  .bannerimgdiv {
+                        padding: 0 !important;
+                  }
+
+                  .bannerimg {
+                        width: 108% !important;
+                  }
+            }
+      </style>
+      <script type="text/javascript">
+            $(function () {
+                  $("[id*=printPDF]").click(function () {
+                        $("[id*=hfGridHtml]").val($("#PdfDiv").html());
+                  });
+            });
+            $(function () {
+                  $("[id*=printPDFEvent]").click(function () {
+                        $("[id*=hfGridHtml]").val($("#PdfDiv").html());
+                  });
+            });
+      </script>
+
+      
+
+      <link id="pibConsentCss" href="/css/consent.css?v=8" rel="stylesheet" type="text/css" /><link id="pibFontsCss" href="/css/fonts-noto.css?v=6" rel="stylesheet" type="text/css" /><link id="pibDbimCss" href="/css/dbim.css?v=1112" rel="stylesheet" type="text/css" /><meta property="og:title" content="Concession Agreement signed between V.O. Chidambarananar Port Authority and Tuticorin International Container Terminal Private Limited (J M BAXI Group)" /><meta property="og:url" content="www.pib.gov.in/Pressreleaseshare.aspx?PRID=1856626" /><meta property="og:description" content="A Concession Agreement has been signed on September 3, 2022 between V.O. Chidambaranar Port Authorit" /><meta property="og:image" content="https:/pib.gov.in/images/indian-emblem.png" />
+                                <script>!function(e){var n="https://s.go-mpulse.net/boomerang/";if("False"=="True")e.BOOMR_config=e.BOOMR_config||{},e.BOOMR_config.PageParams=e.BOOMR_config.PageParams||{},e.BOOMR_config.PageParams.pci=!0,n="https://s2.go-mpulse.net/boomerang/";if(window.BOOMR_API_key="C4E7H-KSCMC-422L4-W3EM5-U36MF",function(){function e(){if(!i){var e=document.createElement("script");e.id="boomr-scr-as",e.src=window.BOOMR.url,e.async=!0,o.parentNode.appendChild(e),i=!0}}function t(e){i=!0;var n,t,a,r,d=document,O=window;if(window.BOOMR.snippetMethod=e?"if":"i",t=function(e,n){var t=d.createElement("script");t.id=n||"boomr-if-as",t.src=window.BOOMR.url,BOOMR_lstart=(new Date).getTime(),e=e||d.body,e.appendChild(t)},!window.addEventListener&&window.attachEvent&&navigator.userAgent.match(/MSIE [67]\./))return window.BOOMR.snippetMethod="s",void t(o.parentNode,"boomr-async");a=document.createElement("IFRAME"),a.src="about:blank",a.title="",a.role="presentation",a.loading="eager",r=(a.frameElement||a).style,r.width=0,r.height=0,r.border=0,r.display="none",o.parentNode.appendChild(a);try{O=a.contentWindow,d=O.document.open()}catch(_){n=document.domain,a.src="javascript:var d=document.open();d.domain='"+n+"';void(0);",O=a.contentWindow,d=O.document.open()}if(n)d._boomrl=function(){this.domain=n,t()},d.write("<bo"+"dy onload='document._boomrl();'>");else if(O._boomrl=function(){t()},O.addEventListener)O.addEventListener("load",O._boomrl,!1);else if(O.attachEvent)O.attachEvent("onload",O._boomrl);d.close()}function a(e){window.BOOMR_onload=e&&e.timeStamp||(new Date).getTime()}if(!window.BOOMR||!window.BOOMR.version&&!window.BOOMR.snippetExecuted){window.BOOMR=window.BOOMR||{},window.BOOMR.snippetStart=(new Date).getTime(),window.BOOMR.snippetExecuted=!0,window.BOOMR.snippetVersion=12,window.BOOMR.url=n+"C4E7H-KSCMC-422L4-W3EM5-U36MF";var o=document.currentScript||document.getElementsByTagName("script")[0],i=!1,r=document.createElement("link");if(r.relList&&"function"==typeof r.relList.supports&&r.relList.supports("preload")&&"as"in r)window.BOOMR.snippetMethod="p",r.href=window.BOOMR.url,r.rel="preload",r.as="script",r.addEventListener("load",e),r.addEventListener("error",function(){t(!0)}),setTimeout(function(){if(!i)t(!0)},3e3),BOOMR_lstart=(new Date).getTime(),o.parentNode.appendChild(r);else t(!1);if(window.addEventListener)window.addEventListener("load",a,!1);else if(window.attachEvent)window.attachEvent("onload",a)}}(),"".length>0)if(e&&"performance"in e&&e.performance&&"function"==typeof e.performance.setResourceTimingBufferSize)e.performance.setResourceTimingBufferSize();!function(){if(BOOMR=e.BOOMR||{},BOOMR.plugins=BOOMR.plugins||{},!BOOMR.plugins.AK){var n=""=="true"?1:0,t="",a="ljqllrax2fkcq2wfuara-f-2649533e9-clientnsv4-s.akamaihd.net",o="false"=="true"?2:1,i={"ak.v":"41","ak.cp":"1825201","ak.ai":parseInt("1215205",10),"ak.ol":"0","ak.cr":9,"ak.ipv":4,"ak.proto":"h2","ak.rid":"d77a24","ak.r":46091,"ak.a2":n,"ak.m":"dscb","ak.n":"ff","ak.cport":37908,"ak.gh":"23.201.193.40","ak.quicv":"","ak.tlsv":"tls1.3","ak.0rtt":"","ak.0rtt.ed":"","ak.csrc":"-","ak.acc":"","ak.t":"1791336482","ak.ak":"hOBiQwZUYzCg5VSAfCLimQ==pGZK8YmjfNip1wDQ6yl1qxQPcp2g5NxtbUTJ+Qs3iaGBmPWHouw2sv8r2XSMrUINR+0C8s0wZ/gLC2EMRdk7fFOl4V4G6CqOR1kyfpnRJFhdinG9j+34QNK9sTmAMxNAFE1pdNQGhkefEujMD80Tz67vOWXFo6/zAExrUW4Fquww4KH0ocNsb5NkDPmco85mghC++t7mGi9cf2VmFiZMGUt/sz3Ll4SHUc+VDdSc39WaZ5ky18z1NGrQzn78evpN8BLFrOqoad+L/BhgK5a7EDIaTgQgzbeoFjbtaUttUlcLRN8oDCngbEPC0OqlSc8j6UCcyYZoht0K/oiv+DxlrE/8zHf2dWZHT9ojR3sTLRefJ/RuVLKhcJHtTkapcFbgNHeRxWBwkRkn2kblKl4G3CRhhDiHbaQ+LUkz0kqguZk=","ak.pv":"9","ak.dpoabenc":"","ak.tf":o};if(""!==t)i["ak.ruds"]=t;var r={i:!1,av:function(n){var t="http.initiator";if(n&&(!n[t]||"spa_hard"===n[t]))i["ak.feo"]=void 0!==e.aFeoApplied?1:0,BOOMR.addVar(i)},rv:function(){var e=["ak.cport","ak.cr","ak.csrc","ak.gh","ak.ipv","ak.m","ak.n","ak.ol","ak.proto","ak.quicv","ak.tlsv","ak.0rtt","ak.0rtt.ed","ak.r","ak.acc","ak.t","ak.tf"];BOOMR.removeVar(e)}};BOOMR.plugins.AK={akVars:i,akDNSPreFetchDomain:a,init:function(){if(!r.i){var e=BOOMR.subscribe;e("before_beacon",r.av,null,null),e("onbeacon",r.rv,null,null),r.i=!0}return this},is_complete:function(){return!0}}}}()}(window);</script></head>
+<body>
+    
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"
+     style="position:absolute;width:0;height:0;overflow:hidden" id="dbim-icon-sprite">
+    <defs>
+        <symbol id="icon-angle-double-left" viewBox="0 0 24 24"><path d="M11.6 4.6 4.2 12l7.4 7.4 2.2-2.2L8.6 12l5.2-5.2z"/><path d="M19 4.6 11.6 12 19 19.4l2.2-2.2L16 12l5.2-5.2z"/></symbol>
+        <symbol id="icon-angle-double-right" viewBox="0 0 24 24"><path d="M12.4 4.6 10.2 6.8 15.4 12l-5.2 5.2 2.2 2.2L19.8 12z"/><path d="M5 4.6 2.8 6.8 8 12l-5.2 5.2L5 19.4 12.4 12z"/></symbol>
+        <symbol id="icon-arrow-left" viewBox="0 0 24 24"><path d="M20.8 10.6H9.6v2.8h11.2z"/><path d="M10.8 5.6 3.2 12l7.6 6.4z"/></symbol>
+        <symbol id="icon-arrow-right" viewBox="0 0 24 24"><path d="M3.2 10.6h11.2v2.8H3.2z"/><path d="M13.2 5.6 20.8 12l-7.6 6.4z"/></symbol>
+        <symbol id="icon-blogger" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M6.4 2.4h11.2a4 4 0 0 1 4 4v11.2a4 4 0 0 1-4 4H6.4a4 4 0 0 1-4-4V6.4a4 4 0 0 1 4-4zm2.8 5.2a2 2 0 0 0 0 4h2.4a2 2 0 0 0 0-4zm0 5.6a2 2 0 0 0 0 4h5.6a2 2 0 0 0 0-4z"/></symbol>
+        <symbol id="icon-calendar" viewBox="0 0 24 24"><path d="M7.6 2.4H10v2.4H7.6z"/><path d="M14 2.4h2.4v2.4H14z"/><path fill-rule="evenodd" d="M4 4.8h16a1.6 1.6 0 0 1 1.6 1.6v13.2a1.6 1.6 0 0 1-1.6 1.6H4a1.6 1.6 0 0 1-1.6-1.6V6.4A1.6 1.6 0 0 1 4 4.8zm.4 5.6v8.4h15.2v-8.4z"/><path d="M6.4 12.4h3.2v3.2H6.4z"/></symbol>
+        <symbol id="icon-chevron-left" viewBox="0 0 24 24"><path d="M15.4 4.6 8 12l7.4 7.4 2.2-2.2L12.4 12l5.2-5.2z"/></symbol>
+        <symbol id="icon-chevron-right" viewBox="0 0 24 24"><path d="M8.6 4.6 6.4 6.8 11.6 12l-5.2 5.2 2.2 2.2L16 12z"/></symbol>
+        <symbol id="icon-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/></symbol>
+        <symbol id="icon-download" viewBox="0 0 24 24"><path d="M10.8 3h2.4v7.6h3.4L12 16.6l-4.6-6h3.4z"/><path d="M4 17.2h2.4v2.4h11.2v-2.4H20v3.2a1.4 1.4 0 0 1-1.4 1.4H5.4A1.4 1.4 0 0 1 4 20.4z"/></symbol>
+        <symbol id="icon-facebook" viewBox="0 0 24 24"><path d="M13.6 21.6v-8.4h2.8l.42-3.3h-3.22V7.8c0-.95.27-1.6 1.64-1.6h1.74V3.26a23 23 0 0 0-2.54-.13c-2.5 0-4.22 1.53-4.22 4.34v2.43H7.4v3.3h2.82v8.4z"/></symbol>
+        <symbol id="icon-fact-check" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2.4 3.6 5.6v6.2c0 4.6 3.4 8.6 8.4 9.8 5-1.2 8.4-5.2 8.4-9.8V5.6zm-1 13.2-3.6-3.6 1.7-1.7 1.9 1.9 4.5-4.5 1.7 1.7z"/></symbol>
+        <symbol id="icon-hashtag" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M8.8 3h2.4l-1 6h3.2l1-6h2.4l-1 6h3.4v2.4h-3.8l-.6 3.2h3.6V17h-4l-1 5h-2.4l1-5h-3.2l-1 5H5.4l1-5H3V14.6h3.8l.6-3.2H3.8V9h4zm.6 8.4-.6 3.2h3.2l.6-3.2z"/></symbol>
+        <symbol id="icon-home" viewBox="0 0 24 24"><path d="M12 3.4 2.8 11.6h2.4v8.4a1 1 0 0 0 1 1h3.3v-5.4h5v5.4h3.3a1 1 0 0 0 1-1v-8.4h2.4z"/></symbol>
+        <symbol id="icon-instagram" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M7.6 2.4h8.8a5.2 5.2 0 0 1 5.2 5.2v8.8a5.2 5.2 0 0 1-5.2 5.2H7.6a5.2 5.2 0 0 1-5.2-5.2V7.6a5.2 5.2 0 0 1 5.2-5.2zm0 2.4a2.8 2.8 0 0 0-2.8 2.8v8.8a2.8 2.8 0 0 0 2.8 2.8h8.8a2.8 2.8 0 0 0 2.8-2.8V7.6a2.8 2.8 0 0 0-2.8-2.8z"/><path fill-rule="evenodd" d="M12 6.8a5.2 5.2 0 1 0 0 10.4 5.2 5.2 0 0 0 0-10.4zm0 2.4a2.8 2.8 0 1 1 0 5.6 2.8 2.8 0 0 1 0-5.6z"/><circle cx="17.3" cy="6.7" r="1.3"/></symbol>
+        <symbol id="icon-linkedin" viewBox="0 0 24 24"><path d="M4.8 8.8h3.6v12H4.8z"/><circle cx="6.6" cy="5.4" r="2.1"/><path d="M10.8 8.8h3.45v1.65h.05c.48-.9 1.65-1.85 3.4-1.85 3.63 0 4.3 2.35 4.3 5.4v6.6h-3.6v-5.85c0-1.4-.03-3.2-1.95-3.2-1.95 0-2.25 1.52-2.25 3.1v5.95h-3.6z"/></symbol>
+        <symbol id="icon-mail" viewBox="0 0 24 24"><path d="M2.4 7.6v9.2a1.6 1.6 0 0 0 1.6 1.6h16a1.6 1.6 0 0 0 1.6-1.6V7.6L12 14z"/><path d="M21.2 5.4H2.8L12 11.8z"/></symbol>
+        <symbol id="icon-mail-open" viewBox="0 0 24 24"><path d="M2.4 9.8h19.2v9.6A1.6 1.6 0 0 1 20 21H4a1.6 1.6 0 0 1-1.6-1.6z"/><path d="M12 2.6 21.6 9.2h-3.8L12 5.3 6.2 9.2H2.4z"/><path d="m3.9 11.2 8.1 5.4 8.1-5.4 1.5 1.3-9.6 6.4-9.6-6.4z"/></symbol>
+        <symbol id="icon-map-marker" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2.4a7 7 0 0 0-7 7c0 5.2 7 12.2 7 12.2s7-7 7-12.2a7 7 0 0 0-7-7zm0 9.6a2.6 2.6 0 1 1 0-5.2 2.6 2.6 0 0 1 0 5.2z"/></symbol>
+        <symbol id="icon-newspaper" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M2.8 4.4h14.8v15.2H2.8zm2 2v11.2h10.8V6.4z"/><path d="M6 7.6h8.4v1.6H6z"/><path d="M6 10.8h8.4v1.6H6z"/><path d="M6 14h5.2v1.6H6z"/><path d="M18.4 8.4h2.8v9.6a1.4 1.4 0 0 1-2.8 0z"/></symbol>
+        <symbol id="icon-pause" viewBox="0 0 24 24"><rect x="7.4" y="4" width="3.6" height="16" rx="0.9"/><rect x="13" y="4" width="3.6" height="16" rx="0.9"/></symbol>
+    <symbol id="icon-play" viewBox="0 0 24 24"><path d="M8 4.5v15l12-7.5z"/></symbol>
+        <symbol id="icon-picture" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M2.4 5.2h19.2v13.6H2.4zm2 2v9.6h15.2V7.2z"/><path d="M5.6 16.4 10 11l2.6 3 2-2.2 4 4.6z"/><circle cx="8" cy="10.4" r="1.5"/></symbol>
+        <symbol id="icon-press-conference" viewBox="0 0 24 24"><circle cx="12" cy="5.2" r="2.6"/><path d="M7.6 12.2a4.4 4.4 0 0 1 8.8 0z"/><circle cx="4.9" cy="9.6" r="2.2"/><path d="M1.8 15.2a3.1 3.1 0 0 1 6.2 0z"/><circle cx="19.1" cy="9.6" r="2.2"/><path d="M16 15.2a3.1 3.1 0 0 1 6.2 0z"/><path d="M6.6 13.6h10.8l2.2 7.8H4.4z"/></symbol>
+        <symbol id="icon-print" viewBox="0 0 24 24"><path d="M6.4 2.8h11.2v4.4H6.4z"/><path d="M4 8.4h16a1.6 1.6 0 0 1 1.6 1.6v5.6a1.6 1.6 0 0 1-1.6 1.6h-1.6v-2.8H6v2.8H4a1.6 1.6 0 0 1-1.6-1.6V10A1.6 1.6 0 0 1 4 8.4z"/><path d="M7.2 15.6h9.6v5.6H7.2z"/></symbol>
+        <symbol id="icon-rss" viewBox="0 0 24 24"><circle cx="4.8" cy="19.2" r="2.4"/><path d="M2.4 11.2v3.2a6.4 6.4 0 0 1 6.4 6.4H12A9.6 9.6 0 0 0 2.4 11.2z"/><path d="M2.4 4.8V8A13.6 13.6 0 0 1 16 21.6h3.2A16.8 16.8 0 0 0 2.4 4.8z"/></symbol>
+        <symbol id="icon-search-plus" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M10 2.8a7.2 7.2 0 1 0 0 14.4 7.2 7.2 0 0 0 0-14.4zm0 2.4a4.8 4.8 0 1 1 0 9.6 4.8 4.8 0 0 1 0-9.6z"/><path d="M15.3 14.6 21.2 20.5l-1.5 1.5-5.9-5.9z"/><path d="M9.2 6.8h1.6v2.4h2.4v1.6h-2.4v2.4H9.2v-2.4H6.8V9.2h2.4z"/></symbol>
+        <symbol id="icon-share" viewBox="0 0 24 24"><circle cx="18" cy="5.6" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="18.4" r="3"/><path d="M8.3 10.9 15.7 7.2l.9 1.8-7.4 3.7z"/><path d="M9.2 13.1 16.6 16.8l-.9 1.8-7.4-3.7z"/></symbol>
+        <symbol id="icon-twitter" viewBox="0 0 24 24"><path d="M4.2 3h4.3l11.3 18h-4.3z"/><path d="M19.3 3h-2.6L4.2 21h2.6z"/></symbol>
+        <symbol id="icon-university" viewBox="0 0 24 24"><path d="M12 2.4 21.6 7.2v1.6H2.4V7.2z"/><path d="M4.8 10.4h2.4v8H4.8z"/><path d="M9.2 10.4h2.4v8H9.2z"/><path d="M13.4 10.4h2.4v8h-2.4z"/><path d="M17.6 10.4H20v8h-2.4z"/><path d="M3.2 19.8h17.6v1.8H3.2z"/></symbol>
+        <symbol id="icon-volume-up" viewBox="0 0 24 24"><path d="M3.2 9.2h3.3l5-4.2v14l-5-4.2H3.2z"/><path d="M14.6 8.4a5 5 0 0 1 0 7.2l1.6 1.6a7.2 7.2 0 0 0 0-10.4z"/><path d="M17.4 5.6a8.8 8.8 0 0 1 0 12.8l1.5 1.5a10.9 10.9 0 0 0 0-15.8z"/></symbol>
+        <symbol id="icon-whatsapp" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2.4a9.5 9.5 0 0 0-8.1 14.5L2.4 21.6l4.8-1.4A9.5 9.5 0 1 0 12 2.4zm0 2.2a7.3 7.3 0 1 1-3.8 13.5l-.4-.2-2.6.7.7-2.5-.3-.4A7.3 7.3 0 0 1 12 4.6z"/><path d="M9.4 7.8c-.2-.5-.4-.5-.6-.5h-.5a1 1 0 0 0-.7.3c-.3.3-.9.9-.9 2.1s.9 2.4 1 2.6c.1.2 1.7 2.8 4.3 3.8 2.1.8 2.6.7 3 .6.5 0 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2l-.5-.3-1.6-.8c-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6 6 0 0 1-1.8-1.1 6.6 6.6 0 0 1-1.2-1.6c-.1-.2 0-.4.1-.5l.4-.5.3-.5v-.5z"/></symbol>
+        <symbol id="icon-youtube" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M21.6 7.2a2.8 2.8 0 0 0-2-2C17.9 4.8 12 4.8 12 4.8s-5.9 0-7.6.4a2.8 2.8 0 0 0-2 2A29 29 0 0 0 2 12a29 29 0 0 0 .4 4.8 2.8 2.8 0 0 0 2 2c1.7.4 7.6.4 7.6.4s5.9 0 7.6-.4a2.8 2.8 0 0 0 2-2A29 29 0 0 0 22 12a29 29 0 0 0-.4-4.8zM10.2 15.1V8.9l5.1 3.1z"/></symbol>
+    </defs>
+</svg>
+
+      <form method="post" action="./PressReleasePage.aspx?PRID=1856626&amp;reg=48&amp;lang=2" id="form1">
+<div class="aspNetHidden">
+<input type="hidden" name="sc_HiddenField" id="sc_HiddenField" value="" />
+<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
+<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="DaRgY8SqRtVS9P0dCTJs/XjkcQ/4C022k2PR0cOznAE/NVdMnUDExalI+qmhRuyY9tnkzx1hH4438As0QiELa+Rfa47IVks5Da0FF7RzYC29/gwNY8u1ONOuFX2lVWgIVBc7ecV7gSArKO0DjGyL+oUuOYpwcfT07GwJjVi6MK/BgTHzCrVJwccjM9eQbUngBe0cQNPTB19W+MtvbtreJD08ex7esruIIzSL2ok/xRgnNG6ZCtCVOib9TFNOhGnR7W2pyb5/qGw4At7460Ba37xmlanIolUHRv9JZYlVZXzBF5yd7eD3AN+HfEG8XRbTa/BpxsCBryePH3uMZtIBPIjo27Z/BQMyvaU17JViACZGCvnmxRc+KsoQCJYM4c3R5X6qYyPnuMI1fa8E81Cx3WPoKUwCXLboM03gfutNZPE7ACaAgcxfnBBvQ1qdkkvGfZ/80IfADEbXZcb4HR/5Ix5+gECh6kDtAMyTQig0WDAASGI8FtahXsfGx6I+dzlTDQ5wN8Psj5EfG/zZfkBMbmBXuA6KmG/oXHGY+Tbu3Sid//ZhwVnwCyIVUJcYyL548dehQBnw7YuFokSBAkePODEJv83Z5NPjPARkMPlQ6i4IKOulF7SMrBgUUUUZ1Ibg0liZyPANYWNfQI8JC4zfNRZ+8K+W+3McNk8I1mKuVbauDsyuflXpg9kIGIUymLV/SuU/82q2jcmg1cKZyOBbwbwaq5bWHGz2QvFbkrNM0KOLlGrKcH4sV19L03BngxShCFV7BPcIrIfWv+tWp2bc9Mx8hJ2atwzo/9IgLY7KVlgbw2+TeRIJKliXo0ADR++casVaYqoHZo8q8LXTAesoO+pUy5c/qeS8JirEwj53+VEG5v+0X8Wbx79LvlqAvZhLz8BRTK98/R6XsEMyvN1WJqDs/ew7DRLpt8uWAd1JVfVvPuJnm0rzRZ54wrGOWaKUwuk1O7qghtSiGbIjlAcAQZn/DvkQgfQpIG1DwFuGwfnYEECP1hmLiAYTgQI6i+PpFCNGCDYT2bWe3A4io9IU6rsjHV/lj3D/R+63ezDsfbT67YxOlR6nRbPvMG+eqgRoA3yhyl42zbu4mbwt9QC96/F5yUq6vb2PnsnOVmZfVbiihonhQtzzRO4Ua7cu3iSNs8NKUjWRxhSuTQtytlN2897lY5RL1J/Jho/zyijbWOiLVpNMHpQa99qZQYhkMXQmebrI02rWV7/HtmiwfSHjt7bsUTnMvS/vnNwn7qo7uZ2HVfFMB7erei4Uf1J2vhYm9IvTK3fQjLgMIQv/QaBA/o4B2x38ORghAN2+ReUtcp9iDH/ZzC9DzY+DKXyFHbnDJv+37VuDkgsOwG7ATv/G4oJfQmsdZeGTQpUSosNz0E7KXIuoy/wXZD4ZVQeSDe4UIcyy+VbpRkuyCm2HDfatsz9HSIXNkZiYtKvTx8gM7DuM0inQ8cgCqITHwVwAaEJBe8DjV8MUaAVSTEEAd21s0YUbMW/06/il9x9baNFx32sF8A6k13sMY/B056cn/Jwc+eoqRUXrXhcPTRKC/I4qvcrs9XfJz6k3oR3rGgxjB5PvUqe0pAji7qs0UuMGV+587o28v2/FRNpMY7crLa6fQylIfSa4oDUj06/ViFnW4LZjsTuPJ37PL3JC8+B5sfJLksbpG0/HtbiIpxWO6Qo+AGkzPJjnKb/Cig24jl8tFHERH8ONsTi9f2jya75bFbqISbVEGwmaB5892kYEx7BOQS8CJaDN17ns8eMRNGIq+NeggmbPkDKpwjoKLETgYYbXmnEwB6+H50TIexSeSuW6D8YTPQGAqos455O16Ou7She6oi6MpSbqsEE+Gx+uCpzvb5dspA4zvqpBsHcDX42oWxcWNMW058TSTga0HIE1JBZGN6DXPDtpTx1iuG/RFdBR540KgNyPaXCze7Z8ftmrj6bMg49fGzbxmwd+sjvM1g4oaW7IoNd3le9vGmw64r8QH0T8TkC+JdRHrmDrezUpR2hOvVCsJX5YTnpLbu2ptutCHxH+j0rqJ0AwhNhqYzwob06UAah716p5qyX5ch6vJ/qjyJn88GwWYmPXiMb8JWoPz3yDmKRAFMOB1c+QOG3AdYu5pDZhvPy9r/IUjT1kOi1V4iiCdHIopAXShfYNJxz6uQaRUZtyxY6LqhDlUtOnBUikZCQt5dcLB2UerwEtyHCAWhHZ7Ar7Y54boXHCl9mFX+qg8Ab67xl2UlHT8q0Rezf8q7OCj+QaLAzVRhYmT9lSw0eoIsmeY850oXUHJQZ31Ks3J7SiaecEpuMsf44WTYvl9OhbOj3WoDDDwYZG3iyS+QULGcFfhiCLJK8S5LmRRBtzAOdttMVeiW5JuHMiwTG3/f3ieTxBmmTkmOWQRAyDzDY1cprU8F671nCWXuNwY7XFJ+gb+2w/atKGAh4T7kDtnEy1eVQFstHzrBjrnqMkHoCZ0oQBGdPfruiowwk4AYXlu+jH8TU0Qu7n2x380z17o68uD/PFIjy4Ivg+OOZU0Wnw4e00xCB3INFEpaqxKEVyJlRvrTFGHSs18zGplZ2BQn7BjGJR6hkCfgHmUz5CqjIk+Kmmc6LsGfdy1yVmTjhVsD2NwQS7nMY7tv6MIKpXlEsDX6kJzdTJxu2p9Xq09bdQ8Wi9b7F4khJV11bBS91vBMeMfDBak/r3LAqf7FJvh9nzXr1VRD8Zmv96sdkXxRhswi3KLGrUygEQ2t9TCwee3PvcY6javf9tVZe18BlNNLaxKQCuXXDvWJqNq1eHi8SuRKFX5Njac1mqL686WamLKQSz6+s2iFwLlATDFV3dlTA+RHWITWHkVOJW3QYbhius0qPfsBeAxZBYI5US5rLu0Jw3aq8FAmSzL0Xk3xlK9c0jnXRQ6LBi/oghrgfpe2M2PSBVVmdqqmNJ2nqSqfoCaynA3QruayeGMTC6n5Vd5O1fzXvhfHYaLfL3C8reUuH62Y5H1l0vYFaXfy89n3n2OFzClP3SaTzQSQknJQnFq2NkbreL27dN5MSfyBMMu7ZCLMC82YlnMPpG5akyWiG3yd6Lq60NWVJTWBeIZreaiK9/ws4MCFiaJ89v11xzrH5mADOLU0j+eHxJK/ouOCmchLOMr5BFZt5cUvQGPgofzwpayScFVMVg9fFHWmF6B+WjG4gjb/982uqoNFWCgAdHsfVhNXxDMFgwRl3ynaB9rMDY1Pq+Zoysk1kSMlYw+vrlG8CnWXEDLjZq1TfTEBk4D04+EKUoL6qpeh0D56SZQVPm30ihTCDP/dT/zt3SCK1mUMAkA3PXC3A/v2Hgv1SrbTq0II8BclK8QJf1Wv4/PjxaI0lr6jX+dEKu0Tld70A+r0nnYU5Noxdw1LVujTZFUWrmrFYqC+YCimJpEnKMDcKcoPcgX60u5t5RPd+6858UTbH3JRpAl+Y/Z6FW2K4fNK780Kd3coR/BJurLSuW4WFSMr//e2LrYzSLWO6Y7ewjRy7/JkuDnncGyVX1Q2JuhzqW2bbAY+oX3INnEbyjMdcpq2OtHE+zGgBFzfsRiNPorZT9Wn1PEyRww5h7wwvKb1gOJRY4jWTjjsKtQDN6T9ykpWictnCnOFh2HKe0of7Eg1wrNjJJNv6jgHShTHBuF88M1MlLTCZesrQk+xzQU8NO9Y+NzbN+ehREyGOd+hmrQTH+iNE7SrYCDZxKNKJNMDQ0chEyJ42NFs4kGapPP1ikcmrOBHfAdG138WHRT15+Rz19AeHRZWFkbB2gKn8KRga75jgGxPw0r0VaqYvNXlRHsMYZQ+Gii1pWjU+5zWTtRxfyuqNTCd2sfnzIxTWQk2Nj3quOAmPZY7oqBqfyperA98J/fCWmHSVh17OMgsGym65sJmBkWGN9/NbOXdoC9wPjaW96Hh/YodMfzywXUX2etJ5maiMMnHnCaKAILBn6sJJ7UKpuW8IFJBrxB7q78+TPzE/1KvSB+Gq7PIiPBE9cMKgEcLZvhBo04KDfFqTv/UxYjHCkXrBbTQZw4YLdL4epZdTUu4dcuhcFvgjgjBvXOIDm5/AX7WFMOg1x3AWz5HiPT3l/5RFsj7o1pKT0jtTlZgKxQiJwUoNmNkOvwPfH5RBsFWMG4NLz/fx9EomPnZlT1nOZ417j/KXwWmuDNBjOPqfj9RqoZYlzUU17n9c6VBEMeYMJEZudnJm2n2NQTdEHZuttBjo4P+EW53BrzxcsNf/pncBuSWk6EgrJFqZv3+oZy77Fdj5Mm7v6P9SxYZUgg9ViklcqzWPgAKV+G0ibP8OCP+uMiW23AhRN18FSp3ESFCWIbp+1+USS5IdN9XoLzQl7KYRvZlJCgOJO8llx9We+a/eyCfbyFczFdoxiizTBaqWRD+bPJSSCyGsrEtEgRhT6G7aze540TB4UIHu3SEyjoSONkij40V6+nGh3WlUyEmEVybXAG2sNQTDXFidNn8Fyvb/Y0DeRSY0TBEnhzlvzMXsBDX1EPtaVGVww0ILbeind5Y4OSb/P1iZ6hYv2ZWIAbwhoeWA3Ody5L7uK4J3hq0QjW/3ANgd0fIGBB0L0S5lbTGDnKnwUXazwNK6EXSbw/nHe9DpF9e40U2H8LbuJ+wZ75qeVjSvvFrbilsUI92BRFuYJ6MeNJPUlth60I43g00Bcpt+5+/Dr1dbS+W6N+Mp696jQ/J7sdlop0QIVPngPllyMqF/BKCBQ+rpoFOo3jlrTcvKBKKoksIq6IdhKBT7FEnf+Q4M1Dogd/ewjCmYxgSQylQisej/BKKdAGY7lOFL5EjoJrnA9XiNF1aoyozie4fc1RZgOpLfGXOHUDj8oAiHLbiOKz94Z0AKe1i8KjLRNCcfMuOhK1/myri9p/TuHlvdUoh8fbtc3LpSBA9PQ41Q5TxkUUlcxe+eSap50Ql9q8oMCQYLQdUADIuSCltwTHfIVXL+Fr+ojYn/MjXJ6lDeIb/HyHxrkwyTO7toC7wEeUmvz015zAB6eNRewvBEgJ83hHcuGM9xeSktIG7Pme64yFfuOEDNOjtcxUBPxVssQNQcvRv6zvRwb9qx7X37u83k6sVcSOoITMay6P0lfKvSxPaoFQHM6QuzupV4E75wJ1Ufjl2YGOGkA88sA1O+U9Xu2uRmE+x54V4WFEAI4dGzopSgoqdgYDmiT+dfCf1/W1TEDns4OwfwFOkUfULqDQgJe6na3gAkcpeJvncb+OdXyKL/bb6038UAOaKHZD9E3gB28cLoawSpJUkHQcaHX0I54aHS1c/WmlIVa7kwYRc0Kgp1Xv0MDarZp4w0dbNZ26RdgzxvQg1mEcms9vr5Ad3VIgSA7VyiKGv1jo6nNA8ydqXZYX25wqJjWcMXJ2TPiYZm9R6fp0jiLE31tJ700X2kyKDhuxgWrYNF19QMTgs8QuNCgsKCk6wJcFTokmmjdQUkesNofQCBxyFHUFR+ZnA2cpT4zp9f3hrm39eldTTtg12+Hbmy1L5ux7eDcDJKv7MVYc/n48nsX5AKxDHIW4i37yzVlKcbWEQDeazQVG6IewW8xmaGyzv1td90ig6RSomQj2NtXZZ58O3OmaU5wqXEJ+cDyX8PvAEQ9W5z+qNk4zY4FxPVQgR+GtEUo3QBDHA2WxueJWkuI/dz/3Vi3WD9VcUjeppfxjwTKA6PRFyVrB4kmifuRiFQCnKkBYe93slxor4Ly5bZNM5VIICgdV3ntyUkGv+aaLlkM5V3JYczzLZ4ann/sj6BwaO1nqw/j10li+TqLImDEvl2CzPIUYkKapxOeDBUjYlu/qt8MMGtNeP8y8b+fVn1Ux8/tanleUe0QF/HTIJf1+WvK/nt6o+IJkeiF0Z0j6K/xQt4Kht/dyuLfTlqNc7oWVYq2Qtvf9WsoQrHhOmB3/R8V7aln/zHc2WhMr9USsBNQggLINTU2qgwDoki756lGtEzru6LBdsCn7yRhIIopXSt2GcZjdxpE/ekGmZltDRhr7YBvB6I0NmJDd7jY5Ou3WXfVL8fHM2HDgCyju+gD8XO92jgkz5Oj2nRe7LvWfEpbtLqg1g+cN3LPqITLJvLxDhPe7VhxXL09iv0UQtB21ihjUH15O2aEgrhYBanjvGIOY8S6Yo8m58egt0vUii6HbnOa+DsYo1li4Rk9rMiyb3NF7JEEcKGDDTb7Sufg5pwmYhyiLr0lOeENvUhbf8b++8Sz7iFRsgOSmKD+/JfPiuyIUTawfH12OJMZ6/zqnBExRkf9q+BJQYSB4xrO0ZkLrTMfMmzHjkQVzUgRWhwcSikkpQz1+7HMgPLAsoQbquNX0WME5Eo/iBSUdGgVvtjIGshn06toEvO+UH1o0SaP+atkH3e0iWqJn5cd9pnfGdShVfQ0jc0qMO5w0EKv4od0bRZaULxGnMpMTaxzQQhcxcxfsc8rPwAWsv2h8qcD16c1snaKKjGgwAIf1OTYQfaQ/gJzyXx5wQk9aGXT0VnBBvgF2aQ5Fqv+7bzz0SbZkFZE37z+b17rjtF1wTBU1fcGT8xUplGK3slbdeguhiU0NQsWWdreze8VcBQmoB1UJIPAu1gPBNQ6CejulsZwJSiGAJ9x35Y7MZq/Ir6VEn0qgwRcclauzycO+OTBz7ItyQx1cGZrIo3AuFNGnVhIMwdti6gWhuOF4q8kW7WaeD85Pirt8H0sBzCQe/NMcrbjj1szIsFdtrXG0oLet4Mx8OIch8WltI9L8A2AamQNKsKLvAIZoelz2kaF2p9xTy/exzkIaRvDajnjyVIKRTyRGJWfzFe19bM9gxaoqUH3ds0skRkUDpvH6B8yMQQXgJVWSa4KzQWvs4ZdEzSLq92yc+Q1/m7XSbDp2zLM2fbW4TfjOhflsJoKlI4W21YwIw1WKCatZwxzm/Os0lTBKz54uRH6BtmEF9NKHSp4VQiGG7OTp+2cmnePWt68GyUDNJpHM9n/NCTMFkmGxXDTtsphm3rGkXbHBAR/kkGOCpGovN09EpXC32fME5JkaZRLmBfsUgv5tBnfBgkT0euMvhXZLkJf9mDDbLJ4osTlY2rbDZfgJ/aBb+Iz+kBL+3r2HDfignYZmpqyQ/vo3+/CBzZ7jwHbY7pgCdXdYdaZ38FMMJ7LMkliUNJAfso3PX17dQLyL9ELKqC3cydXY2wn9xdoSXRdX5kIx4T06af9gCHtbU0CKeJQhB+HRtloANwixQJDp4E/oPhc8mtOndc8+h+HEe46f7o/7Qsf+Eg0ytiK6YylPgAVYl85VPHupBPd2SfzZ05XrjoxepyJkELS1dKLXYA2KMBe874viTL+wv867TrLr/ceuQUSJvui8UrP3jX75lF/OM3oWGwqU8Ka4DsxZQXSeKrHjMlA+jdLKjzWztB7wH8/T7v+aekTMFp+tzR3gWbIipbHeI0amhobGAgMJX2ZANembpIeWvXwUz6XSyMsald2WvUwEDsVz+2XYj+JJeS9aYx286KFbzGGGApOVmhQRhpx4Hlx2Ofq1Xt0neLYO34BEHKi5/YCgKGfkeDpOdDLsdwT8tUZcBurBNnQWVzlWfndjYOo3MnlsSK9P515+/38ZdB11F0MxmFbAt2SMdDjNw6T7k7jm1katWGs9eZM0Gpte9TVxMKYq1Dj9eUWrf5r62t5yJhX4rSWCNBo/9YL7XgolKTefiBEEJtftsahYLa+j9icX5FlofR3oV6q9holH+ya9bX5UDM+5SQWGo1Ea3w6CeIV5mdr+AAANalSqp1dNhVL4JlngCc+x/sYMY+gMQqDeBkqfLYy45uduYgoomoaxQ+jUkK35TBgVuz15zo+drp9D2yKQxDyYCeyE/YIzbPTqlTUQFdylR9sCgCDDGOAe13PORieoGL37MdUrd16dgkGg0YDN6kCC/u0dkd6FaJeCfwypsEOHwLCI/pQtzk8EFWwltf54mWhlJqRDSX7FuLItR4YBKswy8RGUxb74UBNeX7tcBzCdnK8QpxTJgouxdmxOnkLtANTd5wgf3197G7Y9JSdwQkCvNE5pajhny2rusGo3DXblIlba6MguJi6+oynJCV8pBpL4nn6lWPg5e6VvY3wRrGGAFzdV1DlKsf825p6Ymj+aGS8FGUz/XLR5ukZMc1j1w9XXAdEhw5F7NGD/R1/vCddiuo1J9nprcPvharbMxza/0dSYNYH/yEreIegftWFlA8gxdvLCVFgL0tnIc702Od0RMxDshYgYvyWo94SxMyv63WCoKYwCB+tINWJqfreqUC6DlipR/LLhw7GHeY2VD2mM8RJiDH/SPdoS7QrpVOWMWl6nSjMEb+Fpg6aR9mZjLLXui5KO8SEZJ8OYF6Kq7AQsfQf9llLthmekVJsaUB9yUHrcWVyEuWa/R71UYEj90xzGcapSMH4D8eIlbtyGB+wX6gesVNQNcg/0FqvnsWHoRanMfipCaLUUb2PK4FrtEq1lM7qL05+kdUUIXxrMor/z1RIHQXyJgGETMJ1iVxljgbk7eJvyCo8RVk3M2eGIOBdRzh7Ay0K+wUT34zodoD35+9bQFYDztlV87MPCF7KJs1mS/wN1jdw3daFgwB8E6f4Pv0aPEmyvItFwnlNfzWhEXW5cvbgn1Fm3WbLpnO5DQP06MqYBC3scQ7DOXyV14Bd3qEzMrSPHup7/N9iQpe+L7mpxcyfJyuqeUHzsSqxAH7I6KWfjjH9XneUAhyULCJZHnm/jlAKoUfIE8OFvKkKThKCrm1VKuysDyYWOEg409kVsCvUUBjWrSUJJo31QafRiO+oP8zf1XN7c9qStBCWhhZZq1FgqLmkIVdm1EUT23IzTjtcYeKUon3UYhI+e2PH0JxEKtI8b5jbjopD4ZDxHJ/4Psc4eo11+XNiASw1uu9LovTCbupHXvI+D97cf7vGuJd9qx7FicTo4aKVMyr+I7buZB+09amGyLm38Ty9YfDOQzOtB01dNggrnW7QzdDGpnTVsHQX3W32Pl44XHfKyKZfX9UQZmETe9uBMz58ejs8NWFGWTYYcMYtoC3D1jUDiPL9Sqd9b12YZK6Rfw8UnN7cBzfrQBuAdesE+qdlAGh41BuOIWRwd55bGHl59LGsRADuPUB15Ih3USLBgm9vdG/zvj0KaY0tVDhVmsuhYvx56r4PMICT2oAJHFkBSF+T2VzTL3WPxO+joXf3togkg1HkegKp0JPYIlG7N0GRq2C+Ka+lz0p1z/OKxfBEcTKCp7GM37AjUDUOmfb6p+KpiwKOxMS7LZb0882u2J04v/cW3aB7IqTblyirX1asSb7FcnrwLYURlP2oZ0CSRLJteX0V0ChLHt0yYHVr0PeXurv2CkYCVK5x+abmWpZG74oz7EYLwFNYdf4iI1hXms4PdW1svjED/p+tDNg0tSCSWU9Q1G4s6ZFcmK3ssPFZDRq83cu4upMDwieTrppSB9rvBamDfcDJDUlYoFBQtVXVfo7wzsYZA8CrIQc0U5646VpJ3sXPO0kQNmuRxIzSdH0xx209KEL6T09bFFjpD1BXhDUBBUbpINGP17H6o4wF1pi00BFHh9xAWy3UTi9kTMq2p24+15Dz4kUalCDiQv3vKSOPNHMjDJB4ND4+v14+sJubPH2gfueQGF7gRMN/ocHDx1NfKddtiUKSe341o/1BRm2XEjv/TU9bbIhUUDxOUdDWaZkrbIlO1j6hdMbaldy0msk26taq4bJd+EM6Ozu6fI5XZOkvNUO2+buvSXj5bECFNwd6YN1VZeiFZkpNEq526vWOd6swNeuuVjrUklhJdI7RroEMNmy6dgXPk+KtCqRpJPjkMZvIoSfWMbKmjiPtyK5W8zjNnF016L8xGRi7fUspNAjlanAnGkF2JfZBg08CR9vJ8g544/B7n19b41pC72IuPjbGZrWro1isxVs7gzg86gAlHXxDEC1KhqoCnMRNSx5TirljacJfbbIRM2jJsi2i/Vc3UIdCRBfTtfHY3eQcM02vK2uG6avNRDj3x9q80FsjHKbmQz4zOzYha3RMpz7krGEA6ZcByBl+edLiR7FJ5Jq3bOI9OT422gl98qBWR9ZogVTk3P0nT3HKP6gknxZu6cqpAfi/UdXqIgOhJX+nNNVF8Hr6qJuJA7a7OCFp7EAfZt1nnQU5aEFiMddJQp4/b7b8ZxvJXzpMwN/QblkAGfOwp3fIns1W5I8HBRailwTjzVtwisUS8D6Raj204f+ERHSrYlsuF2Uielpf1dzD7bjJkfAlWNxreTxQKHW5hCczvsMC68asLMJRwuGpgWSjj/hT82LQc6FVT/gOx6MDX9OvFJKoAm7tQpDTtQoinkCTADNDkuM6fcvfAgqFRFh+dUq9pWDg1qRSHRQC6a30nX1n/M94DTFO7wPXp+H1dXbqsVeNmA56dcep+35ga9kfbcjlfWMxJMkDFUGBnxJWAodnnvlj0+DBI2vuQsSSbtV5Kp/I0LmT2pmml2fMjbnJV/nUAah+7V8P52oRt1JInNk5MeLVIuhswbn7OGP/ktZ9WD5mbk+kfZqqDtr8voY1SeYRGXOf6eU2XZkKqopaOprtKKPfotMem3tw7m0+aMEcuyMl6vIa9jFwrEKEBR3LRE+v+AjluGMjqQ5C798iO8OEQDeg6r026dhfDkRpS7Yp/kdSCZ0Ku0iCBjmozSSJ1+3vsh6WrFylXWoSHXu70C1mf8giuGyosgqQcl9dNzHw7PtXdJFkDsixpJrpOXYWbEQ3IeqCY34sMiHMOgHvcICMkhCFfkn5q49cp/PK4hY+XQJJ+jTf0UVQTEQV6mWR/6HNOY0EVTYiEjykULIp6IpkLpzwQ4dNO9SUcTFk4BdtCYJsln4Hc4sLVOYphZFfrlpEmhmrrDfhzXtmwF6FD9rXTcginYtfP8x2dWKTMhaJQtBt9UcKHrV2XWhPiSzCVltH0kHPjqcjYEobUU6LE8qTPF2DLJQjs58+9E4kniXf8gRyuSY0PVjM11oU2z7eJ2FVwbgu8jvFpphsWpMXhc6jaSyEmwS3e1LRmzc/Fb4XqhbDrmykQEadtlbO3oVIKCj6yO1cFIOADA4R1ocVUwaCp4db21kEmJGHldqY1Ov1nw+j4IWkDM7Vp0AMiwJh1lioIVjfoKT7TJqxf5Iw96Eab1EuJwezYg4NNCaDblw7EMPO+gMQqpaHDWxcHw2HHjKVM6Lxx+Qm4RfD3h3xgkMYqqPBjqzYwDDump8XfxNuqPOqaiwMgMWwElFg6w1di9zzFZb1W8ZyckXPuV3Pshp8d5/9cyAQTB3ugpX7SrPRi0vIjX2l2AntDmgSlKG296zHX+0bf/o3aRYnVzt6I7R1qaFSDLD6Dj3ksOtw8mjXiT6A8LFCP3mlpBvU9ZdWXhKO+7aVMd7hMdEK+rM+KeQuQrZ2sVxo8BLo/eix8N4mG7tSC4PL2UffVJ54GMxM+/AVBDosPejQAy+KTJERMnWpBYp/VG5t1jgzackX0jecbHbX/BI6mCLdbbmFLEUXZlZli+J9PHRKEoU3yYlBDyrqAo9IQ322V+ORwoCBTHwy79Wvbu08nT1qo1T9+qipj2vjDe/IzBOxFyPG0kmWSMdpy2LzJOq7FmMhqHuY0Ta4pNjclMER13WpcbLS62XqvLgaO+bNaIgh+M1fJlzCe+8D1EFCRMCLnsN/+v1TtyTpQAxZ/NzrSfL7F6tA6k3VMRwT5FuGGc0HgldavHCG0fk86D32gDJp72Ss/h/bRDit5VPLYNu7VJyFPK50Eaq+I5riwBbjvQebYlmGk8Qc6j8ThW5hIG0fU3RxIj2Ne9qbL1V15YzhQ2yXyy5QurRrDG7Jj7T6OvNSCyjk4gjOlBkCqlZDe/kcWQb1H/u1oR8xMT9z6Fn1W8zZ9d5DJEV3EZdmcYelxThzs/3iTarpprexkUSDtCqNMhtHTncCDcOOXWDQyhL/wlBC+apHclRCldMNXhloHS1uPfqt3OSSSziMfxBP2Cwt49JH2MIqPBpcBdms9IBOy7LwI0s/TooLXlIffLgNB3WJSeA26448AKajADx2/x92pLjzRqZIR3LXMEEFl/Xebe3tIbi497Cj0kadBcgt+WkxwMt39durQUx/w6Em8Ug10qVvCv+iGMYC0wLdiulPC6H3wx7963SzzfH3ZipkXZVYnJ1s8E4qCetXHuMPtQ3fRlUbDHUaJBjREIk7WSH3GAqxzyjz4go7aX6Upm57UUiQfLU168hq1blUVhgRoJrIObLZjur7RnMXpFhdJw9bdVZmLbIVtyxgWsmRodJr6SwJRN94dFNuVofdamTo/8Ln7IsBj9rBs+GvA2EBT2sZbQUvQcQ8coWmQsF3d8JX8xxT/8ypniXsnBWNH8WAhfwSUSQxu8LatCyPvT1hehZeenCeOpC4PixhteBkespdfOfT4dzYPF/TvlKPd6rdaCO1aFDkxXCpx4sffRSpy4ZVqIArVE7/bkluTk4kXh9PTyu8hA1Al6CIYCmwd7qRvfEqe6ud7FRczI2TrQjYIzcIa7qGjQNKkXlQnWPl8zWDOJlzOoGYbbDxMOp3YwDEmyUW+LUqxFI/lizN+3Qn1DeseYu6SICUetrsnbpPl0f1gv4Jl9Yw1pWgvv1voYPk+sOHCCtEHXzHkU9fKA0nEqHRBHYxF6uLjY501Y+mE/+4W4U6noKT7AeeiIRNl+PMRNNz/ASEuGcAmjm/ldT6j0/9Xi4p6Cmfu9u5fiQN9x6dD9ROraYq9HwKfqUVBGPTU5YPe4jGJkuxKLU57g8N8RM5Wuxq76+7seHl2MDsLJ9/vxyXjKACjQTxXZJbgTTQZsd026/kJaRDa/bBDaMA+C066dbA9sdOcQd32UhUUW21UGJnizLQfn0SUtOWyj639ShYSMJPA0Z/TlwbG+wwTGGh1xgWXW5YXhM1xDUcGEUCTaWwVXz8WDmVLGlkaMXb7I2jS1XzAOjVzrr5vtcT8dBd55yETreoYQIANK+r8LCOAGxwAh9XvoSu84JgxIRgrwo0r6mAgc9ojx2SCsISJnsgW6F8yGRbgVBWPu7ZPmTrdAkSuGKh23jNe2XoJxwSBwjkSsn3QPn6KNTzQH464NmiY/SqlsomIQu5525kvynaNofz2//zXQWMXXcKgvay4UaRo6XIN44G6zeEVdR211MisozWtIC9KsPoliqyAdEYFaEB5Wv+1TNKadT2OLOtkabqyOmLKw6zjIvuHbw+bFG8pELQsSLJhJE0HSMnL6ec9WdUKB2uy/Lxs0AhZkwEVp0Tzv6G3TUICEIJIcFwBI775Zm80/szUziElEyWcpUGH2R8cufJkUGha1/mrFnUmSaaVjuUlV+lsPyWBZTzupP4A7iqNATOldXpuBq+pPQr4T+3u9RQ6aXujWOkOIU8PPrw6NrFce8bS8a0JkcFQBjXEc1LNjNUxd1/E6HLUbrBNw9i7hvWq25820lS2D/GAtTonXF4zX1u50m9QznFBdS/GskJsQ9O+2yaZ+MMfzRF4884M3Auofhawqvf3ZgZFUgsEv/HrGbL+XPVhzG12xaPRBEY4Cf2xk1dmv0xWwKZDMW5OrdC4AXPZdzU1WYlDj7AXQhXn8O+7wbcqXOTRlqpaKT6WIra77903/lvkW7+OpBEBfU7FeVYpJ1XvZIraJsNr2BttTEMlEXm6xEp0FW/7QLm/g8yM6Ox+JPqMsPcN6GPQNugOHodpUILAMwTVN6UqBncd+3r+9FpnT4vRnSsz7N/SgL5gLzc16kVVTBQXHnsrNB/Gm77n37fDN0w83/eGhACzd7oYa/F/YgVsTuetgxcCGeOKXo3YKCBboJRdAiiR5ewTfAUwAvGMpXRycZZ7fK2EljPaOddaAVwJ1RduBrvSM8XdJJrbZ+wUQvf3wEFYJsNULtZLpuEHiD6fRETrBcasm4ft9AR9HzdEIO9QYklgqsgVZLVhj6kdh5yS3xkMaibfrRmlajrI/28/GFcpV8USZB4EAkeoby5z3p0YinU6MCEYi4w/p67i682HzauIT08a/lkysBiDqxC34SJImU9XvUhfzVWXNbhAt2rNTeDEuqOrvpNGDA9FQ6MUegyyyfsmKTYfJc9Pg1EtBtT2EDk3u5lQhActOajJ3Bs/hBM6nvhnOZH28AxOWpfeQmOf8+fzAdGMliBDMzZ68P067JPEzJKmQMdUoq3YNk1mshEF9/FwATq0rNlafevZvvL1MS31xF6R1t0oA++K+/ioRUU92r8ShrdAerHX3sDOdwR85Rwbx9kRMXqEukWq7N5QcUh07Yye8s1fIo0bP1O9fuFun68y/FZhe+0Vlhvek05JRTmLNorw454Ay1AVUxjLCQ5l8m4h2kAQ7piOaYjKcyf8Jr8HollSD51EMWhipVjcpABKhuOlpb72/ntuxq9um9V1+GTBrM7gTYKM/F9J5mQO29myDNUuwffWEbCmJfHGbpAxJEjDE6sx3y/AuBOJxK25+0aNyJ0r9GgWyhMhWzoRhM9YBZGym4CvEtJTG4Ik0gYl+PXT2JiM33O5h1JgKfoCP6WHo1i6dtje1R+ikt9Uc4/oHCuozBCTpJLeePwe6RcK/L3fL9j6j5803u7IMMDYxrpEIkxwW8vZR57m+wE6vBlkbybSOAdqC4qX7YhC9FLiW/8AXEB9iBm0x4MCusY50e840QNGVZimSXmy9IYTTTLmRtNmToSFpC3NLn2FgFOqS/Sq07H79Di0U52lrYLsewwFoO8sD9qheoxfznaUZaxXFexEu+ZXgBD7URvCkn4LxxegBoLNy7RSrfXmL1lKwIeVmHZRC/5sb8JYtsLGxas1QlWdWYD4zSS/yDRd627s4whBYM5jR5NjH+6HkrRJegQu3jU8S62yY30ZlfPKXv9Vr6qjXLajdXrZalPuqMBoH+58WjURuM+fdKzOcWQfEv7+ix/627OIuBDD/5d1QCx3QyUVztndcbiTVgGBBb/wamkAU2/1ZTkGE2Iysc8uDD12XDLtmTo1NiIE46H9dV6FhZ4f6shn4nWIgyuY/IumFThTjqIKuNt7xN6BCBwPhVN3i2A7MdTrLtr+N36GMQOpSxHrwaZfu3wp1Y4o8+r4+kesKcXypOeboEJwcCO1n+RbHv13qnOktJu1U/EmGjZ35j7Sc2A3XwoQ31+/3VDmF/0pf6C9gUsfxrL4YMbEaejpJyzH8Hc3K2aVNxPiXTJk2HmI85SOGu6GKt/n1vKOkvZ6SYH3NcRLo3c4nAivjK7E41FGv7VUWk5Q2tKO5A7aJHK9ufuQ8t2p2AoyWJbHqdqpletNI51DVZ17vkQ9fkJOIzbacn4IWZGJRNtl+gnDImewiUlhxyvh7OU7l7NMRhLWnysRdaDsVBRZwrprROQhmIGts/Uo11dThZlaWwxz0BfR4D8O6n4UcVarUGxHtb9bO7fByDUhgn3bflF1T/cvJKDLcj/LWGr+mE0dzp7mkPlFT6vfsPUGb0uurdMePElueijlcDJkLcx0L0G00r0hScN2lg9Rk+o9n/l/IarQOt3XMp+u+2FNpXnRERhMhOvnD8K4gZ8QUm2Trij/f5JSVH5ByICnihz8Lya9JN2BDZqbIiKXNuR0p9ah9ejUV2FqzoIezeNZ1EV9ULzZcNfCz/Yn+m3IDrFM9pUGuT64KH/um/NRTQR47zDms8MTDcwKZrvSKQvIUEgY4yExmmBc9XM5zknqJxE8EkoaX+9Au0hle3n1qBI+rfkOjdNyk5WUFpyujIg4DabMXsNSOrwHl6qAhlImt6GsOQQzdQFcGbehPPBsh2WgiH98pfWFFNWY20vm4WMdXpjcbHSC8N6179digFOFSaPAq+DWAtBPAjzWcUMnD6S272HbLWNQHfXbpA+sqi+r0qJVdiDZDy++L5IPhjr6UndAqfzKNjgbF1IMRrzD+ZBB8tYSw25M8KlASWIbK0aCHLUFEl3+N3XO/7scf0LfsA17Ty8YUhWcVG+mu7zFfTs03LiqAy7tiLXJ78JvNE8A+kKu0q9l3b0JbvnmebwX9N4LJpeWJeeUR9obyLDWntXgrv6EnwApFL5H0kyK5Yi61bao1zZbTA31d4MWmSUVI8WmXhstQ/8bTB9f88oPeu0CF8yY7f+LBBovZCErFo9b+Wtj5+k47Jmj/+kqyvRQxemwwAjD+xhEc0GQ2SSRHNTyb/LvjgT0CpQoWLnUKJuuXUIlCtVhFO8wHDrx++dUulw2jlCO/lSig9afxMjufGrfjfOJjbQVl2Sz8D1aPRV0hYIzVLQmzhmkub54TRgPkpjnTBQ2fsnzotkBTtUYIHlhw/uUt+LnKfLGcaTrgY3luH97Cq97BX0/iijFvJWO+Km9Rj1wNVxIDA3e2pvsg9oolUmJCtGS5Qg+Us6+jlRXeODUeN4fsWp7ZngXwvyMmWmwXsb/k0vyJoIQAFbLelqQpi0/k3mi47X4h3AW5Z6zgbINCUJ9EIAcHzttIdbCbX5wBZl33mRO+BpmyT7LHowTFsRc4eG+pCqvxqkmJv7PcGA9tZ6KROlTQO2jF86JMBUnmjLDGdHgBu1lHiKXKkpgtEEVciuhu4pXKU7IHm5iBxBjkrpb/zUzdhNlwPT5V778qTc2plpnJoPghQCpoJZPRxgQE0fZDXxF6Emc/Pcw93TzEXGVrAefEWlQHgmdj6/U4D9KafoiMsFmFsnQuSvlUiq1TwxSvZfzBtZYZv2yQTAmXFJHGZdQ4WZ2nPqlq5/mBc1GGXISTe64JTyOMfrR9mOT2I1MVhR4/9C1R6dXJG8NylIHf7Lf0XCBZl7E22esFFcK8JDpA4Qd+aYuHQSHykRnYpmKqogO0hzCzyDvazS2ajtreYH5WR4lQniG5cnIwM9WFnBq32pRLu+u7tFbqD7ZtANrzSlARU7er+zS0s1Qc32y68BsqA1hX/e4E16RQbW7vvr79m0ZXh0reYMKK+4ktRaPjPnCt1+Qi90higm6WFZ1p+6APjG3w7HRVhjhLdRqffb1qUwKFEadnhg2eKprsu9ChR6p77ULszQ9+6lHjBZf0gwCQ2jvz9I8Qc2gYWdTcd7DOuNdhR9A1f+odRSMmDlb1WlSoR49xauhog+gpYXAfv46gDxt4BCPA24K4xzYNss3nRJ0eWrlv/kfvNBCf7RFUg0orkLmZVLo9dCbawwIqbB/K8IHUoSgkBRAIgFKHdlCxIc+SnjGK7iBqqO76Vp1n9vl2254QCmnJXHliG1SsulmKMKbyg5irWH/u8pBEtXVuyuE5XQy6ctyZHSyrMyAySpcn4yfBfJIvRpAwqNBs2tWCQD0MRyqa+A5cRgOE4+Za9jOYUL9CdtMcWM/PWd/h/CRiMf5HVlYUvGTVzU8Ek7dnpGpXUCPIXHDsmTSwsOIStz2FBB2YnehV1LXWUQpA8ijNI1nOyuOUZ5l9sM8CSrFhrJZcvELV5tAYaXpPG6rfghcBb3qnGuQXcYl+ypxnItuSG6XCye1wzodhEcPPStTbwtGH52whkFiRrviGLTLRxsuA8l3DNP5nzVzJz5kQrBQ10HNVBjAqVkYLma4cgS/IAgDEJZfSht8PC78wKU49uLhWdBqsCYAuYnV4ItSvw80sCl0wxEWVfjKdHGKviLsb3uHahcLYpOyOUwPPaWaGq1j3Gm5rILq8zS/4pOvAcmsZpj+X9AqmPr4YVGR1HrIf1Fks/GKylBMzbom5HeXL9EBzsZmX0+qJlv2Id/PVhHPBv2cnkVcPYTVeXj7cSRCwUH4fG2H1Z6JBcLEdzRIgwk82wnW++abiQk1kR048u2LSBW71ix9lu4cTgh12xlbtsuNs31VTvPW3n4BSq90HKZfMwk3YBgc0egpzwbMaD7yOR8E8nhphGZ3jtLsg==" />
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+var theForm = document.forms['form1'];
+if (!theForm) {
+    theForm = document.form1;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</script>
+
+
+<script src="/WebResource.axd?d=pynGkmcFUV13He1Qd6_TZPQet1wIx1Q48y3xJY2k25Y7qxH5RrQ9qQcN-OiTC9guZtri9w2&amp;t=639246315009809930" type="text/javascript"></script>
+
+
+<script src="/ScriptResource.axd?d=x6wALODbMJK5e0eRC_p1LdIxBJXt0U_WW5GWfJqHAqo6frgCmGRfEywglicTersO2OKrFhK1gAIp0Wk2al2YrpdR3uWqH6f4nfjBsCyRUfTUUVmb0&amp;t=ffffffffecf8d3f2" type="text/javascript"></script>
+<script src="/ScriptResource.axd?d=P5lTttoqSeZXoYRLQMIScH645UK3RD852IErF2548Wz9Ssv0rLjB4fhVKnHcMpqkaMHpNAGOeWY02Lf4aBYN9-dVBme_SNK5KJwmFQNpMixYDZ7M0&amp;t=ffffffffecf8d3f2" type="text/javascript"></script>
+<script src="/PressReleasePage.aspx?_TSM_HiddenField_=sc_HiddenField&amp;_TSM_CombinedScripts_=%3b%3bAjaxControlToolkit%2c+Version%3d3.5.7.123%2c+Culture%3dneutral%2c+PublicKeyToken%3d28f01b0e84b6d53e%3aen-US%3a5a4df314-b4a2-4da2-a207-9284f1b1e96c%3ade1feab2%3af2c8e708%3a8613aea7%3af9cec9bc%3a3202a5a2%3aab09e3fe%3a87104b7c%3a720a52bf%3a589eaa30%3aa67c2700%3abe6fb298" type="text/javascript"></script>
+<div class="aspNetHidden">
+
+	<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="59B53027" />
+	<input type="hidden" name="__VIEWSTATEENCRYPTED" id="__VIEWSTATEENCRYPTED" value="" />
+	<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="nqVGr2fRCvvXsSZ+c4qZdlJl02uZ58+VtzqA3ajGzebScNe0DropxNt2x/sn9MFYquMuf9UoNZYmM4G4WXkoS7H8qdU4YrizUdkfKKyp5dytJVjX2fXiyeu6Kut2h7+baEn0UCMzyZ357LRytV5D76oqYCDhVz1ct6zuvVUC4vSVxozN3jOePNE0UcCIf+cIr12IG++HVaNBMXLFQR8nzQbVOGxR2qvmo+jf6n1cRgwFrQkg0JlI03Cxc6pZT2SKTOZt488Q78XvmJzKnYVyrLG4Bmc=" />
+</div>
+                              
+            <div id="templateCss"></div>
+            <script type="text/javascript">
+//<![CDATA[
+Sys.WebForms.PageRequestManager._initialize('sc', 'form1', ['tupdate12','update12'], [], [], 90, '');
+//]]>
+</script>
+
+            <input type="hidden" name="hfGridHtml" id="hfGridHtml" />
+            <div class="container" style='margin-bottom: 50px;'>
+                  <div id="accessories">
+
+                        
+                        <div class="pull-right" style="display: flex">
+                              <div id="voll"></div>
+                              <div id="vollDT"></div>
+                              
+                              
+
+<span class="print-icons">
+<input type="image" name="Print1$print" id="Print1_print" aria-label="Print" src="images/printer_icon.png" alt="print page button" style="padding: 5px 10px 5px 10px;" />
+</span>
+                        </div>
+                  </div>
+                  <input type="hidden" name="hydpermid" id="hydpermid" value="1856626" />
+                  
+
+
+
+                  <div class="innner-page-main-about-us-content-right-part">
+
+                        <div id="MinistryName" class="MinistryNameSubhead text-center">
+                              Special Service and Features
+                        </div>
+                        
+                        <div id="lg_g"><div class='log_oo'>  <img src='https://static.pib.gov.in/WriteReadData/specificdocs/photo/2026/sep/ph_9768_20260902_10000501.png' alt='azadi ka amrit mahotsav' /> </div></div>
+
+
+
+
+
+                        <div class="text-center event-heading-background">
+                              
+                              <h1 id="Titleh2">
+                                    Concession Agreement signed between V.O. Chidambarananar Port Authority and Tuticorin International Container Terminal Private Limited (J M BAXI Group)
+                              </h1>
+                              <h3 id="Subtitleh3">
+                                    <span id="ltrSubtitle"></span>
+                              </h3>
+                        </div>
+
+                        <div id="PrDateTime" class="ReleaseDateSubHeaddateTime text-center pt20">
+                              Posted On:
+                04 SEP 2022 1:27PM by PIB Chennai
+                        </div>
+                        
+                        <div class='pt20'>
+                        </div>
+                        <input type="hidden" name="hydphotoUrl" id="hydphotoUrl" />
+                        
+                        <p style="margin-left:-.25pt; text-align:justify"><span style="font-size:12.0pt"><span style="font-family:&quot;Bookman Old Style&quot;,serif">A Concession Agreement has been signed on September 3, 2022 between V.O. Chidambaranar Port Authority (VOCPA), Tuticorin, and Tuticorin International Container Terminal Private Limited (TICTPL) for conversion of berth No.9 as a container terminal at V.O. Chidambaranar Port Authority.</span></span></p>
+
+<p style="margin-left:-.25pt; text-align:justify"><span style="font-size:12.0pt"><span style="font-family:&quot;Bookman Old Style&quot;,serif">The&nbsp; Agreement was signed on behalf of V.O. Chidambaranar Port Authority, Tuticorin, by Shri T.K. Ramachandran, Chairman, and on behalf of&nbsp; Tuticorin International Container Terminal Private Limited, by Shri Dhruv Kotak, Managing Director, JM Baxi Ports &amp; Logistics Limited (JMBPL).</span></span></p>
+
+<p style="margin-left:-.25pt; text-align:justify"><span style="font-size:12.0pt"><span style="font-family:&quot;Bookman Old Style&quot;,serif"><img alt="" src="https://static.pib.gov.in/WriteReadData/userfiles/image/01MFTB.JPG" style="width:300px" /></span></span></p>
+
+<p style="margin-left:-.25pt; text-align:justify"><span style="font-size:12.0pt"><span style="font-family:&quot;Bookman Old Style&quot;,serif">As per the Concession Agreement, the container handling facility will be developed by the Concessionaire at an estimated cost of Rs. 434.17 crores, with an estimated capacity addition of 6,00,000 TEUs per annum. </span></span></p>
+
+<p style="margin-left:-.25pt; text-align:justify"><span style="font-size:12.0pt"><span style="font-family:&quot;Bookman Old Style&quot;,serif">The project would be executed on DBFOT (Design, Built, Finance, Operate and Transfer) basis, with a construction period of 21 months and is slated to be completed by December, 2024.</span></span></p>
+
+<p style="margin-left:-.25pt; text-align:justify"><span style="font-size:12.0pt"><span style="font-family:&quot;Bookman Old Style&quot;,serif">Speaking on the occasion, Shri T.K. Ramachandran stated that the terminal with a length of 370 metres and draft of 14.20 metres would be able to cater to vessels upto 8000 TEUs, thereby, facilitating to attract more investments and pave way for the economic development of the region.</span></span></p>
+
+<p style="margin-left:-.25pt; text-align:justify"><span style="font-size:12.0pt"><span style="font-family:&quot;Bookman Old Style&quot;,serif"><img alt="" src="https://static.pib.gov.in/WriteReadData/userfiles/image/02IUVF.JPG" style="width:300px" /></span></span></p>
+
+<p style="margin-left:-.25pt; text-align:justify"><span style="font-size:12.0pt"><span style="font-family:&quot;Bookman Old Style&quot;,serif">V.O. Chidambaranar Port Authority, presently, the second largest container handling port in Tamilnadu, has a container handling capacity of 1.17 million TEUs per annum. The Port had handled 7.6 lakh TEUs of containers during the last financial year 2021-22. The Compounded Annual Growth Rate (CAGR) of the container traffic of the port over the last 5 years is 6% and the port is expected to handle 1.16 million TEUs by the year 2024-25 and 2 million TEUs by the year 2034-35.</span></span></p>
+
+<p style="margin-left:-.25pt; text-align:justify"><span style="font-size:12.0pt"><span style="font-family:&quot;Bookman Old Style&quot;,serif">This information was stated in a press release issued by V. O. Chidambaranar Port Authority.</span></span></p>
+
+<p style="text-align:center"><span style="font-size:12.0pt"><span style="font-family:&quot;Bookman Old Style&quot;,serif">********</span></span></p>
+
+
+                        
+                        <div id="reel_pic">
+                        </div>
+
+
+
+                        
+                        <br />
+                        <span id="ReleaseId">(Release ID: 1856626)</span>
+                        <span id="lblViews">Visitor Counter : 1393</span>
+                        <div>
+                              
+                        </div>
+                        
+
+                        <span id="lblRefPhoto"></span>
+
+                        <div class="BackgroundRelease">
+                              
+                        </div>
+                        <div>
+                              
+                        </div>
+                        <div class="ReleaseLang">Read this release in: 
+                        
+                                    
+                                    <a href='https://pib.gov.in/PressReleasePage.aspx?PRID=1856623' target="_blank">
+                                          Tamil </a>
+                              
+                        </div>
+
+                        <div class="RelTag">
+                              <ul>
+                                    
+                              </ul>
+                        </div>
+                        <div class="clear">
+                        </div>
+                        <div id="RelLink" class="RelLink">
+                              <ul>
+                                    
+                                    
+                              </ul>
+                        </div>
+                        <center>
+                              
+                        </center>
+                  </div>
+
+                  <div id="update12">
+	
+                              
+                              <input type="hidden" name="Hidden" id="Hidden" />
+                              <div id="P_CategoryManagement" class="ModalWindow" style="border-width:0px;height:60%;width:60%;overflow:auto;display: none">
+		
+                                    <div>
+                                          <input type="image" name="btnClose" id="btnClose" src="images/close_flat_icon.png" />
+                                    </div>
+                                    <div id="description">
+                                    </div>
+                                    <div class="text-center">
+                                          <h2>
+                                                
+                                                <br>
+                                                
+                                          </h2>
+                                    </div>
+                                    <br />
+                                    <div class="clear">
+                                    </div>
+                                    
+                              
+	</div>
+                        
+</div>
+            </div>
+            
+            <div id="PdfDiv" style="display: none;">
+                  <table width="100%">
+                        <tr>
+                              <td style="font-weight: 200; text-align: center">
+                                    Special Service and Features
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                                    <div style="font-weight: 200; text-align: center; font-size: 30px;">
+                                          Concession Agreement signed between V.O. Chidambarananar Port Authority and Tuticorin International Container Terminal Private Limited (J M BAXI Group)
+                                    </div>
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                                    <div style="font-weight: 200; text-align: center; font-size: 30px;">
+                                          
+                                    </div>
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                                    <div style="text-align: center; font-size: 14px;">
+                                          Posted On:
+                        04 SEP 2022 1:27PM by PIB Chennai
+                                    </div>
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                                    <div style="font-weight: 200; text-align: left; font-size: 16px;">
+                                          <p style="margin-left:-.25pt; text-align:justify"><span style="font-size:12.0pt"><span style="font-family:&quot;Bookman Old Style&quot;,serif">A Concession Agreement has been signed on September 3, 2022 between V.O. Chidambaranar Port Authority (VOCPA), Tuticorin, and Tuticorin International Container Terminal Private Limited (TICTPL) for conversion of berth No.9 as a container terminal at V.O. Chidambaranar Port Authority.</span></span></p>
+
+<p style="margin-left:-.25pt; text-align:justify"><span style="font-size:12.0pt"><span style="font-family:&quot;Bookman Old Style&quot;,serif">The&nbsp; Agreement was signed on behalf of V.O. Chidambaranar Port Authority, Tuticorin, by Shri T.K. Ramachandran, Chairman, and on behalf of&nbsp; Tuticorin International Container Terminal Private Limited, by Shri Dhruv Kotak, Managing Director, JM Baxi Ports &amp; Logistics Limited (JMBPL).</span></span></p>
+
+<p style="margin-left:-.25pt; text-align:justify"><span style="font-size:12.0pt"><span style="font-family:&quot;Bookman Old Style&quot;,serif"><img alt="" src="https://static.pib.gov.in/WriteReadData/userfiles/image/01MFTB.JPG" style="width:300px" /></span></span></p>
+
+<p style="margin-left:-.25pt; text-align:justify"><span style="font-size:12.0pt"><span style="font-family:&quot;Bookman Old Style&quot;,serif">As per the Concession Agreement, the container handling facility will be developed by the Concessionaire at an estimated cost of Rs. 434.17 crores, with an estimated capacity addition of 6,00,000 TEUs per annum. </span></span></p>
+
+<p style="margin-left:-.25pt; text-align:justify"><span style="font-size:12.0pt"><span style="font-family:&quot;Bookman Old Style&quot;,serif">The project would be executed on DBFOT (Design, Built, Finance, Operate and Transfer) basis, with a construction period of 21 months and is slated to be completed by December, 2024.</span></span></p>
+
+<p style="margin-left:-.25pt; text-align:justify"><span style="font-size:12.0pt"><span style="font-family:&quot;Bookman Old Style&quot;,serif">Speaking on the occasion, Shri T.K. Ramachandran stated that the terminal with a length of 370 metres and draft of 14.20 metres would be able to cater to vessels upto 8000 TEUs, thereby, facilitating to attract more investments and pave way for the economic development of the region.</span></span></p>
+
+<p style="margin-left:-.25pt; text-align:justify"><span style="font-size:12.0pt"><span style="font-family:&quot;Bookman Old Style&quot;,serif"><img alt="" src="https://static.pib.gov.in/WriteReadData/userfiles/image/02IUVF.JPG" style="width:300px" /></span></span></p>
+
+<p style="margin-left:-.25pt; text-align:justify"><span style="font-size:12.0pt"><span style="font-family:&quot;Bookman Old Style&quot;,serif">V.O. Chidambaranar Port Authority, presently, the second largest container handling port in Tamilnadu, has a container handling capacity of 1.17 million TEUs per annum. The Port had handled 7.6 lakh TEUs of containers during the last financial year 2021-22. The Compounded Annual Growth Rate (CAGR) of the container traffic of the port over the last 5 years is 6% and the port is expected to handle 1.16 million TEUs by the year 2024-25 and 2 million TEUs by the year 2034-35.</span></span></p>
+
+<p style="margin-left:-.25pt; text-align:justify"><span style="font-size:12.0pt"><span style="font-family:&quot;Bookman Old Style&quot;,serif">This information was stated in a press release issued by V. O. Chidambaranar Port Authority.</span></span></p>
+
+<p style="text-align:center"><span style="font-size:12.0pt"><span style="font-family:&quot;Bookman Old Style&quot;,serif">********</span></span></p>
+
+                                    </div>
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                                    <div style="font-weight: 100; text-align: left; font-size: 16px;">
+                                          (Release ID: 1856626)
+                                    </div>
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                              </td>
+                        </tr>
+                        <tr>
+                              <td style="font-weight: 200; text-align: center; font-size: 24px;"></td>
+                        </tr>
+                  </table>
+            </div>
+            <div class="clearfix">
+            </div>
+
+            
+
+            <div class="section1">
+                  <div id="frst_t">
+                        <div id="arr_rm"><div class='sticky-social_mb'><ul class='social_mb'><a href='http://www.facebook.com/share.php?u=https://pib.gov.in/PressReleasePage.aspx?PRID=1856626' target='_blank'><li class='fb_b'   ></li></a><a href='https://twitter.com/intent/tweet?url=https://pib.gov.in/PressReleasePage.aspx?PRID=1856626&text=Concession Agreement signed between V.O. Chidambarananar Port Authority and Tuticorin International Container Terminal Private Limited (J M BAXI Group)' target='_blank'><li class='twitter_r'  > </li></a><a href='https://api.whatsapp.com/send?text=https://pib.gov.in/PressReleasePage.aspx?PRID=1856626' target='_blank'><li class='whatsapp_r'  ></li></a><a href='https://mail.google.com/mail/?view=cm&fs=1&tf=1&to=&su=Concession Agreement signed between V.O. Chidambarananar Port Authority and Tuticorin International Container Terminal Private Limited (J M BAXI Group)&body=https://pib.gov.in/PressReleasePage.aspx?PRID=1856626&ui=2&tf=1&pli=1' title='Share by Email' target='_blank'><li class='fa-envelope_r' ></li></a><a href='https://www.linkedin.com/shareArticle?mini=true&url=https://pib.gov.in/PressReleasePage.aspx?PRID=1856626&title=Concession Agreement signed between V.O. Chidambarananar Port Authority and Tuticorin International Container Terminal Private Limited (J M BAXI Group)&summary=My%20favorite%20developer%20program&source=LinkedIn' target='_blank'><li class='fa-linkedin_r'  ></li></a></ul></div></div>
+                  </div>
+                  <div id="second_t">
+                        <div id="sndr_rm"><div class='sticky-social'><ul class='social'><a href='http://www.facebook.com/share.php?u=https://pib.gov.in/PressReleasePage.aspx?PRID=1856626' target='_blank'><li class='fb_b'   ></li></a><a href='https://twitter.com/intent/tweet?url=https://pib.gov.in/PressReleasePage.aspx?PRID=1856626&text=Concession Agreement signed between V.O. Chidambarananar Port Authority and Tuticorin International Container Terminal Private Limited (J M BAXI Group)' target='_blank'><li class='twitter_r'  > </li></a><a href='https://api.whatsapp.com/send?text=https://pib.gov.in/PressReleasePage.aspx?PRID=1856626' target='_blank'><li class='whatsapp_r'  ></li></a><a href='https://mail.google.com/mail/?view=cm&fs=1&tf=1&to=&su=Concession Agreement signed between V.O. Chidambarananar Port Authority and Tuticorin International Container Terminal Private Limited (J M BAXI Group)&body=https://pib.gov.in/PressReleasePage.aspx?PRID=1856626&ui=2&tf=1&pli=1' title='Share by Email' target='_blank'><li class='fa-envelope_r' ></li></a><a href='https://www.linkedin.com/shareArticle?mini=true&url=https://pib.gov.in/PressReleasePage.aspx?PRID=1856626&title=Concession Agreement signed between V.O. Chidambarananar Port Authority and Tuticorin International Container Terminal Private Limited (J M BAXI Group)&summary=My%20favorite%20developer%20program&source=LinkedIn' target='_blank'><li class='fa-linkedin_r'  ></li></a></ul></div></div>
+                  </div>
+            </div>
+            <input type="hidden" name="ltrTitlee" id="ltrTitlee" value="Concession Agreement signed between V.O. Chidambarananar Port Authority and Tuticorin International Container Terminal Private Limited (J M BAXI Group)" />
+            <input type="hidden" name="ltrSubtitlee" id="ltrSubtitlee" />
+            <input type="hidden" name="ltrDescriptionn" id="ltrDescriptionn" value="&lt;p style=&quot;margin-left:-.25pt; text-align:justify&quot;>&lt;span style=&quot;font-size:12.0pt&quot;>&lt;span style=&quot;font-family:&amp;quot;Bookman Old Style&amp;quot;,serif&quot;>A Concession Agreement has been signed on September 3, 2022 between V.O. Chidambaranar Port Authority (VOCPA), Tuticorin, and Tuticorin International Container Terminal Private Limited (TICTPL) for conversion of berth No.9 as a container terminal at V.O. Chidambaranar Port Authority.&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;margin-left:-.25pt; text-align:justify&quot;>&lt;span style=&quot;font-size:12.0pt&quot;>&lt;span style=&quot;font-family:&amp;quot;Bookman Old Style&amp;quot;,serif&quot;>The&amp;nbsp; Agreement was signed on behalf of V.O. Chidambaranar Port Authority, Tuticorin, by Shri T.K. Ramachandran, Chairman, and on behalf of&amp;nbsp; Tuticorin International Container Terminal Private Limited, by Shri Dhruv Kotak, Managing Director, JM Baxi Ports &amp;amp; Logistics Limited (JMBPL).&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;margin-left:-.25pt; text-align:justify&quot;>&lt;span style=&quot;font-size:12.0pt&quot;>&lt;span style=&quot;font-family:&amp;quot;Bookman Old Style&amp;quot;,serif&quot;>&lt;img alt=&quot;&quot; src=&quot;https://static.pib.gov.in/WriteReadData/userfiles/image/01MFTB.JPG&quot; style=&quot;width:300px&quot; />&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;margin-left:-.25pt; text-align:justify&quot;>&lt;span style=&quot;font-size:12.0pt&quot;>&lt;span style=&quot;font-family:&amp;quot;Bookman Old Style&amp;quot;,serif&quot;>As per the Concession Agreement, the container handling facility will be developed by the Concessionaire at an estimated cost of Rs. 434.17 crores, with an estimated capacity addition of 6,00,000 TEUs per annum. &lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;margin-left:-.25pt; text-align:justify&quot;>&lt;span style=&quot;font-size:12.0pt&quot;>&lt;span style=&quot;font-family:&amp;quot;Bookman Old Style&amp;quot;,serif&quot;>The project would be executed on DBFOT (Design, Built, Finance, Operate and Transfer) basis, with a construction period of 21 months and is slated to be completed by December, 2024.&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;margin-left:-.25pt; text-align:justify&quot;>&lt;span style=&quot;font-size:12.0pt&quot;>&lt;span style=&quot;font-family:&amp;quot;Bookman Old Style&amp;quot;,serif&quot;>Speaking on the occasion, Shri T.K. Ramachandran stated that the terminal with a length of 370 metres and draft of 14.20 metres would be able to cater to vessels upto 8000 TEUs, thereby, facilitating to attract more investments and pave way for the economic development of the region.&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;margin-left:-.25pt; text-align:justify&quot;>&lt;span style=&quot;font-size:12.0pt&quot;>&lt;span style=&quot;font-family:&amp;quot;Bookman Old Style&amp;quot;,serif&quot;>&lt;img alt=&quot;&quot; src=&quot;https://static.pib.gov.in/WriteReadData/userfiles/image/02IUVF.JPG&quot; style=&quot;width:300px&quot; />&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;margin-left:-.25pt; text-align:justify&quot;>&lt;span style=&quot;font-size:12.0pt&quot;>&lt;span style=&quot;font-family:&amp;quot;Bookman Old Style&amp;quot;,serif&quot;>V.O. Chidambaranar Port Authority, presently, the second largest container handling port in Tamilnadu, has a container handling capacity of 1.17 million TEUs per annum. The Port had handled 7.6 lakh TEUs of containers during the last financial year 2021-22. The Compounded Annual Growth Rate (CAGR) of the container traffic of the port over the last 5 years is 6% and the port is expected to handle 1.16 million TEUs by the year 2024-25 and 2 million TEUs by the year 2034-35.&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;margin-left:-.25pt; text-align:justify&quot;>&lt;span style=&quot;font-size:12.0pt&quot;>&lt;span style=&quot;font-family:&amp;quot;Bookman Old Style&amp;quot;,serif&quot;>This information was stated in a press release issued by V. O. Chidambaranar Port Authority.&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:center&quot;>&lt;span style=&quot;font-size:12.0pt&quot;>&lt;span style=&quot;font-family:&amp;quot;Bookman Old Style&amp;quot;,serif&quot;>********&lt;/span>&lt;/span>&lt;/p>
+" />
+            <script type="text/javascript">
+                  var mPlayer = document.getElementById("background_music");
+                  var mPlayAction = document.getElementById("playbutton");
+
+                  var isPlaying = false;
+
+                  function playAudio() {
+                        mPlayer.play();
+                        isPlaying = true;
+                        document.getElementById('stopA').style.display = "block";
+                        document.getElementById('playA').style.display = "none";
+                  }
+
+                  function pauseAudio() {
+                        mPlayer.pause();
+                        isPlaying = false;
+                        document.getElementById('playA').style.display = "block";
+                        document.getElementById('stopA').style.display = "none";
+                  }
+                  //function HandleAudio() {
+                  //    if (isPlaying == true) {
+                  //        //Playing already Pause it
+                  //        pauseAudio();
+                  //    } else {
+                  //        //Play the music
+                  //        playAudio();
+                  //    }
+                  //}
+            </script>
+            <script type="text/javascript">
+                  var synth = window.speechSynthesis;
+
+            
+                  function CleanHtml(html) {
+
+                        html = html.replace(/<script[\s\S]*?<\/script>/gi, '');
+
+                        return html;
+                  }
+                  function stripHtml(html) {
+                        let tmp = document.createElement("DIV");
+                        tmp.innerHTML = CleanHtml(html);
+                        return tmp.textContent || tmp.innerText || "";
+                  }
+            </script>
+            <script type="text/javascript">
+                  $(document).ready(function () {
+                        //for responsive tables
+                        $("table").each(function () {
+                              if (!$(this).closest(".table-responsive").length) {
+                                    $(this).wrap("<div class='table-responsive'></div>");
+                              }
+                        });
+
+                        var width = $(window).width();
+                        if (width < 768) {
+
+                              // Extra Small Device
+                              document.getElementById('frst_t').style.display = "block";
+                              document.getElementById('second_t').style.display = "none";
+
+                        } else if (width < 991) {
+                              document.getElementById('frst_t').style.display = "block";
+                              document.getElementById('second_t').style.display = "none";
+                              // Small Device
+
+                        } else if (width < 1199) {
+                              document.getElementById('frst_t').style.display = "none";
+                              document.getElementById('second_t').style.display = "block";
+                              // Medium Device
+
+                        } else {
+                              document.getElementById('frst_t').style.display = "none";
+                              document.getElementById('second_t').style.display = "block";
+                              // Large Device
+
+                        }
+                  });
+            </script>
+            <script type="text/javascript">
+                  $(document).ready(function () {
+                        var width = $(window).width();
+                        if (width < 768) {
+
+                              // Extra Small Device
+                              document.getElementById('frst_t').style.display = "block";
+                              document.getElementById('second_t').style.display = "none";
+
+                        } else if (width < 991) {
+                              document.getElementById('frst_t').style.display = "block";
+                              document.getElementById('second_t').style.display = "none";
+                              // Small Device
+
+                        } else if (width < 1199) {
+                              document.getElementById('frst_t').style.display = "none";
+                              document.getElementById('second_t').style.display = "block";
+                              // Medium Device
+
+                        } else {
+                              document.getElementById('frst_t').style.display = "none";
+                              document.getElementById('second_t').style.display = "block";
+                              // Large Device
+
+                        }
+                  });
+            </script>
+            
+            <style type="text/css">
+                  @media print {
+                        .sticky-social, .sticky-social_mb, .pull-right, #printPDF {
+                              display: none !important;
+                        }
+                  }
+
+                  .f_vl {
+                        padding-right: 30px;
+                        font-size: 17px;
+                        cursor: pointer;
+                  }
+
+                  .log_oo {
+                        // width: 20%;
+                        display: flex;
+                        justify-content: space-between;
+                  }
+
+                        .log_oo img {
+                              width: 150px;
+                              /*width: 100%;
+                    height: auto;*/
+                        }
+
+                  .sticky-social_mb {
+                        position: fixed;
+                        bottom: 0px;
+                        padding: 0px;
+                        margin: 0px;
+                        width: 100%;
+                  }
+
+                  .social_mb {
+                        list-style: none;
+                        display: flex;
+                        width: 100%;
+                        margin-bottom: -8px;
+                  }
+
+                        .social_mb a {
+                              padding: 8px 0px;
+                              font-size: 30px;
+                              transition: all 0.8s ease-in-out;
+                              width: 20% !important;
+                              text-align: center;
+                        }
+            </style>
+            <style type="text/css">
+                  .section1 {
+                        position: relative;
+                        padding: 10px 0px;
+                        width: 100%;
+                  }
+
+
+
+                  .sticky-social {
+                        position: fixed;
+                        top: 20px;
+                        left: 0px;
+                        padding: 0px;
+                        margin: 0px;
+                  }
+
+                  .social {
+                        list-style: none;
+                  }
+
+                        .social a li {
+                              padding: 8px 12px;
+                              font-size: 25px;
+                              transition: all 0.8s ease-in-out;
+                        }
+
+                              .social a li:hover {
+                                    margin-right: -30px;
+                                    box-shadow: 2px 5px 10px grey;
+                              }
+
+                                    .social a li:hover .fa {
+                                          margin-left: 20px;
+                                    }
+
+                  .fb_b {
+                        /* background-color: var(--dbim-key, #0F5757);*/
+                        background-color: var(--dbim-key, #0F5757);
+                  }
+
+                  .twitter_r {
+                        /* background-color: rgb(29, 161, 242);*/
+                        background-color: var(--dbim-key, #0F5757);
+                  }
+
+                  .whatsapp_r {
+                        /* background-color: var(--dbim-key, #0F5757);*/
+                        background-color: var(--dbim-key, #0F5757);
+                  }
+
+                  .fa-envelope_r {
+                        /* background-color: var(--dbim-key, #0F5757);*/
+                        background-color: var(--dbim-key, #0F5757);
+                  }
+
+                  .fa-linkedin_r {
+                        background-color: var(--dbim-key, #0F5757);
+                  }
+            </style>
+            <style type="text/css">
+                  @media only screen and (max-device-width: 767px) {
+                        p span img {
+                              max-width: 90% !important;
+                              height: auto !important;
+                        }
+
+                        p img {
+                              max-width: 90% !important;
+                              height: auto !important;
+                        }
+
+                        h2 {
+                              font-size: var(--dbim-h2, 20px);   /* was 20px !important - the !important blocked A+/A- */
+                              font-weight: 600 !important;
+                        }
+
+                        h3 {
+                              font-size: var(--dbim-h3, 16px);   /* was 16px !important */
+                              font-weight: 600 !important;
+                        }
+                  }
+            </style>
+            <style type="text/css">
+                  /* === Film Roll Badge Styling(IFFI2025 countdown) === */
+                  .film-roll-badge {
+                        position: absolute;
+                        top:82%;
+                        right: 20px;
+                        width: 230px;
+                        height: 70px;
+                        background: repeating-linear-gradient( to right, var(--dbim-green-key, #0F5757) 0px, var(--dbim-green-key, #0F5757) 18px, var(--dbim-text, #150202) 18px, var(--dbim-text, #150202) 36px );
+                        border-top: 8px solid var(--dbim-green-key, #0F5757);
+                        border-bottom: 8px solid var(--dbim-green-key, #0F5757);
+                        border-radius: 8px;
+                        overflow: hidden;
+                        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+                        animation: moveFilm 8s linear infinite;
+                        z-index: 10;
+                  }
+
+                        /* film sprocket holes */
+                        .film-roll-badge::before,
+                        .film-roll-badge::after {
+                              content: "";
+                              position: absolute;
+                              width: 100%;
+                              height: 10px;
+                              background: repeating-linear-gradient( to right, var(--dbim-green-key, #0F5757) 0px, var(--dbim-green-key, #0F5757) 10px, #fff 10px, #fff 20px );
+                              left: 0;
+                              z-index: 2;
+                        }
+
+                        .film-roll-badge::before {
+                              top: -4px;
+                        }
+
+                        .film-roll-badge::after {
+                              bottom: -4px;
+                        }
+
+                  .film-roll-inner {
+                        position: relative;
+                        height: 100%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        animation: flicker 2s infinite ease-in-out;
+                  }
+
+                  .countdown-text {
+                        font-size: 1.3rem;
+                        font-weight: 700;
+                        color: #fff;
+                        text-shadow: 0 0 6px rgba(255, 255, 255, 0.4), 0 0 10px #000;
+                        white-space: nowrap;
+                  }
+
+                  /* === Animations === */
+                  @keyframes moveFilm {
+                        0% {
+                              background-position: 0 0;
+                        }
+
+                        100% {
+                              background-position: 120px 0;
+                        }
+                  }
+
+                  @keyframes flicker {
+                        0%, 100% {
+                              opacity: 1;
+                        }
+
+                        50% {
+                              opacity: 0.9;
+                        }
+
+                        25% {
+                              opacity: 0.95;
+                        }
+
+                        75% {
+                              opacity: 0.85;
+                        }
+                  }
+
+                  /* === Responsive Adjustments === */
+                  @media (max-width: 1500px) {
+                        .film-roll-badge {
+                              top: 68%;
+                              right: 18px;
+                              /* width: 220px; */
+                              height: 65px;
+                              font-size: 0.85rem;
+                        }
+
+                        .press-section {
+                              margin-top: 35px;
+                        }
+                  }
+
+                  @media (max-width: 992px) {
+                        .film-roll-badge {
+                              top: 52%;
+                              right: 10px;
+                               width: 200px; 
+                              height: 60px;
+                        }
+                  }
+
+                  @media (max-width: 768px) {
+                        .film-roll-badge {
+                              top: 56%;
+                              right: 10px;
+                               width: 124px; 
+                              height: 55px;
+                        }
+
+                        .countdown-text {
+                              font-size: 0.9rem;
+                        }
+                  }
+
+                  @media (max-width: 576px) {
+                        .film-roll-badge {
+                              top: 59%;
+                              right: 5px;
+                              /* width: 160px; */
+                              height: 50px;
+                        }
+
+                        .countdown-text {
+                              font-size: 0.85rem;
+                        }
+                  }
+            </style>
+          <script type="text/javascript">
+                const festivalStart = new Date("2025-11-20T00:00:00").getTime();
+                const festivalEnd = new Date("2025-11-28T23:59:59").getTime();
+
+                const countdownElement = document.getElementById("countdown");
+
+                const interval = setInterval(() => {
+                      const now = new Date().getTime();
+
+                      // BEFORE FESTIVAL — show days + hours left
+                      if (now < festivalStart) {
+                            const diff = festivalStart - now;
+                            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+
+                            countdownElement.innerHTML = `
+              ${days} Day${days !== 1 ? 's' : ''} 
+              ${hours} Hour${hours !== 1 ? 's' : ''} to go
+          `;
+
+                      }
+
+                      // DURING FESTIVAL — show 56th IFFI - Day X
+                      else if (now >= festivalStart && now <= festivalEnd) {
+                            const dayNumber = Math.floor((now - festivalStart) / (1000 * 60 * 60 * 24)) + 1;
+                            countdownElement.innerHTML = `56th IFFI - Day ${dayNumber}`;
+                      }
+
+                      // AFTER FESTIVAL — new message
+                      else {
+                            countdownElement.innerHTML = `✨ IFFI closes but never ends…`;
+
+                            // Width change logic
+                            const elements = document.querySelectorAll('.film-roll-badge');
+                            elements.forEach(el => el.style.width = "350px");
+
+                            clearInterval(interval);
+                      }
+
+                }, 1000);
+          </script>
+ <script type="text/javascript">
+
+               const miffStart = new Date("2026-06-15T00:00:00").getTime();
+               const miffEnd = new Date("2026-06-15T23:59:59").getTime();
+
+               const miffElement = document.getElementById("miff");
+
+               if (miffElement) {
+
+                   const miffInterval = setInterval(() => {
+
+                       const now = new Date().getTime();
+
+                       // Before MIFF
+                       if (now < miffStart) {
+
+                           const diff = miffStart - now;
+                           const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                           const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+
+        
+
+                   /*  miffElement.innerHTML = `${days} Day${days !== 1 ? 's' : ''} ${hours} Hour${hours !== 1 ? 's' : ''} to MIFF`;*/
+                           miffElement.innerHTML = `${days} Day${days === 1 ? '' : 's'} to MIFF ...`;
+
+
+                     }
+
+                       // During MIFF
+                       else if (now >= miffStart && now <= miffEnd) {
+
+                           const dayNumber =
+                               Math.floor((now - miffStart) / (1000 * 60 * 60 * 24)) + 1;
+
+                           miffElement.innerHTML = `19th MIFF - Day ${dayNumber}`;
+                       }
+
+                       // After MIFF
+                       else {
+
+                           miffElement.innerHTML = `✨ MIFF concludes, cinema lives on...`;
+
+                           document.querySelectorAll('.film-roll-badge')
+                               .forEach(el => el.style.width = "350px");
+
+                           clearInterval(miffInterval);
+                       }
+
+                   }, 1000);
+               }
+
+</script>
+
+      
+
+<script type="text/javascript">
+//<![CDATA[
+(function() {var fn = function() {$get("sc_HiddenField").value = '';Sys.Application.remove_init(fn);};Sys.Application.add_init(fn);})();Sys.Application.add_init(function() {
+    $create(Sys.Extended.UI.ModalPopupBehavior, {"BackgroundCssClass":"modalBackground","PopupControlID":"P_CategoryManagement","dynamicServicePath":"/PressReleasePage.aspx","id":"mpe"}, null, null, $get("Hidden"));
+});
+//]]>
+</script>
+<input type="hidden" name="__ncforminfo" value="AgzowgesqJZc0bk5a3p9yPzKRGq7y-HFG9BWnfk5AEY-dNQG6Al7qixA9Pel0ipctBv57jlrC2157v3FDx56kIfmyTtCi0YZiUFlObBQxzo5GpaCOAtvBA=="/></form>
+      
+      
+
+<script type="application/json" id="pibConsentConfig">{"ga4Id":"G-Q414Y0X6EE,G-QJJ6LZ8LHV","policyUrl":"/CookiePolicy.aspx","text":{"bannerLabel":"Cookie consent","title":"Cookies on this website","body":"We use essential cookies to make this website work. We also set analytics cookies when you arrive, so we can see how the site is used and improve it - you can switch these off below or at any time from the Cookie Policy page. Cookies from embedded social media content are set only if you allow them.","policyLink":"Read our Cookie Policy","accept":"Accept all","reject":"Reject optional","customize":"Customise","prefsTitle":"Cookie preferences","prefsIntro":"Choose which cookies this website may set. Essential cookies cannot be switched off because the site does not work without them. Analytics cookies are on unless you turn them off. Social media cookies stay off until you allow them. You can change these choices at any time from the Cookie Policy page.","essentialName":"Essential cookies","essentialDesc":"Needed for the site to function. These remember your session, your language and region, your text size and colour theme, and verify the security check on forms. They are always on.","analyticsName":"Analytics cookies","analyticsDesc":"Help us understand how visitors use the site - which pages are read and how long people stay - so it can be improved. The information is collected in a form that does not directly identify you. These are on when you arrive; switching them off here stops them and deletes the ones already set.","socialName":"Social media cookies","socialDesc":"Set by content embedded from X, Facebook and YouTube, such as timelines and videos. These platforms may use them to track you across websites. They stay off until you allow them.","save":"Save preferences","cancel":"Cancel"}}</script>
+<script type="text/javascript" src='/js/consent.js?v=10'></script>
+
+<script type="text/javascript" src='/js/consent-embeds.js?v=10'></script>
+
+    
+
+<script type="text/javascript">
+    (function () {
+        try {
+            if (window.self === window.top) { return; }
+        } catch (e) { return; }
+        var s = document.createElement("style");
+        s.textContent =
+            ".sticky-social, .sticky-social_mb { display: none !important; }";
+        (document.head || document.documentElement).appendChild(s);
+    }());
+</script>
+</body>
+</html>
+

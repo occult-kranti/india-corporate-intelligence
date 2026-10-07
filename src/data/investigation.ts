@@ -1,9 +1,11 @@
 import type { GNode, GEdge } from '../graph/schema';
+import { createInvestigationMatcher } from './investigationFilters';
+export { createInvestigationMatcher } from './investigationFilters';
 
 export type InvestigationTier='documented'|'reported'|'alleged'|'analytic'|'self-reported';
 export type InvestigationLayer='people'|'organisations'|'funding'|'procurement'|'legal'|'welfare'|'services'|'policy'|'review';
-export type InvestigationGeoBasis='project-location'|'programme-coverage'|'headquarters'|'constituency'|'institution-location'|'state-association'|'national-context'|'unknown';
-export interface InvestigationGeography {scope:'national'|'state'|'multi-state'|'district'|'city'|'village'|'block'|'project'|'unknown';stateCodes:string[];localityIds:string[];basis:InvestigationGeoBasis;note:string;sourceIds:string[]}
+export type InvestigationGeoBasis='project-location'|'programme-coverage'|'headquarters'|'constituency'|'institution-location'|'state-association'|'national-context'|'country-context'|'unknown';
+export interface InvestigationGeography {scope:'national'|'country'|'state'|'multi-state'|'district'|'city'|'village'|'block'|'project'|'unknown';countryCodes?:string[];stateCodes:string[];localityIds:string[];basis:InvestigationGeoBasis;note:string;sourceIds:string[]}
 export interface InvestigationSource {id:string;originalId:string;namespace:string;title:string;url:string;publisher:string;publishedAt:string|null;retrievedAt:string|null;locator:string;summary:string;tier:InvestigationTier;limitations:string[]}
 export interface InvestigationDimensions {domains:string[];layers:InvestigationLayer[];geography:InvestigationGeography[];route:string;sourceIds:string[];limitations:string[]}
 export interface InvestigationEntity extends InvestigationDimensions {id:string;originalId:string;namespace:string;label:string;type:string;family?:GNode['fam'];resolved:boolean;identityBasis:string;summary:string}
@@ -16,7 +18,7 @@ export interface InvestigationCoverage {namespace:string;label:string;route:stri
 export interface InvestigationRegistry {updatedAt:string;entities:InvestigationEntity[];relationships:InvestigationRelationship[];records:InvestigationRecord[];sources:InvestigationSource[];states:{code:string;name:string}[];localities:InvestigationLocality[];coverage:InvestigationCoverage[];held:InvestigationHeldRecord[];methodology:string[]}
 export interface InvestigationFilters {stateCode?:string;compareStateCode?:string;q?:string;domains?:string[];layers?:InvestigationLayer[];tiers?:InvestigationTier[];from?:string;to?:string;includeUndated?:boolean;includeNational?:boolean;geographyMode?:'coverage'|'associations'|'all'}
 export interface InvestigationCounts {entities:number;relationships:number;records:number;sources:number}
-export interface InvestigationView {entities:InvestigationEntity[];relationships:InvestigationRelationship[];records:InvestigationRecord[];sources:InvestigationSource[];totals:InvestigationCounts;denominator:InvestigationCounts;nationalRecords:number;unknownRecords:number;heldCount:number;filters:InvestigationFilters}
+export interface InvestigationView {entities:InvestigationEntity[];relationships:InvestigationRelationship[];records:InvestigationRecord[];sources:InvestigationSource[];totals:InvestigationCounts;denominator:InvestigationCounts;nationalRecords:number;internationalRecords:number;unknownRecords:number;heldCount:number;filters:InvestigationFilters}
 export interface InvestigationStateCoverage {stateCode:string;name:string;records:number;entities:number;relationships:number;coverageRecords:number;associationRecords:number;nationalContextRecords:number;unknownRecords:number;domains:string[]}
 export interface InvestigationNeighborhood {entities:InvestigationEntity[];relationships:InvestigationRelationship[];sources:InvestigationSource[];truncated:boolean;totalEntities:number;totalRelationships:number;depth:number}
 export interface InvestigationPathResult {paths:{entityIds:string[];relationshipIds:string[]}[];searchedEntities:number;truncated:boolean;reason:string}
@@ -47,15 +49,31 @@ import deepServices from '../../research/raw/deep-investigation/services.json';
 import deepGovernance from '../../research/raw/deep-investigation/governance.json';
 import deepProcurement from '../../research/raw/deep-investigation/procurement.json';
 import deepCorporate from '../../research/raw/deep-investigation/corporate.json';
+import atlasOversight from '../../research/raw/atlas-expansion/oversight.json';
+import atlasInstitutions from '../../research/raw/atlas-expansion/institutions.json';
+import atlasPolicy from '../../research/raw/atlas-expansion/policy.json';
+import atlasInternationalFinance from '../../research/raw/atlas-expansion/international-finance.json';
+import atlasDefenceTrade from '../../research/raw/atlas-expansion/defence-trade.json';
 
+// Exact retained legal-institution IDs reviewed in finance/RECONCILIATION.json and the source-backed finance fleet.
+// This is topic classification only: evidence tiers, financial stages and source review dates do not change.
+export const RETAINED_INTERNATIONAL_LENDER_IDS=['fin:ibrd','fin:ida','fin:adb','fin:aiib','fin:ndb','fin:imf'];
 export const INVESTIGATION_UPDATED_AT='2026-10-07';
 export const INVESTIGATION_STATES=water.states;
 export const INVESTIGATION_LAYERS:{value:InvestigationLayer;label:string}[]=[{value:'people',label:'People & office'},{value:'organisations',label:'Organisations'},{value:'funding',label:'Funding & debt'},{value:'procurement',label:'Contracts & work'},{value:'legal',label:'Cases & judgments'},{value:'welfare',label:'Welfare programmes'},{value:'services',label:'Public services'},{value:'policy',label:'Rules & policy'},{value:'review',label:'Review questions'}];
-export const INVESTIGATION_DOMAINS=[['governance','Government & politics'],['capital','Companies & ownership'],['energy','Energy'],['finance','Finance & lenders'],['ngo','NGOs & trusts'],['security','Police & defence'],['welfare','Welfare'],['education','Education'],['water','Water & food'],['public-works','Roads & public works'],['pmcares','PM CARES'],['debt-relief','Debt & recovery'],['justice','Justice & oversight']].map(([value,label])=>({value,label}));
+export const INVESTIGATION_DOMAINS=[['governance','Government & politics'],['capital','Companies & ownership'],['energy','Energy'],['finance','Finance & lenders'],['ngo','NGOs & trusts'],['security','Police & defence'],['welfare','Welfare'],['education','Education'],['water','Water & food'],['public-works','Roads & public works'],['pmcares','PM CARES'],['debt-relief','Debt & recovery'],['justice','Justice & oversight'],['health','Hospitals & health'],['disaster-relief','Disaster relief'],['transport','Transport & ports'],['public-funds','Public funds'],['public-finance','Public finance'],['media','Media ownership'],['public-records','Public release records'],['international-finance','International finance'],['defence-trade','Defence trade']].map(([value,label])=>({value,label}));
 // Topic lenses follow actual dossier imports; analytic tool routes intentionally retain all-domain context.
 const routeConfig:[RegExp,string,string[]][]=[
+ [/^\/international-finance(?:\/|$)/,'International finance',['international-finance']],
+ [/^\/defence-trade(?:\/|$)/,'Defence trade',['defence-trade']],
+ [/^\/health(?:\/|$)/,'Hospitals & health',['health']],
+ [/^\/disaster-relief(?:\/|$)/,'Disaster relief',['disaster-relief','pmcares']],
+ [/^\/transport(?:\/|$)/,'Transport & ports',['transport']],
+ [/^\/public-funds(?:\/|$)/,'Public funds',['public-funds','public-finance','welfare','pmcares']],
+ [/^\/policy(?:\/|$)/,'Policy timeline',[]],
+ [/^\/public-records(?:\/|$)/,'Public release records',['public-records']],
  [/^\/industries(?:\/|$)/,'Industry ownership',['capital']],
- [/^\/media(?:\/|$)/,'Media ownership context',['capital']],
+ [/^\/media(?:\/|$)/,'Media ownership context',['media']],
  [/^\/interlocks(?:\/|$)/,'Corporate roles & public office',['capital','governance']],
  [/^\/resources(?:\/|$)/,'Resource allocation context',['energy','capital','governance']],
  [/^\/allocation(?:\/|$)/,'Allocation context',['capital','energy','public-works','governance']],
@@ -64,7 +82,6 @@ const routeConfig:[RegExp,string,string[]][]=[
  [/^\/energy/,'Energy',['energy']],[/^\/(finance|loans|foreign)/,'Finance',['finance','debt-relief']],[/^\/(welfare)/,'Welfare',['welfare']],[/^\/(security|force)/,'Security',['security']],[/^\/(education)/,'Education',['education']],[/^\/water/,'Water & food',['water']],[/^\/public-works/,'Public works',['public-works']],[/^\/pmcares/,'PM CARES',['pmcares']],[/^\/(ngo|csr)/,'NGOs & trusts',['ngo']],[/^\/(map|company|companies|conglomerates|group|groups|capital|exchange|indices)/,'Companies & ownership',['capital']],[/^\/(political|politics|politician|cabinet|minister)/,'Government & politics',['governance']],[/^\/justice/,'Justice',['justice']],[/^\/debt/,'Debt & recovery',['debt-relief']],[/^\/(tenders|procurement)/,'Procurement',['public-works','energy','security']]];
 export function getRouteLens(pathname:string){const found=routeConfig.find(([pattern])=>pattern.test(pathname));return {label:found?.[1]??'All investigations',domains:found?.[2]??[],description:found?'Context from the existing route; search across all domains to widen the investigation.':'Linked evidence across the existing registers; coverage is curated, not a national census.'};}
 const unique=<T,>(values:T[])=>[...new Set(values)];
-const norm=(text:string)=>text.normalize('NFKC').toLocaleLowerCase('en-IN').trim();
 const hash=(text:string)=>{let a=2166136261,b=2246822519;for(let i=0;i<text.length;i++){a=Math.imul(a^text.charCodeAt(i),16777619);b=Math.imul(b^text.charCodeAt(i),3266489917);}return `${(a>>>0).toString(16)}${(b>>>0).toString(16)}`;};
 export function normalizeInvestigationState(code:string|null|undefined):string|null{if(!code)return null;const lower=code.toLowerCase();if(['jk','dn','dd'].includes(code))return null;const mapped=({ct:'CG',or:'OD',tg:'TS',ut:'UK',dd:'DN',dn:'DN'} as Record<string,string>)[lower]??code.toUpperCase();return INVESTIGATION_STATES.some(state=>state.code===mapped)?mapped:null;}
 const ns=(space:string,kind:string,id:string)=>`${space}:${kind}:${id}`;
@@ -87,6 +104,9 @@ export function buildInvestigationRegistry():InvestigationRegistry{
  const nationalGraph=buildNationalGraph();
  const legacy=mergeFleet({nodes:[...NODES,...nationalGraph.nodes],edges:[...EDGES,...nationalGraph.edges]},fleets);
  const edgeKey=(edge:GEdge)=>`${edge.id??hash(`${edge.lab??''}|${edge.d??''}`)}|${edge.s}|${edge.pred}|${edge.t}`;
+ const lenderIds=new Set(RETAINED_INTERNATIONAL_LENDER_IDS);
+ const internationalFinanceEdges=FINANCE_EDGES.filter(edge=>lenderIds.has(edge.s)||lenderIds.has(edge.t));
+ const internationalFinanceKeys=new Set(internationalFinanceEdges.map(edgeKey)),internationalFinanceNodeIds=new Set(internationalFinanceEdges.flatMap(edge=>[edge.s,edge.t]));
  const domainsByEdge=new Map(fleets.flatMap(fleet=>fleet.edges.map(edge=>[edgeKey(edge),fleet.domain] as const)));
  const domainsByNode=new Map<string,string[]>();for(const fleet of fleets)for(const node of fleet.nodes)domainsByNode.set(node.id,unique([...(domainsByNode.get(node.id)??[]),fleet.domain]));
  const legacyNodeIds=new Set<string>();
@@ -95,7 +115,7 @@ export function buildInvestigationRegistry():InvestigationRegistry{
   if(!sourceIds.length||node.resolved===false){registry.held.push({id,namespace:'legacy',kind:'entity',reason:node.resolved===false?'Identity explicitly unresolved in the source corpus.':'No direct source citation on the legacy entity.',sourceIds,route:'/network'});continue;}
   const state=normalizeInvestigationState(node.st);const basis:InvestigationGeoBasis=node.id.startsWith('co:')||node.id.startsWith('grp:')?'headquarters':node.id.startsWith('pol:')?'constituency':'state-association';
   const geo:InvestigationGeography[]=state?[{scope:'state',stateCodes:[state],localityIds:[],basis,note:node.st==='jk'?'Legacy Jammu & Kashmir association may use the pre-2019 boundary; no Ladakh allocation is inferred.':basis==='headquarters'?'Registered/group headquarters association, not project location or spending.':basis==='constituency'?'Recorded political state/constituency association, not the geographic scope of every office decision.':'Legacy state tag has mixed semantics; it is an association, not a verified asset or service location.',sourceIds}]:unknown(sourceIds,node.st&&['jk','dn','dd'].includes(node.st)?`Legacy ${node.st.toUpperCase()} tag uses an ambiguous boundary era; it is not assigned to a modern state/UT.`:undefined);
-  const domains=unique([...(domainsByNode.get(node.id)??[]),...(node.id==='pmcares'?['pmcares']:node.id.startsWith('pol:')||['party','ministry'].includes(node.ty)?['governance']:node.id.startsWith('co:')||node.id.startsWith('grp:')?['capital']:[])]);
+  const domains=unique([...(domainsByNode.get(node.id)??[]),...(internationalFinanceNodeIds.has(node.id)?['international-finance']:[]),...(node.id==='pmcares'?['pmcares']:node.id.startsWith('pol:')||['party','ministry'].includes(node.ty)?['governance']:node.id.startsWith('co:')||node.id.startsWith('grp:')?['capital']:[])]);
   if(!domains.length)domains.push('governance');
   registry.entities.push({id,originalId:node.id,namespace:'legacy',label:node.label,type:node.ty,family:node.fam,resolved:true,identityBasis:'Existing canonical registry ID and retained source record; no name-based identity merge is performed by this adapter.',sourceIds,domains,layers:[entityLayer(node.ty)],geography:geo,route:domainRoute(domains[0]),summary:[node.sub,...node.d??[]].filter(Boolean).join(' '),limitations:['Inherited entity facts retain their original historical scope; linked claims must be read with their own dates and responses.']});legacyNodeIds.add(node.id);
  }
@@ -110,7 +130,7 @@ export function buildInvestigationRegistry():InvestigationRegistry{
   const state=normalizeInvestigationState(fact?.st);const geo=state&&fact?.stBasis?[{scope:'state' as const,stateCodes:[state],localityIds:[],basis:'programme-coverage' as const,note:`Explicit finance project placement: ${fact.stBasis}. This is project coverage, not a geocoded site.`,sourceIds}]:unknown(sourceIds);
   const recordId=ns('legacy','record',key),fromDate=exactDate(edge.from),toDate=exactDate(edge.to);
   const amounts:InvestigationAmount[]=edge.a&&Number.isFinite(edge.a)&&['award','bond','trust','direct','pmin','pmout','csr','loan','grant'].includes(edge.pred)?[{value:edge.a,currency:'INR',unit:'crore',stage:`${edge.pred} — as labelled by the original claim; not independently reclassified`,period:edge.from||edge.to?`${edge.from??'unknown'} to ${edge.to??'unknown'}`:'Read original claim period'}]:[];
-  const row:InvestigationRelationship={id,originalId:key,namespace:'legacy',from:source,to:target,kind:edge.pred,label:edge.lab??edge.pred,tier:edge.tier,status:edge.supersededBy?'superseded':edge.pred==='contra'?'counter-evidence':edge.tier==='alleged'?'allegation':edge.tier==='analytic'?'analytic-context':'retained-claim',statusAsOf:null,fromDate,toDate,dateBasis:`Original window: ${edge.from??'unknown'} to ${edge.to??'unknown'}. Only calendar-valid exact dates enter the range filter.`,sourceIds,domains:[domain],layers:[edgeLayer(edge.pred)],geography:geo,route:domainRoute(domain),summary:edge.d??edge.lab??`${edge.s} ${edge.pred} ${edge.t}`,limitations:['A retained link is not evidence of improper influence. Read the original source and any counter-evidence.'],alternativeExplanations:edge.innocentReading?[edge.innocentReading]:[],falsifier:edge.killIf??null,responseIds:[],recordIds:[recordId],amounts};
+  const row:InvestigationRelationship={id,originalId:key,namespace:'legacy',from:source,to:target,kind:edge.pred,label:edge.lab??edge.pred,tier:edge.tier,status:edge.supersededBy?'superseded':edge.pred==='contra'?'counter-evidence':edge.tier==='alleged'?'allegation':edge.tier==='analytic'?'analytic-context':'retained-claim',statusAsOf:null,fromDate,toDate,dateBasis:`Original window: ${edge.from??'unknown'} to ${edge.to??'unknown'}. Only calendar-valid exact dates enter the range filter.`,sourceIds,domains:[domain,...internationalFinanceKeys.has(key)?['international-finance']:[]],layers:[edgeLayer(edge.pred)],geography:geo,route:domainRoute(domain),summary:edge.d??edge.lab??`${edge.s} ${edge.pred} ${edge.t}`,limitations:['A retained link is not evidence of improper influence. Read the original source and any counter-evidence.'],alternativeExplanations:edge.innocentReading?[edge.innocentReading]:[],falsifier:edge.killIf??null,responseIds:[],recordIds:[recordId],amounts};
   registry.relationships.push(row);legacyEdgeId.set(`${domain}|${edge.id??key}`,id);
   addRecord({id:recordId,originalId:key,namespace:'legacy',title:`${legacyLabels.get(source)} · ${edge.lab??edge.pred} · ${legacyLabels.get(target)}`,summary:row.summary,kind:'relationship-record',tier:edge.tier,status:row.status,sourceIds,domains:row.domains,layers:row.layers,geography:geo,route:row.route,entityIds:[source,target],relationshipIds:[id],fromDate,toDate,dateBasis:row.dateBasis,period:row.dateBasis,response:'Consult linked counter-evidence and the original source; absence of a recorded response is not acceptance.',alternativeExplanations:row.alternativeExplanations,falsifier:row.falsifier,amounts,limitations:row.limitations});
  }
@@ -152,8 +172,9 @@ export function buildInvestigationRegistry():InvestigationRegistry{
   const sourceIds=unique([sourceId,...tupleSources(correction.originalEdge.srcs as [string,string][])]);
   addRecord({id:correction.recordId,originalId:correction.originalId,namespace:'legacy',title:correction.title,summary:correction.rationale,kind:'withdrawn-correction',tier:'documented',status:correction.status,statusAsOf:legacyCorrections.reviewedAt,sourceIds,entityIds:[correction.originalEdge.s,correction.originalEdge.t].filter(id=>legacyNodeIds.has(id)).map(id=>ns('legacy','entity',id)),relationshipIds:[],domains:['governance','capital'],layers:['review'],geography:unknown(sourceIds,'The withdrawn edge supplies no valid project geography.'),route:'/follow-the-money',fromDate:null,toDate:null,dateBasis:'Correction reviewed date is not an original award or payment date.',period:'Original claim retained for correction history',response:'The official source contradicts the administering-ministry identity. The original graph arrow is withdrawn; no replacement transaction is inferred.',alternativeExplanations:['A later listing or amendment could concern an already-approved project; exact consequences require its original document.'],falsifier:'A dated primary instrument identifying the actual award, legal recipient, administering body and financial stage would support a separately reviewed replacement record.',amounts:[],limitations:correction.limitations});
  }
+ const pendingIdentityBridges:{space:string;raw:InvestigationRawSlice;row:InvestigationRawSlice['entities'][number]}[]=[];
  // New slices use strict declared IDs; arrays are explicitly supplied by the researchers.
- for(const [space,input] of [['finance-research',financeResearch],['justice-research',justiceResearch],['welfare-research',welfareResearch],['procurement-trails',PROCUREMENT_TRAIL_SLICE],['procurement-audit',PROCUREMENT_AUDIT_SLICE],['deep-procurement',deepProcurement],['deep-corporate',deepCorporate],['deep-services',deepServices],['deep-governance',deepGovernance]] as [string,unknown][]){
+ for(const [space,input] of [['finance-research',financeResearch],['justice-research',justiceResearch],['welfare-research',welfareResearch],['procurement-trails',PROCUREMENT_TRAIL_SLICE],['procurement-audit',PROCUREMENT_AUDIT_SLICE],['deep-procurement',deepProcurement],['deep-corporate',deepCorporate],['deep-services',deepServices],['deep-governance',deepGovernance],['atlas-oversight',atlasOversight],['atlas-institutions',atlasInstitutions],['atlas-policy',atlasPolicy],['atlas-international-finance',atlasInternationalFinance],['atlas-defence-trade',atlasDefenceTrade]] as [string,unknown][]){
   const raw=input as InvestigationRawSlice;docSources(space,raw.sources);addLocalities(space,raw.localities??[]);
   const refs=(ids:string[],kind:string)=>(ids??[]).map(id=>ns(space,kind,id));
   const dimensions=(row:InvestigationDimensions)=>({domains:row.domains,layers:row.layers,geography:row.geography.map(geo=>({...geo,sourceIds:refs(geo.sourceIds,'source'),localityIds:refs(geo.localityIds,'locality')})),route:row.route,sourceIds:refs(row.sourceIds,'source'),limitations:row.limitations});
@@ -162,16 +183,21 @@ export function buildInvestigationRegistry():InvestigationRegistry{
   for(const row of raw.records)addRecord({...row,id:ns(space,'record',row.id),originalId:row.id,namespace:space,entityIds:refs(row.entityIds,'entity'),relationshipIds:refs(row.relationshipIds,'relationship'),...dimensions(row)});
   // New case authors may explicitly retain a reviewed same-identity canonical ID.
   // There is deliberately no name/symbol matching fallback.
-  if(space.startsWith('deep-'))for(const row of raw.entities){
-   const canonical=row.canonicalId;if(!canonical)continue;
-   if(!legacyNodeIds.has(canonical))throw new Error(`${space}/${row.id}: reviewed canonical identity is unavailable: ${canonical}`);
-   if(!row.identityBasis.trim()||!row.sourceIds.some(id=>raw.sources.find(source=>source.id===id)?.tier==='documented'))throw new Error(`${space}/${row.id}: canonical identity requires primary-source documentary basis`);
-   const sourceIds=refs(row.sourceIds,'source'),originalId=`${space}:${row.id}:${canonical}`;
-   registry.relationships.push({id:ns('crosswalk','relationship',originalId),originalId,namespace:'crosswalk',from:ns(space,'entity',row.id),to:ns('legacy','entity',canonical),kind:'identity-crosswalk',label:'Reviewed legal-identity cross-reference',tier:'documented',status:'identity-navigation',statusAsOf:INVESTIGATION_UPDATED_AT,fromDate:null,toDate:null,dateBasis:'Identity review snapshot; financial and office periods remain on their own records.',summary:row.identityBasis,sourceIds,domains:row.domains,layers:row.layers,geography:unknown(sourceIds,'Same-identity navigation has no project or payment geography.'),route:'/follow-the-money',limitations:['This bridge is an explicit reviewed canonical identity link, not a payment, contract, beneficial-ownership claim or evidence of influence.','The inherited identity’s historical claims retain their own sources and verification limitations.'],alternativeExplanations:[],falsifier:'Withdraw this bridge if legal identifiers or original documents establish distinct persons, entities or reporting perimeters.',responseIds:[],recordIds:[],amounts:[]});
-  }
+  if(space.startsWith('deep-')||space.startsWith('atlas-'))for(const row of raw.entities)if(row.canonicalId)pendingIdentityBridges.push({space,raw,row});
  }
+ for(const {space,raw,row} of pendingIdentityBridges){
+  const canonical=row.canonicalId!,targetId=canonical.includes(':entity:')?canonical:ns('legacy','entity',canonical);
+  const target=registry.entities.find(entity=>entity.id===targetId);
+  if(!target||target.resolved!==true)throw new Error(`${space}/${row.id}: reviewed canonical identity is unavailable: ${canonical}`);
+  if(!row.identityBasis.trim()||!row.sourceIds.some(id=>raw.sources.find(source=>source.id===id)?.tier==='documented'))throw new Error(`${space}/${row.id}: canonical identity requires primary-source documentary basis`);
+  const sourceIds=unique([...row.sourceIds.map(id=>ns(space,'source',id)),...target.sourceIds]),originalId=`${space}:${row.id}:${canonical}`;
+  registry.relationships.push({id:ns('crosswalk','relationship',originalId),originalId,namespace:'crosswalk',from:ns(space,'entity',row.id),to:targetId,kind:'identity-crosswalk',label:'Reviewed legal-identity cross-reference',tier:'documented',status:'identity-navigation',statusAsOf:INVESTIGATION_UPDATED_AT,fromDate:null,toDate:null,dateBasis:'Identity review snapshot; financial and office periods remain on their own records.',summary:row.identityBasis,sourceIds,domains:unique([...row.domains,...target.domains]),layers:row.layers,geography:unknown(sourceIds,'Same-identity navigation has no project or payment geography.'),route:'/follow-the-money',limitations:['This bridge is an explicit reviewed canonical identity link, not a payment, contract, beneficial-ownership claim or evidence of influence.','The inherited identity’s historical claims retain their own sources and verification limitations.'],alternativeExplanations:[],falsifier:'Withdraw this bridge if legal identifiers or original documents establish distinct persons, entities or reporting perimeters.',responseIds:[],recordIds:[],amounts:[]});
+ }
+
  // Structural identity bridges are narrowly scoped to explicitly retained canonical office IDs.
  for(const row of publicWorks.entities){const canonical=(row as Row).canonicalId as string|undefined;if(!canonical||!legacyNodeIds.has(canonical))continue;const from=ns('public-works','entity',row.id),to=ns('legacy','entity',canonical);const sourceIds=unique([...sourceIdsFor('public-works',row.sourceIds),...(registry.entities.find(entity=>entity.id===to)?.sourceIds??[])]);registry.relationships.push({id:ns('crosswalk','relationship',`${row.id}:${canonical}`),originalId:`${row.id}:${canonical}`,namespace:'crosswalk',from,to,kind:'identity-crosswalk',label:'Reviewed canonical office-holder identity',tier:'documented',status:'identity-navigation',statusAsOf:null,fromDate:null,toDate:null,dateBasis:'Identity cross-reference; official-role periods remain on the original edges.',sourceIds,domains:['governance','public-works'],layers:['people'],geography:unknown(sourceIds,'Identity bridge has no project geography.'),route:'/public-works',summary:'The reviewed public-works record explicitly retains this canonical office-holder ID. This bridge joins identity records, not financial flows or evidence of influence.',limitations:['No other name match is used. Portfolio scope and tenure must be read separately.'],alternativeExplanations:[],falsifier:null,responseIds:[],recordIds:[],amounts:[]});}
+ const internationalRecordIds=new Set(registry.relationships.filter(edge=>edge.domains.includes('international-finance')).flatMap(edge=>[...edge.recordIds,...edge.responseIds]));
+ for(const record of registry.records)if(internationalRecordIds.has(record.id)&&!record.domains.includes('international-finance'))record.domains.push('international-finance');
  // Every relationship gets an inspectable card; direct records are never manufactured as payments.
  const recordEntityLabels=new Map(registry.entities.map(entity=>[entity.id,entity.label]));
  for(const edge of registry.relationships){if(edge.recordIds.length)continue;const id=ns(edge.namespace,'relationship-record',edge.originalId);edge.recordIds=[id];addRecord({id,originalId:edge.originalId,namespace:edge.namespace,title:`${recordEntityLabels.get(edge.from)} · ${edge.label} · ${recordEntityLabels.get(edge.to)}`,summary:edge.summary,kind:'relationship-record',tier:edge.tier,status:edge.status,statusAsOf:edge.statusAsOf,sourceIds:edge.sourceIds,entityIds:[edge.from,edge.to],relationshipIds:[edge.id],domains:edge.domains,layers:edge.layers,geography:edge.geography,route:edge.route,fromDate:edge.fromDate,toDate:edge.toDate,dateBasis:edge.dateBasis,period:edge.dateBasis,response:'Read edge limitations and any linked response records.',alternativeExplanations:edge.alternativeExplanations,falsifier:edge.falsifier,amounts:edge.amounts,limitations:edge.limitations});}
@@ -193,42 +219,19 @@ const isNational=(row:InvestigationDimensions)=>row.geography.some(geo=>geo.scop
 const hasCoverage=(row:InvestigationDimensions,state:string)=>row.geography.some(geo=>coverageBasis.has(geo.basis)&&geo.stateCodes.includes(state));
 const hasAssociation=(row:InvestigationDimensions,state:string)=>row.geography.some(geo=>associationBasis.has(geo.basis)&&geo.stateCodes.includes(state));
 const associatedState=(row:{entityIds?:string[];from?:string;to?:string},state:string)=>unique([...(row.entityIds??[]),row.from??'',row.to??'']).some(id=>{const entity=entityIndex.get(id);return entity&&entity.geography.some(geo=>geo.stateCodes.includes(state));});
-function geoPass(row:InvestigationDimensions&{entityIds?:string[];from?:string;to?:string},filters:InvestigationFilters){
- if(!filters.stateCode)return true;
- if(!INVESTIGATION_STATES.some(state=>state.code===filters.stateCode))return false;
- if(filters.includeNational!==false&&isNational(row))return true;
- const mode=filters.geographyMode??'all';
- return mode!=='associations'&&hasCoverage(row,filters.stateCode)||mode!=='coverage'&&(hasAssociation(row,filters.stateCode)||associatedState(row,filters.stateCode));
-}
-function metaPass(row:InvestigationDimensions&{tier?:InvestigationTier;fromDate?:string|null;toDate?:string|null},filters:InvestigationFilters){
- if(filters.from&&!exactDate(filters.from)||filters.to&&!exactDate(filters.to)||filters.from&&filters.to&&filters.from>filters.to)return false;
- if(filters.domains?.length&&!filters.domains.some(domain=>row.domains.includes(domain)))return false;
- if(filters.layers&&!filters.layers.some(layer=>row.layers.includes(layer)))return false;
- if(filters.tiers&&(!row.tier||!filters.tiers.includes(row.tier)))return false;
- if(filters.from||filters.to||filters.includeUndated===false){
-  const start=exactDate(row.fromDate),end=exactDate(row.toDate);
-  if(!start&&!end)return filters.includeUndated!==false;
-  if(filters.from&&(end??start)!<filters.from)return false;
-  if(filters.to&&(start??end)!>filters.to)return false;
-  // Filter only known recorded dates. An absent end is not evidence that a role continued indefinitely.
- }
- return true;
-}
-const searchable=(row:InvestigationDimensions&{id:string;label?:string;title?:string;summary:string;entityIds?:string[];from?:string;to?:string})=>norm([row.id,row.title??row.label??'',row.summary,...unique([...(row.entityIds??[]),row.from??'',row.to??'']).map(id=>entityIndex.get(id)?.label??''),...row.sourceIds.map(id=>sourceIndex.get(id)?.title??'')].join(' '));
-const textPass=(text:string,q:string|undefined)=>!q?.trim()||norm(q).split(/\s+/u).every(term=>text.includes(term));
-const searchIndex=new Map<string,string>([...INVESTIGATION_REGISTRY.entities,...INVESTIGATION_REGISTRY.relationships,...INVESTIGATION_REGISTRY.records].map(row=>[row.id,searchable(row)]));
 let lastViewKey='',lastView:InvestigationView|undefined;
 export function getInvestigationView(filters:InvestigationFilters={}):InvestigationView{
  const key=JSON.stringify(filters);if(lastView&&lastViewKey===key)return lastView;
- const records=INVESTIGATION_REGISTRY.records.filter(row=>metaPass(row,filters)&&geoPass(row,filters)&&textPass(searchIndex.get(row.id)??'',filters.q));
- const relationships=INVESTIGATION_REGISTRY.relationships.filter(row=>metaPass(row,filters)&&geoPass(row,filters)&&textPass(searchIndex.get(row.id)??'',filters.q));
+ const matches=createInvestigationMatcher(INVESTIGATION_REGISTRY,filters);
+ const records=INVESTIGATION_REGISTRY.records.filter(matches);
+ const relationships=INVESTIGATION_REGISTRY.relationships.filter(matches);
  const entityIds=new Set([...relationships.flatMap(row=>[row.from,row.to]),...records.flatMap(row=>row.entityIds)]);
  // Endpoint closure is retained even when a node's own type is outside the layer lens.
- const entities=INVESTIGATION_REGISTRY.entities.filter(row=>entityIds.has(row.id)||(!filters.tiers&&!filters.from&&!filters.to&&filters.includeUndated!==false&&metaPass(row,filters)&&geoPass(row,filters)&&textPass(searchIndex.get(row.id)??'',filters.q)));
+ const entities=INVESTIGATION_REGISTRY.entities.filter(row=>entityIds.has(row.id)||(!filters.tiers&&!filters.from&&!filters.to&&filters.includeUndated!==false&&matches(row)));
  const sourceIds=new Set([...records,...relationships,...entities].flatMap(row=>[...row.sourceIds,...row.geography.flatMap(geo=>geo.sourceIds)]));
  const sources=INVESTIGATION_REGISTRY.sources.filter(row=>sourceIds.has(row.id));
  const totals={entities:entities.length,relationships:relationships.length,records:records.length,sources:sources.length};
- lastView={entities,relationships,records,sources,totals,denominator:{entities:INVESTIGATION_REGISTRY.entities.length,relationships:INVESTIGATION_REGISTRY.relationships.length,records:INVESTIGATION_REGISTRY.records.length,sources:INVESTIGATION_REGISTRY.sources.length},nationalRecords:records.filter(isNational).length,unknownRecords:records.filter(row=>row.geography.every(geo=>geo.scope==='unknown')).length,heldCount:INVESTIGATION_REGISTRY.held.length,filters:{...filters}};lastViewKey=key;return lastView;
+ lastView={entities,relationships,records,sources,totals,denominator:{entities:INVESTIGATION_REGISTRY.entities.length,relationships:INVESTIGATION_REGISTRY.relationships.length,records:INVESTIGATION_REGISTRY.records.length,sources:INVESTIGATION_REGISTRY.sources.length},nationalRecords:records.filter(isNational).length,internationalRecords:records.filter(row=>row.geography.some(geo=>geo.scope==='country'&&geo.countryCodes?.some(code=>code!=='IN'))).length,unknownRecords:records.filter(row=>row.geography.every(geo=>geo.scope==='unknown')).length,heldCount:INVESTIGATION_REGISTRY.held.length,filters:{...filters}};lastViewKey=key;return lastView;
 }
 export function getInvestigationStateCoverage(filters:InvestigationFilters={}):InvestigationStateCoverage[]{
  const view=getInvestigationView({...filters,stateCode:undefined,compareStateCode:undefined});
@@ -257,7 +260,7 @@ export function findInvestigationPaths(from:string,to:string,filters:Investigati
  const view=getInvestigationView(filters),ids=new Set(view.entities.map(row=>row.id));
  if(!ids.has(from)||!ids.has(to))return {paths:[],searchedEntities:0,truncated:false,reason:'One or both selected entities are outside the filtered source-backed graph.'};
  if(from===to)return {paths:[{entityIds:[from],relationshipIds:[]}],searchedEntities:1,truncated:false,reason:'The same entity was selected at both ends; no relationship path is required.'};
- const adjacent=new Map<string,{next:string;edge:string}[]>();for(const edge of view.relationships.filter(isInvestigationConnectivityEdge)){const forward=adjacent.get(edge.from)??[];forward.push({next:edge.to,edge:edge.id});adjacent.set(edge.from,forward);if(options.direction==='both'){const back=adjacent.get(edge.to)??[];back.push({next:edge.from,edge:edge.id});adjacent.set(edge.to,back);}}
+ const adjacent=new Map<string,{next:string;edge:string}[]>();for(const edge of view.relationships.filter(isInvestigationConnectivityEdge)){const forward=adjacent.get(edge.from)??[];forward.push({next:edge.to,edge:edge.id});adjacent.set(edge.from,forward);if(options.direction==='both'||['family','related','association','identity-crosswalk'].includes(edge.kind)){const back=adjacent.get(edge.to)??[];back.push({next:edge.from,edge:edge.id});adjacent.set(edge.to,back);}}
  const queue=[from],distance=new Map([[from,0]]),parents=new Map<string,{previous:string;edge:string}[]>();let cursor=0,truncated=false,targetDistance:number|undefined;
  while(cursor<queue.length){const current=queue[cursor++],d=distance.get(current)!;if(d>=maxDepth||targetDistance!==undefined&&d>=targetDistance)continue;for(const leg of adjacent.get(current)??[]){const known=distance.get(leg.next);if(known===undefined){if(distance.size>=maxVisited){truncated=true;continue;}distance.set(leg.next,d+1);parents.set(leg.next,[{previous:current,edge:leg.edge}]);queue.push(leg.next);if(leg.next===to)targetDistance=d+1;}else if(known===d+1){const list=parents.get(leg.next)!;if(list.length<maxPaths)list.push({previous:current,edge:leg.edge});else truncated=true;}}}
  const paths:InvestigationPathResult['paths']=[];

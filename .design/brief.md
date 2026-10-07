@@ -18,3 +18,7 @@ Complete the core journey: place→layer→entity/path→record/source→caseboo
 Make national context, unknown location, legal status, amount stage and evidence
 limitations visible where the user makes an interpretation. Mobile recomposes
 into map/graph/evidence/casebook/dossier surfaces with persistent selection.
+
+## Superseding visual direction — 7 October 2026
+
+The authorized Public Record Atlas replacement is specified in `.design/atlas-brief.md` and token-bearing `DESIGN.md`. Geography now leads a larger map/time surface with an immediately adjacent case dock. Petrol cartography, jade selection and warm source-reading material replace the previous uniformly dark, compressed three-column workspace. Existing evidence, saved work, URLs and dossier behavior remain invariants.
