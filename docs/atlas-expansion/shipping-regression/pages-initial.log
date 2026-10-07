@@ -1,0 +1,436 @@
+
+> india-corporate-intelligence@0.1.0 test:pages
+> node --test --test-concurrency=2 scripts/pages/energy.test.mjs scripts/pages/welfare.test.mjs scripts/pages/tenders.test.mjs scripts/pages/finance.test.mjs
+
+✔ AC-01 — The route renders and is error-free (6079.037122ms)
+✔ AC-02 — Zero records still renders a page that says so (5315.806037ms)
+✔ AC-03 — The byline carries the run and the as-of span (4380.286693ms)
+✔ AC-04 — The stage caption is always visible, verbatim (52955.305516ms)
+✔ AC-05 — The sweep strip says a chip is not a sector (14621.342051ms)
+✔ AC-06 — The voids caption sits under the void list (14574.188194ms)
+✔ AC-07 — Every evidence section has a full-size "What this cannot show" (11077.00128ms)
+✔ AC-08 — The cannot-show texts are the spec's, with dates interpolated (5267.864039ms)
+✔ AC-09 — The company trail keeps its two lists apart, and says why (4877.417965ms)
+✔ AC-10 — A lit claim carries the date-test caveat (7373.894194ms)
+✔ AC-11 — A date window states its undated and coverage caveats (5092.295865ms)
+✔ AC-12 — Every figure carries its as-of and its source (10839.296472ms)
+✔ AC-13 — The page's own words carry no partisan frame (6965.24072ms)
+✔ AC-14 — The strip shows n of N in the spec's order (4456.098053ms)
+✔ AC-15 — The filtered chip and the in-frame status agree (3401.787382ms)
+✔ AC-16 — Sweep chips carry counts and dated spans that add up (5117.381833ms)
+✔ AC-17 — Live effects update and match the strip (4769.697883ms)
+✔ AC-18 — Every evidence section prints its own denominator (4549.21634ms)
+✔ AC-19 — A base rate is always numerator of denominator (7855.913204ms)
+✔ AC-20 — A path is never shown without its count and median (4493.784108ms)
+✔ AC-21 — The benefit ledger sums nothing and draws nothing (9335.298992ms)
+✔ AC-22 — The source ledger counts its primaries (5926.304824ms)
+✔ AC-23 — An unresearched sweep is hatched, disabled and named, never 0 (8568.889778ms)
+✔ AC-24 — Unknown amounts read "unknown", not ₹0 (12001.80552ms)
+✔ AC-25 — The benchmark distinguishes zero from unjoinable (6747.525088ms)
+✔ AC-26 — Empty audit tables and absent symmetry checks say what their emptiness means (6259.024481ms)
+✔ AC-27 — Filters that leave nothing say so and keep the voids (4816.791836ms)
+✔ AC-28 — A void count of zero says "not written down" (44893.544149ms)
+✔ AC-29 — Undeclared coverage prints its "not declared" form (4828.820971ms)
+✔ AC-30 — The claim card gives the response equal space (15732.670101ms)
+✔ AC-31 — A recorded response is shown in full (6506.866318ms)
+✔ AC-32 — No response is stated as loudly as a response (13657.623166ms)
+✔ AC-33 — Edges and nodes name their responses in text (6331.625874ms)
+✔ AC-34 — Contested lists every allegation with its answer (6969.887081ms)
+✔ AC-35 — Tier and relation filters never hide the answer to a visible claim (4451.69511ms)
+✔ AC-36 — Strip and Contested agree on answered allegations (4922.282457ms)
+✔ AC-37 — Page-owned parameters set their controls on load (4735.398492ms)
+✔ AC-38 — Controls write their parameters without a new history entry (10584.507953ms)
+✔ AC-39 — Graph parameters round-trip through the rail (11995.251031ms)
+✔ AC-40 — A reload reproduces the view exactly (52623.053869ms)
+✔ AC-41 — Unknown list values are dropped, not honoured (5619.524646ms)
+✔ AC-42 — A stale or killed id is named in an announced amber line (7826.681974ms)
+✔ AC-43 — Reset clears only the graph's own keys (5248.474039ms)
+✔ AC-44 — Nothing is selected or filtered by default (5578.042871ms)
+✔ AC-45 — The twin's row count equals the drawn graphic (14886.955967ms)
+✔ AC-46 — Superseded and orphan rows are marked and counted (20882.989657ms)
+✔ AC-47 — Nineteen columns, nothing truncated (13976.879706ms)
+✔ AC-48 — Rows open a claim through a real button (9536.209238ms)
+✔ AC-49 — Pagination lives in the URL (10374.936412ms)
+✔ AC-50 — Download CSV is present, static and complete (9629.277551ms)
+✔ AC-51 — Every twin carries a caption with count and filters in words (8114.000312ms)
+✔ AC-52 — Skip links lead the stage (12246.989834ms)
+✔ AC-53 — Answers written from outside the canvas move focus to the margin (7702.561963ms)
+✔ AC-54 — Every actionable control is a focusable element with a visible ring (10120.419216ms)
+✔ AC-55 — Nodes are keyboard operable and keep focus (5494.245205ms)
+✔ AC-56 — One status region, before the canvas, that announces filters (5881.004005ms)
+✔ AC-57 — The company box is an ARIA 1.2 combobox (6793.826215ms)
+✔ AC-58 — The margin stands alone when the canvas is gone (4918.31863ms)
+✔ AC-59 — No horizontal page scroll at any width (65418.688414ms)
+✖ AC-60 — Below 640 every table stacks and nothing scrolls sideways (7524.022187ms)
+✔ AC-61 — The first phone screen answers "what, how much, as of when, what is missing" (9115.321524ms)
+✔ AC-62 — Sweep chips wrap and the caption names what is absent (5152.121087ms)
+✔ AC-63 — The aside is a non-modal bottom sheet over the canvas (8370.321511ms)
+✖ AC-64 — The canvas lets a vertical swipe through at rest (7649.575238ms)
+✔ AC-65 — Search sits above the canvas and the rails are closed (11805.247853ms)
+✔ AC-66 — Lanes on a phone: twin first, SVG behind a button (8279.054885ms)
+✔ AC-67 — Every cannot-show block is full size on a phone (7172.843662ms)
+✔ AC-01 — Render the empty page with ≥ 200 characters and no errors (20463.477523ms)
+✔ AC-02 — Say the register is not promoted, before any figure (6481.318406ms)
+✔ AC-03 — Replace the strip counts with the empty wording, never 0 (6999.077076ms)
+✔ AC-04 — Hatch every map state and label the bar as unmeasured (2430.503378ms)
+✔ AC-05 — Keep Band A rows and hatch every column in the matrix (2540.998562ms)
+✔ AC-06 — Mark every twin and section empty, not as zero rows (7763.620939ms)
+✔ AC-07 — Say the control cannot run (7347.773105ms)
+✔ AC-08 — Draw the axes anyway and list the derived gaps (5803.725405ms)
+✔ AC-09 — Answer Find honestly on an empty register (3557.643188ms)
+✔ AC-10 — Render C1–C15 at body size, under their graphic, referenced by the graphic (19472.961297ms)
+✔ AC-11 — Lead C1 with the unplaced ₹ as a of b, and state the placement rule (6436.010556ms)
+✔ AC-12 — Say in C3 why every ribbon is solid and how many records are not drawn (6140.896331ms)
+✔ AC-13 — Say in C4 that a tenure bar is the date test and that no window is computed (5262.129312ms)
+✔ AC-14 — Say in C5 that researched marks are never added, with the duplicate count (5205.155296ms)
+✔ AC-15 — Say in C6, C7, C12 and C13 what a contract, a debarment, a mandate and a rule are not (9081.988366ms)
+✔ AC-16 — Say in C8 that a hatched year is a total not found, not nothing arrived (5233.364057ms)
+✔ AC-17 — Put the base rate and the upper-bound reading in C9, and withdraw the banned phrase (8377.249328ms)
+✔ AC-18 — Say in C11 that an empty cell means not named, never not held (9311.512794ms)
+✔ AC-19 — Carry the standing line and the fixed standfirst on every lens (15331.35018ms)
+✔ AC-20 — Print no percentage without its a of b in the same sentence (11691.609399ms)
+✔ AC-21 — Label every page-computed count as computed here (16620.143346ms)
+✔ AC-22 — Carry every figure's as-of and source (23371.420178ms)
+✔ AC-23 — Show the strip facts for each lens with their populations (15795.694294ms)
+✔ AC-24 — Equate the strip's ₹ counted to the census sum and nothing else (5690.027929ms)
+✔ AC-25 — Print the reconciliation line whose four terms sum to the loan count (15819.920942ms)
+✔ AC-26 — Put the UnionBar denominator in the map's frame, and make it add up (50639.304519ms)
+✔ AC-27 — Show the live effect of every rail control as {N} → {k} in words (18808.331046ms)
+✔ AC-28 — Count every State option, show zero as (0) disabled, never hidden (13367.320678ms)
+✔ AC-29 — Group the Lender select by population, with counts that sum to the loans (5881.242727ms)
+✔ AC-30 — Head every section with its denominator line (29242.776155ms)
+✔ AC-31 — Print each base rate as numerator of denominator, grouped with its symmetry text (16272.703865ms)
+✔ AC-32 — Pin the control card's domains and quote them verbatim (19781.375216ms)
+✔ AC-33 — Show the population counts as a table headed never added, and sum none of them (4882.391114ms)
+✔ AC-34 — Give every matrix row a summary that keeps filing lines and aggregates apart (4844.741243ms)
+✔ AC-35 — State the population in every table caption, with the active filters (35541.195ms)
+✔ AC-36 — Back every filter effect with exactly that many rows (86149.968507ms)
+✔ AC-37 — Print the exact text for every loan without a ₹ amount, and sum none of them (45998.122508ms)
+﹣ AC-38 — Print a zero amount as recorded, never as blank (7.004048ms) # SKIPPED: no zero-amount loan (the spec's F2 says none exists today)
+✔ AC-39 — Hatch every state no record names, and never paint a flat zero (31337.710263ms)
+✔ AC-40 — Show the never-zero words in the readout and the state panel (10614.330468ms)
+✔ AC-41 — Hatch every missing financial year as a full-height column, never a zero bar (4617.942364ms)
+✔ AC-42 — Hatch unresearched matrix columns and word every cell state (5185.354758ms)
+✔ AC-43 — Word aggregates as analytic lower bounds, never as named holdings (4856.344849ms)
+✔ AC-44 — Render null terms, fees and cui-bono rows as words, never as 0 or a dash (34323.699741ms)
+✔ AC-45 — Say none recorded for empty office blocks and no recorded window covers (15218.201535ms)
+✔ AC-46 — Answer an unknown id plainly (12104.032795ms)
+✔ AC-47 — Void the state receipts honestly (G) and name the derived gaps (4929.194642ms)
+✔ AC-48 — Print the exact no-response sentence for every unanswered action (8028.234113ms)
+✔ AC-49 — Show every recorded response in full, at the claim's size and weight (8731.021413ms)
+✔ AC-50 — Keep a stated ground as its own row in its own dash (10172.6104ms)
+✔ AC-51 — Re-admit a response whenever its claim is shown (11248.95026ms)
+✔ AC-52 — List every alleged claim in Contested with a response slot, no verdict (21147.021721ms)
+✔ AC-53 — Pair debarments and contracts with their response cell (10039.763033ms)
+✔ AC-54 — List the entities with no recorded action as an absence, not a clearance (7400.312822ms)
+✔ AC-55 — Render the response block inside every record card, never collapsed (25763.491138ms)
+✔ AC-56 — Show the rose rule's meaning in the key, and use rose for nothing else (20876.301679ms)
+✔ AC-57 — Default to Loans, unfiltered, nothing selected, nothing in the URL (5448.584467ms)
+✔ AC-58 — Round-trip lens, keeping the shared params and dropping rec (19189.572925ms)
+✔ AC-59 — Round-trip y as a year or a range, with the lens's definition on the control (48387.784088ms)
+✔ AC-60 — Round-trip st and open the panel on a user act, not on load focus (26614.131154ms)
+✔ AC-61 — Round-trip lender, and explain a sample lender on the map (22746.768873ms)
+✔ AC-62 — Round-trip holder, highlight and never filter (23865.816963ms)
+✔ AC-63 — Round-trip tier as a comma list shared with the graph (45693.762462ms)
+✔ AC-64 — Round-trip rec, and refuse to switch lens silently (23628.021373ms)
+✔ AC-65 — Round-trip sel across lenses through Show connections (21453.924047ms)
+✔ AC-66 — Round-trip find, list ≤ 8, never auto-select, group by project id (28723.657085ms)
+✔ AC-67 — Round-trip m, scale and mid, disabling what the build cannot honour (G) (64916.032148ms)
+✔ AC-68 — Round-trip view, opening every twin and moving focus to the first caption (37704.705603ms)
+✔ AC-69 — Round-trip inc from the reconciliation line as a chip (33590.536429ms)
+✔ AC-70 — Round-trip tp, paging at 400 without truncation (53887.851181ms)
+✔ AC-71 — Ignore unknown values with a visible notice and fall back (80328.362628ms)
+✔ AC-72 — Reset everything but lens and view, and never touch the graph's params (14856.099376ms)
+✔ AC-73 — Copy the exact link and announce it (7847.748106ms)
+✔ AC-74 — Reproduce the whole view from a URL built through the controls (15745.907837ms)
+✔ AC-75 — Match the map twin to the 36 painted states plus the Union row, class for class (13009.57283ms)
+✔ AC-76 — Match the flow twin to the ribbons, and the strip twin to the marks (10293.221063ms)
+✔ AC-77 — Give the clock twins one row per lane item and one row per year (9317.177759ms)
+✔ AC-78 — Give the receipts twin one row per FY plus every other national row (6037.514249ms)
+✔ AC-79 — Match the actions list to the timeline, square for square (10213.255052ms)
+✔ AC-80 — Match the matrix twins to the grid (9308.821917ms)
+✔ AC-81 — Export exactly what is drawn, with the provenance header first (25015.239295ms)
+✔ AC-82 — Type the machine columns, and export the same rows when filtered (67310.322361ms)
+✔ AC-83 — Give every twin a summary that names its graphic and its rows (15777.316208ms)
+✔ AC-84 — Open the same record from the twin as from the graphic (13251.058401ms)
+✔ AC-85 — Drive the lens tabs with arrows and activate on Enter, not on focus (7765.427888ms)
+✔ AC-86 — Drive the map as a listbox and announce each state (7452.636228ms)
+✔ AC-87 — Drive the matrix as a grid with a roving tabindex (7246.346352ms)
+✔ AC-88 — Reach the flow's ribbons as buttons, and skip the diagram to its table (7130.814544ms)
+✔ AC-89 — Put nothing focusable inside a hidden drawing, and keep the brush pointer-only (90389.516599ms)
+✔ AC-90 — Keep every closed twin out of the accessibility tree, and open it from the skip link (14736.733026ms)
+✔ AC-91 — Name every repeated control by its row, uniquely within its section (20234.459256ms)
+✔ AC-92 — Give every panel a Close and a Back that return focus, and scope Escape (25933.055487ms)
+✔ AC-93 — Keep exactly one live region and speak in words (9139.32972ms)
+✔ AC-94 — Reach the stage inside the tab-stop budget (36505.214508ms)
+✔ AC-95 — Scroll the page vertically only, in every state (106146.679056ms)
+✔ AC-96 — Pin one line of strip and the tabs within 140 px, and move the rest under the map (8827.504911ms)
+✔ AC-97 — Keep the strip, tabs and rail summary in the first screen and the bar in two (16735.699493ms)
+✔ AC-98 — Collapse the rail into a labelled details block with the effect outside it (8700.597661ms)
+✔ AC-99 — Replace the flow by two ranked lists, and put twins first elsewhere (10896.974907ms)
+✔ AC-100 — Transpose the matrix, keep Band A, and make also-named a route (4872.999725ms)
+✔ AC-101 — Show a readout first on tap, then act, with the state select as the route (8134.766586ms)
+✔ AC-102 — Render every response-bearing table as cards with the response under the claim (16661.095284ms)
+✔ AC-103 — Keep mono text at or above 12 px, hide the graph behind a button, honour reduced motion (5935.305218ms)
+✔ AC-104 — Explain the empty state before any number on a phone (EMPTY build) (6963.604364ms)
+✖ AC-105 — Keep the UnionBar in the first viewport at 1280×800 (6232.562393ms)
+✔ AC-106 — Dash only for tier, and never render alleged like documented (19302.992292ms)
+✔ AC-107 — Colour nothing by party, country or religion; rank nothing the page computes (15344.058076ms)
+✔ AC-108 — Draw Band A always, and withhold the grid below four (133239.94527ms)
+✔ AC-109 — Print no digit in a matrix cell before G3a, and no ramp after (G) (5853.265318ms)
+✔ AC-110 — Use British spelling in page-authored prose, and no partisan frame (14321.825175ms)
+✔ AC-01 — The section renders, error-free, above the registers (5548.84425ms)
+✔ AC-02 — view=national lands on section=national with every other param kept (4279.270345ms)
+✔ AC-03 — The default view is unchanged except for one head link and one byline sentence (12638.033044ms)
+✔ AC-04 — Zero records still renders a page that says so (67209.601728ms)
+✔ AC-05 — The scaffold head link never says 0 award rows (3573.965207ms)
+✔ AC-06 — A pending import shows a named placeholder, never the absence sentence (11878.828169ms)
+✔ AC-07 — Quality comes before any rate, in DOM order (3686.818053ms)
+✔ AC-08 — Heading levels run h2 → h3 → h4 with no skips (4622.433576ms)
+✔ AC-09 — Hide removes section and keeps every other param (4637.232352ms)
+✔ AC-10 — The caveat is a body paragraph, verbatim, before any rate, and every rates table points at it (9535.25549ms)
+✔ AC-11 — The verification line states what could be checked, and links to the sample (5149.163666ms)
+✔ AC-12 — Tier is spoken text on every table and chart (8324.446166ms)
+✔ AC-13 — The rates chart carries its three frozen caption lines (9197.363254ms)
+✔ AC-14 — Years are AOC years, said so, and the two year fields are reconciled (5773.409965ms)
+✔ AC-15 — Bands and types carry their captions and the floor sentence (6695.168258ms)
+✔ AC-16 — Timing captions: unequal bins, and the innocent reading at the same size (6329.591526ms)
+✔ AC-17 — The state portal is not India's states, and there is no map (7508.320029ms)
+✔ AC-18 — Concentration prints its family, definition, naming rule and reading verbatim (5608.488688ms)
+✔ AC-19 — The verification section leads with its plain reading and says what would upgrade it (4929.833547ms)
+✔ AC-20 — The source line is derived, printed twice, copied verbatim, and never a literal (5920.152731ms)
+✔ AC-21 — The gaps panel is at findings size, before the footer, and each line is derived (4354.548732ms)
+✔ AC-22 — The page's own words carry no party or leader (15489.690297ms)
+✔ AC-23 — Two dates, always labelled (4671.395803ms)
+✔ AC-24 — The strip carries counts only, in order, and releases where the registers begin (4775.361648ms)
+✔ AC-25 — The figure sentence comes first, matches the data, and copies with its citation (4336.172719ms)
+✔ AC-26 — The denominator sentence sits under the chart (4009.038014ms)
+✔ AC-27 — Families: one row per family, every identity sums exactly, every caption links to its row (6553.491836ms)
+✔ AC-28 — Every rate row shows n and an interval (13008.728384ms)
+✔ AC-29 — Each indicator card is a labelled list with its family share (3895.046369ms)
+✔ AC-30 — The named-buyer table leads with portal base rates and states its frame (4430.863227ms)
+✔ AC-31 — Every filter shows its effect on the denominator, live (9769.54937ms)
+✔ AC-32 — Exclusions are printed with their base, here and in the quality table (4248.65758ms)
+✔ AC-33 — The quality table is a key/value table with three dedup readings and thresholds in words (4356.583746ms)
+✔ AC-34 — States on the state portal are counted exactly as emitted (4264.713276ms)
+✔ AC-35 — Every byPortalYear row is in a twin: plotted, or listed as not plotted with its reason (3940.053351ms)
+﹣ AC-36 — An in-range year with n < 30 keeps a hatched slot labelled n < 30 (4809.483788ms) # SKIPPED: no in-range year with n < 30 in this data
+✔ AC-37 — Thin coverage is hollow and disconnected (6271.017958ms)
+✔ AC-38 — The scrape year is labelled partial (4025.569475ms)
+✔ AC-39 — Absent states are hatched, named, and given no reason (4606.094208ms)
+✔ AC-40 — A null HHI reads not computed, is hatched, sorts last and is never 0 (21403.026107ms)
+✔ AC-41 — Agreement cells are not checkable, and 0% never appears in §3.7 (5196.305373ms)
+✔ AC-42 — An unparsed buyer key is not shown as a public body (21574.131932ms)
+✔ AC-43 — The unusable-value rows are a separate hatched group, not a sixth bar (4700.109303ms)
+﹣ AC-44 — A row without wilson95 is flagged, never drawn with a band (6004.597087ms) # SKIPPED: every emitted row carries wilson95
+✔ AC-45 — An unmatched state prints its sentence, never an empty table (4495.062257ms)
+✔ AC-46 — The innocent reading sits beside every rate, at the same size and weight (7748.615581ms)
+✔ AC-47 — The named-buyer table says nobody was asked, above the table (8042.805093ms)
+✔ AC-48 — Every named-buyer row carries not asked (15517.168664ms)
+✔ AC-49 — The verification says nothing was contradicted, and who was not asked (3978.840164ms)
+✔ AC-50 — Repeat pairs are counted, never listed; winners never appear in red flags (4446.353471ms)
+✔ AC-51 — Rendered winner names are only the JSON's, and every component matches the marker rule (6849.330231ms)
+✔ AC-52 — Mostly-unmarked buyers say so (6985.338343ms)
+✔ AC-53 — Denials are not muted: no --color-rose on a rate, no dash on a mark (5888.862734ms)
+✔ AC-54 — Portals are told apart by shape and label, in greys (5021.178102ms)
+✔ AC-55 — Every chart mark is a neutral grey (4745.924076ms)
+✔ AC-56 — Every param loads into its control (5233.211863ms)
+✔ AC-57 — Controls write params with replace (8452.269807ms)
+✔ AC-58 — Unknown values fall back to the default with an announced note (5523.593359ms)
+✔ AC-59 — state implies portal=state (4307.460031ms)
+✔ AC-60 — The register's view and scope still round-trip beside section (4022.218837ms)
+✔ AC-61 — The jump list writes the router fragment and scrolls (9701.699758ms)
+✔ AC-62 — Defaults are unfiltered and unnamed (4150.74323ms)
+✔ AC-63 — A reload reproduces the view exactly (37647.60236ms)
+✔ AC-64 — Every table has a caption, scoped headers, and lives in a labelled scroll region (7051.169971ms)
+✔ AC-65 — The rates twins list exactly what the multiples draw (4277.922951ms)
+✔ AC-66 — Histogram, FY-month, bands and types twins match their bars (3630.424042ms)
+✔ AC-67 — The buyer table's row counts follow buyers (9900.381903ms)
+✔ AC-68 — Concentration rows follow rows, portal and state; the export ignores rows (22705.796544ms)
+✔ AC-69 — Top winners are a nested list, one item per emitted name (6828.337797ms)
+✔ AC-70 — The sample rows are complete, collapsed honestly, and their links are real (3998.135802ms)
+✔ AC-71 — Every table downloads as a CSV with its header block, and no request is made (10575.664453ms)
+✔ AC-72 — Provenance footer matches provenance.json (4490.527875ms)
+✔ AC-73 — The head link moves focus to the section heading (5344.380507ms)
+✔ AC-74 — Every table region is reachable by Tab and shows a focus ring (10168.600075ms)
+✔ AC-75 — Every control is a real control and works by Enter or Space (4991.630751ms)
+✔ AC-76 — Folded material has summaries that name content and count, and nothing counted is folded (5319.137582ms)
+✔ AC-77 — Copy actions announce, and status regions are single (4968.746696ms)
+✔ AC-78 — Every role="img" name states the measure, n and table follows; hover carries nothing extra (4438.652495ms)
+✔ AC-79 — View and Scope groups are labelled groups with pressed state (3913.782661ms)
+✔ AC-80 — No horizontal page scroll at any width (66369.377153ms)
+✔ AC-81 — Every table scrolls inside its own container with a sticky first column and a hint (9602.692019ms)
+✔ AC-82 — The first phone screen carries the verification line and the start of the caveat (4821.213383ms)
+✔ AC-83 — Long strings wrap; SQL is a full-width pre, never in a cell (7911.348475ms)
+✔ AC-84 — Stacked rows, when used, keep every column (7184.586193ms)
+✔ AC-85 — Innocent readings, the gaps panel and the captions are full size on a phone (5341.058572ms)
+✔ AC-86 — The initial national chunk is within budget and the data is split, never fetched (6490.739345ms)
+﹣ AC-01 — Render the empty page with ≥ 200 characters and no errors (41049.007179ms) # SKIPPED: EMPTY-build criterion; this dist is the FULL build (set WELFARE_DIST to an empty build)
+﹣ AC-02 — Say the register is not promoted, above the byline (1.028324ms) # SKIPPED: EMPTY-build criterion; this dist is the FULL build (set WELFARE_DIST to an empty build)
+﹣ AC-03 — Replace the byline counts and the strip with the empty wording (0.282288ms) # SKIPPED: EMPTY-build criterion; this dist is the FULL build (set WELFARE_DIST to an empty build)
+﹣ AC-04 — Name the empty state in the skip link (1.145126ms) # SKIPPED: EMPTY-build criterion; this dist is the FULL build (set WELFARE_DIST to an empty build)
+﹣ AC-05 — Hatch all 36 states and say so in the map's name (0.667001ms) # SKIPPED: EMPTY-build criterion; this dist is the FULL build (set WELFARE_DIST to an empty build)
+﹣ AC-06 — Label every twin as empty, not as zero rows of data (1.888741ms) # SKIPPED: EMPTY-build criterion; this dist is the FULL build (set WELFARE_DIST to an empty build)
+﹣ AC-07 — Say the control cannot run, and mark every section empty (0.251564ms) # SKIPPED: EMPTY-build criterion; this dist is the FULL build (set WELFARE_DIST to an empty build)
+﹣ AC-08 — Draw the clock axis and the derived gaps anyway (0.247854ms) # SKIPPED: EMPTY-build criterion; this dist is the FULL build (set WELFARE_DIST to an empty build)
+✔ AC-09 — Always render the in-frame status line as a list of clauses (13282.011366ms)
+✔ AC-10 — Render C1 and C6 on every view at body size, capped at 72ch (13793.982879ms)
+﹣ AC-11 — Show C2 only for the live metric, with the no-coverage sentence when undeclared (2.04965ms) # SKIPPED: documented void, not a missing test — the page matches no share-of-state-budget figure in the register to any financial year: the scrubber twin's "States with a money figure (Share of state budget, FY)" column reads 0 in every year 2000–2026
+﹣ AC-12 — Swap C3 and C4 with the money and per-head metrics (0.341067ms) # SKIPPED: documented void, not a missing test — the page matches no share-of-state-budget figure in the register to any financial year: the scrubber twin's "States with a money figure (Share of state budget, FY)" column reads 0 in every year 2000–2026
+✔ AC-13 — Show C5 and the ballot key only when a year is set (16250.886366ms)
+✔ AC-14 — State the partial range in C7 with a figure that matches the strip (8107.977284ms)
+✔ AC-15 — Carry C8–C15 in their sections (12501.216048ms)
+✔ AC-16 — Declare a one-sided view when the party filter is on (5997.730005ms)
+✔ AC-17 — Show the six strip facts with their populations and as-of (6727.627908ms)
+✔ AC-18 — Show the live effect of every filter as {N} → {k} (8377.653602ms)
+✔ AC-19 — Count every category chip, and keep zero-count chips present (7857.816704ms)
+﹣ AC-20 — Show metric coverage per option and say why an option is unavailable (1.21296ms) # SKIPPED: documented void, not a missing test — the page matches no share-of-state-budget figure in the register to any financial year: the scrubber twin's "States with a money figure (Share of state budget, FY)" column reads 0 in every year 2000–2026
+✔ AC-21 — Print the control's three windows, n, points, selection and foot lines at rest (10823.947042ms)
+✔ AC-22 — Print no percentage under b = 10, and always print a of b (17369.775764ms)
+✔ AC-23 — Count every legend class, including empty ones, and total 36 (8504.084273ms)
+✔ AC-24 — Head every section with its denominator line (10152.032958ms)
+✔ AC-25 — Never print a rate from a missing or tiny denominator (7276.466456ms)
+✔ AC-26 — Back every control count with a list of exactly that many rows (9032.768039ms)
+✔ AC-27 — Hatch every state without a value, and count them in the status line (6570.171198ms)
+✔ AC-28 — Paint no flat zero unless a coverage declaration exists (6519.874484ms)
+✔ AC-29 — Say none recorded in this file in the readout, never 0 (16972.434889ms)
+✔ AC-30 — Class hatched states as none recorded in the year-slice twin (6749.326182ms)
+✔ AC-31 — Fill every matrix cell with a word or a value, never a bare dash (7101.603357ms)
+✔ AC-32 — Never render a bare null anywhere on the page (32677.720618ms)
+﹣ AC-33 — Stipple partial money, and state the lower bound (1.042546ms) # SKIPPED: documented void, not a missing test — the page matches no share-of-state-budget figure in the register to any financial year: the scrubber twin's "States with a money figure (Share of state budget, FY)" column reads 0 in every year 2000–2026
+✔ AC-34 — Say in the key and the panel that no texture means zero (13309.847189ms)
+ℹ no zero-count chip value learnt; the filtered-panel sentence is unchecked
+✔ AC-35 — Pair every alleged finding with a Response in DOM order (7079.222156ms)
+✔ AC-36 — Render the response at the same size and weight as the allegation (7684.514265ms)
+✔ AC-37 — Mark a missing response as missing data, and record two gaps (7686.349313ms)
+✔ AC-38 — Add the rose-rule line to the ReadingKey when an alleged item is in view (16252.161037ms)
+✔ AC-39 — Name both sides in every contested claim, never "critics" (6194.654268ms)
+✔ AC-40 — Keep a Response column in the benefits ledger (6702.610417ms)
+✔ AC-41 — Pair allegations in the SchemeCard, and refuse to imply none (6915.84914ms)
+✔ AC-42 — Filter findings by tier without filtering schemes (14411.962839ms)
+✔ AC-43 — Default to unfiltered, nothing selected, no year (7544.090571ms)
+✔ AC-44 — Round-trip y (19194.575685ms)
+﹣ AC-45 — Round-trip m, and fall back when it cannot be honoured (0.506161ms) # SKIPPED: documented void, not a missing test — the page matches no share-of-state-budget figure in the register to any financial year: the scrubber twin's "States with a money figure (Share of state budget, FY)" column reads 0 in every year 2000–2026
+✔ AC-46 — Round-trip cat as a comma list (14515.396413ms)
+✔ AC-47 — Round-trip party, and prove the control ignores it (27837.830525ms)
+✔ AC-48 — Round-trip lvl without touching the map (31455.166476ms)
+✔ AC-49 — Round-trip st and move focus to the panel on a user action (26602.821956ms)
+✔ AC-50 — Round-trip s, and answer an unknown scheme plainly (29816.071495ms)
+✔ AC-51 — Round-trip tier (19053.450322ms)
+✔ AC-52 — Round-trip view, and open the twins under the table view or the hash (38285.125564ms)
+✔ AC-53 — Round-trip q, list ≤ 8 matches as links, and never auto-select (18883.102801ms)
+✔ AC-54 — Ignore unknown values with a visible notice, and fall back to defaults (15790.752901ms)
+✔ AC-55 — Reset everything but view, and copy the exact link (8375.666687ms)
+﹣ AC-56 — Reproduce the whole view from a URL built through the controls (1.118098ms) # SKIPPED: documented void, not a missing test — the page matches no share-of-state-budget figure in the register to any financial year: the scrubber twin's "States with a money figure (Share of state budget, FY)" column reads 0 in every year 2000–2026
+✔ AC-57 — Match the year-slice twin to the 36 painted states, class for class (14371.604175ms)
+✔ AC-58 — Count the same elections on the map, in the card, and in the twins (8550.331769ms)
+✔ AC-59 — Match the schemes twin to the filter effect and the strip (22421.419366ms)
+✔ AC-60 — Match lane counts to their headers and the lanes twin (12557.853748ms)
+✔ AC-61 — Give the scrubber twin one row per year, agreeing with the readout (7917.202987ms)
+✔ AC-62 — Export exactly the rows on screen, with the caption line first (16922.40412ms)
+✔ AC-63 — Make the TwoByTwo its own twin (8658.358488ms)
+✔ AC-64 — Put the skip link first in the stage, and make it work (8572.417476ms)
+✔ AC-65 — Drive the map by keyboard and announce each state (11890.511933ms)
+✔ AC-66 — Name the scrubber for assistive technology, including the null year (19029.896108ms)
+✔ AC-67 — Reach every lane by a real button, and nothing inside the drawing (7759.135418ms)
+✔ AC-68 — Name the close and back controls (11260.00892ms)
+✔ AC-69 — Keep exactly one live region, and hide decorative swatches (46888.952533ms)
+✔ AC-70 — Keep the DOM order the reader hears (17049.813737ms)
+✔ AC-71 — Caption or label every table (9154.051118ms)
+✔ AC-72 — Scroll the page vertically only (38831.054589ms)
+✔ AC-73 — Collapse the filters into a labelled details block (6404.108771ms)
+✔ AC-74 — Pin one scrubber above the map within the 140 px budget (8786.252772ms)
+✔ AC-75 — Open the state panel directly under the map on tap, readout first (7948.979512ms)
+✔ AC-76 — Scroll the clock inside its own box, opened on the latest years (11410.327969ms)
+✔ AC-77 — Scroll each table in its own region, with a column count (9237.765443ms)
+✔ AC-78 — Keep mono text at or above 12 px, and move strip facts rather than hide them (7127.835295ms)
+✔ AC-79 — Make ballots legible and the filter clause visible on a phone (9339.544895ms)
+﹣ AC-80 — Explain the empty state before any number on a phone (EMPTY build) (1.68858ms) # SKIPPED: EMPTY-build criterion; this dist is the FULL build (set WELFARE_DIST to an empty build)
+✔ AC-81 — Keep the scrubber in the first viewport at 1280×800 (7288.253293ms)
+✔ AC-82 — Dash only for tier, and one analytic edge (7199.511898ms)
+✔ AC-83 — Keep the five fills distinct and never transition them (8948.440053ms)
+✔ AC-84 — Label every page-computed figure, and source none of them (15156.612952ms)
+✔ AC-85 — Use British spelling in prose and no motion (8101.303039ms)
+ℹ tests 348
+ℹ suites 0
+ℹ pass 327
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 18
+ℹ todo 0
+ℹ duration_ms 2448315.54546
+
+✖ failing tests:
+
+test at scripts/pages/energy.test.mjs:387:25
+✖ AC-60 — Below 640 every table stacks and nothing scrolls sideways (7524.022187ms)
+  AssertionError [ERR_ASSERTION]: 3 elements scroll sideways outside the lanes container
+  + actual - expected
+
+  + [
+  +   {
+  +     cls: '',
+  +     hasSvg: false,
+  +     inOffices: false,
+  +     tag: 'LABEL'
+  +   },
+  +   {
+  +     cls: '',
+  +     hasSvg: false,
+  +     inOffices: false,
+  +     tag: 'SPAN'
+  +   },
+  +   {
+  +     cls: '',
+  +     hasSvg: false,
+  +     inOffices: false,
+  +     tag: 'SPAN'
+  +   }
+  + ]
+  - []
+
+      at file:///workspace/india-corporate-intelligence/scripts/pages/energy.test.mjs:1686:10
+      at async withPage (file:///workspace/india-corporate-intelligence/scripts/pages/energy.test.mjs:308:5)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: [ { inOffices: false, hasSvg: false, tag: 'LABEL', cls: '' }, { inOffices: false, hasSvg: false, tag: 'SPAN', cls: '' }, { inOffices: false, hasSvg: false, tag: 'SPAN', cls: '' } ],
+    expected: [],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at scripts/pages/energy.test.mjs:387:25
+✖ AC-64 — The canvas lets a vertical swipe through at rest (7649.575238ms)
+  AssertionError [ERR_ASSERTION]: tap did not arm the canvas
+
+  'pan-y' !== 'none'
+
+      at file:///workspace/india-corporate-intelligence/scripts/pages/energy.test.mjs:1783:10
+      at async withPage (file:///workspace/india-corporate-intelligence/scripts/pages/energy.test.mjs:308:5)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'pan-y',
+    expected: 'none',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at scripts/pages/finance.test.mjs:3433:1
+✖ AC-105 — Keep the UnionBar in the first viewport at 1280×800 (6232.562393ms)
+  AssertionError [ERR_ASSERTION]: header height 177.25 ≤ 160
+      at file:///workspace/india-corporate-intelligence/scripts/pages/finance.test.mjs:3448:12
+      at async withPage (file:///workspace/india-corporate-intelligence/scripts/pages/finance.test.mjs:547:5)
+      at async TestContext.<anonymous> (file:///workspace/india-corporate-intelligence/scripts/pages/finance.test.mjs:3435:3)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

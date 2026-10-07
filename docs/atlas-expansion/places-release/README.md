@@ -1,6 +1,6 @@
 # Places map release evidence
 
-The final production build rendered real OpenFreeMap street tiles, mapped building footprints, and the retained Indian Ports Association campus coordinate. Screenshots below use the public map service; none use the controlled browser-test background.
+The 03:06 UTC production snapshot rendered real OpenFreeMap street tiles, mapped building footprints, and the retained Indian Ports Association campus coordinate. Screenshots below use the public map service; none use the controlled browser-test background.
 
 | Retained image | What was inspected |
 | --- | --- |
@@ -9,6 +9,8 @@ The final production build rendered real OpenFreeMap street tiles, mapped buildi
 | [Money trails at 390px](places-live-money-390.png) | Actual Places tiles, collapsed mobile place search, and a 400px stage with 208.75px visible in the initial 390×844 viewport. |
 
 The desktop screenshots were captured on 2026-10-07 at 03:05:26 UTC using Chromium 151.0.7922.173 with SwiftShader, at 1440×1100. The independent mobile confirmation was captured at 03:04:03 UTC. These checks used `dist-atlas-production`; [release-manifest.json](release-manifest.json) retains SHA-256 hashes for all 250 emitted files, map sources, test scripts, and review evidence. The canonical build-file manifest digest is `c6199b6881fd1412809b2d1a5fe0ffc6d3f6b230965244f2336ae608b7d10699`.
+
+The later release adjusts only the finance dossier desktop header grid. These original map receipts retain their exact build and script hashes; they are not relabelled as captures of that later artifact. The final emitted-file manifest is [finance-final-release/release-manifest.json](../finance-final-release/release-manifest.json). Map source and research data did not change.
 
 ## Attribution and geographic meaning
 

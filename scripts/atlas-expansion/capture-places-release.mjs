@@ -23,7 +23,13 @@ const server = createServer((req, res) => {
     res.writeHead(200, { 'content-type': mime[extname(file)] ?? 'application/octet-stream' }).end(bytes);
   } catch { res.writeHead(404).end(); }
 });
-await new Promise(done => server.listen(0, '127.0.0.1', done));
+let base = process.env.INVESTIGATION_BASE_URL;
+let listening = false;
+if (!base) {
+  await new Promise(done => server.listen(0, '127.0.0.1', done));
+  listening = true;
+  base = `http://127.0.0.1:${server.address().port}`;
+}
 const binary = process.env.PLAYWRIGHT_CHROMIUM_PATH ?? '/usr/bin/chromium';
 const browser = await chromium.launch({ ...(existsSync(binary) ? { executablePath: binary } : {}), args: ['--enable-unsafe-swiftshader'] });
 const viewport = { width: 1440, height: 1100 };
@@ -34,7 +40,7 @@ page.on('response', response => {
   if (response.url().includes('tiles.openfreemap.org/planet/') && response.url().endsWith('.pbf') && response.status() === 200) tileResponses200.add(response.url());
 });
 try {
-  await page.goto(`http://127.0.0.1:${server.address().port}/`, { waitUntil: 'domcontentloaded' });
+  await page.goto(`${base.replace(/\/$/u, '')}/#/`, { waitUntil: 'domcontentloaded' });
   await page.waitForSelector('[data-places-tiles-ready="true"]', { timeout: 60000 });
   const select = page.locator('.places-atlas-site-picker select');
   const campusTile = page.waitForResponse(response => /\/14\/11750\/7791\.pbf$/u.test(response.url()) && response.status() === 200, { timeout: 60000 });
@@ -55,7 +61,7 @@ try {
   await detail.scrollIntoViewIfNeeded();
   await page.screenshot({ path: resolve(out, 'places-live-voc-port-provenance.png') });
   const facts = {
-    capturedAt: new Date().toISOString(), buildDirectory: dist, browser: await browser.version(), viewport,
+    capturedAt: new Date().toISOString(), baseUrl: base, buildDirectory: listening ? dist : null, browser: await browser.version(), viewport,
     site: 'V. O. Chidambaranar Port Authority', siteId: 'atlas-site:voc-port-public-campus',
     zoom: await page.locator('.places-atlas').getAttribute('data-places-zoom'),
     pitch: await page.locator('.places-atlas').getAttribute('data-places-pitch'),
@@ -65,5 +71,5 @@ try {
   console.log(JSON.stringify({ passed: true, capturedAt: facts.capturedAt, zoom: facts.zoom, pitch: facts.pitch, tileResponses200: tileResponses200.size, screenshots: out }));
 } finally {
   await browser.close();
-  await new Promise(done => server.close(done));
+  if (listening) await new Promise(done => server.close(done));
 }

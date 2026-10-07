@@ -1681,7 +1681,16 @@ t('AC-60 — Below 640 every table stacks and nothing scrolls sideways', () => w
     assert.ok(tb.vis, `table ${i} has no visible dl twin`);
     assert.ok(tb.dts > 0 && tb.cols > 0 && tb.dts % tb.cols === 0, `table ${i}: ${tb.dts} dt for ${tb.cols} columns`);
   });
-  const scrollers = await page.locator('main *').evaluateAll((els) => els.filter((e) => e.scrollWidth > e.clientWidth + 1).map((e) => ({ inOffices: !!e.closest('#offices'), hasSvg: !!e.querySelector('svg'), tag: e.tagName, cls: e.className?.toString?.().slice(0, 60) })));
+  const scrollers = await page.locator('main *').evaluateAll((els) => els.filter((e) => {
+    if (e.scrollWidth <= e.clientWidth + 1) return false;
+    const style = getComputedStyle(e), box = e.getBoundingClientRect();
+    // The shared shell retains 1px clipped accessible labels. Their text has an
+    // intrinsic width, but it is not visible content or a horizontal scroller.
+    // Keep every un-clipped overflow candidate, including tiny visible elements.
+    const clippedLabel = box.width <= 1 && box.height <= 1 && style.overflow === 'hidden' &&
+      (style.clip.replace(/\s/gu, '') === 'rect(0px,0px,0px,0px)' || style.clipPath.replace(/\s/gu, '') === 'inset(50%)');
+    return !clippedLabel;
+  }).map((e) => ({ inOffices: !!e.closest('#offices'), hasSvg: !!e.querySelector('svg'), tag: e.tagName, cls: e.className?.toString?.().slice(0, 60) })));
   const stray = scrollers.filter((s) => !(s.inOffices && s.hasSvg));
   assert.deepEqual(stray.slice(0, 3), [], `${stray.length} elements scroll sideways outside the lanes container`);
   const btn = page.locator('#offices button[aria-expanded]').first();
@@ -1777,7 +1786,11 @@ t('AC-64 — The canvas lets a vertical swipe through at rest', () => withPage('
   const ta = () => canvas.evaluate((el) => getComputedStyle(el).touchAction);
   assert.notEqual(await ta(), 'none', 'canvas traps scroll at rest');
   assert.ok((await page.locator('#stage').innerText()).includes('tap the graph to pan and zoom'), 'no "tap the graph" hint');
+  // The introductory record summary may put the graph below the phone viewport.
+  // Exercise an actual visible tap rather than an out-of-window coordinate.
+  await canvas.scrollIntoViewIfNeeded();
   const r = await rect(canvas);
+  assert.ok(await page.evaluate(({ x, y }) => Boolean(document.elementFromPoint(x, y)?.closest('#stage svg')), { x: r.left + 8, y: r.top + 8 }), 'tap point does not hit the visible canvas');
   await page.touchscreen.tap(r.left + 8, r.top + 8);
   await page.waitForFunction((sel) => getComputedStyle(document.querySelector(sel)).touchAction === 'none', '#stage svg', { timeout: 3_000 }).catch(() => {});
   assert.equal(await ta(), 'none', 'tap did not arm the canvas');

@@ -176,3 +176,8 @@ research/raw/atlas-expansion/policy-evidence/vedanta-judgment-2025-official.html
 research/raw/atlas-expansion/policy-evidence/vedanta-judgment-2025-official.txt -whitespace
 research/raw/atlas-expansion/policy-evidence/vedanta-judgment-2025-pdf.txt -whitespace
 research/raw/atlas-expansion/policy-evidence/vedanta-operations-2025.html -whitespace
+
+# Preserve exact hashed test-output bytes, including their final blank line.
+docs/atlas-expansion/shipping-regression/graph-viewport-corrected.log whitespace=-blank-at-eof
+docs/atlas-expansion/shipping-regression/graph-viewport-initial.log whitespace=-blank-at-eof
+docs/atlas-expansion/shipping-regression/smoke.log whitespace=-blank-at-eof

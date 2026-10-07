@@ -299,7 +299,7 @@ export default function Finance() {
     <Page.Provider value={ctx}>
       <article className="pb-20 fin-page">
         <style>{PAGE_CSS}</style>
-        <header className="xl:grid xl:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] xl:gap-x-8">
+        <header className="xl:grid xl:grid-cols-[minmax(0,0.7fr)_minmax(0,1.3fr)] xl:gap-x-6">
           <div>
             <Kicker>Foreign money · loans, foreign contributions, foreign capital</Kicker>
             <h1 className="heading-editorial font-bold text-3xl sm:text-4xl xl:text-[1.9rem] text-balance mb-2">Who lent, who gave, who holds, and what the record can show</h1>

@@ -68,3 +68,25 @@ INVESTIGATION_DIST=dist-atlas-verified PLAYWRIGHT_CHROMIUM_PATH=/usr/bin/chromiu
 ```
 
 Structured acceptance and source-parity receipts are retained beside this report. The checked build's index SHA-256 is `8f0a4455e9368495c5b860a4207af8087ecfda2eae8bc98354f6ec97f562e6d9`.
+
+## Later release regression and narrow finance correction
+
+The broader regression used the separately frozen `dist-atlas-shipping` build, with every page suite pinned to its absolute path. Route smoke passed **158 route/surface renders**. The complete graph-viewport rerun passed **60 checks**. The four legacy page suites completed **348 criteria: 327 passed, 3 failed, 18 explicitly skipped, none cancelled**. Skipped criteria remain recorded as unavailable fixtures or documented data gaps, not passes. Original and corrected run logs are retained in [shipping-regression](shipping-regression/).
+
+All three original failures were diagnosed:
+
+- **Energy AC60:** its overflow scan counted the shared shell's three accessible labels, each intentionally clipped to a 1px box. The test now excludes only structurally clipped 1px elements with hidden overflow and the exact screen-reader clip styles. Visible-content and stacked-table assertions are unchanged.
+- **Energy AC64:** the graph began below the phone viewport, so the test tapped an offscreen coordinate. It now scrolls the canvas into view and positively checks that the tap hits the SVG before retaining the original `pan-y → none → pan-y` assertions. Both corrected energy tests passed together against `dist-atlas-shipping`; no energy product change was needed.
+- **Finance AC105:** the UnionBar fold assertion passed, but the desktop header was **177.25px**, exceeding its 160px budget at 1280px. This was a product regression. Only Finance's desktop header grid changed: column proportions from `0.85/1.15` to `0.7/1.3`, with the gap reduced from 32px to 24px. All wording, font sizes, map dimensions and mobile rules remain unchanged.
+
+The original graph pixel/hover failures also came from sampling lines outside the visible window. The harness now invokes the existing Maximise control through its actual keyboard focus target, asserts that the canvas occupies the visible window, then performs the same nonzero paint and hover assertions. No graph product behavior or assertion was removed.
+
+After the finance fix, `tsc -b` and Vite built a new immutable **`dist-atlas-finance-final`**. Its index SHA-256 is `7ac5635d0655410493275e0b7d923eadf0486e58b0c54c9b5c07e408db50a29e`. Actual-build geometry and visually inspected screenshots at 1280×800 and 1440×800 are retained in [finance-final-release](finance-final-release/). The complete header measures **157.75px / 119.5px** respectively; the title measures **135.13px / 101.34px**. Full explanatory and standing copy remains visible, with no overlap, horizontal document overflow or runtime exception in those captures.
+
+The targeted finance rerun **passed all 11 criteria, AC95–105, with zero failures or skips**. AC105 retains its original desktop fold, header and map bounds; AC95–103 cover mobile behavior; AC104 uses the suite's unchanged empty-fixture cache. The final full build was pinned by absolute path. With the two corrected energy checks and the corrected finance check, all three original failures have superseding passes: **330 criteria are satisfied across the original and targeted runs, 18 remain explicitly skipped, and no failure remains unresolved**. The original full command did exit nonzero; the logs and [structured regression receipt](CODE_REVIEW_REGRESSION.json) preserve that distinction. This was a narrow follow-up, not a rerun of every already-passing criterion on the finance-only change.
+
+```sh
+FINANCE_DIST=/workspace/india-corporate-intelligence/dist-atlas-finance-final \
+PLAYWRIGHT_CHROMIUM_PATH=/usr/bin/chromium \
+node --test --test-name-pattern='AC-(9[5-9]|10[0-5]) ' scripts/pages/finance.test.mjs
+```
