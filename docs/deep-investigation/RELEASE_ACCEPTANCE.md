@@ -43,3 +43,21 @@ UI review corrected geographic search scope, mobile map order, exact graph conte
 The corpus is not a census of corruption or a complete investigation of every security, institution, city or village. Indexed extracts and blocked originals remain labelled. Missing transaction records are not zero payments. The open model ranks source summaries only; it supplies no verified allegation, identity join or corruption probability. Original archives and large cached originals are kept out of frontend assets.
 
 CI and deployment now run the new provenance, universe, model and browser gates alongside the existing checks. Public publication and live-byte verification are performed from the committed branch after local acceptance.
+
+## Deployment contract correction
+
+Deployment run `37554719471` stopped before publication because the older browser
+harness assumed every registered route used the shared dossier wrapper. The new
+atlas intentionally has its own geographic surface. The corrected all-route
+loop still tests all 41 routes: the 40 shared routes retain their original
+assertions and the atlas positively verifies its marker, absence of a nested
+wrapper, 36 current geographic shapes, 37-option selector and overflow. All 37
+applicable original dossier routes remain tested. An independent technical
+review confirmed that no original route coverage was removed.
+
+The full command `INVESTIGATION_DIST=dist-deep-release npm run
+test:investigation:browser` then passed 675 assertions across 12 scenarios,
+15 graph checks and 54 workspace checks. See [follow-up log](shared-browser-followup.log)
+and [receipt](shared-browser-followup.json). New graph screenshots were copied
+to `shared-graph-browser/`; the preceding release's screenshots were preserved.
+No production code or build artifact changed for this correction.
