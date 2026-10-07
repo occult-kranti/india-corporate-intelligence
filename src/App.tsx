@@ -55,6 +55,7 @@ const PoliticalView = lazy(() => import('./pages/PoliticalView'));
 const MediaView = lazy(() => import('./pages/MediaView'));
 const Search = lazy(() => import('./pages/Search'));
 const Watchlist = lazy(() => import('./pages/Watchlist'));
+const FollowTheMoney = lazy(() => import('./pages/FollowTheMoney'));
 
 /**
  * A deliberately quiet fallback. A spinner that flashes for 80ms is worse than a
@@ -82,6 +83,7 @@ function App() {
                   <Routes>
                     <Route path="/" element={<Dashboard />} />
                     <Route path="/investigate" element={<Dashboard />} />
+                    <Route path="/follow-the-money" element={<FollowTheMoney />} />
                     <Route path="/justice" element={<InvestigationDossier domain="justice" />} />
                     <Route path="/debt" element={<InvestigationDossier domain="debt-relief" />} />
                     <Route path="/map" element={<MapExplorer />} />

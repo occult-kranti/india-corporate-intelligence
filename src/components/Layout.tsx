@@ -16,6 +16,7 @@ const navGroups: { label: string; items: { path: string; label: string; icon: ty
     label: 'Markets',
     items: [
       { path: '/', label: 'Investigate India', icon: LayoutDashboard },
+      { path: '/follow-the-money', label: 'Follow the money', icon: GitBranch },
       { path: '/map', label: 'NSE / BSE map', icon: Map },
       { path: '/geograph', label: 'Geographic network', icon: Radar },
       { path: '/industries', label: 'Industries', icon: Factory },
@@ -170,6 +171,7 @@ export default function Layout() {
         <nav aria-label="Primary navigation">
           {[
             { path: '/', label: 'Investigate', icon: Radar },
+            { path: '/follow-the-money', label: 'Money trails', icon: GitBranch },
             { path: '/public-works', label: 'Works', icon: Waypoints },
             { path: '/education', label: 'Education', icon: GraduationCap },
             { path: '/water', label: 'Water', icon: Droplets },
@@ -196,7 +198,7 @@ export default function Layout() {
           </div>
         </header>
         <main id="main-content" ref={mainRef} tabIndex={-1} className="site-main">
-          <div className="site-content iw-shell-content"><Workspace routeTitle={routeTitle} routeKey={location.pathname}><Outlet /></Workspace></div>
+          <div className="site-content iw-shell-content">{location.pathname === '/follow-the-money' ? <Outlet /> : <Workspace routeTitle={routeTitle} routeKey={location.pathname}><Outlet /></Workspace>}</div>
         </main>
       </div>
 

@@ -10,12 +10,14 @@ export interface InvestigationMapProps {
   geographyMode?: 'coverage' | 'associations' | 'all';
   nationalRecords: number;
   unknownRecords: number;
+  highlightedStateCodes?: string[];
+  indexLabel?: string;
 }
 const RAMP = ['#274745', '#35615a', '#468273', '#70a38d', '#acd0b4'];
 const CALLOUTS: Record<string, [number, number]> = { CH: [-46,-9], DL: [36,-8], DN: [-66,-6], GA: [-46,4], LD: [-27,9], PY: [48,17], SK: [-9,-21] };
 const countFor = (row: InvestigationStateCoverage, mode: InvestigationMapProps['geographyMode']) => mode === 'associations' ? row.associationRecords : mode === 'all' ? row.records : row.coverageRecords;
 
-export function InvestigationMap({ coverage, selectedState, onStateSelect, geographyMode = 'coverage', nationalRecords, unknownRecords }: InvestigationMapProps) {
+export function InvestigationMap({ coverage, selectedState, onStateSelect, geographyMode = 'coverage', nationalRecords, unknownRecords, highlightedStateCodes = [], indexLabel = 'GEOGRAPHIC INDEX' }: InvestigationMapProps) {
   const uid = useId().replace(/:/gu, '');
   const [hovered, setHovered] = useState<string | null>(null);
   const paths = useRef(new Map<string, SVGPathElement>());
@@ -38,14 +40,14 @@ export function InvestigationMap({ coverage, selectedState, onStateSelect, geogr
     return `${name}: ${row ? `${countFor(row, geographyMode).toLocaleString()} matching ${modeLabel.toLowerCase()}` : 'coverage unassessed'}${selectedState === code ? ', selected' : ''}`;
   };
   return <section className="iw-map" aria-labelledby={`${uid}-title`}>
-    <div className="iw-map-heading"><div><p className="iw-map-eyebrow">GEOGRAPHIC INDEX</p><h2 id={`${uid}-title`}>{selectedName ?? 'India · geographic evidence'}</h2></div><button type="button" disabled={!selectedState} onClick={() => onStateSelect(null)}>All India</button></div>
+    <div className="iw-map-heading"><div><p className="iw-map-eyebrow">{indexLabel}</p><h2 id={`${uid}-title`}>{selectedName ?? 'India · geographic evidence'}</h2></div><button type="button" disabled={!selectedState} onClick={() => onStateSelect(null)}>All India</button></div>
     <div className="iw-map-select"><label htmlFor={`${uid}-state`}>State or union territory</label><select id={`${uid}-state`} value={selectedState ?? ''} onChange={event => onStateSelect(event.target.value || null)}><option value="">All 36 states &amp; union territories</option>{geometry.states.map(state => <option key={state.code} value={state.code}>{state.name} · {rows.has(state.code) ? countFor(rows.get(state.code)!, geographyMode).toLocaleString() : '?'}</option>)}</select></div>
     <div className="iw-map-stage">
       <svg viewBox={geometry.viewBox.join(' ')} role="group" aria-labelledby={`${uid}-map-title ${uid}-map-desc`}>
         <title id={`${uid}-map-title`}>India: matching evidence records by state and union territory</title>
         <desc id={`${uid}-map-desc`}>Thirty-six geographic boundaries. Shade shows {modeLabel.toLowerCase()}, not funding amounts, sites, incidence or misconduct. Arrow keys move through states alphabetically; Enter or Space selects; Escape clears. The state selector provides an equivalent control.</desc>
         <defs><pattern id={`${uid}-none`} width="6" height="6" patternUnits="userSpaceOnUse"><rect width="6" height="6" fill="#192727"/><path d="M0 6L6 0" stroke="#30433f" strokeWidth=".65"/></pattern><pattern id={`${uid}-unknown`} width="6" height="6" patternUnits="userSpaceOnUse"><rect width="6" height="6" fill="#182024"/><circle cx="3" cy="3" r=".7" fill="#52615c"/></pattern></defs>
-        {geometry.states.map((state, index) => <path key={state.code} ref={element => { if (element) paths.current.set(state.code, element); else paths.current.delete(state.code); }} d={state.path} fill={fillFor(state.code)} fillRule="evenodd" className={`iw-map-state${selectedState === state.code ? ' is-selected' : ''}`} data-state-code={state.code} role="button" tabIndex={state.code === (selectedState ?? geometry.states[0].code) ? 0 : -1} aria-pressed={selectedState === state.code} aria-label={label(state.code, state.name)} onClick={() => onStateSelect(selectedState === state.code ? null : state.code)} onMouseEnter={() => setHovered(state.code)} onMouseLeave={() => setHovered(null)} onFocus={() => setHovered(state.code)} onBlur={() => setHovered(null)} onKeyDown={event => {
+        {geometry.states.map((state, index) => <path key={state.code} ref={element => { if (element) paths.current.set(state.code, element); else paths.current.delete(state.code); }} d={state.path} fill={fillFor(state.code)} fillRule="evenodd" className={`iw-map-state${selectedState === state.code ? ' is-selected' : ''}${highlightedStateCodes.includes(state.code) ? ' is-case-location' : ''}`} data-state-code={state.code} role="button" tabIndex={state.code === (selectedState ?? geometry.states[0].code) ? 0 : -1} aria-pressed={selectedState === state.code} aria-label={label(state.code, state.name)} onClick={() => onStateSelect(selectedState === state.code ? null : state.code)} onMouseEnter={() => setHovered(state.code)} onMouseLeave={() => setHovered(null)} onFocus={() => setHovered(state.code)} onBlur={() => setHovered(null)} onKeyDown={event => {
           if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); onStateSelect(selectedState === state.code ? null : state.code); }
           if (event.key === 'Escape') onStateSelect(null);
           if (['ArrowDown','ArrowRight','ArrowUp','ArrowLeft','Home','End'].includes(event.key)) {

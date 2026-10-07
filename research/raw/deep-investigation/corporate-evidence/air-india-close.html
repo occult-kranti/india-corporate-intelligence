@@ -1,0 +1,1061 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head id="Head1"><title>
+	Press Release Page | Press Information Bureau
+</title><link href="css/style.css?v=1" rel="stylesheet" type="text/css" /><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><link rel="alternate stylesheet" href="css/change.css?v=1" media="screen" title="change" /><link rel="alternate stylesheet" href="css/green.css?v=1" media="screen" title="green" /><link rel="alternate stylesheet" href="css/yellow.css" media="screen" title="yellow" /><link rel="stylesheet" type="text/css" href="css/prtint.css" media="print" /><link rel="stylesheet" href="css/style3.1.css" type="text/css" /><link id="pibA11yCss" rel="stylesheet" href="/css/accessibility.css?v=7" type="text/css" />
+      <script type="text/javascript">
+        /* Stamps the saved theme on <html> before the page paints. The
+           switcher in js/accessibility.js settles the rest, but on inner
+           pages it does not run until the end of the body and inside the
+           release frame it is a separate download - either way the reader
+           would otherwise watch a light page turn dark in front of them. */
+        (function (d) {
+            var t = "";
+            try {
+                t = window.localStorage.getItem("pibStyle") || "";
+            } catch (e) {
+                t = "";
+            }
+            if (t === "orange") {
+                t = "yellow";
+            }
+            var c = t === "change" ? " pib-hc"
+                : t === "green" ? " pib-theme-green"
+                : t === "yellow" ? " pib-theme-yellow" : "";
+            d.documentElement.className += c + " pib-a11y-content";
+        }(document));
+      </script>
+
+
+      <script src="js/jquery.min.js" type="text/javascript"></script>
+      <script type="text/javascript" src="/js/accessibility.js?v=7"></script>
+
+      <script type="text/javascript">
+            $(document).ready(function () {
+                  function getParameterByName(name) {
+                        var url = window.location.href;
+                        name = name.replace(/[\[\]]/g, '\\$&');
+                        var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+                              results = regex.exec(url);
+                        if (!results) return null;
+                        if (!results[2]) return '';
+                        return decodeURIComponent(results[2].replace(/\+/g, ' '));
+                  }
+                  // Get the IDs from the current page's URL
+                  let prid = parseInt(getParameterByName('PRID'), 10);
+
+                  if (!isNaN(prid) && prid > 0) {
+                        $.ajax({
+                              type: "POST",
+                              url: "AjaxMethod.aspx/UpdatePRHitCount",
+                              async: false,
+                              data: JSON.stringify({ 'PermId': prid }),
+                              contentType: "application/json; charset=utf-8",
+                              dataType: "json",
+                              success: function (response) {
+                                    console.log(response);
+                              },
+                              error: function (error) {
+                                    console.log("Error in AJAX request", error);
+                              }
+                        });
+                  } else {
+                        console.log("Invalid parameters:", prid);
+                  }
+
+            });
+      </script>
+      <style type="text/css">
+            .table-responsive {
+                  width: 100%;
+                  overflow-x: auto;
+            }
+
+            .banner {
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  background-color: #000;
+                  color: #fff;
+                  padding: 20px;
+            }
+
+            full-width {
+                  width: 100%;
+            }
+
+            .logo-left, .logo-center, .countdown {
+                  display: flex;
+                  align-items: center;
+            }
+
+                  .logo-left img, .logo-center img {
+                        height: 70px;
+                  }
+
+            .countdown {
+                  text-align: center;
+                  background-color: var(--dbim-text, #150202);
+                  border-radius: 10px;
+                  padding: 10px;
+                  border: 2px solid grey;
+            }
+
+            .firstnumber {
+                  color: #000000;
+                  position: absolute;
+                  top: 50px;
+                  right: 90px;
+                  font-size: 30px;
+            }
+
+            .secondnumber {
+                  position: absolute;
+                  color: #000000;
+                  right: 45px;
+                  top: 50px;
+                  font-size: 30px;
+            }
+
+            .countdown .days {
+                  font-size: 35px;
+                  color: gold;
+            }
+
+            .countdown p {
+                  margin: 0;
+            }
+
+            .countdown .text {
+                  font-size: 16px;
+            }
+
+            a {
+                  word-break: break-all;
+            }
+
+            iframe, img {
+                  max-width: 100%;
+            }
+
+            @media(max-width:1199px) {
+                  .firstnumber {
+                        top: 40px;
+                        right: 72px;
+                        font-size: 30px;
+                  }
+
+                  .secondnumber {
+                        right: 35px;
+                        top: 40px;
+                        font-size: 30px;
+                  }
+            }
+
+            @media(max-width:990px) {
+                  .firstnumber {
+                        top: 25px;
+                        right: 54px;
+                        font-size: 30px;
+                  }
+
+                  .secondnumber {
+                        right: 25px;
+                        top: 25px;
+                        font-size: 30px;
+                  }
+            }
+
+            @media(max-width:768px) {
+                  .countdown, .days {
+                        font-size: 12px !important;
+                  }
+
+
+                  .firstnumber {
+                        top: 25%;
+                        right: 8%;
+                        font-size: 30px;
+                  }
+
+                  .secondnumber {
+                        right: 4.5%;
+                        top: 25%;
+                        font-size: 30px;
+                  }
+            }
+
+            @media(max-width:475px) {
+                  .countdown, .days {
+                        font-size: 10px !important;
+                        top: 20%;
+                  }
+
+                  .bannerimgdiv {
+                        padding: 0 !important;
+                  }
+
+                  .bannerimg {
+                        width: 108% !important;
+                  }
+            }
+      </style>
+      <script type="text/javascript">
+            $(function () {
+                  $("[id*=printPDF]").click(function () {
+                        $("[id*=hfGridHtml]").val($("#PdfDiv").html());
+                  });
+            });
+            $(function () {
+                  $("[id*=printPDFEvent]").click(function () {
+                        $("[id*=hfGridHtml]").val($("#PdfDiv").html());
+                  });
+            });
+      </script>
+
+      
+
+      <link id="pibConsentCss" href="/css/consent.css?v=8" rel="stylesheet" type="text/css" /><link id="pibFontsCss" href="/css/fonts-noto.css?v=6" rel="stylesheet" type="text/css" /><link id="pibDbimCss" href="/css/dbim.css?v=1112" rel="stylesheet" type="text/css" /><meta property="og:title" content="Air India strategic disinvestment completed" /><meta property="og:url" content="www.pib.gov.in/Pressreleaseshare.aspx?PRID=1792950" /><meta property="og:description" content="The Air India strategic disinvestment transaction has been completed today with Government receiving" /><meta property="og:image" content="https:/pib.gov.in/images/indian-emblem.png" />
+                                <script>!function(e){var n="https://s.go-mpulse.net/boomerang/";if("False"=="True")e.BOOMR_config=e.BOOMR_config||{},e.BOOMR_config.PageParams=e.BOOMR_config.PageParams||{},e.BOOMR_config.PageParams.pci=!0,n="https://s2.go-mpulse.net/boomerang/";if(window.BOOMR_API_key="C4E7H-KSCMC-422L4-W3EM5-U36MF",function(){function e(){if(!i){var e=document.createElement("script");e.id="boomr-scr-as",e.src=window.BOOMR.url,e.async=!0,o.parentNode.appendChild(e),i=!0}}function t(e){i=!0;var n,t,a,r,d=document,O=window;if(window.BOOMR.snippetMethod=e?"if":"i",t=function(e,n){var t=d.createElement("script");t.id=n||"boomr-if-as",t.src=window.BOOMR.url,BOOMR_lstart=(new Date).getTime(),e=e||d.body,e.appendChild(t)},!window.addEventListener&&window.attachEvent&&navigator.userAgent.match(/MSIE [67]\./))return window.BOOMR.snippetMethod="s",void t(o.parentNode,"boomr-async");a=document.createElement("IFRAME"),a.src="about:blank",a.title="",a.role="presentation",a.loading="eager",r=(a.frameElement||a).style,r.width=0,r.height=0,r.border=0,r.display="none",o.parentNode.appendChild(a);try{O=a.contentWindow,d=O.document.open()}catch(_){n=document.domain,a.src="javascript:var d=document.open();d.domain='"+n+"';void(0);",O=a.contentWindow,d=O.document.open()}if(n)d._boomrl=function(){this.domain=n,t()},d.write("<bo"+"dy onload='document._boomrl();'>");else if(O._boomrl=function(){t()},O.addEventListener)O.addEventListener("load",O._boomrl,!1);else if(O.attachEvent)O.attachEvent("onload",O._boomrl);d.close()}function a(e){window.BOOMR_onload=e&&e.timeStamp||(new Date).getTime()}if(!window.BOOMR||!window.BOOMR.version&&!window.BOOMR.snippetExecuted){window.BOOMR=window.BOOMR||{},window.BOOMR.snippetStart=(new Date).getTime(),window.BOOMR.snippetExecuted=!0,window.BOOMR.snippetVersion=12,window.BOOMR.url=n+"C4E7H-KSCMC-422L4-W3EM5-U36MF";var o=document.currentScript||document.getElementsByTagName("script")[0],i=!1,r=document.createElement("link");if(r.relList&&"function"==typeof r.relList.supports&&r.relList.supports("preload")&&"as"in r)window.BOOMR.snippetMethod="p",r.href=window.BOOMR.url,r.rel="preload",r.as="script",r.addEventListener("load",e),r.addEventListener("error",function(){t(!0)}),setTimeout(function(){if(!i)t(!0)},3e3),BOOMR_lstart=(new Date).getTime(),o.parentNode.appendChild(r);else t(!1);if(window.addEventListener)window.addEventListener("load",a,!1);else if(window.attachEvent)window.attachEvent("onload",a)}}(),"".length>0)if(e&&"performance"in e&&e.performance&&"function"==typeof e.performance.setResourceTimingBufferSize)e.performance.setResourceTimingBufferSize();!function(){if(BOOMR=e.BOOMR||{},BOOMR.plugins=BOOMR.plugins||{},!BOOMR.plugins.AK){var n=""=="true"?1:0,t="",a="ljqllrax2fkey2wfsdaa-f-aa6cb1e24-clientnsv4-s.akamaihd.net",o="false"=="true"?2:1,i={"ak.v":"41","ak.cp":"1825201","ak.ai":parseInt("1215205",10),"ak.ol":"0","ak.cr":10,"ak.ipv":4,"ak.proto":"h2","ak.rid":"a89e6d","ak.r":46091,"ak.a2":n,"ak.m":"dscb","ak.n":"ff","ak.cport":59177,"ak.gh":"23.201.193.76","ak.quicv":"","ak.tlsv":"tls1.3","ak.0rtt":"","ak.0rtt.ed":"","ak.csrc":"-","ak.acc":"","ak.t":"1791332544","ak.ak":"hOBiQwZUYzCg5VSAfCLimQ==c5TRc7A3ixa5fSaqJFmmAxlWUlpotecxo3PnYdcl9k7/FDEOa+JgqLZjUgYmKjM7We+B537o7Zir3rctfx6nVyekT5PMcnTVUD/6PASkwYTfAHDfquFC86JWy+MZjWSUxyXAfQRUrfSV3JNWkAnnNxI+dvXSq5ICsW0++MQ5+mW0BdKmp7omJPhBNVztLi6T7xwkbNweOqfd2JDDvAj1pyI42h2EEwqxDRxzEmlJaYnRGCblhh2XiQDkY5U6TDW5RhsKlbuPFPBoKRyoTYB3eAuoJZigqfYrw53XjUPGP5CGVAqBzBPGtPDSjIRkRXZk7YG6XPhZKmx2LN0Nxq6x2cT+rqPKDETpCmUezflFrZtYgwIJU/nizVZLaBE3HmZsCGbzeH8JgAehz2Bmiru/uM7N3ZZhecA/L52yDtMVRjg=","ak.pv":"9","ak.dpoabenc":"","ak.tf":o};if(""!==t)i["ak.ruds"]=t;var r={i:!1,av:function(n){var t="http.initiator";if(n&&(!n[t]||"spa_hard"===n[t]))i["ak.feo"]=void 0!==e.aFeoApplied?1:0,BOOMR.addVar(i)},rv:function(){var e=["ak.cport","ak.cr","ak.csrc","ak.gh","ak.ipv","ak.m","ak.n","ak.ol","ak.proto","ak.quicv","ak.tlsv","ak.0rtt","ak.0rtt.ed","ak.r","ak.acc","ak.t","ak.tf"];BOOMR.removeVar(e)}};BOOMR.plugins.AK={akVars:i,akDNSPreFetchDomain:a,init:function(){if(!r.i){var e=BOOMR.subscribe;e("before_beacon",r.av,null,null),e("onbeacon",r.rv,null,null),r.i=!0}return this},is_complete:function(){return!0}}}}()}(window);</script></head>
+<body>
+    
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"
+     style="position:absolute;width:0;height:0;overflow:hidden" id="dbim-icon-sprite">
+    <defs>
+        <symbol id="icon-angle-double-left" viewBox="0 0 24 24"><path d="M11.6 4.6 4.2 12l7.4 7.4 2.2-2.2L8.6 12l5.2-5.2z"/><path d="M19 4.6 11.6 12 19 19.4l2.2-2.2L16 12l5.2-5.2z"/></symbol>
+        <symbol id="icon-angle-double-right" viewBox="0 0 24 24"><path d="M12.4 4.6 10.2 6.8 15.4 12l-5.2 5.2 2.2 2.2L19.8 12z"/><path d="M5 4.6 2.8 6.8 8 12l-5.2 5.2L5 19.4 12.4 12z"/></symbol>
+        <symbol id="icon-arrow-left" viewBox="0 0 24 24"><path d="M20.8 10.6H9.6v2.8h11.2z"/><path d="M10.8 5.6 3.2 12l7.6 6.4z"/></symbol>
+        <symbol id="icon-arrow-right" viewBox="0 0 24 24"><path d="M3.2 10.6h11.2v2.8H3.2z"/><path d="M13.2 5.6 20.8 12l-7.6 6.4z"/></symbol>
+        <symbol id="icon-blogger" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M6.4 2.4h11.2a4 4 0 0 1 4 4v11.2a4 4 0 0 1-4 4H6.4a4 4 0 0 1-4-4V6.4a4 4 0 0 1 4-4zm2.8 5.2a2 2 0 0 0 0 4h2.4a2 2 0 0 0 0-4zm0 5.6a2 2 0 0 0 0 4h5.6a2 2 0 0 0 0-4z"/></symbol>
+        <symbol id="icon-calendar" viewBox="0 0 24 24"><path d="M7.6 2.4H10v2.4H7.6z"/><path d="M14 2.4h2.4v2.4H14z"/><path fill-rule="evenodd" d="M4 4.8h16a1.6 1.6 0 0 1 1.6 1.6v13.2a1.6 1.6 0 0 1-1.6 1.6H4a1.6 1.6 0 0 1-1.6-1.6V6.4A1.6 1.6 0 0 1 4 4.8zm.4 5.6v8.4h15.2v-8.4z"/><path d="M6.4 12.4h3.2v3.2H6.4z"/></symbol>
+        <symbol id="icon-chevron-left" viewBox="0 0 24 24"><path d="M15.4 4.6 8 12l7.4 7.4 2.2-2.2L12.4 12l5.2-5.2z"/></symbol>
+        <symbol id="icon-chevron-right" viewBox="0 0 24 24"><path d="M8.6 4.6 6.4 6.8 11.6 12l-5.2 5.2 2.2 2.2L16 12z"/></symbol>
+        <symbol id="icon-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/></symbol>
+        <symbol id="icon-download" viewBox="0 0 24 24"><path d="M10.8 3h2.4v7.6h3.4L12 16.6l-4.6-6h3.4z"/><path d="M4 17.2h2.4v2.4h11.2v-2.4H20v3.2a1.4 1.4 0 0 1-1.4 1.4H5.4A1.4 1.4 0 0 1 4 20.4z"/></symbol>
+        <symbol id="icon-facebook" viewBox="0 0 24 24"><path d="M13.6 21.6v-8.4h2.8l.42-3.3h-3.22V7.8c0-.95.27-1.6 1.64-1.6h1.74V3.26a23 23 0 0 0-2.54-.13c-2.5 0-4.22 1.53-4.22 4.34v2.43H7.4v3.3h2.82v8.4z"/></symbol>
+        <symbol id="icon-fact-check" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2.4 3.6 5.6v6.2c0 4.6 3.4 8.6 8.4 9.8 5-1.2 8.4-5.2 8.4-9.8V5.6zm-1 13.2-3.6-3.6 1.7-1.7 1.9 1.9 4.5-4.5 1.7 1.7z"/></symbol>
+        <symbol id="icon-hashtag" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M8.8 3h2.4l-1 6h3.2l1-6h2.4l-1 6h3.4v2.4h-3.8l-.6 3.2h3.6V17h-4l-1 5h-2.4l1-5h-3.2l-1 5H5.4l1-5H3V14.6h3.8l.6-3.2H3.8V9h4zm.6 8.4-.6 3.2h3.2l.6-3.2z"/></symbol>
+        <symbol id="icon-home" viewBox="0 0 24 24"><path d="M12 3.4 2.8 11.6h2.4v8.4a1 1 0 0 0 1 1h3.3v-5.4h5v5.4h3.3a1 1 0 0 0 1-1v-8.4h2.4z"/></symbol>
+        <symbol id="icon-instagram" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M7.6 2.4h8.8a5.2 5.2 0 0 1 5.2 5.2v8.8a5.2 5.2 0 0 1-5.2 5.2H7.6a5.2 5.2 0 0 1-5.2-5.2V7.6a5.2 5.2 0 0 1 5.2-5.2zm0 2.4a2.8 2.8 0 0 0-2.8 2.8v8.8a2.8 2.8 0 0 0 2.8 2.8h8.8a2.8 2.8 0 0 0 2.8-2.8V7.6a2.8 2.8 0 0 0-2.8-2.8z"/><path fill-rule="evenodd" d="M12 6.8a5.2 5.2 0 1 0 0 10.4 5.2 5.2 0 0 0 0-10.4zm0 2.4a2.8 2.8 0 1 1 0 5.6 2.8 2.8 0 0 1 0-5.6z"/><circle cx="17.3" cy="6.7" r="1.3"/></symbol>
+        <symbol id="icon-linkedin" viewBox="0 0 24 24"><path d="M4.8 8.8h3.6v12H4.8z"/><circle cx="6.6" cy="5.4" r="2.1"/><path d="M10.8 8.8h3.45v1.65h.05c.48-.9 1.65-1.85 3.4-1.85 3.63 0 4.3 2.35 4.3 5.4v6.6h-3.6v-5.85c0-1.4-.03-3.2-1.95-3.2-1.95 0-2.25 1.52-2.25 3.1v5.95h-3.6z"/></symbol>
+        <symbol id="icon-mail" viewBox="0 0 24 24"><path d="M2.4 7.6v9.2a1.6 1.6 0 0 0 1.6 1.6h16a1.6 1.6 0 0 0 1.6-1.6V7.6L12 14z"/><path d="M21.2 5.4H2.8L12 11.8z"/></symbol>
+        <symbol id="icon-mail-open" viewBox="0 0 24 24"><path d="M2.4 9.8h19.2v9.6A1.6 1.6 0 0 1 20 21H4a1.6 1.6 0 0 1-1.6-1.6z"/><path d="M12 2.6 21.6 9.2h-3.8L12 5.3 6.2 9.2H2.4z"/><path d="m3.9 11.2 8.1 5.4 8.1-5.4 1.5 1.3-9.6 6.4-9.6-6.4z"/></symbol>
+        <symbol id="icon-map-marker" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2.4a7 7 0 0 0-7 7c0 5.2 7 12.2 7 12.2s7-7 7-12.2a7 7 0 0 0-7-7zm0 9.6a2.6 2.6 0 1 1 0-5.2 2.6 2.6 0 0 1 0 5.2z"/></symbol>
+        <symbol id="icon-newspaper" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M2.8 4.4h14.8v15.2H2.8zm2 2v11.2h10.8V6.4z"/><path d="M6 7.6h8.4v1.6H6z"/><path d="M6 10.8h8.4v1.6H6z"/><path d="M6 14h5.2v1.6H6z"/><path d="M18.4 8.4h2.8v9.6a1.4 1.4 0 0 1-2.8 0z"/></symbol>
+        <symbol id="icon-pause" viewBox="0 0 24 24"><rect x="7.4" y="4" width="3.6" height="16" rx="0.9"/><rect x="13" y="4" width="3.6" height="16" rx="0.9"/></symbol>
+    <symbol id="icon-play" viewBox="0 0 24 24"><path d="M8 4.5v15l12-7.5z"/></symbol>
+        <symbol id="icon-picture" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M2.4 5.2h19.2v13.6H2.4zm2 2v9.6h15.2V7.2z"/><path d="M5.6 16.4 10 11l2.6 3 2-2.2 4 4.6z"/><circle cx="8" cy="10.4" r="1.5"/></symbol>
+        <symbol id="icon-press-conference" viewBox="0 0 24 24"><circle cx="12" cy="5.2" r="2.6"/><path d="M7.6 12.2a4.4 4.4 0 0 1 8.8 0z"/><circle cx="4.9" cy="9.6" r="2.2"/><path d="M1.8 15.2a3.1 3.1 0 0 1 6.2 0z"/><circle cx="19.1" cy="9.6" r="2.2"/><path d="M16 15.2a3.1 3.1 0 0 1 6.2 0z"/><path d="M6.6 13.6h10.8l2.2 7.8H4.4z"/></symbol>
+        <symbol id="icon-print" viewBox="0 0 24 24"><path d="M6.4 2.8h11.2v4.4H6.4z"/><path d="M4 8.4h16a1.6 1.6 0 0 1 1.6 1.6v5.6a1.6 1.6 0 0 1-1.6 1.6h-1.6v-2.8H6v2.8H4a1.6 1.6 0 0 1-1.6-1.6V10A1.6 1.6 0 0 1 4 8.4z"/><path d="M7.2 15.6h9.6v5.6H7.2z"/></symbol>
+        <symbol id="icon-rss" viewBox="0 0 24 24"><circle cx="4.8" cy="19.2" r="2.4"/><path d="M2.4 11.2v3.2a6.4 6.4 0 0 1 6.4 6.4H12A9.6 9.6 0 0 0 2.4 11.2z"/><path d="M2.4 4.8V8A13.6 13.6 0 0 1 16 21.6h3.2A16.8 16.8 0 0 0 2.4 4.8z"/></symbol>
+        <symbol id="icon-search-plus" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M10 2.8a7.2 7.2 0 1 0 0 14.4 7.2 7.2 0 0 0 0-14.4zm0 2.4a4.8 4.8 0 1 1 0 9.6 4.8 4.8 0 0 1 0-9.6z"/><path d="M15.3 14.6 21.2 20.5l-1.5 1.5-5.9-5.9z"/><path d="M9.2 6.8h1.6v2.4h2.4v1.6h-2.4v2.4H9.2v-2.4H6.8V9.2h2.4z"/></symbol>
+        <symbol id="icon-share" viewBox="0 0 24 24"><circle cx="18" cy="5.6" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="18.4" r="3"/><path d="M8.3 10.9 15.7 7.2l.9 1.8-7.4 3.7z"/><path d="M9.2 13.1 16.6 16.8l-.9 1.8-7.4-3.7z"/></symbol>
+        <symbol id="icon-twitter" viewBox="0 0 24 24"><path d="M4.2 3h4.3l11.3 18h-4.3z"/><path d="M19.3 3h-2.6L4.2 21h2.6z"/></symbol>
+        <symbol id="icon-university" viewBox="0 0 24 24"><path d="M12 2.4 21.6 7.2v1.6H2.4V7.2z"/><path d="M4.8 10.4h2.4v8H4.8z"/><path d="M9.2 10.4h2.4v8H9.2z"/><path d="M13.4 10.4h2.4v8h-2.4z"/><path d="M17.6 10.4H20v8h-2.4z"/><path d="M3.2 19.8h17.6v1.8H3.2z"/></symbol>
+        <symbol id="icon-volume-up" viewBox="0 0 24 24"><path d="M3.2 9.2h3.3l5-4.2v14l-5-4.2H3.2z"/><path d="M14.6 8.4a5 5 0 0 1 0 7.2l1.6 1.6a7.2 7.2 0 0 0 0-10.4z"/><path d="M17.4 5.6a8.8 8.8 0 0 1 0 12.8l1.5 1.5a10.9 10.9 0 0 0 0-15.8z"/></symbol>
+        <symbol id="icon-whatsapp" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2.4a9.5 9.5 0 0 0-8.1 14.5L2.4 21.6l4.8-1.4A9.5 9.5 0 1 0 12 2.4zm0 2.2a7.3 7.3 0 1 1-3.8 13.5l-.4-.2-2.6.7.7-2.5-.3-.4A7.3 7.3 0 0 1 12 4.6z"/><path d="M9.4 7.8c-.2-.5-.4-.5-.6-.5h-.5a1 1 0 0 0-.7.3c-.3.3-.9.9-.9 2.1s.9 2.4 1 2.6c.1.2 1.7 2.8 4.3 3.8 2.1.8 2.6.7 3 .6.5 0 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2l-.5-.3-1.6-.8c-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6 6 0 0 1-1.8-1.1 6.6 6.6 0 0 1-1.2-1.6c-.1-.2 0-.4.1-.5l.4-.5.3-.5v-.5z"/></symbol>
+        <symbol id="icon-youtube" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M21.6 7.2a2.8 2.8 0 0 0-2-2C17.9 4.8 12 4.8 12 4.8s-5.9 0-7.6.4a2.8 2.8 0 0 0-2 2A29 29 0 0 0 2 12a29 29 0 0 0 .4 4.8 2.8 2.8 0 0 0 2 2c1.7.4 7.6.4 7.6.4s5.9 0 7.6-.4a2.8 2.8 0 0 0 2-2A29 29 0 0 0 22 12a29 29 0 0 0-.4-4.8zM10.2 15.1V8.9l5.1 3.1z"/></symbol>
+    </defs>
+</svg>
+
+      <form method="post" action="./PressReleasePage.aspx?PRID=1792950&amp;reg=48&amp;lang=2" id="form1">
+<div class="aspNetHidden">
+<input type="hidden" name="sc_HiddenField" id="sc_HiddenField" value="" />
+<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
+<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="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" />
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+var theForm = document.forms['form1'];
+if (!theForm) {
+    theForm = document.form1;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</script>
+
+
+<script src="/WebResource.axd?d=pynGkmcFUV13He1Qd6_TZPQet1wIx1Q48y3xJY2k25Y7qxH5RrQ9qQcN-OiTC9guZtri9w2&amp;t=639246310404186790" type="text/javascript"></script>
+
+
+<script src="/ScriptResource.axd?d=x6wALODbMJK5e0eRC_p1LdIxBJXt0U_WW5GWfJqHAqo6frgCmGRfEywglicTersO2OKrFhK1gAIp0Wk2al2YrpdR3uWqH6f4nfjBsCyRUfTUUVmb0&amp;t=ffffffffecf8d3f2" type="text/javascript"></script>
+<script src="/ScriptResource.axd?d=P5lTttoqSeZXoYRLQMIScH645UK3RD852IErF2548Wz9Ssv0rLjB4fhVKnHcMpqkaMHpNAGOeWY02Lf4aBYN9-dVBme_SNK5KJwmFQNpMixYDZ7M0&amp;t=ffffffffecf8d3f2" type="text/javascript"></script>
+<script src="/PressReleasePage.aspx?_TSM_HiddenField_=sc_HiddenField&amp;_TSM_CombinedScripts_=%3b%3bAjaxControlToolkit%2c+Version%3d3.5.7.123%2c+Culture%3dneutral%2c+PublicKeyToken%3d28f01b0e84b6d53e%3aen-US%3a5a4df314-b4a2-4da2-a207-9284f1b1e96c%3ade1feab2%3af2c8e708%3a8613aea7%3af9cec9bc%3a3202a5a2%3aab09e3fe%3a87104b7c%3a720a52bf%3a589eaa30%3aa67c2700%3abe6fb298" type="text/javascript"></script>
+<div class="aspNetHidden">
+
+	<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="59B53027" />
+	<input type="hidden" name="__VIEWSTATEENCRYPTED" id="__VIEWSTATEENCRYPTED" value="" />
+	<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="6j4vQVRj4mcMJFaSTTNDPJ76UkQmpWNCvVAHT3xWb2VSaTL00/9m2tA1VPV2IpQJmAd7vl5AH4n/4/W4nkdpZ9iCvcAvpoBtnCooRzO3KwEIhFdXDxIZqaloMiCvSnIh0Pv8VXhJtY+HpWwhqswjuP610wFZqVftKiJHPg0rhqljRHsPOxZyRY03sk4f3CeiqFku72kcJVbSf+s6bQEgDMYg0713Ye8dNft0Fd0QKAcfQCTJ6wSQaEYQPyhYtWKPI3Pq+f46kFJYvDsTb46cZEhpiQ0=" />
+</div>
+                              
+            <div id="templateCss"></div>
+            <script type="text/javascript">
+//<![CDATA[
+Sys.WebForms.PageRequestManager._initialize('sc', 'form1', ['tupdate12','update12'], [], [], 90, '');
+//]]>
+</script>
+
+            <input type="hidden" name="hfGridHtml" id="hfGridHtml" />
+            <div class="container" style='margin-bottom: 50px;'>
+                  <div id="accessories">
+
+                        
+                        <div class="pull-right" style="display: flex">
+                              <div id="voll"></div>
+                              <div id="vollDT"></div>
+                              
+                              
+
+<span class="print-icons">
+<input type="image" name="Print1$print" id="Print1_print" aria-label="Print" src="images/printer_icon.png" alt="print page button" style="padding: 5px 10px 5px 10px;" />
+</span>
+                        </div>
+                  </div>
+                  <input type="hidden" name="hydpermid" id="hydpermid" value="1792950" />
+                  
+
+
+
+                  <div class="innner-page-main-about-us-content-right-part">
+
+                        <div id="MinistryName" class="MinistryNameSubhead text-center">
+                              Ministry of Finance
+                        </div>
+                        
+                        <div id="lg_g"><div class='log_oo'>  <img src='https://static.pib.gov.in/WriteReadData/specificdocs/photo/2026/sep/ph_9768_20260902_10000501.png' alt='azadi ka amrit mahotsav' /> </div></div>
+
+
+
+
+
+                        <div class="text-center event-heading-background">
+                              
+                              <h1 id="Titleh2">
+                                    Air India strategic disinvestment completed
+                              </h1>
+                              <h3 id="Subtitleh3">
+                                    <span id="ltrSubtitle"></span>
+                              </h3>
+                        </div>
+
+                        <div id="PrDateTime" class="ReleaseDateSubHeaddateTime text-center pt20">
+                              Posted On:
+                27 JAN 2022 3:56PM by PIB Delhi
+                        </div>
+                        
+                        <div class='pt20'>
+                        </div>
+                        <input type="hidden" name="hydphotoUrl" id="hydphotoUrl" />
+                        
+                        <p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">The Air India strategic disinvestment transaction has been completed today with Government receiving a consideration of Rs 2,700 crore from the Strategic Partner (M/s Talace Pvt Ltd, a wholly owned subsidiary of M/s Tata Sons Pvt Ltd), retaining debt of Rs 15,300 crore in Air India and AIXL and transferring shares of Air India (100% shares of Air India and its subsidiary AIXL and 50% shares of AISATS) to the Strategic Partner.</span></span></p>
+
+<p style="text-align:center"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><img alt="Description: Image" src="https://static.pib.gov.in/WriteReadData/userfiles/image/image001JFK8.jpg" style="height:401px; width:601px" /></span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">It is pertinent to mention that following Government&rsquo;s approval of the highest price bid of M/s Talace Pvt Ltd for strategic disinvestment of Air India, the Letter of Intent was issued to the winning bidder on 11 October 2021. The Share Purchase Agreement (SPA) was signed on 25 October, 2021. Thereafter, Strategic Partner (M/s Talace Pvt Ltd), Air India and the Government worked towards satisfying a set of conditions precedent defined in the SPA including approvals from anti-trust bodies, regulators, lenders, third parties, etc. These conditions have since been met to mutual satisfaction.</span></span></p>
+
+<p style="text-align:center"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">****</span></span></p>
+
+<p style="text-align:justify"><strong><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">RM/KMN</span></span></strong></p>
+
+
+                        
+                        <div id="reel_pic">
+                        </div>
+
+
+
+                        
+                        <br />
+                        <span id="ReleaseId">(Release ID: 1792950)</span>
+                        <span id="lblViews">Visitor Counter : 9343</span>
+                        <div>
+                              
+                        </div>
+                        
+
+                        <span id="lblRefPhoto"></span>
+
+                        <div class="BackgroundRelease">
+                              
+                        </div>
+                        <div>
+                              
+                        </div>
+                        <div class="ReleaseLang">Read this release in: 
+                        
+                                    
+                                    <a href='https://pib.gov.in/PressReleasePage.aspx?PRID=1793030' target="_blank">
+                                          Urdu </a>
+                              
+                                    ,
+                              
+                                    
+                                    <a href='https://pib.gov.in/PressReleasePage.aspx?PRID=1793006' target="_blank">
+                                          Marathi </a>
+                              
+                                    ,
+                              
+                                    
+                                    <a href='https://pib.gov.in/PressReleasePage.aspx?PRID=1793017' target="_blank">
+                                          हिन्दी </a>
+                              
+                                    ,
+                              
+                                    
+                                    <a href='https://pib.gov.in/PressReleasePage.aspx?PRID=1792996' target="_blank">
+                                          Bengali </a>
+                              
+                                    ,
+                              
+                                    
+                                    <a href='https://pib.gov.in/PressReleasePage.aspx?PRID=1792989' target="_blank">
+                                          Tamil </a>
+                              
+                                    ,
+                              
+                                    
+                                    <a href='https://pib.gov.in/PressReleasePage.aspx?PRID=1793096' target="_blank">
+                                          Telugu </a>
+                              
+                                    ,
+                              
+                                    
+                                    <a href='https://pib.gov.in/PressReleasePage.aspx?PRID=1792985' target="_blank">
+                                          Malayalam </a>
+                              
+                        </div>
+
+                        <div class="RelTag">
+                              <ul>
+                                    
+                              </ul>
+                        </div>
+                        <div class="clear">
+                        </div>
+                        <div id="RelLink" class="RelLink">
+                              <ul>
+                                    
+                                    
+                              </ul>
+                        </div>
+                        <center>
+                              
+                        </center>
+                  </div>
+
+                  <div id="update12">
+	
+                              
+                              <input type="hidden" name="Hidden" id="Hidden" />
+                              <div id="P_CategoryManagement" class="ModalWindow" style="border-width:0px;height:60%;width:60%;overflow:auto;display: none">
+		
+                                    <div>
+                                          <input type="image" name="btnClose" id="btnClose" src="images/close_flat_icon.png" />
+                                    </div>
+                                    <div id="description">
+                                    </div>
+                                    <div class="text-center">
+                                          <h2>
+                                                
+                                                <br>
+                                                
+                                          </h2>
+                                    </div>
+                                    <br />
+                                    <div class="clear">
+                                    </div>
+                                    
+                              
+	</div>
+                        
+</div>
+            </div>
+            
+            <div id="PdfDiv" style="display: none;">
+                  <table width="100%">
+                        <tr>
+                              <td style="font-weight: 200; text-align: center">
+                                    Ministry of Finance
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                                    <div style="font-weight: 200; text-align: center; font-size: 30px;">
+                                          Air India strategic disinvestment completed
+                                    </div>
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                                    <div style="font-weight: 200; text-align: center; font-size: 30px;">
+                                          
+                                    </div>
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                                    <div style="text-align: center; font-size: 14px;">
+                                          Posted On:
+                        27 JAN 2022 3:56PM by PIB Delhi
+                                    </div>
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                                    <div style="font-weight: 200; text-align: left; font-size: 16px;">
+                                          <p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">The Air India strategic disinvestment transaction has been completed today with Government receiving a consideration of Rs 2,700 crore from the Strategic Partner (M/s Talace Pvt Ltd, a wholly owned subsidiary of M/s Tata Sons Pvt Ltd), retaining debt of Rs 15,300 crore in Air India and AIXL and transferring shares of Air India (100% shares of Air India and its subsidiary AIXL and 50% shares of AISATS) to the Strategic Partner.</span></span></p>
+
+<p style="text-align:center"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><img alt="Description: Image" src="https://static.pib.gov.in/WriteReadData/userfiles/image/image001JFK8.jpg" style="height:401px; width:601px" /></span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">It is pertinent to mention that following Government&rsquo;s approval of the highest price bid of M/s Talace Pvt Ltd for strategic disinvestment of Air India, the Letter of Intent was issued to the winning bidder on 11 October 2021. The Share Purchase Agreement (SPA) was signed on 25 October, 2021. Thereafter, Strategic Partner (M/s Talace Pvt Ltd), Air India and the Government worked towards satisfying a set of conditions precedent defined in the SPA including approvals from anti-trust bodies, regulators, lenders, third parties, etc. These conditions have since been met to mutual satisfaction.</span></span></p>
+
+<p style="text-align:center"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">****</span></span></p>
+
+<p style="text-align:justify"><strong><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">RM/KMN</span></span></strong></p>
+
+                                    </div>
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                                    <div style="font-weight: 100; text-align: left; font-size: 16px;">
+                                          (Release ID: 1792950)
+                                    </div>
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                              </td>
+                        </tr>
+                        <tr>
+                              <td style="font-weight: 200; text-align: center; font-size: 24px;"></td>
+                        </tr>
+                  </table>
+            </div>
+            <div class="clearfix">
+            </div>
+
+            
+
+            <div class="section1">
+                  <div id="frst_t">
+                        <div id="arr_rm"><div class='sticky-social_mb'><ul class='social_mb'><a href='http://www.facebook.com/share.php?u=https://pib.gov.in/PressReleasePage.aspx?PRID=1792950' target='_blank'><li class='fb_b'   ></li></a><a href='https://twitter.com/intent/tweet?url=https://pib.gov.in/PressReleasePage.aspx?PRID=1792950&text=Air India strategic disinvestment completed' target='_blank'><li class='twitter_r'  > </li></a><a href='https://api.whatsapp.com/send?text=https://pib.gov.in/PressReleasePage.aspx?PRID=1792950' target='_blank'><li class='whatsapp_r'  ></li></a><a href='https://mail.google.com/mail/?view=cm&fs=1&tf=1&to=&su=Air India strategic disinvestment completed&body=https://pib.gov.in/PressReleasePage.aspx?PRID=1792950&ui=2&tf=1&pli=1' title='Share by Email' target='_blank'><li class='fa-envelope_r' ></li></a><a href='https://www.linkedin.com/shareArticle?mini=true&url=https://pib.gov.in/PressReleasePage.aspx?PRID=1792950&title=Air India strategic disinvestment completed&summary=My%20favorite%20developer%20program&source=LinkedIn' target='_blank'><li class='fa-linkedin_r'  ></li></a></ul></div></div>
+                  </div>
+                  <div id="second_t">
+                        <div id="sndr_rm"><div class='sticky-social'><ul class='social'><a href='http://www.facebook.com/share.php?u=https://pib.gov.in/PressReleasePage.aspx?PRID=1792950' target='_blank'><li class='fb_b'   ></li></a><a href='https://twitter.com/intent/tweet?url=https://pib.gov.in/PressReleasePage.aspx?PRID=1792950&text=Air India strategic disinvestment completed' target='_blank'><li class='twitter_r'  > </li></a><a href='https://api.whatsapp.com/send?text=https://pib.gov.in/PressReleasePage.aspx?PRID=1792950' target='_blank'><li class='whatsapp_r'  ></li></a><a href='https://mail.google.com/mail/?view=cm&fs=1&tf=1&to=&su=Air India strategic disinvestment completed&body=https://pib.gov.in/PressReleasePage.aspx?PRID=1792950&ui=2&tf=1&pli=1' title='Share by Email' target='_blank'><li class='fa-envelope_r' ></li></a><a href='https://www.linkedin.com/shareArticle?mini=true&url=https://pib.gov.in/PressReleasePage.aspx?PRID=1792950&title=Air India strategic disinvestment completed&summary=My%20favorite%20developer%20program&source=LinkedIn' target='_blank'><li class='fa-linkedin_r'  ></li></a></ul></div></div>
+                  </div>
+            </div>
+            <input type="hidden" name="ltrTitlee" id="ltrTitlee" value="Air India strategic disinvestment completed" />
+            <input type="hidden" name="ltrSubtitlee" id="ltrSubtitlee" />
+            <input type="hidden" name="ltrDescriptionn" id="ltrDescriptionn" value="&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>The Air India strategic disinvestment transaction has been completed today with Government receiving a consideration of Rs 2,700 crore from the Strategic Partner (M/s Talace Pvt Ltd, a wholly owned subsidiary of M/s Tata Sons Pvt Ltd), retaining debt of Rs 15,300 crore in Air India and AIXL and transferring shares of Air India (100% shares of Air India and its subsidiary AIXL and 50% shares of AISATS) to the Strategic Partner.&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:center&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>&lt;img alt=&quot;Description: Image&quot; src=&quot;https://static.pib.gov.in/WriteReadData/userfiles/image/image001JFK8.jpg&quot; style=&quot;height:401px; width:601px&quot; />&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>It is pertinent to mention that following Government&amp;rsquo;s approval of the highest price bid of M/s Talace Pvt Ltd for strategic disinvestment of Air India, the Letter of Intent was issued to the winning bidder on 11 October 2021. The Share Purchase Agreement (SPA) was signed on 25 October, 2021. Thereafter, Strategic Partner (M/s Talace Pvt Ltd), Air India and the Government worked towards satisfying a set of conditions precedent defined in the SPA including approvals from anti-trust bodies, regulators, lenders, third parties, etc. These conditions have since been met to mutual satisfaction.&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:center&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>****&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;strong>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>RM/KMN&lt;/span>&lt;/span>&lt;/strong>&lt;/p>
+" />
+            <script type="text/javascript">
+                  var mPlayer = document.getElementById("background_music");
+                  var mPlayAction = document.getElementById("playbutton");
+
+                  var isPlaying = false;
+
+                  function playAudio() {
+                        mPlayer.play();
+                        isPlaying = true;
+                        document.getElementById('stopA').style.display = "block";
+                        document.getElementById('playA').style.display = "none";
+                  }
+
+                  function pauseAudio() {
+                        mPlayer.pause();
+                        isPlaying = false;
+                        document.getElementById('playA').style.display = "block";
+                        document.getElementById('stopA').style.display = "none";
+                  }
+                  //function HandleAudio() {
+                  //    if (isPlaying == true) {
+                  //        //Playing already Pause it
+                  //        pauseAudio();
+                  //    } else {
+                  //        //Play the music
+                  //        playAudio();
+                  //    }
+                  //}
+            </script>
+            <script type="text/javascript">
+                  var synth = window.speechSynthesis;
+
+            
+                  function CleanHtml(html) {
+
+                        html = html.replace(/<script[\s\S]*?<\/script>/gi, '');
+
+                        return html;
+                  }
+                  function stripHtml(html) {
+                        let tmp = document.createElement("DIV");
+                        tmp.innerHTML = CleanHtml(html);
+                        return tmp.textContent || tmp.innerText || "";
+                  }
+            </script>
+            <script type="text/javascript">
+                  $(document).ready(function () {
+                        //for responsive tables
+                        $("table").each(function () {
+                              if (!$(this).closest(".table-responsive").length) {
+                                    $(this).wrap("<div class='table-responsive'></div>");
+                              }
+                        });
+
+                        var width = $(window).width();
+                        if (width < 768) {
+
+                              // Extra Small Device
+                              document.getElementById('frst_t').style.display = "block";
+                              document.getElementById('second_t').style.display = "none";
+
+                        } else if (width < 991) {
+                              document.getElementById('frst_t').style.display = "block";
+                              document.getElementById('second_t').style.display = "none";
+                              // Small Device
+
+                        } else if (width < 1199) {
+                              document.getElementById('frst_t').style.display = "none";
+                              document.getElementById('second_t').style.display = "block";
+                              // Medium Device
+
+                        } else {
+                              document.getElementById('frst_t').style.display = "none";
+                              document.getElementById('second_t').style.display = "block";
+                              // Large Device
+
+                        }
+                  });
+            </script>
+            <script type="text/javascript">
+                  $(document).ready(function () {
+                        var width = $(window).width();
+                        if (width < 768) {
+
+                              // Extra Small Device
+                              document.getElementById('frst_t').style.display = "block";
+                              document.getElementById('second_t').style.display = "none";
+
+                        } else if (width < 991) {
+                              document.getElementById('frst_t').style.display = "block";
+                              document.getElementById('second_t').style.display = "none";
+                              // Small Device
+
+                        } else if (width < 1199) {
+                              document.getElementById('frst_t').style.display = "none";
+                              document.getElementById('second_t').style.display = "block";
+                              // Medium Device
+
+                        } else {
+                              document.getElementById('frst_t').style.display = "none";
+                              document.getElementById('second_t').style.display = "block";
+                              // Large Device
+
+                        }
+                  });
+            </script>
+            
+            <style type="text/css">
+                  @media print {
+                        .sticky-social, .sticky-social_mb, .pull-right, #printPDF {
+                              display: none !important;
+                        }
+                  }
+
+                  .f_vl {
+                        padding-right: 30px;
+                        font-size: 17px;
+                        cursor: pointer;
+                  }
+
+                  .log_oo {
+                        // width: 20%;
+                        display: flex;
+                        justify-content: space-between;
+                  }
+
+                        .log_oo img {
+                              width: 150px;
+                              /*width: 100%;
+                    height: auto;*/
+                        }
+
+                  .sticky-social_mb {
+                        position: fixed;
+                        bottom: 0px;
+                        padding: 0px;
+                        margin: 0px;
+                        width: 100%;
+                  }
+
+                  .social_mb {
+                        list-style: none;
+                        display: flex;
+                        width: 100%;
+                        margin-bottom: -8px;
+                  }
+
+                        .social_mb a {
+                              padding: 8px 0px;
+                              font-size: 30px;
+                              transition: all 0.8s ease-in-out;
+                              width: 20% !important;
+                              text-align: center;
+                        }
+            </style>
+            <style type="text/css">
+                  .section1 {
+                        position: relative;
+                        padding: 10px 0px;
+                        width: 100%;
+                  }
+
+
+
+                  .sticky-social {
+                        position: fixed;
+                        top: 20px;
+                        left: 0px;
+                        padding: 0px;
+                        margin: 0px;
+                  }
+
+                  .social {
+                        list-style: none;
+                  }
+
+                        .social a li {
+                              padding: 8px 12px;
+                              font-size: 25px;
+                              transition: all 0.8s ease-in-out;
+                        }
+
+                              .social a li:hover {
+                                    margin-right: -30px;
+                                    box-shadow: 2px 5px 10px grey;
+                              }
+
+                                    .social a li:hover .fa {
+                                          margin-left: 20px;
+                                    }
+
+                  .fb_b {
+                        /* background-color: var(--dbim-key, #0F5757);*/
+                        background-color: var(--dbim-key, #0F5757);
+                  }
+
+                  .twitter_r {
+                        /* background-color: rgb(29, 161, 242);*/
+                        background-color: var(--dbim-key, #0F5757);
+                  }
+
+                  .whatsapp_r {
+                        /* background-color: var(--dbim-key, #0F5757);*/
+                        background-color: var(--dbim-key, #0F5757);
+                  }
+
+                  .fa-envelope_r {
+                        /* background-color: var(--dbim-key, #0F5757);*/
+                        background-color: var(--dbim-key, #0F5757);
+                  }
+
+                  .fa-linkedin_r {
+                        background-color: var(--dbim-key, #0F5757);
+                  }
+            </style>
+            <style type="text/css">
+                  @media only screen and (max-device-width: 767px) {
+                        p span img {
+                              max-width: 90% !important;
+                              height: auto !important;
+                        }
+
+                        p img {
+                              max-width: 90% !important;
+                              height: auto !important;
+                        }
+
+                        h2 {
+                              font-size: var(--dbim-h2, 20px);   /* was 20px !important - the !important blocked A+/A- */
+                              font-weight: 600 !important;
+                        }
+
+                        h3 {
+                              font-size: var(--dbim-h3, 16px);   /* was 16px !important */
+                              font-weight: 600 !important;
+                        }
+                  }
+            </style>
+            <style type="text/css">
+                  /* === Film Roll Badge Styling(IFFI2025 countdown) === */
+                  .film-roll-badge {
+                        position: absolute;
+                        top:82%;
+                        right: 20px;
+                        width: 230px;
+                        height: 70px;
+                        background: repeating-linear-gradient( to right, var(--dbim-green-key, #0F5757) 0px, var(--dbim-green-key, #0F5757) 18px, var(--dbim-text, #150202) 18px, var(--dbim-text, #150202) 36px );
+                        border-top: 8px solid var(--dbim-green-key, #0F5757);
+                        border-bottom: 8px solid var(--dbim-green-key, #0F5757);
+                        border-radius: 8px;
+                        overflow: hidden;
+                        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+                        animation: moveFilm 8s linear infinite;
+                        z-index: 10;
+                  }
+
+                        /* film sprocket holes */
+                        .film-roll-badge::before,
+                        .film-roll-badge::after {
+                              content: "";
+                              position: absolute;
+                              width: 100%;
+                              height: 10px;
+                              background: repeating-linear-gradient( to right, var(--dbim-green-key, #0F5757) 0px, var(--dbim-green-key, #0F5757) 10px, #fff 10px, #fff 20px );
+                              left: 0;
+                              z-index: 2;
+                        }
+
+                        .film-roll-badge::before {
+                              top: -4px;
+                        }
+
+                        .film-roll-badge::after {
+                              bottom: -4px;
+                        }
+
+                  .film-roll-inner {
+                        position: relative;
+                        height: 100%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        animation: flicker 2s infinite ease-in-out;
+                  }
+
+                  .countdown-text {
+                        font-size: 1.3rem;
+                        font-weight: 700;
+                        color: #fff;
+                        text-shadow: 0 0 6px rgba(255, 255, 255, 0.4), 0 0 10px #000;
+                        white-space: nowrap;
+                  }
+
+                  /* === Animations === */
+                  @keyframes moveFilm {
+                        0% {
+                              background-position: 0 0;
+                        }
+
+                        100% {
+                              background-position: 120px 0;
+                        }
+                  }
+
+                  @keyframes flicker {
+                        0%, 100% {
+                              opacity: 1;
+                        }
+
+                        50% {
+                              opacity: 0.9;
+                        }
+
+                        25% {
+                              opacity: 0.95;
+                        }
+
+                        75% {
+                              opacity: 0.85;
+                        }
+                  }
+
+                  /* === Responsive Adjustments === */
+                  @media (max-width: 1500px) {
+                        .film-roll-badge {
+                              top: 68%;
+                              right: 18px;
+                              /* width: 220px; */
+                              height: 65px;
+                              font-size: 0.85rem;
+                        }
+
+                        .press-section {
+                              margin-top: 35px;
+                        }
+                  }
+
+                  @media (max-width: 992px) {
+                        .film-roll-badge {
+                              top: 52%;
+                              right: 10px;
+                               width: 200px; 
+                              height: 60px;
+                        }
+                  }
+
+                  @media (max-width: 768px) {
+                        .film-roll-badge {
+                              top: 56%;
+                              right: 10px;
+                               width: 124px; 
+                              height: 55px;
+                        }
+
+                        .countdown-text {
+                              font-size: 0.9rem;
+                        }
+                  }
+
+                  @media (max-width: 576px) {
+                        .film-roll-badge {
+                              top: 59%;
+                              right: 5px;
+                              /* width: 160px; */
+                              height: 50px;
+                        }
+
+                        .countdown-text {
+                              font-size: 0.85rem;
+                        }
+                  }
+            </style>
+          <script type="text/javascript">
+                const festivalStart = new Date("2025-11-20T00:00:00").getTime();
+                const festivalEnd = new Date("2025-11-28T23:59:59").getTime();
+
+                const countdownElement = document.getElementById("countdown");
+
+                const interval = setInterval(() => {
+                      const now = new Date().getTime();
+
+                      // BEFORE FESTIVAL — show days + hours left
+                      if (now < festivalStart) {
+                            const diff = festivalStart - now;
+                            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+
+                            countdownElement.innerHTML = `
+              ${days} Day${days !== 1 ? 's' : ''} 
+              ${hours} Hour${hours !== 1 ? 's' : ''} to go
+          `;
+
+                      }
+
+                      // DURING FESTIVAL — show 56th IFFI - Day X
+                      else if (now >= festivalStart && now <= festivalEnd) {
+                            const dayNumber = Math.floor((now - festivalStart) / (1000 * 60 * 60 * 24)) + 1;
+                            countdownElement.innerHTML = `56th IFFI - Day ${dayNumber}`;
+                      }
+
+                      // AFTER FESTIVAL — new message
+                      else {
+                            countdownElement.innerHTML = `✨ IFFI closes but never ends…`;
+
+                            // Width change logic
+                            const elements = document.querySelectorAll('.film-roll-badge');
+                            elements.forEach(el => el.style.width = "350px");
+
+                            clearInterval(interval);
+                      }
+
+                }, 1000);
+          </script>
+ <script type="text/javascript">
+
+               const miffStart = new Date("2026-06-15T00:00:00").getTime();
+               const miffEnd = new Date("2026-06-15T23:59:59").getTime();
+
+               const miffElement = document.getElementById("miff");
+
+               if (miffElement) {
+
+                   const miffInterval = setInterval(() => {
+
+                       const now = new Date().getTime();
+
+                       // Before MIFF
+                       if (now < miffStart) {
+
+                           const diff = miffStart - now;
+                           const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                           const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+
+        
+
+                   /*  miffElement.innerHTML = `${days} Day${days !== 1 ? 's' : ''} ${hours} Hour${hours !== 1 ? 's' : ''} to MIFF`;*/
+                           miffElement.innerHTML = `${days} Day${days === 1 ? '' : 's'} to MIFF ...`;
+
+
+                     }
+
+                       // During MIFF
+                       else if (now >= miffStart && now <= miffEnd) {
+
+                           const dayNumber =
+                               Math.floor((now - miffStart) / (1000 * 60 * 60 * 24)) + 1;
+
+                           miffElement.innerHTML = `19th MIFF - Day ${dayNumber}`;
+                       }
+
+                       // After MIFF
+                       else {
+
+                           miffElement.innerHTML = `✨ MIFF concludes, cinema lives on...`;
+
+                           document.querySelectorAll('.film-roll-badge')
+                               .forEach(el => el.style.width = "350px");
+
+                           clearInterval(miffInterval);
+                       }
+
+                   }, 1000);
+               }
+
+</script>
+
+      
+
+<script type="text/javascript">
+//<![CDATA[
+(function() {var fn = function() {$get("sc_HiddenField").value = '';Sys.Application.remove_init(fn);};Sys.Application.add_init(fn);})();Sys.Application.add_init(function() {
+    $create(Sys.Extended.UI.ModalPopupBehavior, {"BackgroundCssClass":"modalBackground","PopupControlID":"P_CategoryManagement","dynamicServicePath":"/PressReleasePage.aspx","id":"mpe"}, null, null, $get("Hidden"));
+});
+//]]>
+</script>
+<input type="hidden" name="__ncforminfo" value="cOMrl-cJR0zqbvkL0p469nGfmJE_Rz7du5vxNJ21t6-637uJvmj4_U_udxzy30AjbDQWFQRKoou1G9XpBZ8-BoUyuFEX0JJ2wDhmyixUramv2V3a4TNiqw=="/></form>
+      
+      
+
+<script type="application/json" id="pibConsentConfig">{"ga4Id":"G-Q414Y0X6EE,G-QJJ6LZ8LHV","policyUrl":"/CookiePolicy.aspx","text":{"bannerLabel":"Cookie consent","title":"Cookies on this website","body":"We use essential cookies to make this website work. We also set analytics cookies when you arrive, so we can see how the site is used and improve it - you can switch these off below or at any time from the Cookie Policy page. Cookies from embedded social media content are set only if you allow them.","policyLink":"Read our Cookie Policy","accept":"Accept all","reject":"Reject optional","customize":"Customise","prefsTitle":"Cookie preferences","prefsIntro":"Choose which cookies this website may set. Essential cookies cannot be switched off because the site does not work without them. Analytics cookies are on unless you turn them off. Social media cookies stay off until you allow them. You can change these choices at any time from the Cookie Policy page.","essentialName":"Essential cookies","essentialDesc":"Needed for the site to function. These remember your session, your language and region, your text size and colour theme, and verify the security check on forms. They are always on.","analyticsName":"Analytics cookies","analyticsDesc":"Help us understand how visitors use the site - which pages are read and how long people stay - so it can be improved. The information is collected in a form that does not directly identify you. These are on when you arrive; switching them off here stops them and deletes the ones already set.","socialName":"Social media cookies","socialDesc":"Set by content embedded from X, Facebook and YouTube, such as timelines and videos. These platforms may use them to track you across websites. They stay off until you allow them.","save":"Save preferences","cancel":"Cancel"}}</script>
+<script type="text/javascript" src='/js/consent.js?v=10'></script>
+
+<script type="text/javascript" src='/js/consent-embeds.js?v=10'></script>
+
+    
+
+<script type="text/javascript">
+    (function () {
+        try {
+            if (window.self === window.top) { return; }
+        } catch (e) { return; }
+        var s = document.createElement("style");
+        s.textContent =
+            ".sticky-social, .sticky-social_mb { display: none !important; }";
+        (document.head || document.documentElement).appendChild(s);
+    }());
+</script>
+</body>
+</html>
+

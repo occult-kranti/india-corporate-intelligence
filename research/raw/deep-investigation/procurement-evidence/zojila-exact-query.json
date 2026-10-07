@@ -1,0 +1,17 @@
+{
+  "retrievedAt": "2026-10-07T00:21:31.671679+00:00",
+  "source": "user-supplied tender.sarthaksidhant.com, retained SQLite snapshot 2026-06-26",
+  "database": "aoc_tenders.db",
+  "query": "SELECT a.*, d.details_json, d.scraped_at FROM aoc_tenders a LEFT JOIN aoc_details d USING(internal_id) WHERE a.tender_id = ? OR a.ref_no = ?",
+  "params": [
+    "2020_NHIDC_564017_1",
+    "NHIDCL/JnK-Ladakh/ Zojila/NH-01/2020"
+  ],
+  "count": 0,
+  "rows": [],
+  "limitations": [
+    "Exact public tender ID/reference lookup only; zero records is not proof no award exists.",
+    "Listing closing_date has audited publication semantics and is not used for evaluation speed.",
+    "Contractor text not merged to corporate identity."
+  ]
+}

@@ -1,0 +1,20 @@
+---
+name: follow-the-money
+description: Extend or review the map-led money-trail atlas, its corporate and public-service casefiles, official security universe, exact relationships, and source-closed evidence exports.
+---
+
+# Follow the money
+
+Use this workflow for `/follow-the-money`. Read `src/data/investigation.ts`, `docs/investigation/DEEP_INVESTIGATION_METHOD.md`, and the relevant report in `docs/deep-investigation/` before changing a case. Reuse the source-retrieval, evidence-tiering and investigative workspace practices already in this repository.
+
+1. State a falsifiable question and the accounting unit. Assign a source researcher and an independent challenger. In a first panel, agree the exact identity, amount stage, geography, timeline, counter-evidence and presentation contract. Do not treat an unexplored record as a corruption lead by default.
+2. Mine retained sources before adding another summary. Retrieve original instruments and latest outcomes. Keep response bytes, date, URL, hash, extraction method and failed access receipts. An indexed extraction is a distinct artifact, never a successful original download. Keep very large originals outside the repository with hashes and reproducible locators; retain relevant page excerpts and full text when permitted.
+3. Add a strict `InvestigationRawSlice` under `research/raw/deep-investigation/`. A coherent case has `kind: investigation-case`, exact local entities and relationships, response cards, an alternative explanation, a falsifier and current status. Sources prove the specific assertion they support. A filed allegation proves that an allegation was filed; it does not prove its substance.
+4. Trace commitments, asset transfers, consideration, debt stocks, receivables, revenue and payments separately. Investor subsets are not additional tranches. Enterprise value is not government cash. A sovereign project loan is not a contractor loan. MW and concession years are not rupees. Do not sum incompatible stages, periods, currencies or units.
+5. Resolve corporate identity through identifiers or explicit reviewed legal documents. Current direct shareholding and effective parent control are different edges. The NSE CSV is a securities denominator; an exact ISIN match establishes identity, not a reviewed investigation. Hold symbol-only or conflicting-ISIN matches. Define aggregate nodes as cohorts, not individually resolved people or presumed payees.
+6. Keep alleged payments to unidentified officials as claim records until a recipient relation is sourced. Do not draw a financial arrow toward a utility, minister or political party merely to complete a path. Link the original allegation to responses and later outcomes. Proposed consent is not entered judgment; judgment is not paid penalty; bail is not a merits decision.
+7. Run open models only for disclosed candidate retrieval/ranking. Pin weights and revisions, retain corpus/artifact hashes, and run an actual model before describing it as used. Similarity never creates identity, influence, wrongdoing or payment edges.
+8. Hold a second panel on the rendered interface and the changed evidence, with research, UI/UX, presentation and technical perspectives. Record concrete defects and corrections; identify simulated expert perspectives honestly. Exercise map → case → exact edge → source and response → saved/exported evidence at mobile and desktop sizes.
+9. Update archive manifests after research freezes, regenerate affected corpus artifacts, run validators and meaningful browser regressions, then use the existing authorized release workflow. Preserve deep-link history, source/response closure, exact legal outcomes, bounded visual graphs and full export ledgers. Report coverage gaps rather than claiming a complete census of corruption.
+
+Acceptance commands are defined in `package.json`: `validate:deep-investigation`, `test:deep-investigation`, `test:deep-investigation:model`, and `test:deep-investigation:browser`. Shared atlas and investigation checks also apply when their inputs or navigation change.

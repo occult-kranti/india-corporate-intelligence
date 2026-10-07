@@ -1,0 +1,32 @@
+{
+  "retrievedAt": "2026-10-07T00:25:39.663374+00:00",
+  "sql": "SELECT a.*,d.details_json,d.scraped_at FROM aoc_tenders a LEFT JOIN aoc_details d USING(internal_id) WHERE a.ref_no IN (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+  "params": [
+    "NHSRCL/CO/ST/PMC-ST/2025/14",
+    "NHSRCL/CO/CONTRACT/EIA/2020/16",
+    "NHSRCL/BRC/2020/32",
+    "NHSRCL/BRC/2020/31",
+    "NHSRCL/BRC/2020/29",
+    "NHSRCL/BRC/2020/30",
+    "NHSRCL/VADODARA/VEHICLE/2018-19/15",
+    "MAHSR - C-4",
+    "NHSRCL/CO/CA/LIDAR/2020/19",
+    "NHSRCL/BRC/KRCA/Elect/2019-20/01",
+    "NHSRCL(ADI)/MA/ST02/USWR/6.2B",
+    "NHSRCL/CO/CONTRACT/INT-COURIER/ 2019/4",
+    "NHSRCL/BRC/2020/38",
+    "NHSRCL/BRC/2020/35",
+    "NHSR-MA/NVS/Tree Cut/2020",
+    "MAHSR-C-6",
+    "NHSRCL/CO/CA/EIA/2020/20",
+    "NHSRCL/CO/CA/SIA/2020/21",
+    "NHSRCL/CO/CA/GAD/2020/22",
+    "NHSRCL/CO/CA/DATA/2020/23"
+  ],
+  "rows": [],
+  "count": 0,
+  "limitations": [
+    "Exact ref_no only. Formatting variants not searched or merged. A zero result cannot disprove an award.",
+    "Contractor identity remains separate from dataset labels."
+  ]
+}

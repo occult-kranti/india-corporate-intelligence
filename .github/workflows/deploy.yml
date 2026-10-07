@@ -74,6 +74,9 @@ jobs:
       - name: Procurement provenance, cohort freshness and audit invariants
         run: npm run test:procurement
 
+      - name: Follow-the-money cases, official universe and model provenance
+        run: npm run validate:deep-investigation && npm run test:deep-investigation && npm run test:deep-investigation:model
+
       - name: Typecheck and build
         run: npm run build
 
@@ -99,6 +102,9 @@ jobs:
       # New workspace workflows admitted after three consecutive stable runs.
       - name: Geographic investigation, paths and casebook workflows
         run: npm run test:investigation:browser
+
+      - name: Follow-the-money map, response and export workflow
+        run: npm run test:deep-investigation:browser
 
       - name: Source-backed procurement trail workflow
         run: npm run test:procurement:browser
