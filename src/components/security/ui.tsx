@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useEffect, useId, useRef, useState, type KeyboardEvent, type ReactNode } from 'react';
+import { createContext, memo, useCallback, useContext, useEffect, useId, useRef, useState, type KeyboardEvent, type ReactNode } from 'react';
 import { flushSync } from 'react-dom';
 import { TIERS, type Source, type Tier } from '../../graph/schema';
 import type { StateCode } from '../../graph/schema';
@@ -355,16 +355,7 @@ export function TwinTable({ caption, cols, rows, sortable, sortKey, onSort, minW
     return (
       <div className="space-y-2">
         <p data-twin-caption="" tabIndex={-1} className={`text-[12.5px] text-text-muted ${TARGET}`}>{cap}</p>
-        {rows.map((r, i) => (
-          <dl key={i} data-row="" {...(r.attrs ?? {})} className="border border-border rounded p-2.5 grid gap-1 text-[14px] m-0">
-            {r.cells.map((c, j) => (
-              <div key={j} className="min-w-0">
-                <dt className="font-mono text-[12px] text-text-muted">{cols[j]?.label}</dt>
-                <dd className="m-0 text-[14px] text-text-secondary break-words min-w-0">{c}</dd>
-              </div>
-            ))}
-          </dl>
-        ))}
+        <CardRows rows={rows} cols={cols} />
       </div>
     );
   }
@@ -390,19 +381,45 @@ export function TwinTable({ caption, cols, rows, sortable, sortKey, onSort, minW
             })}
           </tr>
         </thead>
-        <tbody>
-          {rows.map((r, i) => (
-            <tr key={i} {...(r.attrs ?? {})} aria-current={r.current ? 'true' : undefined} className={`align-top ${r.current ? 'bg-accent/[0.07]' : ''}`}>
-              {r.cells.map((c, j) => (cols[j]?.th
-                ? <th key={j} scope="row" className="sec-sticky text-left font-normal border-b border-border py-2 pr-3 text-text">{c}</th>
-                : <td key={j} className="border-b border-border py-2 pr-3 text-text-secondary">{c}</td>))}
-            </tr>
-          ))}
-        </tbody>
+        <BodyRows rows={rows} cols={cols} />
       </table>
     </div>
   );
 }
+/**
+ * A twin's rows, drawn outside the page context: when the caller keeps the same rows (the
+ * 3,556 coverage rows across a page press or a panel), React skips them instead of
+ * reconciling every cell again.
+ */
+const BodyRows = memo(function BodyRows({ rows, cols }: { rows: Row[]; cols: Col[] }) {
+  return (
+    <tbody>
+      {rows.map((r, i) => (
+        <tr key={i} {...(r.attrs ?? {})} aria-current={r.current ? 'true' : undefined} className={`align-top ${r.current ? 'bg-accent/[0.07]' : ''}`}>
+          {r.cells.map((c, j) => (cols[j]?.th
+            ? <th key={j} scope="row" className="sec-sticky text-left font-normal border-b border-border py-2 pr-3 text-text">{c}</th>
+            : <td key={j} className="border-b border-border py-2 pr-3 text-text-secondary">{c}</td>))}
+        </tr>
+      ))}
+    </tbody>
+  );
+});
+const CardRows = memo(function CardRows({ rows, cols }: { rows: Row[]; cols: Col[] }) {
+  return (
+    <>
+      {rows.map((r, i) => (
+        // dt and dd sit directly in the <dl>: a phone under Table view draws thousands of these cards,
+        // and a wrapper per field was a third of their elements.
+        <dl key={i} data-row="" {...(r.attrs ?? {})} className="border border-border rounded p-2.5 grid grid-cols-1 text-[14px] m-0">
+          {r.cells.map((c, j) => [
+            <dt key={`t${j}`} className={`font-mono text-[12px] text-text-muted min-w-0 ${j ? 'mt-1' : ''}`}>{cols[j]?.label}</dt>,
+            <dd key={`d${j}`} className="m-0 text-[14px] text-text-secondary break-words min-w-0">{c}</dd>,
+          ])}
+        </dl>
+      ))}
+    </>
+  );
+});
 
 /** "page {p} of {n}" with previous and next, writing `tp` (paged at 400, never truncated). */
 export function Pager({ page, pages, onPage }: { page: number; pages: number; onPage: (p: number) => void }) {
@@ -454,11 +471,40 @@ export function Roving({ label, children, className = '', describedBy }: { label
   );
 }
 
+/**
+ * Scroll an in-page target to the top and move focus with it, so the next Tab continues from
+ * where the reader landed (A11Y-006 M4): the target itself if it takes focus, else its first
+ * heading that does (every Q-block, chapter and section heading carries tabIndex -1).
+ */
+export function goTo(id: string) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.scrollIntoView({ block: 'start' });
+  const target = el.hasAttribute('tabindex') || el.matches('a[href], button, input, select, summary') ? el
+    : el.querySelector<HTMLElement>('h2[tabindex], h3[tabindex], h4[tabindex]') ?? el.querySelector<HTMLElement>('h2, h3, h4') ?? el;
+  if (!target.hasAttribute('tabindex') && !target.matches('a[href], button, input, select, summary')) target.setAttribute('tabindex', '-1');
+  target.focus({ preventScroll: true });
+}
+/**
+ * After focus returns to a control, bring it out from under the pinned strip and tabs (and the
+ * site header on a phone): `scrollIntoView` aligns it to the scroller's top edge, which they
+ * cover (A11Y-006 M2).
+ */
+export function reveal(el: Element | null | undefined) {
+  if (!el || !(el as HTMLElement).isConnected) return;
+  el.scrollIntoView({ block: 'nearest' });
+  const stack = document.querySelector<HTMLElement>('[data-pinned-stack]');
+  const scroller = el.closest('main') as HTMLElement | null;
+  if (!stack || !scroller) return;
+  const cover = stack.getBoundingClientRect().bottom + 8;
+  const top = el.getBoundingClientRect().top;
+  if (top < cover) scroller.scrollBy({ top: top - cover });
+}
 /** An in-page anchor that scrolls instead of navigating: under HashRouter a bare `#id` would be read as a route. */
 export function Anchor({ to, children, className = '', onGo }: { to: string; children: ReactNode; className?: string; onGo?: () => void }) {
   return (
     <a href={`#${to}`} className={`underline underline-offset-2 hover:text-accent ${FOCUS} ${className}`}
-      onClick={(e) => { e.preventDefault(); const el = document.getElementById(to); el?.scrollIntoView({ block: 'start' }); onGo?.(); }}>
+      onClick={(e) => { e.preventDefault(); goTo(to); onGo?.(); }}>
       {children}
     </a>
   );

@@ -23,6 +23,16 @@ page; findings there are marked "site".*
 | **Minor** | **12** | small friction |
 | total | **23** | |
 
+**Fix pass, 2026-10-07 (frontend):**
+- Fixed: S1, S2 and S4; M1–M5 and M7; minors m2, m7, m8 and m10.
+- Fixed in part:
+  - S3: the panel is still outside `main`, because the suite's AC-120 helper locates panels by that placement.
+  - M6: the pension label stays inside the stack column that the criteria pin.
+  - Minors m3, m9 and m12.
+- Not fixed: m1 and m4, which suite checks block.
+
+Each finding below carries its mark.
+
 **Nothing blocks release under the skill's rule** (Critical findings block). Four Serious
 findings should be fixed before the suite joins `test:pages`, because two of them are the page
 saying something false or nothing at all to a reader the page was built for.
@@ -145,6 +155,8 @@ unreachable by keyboard on a phone. *Workaround:* the long-form and coverage twi
 rows. *Fix:* look the cell up from the figure (`figureRef.current.querySelector(\`button[data-cell="${li}-${fi}"]\`)`),
 open its group's `<details>` before focusing, and keep the one roving stop across the 34 tables.
 
+*Fixed 2026-10-07: `LineLedger` looks the next cell up from the figure (`figureRef`), not the desktop table, and opens every closed `<details>` around it (its group and the bodies' summary) before focusing it; one roving stop across all the tables. Measured on a pinned build at 390: ArrowRight, ArrowDown, End and Home move focus 0-0 → 0-1 → 0-2 → 1-2 … 6-2 → 6-27 → 6-0, with one `tabindex="0"` cell. m10 is fixed with it.*
+
 **S3 · Serious — at ≥ 1280 px the open panel is outside the page's focus order and covers the
 rail (2.4.3, 2.4.7; 1.3.1).** The panel (FY readout, cell, state, vendor, case, body, record) is
 portalled into a `div[data-sec-layer]` prepended to `<body>` (Security.tsx:249–253, 368–371) and
@@ -165,6 +177,8 @@ the `<aside data-margin>` it belongs to (Security.tsx:349–357), before the rai
 order after Find, and pushes the rail down instead of covering it. The spec's §5.0.5 wish ("first
 in the document's reading order") is met by placing it first in the aside, not first in `<body>`.
 
+*Fixed 2026-10-07 (in part): the layer is a named region ("Open panel"). Shift+Tab from its heading or first stop returns to the control that opened it (Find when that is gone), and Tab from its last stop continues with the control after the opener in `main`, as if the panel followed it. The margin `<aside>` sticks beneath the open panel (top = the panel's bottom + 12 px, with its own scroll), and the panel is capped at 60vh, so nothing in the margin column is covered. Measured at 1440 with a cell panel open: 0 of 22 rail controls lie under the panel when focused (`elementFromPoint`), and Shift+Tab / Tab from the panel land on the ledger cell and on the next stop after it. Not done: moving the panel into the `<aside>` inside `main`. The suite's AC-120 check finds a panel's `h2` as the first `h2` on the page with an ancestor that holds a `Close`/`Back to` control (`__ac.card`). With the panel anywhere inside `main`, the resolution statement's `h2` matches first, so AC-120 fails on a page that conforms. That helper is the test writer's to change. Until it is, the panel stays a layer outside `main` and the screen-reader reading order is unchanged.*
+
 **M1 · Moderate — the active option on every map is a 0.47 px hairline (2.4.7).** On the spend
 and strength maps (B6) and the footprint map (F1) the option under `aria-activedescendant` is
 stroked `--color-text-secondary` at 0.8 user units (StatePair.tsx:108), which the viewBox scales by
@@ -175,6 +189,8 @@ words, which is why this is not Serious. *Fix:* draw the active option with a 2 
 `vector-effect="non-scaling-stroke"` stroke in `--color-text`, distinct from the 2.4-unit accent
 of the selected option.
 
+*Fixed 2026-10-07: while a map has focus, the option under `aria-activedescendant` is drawn again, last, as a 2 px `vector-effect="non-scaling-stroke"` outline in `--color-text` (`data-active-outline`, inside the `aria-hidden` group). Neighbouring states no longer overdraw it, and it stays distinct from the accent stroke of the selected option.*
+
 **M2 · Moderate — on a phone, focus returns under the fixed header and pinned stack (2.4.7,
 2.4.3).** At 390 × 844 the site header and the pinned stack cover the top 206 px of `main`.
 `closePanel` and the effect behind it (Security.tsx:139–150, 230–238) restore focus with
@@ -184,12 +200,16 @@ visible. The vendor panel's heading also opens partly under the stack. At 1440 e
 is 100 % visible. *Fix:* `main { scroll-padding-top: <header + stack height> }` set from the
 stack's measured height (the stack already has `data-pinned-stack`), or `block: 'center'`.
 
+*Fixed 2026-10-07: `reveal()` (ui.tsx) runs wherever the page moves focus back or into a panel (Close, Escape, `Back to …`, the fallback targets, the panel heading). After `scrollIntoView({ block: 'nearest' })` it scrolls `main` so the element clears the bottom of `[data-pinned-stack]` by 8 px. No `scroll-padding` was set, so the Q-blocks' `scroll-mt-40` anchors are unchanged.*
+
 **M3 · Moderate — the Cases chapter link puts focus off the screen (2.4.7, 2.4.3).** "Cases,
 chapter 4 — 3 control pairs, 1 case(s) without one" (Procurement.tsx:52–66) scrolls the chapter
 heading to the top and then focuses the first pair row's button with `preventScroll`, which lies
 below the fold: at y 961 in a 900 px viewport at 1440, y 1,175 in 844 at 390 — 0 % visible both
 times. *Fix:* focus the chapter's `h3` (`#sec-P4-h`, already `tabIndex={-1}`) as the other three
 chapter links do, or drop `preventScroll`.
+
+*Fixed 2026-10-07: the link still lands on the first pair's button, which is the path AC-121 counts, and `reveal()` scrolls that button into view below the pinned stack after focusing it.*
 
 **M4 · Moderate — in-page links scroll but leave focus behind (2.4.3).** "rated in Q5: the stories
 about {vendor}" (Procurement.tsx:260, 737; one per vendor card and comparator), the rail's
@@ -201,9 +221,13 @@ after the refusals link, the next Tab lands in Contested, not Refusals. The Delh
 every skip link do move focus, and are the pattern to copy. *Fix:* in `Anchor` and the two inline
 handlers, focus the target heading (each already has `tabIndex={-1}`) after scrolling.
 
+*Fixed 2026-10-07: one helper, `goTo(id)` (ui.tsx), scrolls the target to the top and moves focus to it, or to its first heading (given `tabIndex={-1}` if it has none). `Anchor`, both "rated in Q5" links and the strip's "what resolves at which level" link use it.*
+
 **m10 · Minor — the first ledger cell's ring is partly under the sticky lane label at 390
 (2.4.7).** 53 % of the ring's expected area is visible for the FY1999-00 cell; its left edge sits
 under the 120 px sticky label column. *Fix:* `scroll-margin-left: 124px` on the cell buttons.
+
+*Fixed 2026-10-07: the cell buttons carry `scroll-margin-left: 124px` below 640 px.*
 
 **m11 · Minor (advisory) — the Procurement lens is 457 Tab stops at 1440.** P1 takes 240 (every
 source link on every vendor card is its own stop), P4 96, P3 68. The spec allows this (vendor
@@ -228,11 +252,15 @@ one. *Fix:* `slotWord` for `hidden` → `` `${s.hidden} hidden by the ${s.why} f
 hidden slot with a 1 px dotted `--color-text-muted` outline (5.32:1) and no fill, so it is ≥ 3:1,
 distinct from the hatch, and still "dimmed".
 
+*Fixed 2026-10-07: `slotWord` names a hidden slot `{k} row(s) hidden by the {tier|payer} filter — not absent` in the cell's name, using the same words as the slot's own label and AC-59. `.sec-hidden-slot` has no fill and a 1 px dotted `--color-text-muted` outline (5.32:1), drawn distinct from the hatch.*
+
 **m3 · Minor — `aria-*` references to elements that are not there (4.1.2).** The two inactive lens
 tabs carry `aria-controls="sec-panel-footprint"` / `"sec-panel-procurement"`, panels that are not
 rendered; the graph's jump-to input carries `aria-controls="jumpto-listbox"` while the listbox is
 closed. *Fix:* set `aria-controls` only on the selected tab (WAI-ARIA allows it), and only while
 the listbox is open.
+
+*Fixed 2026-10-07 (in part): only the selected lens tab carries `aria-controls`. The graph's jump-to input belongs to the shared `GraphExplorer` and was not changed.*
 
 **m12 · Minor — five of seven figures have no accessible name; the B6 maps have no skip link.**
 The ledger figure, both B6 map figures, the Delhi-line figure and the connections figure are
@@ -240,12 +268,16 @@ The ledger figure, both B6 map figures, the Delhi-line figure and the connection
 skip link costs little, but the spec (§13) asks for one before every drawing. *Fix:*
 `aria-labelledby` the Q-block's `h3` on each figure, as B1 and B2 do.
 
+*Fixed 2026-10-07 (in part): the ledger figure is named by `sec-B3-h`, the two B6 map figures and the Delhi-line figure by their own `h4`s (given ids), and the connections figure by `sec-conn-h`. No skip link was added before the B6 maps, because AC-121 caps the spend map at 30 Tab stops and the audit measured 27.*
+
 **m4 · Minor — two links with one name in one list (2.4.4).** The Contested toolbar holds two
 links named "Bombay High Court, Union of India through the Indian Army v State of Maharashtra …"
 and the Gaps toolbar two named "Expenditure Budget 2026-27, Notes on Demands for Grants, Demands
 19–22 …" (same title, different URLs). The spec (§13) forbids it. *Fix:* the `Src` component
 already prints the host after the title in its list form; add it, visually hidden, in the inline
 form.
+
+*Not fixed 2026-10-07: visually hidden text inside a source link changes the link's `innerText`, which AC-47's quoted-figure check reads to the character. Left for the test writer and the lead.*
 
 ### 1.4.10 Reflow · 1.4.4 Resize Text · 1.4.12 Text Spacing
 
@@ -259,15 +291,21 @@ Procurement measure 390 / 390 and 320 / 320 in every state, `view=table` include
 label a block, give the select `w-full max-w-full min-w-0`, and move "GSDP in this build is for
 2024-25 only" out of the option text into the select's description.
 
+*Fixed 2026-10-07: the label wraps (`flex-wrap min-w-0 max-w-full`) and the select is `min-w-0 max-w-full`. An unavailable year's visible text reads `{fy} {stage} · {n} states — unavailable`. Its full reason (`… — GSDP in this build is for {GSDP_FY} only`) stays in the option's `aria-label`, where AC-81 and AC-118 read it, and is also printed as a line under the select, linked by `aria-describedby`. Measured on a pinned build: `main.scrollWidth` = `clientWidth` = 390 at 390 (at rest, `view=table`, `st=mh`, `payer=states`) and 320 at 320.*
+
 **m2 · Minor — the Find input overflows the margin at ≥ 1280 px.** In the wide layout Find sits in
 the 22 rem margin column, but the input keeps `sm:w-[28rem]` (Chrome.tsx:420), so `main` scrolls
 64 px sideways at 1280 and 1440 on every lens, in both the full and the scaffold build. Not a
 1.4.10 failure at these widths, but the same symptom. *Fix:* `xl:w-full` (or `max-w-full`).
 
+*Fixed 2026-10-07: the Find input is `xl:w-full max-w-full`.*
+
 **m8 · Minor — office-lane labels clip under text spacing (1.4.12).** With the 1.4.12 override at
 1280, "Defence", "Defence" and one other 56 px `truncate` label in the Q2 drawing are clipped. The
 drawing is `aria-hidden` and the list under it carries every word. *Fix:* let the label column
 grow (`min-w-[56px]` instead of `w-[56px]`).
+
+*Fixed 2026-10-07: the label keeps its 56 px column, which keeps the lanes aligned, and wraps (`break-words leading-tight`) instead of truncating.*
 
 200 % (640 × 400): no overflow on any lens. Text spacing: nothing else clipped.
 
@@ -282,6 +320,8 @@ class in words. Hue is the frozen family channel and must not be restyled, so th
 channel, not a new colour. *Fix:* position — two lanes per year (public above the axis's centre
 line, private below), or two small multiples on one scale.
 
+*Fixed 2026-10-07: class is now read three ways. First, the family hue (frozen). Second, the half of the year column: each mark now stays inside its half, public left and private right, with jitter ≤ 8 % of the column. Third, the shape: a circle for public sector, a diamond for private, JV or foreign. The mark keeps `data-mark="award"`, `data-cr`, its fill, stroke and dash, and the caption names the key at every width.*
+
 **M6 · Moderate — the FY filter dims text below 4.5:1 (1.4.3).** With `fy=2010-11..2015-16`, text
 outside the range is drawn at opacity .2–.25: the stack's reconciliation glyphs (=, ≠, ·) at
 1.35:1, the latest year's pension label "pensions ₹1,71,338.22 cr · 21.84% of stack, computed here"
@@ -290,6 +330,8 @@ Ledger.tsx:156 and its header). Dimming is the spec's "dimmed, not removed", but
 exception for de-emphasised text. *Fix:* dim the drawing, not the words: keep text at
 `--color-text-muted` without opacity (5.32:1) and mark out-of-range columns with a hatch-free
 band or a bracket.
+
+*Fixed 2026-10-07 (in part): the ledger's year headers are no longer dimmed; under an FY filter the in-range headers are drawn in `--color-text` over a 2 px accent rule. The stack's reconciliation marks (=, ≠, ·) moved out of the columns into their own row beneath them, still one per defence column, at full `--color-text-muted`. Not done: the latest year's pension label and the "partial: k of n demands" label still sit inside their stack column. AC-78 and AC-141 pin that column element's opacity to 0.2–0.3, and AC-128 reads the pension label from inside it, so the label stays dimmed (1.93:1) when the latest year is outside the range. This needs a criterion decision.*
 
 **M7 · Moderate — under forced colours the Budgets drawings vanish (1.4.1, 1.4.11).** In a
 `forced-colors: active` context the stack's 210 bands and the ledger's bars become `Canvas`
@@ -301,6 +343,8 @@ options keep weight 600. *Fix:* `forced-color-adjust: none` on the `aria-hidden`
 containers of B1 and B3 and on the key swatches, whose colours are the page's own tokens and
 already pass §2 on the dark ground.
 
+*Fixed 2026-10-07: inside `@media (forced-colors: active)`, `forced-color-adjust: none` is set on the `aria-hidden` drawings of B1 and B3, on `.sec-hatch`, and on the hatch, crosshatch, stipple and zero swatches. It was not re-measured in an emulated `forced-colors` context in this pass.*
+
 **m9 · Minor — two dash renderings are weaker than the frozen channel promises (1.4.1).** The office
 lanes draw tier with a CSS `border-style`, so every tier but documented is the same `dashed`
 (`strokeDasharray` has no effect on an HTML border, Ledger.tsx:52). Today the 21 windows are 16
@@ -309,11 +353,15 @@ The case timeline's ticks are 12 units long, too short to tell `6 3` (reported) 
 (analytic). Both twins carry the tier word. *Fix:* draw the lanes as SVG lines with the tier's
 `strokeDasharray`; lengthen the ticks or show the tier as a cap shape on the response circle.
 
+*Fixed 2026-10-07 (in part): each office window that is not documented now draws its outline as an SVG rect with the tier's own `strokeDasharray` (non-scaling). Documented windows keep the solid border, and the `[data-mark="office"]` element and its computed style are unchanged. The case timeline's 12-unit ticks were not changed.*
+
 **m7 · Minor (advisory) — reason text inside `aria-disabled` controls is under 4.5:1.** The kind
 chips "prison (0)" and "ordnance (0)" at opacity .7 (3.78:1, their reason line 3.13:1) and the
 disabled Payer / Stage options at .6 (3.06:1). Inactive components are exempt from 1.4.3, but the
 reason ("none in this register — Jail-wise locations … not addresses") is content. *Fix:* keep the
 opacity on the border, not the words.
+
+*Fixed 2026-10-07: the disabled Payer / Stage options and the 0-row kind chips carry no opacity. They take a dashed border and `--color-text-muted` words (5.32:1); prison's reason line stays amber.*
 
 Token table (from `src/index.css`, on `--color-bg` / `--bg-elevated` / `--bg-card`): `text` 15.60 /
 14.76 / 13.68; `text-secondary` 6.72 / 6.35 / 5.89; `text-muted` 5.32 / 5.03 / 4.67; `accent` 8.76;
@@ -334,6 +382,8 @@ Police 1999-00 BE"; at 390 the strip's "levels" link is named "what resolves at 
 reader saying the visible words does not reach them. *Fix:* start each name with the visible text
 ("line 1999-00 BE — Delhi Police, open the line"), or drop the `aria-label` and add the extra words
 as visually hidden text after the visible ones.
+
+*Not fixed 2026-10-07: the suite fixes both names. AC-107 requires `Open the line: Delhi Police {fy} {stage}`, and the per-person check requires the full sentence as the name. Changing either needs a criterion decision.*
 
 ### 2.4.1 Bypass Blocks · 2.4.2 Page Titled · 3.2.5 (site)
 

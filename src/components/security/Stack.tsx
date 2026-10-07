@@ -168,7 +168,6 @@ export function DemandStack({ fyCurrent, setFyCurrent, slice }: { fyCurrent: str
         <div key={`d-${fy}`} data-column={fy} data-panel="defence" data-column-state="hatched" className="relative flex-1 min-w-0" style={{ height: H, opacity: dim ? 0.25 : 1 }}
           onClick={() => tapColumn(fy)} onMouseEnter={() => setHover(fy)} onMouseLeave={() => setHover(null)}>
           <div className="absolute inset-0 sec-hatch" />
-          <span data-glyph="none" aria-hidden="true" className="absolute left-0 right-0 text-center font-mono text-[10px] text-text-muted" style={{ top: H + 2 }}>·</span>
         </div>
       );
     }
@@ -203,7 +202,6 @@ export function DemandStack({ fyCurrent, setFyCurrent, slice }: { fyCurrent: str
             {prevPension ? `FY${prev!.fy} ${f.stage}: ₹${fmtCr(prevPension.cr)} cr` : `no ${f.stage} pension row for FY${prev?.fy ?? prevFy(fy)}`}
           </span>
         )}
-        <span data-glyph={c.recon} aria-hidden="true" className="absolute left-0 right-0 text-center font-mono text-[10px] text-text-muted" style={{ top: H + 2 }}>{c.recon === 'equal' ? '=' : c.recon === 'differs' ? '≠' : '·'}</span>
       </div>
     );
   };
@@ -253,7 +251,17 @@ export function DemandStack({ fyCurrent, setFyCurrent, slice }: { fyCurrent: str
                   {yAxis('defence scale, ₹ crore')}
                   <div className="flex flex-1 min-w-0 gap-[2px] border-b border-border-light" style={{ marginRight: narrow ? 0 : 12 }}>{m.cols.map((c) => column(c, 'defence'))}</div>
                 </div>
-                <div style={{ height: 16 }} />
+                {/* The reconciliation marks sit in their own row under the columns, so the FY filter dims the
+                    drawing and never these words (A11Y-006 M6). One mark per defence column. */}
+                <div className="flex" style={{ height: 16 }}>
+                  <div style={{ width: narrow ? 58 : 56 }} className="shrink-0" />
+                  <div className="flex flex-1 min-w-0 gap-[2px]" style={{ marginRight: narrow ? 0 : 12 }}>
+                    {m.cols.map((c) => {
+                      const g = c.missing ? 'none' : c.recon;
+                      return <span key={c.fy} data-glyph={g} className="flex-1 min-w-0 text-center font-mono text-[10px] leading-4 text-text-muted">{g === 'equal' ? '=' : g === 'differs' ? '≠' : '·'}</span>;
+                    })}
+                  </div>
+                </div>
                 <p className="font-mono text-[12px] text-text-muted m-0">Police (the Home Ministry&apos;s Police demand), same scale</p>
                 <div className="flex items-end">
                   {yAxis('police scale, ₹ crore')}
@@ -275,7 +283,7 @@ export function DemandStack({ fyCurrent, setFyCurrent, slice }: { fyCurrent: str
                 <div style={{ width: narrow ? 58 : 56 }} className="shrink-0" />
                 <div className="flex flex-1 min-w-0 gap-[2px]" style={{ marginRight: narrow ? 0 : 12 }}>
                   {FY_AXIS.map((fy, i) => {
-                    const show = i === 0 || fy === m.latest || i === FY_AXIS.length - 1 || fy === current || (i % (narrow ? 6 : 4) === 0);
+                    const show = i === 0 || fy === m.latest || i === FY_AXIS.length - 1 || fy === current || (i % 4 === 0);
                     // The end labels lean inward so the axis never pushes past the figure's edge.
                     const lean = i === 0 ? 'justify-start' : i === FY_AXIS.length - 1 ? 'justify-end' : 'justify-center';
                     return <span key={fy} className={`relative flex ${lean} flex-1 min-w-0 overflow-visible whitespace-nowrap`} style={{ opacity: show ? 1 : 0, fontSize: narrow ? 12 : 11 }}><span className="sr-only left-0 top-0">{`${fy} `}</span>{show ? `’${fy.slice(2, 4)}` : ''}</span>;

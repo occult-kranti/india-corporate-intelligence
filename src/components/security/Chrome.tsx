@@ -10,7 +10,7 @@ import {
   LANE_BODIES, last, edgePass, dateInFy, FY_DOMAIN, GRANT_ROWS, STATE_NAME, FORCE_NODE_LIST, CASES as CASE_IDS, parseFilters,
   ORDNANCE_RULE, RESOLUTION_COUNTS, BUDGET_STRIP, BUDGET_RECON, PROCUREMENT_COUNTS, sliceFigures,
 } from '../../data/securityView';
-import { usePage, Effect, Reason, Dash, FOCUS, TARGET, Quote, Anchor } from './ui';
+import { usePage, Effect, Reason, Dash, FOCUS, TARGET, Quote, Anchor, goTo } from './ui';
 
 // ---------------------------------------------------------------------------
 // Fixed copy (§4.1): no figure in any of it
@@ -166,7 +166,7 @@ export function Strip({ f, narrow, slice }: { f: Filters; narrow: boolean; slice
   const pop = lensPopulation(f);
   const levels = (short: boolean) => (
     <a href="#resolution" aria-label={short ? LEVELS : undefined} aria-describedby="sec-c1" className={`underline underline-offset-2 hover:text-accent ${FOCUS}`}
-      onClick={(e) => { e.preventDefault(); document.getElementById('resolution')?.scrollIntoView({ block: 'start' }); }}>{short ? 'levels' : LEVELS}</a>
+      onClick={(e) => { e.preventDefault(); goTo('resolution'); }}>{short ? 'levels' : LEVELS}</a>
   );
   if (narrow) {
     const n = f.lens === 'budgets' ? BUDGETS.length : f.lens === 'footprint' ? FOOTPRINT.length : EDGES.length;
@@ -281,7 +281,7 @@ export function LensTabs({ lens, onPick, narrow }: { lens: Lens; onPick: (l: Len
   return (
     <div role="tablist" aria-label="Lenses" className={`flex ${narrow ? 'w-full' : 'flex-wrap'} gap-1`}>
       {LENSES.map((l, i) => (
-        <button key={l} ref={(el) => { refs.current[i] = el; }} type="button" role="tab" id={`sec-tab-${l}`} aria-selected={lens === l} aria-controls={`sec-panel-${l}`}
+        <button key={l} ref={(el) => { refs.current[i] = el; }} type="button" role="tab" id={`sec-tab-${l}`} aria-selected={lens === l} aria-controls={lens === l ? `sec-panel-${l}` : undefined}
           aria-label={LENS_LABEL[l]} tabIndex={i === focusIdx ? 0 : -1}
           onClick={(e) => { if (e.detail === 0) return; onPick(l); }} onKeyDown={(e) => onKey(e, i)}
           className={`sec-pressed ${narrow ? 'flex-1 min-h-[44px]' : 'min-h-[30px]'} px-2.5 text-[13.5px] border rounded ${lens === l ? 'border-accent text-text bg-accent/10' : 'border-border-light text-text-secondary'} ${FOCUS}`}>
@@ -417,7 +417,7 @@ export function Find({ f, inputRef }: { f: Filters; inputRef: React.RefObject<HT
       <label htmlFor="sec-find" className="font-mono text-[12px] text-text-muted block">Find</label>
       <input id="sec-find" ref={inputRef} type="search" value={draft} placeholder="body, place, vendor, case or record" onChange={(e) => onChange(e.target.value)}
         onKeyDown={(e) => { if (e.key === 'Escape') e.preventDefault(); }}
-        className={`w-full sm:w-[28rem] bg-bg-elevated border border-border-light rounded px-2 min-h-[44px] sm:min-h-[36px] text-[14px] ${FOCUS}`} />
+        className={`w-full sm:w-[28rem] xl:w-full max-w-full bg-bg-elevated border border-border-light rounded px-2 min-h-[44px] sm:min-h-[36px] text-[14px] ${FOCUS}`} />
       {draft.trim() && (
         <div className="mt-2 text-[13.5px] max-w-[80ch]">
           {!hits.length && <p className="m-0">{`No body, place, vendor, case or record in this register matches "${draft}". This is a statement about the register, not about the world.`}</p>}
@@ -455,7 +455,7 @@ function Segmented<T extends string>({ value, options, onPick, disabled, describ
       {options.map((o) => (
         <button key={o.v} type="button" aria-pressed={value === o.v} aria-disabled={disabled ? 'true' : undefined} aria-describedby={disabled ? describedBy : undefined}
           onClick={() => { if (!disabled) onPick(o.v); }}
-          className={`sec-pressed font-mono text-[12px] px-2 min-h-[32px] border rounded ${value === o.v ? 'border-accent text-text bg-accent/10' : 'border-border-light text-text-secondary'} ${disabled ? 'opacity-60' : ''} ${FOCUS}`}>
+          className={`sec-pressed font-mono text-[12px] px-2 min-h-[32px] border rounded ${value === o.v ? 'border-accent text-text bg-accent/10' : 'border-border-light text-text-secondary'} ${disabled ? 'border-dashed !text-text-muted' : ''} ${FOCUS}`}>
           {o.label}
         </button>
       ))}
@@ -660,7 +660,7 @@ export function KindChips({ f }: { f: Filters }) {
         return (
           <button key={k} type="button" aria-pressed={on} aria-disabled={n ? undefined : 'true'}
             onClick={() => { if (!n) return; const v = kindToggle(f, k); patch({ kind: v }); const kk = v ? v.split(',') : KINDS; const k2 = FOOTPRINT.filter((r) => kk.includes(r.kind) && (!f.st || r.st === f.st)).length; announce(`kind filter: ${v ? v.replace(/,/g, ', ') : 'all kinds'}; from ${FOOTPRINT.length} to ${k2} installations`); }}
-            className={`sec-pressed font-mono text-[12px] px-2 min-h-[32px] border rounded text-left ${on ? 'border-accent text-text bg-accent/10' : 'border-border-light text-text-secondary'} ${n ? '' : 'opacity-70'} ${FOCUS}`}>
+            className={`sec-pressed font-mono text-[12px] px-2 min-h-[32px] border rounded text-left ${on ? 'border-accent text-text bg-accent/10' : 'border-border-light text-text-secondary'} ${n ? '' : 'border-dashed !text-text-muted'} ${FOCUS}`}>
             {`${kindWord(k)} (${n})`}{reason ? <span className={`block ${kindReason(k) === ORDNANCE_RULE ? 'text-text-muted' : 'text-amber'}`}>{reason}</span> : null}
           </button>
         );

@@ -7,7 +7,7 @@ import {
   type Lens, parseFilters, PAGE_PARAMS, LENS_LABEL, EMPTY, BUDGETS, FOOTPRINT, EDGE_BY_ID, VENDOR_SET, parseCell, labelOf, stateName,
   DEFAULT_STAGE, lensPopulation,
 } from '../data/securityView';
-import { Page, useNarrow, useWide, FOCUS, TARGET, openTwinAndFocus, type PageCtx } from '../components/security/ui';
+import { Page, useNarrow, useWide, FOCUS, TARGET, openTwinAndFocus, reveal, type PageCtx } from '../components/security/ui';
 import {
   Head, EmptyCallout, Resolution, Strip, ReconLine, ActiveFilters, Notices, LensTabs, Find, FilterRail, ReadingKey, ControlCard, filterTerms,
 } from '../components/security/Chrome';
@@ -39,7 +39,10 @@ const PAGE_CSS = `
 .sec-page .sec-cross-swatch { background: repeating-linear-gradient(45deg, rgba(232,228,220,0.55) 0 1.2px, transparent 1.2px 6px), repeating-linear-gradient(135deg, rgba(232,228,220,0.55) 0 1.2px, #3a3f4a 1.2px 6px); }
 .sec-page .sec-stipple-swatch { background: radial-gradient(circle, rgba(232,228,220,0.5) 1.2px, #1b1d24 1.6px) 0 0 / 6px 6px; }
 .sec-page .sec-zero, .sec-page .sec-zero-swatch { background: #15171c; box-shadow: inset 0 0 0 1px var(--color-text-muted); }
-.sec-page .sec-hidden-slot { background: #23272f; opacity: .45; }
+.sec-page .sec-hidden-slot { background: transparent; outline: 1px dotted var(--color-text-muted); outline-offset: -1px; }
+@media (forced-colors: active) {
+  .sec-page [data-q="B1"] figure [aria-hidden="true"], .sec-page [data-q="B3"] figure [aria-hidden="true"], .sec-page .sec-hatch, .sec-page .sec-hatch-swatch, .sec-page .sec-cross-swatch, .sec-page .sec-stipple-swatch, .sec-page .sec-zero-swatch { forced-color-adjust: none; }
+}
 .sec-page.sec-tables figure svg, .sec-page.sec-tables figure [data-column], .sec-page.sec-tables figure [data-dot], .sec-page.sec-tables figure [role="grid"] { display: none !important; }
 .sec-page li, .sec-page dd, .sec-page [data-page-copy] { overflow-wrap: break-word; }
 .sec-page .sec-pressed[aria-pressed="true"], .sec-page .sec-pressed[aria-selected="true"] { font-weight: 600; }
@@ -136,20 +139,21 @@ export default function Security() {
     if (!want) return;
     focusNext.current = null;
     requestAnimationFrame(() => requestAnimationFrame(() => {
-      if (want === 'panel') { panelH2.current?.focus(); panelH2.current?.scrollIntoView({ block: 'nearest' }); }
+      if (want === 'panel') { panelH2.current?.focus({ preventScroll: true }); reveal(panelH2.current); }
       else if (want === 'lens') lensH2.current?.focus();
       else if (want === 'conn') { document.getElementById('connections')?.scrollIntoView({ block: 'start' }); document.getElementById('sec-conn-h')?.focus(); }
       else if (want === 'opener') {
         const el = opener.current;
-        if (el && el.isConnected) { (el as HTMLElement).focus(); (el as HTMLElement).scrollIntoView({ block: 'nearest' }); }
+        if (el && el.isConnected) { (el as HTMLElement).focus({ preventScroll: true }); reveal(el); }
         else fallbackFocus(openerKind.current);
       }
     }));
   });
   function fallbackFocus(kind: PanelKind | null) {
-    if (kind === 'cell') { const c = document.querySelector<HTMLElement>('[role="grid"] [aria-current="true"], [role="grid"] [tabindex="0"]'); c?.focus(); return; }
-    if (kind === 'st') { document.querySelector<SVGSVGElement>('svg[role="listbox"]')?.focus(); return; }
-    findRef.current?.focus();
+    const to = (el: HTMLElement | SVGElement | null | undefined) => { if (!el) return false; el.focus({ preventScroll: true }); reveal(el); return true; };
+    if (kind === 'cell' && to(document.querySelector<HTMLElement>('[role="grid"] [aria-current="true"], [role="grid"] [tabindex="0"]'))) return;
+    if (kind === 'st' && to(document.querySelector<SVGSVGElement>('svg[role="listbox"]'))) return;
+    to(findRef.current);
   }
 
   const open = useCallback((kind: PanelKind, kv: Record<string, string | null>, el: HTMLElement | SVGElement | null, msg: string) => {
@@ -254,6 +258,45 @@ export default function Security() {
     return () => { el.remove(); };
   }, []);
 
+  // At ≥ 1280px the open panel is fixed over the margin. Its height is measured so the margin's
+  // own controls (rail, key, control card) stick beneath it, in view, instead of taking focus
+  // underneath it (A11Y-006 S3).
+  const [panelBottom, setPanelBottom] = useState(0);
+  const layerObs = useRef<ResizeObserver | null>(null);
+  const layerBox = useCallback((el: HTMLDivElement | null) => {
+    layerObs.current?.disconnect();
+    layerObs.current = null;
+    if (!el) { setPanelBottom(0); return; }
+    const measure = () => setPanelBottom(Math.ceil(el.getBoundingClientRect().bottom));
+    layerObs.current = new ResizeObserver(measure);
+    layerObs.current.observe(el);
+    measure();
+  }, []);
+  // The layer sits outside <main> (§5.0.5), so it is joined to the page's tab order by hand:
+  // Shift+Tab from its first stop returns to the control that opened it, and Tab from its last
+  // stop continues with the control after the opener, as if the panel followed it in the page.
+  const tabbablesIn = (root: ParentNode) => [...root.querySelectorAll<HTMLElement>('a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea, summary, [tabindex]')]
+    .filter((e) => e.tabIndex >= 0 && e.getClientRects().length > 0 && !e.closest('details:not([open]) > :not(summary)'));
+  const onLayerKey = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.key !== 'Tab') return;
+    const own = tabbablesIn(e.currentTarget);
+    const a = document.activeElement;
+    const back = opener.current && (opener.current as HTMLElement).isConnected ? opener.current as HTMLElement : findRef.current;
+    if (e.shiftKey && (a === panelH2.current || a === own[0])) {
+      e.preventDefault();
+      back?.focus({ preventScroll: true });
+      reveal(back);
+    } else if (!e.shiftKey && a === own[own.length - 1]) {
+      const main = document.querySelector('main');
+      const page = main ? tabbablesIn(main) : [];
+      const next = back ? page.find((x) => back.compareDocumentPosition(x) & Node.DOCUMENT_POSITION_FOLLOWING && !back.contains(x)) : page[0];
+      if (!next) return;
+      e.preventDefault();
+      next.focus({ preventScroll: true });
+      reveal(next);
+    }
+  };
+
   // ------------------------------------------------------------------ the margin
   const recKnown = !!(f.rec && EDGE_BY_ID.has(f.rec));
   const cellOk = !!(f.cell && lens === 'budgets');
@@ -347,7 +390,8 @@ export default function Security() {
             {narrow && <ReconLine lens={lens} slice={slice} />}
           </div>
           {wide && (
-            <aside className="min-w-0 space-y-3 mt-3 xl:col-start-2 xl:row-start-2" aria-labelledby="sec-margin-name" data-margin="">
+            <aside className="min-w-0 space-y-3 mt-3 xl:col-start-2 xl:row-start-2" aria-labelledby="sec-margin-name" data-margin=""
+              style={panel && panelBottom ? { position: 'sticky', top: panelBottom + 12, maxHeight: `calc(100vh - ${panelBottom + 20}px)`, overflowY: 'auto' } : undefined}>
               <span id="sec-margin-name" hidden>Margin</span>
               <ReconLine lens={lens} slice={slice} />
               <FilterRail f={f} narrow={false} onReset={reset} />
@@ -366,7 +410,7 @@ export default function Security() {
         <SourceLedger slice={slice} />
         <div aria-live="polite" className="sr-only">{live}</div>
         {wide && panel && layer && createPortal(
-          <div className="sec-page fixed right-4 top-16 z-40 w-[23rem] max-h-[calc(100vh-5rem)] overflow-y-auto bg-bg shadow-xl rounded-md">{panel}</div>,
+          <div ref={layerBox} role="region" aria-label="Open panel" onKeyDown={onLayerKey} className="sec-page fixed right-4 top-16 z-40 w-[23rem] max-h-[60vh] overflow-y-auto bg-bg shadow-xl rounded-md">{panel}</div>,
           layer,
         )}
       </article>

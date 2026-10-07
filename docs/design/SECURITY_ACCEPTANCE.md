@@ -368,11 +368,36 @@ nothing. The page must render fully and say, before any number, that nothing bel
   each reading `no row`; the Footprint `ReconciliationLine` prints `0 {kind} (none in this
   register)` for every kind.
 
-### AC-11 — (ZERO-SERIES) Leave the procurement lens unchanged
-- **Check (ZERO vs FULL):** On `?lens=procurement`, `[data-vendor-card]` count,
-  `[data-pair]` count, `[data-mark="award"]` count and the `Contested` denominator sentence are
-  identical between the ZERO-SERIES and FULL builds; the strip's procurement facts 1–5 are
-  identical text (fact 6, the slice, too).
+### AC-11 — (ZERO-SERIES) Leave the procurement lens unchanged except where the vendor union reads footprint rows
+- **Check (ZERO vs FULL):** On `?lens=procurement`:
+  (a) `[data-pair]` count, `[data-mark="award"]` count and the `Contested` denominator sentence
+  are identical between the ZERO-SERIES and FULL builds.
+  (b) Let `VENDORS_NOFP` be the §3.2 `VENDORS` union computed from the FULL module with its
+  footprint arm empty: award targets (alleged included) ∪ analytic comparators of those with
+  `ty ∈ {company, psu}` ∪ `bond.s` ∪ `role.t` with `ty ∈ {company, psu}`; `FOOT_ONLY = VENDORS \
+  VENDORS_NOFP`, which is non-empty in FULL. The set of `[data-vendor-card]` values (one card per
+  vendor) equals `VENDORS` exactly in FULL and `VENDORS_NOFP` exactly in ZERO — set equality,
+  never a count tolerance: a `FOOT_ONLY` body that keeps a card in ZERO fails, and so does any
+  other card lost.
+  (c) No `FOOT_ONLY` member is the source or target of an `award`, `enforce`, `bond`, `role` or
+  `analytic` edge (such a body would have to keep its card through a non-footprint route).
+  (d) The strip's procurement facts 1, 3, 4, 5 and 6 (the slice) are identical text. Fact 2
+  reads `{PUBLIC_V.length} public-sector beside {PRIVATE_V.length} private, JV or foreign — vendor
+  class not a field` in FULL and the same sentence counted over `VENDORS_NOFP` in ZERO; nothing
+  else in the strip differs.
+  (e) In ZERO, `?lens=procurement&vendor={each FOOT_ONLY id}` prints `{label} is not a vendor in
+  this register` and offers `Show connections` (E30).
+  [Adjudicated 2026-10-07: spec §3.2 (and F24, D35) takes part of `VENDORS` from footprint
+  `dpsu-plant`/`other` rows, D35's reason is "every body a table names gets a card", and D35 and
+  D60 reject a hand list; §0 builds ZERO-SERIES with `FORCE_FOOTPRINT = []`, so no table names those
+  bodies there. §10's "the other lenses are unchanged" and SG-2's "the procurement lens is
+  unchanged" therefore cannot hold literally for the vendor set or for strip fact 2 (which counts
+  `VENDORS` by class); they are read as: everything the lens derives from the graph is identical,
+  and the footprint arm of the union follows the series. With the current module FULL has 38
+  cards and ZERO 34; the four removed are force:dral, force:gliders-india, energy:mtar and
+  force:paras-defence (1 public, 3 private), none carrying an award, allegation, response, bond
+  or court record. No count is a literal in the check. The criterion as first written asked for an
+  identical `[data-vendor-card]` count and identical facts 1–5.]
 
 ### AC-12 — (ZERO-SERIES) Keep the resolution statement's words with `no rows in this build`
 - **Check (ZERO):** `#resolution`'s three fixed sentences are present in full; the Union row's
@@ -719,8 +744,27 @@ its population; nothing is summed across levels.*
   rate numerator or denominator; an `award`/`bond` `a` or a `FORCE_BENEFITS.amountCr`; a
   `STACK(fy, stage).sum` whose element contains `computed here`; a `POLICE` revenue + capital
   whose element contains `computed here`; a row's share whose element contains `computed here`;
-  or `× 100` of a `LAKH_ROWS.cr` inside an `as published` phrase. Any other ₹ fails with its
-  text printed. No TSV `#` header and no `aria-label` outside the ledger grid contains a ₹.
+  or `× 100` of a `LAKH_ROWS.cr` inside an `as published` phrase. A DOM `[data-cr]` (never a TSV
+  cell) is also accounted for when the element carries `data-quoted`, its whitespace-collapsed
+  text begins with a string R of the force module, verbatim (a node or edge `lab`, `d`, `note`,
+  `innocentReading` or response text, a `srcs` label, a base-rate label, a budget note, a void,
+  gap, narrative or symmetry text), R itself prints `₹{x} cr|crore|crores` with `x` within 0.5 of
+  the value, and the text right after R (past the page's optional bracketed pension-basis note)
+  begins ` (₹ in the research's own words: no denominator published for this line on this page;
+  previous year not applicable)`. Any other ₹ fails with its text printed, inside `[data-quoted]`
+  or not. [Adjudicated 2026-10-07: spec §3.2 (`stateRecords`: "verbatim `lab`, `d`, tier, srcs …
+  no figure parsed"), D15 (base rates as verbatim cards), D25/§5 (research wording quoted
+  verbatim), the SourceLedger "over every `srcs` in the module" and AC-48 ("source labels in
+  full") put research wording in the DOM with its own ₹ figures — e.g. the source label "Budget at
+  a Glance 2012-13, Total Expenditure (Actual 2010-11 = ₹1,197,328 crore)". The hook table and
+  AC-29/SG-9 require each such element to be a `[data-cr]` carrying CR-CONTEXT, but SG-4 as
+  written lists no figure the research printed itself, so AC-29, AC-48 and AC-47 could not all
+  hold. SG-4's "No other ₹ exists", read through D4, governs the figures the page prints as its
+  own; quoted wording cannot pass through `crContext` without being parsed, which §3.2 forbids.
+  The clause is narrow: no blanket `[data-quoted]` skip; a page-computed total re-labelled quoted
+  still fails because no module string prints it; the reader is told in words that the figure is
+  the research's and has no denominator here; TSV ₹ cells, `#` headers and aria-labels are
+  unchanged. On the first build all 44 distinct quoted values (561 hits) meet it.] No TSV `#` header and no `aria-label` outside the ledger grid contains a ₹.
 
 ### AC-48 — Carry the as-of date and a source beside every figure
 - **Check:** Every `[data-cr]` inside `CellCard`, `StatePanel` and `FYReadout` has, within its
@@ -767,6 +811,8 @@ by construction; the page draws every gap as a gap and every recorded zero as a 
   states`), its slot has `data-slot-state="zero"` and a `[fill="url(#zero-fill)"]` or the
   `ZERO_FILL` class, not the hatch pattern. No element anywhere reads `₹0 cr` without
   ` — as recorded`.
+- [Open adjudication 2026-10-07 — intermittent load timeout under `view=table`; see the note
+  under AC-93. Criterion and test unchanged.]
 
 ### AC-53 — Paint the spend map's classes to the module and name every class in the legend
 - **Check (`B6` left, `DEFAULT_PAIR('gsdp')`):** `path[data-fill-class]` count = 36;
@@ -800,8 +846,18 @@ by construction; the page draws every gap as a gap and every recorded zero as a 
   selected kinds (all kinds at rest), each option named `{State}: no row of the selected kinds
   in this register`; (S10) an enumerated kind's empty unit is `hollow` named `none on the
   official list`. The kind chips number `KINDS.length`; each `EMPTY_KINDS` chip is
-  `aria-disabled="true"` with `none in this register` and, for `prison`/`ordnance`, the void's
-  words; `TWIN(footprint-matrix)` keeps a column per kind with the header note `none in this
+  `aria-disabled="true"` with `none in this register`; for `prison`, its name also carries the
+  words of the `footprint`-domain void that names prisons or jails, verbatim (its first 40
+  characters), and that void exists; for `ordnance`, it carries the spec's rule that the ex-OFB
+  plants are recorded under dpsu-plant (its name contains `ex-OFB` and `dpsu-plant`); a void of
+  another domain (pay, demands) never supplies a footprint chip's reason [Adjudicated
+  2026-10-07: the criterion asked for "the void's words" for both kinds. Spec §5.2.1 reads "where
+  a void or gap explains the absence, its words (`prison`: jail-wise locations are not
+  published; `ordnance`: the ex-OFB plants are recorded under dpsu-plant)": for ordnance the
+  explanation is a recording rule, and no footprint void or gap says it. The only voids naming
+  "Ordnance" are union-defence pay/demand voids ("Ordnance Factories (pre-2021) and DGQA pay are
+  not printed …"), which say nothing about why an installation kind is empty and would mislead a
+  reader if quoted as the reason]; `TWIN(footprint-matrix)` keeps a column per kind with the header note `none in this
   register` on empty kinds; every empty cell reads `no row`, never `0`.
 
 ### AC-57 — Count unpriced awards beneath the axis and draw none as zero
@@ -1133,11 +1189,33 @@ nothing selected. Every control writes with `replace`, and every URL reproduces 
   `hidden`); Q `h3`s, `AnswerLine`s and the Q1 answer sentence remain visible; the `Table view`
   toggle has `aria-pressed="true"`; pressing a tab keeps `view=table` and the new lens's twins
   are open; pressing the toggle removes `view`.
+- [Open adjudication 2026-10-07 — intermittent load timeout under `view=table`; see the note
+  under AC-93. Criterion and test unchanged.]
 
 ### AC-93 — Round-trip `tp` and page at 400
 - **Check (Budgets):** When `UNION_ROWS.length > 400`: `TWIN(ledger-long)` shows 400 rows at
   `tp` absent; ROUND-TRIP(`tp=2`): rows 401–800 (the pager reads `page 2 of {⌈n/400⌉}`); the
   union of rows over every `tp` = the rows in view; `tp=1` is elided.
+- [Open adjudication 2026-10-07 — AC-52, AC-92 and AC-93 (intermittent); judges disagree;
+  criteria and test unchanged until the lead decides] Every logged failure is
+  `page.waitForSelector: Timeout 5000ms exceeded` on `article.pb-20` (in `load()` or the
+  round-trip's fresh page) or on the `tp` URL write, always on Budgets under `view=table`; no
+  assertion of the three criteria failed. Measured at D on the pinned dist: `view=table` renders
+  82,863 elements (37,800 without), `article.pb-20` 3.2–3.9 s after `networkidle` behind one
+  2.2–2.6 s long task; a ledger-long pager press 1.1–1.7 s; at 3× CPU throttle about 15 s to the
+  article and 6.7–7.4 s per press. `ledger-coverage` (3,556 rows, lanes × FYs) is the largest twin.
+  - **Position A (test defect):** §0.1 and these criteria state no time; the 5 s is the suite's
+    own `ACTION_TIMEOUT`. The spec requires every twin open under `view=table` (E40) and the
+    coverage twin unpaged (SG-21, AC-98; paging is UD33, deferred). Proposed: a 30 s
+    `LOAD_TIMEOUT` for the load anchors (adding the §0.1 `main h1` wait to the round-trip's fresh
+    page) and for the URL waits that follow a full Budgets re-render under `view=table`; every
+    assertion and the 5 s slice timeout unchanged.
+  - **Position B (page defect):** table view is the screen-reader, keyboard and phone route, and
+    a phone frozen ~15 s on load and ~7 s per page is reader harm; raising the wait removes the
+    suite's only guard. Proposed page fix: memoise the coverage twin and the ledger union on a
+    budget-filter signature that excludes `tp`/`view`, keep `tp` from re-rendering the whole lens,
+    and do not mount the hidden drawings under `view=table`; target `article.pb-20` ≤ 2 s after
+    `networkidle` and a pager press ≤ 500 ms at D. Coverage stays unpaged.
 
 ### AC-94 — Fall back from an unknown value with one amber line
 - **Check:** For each of `lens=x`, `stage=x`, `st=zz`, `fy=1900-01`, `sfy=x`, `sy=1`, `kind=x`,
@@ -1518,6 +1596,34 @@ hidden a word. Everything moves; nothing is hidden.*
 | Footprint: top of `Q5 — What is not published?` | 10,128 px | — |
 | Procurement: top of `Q6 — What is not published?` | 10,128 px | — |
 | tallest Q-block on each lens | 3,376 px | — |
+
+- [Open adjudication 2026-10-07 — judges disagree; criterion, table and test unchanged until the
+  lead decides] Both judges measured HEAD 836e841 at 390×844, cold load (probe values, not
+  recorded in the table above): Budgets last `h3` 10,023 px, tallest block 2,200 px; Footprint
+  3,891 / 1,191 px; Procurement last `h3` (P6) 29,214 px, tallest block P4 17,092 px (its four
+  `[data-pair]` rows 15,127 px: Bofors|Rafale 3,768, Sukna 4,459, AgustaWestland 5,299, Adarsh
+  1,566), P2 5,943 px, P1 2,770 px. The 12,061 / 4,364 px reported for build r4 are not
+  recorded: that build folded record and response fields (AC-65 failed) and was measured before
+  the slice loaded.
+  - **Position A (criterion defect):** SG-53's ceilings are the UX review's un-rendered estimate
+    (UX review §11). §5.3.2 keeps Q2 `SliceBesideFile` "Never collapsed", and §5.3.4/§12/AC-65
+    keep every case record and response open at 390, so no spec-conformant page meets 4
+    viewports for P2 or P4 or 12 for the lens. Proposed: exempt `[data-q="P2"]` and
+    `[data-q="P4"]` from the 4-viewport ceiling (heights printed and recorded), keep every other
+    Procurement block ≤ 3,376 px, and apply the 12-viewport ceiling to (P6 `h3` top − P2 − P4) ≤
+    10,128 px (6,179 px on 836e841); fill the table from 836e841.
+  - **Position B (page defect, with a narrow criterion change):** a ceiling raised enough to pass
+    would put P6, the denial-and-void block, 35 phone viewports down. Only the first pair row
+    (Bofors|Rafale) and the `literature` symmetry block are forced open at rest (SG-44/AC-152 P-S,
+    AC-65), so P4's ceiling becomes 3,376 px plus those two elements' rendered heights; the
+    10,128 px heading ceiling stays. The page folds every other pair row whole (claim and
+    response together, summary naming no allegation), prints Counter-record responses already
+    shown beside their claim as one line, and folds P2's by-year strips and class-definition list;
+    the test waits for the slice before measuring. The table stays `—` until a build passing
+    AC-65, AC-132, AC-152 and AC-134 is measured.
+  - Both agree: nothing may fold a record or a response to meet AC-134 (AC-65); and
+    `Procurement.tsx`'s narrow-width fold of the chapter 1–3 symmetry texts (line ~81) is a
+    separate page finding against §5.3.0/UD39.
 
 ### AC-135 — Render margin panels inline under their opener, with Close and Back
 - **Check (`M`):** open `cell`, `st`, `vendor`, `case`, `rec` by their controls: each panel

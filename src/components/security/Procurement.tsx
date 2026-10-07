@@ -10,7 +10,7 @@ import {
   fmtInt, lensPopulation, last, responseHeadWords, JOINT_AWARDS, BOND_AND_AWARD_VENDORS, countWord,
 } from '../../data/securityView';
 import {
-  usePage, QBlock, Caption, Twin, TwinTable, Exports, captionText, Src, Quote, Tx, TierWord, Denominator, NoMatch, FOCUS, TARGET, SkipLink, type Row, type Col,
+  usePage, QBlock, Caption, Twin, TwinTable, Exports, captionText, Src, Quote, Tx, TierWord, Denominator, NoMatch, FOCUS, TARGET, SkipLink, goTo, reveal, type Row, type Col,
 } from './ui';
 import { BaseRateSection, CompareTwin, C5_TEXT, Responses, ResponseHead, Narratives, CannotShow, Fold, zeroCount } from './Shared';
 
@@ -49,11 +49,15 @@ export function ProcurementLens({ slice }: { slice: SecurityFile | null | undefi
 function Contents({ slice }: { slice: SecurityFile | null | undefined }) {
   const pub = vendorsOf('public').length, priv = vendorsOf('private').length;
   const pairs = new Set(VENDORS.flatMap((v) => comparatorEdges(v).map((e) => e.id))).size;
+  // The chapter-4 link lands on the first pair's button; focus scrolls it into view, so the
+  // reader never holds focus on a control below the fold (A11Y-006 M3).
   const go = (id: string, focusSel?: string) => (e: React.MouseEvent) => {
     e.preventDefault();
     document.getElementById(id)?.scrollIntoView({ block: 'start' });
     const t = focusSel ? document.querySelector<HTMLElement>(focusSel) : document.getElementById(id);
-    t?.focus({ preventScroll: !!focusSel });
+    if (!t) return;
+    t.focus({ preventScroll: true });
+    if (focusSel) reveal(t);
   };
   const link = (to: string, text: string, sel?: string) => <a href={`#${to}`} onClick={go(to, sel)} className={`underline underline-offset-2 hover:text-accent ${FOCUS}`}>{text}</a>;
   return (
@@ -125,7 +129,11 @@ function AwardsByClass() {
   const lo = Math.max(0.1, Math.min(...vals, 1)), hi = Math.max(...vals, 10);
   const W = 640, H = 220, L = 56, R = 10, T = 10, B = 26;
   const colW = (W - L - R) / Math.max(1, years.length);
-  const x = (y: number, cls: VendorClass) => L + years.indexOf(y) * colW + (cls === 'public' ? colW * 0.3 : colW * 0.7);
+  // Class reads three ways, so greyscale and forced colours keep it (A11Y-006 M5): the family hue,
+  // the half of the year's column (public left, private right, each mark kept inside its half),
+  // and the shape (a circle public sector, a diamond private, JV or foreign).
+  const x = (y: number, cls: VendorClass) => L + years.indexOf(y) * colW + (cls === 'public' ? colW * 0.25 : colW * 0.75);
+  const jit = Math.min(3, colW * 0.08);
   const ly = (v: number) => T + (1 - (Math.log10(v) - Math.log10(lo)) / (Math.log10(hi) - Math.log10(lo))) * (H - T - B);
   const pubAwards = AWARDS.filter((e) => vendorClass(e.t) === 'public').length;
   const privAwards = AWARDS.filter((e) => vendorClass(e.t) === 'private').length;
@@ -146,7 +154,11 @@ function AwardsByClass() {
           const c = vendorClass(e.t);
           const y = yearOf(e.from)!;
           const n = (k.get(`${y}${c}`) ?? 0); k.set(`${y}${c}`, n + 1);
-          return <circle key={e.id} data-mark="award" data-cr={e.a as number} cx={x(y, c) + (n % 3 - 1) * 3} cy={ly(e.a as number)} r="4.5" fill={HUE[c]} stroke="var(--color-text)" strokeWidth="1" strokeDasharray={DASH[e.tier]} />;
+          const cx = x(y, c) + (n % 3 - 1) * jit, cy = ly(e.a as number);
+          const common = { 'data-mark': 'award', 'data-cr': e.a as number, fill: HUE[c], stroke: 'var(--color-text)', strokeWidth: 1, strokeDasharray: DASH[e.tier] };
+          return c === 'public'
+            ? <circle key={e.id} {...common} cx={cx} cy={cy} r="4.5" />
+            : <path key={e.id} {...common} d={`M${cx} ${cy - 5.6}L${cx + 5.6} ${cy}L${cx} ${cy + 5.6}L${cx - 5.6} ${cy}Z`} />;
         })}
         {[...byYear].map(([y, es]) => es.map((e, i) => {
           const c = vendorClass(e.t);
@@ -164,7 +176,7 @@ function AwardsByClass() {
         </div>
       )}
       {narrow && <p className="font-mono text-[12px] text-text-muted my-1">{`showing ${years[0]}–${last(years)} of ${AWARD_SPAN[0]}–${last(AWARD_SPAN)}`}</p>}
-      <figcaption data-page-copy="" className="font-mono text-[12px] text-text-muted mt-1">{`${PRICED.length} contracts with ₹ · ${UNPRICED.length} without · ${pubAwards} public sector, ${privAwards} private, JV or foreign · a sample of PIB releases, not every contract signed; no share is computed here${narrow ? '' : ` · ₹ crore on a log scale, ${AWARD_SPAN[0]}–${last(AWARD_SPAN)} · fill: blue public sector, gold private, JV or foreign; outline dash: evidence tier; a hollow square is a contract named without ₹`}`}</figcaption>
+      <figcaption data-page-copy="" className="font-mono text-[12px] text-text-muted mt-1">{`${PRICED.length} contracts with ₹ · ${UNPRICED.length} without · ${pubAwards} public sector, ${privAwards} private, JV or foreign · a sample of PIB releases, not every contract signed; no share is computed here${narrow ? ' · circle, left of each year: public sector; diamond, right: private, JV or foreign' : ` · ₹ crore on a log scale, ${AWARD_SPAN[0]}–${last(AWARD_SPAN)} · class: a blue circle in the left half of each year is public sector, a gold diamond in the right half private, JV or foreign; outline dash: evidence tier; a hollow square is a contract named without ₹`}`}</figcaption>
     </figure>
     </>
   );
@@ -257,7 +269,7 @@ function vendorFields(v: string, scope: string, page: ReturnType<typeof usePage>
     boards.length ? boards.map((b) => `${labelOf(b.s)}: ${b.lab ?? 'role'} (${b.from ?? 'start not recorded'})`).join('; ') : 'no board role recorded',
     enforce.length || alleged.length ? <>{enforce.map((e) => <span key={e.id} className="block">{`${labelOf(e.s)}, ${e.from ?? 'undated'} [${e.tier}]: `}<Quote>{e.lab}</Quote></span>)}{alleged.map((e) => <span key={e.id} className="block">{`alleged [${e.tier}]: `}<Quote>{e.lab}</Quote></span>)}</> : 'none recorded',
     id?.publicRole ? <Quote>{id.publicRole}</Quote> : 'not recorded',
-    <a href="#sec-P5-h" aria-label={`rated in Q5: the stories about ${labelOf(v)} (${scope})`} onClick={(e) => { e.preventDefault(); document.getElementById('sec-P5-h')?.scrollIntoView({ block: 'start' }); }} className={`underline underline-offset-2 ${FOCUS}`}>rated in Q5</a>,
+    <a href="#sec-P5-h" aria-label={`rated in Q5: the stories about ${labelOf(v)} (${scope})`} onClick={(e) => { e.preventDefault(); goTo('sec-P5-h'); }} className={`underline underline-offset-2 ${FOCUS}`}>rated in Q5</a>,
     <Src srcs={[...nodeSrcs, ...aw.flatMap((e) => e.srcs ?? [])].filter((s, i, a) => a.findIndex((x) => x[1] === s[1]) === i)} of={`${labelOf(v)} (${scope})`} inline />,
   ];
 }
@@ -734,7 +746,7 @@ function caseCells(c: string, f: ReturnType<typeof usePage>['f']): { cells: Reac
     recs(kindOf('audit'), 'none recorded'),
     latest ? { node: <Quote>{latest.lab}</Quote>, word: latest.lab ?? '' } : { node: 'not recorded', word: 'not recorded' },
     allRes.length ? { node: <>{allRes.map((r) => <p key={r.id} className="m-0 mb-1"><ResponseHead r={r} /><Tx> </Tx><Quote>{r.lab}</Quote></p>)}</>, word: `${allRes.length} responses` } : { node: <p className="m-0">{NO_RESPONSE}</p>, word: NO_RESPONSE },
-    { node: <a href="#sec-P5-h" aria-label={`rated in Q5: the stories about ${labelOf(c)}`} onClick={(e) => { e.preventDefault(); document.getElementById('sec-P5-h')?.scrollIntoView({ block: 'start' }); }} className={`underline underline-offset-2 ${FOCUS}`}>rated in Q5</a>, word: 'rated in Q5' },
+    { node: <a href="#sec-P5-h" aria-label={`rated in Q5: the stories about ${labelOf(c)}`} onClick={(e) => { e.preventDefault(); goTo('sec-P5-h'); }} className={`underline underline-offset-2 ${FOCUS}`}>rated in Q5</a>, word: 'rated in Q5' },
     { node: <Src srcs={[...(nodeOf(c)?.srcs ?? []) as [string, string][], ...file.flatMap((e) => e.srcs ?? [])].filter((s, i, a) => a.findIndex((x) => x[1] === s[1]) === i)} of={labelOf(c)} inline />, word: 'sources' },
   ];
   const n = (es: GEdge[]) => `${es.length} record${es.length === 1 ? '' : 's'}, ${es.filter((e) => responsesTo(e.id).length).length} answered`;

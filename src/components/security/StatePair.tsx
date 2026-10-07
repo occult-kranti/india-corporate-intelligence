@@ -81,6 +81,7 @@ function UnitMapImpl({ id, label, describedBy, opts, selected, onPick, frame, do
   hoverRef.current = onHover;
   const ref = useRef<SVGSVGElement>(null);
   const [active, setActive] = useState<number>(() => Math.max(0, opts.findIndex((o) => o.st === selected)));
+  const [focused, setFocused] = useState(false);
   useEffect(() => { const i = opts.findIndex((o) => o.st === selected); if (i >= 0) setActive(i); }, [selected, opts]);
   const onKey = (e: KeyboardEvent<SVGSVGElement>) => {
     let n = -1;
@@ -94,7 +95,8 @@ function UnitMapImpl({ id, label, describedBy, opts, selected, onPick, frame, do
   };
   return (
     <svg ref={ref} role="listbox" tabIndex={0} aria-label={label} aria-describedby={describedBy} aria-activedescendant={`${id}-${opts[active]?.st}`}
-      viewBox={`0 0 ${VB_W} ${VB_H}`} style={narrow ? { height: 300 } : undefined} className={`block w-full ${narrow ? '' : 'h-auto max-h-[440px]'} ${FOCUS}`} onKeyDown={onKey} onMouseLeave={() => hoverRef.current?.(null)}>
+      viewBox={`0 0 ${VB_W} ${VB_H}`} style={narrow ? { height: 300 } : undefined} className={`block w-full ${narrow ? '' : 'h-auto max-h-[440px]'} ${FOCUS}`} onKeyDown={onKey} onMouseLeave={() => hoverRef.current?.(null)}
+      onFocus={() => setFocused(true)} onBlur={() => setFocused(false)}>
       <Patterns id={id} />
       {opts.map((o, i) => {
         const g = STATE_BY_ID.get(o.st);
@@ -122,6 +124,10 @@ function UnitMapImpl({ id, label, describedBy, opts, selected, onPick, frame, do
           return <text key={o.st} data-overflow={o.k} x={g.cx + 6} y={g.cy - 4} fontSize="12" fill="var(--color-text)">{`+${o.k}`}</text>;
         })}
         <rect x="1" y="1" width={VB_W - 2} height={VB_H - 2} fill="none" stroke="var(--color-border-light)" strokeWidth="1" strokeDasharray={frame} />
+        {/* The option under aria-activedescendant, drawn last and at 2 CSS px whatever the map's scale (A11Y-006 M1). */}
+        {focused && opts[active] && STATE_BY_ID.get(opts[active].st) && (
+          <path data-active-outline="" d={STATE_BY_ID.get(opts[active].st)!.path} fill="none" stroke="var(--color-text)" strokeWidth={2} vectorEffect="non-scaling-stroke" pointerEvents="none" />
+        )}
       </g>
     </svg>
   );
@@ -295,19 +301,25 @@ export function StatePair() {
           onClick={() => announce('Per person is unavailable: no population series in this build', 0)}>
           {narrow ? 'Per person, unavailable (S3)' : 'Per person, unavailable: no population series in this build; a 2011 Census base would re-rank states (S3)'}
         </button>
-        <label className="font-mono text-[12px] text-text-muted flex items-center gap-1.5">
+        {/* The reason a year is unavailable is in its option's name and in the line under the select, not in the
+            option's visible text: a select sizes itself to its longest option, and at 390 px that pushed the
+            page sideways (A11Y-006 S2). */}
+        <label className="font-mono text-[12px] text-text-muted flex flex-wrap items-center gap-1.5 min-w-0 max-w-full">
           <span>Year and stage of the spend map</span>
-          <select value={sp.pair?.key ?? ''} onChange={(e) => setPair(e.target.value)} className={`bg-surface border border-border-light rounded px-1 py-0.5 text-[12px] text-text ${FOCUS}`}>
+          <select value={sp.pair?.key ?? ''} onChange={(e) => setPair(e.target.value)} aria-describedby={STATE_PAIRS.some((p) => !pairDrawable(p, sp.m)) ? 'sec-pair-note' : undefined}
+            className={`bg-surface border border-border-light rounded px-1 py-0.5 text-[12px] text-text min-w-0 max-w-full ${FOCUS}`}>
             {STATE_PAIRS.map((p) => {
               const ok = pairDrawable(p, sp.m);
-              return <option key={p.key} value={p.key} aria-disabled={ok ? undefined : 'true'}>{`${p.fy} ${p.stage} · ${p.states} states${ok ? '' : ` — GSDP in this build is for ${GSDP_FY} only`}`}</option>;
+              const text = `${p.fy} ${p.stage} · ${p.states} states`;
+              return <option key={p.key} value={p.key} aria-disabled={ok ? undefined : 'true'} aria-label={ok ? undefined : `${text} — GSDP in this build is for ${GSDP_FY} only`}>{ok ? text : `${text} — unavailable`}</option>;
             })}
           </select>
         </label>
+        {STATE_PAIRS.some((p) => !pairDrawable(p, sp.m)) && <span id="sec-pair-note" className="basis-full font-mono text-[12px] text-text-muted">{`GSDP in this build is for ${GSDP_FY} only: the other years are listed and cannot be drawn as a share of GSDP.`}</span>}
       </div>
       <div className="grid lg:grid-cols-2 gap-x-6 gap-y-4 items-start">
-        <figure className="m-0 min-w-0" aria-describedby="sec-c7">
-          <h4 className="text-[14px] font-semibold text-text m-0 mb-1">Police spending by state</h4>
+        <figure className="m-0 min-w-0" aria-labelledby="sec-b6-spend-title" aria-describedby="sec-c7">
+          <h4 id="sec-b6-spend-title" className="text-[14px] font-semibold text-text m-0 mb-1">Police spending by state</h4>
           <UnitMap id="sec-map-spend" label={`Police spending by state, ${sp.m === 'cr' ? '₹ crore as published' : 'as a share of GSDP'}: 36 states and union territories, north to south`} describedBy="sec-c7"
             opts={spendOpts} selected={f.st} onPick={pick} frame={FRAME_DASH[spendTier]} onHover={setHoverL} narrow={narrow} />
           {!noState && <DotStrip items={UNITS.filter((st) => sp.units.get(st)!.cls === 'value').map((st) => ({ st, v: sp.units.get(st)!.value! }))} lo={sp.edges[0]} hi={sp.edges[sp.edges.length - 1]} med={sp.med} unit={unitWord(sp.m)} />}
@@ -326,8 +338,8 @@ export function StatePair() {
           {hiddenRows > 0 && <p className="font-mono text-[12px] text-text-muted my-1">{`${hiddenRows} rows hidden by filters`}</p>}
           {narrow && <OpenState label="Open a state on the spend map" onPick={(st) => selectState(st, 'keyboard', null)} />}
         </figure>
-        <figure className="m-0 min-w-0" aria-describedby="sec-c7">
-          <h4 className="text-[14px] font-semibold text-text m-0 mb-1">Police strength by state</h4>
+        <figure className="m-0 min-w-0" aria-labelledby="sec-b6-strength-title" aria-describedby="sec-c7">
+          <h4 id="sec-b6-strength-title" className="text-[14px] font-semibold text-text m-0 mb-1">Police strength by state</h4>
           <UnitMap id="sec-map-strength" label="Police strength by state, per lakh people as printed: 36 states and union territories, north to south" describedBy="sec-c7"
             opts={strOpts} selected={f.st} onPick={pick} frame={FRAME_DASH[strTier]} onHover={setHoverR} narrow={narrow} />
           {strValues.length > 0 && <DotStrip items={UNITS.filter((st) => strength.get(st)!.cls === 'value').map((st) => ({ st, v: strength.get(st)!.perLakh! }))} lo={STRENGTH_BINS[0]} hi={STRENGTH_BINS[STRENGTH_BINS.length - 1]} med={strMed} unit=" per lakh" />}

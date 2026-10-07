@@ -320,8 +320,8 @@ function DelhiLine({ pts }: { pts: DelhiPoint[] }) {
   const val = (fy: string, s: string) => pts.find((p) => p.fy === fy && p.stage === s)!.total!.cr;
   const dash = (fy: string, s: string) => (rowTier(pts.find((p) => p.fy === fy && p.stage === s)!.total!) === 'reported' ? '6 3' : undefined);
   return (
-    <figure className="m-0 my-2 min-w-0" aria-describedby="sec-c8">
-      <h4 className="text-[14px] font-semibold text-text m-0 mb-1">The one city police budget</h4>
+    <figure className="m-0 my-2 min-w-0" aria-labelledby="sec-delhi-h" aria-describedby="sec-c8">
+      <h4 id="sec-delhi-h" className="text-[14px] font-semibold text-text m-0 mb-1">The one city police budget</h4>
       <SkipLink twin="delhi" title="The one city police budget" />
       <svg aria-hidden="true" viewBox={`0 0 ${W} ${H}`} className="block w-full h-auto max-h-[200px]">
         <line x1={L} x2={W - R} y1={H - B} y2={H - B} stroke="var(--color-border-light)" />

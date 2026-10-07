@@ -1,4 +1,4 @@
-import { memo, useEffect, useMemo, useRef, useState, type KeyboardEvent, type ReactNode } from 'react';
+import { memo, useCallback, useEffect, useMemo, useRef, useState, type KeyboardEvent, type ReactNode } from 'react';
 import type { GEdge } from '../../graph/schema';
 import {
   type Lane, type BudgetRow, type BudgetStage, FY_AXIS, LANES, LANE_SOURCE, STAGES, EMPTY, BUDGETS, ROLE_WINDOWS, ROLE_EDGES, OFFICES, OPEN_ENDED_OFFICE, MOD, MHA,
@@ -41,15 +41,23 @@ export function OfficeLanes() {
         <div aria-hidden="true" className="min-w-0">
           {offices.map((o) => (
             <div key={o} className="flex items-center gap-2 my-1">
-              <span className="w-[56px] shrink-0 font-mono text-[12px] text-text-muted truncate">{o === MOD ? 'Defence' : o === MHA ? 'Home' : labelOf(o).split(' ')[0]}</span>
+              <span className="w-[56px] shrink-0 font-mono text-[12px] leading-tight text-text-muted break-words">{o === MOD ? 'Defence' : o === MHA ? 'Home' : labelOf(o).split(' ')[0]}</span>
               <div className="relative flex-1 h-4 border-b border-border">
                 {windowsOf(o).map((w, i) => {
                   const a = xPct(w.from), b = xPct(w.to ?? asOfIso);
                   const t = tierOf(w.records);
                   const dim = !w.records.some((r) => f.tiers.has(r.tier));
                   return (
-                    <div key={i} data-mark="office" className={`absolute top-0.5 bottom-0.5 border border-text-secondary ${w.to ? 'bg-text-muted/40' : 'bg-transparent'}`}
-                      style={{ left: `${a}%`, width: `${Math.max(0.6, b - a)}%`, strokeDasharray: DASH[t], borderStyle: DASH[t] ? 'dashed' : 'solid', opacity: dim ? 0.25 : 1 } as React.CSSProperties} />
+                    // The window's outline is drawn as an SVG rect with the tier's own dash (A11Y-006 m9):
+                    // an HTML border has one dashed style, so reported, alleged and analytic would look alike.
+                    <div key={i} data-mark="office" className={`absolute top-0.5 bottom-0.5 ${DASH[t] ? '' : 'border border-text-secondary'} ${w.to ? 'bg-text-muted/40' : 'bg-transparent'}`}
+                      style={{ left: `${a}%`, width: `${Math.max(0.6, b - a)}%`, strokeDasharray: DASH[t], opacity: dim ? 0.25 : 1 } as React.CSSProperties}>
+                      {DASH[t] && (
+                        <svg className="absolute inset-0 w-full h-full overflow-visible" aria-hidden="true">
+                          <rect x="0.5" y="0.5" width="100%" height="100%" fill="none" stroke="var(--color-text-secondary)" strokeWidth="1" strokeDasharray={DASH[t]} vectorEffect="non-scaling-stroke" style={{ width: 'calc(100% - 1px)', height: 'calc(100% - 1px)' }} />
+                        </svg>
+                      )}
+                    </div>
                   );
                 })}
               </div>
@@ -123,7 +131,8 @@ function slotsOf(lane: Lane, fy: string, visible: (r: BudgetRow) => boolean, why
     return { stage, state: vis.length >= 2 ? 'two' : vis[0].cr === 0 ? 'zero' : 'row', rows: vis, hidden: all.length - vis.length, why: null };
   });
 }
-const slotWord = (s: Slot) => (s.state === 'hatch' ? 'no row' : s.state === 'hidden' ? 'no row' : `₹${fmtCr(s.rows[0].cr)} crore`);
+// A slot a filter hides holds rows: its name says so, never "no row" (A11Y-006 S4; the key's "hidden by filter … not absent").
+const slotWord = (s: Slot) => (s.state === 'hatch' ? 'no row' : s.state === 'hidden' ? `${s.hidden} ${s.hidden === 1 ? 'row' : 'rows'} hidden by the ${s.why} filter — not absent` : `₹${fmtCr(s.rows[0].cr)} crore`);
 export function cellName(lane: Lane, fy: string, slots: Slot[]) {
   return `${labelOf(lane.body)} — ${lane.component} — ${lane.line}, FY${fy}: ${slots.map((s) => `${s.stage} ${slotWord(s)}`).join(', ')} — open for its share of the demand and the previous year`;
 }
@@ -173,7 +182,7 @@ const LaneRow = memo(function LaneRow({ l, li, slots, acc, selFy, tabFy, narrow,
             </span>
             <button type="button" data-cell={`${li}-${fi}`} tabIndex={tabFy === fi ? 0 : -1} aria-label={cellName(l, fy, ss)} aria-current={isSel ? 'true' : undefined}
               onClick={(e) => h.current.open(li, fi, e.currentTarget)} onKeyDown={(e) => h.current.key(e, li, fi)} onFocus={() => h.current.focus(li, fi)}
-              className={`sec-abs absolute inset-0 w-full h-full ${isSel ? 'outline outline-2 outline-accent' : ''} ${FOCUS}`} />
+              className={`sec-abs absolute inset-0 w-full h-full ${narrow ? 'scroll-ml-[124px]' : ''} ${isSel ? 'outline outline-2 outline-accent' : ''} ${FOCUS}`} />
           </td>
         );
       })}
@@ -190,17 +199,30 @@ const LaneRow = memo(function LaneRow({ l, li, slots, acc, selFy, tabFy, narrow,
 export function LineLedger() {
   const { f, narrow, openCell, openBody, patch, inlinePanel } = usePage();
   const empty = EMPTY || !BUDGETS.length;
-  const visible = (r: BudgetRow) => budgetPass(f, r, { comp: false });
-  const why = (r: BudgetRow) => (!f.tiers.has(rowTier(r)) ? 'tier' : f.payer === 'states' ? 'payer' : 'tier');
+  // Memoised on the filters a budget row reads, so a page press (`tp`), Table view or a panel
+  // does not rebuild 127 × 28 slots or the 3,556 coverage rows.
+  const bsig = budgetSig(f);
+  const visible = useCallback((r: BudgetRow) => budgetPass(f, r, { comp: false }), [bsig]); // eslint-disable-line react-hooks/exhaustive-deps
+  const why = useCallback((r: BudgetRow) => (!f.tiers.has(rowTier(r)) ? 'tier' : f.payer === 'states' ? 'payer' : 'tier'), [bsig]); // eslint-disable-line react-hooks/exhaustive-deps
   const lanes = useMemo(() => LANES.filter((l) => f.comp.has(l.component)), [f.comp]);
   const accent = (l: Lane) => (f.body ? l.body === f.body : f.st === 'dl' ? l.body === DELHI_POLICE : f.st === 'jk' ? l.body === 'force:jk-police' : false);
   const sel = f.cell ? parseCell(f.cell) : null;
   const [pos, setPos] = useState<{ lane: number; fy: number }>(() => (sel ? { lane: Math.max(0, lanes.indexOf(sel.lane)), fy: FY_AXIS.indexOf(sel.fy) } : { lane: 0, fy: 0 }));
   useEffect(() => { if (sel) setPos({ lane: Math.max(0, lanes.indexOf(sel.lane)), fy: Math.max(0, FY_AXIS.indexOf(sel.fy)) }); }, [f.cell]); // eslint-disable-line react-hooks/exhaustive-deps
-  const gridRef = useRef<HTMLTableElement>(null);
+  // The cell is looked up from the figure, not one table: below 640px the ledger is one table per
+  // group, each behind its own summary, with one roving stop across them all. A cell in a closed
+  // group opens its group (and the bodies' summary) before it takes focus (A11Y-006 S1).
+  const figureRef = useRef<HTMLElement>(null);
   const focusCell = (li: number, fi: number) => {
     setPos({ lane: li, fy: fi });
-    requestAnimationFrame(() => gridRef.current?.querySelector<HTMLButtonElement>(`button[data-cell="${li}-${fi}"]`)?.focus());
+    requestAnimationFrame(() => {
+      const b = figureRef.current?.querySelector<HTMLButtonElement>(`button[data-cell="${li}-${fi}"]`);
+      if (!b) return;
+      let opened = false;
+      for (let d = b.closest('details'); d; d = d.parentElement?.closest('details') ?? null) if (!d.open) { d.open = true; opened = true; }
+      if (opened) requestAnimationFrame(() => b.focus());
+      else b.focus();
+    });
   };
   const onKey = (e: KeyboardEvent<HTMLButtonElement>, li: number, fi: number) => {
     let n: [number, number] | null = null;
@@ -216,7 +238,7 @@ export function LineLedger() {
   };
   const stagesShown: BudgetStage[] = narrow ? [f.stage] : STAGES;
   let drawn = 0, hatched = 0;
-  const laneSlots = lanes.map((l) => FY_AXIS.map((fy) => slotsOf(l, fy, visible, why)));
+  const laneSlots = useMemo(() => lanes.map((l) => FY_AXIS.map((fy) => slotsOf(l, fy, visible, why))), [lanes, visible, why]);
   for (const ls of laneSlots) for (const ss of ls) for (const s of ss) if (stagesShown.includes(s.stage)) { if (s.state === 'hatch') hatched++; else drawn++; }
   const kRows = LANE_SOURCE.filter((r) => budgetPass(f, r)).length;
   const groups: { key: string; title: string; group: Lane['group']; body: string | null; lanes: number[] }[] = [];
@@ -251,7 +273,7 @@ export function LineLedger() {
       <tr>
         <th scope="col" className={`text-left font-mono text-[12px] text-text-muted pb-1 ${narrow ? 'sticky left-0 bg-bg z-[1] w-[120px] min-w-[120px]' : ''}`}>line</th>
         {FY_AXIS.map((fy, i) => (
-          <th key={fy} scope="col" className="font-mono text-[12px] text-text-muted font-normal pb-1 align-bottom" style={{ opacity: fyIn(f, fy) ? 1 : 0.2 }}>
+          <th key={fy} scope="col" className={`font-mono text-[12px] font-normal pb-1 align-bottom ${f.fyFrom && fyIn(f, fy) ? 'text-text border-b-2 border-accent' : 'text-text-muted'}`}>
             <span className={i % (narrow ? 4 : 2) === 0 || i === FY_AXIS.length - 1 ? '' : 'sr-only'}>{`’${fy.slice(2, 4)}`}</span><span className="sr-only">{` ${fy}`}</span>
           </th>
         ))}
@@ -271,7 +293,7 @@ export function LineLedger() {
   const capId = 'sec-c4';
   const table = (rowsEl: ReactNode, key: string) => (
     <div key={key} className="relative overflow-x-auto min-w-0 sec-ledger-scroll">
-      <table ref={key === 'all' ? gridRef : undefined} role="grid" aria-labelledby="sec-B3-h" aria-describedby={`${capId}${f.fyFrom ? ' sec-c4b' : ''}`} aria-rowcount={lanes.length + groups.length + 1} aria-colcount={FY_AXIS.length + 2} className="border-collapse">
+      <table role="grid" aria-labelledby="sec-B3-h" aria-describedby={`${capId}${f.fyFrom ? ' sec-c4b' : ''}`} aria-rowcount={lanes.length + groups.length + 1} aria-colcount={FY_AXIS.length + 2} className="border-collapse">
         <caption className="sr-only">{`The ledger: ${lanes.length} lanes by ${FY_AXIS.length} FYs; amounts in ₹ `}<abbr title="crore">cr</abbr></caption>
         {head}
         <tbody>{rowsEl}</tbody>
@@ -313,8 +335,9 @@ export function LineLedger() {
           {f.compSet && <p data-page-copy="" className="text-[13px] text-text-secondary m-0">{`${lanes.length} of ${LANES.length} lanes under the component filter`}</p>}
           <Denominator>{`${lanes.length} lanes · ${drawn} slots drawn, ${hatched} hatched · ${stageWords}${hiddenRows ? ` · ${hiddenRows} rows hidden by filters` : ''}`}</Denominator>
           <SkipLink twin="ledger-long" title={Q3} />
-          <figure className="m-0 min-w-0">
-            {narrow ? (
+          {/* Under view=table the drawing is hidden and its twins carry every row, so the grid is not built at all. */}
+          <figure ref={figureRef} className="m-0 min-w-0" aria-labelledby="sec-B3-h">
+            {f.view === 'table' ? null : narrow ? (
               <div role="region" aria-labelledby={capId} className="min-w-0">
                 <div className="flex items-center justify-between">
                   <button type="button" className={`min-h-[44px] min-w-[44px] px-2 underline ${FOCUS}`} onClick={() => scroll(-1)}>‹ earlier</button>
@@ -338,7 +361,7 @@ export function LineLedger() {
       <Caption id={capId} cap="C4">{`Each row is one line as the demand document prints it, under the body it funds. Inside each year, three slots: Budget Estimate, Revised Estimate, Actual. A hatched slot has no row in this register; it is not zero. Each row has its own scale, printed at its right, so rows show movement and gaps, not size against each other; a line's share of its demand is in its cell. A demand and the lines inside it are separate rows and are never added together here. Union actuals in this register begin in FY${firstActual()}. Amounts are ₹ crore as published, not adjusted for inflation.`}</Caption>
       {f.fyFrom && <Caption id="sec-c4b" cap="C4b">{`Columns outside FY${f.fyFrom}–FY${f.fyTo} are dimmed, not removed.`}</Caption>}
       {inlinePanel('B3')}
-      {!empty && <LedgerTwins lanes={lanes} visible={visible} why={why} onPage={(tp) => patch({ tp: tp <= 1 ? null : String(tp) })} />}
+      {!empty && <LedgerTwins lanes={lanes} bsig={bsig} visible={visible} why={why} onPage={(tp) => patch({ tp: tp <= 1 ? null : String(tp) })} />}
     </>
   );
 }
@@ -346,10 +369,16 @@ const coverOf = (ls: Lane[], s: BudgetStage) => new Set(ls.flatMap((l) => l.rows
 function firstActual() { return [...new Set(LANE_SOURCE.filter((r) => r.stage === 'actual').map((r) => r.fy))].sort()[0] ?? 'none'; }
 
 const PAGE = 400;
-function LedgerTwins({ lanes, visible, why, onPage }: { lanes: Lane[]; visible: (r: BudgetRow) => boolean; why: (r: BudgetRow) => string; onPage: (tp: number) => void }) {
+const covCols: Col[] = [{ key: 'lane', label: 'Lane', th: true }, { key: 'fy', label: 'FY' }, { key: 'be', label: <><abbr title="Budget Estimate">BE</abbr> ₹ <abbr title="crore">cr</abbr></> }, { key: 're', label: <><abbr title="Revised Estimate">RE</abbr> ₹ cr</> }, { key: 'ac', label: 'actual ₹ cr' }];
+/** The filters a budget row reads (`budgetPass`): payer, state, FY range, component, tier. */
+const budgetSig = (f: { payer: string | null; st: string | null; fyFrom: string | null; fyTo: string | null; comp: Set<string>; tiers: Set<string> }) =>
+  `${f.payer}|${f.st}|${f.fyFrom}|${f.fyTo}|${[...f.comp].sort().join(',')}|${[...f.tiers].sort().join(',')}`;
+function LedgerTwins({ lanes, bsig, visible, why, onPage }: { lanes: Lane[]; bsig: string; visible: (r: BudgetRow) => boolean; why: (r: BudgetRow) => string; onPage: (tp: number) => void }) {
   const { f, filterWords } = usePage();
-  const laneSet = new Set(lanes.map((l) => l.key));
-  const all = LANE_SOURCE.filter((r) => budgetPass(f, r) && laneSet.has(laneKeyOf(r)));
+  const all = useMemo(() => {
+    const laneSet = new Set(lanes.map((l) => l.key));
+    return LANE_SOURCE.filter((r) => budgetPass(f, r) && laneSet.has(laneKeyOf(r)));
+  }, [lanes, bsig]); // eslint-disable-line react-hooks/exhaustive-deps
   const pages = Math.max(1, Math.ceil(all.length / PAGE));
   const page = Math.min(f.tp, pages);
   const slice = all.slice((page - 1) * PAGE, page * PAGE);
@@ -366,10 +395,14 @@ function LedgerTwins({ lanes, visible, why, onPage }: { lanes: Lane[]; visible: 
       out: [r.payer, r.body, r.component, r.head, r.fy, fyStart(r.fy), r.stage, r.cr, rowTier(r), laneKeyOf(r), /^Demand \d+ — [^:]+?( \(Summary of Demands for Grants, BE\))?$/.test(r.head) ? 'true' : 'false', r.srcs.map(([, u]) => u).join(' ')],
     };
   };
-  // The coverage rows are built only when the twin opens: a closed twin costs nothing (U16).
-  const covLanes = lanes.filter((l) => l.rows.some(visible));
+  // The coverage rows are built once the twin opens (a closed twin costs nothing, U16) and then
+  // kept until the lanes or a budget filter change: a page press or Table view reuses them.
+  const covLanes = useMemo(() => lanes.filter((l) => l.rows.some(visible)), [lanes, visible]);
   const covCount = covLanes.length * FY_AXIS.length;
+  const covCache = useRef<{ key: unknown[]; rows: Row[] } | null>(null);
   const buildCov = (): Row[] => {
+    const key = [covLanes, visible, why];
+    if (covCache.current && covCache.current.key.every((k, i) => k === key[i])) return covCache.current.rows;
     const covRows: Row[] = [];
     for (const l of covLanes) {
       for (const fy of FY_AXIS) {
@@ -378,9 +411,9 @@ function LedgerTwins({ lanes, visible, why, onPage }: { lanes: Lane[]; visible: 
         covRows.push({ cells: [`${labelOf(l.body)} — ${l.component} — ${l.line}`, fy, ...slots.map(word)], out: [l.key, fy, ...slots.map((s) => (s.rows[0] ? s.rows[0].cr : ''))] });
       }
     }
+    covCache.current = { key, rows: covRows };
     return covRows;
   };
-  const covCols: Col[] = [{ key: 'lane', label: 'Lane', th: true }, { key: 'fy', label: 'FY' }, { key: 'be', label: <><abbr title="Budget Estimate">BE</abbr> ₹ <abbr title="crore">cr</abbr></> }, { key: 're', label: <><abbr title="Revised Estimate">RE</abbr> ₹ cr</> }, { key: 'ac', label: 'actual ₹ cr' }];
   return (
     <>
       <Twin twin="ledger-long" title={Q3} rowCount={all.length} paged>

@@ -426,7 +426,8 @@ const vendorClass = (id) => {
   return fam === 'state' ? 'public' : fam === 'capital' ? 'private' : 'unclassified';
 };
 const isCo = (id) => ['company', 'psu'].includes(nodeOf(id)?.ty);
-const VENDORS = (() => {
+/** Spec §3.2 `VENDORS` as a function of the footprint rows it reads (AC-11 [Adjudicated 2026-10-07]). */
+const vendorUnion = (fpRows) => {
   const base = new Set([...AWARDS.map((e) => e.t), ...ALLEGED_AWARDS.map((e) => e.t)]);
   const out = new Set(base);
   for (const e of EDGES) {
@@ -434,13 +435,20 @@ const VENDORS = (() => {
     if (base.has(e.s) && isCo(e.t)) out.add(e.t);
     if (base.has(e.t) && isCo(e.s)) out.add(e.s);
   }
-  for (const r of FOOTPRINT) if (['dpsu-plant', 'other'].includes(r.kind) && isCo(r.body)) out.add(r.body);
+  for (const r of fpRows) if (['dpsu-plant', 'other'].includes(r.kind) && isCo(r.body)) out.add(r.body);
   for (const e of EDGES) {
     if (e.pred === 'bond') out.add(e.s);
     if (e.pred === 'role' && isCo(e.t)) out.add(e.t);
   }
   return [...out].sort((a, b) => cmp(labelOf(a), labelOf(b)));
-})();
+};
+const VENDORS = vendorUnion(FOOTPRINT);
+/** AC-11: the ZERO-SERIES union — the fixture empties the three series, never the graph, so only the footprint arm drops. */
+const VENDORS_NOFP = vendorUnion([]);
+/** AC-11: the bodies that a `dpsu-plant`/`other` footprint row alone brings into `VENDORS`. */
+const FOOT_ONLY = VENDORS.filter((v) => !VENDORS_NOFP.includes(v));
+/** Strip fact 2 (§0 strip facts) counted over a vendor set. */
+const fact2 = (vs) => `${vs.filter((v) => vendorClass(v) === 'public').length} public-sector beside ${vs.filter((v) => vendorClass(v) === 'private').length} private, JV or foreign — vendor class not a field`;
 const VENDOR_SET = new Set(VENDORS);
 const COMPARATORS = (v) => uniq(EDGES.filter((e) => e.pred === 'analytic' && ((e.s === v && VENDOR_SET.has(e.t) && e.t !== v) || (e.t === v && VENDOR_SET.has(e.s) && e.s !== v))).map((e) => (e.s === v ? e.t : e.s)));
 const VENDOR_NO_AWARD = VENDORS.find((v) => !AWARDS.some((e) => e.t === v) && COMPARATORS(v).length >= 1) ?? null;
@@ -858,6 +866,22 @@ const twinRows = (page, name) => page.evaluate((n) => {
   return tr || d.querySelectorAll('[data-row]').length;
 }, name);
 const twinTable = (page, name) => page.evaluate((n) => window.__ac.table(document.querySelector(`details[data-twin="${n}"]`)), name);
+/**
+ * TWIN(name) content in either form §0.7 names: the <table> at D/FOLD, the StackTable cards at M ([data-row] <dl>s,
+ * dt = column label, dd = cell). Card values are aligned to the headers by dt label, never by position.
+ */
+const twinRecords = (page, name) => page.evaluate((n) => {
+  const d = document.querySelector(`details[data-twin="${n}"]`);
+  if (!d) return null;
+  const t = window.__ac.table(d);
+  if (t) return t;
+  const cards = [...d.querySelectorAll('[data-row]')];
+  if (!cards.length) return null;
+  const pairs = (c) => [...c.querySelectorAll('dt')].map((dt) => [window.__ac.txt(dt), window.__ac.txt(dt.nextElementSibling)]);
+  const headers = pairs(cards[0]).map(([h]) => h);
+  const rows = cards.map((c) => { const m = new Map(pairs(c)); return headers.map((h) => (m.has(h) ? m.get(h) : null)); });
+  return { headers, rows, caption: window.__ac.txt(d.querySelector('[data-twin-caption]')) };
+}, name);
 async function openTwinRows(page, name) { await openTwin(page, name); return twinRows(page, name); }
 
 /** Press `Download .tsv` inside a twin; returns {name, text}. */
@@ -1351,6 +1375,7 @@ test('AC-11 — (ZERO-SERIES) Leave the procurement lens unchanged', async (t) =
       await load(page, '/security?lens=procurement', { base, slice: S8 });
       out = await page.evaluate(() => ({
         cards: document.querySelectorAll('[data-vendor-card]').length,
+        ids: [...new Set([...document.querySelectorAll('[data-vendor-card]')].map((e) => e.getAttribute('data-vendor-card')))].sort(),
         pairs: document.querySelectorAll('[data-pair]').length,
         awards: document.querySelectorAll('[data-mark="award"]').length,
         contested: window.__ac.txt(window.__ac.deepest(document.querySelector('#contested'), 'alleged claims · ')),
@@ -1361,12 +1386,33 @@ test('AC-11 — (ZERO-SERIES) Leave the procurement lens unchanged', async (t) =
   };
   const z = await snap(zero.base);
   const f = await snap(full.base);
+  // [Adjudicated 2026-10-07] Set equality against the §3.2 union, never a count tolerance: ZERO loses exactly the
+  // footprint-only vendors (FOOT_ONLY) and nothing else; FULL keeps every one.
   assert.ok(f.cards > 0, 'FULL procurement renders vendor cards');
-  assert.equal(z.cards, f.cards, '[data-vendor-card] count');
+  assert.ok(FOOT_ONLY.length > 0, 'the FULL module has vendors that only a footprint row brings in (else ZERO and FULL agree and the plain identity holds)');
+  for (const v of FOOT_ONLY) {
+    const hit = EDGES.find((e) => ['award', 'enforce', 'bond', 'role', 'analytic'].includes(e.pred) && (e.s === v || e.t === v));
+    assert.ok(!hit, `${v} (footprint-only) carries no award, enforce, bond, role or analytic edge (found ${hit?.id ?? ''})`);
+  }
+  assert.equal(f.cards, f.ids.length, 'FULL: one [data-vendor-card] per vendor');
+  assert.equal(z.cards, z.ids.length, 'ZERO: one [data-vendor-card] per vendor');
+  assert.deepEqual(f.ids, [...VENDORS].sort(), 'FULL vendor cards = VENDORS (§3.2)');
+  assert.deepEqual(z.ids, [...VENDORS_NOFP].sort(), 'ZERO vendor cards = the §3.2 union with no footprint rows');
+  for (const v of FOOT_ONLY) assert.ok(!z.ids.includes(v), `${v} (footprint-only) has no card in ZERO`);
   assert.equal(z.pairs, f.pairs, '[data-pair] count');
   assert.equal(z.awards, f.awards, '[data-mark="award"] count');
   assert.equal(z.contested, f.contested, 'the Contested denominator sentence');
-  assert.equal(z.strip, f.strip, "the strip's procurement facts 1–6");
+  assert.ok(f.strip.includes(fact2(VENDORS)), `FULL strip fact 2 reads "${fact2(VENDORS)}" (reads "${f.strip.slice(0, 400)}")`);
+  assert.ok(z.strip.includes(fact2(VENDORS_NOFP)), `ZERO strip fact 2 reads "${fact2(VENDORS_NOFP)}" (reads "${z.strip.slice(0, 400)}")`);
+  assert.equal(z.strip, f.strip.replace(fact2(VENDORS), fact2(VENDORS_NOFP)), "the strip's procurement facts 1 and 3–6 are identical; fact 2 differs only by the footprint-only vendors");
+  // E30: a footprint-only id asked for by URL in ZERO is named as not a vendor, with Show connections — never dropped silently.
+  await withPage('D', async (page) => {
+    for (const v of FOOT_ONLY) {
+      await load(page, `/security?lens=procurement&vendor=${encodeURIComponent(v)}`, { base: zero.base, slice: S8 });
+      assert.ok((await bodyText(page)).includes(`${labelOf(v)} is not a vendor in this register`), `ZERO: vendor=${v} reads "${labelOf(v)} is not a vendor in this register"`);
+      assert.ok(await page.getByRole('button', { name: /^Show connections/ }).count() >= 1, `ZERO: vendor=${v} offers Show connections`);
+    }
+  });
 });
 
 test('AC-12 — (ZERO-SERIES) Keep the resolution statement\'s words with `no rows in this build`', async (t) => {
@@ -2187,7 +2233,8 @@ test('AC-40 — Print base rates as `a of b`, a percentage only over an integer 
         const cardCount = await page.evaluate((dd) => {
           const w = window.__ac.deepest(document.querySelector('main'), 'wording: ' + dd + ' research file');
           const sec2 = w?.closest('section');
-          return sec2 ? window.__ac.deepestAll(sec2, '^(₹?[\\d,.]+( cr)? (of|and) ₹?[\\d,.]+( cr)?|not computed in this file)( — |$)').length : -1;
+          // AC-40: a figure may carry its sign (the literature row -0.5 and 1 prints "-0.5 and 1 — …"); the count stays exact.
+          return sec2 ? window.__ac.deepestAll(sec2, '^(-?₹?-?[\\d,.]+( cr)? (of|and) -?₹?-?[\\d,.]+( cr)?|not computed in this file)( — |$)').length : -1;
         }, d);
         assert.equal(cardCount, rows.length, `${lens} ${d}: card count = ${rows.length}`);
       }
@@ -2338,8 +2385,10 @@ test('AC-46 — Equate every slice rate to `security.json` and keep the slice-wi
     const r = await page.evaluate(() => {
       const rows = [...document.querySelectorAll('[data-class]:not([data-rate])')];
       const b = window.__ac.qq('P2');
-      const refA = window.__ac.deepest(b, 'excluding the works class');
-      const refB = window.__ac.deepest(b, 'the slice as a whole');
+      // Anchored: each reference row *reads* its label (AC-46). The unanchored phrase also occurs inside the readMeFirst
+      // quote ("…never for the slice as a whole"), which spec §5.3.2 puts first in P2.
+      const refA = window.__ac.deepest(b, '^excluding the works class\\b');
+      const refB = window.__ac.deepest(b, '^the slice as a whole\\b');
       return {
         rows: rows.map((e) => ({ key: e.getAttribute('data-class'), text: window.__ac.txt(e) })),
         dots: [...document.querySelectorAll('[data-rate]')].map((e) => ({ key: e.getAttribute('data-class'), n: Number(e.getAttribute('data-n')) })),
@@ -2384,6 +2433,36 @@ function accountFor(v, holderText) {
   if (/as published/.test(holderText) && near(v, LAKH_CR)) return true;
   return false;
 }
+/**
+ * AC-47 [Adjudicated 2026-10-07]: a ₹ printed inside research wording quoted verbatim. Every string of the force module
+ * that prints a ₹ (labels, `d`, `srcs` labels, base-rate labels, voids, gaps, notes …), whitespace-collapsed.
+ */
+const normWs = (s) => String(s).replace(/\s+/g, ' ').trim();
+const QUOTED_RUPEE_RE = /₹\s?([\d,]+(?:\.\d+)?)\s?(?:crores?|crs?)\b/g;
+const MODULE_RUPEE_STRINGS = (() => {
+  const out = new Set();
+  const walk = (o) => {
+    if (typeof o === 'string') { if (o.includes('₹')) out.add(normWs(o)); } else if (Array.isArray(o)) o.forEach(walk);
+    else if (o && typeof o === 'object') Object.values(o).forEach(walk);
+  };
+  walk(Object.fromEntries(Object.entries(F)));
+  return [...out];
+})();
+const QUOTED_CR_NOTE = " (₹ in the research's own words: no denominator published for this line on this page; previous year not applicable)";
+/**
+ * A DOM `[data-quoted]` `[data-cr]` (never a TSV cell) is accounted for when its text begins with a module string R that
+ * itself prints this value, and the words right after R (past the optional bracketed pension-basis note) are the page's
+ * quoted-figure note: no denominator, no comparison. A page-computed figure re-labelled quoted fails: no module string prints it.
+ */
+function accountForQuoted(v, text, quoted) {
+  if (!quoted) return false;
+  const t = normWs(text);
+  return MODULE_RUPEE_STRINGS.some((R) => {
+    if (!t.startsWith(R)) return false;
+    if (![...R.matchAll(QUOTED_RUPEE_RE)].some((m) => Math.abs(Number(m[1].replace(/,/g, '')) - v) <= 0.5)) return false;
+    return t.slice(R.length).replace(/^ \[the research's own pension share[^\]]*\]/, '').startsWith(QUOTED_CR_NOTE);
+  });
+}
 /** Download every twin's TSV on a lens under view=table. */
 async function allTsvs(page, lens) {
   await load(page, route(lens, 'view=table'), { slice: lens === 'procurement' && S8 });
@@ -2406,8 +2485,8 @@ test('AC-47 — Account for every ₹ in the DOM and in every TSV as a row, a de
     if (ENFORCE_WITH_CONTRA) routes.push(`/security?lens=procurement&rec=${encodeURIComponent(ENFORCE_WITH_CONTRA.id)}`);
     for (const r of routes) {
       await load(page, r, { slice: r.includes('procurement') && S8 });
-      const crs = await page.evaluate(() => [...document.querySelectorAll('[data-cr]')].map((e) => ({ v: Number(e.getAttribute('data-cr')), text: window.__ac.txt(e) })));
-      for (const c of crs) assert.ok(accountFor(c.v, c.text), `${r}: ₹${c.v} cr is accounted for (element reads "${c.text.slice(0, 160)}")`);
+      const crs = await page.evaluate(() => [...document.querySelectorAll('[data-cr]')].map((e) => ({ v: Number(e.getAttribute('data-cr')), text: window.__ac.txt(e), quoted: e.hasAttribute('data-quoted') })));
+      for (const c of crs) assert.ok(accountFor(c.v, c.text) || accountForQuoted(c.v, c.text, c.quoted), `${r}: ₹${c.v} cr is accounted for (element reads "${c.text.slice(0, 160)}")`);
       const labels = await page.evaluate(() => [...document.querySelectorAll('[aria-label]')].filter((e) => !e.closest('[role="grid"]') && e.getAttribute('aria-label').includes('₹')).map((e) => e.getAttribute('aria-label')));
       assert.deepEqual(labels, [], `${r}: no aria-label outside the ledger grid carries a ₹`);
     }
@@ -2733,8 +2812,15 @@ test('AC-56 — Hatch footprint states without a row and keep 0-row kinds visibl
     assert.equal(chips.filter((c) => c.found).length, KINDS.length, `${KINDS.length} kind chips`);
     for (const c of chips.filter((x) => EMPTY_KINDS.includes(x.kind))) {
       assert.ok(c.disabled && c.name.includes('none in this register'), `${c.kind}: aria-disabled, "none in this register"`);
-      const v = F.FORCE_VOIDS.find((x) => new RegExp(c.kind === 'prison' ? 'prison|jail' : c.kind, 'i').test(x.what));
-      if (['prison', 'ordnance'].includes(c.kind) && v) assert.ok(c.name.includes(v.what.slice(0, 40)), `${c.kind}: the void's words`);
+      // [Adjudicated 2026-10-07] ordnance's absence is a rule (spec §5.2.1), not a void; a void of another domain (pay,
+      // demands) never explains a footprint absence, so prison reads only footprint-domain voids.
+      if (c.kind === 'ordnance') {
+        assert.ok(/ex-OFB/.test(c.name) && /dpsu-plant/.test(c.name), `ordnance: the rule sentence (ex-OFB plants recorded as dpsu-plant), not a void of another domain (reads "${c.name}")`);
+      } else if (c.kind === 'prison') {
+        const v = F.FORCE_VOIDS.find((x) => x.domain === 'footprint' && /prison|jail/i.test(x.what));
+        assert.ok(v, 'a footprint-domain void names prisons or jails');
+        assert.ok(c.name.includes(v.what.slice(0, 40)), `prison: the footprint void's words (reads "${c.name}")`);
+      }
     }
     await openTwin(page, 'footprint-matrix');
     const tbl = await twinTable(page, 'footprint-matrix');
@@ -2961,7 +3047,7 @@ const recordAndResponse = (page, scopeSel, recText, respText) => page.evaluate((
   if (!scope) return null;
   const recEl = [...scope.querySelectorAll('*')].filter((e) => window.__ac.txt(e).includes(rt) && ![...e.children].some((c) => window.__ac.txt(c).includes(rt)))[0] ?? null;
   const resp = [...scope.querySelectorAll('[data-response]')].find((r) => (pt ? window.__ac.txt(r).includes(pt) : true)) ?? null;
-  const box = (e) => (e ? { width: e.getBoundingClientRect().width, fontSize: getComputedStyle(e).fontSize, fontWeight: getComputedStyle(e).fontWeight, text: window.__ac.txt(e), v: e.getAttribute('data-response') } : null);
+  const box = (e) => (e ? { width: e.getBoundingClientRect().width, fontSize: getComputedStyle(e).fontSize, fontWeight: getComputedStyle(e).fontWeight, text: window.__ac.txt(e), v: e.getAttribute('data-response'), folded: !!e.closest('details:not([open])') } : null);
   return { rec: box(recEl), resp: box(resp) };
 }, [scopeSel, recText, respText]);
 const PARTY_RE = new RegExp(`\\b(${PARTY_WORDS.map(esc).join('|')})\\b`, 'i');
@@ -3022,6 +3108,9 @@ test('AC-65 — Show every recorded response in full, at the claim\'s size and w
       const r = await recordAndResponse(page, sel, e.lab, contra.lab);
       assert.ok(r?.rec && r.resp, `${vp}: the record and its response render`);
       assert.equal(r.resp.v, 'true', `${vp}: data-response="true"`);
+      // Two closed <details> make both widths 0 and pass the ± 2 px check vacuously: a record and its response are open at rest.
+      assert.ok(!r.rec.folded && !r.resp.folded, `${vp}: neither the record nor its response sits in a closed <details>`);
+      assert.ok(r.rec.width > 0 && r.resp.width > 0, `${vp}: the record and its response are rendered at rest (widths ${r.rec.width}, ${r.resp.width})`);
       assert.ok(r.resp.text.startsWith(head), `${vp}: the response begins "${head}" (reads "${r.resp.text.slice(0, 120)}")`);
       assert.ok(r.resp.text.includes(contra.lab) && r.resp.text.includes((contra.d ?? '').replace(/\s+/g, ' ').trim()), `${vp}: lab and d in full`);
       assert.equal(r.resp.fontSize, r.rec.fontSize, `${vp}: equal font-size`);
@@ -4309,13 +4398,32 @@ test('AC-105 — Match the slice twin to classes, two reference rows and class-y
       const s = row?.join(' | ') ?? '';
       assert.ok(s.includes('computed here') && (s.includes(`${share}%`) || s.includes(`${share.toFixed(2)}%`)), `${c.class}: share ${share}% computed here`);
     }
-    const yearRows = tbl.rows.filter((r) => /\b20\d{2}\b/.test(r.join(' ')));
+    // Key class-year rows on the spec's `class` and `year` columns (§5.3.2 Twin), never on row substrings: a class
+    // definition may itself name a year (dpsu: "carved out of the Ordnance Factory Board in 2021"). Exact header match —
+    // a prefix match would read `whole file same portal` for `whole file`.
+    const col = (name) => tbl.headers.findIndex((h) => h.trim().toLowerCase() === name.toLowerCase());
+    const [iC, iY, iN, iR, iLo, iHi, iWsp, iWf] = ['class', 'year', 'n', 'rate', 'Wilson low', 'high', 'whole file same portal', 'whole file'].map(col);
+    for (const [k, i] of Object.entries({ iC, iY, iN, iR, iLo, iHi, iWsp, iWf })) assert.ok(i >= 0, `slice twin has column ${k} (headers ${JSON.stringify(tbl.headers)})`);
+    const yearRows = tbl.rows.filter((r) => r[iY] !== 'all years');
+    assert.equal(yearRows.length, SLICE.rates.byClassYear.length, 'class-year rows = byClassYear.length');
+    const val = (cell) => num(ungroup(cell ?? '').replace(/%$/, ''));
+    const eq = (cell, v, what) => assert.ok(Math.abs(val(cell) - v) <= 0.005, `${what}: "${cell}" = ${v}`);
     for (const y of SLICE.rates.byClassYear) {
-      const row = yearRows.find((r) => r.join(' ').includes(y.class) && r.join(' ').includes(y.year));
-      assert.ok(row, `class-year ${y.class} ${y.year}`);
-      const s = ungroup(row.join(' | '));
-      if (y.n < 10) assert.ok(s.includes(`n ${y.n}: no rate drawn`), `${y.class} ${y.year}: "n ${y.n}: no rate drawn"`);
-      else for (const v of [y.singleBidderPct, ...y.wilson95, y.wholeFileSamePortal?.singleBidderPct, y.wholeFile?.singleBidderPct].filter((x) => x != null)) assert.ok(s.includes(String(v)), `${y.class} ${y.year}: ${v}`);
+      const yearOk = (cell) => (/^\d{4}$/.test(y.year) ? cell === y.year : (cell ?? '').startsWith(y.year));
+      const hits = yearRows.filter((r) => (r[iC] ?? '').split(' ')[0] === y.class && yearOk(r[iY]));
+      assert.equal(hits.length, 1, `class-year ${y.class} ${y.year}: exactly one row whose class cell is the class and whose year cell is the year`);
+      const row = hits[0];
+      const tag = `${y.class} ${y.year}`;
+      eq(row[iN], y.n, `${tag} n`);
+      if (y.n < 10) {
+        assert.equal(row[iR], `n ${y.n}: no rate drawn`, `${tag}: "n ${y.n}: no rate drawn"`);
+      } else {
+        eq(row[iR], y.singleBidderPct, `${tag} rate`);
+        eq(row[iLo], y.wilson95[0], `${tag} Wilson low`);
+        eq(row[iHi], y.wilson95[1], `${tag} high`);
+      }
+      if (y.wholeFileSamePortal?.singleBidderPct != null) eq(row[iWsp], y.wholeFileSamePortal.singleBidderPct, `${tag} whole file same portal`);
+      eq(row[iWf], y.wholeFile.singleBidderPct, `${tag} whole file`);
     }
     const tsv = await downloadTsv(page, 'slice');
     const head = tsv.text.split('\n').filter((l) => l.startsWith('#')).join('\n');
@@ -5019,14 +5127,16 @@ test('AC-128 — Draw the stack at full width with a 44 px step control', async 
     await load(page, '/security');
     const r = await page.evaluate(() => {
       const fig = document.querySelector('[data-q="B1"] figure') ?? document.createElement('figure');
-      const steps = [...fig.querySelectorAll('button')].filter((b) => /^(‹ earlier|later ›|FY\d{4}-\d{2})$/.test(window.__ac.txt(b))).map((b) => ({ text: window.__ac.txt(b), w: b.getBoundingClientRect().width, h: b.getBoundingClientRect().height }));
+      // `width`/`height`: the names box44 reads (recorded as w/h, every page failed the 44 px check).
+      const steps = [...fig.querySelectorAll('button')].filter((b) => /^(‹ earlier|later ›|FY\d{4}-\d{2})$/.test(window.__ac.txt(b))).map((b) => { const q = b.getBoundingClientRect(); return { text: window.__ac.txt(b), width: q.width, height: q.height }; });
       const pensionLabels = [...fig.querySelectorAll('[data-column]')].filter((c) => /% of (published total|stack)/.test(window.__ac.txt(c))).map((c) => c.getAttribute('data-column'));
       return { sw: fig.scrollWidth, cw: fig.clientWidth, cols: fig.querySelectorAll('[data-column][data-panel="defence"]').length, steps, pensionLabels };
     });
     assert.ok(r.sw <= r.cw, 'no inner horizontal scroll');
     assert.equal(r.cols, FY_AXIS.length, `${FY_AXIS.length} defence columns`);
     assert.equal(r.steps.length, 3, 'a step control of three buttons');
-    assert.ok(r.steps.every(box44), 'each ≥ 44 × 44 px');
+    t.diagnostic(`AC-128 step buttons: ${r.steps.map((x) => `${x.text} ${x.width}×${x.height}`).join(', ')}`);
+    assert.ok(r.steps.every(box44), `each ≥ 44 × 44 px (${r.steps.map((x) => `${x.text} ${x.width}×${x.height}`).join(', ')})`);
     assert.deepEqual(r.pensionLabels, [LATEST_FY(DEFAULT_STAGE)], 'the pension share label appears on the latest column only');
     const before = (await page.evaluate(() => [...document.querySelectorAll('[data-q="B1"] figure button')].map((b) => window.__ac.txt(b)).find((x) => /^FY\d{4}-\d{2}$/.test(x))));
     await page.locator('[data-q="B1"] figure button').filter({ hasText: /^‹ earlier$/ }).first().click();
@@ -5037,6 +5147,15 @@ test('AC-128 — Draw the stack at full width with a 44 px step control', async 
     assert.ok(!(await page.evaluate(() => !!window.__ac.card((t) => /^FY?\d{4}-\d{2}/.test(t)))), 'a first tap shows the readout line, not the panel');
     await col.tap();
     assert.ok(await page.evaluate(() => !!window.__ac.card((t) => /\d{4}-\d{2}/.test(t))), 'a second tap on the same column opens the FYReadout inline');
+    await load(page, '/security');
+    // `later ›` moves the roving FY too (the criterion names it; at rest the roving FY is the latest, so step earlier first).
+    const fyBtn = () => page.evaluate(() => [...document.querySelectorAll('[data-q="B1"] figure button')].map((b) => window.__ac.txt(b)).find((x) => /^FY\d{4}-\d{2}$/.test(x)));
+    await page.locator('[data-q="B1"] figure button').filter({ hasText: /^‹ earlier$/ }).first().click();
+    const stepped = await fyBtn();
+    await page.locator('[data-q="B1"] figure button').filter({ hasText: /^later ›$/ }).first().click();
+    const back = await fyBtn();
+    assert.notEqual(back, stepped, '`later ›` moves the roving FY');
+    assert.equal(back, `FY${LATEST_FY(DEFAULT_STAGE)}`, '`later ›` after one `‹ earlier` returns to the latest FY');
     await load(page, '/security');
     assert.equal(await twin(page, 'stack').evaluate((d) => d.open), false, 'the twin is a closed <details>');
     await openTwin(page, 'stack');
@@ -5739,9 +5858,12 @@ test('AC-150 — B-J3 / F-J: find a commissionerate and read the city sentence w
       await page.locator('[data-q="F1"] svg[role="listbox"] [role="option"]').nth(UNITS.indexOf(cantUnit)).click();
       await waitParam(page, 'st', cantUnit);
       await openTwin(page, 'places');
-      const tbl = await twinTable(page, 'places');
+      // §0.7: TWIN(places) is a <table> at FOLD and StackTable cards at M (spec §12) — read whichever form is there.
+      const tbl = await twinRecords(page, 'places');
+      assert.ok(tbl, `${vp}: TWIN(places) renders (table at FOLD, StackTable cards at M)`);
       const iK = window_col(tbl, 'Kind'); const iS = window_col(tbl, 'State');
-      assert.ok(tbl.rows.length > 0 && tbl.rows.every((r) => /^cantonment/i.test(r[iK]) && r[iS] === STATE_NAME.get(cantUnit)), `${vp}: TWIN(places) rows are cantonments in ${STATE_NAME.get(cantUnit)}`);
+      assert.ok(iK >= 0 && iS >= 0, `${vp}: TWIN(places) carries Kind and State fields (spec §12: every field; headers ${JSON.stringify(tbl.headers)})`);
+      assert.ok(tbl.rows.length > 0 && tbl.rows.every((r) => /^cantonment/i.test(r[iK] ?? '') && r[iS] === STATE_NAME.get(cantUnit)), `${vp}: TWIN(places) rows are cantonments in ${STATE_NAME.get(cantUnit)}`);
     });
   }
 });

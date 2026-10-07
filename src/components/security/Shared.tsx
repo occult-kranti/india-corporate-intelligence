@@ -320,7 +320,7 @@ export function Connections({ f }: { f: Filters }) {
       {origin && origin.isConnected && (
         <p className="text-[13px]"><a href="#back" className={`underline underline-offset-2 ${FOCUS}`} onClick={(e) => { e.preventDefault(); origin.focus(); origin.scrollIntoView({ block: 'center' }); }}>{`Back to ${origin.textContent?.trim().slice(0, 60) || 'where you were'}`}</a></p>
       )}
-      <figure className="m-0" aria-describedby="sec-c21">
+      <figure className="m-0" aria-labelledby="sec-conn-h" aria-describedby="sec-c21">
         <div ref={box} style={{ minHeight: narrow && !mount ? 60 : 620 }}>
           {narrow && !mount ? (
             <button type="button" className={`font-mono text-[13px] underline min-h-[44px] ${FOCUS}`} onClick={() => setMount(true)}>{`Load the graph (${nodes.length} entities, ${edges.length} relationships)`}</button>
