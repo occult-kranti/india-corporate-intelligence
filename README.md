@@ -117,25 +117,25 @@ Beside the whole-file rates, one "security buyers" line reads the CPPP security 
 (`research/raw/cppp/security.json`) and links to `/security?lens=procurement`. The slice is what the
 forces, the DPSUs and the police bodies bought on the open market and published on CPPP: 411,943
 award decisions after the same dedup rule, 12.17 % of the file's. Its single-bidder rate is 3.17 % of
-365,600 against 11.22 % for the whole file, because the Military Engineer Services works buyer is
+365,600 against 11.22 % for the whole file. The Military Engineer Services works buyer alone is
 74.41 % of the slice. Without the works class the rate is 12.2 %. Defence capital acquisition is not
 on CPPP, so the slice is not India's security procurement.
 
 ### The money India spends on force
 
-`/security` records what India's governments spend on force, on three lenses that share one filter
-rail. Budgets: the Union's defence and police lines by demand, year and stage, with pensions and pay
+The judged spec designs `/security` to record what India's governments spend on force, on three
+lenses that share one filter rail. Budgets: the Union's defence and police lines by demand, year and stage, with pensions and pay
 called out; each state's Police head beside its police strength; Delhi Police as the one published city
 budget. Footprint: cantonments, laboratories, plants, headquarters and commissionerates, placed in
 their states. Procurement and people: named defence contracts by vendor class, the CPPP security
 slice by buyer class, electoral bonds, retired officers' board roles, and the cases in their control
 pairs, Bofors beside Rafale. Spending on force is a policy choice. A large number is not a finding. The
-page refuses a city police budget other than Delhi's in any form, a total that adds rows from two
+spec has the page refuse a city police budget other than Delhi's in any form, a total that adds rows from two
 levels, a vendor alone or ranked, the names of open-market winners, party as a colour, filter or sort,
 and operational detail. The questions in order and the full refusal list are in the judged spec,
 [`docs/design/SECURITY_PAGE.md`](docs/design/SECURITY_PAGE.md) §2 and §14.
 
-The design is complete: two candidates, a judgement, a synthetic five-seat UX review whose 33
+The design record is committed: two candidates, a judgement, a synthetic five-seat UX review whose 33
 must-level amendments are applied, 152 acceptance criteria, and a RED suite of 152 Playwright checks
 (`scripts/pages/security.test.mjs`), all 152 failing on the scaffold.
 
@@ -180,7 +180,7 @@ reconciliation (id mappings, refused merges) and its cross-examiner verdicts, ch
 invariants over what survives, and emits typed modules. A killed claim is kept in the module's
 `META` with its reason. The energy fleet assembles to 404 nodes and 711 edges; the welfare fleet to
 286 nodes, 335 claims and 78 schemes. The force fleet (`run-122278453551`) assembles to 266 nodes and
-394 edges from eight domain files, with 22 duplicate claims killed and held, and carries three tabular
+394 edges from eight domain files, with 22 claims killed and held, and carries three tabular
 series: 4,097 budget rows, 142 strength rows and 228 footprint rows.
 
 `research/raw/` is a quarantine zone. `npm run promote` runs extraction → resolution → grounding →

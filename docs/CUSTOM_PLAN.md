@@ -416,26 +416,26 @@ every side**, so the same lens runs on the other party and on the declared contr
 
 Design: `docs/superpowers/specs/2026-10-04-force-finance-design.md`. Plan:
 `docs/superpowers/plans/2026-10-04-force-finance.md`. Page build plan:
-`docs/superpowers/plans/2026-10-04-security-page.md`. Twenty-four commits since `447e854`
-(`git log --oneline 447e854..HEAD`, at `878edcd`).
+`docs/superpowers/plans/2026-10-04-security-page.md`. Twenty-four commits from `447e854` to
+the build checkpoint `878edcd` (`git log --oneline 447e854..878edcd`).
 
 **What was asked (2026-10-04).** A page for military and police budgets, for each city and
-state and for the other departments; tenders, funding and salaries checked; connections
-found with skills, plugins and subagents. The spec read each word before any research ran
+state and for the extra departments; tenders, funding and salaries checked; connections
+found with skills, plugins and sub-models. The spec read each word before the fleet ran
 (§0): "military" is the Union defence establishment, funded by the Union alone; "police" is
 three payers — the Union's own police, the state police, and the city commissionerates inside
-the state budgets; "other departments" are Home Guards, Civil Defence, fire, prisons,
+the state budgets; "extra departments" are Home Guards, Civil Defence, fire, prisons,
 forensic laboratories, the ED, the CBI, the NIA, the NCB, the SPG and the Cabinet
-Secretariat lines; "tenders" is the CPPP award scrape sliced to security buyers, plus the
-Defence Acquisition Council approvals PIB publishes, because defence capital acquisition is
-not on CPPP; "salaries" is pay scales and pensions, never a named person's pay;
+Secretariat's intelligence lines; "tenders" is the CPPP award scrape sliced to security buyers,
+plus the Defence Acquisition Council approvals and signed contracts PIB publishes, because
+defence capital acquisition is not on CPPP; "salaries" is pay scales and pensions, never a named person's pay;
 "connections" are documented joins, each with a denominator and an innocent reading. The
 stance (§3): spending on force is a policy choice, not a scandal; pay and pensions are
 contracts with people; vendors are vendors, with identical fields and never alone; outcomes
 are rates, with party as text; cases are records with their counter, Bofors beside Rafale.
 
 **What resolves at which level, and why.** The reconnaissance critic's reading (spec §2),
-kept by the judge from candidate A (`e0e7119`) and printed on the page as fixed copy
+kept by the judge from candidate A (`e0e7119`) and set as fixed copy for the page
 (`docs/design/SECURITY_PAGE.md` §5.0.1):
 
 - **Union → the budget line.** Every Union demand is a text-extractable PDF on
@@ -443,10 +443,10 @@ kept by the judge from candidate A (`e0e7119`) and printed on the page as fixed 
   Union rows over 35 bodies, FY1999-00 to FY2026-27. No defence demand is printed by place
   (`union-defence.json → voids[0]`), so there is no state or city defence figure.
 - **State → the Police head.** Each state's police money resolves to its Police major head
-  (MH 2055) from RBI State Finances and no further. The state finance portals did not open;
-  only Uttar Pradesh's Grant 26 did (`state-police.json → voids[2]`). `FORCE_BUDGETS` holds 191
-  state rows for 30 states and UTs, 70 of them Uttar Pradesh's own series from FY2008-09.
-  Strength comes through secondary transcriptions while BPR&D is unreachable, and says so
+  (MH 2055) from RBI State Finances and no further. Five states' budget documents did not open;
+  only Uttar Pradesh's Grant 26 did (`state-police.json → voids[2]`). `FORCE_BUDGETS` holds
+  191 state rows for 30 states and UTs; 70 are Uttar Pradesh's, 65 of them its own Grant 26
+  series from FY2008-09. Strength comes through secondary transcriptions while BPR&D is unreachable, and says so
   (`state-police.json → voids[0]`); `FORCE_STRENGTH` holds 142 rows.
 - **City → the footprint only.** No city police budget is published except Delhi's. Every
   other commissionerate's money sits inside its state's MH 2055 (`state-police.json →
@@ -455,15 +455,16 @@ kept by the judge from candidate A (`e0e7119`) and printed on the page as fixed 
 - **Delhi Police is the one published city budget**, and it is a Union demand line under the
   Home Ministry: 177 rows, FY1999-00 to FY2026-27.
 
-The reason is the house rule on provenance. A figure is shown at the level its source
-publishes it, and no lower. A city figure apportioned from a state head would be an estimate
-carrying a ₹ sign. The page prints "inside the state's police head" in its place.
+The reason is the skill's rule on city money. Published means printed by the paying
+government in its own budget document or accounts; a city figure from the press, PRS or RBI is
+not a row under any tier (`force-money-trail/SKILL.md`, Refusals). The spec has the page print
+"inside the state's police head" in place of a number (spec §1).
 *(Row counts by payer, body, year and kind are counted over `FORCE_BUDGETS`,
 `FORCE_STRENGTH` and `FORCE_FOOTPRINT` in `src/graph/force.generated.ts`.)*
 
 - [x] **H0 — spec and plan** (`dfeab6c`). Reconnaissance on 2026-10-04: seven source-family
       probes, a critic and three fills. Every reachable route and every blocked one is named,
-      with its secondary. The ten-task plan follows the spec.
+      with its secondary. The plan, Tasks 0 to 10, follows the spec.
 - [x] **H1 — tabular `series`** (`6a99f11`). A fleet may declare budgets, strength and
       footprint rows beside its graph. Each row has exact keys in order, a body the graph
       knows, closed lists, a financial-year label and ₹ crore ≥ 0; a footprint row carries its
@@ -526,8 +527,8 @@ the refusals that open `.claude/skills/force-money-trail/SKILL.md`. Six pressure
 tried each one (`4a6e079`).
 
 - **City police budgets that are not published.** No number, share of a state head,
-  estimate or per-capita figure for any city but Delhi. None is published; the page prints
-  where the money sits. A map of defence money by state or city is refused for the same
+  estimate or per-capita figure for any city but Delhi. None is published; §14 has the page
+  print where the money sits. A map of defence money by state or city is refused for the same
   reason (`union-defence.json → voids[0]`).
 - **CPPP winner names.** No CPPP winner is a node, a fact or an edge, and this register names
   none. The slice is dataset-only and its verification links were all dead
@@ -541,9 +542,9 @@ tried each one (`4a6e079`).
   is not a void: these are out of scope by rule, not unreached.
 - **Persons below public rank.** A person is named only while holding, or for an act done
   in, an office on a closed list: minister, legislator, party office-bearer, Secretary or
-  Chief Secretary, service chief, Director General, head of a Union agency, Commissioner of
-  Police heading a commissionerate, a judge or the CAG acting in office, a listed-company
-  director. Everyone else is named by office and force. No private individual; no salary of
+  Chief Secretary, service chief, Director General of a CAPF, the DRDO or a state police,
+  head of a Union agency, Commissioner of Police heading a commissionerate, a Supreme Court or
+  High Court judge or the CAG acting in office, a listed-company director. Everyone else is named by office and force. No private individual; no salary of
   a named person.
 - **Party colour.** Party is text: never a colour, a filter, a sort or a government-era
   toggle. The symmetry check runs the same lens on states and governments of each party and
@@ -567,7 +568,7 @@ tried each one (`4a6e079`).
    opened (`money-people.json → baseRates[5]`).
 5. **The footprint does not follow the party in office.** Over the 177 footprint rows of the
    first pass, 0.12 installations per million residents on BJP-run large states against 0.14
-   on opposition-run ones, party as the file records it (`footprint.json`).
+   on opposition-run ones, party as the file records it (`footprint.json → symmetryCheck`).
 
 — and about itself:
 
@@ -575,13 +576,15 @@ tried each one (`4a6e079`).
    Fourteen money-people corrections were refused because they fell on held duplicates; the
    survivors already carried the fixes (`08062a9`).
 7. **A schema rule can meet a printed negative.** The Ordnance Factories demand printed
-   negative nets in several years. They are kept as a void with every value, never forced into
-   a row and never zeroed (`union-defence.json → voids[3]`).
+   negative nets in several years. They are kept as a void with every value as printed, never
+   forced into a row; the series rule (₹ crore ≥ 0) keeps them out (`union-defence.json →
+   voids[3]`).
 8. **Scale reached the type checker.** TypeScript rejected one 4,096-row literal; any series
    above 1,000 rows is now emitted as chunks the export spreads, and the five older modules
    stayed byte-identical (`8671e8d`).
 9. **Research capacity is still a budget.** The corrections pass stopped on a usage limit
-   after five of eight domains (`3cb37ed`) and was resumed from cache (`08062a9`).
+   after five of eight domains (`3cb37ed`). It was resumed with completed agents replayed from
+   cache, and the last three domains landed in `08062a9` (`docs/PLUGINS.md`).
 10. **A skill can go stale like a module.** The agent's register block quoted 12 figures from
     an older run. The skill is now generated from the files and gated in CI (`4a6e079`,
     `67f27ab`).

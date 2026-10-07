@@ -125,8 +125,7 @@ none on a test error (`2f922b2`).
 The recipe is unchanged. The bundle is cut from the working tree after a full
 `npm run check` has passed on it, with `dist/` built by that run. `HANDOFF.md` names the
 commit of that check, and the dated line under the gate table names the tree it was cut
-from. What is left out is
-listed in the next section.
+from. What is left out is listed in the next section.
 
 For Phase H the re-cut follows the `/security` build, so that `dist/`, the page suite and
 the gate table describe the same tree. Its size and file count:
