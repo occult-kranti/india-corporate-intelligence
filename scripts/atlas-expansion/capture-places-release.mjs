@@ -49,17 +49,21 @@ try {
   await campusTile;
   await page.waitForLoadState('networkidle', { timeout: 30000 });
   const detail = page.getByRole('region', { name: 'Selected site details' });
-  const details = await detail.innerText();
+  let details = await detail.innerText();
   const coordinateSource = await detail.locator('a').first().getAttribute('href');
   assert.equal(coordinateSource, 'https://ipa.org.in/port/8');
+  assert.equal(Number(await page.locator('.places-atlas').getAttribute('data-places-pitch')), 0, 'The public street map remains flat');
   assert.match(details, /campus coordinate precision/u);
   assert.match(details, /Nearby OSM buildings do not establish ownership/u);
   assert.ok([...tileResponses200].some(url => /\/14\/11750\/7791\.pbf$/u.test(url)), 'The real public-campus street tile rendered');
   assert.deepEqual(runtimeErrors, []);
   await page.locator('.places-atlas-stage').scrollIntoViewIfNeeded();
   await page.screenshot({ path: resolve(out, 'places-live-voc-port-street.png') });
+  const coordinates = detail.getByText('Coordinate details', { exact: true });
+  if (await coordinates.count()) await coordinates.click();
   await detail.scrollIntoViewIfNeeded();
-  await page.screenshot({ path: resolve(out, 'places-live-voc-port-provenance.png') });
+  await detail.screenshot({ path: resolve(out, 'places-live-voc-port-provenance.png') });
+  details = await detail.innerText();
   const facts = {
     capturedAt: new Date().toISOString(), baseUrl: base, buildDirectory: listening ? dist : null, browser: await browser.version(), viewport,
     site: 'V. O. Chidambaranar Port Authority', siteId: 'atlas-site:voc-port-public-campus',

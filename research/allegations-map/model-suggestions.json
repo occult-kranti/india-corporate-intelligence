@@ -1,0 +1,320 @@
+{
+  "schemaVersion": 1,
+  "purpose": "research-discovery-only",
+  "automaticallyVerified": false,
+  "limitation": "Cosine similarity ranks retained researcher-authored summaries for unverified research discovery only. It is not a verified fact, an identity crosswalk, a probability of wrongdoing, a causal inference or a claim that all NSE companies were analysed. No generated relationship is promoted to the graph.",
+  "model": {
+    "id": "sentence-transformers/all-MiniLM-L6-v2",
+    "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+    "license": "Apache-2.0",
+    "modelCard": "https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/blob/1110a243fdf4706b3f48f1d95db1a4f5529b4d41/README.md",
+    "format": "ONNX uint8 AVX2",
+    "dimensions": 384,
+    "maxTokens": 256,
+    "pooling": "attention-mask-weighted mean, L2 normalized",
+    "assetSha256": {
+      "onnx/model_quint8_avx2.onnx": "b941bf19f1f1283680f449fa6a7336bb5600bdcd5f84d10ddc5cd72218a0fd21",
+      "tokenizer.json": "be50c3628f2bf5bb5e3a7f17b1f74611b2561a3a27eeab05e5aa30f411572037"
+    }
+  },
+  "execution": {
+    "provider": "CPUExecutionProvider",
+    "python": "3.12.14",
+    "onnxruntime": "1.23.2",
+    "tokenizers": "0.22.1",
+    "numpy": "2.3.4",
+    "inferenceSeconds": 10.736,
+    "publicTextUploadedToModelService": false
+  },
+  "corpusSha256": "e019a1885f18239b9547b01320b0b64e7a0d3909ac4152595d3fde1a07bb9705",
+  "documentCount": 359,
+  "smokeCheck": {
+    "passed": true,
+    "relatedSimilarity": 0.808023,
+    "unrelatedSimilarity": 0.01586,
+    "meaning": "Pipeline wiring check only; not an evidence or model accuracy evaluation"
+  },
+  "queries": {
+    "attributed-claim-and-response": {
+      "text": "Attributed allegation regulator complaint police prosecution company respondent court bail response defense rebuttal current procedural status no conviction",
+      "matches": [
+        {
+          "documentId": "deep-governance:source:company-denial",
+          "title": "Adani response: alleges incorrect reporting, disputes bribery assertions",
+          "url": "https://www.ndtv.com/india-news/no-bribery-charges-against-gautam-adani-nephew-sagar-adani-and-vneet-jain-adani-group-on-us-allegations-7114911",
+          "similarity": 0.473223
+        },
+        {
+          "documentId": "allegations-institutions:source:lifeline-patkar-court-2025",
+          "title": "Bombay High Court: Patkar bail, 2025:BHC-AS:29188",
+          "url": "https://indiankanoon.org/doc/25256776/",
+          "similarity": 0.454496
+        },
+        {
+          "documentId": "allegations-institutions:source:lifeline-bisure-court-2025",
+          "title": "Bombay High Court: Dr Kishore Bisure bail, 2025:BHC-AS:6860",
+          "url": "https://rawlaw.in/wp-content/uploads/2025/02/BB2-1.pdf",
+          "similarity": 0.453707
+        },
+        {
+          "documentId": "deep-services:source:khyati-sc-bail-2025",
+          "title": "Supreme Court grants Kartik Jasubhai Patel bail",
+          "url": "https://indiankanoon.org/doc/5649905/",
+          "similarity": 0.446259
+        },
+        {
+          "documentId": "deep-services:source:khyati-ie-june2025",
+          "title": "Khyati chairman bail hearing: reported PM-JAY earnings and bank-loan use",
+          "url": "https://indianexpress.com/article/cities/ahmedabad/khyati-hospital-chairmans-bail-plea-rejected-rs-8-crore-from-pmjay-earnings-used-to-clear-bank-loan-plan-new-hospital-court-told-10086503/",
+          "similarity": 0.443195
+        }
+      ]
+    },
+    "public-invoice-to-beneficiary": {
+      "text": "Public purchaser contractor institution staffing invoice claim scholarship beneficiary verification false entries disbursement exact legal recipient payment source",
+      "matches": [
+        {
+          "documentId": "welfare-research:source:kerala-scholarship-audit",
+          "title": "CAG Kerala Report 3/2024: pre- and post-matric scholarships",
+          "url": "https://cag.gov.in/webroot/uploads/download_audit_report/2022/Report-No.3-of-2024---Performance-Audit-on-Pre-and-Post-Matric-Scholarship-Schemes-for-Scheduled-Caste,-Scheduled-Tribe-and-Minority-Students-0668f9da678b7c7.26879741.pdf",
+          "similarity": 0.520852
+        },
+        {
+          "documentId": "allegations-institutions:source:scholarship-ed-www-2026",
+          "title": "ED: Haridwar scholarship cohort and sixth provisional attachment",
+          "url": "https://www.enforcementdirectorate.gov.in/media/press-release-documents/4a44cdde-c3be-430d-b877-1b2a2815c0b2_PR%20in%20SC%20ST%20scam-1562026%201.pdf",
+          "similarity": 0.518845
+        },
+        {
+          "documentId": "welfare-research:source:jharkhand-ekalyan-audit",
+          "title": "CAG Jharkhand Report 3/2023: Direct Benefit Transfer, Chapter 6 e-Kalyan",
+          "url": "https://cag.gov.in/uploads/download_audit_report/2023/10-Chapter-6-065841f5b99d0d6.80980413.pdf",
+          "similarity": 0.483076
+        },
+        {
+          "documentId": "atlas-international-finance:source:tn-awards",
+          "title": "World Bank procurement notices P150395: OP00218737 and OP00187128",
+          "url": "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P150395&rows=200",
+          "similarity": 0.482928
+        },
+        {
+          "documentId": "atlas-institutions:source:ipi-kpmg-2020",
+          "title": "KPMG forensic review of IPI transactions involving Epstein-linked entities",
+          "url": "https://www.ipinst.org/wp-content/uploads/2020/12/IPI-KPMG-Forensic-Review-12-18-2020.pdf",
+          "similarity": 0.445228
+        }
+      ]
+    },
+    "regulatory-recovery-versus-payment": {
+      "text": "Investor collection principal refunds actual cash disbursed eligible claim recovery bank deficiency asset auction court appointed committee financial stage",
+      "matches": [
+        {
+          "documentId": "allegations-policy:source:pacl-refund-extension",
+          "title": "PACL public notice: bank-account rectification deadline extended to 6 October 2026",
+          "url": "https://www.sebi.gov.in/documents/extension%20of%20time.pdf",
+          "similarity": 0.455836
+        },
+        {
+          "documentId": "allegations-policy:source:pacl-board-2026",
+          "title": "SEBI Board memorandum: developments of the Justice R.M. Lodha Committee",
+          "url": "https://www.sebi.gov.in/sebi_data/meetingfiles/jul-2026/1782895902429_1.pdf",
+          "similarity": 0.449019
+        },
+        {
+          "documentId": "finance-research:source:writeoffs-q120",
+          "title": "Lok Sabha Q120: Waiver of loans",
+          "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU120_rCBUdx.pdf",
+          "similarity": 0.442471
+        },
+        {
+          "documentId": "finance-research:source:pm-sc",
+          "title": "Centre for Public Interest Litigation v Union of India, WP(C)546/2020",
+          "url": "https://api.sci.gov.in/supremecourt/2020/12392/12392_2020_35_1501_23456_Judgement_18-Aug-2020.pdf",
+          "similarity": 0.438698
+        },
+        {
+          "documentId": "finance-research:source:pm-fy25",
+          "title": "PM CARES audited Receipts and Payments FY2024-25",
+          "url": "https://pmcares.gov.in/assets/donation/pdf/Audited_Statement_2024_25.pdf",
+          "similarity": 0.437754
+        }
+      ]
+    },
+    "judicial-limits-and-outcomes": {
+      "text": "Court judicial reasoning interim bail non coercive protection injunction investigation debarment set aside material responses limited merits no universal exoneration",
+      "matches": [
+        {
+          "documentId": "justice-research:source:src-kejriwal-arrest-review",
+          "title": "Arvind Kejriwal arrest review and interim bail — 2024 INSC 512",
+          "url": "https://api.sci.gov.in/supremecourt/2024/16350/16350_2024_2_1501_53587_Judgement_12-Jul-2024.pdf",
+          "similarity": 0.555168
+        },
+        {
+          "documentId": "deep-services:source:khyati-sc-bail-2025",
+          "title": "Supreme Court grants Kartik Jasubhai Patel bail",
+          "url": "https://indiankanoon.org/doc/5649905/",
+          "similarity": 0.517178
+        },
+        {
+          "documentId": "allegations-institutions:source:lifeline-bail-report-2025",
+          "title": "Patkar granted bail after custody and trial delay",
+          "url": "https://www.thehindu.com/news/cities/mumbai/jumbo-covid-19-centres-scam-bombay-high-court-grants-bail-to-sanjay-rauts-alleged-aide-sujit-patkar/article69819130.ece",
+          "similarity": 0.51323
+        },
+        {
+          "documentId": "justice-research:source:src-kerala-borrowing-order",
+          "title": "Kerala borrowing ceiling: interim relief and reference — 2024 INSC 253",
+          "url": "https://api.sci.gov.in/supremecourt/2023/51385/51385_2023_4_1501_51772_Judgement_01-Apr-2024.pdf",
+          "similarity": 0.503615
+        },
+        {
+          "documentId": "allegations-institutions:source:lifeline-bisure-court-2025",
+          "title": "Bombay High Court: Dr Kishore Bisure bail, 2025:BHC-AS:6860",
+          "url": "https://rawlaw.in/wp-content/uploads/2025/02/BB2-1.pdf",
+          "similarity": 0.501371
+        }
+      ]
+    },
+    "ownership-versus-wrongdoing": {
+      "text": "Land sale deed society trust authorized signatory property buyer later resale consideration knowing participation ownership association does not prove criminal guilt",
+      "matches": [
+        {
+          "documentId": "allegations-institutions:source:srmf-ed-2026",
+          "title": "ED: alleged SRMF impersonation, sale and asset freezing",
+          "url": "https://enforcementdirectorate.gov.in/media/press-release-documents/58486e21-6f04-4a3f-9349-a897355bc398_PRESS%20RELEASE-%20Search-Arrest-15-05-2026.pdf",
+          "similarity": 0.546342
+        },
+        {
+          "documentId": "finance-research:source:pm-deed",
+          "title": "PM CARES registered trust deed",
+          "url": "https://pmcares.gov.in/assets/donation/pdf/Trust_Deed.pdf",
+          "similarity": 0.457932
+        },
+        {
+          "documentId": "allegations-policy:source:pacl-order-2014",
+          "title": "SEBI: Order in the matter of PACL Limited, 22 August 2014",
+          "url": "https://www.sebi.gov.in/sebi_data/attachdocs/1408704987673.pdf",
+          "similarity": 0.440977
+        },
+        {
+          "documentId": "justice-research:source:src-electoral-bonds-judgment",
+          "title": "Electoral bonds constitutional judgment — 2024 INSC 113",
+          "url": "https://api.sci.gov.in/supremecourt/2017/27935/27935_2017_1_1501_50573_Judgement_15-Feb-2024.pdf",
+          "similarity": 0.387452
+        },
+        {
+          "documentId": "deep-corporate:source:hzl-sc-2021",
+          "title": "National Confederation of Officers Associations v Union of India",
+          "url": "https://api.sci.gov.in/supremecourt/2014/5445/5445_2014_34_1501_31393_Judgement_18-Nov-2021.pdf",
+          "similarity": 0.38335
+        }
+      ]
+    },
+    "challenge-unsupported-negative": {
+      "text": "Editorial correction unsupported claim withdrawn non exhaustive selected top donors table absence does not disprove contribution exact source limitations no automatic factual promotion",
+      "matches": [
+        {
+          "documentId": "allegations-corrections:source:waaree-unsupported-retained-donation-2026-10-07",
+          "title": "Analysis of Donations Received by National Political Parties — FY 2024–25",
+          "url": "https://adrindia.org/sites/default/files/English_Analysis_of_donations_declared_by_National_Parties_FY_2024-25.pdf",
+          "similarity": 0.592329
+        },
+        {
+          "documentId": "atlas-institutions:source:ipi-kpmg-2020",
+          "title": "KPMG forensic review of IPI transactions involving Epstein-linked entities",
+          "url": "https://www.ipinst.org/wp-content/uploads/2020/12/IPI-KPMG-Forensic-Review-12-18-2020.pdf",
+          "similarity": 0.44342
+        },
+        {
+          "documentId": "welfare-research:source:jharkhand-ekalyan-audit",
+          "title": "CAG Jharkhand Report 3/2023: Direct Benefit Transfer, Chapter 6 e-Kalyan",
+          "url": "https://cag.gov.in/uploads/download_audit_report/2023/10-Chapter-6-065841f5b99d0d6.80980413.pdf",
+          "similarity": 0.441867
+        },
+        {
+          "documentId": "deep-governance:source:company-denial",
+          "title": "Adani response: alleges incorrect reporting, disputes bribery assertions",
+          "url": "https://www.ndtv.com/india-news/no-bribery-charges-against-gautam-adani-nephew-sagar-adani-and-vneet-jain-adani-group-on-us-allegations-7114911",
+          "similarity": 0.416857
+        },
+        {
+          "documentId": "finance-research:source:pm-sc",
+          "title": "Centre for Public Interest Litigation v Union of India, WP(C)546/2020",
+          "url": "https://api.sci.gov.in/supremecourt/2020/12392/12392_2020_35_1501_23456_Judgement_18-Aug-2020.pdf",
+          "similarity": 0.41587
+        }
+      ]
+    },
+    "exact-identity-connection": {
+      "text": "Exact legal company institution cohort identifier connected retained sources no fuzzy name alias address merge public context unknown location",
+      "matches": [
+        {
+          "documentId": "deep-procurement:source:meil-moa",
+          "title": "MEIL company memorandum in official EGM notice",
+          "url": "https://meil.in/sites/default/files/2025-07/EGM_notice_2025.pdf",
+          "similarity": 0.449895
+        },
+        {
+          "documentId": "public-works:source:pwg-pm-roster",
+          "title": "Official Union Council portfolio roster — snapshot as on25July2026",
+          "url": "https://www.pmindia.gov.in/en/news_updates/portfolios-of-the-union-council-of-ministers-2/",
+          "similarity": 0.395995
+        },
+        {
+          "documentId": "deep-corporate:source:hzl-target-2023",
+          "title": "HZL proposed acquisition structure and government objection",
+          "url": "https://www.newindianexpress.com/business/2023/Feb/21/hindustan-zincsbuyout-plan-formauritius-thl-zinc-hits-roadblock-2549448.html",
+          "similarity": 0.395398
+        },
+        {
+          "documentId": "deep-corporate:source:ael-report-2026",
+          "title": "Adani Enterprises integrated annual report FY2025–26",
+          "url": "https://nsearchives.nseindia.com/annual_reports/AR_29299_ADANIENT_2025_2026_A_17942605_29052026223750.pdf",
+          "similarity": 0.394441
+        },
+        {
+          "documentId": "atlas-policy:source:port-ipa-location",
+          "title": "V.O.Chidambaranar Port Authority public profile",
+          "url": "https://ipa.org.in/port/8",
+          "similarity": 0.389133
+        }
+      ]
+    },
+    "financial-stage-control": {
+      "text": "Alleged diversion collected principal invoice commitment asset attachment valuation refund recovery cash amount distinct currency unit period accounting stage",
+      "matches": [
+        {
+          "documentId": "allegations-institutions:source:scholarship-ed-www-2026",
+          "title": "ED: Haridwar scholarship cohort and sixth provisional attachment",
+          "url": "https://www.enforcementdirectorate.gov.in/media/press-release-documents/4a44cdde-c3be-430d-b877-1b2a2815c0b2_PR%20in%20SC%20ST%20scam-1562026%201.pdf",
+          "similarity": 0.440764
+        },
+        {
+          "documentId": "deep-corporate:source:parsa-sc-2019",
+          "title": "Parsa Kente Collieries v RRVUNL, Civil Appeal 9023/2018",
+          "url": "https://api.sci.gov.in/supremecourt/2018/13456/13456_2018_Judgement_27-May-2019.pdf",
+          "similarity": 0.433709
+        },
+        {
+          "documentId": "atlas-international-finance:source:ida-pmgky-icr",
+          "title": "PMGKY P173943/P174027 joint implementation completion report",
+          "url": "https://documents1.worldbank.org/curated/en/099042224135030970/pdf/BOSIB-c35ef47d-c671-422e-acd1-d14436c5cc23.pdf",
+          "similarity": 0.431681
+        },
+        {
+          "documentId": "deep-corporate:source:hzl-lapse-2023",
+          "title": "HZL US$2.98 bn proposal reported lapsed",
+          "url": "https://www.business-standard.com/companies/news/hindustan-zinc-bids-to-buy-assets-from-vedanta-group-for-2-98-billion-123050200880_1.html",
+          "similarity": 0.429484
+        },
+        {
+          "documentId": "deep-corporate:source:air-budget-actual-2023",
+          "title": "Civil Aviation Demand 8, Budget 2023–24: actual debt-cleanup funding",
+          "url": "https://www.indiabudget.gov.in/budget2023-24/doc/eb/sbe8.pdf",
+          "similarity": 0.424679
+        }
+      ]
+    }
+  },
+  "researchDomain": "allegations-map"
+}

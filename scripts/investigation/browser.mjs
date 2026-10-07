@@ -35,9 +35,12 @@ const check = (condition, message) => { assert.ok(condition, message); checks++;
 const rawParams = page => new URLSearchParams(new URL(page.url()).hash.split('?')[1] ?? '');
 const routePaths = [...readFileSync(resolve(root, 'src/App.tsx'), 'utf8').matchAll(/<Route path="([^"]+)"/gu)].map(match => match[1]).filter(path => !path.includes(':') && path !== '*');
 const routes = [...new Set([...routePaths, '/states/ka', '/company/reliance-industries', '/conglomerates/adani'])];
-// The money-trail atlas is a dedicated geographic surface. It has its own
-// source/casebook workflow and intentionally does not expose a Dossier tab.
-const dedicatedRoutes = new Set(['/follow-the-money']);
+// Dedicated atlases own their geographic controls and evidence workflows;
+// they intentionally do not expose the shared workspace's Dossier tab.
+const dedicatedRoutes = new Map([
+  ['/follow-the-money', { marker: '[data-follow-the-money]', stateLabel: 'State or union territory' }],
+  ['/allegations', { marker: '[data-allegations-page]', stateLabel: 'State association', filtersButton: 'Filters' }],
+]);
 const sharedRoutes = routes.filter(route => !dedicatedRoutes.has(route));
 const binary = process.env.PLAYWRIGHT_CHROMIUM_PATH ?? '/usr/bin/chromium';
 const browser = await chromium.launch({ ...(existsSync(binary) ? { executablePath: binary } : {}) });
@@ -97,12 +100,14 @@ async function run(name, task) {
 try {
   await run('Every registered route opens its declared 36-state geographic surface', async () => {
     for (const route of routes) {
-      const dedicated = dedicatedRoutes.has(route);
+      const dedicated = dedicatedRoutes.get(route);
       if (dedicated) {
         await page.goto(`${base}/#${route}`);
-        await page.locator('[data-follow-the-money]').waitFor({ timeout: 45000 });
-        check(await page.locator('[data-follow-the-money]').count() === 1, `${route}: one dedicated money-trail atlas`);
+        await page.locator(dedicated.marker).waitFor({ timeout: 45000 });
+        check(await page.locator(dedicated.marker).count() === 1, `${route}: one dedicated atlas`);
         check(await page.locator('[data-investigation-workspace]').count() === 0, `${route}: dedicated atlas is not nested in the dossier wrapper`);
+        if (dedicated.filtersButton) await page.getByRole('button', { name: dedicated.filtersButton, exact: true }).click();
+        await page.locator('.iw-map-state').first().waitFor();
       } else {
         await open(route);
         check(await page.locator('[data-investigation-workspace]').count() === 1, `${route}: one shared workspace`);
@@ -110,7 +115,7 @@ try {
       const codes = await page.locator('.iw-map-state').evaluateAll(items => items.map(item => item.getAttribute('data-state-code')));
       check(codes.length === 36 && new Set(codes).size === 36, `${route}: 36 distinct geographic shapes`);
       check(codes.includes('LA') && codes.includes('DN') && !codes.includes('DD') && codes.includes('OD') && codes.includes('CG'), `${route}: current state/UT codes`);
-      check(await page.getByRole('combobox', { name: dedicated ? 'State or union territory' : 'Place', exact: true }).locator('option').count() === 37, `${route}: all 36 places plus All India`);
+      check(await page.getByRole('combobox', { name: dedicated?.stateLabel ?? 'Place', exact: true }).locator('option').count() === 37, `${route}: all 36 places plus the unfiltered national view`);
       await overflow(route);
     }
   });

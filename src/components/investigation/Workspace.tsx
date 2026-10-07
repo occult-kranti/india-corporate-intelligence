@@ -9,7 +9,7 @@ import {
   type InvestigationFilters, type InvestigationTier,
   type InvestigationGeography, type InvestigationAmount,
 } from '../../data/investigation';
-import { InvestigationMap } from './InvestigationMap';
+import { LinkedEvidenceMap } from './LinkedEvidenceMap';
 import { InvestigationGraph } from './InvestigationGraph';
 import Casebook, { pinCasebookItem } from './Casebook';
 import ProcurementTrail, { ProcurementGuidedEntry, ProcurementAuditEntry } from './ProcurementTrail';
@@ -307,7 +307,7 @@ export default function Workspace({ children, routeTitle, routeKey }: WorkspaceP
   }, [surface, routeKey, location.hash]);
 
   const contextMap = (compact = false) => <section className={`iw-map-panel${compact ? ' is-context' : ''}`} aria-label="Geographic evidence context">
-    <InvestigationMap sites={compact ? [] : atlasSites} onEntitySelect={id => inspect('entity', id)} spatial={!compact} timeLabel={filters.from || filters.to ? `${filters.from ?? 'Earliest retained'} — ${filters.to ?? 'Latest retained'}` : 'All retained dates'} coverage={coverage} selectedState={filters.stateCode ?? null} onStateSelect={chooseState} geographyMode={filters.geographyMode} nationalRecords={view.nationalRecords} unknownRecords={view.unknownRecords} internationalRecords={view.internationalRecords} />
+    <LinkedEvidenceMap registry={INVESTIGATION_REGISTRY} filters={filters} focusSelection={selection ? {kind: selection.kind, id: selection.item.id} : null} sites={compact ? [] : atlasSites} onEntitySelect={id => inspect('entity', id)} spatial={!compact} timeLabel={filters.from || filters.to ? `${filters.from ?? 'Earliest retained'} — ${filters.to ?? 'Latest retained'}` : 'All retained dates'} coverage={coverage} selectedState={filters.stateCode ?? null} onStateSelect={chooseState} geographyMode={filters.geographyMode} nationalRecords={view.nationalRecords} unknownRecords={view.unknownRecords} internationalRecords={view.internationalRecords} />
     {compact && <button className="iw-button iw-context-return" onClick={() => chooseSurface('map')}><MapIcon size={14} aria-hidden="true" />Return to linked map</button>}
   </section>;
 

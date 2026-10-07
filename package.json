@@ -18,7 +18,7 @@
     "test:education": "node --test scripts/education/education.test.mjs",
     "test:education:browser": "node scripts/education/browser.mjs",
     "test:education:model": "node scripts/education/model-corpus.mjs && python3 scripts/education/model-rank.py --input research/education/model-corpus.json --verify && python3 scripts/education/model-rank.test.py",
-    "check": "npm run promote && npm run generate && npm run test:assemble && npm run validate && npm run validate:education && npm run test:education && npm run test:education:model && npm run validate:water && npm run test:water && npm run test:water:model && npm run validate:public-works && npm run test:public-works && npm run test:public-works:model && npm run validate:investigation && npm run test:investigation && npm run test:investigation:model && npm run test:procurement && npm run validate:deep-investigation && npm run test:deep-investigation && npm run test:deep-investigation:model && npm run validate:atlas && npm run test:atlas && npm run test:atlas:model && npm run build && npm run smoke && npm run test:education:browser && npm run test:water:browser && npm run test:public-works:browser && npm run test:dossier:history && npm run test:investigation:browser && npm run test:procurement:browser && npm run test:deep-investigation:browser && npm run test:atlas:browser && npm run test:spatial:browser && npm run test:places:browser && npm run test:atlas:integration && npm run test:atlas:audit && npm run viewport && npm run test:pages",
+    "check": "npm run promote && npm run generate && npm run test:assemble && npm run validate && npm run validate:education && npm run test:education && npm run test:education:model && npm run validate:water && npm run test:water && npm run test:water:model && npm run validate:public-works && npm run test:public-works && npm run test:public-works:model && npm run validate:investigation && npm run test:investigation && npm run test:investigation:model && npm run test:procurement && npm run validate:deep-investigation && npm run test:deep-investigation && npm run test:deep-investigation:model && npm run validate:atlas && npm run test:atlas && npm run test:atlas:model && npm run build && npm run smoke && npm run test:education:browser && npm run test:water:browser && npm run test:public-works:browser && npm run test:dossier:history && npm run test:investigation:browser && npm run test:procurement:browser && npm run test:deep-investigation:browser && npm run test:atlas:browser && npm run test:map && npm run validate:allegations && npm run test:allegations && npm run test:allegations:model && npm run test:allegations:browser && npm run test:map:browser && npm run test:places:browser && npm run test:atlas:integration && npm run test:atlas:audit && npm run viewport && npm run test:pages",
     "test:pages": "node --test --test-concurrency=2 scripts/pages/energy.test.mjs scripts/pages/welfare.test.mjs scripts/pages/tenders.test.mjs scripts/pages/finance.test.mjs",
     "validate:water": "node scripts/water/validate.mjs",
     "test:water": "node --test scripts/water/water.test.mjs",
@@ -40,14 +40,19 @@
     "test:deep-investigation": "node --test scripts/deep-investigation/deep-investigation.test.mjs",
     "test:deep-investigation:model": "node scripts/deep-investigation/model-corpus.mjs --verify && python3 scripts/deep-investigation/model-rank.py --verify && python3 scripts/deep-investigation/model-rank.test.py",
     "test:deep-investigation:browser": "node scripts/deep-investigation/browser.mjs",
-    "test:spatial:browser": "node scripts/atlas-expansion/spatial-browser.mjs",
     "validate:atlas": "node scripts/atlas-expansion/validate.mjs",
     "test:atlas": "node --test scripts/atlas-expansion/atlas.test.mjs",
     "test:atlas:model": "node scripts/atlas-expansion/model-corpus.mjs --verify && python3 scripts/atlas-expansion/model-rank.py --verify && python3 scripts/atlas-expansion/model-rank.test.py",
     "test:atlas:browser": "node scripts/atlas-expansion/browser.mjs",
     "test:atlas:integration": "node scripts/atlas-expansion/integration-browser.mjs",
     "test:places:browser": "node scripts/atlas-expansion/places-browser.mjs",
-    "test:atlas:audit": "node scripts/atlas-expansion/code-audit.mjs"
+    "test:atlas:audit": "node scripts/atlas-expansion/code-audit.mjs",
+    "test:map:browser": "node scripts/atlas-expansion/map-browser.mjs",
+    "test:allegations:browser": "node scripts/allegations-map/browser.mjs",
+    "test:map": "node --test scripts/atlas-expansion/map-geometry.test.mjs",
+    "test:allegations": "node --test scripts/allegations-map/evidence.test.mjs",
+    "validate:allegations": "node scripts/allegations-map/validate.mjs",
+    "test:allegations:model": "node scripts/allegations-map/model-corpus.mjs --verify && python3 scripts/allegations-map/model-rank.py --verify && python3 scripts/allegations-map/model-rank.test.py"
   },
   "dependencies": {
     "d3-force": "^3.0.0",
@@ -56,8 +61,7 @@
     "maplibre-gl": "^6.13.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-router-dom": "^7.1.1",
-    "three": "^0.186.1"
+    "react-router-dom": "^7.1.1"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.0.0",
@@ -65,7 +69,6 @@
     "@types/d3-quadtree": "^3.0.6",
     "@types/react": "^18.3.18",
     "@types/react-dom": "^18.3.5",
-    "@types/three": "^0.186.0",
     "@vitejs/plugin-react": "^4.3.4",
     "playwright": "^1.62.1",
     "tailwindcss": "^4.0.0",

@@ -36,8 +36,8 @@ try {
  check(await map.locator('canvas').count() === 1, 'Places uses a real MapLibre WebGL canvas');
  check(await page.getByRole('button', { name: 'Places map', exact: true }).getAttribute('aria-pressed') === 'true', 'Places is the normal-motion default');
  check(await map.locator('.maplibregl-ctrl-attrib').isVisible(), 'Map attribution remains visible');
- await map.getByRole('button', { name: 'Tilt map', exact: true }).click(); await page.waitForFunction(() => Number(document.querySelector('.places-atlas')?.getAttribute('data-places-pitch')) > 20);
- check(Number(await map.getAttribute('data-places-pitch')) > 20, 'The camera can tilt into 3D');
+ check(Number(await map.getAttribute('data-places-pitch')) === 0, 'The geographic camera stays flat');
+ check(await page.getByRole('button', { name: /3D atlas|Tilt map/u }).count() === 0, 'No 3D presentation controls remain');
  await map.getByLabel('Place names', { exact: true }).uncheck(); check(!await map.getByLabel('Place names', { exact: true }).isChecked(), 'Place-label layer can be toggled');
  await map.getByLabel('Research states', { exact: true }).uncheck(); await map.getByLabel('Research states', { exact: true }).check();
  check(await map.getByLabel('Research states', { exact: true }).isChecked(), 'Research boundaries can be restored independently of the basemap');

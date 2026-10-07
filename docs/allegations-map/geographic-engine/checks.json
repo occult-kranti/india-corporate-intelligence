@@ -1,0 +1,27 @@
+{
+  "map": {
+    "passed": true,
+    "checks": 26,
+    "command": "INVESTIGATION_DIST=dist-allegations-release MAP_BROWSER_ARTIFACTS=/tmp/allegations-flat-map-release npm run test:map:browser"
+  },
+  "places": {
+    "passed": true,
+    "checks": 21,
+    "live": "OpenFreeMap vector features rendered",
+    "command": "INVESTIGATION_DIST=dist-allegations-release PLACES_LIVE=1 PLACES_BROWSER_ARTIFACTS=/tmp/allegations-places-release npm run test:places:browser"
+  },
+  "geometryAndFlatStyle": {
+    "passed": true,
+    "checks": 4,
+    "command": "node --test scripts/atlas-expansion/map-geometry.test.mjs"
+  },
+  "campusCapture": {
+    "passed": true,
+    "command": "INVESTIGATION_DIST=dist-allegations-release PLACES_BROWSER_ARTIFACTS=/tmp/allegations-places-capture node scripts/atlas-expansion/capture-places-release.mjs",
+    "capturedAt": "2026-10-07T07:51:54.723Z",
+    "zoom": 15.5,
+    "pitch": 0,
+    "tileResponses200": 6,
+    "runtimeErrors": []
+  }
+}

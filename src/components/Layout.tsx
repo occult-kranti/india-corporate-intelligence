@@ -169,7 +169,7 @@ export default function Layout() {
   const previousPath = useRef(location.pathname);
   const currentGroup = navGroups.find((group) => group.items.some((item) => item.path === location.pathname));
   const currentItem = currentGroup?.items.find((item) => item.path === location.pathname);
-  const routeTitle = currentItem?.label ?? (location.pathname.startsWith('/company/') ? 'Company profile' : location.pathname.startsWith('/states/') ? 'State profile' : location.pathname.startsWith('/conglomerates/') ? 'Group deep dive' : 'Investigation workspace');
+  const routeTitle = location.pathname === '/allegations' ? 'Allegations atlas' : currentItem?.label ?? (location.pathname.startsWith('/company/') ? 'Company profile' : location.pathname.startsWith('/states/') ? 'State profile' : location.pathname.startsWith('/conglomerates/') ? 'Group deep dive' : 'Investigation workspace');
 
   useEffect(() => {
     document.title = `${routeTitle} · ICIP`;
@@ -209,6 +209,7 @@ export default function Layout() {
           <div className="atlas-primary-routes">{[
             { path: '/', label: 'National atlas', icon: Globe2 },
             { path: '/follow-the-money', label: 'Money trails', icon: GitBranch },
+            { path: '/allegations', label: 'Allegations', icon: ShieldCheck },
           ].map(({ path, label, icon: Icon }) => <NavLink key={path} to={contextualRoute(path, location.search, location.pathname)} end={path === '/'} className={({ isActive }) => `iw-rail-link${isActive ? ' is-active' : ''}`}><Icon size={19} strokeWidth={1.6} aria-hidden="true" /><span>{label}</span></NavLink>)}</div>
           <p className="atlas-rail-label">Sector lenses</p>
           {sectorNavigation.map(({ path, label, icon: Icon }) => <NavLink key={path} to={contextualRoute(path, location.search, location.pathname)} className={({ isActive }) => `iw-rail-link${isActive ? ' is-active' : ''}`}><Icon size={18} strokeWidth={1.5} aria-hidden="true" /><span>{label}</span><ChevronRight className="atlas-rail-chevron" size={12} aria-hidden="true" /></NavLink>)}
@@ -226,9 +227,9 @@ export default function Layout() {
             <button type="button" ref={menuRef} className="mobile-menu-button iw-all-lenses-button" aria-label="Open navigation" aria-expanded={mobileMenuOpen} aria-controls="site-nav-mobile" onClick={event => { menuRef.current = event.currentTarget; setMobileMenuOpen(true); }}><Menu size={21} aria-hidden="true" /></button>
           </div>
         </header>
-        <nav ref={sectorRef} className="atlas-mobile-sectors" aria-label="Sector shortcuts"><NavLink to={contextualRoute('/', location.search, location.pathname)} end><Globe2 size={15} aria-hidden="true" />All India</NavLink><NavLink to={contextualRoute('/follow-the-money', location.search, location.pathname)}><GitBranch size={15} aria-hidden="true" />Money trails</NavLink>{sectorNavigation.map(({ path, label, icon: Icon }) => <NavLink key={path} to={contextualRoute(path, location.search, location.pathname)}><Icon size={15} aria-hidden="true" />{label}</NavLink>)}</nav>
+        <nav ref={sectorRef} className="atlas-mobile-sectors" aria-label="Sector shortcuts"><NavLink to={contextualRoute('/', location.search, location.pathname)} end><Globe2 size={15} aria-hidden="true" />All India</NavLink><NavLink to={contextualRoute('/follow-the-money', location.search, location.pathname)}><GitBranch size={15} aria-hidden="true" />Money trails</NavLink><NavLink to="/allegations"><ShieldCheck size={15} aria-hidden="true" />Allegations</NavLink>{sectorNavigation.map(({ path, label, icon: Icon }) => <NavLink key={path} to={contextualRoute(path, location.search, location.pathname)}><Icon size={15} aria-hidden="true" />{label}</NavLink>)}</nav>
         <main id="main-content" ref={mainRef} tabIndex={-1} className="site-main">
-          <div className="site-content iw-shell-content">{location.pathname === '/follow-the-money' ? <Outlet /> : <Workspace routeTitle={routeTitle} routeKey={location.pathname}><Outlet /></Workspace>}</div>
+          <div className="site-content iw-shell-content">{['/follow-the-money', '/allegations'].includes(location.pathname) ? <Outlet /> : <Workspace routeTitle={routeTitle} routeKey={location.pathname}><Outlet /></Workspace>}</div>
         </main>
       </div>
 

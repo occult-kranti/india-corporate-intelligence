@@ -30,5 +30,10 @@ features.sort(key=lambda row: row['properties']['name'])
 data = {'type': 'FeatureCollection', 'features': features, 'provenance': {**svg['provenance'], 'projection': 'WGS84 longitude/latitude (EPSG:4326), from original LGD geometry.', 'transformation': 'Topology-preserving geographic simplification at 0.001 degrees; all polygon components retained. Illustrative state boundaries, not surveyed parcel edges.'}}
 target = ASSETS / 'india-current36-wgs84.json'
 target.write_text(json.dumps(data, separators=(',', ':')) + '\n')
-(ASSETS / 'india-current36-bounds.json').write_text(json.dumps([dict(code=row['properties']['code'], name=row['properties']['name'], bbox=row['bbox']) for row in features], separators=(',', ':')) + '\n')
+def schematic_hub(row):
+    geometry = shape(row['geometry'])
+    largest = max(geometry.geoms, key=lambda part: part.area) if hasattr(geometry, 'geoms') else geometry
+    point = largest.representative_point()
+    return [round(point.x, 7), round(point.y, 7)]
+(ASSETS / 'india-current36-bounds.json').write_text(json.dumps([dict(code=row['properties']['code'], name=row['properties']['name'], bbox=row['bbox'], schematicHub=schematic_hub(row)) for row in features], separators=(',', ':')) + '\n')
 print(json.dumps({'states': len(features), 'polygonComponents': sum(row['parts'] for row in svg['states']), 'bytes': target.stat().st_size, 'sha256': hashlib.sha256(target.read_bytes()).hexdigest()}))

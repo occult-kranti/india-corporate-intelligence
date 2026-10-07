@@ -1,0 +1,139 @@
+{
+  "executedAt": "2026-10-07T07:45:27.298556+00:00",
+  "purpose": "Actual pinned local CPU model execution after two new research slices and editorial correction receipt were frozen. Discovery ranking of public researcher-authored summaries only.",
+  "sourceInputs": 18,
+  "documentCount": 359,
+  "queryCount": 8,
+  "model": {
+    "id": "sentence-transformers/all-MiniLM-L6-v2",
+    "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+    "license": "Apache-2.0",
+    "modelCard": "https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/blob/1110a243fdf4706b3f48f1d95db1a4f5529b4d41/README.md",
+    "format": "ONNX uint8 AVX2",
+    "dimensions": 384,
+    "maxTokens": 256,
+    "pooling": "attention-mask-weighted mean, L2 normalized",
+    "assetSha256": {
+      "onnx/model_quint8_avx2.onnx": "b941bf19f1f1283680f449fa6a7336bb5600bdcd5f84d10ddc5cd72218a0fd21",
+      "tokenizer.json": "be50c3628f2bf5bb5e3a7f17b1f74611b2561a3a27eeab05e5aa30f411572037"
+    }
+  },
+  "execution": {
+    "provider": "CPUExecutionProvider",
+    "python": "3.12.14",
+    "onnxruntime": "1.23.2",
+    "tokenizers": "0.22.1",
+    "numpy": "2.3.4",
+    "inferenceSeconds": 10.736,
+    "publicTextUploadedToModelService": false
+  },
+  "sourceRegistries": [
+    {
+      "path": "research/raw/allegations-map/policy.json",
+      "sha256": "62bab54edd4ddeab5795a877871b64ee24303099b1b36ff99769c2ccc49eae70",
+      "namespace": "allegations-policy"
+    },
+    {
+      "path": "research/raw/allegations-map/institutions.json",
+      "sha256": "bfdfc2d79a244100b1d0d0f4066a65dcdd73c486968b4c80c0343eb2c9e4c423",
+      "namespace": "allegations-institutions"
+    },
+    {
+      "path": "research/raw/allegations-map/retained-corrections.json",
+      "sha256": "da53f6a3a6bd98ab6917a103698bc17e59bafc4d220555d28e10d1ad02087ffa",
+      "namespace": "allegations-corrections"
+    },
+    {
+      "path": "research/raw/atlas-expansion/policy.json",
+      "sha256": "f385975e13f837016720307a94bc03101a76f6577002e553e15f7c655d9004f9",
+      "namespace": "atlas-policy"
+    },
+    {
+      "path": "research/raw/atlas-expansion/institutions.json",
+      "sha256": "042d0307a1eeb29c7ac16f2be6d475ea3da2a5e719b9151c80afa5379b8bc1cb",
+      "namespace": "atlas-institutions"
+    },
+    {
+      "path": "research/raw/atlas-expansion/oversight.json",
+      "sha256": "0a89d865416b4b4edf99c7199c508a354cf3ba52c5f599d8d47c0dd160721849",
+      "namespace": "atlas-oversight"
+    },
+    {
+      "path": "research/raw/atlas-expansion/international-finance.json",
+      "sha256": "9d458ba19ee69aeeb462653b893a28ed83ac2bbac0eea942ff74477f3409ab11",
+      "namespace": "atlas-international-finance"
+    },
+    {
+      "path": "research/raw/atlas-expansion/defence-trade.json",
+      "sha256": "10f16b2bde881e221dc2068448691677abf11a10573f4edcb7305ded5a11d533",
+      "namespace": "atlas-defence-trade"
+    },
+    {
+      "path": "research/raw/deep-investigation/procurement.json",
+      "sha256": "69b6d4d1c679b4c3a76f54a0e212a82c379f6e5dc456cb7c00204f99423d3a18",
+      "namespace": "deep-procurement"
+    },
+    {
+      "path": "research/raw/deep-investigation/corporate.json",
+      "sha256": "44b745dc04a21af98ca1d94d3d255f2f674fad655e4e80d7e07538c03ec08eba",
+      "namespace": "deep-corporate"
+    },
+    {
+      "path": "research/raw/deep-investigation/services.json",
+      "sha256": "72a95367aaa4d65b9b1ad78cb14f034e1345ca5fc9bc6a3177a10c0af6996280",
+      "namespace": "deep-services"
+    },
+    {
+      "path": "research/raw/deep-investigation/governance.json",
+      "sha256": "b2b37ec7870d07cf6b4c9b4af9dec32c40856ab780fcd129fa13de8b284d7fed",
+      "namespace": "deep-governance"
+    },
+    {
+      "path": "research/raw/investigation/finance-research.json",
+      "sha256": "9260b34a119e1b84798d05259e6643c3d88d4d3bf5823889f146362b7dea2035",
+      "namespace": "finance-research"
+    },
+    {
+      "path": "research/raw/investigation/justice-research.json",
+      "sha256": "c11e78dcfc33288bb100a1e7fafb3563e8d77181c5a33bfdba1233cabac92687",
+      "namespace": "justice-research"
+    },
+    {
+      "path": "research/raw/investigation/welfare-research.json",
+      "sha256": "e4ff4ac6672e8966ab804f43edd79d72491e7b0245bddfe04c213f6849e103e6",
+      "namespace": "welfare-research"
+    },
+    {
+      "path": "src/data/education-research.json",
+      "sha256": "cb69b41dca2c1b53e86017d0fe5b4d9c7273d0b12f462787a25f8ed0bd4e15da",
+      "namespace": "education"
+    },
+    {
+      "path": "src/data/water-research.json",
+      "sha256": "0fae20e9030a09d0369703ebe66b6813515e2226b226281058b555c06ec00cb1",
+      "namespace": "water"
+    },
+    {
+      "path": "src/data/public-works-research.json",
+      "sha256": "5fd759134a35ee451397f518e81a8785d94d4a4d65c47c3df930b177465aaf72",
+      "namespace": "public-works"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "research/allegations-map/model-corpus.json",
+      "bytes": 317197,
+      "sha256": "e019a1885f18239b9547b01320b0b64e7a0d3909ac4152595d3fde1a07bb9705"
+    },
+    {
+      "path": "research/allegations-map/model-suggestions.json",
+      "bytes": 16773,
+      "sha256": "1d815a6330c7205ec8a933a0bee53e25b3812a3437bed84886fe57222080b0d3"
+    }
+  ],
+  "limitations": [
+    "The model did not read all original documents or all retained legacy sources.",
+    "Cosine similarity is not an identity bridge, payment proof, influence claim or probability of wrongdoing.",
+    "No suggested match is promoted automatically into a graph edge."
+  ]
+}
