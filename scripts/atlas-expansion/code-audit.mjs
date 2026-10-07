@@ -6,6 +6,7 @@ import { createServer } from 'node:http';
 import { chromium } from 'playwright';
 import { loadInvestigation } from '../investigation/load.mjs';
 import { loadAtlas } from './load.mjs';
+import { loadDeepInvestigation } from '../deep-investigation/load.mjs';
 
 const dist = resolve(process.env.INVESTIGATION_DIST ?? 'dist');
 const output = resolve(process.env.ATLAS_CODE_AUDIT_ARTIFACTS ?? '/tmp/atlas-code-audit');
@@ -27,6 +28,7 @@ if (!base) {
 base = base.replace(/\/$/u, '');
 const api = await loadInvestigation();
 const atlas = await loadAtlas();
+const reviewedCaseNamespaces = new Set((await loadDeepInvestigation()).DEEP_INVESTIGATION_NAMESPACES);
 const registry = api.INVESTIGATION_REGISTRY;
 const checks = [], errors = [];
 const check = (condition, label) => { assert.ok(condition, label); checks.push(label); };
@@ -98,7 +100,14 @@ try {
     await page.goto(`${base}/#/follow-the-money?ftm_state=${stateCode}`, { waitUntil: 'domcontentloaded' });
     await page.locator('[data-follow-the-money]').waitFor();
     await page.waitForFunction(state => document.querySelector('.fm-map-panel .iw-map-select select')?.value === state, stateCode);
-    const expected = api.getInvestigationView({ stateCode, includeNational: true, includeUndated: true }).records.filter(row => row.kind === 'investigation-case' && (row.namespace.startsWith('deep-') || atlas.ATLAS_NAMESPACES.includes(row.namespace))).map(row => row.id).sort();
+    const sharedWithNational = api.getInvestigationView({ stateCode, includeNational: true, includeUndated: true });
+    const sharedWithoutNational = api.getInvestigationView({ stateCode, includeNational: false, includeUndated: true });
+    const donorId = 'money-trails-corporate:record:donor-case';
+    const donor = registry.records.find(row => row.id === donorId);
+    check(Boolean(donor) && donor.geography.every(geo => geo.scope === 'national' && geo.stateCodes.length === 0 && geo.localityIds.length === 0), `${stateCode}: donor case remains national context without an invented state allocation`);
+    check(sharedWithNational.records.some(row => row.id === donorId), `${stateCode}: including national context retains the donor case`);
+    check(!sharedWithoutNational.records.some(row => row.id === donorId), `${stateCode}: excluding national context removes the donor case`);
+    const expected = sharedWithNational.records.filter(row => row.kind === 'investigation-case' && reviewedCaseNamespaces.has(row.namespace)).map(row => row.id).sort();
     const actual = (await page.locator('[data-case-option]').evaluateAll(elements => elements.map(element => element.getAttribute('data-case-option')))).sort();
     assert.deepEqual(actual, expected, `${stateCode}: dedicated case index matches shared state associations`);
     check(true, `${stateCode}: dedicated case index agrees with source-of-truth state matching`);

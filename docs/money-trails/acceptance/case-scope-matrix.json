@@ -1,0 +1,172 @@
+{
+  "testedAt": "2026-10-07T20:13:45.521Z",
+  "stateCount": 36,
+  "cases": [
+    {
+      "id": "money-trails-corporate:record:port-case",
+      "geography": [
+        {
+          "scope": "state",
+          "stateCodes": [
+            "KA"
+          ],
+          "localityIds": [],
+          "basis": "programme-coverage",
+          "note": "Mumbai procurement is the starting point; counterparties and cross-state projects retain their separate locations and accounting perimeters.",
+          "sourceIds": [
+            "money-trails-corporate:source:gvpr-icra-2025",
+            "money-trails-corporate:source:honnavar-care-2026"
+          ]
+        }
+      ],
+      "includeNational": [
+        "KA",
+        "MH"
+      ],
+      "excludeNational": [
+        "KA",
+        "MH"
+      ]
+    },
+    {
+      "id": "money-trails-corporate:record:meter-case",
+      "geography": [
+        {
+          "scope": "state",
+          "stateCodes": [
+            "WB"
+          ],
+          "localityIds": [],
+          "basis": "programme-coverage",
+          "note": "Mumbai procurement is the starting point; counterparties and cross-state projects retain their separate locations and accounting perimeters.",
+          "sourceIds": [
+            "money-trails-corporate:source:gvpr-icra-2025",
+            "money-trails-corporate:source:vijaya-icra-2025"
+          ]
+        }
+      ],
+      "includeNational": [
+        "MH",
+        "WB"
+      ],
+      "excludeNational": [
+        "MH",
+        "WB"
+      ]
+    },
+    {
+      "id": "money-trails-corporate:record:donor-case",
+      "geography": [
+        {
+          "scope": "national",
+          "stateCodes": [],
+          "localityIds": [],
+          "basis": "national-context",
+          "note": "National legal/financial context; no project location, recipient residence or state allocation inferred.",
+          "sourceIds": [
+            "money-trails-corporate:source:eci-purchase-mirror",
+            "money-trails-corporate:source:eci-redemption-mirror",
+            "money-trails-corporate:source:adr-gvpr"
+          ]
+        }
+      ],
+      "includeNational": [
+        "AN",
+        "AP",
+        "AR",
+        "AS",
+        "BR",
+        "CH",
+        "CG",
+        "DN",
+        "DL",
+        "GA",
+        "GJ",
+        "HR",
+        "HP",
+        "JK",
+        "JH",
+        "KA",
+        "KL",
+        "LA",
+        "LD",
+        "MP",
+        "MH",
+        "MN",
+        "ML",
+        "MZ",
+        "NL",
+        "OD",
+        "PY",
+        "PB",
+        "RJ",
+        "SK",
+        "TN",
+        "TS",
+        "TR",
+        "UP",
+        "UK",
+        "WB"
+      ],
+      "excludeNational": []
+    },
+    {
+      "id": "money-trails-djb:record:djb-trace",
+      "geography": [
+        {
+          "scope": "city",
+          "stateCodes": [
+            "DL"
+          ],
+          "localityIds": [
+            "money-trails-djb:locality:delhi"
+          ],
+          "basis": "project-location",
+          "note": "DJB public-project association; city hub is not transaction or private-address geolocation.",
+          "sourceIds": [
+            "money-trails-djb:source:tribunal",
+            "money-trails-djb:source:recall",
+            "money-trails-djb:source:annual",
+            "money-trails-djb:source:ed-april",
+            "money-trails-djb:source:ed-february",
+            "money-trails-djb:source:bail",
+            "money-trails-djb:source:aap-response"
+          ]
+        }
+      ],
+      "includeNational": [
+        "DL"
+      ],
+      "excludeNational": [
+        "DL"
+      ]
+    },
+    {
+      "id": "money-trails-mumbai:record:khichdi-trace",
+      "geography": [
+        {
+          "scope": "city",
+          "stateCodes": [
+            "MH"
+          ],
+          "localityIds": [
+            "money-trails-mumbai:locality:mumbai"
+          ],
+          "basis": "programme-coverage",
+          "note": "Mumbai food-distribution programme association, not a private address or transaction GPS. Tribunal sits in New Delhi; that is not where the underlying public money was spent.",
+          "sourceIds": [
+            "money-trails-mumbai:source:tribunal-2026",
+            "money-trails-mumbai:source:bail-2025",
+            "money-trails-mumbai:source:eow-2025"
+          ]
+        }
+      ],
+      "includeNational": [
+        "MH"
+      ],
+      "excludeNational": [
+        "MH"
+      ]
+    }
+  ]
+}
