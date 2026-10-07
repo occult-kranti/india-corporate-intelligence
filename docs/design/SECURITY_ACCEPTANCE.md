@@ -811,8 +811,9 @@ by construction; the page draws every gap as a gap and every recorded zero as a 
   states`), its slot has `data-slot-state="zero"` and a `[fill="url(#zero-fill)"]` or the
   `ZERO_FILL` class, not the hatch pattern. No element anywhere reads `₹0 cr` without
   ` — as recorded`.
-- [Open adjudication 2026-10-07 — intermittent load timeout under `view=table`; see the note
-  under AC-93. Criterion and test unchanged.]
+- [Adjudicated 2026-10-07 — Position B, decided by the lead] The intermittent load timeout
+  under `view=table` was a page defect, fixed by memoising Table view; the suite's 5 s guard
+  stays. Criterion and test unchanged; the record is under AC-93.
 
 ### AC-53 — Paint the spend map's classes to the module and name every class in the legend
 - **Check (`B6` left, `DEFAULT_PAIR('gsdp')`):** `path[data-fill-class]` count = 36;
@@ -947,6 +948,22 @@ response slot is always rendered, at equal size, and an empty one says so in fix
   token (`--color-rose`), and no other element in the pair row uses rose; at `M` the two are
   stacked at the same width ± 2 px and `font-size`. `[data-mark="response"]` count in the case
   timeline = contras on case-file records, at the response's date or in the `undated` gutter.
+- [Adjudicated 2026-10-07 — narrow amendment with AC-134 Position B, decided by the lead] A
+  record never folds apart from its response, and when a pair row folds, both fold together and
+  open together at equal size. At 390 every pair row but the first folds whole (AC-134): both of
+  its `[data-case]` columns, claims and responses together, in one `<details>`; nothing inside a
+  column folds a record or a response on its own. A Counter-record line that points to a response
+  already printed in full beside its claim in the same column is not that response's slot; the
+  full one is. **Check (amended):** at `D`, `ENFORCE_WITH_CONTRA` and its response sit in no
+  closed `<details>` (as above). At `D` and `M`, in every `[data-pair]`: the row's `[data-case]`
+  columns share their nearest `<details>` ancestor, or none has one; where that `<details>` is
+  closed at rest, its `<summary>` contains no `lab` (whole, or its first 40 characters) of an
+  `ALLEGED` record in either case's `CASE_FILE`, and the check opens it from the summary; then,
+  for every rendered `CASE_FILE` record with a response, the record and each `[data-response]` in
+  its column that carries one of its responses' `lab` have the same nearest `<details>` ancestor
+  (both inside the same `<details>` or both outside), and at `M` each such pair measures the same
+  width ± 2 px and `font-size`. The `ENFORCE_WITH_CONTRA` measurements above are taken after its
+  row is open, from the response slot that prints the contra in full.
 
 ### AC-66 — Re-admit a response whenever its claim is shown, whatever the response's tier
 - **Check:** For an `ENFORCE_WITH_CONTRA` whose contra's tier differs from the claim's (skip
@@ -1189,15 +1206,20 @@ nothing selected. Every control writes with `replace`, and every URL reproduces 
   `hidden`); Q `h3`s, `AnswerLine`s and the Q1 answer sentence remain visible; the `Table view`
   toggle has `aria-pressed="true"`; pressing a tab keeps `view=table` and the new lens's twins
   are open; pressing the toggle removes `view`.
-- [Open adjudication 2026-10-07 — intermittent load timeout under `view=table`; see the note
-  under AC-93. Criterion and test unchanged.]
+- [Adjudicated 2026-10-07 — Position B, decided by the lead] The intermittent load timeout
+  under `view=table` was a page defect, fixed by memoising Table view; the suite's 5 s guard
+  stays. Criterion and test unchanged; the record is under AC-93.
 
 ### AC-93 — Round-trip `tp` and page at 400
 - **Check (Budgets):** When `UNION_ROWS.length > 400`: `TWIN(ledger-long)` shows 400 rows at
   `tp` absent; ROUND-TRIP(`tp=2`): rows 401–800 (the pager reads `page 2 of {⌈n/400⌉}`); the
   union of rows over every `tp` = the rows in view; `tp=1` is elided.
-- [Open adjudication 2026-10-07 — AC-52, AC-92 and AC-93 (intermittent); judges disagree;
-  criteria and test unchanged until the lead decides] Every logged failure is
+- [Adjudicated 2026-10-07 — Position B, decided by the lead] AC-52, AC-92 and AC-93
+  (intermittent) are a page defect, decided on the reader-harm lens: table view is the
+  screen-reader, keyboard and phone route, and a wait raised to pass would remove the suite's
+  only guard on it. The defect is already fixed by memoising Table view (all three verification
+  runs of a0d3156 passed the three criteria); the 5 s `ACTION_TIMEOUT` guard stays, and the
+  criteria and test are unchanged. Both positions stay below as the record. Every logged failure is
   `page.waitForSelector: Timeout 5000ms exceeded` on `article.pb-20` (in `load()` or the
   round-trip's fresh page) or on the `tp` URL write, always on Budgets under `view=table`; no
   assertion of the three criteria failed. Measured at D on the pinned dist: `view=table` renders
@@ -1569,7 +1591,8 @@ hidden a word. Everything moves; nothing is hidden.*
 - **Check (`M`, Procurement):** in the first `[data-pair]`, the field blocks alternate left case
   / right case for each of the 11 fields in order (each block labelled with its case), so a
   pair is read side by side in sequence; for an `UNPAIRED` case the pairing sentence occupies
-  the right slot of every field; each `[data-vendor-card]`'s `<dl>` is inside a `<details>`
+  the right slot of every field (its row, folded whole at rest under AC-134 [Adjudicated
+  2026-10-07], is opened from its summary first, as a reader does); each `[data-vendor-card]`'s `<dl>` is inside a `<details>`
   whose summary matches `/^.+ · (public sector|private, JV or foreign|unclassified) · \d+ named
   awards \(\d+ with ₹\) · 13 fields$/`; the selected vendor's and its comparators' details are
   open; every card stays in the DOM with 13 `dt`s; an open card shows every field including
@@ -1585,20 +1608,57 @@ hidden a word. Everything moves; nothing is hidden.*
   directly under the claim at the same size and sources never behind a disclosure (U8).
 
 ### AC-134 — Measure the page length against its ceilings and record it
-- **Check (`M`, cold load, at rest, each lens):** the `h3` of the lens's last Q-block has
-  `getBoundingClientRect().top + scrollY ≤ 10,128` px (12 viewports); no single `[data-q]`
-  section's height exceeds 3,376 px (4 viewports); the measured values are printed and
-  recorded below (SG-53, U6).
+- **Check (`M`, cold load, at rest, each lens; on Procurement after the slice has loaded — the
+  `Loading the open-market slice…` line gone and, with S8, `[data-q="P2"]` holding a
+  `[data-class]` row per `SLICE.rates.byClass` entry — before anything is measured):** the `h3`
+  of the lens's last Q-block has `getBoundingClientRect().top + scrollY ≤ 10,128` px (12
+  viewports); no single `[data-q]` section's height exceeds 3,376 px (4 viewports), except
+  `[data-q="P4"]`, whose ceiling is 3,376 px plus the rendered heights of the two elements that
+  stay open at rest: the first pair row (the `[data-pair]` holding `FIRST_PAIR`, Bofors | Rafale;
+  SG-44, AC-152 P-S, AC-65) and the `literature` symmetry block (the box headed `The same lens,
+  run on the other side — literature research file`, §5.3.0). Both are rendered at rest (height
+  > 0, inside no closed `<details>`), or the allowance is not granted. Every other pair row folds
+  whole: one closed `<details>` holds both its `[data-case]` columns — claims and responses
+  together (AC-65) — and its `<summary>` names each of the row's cases by label (`labelOf`) and no
+  allegation (no `ALLEGED` `lab` from either case's `CASE_FILE`, whole or its first 40
+  characters). A Counter-record response already printed in full beside its claim in the same
+  column may print there as one line. P2's by-year strips and class-definition list may fold;
+  the `SliceBesideFile` comparison stays open (§5.3.2): `SLICE.readMeFirst`, `SLICE.caveat` and
+  one `[data-class]` row per class are rendered at rest inside no closed `<details>`. The measured
+  values are printed and recorded below (SG-53, U6).
 
-| measurement (`M`, first build) | ceiling | measured |
+| measurement (`M`, 390 × 844, first build passing AC-65, AC-132, AC-152 and AC-134) | ceiling | measured |
 |---|---|---|
 | Budgets: top of `Q9 — What is not published?` | 10,128 px | — |
 | Footprint: top of `Q5 — What is not published?` | 10,128 px | — |
 | Procurement: top of `Q6 — What is not published?` | 10,128 px | — |
-| tallest Q-block on each lens | 3,376 px | — |
+| tallest Q-block, Budgets and Footprint | 3,376 px | — |
+| Procurement: tallest Q-block other than P4 | 3,376 px | — |
+| P4: first pair row (Bofors \| Rafale), open at rest | allowance | — |
+| P4: `literature` symmetry block, open at rest | allowance | — |
+| P4 | 3,376 px + the two rows above | — |
 
-- [Open adjudication 2026-10-07 — judges disagree; criterion, table and test unchanged until the
-  lead decides] Both judges measured HEAD 836e841 at 390×844, cold load (probe values, not
+- [Adjudicated 2026-10-07 — Position B, decided by the lead] A page defect, with the narrow
+  criterion change above, decided on the reader-harm lens: raising the ceiling far enough to pass
+  would put P6, the denial-and-void block, 35 phone viewports down. P4's ceiling becomes 3,376 px
+  plus the rendered heights of the first pair row and the `literature` symmetry block, which stay
+  open at rest (SG-44/AC-152 P-S, AC-65); the 10,128 px last-heading ceiling stays; every other
+  pair row folds whole, claim and response together in one `<details>` whose summary names the
+  case and both sides' labels and no allegation; Counter-record responses already shown beside
+  their claim print as one line; P2's by-year strips and class-definition list fold, and the
+  `SliceBesideFile` comparison itself stays open (§5.3.2). AC-65 carries the one matching
+  amendment. The test waits for the slice before measuring and prints every row of the table;
+  the table is filled from the first build that passes, never from a probe. No build has passed
+  the amended check yet, so the table stays `—`. Probe values on HEAD a0d3156 at 390×844 with
+  the amended test (not recorded in the table): Budgets last `h3` 10,051 px, tallest block B6
+  2,226 px; Footprint 3,891 / 1,191 px; Procurement last `h3` (P6) 31,965 px; P4 17,086 px
+  against its new ceiling 8,245 px (3,376 + first pair row 3,768 + `literature` block 1,101); P2
+  5,943 px and P1 4,513 px, both over 3,376 px — the decision folds P2's strips and definitions,
+  and leaves P1 to meet the ordinary ceiling. With the three other pair rows folded whole in a DOM
+  probe (not a build), P4 measured 6,194 px and P6's `h3` 21,072 px: the pair-row fold alone does
+  not bring P6 within 10,128 px.
+  Both positions stay below as the record.
+- The record. Both judges measured HEAD 836e841 at 390×844, cold load (probe values, not
   recorded in the table above): Budgets last `h3` 10,023 px, tallest block 2,200 px; Footprint
   3,891 / 1,191 px; Procurement last `h3` (P6) 29,214 px, tallest block P4 17,092 px (its four
   `[data-pair]` rows 15,127 px: Bofors|Rafale 3,768, Sukna 4,459, AgustaWestland 5,299, Adarsh

@@ -461,13 +461,19 @@ function Chapter2({ slice }: { slice: SecurityFile | null | undefined }) {
           <div>{`the slice as a whole: ${r.total.singleBidder} of ${r.total.n}, ${r.total.singleBidderPct}% — a works rate, because ${worksClassWords}`}</div>
         </div>
         <h5 className="text-[13px] font-semibold text-text mt-3 mb-1">By year, each class beside the same-portal file that year</h5>
-        <FormB slice={slice} pick={pick} />
+        {/* Below 640 px the by-year strips fold (AC-134 [Adjudicated 2026-10-07]); Form A above, the comparison itself, stays open. */}
+        <Fold on={narrow} summary={`${r.byClass.length} by-year strips, one per class: ${r.byClassYear.filter((y) => y.n >= 10).length} class-years drawn, ${r.byClassYear.filter((y) => y.n < 10).length} with n under 10 not drawn`}>
+          <FormB slice={slice} pick={pick} />
+        </Fold>
         <figcaption data-page-copy="" className="font-mono text-[12px] text-text-muted mt-2">{`${q.total.dedupRows} award decisions after dedup (${q.afterDedup.shareOfFileDedupRowsPct}% of the file) · rate denominator ${r.total.n} with a bid count · slice-wide single bidding ${r.total.singleBidderPct}% against ${r.total.wholeFile.singleBidderPct}% for the file — read by class; ${worksClassWords}, and ${oneBuyerWords}`}</figcaption>
       </figure>
       <h5 className="text-[13px] font-semibold text-text mt-3 mb-1">{`The ${Object.keys(def).length} buyer classes defined, each with its innocent reading`}</h5>
-      <ul className="list-none p-0 m-0 space-y-1 text-[13.5px] text-text-secondary">
-        {Object.entries(def).map(([k, d]) => <li key={k}><span className="font-mono text-[12px] text-text">{`${k}: `}</span><Quote>{d.definition}</Quote>{d.innocentReading && <> — <Quote>{d.innocentReading}</Quote></>}</li>)}
-      </ul>
+      {/* Below 640 px the definitions fold (AC-134 [Adjudicated 2026-10-07]); each class's innocent reading stays open on its Form A row above. */}
+      <Fold on={narrow} summary={`${Object.keys(def).length} definitions, in the slice's words`}>
+        <ul className="list-none p-0 m-0 space-y-1 text-[13.5px] text-text-secondary">
+          {Object.entries(def).map(([k, d]) => <li key={k}><span className="font-mono text-[12px] text-text">{`${k}: `}</span><Quote>{d.definition}</Quote>{d.innocentReading && <> — <Quote>{d.innocentReading}</Quote></>}</li>)}
+        </ul>
+      </Fold>
       <Caption id="sec-c14" cap="C14">{`This is the slice of the central and state tender portals' award records whose buyer is a security body, not India's security procurement: capital acquisition runs on another portal, and GeM is not here. Single-bidder rate is the share of award decisions with exactly one bid, over decisions with a recorded bid count. ${worksShare != null ? `The works class (MES and BRO) alone is ${worksShare}% of the slice` : 'The works class (MES and BRO) has no quality row in the file'}, so the slice's overall rate is a works rate; read each class beside the whole file on its own portal. A low rate for works buyers reflects many local contractors; a high rate for laboratories or headquarters reflects specialised items. Every figure is dataset-only: the stored links had expired when the sample was checked. No winner is named here; the tender register names marked winners under its own rule.`}</Caption>
       <Twin twin="slice" title="The open-market slice by class and year" rowCount={twinRows.length}>
         {() => (
@@ -712,7 +718,7 @@ const RECORD_FIELDS = new Set(['Allegation', 'Investigation', 'Court', 'Audit', 
 const FOLD_AT_M = new Set(['Decision record', 'Latest record', 'Sources']);
 /** Below 640 px these fields take the full width with their name above them: the record fields, and the case's own long summary line. */
 const WIDE_AT_M = new Set([...RECORD_FIELDS, 'Case']);
-function caseCells(c: string, f: ReturnType<typeof usePage>['f']): { cells: ReactNode[]; words: string[]; summary: string[] } {
+function caseCells(c: string, f: ReturnType<typeof usePage>['f'], narrow = false): { cells: ReactNode[]; words: string[]; summary: string[]; tally: string } {
   const file = caseFile(c).filter((e) => edgePass(f, e));
   const dated = file.filter((e) => e.from).sort((a, b) => (a.from! < b.from! ? -1 : 1));
   const answerable = file.filter((e) => e.pred === 'enforce' || e.tier === 'alleged');
@@ -732,6 +738,12 @@ function caseCells(c: string, f: ReturnType<typeof usePage>['f']): { cells: Reac
     word: es.map((e) => e.lab ?? e.id).join(' | '),
   } : { node: none, word: none };
   const allRes = file.flatMap((e) => responseChain(e.id).filter((x) => x.depth === 1).map((x) => x.edge));
+  // The record fields that print each claim with its responses in full beside it (fields 4–7).
+  const shownIn = new Map<string, string>();
+  for (const [field, es] of [['Allegation', allegations], ['Investigation', kindOf('investigation')], ['Court', kindOf('court')], ['Audit', kindOf('audit')]] as const) for (const e of es) shownIn.set(e.id!, field);
+  // Below 640 px a response already printed in full under its claim in this column prints here as one line that
+  // points to it (AC-65, AC-134 [Adjudicated 2026-10-07]); a response to a record shown in no other field prints in full.
+  const counter = file.flatMap((e) => responseChain(e.id).filter((x) => x.depth === 1).map((x) => ({ r: x.edge, at: narrow ? shownIn.get(e.id!) ?? null : null })));
   const latest = last(dated);
   const fields = [
     { node: `${labelOf(c)} · ${file.length} records · first ${dated[0]?.from ?? 'not dated'} · latest ${latest?.from ?? 'not dated'} · ${answered.length} of ${answerable.length} answerable records with a recorded response`, word: `${file.length} records` },
@@ -743,13 +755,17 @@ function caseCells(c: string, f: ReturnType<typeof usePage>['f']): { cells: Reac
     recs(kindOf('court'), 'none recorded'),
     recs(kindOf('audit'), 'none recorded'),
     latest ? { node: <Quote>{latest.lab}</Quote>, word: latest.lab ?? '' } : { node: 'not recorded', word: 'not recorded' },
-    allRes.length ? { node: <>{allRes.map((r) => <p key={r.id} className="m-0 mb-1"><ResponseHead r={r} /><Tx> </Tx><Quote>{r.lab}</Quote></p>)}</>, word: `${allRes.length} responses` } : { node: <p className="m-0">{NO_RESPONSE}</p>, word: NO_RESPONSE },
+    allRes.length ? { node: <>{counter.map(({ r, at }) => (at
+      ? <p key={r.id} data-counter-line="" className="m-0 mb-1 truncate"><ResponseHead r={r} /><Tx>{` in full under its ${at} record above`}</Tx></p>
+      : <p key={r.id} className="m-0 mb-1"><ResponseHead r={r} /><Tx> </Tx><Quote>{r.lab}</Quote></p>))}</>, word: `${allRes.length} responses` } : { node: <p className="m-0">{NO_RESPONSE}</p>, word: NO_RESPONSE },
     { node: <a href="#sec-P5-h" aria-label={`rated in Q5: the stories about ${labelOf(c)}`} onClick={(e) => { e.preventDefault(); goTo('sec-P5-h'); }} className={`underline underline-offset-2 ${FOCUS}`}>rated in Q5</a>, word: 'rated in Q5' },
     { node: <Src srcs={[...(nodeOf(c)?.srcs ?? []) as [string, string][], ...file.flatMap((e) => e.srcs ?? [])].filter((s, i, a) => a.findIndex((x) => x[1] === s[1]) === i)} of={labelOf(c)} inline />, word: 'sources' },
   ];
   const n = (es: GEdge[]) => `${es.length} record${es.length === 1 ? '' : 's'}, ${es.filter((e) => responsesTo(e.id).length).length} answered`;
   const summary = [`${file.length} records`, 'the decision record', 'the office on the date', n(allegations), n(kindOf('investigation')), n(kindOf('court')), n(kindOf('audit')), 'the latest record', `${allRes.length} response${allRes.length === 1 ? '' : 's'} in full`, 'rated in Q5', 'its sources'];
-  return { cells: fields.map((x) => x.node), words: fields.map((x) => x.word), summary };
+  // The row fold's count line: no record's words, so a folded row never names an allegation.
+  const tally = `${file.length} record${file.length === 1 ? '' : 's'}, ${allRes.length} response${allRes.length === 1 ? '' : 's'}`;
+  return { cells: fields.map((x) => x.node), words: fields.map((x) => x.word), summary, tally };
 }
 
 function CasePairs() {
@@ -766,10 +782,16 @@ function CasePairs() {
   }), ...UNPAIRED.map((u) => ({ a: u, b: null, edges: [] }))];
   return (
     <div className={`${narrow ? 'space-y-3' : 'space-y-6'} mt-4`} aria-describedby="sec-c19">
-      {rows.map(({ a, b, edges }) => {
+      {rows.map(({ a, b, edges }, row) => {
         const current = !!f.case && (f.case === a || f.case === b);
-        const ca = caseCells(a, f);
-        const cb = b ? caseCells(b, f) : null;
+        const ca = caseCells(a, f, narrow);
+        const cb = b ? caseCells(b, f, narrow) : null;
+        // Below 640 px every pair row after the first folds whole: both columns, every claim with its response,
+        // in one <details> that opens as one (AC-65, AC-134 [Adjudicated 2026-10-07]). The first pair, Bofors beside
+        // Rafale, stays open (SG-44). The summary names each case by its label and counts; it never quotes an allegation.
+        const foldRow = narrow && row > 0;
+        const counts = (c: string, x: ReturnType<typeof caseCells>) => `${labelOf(c)} (${x.tally})`;
+        const rowSummary = b && cb ? `Both case files, field by field: ${counts(a, ca)} · ${counts(b, cb)}` : `The case file, field by field: ${counts(a, ca)} · no control pairing recorded`;
         const files = [...new Set(edges.map((e) => fileOf(e)))];
         const colCls = `border-t-2 ${current ? 'border-accent' : 'border-border'} pt-1 text-[14px] min-w-0`;
         // Field rows align across the two columns (subgrid ≥ 640 px); below 640 they interleave, left then right.
@@ -785,6 +807,7 @@ function CasePairs() {
               <button type="button" className={`text-left underline underline-offset-2 decoration-border-light ${FOCUS}`} onClick={(e) => openCase(a, e.currentTarget)}>{b ? `${labelOf(a)} beside ${labelOf(b)}` : `${labelOf(a)}, without a recorded control`}</button>
             </h4>
             {current && <span className="sr-only">selected case</span>}
+            <PairFold on={foldRow} open={current} summary={rowSummary}>
             {edges.length > 0 && (
               <Fold on={narrow} small summary={`Why paired: ${edges.length} record(s), quoted`}>
               <div className="border-l-2 border-border-light pl-3 my-2 text-[14px] text-text-secondary">
@@ -816,10 +839,22 @@ function CasePairs() {
                 </dl>
               )}
             </div>
+            </PairFold>
           </section>
         );
       })}
     </div>
+  );
+}
+
+/** A pair row's whole-row fold below 640 px: both case columns open and close together. Open while the row's case is selected. */
+function PairFold({ on, open, summary, children }: { on: boolean; open: boolean; summary: string; children: ReactNode }) {
+  if (!on) return <>{children}</>;
+  return (
+    <details data-pair-fold="" open={open} className="mt-1">
+      <summary className={`cursor-pointer text-[13px] leading-snug py-1 text-text-secondary ${FOCUS}`}>{summary}</summary>
+      {children}
+    </details>
   );
 }
 

@@ -3046,10 +3046,52 @@ const recordAndResponse = (page, scopeSel, recText, respText) => page.evaluate((
   const scope = document.querySelector(sc);
   if (!scope) return null;
   const recEl = [...scope.querySelectorAll('*')].filter((e) => window.__ac.txt(e).includes(rt) && ![...e.children].some((c) => window.__ac.txt(c).includes(rt)))[0] ?? null;
-  const resp = [...scope.querySelectorAll('[data-response]')].find((r) => (pt ? window.__ac.txt(r).includes(pt) : true)) ?? null;
+  // The slot that prints the response in full: a Counter-record line pointing to a response already printed beside its claim is not it (AC-65, amended 2026-10-07).
+  const resp = [...scope.querySelectorAll('[data-response]')].filter((r) => (pt ? window.__ac.txt(r).includes(pt) : true)).sort((a, b) => window.__ac.txt(b).length - window.__ac.txt(a).length)[0] ?? null;
   const box = (e) => (e ? { width: e.getBoundingClientRect().width, fontSize: getComputedStyle(e).fontSize, fontWeight: getComputedStyle(e).fontWeight, text: window.__ac.txt(e), v: e.getAttribute('data-response'), folded: !!e.closest('details:not([open])') } : null);
   return { rec: box(recEl), resp: box(resp) };
 }, [scopeSel, recText, respText]);
+/**
+ * AC-65 (amended 2026-10-07): the fold state of every pair row. In-page, each row's `[data-case]` columns must share
+ * their nearest <details> (or none has one); a closed one is a whole-row fold whose summary names no allegation. Returns
+ * one entry per row; `fold` is the index of the shared <details> among all <details> on the page, or -1.
+ */
+const pairFolds = (page) => page.evaluate(() => {
+  const all = [...document.querySelectorAll('details')];
+  return [...document.querySelectorAll('[data-pair]')].map((row) => {
+    const cols = [...row.querySelectorAll('[data-case]')];
+    const folds = cols.map((c) => all.indexOf(c.closest('details')));
+    const d = all[folds[0]] ?? null;
+    return {
+      cases: cols.map((c) => c.getAttribute('data-case')), folds, fold: folds[0] ?? -1,
+      closed: !!d && !d.open, summary: d ? window.__ac.raw(d.querySelector(':scope > summary')) : null,
+    };
+  });
+});
+/** Open the <details> at index `i` from its summary, as a reader does, and wait for it to report open. */
+const openFold = async (page, i) => {
+  await page.evaluate((k) => document.querySelectorAll('details')[k].querySelector(':scope > summary').click(), i);
+  await page.waitForFunction((k) => document.querySelectorAll('details')[k]?.open === true, i, { timeout: ACTION_TIMEOUT });
+  await page.waitForTimeout(SETTLE);
+};
+/** In-page, per case column: every rendered answered record and the response slots that carry one of its responses' `lab`, with their nearest <details>. */
+const recordFolds = (page, cid, recs) => page.evaluate(([c, rs]) => {
+  const col = document.querySelector(`[data-case="${c}"]`);
+  if (!col) return null;
+  const all = [...document.querySelectorAll('details')];
+  const deepestRaw = (needle) => [...col.querySelectorAll('*')].filter((e) => window.__ac.raw(e).includes(needle) && ![...e.children].some((k) => window.__ac.raw(k).includes(needle)))[0] ?? null;
+  const box = (e) => ({ fold: all.indexOf(e.closest('details')), width: e.getBoundingClientRect().width, fontSize: getComputedStyle(e).fontSize });
+  return rs.map(({ id, lab, resp }) => {
+    const rec = deepestRaw(lab);
+    if (!rec) return { id, rendered: false };
+    const slots = [...col.querySelectorAll('[data-response="true"]')].filter((r) => resp.some((l) => window.__ac.raw(r).includes(l)));
+    return { id, rendered: true, rec: box(rec), slots: slots.map((r) => ({ ...box(r), len: window.__ac.raw(r).length })) };
+  });
+}, [cid, recs]);
+const squash = (s) => (s ?? '').replace(/\s+/g, ' ').trim();
+/** The ALLEGED records of a case's file: a folded row's summary may name none of them (AC-65, AC-134). */
+const allegationsOf = (cases) => uniq(cases.flatMap((c) => (CASE_SET.has(c) ? CASE_FILE(c) : []).filter((e) => e.tier === 'alleged' && e.pred !== 'contra').map((e) => squash(e.lab)).filter(Boolean)));
+const namesAllegation = (summary, cases) => allegationsOf(cases).find((l) => squash(summary).includes(l) || (l.length > 40 && squash(summary).includes(l.slice(0, 40)))) ?? null;
 const PARTY_RE = new RegExp(`\\b(${PARTY_WORDS.map(esc).join('|')})\\b`, 'i');
 const partyHit = (s) => (s ?? '').match(PARTY_RE)?.[0] ?? null;
 
@@ -3098,6 +3140,37 @@ test('AC-65 — Show every recorded response in full, at the claim\'s size and w
   for (const vp of ['D', 'M']) {
     await withPage(vp, async (page) => {
       await load(page, '/security?lens=procurement');
+      // Amended 2026-10-07: a record never folds apart from its response. Every pair row's columns share one fold state;
+      // a closed fold names no allegation and is opened from its summary before anything inside it is measured.
+      const rows = await pairFolds(page);
+      assert.equal(rows.length, CASE_PAIRS.length + UNPAIRED.length, `${vp}: every pair row renders`);
+      const toOpen = [];
+      for (const row of rows) {
+        const name = row.cases.join(' | ');
+        assert.ok(row.folds.every((f) => f === row.fold), `${vp}: ${name}: both columns sit in the same <details> or both outside one (folds ${row.folds.join(', ')})`);
+        if (!row.closed) continue;
+        if (vp === 'D') assert.ok(!row.cases.includes(c), `${vp}: ${name}: the row holding ${e.id} is open at rest`);
+        const hit = namesAllegation(row.summary, row.cases);
+        assert.equal(hit, null, `${vp}: ${name}: the folded row's summary "${row.summary}" names no allegation`);
+        toOpen.push(row.fold);
+      }
+      // Last first: opening a fold can render <details> inside it, which shifts the index of every later one, never an earlier one.
+      for (const f of uniq(toOpen).sort((a, b) => b - a)) await openFold(page, f);
+      for (const cid of CASES) {
+        const recs = CASE_FILE(cid).map((x) => ({ id: x.id, lab: squash(x.lab), resp: responsesTo(x.id).map((k) => squash(k.lab)).filter(Boolean) })).filter((x) => x.lab && x.resp.length);
+        if (!recs.length) continue;
+        const got = await recordFolds(page, cid, recs);
+        assert.ok(got, `${vp}: the case column for ${cid}`);
+        for (const g of got.filter((x) => x.rendered)) {
+          assert.ok(g.slots.length >= 1, `${vp}: ${cid} ${g.id}: a [data-response="true"] in its column carries its response`);
+          for (const sl of g.slots) assert.equal(sl.fold, g.rec.fold, `${vp}: ${cid} ${g.id}: the record and its response sit in the same <details> or both outside one`);
+          if (vp === 'M') {
+            const full = [...g.slots].sort((a, b) => b.len - a.len)[0];
+            assert.ok(Math.abs(full.width - g.rec.width) <= 2, `${vp}: ${cid} ${g.id}: opened, the record (${g.rec.width}) and its response (${full.width}) at the same width ± 2 px`);
+            assert.equal(full.fontSize, g.rec.fontSize, `${vp}: ${cid} ${g.id}: at the same font-size`);
+          }
+        }
+      }
       const sel = await page.evaluate((cid) => {
         const el = document.querySelector(`[data-case="${cid}"]`);
         if (!el) return null;
@@ -3108,9 +3181,10 @@ test('AC-65 — Show every recorded response in full, at the claim\'s size and w
       const r = await recordAndResponse(page, sel, e.lab, contra.lab);
       assert.ok(r?.rec && r.resp, `${vp}: the record and its response render`);
       assert.equal(r.resp.v, 'true', `${vp}: data-response="true"`);
-      // Two closed <details> make both widths 0 and pass the ± 2 px check vacuously: a record and its response are open at rest.
+      // Two closed <details> make both widths 0 and pass the ± 2 px check vacuously: measured with the row open
+      // (at rest at D; at M after its fold, if any, was opened above).
       assert.ok(!r.rec.folded && !r.resp.folded, `${vp}: neither the record nor its response sits in a closed <details>`);
-      assert.ok(r.rec.width > 0 && r.resp.width > 0, `${vp}: the record and its response are rendered at rest (widths ${r.rec.width}, ${r.resp.width})`);
+      assert.ok(r.rec.width > 0 && r.resp.width > 0, `${vp}: the record and its response are rendered${vp === 'D' ? ' at rest' : ', their row open'} (widths ${r.rec.width}, ${r.resp.width})`);
       assert.ok(r.resp.text.startsWith(head), `${vp}: the response begins "${head}" (reads "${r.resp.text.slice(0, 120)}")`);
       assert.ok(r.resp.text.includes(contra.lab) && r.resp.text.includes((contra.d ?? '').replace(/\s+/g, ' ').trim()), `${vp}: lab and d in full`);
       assert.equal(r.resp.fontSize, r.rec.fontSize, `${vp}: equal font-size`);
@@ -5268,6 +5342,9 @@ test('AC-132 — Stack each case pair field by field and each vendor card behind
       assert.equal(c.dts, 13, 'with 13 dts');
     }
     if (UNPAIRED.length) {
+      // At rest the unpaired row is folded whole (AC-134, amended 2026-10-07): open it from its summary, as a reader does, before reading its fields.
+      const fold = (await pairFolds(page)).find((r) => r.cases.includes(UNPAIRED[0]));
+      if (fold?.closed) await openFold(page, fold.fold);
       const u = await page.evaluate((id) => { const row = [...document.querySelectorAll('[data-pair]')].find((r) => r.querySelector(`[data-case="${id}"]`)); return row ? (window.__ac.txt(row).match(/No control pairing recorded for this case in the register\./g) ?? []).length : 0; }, UNPAIRED[0]);
       assert.equal(u, 11, 'an unpaired case: the pairing sentence occupies the right slot of every field');
     }
@@ -5315,18 +5392,88 @@ test('AC-133 — Give every wide drawing and table step buttons, never swipe onl
 
 test('AC-134 — Measure the page length against its ceilings and record it', async (t) => {
   if (!requireFull(t)) return;
+  const VP = 844;
+  const CEIL_LAST = 12 * VP; // 10,128 px
+  const CEIL_BLOCK = 4 * VP; // 3,376 px
+  const lit = SYMMETRY('literature');
+  const measured = [];
+  const checks = [];
   await withPage('M', async (page) => {
     for (const lens of LENSES) {
-      await load(page, LENS_ROUTE[lens]);
-      const r = await page.evaluate((last) => {
+      await load(page, LENS_ROUTE[lens], { slice: lens === 'procurement' && S8 });
+      // Amended 2026-10-07: wait for the slice to render before measuring (a page measured before it loads is shorter than the reader's).
+      if (lens === 'procurement' && S8) {
+        await page.waitForFunction((n) => document.querySelectorAll('[data-q="P2"] [data-class]').length >= n, SLICE.rates.byClass.length, { timeout: ACTION_TIMEOUT });
+        await page.waitForTimeout(SETTLE);
+      }
+      const r = await page.evaluate(([last, a, b, readMe, caveat]) => {
+        const shut = (e) => !!e?.closest('details:not([open])');
+        const rendered = (e) => !!e && !shut(e) && e.getBoundingClientRect().height > 0;
         const h3 = window.__ac.q(last)?.querySelector('h3');
-        return { top: h3 ? h3.getBoundingClientRect().top + scrollY : null, tallest: Math.max(...[...document.querySelectorAll('[data-q]')].map((b) => b.getBoundingClientRect().height)) };
-      }, CANNOT_SHOW[lens]);
-      t.diagnostic(`AC-134 measured at M, ${lens}: last Q-block h3 at ${r.top} px; tallest Q-block ${r.tallest} px`);
-      assert.ok(r.top != null && r.top <= 10128, `${lens}: the last Q-block's h3 at ${r.top} ≤ 10,128 px`);
-      assert.ok(r.tallest <= 3376, `${lens}: the tallest Q-block ${r.tallest} ≤ 3,376 px`);
+        const blocks = [...document.querySelectorAll('[data-q]')].map((x) => ({ q: x.getAttribute('data-q'), h: x.getBoundingClientRect().height }));
+        const out = { top: h3 ? h3.getBoundingClientRect().top + scrollY : null, blocks };
+        const p4 = window.__ac.q('P4');
+        if (!p4) return out;
+        const all = [...document.querySelectorAll('details')];
+        const rows = [...document.querySelectorAll('[data-pair]')];
+        const first = rows.find((p) => p.querySelector(`[data-case="${a}"]`) && p.querySelector(`[data-case="${b}"]`)) ?? null;
+        const head = window.__ac.deepest(p4, '^The same lens, run on the other side — literature research file');
+        const litBox = head?.closest('section, aside, div, article') ?? null;
+        out.first = first ? { index: rows.indexOf(first), h: first.getBoundingClientRect().height, open: rendered(first) && [...first.querySelectorAll('[data-case]')].every((c) => !shut(c)) } : null;
+        out.lit = litBox ? { h: litBox.getBoundingClientRect().height, open: rendered(litBox) } : null;
+        out.others = rows.filter((p) => p !== first).map((p) => {
+          const cols = [...p.querySelectorAll('[data-case]')];
+          const folds = cols.map((c) => all.indexOf(c.closest('details')));
+          const d = all[folds[0]] ?? null;
+          return { cases: cols.map((c) => c.getAttribute('data-case')), whole: folds.every((f) => f === folds[0]) && !!d && !d.open, summary: d ? window.__ac.raw(d.querySelector(':scope > summary')) : null, h: p.getBoundingClientRect().height };
+        });
+        const p2 = window.__ac.q('P2');
+        if (p2) {
+          const find = (s) => (s ? window.__ac.deepestAll(p2, s.slice(0, 50).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).find((e) => !e.matches('summary')) ?? null : null);
+          out.p2 = { classes: [...p2.querySelectorAll('[data-class]')].filter(rendered).length, readMe: rendered(find(readMe)), caveat: rendered(find(caveat)) };
+        }
+        return out;
+      }, [CANNOT_SHOW[lens], FIRST_PAIR?.a ?? '', FIRST_PAIR?.b ?? '', S8 ? squash(SLICE.readMeFirst) : null, S8 ? squash(SLICE.caveat) : null]);
+      const allowance = lens === 'procurement' ? (r.first?.h ?? 0) + (r.lit?.h ?? 0) : 0;
+      const ceiling = (q) => (q === 'P4' ? CEIL_BLOCK + allowance : CEIL_BLOCK);
+      const tallest = r.blocks.reduce((m, x) => (x.h > m.h ? x : m), { q: null, h: 0 });
+      const tallestBut4 = r.blocks.filter((x) => x.q !== 'P4').reduce((m, x) => (x.h > m.h ? x : m), { q: null, h: 0 });
+      t.diagnostic(`AC-134 measured at M, ${lens}: last Q-block h3 at ${r.top} px; tallest Q-block ${tallest.q} ${tallest.h} px; blocks ${r.blocks.map((x) => `${x.q} ${Math.round(x.h)}`).join(', ')}`);
+      measured.push({ lens, top: r.top, tallest: tallest.h });
+      if (lens === 'procurement') {
+        const p4 = r.blocks.find((x) => x.q === 'P4');
+        t.diagnostic(`AC-134 measured at M, procurement: tallest Q-block other than P4 ${tallestBut4.q} ${tallestBut4.h} px; P4 ${p4?.h} px against ${CEIL_BLOCK} + first pair row ${r.first?.h} + literature block ${r.lit?.h} = ${ceiling('P4')} px; other pair rows ${(r.others ?? []).map((o) => `${o.cases.join('|')} ${Math.round(o.h)} px ${o.whole ? 'folded whole' : 'not folded whole'}`).join('; ')}`);
+      }
+      // Every lens is measured and printed before any ceiling is asserted, so one failure never hides another lens's values.
+      checks.push(() => {
+        if (lens === 'procurement') {
+          assert.ok(FIRST_PAIR, 'a first pair row to keep open');
+          assert.ok(r.first, `the first pair row (${FIRST_PAIR.a} | ${FIRST_PAIR.b}) renders`);
+          assert.equal(r.first.index, 0, 'the first pair row is the first [data-pair]');
+          assert.ok(r.first.open, `the first pair row is open at rest (height ${r.first.h} px, in no closed <details>) — its height is P4's allowance only when rendered`);
+          if (lit) {
+            assert.ok(r.lit, 'the literature symmetry block renders in P4');
+            assert.ok(r.lit.open, `the literature symmetry block is open at rest (height ${r.lit.h} px, in no closed <details>)`);
+          }
+          for (const o of r.others ?? []) {
+            const name = o.cases.join(' | ');
+            assert.ok(o.whole, `${name}: folds whole at rest — one closed <details> holds both [data-case] columns`);
+            for (const c of o.cases.filter((x) => x !== 'none')) assert.ok(squash(o.summary).includes(squash(labelOf(c))), `${name}: the fold's summary "${o.summary}" names ${labelOf(c)}`);
+            assert.equal(namesAllegation(o.summary, o.cases), null, `${name}: the fold's summary "${o.summary}" names no allegation`);
+          }
+          if (S8) {
+            assert.ok(r.p2, 'P2 renders');
+            assert.ok(r.p2.classes >= SLICE.rates.byClass.length, `P2: the SliceBesideFile comparison stays open — ${r.p2.classes} rendered [data-class] rows, ≥ ${SLICE.rates.byClass.length}`);
+            assert.ok(r.p2.readMe && r.p2.caveat, 'P2: SLICE.readMeFirst and SLICE.caveat stay open at rest');
+          }
+        }
+        assert.ok(r.top != null && r.top <= CEIL_LAST, `${lens}: the last Q-block's h3 at ${r.top} ≤ 10,128 px`);
+        for (const b of r.blocks) assert.ok(b.h <= ceiling(b.q), `${lens}: Q-block ${b.q} ${b.h} ≤ ${ceiling(b.q)} px${b.q === 'P4' ? ` (3,376 + first pair row ${r.first?.h} + literature block ${r.lit?.h})` : ''}`);
+      });
     }
   });
+  t.diagnostic(`AC-134 table: ${measured.map((m) => `${m.lens} last h3 ${m.top} px, tallest ${m.tallest} px`).join(' · ')}`);
+  for (const check of checks) check();
 });
 
 test('AC-135 — Render margin panels inline under their opener, with Close and Back', async (t) => {
