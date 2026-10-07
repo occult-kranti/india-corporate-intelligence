@@ -160,7 +160,10 @@ export function quotedFigure(text: string): number | null {
 }
 export const QUOTED_CR_NOTE = " (₹ in the research's own words: no denominator published for this line on this page; previous year not applicable)";
 /** Where the register holds the quoted figure as a budget row, the document that row was read from. */
-const rowNote = (v: number) => { const r = budgetRowFor(v); return r ? ` · the register holds ₹${fmtCr(r.cr)} cr as a row (${r.stage}, FY${r.fy}): read to ${ASOF} · document: ${firstSource(r.srcs)}` : ''; };
+const rowNote = (v: number) => {
+  const r = budgetRowFor(v);
+  return r ? <>{` · the register holds ₹${fmtCr(r.cr)} `}<abbr title="crore">cr</abbr>{` as a row (${r.stage}, FY${r.fy}): read to ${ASOF} · document: ${firstSource(r.srcs)}`}</> : null;
+};
 export function Quote({ children, as = 'span', className = '' }: { children: string | null | undefined; as?: 'span' | 'p' | 'blockquote' | 'div'; className?: string }) {
   const text = children ?? '';
   const Tag = as;
