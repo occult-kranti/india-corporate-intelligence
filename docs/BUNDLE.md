@@ -137,8 +137,9 @@ commit of that check, and the dated line under the gate table names the tree it 
 from. What is left out is listed in the next section.
 
 For Phase H the re-cut followed the `/security` build, so that `dist/`, the page suite and
-the gate table describe the same tree. Its size and file count: `icip-bundle.zip` is 19,647,354 bytes
-(sha256 `3af377a6a322e373…`), 631 files, 88,765,871 bytes unpacked, 132 of them under `dist/`. It
+the gate table describe the same tree. Its size and file count: `icip-bundle.zip` is about 19.6 MB
+(about 88.8 MB unpacked) in 631 files, 132 of them under `dist/`. The exact byte count and hash are
+not written here, because writing them into this file would change both. It
 was cut by copying every tracked file's working-tree content and `dist/` under `icip/`.
 
 ## Running it
@@ -212,8 +213,8 @@ Everything in the zip on hand passed, at the moment it was cut (`npm run check` 
 | `npm run viewport` | OK — camera, canvas pixels, hit-testing, keyboard cursor, jump-to / as-of / why-drawn |
 | `npm run test:pages` | OK — 501 tests, 483 pass, 0 fail, 18 skipped: energy 67/67; welfare 70 pass, 15 skipped; tenders national 84 pass, 2 skipped; finance 109 pass, 1 skipped; security 153/153 |
 
-*Cut on 2026-10-08 from the tree at `cc6e302`, after the full check above; it replaces the
-2026-09-27 cut.*
+*Cut on 2026-10-08 after the full check above at `cc6e302`, from the tree that adds only the
+documents recording that check; it replaces the 2026-09-27 cut.*
 
 Re-running `npm run promote` and `npm run generate` on an unchanged bundle reproduces
 every run id byte-for-byte. That is the check that the pipeline is deterministic: if
