@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "baseModelId": "sentence-transformers/all-MiniLM-L6-v2",
+  "baseRevision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "license": "Apache-2.0",
+  "rank": 8,
+  "alpha": 16,
+  "targetModules": [
+    "encoder.layer.0.attention.self.query",
+    "encoder.layer.0.attention.self.value",
+    "encoder.layer.1.attention.self.query",
+    "encoder.layer.1.attention.self.value",
+    "encoder.layer.2.attention.self.query",
+    "encoder.layer.2.attention.self.value",
+    "encoder.layer.3.attention.self.query",
+    "encoder.layer.3.attention.self.value",
+    "encoder.layer.4.attention.self.query",
+    "encoder.layer.4.attention.self.value",
+    "encoder.layer.5.attention.self.query",
+    "encoder.layer.5.attention.self.value"
+  ],
+  "trainableParameters": 73728,
+  "maxTokens": 256,
+  "pooling": "attention-mask weighted mean, L2 normalized",
+  "format": "custom LoRA safetensors; load with encoder.py",
+  "purpose": "public-source-retrieval-only",
+  "automaticallyVerified": false
+}

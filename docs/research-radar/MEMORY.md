@@ -69,3 +69,13 @@ Each retrieval records URL, publisher, document/event/retrieval dates, access mo
 ## Operating state
 
 The repository stores this memory and a reproducible acquisition backlog. It is not a continuously running research service. Proposed recurring cadences and extra model families in the roadmap remain planned until executed, logged and verified. The website must not imply autonomous monitoring or comprehensive India-wide case coverage.
+
+## Executed local fine-tuning update · 7 October 2026
+
+The user requested actual local model training after the initial discovery release. A bounded supervised **source-retrieval** experiment has now executed; this does not change the untrained/uncalibrated status of institutional-outcome forecasts. The earlier 87-summary ONNX discovery run, 50 reviewed suggestions and source-specific corrections remain retained separately.
+
+The new source-only corpus contains 64 summaries: 39 training sources with 70 authored questions, 10 development sources with 16 questions, and 15 held-out sources with 20 independently authored questions across five cases. All 45 declared source families remain within their splits. Exact Adani Enterprises and Ministry of Defence overlaps are grouped; generic oversight overlap limits universal entity-disjoint claims. The test questions and protocol were frozen before training, and test sources were excluded from optimization and checkpoint selection.
+
+Actual CPU training updated **73,728 query/value LoRA parameters** over **72 steps, eight epochs and 143.37 seconds**. Base weights stayed frozen. Development metrics selected the earliest tied checkpoint, **epoch 1**. The independent test produced candidate nDCG@5 **0.9342** versus untuned FP32 **0.9255**: **+0.00866**, below the predeclared +0.02 gate, with gains in only one of five cases rather than the required three. **The trained adapter is experimental and not promoted; the default remains `base_onnx_uint8`.** No test-driven retraining or label revision followed.
+
+The run is dated 7 October 2026 in America/New_York; receipt timestamps are 8 October 2026 UTC. Artifacts, exact runtime/input/weight hashes, local search and reproduction commands are in `research/research-radar/fine-tuning/`; interpretation is in `docs/research-radar/fine-tuning/MODEL-CARD.md` and `EVALUATION.md`. Use the custom `encoder.py` loader, not a PEFT loader. No text was uploaded to a model service and no browser model, live scheduler or automated graph-verification system was introduced. The now-public test is exhausted for future blind tuning: new model selection requires a newly frozen independent holdout.

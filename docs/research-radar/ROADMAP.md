@@ -78,3 +78,11 @@ Do not call planned capabilities executed, unavailable models hired, or text-sim
 7. Monitor revisions and resolve predictions with sources. Retire or recalibrate models when performance or coverage changes; retain failed forecasts.
 
 Suggested future review cadence: weekly source discovery, monthly outcome resolution and quarterly calibration review. These are plans; this release does not install a scheduler or send external requests.
+
+## Retrieval fine-tuning milestone · executed 7 October 2026
+
+A local MiniLM adapter has now been trained and independently tested, superseding any assumption that adaptation is only planned. The retained earlier ONNX discovery run is unchanged. The new experiment uses 64 source summaries, excluding the 23 case summaries to prevent question-copy leakage. It optimized 73,728 LoRA parameters against 70 training queries, selected epoch 1 on 16 development queries, and evaluated 20 frozen test questions from five held-out cases.
+
+**Promotion failed:** the candidate's +0.00866 nDCG@5 gain over untuned FP32 did not meet +0.02, and only one of five cases improved. The saved adapter remains available for explicit local comparison; the original ONNX model stays default. Actual training, hashes, losses and the complete evaluation are preserved in `research/research-radar/fine-tuning/`, with a model card and evaluation report under `docs/research-radar/fine-tuning/`. This is a completed experiment with an unsuccessful promotion result, not an unfinished training job.
+
+The next adaptation wave should acquire more independently reviewed information needs and source passages, measure annotation agreement and token truncation, and include multilingual/OCR and unseen-case tests. Freeze new case/source-family groups before trying alternate losses, rerankers or larger models. The current public benchmark may be used for transparent reproduction and exploratory error analysis, but cannot silently become a fresh held-out test. Compare against lexical retrieval because BM25 was competitive here. Outcome prediction remains separately gated by representative resolved labels, prospective feature timing, censoring and empirical calibration.
