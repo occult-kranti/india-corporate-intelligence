@@ -12,7 +12,7 @@ import {
 import {
   usePage, QBlock, Caption, Twin, TwinTable, Exports, captionText, Src, Quote, Tx, TierWord, Denominator, NoMatch, FOCUS, TARGET, SkipLink, goTo, reveal, type Row, type Col,
 } from './ui';
-import { BaseRateSection, CompareTwin, C5_TEXT, Responses, ResponseHead, Narratives, CannotShow, Fold, zeroCount } from './Shared';
+import { BaseRateSection, CompareTwin, C5_TEXT, Responses, ResponseHead, Narratives, CannotShow, Fold, zeroCount, cannotShowTitle, narrativesTitle } from './Shared';
 
 /**
  * The Procurement and people lens (§5.3). Its spine is the symmetry chapters: each
@@ -26,19 +26,68 @@ const DASH: Record<string, string | undefined> = { documented: undefined, report
 const shareOf = (lab: string | null | undefined) => (lab ?? '').match(/\d+(\.\d+)?%/)?.[0] ?? 'share not stated';
 const src = (e: GEdge) => (e.srcs ?? []).map(([, u]) => u).join(' ');
 
+/**
+ * The lens's Q-blocks, P0 … P6, by the heading each one renders. The jump list and the
+ * blocks read the same strings, so a link can never name a heading the page does not print.
+ */
+const PROC_TITLE = {
+  P0: 'Q0 — The same lens on the other side',
+  P1: 'Q1 — Who was awarded, to which class of vendor, when, and beside whom?',
+  P2: 'Q2 — Who bought on the open market, and how many bid?',
+  P3: 'Q3 — Who sits on both sides of the money?',
+  P4: 'Q4 — What did courts and auditors record?',
+  P5: narrativesTitle(5),
+  P6: cannotShowTitle(6),
+} as const;
+
 export function ProcurementLens({ slice }: { slice: SecurityFile | null | undefined }) {
   const { f } = usePage();
   const pop = lensPopulation(f);
   return (
     <>
-      <QBlock q="P0" title="Q0 — The same lens on the other side"><Contents slice={slice} /></QBlock>
-      <QBlock q="P1" title="Q1 — Who was awarded, to which class of vendor, when, and beside whom?"><NoMatch k={pop.k} n={pop.n} /><Chapter1 /></QBlock>
-      <QBlock q="P2" title="Q2 — Who bought on the open market, and how many bid?"><Chapter2 slice={slice} /></QBlock>
-      <QBlock q="P3" title="Q3 — Who sits on both sides of the money?"><Chapter3 /></QBlock>
-      <QBlock q="P4" title="Q4 — What did courts and auditors record?"><Chapter4 /></QBlock>
+      <OnThisLens />
+      <QBlock q="P0" title={PROC_TITLE.P0}><Contents slice={slice} /></QBlock>
+      <QBlock q="P1" title={PROC_TITLE.P1}><NoMatch k={pop.k} n={pop.n} /><Chapter1 /></QBlock>
+      <QBlock q="P2" title={PROC_TITLE.P2}><Chapter2 slice={slice} /></QBlock>
+      <QBlock q="P3" title={PROC_TITLE.P3}><Chapter3 /></QBlock>
+      <QBlock q="P4" title={PROC_TITLE.P4}><Chapter4 /></QBlock>
       <Narratives lens="procurement" q="P5" n={5} />
       <CannotShow lens="procurement" q="P6" n={6} />
     </>
+  );
+}
+
+/**
+ * `On this lens` (AC-134a, adjudicated 2026-10-07): every Q-block by its heading, at the
+ * head of the lens, so the denial-and-void block (P6) is one activation away however long
+ * the chapters above it run. A link moves focus to its block's heading (`tabIndex -1`,
+ * focus ring visible) and writes no history entry: like the `/tenders` national jump
+ * list it never pushes, and unlike it it does not touch the router at all, because this
+ * page's state lives in the search params and a fragment there is not one of them.
+ */
+function OnThisLens() {
+  const jump = (q: string) => (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    const h = document.getElementById(`sec-${q}-h`);
+    if (!h) return;
+    h.closest('section')?.scrollIntoView({ block: 'start' });
+    h.focus({ preventScroll: true });
+    reveal(h);
+  };
+  return (
+    <nav aria-label="On this lens" className="mt-2 mb-1 border-l-2 border-border-light pl-3">
+      <p className="font-mono text-[12px] uppercase tracking-wide text-text-muted m-0" aria-hidden="true">On this lens</p>
+      <ul className="list-none m-0 p-0 sm:flex sm:flex-wrap sm:gap-x-4">
+        {(Object.entries(PROC_TITLE) as [string, string][]).map(([q, title]) => (
+          <li key={q} className="m-0">
+            <a href={`#sec-${q}-h`} onClick={jump(q)}
+              className={`inline-flex items-center min-h-[44px] sm:min-h-0 sm:py-0.5 text-[13.5px] leading-snug text-text-secondary underline underline-offset-2 hover:text-accent ${FOCUS}`}>
+              {title}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
   );
 }
 

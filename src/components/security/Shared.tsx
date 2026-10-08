@@ -167,6 +167,11 @@ export function Responses({ claim, full = true, filter }: { claim: GEdge; full?:
 // What is not published (§5.4.3): the last Q-block of every lens, at findings size
 // ---------------------------------------------------------------------------
 
+/** The `What is not published?` block's heading, shared with the jump lists that name it. */
+export const cannotShowTitle = (n: number) => `Q${n} — What is not published?`;
+/** The narratives block's heading, shared with the jump lists that name it. */
+export const narrativesTitle = (n: number) => `Q${n} — Which stories hold up?`;
+
 export function CannotShow({ lens, q, n }: { lens: Lens; q: string; n: number }) {
   const { narrow } = usePage();
   const ds = LENS_DOMAINS[lens];
@@ -175,7 +180,7 @@ export function CannotShow({ lens, q, n }: { lens: Lens; q: string; n: number })
   const killed = KILLED.filter((k) => ds.includes(k.domain));
   const derived = EMPTY ? [] : derivedGaps().filter((g) => g.lens === lens || g.lens === 'all');
   return (
-    <QBlock q={q} title={`Q${n} — What is not published?`}>
+    <QBlock q={q} title={cannotShowTitle(n)}>
       <p data-page-copy="" className="text-[14px] text-text">{`${voids.length} voids and ${gaps.length} gaps recorded by the research, ${killed.length} claim(s) killed in audit, and ${derived.length} derived by this page.`}</p>
       {EMPTY && <p className="text-[14px] text-text-secondary">{NOTHING}</p>}
       {narrow ? (
@@ -231,7 +236,7 @@ export function Narratives({ lens, q, n }: { lens: Lens; q: string; n: number })
     out: [r.status, r.claim, r.strongestCase ?? '', r.strongestCounter ?? '', r.whatWouldChangeThis ?? '', r.domain],
   })) : [];
   return (
-    <QBlock q={q} title={`Q${n} — Which stories hold up?`}>
+    <QBlock q={q} title={narrativesTitle(n)}>
       <div id="narratives" aria-describedby="sec-c20">
         {EMPTY && <p className="text-[14px]">{NOTHING}</p>}
         <p className="text-[13px]">

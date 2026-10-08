@@ -1610,34 +1610,115 @@ hidden a word. Everything moves; nothing is hidden.*
 ### AC-134 — Measure the page length against its ceilings and record it
 - **Check (`M`, cold load, at rest, each lens; on Procurement after the slice has loaded — the
   `Loading the open-market slice…` line gone and, with S8, `[data-q="P2"]` holding a
-  `[data-class]` row per `SLICE.rates.byClass` entry — before anything is measured):** the `h3`
-  of the lens's last Q-block has `getBoundingClientRect().top + scrollY ≤ 10,128` px (12
-  viewports); no single `[data-q]` section's height exceeds 3,376 px (4 viewports), except
-  `[data-q="P4"]`, whose ceiling is 3,376 px plus the rendered heights of the two elements that
-  stay open at rest: the first pair row (the `[data-pair]` holding `FIRST_PAIR`, Bofors | Rafale;
-  SG-44, AC-152 P-S, AC-65) and the `literature` symmetry block (the box headed `The same lens,
-  run on the other side — literature research file`, §5.3.0). Both are rendered at rest (height
-  > 0, inside no closed `<details>`), or the allowance is not granted. Every other pair row folds
-  whole: one closed `<details>` holds both its `[data-case]` columns — claims and responses
-  together (AC-65) — and its `<summary>` names each of the row's cases by label (`labelOf`) and no
-  allegation (no `ALLEGED` `lab` from either case's `CASE_FILE`, whole or its first 40
-  characters). A Counter-record response already printed in full beside its claim in the same
-  column may print there as one line. P2's by-year strips and class-definition list may fold;
-  the `SliceBesideFile` comparison stays open (§5.3.2): `SLICE.readMeFirst`, `SLICE.caveat` and
-  one `[data-class]` row per class are rendered at rest inside no closed `<details>`. The measured
-  values are printed and recorded below (SG-53, U6).
+  `[data-class]` row per `SLICE.rates.byClass` entry — before anything is measured; amended
+  2026-10-07, see the second adjudication below):**
+  - **Budgets and Footprint (unchanged):** the `h3` of the lens's last Q-block has
+    `getBoundingClientRect().top + scrollY ≤ 10,128` px (12 viewports); no single `[data-q]`
+    section's height exceeds 3,376 px (4 viewports).
+  - **Procurement, block ceilings:** each `[data-q]` section's ceiling is 3,376 px plus the
+    rendered heights of the elements the spec keeps open in that block, each counted only when it
+    is rendered at rest (height > 0, inside no closed `<details>`), and an element nested inside
+    another counted element counted once:
+    P1 — the `procurement-industry` symmetry block (the box headed `The same lens, run on the
+    other side — procurement-industry research file`, §5.3.0);
+    P2 — the element holding `SLICE.readMeFirst`, the element holding `SLICE.caveat`, and the
+    Form A class rows (the first `[data-class]` for each `SLICE.rates.byClass` entry; §5.3.2);
+    P3 — the `money-people` symmetry block;
+    P4 — the first pair row (the `[data-pair]` holding `FIRST_PAIR`, Bofors | Rafale; SG-44,
+    AC-152 P-S, AC-65) and the `literature` symmetry block;
+    P0, P5 and P6 — 3,376 px.
+  - **Procurement, last heading:** the `h3` of P6 (`Q6 — What is not published?`) has
+    `getBoundingClientRect().top + scrollY ≤ 19,000` px — a regression cap (18,098 px measured
+    on 81c970c, plus 5%), raised only by a further recorded adjudication. Its value is printed
+    and recorded below.
+  - **Procurement, folds (unchanged):** the first pair row and the `literature` symmetry block
+    are rendered at rest (height > 0, inside no closed `<details>`), or P4's allowance is not
+    granted. Every other pair row folds whole: one closed `<details>` holds both its
+    `[data-case]` columns — claims and responses together (AC-65) — and its `<summary>` names
+    each of the row's cases by label (`labelOf`) and no allegation (no `ALLEGED` `lab` from
+    either case's `CASE_FILE`, whole or its first 40 characters). A Counter-record response
+    already printed in full beside its claim in the same column may print there as one line.
+    P2's by-year strips and class-definition list may fold; the `SliceBesideFile` comparison
+    stays open (§5.3.2): `SLICE.readMeFirst`, `SLICE.caveat` and one `[data-class]` row per
+    class are rendered at rest inside no closed `<details>`.
+  - **Procurement, `On this lens` jump list (AC-134a):** on `/security?lens=procurement` at
+    `M`, after the slice has loaded, exactly one `<nav>` has the accessible name `On this lens`;
+    it is rendered at rest (height > 0, inside no closed `<details>`) and lies within the first
+    844 px of the lens: its top is at or below, and its bottom no more than 844 px below, the top
+    of the Procurement tabpanel (`#sec-panel-procurement`). It holds one link per Q-block, P0 …
+    P6, in that order, each link's text equal to that block's `h3` text. Activating each link
+    from the keyboard (focus it, press Enter) puts focus on that block's `h3`, which has
+    `tabIndex = -1` and matches `:focus-visible` with a visible outline (outline style not
+    `none`, width > 0); `history.length` is unchanged after all seven: no jump writes a history
+    entry (as the `/tenders` national jump list, TENDERS-NATIONAL AC-61). Activating the P6
+    link moves focus to P6's heading — the reader-harm route the adjudication rests on.
+  - The measured values are printed and recorded below (SG-53, U6).
 
 | measurement (`M`, 390 × 844, first build passing AC-65, AC-132, AC-152 and AC-134) | ceiling | measured |
 |---|---|---|
-| Budgets: top of `Q9 — What is not published?` | 10,128 px | — |
-| Footprint: top of `Q5 — What is not published?` | 10,128 px | — |
-| Procurement: top of `Q6 — What is not published?` | 10,128 px | — |
-| tallest Q-block, Budgets and Footprint | 3,376 px | — |
-| Procurement: tallest Q-block other than P4 | 3,376 px | — |
-| P4: first pair row (Bofors \| Rafale), open at rest | allowance | — |
-| P4: `literature` symmetry block, open at rest | allowance | — |
-| P4 | 3,376 px + the two rows above | — |
+| Budgets: top of `Q9 — What is not published?` | 10,128 px | 10,051 px |
+| Footprint: top of `Q5 — What is not published?` | 10,128 px | 3,891 px |
+| Procurement: top of `Q6 — What is not published?` | 19,000 px regression cap [Adjudicated 2026-10-07] (was 10,128 px) | 18,432 px |
+| tallest Q-block, Budgets and Footprint | 3,376 px | Budgets B6 2,226 px; Footprint F1 1,191 px |
+| Procurement: P0, P5, P6, each | 3,376 px | P0 229 px; P5 476 px; P6 206 px |
+| P1: `procurement-industry` symmetry block, open at rest | allowance | 1,773 px |
+| P1 | 3,376 px + the row above | 4,513 px (ceiling 5,149 px) |
+| P2: `SLICE.readMeFirst` and `SLICE.caveat`, open at rest | allowance | 462 + 315 px |
+| P2: Form A class rows, open at rest | allowance | 8 rows: works 171, stores 191, research 152, dpsu 191, capf 191, intelligence-investigation 152, state-police 191, other-security 132 px |
+| P2 | 3,376 px + the two rows above | 3,262 px (ceiling 5,521 px; allowance 2,145 px as summed unrounded) |
+| P3: `money-people` symmetry block, open at rest | allowance | 1,080 px |
+| P3 | 3,376 px + the row above | 2,033 px (ceiling 4,456 px) |
+| P4: first pair row (Bofors \| Rafale), open at rest | allowance | 3,516 px |
+| P4: `literature` symmetry block, open at rest | allowance | 1,101 px |
+| P4 | 3,376 px + the two rows above | 5,900 px (ceiling 7,993 px) |
+| Procurement: `On this lens` nav, top and bottom below the tabpanel's top | within 844 px | top 30.5 px, bottom 356.5 px; 7 links P0 … P6, each focusing its `h3` (`:focus-visible`, outline solid 2 px); `history.length` +0 |
 
+Filled from the first build that passes AC-65, AC-132, AC-152 and AC-134 with the check above: the
+working tree over 81c970c (the `On this lens` jump list added at the head of the Procurement lens,
+uncommitted), built with `vite build`, 390 × 844, cold load, Procurement after the slice loaded;
+values as the suite printed them, rounded to the pixel. The jump list (≈ 330 px at 390) is part of
+the 18,432 px to P6's heading; the 18,098 px the cap was set from was measured without it.
+
+- [Adjudicated 2026-10-07 — decided by the lead] AC-134 on the Procurement lens only; Budgets
+  and Footprint keep every ceiling as written. A criterion defect for Procurement: the 10,128 px
+  last-heading ceiling was the UX review's un-rendered estimate (UX review §11), and the content
+  the spec keeps open at 390 already measures 11,327 px (page head 1,590; P1 symmetry text
+  1,773; P2 `readMeFirst` + `caveat` 857; P2 Form A class rows 1,410; P3 symmetry text 1,080; P4
+  `literature` block 1,101; P4 Bofors | Rafale row 3,516), so no spec-conformant Procurement lens
+  can meet it. The reader harm the ceiling guarded against — P6, the denial-and-void block, far
+  down — is met instead by: (a) an `On this lens` jump list rendered within the first 844 px of
+  the Procurement lens at 390, a `<nav aria-label="On this lens">` listing every Q-block P0–P6
+  by its heading text, each link moving focus to that heading (`tabIndex -1` heading, focus
+  visible) and writing no history entry, as the `/tenders` national jump list does; (b) each
+  Procurement block's ceiling is 3,376 px plus the rendered heights of the elements the spec
+  keeps open in that block (P1 symmetry text; P2 `readMeFirst`, `caveat` and Form A class rows;
+  P3 symmetry text; P4 first pair row and `literature` block), the allowance counting only if
+  those elements are open at rest; (c) the lens's last heading is printed and recorded in the
+  table above, with a regression cap of 19,000 px (the measured 18,098 px on 81c970c plus 5%),
+  raised only by a further recorded adjudication. Every fold rule of AC-65 and AC-134 already
+  amended stays. The check above carries the change, with (a) as sub-check AC-134a; the table
+  stays `—` until a build passes. The check it replaces stays below as the record.
+  - The previous check (Position B, 2026-10-07), as the record:
+    **Check (`M`, cold load, at rest, each lens; on Procurement after the slice has loaded — the
+    `Loading the open-market slice…` line gone and, with S8, `[data-q="P2"]` holding a
+    `[data-class]` row per `SLICE.rates.byClass` entry — before anything is measured):** the `h3`
+    of the lens's last Q-block has `getBoundingClientRect().top + scrollY ≤ 10,128` px (12
+    viewports); no single `[data-q]` section's height exceeds 3,376 px (4 viewports), except
+    `[data-q="P4"]`, whose ceiling is 3,376 px plus the rendered heights of the two elements that
+    stay open at rest: the first pair row (the `[data-pair]` holding `FIRST_PAIR`, Bofors | Rafale;
+    SG-44, AC-152 P-S, AC-65) and the `literature` symmetry block (the box headed `The same lens,
+    run on the other side — literature research file`, §5.3.0). Both are rendered at rest (height
+    > 0, inside no closed `<details>`), or the allowance is not granted. Every other pair row folds
+    whole: one closed `<details>` holds both its `[data-case]` columns — claims and responses
+    together (AC-65) — and its `<summary>` names each of the row's cases by label (`labelOf`) and no
+    allegation (no `ALLEGED` `lab` from either case's `CASE_FILE`, whole or its first 40
+    characters). A Counter-record response already printed in full beside its claim in the same
+    column may print there as one line. P2's by-year strips and class-definition list may fold;
+    the `SliceBesideFile` comparison stays open (§5.3.2): `SLICE.readMeFirst`, `SLICE.caveat` and
+    one `[data-class]` row per class are rendered at rest inside no closed `<details>`. The measured
+    values are printed and recorded below (SG-53, U6).
+    Its table's Procurement rows read: top of `Q6 — What is not published?` 10,128 px; tallest
+    Q-block other than P4 3,376 px; P4 3,376 px + the first pair row + the `literature` block.
 - [Adjudicated 2026-10-07 — Position B, decided by the lead] A page defect, with the narrow
   criterion change above, decided on the reader-harm lens: raising the ceiling far enough to pass
   would put P6, the denial-and-void block, 35 phone viewports down. P4's ceiling becomes 3,376 px

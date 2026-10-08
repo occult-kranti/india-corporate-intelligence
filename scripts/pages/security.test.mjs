@@ -5393,20 +5393,28 @@ test('AC-133 — Give every wide drawing and table step buttons, never swipe onl
 test('AC-134 — Measure the page length against its ceilings and record it', async (t) => {
   if (!requireFull(t)) return;
   const VP = 844;
-  const CEIL_LAST = 12 * VP; // 10,128 px
+  const CEIL_LAST = 12 * VP; // 10,128 px — Budgets and Footprint
+  // [Adjudicated 2026-10-07 — decided by the lead] Procurement's last heading: a regression cap, the
+  // 18,098 px measured on 81c970c plus 5%, raised only by a further recorded adjudication.
+  const CAP_PROC_LAST = 19_000;
+  const lastCeiling = (lens) => (lens === 'procurement' ? CAP_PROC_LAST : CEIL_LAST);
   const CEIL_BLOCK = 4 * VP; // 3,376 px
   const lit = SYMMETRY('literature');
+  const PROC_IDS = QBLOCKS.procurement.map(([q]) => q);
   const measured = [];
   const checks = [];
+  let nav = null;
   await withPage('M', async (page) => {
+    const waitSlice = async () => {
+      // Amended 2026-10-07: wait for the slice to render before measuring (a page measured before it loads is shorter than the reader's).
+      if (!S8) return;
+      await page.waitForFunction((n) => document.querySelectorAll('[data-q="P2"] [data-class]').length >= n, SLICE.rates.byClass.length, { timeout: ACTION_TIMEOUT });
+      await page.waitForTimeout(SETTLE);
+    };
     for (const lens of LENSES) {
       await load(page, LENS_ROUTE[lens], { slice: lens === 'procurement' && S8 });
-      // Amended 2026-10-07: wait for the slice to render before measuring (a page measured before it loads is shorter than the reader's).
-      if (lens === 'procurement' && S8) {
-        await page.waitForFunction((n) => document.querySelectorAll('[data-q="P2"] [data-class]').length >= n, SLICE.rates.byClass.length, { timeout: ACTION_TIMEOUT });
-        await page.waitForTimeout(SETTLE);
-      }
-      const r = await page.evaluate(([last, a, b, readMe, caveat]) => {
+      if (lens === 'procurement') await waitSlice();
+      const r = await page.evaluate(([last, a, b, readMe, caveat, classes]) => {
         const shut = (e) => !!e?.closest('details:not([open])');
         const rendered = (e) => !!e && !shut(e) && e.getBoundingClientRect().height > 0;
         const h3 = window.__ac.q(last)?.querySelector('h3');
@@ -5417,8 +5425,9 @@ test('AC-134 — Measure the page length against its ceilings and record it', as
         const all = [...document.querySelectorAll('details')];
         const rows = [...document.querySelectorAll('[data-pair]')];
         const first = rows.find((p) => p.querySelector(`[data-case="${a}"]`) && p.querySelector(`[data-case="${b}"]`)) ?? null;
-        const head = window.__ac.deepest(p4, '^The same lens, run on the other side — literature research file');
-        const litBox = head?.closest('section, aside, div, article') ?? null;
+        /** A chapter's symmetry block: the box around the heading "The same lens, run on the other side — {domain} research file" (§5.3.0). */
+        const symBox = (q, dom) => window.__ac.deepest(window.__ac.q(q), '^The same lens, run on the other side — ' + dom + ' research file')?.closest('section, aside, div, article') ?? null;
+        const litBox = symBox('P4', 'literature');
         out.first = first ? { index: rows.indexOf(first), h: first.getBoundingClientRect().height, open: rendered(first) && [...first.querySelectorAll('[data-case]')].every((c) => !shut(c)) } : null;
         out.lit = litBox ? { h: litBox.getBoundingClientRect().height, open: rendered(litBox) } : null;
         out.others = rows.filter((p) => p !== first).map((p) => {
@@ -5428,21 +5437,39 @@ test('AC-134 — Measure the page length against its ceilings and record it', as
           return { cases: cols.map((c) => c.getAttribute('data-case')), whole: folds.every((f) => f === folds[0]) && !!d && !d.open, summary: d ? window.__ac.raw(d.querySelector(':scope > summary')) : null, h: p.getBoundingClientRect().height };
         });
         const p2 = window.__ac.q('P2');
-        if (p2) {
-          const find = (s) => (s ? window.__ac.deepestAll(p2, s.slice(0, 50).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).find((e) => !e.matches('summary')) ?? null : null);
-          out.p2 = { classes: [...p2.querySelectorAll('[data-class]')].filter(rendered).length, readMe: rendered(find(readMe)), caveat: rendered(find(caveat)) };
+        const find = (s) => (s && p2 ? window.__ac.deepestAll(p2, s.slice(0, 50).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).find((e) => !e.matches('summary')) ?? null : null);
+        const readMeEl = find(readMe);
+        const caveatEl = find(caveat);
+        if (p2) out.p2 = { classes: [...p2.querySelectorAll('[data-class]')].filter(rendered).length, readMe: rendered(readMeEl), caveat: rendered(caveatEl) };
+        // [Adjudicated 2026-10-07] Each Procurement block's allowance: the rendered heights of the elements the spec keeps
+        // open in it, counted only when open at rest, an element nested in another counted element counted once.
+        const kept = {
+          P1: [['procurement-industry symmetry block', symBox('P1', 'procurement-industry')]],
+          P2: [['SLICE.readMeFirst', readMeEl], ['SLICE.caveat', caveatEl], ...classes.map((c) => [`Form A row ${c}`, p2?.querySelector(`[data-class="${CSS.escape(c)}"]`) ?? null])],
+          P3: [['money-people symmetry block', symBox('P3', 'money-people')]],
+          P4: [['first pair row', first], ['literature symmetry block', litBox]],
+        };
+        out.allow = {};
+        for (const [q, parts] of Object.entries(kept)) {
+          const counted = parts.filter(([, e]) => rendered(e)).map(([, e]) => e);
+          const once = counted.filter((e, i) => counted.indexOf(e) === i && !counted.some((f) => f !== e && f.contains(e)));
+          out.allow[q] = {
+            h: once.reduce((sum, e) => sum + e.getBoundingClientRect().height, 0),
+            parts: parts.map(([what, e]) => ({ what, h: e ? Math.round(e.getBoundingClientRect().height) : null, open: rendered(e), once: !!e && once.includes(e) })),
+          };
         }
         return out;
-      }, [CANNOT_SHOW[lens], FIRST_PAIR?.a ?? '', FIRST_PAIR?.b ?? '', S8 ? squash(SLICE.readMeFirst) : null, S8 ? squash(SLICE.caveat) : null]);
-      const allowance = lens === 'procurement' ? (r.first?.h ?? 0) + (r.lit?.h ?? 0) : 0;
-      const ceiling = (q) => (q === 'P4' ? CEIL_BLOCK + allowance : CEIL_BLOCK);
+      }, [CANNOT_SHOW[lens], FIRST_PAIR?.a ?? '', FIRST_PAIR?.b ?? '', S8 ? squash(SLICE.readMeFirst) : null, S8 ? squash(SLICE.caveat) : null, S8 ? SLICE.rates.byClass.map((c) => String(c.class)) : []]);
+      const ceiling = (q) => CEIL_BLOCK + (lens === 'procurement' ? (r.allow?.[q]?.h ?? 0) : 0);
       const tallest = r.blocks.reduce((m, x) => (x.h > m.h ? x : m), { q: null, h: 0 });
-      const tallestBut4 = r.blocks.filter((x) => x.q !== 'P4').reduce((m, x) => (x.h > m.h ? x : m), { q: null, h: 0 });
-      t.diagnostic(`AC-134 measured at M, ${lens}: last Q-block h3 at ${r.top} px; tallest Q-block ${tallest.q} ${tallest.h} px; blocks ${r.blocks.map((x) => `${x.q} ${Math.round(x.h)}`).join(', ')}`);
+      t.diagnostic(`AC-134 measured at M, ${lens}: last Q-block h3 at ${r.top} px (ceiling ${lastCeiling(lens)} px); tallest Q-block ${tallest.q} ${tallest.h} px; blocks ${r.blocks.map((x) => `${x.q} ${Math.round(x.h)}`).join(', ')}`);
       measured.push({ lens, top: r.top, tallest: tallest.h });
       if (lens === 'procurement') {
-        const p4 = r.blocks.find((x) => x.q === 'P4');
-        t.diagnostic(`AC-134 measured at M, procurement: tallest Q-block other than P4 ${tallestBut4.q} ${tallestBut4.h} px; P4 ${p4?.h} px against ${CEIL_BLOCK} + first pair row ${r.first?.h} + literature block ${r.lit?.h} = ${ceiling('P4')} px; other pair rows ${(r.others ?? []).map((o) => `${o.cases.join('|')} ${Math.round(o.h)} px ${o.whole ? 'folded whole' : 'not folded whole'}`).join('; ')}`);
+        for (const b of r.blocks) {
+          const al = r.allow?.[b.q];
+          t.diagnostic(`AC-134 measured at M, procurement ${b.q}: ${Math.round(b.h)} px against ${CEIL_BLOCK}${al ? ` + ${Math.round(al.h)} (${al.parts.map((x) => `${x.what} ${x.h ?? 'absent'} px ${x.open ? (x.once ? 'open, counted' : 'open, inside another counted element') : 'not open at rest, not counted'}`).join('; ')})` : ''} = ${Math.round(ceiling(b.q))} px`);
+        }
+        t.diagnostic(`AC-134 measured at M, procurement: other pair rows ${(r.others ?? []).map((o) => `${o.cases.join('|')} ${Math.round(o.h)} px ${o.whole ? 'folded whole' : 'not folded whole'}`).join('; ')}`);
       }
       // Every lens is measured and printed before any ceiling is asserted, so one failure never hides another lens's values.
       checks.push(() => {
@@ -5467,13 +5494,86 @@ test('AC-134 — Measure the page length against its ceilings and record it', as
             assert.ok(r.p2.readMe && r.p2.caveat, 'P2: SLICE.readMeFirst and SLICE.caveat stay open at rest');
           }
         }
-        assert.ok(r.top != null && r.top <= CEIL_LAST, `${lens}: the last Q-block's h3 at ${r.top} ≤ 10,128 px`);
-        for (const b of r.blocks) assert.ok(b.h <= ceiling(b.q), `${lens}: Q-block ${b.q} ${b.h} ≤ ${ceiling(b.q)} px${b.q === 'P4' ? ` (3,376 + first pair row ${r.first?.h} + literature block ${r.lit?.h})` : ''}`);
+        const cap = lastCeiling(lens);
+        assert.ok(r.top != null && r.top <= cap, `${lens}: the last Q-block's h3 at ${r.top} ≤ ${cap.toLocaleString('en-US')} px${lens === 'procurement' ? ' (regression cap, adjudicated 2026-10-07)' : ''}`);
+        for (const b of r.blocks) {
+          const al = lens === 'procurement' ? r.allow?.[b.q] : null;
+          assert.ok(b.h <= ceiling(b.q), `${lens}: Q-block ${b.q} ${b.h} ≤ ${ceiling(b.q)} px${al ? ` (3,376 + ${al.parts.filter((x) => x.once).map((x) => `${x.what} ${x.h}`).join(' + ') || 'nothing open at rest'})` : ''}`);
+        }
       });
     }
+
+    // AC-134a [Adjudicated 2026-10-07] — the "On this lens" jump list: within the first 844 px of the Procurement lens,
+    // one link per Q-block P0–P6 by its heading text, each moving focus to its heading and writing no history entry.
+    await load(page, LENS_ROUTE.procurement, { slice: S8 });
+    await waitSlice();
+    nav = await page.evaluate((ids) => {
+      const navs = [...document.querySelectorAll('nav')].filter((n) => window.__ac.name(n) === 'On this lens');
+      const n = navs[0];
+      const heads = ids.map((q) => { const h = window.__ac.q(q)?.querySelector('h3'); return h ? window.__ac.txt(h) : null; });
+      if (!n) return { count: 0, heads };
+      const panel = document.querySelector('#sec-panel-procurement');
+      const pr = panel?.getBoundingClientRect();
+      const nr = n.getBoundingClientRect();
+      return {
+        count: navs.length, heads, panel: !!panel,
+        open: !n.closest('details:not([open])') && nr.height > 0,
+        top: pr ? nr.top - pr.top : null, bottom: pr ? nr.bottom - pr.top : null,
+        links: [...n.querySelectorAll('a')].map((a) => window.__ac.txt(a)),
+      };
+    }, PROC_IDS);
+    nav.jumps = [];
+    if (nav.count) {
+      const before = await page.evaluate(() => history.length);
+      const links = page.getByRole('navigation', { name: 'On this lens', exact: true }).first().locator('a');
+      for (const [i, q] of PROC_IDS.entries()) {
+        if (i >= nav.links.length) break;
+        try {
+          await links.nth(i).focus();
+          await page.keyboard.press('Enter');
+          await page.waitForFunction((id) => document.activeElement === window.__ac.q(id)?.querySelector('h3'), q, { timeout: ACTION_TIMEOUT }).catch(() => {});
+          nav.jumps.push({ q, ...(await page.evaluate((id) => {
+            const h = window.__ac.q(id)?.querySelector('h3');
+            const a = document.activeElement;
+            const cs = h ? getComputedStyle(h) : null;
+            return {
+              focused: !!h && a === h, tabIndex: h?.tabIndex ?? null, fv: !!h && a === h && h.matches(':focus-visible'),
+              outline: cs ? `${cs.outlineStyle} ${cs.outlineWidth}` : null, visible: !!cs && cs.outlineStyle !== 'none' && parseFloat(cs.outlineWidth) > 0,
+              active: a ? `${a.tagName.toLowerCase()} "${window.__ac.txt(a).slice(0, 60)}"` : null,
+            };
+          }, q)) });
+        } catch (e) {
+          nav.jumps.push({ q, error: e.message.split('\n')[0] });
+        }
+      }
+      nav.historyDelta = (await page.evaluate(() => history.length)) - before;
+    }
+  });
+  t.diagnostic(`AC-134a measured at M, procurement: ${nav.count} nav named "On this lens"${nav.count ? `; top ${nav.top} px, bottom ${nav.bottom} px below the tabpanel's top; links ${JSON.stringify(nav.links)}; jumps ${nav.jumps.map((j) => `${j.q} ${j.error ?? (j.focused ? `focus on h3 (tabIndex ${j.tabIndex}, :focus-visible ${j.fv}, outline ${j.outline})` : `focus on ${j.active}`)}`).join('; ')}; history.length changed by ${nav.historyDelta}` : ''}`);
+  checks.push(() => {
+    const H = 'AC-134a (procurement, M): ';
+    assert.equal(nav.count, 1, `${H}exactly one <nav> with the accessible name "On this lens" — found ${nav.count}`);
+    assert.ok(nav.panel, `${H}the Procurement tabpanel #sec-panel-procurement renders`);
+    assert.ok(nav.open, `${H}the jump list is rendered at rest (height > 0, inside no closed <details>)`);
+    assert.ok(nav.top != null && nav.top >= 0 && nav.bottom <= VP, `${H}the jump list lies within the first ${VP} px of the lens — top ${nav.top} px, bottom ${nav.bottom} px below the tabpanel's top`);
+    assert.ok(nav.heads.every((h) => h), `${H}every Q-block P0–P6 has its h3 (${nav.heads.map((h, i) => `${PROC_IDS[i]} ${h ? 'yes' : 'missing'}`).join(', ')})`);
+    assert.deepEqual(nav.links.map(squash), nav.heads.map(squash), `${H}one link per Q-block heading P0–P6, in order, with the heading text`);
+    for (const j of nav.jumps) {
+      assert.ok(!j.error, `${H}the ${j.q} link activates from the keyboard: ${j.error}`);
+      assert.ok(j.focused, `${H}activating the ${j.q} link puts focus on ${j.q}'s h3 — focus is on ${j.active}`);
+      assert.equal(j.tabIndex, -1, `${H}${j.q}'s h3 has tabIndex -1`);
+      assert.ok(j.fv && j.visible, `${H}focus on ${j.q}'s h3 is visible (:focus-visible ${j.fv}, outline ${j.outline})`);
+    }
+    assert.ok(nav.jumps.some((j) => j.q === 'P6' && j.focused), `${H}activating the P6 link puts focus on P6's heading (the denial-and-void block)`);
+    assert.equal(nav.historyDelta, 0, `${H}the jumps write no history entry (history.length changed by ${nav.historyDelta})`);
   });
   t.diagnostic(`AC-134 table: ${measured.map((m) => `${m.lens} last h3 ${m.top} px, tallest ${m.tallest} px`).join(' · ')}`);
-  for (const check of checks) check();
+  // Every check runs, so a missing jump list never hides a ceiling (or the reverse).
+  const failures = [];
+  for (const check of checks) {
+    try { check(); } catch (e) { if (!(e instanceof assert.AssertionError)) throw e; failures.push(e.message.split('\n')[0]); }
+  }
+  assert.deepEqual(failures, [], `AC-134: ${failures.length} check(s) failed:\n- ${failures.join('\n- ')}`);
 });
 
 test('AC-135 — Render margin panels inline under their opener, with Close and Back', async (t) => {
