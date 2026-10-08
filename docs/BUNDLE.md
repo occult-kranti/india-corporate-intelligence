@@ -5,9 +5,9 @@ docs, agents, skills, a runnable build, and the hand-off prompt. No network acce
 needed to read it. The repository is the record; the bundle is a convenience for
 reading the project cold without cloning.
 
-The zip on hand was cut on 2026-09-27 (see the gate table at the end). Phase H adds the
-force-finance work, and the bundle is re-cut once the `/security` page is built. The
-layout below is the tree the re-cut will carry.
+The zip on hand was cut on 2026-10-08 from `cc6e302`, after a full green `npm run check`
+(the gate table at the end). It carries Phase H, the force-finance work and the built
+`/security` page, and the layout below is its tree.
 
 ## Layout
 
@@ -136,9 +136,10 @@ The recipe is unchanged. The bundle is cut from the working tree after a full
 commit of that check, and the dated line under the gate table names the tree it was cut
 from. What is left out is listed in the next section.
 
-For Phase H the re-cut follows the `/security` build, so that `dist/`, the page suite and
-the gate table describe the same tree. Its size and file count:
-[/security build status: pending — filled when the build stage reports]
+For Phase H the re-cut followed the `/security` build, so that `dist/`, the page suite and
+the gate table describe the same tree. Its size and file count: `icip-bundle.zip` is 19,647,354 bytes
+(sha256 `3af377a6a322e373…`), 631 files, 88,765,871 bytes unpacked, 132 of them under `dist/`. It
+was cut by copying every tracked file's working-tree content and `dist/` under `icip/`.
 
 ## Running it
 
@@ -195,29 +196,24 @@ committed, and its tests assert a byte-identical rebuild.
 
 ## Verifying the snapshot
 
-Everything in the zip on hand passed, at the moment it was cut (`npm run check`, commit
-noted in `HANDOFF.md`):
+Everything in the zip on hand passed, at the moment it was cut (`npm run check` at `cc6e302`,
+2026-10-08; the docs commit recording it follows):
 
 | Gate | Result |
 |---|---|
-| `npm run promote` | OK — deterministic run id (hash of inputs, not a clock) |
-| `npm run generate` | OK — energy 404/711 (run-ac2b087e866e); welfare 286/335/78 schemes (run-e3cc0f891306); finance 353/1,168 (run-e10a8edef94a); ngo 138/292 (run-169c3129a1ec); capital 133/221 (run-916d30d537ff) |
-| `npm run test:assemble` | OK — 55 tests |
+| `npm run promote` | OK — 461 records promoted, 100 quarantined, run `run-6ef7c1044cda` (a hash of inputs, not a clock) |
+| `npm run generate` | OK — energy 404/711 (run-ac2b087e866e); welfare 286/335/78 schemes (run-e3cc0f891306); finance 353/1,168 (run-e10a8edef94a); ngo 138/292 (run-169c3129a1ec); capital 133/221 (run-916d30d537ff); force 266/394, 22 killed held, series 4,097 budgets / 142 strength / 228 footprint (run-96e7211bfc4e); every module byte-identical to the committed one |
+| `npm run test:assemble` | OK — 65 tests |
+| `npm run test:security-view` | OK — 19 tests |
 | `npm run validate` | OK — 30 declared warnings (29 court rulings modelled as `enforce` in the frozen fleets; SENSEX 50 lists 49 of 50) |
+| `npm run check:skills` | OK — the force-money-trail skill regenerates byte-identical |
 | `npm run build` | OK |
-| `npm run smoke` | OK — 49 routes/URLs, no console errors |
+| `npm run smoke` | OK — 52 routes/URLs, no console errors |
 | `npm run viewport` | OK — camera, canvas pixels, hit-testing, keyboard cursor, jump-to / as-of / why-drawn |
-| `npm run test:pages` | OK — energy 67/67; welfare 70 pass, 0 fail, 15 skipped; tenders national 84 pass, 0 fail, 2 skipped; finance 109 pass, 0 fail, 1 skipped |
+| `npm run test:pages` | OK — 501 tests, 483 pass, 0 fail, 18 skipped: energy 67/67; welfare 70 pass, 15 skipped; tenders national 84 pass, 2 skipped; finance 109 pass, 1 skipped; security 153/153 |
 
-*Cut on 2026-09-27 from the tree after `b09ca5b`; `HANDOFF.md` names the commit of the last full `npm run check`.*
-
-**The Phase H re-cut.** The table above is replaced when the bundle is re-cut. The
-committed force module reads 266 nodes and 394 edges at `run-122278453551`. That id is
-not promised for the re-cut: `literature.json` still carries the spec's first-cut CPPP
-probe figures and is corrected after the page build (`3a7ff00`), so the force run id
-and the generated skill move with it, and the re-cut reads both from `FORCE_META` and
-`check:skills` at the time. The re-cut's gate results:
-[/security build status: pending — filled when the build stage reports]
+*Cut on 2026-10-08 from the tree at `cc6e302`, after the full check above; it replaces the
+2026-09-27 cut.*
 
 Re-running `npm run promote` and `npm run generate` on an unchanged bundle reproduces
 every run id byte-for-byte. That is the check that the pipeline is deterministic: if

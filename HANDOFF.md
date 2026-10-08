@@ -437,10 +437,13 @@ other page suites. Which branch merges first is the owner's call.
    `ghalibluvr/tender_dbs_parquet`), which would let single bidding be read against
    notice period.
 
-**Last full `npm run check`:** green at `b09ca5b` + docs (2026-09-27): promote, generate (five modules, byte-identical), 55 assembler tests, validate (30 declared warnings: 29 court rulings modelled as `enforce` in the frozen fleets, SENSEX 50 at 49 of 50), build, smoke over 49 URLs, viewport (with the explorer's jump-to / as-of / why-drawn checks), page suites 330 pass / 0 fail / 18 skipped of 348 (energy 67, welfare 85, tenders national 86, finance 110). `docs/BUNDLE.md` describes the snapshot cut from that tree.
-That check predates Phase H. `check` now also runs `check:skills` after `validate`, and
-`generate` writes six modules. The next full check records Phase H with the page.
-[/security build status: pending — filled when the build stage reports]
+**Last full `npm run check`:** green at `cc6e302` (2026-10-08), the first with Phase H: promote,
+generate (six modules, each byte-identical to the committed one; force run-96e7211bfc4e), 65
+assembler tests, 19 /security derivation tests, validate (30 declared warnings: 29 court rulings
+modelled as `enforce` in the frozen fleets, SENSEX 50 at 49 of 50), check:skills, build, smoke
+over 52 URLs, viewport, and the page suites 483 pass / 0 fail / 18 skipped of 501 (energy 67,
+welfare 85, tenders national 86, finance 110, security 153). `docs/BUNDLE.md` describes the
+snapshot cut from that tree.
 
 ### Queued work
 
@@ -523,7 +526,7 @@ npm run viewport       # the graph camera gate
 npm run check          # promote, generate, test:assemble, validate, check:skills, build, smoke, viewport, test:pages
 npm run test:pages     # the page acceptance suites (explicit file list; in check and CI)
 node scripts/skills/force-money-trail/gen.mjs   # rewrite the force-money-trail skill from the raw files, FORCE_META and security.json
-npm run build && SECURITY_DIST=<pinned dist copy> node --test scripts/pages/security.test.mjs   # the /security suite; not in test:pages yet
+npm run build && SECURITY_DIST=<pinned dist copy> node --test scripts/pages/security.test.mjs   # the /security suite alone (it is in test:pages)
 
 # offline, Python 3.11 + duckdb + pyarrow; not in CI — see scripts/cppp/README.md
 python3 scripts/cppp/build.py --arrow-dir <dir> --out research/raw/cppp --as-of 2026-09-26
