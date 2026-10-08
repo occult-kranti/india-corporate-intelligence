@@ -52,8 +52,9 @@ icip/
 │   │   ├── ngo/          ← 5 domain files + AUDIT + RECONCILIATION
 │   │   ├── capital/      ← 16 domain files + AUDIT + RECONCILIATION
 │   │   ├── force/        ← 8 domain files + AUDIT + RECONCILIATION
-│   │   ├── cppp/         ← 7 aggregate JSON files from scripts/cppp/build.py (security.json the
-│   │   │                    seventh) + sample-verification.json from verify_sample.py; no award rows
+│   │   ├── cppp/         ← 8 aggregate JSON files from scripts/cppp/build.py (security.json the
+│   │   │                    seventh, security-page.json its slim projection, the one the pages
+│   │   │                    read) + sample-verification.json from verify_sample.py; no award rows
 │   │   └── indices.json  ← NIFTY 50 / SENSEX 30 / SENSEX 50 membership by company id
 │   └── promotion-report.json
 ├── scripts/              ← promote, assemble-fleet (generate), validate, smoke, graph-viewport,
@@ -118,7 +119,15 @@ none on a test error (`2f922b2`).
 **The literature and the sweep.** `docs/research/FORCE_LITERATURE.md` is new.
 `docs/research/DATA_SOURCES.md` gains the Phase H sweep (`3a7ff00`).
 
-**The /security page.** [/security build status: pending — filled when the build stage reports]
+**The /security page.** `src/pages/Security.tsx`, ten files in `src/components/security/`
+and `src/data/securityView.ts`, with 19 tests on the data layer's derivations
+(`scripts/security-view.test.mjs`, `npm run test:security-view`). `loadSecurity()` reads
+`research/raw/cppp/security-page.json`, a slim projection of the slice with no winner-bearing
+field (`f9e8656`); `security.json` stays in the bundle as the pipeline's output but out of the
+build. The acceptance suite passed 153 of 153 (the 152 criteria and the §0.6 keyed-hooks
+check) on three independent pinned runs and is the fifth file in `test:pages`. The WCAG 2.1
+AA audit is `docs/design/SECURITY_A11Y.md`: 0 critical; 4 serious and 7 moderate, all fixed;
+12 minor, of which 8 are fixed, 1 in part and 3 not.
 
 ## How it is cut
 
@@ -145,7 +154,7 @@ npm install
 npm run dev           # vite dev server
 npm run generate      # assemble research/raw/{energy,welfare,finance,ngo,capital,force} into the generated modules
 npm run check:skills  # regenerate force-money-trail from the raw files; fail on any difference
-npm run check         # promote → generate → test:assemble → validate → check:skills → build → smoke → viewport → test:pages
+npm run check         # promote → generate → test:assemble → test:security-view → validate → check:skills → build → smoke → viewport → test:pages
 ```
 
 `npm run check:skills` compares with `git diff`, and the snapshot carries no git
@@ -157,21 +166,22 @@ history-free copy of `878edcd`.
 `npm run smoke` drives a headless Chromium over the routes and URLs in
 `scripts/smoke.mjs` and serves `dist` itself; three of them are `/security` URLs
 (`0073a0f`). `npm run test:pages` runs the page acceptance suites the same way (energy
-67, welfare 85, tenders national 86, finance 110 criteria); point
-`ENERGY_DIST` / `WELFARE_DIST` / `FINANCE_DIST` / `TENDERS_DIST` at a copied build when
+67, welfare 85, tenders national 86, finance 110, security 152 criteria); point
+`ENERGY_DIST` / `WELFARE_DIST` / `FINANCE_DIST` / `TENDERS_DIST` / `SECURITY_DIST` at a copied build when
 something else may rebuild `dist` mid-run. All of them use a pinned browser
 at `PLAYWRIGHT_CHROMIUM_PATH` (default `/opt/pw-browsers/chromium`) if it exists,
 otherwise Playwright's own Chromium (`npx playwright install chromium`).
 
-The `/security` suite (`node --test scripts/pages/security.test.mjs`, 152 criteria,
-`SECURITY_DIST` for a copied build) is not in `test:pages` or CI until it is green three
-times on a pinned build (`2f922b2`). Its result on the built page:
-[/security build status: pending — filled when the build stage reports]
+The `/security` suite (`scripts/pages/security.test.mjs`, 152 criteria and the §0.6
+keyed-hooks check) joined `test:pages`, and so CI, after it passed 153 of 153 on three
+independent runs against pinned builds, 46 to 49 minutes each. It builds its own empty and
+zero-series scaffolds (`dist-empty-security/`, `dist-zero-security/`), so none of its tests
+skips on a full build.
 
 The six generated modules (`src/graph/{energy,finance,ngo,capital,force}.generated.ts`,
 `src/data/welfare.generated.ts`) are never hand-edited: `npm run validate` §5 fails when
 any no longer matches a fresh assembly of its inputs. The CPPP pipeline is offline
-(Python 3.11, duckdb, pyarrow; `scripts/cppp/README.md`); its seven JSON outputs are
+(Python 3.11, duckdb, pyarrow; `scripts/cppp/README.md`); its eight JSON outputs are
 committed, and its tests assert a byte-identical rebuild.
 
 ## What is deliberately not in the bundle

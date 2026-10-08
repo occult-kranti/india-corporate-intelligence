@@ -188,7 +188,27 @@ Everything except the page build is committed.
   on a missing element, none on a test error (`2f922b2`). The route scaffold: lazy route,
   "Security spend" under Registers, three smoke URLs (`0073a0f`). The builder's plan:
   `docs/superpowers/plans/2026-10-04-security-page.md`.
-- **The page, built.** [/security build status: pending — filled when the build stage reports]
+- **The page, built.** `src/pages/Security.tsx`, ten files in `src/components/security/`
+  and `src/data/securityView.ts` (checkpoints `878edcd`, `c5eb5f1`). The data layer's
+  derivations have 19 tests of their own, `scripts/security-view.test.mjs` (`npm run
+  test:security-view`, in `check` after `test:assemble`). `loadSecurity()` reads the slim
+  slice file `research/raw/cppp/security-page.json` (`f9e8656`), and `security.json` is out of
+  the glob, so no chunk carries a winner list. The data-layer audit's majors and the caucus's
+  54 findings (26 by consensus) were fixed; the suite then stood at 143, 142 and 139 of 153 on
+  three pinned builds (`836e841`). Two judges per failure, spec fidelity and reader harm,
+  classed each as a page, test or criterion defect; amended criteria carry `[Adjudicated
+  2026-10-07]` marks in `SECURITY_ACCEPTANCE.md` (`5cfff34`; `a0d3156`, 152 of 153 on three
+  runs). At 390 px Procurement folds each case pair whole, claim and response together (AC-65
+  amended), from 31,965 px to 18,098 px (`81c970c`). The lead then decided AC-134 for
+  Procurement only: its 10,128 px last-heading ceiling cannot be met by the content the spec
+  keeps open (11,327 px measured), so the lens gains an `On this lens` jump list within its
+  first 844 px (AC-134a), per-block allowances for what stays open, and a 19,000 px regression
+  cap on P6's heading (measured 18,432 px); Budgets and Footprint keep every ceiling. Result:
+  153 of 153 (the 152 criteria and the §0.6 keyed-hooks check) on three independent pinned
+  runs of 46 to 49 minutes each, and the suite joined `test:pages`, so CI runs it. WCAG 2.1 AA
+  (`docs/design/SECURITY_A11Y.md`): 0 critical, 4 serious, 7 moderate, 12 minor; S1–S4 and
+  M1–M7 fixed, minors m2, m4, m5, m7, m8, m9, m10 and m12 fixed, m3 in part, m1, m6 and m11
+  not.
 - **Skill and agent.** `.claude/skills/force-money-trail/` (`SKILL.md`, `references/ledger.md`,
   `narratives.md`, `tables.md`) is generated. `scripts/skills/force-money-trail/gen.mjs` fills
   four templates (`*.src.md`) from the raw files, `FORCE_META` and `security.json`, stops on
@@ -344,33 +364,29 @@ other page suites. Which branch merges first is the owner's call.
 
 1. **A credential was exposed in a session transcript.** The owner must revoke it. Nothing
    in the repository depends on it.
-2. **The `/security` build.** `src/pages/Security.tsx`, `src/components/security/*` and
-   `src/data/securityView.ts`, to the judged spec and the builder's plan
-   (`docs/superpowers/plans/2026-10-04-security-page.md`; Task 7 of the Phase H plan): build, caucus, fix,
-   verify three times on a pinned `SECURITY_DIST`, WCAG audit. The as-of filter on the DAC
-   awards is part of it (Task 8 of the Phase H plan). The suite joins `test:pages` and CI only after three
-   consecutive green runs on a pinned build.
-   [/security build status: pending — filled when the build stage reports]
-3. **Five test interpretations under adjudication.** The RED suite's writer left five for
-   after the build (`2f922b2`): which URL params the active-filter line must name; where "no
-   most/top" applies; the slug of three data hooks; the cell parameter; option elements in the
-   Tab order. Adjudicate each as criterion defect, page defect or both, mark it
-   `[Adjudicated]` in `SECURITY_ACCEPTANCE.md`, and amend the criterion where the criterion
-   was wrong. Do not bend a test to pass.
-4. **`literature.json` carries the first-cut CPPP probe figures.** Three places print the
-   spec's probe (`docs/research/force/SPEC.md`, "leads, not findings") instead of the
-   published slice: the "Does not establish" line of `force:lit-cag-report-4-2007` (works
-   0.1 %, services' HQs 40 %+), the description of `literature:c016` (the same two figures)
-   and narrative 11's strongest case and counter (HQs 40 %+; works 79 % of the slice at
-   0.1 %). The slice says MES 74.41 % of award decisions, works 0.42 %, stores 12.87 %,
-   research 18.49 % (`security.json`). `docs/research/FORCE_LITERATURE.md` already quotes
-   the slice and names the probe. The correction to `literature.json` is made after the
-   page build, so the build's fixtures do not move under it (`3a7ff00`). After it: `npm run generate`, then `node
-   scripts/skills/force-money-trail/gen.mjs`, then `npm run check:skills`.
-5. **Deferred UX amendments UD1–UD46**, at the end of `docs/design/SECURITY_PAGE.md` under
+2. **G5: split `force.generated.ts`.** The judged spec makes it a build prerequisite
+   (`SECURITY_PAGE.md` §3, G5): a graph part (`FORCE_NODES`, `FORCE_EDGES`) for the entry and
+   a page part for the `/security` chunk. It was not done. `DataContext` imports the module, so
+   the three series and every page-only export still ride in the entry chunk on every route:
+   13.19 MB raw, 2.84 MB gzipped (Vite) in the 2026-10-08 build. SG-50, which would fail on a string
+   unique to the series in the entry, is not promoted to the suite (`SECURITY_ACCEPTANCE.md`
+   preamble, "not promoted"). The split belongs in the generator, after which `securityView.ts`
+   imports the page part.
+3. **Deferred UX amendments UD1–UD46**, at the end of `docs/design/SECURITY_PAGE.md` under
    "Deferred amendments". Synthetic; test with real readers first. UD1 (every stage in the
    readout, so BE is not read as spend) is first in line; it adds a page-computed ratio that
    needs an allow-list entry before it is built (`SECURITY_UX_REVIEW.md` §4, §7.2).
+4. **The `/security` WCAG findings not fixed** (`docs/design/SECURITY_A11Y.md`): m1, 80
+   controls whose name does not contain their visible label, which the suite pins (AC-107 and
+   the per-person check), so it needs a criterion decision first; m6, a site finding (two
+   `<h1>`, no skip link, a constant title, unnamed sidebar icons); m11, advisory, 457 Tab stops
+   on the Procurement lens at 1440; and m3 in part, the graph's jump-to input in the shared
+   `GraphExplorer`, which this page does not modify (D45). M7's forced-colours fix was not
+   re-measured in an emulated `forced-colors` context.
+5. **The as-of filter on the DAC awards** (Task 8 of the Phase H plan, its one unticked box).
+   `/security` mounts the shared `GraphExplorer`, whose as-of cut applies to the force graph's
+   dated award edges, but no criterion exercises it on the DAC awards; tick the box once one
+   does.
 6. **Three deferred audit corrections** (`RECONCILIATION.json → auditCorrections`,
    `outcome: deferred`): `literature:c007` needs a split into two new claim ids and its
    ruling re-pointed; `literature:c014` is held killed and its corrections

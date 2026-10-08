@@ -495,7 +495,7 @@ not a row under any tier (`force-money-trail/SKILL.md`, Refusals). The spec has 
       214: 196 applied, 15 refused, 3 deferred. 7 id mappings, 34 refused merges, 64 entity
       records consolidated. The 22 killed are 21 duplicates and one claim on an audit kill verdict
       (`footprint:c014`)
-- [ ] **H4 — `/security`, "Security spend" under Registers.** Done: the route scaffold, which
+- [x] **H4 — `/security`, "Security spend" under Registers.** Done: the route scaffold, which
       prints what is loaded and draws no placeholder (`0073a0f`); the design duel, candidate A
       graphic-first and candidate B question-first, the judgement and the judged spec
       (`e0e7119`); a five-seat synthetic UX review, 95 items, 33 must-level amendments applied
@@ -503,8 +503,17 @@ not a row under any tier (`force-money-trail/SKILL.md`, Refusals). The spec has 
       blind, 152 of 152 failing against the scaffold, each on a missing element and none on a
       test error (`fdcfedc`, `7e2e474`, `2f922b2`); the builder's plan (`956952c`); a build
       checkpoint (`878edcd`). Build, caucus, fix, verify three times on a pinned build, WCAG
-      audit, adjudication, and the suite into `test:pages` and CI:
-      [/security build status: pending — filled when the build stage reports]
+      audit, adjudication, and the suite into `test:pages` and CI: done. The slim slice file
+      `security-page.json` carries no winner-bearing field and is what `loadSecurity()` reads
+      (`f9e8656`, `836e841`); 143 of 153 with the audit and caucus fixes and the WCAG audit
+      (`836e841`); 152 of 153 on three runs after adjudication (`a0d3156`); Procurement's
+      whole-pair folds at 390 px, 31,965 px to 18,098 px (`81c970c`); then the lead's AC-134
+      decision for Procurement (an `On this lens` jump list, AC-134a, per-block allowances for
+      what the spec keeps open, a 19,000 px regression cap), and 153 of 153 on three
+      independent pinned runs. The suite is the fifth file in `test:pages`, and
+      `test:security-view` (19 tests) runs in `check`. WCAG (`SECURITY_A11Y.md`): 0 critical,
+      4 serious and 7 moderate, all fixed; 12 minor, 8 fixed, 1 in part, 3 not. G5, the split
+      of `force.generated.ts`, was not done
 - [ ] **H5 — skill, agent, documents, full check, bundle.** Done: the `force-money-trail`
       skill and the `security-analyst` agent (`657f895`, `7e2e474`, `4a6e079`). Six pressure
       testers acted as the agent on requests the house rules forbid; two held, four held in
@@ -518,9 +527,10 @@ not a row under any tier (`force-money-trail/SKILL.md`, Refusals). The spec has 
       entry (`3a7ff00`). Outstanding: the documents that record the built page, the full
       `npm run check`, and the bundle re-cut
 - [ ] Open from reconciliation and review: three deferred audit corrections
-      (`literature:c007`, `c014`, `c028`); `literature.json` still carries the spec's first-cut
-      CPPP probe figures, corrected after the page build so its fixtures do not move; five test
-      interpretations left for adjudication after the build (`2f922b2`); UD1–UD46
+      (`literature:c007`, `c014`, `c028`); G5; UD1–UD46; the `/security` WCAG minors not fixed
+      (m1, m6, m11; m3 in part). Closed: `literature.json` now quotes the published slice
+      (`75f339f`, `4b620c6`), and the five test interpretations are adjudicated (`cbcc935`,
+      `836e841`)
 
 **What was refused, and why.** Spec §1 non-goals, `docs/design/SECURITY_PAGE.md` §14, and
 the refusals that open `.claude/skills/force-money-trail/SKILL.md`. Six pressure testers

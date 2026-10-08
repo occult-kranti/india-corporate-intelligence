@@ -139,7 +139,21 @@ The design record is committed: two candidates, a judgement, a synthetic five-se
 must-level amendments are applied, 152 acceptance criteria, and a RED suite of 152 Playwright checks
 (`scripts/pages/security.test.mjs`), all 152 failing on the scaffold.
 
-[/security build status: pending — filled when the build stage reports]
+The page is built (`src/pages/Security.tsx`, `src/components/security/`,
+`src/data/securityView.ts`), and its suite now runs in `test:pages`: 153 tests, the 152 criteria
+and the §0.6 keyed-hooks check, passed 153 of 153 on three independent runs against pinned
+builds. Each failure on the way was classed as a page, test or criterion defect, and every
+amended criterion carries an `[Adjudicated]` mark and its reason in
+`docs/design/SECURITY_ACCEPTANCE.md`. The page reads `research/raw/cppp/security-page.json`, a
+slim projection of the slice with no winner-bearing field, so no open-market winner's name
+reaches the browser (`f9e8656`, `836e841`). At 390 px the Procurement lens folds each case pair
+whole, claim and response together, which took it from 31,965 px to 18,098 px (`81c970c`). The
+content the spec keeps open on that lens already measures 11,327 px, so the lead replaced its
+10,128 px ceiling with an `On this lens` jump list at the head of the lens and a 19,000 px
+regression cap (AC-134, AC-134a); Budgets and Footprint keep theirs. The WCAG 2.1 AA audit,
+[`docs/design/SECURITY_A11Y.md`](docs/design/SECURITY_A11Y.md), found 0 critical, 4 serious, 7
+moderate and 12 minor: every serious and moderate finding is fixed, eight minors are fixed, one
+in part, and three are not.
 
 ### The geographic network
 

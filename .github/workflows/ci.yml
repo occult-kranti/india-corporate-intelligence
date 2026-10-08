@@ -48,6 +48,12 @@ jobs:
       - name: Assembler and merge tests
         run: npm run test:assemble
 
+      # The /security data layer's named derivations (shares, brackets, the slice's
+      # one-buyer figure, state-record filing) against a fixture: the page's
+      # components only format, so a wrong figure is caught here before any render.
+      - name: Security derivation tests
+        run: npm run test:security-view
+
       # The four invariants. This is what makes them true by construction rather
       # than by author care: every edge carries sources or is tier alleged/analytic,
       # every analytic edge carries an innocent reading, no unresolved entity holds
@@ -85,7 +91,9 @@ jobs:
       # The page acceptance suites: /energy (67 criteria), /welfare (85, of which
       # the 9 scaffold criteria skip here because they need an empty build) and the
       # national section of /tenders (86; 2 skip as "not in this data") and /finance
-      # (110; AC-38 skips while no zero-amount loan exists). Each
+      # (110; AC-38 skips while no zero-amount loan exists) and /security (152, plus
+      # the §0.6 keyed-hooks check: 153 tests, none skipped, since the suite builds
+      # its own empty and zero-series scaffolds). Each
       # criterion was written against the judged spec before the page existed, so a
       # regression here is a spec violation, not a flaky pixel. Files are named
       # explicitly: Node 20's --test does not expand a glob.
