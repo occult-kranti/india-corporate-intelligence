@@ -1,5 +1,19 @@
 # Persistent research memory
 
+## Expanded local model update · 8 October 2026
+
+Two new pinned open encoders were actually fine-tuned on CPU: multilingual E5-small and F2LLM-v2-80M, three epochs and 99 optimizer updates each. The expanded corpus has 435 retained source summaries (305 train / 98 development / 32 quarantined test), with 129 training and 35 development questions. Model text contains source summaries, locators and limitations, not generated case answers or biographical guilt labels. Complete receipts and the new workbench live in `next-model/` and `/#/model-lab`.
+
+Development selected F2LLM with a rank-8 adapter and fixed BM25 fusion at epoch 1. The new independent 24-question/six-family test **failed promotion**: candidate nDCG@5 0.722361, matching untuned fusion 0.758273, BM25 0.781762, prior MiniLM 0.689867. Required-counterevidence recall improved to 1.0, while overall ranking and source recall regressed. MiniLM remains the default. Both new adapters and all six checkpoints are retained experimentally; neither this test nor the previous public test may be reused for new selection. No test-driven retraining occurred.
+
+Ten fixed candidate investigations executed after final evaluation. Their raw rankings, exact graph packets, acquisition questions and failures are retained. Some results are off-topic; similarity never creates an entity or payment edge. The graph engine preserves 605 typed relationships across 622 entity records with full caveats, explicit amounts/stages and counterevidence. These are retained assertions, not 605 newly discovered connections. Two Karnataka audit packets lose their limitations in the F2 encoder's 256-token representation; the full graph reader and exports preserve them.
+
+The tender audit found 17,704 exact notice/award pairs but only one provisional pre-outcome observation, plus 15,816 misleading award “closing” fields matching notice publication. Do not train a claimed historical predictor on this late snapshot. A fresh complete official World Bank capture retains 1,117 India projects and a prospective cohort of 81 Active projects / 243 metadata targets. Probabilities and outcomes remain null; the observation window is 6–20 April 2027 UTC, with manual collection and explicit unknown/censoring rules. No recurring job is claimed.
+
+Research covered 11 technical papers and 13 psychology, forecasting and investigative-method works; the two-round panel records actual AI-agent review and its limitations. Only 435,860,837 bytes of verified duplicate builds and pip download cache were removed; tender originals, derived audit databases, historical models and user work were preserved. See `docs/research-radar/next-model/README.md`, `MODEL-CARD.md`, `INDEPENDENT-EVALUATION.md`, `PANEL.md` and `DEMONSTRATION-REVIEW.md` before continuing.
+
+The earlier release history below remains unchanged and retains its own discovery cutoff.
+
 Reviewed through **7 October 2026 (America/New_York)**. Latest discovery window: **7 July–7 October 2026**. Historical research horizon: **2011–2026**, with coverage gaps retained. Baseline before this expansion: `d1948b8`. The live product is a public-record atlas, not a complete investigation of every public transaction.
 
 ## Mission and durable decisions

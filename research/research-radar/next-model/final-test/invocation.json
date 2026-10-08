@@ -1,0 +1,153 @@
+{
+  "schemaVersion": 1,
+  "event": "One selected-candidate final holdout invocation",
+  "owner": "Independent evaluation AI agent",
+  "startedAtUtc": "2026-10-08T17:52:03.937315+00:00",
+  "status": "completed",
+  "candidateOutputsInspectedBeforeInvocation": false,
+  "selectedCandidate": {
+    "family": "f2",
+    "fusion": "rrf",
+    "epoch": 1,
+    "adapterSha256": "88e2c2be892e2448b7c4c2ac05d81918b62df4ceaf396ab26c4e4d9cfa4fa712"
+  },
+  "files": [
+    {
+      "path": "research/research-radar/next-model/dataset.json",
+      "sha256": "9bc1b278e3ee76444c047baa74a50cb2f491f2603db1533f3e72fc2b5c4b0f67",
+      "bytes": 1207778
+    },
+    {
+      "path": "research/research-radar/next-model/independent-test-labels.json",
+      "sha256": "db268814d9450a018acbdeeb30719d7fbda689eb211abff22dba95e9e59b91b8",
+      "bytes": 41069
+    },
+    {
+      "path": "research/research-radar/next-model/independent-test-freeze.json",
+      "sha256": "3d99ab1d4a78eaed9220eb9b4bbec4d420af2b9b7064e687fd2460837ee0a80e",
+      "bytes": 1234
+    },
+    {
+      "path": "research/research-radar/next-model/preflight-review.json",
+      "sha256": "8abcd8850cc142206c1187c02e4f160bb65d64bc7ce31c319665a1d2fde18ddb",
+      "bytes": 1434
+    },
+    {
+      "path": "research/research-radar/next-model/model-run/experiment-freeze.json",
+      "sha256": "94c5dfa9d0107f6922be63f1de2b0459557f2ce448d978ef33b8e91c9c29359d",
+      "bytes": 1738
+    },
+    {
+      "path": "research/research-radar/next-model/model-run/training-config.json",
+      "sha256": "c9358839bf76ccb17cc4cf64732538a68b866b1484c614d237812990c4dcf654",
+      "bytes": 1501
+    },
+    {
+      "path": "research/research-radar/next-model/model-run/selected-model.json",
+      "sha256": "7e7556bc1e842bef699f93a44cbc2b0a79a5b3b6a24f006243f031ac5d682220",
+      "bytes": 11778
+    },
+    {
+      "path": "research/research-radar/next-model/model-run/training-receipt.json",
+      "sha256": "aade02a392363852993bc223b98c02fb6019e4971301ddb915736f2aca729aae",
+      "bytes": 462164
+    },
+    {
+      "path": "research/research-radar/next-model/model-run/f2-epoch-1-adapter.safetensors",
+      "sha256": "88e2c2be892e2448b7c4c2ac05d81918b62df4ceaf396ab26c4e4d9cfa4fa712",
+      "bytes": 953424
+    },
+    {
+      "path": "research/research-radar/next-model/final-test/query-projection.json",
+      "sha256": "16bfa6c4df26708f5c79c817ed38d5b418ec474a0f8fca7c00823448539771dd",
+      "bytes": 5261
+    },
+    {
+      "path": "scripts/research-radar/next-model/invoke-final.py",
+      "sha256": "5f33a5a6e21712cbf8a04ae22997f23255756477d8455d19a7fb861886ecfe1c",
+      "bytes": 6804
+    },
+    {
+      "path": "scripts/research-radar/next-model/evaluate-independent.py",
+      "sha256": "4dd0dfdddbd08d3fa8229c81bb2dd3bb4dc680a6a4eef4dd6f5eb5c938514271",
+      "bytes": 10374
+    },
+    {
+      "path": "scripts/research-radar/next-model/trace.py",
+      "sha256": "a6b1ef1f6f03a6c7c147deddfc97b98854e94b7b2bfc4f76536c53825f34a874",
+      "bytes": 27291
+    },
+    {
+      "path": "scripts/research-radar/next-model/rank.py",
+      "sha256": "07f1b06f14a8ca17539b2f6e78c9b276b9f13b4beb4948494ed4f6d9afcd55bc",
+      "bytes": 10123
+    },
+    {
+      "path": "scripts/research-radar/next-model/encoder.py",
+      "sha256": "a0a37b3726b354e264cd8fc026034521f827113d17a75ce66198f05ce806cfbb",
+      "bytes": 11320
+    },
+    {
+      "path": "research/research-radar/next-model/graph-data.json",
+      "sha256": "570bdb86e53afa76de1adffe292e5c021fcbb6463fbe0698efd4029ee29f14f1",
+      "bytes": 5378575
+    }
+  ],
+  "runtime": "/workspace/.venvs/icip-finetune/bin/python",
+  "comparators": [
+    "bm25",
+    "base",
+    "candidate",
+    "mini"
+  ],
+  "noFurtherModelSelectionAuthorized": true,
+  "completedAtUtc": "2026-10-08T17:55:42.521133+00:00",
+  "outputs": [
+    {
+      "path": "research/research-radar/next-model/final-test/base.json",
+      "sha256": "255ae118e55230872ea005d5eb9f5bfd377f2791ea4dc6092b763320985044a4",
+      "bytes": 1491021
+    },
+    {
+      "path": "research/research-radar/next-model/final-test/bm25.json",
+      "sha256": "b2bdaef77eec3951b328360808a1a60d1e49060ed86110333baa8a2ec59bd912",
+      "bytes": 1457715
+    },
+    {
+      "path": "research/research-radar/next-model/final-test/candidate.json",
+      "sha256": "1c528285046e68821f43eaafef7a0f1b5bdce7269bc412213a882e80702958ea",
+      "bytes": 1491287
+    },
+    {
+      "path": "research/research-radar/next-model/final-test/emitted-edges.json",
+      "sha256": "5d6831d97217502d100effc3703b8e047a941782b725129e21ff10390f280517",
+      "bytes": 1650027
+    },
+    {
+      "path": "research/research-radar/next-model/final-test/mini.json",
+      "sha256": "fd2ad08363acb90e8298eeffcd80e5e8ef868dd60c13dfe993b37c44a104c968",
+      "bytes": 1474623
+    },
+    {
+      "path": "research/research-radar/next-model/final-test/query-projection.json",
+      "sha256": "16bfa6c4df26708f5c79c817ed38d5b418ec474a0f8fca7c00823448539771dd",
+      "bytes": 5261
+    },
+    {
+      "path": "research/research-radar/next-model/final-test/rankings.json",
+      "sha256": "f456e3a655cf17efb51edb5efa7fa58d08f465739072dc12e2f378c83a269401",
+      "bytes": 5912336
+    },
+    {
+      "path": "research/research-radar/next-model/final-test/trace-audit.json",
+      "sha256": "5306910a6cedfd07649e60d1e153c80777efd823f527f9a69edea1a3843d0d79",
+      "bytes": 18999
+    },
+    {
+      "path": "research/research-radar/next-model/evaluation.json",
+      "sha256": "73a8e2ebdfbc0056029184313d4591231b50ba8ecab397fb542134a2bd0a3c0e",
+      "bytes": 188173
+    }
+  ],
+  "testStatusAfterInvocation": "Exhausted for future tuning; no test-driven training rerun"
+}

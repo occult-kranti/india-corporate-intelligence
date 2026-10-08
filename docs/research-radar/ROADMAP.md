@@ -1,5 +1,15 @@
 # National research and predictive-model roadmap
 
+## Next-model milestone · executed 8 October 2026
+
+The expanded local experiment, exact graph engine and prospective data layer are implemented. Two encoder families completed training; the development-selected adapter failed the fresh independent promotion gate. Its stronger counterevidence retrieval does not cancel its worse overall ranking. All outputs, including off-topic demonstration results, remain reviewable in `next-model/`. The old and new public tests are exhausted; no additional selection may use them as blind tests.
+
+The next substantive improvement requires better evidence and evaluation data: original dated passages/tables, independent relevance adjudication including partially useful contrasts, native-language/OCR examples, and a fresh case-family holdout. Do not respond to this result by adding epochs to the same now-exposed benchmark. Compare untuned retrieval and lexical fusion before claiming an adaptation gain. Preserve full limitations outside the token-limited encoder.
+
+The 81-project World Bank cohort is an actual frozen baseline, not a trained forecast. Collect and independently review its first eligible complete April 2027 observation; retain unknown outcomes and commit probabilities before any future outcome-based scoring. Build additional procurement cohorts from genuinely pre-outcome snapshots rather than backdating the June 2026 archive. A model may prioritize record acquisition; a missing edge remains a source gap until the necessary document is obtained.
+
+The earlier national coverage plan below remains the acquisition backlog. New model infrastructure does not mean all its cities, sectors or actors have been researched.
+
 As of 7 October 2026. The concrete first expansion combines regional investigators, a national-policy pass, source-linked networks, a capital coverage plan and an observable-outcome registry. Completion means verified artifacts, not a promised infinite investigation.
 
 ## Coverage waves

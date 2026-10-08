@@ -1,0 +1,4709 @@
+{
+  "completedAt": "2026-10-08T19:01:58.673Z",
+  "base": "http://127.0.0.1:32969",
+  "buildDirectory": "/workspace/india-corporate-intelligence/dist",
+  "browserScriptSha256": "19b956ff2e713530bcbccd52e96ea70e9b3b8f4633f69015e314333e7f88665b",
+  "artifacts": {
+    "ui-status.json": "f42c3e40c927aed44e9e6a68d60598be958be2fc9e38573c7c69f9079e722728",
+    "investigation-runs.json": "424505ccd562f0a47d7653bd24d307754e7cb536edad98ed0036651d0705655e",
+    "graph-data.json": "570bdb86e53afa76de1adffe292e5c021fcbb6463fbe0698efd4029ee29f14f1",
+    "temporal-ui-summary.json": "17557c11f3828dab9b558053458de70562cba92c91ea8df4d4640c6dc7493fdf"
+  },
+  "modelStatus": "experimental-not-promoted",
+  "adapterSha256": "88e2c2be892e2448b7c4c2ac05d81918b62df4ceaf396ab26c4e4d9cfa4fa712",
+  "evaluationSha256": "73a8e2ebdfbc0056029184313d4591231b50ba8ecab397fb542134a2bd0a3c0e",
+  "checks": [
+    "Both real training runs and the independent comparison are recorded",
+    "Selected weights and final evaluation have exact SHA-256 receipts",
+    "Saved demonstrations contain actual numeric rankings of retained sources",
+    "Prospective project and target denominators reconcile to the retained rows",
+    "The current prospective register contains unknown outcomes and unestimated probabilities",
+    "Research radar links into the real model workbench",
+    "The workbench distinguishes saved relevance rankings from browser inference and truth probabilities",
+    "Workbench inventory counts match the actual corpus, graph and cohort",
+    "investigation-djb: saved query selection is reflected in the URL and button state",
+    "investigation-djb: every saved ranked source remains available",
+    "investigation-djb/1: source title and score match actual inference",
+    "investigation-djb/2: source title and score match actual inference",
+    "investigation-djb/3: source title and score match actual inference",
+    "investigation-djb/4: source title and score match actual inference",
+    "investigation-djb/5: source title and score match actual inference",
+    "investigation-djb: all retained record-acquisition questions remain available",
+    "investigation-djb: saved investigative leads retain their evidentiary and temporal limits",
+    "investigation-djb: an acquisition lead exposes record holder, missing evidence, disconfirmation and priority basis",
+    "investigation-djb: every retained counter-record stays visible alongside investigative leads",
+    "investigation-djb: responses and competing explanations survive the saved trace display",
+    "investigation-khichdi: saved query selection is reflected in the URL and button state",
+    "investigation-khichdi: every saved ranked source remains available",
+    "investigation-khichdi/1: source title and score match actual inference",
+    "investigation-khichdi/2: source title and score match actual inference",
+    "investigation-khichdi/3: source title and score match actual inference",
+    "investigation-khichdi/4: source title and score match actual inference",
+    "investigation-khichdi/5: source title and score match actual inference",
+    "investigation-khichdi: all retained record-acquisition questions remain available",
+    "investigation-khichdi: saved investigative leads retain their evidentiary and temporal limits",
+    "investigation-khichdi: an acquisition lead exposes record holder, missing evidence, disconfirmation and priority basis",
+    "investigation-khichdi: every retained counter-record stays visible alongside investigative leads",
+    "investigation-khichdi: responses and competing explanations survive the saved trace display",
+    "investigation-port: saved query selection is reflected in the URL and button state",
+    "investigation-port: every saved ranked source remains available",
+    "investigation-port/1: source title and score match actual inference",
+    "investigation-port/2: source title and score match actual inference",
+    "investigation-port/3: source title and score match actual inference",
+    "investigation-port/4: source title and score match actual inference",
+    "investigation-port/5: source title and score match actual inference",
+    "investigation-port: all retained record-acquisition questions remain available",
+    "investigation-port: saved investigative leads retain their evidentiary and temporal limits",
+    "investigation-port: an acquisition lead exposes record holder, missing evidence, disconfirmation and priority basis",
+    "investigation-port: every retained counter-record stays visible alongside investigative leads",
+    "investigation-port: responses and competing explanations survive the saved trace display",
+    "investigation-meter: saved query selection is reflected in the URL and button state",
+    "investigation-meter: every saved ranked source remains available",
+    "investigation-meter/1: source title and score match actual inference",
+    "investigation-meter/2: source title and score match actual inference",
+    "investigation-meter/3: source title and score match actual inference",
+    "investigation-meter/4: source title and score match actual inference",
+    "investigation-meter/5: source title and score match actual inference",
+    "investigation-meter: all retained record-acquisition questions remain available",
+    "investigation-meter: saved investigative leads retain their evidentiary and temporal limits",
+    "investigation-meter: an acquisition lead exposes record holder, missing evidence, disconfirmation and priority basis",
+    "investigation-meter: every retained counter-record stays visible alongside investigative leads",
+    "investigation-meter: responses and competing explanations survive the saved trace display",
+    "investigation-bonds: saved query selection is reflected in the URL and button state",
+    "investigation-bonds: every saved ranked source remains available",
+    "investigation-bonds/1: source title and score match actual inference",
+    "investigation-bonds/2: source title and score match actual inference",
+    "investigation-bonds/3: source title and score match actual inference",
+    "investigation-bonds/4: source title and score match actual inference",
+    "investigation-bonds/5: source title and score match actual inference",
+    "investigation-bonds: all retained record-acquisition questions remain available",
+    "investigation-bonds: saved investigative leads retain their evidentiary and temporal limits",
+    "investigation-bonds: an acquisition lead exposes record holder, missing evidence, disconfirmation and priority basis",
+    "investigation-bonds: every retained counter-record stays visible alongside investigative leads",
+    "investigation-bonds: responses and competing explanations survive the saved trace display",
+    "investigation-c295: saved query selection is reflected in the URL and button state",
+    "investigation-c295: every saved ranked source remains available",
+    "investigation-c295/1: source title and score match actual inference",
+    "investigation-c295/2: source title and score match actual inference",
+    "investigation-c295/3: source title and score match actual inference",
+    "investigation-c295/4: source title and score match actual inference",
+    "investigation-c295/5: source title and score match actual inference",
+    "investigation-c295: all retained record-acquisition questions remain available",
+    "investigation-c295: saved investigative leads retain their evidentiary and temporal limits",
+    "investigation-c295: an acquisition lead exposes record holder, missing evidence, disconfirmation and priority basis",
+    "investigation-c295: every retained counter-record stays visible alongside investigative leads",
+    "investigation-c295: responses and competing explanations survive the saved trace display",
+    "investigation-brahmos: saved query selection is reflected in the URL and button state",
+    "investigation-brahmos: every saved ranked source remains available",
+    "investigation-brahmos/1: source title and score match actual inference",
+    "investigation-brahmos/2: source title and score match actual inference",
+    "investigation-brahmos/3: source title and score match actual inference",
+    "investigation-brahmos/4: source title and score match actual inference",
+    "investigation-brahmos/5: source title and score match actual inference",
+    "investigation-brahmos: all retained record-acquisition questions remain available",
+    "investigation-brahmos: saved investigative leads retain their evidentiary and temporal limits",
+    "investigation-brahmos: an acquisition lead exposes record holder, missing evidence, disconfirmation and priority basis",
+    "investigation-brahmos: every retained counter-record stays visible alongside investigative leads",
+    "investigation-brahmos: responses and competing explanations survive the saved trace display",
+    "investigation-bhushan: saved query selection is reflected in the URL and button state",
+    "investigation-bhushan: every saved ranked source remains available",
+    "investigation-bhushan/1: source title and score match actual inference",
+    "investigation-bhushan/2: source title and score match actual inference",
+    "investigation-bhushan/3: source title and score match actual inference",
+    "investigation-bhushan/4: source title and score match actual inference",
+    "investigation-bhushan/5: source title and score match actual inference",
+    "investigation-bhushan: all retained record-acquisition questions remain available",
+    "investigation-bhushan: saved investigative leads retain their evidentiary and temporal limits",
+    "investigation-bhushan: an acquisition lead exposes record holder, missing evidence, disconfirmation and priority basis",
+    "investigation-bhushan: every retained counter-record stays visible alongside investigative leads",
+    "investigation-bhushan: responses and competing explanations survive the saved trace display",
+    "investigation-ndtv: saved query selection is reflected in the URL and button state",
+    "investigation-ndtv: every saved ranked source remains available",
+    "investigation-ndtv/1: source title and score match actual inference",
+    "investigation-ndtv/2: source title and score match actual inference",
+    "investigation-ndtv/3: source title and score match actual inference",
+    "investigation-ndtv/4: source title and score match actual inference",
+    "investigation-ndtv/5: source title and score match actual inference",
+    "investigation-ndtv: all retained record-acquisition questions remain available",
+    "investigation-ndtv: saved investigative leads retain their evidentiary and temporal limits",
+    "investigation-ndtv: an acquisition lead exposes record holder, missing evidence, disconfirmation and priority basis",
+    "investigation-ndtv: every retained counter-record stays visible alongside investigative leads",
+    "investigation-ndtv: responses and competing explanations survive the saved trace display",
+    "investigation-radhikapur: saved query selection is reflected in the URL and button state",
+    "investigation-radhikapur: every saved ranked source remains available",
+    "investigation-radhikapur/1: source title and score match actual inference",
+    "investigation-radhikapur/2: source title and score match actual inference",
+    "investigation-radhikapur/3: source title and score match actual inference",
+    "investigation-radhikapur/4: source title and score match actual inference",
+    "investigation-radhikapur/5: source title and score match actual inference",
+    "investigation-radhikapur: all retained record-acquisition questions remain available",
+    "investigation-radhikapur: saved investigative leads retain their evidentiary and temporal limits",
+    "investigation-radhikapur: an acquisition lead exposes record holder, missing evidence, disconfirmation and priority basis",
+    "investigation-radhikapur: every retained counter-record stays visible alongside investigative leads",
+    "investigation-radhikapur: responses and competing explanations survive the saved trace display",
+    "An unmatched saved-query search explains its empty state without inventing a model result",
+    "Clearing query search restores the full saved question list",
+    "An actual ranked result has retained graph evidence to inspect",
+    "Ranked source selection retains its exact source ID in the URL",
+    "Keyboard opens the exact selected evidence record",
+    "Focus enters the modal evidence reader",
+    "Modal reader keeps keyboard focus inside its evidence controls",
+    "Source reader preserves summary, exact locator and source ID",
+    "Every selected source limitation is available in its popup",
+    "Source popup links to the original retained document",
+    "Escape closes the evidence reader and clears its URL selection",
+    "Closing the reader returns keyboard focus to its opener",
+    "Evidence download records the current registry fingerprint",
+    "Evidence export infers no cash flow or pooled cash total",
+    "Downloaded evidence contains its interpretation limit",
+    "Exported sources contain only retained exact IDs",
+    "Exported sources preserve every original field, date, status and limitation",
+    "Exported entities contain only retained exact IDs",
+    "Exported entities preserve every original field, date, status and limitation",
+    "Exported relationships contain only retained exact IDs",
+    "Exported relationships preserve every original field, date, status and limitation",
+    "Exported records contain only retained exact IDs",
+    "Exported records preserve every original field, date, status and limitation",
+    "All downloaded evidence resolves to its retained source citations",
+    "Downloaded edge endpoints, supporting records and responses resolve exactly",
+    "Every downloaded financial amount keeps its currency, unit, stage and period",
+    "Evidence download identifies the selected ranked source",
+    "Evidence download retains the selected real query run",
+    "One-hop source evidence lists every directly cited graph edge and no invented edge",
+    "Network view is shareable through URL state",
+    "Source-linked graph renders inspectable entity nodes",
+    "Keyboard opens the exact selected evidence record",
+    "Focus enters the modal evidence reader",
+    "Modal reader keeps keyboard focus inside its evidence controls",
+    "Entity popup lists all exact-ID connections, including those outside the drawn graph cap",
+    "Entity popup preserves its identity-resolution basis",
+    "Escape closes the evidence reader and clears its URL selection",
+    "Closing the reader returns keyboard focus to its opener",
+    "Keyboard opens the exact selected evidence record",
+    "Focus enters the modal evidence reader",
+    "Modal reader keeps keyboard focus inside its evidence controls",
+    "Connection popup preserves its typed evidence, summary and status",
+    "Connection popup keeps competing explanations and limitations visible",
+    "Connection popup preserves the observation that would falsify the interpretation",
+    "A displayed amount keeps its exact stage, currency, value and period",
+    "The connection popup preserves the original directed endpoints",
+    "A retained supporting or response record can be inspected from the connection",
+    "The nested record retains its summary and counter-response",
+    "Browser Back restores the preceding connection detail",
+    "Escape closes the evidence reader and clears its URL selection",
+    "Closing the reader returns keyboard focus to its opener",
+    "Graph depth is recorded in shareable URL state",
+    "Evidence download records the current registry fingerprint",
+    "Evidence export infers no cash flow or pooled cash total",
+    "Downloaded evidence contains its interpretation limit",
+    "Exported sources contain only retained exact IDs",
+    "Exported sources preserve every original field, date, status and limitation",
+    "Exported entities contain only retained exact IDs",
+    "Exported entities preserve every original field, date, status and limitation",
+    "Exported relationships contain only retained exact IDs",
+    "Exported relationships preserve every original field, date, status and limitation",
+    "Exported records contain only retained exact IDs",
+    "Exported records preserve every original field, date, status and limitation",
+    "All downloaded evidence resolves to its retained source citations",
+    "Downloaded edge endpoints, supporting records and responses resolve exactly",
+    "Every downloaded financial amount keeps its currency, unit, stage and period",
+    "The expanded download records the requested two-hop depth",
+    "Expanding to two hops preserves every directly cited relationship",
+    "The complete evidence list and full downloaded graph contain the same relationship IDs",
+    "Graph caption states its drawn and complete denominators and cash-flow limit",
+    "The graphical overview stays bounded while complete evidence remains accessible",
+    "Browser Back restores the previous graph expansion depth",
+    "Browser Forward restores the expanded graph",
+    "Map explicitly labels administrative associations rather than fabricated precise sites",
+    "Map popup explains the limits of its state association",
+    "Escape closes the evidence reader and clears its URL selection",
+    "Closing the reader returns keyboard focus to its opener",
+    "Map supports an explicit zoom control and scrollable pan region",
+    "A retained 13-entity neighborhood exercises the first dense-layout size without fabricated fixtures",
+    "A retained two-hop neighborhood is large enough to exercise graphical truncation",
+    "Evidence download records the current registry fingerprint",
+    "Evidence export infers no cash flow or pooled cash total",
+    "Downloaded evidence contains its interpretation limit",
+    "Exported sources contain only retained exact IDs",
+    "Exported sources preserve every original field, date, status and limitation",
+    "Exported entities contain only retained exact IDs",
+    "Exported entities preserve every original field, date, status and limitation",
+    "Exported relationships contain only retained exact IDs",
+    "Exported relationships preserve every original field, date, status and limitation",
+    "Exported records contain only retained exact IDs",
+    "Exported records preserve every original field, date, status and limitation",
+    "All downloaded evidence resolves to its retained source citations",
+    "Downloaded edge endpoints, supporting records and responses resolve exactly",
+    "Every downloaded financial amount keeps its currency, unit, stage and period",
+    "Large exact-ID neighborhoods explicitly cap the drawing at 24 entities",
+    "The downloaded graph preserves the exact focused entity ID",
+    "The graph visibly discloses how many retained entities were omitted from the drawing",
+    "All retained entities remain reachable in the complete list after graphical truncation",
+    "Unknown saved identities display an explicit gap and do not resolve through name similarity",
+    "Escape closes the evidence reader and clears its URL selection",
+    "Model results: section selection is visible and accessible",
+    "Model results name the selected architecture, configuration and actual default",
+    "Visible promotion decision matches the frozen evaluation",
+    "Training, development and independent-test denominators remain separate and exact",
+    "All evaluated retrieval systems appear in the results table",
+    "bm25: every displayed metric equals the actual saved final score",
+    "mini: every displayed metric equals the actual saved final score",
+    "base: every displayed metric equals the actual saved final score",
+    "candidate: every displayed metric equals the actual saved final score",
+    "Every failed gate and retained evaluation limitation survives rendering",
+    "Selected epoch is labelled as checkpoint selection, separate from completed training epochs",
+    "Every actual trained family retains its own run receipt",
+    "Model results expose selected and per-run weight hashes plus the independent evaluation hash",
+    "Evaluation metrics are explained as retrieval scores, not allegation probabilities",
+    "Future observations: section selection is visible and accessible",
+    "Prospective cohort denominators and unresolved target counts match official capture",
+    "Visible future observation window matches its preregistered dates",
+    "Future register preserves all missingness and scheduling limitations",
+    "Every prospective World Bank project is available in the register",
+    "P096124: register retains the official project name and identity",
+    "P096124: amount is correctly formatted as USD commitment, not payment",
+    "P130544: register retains the official project name and identity",
+    "P130544: amount is correctly formatted as USD commitment, not payment",
+    "P155007: register retains the official project name and identity",
+    "P155007: amount is correctly formatted as USD commitment, not payment",
+    "P157929: register retains the official project name and identity",
+    "P157929: amount is correctly formatted as USD commitment, not payment",
+    "P158502: register retains the official project name and identity",
+    "P158502: amount is correctly formatted as USD commitment, not payment",
+    "P160018: register retains the official project name and identity",
+    "P160018: amount is correctly formatted as USD commitment, not payment",
+    "P163533: register retains the official project name and identity",
+    "P163533: amount is correctly formatted as USD commitment, not payment",
+    "P165129: register retains the official project name and identity",
+    "P165129: amount is correctly formatted as USD commitment, not payment",
+    "P168097: register retains the official project name and identity",
+    "P168097: amount is correctly formatted as USD commitment, not payment",
+    "P168310: register retains the official project name and identity",
+    "P168310: amount is correctly formatted as USD commitment, not payment",
+    "P168633: register retains the official project name and identity",
+    "P168633: amount is correctly formatted as USD commitment, not payment",
+    "P169111: register retains the official project name and identity",
+    "P169111: amount is correctly formatted as USD commitment, not payment",
+    "P170590: register retains the official project name and identity",
+    "P170590: amount is correctly formatted as USD commitment, not payment",
+    "P170811: register retains the official project name and identity",
+    "P170811: amount is correctly formatted as USD commitment, not payment",
+    "P170873: register retains the official project name and identity",
+    "P170873: amount is correctly formatted as USD commitment, not payment",
+    "P171750: register retains the official project name and identity",
+    "P171750: amount is correctly formatted as USD commitment, not payment",
+    "P172187: register retains the official project name and identity",
+    "P172187: amount is correctly formatted as USD commitment, not payment",
+    "P172213: register retains the official project name and identity",
+    "P172213: amount is correctly formatted as USD commitment, not payment",
+    "P172226: register retains the official project name and identity",
+    "P172226: amount is correctly formatted as USD commitment, not payment",
+    "P173589: register retains the official project name and identity",
+    "P173589: amount is correctly formatted as USD commitment, not payment",
+    "P173704: register retains the official project name and identity",
+    "P173704: amount is correctly formatted as USD commitment, not payment",
+    "P173978: register retains the official project name and identity",
+    "P173978: amount is correctly formatted as USD commitment, not payment",
+    "P174067: register retains the official project name and identity",
+    "P174067: amount is correctly formatted as USD commitment, not payment",
+    "P174312: register retains the official project name and identity",
+    "P174312: amount is correctly formatted as USD commitment, not payment",
+    "P174564: register retains the official project name and identity",
+    "P174564: amount is correctly formatted as USD commitment, not payment",
+    "P174593: register retains the official project name and identity",
+    "P174593: amount is correctly formatted as USD commitment, not payment",
+    "P174732: register retains the official project name and identity",
+    "P174732: amount is correctly formatted as USD commitment, not payment",
+    "P174778: register retains the official project name and identity",
+    "P174778: amount is correctly formatted as USD commitment, not payment",
+    "P174798: register retains the official project name and identity",
+    "P174798: amount is correctly formatted as USD commitment, not payment",
+    "P174825: register retains the official project name and identity",
+    "P174825: amount is correctly formatted as USD commitment, not payment",
+    "P175221: register retains the official project name and identity",
+    "P175221: amount is correctly formatted as USD commitment, not payment",
+    "P175261: register retains the official project name and identity",
+    "P175261: amount is correctly formatted as USD commitment, not payment",
+    "P175676: register retains the official project name and identity",
+    "P175676: amount is correctly formatted as USD commitment, not payment",
+    "P175728: register retains the official project name and identity",
+    "P175728: amount is correctly formatted as USD commitment, not payment",
+    "P175811: register retains the official project name and identity",
+    "P175811: amount is correctly formatted as USD commitment, not payment",
+    "P176032: register retains the official project name and identity",
+    "P176032: amount is correctly formatted as USD commitment, not payment",
+    "P176107: register retains the official project name and identity",
+    "P176107: amount is correctly formatted as USD commitment, not payment",
+    "P176404: register retains the official project name and identity",
+    "P176404: amount is correctly formatted as USD commitment, not payment",
+    "P176733: register retains the official project name and identity",
+    "P176733: amount is correctly formatted as USD commitment, not payment",
+    "P177159: register retains the official project name and identity",
+    "P177159: amount is correctly formatted as USD commitment, not payment",
+    "P177876: register retains the official project name and identity",
+    "P177876: amount is correctly formatted as USD commitment, not payment",
+    "P177915: register retains the official project name and identity",
+    "P177915: amount is correctly formatted as USD commitment, not payment",
+    "P177917: register retains the official project name and identity",
+    "P177917: amount is correctly formatted as USD commitment, not payment",
+    "P177965: register retains the official project name and identity",
+    "P177965: amount is correctly formatted as USD commitment, not payment",
+    "P177980: register retains the official project name and identity",
+    "P177980: amount is correctly formatted as USD commitment, not payment",
+    "P178146: register retains the official project name and identity",
+    "P178146: amount is correctly formatted as USD commitment, not payment",
+    "P178252: register retains the official project name and identity",
+    "P178252: amount is correctly formatted as USD commitment, not payment",
+    "P178253: register retains the official project name and identity",
+    "P178253: amount is correctly formatted as USD commitment, not payment",
+    "P178254: register retains the official project name and identity",
+    "P178254: amount is correctly formatted as USD commitment, not payment",
+    "P178418: register retains the official project name and identity",
+    "P178418: amount is correctly formatted as USD commitment, not payment",
+    "P178581: register retains the official project name and identity",
+    "P178581: amount is correctly formatted as USD commitment, not payment",
+    "P179039: register retains the official project name and identity",
+    "P179039: amount is correctly formatted as USD commitment, not payment",
+    "P179189: register retains the official project name and identity",
+    "P179189: amount is correctly formatted as USD commitment, not payment",
+    "P179337: register retains the official project name and identity",
+    "P179337: amount is correctly formatted as USD commitment, not payment",
+    "P179357: register retains the official project name and identity",
+    "P179357: amount is correctly formatted as USD commitment, not payment",
+    "P179749: register retains the official project name and identity",
+    "P179749: amount is correctly formatted as USD commitment, not payment",
+    "P179935: register retains the official project name and identity",
+    "P179935: amount is correctly formatted as USD commitment, not payment",
+    "P180634: register retains the official project name and identity",
+    "P180634: amount is correctly formatted as USD commitment, not payment",
+    "P180699: register retains the official project name and identity",
+    "P180699: amount is correctly formatted as USD commitment, not payment",
+    "P180932: register retains the official project name and identity",
+    "P180932: amount is correctly formatted as USD commitment, not payment",
+    "P181463: register retains the official project name and identity",
+    "P181463: amount is correctly formatted as USD commitment, not payment",
+    "P500564: register retains the official project name and identity",
+    "P500564: amount is correctly formatted as USD commitment, not payment",
+    "P501071: register retains the official project name and identity",
+    "P501071: amount is correctly formatted as USD commitment, not payment",
+    "P503872: register retains the official project name and identity",
+    "P503872: amount is correctly formatted as USD commitment, not payment",
+    "P505177: register retains the official project name and identity",
+    "P505177: amount is correctly formatted as USD commitment, not payment",
+    "P505190: register retains the official project name and identity",
+    "P505190: amount is correctly formatted as USD commitment, not payment",
+    "P506272: register retains the official project name and identity",
+    "P506272: amount is correctly formatted as USD commitment, not payment",
+    "P506340: register retains the official project name and identity",
+    "P506340: amount is correctly formatted as USD commitment, not payment",
+    "P506976: register retains the official project name and identity",
+    "P506976: amount is correctly formatted as USD commitment, not payment",
+    "P507066: register retains the official project name and identity",
+    "P507066: amount is correctly formatted as USD commitment, not payment",
+    "P507508: register retains the official project name and identity",
+    "P507508: amount is correctly formatted as USD commitment, not payment",
+    "P507865: register retains the official project name and identity",
+    "P507865: amount is correctly formatted as USD commitment, not payment",
+    "P507910: register retains the official project name and identity",
+    "P507910: amount is correctly formatted as USD commitment, not payment",
+    "P508489: register retains the official project name and identity",
+    "P508489: amount is correctly formatted as USD commitment, not payment",
+    "P510002: register retains the official project name and identity",
+    "P510002: amount is correctly formatted as USD commitment, not payment",
+    "P510253: register retains the official project name and identity",
+    "P510253: amount is correctly formatted as USD commitment, not payment",
+    "P510429: register retains the official project name and identity",
+    "P510429: amount is correctly formatted as USD commitment, not payment",
+    "P510686: register retains the official project name and identity",
+    "P510686: amount is correctly formatted as USD commitment, not payment",
+    "P511844: register retains the official project name and identity",
+    "P511844: amount is correctly formatted as USD commitment, not payment",
+    "P513815: register retains the official project name and identity",
+    "P513815: amount is correctly formatted as USD commitment, not payment",
+    "P517201: register retains the official project name and identity",
+    "P517201: amount is correctly formatted as USD commitment, not payment",
+    "Searching an exact project ID isolates its institutional observation",
+    "Keyboard expands project variables and outcome rules",
+    "Expanded project preserves its borrower, observed status and closing date",
+    "Each retained target remains unknown, with no invented probability",
+    "Project links to its exact official World Bank identity",
+    "Unmatched project search explains the empty register",
+    "Clearing project search restores all prospective projects",
+    "Keyboard can reveal outcome rules that preserve failed observations as unknown",
+    "Research methods: section selection is visible and accessible",
+    "Methods distinguish literature guidance from training on books and from personal wrongdoing prediction",
+    "A methods citation exposes its inspected finding, application and original source through keyboard disclosure",
+    "1440px 13-node graph: page, workbench and open reader fit the viewport without horizontal overflow",
+    "1440px 13-node graph: the actual retained neighborhood draws 13 inspectable nodes",
+    "1440px 13-node graph: every node and label remains inside the scrollable SVG bounds",
+    "1440px 13-node graph: measured entity label rectangles do not overlap",
+    "1440px 13-node graph: no entity label covers a node target",
+    "1440px 13-node graph: all visible entity name and type text fits its own label card",
+    "1440px 24-node graph: page, workbench and open reader fit the viewport without horizontal overflow",
+    "1440px 24-node graph: the actual retained neighborhood draws 24 inspectable nodes",
+    "1440px 24-node graph: every node and label remains inside the scrollable SVG bounds",
+    "1440px 24-node graph: measured entity label rectangles do not overlap",
+    "1440px 24-node graph: no entity label covers a node target",
+    "1440px 24-node graph: all visible entity name and type text fits its own label card",
+    "390px 13-node graph: page, workbench and open reader fit the viewport without horizontal overflow",
+    "390px 13-node graph: the actual retained neighborhood draws 13 inspectable nodes",
+    "390px 13-node graph: every node and label remains inside the scrollable SVG bounds",
+    "390px 13-node graph: measured entity label rectangles do not overlap",
+    "390px 13-node graph: no entity label covers a node target",
+    "390px 13-node graph: all visible entity name and type text fits its own label card",
+    "390px 24-node graph: page, workbench and open reader fit the viewport without horizontal overflow",
+    "390px 24-node graph: the actual retained neighborhood draws 24 inspectable nodes",
+    "390px 24-node graph: every node and label remains inside the scrollable SVG bounds",
+    "390px 24-node graph: measured entity label rectangles do not overlap",
+    "390px 24-node graph: no entity label covers a node target",
+    "390px 24-node graph: all visible entity name and type text fits its own label card",
+    "320px 13-node graph: page, workbench and open reader fit the viewport without horizontal overflow",
+    "320px 13-node graph: the actual retained neighborhood draws 13 inspectable nodes",
+    "320px 13-node graph: every node and label remains inside the scrollable SVG bounds",
+    "320px 13-node graph: measured entity label rectangles do not overlap",
+    "320px 13-node graph: no entity label covers a node target",
+    "320px 13-node graph: all visible entity name and type text fits its own label card",
+    "320px 24-node graph: page, workbench and open reader fit the viewport without horizontal overflow",
+    "320px 24-node graph: the actual retained neighborhood draws 24 inspectable nodes",
+    "320px 24-node graph: every node and label remains inside the scrollable SVG bounds",
+    "320px 24-node graph: measured entity label rectangles do not overlap",
+    "320px 24-node graph: no entity label covers a node target",
+    "320px 24-node graph: all visible entity name and type text fits its own label card",
+    "1440px map: page, workbench and open reader fit the viewport without horizontal overflow",
+    "1440px graph: page, workbench and open reader fit the viewport without horizontal overflow",
+    "1440px source reader: page, workbench and open reader fit the viewport without horizontal overflow",
+    "Escape closes the evidence reader and clears its URL selection",
+    "Model results: section selection is visible and accessible",
+    "1440px results: page, workbench and open reader fit the viewport without horizontal overflow",
+    "Future observations: section selection is visible and accessible",
+    "1440px future observations: page, workbench and open reader fit the viewport without horizontal overflow",
+    "390px map: page, workbench and open reader fit the viewport without horizontal overflow",
+    "390px graph: page, workbench and open reader fit the viewport without horizontal overflow",
+    "390px source reader: page, workbench and open reader fit the viewport without horizontal overflow",
+    "Escape closes the evidence reader and clears its URL selection",
+    "Model results: section selection is visible and accessible",
+    "390px results: page, workbench and open reader fit the viewport without horizontal overflow",
+    "Future observations: section selection is visible and accessible",
+    "390px future observations: page, workbench and open reader fit the viewport without horizontal overflow",
+    "320px map: page, workbench and open reader fit the viewport without horizontal overflow",
+    "320px graph: page, workbench and open reader fit the viewport without horizontal overflow",
+    "320px source reader: page, workbench and open reader fit the viewport without horizontal overflow",
+    "Escape closes the evidence reader and clears its URL selection",
+    "Model results: section selection is visible and accessible",
+    "320px results: page, workbench and open reader fit the viewport without horizontal overflow",
+    "Future observations: section selection is visible and accessible",
+    "320px future observations: page, workbench and open reader fit the viewport without horizontal overflow",
+    "No browser runtime exceptions occurred in the complete workbench journey",
+    "No console errors occurred in the complete workbench journey",
+    "No failed network requests occurred in the complete workbench journey",
+    "ui-status.json: acceptance used unchanged artifact bytes throughout",
+    "investigation-runs.json: acceptance used unchanged artifact bytes throughout",
+    "graph-data.json: acceptance used unchanged artifact bytes throughout",
+    "temporal-ui-summary.json: acceptance used unchanged artifact bytes throughout"
+  ],
+  "geometryAudit": [
+    {
+      "label": "1440px 13-node graph",
+      "viewport": 1440,
+      "svg": {
+        "left": 540,
+        "top": 456.484375,
+        "right": 1408,
+        "bottom": 1171.546875,
+        "width": 868,
+        "height": 715.0625
+      },
+      "nodes": [
+        {
+          "id": "metro-defence:entity:bro",
+          "circle": {
+            "left": 871.7005615234375,
+            "top": 523.650634765625,
+            "right": 910.967041015625,
+            "bottom": 562.9171142578125,
+            "width": 39.2664794921875,
+            "height": 39.2664794921875
+          },
+          "label": {
+            "left": 583.4022827148438,
+            "top": 508.1507568359375,
+            "right": 864.46728515625,
+            "bottom": 578.4169921875,
+            "width": 281.06500244140625,
+            "height": 70.2662353515625
+          },
+          "texts": [
+            {
+              "left": 636.723876953125,
+              "top": 519.8839111328125,
+              "right": 811.145751953125,
+              "bottom": 548.3505249023438,
+              "width": 174.421875,
+              "height": 28.46661376953125
+            },
+            {
+              "left": 701.059814453125,
+              "top": 561.1170654296875,
+              "right": 747.1607666015625,
+              "bottom": 571.1170654296875,
+              "width": 46.1009521484375,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "metro-defence:entity:anuj",
+          "circle": {
+            "left": 1037.032958984375,
+            "top": 523.650634765625,
+            "right": 1076.29931640625,
+            "bottom": 562.9171142578125,
+            "width": 39.266357421875,
+            "height": 39.2664794921875
+          },
+          "label": {
+            "left": 1083.53271484375,
+            "top": 508.1507568359375,
+            "right": 1364.59765625,
+            "bottom": 578.4169921875,
+            "width": 281.06494140625,
+            "height": 70.2662353515625
+          },
+          "texts": [
+            {
+              "left": 1154.526123046875,
+              "top": 527.1172485351562,
+              "right": 1293.63427734375,
+              "bottom": 541.1172485351562,
+              "width": 139.108154296875,
+              "height": 14
+            },
+            {
+              "left": 1206.041748046875,
+              "top": 561.1170654296875,
+              "right": 1242.446533203125,
+              "bottom": 571.1170654296875,
+              "width": 36.40478515625,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "metro-defence:entity:cag",
+          "circle": {
+            "left": 871.7005615234375,
+            "top": 614.5834350585938,
+            "right": 910.967041015625,
+            "bottom": 653.849853515625,
+            "width": 39.2664794921875,
+            "height": 39.26641845703125
+          },
+          "label": {
+            "left": 583.4022827148438,
+            "top": 599.0835571289062,
+            "right": 864.46728515625,
+            "bottom": 669.3497924804688,
+            "width": 281.06500244140625,
+            "height": 70.2662353515625
+          },
+          "texts": [
+            {
+              "left": 630.0988159179688,
+              "top": 610.8167724609375,
+              "right": 818.5572509765625,
+              "bottom": 639.2833251953125,
+              "width": 188.45843505859375,
+              "height": 28.466552734375
+            },
+            {
+              "left": 701.059814453125,
+              "top": 652.0498657226562,
+              "right": 747.1607666015625,
+              "bottom": 662.0498657226562,
+              "width": 46.1009521484375,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "metro-defence:entity:d2s",
+          "circle": {
+            "left": 1037.032958984375,
+            "top": 614.5834350585938,
+            "right": 1076.29931640625,
+            "bottom": 653.849853515625,
+            "width": 39.266357421875,
+            "height": 39.26641845703125
+          },
+          "label": {
+            "left": 1083.53271484375,
+            "top": 599.0835571289062,
+            "right": 1364.59765625,
+            "bottom": 669.3497924804688,
+            "width": 281.06494140625,
+            "height": 70.2662353515625
+          },
+          "texts": [
+            {
+              "left": 1152.252685546875,
+              "top": 618.050048828125,
+              "right": 1295.91455078125,
+              "bottom": 632.050048828125,
+              "width": 143.661865234375,
+              "height": 14
+            },
+            {
+              "left": 1206.041748046875,
+              "top": 652.0498657226562,
+              "right": 1242.446533203125,
+              "bottom": 662.0498657226562,
+              "width": 36.40478515625,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "metro-defence:entity:wnc",
+          "circle": {
+            "left": 871.7005615234375,
+            "top": 705.5162353515625,
+            "right": 910.967041015625,
+            "bottom": 744.78271484375,
+            "width": 39.2664794921875,
+            "height": 39.2664794921875
+          },
+          "label": {
+            "left": 583.4022827148438,
+            "top": 690.016357421875,
+            "right": 864.46728515625,
+            "bottom": 760.2825927734375,
+            "width": 281.06500244140625,
+            "height": 70.2662353515625
+          },
+          "texts": [
+            {
+              "left": 617.4269409179688,
+              "top": 708.9828491210938,
+              "right": 830.4820556640625,
+              "bottom": 722.9827880859375,
+              "width": 213.05511474609375,
+              "height": 13.99993896484375
+            },
+            {
+              "left": 701.059814453125,
+              "top": 742.982666015625,
+              "right": 747.1607666015625,
+              "bottom": 752.982666015625,
+              "width": 46.1009521484375,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "metro-defence:entity:indt",
+          "circle": {
+            "left": 1037.032958984375,
+            "top": 705.5162353515625,
+            "right": 1076.29931640625,
+            "bottom": 744.78271484375,
+            "width": 39.266357421875,
+            "height": 39.2664794921875
+          },
+          "label": {
+            "left": 1083.53271484375,
+            "top": 690.016357421875,
+            "right": 1364.59765625,
+            "bottom": 760.2825927734375,
+            "width": 281.06494140625,
+            "height": 70.2662353515625
+          },
+          "texts": [
+            {
+              "left": 1136.979248046875,
+              "top": 708.9828491210938,
+              "right": 1311.151123046875,
+              "bottom": 722.9827880859375,
+              "width": 174.171875,
+              "height": 13.99993896484375
+            },
+            {
+              "left": 1201.190185546875,
+              "top": 742.982666015625,
+              "right": 1247.291259765625,
+              "bottom": 752.982666015625,
+              "width": 46.10107421875,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "metro-defence:entity:itbp",
+          "circle": {
+            "left": 871.7005615234375,
+            "top": 796.4490966796875,
+            "right": 910.967041015625,
+            "bottom": 835.7154541015625,
+            "width": 39.2664794921875,
+            "height": 39.266357421875
+          },
+          "label": {
+            "left": 583.4022827148438,
+            "top": 780.9491577148438,
+            "right": 864.46728515625,
+            "bottom": 851.2153930664062,
+            "width": 281.06500244140625,
+            "height": 70.2662353515625
+          },
+          "texts": [
+            {
+              "left": 652.114501953125,
+              "top": 799.9156494140625,
+              "right": 796.1257934570312,
+              "bottom": 813.9156494140625,
+              "width": 144.01129150390625,
+              "height": 14
+            },
+            {
+              "left": 701.059814453125,
+              "top": 833.9154663085938,
+              "right": 747.1607666015625,
+              "bottom": 843.9154663085938,
+              "width": 46.1009521484375,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "metro-defence:entity:jai",
+          "circle": {
+            "left": 1037.032958984375,
+            "top": 796.4490966796875,
+            "right": 1076.29931640625,
+            "bottom": 835.7154541015625,
+            "width": 39.266357421875,
+            "height": 39.266357421875
+          },
+          "label": {
+            "left": 1083.53271484375,
+            "top": 780.9491577148438,
+            "right": 1364.59765625,
+            "bottom": 851.2153930664062,
+            "width": 281.06494140625,
+            "height": 70.2662353515625
+          },
+          "texts": [
+            {
+              "left": 1152.268310546875,
+              "top": 799.9156494140625,
+              "right": 1296.58154296875,
+              "bottom": 813.9156494140625,
+              "width": 144.313232421875,
+              "height": 14
+            },
+            {
+              "left": 1206.041748046875,
+              "top": 833.9154663085938,
+              "right": 1242.446533203125,
+              "bottom": 843.9154663085938,
+              "width": 36.40478515625,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "metro-defence:entity:mdl",
+          "circle": {
+            "left": 871.7005615234375,
+            "top": 887.3818359375,
+            "right": 910.967041015625,
+            "bottom": 926.6483154296875,
+            "width": 39.2664794921875,
+            "height": 39.2664794921875
+          },
+          "label": {
+            "left": 583.4022827148438,
+            "top": 871.8819580078125,
+            "right": 864.46728515625,
+            "bottom": 942.148193359375,
+            "width": 281.06500244140625,
+            "height": 70.2662353515625
+          },
+          "texts": [
+            {
+              "left": 627.4816284179688,
+              "top": 890.8484497070312,
+              "right": 820.4193115234375,
+              "bottom": 904.848388671875,
+              "width": 192.93768310546875,
+              "height": 13.99993896484375
+            },
+            {
+              "left": 692.903564453125,
+              "top": 924.8482666015625,
+              "right": 755.319091796875,
+              "bottom": 934.8482666015625,
+              "width": 62.41552734375,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "metro-defence:entity:mha",
+          "circle": {
+            "left": 1037.032958984375,
+            "top": 887.3818359375,
+            "right": 1076.29931640625,
+            "bottom": 926.6483154296875,
+            "width": 39.266357421875,
+            "height": 39.2664794921875
+          },
+          "label": {
+            "left": 1083.53271484375,
+            "top": 871.8819580078125,
+            "right": 1364.59765625,
+            "bottom": 942.148193359375,
+            "width": 281.06494140625,
+            "height": 70.2662353515625
+          },
+          "texts": [
+            {
+              "left": 1158.822998046875,
+              "top": 890.8484497070312,
+              "right": 1289.307373046875,
+              "bottom": 904.848388671875,
+              "width": 130.484375,
+              "height": 13.99993896484375
+            },
+            {
+              "left": 1201.190185546875,
+              "top": 924.8482666015625,
+              "right": 1247.291259765625,
+              "bottom": 934.8482666015625,
+              "width": 46.10107421875,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "metro-defence:entity:npcc",
+          "circle": {
+            "left": 871.7005615234375,
+            "top": 978.314697265625,
+            "right": 910.967041015625,
+            "bottom": 1017.5811157226562,
+            "width": 39.2664794921875,
+            "height": 39.26641845703125
+          },
+          "label": {
+            "left": 583.4022827148438,
+            "top": 962.8147583007812,
+            "right": 864.46728515625,
+            "bottom": 1033.0810546875,
+            "width": 281.06500244140625,
+            "height": 70.26629638671875
+          },
+          "texts": [
+            {
+              "left": 642.3956909179688,
+              "top": 974.5479736328125,
+              "right": 805.473876953125,
+              "bottom": 1003.0145874023438,
+              "width": 163.07818603515625,
+              "height": 28.46661376953125
+            },
+            {
+              "left": 692.903564453125,
+              "top": 1015.7810668945312,
+              "right": 755.319091796875,
+              "bottom": 1025.781005859375,
+              "width": 62.41552734375,
+              "height": 9.99993896484375
+            }
+          ]
+        },
+        {
+          "id": "metro-defence:entity:jehlum",
+          "circle": {
+            "left": 1037.032958984375,
+            "top": 978.314697265625,
+            "right": 1076.29931640625,
+            "bottom": 1017.5811157226562,
+            "width": 39.266357421875,
+            "height": 39.26641845703125
+          },
+          "label": {
+            "left": 1083.53271484375,
+            "top": 962.8147583007812,
+            "right": 1364.59765625,
+            "bottom": 1033.0810546875,
+            "width": 281.06494140625,
+            "height": 70.26629638671875
+          },
+          "texts": [
+            {
+              "left": 1142.377685546875,
+              "top": 981.78125,
+              "right": 1306.367919921875,
+              "bottom": 995.78125,
+              "width": 163.990234375,
+              "height": 14
+            },
+            {
+              "left": 1206.041748046875,
+              "top": 1015.7810668945312,
+              "right": 1242.446533203125,
+              "bottom": 1025.781005859375,
+              "width": 36.40478515625,
+              "height": 9.99993896484375
+            }
+          ]
+        },
+        {
+          "id": "metro-defence:entity:ssb",
+          "circle": {
+            "left": 871.7005615234375,
+            "top": 1069.24755859375,
+            "right": 910.967041015625,
+            "bottom": 1108.513916015625,
+            "width": 39.2664794921875,
+            "height": 39.266357421875
+          },
+          "label": {
+            "left": 583.4022827148438,
+            "top": 1053.74755859375,
+            "right": 864.46728515625,
+            "bottom": 1124.0137939453125,
+            "width": 281.06500244140625,
+            "height": 70.2662353515625
+          },
+          "texts": [
+            {
+              "left": 667.458251953125,
+              "top": 1072.714111328125,
+              "right": 780.411376953125,
+              "bottom": 1086.714111328125,
+              "width": 112.953125,
+              "height": 14
+            },
+            {
+              "left": 701.059814453125,
+              "top": 1106.7138671875,
+              "right": 747.1607666015625,
+              "bottom": 1116.7138671875,
+              "width": 46.1009521484375,
+              "height": 10
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "1440px 24-node graph",
+      "viewport": 1440,
+      "svg": {
+        "left": 540,
+        "top": 131.484375,
+        "right": 1408,
+        "bottom": 1301.203125,
+        "width": 868,
+        "height": 1169.71875
+      },
+      "nodes": [
+        {
+          "id": "justice-research:entity:supreme-court",
+          "circle": {
+            "left": 871.7012939453125,
+            "top": 198.65020751953125,
+            "right": 910.9674072265625,
+            "bottom": 237.9163818359375,
+            "width": 39.26611328125,
+            "height": 39.26617431640625
+          },
+          "label": {
+            "left": 583.4048461914062,
+            "top": 183.150390625,
+            "right": 864.468017578125,
+            "bottom": 253.41619873046875,
+            "width": 281.06317138671875,
+            "height": 70.26580810546875
+          },
+          "texts": [
+            {
+              "left": 661.5927124023438,
+              "top": 202.11669921875,
+              "right": 786.2802124023438,
+              "bottom": 216.11669921875,
+              "width": 124.6875,
+              "height": 14
+            },
+            {
+              "left": 713.6942749023438,
+              "top": 236.11630249023438,
+              "right": 734.4674072265625,
+              "bottom": 246.11630249023438,
+              "width": 20.77313232421875,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "justice-research:entity:decision-vishal-tiwari-judgment",
+          "circle": {
+            "left": 1037.0325927734375,
+            "top": 198.65020751953125,
+            "right": 1076.2987060546875,
+            "bottom": 237.9163818359375,
+            "width": 39.26611328125,
+            "height": 39.26617431640625
+          },
+          "label": {
+            "left": 1083.531982421875,
+            "top": 183.150390625,
+            "right": 1364.59521484375,
+            "bottom": 253.41619873046875,
+            "width": 281.063232421875,
+            "height": 70.26580810546875
+          },
+          "texts": [
+            {
+              "left": 1133.6884765625,
+              "top": 194.88345336914062,
+              "right": 1315.158203125,
+              "bottom": 223.3499298095703,
+              "width": 181.4697265625,
+              "height": 28.466476440429688
+            },
+            {
+              "left": 1204.7587890625,
+              "top": 236.11630249023438,
+              "right": 1242.6572265625,
+              "bottom": 246.11630249023438,
+              "width": 37.8984375,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "justice-research:entity:decision-adicorp-order",
+          "circle": {
+            "left": 871.7012939453125,
+            "top": 289.5823974609375,
+            "right": 910.9674072265625,
+            "bottom": 328.84857177734375,
+            "width": 39.26611328125,
+            "height": 39.26617431640625
+          },
+          "label": {
+            "left": 583.4048461914062,
+            "top": 274.08258056640625,
+            "right": 864.468017578125,
+            "bottom": 344.348388671875,
+            "width": 281.06317138671875,
+            "height": 70.26580810546875
+          },
+          "texts": [
+            {
+              "left": 652.4442749023438,
+              "top": 285.8156433105469,
+              "right": 795.4683837890625,
+              "bottom": 314.2821350097656,
+              "width": 143.02410888671875,
+              "height": 28.46649169921875
+            },
+            {
+              "left": 692.4364624023438,
+              "top": 327.04852294921875,
+              "right": 755.4364624023438,
+              "bottom": 337.04852294921875,
+              "width": 63,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "justice-research:entity:kejriwal",
+          "circle": {
+            "left": 1037.0325927734375,
+            "top": 289.5823974609375,
+            "right": 1076.2987060546875,
+            "bottom": 328.84857177734375,
+            "width": 39.26611328125,
+            "height": 39.26617431640625
+          },
+          "label": {
+            "left": 1083.531982421875,
+            "top": 274.08258056640625,
+            "right": 1364.59521484375,
+            "bottom": 344.348388671875,
+            "width": 281.063232421875,
+            "height": 70.26580810546875
+          },
+          "texts": [
+            {
+              "left": 1183.8525390625,
+              "top": 293.04888916015625,
+              "right": 1264.2744140625,
+              "bottom": 307.04888916015625,
+              "width": 80.421875,
+              "height": 14
+            },
+            {
+              "left": 1210.4854736328125,
+              "top": 327.04852294921875,
+              "right": 1237.75390625,
+              "bottom": 337.04852294921875,
+              "width": 27.2684326171875,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "justice-research:entity:ashok-bhushan",
+          "circle": {
+            "left": 871.7012939453125,
+            "top": 380.51458740234375,
+            "right": 910.9674072265625,
+            "bottom": 419.7807922363281,
+            "width": 39.26611328125,
+            "height": 39.266204833984375
+          },
+          "label": {
+            "left": 583.4048461914062,
+            "top": 365.0148010253906,
+            "right": 864.468017578125,
+            "bottom": 435.28057861328125,
+            "width": 281.06317138671875,
+            "height": 70.26577758789062
+          },
+          "texts": [
+            {
+              "left": 682.2020874023438,
+              "top": 383.9810791015625,
+              "right": 765.6708374023438,
+              "bottom": 397.9810791015625,
+              "width": 83.46875,
+              "height": 14
+            },
+            {
+              "left": 710.3583374023438,
+              "top": 417.980712890625,
+              "right": 737.6268920898438,
+              "bottom": 427.980712890625,
+              "width": 27.2685546875,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "justice-research:entity:adr",
+          "circle": {
+            "left": 1037.0325927734375,
+            "top": 380.51458740234375,
+            "right": 1076.2987060546875,
+            "bottom": 419.7807922363281,
+            "width": 39.26611328125,
+            "height": 39.266204833984375
+          },
+          "label": {
+            "left": 1083.531982421875,
+            "top": 365.0148010253906,
+            "right": 1364.59521484375,
+            "bottom": 435.28057861328125,
+            "width": 281.063232421875,
+            "height": 70.26577758789062
+          },
+          "texts": [
+            {
+              "left": 1127.3995361328125,
+              "top": 383.9810791015625,
+              "right": 1320.7293701171875,
+              "bottom": 397.9810791015625,
+              "width": 193.329833984375,
+              "height": 14
+            },
+            {
+              "left": 1200.0635986328125,
+              "top": 417.980712890625,
+              "right": 1248.1744384765625,
+              "bottom": 427.980712890625,
+              "width": 48.11083984375,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "justice-research:entity:common-cause",
+          "circle": {
+            "left": 871.7012939453125,
+            "top": 471.4468078613281,
+            "right": 910.9674072265625,
+            "bottom": 510.7129821777344,
+            "width": 39.26611328125,
+            "height": 39.26617431640625
+          },
+          "label": {
+            "left": 583.4048461914062,
+            "top": 455.9469909667969,
+            "right": 864.468017578125,
+            "bottom": 526.2127685546875,
+            "width": 281.06317138671875,
+            "height": 70.26577758789062
+          },
+          "texts": [
+            {
+              "left": 681.0614624023438,
+              "top": 474.9132995605469,
+              "right": 767.177734375,
+              "bottom": 488.9132995605469,
+              "width": 86.11627197265625,
+              "height": 14
+            },
+            {
+              "left": 699.9364624023438,
+              "top": 508.91290283203125,
+              "right": 748.04736328125,
+              "bottom": 518.9129028320312,
+              "width": 48.11090087890625,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "justice-research:entity:dy-chandrachud",
+          "circle": {
+            "left": 1037.0325927734375,
+            "top": 471.4468078613281,
+            "right": 1076.2987060546875,
+            "bottom": 510.7129821777344,
+            "width": 39.26611328125,
+            "height": 39.26617431640625
+          },
+          "label": {
+            "left": 1083.531982421875,
+            "top": 455.9469909667969,
+            "right": 1364.59521484375,
+            "bottom": 526.2127685546875,
+            "width": 281.063232421875,
+            "height": 70.26577758789062
+          },
+          "texts": [
+            {
+              "left": 1147.8837890625,
+              "top": 474.9132995605469,
+              "right": 1300.276123046875,
+              "bottom": 488.9132995605469,
+              "width": 152.392333984375,
+              "height": 14
+            },
+            {
+              "left": 1210.4854736328125,
+              "top": 508.91290283203125,
+              "right": 1237.75390625,
+              "bottom": 518.9129028320312,
+              "width": 27.2684326171875,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "justice-research:entity:ed",
+          "circle": {
+            "left": 871.7012939453125,
+            "top": 562.3790283203125,
+            "right": 910.9674072265625,
+            "bottom": 601.6451416015625,
+            "width": 39.26611328125,
+            "height": 39.26611328125
+          },
+          "label": {
+            "left": 583.4048461914062,
+            "top": 546.879150390625,
+            "right": 864.468017578125,
+            "bottom": 617.14501953125,
+            "width": 281.06317138671875,
+            "height": 70.265869140625
+          },
+          "texts": [
+            {
+              "left": 651.2958374023438,
+              "top": 565.845458984375,
+              "right": 796.8553466796875,
+              "bottom": 579.845458984375,
+              "width": 145.55950927734375,
+              "height": 14
+            },
+            {
+              "left": 706.5770874023438,
+              "top": 599.8450927734375,
+              "right": 741.6568603515625,
+              "bottom": 609.8450927734375,
+              "width": 35.07977294921875,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "justice-research:entity:eci",
+          "circle": {
+            "left": 1037.0325927734375,
+            "top": 562.3790283203125,
+            "right": 1076.2987060546875,
+            "bottom": 601.6451416015625,
+            "width": 39.26611328125,
+            "height": 39.26611328125
+          },
+          "label": {
+            "left": 1083.531982421875,
+            "top": 546.879150390625,
+            "right": 1364.59521484375,
+            "bottom": 617.14501953125,
+            "width": 281.063232421875,
+            "height": 70.265869140625
+          },
+          "texts": [
+            {
+              "left": 1146.4853515625,
+              "top": 565.845458984375,
+              "right": 1301.6416015625,
+              "bottom": 579.845458984375,
+              "width": 155.15625,
+              "height": 14
+            },
+            {
+              "left": 1206.7041015625,
+              "top": 599.8450927734375,
+              "right": 1241.783935546875,
+              "bottom": 609.8450927734375,
+              "width": 35.079833984375,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "justice-research:entity:decision-electoral-bonds-judgment",
+          "circle": {
+            "left": 871.7012939453125,
+            "top": 653.3112182617188,
+            "right": 910.9674072265625,
+            "bottom": 692.577392578125,
+            "width": 39.26611328125,
+            "height": 39.26617431640625
+          },
+          "label": {
+            "left": 583.4048461914062,
+            "top": 637.8114013671875,
+            "right": 864.468017578125,
+            "bottom": 708.0772094726562,
+            "width": 281.06317138671875,
+            "height": 70.26580810546875
+          },
+          "texts": [
+            {
+              "left": 641.3817749023438,
+              "top": 649.54443359375,
+              "right": 806.4911499023438,
+              "bottom": 678.0109252929688,
+              "width": 165.109375,
+              "height": 28.46649169921875
+            },
+            {
+              "left": 704.6317749023438,
+              "top": 690.77734375,
+              "right": 742.5300903320312,
+              "bottom": 700.7772827148438,
+              "width": 37.8983154296875,
+              "height": 9.99993896484375
+            }
+          ]
+        },
+        {
+          "id": "justice-research:entity:decision-electoral-bonds-sit-order",
+          "circle": {
+            "left": 1037.0325927734375,
+            "top": 653.3112182617188,
+            "right": 1076.2987060546875,
+            "bottom": 692.577392578125,
+            "width": 39.26611328125,
+            "height": 39.26617431640625
+          },
+          "label": {
+            "left": 1083.531982421875,
+            "top": 637.8114013671875,
+            "right": 1364.59521484375,
+            "bottom": 708.0772094726562,
+            "width": 281.063232421875,
+            "height": 70.26580810546875
+          },
+          "texts": [
+            {
+              "left": 1145.8759765625,
+              "top": 642.3111572265625,
+              "right": 1302.2509765625,
+              "bottom": 685.2442016601562,
+              "width": 156.375,
+              "height": 42.93304443359375
+            },
+            {
+              "left": 1204.7587890625,
+              "top": 690.77734375,
+              "right": 1242.6572265625,
+              "bottom": 700.7772827148438,
+              "width": 37.8984375,
+              "height": 9.99993896484375
+            }
+          ]
+        },
+        {
+          "id": "justice-research:entity:decision-sbi-disclosure-order",
+          "circle": {
+            "left": 871.7012939453125,
+            "top": 744.243408203125,
+            "right": 910.9674072265625,
+            "bottom": 783.5095825195312,
+            "width": 39.26611328125,
+            "height": 39.26617431640625
+          },
+          "label": {
+            "left": 583.4048461914062,
+            "top": 728.7435913085938,
+            "right": 864.468017578125,
+            "bottom": 799.0093994140625,
+            "width": 281.06317138671875,
+            "height": 70.26580810546875
+          },
+          "texts": [
+            {
+              "left": 632.8583374023438,
+              "top": 740.4766845703125,
+              "right": 815.2860107421875,
+              "bottom": 768.943115234375,
+              "width": 182.42767333984375,
+              "height": 28.4664306640625
+            },
+            {
+              "left": 704.6317749023438,
+              "top": 781.7095336914062,
+              "right": 742.5300903320312,
+              "bottom": 791.70947265625,
+              "width": 37.8983154296875,
+              "height": 9.99993896484375
+            }
+          ]
+        },
+        {
+          "id": "justice-research:entity:decision-kerala-borrowing-order",
+          "circle": {
+            "left": 1037.0325927734375,
+            "top": 744.243408203125,
+            "right": 1076.2987060546875,
+            "bottom": 783.5095825195312,
+            "width": 39.26611328125,
+            "height": 39.26617431640625
+          },
+          "label": {
+            "left": 1083.531982421875,
+            "top": 728.7435913085938,
+            "right": 1364.59521484375,
+            "bottom": 799.0093994140625,
+            "width": 281.063232421875,
+            "height": 70.26580810546875
+          },
+          "texts": [
+            {
+              "left": 1137.6025390625,
+              "top": 740.4766845703125,
+              "right": 1310.560791015625,
+              "bottom": 768.943115234375,
+              "width": 172.958251953125,
+              "height": 28.4664306640625
+            },
+            {
+              "left": 1204.7587890625,
+              "top": 781.7095336914062,
+              "right": 1242.6572265625,
+              "bottom": 791.70947265625,
+              "width": 37.8984375,
+              "height": 9.99993896484375
+            }
+          ]
+        },
+        {
+          "id": "justice-research:entity:decision-sita-soren-immunity",
+          "circle": {
+            "left": 871.7012939453125,
+            "top": 835.1755981445312,
+            "right": 910.9674072265625,
+            "bottom": 874.4417724609375,
+            "width": 39.26611328125,
+            "height": 39.26617431640625
+          },
+          "label": {
+            "left": 583.4048461914062,
+            "top": 819.67578125,
+            "right": 864.468017578125,
+            "bottom": 889.9415893554688,
+            "width": 281.06317138671875,
+            "height": 70.26580810546875
+          },
+          "texts": [
+            {
+              "left": 633.7255249023438,
+              "top": 831.4088745117188,
+              "right": 814.8679809570312,
+              "bottom": 859.8753051757812,
+              "width": 181.1424560546875,
+              "height": 28.4664306640625
+            },
+            {
+              "left": 704.6317749023438,
+              "top": 872.6417236328125,
+              "right": 742.5300903320312,
+              "bottom": 882.6416625976562,
+              "width": 37.8983154296875,
+              "height": 9.99993896484375
+            }
+          ]
+        },
+        {
+          "id": "justice-research:entity:decision-milestone-order",
+          "circle": {
+            "left": 1037.0325927734375,
+            "top": 835.1755981445312,
+            "right": 1076.2987060546875,
+            "bottom": 874.4417724609375,
+            "width": 39.26611328125,
+            "height": 39.26617431640625
+          },
+          "label": {
+            "left": 1083.531982421875,
+            "top": 819.67578125,
+            "right": 1364.59521484375,
+            "bottom": 889.9415893554688,
+            "width": 281.063232421875,
+            "height": 70.26580810546875
+          },
+          "texts": [
+            {
+              "left": 1127.1962890625,
+              "top": 831.4088745117188,
+              "right": 1320.9307861328125,
+              "bottom": 859.8753051757812,
+              "width": 193.7344970703125,
+              "height": 28.4664306640625
+            },
+            {
+              "left": 1192.5634765625,
+              "top": 872.6417236328125,
+              "right": 1255.5634765625,
+              "bottom": 882.6416625976562,
+              "width": 63,
+              "height": 9.99993896484375
+            }
+          ]
+        },
+        {
+          "id": "justice-research:entity:ndrf",
+          "circle": {
+            "left": 871.7012939453125,
+            "top": 926.1077880859375,
+            "right": 910.9674072265625,
+            "bottom": 965.3739624023438,
+            "width": 39.26611328125,
+            "height": 39.26617431640625
+          },
+          "label": {
+            "left": 583.4048461914062,
+            "top": 910.6079711914062,
+            "right": 864.468017578125,
+            "bottom": 980.873779296875,
+            "width": 281.06317138671875,
+            "height": 70.26580810546875
+          },
+          "texts": [
+            {
+              "left": 635.4208374023438,
+              "top": 929.5742797851562,
+              "right": 812.4953002929688,
+              "bottom": 943.5742797851562,
+              "width": 177.074462890625,
+              "height": 14
+            },
+            {
+              "left": 715.0067749023438,
+              "top": 963.5739135742188,
+              "right": 732.8661499023438,
+              "bottom": 973.5738525390625,
+              "width": 17.859375,
+              "height": 9.99993896484375
+            }
+          ]
+        },
+        {
+          "id": "justice-research:entity:decision-pmcares-judgment",
+          "circle": {
+            "left": 1037.0325927734375,
+            "top": 926.1077880859375,
+            "right": 1076.2987060546875,
+            "bottom": 965.3739624023438,
+            "width": 39.26611328125,
+            "height": 39.26617431640625
+          },
+          "label": {
+            "left": 1083.531982421875,
+            "top": 910.6079711914062,
+            "right": 1364.59521484375,
+            "bottom": 980.873779296875,
+            "width": 281.063232421875,
+            "height": 70.26580810546875
+          },
+          "texts": [
+            {
+              "left": 1122.1182861328125,
+              "top": 922.341064453125,
+              "right": 1326.0087890625,
+              "bottom": 950.8075561523438,
+              "width": 203.8905029296875,
+              "height": 28.46649169921875
+            },
+            {
+              "left": 1204.7587890625,
+              "top": 963.5739135742188,
+              "right": 1242.6572265625,
+              "bottom": 973.5738525390625,
+              "width": 37.8984375,
+              "height": 9.99993896484375
+            }
+          ]
+        },
+        {
+          "id": "justice-research:entity:pmcares",
+          "circle": {
+            "left": 871.7012939453125,
+            "top": 1017.0399780273438,
+            "right": 910.9674072265625,
+            "bottom": 1056.30615234375,
+            "width": 39.26611328125,
+            "height": 39.26617431640625
+          },
+          "label": {
+            "left": 583.4048461914062,
+            "top": 1001.5402221679688,
+            "right": 864.468017578125,
+            "bottom": 1071.805908203125,
+            "width": 281.06317138671875,
+            "height": 70.26568603515625
+          },
+          "texts": [
+            {
+              "left": 679.9598999023438,
+              "top": 1020.5064697265625,
+              "right": 767.9564208984375,
+              "bottom": 1034.5064697265625,
+              "width": 87.99652099609375,
+              "height": 14
+            },
+            {
+              "left": 715.0067749023438,
+              "top": 1054.506103515625,
+              "right": 732.8661499023438,
+              "bottom": 1064.506103515625,
+              "width": 17.859375,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "justice-research:entity:decision-kejriwal-arrest-review",
+          "circle": {
+            "left": 1037.0325927734375,
+            "top": 1017.0399780273438,
+            "right": 1076.2987060546875,
+            "bottom": 1056.30615234375,
+            "width": 39.26611328125,
+            "height": 39.26617431640625
+          },
+          "label": {
+            "left": 1083.531982421875,
+            "top": 1001.5402221679688,
+            "right": 1364.59521484375,
+            "bottom": 1071.805908203125,
+            "width": 281.063232421875,
+            "height": 70.26568603515625
+          },
+          "texts": [
+            {
+              "left": 1131.5322265625,
+              "top": 1013.2732543945312,
+              "right": 1317.2041015625,
+              "bottom": 1041.73974609375,
+              "width": 185.671875,
+              "height": 28.46649169921875
+            },
+            {
+              "left": 1204.7587890625,
+              "top": 1054.506103515625,
+              "right": 1242.6572265625,
+              "bottom": 1064.506103515625,
+              "width": 37.8984375,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "justice-research:entity:sanjiv-khanna",
+          "circle": {
+            "left": 871.7012939453125,
+            "top": 1107.97216796875,
+            "right": 910.9674072265625,
+            "bottom": 1147.2384033203125,
+            "width": 39.26611328125,
+            "height": 39.2662353515625
+          },
+          "label": {
+            "left": 583.4048461914062,
+            "top": 1092.472412109375,
+            "right": 864.468017578125,
+            "bottom": 1162.7381591796875,
+            "width": 281.06317138671875,
+            "height": 70.2657470703125
+          },
+          "texts": [
+            {
+              "left": 685.9364624023438,
+              "top": 1111.438720703125,
+              "right": 761.9364624023438,
+              "bottom": 1125.438720703125,
+              "width": 76,
+              "height": 14
+            },
+            {
+              "left": 710.3583374023438,
+              "top": 1145.4383544921875,
+              "right": 737.6268920898438,
+              "bottom": 1155.438232421875,
+              "width": 27.2685546875,
+              "height": 9.9998779296875
+            }
+          ]
+        },
+        {
+          "id": "justice-research:entity:sebi",
+          "circle": {
+            "left": 1037.0325927734375,
+            "top": 1107.97216796875,
+            "right": 1076.2987060546875,
+            "bottom": 1147.2384033203125,
+            "width": 39.26611328125,
+            "height": 39.2662353515625
+          },
+          "label": {
+            "left": 1083.531982421875,
+            "top": 1092.472412109375,
+            "right": 1364.59521484375,
+            "bottom": 1162.7381591796875,
+            "width": 281.063232421875,
+            "height": 70.2657470703125
+          },
+          "texts": [
+            {
+              "left": 1133.2509765625,
+              "top": 1104.20556640625,
+              "right": 1315.66357421875,
+              "bottom": 1132.671875,
+              "width": 182.41259765625,
+              "height": 28.46630859375
+            },
+            {
+              "left": 1206.5478515625,
+              "top": 1145.4383544921875,
+              "right": 1241.5791015625,
+              "bottom": 1155.438232421875,
+              "width": 35.03125,
+              "height": 9.9998779296875
+            }
+          ]
+        },
+        {
+          "id": "justice-research:entity:sita-soren",
+          "circle": {
+            "left": 871.7012939453125,
+            "top": 1198.9044189453125,
+            "right": 910.9674072265625,
+            "bottom": 1238.1705322265625,
+            "width": 39.26611328125,
+            "height": 39.26611328125
+          },
+          "label": {
+            "left": 583.4048461914062,
+            "top": 1183.404541015625,
+            "right": 864.468017578125,
+            "bottom": 1253.67041015625,
+            "width": 281.06317138671875,
+            "height": 70.265869140625
+          },
+          "texts": [
+            {
+              "left": 696.4833374023438,
+              "top": 1202.3709716796875,
+              "right": 751.3895874023438,
+              "bottom": 1216.3709716796875,
+              "width": 54.90625,
+              "height": 14
+            },
+            {
+              "left": 710.3583374023438,
+              "top": 1236.3704833984375,
+              "right": 737.6268920898438,
+              "bottom": 1246.3704833984375,
+              "width": 27.2685546875,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "justice-research:entity:sbi",
+          "circle": {
+            "left": 1037.0325927734375,
+            "top": 1198.9044189453125,
+            "right": 1076.2987060546875,
+            "bottom": 1238.1705322265625,
+            "width": 39.26611328125,
+            "height": 39.26611328125
+          },
+          "label": {
+            "left": 1083.531982421875,
+            "top": 1183.404541015625,
+            "right": 1364.59521484375,
+            "bottom": 1253.67041015625,
+            "width": 281.063232421875,
+            "height": 70.265869140625
+          },
+          "texts": [
+            {
+              "left": 1173.6259765625,
+              "top": 1202.3709716796875,
+              "right": 1274.5009765625,
+              "bottom": 1216.3709716796875,
+              "width": 100.875,
+              "height": 14
+            },
+            {
+              "left": 1214.4775390625,
+              "top": 1236.3704833984375,
+              "right": 1234.1165771484375,
+              "bottom": 1246.3704833984375,
+              "width": 19.6390380859375,
+              "height": 10
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "390px 13-node graph",
+      "viewport": 390,
+      "svg": {
+        "left": 15,
+        "top": 1172.203125,
+        "right": 855,
+        "bottom": 1864.203125,
+        "width": 840,
+        "height": 692
+      },
+      "nodes": [
+        {
+          "id": "metro-defence:entity:bro",
+          "circle": {
+            "left": 336,
+            "top": 1237.203125,
+            "right": 374,
+            "bottom": 1275.203125,
+            "width": 38,
+            "height": 38
+          },
+          "label": {
+            "left": 57,
+            "top": 1222.203125,
+            "right": 329,
+            "bottom": 1290.203125,
+            "width": 272,
+            "height": 68
+          },
+          "texts": [
+            {
+              "left": 108.5546875,
+              "top": 1233.203125,
+              "right": 277.4794921875,
+              "bottom": 1261.203125,
+              "width": 168.9248046875,
+              "height": 28
+            },
+            {
+              "left": 170.8203125,
+              "top": 1273.203125,
+              "right": 215.67578125,
+              "bottom": 1283.203125,
+              "width": 44.85546875,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "metro-defence:entity:anuj",
+          "circle": {
+            "left": 496,
+            "top": 1237.203125,
+            "right": 534,
+            "bottom": 1275.203125,
+            "width": 38,
+            "height": 38
+          },
+          "label": {
+            "left": 541,
+            "top": 1222.203125,
+            "right": 813,
+            "bottom": 1290.203125,
+            "width": 272,
+            "height": 68
+          },
+          "texts": [
+            {
+              "left": 609.6640625,
+              "top": 1240.203125,
+              "right": 744.3359375,
+              "bottom": 1254.203125,
+              "width": 134.671875,
+              "height": 14
+            },
+            {
+              "left": 659.5234375,
+              "top": 1273.203125,
+              "right": 694.9765625,
+              "bottom": 1283.203125,
+              "width": 35.453125,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "metro-defence:entity:cag",
+          "circle": {
+            "left": 336,
+            "top": 1325.203125,
+            "right": 374,
+            "bottom": 1363.203125,
+            "width": 38,
+            "height": 38
+          },
+          "label": {
+            "left": 57,
+            "top": 1310.203125,
+            "right": 329,
+            "bottom": 1378.203125,
+            "width": 272,
+            "height": 68
+          },
+          "texts": [
+            {
+              "left": 102.1328125,
+              "top": 1321.203125,
+              "right": 283.8671875,
+              "bottom": 1349.203125,
+              "width": 181.734375,
+              "height": 28
+            },
+            {
+              "left": 170.8203125,
+              "top": 1361.203125,
+              "right": 215.67578125,
+              "bottom": 1371.203125,
+              "width": 44.85546875,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "metro-defence:entity:d2s",
+          "circle": {
+            "left": 496,
+            "top": 1325.203125,
+            "right": 534,
+            "bottom": 1363.203125,
+            "width": 38,
+            "height": 38
+          },
+          "label": {
+            "left": 541,
+            "top": 1310.203125,
+            "right": 813,
+            "bottom": 1378.203125,
+            "width": 272,
+            "height": 68
+          },
+          "texts": [
+            {
+              "left": 607.4609375,
+              "top": 1328.203125,
+              "right": 746.5390625,
+              "bottom": 1342.203125,
+              "width": 139.078125,
+              "height": 14
+            },
+            {
+              "left": 659.5234375,
+              "top": 1361.203125,
+              "right": 694.9765625,
+              "bottom": 1371.203125,
+              "width": 35.453125,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "metro-defence:entity:wnc",
+          "circle": {
+            "left": 336,
+            "top": 1413.203125,
+            "right": 374,
+            "bottom": 1451.203125,
+            "width": 38,
+            "height": 38
+          },
+          "label": {
+            "left": 57,
+            "top": 1398.203125,
+            "right": 329,
+            "bottom": 1466.203125,
+            "width": 272,
+            "height": 68
+          },
+          "texts": [
+            {
+              "left": 89.859375,
+              "top": 1416.203125,
+              "right": 296.140625,
+              "bottom": 1430.203125,
+              "width": 206.28125,
+              "height": 14
+            },
+            {
+              "left": 170.8203125,
+              "top": 1449.203125,
+              "right": 215.67578125,
+              "bottom": 1459.203125,
+              "width": 44.85546875,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "metro-defence:entity:indt",
+          "circle": {
+            "left": 496,
+            "top": 1413.203125,
+            "right": 534,
+            "bottom": 1451.203125,
+            "width": 38,
+            "height": 38
+          },
+          "label": {
+            "left": 541,
+            "top": 1398.203125,
+            "right": 813,
+            "bottom": 1466.203125,
+            "width": 272,
+            "height": 68
+          },
+          "texts": [
+            {
+              "left": 592.671875,
+              "top": 1416.203125,
+              "right": 761.328125,
+              "bottom": 1430.203125,
+              "width": 168.65625,
+              "height": 14
+            },
+            {
+              "left": 654.8203125,
+              "top": 1449.203125,
+              "right": 699.67578125,
+              "bottom": 1459.203125,
+              "width": 44.85546875,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "metro-defence:entity:itbp",
+          "circle": {
+            "left": 336,
+            "top": 1501.203125,
+            "right": 374,
+            "bottom": 1539.203125,
+            "width": 38,
+            "height": 38
+          },
+          "label": {
+            "left": 57,
+            "top": 1486.203125,
+            "right": 329,
+            "bottom": 1554.203125,
+            "width": 272,
+            "height": 68
+          },
+          "texts": [
+            {
+              "left": 123.453125,
+              "top": 1504.203125,
+              "right": 262.546875,
+              "bottom": 1518.203125,
+              "width": 139.09375,
+              "height": 14
+            },
+            {
+              "left": 170.8203125,
+              "top": 1537.203125,
+              "right": 215.67578125,
+              "bottom": 1547.203125,
+              "width": 44.85546875,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "metro-defence:entity:jai",
+          "circle": {
+            "left": 496,
+            "top": 1501.203125,
+            "right": 534,
+            "bottom": 1539.203125,
+            "width": 38,
+            "height": 38
+          },
+          "label": {
+            "left": 541,
+            "top": 1486.203125,
+            "right": 813,
+            "bottom": 1554.203125,
+            "width": 272,
+            "height": 68
+          },
+          "texts": [
+            {
+              "left": 607.4765625,
+              "top": 1504.203125,
+              "right": 746.5234375,
+              "bottom": 1518.203125,
+              "width": 139.046875,
+              "height": 14
+            },
+            {
+              "left": 659.5234375,
+              "top": 1537.203125,
+              "right": 694.9765625,
+              "bottom": 1547.203125,
+              "width": 35.453125,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "metro-defence:entity:mdl",
+          "circle": {
+            "left": 336,
+            "top": 1589.203125,
+            "right": 374,
+            "bottom": 1627.203125,
+            "width": 38,
+            "height": 38
+          },
+          "label": {
+            "left": 57,
+            "top": 1574.203125,
+            "right": 329,
+            "bottom": 1642.203125,
+            "width": 272,
+            "height": 68
+          },
+          "texts": [
+            {
+              "left": 99.6015625,
+              "top": 1592.203125,
+              "right": 286.3984375,
+              "bottom": 1606.203125,
+              "width": 186.796875,
+              "height": 14
+            },
+            {
+              "left": 162.9140625,
+              "top": 1625.203125,
+              "right": 223.58984375,
+              "bottom": 1635.203125,
+              "width": 60.67578125,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "metro-defence:entity:mha",
+          "circle": {
+            "left": 496,
+            "top": 1589.203125,
+            "right": 534,
+            "bottom": 1627.203125,
+            "width": 38,
+            "height": 38
+          },
+          "label": {
+            "left": 541,
+            "top": 1574.203125,
+            "right": 813,
+            "bottom": 1642.203125,
+            "width": 272,
+            "height": 68
+          },
+          "texts": [
+            {
+              "left": 613.8203125,
+              "top": 1592.203125,
+              "right": 740.36376953125,
+              "bottom": 1606.203125,
+              "width": 126.54345703125,
+              "height": 14
+            },
+            {
+              "left": 654.8203125,
+              "top": 1625.203125,
+              "right": 699.67578125,
+              "bottom": 1635.203125,
+              "width": 44.85546875,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "metro-defence:entity:npcc",
+          "circle": {
+            "left": 336,
+            "top": 1677.203125,
+            "right": 374,
+            "bottom": 1715.203125,
+            "width": 38,
+            "height": 38
+          },
+          "label": {
+            "left": 57,
+            "top": 1662.203125,
+            "right": 329,
+            "bottom": 1730.203125,
+            "width": 272,
+            "height": 68
+          },
+          "texts": [
+            {
+              "left": 114.0390625,
+              "top": 1673.203125,
+              "right": 271.9609375,
+              "bottom": 1701.203125,
+              "width": 157.921875,
+              "height": 28
+            },
+            {
+              "left": 162.9140625,
+              "top": 1713.203125,
+              "right": 223.58984375,
+              "bottom": 1723.203125,
+              "width": 60.67578125,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "metro-defence:entity:jehlum",
+          "circle": {
+            "left": 496,
+            "top": 1677.203125,
+            "right": 534,
+            "bottom": 1715.203125,
+            "width": 38,
+            "height": 38
+          },
+          "label": {
+            "left": 541,
+            "top": 1662.203125,
+            "right": 813,
+            "bottom": 1730.203125,
+            "width": 272,
+            "height": 68
+          },
+          "texts": [
+            {
+              "left": 597.890625,
+              "top": 1680.203125,
+              "right": 756.109375,
+              "bottom": 1694.203125,
+              "width": 158.21875,
+              "height": 14
+            },
+            {
+              "left": 659.5234375,
+              "top": 1713.203125,
+              "right": 694.9765625,
+              "bottom": 1723.203125,
+              "width": 35.453125,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "metro-defence:entity:ssb",
+          "circle": {
+            "left": 336,
+            "top": 1765.203125,
+            "right": 374,
+            "bottom": 1803.203125,
+            "width": 38,
+            "height": 38
+          },
+          "label": {
+            "left": 57,
+            "top": 1750.203125,
+            "right": 329,
+            "bottom": 1818.203125,
+            "width": 272,
+            "height": 68
+          },
+          "texts": [
+            {
+              "left": 138.3125,
+              "top": 1768.203125,
+              "right": 247.6875,
+              "bottom": 1782.203125,
+              "width": 109.375,
+              "height": 14
+            },
+            {
+              "left": 170.8203125,
+              "top": 1801.203125,
+              "right": 215.67578125,
+              "bottom": 1811.203125,
+              "width": 44.85546875,
+              "height": 10
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "390px 24-node graph",
+      "viewport": 390,
+      "svg": {
+        "left": 15,
+        "top": 211.203125,
+        "right": 855,
+        "bottom": 1343.203125,
+        "width": 840,
+        "height": 1132
+      },
+      "nodes": [
+        {
+          "id": "justice-research:entity:supreme-court",
+          "circle": {
+            "left": 336,
+            "top": 276.203125,
+            "right": 374,
+            "bottom": 314.203125,
+            "width": 38,
+            "height": 38
+          },
+          "label": {
+            "left": 57,
+            "top": 261.203125,
+            "right": 329,
+            "bottom": 329.203125,
+            "width": 272,
+            "height": 68
+          },
+          "texts": [
+            {
+              "left": 132.625,
+              "top": 279.203125,
+              "right": 253.375,
+              "bottom": 293.203125,
+              "width": 120.75,
+              "height": 14
+            },
+            {
+              "left": 183.0703125,
+              "top": 312.203125,
+              "right": 203.3046875,
+              "bottom": 322.203125,
+              "width": 20.234375,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "justice-research:entity:decision-vishal-tiwari-judgment",
+          "circle": {
+            "left": 496,
+            "top": 276.203125,
+            "right": 534,
+            "bottom": 314.203125,
+            "width": 38,
+            "height": 38
+          },
+          "label": {
+            "left": 541,
+            "top": 261.203125,
+            "right": 813,
+            "bottom": 329.203125,
+            "width": 272,
+            "height": 68
+          },
+          "texts": [
+            {
+              "left": 589.484375,
+              "top": 272.203125,
+              "right": 764.515625,
+              "bottom": 300.203125,
+              "width": 175.03125,
+              "height": 28
+            },
+            {
+              "left": 658.25,
+              "top": 312.203125,
+              "right": 695.12109375,
+              "bottom": 322.203125,
+              "width": 36.87109375,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "justice-research:entity:decision-adicorp-order",
+          "circle": {
+            "left": 336,
+            "top": 364.203125,
+            "right": 374,
+            "bottom": 402.203125,
+            "width": 38,
+            "height": 38
+          },
+          "label": {
+            "left": 57,
+            "top": 349.203125,
+            "right": 329,
+            "bottom": 417.203125,
+            "width": 272,
+            "height": 68
+          },
+          "texts": [
+            {
+              "left": 123.765625,
+              "top": 360.203125,
+              "right": 262.234375,
+              "bottom": 388.203125,
+              "width": 138.46875,
+              "height": 28
+            },
+            {
+              "left": 162.4609375,
+              "top": 400.203125,
+              "right": 223.5390625,
+              "bottom": 410.203125,
+              "width": 61.078125,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "justice-research:entity:kejriwal",
+          "circle": {
+            "left": 496,
+            "top": 364.203125,
+            "right": 534,
+            "bottom": 402.203125,
+            "width": 38,
+            "height": 38
+          },
+          "label": {
+            "left": 541,
+            "top": 349.203125,
+            "right": 813,
+            "bottom": 417.203125,
+            "width": 272,
+            "height": 68
+          },
+          "texts": [
+            {
+              "left": 638.0625,
+              "top": 367.203125,
+              "right": 715.9375,
+              "bottom": 381.203125,
+              "width": 77.875,
+              "height": 14
+            },
+            {
+              "left": 663.8359375,
+              "top": 400.203125,
+              "right": 690.4296875,
+              "bottom": 410.203125,
+              "width": 26.59375,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "justice-research:entity:ashok-bhushan",
+          "circle": {
+            "left": 336,
+            "top": 452.203125,
+            "right": 374,
+            "bottom": 490.203125,
+            "width": 38,
+            "height": 38
+          },
+          "label": {
+            "left": 57,
+            "top": 437.203125,
+            "right": 329,
+            "bottom": 505.203125,
+            "width": 272,
+            "height": 68
+          },
+          "texts": [
+            {
+              "left": 152.5859375,
+              "top": 455.203125,
+              "right": 233.4140625,
+              "bottom": 469.203125,
+              "width": 80.828125,
+              "height": 14
+            },
+            {
+              "left": 179.8359375,
+              "top": 488.203125,
+              "right": 206.4296875,
+              "bottom": 498.203125,
+              "width": 26.59375,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "justice-research:entity:adr",
+          "circle": {
+            "left": 496,
+            "top": 452.203125,
+            "right": 534,
+            "bottom": 490.203125,
+            "width": 38,
+            "height": 38
+          },
+          "label": {
+            "left": 541,
+            "top": 437.203125,
+            "right": 813,
+            "bottom": 505.203125,
+            "width": 272,
+            "height": 68
+          },
+          "texts": [
+            {
+              "left": 583.390625,
+              "top": 455.203125,
+              "right": 770.7939453125,
+              "bottom": 469.203125,
+              "width": 187.4033203125,
+              "height": 14
+            },
+            {
+              "left": 653.734375,
+              "top": 488.203125,
+              "right": 700.5390625,
+              "bottom": 498.203125,
+              "width": 46.8046875,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "justice-research:entity:common-cause",
+          "circle": {
+            "left": 336,
+            "top": 540.203125,
+            "right": 374,
+            "bottom": 578.203125,
+            "width": 38,
+            "height": 38
+          },
+          "label": {
+            "left": 57,
+            "top": 525.203125,
+            "right": 329,
+            "bottom": 593.203125,
+            "width": 272,
+            "height": 68
+          },
+          "texts": [
+            {
+              "left": 151.484375,
+              "top": 543.203125,
+              "right": 234.515625,
+              "bottom": 557.203125,
+              "width": 83.03125,
+              "height": 14
+            },
+            {
+              "left": 169.734375,
+              "top": 576.203125,
+              "right": 216.5390625,
+              "bottom": 586.203125,
+              "width": 46.8046875,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "justice-research:entity:dy-chandrachud",
+          "circle": {
+            "left": 496,
+            "top": 540.203125,
+            "right": 534,
+            "bottom": 578.203125,
+            "width": 38,
+            "height": 38
+          },
+          "label": {
+            "left": 541,
+            "top": 525.203125,
+            "right": 813,
+            "bottom": 593.203125,
+            "width": 272,
+            "height": 68
+          },
+          "texts": [
+            {
+              "left": 603.234375,
+              "top": 543.203125,
+              "right": 750.765625,
+              "bottom": 557.203125,
+              "width": 147.53125,
+              "height": 14
+            },
+            {
+              "left": 663.8359375,
+              "top": 576.203125,
+              "right": 690.4296875,
+              "bottom": 586.203125,
+              "width": 26.59375,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "justice-research:entity:ed",
+          "circle": {
+            "left": 336,
+            "top": 628.203125,
+            "right": 374,
+            "bottom": 666.203125,
+            "width": 38,
+            "height": 38
+          },
+          "label": {
+            "left": 57,
+            "top": 613.203125,
+            "right": 329,
+            "bottom": 681.203125,
+            "width": 272,
+            "height": 68
+          },
+          "texts": [
+            {
+              "left": 122.65625,
+              "top": 631.203125,
+              "right": 263.7373046875,
+              "bottom": 645.203125,
+              "width": 141.0810546875,
+              "height": 14
+            },
+            {
+              "left": 176.1640625,
+              "top": 664.203125,
+              "right": 210.33203125,
+              "bottom": 674.203125,
+              "width": 34.16796875,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "justice-research:entity:eci",
+          "circle": {
+            "left": 496,
+            "top": 628.203125,
+            "right": 534,
+            "bottom": 666.203125,
+            "width": 38,
+            "height": 38
+          },
+          "label": {
+            "left": 541,
+            "top": 613.203125,
+            "right": 813,
+            "bottom": 681.203125,
+            "width": 272,
+            "height": 68
+          },
+          "texts": [
+            {
+              "left": 601.875,
+              "top": 631.203125,
+              "right": 752.125,
+              "bottom": 645.203125,
+              "width": 150.25,
+              "height": 14
+            },
+            {
+              "left": 660.1640625,
+              "top": 664.203125,
+              "right": 694.33203125,
+              "bottom": 674.203125,
+              "width": 34.16796875,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "justice-research:entity:decision-electoral-bonds-judgment",
+          "circle": {
+            "left": 336,
+            "top": 716.203125,
+            "right": 374,
+            "bottom": 754.203125,
+            "width": 38,
+            "height": 38
+          },
+          "label": {
+            "left": 57,
+            "top": 701.203125,
+            "right": 329,
+            "bottom": 769.203125,
+            "width": 272,
+            "height": 68
+          },
+          "texts": [
+            {
+              "left": 113.0546875,
+              "top": 712.203125,
+              "right": 273.12451171875,
+              "bottom": 740.203125,
+              "width": 160.06982421875,
+              "height": 28
+            },
+            {
+              "left": 174.25,
+              "top": 752.203125,
+              "right": 211.12109375,
+              "bottom": 762.203125,
+              "width": 36.87109375,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "justice-research:entity:decision-electoral-bonds-sit-order",
+          "circle": {
+            "left": 496,
+            "top": 716.203125,
+            "right": 534,
+            "bottom": 754.203125,
+            "width": 38,
+            "height": 38
+          },
+          "label": {
+            "left": 541,
+            "top": 701.203125,
+            "right": 813,
+            "bottom": 769.203125,
+            "width": 272,
+            "height": 68
+          },
+          "texts": [
+            {
+              "left": 601.2890625,
+              "top": 705.203125,
+              "right": 752.7109375,
+              "bottom": 747.203125,
+              "width": 151.421875,
+              "height": 42
+            },
+            {
+              "left": 658.25,
+              "top": 752.203125,
+              "right": 695.12109375,
+              "bottom": 762.203125,
+              "width": 36.87109375,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "justice-research:entity:decision-sbi-disclosure-order",
+          "circle": {
+            "left": 336,
+            "top": 804.203125,
+            "right": 374,
+            "bottom": 842.203125,
+            "width": 38,
+            "height": 38
+          },
+          "label": {
+            "left": 57,
+            "top": 789.203125,
+            "right": 329,
+            "bottom": 857.203125,
+            "width": 272,
+            "height": 68
+          },
+          "texts": [
+            {
+              "left": 104.8046875,
+              "top": 800.203125,
+              "right": 281.58740234375,
+              "bottom": 828.203125,
+              "width": 176.78271484375,
+              "height": 28
+            },
+            {
+              "left": 174.25,
+              "top": 840.203125,
+              "right": 211.12109375,
+              "bottom": 850.203125,
+              "width": 36.87109375,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "justice-research:entity:decision-kerala-borrowing-order",
+          "circle": {
+            "left": 496,
+            "top": 804.203125,
+            "right": 534,
+            "bottom": 842.203125,
+            "width": 38,
+            "height": 38
+          },
+          "label": {
+            "left": 541,
+            "top": 789.203125,
+            "right": 813,
+            "bottom": 857.203125,
+            "width": 272,
+            "height": 68
+          },
+          "texts": [
+            {
+              "left": 593.2734375,
+              "top": 800.203125,
+              "right": 760.7265625,
+              "bottom": 828.203125,
+              "width": 167.453125,
+              "height": 28
+            },
+            {
+              "left": 658.25,
+              "top": 840.203125,
+              "right": 695.12109375,
+              "bottom": 850.203125,
+              "width": 36.87109375,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "justice-research:entity:decision-sita-soren-immunity",
+          "circle": {
+            "left": 336,
+            "top": 892.203125,
+            "right": 374,
+            "bottom": 930.203125,
+            "width": 38,
+            "height": 38
+          },
+          "label": {
+            "left": 57,
+            "top": 877.203125,
+            "right": 329,
+            "bottom": 945.203125,
+            "width": 272,
+            "height": 68
+          },
+          "texts": [
+            {
+              "left": 105.640625,
+              "top": 888.203125,
+              "right": 280.359375,
+              "bottom": 916.203125,
+              "width": 174.71875,
+              "height": 28
+            },
+            {
+              "left": 174.25,
+              "top": 928.203125,
+              "right": 211.12109375,
+              "bottom": 938.203125,
+              "width": 36.87109375,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "justice-research:entity:decision-milestone-order",
+          "circle": {
+            "left": 496,
+            "top": 892.203125,
+            "right": 534,
+            "bottom": 930.203125,
+            "width": 38,
+            "height": 38
+          },
+          "label": {
+            "left": 541,
+            "top": 877.203125,
+            "right": 813,
+            "bottom": 945.203125,
+            "width": 272,
+            "height": 68
+          },
+          "texts": [
+            {
+              "left": 583.203125,
+              "top": 888.203125,
+              "right": 770.796875,
+              "bottom": 916.203125,
+              "width": 187.59375,
+              "height": 28
+            },
+            {
+              "left": 646.4609375,
+              "top": 928.203125,
+              "right": 707.5390625,
+              "bottom": 938.203125,
+              "width": 61.078125,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "justice-research:entity:ndrf",
+          "circle": {
+            "left": 336,
+            "top": 980.203125,
+            "right": 374,
+            "bottom": 1018.203125,
+            "width": 38,
+            "height": 38
+          },
+          "label": {
+            "left": 57,
+            "top": 965.203125,
+            "right": 329,
+            "bottom": 1033.203125,
+            "width": 272,
+            "height": 68
+          },
+          "texts": [
+            {
+              "left": 107.28125,
+              "top": 983.203125,
+              "right": 278.71875,
+              "bottom": 997.203125,
+              "width": 171.4375,
+              "height": 14
+            },
+            {
+              "left": 184.3359375,
+              "top": 1016.203125,
+              "right": 201.75390625,
+              "bottom": 1026.203125,
+              "width": 17.41796875,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "justice-research:entity:decision-pmcares-judgment",
+          "circle": {
+            "left": 496,
+            "top": 980.203125,
+            "right": 534,
+            "bottom": 1018.203125,
+            "width": 38,
+            "height": 38
+          },
+          "label": {
+            "left": 541,
+            "top": 965.203125,
+            "right": 813,
+            "bottom": 1033.203125,
+            "width": 272,
+            "height": 68
+          },
+          "texts": [
+            {
+              "left": 578.28125,
+              "top": 976.203125,
+              "right": 775.71875,
+              "bottom": 1004.203125,
+              "width": 197.4375,
+              "height": 28
+            },
+            {
+              "left": 658.25,
+              "top": 1016.203125,
+              "right": 695.12109375,
+              "bottom": 1026.203125,
+              "width": 36.87109375,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "justice-research:entity:pmcares",
+          "circle": {
+            "left": 336,
+            "top": 1068.203125,
+            "right": 374,
+            "bottom": 1106.203125,
+            "width": 38,
+            "height": 38
+          },
+          "label": {
+            "left": 57,
+            "top": 1053.203125,
+            "right": 329,
+            "bottom": 1121.203125,
+            "width": 272,
+            "height": 68
+          },
+          "texts": [
+            {
+              "left": 150.4140625,
+              "top": 1071.203125,
+              "right": 235.5859375,
+              "bottom": 1085.203125,
+              "width": 85.171875,
+              "height": 14
+            },
+            {
+              "left": 184.3359375,
+              "top": 1104.203125,
+              "right": 201.75390625,
+              "bottom": 1114.203125,
+              "width": 17.41796875,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "justice-research:entity:decision-kejriwal-arrest-review",
+          "circle": {
+            "left": 496,
+            "top": 1068.203125,
+            "right": 534,
+            "bottom": 1106.203125,
+            "width": 38,
+            "height": 38
+          },
+          "label": {
+            "left": 541,
+            "top": 1053.203125,
+            "right": 813,
+            "bottom": 1121.203125,
+            "width": 272,
+            "height": 68
+          },
+          "texts": [
+            {
+              "left": 587.3984375,
+              "top": 1064.203125,
+              "right": 766.6015625,
+              "bottom": 1092.203125,
+              "width": 179.203125,
+              "height": 28
+            },
+            {
+              "left": 658.25,
+              "top": 1104.203125,
+              "right": 695.12109375,
+              "bottom": 1114.203125,
+              "width": 36.87109375,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "justice-research:entity:sanjiv-khanna",
+          "circle": {
+            "left": 336,
+            "top": 1156.203125,
+            "right": 374,
+            "bottom": 1194.203125,
+            "width": 38,
+            "height": 38
+          },
+          "label": {
+            "left": 57,
+            "top": 1141.203125,
+            "right": 329,
+            "bottom": 1209.203125,
+            "width": 272,
+            "height": 68
+          },
+          "texts": [
+            {
+              "left": 156.203125,
+              "top": 1159.203125,
+              "right": 229.796875,
+              "bottom": 1173.203125,
+              "width": 73.59375,
+              "height": 14
+            },
+            {
+              "left": 179.8359375,
+              "top": 1192.203125,
+              "right": 206.4296875,
+              "bottom": 1202.203125,
+              "width": 26.59375,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "justice-research:entity:sebi",
+          "circle": {
+            "left": 496,
+            "top": 1156.203125,
+            "right": 534,
+            "bottom": 1194.203125,
+            "width": 38,
+            "height": 38
+          },
+          "label": {
+            "left": 541,
+            "top": 1141.203125,
+            "right": 813,
+            "bottom": 1209.203125,
+            "width": 272,
+            "height": 68
+          },
+          "texts": [
+            {
+              "left": 589.0625,
+              "top": 1152.203125,
+              "right": 764.9375,
+              "bottom": 1180.203125,
+              "width": 175.875,
+              "height": 28
+            },
+            {
+              "left": 660.015625,
+              "top": 1192.203125,
+              "right": 693.984375,
+              "bottom": 1202.203125,
+              "width": 33.96875,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "justice-research:entity:sita-soren",
+          "circle": {
+            "left": 336,
+            "top": 1244.203125,
+            "right": 374,
+            "bottom": 1282.203125,
+            "width": 38,
+            "height": 38
+          },
+          "label": {
+            "left": 57,
+            "top": 1229.203125,
+            "right": 329,
+            "bottom": 1297.203125,
+            "width": 272,
+            "height": 68
+          },
+          "texts": [
+            {
+              "left": 166.4140625,
+              "top": 1247.203125,
+              "right": 219.5859375,
+              "bottom": 1261.203125,
+              "width": 53.171875,
+              "height": 14
+            },
+            {
+              "left": 179.8359375,
+              "top": 1280.203125,
+              "right": 206.4296875,
+              "bottom": 1290.203125,
+              "width": 26.59375,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "justice-research:entity:sbi",
+          "circle": {
+            "left": 496,
+            "top": 1244.203125,
+            "right": 534,
+            "bottom": 1282.203125,
+            "width": 38,
+            "height": 38
+          },
+          "label": {
+            "left": 541,
+            "top": 1229.203125,
+            "right": 813,
+            "bottom": 1297.203125,
+            "width": 272,
+            "height": 68
+          },
+          "texts": [
+            {
+              "left": 628.15625,
+              "top": 1247.203125,
+              "right": 725.84375,
+              "bottom": 1261.203125,
+              "width": 97.6875,
+              "height": 14
+            },
+            {
+              "left": 667.703125,
+              "top": 1280.203125,
+              "right": 686.8984375,
+              "bottom": 1290.203125,
+              "width": 19.1953125,
+              "height": 10
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "320px 13-node graph",
+      "viewport": 320,
+      "svg": {
+        "left": 11,
+        "top": 355.0625,
+        "right": 851,
+        "bottom": 1047.0625,
+        "width": 840,
+        "height": 692
+      },
+      "nodes": [
+        {
+          "id": "metro-defence:entity:bro",
+          "circle": {
+            "left": 332,
+            "top": 420.0625,
+            "right": 370,
+            "bottom": 458.0625,
+            "width": 38,
+            "height": 38
+          },
+          "label": {
+            "left": 53,
+            "top": 405.0625,
+            "right": 325,
+            "bottom": 473.0625,
+            "width": 272,
+            "height": 68
+          },
+          "texts": [
+            {
+              "left": 104.5546875,
+              "top": 416.0625,
+              "right": 273.4794921875,
+              "bottom": 444.0625,
+              "width": 168.9248046875,
+              "height": 28
+            },
+            {
+              "left": 166.8203125,
+              "top": 456.0625,
+              "right": 211.67578125,
+              "bottom": 466.0625,
+              "width": 44.85546875,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "metro-defence:entity:anuj",
+          "circle": {
+            "left": 492,
+            "top": 420.0625,
+            "right": 530,
+            "bottom": 458.0625,
+            "width": 38,
+            "height": 38
+          },
+          "label": {
+            "left": 537,
+            "top": 405.0625,
+            "right": 809,
+            "bottom": 473.0625,
+            "width": 272,
+            "height": 68
+          },
+          "texts": [
+            {
+              "left": 605.6640625,
+              "top": 423.0625,
+              "right": 740.3359375,
+              "bottom": 437.0625,
+              "width": 134.671875,
+              "height": 14
+            },
+            {
+              "left": 655.5234375,
+              "top": 456.0625,
+              "right": 690.9765625,
+              "bottom": 466.0625,
+              "width": 35.453125,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "metro-defence:entity:cag",
+          "circle": {
+            "left": 332,
+            "top": 508.0625,
+            "right": 370,
+            "bottom": 546.0625,
+            "width": 38,
+            "height": 38
+          },
+          "label": {
+            "left": 53,
+            "top": 493.0625,
+            "right": 325,
+            "bottom": 561.0625,
+            "width": 272,
+            "height": 68
+          },
+          "texts": [
+            {
+              "left": 98.1328125,
+              "top": 504.0625,
+              "right": 279.8671875,
+              "bottom": 532.0625,
+              "width": 181.734375,
+              "height": 28
+            },
+            {
+              "left": 166.8203125,
+              "top": 544.0625,
+              "right": 211.67578125,
+              "bottom": 554.0625,
+              "width": 44.85546875,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "metro-defence:entity:d2s",
+          "circle": {
+            "left": 492,
+            "top": 508.0625,
+            "right": 530,
+            "bottom": 546.0625,
+            "width": 38,
+            "height": 38
+          },
+          "label": {
+            "left": 537,
+            "top": 493.0625,
+            "right": 809,
+            "bottom": 561.0625,
+            "width": 272,
+            "height": 68
+          },
+          "texts": [
+            {
+              "left": 603.4609375,
+              "top": 511.0625,
+              "right": 742.5390625,
+              "bottom": 525.0625,
+              "width": 139.078125,
+              "height": 14
+            },
+            {
+              "left": 655.5234375,
+              "top": 544.0625,
+              "right": 690.9765625,
+              "bottom": 554.0625,
+              "width": 35.453125,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "metro-defence:entity:wnc",
+          "circle": {
+            "left": 332,
+            "top": 596.0625,
+            "right": 370,
+            "bottom": 634.0625,
+            "width": 38,
+            "height": 38
+          },
+          "label": {
+            "left": 53,
+            "top": 581.0625,
+            "right": 325,
+            "bottom": 649.0625,
+            "width": 272,
+            "height": 68
+          },
+          "texts": [
+            {
+              "left": 85.859375,
+              "top": 599.0625,
+              "right": 292.140625,
+              "bottom": 613.0625,
+              "width": 206.28125,
+              "height": 14
+            },
+            {
+              "left": 166.8203125,
+              "top": 632.0625,
+              "right": 211.67578125,
+              "bottom": 642.0625,
+              "width": 44.85546875,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "metro-defence:entity:indt",
+          "circle": {
+            "left": 492,
+            "top": 596.0625,
+            "right": 530,
+            "bottom": 634.0625,
+            "width": 38,
+            "height": 38
+          },
+          "label": {
+            "left": 537,
+            "top": 581.0625,
+            "right": 809,
+            "bottom": 649.0625,
+            "width": 272,
+            "height": 68
+          },
+          "texts": [
+            {
+              "left": 588.671875,
+              "top": 599.0625,
+              "right": 757.328125,
+              "bottom": 613.0625,
+              "width": 168.65625,
+              "height": 14
+            },
+            {
+              "left": 650.8203125,
+              "top": 632.0625,
+              "right": 695.67578125,
+              "bottom": 642.0625,
+              "width": 44.85546875,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "metro-defence:entity:itbp",
+          "circle": {
+            "left": 332,
+            "top": 684.0625,
+            "right": 370,
+            "bottom": 722.0625,
+            "width": 38,
+            "height": 38
+          },
+          "label": {
+            "left": 53,
+            "top": 669.0625,
+            "right": 325,
+            "bottom": 737.0625,
+            "width": 272,
+            "height": 68
+          },
+          "texts": [
+            {
+              "left": 119.453125,
+              "top": 687.0625,
+              "right": 258.546875,
+              "bottom": 701.0625,
+              "width": 139.09375,
+              "height": 14
+            },
+            {
+              "left": 166.8203125,
+              "top": 720.0625,
+              "right": 211.67578125,
+              "bottom": 730.0625,
+              "width": 44.85546875,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "metro-defence:entity:jai",
+          "circle": {
+            "left": 492,
+            "top": 684.0625,
+            "right": 530,
+            "bottom": 722.0625,
+            "width": 38,
+            "height": 38
+          },
+          "label": {
+            "left": 537,
+            "top": 669.0625,
+            "right": 809,
+            "bottom": 737.0625,
+            "width": 272,
+            "height": 68
+          },
+          "texts": [
+            {
+              "left": 603.4765625,
+              "top": 687.0625,
+              "right": 742.5234375,
+              "bottom": 701.0625,
+              "width": 139.046875,
+              "height": 14
+            },
+            {
+              "left": 655.5234375,
+              "top": 720.0625,
+              "right": 690.9765625,
+              "bottom": 730.0625,
+              "width": 35.453125,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "metro-defence:entity:mdl",
+          "circle": {
+            "left": 332,
+            "top": 772.0625,
+            "right": 370,
+            "bottom": 810.0625,
+            "width": 38,
+            "height": 38
+          },
+          "label": {
+            "left": 53,
+            "top": 757.0625,
+            "right": 325,
+            "bottom": 825.0625,
+            "width": 272,
+            "height": 68
+          },
+          "texts": [
+            {
+              "left": 95.6015625,
+              "top": 775.0625,
+              "right": 282.3984375,
+              "bottom": 789.0625,
+              "width": 186.796875,
+              "height": 14
+            },
+            {
+              "left": 158.9140625,
+              "top": 808.0625,
+              "right": 219.58984375,
+              "bottom": 818.0625,
+              "width": 60.67578125,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "metro-defence:entity:mha",
+          "circle": {
+            "left": 492,
+            "top": 772.0625,
+            "right": 530,
+            "bottom": 810.0625,
+            "width": 38,
+            "height": 38
+          },
+          "label": {
+            "left": 537,
+            "top": 757.0625,
+            "right": 809,
+            "bottom": 825.0625,
+            "width": 272,
+            "height": 68
+          },
+          "texts": [
+            {
+              "left": 609.8203125,
+              "top": 775.0625,
+              "right": 736.36376953125,
+              "bottom": 789.0625,
+              "width": 126.54345703125,
+              "height": 14
+            },
+            {
+              "left": 650.8203125,
+              "top": 808.0625,
+              "right": 695.67578125,
+              "bottom": 818.0625,
+              "width": 44.85546875,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "metro-defence:entity:npcc",
+          "circle": {
+            "left": 332,
+            "top": 860.0625,
+            "right": 370,
+            "bottom": 898.0625,
+            "width": 38,
+            "height": 38
+          },
+          "label": {
+            "left": 53,
+            "top": 845.0625,
+            "right": 325,
+            "bottom": 913.0625,
+            "width": 272,
+            "height": 68
+          },
+          "texts": [
+            {
+              "left": 110.0390625,
+              "top": 856.0625,
+              "right": 267.9609375,
+              "bottom": 884.0625,
+              "width": 157.921875,
+              "height": 28
+            },
+            {
+              "left": 158.9140625,
+              "top": 896.0625,
+              "right": 219.58984375,
+              "bottom": 906.0625,
+              "width": 60.67578125,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "metro-defence:entity:jehlum",
+          "circle": {
+            "left": 492,
+            "top": 860.0625,
+            "right": 530,
+            "bottom": 898.0625,
+            "width": 38,
+            "height": 38
+          },
+          "label": {
+            "left": 537,
+            "top": 845.0625,
+            "right": 809,
+            "bottom": 913.0625,
+            "width": 272,
+            "height": 68
+          },
+          "texts": [
+            {
+              "left": 593.890625,
+              "top": 863.0625,
+              "right": 752.109375,
+              "bottom": 877.0625,
+              "width": 158.21875,
+              "height": 14
+            },
+            {
+              "left": 655.5234375,
+              "top": 896.0625,
+              "right": 690.9765625,
+              "bottom": 906.0625,
+              "width": 35.453125,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "metro-defence:entity:ssb",
+          "circle": {
+            "left": 332,
+            "top": 948.0625,
+            "right": 370,
+            "bottom": 986.0625,
+            "width": 38,
+            "height": 38
+          },
+          "label": {
+            "left": 53,
+            "top": 933.0625,
+            "right": 325,
+            "bottom": 1001.0625,
+            "width": 272,
+            "height": 68
+          },
+          "texts": [
+            {
+              "left": 134.3125,
+              "top": 951.0625,
+              "right": 243.6875,
+              "bottom": 965.0625,
+              "width": 109.375,
+              "height": 14
+            },
+            {
+              "left": 166.8203125,
+              "top": 984.0625,
+              "right": 211.67578125,
+              "bottom": 994.0625,
+              "width": 44.85546875,
+              "height": 10
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "320px 24-node graph",
+      "viewport": 320,
+      "svg": {
+        "left": 11,
+        "top": 210.875,
+        "right": 851,
+        "bottom": 1342.875,
+        "width": 840,
+        "height": 1132
+      },
+      "nodes": [
+        {
+          "id": "justice-research:entity:supreme-court",
+          "circle": {
+            "left": 332,
+            "top": 275.875,
+            "right": 370,
+            "bottom": 313.875,
+            "width": 38,
+            "height": 38
+          },
+          "label": {
+            "left": 53,
+            "top": 260.875,
+            "right": 325,
+            "bottom": 328.875,
+            "width": 272,
+            "height": 68
+          },
+          "texts": [
+            {
+              "left": 128.625,
+              "top": 278.875,
+              "right": 249.375,
+              "bottom": 292.875,
+              "width": 120.75,
+              "height": 14
+            },
+            {
+              "left": 179.0703125,
+              "top": 311.875,
+              "right": 199.3046875,
+              "bottom": 321.875,
+              "width": 20.234375,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "justice-research:entity:decision-vishal-tiwari-judgment",
+          "circle": {
+            "left": 492,
+            "top": 275.875,
+            "right": 530,
+            "bottom": 313.875,
+            "width": 38,
+            "height": 38
+          },
+          "label": {
+            "left": 537,
+            "top": 260.875,
+            "right": 809,
+            "bottom": 328.875,
+            "width": 272,
+            "height": 68
+          },
+          "texts": [
+            {
+              "left": 585.484375,
+              "top": 271.875,
+              "right": 760.515625,
+              "bottom": 299.875,
+              "width": 175.03125,
+              "height": 28
+            },
+            {
+              "left": 654.25,
+              "top": 311.875,
+              "right": 691.12109375,
+              "bottom": 321.875,
+              "width": 36.87109375,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "justice-research:entity:decision-adicorp-order",
+          "circle": {
+            "left": 332,
+            "top": 363.875,
+            "right": 370,
+            "bottom": 401.875,
+            "width": 38,
+            "height": 38
+          },
+          "label": {
+            "left": 53,
+            "top": 348.875,
+            "right": 325,
+            "bottom": 416.875,
+            "width": 272,
+            "height": 68
+          },
+          "texts": [
+            {
+              "left": 119.765625,
+              "top": 359.875,
+              "right": 258.234375,
+              "bottom": 387.875,
+              "width": 138.46875,
+              "height": 28
+            },
+            {
+              "left": 158.4609375,
+              "top": 399.875,
+              "right": 219.5390625,
+              "bottom": 409.875,
+              "width": 61.078125,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "justice-research:entity:kejriwal",
+          "circle": {
+            "left": 492,
+            "top": 363.875,
+            "right": 530,
+            "bottom": 401.875,
+            "width": 38,
+            "height": 38
+          },
+          "label": {
+            "left": 537,
+            "top": 348.875,
+            "right": 809,
+            "bottom": 416.875,
+            "width": 272,
+            "height": 68
+          },
+          "texts": [
+            {
+              "left": 634.0625,
+              "top": 366.875,
+              "right": 711.9375,
+              "bottom": 380.875,
+              "width": 77.875,
+              "height": 14
+            },
+            {
+              "left": 659.8359375,
+              "top": 399.875,
+              "right": 686.4296875,
+              "bottom": 409.875,
+              "width": 26.59375,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "justice-research:entity:ashok-bhushan",
+          "circle": {
+            "left": 332,
+            "top": 451.875,
+            "right": 370,
+            "bottom": 489.875,
+            "width": 38,
+            "height": 38
+          },
+          "label": {
+            "left": 53,
+            "top": 436.875,
+            "right": 325,
+            "bottom": 504.875,
+            "width": 272,
+            "height": 68
+          },
+          "texts": [
+            {
+              "left": 148.5859375,
+              "top": 454.875,
+              "right": 229.4140625,
+              "bottom": 468.875,
+              "width": 80.828125,
+              "height": 14
+            },
+            {
+              "left": 175.8359375,
+              "top": 487.875,
+              "right": 202.4296875,
+              "bottom": 497.875,
+              "width": 26.59375,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "justice-research:entity:adr",
+          "circle": {
+            "left": 492,
+            "top": 451.875,
+            "right": 530,
+            "bottom": 489.875,
+            "width": 38,
+            "height": 38
+          },
+          "label": {
+            "left": 537,
+            "top": 436.875,
+            "right": 809,
+            "bottom": 504.875,
+            "width": 272,
+            "height": 68
+          },
+          "texts": [
+            {
+              "left": 579.390625,
+              "top": 454.875,
+              "right": 766.7939453125,
+              "bottom": 468.875,
+              "width": 187.4033203125,
+              "height": 14
+            },
+            {
+              "left": 649.734375,
+              "top": 487.875,
+              "right": 696.5390625,
+              "bottom": 497.875,
+              "width": 46.8046875,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "justice-research:entity:common-cause",
+          "circle": {
+            "left": 332,
+            "top": 539.875,
+            "right": 370,
+            "bottom": 577.875,
+            "width": 38,
+            "height": 38
+          },
+          "label": {
+            "left": 53,
+            "top": 524.875,
+            "right": 325,
+            "bottom": 592.875,
+            "width": 272,
+            "height": 68
+          },
+          "texts": [
+            {
+              "left": 147.484375,
+              "top": 542.875,
+              "right": 230.515625,
+              "bottom": 556.875,
+              "width": 83.03125,
+              "height": 14
+            },
+            {
+              "left": 165.734375,
+              "top": 575.875,
+              "right": 212.5390625,
+              "bottom": 585.875,
+              "width": 46.8046875,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "justice-research:entity:dy-chandrachud",
+          "circle": {
+            "left": 492,
+            "top": 539.875,
+            "right": 530,
+            "bottom": 577.875,
+            "width": 38,
+            "height": 38
+          },
+          "label": {
+            "left": 537,
+            "top": 524.875,
+            "right": 809,
+            "bottom": 592.875,
+            "width": 272,
+            "height": 68
+          },
+          "texts": [
+            {
+              "left": 599.234375,
+              "top": 542.875,
+              "right": 746.765625,
+              "bottom": 556.875,
+              "width": 147.53125,
+              "height": 14
+            },
+            {
+              "left": 659.8359375,
+              "top": 575.875,
+              "right": 686.4296875,
+              "bottom": 585.875,
+              "width": 26.59375,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "justice-research:entity:ed",
+          "circle": {
+            "left": 332,
+            "top": 627.875,
+            "right": 370,
+            "bottom": 665.875,
+            "width": 38,
+            "height": 38
+          },
+          "label": {
+            "left": 53,
+            "top": 612.875,
+            "right": 325,
+            "bottom": 680.875,
+            "width": 272,
+            "height": 68
+          },
+          "texts": [
+            {
+              "left": 118.65625,
+              "top": 630.875,
+              "right": 259.7373046875,
+              "bottom": 644.875,
+              "width": 141.0810546875,
+              "height": 14
+            },
+            {
+              "left": 172.1640625,
+              "top": 663.875,
+              "right": 206.33203125,
+              "bottom": 673.875,
+              "width": 34.16796875,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "justice-research:entity:eci",
+          "circle": {
+            "left": 492,
+            "top": 627.875,
+            "right": 530,
+            "bottom": 665.875,
+            "width": 38,
+            "height": 38
+          },
+          "label": {
+            "left": 537,
+            "top": 612.875,
+            "right": 809,
+            "bottom": 680.875,
+            "width": 272,
+            "height": 68
+          },
+          "texts": [
+            {
+              "left": 597.875,
+              "top": 630.875,
+              "right": 748.125,
+              "bottom": 644.875,
+              "width": 150.25,
+              "height": 14
+            },
+            {
+              "left": 656.1640625,
+              "top": 663.875,
+              "right": 690.33203125,
+              "bottom": 673.875,
+              "width": 34.16796875,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "justice-research:entity:decision-electoral-bonds-judgment",
+          "circle": {
+            "left": 332,
+            "top": 715.875,
+            "right": 370,
+            "bottom": 753.875,
+            "width": 38,
+            "height": 38
+          },
+          "label": {
+            "left": 53,
+            "top": 700.875,
+            "right": 325,
+            "bottom": 768.875,
+            "width": 272,
+            "height": 68
+          },
+          "texts": [
+            {
+              "left": 109.0546875,
+              "top": 711.875,
+              "right": 269.12451171875,
+              "bottom": 739.875,
+              "width": 160.06982421875,
+              "height": 28
+            },
+            {
+              "left": 170.25,
+              "top": 751.875,
+              "right": 207.12109375,
+              "bottom": 761.875,
+              "width": 36.87109375,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "justice-research:entity:decision-electoral-bonds-sit-order",
+          "circle": {
+            "left": 492,
+            "top": 715.875,
+            "right": 530,
+            "bottom": 753.875,
+            "width": 38,
+            "height": 38
+          },
+          "label": {
+            "left": 537,
+            "top": 700.875,
+            "right": 809,
+            "bottom": 768.875,
+            "width": 272,
+            "height": 68
+          },
+          "texts": [
+            {
+              "left": 597.2890625,
+              "top": 704.875,
+              "right": 748.7109375,
+              "bottom": 746.875,
+              "width": 151.421875,
+              "height": 42
+            },
+            {
+              "left": 654.25,
+              "top": 751.875,
+              "right": 691.12109375,
+              "bottom": 761.875,
+              "width": 36.87109375,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "justice-research:entity:decision-sbi-disclosure-order",
+          "circle": {
+            "left": 332,
+            "top": 803.875,
+            "right": 370,
+            "bottom": 841.875,
+            "width": 38,
+            "height": 38
+          },
+          "label": {
+            "left": 53,
+            "top": 788.875,
+            "right": 325,
+            "bottom": 856.875,
+            "width": 272,
+            "height": 68
+          },
+          "texts": [
+            {
+              "left": 100.8046875,
+              "top": 799.875,
+              "right": 277.58740234375,
+              "bottom": 827.875,
+              "width": 176.78271484375,
+              "height": 28
+            },
+            {
+              "left": 170.25,
+              "top": 839.875,
+              "right": 207.12109375,
+              "bottom": 849.875,
+              "width": 36.87109375,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "justice-research:entity:decision-kerala-borrowing-order",
+          "circle": {
+            "left": 492,
+            "top": 803.875,
+            "right": 530,
+            "bottom": 841.875,
+            "width": 38,
+            "height": 38
+          },
+          "label": {
+            "left": 537,
+            "top": 788.875,
+            "right": 809,
+            "bottom": 856.875,
+            "width": 272,
+            "height": 68
+          },
+          "texts": [
+            {
+              "left": 589.2734375,
+              "top": 799.875,
+              "right": 756.7265625,
+              "bottom": 827.875,
+              "width": 167.453125,
+              "height": 28
+            },
+            {
+              "left": 654.25,
+              "top": 839.875,
+              "right": 691.12109375,
+              "bottom": 849.875,
+              "width": 36.87109375,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "justice-research:entity:decision-sita-soren-immunity",
+          "circle": {
+            "left": 332,
+            "top": 891.875,
+            "right": 370,
+            "bottom": 929.875,
+            "width": 38,
+            "height": 38
+          },
+          "label": {
+            "left": 53,
+            "top": 876.875,
+            "right": 325,
+            "bottom": 944.875,
+            "width": 272,
+            "height": 68
+          },
+          "texts": [
+            {
+              "left": 101.640625,
+              "top": 887.875,
+              "right": 276.359375,
+              "bottom": 915.875,
+              "width": 174.71875,
+              "height": 28
+            },
+            {
+              "left": 170.25,
+              "top": 927.875,
+              "right": 207.12109375,
+              "bottom": 937.875,
+              "width": 36.87109375,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "justice-research:entity:decision-milestone-order",
+          "circle": {
+            "left": 492,
+            "top": 891.875,
+            "right": 530,
+            "bottom": 929.875,
+            "width": 38,
+            "height": 38
+          },
+          "label": {
+            "left": 537,
+            "top": 876.875,
+            "right": 809,
+            "bottom": 944.875,
+            "width": 272,
+            "height": 68
+          },
+          "texts": [
+            {
+              "left": 579.203125,
+              "top": 887.875,
+              "right": 766.796875,
+              "bottom": 915.875,
+              "width": 187.59375,
+              "height": 28
+            },
+            {
+              "left": 642.4609375,
+              "top": 927.875,
+              "right": 703.5390625,
+              "bottom": 937.875,
+              "width": 61.078125,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "justice-research:entity:ndrf",
+          "circle": {
+            "left": 332,
+            "top": 979.875,
+            "right": 370,
+            "bottom": 1017.875,
+            "width": 38,
+            "height": 38
+          },
+          "label": {
+            "left": 53,
+            "top": 964.875,
+            "right": 325,
+            "bottom": 1032.875,
+            "width": 272,
+            "height": 68
+          },
+          "texts": [
+            {
+              "left": 103.28125,
+              "top": 982.875,
+              "right": 274.71875,
+              "bottom": 996.875,
+              "width": 171.4375,
+              "height": 14
+            },
+            {
+              "left": 180.3359375,
+              "top": 1015.875,
+              "right": 197.75390625,
+              "bottom": 1025.875,
+              "width": 17.41796875,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "justice-research:entity:decision-pmcares-judgment",
+          "circle": {
+            "left": 492,
+            "top": 979.875,
+            "right": 530,
+            "bottom": 1017.875,
+            "width": 38,
+            "height": 38
+          },
+          "label": {
+            "left": 537,
+            "top": 964.875,
+            "right": 809,
+            "bottom": 1032.875,
+            "width": 272,
+            "height": 68
+          },
+          "texts": [
+            {
+              "left": 574.28125,
+              "top": 975.875,
+              "right": 771.71875,
+              "bottom": 1003.875,
+              "width": 197.4375,
+              "height": 28
+            },
+            {
+              "left": 654.25,
+              "top": 1015.875,
+              "right": 691.12109375,
+              "bottom": 1025.875,
+              "width": 36.87109375,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "justice-research:entity:pmcares",
+          "circle": {
+            "left": 332,
+            "top": 1067.875,
+            "right": 370,
+            "bottom": 1105.875,
+            "width": 38,
+            "height": 38
+          },
+          "label": {
+            "left": 53,
+            "top": 1052.875,
+            "right": 325,
+            "bottom": 1120.875,
+            "width": 272,
+            "height": 68
+          },
+          "texts": [
+            {
+              "left": 146.4140625,
+              "top": 1070.875,
+              "right": 231.5859375,
+              "bottom": 1084.875,
+              "width": 85.171875,
+              "height": 14
+            },
+            {
+              "left": 180.3359375,
+              "top": 1103.875,
+              "right": 197.75390625,
+              "bottom": 1113.875,
+              "width": 17.41796875,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "justice-research:entity:decision-kejriwal-arrest-review",
+          "circle": {
+            "left": 492,
+            "top": 1067.875,
+            "right": 530,
+            "bottom": 1105.875,
+            "width": 38,
+            "height": 38
+          },
+          "label": {
+            "left": 537,
+            "top": 1052.875,
+            "right": 809,
+            "bottom": 1120.875,
+            "width": 272,
+            "height": 68
+          },
+          "texts": [
+            {
+              "left": 583.3984375,
+              "top": 1063.875,
+              "right": 762.6015625,
+              "bottom": 1091.875,
+              "width": 179.203125,
+              "height": 28
+            },
+            {
+              "left": 654.25,
+              "top": 1103.875,
+              "right": 691.12109375,
+              "bottom": 1113.875,
+              "width": 36.87109375,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "justice-research:entity:sanjiv-khanna",
+          "circle": {
+            "left": 332,
+            "top": 1155.875,
+            "right": 370,
+            "bottom": 1193.875,
+            "width": 38,
+            "height": 38
+          },
+          "label": {
+            "left": 53,
+            "top": 1140.875,
+            "right": 325,
+            "bottom": 1208.875,
+            "width": 272,
+            "height": 68
+          },
+          "texts": [
+            {
+              "left": 152.203125,
+              "top": 1158.875,
+              "right": 225.796875,
+              "bottom": 1172.875,
+              "width": 73.59375,
+              "height": 14
+            },
+            {
+              "left": 175.8359375,
+              "top": 1191.875,
+              "right": 202.4296875,
+              "bottom": 1201.875,
+              "width": 26.59375,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "justice-research:entity:sebi",
+          "circle": {
+            "left": 492,
+            "top": 1155.875,
+            "right": 530,
+            "bottom": 1193.875,
+            "width": 38,
+            "height": 38
+          },
+          "label": {
+            "left": 537,
+            "top": 1140.875,
+            "right": 809,
+            "bottom": 1208.875,
+            "width": 272,
+            "height": 68
+          },
+          "texts": [
+            {
+              "left": 585.0625,
+              "top": 1151.875,
+              "right": 760.9375,
+              "bottom": 1179.875,
+              "width": 175.875,
+              "height": 28
+            },
+            {
+              "left": 656.015625,
+              "top": 1191.875,
+              "right": 689.984375,
+              "bottom": 1201.875,
+              "width": 33.96875,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "justice-research:entity:sita-soren",
+          "circle": {
+            "left": 332,
+            "top": 1243.875,
+            "right": 370,
+            "bottom": 1281.875,
+            "width": 38,
+            "height": 38
+          },
+          "label": {
+            "left": 53,
+            "top": 1228.875,
+            "right": 325,
+            "bottom": 1296.875,
+            "width": 272,
+            "height": 68
+          },
+          "texts": [
+            {
+              "left": 162.4140625,
+              "top": 1246.875,
+              "right": 215.5859375,
+              "bottom": 1260.875,
+              "width": 53.171875,
+              "height": 14
+            },
+            {
+              "left": 175.8359375,
+              "top": 1279.875,
+              "right": 202.4296875,
+              "bottom": 1289.875,
+              "width": 26.59375,
+              "height": 10
+            }
+          ]
+        },
+        {
+          "id": "justice-research:entity:sbi",
+          "circle": {
+            "left": 492,
+            "top": 1243.875,
+            "right": 530,
+            "bottom": 1281.875,
+            "width": 38,
+            "height": 38
+          },
+          "label": {
+            "left": 537,
+            "top": 1228.875,
+            "right": 809,
+            "bottom": 1296.875,
+            "width": 272,
+            "height": 68
+          },
+          "texts": [
+            {
+              "left": 624.15625,
+              "top": 1246.875,
+              "right": 721.84375,
+              "bottom": 1260.875,
+              "width": 97.6875,
+              "height": 14
+            },
+            {
+              "left": 663.703125,
+              "top": 1279.875,
+              "right": 682.8984375,
+              "bottom": 1289.875,
+              "width": 19.1953125,
+              "height": 10
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "consoleErrors": [],
+  "failedRequests": [],
+  "acceptedFilesSha256": {
+    "dist/assets/ModelLab-CvIyOA4A.js": "eaf16c01967d2a4473953c3701934ec5c24247f1ee49bcf910316c88c3fcfe10",
+    "dist/assets/ModelLab-i9uee5kF.css": "9b6c22c9c176c1d6ad2fa9955e5e68e7eee443688aa3ca2974dc940be763fb49",
+    "dist/index.html": "1d3818e046bac72e0ac33b897a2b395f09dc11084468ac3d26b5ee58db87d165",
+    "scripts/research-radar/next-model/browser.mjs": "19b956ff2e713530bcbccd52e96ea70e9b3b8f4633f69015e314333e7f88665b",
+    "src/pages/ModelLab.tsx": "2cabff4ebea4fec9f75d72018eaa69c196195cf3a957364b24136a9d305cce28",
+    "src/pages/model-lab.css": "82ebe24f9a43ee62db2953f38ea24c18944af5cbc2fc7f11739cd911f0754d36"
+  },
+  "screenshotsDirectory": "/workspace/next-model-browser-semantic"
+}

@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "executedAtUtc": "2026-10-08T17:24:36.778123+00:00",
+  "authorization": "Root agent explicit authorization for these three audited paths only.",
+  "auditSha256": "596abc4d1e8edc52f9d6cc0524ac89fdf9adb4183c9ddadef7568af0e8f6abea",
+  "freshDuplicateFullFileHashesPassed": true,
+  "freshTrackedFilesCheckPassed": true,
+  "freshOpenFileAndCwdCheckPassed": true,
+  "deleted": [
+    {
+      "path": "/workspace/india-corporate-intelligence/dist-finetune-candidate",
+      "deletedLogicalBytes": 50164362,
+      "deletedAllocatedFileBytes": 50700288,
+      "fileCount": 251,
+      "retainedReplacement": "/workspace/india-corporate-intelligence/dist-finetune-release",
+      "retainedReplacementManifestSha256": "e119a822688c2556dc1c299db43cf2dabd975deb060ea8f040da462861bb37d5"
+    },
+    {
+      "path": "/workspace/india-corporate-intelligence/dist-research-radar-candidate",
+      "deletedLogicalBytes": 50139265,
+      "deletedAllocatedFileBytes": 50675712,
+      "fileCount": 251,
+      "retainedReplacement": "/workspace/india-corporate-intelligence/dist-research-radar-release",
+      "retainedReplacementManifestSha256": "a9045529f1b772cc1400925e6cd06ad902c53a99637d5e58a83d16cefe1ee8a7"
+    },
+    {
+      "path": "/home/agent/.cache/pip/http-v2",
+      "deletedLogicalBytes": 335557210,
+      "deletedAllocatedFileBytes": 336371712,
+      "fileCount": 336,
+      "retainedReplacement": "/workspace/.venvs/icip-finetune",
+      "retainedReplacementManifestSha256": null
+    }
+  ],
+  "logicalBytesRemoved": 435860837,
+  "overlayFreeBytesBefore": 11650117632,
+  "overlayFreeBytesAfter": 12090486784,
+  "observedOverlayFreeIncreaseBytes": 440369152,
+  "measurementLimitation": "Other agents may concurrently write files; logical file bytes and filesystem free delta are different measurements.",
+  "preserved": [
+    "dist-finetune-release",
+    "dist-research-radar-release",
+    "all original and derived tender databases",
+    "evidence and corpora",
+    "model weights and adapters",
+    "installed runtimes",
+    "Git history"
+  ]
+}

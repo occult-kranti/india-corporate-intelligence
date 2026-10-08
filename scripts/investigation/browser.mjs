@@ -30,6 +30,7 @@ if (!base) { await new Promise(done => server.listen(0, '127.0.0.1', done)); lis
 base = base.replace(/\/$/u, '');
 const api = await loadInvestigation();
 const registry = api.INVESTIGATION_REGISTRY;
+const modelLabGeometry = JSON.parse(readFileSync(resolve(root, 'src/components/investigation/assets/india-current36.json'), 'utf8'));
 const moneyTrails = (await loadMoneyTrails()).getMoneyTrailsView(registry).trails;
 const radar = await loadResearchRadar();
 const results = []; const pageErrors = []; const screenshots = [];
@@ -46,6 +47,7 @@ const dedicatedRoutes = new Map([
   ['/allegations', { marker: '[data-allegations-page]', stateLabel: 'State association', filtersButton: 'Filters' }],
   ['/money-trails', { marker: '[data-money-trails-page]', workflow: 'authored-money-trail' }],
   ['/research-radar', { marker: '[data-research-radar-page]', workflow: 'research-radar' }],
+  ['/model-lab', { marker: '[data-model-lab]', workflow: 'model-lab' }],
 ]);
 const sharedRoutes = routes.filter(route => !dedicatedRoutes.has(route));
 const binary = process.env.PLAYWRIGHT_CHROMIUM_PATH ?? '/usr/bin/chromium';
@@ -112,6 +114,22 @@ try {
         await page.locator(dedicated.marker).waitFor({ timeout: 45000 });
         check(await page.locator(dedicated.marker).count() === 1, `${route}: one dedicated atlas`);
         check(await page.locator('[data-investigation-workspace]').count() === 0, `${route}: dedicated atlas is not nested in the dossier wrapper`);
+        if (dedicated.workflow === 'model-lab') {
+          // This workbench maps the selected source's state associations. Its
+          // source/graph workflow has a separate full acceptance suite; it does
+          // not expose the shared workspace's place filter or Dossier tab.
+          const map = page.getByRole('group', { name: 'India map of source-linked state associations', exact: true });
+          await map.waitFor();
+          const shapes = await map.locator(':scope > path').evaluateAll(items => items.map(item => ({ path: item.getAttribute('d'), name: item.querySelector('title')?.textContent?.split(' · ')[0] })));
+          assert.deepEqual(shapes, modelLabGeometry.states.map(state => ({ path: state.path, name: state.name })), `${route}: every retained boundary and state name renders exactly`);
+          check(shapes.length === 36, `${route}: all 36 geographic shapes remain present`);
+          assert.deepEqual(modelLabGeometry.states.map(state => state.code).sort(), registry.states.map(state => state.code).sort(), `${route}: geometry uses all current state/UT identities`);
+          assert.deepEqual(await page.locator('.ml-state-list button').evaluateAll(items => items.map(item => item.firstChild.textContent)), modelLabGeometry.states.map(state => state.name), `${route}: all state names remain in the accessible provenance list`);
+          check((await page.locator('.ml-map-caption').innerText()).includes('State tags, not precise locations'), `${route}: geographic association scope stays explicit`);
+          check(await page.getByRole('button', { name: 'Export evidence packet', exact: true }).count() === 1, `${route}: saved evidence is exportable`);
+          await overflow(route);
+          continue;
+        }
         if (dedicated.filtersButton) await page.getByRole('button', { name: dedicated.filtersButton, exact: true }).click();
         await page.locator('.iw-map-state').first().waitFor();
       } else {

@@ -39,12 +39,16 @@ try{
  await map.getByRole('button',{name:'All India',exact:true}).click();await map.getByRole('heading',{name:'India · geographic evidence',exact:true}).waitFor();
  await page.locator('.iw-surfaces').getByRole('button',{name:'Connections',exact:true}).click();
  await page.waitForURL(/iw_view=connections/);
+ // Hash navigation precedes React's surface commit. The map has its own local
+ // graph: selecting that outgoing instance does not set the Connections URL.
+ await page.locator('.iw-surface-connections .iw-graph-panel .iw-graph').waitFor({timeout:60000});
  const graph=page.locator('.iw-graph').first();await graph.locator('.iw-graph-node').first().waitFor({timeout:60000});
- await page.waitForFunction(()=>{const plot=document.querySelector('.iw-graph-plot'),svg=plot?.querySelector('svg');return plot&&svg&&svg.getBoundingClientRect().width<=plot.clientWidth+1&&svg.getBoundingClientRect().height<=plot.clientHeight+1;});
+ await page.waitForFunction(()=>{const plot=document.querySelector('.iw-surface-connections .iw-graph-panel .iw-graph-plot'),svg=plot?.querySelector('svg');if(!plot||!svg||plot.clientWidth===0||plot.clientHeight===0)return false;const box=svg.getBoundingClientRect();return box.width>0&&box.height>0&&box.width<=plot.clientWidth+1&&box.height<=plot.clientHeight+1;});
  check(true,'Initial camera auto-fits the actual graph pane');
  const rendered=await graph.locator('.iw-graph-node').count();check(rendered<=80&&rendered>0,'Graph preview is bounded at80 entities');
  check(await graph.locator('.iw-graph-edge').count()<=180,'Graph preview is bounded at180 relationships');
  const entityId=await graph.locator('.iw-graph-edge[data-traversable="true"]').first().getAttribute('data-from');const first=graph.locator(`.iw-graph-node[data-entity-id="${entityId}"]`);
+ await first.waitFor({state:'visible'});
  await first.focus();await page.keyboard.press('Enter');await page.waitForURL(url=>new URLSearchParams(url.hash.split('?')[1]).get('iw_node')===entityId);
  await graph.locator('.iw-graph-focus').getByText('Focused on',{exact:true}).waitFor();check((await graph.locator('.iw-graph-focus').innerText()).includes('Focused on'),'Keyboard entity selection opens a neighborhood');
  await graph.getByRole('button',{name:'2 hops',exact:true}).click();await page.waitForURL(/iw_depth=2/);

@@ -1,0 +1,2510 @@
+{
+  "schemaVersion": 1,
+  "id": "worldbank-india-prospective-20261008",
+  "title": "World Bank India: prospective institutional metadata cohort",
+  "asOf": "2026-10-08",
+  "retrievedAt": "2026-10-08T17:21:10.141057+00:00",
+  "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+  "counts": {
+    "officialApiProjects": 1117,
+    "eligibleActiveProjects": 81,
+    "targets": 243,
+    "resolvedTargets": 0,
+    "numericProbabilities": 0
+  },
+  "forecastStatus": "no-trained-forecast-no-numeric-probability",
+  "baselineSha256": "dff9d9d1c807878f72cb0182efcfb6b8e520e29bb1a8ea999ce052bc96549dc2",
+  "resolutionWindow": {
+    "opensAt": "2027-04-06T00:00:00+00:00",
+    "closesAt": "2027-04-20T23:59:59+00:00",
+    "selection": "First complete independently archived official API capture whose first retained page retrieval is on or after opensAt and whose last retained page retrieval is no later than closesAt.",
+    "interpretation": "Outcome is the metadata state at that capture, not proof of an event before April 6 or of any transition that occurred and was reversed between captures."
+  },
+  "targetDefinitions": [
+    {
+      "id": "status-closed-at-checkpoint",
+      "positive": "Observed status is exactly Closed.",
+      "negative": "Observed recognized status is Active, Dropped or Pipeline.",
+      "meaning": "API lifecycle status; not verified physical completion or service quality."
+    },
+    {
+      "id": "later-closing-date-at-checkpoint",
+      "positive": "Observed valid closing date is later than baseline closing date.",
+      "negative": "Both dates exist and observed date is equal to or earlier than baseline.",
+      "meaning": "Recorded closing-date revision; not itself evidence of construction delay or wrongdoing."
+    },
+    {
+      "id": "larger-commitment-at-checkpoint",
+      "positive": "Observed current total commitment exceeds baseline current total commitment.",
+      "negative": "Both nonnegative amounts exist and observed amount is equal to or lower than baseline.",
+      "meaning": "Metadata commitment revision; not a payment, loss, cash receipt or beneficiary identification."
+    }
+  ],
+  "variableDefinitions": [
+    {
+      "id": "status",
+      "label": "Recorded project status",
+      "kind": "category",
+      "interpretation": "API status, not independently verified physical completion."
+    },
+    {
+      "id": "closingDate",
+      "label": "Recorded closing date",
+      "kind": "date",
+      "interpretation": "Current metadata date; original approval baseline is not established."
+    },
+    {
+      "id": "currentCommitmentUSD",
+      "label": "Current total commitment",
+      "kind": "money",
+      "currency": "USD",
+      "interpretation": "Commitment metadata, not disbursed cash, loss or traced payment."
+    }
+  ],
+  "limits": [
+    "Failed fetch, missing project, unrecognized status, missing required field or no eligible capture means unknown, never a negative outcome.",
+    "No historical corruption classifier or calibrated probability is available.",
+    "collector and resolver implemented; no recurring job or future collection execution is claimed"
+  ],
+  "source": {
+    "publisher": "World Bank",
+    "indexUrl": "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=500&os=0&fl=id,project_name,boardapprovaldate,closingdate,status,borrower,impagency,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,totalcommamt,url",
+    "receiptPath": "research/research-radar/next-model/worldbank-baseline/receipt.json",
+    "cohortPath": "research/research-radar/next-model/prospective-worldbank-cohort.json",
+    "auditPath": "docs/research-radar/next-model/TEMPORAL-DATA-AUDIT.md",
+    "originalPages": 3,
+    "verifiedUniqueProjects": 1117
+  },
+  "projects": [
+    {
+      "id": "P096124",
+      "name": "Vishnugad Pipalkoti Hydro Electric Project",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P096124",
+      "borrower": "India",
+      "implementingAgency": "THDC (Tehri Hydro Development Corporation)",
+      "variables": {
+        "status": "Active",
+        "closingDate": "2026-12-31",
+        "currentCommitmentUSD": 648000000.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    },
+    {
+      "id": "P130544",
+      "name": "IN Karnataka Urban Water Supply Modernization Project",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P130544",
+      "borrower": "India",
+      "implementingAgency": "Karnataka Urban Infrastructure Development & Finance Corporation (KUIDFC)",
+      "variables": {
+        "status": "Active",
+        "closingDate": "2027-09-30",
+        "currentCommitmentUSD": 100000000.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    },
+    {
+      "id": "P155007",
+      "name": "Grid-Connected Rooftop Solar Program",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P155007",
+      "borrower": "State Bank of India",
+      "implementingAgency": "State Bank of India",
+      "variables": {
+        "status": "Active",
+        "closingDate": "2027-11-30",
+        "currentCommitmentUSD": 648000000.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    },
+    {
+      "id": "P157929",
+      "name": "Assam Inland Water Transport Project",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P157929",
+      "borrower": "India",
+      "implementingAgency": "Transport Dept., Govt. of Assam, Dispur, Guwahati (Assam), India",
+      "variables": {
+        "status": "Active",
+        "closingDate": "2026-12-30",
+        "currentCommitmentUSD": 88000000.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    },
+    {
+      "id": "P158502",
+      "name": "Jharkhand Municipal Development Project",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P158502",
+      "borrower": "Department of Economic Affairs, Ministry of Finance, Government of India",
+      "implementingAgency": "Urban Development and Housing Department, Government of Jharkhand",
+      "variables": {
+        "status": "Active",
+        "closingDate": "2027-09-30",
+        "currentCommitmentUSD": 122000000.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    },
+    {
+      "id": "P160018",
+      "name": "Additional Financing for Grid-Connected Rooftop Solar Program",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P160018",
+      "borrower": "State Bank of India",
+      "implementingAgency": "State Bank of India",
+      "variables": {
+        "status": "Active",
+        "closingDate": "2027-11-30",
+        "currentCommitmentUSD": 22935780.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    },
+    {
+      "id": "P163533",
+      "name": "Odisha Integrated Irrigation Project for Climate Resilient Agriculture",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P163533",
+      "borrower": "Republic of India",
+      "implementingAgency": "Agricultural Promotion and Investment Corporation of Odisha Limited,Odisha Community Tank Development and Management Society,  Department of Water Resources",
+      "variables": {
+        "status": "Active",
+        "closingDate": "2027-06-30",
+        "currentCommitmentUSD": 165000000.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    },
+    {
+      "id": "P165129",
+      "name": "Integrated Project for Source Sustainability and Climate Resilient Rain-fed Agriculture in Himachal Pradesh",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P165129",
+      "borrower": "India",
+      "implementingAgency": "Department of Forest, Government of Himachal Pradesh",
+      "variables": {
+        "status": "Active",
+        "closingDate": "2026-12-31",
+        "currentCommitmentUSD": 69000000.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    },
+    {
+      "id": "P168097",
+      "name": "Meghalaya Integrated Transport Project",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P168097",
+      "borrower": "India",
+      "implementingAgency": "Meghalaya Infrastructure Development Finance Corporation",
+      "variables": {
+        "status": "Active",
+        "closingDate": "2026-10-31",
+        "currentCommitmentUSD": 120000000.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    },
+    {
+      "id": "P168310",
+      "name": "State of Maharashtra's Agribusiness and Rural Transformation Project",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P168310",
+      "borrower": "Republic of India",
+      "implementingAgency": "Department of Agriculture, Government of Maharashtra",
+      "variables": {
+        "status": "Active",
+        "closingDate": "2027-03-31",
+        "currentCommitmentUSD": 185000000.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    },
+    {
+      "id": "P168633",
+      "name": "Kerala Solid Waste Management Project",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P168633",
+      "borrower": "India",
+      "implementingAgency": "Local Self Government Department, Government of Kerala",
+      "variables": {
+        "status": "Active",
+        "closingDate": "2027-06-30",
+        "currentCommitmentUSD": 144960000.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    },
+    {
+      "id": "P169111",
+      "name": "Second National Ganga River Basin Project",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P169111",
+      "borrower": "India",
+      "implementingAgency": "National Mission for Clean Ganga, Ministry of Jal Shakti",
+      "variables": {
+        "status": "Active",
+        "closingDate": "2026-12-31",
+        "currentCommitmentUSD": 381000000.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    },
+    {
+      "id": "P170590",
+      "name": "West Bengal Electricity Distribution Grid Modernization Project",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P170590",
+      "borrower": "INDIA",
+      "implementingAgency": "West Bengal State Electricity Distribution Company Limited",
+      "variables": {
+        "status": "Active",
+        "closingDate": "2027-03-31",
+        "currentCommitmentUSD": 226884992.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    },
+    {
+      "id": "P170811",
+      "name": "Punjab Municipal Services Improvement Project",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P170811",
+      "borrower": "India",
+      "implementingAgency": "Amritsar Municipal Corporation,Ludhiana Municipal Corporation,Punjab Municipal Infrastructure Development Company",
+      "variables": {
+        "status": "Active",
+        "closingDate": "2027-06-30",
+        "currentCommitmentUSD": 210000000.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    },
+    {
+      "id": "P170873",
+      "name": "Second Dam Rehabilitation and Improvement Project",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P170873",
+      "borrower": "Ministry of Finance, Department of Economic Affairs",
+      "implementingAgency": "Bhakra Beas Management Board,Central Water Commission (CWC), Ministry of Jal Shakti,Damodar Valley Corporation,Government of Chhattisgarh, Water Resources Department,Government of Karnataka, Water Resources Department,Government of Kerala, Water Resources Department,Government of Maharashtra, Water Resources Department,Government of Odisha, Water Resources Department,Government of Punjab, Water Resources Department,Government of Rajasthan, Water Resources Department,Government of Uttar Pradesh, Irrigation and Water Resources Department,Government of West Bengal, Irrigation and Waterways Department,Kerala State Electricity Board ,Telangana Irrigation and Command Area Development Department",
+      "variables": {
+        "status": "Active",
+        "closingDate": "2027-12-31",
+        "currentCommitmentUSD": 419070016.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    },
+    {
+      "id": "P171750",
+      "name": "Additional Financing: Rooftop Solar Program for Residential sector",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P171750",
+      "borrower": "State Bank of India",
+      "implementingAgency": "State Bank of India",
+      "variables": {
+        "status": "Active",
+        "closingDate": "2027-11-30",
+        "currentCommitmentUSD": 165000000.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    },
+    {
+      "id": "P172187",
+      "name": "Rejuvenating Watersheds for Agricultural Resilience through Innovative Development",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P172187",
+      "borrower": "India",
+      "implementingAgency": "Department of Land Resources,Karnataka Department of of Agriculture,Odisha Department of Agriculture",
+      "variables": {
+        "status": "Active",
+        "closingDate": "2027-03-31",
+        "currentCommitmentUSD": 102800000.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    },
+    {
+      "id": "P172213",
+      "name": "Nagaland: Enhancing Classroom Teaching and Resources",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P172213",
+      "borrower": "India",
+      "implementingAgency": "Nagaland (Department of School Education)",
+      "variables": {
+        "status": "Active",
+        "closingDate": "2027-03-31",
+        "currentCommitmentUSD": 54970000.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    },
+    {
+      "id": "P172226",
+      "name": "Raising and Accelerating MSME Performance",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P172226",
+      "borrower": "India",
+      "implementingAgency": "Ministry of Micro, Small and Medium Enterprises",
+      "variables": {
+        "status": "Active",
+        "closingDate": "2027-03-31",
+        "currentCommitmentUSD": 436400000.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    },
+    {
+      "id": "P173589",
+      "name": "Meghalaya Health Systems Strengthening Project",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P173589",
+      "borrower": "India",
+      "implementingAgency": "Department of Health and Family Welfare, Government of Meghalaya",
+      "variables": {
+        "status": "Active",
+        "closingDate": "2027-03-31",
+        "currentCommitmentUSD": 40000000.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    },
+    {
+      "id": "P173704",
+      "name": "Gujarat Outcomes for Accelerated Learning (GOAL)",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P173704",
+      "borrower": "Ministry of Finance",
+      "implementingAgency": "Education Department, Government of Gujarat",
+      "variables": {
+        "status": "Active",
+        "closingDate": "2027-09-30",
+        "currentCommitmentUSD": 750000000.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    },
+    {
+      "id": "P173978",
+      "name": "Supporting Andhra's Learning Transformation",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P173978",
+      "borrower": "India",
+      "implementingAgency": "State of Andhra Pradesh",
+      "variables": {
+        "status": "Active",
+        "closingDate": "2026-12-31",
+        "currentCommitmentUSD": 250000000.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    },
+    {
+      "id": "P174067",
+      "name": "Public Service Capability Enhancement Project",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P174067",
+      "borrower": "India",
+      "implementingAgency": "Capacity Building Commission,Department of Personnel and Training, Ministry of Personnel, Public Grievances and Pensions,Karmayogi Bharat",
+      "variables": {
+        "status": "Active",
+        "closingDate": "2027-03-31",
+        "currentCommitmentUSD": 47000000.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    },
+    {
+      "id": "P174312",
+      "name": "Second National Ganga River Basin Guarantee",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P174312",
+      "borrower": null,
+      "implementingAgency": null,
+      "variables": {
+        "status": "Active",
+        "closingDate": "2026-12-31",
+        "currentCommitmentUSD": 381000000.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    },
+    {
+      "id": "P174564",
+      "name": "West Bengal Building State Capability for Inclusive Social Protection Operation",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P174564",
+      "borrower": "India",
+      "implementingAgency": "West Bengal Finance Department,West Bengal Women & Child Development and Social Welfare Department",
+      "variables": {
+        "status": "Active",
+        "closingDate": "2028-08-31",
+        "currentCommitmentUSD": 125000000.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    },
+    {
+      "id": "P174593",
+      "name": "Assam Integrated River Basin Management Program",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P174593",
+      "borrower": "India",
+      "implementingAgency": "Assam State Disaster Management Authority,Flood and River Erosion Management Agency of Assam,Government of Assam, Water Resources Department",
+      "variables": {
+        "status": "Active",
+        "closingDate": "2027-07-31",
+        "currentCommitmentUSD": 108000000.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    },
+    {
+      "id": "P174732",
+      "name": "Shimla-Himachal Pradesh Water Supply and Sewerage Services Improvement Program (PforR)",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P174732",
+      "borrower": "India",
+      "implementingAgency": "Shimla Jal Prabandhan Nigam Limited,Urban Development Department, Government of Himachal Pradesh",
+      "variables": {
+        "status": "Active",
+        "closingDate": "2026-12-31",
+        "currentCommitmentUSD": 160000000.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    },
+    {
+      "id": "P174778",
+      "name": "The Resilient Kerala Program",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P174778",
+      "borrower": "India",
+      "implementingAgency": "Government of Kerala",
+      "variables": {
+        "status": "Active",
+        "closingDate": "2028-06-30",
+        "currentCommitmentUSD": 370000000.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    },
+    {
+      "id": "P174798",
+      "name": "Fisheries Sector Prosperity Project",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P174798",
+      "borrower": "INDIA",
+      "implementingAgency": "Department of Fisheries, Ministry of Fisheries, Animal Husbandry and Dairying,National Fisheries Development Board",
+      "variables": {
+        "status": "Active",
+        "closingDate": "2029-03-31",
+        "currentCommitmentUSD": 130000000.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    },
+    {
+      "id": "P174825",
+      "name": "West Bengal Boosting Logistics Efficiency and Trade Facilitation Program",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P174825",
+      "borrower": "India",
+      "implementingAgency": "West Bengal Department of Industries, Commerce and Enterprises",
+      "variables": {
+        "status": "Active",
+        "closingDate": "2028-06-30",
+        "currentCommitmentUSD": 150000000.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    },
+    {
+      "id": "P175221",
+      "name": "Chennai City Partnership: Sustainable Urban Services Program",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P175221",
+      "borrower": "India",
+      "implementingAgency": "State of Tamil Nadu",
+      "variables": {
+        "status": "Active",
+        "closingDate": "2026-12-31",
+        "currentCommitmentUSD": 300000000.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    },
+    {
+      "id": "P175261",
+      "name": "Punjab: Building Fiscal and Institutional Resilience",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P175261",
+      "borrower": "India",
+      "implementingAgency": "Department of Finance, Government of Punjab",
+      "variables": {
+        "status": "Active",
+        "closingDate": "2027-06-30",
+        "currentCommitmentUSD": 75625000.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    },
+    {
+      "id": "P175676",
+      "name": "PHSPP: Transforming India’s Public Health Systems for Pandemic Preparedness Program",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P175676",
+      "borrower": "India",
+      "implementingAgency": "Ministry of Health and Family Welfare",
+      "variables": {
+        "status": "Active",
+        "closingDate": "2027-12-31",
+        "currentCommitmentUSD": 500000000.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    },
+    {
+      "id": "P175728",
+      "name": "Gujarat Resilient Cities Partnership: Ahmedabad City Resilience Project",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P175728",
+      "borrower": "India",
+      "implementingAgency": "Ahmedabad Municipal Corporation,Gujarat Urban Development Mission,Urban Development and Urban Housing Department",
+      "variables": {
+        "status": "Active",
+        "closingDate": "2028-12-31",
+        "currentCommitmentUSD": 280000000.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    },
+    {
+      "id": "P175811",
+      "name": "Odisha State Capability and Resilient Growth Program",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P175811",
+      "borrower": "India",
+      "implementingAgency": "Finance Department, Government of Odisha",
+      "variables": {
+        "status": "Active",
+        "closingDate": "2028-04-26",
+        "currentCommitmentUSD": 79925000.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    },
+    {
+      "id": "P176032",
+      "name": "Himachal Pradesh Power Sector Development Program",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P176032",
+      "borrower": "India",
+      "implementingAgency": "Directorate of Energy,HPPCL (Himachal Pradesh Power Corporation Limited),HPPTCL (Himachal Pradesh Power Transmission Corporation Limited),HPSEBL (Himachal Pradesh State Electricity Board Limited),HPSLDC (Himachal Pradesh State Load Despatch Centre),HimUrja",
+      "variables": {
+        "status": "Active",
+        "closingDate": "2028-03-31",
+        "currentCommitmentUSD": 200000000.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    },
+    {
+      "id": "P176107",
+      "name": "Additional Financing - Karnataka Urban Water Supply Modernization Project",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P176107",
+      "borrower": "India",
+      "implementingAgency": "Karnataka Urban Infrastructure Development & Finance Corporation (KUIDFC)",
+      "variables": {
+        "status": "Active",
+        "closingDate": "2027-09-30",
+        "currentCommitmentUSD": 150000000.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    },
+    {
+      "id": "P176404",
+      "name": "RIGHTS: Inclusion, Accessibility and Opportunities for Persons with Disabilities in Tamil Nadu",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P176404",
+      "borrower": "India",
+      "implementingAgency": "Department for the Welfare of Differently Abled Persons (DfWDAP)",
+      "variables": {
+        "status": "Active",
+        "closingDate": "2028-06-30",
+        "currentCommitmentUSD": 162000000.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    },
+    {
+      "id": "P176733",
+      "name": "IN: Manipur Infotech eNabled Development Project",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P176733",
+      "borrower": "India",
+      "implementingAgency": "Cyber Corporation of Manipur Limited",
+      "variables": {
+        "status": "Active",
+        "closingDate": "2028-09-30",
+        "currentCommitmentUSD": 46000000.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    },
+    {
+      "id": "P177159",
+      "name": "Monitoring and Evaluation capacity building in South Asia",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P177159",
+      "borrower": "Institute for Financial Management and Research (IFMR)",
+      "implementingAgency": "Jameel Poverty Action Lab (J-PAL) South Asia at the Institute for Financial Management and Research",
+      "variables": {
+        "status": "Active",
+        "closingDate": "2030-06-30",
+        "currentCommitmentUSD": 1500000.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    },
+    {
+      "id": "P177876",
+      "name": "West Bengal Accelerated Development of Minor Irrigation Project - Phase II",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P177876",
+      "borrower": "India",
+      "implementingAgency": "DWRID, Government of West Bengal",
+      "variables": {
+        "status": "Active",
+        "closingDate": "2029-06-29",
+        "currentCommitmentUSD": 148000000.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    },
+    {
+      "id": "P177915",
+      "name": "GUJARAT OUTCOMES FOR ACCELERATED LEARNING (GOAL) - ADDITIONAL FINANCING (AF)",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P177915",
+      "borrower": "Government of Gujarat,Ministry of Finance",
+      "implementingAgency": "Education Department, Government of Gujarat",
+      "variables": {
+        "status": "Active",
+        "closingDate": "2027-09-30",
+        "currentCommitmentUSD": 250000000.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    },
+    {
+      "id": "P177917",
+      "name": "Multidisciplinary Education and Research Improvement in Technical Education",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P177917",
+      "borrower": "India",
+      "implementingAgency": "Ministry of Education",
+      "variables": {
+        "status": "Active",
+        "closingDate": "2028-12-29",
+        "currentCommitmentUSD": 205500000.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    },
+    {
+      "id": "P177965",
+      "name": "Development of Applied Knowledge and Skills for Human Development in Maharashtra  - (DAKSH) Maharashtra Program",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P177965",
+      "borrower": "India",
+      "implementingAgency": "Skills, Employment, Entrepreneurship and Innovation Department, Government of Maharashtra",
+      "variables": {
+        "status": "Active",
+        "closingDate": "2029-03-30",
+        "currentCommitmentUSD": 195000000.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    },
+    {
+      "id": "P177980",
+      "name": "Additional Financing for Resilient Kerala Program",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P177980",
+      "borrower": "India",
+      "implementingAgency": "Government of Kerala",
+      "variables": {
+        "status": "Active",
+        "closingDate": "2028-06-30",
+        "currentCommitmentUSD": 150000000.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    },
+    {
+      "id": "P178146",
+      "name": "India's Enhanced Health Service Delivery Program",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P178146",
+      "borrower": "India",
+      "implementingAgency": "Department of Health and Family Welfare, Ministry of Health and Family Welfare, Government of India,Ministry of Health and Family Welfare, Government of India",
+      "variables": {
+        "status": "Active",
+        "closingDate": "2027-06-30",
+        "currentCommitmentUSD": 67780000.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    },
+    {
+      "id": "P178252",
+      "name": "Systems Reform Endeavours for Transformed Health Achievement in Gujarat (SRESTHA-G)",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P178252",
+      "borrower": "India",
+      "implementingAgency": "Government of Gujarat through Health and Family Welfare Department (HFWD)",
+      "variables": {
+        "status": "Active",
+        "closingDate": "2028-03-31",
+        "currentCommitmentUSD": 350000000.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    },
+    {
+      "id": "P178253",
+      "name": "Uttar Pradesh Agriculture Growth and Rural Enterprise Ecosystem Strengthening Project",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P178253",
+      "borrower": "India",
+      "implementingAgency": "Uttar Pradesh Diversified Agriculture Support Project Society, Government of Uttar Pradesh",
+      "variables": {
+        "status": "Active",
+        "closingDate": "2030-09-30",
+        "currentCommitmentUSD": 325101792.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    },
+    {
+      "id": "P178254",
+      "name": "Kerala Climate Resilient Agri- Value Chain Modernization (KERA) Project",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P178254",
+      "borrower": "India",
+      "implementingAgency": "Department of Agriculture and Farmers Welfare, Government of Kerala",
+      "variables": {
+        "status": "Active",
+        "closingDate": "2029-11-30",
+        "currentCommitmentUSD": 200000000.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    },
+    {
+      "id": "P178418",
+      "name": "Tripura Rural Economic Growth and Service Delivery Project",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P178418",
+      "borrower": "India",
+      "implementingAgency": "Department of Tribal Welfare, Government of Tripura",
+      "variables": {
+        "status": "Active",
+        "closingDate": "2029-06-30",
+        "currentCommitmentUSD": 140000000.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    },
+    {
+      "id": "P178581",
+      "name": "Assam Resilient Rural Bridges Program",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P178581",
+      "borrower": "India",
+      "implementingAgency": "Public Works Roads Department, Government of Assam",
+      "variables": {
+        "status": "Active",
+        "closingDate": "2030-06-28",
+        "currentCommitmentUSD": 922000000.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    },
+    {
+      "id": "P179039",
+      "name": "Karnataka Sustainable Rural Water Supply Program",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P179039",
+      "borrower": "India",
+      "implementingAgency": "Rural Development and Panchayat Department, Government of Karnataka,Rural Drinking Water and Sanitation Department, Government of Karnataka",
+      "variables": {
+        "status": "Active",
+        "closingDate": "2028-06-01",
+        "currentCommitmentUSD": 363000000.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    },
+    {
+      "id": "P179189",
+      "name": "Tamil Nadu Climate Resilient Urban Development Program",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P179189",
+      "borrower": "India",
+      "implementingAgency": "Tamil Nadu Municipal Administration & Water Supply Department,Tamil Nadu Urban Infrastructure Financial Services Limited",
+      "variables": {
+        "status": "Active",
+        "closingDate": "2030-12-31",
+        "currentCommitmentUSD": 300000000.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    },
+    {
+      "id": "P179337",
+      "name": "Assam State Secondary Healthcare Initiative for Service Delivery Transformation (ASSIST) Project",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P179337",
+      "borrower": "India",
+      "implementingAgency": "Assam Health Infrastructure Development and Management Society (AHIDMS), Health and Family Welfare",
+      "variables": {
+        "status": "Active",
+        "closingDate": "2029-11-30",
+        "currentCommitmentUSD": 222030000.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    },
+    {
+      "id": "P179357",
+      "name": "Uttarakhand Climate Responsive Rainfed Farming Project",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P179357",
+      "borrower": "India",
+      "implementingAgency": "Watershed Management Directorate, Government of Uttarakhand",
+      "variables": {
+        "status": "Active",
+        "closingDate": "2030-03-31",
+        "currentCommitmentUSD": 96200000.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    },
+    {
+      "id": "P179749",
+      "name": "Uttarakhand Disaster Preparedness and Resilience Project",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P179749",
+      "borrower": "India",
+      "implementingAgency": "Uttarakhand State Disaster Management Authority, Government of Uttarakhand",
+      "variables": {
+        "status": "Active",
+        "closingDate": "2029-06-30",
+        "currentCommitmentUSD": 135000000.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    },
+    {
+      "id": "P179935",
+      "name": "Enhancing Landscape and Ecosystem Management (ELEMENT) Project",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P179935",
+      "borrower": "India",
+      "implementingAgency": "Ministry of Development of North Eastern Region (MDoNER),Society for Climate Resilient Agriculture in Nagaland (SoCRAN),Government of Nagaland,State Forest Development Agency (SFDA), Department of Forests ,Government of Tripura",
+      "variables": {
+        "status": "Active",
+        "closingDate": "2030-06-30",
+        "currentCommitmentUSD": 227915008.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    },
+    {
+      "id": "P180634",
+      "name": "Sikkim: Integrated Service Provision and Innovation for Reviving Economies Operation",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P180634",
+      "borrower": "India",
+      "implementingAgency": "Planning and Development Department, Government of Sikkim",
+      "variables": {
+        "status": "Active",
+        "closingDate": "2029-04-30",
+        "currentCommitmentUSD": 100000000.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    },
+    {
+      "id": "P180699",
+      "name": "Tamil Nadu Women Employment and Safety (TN WESAFE) Operation",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P180699",
+      "borrower": "India",
+      "implementingAgency": "Special Program Implementation Department.",
+      "variables": {
+        "status": "Active",
+        "closingDate": "2030-06-30",
+        "currentCommitmentUSD": 150000000.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    },
+    {
+      "id": "P180932",
+      "name": "Strengthening Coastal Resilience and the Economy Project",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P180932",
+      "borrower": "India",
+      "implementingAgency": "Department of Environment, Climate Change, and Forests, State of Tamil Nadu,Department of Forest, Ecology, and Environment, State of Karnataka",
+      "variables": {
+        "status": "Active",
+        "closingDate": "2031-06-30",
+        "currentCommitmentUSD": 212640000.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    },
+    {
+      "id": "P181463",
+      "name": "Maharashtra Strengthening Institutional Capabilities in Districts for Enabling Growth Operation",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P181463",
+      "borrower": "India",
+      "implementingAgency": "Planning Department, Government of Maharashtra",
+      "variables": {
+        "status": "Active",
+        "closingDate": "2030-03-31",
+        "currentCommitmentUSD": 188280000.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    },
+    {
+      "id": "P500564",
+      "name": "Punjab Outcomes-Acceleration In School Education Operation",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P500564",
+      "borrower": "India",
+      "implementingAgency": "State of Punjab",
+      "variables": {
+        "status": "Active",
+        "closingDate": "2031-06-30",
+        "currentCommitmentUSD": 286000000.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    },
+    {
+      "id": "P501071",
+      "name": "Rajasthan Highway Modernization Project (RHMP)",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P501071",
+      "borrower": "India",
+      "implementingAgency": "Department of Transport and Road Safety,Rajasthan State Highway Authority",
+      "variables": {
+        "status": "Active",
+        "closingDate": "2031-05-31",
+        "currentCommitmentUSD": 225000000.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    },
+    {
+      "id": "P503872",
+      "name": "Kerala Health Systems Improvement Program",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P503872",
+      "borrower": "INDIA",
+      "implementingAgency": "Department of Health & Family Welfare, Government of Kerala",
+      "variables": {
+        "status": "Active",
+        "closingDate": "2031-03-31",
+        "currentCommitmentUSD": 280000000.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    },
+    {
+      "id": "P505177",
+      "name": "India - Enhancing Innovation among ICMR Institutions",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P505177",
+      "borrower": "Ministry of Health and Family Welfare",
+      "implementingAgency": "Indian Council for Medical Research",
+      "variables": {
+        "status": "Active",
+        "closingDate": "2027-06-30",
+        "currentCommitmentUSD": 1000000.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    },
+    {
+      "id": "P505190",
+      "name": "Bihar Water Security and Irrigation Modernization Project",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P505190",
+      "borrower": "India",
+      "implementingAgency": "Water Resources Department (WRD), Government of Bihar",
+      "variables": {
+        "status": "Active",
+        "closingDate": "2032-10-31",
+        "currentCommitmentUSD": 350000000.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    },
+    {
+      "id": "P506272",
+      "name": "Karnataka Water Security and Resilience Program",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P506272",
+      "borrower": "India",
+      "implementingAgency": "Bangalore Water Supply and Sewerage Board,Bruhat Bengaluru Mahanagara Palike ,Minor Irrigation & Groundwater Development Department,Revenue Department ",
+      "variables": {
+        "status": "Active",
+        "closingDate": "2030-12-31",
+        "currentCommitmentUSD": 426000000.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    },
+    {
+      "id": "P506340",
+      "name": "Maharashtra Resilience Development Project",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P506340",
+      "borrower": "India",
+      "implementingAgency": "Maharashtra Institution for Transformation (MITRA),State of Maharashtra",
+      "variables": {
+        "status": "Active",
+        "closingDate": "2031-10-31",
+        "currentCommitmentUSD": 235000000.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    },
+    {
+      "id": "P506976",
+      "name": "West Bengal Health System Reform Program Operation",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P506976",
+      "borrower": "India",
+      "implementingAgency": "Department of Health and Family Welfare (DoHFW), Government of West Bengal (GoWB)",
+      "variables": {
+        "status": "Active",
+        "closingDate": "2031-03-31",
+        "currentCommitmentUSD": 286000000.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    },
+    {
+      "id": "P507066",
+      "name": "Meghalaya Multisectoral Project for Adolescent Wellbeing, Empowerment and Resilience (MPOWER)",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P507066",
+      "borrower": "India",
+      "implementingAgency": "Government of Meghalaya",
+      "variables": {
+        "status": "Active",
+        "closingDate": "2031-02-28",
+        "currentCommitmentUSD": 35000000.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    },
+    {
+      "id": "P507508",
+      "name": "Amaravati Integrated Urban Development Program",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P507508",
+      "borrower": "India",
+      "implementingAgency": "Andhra Pradesh Capital Regional Development Authority",
+      "variables": {
+        "status": "Active",
+        "closingDate": "2029-12-31",
+        "currentCommitmentUSD": 1600000000.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    },
+    {
+      "id": "P507865",
+      "name": "Assam: School Education and Adolescent Wellbeing Project (ASAP)",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P507865",
+      "borrower": "India",
+      "implementingAgency": "State of Assam",
+      "variables": {
+        "status": "Active",
+        "closingDate": "2030-12-31",
+        "currentCommitmentUSD": 250000000.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    },
+    {
+      "id": "P507910",
+      "name": "Supporting Pradhan Mantri Skilling and Employability Transformation through Upgraded ITIs",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P507910",
+      "borrower": "India",
+      "implementingAgency": "Ministry of Skill Development and Entrepreneurship",
+      "variables": {
+        "status": "Active",
+        "closingDate": "2030-12-31",
+        "currentCommitmentUSD": 1676000000.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    },
+    {
+      "id": "P508489",
+      "name": "PM Surya Ghar Muft Bijli Yojana - Solar Rooftops for Households Program",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P508489",
+      "borrower": "India",
+      "implementingAgency": "Ministry of New & Renewable Energy, Government of India",
+      "variables": {
+        "status": "Active",
+        "closingDate": "2028-12-31",
+        "currentCommitmentUSD": 890000000.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    },
+    {
+      "id": "P510002",
+      "name": "Assam Disaster Resilient Hill Roads Development Project (ADRHRDP)",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P510002",
+      "borrower": "India",
+      "implementingAgency": "Assam Public Works (Roads) Department, EAP",
+      "variables": {
+        "status": "Active",
+        "closingDate": "2032-12-31",
+        "currentCommitmentUSD": 350000000.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    },
+    {
+      "id": "P510253",
+      "name": "Uttar Pradesh Clean Air Management Program",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P510253",
+      "borrower": "India",
+      "implementingAgency": "Department of Environment, Forests, and Climate Change, State of Uttar Pradesh",
+      "variables": {
+        "status": "Active",
+        "closingDate": "2032-01-01",
+        "currentCommitmentUSD": 304660000.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    },
+    {
+      "id": "P510429",
+      "name": "Maharashtra Project on Climate Resilient Agriculture Phase - II",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P510429",
+      "borrower": "India",
+      "implementingAgency": "Department of Agriculture",
+      "variables": {
+        "status": "Active",
+        "closingDate": "2031-11-30",
+        "currentCommitmentUSD": 490000000.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    },
+    {
+      "id": "P510686",
+      "name": "India: Haryana Clean Air Project for Sustainable Development Operation",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P510686",
+      "borrower": "India",
+      "implementingAgency": "Artificial Intelligence for Resilient Jobs, Urban Air Quality, and Next Gen Skills Council (ARJUN), Government of Haryana",
+      "variables": {
+        "status": "Active",
+        "closingDate": "2032-01-31",
+        "currentCommitmentUSD": 305000000.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    },
+    {
+      "id": "P511844",
+      "name": "Assam Governance and Service Delivery Program",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P511844",
+      "borrower": "India",
+      "implementingAgency": "Assam Society for Comprehensive Financial Management System (AS-CFMS), Finance Department, Government of Assam",
+      "variables": {
+        "status": "Active",
+        "closingDate": "2031-03-31",
+        "currentCommitmentUSD": 80000000.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    },
+    {
+      "id": "P513815",
+      "name": "Resilient Action for Development and Disaster Recovery Himachal Pradesh",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P513815",
+      "borrower": "India",
+      "implementingAgency": "Department of Revenue (DM-Cell), Government of Himachal Pradesh; Directorate of Energy; Public Works Department; Jal Shakti Vibhag",
+      "variables": {
+        "status": "Active",
+        "closingDate": "2031-03-31",
+        "currentCommitmentUSD": 245000000.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    },
+    {
+      "id": "P517201",
+      "name": "Boosting Job Creation in the Private Sector",
+      "sourceUrl": "https://projects.worldbank.org/en/projects-operations/project-detail/P517201",
+      "borrower": "India",
+      "implementingAgency": "Ministry of Finance",
+      "variables": {
+        "status": "Active",
+        "closingDate": "2027-12-31",
+        "currentCommitmentUSD": 1500000000.0
+      },
+      "firstAvailableAt": "2026-10-08T17:21:10.141057+00:00",
+      "targets": [
+        {
+          "id": "status-closed-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "later-closing-date-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        },
+        {
+          "id": "larger-commitment-at-checkpoint",
+          "outcome": null,
+          "probability": null
+        }
+      ]
+    }
+  ]
+}

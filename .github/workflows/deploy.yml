@@ -83,6 +83,9 @@ jobs:
       - name: Local retrieval fine-tuning integrity and holdout guards (no training)
         run: npm run validate:radar:finetune && npm run test:radar:finetune
 
+      - name: Expanded local models, graph closure and prospective cohort (offline verification)
+        run: npm run validate:radar:next && npm run test:radar:next
+
       - name: Typecheck and build
         run: npm run build
 
@@ -114,6 +117,9 @@ jobs:
 
       - name: Integrated atlas, multihop readers and WebGL fallback workflows
         run: npm run test:atlas:browser && npm run test:atlas:integration && npm run test:atlas:audit && npm run test:allegations:browser && npm run test:metro:browser && npm run test:money-trails:browser && npm run test:radar:browser && npm run test:radar:challenge-browser && npm run test:radar:finetune:browser && npm run test:map:browser && npm run test:places:browser
+
+      - name: Evidence model lab workflow
+        run: npm run test:radar:next:browser
 
       - name: Source-backed procurement trail workflow
         run: npm run test:procurement:browser

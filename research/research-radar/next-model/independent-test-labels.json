@@ -1,0 +1,606 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Independent prospective source-retrieval holdout with separate evidence-path integration expectations",
+  "authoredBy": "Independent evaluation AI agent",
+  "authoredUserDate": "2026-10-08",
+  "timezone": "America/New_York",
+  "candidateOutputsInspected": false,
+  "priorTestUse": "Previous 20-question test is exhausted; none of those cases is used as a new blind test here.",
+  "labelPolicy": "Source relevance grades: 2 directly useful; 1 partial context; 0 not an answer to the exact question, not a factual false label. Duplicate canonicalization is recorded separately.",
+  "questionCount": 24,
+  "groupCount": 6,
+  "queries": [
+    {
+      "id": "next-holdout-ts-01",
+      "caseGroup": "ts",
+      "query": "Which audit separates the Telangana police vehicle loan from principal, interest and the estimated extra borrowing cost through March 2022?",
+      "relevance": {
+        "atlas-oversight:source:ov-src-ts-cag": 2,
+        "public-works:source:state-src-ts": 1,
+        "deep-procurement:source:prior-state-src-ts": 1
+      },
+      "requiredCounterevidenceSourceIds": [],
+      "hardNegativeSourceIds": [
+        "atlas-oversight:source:ov-src-ts-moa"
+      ],
+      "caseRecordId": "atlas-oversight:record:ov-ts-police-loan",
+      "requiredRelationshipIds": [
+        "atlas-oversight:relationship:ov-ts-loan",
+        "atlas-oversight:relationship:ov-ts-budget-service",
+        "atlas-oversight:relationship:ov-ts-repayment"
+      ],
+      "expectedEvidence": "CAG Box 2.4: 500 crore facility; 328 crore debt service consists of 185 crore principal plus 143 crore interest; 13 crore is a comparator-based incremental-interest estimate, not another disbursement.",
+      "evidenceStop": null,
+      "labelBasis": "Independent evaluator inspection of retained registry plus original/indexed evidence artifacts; usefulness to the exact question, not factual-truth classification.",
+      "sourceLineages": {
+        "atlas-oversight:source:ov-src-ts-cag": "https://cag.gov.in/webroot/uploads/download_audit_report/2023/SFAR-English_22-23-065cf061f9f8133.21709580.pdf",
+        "public-works:source:state-src-ts": "https://cag.gov.in/webroot/uploads/download_audit_report/2023/SFAR-English_22-23-065cf061f9f8133.21709580.pdf",
+        "deep-procurement:source:prior-state-src-ts": "https://cag.gov.in/webroot/uploads/download_audit_report/2023/SFAR-English_22-23-065cf061f9f8133.21709580.pdf"
+      }
+    },
+    {
+      "id": "next-holdout-ts-02",
+      "caseGroup": "ts",
+      "query": "What source challenges the assumption that a police housing corporation is inherently prohibited from borrowing, while leaving compliance with its specific loan terms unresolved?",
+      "relevance": {
+        "atlas-oversight:source:ov-src-ts-moa": 2,
+        "atlas-oversight:source:ov-src-ts-cag": 1,
+        "public-works:source:state-src-ts": 1,
+        "deep-procurement:source:prior-state-src-ts": 1
+      },
+      "requiredCounterevidenceSourceIds": [
+        "atlas-oversight:source:ov-src-ts-moa"
+      ],
+      "hardNegativeSourceIds": [],
+      "caseRecordId": "atlas-oversight:record:ov-ts-police-loan",
+      "requiredRelationshipIds": [],
+      "expectedEvidence": "TSPHCL memorandum permits borrowing and government arrangements; it does not establish compliance with 2018 repayment terms. CAG says the corporation acted on behalf of government.",
+      "evidenceStop": null,
+      "labelBasis": "Independent evaluator inspection of retained registry plus original/indexed evidence artifacts; usefulness to the exact question, not factual-truth classification.",
+      "sourceLineages": {
+        "atlas-oversight:source:ov-src-ts-moa": "https://www.tsphcl.com/moa/",
+        "atlas-oversight:source:ov-src-ts-cag": "https://cag.gov.in/webroot/uploads/download_audit_report/2023/SFAR-English_22-23-065cf061f9f8133.21709580.pdf",
+        "public-works:source:state-src-ts": "https://cag.gov.in/webroot/uploads/download_audit_report/2023/SFAR-English_22-23-065cf061f9f8133.21709580.pdf",
+        "deep-procurement:source:prior-state-src-ts": "https://cag.gov.in/webroot/uploads/download_audit_report/2023/SFAR-English_22-23-065cf061f9f8133.21709580.pdf"
+      }
+    },
+    {
+      "id": "next-holdout-ts-03",
+      "caseGroup": "ts",
+      "query": "Trace the lender, borrowing corporation, state credit support and vehicle-owning department in the Telangana financing record without counting the guarantee as another cash transfer.",
+      "relevance": {
+        "atlas-oversight:source:ov-src-ts-cag": 2,
+        "atlas-oversight:source:ov-src-ts-moa": 1,
+        "public-works:source:state-src-ts": 1,
+        "deep-procurement:source:prior-state-src-ts": 1
+      },
+      "requiredCounterevidenceSourceIds": [],
+      "hardNegativeSourceIds": [],
+      "caseRecordId": "atlas-oversight:record:ov-ts-police-loan",
+      "requiredRelationshipIds": [
+        "atlas-oversight:relationship:ov-ts-guarantee",
+        "atlas-oversight:relationship:ov-ts-loan",
+        "atlas-oversight:relationship:ov-ts-asset-purpose",
+        "atlas-oversight:relationship:ov-ts-budget-service",
+        "atlas-oversight:relationship:ov-ts-repayment"
+      ],
+      "expectedEvidence": "Vijaya Bank facility to TSPHCL; state guarantee credit support; vehicles in DGP/Home Department name. Budget resources funded debt service. These are distinct typed relationships.",
+      "evidenceStop": null,
+      "labelBasis": "Independent evaluator inspection of retained registry plus original/indexed evidence artifacts; usefulness to the exact question, not factual-truth classification.",
+      "sourceLineages": {
+        "atlas-oversight:source:ov-src-ts-cag": "https://cag.gov.in/webroot/uploads/download_audit_report/2023/SFAR-English_22-23-065cf061f9f8133.21709580.pdf",
+        "atlas-oversight:source:ov-src-ts-moa": "https://www.tsphcl.com/moa/",
+        "public-works:source:state-src-ts": "https://cag.gov.in/webroot/uploads/download_audit_report/2023/SFAR-English_22-23-065cf061f9f8133.21709580.pdf",
+        "deep-procurement:source:prior-state-src-ts": "https://cag.gov.in/webroot/uploads/download_audit_report/2023/SFAR-English_22-23-065cf061f9f8133.21709580.pdf"
+      }
+    },
+    {
+      "id": "next-holdout-ts-04",
+      "caseGroup": "ts",
+      "query": "Does the retained Telangana police borrowing evidence identify the vehicle manufacturer or the supplier invoice that received this money?",
+      "relevance": {
+        "atlas-oversight:source:ov-src-ts-cag": 2,
+        "atlas-oversight:source:ov-src-ts-moa": 1,
+        "public-works:source:state-src-ts": 1,
+        "deep-procurement:source:prior-state-src-ts": 1
+      },
+      "requiredCounterevidenceSourceIds": [],
+      "hardNegativeSourceIds": [],
+      "caseRecordId": "atlas-oversight:record:ov-ts-police-loan",
+      "requiredRelationshipIds": [],
+      "expectedEvidence": "It identifies the bank, corporation and DGP, but no exact vehicle supplier or contract bill is retained. Obtain signed procurement award/invoices and bank reconciliation before extending the path.",
+      "evidenceStop": "No source-backed vehicle manufacturer, supplier invoice or ultimate private recipient is established. Do not infer a manufacturer from common government suppliers.",
+      "labelBasis": "Independent evaluator inspection of retained registry plus original/indexed evidence artifacts; usefulness to the exact question, not factual-truth classification.",
+      "sourceLineages": {
+        "atlas-oversight:source:ov-src-ts-cag": "https://cag.gov.in/webroot/uploads/download_audit_report/2023/SFAR-English_22-23-065cf061f9f8133.21709580.pdf",
+        "atlas-oversight:source:ov-src-ts-moa": "https://www.tsphcl.com/moa/",
+        "public-works:source:state-src-ts": "https://cag.gov.in/webroot/uploads/download_audit_report/2023/SFAR-English_22-23-065cf061f9f8133.21709580.pdf",
+        "deep-procurement:source:prior-state-src-ts": "https://cag.gov.in/webroot/uploads/download_audit_report/2023/SFAR-English_22-23-065cf061f9f8133.21709580.pdf"
+      }
+    },
+    {
+      "id": "next-holdout-br-01",
+      "caseGroup": "br",
+      "query": "Where is the Bihar PM-KISAN recoverable cohort broken into taxpayer and other ineligible recipient groups, distinct from a final adjudicated loss?",
+      "relevance": {
+        "atlas-oversight:source:ov-src-bihar-cag": 2
+      },
+      "requiredCounterevidenceSourceIds": [],
+      "hardNegativeSourceIds": [
+        "atlas-oversight:source:ov-src-pib-recovery"
+      ],
+      "caseRecordId": "atlas-oversight:record:ov-bihar-pmkisan",
+      "requiredRelationshipIds": [
+        "atlas-oversight:relationship:ov-bihar-payments",
+        "atlas-oversight:relationship:ov-bihar-validation"
+      ],
+      "expectedEvidence": "November 2021 validation: 62.67 crore/67,851 recipients; 39.05 crore/48,366 taxpayers plus 23.62 crore/19,485 other recipients. Components overlap their total; eligibility errors do not establish intentional fraud individually.",
+      "evidenceStop": null,
+      "labelBasis": "Independent evaluator inspection of retained registry plus original/indexed evidence artifacts; usefulness to the exact question, not factual-truth classification.",
+      "sourceLineages": {
+        "atlas-oversight:source:ov-src-bihar-cag": "https://cag.gov.in/uploads/download_audit_report/2022/4--Report-no---5--ENGLISH-Chapter---2-0639c52a04277b3.55097063.pdf"
+      }
+    },
+    {
+      "id": "next-holdout-br-02",
+      "caseGroup": "br",
+      "query": "Which later government response records national PM-KISAN recovery and additional verification controls, and why does it not settle the earlier Bihar audit cohort?",
+      "relevance": {
+        "atlas-oversight:source:ov-src-pib-recovery": 2,
+        "atlas-oversight:source:ov-src-bihar-cag": 1
+      },
+      "requiredCounterevidenceSourceIds": [
+        "atlas-oversight:source:ov-src-pib-recovery"
+      ],
+      "hardNegativeSourceIds": [],
+      "caseRecordId": "atlas-oversight:record:ov-bihar-pmkisan",
+      "requiredRelationshipIds": [],
+      "expectedEvidence": "March 2025 ministry response: 416 crore recovered nationally, with land seeding/Aadhaar payment/eKYC controls. Different geography/cohort/time from Bihar audit; no Bihar settlement follows.",
+      "evidenceStop": null,
+      "labelBasis": "Independent evaluator inspection of retained registry plus original/indexed evidence artifacts; usefulness to the exact question, not factual-truth classification.",
+      "sourceLineages": {
+        "atlas-oversight:source:ov-src-pib-recovery": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2112399",
+        "atlas-oversight:source:ov-src-bihar-cag": "https://cag.gov.in/uploads/download_audit_report/2022/4--Report-no---5--ENGLISH-Chapter---2-0639c52a04277b3.55097063.pdf"
+      }
+    },
+    {
+      "id": "next-holdout-br-03",
+      "caseGroup": "br",
+      "query": "What distinguishes money reportedly recovered from Bihar PM-KISAN recipients from money reconciled and remitted to the Union government?",
+      "relevance": {
+        "atlas-oversight:source:ov-src-bihar-cag": 2,
+        "atlas-oversight:source:ov-src-pib-recovery": 1
+      },
+      "requiredCounterevidenceSourceIds": [],
+      "hardNegativeSourceIds": [],
+      "caseRecordId": "atlas-oversight:record:ov-bihar-pmkisan",
+      "requiredRelationshipIds": [
+        "atlas-oversight:relationship:ov-bihar-recovery"
+      ],
+      "expectedEvidence": "Secretary reported 5 crore recovered February 2022; ledger was lump sum and reconciliation/remittance pending. A later national aggregate cannot substitute for cohort-level remittance.",
+      "evidenceStop": "No beneficiary-level recovery ledger, cohort remittance or later accepted closure is established; no private beneficiary names should be generated.",
+      "labelBasis": "Independent evaluator inspection of retained registry plus original/indexed evidence artifacts; usefulness to the exact question, not factual-truth classification.",
+      "sourceLineages": {
+        "atlas-oversight:source:ov-src-bihar-cag": "https://cag.gov.in/uploads/download_audit_report/2022/4--Report-no---5--ENGLISH-Chapter---2-0639c52a04277b3.55097063.pdf",
+        "atlas-oversight:source:ov-src-pib-recovery": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2112399"
+      }
+    },
+    {
+      "id": "next-holdout-br-04",
+      "caseGroup": "br",
+      "query": "What evidence would limit an assertion that every erroneous Bihar PM-KISAN payment was a deliberate scam, including verification rejections and later safeguards?",
+      "relevance": {
+        "atlas-oversight:source:ov-src-bihar-cag": 2,
+        "atlas-oversight:source:ov-src-pib-recovery": 1
+      },
+      "requiredCounterevidenceSourceIds": [
+        "atlas-oversight:source:ov-src-bihar-cag",
+        "atlas-oversight:source:ov-src-pib-recovery"
+      ],
+      "hardNegativeSourceIds": [],
+      "caseRecordId": "atlas-oversight:record:ov-bihar-pmkisan",
+      "requiredRelationshipIds": [],
+      "expectedEvidence": "Audit retains rejection of over 39 lakh applications and administrative validation gaps; later national checks show corrective action. Neither finding adjudicates each recipient intent.",
+      "evidenceStop": null,
+      "labelBasis": "Independent evaluator inspection of retained registry plus original/indexed evidence artifacts; usefulness to the exact question, not factual-truth classification.",
+      "sourceLineages": {
+        "atlas-oversight:source:ov-src-bihar-cag": "https://cag.gov.in/uploads/download_audit_report/2022/4--Report-no---5--ENGLISH-Chapter---2-0639c52a04277b3.55097063.pdf",
+        "atlas-oversight:source:ov-src-pib-recovery": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2112399"
+      }
+    },
+    {
+      "id": "next-holdout-ap-01",
+      "caseGroup": "ap",
+      "query": "Find the Akshaya Patra financial evidence that distinguishes state-support income from cash receipts for 2024–25 rather than treating their difference as missing money.",
+      "relevance": {
+        "deep-services:source:akshaya-annual-2025": 2,
+        "education:source:akshaya-patra-annual-2025": 1
+      },
+      "requiredCounterevidenceSourceIds": [],
+      "hardNegativeSourceIds": [
+        "deep-services:source:akshaya-kitchen-2024"
+      ],
+      "caseRecordId": "deep-services:record:akshaya-meals-related-parties",
+      "requiredRelationshipIds": [
+        "deep-services:relationship:states-tapf-income"
+      ],
+      "expectedEvidence": "Audited government-support income 42,093.64 lakh and reconciled support cash receipts 36,788.98 lakh differ by accounting/in-kind/working-capital effects. Trust-wide scope includes operations beyond the named kitchen.",
+      "evidenceStop": null,
+      "labelBasis": "Independent evaluator inspection of retained registry plus original/indexed evidence artifacts; usefulness to the exact question, not factual-truth classification.",
+      "sourceLineages": {
+        "deep-services:source:akshaya-annual-2025": "https://www.akshayapatra.org/includefiles/financialreports/Annual_Report_24-25_Tapestry_web.pdf",
+        "education:source:akshaya-patra-annual-2025": "https://www.akshayapatra.org/includefiles/financialreports/Annual_Report_24-25_Tapestry_web.pdf"
+      }
+    },
+    {
+      "id": "next-holdout-ap-02",
+      "caseGroup": "ap",
+      "query": "Which record discloses Akshaya Patra’s common-trustee relationship and rent or other-expense payments to the specific Bangalore ISKCON entity?",
+      "relevance": {
+        "deep-services:source:akshaya-annual-2025": 2,
+        "education:source:akshaya-patra-annual-2025": 1
+      },
+      "requiredCounterevidenceSourceIds": [
+        "deep-services:source:akshaya-annual-2025"
+      ],
+      "hardNegativeSourceIds": [],
+      "caseRecordId": "deep-services:record:akshaya-meals-related-parties",
+      "requiredRelationshipIds": [
+        "deep-services:relationship:tapf-iskcon-related",
+        "deep-services:relationship:tapf-iskcon-rent"
+      ],
+      "expectedEvidence": "Note 2.25 names common trustees/directors and 275.76 lakh rent/other expenses. Related-party disclosure is not proof of undue benefit; financial statements receive unmodified opinion with accounting-basis emphasis.",
+      "evidenceStop": null,
+      "labelBasis": "Independent evaluator inspection of retained registry plus original/indexed evidence artifacts; usefulness to the exact question, not factual-truth classification.",
+      "sourceLineages": {
+        "deep-services:source:akshaya-annual-2025": "https://www.akshayapatra.org/includefiles/financialreports/Annual_Report_24-25_Tapestry_web.pdf",
+        "education:source:akshaya-patra-annual-2025": "https://www.akshayapatra.org/includefiles/financialreports/Annual_Report_24-25_Tapestry_web.pdf"
+      }
+    },
+    {
+      "id": "next-holdout-ap-03",
+      "caseGroup": "ap",
+      "query": "Which source names the Chikkajala kitchen’s patron donor, and how does its announced reach differ from audited evidence of actual meals or the donor’s cash amount?",
+      "relevance": {
+        "deep-services:source:akshaya-kitchen-2024": 2,
+        "deep-services:source:akshaya-annual-2025": 1,
+        "education:source:akshaya-patra-annual-2025": 1
+      },
+      "requiredCounterevidenceSourceIds": [],
+      "hardNegativeSourceIds": [],
+      "caseRecordId": "deep-services:record:akshaya-meals-related-parties",
+      "requiredRelationshipIds": [
+        "deep-services:relationship:thakkar-kitchen",
+        "deep-services:relationship:tapf-kitchen"
+      ],
+      "expectedEvidence": "Foundation inauguration narrative names Thakkar Family Foundation; planned capacity/reach is self-reported and no donor cash amount is retained. The annual trustees report kitchen capex is not donor contribution.",
+      "evidenceStop": null,
+      "labelBasis": "Independent evaluator inspection of retained registry plus original/indexed evidence artifacts; usefulness to the exact question, not factual-truth classification.",
+      "sourceLineages": {
+        "deep-services:source:akshaya-kitchen-2024": "https://www.akshayapatra.org/news/akshaya-patra-75th-centralised-kitchen-in-chikkajala",
+        "deep-services:source:akshaya-annual-2025": "https://www.akshayapatra.org/includefiles/financialreports/Annual_Report_24-25_Tapestry_web.pdf",
+        "education:source:akshaya-patra-annual-2025": "https://www.akshayapatra.org/includefiles/financialreports/Annual_Report_24-25_Tapestry_web.pdf"
+      }
+    },
+    {
+      "id": "next-holdout-ap-04",
+      "caseGroup": "ap",
+      "query": "Can the retained school-meal accounts trace a particular restricted state grant through Akshaya Patra into the related-party rent payment, or attribute that rent to Chikkajala?",
+      "relevance": {
+        "deep-services:source:akshaya-annual-2025": 2,
+        "deep-services:source:akshaya-kitchen-2024": 1,
+        "education:source:akshaya-patra-annual-2025": 1
+      },
+      "requiredCounterevidenceSourceIds": [],
+      "hardNegativeSourceIds": [],
+      "caseRecordId": "deep-services:record:akshaya-meals-related-parties",
+      "requiredRelationshipIds": [
+        "deep-services:relationship:states-tapf-income",
+        "deep-services:relationship:tapf-iskcon-rent"
+      ],
+      "expectedEvidence": "No restricted government grant is traced into the disclosed payment and no kitchen allocation follows from trust totals. Need grant-specific bank ledger, lease, approvals and allocation basis.",
+      "evidenceStop": "The state-support → trust → related-party payment path is contextual, not proof of earmarked-grant diversion or a Chikkajala rent allocation.",
+      "labelBasis": "Independent evaluator inspection of retained registry plus original/indexed evidence artifacts; usefulness to the exact question, not factual-truth classification.",
+      "sourceLineages": {
+        "deep-services:source:akshaya-annual-2025": "https://www.akshayapatra.org/includefiles/financialreports/Annual_Report_24-25_Tapestry_web.pdf",
+        "deep-services:source:akshaya-kitchen-2024": "https://www.akshayapatra.org/news/akshaya-patra-75th-centralised-kitchen-in-chikkajala",
+        "education:source:akshaya-patra-annual-2025": "https://www.akshayapatra.org/includefiles/financialreports/Annual_Report_24-25_Tapestry_web.pdf"
+      }
+    },
+    {
+      "id": "next-holdout-ns-01",
+      "caseGroup": "ns",
+      "query": "Which audit traces pension-programme publicity funding to DAVP work orders for other schemes and identifies payment before execution was confirmed?",
+      "relevance": {
+        "deep-services:source:nsap-cag-2023": 2,
+        "welfare-research:source:nsap-audit": 1
+      },
+      "requiredCounterevidenceSourceIds": [],
+      "hardNegativeSourceIds": [],
+      "caseRecordId": "deep-services:record:nsap-davp-earmarking",
+      "requiredRelationshipIds": [
+        "deep-services:relationship:nsap-davp-paid",
+        "deep-services:relationship:davp-other-schemes"
+      ],
+      "expectedEvidence": "CAG 10/2023 §5.5.1: NSAP IEC charge 2.83 crore for PMAY-G/DDU-GKY work orders; payment to DAVP before work confirmation. Earmarking/verification finding is not a personal-enrichment finding.",
+      "evidenceStop": null,
+      "labelBasis": "Independent evaluator inspection of retained registry plus original/indexed evidence artifacts; usefulness to the exact question, not factual-truth classification.",
+      "sourceLineages": {
+        "deep-services:source:nsap-cag-2023": "https://cag.gov.in/uploads/download_audit_report/2023/Report-No.-10-of-2023_NSAP_English_PDF-A-064d229f832dad7.55068084.pdf",
+        "welfare-research:source:nsap-audit": "https://cag.gov.in/uploads/download_audit_report/2023/Report-No.-10-of-2023_NSAP_English_PDF-A-064d229f832dad7.55068084.pdf"
+      }
+    },
+    {
+      "id": "next-holdout-ns-02",
+      "caseGroup": "ns",
+      "query": "Does the April 2026 parliamentary action-taken report establish settlement of the specific 2017 NSAP–DAVP publicity audit paragraph?",
+      "relevance": {
+        "deep-services:source:nsap-followup-2026": 2,
+        "deep-services:source:nsap-cag-2023": 1,
+        "welfare-research:source:nsap-audit": 1
+      },
+      "requiredCounterevidenceSourceIds": [
+        "deep-services:source:nsap-followup-2026"
+      ],
+      "hardNegativeSourceIds": [],
+      "caseRecordId": "deep-services:record:nsap-davp-earmarking",
+      "requiredRelationshipIds": [],
+      "expectedEvidence": "It responds to another committee report and does not establish paragraph-specific reconciliation/recovery. Ministry earlier said it referred matter internally; absence in this follow-up does not prove no action elsewhere.",
+      "evidenceStop": null,
+      "labelBasis": "Independent evaluator inspection of retained registry plus original/indexed evidence artifacts; usefulness to the exact question, not factual-truth classification.",
+      "sourceLineages": {
+        "deep-services:source:nsap-followup-2026": "https://elibrary.sansad.in/server/api/core/bitstreams/f2af3284-ac25-4d40-9671-d10b728827d0/content",
+        "deep-services:source:nsap-cag-2023": "https://cag.gov.in/uploads/download_audit_report/2023/Report-No.-10-of-2023_NSAP_English_PDF-A-064d229f832dad7.55068084.pdf",
+        "welfare-research:source:nsap-audit": "https://cag.gov.in/uploads/download_audit_report/2023/Report-No.-10-of-2023_NSAP_English_PDF-A-064d229f832dad7.55068084.pdf"
+      }
+    },
+    {
+      "id": "next-holdout-ns-03",
+      "caseGroup": "ns",
+      "query": "Which evidence prevents adding the two NSAP publicity approvals to the rounded expenditure amount as if all three were separate losses?",
+      "relevance": {
+        "deep-services:source:nsap-cag-2023": 2,
+        "welfare-research:source:nsap-audit": 1
+      },
+      "requiredCounterevidenceSourceIds": [],
+      "hardNegativeSourceIds": [
+        "deep-services:source:nsap-followup-2026"
+      ],
+      "caseRecordId": "deep-services:record:nsap-davp-earmarking",
+      "requiredRelationshipIds": [
+        "deep-services:relationship:mord-davp-orders",
+        "deep-services:relationship:nsap-davp-paid"
+      ],
+      "expectedEvidence": "39.15 lakh and 2.44 crore sanctioned stages overlap rounded 2.83 crore incurred from NSAP. Work orders specified a different approved head and other schemes; do not sum stages.",
+      "evidenceStop": null,
+      "labelBasis": "Independent evaluator inspection of retained registry plus original/indexed evidence artifacts; usefulness to the exact question, not factual-truth classification.",
+      "sourceLineages": {
+        "deep-services:source:nsap-cag-2023": "https://cag.gov.in/uploads/download_audit_report/2023/Report-No.-10-of-2023_NSAP_English_PDF-A-064d229f832dad7.55068084.pdf",
+        "welfare-research:source:nsap-audit": "https://cag.gov.in/uploads/download_audit_report/2023/Report-No.-10-of-2023_NSAP_English_PDF-A-064d229f832dad7.55068084.pdf"
+      }
+    },
+    {
+      "id": "next-holdout-ns-04",
+      "caseGroup": "ns",
+      "query": "Can the NSAP publicity record identify a private media subcontractor or an individual who ultimately received the DAVP payment?",
+      "relevance": {
+        "deep-services:source:nsap-cag-2023": 2,
+        "deep-services:source:nsap-followup-2026": 1,
+        "welfare-research:source:nsap-audit": 1
+      },
+      "requiredCounterevidenceSourceIds": [],
+      "hardNegativeSourceIds": [],
+      "caseRecordId": "deep-services:record:nsap-davp-earmarking",
+      "requiredRelationshipIds": [
+        "deep-services:relationship:nsap-davp-paid",
+        "deep-services:relationship:davp-other-schemes"
+      ],
+      "expectedEvidence": "Government agency DAVP is named; cited paragraph supplies no private advertising subcontractor or personal recipient. Need invoices, execution certificates and downstream ledger.",
+      "evidenceStop": "No private media subcontractor, partisan beneficiary or individual cash recipient is established by the retained paragraph.",
+      "labelBasis": "Independent evaluator inspection of retained registry plus original/indexed evidence artifacts; usefulness to the exact question, not factual-truth classification.",
+      "sourceLineages": {
+        "deep-services:source:nsap-cag-2023": "https://cag.gov.in/uploads/download_audit_report/2023/Report-No.-10-of-2023_NSAP_English_PDF-A-064d229f832dad7.55068084.pdf",
+        "deep-services:source:nsap-followup-2026": "https://elibrary.sansad.in/server/api/core/bitstreams/f2af3284-ac25-4d40-9671-d10b728827d0/content",
+        "welfare-research:source:nsap-audit": "https://cag.gov.in/uploads/download_audit_report/2023/Report-No.-10-of-2023_NSAP_English_PDF-A-064d229f832dad7.55068084.pdf"
+      }
+    },
+    {
+      "id": "next-holdout-ifc-01",
+      "caseGroup": "ifc",
+      "query": "Which filing distinguishes IFC’s maximum Mahindra Last Mile Mobility investment commitment from the first cash tranche actually acknowledged by the issuer?",
+      "relevance": {
+        "atlas-international-finance:source:mahindra-cash-2023": 2,
+        "atlas-international-finance:source:ifc-mahindra-project": 1
+      },
+      "requiredCounterevidenceSourceIds": [],
+      "hardNegativeSourceIds": [],
+      "caseRecordId": "atlas-international-finance:record:ifc-mahindra-cash",
+      "requiredRelationshipIds": [
+        "atlas-international-finance:relationship:ifc-mlmml-commitment",
+        "atlas-international-finance:relationship:mlmml-issues-ccps",
+        "atlas-international-finance:relationship:ifc-mlmml-cash"
+      ],
+      "expectedEvidence": "Up-to 600 crore commitment March 2023 versus issuer-confirmed 300 crore cash October 2023, for 30,00,000 CCPS at 1,000 rupees each; not summed to 900 crore.",
+      "evidenceStop": null,
+      "labelBasis": "Independent evaluator inspection of retained registry plus original/indexed evidence artifacts; usefulness to the exact question, not factual-truth classification.",
+      "sourceLineages": {
+        "atlas-international-finance:source:mahindra-cash-2023": "https://www.mahindra.com/sites/default/files/2023-10/SEIntimationCessationofLMMasWOSuponallotmenttoIFCOct2023_0.pdf",
+        "atlas-international-finance:source:ifc-mahindra-project": "https://disclosures.ifc.org/project-detail/SII/42622/mahindra-lmm-co"
+      }
+    },
+    {
+      "id": "next-holdout-ifc-02",
+      "caseGroup": "ifc",
+      "query": "What records challenge describing IFC’s Mahindra mobility investment as an IMF loan to India or a government-guaranteed procurement payment?",
+      "relevance": {
+        "atlas-international-finance:source:ifc-mahindra-project": 2,
+        "atlas-international-finance:source:mahindra-cash-2023": 2
+      },
+      "requiredCounterevidenceSourceIds": [
+        "atlas-international-finance:source:ifc-mahindra-project"
+      ],
+      "hardNegativeSourceIds": [],
+      "caseRecordId": "atlas-international-finance:record:ifc-mahindra-cash",
+      "requiredRelationshipIds": [],
+      "expectedEvidence": "IFC private-sector investment in named subsidiary via compulsory convertible instrument; distinct from IMF and sovereign lending. No sovereign guarantee or public procurement asserted.",
+      "evidenceStop": null,
+      "labelBasis": "Independent evaluator inspection of retained registry plus original/indexed evidence artifacts; usefulness to the exact question, not factual-truth classification.",
+      "sourceLineages": {
+        "atlas-international-finance:source:ifc-mahindra-project": "https://disclosures.ifc.org/project-detail/SII/42622/mahindra-lmm-co",
+        "atlas-international-finance:source:mahindra-cash-2023": "https://www.mahindra.com/sites/default/files/2023-10/SEIntimationCessationofLMMasWOSuponallotmenttoIFCOct2023_0.pdf"
+      }
+    },
+    {
+      "id": "next-holdout-ifc-03",
+      "caseGroup": "ifc",
+      "query": "Find evidence explaining IFC’s pre-conversion voting instructions over subsidiary equity, without turning them into a present ordinary-share ownership percentage.",
+      "relevance": {
+        "atlas-international-finance:source:mahindra-cash-2023": 2,
+        "atlas-international-finance:source:ifc-mahindra-project": 1
+      },
+      "requiredCounterevidenceSourceIds": [],
+      "hardNegativeSourceIds": [],
+      "caseRecordId": "atlas-international-finance:record:ifc-mahindra-cash",
+      "requiredRelationshipIds": [
+        "atlas-international-finance:relationship:ifc-mahindra-vote",
+        "atlas-international-finance:relationship:mahindra-mlmml-control"
+      ],
+      "expectedEvidence": "October 2023 filing grants instruction rights over 5.9% of MLMML equity votes until conversion. The subsidiary ceased wholly owned status but remained subsidiary; no 2026 ownership percentage established.",
+      "evidenceStop": null,
+      "labelBasis": "Independent evaluator inspection of retained registry plus original/indexed evidence artifacts; usefulness to the exact question, not factual-truth classification.",
+      "sourceLineages": {
+        "atlas-international-finance:source:mahindra-cash-2023": "https://www.mahindra.com/sites/default/files/2023-10/SEIntimationCessationofLMMasWOSuponallotmenttoIFCOct2023_0.pdf",
+        "atlas-international-finance:source:ifc-mahindra-project": "https://disclosures.ifc.org/project-detail/SII/42622/mahindra-lmm-co"
+      }
+    },
+    {
+      "id": "next-holdout-ifc-04",
+      "caseGroup": "ifc",
+      "query": "Does the retained IFC–Mahindra transaction record prove the remaining investment tranches were paid or the convertible shares had converted by 2026?",
+      "relevance": {
+        "atlas-international-finance:source:mahindra-cash-2023": 2,
+        "atlas-international-finance:source:ifc-mahindra-project": 1
+      },
+      "requiredCounterevidenceSourceIds": [],
+      "hardNegativeSourceIds": [],
+      "caseRecordId": "atlas-international-finance:record:ifc-mahindra-cash",
+      "requiredRelationshipIds": [
+        "atlas-international-finance:relationship:ifc-mlmml-cash"
+      ],
+      "expectedEvidence": "Only first issuer-confirmed 300 crore tranche is retained; IFC page is dated 2023. Later tranches/conversion require further filings and statements.",
+      "evidenceStop": "Do not infer full commitment payment, later conversion, current ownership or private bank-ledger verification from the 2023 disclosure.",
+      "labelBasis": "Independent evaluator inspection of retained registry plus original/indexed evidence artifacts; usefulness to the exact question, not factual-truth classification.",
+      "sourceLineages": {
+        "atlas-international-finance:source:mahindra-cash-2023": "https://www.mahindra.com/sites/default/files/2023-10/SEIntimationCessationofLMMasWOSuponallotmenttoIFCOct2023_0.pdf",
+        "atlas-international-finance:source:ifc-mahindra-project": "https://disclosures.ifc.org/project-detail/SII/42622/mahindra-lmm-co"
+      }
+    },
+    {
+      "id": "next-holdout-tn-01",
+      "caseGroup": "tn",
+      "query": "Which instruments distinguish the sovereign borrower, Tamil Nadu, the urban development fund and its separate implementing company in World Bank loan 8488-IN?",
+      "relevance": {
+        "atlas-international-finance:source:tn-loan-original": 2,
+        "atlas-international-finance:source:tn-project-tnudf": 2,
+        "atlas-international-finance:source:tn-awards": 1
+      },
+      "requiredCounterevidenceSourceIds": [],
+      "hardNegativeSourceIds": [],
+      "caseRecordId": "atlas-international-finance:record:tn-urban-sovereign-contract",
+      "requiredRelationshipIds": [
+        "atlas-international-finance:relationship:ibrd-india-8488",
+        "atlas-international-finance:relationship:india-8488-instrument",
+        "atlas-international-finance:relationship:india-tn-proceeds",
+        "atlas-international-finance:relationship:tn-tnudf-route",
+        "atlas-international-finance:relationship:8488-tnuifsl"
+      ],
+      "expectedEvidence": "IBRD lends to India; Union proceeds made available to Tamil Nadu/TNUDF and eligible bodies. TNUIFSL is separate Part B implementer; WRD is selected contract purchaser.",
+      "evidenceStop": null,
+      "labelBasis": "Independent evaluator inspection of retained registry plus original/indexed evidence artifacts; usefulness to the exact question, not factual-truth classification.",
+      "sourceLineages": {
+        "atlas-international-finance:source:tn-loan-original": "https://documents1.worldbank.org/curated/en/839991468252619807/pdf/RAD43610125.pdf",
+        "atlas-international-finance:source:tn-project-tnudf": "https://documents1.worldbank.org/curated/en/556401468049154057/pdf/RAD1495440923.pdf",
+        "atlas-international-finance:source:tn-awards": "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P150395&rows=200"
+      }
+    },
+    {
+      "id": "next-holdout-tn-02",
+      "caseGroup": "tn",
+      "query": "Where is the Chennai flood-monitoring contract’s purchaser and pair of awarded companies documented, with one shared price rather than a separate full payment to each?",
+      "relevance": {
+        "atlas-international-finance:source:tn-awards": 2
+      },
+      "requiredCounterevidenceSourceIds": [],
+      "hardNegativeSourceIds": [
+        "atlas-international-finance:source:tn-completion"
+      ],
+      "caseRecordId": "atlas-international-finance:record:tn-urban-sovereign-contract",
+      "requiredRelationshipIds": [
+        "atlas-international-finance:relationship:8488-wrd-procurement",
+        "atlas-international-finance:relationship:wrd-flood-award",
+        "atlas-international-finance:relationship:flood-awarded-azista",
+        "atlas-international-finance:relationship:flood-awarded-sstech"
+      ],
+      "expectedEvidence": "OP00218737/OP00187128 name WRD and co-awarded Azista/SSTECH, one 763,891,408 rupee contract. No per-firm split, invented JV name or cash payment follows.",
+      "evidenceStop": null,
+      "labelBasis": "Independent evaluator inspection of retained registry plus original/indexed evidence artifacts; usefulness to the exact question, not factual-truth classification.",
+      "sourceLineages": {
+        "atlas-international-finance:source:tn-awards": "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P150395&rows=200"
+      }
+    },
+    {
+      "id": "next-holdout-tn-03",
+      "caseGroup": "tn",
+      "query": "Which completion and amendment records qualify a claim that every difference between the original Tamil Nadu urban loan commitment and eventual disbursement represents missing money?",
+      "relevance": {
+        "atlas-international-finance:source:tn-completion": 2,
+        "atlas-international-finance:source:tn-loan-amendment": 2,
+        "atlas-international-finance:source:tn-loan-original": 1
+      },
+      "requiredCounterevidenceSourceIds": [
+        "atlas-international-finance:source:tn-completion",
+        "atlas-international-finance:source:tn-loan-amendment"
+      ],
+      "hardNegativeSourceIds": [],
+      "caseRecordId": "atlas-international-finance:record:tn-urban-sovereign-contract",
+      "requiredRelationshipIds": [],
+      "expectedEvidence": "400m USD original commitment differs from programme-wide 352,729,993 USD actual disbursement; lawful restructuring including removal of credit enhancement and savings may explain variation. Programme satisfactory overall outcome and concerns coexist.",
+      "evidenceStop": null,
+      "labelBasis": "Independent evaluator inspection of retained registry plus original/indexed evidence artifacts; usefulness to the exact question, not factual-truth classification.",
+      "sourceLineages": {
+        "atlas-international-finance:source:tn-completion": "https://documents1.worldbank.org/curated/en/099092323191526463/pdf/BOSIB092666a780e708b1606a20bfebbe6b.pdf",
+        "atlas-international-finance:source:tn-loan-amendment": "https://documents1.worldbank.org/curated/en/580751620254383297/pdf/Official-Documents-Amendment-to-the-Loan-Agreement-for-Loan-No-8488-IN.pdf",
+        "atlas-international-finance:source:tn-loan-original": "https://documents1.worldbank.org/curated/en/839991468252619807/pdf/RAD43610125.pdf"
+      }
+    },
+    {
+      "id": "next-holdout-tn-04",
+      "caseGroup": "tn",
+      "query": "Can the World Bank programme completion total be followed directly into Azista or SSTECH bank receipts for the selected flood contract?",
+      "relevance": {
+        "atlas-international-finance:source:tn-awards": 2,
+        "atlas-international-finance:source:tn-completion": 1,
+        "atlas-international-finance:source:tn-loan-original": 1
+      },
+      "requiredCounterevidenceSourceIds": [],
+      "hardNegativeSourceIds": [],
+      "caseRecordId": "atlas-international-finance:record:tn-urban-sovereign-contract",
+      "requiredRelationshipIds": [
+        "atlas-international-finance:relationship:wrd-flood-award",
+        "atlas-international-finance:relationship:flood-awarded-azista",
+        "atlas-international-finance:relationship:flood-awarded-sstech"
+      ],
+      "expectedEvidence": "Programme-wide disbursement and one contract award are distinct populations/stages. No contract payment certificate, per-firm allocation or bank receipt obtained.",
+      "evidenceStop": "The path stops at the jointly named award. Programme disbursement cannot be attributed to a contract, firm, person or misuse without downstream records.",
+      "labelBasis": "Independent evaluator inspection of retained registry plus original/indexed evidence artifacts; usefulness to the exact question, not factual-truth classification.",
+      "sourceLineages": {
+        "atlas-international-finance:source:tn-awards": "https://search.worldbank.org/api/v2/procnotices?format=json&project_id=P150395&rows=200",
+        "atlas-international-finance:source:tn-completion": "https://documents1.worldbank.org/curated/en/099092323191526463/pdf/BOSIB092666a780e708b1606a20bfebbe6b.pdf",
+        "atlas-international-finance:source:tn-loan-original": "https://documents1.worldbank.org/curated/en/839991468252619807/pdf/RAD43610125.pdf"
+      }
+    }
+  ],
+  "additionalLabelReview": "Before candidate-output inspection, equivalent URL summaries were read across namespaces. Telangana repeated summaries, the education Akshaya Patra summary and welfare NSAP summary receive partial relevance because their summarized passages omit question-specific detail. The same original source URL is one lineage, not independent corroboration.",
+  "candidateScope": "Nonlegacy source-summary documents only; exact projected corpus and split hashes must be bound before final test. Legacy bare citations remain searchable graph context, not supervised full-document evidence.",
+  "unjudgedPolicy": "Unlisted source-summary documents receive grade zero for this tightly scoped retained-evidence question; they were not exhaustively re-read as full original documents. This incomplete-judgment limitation is reported with retrieval scores."
+}

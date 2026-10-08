@@ -1,0 +1,549 @@
+{
+  "schemaVersion": 1,
+  "kind": "Post-first-invocation lexical summation sensitivity audit",
+  "issue": "Frozen BM25 implementation iterates a Python set of query terms. PYTHONHASHSEED was not pinned for the already-started final invocation. Cross-process addition order can change last bits.",
+  "policy": "First saved model rankings are preserved. This arithmetic audit does not retrain, rerun a neural model, revise labels, change gates or choose another checkpoint.",
+  "reference": "Same frozen tokenization, document statistics, k1=1.2 and b=.75; sorted terms and math.fsum over identical per-term floating contributions.",
+  "hashes": {
+    "corpus": "9bc1b278e3ee76444c047baa74a50cb2f491f2603db1533f3e72fc2b5c4b0f67",
+    "queries": "16bfa6c4df26708f5c79c817ed38d5b418ec474a0f8fca7c00823448539771dd",
+    "savedBM25": "b2bdaef77eec3951b328360808a1a60d1e49060ed86110333baa8a2ec59bd912",
+    "auditCode": "02dd7fde5652d37b0fcfa868ca0cf987ff68a7900bd5a98ac119e48252e76d37"
+  },
+  "queryCount": 24,
+  "queriesWithChangedFullRanking": 0,
+  "queriesWithChangedTopFive": 0,
+  "queriesWithChangedPositiveRanks": 0,
+  "maximumAbsoluteScoreDifference": 7.105427357601002e-15,
+  "rows": [
+    {
+      "queryId": "next-holdout-ts-01",
+      "maximumAbsoluteScoreDifference": 7.105427357601002e-15,
+      "allDifferencesInsideConservativeSummationBound": true,
+      "changedRankPositions": 0,
+      "topFiveChanged": false,
+      "positiveRankChanges": [],
+      "topFiveSaved": [
+        "public-works:source:state-src-ts",
+        "deep-procurement:source:prior-state-src-ts",
+        "atlas-oversight:source:ov-src-ts-cag",
+        "atlas-oversight:source:ov-src-ts-moa",
+        "metro-mumbai-security:source:housing-gr"
+      ],
+      "topFiveStableSum": [
+        "public-works:source:state-src-ts",
+        "deep-procurement:source:prior-state-src-ts",
+        "atlas-oversight:source:ov-src-ts-cag",
+        "atlas-oversight:source:ov-src-ts-moa",
+        "metro-mumbai-security:source:housing-gr"
+      ]
+    },
+    {
+      "queryId": "next-holdout-ts-02",
+      "maximumAbsoluteScoreDifference": 7.105427357601002e-15,
+      "allDifferencesInsideConservativeSummationBound": true,
+      "changedRankPositions": 0,
+      "topFiveChanged": false,
+      "positiveRankChanges": [],
+      "topFiveSaved": [
+        "atlas-oversight:source:ov-src-ts-moa",
+        "metro-mumbai-security:source:housing-gr",
+        "metro-delhi-security:source:dphcl-projects-2025",
+        "deep-procurement:source:nhsrcl-process",
+        "deep-procurement:source:nhsrcl-equity"
+      ],
+      "topFiveStableSum": [
+        "atlas-oversight:source:ov-src-ts-moa",
+        "metro-mumbai-security:source:housing-gr",
+        "metro-delhi-security:source:dphcl-projects-2025",
+        "deep-procurement:source:nhsrcl-process",
+        "deep-procurement:source:nhsrcl-equity"
+      ]
+    },
+    {
+      "queryId": "next-holdout-ts-03",
+      "maximumAbsoluteScoreDifference": 3.552713678800501e-15,
+      "allDifferencesInsideConservativeSummationBound": true,
+      "changedRankPositions": 0,
+      "topFiveChanged": false,
+      "positiveRankChanges": [],
+      "topFiveSaved": [
+        "atlas-oversight:source:ov-src-ts-moa",
+        "public-works:source:state-src-ts",
+        "money-trails-corporate:source:gvpr-lenders-2025",
+        "deep-procurement:source:prior-state-src-ts",
+        "deep-services:source:byju-sc-2024"
+      ],
+      "topFiveStableSum": [
+        "atlas-oversight:source:ov-src-ts-moa",
+        "public-works:source:state-src-ts",
+        "money-trails-corporate:source:gvpr-lenders-2025",
+        "deep-procurement:source:prior-state-src-ts",
+        "deep-services:source:byju-sc-2024"
+      ]
+    },
+    {
+      "queryId": "next-holdout-ts-04",
+      "maximumAbsoluteScoreDifference": 3.552713678800501e-15,
+      "allDifferencesInsideConservativeSummationBound": true,
+      "changedRankPositions": 0,
+      "topFiveChanged": false,
+      "positiveRankChanges": [],
+      "topFiveSaved": [
+        "atlas-oversight:source:ov-src-ts-moa",
+        "deep-procurement:source:prior-state-src-ts",
+        "public-works:source:state-src-ts",
+        "metro-defence:source:bsf-vessels-tender",
+        "atlas-defence-trade:source:c295-first-2023"
+      ],
+      "topFiveStableSum": [
+        "atlas-oversight:source:ov-src-ts-moa",
+        "deep-procurement:source:prior-state-src-ts",
+        "public-works:source:state-src-ts",
+        "metro-defence:source:bsf-vessels-tender",
+        "atlas-defence-trade:source:c295-first-2023"
+      ]
+    },
+    {
+      "queryId": "next-holdout-br-01",
+      "maximumAbsoluteScoreDifference": 3.552713678800501e-15,
+      "allDifferencesInsideConservativeSummationBound": true,
+      "changedRankPositions": 0,
+      "topFiveChanged": false,
+      "positiveRankChanges": [],
+      "topFiveSaved": [
+        "atlas-oversight:source:ov-src-pib-recovery",
+        "atlas-oversight:source:ov-src-bihar-cag",
+        "water:source:wf-pdmc",
+        "money-trails-mumbai:source:eow-2025",
+        "water:source:wf-cold-storage"
+      ],
+      "topFiveStableSum": [
+        "atlas-oversight:source:ov-src-pib-recovery",
+        "atlas-oversight:source:ov-src-bihar-cag",
+        "water:source:wf-pdmc",
+        "money-trails-mumbai:source:eow-2025",
+        "water:source:wf-cold-storage"
+      ]
+    },
+    {
+      "queryId": "next-holdout-br-02",
+      "maximumAbsoluteScoreDifference": 1.7763568394002505e-15,
+      "allDifferencesInsideConservativeSummationBound": true,
+      "changedRankPositions": 0,
+      "topFiveChanged": false,
+      "positiveRankChanges": [],
+      "topFiveSaved": [
+        "atlas-oversight:source:ov-src-pib-recovery",
+        "atlas-oversight:source:ov-src-bihar-cag",
+        "public-works:source:svc-up-school-audit",
+        "procurement-audit:source:followup",
+        "water:source:wf-pdmc"
+      ],
+      "topFiveStableSum": [
+        "atlas-oversight:source:ov-src-pib-recovery",
+        "atlas-oversight:source:ov-src-bihar-cag",
+        "public-works:source:svc-up-school-audit",
+        "procurement-audit:source:followup",
+        "water:source:wf-pdmc"
+      ]
+    },
+    {
+      "queryId": "next-holdout-br-03",
+      "maximumAbsoluteScoreDifference": 3.552713678800501e-15,
+      "allDifferencesInsideConservativeSummationBound": true,
+      "changedRankPositions": 0,
+      "topFiveChanged": false,
+      "positiveRankChanges": [],
+      "topFiveSaved": [
+        "atlas-oversight:source:ov-src-pib-recovery",
+        "atlas-oversight:source:ov-src-bihar-cag",
+        "water:source:wf-pdmc",
+        "education:source:ls-up-funding-2026",
+        "water:source:wf-cold-storage"
+      ],
+      "topFiveStableSum": [
+        "atlas-oversight:source:ov-src-pib-recovery",
+        "atlas-oversight:source:ov-src-bihar-cag",
+        "water:source:wf-pdmc",
+        "education:source:ls-up-funding-2026",
+        "water:source:wf-cold-storage"
+      ]
+    },
+    {
+      "queryId": "next-holdout-br-04",
+      "maximumAbsoluteScoreDifference": 1.7763568394002505e-15,
+      "allDifferencesInsideConservativeSummationBound": true,
+      "changedRankPositions": 0,
+      "topFiveChanged": false,
+      "positiveRankChanges": [],
+      "topFiveSaved": [
+        "atlas-oversight:source:ov-src-pib-recovery",
+        "corrections:source:waaree-unsupported-retained-donation-2026-10-07",
+        "atlas-oversight:source:ov-src-bihar-cag",
+        "public-works:source:svc-lighthouse-investment",
+        "public-works:source:state-src-dap-draft2026"
+      ],
+      "topFiveStableSum": [
+        "atlas-oversight:source:ov-src-pib-recovery",
+        "corrections:source:waaree-unsupported-retained-donation-2026-10-07",
+        "atlas-oversight:source:ov-src-bihar-cag",
+        "public-works:source:svc-lighthouse-investment",
+        "public-works:source:state-src-dap-draft2026"
+      ]
+    },
+    {
+      "queryId": "next-holdout-ap-01",
+      "maximumAbsoluteScoreDifference": 3.552713678800501e-15,
+      "allDifferencesInsideConservativeSummationBound": true,
+      "changedRankPositions": 0,
+      "topFiveChanged": false,
+      "positiveRankChanges": [],
+      "topFiveSaved": [
+        "deep-services:source:akshaya-annual-2025",
+        "education:source:akshaya-patra-annual-2025",
+        "public-works:source:state-src-exam-index",
+        "education:source:educate-girls-fcra-2024",
+        "deep-services:source:akshaya-kitchen-2024"
+      ],
+      "topFiveStableSum": [
+        "deep-services:source:akshaya-annual-2025",
+        "education:source:akshaya-patra-annual-2025",
+        "public-works:source:state-src-exam-index",
+        "education:source:educate-girls-fcra-2024",
+        "deep-services:source:akshaya-kitchen-2024"
+      ]
+    },
+    {
+      "queryId": "next-holdout-ap-02",
+      "maximumAbsoluteScoreDifference": 3.552713678800501e-15,
+      "allDifferencesInsideConservativeSummationBound": true,
+      "changedRankPositions": 0,
+      "topFiveChanged": false,
+      "positiveRankChanges": [],
+      "topFiveSaved": [
+        "deep-services:source:akshaya-kitchen-2024",
+        "education:source:akshaya-patra-annual-2025",
+        "deep-services:source:akshaya-annual-2025",
+        "money-trails-djb:source:ed-april",
+        "public-works:source:rw-debarment-2021"
+      ],
+      "topFiveStableSum": [
+        "deep-services:source:akshaya-kitchen-2024",
+        "education:source:akshaya-patra-annual-2025",
+        "deep-services:source:akshaya-annual-2025",
+        "money-trails-djb:source:ed-april",
+        "public-works:source:rw-debarment-2021"
+      ]
+    },
+    {
+      "queryId": "next-holdout-ap-03",
+      "maximumAbsoluteScoreDifference": 1.7763568394002505e-15,
+      "allDifferencesInsideConservativeSummationBound": true,
+      "changedRankPositions": 0,
+      "topFiveChanged": false,
+      "positiveRankChanges": [],
+      "topFiveSaved": [
+        "deep-services:source:akshaya-kitchen-2024",
+        "deep-services:source:akshaya-annual-2025",
+        "corrections:source:waaree-unsupported-retained-donation-2026-10-07",
+        "atlas-oversight:source:ov-src-adb-completion",
+        "education:source:lighthouse-kkr-psp-2025"
+      ],
+      "topFiveStableSum": [
+        "deep-services:source:akshaya-kitchen-2024",
+        "deep-services:source:akshaya-annual-2025",
+        "corrections:source:waaree-unsupported-retained-donation-2026-10-07",
+        "atlas-oversight:source:ov-src-adb-completion",
+        "education:source:lighthouse-kkr-psp-2025"
+      ]
+    },
+    {
+      "queryId": "next-holdout-ap-04",
+      "maximumAbsoluteScoreDifference": 3.552713678800501e-15,
+      "allDifferencesInsideConservativeSummationBound": true,
+      "changedRankPositions": 0,
+      "topFiveChanged": false,
+      "positiveRankChanges": [],
+      "topFiveSaved": [
+        "deep-services:source:akshaya-annual-2025",
+        "deep-services:source:akshaya-kitchen-2024",
+        "education:source:akshaya-patra-annual-2025",
+        "deep-procurement:source:irb-related-party",
+        "corrections:source:waaree-unsupported-retained-donation-2026-10-07"
+      ],
+      "topFiveStableSum": [
+        "deep-services:source:akshaya-annual-2025",
+        "deep-services:source:akshaya-kitchen-2024",
+        "education:source:akshaya-patra-annual-2025",
+        "deep-procurement:source:irb-related-party",
+        "corrections:source:waaree-unsupported-retained-donation-2026-10-07"
+      ]
+    },
+    {
+      "queryId": "next-holdout-ns-01",
+      "maximumAbsoluteScoreDifference": 3.552713678800501e-15,
+      "allDifferencesInsideConservativeSummationBound": true,
+      "changedRankPositions": 0,
+      "topFiveChanged": false,
+      "positiveRankChanges": [],
+      "topFiveSaved": [
+        "deep-services:source:nsap-cag-2023",
+        "welfare-research:source:nsap-audit",
+        "public-works:source:rw-bharatmala-audit",
+        "deep-procurement:source:prior-rw-bharatmala-audit",
+        "education:source:educate-girls-fcra-2024"
+      ],
+      "topFiveStableSum": [
+        "deep-services:source:nsap-cag-2023",
+        "welfare-research:source:nsap-audit",
+        "public-works:source:rw-bharatmala-audit",
+        "deep-procurement:source:prior-rw-bharatmala-audit",
+        "education:source:educate-girls-fcra-2024"
+      ]
+    },
+    {
+      "queryId": "next-holdout-ns-02",
+      "maximumAbsoluteScoreDifference": 1.7763568394002505e-15,
+      "allDifferencesInsideConservativeSummationBound": true,
+      "changedRankPositions": 0,
+      "topFiveChanged": false,
+      "positiveRankChanges": [],
+      "topFiveSaved": [
+        "deep-services:source:nsap-followup-2026",
+        "deep-services:source:nsap-cag-2023",
+        "metro-mumbai-security:source:mpf-audit",
+        "atlas-oversight:source:ov-src-uk-index",
+        "welfare-research:source:nsap-audit"
+      ],
+      "topFiveStableSum": [
+        "deep-services:source:nsap-followup-2026",
+        "deep-services:source:nsap-cag-2023",
+        "metro-mumbai-security:source:mpf-audit",
+        "atlas-oversight:source:ov-src-uk-index",
+        "welfare-research:source:nsap-audit"
+      ]
+    },
+    {
+      "queryId": "next-holdout-ns-03",
+      "maximumAbsoluteScoreDifference": 3.552713678800501e-15,
+      "allDifferencesInsideConservativeSummationBound": true,
+      "changedRankPositions": 0,
+      "topFiveChanged": false,
+      "positiveRankChanges": [],
+      "topFiveSaved": [
+        "deep-services:source:nsap-cag-2023",
+        "metro-delhi-security:source:pib-safe-city-2026",
+        "public-works:source:svc-jjm-functionality",
+        "water:source:wp-jjm-functionality-2024",
+        "education:source:mca-csr-company"
+      ],
+      "topFiveStableSum": [
+        "deep-services:source:nsap-cag-2023",
+        "metro-delhi-security:source:pib-safe-city-2026",
+        "public-works:source:svc-jjm-functionality",
+        "water:source:wp-jjm-functionality-2024",
+        "education:source:mca-csr-company"
+      ]
+    },
+    {
+      "queryId": "next-holdout-ns-04",
+      "maximumAbsoluteScoreDifference": 1.7763568394002505e-15,
+      "allDifferencesInsideConservativeSummationBound": true,
+      "changedRankPositions": 0,
+      "topFiveChanged": false,
+      "positiveRankChanges": [],
+      "topFiveSaved": [
+        "deep-services:source:nsap-cag-2023",
+        "deep-services:source:nsap-followup-2026",
+        "deep-governance:source:agel-ppa",
+        "atlas-institutions:source:ael-response-2022-original",
+        "corrections:source:waaree-unsupported-retained-donation-2026-10-07"
+      ],
+      "topFiveStableSum": [
+        "deep-services:source:nsap-cag-2023",
+        "deep-services:source:nsap-followup-2026",
+        "deep-governance:source:agel-ppa",
+        "atlas-institutions:source:ael-response-2022-original",
+        "corrections:source:waaree-unsupported-retained-donation-2026-10-07"
+      ]
+    },
+    {
+      "queryId": "next-holdout-ifc-01",
+      "maximumAbsoluteScoreDifference": 7.105427357601002e-15,
+      "allDifferencesInsideConservativeSummationBound": true,
+      "changedRankPositions": 0,
+      "topFiveChanged": false,
+      "positiveRankChanges": [],
+      "topFiveSaved": [
+        "atlas-international-finance:source:ifc-mahindra-project",
+        "atlas-international-finance:source:mahindra-cash-2023",
+        "deep-procurement:source:jica-tranche5",
+        "atlas-institutions:source:epstein-ie-report",
+        "atlas-international-finance:source:ifc-bajaj-project"
+      ],
+      "topFiveStableSum": [
+        "atlas-international-finance:source:ifc-mahindra-project",
+        "atlas-international-finance:source:mahindra-cash-2023",
+        "deep-procurement:source:jica-tranche5",
+        "atlas-institutions:source:epstein-ie-report",
+        "atlas-international-finance:source:ifc-bajaj-project"
+      ]
+    },
+    {
+      "queryId": "next-holdout-ifc-02",
+      "maximumAbsoluteScoreDifference": 1.7763568394002505e-15,
+      "allDifferencesInsideConservativeSummationBound": true,
+      "changedRankPositions": 0,
+      "topFiveChanged": false,
+      "positiveRankChanges": [],
+      "topFiveSaved": [
+        "atlas-international-finance:source:ifc-mahindra-project",
+        "atlas-international-finance:source:mahindra-cash-2023",
+        "atlas-international-finance:source:ifc-bajaj-project",
+        "public-works:source:svc-lighthouse-investment",
+        "metro-mumbai-security:source:housing-gr"
+      ],
+      "topFiveStableSum": [
+        "atlas-international-finance:source:ifc-mahindra-project",
+        "atlas-international-finance:source:mahindra-cash-2023",
+        "atlas-international-finance:source:ifc-bajaj-project",
+        "public-works:source:svc-lighthouse-investment",
+        "metro-mumbai-security:source:housing-gr"
+      ]
+    },
+    {
+      "queryId": "next-holdout-ifc-03",
+      "maximumAbsoluteScoreDifference": 3.552713678800501e-15,
+      "allDifferencesInsideConservativeSummationBound": true,
+      "changedRankPositions": 0,
+      "topFiveChanged": false,
+      "positiveRankChanges": [],
+      "topFiveSaved": [
+        "atlas-international-finance:source:mahindra-cash-2023",
+        "atlas-international-finance:source:ifc-mahindra-project",
+        "money-trails-mumbai:source:rti-role-2023",
+        "money-trails-djb:source:annual",
+        "public-works:source:pwg-mrm-fy24"
+      ],
+      "topFiveStableSum": [
+        "atlas-international-finance:source:mahindra-cash-2023",
+        "atlas-international-finance:source:ifc-mahindra-project",
+        "money-trails-mumbai:source:rti-role-2023",
+        "money-trails-djb:source:annual",
+        "public-works:source:pwg-mrm-fy24"
+      ]
+    },
+    {
+      "queryId": "next-holdout-ifc-04",
+      "maximumAbsoluteScoreDifference": 1.7763568394002505e-15,
+      "allDifferencesInsideConservativeSummationBound": true,
+      "changedRankPositions": 0,
+      "topFiveChanged": false,
+      "positiveRankChanges": [],
+      "topFiveSaved": [
+        "atlas-international-finance:source:ifc-mahindra-project",
+        "atlas-international-finance:source:mahindra-cash-2023",
+        "education:source:lighthouse-kkr-psp-2025",
+        "justice-research:source:src-pmcares-judgment",
+        "procurement-trails:source:hf-conversion"
+      ],
+      "topFiveStableSum": [
+        "atlas-international-finance:source:ifc-mahindra-project",
+        "atlas-international-finance:source:mahindra-cash-2023",
+        "education:source:lighthouse-kkr-psp-2025",
+        "justice-research:source:src-pmcares-judgment",
+        "procurement-trails:source:hf-conversion"
+      ]
+    },
+    {
+      "queryId": "next-holdout-tn-01",
+      "maximumAbsoluteScoreDifference": 3.552713678800501e-15,
+      "allDifferencesInsideConservativeSummationBound": true,
+      "changedRankPositions": 0,
+      "topFiveChanged": false,
+      "positiveRankChanges": [],
+      "topFiveSaved": [
+        "atlas-international-finance:source:tn-loan-original",
+        "atlas-international-finance:source:tn-project-tnudf",
+        "atlas-international-finance:source:adb-loan-2019",
+        "atlas-international-finance:source:tn-loan-amendment",
+        "atlas-international-finance:source:adb-bangladesh-project-indexed"
+      ],
+      "topFiveStableSum": [
+        "atlas-international-finance:source:tn-loan-original",
+        "atlas-international-finance:source:tn-project-tnudf",
+        "atlas-international-finance:source:adb-loan-2019",
+        "atlas-international-finance:source:tn-loan-amendment",
+        "atlas-international-finance:source:adb-bangladesh-project-indexed"
+      ]
+    },
+    {
+      "queryId": "next-holdout-tn-02",
+      "maximumAbsoluteScoreDifference": 1.7763568394002505e-15,
+      "allDifferencesInsideConservativeSummationBound": true,
+      "changedRankPositions": 0,
+      "topFiveChanged": false,
+      "positiveRankChanges": [],
+      "topFiveSaved": [
+        "atlas-international-finance:source:tn-awards",
+        "atlas-defence-trade:source:mq9-pib-2024",
+        "atlas-defence-trade:source:c295-contract-2021",
+        "atlas-international-finance:source:adb-bangladesh-project-indexed",
+        "metro-public-finance:source:cag-cpa"
+      ],
+      "topFiveStableSum": [
+        "atlas-international-finance:source:tn-awards",
+        "atlas-defence-trade:source:mq9-pib-2024",
+        "atlas-defence-trade:source:c295-contract-2021",
+        "atlas-international-finance:source:adb-bangladesh-project-indexed",
+        "metro-public-finance:source:cag-cpa"
+      ]
+    },
+    {
+      "queryId": "next-holdout-tn-03",
+      "maximumAbsoluteScoreDifference": 1.7763568394002505e-15,
+      "allDifferencesInsideConservativeSummationBound": true,
+      "changedRankPositions": 0,
+      "topFiveChanged": false,
+      "positiveRankChanges": [],
+      "topFiveSaved": [
+        "atlas-international-finance:source:tn-loan-original",
+        "welfare-research:source:tn-pmay-audit",
+        "education:source:world-bank-stars-isr",
+        "atlas-international-finance:source:tn-loan-amendment",
+        "water:source:wx-tn-disaster-2023"
+      ],
+      "topFiveStableSum": [
+        "atlas-international-finance:source:tn-loan-original",
+        "welfare-research:source:tn-pmay-audit",
+        "education:source:world-bank-stars-isr",
+        "atlas-international-finance:source:tn-loan-amendment",
+        "water:source:wx-tn-disaster-2023"
+      ]
+    },
+    {
+      "queryId": "next-holdout-tn-04",
+      "maximumAbsoluteScoreDifference": 3.552713678800501e-15,
+      "allDifferencesInsideConservativeSummationBound": true,
+      "changedRankPositions": 0,
+      "topFiveChanged": false,
+      "positiveRankChanges": [],
+      "topFiveSaved": [
+        "atlas-international-finance:source:tn-completion",
+        "education:source:merite-cabinet",
+        "water:source:wx-cwc-flood-portal",
+        "education:source:world-bank-stars-approval",
+        "atlas-international-finance:source:ida-pmgky-icr"
+      ],
+      "topFiveStableSum": [
+        "atlas-international-finance:source:tn-completion",
+        "education:source:merite-cabinet",
+        "water:source:wx-cwc-flood-portal",
+        "education:source:world-bank-stars-approval",
+        "atlas-international-finance:source:ida-pmgky-icr"
+      ]
+    }
+  ],
+  "limits": "Only the saved standalone BM25 output is compared with stable summation here. It cannot retrospectively pin the hash seeds of the separately executed fused baseline and candidate. Final neural/fusion conclusions use their first frozen raw rankings."
+}

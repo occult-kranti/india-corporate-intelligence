@@ -18,6 +18,7 @@ const navGroups: { label: string; items: { path: string; label: string; icon: ty
     items: [
       { path: '/', label: 'Investigate India', icon: LayoutDashboard },
       { path: '/research-radar', label: 'Research radar', icon: Telescope },
+      { path: '/model-lab', label: 'Evidence model lab', icon: Network },
       { path: '/money-trails', label: 'Trace investigations', icon: Waypoints },
       { path: '/follow-the-money', label: 'Follow the money', icon: GitBranch },
       { path: '/map', label: 'NSE / BSE map', icon: Map },
@@ -211,6 +212,7 @@ export default function Layout() {
           <div className="atlas-primary-routes">{[
             { path: '/', label: 'National atlas', icon: Globe2 },
             { path: '/research-radar', label: 'Research radar', icon: Telescope },
+            { path: '/model-lab', label: 'Model lab', icon: Network },
             { path: '/money-trails', label: 'Trace investigations', icon: Waypoints },
             { path: '/follow-the-money', label: 'Money trails', icon: GitBranch },
             { path: '/allegations', label: 'Allegations', icon: ShieldCheck },
@@ -233,7 +235,7 @@ export default function Layout() {
         </header>
         <nav ref={sectorRef} className="atlas-mobile-sectors" aria-label="Sector shortcuts"><NavLink to={contextualRoute('/', location.search, location.pathname)} end><Globe2 size={15} aria-hidden="true" />All India</NavLink><NavLink to="/research-radar"><Telescope size={15} aria-hidden="true" />Research radar</NavLink><NavLink to="/money-trails"><Waypoints size={15} aria-hidden="true" />Trace investigations</NavLink><NavLink to={contextualRoute('/follow-the-money', location.search, location.pathname)}><GitBranch size={15} aria-hidden="true" />Money trails</NavLink><NavLink to="/allegations"><ShieldCheck size={15} aria-hidden="true" />Allegations</NavLink>{sectorNavigation.map(({ path, label, icon: Icon }) => <NavLink key={path} to={contextualRoute(path, location.search, location.pathname)}><Icon size={15} aria-hidden="true" />{label}</NavLink>)}</nav>
         <main id="main-content" ref={mainRef} tabIndex={-1} className="site-main">
-          <div className="site-content iw-shell-content">{['/follow-the-money', '/money-trails', '/research-radar', '/allegations'].includes(location.pathname) ? <Outlet /> : <Workspace routeTitle={routeTitle} routeKey={location.pathname}><Outlet /></Workspace>}</div>
+          <div className="site-content iw-shell-content">{['/follow-the-money', '/money-trails', '/research-radar', '/model-lab', '/allegations'].includes(location.pathname) ? <Outlet /> : <Workspace routeTitle={routeTitle} routeKey={location.pathname}><Outlet /></Workspace>}</div>
         </main>
       </div>
 

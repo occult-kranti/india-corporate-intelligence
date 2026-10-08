@@ -1,0 +1,3036 @@
+{
+  "schemaVersion": 2,
+  "createdAt": "2026-10-08",
+  "labelMeaning": "AI-authored source-summary relevance judgments. Positives identify evidence useful for the specific information need; negatives are query-specific contrast candidates, not factual denials or corruption labels.",
+  "authoringMethod": "Data agent manually composed source-grounded stage, scope, identity, counterevidence and temporal queries against retained summaries; no generated case answer is indexed. Exact same URL/summary/locator duplicates are positive aliases. Independent test questions were not opened.",
+  "limitations": [
+    "Not natural user query logs or human expert labels.",
+    "Case/source-family split inherited from deterministic corpus; no test-family examples or labels used.",
+    "Hard negatives can still be useful wider case context; training only separates relevance to the narrow question.",
+    "No original-document truth labels, probability targets or hidden-link labels."
+  ],
+  "queries": [
+    {
+      "id": "next-train-001",
+      "text": "For the Ganga Expressway bid, which public body identifies the winning package groups and explains that bidders competed on the grant demanded rather than total construction cost?",
+      "positiveIds": [
+        "deep-procurement:source:upeida-awards"
+      ],
+      "hardNegativeIds": [
+        "deep-procurement:source:irb-close"
+      ],
+      "intent": "procurement-criterion",
+      "rationale": "The positive retained summary specifically supports the requested procurement criterion distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "deep-procurement:source:upeida-awards",
+        "sourceSummary": "IRB selected for Group I; Adani Enterprises for Groups II–IV. Criterion is lowest public grant, not lowest total project cost.",
+        "contrastSummary": "₹2,659 crore lender financing, ₹2,133 crore equity/related contribution and ₹1,746 crore VGF for ₹6,538 crore project."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-002",
+      "text": "Locate the first Ganga package financing breakdown that separates lender money, sponsor contribution and viability-gap support within its project budget.",
+      "positiveIds": [
+        "deep-procurement:source:irb-close"
+      ],
+      "hardNegativeIds": [
+        "deep-procurement:source:irb-toll"
+      ],
+      "intent": "financial-stage",
+      "rationale": "The positive retained summary specifically supports the requested financial stage distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "deep-procurement:source:irb-close",
+        "sourceSummary": "₹2,659 crore lender financing, ₹2,133 crore equity/related contribution and ₹1,746 crore VGF for ₹6,538 crore project.",
+        "contrastSummary": "MBEL commenced toll collection effective 17 May 2026, after provisional certificate/trial operations."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-003",
+      "text": "Which disclosure distinguishes the completed first equity raise from separate construction and lifetime maintenance consideration payable to IRB?",
+      "positiveIds": [
+        "deep-procurement:source:irb-gic"
+      ],
+      "hardNegativeIds": [
+        "deep-procurement:source:cci-mbel"
+      ],
+      "intent": "financial-stage",
+      "rationale": "The positive retained summary specifically supports the requested financial stage distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "deep-procurement:source:irb-gic",
+        "sourceSummary": "First equity raise reported complete; separate contractual EPC and lifetime O&M consideration to IRB.",
+        "contrastSummary": "Competition regulator approved proposed acquisition."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-004",
+      "text": "Find the MBEL transaction disclosure recording the investor ownership proportions, unitholder approval and the issuer's arm's-length explanation.",
+      "positiveIds": [
+        "deep-procurement:source:irb-related-party"
+      ],
+      "hardNegativeIds": [
+        "deep-procurement:source:irb-toll"
+      ],
+      "intent": "response",
+      "rationale": "The positive retained summary specifically supports the requested response distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "deep-procurement:source:irb-related-party",
+        "sourceSummary": "MBEL 51% IRB/49% Anahera; unitholders approved related-party transaction on 6 February 2024; issuer says arm’s length.",
+        "contrastSummary": "MBEL commenced toll collection effective 17 May 2026, after provisional certificate/trial operations."
+      },
+      "requiredCounterevidenceIds": [
+        "deep-procurement:source:irb-related-party"
+      ],
+      "counterevidenceRole": "issuer arm's-length response and approval"
+    },
+    {
+      "id": "next-train-005",
+      "text": "Which completed MBEL acquisition disclosure gives one combined consideration for equity and debentures rather than treating them as two separate payment totals?",
+      "positiveIds": [
+        "deep-procurement:source:irb-acquisition-close"
+      ],
+      "hardNegativeIds": [
+        "deep-procurement:source:cci-mbel"
+      ],
+      "intent": "financial-stage",
+      "rationale": "The positive retained summary specifically supports the requested financial stage distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "deep-procurement:source:irb-acquisition-close",
+        "sourceSummary": "80.4% of equity and 80.4% of debentures purchased for combined consideration ₹1,714.92 crore.",
+        "contrastSummary": "Competition regulator approved proposed acquisition."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-006",
+      "text": "I need the competition authority's permission for the MBEL acquisition, not a later company's claim that money changed hands.",
+      "positiveIds": [
+        "deep-procurement:source:cci-mbel"
+      ],
+      "hardNegativeIds": [
+        "deep-procurement:source:irb-acquisition-close"
+      ],
+      "intent": "regulatory-stage",
+      "rationale": "The positive retained summary specifically supports the requested regulatory stage distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "deep-procurement:source:cci-mbel",
+        "sourceSummary": "Competition regulator approved proposed acquisition.",
+        "contrastSummary": "80.4% of equity and 80.4% of debentures purchased for combined consideration ₹1,714.92 crore."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-007",
+      "text": "Which record establishes the date MBEL began charging road users after provisional certification and trial operations?",
+      "positiveIds": [
+        "deep-procurement:source:irb-toll"
+      ],
+      "hardNegativeIds": [
+        "deep-procurement:source:irb-close"
+      ],
+      "intent": "operational-outcome",
+      "rationale": "The positive retained summary specifically supports the requested operational outcome distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "deep-procurement:source:irb-toll",
+        "sourceSummary": "MBEL commenced toll collection effective 17 May 2026, after provisional certificate/trial operations.",
+        "contrastSummary": "₹2,659 crore lender financing, ₹2,133 crore equity/related contribution and ₹1,746 crore VGF for ₹6,538 crore project."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-008",
+      "text": "Where does IRB warn that the MBEL financing figure still includes undisbursed funding, preventing us from counting the full facility as cash received?",
+      "positiveIds": [
+        "deep-procurement:source:irb-ar25"
+      ],
+      "hardNegativeIds": [
+        "deep-procurement:source:irb-toll"
+      ],
+      "intent": "financial-stage",
+      "rationale": "The positive retained summary specifically supports the requested financial stage distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "deep-procurement:source:irb-ar25",
+        "sourceSummary": "Confirms acquisition; ₹26,590 million MBEL financing row expressly includes pending disbursement.",
+        "contrastSummary": "MBEL commenced toll collection effective 17 May 2026, after provisional certificate/trial operations."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-009",
+      "text": "Find the Ganga concession SPVs and the disclosure separating their equity, debt and public grant, including the bank underwriting the debt requirement.",
+      "positiveIds": [
+        "deep-procurement:source:adani-close"
+      ],
+      "hardNegativeIds": [
+        "deep-procurement:source:adani-ar26"
+      ],
+      "intent": "entity-and-funding",
+      "rationale": "The positive retained summary specifically supports the requested entity and funding distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "deep-procurement:source:adani-close",
+        "sourceSummary": "Exact concession SPVs, their group affiliation and stage-separated debt/equity/VGF funding. SBI underwrites entire debt requirement.",
+        "contrastSummary": "Later issuer update records inauguration of Ganga Expressway."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-010",
+      "text": "Which later issuer report records the expressway inauguration rather than merely an earlier financial close?",
+      "positiveIds": [
+        "deep-procurement:source:adani-ar26"
+      ],
+      "hardNegativeIds": [
+        "deep-procurement:source:adani-close"
+      ],
+      "intent": "operational-outcome",
+      "rationale": "The positive retained summary specifically supports the requested operational outcome distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "deep-procurement:source:adani-ar26",
+        "sourceSummary": "Later issuer update records inauguration of Ganga Expressway.",
+        "contrastSummary": "Exact concession SPVs, their group affiliation and stage-separated debt/equity/VGF funding. SBI underwrites entire debt requirement."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-011",
+      "text": "Where are the rupee, yen and dollar components of the L&T C4 high-speed-rail award kept separate?",
+      "positiveIds": [
+        "deep-procurement:source:nhsrcl-awards"
+      ],
+      "hardNegativeIds": [
+        "deep-procurement:source:nhsrcl-equity"
+      ],
+      "intent": "currency-scope",
+      "rationale": "The positive retained summary specifically supports the requested currency scope distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "deep-procurement:source:nhsrcl-awards",
+        "sourceSummary": "C4 awarded to Larsen & Toubro with separate INR, JPY and USD components.",
+        "contrastSummary": "Government of India 50%, Gujarat 25%, Maharashtra 25%; described project loan terms."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-012",
+      "text": "Find the dated technical-bid, financial-bid and letter-of-acceptance sequence preceding signature of the 237-kilometre civil package.",
+      "positiveIds": [
+        "deep-procurement:source:nhsrcl-c4-sign"
+      ],
+      "hardNegativeIds": [
+        "deep-procurement:source:nhsrcl-equity"
+      ],
+      "intent": "event-sequence",
+      "rationale": "The positive retained summary specifically supports the requested event sequence distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "deep-procurement:source:nhsrcl-c4-sign",
+        "sourceSummary": "L&T signed 237 km civil package; technical bids 23 Sep, financial bids 19 Oct, LOA 28 Oct 2020.",
+        "contrastSummary": "Government of India 50%, Gujarat 25%, Maharashtra 25%; described project loan terms."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-013",
+      "text": "What explanation did the rail authority give for rapid procurement processing, including multidisciplinary coordination and consultant work?",
+      "positiveIds": [
+        "deep-procurement:source:nhsrcl-process"
+      ],
+      "hardNegativeIds": [
+        "deep-procurement:source:jica-tranche5"
+      ],
+      "intent": "alternative-explanation",
+      "rationale": "The positive retained summary specifically supports the requested alternative explanation distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "deep-procurement:source:nhsrcl-process",
+        "sourceSummary": "Authority attributes speed to parallel multidisciplinary coordination and consultant support.",
+        "contrastSummary": "JPY 400 bn tranche 5; cumulative JPY 1,050 bn project commitment. NHSRCL executing agency."
+      },
+      "requiredCounterevidenceIds": [
+        "deep-procurement:source:nhsrcl-process"
+      ],
+      "counterevidenceRole": "authority explanation for procurement speed"
+    },
+    {
+      "id": "next-train-014",
+      "text": "Which record identifies the Union, Gujarat and Maharashtra ownership proportions in the high-speed-rail implementing company?",
+      "positiveIds": [
+        "deep-procurement:source:nhsrcl-equity"
+      ],
+      "hardNegativeIds": [
+        "deep-procurement:source:nhsrcl-awards"
+      ],
+      "intent": "identity-context",
+      "rationale": "The positive retained summary specifically supports the requested identity context distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "deep-procurement:source:nhsrcl-equity",
+        "sourceSummary": "Government of India 50%, Gujarat 25%, Maharashtra 25%; described project loan terms.",
+        "contrastSummary": "C4 awarded to Larsen & Toubro with separate INR, JPY and USD components."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-015",
+      "text": "I need the fifth Japanese loan tranche and cumulative whole-project commitment, without relabelling that amount as the C4 contractor's receipt.",
+      "positiveIds": [
+        "deep-procurement:source:jica-tranche5"
+      ],
+      "hardNegativeIds": [
+        "deep-procurement:source:nhsrcl-awards"
+      ],
+      "intent": "financial-stage",
+      "rationale": "The positive retained summary specifically supports the requested financial stage distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "deep-procurement:source:jica-tranche5",
+        "sourceSummary": "JPY 400 bn tranche 5; cumulative JPY 1,050 bn project commitment. NHSRCL executing agency.",
+        "contrastSummary": "C4 awarded to Larsen & Toubro with separate INR, JPY and USD components."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-016",
+      "text": "Find the Polavaram audit dealing with material advances, REC borrowing, premature equipment purchases and the government's dated replies.",
+      "positiveIds": [
+        "deep-procurement:source:cag-polavaram"
+      ],
+      "hardNegativeIds": [
+        "deep-procurement:source:polavaram-answer"
+      ],
+      "intent": "audit-and-response",
+      "rationale": "The positive retained summary specifically supports the requested audit and response distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "deep-procurement:source:cag-polavaram",
+        "sourceSummary": "Material advance, REC financing, premature equipment procurement and dated government replies.",
+        "contrastSummary": "Central Phase I grant excludes powerhouse; powerhouse cost borne by Andhra Pradesh. Main-dam/LA/R&R milestone target June 2027."
+      },
+      "requiredCounterevidenceIds": [
+        "deep-procurement:source:cag-polavaram"
+      ],
+      "counterevidenceRole": "dated government replies within audit"
+    },
+    {
+      "id": "next-train-017",
+      "text": "Which publication record establishes when the Polavaram audit became public, separately from the financial year its findings cover?",
+      "positiveIds": [
+        "deep-procurement:source:cag-publication"
+      ],
+      "hardNegativeIds": [
+        "deep-procurement:source:meil-moa"
+      ],
+      "intent": "source-availability",
+      "rationale": "The positive retained summary specifically supports the requested source availability distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "deep-procurement:source:cag-publication",
+        "sourceSummary": "Establishes publication date independently from report year.",
+        "contrastSummary": "Exact corporate legal name corroborates CAG’s named contractor."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-018",
+      "text": "Which retained corporate constitution document corroborates the exact legal name of the Polavaram contractor rather than establishing project expenditure?",
+      "positiveIds": [
+        "deep-procurement:source:meil-moa"
+      ],
+      "hardNegativeIds": [
+        "deep-procurement:source:cag-publication"
+      ],
+      "intent": "identity-resolution",
+      "rationale": "The positive retained summary specifically supports the requested identity resolution distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "deep-procurement:source:meil-moa",
+        "sourceSummary": "Exact corporate legal name corroborates CAG’s named contractor.",
+        "contrastSummary": "Establishes publication date independently from report year."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-019",
+      "text": "Where does the government distinguish the Centre's Polavaram Phase I grant from the powerhouse cost borne by Andhra Pradesh and give the later milestone target?",
+      "positiveIds": [
+        "deep-procurement:source:polavaram-answer"
+      ],
+      "hardNegativeIds": [
+        "deep-procurement:source:cag-polavaram"
+      ],
+      "intent": "funding-scope",
+      "rationale": "The positive retained summary specifically supports the requested funding scope distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "deep-procurement:source:polavaram-answer",
+        "sourceSummary": "Central Phase I grant excludes powerhouse; powerhouse cost borne by Andhra Pradesh. Main-dam/LA/R&R milestone target June 2027.",
+        "contrastSummary": "Material advance, REC financing, premature equipment procurement and dated government replies."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-020",
+      "text": "Retrieve the original Zojila notice estimate and the disclosed unsuccessful exact-ID archive lookup; an archive miss must not become evidence that the tender did not exist.",
+      "positiveIds": [
+        "deep-procurement:source:zojila-notice"
+      ],
+      "hardNegativeIds": [
+        "deep-procurement:source:nhidcl-zojila"
+      ],
+      "intent": "archive-missingness",
+      "rationale": "The positive retained summary specifically supports the requested archive missingness distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "deep-procurement:source:zojila-notice",
+        "sourceSummary": "Original notice fields accessible, estimate ₹4,429.83 crore; exact corpus-ID query returns 0.",
+        "contrastSummary": "Authority names MEIL for exact Zojila project and records ongoing status."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-021",
+      "text": "Which official project record names MEIL for Zojila and describes continuing work, rather than only publishing the original estimated tender value?",
+      "positiveIds": [
+        "deep-procurement:source:nhidcl-zojila"
+      ],
+      "hardNegativeIds": [
+        "deep-procurement:source:zojila-notice"
+      ],
+      "intent": "contractor-status",
+      "rationale": "The positive retained summary specifically supports the requested contractor status distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "deep-procurement:source:nhidcl-zojila",
+        "sourceSummary": "Authority names MEIL for exact Zojila project and records ongoing status.",
+        "contrastSummary": "Original notice fields accessible, estimate ₹4,429.83 crore; exact corpus-ID query returns 0."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-022",
+      "text": "Find the Air India bid comparison showing the winner, rival, reserve and excluded non-core assets before closing.",
+      "positiveIds": [
+        "deep-corporate:source:air-india-award"
+      ],
+      "hardNegativeIds": [
+        "deep-corporate:source:air-budget-actual-2023"
+      ],
+      "intent": "valuation-scope",
+      "rationale": "The positive retained summary specifically supports the requested valuation scope distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "deep-corporate:source:air-india-award",
+        "sourceSummary": "Winning EV ₹18,000 cr; rival ₹15,100 cr; reserve ₹12,906 cr; excluded non-core assets valued ₹14,718 cr. Describes debt resizing and release of public guarantees before closing.",
+        "contrastSummary": "Actual AIAHL equity ₹62,365.40 cr, including ₹13,754.40 cr for past dues/liabilities, compared with prior RE ₹13,446 cr."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-023",
+      "text": "Which closing disclosure separates cash actually received by the government from debt remaining in the airlines transferred to Talace?",
+      "positiveIds": [
+        "deep-corporate:source:air-india-close"
+      ],
+      "hardNegativeIds": [
+        "deep-corporate:source:air-india-award"
+      ],
+      "intent": "financial-stage",
+      "rationale": "The positive retained summary specifically supports the requested financial stage distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "deep-corporate:source:air-india-close",
+        "sourceSummary": "Government received ₹2,700 cr; ₹15,300 cr debt remained in sold airlines; shares transferred to Talace, wholly owned by Tata Sons.",
+        "contrastSummary": "Winning EV ₹18,000 cr; rival ₹15,100 cr; reserve ₹12,906 cr; excluded non-core assets valued ₹14,718 cr. Describes debt resizing and release of public guarantees before closing."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-024",
+      "text": "Locate the revised budget estimate for AIAHL equity broken into guaranteed debt, lease borrowing and past liabilities; keep it distinct from final actual expenditure.",
+      "positiveIds": [
+        "deep-corporate:source:air-budget-2022"
+      ],
+      "hardNegativeIds": [
+        "deep-corporate:source:air-budget-actual-2023"
+      ],
+      "intent": "budget-vintage",
+      "rationale": "The positive retained summary specifically supports the requested budget vintage distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "deep-corporate:source:air-budget-2022",
+        "sourceSummary": "AIAHL equity revised estimate ₹62,057 cr split between guaranteed debt, SLB lease borrowings and other past dues.",
+        "contrastSummary": "Actual AIAHL equity ₹62,365.40 cr, including ₹13,754.40 cr for past dues/liabilities, compared with prior RE ₹13,446 cr."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-025",
+      "text": "What later budget source reports actual AIAHL equity and revises the past-dues component compared with the earlier estimate?",
+      "positiveIds": [
+        "deep-corporate:source:air-budget-actual-2023"
+      ],
+      "hardNegativeIds": [
+        "deep-corporate:source:air-budget-2022"
+      ],
+      "intent": "budget-vintage",
+      "rationale": "The positive retained summary specifically supports the requested budget vintage distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "deep-corporate:source:air-budget-actual-2023",
+        "sourceSummary": "Actual AIAHL equity ₹62,365.40 cr, including ₹13,754.40 cr for past dues/liabilities, compared with prior RE ₹13,446 cr.",
+        "contrastSummary": "AIAHL equity revised estimate ₹62,057 cr split between guaranteed debt, SLB lease borrowings and other past dues."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-026",
+      "text": "Which government answer separates Mangaluru's upfront airport receipt from concession fees aggregated over all six airports?",
+      "positiveIds": [
+        "deep-corporate:source:airports-receipts-2022"
+      ],
+      "hardNegativeIds": [
+        "deep-corporate:source:mangaluru-concession"
+      ],
+      "intent": "population-scope",
+      "rationale": "The positive retained summary specifically supports the requested population scope distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "deep-corporate:source:airports-receipts-2022",
+        "sourceSummary": "Mangaluru upfront receipt ₹221.88 cr; concession fees ₹710.88 cr for all six airports through October 2022.",
+        "contrastSummary": "Named concessionaire CIN U63030GJ2019PLC110062; AEL selected bidder; 50-year concession from COD; domestic fee ₹115 and international twice domestic with revision rules."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-027",
+      "text": "Find the legal concessionaire identifier, duration and domestic/international per-passenger fee formula for Mangaluru airport.",
+      "positiveIds": [
+        "deep-corporate:source:mangaluru-concession"
+      ],
+      "hardNegativeIds": [
+        "deep-corporate:source:airports-receipts-2022"
+      ],
+      "intent": "contract-terms",
+      "rationale": "The positive retained summary specifically supports the requested contract terms distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "deep-corporate:source:mangaluru-concession",
+        "sourceSummary": "Named concessionaire CIN U63030GJ2019PLC110062; AEL selected bidder; 50-year concession from COD; domestic fee ₹115 and international twice domestic with revision rules.",
+        "contrastSummary": "Mangaluru upfront receipt ₹221.88 cr; concession fees ₹710.88 cr for all six airports through October 2022."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-028",
+      "text": "Which later annual disclosure gives PKCL and Mangaluru ownership and separates related-party services, loans and receivables?",
+      "positiveIds": [
+        "deep-corporate:source:ael-report-2026"
+      ],
+      "hardNegativeIds": [
+        "deep-corporate:source:coal-block-allotments"
+      ],
+      "intent": "ownership-and-accounts",
+      "rationale": "The positive retained summary specifically supports the requested ownership and accounts distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "deep-corporate:source:ael-report-2026",
+        "sourceSummary": "PKCL 74% AEL; Mangaluru 51% AEL 49% AAHL; AAHL 100% AEL. Note 50 discloses services, loans, receivables and parent lending.",
+        "contrastSummary": "The block in Chhattisgarh is allotted to Rajasthan Rajya Vidyut Utpadan Nigam Ltd for power, rather than conveyed to its private MDO."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-029",
+      "text": "Which official allotment record shows the Chhattisgarh coal block belongs to Rajasthan's power utility rather than to its private mining developer?",
+      "positiveIds": [
+        "deep-corporate:source:coal-block-allotments"
+      ],
+      "hardNegativeIds": [
+        "deep-corporate:source:pekb-guarantee-2016"
+      ],
+      "intent": "legal-rights",
+      "rationale": "The positive retained summary specifically supports the requested legal rights distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "deep-corporate:source:coal-block-allotments",
+        "sourceSummary": "The block in Chhattisgarh is allotted to Rajasthan Rajya Vidyut Utpadan Nigam Ltd for power, rather than conveyed to its private MDO.",
+        "contrastSummary": "Directs invocation of ₹16.48452 cr from RRVUNL’s performance bank guarantee for prior-allocation delays."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-030",
+      "text": "Locate the direction to invoke RRVUNL's performance guarantee for allocation delays, without treating the order as evidence of completed recovery.",
+      "positiveIds": [
+        "deep-corporate:source:pekb-guarantee-2016"
+      ],
+      "hardNegativeIds": [
+        "deep-corporate:source:coal-block-allotments"
+      ],
+      "intent": "enforcement-stage",
+      "rationale": "The positive retained summary specifically supports the requested enforcement stage distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "deep-corporate:source:pekb-guarantee-2016",
+        "sourceSummary": "Directs invocation of ₹16.48452 cr from RRVUNL’s performance bank guarantee for prior-allocation delays.",
+        "contrastSummary": "The block in Chhattisgarh is allotted to Rajasthan Rajya Vidyut Utpadan Nigam Ltd for power, rather than conveyed to its private MDO."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-031",
+      "text": "Which Parsa mining-contract decision restores an escalation award while rejecting the separate fixed-cost and escrow claims?",
+      "positiveIds": [
+        "deep-corporate:source:parsa-sc-2019"
+      ],
+      "hardNegativeIds": [
+        "deep-corporate:source:parsa-transport-2025"
+      ],
+      "intent": "legal-outcome",
+      "rationale": "The positive retained summary specifically supports the requested legal outcome distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "deep-corporate:source:parsa-sc-2019",
+        "sourceSummary": "Records tender acceptance 12-May 2006, LoI 23-Oct 2006 and CMDA 16-Jul 2008. Restores escalation award; confirms rejection of ₹78 cr fixed-cost award and escrow claim.",
+        "contrastSummary": "Reports road-cost reimbursement dispute, over ₹1,400 cr paid, ₹50 lakh fine, audit direction and stay; reporters sought both firms’ response."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-032",
+      "text": "Find reporting on the later coal road-transport reimbursement dispute that records the audit direction, stay and attempts to obtain both companies' responses.",
+      "positiveIds": [
+        "deep-corporate:source:parsa-transport-2025"
+      ],
+      "hardNegativeIds": [
+        "deep-corporate:source:parsa-sc-2019"
+      ],
+      "intent": "response-and-vintage",
+      "rationale": "The positive retained summary specifically supports the requested response and vintage distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "deep-corporate:source:parsa-transport-2025",
+        "sourceSummary": "Reports road-cost reimbursement dispute, over ₹1,400 cr paid, ₹50 lakh fine, audit direction and stay; reporters sought both firms’ response.",
+        "contrastSummary": "Records tender acceptance 12-May 2006, LoI 23-Oct 2006 and CMDA 16-Jul 2008. Restores escalation award; confirms rejection of ₹78 cr fixed-cost award and escrow claim."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-033",
+      "text": "Which Supreme Court record both permits sale of the remaining public HZL stake and directs a regular investigation into the earlier disinvestment?",
+      "positiveIds": [
+        "deep-corporate:source:hzl-sc-2021"
+      ],
+      "hardNegativeIds": [
+        "deep-corporate:source:hzl-government-response-2022"
+      ],
+      "intent": "legal-outcome",
+      "rationale": "The positive retained summary specifically supports the requested legal outcome distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "deep-corporate:source:hzl-sc-2021",
+        "sourceSummary": "History of nationalised HZL, ₹445 cr 26% sale to SOVL, later 64.92% holding; permits residual public-stake sale and orders a regular CBI case.",
+        "contrastSummary": "Government said contemporaneous records contradicted several CBI premises; withdrawal allowed pursuit of review."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-034",
+      "text": "Where does the government dispute the investigative premises about HZL using contemporaneous records and preserve the option of review?",
+      "positiveIds": [
+        "deep-corporate:source:hzl-government-response-2022"
+      ],
+      "hardNegativeIds": [
+        "deep-corporate:source:hzl-fir-2022"
+      ],
+      "intent": "counterevidence",
+      "rationale": "The positive retained summary specifically supports the requested counterevidence distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "deep-corporate:source:hzl-government-response-2022",
+        "sourceSummary": "Government said contemporaneous records contradicted several CBI premises; withdrawal allowed pursuit of review.",
+        "contrastSummary": "Solicitor General reportedly stated FIR registered and status report to follow."
+      },
+      "requiredCounterevidenceIds": [
+        "deep-corporate:source:hzl-government-response-2022"
+      ],
+      "counterevidenceRole": "government challenge to investigative premises"
+    },
+    {
+      "id": "next-train-035",
+      "text": "Find the reported statement that an HZL FIR had been registered and a status report would follow; it is not a merits judgment.",
+      "positiveIds": [
+        "deep-corporate:source:hzl-fir-2022"
+      ],
+      "hardNegativeIds": [
+        "deep-corporate:source:hzl-government-response-2022"
+      ],
+      "intent": "procedural-status",
+      "rationale": "The positive retained summary specifically supports the requested procedural status distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "deep-corporate:source:hzl-fir-2022",
+        "sourceSummary": "Solicitor General reportedly stated FIR registered and status report to follow.",
+        "contrastSummary": "Government said contemporaneous records contradicted several CBI premises; withdrawal allowed pursuit of review."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-036",
+      "text": "Which proposed zinc acquisition separates immediate consideration from a milestone-linked deferred part and records the company's value rationale?",
+      "positiveIds": [
+        "deep-corporate:source:vedanta-proposal-2023"
+      ],
+      "hardNegativeIds": [
+        "deep-corporate:source:hzl-lapse-2023"
+      ],
+      "intent": "proposal-not-payment",
+      "rationale": "The positive retained summary specifically supports the requested proposal not payment distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "deep-corporate:source:vedanta-proposal-2023",
+        "sourceSummary": "Proposed cash consideration US$2,981 million, including US$562 million milestone-linked deferred consideration; company says transaction would unlock value for both firms.",
+        "contrastSummary": "Two unnamed government sources said shareholder approval window lapsed; Reuters reported no immediate company or government email response."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-037",
+      "text": "Where are the government's objection to a cash zinc acquisition and HZL's statement that shareholder approval remained necessary recorded?",
+      "positiveIds": [
+        "deep-corporate:source:hzl-objection-2023"
+      ],
+      "hardNegativeIds": [
+        "deep-corporate:source:hzl-target-2023"
+      ],
+      "intent": "counterevidence",
+      "rationale": "The positive retained summary specifically supports the requested counterevidence distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "deep-corporate:source:hzl-objection-2023",
+        "sourceSummary": "Government recorded dissent and urged cashless alternatives; HZL said shareholder approval required and notice not issued.",
+        "contrastSummary": "Names Mauritius THL Zinc Ltd, wholly owned by THL Zinc Ventures Ltd, itself wholly owned by Vedanta Limited."
+      },
+      "requiredCounterevidenceIds": [
+        "deep-corporate:source:hzl-objection-2023"
+      ],
+      "counterevidenceRole": "government dissent and unfulfilled approval condition"
+    },
+    {
+      "id": "next-train-038",
+      "text": "Which disclosure traces the Mauritius target through THL Zinc Ventures to Vedanta Limited by exact corporate names?",
+      "positiveIds": [
+        "deep-corporate:source:hzl-target-2023"
+      ],
+      "hardNegativeIds": [
+        "deep-corporate:source:hzl-lapse-2023"
+      ],
+      "intent": "ownership-context",
+      "rationale": "The positive retained summary specifically supports the requested ownership context distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "deep-corporate:source:hzl-target-2023",
+        "sourceSummary": "Names Mauritius THL Zinc Ltd, wholly owned by THL Zinc Ventures Ltd, itself wholly owned by Vedanta Limited.",
+        "contrastSummary": "Two unnamed government sources said shareholder approval window lapsed; Reuters reported no immediate company or government email response."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-039",
+      "text": "Retrieve the later report that the zinc-acquisition approval window expired, preserving that the sources were unnamed and immediate official responses were absent.",
+      "positiveIds": [
+        "deep-corporate:source:hzl-lapse-2023"
+      ],
+      "hardNegativeIds": [
+        "deep-corporate:source:vedanta-proposal-2023"
+      ],
+      "intent": "proposal-outcome",
+      "rationale": "The positive retained summary specifically supports the requested proposal outcome distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "deep-corporate:source:hzl-lapse-2023",
+        "sourceSummary": "Two unnamed government sources said shareholder approval window lapsed; Reuters reported no immediate company or government email response.",
+        "contrastSummary": "Proposed cash consideration US$2,981 million, including US$562 million milestone-linked deferred consideration; company says transaction would unlock value for both firms."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-040",
+      "text": "I need the filed securities regulator complaint containing the solar financing and contract allegations, with the allegations still attributed to the regulator.",
+      "positiveIds": [
+        "deep-governance:source:sec-complaint"
+      ],
+      "hardNegativeIds": [
+        "deep-governance:source:edny-august"
+      ],
+      "intent": "allegation-provenance",
+      "rationale": "The positive retained summary specifically supports the requested allegation provenance distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "deep-governance:source:sec-complaint",
+        "sourceSummary": "The filed complaint records the SEC allegations and the financing/contract narrative. Original 39-page PDF retained.",
+        "contrastSummary": "Grants dismissal with prejudice of the fraud counts against Gautam Adani, Sagar Adani and Vneet Jaain. Reserves judgment on other counts."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-041",
+      "text": "Which August court order dismisses fraud counts against the three named Adani-related defendants while reserving other counts?",
+      "positiveIds": [
+        "deep-governance:source:edny-august"
+      ],
+      "hardNegativeIds": [
+        "deep-governance:source:edny-september"
+      ],
+      "intent": "defendant-specific-outcome",
+      "rationale": "The positive retained summary specifically supports the requested defendant specific outcome distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "deep-governance:source:edny-august",
+        "sourceSummary": "Grants dismissal with prejudice of the fraud counts against Gautam Adani, Sagar Adani and Vneet Jaain. Reserves judgment on other counts.",
+        "contrastSummary": "Court declines to dismiss Counts One and Five against five named other defendants for insufficient factual support for DOJ’s dismissal reasons."
+      },
+      "requiredCounterevidenceIds": [
+        "deep-governance:source:edny-august"
+      ],
+      "counterevidenceRole": "later defendant-specific dismissal limits earlier allegations"
+    },
+    {
+      "id": "next-train-042",
+      "text": "Which later order declines to dismiss the remaining counts against five other defendants because the prosecution's reasons lacked factual support?",
+      "positiveIds": [
+        "deep-governance:source:edny-september"
+      ],
+      "hardNegativeIds": [
+        "deep-governance:source:edny-august"
+      ],
+      "intent": "defendant-specific-outcome",
+      "rationale": "The positive retained summary specifically supports the requested defendant specific outcome distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "deep-governance:source:edny-september",
+        "sourceSummary": "Court declines to dismiss Counts One and Five against five named other defendants for insufficient factual support for DOJ’s dismissal reasons.",
+        "contrastSummary": "Grants dismissal with prejudice of the fraud counts against Gautam Adani, Sagar Adani and Vneet Jaain. Reserves judgment on other counts."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-043",
+      "text": "Find the securities consent terms entered without admission or denial and the disclosed need for judicial approval of proposed penalties.",
+      "positiveIds": [
+        "deep-governance:source:sec-consent"
+      ],
+      "hardNegativeIds": [
+        "deep-governance:source:sec-complaint"
+      ],
+      "intent": "settlement-posture",
+      "rationale": "The positive retained summary specifically supports the requested settlement posture distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "deep-governance:source:sec-consent",
+        "sourceSummary": "Gautam and Sagar consented without admitting or denying allegations; proposed penalties and injunctions remained subject to court approval in this release.",
+        "contrastSummary": "The filed complaint records the SEC allegations and the financing/contract narrative. Original 39-page PDF retained."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-044",
+      "text": "Which issuer disclosure distinguishes the initial solar award from the final power-purchase agreement years later and names the manufacturing associate?",
+      "positiveIds": [
+        "deep-governance:source:agel-ppa"
+      ],
+      "hardNegativeIds": [
+        "deep-governance:source:edny-september"
+      ],
+      "intent": "contract-vintage",
+      "rationale": "The positive retained summary specifically supports the requested contract vintage distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "deep-governance:source:agel-ppa",
+        "sourceSummary": "Issuer describes June 2020 award and final December 2023 PPA; it also identifies Mundra Solar Energy Ltd as associate manufacturing 2 GW annually.",
+        "contrastSummary": "Court declines to dismiss Counts One and Five against five named other defendants for insufficient factual support for DOJ’s dismissal reasons."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-045",
+      "text": "Where does the issuer distinguish the types of charges facing its directors from the anti-bribery counts facing other defendants?",
+      "positiveIds": [
+        "deep-governance:source:agel-response"
+      ],
+      "hardNegativeIds": [
+        "deep-governance:source:agel-ppa"
+      ],
+      "intent": "response",
+      "rationale": "The positive retained summary specifically supports the requested response distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "deep-governance:source:agel-response",
+        "sourceSummary": "Issuer correctly distinguishes securities/wire-fraud counts against its directors from FCPA counts against other defendants.",
+        "contrastSummary": "Issuer describes June 2020 award and final December 2023 PPA; it also identifies Mundra Solar Energy Ltd as associate manufacturing 2 GW annually."
+      },
+      "requiredCounterevidenceIds": [
+        "deep-governance:source:agel-response"
+      ],
+      "counterevidenceRole": "issuer charge-scope response"
+    },
+    {
+      "id": "next-train-046",
+      "text": "Retrieve the company's denial focused on the difference between promised or discussed bribes and proved payments.",
+      "positiveIds": [
+        "deep-governance:source:company-denial"
+      ],
+      "hardNegativeIds": [
+        "deep-governance:source:sec-consent"
+      ],
+      "intent": "response",
+      "rationale": "The positive retained summary specifically supports the requested response distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "deep-governance:source:company-denial",
+        "sourceSummary": "Company disputes allegations and says the indictment relies on claims that bribes were promised or discussed.",
+        "contrastSummary": "Gautam and Sagar consented without admitting or denying allegations; proposed penalties and injunctions remained subject to court approval in this release."
+      },
+      "requiredCounterevidenceIds": [
+        "deep-governance:source:company-denial"
+      ],
+      "counterevidenceRole": "company denial of payment inference"
+    },
+    {
+      "id": "next-train-047",
+      "text": "Which reporting describes the Justice Department's challenge to the court's dismissal analysis and its request concerning the remaining counts?",
+      "positiveIds": [
+        "deep-governance:source:appeal-report"
+      ],
+      "hardNegativeIds": [
+        "deep-governance:source:agel-ppa"
+      ],
+      "intent": "appeal-status",
+      "rationale": "The positive retained summary specifically supports the requested appeal status distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "deep-governance:source:appeal-report",
+        "sourceSummary": "DOJ challenges the district court’s Rule 48(a) analysis and seeks dismissal of remaining counts.",
+        "contrastSummary": "Issuer describes June 2020 award and final December 2023 PPA; it also identifies Mundra Solar Energy Ltd as associate manufacturing 2 GW annually."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-048",
+      "text": "Find the statutory change that removed the corporate profit cap and party-specific company disclosure for political donations.",
+      "positiveIds": [
+        "atlas-policy:source:finance-act-2017-court"
+      ],
+      "hardNegativeIds": [
+        "atlas-policy:source:bonds-judgment-2024"
+      ],
+      "intent": "law-change",
+      "rationale": "The positive retained summary specifically supports the requested law change distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "atlas-policy:source:finance-act-2017-court",
+        "sourceSummary": "Section 154 removed Companies Act 182 profit cap and party-specific company disclosure; associated provisions enabled electoral bonds.",
+        "contrastSummary": "Constitution Bench struck down electoral-bond anonymity and unlimited corporate funding; ordered issuance stopped and SBI disclosures."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-049",
+      "text": "Which constitutional judgment later invalidated anonymous electoral bonds and ordered the bank's disclosure remedy?",
+      "positiveIds": [
+        "atlas-policy:source:bonds-judgment-2024"
+      ],
+      "hardNegativeIds": [
+        "atlas-policy:source:finance-act-2017-court"
+      ],
+      "intent": "law-outcome",
+      "rationale": "The positive retained summary specifically supports the requested law outcome distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "atlas-policy:source:bonds-judgment-2024",
+        "sourceSummary": "Constitution Bench struck down electoral-bond anonymity and unlimited corporate funding; ordered issuance stopped and SBI disclosures.",
+        "contrastSummary": "Section 154 removed Companies Act 182 profit cap and party-specific company disclosure; associated provisions enabled electoral bonds."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-050",
+      "text": "Locate the original legal framework for creditor-initiated corporate resolution, creditor voting and binding approved plans.",
+      "positiveIds": [
+        "atlas-policy:source:ibc-original-2016"
+      ],
+      "hardNegativeIds": [
+        "atlas-policy:source:ibc29a-2018"
+      ],
+      "intent": "legal-framework",
+      "rationale": "The positive retained summary specifically supports the requested legal framework distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "atlas-policy:source:ibc-original-2016",
+        "sourceSummary": "Creditor-initiated corporate resolution, creditor voting and binding adjudicated plans.",
+        "contrastSummary": "Resolution-applicant disqualifications and connected-person test, with specified cure/exception provisions."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-051",
+      "text": "Which later insolvency provision addresses ineligible applicants and connected persons, including its cure and exception rules?",
+      "positiveIds": [
+        "atlas-policy:source:ibc29a-2018"
+      ],
+      "hardNegativeIds": [
+        "atlas-policy:source:ibc-original-2016"
+      ],
+      "intent": "eligibility-rule",
+      "rationale": "The positive retained summary specifically supports the requested eligibility rule distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "atlas-policy:source:ibc29a-2018",
+        "sourceSummary": "Resolution-applicant disqualifications and connected-person test, with specified cure/exception provisions.",
+        "contrastSummary": "Creditor-initiated corporate resolution, creditor voting and binding adjudicated plans."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-052",
+      "text": "Find the change permitting commercial coal sale beyond former captive end-use restrictions.",
+      "positiveIds": [
+        "atlas-policy:source:mineral-laws-2020"
+      ],
+      "hardNegativeIds": [
+        "atlas-policy:source:coal-auction-winners-2020"
+      ],
+      "intent": "law-versus-award",
+      "rationale": "The positive retained summary specifically supports the requested law versus award distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "atlas-policy:source:mineral-laws-2020",
+        "sourceSummary": "Amended MMDR and CMSP to permit coal mining for own consumption, sale or other prescribed purposes and remove former end-use restriction.",
+        "contrastSummary": "Radhikapur West auction 2 November 2020 won by Vedanta Limited/bidder 68522 at 21% revenue share."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-053",
+      "text": "Which source reproduces the commercial-coal revenue-share auction floor while separately dating later concessions for underground mining?",
+      "positiveIds": [
+        "atlas-policy:source:coal-methodology-2025-annex2020"
+      ],
+      "hardNegativeIds": [
+        "atlas-policy:source:coal-auction-winners-2020"
+      ],
+      "intent": "bid-rule-vintage",
+      "rationale": "The positive retained summary specifically supports the requested bid rule vintage distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "atlas-policy:source:coal-methodology-2025-annex2020",
+        "sourceSummary": "Final 2020 methodology uses revenue-share bids payable to states, 4% floor and unrestricted sale/utilisation; later underground-only concessions are separately dated.",
+        "contrastSummary": "Radhikapur West auction 2 November 2020 won by Vedanta Limited/bidder 68522 at 21% revenue share."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-054",
+      "text": "Retrieve the statutory authority for major-port boards to contract and for prospective PPP tariffs to respond to market conditions.",
+      "positiveIds": [
+        "atlas-policy:source:ports-act-2021"
+      ],
+      "hardNegativeIds": [
+        "atlas-policy:source:ports-commencement-2021"
+      ],
+      "intent": "statute-versus-commencement",
+      "rationale": "The positive retained summary specifically supports the requested statute versus commencement distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "atlas-policy:source:ports-act-2021",
+        "sourceSummary": "Port boards may contract; prospective PPP tariff setting under market conditions, subject to law and rules.",
+        "contrastSummary": "Appoints 3 November 2021 as commencement of the 2021 Act."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-055",
+      "text": "What notification fixes the legal commencement date of the 2021 major ports law rather than merely its passage?",
+      "positiveIds": [
+        "atlas-policy:source:ports-commencement-2021"
+      ],
+      "hardNegativeIds": [
+        "atlas-policy:source:ports-act-2021"
+      ],
+      "intent": "commencement-date",
+      "rationale": "The positive retained summary specifically supports the requested commencement date distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "atlas-policy:source:ports-commencement-2021",
+        "sourceSummary": "Appoints 3 November 2021 as commencement of the 2021 Act.",
+        "contrastSummary": "Port boards may contract; prospective PPP tariff setting under market conditions, subject to law and rules."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-056",
+      "text": "Find the port tariff guidance that preserves contractual royalties alongside prospective market tariff setting and published ceilings.",
+      "positiveIds": [
+        "atlas-policy:source:ports-tariff-2021"
+      ],
+      "hardNegativeIds": [
+        "atlas-policy:source:port-inauguration-2024"
+      ],
+      "intent": "contractual-obligation",
+      "rationale": "The positive retained summary specifically supports the requested contractual obligation distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "atlas-policy:source:ports-tariff-2021",
+        "sourceSummary": "Prospective market tariff setting, published ceiling rates and continuing contractual royalty conditions.",
+        "contrastSummary": "Government records terminal inauguration and maiden vessel, investment over ₹434 crore and 6 lakh TEU capacity."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-057",
+      "text": "Where does the government explain airport bidder eligibility, absence of a concentration cap and the per-passenger concession fee criterion?",
+      "positiveIds": [
+        "atlas-policy:source:airports-policy"
+      ],
+      "hardNegativeIds": [
+        "atlas-policy:source:ports-act-2021"
+      ],
+      "intent": "procurement-design",
+      "rationale": "The positive retained summary specifically supports the requested procurement design distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "atlas-policy:source:airports-policy",
+        "sourceSummary": "No prior airport experience, no cap on airports bid, per-passenger fee rather than revenue share; 50 year concessions awarded 2020–21.",
+        "contrastSummary": "Port boards may contract; prospective PPP tariff setting under market conditions, subject to law and rules."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-058",
+      "text": "Which rules specify the green-electricity access threshold and decision deadline, together with banking and charges?",
+      "positiveIds": [
+        "atlas-policy:source:green-open-access-2022"
+      ],
+      "hardNegativeIds": [
+        "atlas-policy:source:karnataka-openaccess-analysis"
+      ],
+      "intent": "operative-rule",
+      "rationale": "The positive retained summary specifically supports the requested operative rule distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "atlas-policy:source:green-open-access-2022",
+        "sourceSummary": "100 kW entry threshold, 15 day access decision, green procurement and banking/charge framework.",
+        "contrastSummary": "Reports 20 December 2024 judgment striking GEOA rules/regulations, Union appeal WA 154/2025 and KERC final 2025 replacement regulations."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-059",
+      "text": "Find the later account of the Karnataka challenge to green open-access rules, the Union appeal and replacement regulations, keeping the appeal endpoint qualified.",
+      "positiveIds": [
+        "atlas-policy:source:karnataka-openaccess-analysis"
+      ],
+      "hardNegativeIds": [
+        "atlas-policy:source:green-open-access-2022"
+      ],
+      "intent": "legal-update",
+      "rationale": "The positive retained summary specifically supports the requested legal update distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "atlas-policy:source:karnataka-openaccess-analysis",
+        "sourceSummary": "Reports 20 December 2024 judgment striking GEOA rules/regulations, Union appeal WA 154/2025 and KERC final 2025 replacement regulations.",
+        "contrastSummary": "100 kW entry threshold, 15 day access decision, green procurement and banking/charge framework."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-060",
+      "text": "Which public procurement rule distinguishes local-content classes and their price-matching and quantity-allocation preferences?",
+      "positiveIds": [
+        "atlas-policy:source:procurement-2020"
+      ],
+      "hardNegativeIds": [
+        "atlas-policy:source:defence-dap-2020"
+      ],
+      "intent": "bid-eligibility",
+      "rationale": "The positive retained summary specifically supports the requested bid eligibility distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "atlas-policy:source:procurement-2020",
+        "sourceSummary": "Class I/Class II local-content rules and price-matching preference alter eligible bidders and quantity allocation.",
+        "contrastSummary": "Indian-IDDM 50% indigenous content and no offsets in ab-initio single-vendor cases including IGA/FMS."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-061",
+      "text": "Locate the defence acquisition provisions on indigenous content and offset exclusions for single-vendor intergovernmental or foreign military sales.",
+      "positiveIds": [
+        "atlas-policy:source:defence-dap-2020"
+      ],
+      "hardNegativeIds": [
+        "atlas-policy:source:dap-commencement"
+      ],
+      "intent": "policy-content",
+      "rationale": "The positive retained summary specifically supports the requested policy content distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "atlas-policy:source:defence-dap-2020",
+        "sourceSummary": "Indian-IDDM 50% indigenous content and no offsets in ab-initio single-vendor cases including IGA/FMS.",
+        "contrastSummary": "Government states DAP 2020 applicable 1 October 2020 and compares indigenous-content thresholds."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-062",
+      "text": "Which government statement fixes the applicability date of DAP 2020 and compares the content thresholds with the prior procedure?",
+      "positiveIds": [
+        "atlas-policy:source:dap-commencement"
+      ],
+      "hardNegativeIds": [
+        "atlas-policy:source:defence-dap-2020"
+      ],
+      "intent": "commencement-date",
+      "rationale": "The positive retained summary specifically supports the requested commencement date distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "atlas-policy:source:dap-commencement",
+        "sourceSummary": "Government states DAP 2020 applicable 1 October 2020 and compares indigenous-content thresholds.",
+        "contrastSummary": "Indian-IDDM 50% indigenous content and no offsets in ab-initio single-vendor cases including IGA/FMS."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-063",
+      "text": "Which completed Bhushan acquisition disclosure separates equity, inter-company lending, external bridge financing and creditor settlement being undertaken?",
+      "positiveIds": [
+        "atlas-policy:source:tata-bhushan-close-2018"
+      ],
+      "hardNegativeIds": [
+        "atlas-policy:source:tata-bhushan-approval-2018"
+      ],
+      "intent": "financial-stage",
+      "rationale": "The positive retained summary specifically supports the requested financial stage distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "atlas-policy:source:tata-bhushan-close-2018",
+        "sourceSummary": "Bamnipal completed 72.65% acquisition; equity 158.89 crore, inter-company loan 34973.69 crore, bridge 16500 crore; FC settlement 35200 crore being undertaken.",
+        "contrastSummary": "Issuer records NCLT approval, Bamnipal 72.65% subscription and proposed creditor settlement."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-064",
+      "text": "Retrieve the initial plan-approval disclosure and proposed creditor settlement before the later completed Bhushan acquisition filing.",
+      "positiveIds": [
+        "atlas-policy:source:tata-bhushan-approval-2018"
+      ],
+      "hardNegativeIds": [
+        "atlas-policy:source:tata-bhushan-close-2018"
+      ],
+      "intent": "approval-versus-close",
+      "rationale": "The positive retained summary specifically supports the requested approval versus close distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "atlas-policy:source:tata-bhushan-approval-2018",
+        "sourceSummary": "Issuer records NCLT approval, Bamnipal 72.65% subscription and proposed creditor settlement.",
+        "contrastSummary": "Bamnipal completed 72.65% acquisition; equity 158.89 crore, inter-company loan 34973.69 crore, bridge 16500 crore; FC settlement 35200 crore being undertaken."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-065",
+      "text": "Which subsequent appellate record addresses the former promoters' share challenge and the earlier withdrawn appeal?",
+      "positiveIds": [
+        "atlas-policy:source:bhushan-share-order-2022"
+      ],
+      "hardNegativeIds": [
+        "atlas-policy:source:bhushan-merger-2021"
+      ],
+      "intent": "legal-outcome",
+      "rationale": "The positive retained summary specifically supports the requested legal outcome distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "atlas-policy:source:bhushan-share-order-2022",
+        "sourceSummary": "SBI initiated CIRP; 2018 approval implemented; 2021 SC appeal withdrawn; NCLAT dismissed promoter-share appeal requiring sale at ₹2 per share.",
+        "contrastSummary": "Reports NCLT-sanctioned amalgamation became effective 11 November 2021."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-066",
+      "text": "Find the issuer record giving the effective date of the Bhushan-related amalgamation rather than its earlier acquisition date.",
+      "positiveIds": [
+        "atlas-policy:source:bhushan-merger-2021"
+      ],
+      "hardNegativeIds": [
+        "atlas-policy:source:bhushan-share-order-2022"
+      ],
+      "intent": "corporate-event",
+      "rationale": "The positive retained summary specifically supports the requested corporate event distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "atlas-policy:source:bhushan-merger-2021",
+        "sourceSummary": "Reports NCLT-sanctioned amalgamation became effective 11 November 2021.",
+        "contrastSummary": "SBI initiated CIRP; 2018 approval implemented; 2021 SC appeal withdrawn; NCLAT dismissed promoter-share appeal requiring sale at ₹2 per share."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-067",
+      "text": "Which auction result identifies Vedanta's winning Radhikapur West revenue-share percentage and bidder identifier?",
+      "positiveIds": [
+        "atlas-policy:source:coal-auction-winners-2020"
+      ],
+      "hardNegativeIds": [
+        "atlas-policy:source:coal-allocations-2023"
+      ],
+      "intent": "award-stage",
+      "rationale": "The positive retained summary specifically supports the requested award stage distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "atlas-policy:source:coal-auction-winners-2020",
+        "sourceSummary": "Radhikapur West auction 2 November 2020 won by Vedanta Limited/bidder 68522 at 21% revenue share.",
+        "contrastSummary": "Official table records Odisha, Vedanta Ltd, auction/sale-of-coal, allocation 3 March 2021 and 6 MTPA."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-068",
+      "text": "Locate the official allocation table linking Radhikapur West to Vedanta, its state, production capacity and allocation date.",
+      "positiveIds": [
+        "atlas-policy:source:coal-allocations-2023"
+      ],
+      "hardNegativeIds": [
+        "atlas-policy:source:coal-auction-winners-2020"
+      ],
+      "intent": "allocation-stage",
+      "rationale": "The positive retained summary specifically supports the requested allocation stage distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "atlas-policy:source:coal-allocations-2023",
+        "sourceSummary": "Official table records Odisha, Vedanta Ltd, auction/sale-of-coal, allocation 3 March 2021 and 6 MTPA.",
+        "contrastSummary": "Radhikapur West auction 2 November 2020 won by Vedanta Limited/bidder 68522 at 21% revenue share."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-069",
+      "text": "Find the original Radhikapur judgment that records the contract, vesting and guarantee appropriation order but leaves the merits to the alternative forum.",
+      "positiveIds": [
+        "atlas-policy:source:vedanta-judgment-2025-pdf"
+      ],
+      "hardNegativeIds": [
+        "atlas-policy:source:vedanta-appeal-2026-mirror"
+      ],
+      "intent": "legal-scope",
+      "rationale": "The positive retained summary specifically supports the requested legal scope distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "atlas-policy:source:vedanta-judgment-2025-pdf",
+        "sourceSummary": "Original judgment records CMDPA 11 January 2021, vesting 3 March 2021, ₹292355117.68 appropriation order, party positions and alternative-remedy disposition.",
+        "contrastSummary": "Both appeals concerning SCN-III termination-notice/ST 31 proceedings were dismissed; territorial/forum objection upheld and limited status-quo protection pending that stay application left intact. PBG/ST 28 is a separate proceeding."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-070",
+      "text": "Which later appeal account distinguishes the termination-notice proceeding from the separate performance-guarantee matter and preserves limited interim protection?",
+      "positiveIds": [
+        "atlas-policy:source:vedanta-appeal-2026-mirror"
+      ],
+      "hardNegativeIds": [
+        "atlas-policy:source:vedanta-operations-2025"
+      ],
+      "intent": "legal-update",
+      "rationale": "The positive retained summary specifically supports the requested legal update distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "atlas-policy:source:vedanta-appeal-2026-mirror",
+        "sourceSummary": "Both appeals concerning SCN-III termination-notice/ST 31 proceedings were dismissed; territorial/forum objection upheld and limited status-quo protection pending that stay application left intact. PBG/ST 28 is a separate proceeding.",
+        "contrastSummary": "Radhikapur West 6 MTPA was planned to commission FY 2025–26; separates plans from actual production."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-071",
+      "text": "Where is Radhikapur's future commissioning target described as a plan rather than evidence of actual output?",
+      "positiveIds": [
+        "atlas-policy:source:vedanta-operations-2025"
+      ],
+      "hardNegativeIds": [
+        "atlas-policy:source:coal-auction-winners-2020"
+      ],
+      "intent": "plan-versus-outcome",
+      "rationale": "The positive retained summary specifically supports the requested plan versus outcome distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "atlas-policy:source:vedanta-operations-2025",
+        "sourceSummary": "Radhikapur West 6 MTPA was planned to commission FY 2025–26; separates plans from actual production.",
+        "contrastSummary": "Radhikapur West auction 2 November 2020 won by Vedanta Limited/bidder 68522 at 21% revenue share."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-072",
+      "text": "Find the Tuticorin berth agreement identifying the exact parties, agreement date and estimated private development cost.",
+      "positiveIds": [
+        "atlas-policy:source:port-concession-2022"
+      ],
+      "hardNegativeIds": [
+        "atlas-policy:source:port-inauguration-2024"
+      ],
+      "intent": "contract-versus-delivery",
+      "rationale": "The positive retained summary specifically supports the requested contract versus delivery distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "atlas-policy:source:port-concession-2022",
+        "sourceSummary": "Names exact parties, 3 September 2022 agreement and ₹434.17 crore estimated concessionaire development.",
+        "contrastSummary": "Government records terminal inauguration and maiden vessel, investment over ₹434 crore and 6 lakh TEU capacity."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-073",
+      "text": "Which credit assessment describes the port operator's parent, per-container royalty, nominal annual licence and loan covenants?",
+      "positiveIds": [
+        "atlas-policy:source:tict-care-2024"
+      ],
+      "hardNegativeIds": [
+        "atlas-policy:source:port-inauguration-2024"
+      ],
+      "intent": "financial-obligations",
+      "rationale": "The positive retained summary specifically supports the requested financial obligations distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "atlas-policy:source:tict-care-2024",
+        "sourceSummary": "Reports exact parent, 30 year concession from 6 April 2023, ₹1900.44/TEU royalty, ₹1 annual licence, rated bank facilities and repayment covenants.",
+        "contrastSummary": "Government records terminal inauguration and maiden vessel, investment over ₹434 crore and 6 lakh TEU capacity."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-074",
+      "text": "Locate the government report of the new terminal's inauguration and first vessel, preserving capacity and investment as distinct measures.",
+      "positiveIds": [
+        "atlas-policy:source:port-inauguration-2024"
+      ],
+      "hardNegativeIds": [
+        "atlas-policy:source:port-concession-2022"
+      ],
+      "intent": "operational-milestone",
+      "rationale": "The positive retained summary specifically supports the requested operational milestone distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "atlas-policy:source:port-inauguration-2024",
+        "sourceSummary": "Government records terminal inauguration and maiden vessel, investment over ₹434 crore and 6 lakh TEU capacity.",
+        "contrastSummary": "Names exact parties, 3 September 2022 agreement and ₹434.17 crore estimated concessionaire development."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-075",
+      "text": "Which acquirer filing gives the AEL–AMNL–VCPL chain and the RRPR warrant exercise underlying the proposed NDTV offer?",
+      "positiveIds": [
+        "atlas-institutions:source:ael-warrant-2022"
+      ],
+      "hardNegativeIds": [
+        "atlas-institutions:source:ndtv-annual-2026"
+      ],
+      "intent": "ownership-history",
+      "rationale": "The positive retained summary specifically supports the requested ownership history distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "atlas-institutions:source:ael-warrant-2022",
+        "sourceSummary": "Identifies AEL → AMNL → VCPL ownership; 1,990,000 RRPR warrants for INR 19,900,000; proposed acquisition of up to 26% NDTV.",
+        "contrastSummary": "Rights issue proceeds INR 3,964.98 million; RRPR 67,473,129 shares 59.80% and VCPL 10,402,138 shares 9.22% in standalone note 14; legal closure and continuing SEBI matter distinguished."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-076",
+      "text": "Find the founders' claim that regulatory clearance was needed and their instruction to return the warrant deposit.",
+      "positiveIds": [
+        "atlas-institutions:source:ndtv-response-2022"
+      ],
+      "hardNegativeIds": [
+        "atlas-institutions:source:ael-response-2022-original"
+      ],
+      "intent": "counterevidence",
+      "rationale": "The positive retained summary specifically supports the requested counterevidence distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "atlas-institutions:source:ndtv-response-2022",
+        "sourceSummary": "Founders say SEBI clearance is needed and RRPR instructed return of INR 1,99,00,000.",
+        "contrastSummary": "Acquirer says AMNL controlled 64.71% through subsidiaries and describes investment in the newsroom and a friendly transition."
+      },
+      "requiredCounterevidenceIds": [
+        "atlas-institutions:source:ndtv-response-2022"
+      ],
+      "counterevidenceRole": "founder objection and deposit-return instruction"
+    },
+    {
+      "id": "next-train-077",
+      "text": "Which completed founder-block disclosure gives the per-share price and exact NDTV legal identifier, rather than new capital raised by the issuer?",
+      "positiveIds": [
+        "atlas-institutions:source:ael-price-2022"
+      ],
+      "hardNegativeIds": [
+        "atlas-institutions:source:ndtv-annual-2026"
+      ],
+      "intent": "secondary-versus-primary",
+      "rationale": "The positive retained summary specifically supports the requested secondary versus primary distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "atlas-institutions:source:ael-price-2022",
+        "sourceSummary": "RRPR acquired 27.26% at INR 342.65 per share; block deal completed December 30, exchange settlement formalities noted; legal CIN of NDTV stated.",
+        "contrastSummary": "Rights issue proceeds INR 3,964.98 million; RRPR 67,473,129 shares 59.80% and VCPL 10,402,138 shares 9.22% in standalone note 14; legal closure and continuing SEBI matter distinguished."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-078",
+      "text": "Which later NDTV annual report distinguishes rights-issue cash proceeds, updated standalone ownership and different legal proceeding outcomes?",
+      "positiveIds": [
+        "atlas-institutions:source:ndtv-annual-2026"
+      ],
+      "hardNegativeIds": [
+        "atlas-institutions:source:ael-price-2022"
+      ],
+      "intent": "issuer-cash-and-vintage",
+      "rationale": "The positive retained summary specifically supports the requested issuer cash and vintage distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "atlas-institutions:source:ndtv-annual-2026",
+        "sourceSummary": "Rights issue proceeds INR 3,964.98 million; RRPR 67,473,129 shares 59.80% and VCPL 10,402,138 shares 9.22% in standalone note 14; legal closure and continuing SEBI matter distinguished.",
+        "contrastSummary": "RRPR acquired 27.26% at INR 342.65 per share; block deal completed December 30, exchange settlement formalities noted; legal CIN of NDTV stated."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-079",
+      "text": "Retrieve the acquirer's own explanation of a friendly NDTV transition and newsroom investment rather than the founders' earlier objections.",
+      "positiveIds": [
+        "atlas-institutions:source:ael-response-2022-original"
+      ],
+      "hardNegativeIds": [
+        "atlas-institutions:source:ndtv-response-2022"
+      ],
+      "intent": "party-response",
+      "rationale": "The positive retained summary specifically supports the requested party response distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "atlas-institutions:source:ael-response-2022-original",
+        "sourceSummary": "Acquirer says AMNL controlled 64.71% through subsidiaries and describes investment in the newsroom and a friendly transition.",
+        "contrastSummary": "Founders say SEBI clearance is needed and RRPR instructed return of INR 1,99,00,000."
+      },
+      "requiredCounterevidenceIds": [
+        "atlas-institutions:source:ael-response-2022-original"
+      ],
+      "counterevidenceRole": "acquirer rationale and transition response"
+    },
+    {
+      "id": "next-train-080",
+      "text": "Which temple judgment preserves hereditary management succession while requiring committee governance and a long historical asset audit?",
+      "positiveIds": [
+        "atlas-institutions:source:padma-sc-2020"
+      ],
+      "hardNegativeIds": [
+        "atlas-institutions:source:padma-latest-2022"
+      ],
+      "intent": "judicial-directions",
+      "rationale": "The positive retained summary specifically supports the requested judicial directions distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "atlas-institutions:source:padma-sc-2020",
+        "sourceSummary": "Upholds shebaitship succession, establishes committee management and directs 25-year audit and preservation of temple assets.",
+        "contrastSummary": "Reports a further audit deadline and requirement to file a compliance report."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-081",
+      "text": "Find the later ruling including the temple-related trust in audit scope while leaving its independent legal status to factual determination.",
+      "positiveIds": [
+        "atlas-institutions:source:padma-sc-2021"
+      ],
+      "hardNegativeIds": [
+        "atlas-institutions:source:padma-latest-2022"
+      ],
+      "intent": "audit-perimeter",
+      "rationale": "The positive retained summary specifically supports the requested audit perimeter distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "atlas-institutions:source:padma-sc-2021",
+        "sourceSummary": "Audit includes SPSTT; excludes no trust from audit; court leaves request for independent legal status to competent factual determination.",
+        "contrastSummary": "Reports a further audit deadline and requirement to file a compliance report."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-082",
+      "text": "Which report supplies the extended temple-audit deadline and compliance-report requirement, without proving that the audit was completed?",
+      "positiveIds": [
+        "atlas-institutions:source:padma-latest-2022"
+      ],
+      "hardNegativeIds": [
+        "atlas-institutions:source:padma-sc-2020"
+      ],
+      "intent": "deadline-versus-completion",
+      "rationale": "The positive retained summary specifically supports the requested deadline versus completion distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "atlas-institutions:source:padma-latest-2022",
+        "sourceSummary": "Reports a further audit deadline and requirement to file a compliance report.",
+        "contrastSummary": "Upholds shebaitship succession, establishes committee management and directs 25-year audit and preservation of temple assets."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-083",
+      "text": "Identify the Spanish contracting vendor and the split between imported and Indian-built C295 aircraft in the original defence purchase announcement.",
+      "positiveIds": [
+        "atlas-defence-trade:source:c295-contract-2021"
+      ],
+      "hardNegativeIds": [
+        "atlas-defence-trade:source:c295-count-2026"
+      ],
+      "intent": "contract-scope",
+      "rationale": "The positive retained summary specifically supports the requested contract scope distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "atlas-defence-trade:source:c295-contract-2021",
+        "sourceSummary": "Airbus Defence and Space S.A., Spain, is the contracting vendor; 16 flyaway and 40 Indian-built aircraft; offset contract also signed.",
+        "contrastSummary": "India has 56 C295 orders and 16 deliveries in the manufacturer cumulative table."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-084",
+      "text": "Which public statement gives total C295 project cost and identifies both companies in the Indian consortium without assigning that whole amount as Tata receipts?",
+      "positiveIds": [
+        "atlas-defence-trade:source:c295-project-2022-normal"
+      ],
+      "hardNegativeIds": [
+        "atlas-defence-trade:source:c295-count-2026"
+      ],
+      "intent": "amount-scope",
+      "rationale": "The positive retained summary specifically supports the requested amount scope distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "atlas-defence-trade:source:c295-project-2022-normal",
+        "sourceSummary": "INR 21,935 crore total project cost; Indian Aircraft Contractor is TASL-led consortium of TASL and TCS; same September 2021 contract.",
+        "contrastSummary": "India has 56 C295 orders and 16 deliveries in the manufacturer cumulative table."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-085",
+      "text": "Find the assembly-line inauguration record that also states deliveries to date and a planned first local rollout.",
+      "positiveIds": [
+        "atlas-defence-trade:source:c295-fal-2024"
+      ],
+      "hardNegativeIds": [
+        "atlas-defence-trade:source:c295-first-2023"
+      ],
+      "intent": "milestone-versus-completion",
+      "rationale": "The positive retained summary specifically supports the requested milestone versus completion distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "atlas-defence-trade:source:c295-fal-2024",
+        "sourceSummary": "Public final assembly line inauguration, six aircraft already delivered; first local rollout planned September 2026.",
+        "contrastSummary": "Manufacturer announces first delivery to IAF on 13 September 2023."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-086",
+      "text": "Which manufacturer table reports cumulative Indian C295 deliveries alongside total orders at the later reporting date?",
+      "positiveIds": [
+        "atlas-defence-trade:source:c295-count-2026"
+      ],
+      "hardNegativeIds": [
+        "atlas-defence-trade:source:c295-contract-2021"
+      ],
+      "intent": "delivery-count",
+      "rationale": "The positive retained summary specifically supports the requested delivery count distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "atlas-defence-trade:source:c295-count-2026",
+        "sourceSummary": "India has 56 C295 orders and 16 deliveries in the manufacturer cumulative table.",
+        "contrastSummary": "Airbus Defence and Space S.A., Spain, is the contracting vendor; 16 flyaway and 40 Indian-built aircraft; offset contract also signed."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-087",
+      "text": "Which company source identifies the Indian and Russian BrahMos partners and the intergovernmental arrangement history?",
+      "positiveIds": [
+        "atlas-defence-trade:source:brahmos-jv"
+      ],
+      "hardNegativeIds": [
+        "atlas-defence-trade:source:brahmos-award-2022"
+      ],
+      "intent": "ownership-context",
+      "rationale": "The positive retained summary specifically supports the requested ownership context distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "atlas-defence-trade:source:brahmos-jv",
+        "sourceSummary": "Company identifies DRDO India and JSC Military Industrial Corporation NPO Mashinostroyenia Russia as partners;1998 formation and 2014 indefinite IGA extension.",
+        "contrastSummary": "Reports exact accepted price proposal in DND notice of award before contract signature."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-088",
+      "text": "Find the Philippine notice accepting a BrahMos price proposal before the export contract was signed.",
+      "positiveIds": [
+        "atlas-defence-trade:source:brahmos-award-2022"
+      ],
+      "hardNegativeIds": [
+        "atlas-defence-trade:source:brahmos-contract-2022"
+      ],
+      "intent": "award-versus-contract",
+      "rationale": "The positive retained summary specifically supports the requested award versus contract distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "atlas-defence-trade:source:brahmos-award-2022",
+        "sourceSummary": "Reports exact accepted price proposal in DND notice of award before contract signature.",
+        "contrastSummary": "Government news agency reports signed DND–BrahMos contract, PHP 18.9 billion and three batteries including training and logistics."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-089",
+      "text": "Which government news report describes the signed Philippine missile contract in pesos and includes training and logistics in the scope?",
+      "positiveIds": [
+        "atlas-defence-trade:source:brahmos-contract-2022"
+      ],
+      "hardNegativeIds": [
+        "atlas-defence-trade:source:brahmos-award-2022"
+      ],
+      "intent": "contract-currency",
+      "rationale": "The positive retained summary specifically supports the requested contract currency distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "atlas-defence-trade:source:brahmos-contract-2022",
+        "sourceSummary": "Government news agency reports signed DND–BrahMos contract, PHP 18.9 billion and three batteries including training and logistics.",
+        "contrastSummary": "Reports exact accepted price proposal in DND notice of award before contract signature."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-090",
+      "text": "Locate the report distinguishing the first BrahMos delivery from a later shipment still en route, without asserting full battery acceptance.",
+      "positiveIds": [
+        "atlas-defence-trade:source:brahmos-delivery-2025"
+      ],
+      "hardNegativeIds": [
+        "atlas-defence-trade:source:brahmos-contract-2022"
+      ],
+      "intent": "shipment-versus-acceptance",
+      "rationale": "The positive retained summary specifically supports the requested shipment versus acceptance distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "atlas-defence-trade:source:brahmos-delivery-2025",
+        "sourceSummary": "First deliveries occurred in April 2024; another batch was en route on 23 April 2025. No complete three-battery acceptance asserted.",
+        "contrastSummary": "Government news agency reports signed DND–BrahMos contract, PHP 18.9 billion and three batteries including training and logistics."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-091",
+      "text": "Retrieve the original US congressional notification's possible-sale estimate and principal MQ-9 supplier; do not treat the estimate as the final signed Indian bill.",
+      "positiveIds": [
+        "atlas-defence-trade:source:mq9-federal-notice-2025"
+      ],
+      "hardNegativeIds": [
+        "atlas-defence-trade:source:mq9-signed-2024"
+      ],
+      "intent": "notification-versus-contract",
+      "rationale": "The positive retained summary specifically supports the requested notification versus contract distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "atlas-defence-trade:source:mq9-federal-notice-2025",
+        "sourceSummary": "Original government publication reproduces 1 February 2024 Congressional notification: national funds,31 aircraft, estimated USD 3.99 billion, principal General Atomics Aeronautical Systems.",
+        "contrastSummary": "Reports 15 October signature: MoD–US Government acquisition contract and MoD–General Atomics Global India Private Limited logistics contract."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-092",
+      "text": "Which report distinguishes the signed US-government acquisition from the separately signed Indian logistics contract for the drones?",
+      "positiveIds": [
+        "atlas-defence-trade:source:mq9-signed-2024"
+      ],
+      "hardNegativeIds": [
+        "atlas-defence-trade:source:mq9-federal-notice-2025"
+      ],
+      "intent": "contract-party",
+      "rationale": "The positive retained summary specifically supports the requested contract party distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "atlas-defence-trade:source:mq9-signed-2024",
+        "sourceSummary": "Reports 15 October signature: MoD–US Government acquisition contract and MoD–General Atomics Global India Private Limited logistics contract.",
+        "contrastSummary": "Original government publication reproduces 1 February 2024 Congressional notification: national funds,31 aircraft, estimated USD 3.99 billion, principal General Atomics Aeronautical Systems."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-093",
+      "text": "Find the prospective MQ-9 delivery window tied to signature and initial payment; it cannot establish completed delivery.",
+      "positiveIds": [
+        "atlas-defence-trade:source:mq9-delivery-plan-2024"
+      ],
+      "hardNegativeIds": [
+        "atlas-defence-trade:source:mq9-pib-2024"
+      ],
+      "intent": "forecast-as-source",
+      "rationale": "The positive retained summary specifically supports the requested forecast as source distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "atlas-defence-trade:source:mq9-delivery-plan-2024",
+        "sourceSummary": "Officials describe prospective delivery 51–72 months after signature and initial payment, expected 2029–2030.",
+        "contrastSummary": "Ministry confirms October 2024 acquisition of 31 and a separate Indian logistics contract with General Atomics Global India Pvt Ltd."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-094",
+      "text": "Which signed ADB agreement identifies Bangladesh as borrower and requires proceeds to be relent to the transmission utility?",
+      "positiveIds": [
+        "atlas-international-finance:source:adb-loan-2019"
+      ],
+      "hardNegativeIds": [
+        "atlas-international-finance:source:adb-monitoring-2025"
+      ],
+      "intent": "sovereign-onlending",
+      "rationale": "The positive retained summary specifically supports the requested sovereign onlending distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "atlas-international-finance:source:adb-loan-2019",
+        "sourceSummary": "Bangladesh is sovereign borrower of EUR 271,838,000; it must relend proceeds to PGCB through a subsidiary financing agreement.",
+        "contrastSummary": "Borrower report records package 3 L&T contract 9 May 2021, approximately 85% progress by June 2025, rejected monitoring submission and planned corrective action."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-095",
+      "text": "Find the borrower monitoring report giving the L&T package progress, rejected monitoring submission and planned corrective work.",
+      "positiveIds": [
+        "atlas-international-finance:source:adb-monitoring-2025"
+      ],
+      "hardNegativeIds": [
+        "atlas-international-finance:source:adb-loan-2019"
+      ],
+      "intent": "counterevidence-and-progress",
+      "rationale": "The positive retained summary specifically supports the requested counterevidence and progress distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "atlas-international-finance:source:adb-monitoring-2025",
+        "sourceSummary": "Borrower report records package 3 L&T contract 9 May 2021, approximately 85% progress by June 2025, rejected monitoring submission and planned corrective action.",
+        "contrastSummary": "Bangladesh is sovereign borrower of EUR 271,838,000; it must relend proceeds to PGCB through a subsidiary financing agreement."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-096",
+      "text": "Which proposed budget-support document describes the route into India's RBI account and Consolidated Fund rather than contractor-specific financing?",
+      "positiveIds": [
+        "atlas-international-finance:source:ida-pmgky-pd"
+      ],
+      "hardNegativeIds": [
+        "atlas-international-finance:source:ida-pmgky-icr"
+      ],
+      "intent": "budget-support-route",
+      "rationale": "The positive retained summary specifically supports the requested budget support route distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "atlas-international-finance:source:ida-pmgky-pd",
+        "sourceSummary": "Proposed SDR 77 m concessional plus US$291.4 m non-concessional IDA credit; proceeds go to GoI RBI account and Consolidated Fund for general budget use.",
+        "contrastSummary": "P174027 approved 15 December 2020; closed 31 December 2022. IDA 68130 actual US$111,201,860 and 68120 actual US$291,400,000; total US$402,601,860."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-097",
+      "text": "Locate the completion report giving actual disbursements of the two IDA credits, separated from the earlier proposed financing terms.",
+      "positiveIds": [
+        "atlas-international-finance:source:ida-pmgky-icr"
+      ],
+      "hardNegativeIds": [
+        "atlas-international-finance:source:ida-pmgky-pd"
+      ],
+      "intent": "disbursement-stage",
+      "rationale": "The positive retained summary specifically supports the requested disbursement stage distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "atlas-international-finance:source:ida-pmgky-icr",
+        "sourceSummary": "P174027 approved 15 December 2020; closed 31 December 2022. IDA 68130 actual US$111,201,860 and 68120 actual US$291,400,000; total US$402,601,860.",
+        "contrastSummary": "Proposed SDR 77 m concessional plus US$291.4 m non-concessional IDA credit; proceeds go to GoI RBI account and Consolidated Fund for general budget use."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-098",
+      "text": "Which IFC project record identifies the senior secured Bajaj loan, its intended microfinance and climate uses, and the separate approval, signature and investment dates?",
+      "positiveIds": [
+        "atlas-international-finance:source:ifc-bajaj-project"
+      ],
+      "hardNegativeIds": [
+        "atlas-international-finance:source:ifc-bajaj-announcement"
+      ],
+      "intent": "instrument-and-dates",
+      "rationale": "The positive retained summary specifically supports the requested instrument and dates distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "atlas-international-finance:source:ifc-bajaj-project",
+        "sourceSummary": "Senior secured loan up to US$400 m to Bajaj Finance; US$100 m microfinance and up to US$300 m climate use; approved 9 August, signed 30 August, invested 9 September 2024.",
+        "contrastSummary": "IFC identifies its own US$400 m loan within larger US$1 bn fundraising and anticipated climate/microfinance objectives."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-099",
+      "text": "Find the announcement separating IFC's own Bajaj contribution from the larger fundraising package so it is not counted twice.",
+      "positiveIds": [
+        "atlas-international-finance:source:ifc-bajaj-announcement"
+      ],
+      "hardNegativeIds": [
+        "atlas-international-finance:source:ifc-bajaj-project"
+      ],
+      "intent": "funding-population",
+      "rationale": "The positive retained summary specifically supports the requested funding population distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "atlas-international-finance:source:ifc-bajaj-announcement",
+        "sourceSummary": "IFC identifies its own US$400 m loan within larger US$1 bn fundraising and anticipated climate/microfinance objectives.",
+        "contrastSummary": "Senior secured loan up to US$400 m to Bajaj Finance; US$100 m microfinance and up to US$300 m climate use; approved 9 August, signed 30 August, invested 9 September 2024."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-100",
+      "text": "Which dated IMF position shows no outstanding programme credit while separately listing quota, reserve tranche and SDR accounts?",
+      "positiveIds": [
+        "atlas-international-finance:source:imf-position-2026"
+      ],
+      "hardNegativeIds": [
+        "atlas-international-finance:source:rbi-sdr-release"
+      ],
+      "intent": "reserve-versus-loan",
+      "rationale": "The positive retained summary specifically supports the requested reserve versus loan distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "atlas-international-finance:source:imf-position-2026",
+        "sourceSummary": "Outstanding purchases and loans: None; quota, reserve tranche, SDR allocation/holdings and projected charges shown separately.",
+        "contrastSummary": "India received SDR 12.57 bn allocation effective 23 August 2021; total holdings became SDR 13.66 bn; RBI says holdings form part of foreign exchange reserves."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-101",
+      "text": "Find RBI's explanation that the 2021 SDR allocation increased reserve assets rather than establishing a government borrowing programme.",
+      "positiveIds": [
+        "atlas-international-finance:source:rbi-sdr-release"
+      ],
+      "hardNegativeIds": [
+        "atlas-international-finance:source:imf-transactions-2026"
+      ],
+      "intent": "accounting-classification",
+      "rationale": "The positive retained summary specifically supports the requested accounting classification distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "atlas-international-finance:source:rbi-sdr-release",
+        "sourceSummary": "India received SDR 12.57 bn allocation effective 23 August 2021; total holdings became SDR 13.66 bn; RBI says holdings form part of foreign exchange reserves.",
+        "contrastSummary": "No purchase/loan transaction rows in 2011–2026; corroborates the dated no-outstanding-credit snapshot."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-102",
+      "text": "Which PM CARES deed explains ex officio trusteeship and PMO support alongside its stated nongovernmental character?",
+      "positiveIds": [
+        "finance-research:source:pm-deed"
+      ],
+      "hardNegativeIds": [
+        "finance-research:source:pm-fy25"
+      ],
+      "intent": "legal-form",
+      "rationale": "The positive retained summary specifically supports the requested legal form distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "finance-research:source:pm-deed",
+        "sourceSummary": "Deed recites non-governmental character while assigning ex officio trusteeship and PMO administrative support.",
+        "contrastSummary": "Original scan separates domestic and foreign donations net of refunds, savings and FD interest, TDS refund and implementing-agency refunds."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-103",
+      "text": "Find the trust's own description of honorary administration, auditor appointment and foreign-contribution position.",
+      "positiveIds": [
+        "finance-research:source:pm-faq"
+      ],
+      "hardNegativeIds": [
+        "finance-research:source:pm-fy24"
+      ],
+      "intent": "institutional-response",
+      "rationale": "The positive retained summary specifically supports the requested institutional response distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "finance-research:source:pm-faq",
+        "sourceSummary": "PMO honorary administration, contribution eligibility, current auditor KKC appointed for three years and FCRA position.",
+        "contrastSummary": "Original scan signed by KKC partner Tejas Parikh on 7 August 2026; net domestic donations, interest, refunds, payments and balances."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-104",
+      "text": "Locate the earlier PM CARES signed accounts giving net domestic donations, interest, refunds and payments; preserve the actual later signature date.",
+      "positiveIds": [
+        "finance-research:source:pm-fy24"
+      ],
+      "hardNegativeIds": [
+        "finance-research:source:pm-fy25"
+      ],
+      "intent": "accounting-vintage",
+      "rationale": "The positive retained summary specifically supports the requested accounting vintage distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "finance-research:source:pm-fy24",
+        "sourceSummary": "Original scan signed by KKC partner Tejas Parikh on 7 August 2026; net domestic donations, interest, refunds, payments and balances.",
+        "contrastSummary": "Original scan separates domestic and foreign donations net of refunds, savings and FD interest, TDS refund and implementing-agency refunds."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-105",
+      "text": "Which later PM CARES accounts separately disclose domestic and foreign donations, savings and deposit interest, tax refunds and implementing-agency refunds?",
+      "positiveIds": [
+        "finance-research:source:pm-fy25"
+      ],
+      "hardNegativeIds": [
+        "finance-research:source:pm-fy24"
+      ],
+      "intent": "financial-categories",
+      "rationale": "The positive retained summary specifically supports the requested financial categories distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "finance-research:source:pm-fy25",
+        "sourceSummary": "Original scan separates domestic and foreign donations net of refunds, savings and FD interest, TDS refund and implementing-agency refunds.",
+        "contrastSummary": "Original scan signed by KKC partner Tejas Parikh on 7 August 2026; net domestic donations, interest, refunds, payments and balances."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-106",
+      "text": "Find the RBI distinction between a technical write-off that retains claims and a negotiated compromise that can waive an agreed part of claims.",
+      "positiveIds": [
+        "finance-research:source:rbi-2023"
+      ],
+      "hardNegativeIds": [
+        "finance-research:source:ibbi-june26"
+      ],
+      "intent": "writeoff-versus-waiver",
+      "rationale": "The positive retained summary specifically supports the requested writeoff versus waiver distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "finance-research:source:rbi-2023",
+        "sourceSummary": "Technical write-off preserves borrower claims; compromise can waive claims to an agreed extent. Sets policy, approval, reporting and cooling-period rules.",
+        "contrastSummary": "1,484 resolution plans; ₹435,469.89 crore creditor realization measure against ₹1,426,665.38 crore admitted claims; methodology and fair-value denominator caveats."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-107",
+      "text": "Which insolvency statistics report creditor realization against admitted claims while warning about the choice of valuation denominator?",
+      "positiveIds": [
+        "finance-research:source:ibbi-june26"
+      ],
+      "hardNegativeIds": [
+        "finance-research:source:rbi-2023"
+      ],
+      "intent": "denominator",
+      "rationale": "The positive retained summary specifically supports the requested denominator distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "finance-research:source:ibbi-june26",
+        "sourceSummary": "1,484 resolution plans; ₹435,469.89 crore creditor realization measure against ₹1,426,665.38 crore admitted claims; methodology and fair-value denominator caveats.",
+        "contrastSummary": "Technical write-off preserves borrower claims; compromise can waive claims to an agreed extent. Sets policy, approval, reporting and cooling-period rules."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-108",
+      "text": "Which judgment refuses an omnibus political-donation investigation while saying transaction timing alone is an assumption needing case-specific evidence?",
+      "positiveIds": [
+        "justice-research:source:src-electoral-bonds-sit-order"
+      ],
+      "hardNegativeIds": [
+        "justice-research:source:src-electoral-bonds-judgment"
+      ],
+      "intent": "counterevidence",
+      "rationale": "The positive retained summary specifically supports the requested counterevidence distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "justice-research:source:src-electoral-bonds-sit-order",
+        "sourceSummary": "The Court declined an omnibus SIT under Article 32 where ordinary remedies had not been pursued. Timing proximity was treated as an assumption requiring case-specific investigation, not proof of quid pro quo.",
+        "contrastSummary": "The Court struck down the scheme and specified statutory amendments, and ordered disclosure. This constitutional decision does not adjudicate whether an individual donation bought an award."
+      },
+      "requiredCounterevidenceIds": [
+        "justice-research:source:src-electoral-bonds-sit-order"
+      ],
+      "counterevidenceRole": "judicial rejection of timing-only inference"
+    },
+    {
+      "id": "next-train-109",
+      "text": "Find the arrest-review decision that grants interim bail and reserves criminal merits rather than declaring guilt or acquittal.",
+      "positiveIds": [
+        "justice-research:source:src-kejriwal-arrest-review"
+      ],
+      "hardNegativeIds": [
+        "justice-research:source:src-sita-soren-immunity"
+      ],
+      "intent": "procedural-boundary",
+      "rationale": "The positive retained summary specifically supports the requested procedural boundary distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "justice-research:source:src-kejriwal-arrest-review",
+        "sourceSummary": "The Court considered the PMLA arrest challenge, referred questions about necessity of arrest, and granted interim bail. Paragraph 88 expressly reserves criminal merits.",
+        "contrastSummary": "The seven-judge bench held legislative speech/vote immunity does not immunise bribery prosecution. The reference answers the constitutional question, not individual criminal guilt."
+      },
+      "requiredCounterevidenceIds": [
+        "justice-research:source:src-kejriwal-arrest-review"
+      ],
+      "counterevidenceRole": "criminal merits expressly reserved in bail/arrest review"
+    },
+    {
+      "id": "next-train-110",
+      "text": "Which seven-judge ruling says legislative immunity does not block a bribery prosecution but does not decide an individual's guilt?",
+      "positiveIds": [
+        "justice-research:source:src-sita-soren-immunity"
+      ],
+      "hardNegativeIds": [
+        "justice-research:source:src-kejriwal-arrest-review"
+      ],
+      "intent": "legal-scope",
+      "rationale": "The positive retained summary specifically supports the requested legal scope distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "justice-research:source:src-sita-soren-immunity",
+        "sourceSummary": "The seven-judge bench held legislative speech/vote immunity does not immunise bribery prosecution. The reference answers the constitutional question, not individual criminal guilt.",
+        "contrastSummary": "The Court considered the PMLA arrest challenge, referred questions about necessity of arrest, and granted interim bail. Paragraph 88 expressly reserves criminal merits."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-111",
+      "text": "Locate the SWAMIH information petition dismissed on forum grounds with liberty to approach another High Court and rights left open.",
+      "positiveIds": [
+        "justice-research:source:src-swamih-rti-order"
+      ],
+      "hardNegativeIds": [
+        "justice-research:source:src-pmcares-judgment"
+      ],
+      "intent": "forum-versus-merits",
+      "rationale": "The positive retained summary specifically supports the requested forum versus merits distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "justice-research:source:src-swamih-rti-order",
+        "sourceSummary": "The Court declined the RTI petition on forum/territorial grounds with liberty to approach the jurisdictional High Court; all rights and contentions remain open.",
+        "contrastSummary": "Historical judgment refuses compulsory transfer of PM CARES funds to NDRF and distinguishes their legal/audit regimes. It is not a transaction-level audit or an RTI-status determination."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-112",
+      "text": "Which later Honnavar assessment says PFC sanctioned finance but debt drawdown remained pending, while separately reporting promoter equity and unsecured loans?",
+      "positiveIds": [
+        "money-trails-corporate:source:honnavar-care-2026"
+      ],
+      "hardNegativeIds": [
+        "money-trails-corporate:source:honnavar-care-2025"
+      ],
+      "intent": "commitment-versus-cash",
+      "rationale": "The positive retained summary specifically supports the requested commitment versus cash distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "money-trails-corporate:source:honnavar-care-2026",
+        "sourceSummary": "Financial closure 24 September 2025, PFC sanction ₹540.64 crore, debt drawal pending at 31 December 2025; aggregate promoters’ equity and unsecured loans ₹79.48 crore.",
+        "contrastSummary": "Earlier cumulative promoters’ equity/unsecured loans ₹61.86 crore at 31 October 2024; ₹702 crore project estimate and debt tie-up still under discussion."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-113",
+      "text": "Find the earlier port funding snapshot before debt tie-up, with its then-current project estimate and promoter contribution date.",
+      "positiveIds": [
+        "money-trails-corporate:source:honnavar-care-2025"
+      ],
+      "hardNegativeIds": [
+        "money-trails-corporate:source:honnavar-care-2026"
+      ],
+      "intent": "financial-vintage",
+      "rationale": "The positive retained summary specifically supports the requested financial vintage distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "money-trails-corporate:source:honnavar-care-2025",
+        "sourceSummary": "Earlier cumulative promoters’ equity/unsecured loans ₹61.86 crore at 31 October 2024; ₹702 crore project estimate and debt tie-up still under discussion.",
+        "contrastSummary": "Financial closure 24 September 2025, PFC sanction ₹540.64 crore, debt drawal pending at 31 December 2025; aggregate promoters’ equity and unsecured loans ₹79.48 crore."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-114",
+      "text": "Which rating rationale identifies the exact GVPR ownership of the port and meter SPVs while distinguishing rated facilities from drawn debt?",
+      "positiveIds": [
+        "money-trails-corporate:source:gvpr-icra-2025"
+      ],
+      "hardNegativeIds": [
+        "money-trails-corporate:source:gvpr-lenders-2025"
+      ],
+      "intent": "ownership-versus-finance",
+      "rationale": "The positive retained summary specifically supports the requested ownership versus finance distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "money-trails-corporate:source:gvpr-icra-2025",
+        "sourceSummary": "Original dated rating rationale: 94% Honnavar Port and 100% Vijaya WB Smart Meters. ₹6,000 crore rated facilities are not drawn debt; financial statements are consolidated for ICRA analysis.",
+        "contrastSummary": "Public lender table distinguishes cash credit, bank guarantees and letters of credit. No drawn-debt total is computed."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-115",
+      "text": "Locate the lender table separating cash credit, guarantees and letters of credit, without treating their sum as actual borrowing.",
+      "positiveIds": [
+        "money-trails-corporate:source:gvpr-lenders-2025"
+      ],
+      "hardNegativeIds": [
+        "money-trails-corporate:source:gvpr-icra-2023"
+      ],
+      "intent": "financial-instrument",
+      "rationale": "The positive retained summary specifically supports the requested financial instrument distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "money-trails-corporate:source:gvpr-lenders-2025",
+        "sourceSummary": "Public lender table distinguishes cash credit, bank guarantees and letters of credit. No drawn-debt total is computed.",
+        "contrastSummary": "Names G.S.P. Veera Reddy as promoter, G. Shiva Shankar Reddy as chairman and G. Veera Sekhar Reddy as managing director. Publicly funded project exposure is not the origin of a particular donation."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-116",
+      "text": "Which meter-SPV disclosure describes the customer-payment priority mechanism and distinguishes sanctioned bridge finance from its rated amount?",
+      "positiveIds": [
+        "money-trails-corporate:source:vijaya-icra-2025"
+      ],
+      "hardNegativeIds": [
+        "money-trails-corporate:source:honnavar-care-2026"
+      ],
+      "intent": "payment-waterfall",
+      "rationale": "The positive retained summary specifically supports the requested payment waterfall distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "money-trails-corporate:source:vijaya-icra-2025",
+        "sourceSummary": "₹857.05 crore estimated AMISP contract; consumer-payment DDF priorities; ₹151 crore term loan and ₹110 crore sanctioned bridge loan, while rated bridge amount is ₹101.87 crore.",
+        "contrastSummary": "Financial closure 24 September 2025, PFC sanction ₹540.64 crore, debt drawal pending at 31 December 2025; aggregate promoters’ equity and unsecured loans ₹79.48 crore."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-117",
+      "text": "What institutional explanation supports PFC lending outside power, including the approval to enter logistics and port infrastructure?",
+      "positiveIds": [
+        "money-trails-corporate:source:pfc-board-2023"
+      ],
+      "hardNegativeIds": [
+        "money-trails-corporate:source:pfc-shareholding-2025"
+      ],
+      "intent": "alternative-explanation",
+      "rationale": "The positive retained summary specifically supports the requested alternative explanation distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "money-trails-corporate:source:pfc-board-2023",
+        "sourceSummary": "Board report says Government of India approved expansion into logistics and infrastructure in August 2022 and describes actual FY 2022–23 entry into ports, desalination and metro rail.",
+        "contrastSummary": "Issuer publication identifies President of India holding 55.99% as of 30 June 2025. This is the institutional shareholder, not a personal interest of the office-holder."
+      },
+      "requiredCounterevidenceIds": [
+        "money-trails-corporate:source:pfc-board-2023"
+      ],
+      "counterevidenceRole": "lawful institutional explanation for infrastructure lending"
+    },
+    {
+      "id": "next-train-118",
+      "text": "Which shareholding filing identifies the President of India as PFC's institutional shareholder without implying a personal stake of the office-holder?",
+      "positiveIds": [
+        "money-trails-corporate:source:pfc-shareholding-2025"
+      ],
+      "hardNegativeIds": [
+        "money-trails-corporate:source:pfc-board-2023"
+      ],
+      "intent": "identity-and-role",
+      "rationale": "The positive retained summary specifically supports the requested identity and role distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "money-trails-corporate:source:pfc-shareholding-2025",
+        "sourceSummary": "Issuer publication identifies President of India holding 55.99% as of 30 June 2025. This is the institutional shareholder, not a personal interest of the office-holder.",
+        "contrastSummary": "Board report says Government of India approved expansion into logistics and infrastructure in August 2022 and describes actual FY 2022–23 entry into ports, desalination and metro rail."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-119",
+      "text": "Which secondary bond rendering corroborates only eight selected serials and explicitly fails to establish the purchaser's legal identity?",
+      "positiveIds": [
+        "money-trails-corporate:source:adr-gvpr"
+      ],
+      "hardNegativeIds": [
+        "money-trails-corporate:source:gvpr-icra-2023"
+      ],
+      "intent": "identity-stop",
+      "rationale": "The positive retained summary specifically supports the requested identity stop distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "money-trails-corporate:source:adr-gvpr",
+        "sourceSummary": "The eight rendered secondary serial rows agree with the corresponding mirror rows. The remaining two are established only by the mirror PDF join. It does not solve the missing purchaser KYC/CIN.",
+        "contrastSummary": "Names G.S.P. Veera Reddy as promoter, G. Shiva Shankar Reddy as chairman and G. Veera Sekhar Reddy as managing director. Publicly funded project exposure is not the origin of a particular donation."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-120",
+      "text": "Find NKG's company-published legal identifier, board and dated equity ownership, without attributing its water-contract proceeds to shareholders.",
+      "positiveIds": [
+        "money-trails-djb:source:annual"
+      ],
+      "hardNegativeIds": [
+        "money-trails-djb:source:ed-april"
+      ],
+      "intent": "ownership-not-transfer",
+      "rationale": "The positive retained summary specifically supports the requested ownership not transfer distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "money-trails-djb:source:annual",
+        "sourceSummary": "Company-published CIN, board roles and dated share-class ownership provide accountable corporate context. No flowmeter receipts can be attributed to shareholders from this report alone.",
+        "contrastSummary": "Agency alleges work payments, diversion and a combined ₹2 crore onward pool to other DJB officials and AAP election funds. No party-specific allocation or receiving account is supplied."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-121",
+      "text": "Which DJB court account retains GST and profit objections and explains bail on custody and trial-delay grounds?",
+      "positiveIds": [
+        "money-trails-djb:source:bail"
+      ],
+      "hardNegativeIds": [
+        "money-trails-djb:source:recall"
+      ],
+      "intent": "response-and-bail",
+      "rationale": "The positive retained summary specifically supports the requested response and bail distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "money-trails-djb:source:bail",
+        "sourceSummary": "Retained court transcription supplies the subcontract date/receipts, GST/profit and predicate-offence objections, and bail granted for delay.",
+        "contrastSummary": "Court recounts ECIR payment figures and dismisses NKG’s effort to recall the approver order. Cross-examination remains available at trial."
+      },
+      "requiredCounterevidenceIds": [
+        "money-trails-djb:source:bail"
+      ],
+      "counterevidenceRole": "GST/profit defence and delay-based bail boundary"
+    },
+    {
+      "id": "next-train-122",
+      "text": "Which later ruling rejects NKG's effort to recall the approver decision while preserving cross-examination at trial?",
+      "positiveIds": [
+        "money-trails-djb:source:recall"
+      ],
+      "hardNegativeIds": [
+        "money-trails-djb:source:bail"
+      ],
+      "intent": "procedural-outcome",
+      "rationale": "The positive retained summary specifically supports the requested procedural outcome distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "money-trails-djb:source:recall",
+        "sourceSummary": "Court recounts ECIR payment figures and dismisses NKG’s effort to recall the approver order. Cross-examination remains available at trial.",
+        "contrastSummary": "Retained court transcription supplies the subcontract date/receipts, GST/profit and predicate-offence objections, and bail granted for delay."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-123",
+      "text": "Find the agency release alleging a combined onward political-and-official pool without supplying a party-specific allocation or recipient bank account.",
+      "positiveIds": [
+        "money-trails-djb:source:ed-april"
+      ],
+      "hardNegativeIds": [
+        "money-trails-djb:source:aap-response"
+      ],
+      "intent": "attribution-and-gap",
+      "rationale": "The positive retained summary specifically supports the requested attribution and gap distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "money-trails-djb:source:ed-april",
+        "sourceSummary": "Agency alleges work payments, diversion and a combined ₹2 crore onward pool to other DJB officials and AAP election funds. No party-specific allocation or receiving account is supplied.",
+        "contrastSummary": "AAP denied connection to the case and disputed recovered evidence against its leaders; its response is not a judicial finding."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-124",
+      "text": "Retrieve AAP's denial of its connection to the DJB case and its challenge to the claimed recovered evidence.",
+      "positiveIds": [
+        "money-trails-djb:source:aap-response"
+      ],
+      "hardNegativeIds": [
+        "money-trails-djb:source:ed-april"
+      ],
+      "intent": "counterevidence",
+      "rationale": "The positive retained summary specifically supports the requested counterevidence distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "money-trails-djb:source:aap-response",
+        "sourceSummary": "AAP denied connection to the case and disputed recovered evidence against its leaders; its response is not a judicial finding.",
+        "contrastSummary": "Agency alleges work payments, diversion and a combined ₹2 crore onward pool to other DJB officials and AAP election funds. No party-specific allocation or receiving account is supplied."
+      },
+      "requiredCounterevidenceIds": [
+        "money-trails-djb:source:aap-response"
+      ],
+      "counterevidenceRole": "party denial"
+    },
+    {
+      "id": "next-train-125",
+      "text": "Which earlier agency statement has a different execution-cost figure from the later DJB release, leaving scope and timing unreconciled?",
+      "positiveIds": [
+        "money-trails-djb:source:ed-february"
+      ],
+      "hardNegativeIds": [
+        "money-trails-djb:source:annual"
+      ],
+      "intent": "accounting-conflict",
+      "rationale": "The positive retained summary specifically supports the requested accounting conflict distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "money-trails-djb:source:ed-february",
+        "sourceSummary": "Earlier agency release says about ₹17 crore was spent on work; the April release says about ₹14 crore. Public descriptions do not disclose a reconciled scope/date basis.",
+        "contrastSummary": "Company-published CIN, board roles and dated share-class ownership provide accountable corporate context. No flowmeter receipts can be attributed to shareholders from this report alone."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-126",
+      "text": "Which later Mumbai food-case order adds specific subcontract routes and bank-analysis summaries while deciding attachment rather than criminal guilt?",
+      "positiveIds": [
+        "money-trails-mumbai:source:tribunal-2026"
+      ],
+      "hardNegativeIds": [
+        "money-trails-mumbai:source:bail-2025"
+      ],
+      "intent": "attachment-versus-merits",
+      "rationale": "The positive retained summary specifically supports the requested attachment versus merits distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "money-trails-mumbai:source:tribunal-2026",
+        "sourceSummary": "Original attachment-appeal order supplies previously unretained bank-analysis summaries, two Sahyadri subcontract routes, exact Force One downstream values and the attachment disposition.",
+        "contrastSummary": "Earlier bail record identifies contractor documentation, licensed kitchens, completion records and gaps in proof of underweight packets."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-127",
+      "text": "Find the earlier food-case counterevidence concerning licensed kitchens, completion records and missing proof about underweight meal packets.",
+      "positiveIds": [
+        "money-trails-mumbai:source:bail-2025"
+      ],
+      "hardNegativeIds": [
+        "money-trails-mumbai:source:eow-2025"
+      ],
+      "intent": "counterevidence",
+      "rationale": "The positive retained summary specifically supports the requested counterevidence distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "money-trails-mumbai:source:bail-2025",
+        "sourceSummary": "Earlier bail record identifies contractor documentation, licensed kitchens, completion records and gaps in proof of underweight packets.",
+        "contrastSummary": "Reported filing updates earlier absence of a predicate chargesheet and supplies an allegation about document authenticity."
+      },
+      "requiredCounterevidenceIds": [
+        "money-trails-mumbai:source:bail-2025"
+      ],
+      "counterevidenceRole": "kitchen/documentation counterevidence and proof gap"
+    },
+    {
+      "id": "next-train-128",
+      "text": "Which reported filing updates the earlier absence of a predicate chargesheet and adds an allegation about document authenticity?",
+      "positiveIds": [
+        "money-trails-mumbai:source:eow-2025"
+      ],
+      "hardNegativeIds": [
+        "money-trails-mumbai:source:bail-2025"
+      ],
+      "intent": "procedural-update",
+      "rationale": "The positive retained summary specifically supports the requested procedural update distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "money-trails-mumbai:source:eow-2025",
+        "sourceSummary": "Reported filing updates earlier absence of a predicate chargesheet and supplies an allegation about document authenticity.",
+        "contrastSummary": "Earlier bail record identifies contractor documentation, licensed kitchens, completion records and gaps in proof of underweight packets."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-train-129",
+      "text": "Locate the reported contractor-partner identity and separate historical business link, preserving the response that the separate venture obtained no contracts.",
+      "positiveIds": [
+        "money-trails-mumbai:source:rti-role-2023"
+      ],
+      "hardNegativeIds": [
+        "money-trails-mumbai:source:tribunal-2026"
+      ],
+      "intent": "role-not-payment",
+      "rationale": "The positive retained summary specifically supports the requested role not payment distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "money-trails-mumbai:source:rti-role-2023",
+        "sourceSummary": "Reported BMC RTI identifies Force One partners; separately reports Mashilkar/Vaze business association and Mashilkar’s no-contracts response.",
+        "contrastSummary": "Original attachment-appeal order supplies previously unretained bank-analysis summaries, two Sahyadri subcontract routes, exact Force One downstream values and the attachment disposition."
+      },
+      "requiredCounterevidenceIds": [
+        "money-trails-mumbai:source:rti-role-2023"
+      ],
+      "counterevidenceRole": "no-contracts response for separate historical association"
+    },
+    {
+      "id": "next-dev-130",
+      "text": "Which parliamentary source provides government-school stocks over several academic years and a separate Uttar Pradesh district table without identifying individual closures?",
+      "positiveIds": [
+        "education:source:ls-school-counts-2026"
+      ],
+      "hardNegativeIds": [
+        "education:source:udise-2024-release"
+      ],
+      "intent": "stock-versus-event",
+      "rationale": "The positive retained summary specifically supports the requested stock versus event distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "education:source:ls-school-counts-2026",
+        "sourceSummary": "Annexure I reports government-school stock counts for five academic years by state/UT. Annexure II reports government-school stock counts for all Uttar Pradesh districts. India government schools: 1,022,386 in 2021-22 and 1,005,245 in 2025-26. NEP paragraph 7.4 says consolidation should only proceed when access is unaffected.",
+        "contrastSummary": "Reports 104,125 single-teacher schools and 7,993 zero-enrolment schools in 2024-25. Reports total teachers 10,122,420. Reports computer access in 64.7% and internet in 63.5% of schools."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-dev-131",
+      "text": "Find the Uttar Pradesh education answer that separates approved central shares from actual releases for two schemes and also reports Shamli school counts.",
+      "positiveIds": [
+        "education:source:ls-up-funding-2026"
+      ],
+      "hardNegativeIds": [
+        "education:source:samagra-cg-pab-2025"
+      ],
+      "intent": "approval-versus-release",
+      "rationale": "The positive retained summary specifically supports the requested approval versus release distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "education:source:ls-up-funding-2026",
+        "sourceSummary": "Provides approved central and actual released central shares for Uttar Pradesh Samagra Shiksha and PM SHRI for three financial years. Shamli district government-school counts rise from 621 in 2021-22 to 623 in 2025-26.",
+        "contrastSummary": "Approved annual work plan: ₹232,029.17 lakh including ₹82,492.13 lakh spillover. Planned central share to be released: ₹112,900.28 lakh; corresponding state share ₹75,267.52 lakh. Supplementary ICT labs and smart classrooms approval: ₹14,133.80 lakh."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-dev-132",
+      "text": "Which education methodology warns that the move to student-wise reporting breaks direct comparability with earlier aggregate indicators?",
+      "positiveIds": [
+        "education:source:udise-methodology-2023"
+      ],
+      "hardNegativeIds": [
+        "education:source:udise-2024-release"
+      ],
+      "intent": "measurement-change",
+      "rationale": "The positive retained summary specifically supports the requested measurement change distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "education:source:udise-methodology-2023",
+        "sourceSummary": "Separates government, government-aided, private unaided recognised, and other schools. Reports that student-wise collection from 2022-23 is not strictly comparable with earlier aggregate reporting for several education indicators.",
+        "contrastSummary": "Reports 104,125 single-teacher schools and 7,993 zero-enrolment schools in 2024-25. Reports total teachers 10,122,420. Reports computer access in 64.7% and internet in 63.5% of schools."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-dev-133",
+      "text": "Find the higher-education release that states institutional participation and explains the age-group population basis of the enrolment ratio.",
+      "positiveIds": [
+        "education:source:aishe-release-2026"
+      ],
+      "hardNegativeIds": [
+        "education:source:aishe-2023-report"
+      ],
+      "intent": "denominator",
+      "rationale": "The positive retained summary specifically supports the requested denominator distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "education:source:aishe-release-2026",
+        "sourceSummary": "For 2023-24, 59,533 of 64,756 registered HEIs participated. Higher education enrolment is reported as 4.50 crore in 2023-24. GER is 30 in 2023-24 and uses ages 18-23 population projections based on Census 2011.",
+        "contrastSummary": "48,246 colleges were registered and 46,468 responded. Of responding colleges, 17.1% were government, 12.9% private aided and 70.0% private unaided. Contains state tables for private/government colleges and district distribution."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-dev-134",
+      "text": "Which detailed college report gives government, aided and unaided proportions using responding colleges rather than every registered college?",
+      "positiveIds": [
+        "education:source:aishe-2023-report"
+      ],
+      "hardNegativeIds": [
+        "education:source:aishe-release-2026"
+      ],
+      "intent": "sampling-frame",
+      "rationale": "The positive retained summary specifically supports the requested sampling frame distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "education:source:aishe-2023-report",
+        "sourceSummary": "48,246 colleges were registered and 46,468 responded. Of responding colleges, 17.1% were government, 12.9% private aided and 70.0% private unaided. Contains state tables for private/government colleges and district distribution.",
+        "contrastSummary": "For 2023-24, 59,533 of 64,756 registered HEIs participated. Higher education enrolment is reported as 4.50 crore in 2023-24. GER is 30 in 2023-24 and uses ages 18-23 population projections based on Census 2011."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-dev-135",
+      "text": "Locate Chhattisgarh's approved education work plan, retaining spillover and planned central/state shares instead of counting all approval as money received.",
+      "positiveIds": [
+        "education:source:samagra-cg-pab-2025",
+        "public-works:source:svc-cg-school-plan"
+      ],
+      "hardNegativeIds": [
+        "education:source:ls-up-funding-2026"
+      ],
+      "intent": "budget-stage",
+      "rationale": "The positive retained summary specifically supports the requested budget stage distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "education:source:samagra-cg-pab-2025",
+        "sourceSummary": "Approved annual work plan: ₹232,029.17 lakh including ₹82,492.13 lakh spillover. Planned central share to be released: ₹112,900.28 lakh; corresponding state share ₹75,267.52 lakh. Supplementary ICT labs and smart classrooms approval: ₹14,133.80 lakh.",
+        "contrastSummary": "Provides approved central and actual released central shares for Uttar Pradesh Samagra Shiksha and PM SHRI for three financial years. Shamli district government-school counts rise from 621 in 2021-22 to 623 in 2025-26."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-dev-136",
+      "text": "Find the original PM SHRI five-year project budget, central contribution and intended number of upgraded existing public schools.",
+      "positiveIds": [
+        "education:source:pm-shri-cabinet"
+      ],
+      "hardNegativeIds": [
+        "education:source:pm-shri-scheme"
+      ],
+      "intent": "plan-versus-selection",
+      "rationale": "The positive retained summary specifically supports the requested plan versus selection distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "education:source:pm-shri-cabinet",
+        "sourceSummary": "Total project cost ₹27,360 crore, including central share ₹18,128 crore, over five years. Targets more than 14,500 existing schools managed by central/state/UT/local government. Selection uses eligibility checks and challenge mode.",
+        "contrastSummary": "At the page's update, 12,079 schools had been selected through four phases. Confirms ₹27,360 crore total and ₹18,128 crore central project cost."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-dev-137",
+      "text": "Which later PM SHRI page reports how many schools had actually been selected through the stated phases?",
+      "positiveIds": [
+        "education:source:pm-shri-scheme"
+      ],
+      "hardNegativeIds": [
+        "education:source:pm-shri-cabinet"
+      ],
+      "intent": "selection-status",
+      "rationale": "The positive retained summary specifically supports the requested selection status distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "education:source:pm-shri-scheme",
+        "sourceSummary": "At the page's update, 12,079 schools had been selected through four phases. Confirms ₹27,360 crore total and ₹18,128 crore central project cost.",
+        "contrastSummary": "Total project cost ₹27,360 crore, including central share ₹18,128 crore, over five years. Targets more than 14,500 existing schools managed by central/state/UT/local government. Selection uses eligibility checks and challenge mode."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-dev-138",
+      "text": "Which higher-education scheme guidance defines eligible public or aided institutions and priority districts rather than reporting money already paid?",
+      "positiveIds": [
+        "education:source:pm-usha-guidelines"
+      ],
+      "hardNegativeIds": [
+        "education:source:pm-usha-2025"
+      ],
+      "intent": "eligibility",
+      "rationale": "The positive retained summary specifically supports the requested eligibility distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "education:source:pm-usha-guidelines",
+        "sourceSummary": "Covers government and government-aided higher education institutions of states/UTs. Gives priority to focus districts and defines components and eligibility.",
+        "contrastSummary": "Scheme outlay ₹12,926.10 crore for 2023-24 to 2025-26. First two PAB meetings approved 440 units worth ₹5,613.12 crore. FY 2025-26 budget stated as ₹1,815 crore. Eight new model degree college units approved across Nagaland (4), Manipur (2), Meghalaya (2), totaling ₹119.98 crore."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-dev-139",
+      "text": "Locate the PM-USHA update separating the programme outlay, approved units and current-year budget.",
+      "positiveIds": [
+        "education:source:pm-usha-2025"
+      ],
+      "hardNegativeIds": [
+        "education:source:pm-usha-guidelines"
+      ],
+      "intent": "financial-stage",
+      "rationale": "The positive retained summary specifically supports the requested financial stage distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "education:source:pm-usha-2025",
+        "sourceSummary": "Scheme outlay ₹12,926.10 crore for 2023-24 to 2025-26. First two PAB meetings approved 440 units worth ₹5,613.12 crore. FY 2025-26 budget stated as ₹1,815 crore. Eight new model degree college units approved across Nagaland (4), Manipur (2), Meghalaya (2), totaling ₹119.98 crore.",
+        "contrastSummary": "Covers government and government-aided higher education institutions of states/UTs. Gives priority to focus districts and defines components and eligibility."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-dev-140",
+      "text": "Find demographic projections showing why rising total population need not imply growth of the school-age population.",
+      "positiveIds": [
+        "education:source:population-projections-2020"
+      ],
+      "hardNegativeIds": [
+        "education:source:ls-school-counts-2026"
+      ],
+      "intent": "alternative-explanation",
+      "rationale": "The positive retained summary specifically supports the requested alternative explanation distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "education:source:population-projections-2020",
+        "sourceSummary": "Uses Census 2011, SRS fertility/mortality and migration assumptions. Projects total population increase and a decline in the national population aged 5–14 during 2011–2036.",
+        "contrastSummary": "Annexure I reports government-school stock counts for five academic years by state/UT. Annexure II reports government-school stock counts for all Uttar Pradesh districts. India government schools: 1,022,386 in 2021-22 and 1,005,245 in 2025-26. NEP paragraph 7.4 says consolidation should only proceed when access is unaffected."
+      },
+      "requiredCounterevidenceIds": [
+        "education:source:population-projections-2020"
+      ],
+      "counterevidenceRole": "alternative school-age demographic explanation"
+    },
+    {
+      "id": "next-dev-141",
+      "text": "Which ministerial clarification gives the enrolment and distance exceptions for Uttar Pradesh school pairing and addresses continued use of buildings and codes?",
+      "positiveIds": [
+        "education:source:up-pairing-revision-news"
+      ],
+      "hardNegativeIds": [
+        "education:source:up-pairing-appeal-news"
+      ],
+      "intent": "policy-response",
+      "rationale": "The positive retained summary specifically supports the requested policy response distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "education:source:up-pairing-revision-news",
+        "sourceSummary": "Reports minister's clarification excluding schools with 50 or more students and schools farther than 1km from pairing. Reports minister saying UDISE codes remain unchanged, buildings may host Bal Vatikas, and original classes can resume if enrolment/capacity warrants.",
+        "contrastSummary": "Reports extension of interim status quo for school pairing in Sitapur until 1 September 2025. Reports government assurances on enrolment/distance and court clarification that interim order does not affect overall policy."
+      },
+      "requiredCounterevidenceIds": [
+        "education:source:up-pairing-revision-news"
+      ],
+      "counterevidenceRole": "ministerial clarification and policy exceptions"
+    },
+    {
+      "id": "next-dev-142",
+      "text": "Find the interim Sitapur school-pairing status-quo report and its qualification that the overall policy was not stopped.",
+      "positiveIds": [
+        "education:source:up-pairing-appeal-news"
+      ],
+      "hardNegativeIds": [
+        "education:source:up-pairing-revision-news"
+      ],
+      "intent": "interim-order-scope",
+      "rationale": "The positive retained summary specifically supports the requested interim order scope distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "education:source:up-pairing-appeal-news",
+        "sourceSummary": "Reports extension of interim status quo for school pairing in Sitapur until 1 September 2025. Reports government assurances on enrolment/distance and court clarification that interim order does not affect overall policy.",
+        "contrastSummary": "Reports minister's clarification excluding schools with 50 or more students and schools farther than 1km from pairing. Reports minister saying UDISE codes remain unchanged, buildings may host Bal Vatikas, and original classes can resume if enrolment/capacity warrants."
+      },
+      "requiredCounterevidenceIds": [
+        "education:source:up-pairing-appeal-news"
+      ],
+      "counterevidenceRole": "court limitation on scope of interim relief"
+    },
+    {
+      "id": "next-dev-143",
+      "text": "Which report describes a small Karnataka school-transfer pilot and proposed transport while recording rural-access concerns?",
+      "positiveIds": [
+        "education:source:karnataka-pilot-news"
+      ],
+      "hardNegativeIds": [
+        "education:source:karnataka-counterclaim-news"
+      ],
+      "intent": "proposal-and-response",
+      "rationale": "The positive retained summary specifically supports the requested proposal and response distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "education:source:karnataka-pilot-news",
+        "sourceSummary": "Reports a seven-school pilot linked to Honganuru KPS. Quotes circular instructions on student transfers and transport arrangements. Reports concern from educationists/student organisations about rural access.",
+        "contrastSummary": "Reports minister's statement that government has no plans to shut any government school. Reports AIDSO seeking withdrawal of a merger clause and a written assurance."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-dev-144",
+      "text": "Retrieve the Karnataka minister's denial of planned school closures and the student organisation's request for a written assurance.",
+      "positiveIds": [
+        "education:source:karnataka-counterclaim-news"
+      ],
+      "hardNegativeIds": [
+        "education:source:karnataka-pilot-news"
+      ],
+      "intent": "counterevidence",
+      "rationale": "The positive retained summary specifically supports the requested counterevidence distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "education:source:karnataka-counterclaim-news",
+        "sourceSummary": "Reports minister's statement that government has no plans to shut any government school. Reports AIDSO seeking withdrawal of a merger clause and a written assurance.",
+        "contrastSummary": "Reports a seven-school pilot linked to Honganuru KPS. Quotes circular instructions on student transfers and transport arrangements. Reports concern from educationists/student organisations about rural access."
+      },
+      "requiredCounterevidenceIds": [
+        "education:source:karnataka-counterclaim-news"
+      ],
+      "counterevidenceRole": "ministerial denial and demand for written assurance"
+    },
+    {
+      "id": "next-dev-145",
+      "text": "Which law sets the entry-level admission obligation and caps reimbursement to eligible private schools?",
+      "positiveIds": [
+        "education:source:rte-statute"
+      ],
+      "hardNegativeIds": [
+        "education:source:rte-karnataka-2026"
+      ],
+      "intent": "legal-entitlement",
+      "rationale": "The positive retained summary specifically supports the requested legal entitlement distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "education:source:rte-statute",
+        "sourceSummary": "Section 12(1)(c) provides entry-level admissions for eligible disadvantaged/weaker-section children of at least 25% in specified categories of schools. Section 12(2) provides private unaided school reimbursement capped at state per-child expenditure or actual charge, whichever is lower, with provisos for pre-existing free-education obligations.",
+        "contrastSummary": "Provides sanctioned and reimbursed-to-school amounts under RTE for Karnataka for five years. FY 2025-26 sanctioned ₹156.10 crore and reimbursed ₹148.68 crore. Government says reimbursement is timely, based on information from the state. Describes 2018 Karnataka neighbourhood-school exemption."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-dev-146",
+      "text": "Find the Karnataka RTE answer separating sanctioned support from reimbursements to schools and retaining the government's timeliness claim.",
+      "positiveIds": [
+        "education:source:rte-karnataka-2026",
+        "public-works:source:svc-rte-ka-reimbursement"
+      ],
+      "hardNegativeIds": [
+        "education:source:rte-statute"
+      ],
+      "intent": "reimbursement-stage",
+      "rationale": "The positive retained summary specifically supports the requested reimbursement stage distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "education:source:rte-karnataka-2026",
+        "sourceSummary": "Provides sanctioned and reimbursed-to-school amounts under RTE for Karnataka for five years. FY 2025-26 sanctioned ₹156.10 crore and reimbursed ₹148.68 crore. Government says reimbursement is timely, based on information from the state. Describes 2018 Karnataka neighbourhood-school exemption.",
+        "contrastSummary": "Section 12(1)(c) provides entry-level admissions for eligible disadvantaged/weaker-section children of at least 25% in specified categories of schools. Section 12(2) provides private unaided school reimbursement capped at state per-child expenditure or actual charge, whichever is lower, with provisos for pre-existing free-education obligations."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-dev-147",
+      "text": "Which CSR data schema distinguishes project outlay from actual spending and tells users when company reports take precedence?",
+      "positiveIds": [
+        "education:source:mca-csr-company"
+      ],
+      "hardNegativeIds": [
+        "education:source:mca-csr-data"
+      ],
+      "intent": "data-definition",
+      "rationale": "The positive retained summary specifically supports the requested data definition distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "education:source:mca-csr-company",
+        "sourceSummary": "Schema includes project, sector, state, district, amount outlay in INR crore, amount spent in INR crore and implementation mode. Portal says company board/director reports take precedence if inconsistent. PAN India includes multiple-state projects and centralized funds.",
+        "contrastSummary": "Portal provides year, state, PSU/non-PSU and development sector filters and an implementing agency master. Displayed education sector is combined with differently abled and livelihood categories."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-dev-148",
+      "text": "Find the original multilateral school programme approval, its participating states and loan maturity rather than later disbursement.",
+      "positiveIds": [
+        "education:source:world-bank-stars-approval"
+      ],
+      "hardNegativeIds": [
+        "education:source:world-bank-stars-isr"
+      ],
+      "intent": "approval-versus-disbursement",
+      "rationale": "The positive retained summary specifically supports the requested approval versus disbursement distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "education:source:world-bank-stars-approval",
+        "sourceSummary": "World Bank approved a USD 500 million STARS programme. Programme supports quality and governance of school education in six named states. Loan maturity 17.5 years including five-year grace period.",
+        "contrastSummary": "Report states cumulative disbursement of USD 196.75 million (39.35%) against the USD 500 million programme. Report discusses programme restructuring and a requested extension."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-dev-149",
+      "text": "Which later school-programme monitoring report gives cumulative money disbursed and discusses restructuring and extension?",
+      "positiveIds": [
+        "education:source:world-bank-stars-isr"
+      ],
+      "hardNegativeIds": [
+        "education:source:world-bank-stars-approval"
+      ],
+      "intent": "disbursement-vintage",
+      "rationale": "The positive retained summary specifically supports the requested disbursement vintage distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "education:source:world-bank-stars-isr",
+        "sourceSummary": "Report states cumulative disbursement of USD 196.75 million (39.35%) against the USD 500 million programme. Report discusses programme restructuring and a requested extension.",
+        "contrastSummary": "World Bank approved a USD 500 million STARS programme. Programme supports quality and governance of school education in six named states. Loan maturity 17.5 years including five-year grace period."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-dev-150",
+      "text": "Which report attributes the Bengaluru water-demand, river-supply, groundwater and shortfall figures to the Chief Minister rather than treating them as an independently measured household census?",
+      "positiveIds": [
+        "water:source:wx-bengaluru-shortage-2024"
+      ],
+      "hardNegativeIds": [
+        "water:source:wx-bengaluru-bwssb-response-2024"
+      ],
+      "intent": "attributed-measurement",
+      "rationale": "The positive retained summary specifically supports the requested attributed measurement distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "water:source:wx-bengaluru-shortage-2024",
+        "sourceSummary": "Reporting attributes a quantified water deficit and borewell stress to Karnataka's Chief Minister. Chief Minister is quoted giving demand 2,600 MLD, Cauvery supply 1,450 MLD, groundwater supply 650 MLD and shortfall 500 MLD. He said 6,900 of 14,000 government borewells had dried and named outer areas without Cauvery service as affected.",
+        "contrastSummary": "Utility response distinguishes basin water available for drinking from shortages in areas reliant on borewells. BWSSB chairman said 110 villages relied on borewells and groundwater levels had fallen. He said basin storage would be sufficient for drinking needs until monsoon and urged treated-water use for other purposes."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-dev-151",
+      "text": "Find the utility explanation distinguishing drinking-water availability in the basin from shortages in borewell-dependent villages.",
+      "positiveIds": [
+        "water:source:wx-bengaluru-bwssb-response-2024"
+      ],
+      "hardNegativeIds": [
+        "water:source:wx-bengaluru-shortage-2024"
+      ],
+      "intent": "counterevidence",
+      "rationale": "The positive retained summary specifically supports the requested counterevidence distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "water:source:wx-bengaluru-bwssb-response-2024",
+        "sourceSummary": "Utility response distinguishes basin water available for drinking from shortages in areas reliant on borewells. BWSSB chairman said 110 villages relied on borewells and groundwater levels had fallen. He said basin storage would be sufficient for drinking needs until monsoon and urged treated-water use for other purposes.",
+        "contrastSummary": "Reporting attributes a quantified water deficit and borewell stress to Karnataka's Chief Minister. Chief Minister is quoted giving demand 2,600 MLD, Cauvery supply 1,450 MLD, groundwater supply 650 MLD and shortfall 500 MLD. He said 6,900 of 14,000 government borewells had dried and named outer areas without Cauvery service as affected."
+      },
+      "requiredCounterevidenceIds": [
+        "water:source:wx-bengaluru-bwssb-response-2024"
+      ],
+      "counterevidenceRole": "utility response distinguishing basin supply and local shortage"
+    },
+    {
+      "id": "next-dev-152",
+      "text": "Which archived weather bulletin records an actual issue timestamp and cyclone/heatwave forecast so forecast information can be separated from later observed outcomes?",
+      "positiveIds": [
+        "water:source:wx-imd-forecast-2024-05-23"
+      ],
+      "hardNegativeIds": [
+        "water:source:wx-imd-rainfall-2024"
+      ],
+      "intent": "temporal-availability",
+      "rationale": "The positive retained summary specifically supports the requested temporal availability distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "water:source:wx-imd-forecast-2024-05-23",
+        "sourceSummary": "Archived bulletin demonstrates timestamped forecast evidence, including cyclone and heatwave expectations. Issued May 23, 2024 at 1410 IST. Subject forecasts a cyclonic storm approaching Bangladesh/adjoining West Bengal by May 26 evening and heatwave conditions over named regions during the next five days.",
+        "contrastSummary": "Official compilation of monthly, seasonal and annual 2024 rainfall. Report identifier is ESSO/MoES/IMD/HS/Rainfall Report/02(2025)/66. Annual map reports all-India rainfall 1,206.6 mm against 1,160.0 mm normal, a rounded 4% departure."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-dev-153",
+      "text": "Find the official annual rainfall compilation and its normal-period comparison, distinct from a weather prediction bulletin.",
+      "positiveIds": [
+        "water:source:wx-imd-rainfall-2024"
+      ],
+      "hardNegativeIds": [
+        "water:source:wx-imd-forecast-2024-05-23"
+      ],
+      "intent": "observation-versus-forecast",
+      "rationale": "The positive retained summary specifically supports the requested observation versus forecast distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "water:source:wx-imd-rainfall-2024",
+        "sourceSummary": "Official compilation of monthly, seasonal and annual 2024 rainfall. Report identifier is ESSO/MoES/IMD/HS/Rainfall Report/02(2025)/66. Annual map reports all-India rainfall 1,206.6 mm against 1,160.0 mm normal, a rounded 4% departure.",
+        "contrastSummary": "Archived bulletin demonstrates timestamped forecast evidence, including cyclone and heatwave expectations. Issued May 23, 2024 at 1410 IST. Subject forecasts a cyclonic storm approaching Bangladesh/adjoining West Bengal by May 26 evening and heatwave conditions over named regions during the next five days."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-dev-154",
+      "text": "Which rapid satellite flood map gives inundated area while requesting field feedback and retaining mapping uncertainty?",
+      "positiveIds": [
+        "water:source:wx-nrsc-tn-inundation-2023"
+      ],
+      "hardNegativeIds": [
+        "water:source:wx-tn-disaster-2023"
+      ],
+      "intent": "measurement-limit",
+      "rationale": "The positive retained summary specifically supports the requested measurement limit distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "water:source:wx-nrsc-tn-inundation-2023",
+        "sourceSummary": "Rapid satellite inundation mapping provides a historical footprint with explicit uncertainty. Table 2 totals 148,360 hectares of mapped inundation/standing water over listed districts. Report requests field feedback and says no ground verification was done.",
+        "contrastSummary": "G.O. 604 formally declares named cyclone- and flood-affected districts in December 2023. Order declares Chennai, Tiruvallur, Chengalpattu and Kancheepuram cyclone affected. It declares six southern districts flood affected and describes damage to crops and water-supply infrastructure."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-dev-155",
+      "text": "Find the Tamil Nadu order formally declaring specified cyclone- and flood-affected districts, rather than a satellite estimate of flooded area.",
+      "positiveIds": [
+        "water:source:wx-tn-disaster-2023"
+      ],
+      "hardNegativeIds": [
+        "water:source:wx-nrsc-tn-inundation-2023"
+      ],
+      "intent": "legal-declaration",
+      "rationale": "The positive retained summary specifically supports the requested legal declaration distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "water:source:wx-tn-disaster-2023",
+        "sourceSummary": "G.O. 604 formally declares named cyclone- and flood-affected districts in December 2023. Order declares Chennai, Tiruvallur, Chengalpattu and Kancheepuram cyclone affected. It declares six southern districts flood affected and describes damage to crops and water-supply infrastructure.",
+        "contrastSummary": "Rapid satellite inundation mapping provides a historical footprint with explicit uncertainty. Table 2 totals 148,360 hectares of mapped inundation/standing water over listed districts. Report requests field feedback and says no ground verification was done."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-dev-156",
+      "text": "Which seed dashboard distinguishes processed, tested, certified and sold quantities and explains why repeat tests affect comparisons?",
+      "positiveIds": [
+        "water:source:wf-sathi-stats"
+      ],
+      "hardNegativeIds": [
+        "water:source:wf-sathi"
+      ],
+      "intent": "denominator",
+      "rationale": "The positive retained summary specifically supports the requested denominator distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "water:source:wf-sathi-stats",
+        "sourceSummary": "Service page distinguishes registered area, processed/tested/certified quantities and seed sold. Page notes repeat tests can affect tested-versus-processed quantity comparisons.",
+        "contrastSummary": "SATHI describes seed production, certification, licensing, inventory, sale and traceability across generations. Digital field inspections and laboratory workflows support certification."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-dev-157",
+      "text": "Find the government explanation that fertilizer subsidy follows authenticated retail sales to companies and is not allocated as state or district budget amounts.",
+      "positiveIds": [
+        "water:source:wf-fertilizer"
+      ],
+      "hardNegativeIds": [
+        "water:source:wf-pmfby"
+      ],
+      "intent": "payment-rule",
+      "rationale": "The positive retained summary specifically supports the requested payment rule distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "water:source:wf-fertilizer",
+        "sourceSummary": "Answer says fertilizer subsidy is released to companies based on actual authenticated retail sales. Government states subsidy funds are not allocated or disbursed on a district- or state-wise basis, so that allocation data is not maintained. iFMS monitors movement, supply, dispatch, stock and allocation status.",
+        "contrastSummary": "Release separates government premium subsidy from claims paid under PMFBY and RWBCIS. Digiclaim module is described as operational for claims from Kharif 2022; crop-cutting experiments and technology-based yield estimation support assessment."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-dev-158",
+      "text": "Which crop-insurance source separates government premium support from claims paid and explains the role of crop-cutting and yield estimation?",
+      "positiveIds": [
+        "water:source:wf-pmfby"
+      ],
+      "hardNegativeIds": [
+        "water:source:wf-fertilizer"
+      ],
+      "intent": "financial-stage",
+      "rationale": "The positive retained summary specifically supports the requested financial stage distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "water:source:wf-pmfby",
+        "sourceSummary": "Release separates government premium subsidy from claims paid under PMFBY and RWBCIS. Digiclaim module is described as operational for claims from Kharif 2022; crop-cutting experiments and technology-based yield estimation support assessment.",
+        "contrastSummary": "Answer says fertilizer subsidy is released to companies based on actual authenticated retail sales. Government states subsidy funds are not allocated or disbursed on a district- or state-wise basis, so that allocation data is not maintained. iFMS monitors movement, supply, dispatch, stock and allocation status."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-dev-159",
+      "text": "Locate the food dashboard that distinguishes allocation from offtake, payments due from payments made and capacity from stocks.",
+      "positiveIds": [
+        "water:source:wf-fci-dashboard"
+      ],
+      "hardNegativeIds": [
+        "water:source:wf-cold-storage"
+      ],
+      "intent": "data-definition",
+      "rationale": "The positive retained summary specifically supports the requested data definition distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "water:source:wf-fci-dashboard",
+        "sourceSummary": "Dashboard labels 36 states/UTs and 26 FCI regions. Fields distinguish allocation/offtake, paddy/wheat procurement, due/made payment, capacity, stock and utilization.",
+        "contrastSummary": "Reports 8,815 cold storages with 402.18 lakh MT capacity as of 30 June 2025. Reports 917.83 lakh MT covered/CAP central-pool storage capacity with FCI and state agencies as of 1 July 2025. Describes cold-chain, PACS and Kisan SAMPADA infrastructure; as of August 2025 eleven PACS pilot godowns in eleven states were completed."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-dev-160",
+      "text": "Which government source reports cold-storage capacity separately from central-pool grain storage capacity and their different reference dates?",
+      "positiveIds": [
+        "water:source:wf-cold-storage"
+      ],
+      "hardNegativeIds": [
+        "water:source:wf-fci-dashboard"
+      ],
+      "intent": "population-scope",
+      "rationale": "The positive retained summary specifically supports the requested population scope distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "water:source:wf-cold-storage",
+        "sourceSummary": "Reports 8,815 cold storages with 402.18 lakh MT capacity as of 30 June 2025. Reports 917.83 lakh MT covered/CAP central-pool storage capacity with FCI and state agencies as of 1 July 2025. Describes cold-chain, PACS and Kisan SAMPADA infrastructure; as of August 2025 eleven PACS pilot godowns in eleven states were completed.",
+        "contrastSummary": "Dashboard labels 36 states/UTs and 26 FCI regions. Fields distinguish allocation/offtake, paddy/wheat procurement, due/made payment, capacity, stock and utilization."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-dev-161",
+      "text": "Find the village survey that measures regularity, quantity and tested water quality separately, with its sampling frame and composite-index method.",
+      "positiveIds": [
+        "public-works:source:svc-jjm-functionality",
+        "water:source:wp-jjm-functionality-2024"
+      ],
+      "hardNegativeIds": [
+        "water:source:wp-jjm-j3"
+      ],
+      "intent": "service-versus-connection",
+      "rationale": "The positive retained summary specifically supports the requested service versus connection distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "water:source:wp-jjm-functionality-2024",
+        "sourceSummary": "Survey covered 19,812 Har Ghar Jal villages, 237,608 households, 761 districts and 34 states/UTs. Table 6 publishes separate regularity, quantity, tested-quality and minimum-of-three index percentages. Section 4.7 explicitly says the sampling design cannot identify the same household fulfilling all three parameters; the published functionality index takes their minimum. Table 6 household-quality assessment uses microbiological laboratory testing and on-site pH; source-water chemical testing is analysed separately in the report.",
+        "contrastSummary": "34 rural state/UT rows provide rural households, balance household tap connections and households with tap connections in PWS villages. The published total is 586,054 villages, 1,935.52 lakh rural households and 1,589.93 lakh households with tap connections in PWS villages."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-dev-162",
+      "text": "Which administrative table gives rural households and tap connections across rural jurisdictions, without establishing reliable daily service to each connected household?",
+      "positiveIds": [
+        "water:source:wp-jjm-j3"
+      ],
+      "hardNegativeIds": [
+        "water:source:wp-jjm-functionality-2024"
+      ],
+      "intent": "connection-versus-service",
+      "rationale": "The positive retained summary specifically supports the requested connection versus service distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "water:source:wp-jjm-j3",
+        "sourceSummary": "34 rural state/UT rows provide rural households, balance household tap connections and households with tap connections in PWS villages. The published total is 586,054 villages, 1,935.52 lakh rural households and 1,589.93 lakh households with tap connections in PWS villages.",
+        "contrastSummary": "Survey covered 19,812 Har Ghar Jal villages, 237,608 households, 761 districts and 34 states/UTs. Table 6 publishes separate regularity, quantity, tested-quality and minimum-of-three index percentages. Section 4.7 explicitly says the sampling design cannot identify the same household fulfilling all three parameters; the published functionality index takes their minimum. Table 6 household-quality assessment uses microbiological laboratory testing and on-site pH; source-water chemical testing is analysed separately in the report."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-dev-163",
+      "text": "Locate the groundwater assessment separating recharge, extractable resource, extraction and classified assessment units.",
+      "positiveIds": [
+        "water:source:wp-cgwb-2025"
+      ],
+      "hardNegativeIds": [
+        "water:source:wp-jjm-j3"
+      ],
+      "intent": "resource-denominator",
+      "rationale": "The positive retained summary specifically supports the requested resource denominator distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "water:source:wp-cgwb-2025",
+        "sourceSummary": "Annual recharge is 448.52 BCM; annual extractable resources 407.75 BCM; annual extraction 247.22 BCM; national extraction stage 60.63%. Among 6,762 assessed units, 4,946 safe, 758 semi-critical, 201 critical, 730 over-exploited and 127 saline units are reported.",
+        "contrastSummary": "34 rural state/UT rows provide rural households, balance household tap connections and households with tap connections in PWS villages. The published total is 586,054 villages, 1,935.52 lakh rural households and 1,589.93 lakh households with tap connections in PWS villages."
+      },
+      "requiredCounterevidenceIds": []
+    },
+    {
+      "id": "next-dev-164",
+      "text": "Find the drinking-water policy distinguishing the normal quality standard from interim contaminated-habitation provision for drinking and cooking.",
+      "positiveIds": [
+        "water:source:wp-water-quality-policy"
+      ],
+      "hardNegativeIds": [
+        "water:source:wp-cgwb-2025"
+      ],
+      "intent": "standard-versus-delivery",
+      "rationale": "The positive retained summary specifically supports the requested standard versus delivery distinction. The contrast source concerns a different named stage, period, institutional role or narrower information need; it is not a factual refutation.",
+      "authoringBasis": {
+        "sourceId": "water:source:wp-water-quality-policy",
+        "sourceSummary": "BIS 10500 is the drinking-water quality benchmark. Arsenic/fluoride affected habitations may receive interim community water purification provision at 8–10 litres per capita per day for drinking and cooking while permanent schemes are implemented.",
+        "contrastSummary": "Annual recharge is 448.52 BCM; annual extractable resources 407.75 BCM; annual extraction 247.22 BCM; national extraction stage 60.63%. Among 6,762 assessed units, 4,946 safe, 758 semi-critical, 201 critical, 730 over-exploited and 127 saline units are reported."
+      },
+      "requiredCounterevidenceIds": []
+    }
+  ],
+  "counterevidenceDefinition": "Explicitly annotated existing queries asking for a respondent explanation, corrective legal limitation or alternative factual explanation. Required IDs remain relevance labels, not an assertion the response is true. Other queries are not silently counted as counterevidence tests."
+}
