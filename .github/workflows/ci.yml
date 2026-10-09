@@ -91,6 +91,9 @@ jobs:
       - name: Expanded local models, graph closure and prospective cohort (offline verification)
         run: npm run validate:radar:next && npm run test:radar:next
 
+      - name: Funding investigation sources, graph stages and decision-analysis guards
+        run: npm run validate:funding && npm run test:funding
+
       - name: Typecheck and build
         run: npm run build
 
@@ -101,6 +104,9 @@ jobs:
       # wait on, or have reaped out from under it.
       - name: Headless render smoke test
         run: npm run smoke
+
+      - name: Funding investigation map, sources and research workflow
+        run: npm run test:funding:browser
 
       - name: Education research workflow
         run: npm run test:education:browser

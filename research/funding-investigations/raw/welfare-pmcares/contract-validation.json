@@ -1,0 +1,25 @@
+{
+  "valid": true,
+  "errors": [],
+  "warnings": [
+    "fi:welfare-pmcares:src:pm-court-report: secondary-only source; original assertion not independently inspected",
+    "fi:welfare-pmcares:src:vent-followup: secondary-only source; original assertion not independently inspected"
+  ],
+  "counts": {
+    "sources": 13,
+    "entities": 51,
+    "edges": 49,
+    "cases": 5,
+    "claims": 14
+  },
+  "tracks": {
+    "welfare-pmcares": 1
+  },
+  "interpretation": "Structural checks do not independently verify quotations, source reliability, amount reconciliation, or the truth of any allegation. No inferred relationship, guilt score or money total is produced.",
+  "inputs": [
+    {
+      "path": "research/funding-investigations/streams/welfare-pmcares.json",
+      "sha256": "5c5749db33cd1a60c4251252c084c0400edcdabb3bae4df76e93e48bc794e43f"
+    }
+  ]
+}

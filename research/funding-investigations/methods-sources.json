@@ -1,0 +1,127 @@
+{
+  "schemaVersion": 1,
+  "reviewDate": "2026-10-08",
+  "reviewTimezone": "America/New_York",
+  "searchAccounting": {
+    "requests": 3,
+    "requestedResultSlots": 21,
+    "newFetchURLs": 6,
+    "distinctWorksWithNewlyInspectedPassages": 5,
+    "note": "Search slots are discovery capacity, not documents read. Two pages concern one Osborne/Rubinstein work."
+  },
+  "priorSourcesReused": {
+    "path": "research/research-radar/next-model/method-sources.json",
+    "sha256": "5806cca04776fbab48d5c5fd493a6539b2a9c1481174add67ea55632d8a5b9c7",
+    "count": 13,
+    "scope": "Prior declared selected passages/abstracts/publisher summaries, not a claim of fresh complete reads"
+  },
+  "sources": [
+    {
+      "id": "fi:methods:paper:procurement-pu-2026",
+      "title": "Learning from sanctioned government suppliers: a machine learning and network science approach to detecting fraud and corruption in Mexico",
+      "authors": [
+        "Martí Medina-Hernández",
+        "János Kertész",
+        "Mihály Fazekas"
+      ],
+      "publishedAt": "2026-05-18",
+      "url": "https://www.nature.com/articles/s41598-026-48873-w",
+      "inspection": "Selected extracted passages from Abstract, Introduction, Datasets, Feature engineering, train/test design and validation; fetch capped at 55,000 characters",
+      "finding": "Uses buyer–supplier graphs and positive–unlabelled learning; flags the absence of confirmed negative labels, selected sanctions, company/contract mapping and temporal versus transductive evaluations.",
+      "localDecision": "Use grouped, time-respecting validation and disclose unknown labels. Do not label every Indian contract of a sanctioned supplier corrupt, infer hidden control from centrality, or transfer model scores across countries.",
+      "limits": [
+        "Study concerns Mexican procurement, not this project.",
+        "The paper assigns all contracts of sanctioned companies positive labels under a strong assumption; that rule is not adopted here.",
+        "SCAR selection of labelled positives is admitted rarely valid.",
+        "Reported minimum precision and relative gains are not Indian model calibration."
+      ],
+      "capturePath": "research/funding-investigations/methods-fetch.json",
+      "sha256": "6581302e9e2e1247af2a104b2595159ae4b1ea3acb696e8ca8848b37d7bdb3ab",
+      "captureType": "Exa extracted text and metadata, not byte-identical original document"
+    },
+    {
+      "id": "fi:methods:paper:tempasd-2025",
+      "title": "TempASD: Temporal Anomalous Subgraph Discovery in Large-Scale Dynamic Financial Networks",
+      "authors": [
+        "Xiaolin Han",
+        "Yikun Zhang",
+        "Chenhao Ma",
+        "Lingyun Song",
+        "Reynold Cheng",
+        "Xuequn Shang"
+      ],
+      "publishedAt": "2025-08-03",
+      "dateBasis": "KDD conference begins 3 August; paper publication day not independently fixed",
+      "url": "https://chenhao-ma.github.io/papers/KDD25tempASD.pdf",
+      "inspection": "Selected extracted Abstract, algorithm motivation and sections 5.1–5.2; fetch capped at 55,000 characters",
+      "finding": "Temporal subgraph anomaly discovery evaluated on Ethereum/NFT transaction datasets, with labelled PlusToken data and pseudo-label/reference-method limitations for others.",
+      "localDecision": "Keep transaction-time order and original units when bank/payment data ever exists. Do not run Benford anomaly scoring over mixed budgets, awards, grants and alleged transfers.",
+      "limits": [
+        "Blockchain transfer networks differ fundamentally from this documentary relation graph.",
+        "Higher abnormal degree is not proof of laundering.",
+        "Code link observed in paper; repository not installed or independently benchmarked."
+      ],
+      "capturePath": "research/funding-investigations/methods-fetch.json",
+      "sha256": "6581302e9e2e1247af2a104b2595159ae4b1ea3acb696e8ca8848b37d7bdb3ab",
+      "captureType": "Exa extracted text and metadata, not byte-identical original document"
+    },
+    {
+      "id": "fi:methods:standard:ocds",
+      "title": "Open Contracting Data Standard — Reference",
+      "publisher": "Open Contracting Partnership",
+      "url": "https://standard.open-contracting.org/latest/en/schema/reference/",
+      "inspection": "Selected extracted release, identifiers, implementation transactions and amendment sections; fetch capped at 55,000 characters",
+      "finding": "Transactions represent actual flow using payer/payee; award/contract values and versioned amendments remain distinct.",
+      "localDecision": "Retain tender/award/contract/transaction identifiers and version history; no summation across stages.",
+      "limits": [
+        "Our CONTRACT is a local evidence schema, not an assertion of OCDS conformance.",
+        "Current latest reference URL is mutable; extraction hash preserved."
+      ],
+      "capturePath": "research/funding-investigations/methods-fetch.json",
+      "sha256": "6581302e9e2e1247af2a104b2595159ae4b1ea3acb696e8ca8848b37d7bdb3ab",
+      "captureType": "Exa extracted text and metadata, not byte-identical original document"
+    },
+    {
+      "id": "fi:methods:guide:ocp-2024",
+      "title": "Red Flags in Public Procurement: A guide to using data to detect and mitigate risks",
+      "publisher": "Open Contracting Partnership",
+      "publishedAt": "2024-12-06",
+      "url": "https://www.open-contracting.org/resources/red-flags-in-public-procurement-a-guide-to-using-data-to-detect-and-mitigate-risks/",
+      "inspection": "Guide landing-page text inspected this round; selected full-PDF passages inspected in prior method-sources.json",
+      "finding": "Guide defines 73 flags from planning to implementation mapped to OCDS.",
+      "localDecision": "Choose indicators whose full data and denominator exist, rather than calling every missing record corrupt.",
+      "limits": [
+        "All 73 formulas were not newly executed or validated on India."
+      ],
+      "capturePath": "research/funding-investigations/methods-fetch.json",
+      "sha256": "6581302e9e2e1247af2a104b2595159ae4b1ea3acb696e8ca8848b37d7bdb3ab",
+      "captureType": "Exa extracted text and metadata, not byte-identical original document"
+    },
+    {
+      "id": "fi:methods:book:osborne-rubinstein-2023",
+      "title": "Models in Microeconomic Theory, Expanded Second Edition — chapter 16, Extensive games",
+      "authors": [
+        "Martin J. Osborne",
+        "Ariel Rubinstein"
+      ],
+      "publishedAt": "2023-05-30",
+      "dateBasis": "Chapter version date printed in inspected text",
+      "url": "https://books.openbookpublishers.com/10.11647/obp.0362.16.pdf",
+      "inspection": "Selected extracted introduction, section 16.1, definitions 16.1–16.6 and perfect-information limitation; author page separately checked; fetch capped at 18,000 characters",
+      "finding": "A game specifies players, feasible histories, authority to move, preferences and strategies. Perfect information is an explicit assumption.",
+      "localDecision": "Use actor/authority/constraints/known-information/feasible-options worksheets, preserving unknown private preferences. No numeric utility or equilibrium is estimated from outcome alone.",
+      "limits": [
+        "The institutional records do not provide complete actions, preferences or information sets.",
+        "No claim to have read the whole book.",
+        "Author/publisher lawful public access; CC BY-NC-ND 4.0; no claim to relicense the book."
+      ],
+      "capturePath": "research/funding-investigations/methods-game-theory.json",
+      "sha256": "64e2819b782d6f447ecc7eb2976017886009c8956a3157a3462eb0aadd4d300f",
+      "captureType": "Exa extracted text and metadata, not byte-identical original document"
+    }
+  ],
+  "accessLimits": [
+    "Data-quality skill shared reference could not be resolved through supplied skill URI; core skill and declared contract were used.",
+    "Paper search results outside inspected works remain discovery leads, not endorsed methods."
+  ]
+}

@@ -1,0 +1,1114 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head id="Head1"><title>
+	Press Release Page | Press Information Bureau
+</title><link href="css/style.css?v=1" rel="stylesheet" type="text/css" /><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><link rel="alternate stylesheet" href="css/change.css?v=1" media="screen" title="change" /><link rel="alternate stylesheet" href="css/green.css?v=1" media="screen" title="green" /><link rel="alternate stylesheet" href="css/yellow.css" media="screen" title="yellow" /><link rel="stylesheet" type="text/css" href="css/prtint.css" media="print" /><link rel="stylesheet" href="css/style3.1.css" type="text/css" /><link id="pibA11yCss" rel="stylesheet" href="/css/accessibility.css?v=7" type="text/css" />
+      <script type="text/javascript">
+        /* Stamps the saved theme on <html> before the page paints. The
+           switcher in js/accessibility.js settles the rest, but on inner
+           pages it does not run until the end of the body and inside the
+           release frame it is a separate download - either way the reader
+           would otherwise watch a light page turn dark in front of them. */
+        (function (d) {
+            var t = "";
+            try {
+                t = window.localStorage.getItem("pibStyle") || "";
+            } catch (e) {
+                t = "";
+            }
+            if (t === "orange") {
+                t = "yellow";
+            }
+            var c = t === "change" ? " pib-hc"
+                : t === "green" ? " pib-theme-green"
+                : t === "yellow" ? " pib-theme-yellow" : "";
+            d.documentElement.className += c + " pib-a11y-content";
+        }(document));
+      </script>
+
+
+      <script src="js/jquery.min.js" type="text/javascript"></script>
+      <script type="text/javascript" src="/js/accessibility.js?v=7"></script>
+
+      <script type="text/javascript">
+            $(document).ready(function () {
+                  function getParameterByName(name) {
+                        var url = window.location.href;
+                        name = name.replace(/[\[\]]/g, '\\$&');
+                        var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+                              results = regex.exec(url);
+                        if (!results) return null;
+                        if (!results[2]) return '';
+                        return decodeURIComponent(results[2].replace(/\+/g, ' '));
+                  }
+                  // Get the IDs from the current page's URL
+                  let prid = parseInt(getParameterByName('PRID'), 10);
+
+                  if (!isNaN(prid) && prid > 0) {
+                        $.ajax({
+                              type: "POST",
+                              url: "AjaxMethod.aspx/UpdatePRHitCount",
+                              async: false,
+                              data: JSON.stringify({ 'PermId': prid }),
+                              contentType: "application/json; charset=utf-8",
+                              dataType: "json",
+                              success: function (response) {
+                                    console.log(response);
+                              },
+                              error: function (error) {
+                                    console.log("Error in AJAX request", error);
+                              }
+                        });
+                  } else {
+                        console.log("Invalid parameters:", prid);
+                  }
+
+            });
+      </script>
+      <style type="text/css">
+            .table-responsive {
+                  width: 100%;
+                  overflow-x: auto;
+            }
+
+            .banner {
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  background-color: #000;
+                  color: #fff;
+                  padding: 20px;
+            }
+
+            full-width {
+                  width: 100%;
+            }
+
+            .logo-left, .logo-center, .countdown {
+                  display: flex;
+                  align-items: center;
+            }
+
+                  .logo-left img, .logo-center img {
+                        height: 70px;
+                  }
+
+            .countdown {
+                  text-align: center;
+                  background-color: var(--dbim-text, #150202);
+                  border-radius: 10px;
+                  padding: 10px;
+                  border: 2px solid grey;
+            }
+
+            .firstnumber {
+                  color: #000000;
+                  position: absolute;
+                  top: 50px;
+                  right: 90px;
+                  font-size: 30px;
+            }
+
+            .secondnumber {
+                  position: absolute;
+                  color: #000000;
+                  right: 45px;
+                  top: 50px;
+                  font-size: 30px;
+            }
+
+            .countdown .days {
+                  font-size: 35px;
+                  color: gold;
+            }
+
+            .countdown p {
+                  margin: 0;
+            }
+
+            .countdown .text {
+                  font-size: 16px;
+            }
+
+            a {
+                  word-break: break-all;
+            }
+
+            iframe, img {
+                  max-width: 100%;
+            }
+
+            @media(max-width:1199px) {
+                  .firstnumber {
+                        top: 40px;
+                        right: 72px;
+                        font-size: 30px;
+                  }
+
+                  .secondnumber {
+                        right: 35px;
+                        top: 40px;
+                        font-size: 30px;
+                  }
+            }
+
+            @media(max-width:990px) {
+                  .firstnumber {
+                        top: 25px;
+                        right: 54px;
+                        font-size: 30px;
+                  }
+
+                  .secondnumber {
+                        right: 25px;
+                        top: 25px;
+                        font-size: 30px;
+                  }
+            }
+
+            @media(max-width:768px) {
+                  .countdown, .days {
+                        font-size: 12px !important;
+                  }
+
+
+                  .firstnumber {
+                        top: 25%;
+                        right: 8%;
+                        font-size: 30px;
+                  }
+
+                  .secondnumber {
+                        right: 4.5%;
+                        top: 25%;
+                        font-size: 30px;
+                  }
+            }
+
+            @media(max-width:475px) {
+                  .countdown, .days {
+                        font-size: 10px !important;
+                        top: 20%;
+                  }
+
+                  .bannerimgdiv {
+                        padding: 0 !important;
+                  }
+
+                  .bannerimg {
+                        width: 108% !important;
+                  }
+            }
+      </style>
+      <script type="text/javascript">
+            $(function () {
+                  $("[id*=printPDF]").click(function () {
+                        $("[id*=hfGridHtml]").val($("#PdfDiv").html());
+                  });
+            });
+            $(function () {
+                  $("[id*=printPDFEvent]").click(function () {
+                        $("[id*=hfGridHtml]").val($("#PdfDiv").html());
+                  });
+            });
+      </script>
+
+      
+
+      <link id="pibConsentCss" href="/css/consent.css?v=8" rel="stylesheet" type="text/css" /><link id="pibFontsCss" href="/css/fonts-noto.css?v=6" rel="stylesheet" type="text/css" /><link id="pibDbimCss" href="/css/dbim.css?v=1120" rel="stylesheet" type="text/css" /><meta property="og:title" content="Civil Aviation Minister Shri Ram Mohan Naidu announces relief measures for domestic operations of Indian carriers" /><meta property="og:url" content="www.pib.gov.in/Pressreleaseshare.aspx?PRID=2250262" /><meta property="og:description" content="The unprecedented situation arising out of the ongoing West Asia crisis has posed significant challe" /><meta property="og:image" content="https:/pib.gov.in/images/indian-emblem.png" />
+                                <script>!function(e){var n="https://s.go-mpulse.net/boomerang/";if("False"=="True")e.BOOMR_config=e.BOOMR_config||{},e.BOOMR_config.PageParams=e.BOOMR_config.PageParams||{},e.BOOMR_config.PageParams.pci=!0,n="https://s2.go-mpulse.net/boomerang/";if(window.BOOMR_API_key="C4E7H-KSCMC-422L4-W3EM5-U36MF",function(){function e(){if(!i){var e=document.createElement("script");e.id="boomr-scr-as",e.src=window.BOOMR.url,e.async=!0,o.parentNode.appendChild(e),i=!0}}function t(e){i=!0;var n,t,a,r,d=document,O=window;if(window.BOOMR.snippetMethod=e?"if":"i",t=function(e,n){var t=d.createElement("script");t.id=n||"boomr-if-as",t.src=window.BOOMR.url,BOOMR_lstart=(new Date).getTime(),e=e||d.body,e.appendChild(t)},!window.addEventListener&&window.attachEvent&&navigator.userAgent.match(/MSIE [67]\./))return window.BOOMR.snippetMethod="s",void t(o.parentNode,"boomr-async");a=document.createElement("IFRAME"),a.src="about:blank",a.title="",a.role="presentation",a.loading="eager",r=(a.frameElement||a).style,r.width=0,r.height=0,r.border=0,r.display="none",o.parentNode.appendChild(a);try{O=a.contentWindow,d=O.document.open()}catch(_){n=document.domain,a.src="javascript:var d=document.open();d.domain='"+n+"';void(0);",O=a.contentWindow,d=O.document.open()}if(n)d._boomrl=function(){this.domain=n,t()},d.write("<bo"+"dy onload='document._boomrl();'>");else if(O._boomrl=function(){t()},O.addEventListener)O.addEventListener("load",O._boomrl,!1);else if(O.attachEvent)O.attachEvent("onload",O._boomrl);d.close()}function a(e){window.BOOMR_onload=e&&e.timeStamp||(new Date).getTime()}if(!window.BOOMR||!window.BOOMR.version&&!window.BOOMR.snippetExecuted){window.BOOMR=window.BOOMR||{},window.BOOMR.snippetStart=(new Date).getTime(),window.BOOMR.snippetExecuted=!0,window.BOOMR.snippetVersion=12,window.BOOMR.url=n+"C4E7H-KSCMC-422L4-W3EM5-U36MF";var o=document.currentScript||document.getElementsByTagName("script")[0],i=!1,r=document.createElement("link");if(r.relList&&"function"==typeof r.relList.supports&&r.relList.supports("preload")&&"as"in r)window.BOOMR.snippetMethod="p",r.href=window.BOOMR.url,r.rel="preload",r.as="script",r.addEventListener("load",e),r.addEventListener("error",function(){t(!0)}),setTimeout(function(){if(!i)t(!0)},3e3),BOOMR_lstart=(new Date).getTime(),o.parentNode.appendChild(r);else t(!1);if(window.addEventListener)window.addEventListener("load",a,!1);else if(window.attachEvent)window.attachEvent("onload",a)}}(),"".length>0)if(e&&"performance"in e&&e.performance&&"function"==typeof e.performance.setResourceTimingBufferSize)e.performance.setResourceTimingBufferSize();!function(){if(BOOMR=e.BOOMR||{},BOOMR.plugins=BOOMR.plugins||{},!BOOMR.plugins.AK){var n=""=="true"?1:0,t="",a="ljqllrax2fkey2wim5cq-f-d2a891762-clientnsv4-s.akamaihd.net",o="false"=="true"?2:1,i={"ak.v":"41","ak.cp":"1825201","ak.ai":parseInt("1215205",10),"ak.ol":"0","ak.cr":31,"ak.ipv":4,"ak.proto":"h2","ak.rid":"994601d","ak.r":46091,"ak.a2":n,"ak.m":"dscb","ak.n":"ff","ak.cport":48970,"ak.gh":"23.201.193.82","ak.quicv":"","ak.tlsv":"tls1.3","ak.0rtt":"","ak.0rtt.ed":"","ak.csrc":"-","ak.acc":"","ak.t":"1791518533","ak.ak":"hOBiQwZUYzCg5VSAfCLimQ==Bho4W5p+STbZtTyXZe59V+NIJwZdGNhqQpwCWWCiVk9u+zAGu8y7bqZ8UnpcGQJ7c0ZWsnIDHDcveaPtHXfyqFq9tIR1yLSGETRCtDilxsFkCLfruZ+wOhCeEm9xbpwa5A4zmFZip02Fq4hjhMnlPHO0n3JFVXWnaCpQqL0qwvR/x5W/awhzzqkwWYEI+qFjep5ApuTxCYuglNn2Me5CdCHxpame+axR9xUciUzEf8+LIiZ968h/NOnw0vcH0MpcNpQJuQ7BSe84mD/N/V4vKkVsCzUgg0WVR8TXTr382Eias+vUsltEmEGM+uclYC3wjSR2v4d1nlBMrYjvMoe2wcF8/RkdptTjg3b8iWMsNPpHFggxk6BcfwvBXa+Cd/V6W29CsQcckQk/p2/rNf0t6rQkHBNQQtSyRkWysk8QiCs=","ak.pv":"9","ak.dpoabenc":"","ak.tf":o};if(""!==t)i["ak.ruds"]=t;var r={i:!1,av:function(n){var t="http.initiator";if(n&&(!n[t]||"spa_hard"===n[t]))i["ak.feo"]=void 0!==e.aFeoApplied?1:0,BOOMR.addVar(i)},rv:function(){var e=["ak.cport","ak.cr","ak.csrc","ak.gh","ak.ipv","ak.m","ak.n","ak.ol","ak.proto","ak.quicv","ak.tlsv","ak.0rtt","ak.0rtt.ed","ak.r","ak.acc","ak.t","ak.tf"];BOOMR.removeVar(e)}};BOOMR.plugins.AK={akVars:i,akDNSPreFetchDomain:a,init:function(){if(!r.i){var e=BOOMR.subscribe;e("before_beacon",r.av,null,null),e("onbeacon",r.rv,null,null),r.i=!0}return this},is_complete:function(){return!0}}}}()}(window);</script></head>
+<body>
+    
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"
+     style="position:absolute;width:0;height:0;overflow:hidden" id="dbim-icon-sprite">
+    <defs>
+        <symbol id="icon-angle-double-left" viewBox="0 0 24 24"><path d="M11.6 4.6 4.2 12l7.4 7.4 2.2-2.2L8.6 12l5.2-5.2z"/><path d="M19 4.6 11.6 12 19 19.4l2.2-2.2L16 12l5.2-5.2z"/></symbol>
+        <symbol id="icon-angle-double-right" viewBox="0 0 24 24"><path d="M12.4 4.6 10.2 6.8 15.4 12l-5.2 5.2 2.2 2.2L19.8 12z"/><path d="M5 4.6 2.8 6.8 8 12l-5.2 5.2L5 19.4 12.4 12z"/></symbol>
+        <symbol id="icon-arrow-left" viewBox="0 0 24 24"><path d="M20.8 10.6H9.6v2.8h11.2z"/><path d="M10.8 5.6 3.2 12l7.6 6.4z"/></symbol>
+        <symbol id="icon-arrow-right" viewBox="0 0 24 24"><path d="M3.2 10.6h11.2v2.8H3.2z"/><path d="M13.2 5.6 20.8 12l-7.6 6.4z"/></symbol>
+        <symbol id="icon-blogger" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M6.4 2.4h11.2a4 4 0 0 1 4 4v11.2a4 4 0 0 1-4 4H6.4a4 4 0 0 1-4-4V6.4a4 4 0 0 1 4-4zm2.8 5.2a2 2 0 0 0 0 4h2.4a2 2 0 0 0 0-4zm0 5.6a2 2 0 0 0 0 4h5.6a2 2 0 0 0 0-4z"/></symbol>
+        <symbol id="icon-calendar" viewBox="0 0 24 24"><path d="M7.6 2.4H10v2.4H7.6z"/><path d="M14 2.4h2.4v2.4H14z"/><path fill-rule="evenodd" d="M4 4.8h16a1.6 1.6 0 0 1 1.6 1.6v13.2a1.6 1.6 0 0 1-1.6 1.6H4a1.6 1.6 0 0 1-1.6-1.6V6.4A1.6 1.6 0 0 1 4 4.8zm.4 5.6v8.4h15.2v-8.4z"/><path d="M6.4 12.4h3.2v3.2H6.4z"/></symbol>
+        <symbol id="icon-chevron-left" viewBox="0 0 24 24"><path d="M15.4 4.6 8 12l7.4 7.4 2.2-2.2L12.4 12l5.2-5.2z"/></symbol>
+        <symbol id="icon-chevron-right" viewBox="0 0 24 24"><path d="M8.6 4.6 6.4 6.8 11.6 12l-5.2 5.2 2.2 2.2L16 12z"/></symbol>
+        <symbol id="icon-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/></symbol>
+        <symbol id="icon-download" viewBox="0 0 24 24"><path d="M10.8 3h2.4v7.6h3.4L12 16.6l-4.6-6h3.4z"/><path d="M4 17.2h2.4v2.4h11.2v-2.4H20v3.2a1.4 1.4 0 0 1-1.4 1.4H5.4A1.4 1.4 0 0 1 4 20.4z"/></symbol>
+        <symbol id="icon-facebook" viewBox="0 0 24 24"><path d="M13.6 21.6v-8.4h2.8l.42-3.3h-3.22V7.8c0-.95.27-1.6 1.64-1.6h1.74V3.26a23 23 0 0 0-2.54-.13c-2.5 0-4.22 1.53-4.22 4.34v2.43H7.4v3.3h2.82v8.4z"/></symbol>
+        <symbol id="icon-fact-check" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2.4 3.6 5.6v6.2c0 4.6 3.4 8.6 8.4 9.8 5-1.2 8.4-5.2 8.4-9.8V5.6zm-1 13.2-3.6-3.6 1.7-1.7 1.9 1.9 4.5-4.5 1.7 1.7z"/></symbol>
+        <symbol id="icon-hashtag" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M8.8 3h2.4l-1 6h3.2l1-6h2.4l-1 6h3.4v2.4h-3.8l-.6 3.2h3.6V17h-4l-1 5h-2.4l1-5h-3.2l-1 5H5.4l1-5H3V14.6h3.8l.6-3.2H3.8V9h4zm.6 8.4-.6 3.2h3.2l.6-3.2z"/></symbol>
+        <symbol id="icon-home" viewBox="0 0 24 24"><path d="M12 3.4 2.8 11.6h2.4v8.4a1 1 0 0 0 1 1h3.3v-5.4h5v5.4h3.3a1 1 0 0 0 1-1v-8.4h2.4z"/></symbol>
+        <symbol id="icon-instagram" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M7.6 2.4h8.8a5.2 5.2 0 0 1 5.2 5.2v8.8a5.2 5.2 0 0 1-5.2 5.2H7.6a5.2 5.2 0 0 1-5.2-5.2V7.6a5.2 5.2 0 0 1 5.2-5.2zm0 2.4a2.8 2.8 0 0 0-2.8 2.8v8.8a2.8 2.8 0 0 0 2.8 2.8h8.8a2.8 2.8 0 0 0 2.8-2.8V7.6a2.8 2.8 0 0 0-2.8-2.8z"/><path fill-rule="evenodd" d="M12 6.8a5.2 5.2 0 1 0 0 10.4 5.2 5.2 0 0 0 0-10.4zm0 2.4a2.8 2.8 0 1 1 0 5.6 2.8 2.8 0 0 1 0-5.6z"/><circle cx="17.3" cy="6.7" r="1.3"/></symbol>
+        <symbol id="icon-linkedin" viewBox="0 0 24 24"><path d="M4.8 8.8h3.6v12H4.8z"/><circle cx="6.6" cy="5.4" r="2.1"/><path d="M10.8 8.8h3.45v1.65h.05c.48-.9 1.65-1.85 3.4-1.85 3.63 0 4.3 2.35 4.3 5.4v6.6h-3.6v-5.85c0-1.4-.03-3.2-1.95-3.2-1.95 0-2.25 1.52-2.25 3.1v5.95h-3.6z"/></symbol>
+        <symbol id="icon-mail" viewBox="0 0 24 24"><path d="M2.4 7.6v9.2a1.6 1.6 0 0 0 1.6 1.6h16a1.6 1.6 0 0 0 1.6-1.6V7.6L12 14z"/><path d="M21.2 5.4H2.8L12 11.8z"/></symbol>
+        <symbol id="icon-mail-open" viewBox="0 0 24 24"><path d="M2.4 9.8h19.2v9.6A1.6 1.6 0 0 1 20 21H4a1.6 1.6 0 0 1-1.6-1.6z"/><path d="M12 2.6 21.6 9.2h-3.8L12 5.3 6.2 9.2H2.4z"/><path d="m3.9 11.2 8.1 5.4 8.1-5.4 1.5 1.3-9.6 6.4-9.6-6.4z"/></symbol>
+        <symbol id="icon-map-marker" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2.4a7 7 0 0 0-7 7c0 5.2 7 12.2 7 12.2s7-7 7-12.2a7 7 0 0 0-7-7zm0 9.6a2.6 2.6 0 1 1 0-5.2 2.6 2.6 0 0 1 0 5.2z"/></symbol>
+        <symbol id="icon-newspaper" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M2.8 4.4h14.8v15.2H2.8zm2 2v11.2h10.8V6.4z"/><path d="M6 7.6h8.4v1.6H6z"/><path d="M6 10.8h8.4v1.6H6z"/><path d="M6 14h5.2v1.6H6z"/><path d="M18.4 8.4h2.8v9.6a1.4 1.4 0 0 1-2.8 0z"/></symbol>
+        <symbol id="icon-pause" viewBox="0 0 24 24"><rect x="7.4" y="4" width="3.6" height="16" rx="0.9"/><rect x="13" y="4" width="3.6" height="16" rx="0.9"/></symbol>
+    <symbol id="icon-play" viewBox="0 0 24 24"><path d="M8 4.5v15l12-7.5z"/></symbol>
+        <symbol id="icon-picture" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M2.4 5.2h19.2v13.6H2.4zm2 2v9.6h15.2V7.2z"/><path d="M5.6 16.4 10 11l2.6 3 2-2.2 4 4.6z"/><circle cx="8" cy="10.4" r="1.5"/></symbol>
+        <symbol id="icon-press-conference" viewBox="0 0 24 24"><circle cx="12" cy="5.2" r="2.6"/><path d="M7.6 12.2a4.4 4.4 0 0 1 8.8 0z"/><circle cx="4.9" cy="9.6" r="2.2"/><path d="M1.8 15.2a3.1 3.1 0 0 1 6.2 0z"/><circle cx="19.1" cy="9.6" r="2.2"/><path d="M16 15.2a3.1 3.1 0 0 1 6.2 0z"/><path d="M6.6 13.6h10.8l2.2 7.8H4.4z"/></symbol>
+        <symbol id="icon-print" viewBox="0 0 24 24"><path d="M6.4 2.8h11.2v4.4H6.4z"/><path d="M4 8.4h16a1.6 1.6 0 0 1 1.6 1.6v5.6a1.6 1.6 0 0 1-1.6 1.6h-1.6v-2.8H6v2.8H4a1.6 1.6 0 0 1-1.6-1.6V10A1.6 1.6 0 0 1 4 8.4z"/><path d="M7.2 15.6h9.6v5.6H7.2z"/></symbol>
+        <symbol id="icon-rss" viewBox="0 0 24 24"><circle cx="4.8" cy="19.2" r="2.4"/><path d="M2.4 11.2v3.2a6.4 6.4 0 0 1 6.4 6.4H12A9.6 9.6 0 0 0 2.4 11.2z"/><path d="M2.4 4.8V8A13.6 13.6 0 0 1 16 21.6h3.2A16.8 16.8 0 0 0 2.4 4.8z"/></symbol>
+        <symbol id="icon-search-plus" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M10 2.8a7.2 7.2 0 1 0 0 14.4 7.2 7.2 0 0 0 0-14.4zm0 2.4a4.8 4.8 0 1 1 0 9.6 4.8 4.8 0 0 1 0-9.6z"/><path d="M15.3 14.6 21.2 20.5l-1.5 1.5-5.9-5.9z"/><path d="M9.2 6.8h1.6v2.4h2.4v1.6h-2.4v2.4H9.2v-2.4H6.8V9.2h2.4z"/></symbol>
+        <symbol id="icon-share" viewBox="0 0 24 24"><circle cx="18" cy="5.6" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="18.4" r="3"/><path d="M8.3 10.9 15.7 7.2l.9 1.8-7.4 3.7z"/><path d="M9.2 13.1 16.6 16.8l-.9 1.8-7.4-3.7z"/></symbol>
+        <symbol id="icon-twitter" viewBox="0 0 24 24"><path d="M4.2 3h4.3l11.3 18h-4.3z"/><path d="M19.3 3h-2.6L4.2 21h2.6z"/></symbol>
+        <symbol id="icon-university" viewBox="0 0 24 24"><path d="M12 2.4 21.6 7.2v1.6H2.4V7.2z"/><path d="M4.8 10.4h2.4v8H4.8z"/><path d="M9.2 10.4h2.4v8H9.2z"/><path d="M13.4 10.4h2.4v8h-2.4z"/><path d="M17.6 10.4H20v8h-2.4z"/><path d="M3.2 19.8h17.6v1.8H3.2z"/></symbol>
+        <symbol id="icon-volume-up" viewBox="0 0 24 24"><path d="M3.2 9.2h3.3l5-4.2v14l-5-4.2H3.2z"/><path d="M14.6 8.4a5 5 0 0 1 0 7.2l1.6 1.6a7.2 7.2 0 0 0 0-10.4z"/><path d="M17.4 5.6a8.8 8.8 0 0 1 0 12.8l1.5 1.5a10.9 10.9 0 0 0 0-15.8z"/></symbol>
+        <symbol id="icon-whatsapp" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2.4a9.5 9.5 0 0 0-8.1 14.5L2.4 21.6l4.8-1.4A9.5 9.5 0 1 0 12 2.4zm0 2.2a7.3 7.3 0 1 1-3.8 13.5l-.4-.2-2.6.7.7-2.5-.3-.4A7.3 7.3 0 0 1 12 4.6z"/><path d="M9.4 7.8c-.2-.5-.4-.5-.6-.5h-.5a1 1 0 0 0-.7.3c-.3.3-.9.9-.9 2.1s.9 2.4 1 2.6c.1.2 1.7 2.8 4.3 3.8 2.1.8 2.6.7 3 .6.5 0 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2l-.5-.3-1.6-.8c-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6 6 0 0 1-1.8-1.1 6.6 6.6 0 0 1-1.2-1.6c-.1-.2 0-.4.1-.5l.4-.5.3-.5v-.5z"/></symbol>
+        <symbol id="icon-youtube" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M21.6 7.2a2.8 2.8 0 0 0-2-2C17.9 4.8 12 4.8 12 4.8s-5.9 0-7.6.4a2.8 2.8 0 0 0-2 2A29 29 0 0 0 2 12a29 29 0 0 0 .4 4.8 2.8 2.8 0 0 0 2 2c1.7.4 7.6.4 7.6.4s5.9 0 7.6-.4a2.8 2.8 0 0 0 2-2A29 29 0 0 0 22 12a29 29 0 0 0-.4-4.8zM10.2 15.1V8.9l5.1 3.1z"/></symbol>
+    </defs>
+</svg>
+
+      <form method="post" action="./PressReleasePage.aspx?PRID=2250262&amp;lang=1&amp;reg=3" id="form1">
+<div class="aspNetHidden">
+<input type="hidden" name="sc_HiddenField" id="sc_HiddenField" value="" />
+<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
+<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="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" />
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+var theForm = document.forms['form1'];
+if (!theForm) {
+    theForm = document.form1;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</script>
+
+
+<script src="/WebResource.axd?d=pynGkmcFUV13He1Qd6_TZPQet1wIx1Q48y3xJY2k25Y7qxH5RrQ9qQcN-OiTC9guZtri9w2&amp;t=639246315009809930" type="text/javascript"></script>
+
+
+<script src="/ScriptResource.axd?d=x6wALODbMJK5e0eRC_p1LdIxBJXt0U_WW5GWfJqHAqo6frgCmGRfEywglicTersO2OKrFhK1gAIp0Wk2al2YrpdR3uWqH6f4nfjBsCyRUfTUUVmb0&amp;t=ffffffffecf8d3f2" type="text/javascript"></script>
+<script src="/ScriptResource.axd?d=P5lTttoqSeZXoYRLQMIScH645UK3RD852IErF2548Wz9Ssv0rLjB4fhVKnHcMpqkaMHpNAGOeWY02Lf4aBYN9-dVBme_SNK5KJwmFQNpMixYDZ7M0&amp;t=ffffffffecf8d3f2" type="text/javascript"></script>
+<script src="/PressReleasePage.aspx?_TSM_HiddenField_=sc_HiddenField&amp;_TSM_CombinedScripts_=%3b%3bAjaxControlToolkit%2c+Version%3d3.5.7.123%2c+Culture%3dneutral%2c+PublicKeyToken%3d28f01b0e84b6d53e%3aen-US%3a5a4df314-b4a2-4da2-a207-9284f1b1e96c%3ade1feab2%3af2c8e708%3a8613aea7%3af9cec9bc%3a3202a5a2%3aab09e3fe%3a87104b7c%3a720a52bf%3a589eaa30%3aa67c2700%3abe6fb298" type="text/javascript"></script>
+<div class="aspNetHidden">
+
+	<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="59B53027" />
+	<input type="hidden" name="__VIEWSTATEENCRYPTED" id="__VIEWSTATEENCRYPTED" value="" />
+	<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="OZTmj24qfxA6FsuY/B7FFwwB0R66Uj1Zh/uoq3TmAgVDWCfIDAwEvkhiPeYR4DfTGxZnLEZMon8KmqPhI+MfuCblFvx+S2e9gRrCtSd3mGCTffGytTHn3jiMjKF0B1PjvkTm00WMWcE2k+XusQzaDIySHxZQIK3tRs0+G0TyOTswgSbl885vSQ6pSVqV2+gP9hCr2fhfAf1uw6VlNALFYUjAe5/JkRITlkROFbSvt6QK60pHgxClECYYhwZNcauBp0VG90Lv84i03aPROLmUsMrfdX4=" />
+</div>
+                              
+            <div id="templateCss"></div>
+            <script type="text/javascript">
+//<![CDATA[
+Sys.WebForms.PageRequestManager._initialize('sc', 'form1', ['tupdate12','update12'], [], [], 90, '');
+//]]>
+</script>
+
+            <input type="hidden" name="hfGridHtml" id="hfGridHtml" />
+            <div class="container" style='margin-bottom: 50px;'>
+                  <div id="accessories">
+
+                        
+                        <div class="pull-right" style="display: flex">
+                              <div id="voll"></div>
+                              <div id="vollDT"></div>
+                              
+                              
+
+<span class="print-icons">
+<input type="image" name="Print1$print" id="Print1_print" aria-label="Print" src="images/printer_icon.png" alt="print page button" style="padding: 5px 10px 5px 10px;" />
+</span>
+                        </div>
+                  </div>
+                  <input type="hidden" name="hydpermid" id="hydpermid" value="2250262" />
+                  
+
+
+
+                  <div class="innner-page-main-about-us-content-right-part">
+
+                        <div id="MinistryName" class="MinistryNameSubhead text-center">
+                              Ministry of Civil Aviation
+                        </div>
+                        
+                        <div id="lg_g"><div class='log_oo'>  <img src='https://static.pib.gov.in/WriteReadData/specificdocs/photo/2026/sep/ph_9768_20260902_10000501.png' alt='azadi ka amrit mahotsav' /> </div></div>
+
+
+
+
+
+                        <div class="text-center event-heading-background">
+                              
+                              <h1 id="Titleh2">
+                                    Civil Aviation Minister Shri Ram Mohan Naidu announces relief measures for domestic operations of Indian carriers
+                              </h1>
+                              <h3 id="Subtitleh3">
+                                    <span id="ltrSubtitle"><br/>25% cut in landing &amp; parking charges amid global disruptions</span>
+                              </h3>
+                        </div>
+
+                        <div id="PrDateTime" class="ReleaseDateSubHeaddateTime text-center pt20">
+                              Posted On:
+                08 APR 2026 8:16PM by PIB Delhi
+                        </div>
+                        
+                        <div class='pt20'>
+                        </div>
+                        <input type="hidden" name="hydphotoUrl" id="hydphotoUrl" />
+                        
+                        <p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">The unprecedented situation arising out of the ongoing West Asia crisis has posed significant challenges to global aviation operations, including Indian carriers. However, the Indian domestic aviation sector continues to remain resilient and robust, supported by timely and calibrated interventions by the Government.</span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">The Ministry of Civil Aviation, while closely monitoring the evolving situation, has undertaken a series of measures to provide relief to domestic carriers. Earlier, the Government had announced the passing of only a partial ATF price hike, capping the increase for domestic airlines at 25% only for domestic operations. Whereas, globally the sharp spike in crude prices has led to a disproportionate rise in Aviation Turbine Fuel (ATF) prices.</span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">This step was aimed at enabling carriers to manage operational costs while ensuring that the benefits of affordable air travel continue to reach passengers. Now, as part of a multi-layered response to these unprecedented challenges, the Ministry has taken another significant decision to reduce landing and parking charges for domestic carriers by 25% for a period of three months.</span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Speaking about the announcement, Minister of Civil Aviation, Shri Ram Mohan Naidu, expressed, &ldquo;Under the leadership of Prime Minister Shri Narendra Modi, the primary focus of the Government in the aviation sector has been to make flying a more affordable and convenient travel option for passengers. Even in the prevailing challenging situation, when global air operations are impacted, we have ensured that cancellations and rising fuel costs do not severely affect the operations of our domestic carriers. While ATF costs globally have risen by more than 100%, we have passed on only a moderated increase capped at 25%.&rdquo;</span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Talking further about the interventions, Minister said &ldquo;Now, with the ultimate aim of supporting airlines and, in turn, passengers, airfare increases are being further contained by reducing landing and parking charges levied by airport operators. This step is part of the Ministry&rsquo;s overall effort to keep the aviation sector stable during this volatile period and to ensure ease of flying for passengers. This is a significant intervention to provide relief to airlines grappling with increasing operational costs. We are in constant touch with all stakeholders, including airlines, airport operators, and the Airports Economic Regulatory Authority of India (AERA), in this regard.&rdquo;</span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">The Ministry has issued directions to the AERA to reduce landing and parking charges by 25% from the prevailing tariff at all major airports under its purview. This reduction has been brought into immediate effect for all domestic flights and will remain applicable for a period of three months. The AERA has issued an order to this effect, stating that any under-recovery by individual airports shall be adjusted during tariff determination in the next control period of five years.</span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Similarly, the Airports Authority of India (AAI) has also been directed to reduce landing and parking charges at all its non-major airports by 25% of the approved rate. This reduction for all domestic flights will also remain applicable for a period of three months.</span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">These measures are expected to reduce landing and parking charges payable by airlines at major airports during the three-month period by approximately ₹400 crore. The Ministry of Civil Aviation is keeping a close watch on the evolving situation, and further necessary measures will be taken to ensure the viability of air operations, as well as safe and affordable air travel for passengers.</span></span></p>
+
+<p style="text-align:center"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">****</span></span></p>
+
+<p><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><strong>Divyanshu Kumar</strong></span></span></p>
+
+
+                        
+                        <div id="reel_pic">
+                        </div>
+
+
+
+                        
+                        <br />
+                        <span id="ReleaseId">(Release ID: 2250262)</span>
+                        <span id="lblViews">Visitor Counter : 2048</span>
+                        <div>
+                              
+                        </div>
+                        
+
+                        <span id="lblRefPhoto"></span>
+
+                        <div class="BackgroundRelease">
+                              
+                        </div>
+                        <div>
+                              
+                        </div>
+                        <div class="ReleaseLang">Read this release in: 
+                        
+                                    
+                                    <a href='https://pib.gov.in/PressReleasePage.aspx?PRID=2250279' target="_blank">
+                                          Urdu </a>
+                              
+                                    ,
+                              
+                                    
+                                    <a href='https://pib.gov.in/PressReleasePage.aspx?PRID=2250322' target="_blank">
+                                          हिन्दी </a>
+                              
+                                    ,
+                              
+                                    
+                                    <a href='https://pib.gov.in/PressReleasePage.aspx?PRID=2250305' target="_blank">
+                                          Marathi </a>
+                              
+                                    ,
+                              
+                                    
+                                    <a href='https://pib.gov.in/PressReleasePage.aspx?PRID=2250277' target="_blank">
+                                          Gujarati </a>
+                              
+                                    ,
+                              
+                                    
+                                    <a href='https://pib.gov.in/PressReleasePage.aspx?PRID=2250358' target="_blank">
+                                          Telugu </a>
+                              
+                        </div>
+
+                        <div class="RelTag">
+                              <ul>
+                                    
+                              </ul>
+                        </div>
+                        <div class="clear">
+                        </div>
+                        
+                        <div class="pr-share pr-share--footer" role="group" aria-label="Share this press release">
+                              <span class="pr-share__label" aria-hidden="true">Share</span>
+                              <ul class="pr-share__list">
+                                    <li><a class="pr-share__btn pr-share__btn--facebook"
+                                           href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fpib.gov.in%2fPressReleasePage.aspx%3fPRID%3d2250262"
+                                           target="_blank" rel="noopener noreferrer"
+                                           aria-label="Share on Facebook">
+                                        <svg class="dbim-icon dbim-icon-24" width="24" height="24" fill="currentColor" aria-hidden="true" focusable="false"><use href="#icon-facebook" xlink:href="#icon-facebook"></use></svg>
+                                    </a></li>
+                                    <li><a class="pr-share__btn pr-share__btn--twitter"
+                                           href="https://twitter.com/intent/tweet?url=https%3a%2f%2fpib.gov.in%2fPressReleasePage.aspx%3fPRID%3d2250262"
+                                           target="_blank" rel="noopener noreferrer"
+                                           aria-label="Share on X">
+                                        <svg class="dbim-icon dbim-icon-24" width="24" height="24" fill="currentColor" aria-hidden="true" focusable="false"><use href="#icon-twitter" xlink:href="#icon-twitter"></use></svg>
+                                    </a></li>
+                                    <li><a class="pr-share__btn pr-share__btn--whatsapp"
+                                           href="https://api.whatsapp.com/send?text=https%3a%2f%2fpib.gov.in%2fPressReleasePage.aspx%3fPRID%3d2250262"
+                                           target="_blank" rel="noopener noreferrer"
+                                           aria-label="Share on WhatsApp">
+                                        <svg class="dbim-icon dbim-icon-24" width="24" height="24" fill="currentColor" aria-hidden="true" focusable="false"><use href="#icon-whatsapp" xlink:href="#icon-whatsapp"></use></svg>
+                                    </a></li>
+                                    <li><a class="pr-share__btn pr-share__btn--linkedin"
+                                           href="https://www.linkedin.com/sharing/share-offsite/?url=https%3a%2f%2fpib.gov.in%2fPressReleasePage.aspx%3fPRID%3d2250262"
+                                           target="_blank" rel="noopener noreferrer"
+                                           aria-label="Share on LinkedIn">
+                                        <svg class="dbim-icon dbim-icon-24" width="24" height="24" fill="currentColor" aria-hidden="true" focusable="false"><use href="#icon-linkedin" xlink:href="#icon-linkedin"></use></svg>
+                                    </a></li>
+                                    <li><a class="pr-share__btn pr-share__btn--mail"
+                                           href="mailto:?subject=Press+release+from+PIB&amp;body=https%3a%2f%2fpib.gov.in%2fPressReleasePage.aspx%3fPRID%3d2250262"
+                                           aria-label="Share by email">
+                                        <svg class="dbim-icon dbim-icon-24" width="24" height="24" fill="currentColor" aria-hidden="true" focusable="false"><use href="#icon-mail" xlink:href="#icon-mail"></use></svg>
+                                    </a></li>
+                              </ul>
+                        </div>
+                        <div id="RelLink" class="RelLink">
+                              <ul>
+                                    
+                                    
+                              </ul>
+                        </div>
+                        <center>
+                              
+                        </center>
+                  </div>
+
+                  <div id="update12">
+	
+                              
+                              <input type="hidden" name="Hidden" id="Hidden" />
+                              <div id="P_CategoryManagement" class="ModalWindow" style="border-width:0px;height:60%;width:60%;overflow:auto;display: none">
+		
+                                    <div>
+                                          <input type="image" name="btnClose" id="btnClose" src="images/close_flat_icon.png" />
+                                    </div>
+                                    <div id="description">
+                                    </div>
+                                    <div class="text-center">
+                                          <h2>
+                                                
+                                                <br>
+                                                
+                                          </h2>
+                                    </div>
+                                    <br />
+                                    <div class="clear">
+                                    </div>
+                                    
+                              
+	</div>
+                        
+</div>
+            </div>
+            
+            <div id="PdfDiv" style="display: none;">
+                  <table width="100%">
+                        <tr>
+                              <td style="font-weight: 200; text-align: center">
+                                    Ministry of Civil Aviation
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                                    <div style="font-weight: 200; text-align: center; font-size: 30px;">
+                                          Civil Aviation Minister Shri Ram Mohan Naidu announces relief measures for domestic operations of Indian carriers
+                                    </div>
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                                    <div style="font-weight: 200; text-align: center; font-size: 30px;">
+                                          <div style='height:30px;width:100%;'></div>25% cut in landing &amp; parking charges amid global disruptions
+                                    </div>
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                                    <div style="text-align: center; font-size: 14px;">
+                                          Posted On:
+                        08 APR 2026 8:16PM by PIB Delhi
+                                    </div>
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                                    <div style="font-weight: 200; text-align: left; font-size: 16px;">
+                                          <p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">The unprecedented situation arising out of the ongoing West Asia crisis has posed significant challenges to global aviation operations, including Indian carriers. However, the Indian domestic aviation sector continues to remain resilient and robust, supported by timely and calibrated interventions by the Government.</span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">The Ministry of Civil Aviation, while closely monitoring the evolving situation, has undertaken a series of measures to provide relief to domestic carriers. Earlier, the Government had announced the passing of only a partial ATF price hike, capping the increase for domestic airlines at 25% only for domestic operations. Whereas, globally the sharp spike in crude prices has led to a disproportionate rise in Aviation Turbine Fuel (ATF) prices.</span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">This step was aimed at enabling carriers to manage operational costs while ensuring that the benefits of affordable air travel continue to reach passengers. Now, as part of a multi-layered response to these unprecedented challenges, the Ministry has taken another significant decision to reduce landing and parking charges for domestic carriers by 25% for a period of three months.</span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Speaking about the announcement, Minister of Civil Aviation, Shri Ram Mohan Naidu, expressed, &ldquo;Under the leadership of Prime Minister Shri Narendra Modi, the primary focus of the Government in the aviation sector has been to make flying a more affordable and convenient travel option for passengers. Even in the prevailing challenging situation, when global air operations are impacted, we have ensured that cancellations and rising fuel costs do not severely affect the operations of our domestic carriers. While ATF costs globally have risen by more than 100%, we have passed on only a moderated increase capped at 25%.&rdquo;</span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Talking further about the interventions, Minister said &ldquo;Now, with the ultimate aim of supporting airlines and, in turn, passengers, airfare increases are being further contained by reducing landing and parking charges levied by airport operators. This step is part of the Ministry&rsquo;s overall effort to keep the aviation sector stable during this volatile period and to ensure ease of flying for passengers. This is a significant intervention to provide relief to airlines grappling with increasing operational costs. We are in constant touch with all stakeholders, including airlines, airport operators, and the Airports Economic Regulatory Authority of India (AERA), in this regard.&rdquo;</span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">The Ministry has issued directions to the AERA to reduce landing and parking charges by 25% from the prevailing tariff at all major airports under its purview. This reduction has been brought into immediate effect for all domestic flights and will remain applicable for a period of three months. The AERA has issued an order to this effect, stating that any under-recovery by individual airports shall be adjusted during tariff determination in the next control period of five years.</span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Similarly, the Airports Authority of India (AAI) has also been directed to reduce landing and parking charges at all its non-major airports by 25% of the approved rate. This reduction for all domestic flights will also remain applicable for a period of three months.</span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">These measures are expected to reduce landing and parking charges payable by airlines at major airports during the three-month period by approximately ₹400 crore. The Ministry of Civil Aviation is keeping a close watch on the evolving situation, and further necessary measures will be taken to ensure the viability of air operations, as well as safe and affordable air travel for passengers.</span></span></p>
+
+<p style="text-align:center"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">****</span></span></p>
+
+<p><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><strong>Divyanshu Kumar</strong></span></span></p>
+
+                                    </div>
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                                    <div style="font-weight: 100; text-align: left; font-size: 16px;">
+                                          (Release ID: 2250262)
+                                    </div>
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                              </td>
+                        </tr>
+                        <tr>
+                              <td style="font-weight: 200; text-align: center; font-size: 24px;"></td>
+                        </tr>
+                  </table>
+            </div>
+            <div class="clearfix">
+            </div>
+
+            
+
+            <div class="section1">
+                  <div id="frst_t">
+                        <div id="arr_rm"><div class='sticky-social_mb'><ul class='social_mb'><a href='http://www.facebook.com/share.php?u=https://pib.gov.in/PressReleasePage.aspx?PRID=2250262' target='_blank'><li class='fb_b'   ></li></a><a href='https://twitter.com/intent/tweet?url=https://pib.gov.in/PressReleasePage.aspx?PRID=2250262&text=Civil Aviation Minister Shri Ram Mohan Naidu announces relief measures for domestic operations of Indian carriers' target='_blank'><li class='twitter_r'  > </li></a><a href='https://api.whatsapp.com/send?text=https://pib.gov.in/PressReleasePage.aspx?PRID=2250262' target='_blank'><li class='whatsapp_r'  ></li></a><a href='https://mail.google.com/mail/?view=cm&fs=1&tf=1&to=&su=Civil Aviation Minister Shri Ram Mohan Naidu announces relief measures for domestic operations of Indian carriers&body=https://pib.gov.in/PressReleasePage.aspx?PRID=2250262&ui=2&tf=1&pli=1' title='Share by Email' target='_blank'><li class='fa-envelope_r' ></li></a><a href='https://www.linkedin.com/shareArticle?mini=true&url=https://pib.gov.in/PressReleasePage.aspx?PRID=2250262&title=Civil Aviation Minister Shri Ram Mohan Naidu announces relief measures for domestic operations of Indian carriers&summary=My%20favorite%20developer%20program&source=LinkedIn' target='_blank'><li class='fa-linkedin_r'  ></li></a></ul></div></div>
+                  </div>
+                  <div id="second_t">
+                        <div id="sndr_rm"><div class='sticky-social'><ul class='social'><a href='http://www.facebook.com/share.php?u=https://pib.gov.in/PressReleasePage.aspx?PRID=2250262' target='_blank'><li class='fb_b'   ></li></a><a href='https://twitter.com/intent/tweet?url=https://pib.gov.in/PressReleasePage.aspx?PRID=2250262&text=Civil Aviation Minister Shri Ram Mohan Naidu announces relief measures for domestic operations of Indian carriers' target='_blank'><li class='twitter_r'  > </li></a><a href='https://api.whatsapp.com/send?text=https://pib.gov.in/PressReleasePage.aspx?PRID=2250262' target='_blank'><li class='whatsapp_r'  ></li></a><a href='https://mail.google.com/mail/?view=cm&fs=1&tf=1&to=&su=Civil Aviation Minister Shri Ram Mohan Naidu announces relief measures for domestic operations of Indian carriers&body=https://pib.gov.in/PressReleasePage.aspx?PRID=2250262&ui=2&tf=1&pli=1' title='Share by Email' target='_blank'><li class='fa-envelope_r' ></li></a><a href='https://www.linkedin.com/shareArticle?mini=true&url=https://pib.gov.in/PressReleasePage.aspx?PRID=2250262&title=Civil Aviation Minister Shri Ram Mohan Naidu announces relief measures for domestic operations of Indian carriers&summary=My%20favorite%20developer%20program&source=LinkedIn' target='_blank'><li class='fa-linkedin_r'  ></li></a></ul></div></div>
+                  </div>
+            </div>
+            <input type="hidden" name="ltrTitlee" id="ltrTitlee" value="Civil Aviation Minister Shri Ram Mohan Naidu announces relief measures for domestic operations of Indian carriers" />
+            <input type="hidden" name="ltrSubtitlee" id="ltrSubtitlee" value="&lt;br/>25% cut in landing &amp;amp; parking charges amid global disruptions" />
+            <input type="hidden" name="ltrDescriptionn" id="ltrDescriptionn" value="&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>The unprecedented situation arising out of the ongoing West Asia crisis has posed significant challenges to global aviation operations, including Indian carriers. However, the Indian domestic aviation sector continues to remain resilient and robust, supported by timely and calibrated interventions by the Government.&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>The Ministry of Civil Aviation, while closely monitoring the evolving situation, has undertaken a series of measures to provide relief to domestic carriers. Earlier, the Government had announced the passing of only a partial ATF price hike, capping the increase for domestic airlines at 25% only for domestic operations. Whereas, globally the sharp spike in crude prices has led to a disproportionate rise in Aviation Turbine Fuel (ATF) prices.&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>This step was aimed at enabling carriers to manage operational costs while ensuring that the benefits of affordable air travel continue to reach passengers. Now, as part of a multi-layered response to these unprecedented challenges, the Ministry has taken another significant decision to reduce landing and parking charges for domestic carriers by 25% for a period of three months.&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>Speaking about the announcement, Minister of Civil Aviation, Shri Ram Mohan Naidu, expressed, &amp;ldquo;Under the leadership of Prime Minister Shri Narendra Modi, the primary focus of the Government in the aviation sector has been to make flying a more affordable and convenient travel option for passengers. Even in the prevailing challenging situation, when global air operations are impacted, we have ensured that cancellations and rising fuel costs do not severely affect the operations of our domestic carriers. While ATF costs globally have risen by more than 100%, we have passed on only a moderated increase capped at 25%.&amp;rdquo;&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>Talking further about the interventions, Minister said &amp;ldquo;Now, with the ultimate aim of supporting airlines and, in turn, passengers, airfare increases are being further contained by reducing landing and parking charges levied by airport operators. This step is part of the Ministry&amp;rsquo;s overall effort to keep the aviation sector stable during this volatile period and to ensure ease of flying for passengers. This is a significant intervention to provide relief to airlines grappling with increasing operational costs. We are in constant touch with all stakeholders, including airlines, airport operators, and the Airports Economic Regulatory Authority of India (AERA), in this regard.&amp;rdquo;&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>The Ministry has issued directions to the AERA to reduce landing and parking charges by 25% from the prevailing tariff at all major airports under its purview. This reduction has been brought into immediate effect for all domestic flights and will remain applicable for a period of three months. The AERA has issued an order to this effect, stating that any under-recovery by individual airports shall be adjusted during tariff determination in the next control period of five years.&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>Similarly, the Airports Authority of India (AAI) has also been directed to reduce landing and parking charges at all its non-major airports by 25% of the approved rate. This reduction for all domestic flights will also remain applicable for a period of three months.&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>These measures are expected to reduce landing and parking charges payable by airlines at major airports during the three-month period by approximately ₹400 crore. The Ministry of Civil Aviation is keeping a close watch on the evolving situation, and further necessary measures will be taken to ensure the viability of air operations, as well as safe and affordable air travel for passengers.&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:center&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>****&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>&lt;strong>Divyanshu Kumar&lt;/strong>&lt;/span>&lt;/span>&lt;/p>
+" />
+            <script type="text/javascript">
+                  var mPlayer = document.getElementById("background_music");
+                  var mPlayAction = document.getElementById("playbutton");
+
+                  var isPlaying = false;
+
+                  function playAudio() {
+                        mPlayer.play();
+                        isPlaying = true;
+                        document.getElementById('stopA').style.display = "block";
+                        document.getElementById('playA').style.display = "none";
+                  }
+
+                  function pauseAudio() {
+                        mPlayer.pause();
+                        isPlaying = false;
+                        document.getElementById('playA').style.display = "block";
+                        document.getElementById('stopA').style.display = "none";
+                  }
+                  //function HandleAudio() {
+                  //    if (isPlaying == true) {
+                  //        //Playing already Pause it
+                  //        pauseAudio();
+                  //    } else {
+                  //        //Play the music
+                  //        playAudio();
+                  //    }
+                  //}
+            </script>
+            <script type="text/javascript">
+                  var synth = window.speechSynthesis;
+
+            
+                  function CleanHtml(html) {
+
+                        html = html.replace(/<script[\s\S]*?<\/script>/gi, '');
+
+                        return html;
+                  }
+                  function stripHtml(html) {
+                        let tmp = document.createElement("DIV");
+                        tmp.innerHTML = CleanHtml(html);
+                        return tmp.textContent || tmp.innerText || "";
+                  }
+            </script>
+            <script type="text/javascript">
+                  $(document).ready(function () {
+                        //for responsive tables
+                        $("table").each(function () {
+                              if (!$(this).closest(".table-responsive").length) {
+                                    $(this).wrap("<div class='table-responsive'></div>");
+                              }
+                        });
+
+                        var width = $(window).width();
+                        if (width < 768) {
+
+                              // Extra Small Device
+                              document.getElementById('frst_t').style.display = "block";
+                              document.getElementById('second_t').style.display = "none";
+
+                        } else if (width < 991) {
+                              document.getElementById('frst_t').style.display = "block";
+                              document.getElementById('second_t').style.display = "none";
+                              // Small Device
+
+                        } else if (width < 1199) {
+                              document.getElementById('frst_t').style.display = "none";
+                              document.getElementById('second_t').style.display = "block";
+                              // Medium Device
+
+                        } else {
+                              document.getElementById('frst_t').style.display = "none";
+                              document.getElementById('second_t').style.display = "block";
+                              // Large Device
+
+                        }
+                  });
+            </script>
+            <script type="text/javascript">
+                  $(document).ready(function () {
+                        var width = $(window).width();
+                        if (width < 768) {
+
+                              // Extra Small Device
+                              document.getElementById('frst_t').style.display = "block";
+                              document.getElementById('second_t').style.display = "none";
+
+                        } else if (width < 991) {
+                              document.getElementById('frst_t').style.display = "block";
+                              document.getElementById('second_t').style.display = "none";
+                              // Small Device
+
+                        } else if (width < 1199) {
+                              document.getElementById('frst_t').style.display = "none";
+                              document.getElementById('second_t').style.display = "block";
+                              // Medium Device
+
+                        } else {
+                              document.getElementById('frst_t').style.display = "none";
+                              document.getElementById('second_t').style.display = "block";
+                              // Large Device
+
+                        }
+                  });
+            </script>
+            
+            <style type="text/css">
+                  @media print {
+                        .sticky-social, .sticky-social_mb, .pull-right, #printPDF {
+                              display: none !important;
+                        }
+                  }
+
+                  .f_vl {
+                        padding-right: 30px;
+                        font-size: 17px;
+                        cursor: pointer;
+                  }
+
+                  .log_oo {
+                        // width: 20%;
+                        display: flex;
+                        justify-content: space-between;
+                  }
+
+                        .log_oo img {
+                              width: 150px;
+                              /*width: 100%;
+                    height: auto;*/
+                        }
+
+                  .sticky-social_mb {
+                        position: fixed;
+                        bottom: 0px;
+                        padding: 0px;
+                        margin: 0px;
+                        width: 100%;
+                  }
+
+                  .social_mb {
+                        list-style: none;
+                        display: flex;
+                        width: 100%;
+                        margin-bottom: -8px;
+                  }
+
+                        .social_mb a {
+                              padding: 8px 0px;
+                              font-size: 30px;
+                              transition: all 0.8s ease-in-out;
+                              width: 20% !important;
+                              text-align: center;
+                        }
+            </style>
+            <style type="text/css">
+                  .section1 {
+                        position: relative;
+                        padding: 10px 0px;
+                        width: 100%;
+                  }
+
+
+
+                  .sticky-social {
+                        position: fixed;
+                        top: 20px;
+                        left: 0px;
+                        padding: 0px;
+                        margin: 0px;
+                  }
+
+                  .social {
+                        list-style: none;
+                  }
+
+                        .social a li {
+                              padding: 8px 12px;
+                              font-size: 25px;
+                              transition: all 0.8s ease-in-out;
+                        }
+
+                              .social a li:hover {
+                                    margin-right: -30px;
+                                    box-shadow: 2px 5px 10px grey;
+                              }
+
+                                    .social a li:hover .fa {
+                                          margin-left: 20px;
+                                    }
+
+                  .fb_b {
+                        /* background-color: var(--dbim-key, #0F5757);*/
+                        background-color: var(--dbim-key, #0F5757);
+                  }
+
+                  .twitter_r {
+                        /* background-color: rgb(29, 161, 242);*/
+                        background-color: var(--dbim-key, #0F5757);
+                  }
+
+                  .whatsapp_r {
+                        /* background-color: var(--dbim-key, #0F5757);*/
+                        background-color: var(--dbim-key, #0F5757);
+                  }
+
+                  .fa-envelope_r {
+                        /* background-color: var(--dbim-key, #0F5757);*/
+                        background-color: var(--dbim-key, #0F5757);
+                  }
+
+                  .fa-linkedin_r {
+                        background-color: var(--dbim-key, #0F5757);
+                  }
+            </style>
+            <style type="text/css">
+                  @media only screen and (max-device-width: 767px) {
+                        p span img {
+                              max-width: 90% !important;
+                              height: auto !important;
+                        }
+
+                        p img {
+                              max-width: 90% !important;
+                              height: auto !important;
+                        }
+
+                        h2 {
+                              font-size: var(--dbim-h2, 20px);   /* was 20px !important - the !important blocked A+/A- */
+                              font-weight: 600 !important;
+                        }
+
+                        h3 {
+                              font-size: var(--dbim-h3, 16px);   /* was 16px !important */
+                              font-weight: 600 !important;
+                        }
+                  }
+            </style>
+            <style type="text/css">
+                  /* === Film Roll Badge Styling(IFFI2025 countdown) === */
+                  .film-roll-badge {
+                        position: absolute;
+                        top:82%;
+                        right: 20px;
+                        width: 230px;
+                        height: 70px;
+                        background: repeating-linear-gradient( to right, var(--dbim-green-key, #0F5757) 0px, var(--dbim-green-key, #0F5757) 18px, var(--dbim-text, #150202) 18px, var(--dbim-text, #150202) 36px );
+                        border-top: 8px solid var(--dbim-green-key, #0F5757);
+                        border-bottom: 8px solid var(--dbim-green-key, #0F5757);
+                        border-radius: 8px;
+                        overflow: hidden;
+                        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+                        animation: moveFilm 8s linear infinite;
+                        z-index: 10;
+                  }
+
+                        /* film sprocket holes */
+                        .film-roll-badge::before,
+                        .film-roll-badge::after {
+                              content: "";
+                              position: absolute;
+                              width: 100%;
+                              height: 10px;
+                              background: repeating-linear-gradient( to right, var(--dbim-green-key, #0F5757) 0px, var(--dbim-green-key, #0F5757) 10px, #fff 10px, #fff 20px );
+                              left: 0;
+                              z-index: 2;
+                        }
+
+                        .film-roll-badge::before {
+                              top: -4px;
+                        }
+
+                        .film-roll-badge::after {
+                              bottom: -4px;
+                        }
+
+                  .film-roll-inner {
+                        position: relative;
+                        height: 100%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        animation: flicker 2s infinite ease-in-out;
+                  }
+
+                  .countdown-text {
+                        font-size: 1.3rem;
+                        font-weight: 700;
+                        color: #fff;
+                        text-shadow: 0 0 6px rgba(255, 255, 255, 0.4), 0 0 10px #000;
+                        white-space: nowrap;
+                  }
+
+                  /* === Animations === */
+                  @keyframes moveFilm {
+                        0% {
+                              background-position: 0 0;
+                        }
+
+                        100% {
+                              background-position: 120px 0;
+                        }
+                  }
+
+                  @keyframes flicker {
+                        0%, 100% {
+                              opacity: 1;
+                        }
+
+                        50% {
+                              opacity: 0.9;
+                        }
+
+                        25% {
+                              opacity: 0.95;
+                        }
+
+                        75% {
+                              opacity: 0.85;
+                        }
+                  }
+
+                  /* === Responsive Adjustments === */
+                  @media (max-width: 1500px) {
+                        .film-roll-badge {
+                              top: 68%;
+                              right: 18px;
+                              /* width: 220px; */
+                              height: 65px;
+                              font-size: 0.85rem;
+                        }
+
+                        .press-section {
+                              margin-top: 35px;
+                        }
+                  }
+
+                  @media (max-width: 992px) {
+                        .film-roll-badge {
+                              top: 52%;
+                              right: 10px;
+                               width: 200px; 
+                              height: 60px;
+                        }
+                  }
+
+                  @media (max-width: 768px) {
+                        .film-roll-badge {
+                              top: 56%;
+                              right: 10px;
+                               width: 124px; 
+                              height: 55px;
+                        }
+
+                        .countdown-text {
+                              font-size: 0.9rem;
+                        }
+                  }
+
+                  @media (max-width: 576px) {
+                        .film-roll-badge {
+                              top: 59%;
+                              right: 5px;
+                              /* width: 160px; */
+                              height: 50px;
+                        }
+
+                        .countdown-text {
+                              font-size: 0.85rem;
+                        }
+                  }
+            </style>
+          <script type="text/javascript">
+                const festivalStart = new Date("2025-11-20T00:00:00").getTime();
+                const festivalEnd = new Date("2025-11-28T23:59:59").getTime();
+
+                const countdownElement = document.getElementById("countdown");
+
+                const interval = setInterval(() => {
+                      const now = new Date().getTime();
+
+                      // BEFORE FESTIVAL — show days + hours left
+                      if (now < festivalStart) {
+                            const diff = festivalStart - now;
+                            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+
+                            countdownElement.innerHTML = `
+              ${days} Day${days !== 1 ? 's' : ''} 
+              ${hours} Hour${hours !== 1 ? 's' : ''} to go
+          `;
+
+                      }
+
+                      // DURING FESTIVAL — show 56th IFFI - Day X
+                      else if (now >= festivalStart && now <= festivalEnd) {
+                            const dayNumber = Math.floor((now - festivalStart) / (1000 * 60 * 60 * 24)) + 1;
+                            countdownElement.innerHTML = `56th IFFI - Day ${dayNumber}`;
+                      }
+
+                      // AFTER FESTIVAL — new message
+                      else {
+                            countdownElement.innerHTML = `✨ IFFI closes but never ends…`;
+
+                            // Width change logic
+                            const elements = document.querySelectorAll('.film-roll-badge');
+                            elements.forEach(el => el.style.width = "350px");
+
+                            clearInterval(interval);
+                      }
+
+                }, 1000);
+          </script>
+ <script type="text/javascript">
+
+               const miffStart = new Date("2026-06-15T00:00:00").getTime();
+               const miffEnd = new Date("2026-06-15T23:59:59").getTime();
+
+               const miffElement = document.getElementById("miff");
+
+               if (miffElement) {
+
+                   const miffInterval = setInterval(() => {
+
+                       const now = new Date().getTime();
+
+                       // Before MIFF
+                       if (now < miffStart) {
+
+                           const diff = miffStart - now;
+                           const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                           const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+
+        
+
+                   /*  miffElement.innerHTML = `${days} Day${days !== 1 ? 's' : ''} ${hours} Hour${hours !== 1 ? 's' : ''} to MIFF`;*/
+                           miffElement.innerHTML = `${days} Day${days === 1 ? '' : 's'} to MIFF ...`;
+
+
+                     }
+
+                       // During MIFF
+                       else if (now >= miffStart && now <= miffEnd) {
+
+                           const dayNumber =
+                               Math.floor((now - miffStart) / (1000 * 60 * 60 * 24)) + 1;
+
+                           miffElement.innerHTML = `19th MIFF - Day ${dayNumber}`;
+                       }
+
+                       // After MIFF
+                       else {
+
+                           miffElement.innerHTML = `✨ MIFF concludes, cinema lives on...`;
+
+                           document.querySelectorAll('.film-roll-badge')
+                               .forEach(el => el.style.width = "350px");
+
+                           clearInterval(miffInterval);
+                       }
+
+                   }, 1000);
+               }
+
+</script>
+
+      
+
+<script type="text/javascript">
+//<![CDATA[
+(function() {var fn = function() {$get("sc_HiddenField").value = '';Sys.Application.remove_init(fn);};Sys.Application.add_init(fn);})();Sys.Application.add_init(function() {
+    $create(Sys.Extended.UI.ModalPopupBehavior, {"BackgroundCssClass":"modalBackground","PopupControlID":"P_CategoryManagement","dynamicServicePath":"/PressReleasePage.aspx","id":"mpe"}, null, null, $get("Hidden"));
+});
+//]]>
+</script>
+<input type="hidden" name="__ncforminfo" value="3EyhnFBP-dw2_MoQyQ9yD5koS5QUsqIWOBMwhyZxFv39WCsXQ7y9k3r07tcYiePuiLEhtyBhm4hPMJp2PHL4CtI96MIIM87UghNLqY3o6usgRGEKCvYA-Q=="/></form>
+      
+      
+
+<script type="application/json" id="pibConsentConfig">{"ga4Id":"G-Q414Y0X6EE,G-QJJ6LZ8LHV","policyUrl":"/CookiePolicy.aspx","text":{"bannerLabel":"Cookie consent","title":"Cookies on this website","body":"We use essential cookies to make this website work. We also set analytics cookies when you arrive, so we can see how the site is used and improve it - you can switch these off below or at any time from the Cookie Policy page. Cookies from embedded social media content are set only if you allow them.","policyLink":"Read our Cookie Policy","accept":"Accept all","reject":"Reject optional","customize":"Customise","prefsTitle":"Cookie preferences","prefsIntro":"Choose which cookies this website may set. Essential cookies cannot be switched off because the site does not work without them. Analytics cookies are on unless you turn them off. Social media cookies stay off until you allow them. You can change these choices at any time from the Cookie Policy page.","essentialName":"Essential cookies","essentialDesc":"Needed for the site to function. These remember your session, your language and region, your text size and colour theme, and verify the security check on forms. They are always on.","analyticsName":"Analytics cookies","analyticsDesc":"Help us understand how visitors use the site - which pages are read and how long people stay - so it can be improved. The information is collected in a form that does not directly identify you. These are on when you arrive; switching them off here stops them and deletes the ones already set.","socialName":"Social media cookies","socialDesc":"Set by content embedded from X, Facebook and YouTube, such as timelines and videos. These platforms may use them to track you across websites. They stay off until you allow them.","save":"Save preferences","cancel":"Cancel"}}</script>
+<script type="text/javascript" src='/js/consent.js?v=10'></script>
+
+<script type="text/javascript" src='/js/consent-embeds.js?v=10'></script>
+
+    
+
+<script type="text/javascript">
+    (function () {
+        try {
+            if (window.self === window.top) { return; }
+        } catch (e) { return; }
+        var s = document.createElement("style");
+        s.textContent =
+            ".sticky-social, .sticky-social_mb { display: none !important; }";
+        (document.head || document.documentElement).appendChild(s);
+    }());
+</script>
+</body>
+</html>
+

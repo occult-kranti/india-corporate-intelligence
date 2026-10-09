@@ -1,0 +1,1198 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head id="Head1"><title>
+	Press Release Page | Press Information Bureau
+</title><link href="css/style.css?v=1" rel="stylesheet" type="text/css" /><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><link rel="alternate stylesheet" href="css/change.css?v=1" media="screen" title="change" /><link rel="alternate stylesheet" href="css/green.css?v=1" media="screen" title="green" /><link rel="alternate stylesheet" href="css/yellow.css" media="screen" title="yellow" /><link rel="stylesheet" type="text/css" href="css/prtint.css" media="print" /><link rel="stylesheet" href="css/style3.1.css" type="text/css" /><link id="pibA11yCss" rel="stylesheet" href="/css/accessibility.css?v=7" type="text/css" />
+      <script type="text/javascript">
+        /* Stamps the saved theme on <html> before the page paints. The
+           switcher in js/accessibility.js settles the rest, but on inner
+           pages it does not run until the end of the body and inside the
+           release frame it is a separate download - either way the reader
+           would otherwise watch a light page turn dark in front of them. */
+        (function (d) {
+            var t = "";
+            try {
+                t = window.localStorage.getItem("pibStyle") || "";
+            } catch (e) {
+                t = "";
+            }
+            if (t === "orange") {
+                t = "yellow";
+            }
+            var c = t === "change" ? " pib-hc"
+                : t === "green" ? " pib-theme-green"
+                : t === "yellow" ? " pib-theme-yellow" : "";
+            d.documentElement.className += c + " pib-a11y-content";
+        }(document));
+      </script>
+
+
+      <script src="js/jquery.min.js" type="text/javascript"></script>
+      <script type="text/javascript" src="/js/accessibility.js?v=7"></script>
+
+      <script type="text/javascript">
+            $(document).ready(function () {
+                  function getParameterByName(name) {
+                        var url = window.location.href;
+                        name = name.replace(/[\[\]]/g, '\\$&');
+                        var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+                              results = regex.exec(url);
+                        if (!results) return null;
+                        if (!results[2]) return '';
+                        return decodeURIComponent(results[2].replace(/\+/g, ' '));
+                  }
+                  // Get the IDs from the current page's URL
+                  let prid = parseInt(getParameterByName('PRID'), 10);
+
+                  if (!isNaN(prid) && prid > 0) {
+                        $.ajax({
+                              type: "POST",
+                              url: "AjaxMethod.aspx/UpdatePRHitCount",
+                              async: false,
+                              data: JSON.stringify({ 'PermId': prid }),
+                              contentType: "application/json; charset=utf-8",
+                              dataType: "json",
+                              success: function (response) {
+                                    console.log(response);
+                              },
+                              error: function (error) {
+                                    console.log("Error in AJAX request", error);
+                              }
+                        });
+                  } else {
+                        console.log("Invalid parameters:", prid);
+                  }
+
+            });
+      </script>
+      <style type="text/css">
+            .table-responsive {
+                  width: 100%;
+                  overflow-x: auto;
+            }
+
+            .banner {
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  background-color: #000;
+                  color: #fff;
+                  padding: 20px;
+            }
+
+            full-width {
+                  width: 100%;
+            }
+
+            .logo-left, .logo-center, .countdown {
+                  display: flex;
+                  align-items: center;
+            }
+
+                  .logo-left img, .logo-center img {
+                        height: 70px;
+                  }
+
+            .countdown {
+                  text-align: center;
+                  background-color: var(--dbim-text, #150202);
+                  border-radius: 10px;
+                  padding: 10px;
+                  border: 2px solid grey;
+            }
+
+            .firstnumber {
+                  color: #000000;
+                  position: absolute;
+                  top: 50px;
+                  right: 90px;
+                  font-size: 30px;
+            }
+
+            .secondnumber {
+                  position: absolute;
+                  color: #000000;
+                  right: 45px;
+                  top: 50px;
+                  font-size: 30px;
+            }
+
+            .countdown .days {
+                  font-size: 35px;
+                  color: gold;
+            }
+
+            .countdown p {
+                  margin: 0;
+            }
+
+            .countdown .text {
+                  font-size: 16px;
+            }
+
+            a {
+                  word-break: break-all;
+            }
+
+            iframe, img {
+                  max-width: 100%;
+            }
+
+            @media(max-width:1199px) {
+                  .firstnumber {
+                        top: 40px;
+                        right: 72px;
+                        font-size: 30px;
+                  }
+
+                  .secondnumber {
+                        right: 35px;
+                        top: 40px;
+                        font-size: 30px;
+                  }
+            }
+
+            @media(max-width:990px) {
+                  .firstnumber {
+                        top: 25px;
+                        right: 54px;
+                        font-size: 30px;
+                  }
+
+                  .secondnumber {
+                        right: 25px;
+                        top: 25px;
+                        font-size: 30px;
+                  }
+            }
+
+            @media(max-width:768px) {
+                  .countdown, .days {
+                        font-size: 12px !important;
+                  }
+
+
+                  .firstnumber {
+                        top: 25%;
+                        right: 8%;
+                        font-size: 30px;
+                  }
+
+                  .secondnumber {
+                        right: 4.5%;
+                        top: 25%;
+                        font-size: 30px;
+                  }
+            }
+
+            @media(max-width:475px) {
+                  .countdown, .days {
+                        font-size: 10px !important;
+                        top: 20%;
+                  }
+
+                  .bannerimgdiv {
+                        padding: 0 !important;
+                  }
+
+                  .bannerimg {
+                        width: 108% !important;
+                  }
+            }
+      </style>
+      <script type="text/javascript">
+            $(function () {
+                  $("[id*=printPDF]").click(function () {
+                        $("[id*=hfGridHtml]").val($("#PdfDiv").html());
+                  });
+            });
+            $(function () {
+                  $("[id*=printPDFEvent]").click(function () {
+                        $("[id*=hfGridHtml]").val($("#PdfDiv").html());
+                  });
+            });
+      </script>
+
+      
+
+      <link id="pibConsentCss" href="/css/consent.css?v=8" rel="stylesheet" type="text/css" /><link id="pibFontsCss" href="/css/fonts-noto.css?v=6" rel="stylesheet" type="text/css" /><link id="pibDbimCss" href="/css/dbim.css?v=1120" rel="stylesheet" type="text/css" /><meta property="og:title" content="Ministry of Defence allocated an all-time high of Rs 7.85 lakh crore in Union Budget 2026-27, 15% higher over Budgetary Estimates of FY 2025-26" /><meta property="og:url" content="www.pib.gov.in/Pressreleaseshare.aspx?PRID=2221612" /><meta property="og:description" content="In the Union Budget post Operation Sindoor, Defence Services have received an unprecedented allocati" /><meta property="og:image" content="https:/pib.gov.in/images/indian-emblem.png" />
+                                <script>!function(e){var n="https://s.go-mpulse.net/boomerang/";if("False"=="True")e.BOOMR_config=e.BOOMR_config||{},e.BOOMR_config.PageParams=e.BOOMR_config.PageParams||{},e.BOOMR_config.PageParams.pci=!0,n="https://s2.go-mpulse.net/boomerang/";if(window.BOOMR_API_key="C4E7H-KSCMC-422L4-W3EM5-U36MF",function(){function e(){if(!i){var e=document.createElement("script");e.id="boomr-scr-as",e.src=window.BOOMR.url,e.async=!0,o.parentNode.appendChild(e),i=!0}}function t(e){i=!0;var n,t,a,r,d=document,O=window;if(window.BOOMR.snippetMethod=e?"if":"i",t=function(e,n){var t=d.createElement("script");t.id=n||"boomr-if-as",t.src=window.BOOMR.url,BOOMR_lstart=(new Date).getTime(),e=e||d.body,e.appendChild(t)},!window.addEventListener&&window.attachEvent&&navigator.userAgent.match(/MSIE [67]\./))return window.BOOMR.snippetMethod="s",void t(o.parentNode,"boomr-async");a=document.createElement("IFRAME"),a.src="about:blank",a.title="",a.role="presentation",a.loading="eager",r=(a.frameElement||a).style,r.width=0,r.height=0,r.border=0,r.display="none",o.parentNode.appendChild(a);try{O=a.contentWindow,d=O.document.open()}catch(_){n=document.domain,a.src="javascript:var d=document.open();d.domain='"+n+"';void(0);",O=a.contentWindow,d=O.document.open()}if(n)d._boomrl=function(){this.domain=n,t()},d.write("<bo"+"dy onload='document._boomrl();'>");else if(O._boomrl=function(){t()},O.addEventListener)O.addEventListener("load",O._boomrl,!1);else if(O.attachEvent)O.attachEvent("onload",O._boomrl);d.close()}function a(e){window.BOOMR_onload=e&&e.timeStamp||(new Date).getTime()}if(!window.BOOMR||!window.BOOMR.version&&!window.BOOMR.snippetExecuted){window.BOOMR=window.BOOMR||{},window.BOOMR.snippetStart=(new Date).getTime(),window.BOOMR.snippetExecuted=!0,window.BOOMR.snippetVersion=12,window.BOOMR.url=n+"C4E7H-KSCMC-422L4-W3EM5-U36MF";var o=document.currentScript||document.getElementsByTagName("script")[0],i=!1,r=document.createElement("link");if(r.relList&&"function"==typeof r.relList.supports&&r.relList.supports("preload")&&"as"in r)window.BOOMR.snippetMethod="p",r.href=window.BOOMR.url,r.rel="preload",r.as="script",r.addEventListener("load",e),r.addEventListener("error",function(){t(!0)}),setTimeout(function(){if(!i)t(!0)},3e3),BOOMR_lstart=(new Date).getTime(),o.parentNode.appendChild(r);else t(!1);if(window.addEventListener)window.addEventListener("load",a,!1);else if(window.attachEvent)window.attachEvent("onload",a)}}(),"".length>0)if(e&&"performance"in e&&e.performance&&"function"==typeof e.performance.setResourceTimingBufferSize)e.performance.setResourceTimingBufferSize();!function(){if(BOOMR=e.BOOMR||{},BOOMR.plugins=BOOMR.plugins||{},!BOOMR.plugins.AK){var n=""=="true"?1:0,t="",a="ljqllrax2fkey2wim3zq-f-40f04e5dc-clientnsv4-s.akamaihd.net",o="false"=="true"?2:1,i={"ak.v":"41","ak.cp":"1825201","ak.ai":parseInt("1215205",10),"ak.ol":"0","ak.cr":35,"ak.ipv":4,"ak.proto":"h2","ak.rid":"9da16ac","ak.r":46091,"ak.a2":n,"ak.m":"dscb","ak.n":"ff","ak.cport":40819,"ak.gh":"23.201.193.40","ak.quicv":"","ak.tlsv":"tls1.3","ak.0rtt":"","ak.0rtt.ed":"","ak.csrc":"-","ak.acc":"","ak.t":"1791518451","ak.ak":"hOBiQwZUYzCg5VSAfCLimQ==Pw1+3c1Jw13qNILYaYxyA4654lUZBSo5GLDxoZpz2rSb425j7axvq/1fpE6Ncjrgqt9x0IkxFAs7AM511snEifr0fc+g453K1TMSM4+kbJCR12ddxV08VMl5gggx8NtBNFtLsvaBRDwx9oD/avh8jUdhzc6fYhncksUHDw0ODAIf79vUM7SYOMRsa0RiC+s+1mD1l3+b9TlBygHhs86YUifVT4Yo+BUCqZlHHJNWusf1NvTTkgsz++mMNUHKM9UgXj7ntXGDQkWotKBAA+OL7X1K9NWgQxmCYPiVyD8YDspooIRflcdmRjSTB/tHMldMdeuqjrZJxPeujtEF5cDln0gftZW75ceG+d2O1+B3LxceTPLWSYZ4qk97PSMrERuH/cO7B3EqagCBVTkPIl726idMOhrELCyzcxU8eUXDUSE=","ak.pv":"9","ak.dpoabenc":"","ak.tf":o};if(""!==t)i["ak.ruds"]=t;var r={i:!1,av:function(n){var t="http.initiator";if(n&&(!n[t]||"spa_hard"===n[t]))i["ak.feo"]=void 0!==e.aFeoApplied?1:0,BOOMR.addVar(i)},rv:function(){var e=["ak.cport","ak.cr","ak.csrc","ak.gh","ak.ipv","ak.m","ak.n","ak.ol","ak.proto","ak.quicv","ak.tlsv","ak.0rtt","ak.0rtt.ed","ak.r","ak.acc","ak.t","ak.tf"];BOOMR.removeVar(e)}};BOOMR.plugins.AK={akVars:i,akDNSPreFetchDomain:a,init:function(){if(!r.i){var e=BOOMR.subscribe;e("before_beacon",r.av,null,null),e("onbeacon",r.rv,null,null),r.i=!0}return this},is_complete:function(){return!0}}}}()}(window);</script></head>
+<body>
+    
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"
+     style="position:absolute;width:0;height:0;overflow:hidden" id="dbim-icon-sprite">
+    <defs>
+        <symbol id="icon-angle-double-left" viewBox="0 0 24 24"><path d="M11.6 4.6 4.2 12l7.4 7.4 2.2-2.2L8.6 12l5.2-5.2z"/><path d="M19 4.6 11.6 12 19 19.4l2.2-2.2L16 12l5.2-5.2z"/></symbol>
+        <symbol id="icon-angle-double-right" viewBox="0 0 24 24"><path d="M12.4 4.6 10.2 6.8 15.4 12l-5.2 5.2 2.2 2.2L19.8 12z"/><path d="M5 4.6 2.8 6.8 8 12l-5.2 5.2L5 19.4 12.4 12z"/></symbol>
+        <symbol id="icon-arrow-left" viewBox="0 0 24 24"><path d="M20.8 10.6H9.6v2.8h11.2z"/><path d="M10.8 5.6 3.2 12l7.6 6.4z"/></symbol>
+        <symbol id="icon-arrow-right" viewBox="0 0 24 24"><path d="M3.2 10.6h11.2v2.8H3.2z"/><path d="M13.2 5.6 20.8 12l-7.6 6.4z"/></symbol>
+        <symbol id="icon-blogger" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M6.4 2.4h11.2a4 4 0 0 1 4 4v11.2a4 4 0 0 1-4 4H6.4a4 4 0 0 1-4-4V6.4a4 4 0 0 1 4-4zm2.8 5.2a2 2 0 0 0 0 4h2.4a2 2 0 0 0 0-4zm0 5.6a2 2 0 0 0 0 4h5.6a2 2 0 0 0 0-4z"/></symbol>
+        <symbol id="icon-calendar" viewBox="0 0 24 24"><path d="M7.6 2.4H10v2.4H7.6z"/><path d="M14 2.4h2.4v2.4H14z"/><path fill-rule="evenodd" d="M4 4.8h16a1.6 1.6 0 0 1 1.6 1.6v13.2a1.6 1.6 0 0 1-1.6 1.6H4a1.6 1.6 0 0 1-1.6-1.6V6.4A1.6 1.6 0 0 1 4 4.8zm.4 5.6v8.4h15.2v-8.4z"/><path d="M6.4 12.4h3.2v3.2H6.4z"/></symbol>
+        <symbol id="icon-chevron-left" viewBox="0 0 24 24"><path d="M15.4 4.6 8 12l7.4 7.4 2.2-2.2L12.4 12l5.2-5.2z"/></symbol>
+        <symbol id="icon-chevron-right" viewBox="0 0 24 24"><path d="M8.6 4.6 6.4 6.8 11.6 12l-5.2 5.2 2.2 2.2L16 12z"/></symbol>
+        <symbol id="icon-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/></symbol>
+        <symbol id="icon-download" viewBox="0 0 24 24"><path d="M10.8 3h2.4v7.6h3.4L12 16.6l-4.6-6h3.4z"/><path d="M4 17.2h2.4v2.4h11.2v-2.4H20v3.2a1.4 1.4 0 0 1-1.4 1.4H5.4A1.4 1.4 0 0 1 4 20.4z"/></symbol>
+        <symbol id="icon-facebook" viewBox="0 0 24 24"><path d="M13.6 21.6v-8.4h2.8l.42-3.3h-3.22V7.8c0-.95.27-1.6 1.64-1.6h1.74V3.26a23 23 0 0 0-2.54-.13c-2.5 0-4.22 1.53-4.22 4.34v2.43H7.4v3.3h2.82v8.4z"/></symbol>
+        <symbol id="icon-fact-check" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2.4 3.6 5.6v6.2c0 4.6 3.4 8.6 8.4 9.8 5-1.2 8.4-5.2 8.4-9.8V5.6zm-1 13.2-3.6-3.6 1.7-1.7 1.9 1.9 4.5-4.5 1.7 1.7z"/></symbol>
+        <symbol id="icon-hashtag" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M8.8 3h2.4l-1 6h3.2l1-6h2.4l-1 6h3.4v2.4h-3.8l-.6 3.2h3.6V17h-4l-1 5h-2.4l1-5h-3.2l-1 5H5.4l1-5H3V14.6h3.8l.6-3.2H3.8V9h4zm.6 8.4-.6 3.2h3.2l.6-3.2z"/></symbol>
+        <symbol id="icon-home" viewBox="0 0 24 24"><path d="M12 3.4 2.8 11.6h2.4v8.4a1 1 0 0 0 1 1h3.3v-5.4h5v5.4h3.3a1 1 0 0 0 1-1v-8.4h2.4z"/></symbol>
+        <symbol id="icon-instagram" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M7.6 2.4h8.8a5.2 5.2 0 0 1 5.2 5.2v8.8a5.2 5.2 0 0 1-5.2 5.2H7.6a5.2 5.2 0 0 1-5.2-5.2V7.6a5.2 5.2 0 0 1 5.2-5.2zm0 2.4a2.8 2.8 0 0 0-2.8 2.8v8.8a2.8 2.8 0 0 0 2.8 2.8h8.8a2.8 2.8 0 0 0 2.8-2.8V7.6a2.8 2.8 0 0 0-2.8-2.8z"/><path fill-rule="evenodd" d="M12 6.8a5.2 5.2 0 1 0 0 10.4 5.2 5.2 0 0 0 0-10.4zm0 2.4a2.8 2.8 0 1 1 0 5.6 2.8 2.8 0 0 1 0-5.6z"/><circle cx="17.3" cy="6.7" r="1.3"/></symbol>
+        <symbol id="icon-linkedin" viewBox="0 0 24 24"><path d="M4.8 8.8h3.6v12H4.8z"/><circle cx="6.6" cy="5.4" r="2.1"/><path d="M10.8 8.8h3.45v1.65h.05c.48-.9 1.65-1.85 3.4-1.85 3.63 0 4.3 2.35 4.3 5.4v6.6h-3.6v-5.85c0-1.4-.03-3.2-1.95-3.2-1.95 0-2.25 1.52-2.25 3.1v5.95h-3.6z"/></symbol>
+        <symbol id="icon-mail" viewBox="0 0 24 24"><path d="M2.4 7.6v9.2a1.6 1.6 0 0 0 1.6 1.6h16a1.6 1.6 0 0 0 1.6-1.6V7.6L12 14z"/><path d="M21.2 5.4H2.8L12 11.8z"/></symbol>
+        <symbol id="icon-mail-open" viewBox="0 0 24 24"><path d="M2.4 9.8h19.2v9.6A1.6 1.6 0 0 1 20 21H4a1.6 1.6 0 0 1-1.6-1.6z"/><path d="M12 2.6 21.6 9.2h-3.8L12 5.3 6.2 9.2H2.4z"/><path d="m3.9 11.2 8.1 5.4 8.1-5.4 1.5 1.3-9.6 6.4-9.6-6.4z"/></symbol>
+        <symbol id="icon-map-marker" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2.4a7 7 0 0 0-7 7c0 5.2 7 12.2 7 12.2s7-7 7-12.2a7 7 0 0 0-7-7zm0 9.6a2.6 2.6 0 1 1 0-5.2 2.6 2.6 0 0 1 0 5.2z"/></symbol>
+        <symbol id="icon-newspaper" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M2.8 4.4h14.8v15.2H2.8zm2 2v11.2h10.8V6.4z"/><path d="M6 7.6h8.4v1.6H6z"/><path d="M6 10.8h8.4v1.6H6z"/><path d="M6 14h5.2v1.6H6z"/><path d="M18.4 8.4h2.8v9.6a1.4 1.4 0 0 1-2.8 0z"/></symbol>
+        <symbol id="icon-pause" viewBox="0 0 24 24"><rect x="7.4" y="4" width="3.6" height="16" rx="0.9"/><rect x="13" y="4" width="3.6" height="16" rx="0.9"/></symbol>
+    <symbol id="icon-play" viewBox="0 0 24 24"><path d="M8 4.5v15l12-7.5z"/></symbol>
+        <symbol id="icon-picture" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M2.4 5.2h19.2v13.6H2.4zm2 2v9.6h15.2V7.2z"/><path d="M5.6 16.4 10 11l2.6 3 2-2.2 4 4.6z"/><circle cx="8" cy="10.4" r="1.5"/></symbol>
+        <symbol id="icon-press-conference" viewBox="0 0 24 24"><circle cx="12" cy="5.2" r="2.6"/><path d="M7.6 12.2a4.4 4.4 0 0 1 8.8 0z"/><circle cx="4.9" cy="9.6" r="2.2"/><path d="M1.8 15.2a3.1 3.1 0 0 1 6.2 0z"/><circle cx="19.1" cy="9.6" r="2.2"/><path d="M16 15.2a3.1 3.1 0 0 1 6.2 0z"/><path d="M6.6 13.6h10.8l2.2 7.8H4.4z"/></symbol>
+        <symbol id="icon-print" viewBox="0 0 24 24"><path d="M6.4 2.8h11.2v4.4H6.4z"/><path d="M4 8.4h16a1.6 1.6 0 0 1 1.6 1.6v5.6a1.6 1.6 0 0 1-1.6 1.6h-1.6v-2.8H6v2.8H4a1.6 1.6 0 0 1-1.6-1.6V10A1.6 1.6 0 0 1 4 8.4z"/><path d="M7.2 15.6h9.6v5.6H7.2z"/></symbol>
+        <symbol id="icon-rss" viewBox="0 0 24 24"><circle cx="4.8" cy="19.2" r="2.4"/><path d="M2.4 11.2v3.2a6.4 6.4 0 0 1 6.4 6.4H12A9.6 9.6 0 0 0 2.4 11.2z"/><path d="M2.4 4.8V8A13.6 13.6 0 0 1 16 21.6h3.2A16.8 16.8 0 0 0 2.4 4.8z"/></symbol>
+        <symbol id="icon-search-plus" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M10 2.8a7.2 7.2 0 1 0 0 14.4 7.2 7.2 0 0 0 0-14.4zm0 2.4a4.8 4.8 0 1 1 0 9.6 4.8 4.8 0 0 1 0-9.6z"/><path d="M15.3 14.6 21.2 20.5l-1.5 1.5-5.9-5.9z"/><path d="M9.2 6.8h1.6v2.4h2.4v1.6h-2.4v2.4H9.2v-2.4H6.8V9.2h2.4z"/></symbol>
+        <symbol id="icon-share" viewBox="0 0 24 24"><circle cx="18" cy="5.6" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="18.4" r="3"/><path d="M8.3 10.9 15.7 7.2l.9 1.8-7.4 3.7z"/><path d="M9.2 13.1 16.6 16.8l-.9 1.8-7.4-3.7z"/></symbol>
+        <symbol id="icon-twitter" viewBox="0 0 24 24"><path d="M4.2 3h4.3l11.3 18h-4.3z"/><path d="M19.3 3h-2.6L4.2 21h2.6z"/></symbol>
+        <symbol id="icon-university" viewBox="0 0 24 24"><path d="M12 2.4 21.6 7.2v1.6H2.4V7.2z"/><path d="M4.8 10.4h2.4v8H4.8z"/><path d="M9.2 10.4h2.4v8H9.2z"/><path d="M13.4 10.4h2.4v8h-2.4z"/><path d="M17.6 10.4H20v8h-2.4z"/><path d="M3.2 19.8h17.6v1.8H3.2z"/></symbol>
+        <symbol id="icon-volume-up" viewBox="0 0 24 24"><path d="M3.2 9.2h3.3l5-4.2v14l-5-4.2H3.2z"/><path d="M14.6 8.4a5 5 0 0 1 0 7.2l1.6 1.6a7.2 7.2 0 0 0 0-10.4z"/><path d="M17.4 5.6a8.8 8.8 0 0 1 0 12.8l1.5 1.5a10.9 10.9 0 0 0 0-15.8z"/></symbol>
+        <symbol id="icon-whatsapp" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2.4a9.5 9.5 0 0 0-8.1 14.5L2.4 21.6l4.8-1.4A9.5 9.5 0 1 0 12 2.4zm0 2.2a7.3 7.3 0 1 1-3.8 13.5l-.4-.2-2.6.7.7-2.5-.3-.4A7.3 7.3 0 0 1 12 4.6z"/><path d="M9.4 7.8c-.2-.5-.4-.5-.6-.5h-.5a1 1 0 0 0-.7.3c-.3.3-.9.9-.9 2.1s.9 2.4 1 2.6c.1.2 1.7 2.8 4.3 3.8 2.1.8 2.6.7 3 .6.5 0 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2l-.5-.3-1.6-.8c-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6 6 0 0 1-1.8-1.1 6.6 6.6 0 0 1-1.2-1.6c-.1-.2 0-.4.1-.5l.4-.5.3-.5v-.5z"/></symbol>
+        <symbol id="icon-youtube" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M21.6 7.2a2.8 2.8 0 0 0-2-2C17.9 4.8 12 4.8 12 4.8s-5.9 0-7.6.4a2.8 2.8 0 0 0-2 2A29 29 0 0 0 2 12a29 29 0 0 0 .4 4.8 2.8 2.8 0 0 0 2 2c1.7.4 7.6.4 7.6.4s5.9 0 7.6-.4a2.8 2.8 0 0 0 2-2A29 29 0 0 0 22 12a29 29 0 0 0-.4-4.8zM10.2 15.1V8.9l5.1 3.1z"/></symbol>
+    </defs>
+</svg>
+
+      <form method="post" action="./PressReleasePage.aspx?PRID=2221612&amp;reg=48&amp;lang=2" id="form1">
+<div class="aspNetHidden">
+<input type="hidden" name="sc_HiddenField" id="sc_HiddenField" value="" />
+<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
+<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="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" />
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+var theForm = document.forms['form1'];
+if (!theForm) {
+    theForm = document.form1;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</script>
+
+
+<script src="/WebResource.axd?d=pynGkmcFUV13He1Qd6_TZPQet1wIx1Q48y3xJY2k25Y7qxH5RrQ9qQcN-OiTC9guZtri9w2&amp;t=639246315009809930" type="text/javascript"></script>
+
+
+<script src="/ScriptResource.axd?d=x6wALODbMJK5e0eRC_p1LdIxBJXt0U_WW5GWfJqHAqo6frgCmGRfEywglicTersO2OKrFhK1gAIp0Wk2al2YrpdR3uWqH6f4nfjBsCyRUfTUUVmb0&amp;t=ffffffffecf8d3f2" type="text/javascript"></script>
+<script src="/ScriptResource.axd?d=P5lTttoqSeZXoYRLQMIScH645UK3RD852IErF2548Wz9Ssv0rLjB4fhVKnHcMpqkaMHpNAGOeWY02Lf4aBYN9-dVBme_SNK5KJwmFQNpMixYDZ7M0&amp;t=ffffffffecf8d3f2" type="text/javascript"></script>
+<script src="/PressReleasePage.aspx?_TSM_HiddenField_=sc_HiddenField&amp;_TSM_CombinedScripts_=%3b%3bAjaxControlToolkit%2c+Version%3d3.5.7.123%2c+Culture%3dneutral%2c+PublicKeyToken%3d28f01b0e84b6d53e%3aen-US%3a5a4df314-b4a2-4da2-a207-9284f1b1e96c%3ade1feab2%3af2c8e708%3a8613aea7%3af9cec9bc%3a3202a5a2%3aab09e3fe%3a87104b7c%3a720a52bf%3a589eaa30%3aa67c2700%3abe6fb298" type="text/javascript"></script>
+<div class="aspNetHidden">
+
+	<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="59B53027" />
+	<input type="hidden" name="__VIEWSTATEENCRYPTED" id="__VIEWSTATEENCRYPTED" value="" />
+	<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="+iMqlSi/bmdugnRyqHBOORlP+eBjNH3y+BCgXJkmMVGKqsRicCtaiBNbqtq8lb6j4KjCzmoutCLttEL6PxKBolBh6KFxP+nUOWDFcAWrv8brpT7vtGSKXIjaSknwpek15YE2Hi2TfcGB1FsamNZrkeT4eCpaJm2iJuH0ljJiaQ6nDDBtRiBv//MAi5I33IgxjARQpXQy2wFTOzE2gP4TpcYnYJWBO2Cej1apEQ0I5JqPrFTTqRu/MfyMmL3DcUEVZp3dmopT5JjJnUF6hx6FUM7ijkc=" />
+</div>
+                              
+            <div id="templateCss"></div>
+            <script type="text/javascript">
+//<![CDATA[
+Sys.WebForms.PageRequestManager._initialize('sc', 'form1', ['tupdate12','update12'], [], [], 90, '');
+//]]>
+</script>
+
+            <input type="hidden" name="hfGridHtml" id="hfGridHtml" />
+            <div class="container" style='margin-bottom: 50px;'>
+                  <div id="accessories">
+
+                        
+                        <div class="pull-right" style="display: flex">
+                              <div id="voll"></div>
+                              <div id="vollDT"></div>
+                              
+                              
+
+<span class="print-icons">
+<input type="image" name="Print1$print" id="Print1_print" aria-label="Print" src="images/printer_icon.png" alt="print page button" style="padding: 5px 10px 5px 10px;" />
+</span>
+                        </div>
+                  </div>
+                  <input type="hidden" name="hydpermid" id="hydpermid" value="2221612" />
+                  
+
+
+
+                  <div class="innner-page-main-about-us-content-right-part">
+
+                        <div id="MinistryName" class="MinistryNameSubhead text-center">
+                              Ministry of Defence
+                        </div>
+                        
+                        <div id="lg_g"><div class='log_oo'>  <img src='https://static.pib.gov.in/WriteReadData/specificdocs/photo/2026/sep/ph_9768_20260902_10000501.png' alt='azadi ka amrit mahotsav' /> </div></div>
+
+
+
+
+
+                        <div class="text-center event-heading-background">
+                              
+                              <h1 id="Titleh2">
+                                    Ministry of Defence allocated an all-time high of Rs 7.85 lakh crore in Union Budget 2026-27, 15% higher over Budgetary Estimates of FY 2025-26
+                              </h1>
+                              <h3 id="Subtitleh3">
+                                    <span id="ltrSubtitle"><br/>Record Rs 2.19 lakh crore allocated under Capital Head; Quantum leap of 24% in the Capital Acquisition budget<br/><br/>Rs 1.39 lakh crore allocated for domestic industries, including private players<br/><br/>Higher allocation for operational readiness sustained<br/><br/>Govt’s commitment to ensure quality healthcare facilities to veterans reinforced; Rs 12,100 crore allotted to ECHS, 45.49% higher than BE of FY 2025-26<br/><br/>Union Budget 2026-27 will further strengthen PM Modi’s vision of an Aatmanirbhar & Viksit Bharat: Raksha Mantri</span>
+                              </h3>
+                        </div>
+
+                        <div id="PrDateTime" class="ReleaseDateSubHeaddateTime text-center pt20">
+                              Posted On:
+                01 FEB 2026 3:42PM by PIB Delhi
+                        </div>
+                        
+                        <div class='pt20'>
+                        </div>
+                        <input type="hidden" name="hydphotoUrl" id="hydphotoUrl" />
+                        
+                        <p style="text-align:justify"><span style="font-family:&quot;Times New Roman&quot;,Times,serif; font-size:16px">In the Union Budget post </span><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><em>Operation Sindoor</em></span></span><span style="font-family:&quot;Times New Roman&quot;,Times,serif; font-size:16px">, Defence Services have received an unprecedented allocation amounting to Rs 7.85 lakh crore for the Financial Year (FY) 2026-27. This allocation stands at 2% of the estimated GDP for the next Financial Year and shows a significant increase of 15.19% over the Budgetary Estimates (BE) of FY 2025-26. Total Defence budget is 14.67% of the Central Government expenditure and is the highest among the Ministries.</span></p>
+
+<p style="text-align:justify"><span style="font-family:&quot;Times New Roman&quot;,Times,serif; font-size:16px">In addition to the modernisation of the Armed Forces and financing their regular requirement, the significantly enhanced allocation will also cater for the financial requirements that have arisen due to the emergency procurement of arms and ammunition made subsequent to </span><em>Operation Sindoor</em><span style="font-family:&quot;Times New Roman&quot;,Times,serif; font-size:16px"> under both the categories viz. Capital and Revenue. A large share of the defence budget to the tune of Rs 2.19 lakh crore has been allotted for capital expenditure vis-&agrave;-vis Rs 1.80 lakh crore which was allotted as BE of FY 2025-26. Through this enhanced provision, the Government has reaffirmed its resolve to transform the Armed Forces and their capabilities to the world&rsquo;s highest standards with a strategic shift towards the goal of Aatmanirbhar Bharat.</span></p>
+
+<p style="text-align:justify"><span style="font-family:&quot;Times New Roman&quot;,Times,serif; font-size:16px">Out of the total allocation made to the Ministry of Defence (MoD), a share of 27.95% is for capital expenditure, 20.17% for revenue expenditure on sustenance and operational preparedness, 26.40% for revenue expenditure on pay and allowances, 21.84% for Defence Pensions and 3.64% for civil organisations.</span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><strong>Modernisation of Armed Forces - a strategic objective</strong></span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">For FY 2026-27, budgetary allocation under capital head to the Defence Forces stands at Rs 2,19,306.47 lakh crore, which is 21.84% more than the Budget Estimates of FY 2025-26. Out of this, Rs 1.85 lakh crore is earmarked for Capital Acquisition, which is approximately 24% higher than the Capital Acquisition budget for FY 2025-26. In the current geo-political scenario, quantum jump in the modernisation budget is a strategic imperative. During FY 2025-26, up to 3<sup>rd</sup> quarter <em>i.e.</em>, till December 2025, MoD has concluded contracts worth Rs 2.10 lakh crore and has, so far, given Acceptance of Necessity approval for more than Rs 3.50 lakh crore. The upcoming projects under capital acquisition will equip the Armed Forces with next generation fighter Aircraft, smart and lethal weapons, ships/submarines, Unmanned Aerial Vehicles, Drones, Specialist Vehicles, etc.&nbsp; </span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><strong>Thrust on Aatmanirbharta</strong></span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Interruption in global supply chains and prioritization of domestic requirements over foreign sellers has re-emphasised the need for import substitution and going for indigenisation not only for sustenance but for future modernisation. In line with this, MoD&rsquo;s policy to earmark funds to boost domestic industries through budgetary policies has been further strengthened by earmarking Rs 1.39 lakh crore <em>i.e.</em>, 75% of the Capital Acquisition budget for procurement through domestic industries during the FY 2026-27. Through such earmarking of funds, domestic players have been reassured about their investment and their increasingly greater role in capability development of the Armed Forces. Enhanced allocation for Capital Acquisition, especially for domestic industries, will have long term positive impact on the national economy and will lead to development of many ancillary industries, creating job opportunities in the country.</span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Defence budget has made a provision of Rs 3,65,478.98 crore for spending under revenue heads. This allocation is 17.24% higher than the allocation for BE 2025-26. Out of this, Rs 1,58,296.98 crore has been allocated for operation and sustenance related expenditure and the remaining for salary and allowances. The budgetary provision made in this regard for the upcoming FY will facilitate procurement of operationally important stores, spare parts etc. and will ensure maintenance of vital platforms in addition to catering for their day-to-day requirements. </span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><strong>Major Thrust on Border Area Development</strong></span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">The Government has reiterated its commitment to providing better infrastructure in border areas through higher allocation to the Border Roads Organisation (BRO). Accordingly, budgetary allocation to BRO under Capital for BE 2026-27 has been enhanced to Rs 7,394 crore from Rs 7,146.50 crore for FY 2025-26. The said allocation will cater to many strategically significant projects such as tunnels, bridges, airfields, etc. and will promote regional development and tourism, along with providing last mile connectivity in the border areas. </span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><strong>Healthcare to Veterans </strong></span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">The Government is committed to providing best healthcare facilities to the veterans and their dependents through enhanced allocation to the Ex-Servicemen Contributory Health Scheme (ECHS). In the annual budget for FY 2026-27, an amount of Rs 12,100 crore has been allotted to ECHS which is 45.49% higher than the current year allocation at BE stage. The said allocation will fund the Medical Treatment Related Expenditure (MTRE) of veterans. The allocation to ECHS has been increased by more than 300% in the last five years vis-a-vis the allocation made at BE stage for FY 2021-22. </span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><strong>Fostering R&amp;D in Defence </strong></span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">The budgetary allocation to Defence Research and Development Organisation (DRDO) has been increased to Rs 29,100.25 crore in FY 2026-27 from Rs 26,816.82 crore in FY 2025-26. Out of this allocation, a major share of Rs. 17,250.25 crore is allocated for capital expenditure. </span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><strong>Increase in Defence Pension Budget</strong></span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Total Budgetary allocation on account of Defence pensions stands at Rs 1,71,338.22 crore, which is 6.56% higher than the allocation made during 2025-26 at BE stage. It will be spent on the disbursement of monthly pension to more than 34 lakh pensioners through SPARSH and other pension disbursing authorities.</span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Through a post on X, Raksha Mantri Shri Rajnath Singh expressed gratitude to Prime Minister Shri Narendra Modi and stated that under his visionary leadership, India&rsquo;s journey towards a Viksit Bharat continues to gather momentum. He also congratulated Finance Minister Smt Nirmala Sitharaman for presenting a budget that seeks to &ldquo;transform aspiration into achievement&rdquo; and &ldquo;potential into performance&rdquo;. This &ldquo;Yuva Shakti&ndash;driven Budget&rdquo; will further strengthen PM Modi&rsquo;s vision of an Aatmanirbhar and Viksit Bharat, he said.</span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Raksha Mantri added that inspired by the three &lsquo;Kartavyas&rsquo;, this budget aims to accelerate and sustain economic growth, fulfil the aspirations of the people and ensure meaningful participation for all. &ldquo;Together, these priorities will drive inclusive development, promote the manufacturing sector, and create sustainable infrastructure. This budget is designed to ensure that the dividends of growth reach every section of society, with special focus on the poor, the underprivileged, and the disadvantaged,&rdquo; he said.</span></span></p>
+
+<center><blockquote class="twitter-tweet"><p lang="en" dir="ltr">Under the visionary leadership of PM Shri <a href="https://twitter.com/narendramodi?ref_src=twsrc%5Etfw">@narendramodi</a>, India’s journey towards a Viksit Bharat continues to gather momentum. In this spirit, I congratulate Finance Minister Smt. <a href="https://twitter.com/nsitharaman?ref_src=twsrc%5Etfw">@nsitharaman</a>, for presenting a budget that seeks to “transform aspiration into achievement” and…</p>&mdash; Rajnath Singh (@rajnathsingh) <a href="https://twitter.com/rajnathsingh/status/2017879997294469350?ref_src=twsrc%5Etfw">February 1, 2026</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script></center>
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Shri Rajnath Singh thanked PM Modi for allocating Rs 7.85 lakh crore to the defence sector in the Union Budget 2026-27, stating that the budget strengthens the security-development-self-reliance balance, and it is in the best interest of the nation. He asserted that the budget, which comes after the historic success of <em>Operation Sindoor</em>, further strengthens the Government&rsquo;s resolve to bolster the security system of the country and enhance military capabilities.</span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">On the enhanced allocation under ECHS, Raksha Mantri termed it as a testimony to the Government&rsquo;s resolve of ex-servicemen welfare. </span></span></p>
+
+<center><blockquote class="twitter-tweet"><p lang="hi" dir="ltr">प्रधानमंत्री श्री <a href="https://twitter.com/narendramodi?ref_src=twsrc%5Etfw">@narendramodi</a> के मार्गदर्शन में तैयार एवं वित्त मंत्री <a href="https://twitter.com/nsitharaman?ref_src=twsrc%5Etfw">@nsitharaman</a> जी द्वारा प्रस्तुत, इस शानदार बजट के लिए मैं उन्हें हार्दिक बधाई देता हूँ। यह जनभावनाओं और जन-अपेक्षाओं पर खरा उतरने वाला बजट है। साथ ही, यह बजट प्रधानमंत्रीजी के आत्मनिर्भर भारत और विकसित भारत…</p>&mdash; Rajnath Singh (@rajnathsingh) <a href="https://twitter.com/rajnathsingh/status/2017872468552397101?ref_src=twsrc%5Etfw">February 1, 2026</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script></center>
+<p style="text-align:center"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">******</span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><strong>VK/Savvy</strong></span></span></p>
+
+
+                        
+                        <div id="reel_pic">
+                        </div>
+
+
+
+                        
+                        <br />
+                        <span id="ReleaseId">(Release ID: 2221612)</span>
+                        <span id="lblViews">Visitor Counter : 16358</span>
+                        <div>
+                              
+                        </div>
+                        
+
+                        <span id="lblRefPhoto"></span>
+
+                        <div class="BackgroundRelease">
+                              
+                        </div>
+                        <div>
+                              
+                        </div>
+                        <div class="ReleaseLang">Read this release in: 
+                        
+                                    
+                                    <a href='https://pib.gov.in/PressReleasePage.aspx?PRID=2221751' target="_blank">
+                                          Urdu </a>
+                              
+                                    ,
+                              
+                                    
+                                    <a href='https://pib.gov.in/PressReleasePage.aspx?PRID=2221863' target="_blank">
+                                          Marathi </a>
+                              
+                                    ,
+                              
+                                    
+                                    <a href='https://pib.gov.in/PressReleasePage.aspx?PRID=2221800' target="_blank">
+                                          हिन्दी </a>
+                              
+                                    ,
+                              
+                                    
+                                    <a href='https://pib.gov.in/PressReleasePage.aspx?PRID=2222200' target="_blank">
+                                          Punjabi </a>
+                              
+                                    ,
+                              
+                                    
+                                    <a href='https://pib.gov.in/PressReleasePage.aspx?PRID=2221814' target="_blank">
+                                          Tamil </a>
+                              
+                                    ,
+                              
+                                    
+                                    <a href='https://pib.gov.in/PressReleasePage.aspx?PRID=2222110' target="_blank">
+                                          Telugu </a>
+                              
+                        </div>
+
+                        <div class="RelTag">
+                              <ul>
+                                    
+                              </ul>
+                        </div>
+                        <div class="clear">
+                        </div>
+                        
+                        <div class="pr-share pr-share--footer" role="group" aria-label="Share this press release">
+                              <span class="pr-share__label" aria-hidden="true">Share</span>
+                              <ul class="pr-share__list">
+                                    <li><a class="pr-share__btn pr-share__btn--facebook"
+                                           href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fpib.gov.in%2fPressReleasePage.aspx%3fPRID%3d2221612"
+                                           target="_blank" rel="noopener noreferrer"
+                                           aria-label="Share on Facebook">
+                                        <svg class="dbim-icon dbim-icon-24" width="24" height="24" fill="currentColor" aria-hidden="true" focusable="false"><use href="#icon-facebook" xlink:href="#icon-facebook"></use></svg>
+                                    </a></li>
+                                    <li><a class="pr-share__btn pr-share__btn--twitter"
+                                           href="https://twitter.com/intent/tweet?url=https%3a%2f%2fpib.gov.in%2fPressReleasePage.aspx%3fPRID%3d2221612"
+                                           target="_blank" rel="noopener noreferrer"
+                                           aria-label="Share on X">
+                                        <svg class="dbim-icon dbim-icon-24" width="24" height="24" fill="currentColor" aria-hidden="true" focusable="false"><use href="#icon-twitter" xlink:href="#icon-twitter"></use></svg>
+                                    </a></li>
+                                    <li><a class="pr-share__btn pr-share__btn--whatsapp"
+                                           href="https://api.whatsapp.com/send?text=https%3a%2f%2fpib.gov.in%2fPressReleasePage.aspx%3fPRID%3d2221612"
+                                           target="_blank" rel="noopener noreferrer"
+                                           aria-label="Share on WhatsApp">
+                                        <svg class="dbim-icon dbim-icon-24" width="24" height="24" fill="currentColor" aria-hidden="true" focusable="false"><use href="#icon-whatsapp" xlink:href="#icon-whatsapp"></use></svg>
+                                    </a></li>
+                                    <li><a class="pr-share__btn pr-share__btn--linkedin"
+                                           href="https://www.linkedin.com/sharing/share-offsite/?url=https%3a%2f%2fpib.gov.in%2fPressReleasePage.aspx%3fPRID%3d2221612"
+                                           target="_blank" rel="noopener noreferrer"
+                                           aria-label="Share on LinkedIn">
+                                        <svg class="dbim-icon dbim-icon-24" width="24" height="24" fill="currentColor" aria-hidden="true" focusable="false"><use href="#icon-linkedin" xlink:href="#icon-linkedin"></use></svg>
+                                    </a></li>
+                                    <li><a class="pr-share__btn pr-share__btn--mail"
+                                           href="mailto:?subject=Press+release+from+PIB&amp;body=https%3a%2f%2fpib.gov.in%2fPressReleasePage.aspx%3fPRID%3d2221612"
+                                           aria-label="Share by email">
+                                        <svg class="dbim-icon dbim-icon-24" width="24" height="24" fill="currentColor" aria-hidden="true" focusable="false"><use href="#icon-mail" xlink:href="#icon-mail"></use></svg>
+                                    </a></li>
+                              </ul>
+                        </div>
+                        <div id="RelLink" class="RelLink">
+                              <ul>
+                                    
+                                    
+                              </ul>
+                        </div>
+                        <center>
+                              
+                        </center>
+                  </div>
+
+                  <div id="update12">
+	
+                              
+                              <input type="hidden" name="Hidden" id="Hidden" />
+                              <div id="P_CategoryManagement" class="ModalWindow" style="border-width:0px;height:60%;width:60%;overflow:auto;display: none">
+		
+                                    <div>
+                                          <input type="image" name="btnClose" id="btnClose" src="images/close_flat_icon.png" />
+                                    </div>
+                                    <div id="description">
+                                    </div>
+                                    <div class="text-center">
+                                          <h2>
+                                                
+                                                <br>
+                                                
+                                          </h2>
+                                    </div>
+                                    <br />
+                                    <div class="clear">
+                                    </div>
+                                    
+                              
+	</div>
+                        
+</div>
+            </div>
+            
+            <div id="PdfDiv" style="display: none;">
+                  <table width="100%">
+                        <tr>
+                              <td style="font-weight: 200; text-align: center">
+                                    Ministry of Defence
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                                    <div style="font-weight: 200; text-align: center; font-size: 30px;">
+                                          Ministry of Defence allocated an all-time high of Rs 7.85 lakh crore in Union Budget 2026-27, 15% higher over Budgetary Estimates of FY 2025-26
+                                    </div>
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                                    <div style="font-weight: 200; text-align: center; font-size: 30px;">
+                                          <div style='height:30px;width:100%;'></div>Record Rs 2.19 lakh crore allocated under Capital Head; Quantum leap of 24% in the Capital Acquisition budget<div style='height:30px;width:100%;'></div><div style='height:30px;width:100%;'></div>Rs 1.39 lakh crore allocated for domestic industries, including private players<div style='height:30px;width:100%;'></div><div style='height:30px;width:100%;'></div>Higher allocation for operational readiness sustained<div style='height:30px;width:100%;'></div><div style='height:30px;width:100%;'></div>Govt’s commitment to ensure quality healthcare facilities to veterans reinforced; Rs 12,100 crore allotted to ECHS, 45.49% higher than BE of FY 2025-26<div style='height:30px;width:100%;'></div><div style='height:30px;width:100%;'></div>Union Budget 2026-27 will further strengthen PM Modi’s vision of an Aatmanirbhar & Viksit Bharat: Raksha Mantri
+                                    </div>
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                                    <div style="text-align: center; font-size: 14px;">
+                                          Posted On:
+                        01 FEB 2026 3:42PM by PIB Delhi
+                                    </div>
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                                    <div style="font-weight: 200; text-align: left; font-size: 16px;">
+                                          <p style="text-align:justify"><span style="font-family:&quot;Times New Roman&quot;,Times,serif; font-size:16px">In the Union Budget post </span><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><em>Operation Sindoor</em></span></span><span style="font-family:&quot;Times New Roman&quot;,Times,serif; font-size:16px">, Defence Services have received an unprecedented allocation amounting to Rs 7.85 lakh crore for the Financial Year (FY) 2026-27. This allocation stands at 2% of the estimated GDP for the next Financial Year and shows a significant increase of 15.19% over the Budgetary Estimates (BE) of FY 2025-26. Total Defence budget is 14.67% of the Central Government expenditure and is the highest among the Ministries.</span></p>
+
+<p style="text-align:justify"><span style="font-family:&quot;Times New Roman&quot;,Times,serif; font-size:16px">In addition to the modernisation of the Armed Forces and financing their regular requirement, the significantly enhanced allocation will also cater for the financial requirements that have arisen due to the emergency procurement of arms and ammunition made subsequent to </span><em>Operation Sindoor</em><span style="font-family:&quot;Times New Roman&quot;,Times,serif; font-size:16px"> under both the categories viz. Capital and Revenue. A large share of the defence budget to the tune of Rs 2.19 lakh crore has been allotted for capital expenditure vis-&agrave;-vis Rs 1.80 lakh crore which was allotted as BE of FY 2025-26. Through this enhanced provision, the Government has reaffirmed its resolve to transform the Armed Forces and their capabilities to the world&rsquo;s highest standards with a strategic shift towards the goal of Aatmanirbhar Bharat.</span></p>
+
+<p style="text-align:justify"><span style="font-family:&quot;Times New Roman&quot;,Times,serif; font-size:16px">Out of the total allocation made to the Ministry of Defence (MoD), a share of 27.95% is for capital expenditure, 20.17% for revenue expenditure on sustenance and operational preparedness, 26.40% for revenue expenditure on pay and allowances, 21.84% for Defence Pensions and 3.64% for civil organisations.</span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><strong>Modernisation of Armed Forces - a strategic objective</strong></span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">For FY 2026-27, budgetary allocation under capital head to the Defence Forces stands at Rs 2,19,306.47 lakh crore, which is 21.84% more than the Budget Estimates of FY 2025-26. Out of this, Rs 1.85 lakh crore is earmarked for Capital Acquisition, which is approximately 24% higher than the Capital Acquisition budget for FY 2025-26. In the current geo-political scenario, quantum jump in the modernisation budget is a strategic imperative. During FY 2025-26, up to 3<sup>rd</sup> quarter <em>i.e.</em>, till December 2025, MoD has concluded contracts worth Rs 2.10 lakh crore and has, so far, given Acceptance of Necessity approval for more than Rs 3.50 lakh crore. The upcoming projects under capital acquisition will equip the Armed Forces with next generation fighter Aircraft, smart and lethal weapons, ships/submarines, Unmanned Aerial Vehicles, Drones, Specialist Vehicles, etc.&nbsp; </span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><strong>Thrust on Aatmanirbharta</strong></span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Interruption in global supply chains and prioritization of domestic requirements over foreign sellers has re-emphasised the need for import substitution and going for indigenisation not only for sustenance but for future modernisation. In line with this, MoD&rsquo;s policy to earmark funds to boost domestic industries through budgetary policies has been further strengthened by earmarking Rs 1.39 lakh crore <em>i.e.</em>, 75% of the Capital Acquisition budget for procurement through domestic industries during the FY 2026-27. Through such earmarking of funds, domestic players have been reassured about their investment and their increasingly greater role in capability development of the Armed Forces. Enhanced allocation for Capital Acquisition, especially for domestic industries, will have long term positive impact on the national economy and will lead to development of many ancillary industries, creating job opportunities in the country.</span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Defence budget has made a provision of Rs 3,65,478.98 crore for spending under revenue heads. This allocation is 17.24% higher than the allocation for BE 2025-26. Out of this, Rs 1,58,296.98 crore has been allocated for operation and sustenance related expenditure and the remaining for salary and allowances. The budgetary provision made in this regard for the upcoming FY will facilitate procurement of operationally important stores, spare parts etc. and will ensure maintenance of vital platforms in addition to catering for their day-to-day requirements. </span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><strong>Major Thrust on Border Area Development</strong></span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">The Government has reiterated its commitment to providing better infrastructure in border areas through higher allocation to the Border Roads Organisation (BRO). Accordingly, budgetary allocation to BRO under Capital for BE 2026-27 has been enhanced to Rs 7,394 crore from Rs 7,146.50 crore for FY 2025-26. The said allocation will cater to many strategically significant projects such as tunnels, bridges, airfields, etc. and will promote regional development and tourism, along with providing last mile connectivity in the border areas. </span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><strong>Healthcare to Veterans </strong></span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">The Government is committed to providing best healthcare facilities to the veterans and their dependents through enhanced allocation to the Ex-Servicemen Contributory Health Scheme (ECHS). In the annual budget for FY 2026-27, an amount of Rs 12,100 crore has been allotted to ECHS which is 45.49% higher than the current year allocation at BE stage. The said allocation will fund the Medical Treatment Related Expenditure (MTRE) of veterans. The allocation to ECHS has been increased by more than 300% in the last five years vis-a-vis the allocation made at BE stage for FY 2021-22. </span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><strong>Fostering R&amp;D in Defence </strong></span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">The budgetary allocation to Defence Research and Development Organisation (DRDO) has been increased to Rs 29,100.25 crore in FY 2026-27 from Rs 26,816.82 crore in FY 2025-26. Out of this allocation, a major share of Rs. 17,250.25 crore is allocated for capital expenditure. </span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><strong>Increase in Defence Pension Budget</strong></span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Total Budgetary allocation on account of Defence pensions stands at Rs 1,71,338.22 crore, which is 6.56% higher than the allocation made during 2025-26 at BE stage. It will be spent on the disbursement of monthly pension to more than 34 lakh pensioners through SPARSH and other pension disbursing authorities.</span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Through a post on X, Raksha Mantri Shri Rajnath Singh expressed gratitude to Prime Minister Shri Narendra Modi and stated that under his visionary leadership, India&rsquo;s journey towards a Viksit Bharat continues to gather momentum. He also congratulated Finance Minister Smt Nirmala Sitharaman for presenting a budget that seeks to &ldquo;transform aspiration into achievement&rdquo; and &ldquo;potential into performance&rdquo;. This &ldquo;Yuva Shakti&ndash;driven Budget&rdquo; will further strengthen PM Modi&rsquo;s vision of an Aatmanirbhar and Viksit Bharat, he said.</span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Raksha Mantri added that inspired by the three &lsquo;Kartavyas&rsquo;, this budget aims to accelerate and sustain economic growth, fulfil the aspirations of the people and ensure meaningful participation for all. &ldquo;Together, these priorities will drive inclusive development, promote the manufacturing sector, and create sustainable infrastructure. This budget is designed to ensure that the dividends of growth reach every section of society, with special focus on the poor, the underprivileged, and the disadvantaged,&rdquo; he said.</span></span></p>
+
+<center><blockquote class="twitter-tweet"><p lang="en" dir="ltr">Under the visionary leadership of PM Shri <a href="https://twitter.com/narendramodi?ref_src=twsrc%5Etfw">@narendramodi</a>, India’s journey towards a Viksit Bharat continues to gather momentum. In this spirit, I congratulate Finance Minister Smt. <a href="https://twitter.com/nsitharaman?ref_src=twsrc%5Etfw">@nsitharaman</a>, for presenting a budget that seeks to “transform aspiration into achievement” and…</p>&mdash; Rajnath Singh (@rajnathsingh) <a href="https://twitter.com/rajnathsingh/status/2017879997294469350?ref_src=twsrc%5Etfw">February 1, 2026</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script></center>
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Shri Rajnath Singh thanked PM Modi for allocating Rs 7.85 lakh crore to the defence sector in the Union Budget 2026-27, stating that the budget strengthens the security-development-self-reliance balance, and it is in the best interest of the nation. He asserted that the budget, which comes after the historic success of <em>Operation Sindoor</em>, further strengthens the Government&rsquo;s resolve to bolster the security system of the country and enhance military capabilities.</span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">On the enhanced allocation under ECHS, Raksha Mantri termed it as a testimony to the Government&rsquo;s resolve of ex-servicemen welfare. </span></span></p>
+
+<center><blockquote class="twitter-tweet"><p lang="hi" dir="ltr">प्रधानमंत्री श्री <a href="https://twitter.com/narendramodi?ref_src=twsrc%5Etfw">@narendramodi</a> के मार्गदर्शन में तैयार एवं वित्त मंत्री <a href="https://twitter.com/nsitharaman?ref_src=twsrc%5Etfw">@nsitharaman</a> जी द्वारा प्रस्तुत, इस शानदार बजट के लिए मैं उन्हें हार्दिक बधाई देता हूँ। यह जनभावनाओं और जन-अपेक्षाओं पर खरा उतरने वाला बजट है। साथ ही, यह बजट प्रधानमंत्रीजी के आत्मनिर्भर भारत और विकसित भारत…</p>&mdash; Rajnath Singh (@rajnathsingh) <a href="https://twitter.com/rajnathsingh/status/2017872468552397101?ref_src=twsrc%5Etfw">February 1, 2026</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script></center>
+<p style="text-align:center"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">******</span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><strong>VK/Savvy</strong></span></span></p>
+
+                                    </div>
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                                    <div style="font-weight: 100; text-align: left; font-size: 16px;">
+                                          (Release ID: 2221612)
+                                    </div>
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                              </td>
+                        </tr>
+                        <tr>
+                              <td style="font-weight: 200; text-align: center; font-size: 24px;"></td>
+                        </tr>
+                  </table>
+            </div>
+            <div class="clearfix">
+            </div>
+
+            
+
+            <div class="section1">
+                  <div id="frst_t">
+                        <div id="arr_rm"><div class='sticky-social_mb'><ul class='social_mb'><a href='http://www.facebook.com/share.php?u=https://pib.gov.in/PressReleasePage.aspx?PRID=2221612' target='_blank'><li class='fb_b'   ></li></a><a href='https://twitter.com/intent/tweet?url=https://pib.gov.in/PressReleasePage.aspx?PRID=2221612&text=Ministry of Defence allocated an all-time high of Rs 7.85 lakh crore in Union Budget 2026-27, 15% higher over Budgetary Estimates of FY 2025-26' target='_blank'><li class='twitter_r'  > </li></a><a href='https://api.whatsapp.com/send?text=https://pib.gov.in/PressReleasePage.aspx?PRID=2221612' target='_blank'><li class='whatsapp_r'  ></li></a><a href='https://mail.google.com/mail/?view=cm&fs=1&tf=1&to=&su=Ministry of Defence allocated an all-time high of Rs 7.85 lakh crore in Union Budget 2026-27, 15% higher over Budgetary Estimates of FY 2025-26&body=https://pib.gov.in/PressReleasePage.aspx?PRID=2221612&ui=2&tf=1&pli=1' title='Share by Email' target='_blank'><li class='fa-envelope_r' ></li></a><a href='https://www.linkedin.com/shareArticle?mini=true&url=https://pib.gov.in/PressReleasePage.aspx?PRID=2221612&title=Ministry of Defence allocated an all-time high of Rs 7.85 lakh crore in Union Budget 2026-27, 15% higher over Budgetary Estimates of FY 2025-26&summary=My%20favorite%20developer%20program&source=LinkedIn' target='_blank'><li class='fa-linkedin_r'  ></li></a></ul></div></div>
+                  </div>
+                  <div id="second_t">
+                        <div id="sndr_rm"><div class='sticky-social'><ul class='social'><a href='http://www.facebook.com/share.php?u=https://pib.gov.in/PressReleasePage.aspx?PRID=2221612' target='_blank'><li class='fb_b'   ></li></a><a href='https://twitter.com/intent/tweet?url=https://pib.gov.in/PressReleasePage.aspx?PRID=2221612&text=Ministry of Defence allocated an all-time high of Rs 7.85 lakh crore in Union Budget 2026-27, 15% higher over Budgetary Estimates of FY 2025-26' target='_blank'><li class='twitter_r'  > </li></a><a href='https://api.whatsapp.com/send?text=https://pib.gov.in/PressReleasePage.aspx?PRID=2221612' target='_blank'><li class='whatsapp_r'  ></li></a><a href='https://mail.google.com/mail/?view=cm&fs=1&tf=1&to=&su=Ministry of Defence allocated an all-time high of Rs 7.85 lakh crore in Union Budget 2026-27, 15% higher over Budgetary Estimates of FY 2025-26&body=https://pib.gov.in/PressReleasePage.aspx?PRID=2221612&ui=2&tf=1&pli=1' title='Share by Email' target='_blank'><li class='fa-envelope_r' ></li></a><a href='https://www.linkedin.com/shareArticle?mini=true&url=https://pib.gov.in/PressReleasePage.aspx?PRID=2221612&title=Ministry of Defence allocated an all-time high of Rs 7.85 lakh crore in Union Budget 2026-27, 15% higher over Budgetary Estimates of FY 2025-26&summary=My%20favorite%20developer%20program&source=LinkedIn' target='_blank'><li class='fa-linkedin_r'  ></li></a></ul></div></div>
+                  </div>
+            </div>
+            <input type="hidden" name="ltrTitlee" id="ltrTitlee" value="Ministry of Defence allocated an all-time high of Rs 7.85 lakh crore in Union Budget 2026-27, 15% higher over Budgetary Estimates of FY 2025-26" />
+            <input type="hidden" name="ltrSubtitlee" id="ltrSubtitlee" value="&lt;br/>Record Rs 2.19 lakh crore allocated under Capital Head; Quantum leap of 24% in the Capital Acquisition budget&lt;br/>&lt;br/>Rs 1.39 lakh crore allocated for domestic industries, including private players&lt;br/>&lt;br/>Higher allocation for operational readiness sustained&lt;br/>&lt;br/>Govt’s commitment to ensure quality healthcare facilities to veterans reinforced; Rs 12,100 crore allotted to ECHS, 45.49% higher than BE of FY 2025-26&lt;br/>&lt;br/>Union Budget 2026-27 will further strengthen PM Modi’s vision of an Aatmanirbhar &amp; Viksit Bharat: Raksha Mantri" />
+            <input type="hidden" name="ltrDescriptionn" id="ltrDescriptionn" value="&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:&amp;quot;Times New Roman&amp;quot;,Times,serif; font-size:16px&quot;>In the Union Budget post &lt;/span>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>&lt;em>Operation Sindoor&lt;/em>&lt;/span>&lt;/span>&lt;span style=&quot;font-family:&amp;quot;Times New Roman&amp;quot;,Times,serif; font-size:16px&quot;>, Defence Services have received an unprecedented allocation amounting to Rs 7.85 lakh crore for the Financial Year (FY) 2026-27. This allocation stands at 2% of the estimated GDP for the next Financial Year and shows a significant increase of 15.19% over the Budgetary Estimates (BE) of FY 2025-26. Total Defence budget is 14.67% of the Central Government expenditure and is the highest among the Ministries.&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:&amp;quot;Times New Roman&amp;quot;,Times,serif; font-size:16px&quot;>In addition to the modernisation of the Armed Forces and financing their regular requirement, the significantly enhanced allocation will also cater for the financial requirements that have arisen due to the emergency procurement of arms and ammunition made subsequent to &lt;/span>&lt;em>Operation Sindoor&lt;/em>&lt;span style=&quot;font-family:&amp;quot;Times New Roman&amp;quot;,Times,serif; font-size:16px&quot;> under both the categories viz. Capital and Revenue. A large share of the defence budget to the tune of Rs 2.19 lakh crore has been allotted for capital expenditure vis-&amp;agrave;-vis Rs 1.80 lakh crore which was allotted as BE of FY 2025-26. Through this enhanced provision, the Government has reaffirmed its resolve to transform the Armed Forces and their capabilities to the world&amp;rsquo;s highest standards with a strategic shift towards the goal of Aatmanirbhar Bharat.&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:&amp;quot;Times New Roman&amp;quot;,Times,serif; font-size:16px&quot;>Out of the total allocation made to the Ministry of Defence (MoD), a share of 27.95% is for capital expenditure, 20.17% for revenue expenditure on sustenance and operational preparedness, 26.40% for revenue expenditure on pay and allowances, 21.84% for Defence Pensions and 3.64% for civil organisations.&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>&lt;strong>Modernisation of Armed Forces - a strategic objective&lt;/strong>&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>For FY 2026-27, budgetary allocation under capital head to the Defence Forces stands at Rs 2,19,306.47 lakh crore, which is 21.84% more than the Budget Estimates of FY 2025-26. Out of this, Rs 1.85 lakh crore is earmarked for Capital Acquisition, which is approximately 24% higher than the Capital Acquisition budget for FY 2025-26. In the current geo-political scenario, quantum jump in the modernisation budget is a strategic imperative. During FY 2025-26, up to 3rd quarter &lt;em>i.e.&lt;/em>, till December 2025, MoD has concluded contracts worth Rs 2.10 lakh crore and has, so far, given Acceptance of Necessity approval for more than Rs 3.50 lakh crore. The upcoming projects under capital acquisition will equip the Armed Forces with next generation fighter Aircraft, smart and lethal weapons, ships/submarines, Unmanned Aerial Vehicles, Drones, Specialist Vehicles, etc.&amp;nbsp; &lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>&lt;strong>Thrust on Aatmanirbharta&lt;/strong>&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>Interruption in global supply chains and prioritization of domestic requirements over foreign sellers has re-emphasised the need for import substitution and going for indigenisation not only for sustenance but for future modernisation. In line with this, MoD&amp;rsquo;s policy to earmark funds to boost domestic industries through budgetary policies has been further strengthened by earmarking Rs 1.39 lakh crore &lt;em>i.e.&lt;/em>, 75% of the Capital Acquisition budget for procurement through domestic industries during the FY 2026-27. Through such earmarking of funds, domestic players have been reassured about their investment and their increasingly greater role in capability development of the Armed Forces. Enhanced allocation for Capital Acquisition, especially for domestic industries, will have long term positive impact on the national economy and will lead to development of many ancillary industries, creating job opportunities in the country.&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>Defence budget has made a provision of Rs 3,65,478.98 crore for spending under revenue heads. This allocation is 17.24% higher than the allocation for BE 2025-26. Out of this, Rs 1,58,296.98 crore has been allocated for operation and sustenance related expenditure and the remaining for salary and allowances. The budgetary provision made in this regard for the upcoming FY will facilitate procurement of operationally important stores, spare parts etc. and will ensure maintenance of vital platforms in addition to catering for their day-to-day requirements. &lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>&lt;strong>Major Thrust on Border Area Development&lt;/strong>&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>The Government has reiterated its commitment to providing better infrastructure in border areas through higher allocation to the Border Roads Organisation (BRO). Accordingly, budgetary allocation to BRO under Capital for BE 2026-27 has been enhanced to Rs 7,394 crore from Rs 7,146.50 crore for FY 2025-26. The said allocation will cater to many strategically significant projects such as tunnels, bridges, airfields, etc. and will promote regional development and tourism, along with providing last mile connectivity in the border areas. &lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>&lt;strong>Healthcare to Veterans &lt;/strong>&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>The Government is committed to providing best healthcare facilities to the veterans and their dependents through enhanced allocation to the Ex-Servicemen Contributory Health Scheme (ECHS). In the annual budget for FY 2026-27, an amount of Rs 12,100 crore has been allotted to ECHS which is 45.49% higher than the current year allocation at BE stage. The said allocation will fund the Medical Treatment Related Expenditure (MTRE) of veterans. The allocation to ECHS has been increased by more than 300% in the last five years vis-a-vis the allocation made at BE stage for FY 2021-22. &lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>&lt;strong>Fostering R&amp;amp;D in Defence &lt;/strong>&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>The budgetary allocation to Defence Research and Development Organisation (DRDO) has been increased to Rs 29,100.25 crore in FY 2026-27 from Rs 26,816.82 crore in FY 2025-26. Out of this allocation, a major share of Rs. 17,250.25 crore is allocated for capital expenditure. &lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>&lt;strong>Increase in Defence Pension Budget&lt;/strong>&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>Total Budgetary allocation on account of Defence pensions stands at Rs 1,71,338.22 crore, which is 6.56% higher than the allocation made during 2025-26 at BE stage. It will be spent on the disbursement of monthly pension to more than 34 lakh pensioners through SPARSH and other pension disbursing authorities.&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>Through a post on X, Raksha Mantri Shri Rajnath Singh expressed gratitude to Prime Minister Shri Narendra Modi and stated that under his visionary leadership, India&amp;rsquo;s journey towards a Viksit Bharat continues to gather momentum. He also congratulated Finance Minister Smt Nirmala Sitharaman for presenting a budget that seeks to &amp;ldquo;transform aspiration into achievement&amp;rdquo; and &amp;ldquo;potential into performance&amp;rdquo;. This &amp;ldquo;Yuva Shakti&amp;ndash;driven Budget&amp;rdquo; will further strengthen PM Modi&amp;rsquo;s vision of an Aatmanirbhar and Viksit Bharat, he said.&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>Raksha Mantri added that inspired by the three &amp;lsquo;Kartavyas&amp;rsquo;, this budget aims to accelerate and sustain economic growth, fulfil the aspirations of the people and ensure meaningful participation for all. &amp;ldquo;Together, these priorities will drive inclusive development, promote the manufacturing sector, and create sustainable infrastructure. This budget is designed to ensure that the dividends of growth reach every section of society, with special focus on the poor, the underprivileged, and the disadvantaged,&amp;rdquo; he said.&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p lang=&quot;en&quot; dir=&quot;ltr&quot;>Under the visionary leadership of PM Shri &lt;a href=&quot;https://twitter.com/narendramodi?ref_src=twsrc%5Etfw&quot;>@narendramodi&lt;/a>, India’s journey towards a Viksit Bharat continues to gather momentum. In this spirit, I congratulate Finance Minister Smt. &lt;a href=&quot;https://twitter.com/nsitharaman?ref_src=twsrc%5Etfw&quot;>@nsitharaman&lt;/a>, for presenting a budget that seeks to “transform aspiration into achievement” and…&lt;/p>&amp;mdash; Rajnath Singh (@rajnathsingh) &lt;a href=&quot;https://twitter.com/rajnathsingh/status/2017879997294469350?ref_src=twsrc%5Etfw&quot;>February 1, 2026&lt;/a> 
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>Shri Rajnath Singh thanked PM Modi for allocating Rs 7.85 lakh crore to the defence sector in the Union Budget 2026-27, stating that the budget strengthens the security-development-self-reliance balance, and it is in the best interest of the nation. He asserted that the budget, which comes after the historic success of &lt;em>Operation Sindoor&lt;/em>, further strengthens the Government&amp;rsquo;s resolve to bolster the security system of the country and enhance military capabilities.&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>On the enhanced allocation under ECHS, Raksha Mantri termed it as a testimony to the Government&amp;rsquo;s resolve of ex-servicemen welfare. &lt;/span>&lt;/span>&lt;/p>
+
+&lt;p lang=&quot;hi&quot; dir=&quot;ltr&quot;>प्रधानमंत्री श्री &lt;a href=&quot;https://twitter.com/narendramodi?ref_src=twsrc%5Etfw&quot;>@narendramodi&lt;/a> के मार्गदर्शन में तैयार एवं वित्त मंत्री &lt;a href=&quot;https://twitter.com/nsitharaman?ref_src=twsrc%5Etfw&quot;>@nsitharaman&lt;/a> जी द्वारा प्रस्तुत, इस शानदार बजट के लिए मैं उन्हें हार्दिक बधाई देता हूँ। यह जनभावनाओं और जन-अपेक्षाओं पर खरा उतरने वाला बजट है। साथ ही, यह बजट प्रधानमंत्रीजी के आत्मनिर्भर भारत और विकसित भारत…&lt;/p>&amp;mdash; Rajnath Singh (@rajnathsingh) &lt;a href=&quot;https://twitter.com/rajnathsingh/status/2017872468552397101?ref_src=twsrc%5Etfw&quot;>February 1, 2026&lt;/a> 
+&lt;p style=&quot;text-align:center&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>******&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>&lt;strong>VK/Savvy&lt;/strong>&lt;/span>&lt;/span>&lt;/p>
+" />
+            <script type="text/javascript">
+                  var mPlayer = document.getElementById("background_music");
+                  var mPlayAction = document.getElementById("playbutton");
+
+                  var isPlaying = false;
+
+                  function playAudio() {
+                        mPlayer.play();
+                        isPlaying = true;
+                        document.getElementById('stopA').style.display = "block";
+                        document.getElementById('playA').style.display = "none";
+                  }
+
+                  function pauseAudio() {
+                        mPlayer.pause();
+                        isPlaying = false;
+                        document.getElementById('playA').style.display = "block";
+                        document.getElementById('stopA').style.display = "none";
+                  }
+                  //function HandleAudio() {
+                  //    if (isPlaying == true) {
+                  //        //Playing already Pause it
+                  //        pauseAudio();
+                  //    } else {
+                  //        //Play the music
+                  //        playAudio();
+                  //    }
+                  //}
+            </script>
+            <script type="text/javascript">
+                  var synth = window.speechSynthesis;
+
+            
+                  function CleanHtml(html) {
+
+                        html = html.replace(/<script[\s\S]*?<\/script>/gi, '');
+
+                        return html;
+                  }
+                  function stripHtml(html) {
+                        let tmp = document.createElement("DIV");
+                        tmp.innerHTML = CleanHtml(html);
+                        return tmp.textContent || tmp.innerText || "";
+                  }
+            </script>
+            <script type="text/javascript">
+                  $(document).ready(function () {
+                        //for responsive tables
+                        $("table").each(function () {
+                              if (!$(this).closest(".table-responsive").length) {
+                                    $(this).wrap("<div class='table-responsive'></div>");
+                              }
+                        });
+
+                        var width = $(window).width();
+                        if (width < 768) {
+
+                              // Extra Small Device
+                              document.getElementById('frst_t').style.display = "block";
+                              document.getElementById('second_t').style.display = "none";
+
+                        } else if (width < 991) {
+                              document.getElementById('frst_t').style.display = "block";
+                              document.getElementById('second_t').style.display = "none";
+                              // Small Device
+
+                        } else if (width < 1199) {
+                              document.getElementById('frst_t').style.display = "none";
+                              document.getElementById('second_t').style.display = "block";
+                              // Medium Device
+
+                        } else {
+                              document.getElementById('frst_t').style.display = "none";
+                              document.getElementById('second_t').style.display = "block";
+                              // Large Device
+
+                        }
+                  });
+            </script>
+            <script type="text/javascript">
+                  $(document).ready(function () {
+                        var width = $(window).width();
+                        if (width < 768) {
+
+                              // Extra Small Device
+                              document.getElementById('frst_t').style.display = "block";
+                              document.getElementById('second_t').style.display = "none";
+
+                        } else if (width < 991) {
+                              document.getElementById('frst_t').style.display = "block";
+                              document.getElementById('second_t').style.display = "none";
+                              // Small Device
+
+                        } else if (width < 1199) {
+                              document.getElementById('frst_t').style.display = "none";
+                              document.getElementById('second_t').style.display = "block";
+                              // Medium Device
+
+                        } else {
+                              document.getElementById('frst_t').style.display = "none";
+                              document.getElementById('second_t').style.display = "block";
+                              // Large Device
+
+                        }
+                  });
+            </script>
+            
+            <style type="text/css">
+                  @media print {
+                        .sticky-social, .sticky-social_mb, .pull-right, #printPDF {
+                              display: none !important;
+                        }
+                  }
+
+                  .f_vl {
+                        padding-right: 30px;
+                        font-size: 17px;
+                        cursor: pointer;
+                  }
+
+                  .log_oo {
+                        // width: 20%;
+                        display: flex;
+                        justify-content: space-between;
+                  }
+
+                        .log_oo img {
+                              width: 150px;
+                              /*width: 100%;
+                    height: auto;*/
+                        }
+
+                  .sticky-social_mb {
+                        position: fixed;
+                        bottom: 0px;
+                        padding: 0px;
+                        margin: 0px;
+                        width: 100%;
+                  }
+
+                  .social_mb {
+                        list-style: none;
+                        display: flex;
+                        width: 100%;
+                        margin-bottom: -8px;
+                  }
+
+                        .social_mb a {
+                              padding: 8px 0px;
+                              font-size: 30px;
+                              transition: all 0.8s ease-in-out;
+                              width: 20% !important;
+                              text-align: center;
+                        }
+            </style>
+            <style type="text/css">
+                  .section1 {
+                        position: relative;
+                        padding: 10px 0px;
+                        width: 100%;
+                  }
+
+
+
+                  .sticky-social {
+                        position: fixed;
+                        top: 20px;
+                        left: 0px;
+                        padding: 0px;
+                        margin: 0px;
+                  }
+
+                  .social {
+                        list-style: none;
+                  }
+
+                        .social a li {
+                              padding: 8px 12px;
+                              font-size: 25px;
+                              transition: all 0.8s ease-in-out;
+                        }
+
+                              .social a li:hover {
+                                    margin-right: -30px;
+                                    box-shadow: 2px 5px 10px grey;
+                              }
+
+                                    .social a li:hover .fa {
+                                          margin-left: 20px;
+                                    }
+
+                  .fb_b {
+                        /* background-color: var(--dbim-key, #0F5757);*/
+                        background-color: var(--dbim-key, #0F5757);
+                  }
+
+                  .twitter_r {
+                        /* background-color: rgb(29, 161, 242);*/
+                        background-color: var(--dbim-key, #0F5757);
+                  }
+
+                  .whatsapp_r {
+                        /* background-color: var(--dbim-key, #0F5757);*/
+                        background-color: var(--dbim-key, #0F5757);
+                  }
+
+                  .fa-envelope_r {
+                        /* background-color: var(--dbim-key, #0F5757);*/
+                        background-color: var(--dbim-key, #0F5757);
+                  }
+
+                  .fa-linkedin_r {
+                        background-color: var(--dbim-key, #0F5757);
+                  }
+            </style>
+            <style type="text/css">
+                  @media only screen and (max-device-width: 767px) {
+                        p span img {
+                              max-width: 90% !important;
+                              height: auto !important;
+                        }
+
+                        p img {
+                              max-width: 90% !important;
+                              height: auto !important;
+                        }
+
+                        h2 {
+                              font-size: var(--dbim-h2, 20px);   /* was 20px !important - the !important blocked A+/A- */
+                              font-weight: 600 !important;
+                        }
+
+                        h3 {
+                              font-size: var(--dbim-h3, 16px);   /* was 16px !important */
+                              font-weight: 600 !important;
+                        }
+                  }
+            </style>
+            <style type="text/css">
+                  /* === Film Roll Badge Styling(IFFI2025 countdown) === */
+                  .film-roll-badge {
+                        position: absolute;
+                        top:82%;
+                        right: 20px;
+                        width: 230px;
+                        height: 70px;
+                        background: repeating-linear-gradient( to right, var(--dbim-green-key, #0F5757) 0px, var(--dbim-green-key, #0F5757) 18px, var(--dbim-text, #150202) 18px, var(--dbim-text, #150202) 36px );
+                        border-top: 8px solid var(--dbim-green-key, #0F5757);
+                        border-bottom: 8px solid var(--dbim-green-key, #0F5757);
+                        border-radius: 8px;
+                        overflow: hidden;
+                        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+                        animation: moveFilm 8s linear infinite;
+                        z-index: 10;
+                  }
+
+                        /* film sprocket holes */
+                        .film-roll-badge::before,
+                        .film-roll-badge::after {
+                              content: "";
+                              position: absolute;
+                              width: 100%;
+                              height: 10px;
+                              background: repeating-linear-gradient( to right, var(--dbim-green-key, #0F5757) 0px, var(--dbim-green-key, #0F5757) 10px, #fff 10px, #fff 20px );
+                              left: 0;
+                              z-index: 2;
+                        }
+
+                        .film-roll-badge::before {
+                              top: -4px;
+                        }
+
+                        .film-roll-badge::after {
+                              bottom: -4px;
+                        }
+
+                  .film-roll-inner {
+                        position: relative;
+                        height: 100%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        animation: flicker 2s infinite ease-in-out;
+                  }
+
+                  .countdown-text {
+                        font-size: 1.3rem;
+                        font-weight: 700;
+                        color: #fff;
+                        text-shadow: 0 0 6px rgba(255, 255, 255, 0.4), 0 0 10px #000;
+                        white-space: nowrap;
+                  }
+
+                  /* === Animations === */
+                  @keyframes moveFilm {
+                        0% {
+                              background-position: 0 0;
+                        }
+
+                        100% {
+                              background-position: 120px 0;
+                        }
+                  }
+
+                  @keyframes flicker {
+                        0%, 100% {
+                              opacity: 1;
+                        }
+
+                        50% {
+                              opacity: 0.9;
+                        }
+
+                        25% {
+                              opacity: 0.95;
+                        }
+
+                        75% {
+                              opacity: 0.85;
+                        }
+                  }
+
+                  /* === Responsive Adjustments === */
+                  @media (max-width: 1500px) {
+                        .film-roll-badge {
+                              top: 68%;
+                              right: 18px;
+                              /* width: 220px; */
+                              height: 65px;
+                              font-size: 0.85rem;
+                        }
+
+                        .press-section {
+                              margin-top: 35px;
+                        }
+                  }
+
+                  @media (max-width: 992px) {
+                        .film-roll-badge {
+                              top: 52%;
+                              right: 10px;
+                               width: 200px; 
+                              height: 60px;
+                        }
+                  }
+
+                  @media (max-width: 768px) {
+                        .film-roll-badge {
+                              top: 56%;
+                              right: 10px;
+                               width: 124px; 
+                              height: 55px;
+                        }
+
+                        .countdown-text {
+                              font-size: 0.9rem;
+                        }
+                  }
+
+                  @media (max-width: 576px) {
+                        .film-roll-badge {
+                              top: 59%;
+                              right: 5px;
+                              /* width: 160px; */
+                              height: 50px;
+                        }
+
+                        .countdown-text {
+                              font-size: 0.85rem;
+                        }
+                  }
+            </style>
+          <script type="text/javascript">
+                const festivalStart = new Date("2025-11-20T00:00:00").getTime();
+                const festivalEnd = new Date("2025-11-28T23:59:59").getTime();
+
+                const countdownElement = document.getElementById("countdown");
+
+                const interval = setInterval(() => {
+                      const now = new Date().getTime();
+
+                      // BEFORE FESTIVAL — show days + hours left
+                      if (now < festivalStart) {
+                            const diff = festivalStart - now;
+                            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+
+                            countdownElement.innerHTML = `
+              ${days} Day${days !== 1 ? 's' : ''} 
+              ${hours} Hour${hours !== 1 ? 's' : ''} to go
+          `;
+
+                      }
+
+                      // DURING FESTIVAL — show 56th IFFI - Day X
+                      else if (now >= festivalStart && now <= festivalEnd) {
+                            const dayNumber = Math.floor((now - festivalStart) / (1000 * 60 * 60 * 24)) + 1;
+                            countdownElement.innerHTML = `56th IFFI - Day ${dayNumber}`;
+                      }
+
+                      // AFTER FESTIVAL — new message
+                      else {
+                            countdownElement.innerHTML = `✨ IFFI closes but never ends…`;
+
+                            // Width change logic
+                            const elements = document.querySelectorAll('.film-roll-badge');
+                            elements.forEach(el => el.style.width = "350px");
+
+                            clearInterval(interval);
+                      }
+
+                }, 1000);
+          </script>
+ <script type="text/javascript">
+
+               const miffStart = new Date("2026-06-15T00:00:00").getTime();
+               const miffEnd = new Date("2026-06-15T23:59:59").getTime();
+
+               const miffElement = document.getElementById("miff");
+
+               if (miffElement) {
+
+                   const miffInterval = setInterval(() => {
+
+                       const now = new Date().getTime();
+
+                       // Before MIFF
+                       if (now < miffStart) {
+
+                           const diff = miffStart - now;
+                           const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                           const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+
+        
+
+                   /*  miffElement.innerHTML = `${days} Day${days !== 1 ? 's' : ''} ${hours} Hour${hours !== 1 ? 's' : ''} to MIFF`;*/
+                           miffElement.innerHTML = `${days} Day${days === 1 ? '' : 's'} to MIFF ...`;
+
+
+                     }
+
+                       // During MIFF
+                       else if (now >= miffStart && now <= miffEnd) {
+
+                           const dayNumber =
+                               Math.floor((now - miffStart) / (1000 * 60 * 60 * 24)) + 1;
+
+                           miffElement.innerHTML = `19th MIFF - Day ${dayNumber}`;
+                       }
+
+                       // After MIFF
+                       else {
+
+                           miffElement.innerHTML = `✨ MIFF concludes, cinema lives on...`;
+
+                           document.querySelectorAll('.film-roll-badge')
+                               .forEach(el => el.style.width = "350px");
+
+                           clearInterval(miffInterval);
+                       }
+
+                   }, 1000);
+               }
+
+</script>
+
+      
+
+<script type="text/javascript">
+//<![CDATA[
+(function() {var fn = function() {$get("sc_HiddenField").value = '';Sys.Application.remove_init(fn);};Sys.Application.add_init(fn);})();Sys.Application.add_init(function() {
+    $create(Sys.Extended.UI.ModalPopupBehavior, {"BackgroundCssClass":"modalBackground","PopupControlID":"P_CategoryManagement","dynamicServicePath":"/PressReleasePage.aspx","id":"mpe"}, null, null, $get("Hidden"));
+});
+//]]>
+</script>
+<input type="hidden" name="__ncforminfo" value="auouLBLiwT7AnD9KQicjcIvb3iiqbBfN04KS_-FS7xHE_y1rJt3iqEyOERbWQDYfmb971_S_4jpDilneEzHCaUf3CM3bAYzIcRFuaOrlrnf8B5z7Vg2gjg=="/></form>
+      
+      
+
+<script type="application/json" id="pibConsentConfig">{"ga4Id":"G-Q414Y0X6EE,G-QJJ6LZ8LHV","policyUrl":"/CookiePolicy.aspx","text":{"bannerLabel":"Cookie consent","title":"Cookies on this website","body":"We use essential cookies to make this website work. We also set analytics cookies when you arrive, so we can see how the site is used and improve it - you can switch these off below or at any time from the Cookie Policy page. Cookies from embedded social media content are set only if you allow them.","policyLink":"Read our Cookie Policy","accept":"Accept all","reject":"Reject optional","customize":"Customise","prefsTitle":"Cookie preferences","prefsIntro":"Choose which cookies this website may set. Essential cookies cannot be switched off because the site does not work without them. Analytics cookies are on unless you turn them off. Social media cookies stay off until you allow them. You can change these choices at any time from the Cookie Policy page.","essentialName":"Essential cookies","essentialDesc":"Needed for the site to function. These remember your session, your language and region, your text size and colour theme, and verify the security check on forms. They are always on.","analyticsName":"Analytics cookies","analyticsDesc":"Help us understand how visitors use the site - which pages are read and how long people stay - so it can be improved. The information is collected in a form that does not directly identify you. These are on when you arrive; switching them off here stops them and deletes the ones already set.","socialName":"Social media cookies","socialDesc":"Set by content embedded from X, Facebook and YouTube, such as timelines and videos. These platforms may use them to track you across websites. They stay off until you allow them.","save":"Save preferences","cancel":"Cancel"}}</script>
+<script type="text/javascript" src='/js/consent.js?v=10'></script>
+
+<script type="text/javascript" src='/js/consent-embeds.js?v=10'></script>
+
+    
+
+<script type="text/javascript">
+    (function () {
+        try {
+            if (window.self === window.top) { return; }
+        } catch (e) { return; }
+        var s = document.createElement("style");
+        s.textContent =
+            ".sticky-social, .sticky-social_mb { display: none !important; }";
+        (document.head || document.documentElement).appendChild(s);
+    }());
+</script>
+</body>
+</html>
+

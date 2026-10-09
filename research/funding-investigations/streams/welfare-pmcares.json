@@ -1,0 +1,3101 @@
+{
+  "schemaVersion": 1,
+  "track": "welfare-pmcares",
+  "reviewDate": "2026-10-08",
+  "scope": "Five selected public-finance dossiers: PM CARES current accounts/refunds and BEL contribution; Aurangabad ventilator safety/funding correction; Bihar PM-JAY agency contracts and 139-card/23-hospital cohort; PM-KISAN recoveries/exclusions. Historical window 8 Oct 2011–8 Oct 2026, but inspected case records primarily 2018–2026. Not complete national welfare spending coverage.",
+  "searchLog": [
+    {
+      "query": "PM CARES audited statement 2024 2025 notes refund implementing agencies latest 2026 audited statement",
+      "requestedResults": 6,
+      "date": "2026-10-08"
+    },
+    {
+      "query": "PM CARES ventilators 2021 audit AGVA Jyoti CNC Ministry Health clarification faulty parliament 2025",
+      "requestedResults": 6,
+      "date": "2026-10-08"
+    },
+    {
+      "query": "CAG Ayushman Bharat PM JAY dead patients 2023 audit ministry clarification recovery 2025 parliament",
+      "requestedResults": 6,
+      "date": "2026-10-08"
+    },
+    {
+      "query": "PM KISAN ineligible beneficiaries recovery parliament 2025 2026 amount recovered",
+      "requestedResults": 6,
+      "date": "2026-10-08"
+    },
+    {
+      "query": "PM CARES Delhi High Court RTI public authority petition October 2026 latest judgment 2025 2026",
+      "requestedResults": 6,
+      "date": "2026-10-08"
+    },
+    {
+      "query": "PM CARES ventilators Jyoti CNC Bombay High Court June 2021 expert committee report final order",
+      "requestedResults": 6,
+      "date": "2026-10-08"
+    },
+    {
+      "query": "PM JAY CAG Bihar Report 4 2025 disabled cards payments November 2024 reply 2026",
+      "requestedResults": 6,
+      "date": "2026-10-08"
+    },
+    {
+      "query": "Lok Sabha PM KISAN 416.75 crore recovered December 2 2025 question",
+      "requestedResults": 6,
+      "date": "2026-10-08"
+    },
+    {
+      "query": "PM CARES ventilators HLL Jyoti CNC 150 not PM CARES May 28 2021 press release",
+      "requestedResults": 5,
+      "date": "2026-10-08"
+    },
+    {
+      "query": "Bihar CAG Report 4 of 2025 Ayushman Bharat tabled February 2026 33.44",
+      "requestedResults": 5,
+      "date": "2026-10-08"
+    },
+    {
+      "query": "PM CARES Girish Mittal 2026 February 10 appeal latest judgment 2026 Delhi High Court",
+      "requestedResults": 5,
+      "date": "2026-10-08"
+    },
+    {
+      "query": "Bharat Electronics Limited annual report 2020 2021 PM CARES donation CSR amount",
+      "requestedResults": 5,
+      "date": "2026-10-08"
+    },
+    {
+      "query": "Bihar CAG Report 4 2025 Ayushman Bharat Family Health Plan Insurance TPA response 2026",
+      "requestedResults": 5,
+      "date": "2026-10-08"
+    },
+    {
+      "query": "Aurangabad ventilators Jyoti CNC June 7 2021 Bombay High Court report replacement later outcome",
+      "requestedResults": 5,
+      "date": "2026-10-08"
+    },
+    {
+      "query": "site:cag.gov.in \"Report No. 4 of the year 2025\" \"26 Feb\" Bihar Ayushman",
+      "requestedResults": 5,
+      "date": "2026-10-08"
+    },
+    {
+      "query": "site:indiankanoon.org \"Girish Mittal\" \"2026\" \"Cares\"",
+      "requestedResults": 5,
+      "date": "2026-10-08"
+    },
+    {
+      "query": "site:cag.gov.in \"Ayushman Bharat-Pradhan Mantri\" \"2026\" \"4 of 2025\"",
+      "requestedResults": 5,
+      "date": "2026-10-08"
+    }
+  ],
+  "sources": [
+    {
+      "id": "fi:welfare-pmcares:src:pm-accounts",
+      "title": "PM CARES FY 2024–25 receipts and payments account",
+      "publisher": "PM CARES Fund",
+      "url": "https://pmcares.gov.in/assets/donation/pdf/Audited_Statement_2024_25.pdf",
+      "publishedAt": null,
+      "accessedAt": "2026-10-09T04:09:47.272508+00:00",
+      "kind": "official",
+      "sourceFamily": "https://pmcares.gov.in/assets/donation/pdf/Audited_Statement_2024_25.pdf",
+      "inspection": "full-document",
+      "locator": "Only page, receipts/payment/closing-balance rows; notes 11 and 1–16 references; signatures 6/7 Aug 2026",
+      "excerpt": "Document image inspected: implementing-agency refunds ₹3,246,580,919; children payments ₹8,784,840; bank/SMS charges ₹451; closing bank balances ₹84,520,670,758.",
+      "limitations": [
+        "One-page cash receipts/payments statement; referenced notes and audit opinion are absent from this downloaded PDF. Signature dates are not independently verified first-publication dates.",
+        "Aggregate refund gives no agency/project attribution; closing balance is neither theft nor a fiscal-year spending figure."
+      ],
+      "capturePath": "research/funding-investigations/raw/welfare-pmcares/pmcares-fy2425.pdf",
+      "sha256": "b854546de57c70e457b5a46acaa640983ab514930139a685135aa5ce86b60cfc"
+    },
+    {
+      "id": "fi:welfare-pmcares:src:pm-about",
+      "title": "PM CARES official account-publication index",
+      "publisher": "PM CARES Fund",
+      "url": "https://pmcares.gov.in/en/web/page/about_us",
+      "publishedAt": null,
+      "accessedAt": "2026-10-09T04:09:47.272508+00:00",
+      "kind": "official",
+      "sourceFamily": "https://pmcares.gov.in/en/web/page/about_us",
+      "inspection": "web-text",
+      "locator": "Receipt and Payment Accounts (Audited) table",
+      "excerpt": "Current captured index lists FY 2019–20 through FY 2024–25; no FY 2025–26 statement appears in that table.",
+      "limitations": [
+        "Current snapshot only: no assertion that no later account exists anywhere or that nonpublication establishes illegality."
+      ],
+      "capturePath": "research/funding-investigations/raw/welfare-pmcares/pmcares-about.html",
+      "sha256": "cee3e8e8d77a050127230e26eb14d40ec9f5480bba63b154eb64bbd44347dbcf"
+    },
+    {
+      "id": "fi:welfare-pmcares:src:pm-faq",
+      "title": "PM CARES official FAQs: trustees, administration, CSR and audit",
+      "publisher": "PM CARES Fund",
+      "url": "https://pmcares.gov.in/en/web/page/faq",
+      "publishedAt": null,
+      "accessedAt": "2026-10-09T04:09:47.272508+00:00",
+      "kind": "official",
+      "sourceFamily": "https://pmcares.gov.in/en/web/page/faq",
+      "inspection": "web-text",
+      "locator": "Questions 2,5,6,8,12,14,19–20",
+      "excerpt": "PM/Defence/Home/Finance offices are ex-officio trustees; PMO provides honorary administration. CSR contributions are accepted; PSU budgetary contributions are not. Current original Q19 identifies KKC & Associates LLP.",
+      "limitations": [
+        "Fresh original HTML takes precedence over stale Exa indexed FAQ that still named SARC. No statutory audit period under Income Tax Act is the fund’s FAQ position; other possible legal obligations were not independently adjudicated."
+      ],
+      "capturePath": "research/funding-investigations/raw/welfare-pmcares/pmcares-faq.html",
+      "sha256": "5e5e125f25127da6cca17bfbe0a40c9f71b234062f5415710d25756b8470deef"
+    },
+    {
+      "id": "fi:welfare-pmcares:src:pm-2223",
+      "title": "PM CARES FY 2022–23 receipts and payments account",
+      "publisher": "PM CARES Fund",
+      "url": "https://pmcares.gov.in/assets/donation/pdf/Audited_Statement_2022_23.pdf",
+      "publishedAt": null,
+      "accessedAt": "2026-10-09T04:09:47.272508+00:00",
+      "kind": "official",
+      "sourceFamily": "https://pmcares.gov.in/assets/donation/pdf/Audited_Statement_2022_23.pdf",
+      "inspection": "selected-pages",
+      "locator": "Page 1 receipts: refund from procurement of 50,000 ventilators; PSA refund rows",
+      "excerpt": "Image inspected: ₹2,028,862,043 refunded against the ventilator procurement programme in FY 2022–23. Separate PSA refund rows appear.",
+      "limitations": [
+        "Programme refund is not supplier-specific, does not establish faulty goods or contractor fraud, and cannot identify FY 2024–25 refund agencies."
+      ],
+      "capturePath": "research/funding-investigations/raw/welfare-pmcares/pmcares-fy2223.pdf",
+      "sha256": "15b8e41c2fe87683f8c75de9c5114c554e4fe54fac590d33301d6e474bceebff"
+    },
+    {
+      "id": "fi:welfare-pmcares:src:bel-csr",
+      "title": "BEL contribution to PM CARES during COVID second wave",
+      "publisher": "Bharat Electronics Limited",
+      "url": "https://bel-india.in/news-bel/bel-contributes-rs-5-45-crores-to-pm-cares-fund-to-combat-covid-19-second-wave/",
+      "publishedAt": "2021-04-30",
+      "accessedAt": "2026-10-09T04:09:47.272508+00:00",
+      "kind": "official",
+      "sourceFamily": "https://bel-india.in/news-bel/bel-contributes-rs-5-45-crores-to-pm-cares-fund-to-combat-covid-19-second-wave/",
+      "inspection": "web-text",
+      "locator": "Company release, first paragraph and dated signoff",
+      "excerpt": "BEL says it contributed ₹5.45 crore from CSR to PM CARES and had released ₹10 crore the previous year.",
+      "limitations": [
+        "Company’s own public disclosure; fund-side donor receipt not inspected. CSR donation does not establish contract influence."
+      ],
+      "capturePath": "research/funding-investigations/raw/welfare-pmcares/bel-csr-20210430.txt",
+      "sha256": "62555706c35dbebf699aac30202f9cc1de56262dd2d8d66de8b28bb98349ba69"
+    },
+    {
+      "id": "fi:welfare-pmcares:src:pm-court-report",
+      "title": "PM CARES RTI third-party safeguards appeal hearing",
+      "publisher": "Hindustan Times / Shruti Kakkar",
+      "url": "https://www.hindustantimes.com/cities/delhi-news/pm-cares-fund-may-get-rti-third-party-privacy-safeguards-delhi-high-court-101768311704595.html",
+      "publishedAt": "2026-01-13",
+      "accessedAt": "2026-10-09T04:09:47.272508+00:00",
+      "kind": "reporting",
+      "sourceFamily": "https://www.hindustantimes.com/cities/delhi-news/pm-cares-fund-may-get-rti-third-party-privacy-safeguards-delhi-high-court-101768311704595.html",
+      "inspection": "secondary-only",
+      "locator": "Account of 13 Jan 2026 hearing in Girish Mittal appeal, reference to 22 Jan 2024 ruling",
+      "excerpt": "Reporting describes oral observations about third-party privacy and an adjournment.",
+      "limitations": [
+        "Secondary hearing report only; not a final ruling that resolves all public-authority issues. No verified subsequent disposition located by this limited search."
+      ],
+      "capturePath": "research/funding-investigations/raw/welfare-pmcares/pmcares-court-20260113.txt",
+      "sha256": "1f5534240b5fea1af0026e88b30d19213a17c6080016549e5fa5fd2f7e5bc921"
+    },
+    {
+      "id": "fi:welfare-pmcares:src:vent-ministry",
+      "title": "Update on ventilators installed in Aurangabad",
+      "publisher": "Ministry of Health and Family Welfare / PIB",
+      "url": "https://www.pib.gov.in/PressReleaseIframePage.aspx?PRID=1718677&lang=2&reg=48",
+      "publishedAt": "2021-05-14",
+      "accessedAt": "2026-10-09T04:09:47.272508+00:00",
+      "kind": "official",
+      "sourceFamily": "https://www.pib.gov.in/PressReleaseIframePage.aspx?PRID=1718677&lang=2&reg=48",
+      "inspection": "web-text",
+      "locator": "Supplier/funding paragraph;150-unit allocation and commissioning account; technical-response paragraphs",
+      "excerpt": "Ministry says Jyoti CNC supplied 150 ventilators and expressly says this supplier was not funded under PM CARES. It cites commissioning certificates and installation/consumables/mask-fitting explanations.",
+      "limitations": [
+        "Government and manufacturer technical account; underlying certificates/logs were not independently inspected. A funding denial is kept separate from device-performance evidence."
+      ],
+      "capturePath": "research/funding-investigations/raw/welfare-pmcares/aurangabad-ministry-20210514.txt",
+      "sha256": "291aca1926c9b924470bf687504926fdfcb72a7a6638cc2a6704b0925a435b78"
+    },
+    {
+      "id": "fi:welfare-pmcares:src:vent-order",
+      "title": "Bombay High Court Aurangabad, Criminal Suo Moto PIL2/2021, order 2 June 2021",
+      "publisher": "Bombay High Court (PDF mirror on LiveLaw)",
+      "url": "https://www.livelaw.in/pdf_upload/ordjud-33-394379.pdf",
+      "publishedAt": "2021-06-02",
+      "accessedAt": "2026-10-09T04:09:47.272508+00:00",
+      "kind": "court",
+      "sourceFamily": "https://www.livelaw.in/pdf_upload/ordjud-33-394379.pdf",
+      "inspection": "full-document",
+      "locator": "Paragraphs 1–8, especially 2(a)–(g),3–6",
+      "excerpt": "Court records inspectionX-21 defects despite repairs, sufficient consumables and 269 trained personnel; Union promises examination and replacement if still defective under one-year warranty.",
+      "limitations": [
+        "Interim patient-safety proceeding, not a criminal conviction or quantified loss finding. Mirror copy rather than court-hosted original. X-21 annexure not independently obtained."
+      ],
+      "capturePath": "research/funding-investigations/raw/welfare-pmcares/ventilators-20210602.pdf",
+      "sha256": "f281e8f0a3ebebc48edf7798bd09f74db2e4f816788b17a9df238cec702ebcaa"
+    },
+    {
+      "id": "fi:welfare-pmcares:src:vent-followup",
+      "title": "Aurangabad repaired ventilators: backup condition and later funding clarification",
+      "publisher": "The Indian Express / Omkar Gokhale",
+      "url": "https://indianexpress.com/article/cities/mumbai/aurangabad-gmchs-18-faulty-ventilators-repaired-keep-backup-ventilators-ready-ensure-patients-health-not-put-in-jeopardy-says-bombay-hc-7348274/",
+      "publishedAt": "2021-06-07",
+      "accessedAt": "2026-10-09T04:09:47.272508+00:00",
+      "kind": "reporting",
+      "sourceFamily": "https://indianexpress.com/article/cities/mumbai/aurangabad-gmchs-18-faulty-ventilators-repaired-keep-backup-ventilators-ready-ensure-patients-health-not-put-in-jeopardy-says-bombay-hc-7348274/",
+      "inspection": "secondary-only",
+      "locator": "7 June hearing:18 units repaired, standby condition, Union funding clarification",
+      "excerpt": "Reports 18 units could be used with backup; Union counsel again says Jyoti CNC equipment supplied to Maharashtra was not PM CARES-financed.",
+      "limitations": [
+        "Later order not obtained; article remains attributed reporting. Neither 18 repaired nor 113 earlier questioned gives a final failure rate for all 150. Unrelated image-caption text in extraction is ignored."
+      ],
+      "capturePath": "research/funding-investigations/raw/welfare-pmcares/aurangabad-followup-20210607.txt",
+      "sha256": "d00039956627ab532bc16bb4b14fb3fecd0bc24c6ac3a5daaf2f350d75a95fa2"
+    },
+    {
+      "id": "fi:welfare-pmcares:src:bihar-audit",
+      "title": "Bihar CAG Report 4/2025: AB-PMJAY and PMAY-G performance audit",
+      "publisher": "Comptroller and Auditor General of India",
+      "url": "https://cag.gov.in/uploads/download_audit_report/2025/Performance-Audit---Civil---Report---4-of-2025--English-069a01619c584d8.44750365.pdf",
+      "publishedAt": null,
+      "accessedAt": "2026-10-09T04:09:47.272508+00:00",
+      "kind": "audit",
+      "sourceFamily": "https://cag.gov.in/uploads/download_audit_report/2025/Performance-Audit---Civil---Report---4-of-2025--English-069a01619c584d8.44750365.pdf",
+      "inspection": "selected-pages",
+      "locator": "ChapterI §§1.2,1.5,1.7.1–1.7.2,1.8.4,1.9.3–1.9.8; Appendix 1.8; replies 2022–2025",
+      "excerpt": "Inspected selected sections document agency procurement, payments and mismatched card records, preserving state replies and CAG rebuttals.",
+      "limitations": [
+        "Original PDF returned 503; retained indexed text from original URL, not verified PDF bytes. Tables may suffer layout extraction; admitted Appendix 1.8 rows reconciled to 139 cards/₹2,525,325.",
+        "Report label 2025 does not establish publication date; secondary reports place tabling 26 Feb 2026, not independently verified against official catalogue.",
+        "Audit period 2018–24, later replies and data snapshots through Feb 2025; limited sample 10 districts/63 hospitals."
+      ],
+      "capturePath": "research/funding-investigations/raw/welfare-pmcares/bihar-cag2025-exa.txt",
+      "sha256": "616f98ed61213e1e72377e74ca0bc63539a1e07e9cd41f933e13b19a891e1b2d"
+    },
+    {
+      "id": "fi:welfare-pmcares:src:kisan-recovery",
+      "title": "23 rd PM-KISAN instalment and recovery backgrounder",
+      "publisher": "PIB / Ministry of Agriculture and Farmers Welfare",
+      "url": "https://www.pib.gov.in/PressReleasePage.aspx?lang=2&PRID=2275744&reg=48",
+      "publishedAt": "2026-06-20",
+      "accessedAt": "2026-10-09T04:09:47.272508+00:00",
+      "kind": "official",
+      "sourceFamily": "https://www.pib.gov.in/PressReleasePage.aspx?lang=2&PRID=2275744&reg=48",
+      "inspection": "web-text",
+      "locator": "Targeting, Beneficiary Identification, and Database Management; Fund Transfer Journey",
+      "excerpt": "Government reports ₹416.75 crore recovered from ineligible beneficiaries nationwide as of December 2025 and describes state verification→PFMS→sanction→bank/NPCI→beneficiary route.",
+      "limitations": [
+        "Official aggregate claim, not beneficiary-bank reconciliation. Recovery period and disbursement periods differ; no loss ratio computed. Promotional impact/causality claims not adopted."
+      ],
+      "capturePath": "research/funding-investigations/raw/welfare-pmcares/pmkisan-recovery-20260620.txt",
+      "sha256": "1064ff2bc784a765b0d9c0d35523d8e3fb994571b2c386786eb8432d063bf723"
+    },
+    {
+      "id": "fi:welfare-pmcares:src:kisan-exclusion",
+      "title": "Rajya Sabha AU3226: exclusions of beneficiaries under PM-KISAN",
+      "publisher": "Ministry of Agriculture and Farmers Welfare",
+      "url": "https://sansad.in/getFile/annex/270/AU3226_xbrVz9.pdf?source=pqars",
+      "publishedAt": "2026-03-20",
+      "accessedAt": "2026-10-09T04:09:47.272508+00:00",
+      "kind": "official",
+      "sourceFamily": "https://sansad.in/getFile/annex/270/AU3226_xbrVz9.pdf?source=pqars",
+      "inspection": "full-document",
+      "locator": "Answer(a)–(c), mandatory-rule timing and 16 March 2026 table",
+      "excerpt": "Lists pending land-seeding 16,52,379; Aadhaar-bank-seeding 23,53,748; eKYC32,94,609. Names rule start instalments and reinstatement assistance.",
+      "limitations": [
+        "Original download 502; full indexed answer inspected. Categories may overlap; not summed as unique people or classified as fraud."
+      ],
+      "capturePath": "research/funding-investigations/raw/welfare-pmcares/pmkisan-rs3226-20260320.txt",
+      "sha256": "8cf8f3afc047dd1b93e73366c8dc6c291ba0e395dee120c38c0820d127ff7aca"
+    },
+    {
+      "id": "fi:welfare-pmcares:src:kisan-2026",
+      "title": "Lok Sabha AU294: irregularities in PM-KISAN",
+      "publisher": "Ministry of Agriculture and Farmers Welfare",
+      "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU294_XLLTbI.pdf",
+      "publishedAt": "2026-07-21",
+      "accessedAt": "2026-10-09T04:09:47.272508+00:00",
+      "kind": "official",
+      "sourceFamily": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU294_XLLTbI.pdf",
+      "inspection": "selected-pages",
+      "locator": "Answer(c)–(e), asof 14 July 2026; answer(a) instalment 23 amount",
+      "excerpt": "CPGRAMS313,751 received/312,660 resolved; PM-KISAN portal 1,527,362 received/1,521,607 resolved; Dungarpur 5,171/5,154. Reply describes official-login biometric authentication and maker–checker controls.",
+      "limitations": [
+        "Original download 502; indexed original answer inspected. Resolved grievance does not necessarily mean successful payment or claimant satisfaction. Different portal populations overlap."
+      ],
+      "capturePath": "research/funding-investigations/raw/welfare-pmcares/pmkisan-ls294-20260721.txt",
+      "sha256": "0664269b306f889977d8563d47d460901128c8d3f912b5f1a3ee8402648d3aa8"
+    }
+  ],
+  "entities": [
+    {
+      "id": "fi:welfare-pmcares:entity:pmcares",
+      "label": "PM CARES Fund",
+      "kind": "fund",
+      "identityBasis": "Exact name and institutional role in cited original; no name, ownership or cross-track fuzzy merge. Resolved for this source-scoped institution, programme or named facility only; no beneficial-owner resolution or cross-namespace identity merge is implied.",
+      "sourceIds": [
+        "fi:welfare-pmcares:src:pm-faq",
+        "fi:welfare-pmcares:src:pm-accounts"
+      ],
+      "resolved": true
+    },
+    {
+      "id": "fi:welfare-pmcares:entity:pmo",
+      "label": "Prime Minister’s Office",
+      "kind": "institution",
+      "identityBasis": "Exact name and institutional role in cited original; no name, ownership or cross-track fuzzy merge. Resolved for this source-scoped institution, programme or named facility only; no beneficial-owner resolution or cross-namespace identity merge is implied.",
+      "sourceIds": [
+        "fi:welfare-pmcares:src:pm-faq"
+      ],
+      "resolved": true
+    },
+    {
+      "id": "fi:welfare-pmcares:entity:trustees",
+      "label": "PM CARES Board of Trustees",
+      "kind": "institution",
+      "identityBasis": "Exact name and institutional role in cited original; no name, ownership or cross-track fuzzy merge. Resolved for this source-scoped institution, programme or named facility only; no beneficial-owner resolution or cross-namespace identity merge is implied.",
+      "sourceIds": [
+        "fi:welfare-pmcares:src:pm-faq"
+      ],
+      "resolved": true
+    },
+    {
+      "id": "fi:welfare-pmcares:entity:kkc",
+      "label": "KKC & Associates LLP",
+      "kind": "company",
+      "identityBasis": "Exact name and institutional role in cited original; no name, ownership or cross-track fuzzy merge. Resolved for this source-scoped institution, programme or named facility only; no beneficial-owner resolution or cross-namespace identity merge is implied.",
+      "sourceIds": [
+        "fi:welfare-pmcares:src:pm-faq",
+        "fi:welfare-pmcares:src:pm-accounts"
+      ],
+      "resolved": true
+    },
+    {
+      "id": "fi:welfare-pmcares:entity:agencies-unknown",
+      "label": "Unidentified implementing agencies — FY 2024–25 aggregate",
+      "kind": "institution",
+      "identityBasis": "Explicit unresolved aggregate role from the FY2024–25 refund row. No implementing agency is individually identified; this display node is not a resolved legal entity.",
+      "sourceIds": [
+        "fi:welfare-pmcares:src:pm-accounts"
+      ],
+      "resolved": false
+    },
+    {
+      "id": "fi:welfare-pmcares:entity:children",
+      "label": "PM CARES for Children Scheme",
+      "kind": "programme",
+      "identityBasis": "Exact name and institutional role in cited original; no name, ownership or cross-track fuzzy merge. Resolved for this source-scoped institution, programme or named facility only; no beneficial-owner resolution or cross-namespace identity merge is implied.",
+      "sourceIds": [
+        "fi:welfare-pmcares:src:pm-accounts"
+      ],
+      "resolved": true
+    },
+    {
+      "id": "fi:welfare-pmcares:entity:banks-unknown",
+      "label": "Scheduled banks — aggregate, no institution names disclosed",
+      "kind": "institution",
+      "identityBasis": "Aggregate scheduled-bank balance category in the statement. No specific bank identity, account number or ownership inference is made.",
+      "sourceIds": [
+        "fi:welfare-pmcares:src:pm-accounts"
+      ],
+      "resolved": false
+    },
+    {
+      "id": "fi:welfare-pmcares:entity:bel",
+      "label": "Bharat Electronics Limited",
+      "kind": "company",
+      "identityBasis": "Exact name and institutional role in cited original; no name, ownership or cross-track fuzzy merge. Resolved for this source-scoped institution, programme or named facility only; no beneficial-owner resolution or cross-namespace identity merge is implied.",
+      "sourceIds": [
+        "fi:welfare-pmcares:src:bel-csr"
+      ],
+      "resolved": true
+    },
+    {
+      "id": "fi:welfare-pmcares:entity:pm-vent-programme",
+      "label": "PM CARES 50,000-ventilator procurement programme",
+      "kind": "programme",
+      "identityBasis": "Source-defined procurement programme grouping, used to attribute a refund category; not a named bank remitter or company. Resolved for this source-scoped institution, programme or named facility only; no beneficial-owner resolution or cross-namespace identity merge is implied.",
+      "sourceIds": [
+        "fi:welfare-pmcares:src:pm-2223"
+      ],
+      "resolved": true
+    },
+    {
+      "id": "fi:welfare-pmcares:entity:mohfw",
+      "label": "Ministry of Health and Family Welfare",
+      "kind": "institution",
+      "identityBasis": "Exact name and institutional role in cited original; no name, ownership or cross-track fuzzy merge. Resolved for this source-scoped institution, programme or named facility only; no beneficial-owner resolution or cross-namespace identity merge is implied.",
+      "sourceIds": [
+        "fi:welfare-pmcares:src:vent-ministry",
+        "fi:welfare-pmcares:src:bihar-audit"
+      ],
+      "resolved": true
+    },
+    {
+      "id": "fi:welfare-pmcares:entity:jyoti",
+      "label": "Jyoti CNC — Dhaman-III supplier in Aurangabad records",
+      "kind": "company",
+      "identityBasis": "Exact name and institutional role in cited original; no name, ownership or cross-track fuzzy merge. Resolved for this source-scoped institution, programme or named facility only; no beneficial-owner resolution or cross-namespace identity merge is implied.",
+      "sourceIds": [
+        "fi:welfare-pmcares:src:vent-ministry",
+        "fi:welfare-pmcares:src:vent-order"
+      ],
+      "resolved": true
+    },
+    {
+      "id": "fi:welfare-pmcares:entity:hll",
+      "label": "HLL — procurement agency named in order",
+      "kind": "company",
+      "identityBasis": "Exact name and institutional role in cited original; no name, ownership or cross-track fuzzy merge. Resolved for this source-scoped institution, programme or named facility only; no beneficial-owner resolution or cross-namespace identity merge is implied.",
+      "sourceIds": [
+        "fi:welfare-pmcares:src:vent-order"
+      ],
+      "resolved": true
+    },
+    {
+      "id": "fi:welfare-pmcares:entity:gmch",
+      "label": "Government Medical College and Hospital, Aurangabad",
+      "kind": "institution",
+      "identityBasis": "Exact name and institutional role in cited original; no name, ownership or cross-track fuzzy merge. Resolved for this source-scoped institution, programme or named facility only; no beneficial-owner resolution or cross-namespace identity merge is implied.",
+      "sourceIds": [
+        "fi:welfare-pmcares:src:vent-ministry",
+        "fi:welfare-pmcares:src:vent-order"
+      ],
+      "resolved": true
+    },
+    {
+      "id": "fi:welfare-pmcares:entity:cigma",
+      "label": "Cigma Hospital — Aurangabad allocation",
+      "kind": "institution",
+      "identityBasis": "Exact name and institutional role in cited original; no name, ownership or cross-track fuzzy merge. Resolved for this source-scoped institution, programme or named facility only; no beneficial-owner resolution or cross-namespace identity merge is implied.",
+      "sourceIds": [
+        "fi:welfare-pmcares:src:vent-ministry"
+      ],
+      "resolved": true
+    },
+    {
+      "id": "fi:welfare-pmcares:entity:mgm",
+      "label": "MGM Hospital — Aurangabad allocation",
+      "kind": "institution",
+      "identityBasis": "Exact name and institutional role in cited original; no name, ownership or cross-track fuzzy merge. Resolved for this source-scoped institution, programme or named facility only; no beneficial-owner resolution or cross-namespace identity merge is implied.",
+      "sourceIds": [
+        "fi:welfare-pmcares:src:vent-ministry"
+      ],
+      "resolved": true
+    },
+    {
+      "id": "fi:welfare-pmcares:entity:bombayhc",
+      "label": "Bombay High Court, Aurangabad Bench",
+      "kind": "institution",
+      "identityBasis": "Exact name and institutional role in cited original; no name, ownership or cross-track fuzzy merge. Resolved for this source-scoped institution, programme or named facility only; no beneficial-owner resolution or cross-namespace identity merge is implied.",
+      "sourceIds": [
+        "fi:welfare-pmcares:src:vent-order"
+      ],
+      "resolved": true
+    },
+    {
+      "id": "fi:welfare-pmcares:entity:nha",
+      "label": "National Health Authority",
+      "kind": "institution",
+      "identityBasis": "Exact name and institutional role in cited original; no name, ownership or cross-track fuzzy merge. Resolved for this source-scoped institution, programme or named facility only; no beneficial-owner resolution or cross-namespace identity merge is implied.",
+      "sourceIds": [
+        "fi:welfare-pmcares:src:bihar-audit"
+      ],
+      "resolved": true
+    },
+    {
+      "id": "fi:welfare-pmcares:entity:bsss",
+      "label": "Bihar Swasthya Suraksha Samiti",
+      "kind": "institution",
+      "identityBasis": "Exact name and institutional role in cited original; no name, ownership or cross-track fuzzy merge. Resolved for this source-scoped institution, programme or named facility only; no beneficial-owner resolution or cross-namespace identity merge is implied.",
+      "sourceIds": [
+        "fi:welfare-pmcares:src:bihar-audit"
+      ],
+      "resolved": true
+    },
+    {
+      "id": "fi:welfare-pmcares:entity:fhpl",
+      "label": "Family Health Plan Insurance TPA Ltd.",
+      "kind": "company",
+      "identityBasis": "Exact name and institutional role in cited original; no name, ownership or cross-track fuzzy merge. Resolved for this source-scoped institution, programme or named facility only; no beneficial-owner resolution or cross-namespace identity merge is implied.",
+      "sourceIds": [
+        "fi:welfare-pmcares:src:bihar-audit"
+      ],
+      "resolved": true
+    },
+    {
+      "id": "fi:welfare-pmcares:entity:medsave",
+      "label": "Medsave Health Insurance TPA Limited",
+      "kind": "company",
+      "identityBasis": "Exact name and institutional role in cited original; no name, ownership or cross-track fuzzy merge. Resolved for this source-scoped institution, programme or named facility only; no beneficial-owner resolution or cross-namespace identity merge is implied.",
+      "sourceIds": [
+        "fi:welfare-pmcares:src:bihar-audit"
+      ],
+      "resolved": true
+    },
+    {
+      "id": "fi:welfare-pmcares:entity:vidal",
+      "label": "Vidal Health Insurance TPA Private Limited",
+      "kind": "company",
+      "identityBasis": "Exact name and institutional role in cited original; no name, ownership or cross-track fuzzy merge. Resolved for this source-scoped institution, programme or named facility only; no beneficial-owner resolution or cross-namespace identity merge is implied.",
+      "sourceIds": [
+        "fi:welfare-pmcares:src:bihar-audit"
+      ],
+      "resolved": true
+    },
+    {
+      "id": "fi:welfare-pmcares:entity:cag",
+      "label": "Comptroller and Auditor General of India",
+      "kind": "institution",
+      "identityBasis": "Exact name and institutional role in cited original; no name, ownership or cross-track fuzzy merge. Resolved for this source-scoped institution, programme or named facility only; no beneficial-owner resolution or cross-namespace identity merge is implied.",
+      "sourceIds": [
+        "fi:welfare-pmcares:src:bihar-audit"
+      ],
+      "resolved": true
+    },
+    {
+      "id": "fi:welfare-pmcares:entity:pmjay",
+      "label": "Ayushman Bharat–Pradhan Mantri Jan Arogya Yojana",
+      "kind": "programme",
+      "identityBasis": "Exact name and institutional role in cited original; no name, ownership or cross-track fuzzy merge. Resolved for this source-scoped institution, programme or named facility only; no beneficial-owner resolution or cross-namespace identity merge is implied.",
+      "sourceIds": [
+        "fi:welfare-pmcares:src:bihar-audit"
+      ],
+      "resolved": true
+    },
+    {
+      "id": "fi:welfare-pmcares:entity:agri",
+      "label": "Department of Agriculture and Farmers Welfare",
+      "kind": "institution",
+      "identityBasis": "Exact name and institutional role in cited original; no name, ownership or cross-track fuzzy merge. Resolved for this source-scoped institution, programme or named facility only; no beneficial-owner resolution or cross-namespace identity merge is implied.",
+      "sourceIds": [
+        "fi:welfare-pmcares:src:kisan-exclusion",
+        "fi:welfare-pmcares:src:kisan-2026"
+      ],
+      "resolved": true
+    },
+    {
+      "id": "fi:welfare-pmcares:entity:pmkisan",
+      "label": "PM-KISAN",
+      "kind": "programme",
+      "identityBasis": "Exact name and institutional role in cited original; no name, ownership or cross-track fuzzy merge. Resolved for this source-scoped institution, programme or named facility only; no beneficial-owner resolution or cross-namespace identity merge is implied.",
+      "sourceIds": [
+        "fi:welfare-pmcares:src:kisan-exclusion",
+        "fi:welfare-pmcares:src:kisan-recovery"
+      ],
+      "resolved": true
+    },
+    {
+      "id": "fi:welfare-pmcares:entity:states-kisan",
+      "label": "State/UT implementing authorities — PM-KISAN aggregate",
+      "kind": "institution",
+      "identityBasis": "Aggregate category of State/UT programme authorities in official answers; no uniform legal entity or single recipient treasury is implied.",
+      "sourceIds": [
+        "fi:welfare-pmcares:src:kisan-exclusion",
+        "fi:welfare-pmcares:src:kisan-recovery"
+      ],
+      "resolved": false
+    },
+    {
+      "id": "fi:welfare-pmcares:entity:pfms",
+      "label": "Public Financial Management System",
+      "kind": "institution",
+      "identityBasis": "Official public payment-management platform named in the process description, represented as an institutional system; no separate corporate identity inferred. Resolved for this source-scoped institution, programme or named facility only; no beneficial-owner resolution or cross-namespace identity merge is implied.",
+      "sourceIds": [
+        "fi:welfare-pmcares:src:kisan-recovery",
+        "fi:welfare-pmcares:src:kisan-2026"
+      ],
+      "resolved": true
+    },
+    {
+      "id": "fi:welfare-pmcares:entity:npci",
+      "label": "National Payments Corporation of India",
+      "kind": "institution",
+      "identityBasis": "Exact name and institutional role in cited original; no name, ownership or cross-track fuzzy merge. Resolved for this source-scoped institution, programme or named facility only; no beneficial-owner resolution or cross-namespace identity merge is implied.",
+      "sourceIds": [
+        "fi:welfare-pmcares:src:kisan-recovery"
+      ],
+      "resolved": true
+    },
+    {
+      "id": "fi:welfare-pmcares:entity:chc-bihpur",
+      "label": "CHC, Bihpur, Bhagalpur",
+      "kind": "institution",
+      "identityBasis": "Exact Appendix 1.8 hospital label and district; 1 card record(s). This does not resolve beneficial owners, namesakes, or individual beneficiary identity. Resolved for this source-scoped institution, programme or named facility only; no beneficial-owner resolution or cross-namespace identity merge is implied.",
+      "sourceIds": [
+        "fi:welfare-pmcares:src:bihar-audit"
+      ],
+      "resolved": true
+    },
+    {
+      "id": "fi:welfare-pmcares:entity:chc-shahkund",
+      "label": "CHC, Shahkund, Bhagalpur",
+      "kind": "institution",
+      "identityBasis": "Exact Appendix 1.8 hospital label and district; 3 card record(s). This does not resolve beneficial owners, namesakes, or individual beneficiary identity. Resolved for this source-scoped institution, programme or named facility only; no beneficial-owner resolution or cross-namespace identity merge is implied.",
+      "sourceIds": [
+        "fi:welfare-pmcares:src:bihar-audit"
+      ],
+      "resolved": true
+    },
+    {
+      "id": "fi:welfare-pmcares:entity:phc-narayanpur",
+      "label": "PHC, Narayanpur, Bhagalpur",
+      "kind": "institution",
+      "identityBasis": "Exact Appendix 1.8 hospital label and district; 1 card record(s). This does not resolve beneficial owners, namesakes, or individual beneficiary identity. Resolved for this source-scoped institution, programme or named facility only; no beneficial-owner resolution or cross-namespace identity merge is implied.",
+      "sourceIds": [
+        "fi:welfare-pmcares:src:bihar-audit"
+      ],
+      "resolved": true
+    },
+    {
+      "id": "fi:welfare-pmcares:entity:lnjp-bhagalpur",
+      "label": "Lok Nayak Jaiprakash Narayan Sadar Hospital, Bhagalpur",
+      "kind": "institution",
+      "identityBasis": "Exact Appendix 1.8 hospital label and district; 21 card record(s). This does not resolve beneficial owners, namesakes, or individual beneficiary identity. Resolved for this source-scoped institution, programme or named facility only; no beneficial-owner resolution or cross-namespace identity merge is implied.",
+      "sourceIds": [
+        "fi:welfare-pmcares:src:bihar-audit"
+      ],
+      "resolved": true
+    },
+    {
+      "id": "fi:welfare-pmcares:entity:dmch",
+      "label": "Darbhanga Medical College and Hospital, Darbhanga",
+      "kind": "institution",
+      "identityBasis": "Exact Appendix 1.8 hospital label and district; 1 card record(s). This does not resolve beneficial owners, namesakes, or individual beneficiary identity. Resolved for this source-scoped institution, programme or named facility only; no beneficial-owner resolution or cross-namespace identity merge is implied.",
+      "sourceIds": [
+        "fi:welfare-pmcares:src:bihar-audit"
+      ],
+      "resolved": true
+    },
+    {
+      "id": "fi:welfare-pmcares:entity:vivekanand-cancer",
+      "label": "Swami Vivekanand Cancer Aspatal, Darbhanga",
+      "kind": "institution",
+      "identityBasis": "Exact Appendix 1.8 hospital label and district; 8 card record(s). This does not resolve beneficial owners, namesakes, or individual beneficiary identity. Resolved for this source-scoped institution, programme or named facility only; no beneficial-owner resolution or cross-namespace identity merge is implied.",
+      "sourceIds": [
+        "fi:welfare-pmcares:src:bihar-audit"
+      ],
+      "resolved": true
+    },
+    {
+      "id": "fi:welfare-pmcares:entity:phc-mansahi",
+      "label": "PHC, Mansahi, Katihar",
+      "kind": "institution",
+      "identityBasis": "Exact Appendix 1.8 hospital label and district; 1 card record(s). This does not resolve beneficial owners, namesakes, or individual beneficiary identity. Resolved for this source-scoped institution, programme or named facility only; no beneficial-owner resolution or cross-namespace identity merge is implied.",
+      "sourceIds": [
+        "fi:welfare-pmcares:src:bihar-audit"
+      ],
+      "resolved": true
+    },
+    {
+      "id": "fi:welfare-pmcares:entity:sadar-katihar",
+      "label": "Sadar Hospital, Katihar",
+      "kind": "institution",
+      "identityBasis": "Exact Appendix 1.8 hospital label and district; 1 card record(s). This does not resolve beneficial owners, namesakes, or individual beneficiary identity. Resolved for this source-scoped institution, programme or named facility only; no beneficial-owner resolution or cross-namespace identity merge is implied.",
+      "sourceIds": [
+        "fi:welfare-pmcares:src:bihar-audit"
+      ],
+      "resolved": true
+    },
+    {
+      "id": "fi:welfare-pmcares:entity:ashoka-hospital",
+      "label": "Ashoka Hospital, Muzaffarpur",
+      "kind": "institution",
+      "identityBasis": "Exact Appendix 1.8 hospital label and district; 7 card record(s). This does not resolve beneficial owners, namesakes, or individual beneficiary identity. Resolved for this source-scoped institution, programme or named facility only; no beneficial-owner resolution or cross-namespace identity merge is implied.",
+      "sourceIds": [
+        "fi:welfare-pmcares:src:bihar-audit"
+      ],
+      "resolved": true
+    },
+    {
+      "id": "fi:welfare-pmcares:entity:bathua",
+      "label": "Bathua Nursing Home Pvt. Ltd, Muzaffarpur",
+      "kind": "institution",
+      "identityBasis": "Exact Appendix 1.8 hospital label and district; 2 card record(s). This does not resolve beneficial owners, namesakes, or individual beneficiary identity. Resolved for this source-scoped institution, programme or named facility only; no beneficial-owner resolution or cross-namespace identity merge is implied.",
+      "sourceIds": [
+        "fi:welfare-pmcares:src:bihar-audit"
+      ],
+      "resolved": true
+    },
+    {
+      "id": "fi:welfare-pmcares:entity:prashant",
+      "label": "Prashant Memorial Charitable Hospital, Muzaffarpur",
+      "kind": "institution",
+      "identityBasis": "Exact Appendix 1.8 hospital label and district; 9 card record(s). This does not resolve beneficial owners, namesakes, or individual beneficiary identity. Resolved for this source-scoped institution, programme or named facility only; no beneficial-owner resolution or cross-namespace identity merge is implied.",
+      "sourceIds": [
+        "fi:welfare-pmcares:src:bihar-audit"
+      ],
+      "resolved": true
+    },
+    {
+      "id": "fi:welfare-pmcares:entity:sadar-muzaffarpur",
+      "label": "Sadar Hospital, Muzaffarpur",
+      "kind": "institution",
+      "identityBasis": "Exact Appendix 1.8 hospital label and district; 9 card record(s). This does not resolve beneficial owners, namesakes, or individual beneficiary identity. Resolved for this source-scoped institution, programme or named facility only; no beneficial-owner resolution or cross-namespace identity merge is implied.",
+      "sourceIds": [
+        "fi:welfare-pmcares:src:bihar-audit"
+      ],
+      "resolved": true
+    },
+    {
+      "id": "fi:welfare-pmcares:entity:skmch",
+      "label": "Shri Krishna Medical College and Hospital, Muzaffarpur",
+      "kind": "institution",
+      "identityBasis": "Exact Appendix 1.8 hospital label and district; 14 card record(s). This does not resolve beneficial owners, namesakes, or individual beneficiary identity. Resolved for this source-scoped institution, programme or named facility only; no beneficial-owner resolution or cross-namespace identity merge is implied.",
+      "sourceIds": [
+        "fi:welfare-pmcares:src:bihar-audit"
+      ],
+      "resolved": true
+    },
+    {
+      "id": "fi:welfare-pmcares:entity:district-biharsharif",
+      "label": "District Hospital, Biharsharif, Nalanda",
+      "kind": "institution",
+      "identityBasis": "Exact Appendix 1.8 hospital label and district; 1 card record(s). This does not resolve beneficial owners, namesakes, or individual beneficiary identity. Resolved for this source-scoped institution, programme or named facility only; no beneficial-owner resolution or cross-namespace identity merge is implied.",
+      "sourceIds": [
+        "fi:welfare-pmcares:src:bihar-audit"
+      ],
+      "resolved": true
+    },
+    {
+      "id": "fi:welfare-pmcares:entity:rh-asthawan",
+      "label": "RH, Asthawan, Nalanda",
+      "kind": "institution",
+      "identityBasis": "Exact Appendix 1.8 hospital label and district; 1 card record(s). This does not resolve beneficial owners, namesakes, or individual beneficiary identity. Resolved for this source-scoped institution, programme or named facility only; no beneficial-owner resolution or cross-namespace identity merge is implied.",
+      "sourceIds": [
+        "fi:welfare-pmcares:src:bihar-audit"
+      ],
+      "resolved": true
+    },
+    {
+      "id": "fi:welfare-pmcares:entity:ggs-patna",
+      "label": "Guru Govind Singh Sadar Hospital, Patna",
+      "kind": "institution",
+      "identityBasis": "Exact Appendix 1.8 hospital label and district; 1 card record(s). This does not resolve beneficial owners, namesakes, or individual beneficiary identity. Resolved for this source-scoped institution, programme or named facility only; no beneficial-owner resolution or cross-namespace identity merge is implied.",
+      "sourceIds": [
+        "fi:welfare-pmcares:src:bihar-audit"
+      ],
+      "resolved": true
+    },
+    {
+      "id": "fi:welfare-pmcares:entity:igims",
+      "label": "Indira Gandhi Institute of Medical Science, Patna",
+      "kind": "institution",
+      "identityBasis": "Exact Appendix 1.8 hospital label and district; 4 card record(s). This does not resolve beneficial owners, namesakes, or individual beneficiary identity. Resolved for this source-scoped institution, programme or named facility only; no beneficial-owner resolution or cross-namespace identity merge is implied.",
+      "sourceIds": [
+        "fi:welfare-pmcares:src:bihar-audit"
+      ],
+      "resolved": true
+    },
+    {
+      "id": "fi:welfare-pmcares:entity:mahavir-cancer",
+      "label": "Mahavir Cancer Institute & Research Centre, Patna",
+      "kind": "institution",
+      "identityBasis": "Exact Appendix 1.8 hospital label and district; 6 card record(s). This does not resolve beneficial owners, namesakes, or individual beneficiary identity. Resolved for this source-scoped institution, programme or named facility only; no beneficial-owner resolution or cross-namespace identity merge is implied.",
+      "sourceIds": [
+        "fi:welfare-pmcares:src:bihar-audit"
+      ],
+      "resolved": true
+    },
+    {
+      "id": "fi:welfare-pmcares:entity:mahavir-vatsalya",
+      "label": "Mahavir Vatsalya Aspatal, Patna",
+      "kind": "institution",
+      "identityBasis": "Exact Appendix 1.8 hospital label and district; 1 card record(s). This does not resolve beneficial owners, namesakes, or individual beneficiary identity. Resolved for this source-scoped institution, programme or named facility only; no beneficial-owner resolution or cross-namespace identity merge is implied.",
+      "sourceIds": [
+        "fi:welfare-pmcares:src:bihar-audit"
+      ],
+      "resolved": true
+    },
+    {
+      "id": "fi:welfare-pmcares:entity:phc-bhawanipur",
+      "label": "PHC, Bhawanipur, Purnea",
+      "kind": "institution",
+      "identityBasis": "Exact Appendix 1.8 hospital label and district; 1 card record(s). This does not resolve beneficial owners, namesakes, or individual beneficiary identity. Resolved for this source-scoped institution, programme or named facility only; no beneficial-owner resolution or cross-namespace identity merge is implied.",
+      "sourceIds": [
+        "fi:welfare-pmcares:src:bihar-audit"
+      ],
+      "resolved": true
+    },
+    {
+      "id": "fi:welfare-pmcares:entity:akhand-jyoti",
+      "label": "Akhand Jyoti Eye Hospital, Saran",
+      "kind": "institution",
+      "identityBasis": "Exact Appendix 1.8 hospital label and district; 1 card record(s). This does not resolve beneficial owners, namesakes, or individual beneficiary identity. Resolved for this source-scoped institution, programme or named facility only; no beneficial-owner resolution or cross-namespace identity merge is implied.",
+      "sourceIds": [
+        "fi:welfare-pmcares:src:bihar-audit"
+      ],
+      "resolved": true
+    },
+    {
+      "id": "fi:welfare-pmcares:entity:district-saran",
+      "label": "District Hospital, Saran",
+      "kind": "institution",
+      "identityBasis": "Exact Appendix 1.8 hospital label and district; 44 card record(s). This does not resolve beneficial owners, namesakes, or individual beneficiary identity. Resolved for this source-scoped institution, programme or named facility only; no beneficial-owner resolution or cross-namespace identity merge is implied.",
+      "sourceIds": [
+        "fi:welfare-pmcares:src:bihar-audit"
+      ],
+      "resolved": true
+    },
+    {
+      "id": "fi:welfare-pmcares:entity:navjivan",
+      "label": "Navjivan Multispeciality Hospital & Research Centre Pvt. Ltd., Sitamarhi",
+      "kind": "institution",
+      "identityBasis": "Exact Appendix 1.8 hospital label and district; 1 card record(s). This does not resolve beneficial owners, namesakes, or individual beneficiary identity. Resolved for this source-scoped institution, programme or named facility only; no beneficial-owner resolution or cross-namespace identity merge is implied.",
+      "sourceIds": [
+        "fi:welfare-pmcares:src:bihar-audit"
+      ],
+      "resolved": true
+    }
+  ],
+  "edges": [
+    {
+      "id": "fi:welfare-pmcares:edge:pmo-admin",
+      "from": "fi:welfare-pmcares:entity:pmo",
+      "to": "fi:welfare-pmcares:entity:pmcares",
+      "relation": "provides administrative support",
+      "label": "Honorary PMO administration",
+      "status": "documented",
+      "stage": "office",
+      "date": null,
+      "amount": null,
+      "sourceIds": [
+        "fi:welfare-pmcares:src:pm-faq"
+      ],
+      "response": "Official FAQ describes honorary secretarial support.",
+      "limits": [
+        "Institutional support is not evidence of misuse."
+      ]
+    },
+    {
+      "id": "fi:welfare-pmcares:edge:trustee-rules",
+      "from": "fi:welfare-pmcares:entity:trustees",
+      "to": "fi:welfare-pmcares:entity:pmcares",
+      "relation": "sets disbursal criteria",
+      "label": "Trustees formulate fund criteria",
+      "status": "documented",
+      "stage": "oversight",
+      "date": null,
+      "amount": null,
+      "sourceIds": [
+        "fi:welfare-pmcares:src:pm-faq"
+      ],
+      "response": "Trustees’ discretion described in Q14.",
+      "limits": [
+        "No personal intent inferred."
+      ]
+    },
+    {
+      "id": "fi:welfare-pmcares:edge:auditor",
+      "from": "fi:welfare-pmcares:entity:kkc",
+      "to": "fi:welfare-pmcares:entity:pmcares",
+      "relation": "appointed independent auditor",
+      "label": "Independent audit appointment",
+      "status": "documented",
+      "stage": "oversight",
+      "date": null,
+      "amount": null,
+      "sourceIds": [
+        "fi:welfare-pmcares:src:pm-faq",
+        "fi:welfare-pmcares:src:pm-accounts"
+      ],
+      "response": "Current original FAQ and signature identify KKC.",
+      "limits": [
+        "An auditor signature is not independent verification of every underlying payment by this project."
+      ]
+    },
+    {
+      "id": "fi:welfare-pmcares:edge:refund2425",
+      "from": "fi:welfare-pmcares:entity:agencies-unknown",
+      "to": "fi:welfare-pmcares:entity:pmcares",
+      "relation": "aggregate agency refunds received",
+      "label": "₹324.66 crore returned by unidentified agencies",
+      "status": "documented",
+      "stage": "receipt",
+      "date": null,
+      "amount": {
+        "value": 3246580919,
+        "currency": "INR",
+        "unit": "rupee",
+        "period": "FY 2024–25",
+        "basis": "Cash refunds received; agency/project breakdown unknown",
+        "overlapGroup": "pmcares2425"
+      },
+      "sourceIds": [
+        "fi:welfare-pmcares:src:pm-accounts"
+      ],
+      "response": "No agency/project note 11 appears in the one-page publication.",
+      "limits": [
+        "No original allotment or agency identity inferred."
+      ]
+    },
+    {
+      "id": "fi:welfare-pmcares:edge:children2425",
+      "from": "fi:welfare-pmcares:entity:pmcares",
+      "to": "fi:welfare-pmcares:entity:children",
+      "relation": "cash payment reported",
+      "label": "₹87.85 lakh paid to Children scheme",
+      "status": "documented",
+      "stage": "payment",
+      "date": null,
+      "amount": {
+        "value": 8784840,
+        "currency": "INR",
+        "unit": "rupee",
+        "period": "FY 2024–25",
+        "basis": "PM CARES cash payment to scheme",
+        "overlapGroup": "pmcares2425"
+      },
+      "sourceIds": [
+        "fi:welfare-pmcares:src:pm-accounts"
+      ],
+      "response": "Cash-flow row; no child-level ledger inspected.",
+      "limits": [
+        "Not total lifetime programme assistance."
+      ]
+    },
+    {
+      "id": "fi:welfare-pmcares:edge:bankbalance2425",
+      "from": "fi:welfare-pmcares:entity:pmcares",
+      "to": "fi:welfare-pmcares:entity:banks-unknown",
+      "relation": "reports closing bank balances",
+      "label": "₹8,452.07 crore closing balance",
+      "status": "documented",
+      "stage": "context",
+      "date": null,
+      "amount": null,
+      "sourceIds": [
+        "fi:welfare-pmcares:src:pm-accounts"
+      ],
+      "response": "₹6,054,140,806 savings +₹78,466,529,952 fixed deposits.",
+      "limits": [
+        "Stock balance, not spending or new donation; do not add to flows.",
+        "Exact closing balance ₹84,520,670,758 is retained as a stock disclosure in this label/response context, not a stage-compatible cash-flow amount."
+      ]
+    },
+    {
+      "id": "fi:welfare-pmcares:edge:bel-donation",
+      "from": "fi:welfare-pmcares:entity:bel",
+      "to": "fi:welfare-pmcares:entity:pmcares",
+      "relation": "reports CSR donation",
+      "label": "BEL reported ₹5.45 crore donation",
+      "status": "documented",
+      "stage": "payment",
+      "date": "2021-04-30",
+      "amount": {
+        "value": 5.45,
+        "currency": "INR",
+        "unit": "crore",
+        "period": "30 April 2021",
+        "basis": "Company-reported CSR contribution",
+        "overlapGroup": null
+      },
+      "sourceIds": [
+        "fi:welfare-pmcares:src:bel-csr"
+      ],
+      "response": "Company release says CSR support for second wave.",
+      "limits": [
+        "Independent fund-side donor receipt not inspected; no quid-pro-quo inferred."
+      ]
+    },
+    {
+      "id": "fi:welfare-pmcares:edge:refund2223",
+      "from": "fi:welfare-pmcares:entity:pm-vent-programme",
+      "to": "fi:welfare-pmcares:entity:pmcares",
+      "relation": "refund attributed to procurement programme",
+      "label": "₹202.89 crore ventilator-programme refund",
+      "status": "documented",
+      "stage": "receipt",
+      "date": null,
+      "amount": {
+        "value": 2028862043,
+        "currency": "INR",
+        "unit": "rupee",
+        "period": "FY 2022–23",
+        "basis": "Programme-attributed refund received",
+        "overlapGroup": "pmcares2223"
+      },
+      "sourceIds": [
+        "fi:welfare-pmcares:src:pm-2223"
+      ],
+      "response": "Programme identified in statement; supplier and reason not stated.",
+      "limits": [
+        "Programme is an attribution label, not an identified bank remitter. No join to Jyoti CNC or FY 24–25 refund."
+      ]
+    },
+    {
+      "id": "fi:welfare-pmcares:edge:jyoti-supply",
+      "from": "fi:welfare-pmcares:entity:jyoti",
+      "to": "fi:welfare-pmcares:entity:gmch",
+      "relation": "supplied ventilator units",
+      "label": "150 ventilators supplied",
+      "status": "documented",
+      "stage": "award",
+      "date": null,
+      "amount": null,
+      "sourceIds": [
+        "fi:welfare-pmcares:src:vent-ministry",
+        "fi:welfare-pmcares:src:vent-order"
+      ],
+      "response": "Ministry cites commissioning and handling explanations; court subsequently records inspection defects.",
+      "limits": [
+        "Goods supply, not paid invoice amount; no price inferred."
+      ]
+    },
+    {
+      "id": "fi:welfare-pmcares:edge:ministry-allocation",
+      "from": "fi:welfare-pmcares:entity:mohfw",
+      "to": "fi:welfare-pmcares:entity:gmch",
+      "relation": "centrally allocated medical equipment",
+      "label": "Central allocation to Aurangabad",
+      "status": "documented",
+      "stage": "approval",
+      "date": null,
+      "amount": null,
+      "sourceIds": [
+        "fi:welfare-pmcares:src:vent-ministry"
+      ],
+      "response": "Ministry says supplied at state request.",
+      "limits": [
+        "Allocation is not hospital receipt of cash."
+      ]
+    },
+    {
+      "id": "fi:welfare-pmcares:edge:hll-procurement",
+      "from": "fi:welfare-pmcares:entity:hll",
+      "to": "fi:welfare-pmcares:entity:jyoti",
+      "relation": "procurement agency participated in inspection",
+      "label": "HLL procurement/inspection role",
+      "status": "documented",
+      "stage": "oversight",
+      "date": null,
+      "amount": null,
+      "sourceIds": [
+        "fi:welfare-pmcares:src:vent-order"
+      ],
+      "response": "Order §2(g) lists HLL with manufacturer/CDSCO/DGHS participants.",
+      "limits": [
+        "Original purchase order absent; no amount or legal corporate expansion inferred."
+      ]
+    },
+    {
+      "id": "fi:welfare-pmcares:edge:cigma-allocation",
+      "from": "fi:welfare-pmcares:entity:gmch",
+      "to": "fi:welfare-pmcares:entity:cigma",
+      "relation": "state-directed relocation described",
+      "label": "Five units described across two tranches",
+      "status": "documented",
+      "stage": "context",
+      "date": null,
+      "amount": null,
+      "sourceIds": [
+        "fi:welfare-pmcares:src:vent-ministry"
+      ],
+      "response": "Ministry says manufacturer installed 3 then 2 units.",
+      "limits": [
+        "Physical allocation statement; no cash transfer."
+      ]
+    },
+    {
+      "id": "fi:welfare-pmcares:edge:mgm-allocation",
+      "from": "fi:welfare-pmcares:entity:gmch",
+      "to": "fi:welfare-pmcares:entity:mgm",
+      "relation": "state-directed relocation described",
+      "label": "20 units reallocated",
+      "status": "documented",
+      "stage": "context",
+      "date": null,
+      "amount": null,
+      "sourceIds": [
+        "fi:welfare-pmcares:src:vent-ministry"
+      ],
+      "response": "Ministry says vendor was not formally informed of reinstall.",
+      "limits": [
+        "Government account; recipient logs not inspected."
+      ]
+    },
+    {
+      "id": "fi:welfare-pmcares:edge:court-oversight",
+      "from": "fi:welfare-pmcares:entity:bombayhc",
+      "to": "fi:welfare-pmcares:entity:gmch",
+      "relation": "ordered safety and warranty scrutiny",
+      "label": "Inspection, warranty and safe-use oversight",
+      "status": "documented",
+      "stage": "oversight",
+      "date": null,
+      "amount": null,
+      "sourceIds": [
+        "fi:welfare-pmcares:src:vent-order",
+        "fi:welfare-pmcares:src:vent-followup"
+      ],
+      "response": "Union proposed expert testing/replacement; later reporting says 18 units usable only with backup.",
+      "limits": [
+        "Interim scrutiny does not establish corruption or final manufacturer liability."
+      ]
+    },
+    {
+      "id": "fi:welfare-pmcares:edge:nha-instructions",
+      "from": "fi:welfare-pmcares:entity:nha",
+      "to": "fi:welfare-pmcares:entity:bsss",
+      "relation": "issued tender-design instructions",
+      "label": "Separate agencies and rate-parity advice",
+      "status": "documented",
+      "stage": "oversight",
+      "date": null,
+      "amount": null,
+      "sourceIds": [
+        "fi:welfare-pmcares:src:bihar-audit"
+      ],
+      "response": "NHA instructions December 2022 reproduced by CAG §1.7.2; BSSS cites financial-rule negotiation concern.",
+      "limits": [
+        "Underlying NHA letter not separately inspected."
+      ]
+    },
+    {
+      "id": "fi:welfare-pmcares:edge:fhpl-award",
+      "from": "fi:welfare-pmcares:entity:bsss",
+      "to": "fi:welfare-pmcares:entity:fhpl",
+      "relation": "awarded both implementation clusters",
+      "label": "Both clusters awarded August 2023",
+      "status": "audit-finding",
+      "stage": "award",
+      "date": null,
+      "amount": null,
+      "sourceIds": [
+        "fi:welfare-pmcares:src:bihar-audit"
+      ],
+      "response": "BSSS says clusters had different manpower needs and matching L2 to L1 would be negotiation.",
+      "limits": [
+        "CAG rejects explanation; not a finding of bribery or owner influence.",
+        "Documented date precision: 2023-08; exact day unknown."
+      ]
+    },
+    {
+      "id": "fi:welfare-pmcares:edge:fhpl-paid",
+      "from": "fi:welfare-pmcares:entity:bsss",
+      "to": "fi:welfare-pmcares:entity:fhpl",
+      "relation": "audit reports payment",
+      "label": "₹1.19 crore paid through September 2024",
+      "status": "audit-finding",
+      "stage": "payment",
+      "date": null,
+      "amount": {
+        "value": 1.19,
+        "currency": "INR",
+        "unit": "crore",
+        "period": "ThroughSeptember 2024",
+        "basis": "CAG-reported payment including TDS for GST/IT",
+        "overlapGroup": "bihar-isa-payment"
+      },
+      "sourceIds": [
+        "fi:welfare-pmcares:src:bihar-audit"
+      ],
+      "response": "Audit amount includes TDS for GST/IT; BSSS defends differential rates.",
+      "limits": [
+        "Gross accounting payment is not exact net bank receipt; ₹8.80 lakh avoidable estimate is a component, never added."
+      ]
+    },
+    {
+      "id": "fi:welfare-pmcares:edge:medsave-contract",
+      "from": "fi:welfare-pmcares:entity:bsss",
+      "to": "fi:welfare-pmcares:entity:medsave",
+      "relation": "contracted beneficiary-verification support",
+      "label": "October 2018 ISA contract scope dispute",
+      "status": "audit-finding",
+      "stage": "award",
+      "date": null,
+      "amount": null,
+      "sourceIds": [
+        "fi:welfare-pmcares:src:bihar-audit"
+      ],
+      "response": "BSSS says ISA contract matched model tender and was not an identification-agency contract; CAG points to all-family scope.",
+      "limits": [
+        "No payment or causal share of undercoverage quantified.",
+        "Documented date precision: 2018-10; exact day unknown."
+      ]
+    },
+    {
+      "id": "fi:welfare-pmcares:edge:vidal-contract",
+      "from": "fi:welfare-pmcares:entity:bsss",
+      "to": "fi:welfare-pmcares:entity:vidal",
+      "relation": "contracted beneficiary facilitation",
+      "label": "July 2022 PMAM deployment contract",
+      "status": "documented",
+      "stage": "award",
+      "date": null,
+      "amount": null,
+      "sourceIds": [
+        "fi:welfare-pmcares:src:bihar-audit"
+      ],
+      "response": "BSSS reported 359 PMAMs in September 2024 and instructed remaining deployment.",
+      "limits": [
+        "215 hospitals lacked PMAM as of March 2024; later deployment is a different snapshot, not automatically contradictory.",
+        "Documented date precision: 2022-07; exact day unknown."
+      ]
+    },
+    {
+      "id": "fi:welfare-pmcares:edge:audit-bsss",
+      "from": "fi:welfare-pmcares:entity:cag",
+      "to": "fi:welfare-pmcares:entity:bsss",
+      "relation": "audited implementation and payments",
+      "label": "Performance audit with state replies",
+      "status": "documented",
+      "stage": "oversight",
+      "date": null,
+      "amount": null,
+      "sourceIds": [
+        "fi:welfare-pmcares:src:bihar-audit"
+      ],
+      "response": "Replies November/December 2024 and February 2025 retained.",
+      "limits": [
+        "Sample audit does not prove a statewide loss total."
+      ]
+    },
+    {
+      "id": "fi:welfare-pmcares:edge:bsss-pmjay",
+      "from": "fi:welfare-pmcares:entity:bsss",
+      "to": "fi:welfare-pmcares:entity:pmjay",
+      "relation": "implements assurance/trust model",
+      "label": "Bihar bears scheme financial risk",
+      "status": "documented",
+      "stage": "office",
+      "date": null,
+      "amount": null,
+      "sourceIds": [
+        "fi:welfare-pmcares:src:bihar-audit"
+      ],
+      "response": "Report §1.1–1.2 describes central/state 60:40 model.",
+      "limits": [
+        "ISA companies are service administrators; do not relabel all hospital reimbursement as insurer premium."
+      ]
+    },
+    {
+      "id": "fi:welfare-pmcares:edge:card-chc-bihpur",
+      "from": "fi:welfare-pmcares:entity:bsss",
+      "to": "fi:welfare-pmcares:entity:chc-bihpur",
+      "relation": "audit identifies payment against unmatched card records",
+      "label": "1 unmatched card record(s); ₹9,000 paid",
+      "status": "audit-finding",
+      "stage": "payment",
+      "date": null,
+      "amount": {
+        "value": 9000,
+        "currency": "INR",
+        "unit": "rupee",
+        "period": "Payments through March 2024",
+        "basis": "CAG Appendix 1.8 payment against card absent in later snapshots",
+        "overlapGroup": "bihar-139-card-cohort"
+      },
+      "sourceIds": [
+        "fi:welfare-pmcares:src:bihar-audit"
+      ],
+      "response": "BSSS referred 139-card matter to NHA for conclusive response in February 2025; no individual hospital response located.",
+      "limits": [
+        "TMS payments through March 2024 compared with BIS August 2024 and portal November 2024; later deletion/migration or ID mismatch must be checked. Unmatched card does not establish a fictitious patient or knowing hospital fraud.",
+        "Paid amount is one part of Appendix 1.8 cohort, not an amount additive to its parent total."
+      ]
+    },
+    {
+      "id": "fi:welfare-pmcares:edge:card-chc-shahkund",
+      "from": "fi:welfare-pmcares:entity:bsss",
+      "to": "fi:welfare-pmcares:entity:chc-shahkund",
+      "relation": "audit identifies payment against unmatched card records",
+      "label": "3 unmatched card record(s); ₹5,400 paid",
+      "status": "audit-finding",
+      "stage": "payment",
+      "date": null,
+      "amount": {
+        "value": 5400,
+        "currency": "INR",
+        "unit": "rupee",
+        "period": "Payments through March 2024",
+        "basis": "CAG Appendix 1.8 payment against card absent in later snapshots",
+        "overlapGroup": "bihar-139-card-cohort"
+      },
+      "sourceIds": [
+        "fi:welfare-pmcares:src:bihar-audit"
+      ],
+      "response": "BSSS referred 139-card matter to NHA for conclusive response in February 2025; no individual hospital response located.",
+      "limits": [
+        "TMS payments through March 2024 compared with BIS August 2024 and portal November 2024; later deletion/migration or ID mismatch must be checked. Unmatched card does not establish a fictitious patient or knowing hospital fraud.",
+        "Paid amount is one part of Appendix 1.8 cohort, not an amount additive to its parent total."
+      ]
+    },
+    {
+      "id": "fi:welfare-pmcares:edge:card-phc-narayanpur",
+      "from": "fi:welfare-pmcares:entity:bsss",
+      "to": "fi:welfare-pmcares:entity:phc-narayanpur",
+      "relation": "audit identifies payment against unmatched card records",
+      "label": "1 unmatched card record(s); ₹1,700 paid",
+      "status": "audit-finding",
+      "stage": "payment",
+      "date": null,
+      "amount": {
+        "value": 1700,
+        "currency": "INR",
+        "unit": "rupee",
+        "period": "Payments through March 2024",
+        "basis": "CAG Appendix 1.8 payment against card absent in later snapshots",
+        "overlapGroup": "bihar-139-card-cohort"
+      },
+      "sourceIds": [
+        "fi:welfare-pmcares:src:bihar-audit"
+      ],
+      "response": "BSSS referred 139-card matter to NHA for conclusive response in February 2025; no individual hospital response located.",
+      "limits": [
+        "TMS payments through March 2024 compared with BIS August 2024 and portal November 2024; later deletion/migration or ID mismatch must be checked. Unmatched card does not establish a fictitious patient or knowing hospital fraud.",
+        "Paid amount is one part of Appendix 1.8 cohort, not an amount additive to its parent total."
+      ]
+    },
+    {
+      "id": "fi:welfare-pmcares:edge:card-lnjp-bhagalpur",
+      "from": "fi:welfare-pmcares:entity:bsss",
+      "to": "fi:welfare-pmcares:entity:lnjp-bhagalpur",
+      "relation": "audit identifies payment against unmatched card records",
+      "label": "21 unmatched card record(s); ₹195,710 paid",
+      "status": "audit-finding",
+      "stage": "payment",
+      "date": null,
+      "amount": {
+        "value": 195710,
+        "currency": "INR",
+        "unit": "rupee",
+        "period": "Payments through March 2024",
+        "basis": "CAG Appendix 1.8 payment against card absent in later snapshots",
+        "overlapGroup": "bihar-139-card-cohort"
+      },
+      "sourceIds": [
+        "fi:welfare-pmcares:src:bihar-audit"
+      ],
+      "response": "BSSS referred 139-card matter to NHA for conclusive response in February 2025; no individual hospital response located.",
+      "limits": [
+        "TMS payments through March 2024 compared with BIS August 2024 and portal November 2024; later deletion/migration or ID mismatch must be checked. Unmatched card does not establish a fictitious patient or knowing hospital fraud.",
+        "Paid amount is one part of Appendix 1.8 cohort, not an amount additive to its parent total."
+      ]
+    },
+    {
+      "id": "fi:welfare-pmcares:edge:card-dmch",
+      "from": "fi:welfare-pmcares:entity:bsss",
+      "to": "fi:welfare-pmcares:entity:dmch",
+      "relation": "audit identifies payment against unmatched card records",
+      "label": "1 unmatched card record(s); ₹1,084 paid",
+      "status": "audit-finding",
+      "stage": "payment",
+      "date": null,
+      "amount": {
+        "value": 1084,
+        "currency": "INR",
+        "unit": "rupee",
+        "period": "Payments through March 2024",
+        "basis": "CAG Appendix 1.8 payment against card absent in later snapshots",
+        "overlapGroup": "bihar-139-card-cohort"
+      },
+      "sourceIds": [
+        "fi:welfare-pmcares:src:bihar-audit"
+      ],
+      "response": "BSSS referred 139-card matter to NHA for conclusive response in February 2025; no individual hospital response located.",
+      "limits": [
+        "TMS payments through March 2024 compared with BIS August 2024 and portal November 2024; later deletion/migration or ID mismatch must be checked. Unmatched card does not establish a fictitious patient or knowing hospital fraud.",
+        "Paid amount is one part of Appendix 1.8 cohort, not an amount additive to its parent total."
+      ]
+    },
+    {
+      "id": "fi:welfare-pmcares:edge:card-vivekanand-cancer",
+      "from": "fi:welfare-pmcares:entity:bsss",
+      "to": "fi:welfare-pmcares:entity:vivekanand-cancer",
+      "relation": "audit identifies payment against unmatched card records",
+      "label": "8 unmatched card record(s); ₹667,350 paid",
+      "status": "audit-finding",
+      "stage": "payment",
+      "date": null,
+      "amount": {
+        "value": 667350,
+        "currency": "INR",
+        "unit": "rupee",
+        "period": "Payments through March 2024",
+        "basis": "CAG Appendix 1.8 payment against card absent in later snapshots",
+        "overlapGroup": "bihar-139-card-cohort"
+      },
+      "sourceIds": [
+        "fi:welfare-pmcares:src:bihar-audit"
+      ],
+      "response": "BSSS referred 139-card matter to NHA for conclusive response in February 2025; no individual hospital response located.",
+      "limits": [
+        "TMS payments through March 2024 compared with BIS August 2024 and portal November 2024; later deletion/migration or ID mismatch must be checked. Unmatched card does not establish a fictitious patient or knowing hospital fraud.",
+        "Paid amount is one part of Appendix 1.8 cohort, not an amount additive to its parent total."
+      ]
+    },
+    {
+      "id": "fi:welfare-pmcares:edge:card-phc-mansahi",
+      "from": "fi:welfare-pmcares:entity:bsss",
+      "to": "fi:welfare-pmcares:entity:phc-mansahi",
+      "relation": "audit identifies payment against unmatched card records",
+      "label": "1 unmatched card record(s); ₹9,900 paid",
+      "status": "audit-finding",
+      "stage": "payment",
+      "date": null,
+      "amount": {
+        "value": 9900,
+        "currency": "INR",
+        "unit": "rupee",
+        "period": "Payments through March 2024",
+        "basis": "CAG Appendix 1.8 payment against card absent in later snapshots",
+        "overlapGroup": "bihar-139-card-cohort"
+      },
+      "sourceIds": [
+        "fi:welfare-pmcares:src:bihar-audit"
+      ],
+      "response": "BSSS referred 139-card matter to NHA for conclusive response in February 2025; no individual hospital response located.",
+      "limits": [
+        "TMS payments through March 2024 compared with BIS August 2024 and portal November 2024; later deletion/migration or ID mismatch must be checked. Unmatched card does not establish a fictitious patient or knowing hospital fraud.",
+        "Paid amount is one part of Appendix 1.8 cohort, not an amount additive to its parent total."
+      ]
+    },
+    {
+      "id": "fi:welfare-pmcares:edge:card-sadar-katihar",
+      "from": "fi:welfare-pmcares:entity:bsss",
+      "to": "fi:welfare-pmcares:entity:sadar-katihar",
+      "relation": "audit identifies payment against unmatched card records",
+      "label": "1 unmatched card record(s); ₹1,084 paid",
+      "status": "audit-finding",
+      "stage": "payment",
+      "date": null,
+      "amount": {
+        "value": 1084,
+        "currency": "INR",
+        "unit": "rupee",
+        "period": "Payments through March 2024",
+        "basis": "CAG Appendix 1.8 payment against card absent in later snapshots",
+        "overlapGroup": "bihar-139-card-cohort"
+      },
+      "sourceIds": [
+        "fi:welfare-pmcares:src:bihar-audit"
+      ],
+      "response": "BSSS referred 139-card matter to NHA for conclusive response in February 2025; no individual hospital response located.",
+      "limits": [
+        "TMS payments through March 2024 compared with BIS August 2024 and portal November 2024; later deletion/migration or ID mismatch must be checked. Unmatched card does not establish a fictitious patient or knowing hospital fraud.",
+        "Paid amount is one part of Appendix 1.8 cohort, not an amount additive to its parent total."
+      ]
+    },
+    {
+      "id": "fi:welfare-pmcares:edge:card-ashoka-hospital",
+      "from": "fi:welfare-pmcares:entity:bsss",
+      "to": "fi:welfare-pmcares:entity:ashoka-hospital",
+      "relation": "audit identifies payment against unmatched card records",
+      "label": "7 unmatched card record(s); ₹199,530 paid",
+      "status": "audit-finding",
+      "stage": "payment",
+      "date": null,
+      "amount": {
+        "value": 199530,
+        "currency": "INR",
+        "unit": "rupee",
+        "period": "Payments through March 2024",
+        "basis": "CAG Appendix 1.8 payment against card absent in later snapshots",
+        "overlapGroup": "bihar-139-card-cohort"
+      },
+      "sourceIds": [
+        "fi:welfare-pmcares:src:bihar-audit"
+      ],
+      "response": "BSSS referred 139-card matter to NHA for conclusive response in February 2025; no individual hospital response located.",
+      "limits": [
+        "TMS payments through March 2024 compared with BIS August 2024 and portal November 2024; later deletion/migration or ID mismatch must be checked. Unmatched card does not establish a fictitious patient or knowing hospital fraud.",
+        "Paid amount is one part of Appendix 1.8 cohort, not an amount additive to its parent total."
+      ]
+    },
+    {
+      "id": "fi:welfare-pmcares:edge:card-bathua",
+      "from": "fi:welfare-pmcares:entity:bsss",
+      "to": "fi:welfare-pmcares:entity:bathua",
+      "relation": "audit identifies payment against unmatched card records",
+      "label": "2 unmatched card record(s); ₹29,970 paid",
+      "status": "audit-finding",
+      "stage": "payment",
+      "date": null,
+      "amount": {
+        "value": 29970,
+        "currency": "INR",
+        "unit": "rupee",
+        "period": "Payments through March 2024",
+        "basis": "CAG Appendix 1.8 payment against card absent in later snapshots",
+        "overlapGroup": "bihar-139-card-cohort"
+      },
+      "sourceIds": [
+        "fi:welfare-pmcares:src:bihar-audit"
+      ],
+      "response": "BSSS referred 139-card matter to NHA for conclusive response in February 2025; no individual hospital response located.",
+      "limits": [
+        "TMS payments through March 2024 compared with BIS August 2024 and portal November 2024; later deletion/migration or ID mismatch must be checked. Unmatched card does not establish a fictitious patient or knowing hospital fraud.",
+        "Paid amount is one part of Appendix 1.8 cohort, not an amount additive to its parent total."
+      ]
+    },
+    {
+      "id": "fi:welfare-pmcares:edge:card-prashant",
+      "from": "fi:welfare-pmcares:entity:bsss",
+      "to": "fi:welfare-pmcares:entity:prashant",
+      "relation": "audit identifies payment against unmatched card records",
+      "label": "9 unmatched card record(s); ₹431,820 paid",
+      "status": "audit-finding",
+      "stage": "payment",
+      "date": null,
+      "amount": {
+        "value": 431820,
+        "currency": "INR",
+        "unit": "rupee",
+        "period": "Payments through March 2024",
+        "basis": "CAG Appendix 1.8 payment against card absent in later snapshots",
+        "overlapGroup": "bihar-139-card-cohort"
+      },
+      "sourceIds": [
+        "fi:welfare-pmcares:src:bihar-audit"
+      ],
+      "response": "BSSS referred 139-card matter to NHA for conclusive response in February 2025; no individual hospital response located.",
+      "limits": [
+        "TMS payments through March 2024 compared with BIS August 2024 and portal November 2024; later deletion/migration or ID mismatch must be checked. Unmatched card does not establish a fictitious patient or knowing hospital fraud.",
+        "Paid amount is one part of Appendix 1.8 cohort, not an amount additive to its parent total."
+      ]
+    },
+    {
+      "id": "fi:welfare-pmcares:edge:card-sadar-muzaffarpur",
+      "from": "fi:welfare-pmcares:entity:bsss",
+      "to": "fi:welfare-pmcares:entity:sadar-muzaffarpur",
+      "relation": "audit identifies payment against unmatched card records",
+      "label": "9 unmatched card record(s); ₹86,680 paid",
+      "status": "audit-finding",
+      "stage": "payment",
+      "date": null,
+      "amount": {
+        "value": 86680,
+        "currency": "INR",
+        "unit": "rupee",
+        "period": "Payments through March 2024",
+        "basis": "CAG Appendix 1.8 payment against card absent in later snapshots",
+        "overlapGroup": "bihar-139-card-cohort"
+      },
+      "sourceIds": [
+        "fi:welfare-pmcares:src:bihar-audit"
+      ],
+      "response": "BSSS referred 139-card matter to NHA for conclusive response in February 2025; no individual hospital response located.",
+      "limits": [
+        "TMS payments through March 2024 compared with BIS August 2024 and portal November 2024; later deletion/migration or ID mismatch must be checked. Unmatched card does not establish a fictitious patient or knowing hospital fraud.",
+        "Paid amount is one part of Appendix 1.8 cohort, not an amount additive to its parent total."
+      ]
+    },
+    {
+      "id": "fi:welfare-pmcares:edge:card-skmch",
+      "from": "fi:welfare-pmcares:entity:bsss",
+      "to": "fi:welfare-pmcares:entity:skmch",
+      "relation": "audit identifies payment against unmatched card records",
+      "label": "14 unmatched card record(s); ₹172,669 paid",
+      "status": "audit-finding",
+      "stage": "payment",
+      "date": null,
+      "amount": {
+        "value": 172669,
+        "currency": "INR",
+        "unit": "rupee",
+        "period": "Payments through March 2024",
+        "basis": "CAG Appendix 1.8 payment against card absent in later snapshots",
+        "overlapGroup": "bihar-139-card-cohort"
+      },
+      "sourceIds": [
+        "fi:welfare-pmcares:src:bihar-audit"
+      ],
+      "response": "BSSS referred 139-card matter to NHA for conclusive response in February 2025; no individual hospital response located.",
+      "limits": [
+        "TMS payments through March 2024 compared with BIS August 2024 and portal November 2024; later deletion/migration or ID mismatch must be checked. Unmatched card does not establish a fictitious patient or knowing hospital fraud.",
+        "Paid amount is one part of Appendix 1.8 cohort, not an amount additive to its parent total."
+      ]
+    },
+    {
+      "id": "fi:welfare-pmcares:edge:card-district-biharsharif",
+      "from": "fi:welfare-pmcares:entity:bsss",
+      "to": "fi:welfare-pmcares:entity:district-biharsharif",
+      "relation": "audit identifies payment against unmatched card records",
+      "label": "1 unmatched card record(s); ₹1,700 paid",
+      "status": "audit-finding",
+      "stage": "payment",
+      "date": null,
+      "amount": {
+        "value": 1700,
+        "currency": "INR",
+        "unit": "rupee",
+        "period": "Payments through March 2024",
+        "basis": "CAG Appendix 1.8 payment against card absent in later snapshots",
+        "overlapGroup": "bihar-139-card-cohort"
+      },
+      "sourceIds": [
+        "fi:welfare-pmcares:src:bihar-audit"
+      ],
+      "response": "BSSS referred 139-card matter to NHA for conclusive response in February 2025; no individual hospital response located.",
+      "limits": [
+        "TMS payments through March 2024 compared with BIS August 2024 and portal November 2024; later deletion/migration or ID mismatch must be checked. Unmatched card does not establish a fictitious patient or knowing hospital fraud.",
+        "Paid amount is one part of Appendix 1.8 cohort, not an amount additive to its parent total."
+      ]
+    },
+    {
+      "id": "fi:welfare-pmcares:edge:card-rh-asthawan",
+      "from": "fi:welfare-pmcares:entity:bsss",
+      "to": "fi:welfare-pmcares:entity:rh-asthawan",
+      "relation": "audit identifies payment against unmatched card records",
+      "label": "1 unmatched card record(s); ₹9,000 paid",
+      "status": "audit-finding",
+      "stage": "payment",
+      "date": null,
+      "amount": {
+        "value": 9000,
+        "currency": "INR",
+        "unit": "rupee",
+        "period": "Payments through March 2024",
+        "basis": "CAG Appendix 1.8 payment against card absent in later snapshots",
+        "overlapGroup": "bihar-139-card-cohort"
+      },
+      "sourceIds": [
+        "fi:welfare-pmcares:src:bihar-audit"
+      ],
+      "response": "BSSS referred 139-card matter to NHA for conclusive response in February 2025; no individual hospital response located.",
+      "limits": [
+        "TMS payments through March 2024 compared with BIS August 2024 and portal November 2024; later deletion/migration or ID mismatch must be checked. Unmatched card does not establish a fictitious patient or knowing hospital fraud.",
+        "Paid amount is one part of Appendix 1.8 cohort, not an amount additive to its parent total."
+      ]
+    },
+    {
+      "id": "fi:welfare-pmcares:edge:card-ggs-patna",
+      "from": "fi:welfare-pmcares:entity:bsss",
+      "to": "fi:welfare-pmcares:entity:ggs-patna",
+      "relation": "audit identifies payment against unmatched card records",
+      "label": "1 unmatched card record(s); ₹14,200 paid",
+      "status": "audit-finding",
+      "stage": "payment",
+      "date": null,
+      "amount": {
+        "value": 14200,
+        "currency": "INR",
+        "unit": "rupee",
+        "period": "Payments through March 2024",
+        "basis": "CAG Appendix 1.8 payment against card absent in later snapshots",
+        "overlapGroup": "bihar-139-card-cohort"
+      },
+      "sourceIds": [
+        "fi:welfare-pmcares:src:bihar-audit"
+      ],
+      "response": "BSSS referred 139-card matter to NHA for conclusive response in February 2025; no individual hospital response located.",
+      "limits": [
+        "TMS payments through March 2024 compared with BIS August 2024 and portal November 2024; later deletion/migration or ID mismatch must be checked. Unmatched card does not establish a fictitious patient or knowing hospital fraud.",
+        "Paid amount is one part of Appendix 1.8 cohort, not an amount additive to its parent total."
+      ]
+    },
+    {
+      "id": "fi:welfare-pmcares:edge:card-igims",
+      "from": "fi:welfare-pmcares:entity:bsss",
+      "to": "fi:welfare-pmcares:entity:igims",
+      "relation": "audit identifies payment against unmatched card records",
+      "label": "4 unmatched card record(s); ₹158,109 paid",
+      "status": "audit-finding",
+      "stage": "payment",
+      "date": null,
+      "amount": {
+        "value": 158109,
+        "currency": "INR",
+        "unit": "rupee",
+        "period": "Payments through March 2024",
+        "basis": "CAG Appendix 1.8 payment against card absent in later snapshots",
+        "overlapGroup": "bihar-139-card-cohort"
+      },
+      "sourceIds": [
+        "fi:welfare-pmcares:src:bihar-audit"
+      ],
+      "response": "BSSS referred 139-card matter to NHA for conclusive response in February 2025; no individual hospital response located.",
+      "limits": [
+        "TMS payments through March 2024 compared with BIS August 2024 and portal November 2024; later deletion/migration or ID mismatch must be checked. Unmatched card does not establish a fictitious patient or knowing hospital fraud.",
+        "Paid amount is one part of Appendix 1.8 cohort, not an amount additive to its parent total."
+      ]
+    },
+    {
+      "id": "fi:welfare-pmcares:edge:card-mahavir-cancer",
+      "from": "fi:welfare-pmcares:entity:bsss",
+      "to": "fi:welfare-pmcares:entity:mahavir-cancer",
+      "relation": "audit identifies payment against unmatched card records",
+      "label": "6 unmatched card record(s); ₹288,900 paid",
+      "status": "audit-finding",
+      "stage": "payment",
+      "date": null,
+      "amount": {
+        "value": 288900,
+        "currency": "INR",
+        "unit": "rupee",
+        "period": "Payments through March 2024",
+        "basis": "CAG Appendix 1.8 payment against card absent in later snapshots",
+        "overlapGroup": "bihar-139-card-cohort"
+      },
+      "sourceIds": [
+        "fi:welfare-pmcares:src:bihar-audit"
+      ],
+      "response": "BSSS referred 139-card matter to NHA for conclusive response in February 2025; no individual hospital response located.",
+      "limits": [
+        "TMS payments through March 2024 compared with BIS August 2024 and portal November 2024; later deletion/migration or ID mismatch must be checked. Unmatched card does not establish a fictitious patient or knowing hospital fraud.",
+        "Paid amount is one part of Appendix 1.8 cohort, not an amount additive to its parent total."
+      ]
+    },
+    {
+      "id": "fi:welfare-pmcares:edge:card-mahavir-vatsalya",
+      "from": "fi:welfare-pmcares:entity:bsss",
+      "to": "fi:welfare-pmcares:entity:mahavir-vatsalya",
+      "relation": "audit identifies payment against unmatched card records",
+      "label": "1 unmatched card record(s); ₹7,290 paid",
+      "status": "audit-finding",
+      "stage": "payment",
+      "date": null,
+      "amount": {
+        "value": 7290,
+        "currency": "INR",
+        "unit": "rupee",
+        "period": "Payments through March 2024",
+        "basis": "CAG Appendix 1.8 payment against card absent in later snapshots",
+        "overlapGroup": "bihar-139-card-cohort"
+      },
+      "sourceIds": [
+        "fi:welfare-pmcares:src:bihar-audit"
+      ],
+      "response": "BSSS referred 139-card matter to NHA for conclusive response in February 2025; no individual hospital response located.",
+      "limits": [
+        "TMS payments through March 2024 compared with BIS August 2024 and portal November 2024; later deletion/migration or ID mismatch must be checked. Unmatched card does not establish a fictitious patient or knowing hospital fraud.",
+        "Paid amount is one part of Appendix 1.8 cohort, not an amount additive to its parent total."
+      ]
+    },
+    {
+      "id": "fi:welfare-pmcares:edge:card-phc-bhawanipur",
+      "from": "fi:welfare-pmcares:entity:bsss",
+      "to": "fi:welfare-pmcares:entity:phc-bhawanipur",
+      "relation": "audit identifies payment against unmatched card records",
+      "label": "1 unmatched card record(s); ₹9,900 paid",
+      "status": "audit-finding",
+      "stage": "payment",
+      "date": null,
+      "amount": {
+        "value": 9900,
+        "currency": "INR",
+        "unit": "rupee",
+        "period": "Payments through March 2024",
+        "basis": "CAG Appendix 1.8 payment against card absent in later snapshots",
+        "overlapGroup": "bihar-139-card-cohort"
+      },
+      "sourceIds": [
+        "fi:welfare-pmcares:src:bihar-audit"
+      ],
+      "response": "BSSS referred 139-card matter to NHA for conclusive response in February 2025; no individual hospital response located.",
+      "limits": [
+        "TMS payments through March 2024 compared with BIS August 2024 and portal November 2024; later deletion/migration or ID mismatch must be checked. Unmatched card does not establish a fictitious patient or knowing hospital fraud.",
+        "Paid amount is one part of Appendix 1.8 cohort, not an amount additive to its parent total."
+      ]
+    },
+    {
+      "id": "fi:welfare-pmcares:edge:card-akhand-jyoti",
+      "from": "fi:welfare-pmcares:entity:bsss",
+      "to": "fi:welfare-pmcares:entity:akhand-jyoti",
+      "relation": "audit identifies payment against unmatched card records",
+      "label": "1 unmatched card record(s); ₹25,200 paid",
+      "status": "audit-finding",
+      "stage": "payment",
+      "date": null,
+      "amount": {
+        "value": 25200,
+        "currency": "INR",
+        "unit": "rupee",
+        "period": "Payments through March 2024",
+        "basis": "CAG Appendix 1.8 payment against card absent in later snapshots",
+        "overlapGroup": "bihar-139-card-cohort"
+      },
+      "sourceIds": [
+        "fi:welfare-pmcares:src:bihar-audit"
+      ],
+      "response": "BSSS referred 139-card matter to NHA for conclusive response in February 2025; no individual hospital response located.",
+      "limits": [
+        "TMS payments through March 2024 compared with BIS August 2024 and portal November 2024; later deletion/migration or ID mismatch must be checked. Unmatched card does not establish a fictitious patient or knowing hospital fraud.",
+        "Paid amount is one part of Appendix 1.8 cohort, not an amount additive to its parent total."
+      ]
+    },
+    {
+      "id": "fi:welfare-pmcares:edge:card-district-saran",
+      "from": "fi:welfare-pmcares:entity:bsss",
+      "to": "fi:welfare-pmcares:entity:district-saran",
+      "relation": "audit identifies payment against unmatched card records",
+      "label": "44 unmatched card record(s); ₹174,300 paid",
+      "status": "audit-finding",
+      "stage": "payment",
+      "date": null,
+      "amount": {
+        "value": 174300,
+        "currency": "INR",
+        "unit": "rupee",
+        "period": "Payments through March 2024",
+        "basis": "CAG Appendix 1.8 payment against card absent in later snapshots",
+        "overlapGroup": "bihar-139-card-cohort"
+      },
+      "sourceIds": [
+        "fi:welfare-pmcares:src:bihar-audit"
+      ],
+      "response": "BSSS referred 139-card matter to NHA for conclusive response in February 2025; no individual hospital response located.",
+      "limits": [
+        "TMS payments through March 2024 compared with BIS August 2024 and portal November 2024; later deletion/migration or ID mismatch must be checked. Unmatched card does not establish a fictitious patient or knowing hospital fraud.",
+        "Paid amount is one part of Appendix 1.8 cohort, not an amount additive to its parent total."
+      ]
+    },
+    {
+      "id": "fi:welfare-pmcares:edge:card-navjivan",
+      "from": "fi:welfare-pmcares:entity:bsss",
+      "to": "fi:welfare-pmcares:entity:navjivan",
+      "relation": "audit identifies payment against unmatched card records",
+      "label": "1 unmatched card record(s); ₹24,829 paid",
+      "status": "audit-finding",
+      "stage": "payment",
+      "date": null,
+      "amount": {
+        "value": 24829,
+        "currency": "INR",
+        "unit": "rupee",
+        "period": "Payments through March 2024",
+        "basis": "CAG Appendix 1.8 payment against card absent in later snapshots",
+        "overlapGroup": "bihar-139-card-cohort"
+      },
+      "sourceIds": [
+        "fi:welfare-pmcares:src:bihar-audit"
+      ],
+      "response": "BSSS referred 139-card matter to NHA for conclusive response in February 2025; no individual hospital response located.",
+      "limits": [
+        "TMS payments through March 2024 compared with BIS August 2024 and portal November 2024; later deletion/migration or ID mismatch must be checked. Unmatched card does not establish a fictitious patient or knowing hospital fraud.",
+        "Paid amount is one part of Appendix 1.8 cohort, not an amount additive to its parent total."
+      ]
+    },
+    {
+      "id": "fi:welfare-pmcares:edge:agri-kisan",
+      "from": "fi:welfare-pmcares:entity:agri",
+      "to": "fi:welfare-pmcares:entity:pmkisan",
+      "relation": "administers and issues sanction orders",
+      "label": "Central programme/sanction authority",
+      "status": "documented",
+      "stage": "office",
+      "date": null,
+      "amount": null,
+      "sourceIds": [
+        "fi:welfare-pmcares:src:kisan-recovery",
+        "fi:welfare-pmcares:src:kisan-exclusion"
+      ],
+      "response": "Official process description; beneficiary ownership checked by states.",
+      "limits": [
+        "Institutional procedure, not per-transfer verification."
+      ]
+    },
+    {
+      "id": "fi:welfare-pmcares:edge:states-verification",
+      "from": "fi:welfare-pmcares:entity:states-kisan",
+      "to": "fi:welfare-pmcares:entity:pmkisan",
+      "relation": "verifies eligibility and initiates recovery",
+      "label": "State eligibility/recovery responsibility",
+      "status": "documented",
+      "stage": "oversight",
+      "date": null,
+      "amount": null,
+      "sourceIds": [
+        "fi:welfare-pmcares:src:kisan-exclusion",
+        "fi:welfare-pmcares:src:kisan-recovery"
+      ],
+      "response": "Mandatory controls and grievance assistance described.",
+      "limits": [
+        "Missing KYC is not proof of financial ineligibility."
+      ]
+    },
+    {
+      "id": "fi:welfare-pmcares:edge:kisan-recovery",
+      "from": "fi:welfare-pmcares:entity:agri",
+      "to": "fi:welfare-pmcares:entity:pmkisan",
+      "relation": "reports cumulative recovery",
+      "label": "₹416.75 crore recovered by December 2025",
+      "status": "documented",
+      "stage": "recovery",
+      "date": null,
+      "amount": {
+        "value": 416.75,
+        "currency": "INR",
+        "unit": "crore",
+        "period": "Cumulative as of December 2025",
+        "basis": "Official recovered amount; no national unrecovered-loss estimate",
+        "overlapGroup": null
+      },
+      "sourceIds": [
+        "fi:welfare-pmcares:src:kisan-recovery"
+      ],
+      "response": "Government-reported national recovery from ineligible recipients.",
+      "limits": [
+        "Reporting edge, not a transfer from department to scheme. No exact recipient treasury account or complete recoverable denominator inspected."
+      ]
+    },
+    {
+      "id": "fi:welfare-pmcares:edge:pfms-verification",
+      "from": "fi:welfare-pmcares:entity:pmkisan",
+      "to": "fi:welfare-pmcares:entity:pfms",
+      "relation": "uses account validation and payment processing",
+      "label": "PFMS verification before payment",
+      "status": "documented",
+      "stage": "context",
+      "date": null,
+      "amount": null,
+      "sourceIds": [
+        "fi:welfare-pmcares:src:kisan-recovery",
+        "fi:welfare-pmcares:src:kisan-2026"
+      ],
+      "response": "Official workflow and cross-verification description.",
+      "limits": [
+        "Does not prove each transaction completed."
+      ]
+    },
+    {
+      "id": "fi:welfare-pmcares:edge:npci-route",
+      "from": "fi:welfare-pmcares:entity:pfms",
+      "to": "fi:welfare-pmcares:entity:npci",
+      "relation": "described payment processing route",
+      "label": "Sponsor banks/NPCI route to beneficiary",
+      "status": "documented",
+      "stage": "context",
+      "date": null,
+      "amount": null,
+      "sourceIds": [
+        "fi:welfare-pmcares:src:kisan-recovery"
+      ],
+      "response": "Official narrative places sponsor banks and NPCI in transfer route.",
+      "limits": [
+        "Process topology only; no amount assigned without transaction evidence."
+      ]
+    }
+  ],
+  "cases": [
+    {
+      "id": "fi:welfare-pmcares:case:pmcares-refunds",
+      "title": "PM CARES: identify agency refunds before tracing onward money",
+      "question": "Which agencies returned FY 2024–25 funds, and what happened to each original allotment?",
+      "sector": "welfare",
+      "period": "2020–FY 2024–25; disclosure inspected 8 October 2026",
+      "status": "unresolved",
+      "finding": "The latest listed statement reports ₹324.66 crore of agency refunds and only ₹87.85 lakh of cash payments, but omits the referenced notes identifying agencies and projects. Those gaps stop the money trace; they do not establish theft.",
+      "geography": [
+        {
+          "label": "New Delhi",
+          "stateCode": "DL",
+          "basis": "Fund administration association, not donor or payment coordinates"
+        },
+        {
+          "label": "Bengaluru",
+          "stateCode": "KA",
+          "basis": "BEL corporate-disclosure association, not evidence of contract influence"
+        }
+      ],
+      "entityIds": [
+        "fi:welfare-pmcares:entity:pmcares",
+        "fi:welfare-pmcares:entity:pmo",
+        "fi:welfare-pmcares:entity:trustees",
+        "fi:welfare-pmcares:entity:kkc",
+        "fi:welfare-pmcares:entity:agencies-unknown",
+        "fi:welfare-pmcares:entity:children",
+        "fi:welfare-pmcares:entity:banks-unknown",
+        "fi:welfare-pmcares:entity:bel",
+        "fi:welfare-pmcares:entity:pm-vent-programme"
+      ],
+      "edgeIds": [
+        "fi:welfare-pmcares:edge:pmo-admin",
+        "fi:welfare-pmcares:edge:trustee-rules",
+        "fi:welfare-pmcares:edge:auditor",
+        "fi:welfare-pmcares:edge:refund2425",
+        "fi:welfare-pmcares:edge:children2425",
+        "fi:welfare-pmcares:edge:bankbalance2425",
+        "fi:welfare-pmcares:edge:bel-donation",
+        "fi:welfare-pmcares:edge:refund2223"
+      ],
+      "sourceIds": [
+        "fi:welfare-pmcares:src:pm-accounts",
+        "fi:welfare-pmcares:src:pm-about",
+        "fi:welfare-pmcares:src:pm-faq",
+        "fi:welfare-pmcares:src:pm-2223",
+        "fi:welfare-pmcares:src:bel-csr",
+        "fi:welfare-pmcares:src:pm-court-report"
+      ],
+      "claims": [
+        {
+          "id": "fi:welfare-pmcares:claim:pm-disclosure",
+          "text": "Downloaded FY 2024–25 one-page statement references note 11 for agency refunds and notes 1–16/auditor report, which are not included in that PDF.",
+          "status": "documented",
+          "sourceIds": [
+            "fi:welfare-pmcares:src:pm-accounts",
+            "fi:welfare-pmcares:src:pm-about"
+          ],
+          "response": "FAQ says an independent auditor audits the fund and says no statutory Income Tax audit period is prescribed.",
+          "alternative": "Ordinary explanation: unused advances or settled excess allotments returned; notes may exist internally. Data alternative: publication/linking omission or different document version.",
+          "falsifier": "Obtain signed note 11 and agency-wise refund advices; reconcile original release, expenditure, interest and return to bank records.",
+          "missingRecords": [
+            "Signed audit report and notes 1–16",
+            "Agency/project refund schedule and return vouchers"
+          ]
+        },
+        {
+          "id": "fi:welfare-pmcares:claim:pm-funding-join",
+          "text": "A reported BEL CSR donation is a documented contribution, not evidence that procurement awards were purchased.",
+          "status": "documented",
+          "sourceIds": [
+            "fi:welfare-pmcares:src:bel-csr",
+            "fi:welfare-pmcares:src:pm-faq"
+          ],
+          "response": "BEL states pandemic-relief purpose; FAQ allows CSR contributions.",
+          "alternative": "CSR compliance and emergency assistance explain donation without an improper agreement.",
+          "falsifier": "An influence allegation requires dated decision communications, tender evaluation and an independently matched transfer; shared entity or timing alone is nondiagnostic.",
+          "missingRecords": [
+            "Fund-side donor receipt",
+            "Any specifically alleged procurement decision file"
+          ]
+        },
+        {
+          "id": "fi:welfare-pmcares:claim:pm-court-stage",
+          "text": "January 2026 reporting describes oral RTI privacy observations; a later final disposition was not verified in this research.",
+          "status": "unresolved",
+          "sourceIds": [
+            "fi:welfare-pmcares:src:pm-court-report"
+          ],
+          "response": "Article reports appeal from 22 January 2024 single-judge decision and adjournment.",
+          "alternative": "Third-party procedural protections may explain nondisclosure; they do not determine the truth of procurement allegations.",
+          "falsifier": "Read certified latest docket and final order before describing RTI legal status as settled.",
+          "missingRecords": [
+            "Latest appeal docket and signed orders"
+          ]
+        }
+      ],
+      "whatWeKnow": [
+        "Current original FAQ names KKC; stale indexed FAQ still naming SARC was rejected.",
+        "FY 2022–23 separately identifies a ₹202.89 crore ventilator-programme refund; FY 2024–25 does not identify the agency.",
+        "FY 2024–25 closing balance ₹8,452.07 crore is a stock; incoming agency refunds recycle prior disbursements and are not new donations."
+      ],
+      "whatWeDoNotKnow": [
+        "Identity of agencies behind the FY 2024–25 refund; their original grant/contract identifiers; whether each return was unspent balance, excess advance, interest or recovery.",
+        "Donor-level fund receipts and resulting end-use beyond available aggregate disclosures.",
+        "Latest certified 2026 court disposition."
+      ],
+      "nextRecords": [
+        {
+          "record": "Signed note 11, all accompanying notes, auditor report and agency-wise reconciliation",
+          "holder": "PM CARES trustees/secretariat and KKC & Associates LLP",
+          "purpose": "Resolve refund identity and financial stage"
+        },
+        {
+          "record": "Project sanction, utilisation certificate, return advice and bank reconciliation for each matched refund",
+          "holder": "Named implementing agency once identified",
+          "purpose": "Trace cash to documented final supported hop"
+        },
+        {
+          "record": "Latest Girish Mittal appeal docket/orders",
+          "holder": "Delhi High Court public registry",
+          "purpose": "Avoid treating oral observations as final holdings"
+        }
+      ],
+      "limits": [
+        "No corruption probability or personal-guilt score is estimated.",
+        "This is source-grounded retrospective investigation, not a calibrated forecast or complete-sector census.",
+        "Low fund-level cash payment in one year does not show that prior-year advances stopped producing services.",
+        "Agency refunds, bank balance, donations and expenditure are distinct stages and must not be added."
+      ],
+      "decisionAnalysis": {
+        "decisionDate": null,
+        "actors": [
+          {
+            "entityId": "fi:welfare-pmcares:entity:trustees",
+            "authority": "FAQ grants power to set disbursal criteria",
+            "incentive": "Qualitative hypothesis: retain emergency liquidity versus deploy for eligible relief; not a finding of motive.",
+            "evidenceSourceIds": [
+              "fi:welfare-pmcares:src:pm-faq"
+            ]
+          },
+          {
+            "entityId": "fi:welfare-pmcares:entity:pmo",
+            "authority": "Honorary fund administration",
+            "incentive": "Qualitative hypothesis: reconcile returned advances and publish accessible records.",
+            "evidenceSourceIds": [
+              "fi:welfare-pmcares:src:pm-faq"
+            ]
+          }
+        ],
+        "informationThen": [
+          "Only accounting period and current FAQ are observed; contemporaneous trustee deliberations are missing."
+        ],
+        "options": [
+          {
+            "label": "Reconcile each returned advance",
+            "expectedObservableOutcome": "Project-level closure and refund statements identify why funds returned.",
+            "sourceIds": [
+              "fi:welfare-pmcares:src:pm-accounts"
+            ]
+          },
+          {
+            "label": "Retain balance pending approved relief uses",
+            "expectedObservableOutcome": "Bank-balance stock persists while future sanction schedule remains observable.",
+            "sourceIds": [
+              "fi:welfare-pmcares:src:pm-faq",
+              "fi:welfare-pmcares:src:pm-accounts"
+            ]
+          }
+        ],
+        "observedOutcome": "Published cash statement shows refund inflows and limited new payments; reason for each refund remains unknown.",
+        "sourceIds": [
+          "fi:welfare-pmcares:src:pm-accounts",
+          "fi:welfare-pmcares:src:pm-faq"
+        ],
+        "hindsightLimits": [
+          "The 2026-signed statement was unavailable as this exact published version duringFY2024–25. No backtest or intent inference.",
+          "Decision period: FY 2024–25; no exact single decision day established."
+        ]
+      }
+    },
+    {
+      "id": "fi:welfare-pmcares:case:aurangabad-ventilators",
+      "title": "Aurangabad ventilators: safety dispute and a rejected funding link",
+      "question": "Which batches met acceptance and warranty standards, and which budget actually funded them?",
+      "sector": "health",
+      "period": "April–June 2021; later outcome not fully established",
+      "status": "unresolved",
+      "finding": "A court-recorded inspection identified Dhaman-III defects and sought safety/warranty action; government described handling explanations and later repairs. Ministry expressly denied PM CARES funding for this supplier/batch, so it is not joined to PM CARES refunds.",
+      "geography": [
+        {
+          "label": "Aurangabad / Chhatrapati Sambhajinagar",
+          "stateCode": "MH",
+          "basis": "Hospital/court-proceeding location, not inferred corruption coordinates"
+        },
+        {
+          "label": "New Delhi",
+          "stateCode": "DL",
+          "basis": "Central procurement/health administration association"
+        }
+      ],
+      "entityIds": [
+        "fi:welfare-pmcares:entity:mohfw",
+        "fi:welfare-pmcares:entity:jyoti",
+        "fi:welfare-pmcares:entity:hll",
+        "fi:welfare-pmcares:entity:gmch",
+        "fi:welfare-pmcares:entity:cigma",
+        "fi:welfare-pmcares:entity:mgm",
+        "fi:welfare-pmcares:entity:bombayhc"
+      ],
+      "edgeIds": [
+        "fi:welfare-pmcares:edge:jyoti-supply",
+        "fi:welfare-pmcares:edge:ministry-allocation",
+        "fi:welfare-pmcares:edge:hll-procurement",
+        "fi:welfare-pmcares:edge:cigma-allocation",
+        "fi:welfare-pmcares:edge:mgm-allocation",
+        "fi:welfare-pmcares:edge:court-oversight"
+      ],
+      "sourceIds": [
+        "fi:welfare-pmcares:src:vent-ministry",
+        "fi:welfare-pmcares:src:vent-order",
+        "fi:welfare-pmcares:src:vent-followup"
+      ],
+      "claims": [
+        {
+          "id": "fi:welfare-pmcares:claim:vent-performance",
+          "text": "2 June 2021 interim order records X-21 findings of continuing breakdowns despite repairs and sufficient consumables/trained personnel.",
+          "status": "documented",
+          "sourceIds": [
+            "fi:welfare-pmcares:src:vent-order"
+          ],
+          "response": "14 May Ministry release cited commissioning certificates, installation and mask-fitting issues; later reporting describes 18 repaired units usable with backup.",
+          "alternative": "Ordinary technical explanations include installation, consumable and maintenance faults; mixed device batches and changing repair state can also explain differing assessments.",
+          "falsifier": "Match serial-level acceptance certificates and raw test logs before/after repair under documented operating conditions; retrieve later court disposal.",
+          "missingRecords": [
+            "X-21 original inspection annexure",
+            "Serial-level test/repair/replacement and acceptance logs",
+            "Final court disposition"
+          ]
+        },
+        {
+          "id": "fi:welfare-pmcares:claim:vent-pmcares-rejection",
+          "text": "Claim that this Aurangabad Jyoti CNC batch was funded by PM CARES is contradicted by the 14 May 2021 Ministry statement and later reported Union submission.",
+          "status": "contradicted",
+          "sourceIds": [
+            "fi:welfare-pmcares:src:vent-ministry",
+            "fi:welfare-pmcares:src:vent-followup"
+          ],
+          "response": "Union states supplier/batch was not PM CARES-financed.",
+          "alternative": "A reporting label may have conflated centrally supplied ventilators with PM CARES-funded ventilators.",
+          "falsifier": "Retrieve the signed purchase order, sanction head and matched payment advice; revise only if that primary trail establishes a different funding source.",
+          "missingRecords": [
+            "Purchase order with funding head",
+            "Invoice/payment voucher"
+          ]
+        }
+      ],
+      "whatWeKnow": [
+        "150 supplied units are a goods count, not a cash amount.",
+        "Interim court scrutiny identifies patient-safety questions and warranty route, not a criminal conviction.",
+        "June 7 repair account is later reporting, not independently fetched signed order."
+      ],
+      "whatWeDoNotKnow": [
+        "Exact buyer-side cash payment, supplier receipt, final number replaced/refunded and final adjudication."
+      ],
+      "nextRecords": [
+        {
+          "record": "Tender, evaluation, purchase order, sanction head and payment certificates",
+          "holder": "HLL and Ministry of Health and Family Welfare",
+          "purpose": "Trace award and payment without misattributing funding"
+        },
+        {
+          "record": "Hospital acceptance/repair logs and X-21",
+          "holder": "GMCH Aurangabad and Bombay High Court registry",
+          "purpose": "Resolve technical claims and post-repair outcomes"
+        },
+        {
+          "record": "June 7,June 21 and final orders",
+          "holder": "Bombay High Court public registry",
+          "purpose": "Track later corrections and legal outcome"
+        }
+      ],
+      "limits": [
+        "No corruption probability or personal-guilt score is estimated.",
+        "This is source-grounded retrospective investigation, not a calibrated forecast or complete-sector census.",
+        "No link to political donations, private beneficial ownership or PM CARES agency refunds is admitted."
+      ],
+      "decisionAnalysis": {
+        "decisionDate": "2021-06-02",
+        "actors": [
+          {
+            "entityId": "fi:welfare-pmcares:entity:mohfw",
+            "authority": "Union presented proposed expert inspection and warranty replacement in court",
+            "incentive": "Qualitative hypothesis: restore usable clinical equipment while meeting warranty obligations.",
+            "evidenceSourceIds": [
+              "fi:welfare-pmcares:src:vent-order"
+            ]
+          },
+          {
+            "entityId": "fi:welfare-pmcares:entity:gmch",
+            "authority": "Hospital manages use of supplied clinical equipment",
+            "incentive": "Qualitative hypothesis: keep treatment available while avoiding unsafe use.",
+            "evidenceSourceIds": [
+              "fi:welfare-pmcares:src:vent-order"
+            ]
+          },
+          {
+            "entityId": "fi:welfare-pmcares:entity:jyoti",
+            "authority": "Manufacturer with one-year warranty described in court",
+            "incentive": "Qualitative hypothesis: repair or replace equipment to satisfy contract; no intent attributed.",
+            "evidenceSourceIds": [
+              "fi:welfare-pmcares:src:vent-order"
+            ]
+          }
+        ],
+        "informationThen": [
+          "The court recorded X-21 inspection and planned expert visit on 3 June 2021.",
+          "Earlier commissioning certificates were cited by Ministry, but underlying copies were not inspected."
+        ],
+        "options": [
+          {
+            "label": "Repair and verify against acceptance criteria",
+            "expectedObservableOutcome": "Recorded safe operating tests and conditional return to service.",
+            "sourceIds": [
+              "fi:welfare-pmcares:src:vent-order"
+            ]
+          },
+          {
+            "label": "Replace persistent defects under warranty",
+            "expectedObservableOutcome": "Replacement/return note matched to serial number and purchase order.",
+            "sourceIds": [
+              "fi:welfare-pmcares:src:vent-order"
+            ]
+          }
+        ],
+        "observedOutcome": "June 7 reporting describes 18 repaired units with standby requirement; final outcome remains open in this dossier.",
+        "sourceIds": [
+          "fi:welfare-pmcares:src:vent-order",
+          "fi:welfare-pmcares:src:vent-followup"
+        ],
+        "hindsightLimits": [
+          "Hindsight: the June 7 account was not available on 2 June; it is displayed as subsequent observation."
+        ]
+      }
+    },
+    {
+      "id": "fi:welfare-pmcares:case:bihar-isa",
+      "title": "Bihar PM-JAY: two procurement clusters, one administrator",
+      "question": "Why did both clusters go to one TPA at different rates despite NHA advice, and how were penalties and payments reconciled?",
+      "sector": "welfare",
+      "period": "July 2018–September 2024; replies through November 2024",
+      "status": "audit-finding",
+      "finding": "CAG reports both 2023 clusters awarded to Family Health Plan Insurance TPA at ₹1.95/₹1.68 per family-year, ₹1.19 crore paid, and an estimated ₹8.80 lakh avoidable component. Bihar cites procurement-rule and staffing differences; CAG rejects that explanation.",
+      "geography": [
+        {
+          "label": "Patna",
+          "stateCode": "BR",
+          "basis": "BSSS procurement/administration association; no inferred private-bank coordinates"
+        },
+        {
+          "label": "New Delhi",
+          "stateCode": "DL",
+          "basis": "NHA instruction/oversight association"
+        }
+      ],
+      "entityIds": [
+        "fi:welfare-pmcares:entity:nha",
+        "fi:welfare-pmcares:entity:bsss",
+        "fi:welfare-pmcares:entity:fhpl",
+        "fi:welfare-pmcares:entity:medsave",
+        "fi:welfare-pmcares:entity:vidal",
+        "fi:welfare-pmcares:entity:cag",
+        "fi:welfare-pmcares:entity:pmjay"
+      ],
+      "edgeIds": [
+        "fi:welfare-pmcares:edge:nha-instructions",
+        "fi:welfare-pmcares:edge:fhpl-award",
+        "fi:welfare-pmcares:edge:fhpl-paid",
+        "fi:welfare-pmcares:edge:medsave-contract",
+        "fi:welfare-pmcares:edge:vidal-contract",
+        "fi:welfare-pmcares:edge:audit-bsss",
+        "fi:welfare-pmcares:edge:bsss-pmjay"
+      ],
+      "sourceIds": [
+        "fi:welfare-pmcares:src:bihar-audit"
+      ],
+      "claims": [
+        {
+          "id": "fi:welfare-pmcares:claim:isa-clusters",
+          "text": "CAG §1.7.2 describes deviation from NHA advice against allocating both clusters to one bidder and against unequal rates.",
+          "status": "audit-finding",
+          "sourceIds": [
+            "fi:welfare-pmcares:src:bihar-audit"
+          ],
+          "response": "BSSS November 2024 reply: L2-to-L1 matching would be negotiation not recommended by Bihar Financial Rules; different district counts required different staffing. CAG says family counts/nature of work were nearly same.",
+          "alternative": "Ordinary explanation: distinct cluster staffing costs and legal concern about post-bid negotiations. Error alternative: the final RFP could differ from the draft guidance or table-period scope.",
+          "falsifier": "Obtain operative RFP, NHA correspondence, comparative bid schedule and rule opinion. A lawful documented deviation and cost model could narrow or overturn the audit concern.",
+          "missingRecords": [
+            "Final RFP and corrigenda",
+            "NHA December 2022 instructions",
+            "Bid evaluation and legal concurrence"
+          ]
+        },
+        {
+          "id": "fi:welfare-pmcares:claim:isa-payment",
+          "text": "₹8.80 lakh is CAG’s estimated avoidable component of payment, not a separate transfer or bribe.",
+          "status": "audit-finding",
+          "sourceIds": [
+            "fi:welfare-pmcares:src:bihar-audit"
+          ],
+          "response": "CAG footnote 23 computes family count×rate difference×half-year, less 10% penalty, plus 18% GST; gross payments include tax withholding.",
+          "alternative": "Difference may reflect permitted staffing/service variation; gross deduction-based amount may differ from bank receipt.",
+          "falsifier": "Recompute from invoices, service periods, family denominator, GST/TDS and penalty ledgers; establish actual net paid.",
+          "missingRecords": [
+            "Cluster invoices and bank advice",
+            "GST/TDS and 10% penalty ledger"
+          ]
+        },
+        {
+          "id": "fi:welfare-pmcares:claim:isa-coverage",
+          "text": "CAG criticises earlier Medsave contract scope and later Vidal deployment gaps; these are distinct contracts, not proof the three TPAs shared owners or coordinated.",
+          "status": "audit-finding",
+          "sourceIds": [
+            "fi:welfare-pmcares:src:bihar-audit"
+          ],
+          "response": "BSSS defended hospital-based ISA scope in 2022; in November 2024 reported 359 PMAMs deployed by September 2024 and ordered remaining deployment.",
+          "alternative": "Interpretation differences and staffing rollout can explain part of the shortfall; contract-performance gaps require specific invoice/attendance checks.",
+          "falsifier": "Compare signed clauses, staffing rosters and approved deductions separately for each agency.",
+          "missingRecords": [
+            "Medsave 2018 agreement and scope decision",
+            "Vidal 2022 agreement, rosters and payment deductions"
+          ]
+        }
+      ],
+      "whatWeKnow": [
+        "CAG gives a reproducible ₹879,882 calculation, rounded ₹8.80 lakh.",
+        "Bihar PM-JAY operates in assurance/trust mode; TPAs administer claims rather than underwriting all hospital expenditure.",
+        "Agency amounts and hospital claims belong to distinct payment populations."
+      ],
+      "whatWeDoNotKnow": [
+        "Final legal opinion on rule conflict, bidders’ identities/ranks, all contract amendments, net agency receipt and later recoveries.",
+        "No ownership or political-connection evidence was inspected for the TPAs."
+      ],
+      "nextRecords": [
+        {
+          "record": "Original cluster procurement file, bid-opening data and final awards",
+          "holder": "BSSS procurement office",
+          "purpose": "Test competition, scope and NHA-instruction compliance"
+        },
+        {
+          "record": "Bank-reconciled cluster invoice/penalty ledger",
+          "holder": "BSSS finance and Family Health Plan Insurance TPA",
+          "purpose": "Reconstruct gross-to-net receipt and avoid double-counting"
+        },
+        {
+          "record": "Action-taken note and supplier response to audit",
+          "holder": "Bihar Health Department/BSSS and named TPA",
+          "purpose": "Capture subsequent recovery, rebuttal or correction"
+        }
+      ],
+      "limits": [
+        "No corruption probability or personal-guilt score is estimated.",
+        "This is source-grounded retrospective investigation, not a calibrated forecast or complete-sector census.",
+        "Single sampled audit family; this is not independent corroboration from several sources.",
+        "₹1.19 crore payment includes the disputed component; no additive total."
+      ],
+      "decisionAnalysis": {
+        "decisionDate": null,
+        "actors": [
+          {
+            "entityId": "fi:welfare-pmcares:entity:bsss",
+            "authority": "Selects ISA through procurement and executes contracts",
+            "incentive": "Qualitative hypothesis: procure implementation capacity while complying with financial rules; adverse hypothesis would require evidence of favoritism.",
+            "evidenceSourceIds": [
+              "fi:welfare-pmcares:src:bihar-audit"
+            ]
+          },
+          {
+            "entityId": "fi:welfare-pmcares:entity:nha",
+            "authority": "Issued December 2022 RFP inputs/instructions",
+            "incentive": "Documented objective in advice: avoid same bidder across both clusters and preserve rate parity.",
+            "evidenceSourceIds": [
+              "fi:welfare-pmcares:src:bihar-audit"
+            ]
+          },
+          {
+            "entityId": "fi:welfare-pmcares:entity:fhpl",
+            "authority": "Bidder/selected service provider for both clusters",
+            "incentive": "Qualitative commercial incentive: secure service revenue; normal incentive is not corrupt intent.",
+            "evidenceSourceIds": [
+              "fi:welfare-pmcares:src:bihar-audit"
+            ]
+          }
+        ],
+        "informationThen": [
+          "Retrospective audit reproduces December 2022 instruction and March 2023 tenders. Original contemporaneous RFP version not independently captured."
+        ],
+        "options": [
+          {
+            "label": "Separate cluster awards with parity arrangement",
+            "expectedObservableOutcome": "Two providers and documented consent/rate-matching process consistent with applicable rules.",
+            "sourceIds": [
+              "fi:welfare-pmcares:src:bihar-audit"
+            ]
+          },
+          {
+            "label": "Document lawful departure and differential cost basis",
+            "expectedObservableOutcome": "Approved rule opinion and staffing-cost comparison accompanying final awards.",
+            "sourceIds": [
+              "fi:welfare-pmcares:src:bihar-audit"
+            ]
+          }
+        ],
+        "observedOutcome": "August 2023 contracts awarded both clusters to one TPA; audit later disputed deviation and estimated avoidable payment.",
+        "sourceIds": [
+          "fi:welfare-pmcares:src:bihar-audit"
+        ],
+        "hindsightLimits": [
+          "November 2024 response and 2025-labelled audit are later evidence, not features available during bid decision.",
+          "No actor-intent score or counterfactual savings forecast is estimated.",
+          "Decision period: 2023-03 to 2023-08; no exact single decision day established."
+        ]
+      }
+    },
+    {
+      "id": "fi:welfare-pmcares:case:bihar-hospital-cards",
+      "title": "Bihar PM-JAY: follow 139 unmatched cards to 23 hospitals",
+      "question": "Do 139 paid card records represent invalid claims or database-version and identity changes?",
+      "sector": "health",
+      "period": "Payments through March 2024; comparison snapshots August/November 2024; response February 2025",
+      "status": "audit-finding",
+      "finding": "CAG matches ₹25,25,325 paid across 23 named hospitals to 139 cards absent from later beneficiary datasets. The cross-date mismatch is an actionable audit lead, not proof that 139 patients were fictitious or that hospitals knowingly defrauded the scheme.",
+      "geography": [
+        {
+          "label": "Patna",
+          "stateCode": "BR",
+          "basis": "BSSS and named Patna hospital association"
+        },
+        {
+          "label": "Bhagalpur",
+          "stateCode": "BR",
+          "basis": "Named recipient-hospital district"
+        },
+        {
+          "label": "Darbhanga",
+          "stateCode": "BR",
+          "basis": "Named recipient-hospital district"
+        },
+        {
+          "label": "Muzaffarpur",
+          "stateCode": "BR",
+          "basis": "Named recipient-hospital district"
+        },
+        {
+          "label": "Saran",
+          "stateCode": "BR",
+          "basis": "Named recipient-hospital district"
+        },
+        {
+          "label": "Katihar",
+          "stateCode": "BR",
+          "basis": "Named recipient-hospital district in Appendix1.8; no exact patient or account coordinates"
+        },
+        {
+          "label": "Nalanda",
+          "stateCode": "BR",
+          "basis": "Named recipient-hospital district in Appendix1.8; no exact patient or account coordinates"
+        },
+        {
+          "label": "Purnea",
+          "stateCode": "BR",
+          "basis": "Named recipient-hospital district in Appendix1.8; no exact patient or account coordinates"
+        },
+        {
+          "label": "Sitamarhi",
+          "stateCode": "BR",
+          "basis": "Named recipient-hospital district in Appendix1.8; no exact patient or account coordinates"
+        }
+      ],
+      "entityIds": [
+        "fi:welfare-pmcares:entity:bsss",
+        "fi:welfare-pmcares:entity:nha",
+        "fi:welfare-pmcares:entity:cag",
+        "fi:welfare-pmcares:entity:pmjay",
+        "fi:welfare-pmcares:entity:chc-bihpur",
+        "fi:welfare-pmcares:entity:chc-shahkund",
+        "fi:welfare-pmcares:entity:phc-narayanpur",
+        "fi:welfare-pmcares:entity:lnjp-bhagalpur",
+        "fi:welfare-pmcares:entity:dmch",
+        "fi:welfare-pmcares:entity:vivekanand-cancer",
+        "fi:welfare-pmcares:entity:phc-mansahi",
+        "fi:welfare-pmcares:entity:sadar-katihar",
+        "fi:welfare-pmcares:entity:ashoka-hospital",
+        "fi:welfare-pmcares:entity:bathua",
+        "fi:welfare-pmcares:entity:prashant",
+        "fi:welfare-pmcares:entity:sadar-muzaffarpur",
+        "fi:welfare-pmcares:entity:skmch",
+        "fi:welfare-pmcares:entity:district-biharsharif",
+        "fi:welfare-pmcares:entity:rh-asthawan",
+        "fi:welfare-pmcares:entity:ggs-patna",
+        "fi:welfare-pmcares:entity:igims",
+        "fi:welfare-pmcares:entity:mahavir-cancer",
+        "fi:welfare-pmcares:entity:mahavir-vatsalya",
+        "fi:welfare-pmcares:entity:phc-bhawanipur",
+        "fi:welfare-pmcares:entity:akhand-jyoti",
+        "fi:welfare-pmcares:entity:district-saran",
+        "fi:welfare-pmcares:entity:navjivan"
+      ],
+      "edgeIds": [
+        "fi:welfare-pmcares:edge:audit-bsss",
+        "fi:welfare-pmcares:edge:bsss-pmjay",
+        "fi:welfare-pmcares:edge:card-chc-bihpur",
+        "fi:welfare-pmcares:edge:card-chc-shahkund",
+        "fi:welfare-pmcares:edge:card-phc-narayanpur",
+        "fi:welfare-pmcares:edge:card-lnjp-bhagalpur",
+        "fi:welfare-pmcares:edge:card-dmch",
+        "fi:welfare-pmcares:edge:card-vivekanand-cancer",
+        "fi:welfare-pmcares:edge:card-phc-mansahi",
+        "fi:welfare-pmcares:edge:card-sadar-katihar",
+        "fi:welfare-pmcares:edge:card-ashoka-hospital",
+        "fi:welfare-pmcares:edge:card-bathua",
+        "fi:welfare-pmcares:edge:card-prashant",
+        "fi:welfare-pmcares:edge:card-sadar-muzaffarpur",
+        "fi:welfare-pmcares:edge:card-skmch",
+        "fi:welfare-pmcares:edge:card-district-biharsharif",
+        "fi:welfare-pmcares:edge:card-rh-asthawan",
+        "fi:welfare-pmcares:edge:card-ggs-patna",
+        "fi:welfare-pmcares:edge:card-igims",
+        "fi:welfare-pmcares:edge:card-mahavir-cancer",
+        "fi:welfare-pmcares:edge:card-mahavir-vatsalya",
+        "fi:welfare-pmcares:edge:card-phc-bhawanipur",
+        "fi:welfare-pmcares:edge:card-akhand-jyoti",
+        "fi:welfare-pmcares:edge:card-district-saran",
+        "fi:welfare-pmcares:edge:card-navjivan"
+      ],
+      "sourceIds": [
+        "fi:welfare-pmcares:src:bihar-audit"
+      ],
+      "claims": [
+        {
+          "id": "fi:welfare-pmcares:claim:cards-unmatched",
+          "text": "Appendix 1.8 lists 139 cards and ₹25,25,325 across 23 hospitals; they appear in TMS payment data but not the later BIS/beneficiary snapshots inspected by CAG.",
+          "status": "audit-finding",
+          "sourceIds": [
+            "fi:welfare-pmcares:src:bihar-audit"
+          ],
+          "response": "CEO BSSS February 2025 says matter referred to NHA for a conclusive response; hospital-specific responses were not located.",
+          "alternative": "Ordinary/data alternative: card deletion, consolidation, migration, replacement or mismatched dataset extraction after valid treatment. Adverse hypothesis: claim used an invalid identifier; intent remains unproven.",
+          "falsifier": "Join immutable card lifecycle/version history at treatment date, eligibility documents and clinical encounter/claim/payment records; genuine validated aliases or migrations would disconfirm a fictitious-patient interpretation.",
+          "missingRecords": [
+            "139-card redacted lifecycle crosswalk",
+            "Admission/treatment and claim adjudication documents",
+            "NHA conclusive reply and recoveries if any"
+          ]
+        },
+        {
+          "id": "fi:welfare-pmcares:claim:disabled-cards-reply",
+          "text": "Separate disabled-card audit reports ₹2.31 crore in 2,186 claims; BSSS later said 1,963 of 2,609 reviewed cards were genuine, 47 marked fraud and 599 awaiting field audit.",
+          "status": "audit-finding",
+          "sourceIds": [
+            "fi:welfare-pmcares:src:bihar-audit"
+          ],
+          "response": "CAG says supporting genuineness documents were not supplied and final action remained pending; these are different denominators/snapshots.",
+          "alternative": "Claims can have treatment before disabling or wrongly disabled identifiers; aggregate disabled status is not itself proof of fraudulent receipt.",
+          "falsifier": "Reconcile disabling time, treatment/preauthorization/payment dates and investigation result per card before classifying loss.",
+          "missingRecords": [
+            "Card disable/reactivation audit log",
+            "47-card final action and 599-card field audit results"
+          ]
+        },
+        {
+          "id": "fi:welfare-pmcares:claim:dead-patient-timing",
+          "text": "CAG §1.9.3 records ₹32.60 lakh paid for 141 claims with preauthorisation after recorded death; BSSS says emergency treatment preceded administrative authorisation.",
+          "status": "audit-finding",
+          "sourceIds": [
+            "fi:welfare-pmcares:src:bihar-audit"
+          ],
+          "response": "December 2024 reply says patients died during treatment and most cases were public hospitals.",
+          "alternative": "Emergency backdated authorisation and delayed data entry can explain sequence; claim chronology alone does not show treatment after actual death.",
+          "falsifier": "Compare admission, treatment, death, mortality-audit and authorisation timestamps; actual care before death disconfirms the broad dead-patient-treatment claim.",
+          "missingRecords": [
+            "Mortality-audit files",
+            "Timestamped admission/treatment/preauthorisation evidence"
+          ]
+        }
+      ],
+      "whatWeKnow": [
+        "The 23 rows independently sum to 139 cards and ₹2,525,325.",
+        "Source compares payment data to later snapshots; that temporal mismatch is explicitly preserved.",
+        "Separate ₹20.30 crore rejected-claim population in§1.9.4 is nonpayment, not money lost; it is not added."
+      ],
+      "whatWeDoNotKnow": [
+        "Whether each unmatched card was valid at treatment date; final NHA reconciliation; actual recoveries or exonerations.",
+        "Hospital beneficial owners, political links or intentional misconduct are not established by this appendix."
+      ],
+      "nextRecords": [
+        {
+          "record": "Versioned BIS/TMS card lifecycle and explicit hospital ID crosswalk, with private IDs redacted",
+          "holder": "NHA/BSSS",
+          "purpose": "Distinguish invalid claims from later deletion or migration"
+        },
+        {
+          "record": "Underlying 139 claim/payment/clinical records and final audit response",
+          "holder": "BSSS and 23 named hospitals",
+          "purpose": "Trace documented payment to service and resolve each anomaly"
+        },
+        {
+          "record": "CAG action-taken notes and recovery/bank confirmations",
+          "holder": "Bihar Health Department/BSSS",
+          "purpose": "Record later correction, confirmed loss or recovery"
+        }
+      ],
+      "limits": [
+        "No corruption probability or personal-guilt score is estimated.",
+        "This is source-grounded retrospective investigation, not a calibrated forecast or complete-sector census.",
+        "No graph-wide sum across disabled, unmatched, late, rejected or nonbiometric claims: overlap is unknown.",
+        "Patients’ names, Aadhaar IDs and private bank accounts are not reproduced."
+      ],
+      "decisionAnalysis": {
+        "decisionDate": null,
+        "actors": [
+          {
+            "entityId": "fi:welfare-pmcares:entity:bsss",
+            "authority": "Scheme claim adjudication and payment oversight",
+            "incentive": "Qualitative hypothesis: reimburse eligible care while avoiding invalid claims and treatment denial.",
+            "evidenceSourceIds": [
+              "fi:welfare-pmcares:src:bihar-audit"
+            ]
+          },
+          {
+            "entityId": "fi:welfare-pmcares:entity:nha",
+            "authority": "Operates scheme eligibility/IT standards described by audit",
+            "incentive": "Qualitative hypothesis: maintain consistent card lifecycle controls across systems.",
+            "evidenceSourceIds": [
+              "fi:welfare-pmcares:src:bihar-audit"
+            ]
+          }
+        ],
+        "informationThen": [
+          "At each treatment date, actual card version and clinical record should determine eligibility; this project lacks those snapshots."
+        ],
+        "options": [
+          {
+            "label": "Validate archived card at service date",
+            "expectedObservableOutcome": "Traceable eligibility decision with alias/replacement record.",
+            "sourceIds": [
+              "fi:welfare-pmcares:src:bihar-audit"
+            ]
+          },
+          {
+            "label": "Investigate mismatches without automatic guilt label",
+            "expectedObservableOutcome": "Closed case with documented correction, recovery or reasoned rejection.",
+            "sourceIds": [
+              "fi:welfare-pmcares:src:bihar-audit"
+            ]
+          }
+        ],
+        "observedOutcome": "Audit found 139 unmatched card records; February 2025 referral did not yet supply a conclusive explanation in report.",
+        "sourceIds": [
+          "fi:welfare-pmcares:src:bihar-audit"
+        ],
+        "hindsightLimits": [
+          "August/November 2024 database views were not necessarily the views at original treatment.",
+          "No retrospective anomaly is relabelled as a successful prior forecast.",
+          "Decision period: 2018-09 to 2024-03; no exact single decision day established."
+        ]
+      }
+    },
+    {
+      "id": "fi:welfare-pmcares:case:pmkisan-controls",
+      "title": "PM-KISAN: recoveries, eligibility checks and exclusion risk",
+      "question": "Do tighter controls prevent misdirected payments while restoring benefits to eligible farmers?",
+      "sector": "welfare",
+      "period": "2019–July 2026",
+      "status": "unresolved",
+      "finding": "Government reports ₹416.75 crore recovered by December 2025, while 2026 answers show large pending-verification categories and resolved grievances. These measures describe different populations; none establishes a national fraud rate or proves excluded farmers were fraudulent.",
+      "geography": [
+        {
+          "label": "New Delhi",
+          "stateCode": "DL",
+          "basis": "Central scheme administration association"
+        },
+        {
+          "label": "Dungarpur",
+          "stateCode": "RJ",
+          "basis": "District-specific grievance counts in parliamentary reply"
+        }
+      ],
+      "entityIds": [
+        "fi:welfare-pmcares:entity:agri",
+        "fi:welfare-pmcares:entity:pmkisan",
+        "fi:welfare-pmcares:entity:states-kisan",
+        "fi:welfare-pmcares:entity:pfms",
+        "fi:welfare-pmcares:entity:npci"
+      ],
+      "edgeIds": [
+        "fi:welfare-pmcares:edge:agri-kisan",
+        "fi:welfare-pmcares:edge:states-verification",
+        "fi:welfare-pmcares:edge:kisan-recovery",
+        "fi:welfare-pmcares:edge:pfms-verification",
+        "fi:welfare-pmcares:edge:npci-route"
+      ],
+      "sourceIds": [
+        "fi:welfare-pmcares:src:kisan-recovery",
+        "fi:welfare-pmcares:src:kisan-exclusion",
+        "fi:welfare-pmcares:src:kisan-2026"
+      ],
+      "claims": [
+        {
+          "id": "fi:welfare-pmcares:claim:kisan-recovered",
+          "text": "PIB20 June 2026 reports ₹416.75 crore recovered from ineligible beneficiaries nationwide as of December 2025.",
+          "status": "documented",
+          "sourceIds": [
+            "fi:welfare-pmcares:src:kisan-recovery"
+          ],
+          "response": "State/UT recovery responsibility and excluded high-income categories are described.",
+          "alternative": "Some incorrect payments may reflect trust-based registration, eligibility changes or administrative error rather than beneficiary criminal intent.",
+          "falsifier": "Match recovery orders to treasury credits and eligibility dates; compare with complete independently defined recoverable universe before computing recovery/loss rate.",
+          "missingRecords": [
+            "State-wise identified-ineligible amount and dated recovery ledger",
+            "Treasury receipt reconciliations"
+          ]
+        },
+        {
+          "id": "fi:welfare-pmcares:claim:kisan-exclusions",
+          "text": "Rajya Sabha 20 March 2026 lists 16,52,379 pending land-seeding,23,53,748 Aadhaar-bank-seeding and 32,94,609 eKYC cases asof 16 March 2026.",
+          "status": "documented",
+          "sourceIds": [
+            "fi:welfare-pmcares:src:kisan-exclusion"
+          ],
+          "response": "Reply describes CSC, face-authentication, village officers and saturation drives to support eligible recipients.",
+          "alternative": "Incomplete authentication or records may delay genuine entitlement; categories may overlap. Actual ineligibility and pending verification are different conditions.",
+          "falsifier": "Build redacted person-period cohort with overlapping reasons, eventual verification, arrears and appeal outcome; successful reinstatement disproves a fraud label.",
+          "missingRecords": [
+            "Deduplicated exclusion/reinstatement cohort",
+            "Arrears and completion-time ledger"
+          ]
+        },
+        {
+          "id": "fi:welfare-pmcares:claim:kisan-grievances",
+          "text": "July 2026 reply reports 312,660 of 313,751 CPGRAMS grievances resolved and 1,521,607 of 1,527,362 PM-KISAN-portal grievances resolved; Dungarpur 5,154 of 5,171.",
+          "status": "documented",
+          "sourceIds": [
+            "fi:welfare-pmcares:src:kisan-2026"
+          ],
+          "response": "Government says grievances are resolved timely and reports official-login biometric/maker–checker controls.",
+          "alternative": "Administrative closure can be a correct refusal or information response, not necessarily money delivered; portals may duplicate a grievance.",
+          "falsifier": "Sample resolved cases against claimant-reported outcome and bank settlement; verify controls with access logs rather than policy announcement alone.",
+          "missingRecords": [
+            "Deidentified grievance dispositions and settlement dates",
+            "Role-based access and maker–checker audit logs"
+          ]
+        }
+      ],
+      "whatWeKnow": [
+        "Mandatory rule timing is dated: land seeding 12 th instalment; Aadhaar payments 13 th; eKYC15 th.",
+        "Recoveries are returned money, not an extra loss figure.",
+        "The process graph is official workflow only; no individual bank transfers were inspected."
+      ],
+      "whatWeDoNotKnow": [
+        "Complete recoverable denominator, state-level recovery reconciliation, unique number of excluded eligible recipients and arrears actually delivered.",
+        "Whether revised access controls were consistently enforced against misuse."
+      ],
+      "nextRecords": [
+        {
+          "record": "State-wise ineligible/recoverable/recovered amounts using a common cutoff and definition",
+          "holder": "Department of Agriculture and State/UT nodal agencies",
+          "purpose": "Reconcile recovery numerator with a valid denominator"
+        },
+        {
+          "record": "Redacted exclusion→verification→payment cohort with reason-overlap flags",
+          "holder": "PM-KISAN/PFMS and State/UT nodal agencies",
+          "purpose": "Measure erroneous exclusion and restoration"
+        },
+        {
+          "record": "Dungarpur resolved-grievance outcome sample",
+          "holder": "Rajasthan Agriculture Department and district nodal officer",
+          "purpose": "Test whether closure restored eligible payments"
+        }
+      ],
+      "limits": [
+        "No corruption probability or personal-guilt score is estimated.",
+        "This is source-grounded retrospective investigation, not a calibrated forecast or complete-sector census.",
+        "No summation of overlapping verification categories or portal counts.",
+        "Policy announcements and aggregate official statistics are not independent transaction validation."
+      ],
+      "decisionAnalysis": {
+        "decisionDate": null,
+        "actors": [
+          {
+            "entityId": "fi:welfare-pmcares:entity:agri",
+            "authority": "Sets central programme verification/payment requirements",
+            "incentive": "Qualitative tradeoff: reduce ineligible payment while maintaining timely access for eligible farmers.",
+            "evidenceSourceIds": [
+              "fi:welfare-pmcares:src:kisan-exclusion"
+            ]
+          },
+          {
+            "entityId": "fi:welfare-pmcares:entity:states-kisan",
+            "authority": "Verify cultivable-land eligibility and update beneficiary lists",
+            "incentive": "Qualitative tradeoff: accurate identification versus administrative completion burden.",
+            "evidenceSourceIds": [
+              "fi:welfare-pmcares:src:kisan-exclusion"
+            ]
+          }
+        ],
+        "informationThen": [
+          "Rule implementation dates are retrospectively reported in 2026 answer; original circular versions not independently captured."
+        ],
+        "options": [
+          {
+            "label": "Enforce mandatory checks with accessible completion routes",
+            "expectedObservableOutcome": "Reduced unresolved identity fields accompanied by tracked reinstatement and arrears.",
+            "sourceIds": [
+              "fi:welfare-pmcares:src:kisan-exclusion"
+            ]
+          },
+          {
+            "label": "Evaluate exclusion and recovery together",
+            "expectedObservableOutcome": "Comparable cohorts distinguish prevented misdirection, correction and eligible-payment delays.",
+            "sourceIds": [
+              "fi:welfare-pmcares:src:kisan-exclusion",
+              "fi:welfare-pmcares:src:kisan-recovery"
+            ]
+          }
+        ],
+        "observedOutcome": "March 2026 reply lists pending checks; July 2026 reply reports grievance closure/control updates, without claimant-level outcome proof.",
+        "sourceIds": [
+          "fi:welfare-pmcares:src:kisan-exclusion",
+          "fi:welfare-pmcares:src:kisan-2026",
+          "fi:welfare-pmcares:src:kisan-recovery"
+        ],
+        "hindsightLimits": [
+          "No 2026 figures are treated as information available when 2022–23 rules were introduced.",
+          "No causal effect or corruption probability is estimated.",
+          "Decision period: 2022-08 to 2023-11; no exact single decision day established."
+        ]
+      }
+    }
+  ],
+  "coverage": [
+    {
+      "institution": "PM CARES",
+      "jurisdiction": "National",
+      "period": "FY 2022–23/FY 2024–25 and current FAQ",
+      "status": "partial",
+      "sourceIds": [
+        "fi:welfare-pmcares:src:pm-accounts",
+        "fi:welfare-pmcares:src:pm-about",
+        "fi:welfare-pmcares:src:pm-faq",
+        "fi:welfare-pmcares:src:pm-2223"
+      ],
+      "gap": "Notes, agency identities and donor-receipt ledger absent; latest appeal disposition unverified.",
+      "nextRecord": "Signed notes and agency-wise grant/refund reconciliation"
+    },
+    {
+      "institution": "Aurangabad ventilators",
+      "jurisdiction": "Maharashtra/Union",
+      "period": "April–June 2021",
+      "status": "partial",
+      "sourceIds": [
+        "fi:welfare-pmcares:src:vent-ministry",
+        "fi:welfare-pmcares:src:vent-order",
+        "fi:welfare-pmcares:src:vent-followup"
+      ],
+      "gap": "Final case outcome and serial-level cost/repair data not obtained.",
+      "nextRecord": "Final orders, purchase/payment and warranty records"
+    },
+    {
+      "institution": "Bihar PM-JAY",
+      "jurisdiction": "Bihar",
+      "period": "2018–24 with 2025 replies",
+      "status": "examined",
+      "sourceIds": [
+        "fi:welfare-pmcares:src:bihar-audit"
+      ],
+      "gap": "Selected audit sections and complete 139-card appendix inspected; originalPDF503 and no action-taken report.",
+      "nextRecord": "OriginalPDF/action-taken note, three agency contracts, card lifecycle"
+    },
+    {
+      "institution": "PM-KISAN",
+      "jurisdiction": "National/Rajasthan",
+      "period": "2019–July 2026",
+      "status": "partial",
+      "sourceIds": [
+        "fi:welfare-pmcares:src:kisan-recovery",
+        "fi:welfare-pmcares:src:kisan-exclusion",
+        "fi:welfare-pmcares:src:kisan-2026"
+      ],
+      "gap": "No nationally reconciled recoverable denominator or person-level restoration sample.",
+      "nextRecord": "State recovery ledger and deidentified eligibility cohort"
+    },
+    {
+      "institution": "NSAP social pensions",
+      "jurisdiction": "National",
+      "period": "2017–21 audit published 2023",
+      "status": "queued",
+      "sourceIds": [],
+      "gap": "Earlier repo already holds CAG10/2023; no new follow-up claimed in this tranche.",
+      "nextRecord": "MoRD/PAC action-taken note on administrative-publicity diversion and recovery"
+    },
+    {
+      "institution": "Nutrition/DBT/scholarships",
+      "jurisdiction": "Other states",
+      "period": "2011–2026 window",
+      "status": "queued",
+      "sourceIds": [],
+      "gap": "Prior state audits exist in repo; not a census or newly reverified here.",
+      "nextRecord": "Prioritize final state audits and bank-return/recovery follow-ups"
+    },
+    {
+      "institution": "PM CARES PSA oxygen and corporate donor universe",
+      "jurisdiction": "National",
+      "period": "2020–2026",
+      "status": "queued",
+      "sourceIds": [
+        "fi:welfare-pmcares:src:pm-2223",
+        "fi:welfare-pmcares:src:bel-csr"
+      ],
+      "gap": "One company disclosure and programme refund only; no exhaustive donor or PSA plant audit.",
+      "nextRecord": "Company CSR filings with fund receipts; PSA commissioning/utilisation/warranty files"
+    }
+  ],
+  "rejectedJoins": [
+    {
+      "from": "PM CARES FY 2024–25 refund",
+      "to": "Jyoti CNC Aurangabad ventilators",
+      "proposed": "Assign ₹324.66 crore refund to defective ventilators",
+      "reason": "Refund agency unidentified and Ministry expressly denies PM CARES financing for this supplier/batch; no sanction/payment join.",
+      "sourceIds": [
+        "fi:welfare-pmcares:src:pm-accounts",
+        "fi:welfare-pmcares:src:vent-ministry"
+      ]
+    },
+    {
+      "from": "BEL CSR donation",
+      "to": "Government procurement award",
+      "proposed": "Donation proves award influence",
+      "reason": "Donation documented; no communication, tender-decision or benefit-exchange evidence.",
+      "sourceIds": [
+        "fi:welfare-pmcares:src:bel-csr"
+      ]
+    },
+    {
+      "from": "PM CARES bank balance",
+      "to": "Trustee personal accounts",
+      "proposed": "Treat unspent bank balance as diversion",
+      "reason": "Published stock is fund bank balance; no private-account transaction evidence.",
+      "sourceIds": [
+        "fi:welfare-pmcares:src:pm-accounts"
+      ]
+    },
+    {
+      "from": "Bihar unmatched 139 cards",
+      "to": "139 fictitious patients",
+      "proposed": "Absence from later dataset proves invented patients",
+      "reason": "Different snapshots and possible migration/deletion/aliases; eligibility at treatment not reconstructed.",
+      "sourceIds": [
+        "fi:welfare-pmcares:src:bihar-audit"
+      ]
+    },
+    {
+      "from": "PM-KISAN pending eKYC",
+      "to": "Fraudulent beneficiaries",
+      "proposed": "All excluded farmers are ineligible/fraudulent",
+      "reason": "Pending verification is distinct from economic eligibility or intent; categories may overlap.",
+      "sourceIds": [
+        "fi:welfare-pmcares:src:kisan-exclusion"
+      ]
+    },
+    {
+      "from": "Bihar Family Health Plan ISA",
+      "to": "All ₹911.54 crore hospital claims",
+      "proposed": "Attribute entire reimbursement budget to TPA",
+      "reason": "Bihar trust/assurance model: agency service payments and hospital reimbursements are separate flows.",
+      "sourceIds": [
+        "fi:welfare-pmcares:src:bihar-audit"
+      ]
+    },
+    {
+      "from": "PM CARES January 2026 oral remarks",
+      "to": "Settled final RTI/public-authority ruling",
+      "proposed": "Treat hearing remark as final blanket exemption",
+      "reason": "Inspected reporting describes interim oral observations and later hearing; no signed final order verified.",
+      "sourceIds": [
+        "fi:welfare-pmcares:src:pm-court-report"
+      ]
+    }
+  ],
+  "roadmap": [
+    {
+      "phase": "now",
+      "task": "Publish five bounded dossiers with exact accounting stages, responses, rejected joins and source captures.",
+      "deliverable": "Schema-closed graph and complete 23-row hospital cohort with local reconciliation.",
+      "acceptance": "Every reference resolves; no unmatched count/amount; no unsupported funding edge."
+    },
+    {
+      "phase": "next",
+      "task": "Acquire PM CARES notes/refund schedules and latest certified RTI appeal orders.",
+      "deliverable": "Agency-level release→use→return ledger with source hash and legal-stage updates.",
+      "acceptance": "Each newly named agency has exact project identifier, dated sanction and matched refund document; unknown stays unknown."
+    },
+    {
+      "phase": "next",
+      "task": "Acquire Bihar ISA bid/contract/penalty files and 139-card lifecycle reconciliation.",
+      "deliverable": "Separate gross payment, withholding, net receipt, avoided-cost estimate and hospital anomaly outcomes.",
+      "acceptance": "Counterparty identities and time-valid IDs match originals; ordinary explanations and responses tested; parent/cohort amounts not added."
+    },
+    {
+      "phase": "next",
+      "task": "Trace Aurangabad serial-level commissioning, repair/replacement and final court outcome.",
+      "deliverable": "Batch-specific supply/payment/warranty table.",
+      "acceptance": "Funding head verified from purchase/sanction and payment documents; no PM CARES attribution without a match."
+    },
+    {
+      "phase": "later",
+      "task": "Extend NSAP, health, nutrition and PM-KISAN state audits across 15 year window using common coverage matrix.",
+      "deliverable": "Dated state-by-programme audit/PAC/Parliament inventory with explicit gaps and deidentified cohorts.",
+      "acceptance": "Coverage denominators declared; no claim that partial sample represents all states or all funds."
+    },
+    {
+      "phase": "later",
+      "task": "Preregister observable control-performance targets after authentic temporal cohorts exist.",
+      "deliverable": "Recovery-action, disclosure-publication and claim-reconciliation targets with null outcomes until resolved.",
+      "acceptance": "Freeze information availability/cutoff and resolution source before outcome; do not train allegation/guilt labels or score unknown as negative."
+    }
+  ]
+}

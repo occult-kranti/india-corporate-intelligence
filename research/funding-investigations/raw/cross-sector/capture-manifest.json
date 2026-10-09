@@ -1,0 +1,121 @@
+{
+  "reviewDate": "2026-10-08",
+  "streamSha256": "398904fb8908275955e5cb6baea05429c392a1b44d45cd0a23215fc294791127",
+  "captures": [
+    {
+      "sourceId": "fi:cross-sector:src:bpsl-september2025",
+      "path": "research/funding-investigations/raw/cross-sector/bpsl-september2025.pdf",
+      "bytes": 818966,
+      "sha256": "09b830f5de715795f832f2e73a9de8aca42708b55a6523754d60c54c800f0d84",
+      "inspection": "selected-pages",
+      "originalByteCapture": true
+    },
+    {
+      "sourceId": "fi:cross-sector:src:ndtv-sebi2026",
+      "path": "research/funding-investigations/raw/cross-sector/ndtv-sebi2026.pdf",
+      "bytes": 775551,
+      "sha256": "19f212703fefd502f83b8af8150264abe5feb68dbe4d93d8f04fc779ae64ce6c",
+      "inspection": "selected-pages",
+      "originalByteCapture": true
+    },
+    {
+      "sourceId": "fi:cross-sector:src:pmkvy-cag2025",
+      "path": "research/funding-investigations/raw/cross-sector/pmkvy-cag2025.full-exa.txt",
+      "bytes": 220750,
+      "sha256": "208d85ce66f414c7ddb00b0fc01ada6188c804772fe83a7068bb56bf8f66d9af",
+      "inspection": "web-text",
+      "originalByteCapture": false
+    },
+    {
+      "sourceId": "fi:cross-sector:src:pmkvy-response2026",
+      "path": "research/funding-investigations/raw/cross-sector/pmkvy-response2026.html",
+      "bytes": 810671,
+      "sha256": "70866d5799b9fc424389684b52740108810051e6c73d408c22a38f35ab6ab7c5",
+      "inspection": "web-text",
+      "originalByteCapture": true
+    },
+    {
+      "sourceId": "fi:cross-sector:src:pmkvy-evaluation2026",
+      "path": "research/funding-investigations/raw/cross-sector/pmkvy-evaluation2026.exa.txt",
+      "bytes": 3070,
+      "sha256": "e527a8ca75ae930800b4f698125004efdc2e575e22a8de33ed3be253993fc37b",
+      "inspection": "web-text",
+      "originalByteCapture": false
+    },
+    {
+      "sourceId": "fi:cross-sector:src:airports-receipts2022",
+      "path": "research/funding-investigations/raw/cross-sector/airports-receipts2022.html",
+      "bytes": 15851,
+      "sha256": "78660ab55066c64daf83acaace62ae3957813c8cbdc9141424de1946d7f8402e",
+      "inspection": "web-text",
+      "originalByteCapture": true
+    },
+    {
+      "sourceId": "fi:cross-sector:src:airports-relief2026",
+      "path": "research/funding-investigations/raw/cross-sector/airports-relief2026.html",
+      "bytes": 97522,
+      "sha256": "6813728faa38bc2e991c86252344103d25935923ecb127df46a033b1cfb9b3f6",
+      "inspection": "web-text",
+      "originalByteCapture": true
+    },
+    {
+      "sourceId": "fi:cross-sector:src:dial-tariff-proposal2025",
+      "path": "research/funding-investigations/raw/cross-sector/dial-tariff-proposal2025.pdf",
+      "bytes": 670191,
+      "sha256": "6ba45ceecf90fd9cc4e4fbee0474c6929af2f632de61623ab8601a702b604d4c",
+      "inspection": "selected-pages",
+      "originalByteCapture": true
+    },
+    {
+      "sourceId": "fi:cross-sector:src:dial-care2026",
+      "path": "research/funding-investigations/raw/cross-sector/dial-care2026.pdf",
+      "bytes": 237180,
+      "sha256": "f69cc14aaf1f26c68c5b8e29cb27cddb8837468a0fd4a94ad957b417b1c9336a",
+      "inspection": "selected-pages",
+      "originalByteCapture": true
+    },
+    {
+      "sourceId": "fi:cross-sector:src:dial-refinance-report2026",
+      "path": "research/funding-investigations/raw/cross-sector/dial-refinance-report2026.exa.txt",
+      "bytes": 2382,
+      "sha256": "577d14f4cb7769760c192241b927aee9e43ebec8bc07250d7bde26ff98f7d161",
+      "inspection": "secondary-only",
+      "originalByteCapture": false
+    },
+    {
+      "sourceId": "fi:cross-sector:src:dial-company-outcome2025",
+      "path": "research/funding-investigations/raw/cross-sector/dial-company-outcome2025.exa.txt",
+      "bytes": 17974,
+      "sha256": "363cbe4c0655f5cad736233d5a671b11a20895065da7d893ec5cab516cdfc26e",
+      "inspection": "web-text",
+      "originalByteCapture": false
+    },
+    {
+      "sourceId": "fi:cross-sector:src:pmkvy-index",
+      "path": "research/funding-investigations/raw/cross-sector/pmkvy-cag2025-index.exa.txt",
+      "bytes": 1122,
+      "sha256": "caf1d13f465295f5ed4d19c12d842646689fad24ad667894c2cc1eb94f363740",
+      "inspection": "web-text",
+      "originalByteCapture": false
+    }
+  ],
+  "failedAcquisition": [
+    {
+      "resource": "PMKVY CAG Report20/2025 PDF",
+      "result": "HTTP503 on CAG, www.CAG and saiindia; HTTP request timeout; web-fetch timeout. Full indexed extraction used and retained."
+    },
+    {
+      "resource": "Bihar CAG Report4/2025 PDF",
+      "result": "HTTP503 and HTTP timeout; only TOC extraction retained in this track; full companion welfare extraction reviewed separately."
+    }
+  ],
+  "searchAccounting": {
+    "requestedSlots": 104,
+    "successfulSearchCalls": 22,
+    "invalidParameterAttempts": 4,
+    "invalidAttemptsRequestedSlotsDelivered": 0,
+    "registeredInspectedSources": 12,
+    "registeredSourceFamilies": 11,
+    "notes": "Search slots are not documents inspected. Four initial calls lacked objective and returned schema errors; fixed before successful search. Existing repository methods and evidence inspected separately."
+  }
+}

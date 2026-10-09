@@ -1,0 +1,30 @@
+{
+  "reason": "Original AESL annual-report capture page did not match the cited page; independent panel requires source/capture correction. Same fixed questions and BM25 rules will rerun after final stream corrections. No model training or relevance-label changes.",
+  "priorUIPath": "research/funding-investigations/analysis-initial-ui.json",
+  "priorRawPath": "research/funding-investigations/analysis-initial-batch-rankings.json.gz",
+  "priorRawSha256": "f211f12877cd92c5f6312db38b4e66f5bb9b8150a90195373f07639959cf2239",
+  "scriptsAtFirstRun": {
+    "scripts/funding-investigations/trace.py": "d5f128791dbec637af6e36c864367bc79494390ca65825b498b23e8f0490cf0a",
+    "scripts/funding-investigations/batch.py": "8f18ae27fd4e2ad035b9b5eb20a3afb43f7fb3387dbf53e7db73fe7c7e732391",
+    "scripts/funding-investigations/validate.py": "adf0bde5df20a70847fbf21d5824af61d3e5c9b3b26a7fecb3a443b3db5d2404"
+  },
+  "additionalOperationalChange": "Exact-path enumeration now reports an edge-expansion safety cap for unreachable target searches; the BM25 algorithm and fixed query file are unchanged. Original path demonstrations did not hit this cap.",
+  "firstRunTraceSource": "research/funding-investigations/analysis-initial-trace.py.txt",
+  "finalTraceSourceSha256": "76343a659cde4f5c8c1633896e55012043500eee55f87a8898d91ba1b1dad21e",
+  "finalReviewCorrections": [
+    "AESL cited-page capture corrected; prior wrong-page extract was overwritten before retention, so its old hash/raw metadata survive but those superseded extraction bytes do not.",
+    "Invoice billing, whole-JV allocation and prosecution-recited ownership stages corrected by final editorial review.",
+    "Explicit resolved flags and minor wording/spacing corrected without changing the fixed query file."
+  ],
+  "toolReviewCorrections": [
+    "Include reused graph-data.json followup dependency hash/content in corpus provenance.",
+    "Include sources cited by exported entities, acquisition questions and supporting records in standalone path packets.",
+    "Validate inherited entity/record/edge/followup reference closure.",
+    "Preserve CLI wrapper inference guards, catch numeric overflow, and accept relative/external stream paths in batch receipts."
+  ],
+  "finalScriptHashes": {
+    "scripts/funding-investigations/trace.py": "fc5d9c21b8ac622d8077368a393ddfb597d41f5407563fb0f87b1d952db77cee",
+    "scripts/funding-investigations/batch.py": "7b6445b8fdf43f6773d7dd65173e934854c6a4a8d54215487f819d033fe3dcb4",
+    "scripts/funding-investigations/validate.py": "66ef54418f85724b27354f57244ff9686bf5fa3a69e8d8473e9740c5383fd8fe"
+  }
+}
