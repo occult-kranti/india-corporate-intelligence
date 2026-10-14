@@ -1,0 +1,1133 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head id="Head1"><title>
+	Press Release Page | Press Information Bureau
+</title><link href="css/style.css?v=1" rel="stylesheet" type="text/css" /><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><link rel="alternate stylesheet" href="css/change.css?v=1" media="screen" title="change" /><link rel="alternate stylesheet" href="css/green.css?v=1" media="screen" title="green" /><link rel="alternate stylesheet" href="css/yellow.css" media="screen" title="yellow" /><link rel="stylesheet" type="text/css" href="css/prtint.css" media="print" /><link rel="stylesheet" href="css/style3.1.css" type="text/css" /><link id="pibA11yCss" rel="stylesheet" href="/css/accessibility.css?v=7" type="text/css" />
+      <script type="text/javascript">
+        /* Stamps the saved theme on <html> before the page paints. The
+           switcher in js/accessibility.js settles the rest, but on inner
+           pages it does not run until the end of the body and inside the
+           release frame it is a separate download - either way the reader
+           would otherwise watch a light page turn dark in front of them. */
+        (function (d) {
+            var t = "";
+            try {
+                t = window.localStorage.getItem("pibStyle") || "";
+            } catch (e) {
+                t = "";
+            }
+            if (t === "orange") {
+                t = "yellow";
+            }
+            var c = t === "change" ? " pib-hc"
+                : t === "green" ? " pib-theme-green"
+                : t === "yellow" ? " pib-theme-yellow" : "";
+            d.documentElement.className += c + " pib-a11y-content";
+        }(document));
+      </script>
+
+
+      <script src="js/jquery.min.js" type="text/javascript"></script>
+      <script type="text/javascript" src="/js/accessibility.js?v=7"></script>
+
+      <script type="text/javascript">
+            $(document).ready(function () {
+                  function getParameterByName(name) {
+                        var url = window.location.href;
+                        name = name.replace(/[\[\]]/g, '\\$&');
+                        var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+                              results = regex.exec(url);
+                        if (!results) return null;
+                        if (!results[2]) return '';
+                        return decodeURIComponent(results[2].replace(/\+/g, ' '));
+                  }
+                  // Get the IDs from the current page's URL
+                  let prid = parseInt(getParameterByName('PRID'), 10);
+
+                  if (!isNaN(prid) && prid > 0) {
+                        $.ajax({
+                              type: "POST",
+                              url: "AjaxMethod.aspx/UpdatePRHitCount",
+                              async: false,
+                              data: JSON.stringify({ 'PermId': prid }),
+                              contentType: "application/json; charset=utf-8",
+                              dataType: "json",
+                              success: function (response) {
+                                    console.log(response);
+                              },
+                              error: function (error) {
+                                    console.log("Error in AJAX request", error);
+                              }
+                        });
+                  } else {
+                        console.log("Invalid parameters:", prid);
+                  }
+
+            });
+      </script>
+      <style type="text/css">
+            .table-responsive {
+                  width: 100%;
+                  overflow-x: auto;
+            }
+
+            .banner {
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  background-color: #000;
+                  color: #fff;
+                  padding: 20px;
+            }
+
+            full-width {
+                  width: 100%;
+            }
+
+            .logo-left, .logo-center, .countdown {
+                  display: flex;
+                  align-items: center;
+            }
+
+                  .logo-left img, .logo-center img {
+                        height: 70px;
+                  }
+
+            .countdown {
+                  text-align: center;
+                  background-color: var(--dbim-text, #150202);
+                  border-radius: 10px;
+                  padding: 10px;
+                  border: 2px solid grey;
+            }
+
+            .firstnumber {
+                  color: #000000;
+                  position: absolute;
+                  top: 50px;
+                  right: 90px;
+                  font-size: 30px;
+            }
+
+            .secondnumber {
+                  position: absolute;
+                  color: #000000;
+                  right: 45px;
+                  top: 50px;
+                  font-size: 30px;
+            }
+
+            .countdown .days {
+                  font-size: 35px;
+                  color: gold;
+            }
+
+            .countdown p {
+                  margin: 0;
+            }
+
+            .countdown .text {
+                  font-size: 16px;
+            }
+
+            a {
+                  word-break: break-all;
+            }
+
+            iframe, img {
+                  max-width: 100%;
+            }
+
+            @media(max-width:1199px) {
+                  .firstnumber {
+                        top: 40px;
+                        right: 72px;
+                        font-size: 30px;
+                  }
+
+                  .secondnumber {
+                        right: 35px;
+                        top: 40px;
+                        font-size: 30px;
+                  }
+            }
+
+            @media(max-width:990px) {
+                  .firstnumber {
+                        top: 25px;
+                        right: 54px;
+                        font-size: 30px;
+                  }
+
+                  .secondnumber {
+                        right: 25px;
+                        top: 25px;
+                        font-size: 30px;
+                  }
+            }
+
+            @media(max-width:768px) {
+                  .countdown, .days {
+                        font-size: 12px !important;
+                  }
+
+
+                  .firstnumber {
+                        top: 25%;
+                        right: 8%;
+                        font-size: 30px;
+                  }
+
+                  .secondnumber {
+                        right: 4.5%;
+                        top: 25%;
+                        font-size: 30px;
+                  }
+            }
+
+            @media(max-width:475px) {
+                  .countdown, .days {
+                        font-size: 10px !important;
+                        top: 20%;
+                  }
+
+                  .bannerimgdiv {
+                        padding: 0 !important;
+                  }
+
+                  .bannerimg {
+                        width: 108% !important;
+                  }
+            }
+      </style>
+      <script type="text/javascript">
+            $(function () {
+                  $("[id*=printPDF]").click(function () {
+                        $("[id*=hfGridHtml]").val($("#PdfDiv").html());
+                  });
+            });
+            $(function () {
+                  $("[id*=printPDFEvent]").click(function () {
+                        $("[id*=hfGridHtml]").val($("#PdfDiv").html());
+                  });
+            });
+      </script>
+
+      
+
+      <link id="pibConsentCss" href="/css/consent.css?v=8" rel="stylesheet" type="text/css" /><link id="pibFontsCss" href="/css/fonts-noto.css?v=6" rel="stylesheet" type="text/css" /><link id="pibDbimCss" href="/css/dbim.css?v=1120" rel="stylesheet" type="text/css" /><meta property="og:title" content="86 Registration Were Received In the Portal for 6 Airports Under the PPP Bidding Process" /><meta property="og:url" content="www.pib.gov.in/Pressreleaseshare.aspx?PRID=1690891" /><meta property="og:description" content="In a news article dated 15.01.2021  it has been reported that “Finance Ministry and NitiAayog had ra" /><meta property="og:image" content="https:/pib.gov.in/images/indian-emblem.png" />
+                                <script>!function(e){var n="https://s.go-mpulse.net/boomerang/";if("False"=="True")e.BOOMR_config=e.BOOMR_config||{},e.BOOMR_config.PageParams=e.BOOMR_config.PageParams||{},e.BOOMR_config.PageParams.pci=!0,n="https://s2.go-mpulse.net/boomerang/";if(window.BOOMR_API_key="C4E7H-KSCMC-422L4-W3EM5-U36MF",function(){function e(){if(!i){var e=document.createElement("script");e.id="boomr-scr-as",e.src=window.BOOMR.url,e.async=!0,o.parentNode.appendChild(e),i=!0}}function t(e){i=!0;var n,t,a,r,d=document,O=window;if(window.BOOMR.snippetMethod=e?"if":"i",t=function(e,n){var t=d.createElement("script");t.id=n||"boomr-if-as",t.src=window.BOOMR.url,BOOMR_lstart=(new Date).getTime(),e=e||d.body,e.appendChild(t)},!window.addEventListener&&window.attachEvent&&navigator.userAgent.match(/MSIE [67]\./))return window.BOOMR.snippetMethod="s",void t(o.parentNode,"boomr-async");a=document.createElement("IFRAME"),a.src="about:blank",a.title="",a.role="presentation",a.loading="eager",r=(a.frameElement||a).style,r.width=0,r.height=0,r.border=0,r.display="none",o.parentNode.appendChild(a);try{O=a.contentWindow,d=O.document.open()}catch(_){n=document.domain,a.src="javascript:var d=document.open();d.domain='"+n+"';void(0);",O=a.contentWindow,d=O.document.open()}if(n)d._boomrl=function(){this.domain=n,t()},d.write("<bo"+"dy onload='document._boomrl();'>");else if(O._boomrl=function(){t()},O.addEventListener)O.addEventListener("load",O._boomrl,!1);else if(O.attachEvent)O.attachEvent("onload",O._boomrl);d.close()}function a(e){window.BOOMR_onload=e&&e.timeStamp||(new Date).getTime()}if(!window.BOOMR||!window.BOOMR.version&&!window.BOOMR.snippetExecuted){window.BOOMR=window.BOOMR||{},window.BOOMR.snippetStart=(new Date).getTime(),window.BOOMR.snippetExecuted=!0,window.BOOMR.snippetVersion=12,window.BOOMR.url=n+"C4E7H-KSCMC-422L4-W3EM5-U36MF";var o=document.currentScript||document.getElementsByTagName("script")[0],i=!1,r=document.createElement("link");if(r.relList&&"function"==typeof r.relList.supports&&r.relList.supports("preload")&&"as"in r)window.BOOMR.snippetMethod="p",r.href=window.BOOMR.url,r.rel="preload",r.as="script",r.addEventListener("load",e),r.addEventListener("error",function(){t(!0)}),setTimeout(function(){if(!i)t(!0)},3e3),BOOMR_lstart=(new Date).getTime(),o.parentNode.appendChild(r);else t(!1);if(window.addEventListener)window.addEventListener("load",a,!1);else if(window.attachEvent)window.attachEvent("onload",a)}}(),"".length>0)if(e&&"performance"in e&&e.performance&&"function"==typeof e.performance.setResourceTimingBufferSize)e.performance.setResourceTimingBufferSize();!function(){if(BOOMR=e.BOOMR||{},BOOMR.plugins=BOOMR.plugins||{},!BOOMR.plugins.AK){var n=""=="true"?1:0,t="",a="ljqllrax2fkcq2wpx5vq-f-096efe913-clientnsv4-s.akamaihd.net",o="false"=="true"?2:1,i={"ak.v":"41","ak.cp":"1825201","ak.ai":parseInt("1215205",10),"ak.ol":"0","ak.cr":10,"ak.ipv":4,"ak.proto":"h2","ak.rid":"c1967ee","ak.r":46091,"ak.a2":n,"ak.m":"dscb","ak.n":"ff","ak.cport":20785,"ak.gh":"23.201.193.39","ak.quicv":"","ak.tlsv":"tls1.3","ak.0rtt":"","ak.0rtt.ed":"","ak.csrc":"-","ak.acc":"","ak.t":"1791999851","ak.ak":"hOBiQwZUYzCg5VSAfCLimQ==k62G9sa+goNBASnhZtwY5PH+b79jqB4CyyP76a7KWmP2j/j7iJQJuBTOkwPzdxWw/atx5mvMyIUwPiYHeLwoIw+EE40RLUwLKPyl+hAxAv3nsZmWHYYtBx5KO6bnexPk0CO4DEC84RxNJTZxbrnTyQSBp8wcwqmtLJOv7c5uMndNsVAfCVd+PB9LURTKpRO9yrXFZPCkdkWN/oLYRkuUUMs2Wx5zL+//OcC669ng5qXiuTkmlZKr0gmEpqKk8GkqrkJwtFx3uDTN1iLZcHtf954o2jqo7uL5QcO3oy2aZ5bVvjScNyM/cPw8lpskNUnFBQ7f1kF/b7ZkgYBtmr0r0RjeHSn1et033kTEhK2LbO4SlMzmdtiyAWbPrO40bzQvQJnFYfS3LkNzZ4Tz+LlSBATFxEJSbdCjamYHJQcNLzs=","ak.pv":"9","ak.dpoabenc":"","ak.tf":o};if(""!==t)i["ak.ruds"]=t;var r={i:!1,av:function(n){var t="http.initiator";if(n&&(!n[t]||"spa_hard"===n[t]))i["ak.feo"]=void 0!==e.aFeoApplied?1:0,BOOMR.addVar(i)},rv:function(){var e=["ak.cport","ak.cr","ak.csrc","ak.gh","ak.ipv","ak.m","ak.n","ak.ol","ak.proto","ak.quicv","ak.tlsv","ak.0rtt","ak.0rtt.ed","ak.r","ak.acc","ak.t","ak.tf"];BOOMR.removeVar(e)}};BOOMR.plugins.AK={akVars:i,akDNSPreFetchDomain:a,init:function(){if(!r.i){var e=BOOMR.subscribe;e("before_beacon",r.av,null,null),e("onbeacon",r.rv,null,null),r.i=!0}return this},is_complete:function(){return!0}}}}()}(window);</script></head>
+<body>
+    
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"
+     style="position:absolute;width:0;height:0;overflow:hidden" id="dbim-icon-sprite">
+    <defs>
+        <symbol id="icon-angle-double-left" viewBox="0 0 24 24"><path d="M11.6 4.6 4.2 12l7.4 7.4 2.2-2.2L8.6 12l5.2-5.2z"/><path d="M19 4.6 11.6 12 19 19.4l2.2-2.2L16 12l5.2-5.2z"/></symbol>
+        <symbol id="icon-angle-double-right" viewBox="0 0 24 24"><path d="M12.4 4.6 10.2 6.8 15.4 12l-5.2 5.2 2.2 2.2L19.8 12z"/><path d="M5 4.6 2.8 6.8 8 12l-5.2 5.2L5 19.4 12.4 12z"/></symbol>
+        <symbol id="icon-arrow-left" viewBox="0 0 24 24"><path d="M20.8 10.6H9.6v2.8h11.2z"/><path d="M10.8 5.6 3.2 12l7.6 6.4z"/></symbol>
+        <symbol id="icon-arrow-right" viewBox="0 0 24 24"><path d="M3.2 10.6h11.2v2.8H3.2z"/><path d="M13.2 5.6 20.8 12l-7.6 6.4z"/></symbol>
+        <symbol id="icon-blogger" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M6.4 2.4h11.2a4 4 0 0 1 4 4v11.2a4 4 0 0 1-4 4H6.4a4 4 0 0 1-4-4V6.4a4 4 0 0 1 4-4zm2.8 5.2a2 2 0 0 0 0 4h2.4a2 2 0 0 0 0-4zm0 5.6a2 2 0 0 0 0 4h5.6a2 2 0 0 0 0-4z"/></symbol>
+        <symbol id="icon-calendar" viewBox="0 0 24 24"><path d="M7.6 2.4H10v2.4H7.6z"/><path d="M14 2.4h2.4v2.4H14z"/><path fill-rule="evenodd" d="M4 4.8h16a1.6 1.6 0 0 1 1.6 1.6v13.2a1.6 1.6 0 0 1-1.6 1.6H4a1.6 1.6 0 0 1-1.6-1.6V6.4A1.6 1.6 0 0 1 4 4.8zm.4 5.6v8.4h15.2v-8.4z"/><path d="M6.4 12.4h3.2v3.2H6.4z"/></symbol>
+        <symbol id="icon-chevron-left" viewBox="0 0 24 24"><path d="M15.4 4.6 8 12l7.4 7.4 2.2-2.2L12.4 12l5.2-5.2z"/></symbol>
+        <symbol id="icon-chevron-right" viewBox="0 0 24 24"><path d="M8.6 4.6 6.4 6.8 11.6 12l-5.2 5.2 2.2 2.2L16 12z"/></symbol>
+        <symbol id="icon-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/></symbol>
+        <symbol id="icon-download" viewBox="0 0 24 24"><path d="M10.8 3h2.4v7.6h3.4L12 16.6l-4.6-6h3.4z"/><path d="M4 17.2h2.4v2.4h11.2v-2.4H20v3.2a1.4 1.4 0 0 1-1.4 1.4H5.4A1.4 1.4 0 0 1 4 20.4z"/></symbol>
+        <symbol id="icon-facebook" viewBox="0 0 24 24"><path d="M13.6 21.6v-8.4h2.8l.42-3.3h-3.22V7.8c0-.95.27-1.6 1.64-1.6h1.74V3.26a23 23 0 0 0-2.54-.13c-2.5 0-4.22 1.53-4.22 4.34v2.43H7.4v3.3h2.82v8.4z"/></symbol>
+        <symbol id="icon-fact-check" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2.4 3.6 5.6v6.2c0 4.6 3.4 8.6 8.4 9.8 5-1.2 8.4-5.2 8.4-9.8V5.6zm-1 13.2-3.6-3.6 1.7-1.7 1.9 1.9 4.5-4.5 1.7 1.7z"/></symbol>
+        <symbol id="icon-hashtag" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M8.8 3h2.4l-1 6h3.2l1-6h2.4l-1 6h3.4v2.4h-3.8l-.6 3.2h3.6V17h-4l-1 5h-2.4l1-5h-3.2l-1 5H5.4l1-5H3V14.6h3.8l.6-3.2H3.8V9h4zm.6 8.4-.6 3.2h3.2l.6-3.2z"/></symbol>
+        <symbol id="icon-home" viewBox="0 0 24 24"><path d="M12 3.4 2.8 11.6h2.4v8.4a1 1 0 0 0 1 1h3.3v-5.4h5v5.4h3.3a1 1 0 0 0 1-1v-8.4h2.4z"/></symbol>
+        <symbol id="icon-instagram" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M7.6 2.4h8.8a5.2 5.2 0 0 1 5.2 5.2v8.8a5.2 5.2 0 0 1-5.2 5.2H7.6a5.2 5.2 0 0 1-5.2-5.2V7.6a5.2 5.2 0 0 1 5.2-5.2zm0 2.4a2.8 2.8 0 0 0-2.8 2.8v8.8a2.8 2.8 0 0 0 2.8 2.8h8.8a2.8 2.8 0 0 0 2.8-2.8V7.6a2.8 2.8 0 0 0-2.8-2.8z"/><path fill-rule="evenodd" d="M12 6.8a5.2 5.2 0 1 0 0 10.4 5.2 5.2 0 0 0 0-10.4zm0 2.4a2.8 2.8 0 1 1 0 5.6 2.8 2.8 0 0 1 0-5.6z"/><circle cx="17.3" cy="6.7" r="1.3"/></symbol>
+        <symbol id="icon-linkedin" viewBox="0 0 24 24"><path d="M4.8 8.8h3.6v12H4.8z"/><circle cx="6.6" cy="5.4" r="2.1"/><path d="M10.8 8.8h3.45v1.65h.05c.48-.9 1.65-1.85 3.4-1.85 3.63 0 4.3 2.35 4.3 5.4v6.6h-3.6v-5.85c0-1.4-.03-3.2-1.95-3.2-1.95 0-2.25 1.52-2.25 3.1v5.95h-3.6z"/></symbol>
+        <symbol id="icon-mail" viewBox="0 0 24 24"><path d="M2.4 7.6v9.2a1.6 1.6 0 0 0 1.6 1.6h16a1.6 1.6 0 0 0 1.6-1.6V7.6L12 14z"/><path d="M21.2 5.4H2.8L12 11.8z"/></symbol>
+        <symbol id="icon-mail-open" viewBox="0 0 24 24"><path d="M2.4 9.8h19.2v9.6A1.6 1.6 0 0 1 20 21H4a1.6 1.6 0 0 1-1.6-1.6z"/><path d="M12 2.6 21.6 9.2h-3.8L12 5.3 6.2 9.2H2.4z"/><path d="m3.9 11.2 8.1 5.4 8.1-5.4 1.5 1.3-9.6 6.4-9.6-6.4z"/></symbol>
+        <symbol id="icon-map-marker" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2.4a7 7 0 0 0-7 7c0 5.2 7 12.2 7 12.2s7-7 7-12.2a7 7 0 0 0-7-7zm0 9.6a2.6 2.6 0 1 1 0-5.2 2.6 2.6 0 0 1 0 5.2z"/></symbol>
+        <symbol id="icon-newspaper" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M2.8 4.4h14.8v15.2H2.8zm2 2v11.2h10.8V6.4z"/><path d="M6 7.6h8.4v1.6H6z"/><path d="M6 10.8h8.4v1.6H6z"/><path d="M6 14h5.2v1.6H6z"/><path d="M18.4 8.4h2.8v9.6a1.4 1.4 0 0 1-2.8 0z"/></symbol>
+        <symbol id="icon-pause" viewBox="0 0 24 24"><rect x="7.4" y="4" width="3.6" height="16" rx="0.9"/><rect x="13" y="4" width="3.6" height="16" rx="0.9"/></symbol>
+    <symbol id="icon-play" viewBox="0 0 24 24"><path d="M8 4.5v15l12-7.5z"/></symbol>
+        <symbol id="icon-picture" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M2.4 5.2h19.2v13.6H2.4zm2 2v9.6h15.2V7.2z"/><path d="M5.6 16.4 10 11l2.6 3 2-2.2 4 4.6z"/><circle cx="8" cy="10.4" r="1.5"/></symbol>
+        <symbol id="icon-press-conference" viewBox="0 0 24 24"><circle cx="12" cy="5.2" r="2.6"/><path d="M7.6 12.2a4.4 4.4 0 0 1 8.8 0z"/><circle cx="4.9" cy="9.6" r="2.2"/><path d="M1.8 15.2a3.1 3.1 0 0 1 6.2 0z"/><circle cx="19.1" cy="9.6" r="2.2"/><path d="M16 15.2a3.1 3.1 0 0 1 6.2 0z"/><path d="M6.6 13.6h10.8l2.2 7.8H4.4z"/></symbol>
+        <symbol id="icon-print" viewBox="0 0 24 24"><path d="M6.4 2.8h11.2v4.4H6.4z"/><path d="M4 8.4h16a1.6 1.6 0 0 1 1.6 1.6v5.6a1.6 1.6 0 0 1-1.6 1.6h-1.6v-2.8H6v2.8H4a1.6 1.6 0 0 1-1.6-1.6V10A1.6 1.6 0 0 1 4 8.4z"/><path d="M7.2 15.6h9.6v5.6H7.2z"/></symbol>
+        <symbol id="icon-rss" viewBox="0 0 24 24"><circle cx="4.8" cy="19.2" r="2.4"/><path d="M2.4 11.2v3.2a6.4 6.4 0 0 1 6.4 6.4H12A9.6 9.6 0 0 0 2.4 11.2z"/><path d="M2.4 4.8V8A13.6 13.6 0 0 1 16 21.6h3.2A16.8 16.8 0 0 0 2.4 4.8z"/></symbol>
+        <symbol id="icon-search-plus" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M10 2.8a7.2 7.2 0 1 0 0 14.4 7.2 7.2 0 0 0 0-14.4zm0 2.4a4.8 4.8 0 1 1 0 9.6 4.8 4.8 0 0 1 0-9.6z"/><path d="M15.3 14.6 21.2 20.5l-1.5 1.5-5.9-5.9z"/><path d="M9.2 6.8h1.6v2.4h2.4v1.6h-2.4v2.4H9.2v-2.4H6.8V9.2h2.4z"/></symbol>
+        <symbol id="icon-share" viewBox="0 0 24 24"><circle cx="18" cy="5.6" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="18.4" r="3"/><path d="M8.3 10.9 15.7 7.2l.9 1.8-7.4 3.7z"/><path d="M9.2 13.1 16.6 16.8l-.9 1.8-7.4-3.7z"/></symbol>
+        <symbol id="icon-twitter" viewBox="0 0 24 24"><path d="M4.2 3h4.3l11.3 18h-4.3z"/><path d="M19.3 3h-2.6L4.2 21h2.6z"/></symbol>
+        <symbol id="icon-university" viewBox="0 0 24 24"><path d="M12 2.4 21.6 7.2v1.6H2.4V7.2z"/><path d="M4.8 10.4h2.4v8H4.8z"/><path d="M9.2 10.4h2.4v8H9.2z"/><path d="M13.4 10.4h2.4v8h-2.4z"/><path d="M17.6 10.4H20v8h-2.4z"/><path d="M3.2 19.8h17.6v1.8H3.2z"/></symbol>
+        <symbol id="icon-volume-up" viewBox="0 0 24 24"><path d="M3.2 9.2h3.3l5-4.2v14l-5-4.2H3.2z"/><path d="M14.6 8.4a5 5 0 0 1 0 7.2l1.6 1.6a7.2 7.2 0 0 0 0-10.4z"/><path d="M17.4 5.6a8.8 8.8 0 0 1 0 12.8l1.5 1.5a10.9 10.9 0 0 0 0-15.8z"/></symbol>
+        <symbol id="icon-whatsapp" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2.4a9.5 9.5 0 0 0-8.1 14.5L2.4 21.6l4.8-1.4A9.5 9.5 0 1 0 12 2.4zm0 2.2a7.3 7.3 0 1 1-3.8 13.5l-.4-.2-2.6.7.7-2.5-.3-.4A7.3 7.3 0 0 1 12 4.6z"/><path d="M9.4 7.8c-.2-.5-.4-.5-.6-.5h-.5a1 1 0 0 0-.7.3c-.3.3-.9.9-.9 2.1s.9 2.4 1 2.6c.1.2 1.7 2.8 4.3 3.8 2.1.8 2.6.7 3 .6.5 0 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2l-.5-.3-1.6-.8c-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6 6 0 0 1-1.8-1.1 6.6 6.6 0 0 1-1.2-1.6c-.1-.2 0-.4.1-.5l.4-.5.3-.5v-.5z"/></symbol>
+        <symbol id="icon-youtube" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M21.6 7.2a2.8 2.8 0 0 0-2-2C17.9 4.8 12 4.8 12 4.8s-5.9 0-7.6.4a2.8 2.8 0 0 0-2 2A29 29 0 0 0 2 12a29 29 0 0 0 .4 4.8 2.8 2.8 0 0 0 2 2c1.7.4 7.6.4 7.6.4s5.9 0 7.6-.4a2.8 2.8 0 0 0 2-2A29 29 0 0 0 22 12a29 29 0 0 0-.4-4.8zM10.2 15.1V8.9l5.1 3.1z"/></symbol>
+    </defs>
+</svg>
+
+      <form method="post" action="./PressReleasePage.aspx?PRID=1690891&amp;lang=2&amp;reg=48" id="form1">
+<div class="aspNetHidden">
+<input type="hidden" name="sc_HiddenField" id="sc_HiddenField" value="" />
+<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
+<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="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" />
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+var theForm = document.forms['form1'];
+if (!theForm) {
+    theForm = document.form1;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</script>
+
+
+<script src="/WebResource.axd?d=pynGkmcFUV13He1Qd6_TZPQet1wIx1Q48y3xJY2k25Y7qxH5RrQ9qQcN-OiTC9guZtri9w2&amp;t=639246310055090729" type="text/javascript"></script>
+
+
+<script src="/ScriptResource.axd?d=x6wALODbMJK5e0eRC_p1LdIxBJXt0U_WW5GWfJqHAqo6frgCmGRfEywglicTersO2OKrFhK1gAIp0Wk2al2YrpdR3uWqH6f4nfjBsCyRUfTUUVmb0&amp;t=ffffffffecf8d3f2" type="text/javascript"></script>
+<script src="/ScriptResource.axd?d=P5lTttoqSeZXoYRLQMIScH645UK3RD852IErF2548Wz9Ssv0rLjB4fhVKnHcMpqkaMHpNAGOeWY02Lf4aBYN9-dVBme_SNK5KJwmFQNpMixYDZ7M0&amp;t=ffffffffecf8d3f2" type="text/javascript"></script>
+<script src="/PressReleasePage.aspx?_TSM_HiddenField_=sc_HiddenField&amp;_TSM_CombinedScripts_=%3b%3bAjaxControlToolkit%2c+Version%3d3.5.7.123%2c+Culture%3dneutral%2c+PublicKeyToken%3d28f01b0e84b6d53e%3aen-US%3a5a4df314-b4a2-4da2-a207-9284f1b1e96c%3ade1feab2%3af2c8e708%3a8613aea7%3af9cec9bc%3a3202a5a2%3aab09e3fe%3a87104b7c%3a720a52bf%3a589eaa30%3aa67c2700%3abe6fb298" type="text/javascript"></script>
+<div class="aspNetHidden">
+
+	<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="59B53027" />
+	<input type="hidden" name="__VIEWSTATEENCRYPTED" id="__VIEWSTATEENCRYPTED" value="" />
+	<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="WyutrX0eo52hMoALm1RpxIOxYwq9MkxwXiT3D1EMHgTqGJzlk5o2zwMUcF/jfmBZG/O1QvtipUUp/AywvYkdk0ffmOLMTJP7yIEA6lJNmbxqhyRI4zgaZNHP586wJR4GNwIZAfUpfSdGY5gbVWcV+wwPJaHCY+8LxnLquxlu4u/7O4uZTgH+I6syOHoG2SPAV6G9+HlgRYC1Q5Q7HfrZTLvJfdumpZk4zLrcbC9eQc+kAbCRPgWRyV2ivq5u5Rt/EMh5kkb6E85r5yXy5IZum6FsU7Q=" />
+</div>
+                              
+            <div id="templateCss"></div>
+            <script type="text/javascript">
+//<![CDATA[
+Sys.WebForms.PageRequestManager._initialize('sc', 'form1', ['tupdate12','update12'], [], [], 90, '');
+//]]>
+</script>
+
+            <input type="hidden" name="hfGridHtml" id="hfGridHtml" />
+            <div class="container" style='margin-bottom: 50px;'>
+                  <div id="accessories">
+
+                        
+                        <div class="pull-right" style="display: flex">
+                              <div id="voll"></div>
+                              <div id="vollDT"></div>
+                              
+                              
+
+<span class="print-icons">
+<input type="image" name="Print1$print" id="Print1_print" aria-label="Print" src="images/printer_icon.png" alt="print page button" style="padding: 5px 10px 5px 10px;" />
+</span>
+                        </div>
+                  </div>
+                  <input type="hidden" name="hydpermid" id="hydpermid" value="1690891" />
+                  
+
+
+
+                  <div class="innner-page-main-about-us-content-right-part">
+
+                        <div id="MinistryName" class="MinistryNameSubhead text-center">
+                              Ministry of Civil Aviation
+                        </div>
+                        
+                        <div id="lg_g">
+                        </div>
+
+
+
+
+
+                        <div class="text-center event-heading-background">
+                              
+                              <h1 id="Titleh2">
+                                    86 Registration Were Received In the Portal for 6 Airports Under the PPP Bidding Process
+                              </h1>
+                              <h3 id="Subtitleh3">
+                                    <span id="ltrSubtitle"><br/>Press Note</span>
+                              </h3>
+                        </div>
+
+                        <div id="PrDateTime" class="ReleaseDateSubHeaddateTime text-center pt20">
+                              Posted On:
+                21 JAN 2021 4:59PM by PIB Delhi
+                        </div>
+                        
+                        <div class='pt20'>
+                        </div>
+                        <input type="hidden" name="hydphotoUrl" id="hydphotoUrl" />
+                        
+                        <p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><span style="color:black">In a news article dated </span>15.01.2021&nbsp; it has been reported that &ldquo;<em>Finance Ministry and NitiAayog had raised red flags before Adani&rsquo;s clean sweep of six airports</em>&rdquo;&nbsp; over the 2019 PPP bidding process and the same was ignored by the Government. This statement is factually incorrect as the bidding process was conducted in a competitive and transparent manner through e-tendering portal of the Government of India in which 25 firms across the globe had registered and total 86 registration were received in the portal for 6 airports. </span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Out of these registrations, 32 bids were received from 10 difference entities for 6 airports. As the bid process was completed transparently, none of the participating entity raised any concern or objection to the bidding process. It may also be noted that during the bid processing stage the entity which would be successful was not known to anybody. The bid parameter stipulated in the tender document was &lsquo;per passenger fee&rsquo; quoted by the bidder and the entity whose bid is highest in terms of per passenger fee quoted would be declared as successful bidder. </span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">After opening of the financial bid of technical qualified bidders, it was revealed that the quote of M/s. Adani Enterprises Limited was highest in all the six airports. As the tender process of each airport was undertaken on individual basis but at the same time the bidder whose quote is highest was considered as per the provisions of the bid document. </span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><span style="background-color:white"><span style="color:black">The statement made that both Ministry of Finance&nbsp; and NitiAayog had recorded objection about the airport bidding process carried in 2019 is factually incorrect and short on facts for the reasons that </span>an Empowered Group of Secretaries (EGOS)Chaired by CEO NitiAayog with Secretaries of Ministry of Finance (Department of Economic Affairs, and Department of Expenditure), and Civil Aviation as Members was given the powers by the Union Cabinet to decide on the matters outside the purview of Public Private Partnership Appraisal Committee (PPPAC).<span style="color:black">Accordingly, the terms and conditions of the transaction of the PPP were deliberated and decided by the EGoS in its meeting held on 17.11.2018 which were agreed by the PPPAC in its meeting held on 11.12.2018. </span>EGOS took a conscious decision &nbsp;not to put any restrictions on the number of airports to be bid for or to be awarded to a single entity considering the fact that <span style="color:black">these 6 airports are smaller in size and handling only 9.5% of the passenger traffic whereas Delhi and Mumbai airports accounted for more than 45%&nbsp; of the total passenger traffic in 2006 when they were brought under PPP and t</span>he decision to cap one airport to single bidder was&nbsp; necessary. The quantum of passengers handled by the private airport operators iscrucial and important than the number of airports handled by a single entity.Further, EGOS decided not to stipulate prior airport experience as a mandatory qualification to increase competition and <span style="color:black">avoid monopoly by those players having Airport experience, who would have an edge over others.</span></span></span></span></p>
+
+<p style="text-align:justify">&nbsp;</p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><span style="background-color:white"><span style="color:black">On the issue of ignoring the recommendations of DEA and NITI Aayog, it should be noted that&nbsp; bothEGoS and PPPAC comprises members from Ministry of Finance (Department of Economic Affairs &amp; Department of Expenditure), NITI Aayog and&nbsp; Civil Aviation. &nbsp;Therefore, the Ministry of Finance and NitiAayog already deliberated and finalized the contours of the bidding process in the EGoS and subsequently appraised the proposal in the PPPAC. Therefore the statement that the views of Ministry of Finance and NitiAayog were ignored is factually incorrect and based on assumption as the views of Ministry and Finance and NitiAayog on various aspects of the proposal are part of the established procedure&nbsp; of PPPAC to ensure that all the aspects are examined before the proposal is placed before PPPAC for decision and same cannot be considered as overruled. </span></span></span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><span style="color:black">&nbsp;As regards acquisition of stake in the Mumbai airport by M/s Adani Enterprises Ltd.and at the same time seeking extension from AAI for taking over the three Airports i.e. Ahmadabad, Lucknow and Mangalore, it is stated that both the transactions are independent of each other. The sale of stake of private entities in MIAL is purely guided by contractual provisions of Shareholders Agreement of MIAL. Any of the shareholders is free to sell his stake after following the due process prescribed in the SHA, which is yet to be completed.</span>The acquisition of shares can be done by any entity following the right of first refusal process specified in the shareholders&rsquo; agreement, after the expiry of lock-in-period. Such&nbsp;&nbsp; transaction have taken place earlier also as in the case of Bangalore airport. The shares of L&amp;T and Zurich were acquired by GVK Airports Holding who in turn sold to Fairfax. </span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><span style="background-color:white"><span style="color:black">&nbsp;As regards, extension of CoD at three airports beyond the stipulated six months from the signing of concession agreement, the situation had arisen due to Covid-19 pandemic resulting into difficulty in physical takeover of the airport on account of Logistics. Further, </span>the article reported that the concession agreements for Guwahati, Jaipur and Thiruvananthapuram airports were signed by AAI in September whereas, it has actually been signed on 19.01.2021. </span></span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">It is important to note that the allegation brought out in the above article were also the allegations submitted by various petitioners in the High Court of Kerala opposing PPP mode of operation of AAI airport which were heard and decided on merits and finally the Court vide its judgement dated 19.10.2020 dismissed all the Petitions upholding the PPP process undertaken by Government of India.&nbsp; </span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><span style="background-color:white"><span style="color:black">In view of above the newspaper article is<em>suppressioveri and suggestiofalsi</em></span></span></span></span></p>
+
+<p style="text-align:justify">&nbsp;</p>
+
+<p style="text-align:center"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><span style="background-color:white"><span style="color:black">*****</span></span></span></span></p>
+
+<p style="text-align:center">&nbsp;</p>
+
+<p><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><span style="background-color:white"><strong><span style="color:black">RJ/NG</span></strong></span></span></span></p>
+
+
+                        
+                        <div id="reel_pic">
+                        </div>
+
+
+
+                        
+                        <br />
+                        <span id="ReleaseId">(Release ID: 1690891)</span>
+                        <span id="lblViews">Visitor Counter : 1696</span>
+                        <div>
+                              
+                        </div>
+                        
+
+                        <span id="lblRefPhoto"></span>
+
+                        <div class="BackgroundRelease">
+                              
+                        </div>
+                        <div>
+                              
+                        </div>
+                        <div class="ReleaseLang">Read this release in: 
+                        
+                                    
+                                    <a href='https://pib.gov.in/PressReleasePage.aspx?PRID=1691019' target="_blank">
+                                          Urdu </a>
+                              
+                                    ,
+                              
+                                    
+                                    <a href='https://pib.gov.in/PressReleasePage.aspx?PRID=1691139' target="_blank">
+                                          हिन्दी </a>
+                              
+                                    ,
+                              
+                                    
+                                    <a href='https://pib.gov.in/PressReleasePage.aspx?PRID=1692405' target="_blank">
+                                          Manipuri </a>
+                              
+                                    ,
+                              
+                                    
+                                    <a href='https://pib.gov.in/PressReleasePage.aspx?PRID=1690969' target="_blank">
+                                          Tamil </a>
+                              
+                        </div>
+
+                        <div class="RelTag">
+                              <ul>
+                                    
+                              </ul>
+                        </div>
+                        <div class="clear">
+                        </div>
+                        
+                        <div class="pr-share pr-share--footer" role="group" aria-label="Share this press release">
+                              <span class="pr-share__label" aria-hidden="true">Share</span>
+                              <ul class="pr-share__list">
+                                    <li><a class="pr-share__btn pr-share__btn--facebook"
+                                           href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fpib.gov.in%2fPressReleasePage.aspx%3fPRID%3d1690891"
+                                           target="_blank" rel="noopener noreferrer"
+                                           aria-label="Share on Facebook">
+                                        <svg class="dbim-icon dbim-icon-24" width="24" height="24" fill="currentColor" aria-hidden="true" focusable="false"><use href="#icon-facebook" xlink:href="#icon-facebook"></use></svg>
+                                    </a></li>
+                                    <li><a class="pr-share__btn pr-share__btn--twitter"
+                                           href="https://twitter.com/intent/tweet?url=https%3a%2f%2fpib.gov.in%2fPressReleasePage.aspx%3fPRID%3d1690891"
+                                           target="_blank" rel="noopener noreferrer"
+                                           aria-label="Share on X">
+                                        <svg class="dbim-icon dbim-icon-24" width="24" height="24" fill="currentColor" aria-hidden="true" focusable="false"><use href="#icon-twitter" xlink:href="#icon-twitter"></use></svg>
+                                    </a></li>
+                                    <li><a class="pr-share__btn pr-share__btn--whatsapp"
+                                           href="https://api.whatsapp.com/send?text=https%3a%2f%2fpib.gov.in%2fPressReleasePage.aspx%3fPRID%3d1690891"
+                                           target="_blank" rel="noopener noreferrer"
+                                           aria-label="Share on WhatsApp">
+                                        <svg class="dbim-icon dbim-icon-24" width="24" height="24" fill="currentColor" aria-hidden="true" focusable="false"><use href="#icon-whatsapp" xlink:href="#icon-whatsapp"></use></svg>
+                                    </a></li>
+                                    <li><a class="pr-share__btn pr-share__btn--linkedin"
+                                           href="https://www.linkedin.com/sharing/share-offsite/?url=https%3a%2f%2fpib.gov.in%2fPressReleasePage.aspx%3fPRID%3d1690891"
+                                           target="_blank" rel="noopener noreferrer"
+                                           aria-label="Share on LinkedIn">
+                                        <svg class="dbim-icon dbim-icon-24" width="24" height="24" fill="currentColor" aria-hidden="true" focusable="false"><use href="#icon-linkedin" xlink:href="#icon-linkedin"></use></svg>
+                                    </a></li>
+                                    <li><a class="pr-share__btn pr-share__btn--mail"
+                                           href="mailto:?subject=Press+release+from+PIB&amp;body=https%3a%2f%2fpib.gov.in%2fPressReleasePage.aspx%3fPRID%3d1690891"
+                                           aria-label="Share by email">
+                                        <svg class="dbim-icon dbim-icon-24" width="24" height="24" fill="currentColor" aria-hidden="true" focusable="false"><use href="#icon-mail" xlink:href="#icon-mail"></use></svg>
+                                    </a></li>
+                              </ul>
+                        </div>
+                        <div id="RelLink" class="RelLink">
+                              <ul>
+                                    
+                                    
+                              </ul>
+                        </div>
+                        <center>
+                              
+                        </center>
+                  </div>
+
+                  <div id="update12">
+	
+                              
+                              <input type="hidden" name="Hidden" id="Hidden" />
+                              <div id="P_CategoryManagement" class="ModalWindow" style="border-width:0px;height:60%;width:60%;overflow:auto;display: none">
+		
+                                    <div>
+                                          <input type="image" name="btnClose" id="btnClose" src="images/close_flat_icon.png" />
+                                    </div>
+                                    <div id="description">
+                                    </div>
+                                    <div class="text-center">
+                                          <h2>
+                                                
+                                                <br>
+                                                
+                                          </h2>
+                                    </div>
+                                    <br />
+                                    <div class="clear">
+                                    </div>
+                                    
+                              
+	</div>
+                        
+</div>
+            </div>
+            
+            <div id="PdfDiv" style="display: none;">
+                  <table width="100%">
+                        <tr>
+                              <td style="font-weight: 200; text-align: center">
+                                    Ministry of Civil Aviation
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                                    <div style="font-weight: 200; text-align: center; font-size: 30px;">
+                                          86 Registration Were Received In the Portal for 6 Airports Under the PPP Bidding Process
+                                    </div>
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                                    <div style="font-weight: 200; text-align: center; font-size: 30px;">
+                                          <div style='height:30px;width:100%;'></div>Press Note
+                                    </div>
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                                    <div style="text-align: center; font-size: 14px;">
+                                          Posted On:
+                        21 JAN 2021 4:59PM by PIB Delhi
+                                    </div>
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                                    <div style="font-weight: 200; text-align: left; font-size: 16px;">
+                                          <p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><span style="color:black">In a news article dated </span>15.01.2021&nbsp; it has been reported that &ldquo;<em>Finance Ministry and NitiAayog had raised red flags before Adani&rsquo;s clean sweep of six airports</em>&rdquo;&nbsp; over the 2019 PPP bidding process and the same was ignored by the Government. This statement is factually incorrect as the bidding process was conducted in a competitive and transparent manner through e-tendering portal of the Government of India in which 25 firms across the globe had registered and total 86 registration were received in the portal for 6 airports. </span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Out of these registrations, 32 bids were received from 10 difference entities for 6 airports. As the bid process was completed transparently, none of the participating entity raised any concern or objection to the bidding process. It may also be noted that during the bid processing stage the entity which would be successful was not known to anybody. The bid parameter stipulated in the tender document was &lsquo;per passenger fee&rsquo; quoted by the bidder and the entity whose bid is highest in terms of per passenger fee quoted would be declared as successful bidder. </span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">After opening of the financial bid of technical qualified bidders, it was revealed that the quote of M/s. Adani Enterprises Limited was highest in all the six airports. As the tender process of each airport was undertaken on individual basis but at the same time the bidder whose quote is highest was considered as per the provisions of the bid document. </span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><span style="background-color:white"><span style="color:black">The statement made that both Ministry of Finance&nbsp; and NitiAayog had recorded objection about the airport bidding process carried in 2019 is factually incorrect and short on facts for the reasons that </span>an Empowered Group of Secretaries (EGOS)Chaired by CEO NitiAayog with Secretaries of Ministry of Finance (Department of Economic Affairs, and Department of Expenditure), and Civil Aviation as Members was given the powers by the Union Cabinet to decide on the matters outside the purview of Public Private Partnership Appraisal Committee (PPPAC).<span style="color:black">Accordingly, the terms and conditions of the transaction of the PPP were deliberated and decided by the EGoS in its meeting held on 17.11.2018 which were agreed by the PPPAC in its meeting held on 11.12.2018. </span>EGOS took a conscious decision &nbsp;not to put any restrictions on the number of airports to be bid for or to be awarded to a single entity considering the fact that <span style="color:black">these 6 airports are smaller in size and handling only 9.5% of the passenger traffic whereas Delhi and Mumbai airports accounted for more than 45%&nbsp; of the total passenger traffic in 2006 when they were brought under PPP and t</span>he decision to cap one airport to single bidder was&nbsp; necessary. The quantum of passengers handled by the private airport operators iscrucial and important than the number of airports handled by a single entity.Further, EGOS decided not to stipulate prior airport experience as a mandatory qualification to increase competition and <span style="color:black">avoid monopoly by those players having Airport experience, who would have an edge over others.</span></span></span></span></p>
+
+<p style="text-align:justify">&nbsp;</p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><span style="background-color:white"><span style="color:black">On the issue of ignoring the recommendations of DEA and NITI Aayog, it should be noted that&nbsp; bothEGoS and PPPAC comprises members from Ministry of Finance (Department of Economic Affairs &amp; Department of Expenditure), NITI Aayog and&nbsp; Civil Aviation. &nbsp;Therefore, the Ministry of Finance and NitiAayog already deliberated and finalized the contours of the bidding process in the EGoS and subsequently appraised the proposal in the PPPAC. Therefore the statement that the views of Ministry of Finance and NitiAayog were ignored is factually incorrect and based on assumption as the views of Ministry and Finance and NitiAayog on various aspects of the proposal are part of the established procedure&nbsp; of PPPAC to ensure that all the aspects are examined before the proposal is placed before PPPAC for decision and same cannot be considered as overruled. </span></span></span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><span style="color:black">&nbsp;As regards acquisition of stake in the Mumbai airport by M/s Adani Enterprises Ltd.and at the same time seeking extension from AAI for taking over the three Airports i.e. Ahmadabad, Lucknow and Mangalore, it is stated that both the transactions are independent of each other. The sale of stake of private entities in MIAL is purely guided by contractual provisions of Shareholders Agreement of MIAL. Any of the shareholders is free to sell his stake after following the due process prescribed in the SHA, which is yet to be completed.</span>The acquisition of shares can be done by any entity following the right of first refusal process specified in the shareholders&rsquo; agreement, after the expiry of lock-in-period. Such&nbsp;&nbsp; transaction have taken place earlier also as in the case of Bangalore airport. The shares of L&amp;T and Zurich were acquired by GVK Airports Holding who in turn sold to Fairfax. </span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><span style="background-color:white"><span style="color:black">&nbsp;As regards, extension of CoD at three airports beyond the stipulated six months from the signing of concession agreement, the situation had arisen due to Covid-19 pandemic resulting into difficulty in physical takeover of the airport on account of Logistics. Further, </span>the article reported that the concession agreements for Guwahati, Jaipur and Thiruvananthapuram airports were signed by AAI in September whereas, it has actually been signed on 19.01.2021. </span></span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">It is important to note that the allegation brought out in the above article were also the allegations submitted by various petitioners in the High Court of Kerala opposing PPP mode of operation of AAI airport which were heard and decided on merits and finally the Court vide its judgement dated 19.10.2020 dismissed all the Petitions upholding the PPP process undertaken by Government of India.&nbsp; </span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><span style="background-color:white"><span style="color:black">In view of above the newspaper article is<em>suppressioveri and suggestiofalsi</em></span></span></span></span></p>
+
+<p style="text-align:justify">&nbsp;</p>
+
+<p style="text-align:center"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><span style="background-color:white"><span style="color:black">*****</span></span></span></span></p>
+
+<p style="text-align:center">&nbsp;</p>
+
+<p><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><span style="background-color:white"><strong><span style="color:black">RJ/NG</span></strong></span></span></span></p>
+
+                                    </div>
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                                    <div style="font-weight: 100; text-align: left; font-size: 16px;">
+                                          (Release ID: 1690891)
+                                    </div>
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                              </td>
+                        </tr>
+                        <tr>
+                              <td style="font-weight: 200; text-align: center; font-size: 24px;"></td>
+                        </tr>
+                  </table>
+            </div>
+            <div class="clearfix">
+            </div>
+
+            
+
+            <div class="section1">
+                  <div id="frst_t">
+                        <div id="arr_rm"><div class='sticky-social_mb'><ul class='social_mb'><a href='http://www.facebook.com/share.php?u=https://pib.gov.in/PressReleasePage.aspx?PRID=1690891' target='_blank'><li class='fb_b'   ></li></a><a href='https://twitter.com/intent/tweet?url=https://pib.gov.in/PressReleasePage.aspx?PRID=1690891&text=86 Registration Were Received In the Portal for 6 Airports Under the PPP Bidding Process' target='_blank'><li class='twitter_r'  > </li></a><a href='https://api.whatsapp.com/send?text=https://pib.gov.in/PressReleasePage.aspx?PRID=1690891' target='_blank'><li class='whatsapp_r'  ></li></a><a href='https://mail.google.com/mail/?view=cm&fs=1&tf=1&to=&su=86 Registration Were Received In the Portal for 6 Airports Under the PPP Bidding Process&body=https://pib.gov.in/PressReleasePage.aspx?PRID=1690891&ui=2&tf=1&pli=1' title='Share by Email' target='_blank'><li class='fa-envelope_r' ></li></a><a href='https://www.linkedin.com/shareArticle?mini=true&url=https://pib.gov.in/PressReleasePage.aspx?PRID=1690891&title=86 Registration Were Received In the Portal for 6 Airports Under the PPP Bidding Process&summary=My%20favorite%20developer%20program&source=LinkedIn' target='_blank'><li class='fa-linkedin_r'  ></li></a></ul></div></div>
+                  </div>
+                  <div id="second_t">
+                        <div id="sndr_rm"><div class='sticky-social'><ul class='social'><a href='http://www.facebook.com/share.php?u=https://pib.gov.in/PressReleasePage.aspx?PRID=1690891' target='_blank'><li class='fb_b'   ></li></a><a href='https://twitter.com/intent/tweet?url=https://pib.gov.in/PressReleasePage.aspx?PRID=1690891&text=86 Registration Were Received In the Portal for 6 Airports Under the PPP Bidding Process' target='_blank'><li class='twitter_r'  > </li></a><a href='https://api.whatsapp.com/send?text=https://pib.gov.in/PressReleasePage.aspx?PRID=1690891' target='_blank'><li class='whatsapp_r'  ></li></a><a href='https://mail.google.com/mail/?view=cm&fs=1&tf=1&to=&su=86 Registration Were Received In the Portal for 6 Airports Under the PPP Bidding Process&body=https://pib.gov.in/PressReleasePage.aspx?PRID=1690891&ui=2&tf=1&pli=1' title='Share by Email' target='_blank'><li class='fa-envelope_r' ></li></a><a href='https://www.linkedin.com/shareArticle?mini=true&url=https://pib.gov.in/PressReleasePage.aspx?PRID=1690891&title=86 Registration Were Received In the Portal for 6 Airports Under the PPP Bidding Process&summary=My%20favorite%20developer%20program&source=LinkedIn' target='_blank'><li class='fa-linkedin_r'  ></li></a></ul></div></div>
+                  </div>
+            </div>
+            <input type="hidden" name="ltrTitlee" id="ltrTitlee" value="86 Registration Were Received In the Portal for 6 Airports Under the PPP Bidding Process" />
+            <input type="hidden" name="ltrSubtitlee" id="ltrSubtitlee" value="&lt;br/>Press Note" />
+            <input type="hidden" name="ltrDescriptionn" id="ltrDescriptionn" value="&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>&lt;span style=&quot;color:black&quot;>In a news article dated &lt;/span>15.01.2021&amp;nbsp; it has been reported that &amp;ldquo;&lt;em>Finance Ministry and NitiAayog had raised red flags before Adani&amp;rsquo;s clean sweep of six airports&lt;/em>&amp;rdquo;&amp;nbsp; over the 2019 PPP bidding process and the same was ignored by the Government. This statement is factually incorrect as the bidding process was conducted in a competitive and transparent manner through e-tendering portal of the Government of India in which 25 firms across the globe had registered and total 86 registration were received in the portal for 6 airports. &lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>Out of these registrations, 32 bids were received from 10 difference entities for 6 airports. As the bid process was completed transparently, none of the participating entity raised any concern or objection to the bidding process. It may also be noted that during the bid processing stage the entity which would be successful was not known to anybody. The bid parameter stipulated in the tender document was &amp;lsquo;per passenger fee&amp;rsquo; quoted by the bidder and the entity whose bid is highest in terms of per passenger fee quoted would be declared as successful bidder. &lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>After opening of the financial bid of technical qualified bidders, it was revealed that the quote of M/s. Adani Enterprises Limited was highest in all the six airports. As the tender process of each airport was undertaken on individual basis but at the same time the bidder whose quote is highest was considered as per the provisions of the bid document. &lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>&lt;span style=&quot;background-color:white&quot;>&lt;span style=&quot;color:black&quot;>The statement made that both Ministry of Finance&amp;nbsp; and NitiAayog had recorded objection about the airport bidding process carried in 2019 is factually incorrect and short on facts for the reasons that &lt;/span>an Empowered Group of Secretaries (EGOS)Chaired by CEO NitiAayog with Secretaries of Ministry of Finance (Department of Economic Affairs, and Department of Expenditure), and Civil Aviation as Members was given the powers by the Union Cabinet to decide on the matters outside the purview of Public Private Partnership Appraisal Committee (PPPAC).&lt;span style=&quot;color:black&quot;>Accordingly, the terms and conditions of the transaction of the PPP were deliberated and decided by the EGoS in its meeting held on 17.11.2018 which were agreed by the PPPAC in its meeting held on 11.12.2018. &lt;/span>EGOS took a conscious decision &amp;nbsp;not to put any restrictions on the number of airports to be bid for or to be awarded to a single entity considering the fact that &lt;span style=&quot;color:black&quot;>these 6 airports are smaller in size and handling only 9.5% of the passenger traffic whereas Delhi and Mumbai airports accounted for more than 45%&amp;nbsp; of the total passenger traffic in 2006 when they were brought under PPP and t&lt;/span>he decision to cap one airport to single bidder was&amp;nbsp; necessary. The quantum of passengers handled by the private airport operators iscrucial and important than the number of airports handled by a single entity.Further, EGOS decided not to stipulate prior airport experience as a mandatory qualification to increase competition and &lt;span style=&quot;color:black&quot;>avoid monopoly by those players having Airport experience, who would have an edge over others.&lt;/span>&lt;/span>&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&amp;nbsp;&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>&lt;span style=&quot;background-color:white&quot;>&lt;span style=&quot;color:black&quot;>On the issue of ignoring the recommendations of DEA and NITI Aayog, it should be noted that&amp;nbsp; bothEGoS and PPPAC comprises members from Ministry of Finance (Department of Economic Affairs &amp;amp; Department of Expenditure), NITI Aayog and&amp;nbsp; Civil Aviation. &amp;nbsp;Therefore, the Ministry of Finance and NitiAayog already deliberated and finalized the contours of the bidding process in the EGoS and subsequently appraised the proposal in the PPPAC. Therefore the statement that the views of Ministry of Finance and NitiAayog were ignored is factually incorrect and based on assumption as the views of Ministry and Finance and NitiAayog on various aspects of the proposal are part of the established procedure&amp;nbsp; of PPPAC to ensure that all the aspects are examined before the proposal is placed before PPPAC for decision and same cannot be considered as overruled. &lt;/span>&lt;/span>&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>&lt;span style=&quot;color:black&quot;>&amp;nbsp;As regards acquisition of stake in the Mumbai airport by M/s Adani Enterprises Ltd.and at the same time seeking extension from AAI for taking over the three Airports i.e. Ahmadabad, Lucknow and Mangalore, it is stated that both the transactions are independent of each other. The sale of stake of private entities in MIAL is purely guided by contractual provisions of Shareholders Agreement of MIAL. Any of the shareholders is free to sell his stake after following the due process prescribed in the SHA, which is yet to be completed.&lt;/span>The acquisition of shares can be done by any entity following the right of first refusal process specified in the shareholders&amp;rsquo; agreement, after the expiry of lock-in-period. Such&amp;nbsp;&amp;nbsp; transaction have taken place earlier also as in the case of Bangalore airport. The shares of L&amp;amp;T and Zurich were acquired by GVK Airports Holding who in turn sold to Fairfax. &lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>&lt;span style=&quot;background-color:white&quot;>&lt;span style=&quot;color:black&quot;>&amp;nbsp;As regards, extension of CoD at three airports beyond the stipulated six months from the signing of concession agreement, the situation had arisen due to Covid-19 pandemic resulting into difficulty in physical takeover of the airport on account of Logistics. Further, &lt;/span>the article reported that the concession agreements for Guwahati, Jaipur and Thiruvananthapuram airports were signed by AAI in September whereas, it has actually been signed on 19.01.2021. &lt;/span>&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>It is important to note that the allegation brought out in the above article were also the allegations submitted by various petitioners in the High Court of Kerala opposing PPP mode of operation of AAI airport which were heard and decided on merits and finally the Court vide its judgement dated 19.10.2020 dismissed all the Petitions upholding the PPP process undertaken by Government of India.&amp;nbsp; &lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>&lt;span style=&quot;background-color:white&quot;>&lt;span style=&quot;color:black&quot;>In view of above the newspaper article is&lt;em>suppressioveri and suggestiofalsi&lt;/em>&lt;/span>&lt;/span>&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&amp;nbsp;&lt;/p>
+
+&lt;p style=&quot;text-align:center&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>&lt;span style=&quot;background-color:white&quot;>&lt;span style=&quot;color:black&quot;>*****&lt;/span>&lt;/span>&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:center&quot;>&amp;nbsp;&lt;/p>
+
+&lt;p>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>&lt;span style=&quot;background-color:white&quot;>&lt;strong>&lt;span style=&quot;color:black&quot;>RJ/NG&lt;/span>&lt;/strong>&lt;/span>&lt;/span>&lt;/span>&lt;/p>
+" />
+            <script type="text/javascript">
+                  var mPlayer = document.getElementById("background_music");
+                  var mPlayAction = document.getElementById("playbutton");
+
+                  var isPlaying = false;
+
+                  function playAudio() {
+                        mPlayer.play();
+                        isPlaying = true;
+                        document.getElementById('stopA').style.display = "block";
+                        document.getElementById('playA').style.display = "none";
+                  }
+
+                  function pauseAudio() {
+                        mPlayer.pause();
+                        isPlaying = false;
+                        document.getElementById('playA').style.display = "block";
+                        document.getElementById('stopA').style.display = "none";
+                  }
+                  //function HandleAudio() {
+                  //    if (isPlaying == true) {
+                  //        //Playing already Pause it
+                  //        pauseAudio();
+                  //    } else {
+                  //        //Play the music
+                  //        playAudio();
+                  //    }
+                  //}
+            </script>
+            <script type="text/javascript">
+                  var synth = window.speechSynthesis;
+
+            
+                  function CleanHtml(html) {
+
+                        html = html.replace(/<script[\s\S]*?<\/script>/gi, '');
+
+                        return html;
+                  }
+                  function stripHtml(html) {
+                        let tmp = document.createElement("DIV");
+                        tmp.innerHTML = CleanHtml(html);
+                        return tmp.textContent || tmp.innerText || "";
+                  }
+            </script>
+            <script type="text/javascript">
+                  $(document).ready(function () {
+                        //for responsive tables
+                        $("table").each(function () {
+                              if (!$(this).closest(".table-responsive").length) {
+                                    $(this).wrap("<div class='table-responsive'></div>");
+                              }
+                        });
+
+                        var width = $(window).width();
+                        if (width < 768) {
+
+                              // Extra Small Device
+                              document.getElementById('frst_t').style.display = "block";
+                              document.getElementById('second_t').style.display = "none";
+
+                        } else if (width < 991) {
+                              document.getElementById('frst_t').style.display = "block";
+                              document.getElementById('second_t').style.display = "none";
+                              // Small Device
+
+                        } else if (width < 1199) {
+                              document.getElementById('frst_t').style.display = "none";
+                              document.getElementById('second_t').style.display = "block";
+                              // Medium Device
+
+                        } else {
+                              document.getElementById('frst_t').style.display = "none";
+                              document.getElementById('second_t').style.display = "block";
+                              // Large Device
+
+                        }
+                  });
+            </script>
+            <script type="text/javascript">
+                  $(document).ready(function () {
+                        var width = $(window).width();
+                        if (width < 768) {
+
+                              // Extra Small Device
+                              document.getElementById('frst_t').style.display = "block";
+                              document.getElementById('second_t').style.display = "none";
+
+                        } else if (width < 991) {
+                              document.getElementById('frst_t').style.display = "block";
+                              document.getElementById('second_t').style.display = "none";
+                              // Small Device
+
+                        } else if (width < 1199) {
+                              document.getElementById('frst_t').style.display = "none";
+                              document.getElementById('second_t').style.display = "block";
+                              // Medium Device
+
+                        } else {
+                              document.getElementById('frst_t').style.display = "none";
+                              document.getElementById('second_t').style.display = "block";
+                              // Large Device
+
+                        }
+                  });
+            </script>
+            
+            <style type="text/css">
+                  @media print {
+                        .sticky-social, .sticky-social_mb, .pull-right, #printPDF {
+                              display: none !important;
+                        }
+                  }
+
+                  .f_vl {
+                        padding-right: 30px;
+                        font-size: 17px;
+                        cursor: pointer;
+                  }
+
+                  .log_oo {
+                        // width: 20%;
+                        display: flex;
+                        justify-content: space-between;
+                  }
+
+                        .log_oo img {
+                              width: 150px;
+                              /*width: 100%;
+                    height: auto;*/
+                        }
+
+                  .sticky-social_mb {
+                        position: fixed;
+                        bottom: 0px;
+                        padding: 0px;
+                        margin: 0px;
+                        width: 100%;
+                  }
+
+                  .social_mb {
+                        list-style: none;
+                        display: flex;
+                        width: 100%;
+                        margin-bottom: -8px;
+                  }
+
+                        .social_mb a {
+                              padding: 8px 0px;
+                              font-size: 30px;
+                              transition: all 0.8s ease-in-out;
+                              width: 20% !important;
+                              text-align: center;
+                        }
+            </style>
+            <style type="text/css">
+                  .section1 {
+                        position: relative;
+                        padding: 10px 0px;
+                        width: 100%;
+                  }
+
+
+
+                  .sticky-social {
+                        position: fixed;
+                        top: 20px;
+                        left: 0px;
+                        padding: 0px;
+                        margin: 0px;
+                  }
+
+                  .social {
+                        list-style: none;
+                  }
+
+                        .social a li {
+                              padding: 8px 12px;
+                              font-size: 25px;
+                              transition: all 0.8s ease-in-out;
+                        }
+
+                              .social a li:hover {
+                                    margin-right: -30px;
+                                    box-shadow: 2px 5px 10px grey;
+                              }
+
+                                    .social a li:hover .fa {
+                                          margin-left: 20px;
+                                    }
+
+                  .fb_b {
+                        /* background-color: var(--dbim-key, #0F5757);*/
+                        background-color: var(--dbim-key, #0F5757);
+                  }
+
+                  .twitter_r {
+                        /* background-color: rgb(29, 161, 242);*/
+                        background-color: var(--dbim-key, #0F5757);
+                  }
+
+                  .whatsapp_r {
+                        /* background-color: var(--dbim-key, #0F5757);*/
+                        background-color: var(--dbim-key, #0F5757);
+                  }
+
+                  .fa-envelope_r {
+                        /* background-color: var(--dbim-key, #0F5757);*/
+                        background-color: var(--dbim-key, #0F5757);
+                  }
+
+                  .fa-linkedin_r {
+                        background-color: var(--dbim-key, #0F5757);
+                  }
+            </style>
+            <style type="text/css">
+                  @media only screen and (max-device-width: 767px) {
+                        p span img {
+                              max-width: 90% !important;
+                              height: auto !important;
+                        }
+
+                        p img {
+                              max-width: 90% !important;
+                              height: auto !important;
+                        }
+
+                        h2 {
+                              font-size: var(--dbim-h2, 20px);   /* was 20px !important - the !important blocked A+/A- */
+                              font-weight: 600 !important;
+                        }
+
+                        h3 {
+                              font-size: var(--dbim-h3, 16px);   /* was 16px !important */
+                              font-weight: 600 !important;
+                        }
+                  }
+            </style>
+            <style type="text/css">
+                  /* === Film Roll Badge Styling(IFFI2025 countdown) === */
+                  .film-roll-badge {
+                        position: absolute;
+                        top:82%;
+                        right: 20px;
+                        width: 230px;
+                        height: 70px;
+                        background: repeating-linear-gradient( to right, var(--dbim-green-key, #0F5757) 0px, var(--dbim-green-key, #0F5757) 18px, var(--dbim-text, #150202) 18px, var(--dbim-text, #150202) 36px );
+                        border-top: 8px solid var(--dbim-green-key, #0F5757);
+                        border-bottom: 8px solid var(--dbim-green-key, #0F5757);
+                        border-radius: 8px;
+                        overflow: hidden;
+                        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+                        animation: moveFilm 8s linear infinite;
+                        z-index: 10;
+                  }
+
+                        /* film sprocket holes */
+                        .film-roll-badge::before,
+                        .film-roll-badge::after {
+                              content: "";
+                              position: absolute;
+                              width: 100%;
+                              height: 10px;
+                              background: repeating-linear-gradient( to right, var(--dbim-green-key, #0F5757) 0px, var(--dbim-green-key, #0F5757) 10px, #fff 10px, #fff 20px );
+                              left: 0;
+                              z-index: 2;
+                        }
+
+                        .film-roll-badge::before {
+                              top: -4px;
+                        }
+
+                        .film-roll-badge::after {
+                              bottom: -4px;
+                        }
+
+                  .film-roll-inner {
+                        position: relative;
+                        height: 100%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        animation: flicker 2s infinite ease-in-out;
+                  }
+
+                  .countdown-text {
+                        font-size: 1.3rem;
+                        font-weight: 700;
+                        color: #fff;
+                        text-shadow: 0 0 6px rgba(255, 255, 255, 0.4), 0 0 10px #000;
+                        white-space: nowrap;
+                  }
+
+                  /* === Animations === */
+                  @keyframes moveFilm {
+                        0% {
+                              background-position: 0 0;
+                        }
+
+                        100% {
+                              background-position: 120px 0;
+                        }
+                  }
+
+                  @keyframes flicker {
+                        0%, 100% {
+                              opacity: 1;
+                        }
+
+                        50% {
+                              opacity: 0.9;
+                        }
+
+                        25% {
+                              opacity: 0.95;
+                        }
+
+                        75% {
+                              opacity: 0.85;
+                        }
+                  }
+
+                  /* === Responsive Adjustments === */
+                  @media (max-width: 1500px) {
+                        .film-roll-badge {
+                              top: 68%;
+                              right: 18px;
+                              /* width: 220px; */
+                              height: 65px;
+                              font-size: 0.85rem;
+                        }
+
+                        .press-section {
+                              margin-top: 35px;
+                        }
+                  }
+
+                  @media (max-width: 992px) {
+                        .film-roll-badge {
+                              top: 52%;
+                              right: 10px;
+                               width: 200px; 
+                              height: 60px;
+                        }
+                  }
+
+                  @media (max-width: 768px) {
+                        .film-roll-badge {
+                              top: 56%;
+                              right: 10px;
+                               width: 124px; 
+                              height: 55px;
+                        }
+
+                        .countdown-text {
+                              font-size: 0.9rem;
+                        }
+                  }
+
+                  @media (max-width: 576px) {
+                        .film-roll-badge {
+                              top: 59%;
+                              right: 5px;
+                              /* width: 160px; */
+                              height: 50px;
+                        }
+
+                        .countdown-text {
+                              font-size: 0.85rem;
+                        }
+                  }
+            </style>
+          <script type="text/javascript">
+                const festivalStart = new Date("2025-11-20T00:00:00").getTime();
+                const festivalEnd = new Date("2025-11-28T23:59:59").getTime();
+
+                const countdownElement = document.getElementById("countdown");
+
+                const interval = setInterval(() => {
+                      const now = new Date().getTime();
+
+                      // BEFORE FESTIVAL — show days + hours left
+                      if (now < festivalStart) {
+                            const diff = festivalStart - now;
+                            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+
+                            countdownElement.innerHTML = `
+              ${days} Day${days !== 1 ? 's' : ''} 
+              ${hours} Hour${hours !== 1 ? 's' : ''} to go
+          `;
+
+                      }
+
+                      // DURING FESTIVAL — show 56th IFFI - Day X
+                      else if (now >= festivalStart && now <= festivalEnd) {
+                            const dayNumber = Math.floor((now - festivalStart) / (1000 * 60 * 60 * 24)) + 1;
+                            countdownElement.innerHTML = `56th IFFI - Day ${dayNumber}`;
+                      }
+
+                      // AFTER FESTIVAL — new message
+                      else {
+                            countdownElement.innerHTML = `✨ IFFI closes but never ends…`;
+
+                            // Width change logic
+                            const elements = document.querySelectorAll('.film-roll-badge');
+                            elements.forEach(el => el.style.width = "350px");
+
+                            clearInterval(interval);
+                      }
+
+                }, 1000);
+          </script>
+ <script type="text/javascript">
+
+               const miffStart = new Date("2026-06-15T00:00:00").getTime();
+               const miffEnd = new Date("2026-06-15T23:59:59").getTime();
+
+               const miffElement = document.getElementById("miff");
+
+               if (miffElement) {
+
+                   const miffInterval = setInterval(() => {
+
+                       const now = new Date().getTime();
+
+                       // Before MIFF
+                       if (now < miffStart) {
+
+                           const diff = miffStart - now;
+                           const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                           const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+
+        
+
+                   /*  miffElement.innerHTML = `${days} Day${days !== 1 ? 's' : ''} ${hours} Hour${hours !== 1 ? 's' : ''} to MIFF`;*/
+                           miffElement.innerHTML = `${days} Day${days === 1 ? '' : 's'} to MIFF ...`;
+
+
+                     }
+
+                       // During MIFF
+                       else if (now >= miffStart && now <= miffEnd) {
+
+                           const dayNumber =
+                               Math.floor((now - miffStart) / (1000 * 60 * 60 * 24)) + 1;
+
+                           miffElement.innerHTML = `19th MIFF - Day ${dayNumber}`;
+                       }
+
+                       // After MIFF
+                       else {
+
+                           miffElement.innerHTML = `✨ MIFF concludes, cinema lives on...`;
+
+                           document.querySelectorAll('.film-roll-badge')
+                               .forEach(el => el.style.width = "350px");
+
+                           clearInterval(miffInterval);
+                       }
+
+                   }, 1000);
+               }
+
+</script>
+
+      
+
+<script type="text/javascript">
+//<![CDATA[
+(function() {var fn = function() {$get("sc_HiddenField").value = '';Sys.Application.remove_init(fn);};Sys.Application.add_init(fn);})();Sys.Application.add_init(function() {
+    $create(Sys.Extended.UI.ModalPopupBehavior, {"BackgroundCssClass":"modalBackground","PopupControlID":"P_CategoryManagement","dynamicServicePath":"/PressReleasePage.aspx","id":"mpe"}, null, null, $get("Hidden"));
+});
+//]]>
+</script>
+<input type="hidden" name="__ncforminfo" value="O28A9upuqze6T9uJob4XSFgSZfNGo3uufmqCnuyXortLd-fKl4mBUrWuRmf9DOZIw-HcY1yDqmY2XKNn0xmze0dAMAJ4p3uddCw1suqx9X2Kg9MTGkamsg=="/></form>
+      
+      
+
+<script type="application/json" id="pibConsentConfig">{"ga4Id":"G-Q414Y0X6EE,G-QJJ6LZ8LHV","policyUrl":"/CookiePolicy.aspx","text":{"bannerLabel":"Cookie consent","title":"Cookies on this website","body":"We use essential cookies to make this website work. We also set analytics cookies when you arrive, so we can see how the site is used and improve it - you can switch these off below or at any time from the Cookie Policy page. Cookies from embedded social media content are set only if you allow them.","policyLink":"Read our Cookie Policy","accept":"Accept all","reject":"Reject optional","customize":"Customise","prefsTitle":"Cookie preferences","prefsIntro":"Choose which cookies this website may set. Essential cookies cannot be switched off because the site does not work without them. Analytics cookies are on unless you turn them off. Social media cookies stay off until you allow them. You can change these choices at any time from the Cookie Policy page.","essentialName":"Essential cookies","essentialDesc":"Needed for the site to function. These remember your session, your language and region, your text size and colour theme, and verify the security check on forms. They are always on.","analyticsName":"Analytics cookies","analyticsDesc":"Help us understand how visitors use the site - which pages are read and how long people stay - so it can be improved. The information is collected in a form that does not directly identify you. These are on when you arrive; switching them off here stops them and deletes the ones already set.","socialName":"Social media cookies","socialDesc":"Set by content embedded from X, Facebook and YouTube, such as timelines and videos. These platforms may use them to track you across websites. They stay off until you allow them.","save":"Save preferences","cancel":"Cancel"}}</script>
+<script type="text/javascript" src='/js/consent.js?v=10'></script>
+
+<script type="text/javascript" src='/js/consent-embeds.js?v=10'></script>
+
+    
+
+<script type="text/javascript">
+    (function () {
+        try {
+            if (window.self === window.top) { return; }
+        } catch (e) { return; }
+        var s = document.createElement("style");
+        s.textContent =
+            ".sticky-social, .sticky-social_mb { display: none !important; }";
+        (document.head || document.documentElement).appendChild(s);
+    }());
+</script>
+</body>
+</html>
+

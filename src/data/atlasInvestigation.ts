@@ -31,7 +31,9 @@ export function getAtlasEvidenceClosure(registry:InvestigationRegistry,selection
  return {entities,relationships,records,sources:registry.sources.filter(row=>sourceIds.has(row.id)),missingIds:[...missing]};
 }
 export function exportAtlasEvidence(registry:InvestigationRegistry,selections:AtlasSelection[],filters:InvestigationFilters={}) {
- return {schemaVersion:1,exportedAt:new Date().toISOString(),registryUpdatedAt:registry.updatedAt,selections,filters,interpretation:'Source-backed evidence packet. Amount stages are distinct; response context is retained beyond active filters. Connectivity is not evidence of influence or wrongdoing.',...getAtlasEvidenceClosure(registry,selections)};
+ const closure=getAtlasEvidenceClosure(registry,selections);
+ const questions=closure.relationships.filter(row=>row.id.startsWith('question:')&&row.tier==='analytic');
+ return {schemaVersion:1,exportedAt:new Date().toISOString(),registryUpdatedAt:registry.updatedAt,selections,filters,interpretation:questions.length?'Mixed evidence and unestablished questions. The relationships array is the full display closure, not a factual trail. Consult recordedRelationships and unestablishedQuestions separately. Questions carry no amount and cannot establish a transfer, agreement or wrongdoing.':'Source-backed evidence packet. Amount stages are distinct; response context is retained beyond active filters. Connectivity is not evidence of influence or wrongdoing.',...closure,...(questions.length?{recordedRelationships:closure.relationships.filter(row=>!questions.includes(row)),unestablishedQuestions:questions,inferredCashFlow:false,outcomeProbabilities:null}:{} )};
 }
 export function exploreAtlasGraph(registry:InvestigationRegistry,options:InvestigationFilters&{rootId?:string|null;depth?:number;direction?:GraphDirection;moneyOnly?:boolean;priorityEdgeIds?:string[]}={}) {
  const depth=Math.min(5,Math.max(1,Math.floor(options.depth??2))),direction=options.direction??'both';

@@ -49,6 +49,7 @@ const dedicatedRoutes = new Map([
   ['/research-radar', { marker: '[data-research-radar-page]', workflow: 'research-radar' }],
   ['/model-lab', { marker: '[data-model-lab]', workflow: 'model-lab' }],
   ['/funding-investigations', { marker: '[data-funding-desk]', workflow: 'funding-investigations' }],
+  ['/hypothesis-lab', { marker: '[data-hypothesis-desk]', workflow: 'hypothesis-lab' }],
 ]);
 const sharedRoutes = routes.filter(route => !dedicatedRoutes.has(route));
 const binary = process.env.PLAYWRIGHT_CHROMIUM_PATH ?? '/usr/bin/chromium';
@@ -140,6 +141,12 @@ try {
       const codes = await page.locator('.iw-map-state').evaluateAll(items => items.map(item => item.getAttribute('data-state-code')));
       check(codes.length === 36 && new Set(codes).size === 36, `${route}: 36 distinct geographic shapes`);
       check(codes.includes('LA') && codes.includes('DN') && !codes.includes('DD') && codes.includes('OD') && codes.includes('CG'), `${route}: current state/UT codes`);
+      if (dedicated?.workflow === 'hypothesis-lab') {
+        check(await page.locator('[data-hl-choice]').count() > 0, `${route}: selected hypotheses have a navigable register`);
+        check(await page.locator('[data-hl-question-layer]').count() === 1, `${route}: question layer remains explicitly controlled`);
+        await overflow(route);
+        continue;
+      }
       if (dedicated?.workflow === 'funding-investigations') {
         check(await page.getByRole('combobox', { name: 'Research track', exact: true }).count() === 1, `${route}: research tracks remain selectable`);
         check(await page.getByRole('button', { name: 'Export research packet', exact: true }).count() === 1, `${route}: selected source-attributed file is exportable`);

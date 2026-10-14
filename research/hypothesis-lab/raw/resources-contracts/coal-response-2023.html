@@ -1,0 +1,1147 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head id="Head1"><title>
+	Press Release Page | Press Information Bureau
+</title><link href="css/style.css?v=1" rel="stylesheet" type="text/css" /><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><link rel="alternate stylesheet" href="css/change.css?v=1" media="screen" title="change" /><link rel="alternate stylesheet" href="css/green.css?v=1" media="screen" title="green" /><link rel="alternate stylesheet" href="css/yellow.css" media="screen" title="yellow" /><link rel="stylesheet" type="text/css" href="css/prtint.css" media="print" /><link rel="stylesheet" href="css/style3.1.css" type="text/css" /><link id="pibA11yCss" rel="stylesheet" href="/css/accessibility.css?v=7" type="text/css" />
+      <script type="text/javascript">
+        /* Stamps the saved theme on <html> before the page paints. The
+           switcher in js/accessibility.js settles the rest, but on inner
+           pages it does not run until the end of the body and inside the
+           release frame it is a separate download - either way the reader
+           would otherwise watch a light page turn dark in front of them. */
+        (function (d) {
+            var t = "";
+            try {
+                t = window.localStorage.getItem("pibStyle") || "";
+            } catch (e) {
+                t = "";
+            }
+            if (t === "orange") {
+                t = "yellow";
+            }
+            var c = t === "change" ? " pib-hc"
+                : t === "green" ? " pib-theme-green"
+                : t === "yellow" ? " pib-theme-yellow" : "";
+            d.documentElement.className += c + " pib-a11y-content";
+        }(document));
+      </script>
+
+
+      <script src="js/jquery.min.js" type="text/javascript"></script>
+      <script type="text/javascript" src="/js/accessibility.js?v=7"></script>
+
+      <script type="text/javascript">
+            $(document).ready(function () {
+                  function getParameterByName(name) {
+                        var url = window.location.href;
+                        name = name.replace(/[\[\]]/g, '\\$&');
+                        var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+                              results = regex.exec(url);
+                        if (!results) return null;
+                        if (!results[2]) return '';
+                        return decodeURIComponent(results[2].replace(/\+/g, ' '));
+                  }
+                  // Get the IDs from the current page's URL
+                  let prid = parseInt(getParameterByName('PRID'), 10);
+
+                  if (!isNaN(prid) && prid > 0) {
+                        $.ajax({
+                              type: "POST",
+                              url: "AjaxMethod.aspx/UpdatePRHitCount",
+                              async: false,
+                              data: JSON.stringify({ 'PermId': prid }),
+                              contentType: "application/json; charset=utf-8",
+                              dataType: "json",
+                              success: function (response) {
+                                    console.log(response);
+                              },
+                              error: function (error) {
+                                    console.log("Error in AJAX request", error);
+                              }
+                        });
+                  } else {
+                        console.log("Invalid parameters:", prid);
+                  }
+
+            });
+      </script>
+      <style type="text/css">
+            .table-responsive {
+                  width: 100%;
+                  overflow-x: auto;
+            }
+
+            .banner {
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  background-color: #000;
+                  color: #fff;
+                  padding: 20px;
+            }
+
+            full-width {
+                  width: 100%;
+            }
+
+            .logo-left, .logo-center, .countdown {
+                  display: flex;
+                  align-items: center;
+            }
+
+                  .logo-left img, .logo-center img {
+                        height: 70px;
+                  }
+
+            .countdown {
+                  text-align: center;
+                  background-color: var(--dbim-text, #150202);
+                  border-radius: 10px;
+                  padding: 10px;
+                  border: 2px solid grey;
+            }
+
+            .firstnumber {
+                  color: #000000;
+                  position: absolute;
+                  top: 50px;
+                  right: 90px;
+                  font-size: 30px;
+            }
+
+            .secondnumber {
+                  position: absolute;
+                  color: #000000;
+                  right: 45px;
+                  top: 50px;
+                  font-size: 30px;
+            }
+
+            .countdown .days {
+                  font-size: 35px;
+                  color: gold;
+            }
+
+            .countdown p {
+                  margin: 0;
+            }
+
+            .countdown .text {
+                  font-size: 16px;
+            }
+
+            a {
+                  word-break: break-all;
+            }
+
+            iframe, img {
+                  max-width: 100%;
+            }
+
+            @media(max-width:1199px) {
+                  .firstnumber {
+                        top: 40px;
+                        right: 72px;
+                        font-size: 30px;
+                  }
+
+                  .secondnumber {
+                        right: 35px;
+                        top: 40px;
+                        font-size: 30px;
+                  }
+            }
+
+            @media(max-width:990px) {
+                  .firstnumber {
+                        top: 25px;
+                        right: 54px;
+                        font-size: 30px;
+                  }
+
+                  .secondnumber {
+                        right: 25px;
+                        top: 25px;
+                        font-size: 30px;
+                  }
+            }
+
+            @media(max-width:768px) {
+                  .countdown, .days {
+                        font-size: 12px !important;
+                  }
+
+
+                  .firstnumber {
+                        top: 25%;
+                        right: 8%;
+                        font-size: 30px;
+                  }
+
+                  .secondnumber {
+                        right: 4.5%;
+                        top: 25%;
+                        font-size: 30px;
+                  }
+            }
+
+            @media(max-width:475px) {
+                  .countdown, .days {
+                        font-size: 10px !important;
+                        top: 20%;
+                  }
+
+                  .bannerimgdiv {
+                        padding: 0 !important;
+                  }
+
+                  .bannerimg {
+                        width: 108% !important;
+                  }
+            }
+      </style>
+      <script type="text/javascript">
+            $(function () {
+                  $("[id*=printPDF]").click(function () {
+                        $("[id*=hfGridHtml]").val($("#PdfDiv").html());
+                  });
+            });
+            $(function () {
+                  $("[id*=printPDFEvent]").click(function () {
+                        $("[id*=hfGridHtml]").val($("#PdfDiv").html());
+                  });
+            });
+      </script>
+
+      
+
+      <link id="pibConsentCss" href="/css/consent.css?v=8" rel="stylesheet" type="text/css" /><link id="pibFontsCss" href="/css/fonts-noto.css?v=6" rel="stylesheet" type="text/css" /><link id="pibDbimCss" href="/css/dbim.css?v=1120" rel="stylesheet" type="text/css" /><meta property="og:title" content="Progressive Policies of Coal Ministry Result in Faster Allocation of Mines to Private Sector " /><meta property="og:url" content="www.pib.gov.in/Pressreleaseshare.aspx?PRID=1969366" /><meta property="og:description" content="After cancellation of 204 coal mines in 2014, coal mines are being auctioned through a transparent m" /><meta property="og:image" content="https:/pib.gov.in/images/indian-emblem.png" />
+                                <script>!function(e){var n="https://s.go-mpulse.net/boomerang/";if("False"=="True")e.BOOMR_config=e.BOOMR_config||{},e.BOOMR_config.PageParams=e.BOOMR_config.PageParams||{},e.BOOMR_config.PageParams.pci=!0,n="https://s2.go-mpulse.net/boomerang/";if(window.BOOMR_API_key="C4E7H-KSCMC-422L4-W3EM5-U36MF",function(){function e(){if(!i){var e=document.createElement("script");e.id="boomr-scr-as",e.src=window.BOOMR.url,e.async=!0,o.parentNode.appendChild(e),i=!0}}function t(e){i=!0;var n,t,a,r,d=document,O=window;if(window.BOOMR.snippetMethod=e?"if":"i",t=function(e,n){var t=d.createElement("script");t.id=n||"boomr-if-as",t.src=window.BOOMR.url,BOOMR_lstart=(new Date).getTime(),e=e||d.body,e.appendChild(t)},!window.addEventListener&&window.attachEvent&&navigator.userAgent.match(/MSIE [67]\./))return window.BOOMR.snippetMethod="s",void t(o.parentNode,"boomr-async");a=document.createElement("IFRAME"),a.src="about:blank",a.title="",a.role="presentation",a.loading="eager",r=(a.frameElement||a).style,r.width=0,r.height=0,r.border=0,r.display="none",o.parentNode.appendChild(a);try{O=a.contentWindow,d=O.document.open()}catch(_){n=document.domain,a.src="javascript:var d=document.open();d.domain='"+n+"';void(0);",O=a.contentWindow,d=O.document.open()}if(n)d._boomrl=function(){this.domain=n,t()},d.write("<bo"+"dy onload='document._boomrl();'>");else if(O._boomrl=function(){t()},O.addEventListener)O.addEventListener("load",O._boomrl,!1);else if(O.attachEvent)O.attachEvent("onload",O._boomrl);d.close()}function a(e){window.BOOMR_onload=e&&e.timeStamp||(new Date).getTime()}if(!window.BOOMR||!window.BOOMR.version&&!window.BOOMR.snippetExecuted){window.BOOMR=window.BOOMR||{},window.BOOMR.snippetStart=(new Date).getTime(),window.BOOMR.snippetExecuted=!0,window.BOOMR.snippetVersion=12,window.BOOMR.url=n+"C4E7H-KSCMC-422L4-W3EM5-U36MF";var o=document.currentScript||document.getElementsByTagName("script")[0],i=!1,r=document.createElement("link");if(r.relList&&"function"==typeof r.relList.supports&&r.relList.supports("preload")&&"as"in r)window.BOOMR.snippetMethod="p",r.href=window.BOOMR.url,r.rel="preload",r.as="script",r.addEventListener("load",e),r.addEventListener("error",function(){t(!0)}),setTimeout(function(){if(!i)t(!0)},3e3),BOOMR_lstart=(new Date).getTime(),o.parentNode.appendChild(r);else t(!1);if(window.addEventListener)window.addEventListener("load",a,!1);else if(window.attachEvent)window.attachEvent("onload",a)}}(),"".length>0)if(e&&"performance"in e&&e.performance&&"function"==typeof e.performance.setResourceTimingBufferSize)e.performance.setResourceTimingBufferSize();!function(){if(BOOMR=e.BOOMR||{},BOOMR.plugins=BOOMR.plugins||{},!BOOMR.plugins.AK){var n=""=="true"?1:0,t="",a="ljqllrax2fkco2wpx6zq-f-34ff2ec3d-clientnsv4-s.akamaihd.net",o="false"=="true"?2:1,i={"ak.v":"41","ak.cp":"1825201","ak.ai":parseInt("1215205",10),"ak.ol":"0","ak.cr":10,"ak.ipv":4,"ak.proto":"h2","ak.rid":"477e743","ak.r":46091,"ak.a2":n,"ak.m":"dscb","ak.n":"ff","ak.cport":36450,"ak.gh":"23.201.193.57","ak.quicv":"","ak.tlsv":"tls1.3","ak.0rtt":"","ak.0rtt.ed":"","ak.csrc":"-","ak.acc":"","ak.t":"1791999923","ak.ak":"hOBiQwZUYzCg5VSAfCLimQ==7XSyK6zCcl0JN9GoQu4AOfqLCXfltMTHesY0PGRRZ4gGpb/JgBRhyUZWAdQUMHc2stFOKd0GdbCyFZc/pzDeRVlHs7KXmzZOI6K35QAry2/UC7RSA7R7ZyqG32r/y3i3VkVf8iUsALOEtVfc9vV29qlL5nBYtx3VirEU5Wznd0epIhvyqdGO0STbZy3emfRfShivy4GlguygpxC4xneIIlws2UJsV4M8mHJbexCBErahunETFanF2RNFmx13awwJCJYBDYmwJdtptg6694tVXzrBlS3g2qzQnTLajGMPlmSG4pucjw1HaeU+Qfo1ILuyAGnXRf+JQVwuVy4f52IdoFlya0o3OMyo4LJx75inDFd7G5N4h0RCfRs0NsA6/GrZqt5Plp60vVIInEpzDDBRdj2t0vepqNXMbto/kAav78k=","ak.pv":"9","ak.dpoabenc":"","ak.tf":o};if(""!==t)i["ak.ruds"]=t;var r={i:!1,av:function(n){var t="http.initiator";if(n&&(!n[t]||"spa_hard"===n[t]))i["ak.feo"]=void 0!==e.aFeoApplied?1:0,BOOMR.addVar(i)},rv:function(){var e=["ak.cport","ak.cr","ak.csrc","ak.gh","ak.ipv","ak.m","ak.n","ak.ol","ak.proto","ak.quicv","ak.tlsv","ak.0rtt","ak.0rtt.ed","ak.r","ak.acc","ak.t","ak.tf"];BOOMR.removeVar(e)}};BOOMR.plugins.AK={akVars:i,akDNSPreFetchDomain:a,init:function(){if(!r.i){var e=BOOMR.subscribe;e("before_beacon",r.av,null,null),e("onbeacon",r.rv,null,null),r.i=!0}return this},is_complete:function(){return!0}}}}()}(window);</script></head>
+<body>
+    
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"
+     style="position:absolute;width:0;height:0;overflow:hidden" id="dbim-icon-sprite">
+    <defs>
+        <symbol id="icon-angle-double-left" viewBox="0 0 24 24"><path d="M11.6 4.6 4.2 12l7.4 7.4 2.2-2.2L8.6 12l5.2-5.2z"/><path d="M19 4.6 11.6 12 19 19.4l2.2-2.2L16 12l5.2-5.2z"/></symbol>
+        <symbol id="icon-angle-double-right" viewBox="0 0 24 24"><path d="M12.4 4.6 10.2 6.8 15.4 12l-5.2 5.2 2.2 2.2L19.8 12z"/><path d="M5 4.6 2.8 6.8 8 12l-5.2 5.2L5 19.4 12.4 12z"/></symbol>
+        <symbol id="icon-arrow-left" viewBox="0 0 24 24"><path d="M20.8 10.6H9.6v2.8h11.2z"/><path d="M10.8 5.6 3.2 12l7.6 6.4z"/></symbol>
+        <symbol id="icon-arrow-right" viewBox="0 0 24 24"><path d="M3.2 10.6h11.2v2.8H3.2z"/><path d="M13.2 5.6 20.8 12l-7.6 6.4z"/></symbol>
+        <symbol id="icon-blogger" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M6.4 2.4h11.2a4 4 0 0 1 4 4v11.2a4 4 0 0 1-4 4H6.4a4 4 0 0 1-4-4V6.4a4 4 0 0 1 4-4zm2.8 5.2a2 2 0 0 0 0 4h2.4a2 2 0 0 0 0-4zm0 5.6a2 2 0 0 0 0 4h5.6a2 2 0 0 0 0-4z"/></symbol>
+        <symbol id="icon-calendar" viewBox="0 0 24 24"><path d="M7.6 2.4H10v2.4H7.6z"/><path d="M14 2.4h2.4v2.4H14z"/><path fill-rule="evenodd" d="M4 4.8h16a1.6 1.6 0 0 1 1.6 1.6v13.2a1.6 1.6 0 0 1-1.6 1.6H4a1.6 1.6 0 0 1-1.6-1.6V6.4A1.6 1.6 0 0 1 4 4.8zm.4 5.6v8.4h15.2v-8.4z"/><path d="M6.4 12.4h3.2v3.2H6.4z"/></symbol>
+        <symbol id="icon-chevron-left" viewBox="0 0 24 24"><path d="M15.4 4.6 8 12l7.4 7.4 2.2-2.2L12.4 12l5.2-5.2z"/></symbol>
+        <symbol id="icon-chevron-right" viewBox="0 0 24 24"><path d="M8.6 4.6 6.4 6.8 11.6 12l-5.2 5.2 2.2 2.2L16 12z"/></symbol>
+        <symbol id="icon-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/></symbol>
+        <symbol id="icon-download" viewBox="0 0 24 24"><path d="M10.8 3h2.4v7.6h3.4L12 16.6l-4.6-6h3.4z"/><path d="M4 17.2h2.4v2.4h11.2v-2.4H20v3.2a1.4 1.4 0 0 1-1.4 1.4H5.4A1.4 1.4 0 0 1 4 20.4z"/></symbol>
+        <symbol id="icon-facebook" viewBox="0 0 24 24"><path d="M13.6 21.6v-8.4h2.8l.42-3.3h-3.22V7.8c0-.95.27-1.6 1.64-1.6h1.74V3.26a23 23 0 0 0-2.54-.13c-2.5 0-4.22 1.53-4.22 4.34v2.43H7.4v3.3h2.82v8.4z"/></symbol>
+        <symbol id="icon-fact-check" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2.4 3.6 5.6v6.2c0 4.6 3.4 8.6 8.4 9.8 5-1.2 8.4-5.2 8.4-9.8V5.6zm-1 13.2-3.6-3.6 1.7-1.7 1.9 1.9 4.5-4.5 1.7 1.7z"/></symbol>
+        <symbol id="icon-hashtag" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M8.8 3h2.4l-1 6h3.2l1-6h2.4l-1 6h3.4v2.4h-3.8l-.6 3.2h3.6V17h-4l-1 5h-2.4l1-5h-3.2l-1 5H5.4l1-5H3V14.6h3.8l.6-3.2H3.8V9h4zm.6 8.4-.6 3.2h3.2l.6-3.2z"/></symbol>
+        <symbol id="icon-home" viewBox="0 0 24 24"><path d="M12 3.4 2.8 11.6h2.4v8.4a1 1 0 0 0 1 1h3.3v-5.4h5v5.4h3.3a1 1 0 0 0 1-1v-8.4h2.4z"/></symbol>
+        <symbol id="icon-instagram" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M7.6 2.4h8.8a5.2 5.2 0 0 1 5.2 5.2v8.8a5.2 5.2 0 0 1-5.2 5.2H7.6a5.2 5.2 0 0 1-5.2-5.2V7.6a5.2 5.2 0 0 1 5.2-5.2zm0 2.4a2.8 2.8 0 0 0-2.8 2.8v8.8a2.8 2.8 0 0 0 2.8 2.8h8.8a2.8 2.8 0 0 0 2.8-2.8V7.6a2.8 2.8 0 0 0-2.8-2.8z"/><path fill-rule="evenodd" d="M12 6.8a5.2 5.2 0 1 0 0 10.4 5.2 5.2 0 0 0 0-10.4zm0 2.4a2.8 2.8 0 1 1 0 5.6 2.8 2.8 0 0 1 0-5.6z"/><circle cx="17.3" cy="6.7" r="1.3"/></symbol>
+        <symbol id="icon-linkedin" viewBox="0 0 24 24"><path d="M4.8 8.8h3.6v12H4.8z"/><circle cx="6.6" cy="5.4" r="2.1"/><path d="M10.8 8.8h3.45v1.65h.05c.48-.9 1.65-1.85 3.4-1.85 3.63 0 4.3 2.35 4.3 5.4v6.6h-3.6v-5.85c0-1.4-.03-3.2-1.95-3.2-1.95 0-2.25 1.52-2.25 3.1v5.95h-3.6z"/></symbol>
+        <symbol id="icon-mail" viewBox="0 0 24 24"><path d="M2.4 7.6v9.2a1.6 1.6 0 0 0 1.6 1.6h16a1.6 1.6 0 0 0 1.6-1.6V7.6L12 14z"/><path d="M21.2 5.4H2.8L12 11.8z"/></symbol>
+        <symbol id="icon-mail-open" viewBox="0 0 24 24"><path d="M2.4 9.8h19.2v9.6A1.6 1.6 0 0 1 20 21H4a1.6 1.6 0 0 1-1.6-1.6z"/><path d="M12 2.6 21.6 9.2h-3.8L12 5.3 6.2 9.2H2.4z"/><path d="m3.9 11.2 8.1 5.4 8.1-5.4 1.5 1.3-9.6 6.4-9.6-6.4z"/></symbol>
+        <symbol id="icon-map-marker" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2.4a7 7 0 0 0-7 7c0 5.2 7 12.2 7 12.2s7-7 7-12.2a7 7 0 0 0-7-7zm0 9.6a2.6 2.6 0 1 1 0-5.2 2.6 2.6 0 0 1 0 5.2z"/></symbol>
+        <symbol id="icon-newspaper" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M2.8 4.4h14.8v15.2H2.8zm2 2v11.2h10.8V6.4z"/><path d="M6 7.6h8.4v1.6H6z"/><path d="M6 10.8h8.4v1.6H6z"/><path d="M6 14h5.2v1.6H6z"/><path d="M18.4 8.4h2.8v9.6a1.4 1.4 0 0 1-2.8 0z"/></symbol>
+        <symbol id="icon-pause" viewBox="0 0 24 24"><rect x="7.4" y="4" width="3.6" height="16" rx="0.9"/><rect x="13" y="4" width="3.6" height="16" rx="0.9"/></symbol>
+    <symbol id="icon-play" viewBox="0 0 24 24"><path d="M8 4.5v15l12-7.5z"/></symbol>
+        <symbol id="icon-picture" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M2.4 5.2h19.2v13.6H2.4zm2 2v9.6h15.2V7.2z"/><path d="M5.6 16.4 10 11l2.6 3 2-2.2 4 4.6z"/><circle cx="8" cy="10.4" r="1.5"/></symbol>
+        <symbol id="icon-press-conference" viewBox="0 0 24 24"><circle cx="12" cy="5.2" r="2.6"/><path d="M7.6 12.2a4.4 4.4 0 0 1 8.8 0z"/><circle cx="4.9" cy="9.6" r="2.2"/><path d="M1.8 15.2a3.1 3.1 0 0 1 6.2 0z"/><circle cx="19.1" cy="9.6" r="2.2"/><path d="M16 15.2a3.1 3.1 0 0 1 6.2 0z"/><path d="M6.6 13.6h10.8l2.2 7.8H4.4z"/></symbol>
+        <symbol id="icon-print" viewBox="0 0 24 24"><path d="M6.4 2.8h11.2v4.4H6.4z"/><path d="M4 8.4h16a1.6 1.6 0 0 1 1.6 1.6v5.6a1.6 1.6 0 0 1-1.6 1.6h-1.6v-2.8H6v2.8H4a1.6 1.6 0 0 1-1.6-1.6V10A1.6 1.6 0 0 1 4 8.4z"/><path d="M7.2 15.6h9.6v5.6H7.2z"/></symbol>
+        <symbol id="icon-rss" viewBox="0 0 24 24"><circle cx="4.8" cy="19.2" r="2.4"/><path d="M2.4 11.2v3.2a6.4 6.4 0 0 1 6.4 6.4H12A9.6 9.6 0 0 0 2.4 11.2z"/><path d="M2.4 4.8V8A13.6 13.6 0 0 1 16 21.6h3.2A16.8 16.8 0 0 0 2.4 4.8z"/></symbol>
+        <symbol id="icon-search-plus" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M10 2.8a7.2 7.2 0 1 0 0 14.4 7.2 7.2 0 0 0 0-14.4zm0 2.4a4.8 4.8 0 1 1 0 9.6 4.8 4.8 0 0 1 0-9.6z"/><path d="M15.3 14.6 21.2 20.5l-1.5 1.5-5.9-5.9z"/><path d="M9.2 6.8h1.6v2.4h2.4v1.6h-2.4v2.4H9.2v-2.4H6.8V9.2h2.4z"/></symbol>
+        <symbol id="icon-share" viewBox="0 0 24 24"><circle cx="18" cy="5.6" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="18.4" r="3"/><path d="M8.3 10.9 15.7 7.2l.9 1.8-7.4 3.7z"/><path d="M9.2 13.1 16.6 16.8l-.9 1.8-7.4-3.7z"/></symbol>
+        <symbol id="icon-twitter" viewBox="0 0 24 24"><path d="M4.2 3h4.3l11.3 18h-4.3z"/><path d="M19.3 3h-2.6L4.2 21h2.6z"/></symbol>
+        <symbol id="icon-university" viewBox="0 0 24 24"><path d="M12 2.4 21.6 7.2v1.6H2.4V7.2z"/><path d="M4.8 10.4h2.4v8H4.8z"/><path d="M9.2 10.4h2.4v8H9.2z"/><path d="M13.4 10.4h2.4v8h-2.4z"/><path d="M17.6 10.4H20v8h-2.4z"/><path d="M3.2 19.8h17.6v1.8H3.2z"/></symbol>
+        <symbol id="icon-volume-up" viewBox="0 0 24 24"><path d="M3.2 9.2h3.3l5-4.2v14l-5-4.2H3.2z"/><path d="M14.6 8.4a5 5 0 0 1 0 7.2l1.6 1.6a7.2 7.2 0 0 0 0-10.4z"/><path d="M17.4 5.6a8.8 8.8 0 0 1 0 12.8l1.5 1.5a10.9 10.9 0 0 0 0-15.8z"/></symbol>
+        <symbol id="icon-whatsapp" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2.4a9.5 9.5 0 0 0-8.1 14.5L2.4 21.6l4.8-1.4A9.5 9.5 0 1 0 12 2.4zm0 2.2a7.3 7.3 0 1 1-3.8 13.5l-.4-.2-2.6.7.7-2.5-.3-.4A7.3 7.3 0 0 1 12 4.6z"/><path d="M9.4 7.8c-.2-.5-.4-.5-.6-.5h-.5a1 1 0 0 0-.7.3c-.3.3-.9.9-.9 2.1s.9 2.4 1 2.6c.1.2 1.7 2.8 4.3 3.8 2.1.8 2.6.7 3 .6.5 0 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2l-.5-.3-1.6-.8c-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6 6 0 0 1-1.8-1.1 6.6 6.6 0 0 1-1.2-1.6c-.1-.2 0-.4.1-.5l.4-.5.3-.5v-.5z"/></symbol>
+        <symbol id="icon-youtube" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M21.6 7.2a2.8 2.8 0 0 0-2-2C17.9 4.8 12 4.8 12 4.8s-5.9 0-7.6.4a2.8 2.8 0 0 0-2 2A29 29 0 0 0 2 12a29 29 0 0 0 .4 4.8 2.8 2.8 0 0 0 2 2c1.7.4 7.6.4 7.6.4s5.9 0 7.6-.4a2.8 2.8 0 0 0 2-2A29 29 0 0 0 22 12a29 29 0 0 0-.4-4.8zM10.2 15.1V8.9l5.1 3.1z"/></symbol>
+    </defs>
+</svg>
+
+      <form method="post" action="./PressReleasePage.aspx?PRID=1969366&amp;lang=2&amp;reg=48" id="form1">
+<div class="aspNetHidden">
+<input type="hidden" name="sc_HiddenField" id="sc_HiddenField" value="" />
+<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
+<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="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" />
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+var theForm = document.forms['form1'];
+if (!theForm) {
+    theForm = document.form1;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</script>
+
+
+<script src="/WebResource.axd?d=pynGkmcFUV13He1Qd6_TZPQet1wIx1Q48y3xJY2k25Y7qxH5RrQ9qQcN-OiTC9guZtri9w2&amp;t=639246315009809930" type="text/javascript"></script>
+
+
+<script src="/ScriptResource.axd?d=x6wALODbMJK5e0eRC_p1LdIxBJXt0U_WW5GWfJqHAqo6frgCmGRfEywglicTersO2OKrFhK1gAIp0Wk2al2YrpdR3uWqH6f4nfjBsCyRUfTUUVmb0&amp;t=ffffffffecf8d3f2" type="text/javascript"></script>
+<script src="/ScriptResource.axd?d=P5lTttoqSeZXoYRLQMIScH645UK3RD852IErF2548Wz9Ssv0rLjB4fhVKnHcMpqkaMHpNAGOeWY02Lf4aBYN9-dVBme_SNK5KJwmFQNpMixYDZ7M0&amp;t=ffffffffecf8d3f2" type="text/javascript"></script>
+<script src="/PressReleasePage.aspx?_TSM_HiddenField_=sc_HiddenField&amp;_TSM_CombinedScripts_=%3b%3bAjaxControlToolkit%2c+Version%3d3.5.7.123%2c+Culture%3dneutral%2c+PublicKeyToken%3d28f01b0e84b6d53e%3aen-US%3a5a4df314-b4a2-4da2-a207-9284f1b1e96c%3ade1feab2%3af2c8e708%3a8613aea7%3af9cec9bc%3a3202a5a2%3aab09e3fe%3a87104b7c%3a720a52bf%3a589eaa30%3aa67c2700%3abe6fb298" type="text/javascript"></script>
+<div class="aspNetHidden">
+
+	<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="59B53027" />
+	<input type="hidden" name="__VIEWSTATEENCRYPTED" id="__VIEWSTATEENCRYPTED" value="" />
+	<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="Igw/Ba6CKKEFxgs4AK4Ss3qX61buWv1mDMd5F5EZvm3c8Nw2nWBOdWh1EGmpxLuBWURiFFi3rdp9g8WjnL7dRYI3Vewr7gecy0VzGTk8zrJOaH39+ObYbH+Uz0+ktHALgBo6XRy5LHCwCs18ligIC5/9K4KcyRYfsmP4bUm4NBDXGx+7Br2YjOM7gkoQKm7ox5y7Mfsy3i4UM2KtA0WeNWK6RgrM5BRu+ta5nLNAwIWwlbXRq+VKGO1YOBYefjjSFS6UyiE5IxJEvFgdX8Pq8GdN4Us=" />
+</div>
+                              
+            <div id="templateCss"></div>
+            <script type="text/javascript">
+//<![CDATA[
+Sys.WebForms.PageRequestManager._initialize('sc', 'form1', ['tupdate12','update12'], [], [], 90, '');
+//]]>
+</script>
+
+            <input type="hidden" name="hfGridHtml" id="hfGridHtml" />
+            <div class="container" style='margin-bottom: 50px;'>
+                  <div id="accessories">
+
+                        
+                        <div class="pull-right" style="display: flex">
+                              <div id="voll"></div>
+                              <div id="vollDT"></div>
+                              
+                              
+
+<span class="print-icons">
+<input type="image" name="Print1$print" id="Print1_print" aria-label="Print" src="images/printer_icon.png" alt="print page button" style="padding: 5px 10px 5px 10px;" />
+</span>
+                        </div>
+                  </div>
+                  <input type="hidden" name="hydpermid" id="hydpermid" value="1969366" />
+                  
+
+
+
+                  <div class="innner-page-main-about-us-content-right-part">
+
+                        <div id="MinistryName" class="MinistryNameSubhead text-center">
+                              Ministry of Coal
+                        </div>
+                        
+                        <div id="lg_g"><div class='log_oo'>  <img src='https://static.pib.gov.in/WriteReadData/specificdocs/photo/2026/sep/ph_9768_20260902_10000501.png' alt='azadi ka amrit mahotsav' /> </div></div>
+
+
+
+
+
+                        <div class="text-center event-heading-background">
+                              
+                              <h1 id="Titleh2">
+                                    Progressive Policies of Coal Ministry Result in Faster Allocation of Mines to Private Sector 
+                              </h1>
+                              <h3 id="Subtitleh3">
+                                    <span id="ltrSubtitle"><br/>91 mines auctioned in 3 years under commercial coal mine auctions</span>
+                              </h3>
+                        </div>
+
+                        <div id="PrDateTime" class="ReleaseDateSubHeaddateTime text-center pt20">
+                              Posted On:
+                20 OCT 2023 2:57PM by PIB Delhi
+                        </div>
+                        
+                        <div class='pt20'>
+                        </div>
+                        <input type="hidden" name="hydphotoUrl" id="hydphotoUrl" />
+                        
+                        <p style="text-align:justify"><span style="font-family:&quot;Times New Roman&quot;,Times,serif; font-size:16px">After cancellation of 204 coal mines in 2014, coal mines are being auctioned through a transparent mechanism and for various end uses &ndash; power and non-regulated sectors.</span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">With the maturing of auction-based regime for captive coal mines, &nbsp;and with an aim of boosting the country&#39;s coal production and reducing&nbsp; dependence imports, a well-considered and forward looking policy was brought for commercial mining in 2020.Under the policy, for successful implementation of commercial coal mining and to bring quick decision making, an Empowered Committee of Secretaries (ECoS) comprising Secretary (Department of External Affairs), Secretary (Department of Legal Affairs), Secretary (Ministry of Petroleum and Natural gas) and Secretary (Coal) as members was constituted.</span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; The Government has mandated this group to take decisions on the following matters:</span></span></p>
+
+<ol style="list-style-type:lower-roman; margin-left:40px">
+	<li style="text-align: justify;"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Purpose for which a mine can be auctioned under CMSP Act (Schedule-II and Schedule-III mines).</span></span></li>
+	<li style="text-align: justify;"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Review &amp; determine the incentives allowed for early production &amp; coal gasification or liquefaction.</span></span></li>
+	<li style="text-align: justify;"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Determine the limit of maximum number of coal mines or reserves or any other parameter regarding production of coal</span></span></li>
+	<li style="text-align: justify;"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Issues relating to operationalization of National Coal Index</span></span></li>
+	<li style="text-align: justify;"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">To make changes in efficiency parameters including flexibility given in production</span></span></li>
+	<li style="text-align: justify;"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Review the two stage bidding process</span></span></li>
+	<li style="text-align: justify;"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">In case mine/mines remains unallocated in the auction tranches, the same would be placed before ECoS for appropriate reduction in the floor percentage of revenue share and other terms and conditions</span></span></li>
+	<li style="text-align: justify;"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">In case of single bid after successive rounds of auction for a coal mine, appropriate decision regarding allocation of mine;</span></span></li>
+	<li style="text-align: justify;"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">To revise ceiling of Upfront Amount for future tranches of auction in case there is substantial upward/downward change in market conditions;</span></span></li>
+	<li style="text-align: justify;"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">such other matters that may be referred to this committee including but not limited to viz. auction methodology and matters associated with it, issues in operationalization of blocks allocated for sale of coal etc.</span></span></li>
+</ol>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Nine meetings of &nbsp;ECoS have been held so far and 27 important decisions have been taken. In furtherance of the decisions taken by ECoS, these decisions have been implemented with the approval of Competent Authority.&nbsp; This mechanism has helped in faster and well considered decision making on issues which could have otherwise taken longer time.</span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Commercial coal mine auctions are a tremendous success. Since, first auction of commercial mining in 2020, a total of 91 coal mines have been successfully auctioned during a short period of three years in seven tranches under the commercial coal mining. Out of these 91 coal mines, nine mines have received all the permissions and five coal mines have started production. Production during FY 23 from commercial mines was 7.2 million tonne (MT). </span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">As per methodology for commercial coal mines&rsquo; auctions, in case of less than two Technically Qualified Bidders, for a mine, the first attempt of auction for that mine shall be annulled and the second attempt of auction may be initiated with the approval of the Competent Authority. However, in case of only one bidder again in the second attempt, the matter will be referred to the ECoS for appropriate decision with respect to allocation of mine. Till date, 11 coal mines have been allocated to different bidders with the approval of &nbsp;ECoS based on single bidafter 2<sup>nd</sup> attempt of auction, on the basis of transparency in auction, reasonability of offer and number of rounds the mines have been offered.&nbsp; It may be noted that a large number of mines offered received no bid despite repeated offering during last seven rounds.</span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">The objective of launching the commercial coal mines&rsquo; auction was to increase coal production in the country to meet coal requirement of industries and not revenue maximization, thereby making India <em>Aatmanirbhar</em> in coal.&nbsp; Further, in case of a bidder being declared as the Successful Bidder for a particular coal mine, it has to pay the royalty (@14%), DMF, NMET, GST and GST compensation cess (@ Rs 400) etc. to the respective State Governments in addition to revenue share. Also, coal mining is a high capital intensive industry and huge amount is expended on operationalization of the coal mines which subsequently results in the funds being utilized for development and employment generation in the country.</span></span></p>
+
+<p style="text-align:center"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">*******************</span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><strong>BY/RKP</strong></span></span></p>
+
+
+                        
+                        <div id="reel_pic">
+                        </div>
+
+
+
+                        
+                        <br />
+                        <span id="ReleaseId">(Release ID: 1969366)</span>
+                        <span id="lblViews">Visitor Counter : 2224</span>
+                        <div>
+                              
+                        </div>
+                        
+
+                        <span id="lblRefPhoto"></span>
+
+                        <div class="BackgroundRelease">
+                              
+                        </div>
+                        <div>
+                              
+                        </div>
+                        <div class="ReleaseLang">Read this release in: 
+                        
+                                    
+                                    <a href='https://pib.gov.in/PressReleasePage.aspx?PRID=1969392' target="_blank">
+                                          Urdu </a>
+                              
+                                    ,
+                              
+                                    
+                                    <a href='https://pib.gov.in/PressReleasePage.aspx?PRID=1969395' target="_blank">
+                                          हिन्दी </a>
+                              
+                                    ,
+                              
+                                    
+                                    <a href='https://pib.gov.in/PressReleasePage.aspx?PRID=1969393' target="_blank">
+                                          Marathi </a>
+                              
+                                    ,
+                              
+                                    
+                                    <a href='https://pib.gov.in/PressReleasePage.aspx?PRID=1969515' target="_blank">
+                                          Tamil </a>
+                              
+                                    ,
+                              
+                                    
+                                    <a href='https://pib.gov.in/PressReleasePage.aspx?PRID=1969419' target="_blank">
+                                          Kannada </a>
+                              
+                        </div>
+
+                        <div class="RelTag">
+                              <ul>
+                                    
+                              </ul>
+                        </div>
+                        <div class="clear">
+                        </div>
+                        
+                        <div class="pr-share pr-share--footer" role="group" aria-label="Share this press release">
+                              <span class="pr-share__label" aria-hidden="true">Share</span>
+                              <ul class="pr-share__list">
+                                    <li><a class="pr-share__btn pr-share__btn--facebook"
+                                           href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fpib.gov.in%2fPressReleasePage.aspx%3fPRID%3d1969366"
+                                           target="_blank" rel="noopener noreferrer"
+                                           aria-label="Share on Facebook">
+                                        <svg class="dbim-icon dbim-icon-24" width="24" height="24" fill="currentColor" aria-hidden="true" focusable="false"><use href="#icon-facebook" xlink:href="#icon-facebook"></use></svg>
+                                    </a></li>
+                                    <li><a class="pr-share__btn pr-share__btn--twitter"
+                                           href="https://twitter.com/intent/tweet?url=https%3a%2f%2fpib.gov.in%2fPressReleasePage.aspx%3fPRID%3d1969366"
+                                           target="_blank" rel="noopener noreferrer"
+                                           aria-label="Share on X">
+                                        <svg class="dbim-icon dbim-icon-24" width="24" height="24" fill="currentColor" aria-hidden="true" focusable="false"><use href="#icon-twitter" xlink:href="#icon-twitter"></use></svg>
+                                    </a></li>
+                                    <li><a class="pr-share__btn pr-share__btn--whatsapp"
+                                           href="https://api.whatsapp.com/send?text=https%3a%2f%2fpib.gov.in%2fPressReleasePage.aspx%3fPRID%3d1969366"
+                                           target="_blank" rel="noopener noreferrer"
+                                           aria-label="Share on WhatsApp">
+                                        <svg class="dbim-icon dbim-icon-24" width="24" height="24" fill="currentColor" aria-hidden="true" focusable="false"><use href="#icon-whatsapp" xlink:href="#icon-whatsapp"></use></svg>
+                                    </a></li>
+                                    <li><a class="pr-share__btn pr-share__btn--linkedin"
+                                           href="https://www.linkedin.com/sharing/share-offsite/?url=https%3a%2f%2fpib.gov.in%2fPressReleasePage.aspx%3fPRID%3d1969366"
+                                           target="_blank" rel="noopener noreferrer"
+                                           aria-label="Share on LinkedIn">
+                                        <svg class="dbim-icon dbim-icon-24" width="24" height="24" fill="currentColor" aria-hidden="true" focusable="false"><use href="#icon-linkedin" xlink:href="#icon-linkedin"></use></svg>
+                                    </a></li>
+                                    <li><a class="pr-share__btn pr-share__btn--mail"
+                                           href="mailto:?subject=Press+release+from+PIB&amp;body=https%3a%2f%2fpib.gov.in%2fPressReleasePage.aspx%3fPRID%3d1969366"
+                                           aria-label="Share by email">
+                                        <svg class="dbim-icon dbim-icon-24" width="24" height="24" fill="currentColor" aria-hidden="true" focusable="false"><use href="#icon-mail" xlink:href="#icon-mail"></use></svg>
+                                    </a></li>
+                              </ul>
+                        </div>
+                        <div id="RelLink" class="RelLink">
+                              <ul>
+                                    
+                                    
+                              </ul>
+                        </div>
+                        <center>
+                              
+                        </center>
+                  </div>
+
+                  <div id="update12">
+	
+                              
+                              <input type="hidden" name="Hidden" id="Hidden" />
+                              <div id="P_CategoryManagement" class="ModalWindow" style="border-width:0px;height:60%;width:60%;overflow:auto;display: none">
+		
+                                    <div>
+                                          <input type="image" name="btnClose" id="btnClose" src="images/close_flat_icon.png" />
+                                    </div>
+                                    <div id="description">
+                                    </div>
+                                    <div class="text-center">
+                                          <h2>
+                                                
+                                                <br>
+                                                
+                                          </h2>
+                                    </div>
+                                    <br />
+                                    <div class="clear">
+                                    </div>
+                                    
+                              
+	</div>
+                        
+</div>
+            </div>
+            
+            <div id="PdfDiv" style="display: none;">
+                  <table width="100%">
+                        <tr>
+                              <td style="font-weight: 200; text-align: center">
+                                    Ministry of Coal
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                                    <div style="font-weight: 200; text-align: center; font-size: 30px;">
+                                          Progressive Policies of Coal Ministry Result in Faster Allocation of Mines to Private Sector 
+                                    </div>
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                                    <div style="font-weight: 200; text-align: center; font-size: 30px;">
+                                          <div style='height:30px;width:100%;'></div>91 mines auctioned in 3 years under commercial coal mine auctions
+                                    </div>
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                                    <div style="text-align: center; font-size: 14px;">
+                                          Posted On:
+                        20 OCT 2023 2:57PM by PIB Delhi
+                                    </div>
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                                    <div style="font-weight: 200; text-align: left; font-size: 16px;">
+                                          <p style="text-align:justify"><span style="font-family:&quot;Times New Roman&quot;,Times,serif; font-size:16px">After cancellation of 204 coal mines in 2014, coal mines are being auctioned through a transparent mechanism and for various end uses &ndash; power and non-regulated sectors.</span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">With the maturing of auction-based regime for captive coal mines, &nbsp;and with an aim of boosting the country&#39;s coal production and reducing&nbsp; dependence imports, a well-considered and forward looking policy was brought for commercial mining in 2020.Under the policy, for successful implementation of commercial coal mining and to bring quick decision making, an Empowered Committee of Secretaries (ECoS) comprising Secretary (Department of External Affairs), Secretary (Department of Legal Affairs), Secretary (Ministry of Petroleum and Natural gas) and Secretary (Coal) as members was constituted.</span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; The Government has mandated this group to take decisions on the following matters:</span></span></p>
+
+<ol style="list-style-type:lower-roman; margin-left:40px">
+	<li style="text-align: justify;"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Purpose for which a mine can be auctioned under CMSP Act (Schedule-II and Schedule-III mines).</span></span></li>
+	<li style="text-align: justify;"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Review &amp; determine the incentives allowed for early production &amp; coal gasification or liquefaction.</span></span></li>
+	<li style="text-align: justify;"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Determine the limit of maximum number of coal mines or reserves or any other parameter regarding production of coal</span></span></li>
+	<li style="text-align: justify;"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Issues relating to operationalization of National Coal Index</span></span></li>
+	<li style="text-align: justify;"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">To make changes in efficiency parameters including flexibility given in production</span></span></li>
+	<li style="text-align: justify;"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Review the two stage bidding process</span></span></li>
+	<li style="text-align: justify;"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">In case mine/mines remains unallocated in the auction tranches, the same would be placed before ECoS for appropriate reduction in the floor percentage of revenue share and other terms and conditions</span></span></li>
+	<li style="text-align: justify;"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">In case of single bid after successive rounds of auction for a coal mine, appropriate decision regarding allocation of mine;</span></span></li>
+	<li style="text-align: justify;"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">To revise ceiling of Upfront Amount for future tranches of auction in case there is substantial upward/downward change in market conditions;</span></span></li>
+	<li style="text-align: justify;"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">such other matters that may be referred to this committee including but not limited to viz. auction methodology and matters associated with it, issues in operationalization of blocks allocated for sale of coal etc.</span></span></li>
+</ol>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Nine meetings of &nbsp;ECoS have been held so far and 27 important decisions have been taken. In furtherance of the decisions taken by ECoS, these decisions have been implemented with the approval of Competent Authority.&nbsp; This mechanism has helped in faster and well considered decision making on issues which could have otherwise taken longer time.</span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Commercial coal mine auctions are a tremendous success. Since, first auction of commercial mining in 2020, a total of 91 coal mines have been successfully auctioned during a short period of three years in seven tranches under the commercial coal mining. Out of these 91 coal mines, nine mines have received all the permissions and five coal mines have started production. Production during FY 23 from commercial mines was 7.2 million tonne (MT). </span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">As per methodology for commercial coal mines&rsquo; auctions, in case of less than two Technically Qualified Bidders, for a mine, the first attempt of auction for that mine shall be annulled and the second attempt of auction may be initiated with the approval of the Competent Authority. However, in case of only one bidder again in the second attempt, the matter will be referred to the ECoS for appropriate decision with respect to allocation of mine. Till date, 11 coal mines have been allocated to different bidders with the approval of &nbsp;ECoS based on single bidafter 2<sup>nd</sup> attempt of auction, on the basis of transparency in auction, reasonability of offer and number of rounds the mines have been offered.&nbsp; It may be noted that a large number of mines offered received no bid despite repeated offering during last seven rounds.</span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">The objective of launching the commercial coal mines&rsquo; auction was to increase coal production in the country to meet coal requirement of industries and not revenue maximization, thereby making India <em>Aatmanirbhar</em> in coal.&nbsp; Further, in case of a bidder being declared as the Successful Bidder for a particular coal mine, it has to pay the royalty (@14%), DMF, NMET, GST and GST compensation cess (@ Rs 400) etc. to the respective State Governments in addition to revenue share. Also, coal mining is a high capital intensive industry and huge amount is expended on operationalization of the coal mines which subsequently results in the funds being utilized for development and employment generation in the country.</span></span></p>
+
+<p style="text-align:center"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">*******************</span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><strong>BY/RKP</strong></span></span></p>
+
+                                    </div>
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                                    <div style="font-weight: 100; text-align: left; font-size: 16px;">
+                                          (Release ID: 1969366)
+                                    </div>
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                              </td>
+                        </tr>
+                        <tr>
+                              <td style="font-weight: 200; text-align: center; font-size: 24px;"></td>
+                        </tr>
+                  </table>
+            </div>
+            <div class="clearfix">
+            </div>
+
+            
+
+            <div class="section1">
+                  <div id="frst_t">
+                        <div id="arr_rm"><div class='sticky-social_mb'><ul class='social_mb'><a href='http://www.facebook.com/share.php?u=https://pib.gov.in/PressReleasePage.aspx?PRID=1969366' target='_blank'><li class='fb_b'   ></li></a><a href='https://twitter.com/intent/tweet?url=https://pib.gov.in/PressReleasePage.aspx?PRID=1969366&text=Progressive Policies of Coal Ministry Result in Faster Allocation of Mines to Private Sector ' target='_blank'><li class='twitter_r'  > </li></a><a href='https://api.whatsapp.com/send?text=https://pib.gov.in/PressReleasePage.aspx?PRID=1969366' target='_blank'><li class='whatsapp_r'  ></li></a><a href='https://mail.google.com/mail/?view=cm&fs=1&tf=1&to=&su=Progressive Policies of Coal Ministry Result in Faster Allocation of Mines to Private Sector &body=https://pib.gov.in/PressReleasePage.aspx?PRID=1969366&ui=2&tf=1&pli=1' title='Share by Email' target='_blank'><li class='fa-envelope_r' ></li></a><a href='https://www.linkedin.com/shareArticle?mini=true&url=https://pib.gov.in/PressReleasePage.aspx?PRID=1969366&title=Progressive Policies of Coal Ministry Result in Faster Allocation of Mines to Private Sector &summary=My%20favorite%20developer%20program&source=LinkedIn' target='_blank'><li class='fa-linkedin_r'  ></li></a></ul></div></div>
+                  </div>
+                  <div id="second_t">
+                        <div id="sndr_rm"><div class='sticky-social'><ul class='social'><a href='http://www.facebook.com/share.php?u=https://pib.gov.in/PressReleasePage.aspx?PRID=1969366' target='_blank'><li class='fb_b'   ></li></a><a href='https://twitter.com/intent/tweet?url=https://pib.gov.in/PressReleasePage.aspx?PRID=1969366&text=Progressive Policies of Coal Ministry Result in Faster Allocation of Mines to Private Sector ' target='_blank'><li class='twitter_r'  > </li></a><a href='https://api.whatsapp.com/send?text=https://pib.gov.in/PressReleasePage.aspx?PRID=1969366' target='_blank'><li class='whatsapp_r'  ></li></a><a href='https://mail.google.com/mail/?view=cm&fs=1&tf=1&to=&su=Progressive Policies of Coal Ministry Result in Faster Allocation of Mines to Private Sector &body=https://pib.gov.in/PressReleasePage.aspx?PRID=1969366&ui=2&tf=1&pli=1' title='Share by Email' target='_blank'><li class='fa-envelope_r' ></li></a><a href='https://www.linkedin.com/shareArticle?mini=true&url=https://pib.gov.in/PressReleasePage.aspx?PRID=1969366&title=Progressive Policies of Coal Ministry Result in Faster Allocation of Mines to Private Sector &summary=My%20favorite%20developer%20program&source=LinkedIn' target='_blank'><li class='fa-linkedin_r'  ></li></a></ul></div></div>
+                  </div>
+            </div>
+            <input type="hidden" name="ltrTitlee" id="ltrTitlee" value="Progressive Policies of Coal Ministry Result in Faster Allocation of Mines to Private Sector " />
+            <input type="hidden" name="ltrSubtitlee" id="ltrSubtitlee" value="&lt;br/>91 mines auctioned in 3 years under commercial coal mine auctions" />
+            <input type="hidden" name="ltrDescriptionn" id="ltrDescriptionn" value="&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:&amp;quot;Times New Roman&amp;quot;,Times,serif; font-size:16px&quot;>After cancellation of 204 coal mines in 2014, coal mines are being auctioned through a transparent mechanism and for various end uses &amp;ndash; power and non-regulated sectors.&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>With the maturing of auction-based regime for captive coal mines, &amp;nbsp;and with an aim of boosting the country&amp;#39;s coal production and reducing&amp;nbsp; dependence imports, a well-considered and forward looking policy was brought for commercial mining in 2020.Under the policy, for successful implementation of commercial coal mining and to bring quick decision making, an Empowered Committee of Secretaries (ECoS) comprising Secretary (Department of External Affairs), Secretary (Department of Legal Affairs), Secretary (Ministry of Petroleum and Natural gas) and Secretary (Coal) as members was constituted.&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; The Government has mandated this group to take decisions on the following matters:&lt;/span>&lt;/span>&lt;/p>
+
+
+	&lt;li style=&quot;text-align: justify;&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>Purpose for which a mine can be auctioned under CMSP Act (Schedule-II and Schedule-III mines).&lt;/span>&lt;/span>&lt;/li>
+	&lt;li style=&quot;text-align: justify;&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>Review &amp;amp; determine the incentives allowed for early production &amp;amp; coal gasification or liquefaction.&lt;/span>&lt;/span>&lt;/li>
+	&lt;li style=&quot;text-align: justify;&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>Determine the limit of maximum number of coal mines or reserves or any other parameter regarding production of coal&lt;/span>&lt;/span>&lt;/li>
+	&lt;li style=&quot;text-align: justify;&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>Issues relating to operationalization of National Coal Index&lt;/span>&lt;/span>&lt;/li>
+	&lt;li style=&quot;text-align: justify;&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>To make changes in efficiency parameters including flexibility given in production&lt;/span>&lt;/span>&lt;/li>
+	&lt;li style=&quot;text-align: justify;&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>Review the two stage bidding process&lt;/span>&lt;/span>&lt;/li>
+	&lt;li style=&quot;text-align: justify;&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>In case mine/mines remains unallocated in the auction tranches, the same would be placed before ECoS for appropriate reduction in the floor percentage of revenue share and other terms and conditions&lt;/span>&lt;/span>&lt;/li>
+	&lt;li style=&quot;text-align: justify;&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>In case of single bid after successive rounds of auction for a coal mine, appropriate decision regarding allocation of mine;&lt;/span>&lt;/span>&lt;/li>
+	&lt;li style=&quot;text-align: justify;&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>To revise ceiling of Upfront Amount for future tranches of auction in case there is substantial upward/downward change in market conditions;&lt;/span>&lt;/span>&lt;/li>
+	&lt;li style=&quot;text-align: justify;&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>such other matters that may be referred to this committee including but not limited to viz. auction methodology and matters associated with it, issues in operationalization of blocks allocated for sale of coal etc.&lt;/span>&lt;/span>&lt;/li>
+
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>Nine meetings of &amp;nbsp;ECoS have been held so far and 27 important decisions have been taken. In furtherance of the decisions taken by ECoS, these decisions have been implemented with the approval of Competent Authority.&amp;nbsp; This mechanism has helped in faster and well considered decision making on issues which could have otherwise taken longer time.&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>Commercial coal mine auctions are a tremendous success. Since, first auction of commercial mining in 2020, a total of 91 coal mines have been successfully auctioned during a short period of three years in seven tranches under the commercial coal mining. Out of these 91 coal mines, nine mines have received all the permissions and five coal mines have started production. Production during FY 23 from commercial mines was 7.2 million tonne (MT). &lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>As per methodology for commercial coal mines&amp;rsquo; auctions, in case of less than two Technically Qualified Bidders, for a mine, the first attempt of auction for that mine shall be annulled and the second attempt of auction may be initiated with the approval of the Competent Authority. However, in case of only one bidder again in the second attempt, the matter will be referred to the ECoS for appropriate decision with respect to allocation of mine. Till date, 11 coal mines have been allocated to different bidders with the approval of &amp;nbsp;ECoS based on single bidafter 2nd attempt of auction, on the basis of transparency in auction, reasonability of offer and number of rounds the mines have been offered.&amp;nbsp; It may be noted that a large number of mines offered received no bid despite repeated offering during last seven rounds.&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>The objective of launching the commercial coal mines&amp;rsquo; auction was to increase coal production in the country to meet coal requirement of industries and not revenue maximization, thereby making India &lt;em>Aatmanirbhar&lt;/em> in coal.&amp;nbsp; Further, in case of a bidder being declared as the Successful Bidder for a particular coal mine, it has to pay the royalty (@14%), DMF, NMET, GST and GST compensation cess (@ Rs 400) etc. to the respective State Governments in addition to revenue share. Also, coal mining is a high capital intensive industry and huge amount is expended on operationalization of the coal mines which subsequently results in the funds being utilized for development and employment generation in the country.&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:center&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>*******************&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>&lt;strong>BY/RKP&lt;/strong>&lt;/span>&lt;/span>&lt;/p>
+" />
+            <script type="text/javascript">
+                  var mPlayer = document.getElementById("background_music");
+                  var mPlayAction = document.getElementById("playbutton");
+
+                  var isPlaying = false;
+
+                  function playAudio() {
+                        mPlayer.play();
+                        isPlaying = true;
+                        document.getElementById('stopA').style.display = "block";
+                        document.getElementById('playA').style.display = "none";
+                  }
+
+                  function pauseAudio() {
+                        mPlayer.pause();
+                        isPlaying = false;
+                        document.getElementById('playA').style.display = "block";
+                        document.getElementById('stopA').style.display = "none";
+                  }
+                  //function HandleAudio() {
+                  //    if (isPlaying == true) {
+                  //        //Playing already Pause it
+                  //        pauseAudio();
+                  //    } else {
+                  //        //Play the music
+                  //        playAudio();
+                  //    }
+                  //}
+            </script>
+            <script type="text/javascript">
+                  var synth = window.speechSynthesis;
+
+            
+                  function CleanHtml(html) {
+
+                        html = html.replace(/<script[\s\S]*?<\/script>/gi, '');
+
+                        return html;
+                  }
+                  function stripHtml(html) {
+                        let tmp = document.createElement("DIV");
+                        tmp.innerHTML = CleanHtml(html);
+                        return tmp.textContent || tmp.innerText || "";
+                  }
+            </script>
+            <script type="text/javascript">
+                  $(document).ready(function () {
+                        //for responsive tables
+                        $("table").each(function () {
+                              if (!$(this).closest(".table-responsive").length) {
+                                    $(this).wrap("<div class='table-responsive'></div>");
+                              }
+                        });
+
+                        var width = $(window).width();
+                        if (width < 768) {
+
+                              // Extra Small Device
+                              document.getElementById('frst_t').style.display = "block";
+                              document.getElementById('second_t').style.display = "none";
+
+                        } else if (width < 991) {
+                              document.getElementById('frst_t').style.display = "block";
+                              document.getElementById('second_t').style.display = "none";
+                              // Small Device
+
+                        } else if (width < 1199) {
+                              document.getElementById('frst_t').style.display = "none";
+                              document.getElementById('second_t').style.display = "block";
+                              // Medium Device
+
+                        } else {
+                              document.getElementById('frst_t').style.display = "none";
+                              document.getElementById('second_t').style.display = "block";
+                              // Large Device
+
+                        }
+                  });
+            </script>
+            <script type="text/javascript">
+                  $(document).ready(function () {
+                        var width = $(window).width();
+                        if (width < 768) {
+
+                              // Extra Small Device
+                              document.getElementById('frst_t').style.display = "block";
+                              document.getElementById('second_t').style.display = "none";
+
+                        } else if (width < 991) {
+                              document.getElementById('frst_t').style.display = "block";
+                              document.getElementById('second_t').style.display = "none";
+                              // Small Device
+
+                        } else if (width < 1199) {
+                              document.getElementById('frst_t').style.display = "none";
+                              document.getElementById('second_t').style.display = "block";
+                              // Medium Device
+
+                        } else {
+                              document.getElementById('frst_t').style.display = "none";
+                              document.getElementById('second_t').style.display = "block";
+                              // Large Device
+
+                        }
+                  });
+            </script>
+            
+            <style type="text/css">
+                  @media print {
+                        .sticky-social, .sticky-social_mb, .pull-right, #printPDF {
+                              display: none !important;
+                        }
+                  }
+
+                  .f_vl {
+                        padding-right: 30px;
+                        font-size: 17px;
+                        cursor: pointer;
+                  }
+
+                  .log_oo {
+                        // width: 20%;
+                        display: flex;
+                        justify-content: space-between;
+                  }
+
+                        .log_oo img {
+                              width: 150px;
+                              /*width: 100%;
+                    height: auto;*/
+                        }
+
+                  .sticky-social_mb {
+                        position: fixed;
+                        bottom: 0px;
+                        padding: 0px;
+                        margin: 0px;
+                        width: 100%;
+                  }
+
+                  .social_mb {
+                        list-style: none;
+                        display: flex;
+                        width: 100%;
+                        margin-bottom: -8px;
+                  }
+
+                        .social_mb a {
+                              padding: 8px 0px;
+                              font-size: 30px;
+                              transition: all 0.8s ease-in-out;
+                              width: 20% !important;
+                              text-align: center;
+                        }
+            </style>
+            <style type="text/css">
+                  .section1 {
+                        position: relative;
+                        padding: 10px 0px;
+                        width: 100%;
+                  }
+
+
+
+                  .sticky-social {
+                        position: fixed;
+                        top: 20px;
+                        left: 0px;
+                        padding: 0px;
+                        margin: 0px;
+                  }
+
+                  .social {
+                        list-style: none;
+                  }
+
+                        .social a li {
+                              padding: 8px 12px;
+                              font-size: 25px;
+                              transition: all 0.8s ease-in-out;
+                        }
+
+                              .social a li:hover {
+                                    margin-right: -30px;
+                                    box-shadow: 2px 5px 10px grey;
+                              }
+
+                                    .social a li:hover .fa {
+                                          margin-left: 20px;
+                                    }
+
+                  .fb_b {
+                        /* background-color: var(--dbim-key, #0F5757);*/
+                        background-color: var(--dbim-key, #0F5757);
+                  }
+
+                  .twitter_r {
+                        /* background-color: rgb(29, 161, 242);*/
+                        background-color: var(--dbim-key, #0F5757);
+                  }
+
+                  .whatsapp_r {
+                        /* background-color: var(--dbim-key, #0F5757);*/
+                        background-color: var(--dbim-key, #0F5757);
+                  }
+
+                  .fa-envelope_r {
+                        /* background-color: var(--dbim-key, #0F5757);*/
+                        background-color: var(--dbim-key, #0F5757);
+                  }
+
+                  .fa-linkedin_r {
+                        background-color: var(--dbim-key, #0F5757);
+                  }
+            </style>
+            <style type="text/css">
+                  @media only screen and (max-device-width: 767px) {
+                        p span img {
+                              max-width: 90% !important;
+                              height: auto !important;
+                        }
+
+                        p img {
+                              max-width: 90% !important;
+                              height: auto !important;
+                        }
+
+                        h2 {
+                              font-size: var(--dbim-h2, 20px);   /* was 20px !important - the !important blocked A+/A- */
+                              font-weight: 600 !important;
+                        }
+
+                        h3 {
+                              font-size: var(--dbim-h3, 16px);   /* was 16px !important */
+                              font-weight: 600 !important;
+                        }
+                  }
+            </style>
+            <style type="text/css">
+                  /* === Film Roll Badge Styling(IFFI2025 countdown) === */
+                  .film-roll-badge {
+                        position: absolute;
+                        top:82%;
+                        right: 20px;
+                        width: 230px;
+                        height: 70px;
+                        background: repeating-linear-gradient( to right, var(--dbim-green-key, #0F5757) 0px, var(--dbim-green-key, #0F5757) 18px, var(--dbim-text, #150202) 18px, var(--dbim-text, #150202) 36px );
+                        border-top: 8px solid var(--dbim-green-key, #0F5757);
+                        border-bottom: 8px solid var(--dbim-green-key, #0F5757);
+                        border-radius: 8px;
+                        overflow: hidden;
+                        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+                        animation: moveFilm 8s linear infinite;
+                        z-index: 10;
+                  }
+
+                        /* film sprocket holes */
+                        .film-roll-badge::before,
+                        .film-roll-badge::after {
+                              content: "";
+                              position: absolute;
+                              width: 100%;
+                              height: 10px;
+                              background: repeating-linear-gradient( to right, var(--dbim-green-key, #0F5757) 0px, var(--dbim-green-key, #0F5757) 10px, #fff 10px, #fff 20px );
+                              left: 0;
+                              z-index: 2;
+                        }
+
+                        .film-roll-badge::before {
+                              top: -4px;
+                        }
+
+                        .film-roll-badge::after {
+                              bottom: -4px;
+                        }
+
+                  .film-roll-inner {
+                        position: relative;
+                        height: 100%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        animation: flicker 2s infinite ease-in-out;
+                  }
+
+                  .countdown-text {
+                        font-size: 1.3rem;
+                        font-weight: 700;
+                        color: #fff;
+                        text-shadow: 0 0 6px rgba(255, 255, 255, 0.4), 0 0 10px #000;
+                        white-space: nowrap;
+                  }
+
+                  /* === Animations === */
+                  @keyframes moveFilm {
+                        0% {
+                              background-position: 0 0;
+                        }
+
+                        100% {
+                              background-position: 120px 0;
+                        }
+                  }
+
+                  @keyframes flicker {
+                        0%, 100% {
+                              opacity: 1;
+                        }
+
+                        50% {
+                              opacity: 0.9;
+                        }
+
+                        25% {
+                              opacity: 0.95;
+                        }
+
+                        75% {
+                              opacity: 0.85;
+                        }
+                  }
+
+                  /* === Responsive Adjustments === */
+                  @media (max-width: 1500px) {
+                        .film-roll-badge {
+                              top: 68%;
+                              right: 18px;
+                              /* width: 220px; */
+                              height: 65px;
+                              font-size: 0.85rem;
+                        }
+
+                        .press-section {
+                              margin-top: 35px;
+                        }
+                  }
+
+                  @media (max-width: 992px) {
+                        .film-roll-badge {
+                              top: 52%;
+                              right: 10px;
+                               width: 200px; 
+                              height: 60px;
+                        }
+                  }
+
+                  @media (max-width: 768px) {
+                        .film-roll-badge {
+                              top: 56%;
+                              right: 10px;
+                               width: 124px; 
+                              height: 55px;
+                        }
+
+                        .countdown-text {
+                              font-size: 0.9rem;
+                        }
+                  }
+
+                  @media (max-width: 576px) {
+                        .film-roll-badge {
+                              top: 59%;
+                              right: 5px;
+                              /* width: 160px; */
+                              height: 50px;
+                        }
+
+                        .countdown-text {
+                              font-size: 0.85rem;
+                        }
+                  }
+            </style>
+          <script type="text/javascript">
+                const festivalStart = new Date("2025-11-20T00:00:00").getTime();
+                const festivalEnd = new Date("2025-11-28T23:59:59").getTime();
+
+                const countdownElement = document.getElementById("countdown");
+
+                const interval = setInterval(() => {
+                      const now = new Date().getTime();
+
+                      // BEFORE FESTIVAL — show days + hours left
+                      if (now < festivalStart) {
+                            const diff = festivalStart - now;
+                            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+
+                            countdownElement.innerHTML = `
+              ${days} Day${days !== 1 ? 's' : ''} 
+              ${hours} Hour${hours !== 1 ? 's' : ''} to go
+          `;
+
+                      }
+
+                      // DURING FESTIVAL — show 56th IFFI - Day X
+                      else if (now >= festivalStart && now <= festivalEnd) {
+                            const dayNumber = Math.floor((now - festivalStart) / (1000 * 60 * 60 * 24)) + 1;
+                            countdownElement.innerHTML = `56th IFFI - Day ${dayNumber}`;
+                      }
+
+                      // AFTER FESTIVAL — new message
+                      else {
+                            countdownElement.innerHTML = `✨ IFFI closes but never ends…`;
+
+                            // Width change logic
+                            const elements = document.querySelectorAll('.film-roll-badge');
+                            elements.forEach(el => el.style.width = "350px");
+
+                            clearInterval(interval);
+                      }
+
+                }, 1000);
+          </script>
+ <script type="text/javascript">
+
+               const miffStart = new Date("2026-06-15T00:00:00").getTime();
+               const miffEnd = new Date("2026-06-15T23:59:59").getTime();
+
+               const miffElement = document.getElementById("miff");
+
+               if (miffElement) {
+
+                   const miffInterval = setInterval(() => {
+
+                       const now = new Date().getTime();
+
+                       // Before MIFF
+                       if (now < miffStart) {
+
+                           const diff = miffStart - now;
+                           const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                           const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+
+        
+
+                   /*  miffElement.innerHTML = `${days} Day${days !== 1 ? 's' : ''} ${hours} Hour${hours !== 1 ? 's' : ''} to MIFF`;*/
+                           miffElement.innerHTML = `${days} Day${days === 1 ? '' : 's'} to MIFF ...`;
+
+
+                     }
+
+                       // During MIFF
+                       else if (now >= miffStart && now <= miffEnd) {
+
+                           const dayNumber =
+                               Math.floor((now - miffStart) / (1000 * 60 * 60 * 24)) + 1;
+
+                           miffElement.innerHTML = `19th MIFF - Day ${dayNumber}`;
+                       }
+
+                       // After MIFF
+                       else {
+
+                           miffElement.innerHTML = `✨ MIFF concludes, cinema lives on...`;
+
+                           document.querySelectorAll('.film-roll-badge')
+                               .forEach(el => el.style.width = "350px");
+
+                           clearInterval(miffInterval);
+                       }
+
+                   }, 1000);
+               }
+
+</script>
+
+      
+
+<script type="text/javascript">
+//<![CDATA[
+(function() {var fn = function() {$get("sc_HiddenField").value = '';Sys.Application.remove_init(fn);};Sys.Application.add_init(fn);})();Sys.Application.add_init(function() {
+    $create(Sys.Extended.UI.ModalPopupBehavior, {"BackgroundCssClass":"modalBackground","PopupControlID":"P_CategoryManagement","dynamicServicePath":"/PressReleasePage.aspx","id":"mpe"}, null, null, $get("Hidden"));
+});
+//]]>
+</script>
+<input type="hidden" name="__ncforminfo" value="QicDJfvrH64iDjb66kKAiPSeI6_o2xOOFIf0TC7IVLWdotQG5iFLK2M09-7qxtYgYan0fQm5sGqdQwfXZoMINSfqclzAHB0HiI5UAIR4pGSqLohNe85NrA=="/></form>
+      
+      
+
+<script type="application/json" id="pibConsentConfig">{"ga4Id":"G-Q414Y0X6EE,G-QJJ6LZ8LHV","policyUrl":"/CookiePolicy.aspx","text":{"bannerLabel":"Cookie consent","title":"Cookies on this website","body":"We use essential cookies to make this website work. We also set analytics cookies when you arrive, so we can see how the site is used and improve it - you can switch these off below or at any time from the Cookie Policy page. Cookies from embedded social media content are set only if you allow them.","policyLink":"Read our Cookie Policy","accept":"Accept all","reject":"Reject optional","customize":"Customise","prefsTitle":"Cookie preferences","prefsIntro":"Choose which cookies this website may set. Essential cookies cannot be switched off because the site does not work without them. Analytics cookies are on unless you turn them off. Social media cookies stay off until you allow them. You can change these choices at any time from the Cookie Policy page.","essentialName":"Essential cookies","essentialDesc":"Needed for the site to function. These remember your session, your language and region, your text size and colour theme, and verify the security check on forms. They are always on.","analyticsName":"Analytics cookies","analyticsDesc":"Help us understand how visitors use the site - which pages are read and how long people stay - so it can be improved. The information is collected in a form that does not directly identify you. These are on when you arrive; switching them off here stops them and deletes the ones already set.","socialName":"Social media cookies","socialDesc":"Set by content embedded from X, Facebook and YouTube, such as timelines and videos. These platforms may use them to track you across websites. They stay off until you allow them.","save":"Save preferences","cancel":"Cancel"}}</script>
+<script type="text/javascript" src='/js/consent.js?v=10'></script>
+
+<script type="text/javascript" src='/js/consent-embeds.js?v=10'></script>
+
+    
+
+<script type="text/javascript">
+    (function () {
+        try {
+            if (window.self === window.top) { return; }
+        } catch (e) { return; }
+        var s = document.createElement("style");
+        s.textContent =
+            ".sticky-social, .sticky-social_mb { display: none !important; }";
+        (document.head || document.documentElement).appendChild(s);
+    }());
+</script>
+</body>
+</html>
+

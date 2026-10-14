@@ -20,6 +20,7 @@ const navGroups: { label: string; items: { path: string; label: string; icon: ty
       { path: '/research-radar', label: 'Research radar', icon: Telescope },
       { path: '/model-lab', label: 'Evidence model lab', icon: Network },
       { path: '/funding-investigations', label: 'Funding investigations', icon: FolderKanban },
+      { path: '/hypothesis-lab', label: 'Coordination hypotheses', icon: GitBranch },
       { path: '/money-trails', label: 'Trace investigations', icon: Waypoints },
       { path: '/follow-the-money', label: 'Follow the money', icon: GitBranch },
       { path: '/map', label: 'NSE / BSE map', icon: Map },
@@ -215,6 +216,7 @@ export default function Layout() {
             { path: '/research-radar', label: 'Research radar', icon: Telescope },
             { path: '/model-lab', label: 'Model lab', icon: Network },
             { path: '/funding-investigations', label: 'Funding investigations', icon: FolderKanban },
+            { path: '/hypothesis-lab', label: 'Coordination hypotheses', icon: GitBranch },
             { path: '/money-trails', label: 'Trace investigations', icon: Waypoints },
             { path: '/follow-the-money', label: 'Money trails', icon: GitBranch },
             { path: '/allegations', label: 'Allegations', icon: ShieldCheck },
@@ -235,9 +237,9 @@ export default function Layout() {
             <button type="button" ref={menuRef} className="mobile-menu-button iw-all-lenses-button" aria-label="Open navigation" aria-expanded={mobileMenuOpen} aria-controls="site-nav-mobile" onClick={event => { menuRef.current = event.currentTarget; setMobileMenuOpen(true); }}><Menu size={21} aria-hidden="true" /></button>
           </div>
         </header>
-        <nav ref={sectorRef} className="atlas-mobile-sectors" aria-label="Sector shortcuts"><NavLink to={contextualRoute('/', location.search, location.pathname)} end><Globe2 size={15} aria-hidden="true" />All India</NavLink><NavLink to="/research-radar"><Telescope size={15} aria-hidden="true" />Research radar</NavLink><NavLink to="/funding-investigations"><FolderKanban size={15} aria-hidden="true" />Funding investigations</NavLink><NavLink to="/money-trails"><Waypoints size={15} aria-hidden="true" />Trace investigations</NavLink><NavLink to={contextualRoute('/follow-the-money', location.search, location.pathname)}><GitBranch size={15} aria-hidden="true" />Money trails</NavLink><NavLink to="/allegations"><ShieldCheck size={15} aria-hidden="true" />Allegations</NavLink>{sectorNavigation.map(({ path, label, icon: Icon }) => <NavLink key={path} to={contextualRoute(path, location.search, location.pathname)}><Icon size={15} aria-hidden="true" />{label}</NavLink>)}</nav>
+        <nav ref={sectorRef} className="atlas-mobile-sectors" aria-label="Sector shortcuts"><NavLink to={contextualRoute('/', location.search, location.pathname)} end><Globe2 size={15} aria-hidden="true" />All India</NavLink><NavLink to="/research-radar"><Telescope size={15} aria-hidden="true" />Research radar</NavLink><NavLink to="/funding-investigations"><FolderKanban size={15} aria-hidden="true" />Funding investigations</NavLink><NavLink to="/hypothesis-lab"><GitBranch size={15} aria-hidden="true" />Coordination hypotheses</NavLink><NavLink to="/money-trails"><Waypoints size={15} aria-hidden="true" />Trace investigations</NavLink><NavLink to={contextualRoute('/follow-the-money', location.search, location.pathname)}><GitBranch size={15} aria-hidden="true" />Money trails</NavLink><NavLink to="/allegations"><ShieldCheck size={15} aria-hidden="true" />Allegations</NavLink>{sectorNavigation.map(({ path, label, icon: Icon }) => <NavLink key={path} to={contextualRoute(path, location.search, location.pathname)}><Icon size={15} aria-hidden="true" />{label}</NavLink>)}</nav>
         <main id="main-content" ref={mainRef} tabIndex={-1} className="site-main">
-          <div className="site-content iw-shell-content">{['/follow-the-money', '/money-trails', '/research-radar', '/model-lab', '/funding-investigations', '/allegations'].includes(location.pathname) ? <Outlet /> : <Workspace routeTitle={routeTitle} routeKey={location.pathname}><Outlet /></Workspace>}</div>
+          <div className="site-content iw-shell-content">{['/follow-the-money', '/money-trails', '/research-radar', '/model-lab', '/funding-investigations', '/hypothesis-lab', '/allegations'].includes(location.pathname) ? <Outlet /> : <Workspace routeTitle={routeTitle} routeKey={location.pathname}><Outlet /></Workspace>}</div>
         </main>
       </div>
 

@@ -68,7 +68,7 @@ export function buildMapEvidenceScene(registry:InvestigationRegistry,filters:Inv
   return {id:edge.id,fromEntityId:edge.from,toEntityId:edge.to,fromPlacementIds,toPlacementIds,
    fromPlacementId:fromPlacementIds.length===1?fromPlacementIds[0]:undefined,toPlacementId:toPlacementIds.length===1?toPlacementIds[0]:undefined,
    relationshipIds:[edge.id],sourceIds:references(edge),responseIds:[...edge.responseIds],label:edge.label,direction:relationshipDirected(edge.kind)?'directed' as const:'undirected' as const,tier:edge.tier,status:edge.status,
-   qualification:'Recorded relationship between exact identities. State anchors are schematic associations; a connecting line is not a verified travel, payment or influence route. Read the original direction and monetary stage.'};
+   qualification:edge.id.startsWith('question:')&&edge.tier==='analytic'?'Unestablished question between source-scoped identities. Contextual sources do not prove this connection. State anchors are schematic associations, not inferred activity or payment locations.':'Recorded relationship between exact identities. State anchors are schematic associations; a connecting line is not a verified travel, payment or influence route. Read the original direction and monetary stage.'};
  });
  const classify=(test:(row:EvidenceRow)=>boolean)=>population(entities.filter(test),records.filter(test),relationships.filter(test));
  // An entity association can place a schematic hub while the event's own location remains unknown.
@@ -84,8 +84,13 @@ export function getEvidenceReaderModel(registry:InvestigationRegistry,selection:
  const entities=new Map(registry.entities.map(row=>[row.id,row]));
  const relationships=selection.kind==='entity'?registry.relationships.filter(row=>row.from===selection.id||row.to===selection.id):closure.relationships;
  const responses=new Set(closure.relationships.flatMap(row=>row.responseIds));
+ const directResponseIds=new Set(selection.kind==='relationship'?registry.relationships.find(row=>row.id===selection.id)?.responseIds??[]:[]);
+ // A case record closes over several edges. Its first response may concern a
+ // different transaction, so prefer the selected edge's explicit response IDs.
+ const responseRows=closure.records.filter(row=>responses.has(row.id)).sort((a,b)=>Number(directResponseIds.has(b.id))-Number(directResponseIds.has(a.id)));
+ const primaryResponse=selection.kind==='relationship'?responseRows.find(row=>directResponseIds.has(row.id)):responseRows[0];
  const neighborIds=unique(relationships.flatMap(row=>[row.from,row.to]).filter(id=>selection.kind!=='entity'||id!==selection.id));
- return {closure,relationships,neighbors:neighborIds.map(id=>entities.get(id)).filter((row):row is InvestigationEntity=>!!row),responses:closure.records.filter(row=>responses.has(row.id)),records:closure.records.filter(row=>!responses.has(row.id))};
+ return {closure,relationships,neighbors:neighborIds.map(id=>entities.get(id)).filter((row):row is InvestigationEntity=>!!row),responses:responseRows,primaryResponse,records:closure.records.filter(row=>!responses.has(row.id))};
 }
 
 export function searchEvidenceConnections(registry:InvestigationRegistry,relationships:InvestigationRelationship[],query='',page=1,pageSize=12) {

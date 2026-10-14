@@ -89,6 +89,9 @@ jobs:
       - name: Funding investigation sources, graph stages and decision-analysis guards
         run: npm run validate:funding && npm run test:funding
 
+      - name: Coordination hypothesis provenance and inference guards
+        run: npm run validate:hypotheses && npm run test:hypotheses
+
       - name: Typecheck and build
         run: npm run build
 
@@ -100,6 +103,9 @@ jobs:
 
       - name: Funding investigation map, sources and research workflow
         run: npm run test:funding:browser
+
+      - name: Coordination hypothesis map, questions and evidence workflow
+        run: npm run test:hypotheses:browser
 
       - name: Education research workflow
         run: npm run test:education:browser

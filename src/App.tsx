@@ -60,6 +60,7 @@ const MoneyTrails = lazy(() => import('./pages/MoneyTrails'));
 const ResearchRadar = lazy(() => import('./pages/ResearchRadar'));
 const ModelLab = lazy(() => import('./pages/ModelLab'));
 const FundingInvestigations = lazy(() => import('./pages/FundingInvestigations'));
+const HypothesisLab = lazy(() => import('./pages/HypothesisLab'));
 const Allegations = lazy(() => import('./pages/Allegations'));
 
 /**
@@ -93,6 +94,7 @@ function App() {
                     <Route path="/research-radar" element={<ResearchRadar />} />
                     <Route path="/model-lab" element={<ModelLab />} />
                     <Route path="/funding-investigations" element={<FundingInvestigations />} />
+                    <Route path="/hypothesis-lab" element={<HypothesisLab />} />
                     <Route path="/allegations" element={<Allegations />} />
                     <Route path="/international-finance" element={<InvestigationDossier domain="international-finance" />} />
                     <Route path="/defence-trade" element={<InvestigationDossier domain="defence-trade" />} />
