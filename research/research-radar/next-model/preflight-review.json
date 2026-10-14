@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "approved": true,
+  "reviewer": "/root/next_evaluation",
+  "reviewedAtUtc": "2026-10-08T17:35:26.377435+00:00",
+  "freezeSha256": "94c5dfa9d0107f6922be63f1de2b0459557f2ce448d978ef33b8e91c9c29359d",
+  "newCandidateOutputsInspected": false,
+  "newHoldoutUsedForSelection": false,
+  "checks": [
+    "Finite two-family/four-configuration/three-epoch experiment matches protocol.",
+    "Full exact-hash corpus, code and source-label bindings verified.",
+    "All independent positive/counterevidence source IDs are test-only.",
+    "Gradient documents and explicit query-specific positives/negatives limited to train.",
+    "Development encoder/index excludes all test source text.",
+    "Unknown in-batch documents receive no negative loss.",
+    "Counterevidence metadata independently reviewed: 17 training and 5 development questions.",
+    "Uniform-positive cross entropy, LoRA-only weights, base immutability and optimizer step recording inspected.",
+    "Development-only deterministic selection rule; fusion compares against identical untuned fusion.",
+    "Independent final test is not opened by trainer; no automatic default promotion.",
+    "Synthetic smoke uses no corpus/test questions. Progress logging after smoke changes trainer hash but not objective; reviewed current code."
+  ],
+  "scope": "AI-agent code/data review before execution; not a guarantee of model improvement or factual truth."
+}

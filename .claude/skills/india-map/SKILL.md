@@ -5,10 +5,46 @@ description: Render the accurate India state/UT map used across ICIP — geometr
 
 # India Map
 
-## The geometry
+## Choose the boundary era explicitly
 
-`src/data/india-geo.json` — 36 states and UTs, `viewBox "0 0 612 696"`, derived
-from `@svg-maps/india`. Each entry:
+For the shared investigation workspace, use
+`src/components/investigation/assets/india-current36.json` through
+`InvestigationMap.tsx`. This is the current **36-unit administrative roster**:
+separate Jammu and Kashmir / Ladakh, and the merged Dadra and Nagar Haveli and
+Daman and Diu. The geometry comes from the LGD/BharatMaps state-boundary service,
+via ramSeraph and DataMeet, under the explicitly linked CC0-1.0 licence. Exact
+source URL, archive digest, retrieval date, projection, simplification and
+boundary-scope notes live in the asset and its adjacent `README.md`. Its upstream
+survey/snapshot date is not established; do not invent one from a rehost's date.
+
+The current asset has a `0 0 640 720` viewBox, uppercase `code`, real `path`,
+`x`/`y` pole-of-inaccessibility anchors, `clearance`, `parts` and explicit LGD
+identities. Its generator retains all 832 polygon components. Regenerate only
+with `scripts/investigation/build-map.py`, which verifies the pinned source
+archive hash. Preserve the upstream geometry and its stated boundary scope;
+do not add an independent assertion resolving territorial disputes.
+
+**Legacy boundary tags must not silently become current geography.** The old
+lowercase `jk` refers to an undivided boundary; old `dn` and `dd` are separate
+pre-merger units. Do not assign these to current `JK`, `LA` or `DN`, or split
+historical values proportionally, without a sourced temporal crosswalk. The
+investigation registry withholds those ambiguous legacy placements. Explicit
+current uppercase codes remain valid. Distinguish project/programme/institution
+coverage from headquarters, constituency or generic state association. Keep
+national and unknown geography unlocated.
+
+A record-count map describes the curated corpus, not site incidence, funding
+amounts or misconduct. Zero matching records means no recorded matches in that
+filter; it does not establish no activity. Explain multi-state double-presence
+and show national/unknown counts separately.
+
+## Legacy geometry — historical displays only
+
+`src/data/india-geo.json` contains **36 older geographic units**, not the current
+36-unit roster: undivided Jammu and Kashmir, no Ladakh, and separate Dadra and
+Nagar Haveli / Daman and Diu. Its `viewBox "0 0 612 696"` is derived from
+`@svg-maps/india`. Retain it only for legacy displays with an explicit historical
+boundary notice. Each entry:
 
 ```ts
 { id, name, path, cx, cy, clearance, area, bbox, parts }
@@ -60,8 +96,10 @@ Outboard labels stack in a right- or left-hand gutter, ordered by `cy`, with a
 - Hover: state outline lifts, tooltip with name + the encoded metric + denominator.
 - Click: drill down to the state panel — top listed companies, dominant industries,
   ministers from that state, GSDP.
-- Keyboard: states are in a roving-tabindex ring ordered north-to-south; Enter
-  drills down; Escape returns.
+- Keyboard: states use a documented roving-tabindex order (alphabetical in the
+  current investigation map, north-to-south in the legacy map); arrow keys move,
+  Enter or Space selects, Escape clears. Provide an equivalent labelled state
+  selector so small islands and union territories remain easy to reach.
 - `prefers-reduced-motion`: no transitions on fill, no animated zoom.
 
 ## Aesthetic

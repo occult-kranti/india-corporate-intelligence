@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-14",
+  "purpose": "One synthetic forward test of two reusable skill workflows",
+  "workerContext": "Fresh fork with only task, skill paths and raw packet; no expected findings supplied",
+  "independentExternalEvidence": false,
+  "assessmentTiming": "Parent qualitative checks after output; not a preregistered benchmark",
+  "filesSha256": {
+    "skill-forward-packet.md": "43bef58a15b88e4a3296f87a0a5daee1071cc18e2499b33cf8b60fd5a1571550",
+    "skill-forward-result.md": "ac8c2f85be2a0db3fffd2b6cfb5fe772f68c41fafd657d469bd8420dbac86bb4",
+    "skill-forward-result.json": "f2be4a11c064d0e09f9c4a5ca87d33f02a19611aef1d86b42d248908c313bbd1"
+  },
+  "observedChecks": {
+    "distinctJurisdictionScopedCompanies": true,
+    "personJoinsLeftUnresolved": true,
+    "appointmentDatesNotBackdated": true,
+    "financialStagesNotSummed": true,
+    "syndicatedReportNotIndependent": true,
+    "MissingAnnexNotClaimedRead": true,
+    "officialResponseRetained": true,
+    "selfCheckNotLabeledIndependentVerification": true
+  },
+  "schemaFeedback": [
+    "Separate reviewMode from assessment",
+    "Represent supplied summaries distinctly",
+    "Retain claim-level dependencies",
+    "Separate statement date from payment period",
+    "Allow attributed non-accusatory reports",
+    "Define path-hop fields",
+    "Distinguish source authentication from relation assertion"
+  ],
+  "limits": [
+    "Single synthetic fixture; no accuracy, recall or real-world detection rate",
+    "Worker inherited the agent model family; not an externally recruited independent reviewer",
+    "Local /tmp paths in raw outputs identify original run artifacts; copies are retained here",
+    "No original real-world records or contacts involved"
+  ]
+}

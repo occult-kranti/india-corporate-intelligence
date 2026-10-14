@@ -1,0 +1,57 @@
+{
+  "scope": "JSON key names only, first 100 stored rows per detail table; non-random schema discovery, not field completeness. No values or addresses read into output.",
+  "queries": [
+    {
+      "database": "aoc_tenders.db",
+      "sql": "SELECT details_json FROM aoc_details LIMIT 100",
+      "rows": 100,
+      "invalidOrNonObjectJson": 0,
+      "keyOccurrences": {
+        "Address of the selected bidder(s)": 30,
+        "Award Published Date": 70,
+        "Contract Date": 100,
+        "Contract Value": 100,
+        "Date of Completion/Completion Period in Days": 100,
+        "Name of the selected bidder(s)": 100,
+        "Number of bids received": 100,
+        "Organisation Name": 100,
+        "Published Date": 30,
+        "Tender Description": 100,
+        "Tender Document": 100,
+        "Tender Ref. No.": 100,
+        "Tender Type": 100
+      }
+    },
+    {
+      "database": "tenders_vps.db",
+      "sql": "SELECT details_json FROM tender_details LIMIT 100",
+      "rows": 100,
+      "invalidOrNonObjectJson": 0,
+      "keyOccurrences": {
+        "Address": 100,
+        "Bid Opening Date": 100,
+        "Bid Submission End Date": 100,
+        "Bid Submission Start Date": 100,
+        "Document Download End Date": 100,
+        "Document Download Start Date": 100,
+        "EMD": 12,
+        "EMD *": 88,
+        "Location": 100,
+        "Name": 100,
+        "Organisation Name": 100,
+        "Organisation Type": 100,
+        "Product Category": 100,
+        "Product Sub-Category": 100,
+        "Tender Category": 100,
+        "Tender Document": 100,
+        "Tender Fee": 12,
+        "Tender Fee *": 88,
+        "Tender Reference Number": 100,
+        "Tender Title": 100,
+        "Tender Type": 100,
+        "Work Description": 100,
+        "ePublished Date": 100
+      }
+    }
+  ]
+}

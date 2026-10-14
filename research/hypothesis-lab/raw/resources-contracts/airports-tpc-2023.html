@@ -1,0 +1,967 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="hi">
+<head id="Head1"><title>
+	Press Release:Press Information Bureau
+</title><link href="css/style.css?v=1" rel="stylesheet" type="text/css" /><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><link rel="alternate stylesheet" href="css/change.css?v=1" media="screen" title="change" /><link rel="alternate stylesheet" href="css/green.css?v=1" media="screen" title="green" /><link rel="alternate stylesheet" href="css/yellow.css" media="screen" title="yellow" /><link rel="stylesheet" type="text/css" href="css/prtint.css" media="print" /><link rel="stylesheet" href="css/style3.1.css" type="text/css" />
+
+
+      <script src="js/jquery.min.js" type="text/javascript"></script>
+
+      <script type="text/javascript">
+            $(document).ready(function () {
+                  function getParameterByName(name) {
+                        var url = window.location.href;
+                        name = name.replace(/[\[\]]/g, '\\$&');
+                        var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+                              results = regex.exec(url);
+                        if (!results) return null;
+                        if (!results[2]) return '';
+                        return decodeURIComponent(results[2].replace(/\+/g, ' '));
+                  }
+                  // Get the IDs from the current page's URL
+                  let prid = parseInt(getParameterByName('PRID'), 10);
+
+                  if (!isNaN(prid) && prid > 0) {
+                        $.ajax({
+                              type: "POST",
+                              url: "AjaxMethod.aspx/UpdatePRHitCount",
+                              async: false,
+                              data: JSON.stringify({ 'PermId': prid }),
+                              contentType: "application/json; charset=utf-8",
+                              dataType: "json",
+                              success: function (response) {
+                                    console.log(response);
+                              },
+                              error: function (error) {
+                                    console.log("Error in AJAX request", error);
+                              }
+                        });
+                  } else {
+                        console.log("Invalid parameters:", prid);
+                  }
+
+            });
+      </script>
+      <style type="text/css">
+            .table-responsive {
+                  width: 100%;
+                  overflow-x: auto;
+            }
+
+            .banner {
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  background-color: #000;
+                  color: #fff;
+                  padding: 20px;
+            }
+
+            full-width {
+                  width: 100%;
+            }
+
+            .logo-left, .logo-center, .countdown {
+                  display: flex;
+                  align-items: center;
+            }
+
+                  .logo-left img, .logo-center img {
+                        height: 70px;
+                  }
+
+            .countdown {
+                  text-align: center;
+                  background-color: var(--dbim-text, #150202);
+                  border-radius: 10px;
+                  padding: 10px;
+                  border: 2px solid grey;
+            }
+
+            .firstnumber {
+                  color: #000000;
+                  position: absolute;
+                  top: 50px;
+                  right: 90px;
+                  font-size: 30px;
+            }
+
+            .secondnumber {
+                  position: absolute;
+                  color: #000000;
+                  right: 45px;
+                  top: 50px;
+                  font-size: 30px;
+            }
+
+            .countdown .days {
+                  font-size: 35px;
+                  color: gold;
+            }
+
+            .countdown p {
+                  margin: 0;
+            }
+
+            .countdown .text {
+                  font-size: 16px;
+            }
+
+            a {
+                  word-break: break-all;
+            }
+
+            iframe, img {
+                  max-width: 100%;
+            }
+
+            @media(max-width:1199px) {
+                  .firstnumber {
+                        top: 40px;
+                        right: 72px;
+                        font-size: 30px;
+                  }
+
+                  .secondnumber {
+                        right: 35px;
+                        top: 40px;
+                        font-size: 30px;
+                  }
+            }
+
+            @media(max-width:990px) {
+                  .firstnumber {
+                        top: 25px;
+                        right: 54px;
+                        font-size: 30px;
+                  }
+
+                  .secondnumber {
+                        right: 25px;
+                        top: 25px;
+                        font-size: 30px;
+                  }
+            }
+
+            @media(max-width:768px) {
+                  .countdown, .days {
+                        font-size: 12px !important;
+                  }
+
+
+                  .firstnumber {
+                        top: 25%;
+                        right: 8%;
+                        font-size: 30px;
+                  }
+
+                  .secondnumber {
+                        right: 4.5%;
+                        top: 25%;
+                        font-size: 30px;
+                  }
+            }
+
+            @media(max-width:475px) {
+                  .countdown, .days {
+                        font-size: 10px !important;
+                        top: 20%;
+                  }
+
+                  .bannerimgdiv {
+                        padding: 0 !important;
+                  }
+
+                  .bannerimg {
+                        width: 108% !important;
+                  }
+            }
+      </style>
+      <script type="text/javascript">
+            $(function () {
+                  $("[id*=printPDF]").click(function () {
+                        $("[id*=hfGridHtml]").val($("#PdfDiv").html());
+                  });
+            });
+            $(function () {
+                  $("[id*=printPDFEvent]").click(function () {
+                        $("[id*=hfGridHtml]").val($("#PdfDiv").html());
+                  });
+            });
+      </script>
+
+      
+
+      <link id="pibConsentCss" href="/css/consent.css?v=8" rel="stylesheet" type="text/css" /><link id="pibFontsCss" href="/css/fonts-noto.css?v=6" rel="stylesheet" type="text/css" /><link id="pibDbimCss" href="/css/dbim.css?v=1120" rel="stylesheet" type="text/css" /><meta property="og:title" content="AAI awarded six airports for Operations, Management and Development under Public Private Partnership (PPP) for a period of 50 years in the year 2020-2021." /><meta property="og:url" content="www.pib.gov.in/Pressreleaseshare.aspx?PRID=1911136" /><meta property="og:description" content="Airports Authority of India (AAI) has awarded six airports namely Ahmedabad, Jaipur, Lucknow, Guwaha" /><meta property="og:image" content="https:/pib.gov.in/images/indian-emblem.png" />
+                                <script>!function(e){var n="https://s.go-mpulse.net/boomerang/";if("False"=="True")e.BOOMR_config=e.BOOMR_config||{},e.BOOMR_config.PageParams=e.BOOMR_config.PageParams||{},e.BOOMR_config.PageParams.pci=!0,n="https://s2.go-mpulse.net/boomerang/";if(window.BOOMR_API_key="C4E7H-KSCMC-422L4-W3EM5-U36MF",function(){function e(){if(!i){var e=document.createElement("script");e.id="boomr-scr-as",e.src=window.BOOMR.url,e.async=!0,o.parentNode.appendChild(e),i=!0}}function t(e){i=!0;var n,t,a,r,d=document,O=window;if(window.BOOMR.snippetMethod=e?"if":"i",t=function(e,n){var t=d.createElement("script");t.id=n||"boomr-if-as",t.src=window.BOOMR.url,BOOMR_lstart=(new Date).getTime(),e=e||d.body,e.appendChild(t)},!window.addEventListener&&window.attachEvent&&navigator.userAgent.match(/MSIE [67]\./))return window.BOOMR.snippetMethod="s",void t(o.parentNode,"boomr-async");a=document.createElement("IFRAME"),a.src="about:blank",a.title="",a.role="presentation",a.loading="eager",r=(a.frameElement||a).style,r.width=0,r.height=0,r.border=0,r.display="none",o.parentNode.appendChild(a);try{O=a.contentWindow,d=O.document.open()}catch(_){n=document.domain,a.src="javascript:var d=document.open();d.domain='"+n+"';void(0);",O=a.contentWindow,d=O.document.open()}if(n)d._boomrl=function(){this.domain=n,t()},d.write("<bo"+"dy onload='document._boomrl();'>");else if(O._boomrl=function(){t()},O.addEventListener)O.addEventListener("load",O._boomrl,!1);else if(O.attachEvent)O.attachEvent("onload",O._boomrl);d.close()}function a(e){window.BOOMR_onload=e&&e.timeStamp||(new Date).getTime()}if(!window.BOOMR||!window.BOOMR.version&&!window.BOOMR.snippetExecuted){window.BOOMR=window.BOOMR||{},window.BOOMR.snippetStart=(new Date).getTime(),window.BOOMR.snippetExecuted=!0,window.BOOMR.snippetVersion=12,window.BOOMR.url=n+"C4E7H-KSCMC-422L4-W3EM5-U36MF";var o=document.currentScript||document.getElementsByTagName("script")[0],i=!1,r=document.createElement("link");if(r.relList&&"function"==typeof r.relList.supports&&r.relList.supports("preload")&&"as"in r)window.BOOMR.snippetMethod="p",r.href=window.BOOMR.url,r.rel="preload",r.as="script",r.addEventListener("load",e),r.addEventListener("error",function(){t(!0)}),setTimeout(function(){if(!i)t(!0)},3e3),BOOMR_lstart=(new Date).getTime(),o.parentNode.appendChild(r);else t(!1);if(window.addEventListener)window.addEventListener("load",a,!1);else if(window.attachEvent)window.attachEvent("onload",a)}}(),"".length>0)if(e&&"performance"in e&&e.performance&&"function"==typeof e.performance.setResourceTimingBufferSize)e.performance.setResourceTimingBufferSize();!function(){if(BOOMR=e.BOOMR||{},BOOMR.plugins=BOOMR.plugins||{},!BOOMR.plugins.AK){var n=""=="true"?1:0,t="",a="ljqllrax2fkcq2wpx5vq-f-096efe913-clientnsv4-s.akamaihd.net",o="false"=="true"?2:1,i={"ak.v":"41","ak.cp":"1825201","ak.ai":parseInt("1215205",10),"ak.ol":"0","ak.cr":9,"ak.ipv":4,"ak.proto":"h2","ak.rid":"129b30a","ak.r":46091,"ak.a2":n,"ak.m":"dscb","ak.n":"ff","ak.cport":41137,"ak.gh":"23.201.193.76","ak.quicv":"","ak.tlsv":"tls1.3","ak.0rtt":"","ak.0rtt.ed":"","ak.csrc":"-","ak.acc":"","ak.t":"1791999851","ak.ak":"hOBiQwZUYzCg5VSAfCLimQ==LPGFnDPAJklnzJWKsHXN3CUMK2pzBmNC0NoN9tjpQyDqETy+exqwhPIX35g/LTtBjS3hx/KitwLi+jGZEYtw5siNq3aKNA/Vc3sY+/CsNtHw/sqcXVvl36Pelwqu5e/j3QlbNR+1P9GCzwC7TgYimyjWmLATQ9H0mJWNTRsGm/5YSb5vKB73kwse6RNS00qbmo36RWfY1DfiUlq8Qet5UjqA5RRThvgsbXMOFMk3ovvGYxy894Ge7FSZirNFHkQvi7CaUjDoULrBM/w++t6gz6XgXe9C6cjP6Ei1BAIHyGzGIDl9Rmn8yr5NaQQxnOn4yLqx76B1+XcY3YwpBkAxEFnA/Ae7uW/PkXAhrTXv/MhOAMye36NkIKXGYgYA8wvDWii/TMBeKqdbGrc7OLFHt7rrN5Czzp6lSGX2na2L8BA=","ak.pv":"9","ak.dpoabenc":"","ak.tf":o};if(""!==t)i["ak.ruds"]=t;var r={i:!1,av:function(n){var t="http.initiator";if(n&&(!n[t]||"spa_hard"===n[t]))i["ak.feo"]=void 0!==e.aFeoApplied?1:0,BOOMR.addVar(i)},rv:function(){var e=["ak.cport","ak.cr","ak.csrc","ak.gh","ak.ipv","ak.m","ak.n","ak.ol","ak.proto","ak.quicv","ak.tlsv","ak.0rtt","ak.0rtt.ed","ak.r","ak.acc","ak.t","ak.tf"];BOOMR.removeVar(e)}};BOOMR.plugins.AK={akVars:i,akDNSPreFetchDomain:a,init:function(){if(!r.i){var e=BOOMR.subscribe;e("before_beacon",r.av,null,null),e("onbeacon",r.rv,null,null),r.i=!0}return this},is_complete:function(){return!0}}}}()}(window);</script></head>
+<body>
+    
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"
+     style="position:absolute;width:0;height:0;overflow:hidden" id="dbim-icon-sprite">
+    <defs>
+        <symbol id="icon-angle-double-left" viewBox="0 0 24 24"><path d="M11.6 4.6 4.2 12l7.4 7.4 2.2-2.2L8.6 12l5.2-5.2z"/><path d="M19 4.6 11.6 12 19 19.4l2.2-2.2L16 12l5.2-5.2z"/></symbol>
+        <symbol id="icon-angle-double-right" viewBox="0 0 24 24"><path d="M12.4 4.6 10.2 6.8 15.4 12l-5.2 5.2 2.2 2.2L19.8 12z"/><path d="M5 4.6 2.8 6.8 8 12l-5.2 5.2L5 19.4 12.4 12z"/></symbol>
+        <symbol id="icon-arrow-left" viewBox="0 0 24 24"><path d="M20.8 10.6H9.6v2.8h11.2z"/><path d="M10.8 5.6 3.2 12l7.6 6.4z"/></symbol>
+        <symbol id="icon-arrow-right" viewBox="0 0 24 24"><path d="M3.2 10.6h11.2v2.8H3.2z"/><path d="M13.2 5.6 20.8 12l-7.6 6.4z"/></symbol>
+        <symbol id="icon-blogger" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M6.4 2.4h11.2a4 4 0 0 1 4 4v11.2a4 4 0 0 1-4 4H6.4a4 4 0 0 1-4-4V6.4a4 4 0 0 1 4-4zm2.8 5.2a2 2 0 0 0 0 4h2.4a2 2 0 0 0 0-4zm0 5.6a2 2 0 0 0 0 4h5.6a2 2 0 0 0 0-4z"/></symbol>
+        <symbol id="icon-calendar" viewBox="0 0 24 24"><path d="M7.6 2.4H10v2.4H7.6z"/><path d="M14 2.4h2.4v2.4H14z"/><path fill-rule="evenodd" d="M4 4.8h16a1.6 1.6 0 0 1 1.6 1.6v13.2a1.6 1.6 0 0 1-1.6 1.6H4a1.6 1.6 0 0 1-1.6-1.6V6.4A1.6 1.6 0 0 1 4 4.8zm.4 5.6v8.4h15.2v-8.4z"/><path d="M6.4 12.4h3.2v3.2H6.4z"/></symbol>
+        <symbol id="icon-chevron-left" viewBox="0 0 24 24"><path d="M15.4 4.6 8 12l7.4 7.4 2.2-2.2L12.4 12l5.2-5.2z"/></symbol>
+        <symbol id="icon-chevron-right" viewBox="0 0 24 24"><path d="M8.6 4.6 6.4 6.8 11.6 12l-5.2 5.2 2.2 2.2L16 12z"/></symbol>
+        <symbol id="icon-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/></symbol>
+        <symbol id="icon-download" viewBox="0 0 24 24"><path d="M10.8 3h2.4v7.6h3.4L12 16.6l-4.6-6h3.4z"/><path d="M4 17.2h2.4v2.4h11.2v-2.4H20v3.2a1.4 1.4 0 0 1-1.4 1.4H5.4A1.4 1.4 0 0 1 4 20.4z"/></symbol>
+        <symbol id="icon-facebook" viewBox="0 0 24 24"><path d="M13.6 21.6v-8.4h2.8l.42-3.3h-3.22V7.8c0-.95.27-1.6 1.64-1.6h1.74V3.26a23 23 0 0 0-2.54-.13c-2.5 0-4.22 1.53-4.22 4.34v2.43H7.4v3.3h2.82v8.4z"/></symbol>
+        <symbol id="icon-fact-check" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2.4 3.6 5.6v6.2c0 4.6 3.4 8.6 8.4 9.8 5-1.2 8.4-5.2 8.4-9.8V5.6zm-1 13.2-3.6-3.6 1.7-1.7 1.9 1.9 4.5-4.5 1.7 1.7z"/></symbol>
+        <symbol id="icon-hashtag" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M8.8 3h2.4l-1 6h3.2l1-6h2.4l-1 6h3.4v2.4h-3.8l-.6 3.2h3.6V17h-4l-1 5h-2.4l1-5h-3.2l-1 5H5.4l1-5H3V14.6h3.8l.6-3.2H3.8V9h4zm.6 8.4-.6 3.2h3.2l.6-3.2z"/></symbol>
+        <symbol id="icon-home" viewBox="0 0 24 24"><path d="M12 3.4 2.8 11.6h2.4v8.4a1 1 0 0 0 1 1h3.3v-5.4h5v5.4h3.3a1 1 0 0 0 1-1v-8.4h2.4z"/></symbol>
+        <symbol id="icon-instagram" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M7.6 2.4h8.8a5.2 5.2 0 0 1 5.2 5.2v8.8a5.2 5.2 0 0 1-5.2 5.2H7.6a5.2 5.2 0 0 1-5.2-5.2V7.6a5.2 5.2 0 0 1 5.2-5.2zm0 2.4a2.8 2.8 0 0 0-2.8 2.8v8.8a2.8 2.8 0 0 0 2.8 2.8h8.8a2.8 2.8 0 0 0 2.8-2.8V7.6a2.8 2.8 0 0 0-2.8-2.8z"/><path fill-rule="evenodd" d="M12 6.8a5.2 5.2 0 1 0 0 10.4 5.2 5.2 0 0 0 0-10.4zm0 2.4a2.8 2.8 0 1 1 0 5.6 2.8 2.8 0 0 1 0-5.6z"/><circle cx="17.3" cy="6.7" r="1.3"/></symbol>
+        <symbol id="icon-linkedin" viewBox="0 0 24 24"><path d="M4.8 8.8h3.6v12H4.8z"/><circle cx="6.6" cy="5.4" r="2.1"/><path d="M10.8 8.8h3.45v1.65h.05c.48-.9 1.65-1.85 3.4-1.85 3.63 0 4.3 2.35 4.3 5.4v6.6h-3.6v-5.85c0-1.4-.03-3.2-1.95-3.2-1.95 0-2.25 1.52-2.25 3.1v5.95h-3.6z"/></symbol>
+        <symbol id="icon-mail" viewBox="0 0 24 24"><path d="M2.4 7.6v9.2a1.6 1.6 0 0 0 1.6 1.6h16a1.6 1.6 0 0 0 1.6-1.6V7.6L12 14z"/><path d="M21.2 5.4H2.8L12 11.8z"/></symbol>
+        <symbol id="icon-mail-open" viewBox="0 0 24 24"><path d="M2.4 9.8h19.2v9.6A1.6 1.6 0 0 1 20 21H4a1.6 1.6 0 0 1-1.6-1.6z"/><path d="M12 2.6 21.6 9.2h-3.8L12 5.3 6.2 9.2H2.4z"/><path d="m3.9 11.2 8.1 5.4 8.1-5.4 1.5 1.3-9.6 6.4-9.6-6.4z"/></symbol>
+        <symbol id="icon-map-marker" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2.4a7 7 0 0 0-7 7c0 5.2 7 12.2 7 12.2s7-7 7-12.2a7 7 0 0 0-7-7zm0 9.6a2.6 2.6 0 1 1 0-5.2 2.6 2.6 0 0 1 0 5.2z"/></symbol>
+        <symbol id="icon-newspaper" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M2.8 4.4h14.8v15.2H2.8zm2 2v11.2h10.8V6.4z"/><path d="M6 7.6h8.4v1.6H6z"/><path d="M6 10.8h8.4v1.6H6z"/><path d="M6 14h5.2v1.6H6z"/><path d="M18.4 8.4h2.8v9.6a1.4 1.4 0 0 1-2.8 0z"/></symbol>
+        <symbol id="icon-pause" viewBox="0 0 24 24"><rect x="7.4" y="4" width="3.6" height="16" rx="0.9"/><rect x="13" y="4" width="3.6" height="16" rx="0.9"/></symbol>
+    <symbol id="icon-play" viewBox="0 0 24 24"><path d="M8 4.5v15l12-7.5z"/></symbol>
+        <symbol id="icon-picture" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M2.4 5.2h19.2v13.6H2.4zm2 2v9.6h15.2V7.2z"/><path d="M5.6 16.4 10 11l2.6 3 2-2.2 4 4.6z"/><circle cx="8" cy="10.4" r="1.5"/></symbol>
+        <symbol id="icon-press-conference" viewBox="0 0 24 24"><circle cx="12" cy="5.2" r="2.6"/><path d="M7.6 12.2a4.4 4.4 0 0 1 8.8 0z"/><circle cx="4.9" cy="9.6" r="2.2"/><path d="M1.8 15.2a3.1 3.1 0 0 1 6.2 0z"/><circle cx="19.1" cy="9.6" r="2.2"/><path d="M16 15.2a3.1 3.1 0 0 1 6.2 0z"/><path d="M6.6 13.6h10.8l2.2 7.8H4.4z"/></symbol>
+        <symbol id="icon-print" viewBox="0 0 24 24"><path d="M6.4 2.8h11.2v4.4H6.4z"/><path d="M4 8.4h16a1.6 1.6 0 0 1 1.6 1.6v5.6a1.6 1.6 0 0 1-1.6 1.6h-1.6v-2.8H6v2.8H4a1.6 1.6 0 0 1-1.6-1.6V10A1.6 1.6 0 0 1 4 8.4z"/><path d="M7.2 15.6h9.6v5.6H7.2z"/></symbol>
+        <symbol id="icon-rss" viewBox="0 0 24 24"><circle cx="4.8" cy="19.2" r="2.4"/><path d="M2.4 11.2v3.2a6.4 6.4 0 0 1 6.4 6.4H12A9.6 9.6 0 0 0 2.4 11.2z"/><path d="M2.4 4.8V8A13.6 13.6 0 0 1 16 21.6h3.2A16.8 16.8 0 0 0 2.4 4.8z"/></symbol>
+        <symbol id="icon-search-plus" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M10 2.8a7.2 7.2 0 1 0 0 14.4 7.2 7.2 0 0 0 0-14.4zm0 2.4a4.8 4.8 0 1 1 0 9.6 4.8 4.8 0 0 1 0-9.6z"/><path d="M15.3 14.6 21.2 20.5l-1.5 1.5-5.9-5.9z"/><path d="M9.2 6.8h1.6v2.4h2.4v1.6h-2.4v2.4H9.2v-2.4H6.8V9.2h2.4z"/></symbol>
+        <symbol id="icon-share" viewBox="0 0 24 24"><circle cx="18" cy="5.6" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="18.4" r="3"/><path d="M8.3 10.9 15.7 7.2l.9 1.8-7.4 3.7z"/><path d="M9.2 13.1 16.6 16.8l-.9 1.8-7.4-3.7z"/></symbol>
+        <symbol id="icon-twitter" viewBox="0 0 24 24"><path d="M4.2 3h4.3l11.3 18h-4.3z"/><path d="M19.3 3h-2.6L4.2 21h2.6z"/></symbol>
+        <symbol id="icon-university" viewBox="0 0 24 24"><path d="M12 2.4 21.6 7.2v1.6H2.4V7.2z"/><path d="M4.8 10.4h2.4v8H4.8z"/><path d="M9.2 10.4h2.4v8H9.2z"/><path d="M13.4 10.4h2.4v8h-2.4z"/><path d="M17.6 10.4H20v8h-2.4z"/><path d="M3.2 19.8h17.6v1.8H3.2z"/></symbol>
+        <symbol id="icon-volume-up" viewBox="0 0 24 24"><path d="M3.2 9.2h3.3l5-4.2v14l-5-4.2H3.2z"/><path d="M14.6 8.4a5 5 0 0 1 0 7.2l1.6 1.6a7.2 7.2 0 0 0 0-10.4z"/><path d="M17.4 5.6a8.8 8.8 0 0 1 0 12.8l1.5 1.5a10.9 10.9 0 0 0 0-15.8z"/></symbol>
+        <symbol id="icon-whatsapp" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2.4a9.5 9.5 0 0 0-8.1 14.5L2.4 21.6l4.8-1.4A9.5 9.5 0 1 0 12 2.4zm0 2.2a7.3 7.3 0 1 1-3.8 13.5l-.4-.2-2.6.7.7-2.5-.3-.4A7.3 7.3 0 0 1 12 4.6z"/><path d="M9.4 7.8c-.2-.5-.4-.5-.6-.5h-.5a1 1 0 0 0-.7.3c-.3.3-.9.9-.9 2.1s.9 2.4 1 2.6c.1.2 1.7 2.8 4.3 3.8 2.1.8 2.6.7 3 .6.5 0 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2l-.5-.3-1.6-.8c-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6 6 0 0 1-1.8-1.1 6.6 6.6 0 0 1-1.2-1.6c-.1-.2 0-.4.1-.5l.4-.5.3-.5v-.5z"/></symbol>
+        <symbol id="icon-youtube" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M21.6 7.2a2.8 2.8 0 0 0-2-2C17.9 4.8 12 4.8 12 4.8s-5.9 0-7.6.4a2.8 2.8 0 0 0-2 2A29 29 0 0 0 2 12a29 29 0 0 0 .4 4.8 2.8 2.8 0 0 0 2 2c1.7.4 7.6.4 7.6.4s5.9 0 7.6-.4a2.8 2.8 0 0 0 2-2A29 29 0 0 0 22 12a29 29 0 0 0-.4-4.8zM10.2 15.1V8.9l5.1 3.1z"/></symbol>
+    </defs>
+</svg>
+
+      <form method="post" action="./PressReleaseIframePage.aspx?PRID=1911136&amp;lang=2&amp;reg=48" id="form1">
+<div class="aspNetHidden">
+<input type="hidden" name="sc_HiddenField" id="sc_HiddenField" value="" />
+<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
+<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="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" />
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+var theForm = document.forms['form1'];
+if (!theForm) {
+    theForm = document.form1;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</script>
+
+
+<script src="/WebResource.axd?d=pynGkmcFUV13He1Qd6_TZPQet1wIx1Q48y3xJY2k25Y7qxH5RrQ9qQcN-OiTC9guZtri9w2&amp;t=639246310404186790" type="text/javascript"></script>
+
+
+<script src="/ScriptResource.axd?d=x6wALODbMJK5e0eRC_p1LdIxBJXt0U_WW5GWfJqHAqo6frgCmGRfEywglicTersO2OKrFhK1gAIp0Wk2al2YrpdR3uWqH6f4nfjBsCyRUfTUUVmb0&amp;t=ffffffffecf8d3f2" type="text/javascript"></script>
+<script src="/ScriptResource.axd?d=P5lTttoqSeZXoYRLQMIScH645UK3RD852IErF2548Wz9Ssv0rLjB4fhVKnHcMpqkaMHpNAGOeWY02Lf4aBYN9-dVBme_SNK5KJwmFQNpMixYDZ7M0&amp;t=ffffffffecf8d3f2" type="text/javascript"></script>
+<script src="/PressReleaseIframePage.aspx?_TSM_HiddenField_=sc_HiddenField&amp;_TSM_CombinedScripts_=%3b%3bAjaxControlToolkit%2c+Version%3d3.5.7.123%2c+Culture%3dneutral%2c+PublicKeyToken%3d28f01b0e84b6d53e%3aen-US%3a5a4df314-b4a2-4da2-a207-9284f1b1e96c%3ade1feab2%3af2c8e708%3a8613aea7%3af9cec9bc%3a3202a5a2%3aab09e3fe%3a87104b7c%3a720a52bf%3a589eaa30%3aa67c2700%3abe6fb298" type="text/javascript"></script>
+<div class="aspNetHidden">
+
+	<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="8166A38A" />
+	<input type="hidden" name="__VIEWSTATEENCRYPTED" id="__VIEWSTATEENCRYPTED" value="" />
+	<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="c72GJWl8YIcqOeib8BtYJOr4A07gx0zO54WcaYYX2hLAOdjDATnz53uzoLXqRN1Guaxs2SMtEEOYD81S5JVo8+JGPX2REg6IXxgtV8RqfBSjLKQc9FDYJ9Ao0evoq9aA2jFg1X8jy0ANFDU0FFkrNH4Ncero9POCdA9G7ygDwyzatlj0OieOz/VoMKWz9ITWzhe8FQNgwb0ypEaThGyXrVZLqAKXuihLOE2wgOtaumO+87yb79VSfEELXydUH7z18lDbI6bAi7SwW/OwVhf8OzKOo+4=" />
+</div>
+                              
+            <div id="templateCss"></div>
+            <script type="text/javascript">
+//<![CDATA[
+Sys.WebForms.PageRequestManager._initialize('sc', 'form1', ['tupdate12','update12'], [], [], 90, '');
+//]]>
+</script>
+
+            <input type="hidden" name="hfGridHtml" id="hfGridHtml" />
+            <div class="container" style='margin-bottom: 50px;'>
+                  <div id="accessories">
+
+                        
+                        <div class="pull-right" style="display: flex">
+                              <div id="voll"></div>
+                              <div id="vollDT"></div>
+                              
+                              
+
+<span class="print-icons">
+<input type="image" name="Print1$print" id="Print1_print" aria-label="Print" src="images/printer_icon.png" alt="print page button" style="padding: 5px 10px 5px 10px;" />
+</span>
+                        </div>
+                  </div>
+                  <input type="hidden" name="hydpermid" id="hydpermid" value="1911136" />
+                  
+
+
+
+                  <div class="innner-page-main-about-us-content-right-part">
+
+                        <div id="MinistryName" class="MinistryNameSubhead text-center">
+                              Ministry of Civil Aviation
+                        </div>
+                        
+                        <div id="lg_g"><div class='log_oo'>  <img src='https://static.pib.gov.in/WriteReadData/specificdocs/photo/2021/aug/ph202183101.png' alt='azadi ka amrit mahotsav' /> </div></div>
+
+
+
+
+
+                        <div class="text-center event-heading-background">
+                              
+                              <h1 id="Titleh2">
+                                    AAI awarded six airports for Operations, Management and Development under Public Private Partnership (PPP) for a period of 50 years in the year 2020-2021.
+                              </h1>
+                              <h3 id="Subtitleh3">
+                                    <span id="ltrSubtitle"><br/>Concessionaires have been selected through competitive bidding process by evaluating the technical and financial capacity of the bidders.</span>
+                              </h3>
+                        </div>
+
+                        <div id="PrDateTime" class="ReleaseDateSubHeaddateTime text-center pt20">
+                              प्रविष्टि तिथि:
+                27 MAR 2023 3:44PM by PIB Delhi
+                        </div>
+                        
+                        <div class='pt20'>
+                        </div>
+                        <input type="hidden" name="hydphotoUrl" id="hydphotoUrl" />
+                        
+                        <p style="text-align:justify"><span style="font-family:&quot;Times New Roman&quot;,Times,serif; font-size:16px">Airports Authority of India (AAI) has awarded six airports namely Ahmedabad, Jaipur, Lucknow, Guwahati, Thiruvananthapuram and Mangaluru for Operations, Management and Development under Public Private Partnership (PPP) for a period of 50 years in the year 2020-2021. The terms and conditions of the transaction of PPP of six airports were decided by the Empowered Group of Secretaries (EGoS) chaired by CEO, NITI Aayog which inter-alia comprised Secretaries of Ministry of Finance (Department of Economic Affairs and Department of Expenditure) also. Therefore, the Ministry of Finance and NITI Aayog were part of the decision making process and the EGoS finalised the contours of the bidding process for PPP of six airports.</span></p>
+
+<p style="text-align:justify"><span style="font-family:&quot;Times New Roman&quot;,Times,serif; font-size:16px">In order to ensure more competition and to give more flexibility to bidders, the following conditions among others were stipulated: -</span></p>
+
+<p style="text-align:justify"><span style="font-family:&quot;Times New Roman&quot;,Times,serif; font-size:16px">i. No prior airport experience</span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">ii. No cap on number of airports for which a participating entity could bid for</span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">iii. Per Passenger Fee as bidding parameter instead of revenue sharing.</span></span></p>
+
+<p style="text-align:justify"><span style="font-family:&quot;Times New Roman&quot;,Times,serif; font-size:16px">The Concessionaires have been selected through competitive bidding process by evaluating the technical and financial capacity of the bidders. The decision of EGoS was considered and after detailed deliberation on relevant issues, Public Private Partnership Appraisal Committee (PPPAC) recommended the proposal. The PPPAC, chaired by Secretary, Department of Economic Affairs comprising Members from NITI Aayog, Department of Expenditure, Department of Legal Affairs, Ministry of Civil Aviation and AAI in its meeting held on 11.12.2018 had deliberated the issue of Total Project Cost (TPC). To a suggestion that TPC should be estimated upfront, the PPPAC noted that it is not possible to work out the TPC over the proposed concession period of 50 years as it would depend on the basis of demand to be assessed by the Concessionaire.&nbsp; It was also noted by PPPAC that there is no one size fits all strategy and termination payment have been taken care of in a unique manner and not in terms of TPC.</span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">This information was given by the Minister of State in the Ministry of Civil Aviation Gen. (Dr) V. K. Singh (Retd) in a written reply to a question in Rajya Sabha today.</span></span></p>
+
+<p style="text-align:center"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">*****</span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><strong>YB</strong></span></span></p>
+
+
+                        
+                        <div id="reel_pic">
+                        </div>
+
+
+
+                        
+                        <br />
+                        <span id="ReleaseId">(रिलीज़ आईडी: 1911136)</span>
+                        <span id="lblViews">	आगंतुक पटल  : 2079</span>
+                        <div>
+                              
+                        </div>
+                        
+
+                        <span id="lblRefPhoto"></span>
+
+                        <div class="BackgroundRelease">
+                              
+                        </div>
+                        <div>
+                              
+                        </div>
+                        <div class="ReleaseLang">इस विज्ञप्ति को इन भाषाओं में पढ़ें: 
+                        
+                                    
+                                    <a href='https://pib.gov.in/PressReleasePage.aspx?PRID=1911267' target="_blank">
+                                          Urdu </a>
+                              
+                                    ,
+                              
+                                    
+                                    <a href='https://pib.gov.in/PressReleasePage.aspx?PRID=1911194' target="_blank">
+                                          Tamil </a>
+                              
+                        </div>
+
+                        <div class="RelTag">
+                              <ul>
+                                    
+                              </ul>
+                        </div>
+                        <div class="clear">
+                        </div>
+                        <div id="RelLink" class="RelLink">
+                              <ul>
+                                    
+                                    
+                              </ul>
+                        </div>
+                        <center>
+                              
+                        </center>
+                  </div>
+
+                  <div id="update12">
+	
+                              
+                              <input type="hidden" name="Hidden" id="Hidden" />
+                              <div id="P_CategoryManagement" class="ModalWindow" style="border-width:0px;height:60%;width:60%;overflow:auto;display: none">
+		
+                                    <div>
+                                          <input type="image" name="btnClose" id="btnClose" src="images/close_flat_icon.png" />
+                                    </div>
+                                    <div id="description">
+                                    </div>
+                                    <div class="text-center">
+                                          <h2>
+                                                
+                                                <br>
+                                                
+                                          </h2>
+                                    </div>
+                                    <br />
+                                    <div class="clear">
+                                    </div>
+                                    
+                              
+	</div>
+                        
+</div>
+            </div>
+            
+            <div id="PdfDiv" style="display: none;">
+                  <table width="100%">
+                        <tr>
+                              <td style="font-weight: 200; text-align: center">
+                                    Ministry of Civil Aviation
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                                    <div style="font-weight: 200; text-align: center; font-size: 30px;">
+                                          AAI awarded six airports for Operations, Management and Development under Public Private Partnership (PPP) for a period of 50 years in the year 2020-2021.
+                                    </div>
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                                    <div style="font-weight: 200; text-align: center; font-size: 30px;">
+                                          <div style='height:30px;width:100%;'></div>Concessionaires have been selected through competitive bidding process by evaluating the technical and financial capacity of the bidders.
+                                    </div>
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                                    <div style="text-align: center; font-size: 14px;">
+                                          प्रविष्टि तिथि:
+                        27 MAR 2023 3:44PM by PIB Delhi
+                                    </div>
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                                    <div style="font-weight: 200; text-align: left; font-size: 16px;">
+                                          <p style="text-align:justify"><span style="font-family:&quot;Times New Roman&quot;,Times,serif; font-size:16px">Airports Authority of India (AAI) has awarded six airports namely Ahmedabad, Jaipur, Lucknow, Guwahati, Thiruvananthapuram and Mangaluru for Operations, Management and Development under Public Private Partnership (PPP) for a period of 50 years in the year 2020-2021. The terms and conditions of the transaction of PPP of six airports were decided by the Empowered Group of Secretaries (EGoS) chaired by CEO, NITI Aayog which inter-alia comprised Secretaries of Ministry of Finance (Department of Economic Affairs and Department of Expenditure) also. Therefore, the Ministry of Finance and NITI Aayog were part of the decision making process and the EGoS finalised the contours of the bidding process for PPP of six airports.</span></p>
+
+<p style="text-align:justify"><span style="font-family:&quot;Times New Roman&quot;,Times,serif; font-size:16px">In order to ensure more competition and to give more flexibility to bidders, the following conditions among others were stipulated: -</span></p>
+
+<p style="text-align:justify"><span style="font-family:&quot;Times New Roman&quot;,Times,serif; font-size:16px">i. No prior airport experience</span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">ii. No cap on number of airports for which a participating entity could bid for</span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">iii. Per Passenger Fee as bidding parameter instead of revenue sharing.</span></span></p>
+
+<p style="text-align:justify"><span style="font-family:&quot;Times New Roman&quot;,Times,serif; font-size:16px">The Concessionaires have been selected through competitive bidding process by evaluating the technical and financial capacity of the bidders. The decision of EGoS was considered and after detailed deliberation on relevant issues, Public Private Partnership Appraisal Committee (PPPAC) recommended the proposal. The PPPAC, chaired by Secretary, Department of Economic Affairs comprising Members from NITI Aayog, Department of Expenditure, Department of Legal Affairs, Ministry of Civil Aviation and AAI in its meeting held on 11.12.2018 had deliberated the issue of Total Project Cost (TPC). To a suggestion that TPC should be estimated upfront, the PPPAC noted that it is not possible to work out the TPC over the proposed concession period of 50 years as it would depend on the basis of demand to be assessed by the Concessionaire.&nbsp; It was also noted by PPPAC that there is no one size fits all strategy and termination payment have been taken care of in a unique manner and not in terms of TPC.</span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">This information was given by the Minister of State in the Ministry of Civil Aviation Gen. (Dr) V. K. Singh (Retd) in a written reply to a question in Rajya Sabha today.</span></span></p>
+
+<p style="text-align:center"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">*****</span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><strong>YB</strong></span></span></p>
+
+                                    </div>
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                                    <div style="font-weight: 100; text-align: left; font-size: 16px;">
+                                          (रिलीज़ आईडी: 1911136)
+                                    </div>
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                              </td>
+                        </tr>
+                        <tr>
+                              <td style="font-weight: 200; text-align: center; font-size: 24px;"></td>
+                        </tr>
+                  </table>
+            </div>
+            <div class="clearfix">
+            </div>
+
+            
+
+            <div class="section1">
+                  <div id="frst_t">
+                        <div id="arr_rm"><div class='sticky-social_mb'><ul class='social_mb'><a href='http://www.facebook.com/share.php?u=https://pib.gov.in/PressReleasePage.aspx?PRID=1911136' target='_blank'><li class='fb_b'   ></li></a><a href='https://twitter.com/intent/tweet?url=https://pib.gov.in/PressReleasePage.aspx?PRID=1911136&text=AAI awarded six airports for Operations, Management and Development under Public Private Partnership (PPP) for a period of 50 years in the year 2020-2021.' target='_blank'><li class='twitter_r'  > </li></a><a href='https://api.whatsapp.com/send?text=https://pib.gov.in/PressReleasePage.aspx?PRID=1911136' target='_blank'><li class='whatsapp_r'  ></li></a><a href='https://mail.google.com/mail/?view=cm&fs=1&tf=1&to=&su=AAI awarded six airports for Operations, Management and Development under Public Private Partnership (PPP) for a period of 50 years in the year 2020-2021.&body=https://pib.gov.in/PressReleasePage.aspx?PRID=1911136&ui=2&tf=1&pli=1' title='Share by Email' target='_blank'><li class='fa-envelope_r' ></li></a><a href='https://www.linkedin.com/shareArticle?mini=true&url=https://pib.gov.in/PressReleasePage.aspx?PRID=1911136&title=AAI awarded six airports for Operations, Management and Development under Public Private Partnership (PPP) for a period of 50 years in the year 2020-2021.&summary=My%20favorite%20developer%20program&source=LinkedIn' target='_blank'><li class='fa-linkedin_r'  ></li></a></ul></div></div>
+                  </div>
+                  <div id="second_t">
+                        <div id="sndr_rm"><div class='sticky-social'><ul class='social'><a href='http://www.facebook.com/share.php?u=https://pib.gov.in/PressReleasePage.aspx?PRID=1911136' target='_blank'><li class='fb_b'   ></li></a><a href='https://twitter.com/intent/tweet?url=https://pib.gov.in/PressReleasePage.aspx?PRID=1911136&text=AAI awarded six airports for Operations, Management and Development under Public Private Partnership (PPP) for a period of 50 years in the year 2020-2021.' target='_blank'><li class='twitter_r'  > </li></a><a href='https://api.whatsapp.com/send?text=https://pib.gov.in/PressReleasePage.aspx?PRID=1911136' target='_blank'><li class='whatsapp_r'  ></li></a><a href='https://mail.google.com/mail/?view=cm&fs=1&tf=1&to=&su=AAI awarded six airports for Operations, Management and Development under Public Private Partnership (PPP) for a period of 50 years in the year 2020-2021.&body=https://pib.gov.in/PressReleasePage.aspx?PRID=1911136&ui=2&tf=1&pli=1' title='Share by Email' target='_blank'><li class='fa-envelope_r' ></li></a><a href='https://www.linkedin.com/shareArticle?mini=true&url=https://pib.gov.in/PressReleasePage.aspx?PRID=1911136&title=AAI awarded six airports for Operations, Management and Development under Public Private Partnership (PPP) for a period of 50 years in the year 2020-2021.&summary=My%20favorite%20developer%20program&source=LinkedIn' target='_blank'><li class='fa-linkedin_r'  ></li></a></ul></div></div>
+                  </div>
+            </div>
+            <input type="hidden" name="ltrTitlee" id="ltrTitlee" value="AAI awarded six airports for Operations, Management and Development under Public Private Partnership (PPP) for a period of 50 years in the year 2020-2021." />
+            <input type="hidden" name="ltrSubtitlee" id="ltrSubtitlee" value="&lt;br/>Concessionaires have been selected through competitive bidding process by evaluating the technical and financial capacity of the bidders." />
+            <input type="hidden" name="ltrDescriptionn" id="ltrDescriptionn" value="&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:&amp;quot;Times New Roman&amp;quot;,Times,serif; font-size:16px&quot;>Airports Authority of India (AAI) has awarded six airports namely Ahmedabad, Jaipur, Lucknow, Guwahati, Thiruvananthapuram and Mangaluru for Operations, Management and Development under Public Private Partnership (PPP) for a period of 50 years in the year 2020-2021. The terms and conditions of the transaction of PPP of six airports were decided by the Empowered Group of Secretaries (EGoS) chaired by CEO, NITI Aayog which inter-alia comprised Secretaries of Ministry of Finance (Department of Economic Affairs and Department of Expenditure) also. Therefore, the Ministry of Finance and NITI Aayog were part of the decision making process and the EGoS finalised the contours of the bidding process for PPP of six airports.&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:&amp;quot;Times New Roman&amp;quot;,Times,serif; font-size:16px&quot;>In order to ensure more competition and to give more flexibility to bidders, the following conditions among others were stipulated: -&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:&amp;quot;Times New Roman&amp;quot;,Times,serif; font-size:16px&quot;>i. No prior airport experience&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>ii. No cap on number of airports for which a participating entity could bid for&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>iii. Per Passenger Fee as bidding parameter instead of revenue sharing.&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:&amp;quot;Times New Roman&amp;quot;,Times,serif; font-size:16px&quot;>The Concessionaires have been selected through competitive bidding process by evaluating the technical and financial capacity of the bidders. The decision of EGoS was considered and after detailed deliberation on relevant issues, Public Private Partnership Appraisal Committee (PPPAC) recommended the proposal. The PPPAC, chaired by Secretary, Department of Economic Affairs comprising Members from NITI Aayog, Department of Expenditure, Department of Legal Affairs, Ministry of Civil Aviation and AAI in its meeting held on 11.12.2018 had deliberated the issue of Total Project Cost (TPC). To a suggestion that TPC should be estimated upfront, the PPPAC noted that it is not possible to work out the TPC over the proposed concession period of 50 years as it would depend on the basis of demand to be assessed by the Concessionaire.&amp;nbsp; It was also noted by PPPAC that there is no one size fits all strategy and termination payment have been taken care of in a unique manner and not in terms of TPC.&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>This information was given by the Minister of State in the Ministry of Civil Aviation Gen. (Dr) V. K. Singh (Retd) in a written reply to a question in Rajya Sabha today.&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:center&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>*****&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>&lt;strong>YB&lt;/strong>&lt;/span>&lt;/span>&lt;/p>
+" />
+            <script type="text/javascript">
+                  var mPlayer = document.getElementById("background_music");
+                  var mPlayAction = document.getElementById("playbutton");
+
+                  var isPlaying = false;
+
+                  function playAudio() {
+                        mPlayer.play();
+                        isPlaying = true;
+                        document.getElementById('stopA').style.display = "block";
+                        document.getElementById('playA').style.display = "none";
+                  }
+
+                  function pauseAudio() {
+                        mPlayer.pause();
+                        isPlaying = false;
+                        document.getElementById('playA').style.display = "block";
+                        document.getElementById('stopA').style.display = "none";
+                  }
+                  //function HandleAudio() {
+                  //    if (isPlaying == true) {
+                  //        //Playing already Pause it
+                  //        pauseAudio();
+                  //    } else {
+                  //        //Play the music
+                  //        playAudio();
+                  //    }
+                  //}
+            </script>
+            <script type="text/javascript">
+                  var synth = window.speechSynthesis;
+
+            
+                  function CleanHtml(html) {
+
+                        html = html.replace(/<script[\s\S]*?<\/script>/gi, '');
+
+                        return html;
+                  }
+                  function stripHtml(html) {
+                        let tmp = document.createElement("DIV");
+                        tmp.innerHTML = CleanHtml(html);
+                        return tmp.textContent || tmp.innerText || "";
+                  }
+            </script>
+            <script type="text/javascript">
+                  $(document).ready(function () {
+                        //for responsive tables
+                        $("table").each(function () {
+                              if (!$(this).closest(".table-responsive").length) {
+                                    $(this).wrap("<div class='table-responsive'></div>");
+                              }
+                        });
+
+                        var width = $(window).width();
+                        if (width < 768) {
+
+                              // Extra Small Device
+                              document.getElementById('frst_t').style.display = "block";
+                              document.getElementById('second_t').style.display = "none";
+
+                        } else if (width < 991) {
+                              document.getElementById('frst_t').style.display = "block";
+                              document.getElementById('second_t').style.display = "none";
+                              // Small Device
+
+                        } else if (width < 1199) {
+                              document.getElementById('frst_t').style.display = "none";
+                              document.getElementById('second_t').style.display = "block";
+                              // Medium Device
+
+                        } else {
+                              document.getElementById('frst_t').style.display = "none";
+                              document.getElementById('second_t').style.display = "block";
+                              // Large Device
+
+                        }
+                  });
+            </script>
+            <script type="text/javascript">
+                  $(document).ready(function () {
+                        var width = $(window).width();
+                        if (width < 768) {
+
+                              // Extra Small Device
+                              document.getElementById('frst_t').style.display = "block";
+                              document.getElementById('second_t').style.display = "none";
+
+                        } else if (width < 991) {
+                              document.getElementById('frst_t').style.display = "block";
+                              document.getElementById('second_t').style.display = "none";
+                              // Small Device
+
+                        } else if (width < 1199) {
+                              document.getElementById('frst_t').style.display = "none";
+                              document.getElementById('second_t').style.display = "block";
+                              // Medium Device
+
+                        } else {
+                              document.getElementById('frst_t').style.display = "none";
+                              document.getElementById('second_t').style.display = "block";
+                              // Large Device
+
+                        }
+                  });
+            </script>
+            
+            <style type="text/css">
+                  @media print {
+                        .sticky-social, .sticky-social_mb, .pull-right, #printPDF {
+                              display: none !important;
+                        }
+                  }
+
+                  .f_vl {
+                        padding-right: 30px;
+                        font-size: 17px;
+                        cursor: pointer;
+                  }
+
+                  .log_oo {
+                        // width: 20%;
+                        display: flex;
+                        justify-content: space-between;
+                  }
+
+                        .log_oo img {
+                              width: 150px;
+                              /*width: 100%;
+                    height: auto;*/
+                        }
+
+                  .sticky-social_mb {
+                        position: fixed;
+                        bottom: 0px;
+                        padding: 0px;
+                        margin: 0px;
+                        width: 100%;
+                  }
+
+                  .social_mb {
+                        list-style: none;
+                        display: flex;
+                        width: 100%;
+                        margin-bottom: -8px;
+                  }
+
+                        .social_mb a {
+                              padding: 8px 0px;
+                              font-size: 30px;
+                              transition: all 0.8s ease-in-out;
+                              width: 20% !important;
+                              text-align: center;
+                        }
+            </style>
+            <style type="text/css">
+                  .section1 {
+                        position: relative;
+                        padding: 10px 0px;
+                        width: 100%;
+                  }
+
+
+
+                  .sticky-social {
+                        position: fixed;
+                        top: 20px;
+                        left: 0px;
+                        padding: 0px;
+                        margin: 0px;
+                  }
+
+                  .social {
+                        list-style: none;
+                  }
+
+                        .social a li {
+                              padding: 8px 12px;
+                              font-size: 25px;
+                              transition: all 0.8s ease-in-out;
+                        }
+
+                              .social a li:hover {
+                                    margin-right: -30px;
+                                    box-shadow: 2px 5px 10px grey;
+                              }
+
+                                    .social a li:hover .fa {
+                                          margin-left: 20px;
+                                    }
+
+                  .fb_b {
+                        /* background-color: var(--dbim-key, #0F5757);*/
+                        background-color: var(--dbim-key, #0F5757);
+                  }
+
+                  .twitter_r {
+                        /* background-color: rgb(29, 161, 242);*/
+                        background-color: var(--dbim-key, #0F5757);
+                  }
+
+                  .whatsapp_r {
+                        /* background-color: var(--dbim-key, #0F5757);*/
+                        background-color: var(--dbim-key, #0F5757);
+                  }
+
+                  .fa-envelope_r {
+                        /* background-color: var(--dbim-key, #0F5757);*/
+                        background-color: var(--dbim-key, #0F5757);
+                  }
+
+                  .fa-linkedin_r {
+                        background-color: var(--dbim-key, #0F5757);
+                  }
+            </style>
+            <style type="text/css">
+                  @media only screen and (max-device-width: 767px) {
+                        p span img {
+                              max-width: 90% !important;
+                              height: auto !important;
+                        }
+
+                        p img {
+                              max-width: 90% !important;
+                              height: auto !important;
+                        }
+
+                        h2 {
+                              font-size: var(--dbim-h2, 20px);   /* was 20px !important - the !important blocked A+/A- */
+                              font-weight: 600 !important;
+                        }
+
+                        h3 {
+                              font-size: var(--dbim-h3, 16px);   /* was 16px !important */
+                              font-weight: 600 !important;
+                        }
+                  }
+            </style>
+            <style type="text/css">
+                  /* === Film Roll Badge Styling(IFFI2025 countdown) === */
+                  .film-roll-badge {
+                        position: absolute;
+                        top:82%;
+                        right: 20px;
+                        width: 230px;
+                        height: 70px;
+                        background: repeating-linear-gradient( to right, var(--dbim-green-key, #0F5757) 0px, var(--dbim-green-key, #0F5757) 18px, var(--dbim-text, #150202) 18px, var(--dbim-text, #150202) 36px );
+                        border-top: 8px solid var(--dbim-green-key, #0F5757);
+                        border-bottom: 8px solid var(--dbim-green-key, #0F5757);
+                        border-radius: 8px;
+                        overflow: hidden;
+                        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+                        animation: moveFilm 8s linear infinite;
+                        z-index: 10;
+                  }
+
+                        /* film sprocket holes */
+                        .film-roll-badge::before,
+                        .film-roll-badge::after {
+                              content: "";
+                              position: absolute;
+                              width: 100%;
+                              height: 10px;
+                              background: repeating-linear-gradient( to right, var(--dbim-green-key, #0F5757) 0px, var(--dbim-green-key, #0F5757) 10px, #fff 10px, #fff 20px );
+                              left: 0;
+                              z-index: 2;
+                        }
+
+                        .film-roll-badge::before {
+                              top: -4px;
+                        }
+
+                        .film-roll-badge::after {
+                              bottom: -4px;
+                        }
+
+                  .film-roll-inner {
+                        position: relative;
+                        height: 100%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        animation: flicker 2s infinite ease-in-out;
+                  }
+
+                  .countdown-text {
+                        font-size: 1.3rem;
+                        font-weight: 700;
+                        color: #fff;
+                        text-shadow: 0 0 6px rgba(255, 255, 255, 0.4), 0 0 10px #000;
+                        white-space: nowrap;
+                  }
+
+                  /* === Animations === */
+                  @keyframes moveFilm {
+                        0% {
+                              background-position: 0 0;
+                        }
+
+                        100% {
+                              background-position: 120px 0;
+                        }
+                  }
+
+                  @keyframes flicker {
+                        0%, 100% {
+                              opacity: 1;
+                        }
+
+                        50% {
+                              opacity: 0.9;
+                        }
+
+                        25% {
+                              opacity: 0.95;
+                        }
+
+                        75% {
+                              opacity: 0.85;
+                        }
+                  }
+
+                  /* === Responsive Adjustments === */
+                  @media (max-width: 1500px) {
+                        .film-roll-badge {
+                              top: 68%;
+                              right: 18px;
+                              /* width: 220px; */
+                              height: 65px;
+                              font-size: 0.85rem;
+                        }
+
+                        .press-section {
+                              margin-top: 35px;
+                        }
+                  }
+
+                  @media (max-width: 992px) {
+                        .film-roll-badge {
+                              top: 52%;
+                              right: 10px;
+                               width: 200px; 
+                              height: 60px;
+                        }
+                  }
+
+                  @media (max-width: 768px) {
+                        .film-roll-badge {
+                              top: 56%;
+                              right: 10px;
+                               width: 124px; 
+                              height: 55px;
+                        }
+
+                        .countdown-text {
+                              font-size: 0.9rem;
+                        }
+                  }
+
+                  @media (max-width: 576px) {
+                        .film-roll-badge {
+                              top: 59%;
+                              right: 5px;
+                              /* width: 160px; */
+                              height: 50px;
+                        }
+
+                        .countdown-text {
+                              font-size: 0.85rem;
+                        }
+                  }
+            </style>
+                        <script type="text/javascript">
+                  const festivalStart = new Date("2025-11-20T00:00:00").getTime();
+                  const festivalEnd = new Date("2025-11-28T23:59:59").getTime();
+
+                  const countdownElement = document.getElementById("countdown");
+
+                  const interval = setInterval(() => {
+                        const now = new Date().getTime();
+
+                        // BEFORE FESTIVAL — show days + hours left
+                        if (now < festivalStart) {
+                              const diff = festivalStart - now;
+                              const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                              const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+
+                              countdownElement.innerHTML = `
+                ${days} Day${days !== 1 ? 's' : ''} 
+                ${hours} Hour${hours !== 1 ? 's' : ''} to go
+            `;
+
+                        }
+
+                        // DURING FESTIVAL — show 56th IFFI - Day X
+                        else if (now >= festivalStart && now <= festivalEnd) {
+                              const dayNumber = Math.floor((now - festivalStart) / (1000 * 60 * 60 * 24)) + 1;
+                              countdownElement.innerHTML = `56th IFFI - Day ${dayNumber}`;
+                        }
+
+                        // AFTER FESTIVAL — new message
+                        else {
+                              countdownElement.innerHTML = `✨ IFFI closes but never ends…`;
+
+                              // Width change logic
+                              const elements = document.querySelectorAll('.film-roll-badge');
+                              elements.forEach(el => el.style.width = "350px");
+
+                              clearInterval(interval);
+                        }
+
+                  }, 1000);
+            </script>
+
+      
+
+<script type="text/javascript">
+//<![CDATA[
+(function() {var fn = function() {$get("sc_HiddenField").value = '';Sys.Application.remove_init(fn);};Sys.Application.add_init(fn);})();Sys.Application.add_init(function() {
+    $create(Sys.Extended.UI.ModalPopupBehavior, {"BackgroundCssClass":"modalBackground","PopupControlID":"P_CategoryManagement","dynamicServicePath":"/PressReleaseIframePage.aspx","id":"mpe"}, null, null, $get("Hidden"));
+});
+//]]>
+</script>
+</form>
+      
+      
+
+<script type="application/json" id="pibConsentConfig">{"ga4Id":"G-Q414Y0X6EE,G-QJJ6LZ8LHV","policyUrl":"/CookiePolicy.aspx","text":{"bannerLabel":"कुकी सहमति","title":"इस वेबसाइट पर कुकीज़","body":"इस वेबसाइट को चलाने के लिए हम आवश्यक कुकीज़ का उपयोग करते हैं। आपके आने पर हम विश्लेषण कुकीज़ भी सेट करते हैं, ताकि हम देख सकें कि साइट का उपयोग कैसे हो रहा है और उसे बेहतर बना सकें - आप इन्हें नीचे या कभी भी कुकी नीति पृष्ठ से बंद कर सकते हैं। सोशल मीडिया सामग्री की कुकीज़ केवल आपकी अनुमति से ही सेट की जाती हैं।","policyLink":"हमारी कुकी नीति पढ़ें","accept":"सभी स्वीकार करें","reject":"वैकल्पिक अस्वीकार करें","customize":"अनुकूलित करें","prefsTitle":"कुकी प्राथमिकताएं","prefsIntro":"चुनें कि यह वेबसाइट कौन सी कुकीज़ सेट कर सकती है। आवश्यक कुकीज़ बंद नहीं की जा सकतीं क्योंकि उनके बिना साइट काम नहीं करती। विश्लेषण कुकीज़ तब तक चालू रहती हैं जब तक आप उन्हें बंद न करें। सोशल मीडिया कुकीज़ तब तक बंद रहती हैं जब तक आप अनुमति न दें। आप ये विकल्प कभी भी कुकी नीति पृष्ठ से बदल सकते हैं।","essentialName":"आवश्यक कुकीज़","essentialDesc":"साइट के कार्य करने के लिए आवश्यक। ये आपका सत्र, आपकी भाषा और क्षेत्र, आपके पाठ का आकार और रंग थीम याद रखती हैं, तथा फ़ॉर्म की सुरक्षा जांच सत्यापित करती हैं। ये हमेशा चालू रहती हैं।","analyticsName":"विश्लेषण कुकीज़","analyticsDesc":"ये हमें यह समझने में मदद करती हैं कि आगंतुक साइट का उपयोग कैसे करते हैं - कौन से पृष्ठ पढ़े जाते हैं और लोग कितनी देर रुकते हैं - ताकि इसे बेहतर बनाया जा सके। यह जानकारी ऐसे रूप में एकत्र की जाती है जो सीधे आपकी पहचान नहीं करती। आपके आने पर ये चालू रहती हैं; इन्हें यहां बंद करने पर ये रुक जाती हैं और पहले से सेट कुकीज़ हटा दी जाती हैं।","socialName":"सोशल मीडिया कुकीज़","socialDesc":"ये X, फेसबुक और यूट्यूब से एम्बेड की गई सामग्री, जैसे टाइमलाइन और वीडियो, द्वारा सेट की जाती हैं। ये प्लेटफ़ॉर्म इनका उपयोग विभिन्न वेबसाइटों पर आपको ट्रैक करने के लिए कर सकते हैं। ये तब तक बंद रहती हैं जब तक आप अनुमति न दें।","save":"प्राथमिकताएं सहेजें","cancel":"रद्द करें"}}</script>
+<script type="text/javascript" src='/js/consent.js?v=10'></script>
+
+<script type="text/javascript" src='/js/consent-embeds.js?v=10'></script>
+
+    
+</body>
+</html>

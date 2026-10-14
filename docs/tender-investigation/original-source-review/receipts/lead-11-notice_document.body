@@ -1,0 +1,72 @@
+<html>
+<head>
+<title>eTender System</title>
+<link href="css/gep_style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+<form method="post" action="/eprocure/app" id="NoAuthorizationPage">
+<div style="display:none;" id="NoAuthorizationPagehidden"><input type="hidden" name="formids" value="" />
+<input type="hidden" name="seedids" value="BrO0ABXdQAE4sc2VydmljZSQwLHBhZ2UkMCxjb21wb25lbnQkMCxjb250YWluZXIkMCxzZXNzaW9uJDAsc3AkMCxOb0F1dGhvcml6YXRpb25QYWdlJDA=" />
+<input type="hidden" name="component" value="NoAuthorizationPage" />
+<input type="hidden" name="page" value="NoAuthorizationPage" />
+<input type="hidden" name="service" value="direct" />
+<input type="hidden" name="session" value="T" />
+<input type="hidden" name="submitmode" value="" />
+<input type="hidden" name="submitname" value="" />
+</div>
+	<table width="100%" height="100%" border="0" cellspacing="0" cellpadding="0">
+		<tr>
+			<td height="60">
+				<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+					<tr valign="top"> 
+			         	<td width="30"><img alt="Logo" src="null/gep_logo.png" id="Any"></img></td>
+			          	<td class="errTopBanner" align="right" valign="bottom">Government eProcurement System</td>
+					</tr>
+				</table>          	
+			</td>
+		</tr>
+		<tr>
+				<tr>
+						<td class="td_space">&nbsp;</td>
+					</tr>
+			<td height="100%" valign="top" align="center" style="padding-top:20px;">
+				<table width="800" cellspacing="0" cellpadding="0" class="exceptionBox">
+					<tr>
+						<td height="30" class="exceptionHeader" valign="top"><img src="images/alert_icon.png">&nbsp;&nbsp;
+						<b>Unauthorized Page</b> 
+						</td>
+					</tr>	
+					<tr>
+						<td class="td_space">&nbsp;</td>
+					</tr>		
+					<tr>
+						<td class="exceptionBody" valign="top" style="font-size:13px;"><b>You are attempting to access an unauthorized area..</b></td>
+					</tr>
+					<tr>
+						<td class="td_space">&nbsp;</td>
+					</tr>
+					<tr>
+						<td class="exceptionBody" align="center" style="font-size:13px;"><a id="HomeLink" page="Home" title="Back to home page" class="blue_link" href="/eprocure/app?service=restart">&laquo;&nbsp;<b>Click here to Re-Login</b> &raquo;&nbsp; </a>
+						</td>
+ 					</tr>
+ 					<tr>
+						<td class="td_space">&nbsp;</td>
+					</tr>
+					<tr>
+						<td class="exceptionBody" align="center" style="font-size:13px;"><a id="PageLink" title="go to helpdesk" class="blue_link" href="/eprocure/app?page=FrontEndContactUs&amp;service=page">&laquo;&nbsp;<b>For Further Information Please Contact Administrator or HelpDesk</b> &raquo;&nbsp;</a>
+						</td>
+					</tr>
+				<tr>
+						<td class="td_space">&nbsp;</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td height="25" class="errFooter" align="right">&copy; Copyrights to NIC. All rights reserved.</td>
+		</tr>
+	</table>
+</form>
+</body>
+</html>

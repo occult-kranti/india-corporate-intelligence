@@ -1,0 +1,79 @@
+
+ForceGraph — /#/cabinet
+  · viewBox is measured, not assumed (no letterbox)  element 641×620, viewBox 641×620
+  · canvas backing store is the frame × device pixel ratio, under the camera layer exactly  641×620 for 641×620 @1
+  · the canvas is an image with a name  Connection graph: 224 entities, 230 relationships. Drag to p
+  · the layout ran in the worker  worker
+  · every node lands inside the frame after auto-fit  224 nodes, centres span 123,27 – 519,589 in 641×620
+  · the canvas painted the largest node where the camera says it is  alpha 224 under LIC
+  · pan-right button moves the camera right  Δtx -77
+  · found empty canvas to drag (cabinet)
+  · a 200px drag moves the graph exactly 200px  moved 200, expected 200
+  · zoom-in button scales by 1.3  1.300×
+  · maximise hands the graph the window  1416×846
+  · maximised frame has no letterbox either  viewBox 1416×846
+  · maximised canvas is re-sized with it  1416×846 for 1416×845.5
+  · dragging a node moves it — with the pointer  LIC: Δ 120,-80
+  · a dragged node is pinned and says so
+  · the pinned node wears its ring on the canvas, and did not before  ring ink 0% → 79% of the circle; body alpha 224
+  · a drag is not read as a click
+  · a click still selects
+  · Escape returns it inline  641×620
+
+ForceGraph — /#/atlas selection, path, keyboard focus, reproducibility
+  · found empty canvas to drag
+  · wheel zoom logs no passive-listener error
+  · Enter selects (sel in the URL)
+  · selecting keeps the pan and zoom  before 480.4125094379707,410.1050185906916×0.715107347219907 after 480.4125094379707,410.1050185906916×0.715107347219907
+  · selecting does not re-run the layout  ticks 300→300, layout 66:87aca2d9→66:87aca2d9
+  · the selection is a pressed entity with its relationships in the tab order
+  · Shift+Enter asks the path question (path in the URL)
+  · a path keeps the pan and zoom
+  · maximising with f keeps keyboard focus in the frame
+  · arrow keys still pan when maximised  Δtx 170
+  · first Escape clears the path and stays maximised  1416×846, url /atlas?iw_view=dossier&sel=abtrust
+  · next Escape leaves the maximised view  641×680
+  · Tab from the frame reaches an entity  abtrust
+  · tab stops are the examined set, not every entity  5 stops for 66 drawn
+  · an arrow on an entity moves the cursor to another entity  abtrust → coal
+  · the cursor move is announced  Coal & Mines Ministry, ministry, 13 relationships in view, 0 alleged, 1 denial
+  · Enter selects the entity under the cursor  /atlas?iw_view=dossier&sel=coal
+  · a shared URL reproduces the layout  66:fe63dcad vs 66:fe63dcad
+
+ForceGraph — /#/atlas hit-testing follows the drawn shape
+  · every in-fill point of every examined glyph hovers that glyph (at fit, k=0.62)  circle 110/110 · square 196/196 · person 33/33 · diamond 75/75 · triangle 74/74
+  · every in-fill point of every examined glyph hovers that glyph (zoomed in, k=1.05)  circle 111/111 · square 196/196 · person 33/33 · diamond 75/75 · triangle 75/75
+
+ForceGraph — /#/atlas hit-testing after an in-app focus change
+  · after a focus change every drawn entity hovers as itself  3/3 of 3 drawn (jsw,coal,pmcares → cavill,coal,adani)
+  · an entity the focus hides is not a hit target  0 of 2 hidden positions still select their entity
+
+ForceGraph — /#/atlas a coordinate-less click on an entity
+  · a click dispatched on the focused entity selects it  abtrust: /atlas?iw_view=dossier&sel=abtrust
+
+ForceGraph — /#/network a claim beside its same-pair denial
+  · same-pair inspection uses a visible full-window graph
+  · a claim and its same-pair denial are both painted, each in its own colour  claim 4/4 · denial 4/4
+  · each of them hovers as itself  2/2
+
+GraphExplorer — /#/atlas jump-to, as-of, why-drawn
+  · jump-to lists the matching entity as label · type · id  Coal & Mines Ministry · ministry · coal
+  · jump-to sets the selection param to the chosen entity  /atlas?iw_view=dossier&sel=coal
+  · jump-to selects the entity on the graph itself
+  · the as-of caption prints the exact required sentence  As of 2020-01-01: 103 of 108 edges drawn; 103 undated edges kept
+  · as-of date in the caption matches the URL  2020-01-01
+  · as-of excludes at least one dated edge (shown < total)  103 of 108
+  · the table twin lists exactly the drawn edges (row count == shown)  103 rows vs 103 shown (103 of them undated)
+  · selecting a relationship shows a "why drawn" line
+  · the "why drawn" line names what admitted the edge  Drawn because: no filter excludes it
+
+GeoNetwork — /#/geograph
+  · map keeps its fixed viewBox — a stretched map is a lie  viewBox 830×696, element 617×714
+  · drag is exact under letterboxing too  moved 202 viewBox units for 150px at 1.345219 units/px
+  · map zooms  1.300×
+  · fit returns the whole map  k=1 tx=0 ty=0
+  · map maximises  1416×800
+  · maximised drag preserves pointer distance at a different SVG scale  moved 131 viewBox units for 150px at 0.870544 units/px
+
+graph-viewport: OK
+

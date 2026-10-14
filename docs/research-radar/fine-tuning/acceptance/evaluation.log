@@ -1,0 +1,5 @@
+{"system": "bm25", "caseMacro": {"ndcgAt5": 0.9313165194101403, "mrrAt10": 0.975, "recallAt5": 0.8916666666666666, "familyNdcgAt5": 0.9941830611232421, "familyRecallAt5": 1.0, "hardNegativePreference": 0.975, "counterevidenceRecallAt5": 1.0}}
+{"system": "base_fp32", "caseMacro": {"ndcgAt5": 0.9255224535507167, "mrrAt10": 0.95, "recallAt5": 0.9166666666666666, "familyNdcgAt5": 0.9557265623816971, "familyRecallAt5": 0.975, "hardNegativePreference": 1.0, "counterevidenceRecallAt5": 1.0}}
+{"system": "base_onnx_uint8", "caseMacro": {"ndcgAt5": 0.8978286745588917, "mrrAt10": 0.925, "recallAt5": 0.8916666666666666, "familyNdcgAt5": 0.9390760283944373, "familyRecallAt5": 0.975, "hardNegativePreference": 1.0, "counterevidenceRecallAt5": 1.0}}
+{"system": "candidate", "caseMacro": {"ndcgAt5": 0.9341822943035613, "mrrAt10": 0.975, "recallAt5": 0.9166666666666666, "familyNdcgAt5": 0.9741800747031242, "familyRecallAt5": 0.975, "hardNegativePreference": 1.0, "counterevidenceRecallAt5": 1.0}}
+{"promotion": "experimental-not-promoted", "failedCriteria": ["case-macro nDCG@5 gain over strongest neural baseline", "held-out cases with positive nDCG@5 change"]}

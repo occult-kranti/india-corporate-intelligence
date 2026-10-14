@@ -1,0 +1,227 @@
+{
+  "schemaVersion": 1,
+  "task": "document-discovery-and-exact-edge-navigation",
+  "corpusFingerprint": "80559f45ff026a823d6312cba6b94792ff9a3d2e308269b493beaeb3f577b9e1",
+  "counts": {
+    "sources": 3314,
+    "entities": 2469,
+    "edges": 4202,
+    "records": 5616,
+    "questions": 43
+  },
+  "streamInputs": [],
+  "limitations": [
+    "All prior registry sectors loaded, including explicitly labelled legacy sources; these records were not all newly inspected.",
+    "No name-based entity merging. Same labels in different namespaces remain separate.",
+    "BM25 relevance does not confirm the truth of a claim or a relationship.",
+    "Paths may mix ownership, official roles, alleged transfers and contracts; they are not a money total."
+  ],
+  "query": "military police welfare PM CARES government funds",
+  "rankedCandidates": [
+    {
+      "id": "legacy:record:money:c053|co:ongc|csr|pmcares",
+      "kind": "records",
+      "bm25": 19.928684926285367,
+      "label": "ONGC · ONGC CSR → PM CARES ₹300 cr · PM CARES Fund",
+      "sourceIds": [
+        "legacy:source:4b1869498c7a77b7"
+      ],
+      "corpusOrigin": "retained-registry-not-newly-reread"
+    },
+    {
+      "id": "justice-research:source:src-pmcares-judgment",
+      "kind": "sources",
+      "bm25": 17.677144486181696,
+      "label": "PM CARES / NDRF fund-transfer judgment — W.P.(C) 546/2020",
+      "sourceIds": [
+        "justice-research:source:src-pmcares-judgment"
+      ],
+      "corpusOrigin": "retained-registry-not-newly-reread"
+    },
+    {
+      "id": "legacy:record:lit:c030|sc|enforce|pmcares",
+      "kind": "records",
+      "bm25": 17.130734089391307,
+      "label": "Supreme Court · SC rejects CAG-audit/NDRF plea · PM CARES Fund",
+      "sourceIds": [
+        "legacy:source:5a1f344286cda514"
+      ],
+      "corpusOrigin": "retained-registry-not-newly-reread"
+    },
+    {
+      "id": "legacy:source:9ce81bf63394c088",
+      "kind": "sources",
+      "bm25": 17.11380228413917,
+      "label": "DH PM CARES",
+      "sourceIds": [
+        "legacy:source:9ce81bf63394c088"
+      ],
+      "corpusOrigin": "retained-registry-not-newly-reread"
+    },
+    {
+      "id": "justice-research:record:record-pmcares-judgment",
+      "kind": "records",
+      "bm25": 16.999508494577338,
+      "label": "PM CARES and NDRF: different funds, no compulsory transfer",
+      "sourceIds": [
+        "justice-research:source:src-pmcares-judgment"
+      ],
+      "corpusOrigin": "retained-registry-not-newly-reread"
+    },
+    {
+      "id": "legacy:source:5a1f344286cda514",
+      "kind": "sources",
+      "bm25": 16.795970570785457,
+      "label": "Wikipedia — PM CARES Fund",
+      "sourceIds": [
+        "legacy:source:5a1f344286cda514"
+      ],
+      "corpusOrigin": "retained-registry-not-newly-reread"
+    },
+    {
+      "id": "legacy:record:money:c056|co:sail|pmin|pmcares",
+      "kind": "records",
+      "bm25": 16.78249975819721,
+      "label": "SAIL · SAIL → PM CARES ₹30 cr · PM CARES Fund",
+      "sourceIds": [
+        "legacy:source:493a5ef2da61c088"
+      ],
+      "corpusOrigin": "retained-registry-not-newly-reread"
+    },
+    {
+      "id": "legacy:record:795164c8496a1e40|birla|pmin|pmcares",
+      "kind": "records",
+      "bm25": 16.194454762826343,
+      "label": "Aditya Birla Group · ~₹400cr (2020) · PM CARES Fund",
+      "sourceIds": [
+        "legacy:source:d56a80224f5a1020"
+      ],
+      "corpusOrigin": "retained-registry-not-newly-reread"
+    },
+    {
+      "id": "legacy:record:money:c058|grp:adani|pmin|pmcares",
+      "kind": "records",
+      "bm25": 16.08599055686787,
+      "label": "Adani Group · Adani Foundation → PM CARES ₹100 cr · PM CARES Fund",
+      "sourceIds": [
+        "legacy:source:493a5ef2da61c088"
+      ],
+      "corpusOrigin": "retained-registry-not-newly-reread"
+    },
+    {
+      "id": "legacy:record:lit:c028|pol:narendra-modi|role|pmcares",
+      "kind": "records",
+      "bm25": 16.056111261696113,
+      "label": "Narendra Modi · PM chairs PM CARES · PM CARES Fund",
+      "sourceIds": [
+        "legacy:source:5a1f344286cda514"
+      ],
+      "corpusOrigin": "retained-registry-not-newly-reread"
+    },
+    {
+      "id": "legacy:record:money:c054|co:indian-oil|csr|pmcares",
+      "kind": "records",
+      "bm25": 15.804875248948592,
+      "label": "Indian Oil · IOC CSR → PM CARES ₹225 cr · PM CARES Fund",
+      "sourceIds": [
+        "legacy:source:4b1869498c7a77b7"
+      ],
+      "corpusOrigin": "retained-registry-not-newly-reread"
+    },
+    {
+      "id": "legacy:record:money:c057|co:reliance-industries|pmin|pmcares",
+      "kind": "records",
+      "bm25": 15.713340927872473,
+      "label": "Reliance · RIL → PM CARES ₹500 cr · PM CARES Fund",
+      "sourceIds": [
+        "legacy:source:493a5ef2da61c088"
+      ],
+      "corpusOrigin": "retained-registry-not-newly-reread"
+    },
+    {
+      "id": "justice-research:entity:decision-pmcares-judgment",
+      "kind": "entities",
+      "bm25": 15.571559726194673,
+      "label": "PM CARES and NDRF: different funds, no compulsory transfer",
+      "sourceIds": [
+        "justice-research:source:src-pmcares-judgment"
+      ],
+      "corpusOrigin": "retained-registry-not-newly-reread"
+    },
+    {
+      "id": "legacy:record:money:c055|co:ntpc|csr|pmcares",
+      "kind": "records",
+      "bm25": 15.533416604461376,
+      "label": "NTPC · NTPC CSR → PM CARES ₹250 cr · PM CARES Fund",
+      "sourceIds": [
+        "legacy:source:4b1869498c7a77b7"
+      ],
+      "corpusOrigin": "retained-registry-not-newly-reread"
+    },
+    {
+      "id": "legacy:record:coal:c014|co:coal-india|csr|pmcares",
+      "kind": "records",
+      "bm25": 15.281524113965634,
+      "label": "Coal India · Rs 221.03 cr to PM CARES · PM CARES Fund",
+      "sourceIds": [
+        "legacy:source:e10b4f7fc7d38cfb",
+        "legacy:source:85964ab6c6ffa9"
+      ],
+      "corpusOrigin": "retained-registry-not-newly-reread"
+    },
+    {
+      "id": "legacy:record:money:c071|co:rec-limited|csr|pmcares",
+      "kind": "records",
+      "bm25": 15.271125447556253,
+      "label": "REC · REC CSR → PM CARES ₹150 cr · PM CARES Fund",
+      "sourceIds": [
+        "legacy:source:170aa966773614e4",
+        "legacy:source:9c79a85718c3a067",
+        "legacy:source:4ef70a715c655dff"
+      ],
+      "corpusOrigin": "retained-registry-not-newly-reread"
+    },
+    {
+      "id": "finance-research:source:pm-sc",
+      "kind": "sources",
+      "bm25": 15.230986161558487,
+      "label": "Centre for Public Interest Litigation v Union of India, WP(C)546/2020",
+      "sourceIds": [
+        "finance-research:source:pm-sc"
+      ],
+      "corpusOrigin": "retained-registry-not-newly-reread"
+    },
+    {
+      "id": "legacy:record:eba0f48352c188ab|cag|enforce|pmcares",
+      "kind": "records",
+      "bm25": 15.217194698958686,
+      "label": "CAG · reported WB implementation findings: PM CARES-linked equipment · PM CARES Fund",
+      "sourceIds": [
+        "legacy:source:85496d5380236e2d"
+      ],
+      "corpusOrigin": "retained-registry-not-newly-reread"
+    },
+    {
+      "id": "legacy:record:money:c070|co:power-finance-corporation|csr|pmcares",
+      "kind": "records",
+      "bm25": 15.101130946564858,
+      "label": "PFC · PFC CSR → PM CARES ₹200 cr · PM CARES Fund",
+      "sourceIds": [
+        "legacy:source:4ef70a715c655dff",
+        "legacy:source:9c79a85718c3a067",
+        "legacy:source:170aa966773614e4"
+      ],
+      "corpusOrigin": "retained-registry-not-newly-reread"
+    },
+    {
+      "id": "legacy:source:7b7f3b1ed38933a",
+      "kind": "sources",
+      "bm25": 14.924227590925057,
+      "label": "Delhi HC sets aside CIC direction on disclosing information related to PM CARES Fund, 22 January 2024 - records that the information was sought from the CPIO of the Income Tax Department and not from PM CARES, and that the department does not treat PM CARES as an authority",
+      "sourceIds": [
+        "legacy:source:7b7f3b1ed38933a"
+      ],
+      "corpusOrigin": "retained-registry-not-newly-reread"
+    }
+  ]
+}

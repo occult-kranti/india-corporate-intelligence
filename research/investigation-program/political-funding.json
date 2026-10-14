@@ -1,0 +1,917 @@
+{
+  "schemaVersion": 1,
+  "track": "political-funding",
+  "reviewedAt": "2026-10-14",
+  "scope": "Purposive two-company donor/energy-relationship study. No exhaustive conspiracy or causal influence claim.",
+  "sources": [
+    {
+      "id": "pf-src-torrent25",
+      "title": "Torrent Power FY2024–25 annual report: standalone political donations and subsidiary table",
+      "url": "https://www.torrentpower.com/public/pdf/download/Annual_report_fy25.pdf",
+      "publisher": "Torrent Power Limited",
+      "accessedAt": "2026-10-14",
+      "sourceType": "issuer-annual-report",
+      "accessDepth": "pdf-visual",
+      "supports": "Named recipient amounts, corporate identifiers and dated subsidiary relationships.",
+      "limitations": "Entire PDF downloaded; selected relevant sections read and donation page visually checked. Company self-report, not bank reconciliation. Standalone and consolidated repeats are one observation.",
+      "sourceFamily": "Torrent-Power-FY2025",
+      "sha256": "7ee9a8c3478035ca62fd1dd2cbeae969e181248db7f102ca56ff73e8decd930b",
+      "bytes": 20516278,
+      "locator": "Printed p350/PDF352 Note51; BRSR pp207–208; equity ISIN p264."
+    },
+    {
+      "id": "pf-src-arvind25",
+      "title": "Arvind FY2024–25 annual report: standalone Prudent contribution",
+      "url": "https://www.arvind.com/sites/default/files/field_annual_reports_file/Arvind%20Limited%20IAR%202025_Final_Web.pdf",
+      "publisher": "Arvind Limited",
+      "accessedAt": "2026-10-14",
+      "sourceType": "issuer-annual-report",
+      "accessDepth": "pdf-visual",
+      "supports": "Standalone political contribution and exact company CIN/equity ISIN.",
+      "limitations": "Entire PDF downloaded; selected sections read; donation page visually checked. No recipient-bank confirmation. Consolidated repetition is not another contribution.",
+      "sourceFamily": "Arvind-FY2025",
+      "sha256": "2936f75ad629b5c587db051fbfdba963805735c8cb7b949d3ebfaf27b6f80cc8",
+      "bytes": 13675519,
+      "locator": "Printed p267/PDF269 Note26(ii); CIN p132; equity ISIN p158."
+    },
+    {
+      "id": "pf-src-arvind-may25",
+      "title": "Arvind exchange filing: original Torrent Urja 28 agreement",
+      "url": "https://nsearchives.nseindia.com/corporate/ARVIND1_12052025154540_SE_Intimation_12052025.pdf",
+      "publisher": "Arvind Limited / National Stock Exchange",
+      "accessedAt": "2026-10-14",
+      "sourceType": "exchange-filing",
+      "accessDepth": "full-text",
+      "supports": "Original proposed equity subscription and captive-power purpose.",
+      "limitations": "Superseded by August 2026 termination; agreement is not completed investment or payment. NSE hosting does not independently verify issuer representations.",
+      "sourceFamily": "Arvind-captive-power-disclosures",
+      "publishedAt": "2025-05-12",
+      "sha256": "ddc1f996d420b484d8687cc1ab6f55ade6368695494903c39d5d40a4612245b0",
+      "bytes": 824033
+    },
+    {
+      "id": "pf-src-arvind-aug26",
+      "title": "Arvind exchange filing: TU28 termination; TU12/TU21 replacement agreements",
+      "url": "https://nsearchives.nseindia.com/corporate/ARVIND1_25082026175628_SE_Intimation_of_Acquisition.pdf",
+      "publisher": "Arvind Limited / National Stock Exchange",
+      "accessedAt": "2026-10-14",
+      "sourceType": "exchange-filing",
+      "accessDepth": "full-text",
+      "supports": "Reallocation, no TU28 equity infusion, replacement subscription limits and ownership targets.",
+      "limitations": "Represents issuer disclosure at25 August 2026. Does not establish settlement of either new commitment.",
+      "sourceFamily": "Arvind-captive-power-disclosures",
+      "publishedAt": "2026-08-25",
+      "sha256": "082f5facbed3a129b7167e3a5c48808515694e5d34c07e1c0d33d63f1b540995",
+      "bytes": 836969
+    },
+    {
+      "id": "pf-src-arvind-aug26-xml",
+      "title": "NSE XBRL: Arvind proposed Torrent Urja 21 acquisition",
+      "url": "https://nsearchives.nseindia.com/corporate/xbrl/REG30_Restructuring_207_WebXMLFile_20260825_182417049.xml",
+      "publisher": "Arvind Limited / National Stock Exchange",
+      "accessedAt": "2026-10-14",
+      "sourceType": "structured-exchange-filing",
+      "accessDepth": "full-text",
+      "supports": "Exact acquirer ISIN, target legal name, consideration ceiling and issuer relationship disclosures.",
+      "limitations": "Same issuer/event as PDF, not independent corroboration. Machine financial zero fields are not independently verified target accounts.",
+      "sourceFamily": "Arvind-captive-power-disclosures",
+      "publishedAt": "2026-08-25",
+      "sha256": "772f8a680ebd3cd237084b75deb6359e6b69a5002c6e4f51ab7ff62f31528a28",
+      "bytes": 10540
+    },
+    {
+      "id": "pf-src-gerc26",
+      "title": "GERC Case 2586/2025: Torrent Surat tariff order FY2026–27",
+      "url": "https://www.torrentpower.com/public/pdf/regulatory/TPL-D-S-2586-2025-Tariff-Order-of-FY-2026-27.pdf",
+      "publisher": "Gujarat Electricity Regulatory Commission; copy hosted by Torrent Power",
+      "accessedAt": "2026-10-14",
+      "sourceType": "regulatory-order",
+      "accessDepth": "full-text",
+      "supports": "Named regulated distribution business; requested and approved revenue requirement and returns.",
+      "limitations": "Selected tables read in downloaded full text; official decision hosted by applicant. Regulatory-case record is independent in origin from issuer donation note, not independent evidence of that donation. Later appeals not comprehensively searched.",
+      "sourceFamily": "GERC-2586-2025",
+      "publishedAt": "2026-03-25",
+      "sha256": "ec64fe248a5d4201483c1aa5b553157a607dbab4f2c756bdfcb7cb6f8527277d",
+      "bytes": 2301579,
+      "locator": "Printed pp168–169, Table5-51."
+    },
+    {
+      "id": "pf-src-nse-universe",
+      "title": "NSE equity list: preserved7 October 2026 snapshot",
+      "url": "https://nsearchives.nseindia.com/content/equities/EQUITY_L.csv",
+      "publisher": "National Stock Exchange",
+      "accessedAt": "2026-10-14",
+      "sourceType": "exchange-universe",
+      "accessDepth": "full-text",
+      "supports": "Exact ISIN issuer-row matching for two selected annual-report donors.",
+      "limitations": "Read existing local original CSV and checked SHA256; not a fresh14 October download. Equity identity does not prove donation or procurement conduct.",
+      "sourceFamily": "NSE-EQUITY-L-20261007",
+      "sha256": "c470fce28a45d441114b7f6b7614c9e187aff75268c5df8ce0a9c83a1327ee8e",
+      "localPath": "research/raw/deep-investigation/universe/EQUITY_L.csv",
+      "snapshotDate": "2026-10-07"
+    },
+    {
+      "id": "pf-src-prudent25-discovery",
+      "title": "Prudent FY2024–25 contribution filing: acquisition lead",
+      "url": "https://www.eci.gov.in/eci-backend/public/pdf/report/December/1766120456.pdf",
+      "publisher": "Election Commission of India / Prudent Electoral Trust",
+      "accessedAt": "2026-10-14",
+      "sourceType": "official-contribution-report",
+      "accessDepth": "search-excerpt",
+      "supports": "Discovery of a specific FY2024–25 filing, including an indexed corporate certificate.",
+      "limitations": "Full retrieval returned406 via web and urllib. No donor ledger, trust totals, party allocation or company certificate compliance is authenticated from this excerpt.",
+      "sourceFamily": "ECI-Prudent-FY2025"
+    },
+    {
+      "id": "pf-src-sept26-status-lead",
+      "title": "Arvind September 2026 acquisition-status index",
+      "url": "https://alfafinder.com/filings/arvind/",
+      "publisher": "ALFA Finder",
+      "accessedAt": "2026-10-14",
+      "sourceType": "filing-index",
+      "accessDepth": "index-only",
+      "supports": "Locates17 September 2026 completion disclosure and its BSE link.",
+      "limitations": "Secondary AI-assisted index is discovery only. BSE PDF403; no completion/payment edge created.",
+      "sourceFamily": "Arvind-captive-power-disclosures"
+    }
+  ],
+  "entities": [
+    {
+      "id": "pf-torrent",
+      "name": "Torrent Power Limited",
+      "type": "company",
+      "identifiers": [
+        "CIN:L31200GJ2004PLC044068",
+        "ISIN:INE813H01021"
+      ],
+      "sourceIds": [
+        "pf-src-torrent25",
+        "pf-src-nse-universe"
+      ],
+      "sectorIds": [
+        "political-finance",
+        "energy"
+      ]
+    },
+    {
+      "id": "pf-arvind",
+      "name": "Arvind Limited",
+      "type": "company",
+      "identifiers": [
+        "CIN:L17119GJ1931PLC000093",
+        "ISIN:INE034A01011",
+        "NSE:ARVIND",
+        "BSE:500101"
+      ],
+      "sourceIds": [
+        "pf-src-arvind25",
+        "pf-src-arvind-aug26-xml",
+        "pf-src-nse-universe"
+      ],
+      "sectorIds": [
+        "political-finance",
+        "manufacturing",
+        "energy"
+      ]
+    },
+    {
+      "id": "pf-prudent",
+      "name": "Prudent Electoral Trust",
+      "type": "electoral-trust",
+      "identifiers": [],
+      "sourceIds": [
+        "pf-src-torrent25",
+        "pf-src-arvind25"
+      ],
+      "sectorIds": [
+        "political-finance"
+      ]
+    },
+    {
+      "id": "pf-bjp",
+      "name": "Bharatiya Janata Party",
+      "type": "political-party",
+      "identifiers": [],
+      "sourceIds": [
+        "pf-src-torrent25"
+      ],
+      "sectorIds": [
+        "political-finance"
+      ]
+    },
+    {
+      "id": "pf-inc",
+      "name": "Indian National Congress",
+      "type": "political-party",
+      "identifiers": [],
+      "sourceIds": [
+        "pf-src-torrent25"
+      ],
+      "sectorIds": [
+        "political-finance"
+      ]
+    },
+    {
+      "id": "pf-ncp-disclosed",
+      "name": "Nationalist Congress Party (as named in FY2023–24 disclosure)",
+      "type": "political-party-unresolved-faction",
+      "identifiers": [],
+      "sourceIds": [
+        "pf-src-torrent25"
+      ],
+      "sectorIds": [
+        "political-finance"
+      ]
+    },
+    {
+      "id": "pf-torrent-green",
+      "name": "Torrent Green Energy Private Limited",
+      "type": "company",
+      "identifiers": [],
+      "sourceIds": [
+        "pf-src-torrent25",
+        "pf-src-arvind-may25",
+        "pf-src-arvind-aug26"
+      ],
+      "sectorIds": [
+        "energy"
+      ]
+    },
+    {
+      "id": "pf-tu12",
+      "name": "Torrent Urja 12 Private Limited",
+      "type": "company",
+      "identifiers": [],
+      "sourceIds": [
+        "pf-src-torrent25",
+        "pf-src-arvind-aug26"
+      ],
+      "sectorIds": [
+        "energy"
+      ]
+    },
+    {
+      "id": "pf-tu21",
+      "name": "Torrent Urja 21 Private Limited",
+      "type": "company",
+      "identifiers": [],
+      "sourceIds": [
+        "pf-src-torrent25",
+        "pf-src-arvind-aug26",
+        "pf-src-arvind-aug26-xml"
+      ],
+      "sectorIds": [
+        "energy"
+      ]
+    },
+    {
+      "id": "pf-tu28",
+      "name": "Torrent Urja 28 Private Limited",
+      "type": "company",
+      "identifiers": [],
+      "sourceIds": [
+        "pf-src-torrent25",
+        "pf-src-arvind-may25",
+        "pf-src-arvind-aug26"
+      ],
+      "sectorIds": [
+        "energy"
+      ]
+    },
+    {
+      "id": "pf-gerc",
+      "name": "Gujarat Electricity Regulatory Commission",
+      "type": "regulator",
+      "identifiers": [
+        "Case:2586/2025"
+      ],
+      "sourceIds": [
+        "pf-src-gerc26"
+      ],
+      "sectorIds": [
+        "energy"
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "pf-torrent-prudent25",
+      "from": "pf-torrent",
+      "to": "pf-prudent",
+      "relation": "reports-political-contribution",
+      "label": "Company reports ₹65 crore contribution, FY2024–25",
+      "status": "documented",
+      "sourceIds": [
+        "pf-src-torrent25"
+      ],
+      "summary": "Named-recipient contribution in standalone financial statements.",
+      "limits": [
+        "Payment dates and transaction mechanism are unspecified.",
+        "No inference of earmarking, authorization of official action or quid pro quo."
+      ],
+      "alternativeExplanations": [
+        "Lawful disclosed political giving."
+      ],
+      "falsifier": "A corrected filing or recipient reconciliation contradicts the amount or recipient.",
+      "dateFrom": "2024-04-01",
+      "dateTo": "2025-03-31",
+      "sectorIds": [
+        "political-finance",
+        "energy"
+      ],
+      "amount": {
+        "value": 65,
+        "currency": "INR",
+        "unit": "crore",
+        "stage": "company-reported contribution",
+        "basis": "Standalone expense-note disclosure; not independently bank-reconciled.",
+        "exactValue": "650000000"
+      }
+    },
+    {
+      "id": "pf-arvind-prudent25",
+      "from": "pf-arvind",
+      "to": "pf-prudent",
+      "relation": "reports-political-contribution",
+      "label": "Company reports ₹10 crore contribution, FY2024–25",
+      "status": "documented",
+      "sourceIds": [
+        "pf-src-arvind25"
+      ],
+      "summary": "Named-recipient contribution in standalone financial statements.",
+      "limits": [
+        "Payment dates and transaction mechanism are unspecified.",
+        "No inference of earmarking, authorization of official action or quid pro quo."
+      ],
+      "alternativeExplanations": [
+        "Lawful disclosed political giving."
+      ],
+      "falsifier": "A corrected filing or recipient reconciliation contradicts the amount or recipient.",
+      "dateFrom": "2024-04-01",
+      "dateTo": "2025-03-31",
+      "sectorIds": [
+        "political-finance",
+        "energy"
+      ],
+      "amount": {
+        "value": 10,
+        "currency": "INR",
+        "unit": "crore",
+        "stage": "company-reported contribution",
+        "basis": "Standalone expense-note disclosure; not independently bank-reconciled.",
+        "exactValue": "100000000"
+      }
+    },
+    {
+      "id": "pf-torrent-prudent24",
+      "from": "pf-torrent",
+      "to": "pf-prudent",
+      "relation": "reports-political-contribution",
+      "label": "Company reports ₹11.5 crore contribution, FY2023–24",
+      "status": "documented",
+      "sourceIds": [
+        "pf-src-torrent25"
+      ],
+      "summary": "Named-recipient contribution in standalone financial statements.",
+      "limits": [
+        "Payment dates and transaction mechanism are unspecified.",
+        "No inference of earmarking, authorization of official action or quid pro quo."
+      ],
+      "alternativeExplanations": [
+        "Lawful disclosed political giving."
+      ],
+      "falsifier": "A corrected filing or recipient reconciliation contradicts the amount or recipient.",
+      "dateFrom": "2023-04-01",
+      "dateTo": "2024-03-31",
+      "sectorIds": [
+        "political-finance",
+        "energy"
+      ],
+      "amount": {
+        "value": 11.5,
+        "currency": "INR",
+        "unit": "crore",
+        "stage": "company-reported contribution",
+        "basis": "Standalone expense-note disclosure; not independently bank-reconciled.",
+        "exactValue": "115000000.0"
+      }
+    },
+    {
+      "id": "pf-torrent-bjp24",
+      "from": "pf-torrent",
+      "to": "pf-bjp",
+      "relation": "reports-political-contribution",
+      "label": "Company reports ₹25 crore contribution, FY2023–24",
+      "status": "documented",
+      "sourceIds": [
+        "pf-src-torrent25"
+      ],
+      "summary": "Named-recipient contribution in standalone financial statements.",
+      "limits": [
+        "Payment dates and transaction mechanism are unspecified.",
+        "No inference of earmarking, authorization of official action or quid pro quo."
+      ],
+      "alternativeExplanations": [
+        "Lawful disclosed political giving."
+      ],
+      "falsifier": "A corrected filing or recipient reconciliation contradicts the amount or recipient.",
+      "dateFrom": "2023-04-01",
+      "dateTo": "2024-03-31",
+      "sectorIds": [
+        "political-finance",
+        "energy"
+      ],
+      "amount": {
+        "value": 25,
+        "currency": "INR",
+        "unit": "crore",
+        "stage": "company-reported contribution",
+        "basis": "Standalone expense-note disclosure; not independently bank-reconciled.",
+        "exactValue": "250000000"
+      }
+    },
+    {
+      "id": "pf-torrent-inc24",
+      "from": "pf-torrent",
+      "to": "pf-inc",
+      "relation": "reports-political-contribution",
+      "label": "Company reports ₹12 crore contribution, FY2023–24",
+      "status": "documented",
+      "sourceIds": [
+        "pf-src-torrent25"
+      ],
+      "summary": "Named-recipient contribution in standalone financial statements.",
+      "limits": [
+        "Payment dates and transaction mechanism are unspecified.",
+        "No inference of earmarking, authorization of official action or quid pro quo."
+      ],
+      "alternativeExplanations": [
+        "Lawful disclosed political giving."
+      ],
+      "falsifier": "A corrected filing or recipient reconciliation contradicts the amount or recipient.",
+      "dateFrom": "2023-04-01",
+      "dateTo": "2024-03-31",
+      "sectorIds": [
+        "political-finance",
+        "energy"
+      ],
+      "amount": {
+        "value": 12,
+        "currency": "INR",
+        "unit": "crore",
+        "stage": "company-reported contribution",
+        "basis": "Standalone expense-note disclosure; not independently bank-reconciled.",
+        "exactValue": "120000000"
+      }
+    },
+    {
+      "id": "pf-torrent-ncp24",
+      "from": "pf-torrent",
+      "to": "pf-ncp-disclosed",
+      "relation": "reports-political-contribution",
+      "label": "Company reports ₹1.5 crore contribution, FY2023–24",
+      "status": "documented",
+      "sourceIds": [
+        "pf-src-torrent25"
+      ],
+      "summary": "Named-recipient contribution in standalone financial statements.",
+      "limits": [
+        "Payment dates and transaction mechanism are unspecified.",
+        "No inference of earmarking, authorization of official action or quid pro quo.",
+        "No faction resolved from the disclosed NCP name."
+      ],
+      "alternativeExplanations": [
+        "Lawful disclosed political giving."
+      ],
+      "falsifier": "A corrected filing or recipient reconciliation contradicts the amount or recipient.",
+      "dateFrom": "2023-04-01",
+      "dateTo": "2024-03-31",
+      "sectorIds": [
+        "political-finance",
+        "energy"
+      ],
+      "amount": {
+        "value": 1.5,
+        "currency": "INR",
+        "unit": "crore",
+        "stage": "company-reported contribution",
+        "basis": "Standalone expense-note disclosure; not independently bank-reconciled.",
+        "exactValue": "15000000.0"
+      }
+    },
+    {
+      "id": "pf-torrent-tgepl",
+      "from": "pf-torrent",
+      "to": "pf-torrent-green",
+      "relation": "holds-equity-as-of",
+      "label": "100% subsidiary,31 March 2025",
+      "status": "documented",
+      "sourceIds": [
+        "pf-src-torrent25"
+      ],
+      "summary": "BRSR identifies Torrent Green Energy as a wholly owned subsidiary.",
+      "limits": [
+        "Historical snapshot; not current ownership."
+      ],
+      "alternativeExplanations": [
+        "Ordinary renewable-power subsidiary structure."
+      ],
+      "falsifier": "Dated statutory register contradicts the relationship.",
+      "dateFrom": "2025-03-31",
+      "dateTo": "2025-03-31",
+      "sectorIds": [
+        "energy"
+      ]
+    },
+    {
+      "id": "pf-tgepl-tu12",
+      "from": "pf-torrent-green",
+      "to": "pf-tu12",
+      "relation": "holds-equity-as-of",
+      "label": "100% step-down subsidiary,31 March 2025",
+      "status": "documented",
+      "sourceIds": [
+        "pf-src-torrent25"
+      ],
+      "summary": "BRSR explicitly identifies the entity as a subsidiary of Torrent Green Energy.",
+      "limits": [
+        "Named legal entity relationship; no fresh MCA registry search; percentage is dated."
+      ],
+      "alternativeExplanations": [
+        "Project-specific renewable-power vehicle."
+      ],
+      "falsifier": "Contemporaneous ownership register contradicts the disclosed parent.",
+      "dateFrom": "2025-03-31",
+      "dateTo": "2025-03-31",
+      "sectorIds": [
+        "energy"
+      ]
+    },
+    {
+      "id": "pf-tgepl-tu21",
+      "from": "pf-torrent-green",
+      "to": "pf-tu21",
+      "relation": "holds-equity-as-of",
+      "label": "100% step-down subsidiary,31 March 2025",
+      "status": "documented",
+      "sourceIds": [
+        "pf-src-torrent25"
+      ],
+      "summary": "BRSR explicitly identifies the entity as a subsidiary of Torrent Green Energy.",
+      "limits": [
+        "Named legal entity relationship; no fresh MCA registry search; percentage is dated."
+      ],
+      "alternativeExplanations": [
+        "Project-specific renewable-power vehicle."
+      ],
+      "falsifier": "Contemporaneous ownership register contradicts the disclosed parent.",
+      "dateFrom": "2025-03-31",
+      "dateTo": "2025-03-31",
+      "sectorIds": [
+        "energy"
+      ]
+    },
+    {
+      "id": "pf-tgepl-tu28",
+      "from": "pf-torrent-green",
+      "to": "pf-tu28",
+      "relation": "holds-equity-as-of",
+      "label": "100% step-down subsidiary,31 March 2025",
+      "status": "documented",
+      "sourceIds": [
+        "pf-src-torrent25"
+      ],
+      "summary": "BRSR explicitly identifies the entity as a subsidiary of Torrent Green Energy.",
+      "limits": [
+        "Named legal entity relationship; no fresh MCA registry search; percentage is dated."
+      ],
+      "alternativeExplanations": [
+        "Project-specific renewable-power vehicle."
+      ],
+      "falsifier": "Contemporaneous ownership register contradicts the disclosed parent.",
+      "dateFrom": "2025-03-31",
+      "dateTo": "2025-03-31",
+      "sectorIds": [
+        "energy"
+      ]
+    },
+    {
+      "id": "pf-arvind-tu28-ended",
+      "from": "pf-arvind",
+      "to": "pf-tu28",
+      "relation": "terminated-subscription-agreement",
+      "label": "Original subscription agreement terminated",
+      "status": "documented",
+      "sourceIds": [
+        "pf-src-arvind-may25",
+        "pf-src-arvind-aug26"
+      ],
+      "summary": "May 2025 proposal:15.96%, up to₹21 crore. August 2026 filing states termination and no equity infusion.",
+      "limits": [
+        "Ended commitment is not payment or historical share ownership."
+      ],
+      "alternativeExplanations": [
+        "Disclosed capacity reallocation."
+      ],
+      "falsifier": "Executed allotment/payment records show investment under this agreement.",
+      "dateFrom": "2025-05-12",
+      "dateTo": "2026-08-25",
+      "sectorIds": [
+        "energy"
+      ],
+      "response": "Issuer reports no equity participation under the cancelled transaction."
+    },
+    {
+      "id": "pf-arvind-tu12-agreement",
+      "from": "pf-arvind",
+      "to": "pf-tu12",
+      "relation": "agrees-equity-subscription",
+      "label": "New agreement:13.30% target,up to₹3.47 crore",
+      "status": "documented",
+      "sourceIds": [
+        "pf-src-arvind-aug26"
+      ],
+      "summary": "Replacement captive-power subscription agreement disclosed25 August 2026.",
+      "limits": [
+        "Ceiling is not settled cash.",
+        "Later TU21 completion located only through secondary index; not used as primary proof."
+      ],
+      "alternativeExplanations": [
+        "Disclosed energy-cost and captive-user benefits."
+      ],
+      "falsifier": "Termination, corrected target identity or allotment records contradict the agreement.",
+      "dateFrom": "2026-08-25",
+      "sectorIds": [
+        "energy"
+      ],
+      "amount": {
+        "value": 3.47,
+        "currency": "INR",
+        "unit": "crore",
+        "stage": "subscription commitment ceiling",
+        "basis": "Company-specific proposed maximum, conditional on milestones.",
+        "exactValue": "34700000.00"
+      },
+      "response": "Issuer describes non-related-party transactions; TU21 XBRL also marks arm’s-length=true."
+    },
+    {
+      "id": "pf-arvind-tu21-agreement",
+      "from": "pf-arvind",
+      "to": "pf-tu21",
+      "relation": "agrees-equity-subscription",
+      "label": "New agreement:26.60% target,up to₹17.33 crore",
+      "status": "documented",
+      "sourceIds": [
+        "pf-src-arvind-aug26",
+        "pf-src-arvind-aug26-xml"
+      ],
+      "summary": "Replacement captive-power subscription agreement disclosed25 August 2026.",
+      "limits": [
+        "Ceiling is not settled cash.",
+        "Later TU21 completion located only through secondary index; not used as primary proof."
+      ],
+      "alternativeExplanations": [
+        "Disclosed energy-cost and captive-user benefits."
+      ],
+      "falsifier": "Termination, corrected target identity or allotment records contradict the agreement.",
+      "dateFrom": "2026-08-25",
+      "sectorIds": [
+        "energy"
+      ],
+      "amount": {
+        "value": 17.33,
+        "currency": "INR",
+        "unit": "crore",
+        "stage": "subscription commitment ceiling",
+        "basis": "Company-specific proposed maximum, conditional on milestones.",
+        "exactValue": "173300000.00"
+      },
+      "response": "Issuer describes non-related-party transactions; TU21 XBRL also marks arm’s-length=true."
+    },
+    {
+      "id": "pf-gerc-torrent-arr",
+      "from": "pf-gerc",
+      "to": "pf-torrent",
+      "relation": "approves-revenue-requirement",
+      "label": "Surat FY2026–27 ARR approval",
+      "status": "documented",
+      "sourceIds": [
+        "pf-src-gerc26"
+      ],
+      "summary": "Requested₹3189.94 crore; approved₹3094.64 crore:₹95.30 crore lower. RoE:190.41 requested,141.73 approved; RoCE31.96 also allowed.",
+      "limits": [
+        "Regulated revenue allowance, not government grant, cash receipt or profit.",
+        "RoE alone is not total return; revised methodology also allows RoCE.",
+        "One selected case cannot establish regulator-wide treatment."
+      ],
+      "alternativeExplanations": [
+        "Prudence review and application of published tariff rules."
+      ],
+      "falsifier": "Corrected or appellate order changes the operative approved figures.",
+      "dateFrom": "2026-03-25",
+      "sectorIds": [
+        "energy"
+      ],
+      "amount": {
+        "value": 3094.64,
+        "currency": "INR",
+        "unit": "crore",
+        "stage": "regulatory revenue-requirement approval",
+        "basis": "FY2026–27 Surat ARR; not cash disbursement.",
+        "exactValue": "30946400000.00"
+      },
+      "response": "The order rejects parts of the applicant request; this weakens an automatic-favorable-treatment assumption."
+    }
+  ],
+  "leads": [
+    {
+      "id": "pf-lead-trust-reconcile",
+      "title": "Reconcile two donor disclosures against the trust ledger",
+      "question": "Do exact legal entities, dates and amounts reconcile across the issuer notes and the complete Prudent FY2024–25 contribution ledger?",
+      "sectorIds": [
+        "political-finance",
+        "energy"
+      ],
+      "sourceIds": [
+        "pf-src-torrent25",
+        "pf-src-arvind25",
+        "pf-src-prudent25-discovery"
+      ],
+      "neededEvidence": [
+        "Full official ECI contribution file with corporate legal IDs and bank-reconciled contribution entries.",
+        "Trust distribution ledger and any documented allocation instructions; obtain lawful public records only."
+      ],
+      "disconfirmingEvidence": [
+        "Corrected issuer amount, different recipient or refunded contribution.",
+        "Pooled distributions without allocation instructions defeat a company-specific party allocation."
+      ],
+      "feasibility": "High-value bounded next step; official file located but406 blocked full acquisition in this run.",
+      "priority": "high"
+    },
+    {
+      "id": "pf-lead-captive-status",
+      "title": "Resolve replacement power-project completion and timing",
+      "question": "Which TU12/TU21 commitments completed, and what is the final shareholding and actual payment?",
+      "sectorIds": [
+        "energy",
+        "political-finance"
+      ],
+      "sourceIds": [
+        "pf-src-arvind-may25",
+        "pf-src-arvind-aug26",
+        "pf-src-arvind-aug26-xml",
+        "pf-src-sept26-status-lead"
+      ],
+      "neededEvidence": [
+        "Original17 September 2026 TU21 completion filing and allotment/settlement records.",
+        "TU12 completion filing and dated target shareholding.",
+        "Commissioning and power-delivery records."
+      ],
+      "disconfirmingEvidence": [
+        "Cancellation or unfulfilled milestone.",
+        "Ordinary public captive-power terms and cost savings weaken a political-influence mechanism."
+      ],
+      "feasibility": "Public exchange filings likely sufficient for completion stage; payment evidence may remain unavailable.",
+      "priority": "high"
+    },
+    {
+      "id": "pf-lead-tariff-comparison",
+      "title": "Compare regulatory outcomes without selecting only winners",
+      "question": "Do comparable donation-linked and other distribution applicants receive different allowed costs after sector and rule controls?",
+      "sectorIds": [
+        "political-finance",
+        "energy"
+      ],
+      "sourceIds": [
+        "pf-src-gerc26",
+        "pf-src-torrent25"
+      ],
+      "neededEvidence": [
+        "Complete eligible distribution-utility case population, requested/allowed cost categories, objections and appeals.",
+        "Predeclared time window and comparable regulatory regimes; donor dates rather than fiscal-year intervals."
+      ],
+      "disconfirmingEvidence": [
+        "Similar or less favorable allowances for donors.",
+        "Variation explained by regulations, audited costs or applicant assets."
+      ],
+      "feasibility": "Design stage; one observed GERC decision is inadequate for causal estimation.",
+      "priority": "medium"
+    }
+  ],
+  "coverage": [
+    {
+      "sector": "political-finance",
+      "status": "Two issuer disclosures verified; ECI trust/bond join incomplete.",
+      "inspectedSources": 4,
+      "remainingGaps": [
+        "Complete ECI/SBI donor/redemption data newly acquired and identifier-joined in this run:0.",
+        "No company-specific donor→trust→party allocation established.",
+        "No population-level donation/award inference."
+      ]
+    },
+    {
+      "sector": "energy",
+      "status": "Commercial relationship versions and one regulator decision documented.",
+      "inspectedSources": 6,
+      "remainingGaps": [
+        "TU21 reportedSeptember 2026 completion awaits primary retrieval.",
+        "No comparative regulatory population or payment reconciliation."
+      ]
+    },
+    {
+      "sector": "PM CARES",
+      "status": "Existing corpus reviewed; no new transaction-level evidence added.",
+      "inspectedSources": 0,
+      "remainingGaps": [
+        "Referenced audit notes, refund identities and delivery/acceptance records remain acquisition tasks already recorded in corpus."
+      ]
+    },
+    {
+      "sector": "foreign-influence",
+      "status": "Existing amended lobbying/FARA dossiers reviewed; not duplicated.",
+      "inspectedSources": 0,
+      "remainingGaps": [
+        "Ultimate payer/authorization and latest full FARA schedules not newly acquired."
+      ]
+    }
+  ],
+  "reproduction": {
+    "inputUniverseRows": 2599,
+    "inputUniverseSha256": "c470fce28a45d441114b7f6b7614c9e187aff75268c5df8ce0a9c83a1327ee8e",
+    "selectedCompanyCount": 2,
+    "selection": "Purposive discovery from official annual-report political contribution search; not a random sample.",
+    "joinRule": "Exact equity ISIN; require exactly one NSE row. No company-name fuzzy match.",
+    "exactMatches": [
+      {
+        "company": "Torrent Power Limited",
+        "annualReportSourceId": "pf-src-torrent25",
+        "isin": "INE813H01021",
+        "nseSymbol": "TORNTPOWER",
+        "nseLegalName": "Torrent Power Limited",
+        "matchedRows": 1
+      },
+      {
+        "company": "Arvind Limited",
+        "annualReportSourceId": "pf-src-arvind25",
+        "isin": "INE034A01011",
+        "nseSymbol": "ARVIND",
+        "nseLegalName": "Arvind Limited",
+        "matchedRows": 1
+      }
+    ],
+    "unmatchedSelectedCompanies": 0,
+    "ambiguousSelectedCompanies": 0,
+    "derivedChecks": {
+      "torrentFY24ContributionCrore": 50,
+      "torrentFY25ContributionCrore": 65,
+      "arvindFY25ContributionCrore": 10,
+      "twoCompanyFY25PrudentSubtotalCrore": 75,
+      "gercRequestedMinusApprovedARRCrore": "95.30"
+    },
+    "rejectedInferences": [
+      "No inferred Torrent/Arvind contribution to BJP through pooled Prudent receipts.",
+      "No FY25 party dash converted to numeric zero.",
+      "No NCP faction assignment.",
+      "No TU28 investment after cancellation.",
+      "No summing donations, commitments, approved revenue or repeated consolidated amounts."
+    ],
+    "sourceExtraction": [
+      {
+        "sourceId": "pf-src-torrent25",
+        "locator": "Standalone Note51,p350",
+        "rows": [
+          {
+            "recipient": "BJP",
+            "FY25": null,
+            "FY24": "25.00",
+            "FY25Raw": "-"
+          },
+          {
+            "recipient": "NCP-unspecified",
+            "FY25": null,
+            "FY24": "1.50",
+            "FY25Raw": "-"
+          },
+          {
+            "recipient": "INC",
+            "FY25": null,
+            "FY24": "12.00",
+            "FY25Raw": "-"
+          },
+          {
+            "recipient": "Prudent",
+            "FY25": "65.00",
+            "FY24": "11.50"
+          }
+        ],
+        "unit": "INRcrore"
+      },
+      {
+        "sourceId": "pf-src-arvind25",
+        "locator": "Standalone Note26(ii),p267",
+        "FY25PrudentCrore": "10",
+        "FY24Raw": "Nil"
+      }
+    ]
+  }
+}

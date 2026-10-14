@@ -1,0 +1,99 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-07T01:35:29.958487+00:00",
+  "title": "Design System: ICIP Public Record Atlas",
+  "extensions": {
+    "colorMeta": {
+      "ocean": {
+        "role": "neutral",
+        "displayName": "Cartographic petrol"
+      },
+      "selection": {
+        "role": "primary",
+        "displayName": "Selected jade"
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "Evidence paper"
+      }
+    },
+    "typographyMeta": {
+      "page-title": {
+        "displayName": "Operational title",
+        "purpose": "Page-level navigation and scope."
+      },
+      "case-title": {
+        "displayName": "Document title",
+        "purpose": "Named cases and source records."
+      }
+    },
+    "shadows": [
+      {
+        "name": "atlas-shadow",
+        "value": "0 18px 48px -20px #000c, 0 5px 12px -5px #0006",
+        "purpose": "Raised evidence reading plane."
+      },
+      {
+        "name": "atlas-control-shadow",
+        "value": "0 3px 8px #0003",
+        "purpose": "Solid map controls."
+      }
+    ],
+    "motion": [
+      {
+        "name": "atlas-ease",
+        "value": "cubic-bezier(.16,1,.3,1)",
+        "purpose": "Interruptible navigation movement; disabled for reduced motion."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "mobile",
+        "value": "640px"
+      },
+      {
+        "name": "desktop-rail",
+        "value": "1024px"
+      },
+      {
+        "name": "labeled-rail",
+        "value": "1280px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Selected sector",
+      "kind": "nav",
+      "refersTo": "navigation-selected",
+      "description": "Current sector destination.",
+      "html": "<a href=\"#\" aria-current=\"page\" class=\"ds-sector\">Education</a>",
+      "css": ".ds-sector { display:flex;align-items:center;min-height:41px;padding:10px 9px;background:#b3d5c4;color:#132b32;border-radius:6px;font:600 11px/1.4 Inter,system-ui,sans-serif;text-decoration:none; } .ds-sector:focus-visible {outline:2px solid #e7bd76;outline-offset:4px;}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Public Record Atlas",
+    "overview": "Geography leads the research workspace; adjacent evidence retains provenance and uncertainty. Petrol cartography, jade selection and warm paper make the working planes distinct.",
+    "keyCharacteristics": [
+      "Map-led",
+      "Source-led",
+      "Layered material",
+      "Readable sector navigation"
+    ],
+    "rules": [
+      {
+        "name": "Evidence has a source",
+        "body": "Spatial appearance and connectivity establish no claim beyond the underlying records.",
+        "section": "colors"
+      }
+    ],
+    "dos": [
+      "Keep source and response close to a claim.",
+      "Preserve keyboard paths and reduced motion."
+    ],
+    "donts": [
+      "Do not invent location precision.",
+      "Do not turn missing evidence into a negative finding."
+    ]
+  }
+}

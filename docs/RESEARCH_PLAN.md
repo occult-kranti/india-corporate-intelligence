@@ -4,6 +4,11 @@
 then the rest. Every item states the question, the source, what would settle it, and the
 base rate that decides whether an answer would mean anything.*
 
+*PM CARES publication-gap correction, 7 October 2026: the historical FY23 cutoff
+below has been superseded by original FY2023–24 and FY2024–25 statements retrieved
+on 6 October. Other sections remain the dated research agenda, not a current
+publication inventory or an assertion that every question has been rechecked.*
+
 Execution runs through `.claude/agents/investigative-desk.md`. Candidate generation runs
 through `pattern-prospector`. Nothing here is published without clearing the skeptic pass.
 
@@ -32,22 +37,32 @@ COMPUTABLE, which is the point.
 - **38 of 38 responding PSUs contributed** (RTI, of 55 asked). The base rate is
   effectively 100%, which means **"company X gave to PM CARES" is not a finding** and a
   donor graph would be a graph of who existed in March 2020.
-- ₹13,605 cr in, ₹8,131 cr spent. Accounts dark since FY23.
+- Original receipts-and-payments statements for FY2023–24 and FY2024–25 are now
+  retained. The earlier “accounts dark since FY23” claim and mixed-basis lifetime
+  totals are superseded; see [the source review](investigation/FINANCE_RESEARCH.md).
 - Many contributions came from unspent CSR in the last four days of the financial year —
   an accounting artefact, not a signal.
 - Reliance ₹500 cr (30 Mar 2020, documented). Coal India ₹221 cr pledged.
 
 **So the donor list is a dead end.** The live questions are about the fund itself.
 
-## P1.1 — FY24 and FY25 statements · **RTI**
+## P1.1 — Reconcile published statements and obtain supporting notes · **COMPUTABLE / RECORD REQUEST**
 
-**Question:** what came in, what went out, to whom?
-**Why it matters:** the last published accounts are FY23. Everything after is unaudited
-and unseen.
-**Method:** RTI to the PMO / PM CARES trust. Expect a refusal on the ground that the trust
-is not a public authority; that refusal is itself the finding and has been litigated.
-**Settles:** whether disbursement matches stated purpose.
-**Kill condition:** full audited statements reconcile inflow to outflow.
+**Question:** how do the published receipts, payments, returned implementing-agency
+funds and closing balances reconcile, and which implementation transactions support them?
+**Current evidence:** original [FY2023–24](https://pmcares.gov.in/assets/donation/pdf/Audited_Statement_2023_24.pdf)
+and [FY2024–25](https://pmcares.gov.in/assets/donation/pdf/Audited_Statement_2024_25.pdf)
+statements cast exactly. The latest retained file is signed 7 August 2026; its
+publication date is unknown. Referenced notes 1–16 and the separate audit report
+are absent from the linked one-page files, not presumed nonexistent.
+**Method:** use the retained statements and correction ledger, then locate the
+referenced notes, auditor report and implementing-agency records. Any future RTI
+request must distinguish the disputed public-authority question from the already
+available accounts; no refusal or final legal outcome is predicted.
+**Settles:** accounting reconciliation and the identity/stage of supported outflows.
+**Kill condition:** matching notes, invoices, refunds and payment records close the
+specific discrepancy. A balanced statement alone does not establish service delivery,
+and an unavailable supporting record alone does not establish diversion.
 
 ## P1.2 — The ventilator procurement, end to end · **COMPUTABLE**
 
@@ -55,8 +70,9 @@ is not a public authority; that refusal is itself the finding and has been litig
 against what specification, and what did CAG find?
 **Sources:** CAG reports; MoHFW procurement notes; HLL Lifecare tender records; the
 parliamentary standing committee record.
-**Why this one:** it is the only PM CARES outflow with a public audit trail. Everything
-else about the fund is opaque; this is the crack.
+**Why this one:** procurement and implementation records can connect a fund-level
+outflow to equipment delivery and performance. Do not assume it is the only
+auditable outflow or treat an implementation audit as an audit of the trust itself.
 **Base rate to establish first:** what share of emergency-procurement contracts in
 2020-21 went to firms with no prior ventilator manufacturing record? Without that
 denominator, "a firm with no track record won" is not a finding — emergency procurement

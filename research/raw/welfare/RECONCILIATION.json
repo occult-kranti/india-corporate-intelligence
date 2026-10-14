@@ -156,6 +156,29 @@
       "files": [
         "women-cash.json"
       ]
+    },
+    {
+      "from": "wel:shivraj-singh-chouhan",
+      "to": "pol:shivraj-singh-chouhan",
+      "reason": "cross-fleet reconciliation 2026-09-26: same person (Shivraj Singh Chouhan — CM Madhya Pradesh 2005-11-29→2018-12 and 2020-03-23→2023-12-13; Union Minister of Agriculture & Farmers' Welfare and Rural Development from 2024-06-10 — the offices and dates match the cabinet roster). pol:shivraj-singh-chouhan is the national inventory id (research/raw/cabinet.json → src/graph/build.ts) and ngo/darpan-welfare-join.json already uses it; the roster record wins in the merged graph and the welfare records stay as copies under the inventory id. Rewritten in entities, claims, ministers[].personId and announced.byPersonId.",
+      "files": [
+        "central.json",
+        "elections-timing.json",
+        "literature.json",
+        "state-cash-other.json",
+        "vendors.json",
+        "women-cash.json"
+      ]
+    },
+    {
+      "from": "wel:bombay-high-court",
+      "to": "bombay-hc",
+      "reason": "cross-fleet reconciliation 2026-09-26: A court is not an energy/welfare entity; the Atlas holds the courts (sc, and from 2026-09-26 delhi-hc, bombay-hc, madras-hc, allahabad-hc, ap-hc, jharkhand-hc, sikkim-hc — ty agency, fam enforce, st of the seat). Facts and sources of the fleet record were copied into the Atlas node in src/graph/data.ts; the fleet file keeps its record under the Atlas id (the Atlas record wins in the merged graph). Id rewrite only. Used by welfare/literature.json, welfare/women-cash.json and capital/rules-regulators.json (and now energy/oilgas.json c035).",
+      "files": [
+        "literature.json",
+        "women-cash.json",
+        "capital/rules-regulators.json"
+      ]
     }
   ],
   "refusedMerges": [
@@ -483,6 +506,21 @@
       "file": "fiscal-results.json",
       "id": "fiscal:c016",
       "fix": "benefit.who was plain text \"large landowners (plain class, not a node)\"; now wel:class-tg-large-landowners (a sub-class node, not merged into state-cash-other wel:class-tg-landowning-farmers, which is all pattadar farmers)"
+    },
+    {
+      "file": "central.json",
+      "id": "wel:manmohan-singh",
+      "fix": "identity.office end-dated: \"Union Finance Minister, 1991-06-21→1996-05-16 (under PM P.V. Narasimha Rao); Prime Minister of India, 2004-05-22 → 2014-05-26\" with the Wikipedia infobox source appended — this id is the survivor of wel:/energy:manmohan-singh (cross-fleet reconciliation 2026-09-26); no other fact changed"
+    },
+    {
+      "file": "central.json",
+      "id": "scheme:in-mssc",
+      "fix": "whoElseBenefits[].who \"wel:india-post and participating banks\" → \"India Post and participating banks\": a plain name written with the fleet prefix, which the new §4 cross-file rule refused (no such wel: entity exists); the field admits plain names (cross-fleet reconciliation 2026-09-26)"
+    },
+    {
+      "file": "elections-timing.json, fiscal-results.json, literature.json, vendors.json",
+      "id": "bjp",
+      "fix": "fam \"state\" → \"recipient\", the Atlas value for the party node (cross-fleet reconciliation 2026-09-26); typing only"
     }
   ],
   "notes": [
@@ -490,6 +528,7 @@
     "Records that collapse onto one canonical id in different files are kept per file where a claim or scheme row in that file references them, and share one id, so no alias is claimed by two ids; the assembler unions their aliases, facts and sources. The one same-file duplicate (vendors.json AP volunteer entity vs scheme) was folded and removed.",
     "addedContras is empty: after the predicate fixes every alleged claim in every file already had a contra in the same file (women-cash:c015 is now itself a contra answering c010; c017 is answered by c019; the three elections-timing allegations by their party contras).",
     "Killed claims are held, not deleted. The fleet audit (AUDIT.json) separately kills welfare-central:c042 and fiscal:c014 and adds 4 audit denials at assembly. Its verdicts filed under claim:ladlibehna-alleged-inducement, claim:lakshmirbhandar-alleged-inducement-2026, claim:mahilarozgar-alleged-bribe and claim:pmgkay-extension-rally carry a claim: prefix the research ids do not have, so they match nothing; the first two were killed here on the audit's stated grounds.",
-    "Free-text beneficiary classes and election keys in women-cash.json became class nodes (wel:class-*) and incumbent-party endpoints, following state-cash-other.json and elections-timing.json; the election key is kept on each claim as \"election\"."
+    "Free-text beneficiary classes and election keys in women-cash.json became class nodes (wel:class-*) and incumbent-party endpoints, following state-cash-other.json and elections-timing.json; the election key is kept on each claim as \"election\".",
+    "cross-fleet reconciliation 2026-09-26: ids rewritten in place only (wel:shivraj-singh-chouhan → pol:, wel:bombay-high-court → bombay-hc), plus the three otherFixes above. Welfare court rulings modelled as enforce (fiscal:c008, lit-w:c010/c011/c020, women-cash:c018) still lack the \"Judicial ruling on <claim id>: \" d prefix — §4 warns; left for a welfare content pass."
   ]
 }

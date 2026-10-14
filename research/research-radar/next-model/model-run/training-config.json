@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 1,
+  "seed": 20261008,
+  "epochs": 3,
+  "batchSize": 4,
+  "learningRate": 0.0002,
+  "weightDecay": 0.01,
+  "rank": 8,
+  "alpha": 16,
+  "temperature": 0.08,
+  "gradientClipNorm": 1.0,
+  "maxTokens": 256,
+  "cpuThreads": 4,
+  "optimizer": "AdamW",
+  "precision": "float32",
+  "baseDropout": "disabled",
+  "loss": "uniform-positive cross entropy against explicit query-specific hard negatives; all other sources masked",
+  "families": [
+    "e5",
+    "f2"
+  ],
+  "configurations": [
+    {
+      "family": "e5",
+      "fusion": "none"
+    },
+    {
+      "family": "e5",
+      "fusion": "rrf"
+    },
+    {
+      "family": "f2",
+      "fusion": "none"
+    },
+    {
+      "family": "f2",
+      "fusion": "rrf"
+    }
+  ],
+  "fusion": {
+    "method": "reciprocal rank fusion",
+    "constant": 60,
+    "weights": [
+      1,
+      1
+    ],
+    "members": [
+      "BM25 k1=1.2 b=.75",
+      "dense encoder"
+    ],
+    "candidateRanks": "complete corpus"
+  },
+  "selection": [
+    "development case-macro nDCG@5 descending",
+    "development case-macro required-counterevidence recall@5 descending",
+    "fewer trainable parameters",
+    "earlier epoch",
+    "family ascending then fusion ascending"
+  ],
+  "checkpointCandidates": 3,
+  "untunedBasesEligibleForCandidateSelection": false,
+  "baseComparator": "same selected family, precision, tokenization and fusion; adapter absent",
+  "finalHoldout": "independent evaluator only; this script never opens independent test queries or labels"
+}

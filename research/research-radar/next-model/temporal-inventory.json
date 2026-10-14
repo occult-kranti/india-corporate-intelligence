@@ -1,0 +1,264 @@
+{
+  "schemaVersion": 1,
+  "task": "temporal-cohort-eligibility-audit",
+  "sourceReleaseDate": "2026-06-26",
+  "sourceHashBasis": "Original source hashes retained in independently verified download receipts; this audit checks the physical derived tables without rehashing 13 GB.",
+  "sourceSHA256": {
+    "aoc_tenders.db": "ec8ef7711a17b7cae9e0414c2403b119a0a31c4dec49ed7055b38ec0df5f7586",
+    "tenders_vps.db": "b1994cfb6dd2d5da9ed1d9ac8d6bbc7083178f155e92a65628e87a38e4c64d01"
+  },
+  "derivationFingerprint": "bb1cdeb9d16dc5ee0da3ac3940755c1d27ada162baa4529401e36167c1168c77",
+  "derivedTablesReadOnly": true,
+  "sourceCounts": {
+    "aoc_tenders.db": {
+      "aoc_tenders": 4921960,
+      "aoc_details": 4540739
+    },
+    "tenders_vps.db": {
+      "tenders": 3952191,
+      "tender_details": 3178485
+    }
+  },
+  "queries": {
+    "pair_vintage": {
+      "sql": "SELECT count(*) AS pairs,\n      count(*) FILTER(WHERE n.listing_scraped_at<a.aoc_at) AS listing_scrape_before_award,\n      count(*) FILTER(WHERE n.detail_scraped_at<a.aoc_at) AS detail_scrape_before_award,\n      count(*) FILTER(WHERE n.closing_at<a.aoc_at AND n.detail_scraped_at<n.closing_at\n        AND n.listing_scraped_at<n.closing_at) AS both_scrapes_before_closing_then_award,\n      min(n.published_at) AS earliest_notice_publication,\n      max(n.published_at) AS latest_notice_publication FROM unique_pairs p JOIN audit.notices n ON n.internal_id=p.notice_internal_id JOIN audit.awards a ON a.internal_id=p.award_internal_id",
+      "rows": [
+        {
+          "pairs": 17704,
+          "listing_scrape_before_award": 10,
+          "detail_scrape_before_award": 7,
+          "both_scrapes_before_closing_then_award": 1,
+          "earliest_notice_publication": "2013-08-29 15:15:00",
+          "latest_notice_publication": "2026-06-10 15:00:00"
+        }
+      ]
+    },
+    "strict_preclosing_rows": {
+      "sql": "SELECT n.internal_id AS notice_id,a.internal_id AS award_id,\n      n.tender_id,n.buyer,n.title,n.published_at,n.listing_scraped_at,n.detail_scraped_at,\n      n.closing_at,a.aoc_at,a.contract_at,a.bids_raw,n.document_url FROM unique_pairs p JOIN audit.notices n ON n.internal_id=p.notice_internal_id JOIN audit.awards a ON a.internal_id=p.award_internal_id\n      WHERE n.closing_at<a.aoc_at AND n.detail_scraped_at<n.closing_at\n        AND n.listing_scraped_at<n.closing_at ORDER BY n.internal_id",
+      "rows": [
+        {
+          "notice_id": "2026_HRY_527840_1",
+          "award_id": "9d87b17b4603fa4eabab30e148052724",
+          "tender_id": "2026_HRY_527840_1",
+          "buyer": "Haryana",
+          "title": "Kharia- Construction of Hall Room in E-Library at Village Kharia, Block Rania, Distt. Sirsa (MP-LADS)",
+          "published_at": "2026-06-09 18:00:00",
+          "listing_scraped_at": "2026-06-16 02:45:48.336919",
+          "detail_scraped_at": "2026-06-16 03:30:08.552882",
+          "closing_at": "2026-06-16 12:00:00",
+          "aoc_at": "2026-06-17 00:00:00",
+          "contract_at": "2026-06-17 00:00:00",
+          "bids_raw": "2",
+          "document_url": "https://etenders.hry.nic.in/nicgep/app?page=FrontEndTenderDetailsExternal&service=page&tnid=606834"
+        }
+      ]
+    },
+    "observable_bid_fields": {
+      "sql": "SELECT count(*) AS pairs,\n      count(*) FILTER(WHERE regexp_full_match(trim(a.bids_raw),'[0-9]+')\n        AND try_cast(trim(a.bids_raw) AS INTEGER)=1) AS single_bid,\n      count(*) FILTER(WHERE regexp_full_match(trim(a.bids_raw),'[0-9]+')\n        AND try_cast(trim(a.bids_raw) AS INTEGER) BETWEEN 2 AND 1000) AS multiple_bid,\n      count(*) FILTER(WHERE NOT coalesce(regexp_full_match(trim(a.bids_raw),'[0-9]+')\n        AND try_cast(trim(a.bids_raw) AS INTEGER) BETWEEN 1 AND 1000,false)) AS unknown_or_invalid FROM unique_pairs p JOIN audit.notices n ON n.internal_id=p.notice_internal_id JOIN audit.awards a ON a.internal_id=p.award_internal_id",
+      "rows": [
+        {
+          "pairs": 17704,
+          "single_bid": 4058,
+          "multiple_bid": 13397,
+          "unknown_or_invalid": 249
+        }
+      ]
+    },
+    "closing_semantics": {
+      "sql": "SELECT count(*) AS pairs,\n      count(*) FILTER(WHERE a.closing_at=n.published_at) AS award_closing_equals_notice_publication,\n      count(*) FILTER(WHERE a.closing_at=n.closing_at) AS award_closing_equals_notice_closing,\n      count(*) FILTER(WHERE n.closing_at>a.aoc_at) AS award_precedes_notice_closing FROM unique_pairs p JOIN audit.notices n ON n.internal_id=p.notice_internal_id JOIN audit.awards a ON a.internal_id=p.award_internal_id",
+      "rows": [
+        {
+          "pairs": 17704,
+          "award_closing_equals_notice_publication": 15816,
+          "award_closing_equals_notice_closing": 0,
+          "award_precedes_notice_closing": 321
+        }
+      ]
+    },
+    "publication_years": {
+      "sql": "SELECT year(n.published_at) AS publication_year,count(*) AS pairs,\n      count(DISTINCT n.buyer) AS buyers FROM unique_pairs p JOIN audit.notices n ON n.internal_id=p.notice_internal_id JOIN audit.awards a ON a.internal_id=p.award_internal_id GROUP BY 1 ORDER BY 1",
+      "rows": [
+        {
+          "publication_year": 2013,
+          "pairs": 45,
+          "buyers": 13
+        },
+        {
+          "publication_year": 2014,
+          "pairs": 864,
+          "buyers": 28
+        },
+        {
+          "publication_year": 2015,
+          "pairs": 2059,
+          "buyers": 5
+        },
+        {
+          "publication_year": 2016,
+          "pairs": 2044,
+          "buyers": 7
+        },
+        {
+          "publication_year": 2017,
+          "pairs": 2299,
+          "buyers": 53
+        },
+        {
+          "publication_year": 2018,
+          "pairs": 3217,
+          "buyers": 86
+        },
+        {
+          "publication_year": 2019,
+          "pairs": 1453,
+          "buyers": 94
+        },
+        {
+          "publication_year": 2020,
+          "pairs": 1143,
+          "buyers": 75
+        },
+        {
+          "publication_year": 2021,
+          "pairs": 1008,
+          "buyers": 83
+        },
+        {
+          "publication_year": 2022,
+          "pairs": 1071,
+          "buyers": 82
+        },
+        {
+          "publication_year": 2023,
+          "pairs": 1006,
+          "buyers": 93
+        },
+        {
+          "publication_year": 2024,
+          "pairs": 748,
+          "buyers": 94
+        },
+        {
+          "publication_year": 2025,
+          "pairs": 585,
+          "buyers": 90
+        },
+        {
+          "publication_year": 2026,
+          "pairs": 162,
+          "buyers": 38
+        }
+      ]
+    },
+    "buyer_concentration": {
+      "sql": "SELECT n.buyer,count(*) AS pairs FROM unique_pairs p JOIN audit.notices n ON n.internal_id=p.notice_internal_id JOIN audit.awards a ON a.internal_id=p.award_internal_id GROUP BY 1 ORDER BY pairs DESC,n.buyer LIMIT 10",
+      "rows": [
+        {
+          "buyer": "Neyveli Lignite Corporation Limited",
+          "pairs": 7372
+        },
+        {
+          "buyer": "Bharat Petroleum Corporation Limited",
+          "pairs": 5185
+        },
+        {
+          "buyer": "Banaras Hindu University",
+          "pairs": 368
+        },
+        {
+          "buyer": "MOIL Limited",
+          "pairs": 288
+        },
+        {
+          "buyer": "Delhi Milk Scheme",
+          "pairs": 234
+        },
+        {
+          "buyer": "Central Water and Power Research Station",
+          "pairs": 225
+        },
+        {
+          "buyer": "National Institute of Technology Karnataka",
+          "pairs": 167
+        },
+        {
+          "buyer": "Power Grid Corporation of India Limited",
+          "pairs": 141
+        },
+        {
+          "buyer": "Indian Institute of Management Ahmedabad",
+          "pairs": 137
+        },
+        {
+          "buyer": "Central Public Works Department (CPWD)",
+          "pairs": 136
+        }
+      ]
+    }
+  },
+  "referenceFiles": [
+    {
+      "path": "research/raw/tender-portal-audit/schema-counts.json",
+      "sha256": "a577388dc773e6a362af91906dd33ebe8f62a8d38e82a86cfa7cec309ec45e80"
+    },
+    {
+      "path": "research/raw/tender-portal-audit/linkage-v2.json",
+      "sha256": "e67c1b2e57dfad7d759e7e3bc42ddb492308a601fe41f4295c78538a5724e198"
+    },
+    {
+      "path": "research/raw/tender-portal-audit/derivation-manifest.json",
+      "sha256": "6769c87dc122de434ebf894ac06121ee3eca7727aa29cec4ca6fb7faa41c5215"
+    },
+    {
+      "path": "research/raw/tender-portal-audit/evidence/aoc_tenders.db.download-receipt.json",
+      "sha256": "3fe43142bcae3a01a4d599cbc9fb5e9538deb6b32907b5e7efc77cecc04e7fe0"
+    },
+    {
+      "path": "research/raw/tender-portal-audit/evidence/tenders_vps.db.download-receipt.json",
+      "sha256": "97c6a3f0836cf21a133f2c80ea14f27023b2a9f818095c03bf32e1ea07f19194"
+    }
+  ],
+  "worldBankExistingSnapshot": {
+    "path": "research/raw/finance/worldbank-projects.json",
+    "sha256": "733b9a22c878f48e82dd3a48b84116b6a791b7bc455e5fb1461aa8dd010c1f3e",
+    "asOf": "2026-09-26",
+    "projects": 1117,
+    "statusCounts": {
+      "Active": 82,
+      "Closed": 742,
+      "Dropped": 273,
+      "Pipeline": 20
+    },
+    "historicalPredictorVintagesRetained": false,
+    "eligibleForHistoricalOutcomeTraining": false,
+    "reason": "Current status, closing date and current commitment cannot be backdated to approval. Original closing baselines, revision histories and time-stamped source snapshots are absent."
+  },
+  "existingProspectiveRegistry": {
+    "path": "research/research-radar/forecast-registry.json",
+    "sha256": "61af2a735f791e737b2d3202a96b59e212482ebc60d730d8534915a12db3acf6",
+    "registeredAt": "2026-10-07",
+    "scenarios": 23,
+    "resolvedOutcomes": 0,
+    "numericProbabilities": 0,
+    "representativeEventPopulation": false
+  },
+  "decision": {
+    "historicalForecastTraining": "blocked-insufficient-pre-outcome-observations",
+    "retrospectiveMaskedRecordReconstruction": "eligible-for-separate-design-review-not-a-forward-backtest",
+    "calibratedCorruptionProbability": "unsupported-target",
+    "numericProbabilities": null,
+    "noAwardRecordLabel": "unknown-never-negative",
+    "singleBidMeaning": "observed bid-count field; neither misconduct nor collusion label"
+  },
+  "temporalLimitations": [
+    "The source archive is a June 2026 scrape, including historical records; document event dates do not establish a predictor version available at that time.",
+    "Raw scrape timestamps use inconsistent offset conventions. Derived TIMESTAMP values remove offsets. Even the one pre-closing row is a provisional eligible observation until original timezones and source identity are checked.",
+    "The original portal closing label is often a publication field; never use award-side closing as bid close.",
+    "Exact key linkage is a selected small subset; unavailable awards are unobserved, not cancelled or non-awarded.",
+    "Buyer strings identify source records, not independently resolved legal entities. Entity-disjoint evaluation requires reviewed parent-group membership.",
+    "A retrospective split by event year does not repair late-snapshot predictor leakage.",
+    "Current commitments and contract award values are not disbursements or traced payments."
+  ],
+  "executedAt": "2026-10-08T17:19:37.690451+00:00",
+  "duckdbVersion": "1.5.0"
+}

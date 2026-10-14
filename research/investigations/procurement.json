@@ -6,7 +6,7 @@
       "sector": "Energy / international finance",
       "status": "allegation",
       "summary": "US prosecutors alleged in November 2024 that solar-contract bribery was concealed from investors. The relevant fraud counts against Gautam Adani, Sagar Adani and Vneet Jaain were dismissed with prejudice on 10 August 2026 at prosecutors' request.",
-      "finding": "The 2024 DOJ release describes alleged promised bribes exceeding $250 million and investor misstatements. Counts 2–4 against Gautam Adani, Sagar Adani and Vneet Jaain were dismissed with prejudice on 10 August 2026, without a merits ruling. On 3 September 2026 the court denied without prejudice dismissal of counts 1/5 against Ranjit Gupta, Cyril Cabanes, Saurabh Agarwal, Deepak Malhotra and Rupesh Agarwal. SEC release LR-26554 describes proposed consent judgments with $6 million and $12 million penalties, subject to court approval.",
+      "finding": "The 2024 DOJ release describes alleged promised bribes exceeding $250 million and investor misstatements. Counts 2–4 against Gautam Adani, Sagar Adani and Vneet Jaain were dismissed with prejudice on 10 August 2026, without a merits ruling. The 3 September 2026 order declined dismissal of the remaining counts without prejudice. The original charging record distinguishes the FCPA-conspiracy charge against Ranjit Gupta, Cyril Cabanes, Saurabh Agarwal, Deepak Malhotra and Rupesh Agarwal from the obstruction-conspiracy charge against the latter four; Ranjit Gupta was not listed among those charged with obstruction. SEC release LR-26554 describes proposed consent judgments with $6 million and $12 million penalties, subject to court approval.",
       "limitation": "No conviction is established. Adani Group denies wrongdoing. The August court accepted that the $10 billion US investment pledge did not determine dismissal. The SEC consents neither admit nor deny allegations; this review has not verified an entered final civil judgment or payment. Criminal docket developments after 3 September 2026 remain unverified. No reviewed source establishes Modi’s personal involvement.",
       "sources": [
         "proc-doj-solar-2024",
@@ -153,11 +153,12 @@
       "title": "Defence offsets: delivery and verification gaps",
       "sector": "Defence procurement / industrial policy",
       "status": "documented",
-      "summary": "PRS's account of a July 2026 Public Accounts Committee report identifies incomplete offset obligations and slow verification across defence contracts.",
-      "finding": "PRS reports about 45% of obligations unfulfilled as of 18 December 2025, alongside incorrect claims and projects that did not materialise. Its summary describes recommendations for deadlines, technology transfer and stronger enforcement.",
-      "limitation": "This is a portfolio-level governance issue, not proof of a Rafale kickback. Contracts span administrations and different delivery schedules. The original 2026 committee report and contract-level denominators still need acquisition; PRS is the inspected secondary source.",
+      "summary": "The original July 2026 Public Accounts Committee report documents defence-offset delivery, claim-verification and planning weaknesses; its portfolio figures require distinct denominators and dates.",
+      "finding": "For 26 ongoing contracts, paragraph 18 reports USD 9,915.38 million of obligations and USD 5,467.82 million of submitted claims: 44.86% had not been submitted within that denominator. The separate 56-contract portfolio has obligations extending to 2033. The committee criticises unrealised projects, weak planning and verification delays. Submitted claims are not automatically accepted credits or delivered technology.",
+      "limitation": "The unsubmitted share is not a measure of overdue obligations across every contract. Contract-specific maturity schedules and accepted-delivery records remain unavailable here. Paragraphs 15 and 21 report different claimed totals at different dates; their definitions and revisions need reconciliation. These portfolio findings do not establish a Rafale kickback or coordinated misconduct by particular vendors.",
       "sources": [
-        "proc-offsets-prs-2026"
+        "proc-offsets-prs-2026",
+        "proc-offsets-pac-primary-2026"
       ],
       "entities": [
         "Public Accounts Committee",
@@ -171,7 +172,14 @@
           "prediction": "An obligation-level reconciliation finds accepted credits unmatched to verifiable deliverables or premature credits before acceptance.",
           "alternative": "Reporting lags, revised milestones and valid credit multipliers create apparent mismatches.",
           "falsifier": "Audited acceptance records, amendments and valuation reconciliations account for the credits.",
-          "records": "Original PAC report; contract-level maturity schedule; anonymised claim register; acceptance certificates; penalty and recovery records; published action-taken reports."
+          "records": "The original PAC report is acquired. Still needed: contract-level maturity schedule; anonymised claim register; acceptance certificates; penalty and recovery records; published action-taken reports."
+        },
+        {
+          "question": "Why do the report's later-dated claimed totals differ from its earlier snapshot?",
+          "prediction": "An obligation-level version ledger identifies the claims, scope changes or corrections accounting for the USD 214.55 million difference between paragraphs 15 and 21.",
+          "alternative": "The two snapshots use different reporting populations, definitions or corrected submissions rather than a common cumulative series.",
+          "falsifier": "Published definitions, version history and reconciled claim-level totals fully explain the difference without an unexplained residual.",
+          "records": "Underlying Ministry submissions dated 8 December 2025 and 14 January 2026; claim identifiers; additions, withdrawals and corrections; definitions and reporting populations."
         }
       ]
     },
@@ -323,7 +331,17 @@
       "publisher": "PRS Legislative Research",
       "date": "2026-07",
       "access": "full-text",
-      "supports": "Secondary summary of July 22 2026 PAC report, 45% unfulfilled at December 18 2025 and verification issues; original report not inspected.",
+      "supports": "Secondary summary of the July 2026 PAC report and verification issues. The separately inspected original report now supplies the denominator, schedules and claim-stage qualifications.",
+      "accessedAt": "2026-10-14"
+    },
+    {
+      "id": "proc-offsets-pac-primary-2026",
+      "title": "Public Accounts Committee, Fiftieth Report: Management of Defence Offsets",
+      "url": "https://sansad.in/getFile/app/lsscommittee/Public%20Accounts/18_Public_Accounts_50.pdf?source=app",
+      "publisher": "Lok Sabha Secretariat / Public Accounts Committee",
+      "date": "2026-07-23",
+      "access": "full-text",
+      "supports": "Original 45-page report. Paragraphs 15, 18, 19 and 21 distinguish claim snapshots, 26 ongoing contracts and the 56-contract portfolio extending to 2033; Part II records the committee's criticisms and recommendations. Presented to Lok Sabha 23 July and laid in Rajya Sabha 22 July 2026.",
       "accessedAt": "2026-10-14"
     },
     {
@@ -353,7 +371,7 @@
       "publisher": "US District Court EDNY; primary order archived by CourtListener RECAP",
       "date": "2026-09-03",
       "access": "full-text",
-      "supports": "Independent evidence reviewer read full order: denial without prejudice of dismissal for counts 1/5 against five nonappearing defendants; reaffirmation of August dismissal of counts 2–4 for the three appearing defendants. Later docket not verified. Primary PDF inspected by team evidence reviewer; this researcher’s repeat fetch failed.",
+      "supports": "Prior independent evidence reviewer read the order: denial without prejudice of dismissal for the remaining counts against five nonappearing defendants; this does not mean each defendant faces every remaining count. Reaffirmation of August dismissal of counts 2–4 for the three appearing defendants. Later docket not verified; the continuation reviewer’s repeat PDF retrieval failed.",
       "accessedAt": "2026-10-14"
     },
     {

@@ -1,0 +1,992 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="hi">
+<head id="Head1"><title>
+	Press Release:Press Information Bureau
+</title><link href="css/style.css?v=1" rel="stylesheet" type="text/css" /><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><link rel="alternate stylesheet" href="css/change.css?v=1" media="screen" title="change" /><link rel="alternate stylesheet" href="css/green.css?v=1" media="screen" title="green" /><link rel="alternate stylesheet" href="css/yellow.css" media="screen" title="yellow" /><link rel="stylesheet" type="text/css" href="css/prtint.css" media="print" /><link rel="stylesheet" href="css/style3.1.css" type="text/css" />
+
+
+      <script src="js/jquery.min.js" type="text/javascript"></script>
+
+      <script type="text/javascript">
+            $(document).ready(function () {
+                  function getParameterByName(name) {
+                        var url = window.location.href;
+                        name = name.replace(/[\[\]]/g, '\\$&');
+                        var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+                              results = regex.exec(url);
+                        if (!results) return null;
+                        if (!results[2]) return '';
+                        return decodeURIComponent(results[2].replace(/\+/g, ' '));
+                  }
+                  // Get the IDs from the current page's URL
+                  let prid = parseInt(getParameterByName('PRID'), 10);
+
+                  if (!isNaN(prid) && prid > 0) {
+                        $.ajax({
+                              type: "POST",
+                              url: "AjaxMethod.aspx/UpdatePRHitCount",
+                              async: false,
+                              data: JSON.stringify({ 'PermId': prid }),
+                              contentType: "application/json; charset=utf-8",
+                              dataType: "json",
+                              success: function (response) {
+                                    console.log(response);
+                              },
+                              error: function (error) {
+                                    console.log("Error in AJAX request", error);
+                              }
+                        });
+                  } else {
+                        console.log("Invalid parameters:", prid);
+                  }
+
+            });
+      </script>
+      <style type="text/css">
+            .table-responsive {
+                  width: 100%;
+                  overflow-x: auto;
+            }
+
+            .banner {
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  background-color: #000;
+                  color: #fff;
+                  padding: 20px;
+            }
+
+            full-width {
+                  width: 100%;
+            }
+
+            .logo-left, .logo-center, .countdown {
+                  display: flex;
+                  align-items: center;
+            }
+
+                  .logo-left img, .logo-center img {
+                        height: 70px;
+                  }
+
+            .countdown {
+                  text-align: center;
+                  background-color: var(--dbim-text, #150202);
+                  border-radius: 10px;
+                  padding: 10px;
+                  border: 2px solid grey;
+            }
+
+            .firstnumber {
+                  color: #000000;
+                  position: absolute;
+                  top: 50px;
+                  right: 90px;
+                  font-size: 30px;
+            }
+
+            .secondnumber {
+                  position: absolute;
+                  color: #000000;
+                  right: 45px;
+                  top: 50px;
+                  font-size: 30px;
+            }
+
+            .countdown .days {
+                  font-size: 35px;
+                  color: gold;
+            }
+
+            .countdown p {
+                  margin: 0;
+            }
+
+            .countdown .text {
+                  font-size: 16px;
+            }
+
+            a {
+                  word-break: break-all;
+            }
+
+            iframe, img {
+                  max-width: 100%;
+            }
+
+            @media(max-width:1199px) {
+                  .firstnumber {
+                        top: 40px;
+                        right: 72px;
+                        font-size: 30px;
+                  }
+
+                  .secondnumber {
+                        right: 35px;
+                        top: 40px;
+                        font-size: 30px;
+                  }
+            }
+
+            @media(max-width:990px) {
+                  .firstnumber {
+                        top: 25px;
+                        right: 54px;
+                        font-size: 30px;
+                  }
+
+                  .secondnumber {
+                        right: 25px;
+                        top: 25px;
+                        font-size: 30px;
+                  }
+            }
+
+            @media(max-width:768px) {
+                  .countdown, .days {
+                        font-size: 12px !important;
+                  }
+
+
+                  .firstnumber {
+                        top: 25%;
+                        right: 8%;
+                        font-size: 30px;
+                  }
+
+                  .secondnumber {
+                        right: 4.5%;
+                        top: 25%;
+                        font-size: 30px;
+                  }
+            }
+
+            @media(max-width:475px) {
+                  .countdown, .days {
+                        font-size: 10px !important;
+                        top: 20%;
+                  }
+
+                  .bannerimgdiv {
+                        padding: 0 !important;
+                  }
+
+                  .bannerimg {
+                        width: 108% !important;
+                  }
+            }
+      </style>
+      <script type="text/javascript">
+            $(function () {
+                  $("[id*=printPDF]").click(function () {
+                        $("[id*=hfGridHtml]").val($("#PdfDiv").html());
+                  });
+            });
+            $(function () {
+                  $("[id*=printPDFEvent]").click(function () {
+                        $("[id*=hfGridHtml]").val($("#PdfDiv").html());
+                  });
+            });
+      </script>
+
+      
+
+      <link id="pibConsentCss" href="/css/consent.css?v=8" rel="stylesheet" type="text/css" /><link id="pibFontsCss" href="/css/fonts-noto.css?v=6" rel="stylesheet" type="text/css" /><link id="pibDbimCss" href="/css/dbim.css?v=1120" rel="stylesheet" type="text/css" /><meta property="og:title" content="Amendment in FCRA" /><meta property="og:url" content="www.pib.gov.in/Pressreleaseshare.aspx?PRID=1522983" /><meta property="og:description" content="It is a fact that political parties cannot receive contribution from any foreign source as defined u" /><meta property="og:image" content="https:/pib.gov.in/images/indian-emblem.png" />
+                                <script>!function(e){var n="https://s.go-mpulse.net/boomerang/";if("False"=="True")e.BOOMR_config=e.BOOMR_config||{},e.BOOMR_config.PageParams=e.BOOMR_config.PageParams||{},e.BOOMR_config.PageParams.pci=!0,n="https://s2.go-mpulse.net/boomerang/";if(window.BOOMR_API_key="C4E7H-KSCMC-422L4-W3EM5-U36MF",function(){function e(){if(!i){var e=document.createElement("script");e.id="boomr-scr-as",e.src=window.BOOMR.url,e.async=!0,o.parentNode.appendChild(e),i=!0}}function t(e){i=!0;var n,t,a,r,d=document,O=window;if(window.BOOMR.snippetMethod=e?"if":"i",t=function(e,n){var t=d.createElement("script");t.id=n||"boomr-if-as",t.src=window.BOOMR.url,BOOMR_lstart=(new Date).getTime(),e=e||d.body,e.appendChild(t)},!window.addEventListener&&window.attachEvent&&navigator.userAgent.match(/MSIE [67]\./))return window.BOOMR.snippetMethod="s",void t(o.parentNode,"boomr-async");a=document.createElement("IFRAME"),a.src="about:blank",a.title="",a.role="presentation",a.loading="eager",r=(a.frameElement||a).style,r.width=0,r.height=0,r.border=0,r.display="none",o.parentNode.appendChild(a);try{O=a.contentWindow,d=O.document.open()}catch(_){n=document.domain,a.src="javascript:var d=document.open();d.domain='"+n+"';void(0);",O=a.contentWindow,d=O.document.open()}if(n)d._boomrl=function(){this.domain=n,t()},d.write("<bo"+"dy onload='document._boomrl();'>");else if(O._boomrl=function(){t()},O.addEventListener)O.addEventListener("load",O._boomrl,!1);else if(O.attachEvent)O.attachEvent("onload",O._boomrl);d.close()}function a(e){window.BOOMR_onload=e&&e.timeStamp||(new Date).getTime()}if(!window.BOOMR||!window.BOOMR.version&&!window.BOOMR.snippetExecuted){window.BOOMR=window.BOOMR||{},window.BOOMR.snippetStart=(new Date).getTime(),window.BOOMR.snippetExecuted=!0,window.BOOMR.snippetVersion=12,window.BOOMR.url=n+"C4E7H-KSCMC-422L4-W3EM5-U36MF";var o=document.currentScript||document.getElementsByTagName("script")[0],i=!1,r=document.createElement("link");if(r.relList&&"function"==typeof r.relList.supports&&r.relList.supports("preload")&&"as"in r)window.BOOMR.snippetMethod="p",r.href=window.BOOMR.url,r.rel="preload",r.as="script",r.addEventListener("load",e),r.addEventListener("error",function(){t(!0)}),setTimeout(function(){if(!i)t(!0)},3e3),BOOMR_lstart=(new Date).getTime(),o.parentNode.appendChild(r);else t(!1);if(window.addEventListener)window.addEventListener("load",a,!1);else if(window.attachEvent)window.attachEvent("onload",a)}}(),"".length>0)if(e&&"performance"in e&&e.performance&&"function"==typeof e.performance.setResourceTimingBufferSize)e.performance.setResourceTimingBufferSize();!function(){if(BOOMR=e.BOOMR||{},BOOMR.plugins=BOOMR.plugins||{},!BOOMR.plugins.AK){var n=""=="true"?1:0,t="",a="ljqllrax2fkcq2wpx7sa-f-809e60360-clientnsv4-s.akamaihd.net",o="false"=="true"?2:1,i={"ak.v":"41","ak.cp":"1825201","ak.ai":parseInt("1215205",10),"ak.ol":"0","ak.cr":10,"ak.ipv":4,"ak.proto":"h2","ak.rid":"69203f5","ak.r":46091,"ak.a2":n,"ak.m":"dscb","ak.n":"ff","ak.cport":25283,"ak.gh":"23.201.193.69","ak.quicv":"","ak.tlsv":"tls1.3","ak.0rtt":"","ak.0rtt.ed":"","ak.csrc":"-","ak.acc":"","ak.t":"1791999972","ak.ak":"hOBiQwZUYzCg5VSAfCLimQ==RbD/nT2TfVxuB5vxE3YlB8pwZBUII3WbUWeFKXfjz1qfuqdmVM2xNHE6vy9kWPpijD/owe1ozqsq/zELkXJs/4sXTAeuqhq+C+xQoHFrwvIgLQLplb8MlQkLLcCKkfNVuu/ywe+HVsN9PD5bPhvlwnVm7sR985wH2+emhalUE0qTyAhO9tVoqqBLNLNvdiAycGqAsywN8/ILDKbJSlv3CoUm0LvaKJBruv2pgIfzdGLvr1IMnCCKZArwk+Mt2VBtOvAgNCwKT2wat9PCfqo5+DEUfoubtdjtBRulQUlwo6RL8ooYtBoJcSByMdJiRxpi15OL5WyG10yPWrcTJ089wVKL2q3Qd5FttgLz/v8xmwp3VozZGdMmSymsb9WvsoqSPu0I+0obXniEZv9+naFHOt1XZCTC3b6tAeJJIgii6NM=","ak.pv":"9","ak.dpoabenc":"","ak.tf":o};if(""!==t)i["ak.ruds"]=t;var r={i:!1,av:function(n){var t="http.initiator";if(n&&(!n[t]||"spa_hard"===n[t]))i["ak.feo"]=void 0!==e.aFeoApplied?1:0,BOOMR.addVar(i)},rv:function(){var e=["ak.cport","ak.cr","ak.csrc","ak.gh","ak.ipv","ak.m","ak.n","ak.ol","ak.proto","ak.quicv","ak.tlsv","ak.0rtt","ak.0rtt.ed","ak.r","ak.acc","ak.t","ak.tf"];BOOMR.removeVar(e)}};BOOMR.plugins.AK={akVars:i,akDNSPreFetchDomain:a,init:function(){if(!r.i){var e=BOOMR.subscribe;e("before_beacon",r.av,null,null),e("onbeacon",r.rv,null,null),r.i=!0}return this},is_complete:function(){return!0}}}}()}(window);</script></head>
+<body>
+    
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"
+     style="position:absolute;width:0;height:0;overflow:hidden" id="dbim-icon-sprite">
+    <defs>
+        <symbol id="icon-angle-double-left" viewBox="0 0 24 24"><path d="M11.6 4.6 4.2 12l7.4 7.4 2.2-2.2L8.6 12l5.2-5.2z"/><path d="M19 4.6 11.6 12 19 19.4l2.2-2.2L16 12l5.2-5.2z"/></symbol>
+        <symbol id="icon-angle-double-right" viewBox="0 0 24 24"><path d="M12.4 4.6 10.2 6.8 15.4 12l-5.2 5.2 2.2 2.2L19.8 12z"/><path d="M5 4.6 2.8 6.8 8 12l-5.2 5.2L5 19.4 12.4 12z"/></symbol>
+        <symbol id="icon-arrow-left" viewBox="0 0 24 24"><path d="M20.8 10.6H9.6v2.8h11.2z"/><path d="M10.8 5.6 3.2 12l7.6 6.4z"/></symbol>
+        <symbol id="icon-arrow-right" viewBox="0 0 24 24"><path d="M3.2 10.6h11.2v2.8H3.2z"/><path d="M13.2 5.6 20.8 12l-7.6 6.4z"/></symbol>
+        <symbol id="icon-blogger" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M6.4 2.4h11.2a4 4 0 0 1 4 4v11.2a4 4 0 0 1-4 4H6.4a4 4 0 0 1-4-4V6.4a4 4 0 0 1 4-4zm2.8 5.2a2 2 0 0 0 0 4h2.4a2 2 0 0 0 0-4zm0 5.6a2 2 0 0 0 0 4h5.6a2 2 0 0 0 0-4z"/></symbol>
+        <symbol id="icon-calendar" viewBox="0 0 24 24"><path d="M7.6 2.4H10v2.4H7.6z"/><path d="M14 2.4h2.4v2.4H14z"/><path fill-rule="evenodd" d="M4 4.8h16a1.6 1.6 0 0 1 1.6 1.6v13.2a1.6 1.6 0 0 1-1.6 1.6H4a1.6 1.6 0 0 1-1.6-1.6V6.4A1.6 1.6 0 0 1 4 4.8zm.4 5.6v8.4h15.2v-8.4z"/><path d="M6.4 12.4h3.2v3.2H6.4z"/></symbol>
+        <symbol id="icon-chevron-left" viewBox="0 0 24 24"><path d="M15.4 4.6 8 12l7.4 7.4 2.2-2.2L12.4 12l5.2-5.2z"/></symbol>
+        <symbol id="icon-chevron-right" viewBox="0 0 24 24"><path d="M8.6 4.6 6.4 6.8 11.6 12l-5.2 5.2 2.2 2.2L16 12z"/></symbol>
+        <symbol id="icon-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/></symbol>
+        <symbol id="icon-download" viewBox="0 0 24 24"><path d="M10.8 3h2.4v7.6h3.4L12 16.6l-4.6-6h3.4z"/><path d="M4 17.2h2.4v2.4h11.2v-2.4H20v3.2a1.4 1.4 0 0 1-1.4 1.4H5.4A1.4 1.4 0 0 1 4 20.4z"/></symbol>
+        <symbol id="icon-facebook" viewBox="0 0 24 24"><path d="M13.6 21.6v-8.4h2.8l.42-3.3h-3.22V7.8c0-.95.27-1.6 1.64-1.6h1.74V3.26a23 23 0 0 0-2.54-.13c-2.5 0-4.22 1.53-4.22 4.34v2.43H7.4v3.3h2.82v8.4z"/></symbol>
+        <symbol id="icon-fact-check" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2.4 3.6 5.6v6.2c0 4.6 3.4 8.6 8.4 9.8 5-1.2 8.4-5.2 8.4-9.8V5.6zm-1 13.2-3.6-3.6 1.7-1.7 1.9 1.9 4.5-4.5 1.7 1.7z"/></symbol>
+        <symbol id="icon-hashtag" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M8.8 3h2.4l-1 6h3.2l1-6h2.4l-1 6h3.4v2.4h-3.8l-.6 3.2h3.6V17h-4l-1 5h-2.4l1-5h-3.2l-1 5H5.4l1-5H3V14.6h3.8l.6-3.2H3.8V9h4zm.6 8.4-.6 3.2h3.2l.6-3.2z"/></symbol>
+        <symbol id="icon-home" viewBox="0 0 24 24"><path d="M12 3.4 2.8 11.6h2.4v8.4a1 1 0 0 0 1 1h3.3v-5.4h5v5.4h3.3a1 1 0 0 0 1-1v-8.4h2.4z"/></symbol>
+        <symbol id="icon-instagram" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M7.6 2.4h8.8a5.2 5.2 0 0 1 5.2 5.2v8.8a5.2 5.2 0 0 1-5.2 5.2H7.6a5.2 5.2 0 0 1-5.2-5.2V7.6a5.2 5.2 0 0 1 5.2-5.2zm0 2.4a2.8 2.8 0 0 0-2.8 2.8v8.8a2.8 2.8 0 0 0 2.8 2.8h8.8a2.8 2.8 0 0 0 2.8-2.8V7.6a2.8 2.8 0 0 0-2.8-2.8z"/><path fill-rule="evenodd" d="M12 6.8a5.2 5.2 0 1 0 0 10.4 5.2 5.2 0 0 0 0-10.4zm0 2.4a2.8 2.8 0 1 1 0 5.6 2.8 2.8 0 0 1 0-5.6z"/><circle cx="17.3" cy="6.7" r="1.3"/></symbol>
+        <symbol id="icon-linkedin" viewBox="0 0 24 24"><path d="M4.8 8.8h3.6v12H4.8z"/><circle cx="6.6" cy="5.4" r="2.1"/><path d="M10.8 8.8h3.45v1.65h.05c.48-.9 1.65-1.85 3.4-1.85 3.63 0 4.3 2.35 4.3 5.4v6.6h-3.6v-5.85c0-1.4-.03-3.2-1.95-3.2-1.95 0-2.25 1.52-2.25 3.1v5.95h-3.6z"/></symbol>
+        <symbol id="icon-mail" viewBox="0 0 24 24"><path d="M2.4 7.6v9.2a1.6 1.6 0 0 0 1.6 1.6h16a1.6 1.6 0 0 0 1.6-1.6V7.6L12 14z"/><path d="M21.2 5.4H2.8L12 11.8z"/></symbol>
+        <symbol id="icon-mail-open" viewBox="0 0 24 24"><path d="M2.4 9.8h19.2v9.6A1.6 1.6 0 0 1 20 21H4a1.6 1.6 0 0 1-1.6-1.6z"/><path d="M12 2.6 21.6 9.2h-3.8L12 5.3 6.2 9.2H2.4z"/><path d="m3.9 11.2 8.1 5.4 8.1-5.4 1.5 1.3-9.6 6.4-9.6-6.4z"/></symbol>
+        <symbol id="icon-map-marker" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2.4a7 7 0 0 0-7 7c0 5.2 7 12.2 7 12.2s7-7 7-12.2a7 7 0 0 0-7-7zm0 9.6a2.6 2.6 0 1 1 0-5.2 2.6 2.6 0 0 1 0 5.2z"/></symbol>
+        <symbol id="icon-newspaper" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M2.8 4.4h14.8v15.2H2.8zm2 2v11.2h10.8V6.4z"/><path d="M6 7.6h8.4v1.6H6z"/><path d="M6 10.8h8.4v1.6H6z"/><path d="M6 14h5.2v1.6H6z"/><path d="M18.4 8.4h2.8v9.6a1.4 1.4 0 0 1-2.8 0z"/></symbol>
+        <symbol id="icon-pause" viewBox="0 0 24 24"><rect x="7.4" y="4" width="3.6" height="16" rx="0.9"/><rect x="13" y="4" width="3.6" height="16" rx="0.9"/></symbol>
+    <symbol id="icon-play" viewBox="0 0 24 24"><path d="M8 4.5v15l12-7.5z"/></symbol>
+        <symbol id="icon-picture" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M2.4 5.2h19.2v13.6H2.4zm2 2v9.6h15.2V7.2z"/><path d="M5.6 16.4 10 11l2.6 3 2-2.2 4 4.6z"/><circle cx="8" cy="10.4" r="1.5"/></symbol>
+        <symbol id="icon-press-conference" viewBox="0 0 24 24"><circle cx="12" cy="5.2" r="2.6"/><path d="M7.6 12.2a4.4 4.4 0 0 1 8.8 0z"/><circle cx="4.9" cy="9.6" r="2.2"/><path d="M1.8 15.2a3.1 3.1 0 0 1 6.2 0z"/><circle cx="19.1" cy="9.6" r="2.2"/><path d="M16 15.2a3.1 3.1 0 0 1 6.2 0z"/><path d="M6.6 13.6h10.8l2.2 7.8H4.4z"/></symbol>
+        <symbol id="icon-print" viewBox="0 0 24 24"><path d="M6.4 2.8h11.2v4.4H6.4z"/><path d="M4 8.4h16a1.6 1.6 0 0 1 1.6 1.6v5.6a1.6 1.6 0 0 1-1.6 1.6h-1.6v-2.8H6v2.8H4a1.6 1.6 0 0 1-1.6-1.6V10A1.6 1.6 0 0 1 4 8.4z"/><path d="M7.2 15.6h9.6v5.6H7.2z"/></symbol>
+        <symbol id="icon-rss" viewBox="0 0 24 24"><circle cx="4.8" cy="19.2" r="2.4"/><path d="M2.4 11.2v3.2a6.4 6.4 0 0 1 6.4 6.4H12A9.6 9.6 0 0 0 2.4 11.2z"/><path d="M2.4 4.8V8A13.6 13.6 0 0 1 16 21.6h3.2A16.8 16.8 0 0 0 2.4 4.8z"/></symbol>
+        <symbol id="icon-search-plus" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M10 2.8a7.2 7.2 0 1 0 0 14.4 7.2 7.2 0 0 0 0-14.4zm0 2.4a4.8 4.8 0 1 1 0 9.6 4.8 4.8 0 0 1 0-9.6z"/><path d="M15.3 14.6 21.2 20.5l-1.5 1.5-5.9-5.9z"/><path d="M9.2 6.8h1.6v2.4h2.4v1.6h-2.4v2.4H9.2v-2.4H6.8V9.2h2.4z"/></symbol>
+        <symbol id="icon-share" viewBox="0 0 24 24"><circle cx="18" cy="5.6" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="18.4" r="3"/><path d="M8.3 10.9 15.7 7.2l.9 1.8-7.4 3.7z"/><path d="M9.2 13.1 16.6 16.8l-.9 1.8-7.4-3.7z"/></symbol>
+        <symbol id="icon-twitter" viewBox="0 0 24 24"><path d="M4.2 3h4.3l11.3 18h-4.3z"/><path d="M19.3 3h-2.6L4.2 21h2.6z"/></symbol>
+        <symbol id="icon-university" viewBox="0 0 24 24"><path d="M12 2.4 21.6 7.2v1.6H2.4V7.2z"/><path d="M4.8 10.4h2.4v8H4.8z"/><path d="M9.2 10.4h2.4v8H9.2z"/><path d="M13.4 10.4h2.4v8h-2.4z"/><path d="M17.6 10.4H20v8h-2.4z"/><path d="M3.2 19.8h17.6v1.8H3.2z"/></symbol>
+        <symbol id="icon-volume-up" viewBox="0 0 24 24"><path d="M3.2 9.2h3.3l5-4.2v14l-5-4.2H3.2z"/><path d="M14.6 8.4a5 5 0 0 1 0 7.2l1.6 1.6a7.2 7.2 0 0 0 0-10.4z"/><path d="M17.4 5.6a8.8 8.8 0 0 1 0 12.8l1.5 1.5a10.9 10.9 0 0 0 0-15.8z"/></symbol>
+        <symbol id="icon-whatsapp" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2.4a9.5 9.5 0 0 0-8.1 14.5L2.4 21.6l4.8-1.4A9.5 9.5 0 1 0 12 2.4zm0 2.2a7.3 7.3 0 1 1-3.8 13.5l-.4-.2-2.6.7.7-2.5-.3-.4A7.3 7.3 0 0 1 12 4.6z"/><path d="M9.4 7.8c-.2-.5-.4-.5-.6-.5h-.5a1 1 0 0 0-.7.3c-.3.3-.9.9-.9 2.1s.9 2.4 1 2.6c.1.2 1.7 2.8 4.3 3.8 2.1.8 2.6.7 3 .6.5 0 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2l-.5-.3-1.6-.8c-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6 6 0 0 1-1.8-1.1 6.6 6.6 0 0 1-1.2-1.6c-.1-.2 0-.4.1-.5l.4-.5.3-.5v-.5z"/></symbol>
+        <symbol id="icon-youtube" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M21.6 7.2a2.8 2.8 0 0 0-2-2C17.9 4.8 12 4.8 12 4.8s-5.9 0-7.6.4a2.8 2.8 0 0 0-2 2A29 29 0 0 0 2 12a29 29 0 0 0 .4 4.8 2.8 2.8 0 0 0 2 2c1.7.4 7.6.4 7.6.4s5.9 0 7.6-.4a2.8 2.8 0 0 0 2-2A29 29 0 0 0 22 12a29 29 0 0 0-.4-4.8zM10.2 15.1V8.9l5.1 3.1z"/></symbol>
+    </defs>
+</svg>
+
+      <form method="post" action="./PressReleaseIframePage.aspx?PRID=1522983&amp;lang=2&amp;reg=48" id="form1">
+<div class="aspNetHidden">
+<input type="hidden" name="sc_HiddenField" id="sc_HiddenField" value="" />
+<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
+<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="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" />
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+var theForm = document.forms['form1'];
+if (!theForm) {
+    theForm = document.form1;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</script>
+
+
+<script src="/WebResource.axd?d=pynGkmcFUV13He1Qd6_TZPQet1wIx1Q48y3xJY2k25Y7qxH5RrQ9qQcN-OiTC9guZtri9w2&amp;t=639246310404186790" type="text/javascript"></script>
+
+
+<script src="/ScriptResource.axd?d=x6wALODbMJK5e0eRC_p1LdIxBJXt0U_WW5GWfJqHAqo6frgCmGRfEywglicTersO2OKrFhK1gAIp0Wk2al2YrpdR3uWqH6f4nfjBsCyRUfTUUVmb0&amp;t=ffffffffecf8d3f2" type="text/javascript"></script>
+<script src="/ScriptResource.axd?d=P5lTttoqSeZXoYRLQMIScH645UK3RD852IErF2548Wz9Ssv0rLjB4fhVKnHcMpqkaMHpNAGOeWY02Lf4aBYN9-dVBme_SNK5KJwmFQNpMixYDZ7M0&amp;t=ffffffffecf8d3f2" type="text/javascript"></script>
+<script src="/PressReleaseIframePage.aspx?_TSM_HiddenField_=sc_HiddenField&amp;_TSM_CombinedScripts_=%3b%3bAjaxControlToolkit%2c+Version%3d3.5.7.123%2c+Culture%3dneutral%2c+PublicKeyToken%3d28f01b0e84b6d53e%3aen-US%3a5a4df314-b4a2-4da2-a207-9284f1b1e96c%3ade1feab2%3af2c8e708%3a8613aea7%3af9cec9bc%3a3202a5a2%3aab09e3fe%3a87104b7c%3a720a52bf%3a589eaa30%3aa67c2700%3abe6fb298" type="text/javascript"></script>
+<div class="aspNetHidden">
+
+	<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="8166A38A" />
+	<input type="hidden" name="__VIEWSTATEENCRYPTED" id="__VIEWSTATEENCRYPTED" value="" />
+	<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="yFkYaM3vOdcpdOvrKO+Rd+dU5TncTnqj63A0GipN88Bx1z0IjVlw0nYabLpHRTXC5UQJ10eWIW44uPyjD69eKIEYYLq/O8Mx5zFhCAahGcmVd9hqdYHCEhTnUyhs0uabObi+8CKyvPUowtD1JQA9PpNYT/gBVFH/UQEa+loOqY76VUBMfekvBz/M+lg05NdnhwBZnBpfvgzEL+0/dlWtaAHsSja/VuyXPfL7yFk3LDRikLDljNRg9WI0x3ynOeYU7NhNikYP2PaeZE8hKa+aZb/b6pM=" />
+</div>
+                              
+            <div id="templateCss"></div>
+            <script type="text/javascript">
+//<![CDATA[
+Sys.WebForms.PageRequestManager._initialize('sc', 'form1', ['tupdate12','update12'], [], [], 90, '');
+//]]>
+</script>
+
+            <input type="hidden" name="hfGridHtml" id="hfGridHtml" />
+            <div class="container" style='margin-bottom: 50px;'>
+                  <div id="accessories">
+
+                        
+                        <div class="pull-right" style="display: flex">
+                              <div id="voll"></div>
+                              <div id="vollDT"></div>
+                              
+                              
+
+<span class="print-icons">
+<input type="image" name="Print1$print" id="Print1_print" aria-label="Print" src="images/printer_icon.png" alt="print page button" style="padding: 5px 10px 5px 10px;" />
+</span>
+                        </div>
+                  </div>
+                  <input type="hidden" name="hydpermid" id="hydpermid" value="1522983" />
+                  
+
+
+
+                  <div class="innner-page-main-about-us-content-right-part">
+
+                        <div id="MinistryName" class="MinistryNameSubhead text-center">
+                              Ministry of Home Affairs
+                        </div>
+                        
+                        <div id="lg_g">
+                        </div>
+
+
+
+
+
+                        <div class="text-center event-heading-background">
+                              
+                              <h1 id="Titleh2">
+                                    Amendment in FCRA
+                              </h1>
+                              <h3 id="Subtitleh3">
+                                    <span id="ltrSubtitle"></span>
+                              </h3>
+                        </div>
+
+                        <div id="PrDateTime" class="ReleaseDateSubHeaddateTime text-center pt20">
+                              प्रविष्टि तिथि:
+                07 MAR 2018 4:44PM by PIB Delhi
+                        </div>
+                        
+                        <div class='pt20'>
+                        </div>
+                        <input type="hidden" name="hydphotoUrl" id="hydphotoUrl" />
+                        
+                        <p style="text-align:justify"><span style="font-size:12.0pt"><span style="background-color:white"><span style="font-family:&quot;Times New Roman&quot;,&quot;serif&quot;"><span style="color:#222222">I</span></span></span></span><span style="font-size:12.0pt"><span style="font-family:&quot;Times New Roman&quot;,&quot;serif&quot;">t is a fact that political parties cannot receive contribution from any foreign source as defined under Clause (c) of Section 2 of the FCRA, 1976.&nbsp; Section 29 B of the Representation of the Peoples Act, 1951 also prohibits political parties from receiving foreign contributions. </span></span></p>
+
+<p style="text-align:justify">&nbsp;</p>
+
+<p style="text-align:justify"><span style="font-size:12.0pt"><span style="font-family:&quot;Times New Roman&quot;,&quot;serif&quot;">Clause 217 of the Finance Bill, 2018 seeks to amend Section 236 of the Finance Act, 2016 which relates to amendment to sub-clause (vi) of the clause&nbsp; (i)&nbsp; of&nbsp; Sub-section&nbsp; (1)&nbsp;&nbsp; of&nbsp; Section&nbsp; 2&nbsp;&nbsp; of&nbsp; the&nbsp; Foreign&nbsp; Contribution (Regulation) Act, 2010.&nbsp; The proviso to the said sub-clause inserted under the Finance Act, 2016 states that where the nominal value of share capital is within the limits</span></span> <span style="font-size:12.0pt"><span style="font-family:&quot;Times New Roman&quot;,&quot;serif&quot;">specified for foreign investment under the Foreign Exchange Management Act, 1999 (42 of 1999), or the rules or regulations made there under, then, notwithstanding the nominal value of share capital of a company being more than one half of such value at the time of making the contribution, such company shall not be deemed to be a foreign source, if the foreign investment is within the limit specified under the Foreign Exchange Management Act, 1999 or the rules or regulations made there under. </span></span></p>
+
+<p style="text-align:justify">&nbsp;</p>
+
+<p style="text-align:justify"><span style="font-size:12.0pt"><span style="font-family:&quot;Times New Roman&quot;,&quot;serif&quot;">The main purpose of the proposed amendment is to ensure that the definition of &#39;foreign source&#39; remains consistent with the FDI Policy of the Government of India; and provisions of the Companies Act, 2013 and the Companies (Corporate Social Responsibility Policy) Rules, 2014.&nbsp; It is proposed to bring the said amendment with effect from the 5th August, 1976, the date of commencement of the Foreign Contribution (Regulation) Act, 1976, which was repealed and re-enacted as the Foreign Contribution (Regulation) Act, 2010.</span></span></p>
+
+<p style="text-align:justify">&nbsp;</p>
+
+<p style="text-align:justify"><span style="font-size:12.0pt"><span style="background-color:white"><span style="font-family:&quot;Times New Roman&quot;,&quot;serif&quot;"><span style="color:#222222">This was stated by the Minister of State for Home Affairs, Shri Kiren Rijiju in written reply to a question in the Rajya Sabha today.</span></span></span></span></p>
+
+<p style="text-align:center">&nbsp;</p>
+
+<p style="text-align:center">&nbsp;</p>
+
+<p style="text-align:center"><span style="font-size:12.0pt"><span style="font-family:&quot;Times New Roman&quot;,&quot;serif&quot;">****&nbsp;&nbsp; </span></span></p>
+
+<p style="text-align:justify"><span style="font-size:12.0pt"><span style="font-family:&quot;Times New Roman&quot;,&quot;serif&quot;">BB/PK/SS/PP/1351</span></span></p>
+
+<p>&nbsp;</p>
+
+<p>&nbsp;</p>
+
+<p>&nbsp;</p>
+
+
+                        
+                        <div id="reel_pic">
+                        </div>
+
+
+
+                        
+                        <br />
+                        <span id="ReleaseId">(रिलीज़ आईडी: 1522983)</span>
+                        <span id="lblViews">	आगंतुक पटल  : 3875</span>
+                        <div>
+                              
+                        </div>
+                        
+
+                        <span id="lblRefPhoto"></span>
+
+                        <div class="BackgroundRelease">
+                              
+                        </div>
+                        <div>
+                              
+                        </div>
+                        <div class="ReleaseLang">इस विज्ञप्ति को इन भाषाओं में पढ़ें: 
+                        
+                                    
+                                    <a href='https://pib.gov.in/PressReleasePage.aspx?PRID=1523231' target="_blank">
+                                          Tamil </a>
+                              
+                        </div>
+
+                        <div class="RelTag">
+                              <ul>
+                                    
+                              </ul>
+                        </div>
+                        <div class="clear">
+                        </div>
+                        <div id="RelLink" class="RelLink">
+                              <ul>
+                                    
+                                    
+                              </ul>
+                        </div>
+                        <center>
+                              
+                        </center>
+                  </div>
+
+                  <div id="update12">
+	
+                              
+                              <input type="hidden" name="Hidden" id="Hidden" />
+                              <div id="P_CategoryManagement" class="ModalWindow" style="border-width:0px;height:60%;width:60%;overflow:auto;display: none">
+		
+                                    <div>
+                                          <input type="image" name="btnClose" id="btnClose" src="images/close_flat_icon.png" />
+                                    </div>
+                                    <div id="description">
+                                    </div>
+                                    <div class="text-center">
+                                          <h2>
+                                                
+                                                <br>
+                                                
+                                          </h2>
+                                    </div>
+                                    <br />
+                                    <div class="clear">
+                                    </div>
+                                    
+                              
+	</div>
+                        
+</div>
+            </div>
+            
+            <div id="PdfDiv" style="display: none;">
+                  <table width="100%">
+                        <tr>
+                              <td style="font-weight: 200; text-align: center">
+                                    Ministry of Home Affairs
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                                    <div style="font-weight: 200; text-align: center; font-size: 30px;">
+                                          Amendment in FCRA
+                                    </div>
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                                    <div style="font-weight: 200; text-align: center; font-size: 30px;">
+                                          
+                                    </div>
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                                    <div style="text-align: center; font-size: 14px;">
+                                          प्रविष्टि तिथि:
+                        07 MAR 2018 4:44PM by PIB Delhi
+                                    </div>
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                                    <div style="font-weight: 200; text-align: left; font-size: 16px;">
+                                          <p style="text-align:justify"><span style="font-size:12.0pt"><span style="background-color:white"><span style="font-family:&quot;Times New Roman&quot;,&quot;serif&quot;"><span style="color:#222222">I</span></span></span></span><span style="font-size:12.0pt"><span style="font-family:&quot;Times New Roman&quot;,&quot;serif&quot;">t is a fact that political parties cannot receive contribution from any foreign source as defined under Clause (c) of Section 2 of the FCRA, 1976.&nbsp; Section 29 B of the Representation of the Peoples Act, 1951 also prohibits political parties from receiving foreign contributions. </span></span></p>
+
+<p style="text-align:justify">&nbsp;</p>
+
+<p style="text-align:justify"><span style="font-size:12.0pt"><span style="font-family:&quot;Times New Roman&quot;,&quot;serif&quot;">Clause 217 of the Finance Bill, 2018 seeks to amend Section 236 of the Finance Act, 2016 which relates to amendment to sub-clause (vi) of the clause&nbsp; (i)&nbsp; of&nbsp; Sub-section&nbsp; (1)&nbsp;&nbsp; of&nbsp; Section&nbsp; 2&nbsp;&nbsp; of&nbsp; the&nbsp; Foreign&nbsp; Contribution (Regulation) Act, 2010.&nbsp; The proviso to the said sub-clause inserted under the Finance Act, 2016 states that where the nominal value of share capital is within the limits</span></span> <span style="font-size:12.0pt"><span style="font-family:&quot;Times New Roman&quot;,&quot;serif&quot;">specified for foreign investment under the Foreign Exchange Management Act, 1999 (42 of 1999), or the rules or regulations made there under, then, notwithstanding the nominal value of share capital of a company being more than one half of such value at the time of making the contribution, such company shall not be deemed to be a foreign source, if the foreign investment is within the limit specified under the Foreign Exchange Management Act, 1999 or the rules or regulations made there under. </span></span></p>
+
+<p style="text-align:justify">&nbsp;</p>
+
+<p style="text-align:justify"><span style="font-size:12.0pt"><span style="font-family:&quot;Times New Roman&quot;,&quot;serif&quot;">The main purpose of the proposed amendment is to ensure that the definition of &#39;foreign source&#39; remains consistent with the FDI Policy of the Government of India; and provisions of the Companies Act, 2013 and the Companies (Corporate Social Responsibility Policy) Rules, 2014.&nbsp; It is proposed to bring the said amendment with effect from the 5th August, 1976, the date of commencement of the Foreign Contribution (Regulation) Act, 1976, which was repealed and re-enacted as the Foreign Contribution (Regulation) Act, 2010.</span></span></p>
+
+<p style="text-align:justify">&nbsp;</p>
+
+<p style="text-align:justify"><span style="font-size:12.0pt"><span style="background-color:white"><span style="font-family:&quot;Times New Roman&quot;,&quot;serif&quot;"><span style="color:#222222">This was stated by the Minister of State for Home Affairs, Shri Kiren Rijiju in written reply to a question in the Rajya Sabha today.</span></span></span></span></p>
+
+<p style="text-align:center">&nbsp;</p>
+
+<p style="text-align:center">&nbsp;</p>
+
+<p style="text-align:center"><span style="font-size:12.0pt"><span style="font-family:&quot;Times New Roman&quot;,&quot;serif&quot;">****&nbsp;&nbsp; </span></span></p>
+
+<p style="text-align:justify"><span style="font-size:12.0pt"><span style="font-family:&quot;Times New Roman&quot;,&quot;serif&quot;">BB/PK/SS/PP/1351</span></span></p>
+
+<p>&nbsp;</p>
+
+<p>&nbsp;</p>
+
+<p>&nbsp;</p>
+
+                                    </div>
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                                    <div style="font-weight: 100; text-align: left; font-size: 16px;">
+                                          (रिलीज़ आईडी: 1522983)
+                                    </div>
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                              </td>
+                        </tr>
+                        <tr>
+                              <td style="font-weight: 200; text-align: center; font-size: 24px;"></td>
+                        </tr>
+                  </table>
+            </div>
+            <div class="clearfix">
+            </div>
+
+            
+
+            <div class="section1">
+                  <div id="frst_t">
+                        <div id="arr_rm"><div class='sticky-social_mb'><ul class='social_mb'><a href='http://www.facebook.com/share.php?u=https://pib.gov.in/PressReleasePage.aspx?PRID=1522983' target='_blank'><li class='fb_b'   ></li></a><a href='https://twitter.com/intent/tweet?url=https://pib.gov.in/PressReleasePage.aspx?PRID=1522983&text=Amendment in FCRA' target='_blank'><li class='twitter_r'  > </li></a><a href='https://api.whatsapp.com/send?text=https://pib.gov.in/PressReleasePage.aspx?PRID=1522983' target='_blank'><li class='whatsapp_r'  ></li></a><a href='https://mail.google.com/mail/?view=cm&fs=1&tf=1&to=&su=Amendment in FCRA&body=https://pib.gov.in/PressReleasePage.aspx?PRID=1522983&ui=2&tf=1&pli=1' title='Share by Email' target='_blank'><li class='fa-envelope_r' ></li></a><a href='https://www.linkedin.com/shareArticle?mini=true&url=https://pib.gov.in/PressReleasePage.aspx?PRID=1522983&title=Amendment in FCRA&summary=My%20favorite%20developer%20program&source=LinkedIn' target='_blank'><li class='fa-linkedin_r'  ></li></a></ul></div></div>
+                  </div>
+                  <div id="second_t">
+                        <div id="sndr_rm"><div class='sticky-social'><ul class='social'><a href='http://www.facebook.com/share.php?u=https://pib.gov.in/PressReleasePage.aspx?PRID=1522983' target='_blank'><li class='fb_b'   ></li></a><a href='https://twitter.com/intent/tweet?url=https://pib.gov.in/PressReleasePage.aspx?PRID=1522983&text=Amendment in FCRA' target='_blank'><li class='twitter_r'  > </li></a><a href='https://api.whatsapp.com/send?text=https://pib.gov.in/PressReleasePage.aspx?PRID=1522983' target='_blank'><li class='whatsapp_r'  ></li></a><a href='https://mail.google.com/mail/?view=cm&fs=1&tf=1&to=&su=Amendment in FCRA&body=https://pib.gov.in/PressReleasePage.aspx?PRID=1522983&ui=2&tf=1&pli=1' title='Share by Email' target='_blank'><li class='fa-envelope_r' ></li></a><a href='https://www.linkedin.com/shareArticle?mini=true&url=https://pib.gov.in/PressReleasePage.aspx?PRID=1522983&title=Amendment in FCRA&summary=My%20favorite%20developer%20program&source=LinkedIn' target='_blank'><li class='fa-linkedin_r'  ></li></a></ul></div></div>
+                  </div>
+            </div>
+            <input type="hidden" name="ltrTitlee" id="ltrTitlee" value="Amendment in FCRA" />
+            <input type="hidden" name="ltrSubtitlee" id="ltrSubtitlee" />
+            <input type="hidden" name="ltrDescriptionn" id="ltrDescriptionn" value="&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-size:12.0pt&quot;>&lt;span style=&quot;background-color:white&quot;>&lt;span style=&quot;font-family:&amp;quot;Times New Roman&amp;quot;,&amp;quot;serif&amp;quot;&quot;>&lt;span style=&quot;color:#222222&quot;>I&lt;/span>&lt;/span>&lt;/span>&lt;/span>&lt;span style=&quot;font-size:12.0pt&quot;>&lt;span style=&quot;font-family:&amp;quot;Times New Roman&amp;quot;,&amp;quot;serif&amp;quot;&quot;>t is a fact that political parties cannot receive contribution from any foreign source as defined under Clause (c) of Section 2 of the FCRA, 1976.&amp;nbsp; Section 29 B of the Representation of the Peoples Act, 1951 also prohibits political parties from receiving foreign contributions. &lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&amp;nbsp;&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-size:12.0pt&quot;>&lt;span style=&quot;font-family:&amp;quot;Times New Roman&amp;quot;,&amp;quot;serif&amp;quot;&quot;>Clause 217 of the Finance Bill, 2018 seeks to amend Section 236 of the Finance Act, 2016 which relates to amendment to sub-clause (vi) of the clause&amp;nbsp; (i)&amp;nbsp; of&amp;nbsp; Sub-section&amp;nbsp; (1)&amp;nbsp;&amp;nbsp; of&amp;nbsp; Section&amp;nbsp; 2&amp;nbsp;&amp;nbsp; of&amp;nbsp; the&amp;nbsp; Foreign&amp;nbsp; Contribution (Regulation) Act, 2010.&amp;nbsp; The proviso to the said sub-clause inserted under the Finance Act, 2016 states that where the nominal value of share capital is within the limits&lt;/span>&lt;/span> &lt;span style=&quot;font-size:12.0pt&quot;>&lt;span style=&quot;font-family:&amp;quot;Times New Roman&amp;quot;,&amp;quot;serif&amp;quot;&quot;>specified for foreign investment under the Foreign Exchange Management Act, 1999 (42 of 1999), or the rules or regulations made there under, then, notwithstanding the nominal value of share capital of a company being more than one half of such value at the time of making the contribution, such company shall not be deemed to be a foreign source, if the foreign investment is within the limit specified under the Foreign Exchange Management Act, 1999 or the rules or regulations made there under. &lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&amp;nbsp;&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-size:12.0pt&quot;>&lt;span style=&quot;font-family:&amp;quot;Times New Roman&amp;quot;,&amp;quot;serif&amp;quot;&quot;>The main purpose of the proposed amendment is to ensure that the definition of &amp;#39;foreign source&amp;#39; remains consistent with the FDI Policy of the Government of India; and provisions of the Companies Act, 2013 and the Companies (Corporate Social Responsibility Policy) Rules, 2014.&amp;nbsp; It is proposed to bring the said amendment with effect from the 5th August, 1976, the date of commencement of the Foreign Contribution (Regulation) Act, 1976, which was repealed and re-enacted as the Foreign Contribution (Regulation) Act, 2010.&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&amp;nbsp;&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-size:12.0pt&quot;>&lt;span style=&quot;background-color:white&quot;>&lt;span style=&quot;font-family:&amp;quot;Times New Roman&amp;quot;,&amp;quot;serif&amp;quot;&quot;>&lt;span style=&quot;color:#222222&quot;>This was stated by the Minister of State for Home Affairs, Shri Kiren Rijiju in written reply to a question in the Rajya Sabha today.&lt;/span>&lt;/span>&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:center&quot;>&amp;nbsp;&lt;/p>
+
+&lt;p style=&quot;text-align:center&quot;>&amp;nbsp;&lt;/p>
+
+&lt;p style=&quot;text-align:center&quot;>&lt;span style=&quot;font-size:12.0pt&quot;>&lt;span style=&quot;font-family:&amp;quot;Times New Roman&amp;quot;,&amp;quot;serif&amp;quot;&quot;>****&amp;nbsp;&amp;nbsp; &lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-size:12.0pt&quot;>&lt;span style=&quot;font-family:&amp;quot;Times New Roman&amp;quot;,&amp;quot;serif&amp;quot;&quot;>BB/PK/SS/PP/1351&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p>&amp;nbsp;&lt;/p>
+
+&lt;p>&amp;nbsp;&lt;/p>
+
+&lt;p>&amp;nbsp;&lt;/p>
+" />
+            <script type="text/javascript">
+                  var mPlayer = document.getElementById("background_music");
+                  var mPlayAction = document.getElementById("playbutton");
+
+                  var isPlaying = false;
+
+                  function playAudio() {
+                        mPlayer.play();
+                        isPlaying = true;
+                        document.getElementById('stopA').style.display = "block";
+                        document.getElementById('playA').style.display = "none";
+                  }
+
+                  function pauseAudio() {
+                        mPlayer.pause();
+                        isPlaying = false;
+                        document.getElementById('playA').style.display = "block";
+                        document.getElementById('stopA').style.display = "none";
+                  }
+                  //function HandleAudio() {
+                  //    if (isPlaying == true) {
+                  //        //Playing already Pause it
+                  //        pauseAudio();
+                  //    } else {
+                  //        //Play the music
+                  //        playAudio();
+                  //    }
+                  //}
+            </script>
+            <script type="text/javascript">
+                  var synth = window.speechSynthesis;
+
+            
+                  function CleanHtml(html) {
+
+                        html = html.replace(/<script[\s\S]*?<\/script>/gi, '');
+
+                        return html;
+                  }
+                  function stripHtml(html) {
+                        let tmp = document.createElement("DIV");
+                        tmp.innerHTML = CleanHtml(html);
+                        return tmp.textContent || tmp.innerText || "";
+                  }
+            </script>
+            <script type="text/javascript">
+                  $(document).ready(function () {
+                        //for responsive tables
+                        $("table").each(function () {
+                              if (!$(this).closest(".table-responsive").length) {
+                                    $(this).wrap("<div class='table-responsive'></div>");
+                              }
+                        });
+
+                        var width = $(window).width();
+                        if (width < 768) {
+
+                              // Extra Small Device
+                              document.getElementById('frst_t').style.display = "block";
+                              document.getElementById('second_t').style.display = "none";
+
+                        } else if (width < 991) {
+                              document.getElementById('frst_t').style.display = "block";
+                              document.getElementById('second_t').style.display = "none";
+                              // Small Device
+
+                        } else if (width < 1199) {
+                              document.getElementById('frst_t').style.display = "none";
+                              document.getElementById('second_t').style.display = "block";
+                              // Medium Device
+
+                        } else {
+                              document.getElementById('frst_t').style.display = "none";
+                              document.getElementById('second_t').style.display = "block";
+                              // Large Device
+
+                        }
+                  });
+            </script>
+            <script type="text/javascript">
+                  $(document).ready(function () {
+                        var width = $(window).width();
+                        if (width < 768) {
+
+                              // Extra Small Device
+                              document.getElementById('frst_t').style.display = "block";
+                              document.getElementById('second_t').style.display = "none";
+
+                        } else if (width < 991) {
+                              document.getElementById('frst_t').style.display = "block";
+                              document.getElementById('second_t').style.display = "none";
+                              // Small Device
+
+                        } else if (width < 1199) {
+                              document.getElementById('frst_t').style.display = "none";
+                              document.getElementById('second_t').style.display = "block";
+                              // Medium Device
+
+                        } else {
+                              document.getElementById('frst_t').style.display = "none";
+                              document.getElementById('second_t').style.display = "block";
+                              // Large Device
+
+                        }
+                  });
+            </script>
+            
+            <style type="text/css">
+                  @media print {
+                        .sticky-social, .sticky-social_mb, .pull-right, #printPDF {
+                              display: none !important;
+                        }
+                  }
+
+                  .f_vl {
+                        padding-right: 30px;
+                        font-size: 17px;
+                        cursor: pointer;
+                  }
+
+                  .log_oo {
+                        // width: 20%;
+                        display: flex;
+                        justify-content: space-between;
+                  }
+
+                        .log_oo img {
+                              width: 150px;
+                              /*width: 100%;
+                    height: auto;*/
+                        }
+
+                  .sticky-social_mb {
+                        position: fixed;
+                        bottom: 0px;
+                        padding: 0px;
+                        margin: 0px;
+                        width: 100%;
+                  }
+
+                  .social_mb {
+                        list-style: none;
+                        display: flex;
+                        width: 100%;
+                        margin-bottom: -8px;
+                  }
+
+                        .social_mb a {
+                              padding: 8px 0px;
+                              font-size: 30px;
+                              transition: all 0.8s ease-in-out;
+                              width: 20% !important;
+                              text-align: center;
+                        }
+            </style>
+            <style type="text/css">
+                  .section1 {
+                        position: relative;
+                        padding: 10px 0px;
+                        width: 100%;
+                  }
+
+
+
+                  .sticky-social {
+                        position: fixed;
+                        top: 20px;
+                        left: 0px;
+                        padding: 0px;
+                        margin: 0px;
+                  }
+
+                  .social {
+                        list-style: none;
+                  }
+
+                        .social a li {
+                              padding: 8px 12px;
+                              font-size: 25px;
+                              transition: all 0.8s ease-in-out;
+                        }
+
+                              .social a li:hover {
+                                    margin-right: -30px;
+                                    box-shadow: 2px 5px 10px grey;
+                              }
+
+                                    .social a li:hover .fa {
+                                          margin-left: 20px;
+                                    }
+
+                  .fb_b {
+                        /* background-color: var(--dbim-key, #0F5757);*/
+                        background-color: var(--dbim-key, #0F5757);
+                  }
+
+                  .twitter_r {
+                        /* background-color: rgb(29, 161, 242);*/
+                        background-color: var(--dbim-key, #0F5757);
+                  }
+
+                  .whatsapp_r {
+                        /* background-color: var(--dbim-key, #0F5757);*/
+                        background-color: var(--dbim-key, #0F5757);
+                  }
+
+                  .fa-envelope_r {
+                        /* background-color: var(--dbim-key, #0F5757);*/
+                        background-color: var(--dbim-key, #0F5757);
+                  }
+
+                  .fa-linkedin_r {
+                        background-color: var(--dbim-key, #0F5757);
+                  }
+            </style>
+            <style type="text/css">
+                  @media only screen and (max-device-width: 767px) {
+                        p span img {
+                              max-width: 90% !important;
+                              height: auto !important;
+                        }
+
+                        p img {
+                              max-width: 90% !important;
+                              height: auto !important;
+                        }
+
+                        h2 {
+                              font-size: var(--dbim-h2, 20px);   /* was 20px !important - the !important blocked A+/A- */
+                              font-weight: 600 !important;
+                        }
+
+                        h3 {
+                              font-size: var(--dbim-h3, 16px);   /* was 16px !important */
+                              font-weight: 600 !important;
+                        }
+                  }
+            </style>
+            <style type="text/css">
+                  /* === Film Roll Badge Styling(IFFI2025 countdown) === */
+                  .film-roll-badge {
+                        position: absolute;
+                        top:82%;
+                        right: 20px;
+                        width: 230px;
+                        height: 70px;
+                        background: repeating-linear-gradient( to right, var(--dbim-green-key, #0F5757) 0px, var(--dbim-green-key, #0F5757) 18px, var(--dbim-text, #150202) 18px, var(--dbim-text, #150202) 36px );
+                        border-top: 8px solid var(--dbim-green-key, #0F5757);
+                        border-bottom: 8px solid var(--dbim-green-key, #0F5757);
+                        border-radius: 8px;
+                        overflow: hidden;
+                        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+                        animation: moveFilm 8s linear infinite;
+                        z-index: 10;
+                  }
+
+                        /* film sprocket holes */
+                        .film-roll-badge::before,
+                        .film-roll-badge::after {
+                              content: "";
+                              position: absolute;
+                              width: 100%;
+                              height: 10px;
+                              background: repeating-linear-gradient( to right, var(--dbim-green-key, #0F5757) 0px, var(--dbim-green-key, #0F5757) 10px, #fff 10px, #fff 20px );
+                              left: 0;
+                              z-index: 2;
+                        }
+
+                        .film-roll-badge::before {
+                              top: -4px;
+                        }
+
+                        .film-roll-badge::after {
+                              bottom: -4px;
+                        }
+
+                  .film-roll-inner {
+                        position: relative;
+                        height: 100%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        animation: flicker 2s infinite ease-in-out;
+                  }
+
+                  .countdown-text {
+                        font-size: 1.3rem;
+                        font-weight: 700;
+                        color: #fff;
+                        text-shadow: 0 0 6px rgba(255, 255, 255, 0.4), 0 0 10px #000;
+                        white-space: nowrap;
+                  }
+
+                  /* === Animations === */
+                  @keyframes moveFilm {
+                        0% {
+                              background-position: 0 0;
+                        }
+
+                        100% {
+                              background-position: 120px 0;
+                        }
+                  }
+
+                  @keyframes flicker {
+                        0%, 100% {
+                              opacity: 1;
+                        }
+
+                        50% {
+                              opacity: 0.9;
+                        }
+
+                        25% {
+                              opacity: 0.95;
+                        }
+
+                        75% {
+                              opacity: 0.85;
+                        }
+                  }
+
+                  /* === Responsive Adjustments === */
+                  @media (max-width: 1500px) {
+                        .film-roll-badge {
+                              top: 68%;
+                              right: 18px;
+                              /* width: 220px; */
+                              height: 65px;
+                              font-size: 0.85rem;
+                        }
+
+                        .press-section {
+                              margin-top: 35px;
+                        }
+                  }
+
+                  @media (max-width: 992px) {
+                        .film-roll-badge {
+                              top: 52%;
+                              right: 10px;
+                               width: 200px; 
+                              height: 60px;
+                        }
+                  }
+
+                  @media (max-width: 768px) {
+                        .film-roll-badge {
+                              top: 56%;
+                              right: 10px;
+                               width: 124px; 
+                              height: 55px;
+                        }
+
+                        .countdown-text {
+                              font-size: 0.9rem;
+                        }
+                  }
+
+                  @media (max-width: 576px) {
+                        .film-roll-badge {
+                              top: 59%;
+                              right: 5px;
+                              /* width: 160px; */
+                              height: 50px;
+                        }
+
+                        .countdown-text {
+                              font-size: 0.85rem;
+                        }
+                  }
+            </style>
+                        <script type="text/javascript">
+                  const festivalStart = new Date("2025-11-20T00:00:00").getTime();
+                  const festivalEnd = new Date("2025-11-28T23:59:59").getTime();
+
+                  const countdownElement = document.getElementById("countdown");
+
+                  const interval = setInterval(() => {
+                        const now = new Date().getTime();
+
+                        // BEFORE FESTIVAL — show days + hours left
+                        if (now < festivalStart) {
+                              const diff = festivalStart - now;
+                              const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                              const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+
+                              countdownElement.innerHTML = `
+                ${days} Day${days !== 1 ? 's' : ''} 
+                ${hours} Hour${hours !== 1 ? 's' : ''} to go
+            `;
+
+                        }
+
+                        // DURING FESTIVAL — show 56th IFFI - Day X
+                        else if (now >= festivalStart && now <= festivalEnd) {
+                              const dayNumber = Math.floor((now - festivalStart) / (1000 * 60 * 60 * 24)) + 1;
+                              countdownElement.innerHTML = `56th IFFI - Day ${dayNumber}`;
+                        }
+
+                        // AFTER FESTIVAL — new message
+                        else {
+                              countdownElement.innerHTML = `✨ IFFI closes but never ends…`;
+
+                              // Width change logic
+                              const elements = document.querySelectorAll('.film-roll-badge');
+                              elements.forEach(el => el.style.width = "350px");
+
+                              clearInterval(interval);
+                        }
+
+                  }, 1000);
+            </script>
+
+      
+
+<script type="text/javascript">
+//<![CDATA[
+(function() {var fn = function() {$get("sc_HiddenField").value = '';Sys.Application.remove_init(fn);};Sys.Application.add_init(fn);})();Sys.Application.add_init(function() {
+    $create(Sys.Extended.UI.ModalPopupBehavior, {"BackgroundCssClass":"modalBackground","PopupControlID":"P_CategoryManagement","dynamicServicePath":"/PressReleaseIframePage.aspx","id":"mpe"}, null, null, $get("Hidden"));
+});
+//]]>
+</script>
+</form>
+      
+      
+
+<script type="application/json" id="pibConsentConfig">{"ga4Id":"G-Q414Y0X6EE,G-QJJ6LZ8LHV","policyUrl":"/CookiePolicy.aspx","text":{"bannerLabel":"कुकी सहमति","title":"इस वेबसाइट पर कुकीज़","body":"इस वेबसाइट को चलाने के लिए हम आवश्यक कुकीज़ का उपयोग करते हैं। आपके आने पर हम विश्लेषण कुकीज़ भी सेट करते हैं, ताकि हम देख सकें कि साइट का उपयोग कैसे हो रहा है और उसे बेहतर बना सकें - आप इन्हें नीचे या कभी भी कुकी नीति पृष्ठ से बंद कर सकते हैं। सोशल मीडिया सामग्री की कुकीज़ केवल आपकी अनुमति से ही सेट की जाती हैं।","policyLink":"हमारी कुकी नीति पढ़ें","accept":"सभी स्वीकार करें","reject":"वैकल्पिक अस्वीकार करें","customize":"अनुकूलित करें","prefsTitle":"कुकी प्राथमिकताएं","prefsIntro":"चुनें कि यह वेबसाइट कौन सी कुकीज़ सेट कर सकती है। आवश्यक कुकीज़ बंद नहीं की जा सकतीं क्योंकि उनके बिना साइट काम नहीं करती। विश्लेषण कुकीज़ तब तक चालू रहती हैं जब तक आप उन्हें बंद न करें। सोशल मीडिया कुकीज़ तब तक बंद रहती हैं जब तक आप अनुमति न दें। आप ये विकल्प कभी भी कुकी नीति पृष्ठ से बदल सकते हैं।","essentialName":"आवश्यक कुकीज़","essentialDesc":"साइट के कार्य करने के लिए आवश्यक। ये आपका सत्र, आपकी भाषा और क्षेत्र, आपके पाठ का आकार और रंग थीम याद रखती हैं, तथा फ़ॉर्म की सुरक्षा जांच सत्यापित करती हैं। ये हमेशा चालू रहती हैं।","analyticsName":"विश्लेषण कुकीज़","analyticsDesc":"ये हमें यह समझने में मदद करती हैं कि आगंतुक साइट का उपयोग कैसे करते हैं - कौन से पृष्ठ पढ़े जाते हैं और लोग कितनी देर रुकते हैं - ताकि इसे बेहतर बनाया जा सके। यह जानकारी ऐसे रूप में एकत्र की जाती है जो सीधे आपकी पहचान नहीं करती। आपके आने पर ये चालू रहती हैं; इन्हें यहां बंद करने पर ये रुक जाती हैं और पहले से सेट कुकीज़ हटा दी जाती हैं।","socialName":"सोशल मीडिया कुकीज़","socialDesc":"ये X, फेसबुक और यूट्यूब से एम्बेड की गई सामग्री, जैसे टाइमलाइन और वीडियो, द्वारा सेट की जाती हैं। ये प्लेटफ़ॉर्म इनका उपयोग विभिन्न वेबसाइटों पर आपको ट्रैक करने के लिए कर सकते हैं। ये तब तक बंद रहती हैं जब तक आप अनुमति न दें।","save":"प्राथमिकताएं सहेजें","cancel":"रद्द करें"}}</script>
+<script type="text/javascript" src='/js/consent.js?v=10'></script>
+
+<script type="text/javascript" src='/js/consent-embeds.js?v=10'></script>
+
+    
+</body>
+</html>

@@ -1,0 +1,1049 @@
+{
+  "status": {
+    "state": "complete",
+    "asOf": "2026-10-06",
+    "scope": "Corpus-level source and linkage audit; findings do not describe an individual buyer.",
+    "recordCount": 9,
+    "limitations": [
+      "Derived from publisher-hash-verified scraped records; source correctness remains separately verifiable.",
+      "Candidate links, nominal award values and short windows do not establish payment, delivery or wrongdoing."
+    ]
+  },
+  "findings": [
+    {
+      "id": "corpus-grain",
+      "recordId": "procurement-audit:record:corpus-grain",
+      "title": "Four source tables do not mean sixteen million distinct tenders",
+      "summary": "The two publisher-hash-verified databases contain listing and detail rows for two different stages. Joining each detail to its own listing does not create another procurement event.",
+      "scope": "Corpus-level source audit; not a finding about a selected buyer.",
+      "sourceIds": [
+        "procurement-audit:source:origin",
+        "procurement-audit:source:hashes",
+        "procurement-audit:source:analysis",
+        "procurement-audit:source:notebook"
+      ],
+      "queryIds": [
+        "analysis.source_counts",
+        "analysis.detail_integrity"
+      ],
+      "metrics": [
+        {
+          "label": "Award listings",
+          "value": 4921960,
+          "unit": "rows"
+        },
+        {
+          "label": "Notice listings",
+          "value": 3952191,
+          "unit": "rows"
+        },
+        {
+          "label": "All four raw tables",
+          "value": 16593375,
+          "unit": "rows"
+        },
+        {
+          "label": "Orphan test detail",
+          "value": 1,
+          "unit": "row",
+          "denominator": 3178485,
+          "denominatorLabel": "raw notice detail rows"
+        }
+      ]
+    },
+    {
+      "id": "state-notice-coverage",
+      "recordId": "procurement-audit:record:state-notice-coverage",
+      "title": "State notices cover a recent active slice",
+      "summary": "State notices are a small and mostly future-closing portion of this snapshot, while state awards form most award rows. Missing notice/award links cannot be interpreted as failed tenders.",
+      "scope": "Corpus-level source audit; not a finding about a selected buyer.",
+      "sourceIds": [
+        "procurement-audit:source:origin",
+        "procurement-audit:source:hashes",
+        "procurement-audit:source:analysis",
+        "procurement-audit:source:followup",
+        "procurement-audit:source:notebook"
+      ],
+      "queryIds": [
+        "analysis.portal_population",
+        "analysis.notice_status",
+        "followup.window_status_cohorts"
+      ],
+      "metrics": [
+        {
+          "label": "State notices",
+          "value": 41825,
+          "unit": "rows",
+          "denominator": 3952191,
+          "denominatorLabel": "all notice listings"
+        },
+        {
+          "label": "State awards",
+          "value": 2916702,
+          "unit": "rows",
+          "denominator": 4921960,
+          "denominatorLabel": "all award listings"
+        },
+        {
+          "label": "State notices closing after capture",
+          "value": 39104,
+          "unit": "rows",
+          "denominator": 41825,
+          "denominatorLabel": "state notice listings"
+        }
+      ]
+    },
+    {
+      "id": "unsafe-tender-id-join",
+      "recordId": "procurement-audit:record:unsafe-tender-id-join",
+      "title": "A tender-ID-only join explodes into candidate pairs",
+      "summary": "Tender identifiers include reused buckets and generic values. A direct notice/award join on tender_id would multiply rows rather than discover that many contracts.",
+      "scope": "Corpus-level source audit; not a finding about a selected buyer.",
+      "sourceIds": [
+        "procurement-audit:source:origin",
+        "procurement-audit:source:hashes",
+        "procurement-audit:source:analysis",
+        "procurement-audit:source:notebook"
+      ],
+      "queryIds": [
+        "analysis.join_id_only",
+        "analysis.largest_ambiguous_keys"
+      ],
+      "metrics": [
+        {
+          "label": "Candidate pairs",
+          "value": 2730656872,
+          "unit": "pairs"
+        },
+        {
+          "label": "Shared exact ID keys",
+          "value": 508296,
+          "unit": "keys"
+        },
+        {
+          "label": "Pairs from generic ID 1",
+          "value": 2579823328,
+          "unit": "pairs",
+          "denominator": 2730656872,
+          "denominatorLabel": "candidate pair rows"
+        }
+      ]
+    },
+    {
+      "id": "strict-linkage-limits",
+      "recordId": "procurement-audit:record:strict-linkage-limits",
+      "title": "Contextual keys still need version and date checks",
+      "summary": "Listing-only portal+buyer+tenderID+reference keys yield 1,714 unique pairs. A separately declared within-stage detail-reference fallback raises unique candidate pairs to 17,704; these are candidate links, not independently confirmed contracts.",
+      "scope": "Corpus-level source audit; not a finding about a selected buyer.",
+      "sourceIds": [
+        "procurement-audit:source:origin",
+        "procurement-audit:source:hashes",
+        "procurement-audit:source:analysis",
+        "procurement-audit:source:followup",
+        "procurement-audit:source:linkage",
+        "procurement-audit:source:notebook"
+      ],
+      "queryIds": [
+        "analysis.join_portal_buyer_id_reference",
+        "followup.join_field_missingness",
+        "linkage.reference_agreement",
+        "linkage.fallback_join_cardinality"
+      ],
+      "metrics": [
+        {
+          "label": "Listing-only shared keys",
+          "value": 2625,
+          "unit": "keys"
+        },
+        {
+          "label": "Listing-only unique pairs",
+          "value": 1714,
+          "unit": "pairs",
+          "denominator": 2625,
+          "denominatorLabel": "shared listing-only keys"
+        },
+        {
+          "label": "Fallback unique pairs",
+          "value": 17704,
+          "unit": "pairs",
+          "denominator": 24809,
+          "denominatorLabel": "shared fallback keys"
+        },
+        {
+          "label": "Nonblank listing/detail reference conflicts",
+          "value": 118342,
+          "unit": "award rows",
+          "denominator": 4921960,
+          "denominatorLabel": "raw award listings"
+        }
+      ]
+    },
+    {
+      "id": "closing-field-semantics",
+      "recordId": "procurement-audit:record:closing-field-semantics",
+      "title": "The award closing label needs source verification",
+      "summary": "In a narrow exact listing-only subset, 1,709 of 1,714 award closing timestamps equal notice publication, and none equals notice closing. That subset is all central, dated 2013\u20132018 and dominated by Neyveli Lignite. The larger fallback variant separately finds 15,816 publication matches among 17,704 unique pairs.",
+      "scope": "Corpus-level source audit; not a finding about a selected buyer.",
+      "sourceIds": [
+        "procurement-audit:source:origin",
+        "procurement-audit:source:hashes",
+        "procurement-audit:source:semantics",
+        "procurement-audit:source:linkage",
+        "procurement-audit:source:notebook"
+      ],
+      "queryIds": [
+        "semantics.field_equality",
+        "semantics.by_buyer",
+        "semantics.by_year",
+        "linkage.closing_field_semantics"
+      ],
+      "metrics": [
+        {
+          "label": "Publication matches in listing-only subset",
+          "value": 1709,
+          "unit": "pairs",
+          "denominator": 1714,
+          "denominatorLabel": "unique listing-only pairs"
+        },
+        {
+          "label": "Notice-closing timestamp matches",
+          "value": 0,
+          "unit": "pairs",
+          "denominator": 1714,
+          "denominatorLabel": "unique listing-only pairs"
+        },
+        {
+          "label": "Publication matches in fallback variant",
+          "value": 15816,
+          "unit": "pairs",
+          "denominator": 17704,
+          "denominatorLabel": "unique fallback pairs"
+        }
+      ]
+    },
+    {
+      "id": "planned-bid-windows",
+      "recordId": "procurement-audit:record:planned-bid-windows",
+      "title": "Separate scheduled windows from past-deadline observations",
+      "summary": "The state snapshot contains 46 listed windows shorter than 72 hours, but 36 of those deadlines were still in the future at capture. The remaining 10 occur among 2,721 notices whose scheduled closing was at or before capture.",
+      "scope": "Corpus-level source audit; not a finding about a selected buyer.",
+      "sourceIds": [
+        "procurement-audit:source:origin",
+        "procurement-audit:source:hashes",
+        "procurement-audit:source:followup",
+        "procurement-audit:source:notebook"
+      ],
+      "queryIds": [
+        "followup.window_status_cohorts"
+      ],
+      "metrics": [
+        {
+          "label": "Short windows in future-closing state notices",
+          "value": 36,
+          "unit": "rows",
+          "denominator": 39104,
+          "denominatorLabel": "future-closing state notice rows"
+        },
+        {
+          "label": "Short windows at/before capture",
+          "value": 10,
+          "unit": "rows",
+          "denominator": 2721,
+          "denominatorLabel": "state notices closed by scheduled date"
+        }
+      ]
+    },
+    {
+      "id": "scoped-deduplication",
+      "recordId": "procurement-audit:record:scoped-deduplication",
+      "title": "Buyer and portal scope change the deduplication grain",
+      "summary": "The historical dedup key omits portal and buyer. Adding those fields raises the number of groups by 385; adding reference as well raises it by 1,351. The small overall difference still matters for exact record identity.",
+      "scope": "Corpus-level source audit; not a finding about a selected buyer.",
+      "sourceIds": [
+        "procurement-audit:source:origin",
+        "procurement-audit:source:hashes",
+        "procurement-audit:source:analysis",
+        "procurement-audit:source:notebook"
+      ],
+      "queryIds": [
+        "analysis.legacy_dedup_key_collisions",
+        "analysis.scoped_dedup_counts"
+      ],
+      "metrics": [
+        {
+          "label": "Historical groups",
+          "value": 3385233,
+          "unit": "groups"
+        },
+        {
+          "label": "Additional portal/buyer-scoped groups",
+          "value": 385,
+          "unit": "groups",
+          "denominator": 3385233,
+          "denominatorLabel": "historical groups"
+        },
+        {
+          "label": "Cross-portal keys",
+          "value": 22,
+          "unit": "keys",
+          "denominator": 3385233,
+          "denominatorLabel": "historical keys"
+        },
+        {
+          "label": "Cross-buyer keys",
+          "value": 310,
+          "unit": "keys",
+          "denominator": 3385233,
+          "denominatorLabel": "historical keys"
+        }
+      ]
+    },
+    {
+      "id": "payload-and-chronology",
+      "recordId": "procurement-audit:record:payload-and-chronology",
+      "title": "Conflicting versions and impossible dates need quarantine",
+      "summary": "Some historical dedup groups carry different raw amount, bid-count or closing values. Separately, 748 award timestamps fall after the 26 June 2026 publication cutoff. Neither conflict establishes which version or event date is correct.",
+      "scope": "Corpus-level source audit; not a finding about a selected buyer.",
+      "sourceIds": [
+        "procurement-audit:source:origin",
+        "procurement-audit:source:hashes",
+        "procurement-audit:source:analysis",
+        "procurement-audit:source:followup",
+        "procurement-audit:source:notebook"
+      ],
+      "queryIds": [
+        "followup.payload_variants_raw_null_inclusive",
+        "analysis.award_date_quality",
+        "followup.timezone_aware_caution"
+      ],
+      "metrics": [
+        {
+          "label": "Raw amount-variant groups",
+          "value": 1757,
+          "unit": "groups",
+          "denominator": 3385233,
+          "denominatorLabel": "historical dedup groups"
+        },
+        {
+          "label": "Raw bid-count-variant groups",
+          "value": 928,
+          "unit": "groups",
+          "denominator": 3385233,
+          "denominatorLabel": "historical dedup groups"
+        },
+        {
+          "label": "Post-publication award dates",
+          "value": 748,
+          "unit": "rows",
+          "denominator": 4921960,
+          "denominatorLabel": "raw award listings"
+        }
+      ]
+    },
+    {
+      "id": "numeric-lexeme-safety",
+      "recordId": "procurement-audit:record:numeric-lexeme-safety",
+      "title": "Scientific notation must not be stripped into another number",
+      "summary": "Fourteen central notice EMD values and one fee use scientific notation. The third-party converter and initial audit extraction rule remove nonnumeric characters: 1e17 becomes 117. Original SQLite strings are intact; strict parsing quarantines these lexemes.",
+      "scope": "Corpus-level source audit; not a finding about a selected buyer.",
+      "sourceIds": [
+        "procurement-audit:source:origin",
+        "procurement-audit:source:hashes",
+        "procurement-audit:source:numeric",
+        "procurement-audit:source:followup",
+        "procurement-audit:source:notebook"
+      ],
+      "queryIds": [
+        "numeric.central_nonplain_amounts",
+        "followup.award_numeric_lexical_quality",
+        "followup.notice_emd_fee_lexical_quality"
+      ],
+      "metrics": [
+        {
+          "label": "Scientific-notation EMD strings",
+          "value": 14,
+          "unit": "values",
+          "denominator": 3136659,
+          "denominatorLabel": "central notice detail EMD fields"
+        },
+        {
+          "label": "Scientific-notation fee strings",
+          "value": 1,
+          "unit": "value",
+          "denominator": 3136659,
+          "denominatorLabel": "central notice detail fee fields"
+        },
+        {
+          "label": "Nonblank award amounts with compatible decimal form",
+          "value": 4463564,
+          "unit": "values",
+          "denominator": 4463564,
+          "denominatorLabel": "nonblank award amount strings"
+        }
+      ]
+    }
+  ],
+  "slice": {
+    "sources": [
+      {
+        "id": "origin",
+        "title": "Original tender corpus publication",
+        "url": "https://tender.sarthaksidhant.com/",
+        "publisher": "Sarthak Sidhant",
+        "publishedAt": "2026-06-26",
+        "retrievedAt": "2026-10-06",
+        "locator": "Published database schemas and full SQLite SHA-256 values; public R2 mirror",
+        "summary": "Original tender corpus publication",
+        "tier": "reported",
+        "limitations": [
+          "This documents the scrape or an analysis of it; it does not independently verify every original procurement event."
+        ]
+      },
+      {
+        "id": "hashes",
+        "title": "Verified original SQLite download receipts",
+        "url": "https://github.com/occult-kranti/india-corporate-intelligence/blob/codex/education-funding-intelligence/research/raw/tender-portal-audit/evidence/",
+        "publisher": "ICIP source audit",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-06",
+        "locator": "aoc_tenders.db.download-receipt.json and tenders_vps.db.download-receipt.json; full SHA-256, bytes and ZIP CRC verified",
+        "summary": "Verified original SQLite download receipts",
+        "tier": "analytic",
+        "limitations": [
+          "This documents the scrape or an analysis of it; it does not independently verify every original procurement event."
+        ]
+      },
+      {
+        "id": "analysis",
+        "title": "Executed source grain, joins and deduplication audit",
+        "url": "https://github.com/occult-kranti/india-corporate-intelligence/blob/codex/education-funding-intelligence/research/raw/tender-portal-audit/analysis.json",
+        "publisher": "ICIP source audit",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-06",
+        "locator": "Exact SQL, query rows and sourceHashes in analysis.json; normalization recipe in derivation-manifest.json",
+        "summary": "Executed source grain, joins and deduplication audit",
+        "tier": "analytic",
+        "limitations": [
+          "This documents the scrape or an analysis of it; it does not independently verify every original procurement event."
+        ]
+      },
+      {
+        "id": "followup",
+        "title": "Strict lexical, chronology and status controls",
+        "url": "https://github.com/occult-kranti/india-corporate-intelligence/blob/codex/education-funding-intelligence/research/raw/tender-portal-audit/followup.json",
+        "publisher": "ICIP source audit",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-06",
+        "locator": "Exact query IDs, SQL and bounded populations; followup.py does not mutate originals",
+        "summary": "Strict lexical, chronology and status controls",
+        "tier": "analytic",
+        "limitations": [
+          "This documents the scrape or an analysis of it; it does not independently verify every original procurement event."
+        ]
+      },
+      {
+        "id": "semantics",
+        "title": "Award closing-field semantics in exact listing-only pairs",
+        "url": "https://github.com/occult-kranti/india-corporate-intelligence/blob/codex/education-funding-intelligence/research/raw/tender-portal-audit/closing-field-semantics.json",
+        "publisher": "ICIP source audit",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-06",
+        "locator": "field_equality, by_buyer, by_year; semantic_probe.py",
+        "summary": "Award closing-field semantics in exact listing-only pairs",
+        "tier": "analytic",
+        "limitations": [
+          "This documents the scrape or an analysis of it; it does not independently verify every original procurement event."
+        ]
+      },
+      {
+        "id": "linkage",
+        "title": "Separate detail-reference-fallback linkage audit",
+        "url": "https://github.com/occult-kranti/india-corporate-intelligence/blob/codex/education-funding-intelligence/research/raw/tender-portal-audit/linkage-v2.json",
+        "publisher": "ICIP source audit",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-06",
+        "locator": "reference_agreement, fallback_join_cardinality, closing_field_semantics; independently versioned linkage_v2.py",
+        "summary": "Separate detail-reference-fallback linkage audit",
+        "tier": "analytic",
+        "limitations": [
+          "This documents the scrape or an analysis of it; it does not independently verify every original procurement event."
+        ]
+      },
+      {
+        "id": "numeric",
+        "title": "Independent raw amount lexeme review",
+        "url": "https://github.com/occult-kranti/india-corporate-intelligence/blob/codex/education-funding-intelligence/docs/tender-investigation/amount-lexemes.json",
+        "publisher": "Independent ICIP data reviewer",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-06",
+        "locator": "central_nonplain_amounts; original amount strings only; no contact or winner data",
+        "summary": "Independent raw amount lexeme review",
+        "tier": "analytic",
+        "limitations": [
+          "This documents the scrape or an analysis of it; it does not independently verify every original procurement event."
+        ]
+      },
+      {
+        "id": "notebook",
+        "title": "Inspectable source-quality audit notebook",
+        "url": "https://github.com/occult-kranti/india-corporate-intelligence/blob/codex/education-funding-intelligence/research/raw/tender-portal-audit/audit.ipynb",
+        "publisher": "ICIP source audit",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-06",
+        "locator": "Retained input hashes, exact executed SQL, denominators and optional read-only rerun cells",
+        "summary": "Inspectable source-quality audit notebook",
+        "tier": "analytic",
+        "limitations": [
+          "This documents the scrape or an analysis of it; it does not independently verify every original procurement event."
+        ]
+      }
+    ],
+    "entities": [],
+    "relationships": [],
+    "records": [
+      {
+        "id": "corpus-grain",
+        "title": "Four source tables do not mean sixteen million distinct tenders",
+        "summary": "The two publisher-hash-verified databases contain listing and detail rows for two different stages. Joining each detail to its own listing does not create another procurement event. Award listings: 4,921,960 rows. Notice listings: 3,952,191 rows. All four raw tables: 16,593,375 rows. Orphan test detail: 1 row; denominator 3,178,485 raw notice detail rows.",
+        "kind": "procurement-source-audit",
+        "tier": "analytic",
+        "status": "source-quality-finding",
+        "statusAsOf": "2026-10-06",
+        "fromDate": "2026-06-16",
+        "toDate": "2026-06-24",
+        "dateBasis": "Dates describe source capture, not every underlying procurement event. This quality review was performed 6 October 2026.",
+        "period": "Source captures 16\u201324 June 2026; historical dates extend beyond the intended period",
+        "entityIds": [],
+        "relationshipIds": [],
+        "response": "No allegation is made against a contractor or buyer; original-record verification and disclosure gaps remain explicit.",
+        "alternativeExplanations": [
+          "Listing/detail storage duplication is normal relational design.",
+          "The extra notice-detail row is a known test record, not an additional tender."
+        ],
+        "falsifier": "Close by reconciling primary listing/detail keys and retaining distinct stage grains.",
+        "amounts": [],
+        "domains": [
+          "public-works",
+          "procurement"
+        ],
+        "layers": [
+          "procurement",
+          "review"
+        ],
+        "geography": [
+          {
+            "scope": "national",
+            "stateCodes": [],
+            "localityIds": [],
+            "basis": "national-context",
+            "note": "Corpus-wide collection context; no asset, supplier or delivery geography is inferred.",
+            "sourceIds": [
+              "origin",
+              "hashes",
+              "analysis",
+              "notebook"
+            ]
+          }
+        ],
+        "route": "/tenders?section=national&iw_record=procurement-audit%3Arecord%3Acorpus-grain",
+        "sourceIds": [
+          "origin",
+          "hashes",
+          "analysis",
+          "notebook"
+        ],
+        "limitations": [
+          "The website\u2019s displayed grand total differs from its table counts; no distinct-tender count is derived by adding tables.",
+          "Query locators: analysis.source_counts, analysis.detail_integrity",
+          "Original databases remain outside the repository. Full input SHA-256 values: {\"aoc_tenders.db\": \"ec8ef7711a17b7cae9e0414c2403b119a0a31c4dec49ed7055b38ec0df5f7586\", \"tenders_vps.db\": \"b1994cfb6dd2d5da9ed1d9ac8d6bbc7083178f155e92a65628e87a38e4c64d01\"}"
+        ]
+      },
+      {
+        "id": "state-notice-coverage",
+        "title": "State notices cover a recent active slice",
+        "summary": "State notices are a small and mostly future-closing portion of this snapshot, while state awards form most award rows. Missing notice/award links cannot be interpreted as failed tenders. State notices: 41,825 rows; denominator 3,952,191 all notice listings. State awards: 2,916,702 rows; denominator 4,921,960 all award listings. State notices closing after capture: 39,104 rows; denominator 41,825 state notice listings.",
+        "kind": "procurement-source-audit",
+        "tier": "analytic",
+        "status": "source-quality-finding",
+        "statusAsOf": "2026-10-06",
+        "fromDate": "2026-06-16",
+        "toDate": "2026-06-24",
+        "dateBasis": "Dates describe source capture, not every underlying procurement event. This quality review was performed 6 October 2026.",
+        "period": "State notice publications 2022\u2013June 2026; all collected as active on 16 June 2026",
+        "entityIds": [],
+        "relationshipIds": [],
+        "response": "No allegation is made against a contractor or buyer; original-record verification and disclosure gaps remain explicit.",
+        "alternativeExplanations": [
+          "Active notices normally have deadlines after capture.",
+          "Collector coverage and portal archival availability can explain unmatched historical awards."
+        ],
+        "falsifier": "Acquire dated archived state notices with declared portal-year coverage before comparing outcome rates.",
+        "amounts": [],
+        "domains": [
+          "public-works",
+          "procurement"
+        ],
+        "layers": [
+          "procurement",
+          "review"
+        ],
+        "geography": [
+          {
+            "scope": "national",
+            "stateCodes": [],
+            "localityIds": [],
+            "basis": "national-context",
+            "note": "Corpus-wide collection context; no asset, supplier or delivery geography is inferred.",
+            "sourceIds": [
+              "origin",
+              "hashes",
+              "analysis",
+              "followup",
+              "notebook"
+            ]
+          }
+        ],
+        "route": "/tenders?section=national&iw_record=procurement-audit%3Arecord%3Astate-notice-coverage",
+        "sourceIds": [
+          "origin",
+          "hashes",
+          "analysis",
+          "followup",
+          "notebook"
+        ],
+        "limitations": [
+          "No state performance ranking or national procurement coverage rate follows.",
+          "Query locators: analysis.portal_population, analysis.notice_status, followup.window_status_cohorts",
+          "Original databases remain outside the repository. Full input SHA-256 values: {\"aoc_tenders.db\": \"ec8ef7711a17b7cae9e0414c2403b119a0a31c4dec49ed7055b38ec0df5f7586\", \"tenders_vps.db\": \"b1994cfb6dd2d5da9ed1d9ac8d6bbc7083178f155e92a65628e87a38e4c64d01\"}"
+        ]
+      },
+      {
+        "id": "unsafe-tender-id-join",
+        "title": "A tender-ID-only join explodes into candidate pairs",
+        "summary": "Tender identifiers include reused buckets and generic values. A direct notice/award join on tender_id would multiply rows rather than discover that many contracts. Candidate pairs: 2,730,656,872 pairs. Shared exact ID keys: 508,296 keys. Pairs from generic ID 1: 2,579,823,328 pairs; denominator 2,730,656,872 candidate pair rows.",
+        "kind": "procurement-source-audit",
+        "tier": "analytic",
+        "status": "source-quality-finding",
+        "statusAsOf": "2026-10-06",
+        "fromDate": "2026-06-16",
+        "toDate": "2026-06-24",
+        "dateBasis": "Dates describe source capture, not every underlying procurement event. This quality review was performed 6 October 2026.",
+        "period": "Whole retained notice/award snapshots",
+        "entityIds": [],
+        "relationshipIds": [],
+        "response": "No allegation is made against a contractor or buyer; original-record verification and disclosure gaps remain explicit.",
+        "alternativeExplanations": [
+          "Generic IDs and organisation/year buckets are not globally unique contract identifiers.",
+          "Multiple versions and lots can legitimately share a public identifier."
+        ],
+        "falsifier": "Require portal, authority, reference, lot and version evidence; audit join cardinality before creating relationships.",
+        "amounts": [],
+        "domains": [
+          "public-works",
+          "procurement"
+        ],
+        "layers": [
+          "procurement",
+          "review"
+        ],
+        "geography": [
+          {
+            "scope": "national",
+            "stateCodes": [],
+            "localityIds": [],
+            "basis": "national-context",
+            "note": "Corpus-wide collection context; no asset, supplier or delivery geography is inferred.",
+            "sourceIds": [
+              "origin",
+              "hashes",
+              "analysis",
+              "notebook"
+            ]
+          }
+        ],
+        "route": "/tenders?section=national&iw_record=procurement-audit%3Arecord%3Aunsafe-tender-id-join",
+        "sourceIds": [
+          "origin",
+          "hashes",
+          "analysis",
+          "notebook"
+        ],
+        "limitations": [
+          "No many-to-many join is materialized or published as a money trail.",
+          "Query locators: analysis.join_id_only, analysis.largest_ambiguous_keys",
+          "Original databases remain outside the repository. Full input SHA-256 values: {\"aoc_tenders.db\": \"ec8ef7711a17b7cae9e0414c2403b119a0a31c4dec49ed7055b38ec0df5f7586\", \"tenders_vps.db\": \"b1994cfb6dd2d5da9ed1d9ac8d6bbc7083178f155e92a65628e87a38e4c64d01\"}"
+        ]
+      },
+      {
+        "id": "strict-linkage-limits",
+        "title": "Contextual keys still need version and date checks",
+        "summary": "Listing-only portal+buyer+tenderID+reference keys yield 1,714 unique pairs. A separately declared within-stage detail-reference fallback raises unique candidate pairs to 17,704; these are candidate links, not independently confirmed contracts. Listing-only shared keys: 2,625 keys. Listing-only unique pairs: 1,714 pairs; denominator 2,625 shared listing-only keys. Fallback unique pairs: 17,704 pairs; denominator 24,809 shared fallback keys. Nonblank listing/detail reference conflicts: 118,342 award rows; denominator 4,921,960 raw award listings.",
+        "kind": "procurement-source-audit",
+        "tier": "analytic",
+        "status": "source-quality-finding",
+        "statusAsOf": "2026-10-06",
+        "fromDate": "2026-06-16",
+        "toDate": "2026-06-24",
+        "dateBasis": "Dates describe source capture, not every underlying procurement event. This quality review was performed 6 October 2026.",
+        "period": "Historical retained snapshots; exact raw authority labels preserved",
+        "entityIds": [],
+        "relationshipIds": [],
+        "response": "No allegation is made against a contractor or buyer; original-record verification and disclosure gaps remain explicit.",
+        "alternativeExplanations": [
+          "Award listing references are often absent but present in linked detail records.",
+          "Nonblank reference disagreements or amendments can leave identity/version unresolved despite a unique key."
+        ],
+        "falsifier": "Resolve nonblank conflicts and inspect original tender IDs, references, lots and dated amendments before approving a link.",
+        "amounts": [],
+        "domains": [
+          "public-works",
+          "procurement"
+        ],
+        "layers": [
+          "procurement",
+          "review"
+        ],
+        "geography": [
+          {
+            "scope": "national",
+            "stateCodes": [],
+            "localityIds": [],
+            "basis": "national-context",
+            "note": "Corpus-wide collection context; no asset, supplier or delivery geography is inferred.",
+            "sourceIds": [
+              "origin",
+              "hashes",
+              "analysis",
+              "followup",
+              "linkage",
+              "notebook"
+            ]
+          }
+        ],
+        "route": "/tenders?section=national&iw_record=procurement-audit%3Arecord%3Astrict-linkage-limits",
+        "sourceIds": [
+          "origin",
+          "hashes",
+          "analysis",
+          "followup",
+          "linkage",
+          "notebook"
+        ],
+        "limitations": [
+          "The fallback uses the same internal_id within awards; no supplier-name or fuzzy buyer join occurs.",
+          "The two variants overlap and must not be added together.",
+          "Query locators: analysis.join_portal_buyer_id_reference, followup.join_field_missingness, linkage.reference_agreement, linkage.fallback_join_cardinality",
+          "Original databases remain outside the repository. Full input SHA-256 values: {\"aoc_tenders.db\": \"ec8ef7711a17b7cae9e0414c2403b119a0a31c4dec49ed7055b38ec0df5f7586\", \"tenders_vps.db\": \"b1994cfb6dd2d5da9ed1d9ac8d6bbc7083178f155e92a65628e87a38e4c64d01\"}"
+        ]
+      },
+      {
+        "id": "closing-field-semantics",
+        "title": "The award closing label needs source verification",
+        "summary": "In a narrow exact listing-only subset, 1,709 of 1,714 award closing timestamps equal notice publication, and none equals notice closing. That subset is all central, dated 2013\u20132018 and dominated by Neyveli Lignite. The larger fallback variant separately finds 15,816 publication matches among 17,704 unique pairs. Publication matches in listing-only subset: 1,709 pairs; denominator 1,714 unique listing-only pairs. Notice-closing timestamp matches: 0 pairs; denominator 1,714 unique listing-only pairs. Publication matches in fallback variant: 15,816 pairs; denominator 17,704 unique fallback pairs.",
+        "kind": "procurement-source-audit",
+        "tier": "analytic",
+        "status": "source-quality-finding",
+        "statusAsOf": "2026-10-06",
+        "fromDate": "2026-06-16",
+        "toDate": "2026-06-24",
+        "dateBasis": "Dates describe source capture, not every underlying procurement event. This quality review was performed 6 October 2026.",
+        "period": "Listing-only notices 2 December 2013\u201331 December 2018; fallback is a separate historical population",
+        "entityIds": [],
+        "relationshipIds": [],
+        "response": "No allegation is made against a contractor or buyer; original-record verification and disclosure gaps remain explicit.",
+        "alternativeExplanations": [
+          "A collector field mapping or source-column interpretation may explain the equality.",
+          "Reference/version inconsistencies can affect candidate pair semantics."
+        ],
+        "falsifier": "Read original portal headers and dated notice/award documents for exact identifiers; validate field meaning before evaluation-speed analysis.",
+        "amounts": [],
+        "domains": [
+          "public-works",
+          "procurement"
+        ],
+        "layers": [
+          "procurement",
+          "review"
+        ],
+        "geography": [
+          {
+            "scope": "national",
+            "stateCodes": [],
+            "localityIds": [],
+            "basis": "national-context",
+            "note": "Corpus-wide collection context; no asset, supplier or delivery geography is inferred.",
+            "sourceIds": [
+              "origin",
+              "hashes",
+              "semantics",
+              "linkage",
+              "notebook"
+            ]
+          }
+        ],
+        "route": "/tenders?section=national&iw_record=procurement-audit%3Arecord%3Aclosing-field-semantics",
+        "sourceIds": [
+          "origin",
+          "hashes",
+          "semantics",
+          "linkage",
+          "notebook"
+        ],
+        "limitations": [
+          "These are selected matched subsets, not representative samples of 4.92 million awards.",
+          "Historical \u22642-day calculations are preserved as recorded dataset-date gaps, not evaluation speed or evidence of impropriety.",
+          "Query locators: semantics.field_equality, semantics.by_buyer, semantics.by_year, linkage.closing_field_semantics",
+          "Original databases remain outside the repository. Full input SHA-256 values: {\"aoc_tenders.db\": \"ec8ef7711a17b7cae9e0414c2403b119a0a31c4dec49ed7055b38ec0df5f7586\", \"tenders_vps.db\": \"b1994cfb6dd2d5da9ed1d9ac8d6bbc7083178f155e92a65628e87a38e4c64d01\"}"
+        ]
+      },
+      {
+        "id": "planned-bid-windows",
+        "title": "Separate scheduled windows from past-deadline observations",
+        "summary": "The state snapshot contains 46 listed windows shorter than 72 hours, but 36 of those deadlines were still in the future at capture. The remaining 10 occur among 2,721 notices whose scheduled closing was at or before capture. Short windows in future-closing state notices: 36 rows; denominator 39,104 future-closing state notice rows. Short windows at/before capture: 10 rows; denominator 2,721 state notices closed by scheduled date.",
+        "kind": "procurement-source-audit",
+        "tier": "analytic",
+        "status": "source-quality-finding",
+        "statusAsOf": "2026-10-06",
+        "fromDate": "2026-06-16",
+        "toDate": "2026-06-24",
+        "dateBasis": "Dates describe source capture, not every underlying procurement event. This quality review was performed 6 October 2026.",
+        "period": "As-observed publication and scheduled closing at 16 June 2026 capture",
+        "entityIds": [],
+        "relationshipIds": [],
+        "response": "No allegation is made against a contractor or buyer; original-record verification and disclosure gaps remain explicit.",
+        "alternativeExplanations": [
+          "Limited procurement and temporary service arrangements can lawfully use different procedures.",
+          "Extensions and corrigenda may change the operative submission period."
+        ],
+        "falsifier": "Retrieve original notice, applicable procedure and all amendments; verify the actual submission period and procurement scope.",
+        "amounts": [],
+        "domains": [
+          "public-works",
+          "procurement"
+        ],
+        "layers": [
+          "procurement",
+          "review"
+        ],
+        "geography": [
+          {
+            "scope": "national",
+            "stateCodes": [],
+            "localityIds": [],
+            "basis": "national-context",
+            "note": "Corpus-wide collection context; no asset, supplier or delivery geography is inferred.",
+            "sourceIds": [
+              "origin",
+              "hashes",
+              "followup",
+              "notebook"
+            ]
+          }
+        ],
+        "route": "/tenders?section=national&iw_record=procurement-audit%3Arecord%3Aplanned-bid-windows",
+        "sourceIds": [
+          "origin",
+          "hashes",
+          "followup",
+          "notebook"
+        ],
+        "limitations": [
+          "Listed publication-to-closing duration is not automatically the legally required bid period.",
+          "No source-wide legal violation rate is calculated.",
+          "Query locators: followup.window_status_cohorts",
+          "Original databases remain outside the repository. Full input SHA-256 values: {\"aoc_tenders.db\": \"ec8ef7711a17b7cae9e0414c2403b119a0a31c4dec49ed7055b38ec0df5f7586\", \"tenders_vps.db\": \"b1994cfb6dd2d5da9ed1d9ac8d6bbc7083178f155e92a65628e87a38e4c64d01\"}"
+        ]
+      },
+      {
+        "id": "scoped-deduplication",
+        "title": "Buyer and portal scope change the deduplication grain",
+        "summary": "The historical dedup key omits portal and buyer. Adding those fields raises the number of groups by 385; adding reference as well raises it by 1,351. The small overall difference still matters for exact record identity. Historical groups: 3,385,233 groups. Additional portal/buyer-scoped groups: 385 groups; denominator 3,385,233 historical groups. Cross-portal keys: 22 keys; denominator 3,385,233 historical keys. Cross-buyer keys: 310 keys; denominator 3,385,233 historical keys.",
+        "kind": "procurement-source-audit",
+        "tier": "analytic",
+        "status": "source-quality-finding",
+        "statusAsOf": "2026-10-06",
+        "fromDate": "2026-06-16",
+        "toDate": "2026-06-24",
+        "dateBasis": "Dates describe source capture, not every underlying procurement event. This quality review was performed 6 October 2026.",
+        "period": "Whole retained award snapshot",
+        "entityIds": [],
+        "relationshipIds": [],
+        "response": "No allegation is made against a contractor or buyer; original-record verification and disclosure gaps remain explicit.",
+        "alternativeExplanations": [
+          "Different authority labels can denote one body or different subunits.",
+          "Generic tender IDs can collide across portals and buyers."
+        ],
+        "falsifier": "Review scoped identifiers and compare sensitivity without silently replacing the historical count.",
+        "amounts": [],
+        "domains": [
+          "public-works",
+          "procurement"
+        ],
+        "layers": [
+          "procurement",
+          "review"
+        ],
+        "geography": [
+          {
+            "scope": "national",
+            "stateCodes": [],
+            "localityIds": [],
+            "basis": "national-context",
+            "note": "Corpus-wide collection context; no asset, supplier or delivery geography is inferred.",
+            "sourceIds": [
+              "origin",
+              "hashes",
+              "analysis",
+              "notebook"
+            ]
+          }
+        ],
+        "route": "/tenders?section=national&iw_record=procurement-audit%3Arecord%3Ascoped-deduplication",
+        "sourceIds": [
+          "origin",
+          "hashes",
+          "analysis",
+          "notebook"
+        ],
+        "limitations": [
+          "This is a dataset grouping limitation, not evidence of repeated completed work or duplicate payment.",
+          "Query locators: analysis.legacy_dedup_key_collisions, analysis.scoped_dedup_counts",
+          "Original databases remain outside the repository. Full input SHA-256 values: {\"aoc_tenders.db\": \"ec8ef7711a17b7cae9e0414c2403b119a0a31c4dec49ed7055b38ec0df5f7586\", \"tenders_vps.db\": \"b1994cfb6dd2d5da9ed1d9ac8d6bbc7083178f155e92a65628e87a38e4c64d01\"}"
+        ]
+      },
+      {
+        "id": "payload-and-chronology",
+        "title": "Conflicting versions and impossible dates need quarantine",
+        "summary": "Some historical dedup groups carry different raw amount, bid-count or closing values. Separately, 748 award timestamps fall after the 26 June 2026 publication cutoff. Neither conflict establishes which version or event date is correct. Raw amount-variant groups: 1,757 groups; denominator 3,385,233 historical dedup groups. Raw bid-count-variant groups: 928 groups; denominator 3,385,233 historical dedup groups. Post-publication award dates: 748 rows; denominator 4,921,960 raw award listings.",
+        "kind": "procurement-source-audit",
+        "tier": "analytic",
+        "status": "source-quality-finding",
+        "statusAsOf": "2026-10-06",
+        "fromDate": "2026-06-16",
+        "toDate": "2026-06-24",
+        "dateBasis": "Dates describe source capture, not every underlying procurement event. This quality review was performed 6 October 2026.",
+        "period": "Source capture 18\u201324 June 2026; publication cutoff 26 June 2026",
+        "entityIds": [],
+        "relationshipIds": [],
+        "response": "No allegation is made against a contractor or buyer; original-record verification and disclosure gaps remain explicit.",
+        "alternativeExplanations": [
+          "Null/non-null variants can reflect incomplete detail extraction or later updates.",
+          "Erroneous date entry, field interpretation or timezone ambiguity can create chronology conflicts."
+        ],
+        "falsifier": "Retain all versions and identify the authoritative dated record; compare same-day timezone-sensitive observations separately.",
+        "amounts": [],
+        "domains": [
+          "public-works",
+          "procurement"
+        ],
+        "layers": [
+          "procurement",
+          "review"
+        ],
+        "geography": [
+          {
+            "scope": "national",
+            "stateCodes": [],
+            "localityIds": [],
+            "basis": "national-context",
+            "note": "Corpus-wide collection context; no asset, supplier or delivery geography is inferred.",
+            "sourceIds": [
+              "origin",
+              "hashes",
+              "analysis",
+              "followup",
+              "notebook"
+            ]
+          }
+        ],
+        "route": "/tenders?section=national&iw_record=procurement-audit%3Arecord%3Apayload-and-chronology",
+        "sourceIds": [
+          "origin",
+          "hashes",
+          "analysis",
+          "followup",
+          "notebook"
+        ],
+        "limitations": [
+          "Null-versus-present differences are counted explicitly.",
+          "A future scheduled notice closing is normal and is not included as a misconduct finding.",
+          "Query locators: followup.payload_variants_raw_null_inclusive, analysis.award_date_quality, followup.timezone_aware_caution",
+          "Original databases remain outside the repository. Full input SHA-256 values: {\"aoc_tenders.db\": \"ec8ef7711a17b7cae9e0414c2403b119a0a31c4dec49ed7055b38ec0df5f7586\", \"tenders_vps.db\": \"b1994cfb6dd2d5da9ed1d9ac8d6bbc7083178f155e92a65628e87a38e4c64d01\"}"
+        ]
+      },
+      {
+        "id": "numeric-lexeme-safety",
+        "title": "Scientific notation must not be stripped into another number",
+        "summary": "Fourteen central notice EMD values and one fee use scientific notation. The third-party converter and initial audit extraction rule remove nonnumeric characters: 1e17 becomes 117. Original SQLite strings are intact; strict parsing quarantines these lexemes. Scientific-notation EMD strings: 14 values; denominator 3,136,659 central notice detail EMD fields. Scientific-notation fee strings: 1 value; denominator 3,136,659 central notice detail fee fields. Nonblank award amounts with compatible decimal form: 4,463,564 values; denominator 4,463,564 nonblank award amount strings.",
+        "kind": "procurement-source-audit",
+        "tier": "analytic",
+        "status": "source-quality-finding",
+        "statusAsOf": "2026-10-06",
+        "fromDate": "2026-06-16",
+        "toDate": "2026-06-24",
+        "dateBasis": "Dates describe source capture, not every underlying procurement event. This quality review was performed 6 October 2026.",
+        "period": "Original June 2026 notice snapshot; conversion rule review 6 October 2026",
+        "entityIds": [],
+        "relationshipIds": [],
+        "response": "No allegation is made against a contractor or buyer; original-record verification and disclosure gaps remain explicit.",
+        "alternativeExplanations": [
+          "Huge exponent lexemes can themselves be data-entry or extraction artifacts.",
+          "Rupee-prefixed state amounts are normal formatting and should not be classified as malformed solely for containing a currency symbol."
+        ],
+        "falsifier": "Use a grammar-aware parser, preserve raw strings and quarantine exponent/unsupported formats; verify unusually large amounts in original documents.",
+        "amounts": [],
+        "domains": [
+          "public-works",
+          "procurement"
+        ],
+        "layers": [
+          "procurement",
+          "review"
+        ],
+        "geography": [
+          {
+            "scope": "national",
+            "stateCodes": [],
+            "localityIds": [],
+            "basis": "national-context",
+            "note": "Corpus-wide collection context; no asset, supplier or delivery geography is inferred.",
+            "sourceIds": [
+              "origin",
+              "hashes",
+              "numeric",
+              "followup",
+              "notebook"
+            ]
+          }
+        ],
+        "route": "/tenders?section=national&iw_record=procurement-audit%3Arecord%3Anumeric-lexeme-safety",
+        "sourceIds": [
+          "origin",
+          "hashes",
+          "numeric",
+          "followup",
+          "notebook"
+        ],
+        "limitations": [
+          "This defect affects notice EMD/fee transformation, not altered SQLite originals or a demonstrated defect in HF award monetary values.",
+          "EMD and tender fees are not estimated contract values or payment evidence.",
+          "Query locators: numeric.central_nonplain_amounts, followup.award_numeric_lexical_quality, followup.notice_emd_fee_lexical_quality",
+          "Original databases remain outside the repository. Full input SHA-256 values: {\"aoc_tenders.db\": \"ec8ef7711a17b7cae9e0414c2403b119a0a31c4dec49ed7055b38ec0df5f7586\", \"tenders_vps.db\": \"b1994cfb6dd2d5da9ed1d9ac8d6bbc7083178f155e92a65628e87a38e4c64d01\"}"
+        ]
+      }
+    ],
+    "localities": []
+  },
+  "inputHashes": {
+    "analysis.json": "e86231b5173fe47f715dfe106327465e07d8f6de8130df6912f822bf816192ee",
+    "followup.json": "4a38d205e113acd5e89b799c68168351b271c5e17d6d9c518d71a0af2f65be3c",
+    "closing-field-semantics.json": "3af6256adf97abbcceb8215c353f5dbb906493d44213bdbd49e5ec804af40bd9",
+    "linkage-v2.json": "e67c1b2e57dfad7d759e7e3bc42ddb492308a601fe41f4295c78538a5724e198",
+    "derivation-manifest.json": "6769c87dc122de434ebf894ac06121ee3eca7727aa29cec4ca6fb7faa41c5215",
+    "strict_parse.py": "540fae49820405934617d89f93c12fea858ac098d60020bb944c0cda58f2d478",
+    "audit.ipynb": "f6dc7f5439672c1436c5bf6ffe0eb8c60561efe393dd80f16181b3d37caf1c46",
+    "evidence/aoc_tenders.db.download-receipt.json": "3fe43142bcae3a01a4d599cbc9fb5e9538deb6b32907b5e7efc77cecc04e7fe0",
+    "evidence/tenders_vps.db.download-receipt.json": "97c6a3f0836cf21a133f2c80ea14f27023b2a9f818095c03bf32e1ea07f19194",
+    "../../../docs/tender-investigation/amount-lexemes.json": "746c068b1b44b38c97e964fbf8f5e810cbb0cebbb23fd8a4d056a18447acd5d1"
+  }
+}

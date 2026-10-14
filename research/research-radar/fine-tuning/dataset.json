@@ -1,0 +1,3179 @@
+{
+  "schemaVersion": 1,
+  "task": "supervised-source-retrieval",
+  "researchCutoff": "2026-10-07",
+  "labelMeaning": "AI-authored supervised source-relevance judgements reviewed against retained authored summaries. A positive means useful to the information need; it is not a truth, guilt, risk or personal-propensity label.",
+  "inputKind": "64 retained researcher-authored source summaries, exact locators and limitations. No case summaries or questions are embedded as documents; no full documents, private records or bank ledgers.",
+  "inputHashes": [
+    {
+      "path": "research/raw/research-radar/national.json",
+      "sha256": "a3447b3188f851302ac08f0846de756b71cc8bdbbcaaba78a6826e5603adf679"
+    },
+    {
+      "path": "research/raw/research-radar/north.json",
+      "sha256": "93c7a8d6e888ebba9cae1cc27e69dc1c5791ea3034f4aa9d84183d8581a13694"
+    },
+    {
+      "path": "research/raw/research-radar/south-east.json",
+      "sha256": "bf1b00181dca7d7634f64df3946a39c47bec5cdd075882421210af34138ceacb"
+    },
+    {
+      "path": "research/raw/research-radar/west.json",
+      "sha256": "820024ec4f30893cf7a38056064062b91bf544b94a884dee8650774254036154"
+    },
+    {
+      "path": "research/research-radar/fine-tuning/train-dev-labels.json",
+      "sha256": "5398bd03944244fd64cd072eec17546758b656454fe9013fcd94581c15700864"
+    }
+  ],
+  "splitPolicy": {
+    "unit": "case/source-family with explicit exact material-party groups",
+    "trainCases": [
+      "radar-national:case:fdi-control",
+      "radar-north:chandigarh-procurement",
+      "radar-north:dehradun-smart-city",
+      "radar-north:jaipur-jjm",
+      "radar-north:patna-police-vehicles",
+      "radar-south-east:case:chennai-meter-retenders",
+      "radar-south-east:case:kaleshwaram-equipment",
+      "radar-south-east:case:kolkata-health-claims",
+      "radar-south-east:case:odisha-mining-welfare",
+      "radar-west:amc-case",
+      "radar-west:gim-case",
+      "radar-west:mithi-case",
+      "radar-west:shivpuri-case",
+      "radar-west:tara-case"
+    ],
+    "devCases": [
+      "radar-national:case:navy-lease",
+      "radar-north:delhi-procurement",
+      "radar-south-east:case:bmrcl-finance",
+      "radar-south-east:case:hal-engine-delivery"
+    ],
+    "testCases": [
+      "radar-national:case:psb-writeoffs",
+      "radar-north:lucknow-smart-meter",
+      "radar-south-east:case:kiifb-publicity",
+      "radar-west:goa-case",
+      "radar-west:ports-case"
+    ],
+    "materialPartyGroups": [
+      {
+        "key": "material-party:adani-enterprises-limited",
+        "label": "Adani Enterprises Limited",
+        "cases": [
+          "radar-west:tara-case",
+          "radar-west:shivpuri-case"
+        ],
+        "rationale": "Exact company is materially named in both projects; keep both cases in training. The Tara bidder identity remains unresolved; this grouping prevents shared ownership-context leakage and does not assert that identity join."
+      },
+      {
+        "key": "material-party:ministry-of-defence",
+        "label": "Ministry of Defence",
+        "cases": [
+          "radar-south-east:case:hal-engine-delivery",
+          "radar-national:case:navy-lease"
+        ],
+        "rationale": "Same exact public procuring ministry is materially named in the two defence cases; keep both in development."
+      }
+    ],
+    "ignoredGenericOversight": [
+      "CAG and broad government oversight context are not a claim of entity-disjointness across every public institution."
+    ],
+    "trainingVisibility": "Only train documents and train queries may be encoded inside the training loss or mined as negatives. Dev and test text is excluded from optimization. All 64 candidates may be ranked during evaluation, without gradient updates.",
+    "testVisibility": "Independently authored test labels are held in a separate frozen file. This dataset intentionally contains only train/dev questions; choose the checkpoint on dev before opening final test results.",
+    "interpretation": "A source-family/case holdout in a small selected corpus, not temporal backtesting or representative field performance."
+  },
+  "limitations": [
+    "Small selected public-record pilot; not a representative public-finance population.",
+    "Queries are authored evaluation tasks, not independent user search logs.",
+    "Some several relevant summaries share one original evidence family; relevance does not multiply corroboration.",
+    "No full original documents, bank records or private data are model inputs.",
+    "Hard negatives are manually selected for this specific question; relevance is not a universal verdict about the document.",
+    "The split keeps all 45 declared source families together; absence of known overlap does not prove independence between every research claim.",
+    "Exact Adani Enterprises and Ministry of Defence overlaps are grouped; generic regulator/auditor context is intentionally shared and explicitly limits entity-disjoint claims.",
+    "Source-only text prevents copied case-question leakage, but authored relevance questions and summaries still share domain vocabulary.",
+    "Counterevidence is relevant evidence, never a negative because it contradicts an allegation. Hard negatives concern the wrong record for a particular information need.",
+    "This fine-tuning task cannot resolve the 23 unknown institutional forecast outcomes or calibrate misconduct probabilities."
+  ],
+  "splitGroups": [
+    {
+      "id": "case:radar-national:case:fdi-control",
+      "split": "train",
+      "caseIds": [
+        "radar-national:case:fdi-control"
+      ],
+      "documentIds": [
+        "radar-national:source:fdi-cabinet",
+        "radar-national:source:fdi-clarification",
+        "radar-national:source:fdi-gazette",
+        "radar-national:source:fdi-pn2"
+      ],
+      "sourceFamilies": [
+        "fdi-cabinet",
+        "fdi-clarification",
+        "fdi-gazette",
+        "fdi-pn2"
+      ],
+      "materialParty": null
+    },
+    {
+      "id": "case:radar-national:case:psb-writeoffs",
+      "split": "test",
+      "caseIds": [
+        "radar-national:case:psb-writeoffs"
+      ],
+      "documentIds": [
+        "radar-national:source:psb-answer"
+      ],
+      "sourceFamilies": [
+        "psb-answer"
+      ],
+      "materialParty": null
+    },
+    {
+      "id": "case:radar-north:chandigarh-procurement",
+      "split": "train",
+      "caseIds": [
+        "radar-north:chandigarh-procurement"
+      ],
+      "documentIds": [
+        "radar-north:punjab-chapter",
+        "radar-north:punjab-report"
+      ],
+      "sourceFamilies": [
+        "cag-punjab-4-2025"
+      ],
+      "materialParty": null
+    },
+    {
+      "id": "case:radar-north:dehradun-smart-city",
+      "split": "train",
+      "caseIds": [
+        "radar-north:dehradun-smart-city"
+      ],
+      "documentIds": [
+        "radar-north:dehradun-index",
+        "radar-north:dehradun-news",
+        "radar-north:dehradun-summary"
+      ],
+      "sourceFamilies": [
+        "cag-uttarakhand-5-2025",
+        "cag-uttarakhand-report-index"
+      ],
+      "materialParty": null
+    },
+    {
+      "id": "case:radar-north:delhi-procurement",
+      "split": "dev",
+      "caseIds": [
+        "radar-north:delhi-procurement"
+      ],
+      "documentIds": [
+        "radar-north:delhi-ht",
+        "radar-north:delhi-ie"
+      ],
+      "sourceFamilies": [
+        "cag-delhi-report-1-2026"
+      ],
+      "materialParty": null
+    },
+    {
+      "id": "case:radar-north:jaipur-jjm",
+      "split": "train",
+      "caseIds": [
+        "radar-north:jaipur-jjm"
+      ],
+      "documentIds": [
+        "radar-north:jaipur-hc",
+        "radar-north:jaipur-response",
+        "radar-north:jaipur-sc",
+        "radar-north:joshi-sc"
+      ],
+      "sourceFamilies": [
+        "rajasthan-hc-jjm-2026-08-13",
+        "sc-2026-insc-1065",
+        "sc-joshi-pmla-2025-12-03"
+      ],
+      "materialParty": null
+    },
+    {
+      "id": "case:radar-north:lucknow-smart-meter",
+      "split": "test",
+      "caseIds": [
+        "radar-north:lucknow-smart-meter"
+      ],
+      "documentIds": [
+        "radar-north:up-closure",
+        "radar-north:up-early",
+        "radar-north:up-order"
+      ],
+      "sourceFamilies": [
+        "uperc-73sm-2026"
+      ],
+      "materialParty": null
+    },
+    {
+      "id": "case:radar-north:patna-police-vehicles",
+      "split": "train",
+      "caseIds": [
+        "radar-north:patna-police-vehicles"
+      ],
+      "documentIds": [
+        "radar-north:patna-hindu",
+        "radar-north:patna-ie"
+      ],
+      "sourceFamilies": [
+        "bihar-cabinet-2026-09-30"
+      ],
+      "materialParty": null
+    },
+    {
+      "id": "case:radar-south-east:case:bmrcl-finance",
+      "split": "dev",
+      "caseIds": [
+        "radar-south-east:case:bmrcl-finance"
+      ],
+      "documentIds": [
+        "radar-south-east:source:bmrcl-audit",
+        "radar-south-east:source:bmrcl-release"
+      ],
+      "sourceFamilies": [
+        "radar-south-east:family:cag-bmrcl-2026"
+      ],
+      "materialParty": null
+    },
+    {
+      "id": "case:radar-south-east:case:chennai-meter-retenders",
+      "split": "train",
+      "caseIds": [
+        "radar-south-east:case:chennai-meter-retenders"
+      ],
+      "documentIds": [
+        "radar-south-east:source:chennai-retender-aug",
+        "radar-south-east:source:chennai-retender-oct",
+        "radar-south-east:source:tn-uday"
+      ],
+      "sourceFamilies": [
+        "radar-south-east:family:tn-smart-meter-aug-2026",
+        "radar-south-east:family:tn-smart-meter-oct-2026",
+        "radar-south-east:family:tn-state-finance-2026"
+      ],
+      "materialParty": null
+    },
+    {
+      "id": "case:radar-south-east:case:kaleshwaram-equipment",
+      "split": "train",
+      "caseIds": [
+        "radar-south-east:case:kaleshwaram-equipment"
+      ],
+      "documentIds": [
+        "radar-south-east:source:kaleshwaram-audit",
+        "radar-south-east:source:kaleshwaram-probe",
+        "radar-south-east:source:kaleshwaram-response"
+      ],
+      "sourceFamilies": [
+        "radar-south-east:family:cag-kaleshwaram-2024",
+        "radar-south-east:family:hans-kaleshwaram-2026",
+        "radar-south-east:family:telangana-today-kaleshwaram-2026"
+      ],
+      "materialParty": null
+    },
+    {
+      "id": "case:radar-south-east:case:kiifb-publicity",
+      "split": "test",
+      "caseIds": [
+        "radar-south-east:case:kiifb-publicity"
+      ],
+      "documentIds": [
+        "radar-south-east:source:kiifb-ceo-notice",
+        "radar-south-east:source:kiifb-news",
+        "radar-south-east:source:kiifb-report",
+        "radar-south-east:source:kiifb-resources"
+      ],
+      "sourceFamilies": [
+        "radar-south-east:family:kiifb-accounts-2026",
+        "radar-south-east:family:kiifb-disclosures"
+      ],
+      "materialParty": null
+    },
+    {
+      "id": "case:radar-south-east:case:kolkata-health-claims",
+      "split": "train",
+      "caseIds": [
+        "radar-south-east:case:kolkata-health-claims"
+      ],
+      "documentIds": [
+        "radar-south-east:source:swasthya-audit",
+        "radar-south-east:source:swasthya-news"
+      ],
+      "sourceFamilies": [
+        "radar-south-east:family:cag-swasthya-2025"
+      ],
+      "materialParty": null
+    },
+    {
+      "id": "case:radar-south-east:case:odisha-mining-welfare",
+      "split": "train",
+      "caseIds": [
+        "radar-south-east:case:odisha-mining-welfare"
+      ],
+      "documentIds": [
+        "radar-south-east:source:odisha-dmf-ht",
+        "radar-south-east:source:odisha-dmf-ie"
+      ],
+      "sourceFamilies": [
+        "radar-south-east:family:cag-odisha-dmf-2026"
+      ],
+      "materialParty": null
+    },
+    {
+      "id": "case:radar-west:amc-case",
+      "split": "train",
+      "caseIds": [
+        "radar-west:amc-case"
+      ],
+      "documentIds": [
+        "radar-west:amc-clearance",
+        "radar-west:amc-police-land"
+      ],
+      "sourceFamilies": [
+        "amc-makarba-reporting"
+      ],
+      "materialParty": null
+    },
+    {
+      "id": "case:radar-west:gim-case",
+      "split": "train",
+      "caseIds": [
+        "radar-west:gim-case"
+      ],
+      "documentIds": [
+        "radar-west:gim-maharashtra",
+        "radar-west:gim-press",
+        "radar-west:gim-report"
+      ],
+      "sourceFamilies": [
+        "cag-gim-2026"
+      ],
+      "materialParty": null
+    },
+    {
+      "id": "case:radar-west:goa-case",
+      "split": "test",
+      "caseIds": [
+        "radar-west:goa-case"
+      ],
+      "documentIds": [
+        "radar-west:goa-quash",
+        "radar-west:goa-reasons"
+      ],
+      "sourceFamilies": [
+        "goa-july-quashing-report"
+      ],
+      "materialParty": null
+    },
+    {
+      "id": "case:radar-west:mithi-case",
+      "split": "train",
+      "caseIds": [
+        "radar-west:mithi-case"
+      ],
+      "documentIds": [
+        "radar-west:mithi-bail",
+        "radar-west:mithi-latest"
+      ],
+      "sourceFamilies": [
+        "eow-mithi-allegations",
+        "mithi-april-bail-order"
+      ],
+      "materialParty": null
+    },
+    {
+      "id": "case:radar-west:ports-case",
+      "split": "test",
+      "caseIds": [
+        "radar-west:ports-case"
+      ],
+      "documentIds": [
+        "radar-west:pipavav-call",
+        "radar-west:pipavav-filing",
+        "radar-west:pipavav-mou",
+        "radar-west:port-history",
+        "radar-west:port-renewal-news"
+      ],
+      "sourceFamilies": [
+        "businessline-port-reporting",
+        "et-port-reporting",
+        "gppl-concession"
+      ],
+      "materialParty": null
+    },
+    {
+      "id": "material-party:adani-enterprises-limited",
+      "split": "train",
+      "caseIds": [
+        "radar-west:shivpuri-case",
+        "radar-west:tara-case"
+      ],
+      "documentIds": [
+        "radar-west:cg-incorporation",
+        "radar-west:shivpuri-filing",
+        "radar-west:shivpuri-release",
+        "radar-west:shivpuri-timeline",
+        "radar-west:tara-cmdc",
+        "radar-west:tara-opposition",
+        "radar-west:tara-pib"
+      ],
+      "sourceFamilies": [
+        "ael-cg-disclosure",
+        "ael-shivpuri-announcement",
+        "cmdc-tara-statement",
+        "coal-ministry-tara",
+        "congress-tara-statement",
+        "shivpuri-event-reporting"
+      ],
+      "materialParty": {
+        "key": "material-party:adani-enterprises-limited",
+        "label": "Adani Enterprises Limited",
+        "cases": [
+          "radar-west:tara-case",
+          "radar-west:shivpuri-case"
+        ],
+        "rationale": "Exact company is materially named in both projects; keep both cases in training. The Tara bidder identity remains unresolved; this grouping prevents shared ownership-context leakage and does not assert that identity join."
+      }
+    },
+    {
+      "id": "material-party:ministry-of-defence",
+      "split": "dev",
+      "caseIds": [
+        "radar-national:case:navy-lease",
+        "radar-south-east:case:hal-engine-delivery"
+      ],
+      "documentIds": [
+        "radar-national:source:ga-lease",
+        "radar-south-east:source:ge-contract",
+        "radar-south-east:source:ge-shipment-oct",
+        "radar-south-east:source:hal-annual",
+        "radar-south-east:source:mod-lca-contract",
+        "radar-south-east:source:ravi-interview"
+      ],
+      "sourceFamilies": [
+        "ga-lease",
+        "radar-south-east:family:ge-f404-2021",
+        "radar-south-east:family:hal-annual-2025",
+        "radar-south-east:family:hal-management-sep-2026",
+        "radar-south-east:family:mod-lca-2025",
+        "radar-south-east:family:tejas-delivery-2026"
+      ],
+      "materialParty": {
+        "key": "material-party:ministry-of-defence",
+        "label": "Ministry of Defence",
+        "cases": [
+          "radar-south-east:case:hal-engine-delivery",
+          "radar-national:case:navy-lease"
+        ],
+        "rationale": "Same exact public procuring ministry is materially named in the two defence cases; keep both in development."
+      }
+    }
+  ],
+  "documents": [
+    {
+      "id": "radar-national:source:fdi-cabinet",
+      "sourceId": "radar-national:source:fdi-cabinet",
+      "title": "Cabinet approval of changes to land-border investment policy",
+      "text": "Cabinet approval of changes to land-border investment policy\nCabinet chaired by Narendra Modi approved policy changes intended to improve investment access, with specified approval timelines.\nLocator: Opening paragraph, beneficial-owner definition and 60-day processing discussion\nLimitations: Official cabinet announcement retained. Policy intention does not establish compliance by any particular investor or personal benefit to an office holder.",
+      "url": "https://www.pmindia.gov.in/en/news_updates/cabinet-approves-changes-in-guidelines-on-investments-from-countries-sharing-land-border-with-india/",
+      "caseIds": [
+        "radar-national:case:fdi-control"
+      ],
+      "split": "train",
+      "groupId": "case:radar-national:case:fdi-control",
+      "family": "fdi-cabinet",
+      "kind": "official",
+      "access": "original-file",
+      "publishedAt": "2026-03-10",
+      "retrievedAt": "2026-10-07",
+      "summary": "Cabinet chaired by Narendra Modi approved policy changes intended to improve investment access, with specified approval timelines.",
+      "locator": "Opening paragraph, beneficial-owner definition and 60-day processing discussion",
+      "limitations": [
+        "Official cabinet announcement retained. Policy intention does not establish compliance by any particular investor or personal benefit to an office holder."
+      ]
+    },
+    {
+      "id": "radar-national:source:fdi-clarification",
+      "sourceId": "radar-national:source:fdi-clarification",
+      "title": "29 proposed investments reported under the revised FDI framework",
+      "text": "29 proposed investments reported under the revised FDI framework\nGovernment reports 29 investments involving proposed ₹4,895.65 crore up to August 20 across multiple sectors and investor jurisdictions.\nLocator: Opening four paragraphs\nLimitations: Official-URL full-text extract inspected through Exa; direct download blocked. Proposed FDI is not received capital; the release does not name the 29 investees or certify each beneficial-ownership filing. The summary’s non-controlling ownership description must be read with the Gazette’s cumulative rights and control rules.",
+      "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2301992&lang=2&reg=48",
+      "caseIds": [
+        "radar-national:case:fdi-control"
+      ],
+      "split": "train",
+      "groupId": "case:radar-national:case:fdi-control",
+      "family": "fdi-clarification",
+      "kind": "official",
+      "access": "full-text",
+      "publishedAt": "2026-08-21",
+      "retrievedAt": "2026-10-07",
+      "summary": "Government reports 29 investments involving proposed ₹4,895.65 crore up to August 20 across multiple sectors and investor jurisdictions.",
+      "locator": "Opening four paragraphs",
+      "limitations": [
+        "Official-URL full-text extract inspected through Exa; direct download blocked.",
+        "Proposed FDI is not received capital; the release does not name the 29 investees or certify each beneficial-ownership filing.",
+        "The summary’s non-controlling ownership description must be read with the Gazette’s cumulative rights and control rules."
+      ]
+    },
+    {
+      "id": "radar-national:source:fdi-gazette",
+      "sourceId": "radar-national:source:fdi-gazette",
+      "title": "FEMA NDI Amendment Rules 2026: notification S.O.2174(E)",
+      "text": "FEMA NDI Amendment Rules 2026: notification S.O.2174(E)\nNotification dated May 1 was published May 2 and takes effect on publication; amended rule 6 contains approval, ownership-change, reporting and cumulative-control rules.\nLocator: English text pp.3–5: rule 1(2), rule 6 provisos and Explanations 1–3\nLimitations: Official-URL full-text extract inspected through Exa; direct original download returned 503, so binary PDF identity is not verified. May 1 notification date and May 2 Gazette publication date are distinct. Multilateral banks/funds of which India is a member have a specific exception; foreignness alone is not evidence of an illicit route.",
+      "url": "https://egazette.gov.in/WriteReadData/2026/272196.pdf",
+      "caseIds": [
+        "radar-national:case:fdi-control"
+      ],
+      "split": "train",
+      "groupId": "case:radar-national:case:fdi-control",
+      "family": "fdi-gazette",
+      "kind": "official",
+      "access": "full-text",
+      "publishedAt": "2026-05-02",
+      "retrievedAt": "2026-10-07",
+      "summary": "Notification dated May 1 was published May 2 and takes effect on publication; amended rule 6 contains approval, ownership-change, reporting and cumulative-control rules.",
+      "locator": "English text pp.3–5: rule 1(2), rule 6 provisos and Explanations 1–3",
+      "limitations": [
+        "Official-URL full-text extract inspected through Exa; direct original download returned 503, so binary PDF identity is not verified.",
+        "May 1 notification date and May 2 Gazette publication date are distinct.",
+        "Multilateral banks/funds of which India is a member have a specific exception; foreignness alone is not evidence of an illicit route."
+      ]
+    },
+    {
+      "id": "radar-national:source:fdi-pn2",
+      "sourceId": "radar-national:source:fdi-pn2",
+      "title": "DPIIT Press Note 2 (2026): beneficial ownership and control tests",
+      "text": "DPIIT Press Note 2 (2026): beneficial ownership and control tests\nRevises the land-border investment screening framework, retaining beneficial ownership, aggregated rights, control and reporting provisions; commencement depends on FEMA notification.\nLocator: Paragraph 3.1.1(a)–(d), proviso and paragraph 2\nLimitations: Original PDF retained. This policy text does not identify any company violating it. A nominal percentage alone does not exhaust the cumulative rights, control and ultimate effective control tests.",
+      "url": "https://www.dpiit.gov.in/static/uploads/2026/03/b9da5830b052c2f2d788593e97d07c63.pdf",
+      "caseIds": [
+        "radar-national:case:fdi-control"
+      ],
+      "split": "train",
+      "groupId": "case:radar-national:case:fdi-control",
+      "family": "fdi-pn2",
+      "kind": "official",
+      "access": "original-file",
+      "publishedAt": "2026-03-15",
+      "retrievedAt": "2026-10-07",
+      "summary": "Revises the land-border investment screening framework, retaining beneficial ownership, aggregated rights, control and reporting provisions; commencement depends on FEMA notification.",
+      "locator": "Paragraph 3.1.1(a)–(d), proviso and paragraph 2",
+      "limitations": [
+        "Original PDF retained. This policy text does not identify any company violating it.",
+        "A nominal percentage alone does not exhaust the cumulative rights, control and ultimate effective control tests."
+      ]
+    },
+    {
+      "id": "radar-national:source:ga-lease",
+      "sourceId": "radar-national:source:ga-lease",
+      "title": "MoD signs 30-month lease for two MQ-9 B systems",
+      "text": "MoD signs 30-month lease for two MQ-9 B systems\nMoD reports a signed contract with GA-ASI for two systems for the Navy, approximately ₹1,943 crore over 30 months.\nLocator: Opening two substantive paragraphs\nLimitations: Original government release retained; underlying executed agreement, price schedule and payments are not public in this packet. Contract value is not expenditure, unit aircraft purchase price or evidence of impropriety.",
+      "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2300388&lang=2&reg=48",
+      "caseIds": [
+        "radar-national:case:navy-lease"
+      ],
+      "split": "dev",
+      "groupId": "material-party:ministry-of-defence",
+      "family": "ga-lease",
+      "kind": "official",
+      "access": "original-file",
+      "publishedAt": "2026-08-17",
+      "retrievedAt": "2026-10-07",
+      "summary": "MoD reports a signed contract with GA-ASI for two systems for the Navy, approximately ₹1,943 crore over 30 months.",
+      "locator": "Opening two substantive paragraphs",
+      "limitations": [
+        "Original government release retained; underlying executed agreement, price schedule and payments are not public in this packet.",
+        "Contract value is not expenditure, unit aircraft purchase price or evidence of impropriety."
+      ]
+    },
+    {
+      "id": "radar-national:source:psb-answer",
+      "sourceId": "radar-national:source:psb-answer",
+      "title": "Lok Sabha UQ 120: write-offs, recoveries and borrower disclosure scope",
+      "text": "Lok Sabha UQ 120: write-offs, recoveries and borrower disclosure scope\nThe reply gives twelve FY rows for Large–Industry & Services domestic PSB write-offs and annual actual recoveries; it distinguishes accounting write-offs from waivers and describes confidentiality.\nLocator: Answer(a)–(d), FY 2014–15 through FY 2025–26 table, recovery caveat and CRILC table\nLimitations: Read full extracted text from the official URL through Exa; direct PDF download returned 403, so original byte identity is not verified. This is not the requested full 15-year corporate-loan population. FY 2025–26 is provisional. Recoveries in a year can relate to other write-off vintages; do not compute a matched-cohort recovery rate. The separate 1,249 borrowers/₹4,19,380 crore CRILC snapshot covers all borrower types, not only the table’s large-industry category.",
+      "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU120_rCBUdx.pdf",
+      "caseIds": [
+        "radar-national:case:psb-writeoffs"
+      ],
+      "split": "test",
+      "groupId": "case:radar-national:case:psb-writeoffs",
+      "family": "psb-answer",
+      "kind": "official",
+      "access": "full-text",
+      "publishedAt": "2026-07-20",
+      "retrievedAt": "2026-10-07",
+      "summary": "The reply gives twelve FY rows for Large–Industry & Services domestic PSB write-offs and annual actual recoveries; it distinguishes accounting write-offs from waivers and describes confidentiality.",
+      "locator": "Answer(a)–(d), FY 2014–15 through FY 2025–26 table, recovery caveat and CRILC table",
+      "limitations": [
+        "Read full extracted text from the official URL through Exa; direct PDF download returned 403, so original byte identity is not verified.",
+        "This is not the requested full 15-year corporate-loan population. FY 2025–26 is provisional.",
+        "Recoveries in a year can relate to other write-off vintages; do not compute a matched-cohort recovery rate.",
+        "The separate 1,249 borrowers/₹4,19,380 crore CRILC snapshot covers all borrower types, not only the table’s large-industry category."
+      ]
+    },
+    {
+      "id": "radar-north:dehradun-index",
+      "sourceId": "radar-north:dehradun-index",
+      "title": "CAG Uttarakhand report index: tabling 10 March 2026",
+      "text": "CAG Uttarakhand report index: tabling 10 March 2026\nOfficial index identifies Dehradun Smart Cities Report 5 of 2025 as tabled 10 March 2026.\nLocator: Entry Report 5 of 2025\nLimitations: Index provides publication context, not an independent audit or current compliance assessment.",
+      "url": "https://cag.gov.in/ag/uttarakhand/en/audit-report",
+      "caseIds": [
+        "radar-north:dehradun-smart-city"
+      ],
+      "split": "train",
+      "groupId": "case:radar-north:dehradun-smart-city",
+      "family": "cag-uttarakhand-report-index",
+      "kind": "official",
+      "access": "full-text",
+      "publishedAt": null,
+      "retrievedAt": "2026-10-07",
+      "summary": "Official index identifies Dehradun Smart Cities Report 5 of 2025 as tabled 10 March 2026.",
+      "locator": "Entry Report 5 of 2025",
+      "limitations": [
+        "Index provides publication context, not an independent audit or current compliance assessment."
+      ]
+    },
+    {
+      "id": "radar-north:dehradun-news",
+      "sourceId": "radar-north:dehradun-news",
+      "title": "Dehradun Smart City audit: execution and operation gaps",
+      "text": "Dehradun Smart City audit: execution and operation gaps\nReporting confirms the audit’s asset-operation, consultant-payment and interdepartmental work-site problems.\nLocator: Project management and consultant-payment paragraphs\nLimitations: Same underlying CAG audit. Does not establish all audited conditions persist inOctober 2026.",
+      "url": "https://www.hindustantimes.com/india-news/cag-report-highlights-lapses-in-dehradun-smart-city-projects-101773234190627.html",
+      "caseIds": [
+        "radar-north:dehradun-smart-city"
+      ],
+      "split": "train",
+      "groupId": "case:radar-north:dehradun-smart-city",
+      "family": "cag-uttarakhand-5-2025",
+      "kind": "news",
+      "access": "full-text",
+      "publishedAt": "2026-03-11",
+      "retrievedAt": "2026-10-07",
+      "summary": "Reporting confirms the audit’s asset-operation, consultant-payment and interdepartmental work-site problems.",
+      "locator": "Project management and consultant-payment paragraphs",
+      "limitations": [
+        "Same underlying CAG audit. Does not establish all audited conditions persist inOctober 2026."
+      ]
+    },
+    {
+      "id": "radar-north:dehradun-summary",
+      "sourceId": "radar-north:dehradun-summary",
+      "title": "CAG Dehradun Smart Cities Mission executive summary",
+      "text": "CAG Dehradun Smart Cities Mission executive summary\nOriginal summary identifies non-functional assets, consultant-payment controls and recoveries while recognising functioning SCADA and other benefits; management accepted all 12 recommendations.\nLocator: Executive summarypp v–viii\nLimitations: Date is tabling date established by the official report index, not underlying expenditure date. Audit baseline 2017–18 to 2022–23 includes later updates such as February 2025; no July–October 2026 remediation record obtained.",
+      "url": "https://cag.gov.in/uploads/download_audit_report/2025/4-Executive-Summary-069b02aa262e742.35165317.pdf",
+      "caseIds": [
+        "radar-north:dehradun-smart-city"
+      ],
+      "split": "train",
+      "groupId": "case:radar-north:dehradun-smart-city",
+      "family": "cag-uttarakhand-5-2025",
+      "kind": "official",
+      "access": "full-text",
+      "publishedAt": "2026-03-10",
+      "retrievedAt": "2026-10-07",
+      "summary": "Original summary identifies non-functional assets, consultant-payment controls and recoveries while recognising functioning SCADA and other benefits; management accepted all 12 recommendations.",
+      "locator": "Executive summarypp v–viii",
+      "limitations": [
+        "Date is tabling date established by the official report index, not underlying expenditure date.",
+        "Audit baseline 2017–18 to 2022–23 includes later updates such as February 2025; no July–October 2026 remediation record obtained."
+      ]
+    },
+    {
+      "id": "radar-north:delhi-ht",
+      "sourceId": "radar-north:delhi-ht",
+      "title": "Delhi CAG flags GST, subsidy and procurement record gaps",
+      "text": "Delhi CAG flags GST, subsidy and procurement record gaps\nReporting gives only 5363 award-of-contract records for approximately 155000 tenders and distinguishes expenditure, tax implications and subsidy findings.\nLocator: Paragraph beginning CAG also flagged deficiencies in Delhi’s e-procurement system\nLimitations: Same underlying CAG audit as the Indian Express report; not an independent second audit. The rounded denominator and audit observation dates must not be treated as the current October 2026 portal population.",
+      "url": "https://www.hindustantimes.com/cities/delhi-news/delhi-cag-flags-gst-lapses-untargeted-power-subsidy-wasteful-expenditure-101786127248633.html",
+      "caseIds": [
+        "radar-north:delhi-procurement"
+      ],
+      "split": "dev",
+      "groupId": "case:radar-north:delhi-procurement",
+      "family": "cag-delhi-report-1-2026",
+      "kind": "news",
+      "access": "full-text",
+      "publishedAt": "2026-08-08",
+      "retrievedAt": "2026-10-07",
+      "summary": "Reporting gives only 5363 award-of-contract records for approximately 155000 tenders and distinguishes expenditure, tax implications and subsidy findings.",
+      "locator": "Paragraph beginning CAG also flagged deficiencies in Delhi’s e-procurement system",
+      "limitations": [
+        "Same underlying CAG audit as the Indian Express report; not an independent second audit.",
+        "The rounded denominator and audit observation dates must not be treated as the current October 2026 portal population."
+      ]
+    },
+    {
+      "id": "radar-north:delhi-ie",
+      "sourceId": "radar-north:delhi-ie",
+      "title": "Delhi CAG report: electricity subsidy and e-procurement findings",
+      "text": "Delhi CAG report: electricity subsidy and e-procurement findings\nReporting on the audit tabled on 7 August 2026 describes shared bidder identifiers, subsidy eligibility questions, and an Assembly request for departmental action-taken notes.\nLocator: Sections Electricity subsidies and E-procurement system under scanner\nLimitations: Original CAG report could not be retrieved from the inferred official URL; this source is reporting of an audit, not a court finding. Tender values are affected procurement scope, not proved losses. Shared IP addresses can have innocent explanations.",
+      "url": "https://indianexpress.com/article/cities/delhi/cag-report-flags-lapses-in-delhis-power-subsidy-scheme-e-procurement-system-10823386/",
+      "caseIds": [
+        "radar-north:delhi-procurement"
+      ],
+      "split": "dev",
+      "groupId": "case:radar-north:delhi-procurement",
+      "family": "cag-delhi-report-1-2026",
+      "kind": "news",
+      "access": "full-text",
+      "publishedAt": "2026-08-08",
+      "retrievedAt": "2026-10-07",
+      "summary": "Reporting on the audit tabled on 7 August 2026 describes shared bidder identifiers, subsidy eligibility questions, and an Assembly request for departmental action-taken notes.",
+      "locator": "Sections Electricity subsidies and E-procurement system under scanner",
+      "limitations": [
+        "Original CAG report could not be retrieved from the inferred official URL; this source is reporting of an audit, not a court finding.",
+        "Tender values are affected procurement scope, not proved losses. Shared IP addresses can have innocent explanations."
+      ]
+    },
+    {
+      "id": "radar-north:jaipur-hc",
+      "sourceId": "radar-north:jaipur-hc",
+      "title": "Rajasthan HC denies Joshi and Agarwal bail in ACB proceeding",
+      "text": "Rajasthan HC denies Joshi and Agarwal bail in ACB proceeding\nReports 13 August bail refusal, alleged certificate warnings and the court’s express trial-merits reservation.\nLocator: Opening paragraphs and certificate/payment discussion\nLimitations: Original High Court order not acquired; reporting only. Bail refusal is not conviction. Sep 29 Supreme Court relief to Badaya and Dixit must not be applied automatically to Joshi or Agarwal.",
+      "url": "https://timesofindia.indiatimes.com/city/jaipur/hc-junks-bail-pleas-of-joshi-and-agarwal-says-charges-extremely-serious/articleshow/133222432.cms",
+      "caseIds": [
+        "radar-north:jaipur-jjm"
+      ],
+      "split": "train",
+      "groupId": "case:radar-north:jaipur-jjm",
+      "family": "rajasthan-hc-jjm-2026-08-13",
+      "kind": "news",
+      "access": "full-text",
+      "publishedAt": "2026-08-14",
+      "retrievedAt": "2026-10-07",
+      "summary": "Reports 13 August bail refusal, alleged certificate warnings and the court’s express trial-merits reservation.",
+      "locator": "Opening paragraphs and certificate/payment discussion",
+      "limitations": [
+        "Original High Court order not acquired; reporting only.",
+        "Bail refusal is not conviction. Sep 29 Supreme Court relief to Badaya and Dixit must not be applied automatically to Joshi or Agarwal."
+      ]
+    },
+    {
+      "id": "radar-north:jaipur-response",
+      "sourceId": "radar-north:jaipur-response",
+      "title": "Joshi counsel disputes tender-committee role in ACB bail hearing",
+      "text": "Joshi counsel disputes tender-committee role in ACB bail hearing\nRecords the defence argument that Joshi was not on the bid-evaluation or finance committee and challenges the timing of his ACB arrest; reports bail denial.\nLocator: Counsel Snehdeep response paragraphs\nLimitations: Same 13 August hearing as Times of India; separate reporting does not create an independent evidentiary event. No later Joshi ACB merits outcome was established by searches through 7 October 2026.",
+      "url": "https://www.etvbharat.com/en/state/rajasthan-hc-denies-bail-to-former-minister-mahesh-joshi-and-former-ias-officer-subodh-agrawal-among-other-accused-in-jjm-scam-enn26081304387",
+      "caseIds": [
+        "radar-north:jaipur-jjm"
+      ],
+      "split": "train",
+      "groupId": "case:radar-north:jaipur-jjm",
+      "family": "rajasthan-hc-jjm-2026-08-13",
+      "kind": "news",
+      "access": "full-text",
+      "publishedAt": "2026-08-13",
+      "retrievedAt": "2026-10-07",
+      "summary": "Records the defence argument that Joshi was not on the bid-evaluation or finance committee and challenges the timing of his ACB arrest; reports bail denial.",
+      "locator": "Counsel Snehdeep response paragraphs",
+      "limitations": [
+        "Same 13 August hearing as Times of India; separate reporting does not create an independent evidentiary event.",
+        "No later Joshi ACB merits outcome was established by searches through 7 October 2026."
+      ]
+    },
+    {
+      "id": "radar-north:jaipur-sc",
+      "sourceId": "radar-north:jaipur-sc",
+      "title": "Sanjay Badaya and Shubhanshu Dixit v State of Rajasthan, 2026 INSC 1065",
+      "text": "Sanjay Badaya and Shubhanshu Dixit v State of Rajasthan, 2026 INSC 1065\nBail order recites prosecution allegations about forged qualification certificates and an intermediary route, grants bail to Badaya and Dixit, and expressly reserves every allegation and evidentiary issue for trial.\nLocator: Paragraphs 4–7 and 9–18\nLimitations: Publisher identity is Supreme Court; hosting is a third-party mirror, not an official-host verification. Paragraphs 5 and 7 are prosecution allegations, not judicial findings of fraud, payments or culpability. ₹979.45 crore is the alleged 104-tender contract scope, not proven loss.",
+      "url": "https://s3.courtbook.in/2026/09/sanjay_badaya_shubhanshu_dixit_v_state_of_rajasthan.pdf",
+      "caseIds": [
+        "radar-north:jaipur-jjm"
+      ],
+      "split": "train",
+      "groupId": "case:radar-north:jaipur-jjm",
+      "family": "sc-2026-insc-1065",
+      "kind": "judicial",
+      "access": "original-file",
+      "publishedAt": "2026-09-29",
+      "retrievedAt": "2026-10-07",
+      "summary": "Bail order recites prosecution allegations about forged qualification certificates and an intermediary route, grants bail to Badaya and Dixit, and expressly reserves every allegation and evidentiary issue for trial.",
+      "locator": "Paragraphs 4–7 and 9–18",
+      "limitations": [
+        "Publisher identity is Supreme Court; hosting is a third-party mirror, not an official-host verification.",
+        "Paragraphs 5 and 7 are prosecution allegations, not judicial findings of fraud, payments or culpability.",
+        "₹979.45 crore is the alleged 104-tender contract scope, not proven loss."
+      ]
+    },
+    {
+      "id": "radar-north:joshi-sc",
+      "sourceId": "radar-north:joshi-sc",
+      "title": "Mahesh Joshi v Directorate of Enforcement, bail order 3 December 2025",
+      "text": "Mahesh Joshi v Directorate of Enforcement, bail order 3 December 2025\nThe PMLA bail order records both the agency’s alleged corporate route and Joshi’s response that he initiated suspensions, blacklisting and FIRs; bail was granted without deciding merits.\nLocator: Order paragraphs 3,5–12,14–18; exclude editorial headnote\nLimitations: Annotated third-party mirror; not an official-host verification. PMLA bail does not determine bail in the distinct ACB proceeding or establish innocence/guilt. Names are source mentions; the two variants Sumangalam LLP and Sumangalam Landmark LLP have not been merged through an LLPIN check.",
+      "url": "https://www.livelaw.in/pdf_upload/2025-livelaw-sc-1166-sh-mahesh-joshi-v-directorate-of-enforcement-3-dec-2025-642613.pdf",
+      "caseIds": [
+        "radar-north:jaipur-jjm"
+      ],
+      "split": "train",
+      "groupId": "case:radar-north:jaipur-jjm",
+      "family": "sc-joshi-pmla-2025-12-03",
+      "kind": "judicial",
+      "access": "original-file",
+      "publishedAt": "2025-12-03",
+      "retrievedAt": "2026-10-07",
+      "summary": "The PMLA bail order records both the agency’s alleged corporate route and Joshi’s response that he initiated suspensions, blacklisting and FIRs; bail was granted without deciding merits.",
+      "locator": "Order paragraphs 3,5–12,14–18; exclude editorial headnote",
+      "limitations": [
+        "Annotated third-party mirror; not an official-host verification.",
+        "PMLA bail does not determine bail in the distinct ACB proceeding or establish innocence/guilt.",
+        "Names are source mentions; the two variants Sumangalam LLP and Sumangalam Landmark LLP have not been merged through an LLPIN check."
+      ]
+    },
+    {
+      "id": "radar-north:patna-hindu",
+      "sourceId": "radar-north:patna-hindu",
+      "title": "Bihar cabinet policy and vehicle procurement decisions",
+      "text": "Bihar cabinet policy and vehicle procurement decisions\nA separately bylined report of the same cabinet briefing gives 30 water cannons at ₹88 lakh and 86 Vajra vehicles at ₹42 lakh; it records the government’s crowd-control and emergency rationale.\nLocator: Nod for water cannons section\nLimitations: Article body publication date 1 OctoberIST retained; search metadata says 30 SeptemberUTC. Both are before the cutoff. Same cabinet decision, not an independent procurement audit; original cabinet memorandum still required.",
+      "url": "https://www.thehindu.com/news/national/bihar/bihar-cabinet-gives-nod-to-bihar-green-hydrogen-policy-2026/article71529549.ece",
+      "caseIds": [
+        "radar-north:patna-police-vehicles"
+      ],
+      "split": "train",
+      "groupId": "case:radar-north:patna-police-vehicles",
+      "family": "bihar-cabinet-2026-09-30",
+      "kind": "news",
+      "access": "full-text",
+      "publishedAt": "2026-10-01",
+      "retrievedAt": "2026-10-07",
+      "summary": "A separately bylined report of the same cabinet briefing gives 30 water cannons at ₹88 lakh and 86 Vajra vehicles at ₹42 lakh; it records the government’s crowd-control and emergency rationale.",
+      "locator": "Nod for water cannons section",
+      "limitations": [
+        "Article body publication date 1 OctoberIST retained; search metadata says 30 SeptemberUTC. Both are before the cutoff.",
+        "Same cabinet decision, not an independent procurement audit; original cabinet memorandum still required."
+      ]
+    },
+    {
+      "id": "radar-north:patna-ie",
+      "sourceId": "radar-north:patna-ie",
+      "title": "Bihar approves ₹62.52 crore of crowd-control vehicles",
+      "text": "Bihar approves ₹62.52 crore of crowd-control vehicles\nReports administrative approval for 30 water cannons and 86 Vajra vehicles, government use-case justification and falling reported riot counts.\nLocator: Opening approval paragraphs; Home Department response; final historical-count paragraph\nLimitations: Administrative approval is not a tender award, invoice, delivery or expenditure. No winning supplier is established. Riot counts are only one demand indicator; festivals, emergencies, geography and fleet condition also matter.",
+      "url": "https://indianexpress.com/article/india/bihar-cabinet-water-cannons-vajra-vehicles-10901192/",
+      "caseIds": [
+        "radar-north:patna-police-vehicles"
+      ],
+      "split": "train",
+      "groupId": "case:radar-north:patna-police-vehicles",
+      "family": "bihar-cabinet-2026-09-30",
+      "kind": "news",
+      "access": "full-text",
+      "publishedAt": "2026-09-30",
+      "retrievedAt": "2026-10-07",
+      "summary": "Reports administrative approval for 30 water cannons and 86 Vajra vehicles, government use-case justification and falling reported riot counts.",
+      "locator": "Opening approval paragraphs; Home Department response; final historical-count paragraph",
+      "limitations": [
+        "Administrative approval is not a tender award, invoice, delivery or expenditure. No winning supplier is established.",
+        "Riot counts are only one demand indicator; festivals, emergencies, geography and fleet condition also matter."
+      ]
+    },
+    {
+      "id": "radar-north:punjab-chapter",
+      "sourceId": "radar-north:punjab-chapter",
+      "title": "CAG Punjab Report 4 of 2025, ChapterII: e-procurement systems audit",
+      "text": "CAG Punjab Report 4 of 2025, ChapterII: e-procurement systems audit\nOriginal chapter details sampled procurement-control failures, repeated weaknesses after PAC assurances and the nodal department’s responses.\nLocator: Sections 2.6,2.9.1.2,2.10.1(D),2.10.2(a)(i), Table 2.12\nLimitations: Publication/tabling date has not been independently established; report number 2025 is not a publication date. Audit covers 2018–2023 with responses throughNovember 2024; current remediation remains unverified. Exa returned a long but truncated original-host extract; only inspected sections are relied on.",
+      "url": "https://cag.gov.in/uploads/download_audit_report/2023/05-Chapter-II-069b7fd863348d9.57910647.pdf",
+      "caseIds": [
+        "radar-north:chandigarh-procurement"
+      ],
+      "split": "train",
+      "groupId": "case:radar-north:chandigarh-procurement",
+      "family": "cag-punjab-4-2025",
+      "kind": "official",
+      "access": "indexed-extract",
+      "publishedAt": null,
+      "retrievedAt": "2026-10-07",
+      "summary": "Original chapter details sampled procurement-control failures, repeated weaknesses after PAC assurances and the nodal department’s responses.",
+      "locator": "Sections 2.6,2.9.1.2,2.10.1(D),2.10.2(a)(i), Table 2.12",
+      "limitations": [
+        "Publication/tabling date has not been independently established; report number 2025 is not a publication date.",
+        "Audit covers 2018–2023 with responses throughNovember 2024; current remediation remains unverified.",
+        "Exa returned a long but truncated original-host extract; only inspected sections are relied on."
+      ]
+    },
+    {
+      "id": "radar-north:punjab-report",
+      "sourceId": "radar-north:punjab-report",
+      "title": "CAG Punjab composite civil audit Report 4 of 2025: overview",
+      "text": "CAG Punjab composite civil audit Report 4 of 2025: overview\nContents and overview establish the e-procurement chapter’s scope and links to the earlier 2017 audit.\nLocator: Overviewpp v–vi; ChapterII pp 9–100\nLimitations: Same document family as its chapter, not corroboration by a second audit. Only the fetched contents/overview were inspected.",
+      "url": "https://cag.gov.in/webroot/uploads/download_audit_report/2023/Report-no.-4-of-2025-(English)-069b7fc7885b9c7.82304696.pdf",
+      "caseIds": [
+        "radar-north:chandigarh-procurement"
+      ],
+      "split": "train",
+      "groupId": "case:radar-north:chandigarh-procurement",
+      "family": "cag-punjab-4-2025",
+      "kind": "official",
+      "access": "indexed-extract",
+      "publishedAt": null,
+      "retrievedAt": "2026-10-07",
+      "summary": "Contents and overview establish the e-procurement chapter’s scope and links to the earlier 2017 audit.",
+      "locator": "Overviewpp v–vi; ChapterII pp 9–100",
+      "limitations": [
+        "Same document family as its chapter, not corroboration by a second audit.",
+        "Only the fetched contents/overview were inspected."
+      ]
+    },
+    {
+      "id": "radar-north:up-closure",
+      "sourceId": "radar-north:up-closure",
+      "title": "UPERC closes meter-cost proceeding after reported ₹32.74 crore credits",
+      "text": "UPERC closes meter-cost proceeding after reported ₹32.74 crore credits\nReports disposal after 92,231 eligible accounts were credited; 907 of 93,138 examined accounts were excluded as not overcharged, with a two-month replacement-roadmap direction.\nLocator: Final-data and concluding roadmap paragraphs\nLimitations: Same regulatory proceeding; the article’s ₹32.74 crore matches the original paragraph 17 table, while paragraph 22 states ₹32.75 crore. Internal discrepancy unresolved. Amounts are aggregate consumer credits, not payments to any public official.",
+      "url": "https://solarquarter.com/2026/08/31/uperc-closes-smart-meter-overcharging-case-after-inr-32-74-crore-consumer-refund/",
+      "caseIds": [
+        "radar-north:lucknow-smart-meter"
+      ],
+      "split": "test",
+      "groupId": "case:radar-north:lucknow-smart-meter",
+      "family": "uperc-73sm-2026",
+      "kind": "news",
+      "access": "full-text",
+      "publishedAt": "2026-08-31",
+      "retrievedAt": "2026-10-07",
+      "summary": "Reports disposal after 92,231 eligible accounts were credited; 907 of 93,138 examined accounts were excluded as not overcharged, with a two-month replacement-roadmap direction.",
+      "locator": "Final-data and concluding roadmap paragraphs",
+      "limitations": [
+        "Same regulatory proceeding; the article’s ₹32.74 crore matches the original paragraph 17 table, while paragraph 22 states ₹32.75 crore. Internal discrepancy unresolved.",
+        "Amounts are aggregate consumer credits, not payments to any public official."
+      ]
+    },
+    {
+      "id": "radar-north:up-early",
+      "sourceId": "radar-north:up-early",
+      "title": "UPERC seeks complete credit of excess smart-meter costs",
+      "text": "UPERC seeks complete credit of excess smart-meter costs\nEarlier report describes 6,188 pending accounts and a 93,138-account initial population, interim rate justification and the regulator’s demand for full credits.\nLocator: Details furnished by UPPCL; Compliance report not submitted\nLimitations: The authoritative pending number quoted in this article is 6188; do not infer a new count from rounded 6.7 percent. Superseded on completion status by the 27 August order; same proceeding family.",
+      "url": "https://www.saurenergy.com/solar-energy-news/uperc-pulls-up-uppcl-discoms-over-excess-smart-meter-charges-seeks-100-consumer-credit-12255602",
+      "caseIds": [
+        "radar-north:lucknow-smart-meter"
+      ],
+      "split": "test",
+      "groupId": "case:radar-north:lucknow-smart-meter",
+      "family": "uperc-73sm-2026",
+      "kind": "news",
+      "access": "full-text",
+      "publishedAt": "2026-08-13",
+      "retrievedAt": "2026-10-07",
+      "summary": "Earlier report describes 6,188 pending accounts and a 93,138-account initial population, interim rate justification and the regulator’s demand for full credits.",
+      "locator": "Details furnished by UPPCL; Compliance report not submitted",
+      "limitations": [
+        "The authoritative pending number quoted in this article is 6188; do not infer a new count from rounded 6.7 percent.",
+        "Superseded on completion status by the 27 August order; same proceeding family."
+      ]
+    },
+    {
+      "id": "radar-north:up-order",
+      "sourceId": "radar-north:up-order",
+      "title": "UPERC Petition 73 SM of 2026: smart-meter refunds and disposal order",
+      "text": "UPERC Petition 73 SM of 2026: smart-meter refunds and disposal order\nThe official scanned eight-page order is the final proceeding on unauthorised smart-meter cost recovery; it records consumer credits, the examined population and a legacy-meter replacement roadmap.\nLocator: Petition 73 SM of 2026; paragraphs 18 and 21–24, PDFpages 7–8; order 27 August 2026\nLimitations: Scanned original downloaded; fullOCRread and pages 6–8 visually inspected. Its paragraph 17 table totals ₹32.74 crore while paragraph 22 states ₹32.75 crore. Both are retained; exact unrounded reconciliation is unacquired. Regulatory disposal is not independent inspection of every consumer account; no inference of minister or vendor benefit.",
+      "url": "https://www.uperc.org/App_File/OrderofPetitionNo-73SMof2026-PDF827202642219PM.pdf",
+      "caseIds": [
+        "radar-north:lucknow-smart-meter"
+      ],
+      "split": "test",
+      "groupId": "case:radar-north:lucknow-smart-meter",
+      "family": "uperc-73sm-2026",
+      "kind": "official",
+      "access": "original-file",
+      "publishedAt": "2026-08-27",
+      "retrievedAt": "2026-10-07",
+      "summary": "The official scanned eight-page order is the final proceeding on unauthorised smart-meter cost recovery; it records consumer credits, the examined population and a legacy-meter replacement roadmap.",
+      "locator": "Petition 73 SM of 2026; paragraphs 18 and 21–24, PDFpages 7–8; order 27 August 2026",
+      "limitations": [
+        "Scanned original downloaded; fullOCRread and pages 6–8 visually inspected. Its paragraph 17 table totals ₹32.74 crore while paragraph 22 states ₹32.75 crore. Both are retained; exact unrounded reconciliation is unacquired.",
+        "Regulatory disposal is not independent inspection of every consumer account; no inference of minister or vendor benefit."
+      ]
+    },
+    {
+      "id": "radar-south-east:source:bmrcl-audit",
+      "sourceId": "radar-south-east:source:bmrcl-audit",
+      "title": "CAG Report 7 of 2026: Bengaluru Metro Phase 1 and 2",
+      "text": "CAG Report 7 of 2026: Bengaluru Metro Phase 1 and 2\nAudit identifies tax-inclusive estimates compared with tax-exclusive bids, land delays and debt-servicing dependence. BMRCL's replies are incorporated, including its position that bidders prepared their own estimates.\nLocator: §§1.3–1.4; 3.1.5; 4.2–4.3; 5.1.2; executive summary.\nLimitations: Covers inception through March 2021, selected financial/physical progress to March 2023; excludes Phase 2A/2B. Original URL returned HTTP 503 to direct download; relevant sections inspected through a 150,000-character Exa indexed extract, not the entire PDF. Audit findings are not criminal judgments or proof of money reaching any officeholder.",
+      "url": "https://cag.gov.in/webroot/uploads/download_audit_report/2026/CAG-Report-No.-7-of-2026-(English)-06a79ba08602d89.76651635.pdf",
+      "caseIds": [
+        "radar-south-east:case:bmrcl-finance"
+      ],
+      "split": "dev",
+      "groupId": "case:radar-south-east:case:bmrcl-finance",
+      "family": "radar-south-east:family:cag-bmrcl-2026",
+      "kind": "official",
+      "access": "indexed-extract",
+      "publishedAt": "2026-08-10",
+      "retrievedAt": "2026-10-07",
+      "summary": "Audit identifies tax-inclusive estimates compared with tax-exclusive bids, land delays and debt-servicing dependence. BMRCL's replies are incorporated, including its position that bidders prepared their own estimates.",
+      "locator": "§§1.3–1.4; 3.1.5; 4.2–4.3; 5.1.2; executive summary.",
+      "limitations": [
+        "Covers inception through March 2021, selected financial/physical progress to March 2023; excludes Phase 2A/2B.",
+        "Original URL returned HTTP 503 to direct download; relevant sections inspected through a 150,000-character Exa indexed extract, not the entire PDF.",
+        "Audit findings are not criminal judgments or proof of money reaching any officeholder."
+      ]
+    },
+    {
+      "id": "radar-south-east:source:bmrcl-release",
+      "sourceId": "radar-south-east:source:bmrcl-release",
+      "title": "CAG announces tabling of Bengaluru Metro performance audit",
+      "text": "CAG announces tabling of Bengaluru Metro performance audit\nOfficial release dates the parliamentary tabling and reports the audit's ₹1,222.40 crore contract-cost increase calculation and March 2023 debt-service position.\nLocator: Dated press release, project execution and financial management sections.\nLimitations: Same underlying audit family as the full report; not independent corroboration. Publication in 2026 does not make the audited 2023 condition a current operational fact.",
+      "url": "https://cag.gov.in/uploads/PressRelease/PR-Press-release-on-Bangalore-Metro-Rail-Report-No-7-of-2026-English-06a79adf2455299-47846503.pdf",
+      "caseIds": [
+        "radar-south-east:case:bmrcl-finance"
+      ],
+      "split": "dev",
+      "groupId": "case:radar-south-east:case:bmrcl-finance",
+      "family": "radar-south-east:family:cag-bmrcl-2026",
+      "kind": "official",
+      "access": "indexed-extract",
+      "publishedAt": "2026-08-10",
+      "retrievedAt": "2026-10-07",
+      "summary": "Official release dates the parliamentary tabling and reports the audit's ₹1,222.40 crore contract-cost increase calculation and March 2023 debt-service position.",
+      "locator": "Dated press release, project execution and financial management sections.",
+      "limitations": [
+        "Same underlying audit family as the full report; not independent corroboration.",
+        "Publication in 2026 does not make the audited 2023 condition a current operational fact."
+      ]
+    },
+    {
+      "id": "radar-south-east:source:chennai-retender-aug",
+      "sourceId": "radar-south-east:source:chennai-retender-aug",
+      "title": "Tamil Nadu may float new bids for 56 lakh smart meters",
+      "text": "Tamil Nadu may float new bids for 56 lakh smart meters\nUnnamed utility officials describe plans for fresh tenders after cancellations and a separate government-office meter programme involving PFC.\nLocator: 12 August 2026 article, tender cancellation and funding paragraphs.\nLimitations: The report describes both cancellation and a proposal awaiting board consideration; exact board order and tender IDs were not obtained. References to alleged irregularities do not establish misconduct by any bidder or minister. Prospective August plans are superseded by the October report where they conflict.",
+      "url": "https://www.newindianexpress.com/states/tamil-nadu/2026/Aug/12/tamil-nadu-may-float-new-bids-for-56l-smart-meters",
+      "caseIds": [
+        "radar-south-east:case:chennai-meter-retenders"
+      ],
+      "split": "train",
+      "groupId": "case:radar-south-east:case:chennai-meter-retenders",
+      "family": "radar-south-east:family:tn-smart-meter-aug-2026",
+      "kind": "news",
+      "access": "full-text",
+      "publishedAt": "2026-08-12",
+      "retrievedAt": "2026-10-07",
+      "summary": "Unnamed utility officials describe plans for fresh tenders after cancellations and a separate government-office meter programme involving PFC.",
+      "locator": "12 August 2026 article, tender cancellation and funding paragraphs.",
+      "limitations": [
+        "The report describes both cancellation and a proposal awaiting board consideration; exact board order and tender IDs were not obtained.",
+        "References to alleged irregularities do not establish misconduct by any bidder or minister.",
+        "Prospective August plans are superseded by the October report where they conflict."
+      ]
+    },
+    {
+      "id": "radar-south-east:source:chennai-retender-oct",
+      "sourceId": "radar-south-east:source:chennai-retender-oct",
+      "title": "TNPDCL floats seven smart-meter packages covering about 1.7 crore consumers",
+      "text": "TNPDCL floats seven smart-meter packages covering about 1.7 crore consumers\nReports seven packages, 56.85 lakh Chennai-region meters, a separate 4.72 lakh transformer-meter tender and a 10-year service arrangement, after earlier tender revisions.\nLocator: 7 October 2026, 19:07 IST article; package scope, funding and earlier bid history.\nLimitations: Original bid schedules, board approvals and awards not independently inspected. Article's package geography repeats Erode; do not reconstruct package boundaries from this prose. Tender values and winning suppliers are unknown; central support and service fees are reported terms, not observed transfers.",
+      "url": "https://timesofindia.indiatimes.com/city/chennai/tnpdcl-to-replace-1-7-crore-electricity-meters-with-smart-meters-across-tn-56-8-lakh-in-chennai-region/articleshow/134767697.cms",
+      "caseIds": [
+        "radar-south-east:case:chennai-meter-retenders"
+      ],
+      "split": "train",
+      "groupId": "case:radar-south-east:case:chennai-meter-retenders",
+      "family": "radar-south-east:family:tn-smart-meter-oct-2026",
+      "kind": "news",
+      "access": "full-text",
+      "publishedAt": "2026-10-07",
+      "retrievedAt": "2026-10-07",
+      "summary": "Reports seven packages, 56.85 lakh Chennai-region meters, a separate 4.72 lakh transformer-meter tender and a 10-year service arrangement, after earlier tender revisions.",
+      "locator": "7 October 2026, 19:07 IST article; package scope, funding and earlier bid history.",
+      "limitations": [
+        "Original bid schedules, board approvals and awards not independently inspected.",
+        "Article's package geography repeats Erode; do not reconstruct package boundaries from this prose.",
+        "Tender values and winning suppliers are unknown; central support and service fees are reported terms, not observed transfers."
+      ]
+    },
+    {
+      "id": "radar-south-east:source:ge-contract",
+      "sourceId": "radar-south-east:source:ge-contract",
+      "title": "HAL orders 99 F404 engines: GE original announcement",
+      "text": "HAL orders 99 F404 engines: GE original announcement\nVendor announces a $716 million order for 99 engines and support services, with total delivery commitment by 2029.\nLocator: 19 August 2021 announcement, first two paragraphs.\nLimitations: Contract announcement, not remittance evidence or a complete milestone schedule. F404 supply for the first tranche must not be merged with proposed F414 co-production or later aircraft orders.",
+      "url": "https://www.geaerospace.com/news/press-releases/defense-engines/hindustan-aeronautics-ltd-orders-99-f404s-tejas-light-combat",
+      "caseIds": [
+        "radar-south-east:case:hal-engine-delivery"
+      ],
+      "split": "dev",
+      "groupId": "material-party:ministry-of-defence",
+      "family": "radar-south-east:family:ge-f404-2021",
+      "kind": "corporate",
+      "access": "full-text",
+      "publishedAt": "2021-08-19",
+      "retrievedAt": "2026-10-07",
+      "summary": "Vendor announces a $716 million order for 99 engines and support services, with total delivery commitment by 2029.",
+      "locator": "19 August 2021 announcement, first two paragraphs.",
+      "limitations": [
+        "Contract announcement, not remittance evidence or a complete milestone schedule.",
+        "F404 supply for the first tranche must not be merged with proposed F414 co-production or later aircraft orders."
+      ]
+    },
+    {
+      "id": "radar-south-east:source:ge-shipment-oct",
+      "sourceId": "radar-south-east:source:ge-shipment-oct",
+      "title": "GE reports four September engine shipments for Tejas Mk1A",
+      "text": "GE reports four September engine shipments for Tejas Mk1A\nReports GE's statement of four September shipments, a 14-engine tally, HAL's expected 22 engines by year-end and reported liquidated damages; integration and certification work also remain.\nLocator: 7 October 2026 article; supplier statement, milestone and certification paragraphs.\nLimitations: Shipping is distinct from HAL receipt, IAF acceptance and entry into service. Neither delivery delay nor an import contract proves corruption. Reported liquidated damages are not independently verified as assessed, recovered or waived.",
+      "url": "https://www.newindianexpress.com/india/2026/Oct/07/ge-aerospace-ships-four-more-engines-for-tejas-mk-1a-tally-reaches-14",
+      "caseIds": [
+        "radar-south-east:case:hal-engine-delivery"
+      ],
+      "split": "dev",
+      "groupId": "material-party:ministry-of-defence",
+      "family": "radar-south-east:family:tejas-delivery-2026",
+      "kind": "news",
+      "access": "full-text",
+      "publishedAt": "2026-10-07",
+      "retrievedAt": "2026-10-07",
+      "summary": "Reports GE's statement of four September shipments, a 14-engine tally, HAL's expected 22 engines by year-end and reported liquidated damages; integration and certification work also remain.",
+      "locator": "7 October 2026 article; supplier statement, milestone and certification paragraphs.",
+      "limitations": [
+        "Shipping is distinct from HAL receipt, IAF acceptance and entry into service.",
+        "Neither delivery delay nor an import contract proves corruption.",
+        "Reported liquidated damages are not independently verified as assessed, recovered or waived."
+      ]
+    },
+    {
+      "id": "radar-south-east:source:hal-annual",
+      "sourceId": "radar-south-east:source:hal-annual",
+      "title": "HAL annual report FY2024–25: Ravi K's operations role",
+      "text": "HAL annual report FY2024–25: Ravi K's operations role\nOfficial biographical disclosure states Ravi K became Director (Operations) effective November 26 2024, following Executive Director (Corporate Planning).\nLocator: Board biography, 'Shri Ravi K' paragraph.\nLimitations: Historical corporate self-description; exact day the annual report was published is not verified. Relevant biography inspected in an indexed extract, not the entire report. Public role history is not evidence of personal benefit or fault.",
+      "url": "https://hal-india.co.in/backend/wp-content/uploads/2025/07/HAL_AR_2024-25.pdf",
+      "caseIds": [
+        "radar-south-east:case:hal-engine-delivery"
+      ],
+      "split": "dev",
+      "groupId": "material-party:ministry-of-defence",
+      "family": "radar-south-east:family:hal-annual-2025",
+      "kind": "corporate",
+      "access": "indexed-extract",
+      "publishedAt": null,
+      "retrievedAt": "2026-10-07",
+      "summary": "Official biographical disclosure states Ravi K became Director (Operations) effective November 26 2024, following Executive Director (Corporate Planning).",
+      "locator": "Board biography, 'Shri Ravi K' paragraph.",
+      "limitations": [
+        "Historical corporate self-description; exact day the annual report was published is not verified.",
+        "Relevant biography inspected in an indexed extract, not the entire report.",
+        "Public role history is not evidence of personal benefit or fault."
+      ]
+    },
+    {
+      "id": "radar-south-east:source:kaleshwaram-audit",
+      "sourceId": "radar-south-east:source:kaleshwaram-audit",
+      "title": "Kaleshwaram performance audit, Chapter VI: contract management",
+      "text": "Kaleshwaram performance audit, Chapter VI: contract management\nAudit compares four EPC packages' pump and motor estimates with BHEL-supplied equipment costs and records Telangana's scope-comparability objections and the auditor's response.\nLocator: §6.2.1.1, printed pp.154–158, Tables 6.2–6.3; §6.2.1.2.\nLimitations: Historical audit through March 2022 with government replies in May/November 2023. ₹2,684.73 crore is the audit's assumption-dependent possible undue-benefit estimate, not an adjudicated theft or observed payment to a minister. An indexed full chapter was inspected; signed contracts and supplier invoices were not independently acquired.",
+      "url": "https://cag.gov.in/uploads/download_audit_report/2024/09_Chapter-VI_Contract-Management-065cdab563c2f36.74611439.pdf",
+      "caseIds": [
+        "radar-south-east:case:kaleshwaram-equipment"
+      ],
+      "split": "train",
+      "groupId": "case:radar-south-east:case:kaleshwaram-equipment",
+      "family": "radar-south-east:family:cag-kaleshwaram-2024",
+      "kind": "official",
+      "access": "indexed-extract",
+      "publishedAt": "2024-02-15",
+      "retrievedAt": "2026-10-07",
+      "summary": "Audit compares four EPC packages' pump and motor estimates with BHEL-supplied equipment costs and records Telangana's scope-comparability objections and the auditor's response.",
+      "locator": "§6.2.1.1, printed pp.154–158, Tables 6.2–6.3; §6.2.1.2.",
+      "limitations": [
+        "Historical audit through March 2022 with government replies in May/November 2023.",
+        "₹2,684.73 crore is the audit's assumption-dependent possible undue-benefit estimate, not an adjudicated theft or observed payment to a minister.",
+        "An indexed full chapter was inspected; signed contracts and supplier invoices were not independently acquired."
+      ]
+    },
+    {
+      "id": "radar-south-east:source:kaleshwaram-probe",
+      "sourceId": "radar-south-east:source:kaleshwaram-probe",
+      "title": "CBI begins probe into Kaleshwaram project?",
+      "text": "CBI begins probe into Kaleshwaram project?\nReports, citing unnamed sources, that CBI officials reviewed the PC Ghose report and legal issues; describes the state government's September 2025 consent order.\nLocator: Article displayed date 5 October 2026, 02:38 IST; discussion of consent and reported meeting.\nLimitations: Headline is a question and reporting is source-based; this does not establish registration of an FIR or commencement of a formal CBI case. Search metadata uses 4 October UTC; displayed local publication date retained. Consent order, commission report and latest court docket remain acquisition gaps.",
+      "url": "https://www.thehansindia.com/news/cities/hyderabad/cbi-begins-probe-into-kaleshwaram-project-1128855",
+      "caseIds": [
+        "radar-south-east:case:kaleshwaram-equipment"
+      ],
+      "split": "train",
+      "groupId": "case:radar-south-east:case:kaleshwaram-equipment",
+      "family": "radar-south-east:family:hans-kaleshwaram-2026",
+      "kind": "news",
+      "access": "full-text",
+      "publishedAt": "2026-10-05",
+      "retrievedAt": "2026-10-07",
+      "summary": "Reports, citing unnamed sources, that CBI officials reviewed the PC Ghose report and legal issues; describes the state government's September 2025 consent order.",
+      "locator": "Article displayed date 5 October 2026, 02:38 IST; discussion of consent and reported meeting.",
+      "limitations": [
+        "Headline is a question and reporting is source-based; this does not establish registration of an FIR or commencement of a formal CBI case.",
+        "Search metadata uses 4 October UTC; displayed local publication date retained.",
+        "Consent order, commission report and latest court docket remain acquisition gaps."
+      ]
+    },
+    {
+      "id": "radar-south-east:source:kaleshwaram-response",
+      "sourceId": "radar-south-east:source:kaleshwaram-response",
+      "title": "NDSA affidavit and CWPRS report: Kaleshwaram operational debate",
+      "text": "NDSA affidavit and CWPRS report: Kaleshwaram operational debate\nReports a position that operational pumping decisions rest with the state and that technical concerns differ between barrage components.\nLocator: 25 August 2026 article on NDSA affidavit and reported CWPRS examination.\nLimitations: Politically framed account; the underlying affidavit and CWPRS report were not obtained. No engineering safety clearance can be inferred from this article. Included as a competing operational explanation, not proof that every barrage is safe.",
+      "url": "https://telanganatoday.com/ndsa-affidavit-cwprs-report-put-congress-government-on-tight-spot-on-kaleshwaram-project",
+      "caseIds": [
+        "radar-south-east:case:kaleshwaram-equipment"
+      ],
+      "split": "train",
+      "groupId": "case:radar-south-east:case:kaleshwaram-equipment",
+      "family": "radar-south-east:family:telangana-today-kaleshwaram-2026",
+      "kind": "news",
+      "access": "full-text",
+      "publishedAt": "2026-08-25",
+      "retrievedAt": "2026-10-07",
+      "summary": "Reports a position that operational pumping decisions rest with the state and that technical concerns differ between barrage components.",
+      "locator": "25 August 2026 article on NDSA affidavit and reported CWPRS examination.",
+      "limitations": [
+        "Politically framed account; the underlying affidavit and CWPRS report were not obtained.",
+        "No engineering safety clearance can be inferred from this article.",
+        "Included as a competing operational explanation, not proof that every barrage is safe."
+      ]
+    },
+    {
+      "id": "radar-south-east:source:kiifb-ceo-notice",
+      "sourceId": "radar-south-east:source:kiifb-ceo-notice",
+      "title": "KIIFB discloses tendered CEO resignation, acceptance pending",
+      "text": "KIIFB discloses tendered CEO resignation, acceptance pending\nThe exchange notice says K M Abraham tendered resignation under an August 18 order; acceptance was pending and the interval was to be treated as leave without pay.\nLocator: Letter FA-6/2027/2021/KIIFB, first page.\nLimitations: No inferred causal relationship to the audit or allegation of personal benefit. Later government acceptance/replacement status was not verified. Original PDF SHA256 d1a3c7dbb589fb93ce5b4051bcb6289bc3bbf971f6678336f8f89909965e56f0; private-contact details not republished.",
+      "url": "https://www.kiifb.org/includes/fileViewer.jsp?fmde=res&did=749&fname=FA-6-2027-2021-KIIFBDated19-08-2026.pdf&dPrfx=CMPL",
+      "caseIds": [
+        "radar-south-east:case:kiifb-publicity"
+      ],
+      "split": "test",
+      "groupId": "case:radar-south-east:case:kiifb-publicity",
+      "family": "radar-south-east:family:kiifb-disclosures",
+      "kind": "corporate",
+      "access": "original-file",
+      "publishedAt": "2026-08-19",
+      "retrievedAt": "2026-10-07",
+      "summary": "The exchange notice says K M Abraham tendered resignation under an August 18 order; acceptance was pending and the interval was to be treated as leave without pay.",
+      "locator": "Letter FA-6/2027/2021/KIIFB, first page.",
+      "limitations": [
+        "No inferred causal relationship to the audit or allegation of personal benefit.",
+        "Later government acceptance/replacement status was not verified.",
+        "Original PDF SHA256 d1a3c7dbb589fb93ce5b4051bcb6289bc3bbf971f6678336f8f89909965e56f0; private-contact details not republished."
+      ]
+    },
+    {
+      "id": "radar-south-east:source:kiifb-news",
+      "sourceId": "radar-south-east:source:kiifb-news",
+      "title": "KIIFB publicity and programme expenditure questioned after annual accounts",
+      "text": "KIIFB publicity and programme expenditure questioned after annual accounts\nReports the accounts, critic's objections, KIIFB's stated fundraising-brand rationale and former finance minister K N Balagopal's response that spending was within the mandate.\nLocator: 7 October 2026 report; audit qualification and response paragraphs.\nLimitations: Accounts are the primary source; this article is not an independent second audit. Balagopal said he had not seen the report. His response does not establish that he approved individual invoices. The ₹102.8855 crore programme-cost total is separate from the publicity qualification; do not combine them as one loss.",
+      "url": "https://www.newindianexpress.com/states/kerala/2026/Oct/07/kiifb-spent-rs-100-crore-on-ldf-governments-pr-drive",
+      "caseIds": [
+        "radar-south-east:case:kiifb-publicity"
+      ],
+      "split": "test",
+      "groupId": "case:radar-south-east:case:kiifb-publicity",
+      "family": "radar-south-east:family:kiifb-accounts-2026",
+      "kind": "news",
+      "access": "full-text",
+      "publishedAt": "2026-10-07",
+      "retrievedAt": "2026-10-07",
+      "summary": "Reports the accounts, critic's objections, KIIFB's stated fundraising-brand rationale and former finance minister K N Balagopal's response that spending was within the mandate.",
+      "locator": "7 October 2026 report; audit qualification and response paragraphs.",
+      "limitations": [
+        "Accounts are the primary source; this article is not an independent second audit.",
+        "Balagopal said he had not seen the report. His response does not establish that he approved individual invoices.",
+        "The ₹102.8855 crore programme-cost total is separate from the publicity qualification; do not combine them as one loss."
+      ]
+    },
+    {
+      "id": "radar-south-east:source:kiifb-report",
+      "sourceId": "radar-south-east:source:kiifb-report",
+      "title": "KIIFB annual report and audited accounts FY2025–26",
+      "text": "KIIFB annual report and audited accounts FY2025–26\nStatutory auditor qualifies publicity documentation, while recording management's due-process explanation and verified service evidence. Separate programme costs are emphasis matters without modified opinions.\nLocator: PDF pp.3, 67–68 (standalone qualification), 71 (emphasis matters); consolidated equivalents pp.25–26.\nLimitations: Original PDF SHA256 73285f74722c4cbc5b6059ef48c4c9e8a4ee57cd5853743cbcb30404917bec5a; 37,513,764 bytes. Amounts are reported in lakhs: ₹7,997.70 lakh equals ₹79.977 crore. Missing lower-tier invoices do not prove nonexistent services; the report does not identify the ultimate media recipients in the inspected passage. Ratified and later sanction components differ by ₹0.01 lakh from stated total, consistent with rounding; no adverse inference made.",
+      "url": "https://www.kiifb.org/includes/fileViewer.jsp?fmde=res&did=760&fname=AnnualReport-KIIFB-2025-26.pdf&dPrfx=RPT",
+      "caseIds": [
+        "radar-south-east:case:kiifb-publicity"
+      ],
+      "split": "test",
+      "groupId": "case:radar-south-east:case:kiifb-publicity",
+      "family": "radar-south-east:family:kiifb-accounts-2026",
+      "kind": "corporate",
+      "access": "original-file",
+      "publishedAt": "2026-09-07",
+      "retrievedAt": "2026-10-07",
+      "summary": "Statutory auditor qualifies publicity documentation, while recording management's due-process explanation and verified service evidence. Separate programme costs are emphasis matters without modified opinions.",
+      "locator": "PDF pp.3, 67–68 (standalone qualification), 71 (emphasis matters); consolidated equivalents pp.25–26.",
+      "limitations": [
+        "Original PDF SHA256 73285f74722c4cbc5b6059ef48c4c9e8a4ee57cd5853743cbcb30404917bec5a; 37,513,764 bytes.",
+        "Amounts are reported in lakhs: ₹7,997.70 lakh equals ₹79.977 crore.",
+        "Missing lower-tier invoices do not prove nonexistent services; the report does not identify the ultimate media recipients in the inspected passage.",
+        "Ratified and later sanction components differ by ₹0.01 lakh from stated total, consistent with rounding; no adverse inference made."
+      ]
+    },
+    {
+      "id": "radar-south-east:source:kiifb-resources",
+      "sourceId": "radar-south-east:source:kiifb-resources",
+      "title": "KIIFB official document and exchange-disclosure index",
+      "text": "KIIFB official document and exchange-disclosure index\nOfficial index dates the September 7 annual report, historical December 30 2017 CEO appointment order, and subsequent exchange disclosure entries.\nLocator: Annual Reports tab; Government Orders; SEBI/LODR disclosures.\nLimitations: Index is a discovery/date record, not proof of the contents of every linked disclosure. Only the annual report and August 19 CEO notice were downloaded for inspection.",
+      "url": "https://www.kiifb.org/resources.jsp",
+      "caseIds": [
+        "radar-south-east:case:kiifb-publicity"
+      ],
+      "split": "test",
+      "groupId": "case:radar-south-east:case:kiifb-publicity",
+      "family": "radar-south-east:family:kiifb-disclosures",
+      "kind": "official",
+      "access": "full-text",
+      "publishedAt": null,
+      "retrievedAt": "2026-10-07",
+      "summary": "Official index dates the September 7 annual report, historical December 30 2017 CEO appointment order, and subsequent exchange disclosure entries.",
+      "locator": "Annual Reports tab; Government Orders; SEBI/LODR disclosures.",
+      "limitations": [
+        "Index is a discovery/date record, not proof of the contents of every linked disclosure.",
+        "Only the annual report and August 19 CEO notice were downloaded for inspection."
+      ]
+    },
+    {
+      "id": "radar-south-east:source:mod-lca-contract",
+      "sourceId": "radar-south-east:source:mod-lca-contract",
+      "title": "MoD signs ₹62,370 crore contract for 97 LCA Mk1A aircraft",
+      "text": "MoD signs ₹62,370 crore contract for 97 LCA Mk1A aircraft\nOfficial announcement of a second 97-aircraft contract, excluding taxes, deliveries starting in 2027–28 over six years.\nLocator: PIB Release 2171108, 25 September 2025.\nLimitations: Contract value is not expenditure incurred or cash paid. This second tranche is distinct from the first 83-aircraft programme associated with the 2021 99-engine order.",
+      "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2171108",
+      "caseIds": [
+        "radar-south-east:case:hal-engine-delivery"
+      ],
+      "split": "dev",
+      "groupId": "material-party:ministry-of-defence",
+      "family": "radar-south-east:family:mod-lca-2025",
+      "kind": "official",
+      "access": "full-text",
+      "publishedAt": "2025-09-25",
+      "retrievedAt": "2026-10-07",
+      "summary": "Official announcement of a second 97-aircraft contract, excluding taxes, deliveries starting in 2027–28 over six years.",
+      "locator": "PIB Release 2171108, 25 September 2025.",
+      "limitations": [
+        "Contract value is not expenditure incurred or cash paid.",
+        "This second tranche is distinct from the first 83-aircraft programme associated with the 2021 99-engine order."
+      ]
+    },
+    {
+      "id": "radar-south-east:source:odisha-dmf-ht",
+      "sourceId": "radar-south-east:source:odisha-dmf-ht",
+      "title": "Mining welfare funds and excluded affected villages: Odisha CAG reporting",
+      "text": "Mining welfare funds and excluded affected villages: Odisha CAG reporting\nReports that ₹983.32 crore went to 976 non-affected villages while 488 directly affected villages in two districts had no DMF project during the audit period.\nLocator: 29 September 2026 article; district classification, project coverage and endowment findings.\nLimitations: Same underlying CAG assertion family as the Indian Express account, despite separate reporting. No claim that lack of a DMF project means no public service from any funding source. Affected-area classification and current remediation require original district records.",
+      "url": "https://www.hindustantimes.com/india-news/odisha-mining-funds-spent-on-stadium-roads-instead-of-affected-areas-cag-101790681428931.html",
+      "caseIds": [
+        "radar-south-east:case:odisha-mining-welfare"
+      ],
+      "split": "train",
+      "groupId": "case:radar-south-east:case:odisha-mining-welfare",
+      "family": "radar-south-east:family:cag-odisha-dmf-2026",
+      "kind": "news",
+      "access": "full-text",
+      "publishedAt": "2026-09-29",
+      "retrievedAt": "2026-10-07",
+      "summary": "Reports that ₹983.32 crore went to 976 non-affected villages while 488 directly affected villages in two districts had no DMF project during the audit period.",
+      "locator": "29 September 2026 article; district classification, project coverage and endowment findings.",
+      "limitations": [
+        "Same underlying CAG assertion family as the Indian Express account, despite separate reporting.",
+        "No claim that lack of a DMF project means no public service from any funding source.",
+        "Affected-area classification and current remediation require original district records."
+      ]
+    },
+    {
+      "id": "radar-south-east:source:odisha-dmf-ie",
+      "sourceId": "radar-south-east:source:odisha-dmf-ie",
+      "title": "CAG flags diversion of Odisha mining welfare funds for stadium and vehicles",
+      "text": "CAG flags diversion of Odisha mining welfare funds for stadium and vehicles\nReports September 28 tabling of the 2015–24 DMF audit, including ₹136.77 crore stadium sanction, ₹4.63 crore police-vehicle release and redeposit without reported interest; BJD response is pending review.\nLocator: 29 September 2026 article, 'Amount re-deposited without interest' and concluding response.\nLimitations: Original DMF audit was sought but not located for inspection; findings remain attributed reporting. Bhubaneswar is the oversight/assembly location; cited projects are in Sundargarh/Rourkela and other districts. Sanction, release, redeposit and questioned interest are distinct stages and must not be summed as stolen funds.",
+      "url": "https://indianexpress.com/article/india/odisha-cag-report-district-mineral-foundation-dmf-funds-irregular-spending-rourkela-hockey-stadium-bjd-bjp-assembly-10899336/",
+      "caseIds": [
+        "radar-south-east:case:odisha-mining-welfare"
+      ],
+      "split": "train",
+      "groupId": "case:radar-south-east:case:odisha-mining-welfare",
+      "family": "radar-south-east:family:cag-odisha-dmf-2026",
+      "kind": "news",
+      "access": "full-text",
+      "publishedAt": "2026-09-29",
+      "retrievedAt": "2026-10-07",
+      "summary": "Reports September 28 tabling of the 2015–24 DMF audit, including ₹136.77 crore stadium sanction, ₹4.63 crore police-vehicle release and redeposit without reported interest; BJD response is pending review.",
+      "locator": "29 September 2026 article, 'Amount re-deposited without interest' and concluding response.",
+      "limitations": [
+        "Original DMF audit was sought but not located for inspection; findings remain attributed reporting.",
+        "Bhubaneswar is the oversight/assembly location; cited projects are in Sundargarh/Rourkela and other districts.",
+        "Sanction, release, redeposit and questioned interest are distinct stages and must not be summed as stolen funds."
+      ]
+    },
+    {
+      "id": "radar-south-east:source:ravi-interview",
+      "sourceId": "radar-south-east:source:ravi-interview",
+      "title": "HAL CMD Ravi K on LCA delays and foreign-engine negotiations",
+      "text": "HAL CMD Ravi K on LCA delays and foreign-engine negotiations\nNamed management interview reports ten engines received, expected additional supply and required radar/software tests; F414 commercial negotiations remain prospective.\nLocator: Interview published September 17, updated September 18; engine deliveries and clearance questions.\nLimitations: Management perspective, not independent certification. Forecasts of deliveries are claims to test, not achieved outcomes; this workbench does not adjudicate technical readiness.",
+      "url": "https://www.thehindubusinessline.com/companies/hal-cmd-ravi-k-speaks-on-tejas-lca-delays-ge-engine-co-production-legacy-challenges-and-future-programmes/article71477540.ece",
+      "caseIds": [
+        "radar-south-east:case:hal-engine-delivery"
+      ],
+      "split": "dev",
+      "groupId": "material-party:ministry-of-defence",
+      "family": "radar-south-east:family:hal-management-sep-2026",
+      "kind": "news",
+      "access": "full-text",
+      "publishedAt": "2026-09-17",
+      "retrievedAt": "2026-10-07",
+      "summary": "Named management interview reports ten engines received, expected additional supply and required radar/software tests; F414 commercial negotiations remain prospective.",
+      "locator": "Interview published September 17, updated September 18; engine deliveries and clearance questions.",
+      "limitations": [
+        "Management perspective, not independent certification.",
+        "Forecasts of deliveries are claims to test, not achieved outcomes; this workbench does not adjudicate technical readiness."
+      ]
+    },
+    {
+      "id": "radar-south-east:source:swasthya-audit",
+      "sourceId": "radar-south-east:source:swasthya-audit",
+      "title": "West Bengal Report 5 of 2025: Swasthya Sathi performance audit",
+      "text": "West Bengal Report 5 of 2025: Swasthya Sathi performance audit\nAudit covers ₹6,882.06 crore scheme expenditure in 2018–23 and identifies hospital grading, insurer penalties, enrolment and claims-control issues; records agency responses.\nLocator: §§1.8.1.2, 1.8.1.3, 1.8.1.5, 1.8.1.6, 1.9.2 and 1.11.2.\nLimitations: Report number is 2025; newly reported tabling occurred in July 2026. Exact original publication day is unverified. Relevant sections inspected in a 150,000-character indexed extract; direct PDF download returned HTTP 503. Sample findings cannot be extrapolated to every hospital or beneficiary; a database mismatch does not identify fraudulent families.",
+      "url": "https://cag.gov.in/en/audit-report/download/125756",
+      "caseIds": [
+        "radar-south-east:case:kolkata-health-claims"
+      ],
+      "split": "train",
+      "groupId": "case:radar-south-east:case:kolkata-health-claims",
+      "family": "radar-south-east:family:cag-swasthya-2025",
+      "kind": "official",
+      "access": "indexed-extract",
+      "publishedAt": null,
+      "retrievedAt": "2026-10-07",
+      "summary": "Audit covers ₹6,882.06 crore scheme expenditure in 2018–23 and identifies hospital grading, insurer penalties, enrolment and claims-control issues; records agency responses.",
+      "locator": "§§1.8.1.2, 1.8.1.3, 1.8.1.5, 1.8.1.6, 1.9.2 and 1.11.2.",
+      "limitations": [
+        "Report number is 2025; newly reported tabling occurred in July 2026. Exact original publication day is unverified.",
+        "Relevant sections inspected in a 150,000-character indexed extract; direct PDF download returned HTTP 503.",
+        "Sample findings cannot be extrapolated to every hospital or beneficiary; a database mismatch does not identify fraudulent families."
+      ]
+    },
+    {
+      "id": "radar-south-east:source:swasthya-news",
+      "sourceId": "radar-south-east:source:swasthya-news",
+      "title": "CAG flags Swasthya Sathi enrolment and hospital-grading breaches",
+      "text": "CAG flags Swasthya Sathi enrolment and hospital-grading breaches\nReports the July tabling and preserves the nodal agency's explanation involving family splitting and ongoing database sanitisation.\nLocator: 29 July 2026 report; enrolment, response and hospital-grading sections.\nLimitations: Derivative of the same CAG report; not an independent audit. Reports on earlier 2018–23 activity rather than current 2026 claim-level data.",
+      "url": "https://indianexpress.com/article/political-pulse/cag-audit-west-bengal-swasthya-sathi-scheme-tmc-10808047/",
+      "caseIds": [
+        "radar-south-east:case:kolkata-health-claims"
+      ],
+      "split": "train",
+      "groupId": "case:radar-south-east:case:kolkata-health-claims",
+      "family": "radar-south-east:family:cag-swasthya-2025",
+      "kind": "news",
+      "access": "full-text",
+      "publishedAt": "2026-07-29",
+      "retrievedAt": "2026-10-07",
+      "summary": "Reports the July tabling and preserves the nodal agency's explanation involving family splitting and ongoing database sanitisation.",
+      "locator": "29 July 2026 report; enrolment, response and hospital-grading sections.",
+      "limitations": [
+        "Derivative of the same CAG report; not an independent audit.",
+        "Reports on earlier 2018–23 activity rather than current 2026 claim-level data."
+      ]
+    },
+    {
+      "id": "radar-south-east:source:tn-uday",
+      "sourceId": "radar-south-east:source:tn-uday",
+      "title": "UDAY fails to revive Tamil Nadu power sector: report of CAG findings",
+      "text": "UDAY fails to revive Tamil Nadu power sector: report of CAG findings\nReports UDAY debt-takeover shortfalls and an approved RDSS outlay of ₹28,731.74 crore, including ₹19,163.5 crore for smart metering.\nLocator: 8 September 2026 report on FY2024–25 State Finances Audit.\nLimitations: Underlying current state-finance report was not retrieved; amounts remain attributed to the news account. Reported debt percentages and denominators are not reconciled here, and are not used in the case. An approved scheme outlay is not a tender award, a payment, or a loss.",
+      "url": "https://timesofindia.indiatimes.com/city/chennai/uday-fails-to-revive-tn-power-sector-cag/articleshow/133932884.cms",
+      "caseIds": [
+        "radar-south-east:case:chennai-meter-retenders"
+      ],
+      "split": "train",
+      "groupId": "case:radar-south-east:case:chennai-meter-retenders",
+      "family": "radar-south-east:family:tn-state-finance-2026",
+      "kind": "news",
+      "access": "full-text",
+      "publishedAt": "2026-09-08",
+      "retrievedAt": "2026-10-07",
+      "summary": "Reports UDAY debt-takeover shortfalls and an approved RDSS outlay of ₹28,731.74 crore, including ₹19,163.5 crore for smart metering.",
+      "locator": "8 September 2026 report on FY2024–25 State Finances Audit.",
+      "limitations": [
+        "Underlying current state-finance report was not retrieved; amounts remain attributed to the news account.",
+        "Reported debt percentages and denominators are not reconciled here, and are not used in the case.",
+        "An approved scheme outlay is not a tender award, a payment, or a loss."
+      ]
+    },
+    {
+      "id": "radar-west:amc-clearance",
+      "sourceId": "radar-west:amc-clearance",
+      "title": "AMC sale cancelled after Disturbed Areas Act permission denied",
+      "text": "AMC sale cancelled after Disturbed Areas Act permission denied\nReports the deputy collector denied permission to register the ₹68.44 crore sale under the Disturbed Areas Act, preventing completion. It records a legal-policy dispute over applying the clearance requirement to an open municipal auction.\nLocator: Opening paragraphs and exact TP84/A final plot96, 3,740 square metres\nLimitations: Original refusal order and any appeal unknown. Alleged political objections are attributed to unnamed sources and not promoted to a personal-benefit edge. Same plot matched by exact scheme, plot number, size and amounts; June 2024 auction date conflicts with later report. Local publication date May 2; crawler timestamp May 1 UTC.",
+      "url": "https://timesofindia.indiatimes.com/city/ahmedabad/amc-cancels-rs-68cr-plot-auction-after-nod-denied-under-disturbed-areas-act/articleshow/130684796.cms",
+      "caseIds": [
+        "radar-west:amc-case"
+      ],
+      "split": "train",
+      "groupId": "case:radar-west:amc-case",
+      "family": "amc-makarba-reporting",
+      "kind": "news",
+      "access": "full-text",
+      "publishedAt": "2026-05-02",
+      "retrievedAt": "2026-10-07",
+      "summary": "Reports the deputy collector denied permission to register the ₹68.44 crore sale under the Disturbed Areas Act, preventing completion. It records a legal-policy dispute over applying the clearance requirement to an open municipal auction.",
+      "locator": "Opening paragraphs and exact TP84/A final plot96, 3,740 square metres",
+      "limitations": [
+        "Original refusal order and any appeal unknown. Alleged political objections are attributed to unnamed sources and not promoted to a personal-benefit edge.",
+        "Same plot matched by exact scheme, plot number, size and amounts; June 2024 auction date conflicts with later report.",
+        "Local publication date May 2; crawler timestamp May 1 UTC."
+      ]
+    },
+    {
+      "id": "radar-west:amc-police-land",
+      "sourceId": "radar-west:amc-police-land",
+      "title": "Makarba commercial auction cancelled for police-station allocation",
+      "text": "Makarba commercial auction cancelled for police-station allocation\nReports allocation of TP84/A final plot96 for police use at ₹29.92 crore instead of a ₹68.44 crore commercial bid, following MLA Amit Thaker’s security representations and prior auction cancellation. The ₹38.52 crore difference is foregone potential commercial revenue.\nLocator: Security demands and transaction timeline\nLimitations: Original standing-committee resolution, deed, valuation and police payment not acquired. Public-use reallocation is not a theft finding or private transfer; opportunity-cost arithmetic is not fiscal loss adjudication. Its August 2024 auction chronology differs from Times of India’s June 2024 account; exact auction date held pending minutes.",
+      "url": "https://english.gujaratsamachar.com/news/ahmedabad/amc-scraps-indian-rupee6844-crore-makarba-land-auction-to-build-police-station-foregoes-indian-rupee3852-crore-17956584957",
+      "caseIds": [
+        "radar-west:amc-case"
+      ],
+      "split": "train",
+      "groupId": "case:radar-west:amc-case",
+      "family": "amc-makarba-reporting",
+      "kind": "news",
+      "access": "full-text",
+      "publishedAt": "2026-09-24",
+      "retrievedAt": "2026-10-07",
+      "summary": "Reports allocation of TP84/A final plot96 for police use at ₹29.92 crore instead of a ₹68.44 crore commercial bid, following MLA Amit Thaker’s security representations and prior auction cancellation. The ₹38.52 crore difference is foregone potential commercial revenue.",
+      "locator": "Security demands and transaction timeline",
+      "limitations": [
+        "Original standing-committee resolution, deed, valuation and police payment not acquired.",
+        "Public-use reallocation is not a theft finding or private transfer; opportunity-cost arithmetic is not fiscal loss adjudication.",
+        "Its August 2024 auction chronology differs from Times of India’s June 2024 account; exact auction date held pending minutes."
+      ]
+    },
+    {
+      "id": "radar-west:cg-incorporation",
+      "sourceId": "radar-west:cg-incorporation",
+      "title": "AEL disclosure: CG Syn-Gas & Chemicals incorporation",
+      "text": "AEL disclosure: CG Syn-Gas & Chemicals incorporation\nAEL discloses Mundra Synenergy Limited, its wholly owned subsidiary, incorporated CG Syn-Gas & Chemicals Limited on August 23, 2025. MSEL would hold 100%; subscribed capital ₹5 lakh, turnover nil at incorporation.\nLocator: Page 1 opening and item a; page 2 item i; AEL CIN L51100GJ1993PLC019067\nLimitations: Historical incorporation snapshot, not proof of current paid-up capital, tender eligibility, later funding or total investment. No foreign investor or public loan is identified by this filing. Low initial subscribed capital by itself is not evidence of a shell or wrongdoing.",
+      "url": "https://www.adanienterprises.com/-/media/Project/Enterprises/Investors/Corporate-Announcement/AELIntimationincorporation_CG-SynGas.pdf",
+      "caseIds": [
+        "radar-west:tara-case"
+      ],
+      "split": "train",
+      "groupId": "material-party:adani-enterprises-limited",
+      "family": "ael-cg-disclosure",
+      "kind": "corporate",
+      "access": "original-file",
+      "publishedAt": "2025-08-23",
+      "retrievedAt": "2026-10-07",
+      "summary": "AEL discloses Mundra Synenergy Limited, its wholly owned subsidiary, incorporated CG Syn-Gas & Chemicals Limited on August 23, 2025. MSEL would hold 100%; subscribed capital ₹5 lakh, turnover nil at incorporation.",
+      "locator": "Page 1 opening and item a; page 2 item i; AEL CIN L51100GJ1993PLC019067",
+      "limitations": [
+        "Historical incorporation snapshot, not proof of current paid-up capital, tender eligibility, later funding or total investment.",
+        "No foreign investor or public loan is identified by this filing.",
+        "Low initial subscribed capital by itself is not evidence of a shell or wrongdoing."
+      ]
+    },
+    {
+      "id": "radar-west:gim-maharashtra",
+      "sourceId": "radar-west:gim-maharashtra",
+      "title": "Why Maharashtra’s Green India Mission saplings died: CAG lists the failures",
+      "text": "Why Maharashtra’s Green India Mission saplings died: CAG lists the failures\nReporting of CAG findings contrasts Maharashtra’s ₹12.75 crore utilization claim in 2018–19 with ₹9.26 crore released to five FDAs and ₹0.29 crore found used. It reports large survival-rate discrepancies at sampled plantations and missing soil-moisture work.\nLocator: Money claimed, money spent; Survival claims versus reality\nLimitations: Financial amounts and site-level findings are reported quotations of an audit annexure not independently read in the bounded original extraction. Not an independent audit family. Article says additional chief secretary had not responded by publication. Reporter describes account opening as August 2021, whereas the original report records the department’s September 2021 SNA-account response; preserve this discrepancy.",
+      "url": "https://indianexpress.com/article/mumbai/green-india-mission-cag-report-maharashtra-forest-department-fund-misuse-afforestation-10905986/",
+      "caseIds": [
+        "radar-west:gim-case"
+      ],
+      "split": "train",
+      "groupId": "case:radar-west:gim-case",
+      "family": "cag-gim-2026",
+      "kind": "news",
+      "access": "full-text",
+      "publishedAt": "2026-10-04",
+      "retrievedAt": "2026-10-07",
+      "summary": "Reporting of CAG findings contrasts Maharashtra’s ₹12.75 crore utilization claim in 2018–19 with ₹9.26 crore released to five FDAs and ₹0.29 crore found used. It reports large survival-rate discrepancies at sampled plantations and missing soil-moisture work.",
+      "locator": "Money claimed, money spent; Survival claims versus reality",
+      "limitations": [
+        "Financial amounts and site-level findings are reported quotations of an audit annexure not independently read in the bounded original extraction.",
+        "Not an independent audit family. Article says additional chief secretary had not responded by publication.",
+        "Reporter describes account opening as August 2021, whereas the original report records the department’s September 2021 SNA-account response; preserve this discrepancy."
+      ]
+    },
+    {
+      "id": "radar-west:gim-press",
+      "sourceId": "radar-west:gim-press",
+      "title": "Audit report on Green India Mission tabled on 12 August 2026",
+      "text": "Audit report on Green India Mission tabled on 12 August 2026\nCAG confirms tabling date and national audit period 2015–16 to 2024–25. It reports inadequate convergence, delayed annual plans and unreliable monitoring, alongside substantial funding constraints.\nLocator: Opening paragraph and key audit findings\nLimitations: Same institutional source family as report; not independent corroboration. Original bytes unavailable on direct HTTP fetch; original-URL extracted text inspected.",
+      "url": "https://cag.gov.in/uploads/PressRelease/PR-Press-brief-GIM-4-of-2026-English-06a8088a01a4961-25001996.pdf",
+      "caseIds": [
+        "radar-west:gim-case"
+      ],
+      "split": "train",
+      "groupId": "case:radar-west:gim-case",
+      "family": "cag-gim-2026",
+      "kind": "official",
+      "access": "indexed-extract",
+      "publishedAt": "2026-08-12",
+      "retrievedAt": "2026-10-07",
+      "summary": "CAG confirms tabling date and national audit period 2015–16 to 2024–25. It reports inadequate convergence, delayed annual plans and unreliable monitoring, alongside substantial funding constraints.",
+      "locator": "Opening paragraph and key audit findings",
+      "limitations": [
+        "Same institutional source family as report; not independent corroboration.",
+        "Original bytes unavailable on direct HTTP fetch; original-URL extracted text inspected."
+      ]
+    },
+    {
+      "id": "radar-west:gim-report",
+      "sourceId": "radar-west:gim-report",
+      "title": "CAG Report 4 of 2026: Performance Audit of Green India Mission",
+      "text": "CAG Report 4 of 2026: Performance Audit of Green India Mission\nOriginal CAG text describes weak planning, delayed transfers, unreconciled accounts and monitoring failures for 2015–16 through March 2025. Maharashtra responses cite unavailable matching share, overlapping steering-committee membership and a new SNA savings account from September 2021.\nLocator: §1.6.1 audit period; §2.2.2 state structure; §3.4.2 release delays; §3.11 accounts; §3.12 bank accounts\nLimitations: Direct original PDF requests returned HTTP 503; inspected Exa extraction of original URL. Extraction is bounded and annexure-level Maharashtra amounts below are sourced to separate reporting. Publication is August 2026; underlying findings extend to March 2025 and responses to July 2025. Audit exceptions do not establish criminal intent or a diversion beneficiary.",
+      "url": "https://cag.gov.in/webroot/uploads/download_audit_report/2026/4-of-2026-Eng-06a82acec6ac374.65754275.pdf",
+      "caseIds": [
+        "radar-west:gim-case"
+      ],
+      "split": "train",
+      "groupId": "case:radar-west:gim-case",
+      "family": "cag-gim-2026",
+      "kind": "official",
+      "access": "indexed-extract",
+      "publishedAt": "2026-08-12",
+      "retrievedAt": "2026-10-07",
+      "summary": "Original CAG text describes weak planning, delayed transfers, unreconciled accounts and monitoring failures for 2015–16 through March 2025. Maharashtra responses cite unavailable matching share, overlapping steering-committee membership and a new SNA savings account from September 2021.",
+      "locator": "§1.6.1 audit period; §2.2.2 state structure; §3.4.2 release delays; §3.11 accounts; §3.12 bank accounts",
+      "limitations": [
+        "Direct original PDF requests returned HTTP 503; inspected Exa extraction of original URL. Extraction is bounded and annexure-level Maharashtra amounts below are sourced to separate reporting.",
+        "Publication is August 2026; underlying findings extend to March 2025 and responses to July 2025.",
+        "Audit exceptions do not establish criminal intent or a diversion beneficiary."
+      ]
+    },
+    {
+      "id": "radar-west:goa-quash",
+      "sourceId": "radar-west:goa-quash",
+      "title": "Goa High Court sets aside mining FIR against seven firms",
+      "text": "Goa High Court sets aside mining FIR against seven firms\nReports quashing of a 2013 FIR on the application of seven named mining firms after the Supreme Court set aside the foundational direction. ₹35,000 crore is the Shah Commission’s historical estimate, not a newly adjudicated loss.\nLocator: Article body and named petitioning firms\nLimitations: Original July 2026 court order not located; precise case number and operative date remain acquisition gaps. Do not infer all Goa mining cases ended; this reported outcome concerns the specified FIR and applicants. Publisher local date July 16 differs from crawler UTC July 15; local publication date retained.",
+      "url": "https://www.thegoan.net/goa-news/shah-commission-case-court-sets-aside-sit-fir-against-7-mining-firms/151157.html",
+      "caseIds": [
+        "radar-west:goa-case"
+      ],
+      "split": "test",
+      "groupId": "case:radar-west:goa-case",
+      "family": "goa-july-quashing-report",
+      "kind": "news",
+      "access": "full-text",
+      "publishedAt": "2026-07-16",
+      "retrievedAt": "2026-10-07",
+      "summary": "Reports quashing of a 2013 FIR on the application of seven named mining firms after the Supreme Court set aside the foundational direction. ₹35,000 crore is the Shah Commission’s historical estimate, not a newly adjudicated loss.",
+      "locator": "Article body and named petitioning firms",
+      "limitations": [
+        "Original July 2026 court order not located; precise case number and operative date remain acquisition gaps.",
+        "Do not infer all Goa mining cases ended; this reported outcome concerns the specified FIR and applicants.",
+        "Publisher local date July 16 differs from crawler UTC July 15; local publication date retained."
+      ]
+    },
+    {
+      "id": "radar-west:goa-reasons",
+      "sourceId": "radar-west:goa-reasons",
+      "title": "Reported reasons: mining FIR contradicted Supreme Court stay",
+      "text": "Reported reasons: mining FIR contradicted Supreme Court stay\nReports that the High Court cited a March 22, 2013 direction, April 30 Supreme Court stay, subsequent FIR and long lack of investigative progress. Defence argued the foundational order had fallen and prosecution was delayed.\nLocator: Court quotations and Salgaocar Mining Industries counsel’s submission\nLimitations: Same underlying judicial-event family as The Goan, not two independent legal findings. Original order unavailable; reports vary on the August 2013 FIR day, so exact FIR date is not fixed here. July quashing must replace stale active-FIR labels for this proceeding, without becoming blanket exoneration for separate matters.",
+      "url": "https://timesofindia.indiatimes.com/city/goa/rs-35000cr-illegal-mining-fir-violated-sc-order-hc/articleshow/132486241.cms",
+      "caseIds": [
+        "radar-west:goa-case"
+      ],
+      "split": "test",
+      "groupId": "case:radar-west:goa-case",
+      "family": "goa-july-quashing-report",
+      "kind": "news",
+      "access": "full-text",
+      "publishedAt": "2026-07-19",
+      "retrievedAt": "2026-10-07",
+      "summary": "Reports that the High Court cited a March 22, 2013 direction, April 30 Supreme Court stay, subsequent FIR and long lack of investigative progress. Defence argued the foundational order had fallen and prosecution was delayed.",
+      "locator": "Court quotations and Salgaocar Mining Industries counsel’s submission",
+      "limitations": [
+        "Same underlying judicial-event family as The Goan, not two independent legal findings.",
+        "Original order unavailable; reports vary on the August 2013 FIR day, so exact FIR date is not fixed here.",
+        "July quashing must replace stale active-FIR labels for this proceeding, without becoming blanket exoneration for separate matters."
+      ]
+    },
+    {
+      "id": "radar-west:mithi-bail",
+      "sourceId": "radar-west:mithi-bail",
+      "title": "Bombay High Court grants Ketan Kadam bail: documentary counterevidence",
+      "text": "Bombay High Court grants Ketan Kadam bail: documentary counterevidence\nReports April 22 bail order finding prima facie support for Kadam’s response: no desilting contract awarded to him, third-party machines permitted, documentary evidence of procurement and allotment, and work certified by senior BMC officials.\nLocator: Justice R M Joshi’s April 22 observations; defence and prosecution submissions\nLimitations: Original order not independently retrieved; news reports detailed judicial reasoning. Bail-stage observations are material counterevidence, not final acquittal; latest final trial outcome not established by inspected sources. ₹2.41 crore salary-route claim is prosecution-attributed, not independently verified or summed with alleged project loss.",
+      "url": "https://indianexpress.com/article/legal-news/mithi-river-desilting-scam-bombay-hc-bail-ketan-kadam-10654453/",
+      "caseIds": [
+        "radar-west:mithi-case"
+      ],
+      "split": "train",
+      "groupId": "case:radar-west:mithi-case",
+      "family": "mithi-april-bail-order",
+      "kind": "news",
+      "access": "full-text",
+      "publishedAt": "2026-04-24",
+      "retrievedAt": "2026-10-07",
+      "summary": "Reports April 22 bail order finding prima facie support for Kadam’s response: no desilting contract awarded to him, third-party machines permitted, documentary evidence of procurement and allotment, and work certified by senior BMC officials.",
+      "locator": "Justice R M Joshi’s April 22 observations; defence and prosecution submissions",
+      "limitations": [
+        "Original order not independently retrieved; news reports detailed judicial reasoning.",
+        "Bail-stage observations are material counterevidence, not final acquittal; latest final trial outcome not established by inspected sources.",
+        "₹2.41 crore salary-route claim is prosecution-attributed, not independently verified or summed with alleged project loss."
+      ]
+    },
+    {
+      "id": "radar-west:mithi-latest",
+      "sourceId": "radar-west:mithi-latest",
+      "title": "Mithi desilting investigation: October questioning and disputed claims",
+      "text": "Mithi desilting investigation: October questioning and disputed claims\nReports EOW examination of desilting equipment specifications, rental pricing and silt-quantity records, with ₹65.54 crore alleged loss. It reports October 2 questioning of Dino Morea, expressly says he was not named an accused, and records his denial of arrest.\nLocator: Tender/machinery and quantities sections; clarification of Morea’s status\nLimitations: Agency allegations through a news explainer, not an inspected charge sheet or bank ledger. October questioning does not negate the earlier bail court’s specific findings. No edge is created from social contact, family acquaintance or unverified transaction rumours to a minister or ultimate beneficiary.",
+      "url": "https://www.outlookindia.com/national/mithi-river-desilting-case-how-the-65-crore-alleged-fraud-unfolded",
+      "caseIds": [
+        "radar-west:mithi-case"
+      ],
+      "split": "train",
+      "groupId": "case:radar-west:mithi-case",
+      "family": "eow-mithi-allegations",
+      "kind": "news",
+      "access": "full-text",
+      "publishedAt": "2026-10-03",
+      "retrievedAt": "2026-10-07",
+      "summary": "Reports EOW examination of desilting equipment specifications, rental pricing and silt-quantity records, with ₹65.54 crore alleged loss. It reports October 2 questioning of Dino Morea, expressly says he was not named an accused, and records his denial of arrest.",
+      "locator": "Tender/machinery and quantities sections; clarification of Morea’s status",
+      "limitations": [
+        "Agency allegations through a news explainer, not an inspected charge sheet or bank ledger.",
+        "October questioning does not negate the earlier bail court’s specific findings.",
+        "No edge is created from social contact, family acquaintance or unverified transaction rumours to a minister or ultimate beneficiary."
+      ]
+    },
+    {
+      "id": "radar-west:pipavav-call",
+      "sourceId": "radar-west:pipavav-call",
+      "title": "GPPL Q4 FY2026 earnings call: royalty set-off and concession uncertainty",
+      "text": "GPPL Q4 FY2026 earnings call: royalty set-off and concession uncertainty\nCFO Santosh Breed describes present concessional waterfront royalty as a set-off against investment. MD Girish Aggarwal says future royalty or bidding arrangements are GMB’s decision and the proposed ₹17,000 crore plan is still too early to detail.\nLocator: Q&A with Ketan Jain; opening introduction; Q&A with Bhavesh Patel\nLimitations: Management description, not underlying royalty accounts or concession clause. Same issuer family; parsed transcript has inconsistent Agarwal/Aggarwal spelling, not treated as two people.",
+      "url": "https://cms-cd.apmterminals.com/pipavav/-/media/mainsite/asia-and-pacific/Pipavav/investors-quarterly-results/fy-2026/q-4-fy-2026/Transcript.pdf?hash=9DD3FA9DE9971EED942AA49BE17F18F9&rev=617c0edf00ce4fe3838d511dbfb642d1",
+      "caseIds": [
+        "radar-west:ports-case"
+      ],
+      "split": "test",
+      "groupId": "case:radar-west:ports-case",
+      "family": "gppl-concession",
+      "kind": "corporate",
+      "access": "indexed-extract",
+      "publishedAt": "2026-05-29",
+      "retrievedAt": "2026-10-07",
+      "summary": "CFO Santosh Breed describes present concessional waterfront royalty as a set-off against investment. MD Girish Aggarwal says future royalty or bidding arrangements are GMB’s decision and the proposed ₹17,000 crore plan is still too early to detail.",
+      "locator": "Q&A with Ketan Jain; opening introduction; Q&A with Bhavesh Patel",
+      "limitations": [
+        "Management description, not underlying royalty accounts or concession clause.",
+        "Same issuer family; parsed transcript has inconsistent Agarwal/Aggarwal spelling, not treated as two people."
+      ]
+    },
+    {
+      "id": "radar-west:pipavav-filing",
+      "sourceId": "radar-west:pipavav-filing",
+      "title": "GPPL exchange disclosure: comfort letter for processing concession extension",
+      "text": "GPPL exchange disclosure: comfort letter for processing concession extension\nGPPL says it received a GMB comfort letter to process its extension proposal, requesting performance records and an investment/business plan within 90 days of the letter. It does not announce a signed extension or royalty terms.\nLocator: Page 1, substantive paragraphs 1–3; NSE GPPL / BSE 533248; CIN L63010GJ1992PLC018106\nLimitations: This is GPPL’s signed disclosure of a letter, not the complete GMB letter or amended concession. The 90-day obligation runs from the letter’s date; disclosure receipt date is August 26. Documentary processing step, not a transfer or final approval.",
+      "url": "https://cms-cd.apmterminals.com/pipavav/-/media/mainsite/asia-and-pacific/Pipavav/investors-governance/2026/Update-on-Concession-extension.pdf?hash=5A86B7B8F99204804BC4A024717CB6EA&rev=a833cb5ee2254c4c9553390043bc84d2",
+      "caseIds": [
+        "radar-west:ports-case"
+      ],
+      "split": "test",
+      "groupId": "case:radar-west:ports-case",
+      "family": "gppl-concession",
+      "kind": "corporate",
+      "access": "original-file",
+      "publishedAt": "2026-08-26",
+      "retrievedAt": "2026-10-07",
+      "summary": "GPPL says it received a GMB comfort letter to process its extension proposal, requesting performance records and an investment/business plan within 90 days of the letter. It does not announce a signed extension or royalty terms.",
+      "locator": "Page 1, substantive paragraphs 1–3; NSE GPPL / BSE 533248; CIN L63010GJ1992PLC018106",
+      "limitations": [
+        "This is GPPL’s signed disclosure of a letter, not the complete GMB letter or amended concession.",
+        "The 90-day obligation runs from the letter’s date; disclosure receipt date is August 26.",
+        "Documentary processing step, not a transfer or final approval."
+      ]
+    },
+    {
+      "id": "radar-west:pipavav-mou",
+      "sourceId": "radar-west:pipavav-mou",
+      "title": "APM Terminals Pipavav proposed ₹17,000 crore expansion MoU",
+      "text": "APM Terminals Pipavav proposed ₹17,000 crore expansion MoU\nCompany describes a ₹17,000 crore proposed expansion investment scope subject to a long-term concession agreement with GMB, within a wider Maersk investment intention.\nLocator: Opening paragraphs and concession condition\nLimitations: Corporate promotional statement; proposed investment is neither disbursed public funding nor completed capex. Same issuer-side family as GPPL filing.",
+      "url": "https://www.apmterminals.com/en/pipavav/about/news/2025/251030-terminal-signs-mou-for-port-expansion",
+      "caseIds": [
+        "radar-west:ports-case"
+      ],
+      "split": "test",
+      "groupId": "case:radar-west:ports-case",
+      "family": "gppl-concession",
+      "kind": "corporate",
+      "access": "full-text",
+      "publishedAt": "2025-10-30",
+      "retrievedAt": "2026-10-07",
+      "summary": "Company describes a ₹17,000 crore proposed expansion investment scope subject to a long-term concession agreement with GMB, within a wider Maersk investment intention.",
+      "locator": "Opening paragraphs and concession condition",
+      "limitations": [
+        "Corporate promotional statement; proposed investment is neither disbursed public funding nor completed capex.",
+        "Same issuer-side family as GPPL filing."
+      ]
+    },
+    {
+      "id": "radar-west:port-history",
+      "sourceId": "radar-west:port-history",
+      "title": "Gujarat’s port reforms at crossroads",
+      "text": "Gujarat’s port reforms at crossroads\nReports Pipavav concession expiry September 29, 2028 and Mundra February 16, 2031, earlier extension requests and investment-horizon tradeoffs. Notes that differing state concessions may expressly allow longer extensions.\nLocator: In a limbo; Evolving sector\nLimitations: Concession agreements and earlier extension applications not independently acquired. Comparable longer concessions are context, not proof Gujarat must adopt identical terms.",
+      "url": "https://www.thehindubusinessline.com/economy/logistics/gujarats-port-reforms-at-crossroads/article71325850.ece",
+      "caseIds": [
+        "radar-west:ports-case"
+      ],
+      "split": "test",
+      "groupId": "case:radar-west:ports-case",
+      "family": "businessline-port-reporting",
+      "kind": "news",
+      "access": "full-text",
+      "publishedAt": "2026-08-10",
+      "retrievedAt": "2026-10-07",
+      "summary": "Reports Pipavav concession expiry September 29, 2028 and Mundra February 16, 2031, earlier extension requests and investment-horizon tradeoffs. Notes that differing state concessions may expressly allow longer extensions.",
+      "locator": "In a limbo; Evolving sector",
+      "limitations": [
+        "Concession agreements and earlier extension applications not independently acquired.",
+        "Comparable longer concessions are context, not proof Gujarat must adopt identical terms."
+      ]
+    },
+    {
+      "id": "radar-west:port-renewal-news",
+      "sourceId": "radar-west:port-renewal-news",
+      "title": "Gujarat port concession rollover report and named official responses",
+      "text": "Gujarat port concession rollover report and named official responses\nReports possible rollover for Mundra, Pipavav, Hazira and Dahej. Named GMB chief Ajay Kumar said on August 19 no decision had yet been taken; ports secretary Hareet Shukla said policy precedes structure. Investment-recovery concerns explain the commercial case for extensions.\nLocator: Named August 19 responses and discussion of initial 30-year concessions\nLimitations: Unnamed-source rollover claim cannot supersede the precise August 26 comfort-letter disclosure. No final concession duration, price or competitive benchmark supplied.",
+      "url": "https://infra.economictimes.indiatimes.com/news/ports-shipping/gujarat-govt-said-to-have-decided-to-rollover-port-concessions-in-a-keenly-watched-move/133514480",
+      "caseIds": [
+        "radar-west:ports-case"
+      ],
+      "split": "test",
+      "groupId": "case:radar-west:ports-case",
+      "family": "et-port-reporting",
+      "kind": "news",
+      "access": "full-text",
+      "publishedAt": "2026-08-25",
+      "retrievedAt": "2026-10-07",
+      "summary": "Reports possible rollover for Mundra, Pipavav, Hazira and Dahej. Named GMB chief Ajay Kumar said on August 19 no decision had yet been taken; ports secretary Hareet Shukla said policy precedes structure. Investment-recovery concerns explain the commercial case for extensions.",
+      "locator": "Named August 19 responses and discussion of initial 30-year concessions",
+      "limitations": [
+        "Unnamed-source rollover claim cannot supersede the precise August 26 comfort-letter disclosure.",
+        "No final concession duration, price or competitive benchmark supplied."
+      ]
+    },
+    {
+      "id": "radar-west:shivpuri-filing",
+      "sourceId": "radar-west:shivpuri-filing",
+      "title": "AEL exchange filing: ₹2,500 crore Shivpuri defence investment announcement",
+      "text": "AEL exchange filing: ₹2,500 crore Shivpuri defence investment announcement\nAEL forwards its company release announcing a ₹2,500 crore Shivpuri defence manufacturing project and forecast 5,000 direct/indirect jobs. Groundbreaking is July 5, 2026; the statement describes planned domestic defence-production capability.\nLocator: Page 1 exchange cover; enclosed July 5 company media release\nLimitations: Historical baseline: July 5 is two days before the latest discovery window. Planned private capex and projected jobs are not public payments, purchase orders, expenditure certification or completed output. The release identifies a business arm, not the exact project SPV, land lessee or borrower.",
+      "url": "https://www.adanienterprises.com/-/media/Project/Enterprises/Investors/Corporate-Announcement/mediarelease05072026-signed.pdf",
+      "caseIds": [
+        "radar-west:shivpuri-case"
+      ],
+      "split": "train",
+      "groupId": "material-party:adani-enterprises-limited",
+      "family": "ael-shivpuri-announcement",
+      "kind": "corporate",
+      "access": "original-file",
+      "publishedAt": "2026-07-05",
+      "retrievedAt": "2026-10-07",
+      "summary": "AEL forwards its company release announcing a ₹2,500 crore Shivpuri defence manufacturing project and forecast 5,000 direct/indirect jobs. Groundbreaking is July 5, 2026; the statement describes planned domestic defence-production capability.",
+      "locator": "Page 1 exchange cover; enclosed July 5 company media release",
+      "limitations": [
+        "Historical baseline: July 5 is two days before the latest discovery window.",
+        "Planned private capex and projected jobs are not public payments, purchase orders, expenditure certification or completed output.",
+        "The release identifies a business arm, not the exact project SPV, land lessee or borrower."
+      ]
+    },
+    {
+      "id": "radar-west:shivpuri-release",
+      "sourceId": "radar-west:shivpuri-release",
+      "title": "Adani Defence & Aerospace Shivpuri groundbreaking release",
+      "text": "Adani Defence & Aerospace Shivpuri groundbreaking release\nCompany release names Mohan Yadav, Jyotiraditya Scindia and Jeet Adani in public project roles and describes the industrial capability and jobs rationale. No public subsidy, land price, defence purchase price or award is disclosed.\nLocator: Opening, public statements and project background\nLimitations: Same release enclosed in exchange filing; one source family, not independent confirmation. Public-event attendance and welcoming an investment do not establish procurement authority, ownership or private benefit. No sensitive operational information is extracted; case concerns financing/governance records only.",
+      "url": "https://www.adani.com/newsroom/media-releases/adani-defence-and-aerospace-to-invest-2500-crore-in-south-asias-largest-private-sector",
+      "caseIds": [
+        "radar-west:shivpuri-case"
+      ],
+      "split": "train",
+      "groupId": "material-party:adani-enterprises-limited",
+      "family": "ael-shivpuri-announcement",
+      "kind": "corporate",
+      "access": "full-text",
+      "publishedAt": "2026-07-05",
+      "retrievedAt": "2026-10-07",
+      "summary": "Company release names Mohan Yadav, Jyotiraditya Scindia and Jeet Adani in public project roles and describes the industrial capability and jobs rationale. No public subsidy, land price, defence purchase price or award is disclosed.",
+      "locator": "Opening, public statements and project background",
+      "limitations": [
+        "Same release enclosed in exchange filing; one source family, not independent confirmation.",
+        "Public-event attendance and welcoming an investment do not establish procurement authority, ownership or private benefit.",
+        "No sensitive operational information is extracted; case concerns financing/governance records only."
+      ]
+    },
+    {
+      "id": "radar-west:shivpuri-timeline",
+      "sourceId": "radar-west:shivpuri-timeline",
+      "title": "Shivpuri defence plant: reported three-year operational target",
+      "text": "Shivpuri defence plant: reported three-year operational target\nReports a three-year target to become operational, covering land development, construction, installation, workforce and certification. It attributes this timetable to an official release and describes the employment/MSME rationale.\nLocator: Timeline and production roadmap\nLimitations: News account of an official timetable; underlying state release and milestone financing plan not acquired. No progress update dated July 7–October 7 independently established. Three-year target is not a signed delivery guarantee.",
+      "url": "https://www.financialexpress.com/business/defence-rs-2500-crore-defence-investment-in-madhya-pradesh-shivpuri-next-industrial-hub-aatmanirbhar-bharat-make-in-india-energy-hub-jyotiraditya-scindia-cm-mohan-yadav-4283906/",
+      "caseIds": [
+        "radar-west:shivpuri-case"
+      ],
+      "split": "train",
+      "groupId": "material-party:adani-enterprises-limited",
+      "family": "shivpuri-event-reporting",
+      "kind": "news",
+      "access": "full-text",
+      "publishedAt": "2026-07-05",
+      "retrievedAt": "2026-10-07",
+      "summary": "Reports a three-year target to become operational, covering land development, construction, installation, workforce and certification. It attributes this timetable to an official release and describes the employment/MSME rationale.",
+      "locator": "Timeline and production roadmap",
+      "limitations": [
+        "News account of an official timetable; underlying state release and milestone financing plan not acquired.",
+        "No progress update dated July 7–October 7 independently established.",
+        "Three-year target is not a signed delivery guarantee."
+      ]
+    },
+    {
+      "id": "radar-west:tara-cmdc",
+      "sourceId": "radar-west:tara-cmdc",
+      "title": "CMDC: Tara auction completed, mining awaits statutory clearances",
+      "text": "CMDC: Tara auction completed, mining awaits statutory clearances\nCMDC identifies CG Syn & Gas and Chemicals Limited as winner and says mining, forest and environmental approvals remain prerequisites to tree felling or extraction. The statement provides earlier allocation and policy context.\nLocator: CMDC statement on award, clearance sequence, 2011 allocation and earlier state correspondence\nLimitations: News reproduction of a government statement; not an independently downloaded allocation order. Statement’s scientific-study characterization is not independently verified against original ICFRE report. The reported bidder spelling differs from the original incorporation filing. It is held as a separate source-mention node; no legal-identity bridge is asserted without the award order or CIN match.",
+      "url": "https://energy.economictimes.indiatimes.com/news/coal/only-auctioning-of-tara-coal-block-completed-mining-to-begin-after-statutory-clearances-cmdc/134190876",
+      "caseIds": [
+        "radar-west:tara-case"
+      ],
+      "split": "train",
+      "groupId": "material-party:adani-enterprises-limited",
+      "family": "cmdc-tara-statement",
+      "kind": "news",
+      "access": "full-text",
+      "publishedAt": "2026-09-13",
+      "retrievedAt": "2026-10-07",
+      "summary": "CMDC identifies CG Syn & Gas and Chemicals Limited as winner and says mining, forest and environmental approvals remain prerequisites to tree felling or extraction. The statement provides earlier allocation and policy context.",
+      "locator": "CMDC statement on award, clearance sequence, 2011 allocation and earlier state correspondence",
+      "limitations": [
+        "News reproduction of a government statement; not an independently downloaded allocation order.",
+        "Statement’s scientific-study characterization is not independently verified against original ICFRE report.",
+        "The reported bidder spelling differs from the original incorporation filing. It is held as a separate source-mention node; no legal-identity bridge is asserted without the award order or CIN match."
+      ]
+    },
+    {
+      "id": "radar-west:tara-opposition",
+      "sourceId": "radar-west:tara-opposition",
+      "title": "Jairam Ramesh objects to Tara coal-block auction",
+      "text": "Jairam Ramesh objects to Tara coal-block auction\nReports an opposition challenge based on the 2022 assembly resolution, 2023 state exclusion request and claimed forest/corridor impacts. This frames an environmental-policy dispute for comparison with the Ministry’s revised-boundary response.\nLocator: Changed policy; ownership section; forest-impact claims\nLimitations: Opposition allegations, not independent ecological measurement or proof of political corruption. Tree-count and acreage claims not promoted as independently measured facts; original resolution, affidavit and GIS evidence still needed.",
+      "url": "https://www.thehindu.com/news/national/tara-coal-block-auction-will-devastate-hasdeo-forests-congress-leader-jairam-ramesh/article71451320.ece",
+      "caseIds": [
+        "radar-west:tara-case"
+      ],
+      "split": "train",
+      "groupId": "material-party:adani-enterprises-limited",
+      "family": "congress-tara-statement",
+      "kind": "news",
+      "access": "full-text",
+      "publishedAt": "2026-09-10",
+      "retrievedAt": "2026-10-07",
+      "summary": "Reports an opposition challenge based on the 2022 assembly resolution, 2023 state exclusion request and claimed forest/corridor impacts. This frames an environmental-policy dispute for comparison with the Ministry’s revised-boundary response.",
+      "locator": "Changed policy; ownership section; forest-impact claims",
+      "limitations": [
+        "Opposition allegations, not independent ecological measurement or proof of political corruption.",
+        "Tree-count and acreage claims not promoted as independently measured facts; original resolution, affidavit and GIS evidence still needed."
+      ]
+    },
+    {
+      "id": "radar-west:tara-pib",
+      "sourceId": "radar-west:tara-pib",
+      "title": "Facts on Auction of Tara (Revised) Coal Block",
+      "text": "Facts on Auction of Tara (Revised) Coal Block\nMinistry says Tara was excluded in July 2023, reconsidered after Chhattisgarh’s December 11, 2025 request and boundary revision by CMPDIL, attracted nine bids and was auctioned at 37.50% revenue share. ₹1,200 crore annual revenue and over 8,000 jobs are projections.\nLocator: All substantive paragraphs, especially December 2025 letter and revised boundary\nLimitations: Official explanation needs testing against actual letter, geospatial boundary versions and technical-evaluation record. Projected revenue is not a receipt; nine submitted bids alone does not prove nine independent qualified competitors.",
+      "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2309064&lang=1&reg=3",
+      "caseIds": [
+        "radar-west:tara-case"
+      ],
+      "split": "train",
+      "groupId": "material-party:adani-enterprises-limited",
+      "family": "coal-ministry-tara",
+      "kind": "official",
+      "access": "full-text",
+      "publishedAt": "2026-09-11",
+      "retrievedAt": "2026-10-07",
+      "summary": "Ministry says Tara was excluded in July 2023, reconsidered after Chhattisgarh’s December 11, 2025 request and boundary revision by CMPDIL, attracted nine bids and was auctioned at 37.50% revenue share. ₹1,200 crore annual revenue and over 8,000 jobs are projections.",
+      "locator": "All substantive paragraphs, especially December 2025 letter and revised boundary",
+      "limitations": [
+        "Official explanation needs testing against actual letter, geospatial boundary versions and technical-evaluation record.",
+        "Projected revenue is not a receipt; nine submitted bids alone does not prove nine independent qualified competitors."
+      ]
+    }
+  ],
+  "queries": [
+    {
+      "id": "train:radar-north:jaipur-jjm:01",
+      "text": "Find the Rajasthan water-contract order that granted two intermediaries release while leaving the alleged forged certificates for trial.",
+      "positiveIds": [
+        "radar-north:jaipur-sc"
+      ],
+      "hardNegativeIds": [
+        "radar-north:jaipur-hc"
+      ],
+      "split": "train",
+      "caseId": "radar-north:jaipur-jjm",
+      "intent": "procedural-outcome",
+      "rationale": "The Supreme Court source covers Badaya and Dixit; the separate High Court denial concerns different applicants."
+    },
+    {
+      "id": "train:radar-north:jaipur-jjm:02",
+      "text": "What is the recorded reply by the former Rajasthan water minister about suspensions and police complaints in the money-laundering case?",
+      "positiveIds": [
+        "radar-north:joshi-sc"
+      ],
+      "hardNegativeIds": [
+        "radar-north:patna-ie"
+      ],
+      "split": "train",
+      "caseId": "radar-north:jaipur-jjm",
+      "intent": "counterevidence",
+      "rationale": "The Joshi PMLA order includes the specific remedial-action response."
+    },
+    {
+      "id": "train:radar-north:jaipur-jjm:03",
+      "text": "Locate the defence account disputing Joshi's membership of the committees that assessed Rajasthan water bids.",
+      "positiveIds": [
+        "radar-north:jaipur-response"
+      ],
+      "hardNegativeIds": [
+        "radar-north:punjab-report"
+      ],
+      "split": "train",
+      "caseId": "radar-north:jaipur-jjm",
+      "intent": "counterevidence",
+      "rationale": "The counsel account concerns committee membership, not proof that tender intervention did or did not happen."
+    },
+    {
+      "id": "train:radar-north:jaipur-jjm:04",
+      "text": "Which report records the August refusal of bail in the Rajasthan anti-corruption proceeding rather than the separate PMLA relief?",
+      "positiveIds": [
+        "radar-north:jaipur-hc",
+        "radar-north:jaipur-response"
+      ],
+      "hardNegativeIds": [
+        "radar-north:joshi-sc"
+      ],
+      "split": "train",
+      "caseId": "radar-north:jaipur-jjm",
+      "intent": "procedural-outcome",
+      "rationale": "Two reports cover the same ACB hearing; the PMLA grant is a distinct proceeding."
+    },
+    {
+      "id": "train:radar-north:jaipur-jjm:05",
+      "text": "I need the source explaining why the two similar Sumangalam company names in the Joshi case cannot yet be treated as one legal entity.",
+      "positiveIds": [
+        "radar-north:joshi-sc"
+      ],
+      "hardNegativeIds": [
+        "radar-west:cg-incorporation"
+      ],
+      "split": "train",
+      "caseId": "radar-north:jaipur-jjm",
+      "intent": "identity-boundary",
+      "rationale": "The retained PMLA-source limitation explicitly leaves the LLPIN identity join unresolved."
+    },
+    {
+      "id": "train:radar-north:chandigarh-procurement:01",
+      "text": "Find the Punjab audit passage about procurement weaknesses recurring despite earlier legislative committee assurances.",
+      "positiveIds": [
+        "radar-north:punjab-chapter",
+        "radar-north:punjab-report"
+      ],
+      "hardNegativeIds": [
+        "radar-north:dehradun-summary"
+      ],
+      "split": "train",
+      "caseId": "radar-north:chandigarh-procurement",
+      "intent": "audit-evidence",
+      "rationale": "Both documents belong to the same Punjab audit lineage, not two independent corroborations."
+    },
+    {
+      "id": "train:radar-north:chandigarh-procurement:02",
+      "text": "Where can I read the nodal department's explanation alongside the Punjab online bidding control findings?",
+      "positiveIds": [
+        "radar-north:punjab-chapter"
+      ],
+      "hardNegativeIds": [
+        "radar-north:patna-hindu"
+      ],
+      "split": "train",
+      "caseId": "radar-north:chandigarh-procurement",
+      "intent": "counterevidence",
+      "rationale": "The inspected chapter includes departmental responses."
+    },
+    {
+      "id": "train:radar-north:chandigarh-procurement:03",
+      "text": "Which source establishes the scope and earlier-audit link for Punjab's e-procurement review without claiming a new inspection?",
+      "positiveIds": [
+        "radar-north:punjab-report"
+      ],
+      "hardNegativeIds": [
+        "radar-west:gim-press"
+      ],
+      "split": "train",
+      "caseId": "radar-north:chandigarh-procurement",
+      "intent": "scope-boundary",
+      "rationale": "Overview provides scope and 2017 lineage rather than another audit."
+    },
+    {
+      "id": "train:radar-north:chandigarh-procurement:04",
+      "text": "What retained Punjab evidence separates the 2018–2023 audit period from the date its report was published?",
+      "positiveIds": [
+        "radar-north:punjab-chapter"
+      ],
+      "hardNegativeIds": [
+        "radar-north:dehradun-index"
+      ],
+      "split": "train",
+      "caseId": "radar-north:chandigarh-procurement",
+      "intent": "temporal-boundary",
+      "rationale": "Chapter limitation records the audited years, responses through 2024 and unknown publication date."
+    },
+    {
+      "id": "train:radar-north:chandigarh-procurement:05",
+      "text": "Retrieve evidence on whether Punjab has fixed its audited procurement controls today, including the limit on what is known.",
+      "positiveIds": [
+        "radar-north:punjab-chapter"
+      ],
+      "hardNegativeIds": [
+        "radar-south-east:source:chennai-retender-oct"
+      ],
+      "split": "train",
+      "caseId": "radar-north:chandigarh-procurement",
+      "intent": "missing-record-boundary",
+      "rationale": "The source explicitly says current remediation is unverified; relevance does not supply missing completion evidence."
+    },
+    {
+      "id": "train:radar-north:dehradun-smart-city:01",
+      "text": "Find favourable results in the Dehradun smart-city audit, including the water-monitoring system that actually worked.",
+      "positiveIds": [
+        "radar-north:dehradun-summary"
+      ],
+      "hardNegativeIds": [
+        "radar-south-east:source:chennai-retender-oct"
+      ],
+      "split": "train",
+      "caseId": "radar-north:dehradun-smart-city",
+      "intent": "counterevidence",
+      "rationale": "Executive summary preserves functioning SCADA and benefits."
+    },
+    {
+      "id": "train:radar-north:dehradun-smart-city:02",
+      "text": "Which official source dates the legislative tabling of the Dehradun Smart Cities audit to March 2026?",
+      "positiveIds": [
+        "radar-north:dehradun-index"
+      ],
+      "hardNegativeIds": [
+        "radar-north:punjab-report"
+      ],
+      "split": "train",
+      "caseId": "radar-north:dehradun-smart-city",
+      "intent": "publication-date",
+      "rationale": "The report index establishes tabling, not underlying expenditure timing."
+    },
+    {
+      "id": "train:radar-north:dehradun-smart-city:03",
+      "text": "Show the Dehradun audit material on consultant payment controls and recovery recommendations.",
+      "positiveIds": [
+        "radar-north:dehradun-summary",
+        "radar-north:dehradun-news"
+      ],
+      "hardNegativeIds": [
+        "radar-west:gim-report"
+      ],
+      "split": "train",
+      "caseId": "radar-north:dehradun-smart-city",
+      "intent": "audit-evidence",
+      "rationale": "Summary and derivative news cover the same audit controls."
+    },
+    {
+      "id": "train:radar-north:dehradun-smart-city:04",
+      "text": "Locate the Dehradun source recording management's acceptance of every audit recommendation.",
+      "positiveIds": [
+        "radar-north:dehradun-summary"
+      ],
+      "hardNegativeIds": [
+        "radar-north:dehradun-index"
+      ],
+      "split": "train",
+      "caseId": "radar-north:dehradun-smart-city",
+      "intent": "counterevidence",
+      "rationale": "The index is only metadata and cannot establish management acceptance."
+    },
+    {
+      "id": "train:radar-north:dehradun-smart-city:05",
+      "text": "Can an old Dehradun asset-operation finding be presented as a verified continuing failure in October? Find the source limits.",
+      "positiveIds": [
+        "radar-north:dehradun-summary",
+        "radar-north:dehradun-news"
+      ],
+      "hardNegativeIds": [
+        "radar-west:shivpuri-timeline"
+      ],
+      "split": "train",
+      "caseId": "radar-north:dehradun-smart-city",
+      "intent": "temporal-boundary",
+      "rationale": "Both retained sources distinguish the old audit conditions from unverified current remediation."
+    },
+    {
+      "id": "train:radar-north:patna-police-vehicles:01",
+      "text": "Locate the Bihar decision authorising new riot-control vehicles, without treating approval as a vendor payment.",
+      "positiveIds": [
+        "radar-north:patna-ie",
+        "radar-north:patna-hindu"
+      ],
+      "hardNegativeIds": [
+        "radar-west:shivpuri-filing"
+      ],
+      "split": "train",
+      "caseId": "radar-north:patna-police-vehicles",
+      "intent": "financial-stage",
+      "rationale": "Both reports concern one cabinet approval, not an awarded or paid contract."
+    },
+    {
+      "id": "train:radar-north:patna-police-vehicles:02",
+      "text": "What rationale did Bihar give for buying water cannons and protected vehicles despite lower recorded riot totals?",
+      "positiveIds": [
+        "radar-north:patna-ie",
+        "radar-north:patna-hindu"
+      ],
+      "hardNegativeIds": [
+        "radar-south-east:source:odisha-dmf-ie"
+      ],
+      "split": "train",
+      "caseId": "radar-north:patna-police-vehicles",
+      "intent": "counterevidence",
+      "rationale": "Government rationale and emergency uses are material alternative explanations."
+    },
+    {
+      "id": "train:radar-north:patna-police-vehicles:03",
+      "text": "Find the report giving separate quoted unit costs for Bihar's thirty water cannons and eighty-six Vajra vehicles.",
+      "positiveIds": [
+        "radar-north:patna-hindu"
+      ],
+      "hardNegativeIds": [
+        "radar-west:amc-police-land"
+      ],
+      "split": "train",
+      "caseId": "radar-north:patna-police-vehicles",
+      "intent": "amount-scope",
+      "rationale": "The Hindu retained summary includes category counts and indicative unit amounts."
+    },
+    {
+      "id": "train:radar-north:patna-police-vehicles:04",
+      "text": "Which retained Bihar vehicle source explains that no winning supplier has yet been identified?",
+      "positiveIds": [
+        "radar-north:patna-ie"
+      ],
+      "hardNegativeIds": [
+        "radar-west:cg-incorporation"
+      ],
+      "split": "train",
+      "caseId": "radar-north:patna-police-vehicles",
+      "intent": "identity-boundary",
+      "rationale": "The source specifically stops before a supplier identity or payment claim."
+    },
+    {
+      "id": "train:radar-north:patna-police-vehicles:05",
+      "text": "Find the publication-date caveat for the Bihar cabinet vehicle report whose search timestamp differed across time zones.",
+      "positiveIds": [
+        "radar-north:patna-hindu"
+      ],
+      "hardNegativeIds": [
+        "radar-north:dehradun-index"
+      ],
+      "split": "train",
+      "caseId": "radar-north:patna-police-vehicles",
+      "intent": "publication-date",
+      "rationale": "The Hindu source distinguishes displayed October1 IST from September30 UTC metadata."
+    },
+    {
+      "id": "train:radar-west:gim-case:01",
+      "text": "Find the Maharashtra plantation audit reporting that compares claimed utilisation with amounts sent to district agencies and actually used.",
+      "positiveIds": [
+        "radar-west:gim-maharashtra"
+      ],
+      "hardNegativeIds": [
+        "radar-west:amc-police-land"
+      ],
+      "split": "train",
+      "caseId": "radar-west:gim-case",
+      "intent": "financial-stage",
+      "rationale": "Different transfer and utilization stages are relevant; the label does not endorse subtraction into theft."
+    },
+    {
+      "id": "train:radar-west:gim-case:02",
+      "text": "What explanation did Maharashtra give for delayed afforestation finance and its newer single-nodal bank account?",
+      "positiveIds": [
+        "radar-west:gim-report"
+      ],
+      "hardNegativeIds": [
+        "radar-north:punjab-chapter"
+      ],
+      "split": "train",
+      "caseId": "radar-west:gim-case",
+      "intent": "counterevidence",
+      "rationale": "Original-host extract retains state matching-share and account responses."
+    },
+    {
+      "id": "train:radar-west:gim-case:03",
+      "text": "Which official release establishes when the Green India Mission audit was tabled and the years it examined?",
+      "positiveIds": [
+        "radar-west:gim-press"
+      ],
+      "hardNegativeIds": [
+        "radar-north:dehradun-index"
+      ],
+      "split": "train",
+      "caseId": "radar-west:gim-case",
+      "intent": "publication-date",
+      "rationale": "The CAG press source gives tabling and covered years."
+    },
+    {
+      "id": "train:radar-west:gim-case:04",
+      "text": "Locate evidence on the mismatch between reported sapling survival and inspected survival at Maharashtra plantation sites.",
+      "positiveIds": [
+        "radar-west:gim-maharashtra"
+      ],
+      "hardNegativeIds": [
+        "radar-south-east:source:odisha-dmf-ht"
+      ],
+      "split": "train",
+      "caseId": "radar-west:gim-case",
+      "intent": "delivery-evidence",
+      "rationale": "The retained news summary addresses survival discrepancies; the underlying annexure was not independently inspected."
+    },
+    {
+      "id": "train:radar-west:gim-case:05",
+      "text": "Where is the disagreement between an August and September 2021 account-opening date preserved in the forest-fund sources?",
+      "positiveIds": [
+        "radar-west:gim-maharashtra",
+        "radar-west:gim-report"
+      ],
+      "hardNegativeIds": [
+        "radar-north:patna-hindu"
+      ],
+      "split": "train",
+      "caseId": "radar-west:gim-case",
+      "intent": "contradiction",
+      "rationale": "The reporting limitation preserves the conflicting dates rather than silently selecting one."
+    },
+    {
+      "id": "train:radar-west:tara-case:01",
+      "text": "Find the coal ministry's answer to objections about reopening the revised Tara block, including competition and boundary changes.",
+      "positiveIds": [
+        "radar-west:tara-pib"
+      ],
+      "hardNegativeIds": [
+        "radar-west:tara-opposition"
+      ],
+      "split": "train",
+      "caseId": "radar-west:tara-case",
+      "intent": "counterevidence",
+      "rationale": "The official response is relevant to testing the opposition account, not independent proof every response is correct."
+    },
+    {
+      "id": "train:radar-west:tara-case:02",
+      "text": "Which Tara auction source says mining and tree removal still depend on statutory permissions?",
+      "positiveIds": [
+        "radar-west:tara-cmdc"
+      ],
+      "hardNegativeIds": [
+        "radar-west:cg-incorporation"
+      ],
+      "split": "train",
+      "caseId": "radar-west:tara-case",
+      "intent": "regulatory-stage",
+      "rationale": "The reproduced state statement addresses clearance prerequisites; incorporation does not."
+    },
+    {
+      "id": "train:radar-west:tara-case:03",
+      "text": "Locate the corporate document establishing the incorporation ownership of CG Syn-Gas without assuming it matches a similarly named auction winner.",
+      "positiveIds": [
+        "radar-west:cg-incorporation"
+      ],
+      "hardNegativeIds": [
+        "radar-west:tara-opposition"
+      ],
+      "split": "train",
+      "caseId": "radar-west:tara-case",
+      "intent": "identity-boundary",
+      "rationale": "The filing supports a historical legal-company chain only, separate from bidder identity."
+    },
+    {
+      "id": "train:radar-west:tara-case:04",
+      "text": "What source preserves the unresolved spelling mismatch between the reported Tara bidder and the incorporated company?",
+      "positiveIds": [
+        "radar-west:tara-cmdc"
+      ],
+      "hardNegativeIds": [
+        "radar-west:shivpuri-release"
+      ],
+      "split": "train",
+      "caseId": "radar-west:tara-case",
+      "intent": "identity-boundary",
+      "rationale": "The CMDC news-source limitation expressly requires award or CIN evidence before joining."
+    },
+    {
+      "id": "train:radar-west:tara-case:05",
+      "text": "Find both the opposition's environmental objection to Tara and the government's revised-boundary explanation for comparison.",
+      "positiveIds": [
+        "radar-west:tara-opposition",
+        "radar-west:tara-pib"
+      ],
+      "hardNegativeIds": [
+        "radar-north:dehradun-news"
+      ],
+      "split": "train",
+      "caseId": "radar-west:tara-case",
+      "intent": "competing-accounts",
+      "rationale": "Both accounts are relevant; neither is an independent ecological measurement."
+    },
+    {
+      "id": "train:radar-west:mithi-case:01",
+      "text": "Retrieve the Mithi desilting bail account that records documentary support for machinery procurement and certified work.",
+      "positiveIds": [
+        "radar-west:mithi-bail"
+      ],
+      "hardNegativeIds": [
+        "radar-north:jaipur-hc"
+      ],
+      "split": "train",
+      "caseId": "radar-west:mithi-case",
+      "intent": "counterevidence",
+      "rationale": "The bail report supplies specific prima facie counterevidence, not final acquittal."
+    },
+    {
+      "id": "train:radar-west:mithi-case:02",
+      "text": "Where are the current EOW questions about Mithi equipment rentals and measured silt quantities reported?",
+      "positiveIds": [
+        "radar-west:mithi-latest"
+      ],
+      "hardNegativeIds": [
+        "radar-west:gim-maharashtra"
+      ],
+      "split": "train",
+      "caseId": "radar-west:mithi-case",
+      "intent": "reported-allegation",
+      "rationale": "News attributes the investigation claims and does not supply a charge sheet or ledger."
+    },
+    {
+      "id": "train:radar-west:mithi-case:03",
+      "text": "Find the source clarifying that the person questioned in October over Mithi was not named as an accused and denied arrest.",
+      "positiveIds": [
+        "radar-west:mithi-latest"
+      ],
+      "hardNegativeIds": [
+        "radar-north:joshi-sc"
+      ],
+      "split": "train",
+      "caseId": "radar-west:mithi-case",
+      "intent": "procedural-status",
+      "rationale": "The latest report explicitly limits the actor's reported status."
+    },
+    {
+      "id": "train:radar-west:mithi-case:04",
+      "text": "Which Mithi source disputes the premise that Kadam personally received a desilting contract?",
+      "positiveIds": [
+        "radar-west:mithi-bail"
+      ],
+      "hardNegativeIds": [
+        "radar-north:jaipur-sc"
+      ],
+      "split": "train",
+      "caseId": "radar-west:mithi-case",
+      "intent": "counterevidence",
+      "rationale": "The reported bail reasoning says no such contract was awarded to him."
+    },
+    {
+      "id": "train:radar-west:mithi-case:05",
+      "text": "Show both the continuing Mithi inquiry and the earlier favourable bail reasoning, keeping the two procedural stages separate.",
+      "positiveIds": [
+        "radar-west:mithi-latest",
+        "radar-west:mithi-bail"
+      ],
+      "hardNegativeIds": [
+        "radar-south-east:source:kaleshwaram-probe"
+      ],
+      "split": "train",
+      "caseId": "radar-west:mithi-case",
+      "intent": "competing-accounts",
+      "rationale": "The two Mithi sources are relevant together; later questioning does not erase prior counterevidence."
+    },
+    {
+      "id": "train:radar-west:amc-case:01",
+      "text": "Find the Ahmedabad account explaining why a commercial plot auction failed to complete under the Disturbed Areas Act.",
+      "positiveIds": [
+        "radar-west:amc-clearance"
+      ],
+      "hardNegativeIds": [
+        "radar-north:patna-hindu"
+      ],
+      "split": "train",
+      "caseId": "radar-west:amc-case",
+      "intent": "regulatory-stage",
+      "rationale": "The reported registration-permission refusal is different from a completed sale."
+    },
+    {
+      "id": "train:radar-west:amc-case:02",
+      "text": "What public-use explanation accompanies the lower-priced allocation of the Makarba plot for a police station?",
+      "positiveIds": [
+        "radar-west:amc-police-land"
+      ],
+      "hardNegativeIds": [
+        "radar-south-east:source:odisha-dmf-ie"
+      ],
+      "split": "train",
+      "caseId": "radar-west:amc-case",
+      "intent": "counterevidence",
+      "rationale": "Police use and security representations are retained, without a private-benefit inference."
+    },
+    {
+      "id": "train:radar-west:amc-case:03",
+      "text": "Locate both records needed to check the inconsistent June-versus-August auction chronology for the same Ahmedabad plot.",
+      "positiveIds": [
+        "radar-west:amc-clearance",
+        "radar-west:amc-police-land"
+      ],
+      "hardNegativeIds": [
+        "radar-west:gim-maharashtra"
+      ],
+      "split": "train",
+      "caseId": "radar-west:amc-case",
+      "intent": "contradiction",
+      "rationale": "Both records identify the same plot while preserving the disputed date."
+    },
+    {
+      "id": "train:radar-west:amc-case:04",
+      "text": "Which source distinguishes foregone commercial bid revenue from a proven theft in the Ahmedabad police-land allocation?",
+      "positiveIds": [
+        "radar-west:amc-police-land"
+      ],
+      "hardNegativeIds": [
+        "radar-west:shivpuri-filing"
+      ],
+      "split": "train",
+      "caseId": "radar-west:amc-case",
+      "intent": "financial-stage",
+      "rationale": "The record treats the difference as opportunity cost, not adjudicated loss."
+    },
+    {
+      "id": "train:radar-west:amc-case:05",
+      "text": "Find the limit on claiming that the municipal land sale's reported political objections benefited a named politician personally.",
+      "positiveIds": [
+        "radar-west:amc-clearance"
+      ],
+      "hardNegativeIds": [
+        "radar-north:jaipur-response"
+      ],
+      "split": "train",
+      "caseId": "radar-west:amc-case",
+      "intent": "identity-boundary",
+      "rationale": "The source keeps unnamed-source claims separate from personal benefit and notes missing original refusal records."
+    },
+    {
+      "id": "train:radar-west:shivpuri-case:01",
+      "text": "Locate the exchange disclosure for the proposed Shivpuri defence factory and distinguish announced investment from government expenditure.",
+      "positiveIds": [
+        "radar-west:shivpuri-filing"
+      ],
+      "hardNegativeIds": [
+        "radar-north:patna-ie"
+      ],
+      "split": "train",
+      "caseId": "radar-west:shivpuri-case",
+      "intent": "financial-stage",
+      "rationale": "The filing describes planned private capex, not a public payment."
+    },
+    {
+      "id": "train:radar-west:shivpuri-case:02",
+      "text": "Which Shivpuri source gives the business's jobs rationale and identifies public-event participants without implying they received money?",
+      "positiveIds": [
+        "radar-west:shivpuri-release"
+      ],
+      "hardNegativeIds": [
+        "radar-west:tara-opposition"
+      ],
+      "split": "train",
+      "caseId": "radar-west:shivpuri-case",
+      "intent": "counterevidence",
+      "rationale": "The company release describes public roles and purpose; attendance is not a benefit edge."
+    },
+    {
+      "id": "train:radar-west:shivpuri-case:03",
+      "text": "Find the reported timetable for bringing the Shivpuri plant into operation and the warning that it is not a guaranteed delivery milestone.",
+      "positiveIds": [
+        "radar-west:shivpuri-timeline"
+      ],
+      "hardNegativeIds": [
+        "radar-west:cg-incorporation"
+      ],
+      "split": "train",
+      "caseId": "radar-west:shivpuri-case",
+      "intent": "future-commitment",
+      "rationale": "The news account reports a target with a missing underlying milestone finance plan."
+    },
+    {
+      "id": "train:radar-west:shivpuri-case:04",
+      "text": "What source explains why the Shivpuri announcement cannot yet identify the exact project borrower or land lessee?",
+      "positiveIds": [
+        "radar-west:shivpuri-filing"
+      ],
+      "hardNegativeIds": [
+        "radar-west:cg-incorporation"
+      ],
+      "split": "train",
+      "caseId": "radar-west:shivpuri-case",
+      "intent": "identity-boundary",
+      "rationale": "The filing names the business arm but does not identify the project SPV, lessee or borrower."
+    },
+    {
+      "id": "train:radar-west:shivpuri-case:05",
+      "text": "Locate the caveat that the Shivpuri press release and exchange enclosure are the same announcement rather than two independent confirmations.",
+      "positiveIds": [
+        "radar-west:shivpuri-release",
+        "radar-west:shivpuri-filing"
+      ],
+      "hardNegativeIds": [
+        "radar-west:gim-press"
+      ],
+      "split": "train",
+      "caseId": "radar-west:shivpuri-case",
+      "intent": "source-lineage",
+      "rationale": "The paired documents are one retained source family."
+    },
+    {
+      "id": "train:radar-south-east:case:kaleshwaram-equipment:01",
+      "text": "Find the Kaleshwaram audit comparison of pump and motor package estimates with BHEL equipment costs.",
+      "positiveIds": [
+        "radar-south-east:source:kaleshwaram-audit"
+      ],
+      "hardNegativeIds": [
+        "radar-south-east:source:chennai-retender-oct"
+      ],
+      "split": "train",
+      "caseId": "radar-south-east:case:kaleshwaram-equipment",
+      "intent": "audit-evidence",
+      "rationale": "The source addresses four EPC packages and an assumption-dependent audit estimate."
+    },
+    {
+      "id": "train:radar-south-east:case:kaleshwaram-equipment:02",
+      "text": "What comparability objection did Telangana raise against the audit's Kaleshwaram equipment-cost calculation?",
+      "positiveIds": [
+        "radar-south-east:source:kaleshwaram-audit"
+      ],
+      "hardNegativeIds": [
+        "radar-west:gim-report"
+      ],
+      "split": "train",
+      "caseId": "radar-south-east:case:kaleshwaram-equipment",
+      "intent": "counterevidence",
+      "rationale": "The audit chapter retains scope objections and the auditor's response."
+    },
+    {
+      "id": "train:radar-south-east:case:kaleshwaram-equipment:03",
+      "text": "Which report discusses CBI reviewing Kaleshwaram material but does not establish a registered criminal case?",
+      "positiveIds": [
+        "radar-south-east:source:kaleshwaram-probe"
+      ],
+      "hardNegativeIds": [
+        "radar-west:mithi-latest"
+      ],
+      "split": "train",
+      "caseId": "radar-south-east:case:kaleshwaram-equipment",
+      "intent": "procedural-status",
+      "rationale": "Question-form source-based reporting is not registration or a formal commencement record."
+    },
+    {
+      "id": "train:radar-south-east:case:kaleshwaram-equipment:04",
+      "text": "Locate the competing Kaleshwaram account about state pumping decisions and component-specific technical concerns.",
+      "positiveIds": [
+        "radar-south-east:source:kaleshwaram-response"
+      ],
+      "hardNegativeIds": [
+        "radar-south-east:source:kaleshwaram-probe"
+      ],
+      "split": "train",
+      "caseId": "radar-south-east:case:kaleshwaram-equipment",
+      "intent": "counterevidence",
+      "rationale": "This source offers a competing operational account without the underlying affidavit or a safety clearance."
+    },
+    {
+      "id": "train:radar-south-east:case:kaleshwaram-equipment:05",
+      "text": "Find evidence showing why the published Kaleshwaram estimate cannot be described as an observed payment to a minister.",
+      "positiveIds": [
+        "radar-south-east:source:kaleshwaram-audit"
+      ],
+      "hardNegativeIds": [
+        "radar-north:jaipur-sc"
+      ],
+      "split": "train",
+      "caseId": "radar-south-east:case:kaleshwaram-equipment",
+      "intent": "financial-stage",
+      "rationale": "The source labels an assumption-dependent possible benefit, not theft adjudication or a personal transfer."
+    },
+    {
+      "id": "train:radar-south-east:case:chennai-meter-retenders:01",
+      "text": "Find the October account of Tamil Nadu's seven consumer-meter tender packages and the separate transformer meters.",
+      "positiveIds": [
+        "radar-south-east:source:chennai-retender-oct"
+      ],
+      "hardNegativeIds": [
+        "radar-north:patna-ie"
+      ],
+      "split": "train",
+      "caseId": "radar-south-east:case:chennai-meter-retenders",
+      "intent": "procurement-stage",
+      "rationale": "The October report describes tenders, not awards or paid suppliers."
+    },
+    {
+      "id": "train:radar-south-east:case:chennai-meter-retenders:02",
+      "text": "Which earlier Tamil Nadu smart-meter plan was still waiting for board consideration before the later tender report?",
+      "positiveIds": [
+        "radar-south-east:source:chennai-retender-aug"
+      ],
+      "hardNegativeIds": [
+        "radar-south-east:source:tn-uday"
+      ],
+      "split": "train",
+      "caseId": "radar-south-east:case:chennai-meter-retenders",
+      "intent": "temporal-boundary",
+      "rationale": "August proposal is not the final October tender stage."
+    },
+    {
+      "id": "train:radar-south-east:case:chennai-meter-retenders:03",
+      "text": "Locate the source explaining the difference between Tamil Nadu's approved RDSS smart-meter outlay and an actual contract award.",
+      "positiveIds": [
+        "radar-south-east:source:tn-uday"
+      ],
+      "hardNegativeIds": [
+        "radar-north:patna-hindu"
+      ],
+      "split": "train",
+      "caseId": "radar-south-east:case:chennai-meter-retenders",
+      "intent": "financial-stage",
+      "rationale": "The retained UDAY/CAG reporting gives approved outlay with an explicit stage limitation."
+    },
+    {
+      "id": "train:radar-south-east:case:chennai-meter-retenders:04",
+      "text": "What Chennai meter source warns that repeated place names in a news article cannot define tender package boundaries?",
+      "positiveIds": [
+        "radar-south-east:source:chennai-retender-oct"
+      ],
+      "hardNegativeIds": [
+        "radar-west:tara-cmdc"
+      ],
+      "split": "train",
+      "caseId": "radar-south-east:case:chennai-meter-retenders",
+      "intent": "scope-boundary",
+      "rationale": "The October source notes repeated Erode geography and missing original schedules."
+    },
+    {
+      "id": "train:radar-south-east:case:chennai-meter-retenders:05",
+      "text": "Find both dated Tamil Nadu smart-meter tender accounts so the latest reported stage can be checked against the abandoned plan.",
+      "positiveIds": [
+        "radar-south-east:source:chennai-retender-aug",
+        "radar-south-east:source:chennai-retender-oct"
+      ],
+      "hardNegativeIds": [
+        "radar-north:punjab-chapter"
+      ],
+      "split": "train",
+      "caseId": "radar-south-east:case:chennai-meter-retenders",
+      "intent": "temporal-boundary",
+      "rationale": "The August and October reports should be read as dated stages, not additive awards."
+    },
+    {
+      "id": "train:radar-south-east:case:kolkata-health-claims:01",
+      "text": "Find the West Bengal health-insurance audit on hospital grading and insurer penalty controls.",
+      "positiveIds": [
+        "radar-south-east:source:swasthya-audit"
+      ],
+      "hardNegativeIds": [
+        "radar-south-east:source:odisha-dmf-ht"
+      ],
+      "split": "train",
+      "caseId": "radar-south-east:case:kolkata-health-claims",
+      "intent": "audit-evidence",
+      "rationale": "The Swasthya Sathi audit directly addresses those controls."
+    },
+    {
+      "id": "train:radar-south-east:case:kolkata-health-claims:02",
+      "text": "Where is the health scheme agency's explanation that household splitting and database cleanup affect enrolment discrepancies?",
+      "positiveIds": [
+        "radar-south-east:source:swasthya-news"
+      ],
+      "hardNegativeIds": [
+        "radar-west:gim-report"
+      ],
+      "split": "train",
+      "caseId": "radar-south-east:case:kolkata-health-claims",
+      "intent": "counterevidence",
+      "rationale": "The derivative news summary preserves the nodal agency response."
+    },
+    {
+      "id": "train:radar-south-east:case:kolkata-health-claims:03",
+      "text": "Which Swasthya Sathi source warns against extending hospital sample findings to every family receiving benefits?",
+      "positiveIds": [
+        "radar-south-east:source:swasthya-audit"
+      ],
+      "hardNegativeIds": [
+        "radar-north:patna-ie"
+      ],
+      "split": "train",
+      "caseId": "radar-south-east:case:kolkata-health-claims",
+      "intent": "scope-boundary",
+      "rationale": "Audit limitations reject population-wide extrapolation and fraud identity inference."
+    },
+    {
+      "id": "train:radar-south-east:case:kolkata-health-claims:04",
+      "text": "Find the health-scheme record separating the 2025 report number from its 2026 tabling and earlier expenditure period.",
+      "positiveIds": [
+        "radar-south-east:source:swasthya-audit",
+        "radar-south-east:source:swasthya-news"
+      ],
+      "hardNegativeIds": [
+        "radar-north:dehradun-index"
+      ],
+      "split": "train",
+      "caseId": "radar-south-east:case:kolkata-health-claims",
+      "intent": "temporal-boundary",
+      "rationale": "Both records relate the audit and tabling; neither establishes current claim-level conditions."
+    },
+    {
+      "id": "train:radar-south-east:case:kolkata-health-claims:05",
+      "text": "Retrieve the agency responses alongside Swasthya Sathi's financial-control findings rather than only the adverse headlines.",
+      "positiveIds": [
+        "radar-south-east:source:swasthya-audit",
+        "radar-south-east:source:swasthya-news"
+      ],
+      "hardNegativeIds": [
+        "radar-south-east:source:kaleshwaram-probe"
+      ],
+      "split": "train",
+      "caseId": "radar-south-east:case:kolkata-health-claims",
+      "intent": "counterevidence",
+      "rationale": "Original-source summary and derivative reporting retain replies within one audit family."
+    },
+    {
+      "id": "train:radar-south-east:case:odisha-mining-welfare:01",
+      "text": "Find the Odisha mineral-fund report distinguishing stadium approval, police-vehicle release and later redeposit.",
+      "positiveIds": [
+        "radar-south-east:source:odisha-dmf-ie"
+      ],
+      "hardNegativeIds": [
+        "radar-north:patna-ie"
+      ],
+      "split": "train",
+      "caseId": "radar-south-east:case:odisha-mining-welfare",
+      "intent": "financial-stage",
+      "rationale": "The source separates different stages instead of summing them into stolen funds."
+    },
+    {
+      "id": "train:radar-south-east:case:odisha-mining-welfare:02",
+      "text": "Which report compares mineral-welfare projects in affected and non-affected Odisha villages?",
+      "positiveIds": [
+        "radar-south-east:source:odisha-dmf-ht"
+      ],
+      "hardNegativeIds": [
+        "radar-west:gim-maharashtra"
+      ],
+      "split": "train",
+      "caseId": "radar-south-east:case:odisha-mining-welfare",
+      "intent": "beneficiary-scope",
+      "rationale": "The Hindustan Times account provides the different village populations."
+    },
+    {
+      "id": "train:radar-south-east:case:odisha-mining-welfare:03",
+      "text": "Locate the Odisha source explaining that absence of a mineral-fund project does not establish absence of every public service.",
+      "positiveIds": [
+        "radar-south-east:source:odisha-dmf-ht"
+      ],
+      "hardNegativeIds": [
+        "radar-south-east:source:swasthya-news"
+      ],
+      "split": "train",
+      "caseId": "radar-south-east:case:odisha-mining-welfare",
+      "intent": "scope-boundary",
+      "rationale": "The limitation keeps one funding channel separate from all public service provision."
+    },
+    {
+      "id": "train:radar-south-east:case:odisha-mining-welfare:04",
+      "text": "Where is it disclosed that the underlying Odisha DMF audit was not located and the available findings are newspaper-attributed?",
+      "positiveIds": [
+        "radar-south-east:source:odisha-dmf-ie"
+      ],
+      "hardNegativeIds": [
+        "radar-north:punjab-chapter"
+      ],
+      "split": "train",
+      "caseId": "radar-south-east:case:odisha-mining-welfare",
+      "intent": "access-boundary",
+      "rationale": "The record reports the primary-document access gap rather than upgrading the news to an inspected audit."
+    },
+    {
+      "id": "train:radar-south-east:case:odisha-mining-welfare:05",
+      "text": "Find the record distinguishing Bhubaneswar's oversight location from the Rourkela and Sundargarh mineral-funded projects.",
+      "positiveIds": [
+        "radar-south-east:source:odisha-dmf-ie"
+      ],
+      "hardNegativeIds": [
+        "radar-west:amc-police-land"
+      ],
+      "split": "train",
+      "caseId": "radar-south-east:case:odisha-mining-welfare",
+      "intent": "geography-boundary",
+      "rationale": "The source prevents capital-city map placement from being treated as the physical project location."
+    },
+    {
+      "id": "train:radar-national:case:fdi-control:01",
+      "text": "Find the operative foreign-investment rule distinguishing the date of notification from legal commencement on Gazette publication.",
+      "positiveIds": [
+        "radar-national:source:fdi-gazette"
+      ],
+      "hardNegativeIds": [
+        "radar-national:source:fdi-cabinet"
+      ],
+      "split": "train",
+      "caseId": "radar-national:case:fdi-control",
+      "intent": "legal-stage",
+      "rationale": "The Gazette establishes May2 publication and commencement, unlike cabinet policy intent."
+    },
+    {
+      "id": "train:radar-national:case:fdi-control:02",
+      "text": "Which FDI policy source explains why a small nominal shareholding does not exhaust the ownership and effective-control tests?",
+      "positiveIds": [
+        "radar-national:source:fdi-pn2",
+        "radar-national:source:fdi-gazette"
+      ],
+      "hardNegativeIds": [
+        "radar-west:cg-incorporation"
+      ],
+      "split": "train",
+      "caseId": "radar-national:case:fdi-control",
+      "intent": "regulatory-boundary",
+      "rationale": "Both policy instruments preserve cumulative rights and control conditions."
+    },
+    {
+      "id": "train:radar-national:case:fdi-control:03",
+      "text": "Locate the government update reporting twenty-nine proposed investments without identifying the investee companies or actual capital receipts.",
+      "positiveIds": [
+        "radar-national:source:fdi-clarification"
+      ],
+      "hardNegativeIds": [
+        "radar-west:shivpuri-filing"
+      ],
+      "split": "train",
+      "caseId": "radar-national:case:fdi-control",
+      "intent": "financial-stage",
+      "rationale": "Reported proposals are relevant but are not received capital or named beneficiaries."
+    },
+    {
+      "id": "train:radar-national:case:fdi-control:04",
+      "text": "Find the official account of the cabinet's investment-policy intentions and proposed approval timelines.",
+      "positiveIds": [
+        "radar-national:source:fdi-cabinet"
+      ],
+      "hardNegativeIds": [
+        "radar-national:source:fdi-gazette"
+      ],
+      "split": "train",
+      "caseId": "radar-national:case:fdi-control",
+      "intent": "policy-intent",
+      "rationale": "The cabinet release records intended policy rationale; the Gazette is the operative legal text."
+    },
+    {
+      "id": "train:radar-national:case:fdi-control:05",
+      "text": "What FDI legal text records the specific exception for multilateral institutions in which India participates?",
+      "positiveIds": [
+        "radar-national:source:fdi-gazette"
+      ],
+      "hardNegativeIds": [
+        "radar-national:source:fdi-clarification"
+      ],
+      "split": "train",
+      "caseId": "radar-national:case:fdi-control",
+      "intent": "regulatory-boundary",
+      "rationale": "The Gazette limitation preserves the explicit multilateral exception, not a universal foreign-investor exemption."
+    },
+    {
+      "id": "dev:radar-north:delhi-procurement:01",
+      "text": "Where are shared bidder identities in Delhi tenders reported with the warning that a common internet gateway may be innocent?",
+      "positiveIds": [
+        "radar-north:delhi-ie"
+      ],
+      "hardNegativeIds": [],
+      "split": "dev",
+      "caseId": "radar-north:delhi-procurement",
+      "intent": "counterevidence",
+      "rationale": "The source pairs the identifiers with an innocent infrastructure explanation."
+    },
+    {
+      "id": "dev:radar-north:delhi-procurement:02",
+      "text": "Find the Delhi audit reporting on how few tenders contained award records and what the denominator actually refers to.",
+      "positiveIds": [
+        "radar-north:delhi-ht"
+      ],
+      "hardNegativeIds": [],
+      "split": "dev",
+      "caseId": "radar-north:delhi-procurement",
+      "intent": "missing-record-boundary",
+      "rationale": "The HT summary provides the award-record count and warns about dated rounded denominators."
+    },
+    {
+      "id": "dev:radar-north:delhi-procurement:03",
+      "text": "Which Delhi procurement sources explain that affected tender value is not a court-established loss?",
+      "positiveIds": [
+        "radar-north:delhi-ie"
+      ],
+      "hardNegativeIds": [],
+      "split": "dev",
+      "caseId": "radar-north:delhi-procurement",
+      "intent": "financial-stage",
+      "rationale": "The IE limitation distinguishes scope from proven loss."
+    },
+    {
+      "id": "dev:radar-north:delhi-procurement:04",
+      "text": "Retrieve the Delhi subsidy and procurement audit accounts without counting two newspapers as two separate audits.",
+      "positiveIds": [
+        "radar-north:delhi-ie",
+        "radar-north:delhi-ht"
+      ],
+      "hardNegativeIds": [],
+      "split": "dev",
+      "caseId": "radar-north:delhi-procurement",
+      "intent": "source-lineage",
+      "rationale": "Both articles derive from one CAG report."
+    },
+    {
+      "id": "dev:radar-south-east:case:bmrcl-finance:01",
+      "text": "Find Bengaluru Metro's response that contractors set their own prices despite the audit concern about tax-loaded estimates.",
+      "positiveIds": [
+        "radar-south-east:source:bmrcl-audit"
+      ],
+      "hardNegativeIds": [],
+      "split": "dev",
+      "caseId": "radar-south-east:case:bmrcl-finance",
+      "intent": "counterevidence",
+      "rationale": "The audit summary preserves BMRCL's bidding explanation."
+    },
+    {
+      "id": "dev:radar-south-east:case:bmrcl-finance:02",
+      "text": "Which Bengaluru Metro source distinguishes 2026 publication from the March 2023 debt-service snapshot?",
+      "positiveIds": [
+        "radar-south-east:source:bmrcl-audit",
+        "radar-south-east:source:bmrcl-release"
+      ],
+      "hardNegativeIds": [],
+      "split": "dev",
+      "caseId": "radar-south-east:case:bmrcl-finance",
+      "intent": "temporal-boundary",
+      "rationale": "The documents disclose historical scope and later publication."
+    },
+    {
+      "id": "dev:radar-south-east:case:bmrcl-finance:03",
+      "text": "Find the official release summarising the audit calculation of increased Bengaluru Metro contract prices.",
+      "positiveIds": [
+        "radar-south-east:source:bmrcl-release"
+      ],
+      "hardNegativeIds": [],
+      "split": "dev",
+      "caseId": "radar-south-east:case:bmrcl-finance",
+      "intent": "audit-evidence",
+      "rationale": "The official release carries the amount; it is not a personal payment."
+    },
+    {
+      "id": "dev:radar-south-east:case:bmrcl-finance:04",
+      "text": "Where does the Metro audit scope exclude Phases 2A and 2B and disclose that only an indexed extract was inspected?",
+      "positiveIds": [
+        "radar-south-east:source:bmrcl-audit"
+      ],
+      "hardNegativeIds": [],
+      "split": "dev",
+      "caseId": "radar-south-east:case:bmrcl-finance",
+      "intent": "scope-boundary",
+      "rationale": "The source retains both project and access boundaries."
+    },
+    {
+      "id": "dev:radar-south-east:case:hal-engine-delivery:01",
+      "text": "Find the GE contract announcement for engines supporting the first Tejas batch, separate from later aircraft orders.",
+      "positiveIds": [
+        "radar-south-east:source:ge-contract"
+      ],
+      "hardNegativeIds": [],
+      "split": "dev",
+      "caseId": "radar-south-east:case:hal-engine-delivery",
+      "intent": "contract-stage",
+      "rationale": "The vendor order covers 99 engines and support, not later 97 aircraft or F414."
+    },
+    {
+      "id": "dev:radar-south-east:case:hal-engine-delivery:02",
+      "text": "Which latest engine report explains why a shipment tally cannot be equated to Indian Air Force acceptance?",
+      "positiveIds": [
+        "radar-south-east:source:ge-shipment-oct"
+      ],
+      "hardNegativeIds": [],
+      "split": "dev",
+      "caseId": "radar-south-east:case:hal-engine-delivery",
+      "intent": "delivery-stage",
+      "rationale": "The source distinguishes shipment, receipt, acceptance and service."
+    },
+    {
+      "id": "dev:radar-south-east:case:hal-engine-delivery:03",
+      "text": "Locate HAL management's account of engine receipts and remaining radar and software work, keeping forecasts separate from completed tests.",
+      "positiveIds": [
+        "radar-south-east:source:ravi-interview"
+      ],
+      "hardNegativeIds": [],
+      "split": "dev",
+      "caseId": "radar-south-east:case:hal-engine-delivery",
+      "intent": "counterevidence",
+      "rationale": "The interview is management's perspective, not independent certification."
+    },
+    {
+      "id": "dev:radar-south-east:case:hal-engine-delivery:04",
+      "text": "Find the ministry announcement for the second Tejas aircraft tranche, with its delivery start and tax treatment.",
+      "positiveIds": [
+        "radar-south-east:source:mod-lca-contract"
+      ],
+      "hardNegativeIds": [],
+      "split": "dev",
+      "caseId": "radar-south-east:case:hal-engine-delivery",
+      "intent": "contract-stage",
+      "rationale": "The ministry source records 97 aircraft, excluding taxes, with a 2027–28 start."
+    },
+    {
+      "id": "dev:radar-national:case:navy-lease:01",
+      "text": "Which public record names GA-ASI as the counterparty for the Navy's two-system lease?",
+      "positiveIds": [
+        "radar-national:source:ga-lease"
+      ],
+      "hardNegativeIds": [],
+      "split": "dev",
+      "caseId": "radar-national:case:navy-lease",
+      "intent": "identity-evidence",
+      "rationale": "The MoD release identifies the contracting supplier."
+    },
+    {
+      "id": "dev:radar-national:case:navy-lease:02",
+      "text": "Find the Navy lease amount and duration without treating the signed commitment as money already disbursed.",
+      "positiveIds": [
+        "radar-national:source:ga-lease"
+      ],
+      "hardNegativeIds": [],
+      "split": "dev",
+      "caseId": "radar-national:case:navy-lease",
+      "intent": "financial-stage",
+      "rationale": "Contract announcement provides commitment, not certified expenditure."
+    },
+    {
+      "id": "dev:radar-national:case:navy-lease:03",
+      "text": "Locate the limitation explaining why a bundled Navy drone lease cannot be compared as a bare aircraft purchase price.",
+      "positiveIds": [
+        "radar-national:source:ga-lease"
+      ],
+      "hardNegativeIds": [],
+      "split": "dev",
+      "caseId": "radar-national:case:navy-lease",
+      "intent": "scope-boundary",
+      "rationale": "The retained limitation distinguishes lease/support scope from unit purchase price."
+    },
+    {
+      "id": "dev:radar-national:case:navy-lease:04",
+      "text": "What Navy supplier source discloses that the underlying agreement and payment schedule are not in this evidence packet?",
+      "positiveIds": [
+        "radar-national:source:ga-lease"
+      ],
+      "hardNegativeIds": [],
+      "split": "dev",
+      "caseId": "radar-national:case:navy-lease",
+      "intent": "missing-record-boundary",
+      "rationale": "The source identifies the missing executed agreement, schedule and payments."
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+✔ Actual retained cases have no numerical prediction or resolved outcome (8.098733ms)
+✔ Every actual edge has cited endpoints and never turns office oversight into a payment (1.008852ms)
+✔ Synthetic math: Brier and log loss independently match hand calculations (1.110001ms)
+✔ Synthetic math: unknown and censored outcomes remain excluded, never negative labels (0.946724ms)
+✔ Synthetic timing: later reporting, features, missing citations and premature negatives are rejected (17.452984ms)
+✔ Synthetic math: wrong absolute certainty incurs infinite log loss and probability one has a final bin (1.092333ms)
+✔ Synthetic split: time-separated entity groups pass only necessary timestamp gates (5.821243ms)
+✔ Valid synthetic schema and exact future horizon pass (6.973484ms)
+✔ Impossible calendar dates are rejected, not normalized (1.62895ms)
+✔ A future publication or retrieval cannot masquerade as latest research (0.650779ms)
+✔ Unsupported claim stage is not promoted from a court source (0.811932ms)
+✔ Dangling entities and missing edge sources fail exact graph validation (0.561378ms)
+✔ An unavailable page cannot be sole evidence (0.808227ms)
+✔ Missing counterevidence is rejected (0.614999ms)
+✔ Source frequency is never a probability (1.363088ms)
+✔ Legacy or lower-case state aliases are not silently mapped (0.422534ms)
+✔ Horizon must match calendar cutoff and target remains future (1.740631ms)
+✔ Counterevidence cannot disappear from the complete case source list (7.366779ms)
+✔ Article-only link cannot acquire documented official provenance (0.255156ms)
+✔ Brier and proper log loss match independently calculable binary examples (1.037876ms)
+✔ Unknown and censored cases are counted but never negative outcomes (0.506883ms)
+✔ Wrong certainty has infinite log loss, not an arbitrary hidden epsilon (0.32555ms)
+✔ Outcome observed after evaluation and late-arriving features cannot leak (0.321883ms)
+✔ Absent event cannot resolve negative before observation window ends (0.356779ms)
+✔ Outcome requires a source and cannot be known before its publication date (0.24465ms)
+✔ Forecast target excludes individual guilt and duplicate weighting (0.267732ms)
+✔ Temporal split uses document availability and disjoint entity groups (4.791314ms)
+✔ Historical training rows reject features learned after their own prediction/outcome (0.165879ms)
+✔ All retained research satisfies provenance, time and source-stage guards (16.915889ms)
+✔ National planning covers all 36 jurisdictions without moving Chandigarh into Punjab or Haryana (0.685695ms)
+✔ Map backlog is an explicit planning denominator, not implied clean-city evidence (2.0736ms)
+✔ Unknown city or entity does not silently display unrelated cases or invented links (0.300369ms)
+✔ Case exports keep counterevidence and complete provenance even beyond visible map nodes (1.31755ms)
+✔ Graph uses case-local identities and never adds cross-case same-name or office connections (0.899272ms)
+✔ Latest filter uses publication time, never retrieval or case update time (0.43377ms)
+✔ City, sector and claim-stage filters intersect without changing source meaning (0.55913ms)
+✔ Actual forecast registry remains unresolved with a disabled calibration gate (18.985081ms)
+✔ Explicit facet aliases find power and school evidence without rewriting original tags (2.282345ms)
+ℹ tests 38
+ℹ suites 0
+ℹ pass 38
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 294.34721

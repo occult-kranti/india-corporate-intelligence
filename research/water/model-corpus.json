@@ -1,0 +1,424 @@
+{
+  "schemaVersion": 1,
+  "evidenceAsOf": "2026-10-06",
+  "sourceRegistry": "src/data/water-research.json",
+  "inputKind": "Public researcher-authored source summaries and limitations; not full documents",
+  "documents": [
+    {
+      "id": "wf-agmarknet",
+      "title": "AGMARKNET commodity-wise, market-wise daily report",
+      "text": "Report separates price, arrivals or both and offers commodity and market discovery. Commodity list includes rice/wheat/pulses, vegetables and fruits. Daily report values and observation dates require explicit query/export validation before charting. No source farm or village origin can be inferred from market location. Missing reports are not zero arrivals; market unit and grade must be retained.",
+      "url": "https://agmarknet.gov.in/PriceAndArrivals/CommodityWiseDailyReport.aspx",
+      "evidenceTier": "primary",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "wf-agri-annual",
+      "title": "Agriculture and Farmers Welfare Annual Report 2024–25",
+      "text": "Table 4 reports national rice, wheat and pulses area, production and yield for 2021–22 to 2023–24. Section 5.4.2 reports 2023–24 third advance horticulture estimates: vegetables 11.17 million ha, 205.80 million tonnes, 18.42 tonnes/ha. Section 5.4.6 records May 2024 training for farmers from named Nagaland villages and July 2024 horticulture-officer training in Shillong. Report is historical and mixes final, advance and cumulative series; retain each observation's own version and period. National crop totals cannot be allocated to states, cities or villages. Origin download returned HTTP 403; statements rely on official-domain indexed text. Exa extraction extended to 500,000 characters, selected sections reviewed. Village training examples do not establish village production, water access, funding receipt or programme impact.",
+      "url": "https://www.agriwelfare.gov.in/Documents/HomeWhatsNew/AR_Eng_2024_25.pdf",
+      "evidenceTier": "primary",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "wf-audit-fci",
+      "title": "CAG Report 20 of 2023: FCI storage management and movement",
+      "text": "CAG section 3.4.3 found 10.55 lakh MT owned CAP storage vacant while additional storage was hired in Punjab/Haryana during RMS 2020–21/2021–22. CAG assessed ₹62.76 crore avoidable storage/supervision expenditure. FCI management said hiring anticipated a bumper paddy crop and finalized guaranteed-hiring tenders could not be cancelled without litigation; CAG rejected the explanation. Observed procurement/storage seasons partly precede 6 October 2021; do not label as current losses. Capacity figures are not foodgrain spoilage quantities; audit assessment is not a finding of criminal intent. Underlying ministry had not replied on this point according to the report; subsequent recovery/action was not established. Direct-origin request returned HTTP 503; official-domain indexed extract was reviewed through the relevant section.",
+      "url": "https://cag.gov.in/webroot/uploads/download_audit_report/2023/Report-No.-20-of-2023_PA-on-FCI_English-PDF-A-066b9d3c33f4c35.05840530.pdf",
+      "evidenceTier": "primary",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "wf-audit-haryana",
+      "title": "CAG: Haryana wheat procurement, storage and delivery to FCI",
+      "text": "CAG section 3.4.2 assessed ₹54.90 crore penalties leviable on transporters for lifting delays in RMS 2020/2021; says none were imposed. Department cited pandemic operating restrictions and efforts to maintain procurement; CAG said no State decision waived the penalties. Audit covered eight of Haryana's twenty-two districts and disclosed incomplete 2020 vehicle data. 2025 official archive and February 2025 follow-up support contemporary publication context, but exact publication date was not established. Audited transactions largely predate the requested five-year window; retain them as older-period findings disclosed in the window. Audit-calculated levy is not proven theft, a court judgment, money recovered or a current 2026 loss. Direct-origin PDF request returned HTTP 503; official-domain indexed text was read.",
+      "url": "https://cag.gov.in/uploads/download_audit_report/2025/Chapter-3-Performance-Audit-on-Procurement%2C-Storage-and-Delivery-of-wheat-to-FCI-068b56e065402f3.29032578.pdf",
+      "evidenceTier": "primary",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "wf-cold-storage",
+      "title": "Building resilient infrastructure for storage of food grains",
+      "text": "Reports 8,815 cold storages with 402.18 lakh MT capacity as of 30 June 2025. Reports 917.83 lakh MT covered/CAP central-pool storage capacity with FCI and state agencies as of 1 July 2025. Describes cold-chain, PACS and Kisan SAMPADA infrastructure; as of August 2025 eleven PACS pilot godowns in eleven states were completed. Capacity is not stock, annual throughput, uninterrupted operation or equal local access. Cold storage spans horticulture, dairy, meat and seafood; total cannot be attributed to vegetables alone. Announced, sanctioned, constructed and operational facilities require separate status; no complete village storage inventory verified. Kisan SAMPADA PMKSY is distinct from irrigation PM Krishi Sinchayee Yojana.",
+      "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2172351&lang=2&reg=3",
+      "evidenceTier": "primary",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "wf-crop-estimate",
+      "title": "Second advance estimates of major agricultural crops, 2024–25",
+      "text": "Release describes estimate construction using state crop-area data, remote sensing, crop-weather review and crop-cutting experiments. Published quantities are an advance-estimate vintage, not final harvest outcomes. This March 2025 estimate is historical and superseded by later vintages; do not present as latest 2024–25 final output. Kharif, Rabi and annual quantities must be aligned; estimate revision is not automatically a reporting irregularity.",
+      "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2109884",
+      "evidenceTier": "primary",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "wf-crop-table",
+      "title": "Economic Survey 2025–26 Table 1.18: leading crop-producing states",
+      "text": "Official table lists the top three producing states by crop, including rice, wheat and total pulses. Rice: UP 20.76, Telangana 17.45, West Bengal 16.02 million tonnes; wheat: UP 35.65, MP 24.51, Punjab 17.99 million tonnes. Total pulses: MP 5.24, Maharashtra 5.04, Rajasthan 3.93 million tonnes. Top-three table is not an all-state crop inventory and absent states are not zero producers. Crop groups overlap with constituent crops; do not sum pulses and gram/tur or rice and total foodgrains. Cotton/jute table rows use million bales, not million tonnes; those rows were excluded from normalized observations.",
+      "url": "https://www.indiabudget.gov.in/economicsurvey/doc/stat/tab1.18.pdf",
+      "evidenceTier": "primary",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "wf-dfpd",
+      "title": "Department of Food and Public Distribution Annual Report 2024–25",
+      "text": "Department responsibilities span MSP procurement, movement, storage and distribution under food security policy. FCI and state agencies serve distinct procurement/storage/distribution roles. Quality-control cells and grain-analysis facilities monitor specifications and storage quality. Responsibilities and aggregate operations do not establish adequate access, quality or entitlements in every locality. PDS allocation, lifting/offtake, distribution and household receipt are different stages. Initial extract reviewed was capped at 18,000 characters; no complete stock series extracted.",
+      "url": "https://dfpd.gov.in/WriteReadData/AnnualRecordUploadDocuments/b9c640b8-5889-4ffd-a62d-5b56c5d4f029_Food%20AR%202024-25%20English%20small%20size.pdf",
+      "evidenceTier": "primary",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "wf-enam",
+      "title": "eNAM AGMARKNET market-price dashboard",
+      "text": "Dashboard supports state, district, APMC, commodity and date filters. Schema distinguishes arrivals, quantity traded, commodity variety, min/modal/max price, unit and observation date. Only schema and selectors were retrieved; no current price observation was verified. Mandi arrivals are flows through reporting markets, not local crop production, household availability or consumption. Modal prices are neither guaranteed MSP receipts nor complete retail food-price series.",
+      "url": "https://enam.gov.in/web/dashboard/agmarknet",
+      "evidenceTier": "primary",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "wf-fci-dashboard",
+      "title": "FCI operations dashboard: procurement, stocks, allocation and offtake",
+      "text": "Dashboard labels 36 states/UTs and 26 FCI regions. Fields distinguish allocation/offtake, paddy/wheat procurement, due/made payment, capacity, stock and utilization. Fetched snapshot lacks a reliable selected-date context and mixes day/progressive counters. Some displayed ratios exceed 100%; do not call fraud or shortage without denominator, period and system-status reconciliation. No dynamic amounts published as normalized observations.",
+      "url": "https://iisfm.nic.in/FCIDashboard/Default.aspx",
+      "evidenceTier": "primary",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "wf-fertilizer",
+      "title": "Rationalisation of Fertilizer Subsidy — Lok Sabha Q3255",
+      "text": "Answer says fertilizer subsidy is released to companies based on actual authenticated retail sales. Government states subsidy funds are not allocated or disbursed on a district- or state-wise basis, so that allocation data is not maintained. iFMS monitors movement, supply, dispatch, stock and allocation status. Do not invent state fertilizer subsidy amounts from national company payments or from quantities supplied. Subsidized sale, warehouse stock, agronomic need and farmer access are different measures. Published matrix extraction is malformed; financial values not normalized.",
+      "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU3255_Dvt67U.pdf",
+      "evidenceTier": "primary",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "wf-icar-annual",
+      "title": "ICAR Annual Report 2024–25: crop improvement and seed production",
+      "text": "Report highlights 524 notified/released field-crop varieties and hybrids, including 79 for abiotic stresses. Summary reports 106,397.6 quintals breeder seed produced against indent of 62,104.7 quintals, and 428,046 quintals quality seed including foundation, certified and truthfully labelled classes. ICAR reported output is not all-India commercial seed production or seed actually delivered to every farmer. Variety release, breeder-seed production, certification and retail seed availability are different stages. Do not promise stress resistance or yield without variety-specific adaptation recommendations.",
+      "url": "https://icar.org.in/sites/default/files/2025-10/ICAR%20Eng%20Annual%20Report_2024-25.pdf",
+      "evidenceTier": "primary",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "wf-irrigation",
+      "title": "Progress made under PMKSY — Lok Sabha starred Q165",
+      "text": "Answer distinguishes irrigation potential created, command area developed and micro-irrigation coverage. Reports 114.60 lakh ha cumulative PDMC coverage since 2015–16. Reports 14,071 ha under PDMC in Dahod district and two watershed projects covering 15,785 ha; states no AIBP/HKKP project in Dahod Lok Sabha constituency. Dahod district and parliamentary constituency are not identical geographies; no-project finding is component-specific. Irrigation potential, actual water delivery and sustainably available water are not interchangeable. Programme totals cannot show effectiveness in a village; cumulative and three-year figures must remain separate.",
+      "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AS165_nuNATC.pdf",
+      "evidenceTier": "primary",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "wf-pdmc",
+      "title": "Drip and sprinkler irrigation through PMKSY — Lok Sabha Q2767",
+      "text": "PDMC moved from PMKSY to PM-RKVY from FY 2022–23. Government reports 96.97 lakh ha micro-irrigation coverage: 46.37 lakh ha drip and 50.60 lakh ha sprinkler. Assistance is 55% of unit cost for small/marginal farmers and 45% for others. Cumulative coverage begins before the requested five-year window and is labelled historical cumulative. Area covered is not measured water saved, crop yield impact or reliable current system operation. Do not confuse PM Krishi Sinchayee Yojana with PM Kisan SAMPADA Yojana, which shares the acronym PMKSY.",
+      "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/184/AU2767_zvN42a.pdf",
+      "evidenceTier": "primary",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "wf-pmfby",
+      "title": "Crop failure assistance: PMFBY premium support and claims",
+      "text": "Release separates government premium subsidy from claims paid under PMFBY and RWBCIS. Digiclaim module is described as operational for claims from Kharif 2022; crop-cutting experiments and technology-based yield estimation support assessment. Insurance premium subsidy is not identical to a farmer's claim payment or measured crop loss. Table extraction omits some row labels; no monetary rows from the malformed annexure were normalized. Claims depend on season, insured crop, notification, coverage, assessment and settlement cutoff; applications are not necessarily unique farmers.",
+      "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2201008&lang=1&reg=3",
+      "evidenceTier": "primary",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "wf-sathi",
+      "title": "SATHI: seed lifecycle and traceability",
+      "text": "SATHI describes seed production, certification, licensing, inventory, sale and traceability across generations. Digital field inspections and laboratory workflows support certification. Portal describes capabilities, not universal adoption or verified seed quality for any village. A seed tag identifies a batch; certification does not guarantee yield in every climate.",
+      "url": "https://seedtrace.gov.in/ms014/aboutUs",
+      "evidenceTier": "primary",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "wf-sathi-stats",
+      "title": "SATHI services and onboarded-state statistics",
+      "text": "Service page distinguishes registered area, processed/tested/certified quantities and seed sold. Page notes repeat tests can affect tested-versus-processed quantity comparisons. Fetched statistics contain unresolved template variables; no numeric seed stock or state coverage was extracted. Do not treat blank templates as zero or compare different processing stages as shrinkage.",
+      "url": "https://seedtrace.gov.in/ms014/english",
+      "evidenceTier": "primary",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "wp-amrut-outcomes",
+      "title": "Household tap connections provided under AMRUT 2.0",
+      "text": "Official ULB table reports household tap connections provided under AMRUT 2.0. Selected city rows are retained with original table row and PDF page locators. Programme-provided connection count is not the city's total connections or coverage percentage. No city population denominator, daily availability or quality is inferred. Municipal jurisdiction must not be silently substituted for district or metropolitan area.",
+      "url": "https://amrut.mohua.gov.in/assets/Outcome-Achieved-Under-AMRUT.pdf",
+      "evidenceTier": "primary",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "wp-amrut-policy",
+      "title": "Cabinet approves AMRUT 2.0 till 2025–26",
+      "text": "City Water Balance Plans are intended to quantify source, demand, supply and service gaps, feeding city/state action plans. Approved programme design is not measured city-level achievement. Later extensions or revisions need separate dated orders.",
+      "url": "https://www.pmindia.gov.in/en/news_updates/cabinet-approves-the-atal-mission-for-rejuvenation-and-urban-transformation-amrut-2-0-till-2025-26/",
+      "evidenceTier": "primary",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "wp-bengaluru-resident-voices",
+      "title": "Many Bengaluru apartments continue water conservation measures post the crisis period",
+      "text": "Resident associations and Bengaluru Apartments Federation describe continued conservation, rainwater harvesting and reuse after the acute crisis. Qualitative stakeholder reporting is not a representative household survey. Anecdotes about reuse do not establish drinking-water safety. Continued local tanker dependence does not establish uniform city conditions.",
+      "url": "https://www.thehindu.com/news/cities/bangalore/many-bengaluru-apartments-continue-water-conservation-measures-post-the-crisis-period/article68460057.ece",
+      "evidenceTier": "reported",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "wp-bengaluru-utility-voices",
+      "title": "Bengaluru after the water crisis: utility response and conservation",
+      "text": "Interview with BWSSB chairman describes tanker coordination, conservation and reuse responses to the 2024 shortage. Reported stakeholder perspective, not independently audited service data. Headline 'Day Zero' is not adopted as a verified citywide outage classification. Projections and uncorroborated numerical claims are not imported.",
+      "url": "https://www.downtoearth.org.in/water/bengaluru-after-day-zero-citys-government-people-took-water-scarcity-head-on-will-convert-crisis-into-opportunity",
+      "evidenceTier": "reported",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "wp-cag-karnataka",
+      "title": "CAG Karnataka Report No. 12 of 2025: implementation of Jal Jeevan Mission",
+      "text": "Section 3.3.1 records incomplete work in Hebbal, Shirahatti taluk, Gadag district during 2024 despite Har Ghar Jal reported status. Government responded in May 2025 that the elevated reservoir was completed by 8 April 2025, with 200 m pipeline and 20 FHTCs remaining before certification/trial run. Section 3.5 discusses 33 tenders worth ₹251.75 crore invited/awarded after 31 March 2024; Government cites timely administrative approvals and delays from non-participation and re-tendering. Report sample is 28 villages in seven districts; it is not a statewide failure rate. Har Ghar Jal reported status and certified status differ. Audit period begins before requested window; Hebbal implementation findings from 2024 and response from 2025 are separately dated. No evidence of current 2026 conditions or individual guilt is inferred. Exact original publication day unconfirmed; direct PDF retrieval returned HTTP 503.",
+      "url": "https://cag.gov.in/webroot/uploads/download_audit_report/2025/Combined-Pdf_JJM-Final-03.03.26-069c25b7fcf4287.01649139.pdf",
+      "evidenceTier": "primary",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "wp-cag-kerala",
+      "title": "Kerala CAG audit, Chapter IV: implementation of schemes",
+      "text": "Audit reports 2,726 completed out of 5,318 JJM works as at November 2024. 122 of 342 surveyed beneficiaries reported no, limited or infrequent supply. Government response cites 21 lakh additional taps in four years and implementation constraints. Survey findings describe the audit sample, not all Kerala households. Part of the audited period precedes the requested 6 October 2021 window. Exact publication date is unconfirmed; 2025 report archive path is not assigned as a publication day. Direct original URL returned HTTP 503; Exa primary-document indexed extract was reviewed. Audit observations are not a finding of criminal intent and not proof the conditions continue in 2026.",
+      "url": "https://cag.gov.in/uploads/download_audit_report/2025/9.Chapter-IV---Implementation-of-Schemes-0699d4ee539fc57.51076092.pdf",
+      "evidenceTier": "primary",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "wp-cgwb-2025",
+      "title": "Dynamic Groundwater Resources Assessment, 2025",
+      "text": "Annual recharge is 448.52 BCM; annual extractable resources 407.75 BCM; annual extraction 247.22 BCM; national extraction stage 60.63%. Among 6,762 assessed units, 4,946 safe, 758 semi-critical, 201 critical, 730 over-exploited and 127 saline units are reported. Safe is a groundwater extraction-stage category, not a drinking-water-quality guarantee. Units generally mean blocks/tehsils/talukas/mandals, not individual villages. National mean cannot describe every aquifer; extraction includes irrigation, domestic and industrial uses. All-state numeric groundwater table was not recovered in this workstream.",
+      "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2220203&lang=2&reg=48",
+      "evidenceTier": "primary",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "wp-cgwb-repository",
+      "title": "CGWB publications repository",
+      "text": "Repository offers state/district and aquifer resources, groundwater quality and resource assessments. Discovery index only; report dates, coverage and assessment units need document-level verification. Direct origin retrieval returned HTTP 503; indexed text was available.",
+      "url": "http://cgwb.gov.in/cgwbpnm/",
+      "evidenceTier": "primary",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "wp-cppp-search",
+      "title": "Government eProcurement System: advanced tender search",
+      "text": "Official search filters support organisation, tender ID, work category and dates. Discovery link is not a list of water awards or executed contracts. CAPTCHA and interactive filtering limit automatic retrieval. Tender notice, corrigendum, cancellation, award and payment are separate records; no tender counts or award amounts are invented.",
+      "url": "https://www.etenders.gov.in/eprocure/app?page=FrontEndAdvancedSearch&service=page",
+      "evidenceTier": "primary",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "wp-gem-bids",
+      "title": "GeM: all bids",
+      "text": "Official portal provides bid discovery and warns new or modified bids may take time to appear. No hydrated bid results were retrieved. Procurement discovery is not evidence of an award, payment or misconduct. Water procurement must be filtered and individual dated documents reviewed.",
+      "url": "https://bidplus.gem.gov.in/all-bids",
+      "evidenceTier": "primary",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "wp-india-wris",
+      "title": "Water Resources Information System: India-WRIS",
+      "text": "India-WRIS brings together water-resource spatial and temporal information for assessment and planning. Official linked platform is https://indiawris.gov.in/wris/#/. Station and basin observations are not measurements for every village. Check station, parameter, season, datum and spatial boundaries before combining with supply data.",
+      "url": "https://cwc.gov.in/water-resources-information-system-wris",
+      "evidenceTier": "primary",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "wp-jjm-assessment-release",
+      "title": "Assessment of functionality of household tap water connections provided under JJM",
+      "text": "Release reports 98.1% connections available, 86.5% working, 80.2% adequate quantity, 83.6% regularity and 76% tested water quality in surveyed villages. Certification requires a Gram Sabha resolution after work completion reporting. Use the underlying report's sample definitions and minimum-index method. Published percentages are not universal village or household safety claims.",
+      "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2220145&lang=1&reg=1",
+      "evidenceTier": "primary",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "wp-jjm-dashboard",
+      "title": "JJM Dashboard: reported and certified Har Ghar Jal",
+      "text": "Administrative household tap-connection monitoring and separate reported/certified Har Ghar Jal statuses. Official state, district and village discovery routes are available. A connection is not continuous safe supply. Unhydrated dashboard zero placeholders were not imported. Live household/village denominators may be reconciled; snapshots must retain dates.",
+      "url": "https://ejalshakti.gov.in/JJMReport/",
+      "evidenceTier": "primary",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "wp-jjm-functionality-2024",
+      "title": "National report on functionality assessment of tap connections, 2024",
+      "text": "Survey covered 19,812 Har Ghar Jal villages, 237,608 households, 761 districts and 34 states/UTs. Table 6 publishes separate regularity, quantity, tested-quality and minimum-of-three index percentages. Section 4.7 explicitly says the sampling design cannot identify the same household fulfilling all three parameters; the published functionality index takes their minimum. Table 6 household-quality assessment uses microbiological laboratory testing and on-site pH; source-water chemical testing is analysed separately in the report. Selected Har Ghar Jal villages are not all rural villages. Published minimum index is not the observed joint share of functional household supply. The Table 6 household-quality percentage does not establish full BIS chemical safety, including arsenic or fluoride; source-water chemical tests are a separate sample. Quantity and quality have different sampling units; do not combine as household intersection. Exact original publication day is unconfirmed; URL folder date is not used as publication date.",
+      "url": "https://jaljeevanmission.gov.in/sites/default/files/2025-12/FHTC_National%20Report%202024.pdf",
+      "evidenceTier": "primary",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "wp-jjm-j3",
+      "title": "Format J3: tap connections in villages with piped water supply",
+      "text": "34 rural state/UT rows provide rural households, balance household tap connections and households with tap connections in PWS villages. The published total is 586,054 villages, 1,935.52 lakh rural households and 1,589.93 lakh households with tap connections in PWS villages. Household figures are rounded to 0.01 lakh. PWS-village households and all-rural households are different denominators. Administrative connections do not establish regularity, quantity or water quality. Delhi and Chandigarh are absent; no zeros are imputed. Exa returned a dated 27 July snapshot; it is not relabelled an October count.",
+      "url": "https://ejalshakti.gov.in/JJM/JJMReports/Physical/JJMRpt_StateWiseTapConnection.aspx",
+      "evidenceTier": "primary",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "wp-jjm-village",
+      "title": "JJM Citizen Corner: village information",
+      "text": "Village search supports water-quality, piped-water-supply, community management and certification discovery. Discovery route only; no individual village values were retrieved from this portal. Village names must be resolved with state/district/subdistrict identifiers.",
+      "url": "https://ejalshakti.gov.in/jjm/citizen_corner/villageinformation.aspx",
+      "evidenceTier": "primary",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "wp-nwic-data",
+      "title": "National Water Data Portal: NWIC water data",
+      "text": "Water-data discovery spans quantity, quality, use, planning, climate and related infrastructure. Portal availability does not imply uniform geographic coverage, freshness or village granularity. Dataset-specific metadata and access terms must be checked.",
+      "url": "https://nwdp.nwic.gov.in/en/about/nwicwaterdata",
+      "evidenceTier": "primary",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "wp-water-quality-policy",
+      "title": "Water quality management under JJM",
+      "text": "BIS 10500 is the drinking-water quality benchmark. Arsenic/fluoride affected habitations may receive interim community water purification provision at 8–10 litres per capita per day for drinking and cooking while permanent schemes are implemented. Interim drinking/cooking volume is not the full 55 LPCD household service benchmark. Policy provision is not proof of installation or safe operation in any locality.",
+      "url": "https://www.pib.gov.in/PressReleasePage.aspx?lang=1&PRID=2291858&reg=3",
+      "evidenceTier": "primary",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "wp-wqmis",
+      "title": "WQMIS public reports",
+      "text": "Public report routes include infrastructure/delivery points, remedial action, laboratory capacity, parameters and field-test-kit testing. Only report index was retrieved; no contamination counts or clean-water rates are inferred. Unhydrated dashboard zero placeholders are missing data, not absence of contamination. Sample time, water point, contaminant and retest/remedial action are required for exposure assessment.",
+      "url": "https://ejalshakti.gov.in/WQMIS/Main/report",
+      "evidenceTier": "primary",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "wx-agromet-cuttack-2025-07",
+      "title": "Cuttack block-wise Agromet Advisory, July 1–5, 2025",
+      "text": "Expired block-level advisory links forecast rain to rice nursery drainage, irrigation timing and crop stages. Athagad and Badamba sections explicitly say forecast period from today 08:30 IST to July 6, 2025 08:30 IST. General advice discusses draining excess water from rice nurseries, delaying irrigation and weather-dependent farm operations. The bulletin separately dates NDVI to June 12–18 and SPI to May 29–June 25, 2025. Historical expired advice, not present planting or chemical-use instructions. Issue clock time is not stated; 08:30 is the forecast-period boundary, not necessarily issuance time. Block advisory cannot be relabelled as village field conditions or proof that a pest/disease occurred.",
+      "url": "https://icar-crri.in/wp-content/uploads/2025/07/IAAS_DAMU_01.07.2025.pdf",
+      "evidenceTier": "primary",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "wx-bengaluru-bwssb-response-2024",
+      "title": "BWSSB chairman interview on drinking-water reserves and peripheral shortages",
+      "text": "Utility response distinguishes basin water available for drinking from shortages in areas reliant on borewells. BWSSB chairman said 110 villages relied on borewells and groundwater levels had fallen. He said basin storage would be sufficient for drinking needs until monsoon and urged treated-water use for other purposes. Utility official's attributed assessment is not independent verification of every household's supply. Different dates, service boundaries and drinking/non-drinking scopes must be aligned before comparing with other estimates. An expectation about future supply in March 2024 is an expired historical statement.",
+      "url": "https://www.thehindu.com/news/cities/bangalore/water-situation-is-of-concern-but-not-as-alarming-as-it-is-being-projected-bwssb-chairman/article67954969.ece",
+      "evidenceTier": "reported",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "wx-bengaluru-community-2024",
+      "title": "Families, schools and hospitals describe Bengaluru water shortage",
+      "text": "Local reporting documents reported interruptions, tanker dependence and pressure on schools and a hospital. Residents in Krishnanapalya describe shortened Cauvery supply. Inspire Public School in Thanisandra and Sai Hospital in Hegde Nagar report dry borewells and dependence on tankers. Article explicitly says a reported 1,500-foot borewell-depth claim could not be independently verified. Interviews are qualitative community evidence and are not a representative city survey. Keep named institution and neighbourhood scope; reported tanker prices need delivery date/volume/radius matching. Do not reuse the unverified borewell depth as a measurement.",
+      "url": "https://citizenmatters.in/bengaluru-krishnanapalya-water-shortage-tankers-cauvery/",
+      "evidenceTier": "reported",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "wx-bengaluru-shortage-2024",
+      "title": "Bengaluru facing 500 MLD shortfall, Chief Minister says",
+      "text": "Reporting attributes a quantified water deficit and borewell stress to Karnataka's Chief Minister. Chief Minister is quoted giving demand 2,600 MLD, Cauvery supply 1,450 MLD, groundwater supply 650 MLD and shortfall 500 MLD. He said 6,900 of 14,000 government borewells had dried and named outer areas without Cauvery service as affected. Attributed official statements reported by news; not independently audited measurements. A city-wide average cannot establish supply at a selected ward or village. Historical March 2024 snapshot, not current 2026 supply.",
+      "url": "https://www.thehindu.com/news/cities/bangalore/bengaluru-facing-shortage-of-500-mld-water-daily-admits-chief-minister-siddaramaiah/article67964439.ece",
+      "evidenceTier": "reported",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "wx-cwc-flood-portal",
+      "title": "CWC Flood Forecast portal",
+      "text": "Official source discovery for river-level and inflow forecasts. Fetched page identifies itself as CWC Flood Forecast. JavaScript portal returned no station observations, issue times or validity data to the text fetch. No current flood status or live alert can be inferred from this record.",
+      "url": "https://ffs.india-water.gov.in/",
+      "evidenceTier": "primary",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "wx-cwc-reservoir-archive",
+      "title": "CWC reservoir storage bulletin archive: 2024 snapshots",
+      "text": "Official directory lists dated live-storage reports for 150 monitored reservoirs. Visible index includes 21 March, 28 March, 25 April and 13 June 2024 bulletins. Page text says last updated 14 June 2024. Archive snapshot is stale relative to October 2026; this is not live storage. Underlying reservoir PDFs were not individually fetched; no reservoir volume is asserted. Monitored reservoirs are not a census of every local tank, village source or groundwater aquifer.",
+      "url": "https://cwc.gov.in/reservoirs-storage-bulletin",
+      "evidenceTier": "primary",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "wx-drought-manual-2016",
+      "title": "Manual for Drought Management, December 2016",
+      "text": "Government manual provides historical drought-monitoring and response methodology. Title page identifies December 2016 and the Government of India agriculture department. Manual concerns monitoring, drought declaration, relief and mitigation. Outside 2021-10-06 to 2026-10-06 evidence window; include only as clearly marked background. Fetched from an intergovernmental disaster-information mirror, not the original ministry host. Only opening portion fetched; current amendments and applicable state rules must be checked before operational use.",
+      "url": "https://www.preventionweb.net/files/57453_indiadroughtmanual2016.pdf?startDownload=true",
+      "evidenceTier": "primary",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "wx-imd-climate-2025",
+      "title": "Statement on the Climate of India during 2025",
+      "text": "National climate statement with regional rainfall differences and documented extreme-weather events. All-India annual rainfall is reported as 1,274 mm and 110% of the 1971–2020 long-period average. Southwest monsoon rainfall is reported as 127% of LPA for Northwest India and 80% for East & Northeast India, illustrating why national surplus does not rule out regional shortfall. National and homogeneous-region aggregates do not establish city/village conditions. Document says extreme-weather casualties use media and disaster-management reports; avoid treating every casualty as a direct instrument measurement.",
+      "url": "https://internal.imd.gov.in/press_release/20260101_pr_4602.pdf",
+      "evidenceTier": "primary",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "wx-imd-drought-2023",
+      "title": "Drought Condition Assessment: September and June–September 2023",
+      "text": "IMD combines SPI, SPEI and aridity anomaly indicators in a district assessment. Summary reports dry/arid classifications from multiple drought indices. District names and indicator-specific tables are provided; classifications are historical. Publication date not stated in fetched text; period is not a publication date. Extracted text includes a September 2022 table caption within the 2023 report and an implausible 30 states / 11 UTs phrase. Reconcile against original pages before loading numerical tables. Meteorological indicators do not establish household tap reliability or an administrative drought declaration.",
+      "url": "https://imdpune.gov.in/caui/drought_rep.pdf",
+      "evidenceTier": "primary",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "wx-imd-forecast-2024-05-23",
+      "title": "IMD press release: May 23, 2024 weather outlook",
+      "text": "Archived bulletin demonstrates timestamped forecast evidence, including cyclone and heatwave expectations. Issued May 23, 2024 at 1410 IST. Subject forecasts a cyclonic storm approaching Bangladesh/adjoining West Bengal by May 26 evening and heatwave conditions over named regions during the next five days. Expired forecast; it is neither evidence that all predicted impacts occurred nor a current alert. Different hazards have different valid windows. No single precise expiry time is stated for the whole release. Use observed follow-up bulletins to evaluate forecast outcomes.",
+      "url": "https://internal.imd.gov.in/press_release/20240523_pr_3011.pdf",
+      "evidenceTier": "primary",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "wx-imd-hydroclimate-2026-06",
+      "title": "Monthly Hydroclimate Summary Bulletin: June 2026",
+      "text": "District hydroclimate bulletin reports SPI, SPEI, aridity, rainfall and temperature for June 2026. The document explicitly identifies June 2026 and separates SPI, SPEI and AAI. It provides maps and region-wise district classifications. Undated mutable bulletin URL; retrieved content is June 2026, not October conditions. Extracted SPI region rows and All India extreme-wet totals do not reconcile. Verify PDF/table extraction before any district count metric. Rainfall and hydroclimate classifications alone are not village drought declarations.",
+      "url": "https://imdpune.gov.in/caui/rainfall_summary/bulletin.pdf",
+      "evidenceTier": "primary",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "wx-imd-rainfall-2024",
+      "title": "Rainfall Statistics of India – 2024",
+      "text": "Official compilation of monthly, seasonal and annual 2024 rainfall. Report identifier is ESSO/MoES/IMD/HS/Rainfall Report/02(2025)/66. Annual map reports all-India rainfall 1,206.6 mm against 1,160.0 mm normal, a rounded 4% departure. Publication year is 2025 in report identifier; exact publication day is not stated in extracted opening pages. Fetched URL contains a session token and may require replacing with a stable official locator. Only opening pages were fetched; no district observations have been transcribed.",
+      "url": "https://hydro.imd.gov.in/hydrometweb/(S(4jwlae45z2suuuqf1ruew345))/PRODUCTS/Publications/Rainfall%20Statistics%20of%20India%20-%202024/Rainfall%20Statistics%20of%20India%202024.pdf",
+      "evidenceTier": "primary",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "wx-imd-state-climate-archive",
+      "title": "State-wise Annual Climate Statements, 2021–2024",
+      "text": "Discovery route to state climate statements covering temperature, rainfall, SPI and extreme-weather impacts. Portal says the 2021 state climate statements were first prepared in 2022. Selectors show 2021–2024 and state names. Discovery index, not an ingested state-level dataset. 2021 annual documents partly precede the requested window beginning 2021-10-06; finer-period records are needed to filter strictly. No individual state report values were extracted in this workstream.",
+      "url": "https://imdpune.gov.in/Reports/Statewise%20annual%20climate/statewise_annual_climate.html",
+      "evidenceTier": "primary",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "wx-ngt-ennore-2024",
+      "title": "IIT Madras assessment of Ennore oil spill, filed with TNPCB report at NGT",
+      "text": "Technical assessment describes flood-driven industrial oil contamination of waterways and adjoining residential areas. Report maps contamination zones and says affected open wells are groundwater sources. Executive summary calls for remediation and further assessment of prolonged exposure via air, water and fish. Technical report filed in proceedings is not a final court finding or a present water-quality clearance. Avoid adding oil mass and oily-sludge mass as comparable quantities; report itself uses different estimates and discusses uncertainty. March 2024 is the report month; exact filing/publication day not established.",
+      "url": "https://www.greentribunal.gov.in/sites/default/files/news_updates/OA%20180%20of%202023%20Report%20by%20TNPCB_0.pdf",
+      "evidenceTier": "primary",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "wx-nrsc-tn-inundation-2023",
+      "title": "NRSC Michaung inundation map: 7 December 2023",
+      "text": "Rapid satellite inundation mapping provides a historical footprint with explicit uncertainty. Table 2 totals 148,360 hectares of mapped inundation/standing water over listed districts. Report requests field feedback and says no ground verification was done. Preliminary rapid map; inundation can include rain accumulation or water in paddy fields. Satellite scale, resolution, date and interpretation limit conclusions; mapped water is not automatically crop loss or unsafe drinking water. Acquisition time zone is unstated; do not append IST without confirmation.",
+      "url": "https://ndem.nrsc.gov.in/documents/Disaster_Document/2023/TN/tncyclone50dsc07122023_0600hrs/tncyclone50dsc07122023_0600hrs_report.pdf",
+      "evidenceTier": "primary",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "wx-tn-disaster-2023",
+      "title": "Tamil Nadu Gazette: cyclone- and flood-affected districts declaration",
+      "text": "G.O. 604 formally declares named cyclone- and flood-affected districts in December 2023. Order declares Chennai, Tiruvallur, Chengalpattu and Kancheepuram cyclone affected. It declares six southern districts flood affected and describes damage to crops and water-supply infrastructure. Historical declaration is not a present warning. Rainfall quantities in the order require station/aggregation interpretation before numerical reuse; only declaration and described impacts used here.",
+      "url": "https://www.stationeryprinting.tn.gov.in/extraordinary/2023/421_Ex_II_1_2023.pdf",
+      "evidenceTier": "primary",
+      "retrievedAt": "2026-10-06"
+    }
+  ]
+}

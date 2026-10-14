@@ -12,10 +12,11 @@ import { DataProvider } from './context/DataContext';
  * substantial dataset — but a reader arriving at the dashboard should not download
  * the ingestion audit to see it.
  *
- * The dashboard is deliberately NOT lazy: it is the landing route, and splitting it
- * only adds a round trip before the first paint.
+ * The original dashboard is a lazy dossier too. The shared investigation
+ * workspace owns the default landing surface and only mounts a route dossier
+ * when the reader explicitly opens it.
  */
-import Dashboard from './pages/Dashboard';
+const Dashboard = lazy(() => import('./pages/Dashboard'));
 
 const MapExplorer = lazy(() => import('./pages/MapExplorer'));
 const StateProfile = lazy(() => import('./pages/StateProfile'));
@@ -40,6 +41,12 @@ const Allocation = lazy(() => import('./pages/Allocation'));
 const PmCares = lazy(() => import('./pages/PmCares'));
 const Energy = lazy(() => import('./pages/Energy'));
 const Welfare = lazy(() => import('./pages/Welfare'));
+const Finance = lazy(() => import('./pages/Finance'));
+const Security = lazy(() => import('./pages/Security'));
+const Education = lazy(() => import('./pages/Education'));
+const Water = lazy(() => import('./pages/Water'));
+const PublicWorks = lazy(() => import('./pages/PublicWorks'));
+const InvestigationDossier = lazy(() => import('./pages/InvestigationDossier'));
 const Competition = lazy(() => import('./pages/Competition'));
 const Provenance = lazy(() => import('./pages/Provenance'));
 const Method = lazy(() => import('./pages/Method'));
@@ -49,8 +56,16 @@ const MediaView = lazy(() => import('./pages/MediaView'));
 const Search = lazy(() => import('./pages/Search'));
 const Watchlist = lazy(() => import('./pages/Watchlist'));
 const Investigations = lazy(() => import('./pages/Investigations'));
+const ResearchProgram = lazy(() => import('./pages/ResearchProgram'));
 const Leads = lazy(() => import('./pages/Leads'));
 const GameTheory = lazy(() => import('./pages/GameTheory'));
+const FollowTheMoney = lazy(() => import('./pages/FollowTheMoney'));
+const MoneyTrails = lazy(() => import('./pages/MoneyTrails'));
+const ResearchRadar = lazy(() => import('./pages/ResearchRadar'));
+const ModelLab = lazy(() => import('./pages/ModelLab'));
+const FundingInvestigations = lazy(() => import('./pages/FundingInvestigations'));
+const HypothesisLab = lazy(() => import('./pages/HypothesisLab'));
+const Allegations = lazy(() => import('./pages/Allegations'));
 
 /**
  * A deliberately quiet fallback. A spinner that flashes for 80ms is worse than a
@@ -77,6 +92,25 @@ function App() {
                 <Suspense fallback={<RouteFallback />}>
                   <Routes>
                     <Route path="/" element={<Dashboard />} />
+                    <Route path="/investigate" element={<Dashboard />} />
+                    <Route path="/follow-the-money" element={<FollowTheMoney />} />
+                    <Route path="/money-trails" element={<MoneyTrails />} />
+                    <Route path="/research-radar" element={<ResearchRadar />} />
+                    <Route path="/model-lab" element={<ModelLab />} />
+                    <Route path="/funding-investigations" element={<FundingInvestigations />} />
+                    <Route path="/hypothesis-lab" element={<HypothesisLab />} />
+                    <Route path="/allegations" element={<Allegations />} />
+                    <Route path="/international-finance" element={<InvestigationDossier domain="international-finance" />} />
+                    <Route path="/defence-trade" element={<InvestigationDossier domain="defence-trade" />} />
+                    <Route path="/health" element={<InvestigationDossier domain="health" />} />
+                    <Route path="/ngo" element={<InvestigationDossier domain="ngo" />} />
+                    <Route path="/disaster-relief" element={<InvestigationDossier domain="disaster-relief" />} />
+                    <Route path="/transport" element={<InvestigationDossier domain="transport" />} />
+                    <Route path="/public-funds" element={<InvestigationDossier domain="public-funds" />} />
+                    <Route path="/policy" element={<InvestigationDossier domain="policy" />} />
+                    <Route path="/public-records" element={<InvestigationDossier domain="public-records" />} />
+                    <Route path="/justice" element={<InvestigationDossier domain="justice" />} />
+                    <Route path="/debt" element={<InvestigationDossier domain="debt-relief" />} />
                     <Route path="/map" element={<MapExplorer />} />
                     <Route path="/states/:code" element={<StateProfile />} />
                     <Route path="/company/:id" element={<CompanyProfile />} />
@@ -100,6 +134,11 @@ function App() {
                     <Route path="/pmcares" element={<PmCares />} />
                     <Route path="/energy" element={<Energy />} />
                     <Route path="/welfare" element={<Welfare />} />
+                    <Route path="/finance" element={<Finance />} />
+                    <Route path="/security" element={<Security />} />
+                    <Route path="/education" element={<Education />} />
+                    <Route path="/water" element={<Water />} />
+                    <Route path="/public-works" element={<PublicWorks />} />
                     <Route path="/competition" element={<Competition />} />
                     <Route path="/provenance" element={<Provenance />} />
                     <Route path="/method" element={<Method />} />
@@ -111,6 +150,7 @@ function App() {
                     <Route path="/investigations" element={<Investigations />} />
                     <Route path="/leads" element={<Leads />} />
                     <Route path="/game-theory" element={<GameTheory />} />
+                    <Route path="/research-program" element={<ResearchProgram />} />
                   </Routes>
                 </Suspense>
               }

@@ -1,0 +1,250 @@
+{
+  "schemaVersion": 1,
+  "purpose": "research-discovery-only",
+  "automaticallyVerified": false,
+  "limitation": "Cosine similarity ranks public researcher-authored source summaries. It is not factual confidence, a water-safety verdict, a causal climate finding, a funding total, or proof of misconduct. No model-generated claim or risk classification is promoted to the evidence registry.",
+  "model": {
+    "id": "sentence-transformers/all-MiniLM-L6-v2",
+    "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+    "license": "Apache-2.0",
+    "modelCard": "https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/blob/1110a243fdf4706b3f48f1d95db1a4f5529b4d41/README.md",
+    "format": "ONNX uint8 AVX2",
+    "dimensions": 384,
+    "maxTokens": 256,
+    "pooling": "attention-mask-weighted mean, L2 normalized",
+    "assetSha256": {
+      "onnx/model_quint8_avx2.onnx": "b941bf19f1f1283680f449fa6a7336bb5600bdcd5f84d10ddc5cd72218a0fd21",
+      "tokenizer.json": "be50c3628f2bf5bb5e3a7f17b1f74611b2561a3a27eeab05e5aa30f411572037"
+    }
+  },
+  "execution": {
+    "provider": "CPUExecutionProvider",
+    "python": "3.12.14",
+    "onnxruntime": "1.23.2",
+    "tokenizers": "0.22.1",
+    "numpy": "2.3.4",
+    "inferenceSeconds": 1.853,
+    "publicTextUploadedToModelService": false
+  },
+  "corpusSha256": "0fec2d6c5c3c419c7b174d88dc9aa3d93b9ada7f864404c3d4966acc8a23c099",
+  "documentCount": 52,
+  "smokeCheck": {
+    "passed": true,
+    "relatedSimilarity": 0.808023,
+    "unrelatedSimilarity": 0.01586,
+    "meaning": "Pipeline wiring check only; not an evidence or model accuracy evaluation"
+  },
+  "queries": {
+    "water-service": {
+      "text": "Household tap connections drinking water supply availability functionality regularity quantity and public water service in India",
+      "matches": [
+        {
+          "documentId": "wp-jjm-j3",
+          "title": "Format J3: tap connections in villages with piped water supply",
+          "url": "https://ejalshakti.gov.in/JJM/JJMReports/Physical/JJMRpt_StateWiseTapConnection.aspx",
+          "similarity": 0.658841
+        },
+        {
+          "documentId": "wp-jjm-assessment-release",
+          "title": "Assessment of functionality of household tap water connections provided under JJM",
+          "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2220145&lang=1&reg=1",
+          "similarity": 0.604812
+        },
+        {
+          "documentId": "wx-bengaluru-bwssb-response-2024",
+          "title": "BWSSB chairman interview on drinking-water reserves and peripheral shortages",
+          "url": "https://www.thehindu.com/news/cities/bangalore/water-situation-is-of-concern-but-not-as-alarming-as-it-is-being-projected-bwssb-chairman/article67954969.ece",
+          "similarity": 0.531993
+        },
+        {
+          "documentId": "wp-amrut-outcomes",
+          "title": "Household tap connections provided under AMRUT 2.0",
+          "url": "https://amrut.mohua.gov.in/assets/Outcome-Achieved-Under-AMRUT.pdf",
+          "similarity": 0.494117
+        },
+        {
+          "documentId": "wp-cgwb-2025",
+          "title": "Dynamic Groundwater Resources Assessment, 2025",
+          "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2220203&lang=2&reg=48",
+          "similarity": 0.46802
+        }
+      ]
+    },
+    "water-quality": {
+      "text": "Drinking water quality monitoring laboratory tests contamination chemical pollutants and standards for potable water in India",
+      "matches": [
+        {
+          "documentId": "wp-jjm-functionality-2024",
+          "title": "National report on functionality assessment of tap connections, 2024",
+          "url": "https://jaljeevanmission.gov.in/sites/default/files/2025-12/FHTC_National%20Report%202024.pdf",
+          "similarity": 0.514839
+        },
+        {
+          "documentId": "wp-water-quality-policy",
+          "title": "Water quality management under JJM",
+          "url": "https://www.pib.gov.in/PressReleasePage.aspx?lang=1&PRID=2291858&reg=3",
+          "similarity": 0.508504
+        },
+        {
+          "documentId": "wp-jjm-assessment-release",
+          "title": "Assessment of functionality of household tap water connections provided under JJM",
+          "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2220145&lang=1&reg=1",
+          "similarity": 0.488392
+        },
+        {
+          "documentId": "wp-cgwb-2025",
+          "title": "Dynamic Groundwater Resources Assessment, 2025",
+          "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2220203&lang=2&reg=48",
+          "similarity": 0.486141
+        },
+        {
+          "documentId": "wx-ngt-ennore-2024",
+          "title": "IIT Madras assessment of Ennore oil spill, filed with TNPCB report at NGT",
+          "url": "https://www.greentribunal.gov.in/sites/default/files/news_updates/OA%20180%20of%202023%20Report%20by%20TNPCB_0.pdf",
+          "similarity": 0.482227
+        }
+      ]
+    },
+    "weather-and-access": {
+      "text": "Drought rainfall floods reservoir storage climate and urban water shortages affecting communities in India",
+      "matches": [
+        {
+          "documentId": "wx-imd-climate-2025",
+          "title": "Statement on the Climate of India during 2025",
+          "url": "https://internal.imd.gov.in/press_release/20260101_pr_4602.pdf",
+          "similarity": 0.5973
+        },
+        {
+          "documentId": "wx-imd-rainfall-2024",
+          "title": "Rainfall Statistics of India – 2024",
+          "url": "https://hydro.imd.gov.in/hydrometweb/(S(4jwlae45z2suuuqf1ruew345))/PRODUCTS/Publications/Rainfall%20Statistics%20of%20India%20-%202024/Rainfall%20Statistics%20of%20India%202024.pdf",
+          "similarity": 0.570682
+        },
+        {
+          "documentId": "wp-bengaluru-resident-voices",
+          "title": "Many Bengaluru apartments continue water conservation measures post the crisis period",
+          "url": "https://www.thehindu.com/news/cities/bangalore/many-bengaluru-apartments-continue-water-conservation-measures-post-the-crisis-period/article68460057.ece",
+          "similarity": 0.566898
+        },
+        {
+          "documentId": "wx-drought-manual-2016",
+          "title": "Manual for Drought Management, December 2016",
+          "url": "https://www.preventionweb.net/files/57453_indiadroughtmanual2016.pdf?startDownload=true",
+          "similarity": 0.554162
+        },
+        {
+          "documentId": "wx-bengaluru-community-2024",
+          "title": "Families, schools and hospitals describe Bengaluru water shortage",
+          "url": "https://citizenmatters.in/bengaluru-krishnanapalya-water-shortage-tankers-cauvery/",
+          "similarity": 0.515918
+        }
+      ]
+    },
+    "farming-and-inputs": {
+      "text": "Seeds irrigation fertilizer crop production agricultural inputs farmer support insurance and crop failure in India",
+      "matches": [
+        {
+          "documentId": "wf-pmfby",
+          "title": "Crop failure assistance: PMFBY premium support and claims",
+          "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2201008&lang=1&reg=3",
+          "similarity": 0.585577
+        },
+        {
+          "documentId": "wf-fertilizer",
+          "title": "Rationalisation of Fertilizer Subsidy — Lok Sabha Q3255",
+          "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU3255_Dvt67U.pdf",
+          "similarity": 0.532747
+        },
+        {
+          "documentId": "wf-icar-annual",
+          "title": "ICAR Annual Report 2024–25: crop improvement and seed production",
+          "url": "https://icar.org.in/sites/default/files/2025-10/ICAR%20Eng%20Annual%20Report_2024-25.pdf",
+          "similarity": 0.506839
+        },
+        {
+          "documentId": "wf-agri-annual",
+          "title": "Agriculture and Farmers Welfare Annual Report 2024–25",
+          "url": "https://www.agriwelfare.gov.in/Documents/HomeWhatsNew/AR_Eng_2024_25.pdf",
+          "similarity": 0.50028
+        },
+        {
+          "documentId": "wf-pdmc",
+          "title": "Drip and sprinkler irrigation through PMKSY — Lok Sabha Q2767",
+          "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/184/AU2767_zvN42a.pdf",
+          "similarity": 0.471914
+        }
+      ]
+    },
+    "food-supply": {
+      "text": "Food grain procurement storage stocks allocation offtake transport and ration distribution through India's public distribution system and Food Corporation of India",
+      "matches": [
+        {
+          "documentId": "wf-dfpd",
+          "title": "Department of Food and Public Distribution Annual Report 2024–25",
+          "url": "https://dfpd.gov.in/WriteReadData/AnnualRecordUploadDocuments/b9c640b8-5889-4ffd-a62d-5b56c5d4f029_Food%20AR%202024-25%20English%20small%20size.pdf",
+          "similarity": 0.585197
+        },
+        {
+          "documentId": "wf-cold-storage",
+          "title": "Building resilient infrastructure for storage of food grains",
+          "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2172351&lang=2&reg=3",
+          "similarity": 0.486791
+        },
+        {
+          "documentId": "wf-fertilizer",
+          "title": "Rationalisation of Fertilizer Subsidy — Lok Sabha Q3255",
+          "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU3255_Dvt67U.pdf",
+          "similarity": 0.471704
+        },
+        {
+          "documentId": "wf-crop-table",
+          "title": "Economic Survey 2025–26 Table 1.18: leading crop-producing states",
+          "url": "https://www.indiabudget.gov.in/economicsurvey/doc/stat/tab1.18.pdf",
+          "similarity": 0.45646
+        },
+        {
+          "documentId": "wf-agri-annual",
+          "title": "Agriculture and Farmers Welfare Annual Report 2024–25",
+          "url": "https://www.agriwelfare.gov.in/Documents/HomeWhatsNew/AR_Eng_2024_25.pdf",
+          "similarity": 0.452449
+        }
+      ]
+    },
+    "spending-and-procurement": {
+      "text": "Audit of government water supply schemes and food grain procurement: tendering contracts expenditure implementation deficiencies and CAG audit findings in India",
+      "matches": [
+        {
+          "documentId": "wp-cag-kerala",
+          "title": "Kerala CAG audit, Chapter IV: implementation of schemes",
+          "url": "https://cag.gov.in/uploads/download_audit_report/2025/9.Chapter-IV---Implementation-of-Schemes-0699d4ee539fc57.51076092.pdf",
+          "similarity": 0.52037
+        },
+        {
+          "documentId": "wf-audit-fci",
+          "title": "CAG Report 20 of 2023: FCI storage management and movement",
+          "url": "https://cag.gov.in/webroot/uploads/download_audit_report/2023/Report-No.-20-of-2023_PA-on-FCI_English-PDF-A-066b9d3c33f4c35.05840530.pdf",
+          "similarity": 0.517983
+        },
+        {
+          "documentId": "wf-audit-haryana",
+          "title": "CAG: Haryana wheat procurement, storage and delivery to FCI",
+          "url": "https://cag.gov.in/uploads/download_audit_report/2025/Chapter-3-Performance-Audit-on-Procurement%2C-Storage-and-Delivery-of-wheat-to-FCI-068b56e065402f3.29032578.pdf",
+          "similarity": 0.490404
+        },
+        {
+          "documentId": "wx-bengaluru-bwssb-response-2024",
+          "title": "BWSSB chairman interview on drinking-water reserves and peripheral shortages",
+          "url": "https://www.thehindu.com/news/cities/bangalore/water-situation-is-of-concern-but-not-as-alarming-as-it-is-being-projected-bwssb-chairman/article67954969.ece",
+          "similarity": 0.483118
+        },
+        {
+          "documentId": "wp-jjm-j3",
+          "title": "Format J3: tap connections in villages with piped water supply",
+          "url": "https://ejalshakti.gov.in/JJM/JJMReports/Physical/JJMRpt_StateWiseTapConnection.aspx",
+          "similarity": 0.47892
+        }
+      ]
+    }
+  },
+  "researchDomain": "water-weather-food"
+}

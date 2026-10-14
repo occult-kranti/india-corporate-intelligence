@@ -1,0 +1,35 @@
+{
+  "retainedCorpusRead": [
+    "research/raw/finance/worldbank.json",
+    "research/raw/finance/worldbank-projects.json",
+    "research/raw/finance/contracts.json",
+    "research/raw/finance/debt-imf-people.json"
+  ],
+  "excludedOrLimited": [
+    {
+      "path": "edfc3-*",
+      "reason": "EDFC3 appears corporate borrower DFCCIL with sovereign guarantee; not used as India-borrower case. Old contract tags contained potential project/consortium ambiguity; no new asserted edge."
+    },
+    {
+      "path": "adb-audit-2025*",
+      "reason": "Original scanned borrower audit retained; full-book OCR stopped to conserve shared resources. No asserted amount or legal conclusion depends on unread scan."
+    },
+    {
+      "path": "tn-audit-*",
+      "reason": "Retained originals for follow-up. CAG2023 covered two DMA components, not whole loan; no component exceptions attributed to selected contract."
+    },
+    {
+      "path": "adb-monitoring-2025-partb*",
+      "reason": "Original file discovered as apparent later suffix is actually part B of August2025 report. Renamed after inspecting cover; never asserted as2026monitoring."
+    },
+    {
+      "path": "adb-bangladesh-project.html",
+      "reason": "403 origin response preserved; full official-origin indexed page separately opened and labelled."
+    },
+    {
+      "path": "imf-articleiv-2025.html",
+      "reason": "Incorrect /en/-/media URL returned404. Correct original /-/media PDF obtained separately."
+    }
+  ],
+  "coverage": "Bounded India sovereign/private financing and Bangladesh link. Not all nations, all firms or all loans."
+}

@@ -1,0 +1,397 @@
+{
+  "schema": "icip.tender-original-source-review.v1",
+  "asOf": "2026-10-06",
+  "completedAt": "2026-10-06T23:33:34.069420+00:00",
+  "status": "bounded-seven-case-review-frozen",
+  "selectionSource": "research/raw/tender-portal-audit/field-semantics-leads.json",
+  "selectionSourceSha256": "efc40ccadd687cfe55609c288b0ce9f29a9939e6f1bc6a35bafa27a0603ea0fd",
+  "sourceDatabaseHashes": {
+    "aoc_tenders.db": "ec8ef7711a17b7cae9e0414c2403b119a0a31c4dec49ed7055b38ec0df5f7586",
+    "tenders_vps.db": "b1994cfb6dd2d5da9ed1d9ac8d6bbc7083178f155e92a65628e87a38e4c64d01"
+  },
+  "lineage": [
+    "https://tender.sarthaksidhant.com/",
+    "Researcher-published aoc_tenders.zip containing the two SHA-256-verified databases",
+    "Notice/award references joined by the procurement engineer using exact portal, buyer, tender ID and reference; missing award listing reference filled only from same-internal-ID detail"
+  ],
+  "reviewCounts": {
+    "totalCases": 7,
+    "directRawDetailCasesReviewedHere": 5,
+    "parallelGraphOriginalSourceCases": 2,
+    "freshOriginalCasesWithSubstantiveFieldsVerified": 0,
+    "originalDocumentUrlAttempts": 7,
+    "originalDocumentUnauthorizedPages": 6,
+    "originalDocumentHttp403": 1,
+    "additionalUnmodifiedCpppNoticeAndAocAttempts": 10,
+    "additionalCpppInvalidUrlPages": 10,
+    "originalCorrigendaVerified": 0,
+    "actualPaymentsEstablished": 0,
+    "physicalCompletionsEstablished": 0
+  },
+  "countsMeaning": "Verification counts describe evidence obtained. Zero verified payment/completion cases does not mean zero payments or no completed work. HTTP 200 denial/invalid-URL pages do not count as source verification.",
+  "rawFieldFindings": {
+    "awardListingClosingEqualsNoticePublishedInSelectedLeads": {
+      "numerator": 7,
+      "denominator": 7
+    },
+    "retainedAocPublishedDateMatchesDisputedClosing": {
+      "numerator": 5,
+      "denominator": 5,
+      "population": "only the five same-internal-ID raw details independently opened by this reviewer"
+    },
+    "retainedAocContractDateMatchesListingAoc": {
+      "numerator": 5,
+      "denominator": 5,
+      "meaning": "Separate printed field label; neither a fresh publication timestamp nor signed-contract evidence was independently established."
+    },
+    "noticeClosingDiffersFromAwardListingClosing": {
+      "numerator": 7,
+      "denominator": 7
+    },
+    "procedureAndCategoryDimensions": {
+      "noticeDetailsReviewed": 5,
+      "noticeProcedureCounts": {
+        "Limited": 4,
+        "Single": 1
+      },
+      "example": {
+        "tenderId": "2024_JPL_193146_1",
+        "noticeDetail": "Single",
+        "awardDetail": "Goods",
+        "derivedLead": "Single"
+      },
+      "interpretation": "The five derived lead-extract procedure values match their source notice-detail fields; this is one lineage, not independent listing/detail corroboration. AOC Tender Type carries category labels Goods/Services.",
+      "derivedLeadSourceDetailMatches": 5
+    }
+  },
+  "cases": [
+    {
+      "leadIndex": 0,
+      "tenderId": "2025_IRCTC_817462_1",
+      "reference": "2025/IRCTC/TSV/06/OCTOBER/76",
+      "buyer": "Indian Railway Catering and Tourism Corpn Ltd",
+      "title": "LIMITED E-TENDER BID DOCUMENT FOR PROVISION OF ONBOARD CATERING SERVICES INTRAINS WITHOUT PANTRY CAR (THROUGH TSV) FOR A PERIOD OF 03 MONTHS FURTHER EXTENDABLE UPTO 03 MONTH AT SOLE DISCRETION OF IRCTC OR FINALIZATION COMMENCEMENT OF LONG TERM TENDER",
+      "purpose": "graph reviewer single-bid and 71-hour lead",
+      "rawObservation": {
+        "noticeInternalId": "13322253",
+        "awardInternalId": "b0b95c8497a5f34f420daee2f7157c49",
+        "noticePublished": "2025-10-31 13:00:00",
+        "noticeClosing": "2025-11-03 12:00:00",
+        "awardListingClosing": "2025-10-31 13:00:00",
+        "awardListingAoc": "2025-11-10 00:00:00",
+        "listedWindowHours": 71.0,
+        "numberOfBidsRaw": "1",
+        "contractValueRaw": "117999",
+        "noticeDetailProcedure": null,
+        "awardDetailTenderType": null,
+        "awardDetailPublishedDate": null,
+        "awardDetailContractDate": null,
+        "completionField": null,
+        "corrigendumLinkPresentInListing": false,
+        "derivedLeadProcedure": "Limited"
+      },
+      "originalDocumentUrl": "https://eprocure.gov.in/epublish/app?page=FrontEndTenderDetailsExternal&service=page&tnid=1122373",
+      "originalDocumentFetch": {
+        "status": 200,
+        "pageOutcome": "unauthorized-page",
+        "receipt": "primary-receipts/1122373.json"
+      },
+      "freshOriginalFieldsVerified": false,
+      "paymentEstablished": false,
+      "physicalCompletionEstablished": false,
+      "corrigendaVerified": false,
+      "supplierIdentityResolved": false,
+      "cashDirection": "unknown",
+      "currencyAndTaxBasis": "not independently verified from an original contract",
+      "amountStage": "raw retained field labelled Contract Value; not payment or fiscal cost",
+      "interpretation": "Retained data lead only. Missing original access leaves procedure, amendments, award meaning and monetary stage unresolved."
+    },
+    {
+      "leadIndex": 1,
+      "tenderId": "2025_IRCTC_819046_1",
+      "reference": "2025/IRCTC/TSV/06/NOVEMBER/26",
+      "buyer": "Indian Railway Catering and Tourism Corpn Ltd",
+      "title": "LIMITED E-TENDER BID DOCUMENT FOR PROVISION OF ONBOARD CATERING SERVICES INTRAINS WITHOUT PANTRY CAR (THROUGH TSV) FOR A PERIOD OF 03 MONTHS FURTHER EXTENDABLE UPTO 03 MONTH AT SOLE DISCRETION OF IRCTC OR FINALIZATION COMMENCEMENT OF LONG TERM TENDER",
+      "purpose": "graph reviewer single-bid and 71-hour lead",
+      "rawObservation": {
+        "noticeInternalId": "13355484",
+        "awardInternalId": "c572850a85adff8b517f65fd1bb50add",
+        "noticePublished": "2025-11-15 13:00:00",
+        "noticeClosing": "2025-11-18 12:00:00",
+        "awardListingClosing": "2025-11-15 13:00:00",
+        "awardListingAoc": "2025-11-21 00:00:00",
+        "listedWindowHours": 71.0,
+        "numberOfBidsRaw": "1",
+        "contractValueRaw": "109859",
+        "noticeDetailProcedure": null,
+        "awardDetailTenderType": null,
+        "awardDetailPublishedDate": null,
+        "awardDetailContractDate": null,
+        "completionField": null,
+        "corrigendumLinkPresentInListing": false,
+        "derivedLeadProcedure": "Limited"
+      },
+      "originalDocumentUrl": "https://eprocure.gov.in/epublish/app?page=FrontEndTenderDetailsExternal&service=page&tnid=1123989",
+      "originalDocumentFetch": {
+        "status": 200,
+        "pageOutcome": "unauthorized-page",
+        "receipt": "primary-receipts/1123989.json"
+      },
+      "freshOriginalFieldsVerified": false,
+      "paymentEstablished": false,
+      "physicalCompletionEstablished": false,
+      "corrigendaVerified": false,
+      "supplierIdentityResolved": false,
+      "cashDirection": "unknown",
+      "currencyAndTaxBasis": "not independently verified from an original contract",
+      "amountStage": "raw retained field labelled Contract Value; not payment or fiscal cost",
+      "interpretation": "Retained data lead only. Missing original access leaves procedure, amendments, award meaning and monetary stage unresolved."
+    },
+    {
+      "leadIndex": 7,
+      "tenderId": "2024_JPL_221354_2",
+      "reference": "JPL-CnM-LT-1100012242",
+      "buyer": "Jhabua Power Ltd",
+      "title": "Supply of High Pressure drain valves",
+      "purpose": "public-buyer field-semantics source check; not an allegation",
+      "rawObservation": {
+        "noticeInternalId": "12565750",
+        "awardInternalId": "54ab38c0b5d8a21187c4905065629c51",
+        "noticePublished": "2025-01-03 11:00:00",
+        "noticeClosing": "2025-01-06 18:00:00",
+        "awardListingClosing": "2025-01-03 11:00:00",
+        "awardListingAoc": "2025-06-14 00:00:00",
+        "listedWindowHours": 79.0,
+        "numberOfBidsRaw": "3",
+        "contractValueRaw": "626250",
+        "noticeDetailProcedure": "Limited",
+        "awardDetailTenderType": "Goods",
+        "awardDetailPublishedDate": "03-Jan-2025 11:00 AM",
+        "awardDetailContractDate": "14-Jun-2025 12:00 AM",
+        "completionField": "",
+        "corrigendumLinkPresentInListing": false,
+        "derivedLeadProcedure": "Limited"
+      },
+      "originalDocumentUrl": "https://etenders.gov.in/eprocure/app?page=FrontEndTenderDetailsExternal&service=page&tnid=247978",
+      "originalDocumentFetch": {
+        "status": 403,
+        "pageOutcome": "http-403",
+        "receipt": "original-source-review/receipts/lead-7-notice_document.json"
+      },
+      "freshOriginalFieldsVerified": false,
+      "paymentEstablished": false,
+      "physicalCompletionEstablished": false,
+      "corrigendaVerified": false,
+      "supplierIdentityResolved": false,
+      "cashDirection": "unknown",
+      "currencyAndTaxBasis": "not independently verified from an original contract",
+      "amountStage": "raw retained field labelled Contract Value; not payment or fiscal cost",
+      "interpretation": "Retained data lead only. Missing original access leaves procedure, amendments, award meaning and monetary stage unresolved."
+    },
+    {
+      "leadIndex": 9,
+      "tenderId": "2025_CONCR_806999_1",
+      "reference": "CON/A-II/T/96401/K/SPARES",
+      "buyer": "Container Corporation of India Limited",
+      "title": "Supply of Spares for KONE RSTs at CONCOR Terminals",
+      "purpose": "public-buyer field-semantics source check; not an allegation",
+      "rawObservation": {
+        "noticeInternalId": "12902773",
+        "awardInternalId": "239da5de10671ab339f0c318ee8a19ec",
+        "noticePublished": "2025-07-28 17:30:00",
+        "noticeClosing": "2025-08-01 13:00:00",
+        "awardListingClosing": "2025-07-28 17:30:00",
+        "awardListingAoc": "2025-08-18 00:00:00",
+        "listedWindowHours": 91.5,
+        "numberOfBidsRaw": "1",
+        "contractValueRaw": "1921826",
+        "noticeDetailProcedure": "Limited",
+        "awardDetailTenderType": "Goods",
+        "awardDetailPublishedDate": "28-Jul-2025 05:30 PM",
+        "awardDetailContractDate": "18-Aug-2025 12:00 AM",
+        "completionField": "",
+        "corrigendumLinkPresentInListing": false,
+        "derivedLeadProcedure": "Limited"
+      },
+      "originalDocumentUrl": "https://eprocure.gov.in/epublish/app?page=FrontEndTenderDetailsExternal&service=page&tnid=1111735",
+      "originalDocumentFetch": {
+        "status": 200,
+        "pageOutcome": "unauthorized-page",
+        "receipt": "original-source-review/receipts/lead-9-notice_document.json"
+      },
+      "freshOriginalFieldsVerified": false,
+      "paymentEstablished": false,
+      "physicalCompletionEstablished": false,
+      "corrigendaVerified": false,
+      "supplierIdentityResolved": false,
+      "cashDirection": "unknown",
+      "currencyAndTaxBasis": "not independently verified from an original contract",
+      "amountStage": "raw retained field labelled Contract Value; not payment or fiscal cost",
+      "interpretation": "Retained data lead only. Missing original access leaves procedure, amendments, award meaning and monetary stage unresolved."
+    },
+    {
+      "leadIndex": 10,
+      "tenderId": "2024_JPL_199619_1",
+      "reference": "JPL/CnM/24-25/1100012168",
+      "buyer": "Jhabua Power Ltd",
+      "title": "Supply of SS designed Shield",
+      "purpose": "public-buyer field-semantics source check; not an allegation",
+      "rawObservation": {
+        "noticeInternalId": "11989015",
+        "awardInternalId": "3b9d3d9ba82d2b4e33ca46030dacbff7",
+        "noticePublished": "2024-06-27 16:15:00",
+        "noticeClosing": "2024-07-01 13:00:00",
+        "awardListingClosing": "2024-06-27 16:15:00",
+        "awardListingAoc": "2024-07-04 00:00:00",
+        "listedWindowHours": 92.75,
+        "numberOfBidsRaw": "1",
+        "contractValueRaw": "952500",
+        "noticeDetailProcedure": "Limited",
+        "awardDetailTenderType": "Goods",
+        "awardDetailPublishedDate": "27-Jun-2024 04:15 PM",
+        "awardDetailContractDate": "04-Jul-2024 12:00 AM",
+        "completionField": "",
+        "corrigendumLinkPresentInListing": false,
+        "derivedLeadProcedure": "Limited"
+      },
+      "originalDocumentUrl": "https://etenders.gov.in/eprocure/app?page=FrontEndTenderDetailsExternal&service=page&tnid=218522",
+      "originalDocumentFetch": {
+        "status": 200,
+        "pageOutcome": "unauthorized-page",
+        "receipt": "original-source-review/receipts/lead-10-notice_document.json"
+      },
+      "freshOriginalFieldsVerified": false,
+      "paymentEstablished": false,
+      "physicalCompletionEstablished": false,
+      "corrigendaVerified": false,
+      "supplierIdentityResolved": false,
+      "cashDirection": "unknown",
+      "currencyAndTaxBasis": "not independently verified from an original contract",
+      "amountStage": "raw retained field labelled Contract Value; not payment or fiscal cost",
+      "interpretation": "Retained data lead only. Missing original access leaves procedure, amendments, award meaning and monetary stage unresolved."
+    },
+    {
+      "leadIndex": 11,
+      "tenderId": "2024_JPL_193146_1",
+      "reference": "JPL/CnM/24-25/1100012108",
+      "buyer": "Jhabua Power Ltd",
+      "title": "supply of LT Dry Type Transformer",
+      "purpose": "public-buyer field-semantics source check; not an allegation",
+      "rawObservation": {
+        "noticeInternalId": "11716548",
+        "awardInternalId": "4f47661dbb2698a9aca1633159a5bee0",
+        "noticePublished": "2024-04-09 18:00:00",
+        "noticeClosing": "2024-04-13 18:00:00",
+        "awardListingClosing": "2024-04-09 18:00:00",
+        "awardListingAoc": "2024-05-15 00:00:00",
+        "listedWindowHours": 96.0,
+        "numberOfBidsRaw": "1",
+        "contractValueRaw": "5801250",
+        "noticeDetailProcedure": "Single",
+        "awardDetailTenderType": "Goods",
+        "awardDetailPublishedDate": "09-Apr-2024 06:00 PM",
+        "awardDetailContractDate": "15-May-2024 12:00 AM",
+        "completionField": "",
+        "corrigendumLinkPresentInListing": false,
+        "derivedLeadProcedure": "Single"
+      },
+      "originalDocumentUrl": "https://etenders.gov.in/eprocure/app?page=FrontEndTenderDetailsExternal&service=page&tnid=211507",
+      "originalDocumentFetch": {
+        "status": 200,
+        "pageOutcome": "unauthorized-page",
+        "receipt": "original-source-review/receipts/lead-11-notice_document.json"
+      },
+      "freshOriginalFieldsVerified": false,
+      "paymentEstablished": false,
+      "physicalCompletionEstablished": false,
+      "corrigendaVerified": false,
+      "supplierIdentityResolved": false,
+      "cashDirection": "unknown",
+      "currencyAndTaxBasis": "not independently verified from an original contract",
+      "amountStage": "raw retained field labelled Contract Value; not payment or fiscal cost",
+      "interpretation": "Retained data lead only. Missing original access leaves procedure, amendments, award meaning and monetary stage unresolved."
+    },
+    {
+      "leadIndex": 3,
+      "tenderId": "2025_IRCTC_817795_1",
+      "reference": "2025/IRCTC/TSV/06/NOVEMBER/03",
+      "buyer": "Indian Railway Catering and Tourism Corpn Ltd",
+      "title": "LIMITED E-TENDER BID DOCUMENT FOR PROVISION OF ONBOARD CATERING SERVICES INTRAINS WITHOUT PANTRY CAR (THROUGH TSV) FOR A PERIOD OF 03 MONTHS FURTHER EXTENDABLE UPTO 03 MONTH AT SOLE DISCRETION OF IRCTC OR FINALIZATION COMMENCEMENT",
+      "purpose": "same-month multi-bid comparison; unflagged only under joint single-bid and under-72-hour screen",
+      "rawObservation": {
+        "noticeInternalId": "13329135",
+        "awardInternalId": "89e481bfe740ec9a811fff517ec54a24",
+        "noticePublished": "2025-11-04 11:00:00",
+        "noticeClosing": "2025-11-06 12:00:00",
+        "awardListingClosing": "2025-11-04 11:00:00",
+        "awardListingAoc": "2025-11-12 00:00:00",
+        "listedWindowHours": 49.0,
+        "numberOfBidsRaw": "3",
+        "contractValueRaw": "152303",
+        "noticeDetailProcedure": "Limited",
+        "awardDetailTenderType": "Services",
+        "awardDetailPublishedDate": "04-Nov-2025 11:00 AM",
+        "awardDetailContractDate": "12-Nov-2025 12:00 AM",
+        "completionField": "",
+        "corrigendumLinkPresentInListing": false,
+        "derivedLeadProcedure": "Limited"
+      },
+      "originalDocumentUrl": "https://eprocure.gov.in/epublish/app?page=FrontEndTenderDetailsExternal&service=page&tnid=1122721",
+      "originalDocumentFetch": {
+        "status": 200,
+        "pageOutcome": "unauthorized-page",
+        "receipt": "original-source-review/receipts/lead-3-notice_document.json"
+      },
+      "freshOriginalFieldsVerified": false,
+      "paymentEstablished": false,
+      "physicalCompletionEstablished": false,
+      "corrigendaVerified": false,
+      "supplierIdentityResolved": false,
+      "cashDirection": "unknown",
+      "currencyAndTaxBasis": "not independently verified from an original contract",
+      "amountStage": "raw retained field labelled Contract Value; not payment or fiscal cost",
+      "interpretation": "Retained data lead only. Missing original access leaves procedure, amendments, award meaning and monetary stage unresolved."
+    }
+  ],
+  "secondaryAndContextChecks": [
+    {
+      "url": "https://sigmatenders.com/tender/rBgREYvgGJx6BUfWi9BMto",
+      "result": "Exact CONCOR tender ID and reference found; same CPPP original link; this is secondary same-lineage discovery, not independent original verification. Start time displays 23:00 versus raw 17:30 on 28 July 2025, a 5.5-hour discrepancy. No timezone conversion is assumed."
+    },
+    {
+      "url": "https://jhabuapower.co.in/tenders.php",
+      "result": "Indexed official buyer page directs NTPC-JPL tenders to CPP Portal; direct request returned HTTP406. Its Seoni office address must not be replaced by Jhabua district merely from buyer name; individual delivery location remains unresolved."
+    },
+    {
+      "url": "https://www.irctc.com/tender-awarded.php",
+      "result": "Direct official page opened, but no exact selected tender reference was identified. Older hotel/Rail Neer/static-unit awards do not verify the selected 2025 TSV contracts."
+    },
+    {
+      "url": "https://www.irctc.com/procurement-office-order-policy-notice.php",
+      "result": "Direct official policy index opened. Its stores-contract single-effective-offer entry cannot be applied automatically to a catering licence; no case-specific rule or legality conclusion was drawn."
+    }
+  ],
+  "residualUnknowns": [
+    "Original notice/RFP, original award or signed contract and all corrigenda",
+    "Whether listing/detailed dates encode publication, contract signature or another event; actual timezone",
+    "Tender-specific procedure approval and any justified sole-source or limited invitation",
+    "Currency, GST basis, scope/term, licence/revenue direction and actual receipts/payments",
+    "Delivery, commissioning, service performance and completion certificates",
+    "Verified supplier legal identity or decision-specific political involvement"
+  ],
+  "restrictionsObserved": [
+    "No token rewriting or re-signing",
+    "No captcha bypass, login or authentication workaround",
+    "No supplier/politician identification or misconduct label",
+    "No geographic interpolation or finding that absence of a link means absence of corrigenda",
+    "No same-title or unmatched-ID search result substituted for a selected case"
+  ],
+  "parallelReview": "primary-receipts/README.md and primary-receipts/1122373.json,1123989.json,exa.json",
+  "limitations": [
+    "This is a purposive seven-case review, not a random sample or corpus-wide error-rate estimate.",
+    "The five raw detail extractions and the two parallel original fetches have distinct denominators.",
+    "The older listing-only 1,714-pair equality result has a different, heavily Neyveli 2013\u201318 population; its rate must not be assigned to this sample or the full corpus.",
+    "The IRCTC comparison differs in train/service scope and exact date; it is not proof of normality or an outcome benchmark."
+  ],
+  "procedureFieldLineage": "The lead tender_type field is derived from notice_details by the extraction pipeline; it is not a separate raw notice-listing procedure column."
+}

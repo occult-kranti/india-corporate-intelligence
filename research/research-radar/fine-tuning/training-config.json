@@ -1,0 +1,22 @@
+{
+  "seed": 20261007,
+  "epochs": 8,
+  "batchSize": 8,
+  "learningRate": 0.0001,
+  "weightDecay": 0.01,
+  "rank": 8,
+  "alpha": 16,
+  "temperature": 0.08,
+  "gradientClipNorm": 1.0,
+  "maxTokens": 256,
+  "cpuThreads": 4,
+  "targetModules": [
+    "query",
+    "value"
+  ],
+  "baseDropout": "disabled",
+  "pooling": "attention-mask weighted mean, L2 normalized",
+  "optimizer": "AdamW",
+  "loss": "uniform-positive cross entropy over all training documents",
+  "selection": "development caseMacro nDCG@5, then MRR@10, then Recall@5; earliest tied epoch"
+}

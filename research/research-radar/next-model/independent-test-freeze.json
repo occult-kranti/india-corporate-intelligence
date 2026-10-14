@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "event": "Independent new holdout questions and protocol frozen before candidate-output inspection",
+  "frozenAtUtc": "2026-10-08T17:22:24.494171+00:00",
+  "userFacingDate": "2026-10-08",
+  "userFacingTimezone": "America/New_York",
+  "questionCount": 24,
+  "caseGroupCount": 6,
+  "candidateOutputsInspected": false,
+  "trainingCandidateSelected": false,
+  "oldTestStatus": "Exhausted; not a new blind holdout",
+  "files": [
+    {
+      "path": "research/research-radar/next-model/independent-test-labels.json",
+      "sha256": "db268814d9450a018acbdeeb30719d7fbda689eb211abff22dba95e9e59b91b8",
+      "bytes": 41069
+    },
+    {
+      "path": "docs/research-radar/next-model/EVALUATION-PROTOCOL.md",
+      "sha256": "47c4aef14ef09aa013922e39799bcf2e53f581df621c18ff41f3a870d59e0460",
+      "bytes": 9467
+    },
+    {
+      "path": "research/research-radar/next-model/graph-inventory.json",
+      "sha256": "fbc092d8e13d1a17bb49600e773f58a82cf50db2a761d0b3431974afca41ce14",
+      "bytes": 143025
+    }
+  ],
+  "pendingBinding": "Projected corpus, train/dev labels and experiment grid will be bound in the final invocation receipt; this does not authorize reading new test labels for training or selection."
+}

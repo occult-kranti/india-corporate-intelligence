@@ -1,0 +1,62 @@
+{
+  "aoc_tenders.db": {
+    "schema": [
+      [
+        "aoc_list_queue",
+        "CREATE TABLE aoc_list_queue (\n                list_url TEXT PRIMARY KEY,\n                portal_type TEXT,\n                year INTEGER,\n                page_num INTEGER,\n                status TEXT,\n                scraped_at TEXT,\n                partition_id INTEGER\n            )"
+      ],
+      [
+        "sqlite_autoindex_aoc_list_queue_1",
+        null
+      ],
+      [
+        "aoc_tenders",
+        "CREATE TABLE aoc_tenders (\n                internal_id TEXT PRIMARY KEY,\n                portal_type TEXT,\n                year INTEGER,\n                sl_no TEXT,\n                aoc_date TEXT,\n                closing_date TEXT,\n                title TEXT,\n                ref_no TEXT,\n                tender_id TEXT,\n                org_name TEXT,\n                detail_url TEXT,\n                partition_id INTEGER\n            )"
+      ],
+      [
+        "sqlite_autoindex_aoc_tenders_1",
+        null
+      ],
+      [
+        "aoc_details",
+        "CREATE TABLE aoc_details (\n                internal_id TEXT PRIMARY KEY,\n                tender_id TEXT,\n                details_json TEXT,\n                scraped_at TEXT\n            )"
+      ],
+      [
+        "sqlite_autoindex_aoc_details_1",
+        null
+      ]
+    ],
+    "aoc_tenders": {
+      "rows": 4921960
+    },
+    "aoc_details": {
+      "rows": 4540739
+    }
+  },
+  "tenders_vps.db": {
+    "schema": [
+      [
+        "tender_details",
+        "CREATE TABLE \"tender_details\" (\n  \"internal_id\" TEXT NOT NULL,\n  \"tender_id\" TEXT NOT NULL,\n  \"details_json\" TEXT NOT NULL,\n  \"scraped_at\" TEXT NULL,\n  PRIMARY KEY (\"internal_id\")\n)"
+      ],
+      [
+        "sqlite_autoindex_tender_details_1",
+        null
+      ],
+      [
+        "tenders",
+        "CREATE TABLE \"tenders\" (\n  \"internal_id\" TEXT NOT NULL,\n  \"tender_id\" TEXT NULL,\n  \"detail_url\" TEXT NULL,\n  \"status\" TEXT NULL,\n  \"organisation_name\" TEXT NULL,\n  \"title\" TEXT NULL,\n  \"reference_number\" TEXT NULL,\n  \"portal_type\" TEXT NULL,\n  \"serial_number\" TEXT NULL,\n  \"e_published_date\" TEXT NULL,\n  \"bid_submission_closing_date\" TEXT NULL,\n  \"tender_opening_date\" TEXT NULL,\n  \"corrigendum_url\" TEXT NULL,\n  \"scraped_at\" TEXT NULL,\n  \"partition_id\" INTEGER NULL,\n  PRIMARY KEY (\"internal_id\")\n)"
+      ],
+      [
+        "sqlite_autoindex_tenders_1",
+        null
+      ]
+    ],
+    "tenders": {
+      "rows": 3952191
+    },
+    "tender_details": {
+      "rows": 3178485
+    }
+  }
+}

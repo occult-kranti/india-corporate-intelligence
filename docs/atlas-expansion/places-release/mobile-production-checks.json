@@ -1,0 +1,97 @@
+{
+  "reviewedAt": "2026-10-07T03:04:03.804Z",
+  "scope": "title-spacing-confirmation",
+  "base": "http://127.0.0.1:38583",
+  "passed": true,
+  "checks": 10,
+  "failures": [],
+  "results": [
+    {
+      "passed": true,
+      "title": "/follow-the-money 390px exposes at least 200px of actual map in first viewport",
+      "details": "{\"y\":635.25,\"visibleHeight\":208.75}"
+    },
+    {
+      "passed": true,
+      "title": "/follow-the-money 390px retains all 36 geographic units",
+      "details": ""
+    },
+    {
+      "passed": true,
+      "title": "/follow-the-money 390px connects map to network",
+      "details": ""
+    },
+    {
+      "passed": true,
+      "title": "/follow-the-money 390px has no page or main horizontal overflow",
+      "details": "{\"document\":false,\"main\":false}"
+    },
+    {
+      "passed": true,
+      "title": "Money title does not collide with header actions at 390px",
+      "details": ""
+    },
+    {
+      "passed": true,
+      "title": "Case category counts partition their stated record denominator",
+      "details": ""
+    },
+    {
+      "passed": true,
+      "title": "Alleged-link population has allegation tier and citations",
+      "details": ""
+    },
+    {
+      "passed": true,
+      "title": "Count interpretations distinguish records, assertions and adjudicated findings",
+      "details": ""
+    },
+    {
+      "passed": true,
+      "title": "New investigated cases contain response, alternatives and disconfirmation test",
+      "details": ""
+    },
+    {
+      "passed": true,
+      "title": "No uncaught page errors in independent acceptance",
+      "details": ""
+    }
+  ],
+  "measurements": [
+    {
+      "path": "/follow-the-money",
+      "width": 390,
+      "height": 844,
+      "stageKind": "places-atlas-stage maplibregl-map",
+      "dimension": "places",
+      "notice": null,
+      "canvas": {
+        "x": 27,
+        "y": 635.25,
+        "width": 336,
+        "height": 400
+      },
+      "visibleHeight": 208.75
+    },
+    {
+      "registry": {
+        "entities": 2222,
+        "relationships": 3943,
+        "records": 5450,
+        "sources": 3237
+      },
+      "feed": {
+        "total": 65,
+        "counts": {
+          "allegation": 2,
+          "finding": 23,
+          "proceeding": 13,
+          "case": 27
+        }
+      },
+      "alleged": 99,
+      "atlasRecords": 52
+    }
+  ],
+  "errors": []
+}

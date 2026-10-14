@@ -1,0 +1,456 @@
+{
+  "schemaVersion": 1,
+  "evidenceAsOf": "2026-10-06",
+  "sourceRegistry": "src/data/public-works-research.json",
+  "inputKind": "Public researcher-authored source summaries and limitations; not full documents",
+  "documents": [
+    {
+      "id": "pw-cppp-aggregate",
+      "title": "CPPP historical award scrape — retained aggregate analysis",
+      "text": "Buyer-level historical bid-count aggregates, explicit deduplication and data-quality defects. New sector lenses classify public-body labels; they do not re-read raw tender rows. Historical scrape of unknown completeness. All 40 sampled stored portal URLs had expired; row-level agreement with government records remains unknown. No figure is a national procurement statistic. Supplier names are not CINs, contracts, assets or identity-resolved political links. Underlying republisher labels CC-BY-4.0; it did not publish its scraper and cannot establish completeness or government endorsement.",
+      "url": "https://huggingface.co/datasets/rumourscape/tenders",
+      "evidenceTier": "reported",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "pw-cppp-portal",
+      "title": "Central Public Procurement Portal — tender and award discovery",
+      "text": "Search official procurement notices and results, then retrieve original notices, corrigenda, award orders and contract documents for an exact procurement process. A discovery link is not proof that a particular tender was downloaded or verified. Portal coverage excludes many purchases on other systems.",
+      "url": "https://eprocure.gov.in/cppp/",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "pwg-irb-fy24",
+      "title": "IRB annual report FY2023-24 — ownership and scope-separated donations",
+      "text": "Audited consolidated Note 46 reports INR676.20 million political donations: INR360m unspecified electoral bonds, INR300m Bharatiya Janta Party and INR16.20m Balasahebanchi Shivsena. The standalone parent reports NIL political donations. Subsidiary table reports 100% ownership of Modern Road Makers and IRB MP Expressway. Chairman DIN is separately identified. Consolidated amounts belong to the reporting perimeter, not necessarily the listed legal parent or a named subsidiary. The parties behind the INR360m bond component are not identified by this note; no recipient allocation is inferred. These are disclosed relationships; the document establishes no contract influence or misconduct.",
+      "url": "https://www.irb.co.in/home/wp-content/uploads/2024/08/annual-report-fy2023-24.pdf",
+      "evidenceTier": "self-reported",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "pwg-irbmp-fy24",
+      "title": "IRB MP Expressway Private Limited audited financial statements FY2023-24",
+      "text": "Other expenses include donations INR250 million. The viewed note labels these donations without naming a political recipient or identifying an instrument. Donation is not automatically political contribution. No party edge is created from this row. A secondary electoral-bond matching website was found but the original ECI serial-number files were not retrieved and joined in this work. A shared amount is not an identity or transaction key.",
+      "url": "https://www.irb.co.in/home/wp-content/uploads/2024/08/Annual_Accounts_of_Subsidiary_Companies_FY2023-24/12.IRBMP_Audited%20FS%20March2024.pdf",
+      "evidenceTier": "self-reported",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "pwg-mrm-fy24",
+      "title": "Modern Road Makers Private Limited audited financial statements FY2023-24",
+      "text": "The company reports total donations INR358.62 million, including political-party donations INR350 million. The note does not name recipient parties. This subsidiary note cannot allocate its INR350m to the BJP, Balasahebanchi Shivsena, BRS or any party. Do not add subsidiary donations to the consolidated total: consolidation may already include them. OCR contains a prior-year digit error; the image says March31,2023, and is authoritative.",
+      "url": "https://www.irb.co.in/home/wp-content/uploads/2024/08/Annual_Accounts_of_Subsidiary_Companies_FY2023-24/16.MRMPL%20Audited%20FS%20March24.pdf",
+      "evidenceTier": "self-reported",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "pwg-nhai-progress",
+      "title": "NHAI Delhi–Mumbai Expressway package progress, March2023",
+      "text": "Official package table names M/s IRB Infrastructure Developers Ltd. as concessionaire for Gujarat Package7; award31July2020, commencement10December2021, targetcompletion30June2024, physicalprogress28% at31March2023. This is a historical status snapshot; target completion is not evidence of completion. Package length is rounded28km in the source; chainage interval27.5km is not an independent discrepancy finding. This source contains no political funding or award influence finding.",
+      "url": "https://nhai.gov.in/nhai/sites/default/files/mix_file/Delhi-Mumbai-Award-Status-Mar-23_v1.pdf",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "pwg-pm-roster",
+      "title": "Official Union Council portfolio roster — snapshot as on25July2026",
+      "text": "Official page identifies portfolio holders including Nitin Jairam Gadkari (roads), Manohar Lal (power), C R Patil (JalShakti), Jagat Prakash Nadda (health), Pralhad Joshi (education), Amit Shah (home), RajNath Singh(defence), Narendra Modi(personnel). The publication date and revised roster snapshot differ. Edges record office at the snapshot date only; exact uninterrupted tenure is not reconstructed from this rolling page. Holding a Union portfolio does not establish involvement in a particular award; policing, health, education and recruitment also have state and local authorities.",
+      "url": "https://www.pmindia.gov.in/en/news_updates/portfolios-of-the-union-council-of-ministers-2/",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "rw-bharatmala-audit",
+      "title": "CAG Report 19 of 2023: Bharatmala Phase I",
+      "text": "Audit questions project prioritisation, appraisal, elevated design justification and execution. Includes MoRTH replies and auditor rejoinders. The ₹18.20 crore/km programme norm and ₹250.77 crore/km sanctioned urban expressway civil cost have different scope; their ratio is not a measured like-for-like overrun. Primary-host indexed text was read; original PDF retrieval returned HTTP503. Layout repetition/truncation limits downstream extraction. Publication day corroborated by contemporaneous report; audit period predates much of the publication window.",
+      "url": "https://cag.gov.in/uploads/download_audit_report/2023/Report-No.-19-of-203--Bharatmala-English-064d5db7bc63c20.06754442.pdf",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "rw-bharatmala-parliament",
+      "title": "Bharatmala corridors and state-wise awarded programme snapshot",
+      "text": "Annexures identify 25 greenfield corridors and state-wise total/awarded lengths and tentative capital costs. National awarded length is 26,418 km; awarded tentative capital cost ₹8,53,264 crore. Tentative capital cost, award and expenditure are separate stages. Not current status or a contractor ledger. State rows are programme allocation geography, not company addresses.",
+      "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2003467",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "rw-bihar-bridge-2023",
+      "title": "NHAI report on Meachi bridge foundation settlement, NH327E",
+      "text": "At chainage 24+461 on the Galgalia–Bahadurganj section, the bridge under construction experienced about 600 mm pile-foundation settlement; the preliminary inquiry considered constricted river flow and scour. Preliminary causal explanation and temporary personnel suspensions do not establish final liability. Release names GR Infra Projects Highway Ltd and project concessionaire GR Galgalia Bahadurganj Highway Private Limited distinctly; parent ownership is not inferred. No final inquiry report or contractor reply retrieved. Galgalia and Bahadurganj name corridor endpoints; the exact bridge at chainage 24+461 is not assigned to either locality without geolocation.",
+      "url": "https://www.pib.gov.in/newsite/erelcontent.aspx?relid=244971",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "rw-bridge-annex-2024",
+      "title": "Parliament bridge/tunnel collapse annexure and actions taken",
+      "text": "Official incident table distinguishes existing permanent/temporary bridges, under-construction bridges and tunnels, fatalities and actions taken. The source window is relative to August 2024, not the dashboard’s 2021-10-06–2026-10-06 window. NH/MoRTH reporting scope does not cover every municipal, rural or private bridge. Different structures and weather conditions require separate reference classes.",
+      "url": "https://static.pib.gov.in/WriteReadData/specificdocs/documents/2024/aug/doc202488370401.pdf",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "rw-bridge-annex-parent",
+      "title": "Infrastructure stability and progress: parliamentary reply",
+      "text": "Parent release links the bridge/tunnel collapse annexure and explains national highway programme scope. Publication provenance for the annexure; not an independent corroborating incident source.",
+      "url": "https://pib.gov.in/PressReleasePage.aspx?PRID=2043008",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "rw-cherkkala-2025",
+      "title": "NHAI action after Cherkkala slope-protection collapse",
+      "text": "NHAI attributes slope collapse to design, protection and drainage deficiencies, announces debarment and a show-cause notice for one year/up to ₹9 crore, and says reconstruction is at concessionaire cost. Show-cause proposed duration/maximum penalty is not a verified final penalty or present-day debarment status. No contractor response or final expert committee report was located in this source set. HAM 15-year maintenance and own-cost reconstruction mean repair does not establish a second public payment.",
+      "url": "https://www.pib.gov.in/Pressreleaseshare.aspx?PRID=2136929",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "rw-debarment-2021",
+      "title": "Guidelines on debarment of firms from bidding",
+      "text": "Guidelines separate ministry/entity debarment from cross-government debarment, require an opportunity to respond and preserve contracts concluded before an order. Debarment scope, commencement, expiry and allied-firm identity must be read from the actual order. A show-cause notice is not interchangeable with a final order.",
+      "url": "https://doe.gov.in/files/circulars_document/Guidelines_on_Debarment_of_firms_from_Bidding.pdf",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "rw-dwarka-award",
+      "title": "NHAI letter of award: Dwarka Expressway Package 4",
+      "text": "PIB identifies Larsen and Toubro as contractor for the Basai RoB–NH8/SPR package, 8.76 km, ₹1,047.007 crore, with two-year construction and four-year maintenance periods. Outside the five-year publication window; retained to resolve the historical contracting entity. Award announcement is not payment, completion certification or the total Dwarka project cost.",
+      "url": "https://www.pib.gov.in/newsite/PrintRelease.aspx?relid=177355",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "rw-dwarka-response",
+      "title": "Ministry official disputes Dwarka cost comparison",
+      "text": "A senior ministry official says elevated urban works are not comparable with the corridor norm and describes competitive bidding and appraisal. Official is unnamed in the article; this is a reported response, not a signed ministry order. The article’s aggregate estimate and per-km estimate do not form a clean internally consistent denominator; not used to calculate savings.",
+      "url": "https://www.thehindu.com/news/national/cag-report-on-dwarka-expressway-erroneous-says-highways-ministry-official/article67201929.ece",
+      "evidenceTier": "reported",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "rw-kerala-vup-2022",
+      "title": "NHAI preliminary report on under-construction Kerala VUP slab collapse",
+      "text": "Deck slab collapsed while concreting on Chengala–Neeleshwaram NH66. NHAI’s preliminary explanation is scaffolding failure; an NIT expert committee was constituted. Headline says no injuries; body records one minor injury and no casualties. Body is retained. This VUP incident is a different asset and mechanism from the 2025 slope collapse on the same corridor. Preliminary cause is not a final inquiry finding. The August 2024 parliamentary annexure lists a Kerala NH66 VUP staging failure at km 72+297 (PDF pp. 13–14) and reports suspensions/penalty; the 2022 release does not give chainage, so this is not automatically merged as the same asset.",
+      "url": "https://www.pib.gov.in/Pressreleaseshare.aspx?PRID=1872019",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "rw-qcbs-2023",
+      "title": "QCBS clarification for works and non-consultancy services",
+      "text": "Clarifies that works of any value may use QCBS following Quality Oriented Procurement procedure; NCS above ₹10 crore require QOP procedure while lower-value NCS follow the specified 2021 route. Clarification of 29 October 2021 instructions, not a blanket replacement of lowest-cost selection. Use depends on prescribed approvals/procedure and the actual procurement.",
+      "url": "https://doe.gov.in/files/circulars_document/Quality_cum_Cost_Based_Selection_QCBS_Method_in_Procurement_of_Works_and_Non_Consultancy_Services_NCS.pdf",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "rw-wb-audit",
+      "title": "CAG West Bengal Report 1 of 2026: bridge maintenance and road renovation",
+      "text": "Road and bridge audit includes utility coordination failures, delayed reconstruction and failed Jagatpur–Dharampota road renovation with departmental responses. Exact publication/tabling day not verified; not assigned an invented date. Primary-host indexed text was read; original PDF request received403. Repeated OCR/layout blocks do not represent repeated incidents. Test-checked samples are not statewide prevalence or a current engineering safety assessment.",
+      "url": "https://cag.gov.in/webroot/uploads/download_audit_report/2026/CA-Report_23-24_Full-Book-06a6733a1bb3691.97966215.pdf",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "rw-works-2022",
+      "title": "Manual for Procurement of Works, updated June 2022",
+      "text": "Consolidated guidance includes quality-cum-cost selection and debarment procedures; laws and original instructions prevail if inconsistent. Generic central procurement guidance; check authority-specific manuals and governing tender date. Not a new Act, not retroactive proof that an earlier contract violated later guidance.",
+      "url": "https://doe.gov.in/files/manuals_documents/Manual_for_Procurement_of_Works_Updated%20June%2C%202022.pdf",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "rw-works-2025",
+      "title": "Manual for Procurement of Works, second edition 2025 (final)",
+      "text": "Final edition incorporates GFR, DFPR 2024 and mediation developments. It mainly guides ministries with limited engineering capacity; major engineering organisations may retain approved frameworks. PublishedAt records verified republication, not original effective date. The official DoE indexed catalogue lists 5 January 2026 release. The March 2025 draft is excluded. Subsequent amendments require separate verification. The manual does not establish improper favour or retroactively rewrite contracts.",
+      "url": "https://cdnbbsr.s3waas.gov.in/s316026d60ff9b54410b3435b403afd226/uploads/2026/07/202607281189034909.pdf",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "state-src-agnipath",
+      "title": "Cabinet approval of Agnipath recruitment policy",
+      "text": "Official policy describes four-year engagement, an opportunity for up to 25% of each specific batch to enter the regular cadre, and Seva Nidhi;46,000 is the announced first-year recruitment plan. Announced intake is not actual enrolment; up to 25% is a ceiling rather than a guarantee for any individual. Financial packages and eligibility must be checked against later service-specific notices; this is the 2022 policy record. Government-stated benefits are attributed policy objectives, not independently measured outcomes.",
+      "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=1833747",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "state-src-army-audit",
+      "title": "CAG Army audit Report 11 of 2024: official press release",
+      "text": "Official audit summary records ₹44.26 crore wasteful expenditure on underused hired office accommodation and ₹17.43 crore Chennai warehouse rent linked to delayed replacement construction. Primary official summary was read, but the full report with ministry responses was not retrieved in this pass. Audit financial findings are historical and attributed to CAG; they do not establish guilt of a contractor or politician. No operational force weaknesses or sensitive locations are mapped.",
+      "url": "https://cag.gov.in/uploads/PressRelease/PR-English-Press-Release-on-Audit-Report-No-11-of-2024-0676193eab6e9e8-69621331.pdf",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "state-src-capital-contracts",
+      "title": "MoD signs five capital acquisition contracts,1 March 2024",
+      "text": "Official release names HAL, Larsen & Toubro and BrahMos Aerospace and separately prices five contracts totalling ₹39,125.39 crore; Defence Minister Rajnath Singh was present at the exchange. Signed contract values are not disbursements, deliveries or completion certificates. Two contracts to a vendor may cover different scopes; repeat-vendor counts alone do not show repeat work. Ministerial presence is an official-role connection and does not demonstrate intervention, preferential treatment or ownership. No corporate-group or political-donation joins are inferred from names alone.",
+      "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2010528",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "state-src-dap-draft2026",
+      "title": "Consultation on draft Defence Acquisition Procedure 2026",
+      "text": "Ministry invited comments on a draft which it said would replace DAP 2020 once approved; release explicitly distinguishes revenue DPM 2025 from capital DAP. This source establishes a draft consultation, not enactment; no effective date is inferred. Later finalisation is not established by this source. Do not infer that a rule remained unchanged merely because a later document was not retrieved.",
+      "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2226097&lang=1&reg=3",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "state-src-dap2022",
+      "title": "DAP 2020 amendments announced 25 April 2022",
+      "text": "Capital-acquisition amendment summary covers indigenous sourcing, replacement of Integrity Pact Bank Guarantee with other safeguards, viable splitting among technically qualified vendors, and simplified iDEX/Make-II procedures. Official summary rather than the complete consolidated procedure; contract-specific applicability and operative orders must be checked. Splitting an order can be expressly permitted by policy; multiple awards are not automatically evasion.",
+      "url": "https://pib.gov.in/Pressreleaseshare.aspx?PRID=1819937",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "state-src-defence-capital",
+      "title": "Union Budget 2026-27, Demand 21: Capital Outlay on Defence Services",
+      "text": "Official capital demand supplies fiscal-stage context for acquisition and construction, separately from revenue/pay and pensions. A budget allocation does not identify an awarded vendor, beneficiary, delivery or payment. Exact publication day not independently verified.",
+      "url": "https://www.indiabudget.gov.in/doc/eb/sbe21.pdf",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "state-src-defence-revenue",
+      "title": "Union Budget 2026-27, Demand 20: Defence Services(Revenue)",
+      "text": "Official revenue demand separates pay/allowances and other service heads including Agnipath, making personnel expenditure distinguishable from capital acquisition. Budget heads are not person-level payment or appointment records. Defence pensions are a separate demand and are not a procurement award. Exact publication day not independently verified.",
+      "url": "https://www.indiabudget.gov.in/doc/eb/sbe20.pdf",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "state-src-dpm2025",
+      "title": "Defence Procurement Manual 2025 release and transition",
+      "text": "Revenue-procurement manual revises liquidated damages, limited-tender provisions, indigenisation orders and procurement procedures; transition depends on RFP issue/reissue date. Revenue procurement is distinct from capital acquisition under DAP. The reported approximately ₹1 lakhcrore is the procurement scope described by the release, not an awarded contract or spent total. Full manual and contract terms control any finding of breach.",
+      "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2181894",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "state-src-exam-consolidated",
+      "title": "Public Examinations Act 2024 consolidated as on 31 July 2026",
+      "text": "Primary consolidated statute incorporates 2026 amendments to penalties and service-provider debarment plus Special Task Force, fast-track investigation/trial and appeal provisions. 31 July 2026 is the stated legal-version/effective date, not a independently verified web-publication date. Apply provisions to the relevant conduct/date/jurisdiction; the central Schedule is not a blanket statement that every state recruitment examination is covered. The original 2024 penalties are superseded for the amended provisions; prior events must not be reassessed as if later penalties applied then.",
+      "url": "https://upload.indiacode.nic.in/view-casepdf?id=AC_CEN_26_36_00009_A2024-01_1719556801892&type=act",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "state-src-exam-index",
+      "title": "Public Examinations Act 2024: enactment and enforcement metadata",
+      "text": "Official statute metadata distinguishes presidential enactment from commencement on 21 June 2024. The live index reflects later amendments; use dated legal versions rather than treating the original 2024 text as unchanged.",
+      "url": "https://www.indiacode.nic.in/handle/123456789/20100",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "state-src-exam-rules",
+      "title": "Public Examinations Rules 2024: published transcription of GSR 342(E)",
+      "text": "Transcription sets out computer-based-test standards, service-provider reporting, centre coordinator/regional officer responsibilities and monitoring. Secondary transcription read; original Gazette binary was not retrieved in this pass. Capped at reported evidence. The publication date of this webpage is 25 June 2024; rules state commencement on Gazette publication,24 June 2024. No inference that a particular exam contractor breached these rules follows from the rule alone.",
+      "url": "https://www.staffnews.in/2024/06/public-examinations-prevention-of-unfair-means-rules-2024.html",
+      "evidenceTier": "reported",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "state-src-gfr2024",
+      "title": "General Financial Rules 2017 updated to 31 July 2024",
+      "text": "Rule 149 records GeM thresholds of ₹50,000 and ₹10 lakh following 10 July 2024 amendment, with rate-reasonableness and competition conditions; Rules 154–155 retain separate outside-GeM conditions and scientific-organisation exceptions. Consolidation date is not verified publication day; this is a historical rules snapshot, not a claim of unchanged 2026 rules. Goods, services, works and scientific exceptions must be distinguished; Union GFR is not automatically every state rule. Automobiles have an explicit no-ceiling exception under 149(i); threshold screening must not flag them solely by amount.",
+      "url": "https://doe.gov.in/files/circulars_document/FInal_GFR_upto_31_07_2024.pdf",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "state-src-mha-priority",
+      "title": "MHA announces priority for returning Agniveers in CAPFs and Assam Rifles",
+      "text": "MHA announced priority in CAPF and Assam Rifles recruitment for Agniveers completing four years and said a detailed plan was being prepared. This announcement is not a recruitment-rule notification or actual appointment count. CAPFs/Assam Rifles are distinct from state police, and priority does not establish appointment of any named person.",
+      "url": "https://www.mha.gov.in/sites/default/files/2022-11/HMAgniveer_15062022%5B1%5D.pdf",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "state-src-odisha",
+      "title": "Odisha e-Procurement IT Audit, Report 1 of 2025",
+      "text": "CAG documents procurement-evaluation and contract-value errors, including a Bargarh boundary-wall award above the price payable under the applicable preference rule; the report records departmental responses. Selected audit cases do not establish the prevalence of irregularity in all Odisha contracts. Historical process findings do not establish the present condition of a live system. Public financial controls are summarised; no system exploitation instructions or private bidder identifiers are reproduced.",
+      "url": "https://cag.gov.in/webroot/uploads/download_audit_report/2025/Report-of-the-CAG_e-Procurement_Government-of-Odisha-068d4e08b303b21.95073538.pdf",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "state-src-police-budget",
+      "title": "Union Budget 2026-27, Demand 51: Police",
+      "text": "Official demand separates Union police and related organisations, revenue/capital and fiscal stages; suitable for tracing allocation categories before seeking actual payments. Union demand does not measure all state-police budgets; Delhi Police is not a proxy for all cities. BE and RE are budget provisions, not awarded contracts or actual expenditure; do not sum stage columns. Exact publication day not independently verified.",
+      "url": "https://www.indiabudget.gov.in/doc/eb/sbe51.pdf",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "state-src-ts",
+      "title": "Telangana State Finances Audit Report, year ended March 2022, Report 2 of 2023",
+      "text": "CAG traces ₹500 crore police-vehicle borrowing through TSPHCL, ₹328 crore budget-funded repayment by March 2022 and estimated ₹13 crore additional interest; separately examines police grant controls and Safe City budget utilisation. Report year is not a verified publication day; exact publication date remains unknown in this record. Budget, borrowing, repayment, and expenditure are distinct stages; these are dated audit observations, not a current fraud finding.",
+      "url": "https://cag.gov.in/webroot/uploads/download_audit_report/2023/SFAR-English_22-23-065cf061f9f8133.21709580.pdf",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "state-src-wb-judgment",
+      "title": "State of West Bengal v Baishakhi Bhattacharyya, 2025 INSC 437",
+      "text": "Supreme Court upheld cancellation of the entire school selection process with modifications, cited outsourcing and record-preservation failures, and expressly distinguished tainted from not-specifically-tainted candidates. This is a dated civil selection-process judgment, not a finding that every affected candidate committed a crime. Para 50 says observations and findings would not influence criminal proceedings. Subsequent implementation orders and fresh recruitment outcomes are not exhaustively tracked here; historical relief must not be presented as current employment status.",
+      "url": "https://api.sci.gov.in/supremecourt/2024/18822/18822_2024_1_1501_60635_Judgement_03-Apr-2025.pdf",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "svc-amisp-model",
+      "title": "REC model guidance for AMISP smart system metering",
+      "text": "DBFOOT service includes supply, installation, integration, operations and maintenance; payment is by operational meter-months and specified lump sums. Meter ownership remains with AMISP during the contract. Model terms are not evidence that a particular DISCOM adopted every clause. A filename version is not an independently established publication day. TOTEX lifecycle prices cannot be compared directly to meter hardware prices. Origin fetch HTTP 503; official indexed text reviewed.",
+      "url": "https://recindia.nic.in/uploads/files/Guidance-NoteAMISP-System-Metering-SBDv113072022.pdf",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "svc-amrut2-policy",
+      "title": "Cabinet approves AMRUT 2.0 till 2025–26",
+      "text": "City Water Balance Plans are intended to quantify source, demand, supply and service gaps, feeding city/state action plans. Approved programme design is not measured city-level achievement. Later extensions or revisions need separate dated orders.",
+      "url": "https://www.pmindia.gov.in/en/news_updates/cabinet-approves-the-atal-mission-for-rejuvenation-and-urban-transformation-amrut-2-0-till-2025-26/",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "svc-cg-school-plan",
+      "title": "Chhattisgarh Samagra Shiksha 2025-26 revised PAB minutes",
+      "text": "Approved annual work plan: ₹232,029.17 lakh including ₹82,492.13 lakh spillover. Planned central share to be released: ₹112,900.28 lakh; corresponding state share ₹75,267.52 lakh. Supplementary ICT labs and smart classrooms approval: ₹14,133.80 lakh. Supersedes sections of earlier 9 May 2025 minutes; preserve version history. The section heading says Actual Release, but the line explicitly says to be released: classify as planned/approved, not actual disbursement. Opening balances and spillover make the approved plan different from fresh allocations. OCR affects table layout; use explicit prose figures and reconcile original PDF before bulk extraction. Origin PDF returned HTTP 404 on 2026-10-06; preserve indexed-text access status and locate replacement archive before treating as live-verified.",
+      "url": "https://dsel.education.gov.in/sites/default/files/pab/CG2526.pdf",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "svc-electricity-rules2023",
+      "title": "Electricity (Rights of Consumers) Amendment Rules, 2023 — G.S.R. 437(E)",
+      "text": "Requires daily remote smart-meter reading and daily consumer data access; inserts time-of-day tariff rules and advance display/notification requirements. Use the Gazette wording: commercial/industrial maximum demand more than 10 kW; some government summaries paraphrase this differently. National rules require the applicable State Commission tariff/supply-code instruments to establish a particular consumer bill. Commencement is publication in the Official Gazette; header issue is dated 14 June, while electronic Gazette identifier contains 15062023.",
+      "url": "https://apserc.nic.in/pdf/Acts%20Rules%20Policies/1-30_d_Electricity_Rights_of_Consumers_Amendment_Rules_2023.pdf",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "svc-jjm-functionality",
+      "title": "National report on functionality assessment of tap connections, 2024",
+      "text": "Survey covered 19,812 Har Ghar Jal villages, 237,608 households, 761 districts and 34 states/UTs. Table 6 publishes separate regularity, quantity, tested-quality and minimum-of-three index percentages. Section 4.7 explicitly says the sampling design cannot identify the same household fulfilling all three parameters; the published functionality index takes their minimum. Table 6 household-quality assessment uses microbiological laboratory testing and on-site pH; source-water chemical testing is analysed separately in the report. Selected Har Ghar Jal villages are not all rural villages. Published minimum index is not the observed joint share of functional household supply. The Table 6 household-quality percentage does not establish full BIS chemical safety, including arsenic or fluoride; source-water chemical tests are a separate sample. Quantity and quality have different sampling units; do not combine as household intersection. Exact original publication day is unconfirmed; URL folder date is not used as publication date.",
+      "url": "https://jaljeevanmission.gov.in/sites/default/files/2025-12/FHTC_National%20Report%202024.pdf",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "svc-ka-jjm-audit",
+      "title": "CAG Karnataka Report No. 12 of 2025: implementation of Jal Jeevan Mission",
+      "text": "Section 3.3.1 records incomplete work in Hebbal, Shirahatti taluk, Gadag district during 2024 despite Har Ghar Jal reported status. Government responded in May 2025 that the elevated reservoir was completed by 8 April 2025, with 200 m pipeline and 20 FHTCs remaining before certification/trial run. Section 3.5 discusses 33 tenders worth ₹251.75 crore invited/awarded after 31 March 2024; Government cites timely administrative approvals and delays from non-participation and re-tendering. Sections 3.7.1–3.7.2 identify missing cross-system project/contractor keys and 9,342 first-call single-bid awards among 38,231 finalised works, with government response. Report sample is 28 villages in seven districts; it is not a statewide failure rate. Har Ghar Jal reported status and certified status differ. Audit period begins before requested window; Hebbal implementation findings from 2024 and response from 2025 are separately dated. No evidence of current 2026 conditions or individual guilt is inferred. Exact original publication day unconfirmed; direct PDF retrieval returned HTTP 503. Section 3.5 distinguishes extended award deadlines: 15 March 2024 for in-village works and 31 March 2024 for multi-village schemes. The 33 flagged tenders were after the later date; no universal 31 March deadline is inferred.",
+      "url": "https://cag.gov.in/webroot/uploads/download_audit_report/2025/Combined-Pdf_JJM-Final-03.03.26-069c25b7fcf4287.01649139.pdf",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "svc-kl-jjm-audit",
+      "title": "Kerala CAG audit, Chapter IV: implementation of schemes",
+      "text": "Audit reports 2,726 completed out of 5,318 JJM works as at November 2024. 122 of 342 surveyed beneficiaries reported no, limited or infrequent supply. Government response cites 21 lakh additional taps in four years and implementation constraints. Survey findings describe the audit sample, not all Kerala households. Part of the audited period precedes the requested 6 October 2021 window. Exact publication date is unconfirmed; 2025 report archive path is not assigned as a publication day. Direct original URL returned HTTP 503; Exa primary-document indexed extract was reviewed. Audit observations are not a finding of criminal intent and not proof the conditions continue in 2026.",
+      "url": "https://cag.gov.in/uploads/download_audit_report/2025/9.Chapter-IV---Implementation-of-Schemes-0699d4ee539fc57.51076092.pdf",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "svc-lighthouse-investment",
+      "title": "KKR and PSP invest in Lighthouse Learning",
+      "text": "Primary corporate announcement on 25 November 2025 says KKR-managed funds invested alongside new investor PSP Investments and KKR would continue holding a majority stake in Lighthouse Learning, an education services platform. No transaction amount disclosed in the primary announcement. Do not substitute media transaction estimates as primary-verified values. Equity in services platform is distinct from donations to schools, ownership of regulated educational trusts, or FCRA contributions. Presence is not proof investment proceeds were spent in every named city; Delhi NCR crosses administrative borders. Delhi-NCR presence is a regional label; it does not establish a school or spending location within Delhi's administrative boundary. Corporate self-disclosure documents what was announced; no government contract, donation quid pro quo, political control, or shareholding percentage is established.",
+      "url": "https://www.investpsp.com/en/news/kkr-further-invests-in-lighthouse-learning-to-support-next-phase-of-growth/",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "svc-pmjay-audit-index",
+      "title": "CAG landing record: PMJAY performance audit 11/2023",
+      "text": "Official metadata dates the PMJAY performance audit and defines its audited period. Publication within the recent window does not move historical claims into that window.",
+      "url": "https://cag.gov.in/pt/delhi/en/audit-report/details/119060",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "svc-pmjay-claims-audit",
+      "title": "CAG PMJAY 11/2023, Chapter V: claims management",
+      "text": "Paragraph 5.4 records ₹1.37 crore paid in 458 Andhra Pradesh cases and ₹3.61 crore in 1,080 Punjab cases for private-hospital procedures reserved for public hospitals. NHA cites temporary opening of public-reserved packages during COVID. Chapter also separates public-hospital use of claim revenue from private-hospital claim payments. Service claims are not hospital-construction tender values or private equity funding. Package, referral exception and treatment date must be reconciled before identifying an impermissible claim. Original PDF fetch returned HTTP 503; indexed original chapter text retained.",
+      "url": "https://cag.gov.in/uploads/download_audit_report/2023/09_Chapter-V-064d22bab412c53.02505839.pdf",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "svc-pmjay70-approval",
+      "title": "Cabinet approval: PMJAY coverage for people aged 70 and above",
+      "text": "Approves coverage for all people aged 70 and above regardless of income; specifies separate top-up for already-covered families and choice conditions for certain public schemes. Scheme policy approval, not an Act of Parliament or proof of a hospital payment. Coverage ceiling is not actual expenditure; adoption and eligible hospital records remain necessary.",
+      "url": "https://www.pib.gov.in/Pressreleaseshare.aspx?PRID=2053883",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "svc-pmjay70-launch",
+      "title": "PMJAY age-70 coverage expansion launch",
+      "text": "Records launch of the age-70 coverage expansion and Ayushman Vay Vandana Card. The ₹12,850 crore headline spans multiple launched, inaugurated and foundation-stone projects; do not assign it to the coverage expansion. State implementation mentioned in the historical speech is not a current all-state status ledger.",
+      "url": "https://www.pmindia.gov.in/en/news_updates/pm-launches-inaugurates-and-lays-the-foundation-stone-of-multiple-projects-related-to-health-sector-worth-over-rs-12850-crore/",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "svc-rte-ka-reimbursement",
+      "title": "Quota for EWS Seats in Private Unaided Schools — Lok Sabha Question 1260",
+      "text": "Provides sanctioned and reimbursed-to-school amounts under RTE for Karnataka for five years. FY 2025-26 sanctioned ₹156.10 crore and reimbursed ₹148.68 crore. Government says reimbursement is timely, based on information from the state. Describes 2018 Karnataka neighbourhood-school exemption. Including Bengaluru does not make this city-level funding. The table covers the reimbursement claim population; do not interpret as uniquely new entry-grade admissions without checking definitions. Sanctioned less reimbursed does not establish overdue obligations or misuse. Distinct from central releases to the state; do not sum with Samagra central share as independent money.",
+      "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU1260_aW0kcJ.pdf",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "svc-rte-statute",
+      "title": "Right of Children to Free and Compulsory Education Act, 2009",
+      "text": "Section 12(1)(c) provides entry-level admissions for eligible disadvantaged/weaker-section children of at least 25% in specified categories of schools. Section 12(2) provides private unaided school reimbursement capped at state per-child expenditure or actual charge, whichever is lower, with provisos for pre-existing free-education obligations. Not an unrestricted private-school capital grant. School eligibility, constitutional/applicability exclusions, neighbourhood rules and claims are determined by applicable law and state implementation. Statutory eligibility is not evidence of payment.",
+      "url": "https://dsel.education.gov.in/sites/default/files/rte/RTE_Ac_%202009_amendments.pdf",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "svc-up-electricity-audit",
+      "title": "Uttar Pradesh CAG 7/2025: DDUGJY and SAUBHAGYA",
+      "text": "Paragraph 3.3.4 attributes ₹46.27 crore paid for overlapping manpower/PMA work. The duplicate-connection headline is ₹26.65 crore; paragraphs 3.3.8–3.3.9 include grid and standalone-solar categories. Both responses and reported recovery progress accompany these historical findings. These are attributed audit conclusions, not criminal adjudications or current unrecovered loss. Audit period substantially predates the recent publication window. Chapter-only extraction lost body text; the full official report endpoint supplied readable indexed text. Original full-report binary returned HTTP 503; indexed primary text retained. Do not add the separately stated ₹4.41 crore standalone-solar duplicate category to the ₹26.65 crore headline: 3.3.8 listed amounts round to ₹22.24 crore, plus 3.3.9 ₹4.41 crore rounds to that headline.",
+      "url": "https://cag.gov.in/en/audit-report/download/123721",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "svc-up-electricity-index",
+      "title": "CAG landing record: UP electricity performance audit 7/2025",
+      "text": "Establishes the audit publication date and coverage through December 2022. Tabling date is not the date of the expenditure or government reply.",
+      "url": "https://cag.gov.in/ag1/uttar-pradesh/en/audit-report/details/123721",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "svc-up-school-audit",
+      "title": "UP CAG Compliance Audit-I 1/2023: incomplete Azamgarh KGBVs",
+      "text": "Paragraph 2.2 records ₹1.17 crore unfruitful expenditure on two incomplete KGBVs in Lalganj and Thekma; quality-check failures, revised estimates, and recovery/re-allotment concerns are detailed with government response. Historical sample of two buildings out of 15 sanctioned KGBVs; not all UP schools. Reconstruction and completion estimates are not additional paid expenditure. Original chapter fetch was refused with HTTP 403; full-report alternate returned 503. Only indexed primary text is archived.",
+      "url": "https://cag.gov.in/uploads/download_audit_report/2023/7-CH-2.2-2.17-064059e4a56ff38.74751167.pdf",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06"
+    },
+    {
+      "id": "svc-up-school-index",
+      "title": "CAG UP register: Compliance Audit-I 1/2023",
+      "text": "Official register identifies the 2023 Compliance Audit-I report publication date. Index is metadata; detailed findings and replies come from paragraph 2.2.",
+      "url": "https://cag.gov.in/ag2/uttar-pradesh/en/audit-report?sector%5B0%5D=36",
+      "evidenceTier": "documented",
+      "retrievedAt": "2026-10-06"
+    }
+  ]
+}

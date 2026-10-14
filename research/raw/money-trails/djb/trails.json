@@ -1,0 +1,1059 @@
+{
+  "schemaVersion": 1,
+  "namespace": "money-trails-djb",
+  "cutoff": "2026-10-07",
+  "trails": [
+    {
+      "id": "money-trails-djb:trail:djb-flowmeter",
+      "title": "DJB: from tender eligibility to the disputed money trail",
+      "city": "delhi",
+      "caseRecordId": "money-trails-djb:record:djb-trace",
+      "question": "What was actually paid, who allegedly received it, and which document would establish the next beneficiary?",
+      "conclusion": "Original 2026 orders advance the trace to an ECIR-asserted ₹24,74,71,376 release and precise alleged bank/cash components. Actual recipient schedules, company distributions and political-pool allocation remain untraced; equivalent-value attachment is not recovery proof.",
+      "sourceStatus": "Two original judicial orders; two official ED releases from the same agency origin; dated company disclosure; a retained bail mirror and a reported AAP response. Alleged payments remain attributed and contested.",
+      "cutoff": "2026-10-07",
+      "hopIds": [
+        "money-trails-djb:hop:eligibility",
+        "money-trails-djb:hop:award",
+        "money-trails-djb:hop:released",
+        "money-trails-djb:hop:subcontract",
+        "money-trails-djb:hop:nkg-bribe",
+        "money-trails-djb:hop:bank-route",
+        "money-trails-djb:hop:cash-route",
+        "money-trails-djb:hop:political-claim",
+        "money-trails-djb:hop:reconciliation",
+        "money-trails-djb:hop:ownership",
+        "money-trails-djb:hop:attachment",
+        "money-trails-djb:hop:procedure",
+        "money-trails-djb:hop:cash-stop"
+      ],
+      "hypothesisIds": [
+        "money-trails-djb:hypothesis:eligibility-gate",
+        "money-trails-djb:hypothesis:cash-proof",
+        "money-trails-djb:hypothesis:political-allocation",
+        "money-trails-djb:hypothesis:shareholder-benefit",
+        "money-trails-djb:hypothesis:valuation"
+      ],
+      "limitations": [
+        "One bounded contract case, not all Delhi Jal Board expenditure.",
+        "No original bank statement or executed subcontract obtained.",
+        "Court/agency names, units and cost revisions are explicitly retained; no silent corrections or current ownership inference.",
+        "No minister or family recipient inferred from association."
+      ]
+    }
+  ],
+  "hops": [
+    {
+      "id": "money-trails-djb:hop:eligibility",
+      "title": "01 · Follow the eligibility document",
+      "summary": "NBCC Faridabad-project certificates became the eligibility bridge into a DJB bid. Tribunal describes an adverse March 2018 inspection and a subsequent favourable note-sheet; investigate sign-offs and overwritten versions.",
+      "basis": "court-recorded-agency-allegation",
+      "flowState": "context",
+      "fromEntityId": "money-trails-djb:entity:nbcc",
+      "toEntityId": "money-trails-djb:entity:nkg",
+      "entityIds": [
+        "money-trails-djb:entity:nbcc",
+        "money-trails-djb:entity:nkg",
+        "money-trails-djb:entity:mittal",
+        "money-trails-djb:entity:sadhan",
+        "money-trails-djb:entity:djb"
+      ],
+      "relationshipIds": [
+        "money-trails-djb:relationship:certificate",
+        "money-trails-djb:relationship:mittal-certificate",
+        "money-trails-djb:relationship:sadhan-role"
+      ],
+      "recordIds": [
+        "money-trails-djb:record:certificate-response"
+      ],
+      "sourceIds": [
+        "money-trails-djb:source:tribunal"
+      ],
+      "sourceLocators": [
+        {
+          "sourceId": "money-trails-djb:source:tribunal",
+          "locator": "FPA-PMLA-2052, 2059, 2060/DLI/2024; §§ 3–14, 15–18, 20–29; PDF pp 2–22",
+          "role": "supports",
+          "sourceFamily": "ED-origin allegations in tribunal"
+        }
+      ],
+      "date": null,
+      "dateBasis": "No exact underlying transfer date published in retained source; source/decision dates are shown separately.",
+      "financialStage": "procurement eligibility; no payment",
+      "amountRefs": [],
+      "responseRecordIds": [
+        "money-trails-djb:record:certificate-response"
+      ],
+      "counterEvidenceRecordIds": [
+        "money-trails-djb:record:certificate-response"
+      ],
+      "response": "Defence disputes proceeds/GST, predicate offence and evidentiary reliability. Procedural outcomes do not determine guilt.",
+      "alternatives": [
+        "Lawful expenditure, tax and timing differences need source-led reconciliation; an agency assertion does not establish the actual bank path."
+      ],
+      "missingNextDocument": "NIT 22 full conditions; three performance certificates (2/3 January and 12 March 2018); the 24 March inspection report; the 8 April note-sheet; certification emails and the original deviation schedule",
+      "documentHolder": "DJB tender branch; NBCC project records; trial court relied-upon documents",
+      "limitations": [
+        "The order reproduces allegations and statements; underlying certificates were not obtained."
+      ],
+      "eventPeriod": "2017–2018 procurement and subsequent execution; procedural outcomes through 4 July 2026",
+      "overlapGroup": "djb-flowmeter-same-contract"
+    },
+    {
+      "id": "money-trails-djb:hop:award",
+      "title": "02 · Separate the award from cash",
+      "summary": "The older bail account describes about ₹38.02 crore contract face value. It cannot be read as the payment made, expenditure incurred or proved loss.",
+      "basis": "contract-commitment",
+      "flowState": "commitment",
+      "fromEntityId": "money-trails-djb:entity:djb",
+      "toEntityId": "money-trails-djb:entity:nkg",
+      "entityIds": [
+        "money-trails-djb:entity:djb",
+        "money-trails-djb:entity:nkg"
+      ],
+      "relationshipIds": [
+        "money-trails-djb:relationship:award"
+      ],
+      "recordIds": [
+        "money-trails-djb:record:cost-scope-conflict"
+      ],
+      "sourceIds": [
+        "money-trails-djb:source:bail"
+      ],
+      "sourceLocators": [
+        {
+          "sourceId": "money-trails-djb:source:bail",
+          "locator": "BAIL APPLN. 4825/2024 and 434/2025; §§ 3.3, 5, 7–8, 25–29, 47–50",
+          "role": "supports",
+          "sourceFamily": "reported response or court mirror"
+        }
+      ],
+      "date": null,
+      "dateBasis": "No exact underlying transfer date published in retained source; source/decision dates are shown separately.",
+      "financialStage": "contract commitment",
+      "amountRefs": [
+        {
+          "kind": "relationship",
+          "id": "money-trails-djb:relationship:award",
+          "amountIndex": 0
+        }
+      ],
+      "responseRecordIds": [
+        "money-trails-djb:record:defence",
+        "money-trails-djb:record:bail-outcome"
+      ],
+      "counterEvidenceRecordIds": [
+        "money-trails-djb:record:cost-scope-conflict"
+      ],
+      "response": "Defence disputes proceeds/GST, predicate offence and evidentiary reliability. Procedural outcomes do not determine guilt.",
+      "alternatives": [
+        "Lawful expenditure, tax and timing differences need source-led reconciliation; an agency assertion does not establish the actual bank path."
+      ],
+      "missingNextDocument": "Executed award/contract including BOQ, O&M period, GST, variations and completion milestones",
+      "documentHolder": "DJB procurement division; NKG contract records",
+      "limitations": [],
+      "eventPeriod": "2017–2018 procurement and subsequent execution; procedural outcomes through 4 July 2026",
+      "overlapGroup": "djb-flowmeter-same-contract"
+    },
+    {
+      "id": "money-trails-djb:hop:released",
+      "title": "03 · Identify what the agency says was paid",
+      "summary": "DHC § 3, dated 4 July 2026, recounts the ECIR claim that DJB released ₹24,74,71,376 to NKG. This is a material step beyond award value; it is not an independent bank-ledger verification.",
+      "basis": "court-recorded-agency-allegation",
+      "flowState": "alleged-transfer",
+      "fromEntityId": "money-trails-djb:entity:djb",
+      "toEntityId": "money-trails-djb:entity:nkg",
+      "entityIds": [
+        "money-trails-djb:entity:djb",
+        "money-trails-djb:entity:nkg"
+      ],
+      "relationshipIds": [
+        "money-trails-djb:relationship:released"
+      ],
+      "recordIds": [
+        "money-trails-djb:record:reconciliation"
+      ],
+      "sourceIds": [
+        "money-trails-djb:source:recall"
+      ],
+      "sourceLocators": [
+        {
+          "sourceId": "money-trails-djb:source:recall",
+          "locator": "CRL.M.A. 17144/2025 in CRL.REV.P. 1283/2024; §§ 1–6, 32, 36–38; PDF pp 1–3, 26–28",
+          "role": "supports",
+          "sourceFamily": "ED-origin allegations in judicial recital"
+        }
+      ],
+      "date": null,
+      "dateBasis": "No exact underlying transfer date published in retained source; source/decision dates are shown separately.",
+      "financialStage": "agency-asserted gross released payments",
+      "amountRefs": [
+        {
+          "kind": "relationship",
+          "id": "money-trails-djb:relationship:released",
+          "amountIndex": 0
+        }
+      ],
+      "responseRecordIds": [
+        "money-trails-djb:record:defence",
+        "money-trails-djb:record:bail-outcome"
+      ],
+      "counterEvidenceRecordIds": [],
+      "response": "Defence disputes proceeds/GST, predicate offence and evidentiary reliability. Procedural outcomes do not determine guilt.",
+      "alternatives": [
+        "Lawful expenditure, tax and timing differences need source-led reconciliation; an agency assertion does not establish the actual bank path."
+      ],
+      "missingNextDocument": "DJB certified running-account/final bills, treasury/payment register and redacted UTR confirmation tied to NIT 22/Package C",
+      "documentHolder": "DJB finance/accounts and payment bank; NKG project ledger",
+      "limitations": [
+        "The decision does not specify transaction dates or provide statement exhibits."
+      ],
+      "eventPeriod": "2017–2018 procurement and subsequent execution; procedural outcomes through 4 July 2026",
+      "overlapGroup": "djb-flowmeter-same-contract"
+    },
+    {
+      "id": "money-trails-djb:hop:subcontract",
+      "title": "04 · Trace the subcontract receipts",
+      "summary": "NKG transferred about ₹18.38 crore under the subcontract dated 15 November 2018, according to the bail recital. Aggarwal disputes the GST/profit treatment; gross receipts cannot all become illicit gain.",
+      "basis": "court-recorded-agency-allegation",
+      "flowState": "alleged-transfer",
+      "fromEntityId": "money-trails-djb:entity:nkg",
+      "toEntityId": "money-trails-djb:entity:integral",
+      "entityIds": [
+        "money-trails-djb:entity:nkg",
+        "money-trails-djb:entity:integral",
+        "money-trails-djb:entity:aggarwal"
+      ],
+      "relationshipIds": [
+        "money-trails-djb:relationship:subcontract"
+      ],
+      "recordIds": [
+        "money-trails-djb:record:defence"
+      ],
+      "sourceIds": [
+        "money-trails-djb:source:bail"
+      ],
+      "sourceLocators": [
+        {
+          "sourceId": "money-trails-djb:source:bail",
+          "locator": "BAIL APPLN. 4825/2024 and 434/2025; §§ 3.3, 5, 7–8, 25–29, 47–50",
+          "role": "supports",
+          "sourceFamily": "reported response or court mirror"
+        }
+      ],
+      "date": null,
+      "dateBasis": "No exact underlying transfer date published in retained source; source/decision dates are shown separately.",
+      "financialStage": "gross subcontract receipts, not net profit",
+      "amountRefs": [
+        {
+          "kind": "relationship",
+          "id": "money-trails-djb:relationship:subcontract",
+          "amountIndex": 0
+        }
+      ],
+      "responseRecordIds": [
+        "money-trails-djb:record:defence",
+        "money-trails-djb:record:bail-outcome"
+      ],
+      "counterEvidenceRecordIds": [
+        "money-trails-djb:record:defence"
+      ],
+      "response": "Defence disputes proceeds/GST, predicate offence and evidentiary reliability. Procedural outcomes do not determine guilt.",
+      "alternatives": [
+        "Lawful expenditure, tax and timing differences need source-led reconciliation; an agency assertion does not establish the actual bank path."
+      ],
+      "missingNextDocument": "Executed agreement dated 15 November 2018; subcontract invoices, receipt ledger, GST returns and paired redacted bank transactions",
+      "documentHolder": "NKG and Integral; DJB subcontract approval file; trial court exhibits",
+      "limitations": [
+        "Agreement date is not an invented date for every aggregate receipt."
+      ],
+      "eventPeriod": "2017–2018 procurement and subsequent execution; procedural outcomes through 4 July 2026",
+      "overlapGroup": "djb-flowmeter-same-contract"
+    },
+    {
+      "id": "money-trails-djb:hop:nkg-bribe",
+      "title": "05 · Keep the prime-contractor branch separate",
+      "summary": "Tribunal § 8(i) attributes ₹56 lakh as NKG’s bribe component and ₹5,80,27,191 as retained company proceeds. Those are parts of one alleged commission branch, not additional flows to add to DJB payments.",
+      "basis": "court-recorded-agency-allegation",
+      "flowState": "alleged-transfer",
+      "fromEntityId": "money-trails-djb:entity:nkg",
+      "toEntityId": "money-trails-djb:entity:arora",
+      "entityIds": [
+        "money-trails-djb:entity:nkg",
+        "money-trails-djb:entity:arora"
+      ],
+      "relationshipIds": [
+        "money-trails-djb:relationship:nkg-bribe"
+      ],
+      "recordIds": [
+        "money-trails-djb:record:company-retained",
+        "money-trails-djb:record:reconciliation"
+      ],
+      "sourceIds": [
+        "money-trails-djb:source:tribunal"
+      ],
+      "sourceLocators": [
+        {
+          "sourceId": "money-trails-djb:source:tribunal",
+          "locator": "FPA-PMLA-2052, 2059, 2060/DLI/2024; §§ 3–14, 15–18, 20–29; PDF pp 2–22",
+          "role": "supports",
+          "sourceFamily": "ED-origin allegations in tribunal"
+        }
+      ],
+      "date": null,
+      "dateBasis": "No exact underlying transfer date published in retained source; source/decision dates are shown separately.",
+      "financialStage": "alleged bribe allocation; no observed payment instrument",
+      "amountRefs": [
+        {
+          "kind": "relationship",
+          "id": "money-trails-djb:relationship:nkg-bribe",
+          "amountIndex": 0
+        }
+      ],
+      "responseRecordIds": [
+        "money-trails-djb:record:defence",
+        "money-trails-djb:record:bail-outcome"
+      ],
+      "counterEvidenceRecordIds": [],
+      "response": "Defence disputes proceeds/GST, predicate offence and evidentiary reliability. Procedural outcomes do not determine guilt.",
+      "alternatives": [
+        "Lawful expenditure, tax and timing differences need source-led reconciliation; an agency assertion does not establish the actual bank path."
+      ],
+      "missingNextDocument": "Dated debit/credit evidence or cash-hand-over proof for ₹56 lakh, plus NKG branch reconciliation",
+      "documentHolder": "ED relied-upon documents; NKG records; trial court",
+      "limitations": [
+        "The source does not establish direct delivery versus an intermediary."
+      ],
+      "eventPeriod": "2017–2018 procurement and subsequent execution; procedural outcomes through 4 July 2026",
+      "overlapGroup": "djb-flowmeter-same-contract"
+    },
+    {
+      "id": "money-trails-djb:hop:bank-route",
+      "title": "06 · Bank-channel claim stops at unnamed counterparties",
+      "summary": "ED’s rejoinder reproduced in tribunal § 27(b) says ₹73.50 lakh went through banks to entities associated with Tajinder on behalf of Arora. The quoted passage does not identify those legal payees or their next debits.",
+      "basis": "court-recorded-agency-allegation",
+      "flowState": "alleged-transfer",
+      "fromEntityId": "money-trails-djb:entity:integral",
+      "toEntityId": "money-trails-djb:entity:associated-entities",
+      "entityIds": [
+        "money-trails-djb:entity:integral",
+        "money-trails-djb:entity:associated-entities",
+        "money-trails-djb:entity:tajinder",
+        "money-trails-djb:entity:arora"
+      ],
+      "relationshipIds": [
+        "money-trails-djb:relationship:bank-route"
+      ],
+      "recordIds": [
+        "money-trails-djb:record:defence"
+      ],
+      "sourceIds": [
+        "money-trails-djb:source:tribunal"
+      ],
+      "sourceLocators": [
+        {
+          "sourceId": "money-trails-djb:source:tribunal",
+          "locator": "FPA-PMLA-2052, 2059, 2060/DLI/2024; §§ 3–14, 15–18, 20–29; PDF pp 2–22",
+          "role": "supports",
+          "sourceFamily": "ED-origin allegations in tribunal"
+        }
+      ],
+      "date": null,
+      "dateBasis": "No exact underlying transfer date published in retained source; source/decision dates are shown separately.",
+      "financialStage": "agency-alleged bank-channel bribe; legal recipients unresolved",
+      "amountRefs": [
+        {
+          "kind": "relationship",
+          "id": "money-trails-djb:relationship:bank-route",
+          "amountIndex": 0
+        }
+      ],
+      "responseRecordIds": [
+        "money-trails-djb:record:defence",
+        "money-trails-djb:record:bail-outcome"
+      ],
+      "counterEvidenceRecordIds": [],
+      "response": "Defence disputes proceeds/GST, predicate offence and evidentiary reliability. Procedural outcomes do not determine guilt.",
+      "alternatives": [
+        "Lawful expenditure, tax and timing differences need source-led reconciliation; an agency assertion does not establish the actual bank path."
+      ],
+      "missingNextDocument": "₹73.50 lakh transfer schedule, corporate/payee identity records, paired bank statements and onward-debit exhibits with private identifiers redacted",
+      "documentHolder": "ED prosecution exhibits; relevant banks via lawful process; trial court",
+      "limitations": [
+        "Unidentified source group is not a legal person. Association edge to Tajinder is context, not another payment."
+      ],
+      "eventPeriod": "2017–2018 procurement and subsequent execution; procedural outcomes through 4 July 2026",
+      "overlapGroup": "djb-flowmeter-same-contract"
+    },
+    {
+      "id": "money-trails-djb:hop:cash-route",
+      "title": "07 · Test the cash claim against the original exhibits",
+      "summary": "Tribunal § 27(b) quotes ₹1.90 crore cash alleged for Arora. The allegation depends on underlying statements/electronic material and bank corroboration not independently retrieved here.",
+      "basis": "court-recorded-agency-allegation",
+      "flowState": "alleged-transfer",
+      "fromEntityId": "money-trails-djb:entity:integral",
+      "toEntityId": "money-trails-djb:entity:arora",
+      "entityIds": [
+        "money-trails-djb:entity:integral",
+        "money-trails-djb:entity:aggarwal",
+        "money-trails-djb:entity:tajinder",
+        "money-trails-djb:entity:arora"
+      ],
+      "relationshipIds": [
+        "money-trails-djb:relationship:cash-route"
+      ],
+      "recordIds": [
+        "money-trails-djb:record:reconciliation",
+        "money-trails-djb:record:recall-outcome",
+        "money-trails-djb:record:recall-defence"
+      ],
+      "sourceIds": [
+        "money-trails-djb:source:tribunal",
+        "money-trails-djb:source:recall"
+      ],
+      "sourceLocators": [
+        {
+          "sourceId": "money-trails-djb:source:tribunal",
+          "locator": "FPA-PMLA-2052, 2059, 2060/DLI/2024; §§ 3–14, 15–18, 20–29; PDF pp 2–22",
+          "role": "supports",
+          "sourceFamily": "ED-origin allegations in tribunal"
+        },
+        {
+          "sourceId": "money-trails-djb:source:recall",
+          "locator": "CRL.M.A. 17144/2025 in CRL.REV.P. 1283/2024; §§ 1–6, 32, 36–38; PDF pp 1–3, 26–28",
+          "role": "supports",
+          "sourceFamily": "ED-origin allegations in judicial recital"
+        }
+      ],
+      "date": null,
+      "dateBasis": "No exact underlying transfer date published in retained source; source/decision dates are shown separately.",
+      "financialStage": "agency-alleged cash beneficiary allocation",
+      "amountRefs": [
+        {
+          "kind": "relationship",
+          "id": "money-trails-djb:relationship:cash-route",
+          "amountIndex": 0
+        }
+      ],
+      "responseRecordIds": [
+        "money-trails-djb:record:defence",
+        "money-trails-djb:record:bail-outcome"
+      ],
+      "counterEvidenceRecordIds": [
+        "money-trails-djb:record:recall-defence"
+      ],
+      "response": "Defence disputes proceeds/GST, predicate offence and evidentiary reliability. Procedural outcomes do not determine guilt.",
+      "alternatives": [
+        "Lawful expenditure, tax and timing differences need source-led reconciliation; an agency assertion does not establish the actual bank path."
+      ],
+      "missingNextDocument": "Seized Excel workbook and hash/forensic report, source cash-withdrawal ledger, delivery witnesses, approver testimony and cross-examination",
+      "documentHolder": "Trial court relied-upon documents; ED; company records",
+      "limitations": [
+        "Tribunal §§ 8(ii), 20 use ₹2.63 lakh; quoted § 27(b) gives ₹2,63,50,000 = ₹1.90 crore cash + ₹73.50 lakh bank. The source mismatch is retained, not silently corrected."
+      ],
+      "eventPeriod": "2017–2018 procurement and subsequent execution; procedural outcomes through 4 July 2026",
+      "overlapGroup": "djb-flowmeter-same-contract"
+    },
+    {
+      "id": "money-trails-djb:hop:political-claim",
+      "title": "08 · Political destination is an unallocated allegation",
+      "summary": "The ED release dated 3 April 2024 alleges an onward ₹2 crore combined pool to other DJB officials and AAP election funds. AAP denies connection. The party edge is intentionally unquantified; no minister or individual recipient is inferred.",
+      "basis": "agency-published-allegation",
+      "flowState": "alleged-transfer",
+      "fromEntityId": "money-trails-djb:entity:arora",
+      "toEntityId": "money-trails-djb:entity:aap",
+      "entityIds": [
+        "money-trails-djb:entity:arora",
+        "money-trails-djb:entity:aap"
+      ],
+      "relationshipIds": [
+        "money-trails-djb:relationship:party-route"
+      ],
+      "recordIds": [
+        "money-trails-djb:record:political-allocation-gap",
+        "money-trails-djb:record:party-denial"
+      ],
+      "sourceIds": [
+        "money-trails-djb:source:ed-april",
+        "money-trails-djb:source:aap-response"
+      ],
+      "sourceLocators": [
+        {
+          "sourceId": "money-trails-djb:source:ed-april",
+          "locator": "One-page original press release, ¶¶ 1–4",
+          "role": "supports",
+          "sourceFamily": "ED public statements"
+        },
+        {
+          "sourceId": "money-trails-djb:source:aap-response",
+          "locator": "Party-response paragraphs in report updated at 00:02 IST",
+          "role": "response",
+          "sourceFamily": "reported response or court mirror"
+        }
+      ],
+      "date": null,
+      "dateBasis": "No exact underlying transfer date published in retained source; source/decision dates are shown separately.",
+      "financialStage": "unquantified alleged party-funding route; combined pool not party allocation",
+      "amountRefs": [],
+      "responseRecordIds": [
+        "money-trails-djb:record:party-denial",
+        "money-trails-djb:record:political-allocation-gap"
+      ],
+      "counterEvidenceRecordIds": [
+        "money-trails-djb:record:party-denial"
+      ],
+      "response": "AAP denied its party/leaders had any connection with the case and disputed recovered evidence; no court merits finding provided.",
+      "alternatives": [
+        "Lawful expenditure, tax and timing differences need source-led reconciliation; an agency assertion does not establish the actual bank path."
+      ],
+      "missingNextDocument": "Recipient-wise ₹2 crore schedule, fund collector/recipient testimony, receipts and party election-account entries linked by exact transaction",
+      "documentHolder": "ED prosecution exhibits; DJB officials’ relevant lawful records; AAP election-finance records",
+      "limitations": [
+        "Do not assign the whole ₹2 crore to AAP, or equate party office with receiving money.",
+        "The ED press release and judicial ED recital are one source family, not independent corroboration."
+      ],
+      "eventPeriod": "2017–2018 procurement and subsequent execution; procedural outcomes through 4 July 2026",
+      "overlapGroup": "djb-flowmeter-same-contract"
+    },
+    {
+      "id": "money-trails-djb:hop:reconciliation",
+      "title": "09 · Reconcile components without inventing a loss total",
+      "summary": "The NKG alleged ₹6,36,27,191 plus the Integral ₹4,26,45,503 equals the DHC-recited ₹10,62,22,694. This arithmetic coherence does not authenticate the asserted entries; gross contract payments and attachment values are excluded from that sum.",
+      "basis": "accounting-reconciliation",
+      "flowState": "context",
+      "fromEntityId": null,
+      "toEntityId": null,
+      "entityIds": [
+        "money-trails-djb:entity:nkg",
+        "money-trails-djb:entity:integral",
+        "money-trails-djb:entity:aggarwal",
+        "money-trails-djb:entity:arora"
+      ],
+      "relationshipIds": [],
+      "recordIds": [
+        "money-trails-djb:record:reconciliation",
+        "money-trails-djb:record:cost-scope-conflict",
+        "money-trails-djb:record:defence"
+      ],
+      "sourceIds": [
+        "money-trails-djb:source:tribunal",
+        "money-trails-djb:source:recall",
+        "money-trails-djb:source:ed-february",
+        "money-trails-djb:source:ed-april",
+        "money-trails-djb:source:bail"
+      ],
+      "sourceLocators": [
+        {
+          "sourceId": "money-trails-djb:source:tribunal",
+          "locator": "FPA-PMLA-2052, 2059, 2060/DLI/2024; §§ 3–14, 15–18, 20–29; PDF pp 2–22",
+          "role": "supports",
+          "sourceFamily": "ED-origin allegations in tribunal"
+        },
+        {
+          "sourceId": "money-trails-djb:source:recall",
+          "locator": "CRL.M.A. 17144/2025 in CRL.REV.P. 1283/2024; §§ 1–6, 32, 36–38; PDF pp 1–3, 26–28",
+          "role": "supports",
+          "sourceFamily": "ED-origin allegations in judicial recital"
+        },
+        {
+          "sourceId": "money-trails-djb:source:ed-february",
+          "locator": "One-page original press release, ¶¶ 3–4",
+          "role": "supports",
+          "sourceFamily": "ED public statements"
+        },
+        {
+          "sourceId": "money-trails-djb:source:ed-april",
+          "locator": "One-page original press release, ¶¶ 1–4",
+          "role": "supports",
+          "sourceFamily": "ED public statements"
+        },
+        {
+          "sourceId": "money-trails-djb:source:bail",
+          "locator": "BAIL APPLN. 4825/2024 and 434/2025; §§ 3.3, 5, 7–8, 25–29, 47–50",
+          "role": "supports",
+          "sourceFamily": "reported response or court mirror"
+        }
+      ],
+      "date": null,
+      "dateBasis": "No exact underlying transfer date published in retained source; source/decision dates are shown separately.",
+      "financialStage": "reconciliation of overlapping allegation components",
+      "amountRefs": [
+        {
+          "kind": "record",
+          "id": "money-trails-djb:record:reconciliation",
+          "amountIndex": 0
+        },
+        {
+          "kind": "record",
+          "id": "money-trails-djb:record:reconciliation",
+          "amountIndex": 1
+        },
+        {
+          "kind": "record",
+          "id": "money-trails-djb:record:reconciliation",
+          "amountIndex": 2
+        }
+      ],
+      "responseRecordIds": [
+        "money-trails-djb:record:defence",
+        "money-trails-djb:record:bail-outcome"
+      ],
+      "counterEvidenceRecordIds": [
+        "money-trails-djb:record:cost-scope-conflict",
+        "money-trails-djb:record:defence"
+      ],
+      "response": "Defence disputes proceeds/GST, predicate offence and evidentiary reliability. Procedural outcomes do not determine guilt.",
+      "alternatives": [
+        "Lawful expenditure, tax and timing differences need source-led reconciliation; an agency assertion does not establish the actual bank path."
+      ],
+      "missingNextDocument": "Agency schedule reconciling the ₹17 crore February execution claim with the ₹14 crore April claim; matched tax/O&M/period scopes",
+      "documentHolder": "ED valuation/schedule files; DJB engineer-certified measurement and bill records",
+      "limitations": [
+        "No leakage estimate from the ₹38.02 crore award less an agency expense estimate.",
+        "The ₹1.10 crore deemed profit is disputed and not independently audited."
+      ],
+      "eventPeriod": "2017–2018 procurement and subsequent execution; procedural outcomes through 4 July 2026",
+      "overlapGroup": "djb-flowmeter-same-contract"
+    },
+    {
+      "id": "money-trails-djb:hop:ownership",
+      "title": "10 · Identify dated owners, then stop before distributions",
+      "summary": "The corporate report identifies NKG’s CIN and FY 2019–20 equity holders. This provides named accountability context for the alleged retained-company branch; it does not show that those owners received it.",
+      "basis": "ownership-role-context",
+      "flowState": "context",
+      "fromEntityId": null,
+      "toEntityId": "money-trails-djb:entity:nkg",
+      "entityIds": [
+        "money-trails-djb:entity:nkg",
+        "money-trails-djb:entity:pradeep",
+        "money-trails-djb:entity:archit",
+        "money-trails-djb:entity:pradeep-sons",
+        "money-trails-djb:entity:aman"
+      ],
+      "relationshipIds": [
+        "money-trails-djb:relationship:ownership-pradeep",
+        "money-trails-djb:relationship:ownership-archit",
+        "money-trails-djb:relationship:ownership-pradeep-sons",
+        "money-trails-djb:relationship:ownership-aman"
+      ],
+      "recordIds": [
+        "money-trails-djb:record:ownership-context",
+        "money-trails-djb:record:company-retained"
+      ],
+      "sourceIds": [
+        "money-trails-djb:source:annual",
+        "money-trails-djb:source:tribunal"
+      ],
+      "sourceLocators": [
+        {
+          "sourceId": "money-trails-djb:source:annual",
+          "locator": "Printed pp 24, 31, 33, 54; original PDF pp 26, 33, 35, 56; MGT-9 and share-capital note",
+          "role": "supports",
+          "sourceFamily": "company public disclosure"
+        },
+        {
+          "sourceId": "money-trails-djb:source:tribunal",
+          "locator": "FPA-PMLA-2052, 2059, 2060/DLI/2024; §§ 3–14, 15–18, 20–29; PDF pp 2–22",
+          "role": "supports",
+          "sourceFamily": "ED-origin allegations in tribunal"
+        }
+      ],
+      "date": "2020-03-31",
+      "dateBasis": "Exact decision/report-as-of date, not transaction date.",
+      "financialStage": "share-class ownership, not money flow",
+      "amountRefs": [],
+      "responseRecordIds": [],
+      "counterEvidenceRecordIds": [],
+      "response": "No allegation is made that a shareholder received the questioned receipts; current ultimate ownership not established.",
+      "alternatives": [
+        "Lawful expenditure, tax and timing differences need source-led reconciliation; an agency assertion does not establish the actual bank path."
+      ],
+      "missingNextDocument": "Current and transaction-period MCA ownership/beneficial-owner filings; NKG project ledger, related-party, dividend/loan and expense schedules",
+      "documentHolder": "NKG company secretary/finance; MCA public filings; trial court records",
+      "limitations": [
+        "Historical equity percentages only; do not substitute the total-share-capital denominator or presume current owners."
+      ],
+      "eventPeriod": "2017–2018 procurement and subsequent execution; procedural outcomes through 4 July 2026",
+      "overlapGroup": "djb-flowmeter-same-contract"
+    },
+    {
+      "id": "money-trails-djb:hop:attachment",
+      "title": "11 · Asset restraint is not a completed cash trace",
+      "summary": "The tribunal on 1 April 2026 upheld equivalent-value attachment of ₹1,62,95,503 because alleged proceeds were unavailable. It expressly excludes Poonam’s share. This disproves the inference that joint ownership alone makes her a recipient.",
+      "basis": "judicial-procedural-finding",
+      "flowState": "context",
+      "fromEntityId": "money-trails-djb:entity:ed",
+      "toEntityId": "money-trails-djb:entity:aggarwal",
+      "entityIds": [
+        "money-trails-djb:entity:ed",
+        "money-trails-djb:entity:aggarwal",
+        "money-trails-djb:entity:poonam"
+      ],
+      "relationshipIds": [
+        "money-trails-djb:relationship:attachment"
+      ],
+      "recordIds": [
+        "money-trails-djb:record:attachment-outcome",
+        "money-trails-djb:record:wife-excluded",
+        "money-trails-djb:record:attachment-defence"
+      ],
+      "sourceIds": [
+        "money-trails-djb:source:tribunal"
+      ],
+      "sourceLocators": [
+        {
+          "sourceId": "money-trails-djb:source:tribunal",
+          "locator": "FPA-PMLA-2052, 2059, 2060/DLI/2024; §§ 3–14, 15–18, 20–29; PDF pp 2–22",
+          "role": "supports",
+          "sourceFamily": "ED-origin allegations in tribunal"
+        }
+      ],
+      "date": "2026-04-01",
+      "dateBasis": "Exact decision/report-as-of date, not transaction date.",
+      "financialStage": "equivalent-value attachment, not direct purchase or recovered cash",
+      "amountRefs": [
+        {
+          "kind": "relationship",
+          "id": "money-trails-djb:relationship:attachment",
+          "amountIndex": 0
+        }
+      ],
+      "responseRecordIds": [
+        "money-trails-djb:record:attachment-defence",
+        "money-trails-djb:record:wife-excluded"
+      ],
+      "counterEvidenceRecordIds": [
+        "money-trails-djb:record:wife-excluded"
+      ],
+      "response": "Appellants cited prior-property-sale funding and lack of proceeds received by Poonam. Tribunal excludes her share but upholds equivalent-value attachment.",
+      "alternatives": [
+        "Lawful expenditure, tax and timing differences need source-led reconciliation; an agency assertion does not establish the actual bank path."
+      ],
+      "missingNextDocument": "For actual recovery: final confiscation/restitution order and realization record; for a direct trace: acquisition-funding bank schedule",
+      "documentHolder": "Adjudicating Authority; trial court; ED recovery records",
+      "limitations": [
+        "The public archive omits private property addresses; graph uses no home/building location."
+      ],
+      "eventPeriod": "2017–2018 procurement and subsequent execution; procedural outcomes through 4 July 2026",
+      "overlapGroup": "djb-flowmeter-same-contract"
+    },
+    {
+      "id": "money-trails-djb:hop:procedure",
+      "title": "12 · Preserve the strongest contrary procedural facts",
+      "summary": "Bail was granted on 9 April 2025 for delay; NKG’s approver recall was dismissed on 4 July 2026, but the defence retains cross-examination at trial. Neither decision supplies a criminal conviction or complete bank trace.",
+      "basis": "judicial-procedural-finding",
+      "flowState": "context",
+      "fromEntityId": "money-trails-djb:entity:dhc",
+      "toEntityId": "money-trails-djb:entity:nkg",
+      "entityIds": [
+        "money-trails-djb:entity:dhc",
+        "money-trails-djb:entity:nkg",
+        "money-trails-djb:entity:tajinder",
+        "money-trails-djb:entity:aggarwal",
+        "money-trails-djb:entity:arora"
+      ],
+      "relationshipIds": [
+        "money-trails-djb:relationship:recall-dismissal"
+      ],
+      "recordIds": [
+        "money-trails-djb:record:recall-outcome",
+        "money-trails-djb:record:recall-defence",
+        "money-trails-djb:record:bail-outcome"
+      ],
+      "sourceIds": [
+        "money-trails-djb:source:recall",
+        "money-trails-djb:source:bail"
+      ],
+      "sourceLocators": [
+        {
+          "sourceId": "money-trails-djb:source:recall",
+          "locator": "CRL.M.A. 17144/2025 in CRL.REV.P. 1283/2024; §§ 1–6, 32, 36–38; PDF pp 1–3, 26–28",
+          "role": "supports",
+          "sourceFamily": "ED-origin allegations in judicial recital"
+        },
+        {
+          "sourceId": "money-trails-djb:source:bail",
+          "locator": "BAIL APPLN. 4825/2024 and 434/2025; §§ 3.3, 5, 7–8, 25–29, 47–50",
+          "role": "supports",
+          "sourceFamily": "reported response or court mirror"
+        }
+      ],
+      "date": "2026-07-04",
+      "dateBasis": "Exact decision/report-as-of date, not transaction date.",
+      "financialStage": "procedural outcome, not payment or merits guilt",
+      "amountRefs": [],
+      "responseRecordIds": [
+        "money-trails-djb:record:recall-defence",
+        "money-trails-djb:record:bail-outcome"
+      ],
+      "counterEvidenceRecordIds": [
+        "money-trails-djb:record:recall-defence",
+        "money-trails-djb:record:bail-outcome"
+      ],
+      "response": "A co-accused may cross-examine the approver at trial; liberty/delay grounds support bail. No later merits judgment located in this bounded search.",
+      "alternatives": [
+        "Lawful expenditure, tax and timing differences need source-led reconciliation; an agency assertion does not establish the actual bank path."
+      ],
+      "missingNextDocument": "Current CT Case 12/2024 and predicate CBI trial docket, charges, evidence/cross-examination and controlling later appeals",
+      "documentHolder": "Rouse Avenue court; Delhi High Court registry",
+      "limitations": [],
+      "eventPeriod": "2017–2018 procurement and subsequent execution; procedural outcomes through 4 July 2026",
+      "overlapGroup": "djb-flowmeter-same-contract"
+    },
+    {
+      "id": "money-trails-djb:hop:cash-stop",
+      "title": "13 · The actual trace stops here",
+      "summary": "Named bank recipients, exact cash deliveries, company expense beneficiaries and the political-pool split remain unavailable. Ownership, government office and marriage do not fill these gaps.",
+      "basis": "unresolved-cash-path-stop",
+      "flowState": "gap",
+      "fromEntityId": null,
+      "toEntityId": null,
+      "entityIds": [
+        "money-trails-djb:entity:nkg",
+        "money-trails-djb:entity:integral",
+        "money-trails-djb:entity:associated-entities",
+        "money-trails-djb:entity:arora",
+        "money-trails-djb:entity:aap"
+      ],
+      "relationshipIds": [],
+      "recordIds": [
+        "money-trails-djb:record:political-allocation-gap",
+        "money-trails-djb:record:company-retained",
+        "money-trails-djb:record:integral-retained"
+      ],
+      "sourceIds": [
+        "money-trails-djb:source:tribunal",
+        "money-trails-djb:source:recall",
+        "money-trails-djb:source:ed-april"
+      ],
+      "sourceLocators": [
+        {
+          "sourceId": "money-trails-djb:source:tribunal",
+          "locator": "FPA-PMLA-2052, 2059, 2060/DLI/2024; §§ 3–14, 15–18, 20–29; PDF pp 2–22",
+          "role": "supports",
+          "sourceFamily": "ED-origin allegations in tribunal"
+        },
+        {
+          "sourceId": "money-trails-djb:source:recall",
+          "locator": "CRL.M.A. 17144/2025 in CRL.REV.P. 1283/2024; §§ 1–6, 32, 36–38; PDF pp 1–3, 26–28",
+          "role": "supports",
+          "sourceFamily": "ED-origin allegations in judicial recital"
+        },
+        {
+          "sourceId": "money-trails-djb:source:ed-april",
+          "locator": "One-page original press release, ¶¶ 1–4",
+          "role": "supports",
+          "sourceFamily": "ED public statements"
+        }
+      ],
+      "date": null,
+      "dateBasis": "No exact underlying transfer date published in retained source; source/decision dates are shown separately.",
+      "financialStage": "unresolved onward cash-path stop",
+      "amountRefs": [],
+      "responseRecordIds": [
+        "money-trails-djb:record:defence",
+        "money-trails-djb:record:party-denial",
+        "money-trails-djb:record:wife-excluded"
+      ],
+      "counterEvidenceRecordIds": [
+        "money-trails-djb:record:defence",
+        "money-trails-djb:record:party-denial",
+        "money-trails-djb:record:wife-excluded"
+      ],
+      "response": "The available record contains denials, disputed calculations and limiting judicial outcomes. Missing records are not themselves evidence of wrongdoing.",
+      "alternatives": [
+        "Lawful expenditure, tax and timing differences need source-led reconciliation; an agency assertion does not establish the actual bank path."
+      ],
+      "missingNextDocument": "Certified paired transaction-level debits/credits; subcontract/GST/bill reconciliation; ultimate-recipient schedules; current merits docket",
+      "documentHolder": "DJB finance; NKG/Integral finance; court-permitted ED exhibits; lawful bank records",
+      "limitations": [
+        "No fabricated recovery ratio, complete-network claim or direct-account proof."
+      ],
+      "eventPeriod": "2017–2018 procurement and subsequent execution; procedural outcomes through 4 July 2026",
+      "overlapGroup": "djb-flowmeter-same-contract"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "money-trails-djb:hypothesis:eligibility-gate",
+      "question": "Did the eligibility file admit an unqualified bidder, or omit valid corroboration?",
+      "observation": "The tribunal recites an adverse inspection, three performance certificates, an unsigned negative draft and a later favourable note-sheet.",
+      "expectedDocumentaryFootprints": [
+        "Versioned signed note-sheets",
+        "SCADA operational evidence",
+        "Issuing-official verification and contemporaneous objections"
+      ],
+      "supportingEvidence": [
+        {
+          "kind": "relationship",
+          "id": "money-trails-djb:relationship:certificate"
+        }
+      ],
+      "refutingEvidence": [
+        {
+          "kind": "record",
+          "id": "money-trails-djb:record:certificate-response"
+        }
+      ],
+      "disconfirmationTest": "A valid contemporaneous completion/SCADA demonstration meeting NIT 22 and an authenticated approval trail would weaken the false-eligibility theory.",
+      "documentHolder": "DJB tender branch; NBCC project office; court exhibits",
+      "neededRecords": [
+        "Original certificates/deviation schedule",
+        "Signed inspection report dated 24 March 2018",
+        "Approval notes dated 8 April 2018",
+        "Retraction and forensic-signature evidence"
+      ],
+      "status": "open",
+      "limitations": []
+    },
+    {
+      "id": "money-trails-djb:hypothesis:cash-proof",
+      "question": "Do the alleged cash and bank allocations survive transaction-level corroboration?",
+      "observation": "The court container reproduces exact amounts, but no original bank statement, Excel workbook or witness cross-examination was obtained.",
+      "expectedDocumentaryFootprints": [
+        "Paired dated debits/credits",
+        "Invoice-to-delivery reconciliation",
+        "Cash delivery witnesses independent of disputed statements"
+      ],
+      "supportingEvidence": [
+        {
+          "kind": "relationship",
+          "id": "money-trails-djb:relationship:bank-route"
+        },
+        {
+          "kind": "relationship",
+          "id": "money-trails-djb:relationship:cash-route"
+        },
+        {
+          "kind": "record",
+          "id": "money-trails-djb:record:reconciliation"
+        }
+      ],
+      "refutingEvidence": [
+        {
+          "kind": "record",
+          "id": "money-trails-djb:record:defence"
+        },
+        {
+          "kind": "record",
+          "id": "money-trails-djb:record:recall-defence"
+        }
+      ],
+      "disconfirmationTest": "Reconcile every questioned withdrawal/purchase against lawful supplier delivery, tax, work and the actual recipient; exclude retracted or uncorroborated entries rather than assuming they prove cash handovers.",
+      "documentHolder": "Trial court permitted exhibits; ED; subcontract finance",
+      "neededRecords": [
+        "Bank schedules",
+        "GST/invoices",
+        "Forensic workbook hash/report",
+        "Approver testimony and cross-examination"
+      ],
+      "status": "open",
+      "limitations": []
+    },
+    {
+      "id": "money-trails-djb:hypothesis:political-allocation",
+      "question": "Who, if anyone, actually received the alleged political-funding portion?",
+      "observation": "The agency combines DJB officials and AAP in ₹2 crore; no recipient split or named minister is supplied.",
+      "expectedDocumentaryFootprints": [
+        "Recipient-wise ledger",
+        "Dated receipt/acknowledgement",
+        "Party-finance entry matched to actual payer"
+      ],
+      "supportingEvidence": [
+        {
+          "kind": "relationship",
+          "id": "money-trails-djb:relationship:party-route"
+        },
+        {
+          "kind": "record",
+          "id": "money-trails-djb:record:political-allocation-gap"
+        }
+      ],
+      "refutingEvidence": [
+        {
+          "kind": "record",
+          "id": "money-trails-djb:record:party-denial"
+        }
+      ],
+      "disconfirmationTest": "Find a matched receipt/debit chain or a court-tested recipient witness; a missing party-ledger entry alone neither proves clandestine receipt nor refutes an alleged cash transfer.",
+      "documentHolder": "ED/court exhibits; relevant party/department records",
+      "neededRecords": [
+        "Recipient allocation schedule",
+        "Dated receipts and fund collector testimony",
+        "Election account and expenditure schedules"
+      ],
+      "status": "open",
+      "limitations": [
+        "No party office, family tie or timing-only quid-pro-quo inference."
+      ]
+    },
+    {
+      "id": "money-trails-djb:hypothesis:shareholder-benefit",
+      "question": "Did retained company funds reach owners or lawful project creditors?",
+      "observation": "Historical ownership is known; no distribution record connects the ₹5,80,27,191 alleged company retention to those shareholders.",
+      "expectedDocumentaryFootprints": [
+        "Project/general-ledger reclassification",
+        "Related-party/loan/dividend schedules",
+        "Supplier or capital-expenditure support"
+      ],
+      "supportingEvidence": [
+        {
+          "kind": "record",
+          "id": "money-trails-djb:record:company-retained"
+        },
+        {
+          "kind": "record",
+          "id": "money-trails-djb:record:ownership-context"
+        }
+      ],
+      "refutingEvidence": [
+        {
+          "kind": "record",
+          "id": "money-trails-djb:record:defence"
+        }
+      ],
+      "disconfirmationTest": "Show lawful work liabilities, ordinary expense receipts or clean restrictions on distributions; only matched disbursements can establish personal benefit, not percentage ownership.",
+      "documentHolder": "NKG finance/company secretary; MCA filings; trial court",
+      "neededRecords": [
+        "Company project ledger",
+        "Related-party loan/dividend schedules",
+        "Recipient bank evidence"
+      ],
+      "status": "open",
+      "limitations": [
+        "Ownership class/date limited to 31 March 2020; no current ultimate-owner proof."
+      ]
+    },
+    {
+      "id": "money-trails-djb:hypothesis:valuation",
+      "question": "Can the work-cost allegation withstand a like-for-like scope comparison?",
+      "observation": "ED public estimates shift from ₹17 crore in February to ₹14 crore in April; the award includes operation/maintenance, while scope/tax periods are not reconciled.",
+      "expectedDocumentaryFootprints": [
+        "BOQ unit prices and measurement book",
+        "Tax/O&M/period reconciliation",
+        "Independent engineer valuation"
+      ],
+      "supportingEvidence": [
+        {
+          "kind": "record",
+          "id": "money-trails-djb:record:cost-scope-conflict"
+        }
+      ],
+      "refutingEvidence": [
+        {
+          "kind": "record",
+          "id": "money-trails-djb:record:defence"
+        }
+      ],
+      "disconfirmationTest": "Recompute actual executed work including legitimate GST, O&M, mobilization/retention and timing on a consistent basis; if the difference disappears, the inflation inference weakens.",
+      "documentHolder": "DJB engineer and finance; ED valuation record",
+      "neededRecords": [
+        "Certified bills/measurement book",
+        "Scope and tax schedule",
+        "Valuation revision explanation"
+      ],
+      "status": "open",
+      "limitations": []
+    }
+  ]
+}

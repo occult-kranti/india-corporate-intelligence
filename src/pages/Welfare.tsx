@@ -1,3 +1,4 @@
+import { preserveWorkspaceParams } from '../lib/dossierNavigation';
 import { Fragment, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { Kicker, PageTitle, Standfirst, Byline, Section, TierLegend, Footnote } from '../components/Editorial';
@@ -94,9 +95,10 @@ export default function Welfare() {
   useEffect(() => { setKey(routerKey); }, [routerKey]);
   const params = useMemo(() => new URLSearchParams(key), [key]);
   const setParams = useCallback((next: URLSearchParams, opts: { replace: boolean }) => {
-    setKey(next.toString());
-    setRouterParams(next, opts);
-  }, [setRouterParams]);
+    const retained = preserveWorkspaceParams(next, routerParams);
+    setKey(retained.toString());
+    setRouterParams(retained, opts);
+  }, [routerParams, setRouterParams]);
   const [forceTables, setForceTables] = useState(false);
   const f = useMemo(() => parseFilters(new URLSearchParams(key)), [key]);
   const afs = useMemo(() => activeFilterString(new URLSearchParams(key)), [key]);

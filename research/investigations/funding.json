@@ -228,10 +228,11 @@
       "status": "documented",
       "summary": "A DOJ-hosted FARA filing by Overseas Friends of BJP-USA names the BJP as its foreign principal for the six-month period ending 31 August 2024. An earlier charter filing expressly describes ideological ties and BJP guidance.",
       "finding": "The records support a disclosed representation relationship and reported diaspora outreach. A US foreign-agent registration is a disclosure status; it does not establish espionage, illicit donations or transfer of funds to India.",
-      "limitation": "The latest substantive filing verified here was filed on 10 October 2024. Searches for later filings did not establish a complete current docket. Self-reported statements require reconciliation before any financial-flow conclusion.",
+      "limitation": "The latest substantive statement read here remains the filing of 10 October 2024. An official DOJ date-range report also lists OFBJP-USA among supplemental-statement results for 31 March 2026, but that statement and its schedules were not acquired. The complete current docket and its finances remain unverified.",
       "sources": [
         "fund-fara-supplement-2024",
-        "fund-fara-charter-2021"
+        "fund-fara-charter-2021",
+        "fund-fara-ofbjp-2026-index"
       ],
       "entities": [
         "Overseas Friends of BJP-USA",
@@ -251,6 +252,47 @@
             "Map public organizations, not private donor addresses or contact details",
             "Label cash transfer, in-kind service and representation as different edge types",
             "Request an institutional response before publishing a claimed omission"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fund-rss-us-lobbying-amendments",
+      "title": "RSS-related US lobbying: amended client disclosures",
+      "sector": "Transnational finance",
+      "status": "documented",
+      "summary": "Official US lobbying records preserve an original RSS client description, a later substitution of an individual’s name, and a termination effective in September 2025. Who authorized and ultimately funded the engagement remains unresolved.",
+      "finding": "The original Q3 filing names State Street Strategies (DBA One+ Strategies) on behalf of RSS. The 23 December 2025 amended registration instead names the intermediary on behalf of Vivek Sharma. The latest indexed 29 December amendments report Squire Patton Boggs income estimates of $120,000 for Q1, $100,000 for Q2 and $110,000 for Q3, totaling $330,000 across those three distinct periods. The Q3 amendment records termination effective 30 September 2025; the subject remains introductions of RSS to US officials.",
+      "limitation": "These are self-reported, rounded lobbying-income estimates at one firm, not audited remittances from RSS, transfers to India, a finding of unlawful lobbying or evidence of Modi’s direction. Count one latest report per quarter; do not add older versions or intermediary receipts. The actual contracting instructions, source of funds, explanation for amendments and complete subsequent enforcement history were not obtained.",
+      "sources": [
+        "fund-rss-lda-original-q3",
+        "fund-rss-lda-registration-amendment",
+        "fund-rss-lda-q1-amendment",
+        "fund-rss-lda-q2-amendment",
+        "fund-rss-lda-q3-termination",
+        "fund-rss-lda-report-index",
+        "fund-rss-lobbying-denial",
+        "fund-doj-fara-faq"
+      ],
+      "entities": [
+        "Rashtriya Swayamsevak Sangh",
+        "Squire Patton Boggs",
+        "State Street Strategies / One+ Strategies",
+        "Vivek Sharma"
+      ],
+      "response": "RSS spokesperson Sunil Ambekar denied engaging a US lobbying firm, according to ThePrint. The amended filings identify an individual through the intermediary. DOJ guidance makes the LDA exemption conditional; neither registration nor its absence alone settles legality.",
+      "hypotheses": [
+        {
+          "question": "Do the original and amended client descriptions reconcile with contemporaneous authorization and payment records?",
+          "prediction": "If the amendment obscures the actual principal, lawful disclosure of engagement instructions, invoices or contemporaneous correspondence would identify a different authorizing principal than the latest client field, beyond a mere descriptive reference to RSS.",
+          "alternative": "An independent supporter commissioned lawful advocacy about RSS; the amendment corrects imprecise client wording without concealing a foreign principal or changing the work.",
+          "falsifier": "Contemporaneous agreement and disclosed payment records establish the amended client chain and independent decision authority, with a documented explanation for the correction.",
+          "records": "Original and amended LD-1/LD-2 reports; lawful public or voluntarily released engagement letters and invoices; institutional explanation for amendments; applicable public DOJ determinations, if any",
+          "nextSteps": [
+            "Preserve versions and distinguish effective, signature and posting dates",
+            "Ask institutions for an explanation before asserting an undisclosed principal; no outreach sent in this review",
+            "Reconcile one payment chain without double-counting contractor and subcontractor receipts",
+            "Separate public advocacy, representation, funding, control and legal findings"
           ]
         }
       ]
@@ -443,6 +485,114 @@
       "supports": "FY2024–25 and comparative FY2023–24 receipts/payments statement is publicly available; Header states Amount in Rs.; figures are integer rupees, not lakh; Statement references notes 1–16 and separate auditor report, neither included in this PDF; Two independent visual transcriptions agree on all 34 amount cells; arithmetic residuals are zero",
       "caution": "One-page signed statement only, not a complete audit report or project-delivery audit. Receipts-side total includes opening balance. Dashes preserved as null. See pmcares-accounts-extract.json for exact amounts and verification. Official PDF downloaded and visually inspected locally at 300dpi; independent reviewer used a separate high-magnification rendering. Preserve canonical source-access enum in site schema.",
       "sourcePdfSha256": "b854546de57c70e457b5a46acaa640983ab514930139a685135aa5ce86b60cfc"
+    },
+    {
+      "id": "fund-rss-lda-original-q3",
+      "title": "Squire Patton Boggs: original 2025 third-quarter lobbying report",
+      "publisher": "US Congress LDA database; submitted by Squire Patton Boggs",
+      "date": "2025-10-16",
+      "url": "https://lda.gov/filings/public/filing/19aeec68-06c0-4289-aba7-bf672705eeec/print/",
+      "kind": "primary-regulatory-record",
+      "access": "full-text",
+      "accessedAt": "2026-10-14",
+      "supports": "Original client field names State Street Strategies (DBA One+ Strategies) OBO Rashtriya Swayamsevak Sangh; income estimate $110,000; subject concerns introducing RSS to US officials.",
+      "caution": "Original version has a later amendment. Preserve it as version history, never as the latest client designation."
+    },
+    {
+      "id": "fund-rss-lda-registration-amendment",
+      "title": "Squire Patton Boggs: amended lobbying registration",
+      "publisher": "US Congress LDA database; submitted by Squire Patton Boggs",
+      "date": "2025-12-23",
+      "url": "https://lda.gov/filings/public/filing/2079e138-c523-46a5-9e1d-7ccad6150263/print/",
+      "kind": "primary-regulatory-record",
+      "access": "full-text",
+      "accessedAt": "2026-10-14",
+      "supports": "Client field names State Street Strategies (DBA One+ Strategies) OBO Vivek Sharma; effective registration date 16 January 2025; signature 23 December 2025.",
+      "caution": "Registration effective date differs from submission/signature date. Personal address omitted. Filing is a registrant assertion, not proof of ultimate funding or authorization."
+    },
+    {
+      "id": "fund-rss-lda-q1-amendment",
+      "title": "Squire Patton Boggs: 2025 Q1 amended lobbying report",
+      "publisher": "US Congress LDA database; submitted by Squire Patton Boggs",
+      "date": "2025-12-29",
+      "url": "https://lda.gov/filings/public/filing/97ca1b0a-a1bc-464b-b90e-6032316aad88/print/",
+      "kind": "primary-regulatory-record",
+      "access": "full-text",
+      "accessedAt": "2026-10-14",
+      "supports": "Latest indexed Q1 amendment reports $120,000 estimated lobbying-related income; client is intermediary OBO Vivek Sharma; signed 11:10:05 AM on 29 December 2025.",
+      "caution": "Q1 classification comes from the official report index because text extraction omits checkbox states. Amount is rounded reported income, not a bank transfer or direct RSS payment."
+    },
+    {
+      "id": "fund-rss-lda-q2-amendment",
+      "title": "Squire Patton Boggs: 2025 Q2 amended lobbying report",
+      "publisher": "US Congress LDA database; submitted by Squire Patton Boggs",
+      "date": "2025-12-29",
+      "url": "https://lda.gov/filings/public/filing/19029198-a324-49aa-b766-5f8e878765cf/print/",
+      "kind": "primary-regulatory-record",
+      "access": "full-text",
+      "accessedAt": "2026-10-14",
+      "supports": "Latest indexed Q2 amendment reports $100,000 estimated lobbying-related income; client is intermediary OBO Vivek Sharma; signed 11:14:57 AM on 29 December 2025.",
+      "caution": "Q2 classification comes from the official report index. Do not count original and amended reports as separate expenditure or add an intermediary income total."
+    },
+    {
+      "id": "fund-rss-lda-q3-termination",
+      "title": "Squire Patton Boggs: 2025 Q3 termination amendment",
+      "publisher": "US Congress LDA database; submitted by Squire Patton Boggs",
+      "date": "2025-12-29",
+      "url": "https://lda.gov/filings/public/filing/ea207624-f182-4075-a514-17b740b4ee95/print/",
+      "kind": "primary-regulatory-record",
+      "access": "full-text",
+      "accessedAt": "2026-10-14",
+      "supports": "Reports $110,000 estimated income; client is intermediary OBO Vivek Sharma; termination date 30 September 2025; signature 29 December 2025 11:21:43 AM; lobbying subject remains RSS introductions.",
+      "caution": "Termination effective date is not filing date. Report index labels Q3 termination amendment; checkboxes are not visible in extracted text. Not a legal finding about disclosure compliance."
+    },
+    {
+      "id": "fund-rss-lda-report-index",
+      "title": "Official LDA search results for client Vivek Sharma",
+      "publisher": "US Congress LDA database; submitted by Squire Patton Boggs",
+      "date": "Undated; accessed 2026-10-14",
+      "url": "https://lda.gov/filings/public/filing/search/?affiliated_organization=&affiliated_organization_country=&client=vivek+sharma&client_country=&client_ppb_country=&client_state=&foreign_entity=&foreign_entity_country=&foreign_entity_ownership_percentage_max=&foreign_entity_ownership_percentage_min=&foreign_entity_ppb_country=&house_id=&lobbyist=&lobbyist_conviction_date_range_from=&lobbyist_conviction_date_range_to=&lobbyist_conviction_disclosure=&lobbyist_covered_position=&registrant=&registrant_country=&registrant_ppb_country=&report_amount_reported_max=&report_amount_reported_min=&report_dt_posted_from=&report_dt_posted_to=&report_filing_uuid=&report_house_doc_id=&report_issue_area_description=&report_period=&report_year=&search=search",
+      "kind": "primary-regulatory-record",
+      "access": "index-only",
+      "accessedAt": "2026-10-14",
+      "supports": "Ten records map original reports and later amendments, including the latest 29 December 2025 Q1/Q2 amendments and Q3 termination amendment.",
+      "caution": "Dynamic index is a retrieval snapshot, not a full enforcement docket. Historical record labels in the index may reflect current client metadata; retain original form versions. Shortened search URL failed; use this inspected full query."
+    },
+    {
+      "id": "fund-rss-lobbying-denial",
+      "title": "RSS response to reported US lobbying engagement",
+      "publisher": "ThePrint",
+      "date": "2025-11-13",
+      "url": "https://theprint.in/diplomacy/disclosures-to-us-senate-claim-lobbyists-with-links-to-pakistan-also-hired-for-rss-organisation-denies/2783594/",
+      "kind": "secondary-response-reporting",
+      "access": "full-text",
+      "accessedAt": "2026-10-14",
+      "supports": "Attributes Sunil Ambekar’s denial that RSS had engaged a US lobbying firm.",
+      "caution": "Secondary reporting for the denial only; original linked X statement could not be retrieved. No independent response solicited."
+    },
+    {
+      "id": "fund-doj-fara-faq",
+      "title": "DOJ FARA frequently asked questions",
+      "publisher": "US Department of Justice",
+      "date": "Undated; accessed 2026-10-14",
+      "url": "https://www.justice.gov/nsd-fara/frequently-asked-questions",
+      "kind": "primary-regulatory-record",
+      "access": "full-text",
+      "accessedAt": "2026-10-14",
+      "supports": "Explains foreign-principal scope, conditional LDA exemption and that filing acceptance does not certify accuracy or compliance.",
+      "caution": "General official guidance, not an adjudication of the RSS engagement. FARA is not limited to foreign governments or political parties."
+    },
+    {
+      "id": "fund-fara-ofbjp-2026-index",
+      "title": "DOJ FARA supplemental-statement date-range result: 31 March 2026",
+      "publisher": "US Department of Justice",
+      "date": "Undated; accessed 2026-10-14",
+      "url": "https://efile.fara.gov/ords/fara/f?p=1381:25:9173573334954:::25:P25_DATERANGE,P25_FROMDATE,P25_TODATE:Y,03/31/2026,03/31/2026",
+      "kind": "primary-regulatory-record",
+      "access": "index-only",
+      "accessedAt": "2026-10-14",
+      "supports": "Official report lists OFBJP-USA registration 6861 and BJP as foreign principal among supplemental-statement results for the 31 March 2026 date filter.",
+      "caution": "Index-level access only: no corresponding 2026 statement or financial schedule was acquired. Does not establish current complete docket, covered period, receipts, filing compliance or transfer."
     }
   ]
 }

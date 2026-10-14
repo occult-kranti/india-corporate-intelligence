@@ -1,0 +1,676 @@
+{
+  "research_date": "2026-10-06",
+  "sources_reviewed": 30,
+  "search_calls": 6,
+  "search_result_count_definition": "Sum of requested numResults across all web_search_exa calls; not a count of documents read in full.",
+  "primary_fetch_urls_attempted": 17,
+  "primary_sources_with_extracted_content": 15,
+  "scope_statement": "Curated primary-source research seed for India education funding, covering six funding channels. This does not claim exhaustive NGO, document, city, state or live funding-availability coverage.",
+  "search_workstreams": [
+    {
+      "id": "csr",
+      "query": "Official Ministry of Corporate Affairs India National CSR data portal education spending state district financial year corporate social responsibility project company education school college",
+      "objective": "Prioritize MCA/CSR government portal and official disclosures; identify geography, reporting period and education classifications, avoid unofficial totals.",
+      "numResults": 5
+    },
+    {
+      "id": "fcra",
+      "query": "Official FCRA Ministry Home Affairs India foreign contribution NGO annual return FC-4 donor education purposes district state 2024 2025",
+      "objective": "Prioritize official FCRA reporting portal and NGO filed annual returns; distinguish registration eligibility from actual receipts and allocations.",
+      "numResults": 5
+    },
+    {
+      "id": "multilateral",
+      "query": "World Bank ADB India school higher education financing STARS MERITE project official state allocation loan 2025 2024",
+      "objective": "Prioritize official World Bank and ADB project pages or press releases; collect commitment amount, project identity and geographic coverage, not assumptions of disbursement.",
+      "numResults": 5
+    },
+    {
+      "id": "ngo",
+      "query": "Pratham Educate Girls Akshaya Patra annual report audited financial statements 2024 2025 funding government schools donor districts India",
+      "objective": "Find NGO primary annual report pages and financial disclosures; record provenance and coverage without representing total available NGOs.",
+      "numResults": 5
+    },
+    {
+      "id": "investment",
+      "query": "KKR Lighthouse Learning education India schools investment official press release equity service company 2024 2025",
+      "objective": "Find primary investor or company press releases explaining private education investment and school group structure; distinguish private equity from school grants.",
+      "numResults": 5
+    },
+    {
+      "id": "philanthropy",
+      "query": "India higher education university philanthropy endowment scholarships Tata Trusts Azim Premji Foundation HDFC education CSR annual report official 2024 2025",
+      "objective": "Prioritize official foundation and company reports documenting school/college scholarships, education grant funding and programme geography.",
+      "numResults": 5
+    }
+  ],
+  "sources": [
+    {
+      "id": "mca-csr-data",
+      "title": "MCA Corporate Data Management: CSR Data",
+      "url": "https://www.mcacdm.nic.in/csr-data",
+      "publisher": "Ministry of Corporate Affairs, Government of India",
+      "date": null,
+      "period": "FY 2014–15 onward; captured page heading FY 2022–23, options through FY 2023–24",
+      "scope": "National registry; state/UT and sector filters",
+      "type": "Government data portal",
+      "funding_channel": "CSR",
+      "institution_types": [
+        "Government schools",
+        "Private schools",
+        "Colleges",
+        "NGO programmes"
+      ],
+      "states": [],
+      "cities": [],
+      "geography_precision": "state/UT",
+      "supported_claims": [
+        "Portal provides year, state, PSU/non-PSU and development sector filters and an implementing agency master.",
+        "Displayed education sector is combined with differently abled and livelihood categories."
+      ],
+      "limitations": [
+        "Dynamic data values were not extracted.",
+        "Do not label grouped-sector expenditure as education-only spending.",
+        "Heading and filter years differ; verify downloaded report timestamp before publishing totals."
+      ],
+      "retrieved_at": "2026-10-06",
+      "verification": "Primary page fetched; claims bounded to observed content",
+      "coverage": "Source registry seed, not complete funding census"
+    },
+    {
+      "id": "mca-csr-company",
+      "title": "National CSR Portal: company-wise project disclosures",
+      "url": "https://www.csr.gov.in/content/csr/global/master/home/ExploreCsrData/company-wise.html",
+      "publisher": "Ministry of Corporate Affairs, Government of India",
+      "date": null,
+      "period": "Company filing / financial year selected",
+      "scope": "Company projects with state and district fields",
+      "type": "Government data portal",
+      "funding_channel": "CSR",
+      "institution_types": [
+        "Government schools",
+        "Private schools",
+        "Colleges",
+        "NGO programmes"
+      ],
+      "states": [],
+      "cities": [],
+      "geography_precision": "district when disclosed",
+      "supported_claims": [
+        "Schema includes project, sector, state, district, amount outlay in INR crore, amount spent in INR crore and implementation mode.",
+        "Portal says company board/director reports take precedence if inconsistent.",
+        "PAN India includes multiple-state projects and centralized funds."
+      ],
+      "limitations": [
+        "Captcha and dynamic selection prevent treating landing page as a project extract.",
+        "Company registered office must not be substituted for project location.",
+        "Preserve PAN India and NEC/Not Mentioned instead of distributing across states.",
+        "No recipient-level totals verified."
+      ],
+      "retrieved_at": "2026-10-06",
+      "verification": "Primary page fetched; claims bounded to observed content",
+      "coverage": "Source registry seed, not complete funding census"
+    },
+    {
+      "id": "fcra-fc4",
+      "title": "FCRA Online Services: Annual Returns (FC-4)",
+      "url": "https://fcraonline.nic.in/FC4.aspx",
+      "publisher": "Ministry of Home Affairs, Government of India",
+      "date": null,
+      "period": "Annual financial returns",
+      "scope": "Foreign contribution reporting framework",
+      "type": "Government filing portal",
+      "funding_channel": "Foreign grants",
+      "institution_types": [
+        "NGO programmes",
+        "Government schools",
+        "Private schools",
+        "Colleges"
+      ],
+      "states": [],
+      "cities": [],
+      "geography_precision": "association / project as filed",
+      "supported_claims": [
+        "Official portal provides FC-4 annual return filing guidance, sample form and document requirements."
+      ],
+      "limitations": [
+        "Portal landing page proves reporting route, not receipt by a particular school.",
+        "FCRA registration or prior permission is not evidence of donation receipt or programme deployment.",
+        "Sample-form fetch returned no extracted page content."
+      ],
+      "retrieved_at": "2026-10-06",
+      "verification": "Primary page fetched; claims bounded to observed content",
+      "coverage": "Source registry seed, not complete funding census"
+    },
+    {
+      "id": "fcra-dashboard",
+      "title": "FCRA Online Services dashboard",
+      "url": "https://fcraonline.nic.in/fc_dashboard.aspx",
+      "publisher": "Ministry of Home Affairs, Government of India",
+      "date": null,
+      "period": "Dynamic dashboard captured 2026-10-06",
+      "scope": "National association registry and state breakdown",
+      "type": "Government data portal",
+      "funding_channel": "Foreign grants",
+      "institution_types": [
+        "NGO programmes"
+      ],
+      "states": [],
+      "cities": [],
+      "geography_precision": "registered association state",
+      "supported_claims": [
+        "Dashboard distinguishes active/alive association count from annual returns filed across active, expired, cancelled and deemed ceased associations.",
+        "State breakdown is explicitly for all association types."
+      ],
+      "limitations": [
+        "Registry counts are not education NGO counts or funding amounts.",
+        "Snapshot may lag and uses legacy place names.",
+        "Association address is not beneficiary location; do not map receipts to headquarters as local school funding."
+      ],
+      "retrieved_at": "2026-10-06",
+      "verification": "Primary page fetched; claims bounded to observed content",
+      "coverage": "Source registry seed, not complete funding census"
+    },
+    {
+      "id": "world-bank-stars-approval",
+      "title": "World Bank approves STARS to improve India's education system",
+      "url": "https://www.worldbank.org/en/news/press-release/2020/06/24/new-world-bank-project-to-improve-quality-of-indias-education-system",
+      "publisher": "World Bank",
+      "date": "2020-06-24",
+      "period": "Approval announced June 2020",
+      "scope": "Six participating states plus national system activities",
+      "type": "Multilateral announcement",
+      "funding_channel": "Multilateral loan",
+      "institution_types": [
+        "Government schools"
+      ],
+      "states": [
+        "Himachal Pradesh",
+        "Kerala",
+        "Madhya Pradesh",
+        "Maharashtra",
+        "Odisha",
+        "Rajasthan"
+      ],
+      "cities": [],
+      "geography_precision": "state",
+      "amounts": [
+        {
+          "value": 500,
+          "unit": "million",
+          "currency": "USD",
+          "status": "Approved loan",
+          "qualifier": "IBRD STARS programme"
+        }
+      ],
+      "supported_claims": [
+        "World Bank approved a USD 500 million STARS programme.",
+        "Programme supports quality and governance of school education in six named states.",
+        "Loan maturity 17.5 years including five-year grace period."
+      ],
+      "limitations": [
+        "Approval is not disbursement or per-state allocation.",
+        "Source page extraction metadata says 2021-01-29 but article dateline is June 24, 2020; use dateline.",
+        "Countrywide beneficiaries and six-state activities must not be treated as identical scope."
+      ],
+      "retrieved_at": "2026-10-06",
+      "verification": "Primary page fetched; claims bounded to observed content",
+      "coverage": "Source registry seed, not complete funding census"
+    },
+    {
+      "id": "world-bank-stars-isr",
+      "title": "STARS implementation status and results report, ISR59758",
+      "url": "https://documents1.worldbank.org/curated/en/099031324115537398/pdf/P1668681d401850491bb2e123fcc3d74cc6.pdf",
+      "publisher": "World Bank",
+      "date": "2024-03-13",
+      "period": "Archived 13 March 2024; January–February 2024 review mission",
+      "scope": "Six STARS states",
+      "type": "Multilateral implementation report",
+      "funding_channel": "Multilateral loan",
+      "institution_types": [
+        "Government schools"
+      ],
+      "states": [
+        "Himachal Pradesh",
+        "Kerala",
+        "Madhya Pradesh",
+        "Maharashtra",
+        "Odisha",
+        "Rajasthan"
+      ],
+      "cities": [],
+      "geography_precision": "programme",
+      "amounts": [
+        {
+          "value": 196.75,
+          "unit": "million",
+          "currency": "USD",
+          "status": "Reported disbursement",
+          "qualifier": "39.35% as of this dated report"
+        }
+      ],
+      "supported_claims": [
+        "Report states cumulative disbursement of USD 196.75 million (39.35%) against the USD 500 million programme.",
+        "Report discusses programme restructuring and a requested extension."
+      ],
+      "limitations": [
+        "Historical snapshot, not current 2026 disbursement.",
+        "Do not add disbursement to original loan value.",
+        "A request for extension is not proof that an extension was approved."
+      ],
+      "retrieved_at": "2026-10-06",
+      "verification": "Primary page fetched; claims bounded to observed content",
+      "coverage": "Source registry seed, not complete funding census"
+    },
+    {
+      "id": "merite-cabinet",
+      "title": "Cabinet approves MERITE with ₹4,200 crore outlay",
+      "url": "https://www.pmindia.gov.in/en/news_updates/cabinet-approves-budgetary-support-for-multidisciplinary-education-and-research-improvement-in-technical-education-merite-scheme-with-an-outlay-of-rs-4200-crore/",
+      "publisher": "Prime Minister's Office, Government of India",
+      "date": "2025-08-08",
+      "period": "FY 2025–26 to FY 2029–30",
+      "scope": "All states/UTs eligible; 275 selected technical institutions planned",
+      "type": "Government scheme announcement",
+      "funding_channel": "Government / multilateral loan",
+      "institution_types": [
+        "Government colleges",
+        "Government-aided colleges",
+        "Polytechnics"
+      ],
+      "states": [],
+      "cities": [],
+      "geography_precision": "national eligibility; selected institutions",
+      "amounts": [
+        {
+          "value": 4200,
+          "unit": "crore",
+          "currency": "INR",
+          "status": "Approved outlay",
+          "qualifier": "Total central sector scheme 2025–30"
+        },
+        {
+          "value": 2100,
+          "unit": "crore",
+          "currency": "INR",
+          "status": "Planned external assistance",
+          "qualifier": "World Bank loan included within ₹4,200 crore"
+        }
+      ],
+      "supported_claims": [
+        "Scheme targets 175 engineering institutions and 100 polytechnics.",
+        "Total financial implication is ₹4,200 crore, including ₹2,100 crore World Bank loan assistance.",
+        "Government/government-aided technical institutions are expected to be selected."
+      ],
+      "limitations": [
+        "National eligibility is not proof every city or state has an awarded institution.",
+        "Targets are planned benefits, not realized outcomes.",
+        "World Bank share is part of total and must not be added again."
+      ],
+      "retrieved_at": "2026-10-06",
+      "verification": "Primary page fetched; claims bounded to observed content",
+      "coverage": "Source registry seed, not complete funding census"
+    },
+    {
+      "id": "pratham-annual-2025",
+      "title": "Pratham Education Foundation Annual Report 2024–25",
+      "url": "https://www.pratham.org/wp-content/uploads/2026/01/AR-NEW_2JAN.pdf",
+      "publisher": "Pratham Education Foundation",
+      "date": null,
+      "period": "FY 2024–25",
+      "scope": "Multi-state learning, government partnership and youth programmes",
+      "type": "NGO annual report",
+      "funding_channel": "Philanthropy / CSR / government partnerships",
+      "institution_types": [
+        "Government schools",
+        "Community learning",
+        "Youth skills"
+      ],
+      "states": [],
+      "cities": [],
+      "geography_precision": "programme sites vary; report-level multi-state",
+      "supported_claims": [
+        "Report describes direct learning programmes and district, city and state government partnerships.",
+        "Report contains financials and supporters sections.",
+        "Historical Mumbai municipal-school partnerships are documented."
+      ],
+      "limitations": [
+        "Self-reported programme reach is not a school funding receipt.",
+        "Historical Mumbai narrative does not prove current city funding allocation.",
+        "No financial totals from this report validated; full financial section not extracted in this pass."
+      ],
+      "retrieved_at": "2026-10-06",
+      "verification": "Primary page fetched; claims bounded to observed content",
+      "coverage": "Source registry seed, not complete funding census"
+    },
+    {
+      "id": "educate-girls-progress-2025",
+      "title": "Educate Girls Annual Progress Report FY 2024–25",
+      "url": "https://www.educategirls.ngo/wp-content/uploads/2025/05/Educate-Girls-Annual-Progress-Report-FY2024-25.pdf",
+      "publisher": "Foundation to Educate Girls Globally",
+      "date": null,
+      "period": "FY 2024–25",
+      "scope": "Girls' enrolment, learning and second-chance programmes",
+      "type": "NGO programme report",
+      "funding_channel": "Philanthropy / collaborative funding",
+      "institution_types": [
+        "Government schools",
+        "Community learning"
+      ],
+      "states": [
+        "Rajasthan",
+        "Madhya Pradesh",
+        "Uttar Pradesh",
+        "Bihar"
+      ],
+      "cities": [
+        "Prayagraj"
+      ],
+      "geography_precision": "named project states and one documented city intervention",
+      "supported_claims": [
+        "Audacious Project narrative identifies Rajasthan, Madhya Pradesh, Uttar Pradesh and Bihar expansion geography.",
+        "FY 2024–25 report self-reports 285,237 girls enrolled through Vidya.",
+        "Report describes two temporary learning centres in Prayagraj during Maha Kumbh for migrant workers' children."
+      ],
+      "limitations": [
+        "Programme outcomes are organisation-reported.",
+        "No city-level monetary allocation established.",
+        "The four named states describe a particular initiative, not necessarily the full NGO footprint.",
+        "Annual programme reach cannot be summed with individual-school enrolment without deduplication."
+      ],
+      "retrieved_at": "2026-10-06",
+      "verification": "Primary page fetched; claims bounded to observed content",
+      "coverage": "Source registry seed, not complete funding census"
+    },
+    {
+      "id": "educate-girls-fcra-2024",
+      "title": "Educate Girls FCRA financial statements for year ended 31 March 2024",
+      "url": "https://www.educategirls.ngo/wp-content/uploads/2026/01/FCRA_Financials_FY-23-24.pdf",
+      "publisher": "Foundation to Educate Girls Globally; N. A. Shah Associates LLP auditor",
+      "date": "2024-12-16",
+      "period": "FY 2023–24",
+      "scope": "Organisation-wide foreign contribution accounts",
+      "type": "Audited NGO financial statements",
+      "funding_channel": "Foreign grants",
+      "institution_types": [
+        "NGO programmes"
+      ],
+      "states": [],
+      "cities": [],
+      "geography_precision": "organisation; not allocable to city from this statement",
+      "amounts": [
+        {
+          "value": 1084495261,
+          "unit": "rupees",
+          "currency": "INR",
+          "status": "Reported donations",
+          "qualifier": "FY 2023–24 FCRA income statement"
+        }
+      ],
+      "supported_claims": [
+        "Document is financial statements prepared under FCRA for foreign contribution received and utilised.",
+        "Income statement reports ₹1,08,44,95,261 donations for year ended 31 March 2024, separately from other income.",
+        "Statements are signed 16 December 2024."
+      ],
+      "limitations": [
+        "PDF table extraction is fragmented; manually verify layout before treating each expense line as structured.",
+        "Organisation-wide foreign donations do not establish donor-by-city or school-level funding.",
+        "Upload path 2026 is not the fiscal year or signature date."
+      ],
+      "retrieved_at": "2026-10-06",
+      "verification": "Primary page fetched; claims bounded to observed content",
+      "coverage": "Source registry seed, not complete funding census"
+    },
+    {
+      "id": "akshaya-patra-annual-2025",
+      "title": "Akshaya Patra Annual Report 2024–25",
+      "url": "https://www.akshayapatra.org/includefiles/financialreports/Annual_Report_24-25_Tapestry_web.pdf",
+      "publisher": "The Akshaya Patra Foundation",
+      "date": null,
+      "period": "FY 2024–25",
+      "scope": "School meals and other nutrition programmes across multiple states/UTs",
+      "type": "NGO annual report",
+      "funding_channel": "Government grants / CSR / philanthropy / foreign grants",
+      "institution_types": [
+        "Government schools",
+        "Government-aided schools",
+        "Anganwadis"
+      ],
+      "states": [
+        "Karnataka",
+        "Goa",
+        "Uttar Pradesh"
+      ],
+      "cities": [
+        "Bengaluru",
+        "Kanpur",
+        "Pilerne"
+      ],
+      "geography_precision": "documented programme/kitchen sites; city financial allocations unavailable",
+      "amounts": [
+        {
+          "value": 42093.64,
+          "unit": "lakh",
+          "currency": "INR",
+          "status": "Reported government contributions",
+          "qualifier": "PM POSHAN and POSHAN Abhiyaan combined, FY 2024–25"
+        },
+        {
+          "value": 85746.61,
+          "unit": "lakh",
+          "currency": "INR",
+          "status": "Reported total income",
+          "qualifier": "Organisation income, FY 2024–25; includes government contributions"
+        }
+      ],
+      "supported_claims": [
+        "Foundation describes PM POSHAN implementation for government/government-aided schools.",
+        "Report says FY 2024–25 operations cover 16 states and 3 UTs.",
+        "Government contributions are reported as ₹42,093.64 lakh and total income ₹85,746.61 lakh.",
+        "New kitchens include Bengaluru locations, Pilerne in Goa and Kanpur."
+      ],
+      "limitations": [
+        "Government contributions include Anganwadi nutrition; not all school funding.",
+        "Government contribution is within total income; avoid double counting.",
+        "Kitchen city coverage is not equivalent to school-recipient district or a grant amount.",
+        "States/cities arrays are documented examples, not full footprint."
+      ],
+      "retrieved_at": "2026-10-06",
+      "verification": "Primary page fetched; claims bounded to observed content",
+      "coverage": "Source registry seed, not complete funding census"
+    },
+    {
+      "id": "lighthouse-kkr-psp-2025",
+      "title": "KKR and PSP invest in Lighthouse Learning",
+      "url": "https://www.investpsp.com/en/news/kkr-further-invests-in-lighthouse-learning-to-support-next-phase-of-growth/",
+      "publisher": "PSP Investments / KKR joint announcement",
+      "date": "2025-11-25",
+      "period": "Investment announced November 2025",
+      "scope": "Indian early childhood and K-12 education services platform",
+      "type": "Investor announcement",
+      "funding_channel": "Foreign private equity",
+      "institution_types": [
+        "Private education services",
+        "Private schools",
+        "Preschools"
+      ],
+      "states": [
+        "Karnataka",
+        "Maharashtra",
+        "Telangana"
+      ],
+      "cities": [
+        "Bengaluru",
+        "Mumbai",
+        "Pune",
+        "Hyderabad",
+        "Delhi NCR"
+      ],
+      "geography_precision": "named platform presence; transaction amount not allocated by city",
+      "supported_claims": [
+        "KKR funds invest alongside new investor PSP; KKR continues to hold a majority stake.",
+        "Recipient described as an education services provider/platform.",
+        "Release names presence in Bangalore, Mumbai, Pune, Hyderabad and Delhi-NCR."
+      ],
+      "limitations": [
+        "No transaction amount disclosed in the primary announcement.",
+        "Do not substitute media transaction estimates as primary-verified values.",
+        "Equity in services platform is distinct from donations to schools, ownership of regulated educational trusts, or FCRA contributions.",
+        "Presence is not proof investment proceeds were spent in every named city; Delhi NCR crosses administrative borders.",
+        "Delhi-NCR presence is a regional label; it does not establish a school or spending location within Delhi's administrative boundary."
+      ],
+      "retrieved_at": "2026-10-06",
+      "verification": "Primary page fetched; claims bounded to observed content",
+      "coverage": "Source registry seed, not complete funding census"
+    },
+    {
+      "id": "tata-trusts-annual-2025",
+      "title": "Tata Trusts Annual Report 2024–25",
+      "url": "https://www.tatatrusts.org/Upload/PDF/tata-trusts-annual-report-2024-2025.pdf",
+      "publisher": "Tata Trusts",
+      "date": null,
+      "period": "FY 2024–25",
+      "scope": "Education institutional/direct implementation and individual grants",
+      "type": "Philanthropic annual report",
+      "funding_channel": "Domestic philanthropy / scholarships",
+      "institution_types": [
+        "Government schools",
+        "Private schools",
+        "Colleges",
+        "Individual scholars"
+      ],
+      "states": [],
+      "cities": [],
+      "geography_precision": "report-level national portfolio",
+      "amounts": [
+        {
+          "value": 247.47,
+          "unit": "crore",
+          "currency": "INR",
+          "status": "Reported FY spend",
+          "qualifier": "Education institutional grants / direct implementation"
+        },
+        {
+          "value": 40.91,
+          "unit": "crore",
+          "currency": "INR",
+          "status": "Reported FY spend",
+          "qualifier": "Education individual grants"
+        }
+      ],
+      "supported_claims": [
+        "Grant disbursal table reports ₹247.47 crore education institutional/direct implementation spend and ₹40.91 crore education individual grants.",
+        "Report explicitly distinguishes institutional grants from individual grants."
+      ],
+      "limitations": [
+        "No city/state allocation derived from aggregate table.",
+        "Institutional/direct implementation spend is broader than unrestricted school grants.",
+        "These amounts should not be combined with NGO recipient disclosures without donor-recipient deduplication."
+      ],
+      "retrieved_at": "2026-10-06",
+      "verification": "Primary page fetched; claims bounded to observed content",
+      "coverage": "Source registry seed, not complete funding census"
+    },
+    {
+      "id": "hdfc-parivartan-2025",
+      "title": "HDFC Bank Parivartan CSR Report FY 2024–25",
+      "url": "https://v.hdfc.bank.in/content/dam/hdfc-aem-microsites/csr/pdfs/hdfc-bank-parivartan-csr-report-fy-24-25.pdf",
+      "publisher": "HDFC Bank",
+      "date": null,
+      "period": "FY 2024–25",
+      "scope": "National CSR portfolio including education and scholarships",
+      "type": "Corporate CSR report",
+      "funding_channel": "CSR / scholarships",
+      "institution_types": [
+        "Government schools",
+        "Private schools",
+        "Colleges",
+        "Individual scholars"
+      ],
+      "states": [],
+      "cities": [],
+      "geography_precision": "national portfolio; project locations require underlying annexes",
+      "supported_claims": [
+        "CSR education work includes remedial learning, teacher training, scholarships and safe school infrastructure.",
+        "ECSS supports continuation of education for economically vulnerable students.",
+        "Projects implemented directly or through empanelled partners; disclosures also appear in directors' report and MCA filings."
+      ],
+      "limitations": [
+        "₹1,068.03 crore report total covers all CSR sectors, not education alone; exclude from education totals.",
+        "Report reach across 28 states/8 UTs refers to overall CSR, not proof of education spend in every jurisdiction.",
+        "Current open scholarship applications or eligibility deadlines not verified here."
+      ],
+      "retrieved_at": "2026-10-06",
+      "verification": "Primary page fetched; claims bounded to observed content",
+      "coverage": "Source registry seed, not complete funding census"
+    },
+    {
+      "id": "azim-premji-university-2025",
+      "title": "Azim Premji University Bengaluru Annual Report 2024–25",
+      "url": "https://azimpremjiuniversity.edu.in/media/resources/Annual-Reports/Annual-Report-2024-25-Azim-Premji-University-Bengaluru.pdf",
+      "publisher": "Azim Premji University",
+      "date": "2025-12-04",
+      "period": "Academic year July 2024–June 2025; some updates to November 2025",
+      "scope": "Not-for-profit private university in Bengaluru, Karnataka",
+      "type": "University annual report",
+      "funding_channel": "Philanthropic institution sponsorship",
+      "institution_types": [
+        "Private university"
+      ],
+      "states": [
+        "Karnataka"
+      ],
+      "cities": [
+        "Bengaluru"
+      ],
+      "geography_precision": "institution",
+      "supported_claims": [
+        "Report identifies the university as not-for-profit, private and established under a Karnataka Act.",
+        "Azim Premji Foundation is named sponsoring body.",
+        "Report provides institutional teaching and research context."
+      ],
+      "limitations": [
+        "No university donation or scholarship amount validated in this extraction.",
+        "Private university status does not imply eligibility for private equity distribution.",
+        "Do not generalize one institution's funding arrangements to all private colleges."
+      ],
+      "retrieved_at": "2026-10-06",
+      "verification": "Primary page fetched; claims bounded to observed content",
+      "coverage": "Source registry seed, not complete funding census"
+    }
+  ],
+  "panel_round_1": [
+    "Model money as events with amount, currency/unit, fiscal period, status, donor, intermediary, recipient, geography precision and source evidence; do not sum announced, committed, released and spent.",
+    "Separate public budget, CSR, philanthropy, FCRA foreign grants, multilateral sovereign loans and private equity. A school-support service company is a different entity from a regulated school institution.",
+    "Show national/state/city source scope explicitly; a filter for every state can still show no locally verified records, never fabricated zero funding.",
+    "De-duplicate government-to-NGO and corporate-to-NGO pass-through funding; retain transaction chain rather than treating both disclosures as new money.",
+    "Anomaly cards must say investigation signal, show counter-hypotheses and require matched periods, boundaries and school-management types before comparing closures with population.",
+    "Use source document date, fiscal period and retrieval date separately; annual report upload path is not publication date.",
+    "Provide drill-through original URLs, disclosure limitations and exportable rows. Hide summed funding KPI where categories are not comparable."
+  ],
+  "panel_round_2_challenges": [
+    "Reject all-NGO/all-city coverage claims: MCA and FCRA registries supply discovery, but many records lack project geography; build explicit coverage matrix with local evidence vs national context.",
+    "Foreign investment transaction amounts absent from primary announcement stay null even when news articles give estimates.",
+    "CSR board report precedence and grouped education/livelihood categorization must appear in methodology and data validation.",
+    "School closures plus rising total population does not establish wrongdoing: compare school-age cohorts, ward/catchment, enrollment, migration, private transfer and merged-school service/access.",
+    "Do not infer grant applications are currently open from annual reports. Distinguish historical funding evidence from actionable calls for applications."
+  ],
+  "coverage_gaps": [
+    "No current full MCA project export downloaded; dynamic selection/captcha encountered.",
+    "No comprehensive education-only FCRA donor/recipient census or project-location allocation.",
+    "No current ADB primary project source vetted in this workstream.",
+    "No city funding totals established from the primary source set.",
+    "Private school fee revenue, bank lending, endowments and government-aided institution grant ledgers need additional institution-level evidence.",
+    "NGO programmes and investor examples are illustrative, not exhaustive."
+  ],
+  "primary_fetch_method": "Exa page extraction; large reports capped at 16,000 characters in initial fetches. Relevant extracted sections supporting listed claims reviewed; reports were not read cover-to-cover.",
+  "failed_or_empty_fetches": [
+    {
+      "url": "https://fcraonline.nic.in/Home/Sample_form.aspx?id=4",
+      "result": "No extracted content returned"
+    },
+    {
+      "url": "https://dsel.education.gov.in/pab",
+      "result": "Exa CRAWL_EMPTY_CONTENT; fallback HTTP 200 returned empty JavaScript application shell"
+    }
+  ]
+}

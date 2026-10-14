@@ -1,0 +1,50 @@
+{
+  "reviewedAt": "2026-10-07",
+  "namespace": "allegations-policy",
+  "sources": [
+    {
+      "sourceId": "pacl-order-2014",
+      "receipt": "pacl-order-2014-retry.receipt.json",
+      "extract": "pacl-order-2014-retry.excerpt.txt"
+    },
+    {
+      "sourceId": "pacl-board-2026",
+      "receipt": "pacl-board-2026.receipt.json",
+      "extract": "pacl-board-2026.excerpt.txt"
+    },
+    {
+      "sourceId": "pacl-refund-extension",
+      "receipt": "pacl-refund-extension.receipt.json",
+      "extract": "pacl-refund-extension.txt"
+    },
+    {
+      "sourceId": "pacl-sc-sep2026",
+      "receipt": "pacl-sc-2026.receipt.json",
+      "extract": "pacl-sc-2026.excerpt.txt"
+    },
+    {
+      "sourceId": "pacl-bengaluru-rfp",
+      "receipt": "pacl-bengaluru-rfp.receipt.json",
+      "extract": "pacl-bengaluru-rfp.excerpt.txt"
+    },
+    {
+      "sourceId": "chapwa-dhc-official",
+      "receipt": "dhc-toll-2025.indexed-receipt.json",
+      "extract": "dhc-toll-2025.official-indexed.txt",
+      "failureReceipts": [
+        "dhc-toll-2025.receipt.json",
+        "dhc-toll-2025-www.receipt.json"
+      ]
+    },
+    {
+      "sourceId": "chapwa-dhc-mirror",
+      "receipt": "dhc-toll-2025-mirror.receipt.json",
+      "extract": "dhc-toll-2025-mirror.excerpt.txt"
+    },
+    {
+      "sourceId": "pacl-reuters-2015",
+      "receipt": "pacl-reuters-2015.receipt.json",
+      "extract": "pacl-reuters-2015.authored-note.txt"
+    }
+  ]
+}

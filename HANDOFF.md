@@ -4,6 +4,43 @@
 
 ---
 
+## Investigation workspace release — 6 October 2026
+
+Working branch: `codex/education-funding-intelligence`. The default surface on
+all 40 routes is now an India geographic map with linked relationships and a
+source inspector. **Dossier** opens the original page; preserve `iw_*` context
+when changing its original filters. State profiles can supply an implicit state,
+which must be materialized when navigating to a different lens.
+
+Read [the current architecture](docs/investigation/ARCHITECTURE.md),
+[data contract](docs/investigation/DATA.md), [two-round review](docs/investigation/PANEL.md),
+[verification](docs/investigation/VERIFICATION.md) and
+[roadmap](docs/investigation/ROADMAP.md) before extending it. Use the reusable
+[investigation workspace skill](.claude/skills/investigation-workspace/SKILL.md).
+
+The shared registry contains 2,009 entity records, 3,687 sourced relationships,
+5,313 records and 3,073 source citations. New finance, justice and welfare
+research retains primary originals and hash manifests. PM CARES accounts were
+refreshed through FY2024-25 with a before/after correction ledger. Do not restore
+older publication-gap or comparator-intent claims from historical snapshots.
+
+The supplied tender publication now has a reproducible two-database audit, nine
+corpus findings and 156 reviewed buyer-cohort trails. Read
+[the tender analysis panel](docs/tender-investigation/ANALYSIS_PANEL.md) and
+[cohort contract](docs/public-works/PROCUREMENT_TRAILS.md). Payment and completion
+stages remain missing unless independently sourced. Run `npm run test:procurement`
+for compact-artifact freshness, provenance and audit guards without downloading databases.
+
+The current map asset is `src/components/investigation/assets/india-current36.json`.
+The original `india-geo.json` is historical geometry and still appears, labelled,
+in some original dossiers. Ambiguous legacy territory associations are withheld
+from modern state attribution. Casebooks are local, with explicit response
+closure in portable exports; authenticated sharing remains future work.
+
+Run `npm run check` for the full release gates. Browser suites start their own
+servers over `dist`; avoid rebuilding/deleting that directory while they run.
+Use a separate Vite output directory for a candidate under concurrent review.
+
 ## What this is
 
 A map of India's listed corporate landscape joined to a **provenance-bearing
@@ -11,8 +48,8 @@ knowledge graph** of political and ownership connections. Every claim carries an
 evidence tier; every pattern carries its denominator. The platform is as interested
 in what it cannot show as in what it can.
 
-It is a React + TypeScript + Vite single-page app with no runtime dependencies, no
-backend, and no network calls. All data is compiled in. `npm install && npm run dev`.
+It is a React + TypeScript + Vite single-page app with no application backend or live data API. Evidence data is compiled in;
+original citations open their publishers and font/assets load over the web. `npm install && npm run dev`.
 
 ## Why it is built the way it is
 
@@ -63,21 +100,24 @@ thing that does not.
 
 ---
 
-## State of play
+## Historical baseline — before the October investigation release
 
-**Shipped and tested.** 32 routes, all rendering clean under a headless smoke test
-that visits every route, several with URL parameters. 36-state boundary geometry with pole-of-inaccessibility label
+**Shipped and tested.** 33 routes, all rendering clean under a headless smoke test
+that visits every route (49 URLs), several with URL parameters. 36-state boundary geometry with pole-of-inaccessibility label
 anchors. A choropleth map, a geographic network, a force-directed graph with ego
 focus, a path finder and a table twin, a layered flow diagram, a computed motif
 engine, and two ingestion pipelines with reproducible run ids. 259 companies, 69
 ministers, 10 conglomerate groups. The Money-Trail Atlas: 59 nodes, 111 edges.
 
-**The research fleets** (as of 2026-09-25, generator 1.2.0):
+**The research fleets** (as of 2026-09-26, generator 1.4.1):
 
 | fleet | module | run | nodes | edges | verdicts | killed |
 |---|---|---|---|---|---|---|
-| energy | `src/graph/energy.generated.ts` | `run-4a86ff2b4fe6` | 404 | 711 | 60 (22 refuted) | 1 |
-| welfare | `src/data/welfare.generated.ts` | `run-33317dc6d234` | 286 | 335 | 35 (15 refuted) | 4 |
+| energy | `src/graph/energy.generated.ts` | `run-ac2b087e866e` | 404 | 711 | 60 (22 refuted) | 1 |
+| welfare | `src/data/welfare.generated.ts` | `run-e3cc0f891306` | 286 | 335 | 35 (15 refuted) | 4 |
+| finance | `src/graph/finance.generated.ts` | `run-e10a8edef94a` | 353 | 1,168 | 84 (40 refuted) | 6 |
+| ngo | `src/graph/ngo.generated.ts` | `run-169c3129a1ec` | 138 | 292 | 142 (63 refuted) | 14 |
+| capital | `src/graph/capital.generated.ts` | `run-916d30d537ff` | 133 | 221 | 61 (19 refuted) | 15 |
 
 Energy edges: 310 documented, 304 reported, 42 alleged, 55 analytic; 12 domain
 files; 29 id mappings and 22 refused merges. Welfare: 78 schemes, 105 elections, 70
@@ -85,6 +125,29 @@ coverage declarations; 163 documented, 93 reported, 14 alleged (each answered), 
 analytic (each with an innocent reading); 7 domain files; 18 mappings and 23 refused
 merges. Killed claims are kept in `META.killed` with their reasons. Nothing was
 deleted.
+
+Phase G (2026-09-26) added the three foreign-money fleets. Finance: 1,077 documented,
+54 reported, 9 alleged, 28 analytic; 945 loan facts with terms; the World Bank census of
+1,117 India projects and 849 commitments fetched by `scripts/finance/fetch-worldbank.mjs`
+and kept beside the hand-researched loans, never summed (15 hand loans are marked as
+already in the census, 6 as not countable). NGO: 95 documented, 128 reported, 51 alleged
+(each with its answer; the fixed contra wording for an unanswered allegation is
+`No response recorded — asked/not asked unknown`), 18 analytic; 102 FCRA state-year rows.
+Capital: 153 documented, 34 reported, 12 alleged, 22 analytic; 96 holdings across 38 of
+the 50 NIFTY constituents read, with 19 comparison holders that render whenever a named
+holder does. Cross-fleet survivors: `pol:shivraj-singh-chouhan`, `party:inc`,
+`wel:manmohan-singh`, `co:larsen-toubro`, `ngo:open-society-foundations`; seven High Court
+nodes added to the Atlas; `rss` retyped party → sangh with a supersession note.
+
+**The national tender record.** `scripts/cppp/` (Python, offline, not in CI) reduces the
+4,921,960-row CPPP award scrape to 3,385,233 award decisions by a stated dedup rule and
+writes six aggregate JSON files to `research/raw/cppp/` — quality first, then rates over
+declared denominators (single bidding 11.22 % [11.19, 11.26] of 3,019,420; central 17.67 %,
+state 7.59 %), timing (median 68 days closing → award; 2.04 % within two days),
+concentration (HHI by buyer, at most five marked winners named), red flags, and a seeded
+40-row live verification of which **all 40 pages were gone**, so every field stays
+`reported`. Rebuilds are byte-identical and the tests assert it. No award row and no
+unmarked name is committed.
 
 **Index membership.** NIFTY 50: 50 of 50. SENSEX 30: 30 of 30. SENSEX 50: 49 of 50 —
 the fiftieth could not be confirmed from two independent captures and is a recorded
@@ -101,6 +164,13 @@ three serious WCAG findings (keyboard reach inside the table twins; the map's
 `role="img"`) and M1–M4 are fixed; the map is now a `role="listbox"` of state
 options, and the spec and criteria record that supersession. `test:pages` is in
 `check` and CI.
+
+**Phase G pages.** `/finance` ("Foreign money": loans, associations and capital as three
+lenses on one route; judged from two candidate designs, 47 decisions, 110 criteria written
+blind) and the national section of `/tenders` (`?section=national`, 86 criteria, WCAG audit
+0 critical / 0 serious / 8 moderate, M1–M8 fixed / 13 minor). The tenders section: Verified 84 pass / 0 fail / 2 skipped ("not in this data") of 86 on three consecutive runs against a pinned build after the adjudication (15 criterion defects, 1 page defect, 2 both); in `test:pages` and CI since `9c03db7`. The finance page: First pass 82 / 27 / 1 of 110; adjudication found 24 criterion defects, 2 both (AC-79 placeholder responses headed "Response from", AC-94 the flow's 606 ribbon tab stops), 1 environment (Chromium's own favicon re-fetch), plus AC-20's quotation rule widened to source titles and property statements; verified 109 pass / 0 fail / 1 skipped (AC-38, no zero-amount loan exists) on three consecutive runs against a pinned build, with WCAG S1, S2 and M1–M6 fixed and re-measured; in `test:pages` and CI.
+Both suites are in `test:pages` (explicit file list — Node 20 does not expand a glob),
+each after three consecutive green runs on a pinned build.
 
 **Three older results worth knowing before you start**, because they still shape
 what is worth doing next:
@@ -137,6 +207,20 @@ what is worth doing next:
   discriminate between parties and is a poor predictor of outcomes.
 - **The lead's own denominator was wrong.** Coal single-bid allocations are 11 of
   91 mines to Nov 2023, not 11 of 140. Recorded in the energy-money-trail skill.
+- **Every actor-selecting lens over foreign money produced an equally alarming picture
+  on its control.** "BlackRock owns India" becomes "Norway, Singapore and LIC own India"
+  on the same filings (BlackRock's ETF aggregates in NIFTY 50 companies: 0.49–1.78 %).
+  "The Rothschilds run Indian banking" is one adviser among several on DIPAM mandates,
+  fees undisclosed for all. Neither is an edge; both sit on the narratives ladder with
+  their strongest counter. Recorded in the foreign-money-trail skill.
+- **The state-share lens over World Bank loans shows no party alignment**; the
+  distribution follows population and project pipeline.
+- **The FCRA record is symmetric where it is loudest.** Retrospective amendments by BJP
+  and Congress governments are recorded identically; the ₹905 crore misreading collapses
+  on its own table; the "USAID $21 m for turnout" claim was killed as an edge.
+- **The tender dataset's defects are larger than any pattern in it.** Forty-one per
+  cent of rows share a tender id; the dedup rule moves the single-bidder rate from
+  13.2 % to 11.22 %, which is why every rate prints its rule and its family.
 
 ### What the build learned about itself
 
@@ -154,12 +238,27 @@ what is worth doing next:
   replaced them with declared beneficiary-class nodes.
 - **Month-only dates.** A researcher who knows only the month must not invent a
   day. The contract and `vocab.mjs` now accept ISO 8601 at reduced precision.
+- **Roster entities joined by symbol, never by name.** The graph builder had minted a
+  second node for 34 of the 64 conglomerate roster entities (`co:lt` beside
+  `co:larsen-toubro`); they now resolve to the companies dataset by NSE symbol, then
+  BSE code, and the national graph lost 31 nodes and 45 edges that were duplicates.
 - **Name-similar merges refused.** 45 across the two fleets — Reliance Industries
   against Reliance Power/ADAG, JSPL against JSW, Ladli Laxmi 2007 against Ladli
   Behna 2023, five distinct Reddys — each with its reason in `RECONCILIATION.json`.
 - **Acceptance criteria can be wrong.** Six `/energy` criteria were defective, not
   the page. The criteria document is amended where the criterion was wrong; the
   test was not bent to pass.
+- **A fetcher's output is not a research file.** Hand fixes to
+  `worldbank-projects.json` were ported into the fetcher's tables and proven by a
+  byte-identical re-fetch; a reconciliation that had merged hand facts into it was
+  undone and the facts moved to `adb-aiib.json`.
+- **Byte-identical is a gate.** Two CPPP rebuilds differed on parallel float sums and
+  a runtime field; a single thread and paise rounding fixed it, and the test asserts it.
+- **Check exit strings, not exit codes, in a gate chain.** One commit landed with a red
+  gate because a `grep` pipeline masked the failure; the gates now assert on the
+  `generate: OK` / `validate: OK` lines.
+- **The Phase G audits predate their reconciliations.** A verdict's claim id may have
+  moved; the assembler applies the mapping before the verdict.
 
 ---
 
@@ -182,10 +281,11 @@ what is worth doing next:
    in the fleet's `voids` array:
    - ICIJ Offshore Leaks entries for Vinod Adani — the database returned nothing
      readable through the proxy.
-   - PM CARES correction (14 Oct 2026): the official About index now lists audited
-     accounts through FY2024-25, and that PDF has been visually inspected. The
-     earlier assertion of no later statements is superseded. Reconcile the newer
-     scanned accounts into the historical numerical ledger before updating totals.
+   - PM CARES referenced notes, separate auditor reports and transaction-level
+     implementation records. The former post-FY2022-23 publication gap is
+     superseded: original FY2023-24 and FY2024-25 statements were retrieved on
+     6 October 2026. A CAG observation about funded infrastructure must not be
+     described as an audit of the fund's accounts.
    - Bank-wise DBT share, float and fee income — the largest intermediary in the
      DBT flow, with no split published for SBI, Bank of Baroda or the RRBs.
    - Lokniti-CSDS cross-tabs by beneficiary status — booth- or constituency-level
@@ -195,8 +295,19 @@ what is worth doing next:
 5. **Companies to ~600.** Nine large recent listings were deliberately omitted
    rather than risk a fabricated ticker — see `research/raw/companies-by-state.json`
    gaps.
+6. **World Bank Major Contract Awards (catalog 0037796).** The join from loans to
+   contractors; the API rate-limited (429) during Phase G and only the hand-researched
+   contracts landed. A scripted fetch would complete the loans lens.
+7. **FCRA at source.** `fcraonline.nic.in` and the MHA common-content pages were
+   unreachable from the sandbox; every FCRA figure is routed through Parliament
+   answers, MHA annual reports and PIB. A direct pull would let receipts move from
+   `reported` to `documented`.
+8. **The other 12 NIFTY constituents' shareholding** (`CAPITAL_COVERAGE` lists which
+   were not read) and the tender-notice side of the CPPP data (bid windows,
+   `ghalibluvr/tender_dbs_parquet`), which would let single bidding be read against
+   notice period.
 
-**Last full `npm run check`:** green at `a9b9f35` + docs (2026-09-26): promote, generate, 30 assembler tests, validate (one declared warning), build, smoke over 46 URLs, viewport, page suites 137 pass / 0 fail / 15 skipped of 152. `docs/BUNDLE.md` describes the snapshot cut from that tree.
+**Last full `npm run check`:** green at `b09ca5b` + docs (2026-09-27): promote, generate (five modules, byte-identical), 55 assembler tests, validate (30 declared warnings: 29 court rulings modelled as `enforce` in the frozen fleets, SENSEX 50 at 49 of 50), build, smoke over 49 URLs, viewport (with the explorer's jump-to / as-of / why-drawn checks), page suites 330 pass / 0 fail / 18 skipped of 348 (energy 67, welfare 85, tenders national 86, finance 110). `docs/BUNDLE.md` describes the snapshot cut from that tree.
 
 ### Queued work
 
@@ -225,6 +336,14 @@ what is worth doing next:
   and `pol:pralhad-joshi` (also `agarwal` and `per:anil-agarwal`). The fleets reused
   the Atlas ids as the contract says. Merging them is a repository-level decision
   for `src/graph/data.ts`, and it must keep the old ids addressable.
+- **Phase G leftovers.** 29 court rulings in the frozen energy, welfare and
+  capital fleets are modelled as `enforce` without the `Judicial ruling on <claim id>:`
+  prefix the validator now warns for. One West Bengal FCRA state row does not reconcile
+  to its national figure and is declared. `docs/design/FINANCE_PAGE.md` §3.3 lists the
+  generator prerequisites G1–G4 the page renders without and improves with. The
+  explorer's as-of filter cannot dim an edgeless node (the frozen canvas has one per-node
+  opacity channel), so such a node stays drawn at full opacity. Deferred UX
+  amendments for both Phase G pages are listed at the end of their specs.
 
 ### Known gaps, stated plainly
 
@@ -254,30 +373,38 @@ what is worth doing next:
 npm install
 npm run dev            # vite dev server
 npm run promote        # research/raw → resolution + grounding report
-npm run generate       # research fleets → src/graph/energy.generated.ts, src/data/welfare.generated.ts
+npm run generate       # research fleets → the five *.generated.ts modules (energy, finance, ngo, capital; welfare)
 npm run test:assemble  # assembler and merge rules on a synthetic fixture (30 tests)
 npm run validate       # the four invariants; §4 raw fleet files, §5 generated modules
 npm run build          # tsc -b && vite build
-npm run smoke          # headless render of all 32 routes; serves dist itself
+npm run smoke          # 140 map/dossier loads across 70 route/query variants; serves dist itself
 npm run viewport       # the graph camera gate
-npm run check          # promote, generate, test:assemble, validate, build, smoke, viewport
-npm run test:pages     # /energy and /welfare acceptance suites — NOT in check or CI
+npm run check          # all provenance, unit/model, build, workspace and dossier browser gates
+npm run test:pages     # the page acceptance suites (explicit file list; in check and CI)
+
+# offline, Python 3.11 + duckdb + pyarrow; not in CI — see scripts/cppp/README.md
+python3 scripts/cppp/build.py --arrow-dir <dir> --out research/raw/cppp --as-of 2026-09-26
+node scripts/finance/fetch-worldbank.mjs   # re-fetch the World Bank census (byte-identical modulo runId)
 ```
 
-`generate` and `test:assemble` are in `check` and in CI. `test:pages` is not, yet:
-the welfare suite's corrections are still landing, and a gate that is red for a
-known reason teaches people to ignore it. Add it once both suites are green on three
-consecutive runs. The energy suite pins its run to a copy of `dist` (`ENERGY_DIST`)
-so a concurrent rebuild cannot poison it.
+`generate`, `test:assemble` and `test:pages` are in `check` and in CI. A page suite
+joins `test:pages` only once green on three consecutive runs: a gate that is red for a
+known reason teaches people to ignore it. Every suite pins its run to a copy of `dist`
+(`ENERGY_DIST`, `WELFARE_DIST`, `FINANCE_DIST`, `TENDERS_DIST`) so a concurrent rebuild
+cannot poison it. In a gate chain assert on the printed `OK` line, never on a piped exit
+code.
 
 `npm run smoke` needs a Chromium. It uses the environment's pinned binary if one
 exists; override with `PLAYWRIGHT_CHROMIUM_PATH`, or `npx playwright install chromium`.
 
 ### The agents
 
-Twelve are defined in `.claude/agents/`, each with a bounded job and an explicit
+Fourteen are defined in `.claude/agents/`, each with a bounded job and an explicit
 refusal. `cross-examiner` (one claim, one lens, default refuted) and
-`energy-analyst` are new with the fleets. Use them — they encode the rules above so you do not have to re-derive
+`energy-analyst` came with the first fleets; `finance-analyst` (foreign loans, FCRA,
+foreign holders — refuses a family as an edge, a holder alone, a ₹ total over loans)
+and `procurement-analyst` (owns `scripts/cppp/` — refuses an unmarked name or a rate
+without its family) with Phase G. Use them — they encode the rules above so you do not have to re-derive
 them. `evidence-auditor` and `base-rate-statistician` in particular exist to tell
 you "no", and a COLLAPSES verdict from them is a successful output, not a setback.
 
@@ -305,7 +432,7 @@ that can only show what exists systematically overstates the case. Keep it that 
 ## Investigation workspace release — 14 October 2026
 
 New routes `/investigations`, `/leads`, `/game-theory` provide a public-source research desk.
-The reviewed corpus contains 21 dossiers, 42 source records and 21 explicit hypotheses.
+The reviewed corpus now contains 22 dossiers, 52 source records and 23 explicit hypotheses. The initial review covered 21 dossiers; the continuation audit added the amended US lobbying disclosures.
 It is a selected case collection, not a full administrative census or a list of proven conspiracies.
 
 Read `docs/research/INVESTIGATION_PROTOCOL.md` for performed work, acquisition gaps,
@@ -339,3 +466,58 @@ Release verification: the full `check` completed with 30 assembler/merge tests, 
 (15 documented welfare skips). After the numerical extension, the build, source/account
 validators and all 6 investigation/PM CARES browser tests passed. The remaining 500 kB chunk
 warning and unconfirmed fiftieth SENSEX50 member predate this update.
+
+Integration correction: the published site came from `codex/education-funding-intelligence`
+(ed2dd949), with additional registers and hypothesis-lab work beyond the old master.
+This release merges that source history and preserves its routes, map/dossier shell and gates.
+The verification counts above describe the pre-merge baseline; use the final merged CI run
+for the complete route/suite count.
+
+
+### Continuation integration and research
+
+The current release preserves the published education/funding/atlas/hypothesis
+source history and adds a 22nd investigation dossier with nine cited records.
+Read `docs/research/CONTINUATION_SOURCE_AUDIT.md` for the RSS-related original and
+amended US lobbying disclosures, reported denial, OFBJP index-only lead and
+defendant-specific solar-proceeding correction. Authorization and ultimate
+funding are unresolved; no new transfer or command edge was inferred.
+
+`docs/research/PMCARES_NOTES_ACQUISITION.md` records a completed bounded attempt
+to obtain Note 11 and the audit opinion. The official current PDF was retrieved
+again and its hash matches the extraction; the targeted notes/refund identities
+remain unacquired. Do not assign the current refund to older ventilator refunds.
+
+The strategy workbench preserves v1 notes and adds per-question comparison plans,
+self-reported timing and dated read-only local revisions, exported with the active
+worksheet. These are not externally registered protocols. Source/lead links now
+open the correct dossier and exact worksheet.
+
+Verification for this continuation: build and source/account validators passed;
+13 payoff/plan unit tests and nine focused browser tests passed. Merged route
+smoke and graph viewport gates passed. Model artifact maintenance preserves the
+original evaluation graph under its hash (see CONTINUATION_MODEL_INTEGRITY.md).
+The full retained page suites are enforced by CI and deployment; use the final
+commit's workflow run for authoritative full-suite results. A local pre-merge
+empty-fixture cache must be rebuilt, rather than treated as current app evidence.
+
+The fresh empty-fleet fixtures exposed a separate eager identity-crosswalk crash,
+now fixed without changing the populated registry fingerprint. Missing targets
+are held only when their exact optional fleet explicitly declares itself empty;
+invalid identities in populated fleets still fail. All 28 investigation unit
+tests, the fresh energy empty-state check and all ten finance empty-state checks
+pass. See `docs/research/CONTINUATION_EMPTY_FLEETS.md`. Earlier energy AC-48/53
+and finance AC-65/66 failures did not reproduce unchanged individually; finance
+AC-64–66 also passes as a sequence. The full local retained run began before
+this fix and is not evidence of a clean final full-suite result.
+
+Publication status: automatic approval review rejected the attempted default-
+branch push because it would resume production deployment without explicit
+authorization. Prepare a draft review PR and obtain approval for its merge and
+deployment; do not interpret successful paused deployment jobs as publication.
+
+## Academic research program continuation — 14 October 2026
+
+The `/research-program` route imports exactly five files under `research/investigation-program/`: political-funding, resources-welfare, justice-procurement, proven-cases and methods. The adapter fails closed on invalid schemas or dangling references. Raw extracts and reproducible scripts in subdirectories are not bundled into the application. Read `docs/research/PROGRAM_PARENT_AUDIT.md` for primary-source checks, acquisition failures, analytical limits and release verification.
+
+Retained inventory: 57 sources, 54 entities, 56 relations, 16 leads, 17 coverage entries, 6 historical cases and 9 methods. Existing-entity crosswalks require exact resolved registry IDs; matching names do not join records. Amount stages and relation statuses remain explicit. Plans live only in the browser and may be exported. The three `research-program` validation/test commands are required in both CI and deployment. The legacy route acceptance now declares the four independent research routes explicitly while preserving every existing geographic route check.

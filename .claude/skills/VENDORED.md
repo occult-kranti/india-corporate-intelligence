@@ -13,3 +13,10 @@ Licence: check the source repositories before redistributing outside this projec
 copies in the scratchpad but *not* adopted: `osint` (tool catalogue, mostly geolocation/social),
 `d3-viz`, `antv-g6-graph`, `reagraph`, `data-visualization` (Python) — kept for the graph-UI
 library decision in `docs/research/GRAPH_UI_SOTA.md`.
+
+## Locally authored guidance
+
+`public-procurement-investigation/SKILL.md` was authored for this repository on
+2026-10-06. It is not a registry download or external plugin. It combines the
+existing evidence and graph contracts with asset-level comparability, legal
+chronology and reporting-scope controls established by the public-works panel.

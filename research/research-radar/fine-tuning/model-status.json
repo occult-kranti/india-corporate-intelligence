@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 1,
+  "modelLabel": "MiniLM local LoRA",
+  "status": "experimental-not-promoted",
+  "objective": "source-retrieval",
+  "trained": true,
+  "forecastProbabilitiesEstimated": false,
+  "trainableParameters": 73728,
+  "trainingQueries": 70,
+  "trainingDocuments": 39,
+  "developmentQueries": 16,
+  "holdoutQueries": 20,
+  "holdoutCases": 5,
+  "indexedDocuments": 64,
+  "selectedEpoch": 1,
+  "defaultRetriever": "base_onnx_uint8",
+  "adapterSha256": "5516e066535f8e4fb010495cd40f56ec7689428e9c8c571655347a274a1f17d6",
+  "evaluationSha256": "818c9d7f6b6b715e817b92c7b45bae390fe3bb0574ecd25e76da53de5dfe2ea2",
+  "scores": {
+    "bm25": {
+      "ndcgAt5": 0.9313165194101403,
+      "mrrAt10": 0.975,
+      "recallAt5": 0.8916666666666666,
+      "familyNdcgAt5": 0.9941830611232421,
+      "familyRecallAt5": 1.0,
+      "hardNegativePreference": 0.975,
+      "counterevidenceRecallAt5": 1.0
+    },
+    "base_fp32": {
+      "ndcgAt5": 0.9255224535507167,
+      "mrrAt10": 0.95,
+      "recallAt5": 0.9166666666666666,
+      "familyNdcgAt5": 0.9557265623816971,
+      "familyRecallAt5": 0.975,
+      "hardNegativePreference": 1.0,
+      "counterevidenceRecallAt5": 1.0
+    },
+    "base_onnx_uint8": {
+      "ndcgAt5": 0.8978286745588917,
+      "mrrAt10": 0.925,
+      "recallAt5": 0.8916666666666666,
+      "familyNdcgAt5": 0.9390760283944373,
+      "familyRecallAt5": 0.975,
+      "hardNegativePreference": 1.0,
+      "counterevidenceRecallAt5": 1.0
+    },
+    "candidate": {
+      "ndcgAt5": 0.9341822943035613,
+      "mrrAt10": 0.975,
+      "recallAt5": 0.9166666666666666,
+      "familyNdcgAt5": 0.9741800747031242,
+      "familyRecallAt5": 0.975,
+      "hardNegativePreference": 1.0,
+      "counterevidenceRecallAt5": 1.0
+    }
+  },
+  "failedCriteria": [
+    "case-macro nDCG@5 gain over strongest neural baseline",
+    "held-out cases with positive nDCG@5 change"
+  ],
+  "completedAt": "2026-10-08T02:44:02.000971+00:00",
+  "limitations": [
+    "Agent-authored relevance labels over selected summaries, not full documents.",
+    "Only five held-out case groups; unknown upstream pretraining exposure.",
+    "No wrongdoing, factual-truth or calibrated forecast performance is measured."
+  ]
+}

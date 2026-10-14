@@ -40,6 +40,7 @@ export function InvestigationNav({ active }: { active: 'network' | 'leads' }) {
     <Link className={active === 'network' ? 'is-active' : ''} to="/investigations" aria-current={active === 'network' ? 'page' : undefined}>Investigation network</Link>
     <Link className={active === 'leads' ? 'is-active' : ''} to="/leads" aria-current={active === 'leads' ? 'page' : undefined}>Unresolved leads</Link>
     <Link to="/game-theory">Game theory lab <ArrowUpRight size={14} aria-hidden="true" /></Link>
+    <Link to="/research-program">Research program <ArrowUpRight size={14} aria-hidden="true" /></Link>
   </nav>;
 }
 
@@ -94,5 +95,5 @@ export function EmptyState({ reset, title = 'No dossiers match this view.', text
 }
 
 export function LegacyLinks() {
-  return <aside className="inv-related"><span className="inv-control-label">Go deeper in the existing registers</span><div><Link to="/pmcares">PM CARES <ArrowUpRight size={14} aria-hidden="true" /></Link><Link to="/energy">Energy & resources <ArrowUpRight size={14} aria-hidden="true" /></Link><Link to="/welfare">Welfare <ArrowUpRight size={14} aria-hidden="true" /></Link><Link to="/atlas">Money-trail atlas <ArrowUpRight size={14} aria-hidden="true" /></Link><Link to="/network">Corporate network <ArrowUpRight size={14} aria-hidden="true" /></Link></div></aside>;
+  return <aside className="inv-related"><span className="inv-control-label">Go deeper in the existing registers</span><div><Link to="/pmcares?iw_view=dossier">PM CARES <ArrowUpRight size={14} aria-hidden="true" /></Link><Link to="/energy?iw_view=dossier">Energy & resources <ArrowUpRight size={14} aria-hidden="true" /></Link><Link to="/welfare?iw_view=dossier">Welfare <ArrowUpRight size={14} aria-hidden="true" /></Link><Link to="/atlas?iw_view=dossier">Money-trail atlas <ArrowUpRight size={14} aria-hidden="true" /></Link><Link to="/network?iw_view=dossier">Corporate network <ArrowUpRight size={14} aria-hidden="true" /></Link></div></aside>;
 }

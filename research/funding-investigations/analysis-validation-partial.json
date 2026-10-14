@@ -1,0 +1,57 @@
+{
+  "valid": false,
+  "errors": [
+    "fi:defence:edge:offset-claimed: amount on nonfinancial relation; do not turn context/ownership into cash",
+    "fi:defence:edge:offset-disposed: amount on nonfinancial relation; do not turn context/ownership into cash",
+    "fi:defence:edge:offset-penalty: amount on nonfinancial relation; do not turn context/ownership into cash",
+    "fi:police-border:edge:land-paid.date: expected ISO date YYYY-MM-DD",
+    "fi:police-border:edge:land-sanction.date: expected ISO date YYYY-MM-DD",
+    "fi:police-border:edge:land-executor.date: expected ISO date YYYY-MM-DD",
+    "fi:welfare-pmcares:edge:bankbalance2425: amount on nonfinancial relation; do not turn context/ownership into cash",
+    "fi:welfare-pmcares:edge:fhpl-award.date: expected ISO date YYYY-MM-DD",
+    "fi:welfare-pmcares:edge:medsave-contract.date: expected ISO date YYYY-MM-DD",
+    "fi:welfare-pmcares:edge:vidal-contract.date: expected ISO date YYYY-MM-DD",
+    "fi:police-border:case:cisf-land.decisionAnalysis.decisionDate: expected ISO date YYYY-MM-DD",
+    "fi:welfare-pmcares:case:pmcares-refunds.decisionAnalysis.decisionDate: expected ISO date YYYY-MM-DD",
+    "fi:welfare-pmcares:case:bihar-isa.decisionAnalysis.decisionDate: expected ISO date YYYY-MM-DD",
+    "fi:welfare-pmcares:case:bihar-hospital-cards.decisionAnalysis.decisionDate: expected ISO date YYYY-MM-DD",
+    "fi:welfare-pmcares:case:pmkisan-controls.decisionAnalysis.decisionDate: expected ISO date YYYY-MM-DD"
+  ],
+  "warnings": [
+    "fi:defence:src:offsets-prs-2026: secondary-only source; original assertion not independently inspected",
+    "fi:defence:src:michel-july2026: secondary-only source; original assertion not independently inspected",
+    "fi:police-border:src:pahalgam-july: secondary-only source; original assertion not independently inspected",
+    "fi:police-border:src:pahalgam-court: secondary-only source; original assertion not independently inspected",
+    "fi:police-border:src:pahalgam-defence: secondary-only source; original assertion not independently inspected",
+    "fi:police-border:src:pahalgam-denial: secondary-only source; original assertion not independently inspected",
+    "fi:welfare-pmcares:src:pm-court-report: secondary-only source; original assertion not independently inspected",
+    "fi:welfare-pmcares:src:vent-followup: secondary-only source; original assertion not independently inspected"
+  ],
+  "counts": {
+    "sources": 45,
+    "entities": 120,
+    "edges": 122,
+    "cases": 16,
+    "claims": 35
+  },
+  "tracks": {
+    "defence": 1,
+    "police-border": 1,
+    "welfare-pmcares": 1
+  },
+  "interpretation": "Structural checks do not independently verify quotations, source reliability, amount reconciliation, or the truth of any allegation. No inferred relationship, guilt score or money total is produced.",
+  "inputs": [
+    {
+      "path": "/workspace/india-corporate-intelligence/research/funding-investigations/streams/defence.json",
+      "sha256": "cc3d5d135c127da3ad8a6c5a46c330850f85bd6b8d906be05b32d0aab0649d10"
+    },
+    {
+      "path": "/workspace/india-corporate-intelligence/research/funding-investigations/streams/police-border.json",
+      "sha256": "8df1f6efe65e0a7fe19a6f31fca2f1f570429f9c145369b8a71117478353ba16"
+    },
+    {
+      "path": "/workspace/india-corporate-intelligence/research/funding-investigations/streams/welfare-pmcares.json",
+      "sha256": "7c77f73326ac9a58fc7773a55068d6c1b6a270798a5eea3a8fcac5aaa3d6515f"
+    }
+  ]
+}

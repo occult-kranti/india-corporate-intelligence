@@ -40,6 +40,27 @@ test('the first record of an id wins; the base graph is never replaced or mutate
   assert.equal(JSON.stringify(base), before);
 });
 
+test('two base records of one id are one node: first typing and label, aliases/facts/sources unioned, inputs untouched', () => {
+  const atlas = { id: 'co:lt', label: 'L&T', ty: 'company', fam: 'capital', sz: 3, al: ['Larsen & Toubro'], d: ['Atlas fact'], srcs: [['a', 'https://example.org/a']] };
+  const roster = { id: 'co:lt', label: 'Larsen & Toubro (roster)', ty: 'psu', fam: 'state', sz: 2, al: ['Larsen & Toubro', 'LT'], d: ['Roster fact'], srcs: [['a', 'https://example.org/a'], ['b', 'https://example.org/b']] };
+  const b = { nodes: [atlas, roster, N('pol:x')], edges: [E('pol:x', 'co:lt', 'role')] };
+  const before = JSON.stringify(b);
+  const m = mergeFleet(b, [{ nodes: [N('co:lt', 'fleet copy')], edges: [] }]);
+  assert.deepEqual(m.nodes.map((n) => n.id), ['co:lt', 'pol:x']);
+  const lt = m.nodes[0];
+  assert.equal(lt.label, 'L&T');
+  assert.equal(lt.ty, 'company');
+  assert.deepEqual(lt.al, ['Larsen & Toubro', 'LT']);
+  assert.deepEqual(lt.d, ['Atlas fact', 'Roster fact']);
+  assert.deepEqual(lt.srcs, [['a', 'https://example.org/a'], ['b', 'https://example.org/b']]);
+  assert.equal(m.edges.length, 1, 'the edge lands on the one node');
+  assert.equal(JSON.stringify(b), before);
+  // A base record with no al/d/srcs stays without them.
+  const m2 = mergeFleet({ nodes: [N('co:z'), N('co:z')], edges: [] }, []);
+  assert.equal(m2.nodes.length, 1);
+  assert.equal(m2.nodes[0].al, undefined);
+});
+
 test('edges de-duplicate on s|pred|t|id: a repeated claim goes, a distinct claim on the same pair stays', () => {
   const m = mergeFleet(base, [
     {
@@ -66,4 +87,21 @@ test('an edge with an endpoint outside the merged graph is held, not drawn — i
   assert.deepEqual(m.heldEdges.map((e) => e.id), ['c4', 'c3']);
   const cross = mergeFleet(base, [{ nodes: [], edges: [E('pol:x', 'scheme:s', 'role', 'c5')] }, { nodes: [N('scheme:s')], edges: [] }]);
   assert.deepEqual(cross.edges.map((e) => e.id ?? 'base'), ['base', 'c5']);
+});
+
+test('five fleets merge in order; a finance loan lands on an energy node and keeps its terms; empty fleets add nothing', () => {
+  const terms = { instrument: 'IPF', ratePct: null, conditions: ['procurement under lender rules'] };
+  const loan = { ...E('fin:lender', 'energy:a', 'loan', 'wb:c001'), a: 830, terms };
+  const m = mergeFleet(base, [
+    { nodes: [N('energy:a')], edges: [] },
+    { nodes: [], edges: [] },
+    { nodes: [N('fin:lender')], edges: [loan] },
+    { nodes: [], edges: [] },
+    { nodes: [], edges: [] },
+  ]);
+  assert.deepEqual(m.nodes.map((n) => n.id), ['co:ntpc', 'pol:x', 'energy:a', 'fin:lender']);
+  const e = m.edges.find((x) => x.id === 'wb:c001');
+  assert.equal(e.pred, 'loan');
+  assert.deepEqual(e.terms, terms);
+  assert.deepEqual(m.heldEdges, []);
 });

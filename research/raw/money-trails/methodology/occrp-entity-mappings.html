@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Importing structured data – Aleph</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/_astro/hoisted.2dfbd17d.css" />
+<link rel="stylesheet" href="/_astro/index.f70b7d34.css" />
+<link rel="stylesheet" href="/_astro/index.8ee8c38b.css" />
+<link rel="stylesheet" href="/_astro/index.a2ee5a0d.css" /><script type="module" src="/_astro/hoisted.bc71e440.js"></script></head>
+  <body>
+    
+
+<a class="SkipLink astro-DF2DBLBO" href="#content">
+  Skip to content
+</a>
+
+    
+
+<header class="Header astro-PTS2MPZI">
+  
+
+<div class="Wrapper Wrapper--padded Header__wrapper astro-PTS2MPZI astro-5QJF6FES">
+  
+    <a href="/" class="Header__title astro-PTS2MPZI" translate="no">
+      Aleph
+    </a>
+
+    <div class="Header__nav astro-PTS2MPZI">
+          
+
+<nav class="HeaderNav astro-BIH2FJRL">
+  <ul class="astro-BIH2FJRL">
+    <li class="HeaderNav__item astro-BIH2FJRL">
+          <a href="/users" class="astro-BIH2FJRL">Users</a>
+        </li><li class="HeaderNav__item HeaderNav__item--active astro-BIH2FJRL">
+          <a href="/developers" class="astro-BIH2FJRL">Developers</a>
+        </li>
+  </ul>
+</nav>
+        </div><div class="Header__translations astro-PTS2MPZI">
+          
+
+
+
+<div class="LanguageSelector astro-63743BKI" hidden>
+  
+
+<div class="Icon LanguageSelector__icon astro-63743BKI astro-4FCJ53EQ" aria-hidden="true">
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" class="astro-4FCJ53EQ">
+        <path d="M7.75 2.75a.75.75 0 00-1.5 0v1.258a32.987 32.987 0 00-3.599.278.75.75 0 10.198 1.487A31.545 31.545 0 018.7 5.545 19.381 19.381 0 017 9.56a19.418 19.418 0 01-1.002-2.05.75.75 0 00-1.384.577 20.935 20.935 0 001.492 2.91 19.613 19.613 0 01-3.828 4.154.75.75 0 10.945 1.164A21.116 21.116 0 007 12.331c.095.132.192.262.29.391a.75.75 0 001.194-.91c-.204-.266-.4-.538-.59-.815a20.888 20.888 0 002.333-5.332c.31.031.618.068.924.108a.75.75 0 00.198-1.487 32.832 32.832 0 00-3.599-.278V2.75z" class="astro-4FCJ53EQ"></path>
+        <path fill-rule="evenodd" d="M13 8a.75.75 0 01.671.415l4.25 8.5a.75.75 0 11-1.342.67L15.787 16h-5.573l-.793 1.585a.75.75 0 11-1.342-.67l4.25-8.5A.75.75 0 0113 8zm2.037 6.5L13 10.427 10.964 14.5h4.073z" clip-rule="evenodd" class="astro-4FCJ53EQ"></path>
+      </svg>
+</div>
+  <span class="LanguageSelector__label astro-63743BKI" aria-hidden="true">
+    English
+  </span>
+  
+
+<div class="Icon LanguageSelector__chevron astro-63743BKI astro-4FCJ53EQ" aria-hidden="true">
+  
+
+  
+
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" class="astro-4FCJ53EQ">
+        <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" class="astro-4FCJ53EQ"></path>
+      </svg>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</div>
+
+  <label for="language-selector" class="visually-hidden astro-63743BKI">
+    Select language:
+  </label>
+
+  <select id="language-selector" class="LanguageSelector__select astro-63743BKI">
+    <option selected value="" translate="no" class="astro-63743BKI">
+      English
+    </option>
+    <option value="es" lang="es" translate="no" class="astro-63743BKI">
+          Español
+        </option><option value="pt" lang="pt" translate="no" class="astro-63743BKI">
+          Português
+        </option><option value="fr" lang="fr" translate="no" class="astro-63743BKI">
+          Français
+        </option>
+  </select>
+</div>
+        </div><div class="Header__search astro-PTS2MPZI">
+          
+
+
+
+<div id="algolia-docsearch" data-algolia-app-id="T36QKHHSVS" data-algolia-api-key="b462393bca678070ceb9abf533aeeb0b" data-algolia-index-name="aleph-occrp">
+</div>
+        </div>
+</div>
+</header>
+
+    
+  <div class="DefaultLayout astro-63CSQH4F">
+    
+
+<div class="Wrapper Wrapper--padded DefaultLayout__wrapper astro-63CSQH4F astro-5QJF6FES">
+  <div class="DefaultLayout__sidebar DefaultLayout__left astro-63CSQH4F" id="main-sidebar">
+            
+
+
+
+<div class="ExpandableSidebar astro-AR35RRUP" id="expandable-sidebar">
+  <button class="ExpandableSidebar__toggle astro-AR35RRUP" id="expandable-sidebar-toggle" aria-expanded="false" aria-controls="expandable-sidebar-content">
+    
+
+<div class="Icon astro-4FCJ53EQ" aria-hidden="true">
+  
+
+  
+
+  
+
+  
+
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" class="astro-4FCJ53EQ">
+        <path fill-rule="evenodd" d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10zm0 5.25a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75a.75.75 0 01-.75-.75z" clip-rule="evenodd" class="astro-4FCJ53EQ"></path>
+      </svg>
+
+  
+
+  
+
+  
+
+  
+</div>
+    <span class="ExpandableSidebar__show astro-AR35RRUP">Show navigation</span>
+    <span class="ExpandableSidebar__hide astro-AR35RRUP">Hide navigation</span>
+  </button>
+
+  <div class="ExpandableSidebar__content astro-AR35RRUP" id="expandable-sidebar-content">
+    
+    
+
+<nav class="astro-UAI3XTHD">
+  <ul class="astro-UAI3XTHD">
+    
+
+<li class="NavSection astro-EJN57FPH">
+  <span class="section-heading astro-EJN57FPH">Tech Docs</span>
+  <ul class="astro-EJN57FPH">
+    
+
+<li class="NavItem astro-7VDFTENJ">
+  <a href="/developers/installation" class="astro-7VDFTENJ">
+    Installing Aleph
+    
+  </a>
+
+  
+</li>
+
+<li class="NavItem astro-7VDFTENJ">
+  <a href="/developers/followthemoney" class="astro-7VDFTENJ">
+    FollowTheMoney
+    
+  </a>
+
+  
+</li>
+
+<li class="NavItem astro-7VDFTENJ">
+  <a href="/developers/memorious" class="astro-7VDFTENJ">
+    Crawling data with Memorious
+    
+  </a>
+
+  
+</li>
+
+<li class="NavItem astro-7VDFTENJ">
+  <a href="/developers/alephclient" class="astro-7VDFTENJ">
+    alephclient CLI
+    
+  </a>
+
+  
+</li>
+
+<li class="NavItem NavItem--active astro-7VDFTENJ">
+  <a href="/developers/mappings" class="astro-7VDFTENJ">
+    Importing structured data
+    
+  </a>
+
+  
+</li>
+
+<li class="NavItem astro-7VDFTENJ">
+  <a href="/developers/mixed-graphs" class="astro-7VDFTENJ">
+    Mixed document/entity graphs
+    
+  </a>
+
+  
+</li>
+
+<li class="NavItem astro-7VDFTENJ">
+  <a href="/developers/adding-text-processors" class="astro-7VDFTENJ">
+    Adding text processors
+    
+  </a>
+
+  
+</li>
+
+<li class="NavItem astro-7VDFTENJ">
+  <a href="/developers/technical-faq" class="astro-7VDFTENJ">
+    Technical FAQ
+    
+  </a>
+
+  
+</li>
+
+<li class="NavItem astro-7VDFTENJ">
+  <a href="/developers/developer-tools" class="astro-7VDFTENJ">
+    Developer tools
+    
+  </a>
+
+  
+</li>
+
+<li class="NavItem astro-7VDFTENJ">
+  <a href="/developers/datacommons" class="astro-7VDFTENJ">
+    Data commons
+    
+  </a>
+
+  
+</li>
+  </ul>
+</li>
+
+<li class="NavSection astro-EJN57FPH">
+  <span class="section-heading astro-EJN57FPH">Reference</span>
+  <ul class="astro-EJN57FPH">
+    
+
+<li class="NavItem astro-7VDFTENJ">
+  <a href="https://redocly.github.io/redoc/?url=https://aleph.occrp.org/api/openapi.json" class="astro-7VDFTENJ">
+    Aleph API
+    
+
+<div class="Icon NavItem__icon astro-7VDFTENJ astro-4FCJ53EQ" aria-hidden="true">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" class="astro-4FCJ53EQ">
+        <path fill-rule="evenodd" d="M4.25 5.5a.75.75 0 00-.75.75v8.5c0 .414.336.75.75.75h8.5a.75.75 0 00.75-.75v-4a.75.75 0 011.5 0v4A2.25 2.25 0 0112.75 17h-8.5A2.25 2.25 0 012 14.75v-8.5A2.25 2.25 0 014.25 4h5a.75.75 0 010 1.5h-5z" clip-rule="evenodd" class="astro-4FCJ53EQ"></path>
+        <path fill-rule="evenodd" d="M6.194 12.753a.75.75 0 001.06.053L16.5 4.44v2.81a.75.75 0 001.5 0v-4.5a.75.75 0 00-.75-.75h-4.5a.75.75 0 000 1.5h2.553l-9.056 8.194a.75.75 0 00-.053 1.06z" clip-rule="evenodd" class="astro-4FCJ53EQ"></path>
+      </svg>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</div>
+  </a>
+
+  
+</li>
+  </ul>
+</li>
+  </ul>
+</nav>
+  
+  </div>
+</div>
+          </div><div class="DefaultLayout__sidebar DefaultLayout__right astro-63CSQH4F">
+            
+
+<div class="Stack astro-4ZDCY3LK">
+  
+              
+
+<div class="TocNav">
+      
+        <h2 id="toc-nav-heading" class="section-heading">
+          On this page
+        </h2>
+
+        
+
+<nav aria-labelledby="toc-nav-heading" class="astro-UAI3XTHD">
+  <ul class="astro-UAI3XTHD">
+    
+
+<li class="NavItem astro-7VDFTENJ">
+  <a href="#getting-started" class="astro-7VDFTENJ">
+    Getting started
+    
+  </a>
+
+  
+</li>
+
+<li class="NavItem astro-7VDFTENJ">
+  <a href="#a-simple-mapping-example" class="astro-7VDFTENJ">
+    A simple mapping example
+    
+  </a>
+
+  <ul class="NavItem__children astro-7VDFTENJ">
+        
+
+<li class="NavItem astro-7VDFTENJ">
+  <a href="#assigning-additional-properties" class="astro-7VDFTENJ">
+    Assigning additional properties
+    
+  </a>
+
+  
+</li>
+
+<li class="NavItem astro-7VDFTENJ">
+  <a href="#generating-multiple-entities" class="astro-7VDFTENJ">
+    Generating multiple entities
+    
+  </a>
+
+  
+</li>
+
+<li class="NavItem astro-7VDFTENJ">
+  <a href="#creating-relationships-between-entities" class="astro-7VDFTENJ">
+    Creating relationships between entities
+    
+  </a>
+
+  
+</li>
+      </ul>
+</li>
+
+<li class="NavItem astro-7VDFTENJ">
+  <a href="#a-more-realistic-complex-mapping" class="astro-7VDFTENJ">
+    A more realistic complex mapping
+    
+  </a>
+
+  
+</li>
+
+<li class="NavItem astro-7VDFTENJ">
+  <a href="#generating-unique-keys" class="astro-7VDFTENJ">
+    Generating unique keys
+    
+  </a>
+
+  
+</li>
+
+<li class="NavItem astro-7VDFTENJ">
+  <a href="#loading-a-mapping-from-a-sql-database" class="astro-7VDFTENJ">
+    Loading a mapping from a SQL database
+    
+  </a>
+
+  
+</li>
+
+<li class="NavItem astro-7VDFTENJ">
+  <a href="#filtering-source-data" class="astro-7VDFTENJ">
+    Filtering source data
+    
+  </a>
+
+  
+</li>
+
+<li class="NavItem astro-7VDFTENJ">
+  <a href="#extra-functions-for-property-values" class="astro-7VDFTENJ">
+    Extra functions for property values
+    
+  </a>
+
+  
+</li>
+
+<li class="NavItem astro-7VDFTENJ">
+  <a href="#loading-a-mapping" class="astro-7VDFTENJ">
+    Loading a mapping
+    
+  </a>
+
+  
+</li>
+  </ul>
+</nav>
+      
+    </div>
+              
+
+<div class="Meta astro-EVT4MHHE">
+  <a href="https://github.com/alephdata/aleph/commits/main/docs/src/pages/developers/mappings.mdx" noreferrer noopener class="astro-EVT4MHHE">Last updated on 2023-07-24.</a>
+  <br class="astro-EVT4MHHE">
+  <a href="https://github.com/alephdata/aleph/edit/main/docs/src/pages/developers/mappings.mdx" noreferrer noopener class="astro-EVT4MHHE">Edit this page on GitHub.</a>
+</div>
+            
+</div>
+          </div><main class="DefaultLayout__content astro-63CSQH4F" id="content">
+        
+
+<div class="Wrapper Wrapper--prose astro-5QJF6FES">
+  
+          
+  
+  
+  
+
+<div class="RichContent astro-B2ZQFBP5">
+  <h1 class="alpha" id="importing-structured-data">Importing structured data</h1><p class="lead"><p>Instructions for projecting structured data into Aleph’s knowledge graph using a data mapping.</p></p><p>Aleph is commonly used to import data tables (like a companies registry, list of persons of interest, or a set of government contracts) that a user wants to search and browse.</p><p>It does this by mapping tabular source data to the <a href="https://docs.alephdata.org/developers/followthemoney">Follow the Money</a> (FtM) data model. Aleph defines entities (such as <code>People</code>, <code>Companies</code>, <code>Assets</code> or <code>Court Cases</code>), and the relationships between them (such as <code>Family</code>relations, or business interests – <code>Ownership</code> or <code>Directorship</code>, or other links like <code>Sanctions</code>, <code>Payments</code> ).</p><p>To load structured data into Aleph, an entity mapping file needs to be created. A mapping file uses YAML syntax to describe how information from a table can be projected to FtM entities.</p>
+
+<div class="Callout astro-HEOOEAXT">
+  <p>Mappings can only be applied to tabular data. Other file types, such as PDFs, E-Mails or PowerPoints are converted into Follow the Money entities using an automated process (<code>ingest-file</code>) that extracts only limited semantics.</p>
+</div><h2 class="beta" id="getting-started">Getting started</h2><p>In order to map data to a Follow the Money model, you will need the following: a source data table, a tool to process the mapping, and a mapping file (to direct the tool).</p><p><strong>Source data</strong> can be either a CSV (comma-separated values) file using the UTF-8 character encoding, or a valid <a href="https://docs.sqlalchemy.org/en/13/core/engines.html#database-urls">connection string</a> to connect to a SQL database. Using SQL as a source also lets you perform JOINs within the database while mapping data.</p><p>In order to <strong>execute a mapping</strong>, you need either <a href="/developers/installation">a running instance of the Aleph server</a>, or you need to install the <a href="/developers/followthemoney/ftm">ftm command-line</a> utility. Using the command-line tool is recommended for playing around with a mapping while you are refining it. When using the server to map data, you must make sure that the source data is located at a place that is accessible to the Aleph <code>worker</code>, such as an HTTP URL for a CSV file or a database that Aleph can connect with.</p><p>To write a <strong>mapping file</strong>, you will first need to identify:</p><ul class="unordered-list">
+<li>the types of entities included in the dataset (e.g. <code>People</code>, <code>Companies</code>, <code>Directorships</code>)</li>
+<li>the properties that describe each entity (e.g. the <code>name</code> of a <code>Company</code>, or the <code>birthDate</code> of a <code>Person</code>)</li>
+<li>and the the field or combination of fields that can be used to generate a <code>key</code> (this used to uniquely identify each entity in the dataset). Find more details on these requirements <a href="#generating-unique-keys">below</a>.</li>
+</ul><h2 class="beta" id="a-simple-mapping-example">A simple mapping example</h2><p>Writing a mapping file is often an iterative process, which we can gradually expand upon to refine the data model.</p><p>Below is a simple mapping file. It downloads a list of British members of parliament and transforms them into FtM <code>Person</code> entities.</p>
+
+<div class="Code astro-5A6FZLWM" style="--code-color-background: #24292e;">
+  <div class="Code__title astro-5A6FZLWM" style="--code-color-background: #24292e;">brexitonians.yml</div>
+  <pre class="astro-code github-dark" style="background-color: #24292e; overflow-x: auto;"" tabindex="0"><code><span class="line"><span style="color: #85E89D">gb_parliament_57</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">  </span><span style="color: #85E89D">queries</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">    - </span><span style="color: #85E89D">csv_url</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">http://bit.ly/uk-mps-csv</span></span>
+<span class="line"><span style="color: #E1E4E8">      </span><span style="color: #85E89D">entities</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">        </span><span style="color: #85E89D">member</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">          </span><span style="color: #85E89D">schema</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">Person</span></span>
+<span class="line"><span style="color: #E1E4E8">          </span><span style="color: #85E89D">keys</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">            - </span><span style="color: #9ECBFF">id</span></span>
+<span class="line"><span style="color: #E1E4E8">          </span><span style="color: #85E89D">properties</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">            </span><span style="color: #85E89D">name</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">              </span><span style="color: #85E89D">column</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">name</span></span></code></pre>
+</div><p>The mapping file specifies a dataset name (<code>gb_parliament_57</code>) and uses a single query to pull data from a CSV file (the dataset is from the excellent EveryPolitician project). The query generates a <code>Person</code> entity, which maps the CSV’s <code>id</code> column to a key, and the CSV’s <code>name</code>column to the FtM property <code>name</code></p>
+
+<div class="Callout astro-HEOOEAXT">
+  <p>Try saving this file to your computer and executing it with the <a href="/developers/followthemoney/ftm">ftm
+command-line tool</a>: <code>ftm map   brexitonians.yml</code>.</p>
+</div><p>Aleph will now have a dataset called <code>gb_parliament_57</code> , which is a list of MP names. To use FtM language – the data has been mapped to a <code>Person</code> entity with a single property ( <code>name</code>).</p><h3 class="gamma" id="assigning-additional-properties">Assigning additional properties</h3><p>However, the source CSV file has far more detail on each MP, from e-mail addresses to political party affiliation. To include this data in <code>gb_parliament_57</code> , we need to map each CSV column to the respective property as defined in the FtM schema. The properties vary based on the type of entity (a <code>Person</code> will have different properties from a <code>Company</code>).</p><p>To find out what properties exist for a particular schema, you can <a href="https://github.com/alephdata/followthemoney/tree/master/followthemoney/schema">check out the YAML-based schema definitions</a> on GitHub or <a href="/developers/followthemoney">the diagrams here</a>. (As seen in the diagram, FtM schemata have a hierarchical structure. Entities can be assigned all the properties of their parent entities. For instance, <code>Person</code> is a child of <code>LegalEntity</code>, which is a child of <code>Thing</code> . As such, a <code>Person</code> can be assigned all of the properties of a <code>LegalEntity</code> and <code>Thing</code>.)</p><p>Here’s an updated mapping file, which maps additional columns from the CSV file to properties in the <code>Person</code> schemata (<code>email</code>, <code>nationality</code>, and <code>alias</code>).</p>
+
+<div class="Code astro-5A6FZLWM" style="--code-color-background: #24292e;">
+  <div class="Code__title astro-5A6FZLWM" style="--code-color-background: #24292e;">brexitoids.yml</div>
+  <pre class="astro-code github-dark" style="background-color: #24292e; overflow-x: auto;"" tabindex="0"><code><span class="line"><span style="color: #85E89D">gb_parliament_57</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">  </span><span style="color: #85E89D">queries</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">    - </span><span style="color: #85E89D">csv_url</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">http://bit.ly/uk-mps-csv</span></span>
+<span class="line"><span style="color: #E1E4E8">      </span><span style="color: #85E89D">entities</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">        </span><span style="color: #85E89D">member</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">          </span><span style="color: #85E89D">schema</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">Person</span></span>
+<span class="line"><span style="color: #E1E4E8">          </span><span style="color: #85E89D">keys</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">            - </span><span style="color: #9ECBFF">id</span></span>
+<span class="line"><span style="color: #E1E4E8">          </span><span style="color: #85E89D">properties</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">            </span><span style="color: #85E89D">name</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">              </span><span style="color: #85E89D">column</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">name</span></span>
+<span class="line"><span style="color: #E1E4E8">            </span><span style="color: #85E89D">alias</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">              </span><span style="color: #85E89D">column</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">sort_name</span></span>
+<span class="line"><span style="color: #E1E4E8">            </span><span style="color: #85E89D">email</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">              </span><span style="color: #85E89D">column</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">email</span></span>
+<span class="line"><span style="color: #E1E4E8">            </span><span style="color: #85E89D">nationality</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">              </span><span style="color: #85E89D">literal</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">GB</span></span></code></pre>
+</div><h3 class="gamma" id="generating-multiple-entities">Generating multiple entities</h3><p>Now that we’ve generated a detailed record for each MP, we might want to add their party membership. First, let’s map a party entity (Line 12 onwards):</p>
+
+<div class="Code astro-5A6FZLWM" style="--code-color-background: #24292e;">
+  <div class="Code__title astro-5A6FZLWM" style="--code-color-background: #24292e;">brexicels.yml</div>
+  <pre class="astro-code github-dark" style="background-color: #24292e; overflow-x: auto;"" tabindex="0"><code><span class="line"><span style="color: #85E89D">gb_parliament_57</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">  </span><span style="color: #85E89D">queries</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">    - </span><span style="color: #85E89D">csv_url</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">http://bit.ly/uk-mps-csv</span></span>
+<span class="line"><span style="color: #E1E4E8">      </span><span style="color: #85E89D">entities</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">        </span><span style="color: #85E89D">member</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">          </span><span style="color: #85E89D">schema</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">Person</span></span>
+<span class="line"><span style="color: #E1E4E8">          </span><span style="color: #85E89D">keys</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">            - </span><span style="color: #9ECBFF">id</span></span>
+<span class="line"><span style="color: #E1E4E8">          </span><span style="color: #85E89D">properties</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">            </span><span style="color: #85E89D">name</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">              </span><span style="color: #85E89D">column</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">name</span></span>
+<span class="line"><span style="color: #E1E4E8">        </span><span style="color: #85E89D">party</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">          </span><span style="color: #85E89D">schema</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">Organization</span></span>
+<span class="line"><span style="color: #E1E4E8">          </span><span style="color: #85E89D">keys</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">            - </span><span style="color: #9ECBFF">group_id</span></span>
+<span class="line"><span style="color: #E1E4E8">          </span><span style="color: #85E89D">properties</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">            </span><span style="color: #85E89D">name</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">              </span><span style="color: #85E89D">column</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">group</span></span></code></pre>
+</div><p>When run this will create twice as many entities as before: the MPs, and parties. Note how each party is generated multiple times (once for each of its members). When you’re using the command-line, you will need to perform <a href="/developers/followthemoney/ftm#aggregating-entities-using-ftm-store">entity aggregation</a> to merge these duplicates. Running the mapping inside of the Aleph server will do this automatically.</p><h3 class="gamma" id="creating-relationships-between-entities">Creating relationships between entities</h3><p>What this does not yet do, however, is explicitly create a link between each MP and their party. In Follow the Money parlance, links (or relationships) are just another entity type. Note how, on lines 5 and 12 in the above mapping, we are assigning a temporary name for the <code>member</code> and the <code>party</code>. We can use these references when generating a third entity, the <code>Membership</code>:</p>
+
+<div class="Code astro-5A6FZLWM" style="--code-color-background: #24292e;">
+  <div class="Code__title astro-5A6FZLWM" style="--code-color-background: #24292e;">brexosaurs.yml</div>
+  <pre class="astro-code github-dark" style="background-color: #24292e; overflow-x: auto;"" tabindex="0"><code><span class="line"><span style="color: #85E89D">gb_parliament_57</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">  </span><span style="color: #85E89D">queries</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">    - </span><span style="color: #85E89D">csv_url</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">http://bit.ly/uk-mps-csv</span></span>
+<span class="line"><span style="color: #E1E4E8">      </span><span style="color: #85E89D">entities</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">        </span><span style="color: #85E89D">member</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">          </span><span style="color: #85E89D">schema</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">Person</span></span>
+<span class="line"><span style="color: #E1E4E8">          </span><span style="color: #85E89D">keys</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">            - </span><span style="color: #9ECBFF">id</span></span>
+<span class="line"><span style="color: #E1E4E8">          </span><span style="color: #85E89D">properties</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">            </span><span style="color: #85E89D">name</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">              </span><span style="color: #85E89D">column</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">name</span></span>
+<span class="line"><span style="color: #E1E4E8">        </span><span style="color: #85E89D">party</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">          </span><span style="color: #85E89D">schema</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">Organization</span></span>
+<span class="line"><span style="color: #E1E4E8">          </span><span style="color: #85E89D">keys</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">            - </span><span style="color: #9ECBFF">group_id</span></span>
+<span class="line"><span style="color: #E1E4E8">          </span><span style="color: #85E89D">properties</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">            </span><span style="color: #85E89D">name</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">              </span><span style="color: #85E89D">column</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">group</span></span>
+<span class="line"><span style="color: #E1E4E8">        </span><span style="color: #85E89D">membership</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">          </span><span style="color: #85E89D">schema</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">Membership</span></span>
+<span class="line"><span style="color: #E1E4E8">          </span><span style="color: #85E89D">keys</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">            - </span><span style="color: #9ECBFF">id</span></span>
+<span class="line"><span style="color: #E1E4E8">            - </span><span style="color: #9ECBFF">group_id</span></span>
+<span class="line"><span style="color: #E1E4E8">          </span><span style="color: #85E89D">properties</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">            </span><span style="color: #85E89D">organization</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">              </span><span style="color: #85E89D">entity</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">party</span></span>
+<span class="line"><span style="color: #E1E4E8">            </span><span style="color: #85E89D">member</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">              </span><span style="color: #85E89D">entity</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">member</span></span></code></pre>
+</div><p>When loaded to Aleph, this mapping would now show browsable entities for the member and each party, and list the memberships on each of their profile pages. You can also export this data <a href="/developers/followthemoney/ftm#exporting-data-to-a-network-graph">to a more conventional node-graph data model</a> for use in Neo4J or Gephi.</p><h2 class="beta" id="a-more-realistic-complex-mapping">A more realistic complex mapping</h2><p>The companies registry of the Republic of Moldova is an open dataset that consists of three separate source files that, taken together, produce a graph of company information, ownership and management:</p><ul class="unordered-list">
+<li><code>companies.csv</code> with companies’ details like name, id, address, incorporation date;</li>
+<li><code>directors.csv</code> with names of directors and their details;</li>
+<li><code>founders.csv</code> also with names and details of the founding entities (i.e. major shareholders).</li>
+</ul><p>The mapping example given below describes the relationship between the companies stored in <code>companies.csv</code> and directors and founders, stored in <code>directors.csv</code> and <code>founders.csv</code> respectively.</p>
+
+<div class="Code astro-5A6FZLWM" style="--code-color-background: #24292e;">
+  <div class="Code__title astro-5A6FZLWM" style="--code-color-background: #24292e;">moldova.yml</div>
+  <pre class="astro-code github-dark" style="background-color: #24292e; overflow-x: auto;"" tabindex="0"><code><span class="line"><span style="color: #6A737D"># The name of the mapping that would become the foreign_id of the collection</span></span>
+<span class="line"><span style="color: #6A737D"># on Aleph.</span></span>
+<span class="line"><span style="color: #85E89D">md_companies</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">  </span><span style="color: #85E89D">queries</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">    - </span><span style="color: #85E89D">csv_url</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">http://assets.data.occrp.org/tools/aleph/fixtures/md_companies/companies.csv</span></span>
+<span class="line"><span style="color: #E1E4E8">      </span><span style="color: #6A737D"># Entity definition section.</span></span>
+<span class="line"><span style="color: #E1E4E8">      </span><span style="color: #85E89D">entities</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">        </span><span style="color: #6A737D"># This is an arbitrary entity name that will be used throughout this query</span></span>
+<span class="line"><span style="color: #E1E4E8">        </span><span style="color: #6A737D"># section of the mapping.</span></span>
+<span class="line"><span style="color: #E1E4E8">        </span><span style="color: #85E89D">company</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">          </span><span style="color: #6A737D"># Entity schema type from Follow the Money model.</span></span>
+<span class="line"><span style="color: #E1E4E8">          </span><span style="color: #85E89D">schema</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">Company</span></span>
+<span class="line"><span style="color: #E1E4E8">          </span><span style="color: #6A737D"># List of columns that are used as unique identifiers for each record.</span></span>
+<span class="line"><span style="color: #E1E4E8">          </span><span style="color: #6A737D"># Could also be viewed as record aggregation when there are several</span></span>
+<span class="line"><span style="color: #E1E4E8">          </span><span style="color: #6A737D"># records for the same company that differ only in, for example, address</span></span>
+<span class="line"><span style="color: #E1E4E8">          </span><span style="color: #6A737D"># field. In this case the resulting entity will contain address values</span></span>
+<span class="line"><span style="color: #E1E4E8">          </span><span style="color: #6A737D"># merged from different source data records.</span></span>
+<span class="line"><span style="color: #E1E4E8">          </span><span style="color: #85E89D">keys</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">            - </span><span style="color: #9ECBFF">IDNO</span></span>
+<span class="line"><span style="color: #E1E4E8">            - </span><span style="color: #9ECBFF">Denumirea_completă</span></span>
+<span class="line"><span style="color: #E1E4E8">          </span><span style="color: #6A737D"># A set of properties that describe the chosen schema type.</span></span>
+<span class="line"><span style="color: #E1E4E8">          </span><span style="color: #6A737D"># For each property one or several columns can be used to get value from.</span></span>
+<span class="line"><span style="color: #E1E4E8">          </span><span style="color: #6A737D"># A literal string value could be given instead of a column value,</span></span>
+<span class="line"><span style="color: #E1E4E8">          </span><span style="color: #6A737D"># e.g. for a country code.</span></span>
+<span class="line"><span style="color: #E1E4E8">          </span><span style="color: #85E89D">properties</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">            </span><span style="color: #85E89D">name</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">              </span><span style="color: #85E89D">column</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">Denumirea_completă</span></span>
+<span class="line"><span style="color: #E1E4E8">            </span><span style="color: #85E89D">registrationNumber</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">              </span><span style="color: #85E89D">column</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">IDNO</span></span>
+<span class="line"><span style="color: #E1E4E8">            </span><span style="color: #85E89D">incorporationDate</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">              </span><span style="color: #85E89D">column</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">Data_înregistrării</span></span>
+<span class="line"><span style="color: #E1E4E8">            </span><span style="color: #85E89D">address</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">              </span><span style="color: #85E89D">column</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">Adresa</span></span>
+<span class="line"><span style="color: #E1E4E8">            </span><span style="color: #85E89D">jurisdiction</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">              </span><span style="color: #85E89D">literal</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">MD</span></span>
+<span class="line"><span style="color: #E1E4E8">            </span><span style="color: #85E89D">legalForm</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">              </span><span style="color: #85E89D">column</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">Forma_org</span></span>
+<span class="line"><span style="color: #E1E4E8">            </span><span style="color: #85E89D">status</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">              </span><span style="color: #85E89D">column</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">Statutul</span></span>
+<span class="line"><span style="color: #E1E4E8">    - </span><span style="color: #85E89D">csv_url</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">http://assets.data.occrp.org/tools/aleph/fixtures/md_companies/directors.csv</span></span>
+<span class="line"><span style="color: #E1E4E8">      </span><span style="color: #6A737D"># With this query Director records are loaded and the Directorship</span></span>
+<span class="line"><span style="color: #E1E4E8">      </span><span style="color: #6A737D"># relation is defined between Directors and Companies.</span></span>
+<span class="line"><span style="color: #E1E4E8">      </span><span style="color: #85E89D">entities</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">        </span><span style="color: #6A737D"># Again a Company entity is constructed using the same set of keys</span></span>
+<span class="line"><span style="color: #E1E4E8">        </span><span style="color: #6A737D"># as in the query above in order to be referred to in the Directorship</span></span>
+<span class="line"><span style="color: #E1E4E8">        </span><span style="color: #6A737D"># event definition.</span></span>
+<span class="line"><span style="color: #E1E4E8">        </span><span style="color: #85E89D">company</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">          </span><span style="color: #85E89D">schema</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">Company</span></span>
+<span class="line"><span style="color: #E1E4E8">          </span><span style="color: #85E89D">keys</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">            - </span><span style="color: #9ECBFF">Company_IDNO</span></span>
+<span class="line"><span style="color: #E1E4E8">            - </span><span style="color: #9ECBFF">Company_Name</span></span>
+<span class="line"><span style="color: #E1E4E8">        </span><span style="color: #85E89D">director</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">          </span><span style="color: #85E89D">schema</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">LegalEntity</span></span>
+<span class="line"><span style="color: #E1E4E8">          </span><span style="color: #85E89D">keys</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">            - </span><span style="color: #9ECBFF">Company_Name</span></span>
+<span class="line"><span style="color: #E1E4E8">            - </span><span style="color: #9ECBFF">Company_IDNO</span></span>
+<span class="line"><span style="color: #E1E4E8">            - </span><span style="color: #9ECBFF">Director</span></span>
+<span class="line"><span style="color: #E1E4E8">          </span><span style="color: #85E89D">properties</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">            </span><span style="color: #85E89D">name</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">              </span><span style="color: #85E89D">column</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">Director</span></span>
+<span class="line"><span style="color: #E1E4E8">              </span><span style="color: #6A737D"># To only include records that have a non-empty `Director` column.</span></span>
+<span class="line"><span style="color: #E1E4E8">              </span><span style="color: #85E89D">required</span><span style="color: #E1E4E8">: </span><span style="color: #79B8FF">true</span></span>
+<span class="line"><span style="color: #E1E4E8">        </span><span style="color: #85E89D">directorship</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">          </span><span style="color: #85E89D">schema</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">Directorship</span></span>
+<span class="line"><span style="color: #E1E4E8">          </span><span style="color: #6A737D"># To avoid key collision between directors and directorships an additional</span></span>
+<span class="line"><span style="color: #E1E4E8">          </span><span style="color: #6A737D"># literal string value is given with `key_literal`.</span></span>
+<span class="line"><span style="color: #E1E4E8">          </span><span style="color: #85E89D">key_literal</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">Directorship</span></span>
+<span class="line"><span style="color: #E1E4E8">          </span><span style="color: #85E89D">keys</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">            - </span><span style="color: #9ECBFF">Company_Name</span></span>
+<span class="line"><span style="color: #E1E4E8">            - </span><span style="color: #9ECBFF">Company_IDNO</span></span>
+<span class="line"><span style="color: #E1E4E8">            - </span><span style="color: #9ECBFF">Director</span></span>
+<span class="line"><span style="color: #E1E4E8">          </span><span style="color: #85E89D">properties</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">            </span><span style="color: #6A737D"># Linking together directors and companies, where the director and</span></span>
+<span class="line"><span style="color: #E1E4E8">            </span><span style="color: #6A737D"># organization properties of the Directorship interval contain references</span></span>
+<span class="line"><span style="color: #E1E4E8">            </span><span style="color: #6A737D"># to the director and company entities that were constructed previously.</span></span>
+<span class="line"><span style="color: #E1E4E8">            </span><span style="color: #85E89D">director</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">              </span><span style="color: #85E89D">entity</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">director</span></span>
+<span class="line"><span style="color: #E1E4E8">              </span><span style="color: #85E89D">required</span><span style="color: #E1E4E8">: </span><span style="color: #79B8FF">true</span></span>
+<span class="line"><span style="color: #E1E4E8">            </span><span style="color: #85E89D">organization</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">              </span><span style="color: #85E89D">entity</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">company</span></span>
+<span class="line"><span style="color: #E1E4E8">              </span><span style="color: #85E89D">required</span><span style="color: #E1E4E8">: </span><span style="color: #79B8FF">true</span></span>
+<span class="line"><span style="color: #E1E4E8">            </span><span style="color: #85E89D">role</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">              </span><span style="color: #85E89D">literal</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">director</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #6A737D"># Similar to directors, in order to link founders to companies through</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #6A737D"># an ownership event th company and founder entities have to be declared</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #6A737D"># again in each query sectio.</span></span>
+<span class="line"><span style="color: #E1E4E8">    - </span><span style="color: #85E89D">csv_url</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">http://assets.data.occrp.org/tools/aleph/fixtures/md_companies/founders.csv</span></span>
+<span class="line"><span style="color: #E1E4E8">      </span><span style="color: #85E89D">entities</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">        </span><span style="color: #85E89D">company</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">          </span><span style="color: #85E89D">schema</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">Company</span></span>
+<span class="line"><span style="color: #E1E4E8">          </span><span style="color: #85E89D">keys</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">            - </span><span style="color: #9ECBFF">Company_IDNO</span></span>
+<span class="line"><span style="color: #E1E4E8">            - </span><span style="color: #9ECBFF">Company_Name</span></span>
+<span class="line"><span style="color: #E1E4E8">        </span><span style="color: #85E89D">founder</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">          </span><span style="color: #85E89D">schema</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">LegalEntity</span></span>
+<span class="line"><span style="color: #E1E4E8">          </span><span style="color: #85E89D">keys</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">            - </span><span style="color: #9ECBFF">Company_Name</span></span>
+<span class="line"><span style="color: #E1E4E8">            - </span><span style="color: #9ECBFF">Company_IDNO</span></span>
+<span class="line"><span style="color: #E1E4E8">            - </span><span style="color: #9ECBFF">Founder</span></span>
+<span class="line"><span style="color: #E1E4E8">          </span><span style="color: #85E89D">properties</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">            </span><span style="color: #85E89D">name</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">              </span><span style="color: #85E89D">column</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">Founder</span></span>
+<span class="line"><span style="color: #E1E4E8">              </span><span style="color: #85E89D">required</span><span style="color: #E1E4E8">: </span><span style="color: #79B8FF">true</span></span>
+<span class="line"><span style="color: #E1E4E8">        </span><span style="color: #85E89D">ownership</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">          </span><span style="color: #85E89D">schema</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">Ownership</span></span>
+<span class="line"><span style="color: #E1E4E8">          </span><span style="color: #85E89D">key_literal</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">Ownership</span></span>
+<span class="line"><span style="color: #E1E4E8">          </span><span style="color: #85E89D">keys</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">            - </span><span style="color: #9ECBFF">Company_Name</span></span>
+<span class="line"><span style="color: #E1E4E8">            - </span><span style="color: #9ECBFF">Company_IDNO</span></span>
+<span class="line"><span style="color: #E1E4E8">            - </span><span style="color: #9ECBFF">Founder</span></span>
+<span class="line"><span style="color: #E1E4E8">          </span><span style="color: #85E89D">properties</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">            </span><span style="color: #85E89D">owner</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">              </span><span style="color: #85E89D">entity</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">founder</span></span>
+<span class="line"><span style="color: #E1E4E8">              </span><span style="color: #85E89D">required</span><span style="color: #E1E4E8">: </span><span style="color: #79B8FF">true</span></span>
+<span class="line"><span style="color: #E1E4E8">            </span><span style="color: #85E89D">asset</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">              </span><span style="color: #85E89D">entity</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">company</span></span>
+<span class="line"><span style="color: #E1E4E8">              </span><span style="color: #85E89D">required</span><span style="color: #E1E4E8">: </span><span style="color: #79B8FF">true</span></span>
+<span class="line"><span style="color: #E1E4E8">            </span><span style="color: #85E89D">role</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">              </span><span style="color: #85E89D">literal</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">founder</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #6A737D"># In case there&#39;re extra tables with data that has to be linked companies,</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #6A737D"># the the same set of keys is repeated and the relevant properties</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #6A737D"># are declared.</span></span>
+<span class="line"><span style="color: #E1E4E8">    - </span><span style="color: #85E89D">csv_url</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">http://assets.data.occrp.org/tools/aleph/fixtures/md_companies/licensed.csv</span></span>
+<span class="line"><span style="color: #E1E4E8">      </span><span style="color: #85E89D">entities</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">        </span><span style="color: #85E89D">company</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">          </span><span style="color: #85E89D">schema</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">Company</span></span>
+<span class="line"><span style="color: #E1E4E8">          </span><span style="color: #85E89D">keys</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">            - </span><span style="color: #9ECBFF">Company_IDNO</span></span>
+<span class="line"><span style="color: #E1E4E8">            - </span><span style="color: #9ECBFF">Company_Name</span></span>
+<span class="line"><span style="color: #E1E4E8">          </span><span style="color: #85E89D">properties</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">            </span><span style="color: #85E89D">sector</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">              </span><span style="color: #85E89D">column</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">Denumire</span></span>
+<span class="line"><span style="color: #E1E4E8">    - </span><span style="color: #85E89D">csv_url</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">http://assets.data.occrp.org/tools/aleph/fixtures/md_companies/unlicensed.csv</span></span>
+<span class="line"><span style="color: #E1E4E8">      </span><span style="color: #85E89D">entities</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">        </span><span style="color: #85E89D">company</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">          </span><span style="color: #85E89D">schema</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">Company</span></span>
+<span class="line"><span style="color: #E1E4E8">          </span><span style="color: #85E89D">keys</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">            - </span><span style="color: #9ECBFF">Company_IDNO</span></span>
+<span class="line"><span style="color: #E1E4E8">            - </span><span style="color: #9ECBFF">Company_Name</span></span>
+<span class="line"><span style="color: #E1E4E8">          </span><span style="color: #85E89D">properties</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">            </span><span style="color: #85E89D">sector</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">              </span><span style="color: #85E89D">column</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">Denumire</span></span>
+<span class="line"><span style="color: #E1E4E8">            </span><span style="color: #85E89D">caemCode</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">              </span><span style="color: #85E89D">column</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">Cod_CAEM</span></span></code></pre>
+</div><h2 class="beta" id="generating-unique-keys">Generating unique keys</h2><p>When creating entities from a dataset, each generated entity must be assigned a unique ID. This ID is computed from the <code>keys</code> defined in the mapping file. When writing the file, it is therefore necessary to understand what combination of source columns from the original table can be used to uniquely identify an entity in the context of a dataset. Failing to do so will result in “key collisions”, a problem that results in variety or errors which are sometimes hard to diagnose:</p><ul class="unordered-list">
+<li>Entities’ properties contain values from different unrelated records (e.g. addresses, dates of birth);</li>
+<li>Wrong entity types (<code>Persons</code> are generated as <code>LegalEntities</code> instead)</li>
+<li>Related entities are merged together in various ways;</li>
+<li>Error messages are shown when trying to load the mapping (e.g. <code>Cannot index abstract schema</code> or <code>No common ancestor: ...</code> )</li>
+</ul><p>For example, given a table of people with their personal details the mapping below might not always be valid, because different people can have the same first and last name (and thus a key collision will happen).</p>
+
+<div class="Code astro-5A6FZLWM" style="--code-color-background: #24292e;">
+  <div class="Code__title astro-5A6FZLWM" style="--code-color-background: #24292e;">bad.yml</div>
+  <pre class="astro-code github-dark" style="background-color: #24292e; overflow-x: auto;"" tabindex="0"><code><span class="line"><span style="color: #85E89D">entities</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">  </span><span style="color: #85E89D">person</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #85E89D">schema</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">Person</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #85E89D">keys</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">      - </span><span style="color: #9ECBFF">FirstName</span></span>
+<span class="line"><span style="color: #E1E4E8">      - </span><span style="color: #9ECBFF">LastName</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #85E89D">properties</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">      </span><span style="color: #85E89D">firstName</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">        </span><span style="color: #85E89D">column</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">FirstName</span></span>
+<span class="line"><span style="color: #E1E4E8">      </span><span style="color: #85E89D">lastName</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">        </span><span style="color: #85E89D">column</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">LastName</span></span>
+<span class="line"><span style="color: #E1E4E8">      </span><span style="color: #85E89D">birthDate</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">        </span><span style="color: #85E89D">column</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">DoB</span></span></code></pre>
+</div><p>The solution is to include in the list of keys as many properties as is necessary and sufficient to eliminate any intersection between unrelated entities of the same type.</p>
+
+<div class="Code astro-5A6FZLWM" style="--code-color-background: #24292e;">
+  <div class="Code__title astro-5A6FZLWM" style="--code-color-background: #24292e;">good.yml</div>
+  <pre class="astro-code github-dark" style="background-color: #24292e; overflow-x: auto;"" tabindex="0"><code><span class="line"><span style="color: #85E89D">entities</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">  </span><span style="color: #85E89D">person</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #85E89D">schema</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">Person</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #85E89D">keys</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">      - </span><span style="color: #9ECBFF">FirstName</span></span>
+<span class="line"><span style="color: #E1E4E8">      - </span><span style="color: #9ECBFF">LastName</span></span>
+<span class="line"><span style="color: #E1E4E8">      - </span><span style="color: #9ECBFF">DoB</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #85E89D">properties</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">      </span><span style="color: #85E89D">firstName</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">        </span><span style="color: #85E89D">column</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">FirstName</span></span>
+<span class="line"><span style="color: #E1E4E8">      </span><span style="color: #85E89D">lastName</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">        </span><span style="color: #85E89D">column</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">LastName</span></span>
+<span class="line"><span style="color: #E1E4E8">      </span><span style="color: #85E89D">birthDate</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">        </span><span style="color: #85E89D">column</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">DoB</span></span></code></pre>
+</div><p>Keys for events (Ownership, Sanction, Family) will usually be a product of keys of the entities that such an event links together.</p>
+
+<div class="Code astro-5A6FZLWM" style="--code-color-background: #24292e;">
+  <div class="Code__title astro-5A6FZLWM" style="--code-color-background: #24292e;">combined.yml</div>
+  <pre class="astro-code github-dark" style="background-color: #24292e; overflow-x: auto;"" tabindex="0"><code><span class="line"><span style="color: #85E89D">entities</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">  </span><span style="color: #85E89D">company</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #85E89D">schema</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">Company</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #85E89D">keys</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">      - </span><span style="color: #9ECBFF">company_name</span></span>
+<span class="line"><span style="color: #E1E4E8">  </span><span style="color: #85E89D">owner</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #85E89D">schema</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">Person</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #85E89D">keys</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">      - </span><span style="color: #9ECBFF">owner_name</span></span>
+<span class="line"><span style="color: #E1E4E8">  </span><span style="color: #85E89D">ownership</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #85E89D">schema</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">Ownership</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #85E89D">keys</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">      - </span><span style="color: #9ECBFF">company_name</span></span>
+<span class="line"><span style="color: #E1E4E8">      - </span><span style="color: #9ECBFF">owner_name</span></span></code></pre>
+</div><h2 class="beta" id="loading-a-mapping-from-a-sql-database">Loading a mapping from a SQL database</h2><p>In the examples shown above, data has been loaded from CSV files. The mapping system can also connect to a SQL database using SQLAlchemy. Depending on the database system used, further Python drivers (such as <code>psycopg2</code> or <code>mysqlclient</code>) might be required for specific backends.</p><p>When loading from a SQL database, you can begin your query with a specification of the tables you wish to access, and how they should be joined:</p>
+
+<div class="Code astro-5A6FZLWM" style="--code-color-background: #24292e;">
+  <div class="Code__title astro-5A6FZLWM" style="--code-color-background: #24292e;">database.yml</div>
+  <pre class="astro-code github-dark" style="background-color: #24292e; overflow-x: auto;"" tabindex="0"><code><span class="line"><span style="color: #85E89D">za_cipc</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">  </span><span style="color: #85E89D">queries</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">    - </span><span style="color: #85E89D">database</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">postgresql://localhost/cipc</span></span>
+<span class="line"><span style="color: #E1E4E8">      </span><span style="color: #85E89D">tables</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">        - </span><span style="color: #85E89D">table</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">za_cipc_companies</span></span>
+<span class="line"><span style="color: #E1E4E8">          </span><span style="color: #85E89D">alias</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">companies</span></span>
+<span class="line"><span style="color: #E1E4E8">        - </span><span style="color: #85E89D">table</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">za_cipc_directors</span></span>
+<span class="line"><span style="color: #E1E4E8">          </span><span style="color: #85E89D">alias</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">directors</span></span>
+<span class="line"><span style="color: #E1E4E8">      </span><span style="color: #85E89D">joins</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">        - </span><span style="color: #85E89D">left</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">companies.regno</span></span>
+<span class="line"><span style="color: #E1E4E8">          </span><span style="color: #85E89D">right</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">directors.company_regno</span></span></code></pre>
+</div><p>Please note that when you query more than one table at the same time, all the column names used in the mapping need to be qualified with the table name, ie. <code>companies.name</code> or <code>directors.name</code> instead of just <code>name</code>.</p><p>Mappings support substitution of environment variables. Instead of storing your database credentials to a mapping file, you might want to reference an environment variable like <code>${DATABASE_URI}</code> in the mapping file, and define the username and password externally.</p><h2 class="beta" id="filtering-source-data">Filtering source data</h2><p>When loading data from a mapping, you may sometimes want to filter the data so that only part of a table is imported. FtM mappings will only let you do equality filters; anything more complex than that should be considered data cleaning and be done prior to executing the mapping.</p>
+
+<div class="Code astro-5A6FZLWM" style="--code-color-background: #24292e;">
+  <div class="Code__title astro-5A6FZLWM" style="--code-color-background: #24292e;">filters.yml</div>
+  <pre class="astro-code github-dark" style="background-color: #24292e; overflow-x: auto;"" tabindex="0"><code><span class="line"><span style="color: #85E89D">gb_parliament_57</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">  </span><span style="color: #85E89D">queries</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">    - </span><span style="color: #85E89D">csv_url</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">http://bit.ly/uk-mps-csv</span></span>
+<span class="line"><span style="color: #E1E4E8">      </span><span style="color: #85E89D">filters</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">        </span><span style="color: #85E89D">group</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">&#39;Conservative&#39;</span></span>
+<span class="line"><span style="color: #E1E4E8">      </span><span style="color: #85E89D">filters_not</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">        </span><span style="color: #85E89D">gender</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">&#39;male&#39;</span></span>
+<span class="line"><span style="color: #E1E4E8">      </span><span style="color: #85E89D">entities</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">        </span><span style="color: #85E89D">member</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">          </span><span style="color: #85E89D">schema</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">Person</span></span>
+<span class="line"><span style="color: #E1E4E8">          </span><span style="color: #85E89D">keys</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">            - </span><span style="color: #9ECBFF">id</span></span>
+<span class="line"><span style="color: #E1E4E8">          </span><span style="color: #85E89D">properties</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">            </span><span style="color: #85E89D">name</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">              </span><span style="color: #85E89D">column</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">name</span></span></code></pre>
+</div><h2 class="beta" id="extra-functions-for-property-values">Extra functions for property values</h2><p>Mapping a column value to a property is normally a straight copy operation:</p>
+
+<div class="Code astro-5A6FZLWM" style="--code-color-background: #24292e;">
+  
+  <pre class="astro-code github-dark" style="background-color: #24292e; overflow-x: auto;"" tabindex="0"><code><span class="line"><span style="color: #E1E4E8">[</span><span style="color: #79B8FF">...</span><span style="color: #E1E4E8">]</span></span>
+<span class="line"><span style="color: #85E89D">properties</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">  </span><span style="color: #85E89D">name</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #85E89D">column</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">person_name</span></span></code></pre>
+</div><p>There are some tricks available, however:</p>
+
+<div class="Code astro-5A6FZLWM" style="--code-color-background: #24292e;">
+  <div class="Code__title astro-5A6FZLWM" style="--code-color-background: #24292e;">hacks.yml</div>
+  <pre class="astro-code github-dark" style="background-color: #24292e; overflow-x: auto;"" tabindex="0"><code><span class="line"><span style="color: #6A737D"># Setting multiple values for a property:</span></span>
+<span class="line"><span style="color: #85E89D">properties</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">  </span><span style="color: #85E89D">name</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #85E89D">columns</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">    - </span><span style="color: #9ECBFF">person_name</span></span>
+<span class="line"><span style="color: #E1E4E8">    - </span><span style="color: #9ECBFF">maiden_name</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #6A737D"># Merging values ad-hoc:</span></span>
+<span class="line"><span style="color: #85E89D">properties</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">  </span><span style="color: #85E89D">name</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #85E89D">columns</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">    - </span><span style="color: #9ECBFF">first_name</span></span>
+<span class="line"><span style="color: #E1E4E8">    - </span><span style="color: #9ECBFF">last_name</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #85E89D">join</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">&quot; &quot;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #6A737D"># Setting a constant value:</span></span>
+<span class="line"><span style="color: #85E89D">properties</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">  </span><span style="color: #85E89D">country</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #85E89D">literal</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">&quot;SS&quot;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #6A737D"># Defining a date format:</span></span>
+<span class="line"><span style="color: #85E89D">properties</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">  </span><span style="color: #85E89D">birthDate</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #85E89D">column</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">dob</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #85E89D">format</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">&quot;%d.%m.%Y&quot;</span></span></code></pre>
+</div><p>In general, we are not seeking to incorporate further data cleaning functionality into the mapping process. It’s generally a good idea to design your data pipeline such that loading entities via a mapping is preceded by data cleanup step in which necessary normalisations are applied.</p><h2 class="beta" id="loading-a-mapping">Loading a mapping</h2><p>Mapping files can be loaded in two different ways — either from an aleph shell:</p>
+
+<div class="Code astro-5A6FZLWM" style="--code-color-background: #24292e;">
+  
+  <pre class="astro-code github-dark" style="background-color: #24292e; overflow-x: auto;"" tabindex="0"><code><span class="line"><span style="color: #B392F0">aleph</span><span style="color: #E1E4E8"> </span><span style="color: #9ECBFF">bulkload</span><span style="color: #E1E4E8"> </span><span style="color: #9ECBFF">mapping.yml</span></span></code></pre>
+</div><p>or by using a combination of <a href="https://docs.alephdata.org/developers/ftm"><code>followthemoney-util</code></a> and <a href="https://docs.alephdata.org/developers/alephclient"><code>alephclient</code></a> command-line tools:</p>
+
+<div class="Code astro-5A6FZLWM" style="--code-color-background: #24292e;">
+  
+  <pre class="astro-code github-dark" style="background-color: #24292e; overflow-x: auto;"" tabindex="0"><code><span class="line"><span style="color: #e1e4e8">ftm map mapping.yml | ftm aggregate | alephclient write-entities -f dataset_name</span></span></code></pre>
+</div>
+</div>
+  
+  
+  
+
+  
+  
+
+        
+</div>
+      </main>
+    
+</div>
+  </div>
+
+  <script>(function(){const layout = "docs";
+
+    // Persist the sidebar scroll position on subsequent page views using the
+    // same layout. The same layout usually renders the same sidebar contents,
+    // e.g. the DocsLayout always renders the DocsNav.
+    (function () {
+      const STORAGE_KEY = 'sidebar-scroll-top';
+      const sidebar = document.querySelector('#main-sidebar');
+
+      if (!layout || !sidebar) {
+        return;
+      }
+
+      // Store the current scroll position when user navigates away or switches tabs.
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'hidden') {
+          const value = JSON.stringify({ [layout]: sidebar.scrollTop });
+          localStorage.setItem(STORAGE_KEY, value);
+        }
+      });
+
+      // Restore scroll position on page load.
+      let scrollTop = localStorage.getItem(STORAGE_KEY);
+      scrollTop = scrollTop && JSON.parse(scrollTop)[layout];
+      localStorage.removeItem(STORAGE_KEY);
+
+      if (scrollTop) {
+        sidebar.scrollTo(0, scrollTop);
+      }
+    })();
+  })();</script>
+
+  </body></html>

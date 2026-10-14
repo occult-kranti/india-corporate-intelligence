@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 1,
+  "event": "Independent held-out retrieval evaluation freeze",
+  "frozenAtUtc": "2026-10-08T02:39:52.613896+00:00",
+  "userFacingDate": "2026-10-07",
+  "userFacingTimezone": "America/New_York",
+  "sourceCommit": "cbf6da91517f559bc3a37b0a7f91b6fb99ac3e47",
+  "labelAuthor": "Independent evaluation AI agent",
+  "testQuestions": 20,
+  "testCaseGroups": 5,
+  "testSourceDocuments": 15,
+  "candidateSourceDocuments": 64,
+  "trainingSourceDocuments": 39,
+  "developmentSourceDocuments": 10,
+  "candidateOutputsInspectedBeforeFreeze": false,
+  "trainingDevOwnerSignalledFrozen": true,
+  "approvedGate": "Case-macro nDCG@5 +0.02 above stronger neural baseline; within 0.01 of BM25; six other metrics within 0.01 of stronger neural baseline; at least 3/5 cases improve and none falls more than 0.05 versus untuned full precision.",
+  "testUse": "One selected candidate after development-only checkpoint selection. No test-driven tuning or relabeling.",
+  "files": [
+    {
+      "path": "research/research-radar/fine-tuning/test-labels.json",
+      "sha256": "e9f21dda1111df290fb0fb06b810d8f70e100b40d2fca8c45ab6bfe1fa22c5df",
+      "bytes": 24623
+    },
+    {
+      "path": "research/research-radar/fine-tuning/dataset.json",
+      "sha256": "66a31a77abbf290c876d90c4dd3a80ef0683e363ccaf4cedb4667b3cd7904ba1",
+      "bytes": 184059
+    },
+    {
+      "path": "research/research-radar/fine-tuning/train-dev-labels.json",
+      "sha256": "5398bd03944244fd64cd072eec17546758b656454fe9013fcd94581c15700864",
+      "bytes": 49454
+    },
+    {
+      "path": "docs/research-radar/fine-tuning/EVALUATION-PROTOCOL.md",
+      "sha256": "d093fe14454720a75fc97197d849c806586b7525bfd7bebd4f6c9e420b0e9244",
+      "bytes": 9611
+    },
+    {
+      "path": "research/raw/research-radar/national.json",
+      "sha256": "a3447b3188f851302ac08f0846de756b71cc8bdbbcaaba78a6826e5603adf679",
+      "bytes": 27644
+    },
+    {
+      "path": "research/raw/research-radar/north.json",
+      "sha256": "93c7a8d6e888ebba9cae1cc27e69dc1c5791ea3034f4aa9d84183d8581a13694",
+      "bytes": 86053
+    },
+    {
+      "path": "research/raw/research-radar/south-east.json",
+      "sha256": "bf1b00181dca7d7634f64df3946a39c47bec5cdd075882421210af34138ceacb",
+      "bytes": 113041
+    },
+    {
+      "path": "research/raw/research-radar/west.json",
+      "sha256": "820024ec4f30893cf7a38056064062b91bf544b94a884dee8650774254036154",
+      "bytes": 108396
+    }
+  ]
+}

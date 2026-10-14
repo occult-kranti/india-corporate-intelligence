@@ -1,0 +1,27 @@
+✖ AC-105 — Keep the UnionBar in the first viewport at 1280×800 (17395.172663ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 19139.34823
+
+✖ failing tests:
+
+test at scripts/pages/finance.test.mjs:3433:1
+✖ AC-105 — Keep the UnionBar in the first viewport at 1280×800 (17395.172663ms)
+  AssertionError [ERR_ASSERTION]: header height 177.25 ≤ 160
+      at file:///workspace/india-corporate-intelligence/scripts/pages/finance.test.mjs:3448:12
+      at async withPage (file:///workspace/india-corporate-intelligence/scripts/pages/finance.test.mjs:547:5)
+      at async TestContext.<anonymous> (file:///workspace/india-corporate-intelligence/scripts/pages/finance.test.mjs:3435:3)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

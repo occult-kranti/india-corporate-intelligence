@@ -1,0 +1,142 @@
+{
+  "builder_name": "parquet",
+  "citation": "",
+  "config_name": "default",
+  "dataset_name": "parquet",
+  "dataset_size": 3458124435,
+  "description": "",
+  "download_checksums": {
+    "/Users/advait/Code/tender-db/export/awards_core.parquet": {
+      "num_bytes": 876930407,
+      "checksum": null
+    }
+  },
+  "download_size": 876930407,
+  "features": {
+    "internal_id": {
+      "dtype": "string",
+      "_type": "Value"
+    },
+    "tender_id": {
+      "dtype": "string",
+      "_type": "Value"
+    },
+    "portal_type": {
+      "names": [
+        "central",
+        "state"
+      ],
+      "_type": "ClassLabel"
+    },
+    "portal_year": {
+      "dtype": "int64",
+      "_type": "Value"
+    },
+    "partition_id": {
+      "dtype": "int64",
+      "_type": "Value"
+    },
+    "sl_no": {
+      "dtype": "string",
+      "_type": "Value"
+    },
+    "organisation_name": {
+      "dtype": "string",
+      "_type": "Value"
+    },
+    "title": {
+      "dtype": "string",
+      "_type": "Value"
+    },
+    "reference_number": {
+      "dtype": "string",
+      "_type": "Value"
+    },
+    "tender_type": {
+      "dtype": "string",
+      "_type": "Value"
+    },
+    "tender_description": {
+      "dtype": "string",
+      "_type": "Value"
+    },
+    "aoc_at": {
+      "dtype": "timestamp[us]",
+      "_type": "Value"
+    },
+    "closing_at": {
+      "dtype": "timestamp[us]",
+      "_type": "Value"
+    },
+    "contract_at": {
+      "dtype": "timestamp[us]",
+      "_type": "Value"
+    },
+    "award_published_at": {
+      "dtype": "timestamp[us]",
+      "_type": "Value"
+    },
+    "contract_value_raw": {
+      "dtype": "string",
+      "_type": "Value"
+    },
+    "contract_value_amount": {
+      "dtype": "float64",
+      "_type": "Value"
+    },
+    "bids_received_raw": {
+      "dtype": "string",
+      "_type": "Value"
+    },
+    "bids_received": {
+      "dtype": "int32",
+      "_type": "Value"
+    },
+    "selected_bidder": {
+      "dtype": "string",
+      "_type": "Value"
+    },
+    "selected_bidder_address": {
+      "dtype": "string",
+      "_type": "Value"
+    },
+    "completion_period_raw": {
+      "dtype": "string",
+      "_type": "Value"
+    },
+    "detail_url": {
+      "dtype": "string",
+      "_type": "Value"
+    },
+    "tender_document_url": {
+      "dtype": "string",
+      "_type": "Value"
+    }
+  },
+  "homepage": "",
+  "license": "",
+  "size_in_bytes": 4335054842,
+  "splits": {
+    "train": {
+      "name": "train",
+      "num_bytes": 3458124435,
+      "num_examples": 4921960,
+      "shard_lengths": [
+        737280,
+        737280,
+        737604,
+        737280,
+        739327,
+        737280,
+        495909
+      ],
+      "dataset_name": "parquet"
+    }
+  },
+  "version": {
+    "version_str": "0.0.0",
+    "major": 0,
+    "minor": 0,
+    "patch": 0
+  }
+}

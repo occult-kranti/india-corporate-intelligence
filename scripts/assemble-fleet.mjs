@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 /**
- * Fleet assembly: research/raw/{energy,welfare}/ → typed, generated TypeScript.
+ * Fleet assembly: research/raw/<fleet>/ → typed, generated TypeScript, for every
+ * fleet in the FLEETS table (scripts/lib/vocab.mjs).
  *
  * The codegen step docs/PLATFORM_PLAN.md §1 calls `npm run generate`, scoped to the
- * two research fleets (docs/research/FLEET_CONTRACT.md). validate.mjs §4 checks each
+ * research fleets (docs/research/FLEET_CONTRACT.md). validate.mjs §4 checks each
  * raw file alone at the quarantine boundary; this script checks the ASSEMBLED fleet,
  * because a file that was valid alone can stop being valid once reconciliation has
  * collapsed its entities or an audit verdict has downgraded the claim its denial
@@ -17,7 +18,9 @@
  *                 denials (rules at applyAudit)
  *   4. gate       the four invariants over what survives — any failure exits 1 and
  *                 writes nothing
- *   5. emit       src/graph/energy.generated.ts and src/data/welfare.generated.ts
+ *   5. emit       one module per row of FLEETS (scripts/lib/vocab.mjs): energy and
+ *                 welfare, finance, ngo and capital (Phase G), and force (whose row
+ *                 declares tabular `series` emitted beside the graph)
  *
  * It never fails on a killed or unresolved record: those are held out of the edges
  * and carried whole in META, because nothing is deleted. It never reads a clock. And
@@ -25,23 +28,27 @@
  * empty module that says so.
  *
  * Usage:
- *   node scripts/assemble-fleet.mjs                 write both modules
- *   node scripts/assemble-fleet.mjs --dir <path>    read <path>/energy and <path>/welfare
+ *   node scripts/assemble-fleet.mjs                 write every fleet's module
+ *   node scripts/assemble-fleet.mjs --dir <path>    read <path>/<fleet dir> for each fleet
  *   node scripts/assemble-fleet.mjs --out <path>    write under <path>/src/… instead
  *
  * Each fleet is written independently: a fleet whose research fails assembly leaves
  * its own module untouched and the run exits 1, but a fleet that assembles cleanly is
- * still written. One sweep's fault must not hold the other sweep's module hostage.
+ * still written. One sweep's fault must not hold another sweep's module hostage.
  *
- * The assembly is exported as assembleFleet() so scripts/validate.mjs can re-run it
- * in memory and fail when a module on disk no longer matches its inputs.
+ * The assembly is exported as assembleFleet() (and assemble(), the per-fleet view)
+ * so scripts/validate.mjs can re-run it in memory and fail when a module on disk no
+ * longer matches its inputs.
  */
 
 import { readFileSync, writeFileSync, existsSync, readdirSync, mkdirSync } from 'node:fs';
-import { join, dirname, relative, resolve, isAbsolute } from 'node:path';
+import { join, dirname, relative, resolve, isAbsolute, posix } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import {
   TIERS, PREDS, NODE_TYPES, FAMILIES, STATE_CODES, NARRATIVE_STATUS, SCHEME_STATUS, SCHEME_CATEGORIES, ISO_DATE, INVENTORY,
+  FLEETS, TERMS_KEYS, amountProblem, STATE_BASES, WB_TOTAL_KEYS, WB_PROJECT_ID,
+  OWNERSHIP_DECLARATIONS, HOLDING_CATEGORIES, HOLDING_KEYS, COVERAGE_READ, CONTROL_ROLES, holdingTextProblem,
+  FC_STATE_KEYS, fySpan, fcStateSumProblems, NOT_COUNTABLE_CLASSES, SERIES, seriesKey,
 } from './lib/vocab.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -50,13 +57,11 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
  * Folded into the run id, as PIPELINE_VERSION is in promote.mjs: when a rule below
  * changes, the stamp must change even if no research file did.
  */
-export const GENERATOR_VERSION = '1.2.0';
+export const GENERATOR_VERSION = '1.4.1';
 const GENERATOR = 'scripts/assemble-fleet.mjs';
 
-export const OUTPUTS = {
-  energy: 'src/graph/energy.generated.ts',
-  welfare: 'src/data/welfare.generated.ts',
-};
+/** Fleet key → the module it is written to, relative to the repository root. Read from FLEETS. */
+export const OUTPUTS = Object.fromEntries(FLEETS.map((f) => [f.key, f.out]));
 
 const MINISTER_ACTIONS = ['announced', 'approved', 'presented budget', 'administers', 'opposed'];
 const CONFIDENCE = ['documented', 'estimated', 'unknown'];
@@ -143,6 +148,7 @@ function readers(sink, where, lenient = false) {
     if (!lenient) sink.error(`${where}${f ? `.${f}` : ''}`, msg);
   };
   const r = {
+    bad,
     str(v, f) {
       if (v == null) return null;
       if (typeof v === 'string') return v;
@@ -245,10 +251,17 @@ function readAtlasIds(root, sink) {
 // 1. Read
 // ---------------------------------------------------------------------------
 
-function readFleet(rawDir, fleet, sink) {
+/**
+ * A fleet's research, read from <rawDir>/<spec.dir>. `fleet` is the fleet's key (its
+ * identity in META and in the sinks); `dir` is the directory name every path in a
+ * message or a header is written under. A missing directory is not an error: it is
+ * a fleet whose research has not run, and it reads as `empty: true`.
+ */
+function readFleet(rawDir, spec, sink) {
+  const fleet = spec.dir;
   const dir = join(rawDir, fleet);
-  const out = { fleet, files: [], reconciliation: null, audit: null, inputs: [] };
-  if (!existsSync(dir)) return out;
+  const out = { fleet: spec.key, dir: spec.dir, kind: spec.kind, spec, files: [], reconciliation: null, audit: null, declarations: {}, inputs: [], empty: !existsSync(dir) };
+  if (out.empty) return out;
   const names = readdirSync(dir).filter((f) => f.endsWith('.json')).sort(cmp);
   for (const name of names) {
     const byProduct = /^[A-Z]/.test(name);
@@ -272,6 +285,9 @@ function readFleet(rawDir, fleet, sink) {
     }
     if (name === 'RECONCILIATION.json') out.reconciliation = doc;
     else if (name === 'AUDIT.json') out.audit = doc;
+    // An ownership fleet's declaration (coverage.json, controls.json) is an input — the
+    // run id covers it — but not research: no claims, no domain, no META.files row.
+    else if (spec.ownership && OWNERSHIP_DECLARATIONS[name]) out.declarations[OWNERSHIP_DECLARATIONS[name]] = { name, doc };
     else {
       // The file stem is the domain: the contract names each file after its domain,
       // and pages join claims to sweeps on it, so one spelling must win everywhere.
@@ -629,6 +645,59 @@ function toBenefit(b, r, f) {
   };
 }
 
+/**
+ * A loan's terms, in TERMS_KEYS order with only the keys the researcher wrote.
+ * Unknown keys are refused by name rather than dropped: the spec draft said
+ * `gracePeriodYears`, the schema says `graceYears`, and a silent drop would ship a
+ * loan whose grace period the source stated as one with none recorded.
+ */
+function toTerms(v, r, f, sink, where, lenient) {
+  const o = r.obj(v, f);
+  if (!o) return null;
+  for (const k of Object.keys(o).sort(cmp)) {
+    if (!TERMS_KEYS.includes(k) && !lenient) sink.error(`${where}.${f}.${k}`, `${f}.${k} is not a terms field (expected ${TERMS_KEYS.join(' | ')})`);
+  }
+  const t = {};
+  if (o.instrument !== undefined) t.instrument = r.str(o.instrument, `${f}.instrument`);
+  for (const k of ['ratePct', 'tenorYears', 'graceYears']) if (o[k] !== undefined) t[k] = r.num(o[k], `${f}.${k}`);
+  if (o.conditions !== undefined) {
+    if (!Array.isArray(o.conditions)) {
+      if (!lenient) sink.error(`${where}.${f}.conditions`, `expected a list of strings, found ${JSON.stringify(o.conditions)}`);
+      t.conditions = lenient ? r.texts(o.conditions) : [];
+    } else {
+      // Strictly text: a number here is not a condition anyone wrote down.
+      t.conditions = o.conditions.flatMap((x, i) => {
+        if (typeof x === 'string') return [x];
+        if (!lenient) sink.error(`${where}.${f}.conditions[${i}]`, `expected text, found ${JSON.stringify(x)}`);
+        return lenient ? [JSON.stringify(x)] : [];
+      });
+    }
+  }
+  return t;
+}
+
+/** Predicates a World Bank project id may ride on (FINANCE_PAGE.md §3.3 P1): the loan, and the contracts it financed. */
+const PROJECT_PREDS = ['loan', 'award'];
+
+/**
+ * A claim's `projectId`: P and six digits, on a loan or an award. Never inferred here —
+ * the fetcher writes it on census legs, and a researched claim carries it only where its
+ * own text names the id (scripts/finance/mark-loans.mjs).
+ */
+function projectIdOf(c, r) {
+  const v = r.str(c.projectId, 'projectId');
+  if (v == null) return null;
+  if (!WB_PROJECT_ID.test(v)) {
+    r.bad('projectId', `${JSON.stringify(v)} is not a World Bank project id (P and six digits)`);
+    return null;
+  }
+  if (!PROJECT_PREDS.includes(c.pred)) {
+    r.bad('projectId', `projectId belongs on loan and award claims, not ${JSON.stringify(c.pred)}`);
+    return null;
+  }
+  return v;
+}
+
 function toEdge(c, where, sink) {
   const r = readers(sink, where);
   const e = {
@@ -644,6 +713,8 @@ function toEdge(c, where, sink) {
     const v = r.str(c[k], k);
     if (v != null) e[k] = v;
   }
+  const pid = projectIdOf(c, r);
+  if (pid != null) e.projectId = pid;
   const d = Array.isArray(c.d) ? r.texts(c.d, 'd').join(' ') : r.str(c.d, 'd');
   if (d != null && d !== '') e.d = d;
   for (const k of ['from', 'to']) {
@@ -655,6 +726,10 @@ function toEdge(c, where, sink) {
   for (const k of ['innocentReading', 'upgradeIf', 'killIf', 'supersededBy']) {
     const v = r.str(c[k], k);
     if (v != null && v !== '') e[k] = v;
+  }
+  if (c.terms != null) {
+    const t = toTerms(c.terms, r, 'terms', sink, where, false);
+    if (t) e.terms = t;
   }
   return e;
 }
@@ -678,6 +753,9 @@ function toHeld(c, sink) {
     killIf: r.str(c.killIf),
     supersededBy: r.str(c.supersededBy),
     benefit: c.benefit && typeof c.benefit === 'object' && isStr(c.benefit.who) ? toBenefit(c.benefit, r, 'benefit') : null,
+    // Only when written, so held claims from before loan terms existed emit as they did.
+    ...(c.terms != null ? { terms: toTerms(c.terms, r, 'terms', sink, c.id, true) } : {}),
+    ...(c.projectId != null ? { projectId: r.str(c.projectId) } : {}),
     domain: c.domain,
     file: c.file,
   };
@@ -805,17 +883,19 @@ function schemeNode(s) {
 const whereOf = (g) => g.files.join(' + ');
 
 function prepareFleet(read, sink) {
-  const { fleet, files } = read;
+  // Paths in messages are written under the fleet's directory name.
+  const { dir: fleet, files } = read;
+  const welfare = read.kind === 'welfare';
   const { mappings, rewrite } = reconciler(read.reconciliation, fleet, sink);
 
   const entityGroups = collectRecords(files, 'entities', rewrite, fleet, sink);
-  const schemeGroups = fleet === 'welfare' ? collectRecords(files, 'schemes', rewrite, fleet, sink) : new Map();
-  if (fleet !== 'welfare') {
+  const schemeGroups = welfare ? collectRecords(files, 'schemes', rewrite, fleet, sink) : new Map();
+  if (!welfare) {
     for (const { name, doc } of files) {
       if (asList(doc.schemes).length) sink.warn(`${fleet}/${name}`, `${doc.schemes.length} scheme record(s) ignored — schemes belong to the welfare fleet`);
     }
   }
-  if (fleet === 'welfare') {
+  if (welfare) {
     // Scheme records carry people and beneficiaries by id; those ids reconcile too.
     for (const g of schemeGroups.values()) {
       const s = g.rec;
@@ -855,7 +935,8 @@ function prepareFleet(read, sink) {
   }
   for (const { c, reason } of excluded) sink.warn(`${c.file}:${c.id}`, `excluded — ${reason}`);
 
-  return { ...read, mappings, entityGroups, schemeGroups, claims, survivors, killed, excluded, audit, contras };
+  // `rewrite` stays on the prepared fleet: series rows name entities by id too (readSeries).
+  return { ...read, mappings, rewrite, entityGroups, schemeGroups, claims, survivors, killed, excluded, audit, contras };
 }
 
 /** The alleged-needs-a-denial test, applied exactly as validate.mjs §4 applies it per file. */
@@ -909,7 +990,517 @@ function gateFleet(p, isKnown, sink) {
     if (c.supersededBy != null && !(isStr(c.supersededBy) && allClaimIds.has(c.supersededBy))) {
       sink.error(w, `supersededBy "${c.supersededBy}" does not resolve to a claim in the ${fleet} fleet`);
     }
+    const amount = amountProblem(c);
+    if (amount) sink.error(w, amount);
   }
+}
+
+// ---------------------------------------------------------------------------
+// 4b. Loan facts — G1/G2/P7 of docs/design/FINANCE_PAGE.md §3.3
+// ---------------------------------------------------------------------------
+
+const LOAN_FACT_KEYS = [
+  'project', 'status', 'pipeline', 'usdM', 'fxRate', 'fxBasis', 'st', 'stBasis', 'majorSector', 'sector1',
+  'population', 'countable', 'countedAs', 'notCountableReason',
+];
+const COUNT_KEYS = ['countable', 'countedAs', 'notCountableReason'];
+const FX_KEYS = ['indicator', 'firstYear', 'lastYear', 'conversion'];
+
+/**
+ * The census file's projects[], indexed by the claim id of each leg. Every field is read
+ * strictly (a value tsc would reject fails here, with the row named) and COPIED: the
+ * fetcher computed each one beside the `a` and `d` it wrote, so nothing is re-derived.
+ */
+function censusLegs(file, doc, sink) {
+  const legs = new Map();
+  for (const [i, raw] of asList(doc.projects).entries()) {
+    const pid = raw && typeof raw === 'object' && isStr(raw.id) ? raw.id : null;
+    const where = `${file}:projects:${pid ?? `[${i}]`}`;
+    if (!pid || !WB_PROJECT_ID.test(pid)) {
+      sink.error(where, `projects[${i}] has no World Bank project id`);
+      continue;
+    }
+    const r = readers(sink, where);
+    const row = {
+      project: pid,
+      status: r.str(raw.status, 'status'),
+      pipeline: r.bool(raw.pipeline, 'pipeline'),
+      st: r.oneOf(raw.state, STATE_CODES, 'state'),
+      stBasis: r.oneOf(raw.state_basis, STATE_BASES, 'state_basis'),
+      majorSector: r.str(raw.major_sector_name, 'major_sector_name'),
+      sector1: r.str(raw.sector1, 'sector1'),
+    };
+    if ((raw.state == null) !== (raw.state_basis == null)) sink.error(where, 'state and state_basis must be set together — a placement names its rule');
+    for (const [j, l] of r.list(raw.legs, 'legs').entries()) {
+      const f = `legs[${j}]`;
+      const o = r.obj(l, f) ?? {};
+      const claimId = r.reqStr(o.claimId, `${f}.claimId`);
+      const countable = r.bool(o.countable, `${f}.countable`);
+      if (countable == null) r.bad(`${f}.countable`, 'is required (true or false)');
+      const leg = {
+        row,
+        lender: r.reqStr(o.lender, `${f}.lender`),
+        usdM: r.num(o.usdM, `${f}.usdM`),
+        fxRate: r.num(o.fxRate, `${f}.fxRate`),
+        fxBasis: r.str(o.fxBasis, `${f}.fxBasis`),
+        countable: countable ?? false,
+        notCountableReason: r.str(o.notCountableReason, `${f}.notCountableReason`),
+      };
+      if (legs.has(claimId)) sink.error(where, `${f}: claim ${claimId} is already a leg of ${legs.get(claimId).row.project}`);
+      else legs.set(claimId, leg);
+    }
+  }
+  return legs;
+}
+
+/** provenance.totals, fieldMap and fx, verbatim — or null, with the fault named, when they cannot be typed. */
+function censusTotals(file, doc, sink) {
+  const prov = doc.provenance;
+  if (!prov || typeof prov !== 'object' || !prov.totals || typeof prov.totals !== 'object') {
+    sink.error(file, 'no provenance.totals — the census file must carry the fetcher\'s totals');
+    return null;
+  }
+  const totals = {};
+  for (const k of WB_TOTAL_KEYS) {
+    const v = prov.totals[k];
+    if (typeof v === 'number' && Number.isFinite(v)) totals[k] = v;
+    else sink.error(`${file}:provenance.totals.${k}`, `expected a number, found ${JSON.stringify(v)}`);
+  }
+  for (const k of Object.keys(prov.totals)) {
+    if (!WB_TOTAL_KEYS.includes(k)) sink.error(file, `provenance.totals.${k} is not a census total (expected ${WB_TOTAL_KEYS.join(' | ')}) — add it to WbCensusTotals and WB_TOTAL_KEYS first`);
+  }
+  const fieldMap = {};
+  const fm = prov.fieldMap && typeof prov.fieldMap === 'object' && !Array.isArray(prov.fieldMap) ? prov.fieldMap : null;
+  if (!fm) sink.error(file, 'no provenance.fieldMap');
+  for (const [k, v] of Object.entries(fm ?? {})) {
+    if (typeof v === 'string') fieldMap[k] = v;
+    else sink.error(`${file}:provenance.fieldMap.${k}`, `expected text, found ${JSON.stringify(v)}`);
+  }
+  const fxIn = prov.fx && typeof prov.fx === 'object' && !Array.isArray(prov.fx) ? prov.fx : null;
+  if (!fxIn) sink.error(file, 'no provenance.fx');
+  const r = readers(sink, `${file}:provenance`);
+  const fx = {
+    indicator: r.reqStr(fxIn?.indicator, 'fx.indicator'),
+    firstYear: r.num(fxIn?.firstYear, 'fx.firstYear'),
+    lastYear: r.num(fxIn?.lastYear, 'fx.lastYear'),
+    conversion: r.reqStr(fxIn?.conversion, 'fx.conversion'),
+  };
+  for (const k of Object.keys(fxIn ?? {})) if (!FX_KEYS.includes(k)) sink.error(file, `provenance.fx.${k} is not an fx field (expected ${FX_KEYS.join(' | ')})`);
+  return { totals, fieldMap, fx };
+}
+
+/**
+ * FINANCE_LOAN_FACTS and FINANCE_WB_TOTALS for a fleet whose FLEETS row names a
+ * `loanCensus` domain. One fact per `loan` edge:
+ *   census      — the claim's projects[] row and leg, copied; joined by claim id, and the
+ *                 row must be the claim's own projectId and the leg its own lender;
+ *   researched  — project from the claim's projectId, every census-only field null (never
+ *                 read from prose), counting marks from the claim.
+ * Counting marks (P7): `countable: false` with `countedAs` (the claim that counts the same
+ * loan — a countable loan edge from the same lender, on the same project when both name
+ * one) or a `notCountableReason`. Every countedAs is recorded in RECONCILIATION.json
+ * `countedAs`, and every entry there is carried by its claim: the two cannot drift apart.
+ * A researched record that repeats nothing but is not one loan (F3: a non-binding MoU, a
+ * portfolio aggregate, a facility envelope) carries countable: false and a
+ * notCountableReason with no countedAs; every such record is listed in RECONCILIATION.json
+ * `notCountable` with the same reason and a class from NOT_COUNTABLE_CLASSES, and every
+ * entry there is carried by its claim. A facility entry names its `tranches`: countable
+ * loan edges in the fleet.
+ * A duplicate is never superseded here — supersession is a dated correction, not a count.
+ */
+function loanFacts(p, edges, survivors, sink) {
+  const census = p.spec.loanCensus;
+  const file = p.files.find((f) => f.domain === census);
+  const fileName = file ? `${p.dir}/${file.name}` : null;
+  const legs = file ? censusLegs(fileName, file.doc, sink) : new Map();
+  const wbTotals = file ? censusTotals(fileName, file.doc, sink) : null;
+
+  const edgeById = new Map(edges.map((e) => [e.id, e]));
+  const facts = {};
+  const claimOf = new Map(survivors.map((c) => [c.id, c]));
+  for (const c of survivors) {
+    const w = `${c.file}:${c.id}`;
+    const marks = COUNT_KEYS.filter((k) => c[k] !== undefined && c[k] !== null);
+    if (c.pred !== 'loan') {
+      if (marks.length) sink.error(w, 'countable, countedAs and notCountableReason belong on loan claims');
+      continue;
+    }
+    const e = edgeById.get(c.id);
+    const fact = Object.fromEntries(LOAN_FACT_KEYS.map((k) => [k, null]));
+    fact.project = e.projectId ?? null;
+    if (c.domain === census) {
+      fact.population = 'census';
+      const leg = legs.get(c.id);
+      if (!leg) {
+        sink.error(w, `census loan has no projects[] leg in ${fileName} — re-run scripts/finance/fetch-worldbank.mjs`);
+      } else {
+        if (leg.lender !== e.s) sink.error(w, `projects[] leg lender ${JSON.stringify(leg.lender)} differs from the claim's s ${JSON.stringify(e.s)}`);
+        if (leg.row.project !== e.projectId) sink.error(w, `projects[] row ${leg.row.project} differs from the claim's projectId ${JSON.stringify(e.projectId ?? null)}`);
+        Object.assign(fact, {
+          project: leg.row.project, status: leg.row.status, pipeline: leg.row.pipeline,
+          usdM: leg.usdM, fxRate: leg.fxRate, fxBasis: leg.fxBasis,
+          st: leg.row.st, stBasis: leg.row.stBasis, majorSector: leg.row.majorSector, sector1: leg.row.sector1,
+          countable: leg.countable, countedAs: null, notCountableReason: leg.notCountableReason,
+        });
+      }
+      if (marks.length) sink.error(w, `a census claim's counting comes from its projects[] leg, not from ${marks.join(', ')} on the claim`);
+    } else {
+      fact.population = 'researched';
+      const r = readers(sink, w);
+      const countable = r.bool(c.countable, 'countable');
+      fact.countable = countable ?? true;
+      fact.countedAs = r.str(c.countedAs, 'countedAs');
+      fact.notCountableReason = r.str(c.notCountableReason, 'notCountableReason');
+    }
+    if (fact.countable === false && fact.countedAs == null && fact.notCountableReason == null) sink.error(w, 'countable false needs a countedAs or a notCountableReason');
+    if (fact.countable === true && fact.notCountableReason != null) sink.error(w, 'a notCountableReason is set, so countable must be false');
+    if (fact.countedAs != null && fact.countable !== false) sink.error(w, 'countedAs is set, so countable must be false');
+    facts[c.id] = fact;
+  }
+
+  // countedAs: a countable loan edge, same lender, same project where both name one.
+  for (const [id, f] of Object.entries(facts)) {
+    if (f.countedAs == null) continue;
+    const c = claimOf.get(id);
+    const w = `${c.file}:${id}`;
+    const target = facts[f.countedAs];
+    const te = edgeById.get(f.countedAs);
+    if (!target || !te) {
+      sink.error(w, `countedAs ${JSON.stringify(f.countedAs)} is not a loan edge in the ${p.fleet} fleet`);
+      continue;
+    }
+    const e = edgeById.get(id);
+    if (te.s !== e.s) sink.error(w, `countedAs ${JSON.stringify(f.countedAs)} is a loan from ${te.s}, not ${e.s}`);
+    if (target.project != null && f.project != null && target.project !== f.project) sink.error(w, `countedAs ${JSON.stringify(f.countedAs)} is project ${target.project}, not ${f.project}`);
+    if (target.countable !== true) sink.error(w, `countedAs ${JSON.stringify(f.countedAs)} is itself not countable — point at the record that counts`);
+  }
+
+  // RECONCILIATION.json countedAs and the claims carry the same pairs.
+  const recWhere = `${p.dir}/RECONCILIATION.json`;
+  const recorded = new Map();
+  for (const [i, m] of asList(p.reconciliation?.countedAs).entries()) {
+    const w = `${recWhere}:countedAs[${i}]`;
+    if (!m || !isStr(m.claimId) || !isStr(m.countedAs)) {
+      sink.error(w, 'a countedAs entry needs string claimId and countedAs');
+      continue;
+    }
+    recorded.set(m.claimId, m.countedAs);
+    const carried = facts[m.claimId]?.countedAs ?? claimOf.get(m.claimId)?.countedAs ?? null;
+    if (carried !== m.countedAs) sink.error(w, `${m.claimId} does not carry countedAs ${JSON.stringify(m.countedAs)} (it carries ${JSON.stringify(carried)})`);
+  }
+  for (const [id, f] of Object.entries(facts)) {
+    if (f.countedAs != null && recorded.get(id) !== f.countedAs) {
+      sink.error(`${claimOf.get(id).file}:${id}`, `countedAs ${JSON.stringify(f.countedAs)} is not recorded in RECONCILIATION.json countedAs — the reconciliation owns every counting mark`);
+    }
+  }
+
+  // RECONCILIATION.json notCountable and the claims carry the same marks.
+  const excused = new Map();
+  for (const [i, m] of asList(p.reconciliation?.notCountable).entries()) {
+    const w = `${recWhere}:notCountable[${i}]`;
+    if (!m || !isStr(m.claimId) || !isStr(m.notCountableReason)) {
+      sink.error(w, 'a notCountable entry needs string claimId and notCountableReason');
+      continue;
+    }
+    if (!NOT_COUNTABLE_CLASSES.includes(m.class)) sink.error(w, `class ${JSON.stringify(m.class)} is not one of ${NOT_COUNTABLE_CLASSES.join(' | ')}`);
+    if (excused.has(m.claimId)) sink.error(w, `${m.claimId} is listed twice`);
+    if (recorded.has(m.claimId)) sink.error(w, `${m.claimId} is listed in countedAs too — a record repeats another loan or is not a loan, not both`);
+    excused.set(m.claimId, m.notCountableReason);
+    const f = facts[m.claimId];
+    if (!f) {
+      sink.error(w, `${m.claimId} is not a loan edge in the ${p.fleet} fleet`);
+      continue;
+    }
+    if (f.population !== 'researched') sink.error(w, `${m.claimId} is a census leg — its counting comes from projects[], not from the reconciliation`);
+    if (f.countable !== false || f.countedAs != null || f.notCountableReason !== m.notCountableReason) {
+      sink.error(w, `${m.claimId} does not carry countable false and this notCountableReason (it carries countable ${f.countable}, notCountableReason ${JSON.stringify(f.notCountableReason)}) — run node scripts/finance/mark-loans.mjs --write`);
+    }
+    if (m.class === 'facility-envelope') {
+      const tranches = asList(m.tranches);
+      if (!tranches.length) sink.error(w, 'a facility-envelope entry lists its tranches — the loans that count instead');
+      for (const t of tranches) {
+        if (!isStr(t) || !facts[t]) sink.error(w, `tranche ${JSON.stringify(t)} is not a loan edge in the ${p.fleet} fleet`);
+        else if (facts[t].countable !== true) sink.error(w, `tranche ${t} is itself not countable`);
+      }
+    } else if (m.tranches != null) sink.error(w, `tranches belong on a facility-envelope entry, not ${JSON.stringify(m.class)}`);
+  }
+  for (const [id, f] of Object.entries(facts)) {
+    if (f.population === 'researched' && f.countable === false && f.countedAs == null && !excused.has(id)) {
+      sink.error(`${claimOf.get(id).file}:${id}`, 'countable false with a notCountableReason is not recorded in RECONCILIATION.json notCountable — the reconciliation owns every counting mark');
+    }
+  }
+  return { facts, wbTotals };
+}
+
+// ---------------------------------------------------------------------------
+// 4b. Ownership (capital) — holdings, coverage, controls (FINANCE_PAGE.md §3.3 G3a–c)
+// ---------------------------------------------------------------------------
+
+/** The claim's own text, as toEdge joins it: the only place a holding's figures may come from. */
+const claimText = (c) => [Array.isArray(c.d) ? c.d.filter((x) => typeof x === 'string').join(' ') : c.d, c.lab].filter((x) => typeof x === 'string').join(' ');
+
+/** A required boolean: absent is an error, not false. */
+function reqBool(r, sink, where, v, f) {
+  if (v == null) {
+    sink.error(`${where}.${f}`, 'is required (true/false)');
+    return false;
+  }
+  return r.bool(v, f) ?? false;
+}
+
+/**
+ * G3a. A surviving claim's `holding` block, read strictly: fixed keys; pct a number in
+ * 0–100 or null; shares a whole number or null; asOf ISO or null; category from the
+ * list; line and aggregate required. Every figure must be printed in the claim's own
+ * d/lab and the line must be a verbatim part of it — so a holding can never say more
+ * than the record it structures. Null is a stated absence, never a default.
+ */
+function readHolding(c, sink) {
+  const where = `${c.file}:${c.id}`;
+  const r = readers(sink, where);
+  if (c.pred !== 'own') {
+    sink.error(where, `holding on a ${c.pred} claim — holdings describe own claims only`);
+    return null;
+  }
+  const o = r.obj(c.holding, 'holding');
+  if (!o) return null;
+  for (const k of Object.keys(o).sort(cmp)) {
+    if (!HOLDING_KEYS.includes(k)) sink.error(`${where}.holding.${k}`, `holding.${k} is not a holding field (expected ${HOLDING_KEYS.join(' | ')})`);
+  }
+  const h = {
+    pct: r.num(o.pct, 'holding.pct'),
+    shares: r.num(o.shares, 'holding.shares'),
+    asOf: r.date(o.asOf, 'holding.asOf'),
+    category: r.oneOf(o.category, HOLDING_CATEGORIES, 'holding.category', true),
+    line: r.reqStr(o.line, 'holding.line'),
+    aggregate: reqBool(r, sink, where, o.aggregate, 'holding.aggregate'),
+  };
+  if (h.pct != null && (h.pct < 0 || h.pct > 100)) sink.error(`${where}.holding.pct`, `holding.pct ${h.pct} is outside 0–100`);
+  if (h.shares != null && !(Number.isInteger(h.shares) && h.shares >= 0)) sink.error(`${where}.holding.shares`, `holding.shares ${h.shares} is not a whole share count`);
+  for (const msg of holdingTextProblem(h, claimText(c))) sink.error(where, msg);
+  return h;
+}
+
+const CO_ID = /^co:[a-z0-9][a-z0-9-]*$/;
+const COVERAGE_KEYS = ['company', 'asOf', 'read', 'domain', 'srcs', 'note'];
+const CONTROL_KEYS = ['id', 'label', 'role', 'resolved', 'declaredIn', 'note'];
+
+/** A declaration's `rows`, with unknown row keys refused by name rather than dropped. */
+function declaredRows(decl, keys, fleet, sink) {
+  if (!decl) return [];
+  const where = `${fleet}/${decl.name}`;
+  if (!Array.isArray(decl.doc.rows)) {
+    sink.error(`${where}:rows`, 'a declaration must carry a list `rows`');
+    return [];
+  }
+  return decl.doc.rows.map((v, i) => {
+    const w = `${where}:rows[${i}]`;
+    if (!v || typeof v !== 'object' || Array.isArray(v)) {
+      sink.error(w, 'row must be an object');
+      return { w, o: {} };
+    }
+    for (const k of Object.keys(v).sort(cmp)) if (!keys.includes(k)) sink.error(`${w}.${k}`, `${k} is not a field of this declaration (expected ${keys.join(' | ')})`);
+    return { w, o: v };
+  });
+}
+
+/**
+ * G3a–c for a fleet whose FLEETS row says `ownership: true`. Run after the fleet gate,
+ * because a control row resolves against every fleet's ids. Holdings are keyed in
+ * claim-id order; coverage rows in company order; control rows in DECLARED order —
+ * the order is part of the declaration.
+ */
+function readOwnership(p, isKnown, sink) {
+  const holdings = [];
+  for (const c of [...p.survivors].sort((a, b) => cmp(a.id, b.id))) {
+    if (c.holding == null) continue;
+    const h = readHolding(c, sink);
+    if (h) holdings.push([c.id, h]);
+  }
+
+  const domains = new Set(p.files.map((f) => f.domain));
+  const coverage = [];
+  const seenCo = new Set();
+  for (const { w, o } of declaredRows(p.declarations?.coverage, COVERAGE_KEYS, p.dir, sink)) {
+    const r = readers(sink, w);
+    const company = r.reqStr(o.company, 'company');
+    if (company && !CO_ID.test(company)) sink.error(w, `company "${company}" is not a co: id`);
+    if (seenCo.has(company)) sink.error(w, `${company} is declared twice`);
+    seenCo.add(company);
+    const read = r.oneOf(o.read, COVERAGE_READ, 'read', true);
+    const asOf = r.date(o.asOf, 'asOf');
+    if (read === 'not-read' && asOf != null) sink.error(w, 'a not-read row carries no asOf — nothing was read to date');
+    if ((read === 'primary' || read === 'aggregator') && asOf == null) sink.error(w, `a ${read} row needs the asOf of what was read`);
+    const domain = r.reqStr(o.domain, 'domain');
+    if (domain && !domains.has(domain)) sink.error(w, `domain "${domain}" is not a research file in this fleet`);
+    const srcs = r.srcs(o.srcs, 'srcs');
+    if (!srcs.length) sink.error(w, 'needs at least one [label, url] source — a read, or a failed attempt, is cited');
+    coverage.push({ company, asOf, read: read ?? 'not-read', domain, srcs, note: r.str(o.note, 'note') });
+  }
+  coverage.sort((a, b) => cmp(a.company, b.company));
+
+  const unresolved = new Set([...p.entityGroups.values()].filter((g) => g.rec.resolved === false).map((g) => g.rec.id));
+  const controls = [];
+  const seenId = new Set();
+  for (const { w, o } of declaredRows(p.declarations?.controls, CONTROL_KEYS, p.dir, sink)) {
+    const r = readers(sink, w);
+    const id = r.str(o.id, 'id');
+    const resolved = reqBool(r, sink, w, o.resolved, 'resolved');
+    if (resolved && id == null) sink.error(w, 'a resolved row needs an id');
+    if (!resolved && id != null) sink.error(w, `"${id}": an unresolved row carries id null — never an id nobody defined`);
+    if (resolved && id != null) {
+      if (unresolved.has(id)) sink.error(w, `"${id}" is resolved:false in the research — a control row cannot resolve it`);
+      else if (!isKnown(id)) sink.error(w, `"${id}" is resolved: true but is neither a fleet id, an inventory id nor an atlas id`);
+    }
+    if (id != null) {
+      if (seenId.has(id)) sink.error(w, `${id} is declared twice`);
+      seenId.add(id);
+    }
+    controls.push({
+      id,
+      label: r.reqStr(o.label, 'label'),
+      role: r.oneOf(o.role, CONTROL_ROLES, 'role', true) ?? 'comparison',
+      resolved,
+      declaredIn: r.reqStr(o.declaredIn, 'declaredIn'),
+      note: r.str(o.note, 'note'),
+    });
+  }
+  return { holdings, coverage, controls };
+}
+
+/**
+ * G4 for a fleet whose FLEETS row names an `fcState` domain: that file's `fcByState`
+ * rows — a Parliament annexure's state/UT × FY table, transcribed — read strictly (fixed
+ * keys; st a state code, or null with a note saying what the row is; fy a financial
+ * year; receivedCr a number; srcs cited) and then added up: every FY must sum to the
+ * file's own current national grant claim for that FY within FC_STATE_TOLERANCE_CR
+ * (scripts/lib/vocab.mjs). No file, or no list, is an empty export, never an error —
+ * the page's void card is the honest state until the annexure is transcribed. Rows are
+ * emitted in FY, then state-code order, rows without a code last.
+ */
+function fcStateRows(p, edges, survivors, sink) {
+  const domain = p.spec.fcState;
+  for (const f of p.files) {
+    if (f.domain !== domain && f.doc.fcByState != null) sink.warn(`${p.dir}/${f.name}:fcByState`, `only ${domain}.json is read for state rows — this list is not exported`);
+  }
+  const file = p.files.find((f) => f.domain === domain);
+  if (!file || file.doc.fcByState == null) return [];
+  const where = `${p.dir}/${file.name}`;
+  if (!Array.isArray(file.doc.fcByState)) {
+    sink.error(`${where}:fcByState`, `must be a list of { ${FC_STATE_KEYS.join(', ')} } rows`);
+    return [];
+  }
+  const rows = [];
+  const seen = new Set();
+  for (const [i, v] of file.doc.fcByState.entries()) {
+    const w = `${where}:fcByState[${i}]`;
+    if (!v || typeof v !== 'object' || Array.isArray(v)) {
+      sink.error(w, 'row must be an object');
+      continue;
+    }
+    for (const k of Object.keys(v).sort(cmp)) if (!FC_STATE_KEYS.includes(k)) sink.error(`${w}.${k}`, `${k} is not a field of a state row (expected ${FC_STATE_KEYS.join(' | ')})`);
+    const r = readers(sink, w);
+    const st = v.st == null ? null : r.oneOf(v.st, STATE_CODES, 'st');
+    const note = r.str(v.note, 'note');
+    if (v.st == null && !(note && note.trim())) sink.error(w, 'st is null — a row that is not a state or UT needs a note saying what the annexure calls it');
+    const stateName = r.reqStr(v.stateName, 'stateName');
+    const fy = r.reqStr(v.fy, 'fy');
+    if (fy && !fySpan(fy)) sink.error(`${w}.fy`, `${JSON.stringify(fy)} is not a financial year written YYYY-YY ("2019-20")`);
+    const receivedCr = r.num(v.receivedCr, 'receivedCr');
+    if (v.receivedCr == null) sink.error(`${w}.receivedCr`, 'is required — a row the annexure prints no figure for is not transcribed as a row');
+    else if (receivedCr != null && receivedCr < 0) sink.error(`${w}.receivedCr`, `${receivedCr} is negative`);
+    const utilisedCr = r.num(v.utilisedCr, 'utilisedCr');
+    if (utilisedCr != null && utilisedCr < 0) sink.error(`${w}.utilisedCr`, `${utilisedCr} is negative`);
+    const srcs = r.srcs(v.srcs, 'srcs');
+    if (!srcs.length) sink.error(w, 'needs at least one [label, url] source — the annexure the row is read from');
+    const key = `${st ?? `?${stateName}`}|${fy}`;
+    if (seen.has(key)) sink.error(w, `${stateName} ${fy} appears twice`);
+    seen.add(key);
+    rows.push({ st, stateName, fy, receivedCr: receivedCr ?? 0, utilisedCr, note, srcs });
+  }
+  rows.sort((a, b) => cmp(a.fy, b.fy) || (a.st === null) - (b.st === null) || cmp(a.st ?? '', b.st ?? '') || cmp(a.stateName, b.stateName));
+  const national = edges.filter((e, i) => survivors[i].domain === domain);
+  for (const problem of fcStateSumProblems(rows, national)) sink.error(where, problem);
+  return rows;
+}
+
+// ---------------------------------------------------------------------------
+// 4c. Series — tabular rows per fleet (docs/superpowers/specs/2026-10-04-force-finance-design.md §4.1)
+// ---------------------------------------------------------------------------
+
+/** The doc comment over each series export. One line: the literal grab reads what follows. */
+const SERIES_DOC = {
+  budgets: 'Budget lines — one row per payer × body × head × component × FY × stage, ₹ crore as published (no conversion), read from every research file\'s budgets[] and sorted on those keys; a 0 is a figure, and each row\'s srcs is the budget document it is read from.',
+  strength: 'Sanctioned and actual strength — one row per body × year as the primary table (BPR&D DoPO, a state budget) prints it; perLakh and womenPct beside it only where published, else null.',
+  footprint: 'Installations a primary record places — one row per id (force:fp-<slug>), each with the state the map draws it in and the city the readout names; since is the record\'s date at the precision it gives, or null.',
+};
+
+/** Rows in key-field order (SERIES[name].unique): numbers numerically, everything else in code-unit order. */
+function seriesCompare(name) {
+  const fields = SERIES[name].unique;
+  return (a, b) => {
+    for (const f of fields) {
+      const x = a[f];
+      const y = b[f];
+      const c = typeof x === 'number' && typeof y === 'number' ? x - y : cmp(String(x), String(y));
+      if (c) return c;
+    }
+    return 0;
+  };
+}
+
+/**
+ * The series a fleet's FLEETS row declares (`series: [name…]`, names from SERIES in
+ * scripts/lib/vocab.mjs), read from EVERY research file in the directory — a budgets list in
+ * union-defence.json and one in state-police.json are one table — in file order. Each row
+ * is checked with the series' one row-problem function, so a bad row refuses the fleet
+ * exactly as a bad fcByState row does; `body` is rewritten by the reconciliation first, so
+ * an alias resolves and two rows that differ only by alias are one row twice; a repeated
+ * key is refused; the rows are then sorted on the key fields. A list the fleet does not
+ * declare is warned about and left unread, in every fleet. No list anywhere is an empty
+ * export, never an error. Returns null for a fleet without series.
+ */
+function readSeries(p, isKnown, sink) {
+  const declared = p.spec.series ?? [];
+  for (const f of p.files) {
+    for (const name of Object.keys(SERIES)) {
+      if (!declared.includes(name) && f.doc[name] != null) sink.warn(`${p.dir}/${f.name}:${name}`, `the ${p.fleet} fleet declares no ${name} series — this list is not exported`);
+    }
+  }
+  if (!p.spec.series) return null;
+  const out = {};
+  for (const name of declared) {
+    const spec = SERIES[name];
+    const rows = [];
+    const seen = new Map();
+    for (const f of p.files) {
+      const list = f.doc[name];
+      if (list == null) continue;
+      const where = `${p.dir}/${f.name}:${name}`;
+      if (!Array.isArray(list)) {
+        sink.error(where, `must be a list of { ${spec.keys.join(', ')} } rows`);
+        continue;
+      }
+      for (const [i, raw] of list.entries()) {
+        const w = `${where}[${i}]`;
+        // Only a body that is there is rewritten: adding the key would hide a missing one from the key check.
+        const row = raw && typeof raw === 'object' && !Array.isArray(raw) && 'body' in raw ? { ...raw, body: p.rewrite(raw.body) } : raw;
+        const problems = spec.problems(row, isKnown);
+        for (const msg of problems) sink.error(w, msg);
+        if (problems.length) continue;
+        const key = seriesKey(name, row);
+        if (seen.has(key)) {
+          sink.error(w, `${name} row ${key} appears twice (first in ${seen.get(key)})`);
+          continue;
+        }
+        seen.set(key, w);
+        rows.push(Object.fromEntries(spec.keys.map((k) => [k, row[k]])));
+      }
+    }
+    rows.sort(seriesCompare(name));
+    out[name] = rows;
+  }
+  return out;
 }
 
 // ---------------------------------------------------------------------------
@@ -937,8 +1528,30 @@ function arrayConst(name, type, rows, fmt) {
   return `export const ${name}: ${type} = [\n${rows.map((r) => `${fmt(r)},\n`).join('')}];\n`;
 }
 
+/**
+ * TypeScript gives up on one array literal of a few thousand object rows ("union type too
+ * complex", TS2590 — seen at 4,096 budgets rows). Above CHUNK_ROWS the rows are emitted as
+ * non-exported chunk constants `${name}_0`, `${name}_1`, … and the export spreads them, so the
+ * public shape (`export const NAME: T = [`) is unchanged and validate.mjs reads the chunks back
+ * (grabConst follows a body made only of spreads). Below the threshold the output is exactly
+ * arrayConst's, so every existing module stays byte-identical.
+ */
+const CHUNK_ROWS = 1000;
+function chunkedArrayConst(name, type, rows, fmt) {
+  if (rows.length <= CHUNK_ROWS) return arrayConst(name, type, rows, fmt);
+  const parts = [];
+  const names = [];
+  for (let i = 0; i * CHUNK_ROWS < rows.length; i += 1) {
+    const chunk = rows.slice(i * CHUNK_ROWS, (i + 1) * CHUNK_ROWS);
+    names.push(`${name}_${i}`);
+    parts.push(`const ${name}_${i}: ${type} = [\n${chunk.map((r) => `${fmt(r)},\n`).join('')}];\n`);
+  }
+  parts.push(`export const ${name}: ${type} = [\n${names.map((n) => `  ...${n},\n`).join('')}];\n`);
+  return parts.join('\n');
+}
+
 const NODE_KEYS = ['id', 'label', 'sub', 'ty', 'fam', 'st', 'sz', 'al', 'resolved', 'collisionRisk', 'd', 'srcs'];
-const EDGE_KEYS = ['id', 's', 't', 'pred', 'tier', 'a', 'lab', 'd', 'from', 'to', 'srcs', 'innocentReading', 'upgradeIf', 'killIf', 'supersededBy'];
+const EDGE_KEYS = ['id', 's', 't', 'pred', 'tier', 'a', 'lab', 'projectId', 'd', 'from', 'to', 'terms', 'srcs', 'innocentReading', 'upgradeIf', 'killIf', 'supersededBy'];
 const BENEFIT_KEYS = ['claimId', 's', 't', 'pred', 'tier', 'who', 'how', 'amountCr', 'confidence', 'srcs', 'domain'];
 const VOID_KEYS = ['what', 'whyItMatters', 'srcs', 'domain'];
 const NARRATIVE_KEYS = ['claim', 'status', 'strongestCase', 'strongestCounter', 'whatWouldChangeThis', 'srcs', 'domain'];
@@ -994,8 +1607,8 @@ function sections(p, sink) {
   const elections = new Map();
   const coverage = [];
   for (const { name, doc, domain } of p.files) {
-    const where = `${p.fleet}/${name}`;
-    if (p.fleet === 'welfare' && doc.coverage != null) {
+    const where = `${p.dir}/${name}`;
+    if (p.kind === 'welfare' && doc.coverage != null) {
       if (!Array.isArray(doc.coverage)) sink.warn(`${where}:coverage`, 'not a list — no coverage declared by this file');
       for (const [i, v] of asList(Array.isArray(doc.coverage) ? doc.coverage : []).entries()) {
         const w = `${where}:coverage[${i}]`;
@@ -1068,7 +1681,7 @@ function sections(p, sink) {
       const t = typeof g === 'string' ? g : JSON.stringify(g);
       if (t.trim()) gaps.push({ domain, text: t });
     }
-    if (p.fleet === 'welfare') {
+    if (p.kind === 'welfare') {
       for (const [i, v] of asList(doc.elections).entries()) {
         const r = readers(sink, `${where}:elections[${i}]`);
         const o = r.obj(v) ?? {};
@@ -1111,7 +1724,7 @@ function header(p, runId) {
     ' *',
     ` * Written by ${GENERATOR} (\`npm run generate\`, generator ${GENERATOR_VERSION}),`,
     ` * run ${runId}, from:`,
-    ...(inputs.length ? inputs.map((f) => ` *   ${safe(f)}`) : [` *   (nothing — ${HOME}/${p.fleet}/ holds no research files yet)`]),
+    ...(inputs.length ? inputs.map((f) => ` *   ${safe(f)}`) : [` *   (nothing — ${HOME}/${p.dir}/ holds no research files yet)`]),
     ' *',
     ' * To change it, change the research file, or the fleet\'s RECONCILIATION.json or',
     ' * AUDIT.json, and re-run `npm run generate`. `npm run validate` fails when this',
@@ -1121,10 +1734,19 @@ function header(p, runId) {
   ].join('\n');
 }
 
+/** An import specifier from one repository-relative file to another, POSIX, without the extension. */
+function importPath(fromFile, toFile) {
+  const rel = posix.relative(posix.dirname(fromFile), toFile);
+  return rel.startsWith('.') ? rel : `./${rel}`;
+}
+
 function emitFleet(p, sink) {
-  const { fleet } = p;
-  // The fleet name is folded in so two empty fleets do not share a stamp.
-  const runId = `run-${fnv1a64(`${GENERATOR_VERSION}\n${fleet}\n${p.inputs.map((i) => `${i.name}\n${i.text}`).join('\n')}`).slice(0, 12)}`;
+  // `key` names the fleet in META and the run id; `fleet` (its directory) names paths.
+  const { fleet: key, dir: fleet, spec } = p;
+  const welfare = p.kind === 'welfare';
+  // The fleet key is folded in so two empty fleets do not share a stamp, and only
+  // this fleet's inputs are: another fleet's research never restamps this module.
+  const runId = `run-${fnv1a64(`${GENERATOR_VERSION}\n${key}\n${p.inputs.map((i) => `${i.name}\n${i.text}`).join('\n')}`).slice(0, 12)}`;
 
   // Nodes: entity records, then (welfare) one node per scheme the entities do not already define.
   const identity = [];
@@ -1142,6 +1764,13 @@ function emitFleet(p, sink) {
 
   const survivors = [...p.survivors].sort((a, b) => cmp(a.id, b.id));
   const edges = survivors.map((c) => toEdge(c, `${c.file}:${c.id}`, sink));
+  const loans = spec.loanCensus ? loanFacts(p, edges, survivors, sink) : null;
+  // G3a–c, read in assembleFleet after the gate (control rows resolve against every fleet).
+  const own = spec.ownership ? p.ownership ?? { holdings: [], coverage: [], controls: [] } : null;
+  // G4: the annexure's state rows, added up against this fleet's own national rows.
+  const fc = spec.fcState ? fcStateRows(p, edges, survivors, sink) : null;
+  // Tabular series, read in assembleFleet after the gate (a body resolves against every fleet's ids).
+  const series = spec.series ? p.series ?? Object.fromEntries(spec.series.map((n) => [n, []])) : null;
   const benefits = [];
   for (const [i, c] of survivors.entries()) {
     if (!c.benefit || typeof c.benefit !== 'object') continue;
@@ -1193,10 +1822,12 @@ function emitFleet(p, sink) {
     voids: sec.voids.length,
     narratives: sec.narratives.length,
     baseRates: sec.baseRates.length,
-    ...(fleet === 'welfare' ? { schemes: schemes.length, elections: sec.elections.length, coverage: sec.coverage.length } : {}),
+    ...(welfare ? { schemes: schemes.length, elections: sec.elections.length, coverage: sec.coverage.length } : {}),
+    ...(own ? { holdings: own.holdings.length, coverage: own.coverage.length, controls: own.controls.length } : {}),
+    ...(fc ? { fcState: fc.length } : {}),
   };
   const meta = {
-    fleet,
+    fleet: key,
     generator: GENERATOR,
     generatorVersion: GENERATOR_VERSION,
     asOf,
@@ -1206,6 +1837,7 @@ function emitFleet(p, sink) {
     inputs: p.inputs.map((i) => i.name),
     files,
     counts,
+    ...(series ? { series: Object.fromEntries(spec.series.map((n) => [n, series[n].length])) } : {}),
     reconciliation: {
       mappings: p.mappings,
       merged: [...p.entityGroups.values(), ...p.schemeGroups.values()]
@@ -1218,27 +1850,25 @@ function emitFleet(p, sink) {
     excluded,
   };
 
-  const P = fleet === 'energy' ? 'ENERGY' : 'WELFARE';
+  const P = spec.prefix;
   const row = (keys) => (r) => `  ${oneLine(r, keys)}`;
   const out = [header(p, runId)];
-  if (fleet === 'energy') {
-    out.push("import type { GNode, GEdge } from './schema';");
-    out.push("import type { BaseRateRow, BenefitRow, EntityIdentity, FleetMeta, FleetText, Narrative, Void } from './fleet';");
-  } else {
-    out.push("import type { GNode, GEdge } from '../graph/schema';");
-    out.push("import type { BaseRateRow, BenefitRow, EntityIdentity, FleetMeta, FleetText, Narrative, Void } from '../graph/fleet';");
-    out.push("import type { Coverage, Election, Scheme } from './welfare';");
-  }
+  out.push(`import type { GNode, GEdge } from '${importPath(spec.out, 'src/graph/schema')}';`);
+  out.push(`import type { BaseRateRow, BenefitRow, EntityIdentity, FleetMeta, FleetText, ${loans ? 'LoanFact, ' : ''}Narrative, Void${loans ? ', WbTotals' : ''} } from '${importPath(spec.out, 'src/graph/fleet')}';`);
+  if (welfare) out.push(`import type { Coverage, Election, Scheme } from '${importPath(spec.out, 'src/data/welfare')}';`);
+  if (own) out.push(`import type { CapitalControl, CapitalCoverage, Holding } from '${importPath(spec.out, 'src/graph/fleet')}';`);
+  if (fc) out.push(`import type { FcStateRow } from '${importPath(spec.out, 'src/graph/fleet')}';`);
+  if (series) out.push(`import type { ${spec.series.map((n) => SERIES[n].type).join(', ')} } from '${importPath(spec.out, 'src/graph/fleet')}';`);
   out.push('');
-  if (fleet === 'welfare') {
+  if (welfare) {
     out.push(arrayConst('WELFARE_SCHEMES', 'Scheme[]', schemes, (s) => indent(JSON.stringify(s, null, 2), '  ')));
     out.push(arrayConst('WELFARE_ENTITIES', 'GNode[]', nodes, row(NODE_KEYS)));
     out.push('/** One node per scheme, so claims that point at a scheme have somewhere to land. */');
     out.push(arrayConst('WELFARE_SCHEME_NODES', 'GNode[]', schemeNodes, row(NODE_KEYS)));
     out.push(arrayConst('WELFARE_CLAIMS', 'GEdge[]', edges, row(EDGE_KEYS)));
   } else {
-    out.push(arrayConst('ENERGY_NODES', 'GNode[]', nodes, row(NODE_KEYS)));
-    out.push(arrayConst('ENERGY_EDGES', 'GEdge[]', edges, row(EDGE_KEYS)));
+    out.push(arrayConst(`${P}_NODES`, 'GNode[]', nodes, row(NODE_KEYS)));
+    out.push(arrayConst(`${P}_EDGES`, 'GEdge[]', edges, row(EDGE_KEYS)));
   }
   out.push('/** Claim id → the research domain (file stem) it came from, for every edge and every held claim. */');
   out.push(
@@ -1248,7 +1878,17 @@ function emitFleet(p, sink) {
       .join('')}};\n`,
   );
   out.push(arrayConst(`${P}_BENEFITS`, 'BenefitRow[]', benefits, row(BENEFIT_KEYS)));
-  if (fleet === 'welfare') {
+  if (loans) {
+    out.push(`/** Loan edge id → its facts: census rows copied from ${HOME}/${fleet}/${spec.loanCensus}.json projects[] (G1), researched rows from the claim alone. */`);
+    out.push(
+      `export const ${P}_LOAN_FACTS: Record<string, LoanFact> = {\n${Object.entries(loans.facts)
+        .map(([id, f]) => `  ${JSON.stringify(id)}: ${oneLine(f, LOAN_FACT_KEYS)},\n`)
+        .join('')}};\n`,
+    );
+    out.push(`/** ${HOME}/${fleet}/${spec.loanCensus}.json provenance.totals, fieldMap and fx, verbatim (G2); null when the census file is absent. */`);
+    out.push(`export const ${P}_WB_TOTALS: WbTotals | null = ${loans.wbTotals ? JSON.stringify(loans.wbTotals, null, 2) : 'null'};\n`);
+  }
+  if (welfare) {
     out.push(arrayConst('WELFARE_ELECTIONS', 'Election[]', sec.elections, row(ELECTION_KEYS)));
     out.push('/** What each file declares it searched. A state-year is painted "searched, none live" only when an entry here declares it. */');
     out.push(arrayConst('WELFARE_COVERAGE', 'Coverage[]', sec.coverage, (c) => `  ${JSON.stringify(c)}`));
@@ -1263,11 +1903,40 @@ function emitFleet(p, sink) {
       .map(([id, v]) => `  ${JSON.stringify(id)}: ${JSON.stringify(v)},\n`)
       .join('')}};\n`,
   );
+  if (own) {
+    out.push('/** G3a. Claim id → the structured line of a surviving `own` edge, read from its own d/lab. `aggregate: true` rows are lower bounds: never add them to filing lines. */');
+    out.push(
+      `export const ${P}_HOLDINGS: Record<string, Holding> = {\n${own.holdings
+        .map(([id, h]) => `  ${JSON.stringify(id)}: ${oneLine(h, HOLDING_KEYS)},\n`)
+        .join('')}};\n`,
+    );
+    out.push('/** G3b. What was read for each constituent: a named-holder table (primary), category totals only (aggregator), or nothing (not-read). */');
+    out.push(arrayConst(`${P}_COVERAGE`, 'CapitalCoverage[]', own.coverage, row(COVERAGE_KEYS)));
+    out.push('/** G3c. The declared comparison sets, in declared order. A member the fleet has no entity for carries id null. */');
+    out.push(arrayConst(`${P}_CONTROLS`, 'CapitalControl[]', own.controls, row(CONTROL_KEYS)));
+  }
+  if (fc) {
+    out.push(`/** G4. State/UT × FY rows of the Parliament annexure transcribed in ${HOME}/${fleet}/${spec.fcState}.json fcByState; each FY's receivedCr sums to that file's current national grant claim within ₹1 crore. Empty until the annexure is transcribed. */`);
+    out.push(arrayConst(`${P}_FC_STATE`, 'FcStateRow[]', fc, row(FC_STATE_KEYS)));
+  }
+  if (series) {
+    for (const name of spec.series) {
+      const s = SERIES[name];
+      out.push(`/** ${SERIES_DOC[name]} */`);
+      out.push(chunkedArrayConst(`${P}_${s.export}`, `${s.type}[]`, series[name], row(s.keys)));
+    }
+  }
   out.push(`export const ${P}_META: FleetMeta = ${JSON.stringify(meta, null, 2)};\n`);
 
   return {
     text: out.join('\n'),
-    data: { nodes, schemeNodes, edges, benefits, schemes, identity: Object.fromEntries(identity), edgeDomain: Object.fromEntries(edgeDomain), meta, ...sec },
+    data: {
+      nodes, schemeNodes, edges, benefits, schemes, identity: Object.fromEntries(identity), edgeDomain: Object.fromEntries(edgeDomain), meta, ...sec,
+      ...(loans ? { loanFacts: loans.facts, wbTotals: loans.wbTotals } : {}),
+      ...(own ? { holdings: Object.fromEntries(own.holdings), coverage: own.coverage, controls: own.controls } : {}),
+      ...(fc ? { fcState: fc } : {}),
+      ...(series ? { series } : {}),
+    },
   };
 }
 
@@ -1276,21 +1945,26 @@ function emitFleet(p, sink) {
 // ---------------------------------------------------------------------------
 
 /**
- * Assemble both fleets in memory. Returns the module texts, the structured data
- * behind them, and every error and warning; writes nothing. When `errors` is
- * non-empty the texts are null — an invariant failure produces no module at all.
+ * Assemble every fleet in FLEETS in memory. Returns the module texts, the structured
+ * data behind them, and every error and warning; writes nothing. When a fleet's
+ * errors are non-empty its text is null — an invariant failure produces no module.
+ *
+ * Shape, for each fleet key k: `k` (the data), `${k}Ts` (the text or null),
+ * `fleets[k]` ({ spec, data, text, errors }), and `fleetErrors[k]`; plus `errors` and
+ * `warnings` over all fleets. `energy`/`energyTs`/`welfare`/`welfareTs` are the keys
+ * the two-fleet callers already read.
  */
 export function assembleFleet({ root = ROOT, dir = HOME } = {}) {
   // One sink per fleet, so a fault is charged to the fleet that has it; the shared
-  // sink holds faults that stop both (the Atlas ids cannot be read).
+  // sink holds faults that stop every fleet (the Atlas ids cannot be read).
   const shared = makeSink();
-  const sinks = { energy: makeSink(), welfare: makeSink() };
+  const sinks = Object.fromEntries(FLEETS.map((f) => [f.key, makeSink()]));
   const rawDir = isAbsolute(dir) ? dir : resolve(root, dir);
   const atlasIds = readAtlasIds(root, shared);
 
-  const prepared = ['energy', 'welfare'].map((fleet) => prepareFleet(readFleet(rawDir, fleet, sinks[fleet]), sinks[fleet]));
-  // Fleet ids span both fleets: an energy claim may point at a welfare scheme, and
-  // both modules are merged into the one graph the app renders.
+  const prepared = FLEETS.map((f) => prepareFleet(readFleet(rawDir, f, sinks[f.key]), sinks[f.key]));
+  // Fleet ids span every fleet: an energy claim may point at a welfare scheme, a
+  // finance loan at an energy company, and all modules merge into the one graph.
   const fleetIds = new Set();
   for (const p of prepared) {
     for (const id of p.entityGroups.keys()) fleetIds.add(id);
@@ -1298,22 +1972,35 @@ export function assembleFleet({ root = ROOT, dir = HOME } = {}) {
   }
   const isKnown = (id) => fleetIds.has(id) || atlasIds.has(id) || INVENTORY.test(id);
   for (const p of prepared) gateFleet(p, isKnown, sinks[p.fleet]);
+  for (const p of prepared) if (p.spec.ownership) p.ownership = readOwnership(p, isKnown, sinks[p.fleet]);
+  for (const p of prepared) p.series = readSeries(p, isKnown, sinks[p.fleet]);
 
-  const [energy, welfare] = prepared.map((p) => emitFleet(p, sinks[p.fleet]));
-  const fleetErrors = {
-    energy: [...shared.errors, ...sinks.energy.errors],
-    welfare: [...shared.errors, ...sinks.welfare.errors],
-  };
-  return {
+  const res = { fleets: {}, fleetErrors: {}, errors: [...shared.errors], warnings: [...shared.warnings] };
+  for (const p of prepared) {
+    const k = p.fleet;
+    const emitted = emitFleet(p, sinks[k]);
+    const errors = [...shared.errors, ...sinks[k].errors];
     // A module's text is null exactly when its own fleet (or a shared fault) failed.
-    energyTs: fleetErrors.energy.length ? null : energy.text,
-    welfareTs: fleetErrors.welfare.length ? null : welfare.text,
-    energy: energy.data,
-    welfare: welfare.data,
-    fleetErrors,
-    errors: [...shared.errors, ...sinks.energy.errors, ...sinks.welfare.errors],
-    warnings: [...shared.warnings, ...sinks.energy.warnings, ...sinks.welfare.warnings],
-  };
+    const text = errors.length ? null : emitted.text;
+    res.fleets[k] = { spec: p.spec, data: emitted.data, text, errors };
+    res.fleetErrors[k] = errors;
+    res[k] = emitted.data;
+    res[`${k}Ts`] = text;
+    res.errors.push(...sinks[k].errors);
+    res.warnings.push(...sinks[k].warnings);
+  }
+  return res;
+}
+
+/**
+ * The per-fleet view: `{ [key]: { data, text }, errors, warnings, fleetErrors }` for
+ * every fleet in FLEETS. `rawDir` is the directory holding the fleet directories.
+ */
+export function assemble({ rawDir = HOME, root = ROOT } = {}) {
+  const r = assembleFleet({ root, dir: rawDir });
+  const out = { errors: r.errors, warnings: r.warnings, fleetErrors: r.fleetErrors };
+  for (const f of FLEETS) out[f.key] = { data: r.fleets[f.key].data, text: r.fleets[f.key].text };
+  return out;
 }
 
 // ---------------------------------------------------------------------------
@@ -1334,11 +2021,13 @@ function main() {
   const outRoot = resolve(ROOT, opt('--out', '.'));
   const res = assembleFleet({ root: ROOT, dir });
 
-  for (const [fleet, d] of [['energy', res.energy], ['welfare', res.welfare]]) {
+  for (const f of FLEETS) {
+    const d = res.fleets[f.key].data;
     const c = d.meta.counts;
     console.log(
-      `  · ${fleet.padEnd(8)} ${d.meta.runId}  ${String(c.files).padStart(3)} file(s)  ${String(c.nodes).padStart(4)} nodes  ${String(c.edges).padStart(4)} edges  ` +
-        `${c.killed} killed  ${c.excluded} excluded  ${c.contrasAdded} denial(s) added${fleet === 'welfare' ? `  ${c.schemes} schemes` : ''}` +
+      `  · ${f.key.padEnd(8)} ${d.meta.runId}  ${String(c.files).padStart(3)} file(s)  ${String(c.nodes).padStart(4)} nodes  ${String(c.edges).padStart(4)} edges  ` +
+        `${c.killed} killed  ${c.excluded} excluded  ${c.contrasAdded} denial(s) added${f.kind === 'welfare' ? `  ${c.schemes} schemes` : ''}` +
+        (d.meta.series ? `  ${Object.entries(d.meta.series).map(([k, v]) => `${v} ${k}`).join(', ')}` : '') +
         (d.meta.empty ? '  (empty — no research yet)' : ''),
     );
   }
@@ -1347,8 +2036,11 @@ function main() {
     for (const w of res.warnings) console.log(`    ! ${w}`);
   }
   console.log('');
-  for (const [fleet, text] of [['energy', res.energyTs], ['welfare', res.welfareTs]]) {
-    const path = join(outRoot, OUTPUTS[fleet]);
+  // Each module is written on its own: one fleet's failure leaves only its own path untouched.
+  for (const f of FLEETS) {
+    const fleet = f.key;
+    const text = res.fleets[fleet].text;
+    const path = join(outRoot, f.out);
     const shown = relative(ROOT, path);
     const where = shown && !shown.startsWith('..') ? shown : path;
     if (text == null) {

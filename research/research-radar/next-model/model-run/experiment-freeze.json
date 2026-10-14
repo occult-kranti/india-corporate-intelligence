@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "frozenAt": "2026-10-08T17:34:32.445780+00:00",
+  "datasetPath": "research/research-radar/next-model/dataset.json",
+  "datasetSha256": "9bc1b278e3ee76444c047baa74a50cb2f491f2603db1533f3e72fc2b5c4b0f67",
+  "configurationSha256": "c9358839bf76ccb17cc4cf64732538a68b866b1484c614d237812990c4dcf654",
+  "codeHashes": {
+    "/workspace/india-corporate-intelligence/scripts/research-radar/next-model/encoder.py": "a0a37b3726b354e264cd8fc026034521f827113d17a75ce66198f05ce806cfbb",
+    "/workspace/india-corporate-intelligence/scripts/research-radar/next-model/train.py": "d445d8f13c1a9924e894259fc79381a95f6d2f0d2a62ff915c62083d41ea0f4f",
+    "/workspace/india-corporate-intelligence/scripts/research-radar/next-model/rank.py": "07f1b06f14a8ca17539b2f6e78c9b276b9f13b4beb4948494ed4f6d9afcd55bc"
+  },
+  "inputHashes": [
+    {
+      "path": "research/research-radar/next-model/graph-inventory.json",
+      "sha256": "fbc092d8e13d1a17bb49600e773f58a82cf50db2a761d0b3431974afca41ce14"
+    },
+    {
+      "path": "research/research-radar/next-model/train-dev-labels.json",
+      "sha256": "02e3a1aade862140d40e227f354ccc314edde56fa040cf953efdf04b01bb79b8"
+    }
+  ],
+  "splitCounts": {
+    "train": {
+      "documents": 305,
+      "queries": 129
+    },
+    "dev": {
+      "documents": 98,
+      "queries": 35
+    },
+    "test": {
+      "documents": 32,
+      "queries": 0
+    }
+  },
+  "models": {
+    "e5": {
+      "modelId": "intfloat/multilingual-e5-small",
+      "revision": "614241f622f53c4eeff9890bdc4f31cfecc418b3"
+    },
+    "f2": {
+      "modelId": "codefuse-ai/F2LLM-v2-80M",
+      "revision": "ad88d7a126711f1490cd4bad645dc9d3acc2af6a"
+    }
+  },
+  "developmentPredictionsMade": false,
+  "testLabelsRead": false
+}

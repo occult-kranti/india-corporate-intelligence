@@ -1,0 +1,40 @@
+{
+  "archivedAt": "2026-10-07T01:50:00.626409+00:00",
+  "purpose": "Preserve the first actual local model execution before subsequent public-source corrections and added international research. Not a claim that this historical corpus matches the latest raw slices.",
+  "documentCount": 311,
+  "model": {
+    "id": "sentence-transformers/all-MiniLM-L6-v2",
+    "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+    "license": "Apache-2.0",
+    "modelCard": "https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/blob/1110a243fdf4706b3f48f1d95db1a4f5529b4d41/README.md",
+    "format": "ONNX uint8 AVX2",
+    "dimensions": 384,
+    "maxTokens": 256,
+    "pooling": "attention-mask-weighted mean, L2 normalized",
+    "assetSha256": {
+      "onnx/model_quint8_avx2.onnx": "b941bf19f1f1283680f449fa6a7336bb5600bdcd5f84d10ddc5cd72218a0fd21",
+      "tokenizer.json": "be50c3628f2bf5bb5e3a7f17b1f74611b2561a3a27eeab05e5aa30f411572037"
+    }
+  },
+  "execution": {
+    "provider": "CPUExecutionProvider",
+    "python": "3.12.14",
+    "onnxruntime": "1.23.2",
+    "tokenizers": "0.22.1",
+    "numpy": "2.3.4",
+    "inferenceSeconds": 6.763,
+    "publicTextUploadedToModelService": false
+  },
+  "artifacts": [
+    {
+      "path": "research/atlas-expansion/runs/initial-311/model-corpus.json",
+      "bytes": 273696,
+      "sha256": "39ddcd32b8c4e450561fb578a5264e842fa5e079251de5389d829908bff37f34"
+    },
+    {
+      "path": "research/atlas-expansion/runs/initial-311/model-suggestions.json",
+      "bytes": 20031,
+      "sha256": "05cd58b72617ef2c82a865a25c92927676b82dfcc2e57c05a5eb19a97480adef"
+    }
+  ]
+}

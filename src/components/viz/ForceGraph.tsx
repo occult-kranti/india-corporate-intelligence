@@ -90,15 +90,19 @@ export const PRED_LABEL: Record<string, string> = {
   contra: 'Denial / counter-evidence',
   supersede: 'Fact update',
   analytic: 'Analytic comparison',
+  loan: 'Loan',
+  grant: 'Grant / foreign contribution',
 };
 
 /**
  * The predicates that carry a direction the data actually records: money or an
- * award moving from one party to another. Only these get an arrowhead or an "→".
+ * award moving from one party to another (MONEY_PREDS in scripts/lib/vocab.mjs,
+ * plus `award`; a test holds the two lists together). Only these get an arrowhead
+ * or an "→".
  * An arrow on "family" or on an analytic comparison would assert a direction that
  * nobody has claimed.
  */
-const DIRECTED = new Set<Predicate>(['bond', 'trust', 'direct', 'pmin', 'pmout', 'csr', 'award']);
+const DIRECTED = new Set<Predicate>(['bond', 'trust', 'direct', 'pmin', 'pmout', 'csr', 'award', 'loan', 'grant']);
 export const isDirected = (pred: Predicate) => DIRECTED.has(pred);
 
 /**
@@ -1655,6 +1659,7 @@ export default function ForceGraph({
         <div
           ref={tipRef}
           aria-hidden="true"
+          data-node-id={tipNode.id}
           className="absolute left-0 top-0 pointer-events-none font-mono text-[10.5px] leading-tight px-1.5 py-0.5 rounded bg-bg/90 border border-border text-text-secondary whitespace-nowrap"
           style={{
             transform: `translate(${cam.view.tx + pos[2 * tipNode.i] * cam.view.k}px, ${cam.view.ty + (pos[2 * tipNode.i + 1] - tipNode.r) * cam.view.k - 6}px) translate(-50%, -100%)`,
