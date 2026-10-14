@@ -1,0 +1,1110 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head id="Head1"><title>
+	Press Release Page | Press Information Bureau
+</title><link href="css/style.css?v=1" rel="stylesheet" type="text/css" /><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><link rel="alternate stylesheet" href="css/change.css?v=1" media="screen" title="change" /><link rel="alternate stylesheet" href="css/green.css?v=1" media="screen" title="green" /><link rel="alternate stylesheet" href="css/yellow.css" media="screen" title="yellow" /><link rel="stylesheet" type="text/css" href="css/prtint.css" media="print" /><link rel="stylesheet" href="css/style3.1.css" type="text/css" /><link id="pibA11yCss" rel="stylesheet" href="/css/accessibility.css?v=7" type="text/css" />
+      <script type="text/javascript">
+        /* Stamps the saved theme on <html> before the page paints. The
+           switcher in js/accessibility.js settles the rest, but on inner
+           pages it does not run until the end of the body and inside the
+           release frame it is a separate download - either way the reader
+           would otherwise watch a light page turn dark in front of them. */
+        (function (d) {
+            var t = "";
+            try {
+                t = window.localStorage.getItem("pibStyle") || "";
+            } catch (e) {
+                t = "";
+            }
+            if (t === "orange") {
+                t = "yellow";
+            }
+            var c = t === "change" ? " pib-hc"
+                : t === "green" ? " pib-theme-green"
+                : t === "yellow" ? " pib-theme-yellow" : "";
+            d.documentElement.className += c + " pib-a11y-content";
+        }(document));
+      </script>
+
+
+      <script src="js/jquery.min.js" type="text/javascript"></script>
+      <script type="text/javascript" src="/js/accessibility.js?v=7"></script>
+
+      <script type="text/javascript">
+            $(document).ready(function () {
+                  function getParameterByName(name) {
+                        var url = window.location.href;
+                        name = name.replace(/[\[\]]/g, '\\$&');
+                        var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+                              results = regex.exec(url);
+                        if (!results) return null;
+                        if (!results[2]) return '';
+                        return decodeURIComponent(results[2].replace(/\+/g, ' '));
+                  }
+                  // Get the IDs from the current page's URL
+                  let prid = parseInt(getParameterByName('PRID'), 10);
+
+                  if (!isNaN(prid) && prid > 0) {
+                        $.ajax({
+                              type: "POST",
+                              url: "AjaxMethod.aspx/UpdatePRHitCount",
+                              async: false,
+                              data: JSON.stringify({ 'PermId': prid }),
+                              contentType: "application/json; charset=utf-8",
+                              dataType: "json",
+                              success: function (response) {
+                                    console.log(response);
+                              },
+                              error: function (error) {
+                                    console.log("Error in AJAX request", error);
+                              }
+                        });
+                  } else {
+                        console.log("Invalid parameters:", prid);
+                  }
+
+            });
+      </script>
+      <style type="text/css">
+            .table-responsive {
+                  width: 100%;
+                  overflow-x: auto;
+            }
+
+            .banner {
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  background-color: #000;
+                  color: #fff;
+                  padding: 20px;
+            }
+
+            full-width {
+                  width: 100%;
+            }
+
+            .logo-left, .logo-center, .countdown {
+                  display: flex;
+                  align-items: center;
+            }
+
+                  .logo-left img, .logo-center img {
+                        height: 70px;
+                  }
+
+            .countdown {
+                  text-align: center;
+                  background-color: var(--dbim-text, #150202);
+                  border-radius: 10px;
+                  padding: 10px;
+                  border: 2px solid grey;
+            }
+
+            .firstnumber {
+                  color: #000000;
+                  position: absolute;
+                  top: 50px;
+                  right: 90px;
+                  font-size: 30px;
+            }
+
+            .secondnumber {
+                  position: absolute;
+                  color: #000000;
+                  right: 45px;
+                  top: 50px;
+                  font-size: 30px;
+            }
+
+            .countdown .days {
+                  font-size: 35px;
+                  color: gold;
+            }
+
+            .countdown p {
+                  margin: 0;
+            }
+
+            .countdown .text {
+                  font-size: 16px;
+            }
+
+            a {
+                  word-break: break-all;
+            }
+
+            iframe, img {
+                  max-width: 100%;
+            }
+
+            @media(max-width:1199px) {
+                  .firstnumber {
+                        top: 40px;
+                        right: 72px;
+                        font-size: 30px;
+                  }
+
+                  .secondnumber {
+                        right: 35px;
+                        top: 40px;
+                        font-size: 30px;
+                  }
+            }
+
+            @media(max-width:990px) {
+                  .firstnumber {
+                        top: 25px;
+                        right: 54px;
+                        font-size: 30px;
+                  }
+
+                  .secondnumber {
+                        right: 25px;
+                        top: 25px;
+                        font-size: 30px;
+                  }
+            }
+
+            @media(max-width:768px) {
+                  .countdown, .days {
+                        font-size: 12px !important;
+                  }
+
+
+                  .firstnumber {
+                        top: 25%;
+                        right: 8%;
+                        font-size: 30px;
+                  }
+
+                  .secondnumber {
+                        right: 4.5%;
+                        top: 25%;
+                        font-size: 30px;
+                  }
+            }
+
+            @media(max-width:475px) {
+                  .countdown, .days {
+                        font-size: 10px !important;
+                        top: 20%;
+                  }
+
+                  .bannerimgdiv {
+                        padding: 0 !important;
+                  }
+
+                  .bannerimg {
+                        width: 108% !important;
+                  }
+            }
+      </style>
+      <script type="text/javascript">
+            $(function () {
+                  $("[id*=printPDF]").click(function () {
+                        $("[id*=hfGridHtml]").val($("#PdfDiv").html());
+                  });
+            });
+            $(function () {
+                  $("[id*=printPDFEvent]").click(function () {
+                        $("[id*=hfGridHtml]").val($("#PdfDiv").html());
+                  });
+            });
+      </script>
+
+      
+
+      <link id="pibConsentCss" href="/css/consent.css?v=8" rel="stylesheet" type="text/css" /><link id="pibFontsCss" href="/css/fonts-noto.css?v=6" rel="stylesheet" type="text/css" /><link id="pibDbimCss" href="/css/dbim.css?v=1112" rel="stylesheet" type="text/css" /><meta property="og:title" content="MoD signs contract with Airbus Defence &amp; Space, Spain for acquisition of 56 C-295MW transport aircraft for IAF" /><meta property="og:url" content="www.pib.gov.in/Pressreleaseshare.aspx?PRID=1757634" /><meta property="og:description" content="Key Highlights:
+
+
+	Big step towards modernisation of IAF transport fleet
+	5-10 tonne capacity ai" /><meta property="og:image" content="https:/pib.gov.in/images/indian-emblem.png" />
+                                <script>!function(e){var n="https://s.go-mpulse.net/boomerang/";if("False"=="True")e.BOOMR_config=e.BOOMR_config||{},e.BOOMR_config.PageParams=e.BOOMR_config.PageParams||{},e.BOOMR_config.PageParams.pci=!0,n="https://s2.go-mpulse.net/boomerang/";if(window.BOOMR_API_key="C4E7H-KSCMC-422L4-W3EM5-U36MF",function(){function e(){if(!i){var e=document.createElement("script");e.id="boomr-scr-as",e.src=window.BOOMR.url,e.async=!0,o.parentNode.appendChild(e),i=!0}}function t(e){i=!0;var n,t,a,r,d=document,O=window;if(window.BOOMR.snippetMethod=e?"if":"i",t=function(e,n){var t=d.createElement("script");t.id=n||"boomr-if-as",t.src=window.BOOMR.url,BOOMR_lstart=(new Date).getTime(),e=e||d.body,e.appendChild(t)},!window.addEventListener&&window.attachEvent&&navigator.userAgent.match(/MSIE [67]\./))return window.BOOMR.snippetMethod="s",void t(o.parentNode,"boomr-async");a=document.createElement("IFRAME"),a.src="about:blank",a.title="",a.role="presentation",a.loading="eager",r=(a.frameElement||a).style,r.width=0,r.height=0,r.border=0,r.display="none",o.parentNode.appendChild(a);try{O=a.contentWindow,d=O.document.open()}catch(_){n=document.domain,a.src="javascript:var d=document.open();d.domain='"+n+"';void(0);",O=a.contentWindow,d=O.document.open()}if(n)d._boomrl=function(){this.domain=n,t()},d.write("<bo"+"dy onload='document._boomrl();'>");else if(O._boomrl=function(){t()},O.addEventListener)O.addEventListener("load",O._boomrl,!1);else if(O.attachEvent)O.attachEvent("onload",O._boomrl);d.close()}function a(e){window.BOOMR_onload=e&&e.timeStamp||(new Date).getTime()}if(!window.BOOMR||!window.BOOMR.version&&!window.BOOMR.snippetExecuted){window.BOOMR=window.BOOMR||{},window.BOOMR.snippetStart=(new Date).getTime(),window.BOOMR.snippetExecuted=!0,window.BOOMR.snippetVersion=12,window.BOOMR.url=n+"C4E7H-KSCMC-422L4-W3EM5-U36MF";var o=document.currentScript||document.getElementsByTagName("script")[0],i=!1,r=document.createElement("link");if(r.relList&&"function"==typeof r.relList.supports&&r.relList.supports("preload")&&"as"in r)window.BOOMR.snippetMethod="p",r.href=window.BOOMR.url,r.rel="preload",r.as="script",r.addEventListener("load",e),r.addEventListener("error",function(){t(!0)}),setTimeout(function(){if(!i)t(!0)},3e3),BOOMR_lstart=(new Date).getTime(),o.parentNode.appendChild(r);else t(!1);if(window.addEventListener)window.addEventListener("load",a,!1);else if(window.attachEvent)window.attachEvent("onload",a)}}(),"".length>0)if(e&&"performance"in e&&e.performance&&"function"==typeof e.performance.setResourceTimingBufferSize)e.performance.setResourceTimingBufferSize();!function(){if(BOOMR=e.BOOMR||{},BOOMR.plugins=BOOMR.plugins||{},!BOOMR.plugins.AK){var n=""=="true"?1:0,t="",a="ljqllrax2fkcq2wfuvwa-f-de8ed2192-clientnsv4-s.akamaihd.net",o="false"=="true"?2:1,i={"ak.v":"41","ak.cp":"1825201","ak.ai":parseInt("1215205",10),"ak.ol":"0","ak.cr":10,"ak.ipv":4,"ak.proto":"h2","ak.rid":"e88498","ak.r":46091,"ak.a2":n,"ak.m":"dscb","ak.n":"ff","ak.cport":14573,"ak.gh":"23.201.193.40","ak.quicv":"","ak.tlsv":"tls1.3","ak.0rtt":"","ak.0rtt.ed":"","ak.csrc":"-","ak.acc":"","ak.t":"1791337836","ak.ak":"hOBiQwZUYzCg5VSAfCLimQ==nhQ4kCPJYOcKe9FRb24YGR8AnnA1k0cFgai55hxIcx8TwuzaPOw/7Asp3ag6Rz45JJboFrUjTA/j60/CAj/162MwnyozyiLWRaa15eFPo2u4RRVbnVBDtuWzqlI9F2lCuOowU3XDEGSGs3h6LK1fEw7Ju/aIWxWWumDJUQuB4qHyEh/s9C3d6nEUASiTItDCyEl2x+ZY9Wq6ju9ziTDkgdQCq96RjeP9fKU7VihbU7IILk0LhQfnKMDSkQc/VxH2ucCDOzjCPdUcwh7779tv/TD3S26Q+v54r1+v7muBIcDB/yYyyHbkpXfsI2gQCdu7jHYIRw4bqeIS3MCyFQqB10IIzy6ThnhDP/aHzcfbpESXzVt2c/HwnmJfuY5SzjBjSFo1392iwzkgptZtyuYtjeuctVvX65Iw3tnwHdNNMFo=","ak.pv":"9","ak.dpoabenc":"","ak.tf":o};if(""!==t)i["ak.ruds"]=t;var r={i:!1,av:function(n){var t="http.initiator";if(n&&(!n[t]||"spa_hard"===n[t]))i["ak.feo"]=void 0!==e.aFeoApplied?1:0,BOOMR.addVar(i)},rv:function(){var e=["ak.cport","ak.cr","ak.csrc","ak.gh","ak.ipv","ak.m","ak.n","ak.ol","ak.proto","ak.quicv","ak.tlsv","ak.0rtt","ak.0rtt.ed","ak.r","ak.acc","ak.t","ak.tf"];BOOMR.removeVar(e)}};BOOMR.plugins.AK={akVars:i,akDNSPreFetchDomain:a,init:function(){if(!r.i){var e=BOOMR.subscribe;e("before_beacon",r.av,null,null),e("onbeacon",r.rv,null,null),r.i=!0}return this},is_complete:function(){return!0}}}}()}(window);</script></head>
+<body>
+    
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"
+     style="position:absolute;width:0;height:0;overflow:hidden" id="dbim-icon-sprite">
+    <defs>
+        <symbol id="icon-angle-double-left" viewBox="0 0 24 24"><path d="M11.6 4.6 4.2 12l7.4 7.4 2.2-2.2L8.6 12l5.2-5.2z"/><path d="M19 4.6 11.6 12 19 19.4l2.2-2.2L16 12l5.2-5.2z"/></symbol>
+        <symbol id="icon-angle-double-right" viewBox="0 0 24 24"><path d="M12.4 4.6 10.2 6.8 15.4 12l-5.2 5.2 2.2 2.2L19.8 12z"/><path d="M5 4.6 2.8 6.8 8 12l-5.2 5.2L5 19.4 12.4 12z"/></symbol>
+        <symbol id="icon-arrow-left" viewBox="0 0 24 24"><path d="M20.8 10.6H9.6v2.8h11.2z"/><path d="M10.8 5.6 3.2 12l7.6 6.4z"/></symbol>
+        <symbol id="icon-arrow-right" viewBox="0 0 24 24"><path d="M3.2 10.6h11.2v2.8H3.2z"/><path d="M13.2 5.6 20.8 12l-7.6 6.4z"/></symbol>
+        <symbol id="icon-blogger" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M6.4 2.4h11.2a4 4 0 0 1 4 4v11.2a4 4 0 0 1-4 4H6.4a4 4 0 0 1-4-4V6.4a4 4 0 0 1 4-4zm2.8 5.2a2 2 0 0 0 0 4h2.4a2 2 0 0 0 0-4zm0 5.6a2 2 0 0 0 0 4h5.6a2 2 0 0 0 0-4z"/></symbol>
+        <symbol id="icon-calendar" viewBox="0 0 24 24"><path d="M7.6 2.4H10v2.4H7.6z"/><path d="M14 2.4h2.4v2.4H14z"/><path fill-rule="evenodd" d="M4 4.8h16a1.6 1.6 0 0 1 1.6 1.6v13.2a1.6 1.6 0 0 1-1.6 1.6H4a1.6 1.6 0 0 1-1.6-1.6V6.4A1.6 1.6 0 0 1 4 4.8zm.4 5.6v8.4h15.2v-8.4z"/><path d="M6.4 12.4h3.2v3.2H6.4z"/></symbol>
+        <symbol id="icon-chevron-left" viewBox="0 0 24 24"><path d="M15.4 4.6 8 12l7.4 7.4 2.2-2.2L12.4 12l5.2-5.2z"/></symbol>
+        <symbol id="icon-chevron-right" viewBox="0 0 24 24"><path d="M8.6 4.6 6.4 6.8 11.6 12l-5.2 5.2 2.2 2.2L16 12z"/></symbol>
+        <symbol id="icon-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/></symbol>
+        <symbol id="icon-download" viewBox="0 0 24 24"><path d="M10.8 3h2.4v7.6h3.4L12 16.6l-4.6-6h3.4z"/><path d="M4 17.2h2.4v2.4h11.2v-2.4H20v3.2a1.4 1.4 0 0 1-1.4 1.4H5.4A1.4 1.4 0 0 1 4 20.4z"/></symbol>
+        <symbol id="icon-facebook" viewBox="0 0 24 24"><path d="M13.6 21.6v-8.4h2.8l.42-3.3h-3.22V7.8c0-.95.27-1.6 1.64-1.6h1.74V3.26a23 23 0 0 0-2.54-.13c-2.5 0-4.22 1.53-4.22 4.34v2.43H7.4v3.3h2.82v8.4z"/></symbol>
+        <symbol id="icon-fact-check" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2.4 3.6 5.6v6.2c0 4.6 3.4 8.6 8.4 9.8 5-1.2 8.4-5.2 8.4-9.8V5.6zm-1 13.2-3.6-3.6 1.7-1.7 1.9 1.9 4.5-4.5 1.7 1.7z"/></symbol>
+        <symbol id="icon-hashtag" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M8.8 3h2.4l-1 6h3.2l1-6h2.4l-1 6h3.4v2.4h-3.8l-.6 3.2h3.6V17h-4l-1 5h-2.4l1-5h-3.2l-1 5H5.4l1-5H3V14.6h3.8l.6-3.2H3.8V9h4zm.6 8.4-.6 3.2h3.2l.6-3.2z"/></symbol>
+        <symbol id="icon-home" viewBox="0 0 24 24"><path d="M12 3.4 2.8 11.6h2.4v8.4a1 1 0 0 0 1 1h3.3v-5.4h5v5.4h3.3a1 1 0 0 0 1-1v-8.4h2.4z"/></symbol>
+        <symbol id="icon-instagram" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M7.6 2.4h8.8a5.2 5.2 0 0 1 5.2 5.2v8.8a5.2 5.2 0 0 1-5.2 5.2H7.6a5.2 5.2 0 0 1-5.2-5.2V7.6a5.2 5.2 0 0 1 5.2-5.2zm0 2.4a2.8 2.8 0 0 0-2.8 2.8v8.8a2.8 2.8 0 0 0 2.8 2.8h8.8a2.8 2.8 0 0 0 2.8-2.8V7.6a2.8 2.8 0 0 0-2.8-2.8z"/><path fill-rule="evenodd" d="M12 6.8a5.2 5.2 0 1 0 0 10.4 5.2 5.2 0 0 0 0-10.4zm0 2.4a2.8 2.8 0 1 1 0 5.6 2.8 2.8 0 0 1 0-5.6z"/><circle cx="17.3" cy="6.7" r="1.3"/></symbol>
+        <symbol id="icon-linkedin" viewBox="0 0 24 24"><path d="M4.8 8.8h3.6v12H4.8z"/><circle cx="6.6" cy="5.4" r="2.1"/><path d="M10.8 8.8h3.45v1.65h.05c.48-.9 1.65-1.85 3.4-1.85 3.63 0 4.3 2.35 4.3 5.4v6.6h-3.6v-5.85c0-1.4-.03-3.2-1.95-3.2-1.95 0-2.25 1.52-2.25 3.1v5.95h-3.6z"/></symbol>
+        <symbol id="icon-mail" viewBox="0 0 24 24"><path d="M2.4 7.6v9.2a1.6 1.6 0 0 0 1.6 1.6h16a1.6 1.6 0 0 0 1.6-1.6V7.6L12 14z"/><path d="M21.2 5.4H2.8L12 11.8z"/></symbol>
+        <symbol id="icon-mail-open" viewBox="0 0 24 24"><path d="M2.4 9.8h19.2v9.6A1.6 1.6 0 0 1 20 21H4a1.6 1.6 0 0 1-1.6-1.6z"/><path d="M12 2.6 21.6 9.2h-3.8L12 5.3 6.2 9.2H2.4z"/><path d="m3.9 11.2 8.1 5.4 8.1-5.4 1.5 1.3-9.6 6.4-9.6-6.4z"/></symbol>
+        <symbol id="icon-map-marker" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2.4a7 7 0 0 0-7 7c0 5.2 7 12.2 7 12.2s7-7 7-12.2a7 7 0 0 0-7-7zm0 9.6a2.6 2.6 0 1 1 0-5.2 2.6 2.6 0 0 1 0 5.2z"/></symbol>
+        <symbol id="icon-newspaper" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M2.8 4.4h14.8v15.2H2.8zm2 2v11.2h10.8V6.4z"/><path d="M6 7.6h8.4v1.6H6z"/><path d="M6 10.8h8.4v1.6H6z"/><path d="M6 14h5.2v1.6H6z"/><path d="M18.4 8.4h2.8v9.6a1.4 1.4 0 0 1-2.8 0z"/></symbol>
+        <symbol id="icon-pause" viewBox="0 0 24 24"><rect x="7.4" y="4" width="3.6" height="16" rx="0.9"/><rect x="13" y="4" width="3.6" height="16" rx="0.9"/></symbol>
+    <symbol id="icon-play" viewBox="0 0 24 24"><path d="M8 4.5v15l12-7.5z"/></symbol>
+        <symbol id="icon-picture" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M2.4 5.2h19.2v13.6H2.4zm2 2v9.6h15.2V7.2z"/><path d="M5.6 16.4 10 11l2.6 3 2-2.2 4 4.6z"/><circle cx="8" cy="10.4" r="1.5"/></symbol>
+        <symbol id="icon-press-conference" viewBox="0 0 24 24"><circle cx="12" cy="5.2" r="2.6"/><path d="M7.6 12.2a4.4 4.4 0 0 1 8.8 0z"/><circle cx="4.9" cy="9.6" r="2.2"/><path d="M1.8 15.2a3.1 3.1 0 0 1 6.2 0z"/><circle cx="19.1" cy="9.6" r="2.2"/><path d="M16 15.2a3.1 3.1 0 0 1 6.2 0z"/><path d="M6.6 13.6h10.8l2.2 7.8H4.4z"/></symbol>
+        <symbol id="icon-print" viewBox="0 0 24 24"><path d="M6.4 2.8h11.2v4.4H6.4z"/><path d="M4 8.4h16a1.6 1.6 0 0 1 1.6 1.6v5.6a1.6 1.6 0 0 1-1.6 1.6h-1.6v-2.8H6v2.8H4a1.6 1.6 0 0 1-1.6-1.6V10A1.6 1.6 0 0 1 4 8.4z"/><path d="M7.2 15.6h9.6v5.6H7.2z"/></symbol>
+        <symbol id="icon-rss" viewBox="0 0 24 24"><circle cx="4.8" cy="19.2" r="2.4"/><path d="M2.4 11.2v3.2a6.4 6.4 0 0 1 6.4 6.4H12A9.6 9.6 0 0 0 2.4 11.2z"/><path d="M2.4 4.8V8A13.6 13.6 0 0 1 16 21.6h3.2A16.8 16.8 0 0 0 2.4 4.8z"/></symbol>
+        <symbol id="icon-search-plus" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M10 2.8a7.2 7.2 0 1 0 0 14.4 7.2 7.2 0 0 0 0-14.4zm0 2.4a4.8 4.8 0 1 1 0 9.6 4.8 4.8 0 0 1 0-9.6z"/><path d="M15.3 14.6 21.2 20.5l-1.5 1.5-5.9-5.9z"/><path d="M9.2 6.8h1.6v2.4h2.4v1.6h-2.4v2.4H9.2v-2.4H6.8V9.2h2.4z"/></symbol>
+        <symbol id="icon-share" viewBox="0 0 24 24"><circle cx="18" cy="5.6" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="18.4" r="3"/><path d="M8.3 10.9 15.7 7.2l.9 1.8-7.4 3.7z"/><path d="M9.2 13.1 16.6 16.8l-.9 1.8-7.4-3.7z"/></symbol>
+        <symbol id="icon-twitter" viewBox="0 0 24 24"><path d="M4.2 3h4.3l11.3 18h-4.3z"/><path d="M19.3 3h-2.6L4.2 21h2.6z"/></symbol>
+        <symbol id="icon-university" viewBox="0 0 24 24"><path d="M12 2.4 21.6 7.2v1.6H2.4V7.2z"/><path d="M4.8 10.4h2.4v8H4.8z"/><path d="M9.2 10.4h2.4v8H9.2z"/><path d="M13.4 10.4h2.4v8h-2.4z"/><path d="M17.6 10.4H20v8h-2.4z"/><path d="M3.2 19.8h17.6v1.8H3.2z"/></symbol>
+        <symbol id="icon-volume-up" viewBox="0 0 24 24"><path d="M3.2 9.2h3.3l5-4.2v14l-5-4.2H3.2z"/><path d="M14.6 8.4a5 5 0 0 1 0 7.2l1.6 1.6a7.2 7.2 0 0 0 0-10.4z"/><path d="M17.4 5.6a8.8 8.8 0 0 1 0 12.8l1.5 1.5a10.9 10.9 0 0 0 0-15.8z"/></symbol>
+        <symbol id="icon-whatsapp" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2.4a9.5 9.5 0 0 0-8.1 14.5L2.4 21.6l4.8-1.4A9.5 9.5 0 1 0 12 2.4zm0 2.2a7.3 7.3 0 1 1-3.8 13.5l-.4-.2-2.6.7.7-2.5-.3-.4A7.3 7.3 0 0 1 12 4.6z"/><path d="M9.4 7.8c-.2-.5-.4-.5-.6-.5h-.5a1 1 0 0 0-.7.3c-.3.3-.9.9-.9 2.1s.9 2.4 1 2.6c.1.2 1.7 2.8 4.3 3.8 2.1.8 2.6.7 3 .6.5 0 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2l-.5-.3-1.6-.8c-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6 6 0 0 1-1.8-1.1 6.6 6.6 0 0 1-1.2-1.6c-.1-.2 0-.4.1-.5l.4-.5.3-.5v-.5z"/></symbol>
+        <symbol id="icon-youtube" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M21.6 7.2a2.8 2.8 0 0 0-2-2C17.9 4.8 12 4.8 12 4.8s-5.9 0-7.6.4a2.8 2.8 0 0 0-2 2A29 29 0 0 0 2 12a29 29 0 0 0 .4 4.8 2.8 2.8 0 0 0 2 2c1.7.4 7.6.4 7.6.4s5.9 0 7.6-.4a2.8 2.8 0 0 0 2-2A29 29 0 0 0 22 12a29 29 0 0 0-.4-4.8zM10.2 15.1V8.9l5.1 3.1z"/></symbol>
+    </defs>
+</svg>
+
+      <form method="post" action="./PressReleasePage.aspx?PRID=1757634&amp;reg=48&amp;lang=2" id="form1">
+<div class="aspNetHidden">
+<input type="hidden" name="sc_HiddenField" id="sc_HiddenField" value="" />
+<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
+<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="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" />
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+var theForm = document.forms['form1'];
+if (!theForm) {
+    theForm = document.form1;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</script>
+
+
+<script src="/WebResource.axd?d=pynGkmcFUV13He1Qd6_TZPQet1wIx1Q48y3xJY2k25Y7qxH5RrQ9qQcN-OiTC9guZtri9w2&amp;t=639246315009809930" type="text/javascript"></script>
+
+
+<script src="/ScriptResource.axd?d=x6wALODbMJK5e0eRC_p1LdIxBJXt0U_WW5GWfJqHAqo6frgCmGRfEywglicTersO2OKrFhK1gAIp0Wk2al2YrpdR3uWqH6f4nfjBsCyRUfTUUVmb0&amp;t=ffffffffecf8d3f2" type="text/javascript"></script>
+<script src="/ScriptResource.axd?d=P5lTttoqSeZXoYRLQMIScH645UK3RD852IErF2548Wz9Ssv0rLjB4fhVKnHcMpqkaMHpNAGOeWY02Lf4aBYN9-dVBme_SNK5KJwmFQNpMixYDZ7M0&amp;t=ffffffffecf8d3f2" type="text/javascript"></script>
+<script src="/PressReleasePage.aspx?_TSM_HiddenField_=sc_HiddenField&amp;_TSM_CombinedScripts_=%3b%3bAjaxControlToolkit%2c+Version%3d3.5.7.123%2c+Culture%3dneutral%2c+PublicKeyToken%3d28f01b0e84b6d53e%3aen-US%3a5a4df314-b4a2-4da2-a207-9284f1b1e96c%3ade1feab2%3af2c8e708%3a8613aea7%3af9cec9bc%3a3202a5a2%3aab09e3fe%3a87104b7c%3a720a52bf%3a589eaa30%3aa67c2700%3abe6fb298" type="text/javascript"></script>
+<div class="aspNetHidden">
+
+	<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="59B53027" />
+	<input type="hidden" name="__VIEWSTATEENCRYPTED" id="__VIEWSTATEENCRYPTED" value="" />
+	<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="JDVCEhB0QNJHMJY8DIxuApTwka/x+hhWyq6ppFFDh47pOCGs5zQ8i/V/DuKdKn/L/9L+SjoFfaxL2KCdlIAm1aN8p1TZ7OLHkLkIQwzLQieOzPragK1/bmWhE2L0+iFVqGkD02XjWUjk9KRNFXGLXcsnlR9y3Zo/MDCyIZf1Ww2VQ28OZa681qHiZLa8hOUFvgfCi7sGoZ9jw9bPvc3uKAbFmO/bmuhpTJR14+9rgVe8nxyV8eTJ7mGdXC81Ty/UDGf0bvx5SdRp3n6+xtMcg95IfJ8=" />
+</div>
+                              
+            <div id="templateCss"></div>
+            <script type="text/javascript">
+//<![CDATA[
+Sys.WebForms.PageRequestManager._initialize('sc', 'form1', ['tupdate12','update12'], [], [], 90, '');
+//]]>
+</script>
+
+            <input type="hidden" name="hfGridHtml" id="hfGridHtml" />
+            <div class="container" style='margin-bottom: 50px;'>
+                  <div id="accessories">
+
+                        
+                        <div class="pull-right" style="display: flex">
+                              <div id="voll"></div>
+                              <div id="vollDT"></div>
+                              
+                              
+
+<span class="print-icons">
+<input type="image" name="Print1$print" id="Print1_print" aria-label="Print" src="images/printer_icon.png" alt="print page button" style="padding: 5px 10px 5px 10px;" />
+</span>
+                        </div>
+                  </div>
+                  <input type="hidden" name="hydpermid" id="hydpermid" value="1757634" />
+                  
+
+
+
+                  <div class="innner-page-main-about-us-content-right-part">
+
+                        <div id="MinistryName" class="MinistryNameSubhead text-center">
+                              Ministry of Defence
+                        </div>
+                        
+                        <div id="lg_g"><div class='log_oo'>  <img src='https://static.pib.gov.in/WriteReadData/specificdocs/photo/2026/sep/ph_9768_20260902_10000501.png' alt='azadi ka amrit mahotsav' /> </div></div>
+
+
+
+
+
+                        <div class="text-center event-heading-background">
+                              
+                              <h1 id="Titleh2">
+                                    MoD signs contract with Airbus Defence & Space, Spain for acquisition of 56 C-295MW transport aircraft for IAF
+                              </h1>
+                              <h3 id="Subtitleh3">
+                                    <span id="ltrSubtitle"></span>
+                              </h3>
+                        </div>
+
+                        <div id="PrDateTime" class="ReleaseDateSubHeaddateTime text-center pt20">
+                              Posted On:
+                24 SEP 2021 12:54PM by PIB Delhi
+                        </div>
+                        
+                        <div class='pt20'>
+                        </div>
+                        <input type="hidden" name="hydphotoUrl" id="hydphotoUrl" />
+                        
+                        <p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><span style="background-color:white"><em>Key Highlights</em>:</span></span></span></p>
+
+<ul>
+	<li style="text-align: justify;"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><span style="background-color:white"><strong>Big step towards modernisation of IAF transport fleet</strong></span></span></span></li>
+	<li style="text-align: justify;"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><span style="background-color:white"><strong>5-10 tonne capacity aircraft equipped with contemporary technology</strong></span></span></span></li>
+	<li style="text-align: justify;"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><span style="background-color:white"><strong>Airbus to also directly purchase eligible products &amp; services from Indian Offset Partners</strong></span></span></span></li>
+	<li style="text-align: justify;"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><span style="background-color:white"><strong>Unique opportunity for domestic private sector to enter into technology intensive aviation industry</strong></span></span></span></li>
+</ul>
+
+<p style="text-align:justify"><span style="font-family:&quot;Times New Roman&quot;,Times,serif; font-size:16px">Ministry of Defence (MoD) signed a contract with M/s Airbus Defence and Space, Spain for acquisition of 56 C-295MW transport aircraft for the Indian Air Force, on September 24, 2021. The MoD has also signed an Offset Contract with M/s Airbus Defence and Space through which M/s Airbus will discharge its offset obligations through direct purchase of eligible products and services from Indian Offset Partners. These contracts were signed following the approval accorded by the Cabinet Committee on Security earlier this month.&nbsp;</span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">The induction of C-295MW will be a significant step towards modernisation of the transport fleet of the Indian Air Force (IAF). It is a transport aircraft of 5-10 tonne capacity with contemporary technology that will replace the ageing Avro transport aircraft of IAF. The aircraft is capable of operating from semi-prepared strips and has a rear ramp door for quick reaction and para dropping of troops &amp; cargo. The aircraft will give a major boost to tactical airlift capability of IAF, especially in the Northern and North-Eastern sector and Andaman &amp; Nicobar Islands.</span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">The project will provide a major boost to the &lsquo;Atmanirbhar Bharat Abhiyan&rsquo; of the Government that offers a unique opportunity for the Indian private sector to enter into technology intensive and highly competitive aviation industry. Out of 56, forty aircraft will be manufactured in India by TATA Consortium. All the deliveries will be completed within ten years of signing of the contract. All 56 aircraft will be installed with indigenous Electronic Warfare Suite. After completion of the delivery, the subsequent aircraft manufactured in India can be exported to countries which are cleared by the Government of India. The project will give a boost to aerospace ecosystem in India wherein several MSMEs spread over the country will be involved in manufacturing of parts of the aircraft. The program will also involve development of specialised infrastructure in the form of hangars, buildings, aprons and taxiway. </span></span></p>
+
+<p style="text-align:justify"><span style="font-family:&quot;Times New Roman&quot;,Times,serif; font-size:16px">This programme is a unique initiative of the Government to strengthen the indigenous capabilities and boost &lsquo;Make in India&rsquo;.</span></p>
+
+<p style="text-align:center"><img alt="" src="https://static.pib.gov.in/WriteReadData/userfiles/image/PIC279GT.JPG" style="width:580px" /></p>
+
+<p style="text-align:center"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">***</span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><strong>ABB/DK/Savvy</strong></span></span></p>
+
+
+                        
+                        <div id="reel_pic">
+                        </div>
+
+
+
+                        
+                        <br />
+                        <span id="ReleaseId">(Release ID: 1757634)</span>
+                        <span id="lblViews">Visitor Counter : 4532</span>
+                        <div>
+                              
+                        </div>
+                        
+
+                        <span id="lblRefPhoto"></span>
+
+                        <div class="BackgroundRelease">
+                              
+                        </div>
+                        <div>
+                              
+                        </div>
+                        <div class="ReleaseLang">Read this release in: 
+                        
+                                    
+                                    <a href='https://pib.gov.in/PressReleasePage.aspx?PRID=1757692' target="_blank">
+                                          Urdu </a>
+                              
+                                    ,
+                              
+                                    
+                                    <a href='https://pib.gov.in/PressReleasePage.aspx?PRID=1757746' target="_blank">
+                                          Marathi </a>
+                              
+                                    ,
+                              
+                                    
+                                    <a href='https://pib.gov.in/PressReleasePage.aspx?PRID=1757803' target="_blank">
+                                          हिन्दी </a>
+                              
+                                    ,
+                              
+                                    
+                                    <a href='https://pib.gov.in/PressReleasePage.aspx?PRID=1757834' target="_blank">
+                                          Bengali </a>
+                              
+                                    ,
+                              
+                                    
+                                    <a href='https://pib.gov.in/PressReleasePage.aspx?PRID=1757797' target="_blank">
+                                          Punjabi </a>
+                              
+                                    ,
+                              
+                                    
+                                    <a href='https://pib.gov.in/PressReleasePage.aspx?PRID=1757689' target="_blank">
+                                          Tamil </a>
+                              
+                                    ,
+                              
+                                    
+                                    <a href='https://pib.gov.in/PressReleasePage.aspx?PRID=1757710' target="_blank">
+                                          Telugu </a>
+                              
+                                    ,
+                              
+                                    
+                                    <a href='https://pib.gov.in/PressReleasePage.aspx?PRID=1757751' target="_blank">
+                                          Malayalam </a>
+                              
+                        </div>
+
+                        <div class="RelTag">
+                              <ul>
+                                    
+                              </ul>
+                        </div>
+                        <div class="clear">
+                        </div>
+                        <div id="RelLink" class="RelLink">
+                              <ul>
+                                    
+                                    
+                              </ul>
+                        </div>
+                        <center>
+                              
+                        </center>
+                  </div>
+
+                  <div id="update12">
+	
+                              
+                              <input type="hidden" name="Hidden" id="Hidden" />
+                              <div id="P_CategoryManagement" class="ModalWindow" style="border-width:0px;height:60%;width:60%;overflow:auto;display: none">
+		
+                                    <div>
+                                          <input type="image" name="btnClose" id="btnClose" src="images/close_flat_icon.png" />
+                                    </div>
+                                    <div id="description">
+                                    </div>
+                                    <div class="text-center">
+                                          <h2>
+                                                
+                                                <br>
+                                                
+                                          </h2>
+                                    </div>
+                                    <br />
+                                    <div class="clear">
+                                    </div>
+                                    
+                              
+	</div>
+                        
+</div>
+            </div>
+            
+            <div id="PdfDiv" style="display: none;">
+                  <table width="100%">
+                        <tr>
+                              <td style="font-weight: 200; text-align: center">
+                                    Ministry of Defence
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                                    <div style="font-weight: 200; text-align: center; font-size: 30px;">
+                                          MoD signs contract with Airbus Defence & Space, Spain for acquisition of 56 C-295MW transport aircraft for IAF
+                                    </div>
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                                    <div style="font-weight: 200; text-align: center; font-size: 30px;">
+                                          
+                                    </div>
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                                    <div style="text-align: center; font-size: 14px;">
+                                          Posted On:
+                        24 SEP 2021 12:54PM by PIB Delhi
+                                    </div>
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                                    <div style="font-weight: 200; text-align: left; font-size: 16px;">
+                                          <p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><span style="background-color:white"><em>Key Highlights</em>:</span></span></span></p>
+
+<ul>
+	<li style="text-align: justify;"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><span style="background-color:white"><strong>Big step towards modernisation of IAF transport fleet</strong></span></span></span></li>
+	<li style="text-align: justify;"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><span style="background-color:white"><strong>5-10 tonne capacity aircraft equipped with contemporary technology</strong></span></span></span></li>
+	<li style="text-align: justify;"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><span style="background-color:white"><strong>Airbus to also directly purchase eligible products &amp; services from Indian Offset Partners</strong></span></span></span></li>
+	<li style="text-align: justify;"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><span style="background-color:white"><strong>Unique opportunity for domestic private sector to enter into technology intensive aviation industry</strong></span></span></span></li>
+</ul>
+
+<p style="text-align:justify"><span style="font-family:&quot;Times New Roman&quot;,Times,serif; font-size:16px">Ministry of Defence (MoD) signed a contract with M/s Airbus Defence and Space, Spain for acquisition of 56 C-295MW transport aircraft for the Indian Air Force, on September 24, 2021. The MoD has also signed an Offset Contract with M/s Airbus Defence and Space through which M/s Airbus will discharge its offset obligations through direct purchase of eligible products and services from Indian Offset Partners. These contracts were signed following the approval accorded by the Cabinet Committee on Security earlier this month.&nbsp;</span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">The induction of C-295MW will be a significant step towards modernisation of the transport fleet of the Indian Air Force (IAF). It is a transport aircraft of 5-10 tonne capacity with contemporary technology that will replace the ageing Avro transport aircraft of IAF. The aircraft is capable of operating from semi-prepared strips and has a rear ramp door for quick reaction and para dropping of troops &amp; cargo. The aircraft will give a major boost to tactical airlift capability of IAF, especially in the Northern and North-Eastern sector and Andaman &amp; Nicobar Islands.</span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">The project will provide a major boost to the &lsquo;Atmanirbhar Bharat Abhiyan&rsquo; of the Government that offers a unique opportunity for the Indian private sector to enter into technology intensive and highly competitive aviation industry. Out of 56, forty aircraft will be manufactured in India by TATA Consortium. All the deliveries will be completed within ten years of signing of the contract. All 56 aircraft will be installed with indigenous Electronic Warfare Suite. After completion of the delivery, the subsequent aircraft manufactured in India can be exported to countries which are cleared by the Government of India. The project will give a boost to aerospace ecosystem in India wherein several MSMEs spread over the country will be involved in manufacturing of parts of the aircraft. The program will also involve development of specialised infrastructure in the form of hangars, buildings, aprons and taxiway. </span></span></p>
+
+<p style="text-align:justify"><span style="font-family:&quot;Times New Roman&quot;,Times,serif; font-size:16px">This programme is a unique initiative of the Government to strengthen the indigenous capabilities and boost &lsquo;Make in India&rsquo;.</span></p>
+
+<p style="text-align:center"><img alt="" src="https://static.pib.gov.in/WriteReadData/userfiles/image/PIC279GT.JPG" style="width:580px" /></p>
+
+<p style="text-align:center"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">***</span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><strong>ABB/DK/Savvy</strong></span></span></p>
+
+                                    </div>
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                                    <div style="font-weight: 100; text-align: left; font-size: 16px;">
+                                          (Release ID: 1757634)
+                                    </div>
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                              </td>
+                        </tr>
+                        <tr>
+                              <td style="font-weight: 200; text-align: center; font-size: 24px;"></td>
+                        </tr>
+                  </table>
+            </div>
+            <div class="clearfix">
+            </div>
+
+            
+
+            <div class="section1">
+                  <div id="frst_t">
+                        <div id="arr_rm"><div class='sticky-social_mb'><ul class='social_mb'><a href='http://www.facebook.com/share.php?u=https://pib.gov.in/PressReleasePage.aspx?PRID=1757634' target='_blank'><li class='fb_b'   ></li></a><a href='https://twitter.com/intent/tweet?url=https://pib.gov.in/PressReleasePage.aspx?PRID=1757634&text=MoD signs contract with Airbus Defence & Space, Spain for acquisition of 56 C-295MW transport aircraft for IAF' target='_blank'><li class='twitter_r'  > </li></a><a href='https://api.whatsapp.com/send?text=https://pib.gov.in/PressReleasePage.aspx?PRID=1757634' target='_blank'><li class='whatsapp_r'  ></li></a><a href='https://mail.google.com/mail/?view=cm&fs=1&tf=1&to=&su=MoD signs contract with Airbus Defence & Space, Spain for acquisition of 56 C-295MW transport aircraft for IAF&body=https://pib.gov.in/PressReleasePage.aspx?PRID=1757634&ui=2&tf=1&pli=1' title='Share by Email' target='_blank'><li class='fa-envelope_r' ></li></a><a href='https://www.linkedin.com/shareArticle?mini=true&url=https://pib.gov.in/PressReleasePage.aspx?PRID=1757634&title=MoD signs contract with Airbus Defence & Space, Spain for acquisition of 56 C-295MW transport aircraft for IAF&summary=My%20favorite%20developer%20program&source=LinkedIn' target='_blank'><li class='fa-linkedin_r'  ></li></a></ul></div></div>
+                  </div>
+                  <div id="second_t">
+                        <div id="sndr_rm"><div class='sticky-social'><ul class='social'><a href='http://www.facebook.com/share.php?u=https://pib.gov.in/PressReleasePage.aspx?PRID=1757634' target='_blank'><li class='fb_b'   ></li></a><a href='https://twitter.com/intent/tweet?url=https://pib.gov.in/PressReleasePage.aspx?PRID=1757634&text=MoD signs contract with Airbus Defence & Space, Spain for acquisition of 56 C-295MW transport aircraft for IAF' target='_blank'><li class='twitter_r'  > </li></a><a href='https://api.whatsapp.com/send?text=https://pib.gov.in/PressReleasePage.aspx?PRID=1757634' target='_blank'><li class='whatsapp_r'  ></li></a><a href='https://mail.google.com/mail/?view=cm&fs=1&tf=1&to=&su=MoD signs contract with Airbus Defence & Space, Spain for acquisition of 56 C-295MW transport aircraft for IAF&body=https://pib.gov.in/PressReleasePage.aspx?PRID=1757634&ui=2&tf=1&pli=1' title='Share by Email' target='_blank'><li class='fa-envelope_r' ></li></a><a href='https://www.linkedin.com/shareArticle?mini=true&url=https://pib.gov.in/PressReleasePage.aspx?PRID=1757634&title=MoD signs contract with Airbus Defence & Space, Spain for acquisition of 56 C-295MW transport aircraft for IAF&summary=My%20favorite%20developer%20program&source=LinkedIn' target='_blank'><li class='fa-linkedin_r'  ></li></a></ul></div></div>
+                  </div>
+            </div>
+            <input type="hidden" name="ltrTitlee" id="ltrTitlee" value="MoD signs contract with Airbus Defence &amp; Space, Spain for acquisition of 56 C-295MW transport aircraft for IAF" />
+            <input type="hidden" name="ltrSubtitlee" id="ltrSubtitlee" />
+            <input type="hidden" name="ltrDescriptionn" id="ltrDescriptionn" value="&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>&lt;span style=&quot;background-color:white&quot;>&lt;em>Key Highlights&lt;/em>:&lt;/span>&lt;/span>&lt;/span>&lt;/p>
+
+&lt;ul>
+	&lt;li style=&quot;text-align: justify;&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>&lt;span style=&quot;background-color:white&quot;>&lt;strong>Big step towards modernisation of IAF transport fleet&lt;/strong>&lt;/span>&lt;/span>&lt;/span>&lt;/li>
+	&lt;li style=&quot;text-align: justify;&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>&lt;span style=&quot;background-color:white&quot;>&lt;strong>5-10 tonne capacity aircraft equipped with contemporary technology&lt;/strong>&lt;/span>&lt;/span>&lt;/span>&lt;/li>
+	&lt;li style=&quot;text-align: justify;&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>&lt;span style=&quot;background-color:white&quot;>&lt;strong>Airbus to also directly purchase eligible products &amp;amp; services from Indian Offset Partners&lt;/strong>&lt;/span>&lt;/span>&lt;/span>&lt;/li>
+	&lt;li style=&quot;text-align: justify;&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>&lt;span style=&quot;background-color:white&quot;>&lt;strong>Unique opportunity for domestic private sector to enter into technology intensive aviation industry&lt;/strong>&lt;/span>&lt;/span>&lt;/span>&lt;/li>
+&lt;/ul>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:&amp;quot;Times New Roman&amp;quot;,Times,serif; font-size:16px&quot;>Ministry of Defence (MoD) signed a contract with M/s Airbus Defence and Space, Spain for acquisition of 56 C-295MW transport aircraft for the Indian Air Force, on September 24, 2021. The MoD has also signed an Offset Contract with M/s Airbus Defence and Space through which M/s Airbus will discharge its offset obligations through direct purchase of eligible products and services from Indian Offset Partners. These contracts were signed following the approval accorded by the Cabinet Committee on Security earlier this month.&amp;nbsp;&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>The induction of C-295MW will be a significant step towards modernisation of the transport fleet of the Indian Air Force (IAF). It is a transport aircraft of 5-10 tonne capacity with contemporary technology that will replace the ageing Avro transport aircraft of IAF. The aircraft is capable of operating from semi-prepared strips and has a rear ramp door for quick reaction and para dropping of troops &amp;amp; cargo. The aircraft will give a major boost to tactical airlift capability of IAF, especially in the Northern and North-Eastern sector and Andaman &amp;amp; Nicobar Islands.&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>The project will provide a major boost to the &amp;lsquo;Atmanirbhar Bharat Abhiyan&amp;rsquo; of the Government that offers a unique opportunity for the Indian private sector to enter into technology intensive and highly competitive aviation industry. Out of 56, forty aircraft will be manufactured in India by TATA Consortium. All the deliveries will be completed within ten years of signing of the contract. All 56 aircraft will be installed with indigenous Electronic Warfare Suite. After completion of the delivery, the subsequent aircraft manufactured in India can be exported to countries which are cleared by the Government of India. The project will give a boost to aerospace ecosystem in India wherein several MSMEs spread over the country will be involved in manufacturing of parts of the aircraft. The program will also involve development of specialised infrastructure in the form of hangars, buildings, aprons and taxiway. &lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:&amp;quot;Times New Roman&amp;quot;,Times,serif; font-size:16px&quot;>This programme is a unique initiative of the Government to strengthen the indigenous capabilities and boost &amp;lsquo;Make in India&amp;rsquo;.&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:center&quot;>&lt;img alt=&quot;&quot; src=&quot;https://static.pib.gov.in/WriteReadData/userfiles/image/PIC279GT.JPG&quot; style=&quot;width:580px&quot; />&lt;/p>
+
+&lt;p style=&quot;text-align:center&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>***&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>&lt;strong>ABB/DK/Savvy&lt;/strong>&lt;/span>&lt;/span>&lt;/p>
+" />
+            <script type="text/javascript">
+                  var mPlayer = document.getElementById("background_music");
+                  var mPlayAction = document.getElementById("playbutton");
+
+                  var isPlaying = false;
+
+                  function playAudio() {
+                        mPlayer.play();
+                        isPlaying = true;
+                        document.getElementById('stopA').style.display = "block";
+                        document.getElementById('playA').style.display = "none";
+                  }
+
+                  function pauseAudio() {
+                        mPlayer.pause();
+                        isPlaying = false;
+                        document.getElementById('playA').style.display = "block";
+                        document.getElementById('stopA').style.display = "none";
+                  }
+                  //function HandleAudio() {
+                  //    if (isPlaying == true) {
+                  //        //Playing already Pause it
+                  //        pauseAudio();
+                  //    } else {
+                  //        //Play the music
+                  //        playAudio();
+                  //    }
+                  //}
+            </script>
+            <script type="text/javascript">
+                  var synth = window.speechSynthesis;
+
+            
+                  function CleanHtml(html) {
+
+                        html = html.replace(/<script[\s\S]*?<\/script>/gi, '');
+
+                        return html;
+                  }
+                  function stripHtml(html) {
+                        let tmp = document.createElement("DIV");
+                        tmp.innerHTML = CleanHtml(html);
+                        return tmp.textContent || tmp.innerText || "";
+                  }
+            </script>
+            <script type="text/javascript">
+                  $(document).ready(function () {
+                        //for responsive tables
+                        $("table").each(function () {
+                              if (!$(this).closest(".table-responsive").length) {
+                                    $(this).wrap("<div class='table-responsive'></div>");
+                              }
+                        });
+
+                        var width = $(window).width();
+                        if (width < 768) {
+
+                              // Extra Small Device
+                              document.getElementById('frst_t').style.display = "block";
+                              document.getElementById('second_t').style.display = "none";
+
+                        } else if (width < 991) {
+                              document.getElementById('frst_t').style.display = "block";
+                              document.getElementById('second_t').style.display = "none";
+                              // Small Device
+
+                        } else if (width < 1199) {
+                              document.getElementById('frst_t').style.display = "none";
+                              document.getElementById('second_t').style.display = "block";
+                              // Medium Device
+
+                        } else {
+                              document.getElementById('frst_t').style.display = "none";
+                              document.getElementById('second_t').style.display = "block";
+                              // Large Device
+
+                        }
+                  });
+            </script>
+            <script type="text/javascript">
+                  $(document).ready(function () {
+                        var width = $(window).width();
+                        if (width < 768) {
+
+                              // Extra Small Device
+                              document.getElementById('frst_t').style.display = "block";
+                              document.getElementById('second_t').style.display = "none";
+
+                        } else if (width < 991) {
+                              document.getElementById('frst_t').style.display = "block";
+                              document.getElementById('second_t').style.display = "none";
+                              // Small Device
+
+                        } else if (width < 1199) {
+                              document.getElementById('frst_t').style.display = "none";
+                              document.getElementById('second_t').style.display = "block";
+                              // Medium Device
+
+                        } else {
+                              document.getElementById('frst_t').style.display = "none";
+                              document.getElementById('second_t').style.display = "block";
+                              // Large Device
+
+                        }
+                  });
+            </script>
+            
+            <style type="text/css">
+                  @media print {
+                        .sticky-social, .sticky-social_mb, .pull-right, #printPDF {
+                              display: none !important;
+                        }
+                  }
+
+                  .f_vl {
+                        padding-right: 30px;
+                        font-size: 17px;
+                        cursor: pointer;
+                  }
+
+                  .log_oo {
+                        // width: 20%;
+                        display: flex;
+                        justify-content: space-between;
+                  }
+
+                        .log_oo img {
+                              width: 150px;
+                              /*width: 100%;
+                    height: auto;*/
+                        }
+
+                  .sticky-social_mb {
+                        position: fixed;
+                        bottom: 0px;
+                        padding: 0px;
+                        margin: 0px;
+                        width: 100%;
+                  }
+
+                  .social_mb {
+                        list-style: none;
+                        display: flex;
+                        width: 100%;
+                        margin-bottom: -8px;
+                  }
+
+                        .social_mb a {
+                              padding: 8px 0px;
+                              font-size: 30px;
+                              transition: all 0.8s ease-in-out;
+                              width: 20% !important;
+                              text-align: center;
+                        }
+            </style>
+            <style type="text/css">
+                  .section1 {
+                        position: relative;
+                        padding: 10px 0px;
+                        width: 100%;
+                  }
+
+
+
+                  .sticky-social {
+                        position: fixed;
+                        top: 20px;
+                        left: 0px;
+                        padding: 0px;
+                        margin: 0px;
+                  }
+
+                  .social {
+                        list-style: none;
+                  }
+
+                        .social a li {
+                              padding: 8px 12px;
+                              font-size: 25px;
+                              transition: all 0.8s ease-in-out;
+                        }
+
+                              .social a li:hover {
+                                    margin-right: -30px;
+                                    box-shadow: 2px 5px 10px grey;
+                              }
+
+                                    .social a li:hover .fa {
+                                          margin-left: 20px;
+                                    }
+
+                  .fb_b {
+                        /* background-color: var(--dbim-key, #0F5757);*/
+                        background-color: var(--dbim-key, #0F5757);
+                  }
+
+                  .twitter_r {
+                        /* background-color: rgb(29, 161, 242);*/
+                        background-color: var(--dbim-key, #0F5757);
+                  }
+
+                  .whatsapp_r {
+                        /* background-color: var(--dbim-key, #0F5757);*/
+                        background-color: var(--dbim-key, #0F5757);
+                  }
+
+                  .fa-envelope_r {
+                        /* background-color: var(--dbim-key, #0F5757);*/
+                        background-color: var(--dbim-key, #0F5757);
+                  }
+
+                  .fa-linkedin_r {
+                        background-color: var(--dbim-key, #0F5757);
+                  }
+            </style>
+            <style type="text/css">
+                  @media only screen and (max-device-width: 767px) {
+                        p span img {
+                              max-width: 90% !important;
+                              height: auto !important;
+                        }
+
+                        p img {
+                              max-width: 90% !important;
+                              height: auto !important;
+                        }
+
+                        h2 {
+                              font-size: var(--dbim-h2, 20px);   /* was 20px !important - the !important blocked A+/A- */
+                              font-weight: 600 !important;
+                        }
+
+                        h3 {
+                              font-size: var(--dbim-h3, 16px);   /* was 16px !important */
+                              font-weight: 600 !important;
+                        }
+                  }
+            </style>
+            <style type="text/css">
+                  /* === Film Roll Badge Styling(IFFI2025 countdown) === */
+                  .film-roll-badge {
+                        position: absolute;
+                        top:82%;
+                        right: 20px;
+                        width: 230px;
+                        height: 70px;
+                        background: repeating-linear-gradient( to right, var(--dbim-green-key, #0F5757) 0px, var(--dbim-green-key, #0F5757) 18px, var(--dbim-text, #150202) 18px, var(--dbim-text, #150202) 36px );
+                        border-top: 8px solid var(--dbim-green-key, #0F5757);
+                        border-bottom: 8px solid var(--dbim-green-key, #0F5757);
+                        border-radius: 8px;
+                        overflow: hidden;
+                        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+                        animation: moveFilm 8s linear infinite;
+                        z-index: 10;
+                  }
+
+                        /* film sprocket holes */
+                        .film-roll-badge::before,
+                        .film-roll-badge::after {
+                              content: "";
+                              position: absolute;
+                              width: 100%;
+                              height: 10px;
+                              background: repeating-linear-gradient( to right, var(--dbim-green-key, #0F5757) 0px, var(--dbim-green-key, #0F5757) 10px, #fff 10px, #fff 20px );
+                              left: 0;
+                              z-index: 2;
+                        }
+
+                        .film-roll-badge::before {
+                              top: -4px;
+                        }
+
+                        .film-roll-badge::after {
+                              bottom: -4px;
+                        }
+
+                  .film-roll-inner {
+                        position: relative;
+                        height: 100%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        animation: flicker 2s infinite ease-in-out;
+                  }
+
+                  .countdown-text {
+                        font-size: 1.3rem;
+                        font-weight: 700;
+                        color: #fff;
+                        text-shadow: 0 0 6px rgba(255, 255, 255, 0.4), 0 0 10px #000;
+                        white-space: nowrap;
+                  }
+
+                  /* === Animations === */
+                  @keyframes moveFilm {
+                        0% {
+                              background-position: 0 0;
+                        }
+
+                        100% {
+                              background-position: 120px 0;
+                        }
+                  }
+
+                  @keyframes flicker {
+                        0%, 100% {
+                              opacity: 1;
+                        }
+
+                        50% {
+                              opacity: 0.9;
+                        }
+
+                        25% {
+                              opacity: 0.95;
+                        }
+
+                        75% {
+                              opacity: 0.85;
+                        }
+                  }
+
+                  /* === Responsive Adjustments === */
+                  @media (max-width: 1500px) {
+                        .film-roll-badge {
+                              top: 68%;
+                              right: 18px;
+                              /* width: 220px; */
+                              height: 65px;
+                              font-size: 0.85rem;
+                        }
+
+                        .press-section {
+                              margin-top: 35px;
+                        }
+                  }
+
+                  @media (max-width: 992px) {
+                        .film-roll-badge {
+                              top: 52%;
+                              right: 10px;
+                               width: 200px; 
+                              height: 60px;
+                        }
+                  }
+
+                  @media (max-width: 768px) {
+                        .film-roll-badge {
+                              top: 56%;
+                              right: 10px;
+                               width: 124px; 
+                              height: 55px;
+                        }
+
+                        .countdown-text {
+                              font-size: 0.9rem;
+                        }
+                  }
+
+                  @media (max-width: 576px) {
+                        .film-roll-badge {
+                              top: 59%;
+                              right: 5px;
+                              /* width: 160px; */
+                              height: 50px;
+                        }
+
+                        .countdown-text {
+                              font-size: 0.85rem;
+                        }
+                  }
+            </style>
+          <script type="text/javascript">
+                const festivalStart = new Date("2025-11-20T00:00:00").getTime();
+                const festivalEnd = new Date("2025-11-28T23:59:59").getTime();
+
+                const countdownElement = document.getElementById("countdown");
+
+                const interval = setInterval(() => {
+                      const now = new Date().getTime();
+
+                      // BEFORE FESTIVAL — show days + hours left
+                      if (now < festivalStart) {
+                            const diff = festivalStart - now;
+                            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+
+                            countdownElement.innerHTML = `
+              ${days} Day${days !== 1 ? 's' : ''} 
+              ${hours} Hour${hours !== 1 ? 's' : ''} to go
+          `;
+
+                      }
+
+                      // DURING FESTIVAL — show 56th IFFI - Day X
+                      else if (now >= festivalStart && now <= festivalEnd) {
+                            const dayNumber = Math.floor((now - festivalStart) / (1000 * 60 * 60 * 24)) + 1;
+                            countdownElement.innerHTML = `56th IFFI - Day ${dayNumber}`;
+                      }
+
+                      // AFTER FESTIVAL — new message
+                      else {
+                            countdownElement.innerHTML = `✨ IFFI closes but never ends…`;
+
+                            // Width change logic
+                            const elements = document.querySelectorAll('.film-roll-badge');
+                            elements.forEach(el => el.style.width = "350px");
+
+                            clearInterval(interval);
+                      }
+
+                }, 1000);
+          </script>
+ <script type="text/javascript">
+
+               const miffStart = new Date("2026-06-15T00:00:00").getTime();
+               const miffEnd = new Date("2026-06-15T23:59:59").getTime();
+
+               const miffElement = document.getElementById("miff");
+
+               if (miffElement) {
+
+                   const miffInterval = setInterval(() => {
+
+                       const now = new Date().getTime();
+
+                       // Before MIFF
+                       if (now < miffStart) {
+
+                           const diff = miffStart - now;
+                           const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                           const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+
+        
+
+                   /*  miffElement.innerHTML = `${days} Day${days !== 1 ? 's' : ''} ${hours} Hour${hours !== 1 ? 's' : ''} to MIFF`;*/
+                           miffElement.innerHTML = `${days} Day${days === 1 ? '' : 's'} to MIFF ...`;
+
+
+                     }
+
+                       // During MIFF
+                       else if (now >= miffStart && now <= miffEnd) {
+
+                           const dayNumber =
+                               Math.floor((now - miffStart) / (1000 * 60 * 60 * 24)) + 1;
+
+                           miffElement.innerHTML = `19th MIFF - Day ${dayNumber}`;
+                       }
+
+                       // After MIFF
+                       else {
+
+                           miffElement.innerHTML = `✨ MIFF concludes, cinema lives on...`;
+
+                           document.querySelectorAll('.film-roll-badge')
+                               .forEach(el => el.style.width = "350px");
+
+                           clearInterval(miffInterval);
+                       }
+
+                   }, 1000);
+               }
+
+</script>
+
+      
+
+<script type="text/javascript">
+//<![CDATA[
+(function() {var fn = function() {$get("sc_HiddenField").value = '';Sys.Application.remove_init(fn);};Sys.Application.add_init(fn);})();Sys.Application.add_init(function() {
+    $create(Sys.Extended.UI.ModalPopupBehavior, {"BackgroundCssClass":"modalBackground","PopupControlID":"P_CategoryManagement","dynamicServicePath":"/PressReleasePage.aspx","id":"mpe"}, null, null, $get("Hidden"));
+});
+//]]>
+</script>
+<input type="hidden" name="__ncforminfo" value="3wIJRJhrr1X6HSeaTSP3pLj_63f5tmaLpHWKWv25Z0WPzCBcrouQMmj091FYuUhNoSEJjzP4TOOM2VNOvmIAcxHMuFkcNeStW8RxlG-8EgIMZpOSiXhLrQ=="/></form>
+      
+      
+
+<script type="application/json" id="pibConsentConfig">{"ga4Id":"G-Q414Y0X6EE,G-QJJ6LZ8LHV","policyUrl":"/CookiePolicy.aspx","text":{"bannerLabel":"Cookie consent","title":"Cookies on this website","body":"We use essential cookies to make this website work. We also set analytics cookies when you arrive, so we can see how the site is used and improve it - you can switch these off below or at any time from the Cookie Policy page. Cookies from embedded social media content are set only if you allow them.","policyLink":"Read our Cookie Policy","accept":"Accept all","reject":"Reject optional","customize":"Customise","prefsTitle":"Cookie preferences","prefsIntro":"Choose which cookies this website may set. Essential cookies cannot be switched off because the site does not work without them. Analytics cookies are on unless you turn them off. Social media cookies stay off until you allow them. You can change these choices at any time from the Cookie Policy page.","essentialName":"Essential cookies","essentialDesc":"Needed for the site to function. These remember your session, your language and region, your text size and colour theme, and verify the security check on forms. They are always on.","analyticsName":"Analytics cookies","analyticsDesc":"Help us understand how visitors use the site - which pages are read and how long people stay - so it can be improved. The information is collected in a form that does not directly identify you. These are on when you arrive; switching them off here stops them and deletes the ones already set.","socialName":"Social media cookies","socialDesc":"Set by content embedded from X, Facebook and YouTube, such as timelines and videos. These platforms may use them to track you across websites. They stay off until you allow them.","save":"Save preferences","cancel":"Cancel"}}</script>
+<script type="text/javascript" src='/js/consent.js?v=10'></script>
+
+<script type="text/javascript" src='/js/consent-embeds.js?v=10'></script>
+
+    
+
+<script type="text/javascript">
+    (function () {
+        try {
+            if (window.self === window.top) { return; }
+        } catch (e) { return; }
+        var s = document.createElement("style");
+        s.textContent =
+            ".sticky-social, .sticky-social_mb { display: none !important; }";
+        (document.head || document.documentElement).appendChild(s);
+    }());
+</script>
+</body>
+</html>
+

@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "developmentPredictionsMade": false,
+  "syntheticInputsOnly": true,
+  "families": [
+    {
+      "family": "e5",
+      "trainableParameters": 147456,
+      "rightPaddingEmbeddingMaxAbsDifference": 0.0,
+      "truncatedEosPreserved": false,
+      "baseUnchangedAfterSmokeStep": true,
+      "onlyLoraGradients": true,
+      "seconds": 4.72490711699993,
+      "syntheticSmokeOnly": true
+    },
+    {
+      "family": "f2",
+      "trainableParameters": 237568,
+      "rightPaddingEmbeddingMaxAbsDifference": 1.955777406692505e-07,
+      "truncatedEosPreserved": true,
+      "baseUnchangedAfterSmokeStep": true,
+      "onlyLoraGradients": true,
+      "seconds": 7.0510076690000005,
+      "syntheticSmokeOnly": true
+    }
+  ],
+  "explicitNegativeMaskPassed": true,
+  "codeHashes": {
+    "scripts/research-radar/next-model/encoder.py": "a0a37b3726b354e264cd8fc026034521f827113d17a75ce66198f05ce806cfbb",
+    "scripts/research-radar/next-model/train.py": "189f0b779cd18fd1deb558d191334d330260d3e2a90295094f9ba7299fdd14a6",
+    "scripts/research-radar/next-model/rank.py": "07f1b06f14a8ca17539b2f6e78c9b276b9f13b4beb4948494ed4f6d9afcd55bc"
+  }
+}

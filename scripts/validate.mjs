@@ -9,9 +9,16 @@
 import { readFileSync, existsSync, readdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { assembleFleet, OUTPUTS, predProblem } from './assemble-fleet.mjs';
+import { assembleFleet, predProblem } from './assemble-fleet.mjs';
+import { undefinedFleetRefs } from './lib/fleet-refs.mjs';
+import { FLEET_PREFIXES } from './lib/vocab.mjs';
+import { STATE_BASES, WB_TOTAL_KEYS, WB_PROJECT_ID, NOT_COUNTABLE_CLASSES } from './lib/vocab.mjs';
+import {
+  OWNERSHIP_DECLARATIONS, HOLDING_CATEGORIES, HOLDING_KEYS, COVERAGE_READ, CONTROL_ROLES, AGGREGATES_DOMAIN, holdingTextProblem,
+} from './lib/vocab.mjs';
 import {
   TIERS, PREDS, NODE_TYPES, FAMILIES, STATE_CODES, NARRATIVE_STATUS, SCHEME_STATUS, SCHEME_CATEGORIES, ISO_DATE, INVENTORY,
+  FLEETS, TERMS_KEYS, amountProblem, FC_STATE_KEYS, fySpan, fcStateSumProblems, SERIES, seriesKey,
 } from './lib/vocab.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -52,14 +59,29 @@ if (!existsSync(geoPath)) {
  * them, extract the literals with a narrow parse — enough to enforce the rules,
  * and it fails loudly rather than silently passing on an unreadable file. The
  * grab takes `export const NAME: T = [ … ];` or `= { … };` with the closer alone
- * on its line, so the literal must be plain data: no imports, calls or casts.
+ * on its line. No imported values or TypeScript casts are evaluated. Motifs
+ * receive the already-read EDGES array so their censuses can count retained
+ * membership instead of drifting after graph corrections.
  */
-function grabConst(where, src, name) {
+function grabConst(where, src, name, bindings = {}) {
   const m = src.match(new RegExp(`export const ${name}\\b[^=]*=\\s*(\\[[\\s\\S]*?\\n\\];|\\{[\\s\\S]*?\\n\\};)`, 'm'));
   if (!m) return null;
   const body = m[1].replace(/;$/, '');
+  // A large series is emitted as chunk constants and an export that only spreads them
+  // (assemble-fleet.mjs chunkedArrayConst): read each chunk and concatenate, in order.
+  const spreads = body.match(/^\[\s*(?:\.\.\.[A-Za-z0-9_]+,?\s*)+\]$/) ? [...body.matchAll(/\.\.\.([A-Za-z0-9_]+)/g)].map((x) => x[1]) : null;
+  if (spreads) {
+    const out = [];
+    for (const part of spreads) {
+      const pm = src.match(new RegExp(`(?:^|\\n)const ${part}\\b[^=]*=\\s*(\\[[\\s\\S]*?\\n\\];)`, 'm'));
+      if (!pm) { err(where, `could not find chunk ${part} of ${name}`); return null; }
+      try { out.push(...Function(`"use strict"; return (${pm[1].replace(/;$/, '')});`)()); }
+      catch (e) { err(where, `could not parse chunk ${part} of ${name}: ${e.message}`); return null; }
+    }
+    return out;
+  }
   try {
-    return Function(`"use strict"; return (${body});`)();
+    return Function(...Object.keys(bindings), `"use strict"; return (${body});`)(...Object.values(bindings));
   } catch (e) {
     err(where, `could not parse ${name}: ${e.message}`);
     return null;
@@ -70,10 +92,11 @@ function loadGraph() {
   const file = join(root, 'src/graph/data.ts');
   if (!existsSync(file)) return null;
   const src = readFileSync(file, 'utf8');
+  const edges = grabConst('graph', src, 'EDGES');
   return {
     nodes: grabConst('graph', src, 'NODES'),
-    edges: grabConst('graph', src, 'EDGES'),
-    motifs: grabConst('graph', src, 'MOTIFS'),
+    edges,
+    motifs: grabConst('graph', src, 'MOTIFS', { EDGES: edges ?? [] }),
   };
 }
 
@@ -146,6 +169,8 @@ function checkGraph(label, nodes, edges, motifs, knownIds = new Set(), { strictC
       if (e[d] != null && !ISO_DATE.test(e[d])) err(at('edge', id), `${d} "${e[d]}" is not an ISO date (YYYY, YYYY-MM or YYYY-MM-DD)`);
     }
     if (!PREDS.includes(e.pred)) err(at('edge', id), `unknown predicate "${e.pred}"`);
+    const amount = amountProblem(e);
+    if (amount) err(at('edge', id), amount);
     for (const side of ['s', 't']) {
       const v = e[side];
       const n = byId.get(v);
@@ -212,17 +237,47 @@ if (existsSync(rawDir)) {
 }
 
 // ---------------------------------------------------------------------------
-// 4. Fleet research files — research/raw/energy/*.json, research/raw/welfare/*.json,
-//    research/raw/indices.json
+// 4. Fleet research files — research/raw/<fleet>/*.json for every fleet in FLEETS
+//    (energy, welfare, finance, ngo, capital, force), and research/raw/indices.json
 // ---------------------------------------------------------------------------
 //
 // The research fleets write to a contract (docs/research/FLEET_CONTRACT.md). The
 // graph's invariants are applied here, at the quarantine boundary, so a hallucinated
 // edge fails before it can reach a generated module — not after.
 const ISO = ISO_DATE;
-// Ids the derived national graph (src/graph/build.ts) or a sibling file may own.
-const KNOWN_PREFIX = /^(pol|min|sec|co|grp|per|for|energy|wel|scheme|claim):/;
-const FLEET_DIRS = ['research/raw/energy', 'research/raw/welfare'];
+// Ids the derived national graph (src/graph/build.ts) or a sibling file may own. A
+// fleet-prefixed id passes here per file; that some file in the owning fleet's
+// directory defines it is checked once every directory has been read (below).
+const KNOWN_PREFIX = new RegExp(`^(pol|min|sec|co|grp|per|for|${FLEET_PREFIXES.join('|')}|claim):`);
+const FLEET_DIRS = FLEETS.map((f) => `research/raw/${f.dir}`);
+// Courts are Atlas agencies: a court's `enforce` claim is a ruling, and the contract
+// asks that its d begin "Judicial ruling on <claim id>: " (docs/research/FLEET_CONTRACT.md).
+const courtIds = new Set((graph?.nodes ?? []).filter((n) => n.ty === 'agency' && /court/i.test(n.label ?? '')).map((n) => n.id));
+const JUDICIAL = /^Judicial ruling on ([^:]+(?::[^:]+)*?): /;
+/** Ids named by a "Judicial ruling on a:b, c:d: …" prefix, or null when d does not carry one. */
+const rulingOn = (d) => {
+  const m = JUDICIAL.exec(typeof d === 'string' ? d : '');
+  return m ? m[1].split(',').map((s) => s.trim()).filter(Boolean) : null;
+};
+// What every fleet defines and what every fleet references, for the cross-file check.
+const definedByFleet = new Map(FLEETS.map((f) => [f.key, new Set()]));
+const fleetRefs = [];
+
+/** The shape of a claim's `terms`, checked as the assembler reads it: fixed keys, conditions a list of strings. */
+function termsProblems(t) {
+  if (t == null) return [];
+  if (typeof t !== 'object' || Array.isArray(t)) return [`terms must be an object, found ${JSON.stringify(t)}`];
+  const out = [];
+  for (const k of Object.keys(t)) if (!TERMS_KEYS.includes(k)) out.push(`terms.${k} is not a terms field (expected ${TERMS_KEYS.join(' | ')})`);
+  if (t.instrument != null && typeof t.instrument !== 'string') out.push('terms.instrument must be text');
+  for (const k of ['ratePct', 'tenorYears', 'graceYears']) {
+    if (t[k] != null && !(typeof t[k] === 'number' && Number.isFinite(t[k]))) out.push(`terms.${k} must be a number or null — a figure that is not a number is a gap, record it as null`);
+  }
+  if (t.conditions !== undefined && !(Array.isArray(t.conditions) && t.conditions.every((c) => typeof c === 'string'))) {
+    out.push('terms.conditions must be a list of strings');
+  }
+  return out;
+}
 
 const srcShape = (where, srcs) => {
   for (const src of srcs ?? []) {
@@ -231,14 +286,151 @@ const srcShape = (where, srcs) => {
   }
 };
 
+/**
+ * G3a, checked at the quarantine boundary with this file's own rules: fixed keys, all
+ * present; pct a number in 0–100 or null; shares a whole number or null; asOf ISO or
+ * null; a known category; the line a verbatim part of the claim's d/lab and every figure
+ * printed there; aggregate true exactly in holders-aggregates.json; own claims only.
+ */
+function holdingProblems(c, file) {
+  const h = c.holding;
+  if (typeof h !== 'object' || Array.isArray(h)) return [`holding must be an object, found ${JSON.stringify(h)}`];
+  const out = [];
+  if (c.pred !== 'own') out.push(`holding on a ${c.pred} claim — holdings describe own claims only`);
+  const keys = Object.keys(h);
+  for (const k of keys) if (!HOLDING_KEYS.includes(k)) out.push(`holding.${k} is not a holding field (expected ${HOLDING_KEYS.join(' | ')})`);
+  for (const k of HOLDING_KEYS) if (!keys.includes(k)) out.push(`holding.${k} is missing — write null for a stated absence`);
+  if (h.pct !== null && !(typeof h.pct === 'number' && Number.isFinite(h.pct))) out.push(`holding.pct ${JSON.stringify(h.pct)} must be a number or null`);
+  else if (typeof h.pct === 'number' && (h.pct < 0 || h.pct > 100)) out.push(`holding.pct ${h.pct} is outside 0–100 — a share of a company is a percentage`);
+  if (h.shares !== null && !(Number.isInteger(h.shares) && h.shares >= 0)) out.push(`holding.shares ${JSON.stringify(h.shares)} must be a whole share count or null`);
+  if (h.asOf !== null && !(typeof h.asOf === 'string' && ISO.test(h.asOf))) out.push(`holding.asOf ${JSON.stringify(h.asOf)} is not an ISO date`);
+  if (!HOLDING_CATEGORIES.includes(h.category)) out.push(`holding.category ${JSON.stringify(h.category)} is not one of ${HOLDING_CATEGORIES.join(' | ')}`);
+  if (!(typeof h.line === 'string' && h.line.trim())) out.push('holding.line is required — the line as the record prints it');
+  if (typeof h.aggregate !== 'boolean') out.push('holding.aggregate must be true or false');
+  else if (h.aggregate !== (file === `${AGGREGATES_DOMAIN}.json`)) out.push(`holding.aggregate is ${h.aggregate} but the claim is ${file === `${AGGREGATES_DOMAIN}.json` ? '' : 'not '}in ${AGGREGATES_DOMAIN}.json — an aggregate is a lower bound, never a filing line`);
+  const text = [Array.isArray(c.d) ? c.d.join(' ') : c.d, c.lab].filter((x) => typeof x === 'string').join(' ');
+  out.push(...holdingTextProblem(h, text));
+  return out;
+}
+
+/** G3b/G3c declarations at the quarantine boundary. `domains`: the fleet's research file stems. */
+function checkDeclarations(rel, domains) {
+  const read = (name) => {
+    const path = join(root, rel, name);
+    if (!existsSync(path)) {
+      notes.push(`${rel}/${name}: absent — the ${OWNERSHIP_DECLARATIONS[name]} export is empty`);
+      return null;
+    }
+    try {
+      const j = JSON.parse(readFileSync(path, 'utf8'));
+      if (!j.asOf || !ISO.test(j.asOf)) err(`${rel}/${name}`, 'missing or malformed asOf');
+      if (!Array.isArray(j.rows)) { err(`${rel}/${name}`, 'rows must be a list'); return null; }
+      return j.rows;
+    } catch (e) {
+      err(`${rel}/${name}`, `invalid JSON: ${e.message}`);
+      return null;
+    }
+  };
+  const cov = read('coverage.json') ?? [];
+  const seen = new Set();
+  for (const [i, r] of cov.entries()) {
+    const w = `${rel}/coverage.json:rows[${i}]`;
+    if (!/^co:[a-z0-9][a-z0-9-]*$/.test(r?.company ?? '')) err(w, `company ${JSON.stringify(r?.company)} is not a co: id`);
+    if (seen.has(r?.company)) err(w, `${r.company} is declared twice`);
+    seen.add(r?.company);
+    if (!COVERAGE_READ.includes(r?.read)) err(w, `read ${JSON.stringify(r?.read)} is not one of ${COVERAGE_READ.join(' | ')}`);
+    if (r?.read === 'not-read' ? r.asOf != null : !(typeof r?.asOf === 'string' && ISO.test(r.asOf))) err(w, 'asOf is the ISO date of what was read, and null exactly when nothing was');
+    if (!domains.has(r?.domain)) err(w, `domain ${JSON.stringify(r?.domain)} is not a research file in ${rel}/`);
+    if (!Array.isArray(r?.srcs) || !r.srcs.length) err(w, 'no sources — a read, or a failed attempt, is cited');
+    srcShape(w, r?.srcs);
+  }
+  const ctl = read('controls.json') ?? [];
+  const ids = new Set();
+  for (const [i, r] of ctl.entries()) {
+    const w = `${rel}/controls.json:rows[${i}]`;
+    if (!CONTROL_ROLES.includes(r?.role)) err(w, `role ${JSON.stringify(r?.role)} is not one of ${CONTROL_ROLES.join(' | ')}`);
+    if (typeof r?.resolved !== 'boolean') err(w, 'resolved must be true or false');
+    if (r?.resolved === true && !(typeof r.id === 'string' && r.id)) err(w, 'a resolved row needs an id');
+    if (r?.resolved === false && r.id != null) err(w, 'an unresolved row carries id null — never an id nobody defined');
+    if (typeof r?.id === 'string') {
+      if (ids.has(r.id)) err(w, `${r.id} is declared twice`);
+      ids.add(r.id);
+      fleetRefs.push({ where: w, id: r.id });
+    }
+    if (!(typeof r?.label === 'string' && r.label.trim())) err(w, 'label is required');
+    if (!(typeof r?.declaredIn === 'string' && r.declaredIn.trim())) err(w, 'declaredIn is required — where the membership is declared');
+  }
+  notes.push(`${rel}: ${cov.length} coverage row(s), ${ctl.length} control row(s) declared`);
+}
+
+/**
+ * P5/G4. One state/UT × FY row of a transcribed annexure: exactly FC_STATE_KEYS; st a
+ * state code or null with a note; fy a financial year; receivedCr a number ≥ 0;
+ * utilisedCr a number ≥ 0 or null; at least one source; no state-FY twice. Returns the
+ * readable rows so the sum check can run on them. `strictKeys` (the module) also
+ * requires the key order the generator writes.
+ */
+function checkFcStateRows(where, list, strictKeys = false) {
+  if (!Array.isArray(list)) {
+    err(where, `must be a list of { ${FC_STATE_KEYS.join(', ')} } rows`);
+    return [];
+  }
+  const rows = [];
+  const seen = new Set();
+  for (const [i, r] of list.entries()) {
+    const w = `${where}[${i}]`;
+    if (!r || typeof r !== 'object' || Array.isArray(r)) { err(w, 'row must be an object'); continue; }
+    const keys = Object.keys(r);
+    if (strictKeys) {
+      if (keys.join() !== FC_STATE_KEYS.join()) err(w, `keys ${keys.join(', ')} — expected ${FC_STATE_KEYS.join(', ')}`);
+    } else {
+      for (const k of keys) if (!FC_STATE_KEYS.includes(k)) err(w, `${k} is not a field of a state row (expected ${FC_STATE_KEYS.join(' | ')})`);
+    }
+    if (r.st != null && !STATE_CODES.includes(r.st)) err(w, `st "${r.st}" is not a state code`);
+    if (r.st == null && !(typeof r.note === 'string' && r.note.trim())) err(w, 'st is null — a row that is not a state or UT needs a note saying what the annexure calls it');
+    if (!(typeof r.stateName === 'string' && r.stateName.trim())) err(w, 'stateName is required');
+    if (!fySpan(r.fy)) err(w, `fy ${JSON.stringify(r.fy)} is not a financial year written YYYY-YY`);
+    if (!(typeof r.receivedCr === 'number' && Number.isFinite(r.receivedCr) && r.receivedCr >= 0)) err(w, `receivedCr ${JSON.stringify(r.receivedCr)} is not a number ≥ 0`);
+    if (!(r.utilisedCr === null || (typeof r.utilisedCr === 'number' && Number.isFinite(r.utilisedCr) && r.utilisedCr >= 0))) err(w, `utilisedCr ${JSON.stringify(r.utilisedCr)} is not a number ≥ 0 or null`);
+    if (!(Array.isArray(r.srcs) && r.srcs.length)) err(w, 'needs at least one [label, url] source');
+    const key = `${r.st ?? `?${r.stateName}`}|${r.fy}`;
+    if (seen.has(key)) err(w, `${r.stateName} ${r.fy} appears twice`);
+    seen.add(key);
+    rows.push(r);
+  }
+  return rows;
+}
+
+/** " — Σ receivedCr 2019-20 ₹16359.48 cr = c009 ₹16359.48 cr; …" for the notes, from the same match rule as the check. */
+function fcSummary(rows, claims) {
+  const fys = [...new Set(rows.map((r) => r.fy))].sort();
+  const parts = fys.map((fy) => {
+    const span = fySpan(fy);
+    const list = rows.filter((r) => r.fy === fy);
+    const sum = Math.round(list.reduce((a, r) => a + (typeof r.receivedCr === 'number' ? r.receivedCr : 0), 0) * 100) / 100;
+    const urls = new Set(list.flatMap((r) => (r.srcs ?? []).map((x) => x?.[1])));
+    const nat = span ? claims.filter((c) => c?.pred === 'grant' && c.supersededBy == null && typeof c.a === 'number' && c.from === span.from && c.to === span.to && (c.srcs ?? []).some((x) => urls.has(x?.[1]))) : [];
+    return `${fy} Σ ₹${sum.toFixed(2)} cr vs ${nat.length ? nat.map((c) => `${c.id} ₹${c.a} cr`).join(', ') : 'no national row'}`;
+  });
+  return parts.length ? ` — ${parts.join('; ')}` : '';
+}
+
 for (const rel of FLEET_DIRS) {
   const dir = join(root, rel);
   if (!existsSync(dir)) continue;
-  const files = readdirSync(dir).filter((f) => f.endsWith('.json') && !/^[A-Z]/.test(f));
+  const fleetKey = FLEETS.find((f) => `research/raw/${f.dir}` === rel).key;
+  const defined = definedByFleet.get(fleetKey);
+  const fleetSpec = FLEETS.find((f) => f.key === fleetKey);
+  const ownership = fleetSpec.ownership === true;
+  // An ownership fleet's declarations (coverage.json, controls.json) carry no claims or
+  // entities: they are checked by their own rules after this loop, not as research.
+  const files = readdirSync(dir).filter((f) => f.endsWith('.json') && !/^[A-Z]/.test(f) && !(ownership && OWNERSHIP_DECLARATIONS[f]));
   // Alias → owning id across the whole directory. Two files claiming one alias for
   // different ids is the entity-resolution failure the reconciler exists to catch.
   const dirAlias = new Map();
   const dirIds = new Set();
+  // Series name → (duplicate key → where first seen) across the whole directory: a series is one table however many files write to it.
+  const dirSeries = new Map();
   for (const f of files) {
     const where = `${rel}/${f}`;
     let j;
@@ -250,6 +442,15 @@ for (const rel of FLEET_DIRS) {
     }
     if (!j.asOf) err(where, 'missing asOf — every figure must be stamped with its date');
     if (!Array.isArray(j.sources) || j.sources.length === 0) err(where, 'missing top-level sources');
+    // P5/G4: a transcribed annexure is checked here from the raw rows, and again in §5
+    // from the module, with the one rule in scripts/lib/vocab.mjs.
+    if (j.fcByState != null) {
+      const fcSpec = FLEETS.find((x) => x.key === fleetKey);
+      if (fcSpec.fcState !== f.replace(/\.json$/, '')) warn(`${where}:fcByState`, `only ${fcSpec.fcState ?? '(no fcState domain for this fleet)'}.json is read for state rows — this list is not exported`);
+      const rows = checkFcStateRows(`${where}:fcByState`, j.fcByState);
+      for (const pr of fcStateSumProblems(rows, j.claims ?? [])) err(where, pr);
+      notes.push(`${where}: ${rows.length} fcByState row(s) over ${new Set(rows.map((r) => r.fy)).size} FY(s)${fcSummary(rows, j.claims ?? [])}`);
+    }
 
     const ids = new Set();
     const unresolved = new Set();
@@ -258,6 +459,7 @@ for (const rel of FLEET_DIRS) {
       if (ids.has(n.id)) err(`${where}:${n.id}`, 'duplicate entity id');
       ids.add(n.id);
       dirIds.add(n.id);
+      defined.add(n.id);
       if (n.ty && !NODE_TYPES.includes(n.ty)) err(`${where}:${n.id}`, `unknown ty "${n.ty}"`);
       if (n.fam && !FAMILIES.includes(n.fam)) err(`${where}:${n.id}`, `unknown fam "${n.fam}"`);
       if (n.st != null && !STATE_CODES.includes(n.st)) err(`${where}:${n.id}`, `unknown state code "${n.st}"`);
@@ -282,6 +484,7 @@ for (const rel of FLEET_DIRS) {
       if (ids.has(s.id)) err(`${where}:${s.id}`, 'duplicate scheme id');
       ids.add(s.id);
       dirIds.add(s.id);
+      defined.add(s.id);
       if (s.st != null && !STATE_CODES.includes(s.st)) err(`${where}:${s.id}`, `unknown state code "${s.st}"`);
       if (s.level === 'central' && s.st) err(`${where}:${s.id}`, 'a central scheme carries st: null and applicableStates');
       // Scheme aliases join the same directory-wide alias space as entities: one scheme
@@ -317,6 +520,9 @@ for (const rel of FLEET_DIRS) {
         if (v != null && !ISO.test(v)) err(`${where}:${s.id}`, `${label} "${v}" is not an ISO date (YYYY, YYYY-MM or YYYY-MM-DD)`);
       }
       srcShape(`${where}:${s.id}`, s.srcs);
+      for (const id of [s.announced?.byPersonId, ...(s.ministers ?? []).map((m) => m?.personId), ...(s.whoElseBenefits ?? []).map((w) => w?.who)]) {
+        if (typeof id === 'string' && id.includes(':')) fleetRefs.push({ where: `${where}:${s.id}`, id });
+      }
     }
 
     const claimIds = new Set();
@@ -345,10 +551,32 @@ for (const rel of FLEET_DIRS) {
         }
         if (unresolved.has(v)) err(w, `endpoint "${v}" is resolved:false — unresolved entities take no edges`);
         else if (!ids.has(v) && !KNOWN_PREFIX.test(v) && !atlasIds.has(v)) err(w, `endpoint "${v}" is neither defined in this file, an Atlas id, nor an inventory-prefixed id`);
+        fleetRefs.push({ where: w, id: v });
+      }
+      if (c.benefit?.who) fleetRefs.push({ where: w, id: c.benefit.who });
+      // A court's enforce claim is a ruling on a claim, not an agency acting on a subject.
+      if (c.pred === 'enforce' && courtIds.has(c.s) && c.status !== 'killed') {
+        const on = rulingOn(c.d);
+        if (!on) warn(w, `court ruling modelled as enforce — begin d with "Judicial ruling on <claim id>: " naming the claim it rules on (FLEET_CONTRACT.md)`);
+        else for (const id of on) if (!claimIds.has(id)) err(w, `"Judicial ruling on ${id}" names a claim that is not in this file`);
       }
       for (const d of ['from', 'to']) if (c[d] && !ISO.test(c[d])) err(w, `${d} "${c[d]}" is not an ISO date`);
       if (c.supersededBy && !claimIds.has(c.supersededBy)) err(w, `supersededBy "${c.supersededBy}" does not resolve — superseded facts stay addressable`);
       if (c.benefit?.who && !ids.has(c.benefit.who) && !KNOWN_PREFIX.test(c.benefit.who) && !atlasIds.has(c.benefit.who)) warn(w, `benefit.who "${c.benefit.who}" is not a known id`);
+      // A loan or grant with no number must say so, or a ₹ total would read the gap as 0.
+      if (c.status !== 'killed') {
+        const amount = amountProblem(c);
+        if (amount) err(w, amount);
+      }
+      for (const p of termsProblems(c.terms)) err(w, p);
+      // G3a: an own claim in a holders file carries its line structured; the figures are the text's own.
+      if (c.holding != null) for (const p of holdingProblems(c, f)) err(w, p);
+      else if (ownership && c.pred === 'own' && /^holders(?:-|\.json$)/.test(f) && c.status !== 'killed') {
+        err(w, 'own claim in a holders file without a holding block (G3a) — structure its line from its own text');
+      }
+      if (c.projectId != null && !(typeof c.projectId === 'string' && WB_PROJECT_ID.test(c.projectId))) err(w, `projectId ${JSON.stringify(c.projectId)} is not a World Bank project id (P and six digits)`);
+      if (c.countedAs != null && c.countable !== false) err(w, 'countedAs is set, so countable must be false');
+      if (c.notCountableReason != null && c.countable !== false) err(w, 'a notCountableReason is set, so countable must be false');
       srcShape(w, c.srcs);
     }
     // Denials are first-class: every alleged claim is answered in the same file.
@@ -398,8 +626,48 @@ for (const rel of FLEET_DIRS) {
       if (!NARRATIVE_STATUS.includes(n.status)) err(where, `narrative "${String(n.claim).slice(0, 60)}" has unknown status "${n.status}"`);
       if (!(n.srcs?.length)) warn(where, `narrative "${String(n.claim).slice(0, 60)}" carries no sources`);
     }
+    // Tabular series (docs/superpowers/specs/2026-10-04-force-finance-design.md §4.1): every list
+    // the fleet declares is checked row by row with the one function in scripts/lib/vocab.mjs
+    // (error, as a bad fcByState row is); a body resolves as a claim endpoint does and is a fleet
+    // reference for the cross-file check; no key repeats anywhere in the directory. A list the
+    // fleet does not declare is warned about, as an fcByState list outside its file is.
+    const declaredSeries = fleetSpec.series ?? [];
+    for (const name of Object.keys(SERIES)) {
+      if (j[name] == null) continue;
+      if (!declaredSeries.includes(name)) {
+        warn(`${where}:${name}`, `the ${fleetKey} fleet declares no ${name} series — this list is not exported`);
+        continue;
+      }
+      const s = SERIES[name];
+      if (!Array.isArray(j[name])) {
+        err(`${where}:${name}`, `must be a list of { ${s.keys.join(', ')} } rows`);
+        continue;
+      }
+      if (!dirSeries.has(name)) dirSeries.set(name, new Map());
+      const seen = dirSeries.get(name);
+      const known = (id) => ids.has(id) || (KNOWN_PREFIX.test(id) && !String(id).startsWith('claim:')) || atlasIds.has(id);
+      let okRows = 0;
+      for (const [i, r] of j[name].entries()) {
+        const w = `${where}:${name}[${i}]`;
+        const problems = s.problems(r, known);
+        for (const pr of problems) err(w, pr);
+        if (typeof r?.body === 'string' && r.body.includes(':')) fleetRefs.push({ where: w, id: r.body });
+        if (problems.length) continue;
+        const k = seriesKey(name, r);
+        if (seen.has(k)) err(w, `${name} row ${k} appears twice (first in ${seen.get(k)})`);
+        else seen.set(k, w);
+        okRows++;
+      }
+      notes.push(`${where}: ${okRows} ${name} row(s)`);
+    }
     notes.push(`${where}: ${(j.entities ?? []).length} entities, ${(j.claims ?? []).length} claims, ${(j.schemes ?? []).length} schemes, ${(j.narratives ?? []).length} narratives`);
   }
+  if (ownership) checkDeclarations(rel, new Set(files.map((f) => f.replace(/\.json$/, ''))));
+}
+
+// Cross-file resolution: a fleet-prefixed id must exist in the fleet that owns the prefix.
+for (const { where, id, fleet } of undefinedFleetRefs(definedByFleet, fleetRefs)) {
+  err(where, `"${id}" carries the ${fleet} fleet's prefix but no file in research/raw/${FLEETS.find((f) => f.key === fleet).dir}/ defines it — define it there (or reuse the id that is)`);
 }
 
 const indicesPath = join(root, 'research/raw/indices.json');
@@ -439,7 +707,7 @@ if (existsSync(indicesPath)) {
 }
 
 // ---------------------------------------------------------------------------
-// 5. Generated fleet modules — src/graph/energy.generated.ts, src/data/welfare.generated.ts
+// 5. Generated fleet modules — one per fleet in FLEETS (scripts/lib/vocab.mjs)
 // ---------------------------------------------------------------------------
 //
 // scripts/assemble-fleet.mjs is the last gate before TypeScript. This section
@@ -477,14 +745,22 @@ function nationalIds() {
   }
 }
 
-const GENERATED = [
-  { fleet: 'energy', file: OUTPUTS.energy, nodes: ['ENERGY_NODES'], edges: 'ENERGY_EDGES', benefits: 'ENERGY_BENEFITS', domains: 'ENERGY_EDGE_DOMAIN', meta: 'ENERGY_META' },
-  { fleet: 'welfare', file: OUTPUTS.welfare, nodes: ['WELFARE_ENTITIES', 'WELFARE_SCHEME_NODES'], edges: 'WELFARE_CLAIMS', benefits: 'WELFARE_BENEFITS', domains: 'WELFARE_EDGE_DOMAIN', coverage: 'WELFARE_COVERAGE', meta: 'WELFARE_META' },
-];
+// The literal names each kind of module exports. A welfare module names its node
+// and edge lists differently and carries coverage; every graph fleet is alike.
+const GENERATED = FLEETS.map((f) => {
+  const P = f.prefix;
+  const common = { fleet: f.key, file: f.out, rawDir: `research/raw/${f.dir}`, benefits: `${P}_BENEFITS`, domains: `${P}_EDGE_DOMAIN`, meta: `${P}_META` };
+  return f.kind === 'welfare'
+    ? { ...common, nodes: [`${P}_ENTITIES`, `${P}_SCHEME_NODES`], edges: `${P}_CLAIMS`, coverage: `${P}_COVERAGE` }
+    : { ...common, nodes: [`${P}_NODES`], edges: `${P}_EDGES` };
+});
 const generated = GENERATED.map((g) => {
   const path = join(root, g.file);
   if (!existsSync(path)) {
-    err(g.file, 'generated module is missing — run npm run generate');
+    // A fleet whose research has never run may have no module yet; one whose
+    // research exists must have been assembled, or the site ships without it.
+    if (existsSync(join(root, g.rawDir))) err(g.file, `generated module is missing but ${g.rawDir}/ exists — run npm run generate`);
+    else notes.push(`${g.file}: not generated and ${g.rawDir}/ absent — fleet not started`);
     return null;
   }
   const src = readFileSync(path, 'utf8');
@@ -552,6 +828,274 @@ for (const m of generated) {
   );
 }
 
+// Loan facts — docs/design/FINANCE_PAGE.md §3.3 G1/G2/P1/P7. Re-checked from the literals
+// with rules of this file's own, so a fault in the assembler's copy cannot pass itself:
+// every loan edge has exactly one fact; a census fact agrees with its edge's `a` through
+// its own US$ and rate; a researched fact carries no census-only figure; every countedAs
+// points at a countable loan from the same lender; the census totals are the edges'.
+const LOAN_FACT_KEYS = ['project', 'status', 'pipeline', 'usdM', 'fxRate', 'fxBasis', 'st', 'stBasis', 'majorSector', 'sector1', 'population', 'countable', 'countedAs', 'notCountableReason'];
+const CENSUS_ONLY = ['status', 'pipeline', 'usdM', 'fxRate', 'fxBasis', 'st', 'stBasis', 'majorSector', 'sector1'];
+const finiteOrNull = (v) => v === null || (typeof v === 'number' && Number.isFinite(v));
+for (const m of generated) {
+  if (!m) continue;
+  for (const e of m.edges) {
+    if (e.projectId === undefined) continue;
+    if (!(typeof e.projectId === 'string' && WB_PROJECT_ID.test(e.projectId))) err(`${m.fleet}:edge:${e.id}`, `projectId ${JSON.stringify(e.projectId)} is not a World Bank project id (P and six digits)`);
+    if (e.pred !== 'loan' && e.pred !== 'award') err(`${m.fleet}:edge:${e.id}`, `projectId on a ${e.pred} edge — it belongs on loan and award edges`);
+  }
+  const spec = FLEETS.find((f) => f.key === m.fleet);
+  if (!spec?.loanCensus) continue;
+  const P = spec.prefix;
+  const census = spec.loanCensus;
+  const facts = grabConst(m.file, m.src, `${P}_LOAN_FACTS`);
+  if (facts == null) {
+    err(m.file, `no readable ${P}_LOAN_FACTS literal — run npm run generate`);
+    continue;
+  }
+  const totalsNull = new RegExp(`^export const ${P}_WB_TOTALS: WbTotals \\| null = null;$`, 'm').test(m.src);
+  const wb = totalsNull ? null : grabConst(m.file, m.src, `${P}_WB_TOTALS`);
+  if (!totalsNull && wb == null) err(m.file, `no readable ${P}_WB_TOTALS literal — run npm run generate`);
+  const hasCensus = (m.meta.files ?? []).some((f) => f.domain === census);
+  if (totalsNull && hasCensus) err(m.file, `${P}_WB_TOTALS is null but ${census}.json is a research file`);
+
+  const edgeById = new Map(m.edges.map((e) => [e.id, e]));
+  const loans = m.edges.filter((e) => e.pred === 'loan');
+  for (const e of loans) if (!(e.id in facts)) err(`${m.fleet}:loan-facts:${e.id}`, `loan edge has no ${P}_LOAN_FACTS row`);
+  for (const [id, f] of Object.entries(facts)) {
+    const w = `${m.fleet}:loan-facts:${id}`;
+    const e = edgeById.get(id);
+    if (!e || e.pred !== 'loan') { err(w, 'fact for a claim that is not a loan edge'); continue; }
+    const keys = Object.keys(f);
+    if (keys.join() !== LOAN_FACT_KEYS.join()) err(w, `keys ${keys.join(', ')} — expected ${LOAN_FACT_KEYS.join(', ')}`);
+    const isCensus = m.domains[id] === census;
+    if (f.population !== (isCensus ? 'census' : 'researched')) err(w, `population "${f.population}" but the claim's domain is "${m.domains[id]}"`);
+    if (f.project !== null && !(typeof f.project === 'string' && WB_PROJECT_ID.test(f.project))) err(w, `project ${JSON.stringify(f.project)} is not a World Bank project id`);
+    if (f.project !== (e.projectId ?? null)) err(w, `project ${JSON.stringify(f.project)} differs from the edge's projectId ${JSON.stringify(e.projectId ?? null)}`);
+    if (typeof f.countable !== 'boolean') err(w, 'countable must be true or false');
+    if (f.countable === false && f.countedAs == null && f.notCountableReason == null) err(w, 'countable false with neither countedAs nor notCountableReason');
+    if (f.countedAs != null && f.countable !== false) err(w, 'countedAs set on a countable fact');
+    if (f.countedAs != null) {
+      const t = facts[f.countedAs];
+      const te = edgeById.get(f.countedAs);
+      if (!t || !te) err(w, `countedAs "${f.countedAs}" is not a loan fact`);
+      else {
+        if (t.countable !== true) err(w, `countedAs "${f.countedAs}" is itself not countable`);
+        if (te.s !== e.s) err(w, `countedAs "${f.countedAs}" is a loan from ${te.s}, not ${e.s}`);
+        if (t.project != null && f.project != null && t.project !== f.project) err(w, `countedAs "${f.countedAs}" is project ${t.project}, not ${f.project}`);
+      }
+    }
+    if (!isCensus) {
+      for (const k of CENSUS_ONLY) if (f[k] !== null) err(w, `researched fact carries ${k} — census-only fields are null outside the census`);
+      continue;
+    }
+    if (f.project == null) err(w, 'census fact without a project');
+    else if (!(e.lab ?? '').startsWith(`${f.project} — `)) err(w, `project ${f.project} is not the project its lab names`);
+    if (typeof f.status !== 'string') err(w, 'census fact without an API status');
+    if (typeof f.pipeline !== 'boolean') err(w, 'census fact without a pipeline flag');
+    if (f.st !== null && !STATE_CODES.includes(f.st)) err(w, `st "${f.st}" is not a state code`);
+    if (f.stBasis !== null && !STATE_BASES.includes(f.stBasis)) err(w, `stBasis "${f.stBasis}" is not one of ${STATE_BASES.join(' | ')}`);
+    if ((f.st === null) !== (f.stBasis === null)) err(w, 'st and stBasis must be set together');
+    if (!finiteOrNull(f.usdM) || !finiteOrNull(f.fxRate)) err(w, 'usdM and fxRate must be numbers or null');
+    if (f.pipeline === true && (f.countable !== false || e.a != null)) err(w, 'a pipeline leg is neither countable nor carries a ₹ amount');
+    if (typeof e.a === 'number') {
+      if (f.usdM == null || f.fxRate == null) err(w, `edge carries ₹${e.a} crore but the fact has no US$ amount or rate`);
+      else if (Math.abs(e.a - (f.usdM * f.fxRate) / 10) > 0.001 * f.fxRate + 0.01) err(w, `edge ₹${e.a} crore ≠ US$${f.usdM} m × ₹${f.fxRate}/US$ — the fact and the edge disagree`);
+    }
+  }
+  if (wb) {
+    const tk = Object.keys(wb.totals ?? {});
+    if (tk.join() !== WB_TOTAL_KEYS.join()) err(m.file, `${P}_WB_TOTALS.totals keys ${tk.join(', ')} — expected ${WB_TOTAL_KEYS.join(', ')}`);
+    const heldCensus = [...(m.meta.killed ?? []), ...(m.meta.excluded ?? [])].filter((c) => c.domain === census && c.pred === 'loan');
+    const censusFacts = Object.entries(facts).filter(([, f]) => f.population === 'census');
+    if (wb.totals?.claims !== censusFacts.length + heldCensus.length) err(m.file, `${P}_WB_TOTALS.totals.claims ${wb.totals?.claims} ≠ ${censusFacts.length} census loan edges + ${heldCensus.length} held`);
+    if (!heldCensus.length) {
+      const pipe = censusFacts.filter(([, f]) => f.pipeline === true).length;
+      if (wb.totals?.pipeline !== pipe) err(m.file, `${P}_WB_TOTALS.totals.pipeline ${wb.totals?.pipeline} ≠ ${pipe} pipeline census facts`);
+      const crore = censusFacts.reduce((s, [id, f]) => s + (f.countable && typeof edgeById.get(id).a === 'number' ? edgeById.get(id).a : 0), 0);
+      if (Math.abs((wb.totals?.croreExclPipeline ?? NaN) - crore) > 0.5) err(m.file, `${P}_WB_TOTALS.totals.croreExclPipeline ${wb.totals?.croreExclPipeline} ≠ Σ a over countable census edges ${crore.toFixed(2)}`);
+    }
+    if (!wb.fieldMap || typeof wb.fieldMap !== 'object') err(m.file, `${P}_WB_TOTALS.fieldMap missing`);
+    if (!wb.fx || typeof wb.fx.indicator !== 'string') err(m.file, `${P}_WB_TOTALS.fx missing`);
+  }
+  // The reconciliation owns every researched counting mark (RECONCILIATION.json countedAs and
+  // notCountable). Read from the raw file, not the module, so a module generated before a
+  // mark was added — or after one was removed — fails here.
+  const recPath = join(root, m.rawDir, 'RECONCILIATION.json');
+  let rec = null;
+  if (existsSync(recPath)) {
+    try { rec = JSON.parse(readFileSync(recPath, 'utf8')); } catch (e) { err(`${m.rawDir}/RECONCILIATION.json`, `invalid JSON: ${e.message}`); }
+  }
+  const recCounted = new Map((Array.isArray(rec?.countedAs) ? rec.countedAs : []).map((x) => [x?.claimId, x?.countedAs]));
+  const recNot = new Map();
+  for (const [i, x] of (Array.isArray(rec?.notCountable) ? rec.notCountable : []).entries()) {
+    const w = `${m.rawDir}/RECONCILIATION.json:notCountable[${i}]`;
+    if (!NOT_COUNTABLE_CLASSES.includes(x?.class)) err(w, `class ${JSON.stringify(x?.class)} is not one of ${NOT_COUNTABLE_CLASSES.join(' | ')}`);
+    if (x?.class === 'facility-envelope') {
+      const tr = Array.isArray(x.tranches) ? x.tranches : [];
+      if (!tr.length) err(w, 'a facility-envelope entry lists its tranches');
+      for (const t of tr) if (facts[t]?.countable !== true) err(w, `tranche ${JSON.stringify(t)} is not a countable loan fact`);
+    }
+    recNot.set(x?.claimId, x?.notCountableReason);
+  }
+  for (const [id, want] of recCounted) {
+    if (facts[id]?.countedAs !== want) err(`${m.fleet}:loan-facts:${id}`, `RECONCILIATION.json countedAs says ${JSON.stringify(want)}; the module says ${JSON.stringify(facts[id]?.countedAs ?? null)} — run npm run generate`);
+  }
+  for (const [id, want] of recNot) {
+    const f = facts[id];
+    if (!f || f.population !== 'researched' || f.countable !== false || f.countedAs != null || f.notCountableReason !== want) {
+      err(`${m.fleet}:loan-facts:${id}`, `RECONCILIATION.json notCountable lists it; the module has ${f ? `countable ${f.countable}, countedAs ${JSON.stringify(f.countedAs)}, notCountableReason ${JSON.stringify(f.notCountableReason)}` : 'no loan fact'} — run npm run generate`);
+    }
+  }
+  for (const [id, f] of Object.entries(facts)) {
+    if (f.population !== 'researched' || f.countable !== false) continue;
+    if (f.countedAs != null ? recCounted.get(id) !== f.countedAs : !recNot.has(id)) err(`${m.fleet}:loan-facts:${id}`, 'researched fact is not countable but RECONCILIATION.json records no such mark — the reconciliation owns every counting mark');
+  }
+  const n = Object.keys(facts).length;
+  const counted = Object.values(facts).filter((f) => f.countedAs != null).length;
+  const notLoan = Object.values(facts).filter((f) => f.population === 'researched' && f.countable === false && f.countedAs == null).length;
+  notes.push(`${m.file}: ${n} loan fact(s) — ${Object.values(facts).filter((f) => f.population === 'census').length} census, ${n - Object.values(facts).filter((f) => f.population === 'census').length} researched, ${counted} countedAs another record, ${notLoan} not a loan (RECONCILIATION notCountable)`);
+}
+
+// Ownership exports — docs/design/FINANCE_PAGE.md §3.3 G3a–c, for every FLEETS row with
+// `ownership: true`. Re-checked from the literals with this file's own rules: each holding
+// keys a surviving own edge and is read from that edge's own text; every own edge from a
+// holders file has one; an aggregate is exactly a holders-aggregates edge; coverage has
+// one row per NIFTY 50 constituent and never calls a company with a filing line
+// "not read"; a resolved control is an id something defines, an unresolved one has none.
+const niftyIds = (() => {
+  try {
+    const j = JSON.parse(readFileSync(join(root, 'research/raw/indices.json'), 'utf8'));
+    return (j.indices?.nifty50 ?? []).map((c) => c.existingId).filter(Boolean);
+  } catch {
+    return null; // indices.json has its own check in §4; coverage completeness is then reported as unverifiable
+  }
+})();
+for (const m of generated) {
+  if (!m) continue;
+  const spec = FLEETS.find((f) => f.key === m.fleet);
+  if (!spec?.ownership) continue;
+  const P = spec.prefix;
+  const lit = (name) => {
+    const v = grabConst(m.file, m.src, name);
+    if (v == null) err(m.file, `no readable ${name} literal — run npm run generate`);
+    return v;
+  };
+  const holdings = lit(`${P}_HOLDINGS`);
+  const coverage = lit(`${P}_COVERAGE`);
+  const controls = lit(`${P}_CONTROLS`);
+  if (holdings == null || coverage == null || controls == null) continue;
+
+  const edgeById = new Map(m.edges.map((e) => [e.id, e]));
+  for (const [id, h] of Object.entries(holdings)) {
+    const w = `${m.fleet}:holdings:${id}`;
+    const e = edgeById.get(id);
+    if (!e) { err(w, 'holding for a claim that is not an edge'); continue; }
+    const keys = Object.keys(h);
+    if (keys.join() !== HOLDING_KEYS.join()) err(w, `keys ${keys.join(', ')} — expected ${HOLDING_KEYS.join(', ')}`);
+    const problems = holdingProblems({ ...e, holding: h }, `${m.domains[id]}.json`);
+    for (const p of problems) err(w, p);
+  }
+  const ownFromHolders = m.edges.filter((e) => e.pred === 'own' && /^holders(?:-|$)/.test(m.domains[e.id] ?? ''));
+  for (const e of ownFromHolders) if (!(e.id in holdings)) err(`${m.fleet}:holdings:${e.id}`, `own edge from ${m.domains[e.id]}.json has no ${P}_HOLDINGS row`);
+
+  const fileDomains = new Set((m.meta.files ?? []).map((f) => f.domain));
+  const covered = new Map();
+  for (const [i, r] of coverage.entries()) {
+    const w = `${m.fleet}:coverage[${i}]`;
+    if (covered.has(r.company)) err(w, `${r.company} is declared twice`);
+    covered.set(r.company, r);
+    if (!COVERAGE_READ.includes(r.read)) err(w, `read "${r.read}" is not one of ${COVERAGE_READ.join(' | ')}`);
+    if ((r.read === 'not-read') !== (r.asOf == null)) err(w, 'asOf is null exactly when nothing was read');
+    if (r.asOf != null && !ISO.test(r.asOf)) err(w, `asOf "${r.asOf}" is not an ISO date`);
+    if (!fileDomains.has(r.domain)) err(w, `domain "${r.domain}" is not a research file in META.files`);
+    if (!(r.srcs?.length)) err(w, 'coverage row without sources');
+  }
+  if (niftyIds == null) warn(m.file, `${P}_COVERAGE completeness unverifiable — research/raw/indices.json unreadable`);
+  else if (coverage.length) {
+    for (const id of niftyIds) if (!covered.has(id)) err(`${m.fleet}:coverage`, `NIFTY 50 constituent ${id} has no coverage row`);
+    for (const id of covered.keys()) if (!niftyIds.includes(id)) err(`${m.fleet}:coverage`, `${id} is not a NIFTY 50 constituent in research/raw/indices.json`);
+  }
+  // A company with a filing line recorded was read — "not read" would hide it.
+  for (const [id, h] of Object.entries(holdings)) {
+    const t = edgeById.get(id)?.t;
+    if (!h.aggregate && covered.get(t)?.read === 'not-read') err(`${m.fleet}:coverage:${t}`, `declared not-read but ${id} records a filing line in it`);
+  }
+
+  const seen = new Set();
+  for (const [i, r] of controls.entries()) {
+    const w = `${m.fleet}:controls[${i}]`;
+    if (!CONTROL_ROLES.includes(r.role)) err(w, `role "${r.role}" is not one of ${CONTROL_ROLES.join(' | ')}`);
+    if (r.resolved !== (r.id != null)) err(w, 'a resolved row has an id and an unresolved row has none');
+    if (r.id != null) {
+      if (seen.has(r.id)) err(w, `${r.id} is declared twice`);
+      seen.add(r.id);
+      if (!(fleetNodeIds.has(r.id) || atlasIds.has(r.id) || INVENTORY.test(r.id))) err(w, `"${r.id}" resolves to no fleet node, atlas id or inventory id`);
+    }
+    if (!r.declaredIn) err(w, 'declaredIn is required');
+  }
+  const byRead = COVERAGE_READ.map((k) => `${coverage.filter((r) => r.read === k).length} ${k}`).join(', ');
+  const band = controls.filter((r) => ['subject', 'comparison', 'domestic-control'].includes(r.role)).length;
+  notes.push(`${m.file}: ${Object.keys(holdings).length} holding(s) (${Object.values(holdings).filter((h) => h.pct == null).length} without a pct, ${Object.values(holdings).filter((h) => h.aggregate).length} aggregate); coverage ${byRead}; ${controls.length} control row(s), ${band} in the holder comparison set`);
+}
+
+// State-wise FC — docs/design/FINANCE_PAGE.md §3.3 P5/G4, for every FLEETS row with an
+// `fcState` domain. Re-checked from the literal with this file's own rules: the export
+// must be readable even when empty (a module without it is stale); every row has the
+// generator's keys in order, a state code (or null with a note), a financial year and
+// a figure; and each FY's rows add up to the module's own current national grant edge
+// of that domain, within ₹1 crore, or the module is refused.
+for (const m of generated) {
+  if (!m) continue;
+  const spec = FLEETS.find((f) => f.key === m.fleet);
+  if (!spec?.fcState) continue;
+  const P = spec.prefix;
+  const rows = grabConst(m.file, m.src, `${P}_FC_STATE`);
+  if (rows == null) {
+    err(m.file, `no readable ${P}_FC_STATE literal — run npm run generate`);
+    continue;
+  }
+  const hasFile = (m.meta.files ?? []).some((f) => f.domain === spec.fcState);
+  if (rows.length && !hasFile) err(m.file, `${P}_FC_STATE has ${rows.length} row(s) but ${spec.fcState}.json is not a research file in META.files`);
+  const ok = checkFcStateRows(`${m.fleet}:fc-state`, rows, true);
+  const national = m.edges.filter((e) => m.domains[e.id] === spec.fcState);
+  for (const pr of fcStateSumProblems(ok, national)) err(m.file, pr);
+  const withCode = ok.filter((r) => r.st !== null).length;
+  notes.push(`${m.file}: ${ok.length} state row(s) (${withCode} with a state code, ${new Set(ok.filter((r) => r.st).map((r) => r.st)).size} distinct states/UTs) over ${new Set(ok.map((r) => r.fy)).size} FY(s)${fcSummary(ok, national)}`);
+}
+
+// Tabular series — docs/superpowers/specs/2026-10-04-force-finance-design.md §4.1, for every
+// FLEETS row with `series`. Re-checked from the literals with the one rule in
+// scripts/lib/vocab.mjs: every declared export readable (a module without one is stale), every
+// row valid with a body that resolves, no key twice, META.series counting the rows. Whether each
+// export equals a fresh assembly is checked below, beside the whole-module comparison.
+for (const m of generated) {
+  if (!m) continue;
+  const spec = FLEETS.find((f) => f.key === m.fleet);
+  if (!spec?.series) continue;
+  const P = spec.prefix;
+  const known = (id) => fleetNodeIds.has(id) || atlasIds.has(id) || INVENTORY.test(id);
+  m.series = {};
+  for (const name of spec.series) {
+    const s = SERIES[name];
+    const rows = grabConst(m.file, m.src, `${P}_${s.export}`);
+    if (rows == null) {
+      err(m.file, `no readable ${P}_${s.export} literal — run npm run generate`);
+      continue;
+    }
+    m.series[name] = rows;
+    const seen = new Set();
+    for (const [i, r] of rows.entries()) {
+      const w = `${m.fleet}:${name}[${i}]`;
+      for (const pr of s.problems(r, known)) err(w, pr);
+      const k = seriesKey(name, r);
+      if (seen.has(k)) err(w, `${name} row ${k} appears twice`);
+      seen.add(k);
+    }
+    if (m.meta.series?.[name] !== rows.length) err(m.file, `META.series.${name} is ${JSON.stringify(m.meta.series?.[name])} but ${P}_${s.export} has ${rows.length} row(s)`);
+    notes.push(`${m.file}: ${rows.length} ${name} row(s)`);
+  }
+}
+
 let assembled = null;
 try {
   assembled = assembleFleet({ root });
@@ -569,6 +1113,13 @@ if (assembled) {
       for (const e of fleetErrors) err(`generate:${m.fleet}`, `assembler refuses the ${m.fleet} research — ${e}; ${m.file} is the last clean assembly`);
     } else if (m.src !== assembled[`${m.fleet}Ts`]) {
       err(m.file, 'generated module is stale — run npm run generate');
+      // Name the series export that drifted, when one did.
+      for (const [name, rows] of Object.entries(m.series ?? {})) {
+        const fresh = assembled[m.fleet]?.series?.[name] ?? [];
+        if (JSON.stringify(rows) !== JSON.stringify(fresh)) {
+          err(m.file, `${FLEETS.find((f) => f.key === m.fleet).prefix}_${SERIES[name].export} (${rows.length} row(s)) differs from a fresh assembly (${fresh.length} row(s)) — run npm run generate`);
+        }
+      }
     }
   }
 }

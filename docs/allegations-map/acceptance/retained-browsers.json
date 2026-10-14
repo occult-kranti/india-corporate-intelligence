@@ -1,0 +1,103 @@
+{
+  "dist": "dist-allegations-release",
+  "indexSha256": "dbef3c193404b34586ecce5f9523b95afd8b2bfb7589a8ff3efc4c002b1bc5d7",
+  "browser": "/usr/bin/chromium",
+  "startedAt": "2026-10-07T07:48:43Z",
+  "results": [
+    {
+      "suite": "education",
+      "command": [
+        "node",
+        "scripts/education/browser.mjs"
+      ],
+      "exitCode": 0,
+      "seconds": 11.97
+    },
+    {
+      "suite": "water",
+      "command": [
+        "node",
+        "scripts/water/browser.mjs"
+      ],
+      "exitCode": 0,
+      "seconds": 14.61
+    },
+    {
+      "suite": "public-works",
+      "command": [
+        "node",
+        "scripts/public-works/browser.mjs"
+      ],
+      "exitCode": 0,
+      "seconds": 33.71
+    },
+    {
+      "suite": "dossier-history",
+      "command": [
+        "node",
+        "scripts/pages/dossier-history.browser.mjs"
+      ],
+      "exitCode": 0,
+      "seconds": 14.84
+    },
+    {
+      "suite": "investigation",
+      "command": [
+        "node",
+        "scripts/investigation/browser.mjs"
+      ],
+      "exitCode": 1,
+      "seconds": 156.35
+    },
+    {
+      "suite": "investigation-graph",
+      "command": [
+        "node",
+        "scripts/investigation/graph-browser.mjs"
+      ],
+      "exitCode": 0,
+      "seconds": 12.36
+    },
+    {
+      "suite": "investigation-workspace",
+      "command": [
+        "node",
+        "scripts/investigation/workspace-browser.mjs"
+      ],
+      "exitCode": 0,
+      "seconds": 40.75
+    },
+    {
+      "suite": "procurement",
+      "command": [
+        "node",
+        "scripts/investigation/procurement-trail-browser.mjs"
+      ],
+      "exitCode": 0,
+      "seconds": 15.93
+    },
+    {
+      "suite": "deep",
+      "command": [
+        "node",
+        "scripts/deep-investigation/browser.mjs"
+      ],
+      "exitCode": 0,
+      "seconds": 78.34
+    }
+  ],
+  "finishedAt": "2026-10-07T07:55:02Z",
+  "finalIndexSha256": "dbef3c193404b34586ecce5f9523b95afd8b2bfb7589a8ff3efc4c002b1bc5d7",
+  "artifactUnchanged": true,
+  "passed": true,
+  "reruns": [
+    {
+      "suite": "investigation",
+      "exitCode": 0,
+      "seconds": 153.36,
+      "artifacts": "/tmp/allegations-retained-browser/investigation-rerun",
+      "reason": "Authorized test-only dedicated-route classification correction."
+    }
+  ],
+  "finalizedAt": "2026-10-07T07:57:52Z"
+}

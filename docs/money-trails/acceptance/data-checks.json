@@ -1,0 +1,90 @@
+{
+  "reviewDate": "2026-10-07",
+  "basis": "Lead-observed successful local command results. Shared structural regressions were run during integration; final source hashes and money-trail/model validation were checked again after editorial changes. The deployment workflow independently repeats all site gates on the committed tree.",
+  "checks": [
+    {
+      "command": "npm run validate:money-trails",
+      "status": "PASS"
+    },
+    {
+      "command": "npm run test:money-trails",
+      "status": "PASS",
+      "assertions": 34
+    },
+    {
+      "command": "npm run test:money-trails:model",
+      "status": "PASS",
+      "assertions": 7
+    },
+    {
+      "command": "npm run test:money-trails:audit",
+      "status": "PASS"
+    },
+    {
+      "command": "npm run validate:investigation",
+      "status": "PASS"
+    },
+    {
+      "command": "npm run test:investigation",
+      "status": "PASS",
+      "assertions": 45
+    },
+    {
+      "command": "npm run validate:deep-investigation",
+      "status": "PASS"
+    },
+    {
+      "command": "npm run test:deep-investigation",
+      "status": "PASS",
+      "assertions": 10
+    },
+    {
+      "command": "npm run validate:atlas",
+      "status": "PASS"
+    },
+    {
+      "command": "npm run test:atlas",
+      "status": "PASS",
+      "assertions": 17
+    },
+    {
+      "command": "npm run validate:allegations",
+      "status": "PASS"
+    },
+    {
+      "command": "npm run test:allegations",
+      "status": "PASS",
+      "assertions": 12
+    },
+    {
+      "command": "npm run test:metro",
+      "status": "PASS",
+      "assertions": 25
+    },
+    {
+      "command": "npm run test:investigation:model",
+      "status": "PASS",
+      "assertions": 4
+    },
+    {
+      "command": "npm run test:deep-investigation:model",
+      "status": "PASS",
+      "assertions": 4
+    },
+    {
+      "command": "npm run test:atlas:model",
+      "status": "PASS",
+      "assertions": 4
+    },
+    {
+      "command": "npm run test:allegations:model",
+      "status": "PASS",
+      "assertions": 4
+    },
+    {
+      "command": "npm run test:metro:model",
+      "status": "PASS",
+      "assertions": 4
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "reviewedAt": "2026-10-07",
+  "corrections": [
+    {
+      "id": "waaree-unsupported-retained-donation-2026-10-07",
+      "recordId": "legacy:record:7afac8eb483ff991|waaree|direct|bjp",
+      "relationshipId": "legacy:relationship:7afac8eb483ff991|waaree|direct|bjp",
+      "originalId": "7afac8eb483ff991|waaree|direct|bjp",
+      "title": "Withdrawn unsupported claim: alleged Waaree ₹15 crore donation",
+      "status": "withdrawn-unsupported-claim",
+      "originalEdge": {
+        "s": "waaree",
+        "t": "bjp",
+        "pred": "direct",
+        "tier": "alleged",
+        "lab": "claimed ₹15cr — KILLED",
+        "d": "Absent from the primary ADR annexure that itemises even ₹0.75cr donations. Rendered as a claimed-absent (alleged) edge, then superseded.",
+        "srcs": [
+          [
+            "ADR annexure",
+            "https://adrindia.org/sites/default/files/English_Analysis_of_donations_declared_by_National_Parties_FY_2024-25.pdf"
+          ]
+        ]
+      },
+      "source": {
+        "title": "Analysis of Donations Received by National Political Parties — FY 2024–25",
+        "url": "https://adrindia.org/sites/default/files/English_Analysis_of_donations_declared_by_National_Parties_FY_2024-25.pdf",
+        "publisher": "Association for Democratic Reforms",
+        "publishedAt": "2026-03-26",
+        "retrievedAt": "2026-10-07",
+        "locator": "Printed page 18, Annexure 1: top ten BJP donations; printed page 15, CPI(M) donor table; printed page 24, Annexure 4.",
+        "sha256": "a10e560a995f8d0bba9901ecff6fefc12cfe854e54a03499e5f103fdbfadbc41"
+      },
+      "rationale": "The retained ₹15 crore Waaree-to-BJP claim has no substantiating payment source. Its cited ADR report lists selected top donors, not an exhaustive BJP contribution return. Absence from those tables cannot disprove the claimed donation. The unsupported arrow is withdrawn and preserved here as correction history; no replacement payment or definitive negative claim is inferred.",
+      "response": "The earlier description said the claim was checked and killed because it was absent from an ADR annexure. That reasoning was unsupported: the cited BJP table is explicitly top ten, and the ₹0.75 crore example relates to a different party. This correction establishes a source gap, not that no Waaree entity ever donated.",
+      "alternativeExplanations": [
+        "A contribution below the top-ten cutoff or through a different exact legal entity would not necessarily appear in this report.",
+        "The original assertion may be mistaken; the cited report alone cannot resolve it."
+      ],
+      "falsifier": "An exact original party contribution return, issuer disclosure or reconciled payment record identifying payer, recipient, amount and financial year would permit a separately reviewed claim.",
+      "limitations": [
+        "No exact alleged payment date or transaction amount is admitted into the graph.",
+        "Withdrawal concerns this unsupported retained assertion, not a judicial acquittal or a finding that every possible affiliated contribution was absent."
+      ]
+    }
+  ]
+}

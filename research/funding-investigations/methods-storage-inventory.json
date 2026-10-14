@@ -1,0 +1,229 @@
+{
+  "reviewDate": "2026-10-08",
+  "scope": "Read-only filesystem/database-schema inventory; no table scan, cleanup, or new training",
+  "databases": [
+    {
+      "path": "/workspace/research-cache/tender-20260626/tenders_vps.db",
+      "bytes": 6672879616,
+      "tables": [
+        {
+          "name": "tender_details",
+          "columns": [
+            [
+              "internal_id",
+              "TEXT"
+            ],
+            [
+              "tender_id",
+              "TEXT"
+            ],
+            [
+              "details_json",
+              "TEXT"
+            ],
+            [
+              "scraped_at",
+              "TEXT"
+            ]
+          ]
+        },
+        {
+          "name": "tenders",
+          "columns": [
+            [
+              "internal_id",
+              "TEXT"
+            ],
+            [
+              "tender_id",
+              "TEXT"
+            ],
+            [
+              "detail_url",
+              "TEXT"
+            ],
+            [
+              "status",
+              "TEXT"
+            ],
+            [
+              "organisation_name",
+              "TEXT"
+            ],
+            [
+              "title",
+              "TEXT"
+            ],
+            [
+              "reference_number",
+              "TEXT"
+            ],
+            [
+              "portal_type",
+              "TEXT"
+            ],
+            [
+              "serial_number",
+              "TEXT"
+            ],
+            [
+              "e_published_date",
+              "TEXT"
+            ],
+            [
+              "bid_submission_closing_date",
+              "TEXT"
+            ],
+            [
+              "tender_opening_date",
+              "TEXT"
+            ],
+            [
+              "corrigendum_url",
+              "TEXT"
+            ],
+            [
+              "scraped_at",
+              "TEXT"
+            ],
+            [
+              "partition_id",
+              "INTEGER"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/workspace/research-cache/tender-20260626/aoc_tenders.db",
+      "bytes": 6594818048,
+      "tables": [
+        {
+          "name": "aoc_details",
+          "columns": [
+            [
+              "internal_id",
+              "TEXT"
+            ],
+            [
+              "tender_id",
+              "TEXT"
+            ],
+            [
+              "details_json",
+              "TEXT"
+            ],
+            [
+              "scraped_at",
+              "TEXT"
+            ]
+          ]
+        },
+        {
+          "name": "aoc_list_queue",
+          "columns": [
+            [
+              "list_url",
+              "TEXT"
+            ],
+            [
+              "portal_type",
+              "TEXT"
+            ],
+            [
+              "year",
+              "INTEGER"
+            ],
+            [
+              "page_num",
+              "INTEGER"
+            ],
+            [
+              "status",
+              "TEXT"
+            ],
+            [
+              "scraped_at",
+              "TEXT"
+            ],
+            [
+              "partition_id",
+              "INTEGER"
+            ]
+          ]
+        },
+        {
+          "name": "aoc_tenders",
+          "columns": [
+            [
+              "internal_id",
+              "TEXT"
+            ],
+            [
+              "portal_type",
+              "TEXT"
+            ],
+            [
+              "year",
+              "INTEGER"
+            ],
+            [
+              "sl_no",
+              "TEXT"
+            ],
+            [
+              "aoc_date",
+              "TEXT"
+            ],
+            [
+              "closing_date",
+              "TEXT"
+            ],
+            [
+              "title",
+              "TEXT"
+            ],
+            [
+              "ref_no",
+              "TEXT"
+            ],
+            [
+              "tender_id",
+              "TEXT"
+            ],
+            [
+              "org_name",
+              "TEXT"
+            ],
+            [
+              "detail_url",
+              "TEXT"
+            ],
+            [
+              "partition_id",
+              "INTEGER"
+            ]
+          ]
+        }
+      ]
+    }
+  ],
+  "filesystem": {
+    "blockSize": 4096,
+    "availableBlocks": 2669053
+  },
+  "reusedAudits": [
+    {
+      "path": "research/research-radar/next-model/temporal-inventory.json",
+      "sha256": "005d67bd57f03f24a2bbfdb259d60846033c6d2b91223a9ea4d36d4720f98d4f"
+    },
+    {
+      "path": "research/research-radar/next-model/evaluation.json",
+      "sha256": "73a8e2ebdfbc0056029184313d4591231b50ba8ecab397fb542134a2bd0a3c0e"
+    },
+    {
+      "path": "research/research-radar/next-model/method-sources.json",
+      "sha256": "5806cca04776fbab48d5c5fd493a6539b2a9c1481174add67ea55632d8a5b9c7"
+    }
+  ]
+}

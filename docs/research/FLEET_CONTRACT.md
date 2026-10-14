@@ -4,12 +4,29 @@
 `scripts/validate.mjs` §4 at the quarantine boundary; assembled into typed modules by
 `scripts/assemble-fleet.mjs` (`npm run generate`).*
 
-Two fleets so far, two directories, one set of invariants:
+Five fleets, five directories, one set of invariants. The list is not repeated in code:
+`FLEETS` in `scripts/lib/vocab.mjs` is the one table the assembler, `validate.mjs` §4
+(which directories are research) and §5 (which modules must exist and be fresh) read.
+Adding a fleet is one row there, one import in `src/context/DataContext.tsx`, and a row
+here.
 
-| directory | fleet | what a file holds |
-|---|---|---|
-| `research/raw/energy/` | energy & natural-resources power map | entities, claims (with `benefit`), voids, narratives, base rates, symmetry check |
-| `research/raw/welfare/` | distribution funds, 2000–2026 | schemes (announced/approved/launched, ministers, outlay, election context, status history, results, who else benefits), entities, claims, elections, base rates, narratives |
+| directory | fleet (`key`) | kind | generated module (export prefix) | what a file holds |
+|---|---|---|---|---|
+| `research/raw/energy/` | energy & natural-resources power map (`energy`) | graph | `src/graph/energy.generated.ts` (`ENERGY_`) | entities, claims (with `benefit`), voids, narratives, base rates, symmetry check |
+| `research/raw/welfare/` | distribution funds, 2000–2026 (`welfare`) | welfare | `src/data/welfare.generated.ts` (`WELFARE_`) | schemes (announced/approved/launched, ministers, outlay, election context, status history, results, who else benefits), entities, claims, elections, coverage, base rates, narratives |
+| `research/raw/finance/` | external finance — lenders, loans, conditions (`finance`) | graph | `src/graph/finance.generated.ts` (`FINANCE_`) | entities, claims (`loan` with `terms`), voids, narratives, base rates, symmetry check |
+| `research/raw/ngo/` | NGOs and foreign contributions (`ngo`) | graph | `src/graph/ngo.generated.ts` (`NGO_`) | entities, claims (`grant`, `enforce` with `contra`), voids, narratives, base rates, symmetry check |
+| `research/raw/capital/` | foreign capital in listed India (`capital`) | graph | `src/graph/capital.generated.ts` (`CAPITAL_`) | entities, claims (`own`, `role`, `award`, `law`), voids, narratives, base rates, symmetry check |
+| `research/raw/force/` | the money India spends on force — defence, central and state police, intelligence, prisons (`force`) | graph + series | `src/graph/force.generated.ts` (`FORCE_`) | entities, claims (`award`, `own`, `role`, `law`, `enforce`, `bond`), voids, narratives, base rates, symmetry check, **and three tabular series** `budgets[]`, `strength[]`, `footprint[]` (below) |
+
+A **graph** module exports `<P>_NODES`, `<P>_EDGES`, `<P>_EDGE_DOMAIN`, `<P>_BENEFITS`,
+`<P>_VOIDS`, `<P>_NARRATIVES`, `<P>_BASE_RATES`, `<P>_SYMMETRY`, `<P>_GAPS`,
+`<P>_IDENTITY` and `<P>_META`. The **welfare** module exports `WELFARE_SCHEMES`,
+`WELFARE_ENTITIES`, `WELFARE_SCHEME_NODES`, `WELFARE_CLAIMS`, `WELFARE_ELECTIONS` and
+`WELFARE_COVERAGE` in place of nodes and edges, and the same sections otherwise. A fleet
+whose directory does not exist yet (or holds no research file) still gets its module,
+with empty lists and `META.empty: true` — the build never waits on research. A directory
+holding one file is a fleet of one file.
 
 Files whose name starts with a capital letter (`RECONCILIATION.json`, `AUDIT.json`) are
 fleet by-products, not research, and are not validated as research.
@@ -18,7 +35,9 @@ Existing graph ids are reused verbatim: `pol:<minister>` (research/raw/cabinet.j
 `co:<company>` (companies-by-state.json), `grp:<group>` (conglomerates.json),
 `min:<ministry-slug>`, `per:<person-slug>`, `for:<partner-slug>`, `sec:<sector-slug>` (derived in
 `src/graph/build.ts`), and the Money-Trail Atlas ids in `src/graph/data.ts`. New ids carry the
-fleet prefix: `energy:`, `wel:`, `scheme:`.
+fleet prefix: `energy:`, `wel:`, `scheme:`, and for Phase G `fin:` (lenders, loan
+instruments) and `ngo:` (associations, donors). Foreign companies already in the Atlas keep
+`for:`.
 
 ---
 
@@ -84,9 +103,11 @@ identity test, base-rate test (what fraction of comparables share the property?)
 · `pmout` (money out of a fund) · `csr` · `own` (shareholding / MDO / JV) · `family` · `role`
 (office, directorship, portfolio; date-ranged) · `law` (statute/rule/notification governs or
 changes) · `enforce` (investigation, proceeding, audit, order) · `hq` · `listed` · `sector`
-· `contra` (denial / counter-evidence) · `supersede` · `analytic` (non-causal comparison).
+· `contra` (denial / counter-evidence) · `supersede` · `analytic` (non-causal comparison)
+· `loan` (lender → borrower) · `grant` (donor → recipient association).
 
-Direction: money flows s→t; `award` goes awarder→winner; `role` goes person→institution;
+Direction: money flows s→t (`bond`, `trust`, `direct`, `pmin`, `pmout`, `csr`, `loan`,
+`grant` — `MONEY_PREDS` in `scripts/lib/vocab.mjs`; each draws an arrowhead); `award` goes awarder→winner; `role` goes person→institution;
 `own` goes owner→owned; `law` goes rule→entity governed; `enforce` goes agency→subject;
 `contra` goes denier→the claim id it answers (put the claim id in `t` prefixed `claim:`).
 
@@ -295,3 +316,268 @@ exists in the inventory (`pol:…`). Give every person `identity.office` with da
   `contested` every claim or scheme result whose tier is alleged/reported/analytic and that
   could be read as implying vote-buying, misuse, or a specific beneficiary — most
   consequential first.
+
+---
+
+## Phase G — loans, grants and the FCRA record (finance, ngo, capital fleets)
+
+*2026-09-26. Everything above applies. These are the additions; `validate.mjs` §4 and the
+assembler gate both enforce them.*
+
+### `loan` and `grant` claims
+
+```jsonc
+// research/raw/finance/<domain>.json — lender → borrower
+{
+  "id": "<domain>:c001", "s": "fin:ibrd", "t": "min:ministry-of-finance",
+  "pred": "loan", "tier": "documented",
+  "a": 4150,                                  // ₹ crore at the rate the source used …
+  "d": "US$500m; ₹83/US$ (the rate the source used). …",   // … and that rate is stated here
+  "from": "2023-06-30",                        // approval date
+  "to": "2028-12-31",                          // closing date
+  "terms": {                                   // optional; only the keys the source states
+    "instrument": "IPF",                       // the lender's name for it, verbatim
+    "ratePct": null,                           // number or null — never 0 for "not stated"
+    "tenorYears": 18,
+    "graceYears": 5,                           // graceYears — not gracePeriodYears
+    "conditions": ["procurement under World Bank rules"]   // a list of strings, one per condition
+  },
+  "srcs": [["World Bank project P000001", "https://projects.worldbank.org/…/P000001"]]
+}
+
+// research/raw/ngo/<domain>.json — donor → association
+{
+  "id": "<domain>:c010", "s": "ngo:<donor>", "t": "ngo:<association>",
+  "pred": "grant", "tier": "documented",
+  "a": 12.4,                                   // ₹ crore for the financial year named in d
+  "d": "FCRA receipts FY2019-20 as filed (FC-4).",
+  "from": "2019-04", "to": "2020-03",
+  "srcs": [["…", "https://…"]]
+}
+```
+
+- **An amount, or the words "amount not stated".** A `loan` or `grant` without a numeric
+  `a` must contain `amount not stated` in `d`; otherwise the file is rejected. Never write
+  `a: 0` for an amount you do not have — pages sum `a` into ₹ totals and a zero is a
+  claim. A US$ figure with no conversion is recorded as `a` absent, the US$ figure in
+  `d`, and "amount not stated" in ₹ in `d`.
+- **`terms` keys are fixed:** `instrument`, `ratePct`, `tenorYears`, `graceYears`,
+  `conditions`. Any other key is rejected by name. `conditions` is a list of strings;
+  the numbers are numbers or `null`.
+- Node typing: multilateral lenders and foreign foundations are `ty: "fund"`,
+  `fam: "capital"`; associations are `ty: "trust"`, `fam: "recipient"`; regulators (MHA
+  FCRA wing, SEBI, RBI) stay `ty: "agency"`, `fam: "enforce"`. No new node type.
+
+### FCRA cancellations with no recorded response
+
+An FCRA cancellation, suspension or prior-permission order is an `enforce` claim MHA →
+association. When the association's response cannot be found, the claim ships as
+`alleged` or `reported` with a `contra` that says so, in exactly these words:
+
+```jsonc
+{
+  "id": "<domain>:c021", "s": "ngo:<association>", "t": "claim:<domain>:c020",
+  "pred": "contra", "tier": "alleged",
+  "lab": "no response recorded",
+  "d": "No response recorded — asked/not asked unknown"
+}
+```
+
+If you know the association was asked and did not answer, say that instead ("Asked on
+<date> by <outlet>; no response"), with the source. Never omit the `contra`: an
+allegation without its answer — or without the statement that there is none on record —
+does not ship.
+
+### Court rulings
+
+A court is not an agency acting on a subject: a writ dismissed, an order quashed or stayed,
+an award set aside is a **ruling on a claim already in the file**. Courts keep the Atlas
+ids — `sc` (Supreme Court), `delhi-hc`, `bombay-hc`, `madras-hc`, `allahabad-hc`, `ap-hc`,
+`jharkhand-hc`, `sikkim-hc` (`ty: "agency"`, `fam: "enforce"`, `st` of the seat) — never
+a fleet-prefixed id; a High Court the Atlas lacks is added there, not under `energy:` or
+`wel:`. A ruling is modelled as `enforce` (court → the party the order runs against) and its
+`d` **begins** `Judicial ruling on <claim id>: ` naming the claim (or claims, comma-separated)
+it rules on, so a reader knows the edge is judicial review and not enforcement:
+
+```jsonc
+{ "id": "fcra-actions:c046", "s": "delhi-hc", "t": "ngo:commonwealth-human-rights-initiative", "pred": "enforce", "tier": "documented",
+  "lab": "Delhi HC dismisses CHRI plea against suspension, 2022-02-14",
+  "d": "Judicial ruling on fcra-actions:c043: Court: judicial review \"should be exercised only when it is a case of mala fide, arbitrariness, or an ulterior motive\" …" }
+```
+
+`validate.mjs` §4 warns on a court's `enforce` claim whose `d` lacks the prefix, and rejects a
+prefix that names a claim not in the file. A dismissal is not a finding of merit; say so in `d`.
+
+### Fleet-prefixed ids resolve inside their fleet
+
+`energy:`, `wel:`/`scheme:`, `fin:`, `ngo:` and `cap:` are owned by one fleet each (`prefixes`
+in `FLEETS`, `scripts/lib/vocab.mjs`). A claim endpoint, `benefit.who`, `ministers[].personId`,
+`announced.byPersonId` or `whoElseBenefits[].who` written with one of these prefixes must be
+defined as an entity or scheme in a file of **that** fleet's directory, whichever fleet's file
+references it (`validate.mjs` §4, `scripts/lib/fleet-refs.mjs`). A `wel:` person an ngo file
+needs is defined in `research/raw/welfare/`; the ngo file may keep a minimal copy. A plain name
+in `whoElseBenefits[].who` carries no prefix. National ids (`pol:` … `for:`) and Atlas ids pass
+by inventory; `party:` and other unprefixed-by-contract ids must be defined in the file.
+
+### Structured fields the /finance page reads (FINANCE_PAGE.md §3.3)
+
+The fields below are the research side of the §3.3 prerequisites (P1, P7, G3a–c, G4). Each
+is checked twice: by the assembler (`npm run generate` refuses the fleet) and by
+`validate.mjs` §4 (raw file) and §5 (generated module — a module generated before a mark
+changed fails as stale). Every field is optional unless its paragraph says otherwise; when
+set it is never a guess.
+
+#### Finance — `projectId` and the counting marks
+
+**`projectId`** — on a `loan` or `award` claim only: a World Bank project id, `P` and six
+digits (`WB_PROJECT_ID`), and **only where the claim's own text names it**. In
+`worldbank-projects.json` (the census) the fetcher `scripts/finance/fetch-worldbank.mjs`
+writes it from the Projects API row. On a researched file `scripts/finance/mark-loans.mjs`
+writes it by rule: the one distinct `P######` token in `lab`, or, when `lab` names none, the
+one in `d`; two or more distinct tokens in the deciding field → not set, listed for review.
+It never overwrites a value already present. Do not type a project id the text does not name.
+
+**Counting marks** — `countable`, `countedAs`, `notCountableReason`, on researched `loan`
+claims only (on any other predicate the assembler errors). A census claim **must not**
+carry them: its counting comes from its `projects[]` leg (`legs[].countable`,
+`legs[].notCountableReason`, e.g. a pipeline leg), and a mark on the claim is an error.
+Absent means countable. Two shapes, and nothing else:
+
+- **A repeat** — `countable: false`, `countedAs: "<claim id>"`, `notCountableReason: "<why>"`:
+  this record describes a loan another record already counts. `countedAs` must be a loan
+  edge in the same fleet, **from the same lender** (`s`), **on the same project** when both
+  name one, and **itself countable** — no chains; point at the record that counts.
+- **Not one loan** — `countable: false`, `notCountableReason: "<why>"`, no `countedAs`:
+  the record repeats nothing but is not a loan of the count. Classes
+  (`NOT_COUNTABLE_CLASSES`): `non-binding-mou` (a framework or pledge MoU, not a loan
+  agreement), `portfolio-aggregate` (a lender's portfolio summed — many loans, not one),
+  `facility-envelope` (a multitranche facility ceiling; its recorded tranches are the loans).
+
+`countedAs` set ⇒ `countable: false`; a `notCountableReason` set ⇒ `countable: false`;
+`countable: false` ⇒ a `countedAs` or a `notCountableReason`. A duplicate is **never**
+superseded and never deleted: supersession is a dated correction, not a count.
+
+**Owner: `research/raw/finance/RECONCILIATION.json`.** Every mark on a claim is recorded
+there, and every entry there is carried by its claim — the assembler and §5 both refuse a
+disagreement in either direction:
+
+```jsonc
+"countedAs": [
+  { "claimId": "worldbank:c001", "countedAs": "worldbank:c0754", "projectId": "P173943",
+    "lender": "fin:ibrd", "file": "worldbank.json", "note": "Repeats World Bank project P173943 …" }
+],
+"notCountable": [
+  { "claimId": "adb-aiib:c005", "file": "adb-aiib.json", "class": "facility-envelope",
+    "tranches": ["adb-aiib:c006", "adb-aiib:c007", "adb-aiib:c008"],
+    "notCountableReason": "Facility envelope, not a loan: …" }
+]
+```
+
+A `facility-envelope` entry lists its `tranches` (countable loan edges in the fleet);
+`tranches` on any other class is an error; one claim is never in both lists. Researchers
+add the entry; `node scripts/finance/mark-loans.mjs --write` copies it onto the claim
+(`countedAs.note` / `notCountable.notCountableReason` verbatim as `notCountableReason`),
+re-reading each file before it writes and never touching a claim that already carries a
+different mark. Researched records are listed and drawn one mark each, **never summed**
+(FINANCE_PAGE.md F3, D5), marked or not.
+
+#### Capital — `holding`, `coverage.json`, `controls.json`
+
+**`holding`** (G3a) — on an `own` claim only, and **required** on every `own` claim in a
+`holders*.json` file. Exactly the keys `HOLDING_KEYS`, each present (write `null` for a
+stated absence, never omit):
+
+```jsonc
+"holding": { "pct": 3.62, "shares": 45123456, "asOf": "2025-12-31",
+             "category": "fpi", "line": "BlackRock … 3.62%", "aggregate": false }
+```
+
+`pct` a number in 0–100 or null, and **printed in the claim's own `d`/`lab`** as `N%`;
+`shares` a whole number or null, printed there as digits (commas allowed); `asOf` ISO or
+null; `category` one of `HOLDING_CATEGORIES` (`promoter`, `promoter-group`, `fpi`, `fdi`,
+`custodian`, `domestic-insurer`, `other`); `line` required, a **verbatim substring** of
+`d` or `lab`; `aggregate` required, and `true` exactly when the claim is in
+`holders-aggregates.json` (a lower bound summed from fund files, never a filing line). A
+holding never says more than the record it structures; no figure is parsed from prose.
+
+**`coverage.json`** (G3b) — a declaration, not research: top-level `asOf`, `declares`,
+`builtFrom`, and `rows`, **one per NIFTY 50 constituent** in `research/raw/indices.json`
+(no more, no fewer):
+
+```jsonc
+{ "company": "co:adani-enterprises", "asOf": "2025-12-11", "read": "primary",
+  "domain": "holders-b1", "srcs": [["Adani Enterprises — Shareholding Pattern …", "https://…"]], "note": null }
+```
+
+`company` a `co:` id, once; `read` one of `COVERAGE_READ`: `primary` (a named-holder table
+in the company's own filing), `aggregator` (category totals only — no holder can be named
+or ruled out), `not-read`; `asOf` is null **exactly** when `read` is `not-read`; `domain` a
+research file stem of the fleet (the file that records the read); `srcs` at least one
+(a failed attempt is cited too). A company declared `not-read` may not have a filing line
+(`aggregate: false`) recorded against it.
+
+**`controls.json`** (G3c) — the declared comparison sets, promoted from the fleet SPEC:
+top-level `asOf`, `declares`, `declaredIn`, `declaration` (the SPEC text verbatim), and
+`rows` **in declared order** (the order is part of the declaration):
+
+```jsonc
+{ "id": "cap:blackrock", "label": "BlackRock, Inc.", "role": "subject", "resolved": true,
+  "declaredIn": "scratchpad/capital/SPEC.md §Controls …", "note": null }
+```
+
+`role` one of `CONTROL_ROLES` (`subject`, `comparison`, `domestic-control` for holders;
+`adviser-subject`, `adviser-comparison` for mandates); `resolved` required. A resolved row
+names an id that is a fleet, inventory or Atlas id and not `resolved: false` in the
+research; a declared member the fleet has no entity for is `id: null, resolved: false`, and
+carries no claims. An id appears once.
+
+Both files are read by name (`OWNERSHIP_DECLARATIONS`) and carry no `claims` or `entities`.
+
+#### NGO — `fcByState`
+
+**`fcByState`** (G4/P5) — a top-level list, read **only** from `fcra-receipts.json` (FLEETS
+`fcState`; elsewhere it is warned about and not exported): the state/UT × FY rows of a
+Parliament annexure, transcribed one row per state × FY. Keys `FC_STATE_KEYS`:
+
+```jsonc
+{ "st": "tn", "stateName": "Tamil Nadu", "fy": "2019-20", "receivedCr": 1234.56,
+  "utilisedCr": null, "note": null, "srcs": [["Rajya Sabha … Annexure", "https://…"]] }
+```
+
+`st` a state code, or `null` with a `note` saying what the annexure calls the row; `fy`
+written `YYYY-YY`; `receivedCr` required and ≥ 0 (a row the annexure prints no figure for
+is not transcribed); `utilisedCr` ≥ 0 or null; `srcs` required; one row per state × FY.
+**The sum rule:** for every FY the rows name, their `receivedCr` must sum to within
+**₹1 crore** (`FC_STATE_TOLERANCE_CR`) of each current (unsuperseded) national `grant`
+claim in the same file whose `from`/`to` span exactly that FY (`YYYY-04-01` →
+`YYYY+1-03-31`) and that cites a source URL the rows cite; an FY with no such national
+claim is an error. Record the national total first; a state table nobody can add up is not
+a table.
+
+## Phase H — the money India spends on force (`force` fleet): tabular series
+
+Any `<domain>.json` in `research/raw/force/` may carry three top-level arrays besides its
+claims. The assembler reads every file's arrays, applies RECONCILIATION mappings to `body`,
+rejects any row that breaks a rule, sorts deterministically and emits `FORCE_BUDGETS`,
+`FORCE_STRENGTH`, `FORCE_FOOTPRINT` with the counts in `META.series`. Validator §4 applies
+the same rules at the quarantine boundary; §5 re-assembles and compares. Exact keys, in
+this order (`scripts/lib/vocab.mjs`: `BUDGET_KEYS`, `STRENGTH_KEYS`, `FOOTPRINT_KEYS`):
+
+```jsonc
+"budgets":   [{ "payer": "union" | "<state code>", "body": "<entity id defined in the fleet, or min:/co:>",
+                "head": "the demand or major head as printed", "component": "total|revenue|capital|pension|pay|grant-to-states|other",
+                "fy": "2024-25", "stage": "BE|RE|actual", "cr": 31543.2, "note": null | "reported: …", "srcs": [["label","https://…"]] }]
+"strength":  [{ "st": "<state code>" | null, "body": "<entity id>", "year": 2023, "sanctioned": 232000, "actual": 196000,
+                "perLakh": 155.3 | null, "womenPct": 12.1 | null, "note": null, "srcs": [...] }]
+"footprint": [{ "id": "force:fp-<slug>", "kind": "cantonment|dpsu-plant|drdo-lab|command-hq|capf-hq|commissionerate|prison|forensic-lab|training|ordnance|other",
+                "label": "Pune Cantonment", "body": "<entity id>", "st": "mh", "city": "Pune", "since": "1817" | null, "note": null, "srcs": [...] }]
+```
+
+A budgets row is unique on (payer, body, head, component, fy, stage); strength on (body,
+year); footprint on `id`, and a footprint row must carry `st` and `city` — a row the map
+cannot place is not a row. `cr` is ₹ crore as printed and may be 0; a line the document
+does not print is a void, not a row. `fy` is an Indian financial-year label. A row's `body`
+must resolve to an entity (a `force:` body inside this fleet). A row transcribed from a
+secondary (PRS, press) keeps its source but begins `note` with `reported:`; the page prints
+that tier in its caption. No row names a person. No row carries a city budget that the
+payer does not publish (Delhi Police is the one city police with a Union demand).

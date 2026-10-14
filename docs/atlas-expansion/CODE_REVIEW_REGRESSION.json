@@ -1,0 +1,89 @@
+{
+  "reviewer": "independent code-audit agent",
+  "checkedAt": "2026-10-07T03:52:42.967274+00:00",
+  "broadBuild": "dist-atlas-shipping",
+  "finalBuild": "dist-atlas-finance-final",
+  "finalIndexSha256": "7ac5635d0655410493275e0b7d923eadf0486e58b0c54c9b5c07e408db50a29e",
+  "routeSmoke": {
+    "renders": 158,
+    "result": "pass",
+    "log": "shipping-regression/smoke.log"
+  },
+  "graphViewport": {
+    "checks": 60,
+    "result": "pass after visible-canvas test precondition correction",
+    "log": "shipping-regression/graph-viewport-corrected.log",
+    "originalLog": "shipping-regression/graph-viewport-initial.log"
+  },
+  "originalPageRun": {
+    "tests": 348,
+    "passed": 327,
+    "failed": 3,
+    "skipped": 18,
+    "cancelled": 0,
+    "log": "shipping-regression/pages-initial.log"
+  },
+  "originalFailures": [
+    {
+      "suite": "energy",
+      "criterion": "AC-60",
+      "kind": "harness assumed clipped screen-reader labels are horizontal content",
+      "correction": "Exclude only hidden-overflow <=1px elements with exact screen-reader clipping; retain every visible-content/table assertion.",
+      "supersededBy": "shipping-regression/energy-mobile-corrected.log"
+    },
+    {
+      "suite": "energy",
+      "criterion": "AC-64",
+      "kind": "harness tapped canvas below viewport",
+      "correction": "Scroll canvas into view and positively assert tap target hits SVG before unchanged touch-action assertions.",
+      "supersededBy": "shipping-regression/energy-mobile-corrected.log"
+    },
+    {
+      "suite": "finance",
+      "criterion": "AC-105",
+      "kind": "product header exceeded desktop height budget",
+      "beforeHeaderPx": 177.25,
+      "afterHeaderPx": 157.75,
+      "correction": "Finance header only, xl columns .7/1.3 and 24px gap; unchanged text/font/mobile behavior.",
+      "supersededBy": "finance-final-release/finance-focused.log"
+    }
+  ],
+  "energyTargeted": {
+    "build": "dist-atlas-shipping",
+    "criteria": [
+      "AC-60",
+      "AC-64"
+    ],
+    "passed": 2,
+    "failed": 0
+  },
+  "financeTargeted": {
+    "build": "dist-atlas-finance-final",
+    "criteria": "AC-95 through AC-105",
+    "passed": 11,
+    "failed": 0,
+    "skipped": 0,
+    "emptyFixtureNote": "AC-104 uses the existing independently assembled empty-fixture cache; other selected criteria use the final full build."
+  },
+  "effectivePageOutcome": {
+    "originalPassesRetained": 327,
+    "failuresSupersededByTargetedPasses": 3,
+    "documentedSkipsRetained": 18,
+    "unresolvedFailures": 0,
+    "note": "This is an adjudicated outcome across original and targeted runs, not a claim that the original full command exited successfully."
+  },
+  "financeGeometry": "finance-final-release/finance-geometry.json",
+  "visualInspection": {
+    "screenshots": [
+      "finance-final-release/finance-1280.png",
+      "finance-final-release/finance-1440.png"
+    ],
+    "finding": "Full copy and standing paragraph visible; no overlap or horizontal document overflow; no runtime exceptions."
+  },
+  "build": "finance-final-release/build.log",
+  "checks": [
+    "node --check scripts/graph-viewport.mjs",
+    "node --check scripts/pages/energy.test.mjs",
+    "git diff --check on owned source, harness and report changes"
+  ]
+}

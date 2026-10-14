@@ -1,0 +1,1910 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head id="Head1"><title>
+	Press Release Page | Press Information Bureau
+</title><link href="css/style.css?v=1" rel="stylesheet" type="text/css" /><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><link rel="alternate stylesheet" href="css/change.css?v=1" media="screen" title="change" /><link rel="alternate stylesheet" href="css/green.css?v=1" media="screen" title="green" /><link rel="alternate stylesheet" href="css/yellow.css" media="screen" title="yellow" /><link rel="stylesheet" type="text/css" href="css/prtint.css" media="print" /><link rel="stylesheet" href="css/style3.1.css" type="text/css" /><link id="pibA11yCss" rel="stylesheet" href="/css/accessibility.css?v=7" type="text/css" />
+      <script type="text/javascript">
+        /* Stamps the saved theme on <html> before the page paints. The
+           switcher in js/accessibility.js settles the rest, but on inner
+           pages it does not run until the end of the body and inside the
+           release frame it is a separate download - either way the reader
+           would otherwise watch a light page turn dark in front of them. */
+        (function (d) {
+            var t = "";
+            try {
+                t = window.localStorage.getItem("pibStyle") || "";
+            } catch (e) {
+                t = "";
+            }
+            if (t === "orange") {
+                t = "yellow";
+            }
+            var c = t === "change" ? " pib-hc"
+                : t === "green" ? " pib-theme-green"
+                : t === "yellow" ? " pib-theme-yellow" : "";
+            d.documentElement.className += c + " pib-a11y-content";
+        }(document));
+      </script>
+
+
+      <script src="js/jquery.min.js" type="text/javascript"></script>
+      <script type="text/javascript" src="/js/accessibility.js?v=7"></script>
+
+      <script type="text/javascript">
+            $(document).ready(function () {
+                  function getParameterByName(name) {
+                        var url = window.location.href;
+                        name = name.replace(/[\[\]]/g, '\\$&');
+                        var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+                              results = regex.exec(url);
+                        if (!results) return null;
+                        if (!results[2]) return '';
+                        return decodeURIComponent(results[2].replace(/\+/g, ' '));
+                  }
+                  // Get the IDs from the current page's URL
+                  let prid = parseInt(getParameterByName('PRID'), 10);
+
+                  if (!isNaN(prid) && prid > 0) {
+                        $.ajax({
+                              type: "POST",
+                              url: "AjaxMethod.aspx/UpdatePRHitCount",
+                              async: false,
+                              data: JSON.stringify({ 'PermId': prid }),
+                              contentType: "application/json; charset=utf-8",
+                              dataType: "json",
+                              success: function (response) {
+                                    console.log(response);
+                              },
+                              error: function (error) {
+                                    console.log("Error in AJAX request", error);
+                              }
+                        });
+                  } else {
+                        console.log("Invalid parameters:", prid);
+                  }
+
+            });
+      </script>
+      <style type="text/css">
+            .table-responsive {
+                  width: 100%;
+                  overflow-x: auto;
+            }
+
+            .banner {
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  background-color: #000;
+                  color: #fff;
+                  padding: 20px;
+            }
+
+            full-width {
+                  width: 100%;
+            }
+
+            .logo-left, .logo-center, .countdown {
+                  display: flex;
+                  align-items: center;
+            }
+
+                  .logo-left img, .logo-center img {
+                        height: 70px;
+                  }
+
+            .countdown {
+                  text-align: center;
+                  background-color: var(--dbim-text, #150202);
+                  border-radius: 10px;
+                  padding: 10px;
+                  border: 2px solid grey;
+            }
+
+            .firstnumber {
+                  color: #000000;
+                  position: absolute;
+                  top: 50px;
+                  right: 90px;
+                  font-size: 30px;
+            }
+
+            .secondnumber {
+                  position: absolute;
+                  color: #000000;
+                  right: 45px;
+                  top: 50px;
+                  font-size: 30px;
+            }
+
+            .countdown .days {
+                  font-size: 35px;
+                  color: gold;
+            }
+
+            .countdown p {
+                  margin: 0;
+            }
+
+            .countdown .text {
+                  font-size: 16px;
+            }
+
+            a {
+                  word-break: break-all;
+            }
+
+            iframe, img {
+                  max-width: 100%;
+            }
+
+            @media(max-width:1199px) {
+                  .firstnumber {
+                        top: 40px;
+                        right: 72px;
+                        font-size: 30px;
+                  }
+
+                  .secondnumber {
+                        right: 35px;
+                        top: 40px;
+                        font-size: 30px;
+                  }
+            }
+
+            @media(max-width:990px) {
+                  .firstnumber {
+                        top: 25px;
+                        right: 54px;
+                        font-size: 30px;
+                  }
+
+                  .secondnumber {
+                        right: 25px;
+                        top: 25px;
+                        font-size: 30px;
+                  }
+            }
+
+            @media(max-width:768px) {
+                  .countdown, .days {
+                        font-size: 12px !important;
+                  }
+
+
+                  .firstnumber {
+                        top: 25%;
+                        right: 8%;
+                        font-size: 30px;
+                  }
+
+                  .secondnumber {
+                        right: 4.5%;
+                        top: 25%;
+                        font-size: 30px;
+                  }
+            }
+
+            @media(max-width:475px) {
+                  .countdown, .days {
+                        font-size: 10px !important;
+                        top: 20%;
+                  }
+
+                  .bannerimgdiv {
+                        padding: 0 !important;
+                  }
+
+                  .bannerimg {
+                        width: 108% !important;
+                  }
+            }
+      </style>
+      <script type="text/javascript">
+            $(function () {
+                  $("[id*=printPDF]").click(function () {
+                        $("[id*=hfGridHtml]").val($("#PdfDiv").html());
+                  });
+            });
+            $(function () {
+                  $("[id*=printPDFEvent]").click(function () {
+                        $("[id*=hfGridHtml]").val($("#PdfDiv").html());
+                  });
+            });
+      </script>
+
+      
+
+      <link id="pibConsentCss" href="/css/consent.css?v=8" rel="stylesheet" type="text/css" /><link id="pibFontsCss" href="/css/fonts-noto.css?v=6" rel="stylesheet" type="text/css" /><link id="pibDbimCss" href="/css/dbim.css?v=1112" rel="stylesheet" type="text/css" /><meta property="og:title" content="INELIGIBLE BENEFICIARIES RECEIVING FUNDS UNDER PM-KISAN" /><meta property="og:url" content="www.pib.gov.in/Pressreleaseshare.aspx?PRID=2112399" /><meta property="og:description" content="The PM-KISAN scheme is a central sector scheme launched in February 2019 by the Hon’ble Prime Minist" /><meta property="og:image" content="https:/pib.gov.in/images/indian-emblem.png" />
+                                <script>!function(e){var n="https://s.go-mpulse.net/boomerang/";if("False"=="True")e.BOOMR_config=e.BOOMR_config||{},e.BOOMR_config.PageParams=e.BOOMR_config.PageParams||{},e.BOOMR_config.PageParams.pci=!0,n="https://s2.go-mpulse.net/boomerang/";if(window.BOOMR_API_key="C4E7H-KSCMC-422L4-W3EM5-U36MF",function(){function e(){if(!i){var e=document.createElement("script");e.id="boomr-scr-as",e.src=window.BOOMR.url,e.async=!0,o.parentNode.appendChild(e),i=!0}}function t(e){i=!0;var n,t,a,r,d=document,O=window;if(window.BOOMR.snippetMethod=e?"if":"i",t=function(e,n){var t=d.createElement("script");t.id=n||"boomr-if-as",t.src=window.BOOMR.url,BOOMR_lstart=(new Date).getTime(),e=e||d.body,e.appendChild(t)},!window.addEventListener&&window.attachEvent&&navigator.userAgent.match(/MSIE [67]\./))return window.BOOMR.snippetMethod="s",void t(o.parentNode,"boomr-async");a=document.createElement("IFRAME"),a.src="about:blank",a.title="",a.role="presentation",a.loading="eager",r=(a.frameElement||a).style,r.width=0,r.height=0,r.border=0,r.display="none",o.parentNode.appendChild(a);try{O=a.contentWindow,d=O.document.open()}catch(_){n=document.domain,a.src="javascript:var d=document.open();d.domain='"+n+"';void(0);",O=a.contentWindow,d=O.document.open()}if(n)d._boomrl=function(){this.domain=n,t()},d.write("<bo"+"dy onload='document._boomrl();'>");else if(O._boomrl=function(){t()},O.addEventListener)O.addEventListener("load",O._boomrl,!1);else if(O.attachEvent)O.attachEvent("onload",O._boomrl);d.close()}function a(e){window.BOOMR_onload=e&&e.timeStamp||(new Date).getTime()}if(!window.BOOMR||!window.BOOMR.version&&!window.BOOMR.snippetExecuted){window.BOOMR=window.BOOMR||{},window.BOOMR.snippetStart=(new Date).getTime(),window.BOOMR.snippetExecuted=!0,window.BOOMR.snippetVersion=12,window.BOOMR.url=n+"C4E7H-KSCMC-422L4-W3EM5-U36MF";var o=document.currentScript||document.getElementsByTagName("script")[0],i=!1,r=document.createElement("link");if(r.relList&&"function"==typeof r.relList.supports&&r.relList.supports("preload")&&"as"in r)window.BOOMR.snippetMethod="p",r.href=window.BOOMR.url,r.rel="preload",r.as="script",r.addEventListener("load",e),r.addEventListener("error",function(){t(!0)}),setTimeout(function(){if(!i)t(!0)},3e3),BOOMR_lstart=(new Date).getTime(),o.parentNode.appendChild(r);else t(!1);if(window.addEventListener)window.addEventListener("load",a,!1);else if(window.attachEvent)window.attachEvent("onload",a)}}(),"".length>0)if(e&&"performance"in e&&e.performance&&"function"==typeof e.performance.setResourceTimingBufferSize)e.performance.setResourceTimingBufferSize();!function(){if(BOOMR=e.BOOMR||{},BOOMR.plugins=BOOMR.plugins||{},!BOOMR.plugins.AK){var n=""=="true"?1:0,t="",a="ljqllrax2fkey2wfucta-f-199934864-clientnsv4-s.akamaihd.net",o="false"=="true"?2:1,i={"ak.v":"41","ak.cp":"1825201","ak.ai":parseInt("1215205",10),"ak.ol":"0","ak.cr":11,"ak.ipv":4,"ak.proto":"h2","ak.rid":"12fb645","ak.r":46091,"ak.a2":n,"ak.m":"dscb","ak.n":"ff","ak.cport":36136,"ak.gh":"23.201.193.39","ak.quicv":"","ak.tlsv":"tls1.3","ak.0rtt":"","ak.0rtt.ed":"","ak.csrc":"-","ak.acc":"","ak.t":"1791336614","ak.ak":"hOBiQwZUYzCg5VSAfCLimQ==a7nHDn++vrl3vlrSsPu4w/bYg+9WESMMaNFQdrhKy8N3OLyd11kulzJ6EaifpxqnKBSlIaPcfyTrrECXX1Y9Qa7cllj3P0CztNYJNKb2pbbQUWfh4mGh+ruHN+4CqKwgAAv179xoLtIOysuN1r2iMlxif376sJEO59cbeg+/px5W+CWF6PIG92mtNDmpuYb4jAt9s1QpVVuEjdQaFXxjXPLI9S1Z/LT1UQcqw2zedHUUJjQTR/2LTmI72IiYJg0kJ/tqkhAF/b+I94NT8K55JZLZSKxMIS9BxoypZKLRdc7YG41gIUj4M9aGnTYRPQcw3QQjEj+Q4bEgUG55RWCXYvEEAZ/ZFL6qOQnx2e60Ncg4n+4PrhnhPCBvdxHdyYW109CZxdZAn7QWtaw44qwDUWD39i417v7sx7zUNCTPXKQ=","ak.pv":"9","ak.dpoabenc":"","ak.tf":o};if(""!==t)i["ak.ruds"]=t;var r={i:!1,av:function(n){var t="http.initiator";if(n&&(!n[t]||"spa_hard"===n[t]))i["ak.feo"]=void 0!==e.aFeoApplied?1:0,BOOMR.addVar(i)},rv:function(){var e=["ak.cport","ak.cr","ak.csrc","ak.gh","ak.ipv","ak.m","ak.n","ak.ol","ak.proto","ak.quicv","ak.tlsv","ak.0rtt","ak.0rtt.ed","ak.r","ak.acc","ak.t","ak.tf"];BOOMR.removeVar(e)}};BOOMR.plugins.AK={akVars:i,akDNSPreFetchDomain:a,init:function(){if(!r.i){var e=BOOMR.subscribe;e("before_beacon",r.av,null,null),e("onbeacon",r.rv,null,null),r.i=!0}return this},is_complete:function(){return!0}}}}()}(window);</script></head>
+<body>
+    
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"
+     style="position:absolute;width:0;height:0;overflow:hidden" id="dbim-icon-sprite">
+    <defs>
+        <symbol id="icon-angle-double-left" viewBox="0 0 24 24"><path d="M11.6 4.6 4.2 12l7.4 7.4 2.2-2.2L8.6 12l5.2-5.2z"/><path d="M19 4.6 11.6 12 19 19.4l2.2-2.2L16 12l5.2-5.2z"/></symbol>
+        <symbol id="icon-angle-double-right" viewBox="0 0 24 24"><path d="M12.4 4.6 10.2 6.8 15.4 12l-5.2 5.2 2.2 2.2L19.8 12z"/><path d="M5 4.6 2.8 6.8 8 12l-5.2 5.2L5 19.4 12.4 12z"/></symbol>
+        <symbol id="icon-arrow-left" viewBox="0 0 24 24"><path d="M20.8 10.6H9.6v2.8h11.2z"/><path d="M10.8 5.6 3.2 12l7.6 6.4z"/></symbol>
+        <symbol id="icon-arrow-right" viewBox="0 0 24 24"><path d="M3.2 10.6h11.2v2.8H3.2z"/><path d="M13.2 5.6 20.8 12l-7.6 6.4z"/></symbol>
+        <symbol id="icon-blogger" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M6.4 2.4h11.2a4 4 0 0 1 4 4v11.2a4 4 0 0 1-4 4H6.4a4 4 0 0 1-4-4V6.4a4 4 0 0 1 4-4zm2.8 5.2a2 2 0 0 0 0 4h2.4a2 2 0 0 0 0-4zm0 5.6a2 2 0 0 0 0 4h5.6a2 2 0 0 0 0-4z"/></symbol>
+        <symbol id="icon-calendar" viewBox="0 0 24 24"><path d="M7.6 2.4H10v2.4H7.6z"/><path d="M14 2.4h2.4v2.4H14z"/><path fill-rule="evenodd" d="M4 4.8h16a1.6 1.6 0 0 1 1.6 1.6v13.2a1.6 1.6 0 0 1-1.6 1.6H4a1.6 1.6 0 0 1-1.6-1.6V6.4A1.6 1.6 0 0 1 4 4.8zm.4 5.6v8.4h15.2v-8.4z"/><path d="M6.4 12.4h3.2v3.2H6.4z"/></symbol>
+        <symbol id="icon-chevron-left" viewBox="0 0 24 24"><path d="M15.4 4.6 8 12l7.4 7.4 2.2-2.2L12.4 12l5.2-5.2z"/></symbol>
+        <symbol id="icon-chevron-right" viewBox="0 0 24 24"><path d="M8.6 4.6 6.4 6.8 11.6 12l-5.2 5.2 2.2 2.2L16 12z"/></symbol>
+        <symbol id="icon-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/></symbol>
+        <symbol id="icon-download" viewBox="0 0 24 24"><path d="M10.8 3h2.4v7.6h3.4L12 16.6l-4.6-6h3.4z"/><path d="M4 17.2h2.4v2.4h11.2v-2.4H20v3.2a1.4 1.4 0 0 1-1.4 1.4H5.4A1.4 1.4 0 0 1 4 20.4z"/></symbol>
+        <symbol id="icon-facebook" viewBox="0 0 24 24"><path d="M13.6 21.6v-8.4h2.8l.42-3.3h-3.22V7.8c0-.95.27-1.6 1.64-1.6h1.74V3.26a23 23 0 0 0-2.54-.13c-2.5 0-4.22 1.53-4.22 4.34v2.43H7.4v3.3h2.82v8.4z"/></symbol>
+        <symbol id="icon-fact-check" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2.4 3.6 5.6v6.2c0 4.6 3.4 8.6 8.4 9.8 5-1.2 8.4-5.2 8.4-9.8V5.6zm-1 13.2-3.6-3.6 1.7-1.7 1.9 1.9 4.5-4.5 1.7 1.7z"/></symbol>
+        <symbol id="icon-hashtag" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M8.8 3h2.4l-1 6h3.2l1-6h2.4l-1 6h3.4v2.4h-3.8l-.6 3.2h3.6V17h-4l-1 5h-2.4l1-5h-3.2l-1 5H5.4l1-5H3V14.6h3.8l.6-3.2H3.8V9h4zm.6 8.4-.6 3.2h3.2l.6-3.2z"/></symbol>
+        <symbol id="icon-home" viewBox="0 0 24 24"><path d="M12 3.4 2.8 11.6h2.4v8.4a1 1 0 0 0 1 1h3.3v-5.4h5v5.4h3.3a1 1 0 0 0 1-1v-8.4h2.4z"/></symbol>
+        <symbol id="icon-instagram" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M7.6 2.4h8.8a5.2 5.2 0 0 1 5.2 5.2v8.8a5.2 5.2 0 0 1-5.2 5.2H7.6a5.2 5.2 0 0 1-5.2-5.2V7.6a5.2 5.2 0 0 1 5.2-5.2zm0 2.4a2.8 2.8 0 0 0-2.8 2.8v8.8a2.8 2.8 0 0 0 2.8 2.8h8.8a2.8 2.8 0 0 0 2.8-2.8V7.6a2.8 2.8 0 0 0-2.8-2.8z"/><path fill-rule="evenodd" d="M12 6.8a5.2 5.2 0 1 0 0 10.4 5.2 5.2 0 0 0 0-10.4zm0 2.4a2.8 2.8 0 1 1 0 5.6 2.8 2.8 0 0 1 0-5.6z"/><circle cx="17.3" cy="6.7" r="1.3"/></symbol>
+        <symbol id="icon-linkedin" viewBox="0 0 24 24"><path d="M4.8 8.8h3.6v12H4.8z"/><circle cx="6.6" cy="5.4" r="2.1"/><path d="M10.8 8.8h3.45v1.65h.05c.48-.9 1.65-1.85 3.4-1.85 3.63 0 4.3 2.35 4.3 5.4v6.6h-3.6v-5.85c0-1.4-.03-3.2-1.95-3.2-1.95 0-2.25 1.52-2.25 3.1v5.95h-3.6z"/></symbol>
+        <symbol id="icon-mail" viewBox="0 0 24 24"><path d="M2.4 7.6v9.2a1.6 1.6 0 0 0 1.6 1.6h16a1.6 1.6 0 0 0 1.6-1.6V7.6L12 14z"/><path d="M21.2 5.4H2.8L12 11.8z"/></symbol>
+        <symbol id="icon-mail-open" viewBox="0 0 24 24"><path d="M2.4 9.8h19.2v9.6A1.6 1.6 0 0 1 20 21H4a1.6 1.6 0 0 1-1.6-1.6z"/><path d="M12 2.6 21.6 9.2h-3.8L12 5.3 6.2 9.2H2.4z"/><path d="m3.9 11.2 8.1 5.4 8.1-5.4 1.5 1.3-9.6 6.4-9.6-6.4z"/></symbol>
+        <symbol id="icon-map-marker" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2.4a7 7 0 0 0-7 7c0 5.2 7 12.2 7 12.2s7-7 7-12.2a7 7 0 0 0-7-7zm0 9.6a2.6 2.6 0 1 1 0-5.2 2.6 2.6 0 0 1 0 5.2z"/></symbol>
+        <symbol id="icon-newspaper" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M2.8 4.4h14.8v15.2H2.8zm2 2v11.2h10.8V6.4z"/><path d="M6 7.6h8.4v1.6H6z"/><path d="M6 10.8h8.4v1.6H6z"/><path d="M6 14h5.2v1.6H6z"/><path d="M18.4 8.4h2.8v9.6a1.4 1.4 0 0 1-2.8 0z"/></symbol>
+        <symbol id="icon-pause" viewBox="0 0 24 24"><rect x="7.4" y="4" width="3.6" height="16" rx="0.9"/><rect x="13" y="4" width="3.6" height="16" rx="0.9"/></symbol>
+    <symbol id="icon-play" viewBox="0 0 24 24"><path d="M8 4.5v15l12-7.5z"/></symbol>
+        <symbol id="icon-picture" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M2.4 5.2h19.2v13.6H2.4zm2 2v9.6h15.2V7.2z"/><path d="M5.6 16.4 10 11l2.6 3 2-2.2 4 4.6z"/><circle cx="8" cy="10.4" r="1.5"/></symbol>
+        <symbol id="icon-press-conference" viewBox="0 0 24 24"><circle cx="12" cy="5.2" r="2.6"/><path d="M7.6 12.2a4.4 4.4 0 0 1 8.8 0z"/><circle cx="4.9" cy="9.6" r="2.2"/><path d="M1.8 15.2a3.1 3.1 0 0 1 6.2 0z"/><circle cx="19.1" cy="9.6" r="2.2"/><path d="M16 15.2a3.1 3.1 0 0 1 6.2 0z"/><path d="M6.6 13.6h10.8l2.2 7.8H4.4z"/></symbol>
+        <symbol id="icon-print" viewBox="0 0 24 24"><path d="M6.4 2.8h11.2v4.4H6.4z"/><path d="M4 8.4h16a1.6 1.6 0 0 1 1.6 1.6v5.6a1.6 1.6 0 0 1-1.6 1.6h-1.6v-2.8H6v2.8H4a1.6 1.6 0 0 1-1.6-1.6V10A1.6 1.6 0 0 1 4 8.4z"/><path d="M7.2 15.6h9.6v5.6H7.2z"/></symbol>
+        <symbol id="icon-rss" viewBox="0 0 24 24"><circle cx="4.8" cy="19.2" r="2.4"/><path d="M2.4 11.2v3.2a6.4 6.4 0 0 1 6.4 6.4H12A9.6 9.6 0 0 0 2.4 11.2z"/><path d="M2.4 4.8V8A13.6 13.6 0 0 1 16 21.6h3.2A16.8 16.8 0 0 0 2.4 4.8z"/></symbol>
+        <symbol id="icon-search-plus" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M10 2.8a7.2 7.2 0 1 0 0 14.4 7.2 7.2 0 0 0 0-14.4zm0 2.4a4.8 4.8 0 1 1 0 9.6 4.8 4.8 0 0 1 0-9.6z"/><path d="M15.3 14.6 21.2 20.5l-1.5 1.5-5.9-5.9z"/><path d="M9.2 6.8h1.6v2.4h2.4v1.6h-2.4v2.4H9.2v-2.4H6.8V9.2h2.4z"/></symbol>
+        <symbol id="icon-share" viewBox="0 0 24 24"><circle cx="18" cy="5.6" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="18.4" r="3"/><path d="M8.3 10.9 15.7 7.2l.9 1.8-7.4 3.7z"/><path d="M9.2 13.1 16.6 16.8l-.9 1.8-7.4-3.7z"/></symbol>
+        <symbol id="icon-twitter" viewBox="0 0 24 24"><path d="M4.2 3h4.3l11.3 18h-4.3z"/><path d="M19.3 3h-2.6L4.2 21h2.6z"/></symbol>
+        <symbol id="icon-university" viewBox="0 0 24 24"><path d="M12 2.4 21.6 7.2v1.6H2.4V7.2z"/><path d="M4.8 10.4h2.4v8H4.8z"/><path d="M9.2 10.4h2.4v8H9.2z"/><path d="M13.4 10.4h2.4v8h-2.4z"/><path d="M17.6 10.4H20v8h-2.4z"/><path d="M3.2 19.8h17.6v1.8H3.2z"/></symbol>
+        <symbol id="icon-volume-up" viewBox="0 0 24 24"><path d="M3.2 9.2h3.3l5-4.2v14l-5-4.2H3.2z"/><path d="M14.6 8.4a5 5 0 0 1 0 7.2l1.6 1.6a7.2 7.2 0 0 0 0-10.4z"/><path d="M17.4 5.6a8.8 8.8 0 0 1 0 12.8l1.5 1.5a10.9 10.9 0 0 0 0-15.8z"/></symbol>
+        <symbol id="icon-whatsapp" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2.4a9.5 9.5 0 0 0-8.1 14.5L2.4 21.6l4.8-1.4A9.5 9.5 0 1 0 12 2.4zm0 2.2a7.3 7.3 0 1 1-3.8 13.5l-.4-.2-2.6.7.7-2.5-.3-.4A7.3 7.3 0 0 1 12 4.6z"/><path d="M9.4 7.8c-.2-.5-.4-.5-.6-.5h-.5a1 1 0 0 0-.7.3c-.3.3-.9.9-.9 2.1s.9 2.4 1 2.6c.1.2 1.7 2.8 4.3 3.8 2.1.8 2.6.7 3 .6.5 0 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2l-.5-.3-1.6-.8c-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6 6 0 0 1-1.8-1.1 6.6 6.6 0 0 1-1.2-1.6c-.1-.2 0-.4.1-.5l.4-.5.3-.5v-.5z"/></symbol>
+        <symbol id="icon-youtube" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M21.6 7.2a2.8 2.8 0 0 0-2-2C17.9 4.8 12 4.8 12 4.8s-5.9 0-7.6.4a2.8 2.8 0 0 0-2 2A29 29 0 0 0 2 12a29 29 0 0 0 .4 4.8 2.8 2.8 0 0 0 2 2c1.7.4 7.6.4 7.6.4s5.9 0 7.6-.4a2.8 2.8 0 0 0 2-2A29 29 0 0 0 22 12a29 29 0 0 0-.4-4.8zM10.2 15.1V8.9l5.1 3.1z"/></symbol>
+    </defs>
+</svg>
+
+      <form method="post" action="./PressReleasePage.aspx?PRID=2112399&amp;reg=48&amp;lang=2" id="form1">
+<input type="hidden" name="sc_HiddenField" id="sc_HiddenField" value="" />
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="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" />
+
+
+<script src="/ScriptResource.axd?d=x6wALODbMJK5e0eRC_p1LdIxBJXt0U_WW5GWfJqHAqo6frgCmGRfEywglicTersO2OKrFhK1gAIp0Wk2al2YrpdR3uWqH6f4nfjBsCyRUfTUUVmb0&amp;t=ffffffffecf8d3f2" type="text/javascript"></script>
+<script src="/PressReleasePage.aspx?_TSM_HiddenField_=sc_HiddenField&amp;_TSM_CombinedScripts_=%3b%3bAjaxControlToolkit%2c+Version%3d3.5.7.123%2c+Culture%3dneutral%2c+PublicKeyToken%3d28f01b0e84b6d53e%3aen-US%3a5a4df314-b4a2-4da2-a207-9284f1b1e96c%3ade1feab2%3af2c8e708%3a8613aea7%3af9cec9bc%3a3202a5a2%3aab09e3fe%3a87104b7c%3a720a52bf%3a589eaa30%3aa67c2700%3abe6fb298" type="text/javascript"></script>
+<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="59B53027" />
+<input type="hidden" name="__VIEWSTATEENCRYPTED" id="__VIEWSTATEENCRYPTED" value="" />
+<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="6v4TUzrd5YONVHLMB2MGIyN76E/oQ0nPhnqV9GTkZRNv4M1mmNiRjXvRIhoM7NEAGbM9fLaW4wj6ltO16943fvIymwKhxmRJ9AsMN4gbBG7jEpEMcWFzpSLaPxyfosnpt457seTeK/5fkavrvge1+ns84n89ojgrw/v6BWtqccAWf4WIaKx6WENT1jC9zMv2sH953hTJ/UvRe4r78939ZfX8Kxd+L+GAzwxNSSqxgFoY0ehD4ZGN1MmX2xI2a/RPKQfy7ktw0V6NlbaBwortjO8f2aU=" />
+                              
+            <div id="templateCss"></div>
+            
+            <input type="hidden" name="hfGridHtml" id="hfGridHtml" />
+            <div class="container" style='margin-bottom: 50px;'>
+                  <div id="accessories">
+
+                        
+                        <div class="pull-right" style="display: flex">
+                              <div id="voll"></div>
+                              <div id="vollDT"></div>
+                              
+                              
+
+<span class="print-icons">
+<input type="image" name="Print1$print" id="Print1_print" aria-label="Print" src="images/printer_icon.png" alt="print page button" style="padding: 5px 10px 5px 10px;" />
+</span>
+                        </div>
+                  </div>
+                  <input type="hidden" name="hydpermid" id="hydpermid" value="2112399" />
+                  
+
+
+
+                  <div class="innner-page-main-about-us-content-right-part">
+
+                        <div id="MinistryName" class="MinistryNameSubhead text-center">
+                              Ministry of Agriculture &
+Farmers Welfare
+                        </div>
+                        
+                        <div id="lg_g"><div class='log_oo'>  <img src='https://static.pib.gov.in/WriteReadData/specificdocs/photo/2026/sep/ph_9768_20260902_10000501.png' alt='azadi ka amrit mahotsav' /> </div></div>
+
+
+
+
+
+                        <div class="text-center event-heading-background">
+                              
+                              <h1 id="Titleh2">
+                                    INELIGIBLE BENEFICIARIES RECEIVING FUNDS UNDER PM-KISAN
+                              </h1>
+                              <h3 id="Subtitleh3">
+                                    <span id="ltrSubtitle"></span>
+                              </h3>
+                        </div>
+
+                        <div id="PrDateTime" class="ReleaseDateSubHeaddateTime text-center pt20">
+                              Posted On:
+                18 MAR 2025 6:04PM by PIB Delhi
+                        </div>
+                        
+                        <div class='pt20'>
+                        </div>
+                        <input type="hidden" name="hydphotoUrl" id="hydphotoUrl" />
+                        
+                        <p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">The PM-KISAN scheme is a central sector scheme launched in February 2019 by the Hon&rsquo;ble Prime Minister to supplement the financial needs of cultivable land-holding farmers. Under the scheme, a financial benefit of Rs 6,000/- per year is transferred in three equal instalments, into the Aadhaar seeded bank accounts of farmers through Direct Benefit Transfer (DBT) mode. Maintaining absolute transparency in registering and verifying beneficiaries, the Government of India has disbursed over Rs 3.68 lakh Cr. through 19 installments since inception. Instalment-wise details is annexed. </span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Benefits of the scheme are transferred to the beneficiaries through Direct Benefit Transfer (DBT) mode, based on the verified data received from the States/UTs on the PM-KISAN portal. In order to ensure that benefits are released only to the eligible beneficiaries, land seeding, Aadhaar based payment and eKYC have been made mandatory. The benefits of the farmers, who did not complete these mandatory criteria, were stopped. As and when these farmers complete their mandatory requirements, they will receive the benefits of the scheme along with their due installments, if any. Further, States/UTs are mandated to recover any amount transferred to ineligible farmers marked due to higher income groups such as income tax payees, employees of PSUs, State/Central Govt., Constitutional post holders etc. An amount of Rs. 416 Cr. has been recovered from the ineligible beneficiaries so far across the country.&nbsp; </span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Several technological interventions have been introduced under PM-KISAN to improve transparency and efficiency in fund disbursement. A dedicated PM-KISAN portal and mobile app were developed, offering services like self-registration, benefit status tracking, and facial authentication-based e-KYC introduced in June 2023. Farmers in remote areas can complete e-KYC via face scans, with provisions to assist neighbours. Over 5 lakh Common Service Centres (CSCs) have been onboarded to facilitate registrations and meet mandatory requirements. Land seeding, Aadhaar-based payments, and e-KYC were progressively made mandatory from the 12th to the 15th instalment. Additionally, a robust grievance redressal system was established on the portal, and an AI chatbot, Kisan-eMitra, launched in September 2023, provides instant query resolution in local languages regarding payments, registration, and eligibility.</span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">The Ministry often undertakes saturation drives in coordination with State Governments to ensure that no eligible farmers are left out from the Scheme. The major nationwide saturation drives conducted since 15<sup>th</sup> November 2023 have resulted in the addition of over 1.5 crore new eligible farmers under the scheme. </span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">As per International Food Policy Research Institute (IFPRI) study conducted in 2019, funds disbursed under the PM-KISAN have acted as a catalyst in rural economic growth, aided in alleviating the credit constraints of farmers, and increased investments in agricultural inputs. Further, the scheme has enhanced farmers&rsquo; risk-taking capacity, leading them to undertake riskier but comparatively productive investments. The funds received by recipients under PM-KISAN are not only helping them with their agricultural needs, but it is also catering to their other incidental expenses such as education, medical, marriage, etc. These are the indicators of the positive impact of the scheme on the farmers of the country. PM KISAN has truly been a game changer for the farming community of our country.</span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">The Government is continuously working towards ensuring comprehensive support for farmers by integrating various welfare schemes. PM-Kisan provides direct income support to eligible farmers, and efforts have been made to create synergies with other schemes such as Kisan Credit Card (KCC) for easy access to credit. </span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">This information was given by Minister of State for Agriculture and Farmers Welfare, Shri Ramnath Thakur in a written reply in Lok Sabha today.</span></span></p>
+
+<p style="text-align:center"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">******</span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">&nbsp;MG/KSR</span></span></p>
+
+<p style="margin-left:0cm; margin-right:-10.7pt; text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><strong>Annexure </strong></span></span></p>
+
+<p style="margin-left:0cm; margin-right:-10.7pt; text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><strong>Installment-wise details of beneficiaries and amount released under PM-Kisan Scheme</strong></span></span></p>
+
+<table border="1" bordercolor="#ccc" cellpadding="5" cellspacing="0" class="Table" style="border-collapse:collapse">
+	<thead>
+		<tr>
+			<td style="width:70.1pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Instalment No. </span></span></p>
+			</td>
+			<td style="width:189.35pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Instalment period </span></span></p>
+			</td>
+			<td style="width:103.25pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><span style="color:black">Number of beneficiaries </span></span></span></p>
+			</td>
+			<td style="width:99.4pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><span style="color:black">Disbursed amount (In Cr.) </span></span></span></p>
+			</td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td style="width:70.1pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">1</span></span></p>
+			</td>
+			<td style="width:189.35pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">December, 2018 - March, 2019 </span></span></p>
+			</td>
+			<td style="width:103.25pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">3,16,21,382</span></span></p>
+			</td>
+			<td style="width:99.4pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">6,324.28</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:70.1pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">2</span></span></p>
+			</td>
+			<td style="width:189.35pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">April, 2019 - July, 2019</span></span></p>
+			</td>
+			<td style="width:103.25pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">6,00,34,808</span></span></p>
+			</td>
+			<td style="width:99.4pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">13,272.00</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:70.1pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">3</span></span></p>
+			</td>
+			<td style="width:189.35pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">August, 2019 - November,&nbsp; 2019</span></span></p>
+			</td>
+			<td style="width:103.25pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">7,65,99,962</span></span></p>
+			</td>
+			<td style="width:99.4pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">17,526.92</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:70.1pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">4</span></span></p>
+			</td>
+			<td style="width:189.35pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">December, 2019 - March,&nbsp; 2020</span></span></p>
+			</td>
+			<td style="width:103.25pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">8,20,91,433</span></span></p>
+			</td>
+			<td style="width:99.4pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">17,942.95</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:70.1pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">5</span></span></p>
+			</td>
+			<td style="width:189.35pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">April, 2020 - July, 2020</span></span></p>
+			</td>
+			<td style="width:103.25pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">9,26,93,902</span></span></p>
+			</td>
+			<td style="width:99.4pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">20,989.46</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:70.1pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">6</span></span></p>
+			</td>
+			<td style="width:189.35pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">August, 2020 - November,&nbsp; 2020</span></span></p>
+			</td>
+			<td style="width:103.25pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">9,72,27,173</span></span></p>
+			</td>
+			<td style="width:99.4pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">20,476.24</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:70.1pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">7</span></span></p>
+			</td>
+			<td style="width:189.35pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">December, 2020 - March, 2021</span></span></p>
+			</td>
+			<td style="width:103.25pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">9,84,75,226</span></span></p>
+			</td>
+			<td style="width:99.4pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">20,474.95</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:70.1pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">8</span></span></p>
+			</td>
+			<td style="width:189.35pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">April, 2021 - July, 2021</span></span></p>
+			</td>
+			<td style="width:103.25pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">9,99,15,224</span></span></p>
+			</td>
+			<td style="width:99.4pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">22,415.06</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:70.1pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">9</span></span></p>
+			</td>
+			<td style="width:189.35pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">August, 2021- November, 2021</span></span></p>
+			</td>
+			<td style="width:103.25pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">10,34,45,600</span></span></p>
+			</td>
+			<td style="width:99.4pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">22,395.43</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:70.1pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">10</span></span></p>
+			</td>
+			<td style="width:189.35pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">December, 2021- March,&nbsp; 2022</span></span></p>
+			</td>
+			<td style="width:103.25pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">10,41,67,787</span></span></p>
+			</td>
+			<td style="width:99.4pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">22,343.30</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:70.1pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">11</span></span></p>
+			</td>
+			<td style="width:189.35pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">April, 2022 - July, 2022</span></span></p>
+			</td>
+			<td style="width:103.25pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">10,48,43,465</span></span></p>
+			</td>
+			<td style="width:99.4pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">22,617.98</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:70.1pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">12</span></span></p>
+			</td>
+			<td style="width:189.35pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">August, 2022 - November, 2022</span></span></p>
+			</td>
+			<td style="width:103.25pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">8,57,37,576</span></span></p>
+			</td>
+			<td style="width:99.4pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">18,041.35</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:70.1pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">13</span></span></p>
+			</td>
+			<td style="width:189.35pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">December, 2022 - March,&nbsp; 2023</span></span></p>
+			</td>
+			<td style="width:103.25pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">8,12,37,172</span></span></p>
+			</td>
+			<td style="width:99.4pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">17,650.07</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:70.1pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">14</span></span></p>
+			</td>
+			<td style="width:189.35pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">April, 2023 - July, 2023</span></span></p>
+			</td>
+			<td style="width:103.25pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">8,56,78,805</span></span></p>
+			</td>
+			<td style="width:99.4pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">19,203.74</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:70.1pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">15</span></span></p>
+			</td>
+			<td style="width:189.35pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">August, 2023 - November,&nbsp; 2023</span></span></p>
+			</td>
+			<td style="width:103.25pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">8,12,16,535</span></span></p>
+			</td>
+			<td style="width:99.4pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">19,596.74</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:70.1pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">16</span></span></p>
+			</td>
+			<td style="width:189.35pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">December, 2023 - March,&nbsp; 2024</span></span></p>
+			</td>
+			<td style="width:103.25pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">9,04,30,715</span></span></p>
+			</td>
+			<td style="width:99.4pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">23,088.88</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:70.1pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">17</span></span></p>
+			</td>
+			<td style="width:189.35pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">April, 2024 - July, 2024</span></span></p>
+			</td>
+			<td style="width:103.25pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">9,38,01,342</span></span></p>
+			</td>
+			<td style="width:99.4pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">21,056.75</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:70.1pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">18</span></span></p>
+			</td>
+			<td style="width:189.35pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">August, 2024 - November,&nbsp; 2024</span></span></p>
+			</td>
+			<td style="width:103.25pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">9,59,26,746</span></span></p>
+			</td>
+			<td style="width:99.4pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">20,665.51</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:70.1pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">19</span></span></p>
+			</td>
+			<td style="width:189.35pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">December, 2024 - March, 2025</span></span></p>
+			</td>
+			<td style="width:103.25pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">9,88,42,900</span></span></p>
+			</td>
+			<td style="width:99.4pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">22,270.45</span></span></p>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<p style="text-align:center"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">******</span></span></p>
+
+
+                        
+                        <div id="reel_pic">
+                        </div>
+
+
+
+                        
+                        <br />
+                        <span id="ReleaseId">(Release ID: 2112399)</span>
+                        <span id="lblViews">Visitor Counter : 3073</span>
+                        <div>
+                              
+                        </div>
+                        
+
+                        <span id="lblRefPhoto"></span>
+
+                        <div class="BackgroundRelease">
+                              
+                        </div>
+                        <div>
+                              
+                        </div>
+                        <div class="ReleaseLang">Read this release in: 
+                        
+                                    
+                                    <a href='https://pib.gov.in/PressReleasePage.aspx?PRID=2112541' target="_blank">
+                                          Urdu </a>
+                              
+                                    ,
+                              
+                                    
+                                    <a href='https://pib.gov.in/PressReleasePage.aspx?PRID=2112599' target="_blank">
+                                          हिन्दी </a>
+                              
+                                    ,
+                              
+                                    
+                                    <a href='https://pib.gov.in/PressReleasePage.aspx?PRID=2112707' target="_blank">
+                                          Bengali </a>
+                              
+                        </div>
+
+                        <div class="RelTag">
+                              <ul>
+                                    
+                              </ul>
+                        </div>
+                        <div class="clear">
+                        </div>
+                        <div id="RelLink" class="RelLink">
+                              <ul>
+                                    
+                                    
+                              </ul>
+                        </div>
+                        <center>
+                              
+                        </center>
+                  </div>
+
+                  <div id="update12">
+	
+                              
+                              <input type="hidden" name="Hidden" id="Hidden" />
+                              <div id="P_CategoryManagement" class="ModalWindow" style="display: none">
+		
+                                    <div>
+                                          <input type="image" name="btnClose" id="btnClose" src="images/close_flat_icon.png" />
+                                    </div>
+                                    <div id="description">
+                                    </div>
+                                    <div class="text-center">
+                                          <h2>
+                                                
+                                                <br>
+                                                
+                                          </h2>
+                                    </div>
+                                    <br />
+                                    <div class="clear">
+                                    </div>
+                                    
+                              
+	</div>
+                        
+</div>
+            </div>
+            
+            <div id="PdfDiv" style="display: none;">
+                  <table width="100%">
+                        <tr>
+                              <td style="font-weight: 200; text-align: center">
+                                    Ministry of Agriculture &
+Farmers Welfare
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                                    <div style="font-weight: 200; text-align: center; font-size: 30px;">
+                                          INELIGIBLE BENEFICIARIES RECEIVING FUNDS UNDER PM-KISAN
+                                    </div>
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                                    <div style="font-weight: 200; text-align: center; font-size: 30px;">
+                                          
+                                    </div>
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                                    <div style="text-align: center; font-size: 14px;">
+                                          Posted On:
+                        18 MAR 2025 6:04PM by PIB Delhi
+                                    </div>
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                                    <div style="font-weight: 200; text-align: left; font-size: 16px;">
+                                          <p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">The PM-KISAN scheme is a central sector scheme launched in February 2019 by the Hon&rsquo;ble Prime Minister to supplement the financial needs of cultivable land-holding farmers. Under the scheme, a financial benefit of Rs 6,000/- per year is transferred in three equal instalments, into the Aadhaar seeded bank accounts of farmers through Direct Benefit Transfer (DBT) mode. Maintaining absolute transparency in registering and verifying beneficiaries, the Government of India has disbursed over Rs 3.68 lakh Cr. through 19 installments since inception. Instalment-wise details is annexed. </span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Benefits of the scheme are transferred to the beneficiaries through Direct Benefit Transfer (DBT) mode, based on the verified data received from the States/UTs on the PM-KISAN portal. In order to ensure that benefits are released only to the eligible beneficiaries, land seeding, Aadhaar based payment and eKYC have been made mandatory. The benefits of the farmers, who did not complete these mandatory criteria, were stopped. As and when these farmers complete their mandatory requirements, they will receive the benefits of the scheme along with their due installments, if any. Further, States/UTs are mandated to recover any amount transferred to ineligible farmers marked due to higher income groups such as income tax payees, employees of PSUs, State/Central Govt., Constitutional post holders etc. An amount of Rs. 416 Cr. has been recovered from the ineligible beneficiaries so far across the country.&nbsp; </span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Several technological interventions have been introduced under PM-KISAN to improve transparency and efficiency in fund disbursement. A dedicated PM-KISAN portal and mobile app were developed, offering services like self-registration, benefit status tracking, and facial authentication-based e-KYC introduced in June 2023. Farmers in remote areas can complete e-KYC via face scans, with provisions to assist neighbours. Over 5 lakh Common Service Centres (CSCs) have been onboarded to facilitate registrations and meet mandatory requirements. Land seeding, Aadhaar-based payments, and e-KYC were progressively made mandatory from the 12th to the 15th instalment. Additionally, a robust grievance redressal system was established on the portal, and an AI chatbot, Kisan-eMitra, launched in September 2023, provides instant query resolution in local languages regarding payments, registration, and eligibility.</span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">The Ministry often undertakes saturation drives in coordination with State Governments to ensure that no eligible farmers are left out from the Scheme. The major nationwide saturation drives conducted since 15<sup>th</sup> November 2023 have resulted in the addition of over 1.5 crore new eligible farmers under the scheme. </span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">As per International Food Policy Research Institute (IFPRI) study conducted in 2019, funds disbursed under the PM-KISAN have acted as a catalyst in rural economic growth, aided in alleviating the credit constraints of farmers, and increased investments in agricultural inputs. Further, the scheme has enhanced farmers&rsquo; risk-taking capacity, leading them to undertake riskier but comparatively productive investments. The funds received by recipients under PM-KISAN are not only helping them with their agricultural needs, but it is also catering to their other incidental expenses such as education, medical, marriage, etc. These are the indicators of the positive impact of the scheme on the farmers of the country. PM KISAN has truly been a game changer for the farming community of our country.</span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">The Government is continuously working towards ensuring comprehensive support for farmers by integrating various welfare schemes. PM-Kisan provides direct income support to eligible farmers, and efforts have been made to create synergies with other schemes such as Kisan Credit Card (KCC) for easy access to credit. </span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">This information was given by Minister of State for Agriculture and Farmers Welfare, Shri Ramnath Thakur in a written reply in Lok Sabha today.</span></span></p>
+
+<p style="text-align:center"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">******</span></span></p>
+
+<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">&nbsp;MG/KSR</span></span></p>
+
+<p style="margin-left:0cm; margin-right:-10.7pt; text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><strong>Annexure </strong></span></span></p>
+
+<p style="margin-left:0cm; margin-right:-10.7pt; text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><strong>Installment-wise details of beneficiaries and amount released under PM-Kisan Scheme</strong></span></span></p>
+
+<table border="1" bordercolor="#ccc" cellpadding="5" cellspacing="0" class="Table" style="border-collapse:collapse">
+	<thead>
+		<tr>
+			<td style="width:70.1pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Instalment No. </span></span></p>
+			</td>
+			<td style="width:189.35pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">Instalment period </span></span></p>
+			</td>
+			<td style="width:103.25pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><span style="color:black">Number of beneficiaries </span></span></span></p>
+			</td>
+			<td style="width:99.4pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px"><span style="color:black">Disbursed amount (In Cr.) </span></span></span></p>
+			</td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td style="width:70.1pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">1</span></span></p>
+			</td>
+			<td style="width:189.35pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">December, 2018 - March, 2019 </span></span></p>
+			</td>
+			<td style="width:103.25pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">3,16,21,382</span></span></p>
+			</td>
+			<td style="width:99.4pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">6,324.28</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:70.1pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">2</span></span></p>
+			</td>
+			<td style="width:189.35pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">April, 2019 - July, 2019</span></span></p>
+			</td>
+			<td style="width:103.25pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">6,00,34,808</span></span></p>
+			</td>
+			<td style="width:99.4pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">13,272.00</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:70.1pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">3</span></span></p>
+			</td>
+			<td style="width:189.35pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">August, 2019 - November,&nbsp; 2019</span></span></p>
+			</td>
+			<td style="width:103.25pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">7,65,99,962</span></span></p>
+			</td>
+			<td style="width:99.4pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">17,526.92</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:70.1pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">4</span></span></p>
+			</td>
+			<td style="width:189.35pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">December, 2019 - March,&nbsp; 2020</span></span></p>
+			</td>
+			<td style="width:103.25pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">8,20,91,433</span></span></p>
+			</td>
+			<td style="width:99.4pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">17,942.95</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:70.1pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">5</span></span></p>
+			</td>
+			<td style="width:189.35pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">April, 2020 - July, 2020</span></span></p>
+			</td>
+			<td style="width:103.25pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">9,26,93,902</span></span></p>
+			</td>
+			<td style="width:99.4pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">20,989.46</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:70.1pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">6</span></span></p>
+			</td>
+			<td style="width:189.35pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">August, 2020 - November,&nbsp; 2020</span></span></p>
+			</td>
+			<td style="width:103.25pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">9,72,27,173</span></span></p>
+			</td>
+			<td style="width:99.4pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">20,476.24</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:70.1pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">7</span></span></p>
+			</td>
+			<td style="width:189.35pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">December, 2020 - March, 2021</span></span></p>
+			</td>
+			<td style="width:103.25pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">9,84,75,226</span></span></p>
+			</td>
+			<td style="width:99.4pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">20,474.95</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:70.1pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">8</span></span></p>
+			</td>
+			<td style="width:189.35pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">April, 2021 - July, 2021</span></span></p>
+			</td>
+			<td style="width:103.25pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">9,99,15,224</span></span></p>
+			</td>
+			<td style="width:99.4pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">22,415.06</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:70.1pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">9</span></span></p>
+			</td>
+			<td style="width:189.35pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">August, 2021- November, 2021</span></span></p>
+			</td>
+			<td style="width:103.25pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">10,34,45,600</span></span></p>
+			</td>
+			<td style="width:99.4pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">22,395.43</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:70.1pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">10</span></span></p>
+			</td>
+			<td style="width:189.35pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">December, 2021- March,&nbsp; 2022</span></span></p>
+			</td>
+			<td style="width:103.25pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">10,41,67,787</span></span></p>
+			</td>
+			<td style="width:99.4pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">22,343.30</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:70.1pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">11</span></span></p>
+			</td>
+			<td style="width:189.35pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">April, 2022 - July, 2022</span></span></p>
+			</td>
+			<td style="width:103.25pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">10,48,43,465</span></span></p>
+			</td>
+			<td style="width:99.4pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">22,617.98</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:70.1pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">12</span></span></p>
+			</td>
+			<td style="width:189.35pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">August, 2022 - November, 2022</span></span></p>
+			</td>
+			<td style="width:103.25pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">8,57,37,576</span></span></p>
+			</td>
+			<td style="width:99.4pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">18,041.35</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:70.1pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">13</span></span></p>
+			</td>
+			<td style="width:189.35pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">December, 2022 - March,&nbsp; 2023</span></span></p>
+			</td>
+			<td style="width:103.25pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">8,12,37,172</span></span></p>
+			</td>
+			<td style="width:99.4pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">17,650.07</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:70.1pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">14</span></span></p>
+			</td>
+			<td style="width:189.35pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">April, 2023 - July, 2023</span></span></p>
+			</td>
+			<td style="width:103.25pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">8,56,78,805</span></span></p>
+			</td>
+			<td style="width:99.4pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">19,203.74</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:70.1pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">15</span></span></p>
+			</td>
+			<td style="width:189.35pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">August, 2023 - November,&nbsp; 2023</span></span></p>
+			</td>
+			<td style="width:103.25pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">8,12,16,535</span></span></p>
+			</td>
+			<td style="width:99.4pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">19,596.74</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:70.1pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">16</span></span></p>
+			</td>
+			<td style="width:189.35pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">December, 2023 - March,&nbsp; 2024</span></span></p>
+			</td>
+			<td style="width:103.25pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">9,04,30,715</span></span></p>
+			</td>
+			<td style="width:99.4pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">23,088.88</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:70.1pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">17</span></span></p>
+			</td>
+			<td style="width:189.35pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">April, 2024 - July, 2024</span></span></p>
+			</td>
+			<td style="width:103.25pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">9,38,01,342</span></span></p>
+			</td>
+			<td style="width:99.4pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">21,056.75</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:70.1pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">18</span></span></p>
+			</td>
+			<td style="width:189.35pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">August, 2024 - November,&nbsp; 2024</span></span></p>
+			</td>
+			<td style="width:103.25pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">9,59,26,746</span></span></p>
+			</td>
+			<td style="width:99.4pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">20,665.51</span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:70.1pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">19</span></span></p>
+			</td>
+			<td style="width:189.35pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">December, 2024 - March, 2025</span></span></p>
+			</td>
+			<td style="width:103.25pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">9,88,42,900</span></span></p>
+			</td>
+			<td style="width:99.4pt">
+			<p style="text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">22,270.45</span></span></p>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<p style="text-align:center"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:16px">******</span></span></p>
+
+                                    </div>
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                                    <div style="font-weight: 100; text-align: left; font-size: 16px;">
+                                          (Release ID: 2112399)
+                                    </div>
+                                    <div style="height: 30px; width: 100%;">
+                                    </div>
+                              </td>
+                        </tr>
+                        <tr>
+                              <td style="font-weight: 200; text-align: center; font-size: 24px;"></td>
+                        </tr>
+                  </table>
+            </div>
+            <div class="clearfix">
+            </div>
+
+            
+
+            <div class="section1">
+                  <div id="frst_t">
+                        <div id="arr_rm"><div class='sticky-social_mb'><ul class='social_mb'><a href='http://www.facebook.com/share.php?u=https://pib.gov.in/PressReleasePage.aspx?PRID=2112399' target='_blank'><li class='fb_b'   ></li></a><a href='https://twitter.com/intent/tweet?url=https://pib.gov.in/PressReleasePage.aspx?PRID=2112399&text=INELIGIBLE BENEFICIARIES RECEIVING FUNDS UNDER PM-KISAN' target='_blank'><li class='twitter_r'  > </li></a><a href='https://api.whatsapp.com/send?text=https://pib.gov.in/PressReleasePage.aspx?PRID=2112399' target='_blank'><li class='whatsapp_r'  ></li></a><a href='https://mail.google.com/mail/?view=cm&fs=1&tf=1&to=&su=INELIGIBLE BENEFICIARIES RECEIVING FUNDS UNDER PM-KISAN&body=https://pib.gov.in/PressReleasePage.aspx?PRID=2112399&ui=2&tf=1&pli=1' title='Share by Email' target='_blank'><li class='fa-envelope_r' ></li></a><a href='https://www.linkedin.com/shareArticle?mini=true&url=https://pib.gov.in/PressReleasePage.aspx?PRID=2112399&title=INELIGIBLE BENEFICIARIES RECEIVING FUNDS UNDER PM-KISAN&summary=My%20favorite%20developer%20program&source=LinkedIn' target='_blank'><li class='fa-linkedin_r'  ></li></a></ul></div></div>
+                  </div>
+                  <div id="second_t">
+                        <div id="sndr_rm"><div class='sticky-social'><ul class='social'><a href='http://www.facebook.com/share.php?u=https://pib.gov.in/PressReleasePage.aspx?PRID=2112399' target='_blank'><li class='fb_b'   ></li></a><a href='https://twitter.com/intent/tweet?url=https://pib.gov.in/PressReleasePage.aspx?PRID=2112399&text=INELIGIBLE BENEFICIARIES RECEIVING FUNDS UNDER PM-KISAN' target='_blank'><li class='twitter_r'  > </li></a><a href='https://api.whatsapp.com/send?text=https://pib.gov.in/PressReleasePage.aspx?PRID=2112399' target='_blank'><li class='whatsapp_r'  ></li></a><a href='https://mail.google.com/mail/?view=cm&fs=1&tf=1&to=&su=INELIGIBLE BENEFICIARIES RECEIVING FUNDS UNDER PM-KISAN&body=https://pib.gov.in/PressReleasePage.aspx?PRID=2112399&ui=2&tf=1&pli=1' title='Share by Email' target='_blank'><li class='fa-envelope_r' ></li></a><a href='https://www.linkedin.com/shareArticle?mini=true&url=https://pib.gov.in/PressReleasePage.aspx?PRID=2112399&title=INELIGIBLE BENEFICIARIES RECEIVING FUNDS UNDER PM-KISAN&summary=My%20favorite%20developer%20program&source=LinkedIn' target='_blank'><li class='fa-linkedin_r'  ></li></a></ul></div></div>
+                  </div>
+            </div>
+            <input type="hidden" name="ltrTitlee" id="ltrTitlee" value="INELIGIBLE BENEFICIARIES RECEIVING FUNDS UNDER PM-KISAN" />
+            <input type="hidden" name="ltrSubtitlee" id="ltrSubtitlee" />
+            <input type="hidden" name="ltrDescriptionn" id="ltrDescriptionn" value="&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>The PM-KISAN scheme is a central sector scheme launched in February 2019 by the Hon&amp;rsquo;ble Prime Minister to supplement the financial needs of cultivable land-holding farmers. Under the scheme, a financial benefit of Rs 6,000/- per year is transferred in three equal instalments, into the Aadhaar seeded bank accounts of farmers through Direct Benefit Transfer (DBT) mode. Maintaining absolute transparency in registering and verifying beneficiaries, the Government of India has disbursed over Rs 3.68 lakh Cr. through 19 installments since inception. Instalment-wise details is annexed. &lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>Benefits of the scheme are transferred to the beneficiaries through Direct Benefit Transfer (DBT) mode, based on the verified data received from the States/UTs on the PM-KISAN portal. In order to ensure that benefits are released only to the eligible beneficiaries, land seeding, Aadhaar based payment and eKYC have been made mandatory. The benefits of the farmers, who did not complete these mandatory criteria, were stopped. As and when these farmers complete their mandatory requirements, they will receive the benefits of the scheme along with their due installments, if any. Further, States/UTs are mandated to recover any amount transferred to ineligible farmers marked due to higher income groups such as income tax payees, employees of PSUs, State/Central Govt., Constitutional post holders etc. An amount of Rs. 416 Cr. has been recovered from the ineligible beneficiaries so far across the country.&amp;nbsp; &lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>Several technological interventions have been introduced under PM-KISAN to improve transparency and efficiency in fund disbursement. A dedicated PM-KISAN portal and mobile app were developed, offering services like self-registration, benefit status tracking, and facial authentication-based e-KYC introduced in June 2023. Farmers in remote areas can complete e-KYC via face scans, with provisions to assist neighbours. Over 5 lakh Common Service Centres (CSCs) have been onboarded to facilitate registrations and meet mandatory requirements. Land seeding, Aadhaar-based payments, and e-KYC were progressively made mandatory from the 12th to the 15th instalment. Additionally, a robust grievance redressal system was established on the portal, and an AI chatbot, Kisan-eMitra, launched in September 2023, provides instant query resolution in local languages regarding payments, registration, and eligibility.&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>The Ministry often undertakes saturation drives in coordination with State Governments to ensure that no eligible farmers are left out from the Scheme. The major nationwide saturation drives conducted since 15th November 2023 have resulted in the addition of over 1.5 crore new eligible farmers under the scheme. &lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>As per International Food Policy Research Institute (IFPRI) study conducted in 2019, funds disbursed under the PM-KISAN have acted as a catalyst in rural economic growth, aided in alleviating the credit constraints of farmers, and increased investments in agricultural inputs. Further, the scheme has enhanced farmers&amp;rsquo; risk-taking capacity, leading them to undertake riskier but comparatively productive investments. The funds received by recipients under PM-KISAN are not only helping them with their agricultural needs, but it is also catering to their other incidental expenses such as education, medical, marriage, etc. These are the indicators of the positive impact of the scheme on the farmers of the country. PM KISAN has truly been a game changer for the farming community of our country.&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>The Government is continuously working towards ensuring comprehensive support for farmers by integrating various welfare schemes. PM-Kisan provides direct income support to eligible farmers, and efforts have been made to create synergies with other schemes such as Kisan Credit Card (KCC) for easy access to credit. &lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>This information was given by Minister of State for Agriculture and Farmers Welfare, Shri Ramnath Thakur in a written reply in Lok Sabha today.&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:center&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>******&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>&amp;nbsp;MG/KSR&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;margin-left:0cm; margin-right:-10.7pt; text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>&lt;strong>Annexure &lt;/strong>&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;margin-left:0cm; margin-right:-10.7pt; text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>&lt;strong>Installment-wise details of beneficiaries and amount released under PM-Kisan Scheme&lt;/strong>&lt;/span>&lt;/span>&lt;/p>
+
+&lt;table border=&quot;1&quot; bordercolor=&quot;#ccc&quot; cellpadding=&quot;5&quot; cellspacing=&quot;0&quot; class=&quot;Table&quot; style=&quot;border-collapse:collapse&quot;>
+	&lt;thead>
+		&lt;tr>
+			&lt;td style=&quot;width:70.1pt&quot;>
+			&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>Instalment No. &lt;/span>&lt;/span>&lt;/p>
+			&lt;/td>
+			&lt;td style=&quot;width:189.35pt&quot;>
+			&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>Instalment period &lt;/span>&lt;/span>&lt;/p>
+			&lt;/td>
+			&lt;td style=&quot;width:103.25pt&quot;>
+			&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>&lt;span style=&quot;color:black&quot;>Number of beneficiaries &lt;/span>&lt;/span>&lt;/span>&lt;/p>
+			&lt;/td>
+			&lt;td style=&quot;width:99.4pt&quot;>
+			&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>&lt;span style=&quot;color:black&quot;>Disbursed amount (In Cr.) &lt;/span>&lt;/span>&lt;/span>&lt;/p>
+			&lt;/td>
+		&lt;/tr>
+	&lt;/thead>
+	&lt;tbody>
+		&lt;tr>
+			&lt;td style=&quot;width:70.1pt&quot;>
+			&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>1&lt;/span>&lt;/span>&lt;/p>
+			&lt;/td>
+			&lt;td style=&quot;width:189.35pt&quot;>
+			&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>December, 2018 - March, 2019 &lt;/span>&lt;/span>&lt;/p>
+			&lt;/td>
+			&lt;td style=&quot;width:103.25pt&quot;>
+			&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>3,16,21,382&lt;/span>&lt;/span>&lt;/p>
+			&lt;/td>
+			&lt;td style=&quot;width:99.4pt&quot;>
+			&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>6,324.28&lt;/span>&lt;/span>&lt;/p>
+			&lt;/td>
+		&lt;/tr>
+		&lt;tr>
+			&lt;td style=&quot;width:70.1pt&quot;>
+			&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>2&lt;/span>&lt;/span>&lt;/p>
+			&lt;/td>
+			&lt;td style=&quot;width:189.35pt&quot;>
+			&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>April, 2019 - July, 2019&lt;/span>&lt;/span>&lt;/p>
+			&lt;/td>
+			&lt;td style=&quot;width:103.25pt&quot;>
+			&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>6,00,34,808&lt;/span>&lt;/span>&lt;/p>
+			&lt;/td>
+			&lt;td style=&quot;width:99.4pt&quot;>
+			&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>13,272.00&lt;/span>&lt;/span>&lt;/p>
+			&lt;/td>
+		&lt;/tr>
+		&lt;tr>
+			&lt;td style=&quot;width:70.1pt&quot;>
+			&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>3&lt;/span>&lt;/span>&lt;/p>
+			&lt;/td>
+			&lt;td style=&quot;width:189.35pt&quot;>
+			&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>August, 2019 - November,&amp;nbsp; 2019&lt;/span>&lt;/span>&lt;/p>
+			&lt;/td>
+			&lt;td style=&quot;width:103.25pt&quot;>
+			&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>7,65,99,962&lt;/span>&lt;/span>&lt;/p>
+			&lt;/td>
+			&lt;td style=&quot;width:99.4pt&quot;>
+			&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>17,526.92&lt;/span>&lt;/span>&lt;/p>
+			&lt;/td>
+		&lt;/tr>
+		&lt;tr>
+			&lt;td style=&quot;width:70.1pt&quot;>
+			&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>4&lt;/span>&lt;/span>&lt;/p>
+			&lt;/td>
+			&lt;td style=&quot;width:189.35pt&quot;>
+			&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>December, 2019 - March,&amp;nbsp; 2020&lt;/span>&lt;/span>&lt;/p>
+			&lt;/td>
+			&lt;td style=&quot;width:103.25pt&quot;>
+			&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>8,20,91,433&lt;/span>&lt;/span>&lt;/p>
+			&lt;/td>
+			&lt;td style=&quot;width:99.4pt&quot;>
+			&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>17,942.95&lt;/span>&lt;/span>&lt;/p>
+			&lt;/td>
+		&lt;/tr>
+		&lt;tr>
+			&lt;td style=&quot;width:70.1pt&quot;>
+			&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>5&lt;/span>&lt;/span>&lt;/p>
+			&lt;/td>
+			&lt;td style=&quot;width:189.35pt&quot;>
+			&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>April, 2020 - July, 2020&lt;/span>&lt;/span>&lt;/p>
+			&lt;/td>
+			&lt;td style=&quot;width:103.25pt&quot;>
+			&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>9,26,93,902&lt;/span>&lt;/span>&lt;/p>
+			&lt;/td>
+			&lt;td style=&quot;width:99.4pt&quot;>
+			&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>20,989.46&lt;/span>&lt;/span>&lt;/p>
+			&lt;/td>
+		&lt;/tr>
+		&lt;tr>
+			&lt;td style=&quot;width:70.1pt&quot;>
+			&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>6&lt;/span>&lt;/span>&lt;/p>
+			&lt;/td>
+			&lt;td style=&quot;width:189.35pt&quot;>
+			&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>August, 2020 - November,&amp;nbsp; 2020&lt;/span>&lt;/span>&lt;/p>
+			&lt;/td>
+			&lt;td style=&quot;width:103.25pt&quot;>
+			&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>9,72,27,173&lt;/span>&lt;/span>&lt;/p>
+			&lt;/td>
+			&lt;td style=&quot;width:99.4pt&quot;>
+			&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>20,476.24&lt;/span>&lt;/span>&lt;/p>
+			&lt;/td>
+		&lt;/tr>
+		&lt;tr>
+			&lt;td style=&quot;width:70.1pt&quot;>
+			&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>7&lt;/span>&lt;/span>&lt;/p>
+			&lt;/td>
+			&lt;td style=&quot;width:189.35pt&quot;>
+			&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>December, 2020 - March, 2021&lt;/span>&lt;/span>&lt;/p>
+			&lt;/td>
+			&lt;td style=&quot;width:103.25pt&quot;>
+			&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>9,84,75,226&lt;/span>&lt;/span>&lt;/p>
+			&lt;/td>
+			&lt;td style=&quot;width:99.4pt&quot;>
+			&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>20,474.95&lt;/span>&lt;/span>&lt;/p>
+			&lt;/td>
+		&lt;/tr>
+		&lt;tr>
+			&lt;td style=&quot;width:70.1pt&quot;>
+			&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>8&lt;/span>&lt;/span>&lt;/p>
+			&lt;/td>
+			&lt;td style=&quot;width:189.35pt&quot;>
+			&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>April, 2021 - July, 2021&lt;/span>&lt;/span>&lt;/p>
+			&lt;/td>
+			&lt;td style=&quot;width:103.25pt&quot;>
+			&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>9,99,15,224&lt;/span>&lt;/span>&lt;/p>
+			&lt;/td>
+			&lt;td style=&quot;width:99.4pt&quot;>
+			&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>22,415.06&lt;/span>&lt;/span>&lt;/p>
+			&lt;/td>
+		&lt;/tr>
+		&lt;tr>
+			&lt;td style=&quot;width:70.1pt&quot;>
+			&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>9&lt;/span>&lt;/span>&lt;/p>
+			&lt;/td>
+			&lt;td style=&quot;width:189.35pt&quot;>
+			&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>August, 2021- November, 2021&lt;/span>&lt;/span>&lt;/p>
+			&lt;/td>
+			&lt;td style=&quot;width:103.25pt&quot;>
+			&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>10,34,45,600&lt;/span>&lt;/span>&lt;/p>
+			&lt;/td>
+			&lt;td style=&quot;width:99.4pt&quot;>
+			&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>22,395.43&lt;/span>&lt;/span>&lt;/p>
+			&lt;/td>
+		&lt;/tr>
+		&lt;tr>
+			&lt;td style=&quot;width:70.1pt&quot;>
+			&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>10&lt;/span>&lt;/span>&lt;/p>
+			&lt;/td>
+			&lt;td style=&quot;width:189.35pt&quot;>
+			&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>December, 2021- March,&amp;nbsp; 2022&lt;/span>&lt;/span>&lt;/p>
+			&lt;/td>
+			&lt;td style=&quot;width:103.25pt&quot;>
+			&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>10,41,67,787&lt;/span>&lt;/span>&lt;/p>
+			&lt;/td>
+			&lt;td style=&quot;width:99.4pt&quot;>
+			&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>22,343.30&lt;/span>&lt;/span>&lt;/p>
+			&lt;/td>
+		&lt;/tr>
+		&lt;tr>
+			&lt;td style=&quot;width:70.1pt&quot;>
+			&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>11&lt;/span>&lt;/span>&lt;/p>
+			&lt;/td>
+			&lt;td style=&quot;width:189.35pt&quot;>
+			&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>April, 2022 - July, 2022&lt;/span>&lt;/span>&lt;/p>
+			&lt;/td>
+			&lt;td style=&quot;width:103.25pt&quot;>
+			&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>10,48,43,465&lt;/span>&lt;/span>&lt;/p>
+			&lt;/td>
+			&lt;td style=&quot;width:99.4pt&quot;>
+			&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>22,617.98&lt;/span>&lt;/span>&lt;/p>
+			&lt;/td>
+		&lt;/tr>
+		&lt;tr>
+			&lt;td style=&quot;width:70.1pt&quot;>
+			&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>12&lt;/span>&lt;/span>&lt;/p>
+			&lt;/td>
+			&lt;td style=&quot;width:189.35pt&quot;>
+			&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>August, 2022 - November, 2022&lt;/span>&lt;/span>&lt;/p>
+			&lt;/td>
+			&lt;td style=&quot;width:103.25pt&quot;>
+			&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>8,57,37,576&lt;/span>&lt;/span>&lt;/p>
+			&lt;/td>
+			&lt;td style=&quot;width:99.4pt&quot;>
+			&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>18,041.35&lt;/span>&lt;/span>&lt;/p>
+			&lt;/td>
+		&lt;/tr>
+		&lt;tr>
+			&lt;td style=&quot;width:70.1pt&quot;>
+			&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>13&lt;/span>&lt;/span>&lt;/p>
+			&lt;/td>
+			&lt;td style=&quot;width:189.35pt&quot;>
+			&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>December, 2022 - March,&amp;nbsp; 2023&lt;/span>&lt;/span>&lt;/p>
+			&lt;/td>
+			&lt;td style=&quot;width:103.25pt&quot;>
+			&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>8,12,37,172&lt;/span>&lt;/span>&lt;/p>
+			&lt;/td>
+			&lt;td style=&quot;width:99.4pt&quot;>
+			&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>17,650.07&lt;/span>&lt;/span>&lt;/p>
+			&lt;/td>
+		&lt;/tr>
+		&lt;tr>
+			&lt;td style=&quot;width:70.1pt&quot;>
+			&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>14&lt;/span>&lt;/span>&lt;/p>
+			&lt;/td>
+			&lt;td style=&quot;width:189.35pt&quot;>
+			&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>April, 2023 - July, 2023&lt;/span>&lt;/span>&lt;/p>
+			&lt;/td>
+			&lt;td style=&quot;width:103.25pt&quot;>
+			&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>8,56,78,805&lt;/span>&lt;/span>&lt;/p>
+			&lt;/td>
+			&lt;td style=&quot;width:99.4pt&quot;>
+			&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>19,203.74&lt;/span>&lt;/span>&lt;/p>
+			&lt;/td>
+		&lt;/tr>
+		&lt;tr>
+			&lt;td style=&quot;width:70.1pt&quot;>
+			&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>15&lt;/span>&lt;/span>&lt;/p>
+			&lt;/td>
+			&lt;td style=&quot;width:189.35pt&quot;>
+			&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>August, 2023 - November,&amp;nbsp; 2023&lt;/span>&lt;/span>&lt;/p>
+			&lt;/td>
+			&lt;td style=&quot;width:103.25pt&quot;>
+			&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>8,12,16,535&lt;/span>&lt;/span>&lt;/p>
+			&lt;/td>
+			&lt;td style=&quot;width:99.4pt&quot;>
+			&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>19,596.74&lt;/span>&lt;/span>&lt;/p>
+			&lt;/td>
+		&lt;/tr>
+		&lt;tr>
+			&lt;td style=&quot;width:70.1pt&quot;>
+			&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>16&lt;/span>&lt;/span>&lt;/p>
+			&lt;/td>
+			&lt;td style=&quot;width:189.35pt&quot;>
+			&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>December, 2023 - March,&amp;nbsp; 2024&lt;/span>&lt;/span>&lt;/p>
+			&lt;/td>
+			&lt;td style=&quot;width:103.25pt&quot;>
+			&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>9,04,30,715&lt;/span>&lt;/span>&lt;/p>
+			&lt;/td>
+			&lt;td style=&quot;width:99.4pt&quot;>
+			&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>23,088.88&lt;/span>&lt;/span>&lt;/p>
+			&lt;/td>
+		&lt;/tr>
+		&lt;tr>
+			&lt;td style=&quot;width:70.1pt&quot;>
+			&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>17&lt;/span>&lt;/span>&lt;/p>
+			&lt;/td>
+			&lt;td style=&quot;width:189.35pt&quot;>
+			&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>April, 2024 - July, 2024&lt;/span>&lt;/span>&lt;/p>
+			&lt;/td>
+			&lt;td style=&quot;width:103.25pt&quot;>
+			&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>9,38,01,342&lt;/span>&lt;/span>&lt;/p>
+			&lt;/td>
+			&lt;td style=&quot;width:99.4pt&quot;>
+			&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>21,056.75&lt;/span>&lt;/span>&lt;/p>
+			&lt;/td>
+		&lt;/tr>
+		&lt;tr>
+			&lt;td style=&quot;width:70.1pt&quot;>
+			&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>18&lt;/span>&lt;/span>&lt;/p>
+			&lt;/td>
+			&lt;td style=&quot;width:189.35pt&quot;>
+			&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>August, 2024 - November,&amp;nbsp; 2024&lt;/span>&lt;/span>&lt;/p>
+			&lt;/td>
+			&lt;td style=&quot;width:103.25pt&quot;>
+			&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>9,59,26,746&lt;/span>&lt;/span>&lt;/p>
+			&lt;/td>
+			&lt;td style=&quot;width:99.4pt&quot;>
+			&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>20,665.51&lt;/span>&lt;/span>&lt;/p>
+			&lt;/td>
+		&lt;/tr>
+		&lt;tr>
+			&lt;td style=&quot;width:70.1pt&quot;>
+			&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>19&lt;/span>&lt;/span>&lt;/p>
+			&lt;/td>
+			&lt;td style=&quot;width:189.35pt&quot;>
+			&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>December, 2024 - March, 2025&lt;/span>&lt;/span>&lt;/p>
+			&lt;/td>
+			&lt;td style=&quot;width:103.25pt&quot;>
+			&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>9,88,42,900&lt;/span>&lt;/span>&lt;/p>
+			&lt;/td>
+			&lt;td style=&quot;width:99.4pt&quot;>
+			&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>22,270.45&lt;/span>&lt;/span>&lt;/p>
+			&lt;/td>
+		&lt;/tr>
+	&lt;/tbody>
+&lt;/table>
+
+&lt;p style=&quot;text-align:center&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>******&lt;/span>&lt;/span>&lt;/p>
+" />
+            <script type="text/javascript">
+                  var mPlayer = document.getElementById("background_music");
+                  var mPlayAction = document.getElementById("playbutton");
+
+                  var isPlaying = false;
+
+                  function playAudio() {
+                        mPlayer.play();
+                        isPlaying = true;
+                        document.getElementById('stopA').style.display = "block";
+                        document.getElementById('playA').style.display = "none";
+                  }
+
+                  function pauseAudio() {
+                        mPlayer.pause();
+                        isPlaying = false;
+                        document.getElementById('playA').style.display = "block";
+                        document.getElementById('stopA').style.display = "none";
+                  }
+                  //function HandleAudio() {
+                  //    if (isPlaying == true) {
+                  //        //Playing already Pause it
+                  //        pauseAudio();
+                  //    } else {
+                  //        //Play the music
+                  //        playAudio();
+                  //    }
+                  //}
+            </script>
+            <script type="text/javascript">
+                  var synth = window.speechSynthesis;
+
+            
+                  function CleanHtml(html) {
+
+                        html = html.replace(/<script[\s\S]*?<\/script>/gi, '');
+
+                        return html;
+                  }
+                  function stripHtml(html) {
+                        let tmp = document.createElement("DIV");
+                        tmp.innerHTML = CleanHtml(html);
+                        return tmp.textContent || tmp.innerText || "";
+                  }
+            </script>
+            <script type="text/javascript">
+                  $(document).ready(function () {
+                        //for responsive tables
+                        $("table").each(function () {
+                              if (!$(this).closest(".table-responsive").length) {
+                                    $(this).wrap("<div class='table-responsive'></div>");
+                              }
+                        });
+
+                        var width = $(window).width();
+                        if (width < 768) {
+
+                              // Extra Small Device
+                              document.getElementById('frst_t').style.display = "block";
+                              document.getElementById('second_t').style.display = "none";
+
+                        } else if (width < 991) {
+                              document.getElementById('frst_t').style.display = "block";
+                              document.getElementById('second_t').style.display = "none";
+                              // Small Device
+
+                        } else if (width < 1199) {
+                              document.getElementById('frst_t').style.display = "none";
+                              document.getElementById('second_t').style.display = "block";
+                              // Medium Device
+
+                        } else {
+                              document.getElementById('frst_t').style.display = "none";
+                              document.getElementById('second_t').style.display = "block";
+                              // Large Device
+
+                        }
+                  });
+            </script>
+            <script type="text/javascript">
+                  $(document).ready(function () {
+                        var width = $(window).width();
+                        if (width < 768) {
+
+                              // Extra Small Device
+                              document.getElementById('frst_t').style.display = "block";
+                              document.getElementById('second_t').style.display = "none";
+
+                        } else if (width < 991) {
+                              document.getElementById('frst_t').style.display = "block";
+                              document.getElementById('second_t').style.display = "none";
+                              // Small Device
+
+                        } else if (width < 1199) {
+                              document.getElementById('frst_t').style.display = "none";
+                              document.getElementById('second_t').style.display = "block";
+                              // Medium Device
+
+                        } else {
+                              document.getElementById('frst_t').style.display = "none";
+                              document.getElementById('second_t').style.display = "block";
+                              // Large Device
+
+                        }
+                  });
+            </script>
+            
+            <style type="text/css">
+                  @media print {
+                        .sticky-social, .sticky-social_mb, .pull-right, #printPDF {
+                              display: none !important;
+                        }
+                  }
+
+                  .f_vl {
+                        padding-right: 30px;
+                        font-size: 17px;
+                        cursor: pointer;
+                  }
+
+                  .log_oo {
+                        // width: 20%;
+                        display: flex;
+                        justify-content: space-between;
+                  }
+
+                        .log_oo img {
+                              width: 150px;
+                              /*width: 100%;
+                    height: auto;*/
+                        }
+
+                  .sticky-social_mb {
+                        position: fixed;
+                        bottom: 0px;
+                        padding: 0px;
+                        margin: 0px;
+                        width: 100%;
+                  }
+
+                  .social_mb {
+                        list-style: none;
+                        display: flex;
+                        width: 100%;
+                        margin-bottom: -8px;
+                  }
+
+                        .social_mb a {
+                              padding: 8px 0px;
+                              font-size: 30px;
+                              transition: all 0.8s ease-in-out;
+                              width: 20% !important;
+                              text-align: center;
+                        }
+            </style>
+            <style type="text/css">
+                  .section1 {
+                        position: relative;
+                        padding: 10px 0px;
+                        width: 100%;
+                  }
+
+
+
+                  .sticky-social {
+                        position: fixed;
+                        top: 20px;
+                        left: 0px;
+                        padding: 0px;
+                        margin: 0px;
+                  }
+
+                  .social {
+                        list-style: none;
+                  }
+
+                        .social a li {
+                              padding: 8px 12px;
+                              font-size: 25px;
+                              transition: all 0.8s ease-in-out;
+                        }
+
+                              .social a li:hover {
+                                    margin-right: -30px;
+                                    box-shadow: 2px 5px 10px grey;
+                              }
+
+                                    .social a li:hover .fa {
+                                          margin-left: 20px;
+                                    }
+
+                  .fb_b {
+                        /* background-color: var(--dbim-key, #0F5757);*/
+                        background-color: var(--dbim-key, #0F5757);
+                  }
+
+                  .twitter_r {
+                        /* background-color: rgb(29, 161, 242);*/
+                        background-color: var(--dbim-key, #0F5757);
+                  }
+
+                  .whatsapp_r {
+                        /* background-color: var(--dbim-key, #0F5757);*/
+                        background-color: var(--dbim-key, #0F5757);
+                  }
+
+                  .fa-envelope_r {
+                        /* background-color: var(--dbim-key, #0F5757);*/
+                        background-color: var(--dbim-key, #0F5757);
+                  }
+
+                  .fa-linkedin_r {
+                        background-color: var(--dbim-key, #0F5757);
+                  }
+            </style>
+            <style type="text/css">
+                  @media only screen and (max-device-width: 767px) {
+                        p span img {
+                              max-width: 90% !important;
+                              height: auto !important;
+                        }
+
+                        p img {
+                              max-width: 90% !important;
+                              height: auto !important;
+                        }
+
+                        h2 {
+                              font-size: var(--dbim-h2, 20px);   /* was 20px !important - the !important blocked A+/A- */
+                              font-weight: 600 !important;
+                        }
+
+                        h3 {
+                              font-size: var(--dbim-h3, 16px);   /* was 16px !important */
+                              font-weight: 600 !important;
+                        }
+                  }
+            </style>
+            <style type="text/css">
+                  /* === Film Roll Badge Styling(IFFI2025 countdown) === */
+                  .film-roll-badge {
+                        position: absolute;
+                        top:82%;
+                        right: 20px;
+                        width: 230px;
+                        height: 70px;
+                        background: repeating-linear-gradient( to right, var(--dbim-green-key, #0F5757) 0px, var(--dbim-green-key, #0F5757) 18px, var(--dbim-text, #150202) 18px, var(--dbim-text, #150202) 36px );
+                        border-top: 8px solid var(--dbim-green-key, #0F5757);
+                        border-bottom: 8px solid var(--dbim-green-key, #0F5757);
+                        border-radius: 8px;
+                        overflow: hidden;
+                        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+                        animation: moveFilm 8s linear infinite;
+                        z-index: 10;
+                  }
+
+                        /* film sprocket holes */
+                        .film-roll-badge::before,
+                        .film-roll-badge::after {
+                              content: "";
+                              position: absolute;
+                              width: 100%;
+                              height: 10px;
+                              background: repeating-linear-gradient( to right, var(--dbim-green-key, #0F5757) 0px, var(--dbim-green-key, #0F5757) 10px, #fff 10px, #fff 20px );
+                              left: 0;
+                              z-index: 2;
+                        }
+
+                        .film-roll-badge::before {
+                              top: -4px;
+                        }
+
+                        .film-roll-badge::after {
+                              bottom: -4px;
+                        }
+
+                  .film-roll-inner {
+                        position: relative;
+                        height: 100%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        animation: flicker 2s infinite ease-in-out;
+                  }
+
+                  .countdown-text {
+                        font-size: 1.3rem;
+                        font-weight: 700;
+                        color: #fff;
+                        text-shadow: 0 0 6px rgba(255, 255, 255, 0.4), 0 0 10px #000;
+                        white-space: nowrap;
+                  }
+
+                  /* === Animations === */
+                  @keyframes moveFilm {
+                        0% {
+                              background-position: 0 0;
+                        }
+
+                        100% {
+                              background-position: 120px 0;
+                        }
+                  }
+
+                  @keyframes flicker {
+                        0%, 100% {
+                              opacity: 1;
+                        }
+
+                        50% {
+                              opacity: 0.9;
+                        }
+
+                        25% {
+                              opacity: 0.95;
+                        }
+
+                        75% {
+                              opacity: 0.85;
+                        }
+                  }
+
+                  /* === Responsive Adjustments === */
+                  @media (max-width: 1500px) {
+                        .film-roll-badge {
+                              top: 68%;
+                              right: 18px;
+                              /* width: 220px; */
+                              height: 65px;
+                              font-size: 0.85rem;
+                        }
+
+                        .press-section {
+                              margin-top: 35px;
+                        }
+                  }
+
+                  @media (max-width: 992px) {
+                        .film-roll-badge {
+                              top: 52%;
+                              right: 10px;
+                               width: 200px; 
+                              height: 60px;
+                        }
+                  }
+
+                  @media (max-width: 768px) {
+                        .film-roll-badge {
+                              top: 56%;
+                              right: 10px;
+                               width: 124px; 
+                              height: 55px;
+                        }
+
+                        .countdown-text {
+                              font-size: 0.9rem;
+                        }
+                  }
+
+                  @media (max-width: 576px) {
+                        .film-roll-badge {
+                              top: 59%;
+                              right: 5px;
+                              /* width: 160px; */
+                              height: 50px;
+                        }
+
+                        .countdown-text {
+                              font-size: 0.85rem;
+                        }
+                  }
+            </style>
+          <script type="text/javascript">
+                const festivalStart = new Date("2025-11-20T00:00:00").getTime();
+                const festivalEnd = new Date("2025-11-28T23:59:59").getTime();
+
+                const countdownElement = document.getElementById("countdown");
+
+                const interval = setInterval(() => {
+                      const now = new Date().getTime();
+
+                      // BEFORE FESTIVAL — show days + hours left
+                      if (now < festivalStart) {
+                            const diff = festivalStart - now;
+                            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+
+                            countdownElement.innerHTML = `
+              ${days} Day${days !== 1 ? 's' : ''} 
+              ${hours} Hour${hours !== 1 ? 's' : ''} to go
+          `;
+
+                      }
+
+                      // DURING FESTIVAL — show 56th IFFI - Day X
+                      else if (now >= festivalStart && now <= festivalEnd) {
+                            const dayNumber = Math.floor((now - festivalStart) / (1000 * 60 * 60 * 24)) + 1;
+                            countdownElement.innerHTML = `56th IFFI - Day ${dayNumber}`;
+                      }
+
+                      // AFTER FESTIVAL — new message
+                      else {
+                            countdownElement.innerHTML = `✨ IFFI closes but never ends…`;
+
+                            // Width change logic
+                            const elements = document.querySelectorAll('.film-roll-badge');
+                            elements.forEach(el => el.style.width = "350px");
+
+                            clearInterval(interval);
+                      }
+
+                }, 1000);
+          </script>
+ <script type="text/javascript">
+
+               const miffStart = new Date("2026-06-15T00:00:00").getTime();
+               const miffEnd = new Date("2026-06-15T23:59:59").getTime();
+
+               const miffElement = document.getElementById("miff");
+
+               if (miffElement) {
+
+                   const miffInterval = setInterval(() => {
+
+                       const now = new Date().getTime();
+
+                       // Before MIFF
+                       if (now < miffStart) {
+
+                           const diff = miffStart - now;
+                           const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                           const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+
+        
+
+                   /*  miffElement.innerHTML = `${days} Day${days !== 1 ? 's' : ''} ${hours} Hour${hours !== 1 ? 's' : ''} to MIFF`;*/
+                           miffElement.innerHTML = `${days} Day${days === 1 ? '' : 's'} to MIFF ...`;
+
+
+                     }
+
+                       // During MIFF
+                       else if (now >= miffStart && now <= miffEnd) {
+
+                           const dayNumber =
+                               Math.floor((now - miffStart) / (1000 * 60 * 60 * 24)) + 1;
+
+                           miffElement.innerHTML = `19th MIFF - Day ${dayNumber}`;
+                       }
+
+                       // After MIFF
+                       else {
+
+                           miffElement.innerHTML = `✨ MIFF concludes, cinema lives on...`;
+
+                           document.querySelectorAll('.film-roll-badge')
+                               .forEach(el => el.style.width = "350px");
+
+                           clearInterval(miffInterval);
+                       }
+
+                   }, 1000);
+               }
+
+</script>
+
+      
+
+<script type="text/javascript">
+//<![CDATA[
+(function() {var fn = function() {$get("sc_HiddenField").value = '';Sys.Application.remove_init(fn);};Sys.Application.add_init(fn);})();Sys.Application.add_init(function() {
+    $create(Sys.Extended.UI.ModalPopupBehavior, {"BackgroundCssClass":"modalBackground","PopupControlID":"P_CategoryManagement","dynamicServicePath":"/PressReleasePage.aspx","id":"mpe"}, null, null, $get("Hidden"));
+});
+//]]>
+</script>
+<input type="hidden" name="__ncforminfo" value="cg5qP4hoq9WLYds4EVqdn1A2XHz3gqL4oP8zWJ_NYSyYBoqU3y7CzacpmO89n9HfqNI7AmEXC6xKngsWIaYym3Ei6smyYxC9"/></form>
+      
+      
+
+<script type="application/json" id="pibConsentConfig">{"ga4Id":"G-Q414Y0X6EE,G-QJJ6LZ8LHV","policyUrl":"/CookiePolicy.aspx","text":{"bannerLabel":"Cookie consent","title":"Cookies on this website","body":"We use essential cookies to make this website work. We also set analytics cookies when you arrive, so we can see how the site is used and improve it - you can switch these off below or at any time from the Cookie Policy page. Cookies from embedded social media content are set only if you allow them.","policyLink":"Read our Cookie Policy","accept":"Accept all","reject":"Reject optional","customize":"Customise","prefsTitle":"Cookie preferences","prefsIntro":"Choose which cookies this website may set. Essential cookies cannot be switched off because the site does not work without them. Analytics cookies are on unless you turn them off. Social media cookies stay off until you allow them. You can change these choices at any time from the Cookie Policy page.","essentialName":"Essential cookies","essentialDesc":"Needed for the site to function. These remember your session, your language and region, your text size and colour theme, and verify the security check on forms. They are always on.","analyticsName":"Analytics cookies","analyticsDesc":"Help us understand how visitors use the site - which pages are read and how long people stay - so it can be improved. The information is collected in a form that does not directly identify you. These are on when you arrive; switching them off here stops them and deletes the ones already set.","socialName":"Social media cookies","socialDesc":"Set by content embedded from X, Facebook and YouTube, such as timelines and videos. These platforms may use them to track you across websites. They stay off until you allow them.","save":"Save preferences","cancel":"Cancel"}}</script>
+<script type="text/javascript" src='/js/consent.js?v=10'></script>
+
+<script type="text/javascript" src='/js/consent-embeds.js?v=10'></script>
+
+    
+
+<script type="text/javascript">
+    (function () {
+        try {
+            if (window.self === window.top) { return; }
+        } catch (e) { return; }
+        var s = document.createElement("style");
+        s.textContent =
+            ".sticky-social, .sticky-social_mb { display: none !important; }";
+        (document.head || document.documentElement).appendChild(s);
+    }());
+</script>
+</body>
+</html>
+

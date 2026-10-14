@@ -1,0 +1,175 @@
+{
+  "completedAt": "2026-10-06T23:12:29.378471+00:00",
+  "scope": "Independent read-only aggregate checks over the hash-verified snapshots derived in audit.duckdb. No row-level source truth or completed procurement outcome verified.",
+  "duckdbVersion": "1.5.6",
+  "sourceHashes": {
+    "aoc_tenders.db": "ec8ef7711a17b7cae9e0414c2403b119a0a31c4dec49ed7055b38ec0df5f7586",
+    "tenders_vps.db": "b1994cfb6dd2d5da9ed1d9ac8d6bbc7083178f155e92a65628e87a38e4c64d01"
+  },
+  "reviewedScriptSha256": "22f8324b2170efadd3c9942e7bc501603c4b7ba5e7ee91983d771f914769c09f",
+  "queries": {
+    "notice_observation_strata": {
+      "sql": "SELECT portal,status,\n      CASE WHEN closing_at>listing_scraped_at THEN 'closing after listing capture'\n           WHEN closing_at<=listing_scraped_at THEN 'closing at/before listing capture'\n           ELSE 'comparison unknown' END AS closing_observation,\n      count(*) AS rows,\n      count(*) FILTER(WHERE published_at<=closing_at AND published_at<=listing_scraped_at AND year(published_at)>=2011) AS existing_window_family,\n      count(*) FILTER(WHERE published_at<=closing_at AND published_at<=listing_scraped_at AND year(published_at)>=2011\n                       AND date_diff('minute',published_at,closing_at)<4320) AS listed_under72h\n      FROM notices GROUP BY ALL ORDER BY ALL",
+      "rows": [
+        {
+          "portal": "central",
+          "status": "active",
+          "closing_observation": "closing after listing capture",
+          "rows": 27735,
+          "existing_window_family": 27735,
+          "listed_under72h": 15
+        },
+        {
+          "portal": "central",
+          "status": "active",
+          "closing_observation": "closing at/before listing capture",
+          "rows": 3014,
+          "existing_window_family": 3014,
+          "listed_under72h": 34
+        },
+        {
+          "portal": "central",
+          "status": "archived",
+          "closing_observation": "closing after listing capture",
+          "rows": 97,
+          "existing_window_family": 97,
+          "listed_under72h": 0
+        },
+        {
+          "portal": "central",
+          "status": "archived",
+          "closing_observation": "closing at/before listing capture",
+          "rows": 3879520,
+          "existing_window_family": 3874114,
+          "listed_under72h": 82068
+        },
+        {
+          "portal": "state",
+          "status": "active",
+          "closing_observation": "closing after listing capture",
+          "rows": 39104,
+          "existing_window_family": 39104,
+          "listed_under72h": 36
+        },
+        {
+          "portal": "state",
+          "status": "active",
+          "closing_observation": "closing at/before listing capture",
+          "rows": 2721,
+          "existing_window_family": 2721,
+          "listed_under72h": 10
+        }
+      ]
+    },
+    "award_bid_lexical_profile": {
+      "sql": "SELECT portal,count(*) AS rows,\n      count(*) FILTER(WHERE nullif(trim(bids_raw),'') IS NULL) AS missing_or_blank,\n      count(*) FILTER(WHERE regexp_full_match(trim(bids_raw),'[0-9]+')) AS unsigned_integer_text,\n      count(*) FILTER(WHERE nullif(trim(bids_raw),'') IS NOT NULL AND NOT regexp_full_match(trim(bids_raw),'[0-9]+')) AS other_nonempty_text,\n      count(*) FILTER(WHERE bids IS NOT NULL AND NOT regexp_full_match(trim(bids_raw),'[0-9]+')) AS extracted_from_noninteger_lexeme\n      FROM awards GROUP BY portal ORDER BY portal",
+      "rows": [
+        {
+          "portal": "central",
+          "rows": 2005258,
+          "missing_or_blank": 323328,
+          "unsigned_integer_text": 1681930,
+          "other_nonempty_text": 0,
+          "extracted_from_noninteger_lexeme": 0
+        },
+        {
+          "portal": "state",
+          "rows": 2916702,
+          "missing_or_blank": 115643,
+          "unsigned_integer_text": 2801059,
+          "other_nonempty_text": 0,
+          "extracted_from_noninteger_lexeme": 0
+        }
+      ]
+    },
+    "award_value_lexical_profile": {
+      "sql": "SELECT portal,count(*) AS rows,\n      count(*) FILTER(WHERE nullif(trim(value_raw),'') IS NULL) AS missing_or_blank,\n      count(*) FILTER(WHERE regexp_full_match(trim(value_raw),'[0-9]+(\\.[0-9]+)?')) AS unsigned_plain_decimal_text,\n      count(*) FILTER(WHERE nullif(trim(value_raw),'') IS NOT NULL AND NOT regexp_full_match(trim(value_raw),'[0-9]+(\\.[0-9]+)?')) AS other_nonempty_text,\n      count(*) FILTER(WHERE value_amount IS NOT NULL AND NOT regexp_full_match(trim(value_raw),'[0-9]+(\\.[0-9]+)?')) AS extracted_from_nonplain_lexeme\n      FROM awards GROUP BY portal ORDER BY portal",
+      "rows": [
+        {
+          "portal": "central",
+          "rows": 2005258,
+          "missing_or_blank": 342438,
+          "unsigned_plain_decimal_text": 1662820,
+          "other_nonempty_text": 0,
+          "extracted_from_nonplain_lexeme": 0
+        },
+        {
+          "portal": "state",
+          "rows": 2916702,
+          "missing_or_blank": 115958,
+          "unsigned_plain_decimal_text": 2800744,
+          "other_nonempty_text": 0,
+          "extracted_from_nonplain_lexeme": 0
+        }
+      ]
+    },
+    "notice_amount_lexical_profile": {
+      "sql": "WITH cells AS (\n      SELECT portal,'emd' AS field,emd_raw AS raw,emd_amount AS amount FROM notices\n      UNION ALL SELECT portal,'fee',fee_raw,fee_amount FROM notices\n      ) SELECT portal,field,count(*) AS rows,\n      count(*) FILTER(WHERE nullif(trim(raw),'') IS NULL) AS missing_or_blank,\n      count(*) FILTER(WHERE regexp_full_match(trim(raw),'[0-9]+(\\.[0-9]+)?')) AS unsigned_plain_decimal_text,\n      count(*) FILTER(WHERE regexp_matches(coalesce(raw,''),'[A-Za-z%]')) AS contains_letter_or_percent,\n      count(*) FILTER(WHERE amount IS NOT NULL AND NOT regexp_full_match(trim(raw),'[0-9]+(\\.[0-9]+)?')) AS extracted_from_nonplain_lexeme\n      FROM cells GROUP BY ALL ORDER BY ALL",
+      "rows": [
+        {
+          "portal": "central",
+          "field": "emd",
+          "rows": 3910366,
+          "missing_or_blank": 773707,
+          "unsigned_plain_decimal_text": 3136645,
+          "contains_letter_or_percent": 14,
+          "extracted_from_nonplain_lexeme": 14
+        },
+        {
+          "portal": "central",
+          "field": "fee",
+          "rows": 3910366,
+          "missing_or_blank": 773707,
+          "unsigned_plain_decimal_text": 3136658,
+          "contains_letter_or_percent": 1,
+          "extracted_from_nonplain_lexeme": 1
+        },
+        {
+          "portal": "state",
+          "field": "emd",
+          "rows": 41825,
+          "missing_or_blank": 0,
+          "unsigned_plain_decimal_text": 0,
+          "contains_letter_or_percent": 0,
+          "extracted_from_nonplain_lexeme": 41825
+        },
+        {
+          "portal": "state",
+          "field": "fee",
+          "rows": 41825,
+          "missing_or_blank": 0,
+          "unsigned_plain_decimal_text": 0,
+          "contains_letter_or_percent": 0,
+          "extracted_from_nonplain_lexeme": 41825
+        }
+      ]
+    },
+    "source_link_presence": {
+      "sql": "SELECT portal,count(*) AS rows,\n      count(*) FILTER(WHERE nullif(trim(document_url),'') IS NOT NULL) AS nonblank_document_field,\n      count(*) FILTER(WHERE regexp_matches(trim(document_url),'^https?://')) AS document_http_url_syntax,\n      count(*) FILTER(WHERE nullif(trim(corrigendum_url),'') IS NOT NULL) AS nonblank_corrigendum_field,\n      count(*) FILTER(WHERE regexp_matches(trim(corrigendum_url),'^https?://')) AS corrigendum_http_url_syntax\n      FROM notices GROUP BY portal ORDER BY portal",
+      "rows": [
+        {
+          "portal": "central",
+          "rows": 3910366,
+          "nonblank_document_field": 3136659,
+          "document_http_url_syntax": 3076944,
+          "nonblank_corrigendum_field": 552620,
+          "corrigendum_http_url_syntax": 552620
+        },
+        {
+          "portal": "state",
+          "rows": 41825,
+          "nonblank_document_field": 41825,
+          "document_http_url_syntax": 41825,
+          "nonblank_corrigendum_field": 7560,
+          "corrigendum_http_url_syntax": 7560
+        }
+      ]
+    }
+  },
+  "interpretationLimits": [
+    "Future closing dates in active notices are normal planned activity, not anomalies by themselves.",
+    "Unsigned decimal syntax is only a lexical check: currency, scale, accounting stage and correctness remain unverified.",
+    "HTTP URL syntax does not establish retrieval success, content correctness or lawful reuse.",
+    "Cached derived fields use the earlier permissive parser; raw lexeme counts are computed independently here."
+  ]
+}

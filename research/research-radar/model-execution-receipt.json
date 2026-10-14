@@ -1,0 +1,56 @@
+{
+  "recordedAt": "2026-10-07T22:30:05.945461+00:00",
+  "command": "/tmp/india-education-model-env/bin/python scripts/research-radar/model-rank.py --offline",
+  "input": "research/research-radar/model-corpus.json",
+  "inputSha256": "71de8e8e3cc4af9b91abfb9a103a8342af66aae326bac8fa1f56c0dc7f84d755",
+  "output": "research/research-radar/model-suggestions.json",
+  "outputSha256": "fc2f274b85cd657138663e73b85bba183a23577b2b95c6f610ab642d9dfad73e",
+  "sourceRegistries": [
+    {
+      "path": "research/raw/research-radar/national.json",
+      "sha256": "a3447b3188f851302ac08f0846de756b71cc8bdbbcaaba78a6826e5603adf679"
+    },
+    {
+      "path": "research/raw/research-radar/north.json",
+      "sha256": "93c7a8d6e888ebba9cae1cc27e69dc1c5791ea3034f4aa9d84183d8581a13694"
+    },
+    {
+      "path": "research/raw/research-radar/south-east.json",
+      "sha256": "bf1b00181dca7d7634f64df3946a39c47bec5cdd075882421210af34138ceacb"
+    },
+    {
+      "path": "research/raw/research-radar/west.json",
+      "sha256": "820024ec4f30893cf7a38056064062b91bf544b94a884dee8650774254036154"
+    }
+  ],
+  "documentCount": 87,
+  "sourceSummaryCount": 64,
+  "caseSummaryCount": 23,
+  "uniqueCitationUrls": 64,
+  "queryCount": 10,
+  "model": {
+    "id": "sentence-transformers/all-MiniLM-L6-v2",
+    "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+    "license": "Apache-2.0",
+    "modelCard": "https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/blob/1110a243fdf4706b3f48f1d95db1a4f5529b4d41/README.md",
+    "format": "ONNX uint8 AVX2",
+    "dimensions": 384,
+    "maxTokens": 256,
+    "pooling": "attention-mask-weighted mean, L2 normalized",
+    "assetSha256": {
+      "onnx/model_quint8_avx2.onnx": "b941bf19f1f1283680f449fa6a7336bb5600bdcd5f84d10ddc5cd72218a0fd21",
+      "tokenizer.json": "be50c3628f2bf5bb5e3a7f17b1f74611b2561a3a27eeab05e5aa30f411572037"
+    }
+  },
+  "execution": {
+    "provider": "CPUExecutionProvider",
+    "python": "3.12.14",
+    "onnxruntime": "1.23.2",
+    "tokenizers": "0.22.1",
+    "numpy": "2.3.4",
+    "inferenceSeconds": 1.94,
+    "publicTextUploadedToModelService": false
+  },
+  "limitation": "Ranks the authored public source and case summaries retained in this release only. Source and case summaries can describe the same underlying assertion and are not independent observations. This is not full-document, bank-ledger, national-population or prospective accuracy analysis. Similarity is not a connection, probability, factual verification, or prediction of wrongdoing. No result is automatically added as a graph edge or promoted to a claim.",
+  "meaning": "This receipt records executed source discovery only. Model-output review and source validation remain separate."
+}

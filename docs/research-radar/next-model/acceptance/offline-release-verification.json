@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "status": "verified",
+  "verifierSha256": "e64119969a000ff132afdddd761a902460ac9705a694a0e356e378aa960c93c6",
+  "training": {
+    "datasetSha256": "9bc1b278e3ee76444c047baa74a50cb2f491f2603db1533f3e72fc2b5c4b0f67",
+    "trainingReceiptSha256": "aade02a392363852993bc223b98c02fb6019e4971301ddb915736f2aca729aae",
+    "families": [
+      {
+        "family": "e5",
+        "trainableParameters": 147456,
+        "optimizerSteps": 99,
+        "recordedBaseHashUnchanged": true,
+        "actualAdapterTensorsVerified": true
+      },
+      {
+        "family": "f2",
+        "trainableParameters": 237568,
+        "optimizerSteps": 99,
+        "recordedBaseHashUnchanged": true,
+        "actualAdapterTensorsVerified": true
+      }
+    ],
+    "candidateConfigurations": 4,
+    "trainedWeightCheckpoints": 6,
+    "developmentConfigurationsEvaluated": 12,
+    "selected": {
+      "family": "f2",
+      "fusion": "rrf",
+      "epoch": 1
+    },
+    "cachedBaseBytesVerified": true
+  },
+  "scope": "Offline byte/metric/selection verification; training and neural inference are not replayed.",
+  "independentEvaluation": {
+    "evaluationSha256": "73a8e2ebdfbc0056029184313d4591231b50ba8ecab397fb542134a2bd0a3c0e",
+    "rankingsSha256": "f456e3a655cf17efb51edb5efa7fa58d08f465739072dc12e2f378c83a269401",
+    "queries": 24,
+    "caseFamilies": 6,
+    "promoted": false,
+    "defaultPromotionIsRetrievalOnly": true
+  },
+  "publicationProjection": {
+    "uiStatusSha256": "f42c3e40c927aed44e9e6a68d60598be958be2fc9e38573c7c69f9079e722728",
+    "modelCardSha256": "ffa3c651e330d7a2f0eaba7c938c7d9d079f8ab32bf5eea5e66c34076bf0ff80",
+    "defaultRetriever": "mini"
+  },
+  "investigationDemonstrations": {
+    "status": "verified",
+    "runs": 10,
+    "rankedSourcesPerQuery": 435,
+    "model": "candidate",
+    "rankingsSha256": "288b193866b335c7b8f7ee68e0815e4edd78d46f9b102f42860d7432f9512b30",
+    "packetsSha256": "63f916a36eb202c7ef0a5f2e9000f5f9137ea20b8ee5333aea2e7ba533e5313f",
+    "traceReplayedWithoutInference": true
+  }
+}

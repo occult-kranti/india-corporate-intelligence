@@ -1,0 +1,6208 @@
+{
+  "schemaVersion": 1,
+  "task": "Independent source-summary retrieval evaluation",
+  "queries": 24,
+  "caseFamilies": 6,
+  "documents": 435,
+  "hashes": {
+    "corpus": "9bc1b278e3ee76444c047baa74a50cb2f491f2603db1533f3e72fc2b5c4b0f67",
+    "rankings": "f456e3a655cf17efb51edb5efa7fa58d08f465739072dc12e2f378c83a269401",
+    "labels": "db268814d9450a018acbdeeb30719d7fbda689eb211abff22dba95e9e59b91b8",
+    "freeze": "3d99ab1d4a78eaed9220eb9b4bbec4d420af2b9b7064e687fd2460837ee0a80e",
+    "evaluator": "4dd0dfdddbd08d3fa8229c81bb2dd3bb4dc680a6a4eef4dd6f5eb5c938514271",
+    "inheritedMetrics": "21a2b54674f6d05822b68257b7367f4ee290643f54c8f83790d28cd1c2dd8a9d",
+    "registry": "570bdb86e53afa76de1adffe292e5c021fcbb6463fbe0698efd4029ee29f14f1"
+  },
+  "systems": {
+    "bm25": {
+      "configuration": {
+        "model": "bm25",
+        "device": "cpu",
+        "scoreMeaning": "source relevance only",
+        "tieBreak": "score descending, canonical source ID ascending",
+        "k1": 1.2,
+        "b": 0.75,
+        "queryTerms": "unique Unicode lowercase word tokens"
+      },
+      "metrics": {
+        "queryCount": 24,
+        "documentCount": 435,
+        "caseCount": 6,
+        "macro": {
+          "ndcgAt5": 0.7817620162652344,
+          "mrrAt10": 0.9583333333333334,
+          "recallAt5": 0.84375,
+          "familyNdcgAt5": 0.8472724283392266,
+          "familyRecallAt5": 0.9236111111111112,
+          "hardNegativePreference": 0.8,
+          "counterevidenceRecallAt5": 0.9285714285714286
+        },
+        "caseMacro": {
+          "ndcgAt5": 0.7817620162652344,
+          "mrrAt10": 0.9583333333333334,
+          "recallAt5": 0.84375,
+          "familyNdcgAt5": 0.8472724283392266,
+          "familyRecallAt5": 0.9236111111111112,
+          "hardNegativePreference": 0.8,
+          "counterevidenceRecallAt5": 0.9166666666666666
+        },
+        "perQuery": [
+          {
+            "queryId": "next-holdout-ts-01",
+            "caseId": "ts",
+            "metrics": {
+              "ndcgAt5": 0.7579237460681981,
+              "mrrAt10": 1.0,
+              "recallAt5": 1.0,
+              "familyNdcgAt5": 1.0,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": 1.0,
+              "counterevidenceRecallAt5": null
+            },
+            "positiveCount": 3,
+            "positiveFamilyCount": 1,
+            "hardNegativeCount": 1,
+            "counterevidenceCount": 0,
+            "counterevidenceQuery": false
+          },
+          {
+            "queryId": "next-holdout-ts-02",
+            "caseId": "ts",
+            "metrics": {
+              "ndcgAt5": 0.6576630675781056,
+              "mrrAt10": 1.0,
+              "recallAt5": 0.25,
+              "familyNdcgAt5": 0.8262346571285599,
+              "familyRecallAt5": 0.5,
+              "hardNegativePreference": null,
+              "counterevidenceRecallAt5": 1.0
+            },
+            "positiveCount": 4,
+            "positiveFamilyCount": 2,
+            "hardNegativeCount": 0,
+            "counterevidenceCount": 1,
+            "counterevidenceQuery": true
+          },
+          {
+            "queryId": "next-holdout-ts-03",
+            "caseId": "ts",
+            "metrics": {
+              "ndcgAt5": 0.4519474436849121,
+              "mrrAt10": 1.0,
+              "recallAt5": 0.75,
+              "familyNdcgAt5": 0.7967075809905066,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": null,
+              "counterevidenceRecallAt5": null
+            },
+            "positiveCount": 4,
+            "positiveFamilyCount": 2,
+            "hardNegativeCount": 0,
+            "counterevidenceCount": 0,
+            "counterevidenceQuery": false
+          },
+          {
+            "queryId": "next-holdout-ts-04",
+            "caseId": "ts",
+            "metrics": {
+              "ndcgAt5": 0.4671445995090871,
+              "mrrAt10": 1.0,
+              "recallAt5": 0.75,
+              "familyNdcgAt5": 0.7967075809905066,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": null,
+              "counterevidenceRecallAt5": null
+            },
+            "positiveCount": 4,
+            "positiveFamilyCount": 2,
+            "hardNegativeCount": 0,
+            "counterevidenceCount": 0,
+            "counterevidenceQuery": false
+          },
+          {
+            "queryId": "next-holdout-br-01",
+            "caseId": "br",
+            "metrics": {
+              "ndcgAt5": 0.6309297535714574,
+              "mrrAt10": 0.5,
+              "recallAt5": 1.0,
+              "familyNdcgAt5": 0.6309297535714574,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": 0.0,
+              "counterevidenceRecallAt5": null
+            },
+            "positiveCount": 1,
+            "positiveFamilyCount": 1,
+            "hardNegativeCount": 1,
+            "counterevidenceCount": 0,
+            "counterevidenceQuery": false
+          },
+          {
+            "queryId": "next-holdout-br-02",
+            "caseId": "br",
+            "metrics": {
+              "ndcgAt5": 1.0,
+              "mrrAt10": 1.0,
+              "recallAt5": 1.0,
+              "familyNdcgAt5": 1.0,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": null,
+              "counterevidenceRecallAt5": 1.0
+            },
+            "positiveCount": 2,
+            "positiveFamilyCount": 2,
+            "hardNegativeCount": 0,
+            "counterevidenceCount": 1,
+            "counterevidenceQuery": true
+          },
+          {
+            "queryId": "next-holdout-br-03",
+            "caseId": "br",
+            "metrics": {
+              "ndcgAt5": 0.7967075809905066,
+              "mrrAt10": 1.0,
+              "recallAt5": 1.0,
+              "familyNdcgAt5": 0.7967075809905066,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": null,
+              "counterevidenceRecallAt5": null
+            },
+            "positiveCount": 2,
+            "positiveFamilyCount": 2,
+            "hardNegativeCount": 0,
+            "counterevidenceCount": 0,
+            "counterevidenceQuery": false
+          },
+          {
+            "queryId": "next-holdout-br-04",
+            "caseId": "br",
+            "metrics": {
+              "ndcgAt5": 0.6885288809404666,
+              "mrrAt10": 1.0,
+              "recallAt5": 1.0,
+              "familyNdcgAt5": 0.6885288809404666,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": null,
+              "counterevidenceRecallAt5": 1.0
+            },
+            "positiveCount": 2,
+            "positiveFamilyCount": 2,
+            "hardNegativeCount": 0,
+            "counterevidenceCount": 2,
+            "counterevidenceQuery": true
+          },
+          {
+            "queryId": "next-holdout-ap-01",
+            "caseId": "ap",
+            "metrics": {
+              "ndcgAt5": 1.0,
+              "mrrAt10": 1.0,
+              "recallAt5": 1.0,
+              "familyNdcgAt5": 1.0,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": 1.0,
+              "counterevidenceRecallAt5": null
+            },
+            "positiveCount": 2,
+            "positiveFamilyCount": 1,
+            "hardNegativeCount": 1,
+            "counterevidenceCount": 0,
+            "counterevidenceQuery": false
+          },
+          {
+            "queryId": "next-holdout-ap-02",
+            "caseId": "ap",
+            "metrics": {
+              "ndcgAt5": 0.58688267143572,
+              "mrrAt10": 0.5,
+              "recallAt5": 1.0,
+              "familyNdcgAt5": 0.6309297535714574,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": null,
+              "counterevidenceRecallAt5": 1.0
+            },
+            "positiveCount": 2,
+            "positiveFamilyCount": 1,
+            "hardNegativeCount": 0,
+            "counterevidenceCount": 1,
+            "counterevidenceQuery": true
+          },
+          {
+            "queryId": "next-holdout-ap-03",
+            "caseId": "ap",
+            "metrics": {
+              "ndcgAt5": 0.878961873034099,
+              "mrrAt10": 1.0,
+              "recallAt5": 0.6666666666666666,
+              "familyNdcgAt5": 1.0,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": null,
+              "counterevidenceRecallAt5": null
+            },
+            "positiveCount": 3,
+            "positiveFamilyCount": 2,
+            "hardNegativeCount": 0,
+            "counterevidenceCount": 0,
+            "counterevidenceQuery": false
+          },
+          {
+            "queryId": "next-holdout-ap-04",
+            "caseId": "ap",
+            "metrics": {
+              "ndcgAt5": 1.0,
+              "mrrAt10": 1.0,
+              "recallAt5": 1.0,
+              "familyNdcgAt5": 1.0,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": null,
+              "counterevidenceRecallAt5": null
+            },
+            "positiveCount": 3,
+            "positiveFamilyCount": 2,
+            "hardNegativeCount": 0,
+            "counterevidenceCount": 0,
+            "counterevidenceQuery": false
+          },
+          {
+            "queryId": "next-holdout-ns-01",
+            "caseId": "ns",
+            "metrics": {
+              "ndcgAt5": 1.0,
+              "mrrAt10": 1.0,
+              "recallAt5": 1.0,
+              "familyNdcgAt5": 1.0,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": null,
+              "counterevidenceRecallAt5": null
+            },
+            "positiveCount": 2,
+            "positiveFamilyCount": 1,
+            "hardNegativeCount": 0,
+            "counterevidenceCount": 0,
+            "counterevidenceQuery": false
+          },
+          {
+            "queryId": "next-holdout-ns-02",
+            "caseId": "ns",
+            "metrics": {
+              "ndcgAt5": 0.9726097514324383,
+              "mrrAt10": 1.0,
+              "recallAt5": 1.0,
+              "familyNdcgAt5": 1.0,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": null,
+              "counterevidenceRecallAt5": 1.0
+            },
+            "positiveCount": 3,
+            "positiveFamilyCount": 2,
+            "hardNegativeCount": 0,
+            "counterevidenceCount": 1,
+            "counterevidenceQuery": true
+          },
+          {
+            "queryId": "next-holdout-ns-03",
+            "caseId": "ns",
+            "metrics": {
+              "ndcgAt5": 0.8262346571285599,
+              "mrrAt10": 1.0,
+              "recallAt5": 0.5,
+              "familyNdcgAt5": 1.0,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": 1.0,
+              "counterevidenceRecallAt5": null
+            },
+            "positiveCount": 2,
+            "positiveFamilyCount": 1,
+            "hardNegativeCount": 1,
+            "counterevidenceCount": 0,
+            "counterevidenceQuery": false
+          },
+          {
+            "queryId": "next-holdout-ns-04",
+            "caseId": "ns",
+            "metrics": {
+              "ndcgAt5": 0.878961873034099,
+              "mrrAt10": 1.0,
+              "recallAt5": 0.6666666666666666,
+              "familyNdcgAt5": 1.0,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": null,
+              "counterevidenceRecallAt5": null
+            },
+            "positiveCount": 3,
+            "positiveFamilyCount": 2,
+            "hardNegativeCount": 0,
+            "counterevidenceCount": 0,
+            "counterevidenceQuery": false
+          },
+          {
+            "queryId": "next-holdout-ifc-01",
+            "caseId": "ifc",
+            "metrics": {
+              "ndcgAt5": 0.7967075809905066,
+              "mrrAt10": 1.0,
+              "recallAt5": 1.0,
+              "familyNdcgAt5": 0.7967075809905066,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": null,
+              "counterevidenceRecallAt5": null
+            },
+            "positiveCount": 2,
+            "positiveFamilyCount": 2,
+            "hardNegativeCount": 0,
+            "counterevidenceCount": 0,
+            "counterevidenceQuery": false
+          },
+          {
+            "queryId": "next-holdout-ifc-02",
+            "caseId": "ifc",
+            "metrics": {
+              "ndcgAt5": 1.0,
+              "mrrAt10": 1.0,
+              "recallAt5": 1.0,
+              "familyNdcgAt5": 1.0,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": null,
+              "counterevidenceRecallAt5": 1.0
+            },
+            "positiveCount": 2,
+            "positiveFamilyCount": 2,
+            "hardNegativeCount": 0,
+            "counterevidenceCount": 1,
+            "counterevidenceQuery": true
+          },
+          {
+            "queryId": "next-holdout-ifc-03",
+            "caseId": "ifc",
+            "metrics": {
+              "ndcgAt5": 1.0,
+              "mrrAt10": 1.0,
+              "recallAt5": 1.0,
+              "familyNdcgAt5": 1.0,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": null,
+              "counterevidenceRecallAt5": null
+            },
+            "positiveCount": 2,
+            "positiveFamilyCount": 2,
+            "hardNegativeCount": 0,
+            "counterevidenceCount": 0,
+            "counterevidenceQuery": false
+          },
+          {
+            "queryId": "next-holdout-ifc-04",
+            "caseId": "ifc",
+            "metrics": {
+              "ndcgAt5": 0.7967075809905066,
+              "mrrAt10": 1.0,
+              "recallAt5": 1.0,
+              "familyNdcgAt5": 0.7967075809905066,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": null,
+              "counterevidenceRecallAt5": null
+            },
+            "positiveCount": 2,
+            "positiveFamilyCount": 2,
+            "hardNegativeCount": 0,
+            "counterevidenceCount": 0,
+            "counterevidenceQuery": false
+          },
+          {
+            "queryId": "next-holdout-tn-01",
+            "caseId": "tn",
+            "metrics": {
+              "ndcgAt5": 0.9072836011519267,
+              "mrrAt10": 1.0,
+              "recallAt5": 0.6666666666666666,
+              "familyNdcgAt5": 0.9072836011519267,
+              "familyRecallAt5": 0.6666666666666666,
+              "hardNegativePreference": null,
+              "counterevidenceRecallAt5": null
+            },
+            "positiveCount": 3,
+            "positiveFamilyCount": 3,
+            "hardNegativeCount": 0,
+            "counterevidenceCount": 0,
+            "counterevidenceQuery": false
+          },
+          {
+            "queryId": "next-holdout-tn-02",
+            "caseId": "tn",
+            "metrics": {
+              "ndcgAt5": 1.0,
+              "mrrAt10": 1.0,
+              "recallAt5": 1.0,
+              "familyNdcgAt5": 1.0,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": 1.0,
+              "counterevidenceRecallAt5": null
+            },
+            "positiveCount": 1,
+            "positiveFamilyCount": 1,
+            "hardNegativeCount": 1,
+            "counterevidenceCount": 0,
+            "counterevidenceQuery": false
+          },
+          {
+            "queryId": "next-holdout-tn-03",
+            "caseId": "tn",
+            "metrics": {
+              "ndcgAt5": 0.42501747489323527,
+              "mrrAt10": 1.0,
+              "recallAt5": 0.6666666666666666,
+              "familyNdcgAt5": 0.42501747489323527,
+              "familyRecallAt5": 0.6666666666666666,
+              "hardNegativePreference": null,
+              "counterevidenceRecallAt5": 0.5
+            },
+            "positiveCount": 3,
+            "positiveFamilyCount": 3,
+            "hardNegativeCount": 0,
+            "counterevidenceCount": 2,
+            "counterevidenceQuery": true
+          },
+          {
+            "queryId": "next-holdout-tn-04",
+            "caseId": "tn",
+            "metrics": {
+              "ndcgAt5": 0.24207625393180188,
+              "mrrAt10": 1.0,
+              "recallAt5": 0.3333333333333333,
+              "familyNdcgAt5": 0.24207625393180188,
+              "familyRecallAt5": 0.3333333333333333,
+              "hardNegativePreference": null,
+              "counterevidenceRecallAt5": null
+            },
+            "positiveCount": 3,
+            "positiveFamilyCount": 3,
+            "hardNegativeCount": 0,
+            "counterevidenceCount": 0,
+            "counterevidenceQuery": false
+          }
+        ],
+        "perCase": [
+          {
+            "caseId": "ap",
+            "queryCount": 4,
+            "metrics": {
+              "ndcgAt5": 0.8664611361174548,
+              "mrrAt10": 0.875,
+              "recallAt5": 0.9166666666666666,
+              "familyNdcgAt5": 0.9077324383928643,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": 1.0,
+              "counterevidenceRecallAt5": 1.0
+            }
+          },
+          {
+            "caseId": "br",
+            "queryCount": 4,
+            "metrics": {
+              "ndcgAt5": 0.7790415538756077,
+              "mrrAt10": 0.875,
+              "recallAt5": 1.0,
+              "familyNdcgAt5": 0.7790415538756077,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": 0.0,
+              "counterevidenceRecallAt5": 1.0
+            }
+          },
+          {
+            "caseId": "ifc",
+            "queryCount": 4,
+            "metrics": {
+              "ndcgAt5": 0.8983537904952533,
+              "mrrAt10": 1.0,
+              "recallAt5": 1.0,
+              "familyNdcgAt5": 0.8983537904952533,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": null,
+              "counterevidenceRecallAt5": 1.0
+            }
+          },
+          {
+            "caseId": "ns",
+            "queryCount": 4,
+            "metrics": {
+              "ndcgAt5": 0.9194515703987743,
+              "mrrAt10": 1.0,
+              "recallAt5": 0.7916666666666666,
+              "familyNdcgAt5": 1.0,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": 1.0,
+              "counterevidenceRecallAt5": 1.0
+            }
+          },
+          {
+            "caseId": "tn",
+            "queryCount": 4,
+            "metrics": {
+              "ndcgAt5": 0.643594332494241,
+              "mrrAt10": 1.0,
+              "recallAt5": 0.6666666666666666,
+              "familyNdcgAt5": 0.643594332494241,
+              "familyRecallAt5": 0.6666666666666666,
+              "hardNegativePreference": 1.0,
+              "counterevidenceRecallAt5": 0.5
+            }
+          },
+          {
+            "caseId": "ts",
+            "queryCount": 4,
+            "metrics": {
+              "ndcgAt5": 0.5836697142100757,
+              "mrrAt10": 1.0,
+              "recallAt5": 0.6875,
+              "familyNdcgAt5": 0.8549124547773933,
+              "familyRecallAt5": 0.875,
+              "hardNegativePreference": 1.0,
+              "counterevidenceRecallAt5": 1.0
+            }
+          }
+        ]
+      }
+    },
+    "base": {
+      "configuration": {
+        "model": "base",
+        "device": "cpu",
+        "scoreMeaning": "source relevance only",
+        "tieBreak": "score descending, canonical source ID ascending",
+        "family": "f2",
+        "modelId": "codefuse-ai/F2LLM-v2-80M",
+        "revision": "ad88d7a126711f1490cd4bad645dc9d3acc2af6a",
+        "precision": "float32",
+        "fusion": "rrf",
+        "maxTokens": 256,
+        "selectedConfigurationSha256": "7e7556bc1e842bef699f93a44cbc2b0a79a5b3b6a24f006243f031ac5d682220",
+        "baseAssets": [
+          {
+            "filename": "README.md",
+            "url": "https://huggingface.co/codefuse-ai/F2LLM-v2-80M/resolve/ad88d7a126711f1490cd4bad645dc9d3acc2af6a/README.md",
+            "sha256": "1b3fc060474405651dc6f39a3f93dbd1ad01f6e84784bae148d144786014a711",
+            "bytes": 8797
+          },
+          {
+            "filename": "config.json",
+            "url": "https://huggingface.co/codefuse-ai/F2LLM-v2-80M/resolve/ad88d7a126711f1490cd4bad645dc9d3acc2af6a/config.json",
+            "sha256": "6adc1b382b3aed8453ae99665c01713189737936a3caf2638cb9083c97fd7013",
+            "bytes": 941
+          },
+          {
+            "filename": "config_sentence_transformers.json",
+            "url": "https://huggingface.co/codefuse-ai/F2LLM-v2-80M/resolve/ad88d7a126711f1490cd4bad645dc9d3acc2af6a/config_sentence_transformers.json",
+            "sha256": "0d68b69297f1e04931794d6a0240334fc5fd3d6f0560b5bd904231864cd0aa7d",
+            "bytes": 224
+          },
+          {
+            "filename": "model.safetensors",
+            "url": "https://huggingface.co/codefuse-ai/F2LLM-v2-80M/resolve/ad88d7a126711f1490cd4bad645dc9d3acc2af6a/model.safetensors",
+            "sha256": "2177fbd79bd6259904a54514e0e313efd28704acd98bfe276a06b2c638f2e4c1",
+            "bytes": 160178064
+          },
+          {
+            "filename": "special_tokens_map.json",
+            "url": "https://huggingface.co/codefuse-ai/F2LLM-v2-80M/resolve/ad88d7a126711f1490cd4bad645dc9d3acc2af6a/special_tokens_map.json",
+            "sha256": "76862e765266b85aa9459767e33cbaf13970f327a0e88d1c65846c2ddd3a1ecd",
+            "bytes": 613
+          },
+          {
+            "filename": "tokenizer.json",
+            "url": "https://huggingface.co/codefuse-ai/F2LLM-v2-80M/resolve/ad88d7a126711f1490cd4bad645dc9d3acc2af6a/tokenizer.json",
+            "sha256": "7e295e5bb91a3d35335f92fa4294a6e4e0ab4aa586db853e14312a62135bfddc",
+            "bytes": 8399930
+          },
+          {
+            "filename": "tokenizer_config.json",
+            "url": "https://huggingface.co/codefuse-ai/F2LLM-v2-80M/resolve/ad88d7a126711f1490cd4bad645dc9d3acc2af6a/tokenizer_config.json",
+            "sha256": "3c0884a30471f4f542dc89630f62a380bb70a341fafda826136a7be921fec7ea",
+            "bytes": 9762
+          }
+        ]
+      },
+      "metrics": {
+        "queryCount": 24,
+        "documentCount": 435,
+        "caseCount": 6,
+        "macro": {
+          "ndcgAt5": 0.7582727506499825,
+          "mrrAt10": 0.9791666666666666,
+          "recallAt5": 0.8472222222222222,
+          "familyNdcgAt5": 0.8341657153460966,
+          "familyRecallAt5": 0.9027777777777778,
+          "hardNegativePreference": 0.8,
+          "counterevidenceRecallAt5": 0.9285714285714286
+        },
+        "caseMacro": {
+          "ndcgAt5": 0.7582727506499825,
+          "mrrAt10": 0.9791666666666666,
+          "recallAt5": 0.8472222222222222,
+          "familyNdcgAt5": 0.8341657153460966,
+          "familyRecallAt5": 0.9027777777777778,
+          "hardNegativePreference": 0.8,
+          "counterevidenceRecallAt5": 0.9166666666666666
+        },
+        "perQuery": [
+          {
+            "queryId": "next-holdout-ts-01",
+            "caseId": "ts",
+            "metrics": {
+              "ndcgAt5": 0.7579237460681981,
+              "mrrAt10": 1.0,
+              "recallAt5": 1.0,
+              "familyNdcgAt5": 1.0,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": 1.0,
+              "counterevidenceRecallAt5": null
+            },
+            "positiveCount": 3,
+            "positiveFamilyCount": 1,
+            "hardNegativeCount": 1,
+            "counterevidenceCount": 0,
+            "counterevidenceQuery": false
+          },
+          {
+            "queryId": "next-holdout-ts-02",
+            "caseId": "ts",
+            "metrics": {
+              "ndcgAt5": 0.6576630675781056,
+              "mrrAt10": 1.0,
+              "recallAt5": 0.25,
+              "familyNdcgAt5": 0.8262346571285599,
+              "familyRecallAt5": 0.5,
+              "hardNegativePreference": null,
+              "counterevidenceRecallAt5": 1.0
+            },
+            "positiveCount": 4,
+            "positiveFamilyCount": 2,
+            "hardNegativeCount": 0,
+            "counterevidenceCount": 1,
+            "counterevidenceQuery": true
+          },
+          {
+            "queryId": "next-holdout-ts-03",
+            "caseId": "ts",
+            "metrics": {
+              "ndcgAt5": 0.4671445995090871,
+              "mrrAt10": 1.0,
+              "recallAt5": 0.75,
+              "familyNdcgAt5": 0.7967075809905066,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": null,
+              "counterevidenceRecallAt5": null
+            },
+            "positiveCount": 4,
+            "positiveFamilyCount": 2,
+            "hardNegativeCount": 0,
+            "counterevidenceCount": 0,
+            "counterevidenceQuery": false
+          },
+          {
+            "queryId": "next-holdout-ts-04",
+            "caseId": "ts",
+            "metrics": {
+              "ndcgAt5": 0.7503846658256149,
+              "mrrAt10": 1.0,
+              "recallAt5": 1.0,
+              "familyNdcgAt5": 1.0,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": null,
+              "counterevidenceRecallAt5": null
+            },
+            "positiveCount": 4,
+            "positiveFamilyCount": 2,
+            "hardNegativeCount": 0,
+            "counterevidenceCount": 0,
+            "counterevidenceQuery": false
+          },
+          {
+            "queryId": "next-holdout-br-01",
+            "caseId": "br",
+            "metrics": {
+              "ndcgAt5": 0.6309297535714574,
+              "mrrAt10": 0.5,
+              "recallAt5": 1.0,
+              "familyNdcgAt5": 0.6309297535714574,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": 0.0,
+              "counterevidenceRecallAt5": null
+            },
+            "positiveCount": 1,
+            "positiveFamilyCount": 1,
+            "hardNegativeCount": 1,
+            "counterevidenceCount": 0,
+            "counterevidenceQuery": false
+          },
+          {
+            "queryId": "next-holdout-br-02",
+            "caseId": "br",
+            "metrics": {
+              "ndcgAt5": 1.0,
+              "mrrAt10": 1.0,
+              "recallAt5": 1.0,
+              "familyNdcgAt5": 1.0,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": null,
+              "counterevidenceRecallAt5": 1.0
+            },
+            "positiveCount": 2,
+            "positiveFamilyCount": 2,
+            "hardNegativeCount": 0,
+            "counterevidenceCount": 1,
+            "counterevidenceQuery": true
+          },
+          {
+            "queryId": "next-holdout-br-03",
+            "caseId": "br",
+            "metrics": {
+              "ndcgAt5": 0.7967075809905066,
+              "mrrAt10": 1.0,
+              "recallAt5": 1.0,
+              "familyNdcgAt5": 0.7967075809905066,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": null,
+              "counterevidenceRecallAt5": null
+            },
+            "positiveCount": 2,
+            "positiveFamilyCount": 2,
+            "hardNegativeCount": 0,
+            "counterevidenceCount": 0,
+            "counterevidenceQuery": false
+          },
+          {
+            "queryId": "next-holdout-br-04",
+            "caseId": "br",
+            "metrics": {
+              "ndcgAt5": 0.7967075809905066,
+              "mrrAt10": 1.0,
+              "recallAt5": 1.0,
+              "familyNdcgAt5": 0.7967075809905066,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": null,
+              "counterevidenceRecallAt5": 1.0
+            },
+            "positiveCount": 2,
+            "positiveFamilyCount": 2,
+            "hardNegativeCount": 0,
+            "counterevidenceCount": 2,
+            "counterevidenceQuery": true
+          },
+          {
+            "queryId": "next-holdout-ap-01",
+            "caseId": "ap",
+            "metrics": {
+              "ndcgAt5": 1.0,
+              "mrrAt10": 1.0,
+              "recallAt5": 1.0,
+              "familyNdcgAt5": 1.0,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": 1.0,
+              "counterevidenceRecallAt5": null
+            },
+            "positiveCount": 2,
+            "positiveFamilyCount": 1,
+            "hardNegativeCount": 1,
+            "counterevidenceCount": 0,
+            "counterevidenceQuery": false
+          },
+          {
+            "queryId": "next-holdout-ap-02",
+            "caseId": "ap",
+            "metrics": {
+              "ndcgAt5": 0.6885288809404666,
+              "mrrAt10": 1.0,
+              "recallAt5": 1.0,
+              "familyNdcgAt5": 1.0,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": null,
+              "counterevidenceRecallAt5": 1.0
+            },
+            "positiveCount": 2,
+            "positiveFamilyCount": 1,
+            "hardNegativeCount": 0,
+            "counterevidenceCount": 1,
+            "counterevidenceQuery": true
+          },
+          {
+            "queryId": "next-holdout-ap-03",
+            "caseId": "ap",
+            "metrics": {
+              "ndcgAt5": 0.9726097514324383,
+              "mrrAt10": 1.0,
+              "recallAt5": 1.0,
+              "familyNdcgAt5": 1.0,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": null,
+              "counterevidenceRecallAt5": null
+            },
+            "positiveCount": 3,
+            "positiveFamilyCount": 2,
+            "hardNegativeCount": 0,
+            "counterevidenceCount": 0,
+            "counterevidenceQuery": false
+          },
+          {
+            "queryId": "next-holdout-ap-04",
+            "caseId": "ap",
+            "metrics": {
+              "ndcgAt5": 1.0,
+              "mrrAt10": 1.0,
+              "recallAt5": 1.0,
+              "familyNdcgAt5": 1.0,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": null,
+              "counterevidenceRecallAt5": null
+            },
+            "positiveCount": 3,
+            "positiveFamilyCount": 2,
+            "hardNegativeCount": 0,
+            "counterevidenceCount": 0,
+            "counterevidenceQuery": false
+          },
+          {
+            "queryId": "next-holdout-ns-01",
+            "caseId": "ns",
+            "metrics": {
+              "ndcgAt5": 0.7967075809905066,
+              "mrrAt10": 1.0,
+              "recallAt5": 1.0,
+              "familyNdcgAt5": 1.0,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": null,
+              "counterevidenceRecallAt5": null
+            },
+            "positiveCount": 2,
+            "positiveFamilyCount": 1,
+            "hardNegativeCount": 0,
+            "counterevidenceCount": 0,
+            "counterevidenceQuery": false
+          },
+          {
+            "queryId": "next-holdout-ns-02",
+            "caseId": "ns",
+            "metrics": {
+              "ndcgAt5": 0.7939234660462212,
+              "mrrAt10": 1.0,
+              "recallAt5": 1.0,
+              "familyNdcgAt5": 0.7967075809905066,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": null,
+              "counterevidenceRecallAt5": 1.0
+            },
+            "positiveCount": 3,
+            "positiveFamilyCount": 2,
+            "hardNegativeCount": 0,
+            "counterevidenceCount": 1,
+            "counterevidenceQuery": true
+          },
+          {
+            "queryId": "next-holdout-ns-03",
+            "caseId": "ns",
+            "metrics": {
+              "ndcgAt5": 0.8262346571285599,
+              "mrrAt10": 1.0,
+              "recallAt5": 0.5,
+              "familyNdcgAt5": 1.0,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": 1.0,
+              "counterevidenceRecallAt5": null
+            },
+            "positiveCount": 2,
+            "positiveFamilyCount": 1,
+            "hardNegativeCount": 1,
+            "counterevidenceCount": 0,
+            "counterevidenceQuery": false
+          },
+          {
+            "queryId": "next-holdout-ns-04",
+            "caseId": "ns",
+            "metrics": {
+              "ndcgAt5": 0.819876640193745,
+              "mrrAt10": 1.0,
+              "recallAt5": 0.6666666666666666,
+              "familyNdcgAt5": 0.9327783893101107,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": null,
+              "counterevidenceRecallAt5": null
+            },
+            "positiveCount": 3,
+            "positiveFamilyCount": 2,
+            "hardNegativeCount": 0,
+            "counterevidenceCount": 0,
+            "counterevidenceQuery": false
+          },
+          {
+            "queryId": "next-holdout-ifc-01",
+            "caseId": "ifc",
+            "metrics": {
+              "ndcgAt5": 0.7967075809905066,
+              "mrrAt10": 1.0,
+              "recallAt5": 1.0,
+              "familyNdcgAt5": 0.7967075809905066,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": null,
+              "counterevidenceRecallAt5": null
+            },
+            "positiveCount": 2,
+            "positiveFamilyCount": 2,
+            "hardNegativeCount": 0,
+            "counterevidenceCount": 0,
+            "counterevidenceQuery": false
+          },
+          {
+            "queryId": "next-holdout-ifc-02",
+            "caseId": "ifc",
+            "metrics": {
+              "ndcgAt5": 1.0,
+              "mrrAt10": 1.0,
+              "recallAt5": 1.0,
+              "familyNdcgAt5": 1.0,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": null,
+              "counterevidenceRecallAt5": 1.0
+            },
+            "positiveCount": 2,
+            "positiveFamilyCount": 2,
+            "hardNegativeCount": 0,
+            "counterevidenceCount": 1,
+            "counterevidenceQuery": true
+          },
+          {
+            "queryId": "next-holdout-ifc-03",
+            "caseId": "ifc",
+            "metrics": {
+              "ndcgAt5": 0.27541155237618664,
+              "mrrAt10": 1.0,
+              "recallAt5": 0.5,
+              "familyNdcgAt5": 0.27541155237618664,
+              "familyRecallAt5": 0.5,
+              "hardNegativePreference": null,
+              "counterevidenceRecallAt5": null
+            },
+            "positiveCount": 2,
+            "positiveFamilyCount": 2,
+            "hardNegativeCount": 0,
+            "counterevidenceCount": 0,
+            "counterevidenceQuery": false
+          },
+          {
+            "queryId": "next-holdout-ifc-04",
+            "caseId": "ifc",
+            "metrics": {
+              "ndcgAt5": 0.7967075809905066,
+              "mrrAt10": 1.0,
+              "recallAt5": 1.0,
+              "familyNdcgAt5": 0.7967075809905066,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": null,
+              "counterevidenceRecallAt5": null
+            },
+            "positiveCount": 2,
+            "positiveFamilyCount": 2,
+            "hardNegativeCount": 0,
+            "counterevidenceCount": 0,
+            "counterevidenceQuery": false
+          },
+          {
+            "queryId": "next-holdout-tn-01",
+            "caseId": "tn",
+            "metrics": {
+              "ndcgAt5": 0.9072836011519267,
+              "mrrAt10": 1.0,
+              "recallAt5": 0.6666666666666666,
+              "familyNdcgAt5": 0.9072836011519267,
+              "familyRecallAt5": 0.6666666666666666,
+              "hardNegativePreference": null,
+              "counterevidenceRecallAt5": null
+            },
+            "positiveCount": 3,
+            "positiveFamilyCount": 3,
+            "hardNegativeCount": 0,
+            "counterevidenceCount": 0,
+            "counterevidenceQuery": false
+          },
+          {
+            "queryId": "next-holdout-tn-02",
+            "caseId": "tn",
+            "metrics": {
+              "ndcgAt5": 1.0,
+              "mrrAt10": 1.0,
+              "recallAt5": 1.0,
+              "familyNdcgAt5": 1.0,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": 1.0,
+              "counterevidenceRecallAt5": null
+            },
+            "positiveCount": 1,
+            "positiveFamilyCount": 1,
+            "hardNegativeCount": 1,
+            "counterevidenceCount": 0,
+            "counterevidenceQuery": false
+          },
+          {
+            "queryId": "next-holdout-tn-03",
+            "caseId": "tn",
+            "metrics": {
+              "ndcgAt5": 0.42501747489323527,
+              "mrrAt10": 1.0,
+              "recallAt5": 0.6666666666666666,
+              "familyNdcgAt5": 0.42501747489323527,
+              "familyRecallAt5": 0.6666666666666666,
+              "hardNegativePreference": null,
+              "counterevidenceRecallAt5": 0.5
+            },
+            "positiveCount": 3,
+            "positiveFamilyCount": 3,
+            "hardNegativeCount": 0,
+            "counterevidenceCount": 2,
+            "counterevidenceQuery": true
+          },
+          {
+            "queryId": "next-holdout-tn-04",
+            "caseId": "tn",
+            "metrics": {
+              "ndcgAt5": 0.24207625393180188,
+              "mrrAt10": 1.0,
+              "recallAt5": 0.3333333333333333,
+              "familyNdcgAt5": 0.24207625393180188,
+              "familyRecallAt5": 0.3333333333333333,
+              "hardNegativePreference": null,
+              "counterevidenceRecallAt5": null
+            },
+            "positiveCount": 3,
+            "positiveFamilyCount": 3,
+            "hardNegativeCount": 0,
+            "counterevidenceCount": 0,
+            "counterevidenceQuery": false
+          }
+        ],
+        "perCase": [
+          {
+            "caseId": "ap",
+            "queryCount": 4,
+            "metrics": {
+              "ndcgAt5": 0.9152846580932262,
+              "mrrAt10": 1.0,
+              "recallAt5": 1.0,
+              "familyNdcgAt5": 1.0,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": 1.0,
+              "counterevidenceRecallAt5": 1.0
+            }
+          },
+          {
+            "caseId": "br",
+            "queryCount": 4,
+            "metrics": {
+              "ndcgAt5": 0.8060862288881177,
+              "mrrAt10": 0.875,
+              "recallAt5": 1.0,
+              "familyNdcgAt5": 0.8060862288881177,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": 0.0,
+              "counterevidenceRecallAt5": 1.0
+            }
+          },
+          {
+            "caseId": "ifc",
+            "queryCount": 4,
+            "metrics": {
+              "ndcgAt5": 0.7172066785893,
+              "mrrAt10": 1.0,
+              "recallAt5": 0.875,
+              "familyNdcgAt5": 0.7172066785893,
+              "familyRecallAt5": 0.875,
+              "hardNegativePreference": null,
+              "counterevidenceRecallAt5": 1.0
+            }
+          },
+          {
+            "caseId": "ns",
+            "queryCount": 4,
+            "metrics": {
+              "ndcgAt5": 0.8091855860897582,
+              "mrrAt10": 1.0,
+              "recallAt5": 0.7916666666666666,
+              "familyNdcgAt5": 0.9323714925751543,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": 1.0,
+              "counterevidenceRecallAt5": 1.0
+            }
+          },
+          {
+            "caseId": "tn",
+            "queryCount": 4,
+            "metrics": {
+              "ndcgAt5": 0.643594332494241,
+              "mrrAt10": 1.0,
+              "recallAt5": 0.6666666666666666,
+              "familyNdcgAt5": 0.643594332494241,
+              "familyRecallAt5": 0.6666666666666666,
+              "hardNegativePreference": 1.0,
+              "counterevidenceRecallAt5": 0.5
+            }
+          },
+          {
+            "caseId": "ts",
+            "queryCount": 4,
+            "metrics": {
+              "ndcgAt5": 0.6582790197452514,
+              "mrrAt10": 1.0,
+              "recallAt5": 0.75,
+              "familyNdcgAt5": 0.9057355595297667,
+              "familyRecallAt5": 0.875,
+              "hardNegativePreference": 1.0,
+              "counterevidenceRecallAt5": 1.0
+            }
+          }
+        ]
+      }
+    },
+    "candidate": {
+      "configuration": {
+        "model": "candidate",
+        "device": "cpu",
+        "scoreMeaning": "source relevance only",
+        "tieBreak": "score descending, canonical source ID ascending",
+        "family": "f2",
+        "modelId": "codefuse-ai/F2LLM-v2-80M",
+        "revision": "ad88d7a126711f1490cd4bad645dc9d3acc2af6a",
+        "precision": "float32",
+        "fusion": "rrf",
+        "maxTokens": 256,
+        "selectedConfigurationSha256": "7e7556bc1e842bef699f93a44cbc2b0a79a5b3b6a24f006243f031ac5d682220",
+        "baseAssets": [
+          {
+            "filename": "README.md",
+            "url": "https://huggingface.co/codefuse-ai/F2LLM-v2-80M/resolve/ad88d7a126711f1490cd4bad645dc9d3acc2af6a/README.md",
+            "sha256": "1b3fc060474405651dc6f39a3f93dbd1ad01f6e84784bae148d144786014a711",
+            "bytes": 8797
+          },
+          {
+            "filename": "config.json",
+            "url": "https://huggingface.co/codefuse-ai/F2LLM-v2-80M/resolve/ad88d7a126711f1490cd4bad645dc9d3acc2af6a/config.json",
+            "sha256": "6adc1b382b3aed8453ae99665c01713189737936a3caf2638cb9083c97fd7013",
+            "bytes": 941
+          },
+          {
+            "filename": "config_sentence_transformers.json",
+            "url": "https://huggingface.co/codefuse-ai/F2LLM-v2-80M/resolve/ad88d7a126711f1490cd4bad645dc9d3acc2af6a/config_sentence_transformers.json",
+            "sha256": "0d68b69297f1e04931794d6a0240334fc5fd3d6f0560b5bd904231864cd0aa7d",
+            "bytes": 224
+          },
+          {
+            "filename": "model.safetensors",
+            "url": "https://huggingface.co/codefuse-ai/F2LLM-v2-80M/resolve/ad88d7a126711f1490cd4bad645dc9d3acc2af6a/model.safetensors",
+            "sha256": "2177fbd79bd6259904a54514e0e313efd28704acd98bfe276a06b2c638f2e4c1",
+            "bytes": 160178064
+          },
+          {
+            "filename": "special_tokens_map.json",
+            "url": "https://huggingface.co/codefuse-ai/F2LLM-v2-80M/resolve/ad88d7a126711f1490cd4bad645dc9d3acc2af6a/special_tokens_map.json",
+            "sha256": "76862e765266b85aa9459767e33cbaf13970f327a0e88d1c65846c2ddd3a1ecd",
+            "bytes": 613
+          },
+          {
+            "filename": "tokenizer.json",
+            "url": "https://huggingface.co/codefuse-ai/F2LLM-v2-80M/resolve/ad88d7a126711f1490cd4bad645dc9d3acc2af6a/tokenizer.json",
+            "sha256": "7e295e5bb91a3d35335f92fa4294a6e4e0ab4aa586db853e14312a62135bfddc",
+            "bytes": 8399930
+          },
+          {
+            "filename": "tokenizer_config.json",
+            "url": "https://huggingface.co/codefuse-ai/F2LLM-v2-80M/resolve/ad88d7a126711f1490cd4bad645dc9d3acc2af6a/tokenizer_config.json",
+            "sha256": "3c0884a30471f4f542dc89630f62a380bb70a341fafda826136a7be921fec7ea",
+            "bytes": 9762
+          }
+        ],
+        "adapterSha256": "88e2c2be892e2448b7c4c2ac05d81918b62df4ceaf396ab26c4e4d9cfa4fa712",
+        "selectedEpoch": 1
+      },
+      "metrics": {
+        "queryCount": 24,
+        "documentCount": 435,
+        "caseCount": 6,
+        "macro": {
+          "ndcgAt5": 0.722360733209758,
+          "mrrAt10": 0.9180555555555556,
+          "recallAt5": 0.78125,
+          "familyNdcgAt5": 0.8001386127621468,
+          "familyRecallAt5": 0.875,
+          "hardNegativePreference": 0.8,
+          "counterevidenceRecallAt5": 1.0
+        },
+        "caseMacro": {
+          "ndcgAt5": 0.722360733209758,
+          "mrrAt10": 0.9180555555555556,
+          "recallAt5": 0.78125,
+          "familyNdcgAt5": 0.8001386127621468,
+          "familyRecallAt5": 0.875,
+          "hardNegativePreference": 0.8,
+          "counterevidenceRecallAt5": 1.0
+        },
+        "perQuery": [
+          {
+            "queryId": "next-holdout-ts-01",
+            "caseId": "ts",
+            "metrics": {
+              "ndcgAt5": 0.7579237460681981,
+              "mrrAt10": 1.0,
+              "recallAt5": 1.0,
+              "familyNdcgAt5": 1.0,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": 1.0,
+              "counterevidenceRecallAt5": null
+            },
+            "positiveCount": 3,
+            "positiveFamilyCount": 1,
+            "hardNegativeCount": 1,
+            "counterevidenceCount": 0,
+            "counterevidenceQuery": false
+          },
+          {
+            "queryId": "next-holdout-ts-02",
+            "caseId": "ts",
+            "metrics": {
+              "ndcgAt5": 0.6576630675781056,
+              "mrrAt10": 1.0,
+              "recallAt5": 0.25,
+              "familyNdcgAt5": 0.8262346571285599,
+              "familyRecallAt5": 0.5,
+              "hardNegativePreference": null,
+              "counterevidenceRecallAt5": 1.0
+            },
+            "positiveCount": 4,
+            "positiveFamilyCount": 2,
+            "hardNegativeCount": 0,
+            "counterevidenceCount": 1,
+            "counterevidenceQuery": true
+          },
+          {
+            "queryId": "next-holdout-ts-03",
+            "caseId": "ts",
+            "metrics": {
+              "ndcgAt5": 0.4232448892278954,
+              "mrrAt10": 1.0,
+              "recallAt5": 0.75,
+              "familyNdcgAt5": 0.6885288809404666,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": null,
+              "counterevidenceRecallAt5": null
+            },
+            "positiveCount": 4,
+            "positiveFamilyCount": 2,
+            "hardNegativeCount": 0,
+            "counterevidenceCount": 0,
+            "counterevidenceQuery": false
+          },
+          {
+            "queryId": "next-holdout-ts-04",
+            "caseId": "ts",
+            "metrics": {
+              "ndcgAt5": 0.4671445995090871,
+              "mrrAt10": 1.0,
+              "recallAt5": 0.75,
+              "familyNdcgAt5": 1.0,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": null,
+              "counterevidenceRecallAt5": null
+            },
+            "positiveCount": 4,
+            "positiveFamilyCount": 2,
+            "hardNegativeCount": 0,
+            "counterevidenceCount": 0,
+            "counterevidenceQuery": false
+          },
+          {
+            "queryId": "next-holdout-br-01",
+            "caseId": "br",
+            "metrics": {
+              "ndcgAt5": 0.6309297535714574,
+              "mrrAt10": 0.5,
+              "recallAt5": 1.0,
+              "familyNdcgAt5": 0.6309297535714574,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": 0.0,
+              "counterevidenceRecallAt5": null
+            },
+            "positiveCount": 1,
+            "positiveFamilyCount": 1,
+            "hardNegativeCount": 1,
+            "counterevidenceCount": 0,
+            "counterevidenceQuery": false
+          },
+          {
+            "queryId": "next-holdout-br-02",
+            "caseId": "br",
+            "metrics": {
+              "ndcgAt5": 1.0,
+              "mrrAt10": 1.0,
+              "recallAt5": 1.0,
+              "familyNdcgAt5": 1.0,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": null,
+              "counterevidenceRecallAt5": 1.0
+            },
+            "positiveCount": 2,
+            "positiveFamilyCount": 2,
+            "hardNegativeCount": 0,
+            "counterevidenceCount": 1,
+            "counterevidenceQuery": true
+          },
+          {
+            "queryId": "next-holdout-br-03",
+            "caseId": "br",
+            "metrics": {
+              "ndcgAt5": 0.7967075809905066,
+              "mrrAt10": 1.0,
+              "recallAt5": 1.0,
+              "familyNdcgAt5": 0.7967075809905066,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": null,
+              "counterevidenceRecallAt5": null
+            },
+            "positiveCount": 2,
+            "positiveFamilyCount": 2,
+            "hardNegativeCount": 0,
+            "counterevidenceCount": 0,
+            "counterevidenceQuery": false
+          },
+          {
+            "queryId": "next-holdout-br-04",
+            "caseId": "br",
+            "metrics": {
+              "ndcgAt5": 0.9639404333166532,
+              "mrrAt10": 1.0,
+              "recallAt5": 1.0,
+              "familyNdcgAt5": 0.9639404333166532,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": null,
+              "counterevidenceRecallAt5": 1.0
+            },
+            "positiveCount": 2,
+            "positiveFamilyCount": 2,
+            "hardNegativeCount": 0,
+            "counterevidenceCount": 2,
+            "counterevidenceQuery": true
+          },
+          {
+            "queryId": "next-holdout-ap-01",
+            "caseId": "ap",
+            "metrics": {
+              "ndcgAt5": 1.0,
+              "mrrAt10": 1.0,
+              "recallAt5": 1.0,
+              "familyNdcgAt5": 1.0,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": 1.0,
+              "counterevidenceRecallAt5": null
+            },
+            "positiveCount": 2,
+            "positiveFamilyCount": 1,
+            "hardNegativeCount": 1,
+            "counterevidenceCount": 0,
+            "counterevidenceQuery": false
+          },
+          {
+            "queryId": "next-holdout-ap-02",
+            "caseId": "ap",
+            "metrics": {
+              "ndcgAt5": 0.41311732856427996,
+              "mrrAt10": 0.3333333333333333,
+              "recallAt5": 0.5,
+              "familyNdcgAt5": 0.5,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": null,
+              "counterevidenceRecallAt5": 1.0
+            },
+            "positiveCount": 2,
+            "positiveFamilyCount": 1,
+            "hardNegativeCount": 0,
+            "counterevidenceCount": 1,
+            "counterevidenceQuery": true
+          },
+          {
+            "queryId": "next-holdout-ap-03",
+            "caseId": "ap",
+            "metrics": {
+              "ndcgAt5": 0.878961873034099,
+              "mrrAt10": 1.0,
+              "recallAt5": 0.6666666666666666,
+              "familyNdcgAt5": 1.0,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": null,
+              "counterevidenceRecallAt5": null
+            },
+            "positiveCount": 3,
+            "positiveFamilyCount": 2,
+            "hardNegativeCount": 0,
+            "counterevidenceCount": 0,
+            "counterevidenceQuery": false
+          },
+          {
+            "queryId": "next-holdout-ap-04",
+            "caseId": "ap",
+            "metrics": {
+              "ndcgAt5": 0.804532155482531,
+              "mrrAt10": 1.0,
+              "recallAt5": 1.0,
+              "familyNdcgAt5": 0.9639404333166532,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": null,
+              "counterevidenceRecallAt5": null
+            },
+            "positiveCount": 3,
+            "positiveFamilyCount": 2,
+            "hardNegativeCount": 0,
+            "counterevidenceCount": 0,
+            "counterevidenceQuery": false
+          },
+          {
+            "queryId": "next-holdout-ns-01",
+            "caseId": "ns",
+            "metrics": {
+              "ndcgAt5": 1.0,
+              "mrrAt10": 1.0,
+              "recallAt5": 1.0,
+              "familyNdcgAt5": 1.0,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": null,
+              "counterevidenceRecallAt5": null
+            },
+            "positiveCount": 2,
+            "positiveFamilyCount": 1,
+            "hardNegativeCount": 0,
+            "counterevidenceCount": 0,
+            "counterevidenceQuery": false
+          },
+          {
+            "queryId": "next-holdout-ns-02",
+            "caseId": "ns",
+            "metrics": {
+              "ndcgAt5": 0.9832184408687481,
+              "mrrAt10": 1.0,
+              "recallAt5": 1.0,
+              "familyNdcgAt5": 1.0,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": null,
+              "counterevidenceRecallAt5": 1.0
+            },
+            "positiveCount": 3,
+            "positiveFamilyCount": 2,
+            "hardNegativeCount": 0,
+            "counterevidenceCount": 1,
+            "counterevidenceQuery": true
+          },
+          {
+            "queryId": "next-holdout-ns-03",
+            "caseId": "ns",
+            "metrics": {
+              "ndcgAt5": 0.8262346571285599,
+              "mrrAt10": 1.0,
+              "recallAt5": 0.5,
+              "familyNdcgAt5": 1.0,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": 1.0,
+              "counterevidenceRecallAt5": null
+            },
+            "positiveCount": 2,
+            "positiveFamilyCount": 1,
+            "hardNegativeCount": 1,
+            "counterevidenceCount": 0,
+            "counterevidenceQuery": false
+          },
+          {
+            "queryId": "next-holdout-ns-04",
+            "caseId": "ns",
+            "metrics": {
+              "ndcgAt5": 0.7262287617954056,
+              "mrrAt10": 1.0,
+              "recallAt5": 0.3333333333333333,
+              "familyNdcgAt5": 0.8262346571285599,
+              "familyRecallAt5": 0.5,
+              "hardNegativePreference": null,
+              "counterevidenceRecallAt5": null
+            },
+            "positiveCount": 3,
+            "positiveFamilyCount": 2,
+            "hardNegativeCount": 0,
+            "counterevidenceCount": 0,
+            "counterevidenceQuery": false
+          },
+          {
+            "queryId": "next-holdout-ifc-01",
+            "caseId": "ifc",
+            "metrics": {
+              "ndcgAt5": 0.7967075809905066,
+              "mrrAt10": 1.0,
+              "recallAt5": 1.0,
+              "familyNdcgAt5": 0.7967075809905066,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": null,
+              "counterevidenceRecallAt5": null
+            },
+            "positiveCount": 2,
+            "positiveFamilyCount": 2,
+            "hardNegativeCount": 0,
+            "counterevidenceCount": 0,
+            "counterevidenceQuery": false
+          },
+          {
+            "queryId": "next-holdout-ifc-02",
+            "caseId": "ifc",
+            "metrics": {
+              "ndcgAt5": 1.0,
+              "mrrAt10": 1.0,
+              "recallAt5": 1.0,
+              "familyNdcgAt5": 1.0,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": null,
+              "counterevidenceRecallAt5": 1.0
+            },
+            "positiveCount": 2,
+            "positiveFamilyCount": 2,
+            "hardNegativeCount": 0,
+            "counterevidenceCount": 1,
+            "counterevidenceQuery": true
+          },
+          {
+            "queryId": "next-holdout-ifc-03",
+            "caseId": "ifc",
+            "metrics": {
+              "ndcgAt5": 0.10654373218155079,
+              "mrrAt10": 0.2,
+              "recallAt5": 0.5,
+              "familyNdcgAt5": 0.10654373218155079,
+              "familyRecallAt5": 0.5,
+              "hardNegativePreference": null,
+              "counterevidenceRecallAt5": null
+            },
+            "positiveCount": 2,
+            "positiveFamilyCount": 2,
+            "hardNegativeCount": 0,
+            "counterevidenceCount": 0,
+            "counterevidenceQuery": false
+          },
+          {
+            "queryId": "next-holdout-ifc-04",
+            "caseId": "ifc",
+            "metrics": {
+              "ndcgAt5": 0.27541155237618664,
+              "mrrAt10": 1.0,
+              "recallAt5": 0.5,
+              "familyNdcgAt5": 0.27541155237618664,
+              "familyRecallAt5": 0.5,
+              "hardNegativePreference": null,
+              "counterevidenceRecallAt5": null
+            },
+            "positiveCount": 2,
+            "positiveFamilyCount": 2,
+            "hardNegativeCount": 0,
+            "counterevidenceCount": 0,
+            "counterevidenceQuery": false
+          },
+          {
+            "queryId": "next-holdout-tn-01",
+            "caseId": "tn",
+            "metrics": {
+              "ndcgAt5": 0.9072836011519267,
+              "mrrAt10": 1.0,
+              "recallAt5": 0.6666666666666666,
+              "familyNdcgAt5": 0.9072836011519267,
+              "familyRecallAt5": 0.6666666666666666,
+              "hardNegativePreference": null,
+              "counterevidenceRecallAt5": null
+            },
+            "positiveCount": 3,
+            "positiveFamilyCount": 3,
+            "hardNegativeCount": 0,
+            "counterevidenceCount": 0,
+            "counterevidenceQuery": false
+          },
+          {
+            "queryId": "next-holdout-tn-02",
+            "caseId": "tn",
+            "metrics": {
+              "ndcgAt5": 1.0,
+              "mrrAt10": 1.0,
+              "recallAt5": 1.0,
+              "familyNdcgAt5": 1.0,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": 1.0,
+              "counterevidenceRecallAt5": null
+            },
+            "positiveCount": 1,
+            "positiveFamilyCount": 1,
+            "hardNegativeCount": 1,
+            "counterevidenceCount": 0,
+            "counterevidenceQuery": false
+          },
+          {
+            "queryId": "next-holdout-tn-03",
+            "caseId": "tn",
+            "metrics": {
+              "ndcgAt5": 0.6787875892666938,
+              "mrrAt10": 1.0,
+              "recallAt5": 1.0,
+              "familyNdcgAt5": 0.6787875892666938,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": null,
+              "counterevidenceRecallAt5": 1.0
+            },
+            "positiveCount": 3,
+            "positiveFamilyCount": 3,
+            "hardNegativeCount": 0,
+            "counterevidenceCount": 2,
+            "counterevidenceQuery": true
+          },
+          {
+            "queryId": "next-holdout-tn-04",
+            "caseId": "tn",
+            "metrics": {
+              "ndcgAt5": 0.24207625393180188,
+              "mrrAt10": 1.0,
+              "recallAt5": 0.3333333333333333,
+              "familyNdcgAt5": 0.24207625393180188,
+              "familyRecallAt5": 0.3333333333333333,
+              "hardNegativePreference": null,
+              "counterevidenceRecallAt5": null
+            },
+            "positiveCount": 3,
+            "positiveFamilyCount": 3,
+            "hardNegativeCount": 0,
+            "counterevidenceCount": 0,
+            "counterevidenceQuery": false
+          }
+        ],
+        "perCase": [
+          {
+            "caseId": "ap",
+            "queryCount": 4,
+            "metrics": {
+              "ndcgAt5": 0.7741528392702275,
+              "mrrAt10": 0.8333333333333334,
+              "recallAt5": 0.7916666666666666,
+              "familyNdcgAt5": 0.8659851083291633,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": 1.0,
+              "counterevidenceRecallAt5": 1.0
+            }
+          },
+          {
+            "caseId": "br",
+            "queryCount": 4,
+            "metrics": {
+              "ndcgAt5": 0.8478944419696544,
+              "mrrAt10": 0.875,
+              "recallAt5": 1.0,
+              "familyNdcgAt5": 0.8478944419696544,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": 0.0,
+              "counterevidenceRecallAt5": 1.0
+            }
+          },
+          {
+            "caseId": "ifc",
+            "queryCount": 4,
+            "metrics": {
+              "ndcgAt5": 0.5446657163870611,
+              "mrrAt10": 0.8,
+              "recallAt5": 0.75,
+              "familyNdcgAt5": 0.5446657163870611,
+              "familyRecallAt5": 0.75,
+              "hardNegativePreference": null,
+              "counterevidenceRecallAt5": 1.0
+            }
+          },
+          {
+            "caseId": "ns",
+            "queryCount": 4,
+            "metrics": {
+              "ndcgAt5": 0.8839204649481784,
+              "mrrAt10": 1.0,
+              "recallAt5": 0.7083333333333334,
+              "familyNdcgAt5": 0.95655866428214,
+              "familyRecallAt5": 0.875,
+              "hardNegativePreference": 1.0,
+              "counterevidenceRecallAt5": 1.0
+            }
+          },
+          {
+            "caseId": "tn",
+            "queryCount": 4,
+            "metrics": {
+              "ndcgAt5": 0.7070368610876057,
+              "mrrAt10": 1.0,
+              "recallAt5": 0.75,
+              "familyNdcgAt5": 0.7070368610876057,
+              "familyRecallAt5": 0.75,
+              "hardNegativePreference": 1.0,
+              "counterevidenceRecallAt5": 1.0
+            }
+          },
+          {
+            "caseId": "ts",
+            "queryCount": 4,
+            "metrics": {
+              "ndcgAt5": 0.5764940755958216,
+              "mrrAt10": 1.0,
+              "recallAt5": 0.6875,
+              "familyNdcgAt5": 0.8786908845172566,
+              "familyRecallAt5": 0.875,
+              "hardNegativePreference": 1.0,
+              "counterevidenceRecallAt5": 1.0
+            }
+          }
+        ]
+      }
+    },
+    "mini": {
+      "configuration": {
+        "model": "mini",
+        "device": "cpu",
+        "scoreMeaning": "source relevance only",
+        "tieBreak": "score descending, canonical source ID ascending",
+        "modelId": "sentence-transformers/all-MiniLM-L6-v2",
+        "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+        "precision": "uint8 ONNX AVX2",
+        "maxTokens": 256,
+        "assetVerifierSha256": "5ce899c270052c5ac6cd0401205ea4b39d70e7651b3a48dbc11eb60fee3bfdd8"
+      },
+      "metrics": {
+        "queryCount": 24,
+        "documentCount": 435,
+        "caseCount": 6,
+        "macro": {
+          "ndcgAt5": 0.6898672948638889,
+          "mrrAt10": 0.9041666666666667,
+          "recallAt5": 0.7430555555555555,
+          "familyNdcgAt5": 0.7548321747342629,
+          "familyRecallAt5": 0.8680555555555555,
+          "hardNegativePreference": 0.6,
+          "counterevidenceRecallAt5": 0.8571428571428571
+        },
+        "caseMacro": {
+          "ndcgAt5": 0.6898672948638889,
+          "mrrAt10": 0.9041666666666667,
+          "recallAt5": 0.7430555555555555,
+          "familyNdcgAt5": 0.7548321747342629,
+          "familyRecallAt5": 0.8680555555555555,
+          "hardNegativePreference": 0.6,
+          "counterevidenceRecallAt5": 0.8333333333333334
+        },
+        "perQuery": [
+          {
+            "queryId": "next-holdout-ts-01",
+            "caseId": "ts",
+            "metrics": {
+              "ndcgAt5": 0.7579237460681981,
+              "mrrAt10": 1.0,
+              "recallAt5": 1.0,
+              "familyNdcgAt5": 1.0,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": 1.0,
+              "counterevidenceRecallAt5": null
+            },
+            "positiveCount": 3,
+            "positiveFamilyCount": 1,
+            "hardNegativeCount": 1,
+            "counterevidenceCount": 0,
+            "counterevidenceQuery": false
+          },
+          {
+            "queryId": "next-holdout-ts-02",
+            "caseId": "ts",
+            "metrics": {
+              "ndcgAt5": 0.7424693355471289,
+              "mrrAt10": 1.0,
+              "recallAt5": 0.5,
+              "familyNdcgAt5": 0.9327783893101107,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": null,
+              "counterevidenceRecallAt5": 1.0
+            },
+            "positiveCount": 4,
+            "positiveFamilyCount": 2,
+            "hardNegativeCount": 0,
+            "counterevidenceCount": 1,
+            "counterevidenceQuery": true
+          },
+          {
+            "queryId": "next-holdout-ts-03",
+            "caseId": "ts",
+            "metrics": {
+              "ndcgAt5": 0.7503846658256149,
+              "mrrAt10": 1.0,
+              "recallAt5": 1.0,
+              "familyNdcgAt5": 1.0,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": null,
+              "counterevidenceRecallAt5": null
+            },
+            "positiveCount": 4,
+            "positiveFamilyCount": 2,
+            "hardNegativeCount": 0,
+            "counterevidenceCount": 0,
+            "counterevidenceQuery": false
+          },
+          {
+            "queryId": "next-holdout-ts-04",
+            "caseId": "ts",
+            "metrics": {
+              "ndcgAt5": 0.7503846658256149,
+              "mrrAt10": 1.0,
+              "recallAt5": 1.0,
+              "familyNdcgAt5": 0.7967075809905066,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": null,
+              "counterevidenceRecallAt5": null
+            },
+            "positiveCount": 4,
+            "positiveFamilyCount": 2,
+            "hardNegativeCount": 0,
+            "counterevidenceCount": 0,
+            "counterevidenceQuery": false
+          },
+          {
+            "queryId": "next-holdout-br-01",
+            "caseId": "br",
+            "metrics": {
+              "ndcgAt5": 0.6309297535714574,
+              "mrrAt10": 0.5,
+              "recallAt5": 1.0,
+              "familyNdcgAt5": 0.6309297535714574,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": 0.0,
+              "counterevidenceRecallAt5": null
+            },
+            "positiveCount": 1,
+            "positiveFamilyCount": 1,
+            "hardNegativeCount": 1,
+            "counterevidenceCount": 0,
+            "counterevidenceQuery": false
+          },
+          {
+            "queryId": "next-holdout-br-02",
+            "caseId": "br",
+            "metrics": {
+              "ndcgAt5": 0.7967075809905066,
+              "mrrAt10": 1.0,
+              "recallAt5": 1.0,
+              "familyNdcgAt5": 0.7967075809905066,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": null,
+              "counterevidenceRecallAt5": 1.0
+            },
+            "positiveCount": 2,
+            "positiveFamilyCount": 2,
+            "hardNegativeCount": 0,
+            "counterevidenceCount": 1,
+            "counterevidenceQuery": true
+          },
+          {
+            "queryId": "next-holdout-br-03",
+            "caseId": "br",
+            "metrics": {
+              "ndcgAt5": 0.6885288809404666,
+              "mrrAt10": 1.0,
+              "recallAt5": 1.0,
+              "familyNdcgAt5": 0.6885288809404666,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": null,
+              "counterevidenceRecallAt5": null
+            },
+            "positiveCount": 2,
+            "positiveFamilyCount": 2,
+            "hardNegativeCount": 0,
+            "counterevidenceCount": 0,
+            "counterevidenceQuery": false
+          },
+          {
+            "queryId": "next-holdout-br-04",
+            "caseId": "br",
+            "metrics": {
+              "ndcgAt5": 0.7967075809905066,
+              "mrrAt10": 1.0,
+              "recallAt5": 1.0,
+              "familyNdcgAt5": 0.7967075809905066,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": null,
+              "counterevidenceRecallAt5": 1.0
+            },
+            "positiveCount": 2,
+            "positiveFamilyCount": 2,
+            "hardNegativeCount": 0,
+            "counterevidenceCount": 2,
+            "counterevidenceQuery": true
+          },
+          {
+            "queryId": "next-holdout-ap-01",
+            "caseId": "ap",
+            "metrics": {
+              "ndcgAt5": 1.0,
+              "mrrAt10": 1.0,
+              "recallAt5": 1.0,
+              "familyNdcgAt5": 1.0,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": 1.0,
+              "counterevidenceRecallAt5": null
+            },
+            "positiveCount": 2,
+            "positiveFamilyCount": 1,
+            "hardNegativeCount": 1,
+            "counterevidenceCount": 0,
+            "counterevidenceQuery": false
+          },
+          {
+            "queryId": "next-holdout-ap-02",
+            "caseId": "ap",
+            "metrics": {
+              "ndcgAt5": 0.8262346571285599,
+              "mrrAt10": 1.0,
+              "recallAt5": 0.5,
+              "familyNdcgAt5": 1.0,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": null,
+              "counterevidenceRecallAt5": 1.0
+            },
+            "positiveCount": 2,
+            "positiveFamilyCount": 1,
+            "hardNegativeCount": 0,
+            "counterevidenceCount": 1,
+            "counterevidenceQuery": true
+          },
+          {
+            "queryId": "next-holdout-ap-03",
+            "caseId": "ap",
+            "metrics": {
+              "ndcgAt5": 0.7002755876478819,
+              "mrrAt10": 1.0,
+              "recallAt5": 0.6666666666666666,
+              "familyNdcgAt5": 0.7967075809905066,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": null,
+              "counterevidenceRecallAt5": null
+            },
+            "positiveCount": 3,
+            "positiveFamilyCount": 2,
+            "hardNegativeCount": 0,
+            "counterevidenceCount": 0,
+            "counterevidenceQuery": false
+          },
+          {
+            "queryId": "next-holdout-ap-04",
+            "caseId": "ap",
+            "metrics": {
+              "ndcgAt5": 1.0,
+              "mrrAt10": 1.0,
+              "recallAt5": 1.0,
+              "familyNdcgAt5": 1.0,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": null,
+              "counterevidenceRecallAt5": null
+            },
+            "positiveCount": 3,
+            "positiveFamilyCount": 2,
+            "hardNegativeCount": 0,
+            "counterevidenceCount": 0,
+            "counterevidenceQuery": false
+          },
+          {
+            "queryId": "next-holdout-ns-01",
+            "caseId": "ns",
+            "metrics": {
+              "ndcgAt5": 0.8262346571285599,
+              "mrrAt10": 1.0,
+              "recallAt5": 0.5,
+              "familyNdcgAt5": 1.0,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": null,
+              "counterevidenceRecallAt5": null
+            },
+            "positiveCount": 2,
+            "positiveFamilyCount": 1,
+            "hardNegativeCount": 0,
+            "counterevidenceCount": 0,
+            "counterevidenceQuery": false
+          },
+          {
+            "queryId": "next-holdout-ns-02",
+            "caseId": "ns",
+            "metrics": {
+              "ndcgAt5": 0.7002755876478819,
+              "mrrAt10": 1.0,
+              "recallAt5": 0.6666666666666666,
+              "familyNdcgAt5": 0.7967075809905066,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": null,
+              "counterevidenceRecallAt5": 1.0
+            },
+            "positiveCount": 3,
+            "positiveFamilyCount": 2,
+            "hardNegativeCount": 0,
+            "counterevidenceCount": 1,
+            "counterevidenceQuery": true
+          },
+          {
+            "queryId": "next-holdout-ns-03",
+            "caseId": "ns",
+            "metrics": {
+              "ndcgAt5": 0.8262346571285599,
+              "mrrAt10": 1.0,
+              "recallAt5": 0.5,
+              "familyNdcgAt5": 1.0,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": 1.0,
+              "counterevidenceRecallAt5": null
+            },
+            "positiveCount": 2,
+            "positiveFamilyCount": 1,
+            "hardNegativeCount": 1,
+            "counterevidenceCount": 0,
+            "counterevidenceQuery": false
+          },
+          {
+            "queryId": "next-holdout-ns-04",
+            "caseId": "ns",
+            "metrics": {
+              "ndcgAt5": 0.8472668887613066,
+              "mrrAt10": 1.0,
+              "recallAt5": 0.6666666666666666,
+              "familyNdcgAt5": 0.9639404333166532,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": null,
+              "counterevidenceRecallAt5": null
+            },
+            "positiveCount": 3,
+            "positiveFamilyCount": 2,
+            "hardNegativeCount": 0,
+            "counterevidenceCount": 0,
+            "counterevidenceQuery": false
+          },
+          {
+            "queryId": "next-holdout-ifc-01",
+            "caseId": "ifc",
+            "metrics": {
+              "ndcgAt5": 0.7967075809905066,
+              "mrrAt10": 1.0,
+              "recallAt5": 1.0,
+              "familyNdcgAt5": 0.7967075809905066,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": null,
+              "counterevidenceRecallAt5": null
+            },
+            "positiveCount": 2,
+            "positiveFamilyCount": 2,
+            "hardNegativeCount": 0,
+            "counterevidenceCount": 0,
+            "counterevidenceQuery": false
+          },
+          {
+            "queryId": "next-holdout-ifc-02",
+            "caseId": "ifc",
+            "metrics": {
+              "ndcgAt5": 0.9197207891481876,
+              "mrrAt10": 1.0,
+              "recallAt5": 1.0,
+              "familyNdcgAt5": 0.9197207891481876,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": null,
+              "counterevidenceRecallAt5": 1.0
+            },
+            "positiveCount": 2,
+            "positiveFamilyCount": 2,
+            "hardNegativeCount": 0,
+            "counterevidenceCount": 1,
+            "counterevidenceQuery": true
+          },
+          {
+            "queryId": "next-holdout-ifc-03",
+            "caseId": "ifc",
+            "metrics": {
+              "ndcgAt5": 0.10654373218155079,
+              "mrrAt10": 0.2,
+              "recallAt5": 0.5,
+              "familyNdcgAt5": 0.10654373218155079,
+              "familyRecallAt5": 0.5,
+              "hardNegativePreference": null,
+              "counterevidenceRecallAt5": null
+            },
+            "positiveCount": 2,
+            "positiveFamilyCount": 2,
+            "hardNegativeCount": 0,
+            "counterevidenceCount": 0,
+            "counterevidenceQuery": false
+          },
+          {
+            "queryId": "next-holdout-ifc-04",
+            "caseId": "ifc",
+            "metrics": {
+              "ndcgAt5": 0.7967075809905066,
+              "mrrAt10": 1.0,
+              "recallAt5": 1.0,
+              "familyNdcgAt5": 0.7967075809905066,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": null,
+              "counterevidenceRecallAt5": null
+            },
+            "positiveCount": 2,
+            "positiveFamilyCount": 2,
+            "hardNegativeCount": 0,
+            "counterevidenceCount": 0,
+            "counterevidenceQuery": false
+          },
+          {
+            "queryId": "next-holdout-tn-01",
+            "caseId": "tn",
+            "metrics": {
+              "ndcgAt5": 0.5562983930884396,
+              "mrrAt10": 1.0,
+              "recallAt5": 0.3333333333333333,
+              "familyNdcgAt5": 0.5562983930884396,
+              "familyRecallAt5": 0.3333333333333333,
+              "hardNegativePreference": null,
+              "counterevidenceRecallAt5": null
+            },
+            "positiveCount": 3,
+            "positiveFamilyCount": 3,
+            "hardNegativeCount": 0,
+            "counterevidenceCount": 0,
+            "counterevidenceQuery": false
+          },
+          {
+            "queryId": "next-holdout-tn-02",
+            "caseId": "tn",
+            "metrics": {
+              "ndcgAt5": 0.0,
+              "mrrAt10": 0.0,
+              "recallAt5": 0.0,
+              "familyNdcgAt5": 0.0,
+              "familyRecallAt5": 0.0,
+              "hardNegativePreference": 0.0,
+              "counterevidenceRecallAt5": null
+            },
+            "positiveCount": 1,
+            "positiveFamilyCount": 1,
+            "hardNegativeCount": 1,
+            "counterevidenceCount": 0,
+            "counterevidenceQuery": false
+          },
+          {
+            "queryId": "next-holdout-tn-03",
+            "caseId": "tn",
+            "metrics": {
+              "ndcgAt5": 0.18543279769614657,
+              "mrrAt10": 1.0,
+              "recallAt5": 0.3333333333333333,
+              "familyNdcgAt5": 0.18543279769614657,
+              "familyRecallAt5": 0.3333333333333333,
+              "hardNegativePreference": null,
+              "counterevidenceRecallAt5": 0.0
+            },
+            "positiveCount": 3,
+            "positiveFamilyCount": 3,
+            "hardNegativeCount": 0,
+            "counterevidenceCount": 2,
+            "counterevidenceQuery": true
+          },
+          {
+            "queryId": "next-holdout-tn-04",
+            "caseId": "tn",
+            "metrics": {
+              "ndcgAt5": 0.5548459574357494,
+              "mrrAt10": 1.0,
+              "recallAt5": 0.6666666666666666,
+              "familyNdcgAt5": 0.5548459574357494,
+              "familyRecallAt5": 0.6666666666666666,
+              "hardNegativePreference": null,
+              "counterevidenceRecallAt5": null
+            },
+            "positiveCount": 3,
+            "positiveFamilyCount": 3,
+            "hardNegativeCount": 0,
+            "counterevidenceCount": 0,
+            "counterevidenceQuery": false
+          }
+        ],
+        "perCase": [
+          {
+            "caseId": "ap",
+            "queryCount": 4,
+            "metrics": {
+              "ndcgAt5": 0.8816275611941105,
+              "mrrAt10": 1.0,
+              "recallAt5": 0.7916666666666666,
+              "familyNdcgAt5": 0.9491768952476267,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": 1.0,
+              "counterevidenceRecallAt5": 1.0
+            }
+          },
+          {
+            "caseId": "br",
+            "queryCount": 4,
+            "metrics": {
+              "ndcgAt5": 0.7282184491232343,
+              "mrrAt10": 0.875,
+              "recallAt5": 1.0,
+              "familyNdcgAt5": 0.7282184491232343,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": 0.0,
+              "counterevidenceRecallAt5": 1.0
+            }
+          },
+          {
+            "caseId": "ifc",
+            "queryCount": 4,
+            "metrics": {
+              "ndcgAt5": 0.6549199208276879,
+              "mrrAt10": 0.8,
+              "recallAt5": 0.875,
+              "familyNdcgAt5": 0.6549199208276879,
+              "familyRecallAt5": 0.875,
+              "hardNegativePreference": null,
+              "counterevidenceRecallAt5": 1.0
+            }
+          },
+          {
+            "caseId": "ns",
+            "queryCount": 4,
+            "metrics": {
+              "ndcgAt5": 0.8000029476665771,
+              "mrrAt10": 1.0,
+              "recallAt5": 0.5833333333333333,
+              "familyNdcgAt5": 0.9401620035767899,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": 1.0,
+              "counterevidenceRecallAt5": 1.0
+            }
+          },
+          {
+            "caseId": "tn",
+            "queryCount": 4,
+            "metrics": {
+              "ndcgAt5": 0.3241442870550839,
+              "mrrAt10": 0.75,
+              "recallAt5": 0.3333333333333333,
+              "familyNdcgAt5": 0.3241442870550839,
+              "familyRecallAt5": 0.3333333333333333,
+              "hardNegativePreference": 0.0,
+              "counterevidenceRecallAt5": 0.0
+            }
+          },
+          {
+            "caseId": "ts",
+            "queryCount": 4,
+            "metrics": {
+              "ndcgAt5": 0.7502906033166392,
+              "mrrAt10": 1.0,
+              "recallAt5": 0.875,
+              "familyNdcgAt5": 0.9323714925751543,
+              "familyRecallAt5": 1.0,
+              "hardNegativePreference": 1.0,
+              "counterevidenceRecallAt5": 1.0
+            }
+          }
+        ]
+      }
+    }
+  },
+  "promotion": {
+    "promoted": false,
+    "status": "experimental-not-promoted",
+    "criteria": [
+      {
+        "name": "nDCG@5 gain over own untuned base",
+        "observed": -0.03591201744022443,
+        "minimum": 0.02,
+        "passed": false
+      },
+      {
+        "name": "nDCG@5 difference from BM25",
+        "observed": -0.05940128305547643,
+        "minimum": -0.01,
+        "passed": false
+      },
+      {
+        "name": "recallAt5 difference from own base",
+        "observed": -0.06597222222222221,
+        "minimum": -0.01,
+        "passed": false
+      },
+      {
+        "name": "recallAt5 difference from BM25",
+        "observed": -0.0625,
+        "minimum": -0.01,
+        "passed": false
+      },
+      {
+        "name": "counterevidenceRecallAt5 difference from own base",
+        "observed": 0.08333333333333337,
+        "minimum": -0.01,
+        "passed": true
+      },
+      {
+        "name": "counterevidenceRecallAt5 difference from BM25",
+        "observed": 0.08333333333333337,
+        "minimum": -0.01,
+        "passed": true
+      },
+      {
+        "name": "nDCG@5 difference from existing MiniLM",
+        "observed": 0.03249343834586915,
+        "minimum": -0.01,
+        "passed": true
+      },
+      {
+        "name": "Groups improving over own untuned base",
+        "observed": 3,
+        "minimum": 4,
+        "passed": false
+      },
+      {
+        "name": "Worst group nDCG@5 difference",
+        "observed": -0.1725409622022389,
+        "minimum": -0.05,
+        "passed": false
+      }
+    ],
+    "perCaseNdcgChanges": {
+      "ap": -0.14113181882299874,
+      "br": 0.041808213081536705,
+      "ifc": -0.1725409622022389,
+      "ns": 0.07473487885842023,
+      "tn": 0.06344252859336463,
+      "ts": -0.08178494414942983
+    },
+    "meaning": "Retrieval convenience gate only; does not establish an edge, truth, personal guilt or forecast probability."
+  },
+  "caseClusterBootstrap": {
+    "unit": "whole case family",
+    "groups": 6,
+    "resamples": 5000,
+    "seed": 20261008,
+    "meanDifference": -0.03591201744022432,
+    "percentileInterval95": [
+      -0.11750580871335158,
+      0.03767268643148405
+    ],
+    "interpretation": "Exploratory six-group interval; no representative national accuracy or significance claim."
+  },
+  "forecastProbabilitiesEstimated": false,
+  "limitations": [
+    "Selected agent-authored relevance labels across six institutional case families.",
+    "Source summaries and locators, not a full-document comprehension benchmark.",
+    "Unlisted sources are unjudged zero for these tightly scoped questions, not exhaustively verified irrelevant documents.",
+    "Source lineage uses normalized original URLs; different-URL syndication/mirrors may remain, and distinct URLs do not establish independent corroboration.",
+    "Pretrained-model exposure to source entities is unknown.",
+    "All final-test labels become exhausted for future tuning after this invocation."
+  ],
+  "evidencePathIntegration": {
+    "kind": "Deterministic retained-evidence integration/source-closure check, not learned factual reasoning",
+    "perQuery": [
+      {
+        "queryId": "next-holdout-ts-01",
+        "requiredEdges": 3,
+        "requiredEdgeSourcesReachedAt5": 3,
+        "requiredEdgeSourceCoverageAt5": 1.0,
+        "expectedEvidenceStop": null
+      },
+      {
+        "queryId": "next-holdout-ts-02",
+        "requiredEdges": 0,
+        "requiredEdgeSourcesReachedAt5": 0,
+        "requiredEdgeSourceCoverageAt5": null,
+        "expectedEvidenceStop": null
+      },
+      {
+        "queryId": "next-holdout-ts-03",
+        "requiredEdges": 5,
+        "requiredEdgeSourcesReachedAt5": 5,
+        "requiredEdgeSourceCoverageAt5": 1.0,
+        "expectedEvidenceStop": null
+      },
+      {
+        "queryId": "next-holdout-ts-04",
+        "requiredEdges": 0,
+        "requiredEdgeSourcesReachedAt5": 0,
+        "requiredEdgeSourceCoverageAt5": null,
+        "expectedEvidenceStop": "No source-backed vehicle manufacturer, supplier invoice or ultimate private recipient is established. Do not infer a manufacturer from common government suppliers."
+      },
+      {
+        "queryId": "next-holdout-br-01",
+        "requiredEdges": 2,
+        "requiredEdgeSourcesReachedAt5": 2,
+        "requiredEdgeSourceCoverageAt5": 1.0,
+        "expectedEvidenceStop": null
+      },
+      {
+        "queryId": "next-holdout-br-02",
+        "requiredEdges": 0,
+        "requiredEdgeSourcesReachedAt5": 0,
+        "requiredEdgeSourceCoverageAt5": null,
+        "expectedEvidenceStop": null
+      },
+      {
+        "queryId": "next-holdout-br-03",
+        "requiredEdges": 1,
+        "requiredEdgeSourcesReachedAt5": 1,
+        "requiredEdgeSourceCoverageAt5": 1.0,
+        "expectedEvidenceStop": "No beneficiary-level recovery ledger, cohort remittance or later accepted closure is established; no private beneficiary names should be generated."
+      },
+      {
+        "queryId": "next-holdout-br-04",
+        "requiredEdges": 0,
+        "requiredEdgeSourcesReachedAt5": 0,
+        "requiredEdgeSourceCoverageAt5": null,
+        "expectedEvidenceStop": null
+      },
+      {
+        "queryId": "next-holdout-ap-01",
+        "requiredEdges": 1,
+        "requiredEdgeSourcesReachedAt5": 1,
+        "requiredEdgeSourceCoverageAt5": 1.0,
+        "expectedEvidenceStop": null
+      },
+      {
+        "queryId": "next-holdout-ap-02",
+        "requiredEdges": 2,
+        "requiredEdgeSourcesReachedAt5": 2,
+        "requiredEdgeSourceCoverageAt5": 1.0,
+        "expectedEvidenceStop": null
+      },
+      {
+        "queryId": "next-holdout-ap-03",
+        "requiredEdges": 2,
+        "requiredEdgeSourcesReachedAt5": 2,
+        "requiredEdgeSourceCoverageAt5": 1.0,
+        "expectedEvidenceStop": null
+      },
+      {
+        "queryId": "next-holdout-ap-04",
+        "requiredEdges": 2,
+        "requiredEdgeSourcesReachedAt5": 2,
+        "requiredEdgeSourceCoverageAt5": 1.0,
+        "expectedEvidenceStop": "The state-support \u2192 trust \u2192 related-party payment path is contextual, not proof of earmarked-grant diversion or a Chikkajala rent allocation."
+      },
+      {
+        "queryId": "next-holdout-ns-01",
+        "requiredEdges": 2,
+        "requiredEdgeSourcesReachedAt5": 2,
+        "requiredEdgeSourceCoverageAt5": 1.0,
+        "expectedEvidenceStop": null
+      },
+      {
+        "queryId": "next-holdout-ns-02",
+        "requiredEdges": 0,
+        "requiredEdgeSourcesReachedAt5": 0,
+        "requiredEdgeSourceCoverageAt5": null,
+        "expectedEvidenceStop": null
+      },
+      {
+        "queryId": "next-holdout-ns-03",
+        "requiredEdges": 2,
+        "requiredEdgeSourcesReachedAt5": 2,
+        "requiredEdgeSourceCoverageAt5": 1.0,
+        "expectedEvidenceStop": null
+      },
+      {
+        "queryId": "next-holdout-ns-04",
+        "requiredEdges": 2,
+        "requiredEdgeSourcesReachedAt5": 2,
+        "requiredEdgeSourceCoverageAt5": 1.0,
+        "expectedEvidenceStop": "No private media subcontractor, partisan beneficiary or individual cash recipient is established by the retained paragraph."
+      },
+      {
+        "queryId": "next-holdout-ifc-01",
+        "requiredEdges": 3,
+        "requiredEdgeSourcesReachedAt5": 3,
+        "requiredEdgeSourceCoverageAt5": 1.0,
+        "expectedEvidenceStop": null
+      },
+      {
+        "queryId": "next-holdout-ifc-02",
+        "requiredEdges": 0,
+        "requiredEdgeSourcesReachedAt5": 0,
+        "requiredEdgeSourceCoverageAt5": null,
+        "expectedEvidenceStop": null
+      },
+      {
+        "queryId": "next-holdout-ifc-03",
+        "requiredEdges": 2,
+        "requiredEdgeSourcesReachedAt5": 0,
+        "requiredEdgeSourceCoverageAt5": 0.0,
+        "expectedEvidenceStop": null
+      },
+      {
+        "queryId": "next-holdout-ifc-04",
+        "requiredEdges": 1,
+        "requiredEdgeSourcesReachedAt5": 0,
+        "requiredEdgeSourceCoverageAt5": 0.0,
+        "expectedEvidenceStop": "Do not infer full commitment payment, later conversion, current ownership or private bank-ledger verification from the 2023 disclosure."
+      },
+      {
+        "queryId": "next-holdout-tn-01",
+        "requiredEdges": 5,
+        "requiredEdgeSourcesReachedAt5": 5,
+        "requiredEdgeSourceCoverageAt5": 1.0,
+        "expectedEvidenceStop": null
+      },
+      {
+        "queryId": "next-holdout-tn-02",
+        "requiredEdges": 4,
+        "requiredEdgeSourcesReachedAt5": 4,
+        "requiredEdgeSourceCoverageAt5": 1.0,
+        "expectedEvidenceStop": null
+      },
+      {
+        "queryId": "next-holdout-tn-03",
+        "requiredEdges": 0,
+        "requiredEdgeSourcesReachedAt5": 0,
+        "requiredEdgeSourceCoverageAt5": null,
+        "expectedEvidenceStop": null
+      },
+      {
+        "queryId": "next-holdout-tn-04",
+        "requiredEdges": 3,
+        "requiredEdgeSourcesReachedAt5": 0,
+        "requiredEdgeSourceCoverageAt5": 0.0,
+        "expectedEvidenceStop": "The path stops at the jointly named award. Programme disbursement cannot be attributed to a contract, firm, person or misuse without downstream records."
+      }
+    ],
+    "emittedEdgeChecks": [
+      {
+        "edgeId": "atlas-international-finance:relationship:adb-bangladesh-loan",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:aiib-bangladesh-cofinance",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:bangladesh-instrument",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:bangladesh-pgcb-relending",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:package3-lt",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:pgcb-package3-award",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-oversight:relationship:ov-ts-asset-purpose",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-oversight:relationship:ov-ts-budget-service",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-oversight:relationship:ov-ts-guarantee",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-oversight:relationship:ov-ts-loan",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-oversight:relationship:ov-ts-repayment",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-delhi-security:relationship:budget-infrastructure",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-delhi-security:relationship:budget-mha-police",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-delhi-security:relationship:cctns-consultant",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-delhi-security:relationship:cctns-integrator",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-delhi-security:relationship:cctv-ecil",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-delhi-security:relationship:dphcl-police",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-delhi-security:relationship:himmat-contract",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-delhi-security:relationship:himmat-publicity",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-delhi-security:relationship:mv-hosting",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-delhi-security:relationship:mv-pc",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-delhi-security:relationship:pac-review",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-delhi-security:relationship:radio-mci",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-delhi-security:relationship:radio-mha",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-delhi-security:relationship:radio-motorola",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-delhi-security:relationship:safe-city-cdac",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-delhi-security:relationship:safe-city-firstphase",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-delhi-security:relationship:safe-city-sanction",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-delhi-security:relationship:safe-secure-aa",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-delhi-security:relationship:safe-secure-implementation",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-delhi-security:relationship:safe-secure-programme",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-delhi-security:relationship:sc-delhi-police",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-delhi-security:relationship:sc-safe-city",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-delhi-security:relationship:special-cell-project",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "public-works:relationship:state-edge-safe-city",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "public-works:relationship:state-edge-ts-bank",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "public-works:relationship:state-edge-ts-borrowing",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-oversight:relationship:ov-ts-asset-purpose",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-oversight:relationship:ov-ts-budget-service",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-oversight:relationship:ov-ts-guarantee",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-oversight:relationship:ov-ts-loan",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-oversight:relationship:ov-ts-repayment",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-delhi-security:relationship:budget-mha-police",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-delhi-security:relationship:cctns-consultant",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-delhi-security:relationship:cctns-integrator",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-delhi-security:relationship:cctv-ecil",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-delhi-security:relationship:dphcl-police",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-delhi-security:relationship:himmat-contract",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-delhi-security:relationship:himmat-publicity",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-delhi-security:relationship:mv-hosting",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-delhi-security:relationship:mv-pc",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-delhi-security:relationship:pac-review",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-delhi-security:relationship:radio-mci",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-delhi-security:relationship:radio-motorola",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-delhi-security:relationship:safe-city-cdac",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-delhi-security:relationship:safe-secure-aa",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-delhi-security:relationship:safe-secure-implementation",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-delhi-security:relationship:safe-secure-programme",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-delhi-security:relationship:sc-delhi-police",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-delhi-security:relationship:sc-safe-city",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-delhi-security:relationship:special-cell-project",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-mumbai-security:relationship:city-cctv-approval",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-mumbai-security:relationship:city-cctv-buyer",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-mumbai-security:relationship:mpf-admin",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-mumbai-security:relationship:payroll-office",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-mumbai-security:relationship:station-javi",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-mumbai-security:relationship:station-state",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-mumbai-security:relationship:station-sujata",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-mumbai-security:relationship:township-approval",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-mumbai-security:relationship:township-guarantee",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-mumbai-security:relationship:township-housing",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-mumbai-security:relationship:township-monetise",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-mumbai-security:relationship:township-msidc",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-mumbai-security:relationship:township-seed",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-mumbai-security:relationship:township-state-share",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-corporate:relationship:goi-pfc",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-corporate:relationship:gvpr-hppl",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-corporate:relationship:pfc-infra-scope",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-corporate:relationship:pfc-sanction",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-corporate:relationship:promoter-infusion",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "welfare-research:relationship:svanidhi-admin",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-oversight:relationship:ov-ts-asset-purpose",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-oversight:relationship:ov-ts-budget-service",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-oversight:relationship:ov-ts-guarantee",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-oversight:relationship:ov-ts-loan",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-oversight:relationship:ov-ts-repayment",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-mumbai-security:relationship:city-cctv-approval",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-mumbai-security:relationship:city-cctv-buyer",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-mumbai-security:relationship:mpf-admin",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-mumbai-security:relationship:payroll-office",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-mumbai-security:relationship:station-javi",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-mumbai-security:relationship:station-state",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-mumbai-security:relationship:station-sujata",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-mumbai-security:relationship:township-approval",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-mumbai-security:relationship:township-guarantee",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-mumbai-security:relationship:township-housing",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-mumbai-security:relationship:township-monetise",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-mumbai-security:relationship:township-msidc",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-mumbai-security:relationship:township-seed",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-mumbai-security:relationship:township-state-share",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-corporate:relationship:ddf-priority",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-corporate:relationship:gvpr-guarantee",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-corporate:relationship:gvpr-hppl",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-corporate:relationship:gvpr-promoter",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-corporate:relationship:gvpr-vijaya",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-corporate:relationship:meter-contract",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-corporate:relationship:pfc-sanction",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-corporate:relationship:promoter-infusion",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "public-works:relationship:state-edge-safe-city",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "public-works:relationship:state-edge-ts-bank",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "public-works:relationship:state-edge-ts-borrowing",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-oversight:relationship:ov-ts-asset-purpose",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-oversight:relationship:ov-ts-budget-service",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-oversight:relationship:ov-ts-guarantee",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-oversight:relationship:ov-ts-loan",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-oversight:relationship:ov-ts-repayment",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-mumbai-security:relationship:city-cctv-buyer",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-mumbai-security:relationship:payroll-arrest",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-mumbai-security:relationship:payroll-ids",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-mumbai-security:relationship:payroll-investigation",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-mumbai-security:relationship:payroll-office",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-mumbai-security:relationship:payroll-role",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-mumbai-security:relationship:payroll-route",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-mumbai-security:relationship:township-housing",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-mumbai:relationship:bail-order",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-mumbai:relationship:bmc-force",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-mumbai:relationship:bmc-sahyadri",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-mumbai:relationship:force-chavan",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-mumbai:relationship:force-golden",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-mumbai:relationship:force-sneha",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-mumbai:relationship:kadam-role",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-mumbai:relationship:keer-role",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-mumbai:relationship:mali-role",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-mumbai:relationship:mashilkar-force",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-mumbai:relationship:mashilkar-multibuild",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-mumbai:relationship:sahyadri-fnj",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-mumbai:relationship:sahyadri-force",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-mumbai:relationship:salunkhe-role",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-mumbai:relationship:vaze-multibuild",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "public-works:relationship:state-edge-safe-city",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "public-works:relationship:state-edge-ts-bank",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "public-works:relationship:state-edge-ts-borrowing",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-oversight:relationship:ov-bihar-administration",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-oversight:relationship:ov-bihar-payments",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-oversight:relationship:ov-bihar-recovery",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-oversight:relationship:ov-bihar-validation",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-oversight:relationship:ov-bihar-administration",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-oversight:relationship:ov-bihar-payments",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-oversight:relationship:ov-bihar-recovery",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-oversight:relationship:ov-bihar-validation",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-public-finance:relationship:bmc-agreement-edge",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-public-finance:relationship:bmc-capital",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-public-finance:relationship:bmc-envelope",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-public-finance:relationship:bmc-no-tender-edge",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-public-finance:relationship:bmc-qma-edge",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-public-finance:relationship:bmc-revenue",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-public-finance:relationship:chavan-force-influence",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-public-finance:relationship:force-chavan",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-public-finance:relationship:force-fire",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-public-finance:relationship:force-golden",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-public-finance:relationship:force-sneha",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-public-finance:relationship:khichdi-force",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-public-finance:relationship:khichdi-vaishnavi",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "public-works:relationship:svc-uprnn-agreement",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "public-works:relationship:svc-uprnn-kgbv",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-oversight:relationship:ov-bihar-administration",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-oversight:relationship:ov-bihar-payments",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-oversight:relationship:ov-bihar-recovery",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-oversight:relationship:ov-bihar-validation",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "finance-research:relationship:defence-office-trustee",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "finance-research:relationship:finance-office-trustee",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "finance-research:relationship:home-office-trustee",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "finance-research:relationship:kariya-munda-trustee",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "finance-research:relationship:kkc-audit",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "finance-research:relationship:kt-thomas-trustee",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "finance-research:relationship:pm-office-trustee",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "finance-research:relationship:pmo-administration",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "finance-research:relationship:tejas-audit",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "finance-research:relationship:tejas-kkc",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "public-works:relationship:svc-mohan-question",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "allegations-policy:relationship:c1-auction-platform",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "allegations-policy:relationship:lodha-asset-administration",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "allegations-policy:relationship:lodha-bengaluru-tender",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "allegations-policy:relationship:lodha-refunds",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "allegations-policy:relationship:lodha-stockholding",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "allegations-policy:relationship:pacl-agent-commissions",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "allegations-policy:relationship:pacl-associate-land",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "allegations-policy:relationship:pacl-collections",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "allegations-policy:relationship:pacl-seller-payments",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "allegations-policy:relationship:sc-lodha-mandate",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "allegations-policy:relationship:sebi-pacl-order",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-oversight:relationship:ov-bihar-administration",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-oversight:relationship:ov-bihar-payments",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-oversight:relationship:ov-bihar-recovery",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-oversight:relationship:ov-bihar-validation",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:associated-role",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:attachment",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:award",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:bank-route",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:cash-route",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:certificate",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:mittal-certificate",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:nkg-bribe",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:office",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:operator",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:ownership-aman",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:ownership-archit",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:ownership-pradeep",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:ownership-pradeep-sons",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:party-route",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:recall-dismissal",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:released",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:sadhan-role",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:subcontract",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-corporate:relationship:aahl-mangaluru-direct",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-corporate:relationship:aai-mangaluru-right",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-corporate:relationship:ael-aahl",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-corporate:relationship:ael-aahl-finance",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-corporate:relationship:ael-mangaluru-direct",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-corporate:relationship:ael-pkcl-owner",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-corporate:relationship:hzl-cbi-order",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-corporate:relationship:mangaluru-operation",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-corporate:relationship:mangaluru-upfront",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-corporate:relationship:pekb-allotment",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-corporate:relationship:pekb-guarantee-direction",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-corporate:relationship:pkcl-ael-loan-return",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-corporate:relationship:pkcl-ael-services-contract",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-corporate:relationship:pkcl-ael-services-money",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-corporate:relationship:pkcl-sc-outcome",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-corporate:relationship:rrvunl-pekb",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-corporate:relationship:rrvunl-pkcl-cmda",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-corporate:relationship:six-airports-fees",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-services:relationship:states-tapf-income",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-services:relationship:tapf-iskcon-related",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-services:relationship:tapf-iskcon-rent",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-services:relationship:tapf-kitchen",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-services:relationship:thakkar-kitchen",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "finance-research:relationship:defence-office-trustee",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "finance-research:relationship:finance-office-trustee",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "finance-research:relationship:home-office-trustee",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "finance-research:relationship:kariya-munda-trustee",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "finance-research:relationship:kkc-audit",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "finance-research:relationship:kt-thomas-trustee",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "finance-research:relationship:pm-office-trustee",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "finance-research:relationship:pmo-administration",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "finance-research:relationship:tejas-audit",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "finance-research:relationship:tejas-kkc",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-institutions:relationship:enhanced-ipi-airfare",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-institutions:relationship:enhanced-ipi-donation",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-institutions:relationship:epstein-enhanced-affiliation",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-institutions:relationship:epstein-gratitude-affiliation",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-institutions:relationship:gratitude-ipi-donations",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-institutions:relationship:ipi-icm",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-institutions:relationship:ipi-review-commission",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-institutions:relationship:puri-epstein-pitch",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-institutions:relationship:puri-hoffman-pitch",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-institutions:relationship:puri-icm-role",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-corporate:relationship:aahl-mangaluru-direct",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-corporate:relationship:aai-mangaluru-right",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-corporate:relationship:ael-aahl",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-corporate:relationship:ael-aahl-finance",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-corporate:relationship:ael-mangaluru-direct",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-corporate:relationship:ael-pkcl-owner",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-corporate:relationship:hzl-cbi-order",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-corporate:relationship:mangaluru-operation",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-corporate:relationship:mangaluru-upfront",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-corporate:relationship:pekb-allotment",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-corporate:relationship:pekb-guarantee-direction",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-corporate:relationship:pkcl-ael-loan-return",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-corporate:relationship:pkcl-ael-services-contract",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-corporate:relationship:pkcl-ael-services-money",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-corporate:relationship:pkcl-sc-outcome",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-corporate:relationship:rrvunl-pekb",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-corporate:relationship:rrvunl-pkcl-cmda",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-corporate:relationship:six-airports-fees",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-services:relationship:states-tapf-income",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-services:relationship:tapf-iskcon-related",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-services:relationship:tapf-iskcon-rent",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-services:relationship:tapf-kitchen",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-services:relationship:thakkar-kitchen",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:associated-role",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:attachment",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:award",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:bank-route",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:cash-route",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:certificate",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:mittal-certificate",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:nkg-bribe",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:office",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:operator",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:ownership-aman",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:ownership-archit",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:ownership-pradeep",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:ownership-pradeep-sons",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:party-route",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:recall-dismissal",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:released",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:sadhan-role",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:subcontract",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-services:relationship:states-tapf-income",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-services:relationship:tapf-iskcon-related",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-services:relationship:tapf-iskcon-rent",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-services:relationship:tapf-kitchen",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-services:relationship:thakkar-kitchen",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "finance-research:relationship:defence-office-trustee",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "finance-research:relationship:finance-office-trustee",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "finance-research:relationship:home-office-trustee",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "finance-research:relationship:kariya-munda-trustee",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "finance-research:relationship:kkc-audit",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "finance-research:relationship:kt-thomas-trustee",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "finance-research:relationship:pm-office-trustee",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "finance-research:relationship:pmo-administration",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "finance-research:relationship:tejas-audit",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "finance-research:relationship:tejas-kkc",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "public-works:relationship:pwg-irb-owns-pwg-irbmp",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "public-works:relationship:pwg-irb-owns-pwg-mrm",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "public-works:relationship:pwg-irb-reporting-scope",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "public-works:relationship:pwg-mhaiskar-chair",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "public-works:relationship:pwg-package7-irb",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-services:relationship:states-tapf-income",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-services:relationship:tapf-iskcon-related",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-services:relationship:tapf-iskcon-rent",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-services:relationship:tapf-kitchen",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-services:relationship:thakkar-kitchen",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-oversight:relationship:ov-udrp-advance",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-oversight:relationship:ov-udrp-implementation",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-oversight:relationship:ov-ueap-advance",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-oversight:relationship:ov-ueap-implementation",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-oversight:relationship:ov-uk-adb-loan",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-oversight:relationship:ov-uk-civil-release",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-oversight:relationship:ov-uk-civil-uc",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-oversight:relationship:ov-uk-ddma-release",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-oversight:relationship:ov-uk-state-execution",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-oversight:relationship:ov-uk-udrp-release",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-oversight:relationship:ov-uk-ueap-release",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-services:relationship:davp-other-schemes",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-services:relationship:mord-davp-orders",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-services:relationship:mord-nsap-iec",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-services:relationship:nsap-davp-paid",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:associated-role",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:attachment",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:award",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:bank-route",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:cash-route",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:certificate",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:mittal-certificate",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:nkg-bribe",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:office",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:operator",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:ownership-aman",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:ownership-archit",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:ownership-pradeep",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:ownership-pradeep-sons",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:party-route",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:recall-dismissal",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:released",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:sadhan-role",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:subcontract",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "welfare-research:relationship:ct-nsap",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "welfare-research:relationship:mord-davp",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "welfare-research:relationship:mord-nsap",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-oversight:relationship:ov-udrp-advance",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-oversight:relationship:ov-udrp-implementation",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-oversight:relationship:ov-ueap-advance",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-oversight:relationship:ov-ueap-implementation",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-oversight:relationship:ov-uk-adb-loan",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-oversight:relationship:ov-uk-civil-release",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-oversight:relationship:ov-uk-civil-uc",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-oversight:relationship:ov-uk-ddma-release",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-oversight:relationship:ov-uk-state-execution",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-oversight:relationship:ov-uk-udrp-release",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-oversight:relationship:ov-uk-ueap-release",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-services:relationship:davp-other-schemes",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-services:relationship:mord-davp-orders",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-services:relationship:mord-nsap-iec",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-services:relationship:nsap-davp-paid",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-mumbai-security:relationship:city-cctv-approval",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-mumbai-security:relationship:coastal-grse",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-mumbai-security:relationship:coastal-gsl",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-mumbai-security:relationship:coastal-mha",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-mumbai-security:relationship:mpf-admin",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-mumbai-security:relationship:mpf-audit-edge",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-mumbai-security:relationship:mpf-housing",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-mumbai-security:relationship:mpf-release",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-mumbai-security:relationship:station-court",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-mumbai-security:relationship:station-footage",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-mumbai-security:relationship:station-javi",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-mumbai-security:relationship:station-state",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-mumbai-security:relationship:station-sujata",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-mumbai-security:relationship:township-approval",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-mumbai-security:relationship:township-guarantee",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-mumbai-security:relationship:township-monetise",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-mumbai-security:relationship:township-msidc",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-mumbai-security:relationship:township-seed",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-mumbai-security:relationship:township-state-share",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "welfare-research:relationship:ct-nsap",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "welfare-research:relationship:mord-davp",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "welfare-research:relationship:mord-nsap",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-governance:relationship:capacity-transfer",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-governance:relationship:criminal-dismissal",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-governance:relationship:doj-dismissal-position",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-governance:relationship:gautam-role",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-governance:relationship:notes-financing",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-governance:relationship:other-counts",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-governance:relationship:ppa",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-governance:relationship:sagar-role",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-governance:relationship:sec-civil",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-governance:relationship:sec-civil-sagar",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-governance:relationship:state-psa",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-governance:relationship:vneet-role",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-services:relationship:davp-other-schemes",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-services:relationship:mord-davp-orders",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-services:relationship:mord-nsap-iec",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-services:relationship:nsap-davp-paid",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:associated-role",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:attachment",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:award",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:bank-route",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:cash-route",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:certificate",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:mittal-certificate",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:nkg-bribe",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:office",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:operator",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:ownership-aman",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:ownership-archit",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:ownership-pradeep",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:ownership-pradeep-sons",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:party-route",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:recall-dismissal",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:released",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:sadhan-role",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:subcontract",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "public-works:relationship:svc-uprnn-agreement",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "public-works:relationship:svc-uprnn-kgbv",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-institutions:relationship:ael-amnl",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-institutions:relationship:amnl-vcpl",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-institutions:relationship:rights-proceeds",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-institutions:relationship:rrpr-ndtv-2026",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-institutions:relationship:rrpr-roy-purchase",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-institutions:relationship:vcpl-equalising-payment",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-institutions:relationship:vcpl-ndtv-2026",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-institutions:relationship:vcpl-ndtv-offer",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-institutions:relationship:vcpl-rrpr-warrant",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-services:relationship:davp-other-schemes",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-services:relationship:mord-davp-orders",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-services:relationship:mord-nsap-iec",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-services:relationship:nsap-davp-paid",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-mumbai-security:relationship:city-cctv-approval",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-mumbai-security:relationship:mpf-admin",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-mumbai-security:relationship:station-court",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-mumbai-security:relationship:station-footage",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-mumbai-security:relationship:station-javi",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-mumbai-security:relationship:station-state",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-mumbai-security:relationship:station-sujata",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-mumbai-security:relationship:township-approval",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-mumbai-security:relationship:township-guarantee",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-mumbai-security:relationship:township-monetise",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-mumbai-security:relationship:township-msidc",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-mumbai-security:relationship:township-seed",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-mumbai-security:relationship:township-state-share",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "metro-public-finance:relationship:mirror-provenance",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "public-works:relationship:pwg-irb-owns-pwg-irbmp",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "public-works:relationship:pwg-irb-owns-pwg-mrm",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "public-works:relationship:pwg-irb-reporting-scope",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "public-works:relationship:pwg-mhaiskar-chair",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "public-works:relationship:pwg-package7-irb",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:ifc-bajaj-loan",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:ifc-mahindra-vote",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:ifc-mlmml-cash",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:ifc-mlmml-commitment",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:mahindra-mlmml-control",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:mlmml-issues-ccps",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-governance:relationship:capacity-transfer",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-governance:relationship:criminal-dismissal",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-governance:relationship:doj-dismissal-position",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-governance:relationship:gautam-role",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-governance:relationship:notes-financing",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-governance:relationship:other-counts",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-governance:relationship:ppa",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-governance:relationship:sagar-role",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-governance:relationship:sec-civil",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-governance:relationship:sec-civil-sagar",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-governance:relationship:state-psa",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-governance:relationship:vneet-role",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-procurement:relationship:anahera-owns-mbel",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-procurement:relationship:bhrpl-concession",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-procurement:relationship:bhrpl-debt",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-procurement:relationship:bhrpl-equity",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-procurement:relationship:bhrpl-ownership",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-procurement:relationship:c4-award",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-procurement:relationship:c4-part-mahsr",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-procurement:relationship:cci-approves-mbel",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-procurement:relationship:gic-affiliate",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-procurement:relationship:goi-nhsrcl-equity",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-procurement:relationship:gujarat-nhsrcl-equity",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-procurement:relationship:hurpl-concession",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-procurement:relationship:hurpl-debt",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-procurement:relationship:hurpl-equity",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-procurement:relationship:hurpl-ownership",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-procurement:relationship:irb-owns-mbel",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-procurement:relationship:irb-selected",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-procurement:relationship:irbit-buys-mbel",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-procurement:relationship:jica-goi-loan",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-procurement:relationship:lnt-delivers-c4",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-procurement:relationship:maharashtra-nhsrcl-equity",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-procurement:relationship:mbel-concession",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-procurement:relationship:mbel-debt",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-procurement:relationship:mbel-epc-irb",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-procurement:relationship:mbel-om-irb",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-procurement:relationship:nhsrcl-executes-mahsr",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-procurement:relationship:uprpl-concession",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-procurement:relationship:uprpl-debt",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-procurement:relationship:uprpl-equity",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-procurement:relationship:uprpl-ownership",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:8488-tnuifsl",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:8488-wrd-procurement",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:ibrd-india-8488",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:ida-india-p174027",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:ifc-bajaj-loan",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:ifc-mahindra-vote",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:ifc-mlmml-cash",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:ifc-mlmml-commitment",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:imf-india-sdr",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:india-8488-instrument",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:india-tn-proceeds",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:mahindra-mlmml-control",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:mlmml-issues-ccps",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:tn-tnudf-route",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:ifc-bajaj-loan",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:ifc-mahindra-vote",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:ifc-mlmml-cash",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:ifc-mlmml-commitment",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:mahindra-mlmml-control",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:mlmml-issues-ccps",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:associated-role",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:attachment",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:award",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:bank-route",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:cash-route",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:certificate",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:mittal-certificate",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:nkg-bribe",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:office",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:operator",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:ownership-aman",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:ownership-archit",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:ownership-pradeep",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:ownership-pradeep-sons",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:party-route",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:recall-dismissal",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:released",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:sadhan-role",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-djb:relationship:subcontract",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-mumbai:relationship:bail-order",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-mumbai:relationship:bmc-force",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-mumbai:relationship:bmc-sahyadri",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-mumbai:relationship:force-chavan",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-mumbai:relationship:force-golden",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-mumbai:relationship:force-sneha",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-mumbai:relationship:kadam-role",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-mumbai:relationship:keer-role",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-mumbai:relationship:mali-role",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-mumbai:relationship:mashilkar-force",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-mumbai:relationship:mashilkar-multibuild",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-mumbai:relationship:sahyadri-fnj",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-mumbai:relationship:sahyadri-force",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-mumbai:relationship:salunkhe-role",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "money-trails-mumbai:relationship:vaze-multibuild",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "public-works:relationship:pwg-group-donation-pwg-balasahebanchi-shivsena",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "public-works:relationship:pwg-group-donation-pwg-bjp",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "public-works:relationship:pwg-irb-owns-pwg-irbmp",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "public-works:relationship:pwg-irb-owns-pwg-mrm",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "public-works:relationship:pwg-irb-reporting-scope",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "public-works:relationship:pwg-mhaiskar-chair",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "public-works:relationship:pwg-nhai-package7",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "public-works:relationship:pwg-package7-irb",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:8488-tnuifsl",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:8488-wrd-procurement",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:ibrd-india-8488",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:ida-india-p174027",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:ifc-bajaj-loan",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:ifc-mahindra-vote",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:ifc-mlmml-cash",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:ifc-mlmml-commitment",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:imf-india-sdr",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:india-8488-instrument",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:india-tn-proceeds",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:mahindra-mlmml-control",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:mlmml-issues-ccps",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:tn-tnudf-route",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-corporate:relationship:aiahl-public-equity",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-corporate:relationship:air-public-assets",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-corporate:relationship:air-retained-debt",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-corporate:relationship:air-rival-bid",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-corporate:relationship:air-sale-cash",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-corporate:relationship:air-shares-transfer",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-corporate:relationship:hzl-strategic-sale",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-corporate:relationship:sovl-hzl-holding",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-corporate:relationship:talace-controls-air",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "deep-corporate:relationship:talace-owner",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "justice-research:relationship:edge-adicorp-order-1",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "justice-research:relationship:edge-adicorp-order-2",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "justice-research:relationship:edge-adicorp-order-3",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "justice-research:relationship:edge-adicorp-order-4",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "justice-research:relationship:edge-adicorp-order-5",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "justice-research:relationship:edge-electoral-bonds-judgment-1",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "justice-research:relationship:edge-electoral-bonds-judgment-2",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "justice-research:relationship:edge-electoral-bonds-judgment-3",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "justice-research:relationship:edge-electoral-bonds-judgment-4",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "justice-research:relationship:edge-electoral-bonds-judgment-5",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "justice-research:relationship:edge-electoral-bonds-judgment-6",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "justice-research:relationship:edge-electoral-bonds-sit-order-1",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "justice-research:relationship:edge-electoral-bonds-sit-order-2",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "justice-research:relationship:edge-electoral-bonds-sit-order-3",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "justice-research:relationship:edge-kejriwal-arrest-review-1",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "justice-research:relationship:edge-kejriwal-arrest-review-2",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "justice-research:relationship:edge-kejriwal-arrest-review-3",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "justice-research:relationship:edge-kejriwal-arrest-review-4",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "justice-research:relationship:edge-kerala-borrowing-order-1",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "justice-research:relationship:edge-kerala-borrowing-order-2",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "justice-research:relationship:edge-kerala-borrowing-order-3",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "justice-research:relationship:edge-kerala-borrowing-order-4",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "justice-research:relationship:edge-milestone-order-1",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "justice-research:relationship:edge-milestone-order-2",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "justice-research:relationship:edge-milestone-order-3",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "justice-research:relationship:edge-milestone-order-4",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "justice-research:relationship:edge-milestone-order-5",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "justice-research:relationship:edge-milestone-order-6",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "justice-research:relationship:edge-milestone-order-7",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "justice-research:relationship:edge-pmcares-judgment-1",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "justice-research:relationship:edge-pmcares-judgment-2",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "justice-research:relationship:edge-pmcares-judgment-3",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "justice-research:relationship:edge-pmcares-judgment-4",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "justice-research:relationship:edge-sbi-disclosure-order-1",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "justice-research:relationship:edge-sbi-disclosure-order-2",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "justice-research:relationship:edge-sbi-disclosure-order-3",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "justice-research:relationship:edge-sbi-disclosure-order-4",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "justice-research:relationship:edge-sita-soren-immunity-1",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "justice-research:relationship:edge-sita-soren-immunity-2",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "justice-research:relationship:edge-sita-soren-immunity-3",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "justice-research:relationship:edge-vishal-tiwari-judgment-1",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "justice-research:relationship:edge-vishal-tiwari-judgment-2",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "justice-research:relationship:edge-vishal-tiwari-judgment-3",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:8488-tnuifsl",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:8488-wrd-procurement",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:adb-bangladesh-loan",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:aiib-bangladesh-cofinance",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:bangladesh-instrument",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:bangladesh-pgcb-relending",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:flood-awarded-azista",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:flood-awarded-sstech",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:ibrd-india-8488",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:ida-india-p174027",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:ida-p174027-dea",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:imf-india-sdr",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:india-8488-instrument",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:india-tn-proceeds",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:package3-lt",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:pgcb-package3-award",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:tn-tnudf-route",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:wrd-flood-award",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-defence-trade:relationship:airbus-iaf-first",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-defence-trade:relationship:airbus-tata-assembly",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-defence-trade:relationship:c295-iaf-cumulative",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-defence-trade:relationship:drdo-brahmos",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-defence-trade:relationship:dsca-mq9-notification",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-defence-trade:relationship:gaasi-mq9-principal",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-defence-trade:relationship:india-drdo",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-defence-trade:relationship:india-mod",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-defence-trade:relationship:mod-airbus-contract",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-defence-trade:relationship:mod-c295-projectcost",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-defence-trade:relationship:mod-gagi-logistics",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-defence-trade:relationship:mod-mq9-buyer",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-defence-trade:relationship:mod-us-mq9-contract",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-defence-trade:relationship:spain-airbus",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-defence-trade:relationship:tasl-consortium",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-defence-trade:relationship:tcs-consortium",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-defence-trade:relationship:usa-dsca",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-defence-trade:relationship:usa-gaasi",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-defence-trade:relationship:usa-government",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:8488-tnuifsl",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:8488-wrd-procurement",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:flood-awarded-azista",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:flood-awarded-sstech",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:ibrd-india-8488",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:ida-india-p174027",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:imf-india-sdr",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:india-8488-instrument",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:india-tn-proceeds",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:tn-tnudf-route",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:wrd-flood-award",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:8488-tnuifsl",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:8488-wrd-procurement",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:flood-awarded-azista",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:flood-awarded-sstech",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:ibrd-india-8488",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:ida-india-p174027",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:imf-india-sdr",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:india-8488-instrument",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:india-tn-proceeds",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:tn-tnudf-route",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:wrd-flood-award",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:8488-tnuifsl",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:8488-wrd-procurement",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:flood-awarded-azista",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:flood-awarded-sstech",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:ibrd-india-8488",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:ida-india-p174027",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:ida-p174027-dea",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:imf-india-sdr",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:india-8488-instrument",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:india-tn-proceeds",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:tn-tnudf-route",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-international-finance:relationship:wrd-flood-award",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-policy:relationship:bamnipal-bhushan",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-policy:relationship:bamnipal-fc",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-policy:relationship:coal2020-implementation",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-policy:relationship:finance2017-implementation",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-policy:relationship:ibc-bhushan",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-policy:relationship:ibc2016-implementation",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-policy:relationship:ibc29a-implementation",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-policy:relationship:mmdr2021-implementation",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-policy:relationship:nclt-bhushan-plan",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-policy:relationship:sbi-bhushan-cirp",
+        "exists": true,
+        "preserved": true
+      },
+      {
+        "edgeId": "atlas-policy:relationship:tata-bamnipal",
+        "exists": true,
+        "preserved": true
+      }
+    ],
+    "emittedGraphEvaluated": true,
+    "allEmittedEdgesPreserved": true,
+    "abstentionScope": "Expected evidence stops are retained editorial constraints. Without emitted predictions no learned abstention accuracy is claimed."
+  }
+}

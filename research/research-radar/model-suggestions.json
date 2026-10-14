@@ -1,0 +1,390 @@
+{
+  "schemaVersion": 1,
+  "purpose": "research-discovery-only",
+  "automaticallyVerified": false,
+  "limitation": "Ranks the authored public source and case summaries retained in this release only. Source and case summaries can describe the same underlying assertion and are not independent observations. This is not full-document, bank-ledger, national-population or prospective accuracy analysis. Similarity is not a connection, probability, factual verification, or prediction of wrongdoing. No result is automatically added as a graph edge or promoted to a claim.",
+  "model": {
+    "id": "sentence-transformers/all-MiniLM-L6-v2",
+    "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+    "license": "Apache-2.0",
+    "modelCard": "https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/blob/1110a243fdf4706b3f48f1d95db1a4f5529b4d41/README.md",
+    "format": "ONNX uint8 AVX2",
+    "dimensions": 384,
+    "maxTokens": 256,
+    "pooling": "attention-mask-weighted mean, L2 normalized",
+    "assetSha256": {
+      "onnx/model_quint8_avx2.onnx": "b941bf19f1f1283680f449fa6a7336bb5600bdcd5f84d10ddc5cd72218a0fd21",
+      "tokenizer.json": "be50c3628f2bf5bb5e3a7f17b1f74611b2561a3a27eeab05e5aa30f411572037"
+    }
+  },
+  "execution": {
+    "provider": "CPUExecutionProvider",
+    "python": "3.12.14",
+    "onnxruntime": "1.23.2",
+    "tokenizers": "0.22.1",
+    "numpy": "2.3.4",
+    "inferenceSeconds": 1.94,
+    "publicTextUploadedToModelService": false
+  },
+  "corpusSha256": "71de8e8e3cc4af9b91abfb9a103a8342af66aae326bac8fa1f56c0dc7f84d755",
+  "documentCount": 87,
+  "smokeCheck": {
+    "passed": true,
+    "relatedSimilarity": 0.808023,
+    "unrelatedSimilarity": 0.01586,
+    "meaning": "Pipeline wiring check only; not an evidence or model accuracy evaluation"
+  },
+  "queries": {
+    "procurement-to-delivery": {
+      "text": "Public procurement contract tender bid comparison award amendments extensions executed work acceptance delivery performance failure payment certification independent audit",
+      "matches": [
+        {
+          "documentId": "radar-north:chandigarh-procurement:model-case",
+          "title": "Chandigarh: recurring Punjab procurement controls after PAC assurances",
+          "url": "https://cag.gov.in/uploads/download_audit_report/2023/05-Chapter-II-069b7fd863348d9.57910647.pdf",
+          "similarity": 0.632322
+        },
+        {
+          "documentId": "radar-north:punjab-chapter:model-source",
+          "title": "CAG Punjab Report 4 of 2025, ChapterII: e-procurement systems audit",
+          "url": "https://cag.gov.in/uploads/download_audit_report/2023/05-Chapter-II-069b7fd863348d9.57910647.pdf",
+          "similarity": 0.62641
+        },
+        {
+          "documentId": "radar-north:punjab-report:model-source",
+          "title": "CAG Punjab composite civil audit Report 4 of 2025: overview",
+          "url": "https://cag.gov.in/webroot/uploads/download_audit_report/2023/Report-no.-4-of-2025-(English)-069b7fc7885b9c7.82304696.pdf",
+          "similarity": 0.53041
+        },
+        {
+          "documentId": "radar-south-east:source:kaleshwaram-audit:model-source",
+          "title": "Kaleshwaram performance audit, Chapter VI: contract management",
+          "url": "https://cag.gov.in/uploads/download_audit_report/2024/09_Chapter-VI_Contract-Management-065cdab563c2f36.74611439.pdf",
+          "similarity": 0.501648
+        },
+        {
+          "documentId": "radar-south-east:case:kiifb-publicity:model-case",
+          "title": "KIIFB: follow publicity invoices through each intermediary",
+          "url": "https://www.kiifb.org/includes/fileViewer.jsp?fmde=res&did=760&fname=AnnualReport-KIIFB-2025-26.pdf&dPrfx=RPT",
+          "similarity": 0.501224
+        }
+      ]
+    },
+    "debt-subsidy-and-cash": {
+      "text": "Public loans lending guarantees sanctioned debt actual disbursement drawdown subsidy welfare budget allocation release beneficiary payment reconciliation outstanding recovery",
+      "matches": [
+        {
+          "documentId": "radar-national:source:psb-answer:model-source",
+          "title": "Lok Sabha UQ 120: write-offs, recoveries and borrower disclosure scope",
+          "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU120_rCBUdx.pdf",
+          "similarity": 0.509614
+        },
+        {
+          "documentId": "radar-national:case:psb-writeoffs:model-case",
+          "title": "National / Delhi–Mumbai: reconcile write-offs with recovery cohorts",
+          "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU120_rCBUdx.pdf",
+          "similarity": 0.462478
+        },
+        {
+          "documentId": "radar-south-east:case:kolkata-health-claims:model-case",
+          "title": "Swasthya Sathi: hospital grading, insurer recoveries and scheme borrowing",
+          "url": "https://cag.gov.in/en/audit-report/download/125756",
+          "similarity": 0.388164
+        },
+        {
+          "documentId": "radar-south-east:case:odisha-mining-welfare:model-case",
+          "title": "Odisha mineral welfare: village eligibility, police vehicles and returned funds",
+          "url": "https://indianexpress.com/article/india/odisha-cag-report-district-mineral-foundation-dmf-funds-irregular-spending-rourkela-hockey-stadium-bjd-bjp-assembly-10899336/",
+          "similarity": 0.366478
+        },
+        {
+          "documentId": "radar-north:delhi-procurement:model-case",
+          "title": "Delhi: shared bidder credentials and missing award records",
+          "url": "https://indianexpress.com/article/cities/delhi/cag-report-flags-lapses-in-delhis-power-subsidy-scheme-e-procurement-system-10823386/",
+          "similarity": 0.343102
+        }
+      ]
+    },
+    "corporate-identity-ownership": {
+      "text": "Exact legal company name CIN director historical shareholder beneficial ownership subsidiary annual report stock exchange disclosure identity evidence unresolved name match",
+      "matches": [
+        {
+          "documentId": "radar-south-east:source:kiifb-resources:model-source",
+          "title": "KIIFB official document and exchange-disclosure index",
+          "url": "https://www.kiifb.org/resources.jsp",
+          "similarity": 0.426825
+        },
+        {
+          "documentId": "radar-west:cg-incorporation:model-source",
+          "title": "AEL disclosure: CG Syn-Gas & Chemicals incorporation",
+          "url": "https://www.adanienterprises.com/-/media/Project/Enterprises/Investors/Corporate-Announcement/AELIntimationincorporation_CG-SynGas.pdf",
+          "similarity": 0.42188
+        },
+        {
+          "documentId": "radar-west:tara-case:model-case",
+          "title": "Tara revised coal block: ownership, boundary change and clearance gates",
+          "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2309064&lang=1&reg=3",
+          "similarity": 0.385041
+        },
+        {
+          "documentId": "radar-south-east:source:hal-annual:model-source",
+          "title": "HAL annual report FY2024–25: Ravi K's operations role",
+          "url": "https://hal-india.co.in/backend/wp-content/uploads/2025/07/HAL_AR_2024-25.pdf",
+          "similarity": 0.379393
+        },
+        {
+          "documentId": "radar-south-east:source:kiifb-ceo-notice:model-source",
+          "title": "KIIFB discloses tendered CEO resignation, acceptance pending",
+          "url": "https://www.kiifb.org/includes/fileViewer.jsp?fmde=res&did=749&fname=FA-6-2027-2021-KIIFBDated19-08-2026.pdf&dPrfx=CMPL",
+          "similarity": 0.363992
+        }
+      ]
+    },
+    "oversight-versus-personal-benefit": {
+      "text": "Minister public office appointment delegated power oversight approval conflict of interest no evidence personal receipt bank payment intermediary transaction missing proof",
+      "matches": [
+        {
+          "documentId": "radar-west:gim-report:model-source",
+          "title": "CAG Report 4 of 2026: Performance Audit of Green India Mission",
+          "url": "https://cag.gov.in/webroot/uploads/download_audit_report/2026/4-of-2026-Eng-06a82acec6ac374.65754275.pdf",
+          "similarity": 0.438198
+        },
+        {
+          "documentId": "radar-north:dehradun-news:model-source",
+          "title": "Dehradun Smart City audit: execution and operation gaps",
+          "url": "https://www.hindustantimes.com/india-news/cag-report-highlights-lapses-in-dehradun-smart-city-projects-101773234190627.html",
+          "similarity": 0.418959
+        },
+        {
+          "documentId": "radar-west:mithi-case:model-case",
+          "title": "Mithi flood works: test the quantity records against the bail counterevidence",
+          "url": "https://www.outlookindia.com/national/mithi-river-desilting-case-how-the-65-crore-alleged-fraud-unfolded",
+          "similarity": 0.409447
+        },
+        {
+          "documentId": "radar-south-east:case:kiifb-publicity:model-case",
+          "title": "KIIFB: follow publicity invoices through each intermediary",
+          "url": "https://www.kiifb.org/includes/fileViewer.jsp?fmde=res&did=760&fname=AnnualReport-KIIFB-2025-26.pdf&dPrfx=RPT",
+          "similarity": 0.405312
+        },
+        {
+          "documentId": "radar-west:amc-case:model-case",
+          "title": "Ahmedabad police land: cancelled auction, statutory clearance and public-use value",
+          "url": "https://english.gujaratsamachar.com/news/ahmedabad/amc-scraps-indian-rupee6844-crore-makarba-land-auction-to-build-police-station-foregoes-indian-rupee3852-crore-17956584957",
+          "similarity": 0.404981
+        }
+      ]
+    },
+    "latest-outcome-and-rebuttal": {
+      "text": "Latest court judgment appeal bail acquittal discharge reversal agency allegation denial audit response counterevidence legal outcome narrows earlier report",
+      "matches": [
+        {
+          "documentId": "radar-north:jaipur-response:model-source",
+          "title": "Joshi counsel disputes tender-committee role in ACB bail hearing",
+          "url": "https://www.etvbharat.com/en/state/rajasthan-hc-denies-bail-to-former-minister-mahesh-joshi-and-former-ias-officer-subodh-agrawal-among-other-accused-in-jjm-scam-enn26081304387",
+          "similarity": 0.533889
+        },
+        {
+          "documentId": "radar-west:goa-case:model-case",
+          "title": "Goa mining FIR quashed: update the legal graph before tracing recoveries",
+          "url": "https://www.thegoan.net/goa-news/shah-commission-case-court-sets-aside-sit-fir-against-7-mining-firms/151157.html",
+          "similarity": 0.490081
+        },
+        {
+          "documentId": "radar-north:jaipur-hc:model-source",
+          "title": "Rajasthan HC denies Joshi and Agarwal bail in ACB proceeding",
+          "url": "https://timesofindia.indiatimes.com/city/jaipur/hc-junks-bail-pleas-of-joshi-and-agarwal-says-charges-extremely-serious/articleshow/133222432.cms",
+          "similarity": 0.451
+        },
+        {
+          "documentId": "radar-north:jaipur-jjm:model-case",
+          "title": "Jaipur: certificate warnings, tender approvals and alleged intermediaries",
+          "url": "https://s3.courtbook.in/2026/09/sanjay_badaya_shubhanshu_dixit_v_state_of_rajasthan.pdf",
+          "similarity": 0.448575
+        },
+        {
+          "documentId": "radar-west:mithi-case:model-case",
+          "title": "Mithi flood works: test the quantity records against the bail counterevidence",
+          "url": "https://www.outlookindia.com/national/mithi-river-desilting-case-how-the-65-crore-alleged-fraud-unfolded",
+          "similarity": 0.440608
+        }
+      ]
+    },
+    "water-energy-resources": {
+      "text": "Water supply groundwater pollution electricity energy power natural resources mining public concession ownership contract financing environmental clearance independent regulator project progress",
+      "matches": [
+        {
+          "documentId": "radar-north:delhi-ie:model-source",
+          "title": "Delhi CAG report: electricity subsidy and e-procurement findings",
+          "url": "https://indianexpress.com/article/cities/delhi/cag-report-flags-lapses-in-delhis-power-subsidy-scheme-e-procurement-system-10823386/",
+          "similarity": 0.387777
+        },
+        {
+          "documentId": "radar-west:tara-cmdc:model-source",
+          "title": "CMDC: Tara auction completed, mining awaits statutory clearances",
+          "url": "https://energy.economictimes.indiatimes.com/news/coal/only-auctioning-of-tara-coal-block-completed-mining-to-begin-after-statutory-clearances-cmdc/134190876",
+          "similarity": 0.371281
+        },
+        {
+          "documentId": "radar-west:tara-opposition:model-source",
+          "title": "Jairam Ramesh objects to Tara coal-block auction",
+          "url": "https://www.thehindu.com/news/national/tara-coal-block-auction-will-devastate-hasdeo-forests-congress-leader-jairam-ramesh/article71451320.ece",
+          "similarity": 0.355562
+        },
+        {
+          "documentId": "radar-north:up-order:model-source",
+          "title": "UPERC Petition 73 SM of 2026: smart-meter refunds and disposal order",
+          "url": "https://www.uperc.org/App_File/OrderofPetitionNo-73SMof2026-PDF827202642219PM.pdf",
+          "similarity": 0.348463
+        },
+        {
+          "documentId": "radar-south-east:source:chennai-retender-aug:model-source",
+          "title": "Tamil Nadu may float new bids for 56 lakh smart meters",
+          "url": "https://www.newindianexpress.com/states/tamil-nadu/2026/Aug/12/tamil-nadu-may-float-new-bids-for-56l-smart-meters",
+          "similarity": 0.340897
+        }
+      ]
+    },
+    "defence-police-arms": {
+      "text": "Defence procurement military arms deal foreign supplier police border equipment budget appropriation contract approval offsets tender delivery audit no operational secret information",
+      "matches": [
+        {
+          "documentId": "radar-west:shivpuri-case:model-case",
+          "title": "Shivpuri defence manufacturing: announced capex versus financing and public support",
+          "url": "https://www.adanienterprises.com/-/media/Project/Enterprises/Investors/Corporate-Announcement/mediarelease05072026-signed.pdf",
+          "similarity": 0.512965
+        },
+        {
+          "documentId": "radar-north:punjab-chapter:model-source",
+          "title": "CAG Punjab Report 4 of 2025, ChapterII: e-procurement systems audit",
+          "url": "https://cag.gov.in/uploads/download_audit_report/2023/05-Chapter-II-069b7fd863348d9.57910647.pdf",
+          "similarity": 0.488733
+        },
+        {
+          "documentId": "radar-national:case:navy-lease:model-case",
+          "title": "National / Delhi: follow the Navy lease beyond the signed contract",
+          "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2300388&lang=2&reg=48",
+          "similarity": 0.485795
+        },
+        {
+          "documentId": "radar-north:chandigarh-procurement:model-case",
+          "title": "Chandigarh: recurring Punjab procurement controls after PAC assurances",
+          "url": "https://cag.gov.in/uploads/download_audit_report/2023/05-Chapter-II-069b7fd863348d9.57910647.pdf",
+          "similarity": 0.484594
+        },
+        {
+          "documentId": "radar-south-east:case:kaleshwaram-equipment:model-case",
+          "title": "Kaleshwaram: EPC scope, supplier prices and the unresolved investigation stage",
+          "url": "https://cag.gov.in/uploads/download_audit_report/2024/09_Chapter-VI_Contract-Management-065cdab563c2f36.74611439.pdf",
+          "similarity": 0.482805
+        }
+      ]
+    },
+    "foreign-capital-tax-route": {
+      "text": "Foreign investment international lender public loan World Bank tax exemption guarantee corporate cross border financing official audited financial flow legal ownership exact entity identity",
+      "matches": [
+        {
+          "documentId": "radar-national:source:psb-answer:model-source",
+          "title": "Lok Sabha UQ 120: write-offs, recoveries and borrower disclosure scope",
+          "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU120_rCBUdx.pdf",
+          "similarity": 0.46608
+        },
+        {
+          "documentId": "radar-national:case:fdi-control:model-case",
+          "title": "National / Delhi: verify beneficial-control reporting after the FDI rule change",
+          "url": "https://www.dpiit.gov.in/static/uploads/2026/03/b9da5830b052c2f2d788593e97d07c63.pdf",
+          "similarity": 0.460485
+        },
+        {
+          "documentId": "radar-national:case:psb-writeoffs:model-case",
+          "title": "National / Delhi–Mumbai: reconcile write-offs with recovery cohorts",
+          "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU120_rCBUdx.pdf",
+          "similarity": 0.454715
+        },
+        {
+          "documentId": "radar-north:delhi-procurement:model-case",
+          "title": "Delhi: shared bidder credentials and missing award records",
+          "url": "https://indianexpress.com/article/cities/delhi/cag-report-flags-lapses-in-delhis-power-subsidy-scheme-e-procurement-system-10823386/",
+          "similarity": 0.43458
+        },
+        {
+          "documentId": "radar-national:source:fdi-gazette:model-source",
+          "title": "FEMA NDI Amendment Rules 2026: notification S.O.2174(E)",
+          "url": "https://egazette.gov.in/WriteReadData/2026/272196.pdf",
+          "similarity": 0.41633
+        }
+      ]
+    },
+    "future-outcome-disproof": {
+      "text": "Measurable future institutional project outcome procurement republication contract delivery correction recovery final order alternative explanation falsifier observation horizon missing official record",
+      "matches": [
+        {
+          "documentId": "radar-north:punjab-chapter:model-source",
+          "title": "CAG Punjab Report 4 of 2025, ChapterII: e-procurement systems audit",
+          "url": "https://cag.gov.in/uploads/download_audit_report/2023/05-Chapter-II-069b7fd863348d9.57910647.pdf",
+          "similarity": 0.544394
+        },
+        {
+          "documentId": "radar-north:delhi-ht:model-source",
+          "title": "Delhi CAG flags GST, subsidy and procurement record gaps",
+          "url": "https://www.hindustantimes.com/cities/delhi-news/delhi-cag-flags-gst-lapses-untargeted-power-subsidy-wasteful-expenditure-101786127248633.html",
+          "similarity": 0.442849
+        },
+        {
+          "documentId": "radar-north:punjab-report:model-source",
+          "title": "CAG Punjab composite civil audit Report 4 of 2025: overview",
+          "url": "https://cag.gov.in/webroot/uploads/download_audit_report/2023/Report-no.-4-of-2025-(English)-069b7fc7885b9c7.82304696.pdf",
+          "similarity": 0.439283
+        },
+        {
+          "documentId": "radar-north:chandigarh-procurement:model-case",
+          "title": "Chandigarh: recurring Punjab procurement controls after PAC assurances",
+          "url": "https://cag.gov.in/uploads/download_audit_report/2023/05-Chapter-II-069b7fd863348d9.57910647.pdf",
+          "similarity": 0.433704
+        },
+        {
+          "documentId": "radar-north:dehradun-summary:model-source",
+          "title": "CAG Dehradun Smart Cities Mission executive summary",
+          "url": "https://cag.gov.in/uploads/download_audit_report/2025/4-Executive-Summary-069b02aa262e742.35165317.pdf",
+          "similarity": 0.41635
+        }
+      ]
+    },
+    "same-source-false-connection": {
+      "text": "Repeated agency press release same assertion family related reporting duplicate source unrelated similarly named entity shared city or ministry not proof of money relationship",
+      "matches": [
+        {
+          "documentId": "radar-north:delhi-procurement:model-case",
+          "title": "Delhi: shared bidder credentials and missing award records",
+          "url": "https://indianexpress.com/article/cities/delhi/cag-report-flags-lapses-in-delhis-power-subsidy-scheme-e-procurement-system-10823386/",
+          "similarity": 0.489155
+        },
+        {
+          "documentId": "radar-south-east:source:kiifb-news:model-source",
+          "title": "KIIFB publicity and programme expenditure questioned after annual accounts",
+          "url": "https://www.newindianexpress.com/states/kerala/2026/Oct/07/kiifb-spent-rs-100-crore-on-ldf-governments-pr-drive",
+          "similarity": 0.396988
+        },
+        {
+          "documentId": "radar-south-east:source:swasthya-audit:model-source",
+          "title": "West Bengal Report 5 of 2025: Swasthya Sathi performance audit",
+          "url": "https://cag.gov.in/en/audit-report/download/125756",
+          "similarity": 0.383471
+        },
+        {
+          "documentId": "radar-national:case:fdi-control:model-case",
+          "title": "National / Delhi: verify beneficial-control reporting after the FDI rule change",
+          "url": "https://www.dpiit.gov.in/static/uploads/2026/03/b9da5830b052c2f2d788593e97d07c63.pdf",
+          "similarity": 0.381068
+        },
+        {
+          "documentId": "radar-south-east:source:kiifb-report:model-source",
+          "title": "KIIFB annual report and audited accounts FY2025–26",
+          "url": "https://www.kiifb.org/includes/fileViewer.jsp?fmde=res&did=760&fname=AnnualReport-KIIFB-2025-26.pdf&dPrfx=RPT",
+          "similarity": 0.379847
+        }
+      ]
+    }
+  },
+  "researchDomain": "research-radar"
+}

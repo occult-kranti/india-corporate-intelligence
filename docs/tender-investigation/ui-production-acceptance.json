@@ -1,0 +1,100 @@
+{
+  "verifiedAt": "2026-10-06T23:39:29Z",
+  "scope": "Procurement trail interface, exports, source audit, shared inspector navigation and mobile layout",
+  "artifact": {
+    "directory": "dist-procurement-final",
+    "indexSha256": "929d47431973d293a16795a7dbd2195557cb8574d6c7721e02889b7d8b1a4478",
+    "entryAsset": "assets/index-BCw8brm5.js",
+    "entryAssetSha256": "e410c948a6656207d2bab84d2d83363217c8bf0ddfc84309a4c1189200a0dd8c"
+  },
+  "command": "INVESTIGATION_DIST=dist-procurement-final node scripts/investigation/procurement-trail-browser.mjs",
+  "harness": "scripts/investigation/procurement-trail-browser.mjs",
+  "harnessSha256": "e59bfce0630056037093f55d929c838b2e91afdfadee1eff7b9b1e8676ffe74a",
+  "server": "Harness-owned ephemeral loopback static server over the completed production artifact",
+  "runs": [
+    {
+      "run": 1,
+      "passed": true,
+      "checks": 31,
+      "browserErrors": 0
+    },
+    {
+      "run": 2,
+      "passed": true,
+      "checks": 31,
+      "browserErrors": 0
+    },
+    {
+      "run": 3,
+      "passed": true,
+      "checks": 31,
+      "browserErrors": 0
+    }
+  ],
+  "visualReview": {
+    "artifact": "dist-procurement-final",
+    "viewport": {
+      "width": 1440,
+      "height": 1000
+    },
+    "before": {
+      "scrollTop": 1960,
+      "top": 300.890625
+    },
+    "after": {
+      "scrollTop": 0,
+      "top": 300.890625,
+      "titleTop": 371.390625,
+      "titleBottom": 423.390625,
+      "title": "Four source tables do not mean sixteen million distinct tenders"
+    },
+    "errors": []
+  },
+  "inspectedScreenshots": [
+    {
+      "path": "/tmp/procurement-trail-browser/audit-desktop-final.png",
+      "viewport": "1440x1000",
+      "finding": "New corpus finding title visible at inspector origin after ordinary click from scrollTop 1960."
+    },
+    {
+      "path": "/tmp/procurement-trail-browser/trail-320.png",
+      "viewport": "320x844",
+      "finding": "Visible accounting stages and unresolved supplier labels remain readable without horizontal overflow."
+    }
+  ],
+  "historicalCandidate": {
+    "directory": "dist-procurement",
+    "indexSha256": "3534a5ed0ab199fa7c56cc0e1c9139638e44aab31173477acf6822676e03e045",
+    "entryAsset": "assets/index-Drc0P6Ym.js",
+    "runs": 3,
+    "checksPerRun": 29,
+    "browserErrors": 0,
+    "acceptanceStatus": "Superseded after actual visual review found a real inspector scroll-position defect.",
+    "defect": {
+      "beforeSelectionScrollTop": 1960,
+      "afterNewSelectionScrollTop": 1036,
+      "inspectorTop": 301,
+      "newTitleBottom": -613
+    },
+    "fix": "Key only the inspector reading region by selected artifact/source identity. A new artifact starts at its heading; filter edits on the same selection retain reading position.",
+    "addedChecks": [
+      "Same selected record preserves reading position across a date-filter edit.",
+      "Deeply scrolled cohort-to-corpus-finding click reveals the new heading at inspector origin."
+    ]
+  },
+  "harnessCorrection": {
+    "initialFinalAttempt": {
+      "completedChecks": 15,
+      "browserErrors": 0,
+      "result": "Stopped at a control lookup; setting a date appended the accessible Filters active label, invalidating an exact old button-name lookup."
+    },
+    "correction": "Both advanced-filter toggle lookups target the single .iw-filter-toggle control. Assertions and product behavior were not changed.",
+    "acceptance": "The complete sequence above ran three consecutive times after this harness-only correction."
+  },
+  "limits": [
+    "Local production acceptance; this receipt does not establish a deployed live-site result.",
+    "Screenshots under /tmp are workspace review artifacts rather than repository-hosted evidence.",
+    "The reviewed 156 buyer cohorts and nine corpus findings retain separate populations; supplier labels are unresolved and award values are not payments.",
+    "Earlier development and production runs are recorded separately and do not replace the final artifact checks."
+  ]
+}

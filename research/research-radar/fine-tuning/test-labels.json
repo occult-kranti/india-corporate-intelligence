@@ -1,0 +1,528 @@
+{
+  "schemaVersion": 1,
+  "task": "source-retrieval-relevance",
+  "createdAt": "2026-10-07",
+  "author": "Independent evaluation agent; AI perspective, not a human assessor",
+  "labelsFrozenBeforeCandidateOutputs": true,
+  "candidateSourceCount": 64,
+  "testCaseCount": 5,
+  "queryCount": 20,
+  "defaultRelevance": 0,
+  "labelMeaning": {
+    "2": "Directly answers the specifically scoped question, including a limiting or contrary passage.",
+    "1": "Useful partial context, but cannot alone answer the complete question.",
+    "0": "Not an answer to the specifically scoped question; does not mean the source is false."
+  },
+  "limits": [
+    "Labels are authored from retained public source summaries and limitations, not newly independent verification of original documents.",
+    "Questions are editorially designed; this is not a representative sample of future user queries.",
+    "Twenty queries represent only five case groups. Repetition within a case is dependent.",
+    "Relevance includes responses and counterevidence; no label is a truth, guilt, intent or event-outcome label.",
+    "An earlier source may be relevant for a timeline query but an explicit hard negative for a current-status query.",
+    "Evaluation cannot establish generalisation across unseen India-wide entities, languages, sectors or future time."
+  ],
+  "queries": [
+    {
+      "id": "test-up-disposal",
+      "caseId": "radar-north:lucknow-smart-meter",
+      "text": "Which retained records show how the Uttar Pradesh electricity regulator closed the meter-charge refund matter, rather than leaving every refund demand unresolved?",
+      "query": "Which retained records show how the Uttar Pradesh electricity regulator closed the meter-charge refund matter, rather than leaving every refund demand unresolved?",
+      "positiveIds": [
+        "radar-north:up-order",
+        "radar-north:up-closure"
+      ],
+      "relevance": {
+        "radar-north:up-order": 2,
+        "radar-north:up-closure": 2
+      },
+      "hardNegativeIds": [
+        "radar-north:up-early",
+        "radar-south-east:source:chennai-retender-oct"
+      ],
+      "requiredCounterevidenceIds": [
+        "radar-north:up-order",
+        "radar-north:up-closure"
+      ],
+      "split": "test",
+      "intent": "response",
+      "queryAuthor": "independent-evaluation-agent",
+      "rationale": "Final order and later disposal report answer closure; earlier pending figures cannot represent the later disposition. Tamil Nadu retendering is a different jurisdiction and event."
+    },
+    {
+      "id": "test-up-internal-total",
+      "caseId": "radar-north:lucknow-smart-meter",
+      "text": "Where can I check the two inconsistent rupee totals inside the original Uttar Pradesh meter-refund order before treating the difference as a loss?",
+      "query": "Where can I check the two inconsistent rupee totals inside the original Uttar Pradesh meter-refund order before treating the difference as a loss?",
+      "positiveIds": [
+        "radar-north:up-order",
+        "radar-north:up-closure"
+      ],
+      "relevance": {
+        "radar-north:up-order": 2,
+        "radar-north:up-closure": 1
+      },
+      "hardNegativeIds": [
+        "radar-south-east:source:tn-uday",
+        "radar-north:delhi-ie"
+      ],
+      "requiredCounterevidenceIds": [
+        "radar-north:up-order"
+      ],
+      "split": "test",
+      "intent": "boundary",
+      "queryAuthor": "independent-evaluation-agent",
+      "rationale": "Original order limitation preserves the internal table/narrative discrepancy; later report gives only one of the totals. Other electricity audit totals are unrelated."
+    },
+    {
+      "id": "test-up-sequence",
+      "caseId": "radar-north:lucknow-smart-meter",
+      "text": "Find the Uttar Pradesh meter-credit timeline that lets me compare the earlier pending consumer accounts with the later completed credits and remaining replacement-plan requirement.",
+      "query": "Find the Uttar Pradesh meter-credit timeline that lets me compare the earlier pending consumer accounts with the later completed credits and remaining replacement-plan requirement.",
+      "positiveIds": [
+        "radar-north:up-early",
+        "radar-north:up-order",
+        "radar-north:up-closure"
+      ],
+      "relevance": {
+        "radar-north:up-early": 2,
+        "radar-north:up-order": 2,
+        "radar-north:up-closure": 2
+      },
+      "hardNegativeIds": [
+        "radar-south-east:source:chennai-retender-aug"
+      ],
+      "requiredCounterevidenceIds": [
+        "radar-north:up-order",
+        "radar-north:up-closure"
+      ],
+      "split": "test",
+      "intent": "fact",
+      "queryAuthor": "independent-evaluation-agent",
+      "rationale": "All three records are relevant to the time sequence, including the superseded early report. They remain one proceeding family and not three independent confirmations."
+    },
+    {
+      "id": "test-up-exclusions",
+      "caseId": "radar-north:lucknow-smart-meter",
+      "text": "What source explains why some examined Uttar Pradesh electricity accounts were excluded from the refund cohort, so that exclusions are not counted as unpaid eligible consumers?",
+      "query": "What source explains why some examined Uttar Pradesh electricity accounts were excluded from the refund cohort, so that exclusions are not counted as unpaid eligible consumers?",
+      "positiveIds": [
+        "radar-north:up-closure",
+        "radar-north:up-order"
+      ],
+      "relevance": {
+        "radar-north:up-closure": 2,
+        "radar-north:up-order": 1
+      },
+      "hardNegativeIds": [
+        "radar-north:up-early",
+        "radar-north:patna-ie"
+      ],
+      "requiredCounterevidenceIds": [
+        "radar-north:up-closure"
+      ],
+      "split": "test",
+      "intent": "boundary",
+      "queryAuthor": "independent-evaluation-agent",
+      "rationale": "Later coverage explicitly gives eligible credited accounts and accounts not overcharged. The primary order is useful supporting context; early pending counts do not answer final exclusions."
+    },
+    {
+      "id": "test-port-decision-stage",
+      "caseId": "radar-west:ports-case",
+      "text": "Did Pipavav receive a completed concession extension in August, or only a step to process its application? Find the current disclosure and the official response that constrain the claim.",
+      "query": "Did Pipavav receive a completed concession extension in August, or only a step to process its application? Find the current disclosure and the official response that constrain the claim.",
+      "positiveIds": [
+        "radar-west:pipavav-filing",
+        "radar-west:port-renewal-news"
+      ],
+      "relevance": {
+        "radar-west:pipavav-filing": 2,
+        "radar-west:port-renewal-news": 2
+      },
+      "hardNegativeIds": [
+        "radar-west:pipavav-mou",
+        "radar-west:tara-cmdc"
+      ],
+      "requiredCounterevidenceIds": [
+        "radar-west:pipavav-filing",
+        "radar-west:port-renewal-news"
+      ],
+      "split": "test",
+      "intent": "boundary",
+      "queryAuthor": "independent-evaluation-agent",
+      "rationale": "Signed processing disclosure and named no-decision response directly constrain the claim. Prior expansion intention is not a current grant; coal auction is a different permission."
+    },
+    {
+      "id": "test-port-investment-stage",
+      "caseId": "radar-west:ports-case",
+      "text": "Where is the Pipavav expansion investment described as conditional on a long-term agreement, rather than cash already paid by the government?",
+      "query": "Where is the Pipavav expansion investment described as conditional on a long-term agreement, rather than cash already paid by the government?",
+      "positiveIds": [
+        "radar-west:pipavav-mou",
+        "radar-west:pipavav-call",
+        "radar-west:pipavav-filing"
+      ],
+      "relevance": {
+        "radar-west:pipavav-mou": 2,
+        "radar-west:pipavav-call": 1,
+        "radar-west:pipavav-filing": 1
+      },
+      "hardNegativeIds": [
+        "radar-west:shivpuri-filing",
+        "radar-national:source:ga-lease"
+      ],
+      "requiredCounterevidenceIds": [
+        "radar-west:pipavav-mou"
+      ],
+      "split": "test",
+      "intent": "boundary",
+      "queryAuthor": "independent-evaluation-agent",
+      "rationale": "MoU describes proposed conditional private capex. Call and filing give context on concession uncertainty; other projects and a Navy contract cannot establish these receipts."
+    },
+    {
+      "id": "test-port-royalty-authority",
+      "caseId": "radar-west:ports-case",
+      "text": "Which record explains the current Pipavav waterfront royalty set-off and who decides future royalty or bidding arrangements?",
+      "query": "Which record explains the current Pipavav waterfront royalty set-off and who decides future royalty or bidding arrangements?",
+      "positiveIds": [
+        "radar-west:pipavav-call",
+        "radar-west:port-renewal-news"
+      ],
+      "relevance": {
+        "radar-west:pipavav-call": 2,
+        "radar-west:port-renewal-news": 1
+      },
+      "hardNegativeIds": [
+        "radar-national:source:psb-answer",
+        "radar-west:tara-pib"
+      ],
+      "requiredCounterevidenceIds": [
+        "radar-west:pipavav-call"
+      ],
+      "split": "test",
+      "intent": "fact",
+      "queryAuthor": "independent-evaluation-agent",
+      "rationale": "Management call specifically addresses royalty and authority; officials in the port report add policy context. Debt recoveries and coal revenue share do not answer this port clause."
+    },
+    {
+      "id": "test-port-expiry",
+      "caseId": "radar-west:ports-case",
+      "text": "Find the reported remaining concession dates for Pipavav and Mundra and the investment-horizon explanation, without interpreting those dates as a renewal award.",
+      "query": "Find the reported remaining concession dates for Pipavav and Mundra and the investment-horizon explanation, without interpreting those dates as a renewal award.",
+      "positiveIds": [
+        "radar-west:port-history",
+        "radar-west:port-renewal-news"
+      ],
+      "relevance": {
+        "radar-west:port-history": 2,
+        "radar-west:port-renewal-news": 1
+      },
+      "hardNegativeIds": [
+        "radar-west:pipavav-filing",
+        "radar-west:shivpuri-timeline"
+      ],
+      "requiredCounterevidenceIds": [
+        "radar-west:port-history"
+      ],
+      "split": "test",
+      "intent": "fact",
+      "queryAuthor": "independent-evaluation-agent",
+      "rationale": "History report supplies the expiry dates and tradeoffs; rollover reporting provides partial explanation. The later comfort letter does not supply the queried expiry dates or award."
+    },
+    {
+      "id": "test-goa-disposition",
+      "caseId": "radar-west:goa-case",
+      "text": "What July reporting says the specified Shah Commission-related Goa mining FIR was set aside, so that it should not remain labelled an active case?",
+      "query": "What July reporting says the specified Shah Commission-related Goa mining FIR was set aside, so that it should not remain labelled an active case?",
+      "positiveIds": [
+        "radar-west:goa-quash",
+        "radar-west:goa-reasons"
+      ],
+      "relevance": {
+        "radar-west:goa-quash": 2,
+        "radar-west:goa-reasons": 2
+      },
+      "hardNegativeIds": [
+        "radar-north:jaipur-sc",
+        "radar-west:mithi-bail"
+      ],
+      "requiredCounterevidenceIds": [
+        "radar-west:goa-quash",
+        "radar-west:goa-reasons"
+      ],
+      "split": "test",
+      "intent": "response",
+      "queryAuthor": "independent-evaluation-agent",
+      "rationale": "Both reports concern the same quashing event. Bail in Rajasthan or Mumbai is a different procedural outcome and party set."
+    },
+    {
+      "id": "test-goa-sequence",
+      "caseId": "radar-west:goa-case",
+      "text": "Find the chronology linking the Goa mining direction, the Supreme Court stay and the later FIR, including the defence explanation for the court outcome.",
+      "query": "Find the chronology linking the Goa mining direction, the Supreme Court stay and the later FIR, including the defence explanation for the court outcome.",
+      "positiveIds": [
+        "radar-west:goa-reasons",
+        "radar-west:goa-quash"
+      ],
+      "relevance": {
+        "radar-west:goa-reasons": 2,
+        "radar-west:goa-quash": 1
+      },
+      "hardNegativeIds": [
+        "radar-north:joshi-sc",
+        "radar-west:tara-opposition"
+      ],
+      "requiredCounterevidenceIds": [
+        "radar-west:goa-reasons"
+      ],
+      "split": "test",
+      "intent": "response",
+      "queryAuthor": "independent-evaluation-agent",
+      "rationale": "Reasons report contains the chronology and defence position; quashing report adds outcome context. Another Supreme Court bail event is not the relevant stay."
+    },
+    {
+      "id": "test-goa-amount-scope",
+      "caseId": "radar-west:goa-case",
+      "text": "Where is the large rupee estimate in the Goa mining coverage identified as a historical commission estimate, instead of a newly adjudicated monetary loss?",
+      "query": "Where is the large rupee estimate in the Goa mining coverage identified as a historical commission estimate, instead of a newly adjudicated monetary loss?",
+      "positiveIds": [
+        "radar-west:goa-quash",
+        "radar-west:goa-reasons"
+      ],
+      "relevance": {
+        "radar-west:goa-quash": 2,
+        "radar-west:goa-reasons": 1
+      },
+      "hardNegativeIds": [
+        "radar-west:tara-pib",
+        "radar-west:gim-report"
+      ],
+      "requiredCounterevidenceIds": [
+        "radar-west:goa-quash"
+      ],
+      "split": "test",
+      "intent": "boundary",
+      "queryAuthor": "independent-evaluation-agent",
+      "rationale": "Quashing report explicitly scopes the historical estimate. Companion reporting gives judicial context; unrelated mining revenue or forestry audit amounts cannot replace it."
+    },
+    {
+      "id": "test-goa-order-gap",
+      "caseId": "radar-west:goa-case",
+      "text": "Which retained sources warn that the original Goa quashing order has not been acquired and that the outcome does not end every separate mining proceeding?",
+      "query": "Which retained sources warn that the original Goa quashing order has not been acquired and that the outcome does not end every separate mining proceeding?",
+      "positiveIds": [
+        "radar-west:goa-quash",
+        "radar-west:goa-reasons"
+      ],
+      "relevance": {
+        "radar-west:goa-quash": 2,
+        "radar-west:goa-reasons": 2
+      },
+      "hardNegativeIds": [
+        "radar-west:tara-cmdc",
+        "radar-south-east:source:kaleshwaram-response"
+      ],
+      "requiredCounterevidenceIds": [
+        "radar-west:goa-quash",
+        "radar-west:goa-reasons"
+      ],
+      "split": "test",
+      "intent": "boundary",
+      "queryAuthor": "independent-evaluation-agent",
+      "rationale": "Both source limitations delimit the specific proceeding and original-order access. Other resource and dam disputes cannot establish a blanket judicial resolution."
+    },
+    {
+      "id": "test-kiifb-service-evidence",
+      "caseId": "radar-south-east:case:kiifb-publicity",
+      "text": "Which KIIFB record preserves evidence that publicity services were received while also identifying missing supplier invoice tiers?",
+      "query": "Which KIIFB record preserves evidence that publicity services were received while also identifying missing supplier invoice tiers?",
+      "positiveIds": [
+        "radar-south-east:source:kiifb-report",
+        "radar-south-east:source:kiifb-news"
+      ],
+      "relevance": {
+        "radar-south-east:source:kiifb-report": 2,
+        "radar-south-east:source:kiifb-news": 1
+      },
+      "hardNegativeIds": [
+        "radar-south-east:source:kiifb-ceo-notice",
+        "radar-south-east:source:kiifb-resources"
+      ],
+      "requiredCounterevidenceIds": [
+        "radar-south-east:source:kiifb-report"
+      ],
+      "split": "test",
+      "intent": "boundary",
+      "queryAuthor": "independent-evaluation-agent",
+      "rationale": "The accounts include qualification and favourable service evidence. News gives partial audit context. A resignation or disclosure index cannot prove the services were absent."
+    },
+    {
+      "id": "test-kiifb-resignation",
+      "caseId": "radar-south-east:case:kiifb-publicity",
+      "text": "Where does KIIFB say its chief executive tendered a resignation with acceptance still pending, without establishing that the audit caused the departure?",
+      "query": "Where does KIIFB say its chief executive tendered a resignation with acceptance still pending, without establishing that the audit caused the departure?",
+      "positiveIds": [
+        "radar-south-east:source:kiifb-ceo-notice",
+        "radar-south-east:source:kiifb-resources"
+      ],
+      "relevance": {
+        "radar-south-east:source:kiifb-ceo-notice": 2,
+        "radar-south-east:source:kiifb-resources": 1
+      },
+      "hardNegativeIds": [
+        "radar-south-east:source:kiifb-report",
+        "radar-south-east:source:kiifb-news"
+      ],
+      "requiredCounterevidenceIds": [
+        "radar-south-east:source:kiifb-ceo-notice"
+      ],
+      "split": "test",
+      "intent": "response",
+      "queryAuthor": "independent-evaluation-agent",
+      "rationale": "Exact exchange notice establishes tendered/pending status. Index is discovery context; accounting criticism cannot prove the causal reason for a personnel event."
+    },
+    {
+      "id": "test-kiifb-response",
+      "caseId": "radar-south-east:case:kiifb-publicity",
+      "text": "Find the stated fundraising-brand explanation for KIIFB publicity spending and the former finance minister response, including the limits on what that response proves.",
+      "query": "Find the stated fundraising-brand explanation for KIIFB publicity spending and the former finance minister response, including the limits on what that response proves.",
+      "positiveIds": [
+        "radar-south-east:source:kiifb-news",
+        "radar-south-east:source:kiifb-report"
+      ],
+      "relevance": {
+        "radar-south-east:source:kiifb-news": 2,
+        "radar-south-east:source:kiifb-report": 1
+      },
+      "hardNegativeIds": [
+        "radar-south-east:source:kiifb-ceo-notice",
+        "radar-south-east:source:hal-annual"
+      ],
+      "requiredCounterevidenceIds": [
+        "radar-south-east:source:kiifb-news",
+        "radar-south-east:source:kiifb-report"
+      ],
+      "split": "test",
+      "intent": "response",
+      "queryAuthor": "independent-evaluation-agent",
+      "rationale": "News carries the named mandate response with its limitation; audited accounts contain management explanation. A separate career or resignation record supplies no invoice approval."
+    },
+    {
+      "id": "test-kiifb-accounting-scope",
+      "caseId": "radar-south-east:case:kiifb-publicity",
+      "text": "Which sources distinguish KIIFB publicity-documentation qualifications from separate programme emphasis matters, instead of adding both amounts together as stolen money?",
+      "query": "Which sources distinguish KIIFB publicity-documentation qualifications from separate programme emphasis matters, instead of adding both amounts together as stolen money?",
+      "positiveIds": [
+        "radar-south-east:source:kiifb-report",
+        "radar-south-east:source:kiifb-news"
+      ],
+      "relevance": {
+        "radar-south-east:source:kiifb-report": 2,
+        "radar-south-east:source:kiifb-news": 2
+      },
+      "hardNegativeIds": [
+        "radar-south-east:source:kiifb-ceo-notice",
+        "radar-west:gim-report"
+      ],
+      "requiredCounterevidenceIds": [
+        "radar-south-east:source:kiifb-report",
+        "radar-south-east:source:kiifb-news"
+      ],
+      "split": "test",
+      "intent": "boundary",
+      "queryAuthor": "independent-evaluation-agent",
+      "rationale": "Original accounts and news limitations both preserve separate opinion scope. Personnel notices and forestry audit totals do not establish a combined loss."
+    },
+    {
+      "id": "test-psb-liability",
+      "caseId": "radar-national:case:psb-writeoffs",
+      "text": "Which parliamentary banking reply distinguishes an accounting write-off from forgiveness of a borrower's legal obligation?",
+      "query": "Which parliamentary banking reply distinguishes an accounting write-off from forgiveness of a borrower's legal obligation?",
+      "positiveIds": [
+        "radar-national:source:psb-answer"
+      ],
+      "relevance": {
+        "radar-national:source:psb-answer": 2
+      },
+      "hardNegativeIds": [
+        "radar-national:source:fdi-cabinet",
+        "radar-south-east:source:tn-uday"
+      ],
+      "requiredCounterevidenceIds": [
+        "radar-national:source:psb-answer"
+      ],
+      "split": "test",
+      "intent": "boundary",
+      "queryAuthor": "independent-evaluation-agent",
+      "rationale": "The retained PSB reply explicitly distinguishes write-offs and waivers. Foreign investment policy and power-sector financial reporting do not answer the liability distinction."
+    },
+    {
+      "id": "test-psb-recovery-vintage",
+      "caseId": "radar-national:case:psb-writeoffs",
+      "text": "Why would dividing this year's public-bank recoveries by this year's written-off balance give a misleading cohort recovery rate? Find the source of that qualification.",
+      "query": "Why would dividing this year's public-bank recoveries by this year's written-off balance give a misleading cohort recovery rate? Find the source of that qualification.",
+      "positiveIds": [
+        "radar-national:source:psb-answer"
+      ],
+      "relevance": {
+        "radar-national:source:psb-answer": 2
+      },
+      "hardNegativeIds": [
+        "radar-south-east:source:swasthya-audit",
+        "radar-south-east:source:odisha-dmf-ie"
+      ],
+      "requiredCounterevidenceIds": [
+        "radar-national:source:psb-answer"
+      ],
+      "split": "test",
+      "intent": "boundary",
+      "queryAuthor": "independent-evaluation-agent",
+      "rationale": "Reply explains that recoveries can concern different vintages. Health-insurer and mineral-fund recoveries involve different accounting populations."
+    },
+    {
+      "id": "test-psb-names",
+      "caseId": "radar-national:case:psb-writeoffs",
+      "text": "What public record limits disclosure of the large written-off bank borrowers, so that aggregate totals cannot be joined to named companies or ministers?",
+      "query": "What public record limits disclosure of the large written-off bank borrowers, so that aggregate totals cannot be joined to named companies or ministers?",
+      "positiveIds": [
+        "radar-national:source:psb-answer"
+      ],
+      "relevance": {
+        "radar-national:source:psb-answer": 2
+      },
+      "hardNegativeIds": [
+        "radar-national:source:fdi-clarification",
+        "radar-west:cg-incorporation"
+      ],
+      "requiredCounterevidenceIds": [
+        "radar-national:source:psb-answer"
+      ],
+      "split": "test",
+      "intent": "boundary",
+      "queryAuthor": "independent-evaluation-agent",
+      "rationale": "Parliamentary answer describes confidentiality and separate CRILC aggregate. Proposed FDI or an incorporation disclosure does not identify these bank borrowers."
+    },
+    {
+      "id": "test-psb-population",
+      "caseId": "radar-national:case:psb-writeoffs",
+      "text": "Find the banking reply whose answer covers twelve financial years of domestic Large Industry and Services even though the question requested fifteen years of corporate loans.",
+      "query": "Find the banking reply whose answer covers twelve financial years of domestic Large Industry and Services even though the question requested fifteen years of corporate loans.",
+      "positiveIds": [
+        "radar-national:source:psb-answer"
+      ],
+      "relevance": {
+        "radar-national:source:psb-answer": 2
+      },
+      "hardNegativeIds": [
+        "radar-south-east:source:bmrcl-audit",
+        "radar-national:source:fdi-gazette"
+      ],
+      "requiredCounterevidenceIds": [
+        "radar-national:source:psb-answer"
+      ],
+      "split": "test",
+      "intent": "boundary",
+      "queryAuthor": "independent-evaluation-agent",
+      "rationale": "Source limitation makes the requested and answered populations explicit. Foreign-debt infrastructure and FDI rules do not fill omitted years or categories."
+    }
+  ]
+}

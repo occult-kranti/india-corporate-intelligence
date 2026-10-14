@@ -8,6 +8,39 @@ The platform is as interested in what it cannot show as in what it can.
 
 ---
 
+## Geographic investigation workspace
+
+Every route now starts with a geographic India map linked to a relationship
+graph and an evidence inspector. Choose a place, change layers or dates, trace
+recorded paths, compare coverage, and save records with analyst notes in a local
+casebook. JSON and Markdown exports carry sources, financial stages, limitations
+and explicitly linked responses. **Dossier** opens each route's original tools.
+
+The workspace combines the retained education, water/food, public works,
+corporate, political, finance, welfare, NGO and security registers. New primary
+research adds **`/justice`** and **`/debt`**, and refreshes PM CARES accounts through
+FY2024-25. Current 36-unit map geometry distinguishes activity/programme coverage
+from headquarters and constituency associations. Historical ambiguous boundaries
+remain unassigned; missing records are not an absence of activity.
+
+The [supplied tender publication](https://tender.sarthaksidhant.com/) now connects
+to 156 reviewed buyer-cohort trails, source-bearing exports and nine reproducible
+corpus-audit findings. The analysis checks both original databases, join cardinality,
+deduplication, time coverage and field semantics. Follow the
+[analysis and review](docs/tender-investigation/ANALYSIS_PANEL.md); award values
+remain distinct from payments and delivery.
+
+This is a curated public-record corpus, not an exhaustive government database or
+live corruption-detection service. Allegations, charges, audit findings, court
+outcomes, write-offs and recoveries retain their distinct meanings. The graph
+uses verified record identities and bounded previews with complete ledgers.
+
+- [Architecture](docs/investigation/ARCHITECTURE.md)
+- [Two-round panel decisions](docs/investigation/PANEL.md)
+- [Source and data contracts](docs/investigation/DATA.md)
+- [Programme roadmap](docs/investigation/ROADMAP.md)
+- [Verification](docs/investigation/VERIFICATION.md)
+
 ## Why it is built this way
 
 Two projects merged here from opposite ends.
@@ -59,16 +92,71 @@ Line style in every graph carries the tier. It is semantic and is never restyled
 Full file-by-file index: [`docs/INDEX.md`](docs/INDEX.md). Picking this up cold:
 [`HANDOFF.md`](HANDOFF.md).
 
-32 routes, grouped as the sidebar groups them.
+### Roads, bridges and public works
+
+`/public-works` examines roads and bridges alongside electricity, water,
+hospitals, schools, police, military, recruitment and administration. Sector,
+state, locality and source filters lead to historical procurement aggregates,
+attributed case files, legal changes and source-backed relationship subgraphs.
+Network focus, depth and table view can be shared in the URL. Sources and
+relationships export with their dates and evidence limits.
+
+The CPPP figures describe the retained third-party scrape and its stated dedup
+rule, not a verified national procurement census. Buyer labels identify bodies,
+not project locations. Repeated work is assessed only when asset, authority,
+location, scope, stage and periods are comparable; a manual two-record check
+exposes those requirements. Political contributions and public roles remain typed
+facts, never an automatic claim of award influence.
+
+Research, both panel rounds and verification are in
+[`docs/public-works`](docs/public-works). The reusable
+[`public-procurement-investigation` skill](.claude/skills/public-procurement-investigation/SKILL.md)
+records the source, identity, procurement-stage and legal-applicability workflow.
+
+### Education funding and access
+
+`/education` is a source-led research desk for school and college funding, public
+and private institutions, government schemes, CSR, NGOs, foreign contributions,
+development loans and private capital. Filter evidence by state/UT, locality,
+management, level and channel; save a reading list locally and export the selected
+sources. Filters are shareable in the route URL.
+
+School-count changes are **net changes in reported institution stocks**, not
+verified closure events. All-state navigation does not imply complete local
+coverage. Each source and funding figure retains its scope, period and limitation;
+commitments, outlays, releases and expenditure are not summed together.
+
+Research, the two-round panel decisions, and the expansion roadmap live in
+[`docs/education`](docs/education). The optional open-source document-ranking
+workflow runs locally and produces research suggestions, never verified claims.
+
+### Water and food security
+
+`/water` follows drinking water, groundwater, weather, procurement and the food
+chain from seeds to grain, rice and vegetables. Its publication review window is
+**6 October 2021–6 October 2026**. Observation periods, publication dates and
+forecast validity remain separate; undated and older sources are available through
+explicit filters. State, place, subject and stage filters are shareable; source
+exports retain limitations and forecast status, and the reading list stays local.
+
+All 36 states/UTs are navigable, with bounded city, district and village evidence
+and official local retrieval routes. Connections are not safe-supply outcomes,
+rainfall is not a drought declaration, and production is not food distribution.
+This is a curated historical evidence desk, not a live warning service or an
+exhaustive local census. Panel decisions and the expansion roadmap are in
+[`docs/water`](docs/water).
+
+40 routes, grouped by their original dossiers. The shared navigation rail and all-lenses menu keep map context across topic changes.
 
 **Markets** — `/` dashboard · `/map` the NSE/BSE map, with an index filter (`idx=nifty50|sensex30|sensex50`)
 · `/geograph` the geographic network · `/industries` sector concentration · `/conglomerates` the ten
 largest groups, and `/conglomerates/:id` each group in depth · `/interlocks` who sits on more than one
 board · `/states/:code` per-state drill-down · `/company/:id`
 
-**Registers** — `/tenders` government awards · `/resources` coal, minerals, hydrocarbons and spectrum
+**Registers** — `/public-works` roads, bridges and public procurement · `/water` water and food security · `/education` education funding and access · `/security` security spending · `/tenders` government awards · `/resources` coal, minerals, hydrocarbons and spectrum
 · `/pmcares` PM CARES against its PMNRF control · `/energy` the energy power map · `/welfare`
-distribution funds, 2000–2026 · `/media` ownership · `/allocation` every register on one graph
+distribution funds, 2000–2026 · `/finance` foreign money: loans, associations, capital · `/media` ownership ·
+`/allocation` every register on one graph
 
 **Power** — `/cabinet` the Union Council of Ministers · `/network` the merged connection graph ·
 `/atlas` the Money-Trail case study
@@ -81,6 +169,8 @@ this is built, with a live integrity check
 
 **Tools** — `/search` · `/political` donations, with the flow diagram · `/watchlist`
 
+**Investigation additions** — `/investigate` geographic workspace alias · `/justice` decisions and oversight · `/debt` corporate debt and recovery
+
 ### The energy power map and distribution funds
 
 `/energy` draws the merged graph filtered to the energy layer: coal, mines, oil and gas, hydro,
@@ -92,6 +182,24 @@ in the scrubbed year, and three different fills for three different absences: no
 no comparable figure, and declared searched with none live. Party is text, never a colour.
 
 Both pages read generated modules, never the raw research. Both render honestly with zero records.
+
+### Foreign money and the national tender record
+
+`/finance` puts external loans, foreign contributions and foreign capital on one route as three lenses.
+A loan is a contract with terms — lender, borrower, instrument, rate, tenor, grace, conditions — and the
+World Bank census (1,117 India projects) sits beside the hand-researched sample and is never summed with
+it. FCRA receipts and actions are shown with every allegation beside its answer and no classification by
+keyword, religion or stance. Foreign holders of NIFTY 50 companies are a grid that always shows the
+comparison set — Norway's fund, Singapore's, LIC, the promoter — beside BlackRock, and renders nothing
+below four rows. Institutions, not bloodlines: a family, religion or ethnicity is never a node, edge,
+filter or colour; a narrative that names one is rated on the ladder with its strongest counter.
+
+`/tenders?section=national` is the Central Public Procurement Portal award record: 4.92 million scraped
+rows reduced to 3.39 million award decisions by a stated dedup rule, the dataset's own defects printed
+before any rate, single-bidder rates with Wilson intervals over their declared denominator (11.22 %
+overall; central 17.67 %, state 7.59 %), decision windows, concentration by buyer, and the live
+verification in which all 40 sampled portal pages were gone — so every field stays `reported`. The
+pipeline names at most five marked winners per buyer and nobody else.
 
 ### The geographic network
 
@@ -165,9 +273,16 @@ something structural rather than on the substance it claims to detect.
 
 ---
 
-## The map
+## Current and historical maps
 
-`src/data/india-geo.json` — 36 real state and UT boundary paths at `viewBox 0 0 612 696`.
+The shared workspace uses `src/components/investigation/assets/india-current36.json`
+with the current 36 administrative units, including separate Ladakh and merged
+Dadra and Nagar Haveli and Daman and Diu. Its source, licence and transformation
+are recorded in the adjacent asset README.
+
+The following describes the historical dossier map, `src/data/india-geo.json`,
+with 36 older boundary paths at `viewBox 0 0 612 696`. It must not be reused as
+current administrative geography.
 
 - Label anchors are the **pole of inaccessibility** of each state's largest sub-polygon — the interior
   point furthest from any edge. Bounding-box centres fall outside Gujarat, Kerala, Odisha and West
@@ -201,6 +316,10 @@ which means a hallucinating researcher cannot corrupt the graph without passing 
 | `indices.json` | NIFTY 50 (50), SENSEX 30 (30), SENSEX 50 (49 of 50) | Joined to companies by id only; the unconfirmed fiftieth is a gap, not a guess |
 | `energy/*.json` | 12 domain files + `RECONCILIATION.json`, `AUDIT.json` | 60 cross-examiner verdicts; 1 claim killed |
 | `welfare/*.json` | 7 domain files + `RECONCILIATION.json`, `AUDIT.json` | 35 cross-examiner verdicts; 4 claims killed |
+| `finance/*.json` | 7 domain files + `RECONCILIATION.json`, `AUDIT.json` | 84 verdicts; 6 killed. `worldbank-projects.json` is fetched by script (1,117 projects, 849 commitments) |
+| `ngo/*.json` | 5 domain files + `RECONCILIATION.json`, `AUDIT.json` | 142 verdicts; 14 killed. FCRA figures routed through Parliament answers, MHA reports and PIB |
+| `capital/*.json` | 16 domain files + `RECONCILIATION.json`, `AUDIT.json` | 61 verdicts; 15 killed. 96 holdings across 38 of 50 NIFTY constituents, 19 controls |
+| `cppp/*.json` | 6 aggregate files from `scripts/cppp/build.py` | 4,921,960 rows → 3,385,233 award decisions; aggregates only, no award row and no unmarked name |
 
 Every figure is stamped `asOf` and is as-of-a-date, never current. Companies are attributed to their
 **registered** headquarters — Coal India is Kolkata-registered though the coal is in Jharkhand and
@@ -211,7 +330,7 @@ corporate maps.
 
 ## Agents and skills
 
-`.claude/agents/` — twelve agents, each hired for a bounded job with an explicit refusal surface.
+`.claude/agents/` — fourteen agents, each hired for a bounded job with an explicit refusal surface.
 The six the graph was built on:
 
 | Agent | Refuses to |
@@ -224,10 +343,13 @@ The six the graph was built on:
 | `viz-engineer` | Draw a state as a rectangle; restyle a tier for aesthetics |
 
 The others: `interface-designer`, `frontend-developer`, `pattern-prospector`, `investigative-desk`,
-`cross-examiner` (one claim, one lens, default refuted) and `energy-analyst`.
+`cross-examiner` (one claim, one lens, default refuted), `energy-analyst`, `finance-analyst` (refuses a
+family or ethnicity as an edge, a holder shown alone, a ₹ total over loans) and `procurement-analyst`
+(refuses an unmarked name, a rate without its family, a rebuild that is not byte-identical).
 
-`.claude/skills/` — fourteen, including `evidence-tiering`, `pattern-discipline`, `india-map`,
-`graph-schema`, `cui-bono` (who benefits, as a ledger row with a falsifier) and `energy-money-trail`.
+`.claude/skills/` — fifteen, including `evidence-tiering`, `pattern-discipline`, `india-map`,
+`graph-schema`, `cui-bono` (who benefits, as a ledger row with a falsifier), `energy-money-trail` and
+`foreign-money-trail` (what the three foreign-money fleets established, with the narratives ladder).
 Full list: [`docs/INDEX.md`](docs/INDEX.md) §7.
 
 Plugins (SweetClaude, superpowers) are installed at user scope and referenced, never vendored. Which
@@ -241,22 +363,37 @@ stages of a build they supply: [`docs/PLUGINS.md`](docs/PLUGINS.md).
 npm install
 npm run dev            # vite dev server
 npm run promote        # research/raw → resolution + grounding report
-npm run generate       # research fleets → the two *.generated.ts modules
+npm run generate       # research fleets → the five *.generated.ts modules
 npm run test:assemble  # assembler and merge tests, synthetic fixture
 npm run validate       # data-integrity gate — the four invariants
+npm run validate:education # education sources, accounting stages and geographic reconciliation
+npm run test:education # filters, counting and population-comparison guards
+npm run test:education:browser # built page: export, saved work, filters/history and district coverage
+npm run test:education:model # pinned suggestion provenance; Python 3, no model download
+npm run validate:water # water source dates, provenance and assembled data
+npm run test:water     # geographic, accounting and forecast-validity guards
+npm run test:water:browser # filters, historical bulletins, export and local gaps
+npm run test:water:model # verify locally executed reading suggestions; no model download
+npm run validate:public-works # source, geography, identity and archive integrity
+npm run test:public-works # comparison, graph and exact-source controls
+npm run test:public-works:model # verify actual local model provenance
+npm run test:public-works:browser # nine-sector workflow and responsive network
 npm run build          # tsc -b && vite build
-npm run smoke          # headless render of all 32 routes; serves dist itself
+npm run smoke          # 140 map/dossier loads across 70 route/query variants; serves dist itself
 npm run viewport       # the graph camera gate
-npm run check          # promote + generate + test:assemble + validate + build + smoke + viewport
-npm run test:pages     # /energy and /welfare acceptance suites — not yet in check or CI
+npm run check          # research, education, model integrity, build and browser regression gates
+npm run test:pages     # the page acceptance suites (explicit file list)
 ```
+
+The CPPP pipeline is Python and offline: `scripts/cppp/README.md` has the rebuild command and the tests.
+CI does not install duckdb or pyarrow; the six JSON files it writes are committed and compiled in.
 
 `npm run smoke` serves `dist` on an ephemeral port itself — there is no preview server to start or
 wait on. Pass a base URL as the first argument to point it somewhere else. It uses the environment's
 pinned Chromium; override with `PLAYWRIGHT_CHROMIUM_PATH`, or `npx playwright install chromium`.
 
-`test:pages` stays out of the gate until the `/welfare` suite's corrections land and both suites
-are green on consecutive runs. See [`HANDOFF.md`](HANDOFF.md).
+All four page suites (energy, welfare, tenders national, finance) are in `test:pages`; each
+joined only after three consecutive green runs on a pinned build. See [`HANDOFF.md`](HANDOFF.md).
 
 ### Stack
 
@@ -295,7 +432,7 @@ MIT.
 
 ### Investigation workspace (October 2026)
 
-- [Investigation network](https://occult-kranti.github.io/india-corporate-intelligence/#/investigations): 21 selected dossiers with 42 cited sources, record status, responses and limitations. The graph shows source provenance, not guilt.
+- [Investigation network](https://occult-kranti.github.io/india-corporate-intelligence/#/investigations): 22 selected dossiers with 51 cited sources, record status, responses and limitations. The graph shows source provenance, not guilt.
 - [Unresolved leads](https://occult-kranti.github.io/india-corporate-intelligence/#/leads): 21 predictions with alternative explanations, falsifiers and records needed to test them.
 - [PM CARES accounts](https://occult-kranti.github.io/india-corporate-intelligence/#/pmcares): FY2024–25 and FY2023–24 comparative figures, exact cash reconciliation and downloadable verified transcription.
 - [Game theory lab](https://occult-kranti.github.io/india-corporate-intelligence/#/game-theory): assumed payoffs, sensitivity and locally saved/exportable evidence worksheets.

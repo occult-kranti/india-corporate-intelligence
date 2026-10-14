@@ -1,3 +1,4 @@
+import { preserveWorkspaceParams } from '../lib/dossierNavigation';
 import { useCallback, useMemo, useRef, useState, type ReactNode } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import {
@@ -583,7 +584,7 @@ export default function GeoGraph() {
                 >
                   copy link to this view
                 </button>
-                <button onClick={() => setParams(new URLSearchParams(), { replace: true })} className="btn-ghost w-full !text-[12px]">
+                <button onClick={() => setParams(preserveWorkspaceParams(new URLSearchParams(), params), { replace: true })} className="btn-ghost w-full !text-[12px]">
                   reset
                 </button>
               </>

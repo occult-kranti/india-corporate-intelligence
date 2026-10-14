@@ -1,0 +1,2054 @@
+ 
+	 
+	 eProcurement System Government of India 
+ 
+ 
+ 
+ 
+ 
+ 
+ eProcurement System 
+ djConfig = {"baseRelativePath":"/eprocure/app?service=asset&path=%2Fgep%2F","preventBackButtonFix":false,"parseWidgets":false,"locale":"en-us"}  
+
+    
+ 
+dojo.registerModulePath("tapestry", "/eprocure/app?service=asset&path=%2Ftapestry%2F");
+ 
+  
+ 
+dojo.require("tapestry.namespace");
+tapestry.requestEncoding='UTF-8';
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+	   
+ 
+ 
+  
+ 
+
+
+
+ 
+  
+  
+  
+ 
+ 
+ 0&&parent.frames.length) {
+	    d=parent.frames[n.substring(p+1)].document; n=n.substring(0,p);}
+	  if(!(x=d[n])&&d.all) x=d.all[n]; for (i=0;!x&&i 
+ 
+
+ 
+
+
+ 
+
+	
+	 
+
+	if(navigator.appName == 'Microsoft Internet Explorer')
+	{
+	document.onkeydown = fnCheckKeysMIE;
+	}
+	else if(navigator.appName == 'Netscape')
+	{
+	document.onkeydown = fnCheckKeysNMF;
+	}
+	
+	function fnCheckKeysNMF(event)
+	{
+	
+	var e=event? event : window.event;
+	var event_element=e.target? e.target : e.srcElement;
+	
+	if (event.ctrlKey && (event.keyCode==78 || event.keyCode==84 || event.which==78 || event.which==84))
+	{
+	return false;
+	}
+	
+	if (event.altKey && (event.keyCode==37 || event.which==37))
+	{
+	return false;
+	}
+	
+	if (event.keyCode==8 && (event_element.tagName != 'INPUT' && event_element.tagName != 'TEXTAREA'))
+	{
+	return false;
+	}
+	
+	}
+	
+	function fnCheckKeysMIE()
+	{
+	
+	var e=event? event : window.event;
+	var event_element=e.target? e.target : e.srcElement;
+	
+	if (event.ctrlKey && (event.keyCode==78 || event.keyCode==84 || event.which==78 || event.which==84))
+	{
+	return false;
+	}
+	
+	if (event.altKey && (event.keyCode==37 || event.which==37))
+	{
+	return false;
+	}
+	
+	if (event.keyCode==8 && (event_element.tagName != 'INPUT' && event_element.tagName != 'TEXTAREA'))
+	{
+	return false;
+	}
+	
+	}
+
+	window.history.forward();
+	function noBack(){ window.history.forward(); }
+	
+	 
+		
+	 
+		 
+			 
+				 
+					 
+      
+     
+		 
+		   Screen Reader Access 
+				
+		   
+		 
+		 
+		 
+     
+        
+   		
+   
+      
+   
+
+    
+     
+		 
+          
+           
+				07-Oct-2026 
+		   
+           
+	            
+					 
+						
+		             	  
+							 Search 
+						 
+						 | 
+					  
+						
+		             	  
+							 Active Tenders 
+						 
+						 | 
+					  
+						
+		             	  
+							 Tenders by Closing Date 
+						 
+						 | 
+					  
+						
+		             	  
+							 Corrigendum 
+						 
+						 | 
+					  
+						
+		             	  
+							 Bid Awards 
+						 
+						 | 
+					  
+						 
+				             CPPP Home 
+		             	  
+		             	 
+						
+					 
+	           
+	          
+           
+           
+			 
+                
+                       
+                       
+                                        
+               
+              
+         
+        
+   
+   
+	 
+		 
+	 
+		    
+		 
+			 
+				
+				 
+					eProcurement System Government of India
+				 
+			 
+		 
+	 
+ 
+	 
+   
+ 
+ 
+    
+ 
+
+				 
+			 
+			 
+				 
+					 
+						 
+
+							  
+
+	// Script to view document in popup
+	function popup(mylink, windowname)
+	{
+		if (! window.focus)return true;
+		var href;
+		if (typeof(mylink) == 'string')
+	 		href=mylink;
+		else
+			href=mylink.href;
+			window.open(href, "Popup", 'location=no, scrollbars=yes, toolbar=no, width=700, height=550, directories=no, menubar=no, resizable=yes, status=no, titlebar=yes');
+			return false;   
+	}
+
+ 
+
+ 	
+	
+	  
+           
+      
+     	
+	 
+		 
+			 
+				 
+					 
+						 
+							 
+			             		  
+					             	  MIS Reports  
+					              
+			             	  
+			             	 
+			             	 
+			             	   
+				                  
+				              
+			             	 
+						 
+					  
+						 
+							
+			             	  
+				             	   
+				                	  Tenders by Location  
+				             	  
+			             	  
+			             	 
+			             	   
+				                  
+				              
+			             	 
+						 
+					  
+						 
+							
+			             	  
+				             	   
+				                	  Tenders by Organisation  
+				             	  
+			             	  
+			             	 
+			             	   
+				                  
+				              
+			             	 
+						 
+					  
+						 
+							
+			             	  
+				             	   
+				                	  Tenders by Classification  
+				             	  
+			             	  
+			             	 
+			             	   
+				                  
+				              
+			             	 
+						 
+					  
+						 
+							
+			             	  
+				             	   
+				                	  Tenders in Archive  
+				             	  
+			             	  
+			             	 
+			             	   
+				                  
+				              
+			             	 
+						 
+					  
+						 
+							
+			             	  
+				             	   
+				                	  Tenders Status  
+				             	  
+			             	  
+			             	 
+			             	   
+				                  
+				              
+			             	 
+						 
+					  
+						 
+							
+			             	  
+				             	   
+				                	  Cancelled/Retendered  
+				             	  
+			             	  
+			             	 
+			             	   
+				                  
+				              
+			             	 
+						 
+					  
+						 
+							
+			             	  
+				             	   
+				                	  Downloads  
+				             	  
+			             	  
+			             	 
+			             	   
+				                  
+				              
+			             	 
+						 
+					  
+						 
+							
+			             	  
+				             	   
+				                	  Debarment List  
+				             	  
+			             	  
+			             	 
+			             	   
+				                  
+				              
+			             	 
+						 
+					  
+						 
+							
+			             	  
+				             	   
+				                	  Announcements  
+				             	  
+			             	  
+			             	 
+			             	   
+				                  
+				              
+			             	 
+						 
+					  
+						 
+							
+			             	  
+				             	   
+				                	  Recognitions  
+				             	  
+			             	  
+			             	 
+			             	   
+				                  
+				              
+			             	 
+						 
+					  
+						 
+							
+			             	  
+				             	   
+				                	  Site compatibility  
+				             	  
+			             	  
+			             	 
+			             	   
+				                  
+				              
+			             	 
+						 
+					  
+						
+					  
+						
+					  
+						
+					  
+						
+					  
+						
+					 
+					
+					  
+		                  
+		              
+				 
+				
+				 
+					  
+	               		 
+							 
+								  
+				             		 
+				             			      
+				             		 
+				             		   
+						                  
+						              
+				             	    
+				             		 
+				             			      
+				             		 
+				             		   
+						                  
+						              
+				             	    
+				             		 
+				             			      
+				             		 
+				             		   
+						                  
+						              
+				             	    
+				             		 
+				             			      
+				             		 
+				             		   
+						                  
+						              
+				             	    
+				             		 
+				             			      
+				             		 
+				             		   
+						                  
+						              
+				             	  
+							 
+				 		 
+	             	 					
+				 	
+				
+				  
+					 &nbsp; 
+			  	 							
+			  	
+			 
+		 
+	 
+	
+  
+							 
+							 
+								
+
+	 
+
+
+		/**
+		* This method invokes the print dialog
+		*/
+		function callPrint(){
+			window.print();
+		}
+		// Script to view document in popup
+     function popUp(obElm, sFeature){
+	var sLink;
+
+	if(typeof(obElm) == 'string'){
+		sLink = obElm;
+	}
+	else{
+		sLink = obElm.href;
+		
+		var obWin = window.open(sLink, "ChildPopup", sFeature);
+		
+		obWin.focus();
+		
+		if(!obWin.opener) obWin.opener = _self;
+		
+		return false;
+	}
+
+}
+		function popup(mylink, windowname)
+			{
+				if (! window.focus)return true;
+				var href;
+			if (typeof(mylink) == 'string')
+   				href=mylink;
+			else
+  				 href=mylink.href;
+				window.open(href, "Popup", 'location=no, scrollbars=yes, toolbar=no, width=800, height=400, directories=no, menubar=no, resizable=yes, status=no, titlebar=yes');
+					return false;   
+			}
+
+	 
+	 
+		 
+			    
+					    View More Details  
+			    
+			   					
+					    Tender Details 	
+			   
+			   
+					 &nbsp; 
+			   
+			    
+				 
+					 
+					 
+						 
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+						
+						 
+							 
+									 
+										 
+											 											  
+												  
+													  
+													     
+													   Basic Details 
+													     
+													 
+												 
+											 																										
+											 
+										 
+									 
+									 
+										 
+											 
+												 
+													  Organisation Chain  
+													  National Highways and Infrastructure Development Corporation||Corporate Office-New Delhi - NHIDCL  
+												 
+												
+												 
+													  Tender Reference Number  
+													  NHIDCL/JnK-Ladakh/ Zojila/NH-01/2020  
+												 
+												 	
+													  Tender ID  
+													  2020_NHIDC_564017_1  
+													 Withdrawal Allowed 
+													 Yes 
+												 
+												 
+													 Tender Type 
+													 Open Tender 
+													 Form Of Contract 
+													 EPC Contract 
+													
+												 
+												 	
+													 Tender Category 
+													 Works 
+													 No. of Covers 
+													 2 
+												 
+												
+												 
+													 General Technical Evaluation Allowed  
+													 No 
+													
+													 ItemWise Technical Evaluation Allowed 
+													 No 
+												 
+												 
+													 Payment Mode 
+													 Offline 
+													 Is Multi Currency Allowed For BOQ 
+													 No 
+												 	
+												
+												 
+													 Is Multi Currency Allowed For Fee 
+													 No 
+													 Allow Two Stage Bidding 
+													 No 
+												 
+											 
+										 
+									 
+									 
+										 
+											&nbsp;
+										 
+									 
+									
+									
+									  
+									 
+										  
+												  
+												     
+												   Latest Corrigendum List 
+												     
+												  
+										 
+									 
+									
+									 
+									 
+										 
+											 
+													 
+														 S.No 
+														 Corrigendum Title 
+														 Corrigendum Type 
+														 View 
+													 
+													
+													 
+														   
+														   
+														   
+														     
+													 						                																
+													
+											 
+									 
+									 
+									 
+									  -->
+									
+									
+
+									 
+										 
+											 
+												 
+												 
+													 
+															 
+																	  
+																		 
+																		 
+																			  
+																			     
+																			   Payment Instruments 
+																			     
+																			  
+																		 
+																	  
+																	  
+																		  
+																			  
+																				 
+																					 
+																							
+																				
+																						 
+																							  
+																								  Offline  
+																								 
+																									 
+																										 
+																											 
+																												 
+																													
+
+ 
+	
+																														 
+																															 S.No 
+																															 Instrument Type 																					
+																														 
+																														
+
+
+	 
+		
+																															 1 
+																															 R-T-G-S 
+																															
+																														
+	 
+
+	 
+		
+																															 2 
+																															 NEFT 
+																															
+																														
+	 
+
+
+
+																													
+ 
+
+
+																												 
+																												
+																											 
+																										 
+																									 
+																								 	
+																							 																												
+																						 
+																					 
+																				 
+																			 
+																		 
+																	 
+																 		
+															 
+													 
+													 
+													 
+														
+														 
+															  
+																 
+																	 
+																		  
+																		     
+																		   Covers Information, No. Of Covers - 2
+																		     
+																		 
+																	 
+																 
+															  
+															  
+																 
+																	 
+																		 
+																			 	
+																				 
+																					 
+																						 
+																							 
+																								
+
+ 
+	
+																									 
+																										 Cover No 
+																										  Cover Type  
+																										 Description 
+																										 Document Type 
+																									 
+																									
+
+
+	 
+		
+																										        1 
+																												 Fee/PreQual/Technical 
+																												 Technical Bid 
+																												 .rar 
+																															
+																									
+	 
+
+	 
+		
+																										         
+																												  
+																												 POA 
+																												 .rar 
+																															
+																									
+	 
+
+	 
+		
+																										         
+																												  
+																												 Cost of Bid Document 
+																												 .rar 
+																															
+																									
+	 
+
+	 
+		
+																										        2 
+																												 Finance 
+																												 Financial Bid 
+																												 .xls 
+																															
+																									
+	 
+
+
+
+																								
+ 
+
+
+																							 
+																							
+																						 
+																					 
+																				 
+																			 
+																		 
+																	 
+																 
+															 	
+														 
+													
+													 
+												 
+											 
+										 
+									 
+									  
+										 &nbsp; 
+									 
+									 
+										 
+											 
+												   View Other Important Documents Details 
+											 	
+										 
+									  -->
+									
+									 
+										 											
+											 
+												 Document download date is over you cannot download the documents 
+											 
+										 
+									 
+
+									  
+										 
+											&nbsp;
+										 
+									  
+									
+								 	 	 
+							
+									 
+										 &nbsp; 
+									 
+												 
+													 
+														 	
+															 
+																 
+																	 
+																		 
+																			  
+																				 
+																					 
+																						  
+																							   
+																							 Tender Fee Details, [Total Fee in &#8377;  *   - 5,23,000] 
+																							   
+																						 
+																					 
+																				 
+																			 
+																			 	
+																				 
+																					 
+																						 
+																							 
+																								 Tender Fee in &#8377;  
+																									
+																								 
+																								 5,23,000 
+																							 	
+																							
+																						 
+																						
+																						 	
+																							 Fee Payable To 
+																							 MDNHIDCL 
+																							 Fee Payable At 
+																							 New Delhi 
+																						 
+																						 
+																							 Tender Fee Exemption Allowed 
+																							 No 
+																						 
+																						
+																					 
+																				 
+																			 
+																		 
+																	 		
+																 
+																 
+																	 
+																		 
+																			  
+																				 
+																					 
+																						  
+																						     
+																								 EMD Fee Details 
+																								   
+																						 
+																					 
+																				 
+																			 
+																			 	
+																				 
+																					 
+																						 	
+																							 EMD Amount in &#8377; 
+																								
+																							 
+																							 0.00 
+																							 EMD Exemption Allowed 
+																							 No 
+																						 
+																													
+																						 
+																							 EMD Fee Type  
+																							 fixed  
+																							 EMD Percentage 
+																							 NA 
+																						 
+																												
+																						 	
+																							 EMD Payable To 
+																							 Nil 
+																							 EMD Payable At 
+																							 Nil 
+																						 
+																						 
+																								
+																								
+																						 
+																						
+																						 
+																								
+																								
+																						 					
+																					 
+																				 
+																			 
+																		 
+																	 
+																 	
+															 
+														 
+													 
+												 
+												  &nbsp;  
+												
+												
+										 
+											 
+												 																			
+												 
+													
+														
+													
+													 
+												 
+											 
+										 	
+										  &nbsp;  
+										 
+						
+									 
+										 &nbsp; 
+									 
+									
+									 
+										 
+											 
+												   View GTE Details 
+											 
+											
+										 
+									 
+									 
+										 &nbsp; 
+									 	
+									 
+										 
+										 
+											   View   Experience Details 
+										 	
+										 
+									 -->
+									 
+										 &nbsp; 
+									 																	
+									  
+										  
+											  
+											     
+											   Work Item Details 
+											     
+											  
+										 
+									  
+									  	
+										 
+										 
+													 
+														  Title  
+														  Construction of (i) Connecting road from Z-Morh Tunnel to Zojila Tunnel and (ii) 14.150 km long bi-directional tunnel across Zojila Pass on Sonamarg-Kargil section of NH-01 on EPC mode in the Union Territories of Jand K and Ladakh  
+													 
+													 
+														  Work Description  
+														  Construction of (i) Connecting road from Z-Morh Tunnel to Zojila Tunnel and (ii) 14.150 km long bi-directional tunnel across Zojila Pass on Sonamarg-Kargil section of NH-01 on EPC mode in the Union Territories of Jand K and Ladakh  
+													 
+													 
+														  NDA/Pre Qualification  
+														  Please refer Tender documents.  
+													 
+													
+													 
+														  Independent External Monitor/Remarks  
+														  NA  
+													 
+													
+													 
+														 
+															  Tender Value in &#8377;   
+															  44,29,83,00,000  
+														 
+														
+															  Product Category  
+															 Civil Works  
+															  Sub category  
+															 NA&nbsp; 
+													 	
+													 
+														  Contract Type  
+														 Tender 
+														  Bid Validity(Days)  
+														 120 
+														  Period Of Work(Days)  
+														 912&nbsp; 
+													 	
+													 	
+														  Location  
+														 Jammu and Kashmir and Ladakh 
+														  Pincode  
+														 191203  																	
+														  Pre Bid Meeting Place  
+														 NHIDCL HQ&nbsp; 
+													 
+													 	
+														  Pre Bid Meeting Address  
+														 NHIDCL, 3rd Floor, PTI Building,
+4-Parliament Street, New Delhi-110001, India
+&nbsp; 
+														  Pre Bid Meeting Date  
+														 03-Jul-2020 03:00 PM&nbsp; 
+														  Bid Opening Place  
+														 NHIDCL HQ 
+													 
+													 	
+														  Should Allow NDA Tender  
+														 No&nbsp; 
+														  Allow Preferential Bidder  
+														 No 
+																																											
+													 
+													
+													 
+														
+													 
+													
+													 
+														
+													
+														
+													 
+														
+														 
+														
+													 
+													
+												 
+																								 Tenderer Class 
+																									 As per Tender Document  
+																									 
+													
+												 
+										   						 
+									 
+									 
+										 &nbsp; 
+									 	
+									
+									
+																										
+																									
+										
+																	 
+									   
+										  
+											  
+											     
+											    Critical Dates  
+											     
+											  
+										 
+									  
+									  									
+										   
+											 
+												
+											
+													  
+												  
+													  Published Date  
+													 10-Jun-2020 09:00 AM 
+													  Bid Opening Date  
+													 31-Jul-2020 11:30 AM 
+													
+												 
+												  
+													  Document Download / Sale Start Date  
+													 10-Jun-2020 09:00 AM 
+													  Document Download / Sale End Date  
+													 30-Jul-2020 11:00 AM 													
+												 
+												  
+													  Clarification Start Date  
+													 10-Jun-2020 09:00 AM 
+													  Clarification End Date  
+													 03-Jul-2020 11:00 AM 
+												 
+												  
+													  Bid Submission Start Date  
+													 15-Jul-2020 11:00 AM  
+													  Bid Submission End Date  
+													 30-Jul-2020 11:00 AM 
+												 												
+												
+												
+												
+											 
+										 
+									 
+								 	 
+										 
+											&nbsp;
+										 
+									 
+																									
+									  
+										  
+											  
+											     
+											   Tenders Documents  																	  
+											     
+											  
+										 
+									  
+									  
+										 
+											 																	
+											  
+											   
+												 
+													  
+														  NIT Document  
+														 
+															 
+																 
+																	 
+																		 
+																			
+
+ 
+	
+																					 																														
+																						 S.No 
+																						 Document Name 
+																						 Description 
+																						 Document Size (in KB) 																							
+																					 					            																										
+																					
+
+
+	 
+		
+																						 1 
+																						 
+																							
+																							 
+																								Tendernotice_1.pdf																												
+																							 
+																							
+																							 
+																								 
+																									 
+																								 	
+																							 
+																							
+																						 
+																						 
+																							NIT
+																						 
+																						 
+																							297.96
+																						 
+																																														
+																					
+	 
+
+
+
+																			
+ 
+
+
+																		 
+																	 
+																 
+																 
+																																		
+														 
+													 
+													
+													 
+													
+													 
+													
+													  
+													 
+													
+													 
+														 
+															
+														  
+														  
+															  Work Item Documents  
+															 
+															
+																 
+																		
+
+ 
+	
+																			 
+																				 S.No 
+																				 Document Type 		
+																				 Document Name 
+																				 Description 
+																				 Document Size (in KB) 																			
+																			 
+																			
+
+
+	 
+		
+																				 1    
+																				 Tender Documents 	     																													
+																				 
+																				
+																				 
+																					AttachmentDI.rar
+																				 
+																				
+																				 
+																					 
+																				 
+																				 
+																				 Attachment D1 																		
+																				 8397.65 																		
+																			
+	 
+
+	 
+		
+																				 2    
+																				 Tender Documents 	     																													
+																				 
+																				
+																				 
+																					SASE_REPORT_1.rar
+																				 
+																				
+																				 
+																					 
+																				 
+																				 
+																				 SASE Report 1 																		
+																				 25271.88 																		
+																			
+	 
+
+	 
+		
+																				 3    
+																				 Tender Documents 	     																													
+																				 
+																				
+																				 
+																					SASE_REPORT2.rar
+																				 
+																				
+																				 
+																					 
+																				 
+																				 
+																				 SASE Report 2 																		
+																				 21876.26 																		
+																			
+	 
+
+	 
+		
+																				 4    
+																				 Tender Documents 	     																													
+																				 
+																				
+																				 
+																					Schedule.pdf
+																				 
+																				
+																				 
+																					 
+																				 
+																				 
+																				 Schedule 																		
+																				 9228.10 																		
+																			
+	 
+
+	 
+		
+																				 5    
+																				 Tender Documents 	     																													
+																				 
+																				
+																				 
+																					DetailedGeologicalReport.rar
+																				 
+																				
+																				 
+																					 
+																				 
+																				 
+																				 Detailed Geological  Report 																		
+																				 4102.22 																		
+																			
+	 
+
+	 
+		
+																				 6    
+																				 Tender Documents 	     																													
+																				 
+																				
+																				 
+																					AnnexureB.pdf
+																				 
+																				
+																				 
+																					 
+																				 
+																				 
+																				 Annexure B 																		
+																				 37693.61 																		
+																			
+	 
+
+	 
+		
+																				 7    
+																				 BOQ 	     																													
+																				 
+																				
+																				 
+																					BOQ_591959.xls
+																				 
+																				
+																				 
+																					 
+																				 
+																				 
+																				 BOQ 																		
+																				 275.50 																		
+																			
+	 
+
+	 
+		
+																				 8    
+																				 Tender Documents 	     																													
+																				 
+																				
+																				 
+																					AppendixB1.rar
+																				 
+																				
+																				 
+																					 
+																				 
+																				 
+																				 Appendix B1 																		
+																				 8433.93 																		
+																			
+	 
+
+	 
+		
+																				 9    
+																				 Tender Documents 	     																													
+																				 
+																				
+																				 
+																					RFP.pdf
+																				 
+																				
+																				 
+																					 
+																				 
+																				 
+																				 RFP 																		
+																				 2544.92 																		
+																			
+	 
+
+	 
+		
+																				 10    
+																				 Tender Documents 	     																													
+																				 
+																				
+																				 
+																					EPC.pdf
+																				 
+																				
+																				 
+																					 
+																				 
+																				 
+																				 EPC 																		
+																				 3565.38 																		
+																			
+	 
+
+	 
+		
+																				 11    
+																				 Tender Documents 	     																													
+																				 
+																				
+																				 
+																					AttachmentDII.rar
+																				 
+																				
+																				 
+																					 
+																				 
+																				 
+																				 Attachment D2 																		
+																				 1261.75 																		
+																			
+	 
+
+	 
+		
+																				 12    
+																				 Tender Documents 	     																													
+																				 
+																				
+																				 
+																					Vol_06_Final_LiningDesignReport_1.rar
+																				 
+																				
+																				 
+																					 
+																				 
+																				 
+																				 Vol 6 Final  Lining Design Report 																		
+																				 29950.58 																		
+																			
+	 
+
+	 
+		
+																				 13    
+																				 Tender Documents 	     																													
+																				 
+																				
+																				 
+																					Vol_06_Final_LiningDesignReport_2.rar
+																				 
+																				
+																				 
+																					 
+																				 
+																				 
+																				 Vol 6 Final  Lining Design Report 2 																		
+																				 20030.45 																		
+																			
+	 
+
+	 
+		
+																				 14    
+																				 Tender Documents 	     																													
+																				 
+																				
+																				 
+																					Vol_06_Final_LiningDesignReport_3.rar
+																				 
+																				
+																				 
+																					 
+																				 
+																				 
+																				 Vol 6 Final Lining Design Report 																		
+																				 19792.63 																		
+																			
+	 
+
+	 
+		
+																				 15    
+																				 Tender Documents 	     																													
+																				 
+																				
+																				 
+																					ZojiLaTrafficStudies.rar
+																				 
+																				
+																				 
+																					 
+																				 
+																				 
+																				 ZojiLA Traffic Studies 																		
+																				 20464.91 																		
+																			
+	 
+
+	 
+		
+																				 16    
+																				 Tender Documents 	     																													
+																				 
+																				
+																				 
+																					DPR_Documents.rar
+																				 
+																				
+																				 
+																					 
+																				 
+																				 
+																				 DPR Documents 																		
+																				 17307.14 																		
+																			
+	 
+
+	 
+		
+																				 17    
+																				 Tender Documents 	     																													
+																				 
+																				
+																				 
+																					DOQ.pdf
+																				 
+																				
+																				 
+																					 
+																				 
+																				 
+																				 DOQ 																		
+																				 875.65 																		
+																			
+	 
+
+	 
+		
+																				 18    
+																				 Tender Documents 	     																													
+																				 
+																				
+																				 
+																					DPR_Road1.rar
+																				 
+																				
+																				 
+																					 
+																				 
+																				 
+																				 DPR Road 1 																		
+																				 39635.54 																		
+																			
+	 
+
+	 
+		
+																				 19    
+																				 Tender Documents 	     																													
+																				 
+																				
+																				 
+																					BoQEstimate.pdf
+																				 
+																				
+																				 
+																					 
+																				 
+																				 
+																				 BoQ Estimate 																		
+																				 579.04 																		
+																			
+	 
+
+	 
+		
+																				 20    
+																				 Tender Documents 	     																													
+																				 
+																				
+																				 
+																					DPR_Road2.rar
+																				 
+																				
+																				 
+																					 
+																				 
+																				 
+																				 DPR Road 2 																		
+																				 39954.64 																		
+																			
+	 
+
+
+
+																		
+ 
+
+
+																	 
+																	
+																
+															 
+														 
+													 	
+												 
+											 
+											 
+												 
+										 
+									 									
+									 
+									 
+									  
+										 
+											&nbsp;
+										 
+									 	
+									
+									 
+									
+									  
+										  
+											  
+											     
+											   Auction Properties 
+											     
+											  
+										 
+									  
+									  
+									 
+										 
+												  
+												  Auction Type  
+												   
+												 
+												  
+												  Elapse Time Interval In Mins  
+												   
+												 	
+												  
+												  Bid Auto Extn In Mins  
+												   
+												 
+												  
+												  Max Seal Percentage  
+												   
+												 																								
+										 
+										 
+									 
+									 
+										 &nbsp; 
+									 
+									
+									 	 -->	
+									 
+										 &nbsp; 
+									 	
+									
+									  
+									 	  
+										  
+											  
+											     
+											   Latest Corrigendum List  																	  
+											     
+											  
+										 
+									  
+									 	   
+											
+											 
+											 
+												 
+													 
+											
+												
+
+ 
+	
+												
+												 
+													  S.No  
+													  Corrigendum Title  
+													  Corrigendum Type  
+													  View   
+												 
+												
+
+
+	 
+		
+													 1 
+													 Amendment No. 1 
+													 Date 
+													     
+												
+	 
+
+	 
+		
+													 2 
+													 Amendment No. 2 
+													 Other 
+													     
+												
+	 
+
+
+
+											
+ 
+
+
+											 
+											 
+										 
+										 
+										
+											 
+										
+										 
+											 &nbsp; 
+										  	
+									  
+									 
+											
+																
+									   
+										  
+											  
+											     
+											   Tender Inviting Authority 
+											     
+											  
+										 
+									  
+									  
+									 
+										 
+												  
+												  Name  
+												 Sanjeev Malik 
+												 
+												  
+												  Address  
+												 NHIDCL, 3rd Floor, PTI Building,
+4-Parliament Street, New Delhi-110001, India
+ 
+												 																									
+										 
+										 
+									 
+									 
+										 &nbsp; 
+									 
+									
+											 
+													 Tender Creator Details 
+												  -->
+											  
+										  
+											  
+											     
+											   Tender Creator Details 
+											     
+											  
+										 
+									   -->
+												 
+													 
+														 
+															
+															 
+																  Created By  
+																    
+															 
+															 	
+																  Designation  
+																   
+															 
+															 
+																  Created Date  
+																    
+															 
+															
+														 
+												
+										 
+									 	
+									 
+										 &nbsp; 
+									 	 -->
+								 
+										 
+											 
+												 Back 
+											 
+										 
+									  
+									 
+										 &nbsp; 
+									 																						
+								 
+							 
+						 	
+					 
+				 
+			 	
+		 
+	 
+
+							 	
+							 				
+						 
+					 
+				 
+			 
+			 
+				 
+					 
+	   
+	   Visitor No:33192073  
+		
+	   
+	   
+	
+		 Contents owned and maintained by concerned Departments in coordination with Finance Department and Information Technology Department, Government of India		  
+		  
+	   
+	    
+		 
+			 
+
+				
+				 
+					 Designed, Developed and Hosted by    National Informatics Centre  
+					 
+						 Version : 1.09.24 16-Jul-2026 
+						(c) 2017 Tenders NIC, All rights reserved. Site best viewed with a screen resolution 1920 x 1080. 					
+					  Portal policies  
+				 
+			 
+		 
+	   
+ 
+				 
+			 
+			 
+			     
+			         
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+				       
+				    
+			     
+			 
+		 
+	 
+    
+ 

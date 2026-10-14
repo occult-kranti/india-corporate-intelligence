@@ -1,0 +1,76 @@
+{
+  "generatedAt": "2026-10-07",
+  "namespace": "money-trails-mumbai",
+  "artifacts": [
+    {
+      "path": "research/raw/money-trails/mumbai/bail-2025-mirror.txt",
+      "sha256": "173fb2ac5de5bff4ba39901ef0438b6522a039033fcd51189fbd7ff343bf0db6",
+      "bytes": 52175
+    },
+    {
+      "path": "research/raw/money-trails/mumbai/eow-2025-notes.json",
+      "sha256": "84b37036263e8e9539fc9dafe883d5d927e1f223f440343d585186488a4f76c7",
+      "bytes": 2133
+    },
+    {
+      "path": "research/raw/money-trails/mumbai/identity-leads.json",
+      "sha256": "4f0eff76170455d4753e7231b13859b88fb2c77883e72127336ebc22fa14f102",
+      "bytes": 2116
+    },
+    {
+      "path": "research/raw/money-trails/mumbai/retrieval-attempts.json",
+      "sha256": "fd7ff7319d5e62e9ce8180dbf82f3365ac9edc3600826793bf5d578c1df51bf0",
+      "bytes": 1444
+    },
+    {
+      "path": "research/raw/money-trails/mumbai/rti-role-2023-notes.json",
+      "sha256": "29de4d91e3f9a8303bae3273a421e78fafc80546dfda3b485be436be6cd1a204",
+      "bytes": 1834
+    },
+    {
+      "path": "research/raw/money-trails/mumbai/search-log.json",
+      "sha256": "1196fb2b2e72eef45ba7c087e16ac08c0349f9a4f40627e876608d8c1cf02d06",
+      "bytes": 1358
+    },
+    {
+      "path": "research/raw/money-trails/mumbai/tribunal-2026-safe.txt",
+      "sha256": "c690f102252acde39e94f15374aa9f5beb4bab78ce694b8d19815ae1b04a0bea",
+      "bytes": 16110
+    },
+    {
+      "path": "research/raw/money-trails/mumbai/tribunal-search-result.txt",
+      "sha256": "1642d09db9e1158f2b541b9c59b10a4d0872fdd9f0d8617da465780962e6599f",
+      "bytes": 356
+    }
+  ],
+  "sourceArtifacts": [
+    {
+      "sourceId": "money-trails-mumbai:source:tribunal-2026",
+      "paths": [
+        "research/raw/money-trails/mumbai/tribunal-2026-safe.txt",
+        "research/raw/money-trails/mumbai/tribunal-search-result.txt",
+        "research/raw/money-trails/mumbai/retrieval-attempts.json"
+      ]
+    },
+    {
+      "sourceId": "money-trails-mumbai:source:bail-2025",
+      "paths": [
+        "research/raw/money-trails/mumbai/bail-2025-mirror.txt",
+        "research/raw/money-trails/mumbai/retrieval-attempts.json"
+      ]
+    },
+    {
+      "sourceId": "money-trails-mumbai:source:eow-2025",
+      "paths": [
+        "research/raw/money-trails/mumbai/eow-2025-notes.json"
+      ]
+    },
+    {
+      "sourceId": "money-trails-mumbai:source:rti-role-2023",
+      "paths": [
+        "research/raw/money-trails/mumbai/rti-role-2023-notes.json"
+      ]
+    }
+  ],
+  "privacy": "Official tribunal PDF original SHA256 is recorded in retrieval-attempts; repository retains exact text with all seven unique bank account numbers redacted. Original file not committed."
+}

@@ -1,38 +1,16 @@
-import { useState } from 'react';
-import { Outlet, NavLink, useLocation } from 'react-router-dom';
+import { useEffect, useRef, useState } from 'react';
+import { Link, Outlet, NavLink, useLocation, useNavigationType } from 'react-router-dom';
 import {
-  LayoutDashboard,
-  Map,
-  Network,
-  Factory,
-  Landmark,
-  Newspaper,
-  Search,
-  Bookmark,
-  Menu,
-  X,
-  Globe,
-  Building2,
-  GitBranch,
-  Scale,
-  Ruler,
-  BookOpen,
-  Waypoints,
-  Users,
-  Radar,
-  ShieldCheck,
-  Gavel,
-  Telescope,
-  Notebook,
-  Mountain,
-  Crosshair,
-  HandCoins,
-  Zap,
-  Coins,
+  LayoutDashboard, Map, Network, Factory, Landmark, Newspaper, Search,
+  Bookmark, Menu, X, Building2, GitBranch, Scale, Ruler, BookOpen,
+  Waypoints, Users, Radar, ShieldCheck, Shield, Gavel, Telescope,
+  Notebook, Mountain, Crosshair, HandCoins, Zap, Coins, GraduationCap,
+  ArrowUpRight, ChevronRight, Droplets, Globe2, HeartPulse, HandHeart,
+  TriangleAlert, TrainFront, FolderKanban, Files,
 } from 'lucide-react';
-import { COMPANIES, COMPANIES_AS_OF } from '../data/companies';
-import { MINISTERS } from '../data/politics';
-import { EDGES } from '../graph/data';
+import Workspace from './investigation/Workspace';
+import { normalizeInvestigationState } from '../data/investigation';
+import './investigation/shell.css';
 
 const navGroups: { label: string; items: { path: string; label: string; icon: typeof Map }[] }[] = [
   {
@@ -46,7 +24,13 @@ const navGroups: { label: string; items: { path: string; label: string; icon: ty
   {
     label: 'Markets',
     items: [
-      { path: '/', label: 'Dashboard', icon: LayoutDashboard },
+      { path: '/', label: 'Investigate India', icon: LayoutDashboard },
+      { path: '/research-radar', label: 'Research radar', icon: Telescope },
+      { path: '/model-lab', label: 'Evidence model lab', icon: Network },
+      { path: '/funding-investigations', label: 'Funding investigations', icon: FolderKanban },
+      { path: '/hypothesis-lab', label: 'Coordination hypotheses', icon: GitBranch },
+      { path: '/money-trails', label: 'Trace investigations', icon: Waypoints },
+      { path: '/follow-the-money', label: 'Follow the money', icon: GitBranch },
       { path: '/map', label: 'NSE / BSE map', icon: Map },
       { path: '/geograph', label: 'Geographic network', icon: Radar },
       { path: '/industries', label: 'Industries', icon: Factory },
@@ -55,17 +39,27 @@ const navGroups: { label: string; items: { path: string; label: string; icon: ty
     ],
   },
   {
-    // The allocation registers sit together because they are the same KIND of thing —
-    // records of how public value was handed over — and the comparison across them is
-    // the point. Media is here as the coverage register: who owns the outlets that
-    // report on the other three.
     label: 'Registers',
     items: [
+      { path: '/education', label: 'Education funding', icon: GraduationCap },
+      { path: '/water', label: 'Water & food security', icon: Droplets },
+      { path: '/health', label: 'Health & hospitals', icon: HeartPulse },
+      { path: '/public-works', label: 'Roads & public works', icon: Waypoints },
+      { path: '/transport', label: 'Transport & railways', icon: TrainFront },
+      { path: '/ngo', label: 'NGOs & foundations', icon: HandHeart },
+      { path: '/disaster-relief', label: 'Disaster relief', icon: TriangleAlert },
+      { path: '/public-funds', label: 'Public funds', icon: FolderKanban },
       { path: '/tenders', label: 'Govt awards', icon: Gavel },
       { path: '/resources', label: 'Natural resources', icon: Mountain },
       { path: '/pmcares', label: 'PM CARES', icon: HandCoins },
       { path: '/energy', label: 'Energy power map', icon: Zap },
       { path: '/welfare', label: 'Distribution funds', icon: Coins },
+      { path: '/finance', label: 'Finance & lenders', icon: Coins },
+      { path: '/debt', label: 'Debt & recovery', icon: Building2 },
+      { path: '/justice', label: 'Justice & oversight', icon: Scale },
+      { path: '/security', label: 'Security spend', icon: Shield },
+      { path: '/international-finance', label: 'International finance', icon: Globe2 },
+      { path: '/defence-trade', label: 'Arms contracts', icon: ShieldCheck },
       { path: '/media', label: 'Media ownership', icon: Newspaper },
       { path: '/allocation', label: 'Allocation graph', icon: Waypoints },
     ],
@@ -74,6 +68,7 @@ const navGroups: { label: string; items: { path: string; label: string; icon: ty
     label: 'Power',
     items: [
       { path: '/cabinet', label: 'Union cabinet', icon: Landmark },
+      { path: '/policy', label: 'Laws & policy', icon: Gavel },
       { path: '/network', label: 'Connection graph', icon: Network },
       { path: '/atlas', label: 'Money-trail atlas', icon: GitBranch },
     ],
@@ -90,6 +85,7 @@ const navGroups: { label: string; items: { path: string; label: string; icon: ty
       { path: '/base-rates', label: 'Base rates', icon: BookOpen },
       { path: '/competition', label: 'Bidder counts', icon: Gavel },
       { path: '/provenance', label: 'Provenance ledger', icon: ShieldCheck },
+      { path: '/public-records', label: 'Public records', icon: Files },
       { path: '/method', label: 'How this is built', icon: BookOpen },
     ],
   },
@@ -103,124 +99,167 @@ const navGroups: { label: string; items: { path: string; label: string; icon: ty
   },
 ];
 
-const navItems = navGroups.flatMap((g) => g.items);
-const MOBILE_NAV_ID = 'site-nav-mobile';
+const sectorNavigation = [
+  { path: '/public-works', label: 'Public works', icon: Waypoints },
+  { path: '/education', label: 'Education', icon: GraduationCap },
+  { path: '/health', label: 'Health', icon: HeartPulse },
+  { path: '/water', label: 'Water & food', icon: Droplets },
+  { path: '/transport', label: 'Transport', icon: TrainFront },
+  { path: '/energy', label: 'Energy', icon: Zap },
+  { path: '/welfare', label: 'Welfare', icon: Coins },
+  { path: '/finance', label: 'Finance', icon: Building2 },
+  { path: '/debt', label: 'Debt & recovery', icon: Landmark },
+  { path: '/justice', label: 'Justice', icon: Scale },
+  { path: '/pmcares', label: 'PM CARES', icon: HandCoins },
+  { path: '/public-funds', label: 'Public funds', icon: FolderKanban },
+  { path: '/ngo', label: 'NGOs', icon: HandHeart },
+  { path: '/disaster-relief', label: 'Disaster relief', icon: TriangleAlert },
+  { path: '/policy', label: 'Laws & policy', icon: Gavel },
+  { path: '/security', label: 'Security', icon: Shield },
+  { path: '/international-finance', label: 'International finance', icon: Globe2 },
+  { path: '/defence-trade', label: 'Arms contracts', icon: ShieldCheck },
+  { path: '/resources', label: 'Resources', icon: Mountain },
+  { path: '/media', label: 'Media', icon: Newspaper },
+  { path: '/public-records', label: 'Public records', icon: Files },
+];
 
-export default function Layout() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+function contextualRoute(path: string, search: string, currentPath: string, dossier = false) {
+  const carried = new URLSearchParams();
+  const keep = new Set(['iw_state', 'iw_compare', 'iw_q', 'iw_layers', 'iw_tier', 'iw_from', 'iw_to', 'iw_undated', 'iw_national', 'iw_geo', 'iw_view']);
+  for (const [key, value] of new URLSearchParams(search)) if (keep.has(key)) carried.set(key, value);
+  if (!carried.has('iw_state') && currentPath.startsWith('/states/')) {
+    const state = normalizeInvestigationState(currentPath.split('/')[2]);
+    if (state) carried.set('iw_state', state);
+  }
+  if (dossier) carried.set('iw_view', 'dossier');
+  return `${path}${carried.size ? `?${carried}` : ''}`;
+}
+
+function Navigation({ query, onNavigate, label }: { query: string; onNavigate?: () => void; label: string }) {
   const location = useLocation();
-
-  const isActive = (path: string) => location.pathname === path;
+  const groups = navGroups.map((group) => ({
+    ...group,
+    items: group.items.filter((item) => `${group.label} ${item.label}`.toLowerCase().includes(query.trim().toLowerCase())),
+  })).filter((group) => group.items.length);
 
   return (
-    <div className="flex h-screen bg-bg text-text overflow-hidden">
-      {/* Desktop Sidebar */}
-      <aside className="hidden lg:flex flex-col w-64 bg-bg-elevated border-r border-border flex-shrink-0">
-        <div className="p-6 border-b border-border">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center">
-              <Globe className="w-5 h-5 text-accent" />
-            </div>
-            <div>
-              <h1 className="font-serif font-bold text-lg leading-tight">ICIP</h1>
-              <p className="text-[10px] text-text-muted uppercase tracking-wider">Intelligence Platform</p>
-            </div>
-          </div>
-        </div>
-        
-        <nav className="flex-1 p-3 space-y-4 overflow-y-auto">
-          {navGroups.map((group) => (
-            <div key={group.label}>
-              <p className="font-mono text-[9.5px] uppercase tracking-[0.16em] text-text-muted px-3 mb-1.5">
-                {group.label}
-              </p>
-              <div className="space-y-0.5">
-                {group.items.map((item) => {
-                  const Icon = item.icon;
-                  const active = isActive(item.path);
-                  return (
-                    <NavLink
-                      key={item.path}
-                      to={item.path}
-                      className={`flex items-center gap-3 px-3 py-2 rounded-lg text-[13.5px] font-medium transition-all ${
-                        active
-                          ? 'bg-accent/10 text-accent border border-accent/20'
-                          : 'text-text-secondary hover:text-text hover:bg-bg-card border border-transparent'
-                      }`}
-                    >
-                      <Icon className="w-3.5 h-3.5 flex-shrink-0" />
-                      {item.label}
-                    </NavLink>
-                  );
-                })}
-              </div>
-            </div>
+    <nav className="site-navigation" aria-label={label}>
+      {groups.map((group) => (
+        <div className="nav-group" key={group.label}>
+          <p className="nav-group-label">{group.label}</p>
+          {group.items.map(({ path, label: itemLabel, icon: Icon }) => (
+            <NavLink key={path} to={contextualRoute(path, location.search, location.pathname)} end={path === '/'} onClick={onNavigate}
+              className={({ isActive }) => `site-nav-link${isActive ? ' is-active' : ''}`}>
+              <Icon size={16} strokeWidth={1.6} aria-hidden="true" />
+              <span>{itemLabel}</span>
+            </NavLink>
           ))}
-        </nav>
-
-        <div className="p-4 border-t border-border">
-          <div className="font-mono text-[10px] text-text-muted leading-relaxed">
-            <p>{COMPANIES.length} listed companies</p>
-            <p>{MINISTERS.length} union ministers</p>
-            <p>{EDGES.length} sourced relationships</p>
-            <p className="mt-1.5 text-text-muted/70">as of {COMPANIES_AS_OF || '—'}</p>
-          </div>
         </div>
+      ))}
+      {groups.length === 0 && <p className="nav-empty" role="status">No pages match “{query}”. Try “education”, “map”, or “evidence”.</p>}
+    </nav>
+  );
+}
+
+function Brand() {
+  return (
+    <Link to="/" className="site-brand" aria-label="ICIP — investigate India">
+      <span className="site-brand-mark" aria-hidden="true"><Globe2 size={26} strokeWidth={1.15} /></span>
+      <span><strong>ICIP<span className="brand-period">.</span></strong><small>Public record atlas</small></span>
+    </Link>
+  );
+}
+
+export default function Layout() {
+  const [query, setQuery] = useState('');
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const dialogRef = useRef<HTMLDialogElement>(null);
+  const menuRef = useRef<HTMLButtonElement | null>(null);
+  const mainRef = useRef<HTMLElement>(null);
+  const sectorRef = useRef<HTMLElement>(null);
+  const location = useLocation();
+  const navigationType = useNavigationType();
+  const previousPath = useRef(location.pathname);
+  const currentGroup = navGroups.find((group) => group.items.some((item) => item.path === location.pathname));
+  const currentItem = currentGroup?.items.find((item) => item.path === location.pathname);
+  const routeTitle = location.pathname === '/allegations' ? 'Allegations atlas' : currentItem?.label ?? (location.pathname.startsWith('/company/') ? 'Company profile' : location.pathname.startsWith('/states/') ? 'State profile' : location.pathname.startsWith('/conglomerates/') ? 'Group deep dive' : 'Investigation workspace');
+  const independentResearchPage = ['/investigations', '/leads', '/game-theory'].includes(location.pathname);
+
+  useEffect(() => {
+    document.title = `${routeTitle} · ICIP`;
+    if (previousPath.current !== location.pathname && navigationType !== 'POP') {
+      mainRef.current?.scrollTo({ top: 0 });
+      mainRef.current?.focus({ preventScroll: true });
+    }
+    previousPath.current = location.pathname;
+    setMobileMenuOpen(false);
+    const activeSector = sectorRef.current?.querySelector<HTMLElement>('[aria-current="page"]');
+    if (activeSector && sectorRef.current) sectorRef.current.scrollLeft = activeSector.offsetLeft - sectorRef.current.offsetLeft - 16;
+  }, [location.pathname, navigationType, routeTitle]);
+
+  useEffect(() => {
+    const dialog = dialogRef.current;
+    if (!dialog) return;
+    if (mobileMenuOpen && !dialog.open) dialog.showModal();
+    if (!mobileMenuOpen && dialog.open) dialog.close();
+  }, [mobileMenuOpen]);
+
+
+  function closeNavigation() {
+    setMobileMenuOpen(false);
+    menuRef.current?.focus();
+  }
+
+  return (
+    <div className="site-shell investigation-shell">
+      <a href="#main-content" className="skip-link" onClick={(event) => {
+        event.preventDefault();
+        mainRef.current?.focus();
+      }}>Skip to content</a>
+
+      <aside className="iw-navigation-rail" aria-label="Investigation lenses">
+        <Link to="/" className="iw-rail-brand" aria-label="ICIP — investigate India"><Globe2 size={27} strokeWidth={1.2} aria-hidden="true" /><span>ICIP<strong>.</strong></span><small>ATLAS</small></Link>
+        <nav aria-label="Primary navigation">
+          <div className="atlas-primary-routes">{[
+            { path: '/', label: 'National atlas', icon: Globe2 },
+            { path: '/investigations', label: 'Investigation network', icon: Network },
+            { path: '/leads', label: 'Unresolved leads', icon: Telescope },
+            { path: '/game-theory', label: 'Game theory lab', icon: Crosshair },
+            { path: '/research-radar', label: 'Research radar', icon: Telescope },
+            { path: '/model-lab', label: 'Model lab', icon: Network },
+            { path: '/funding-investigations', label: 'Funding investigations', icon: FolderKanban },
+            { path: '/hypothesis-lab', label: 'Coordination hypotheses', icon: GitBranch },
+            { path: '/money-trails', label: 'Trace investigations', icon: Waypoints },
+            { path: '/follow-the-money', label: 'Money trails', icon: GitBranch },
+            { path: '/allegations', label: 'Allegations', icon: ShieldCheck },
+          ].map(({ path, label, icon: Icon }) => <NavLink key={path} to={contextualRoute(path, location.search, location.pathname)} end={path === '/'} className={({ isActive }) => `iw-rail-link${isActive ? ' is-active' : ''}`}><Icon size={19} strokeWidth={1.6} aria-hidden="true" /><span>{label}</span></NavLink>)}</div>
+          <p className="atlas-rail-label">Sector lenses</p>
+          {sectorNavigation.map(({ path, label, icon: Icon }) => <NavLink key={path} to={contextualRoute(path, location.search, location.pathname)} className={({ isActive }) => `iw-rail-link${isActive ? ' is-active' : ''}`}><Icon size={18} strokeWidth={1.5} aria-hidden="true" /><span>{label}</span><ChevronRight className="atlas-rail-chevron" size={12} aria-hidden="true" /></NavLink>)}
+        </nav>
+        <div className="atlas-rail-footer"><Link to={contextualRoute('/method', location.search, location.pathname, true)} className="atlas-rail-method"><ShieldCheck size={16} aria-hidden="true" /><span>Evidence method</span></Link><button type="button" className="iw-rail-more" aria-label="Open all lenses and registers" aria-expanded={mobileMenuOpen} aria-controls="site-nav-mobile" onClick={event => { menuRef.current = event.currentTarget; setMobileMenuOpen(true); }}><Menu size={18} aria-hidden="true" /><span>All registers & tools</span></button></div>
       </aside>
 
-      {/* Mobile Header */}
-      <div className="lg:hidden fixed top-0 left-0 right-0 z-50 bg-bg-elevated/95 backdrop-blur-sm border-b border-border">
-        <div className="flex items-center justify-between px-4 h-14">
-          <div className="flex items-center gap-2">
-            <Globe className="w-5 h-5 text-accent" />
-            <span className="font-serif font-bold">ICIP</span>
+      <div className="site-workspace">
+        <header className="site-masthead">
+          <div className="mobile-brand"><Brand /></div>
+          <div className="masthead-context"><span>India</span><ChevronRight size={13} aria-hidden="true" /><span className="masthead-current">{routeTitle}</span></div>
+          <div className="masthead-actions">
+            <Link className="masthead-search" to={contextualRoute('/search', location.search, location.pathname)}><Search size={16} aria-hidden="true" /><span>Find records</span></Link>
+            <Link className="masthead-method" to={contextualRoute('/watchlist', location.search, location.pathname, true)}><Bookmark size={15} aria-hidden="true" /> Saved research <ArrowUpRight size={12} aria-hidden="true" /></Link>
+            <button type="button" ref={menuRef} className="mobile-menu-button iw-all-lenses-button" aria-label="Open navigation" aria-expanded={mobileMenuOpen} aria-controls="site-nav-mobile" onClick={event => { menuRef.current = event.currentTarget; setMobileMenuOpen(true); }}><Menu size={21} aria-hidden="true" /></button>
           </div>
-          {/* Icon-only, so it carries its own name and state (WCAG 4.1.2, audit A11Y-001 S4).
-              aria-controls only while the menu exists: it is unmounted when closed. */}
-          <button
-            type="button"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            aria-label={mobileMenuOpen ? 'Close navigation' : 'Open navigation'}
-            aria-expanded={mobileMenuOpen}
-            aria-controls={mobileMenuOpen ? MOBILE_NAV_ID : undefined}
-            className="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-bg-card"
-          >
-            {mobileMenuOpen ? <X className="w-5 h-5" aria-hidden="true" /> : <Menu className="w-5 h-5" aria-hidden="true" />}
-          </button>
-        </div>
-        
-        {/* Mobile Menu */}
-        {mobileMenuOpen && (
-          <nav id={MOBILE_NAV_ID} className="bg-bg-elevated border-b border-border p-4 space-y-1">
-            {navItems.map((item) => {
-              const Icon = item.icon;
-              const active = isActive(item.path);
-              return (
-                <NavLink
-                  key={item.path}
-                  to={item.path}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all ${
-                    active 
-                      ? 'bg-accent/10 text-accent' 
-                      : 'text-text-secondary hover:text-text hover:bg-bg-card'
-                  }`}
-                >
-                  <Icon className="w-4 h-4" />
-                  {item.label}
-                </NavLink>
-              );
-            })}
-          </nav>
-        )}
+        </header>
+        <nav ref={sectorRef} className="atlas-mobile-sectors" aria-label="Sector shortcuts"><NavLink to={contextualRoute('/', location.search, location.pathname)} end><Globe2 size={15} aria-hidden="true" />All India</NavLink><NavLink to="/research-radar"><Telescope size={15} aria-hidden="true" />Research radar</NavLink><NavLink to="/funding-investigations"><FolderKanban size={15} aria-hidden="true" />Funding investigations</NavLink><NavLink to="/hypothesis-lab"><GitBranch size={15} aria-hidden="true" />Coordination hypotheses</NavLink><NavLink to="/money-trails"><Waypoints size={15} aria-hidden="true" />Trace investigations</NavLink><NavLink to={contextualRoute('/follow-the-money', location.search, location.pathname)}><GitBranch size={15} aria-hidden="true" />Money trails</NavLink><NavLink to="/allegations"><ShieldCheck size={15} aria-hidden="true" />Allegations</NavLink>{sectorNavigation.map(({ path, label, icon: Icon }) => <NavLink key={path} to={contextualRoute(path, location.search, location.pathname)}><Icon size={15} aria-hidden="true" />{label}</NavLink>)}</nav>
+        <main id="main-content" ref={mainRef} tabIndex={-1} className="site-main">
+          <div className="site-content iw-shell-content">{independentResearchPage ? <div className="min-h-full bg-[#0a0a0c]"><div className="p-4 lg:p-8 max-w-7xl mx-auto"><Outlet /></div></div> : ['/follow-the-money', '/money-trails', '/research-radar', '/model-lab', '/funding-investigations', '/hypothesis-lab', '/allegations'].includes(location.pathname) ? <Outlet /> : <Workspace routeTitle={routeTitle} routeKey={location.pathname}><Outlet /></Workspace>}</div>
+        </main>
       </div>
 
-      {/* Main Content */}
-      <main className="flex-1 overflow-y-auto lg:pt-0 pt-14">
-        <div className="p-4 lg:p-8 max-w-7xl mx-auto">
-          <Outlet />
-        </div>
-      </main>
+      <dialog ref={dialogRef} id="site-nav-mobile" className="mobile-nav-dialog" aria-labelledby="mobile-nav-title" onCancel={(event) => { event.preventDefault(); closeNavigation(); }} onClose={() => setMobileMenuOpen(false)} onClick={(event) => { if (event.target === event.currentTarget) closeNavigation(); }}>
+        <div className="mobile-nav-heading"><div><h2 id="mobile-nav-title">Explore the atlas</h2><p>Sector lenses, source registers and research tools.</p></div><button type="button" className="mobile-menu-button" aria-label="Close navigation" onClick={closeNavigation} autoFocus><X size={21} aria-hidden="true" /></button></div>
+        <div className="nav-search-wrap"><Search size={16} aria-hidden="true" /><input type="text" aria-label="Find a page in navigation" placeholder="Find a page…" value={query} onChange={(event) => setQuery(event.target.value)} className="nav-search" /></div>
+        <Navigation query={query} label="Mobile navigation" onNavigate={() => { dialogRef.current?.close(); setMobileMenuOpen(false); }} />
+      </dialog>
     </div>
   );
 }

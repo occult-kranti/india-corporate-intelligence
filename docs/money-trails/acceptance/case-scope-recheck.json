@@ -1,0 +1,25 @@
+{
+  "testedAt": "2026-10-07T20:15:12.381Z",
+  "dist": "dist-money-trails-release",
+  "distIndexSha256": "a76cade33269a6a735cbeec7482fc8c292a2dbfcf32965caa3678df45267dac9",
+  "harnessPath": "scripts/atlas-expansion/code-audit.mjs",
+  "harnessSha256": "51f7f59ad6e3781207c4c45f325066e2678ab2d1a0068ed55e5f87be678af287",
+  "audit": {
+    "checks": 44,
+    "errors": [],
+    "receipt": "/tmp/money-trails-case-scope-audit/acceptance.json"
+  },
+  "scopeMatrix": "/tmp/money-trails-case-scope-matrix.json",
+  "map": {
+    "checks": 26,
+    "passed": true,
+    "artifacts": "/tmp/money-trails-case-scope-map"
+  },
+  "places": {
+    "checks": 21,
+    "passed": true,
+    "live": "not requested",
+    "artifacts": "/tmp/money-trails-case-scope-places"
+  },
+  "diagnosis": "Audit expectation excluded newly declared case namespaces. Shared and dedicated filters agree: donor case is national context and disappears from TN/KA when national context is excluded. No application, evidence or geography change."
+}

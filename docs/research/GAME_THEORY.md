@@ -36,3 +36,25 @@ Run `node --test scripts/game-theory.test.mjs`. The test imports a TypeScript-tr
 Run `npx tsc --noEmit` for project integration. Browser checks should cover role changes, assumption sliders, case selection, independent draft retention, reload, the JSON download, storage failure and a narrow viewport. Jump controls use scrolling buttons so they cannot overwrite the application's hash route.
 
 Verified on 2026-10-14: all eight pure-model tests and the full project TypeScript check passed. Chromium exercised the integrated route with 21 loaded cases: role changes, slider result changes, preserved hash navigation, independent role notes, case-linked notes, reload persistence, downloaded JSON contents, rejection of `javascript:` evidence links, disabled-storage messaging, and a 390px viewport with no document overflow. A separate empty-data response verified editable generic notes and JSON download without any cases. Desktop and mobile screenshots were visually inspected. These checks establish interface behavior; they do not validate the underlying investigation claims or the model's empirical assumptions.
+
+
+## Versioned test plans
+
+The continuation adds `src/data/testPlan.ts`. Each case/question and generic role
+keeps its own plan, current worksheet and append-only revisions in the interface.
+Each captured revision copies every worksheet field, the comparison population,
+time window, alternative's predicted observation, analysis method, timing category
+and local ISO timestamp. Existing v1 notes load without requiring the new fields.
+Malformed model inputs do not discard independently valid notes or plan history.
+
+These are browser-local snapshots, not externally registered protocols or protected
+audit records; browser storage can be changed or cleared. Timing defaults to
+exploratory / records already seen. JSON export includes the active plan and all
+its captured revisions. `?case=<id>&hypothesis=<index>` opens a valid exact question
+from the leads page; unknown identifiers and invalid indices leave the saved
+worksheet intact and display a message.
+
+`npm run test:game-theory` now runs both the payoff and plan-state tests. The
+investigation browser suite also exercises old-state migration, captured revisions
+remaining unchanged after edits, per-question isolation, reload, export and links
+to the existing register's dossier view.

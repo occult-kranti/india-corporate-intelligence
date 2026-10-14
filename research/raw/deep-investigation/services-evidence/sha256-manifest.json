@@ -1,0 +1,379 @@
+{
+  "asOf": "2026-10-06",
+  "retrievedUTC": "2026-10-07",
+  "namespace": "deep-services",
+  "sourceArchives": {
+    "khyati-hc-2025": [
+      "khyati-hc-may2025-receipt.json",
+      "khyati-hc-2025-indexed-receipt.json",
+      "svcFetch4.json"
+    ],
+    "khyati-ie-june2025": [
+      "khyati-ie-june2025-receipt.json",
+      "khyati-ie-june2025.html",
+      "khyati-ie-june2025.txt"
+    ],
+    "khyati-operator-2025": [
+      "khyati-ie-april2025-receipt.json",
+      "khyati-ie-april2025.html",
+      "khyati-ie-april2025.txt"
+    ],
+    "khyati-sc-bail-2025": [
+      "khyati-sc-dec2025-receipt.json",
+      "khyati-sc-bail-2025-indexed-receipt.json",
+      "svcFetch2.json"
+    ],
+    "khyati-discharge-2026": [
+      "khyati-toi-may2026-receipt.json",
+      "khyati-toi-may2026.html",
+      "khyati-toi-may2026.txt"
+    ],
+    "pmjay-parliament-2025": [
+      "pmjay-pib-2025-receipt.json",
+      "pmjay-pib-2025.html",
+      "pmjay-pib-2025.txt"
+    ],
+    "byju-sc-2024": [
+      "byju-sc-2024-receipt.json",
+      "byju-sc-2024.pdf",
+      "byju-sc-2024.txt"
+    ],
+    "byju-nclat-2026": [
+      "byju-nclat-2026-receipt.json",
+      "byju-nclat-2026-indexed-receipt.json",
+      "svcFetch2.json"
+    ],
+    "akshaya-annual-2025": [
+      "akshaya-2025-receipt.json",
+      "akshaya-2025.pdf",
+      "akshaya-2025.txt",
+      "akshaya-2025-pdfpage70.png",
+      "akshaya-2025-pdfpage72.png",
+      "akshaya-2025-pdfpage79.png",
+      "akshaya-2025-pdfpage80.png",
+      "akshaya-2025-pdfpage82.png",
+      "akshaya-2025-pdfpage83.png"
+    ],
+    "akshaya-kitchen-2024": [
+      "akshaya-kitchen-2024-receipt.json",
+      "akshaya-kitchen-2024.html",
+      "akshaya-kitchen-2024.txt"
+    ],
+    "nsap-cag-2023": [
+      "nsap-cag-2023-receipt.json",
+      "nsap-cag-2023-inherited-receipt.json",
+      "nsap-cag-2023-inherited-indexed.txt"
+    ],
+    "nsap-followup-2026": [
+      "nsap-actiontaken-2026-receipt.json",
+      "nsap-actiontaken-report-2026-receipt.json",
+      "nsap-actiontaken-report-2026.pdf",
+      "nsap-actiontaken-report-2026.txt"
+    ]
+  },
+  "notes": [
+    "As-of is 6 October 2026 America/New_York; retrieval after midnight UTC is consistent.",
+    "Court mirror fallback archives are indexed primary text, not court-site bytes. Irrelevant residential-address lines omitted in svcFetch2.json.",
+    "CAG NSAP original returned503; inherited indexed primary text was retrieved6October2026; newattempt recorded separately.",
+    "Full news HTML/PDF bytes are research receipts; not claims that unrelated page content was verified.",
+    "SHA256 is an integrity check, not authenticity adjudication.",
+    "All FY2025 Akshaya financial figures used were checked against rendered printed pages, not OCR alone."
+  ],
+  "files": [
+    {
+      "path": "akshaya-2025-pdfpage70-ocr.txt",
+      "bytes": 5437,
+      "sha256": "c745251e10ea0eb8d43ce7673b2e7d19fe6388138f84a3e761a043a98d058369"
+    },
+    {
+      "path": "akshaya-2025-pdfpage70.png",
+      "bytes": 1237265,
+      "sha256": "17e3dc4f7fb40505f82c39e27dea188286236023f1b51295e7bd12e5cfe6ffc7"
+    },
+    {
+      "path": "akshaya-2025-pdfpage72-ocr.txt",
+      "bytes": 4411,
+      "sha256": "fd1e4bf4976bb99ebe29b7d0cba487cbdf31d6012b34cec3ba50f87d8fcdb320"
+    },
+    {
+      "path": "akshaya-2025-pdfpage72.png",
+      "bytes": 1099985,
+      "sha256": "47f49e07c01207f800514013dd15cd0e6c7e06006cb2bbdba5f274676dab8d73"
+    },
+    {
+      "path": "akshaya-2025-pdfpage79-ocr.txt",
+      "bytes": 2081,
+      "sha256": "cb33b634eede0428da6e0b0259372c5ef76c23c66ac443169e4fbcbbb0849a06"
+    },
+    {
+      "path": "akshaya-2025-pdfpage79.png",
+      "bytes": 1314873,
+      "sha256": "0681eac0dff6c90a646ed314672c8207818cc5c2054f0d7c6328311f1b43c41a"
+    },
+    {
+      "path": "akshaya-2025-pdfpage80-ocr.txt",
+      "bytes": 1610,
+      "sha256": "40076720ffa6cb2e0470ebd7bacdb330b5f4326f9ff1dc2f21fb3d3067f7e0b0"
+    },
+    {
+      "path": "akshaya-2025-pdfpage80.png",
+      "bytes": 901551,
+      "sha256": "d4a3b2885689db685e3308bc5598cc49816f751263710a162b6b7295206a92c4"
+    },
+    {
+      "path": "akshaya-2025-pdfpage82-ocr.txt",
+      "bytes": 2511,
+      "sha256": "ed050efdf0ed77fdbea1436816a0fc6096bda525b35cd92382f6a172bb2a45e5"
+    },
+    {
+      "path": "akshaya-2025-pdfpage82.png",
+      "bytes": 959690,
+      "sha256": "6121efed5f182f7cba5fd490d107509116ee802db6e869cbb6915b9991537937"
+    },
+    {
+      "path": "akshaya-2025-pdfpage83-ocr.txt",
+      "bytes": 3277,
+      "sha256": "6d0246f0b4596f46023f93a88c191877fee65b53ca26b7321f2ea1395085beff"
+    },
+    {
+      "path": "akshaya-2025-pdfpage83.png",
+      "bytes": 1144133,
+      "sha256": "fc7a97980d53c63a3af2db4bfa862942261073945c3b8b4e9d0004b3ce25fd6e"
+    },
+    {
+      "path": "akshaya-2025-receipt.json",
+      "bytes": 552,
+      "sha256": "3026f118c24611229330fa15b99bf372f50ebc55e7a5eaeeb8e2651f8ed4a54b"
+    },
+    {
+      "path": "akshaya-2025.pdf",
+      "bytes": 9051543,
+      "sha256": "1431b1828e5e38d5f7d059b48ddd6748c56954e3b4823465be58a56562aec132"
+    },
+    {
+      "path": "akshaya-2025.txt",
+      "bytes": 347092,
+      "sha256": "5bd6c574f3716ae148a41fe6bda3dccd96a4b5f603b3a2015bb42795b8f47864"
+    },
+    {
+      "path": "akshaya-kitchen-2024-receipt.json",
+      "bytes": 510,
+      "sha256": "a50c5967ab9c5769f82d8634440b6ae4b916018fd62053dd912fcc814d66f5f6"
+    },
+    {
+      "path": "akshaya-kitchen-2024.html",
+      "bytes": 119863,
+      "sha256": "a4d7d70631bf581f6b43bea7a2600256e43f6d5a9e2973a323a3c467448a6eb4"
+    },
+    {
+      "path": "akshaya-kitchen-2024.txt",
+      "bytes": 58482,
+      "sha256": "5ac39a90305df3dcc92fd2b6a3786150725413e787010c9d4c9fbce662b31f1d"
+    },
+    {
+      "path": "build_slice.py",
+      "bytes": 44760,
+      "sha256": "e551c6743157162aafaef9f7ad8576521c3c8d48d6cd15aa4d2df597386ce690"
+    },
+    {
+      "path": "byju-nclat-2026-indexed-receipt.json",
+      "bytes": 475,
+      "sha256": "b06fdc7080f3058c6ed8e0d580b053121d6a4579163d4a238ac1e49aad0af2f7"
+    },
+    {
+      "path": "byju-nclat-2026-receipt.json",
+      "bytes": 195,
+      "sha256": "78371d5a24cb863bd6431d817389370e7e8845cd3cef9a432fdb85ece7be238f"
+    },
+    {
+      "path": "byju-sc-2024-receipt.json",
+      "bytes": 553,
+      "sha256": "c67b4fd4671d14e5dd9de3d988d2022f4325878bfc2bcd1594157a5fa99ad671"
+    },
+    {
+      "path": "byju-sc-2024.pdf",
+      "bytes": 605773,
+      "sha256": "730ae13f65cc62186a43558168c722b72984dd7a6c75685708a0a9ed95fcd2b7"
+    },
+    {
+      "path": "byju-sc-2024.txt",
+      "bytes": 125658,
+      "sha256": "a059bbf5ea1e3883c87cc3dc9cfe8ae1f340b68b267abbb46a1073e3a9537760"
+    },
+    {
+      "path": "fetch_sources.py",
+      "bytes": 2494,
+      "sha256": "b84a4b40774f450a767a123d3ae6af83afe1400c160237102590bab96be9c042"
+    },
+    {
+      "path": "khyati-hc-2025-indexed-receipt.json",
+      "bytes": 471,
+      "sha256": "75b0985a73fad42fe9bd02d8dc16f1643a79048ef5dd056883c3010a68addc01"
+    },
+    {
+      "path": "khyati-hc-may2025-receipt.json",
+      "bytes": 195,
+      "sha256": "1fccd95531065443f84d7c55a9675ade550811dc8c265379f4da7d3b68ffb639"
+    },
+    {
+      "path": "khyati-ie-april2025-receipt.json",
+      "bytes": 542,
+      "sha256": "a0c07417fc7dcac8fca3eff03fbf0afd70bfce9bfb49a0eaf21258a1c7167750"
+    },
+    {
+      "path": "khyati-ie-april2025.html",
+      "bytes": 705788,
+      "sha256": "08c2bf75214b3675229c92587339e8f5bbc5bafbe7b464320d1104af0356e696"
+    },
+    {
+      "path": "khyati-ie-april2025.txt",
+      "bytes": 14375,
+      "sha256": "e24a1e568272bafc1e0c635b919657662ddd20283f961416e4ca19121645cf9c"
+    },
+    {
+      "path": "khyati-ie-june2025-receipt.json",
+      "bytes": 761,
+      "sha256": "ccaa00e7a665c409275a692d9668a253667fb30a751fd8aa38aae11882acea73"
+    },
+    {
+      "path": "khyati-ie-june2025.html",
+      "bytes": 776882,
+      "sha256": "7400720d831848ab1d9c89cdf8b0cb5a0931eda97218da3af20ca399ee4b7023"
+    },
+    {
+      "path": "khyati-ie-june2025.txt",
+      "bytes": 13648,
+      "sha256": "29a3e40549b0037b1b75ecbdc9e25b91a5fe175d09192b2f1d72ef170aed71cb"
+    },
+    {
+      "path": "khyati-sc-bail-2025-indexed-receipt.json",
+      "bytes": 479,
+      "sha256": "8691212a4f06d8483107ebc706a7719faf2c5c2fdcaa5af603d581b6198f870a"
+    },
+    {
+      "path": "khyati-sc-dec2025-receipt.json",
+      "bytes": 195,
+      "sha256": "645127500307309f7b9d6f7ae5291d8e42b5837992d6935a5e1bc7b67cc766ba"
+    },
+    {
+      "path": "khyati-toi-may2026-receipt.json",
+      "bytes": 666,
+      "sha256": "cb1f0dd9fe7c61abf78bdb392c79d278b8d595593af31b88a9e400841c75e15c"
+    },
+    {
+      "path": "khyati-toi-may2026.html",
+      "bytes": 320790,
+      "sha256": "e075389753539f9d8a5564e82a63fcfc14efc1bcd191bf797e387fa867fba8fb"
+    },
+    {
+      "path": "khyati-toi-may2026.txt",
+      "bytes": 14117,
+      "sha256": "1e3d8f5fd312c88cab315491743ab2c2e752fff7629c947d8d46668150c93079"
+    },
+    {
+      "path": "nsap-actiontaken-2026-receipt.json",
+      "bytes": 478,
+      "sha256": "7c69431b7b66dc906f041ead7e0848a85c03f5d1a5bb65d6fcbf509ce5df472e"
+    },
+    {
+      "path": "nsap-actiontaken-2026.html",
+      "bytes": 512831,
+      "sha256": "75a0acffbbdb67c215364926af5c2b355e71387381aef7edf55d61bfa8585040"
+    },
+    {
+      "path": "nsap-actiontaken-2026.txt",
+      "bytes": 6941,
+      "sha256": "c586d899c54632b884b5075da0189c384386640b9adc3655ee359a6edca70188"
+    },
+    {
+      "path": "nsap-actiontaken-report-2026-receipt.json",
+      "bytes": 554,
+      "sha256": "ca4db1629cf5ff0cc90dd6d1fc062126232c80d726b9a5ee97b6c24d2946f810"
+    },
+    {
+      "path": "nsap-actiontaken-report-2026.pdf",
+      "bytes": 833638,
+      "sha256": "7c4ad44ad57486d65071a98d2bb82d60d03e0355fcc770f8892f9e6882831348"
+    },
+    {
+      "path": "nsap-actiontaken-report-2026.txt",
+      "bytes": 64923,
+      "sha256": "c03ef7662ae5d5c6752349ec8473106d35242add7a0355d813d435ba57313549"
+    },
+    {
+      "path": "nsap-cag-2023-inherited-indexed.txt",
+      "bytes": 246344,
+      "sha256": "24ea9e00e4630348f4b8980637e6e77d6463f45b8043a3d5103ea0b58794363a"
+    },
+    {
+      "path": "nsap-cag-2023-inherited-receipt.json",
+      "bytes": 609,
+      "sha256": "79ba34f90a8a6168b5af46b1920b7005bb36a5e8cc6469de7abfe1424693e975"
+    },
+    {
+      "path": "nsap-cag-2023-receipt.json",
+      "bytes": 287,
+      "sha256": "b04e1f9f6ecddd14a2818b832db743bd70b61b524d683180646c85a8f3409647"
+    },
+    {
+      "path": "pmjay-nha-receipt.json",
+      "bytes": 175,
+      "sha256": "4e818ba3cc9bb6cb429081a344fb1f5cadf2b4301c158863781a497c33d6114b"
+    },
+    {
+      "path": "pmjay-pib-2025-receipt.json",
+      "bytes": 453,
+      "sha256": "776766f59b95dee95d75c510165c76900ab5b870bf388a8effe0b76907feaf20"
+    },
+    {
+      "path": "pmjay-pib-2025.html",
+      "bytes": 97072,
+      "sha256": "4521e1ee88499d289ca2aea8159aabb6486fb7223d9108af1ba1e6daba4e52f1"
+    },
+    {
+      "path": "pmjay-pib-2025.txt",
+      "bytes": 20552,
+      "sha256": "055cd52c475ce32374671af9f357cfa8c6af993caca0c697a7f82815e00da958"
+    },
+    {
+      "path": "svcFetch1.json",
+      "bytes": 33824,
+      "sha256": "a9180efba45c4a0da8aa1bd4b78c8f851ac4c52d65d2378cf0e4ab0abaf18ffb"
+    },
+    {
+      "path": "svcFetch2.json",
+      "bytes": 15590,
+      "sha256": "ad40563ce72938d7b8d7ba8b9fac3490673b85efc31b377a8d098d6116b4316b"
+    },
+    {
+      "path": "svcFetch3.json",
+      "bytes": 11988,
+      "sha256": "684dbb4d4d9d3339309efa1b889d22ec5816df60c7f30d33ece8ec72a70b1646"
+    },
+    {
+      "path": "svcFetch4.json",
+      "bytes": 34298,
+      "sha256": "3f0f26fbc3609afc12aed448332c936a739d15ea8b44f3f6f95016126c9a0302"
+    },
+    {
+      "path": "svcSearch1.json",
+      "bytes": 31435,
+      "sha256": "bc336dc07bed4f6ee8e0b2dbe6ce029e55bd20bb496a558807a22dc5b576e189"
+    },
+    {
+      "path": "svcSearch2.json",
+      "bytes": 28782,
+      "sha256": "395fc84e99b99eccbfd832014b46ac790042859d587a52b7e4d93b5d50a8f947"
+    },
+    {
+      "path": "svcSearch3.json",
+      "bytes": 32301,
+      "sha256": "8b8c22ea8ef7d3f98274c743e8b5e0833c24478456097ad339105fdc3c85886c"
+    },
+    {
+      "path": "svcSearch4.json",
+      "bytes": 31808,
+      "sha256": "b24d2f4a6c3f5335acb75cb63c4633f25cbb098f959f8c0fe4c6128a35332802"
+    }
+  ]
+}

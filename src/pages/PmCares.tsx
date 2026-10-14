@@ -15,7 +15,7 @@ import {
 const cr = (v: number | undefined | null) =>
   v == null ? '—' : `₹${v.toLocaleString('en-IN', { maximumFractionDigits: 2 })} cr`;
 
-/** Current signed statement first; dated historical research retained below. */
+/** Independently reconciled accounts first, followed by dated source review and bounded comparisons. */
 export default function PmCares() {
   const cov = useMemo(() => coverage(), []);
   const completeness = useMemo(() => statementCompleteness(), []);
@@ -52,9 +52,11 @@ export default function PmCares() {
       <Kicker>PM CARES · financial record</Kicker>
       <PageTitle>Published accounts and the questions that remain</PageTitle>
       <Standfirst>
-        Compare the fund’s disclosures with the records needed to trace contributions and
-        delivery. The latest statement and its comparative year are transcribed and reconciled below;
-        the earlier research is retained in a separately dated historical section.
+        Follow receipts, payments and balances through FY2024–25. The latest statement and
+        its comparative year are independently transcribed and reconciled below, followed by
+        the dated supporting review. Receipts include interest and returned funds; donations
+        in newer statements are net of refunds. The PMNRF comparison supplies institutional
+        context and cannot establish intent or settle RTI status.
       </Standfirst>
       <Callout label="Record correction · 14 October 2026" tone="warn">
         The official website now lists audited Receipt and Payment Accounts through FY2024–25.
@@ -62,28 +64,28 @@ export default function PmCares() {
         <a href="https://pmcares.gov.in/en/web/page/about_us" target="_blank" rel="noreferrer" className="underline">Current official index</a>
         {' · '}<a href="https://pmcares.gov.in/assets/donation/pdf/Audited_Statement_2024_25.pdf" target="_blank" rel="noreferrer" className="underline">FY2024–25 statement</a>
         {' · '}<Link to="/investigations?q=PM%20CARES" className="underline">Updated investigation dossiers</Link>.
-        {' '}The historical section’s counts, gaps and comparator conclusions belong to the archived {PM_AS_OF} extraction.
-        Shared practices with PMNRF alone do not
-        establish whether either fund’s transparency is adequate.
+        {' '}The supporting review below is dated {PM_AS_OF}; its historical contribution and
+        payment aggregates cover FY2019–20 to FY2022–23 only. Shared practices with PMNRF
+        alone do not establish whether either fund’s transparency is adequate.
       </Callout>
       <PmCaresAccounts />
       <Byline>
-        Historical extraction: {cov.published} of {cov.elapsed} recorded financial years · {PM_AS_OF}
+        Supporting review: {cov.published} of {cov.elapsed} recorded financial years · reviewed {PM_AS_OF}
       </Byline>
 
       <div className="mt-6">
         <DenominatorStrip
           asOf={PM_AS_OF}
           facts={[
-            { n: cov.published, of: cov.elapsed, label: 'years in archived extraction' },
+            { n: cov.published, of: cov.elapsed, label: 'statement years in dated review' },
             { n: completeness.withAuditorsReport, of: cov.published, label: 'with an auditor’s report' },
-            { n: Number(agg.namedDisbursementHeadsAcrossFourYears ?? 0), label: 'named payment heads' },
+            { n: Number(agg.namedDisbursementHeadsAcrossPublishedYears ?? 0), label: 'payment lines across years' },
             { n: Number(agg.recipientNamesPublished ?? 0), label: 'recipients named' },
           ]}
         />
       </div>
 
-      <Section title="Historical comparator: PMNRF" note={`Earlier analysis · ${PM_AS_OF} · shared practices do not establish adequate transparency`}>
+      <Section title="Disclosure and the PMNRF comparison" note={`Supporting review · ${PM_AS_OF} · comparisons do not establish adequate transparency`}>
         <Callout label={`Comparator: ${PM_CONTROL.comparator}`} tone="bottomline">
           {PMCARES.headline}
         </Callout>
@@ -134,20 +136,20 @@ export default function PmCares() {
           </table>
         </div>
         <p className="text-[13px] text-text-muted mt-3 max-w-[74ch] leading-relaxed">
-          Identical on {identical} of {PM_CONTROL.resultsIdentical.length} properties tested. A
-          shared property weakens a claim that the practice is unique to PM CARES. It does not
-          resolve whether the practice impedes accountability in either fund.
+          The reviewed comparison matches on {identical} of {PM_CONTROL.resultsIdentical.length}
+          {' '}properties. Shared practices can inform institutional context, but do not establish
+          appropriate conduct, rule out wrongdoing, or prove a purpose for creating either fund.
         </p>
       </Section>
 
-      <Section title="What the control killed" note="A killed claim is a result, and it names the check that killed it">
+      <Section title="Claims checked and qualified" note="Superseded facts and propositions the reviewed evidence does not establish">
         <div className="space-y-4">
           {PMCARES.rejected.map((r) => (
             <div key={r.id} className="border-l-2 border-rose/40 pl-3">
               <p className="font-medium text-[14.5px]">
                 <span className="font-mono text-[10.5px] text-rose mr-2">{r.id}</span>“{r.claim}”
               </p>
-              <p className="font-mono text-[10.5px] text-text-muted mt-1">killed by: {r.killedBy}</p>
+              <p className="font-mono text-[10.5px] text-text-muted mt-1">assessment: {r.killedBy}</p>
               <p className="text-[13.5px] text-text-muted mt-1 max-w-[76ch] leading-relaxed">
                 {r.reason}
               </p>
@@ -157,8 +159,8 @@ export default function PmCares() {
       </Section>
 
       <Section
-        title="The four departures that survive the control"
-        note="Narrower than the claims that died, and better sourced"
+        title="Differences and historical comparisons"
+        note="Keep each comparison within its stated period and evidence"
       >
         <div className="space-y-5">
           {PM_CONTROL.departuresThatSurvive.map((d) => (
@@ -207,8 +209,8 @@ export default function PmCares() {
       </Section>
 
       <Section
-        title="Historical ledger · extraction through FY2022–23"
-        note="Unfilled rows are gaps in this extraction. The current official index includes FY2023–24 and FY2024–25."
+        title="Annual receipts and payments"
+        note={`Supporting review · ${PM_AS_OF} · receipts exclude opening balances; newer donations are net of refunds`}
       >
         <div className="space-y-2">
           {PM_FINANCIALS.map((f) => {
@@ -274,11 +276,11 @@ export default function PmCares() {
 
         <StatGrid
           items={[
-            { value: cr(Number(agg.totalContributionsCr)), label: 'contributions, FY20 to FY23' },
-            { value: cr(Number(agg.totalPaymentsCr)), label: 'payments over the same period' },
+            { value: cr(Number(agg.totalContributionsCr)), label: 'historical contributions, FY2019–20 to FY2022–23' },
+            { value: cr(Number(agg.totalPaymentsCr)), label: 'historical payments, FY2019–20 to FY2022–23' },
             {
-              value: cr(Number(agg.closingBalanceAt31Mar2023Cr)),
-              label: 'closing balance at 31 Mar 2023 — historical extracted figure',
+              value: cr(Number(agg.closingBalanceAt31Mar2025Cr)),
+              label: 'closing balance at 31 Mar 2025 — latest published year',
               tone: 'accent',
             },
             {
@@ -289,17 +291,21 @@ export default function PmCares() {
           ]}
         />
 
-        <Callout label="Completeness of the historical extraction" tone="warn">
-          The {completeness.years} years examined in the archived extraction contain Receipts and
-          Payments Account. Each references accompanying notes — and{' '}
+        <Callout label="What the linked statements contain" tone="warn">
+          The {completeness.years} reviewed years publish Receipts and Payments Accounts.
+          Each references accompanying notes. In the files reviewed,{' '}
           <strong className="text-text">
-            none of the {completeness.years} publishes them
+            {completeness.withNotes} of {completeness.years} include those notes
           </strong>
-          . The archived extraction did not include a separate auditor’s report or balance sheet. Across these
-          four statements there are {String(agg.namedDisbursementHeadsAcrossFourYears)} named
-          payment heads, {String(agg.recipientNamesPublished)} named recipients and{' '}
-          {String(agg.transactionDatesPublished)} transaction dates. The same is true of the
-          control, which is why this is a fact about the format rather than about the fund.
+          . The linked files do not contain a separate auditor’s report or balance sheet;
+          that finding is limited to these retrieved files.
+          Across these statements there are {String(agg.namedDisbursementHeadsAcrossPublishedYears)}
+          {' '}listed payment lines, {String(agg.recipientNamesPublished)} named recipients and{' '}
+          {String(agg.transactionDatesPublished)} individual transaction dates. FY2023-24 and
+          FY2024-25 use donations net of refunds. The FY2022-23 standalone statement shown above
+          uses gross donations; its later comparative presentation nets ₹1.51 crore from both
+          receipts and payments with no change to closing balance. A payment caption is not
+          proof of delivery to a beneficiary, and a bank balance is not spending.
         </Callout>
 
         {lag.length > 1 && (
@@ -449,16 +455,17 @@ export default function PmCares() {
 
       <Footnote>
         <p>
-          <strong>Every figure here was read off a page image.</strong> The published statements
-          are scans without a text layer. FY2022-23 casts exactly in both directions; FY2020-21
-          receipts and FY2021-22 payments each land ₹1 away from their printed totals, which is
-          almost certainly one misread digit in a scan. The printed totals are carried as
-          authoritative and the discrepancy is recorded rather than quietly patched.
+          <strong>Statement figures were transcribed from page images.</strong> The published
+          statements are scans without a text layer. The independent FY2024–25 extraction and
+          FY2023–24 comparative column reconcile exactly. In the supporting {PM_AS_OF} review,
+          FY2022–23 also reconciles, while FY2020–21 receipts and FY2021–22 payments each retain
+          a ₹1 residual against their printed totals. A transcription or source-arithmetic
+          difference remains unresolved; the printed totals and residuals are both retained.
         </p>
         <p>
           <strong>Standing.</strong> Nothing on this page asserts misappropriation, intent or
           wrongdoing. It reports what the published record establishes, what it does not, and
-          what a control does to the claims most commonly made. Where a question is live before a
+          how comparisons qualify the claims considered. Where a question is live before a
           court, both positions are carried and neither is adjudicated here.{' '}
           <Link to="/desk" className="underline underline-offset-2">
             How the desk works

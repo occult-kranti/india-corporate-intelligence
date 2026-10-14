@@ -1,0 +1,160 @@
+{
+  "asOf": "2026-09-26",
+  "declares": "The capital fleet's declared comparison sets, promoted from the fleet SPEC so a page reads the set structurally rather than from identity prose. Row order is the declared order and is part of the declaration. Roles: subject / comparison / domestic-control (holders); adviser-subject / adviser-comparison (adviser mandates). A declared member the fleet has no entity for is listed with id null and resolved false, and has no claims.",
+  "declaredIn": "scratchpad/capital/SPEC.md",
+  "declaration": "- Holders: BlackRock is never recorded alone. The comparison set is Vanguard, Norges Bank\n  Investment Management (Government Pension Fund Global — publishes every holding with %:\n  `nbim.no`), GIC (Government of Singapore), Capital Group (EuroPacific Growth Fund),\n  Fidelity, and LIC as the domestic control. Same fields for each.\n- Advisers: Rothschild & Co against Lazard, Goldman Sachs, Morgan Stanley, JP Morgan, Citi,\n  Kotak, Axis Capital, Avendus — same mandate fields (client, deal, role, date, fee where\n  disclosed).",
+  "rows": [
+    {
+      "id": "cap:blackrock",
+      "label": "BlackRock, Inc.",
+      "role": "subject",
+      "resolved": true,
+      "declaredIn": "scratchpad/capital/SPEC.md §Controls (mandatory symmetry check)",
+      "note": null
+    },
+    {
+      "id": "cap:vanguard",
+      "label": "The Vanguard Group, Inc.",
+      "role": "subject",
+      "resolved": true,
+      "declaredIn": "scratchpad/capital/SPEC.md §Controls (mandatory symmetry check)",
+      "note": "The SPEC's Controls section lists Vanguard first in BlackRock's comparison set; it is a subject here because the SPEC's question calibrates the narrative 'BlackRock and Vanguard own India' (FINANCE_PAGE.md F15, D22)."
+    },
+    {
+      "id": "cap:nbim",
+      "label": "Norges Bank Investment Management (Government Pension Fund Global)",
+      "role": "comparison",
+      "resolved": true,
+      "declaredIn": "scratchpad/capital/SPEC.md §Controls (mandatory symmetry check)",
+      "note": null
+    },
+    {
+      "id": "cap:gic-singapore",
+      "label": "Government of Singapore / GIC Private Limited",
+      "role": "comparison",
+      "resolved": true,
+      "declaredIn": "scratchpad/capital/SPEC.md §Controls (mandatory symmetry check)",
+      "note": null
+    },
+    {
+      "id": "cap:capital-group",
+      "label": "Capital Group Companies, Inc.",
+      "role": "comparison",
+      "resolved": true,
+      "declaredIn": "scratchpad/capital/SPEC.md §Controls (mandatory symmetry check)",
+      "note": "The SPEC names Capital Group with its EuroPacific Growth Fund."
+    },
+    {
+      "id": "cap:fidelity",
+      "label": "Fidelity Investments (FMR LLC)",
+      "role": "comparison",
+      "resolved": true,
+      "declaredIn": "scratchpad/capital/SPEC.md §Controls (mandatory symmetry check)",
+      "note": null
+    },
+    {
+      "id": "cap:kuwait-investment-authority",
+      "label": "Kuwait Investment Authority",
+      "role": "comparison",
+      "resolved": true,
+      "declaredIn": "research/raw/capital/holders.json — entity publicRole 'Mandatory comparison control per SPEC'",
+      "note": "Not named in the SPEC's Controls section: the holders fleet added it to the comparison set, and every batch file tests it."
+    },
+    {
+      "id": "cap:adia",
+      "label": "Abu Dhabi Investment Authority",
+      "role": "comparison",
+      "resolved": true,
+      "declaredIn": "research/raw/capital/holders.json — entity publicRole 'Mandatory comparison control per SPEC'",
+      "note": "Not named in the SPEC's Controls section: the holders fleet added it to the comparison set, and every batch file tests it."
+    },
+    {
+      "id": "co:life-insurance-corporation",
+      "label": "Life Insurance Corporation of India",
+      "role": "domestic-control",
+      "resolved": true,
+      "declaredIn": "scratchpad/capital/SPEC.md §Controls (mandatory symmetry check)",
+      "note": "Declared \"LIC as the domestic control\"; LIC is the sole promoter of Axis Bank, a different relationship from its holdings elsewhere (holders-b1:c008)."
+    },
+    {
+      "id": "cap:rothschild-co",
+      "label": "Rothschild & Co SCA",
+      "role": "adviser-subject",
+      "resolved": true,
+      "declaredIn": "scratchpad/capital/SPEC.md §Controls (mandatory symmetry check)",
+      "note": null
+    },
+    {
+      "id": "cap:rothschild-co-india",
+      "label": "Rothschild & Co India Private Limited",
+      "role": "adviser-subject",
+      "resolved": true,
+      "declaredIn": "scratchpad/capital/SPEC.md §Controls (mandatory symmetry check)",
+      "note": "The SPEC's rule: 'Rothschild' is Rothschild & Co and its Indian subsidiary, identified by LEI/CIN — two ids, never merged."
+    },
+    {
+      "id": "cap:lazard",
+      "label": "Lazard",
+      "role": "adviser-comparison",
+      "resolved": true,
+      "declaredIn": "scratchpad/capital/SPEC.md §Controls (mandatory symmetry check)",
+      "note": null
+    },
+    {
+      "id": "cap:goldman-sachs",
+      "label": "Goldman Sachs (India) Securities",
+      "role": "adviser-comparison",
+      "resolved": true,
+      "declaredIn": "scratchpad/capital/SPEC.md §Controls (mandatory symmetry check)",
+      "note": null
+    },
+    {
+      "id": "cap:morgan-stanley",
+      "label": "Morgan Stanley",
+      "role": "adviser-comparison",
+      "resolved": true,
+      "declaredIn": "scratchpad/capital/SPEC.md §Controls (mandatory symmetry check)",
+      "note": null
+    },
+    {
+      "id": null,
+      "label": "JP Morgan",
+      "role": "adviser-comparison",
+      "resolved": false,
+      "declaredIn": "scratchpad/capital/SPEC.md §Controls (mandatory symmetry check)",
+      "note": "No entity in mandates-ventures.json. cap:jpmorgan-chase-bank-na-adr-depositary (holders-b9) is JPMorgan Chase Bank acting as ADR depositary — a different role and entity, not merged by name."
+    },
+    {
+      "id": "cap:citi",
+      "label": "Citi (Citigroup Global Markets India)",
+      "role": "adviser-comparison",
+      "resolved": true,
+      "declaredIn": "scratchpad/capital/SPEC.md §Controls (mandatory symmetry check)",
+      "note": null
+    },
+    {
+      "id": "co:kotak-mahindra-bank",
+      "label": "Kotak Mahindra Bank Limited",
+      "role": "adviser-comparison",
+      "resolved": true,
+      "declaredIn": "scratchpad/capital/SPEC.md §Controls (mandatory symmetry check)",
+      "note": "The fleet records Kotak's adviser role on the listed bank's id (mandates-ventures.json publicRole 'Listed bank; control-set adviser'); no separate id for Kotak Mahindra Capital."
+    },
+    {
+      "id": null,
+      "label": "Axis Capital",
+      "role": "adviser-comparison",
+      "resolved": false,
+      "declaredIn": "scratchpad/capital/SPEC.md §Controls (mandatory symmetry check)",
+      "note": "No entity in mandates-ventures.json. co:axis-bank is the bank, not its investment-banking subsidiary — not merged by name."
+    },
+    {
+      "id": "cap:avendus",
+      "label": "Avendus Capital Pvt Ltd",
+      "role": "adviser-comparison",
+      "resolved": true,
+      "declaredIn": "scratchpad/capital/SPEC.md §Controls (mandatory symmetry check)",
+      "note": null
+    }
+  ]
+}

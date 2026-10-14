@@ -1,0 +1,90 @@
+[
+  {
+    "id": "police-budget-2026",
+    "url": "https://www.indiabudget.gov.in/doc/eb/sbe51.pdf",
+    "finalUrl": "https://www.indiabudget.gov.in/doc/eb/sbe51.pdf",
+    "retrievedAt": "2026-10-07T16:45:17.327966+00:00",
+    "status": 200,
+    "bytes": 419618,
+    "sha256": "5585048ed251a77c533ef1def1f0ddb5392e7eca6458afb9470245a3f194eeb2",
+    "artifact": "police-budget-2026.pdf",
+    "textArtifact": "police-budget-2026.txt"
+  },
+  {
+    "id": "pac140",
+    "url": "https://sansad.in/getFile/lsscommittee/Public%20Accounts/17_Public_Accounts_140.pdf?source=loksabhadocs",
+    "finalUrl": "https://sansad.in/getFile/lsscommittee/Public%20Accounts/17_Public_Accounts_140.pdf?source=loksabhadocs",
+    "retrievedAt": "2026-10-07T16:46:10.278743+00:00",
+    "status": 200,
+    "bytes": 1036988,
+    "sha256": "e41ebfe984e9cbfe6b903c3b8eb7872849da46b14ff6ec33358329573f4ff8d9",
+    "artifact": "pac140.pdf",
+    "textArtifact": "pac140.txt"
+  },
+  {
+    "id": "pac32",
+    "url": "https://sansad.in/getFile/lsscommittee/Public%20Accounts/18_Public_Accounts_32.pdf?source=loksabhadocs",
+    "finalUrl": "https://sansad.in/getFile/lsscommittee/Public%20Accounts/18_Public_Accounts_32.pdf?source=loksabhadocs",
+    "retrievedAt": "2026-10-07T16:46:14.211782+00:00",
+    "status": 200,
+    "bytes": 6183186,
+    "sha256": "0e1401ada5da8e76eafa01e37701f55a35eb4fdf6ad98e1c316a4e5ebb5acc8f",
+    "artifact": "pac32.pdf",
+    "textArtifact": "pac32.txt"
+  },
+  {
+    "id": "dphcl-projects-2025",
+    "url": "https://www.dphcl.com/uploaded_files/project-status/1748948127.pdf",
+    "finalUrl": "https://www.dphcl.com/uploaded_files/project-status/1748948127.pdf",
+    "retrievedAt": "2026-10-07T16:48:03.427500+00:00",
+    "status": 200,
+    "bytes": 439254,
+    "sha256": "fcb5391ac092b9135b35618f8dd8fb6162a0af9c8a9a95030ecceb9a2dd16be5",
+    "externalArtifact": "/tmp/dphcl-projects-2025.pdf",
+    "retentionReason": "Full public source contains residential quarter identifiers; only selected public-facility/aggregate rows retained.",
+    "extractArtifact": "dphcl-selected-extract.txt"
+  },
+  {
+    "id": "safe-city-pib-2026",
+    "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2228674",
+    "finalUrl": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2228674&reg=48&lang=2",
+    "retrievedAt": "2026-10-07T16:49:44.264844+00:00",
+    "status": 200,
+    "bytes": 130689,
+    "sha256": "ce2eb469891dc557ab114331638253af113e7ed3579c80a3c31b3cd47dccb173",
+    "artifact": "safe-city-pib-2026.html"
+  },
+  {
+    "id": "cag-indexed-chapters",
+    "urls": [
+      "https://cag.gov.in/uploads/download_audit_report/2020/9.%20Digital%20Initiatives%20of%20Delhi%20Police-05f911198e45a25.81448827.pdf",
+      "https://cag.gov.in/uploads/download_audit_report/2020/6.%20Operations%20and%20Communications-05f911198e1c433.79585032.pdf"
+    ],
+    "retrievedAt": "2026-10-07T16:56:03.198111+00:00",
+    "method": "Exa web_fetch_exa indexed original-government-host text; direct original requests HTTP503",
+    "artifact": "cag-indexed-chapters.txt",
+    "bytes": 58622,
+    "sha256": "b258b6b5c046369c62239cc1283d4480e644648a8189873c96e0f002f80ab2c5",
+    "limitations": "Indexed text, not a locally fetched original PDF. Tables can reorder; amounts cross-checked against paragraphs and primary parliamentary updates."
+  },
+  {
+    "id": "delhi-safety-sc-2026",
+    "url": "https://www.sci.gov.in/sci-get-pdf/?diary_no=604872026&type=j&order_date=2026-09-28&from=latest_judgements_order",
+    "finalUrl": "https://www.sci.gov.in/sci-get-pdf/?diary_no=604872026&type=j&order_date=2026-09-28&from=latest_judgements_order",
+    "retrievedAt": "2026-10-07T16:56:42.372147+00:00",
+    "status": 200,
+    "bytes": 263142,
+    "sha256": "1f060cad7b1dec07fc09912f37ad5e71f1e64c09b50e5c7d151e1da453007039",
+    "externalArtifact": "/tmp/delhi-safety-sc-2026.pdf",
+    "reason": "Full narrative includes sensitive sexual-offence facts; retain only institutional oversight extracts.",
+    "extractArtifact": "sc-institutional-extract.txt"
+  },
+  {
+    "id": "sc-hearing-report-2026",
+    "url": "https://www.thehindu.com/news/national/set-up-24-hour-monitoring-cells-to-prevent-sexual-offences-supreme-court-tells-delhi-police/article71547571.ece",
+    "retrievedAt": "2026-10-07",
+    "method": "Exa web_fetch_exa; author-written note only; commercial body not retained",
+    "artifact": "sc-hearing-authored-note.txt",
+    "sha256": "9a1bd44ca80f640f3c6dcc7d3d67623254be149d576e3109b48996a87daffb2e"
+  }
+]

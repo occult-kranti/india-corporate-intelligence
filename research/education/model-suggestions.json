@@ -1,0 +1,214 @@
+{
+  "schemaVersion": 1,
+  "purpose": "research-discovery-only",
+  "automaticallyVerified": false,
+  "limitation": "Cosine similarity ranks public evidence summaries. It is not factual confidence, verification, proof of misconduct, or a funding total. No model-generated claims are promoted to the evidence registry.",
+  "model": {
+    "id": "sentence-transformers/all-MiniLM-L6-v2",
+    "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+    "license": "Apache-2.0",
+    "modelCard": "https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/blob/1110a243fdf4706b3f48f1d95db1a4f5529b4d41/README.md",
+    "format": "ONNX uint8 AVX2",
+    "dimensions": 384,
+    "maxTokens": 256,
+    "pooling": "attention-mask-weighted mean, L2 normalized",
+    "assetSha256": {
+      "onnx/model_quint8_avx2.onnx": "b941bf19f1f1283680f449fa6a7336bb5600bdcd5f84d10ddc5cd72218a0fd21",
+      "tokenizer.json": "be50c3628f2bf5bb5e3a7f17b1f74611b2561a3a27eeab05e5aa30f411572037"
+    }
+  },
+  "execution": {
+    "provider": "CPUExecutionProvider",
+    "python": "3.12.14",
+    "onnxruntime": "1.23.2",
+    "tokenizers": "0.22.1",
+    "numpy": "2.3.4",
+    "inferenceSeconds": 0.573,
+    "publicTextUploadedToModelService": false
+  },
+  "corpusSha256": "12f0585e0856e5938d015ef71ea3fc4beec30c3182fa6c133fcae97563ca1261",
+  "documentCount": 38,
+  "smokeCheck": {
+    "passed": true,
+    "relatedSimilarity": 0.808023,
+    "unrelatedSimilarity": 0.01586,
+    "meaning": "Pipeline wiring check only; not an evidence or model accuracy evaluation"
+  },
+  "queries": {
+    "public-school-funding": {
+      "text": "Government school education funding budget allocations grants and public spending in Indian states",
+      "matches": [
+        {
+          "documentId": "pm-shri-cabinet",
+          "title": "Cabinet approves PM SHRI Schools",
+          "url": "https://www.pmindia.gov.in/en/news_updates/cabinet-approves-a-new-centrally-sponsored-scheme-pm-shri-schools-pm-schools-for-rising-india/",
+          "similarity": 0.646384
+        },
+        {
+          "documentId": "ls-up-funding-2026",
+          "title": "Declining Enrolment of Students in Government Schools in Uttar Pradesh — Lok Sabha Question 2445",
+          "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU2445_SjCYU3.pdf",
+          "similarity": 0.623256
+        },
+        {
+          "documentId": "akshaya-patra-annual-2025",
+          "title": "Akshaya Patra Annual Report 2024–25",
+          "url": "https://www.akshayapatra.org/includefiles/financialreports/Annual_Report_24-25_Tapestry_web.pdf",
+          "similarity": 0.59416
+        },
+        {
+          "documentId": "rte-karnataka-2026",
+          "title": "Quota for EWS Seats in Private Unaided Schools — Lok Sabha Question 1260",
+          "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU1260_aW0kcJ.pdf",
+          "similarity": 0.590536
+        },
+        {
+          "documentId": "pratham-annual-2025",
+          "title": "Pratham Education Foundation Annual Report 2024–25",
+          "url": "https://www.pratham.org/wp-content/uploads/2026/01/AR-NEW_2JAN.pdf",
+          "similarity": 0.570367
+        }
+      ]
+    },
+    "college-funding": {
+      "text": "Higher education colleges universities research and technical education financing grants and loans in India",
+      "matches": [
+        {
+          "documentId": "azim-premji-university-2025",
+          "title": "Azim Premji University Bengaluru Annual Report 2024–25",
+          "url": "https://azimpremjiuniversity.edu.in/media/resources/Annual-Reports/Annual-Report-2024-25-Azim-Premji-University-Bengaluru.pdf",
+          "similarity": 0.482611
+        },
+        {
+          "documentId": "world-bank-stars-approval",
+          "title": "World Bank approves STARS to improve India's education system",
+          "url": "https://www.worldbank.org/en/news/press-release/2020/06/24/new-world-bank-project-to-improve-quality-of-indias-education-system",
+          "similarity": 0.461166
+        },
+        {
+          "documentId": "tata-trusts-annual-2025",
+          "title": "Tata Trusts Annual Report 2024–25",
+          "url": "https://www.tatatrusts.org/Upload/PDF/tata-trusts-annual-report-2024-2025.pdf",
+          "similarity": 0.454338
+        },
+        {
+          "documentId": "pm-shri-cabinet",
+          "title": "Cabinet approves PM SHRI Schools",
+          "url": "https://www.pmindia.gov.in/en/news_updates/cabinet-approves-a-new-centrally-sponsored-scheme-pm-shri-schools-pm-schools-for-rising-india/",
+          "similarity": 0.433188
+        },
+        {
+          "documentId": "merite-cabinet",
+          "title": "Cabinet approves MERITE with ₹4,200 crore outlay",
+          "url": "https://www.pmindia.gov.in/en/news_updates/cabinet-approves-budgetary-support-for-multidisciplinary-education-and-research-improvement-in-technical-education-merite-scheme-with-an-outlay-of-rs-4200-crore/",
+          "similarity": 0.418798
+        }
+      ]
+    },
+    "foreign-ngo-funding": {
+      "text": "Foreign education donors investment philanthropy foundations NGOs development impact bonds and FCRA in India",
+      "matches": [
+        {
+          "documentId": "educate-girls-fcra-2024",
+          "title": "Educate Girls FCRA financial statements for year ended 31 March 2024",
+          "url": "https://www.educategirls.ngo/wp-content/uploads/2026/01/FCRA_Financials_FY-23-24.pdf",
+          "similarity": 0.509487
+        },
+        {
+          "documentId": "tata-trusts-annual-2025",
+          "title": "Tata Trusts Annual Report 2024–25",
+          "url": "https://www.tatatrusts.org/Upload/PDF/tata-trusts-annual-report-2024-2025.pdf",
+          "similarity": 0.499932
+        },
+        {
+          "documentId": "world-bank-stars-approval",
+          "title": "World Bank approves STARS to improve India's education system",
+          "url": "https://www.worldbank.org/en/news/press-release/2020/06/24/new-world-bank-project-to-improve-quality-of-indias-education-system",
+          "similarity": 0.472476
+        },
+        {
+          "documentId": "pm-shri-cabinet",
+          "title": "Cabinet approves PM SHRI Schools",
+          "url": "https://www.pmindia.gov.in/en/news_updates/cabinet-approves-a-new-centrally-sponsored-scheme-pm-shri-schools-pm-schools-for-rising-india/",
+          "similarity": 0.429996
+        },
+        {
+          "documentId": "merite-cabinet",
+          "title": "Cabinet approves MERITE with ₹4,200 crore outlay",
+          "url": "https://www.pmindia.gov.in/en/news_updates/cabinet-approves-budgetary-support-for-multidisciplinary-education-and-research-improvement-in-technical-education-merite-scheme-with-an-outlay-of-rs-4200-crore/",
+          "similarity": 0.418568
+        }
+      ]
+    },
+    "school-access": {
+      "text": "School closures mergers falling school numbers children population growth enrollment access and travel distance",
+      "matches": [
+        {
+          "documentId": "ls-school-counts-2026",
+          "title": "Closure of Government Schools — Lok Sabha Unstarred Question 1374",
+          "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU1374_a5h0CI.pdf",
+          "similarity": 0.608121
+        },
+        {
+          "documentId": "up-pairing-appeal-news",
+          "title": "UP govt tells HC: No merger if school has over 50 students, 1km distance",
+          "url": "https://www.hindustantimes.com/cities/lucknow-news/up-govt-tells-hc-no-merger-if-school-has-over-50-students-1-km-distance-101755794177822.html",
+          "similarity": 0.549918
+        },
+        {
+          "documentId": "karnataka-counterclaim-news",
+          "title": "Government urged to withdraw order allowing merger of low-enrolment schools",
+          "url": "https://www.thehindu.com/news/national/karnataka/government-urged-to-withdraw-order-allowing-merger-of-low-enrolment-schools/article70372549.ece",
+          "similarity": 0.516495
+        },
+        {
+          "documentId": "karnataka-pilot-news",
+          "title": "Karnataka rolls out project to merge government schools with KPS magnet schools",
+          "url": "https://www.thehindu.com/news/national/karnataka/karnataka-rolls-out-project-to-merge-govt-schools-with-kps-magnet-schools/article70270577.ece",
+          "similarity": 0.500022
+        },
+        {
+          "documentId": "closure-reporting-2026",
+          "title": "Five years, 10 states: Where India's government school count fell the most",
+          "url": "https://timesofindia.indiatimes.com/education/news/five-years-10-states-where-indias-government-school-count-fell-the-most/articleshow/127941020.cms",
+          "similarity": 0.454359
+        }
+      ]
+    },
+    "private-school-accountability": {
+      "text": "Private school education funding fees public reimbursement and transparency accountability in India",
+      "matches": [
+        {
+          "documentId": "rte-karnataka-2026",
+          "title": "Quota for EWS Seats in Private Unaided Schools — Lok Sabha Question 1260",
+          "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU1260_aW0kcJ.pdf",
+          "similarity": 0.640086
+        },
+        {
+          "documentId": "pm-shri-cabinet",
+          "title": "Cabinet approves PM SHRI Schools",
+          "url": "https://www.pmindia.gov.in/en/news_updates/cabinet-approves-a-new-centrally-sponsored-scheme-pm-shri-schools-pm-schools-for-rising-india/",
+          "similarity": 0.637919
+        },
+        {
+          "documentId": "pratham-annual-2025",
+          "title": "Pratham Education Foundation Annual Report 2024–25",
+          "url": "https://www.pratham.org/wp-content/uploads/2026/01/AR-NEW_2JAN.pdf",
+          "similarity": 0.57335
+        },
+        {
+          "documentId": "ls-up-funding-2026",
+          "title": "Declining Enrolment of Students in Government Schools in Uttar Pradesh — Lok Sabha Question 2445",
+          "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU2445_SjCYU3.pdf",
+          "similarity": 0.568018
+        },
+        {
+          "documentId": "ls-school-counts-2026",
+          "title": "Closure of Government Schools — Lok Sabha Unstarred Question 1374",
+          "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU1374_a5h0CI.pdf",
+          "similarity": 0.545218
+        }
+      ]
+    }
+  }
+}

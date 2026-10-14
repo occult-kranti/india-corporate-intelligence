@@ -64,3 +64,33 @@ Run `npm ci`, `npm run validate:investigations`, `npm run test:game-theory`, `np
 ## PM CARES numerical extension
 
 `research/investigations/pmcares-accounts-extract.json` preserves integer rupees, printed strings, null dashes, source PDF SHA-256, signature dates and computed reconciliations. A second AI researcher independently read the same PDF before comparing the 34 source cells; the comparison matches. This checks transcription, not independent corroboration of transactions. The downloadable file has one page; referenced notes 1–16 and the separate audit opinion were not obtained. The site distinguishes opening balance from current-year receipts and donor contributions, and publishes both FY2024–25 and the comparative FY2023–24 figures. `validate:investigations` recomputes the cash equations and compares both extractions.
+
+
+## Continuation on 14 October 2026
+
+The corpus now contains 22 dossiers, 51 source records and 22 testable questions.
+`CONTINUATION_SOURCE_AUDIT.md` records the new US lobbying disclosure dossier, its
+original/amended record chain and reported denial, the OFBJP 2026 index-only lead,
+and the defendant-specific correction to the solar-contract charge description.
+The lobbying records establish what the registrant reported; authorization, ultimate
+funding and legality remain unresolved. Nine sources were added; the two official
+indexes are explicitly index-only, not financial schedules or full dockets.
+
+`AGENT_RESEARCH_METHOD.md` documents the bounded agent protocol and three acquisition
+jobs. The workbench now captures versioned local test-plan snapshots: population,
+time window, rival prediction and analysis method, alongside the existing worksheet.
+The timing classification is self-reported and defaults to exploratory. A local
+snapshot is not independent preregistration, a timestamp certification or a finding.
+Existing v1 notes are retained. Export includes the active question's revision history.
+
+`CONTINUATION_MODEL_INTEGRITY.md` explains why the current derivative was rebuilt
+after the SEC correction while the exact historical model-evaluation graph remains
+archived under its original content hash. No old model score was recalculated or
+represented as a new evaluation.
+
+
+`PMCARES_NOTES_ACQUISITION.md` records the subsequent bounded acquisition attempt:
+the official current statement was freshly downloaded and hash-matched, English
+and Hindi account links were inspected, and targeted searches did not supply the
+referenced Note 11, full audit opinion or current refund identities. The cash
+equation remains reconciled. Missing explanatory records do not establish diversion.

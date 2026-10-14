@@ -1,0 +1,1028 @@
+{
+ "asOf": "2026-10-04",
+ "fleet": "force",
+ "mappings": [
+  {
+   "from": "per:ak-antony",
+   "to": "per:a-k-antony",
+   "reason": "Same person: A. K. Antony, Union Minister of Defence 2006-10-26 to 2014-05-26 (identical office-with-dates in both records). Neither id is in the inventory; the hyphenated-initials form used by union-defence survives (recon notes). Aliases, facts and sources merged into the union-defence record.",
+   "files": [
+    "money-people.json",
+    "pay-pensions.json"
+   ]
+  },
+  {
+   "from": "per:lk-advani",
+   "to": "per:l-k-advani",
+   "reason": "Same person: L. K. Advani, Union Minister of Home Affairs 1998-03-19 to 2004-05-22 (identical office-with-dates). Neither id is in the inventory; the hyphenated-initials form used by union-home survives (recon notes).",
+   "files": [
+    "money-people.json"
+   ]
+  },
+  {
+   "from": "per:p-chidambaram",
+   "to": "wel:p-chidambaram",
+   "reason": "Same person: P. Chidambaram, Union Home Minister 2008-11-30 to 2012-07-31 (the ngo fleet's wel:p-chidambaram record carries the same office and dates; money-people already used the wel: id). Inventory id survives; the force record is dropped and the id is referenced, not redefined.",
+   "files": [
+    "union-home.json"
+   ]
+  },
+  {
+   "from": "force:state-bihar",
+   "to": "energy:govt-of-bihar",
+   "reason": "Same body: the Government of Bihar (st br, ty state). The inventory has energy:govt-of-bihar (energy, ngo and finance fleets use it); the inventory id survives. state-police keeps its record under the energy id because it carries a force-specific fact. No other force:state-* id exists in the fleet (the other states are already energy:state-* / fin:state-* references).",
+   "files": [
+    "state-police.json"
+   ]
+  },
+  {
+   "from": "force:state-gujarat",
+   "to": "energy:govt-of-gujarat",
+   "reason": "Same body: the Government of Gujarat (st gj, ty state). The inventory has energy:govt-of-gujarat; the inventory id survives; state-police keeps its record under the energy id for its force-specific fact.",
+   "files": [
+    "state-police.json"
+   ]
+  },
+  {
+   "from": "force:intelligence-bureau",
+   "to": "ngo:intelligence-bureau",
+   "reason": "Same agency: the Intelligence Bureau (alias IB; reports to the Union Home Ministry). The inventory id ngo:intelligence-bureau survives (the task's rule: inventory id first); the union-home record keeps the force facts under the ngo id with the ngo fleet's ty/fam/st so the two fleets' copies agree. The critic's reverse direction (ngo → force) was not applied — see criticItems.",
+   "files": [
+    "union-home.json"
+   ]
+  },
+  {
+   "from": "force:bhel",
+   "to": "co:bhel",
+   "reason": "Same legal entity: Bharat Heavy Electricals Limited, NSE: BHEL (the ticker in the force record) — the inventory's co:bhel (energy and finance fleets). Identified by exchange listing, not by name; inventory id survives.",
+   "files": [
+    "procurement-industry.json"
+   ]
+  }
+ ],
+ "refusedMerges": [
+  {
+   "a": "force:agustawestland",
+   "b": "force:case-agustawestland",
+   "reason": "The company (AgustaWestland International Ltd, Finmeccanica/Leonardo group) is a party; the case node is the court-and-investigation record. One is an actor, the other a mechanism; edges point at each."
+  },
+  {
+   "a": "force:ab-bofors",
+   "b": "force:case-bofors",
+   "reason": "AB Bofors (Kartongen Kemi Och Forvaltning AB) is the contracting company; force:case-bofors is the case record. Not one entity."
+  },
+  {
+   "a": "force:adarsh-society",
+   "b": "force:case-adarsh",
+   "reason": "The registered co-operative housing society (respondent no. 4) vs the case record spanning the HC, SC, CAG and Commission."
+  },
+  {
+   "a": "force:dassault-aviation",
+   "b": "force:dral",
+   "reason": "Parent and joint venture: Dassault Reliance Aerospace Ltd is a separate Indian company (49%→51% Dassault); the own edges carry the link."
+  },
+  {
+   "a": "force:dral",
+   "b": "energy:reliance-infrastructure",
+   "reason": "A joint venture is not its shareholder; Reliance Infrastructure holds its stake through Reliance Aerostructure Ltd (own edges procurement-industry:c052/c053)."
+  },
+  {
+   "a": "force:reliance-naval-engineering",
+   "b": "energy:reliance-adag",
+   "reason": "Reliance Naval and Engineering Ltd (BSE 533107; formerly Pipavav/Reliance Defence & Engineering; now Swan Defence and Heavy Industries after the 2022 NCLT resolution) is one listed company, not the Anil Ambani group; a group is not its member."
+  },
+  {
+   "a": "energy:reliance-adag",
+   "b": "co:reliance-industries",
+   "reason": "Reliance Defence (money-people:c063/c066) belongs to the Anil Dhirubhai Ambani group, not to Reliance Industries Ltd; the name is shared, the companies are not (non-negotiable rule)."
+  },
+  {
+   "a": "force:mahindra-defence-systems",
+   "b": "co:mahindra-mahindra",
+   "reason": "Subsidiary vs listed parent: MoD contracts are with Mahindra Defence Systems Ltd, the electoral bonds were bought by Mahindra & Mahindra Ltd (audit money-people:c020 item 7: keep separate, join by an own edge with its source)."
+  },
+  {
+   "a": "force:adani-defence",
+   "b": "co:adani-enterprises",
+   "reason": "Adani Defence & Aerospace is a subsidiary of Adani Enterprises (own edge procurement-industry:c046); a parent is not its subsidiary. Nor is either grp:adani."
+  },
+  {
+   "a": "force:plr-systems",
+   "b": "force:adani-defence",
+   "reason": "PLR Systems is a 51% Adani Defence joint venture with Israel Weapon Industries (own edge procurement-industry:c047), a separate company and the vendor PIB names."
+  },
+  {
+   "a": "force:tata-advanced-systems",
+   "b": "grp:tata",
+   "reason": "Tata Advanced Systems Ltd is one company of the Tata group (own edge procurement-industry:c049)."
+  },
+  {
+   "a": "force:economic-explosives",
+   "b": "co:solar-industries",
+   "reason": "Economic Explosives Ltd is a 100% subsidiary of Solar Industries India Ltd (own edge procurement-industry:c048), not the listed parent."
+  },
+  {
+   "a": "force:sc-pegasus-committee",
+   "b": "sc",
+   "reason": "A technical committee appointed and overseen by the Supreme Court is not the Court; its findings are its own (relayed by the bench)."
+  },
+  {
+   "a": "force:delhi-district-courts",
+   "b": "delhi-hc",
+   "reason": "Delhi trial courts (CMM, Special CBI Judge) are not the High Court; the Atlas court ids are reserved for the courts they name."
+  },
+  {
+   "a": "force:capf",
+   "b": "force:crpf / force:bsf / force:cisf / force:itbp / force:ssb / force:assam-rifles / force:nsg",
+   "reason": "The aggregate (seven forces taken together) is a class node used for totals; each force keeps its own id and budget line."
+  },
+  {
+   "a": "force:central-police-organisations",
+   "b": "force:capf",
+   "reason": "\"Central Police Organisations\" is the budget line for other MHA police bodies, not the CAPFs."
+  },
+  {
+   "a": "force:defence-pensions",
+   "b": "force:defence-pensioners",
+   "reason": "The demand for grants (a mechanism) vs the people it pays (a group)."
+  },
+  {
+   "a": "force:agnipath",
+   "b": "force:agniveers",
+   "reason": "The scheme vs its enrolees."
+  },
+  {
+   "a": "force:ofb",
+   "b": "force:directorate-of-ordnance / force:munitions-india / force:armoured-vehicles-nigam / force:advanced-weapons-equipment-india / force:troop-comforts / force:yantra-india / force:india-optel / force:gliders-india",
+   "reason": "OFB ceased on 2021-10-01; its successors are seven new government companies and a directorate — successors, not the same body (law edges union-defence:c019–c033 record the corporatisation)."
+  },
+  {
+   "a": "force:br-police",
+   "b": "energy:govt-of-bihar",
+   "reason": "The police force vs the state government that pays for it (likewise force:gj-police vs energy:govt-of-gujarat and every force:<st>-police vs its energy:state-* / fin:state-* government)."
+  },
+  {
+   "a": "force:jk-police",
+   "b": "force:jk-prisons",
+   "reason": "Police vs prisons department of the same UT."
+  },
+  {
+   "a": "ngo:intelligence-bureau",
+   "b": "force:natgrid",
+   "reason": "Two MHA intelligence bodies with separate budget lines."
+  },
+  {
+   "a": "force:cbi",
+   "b": "agencies",
+   "reason": "The Atlas node \"agencies\" is a composite (ED · CBI · IT Dept); the CBI is one member. Two literature claims whose record is the CBI's alone were re-pointed to force:cbi (otherFixes); the composite keeps its own meaning elsewhere."
+  },
+  {
+   "a": "force:enforcement-directorate",
+   "b": "agencies",
+   "reason": "As above: the ED is one member of the Atlas composite, not the composite."
+  },
+  {
+   "a": "party:jds",
+   "b": "party:jdu",
+   "reason": "Janata Dal (Secular) and Janata Dal (United) are different parties."
+  },
+  {
+   "a": "party:brs / party:dmk / party:tdp / party:ysrcp / party:tmc",
+   "b": "energy:brs / energy:dmk / energy:tdp / energy:ysrcp / energy:aitc",
+   "reason": "Both forms are in the inventory (welfare and energy fleets); the force files already use the party: forms, which the FLEET_CONTRACT requires to be defined in the file. Nothing to rewrite here; the cross-fleet pair is for the inventory owner."
+  },
+  {
+   "a": "per:jaswant-singh",
+   "b": "pol:rajnath-singh / wel:manmohan-singh",
+   "reason": "Different Singhs: Defence Minister 2001 (additional charge), Defence Minister from 2019, Prime Minister 2004–14 — identified by office-with-dates, never by surname."
+  },
+  {
+   "a": "force:doc-rafale-iga-2016",
+   "b": "force:case-rafale",
+   "reason": "The contract record (the 2016 IGA) vs the controversy/court record."
+  },
+  {
+   "a": "force:doc-cag-3-2019 / force:doc-cag-adarsh-2011 / force:doc-cag-ammo-2017",
+   "b": "force:lit-cag-report-4-2007",
+   "reason": "Four different CAG reports (2019 IAF capital acquisition; 2011 Adarsh; 2017 ammunition; 2007 Army procurement)."
+  },
+  {
+   "a": "force:lit-pegasus-project-2021",
+   "b": "force:pegasus-petitioners-2021",
+   "reason": "The Pegasus Project reporting (journalism of record) vs the class of writ petitioners who relied on it."
+  },
+  {
+   "a": "force:retired-armed-forces-officers",
+   "b": "force:defence-pensioners",
+   "reason": "The class governed by the cooling-off rule (officers) vs all defence pensioners (all ranks and defence civilians)."
+  },
+  {
+   "a": "force:nso-group",
+   "b": "force:case-pegasus",
+   "reason": "The vendor vs the case record; NSO stays the producer node and asserts nothing."
+  },
+  {
+   "a": "co:cochin-shipyard",
+   "b": "the DPSU set under min:ministry-of-defence",
+   "reason": "Cochin Shipyard is a Central PSU under the Ministry of Ports, Shipping and Waterways, not a DPSU; its own edge now runs from the new min:ministry-of-ports-shipping-and-waterways node."
+  },
+  {
+   "a": "force:hindustan-shipyard / force:goa-shipyard",
+   "b": "co:cochin-shipyard / co:garden-reach-shipbuilders / co:mazagon-dock",
+   "reason": "Five different shipyards; \"shipyard\" in a name is not identity."
+  }
+ ],
+ "addedContras": [
+  "literature:c030",
+  "money-people:c094"
+ ],
+ "killed": [
+  {
+   "id": "money-people:c032",
+   "reason": "duplicate of union-defence:c001 (union-defence.json) — the same minister, office and tenure (the minister roster belongs to the union-defence/union-home domains); its sources are folded into union-defence:c001; held, not deleted"
+  },
+  {
+   "id": "money-people:c033",
+   "reason": "duplicate of union-defence:c002 (union-defence.json) — the same minister, office and tenure (the minister roster belongs to the union-defence/union-home domains); its sources are folded into union-defence:c002; held, not deleted"
+  },
+  {
+   "id": "money-people:c034",
+   "reason": "duplicate of union-defence:c003 (union-defence.json) — the same minister, office and tenure (the minister roster belongs to the union-defence/union-home domains); its sources are folded into union-defence:c003; held, not deleted"
+  },
+  {
+   "id": "money-people:c035",
+   "reason": "duplicate of union-defence:c004 (union-defence.json) — the same minister, office and tenure (the minister roster belongs to the union-defence/union-home domains); its sources are folded into union-defence:c004; held, not deleted"
+  },
+  {
+   "id": "money-people:c036",
+   "reason": "duplicate of union-defence:c005 (union-defence.json) — the same minister, office and tenure (the minister roster belongs to the union-defence/union-home domains); its sources are folded into union-defence:c005; held, not deleted"
+  },
+  {
+   "id": "money-people:c037",
+   "reason": "duplicate of union-defence:c006 (union-defence.json) — the same minister, office and tenure (the minister roster belongs to the union-defence/union-home domains); its sources are folded into union-defence:c006; held, not deleted"
+  },
+  {
+   "id": "money-people:c038",
+   "reason": "duplicate of union-defence:c007 (union-defence.json) — the same minister, office and tenure (the minister roster belongs to the union-defence/union-home domains); its sources are folded into union-defence:c007; held, not deleted"
+  },
+  {
+   "id": "money-people:c039",
+   "reason": "duplicate of union-defence:c008 (union-defence.json) — the same minister, office and tenure (the minister roster belongs to the union-defence/union-home domains); its sources are folded into union-defence:c008; held, not deleted"
+  },
+  {
+   "id": "money-people:c040",
+   "reason": "duplicate of union-defence:c009 (union-defence.json) — the same minister, office and tenure (the minister roster belongs to the union-defence/union-home domains); its sources are folded into union-defence:c009; held, not deleted"
+  },
+  {
+   "id": "money-people:c041",
+   "reason": "duplicate of union-defence:c010 (union-defence.json) — the same minister, office and tenure (the minister roster belongs to the union-defence/union-home domains); its sources are folded into union-defence:c010; held, not deleted"
+  },
+  {
+   "id": "money-people:c042",
+   "reason": "duplicate of union-home:c001 (union-home.json) — the same minister, office and tenure (the minister roster belongs to the union-defence/union-home domains); its sources are folded into union-home:c001; held, not deleted"
+  },
+  {
+   "id": "money-people:c043",
+   "reason": "duplicate of union-home:c002 (union-home.json) — the same minister, office and tenure (the minister roster belongs to the union-defence/union-home domains); its sources are folded into union-home:c002; held, not deleted"
+  },
+  {
+   "id": "money-people:c044",
+   "reason": "duplicate of union-home:c003 (union-home.json) — the same minister, office and tenure (the minister roster belongs to the union-defence/union-home domains); its sources are folded into union-home:c003; held, not deleted"
+  },
+  {
+   "id": "money-people:c045",
+   "reason": "duplicate of union-home:c004 (union-home.json) — the same minister, office and tenure (the minister roster belongs to the union-defence/union-home domains); its sources are folded into union-home:c004; held, not deleted"
+  },
+  {
+   "id": "money-people:c046",
+   "reason": "duplicate of union-home:c005 (union-home.json) — the same minister, office and tenure (the minister roster belongs to the union-defence/union-home domains); its sources are folded into union-home:c005; held, not deleted"
+  },
+  {
+   "id": "money-people:c047",
+   "reason": "duplicate of union-home:c006 (union-home.json) — the same minister, office and tenure (the minister roster belongs to the union-defence/union-home domains); its sources are folded into union-home:c006; held, not deleted"
+  },
+  {
+   "id": "pay-pensions:c027",
+   "reason": "duplicate of union-defence:c010 (union-defence.json) — the same minister, office and tenure; the Agnipath/OROP/8th CPC dates it lists stay on those claims; its sources are folded into union-defence:c010; held, not deleted"
+  },
+  {
+   "id": "literature:c005",
+   "reason": "duplicate of money-people:c067 (money-people.json) — the same Supreme Court judgment of 2018-12-14 on the same case node; the money-people copy names the allegation it rules on; its sources are folded into money-people:c067; held, not deleted"
+  },
+  {
+   "id": "literature:c009",
+   "reason": "duplicate of money-people:c088 (money-people.json) — the same Supreme Court order of 2021-10-27 on the same case node; the money-people copy names the allegation it rules on; its sources are folded into money-people:c088; held, not deleted"
+  },
+  {
+   "id": "literature:c014",
+   "reason": "duplicate of money-people:c089 (money-people.json) — the same committee findings of 2022-08-25 on the same case node; its sources are folded into money-people:c089; held, not deleted"
+  },
+  {
+   "id": "literature:c028",
+   "reason": "duplicate of money-people:c087 (money-people.json) — the same Union position (IT Minister's statement and the limited affidavit) from the same denier; the money-people copy answers the petitioners' allegation money-people:c086, which is the re-pointing the audit asked for (c014 is a 2022 finding a 2021 denial cannot answer); held, not deleted"
+  },
+  {
+   "id": "footprint:c014",
+   "reason": "AUDIT.json recommendedTier kill: the menu count is incomplete (at least 19 named institutions in at least 12 states; three menu entries unplaced) — held for rewrite with the sourced rows the audit lists"
+  }
+ ],
+ "predicateFixes": [
+  {
+   "id": "literature:c008",
+   "from": "enforce",
+   "to": "law"
+  },
+  {
+   "id": "money-people:c055",
+   "from": "direct",
+   "to": "enforce"
+  },
+  {
+   "id": "money-people:c071",
+   "from": "direct",
+   "to": "enforce"
+  },
+  {
+   "id": "money-people:c086",
+   "from": "sector",
+   "to": "enforce"
+  }
+ ],
+ "entityRecordsConsolidated": [
+  {
+   "id": "wel:p-chidambaram",
+   "file": "union-home.json",
+   "action": "record removed",
+   "reason": "the id belongs to the welfare fleet (inventory); the force fleet references it without a local copy, as money-people already did — the recon notes ask that it not be defined in force; its office-with-dates is carried by the ngo/welfare records and by union-home:c003"
+  },
+  {
+   "id": "energy:govt-of-bihar",
+   "file": "state-police.json",
+   "action": "record kept under the inventory id (renamed from the force:state-* id)",
+   "reason": "its fact (police revenue expenditure 2023-24) is force-specific; ty/fam/st/label already match the energy fleet record; alias set checked against the force directory (no collision)"
+  },
+  {
+   "id": "energy:govt-of-gujarat",
+   "file": "state-police.json",
+   "action": "record kept under the inventory id (renamed from the force:state-* id)",
+   "reason": "its fact (police revenue expenditure 2023-24) is force-specific; ty/fam/st/label already match the energy fleet record; alias set checked against the force directory (no collision)"
+  },
+  {
+   "id": "co:beml",
+   "file": "footprint.json",
+   "foldedInto": "union-defence.json",
+   "action": "minimal copy kept (a claim or series row in this file needs it)",
+   "reason": "aliases, facts and sources folded into the full record; identity block, label, ty/fam/st copied from it so the copies agree"
+  },
+  {
+   "id": "co:bharat-dynamics",
+   "file": "footprint.json",
+   "foldedInto": "union-defence.json",
+   "action": "minimal copy kept (a claim or series row in this file needs it)",
+   "reason": "aliases, facts and sources folded into the full record; identity block, label, ty/fam/st copied from it so the copies agree"
+  },
+  {
+   "id": "co:bharat-dynamics",
+   "file": "procurement-industry.json",
+   "foldedInto": "union-defence.json",
+   "action": "minimal copy kept (a claim or series row in this file needs it)",
+   "reason": "aliases, facts and sources folded into the full record; identity block, label, ty/fam/st copied from it so the copies agree"
+  },
+  {
+   "id": "co:bharat-electronics",
+   "file": "procurement-industry.json",
+   "foldedInto": "union-defence.json",
+   "action": "minimal copy kept (a claim or series row in this file needs it)",
+   "reason": "aliases, facts and sources folded into the full record; identity block, label, ty/fam/st copied from it so the copies agree"
+  },
+  {
+   "id": "co:cochin-shipyard",
+   "file": "footprint.json",
+   "foldedInto": "union-defence.json",
+   "action": "minimal copy kept (a claim or series row in this file needs it)",
+   "reason": "aliases, facts and sources folded into the full record; identity block, label, ty/fam/st copied from it so the copies agree"
+  },
+  {
+   "id": "co:cochin-shipyard",
+   "file": "procurement-industry.json",
+   "foldedInto": "union-defence.json",
+   "action": "minimal copy kept (a claim or series row in this file needs it)",
+   "reason": "aliases, facts and sources folded into the full record; identity block, label, ty/fam/st copied from it so the copies agree"
+  },
+  {
+   "id": "co:garden-reach-shipbuilders",
+   "file": "procurement-industry.json",
+   "foldedInto": "union-defence.json",
+   "action": "minimal copy kept (a claim or series row in this file needs it)",
+   "reason": "aliases, facts and sources folded into the full record; identity block, label, ty/fam/st copied from it so the copies agree"
+  },
+  {
+   "id": "co:hindustan-aeronautics",
+   "file": "procurement-industry.json",
+   "foldedInto": "union-defence.json",
+   "action": "minimal copy kept (a claim or series row in this file needs it)",
+   "reason": "aliases, facts and sources folded into the full record; identity block, label, ty/fam/st copied from it so the copies agree"
+  },
+  {
+   "id": "co:mazagon-dock",
+   "file": "procurement-industry.json",
+   "foldedInto": "union-defence.json",
+   "action": "minimal copy kept (a claim or series row in this file needs it)",
+   "reason": "aliases, facts and sources folded into the full record; identity block, label, ty/fam/st copied from it so the copies agree"
+  },
+  {
+   "id": "force:advanced-weapons-equipment-india",
+   "file": "footprint.json",
+   "foldedInto": "union-defence.json",
+   "action": "minimal copy kept (a claim or series row in this file needs it)",
+   "reason": "aliases, facts and sources folded into the full record; identity block, label, ty/fam/st copied from it so the copies agree"
+  },
+  {
+   "id": "force:armoured-vehicles-nigam",
+   "file": "footprint.json",
+   "foldedInto": "union-defence.json",
+   "action": "minimal copy kept (a claim or series row in this file needs it)",
+   "reason": "aliases, facts and sources folded into the full record; identity block, label, ty/fam/st copied from it so the copies agree"
+  },
+  {
+   "id": "force:gliders-india",
+   "file": "footprint.json",
+   "foldedInto": "union-defence.json",
+   "action": "minimal copy kept (a claim or series row in this file needs it)",
+   "reason": "aliases, facts and sources folded into the full record; identity block, label, ty/fam/st copied from it so the copies agree"
+  },
+  {
+   "id": "force:munitions-india",
+   "file": "footprint.json",
+   "foldedInto": "union-defence.json",
+   "action": "minimal copy kept (a claim or series row in this file needs it)",
+   "reason": "aliases, facts and sources folded into the full record; identity block, label, ty/fam/st copied from it so the copies agree"
+  },
+  {
+   "id": "force:agnipath",
+   "file": "literature.json",
+   "foldedInto": "pay-pensions.json",
+   "action": "minimal copy kept (a claim or series row in this file needs it)",
+   "reason": "aliases, facts and sources folded into the full record; identity block, label, ty/fam/st copied from it so the copies agree"
+  },
+  {
+   "id": "force:defence-pensions",
+   "file": "union-defence.json",
+   "foldedInto": "pay-pensions.json",
+   "action": "minimal copy kept (a claim or series row in this file needs it)",
+   "reason": "aliases, facts and sources folded into the full record; identity block, label, ty/fam/st copied from it so the copies agree"
+  },
+  {
+   "id": "force:br-police",
+   "file": "pay-pensions.json",
+   "foldedInto": "state-police.json",
+   "action": "minimal copy kept (a claim or series row in this file needs it)",
+   "reason": "aliases, facts and sources folded into the full record; identity block, label, ty/fam/st copied from it so the copies agree"
+  },
+  {
+   "id": "force:up-police",
+   "file": "pay-pensions.json",
+   "foldedInto": "state-police.json",
+   "action": "minimal copy kept (a claim or series row in this file needs it)",
+   "reason": "aliases, facts and sources folded into the full record; identity block, label, ty/fam/st copied from it so the copies agree"
+  },
+  {
+   "id": "force:jk-police",
+   "file": "union-home.json",
+   "foldedInto": "state-police.json",
+   "action": "minimal copy kept (a claim or series row in this file needs it)",
+   "reason": "aliases, facts and sources folded into the full record; identity block, label, ty/fam/st copied from it so the copies agree"
+  },
+  {
+   "id": "force:ncrb",
+   "file": "footprint.json",
+   "foldedInto": "state-police.json",
+   "action": "minimal copy kept (a claim or series row in this file needs it)",
+   "reason": "aliases, facts and sources folded into the full record; identity block, label, ty/fam/st copied from it so the copies agree"
+  },
+  {
+   "id": "force:capf",
+   "file": "pay-pensions.json",
+   "foldedInto": "union-home.json",
+   "action": "minimal copy kept (a claim or series row in this file needs it)",
+   "reason": "aliases, facts and sources folded into the full record; identity block, label, ty/fam/st copied from it so the copies agree"
+  },
+  {
+   "id": "force:cbi",
+   "file": "money-people.json",
+   "foldedInto": "union-home.json",
+   "action": "minimal copy kept (a claim or series row in this file needs it)",
+   "reason": "aliases, facts and sources folded into the full record; identity block, label, ty/fam/st copied from it so the copies agree"
+  },
+  {
+   "id": "force:cisf",
+   "file": "footprint.json",
+   "foldedInto": "union-home.json",
+   "action": "minimal copy kept (a claim or series row in this file needs it)",
+   "reason": "aliases, facts and sources folded into the full record; identity block, label, ty/fam/st copied from it so the copies agree"
+  },
+  {
+   "id": "force:crpf",
+   "file": "footprint.json",
+   "foldedInto": "union-home.json",
+   "action": "minimal copy kept (a claim or series row in this file needs it)",
+   "reason": "aliases, facts and sources folded into the full record; identity block, label, ty/fam/st copied from it so the copies agree"
+  },
+  {
+   "id": "force:itbp",
+   "file": "footprint.json",
+   "foldedInto": "union-home.json",
+   "action": "minimal copy kept (a claim or series row in this file needs it)",
+   "reason": "aliases, facts and sources folded into the full record; identity block, label, ty/fam/st copied from it so the copies agree"
+  },
+  {
+   "id": "force:enforcement-directorate",
+   "file": "money-people.json",
+   "foldedInto": "union-home.json",
+   "action": "record removed (no claim or series row in this file needs it)",
+   "reason": "aliases, facts and sources folded into the full record"
+  },
+  {
+   "id": "force:case-adarsh",
+   "file": "literature.json",
+   "foldedInto": "money-people.json",
+   "action": "minimal copy kept (a claim or series row in this file needs it)",
+   "reason": "aliases, facts and sources folded into the full record; identity block, label, ty/fam/st copied from it so the copies agree"
+  },
+  {
+   "id": "force:case-agustawestland",
+   "file": "literature.json",
+   "foldedInto": "money-people.json",
+   "action": "minimal copy kept (a claim or series row in this file needs it)",
+   "reason": "aliases, facts and sources folded into the full record; identity block, label, ty/fam/st copied from it so the copies agree"
+  },
+  {
+   "id": "force:case-bofors",
+   "file": "literature.json",
+   "foldedInto": "money-people.json",
+   "action": "minimal copy kept (a claim or series row in this file needs it)",
+   "reason": "aliases, facts and sources folded into the full record; identity block, label, ty/fam/st copied from it so the copies agree"
+  },
+  {
+   "id": "force:case-pegasus",
+   "file": "literature.json",
+   "foldedInto": "money-people.json",
+   "action": "minimal copy kept (a claim or series row in this file needs it)",
+   "reason": "aliases, facts and sources folded into the full record; identity block, label, ty/fam/st copied from it so the copies agree"
+  },
+  {
+   "id": "force:case-rafale",
+   "file": "literature.json",
+   "foldedInto": "money-people.json",
+   "action": "minimal copy kept (a claim or series row in this file needs it)",
+   "reason": "aliases, facts and sources folded into the full record; identity block, label, ty/fam/st copied from it so the copies agree"
+  },
+  {
+   "id": "force:case-tatra",
+   "file": "literature.json",
+   "foldedInto": "money-people.json",
+   "action": "minimal copy kept (a claim or series row in this file needs it)",
+   "reason": "aliases, facts and sources folded into the full record; identity block, label, ty/fam/st copied from it so the copies agree"
+  },
+  {
+   "id": "force:sc-pegasus-committee",
+   "file": "literature.json",
+   "foldedInto": "money-people.json",
+   "action": "minimal copy kept (a claim or series row in this file needs it)",
+   "reason": "aliases, facts and sources folded into the full record; identity block, label, ty/fam/st copied from it so the copies agree"
+  },
+  {
+   "id": "force:dassault-aviation",
+   "file": "money-people.json",
+   "foldedInto": "procurement-industry.json",
+   "action": "minimal copy kept (a claim or series row in this file needs it)",
+   "reason": "aliases, facts and sources folded into the full record; identity block, label, ty/fam/st copied from it so the copies agree"
+  },
+  {
+   "id": "force:dral",
+   "file": "money-people.json",
+   "foldedInto": "procurement-industry.json",
+   "action": "minimal copy kept (a claim or series row in this file needs it)",
+   "reason": "aliases, facts and sources folded into the full record; identity block, label, ty/fam/st copied from it so the copies agree"
+  },
+  {
+   "id": "force:reliance-naval-engineering",
+   "file": "money-people.json",
+   "foldedInto": "procurement-industry.json",
+   "action": "minimal copy kept (a claim or series row in this file needs it)",
+   "reason": "aliases, facts and sources folded into the full record; identity block, label, ty/fam/st copied from it so the copies agree"
+  },
+  {
+   "id": "force:dgde",
+   "file": "union-defence.json",
+   "foldedInto": "footprint.json",
+   "action": "minimal copy kept (a claim or series row in this file needs it)",
+   "reason": "aliases, facts and sources folded into the full record; identity block, label, ty/fam/st copied from it so the copies agree"
+  },
+  {
+   "id": "force:drdo",
+   "file": "money-people.json",
+   "foldedInto": "footprint.json",
+   "action": "minimal copy kept (a claim or series row in this file needs it)",
+   "reason": "aliases, facts and sources folded into the full record; identity block, label, ty/fam/st copied from it so the copies agree"
+  },
+  {
+   "id": "force:drdo",
+   "file": "union-defence.json",
+   "foldedInto": "footprint.json",
+   "action": "minimal copy kept (a claim or series row in this file needs it)",
+   "reason": "aliases, facts and sources folded into the full record; identity block, label, ty/fam/st copied from it so the copies agree"
+  },
+  {
+   "id": "force:indian-air-force",
+   "file": "footprint.json",
+   "foldedInto": "union-defence.json",
+   "action": "minimal copy kept (a claim or series row in this file needs it)",
+   "reason": "aliases, facts and sources folded into the full record; identity block, label, ty/fam/st copied from it so the copies agree"
+  },
+  {
+   "id": "force:indian-air-force",
+   "file": "money-people.json",
+   "foldedInto": "union-defence.json",
+   "action": "minimal copy kept (a claim or series row in this file needs it)",
+   "reason": "aliases, facts and sources folded into the full record; identity block, label, ty/fam/st copied from it so the copies agree"
+  },
+  {
+   "id": "force:indian-air-force",
+   "file": "pay-pensions.json",
+   "foldedInto": "union-defence.json",
+   "action": "minimal copy kept (a claim or series row in this file needs it)",
+   "reason": "aliases, facts and sources folded into the full record; identity block, label, ty/fam/st copied from it so the copies agree"
+  },
+  {
+   "id": "force:indian-army",
+   "file": "footprint.json",
+   "foldedInto": "union-defence.json",
+   "action": "minimal copy kept (a claim or series row in this file needs it)",
+   "reason": "aliases, facts and sources folded into the full record; identity block, label, ty/fam/st copied from it so the copies agree"
+  },
+  {
+   "id": "force:indian-army",
+   "file": "pay-pensions.json",
+   "foldedInto": "union-defence.json",
+   "action": "minimal copy kept (a claim or series row in this file needs it)",
+   "reason": "aliases, facts and sources folded into the full record; identity block, label, ty/fam/st copied from it so the copies agree"
+  },
+  {
+   "id": "force:indian-navy",
+   "file": "footprint.json",
+   "foldedInto": "union-defence.json",
+   "action": "minimal copy kept (a claim or series row in this file needs it)",
+   "reason": "aliases, facts and sources folded into the full record; identity block, label, ty/fam/st copied from it so the copies agree"
+  },
+  {
+   "id": "force:indian-navy",
+   "file": "pay-pensions.json",
+   "foldedInto": "union-defence.json",
+   "action": "minimal copy kept (a claim or series row in this file needs it)",
+   "reason": "aliases, facts and sources folded into the full record; identity block, label, ty/fam/st copied from it so the copies agree"
+  },
+  {
+   "id": "min:ministry-of-defence",
+   "file": "pay-pensions.json",
+   "foldedInto": "union-defence.json",
+   "action": "minimal copy kept (a claim or series row in this file needs it)",
+   "reason": "aliases, facts and sources folded into the full record; identity block, label, ty/fam/st copied from it so the copies agree"
+  },
+  {
+   "id": "min:ministry-of-defence",
+   "file": "procurement-industry.json",
+   "foldedInto": "union-defence.json",
+   "action": "minimal copy kept (a claim or series row in this file needs it)",
+   "reason": "aliases, facts and sources folded into the full record; identity block, label, ty/fam/st copied from it so the copies agree"
+  },
+  {
+   "id": "party:inc",
+   "file": "pay-pensions.json",
+   "foldedInto": "money-people.json",
+   "action": "minimal copy kept (a claim or series row in this file needs it)",
+   "reason": "aliases, facts and sources folded into the full record; identity block, label, ty/fam/st copied from it so the copies agree"
+  },
+  {
+   "id": "per:george-fernandes",
+   "file": "money-people.json",
+   "foldedInto": "union-defence.json",
+   "action": "minimal copy kept (a claim or series row in this file needs it)",
+   "reason": "aliases, facts and sources folded into the full record; identity block, label, ty/fam/st copied from it so the copies agree"
+  },
+  {
+   "id": "per:manohar-parrikar",
+   "file": "money-people.json",
+   "foldedInto": "union-defence.json",
+   "action": "minimal copy kept (a claim or series row in this file needs it)",
+   "reason": "aliases, facts and sources folded into the full record; identity block, label, ty/fam/st copied from it so the copies agree"
+  },
+  {
+   "id": "per:a-k-antony",
+   "file": "money-people.json",
+   "foldedInto": "union-defence.json",
+   "action": "minimal copy kept (a claim or series row in this file needs it)",
+   "reason": "aliases, facts and sources folded into the full record; identity block, label, ty/fam/st copied from it so the copies agree"
+  },
+  {
+   "id": "pol:rajnath-singh",
+   "file": "pay-pensions.json",
+   "foldedInto": "union-defence.json",
+   "action": "minimal copy kept (a claim or series row in this file needs it)",
+   "reason": "aliases, facts and sources folded into the full record; identity block, label, ty/fam/st copied from it so the copies agree"
+  },
+  {
+   "id": "per:shivraj-patil",
+   "file": "money-people.json",
+   "foldedInto": "union-home.json",
+   "action": "minimal copy kept (a claim or series row in this file needs it)",
+   "reason": "aliases, facts and sources folded into the full record; identity block, label, ty/fam/st copied from it so the copies agree"
+  },
+  {
+   "id": "per:l-k-advani",
+   "file": "money-people.json",
+   "foldedInto": "union-home.json",
+   "action": "minimal copy kept (a claim or series row in this file needs it)",
+   "reason": "aliases, facts and sources folded into the full record; identity block, label, ty/fam/st copied from it so the copies agree"
+  },
+  {
+   "id": "force:cbi",
+   "file": "literature.json",
+   "foldedInto": "union-home.json",
+   "action": "minimal copy added (a claim in this file uses the id and the file did not define it)",
+   "reason": "an endpoint must be defined in the same file, the inventory or claim:<id>"
+  },
+  {
+   "id": "force:indian-army",
+   "file": "literature.json",
+   "foldedInto": "union-defence.json",
+   "action": "minimal copy added (a claim in this file uses the id and the file did not define it)",
+   "reason": "an endpoint must be defined in the same file, the inventory or claim:<id>"
+  },
+  {
+   "id": "force:adarsh-society",
+   "file": "literature.json",
+   "foldedInto": "money-people.json",
+   "action": "minimal copy added (a claim in this file uses the id and the file did not define it)",
+   "reason": "an endpoint must be defined in the same file, the inventory or claim:<id>"
+  },
+  {
+   "id": "force:retired-armed-forces-officers",
+   "file": "pay-pensions.json",
+   "foldedInto": "money-people.json",
+   "action": "minimal copy added (a claim in this file uses the id and the file did not define it)",
+   "reason": "an endpoint must be defined in the same file, the inventory or claim:<id>"
+  },
+  {
+   "id": "force:advanced-weapons-equipment-india",
+   "file": "procurement-industry.json",
+   "foldedInto": "union-defence.json",
+   "action": "minimal copy added (a claim in this file uses the id and the file did not define it)",
+   "reason": "an endpoint must be defined in the same file, the inventory or claim:<id>"
+  },
+  {
+   "id": "force:armoured-vehicles-nigam",
+   "file": "procurement-industry.json",
+   "foldedInto": "union-defence.json",
+   "action": "minimal copy added (a claim in this file uses the id and the file did not define it)",
+   "reason": "an endpoint must be defined in the same file, the inventory or claim:<id>"
+  },
+  {
+   "id": "force:munitions-india",
+   "file": "procurement-industry.json",
+   "foldedInto": "union-defence.json",
+   "action": "minimal copy added (a claim in this file uses the id and the file did not define it)",
+   "reason": "an endpoint must be defined in the same file, the inventory or claim:<id>"
+  }
+ ],
+ "otherFixes": [
+  {
+   "file": "literature.json",
+   "id": "literature:c028",
+   "fix": "s min:ministry-of-home-affairs → pol:ashwini-vaishnaw (audit: the affidavit and statement were MeitY/IT Minister); wording per audit; then held as a duplicate of money-people:c087"
+  },
+  {
+   "file": "literature.json",
+   "id": "literature:c006",
+   "fix": "d now begins \"Judicial ruling on literature:c007\" — the order rejects the Union's privilege objection that c007 records"
+  },
+  {
+   "file": "literature.json",
+   "id": "literature:c007",
+   "fix": "d rewritten per audit (who said what on price; privilege vs price split by date)"
+  },
+  {
+   "file": "literature.json",
+   "id": "literature:c008",
+   "fix": "s sc → force:lit-prakash-singh-2006 (the judgment node already in the file): binding directions to the Union and the states are a rule governing them (law), not enforcement against a subject"
+  },
+  {
+   "file": "literature.json",
+   "id": "literature:c029",
+   "fix": "added: the allegation the Bombay HC ruling (c015) rules on, so the ruling can name it; tier alleged, answered by c030"
+  },
+  {
+   "file": "literature.json",
+   "id": "literature:c015",
+   "fix": "AUDIT correction applied: \"SC stays (2018)\" → SC 2016-07-22 possession order; Ashok Chavan named; commission report partially accepted; d begins \"Judicial ruling on literature:c029\"; Wikipedia URL corrected; Deccan Chronicle, ThePrint and the HC judgment added"
+  },
+  {
+   "file": "literature.json",
+   "id": "literature:c011",
+   "fix": "s agencies (the Atlas composite \"ED · CBI · IT Dept\") → force:cbi: the record is the CBI's alone (audit literature:c013 item 2); not a mapping — agencies stays the composite elsewhere"
+  },
+  {
+   "file": "literature.json",
+   "id": "literature:c013",
+   "fix": "s agencies (the Atlas composite \"ED · CBI · IT Dept\") → force:cbi: the record is the CBI's alone (audit literature:c013 item 2); not a mapping — agencies stays the composite elsewhere"
+  },
+  {
+   "file": "literature.json",
+   "id": "literature:c011",
+   "fix": "d corrected per audit (2018 CBI appeal vs 2026 private appeal; Swiss documents 1990–2000)"
+  },
+  {
+   "file": "money-people.json",
+   "id": "money-people:c055",
+   "fix": "s force:ab-bofors → force:cbi (the asserting agency) and t kept on the case; a: 64 removed (an alleged amount on an allegation edge is not a ₹ flow) — the figure stays in d"
+  },
+  {
+   "file": "money-people.json",
+   "id": "money-people:c056",
+   "fix": "lab: \"Hinduja brothers' answer\" → the accused promoters of the group (institutions, not families: the denier node is grp:hinduja, the persons are the accused named in the judgment)"
+  },
+  {
+   "file": "money-people.json",
+   "id": "money-people:c063",
+   "fix": "from 2018-09-21 → 2017-11 (audit: the contra c066 of 2018-08-12 preceded the claim it answers)"
+  },
+  {
+   "file": "money-people.json",
+   "id": "money-people:c070",
+   "fix": "from 2010-02 → 2010-02-08; to null → 2014-01-01 (terminated) per audit"
+  },
+  {
+   "file": "money-people.json",
+   "id": "money-people:c071",
+   "fix": "s force:agustawestland → force:cbi, t min:ministry-of-defence → force:case-agustawestland (AUDIT correction 1: no invented payee); d per audit items 2, 3, 5"
+  },
+  {
+   "file": "money-people.json",
+   "id": "money-people:c075",
+   "fix": "a: 750 removed (an unattributed alleged-diversion figure, not the award value); from 2012-06-11 → 1986 (the award window) per audit"
+  },
+  {
+   "file": "money-people.json",
+   "id": "money-people:c078",
+   "fix": "from 2011-01-14 → 2003-01-18 (an award edge carries the award date) per audit"
+  },
+  {
+   "file": "money-people.json",
+   "id": "money-people:c081, money-people:c090",
+   "fix": "audit wording (interim order; oral observations) added after the ruling prefix, which stays so the edge reads as judicial review"
+  },
+  {
+   "file": "money-people.json",
+   "id": "money-people:c086",
+   "fix": "s force:nso-group → force:pegasus-petitioners-2021 (new class node: the asserting party); NSO stays the producer node; lab/d per audit"
+  },
+  {
+   "file": "money-people.json",
+   "id": "money-people:c087",
+   "fix": "from 2021-07-18 → 2021-07-19 (Parliament convened 19 Jul 2021) per audit"
+  },
+  {
+   "file": "money-people.json",
+   "id": "money-people:c029",
+   "fix": "AUDIT correction: from 2015-03 → 2016-01-18, to null → 2018-01-30; the BSE FY2022-23 filing (does not name him) replaced by the FY2015-16 and FY2017-18 annual reports; per:fali-major DIN 03026199 and office dates filled"
+  },
+  {
+   "file": "union-defence.json",
+   "id": "union-defence:c002",
+   "fix": "from 2001-03-16 → 2001-03-18 (audit, refuted: communique date)"
+  },
+  {
+   "file": "union-defence.json",
+   "id": "union-defence:c016",
+   "fix": "s min:ministry-of-defence → min:ministry-of-ports-shipping-and-waterways (new node; audit, refuted: MoD must not be the owner); co:cochin-shipyard publicRole corrected (not a DPSU)"
+  },
+  {
+   "file": "union-defence.json",
+   "id": "union-defence:c045",
+   "fix": "t and benefit.who min:ministry-of-defence → fin:department-of-telecommunications (inventory id): the spectrum dues flow MoD → DoT, so the payer is not the beneficiary (audit)"
+  },
+  {
+   "file": "pay-pensions.json",
+   "id": "pay-pensions:c011",
+   "fix": "wrong-direction contra: s force:agnipath (the scheme objecting to its own terms) → force:retired-armed-forces-officers (the class of the quoted veterans; minimal copy added)"
+  },
+  {
+   "file": "pay-pensions.json",
+   "id": "pay-pensions:c013",
+   "fix": "t force:indian-army → min:ministry-of-defence (the figures are the three-service total); 5.5% → 4.9% on the same basis as the 10.5% (audit, refuted)"
+  },
+  {
+   "file": "procurement-industry.json",
+   "id": "procurement-industry:c060",
+   "fix": "s force:adani-defence → force:plr-systems (the PIB-named vendor); a: 6900 removed (a joint ATAGS total on an analytic edge would be summed as a flow) per audit"
+  },
+  {
+   "file": "state-police.json",
+   "id": "state-police:c001, state-police:c002, state-police:c003, state-police:c004, state-police:c005, state-police:c006, state-police:c007, state-police:c008, state-police:c009, state-police:c010, state-police:c011, state-police:c012, state-police:c013, state-police:c014, state-police:c015, state-police:c016, state-police:c017, state-police:c018, state-police:c019, state-police:c020, state-police:c025, state-police:c026, state-police:c027, state-police:c028, state-police:c029",
+   "fix": "a removed: the values were ₹ per capita (c001–c020, c025), counts of deaths/cases (c026–c028) or police per lakh (c029), not ₹ crore — pages sum `a` as ₹ crore; every figure stays in d"
+  }
+ ],
+ "criticItems": [
+  {
+   "item": "per:ak-antony (money-people) and per:a-k-antony (union-defence) are one person",
+   "decision": "applied",
+   "how": "mapping per:ak-antony → per:a-k-antony (neither in the inventory; the hyphenated form kept as the notes ask); full record in union-defence.json with money-people's facts and sources folded in; minimal copy in money-people.json (its killed duplicate role claim c036 still references the id)"
+  },
+  {
+   "item": "per:lk-advani (money-people) and per:l-k-advani (union-home)",
+   "decision": "applied",
+   "how": "mapping per:lk-advani → per:l-k-advani; full record in union-home.json; minimal copy in money-people.json"
+  },
+  {
+   "item": "per:p-chidambaram (union-home) → wel:p-chidambaram",
+   "decision": "applied",
+   "how": "mapping applied in the raw file (union-home:c003 and prose); the force record removed — the id is referenced, not redefined, as money-people already did"
+  },
+  {
+   "item": "force:state-bihar / force:state-gujarat → energy:govt-of-bihar / energy:govt-of-gujarat; check every other force:state-<name>",
+   "decision": "applied",
+   "how": "both mapped; no other force:state-* id exists in the fleet (every other state is already referenced as energy:state-* or fin:state-*). state-police keeps the two records under the energy ids because each carries a force-specific fact (police revenue expenditure 2023-24); ty/fam/st/label match the energy record and the aliases collide with nothing in the force directory"
+  },
+  {
+   "item": "force:intelligence-bureau vs ngo:intelligence-bureau — the critic proposes force:intelligence-bureau as survivor with the ngo id mapped to it in research/raw/ngo/RECONCILIATION.json",
+   "decision": "applied in the opposite direction; the cross-fleet reversal refused",
+   "how": "mapping force:intelligence-bureau → ngo:intelligence-bureau. Reason: the editor's rule is that an inventory id survives when one exists, and ngo:intelligence-bureau is in the inventory; reversing it would rewrite the ngo fleet's raw files and reconciliation, which are outside this fleet. The union-home record (budget facts) survives under the ngo id with the ngo record's label, ty agency, fam enforce, st dl and identity.office, so the two fleets' copies agree; its 2,741-row budget series bodies were rewritten in the raw file. The ngo fleet was not touched, so it needs no regeneration."
+  },
+  {
+   "item": "force:bhel (procurement-industry) — not in the notes; found by identifier",
+   "decision": "applied",
+   "how": "mapping force:bhel → co:bhel (inventory; NSE: BHEL is the ticker the force record carries); record kept in procurement-industry.json under co:bhel with ty psu, st dl as in the energy fleet"
+  },
+  {
+   "item": "Same id defined in two or more files (force:cbi, force:enforcement-directorate, force:dassault-aviation, force:dral, force:reliance-naval-engineering, the case-* nodes, force:sc-pegasus-committee, force:agnipath, force:capf, force:defence-pensions, police forces, force:drdo, the services, the CAPFs, the ex-OFB companies, co:* DPSUs, min:ministry-of-defence, party:inc, ministers)",
+   "decision": "applied",
+   "how": "one full record per id (aliases, facts and sources unioned; label, ty/fam/st and identity taken from the full record and its nulls filled from the copies); every other file keeps a minimal copy (al, d, srcs empty; same label, ty/fam/st and identity) only where a claim or series row in that file uses the id, otherwise the record is removed — see entityRecordsConsolidated. Divergent ty values (DPSUs written as company in procurement-industry; force:capf as agency in pay-pensions) now follow the full record. procurement-industry used three ex-OFB companies it never defined; minimal copies added."
+  },
+  {
+   "item": "wel:arun-jaitley, pol:nirmala-sitharaman, pol:rajnath-singh, pol:amit-shah",
+   "decision": "confirmed, no change",
+   "how": "inventory ids used verbatim"
+  },
+  {
+   "item": "Court rulings modelled as enforce must begin d with \"Judicial ruling on <claim id>: \" — clear every force warning",
+   "decision": "applied",
+   "how": "literature:c006 now names literature:c007 (the privilege objection it rejects); literature:c015 names a new claim literature:c029 (the Army's writ petition, alleged, answered by the Society in literature:c030); literature:c008 (Prakash Singh directives) became a law edge from the judgment node force:lit-prakash-singh-2006; literature:c005, c009 and c014 are held as duplicates of money-people:c067, c088 and c089, which already name the allegation they rule on. Validator: zero force warnings."
+  },
+  {
+   "item": "Every alleged claim keeps its contra; every analytic keeps innocentReading",
+   "decision": "applied / verified",
+   "how": "two contras added (money-people:c094 Bofors' answer to c055; literature:c030 the Society's answer to the new c029); every alleged claim in every force file is answered in the same file and every analytic claim carries an innocentReading (validator §4 clean)"
+  },
+  {
+   "item": "Apply AUDIT.json corrections (dates, universes, wording, t changes such as money-people:c071 → force:case-agustawestland; literature:c015 \"SC stay 2018\" → 2016-07-22; literature:c028 subject → MeitY/Union; wording fixes); do not raise a tier the audit lowered",
+   "decision": "partly applied",
+   "how": "Applied: every correction that changes an endpoint, a predicate, a date or an amount field, and the three named ones — money-people:c029, c055, c063, c070, c071, c075, c078, c081, c086, c087, c090; literature:c006–c008, c011, c013, c015, c028; union-defence:c002, c016, c045; pay-pensions:c011, c013; procurement-industry:c060; footprint:c014 (killed on the audit's kill). No tier was raised above what it was. Not applied in this pass: the prose and figure rewrites of the remaining verdicts (about 150 of 203, e.g. state-police per-capita/NHRC wording, union-home series source lists, narratives), which need the domain editors and in several cases re-computation of series rows (pay-pensions:c022 UP salary ratio and the build.py rows it names). The assembler still applies every verdict's tier downgrade, innocent reading and denial automatically."
+  },
+  {
+   "item": "Persons below public rank must not be nodes (per:fali-major, per:sp-tyagi, per:avinash-chander keep)",
+   "decision": "verified",
+   "how": "the three are a service chief, a service chief and the DG DRDO; no retired Lt Gen or intermediary is a node (the Sukna and Tatra officers appear only in text and source titles); the one new node, force:pegasus-petitioners-2021, is a class with no individual"
+  },
+  {
+   "item": "Series rows: a body renamed by a mapping must follow; no duplicate (payer, body, head, component, fy, stage) after mapping",
+   "decision": "applied / verified",
+   "how": "the IB budget rows in union-home.json now read body ngo:intelligence-bureau in the raw file; no other mapped id is a series body; §4 reports no duplicate series key across the directory"
+  },
+  {
+   "item": "note beginning \"reported:\" on every strength and budgets row from PRS/IJR/press",
+   "decision": "verified, no change",
+   "how": "all 90 state-police strength rows and the 45 PRS-sourced union-home strength rows begin \"reported:\"; the 7 union-home rows printed in the MHA Annual Report are primary and correctly carry no prefix; every budgets row whose only sources are secondary carries it"
+  },
+  {
+   "item": "Cross-fleet survivors decided in Phase G (pol:shivraj-singh-chouhan, party:inc, wel:manmohan-singh, co:larsen-toubro, ngo:open-society-foundations, sc, delhi-hc, bombay-hc, madras-hc, jharkhand-hc, ap-hc, allahabad-hc, sikkim-hc, cag)",
+   "decision": "verified",
+   "how": "used verbatim; party:inc, sc and co:larsen-toubro carry local records under the same id (the contract requires party: ids to be defined in the file); no force id duplicates any of them"
+  },
+  {
+   "item": "Wrong-direction edges",
+   "decision": "applied",
+   "how": "pay-pensions:c011 (the scheme answering its own terms → the retired-officer class); union-defence:c045 (MoD as its own beneficiary → DoT); union-defence:c016 (MoD as owner of a MoPSW company → MoPSW); money-people:c071 (AgustaWestland → MoD as payee → CBI → case)"
+  },
+  {
+   "item": "Schema-key drift / source gaps",
+   "decision": "verified",
+   "how": "every entity and claim in the fleet uses the same key set per file; no duplicate JSON keys remain (pay-pensions:c027's doubled killIf is gone); every source is [label, url]; every date is ISO; `a` removed where it was not ₹ crore (25 state-police analytic claims, money-people:c055 and c075, procurement-industry:c060)"
+  }
+ ],
+ "notes": [
+  "Raw files were rewritten in place (entity ids, claim s/t, benefit.who, series body and prefixed ids in prose), so the mappings above are also a record for the assembler; none of the from-ids survives in any force raw file.",
+  "Duplicates are held, not deleted: the 16 minister-tenure edges in money-people duplicate union-defence/union-home (the roster belongs to those domains), pay-pensions:c027 duplicates union-defence:c010, and literature:c005/c009/c014/c028 duplicate money-people:c067/c088/c089/c087. Each killed copy's sources were folded into its survivor.",
+  "Claim ids were never renumbered, so every AUDIT.json verdict still lands on its claim.",
+  "No research was added beyond what the audit had opened: the sources added to claims are the URLs the cross-examiners record as opened in AUDIT.json."
+ ]
+}

@@ -1,0 +1,593 @@
+{
+  "schemaVersion": 1,
+  "region": "national",
+  "cutoff": "2026-10-07",
+  "searchLog": [
+    {
+      "query": "Government of India October September August 2026 defence procurement contracts arms acquisition foreign suppliers Ministry Defence DAC approval signed contract",
+      "tool": "Exa web_search_exa",
+      "requestedResults": 5,
+      "inspectedUrls": [
+        "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2300388&lang=2&reg=48"
+      ],
+      "notes": "Selected full original lease announcement; other returned contracts not admitted as separate cases."
+    },
+    {
+      "query": "India 2026 Ministry Finance RBI July August September bank write offs recoveries tax concessions CAG parliamentary answer corporate loans",
+      "tool": "Exa web_search_exa",
+      "requestedResults": 5,
+      "inspectedUrls": [
+        "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU 120_rCBUdx.pdf"
+      ],
+      "notes": "OfficialURL fulltext extract read; directPDFdownloadblocked. Other resultslots not called verified sources."
+    },
+    {
+      "query": "Government of India DPIIT press note 2026 foreign direct investment land border beneficial ownership 10 percent March September amendment official",
+      "tool": "Exa web_search_exa",
+      "requestedResults": 5,
+      "inspectedUrls": [
+        "https://www.dpiit.gov.in/static/uploads/2026/03/b 9 da 5830 b 052 c 2 f 2 d 788593 e 97 d 07 c 63.pdf",
+        "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2301992&lang=2&reg=48",
+        "https://www.pmindia.gov.in/en/news_updates/cabinet-approves-changes-in-guidelines-on-investments-from-countries-sharing-land-border-with-india/"
+      ],
+      "notes": "OriginalPN 2 andCabinetHTML downloaded; PIBfulltext extraction reviewed."
+    },
+    {
+      "query": "Foreign Exchange Management Non debt Instruments Amendment Rules 2026 May 1 beneficialownership GSRnotification",
+      "tool": "Exa web_search_exa",
+      "requestedResults": 5,
+      "inspectedUrls": [
+        "https://egazette.gov.in/WriteReadData/2026/272196.pdf"
+      ],
+      "notes": "GazetteTracker discovery led to officialGazettePDF URL; officialURL extractedfulltext read. RBI draft withblankdate was rejected as operative law."
+    }
+  ],
+  "sources": [
+    {
+      "id": "radar-national:source:ga-lease",
+      "title": "MoD signs 30-month lease for two MQ-9 B systems",
+      "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2300388&lang=2&reg=48",
+      "publisher": "Ministry of Defence / PIB",
+      "publishedAt": "2026-08-17",
+      "retrievedAt": "2026-10-07",
+      "family": "ga-lease",
+      "kind": "official",
+      "summary": "MoD reports a signed contract with GA-ASI for two systems for the Navy, approximately ₹1,943 crore over 30 months.",
+      "locator": "Opening two substantive paragraphs",
+      "limitations": [
+        "Original government release retained; underlying executed agreement, price schedule and payments are not public in this packet.",
+        "Contract value is not expenditure, unit aircraft purchase price or evidence of impropriety."
+      ],
+      "access": "original-file"
+    },
+    {
+      "id": "radar-national:source:psb-answer",
+      "title": "Lok Sabha UQ 120: write-offs, recoveries and borrower disclosure scope",
+      "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU120_rCBUdx.pdf",
+      "publisher": "Department of Financial Services / Lok Sabha",
+      "publishedAt": "2026-07-20",
+      "retrievedAt": "2026-10-07",
+      "family": "psb-answer",
+      "kind": "official",
+      "summary": "The reply gives twelve FY rows for Large–Industry & Services domestic PSB write-offs and annual actual recoveries; it distinguishes accounting write-offs from waivers and describes confidentiality.",
+      "locator": "Answer(a)–(d), FY 2014–15 through FY 2025–26 table, recovery caveat and CRILC table",
+      "limitations": [
+        "Read full extracted text from the official URL through Exa; direct PDF download returned 403, so original byte identity is not verified.",
+        "This is not the requested full 15-year corporate-loan population. FY 2025–26 is provisional.",
+        "Recoveries in a year can relate to other write-off vintages; do not compute a matched-cohort recovery rate.",
+        "The separate 1,249 borrowers/₹4,19,380 crore CRILC snapshot covers all borrower types, not only the table’s large-industry category."
+      ],
+      "access": "full-text"
+    },
+    {
+      "id": "radar-national:source:fdi-pn2",
+      "title": "DPIIT Press Note 2 (2026): beneficial ownership and control tests",
+      "url": "https://www.dpiit.gov.in/static/uploads/2026/03/b9da5830b052c2f2d788593e97d07c63.pdf",
+      "publisher": "DPIIT",
+      "publishedAt": "2026-03-15",
+      "retrievedAt": "2026-10-07",
+      "family": "fdi-pn2",
+      "kind": "official",
+      "summary": "Revises the land-border investment screening framework, retaining beneficial ownership, aggregated rights, control and reporting provisions; commencement depends on FEMA notification.",
+      "locator": "Paragraph 3.1.1(a)–(d), proviso and paragraph 2",
+      "limitations": [
+        "Original PDF retained. This policy text does not identify any company violating it.",
+        "A nominal percentage alone does not exhaust the cumulative rights, control and ultimate effective control tests."
+      ],
+      "access": "original-file"
+    },
+    {
+      "id": "radar-national:source:fdi-gazette",
+      "title": "FEMA NDI Amendment Rules 2026: notification S.O.2174(E)",
+      "url": "https://egazette.gov.in/WriteReadData/2026/272196.pdf",
+      "publisher": "Ministry of Finance / Gazette of India",
+      "publishedAt": "2026-05-02",
+      "retrievedAt": "2026-10-07",
+      "family": "fdi-gazette",
+      "kind": "official",
+      "summary": "Notification dated May 1 was published May 2 and takes effect on publication; amended rule 6 contains approval, ownership-change, reporting and cumulative-control rules.",
+      "locator": "English text pp.3–5: rule 1(2), rule 6 provisos and Explanations 1–3",
+      "limitations": [
+        "Official-URL full-text extract inspected through Exa; direct original download returned 503, so binary PDF identity is not verified.",
+        "May 1 notification date and May 2 Gazette publication date are distinct.",
+        "Multilateral banks/funds of which India is a member have a specific exception; foreignness alone is not evidence of an illicit route."
+      ],
+      "access": "full-text"
+    },
+    {
+      "id": "radar-national:source:fdi-clarification",
+      "title": "29 proposed investments reported under the revised FDI framework",
+      "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2301992&lang=2&reg=48",
+      "publisher": "Government of India / PIB",
+      "publishedAt": "2026-08-21",
+      "retrievedAt": "2026-10-07",
+      "family": "fdi-clarification",
+      "kind": "official",
+      "summary": "Government reports 29 investments involving proposed ₹4,895.65 crore up to August 20 across multiple sectors and investor jurisdictions.",
+      "locator": "Opening four paragraphs",
+      "limitations": [
+        "Official-URL full-text extract inspected through Exa; direct download blocked.",
+        "Proposed FDI is not received capital; the release does not name the 29 investees or certify each beneficial-ownership filing.",
+        "The summary’s non-controlling ownership description must be read with the Gazette’s cumulative rights and control rules."
+      ],
+      "access": "full-text"
+    },
+    {
+      "id": "radar-national:source:fdi-cabinet",
+      "title": "Cabinet approval of changes to land-border investment policy",
+      "url": "https://www.pmindia.gov.in/en/news_updates/cabinet-approves-changes-in-guidelines-on-investments-from-countries-sharing-land-border-with-india/",
+      "publisher": "Prime Minister Office",
+      "publishedAt": "2026-03-10",
+      "retrievedAt": "2026-10-07",
+      "family": "fdi-cabinet",
+      "kind": "official",
+      "summary": "Cabinet chaired by Narendra Modi approved policy changes intended to improve investment access, with specified approval timelines.",
+      "locator": "Opening paragraph, beneficial-owner definition and 60-day processing discussion",
+      "limitations": [
+        "Official cabinet announcement retained. Policy intention does not establish compliance by any particular investor or personal benefit to an office holder."
+      ],
+      "access": "original-file"
+    }
+  ],
+  "cases": [
+    {
+      "id": "radar-national:case:navy-lease",
+      "title": "National / Delhi: follow the Navy lease beyond the signed contract",
+      "cityIds": [
+        "delhi"
+      ],
+      "stateCodes": [
+        "DL"
+      ],
+      "sectors": [
+        "defence",
+        "foreign-investment"
+      ],
+      "question": "Can the publicly announced foreign-supplier lease be reconciled to service acceptance, variation orders and payments?",
+      "summary": "The August 17 MoD release names GA-ASI and a roughly ₹1,943 crore 30-month lease. Delhi is the signing/administration context; this is national procurement, not a Delhi incident or a corruption allegation.",
+      "status": "documented-development",
+      "sourceIds": [
+        "radar-national:source:ga-lease"
+      ],
+      "observations": [
+        {
+          "text": "A signed contract is publicly reported for two systems for 30 months; the amount is a contract commitment, not a paid or lost amount.",
+          "sourceIds": [
+            "radar-national:source:ga-lease"
+          ]
+        },
+        {
+          "text": "Additional Secretary and DG(Acquisition) A.Anbarasu is identified as present at signing; presence does not establish personal allocation, ownership or benefit.",
+          "sourceIds": [
+            "radar-national:source:ga-lease"
+          ]
+        }
+      ],
+      "counterevidence": [
+        {
+          "text": "MoD gives an operational capability purpose. The release contains no finding of overpricing, default or improper payment; different lease support bundles cannot be compared as bare aircraft unit prices.",
+          "sourceIds": [
+            "radar-national:source:ga-lease"
+          ]
+        }
+      ],
+      "nextRecords": [
+        {
+          "record": "Publicly releasable contract summary, bundled services, milestone and variation schedule",
+          "holder": "MoD acquisition directorate",
+          "purpose": "Establish comparable scope and measurable acceptance obligations without operational deployment details."
+        },
+        {
+          "record": "Aggregated certified expenditure and acceptance/audit reference",
+          "holder": "Defence Accounts and CAG",
+          "purpose": "Reconcile obligation to service delivery and paid amounts; missing publication remains unknown."
+        }
+      ],
+      "entities": [
+        {
+          "id": "radar-national:entity:mod",
+          "label": "Ministry of Defence",
+          "kind": "institution",
+          "role": "National procuring ministry",
+          "sourceIds": [
+            "radar-national:source:ga-lease"
+          ]
+        },
+        {
+          "id": "radar-national:entity:ga-asi",
+          "label": "General Atomics Aeronautical Systems, Inc.",
+          "kind": "company",
+          "role": "Named lease contractor",
+          "sourceIds": [
+            "radar-national:source:ga-lease"
+          ]
+        }
+      ],
+      "links": [
+        {
+          "id": "radar-national:link:mod-ga-lease",
+          "from": "radar-national:entity:mod",
+          "to": "radar-national:entity:ga-asi",
+          "kind": "contract",
+          "label": "₹1,943 crore approximate signed lease commitment;30 months; no payment certified here",
+          "sourceIds": [
+            "radar-national:source:ga-lease"
+          ],
+          "status": "documented"
+        }
+      ],
+      "scenario": {
+        "target": "A public acceptance, contract-variation or audited-expenditure record for this exact August 17 lease becomes available by 2027-04-05.",
+        "horizonDays": 180,
+        "evaluationAt": "2027-04-05",
+        "baseline": "Signed-contract announcement only; no accepted milestone or transaction ledger retained.",
+        "triggers": [
+          "A variation notice or audit entry identifies the exact lease and scope."
+        ],
+        "alternatives": [
+          "Normal contractual implementation can proceed without public operational detail.",
+          "Different acquisition and leasing scopes can explain different headline amounts."
+        ],
+        "falsifiers": [
+          "A linked acceptance/expenditure record reconciles the signed scope with paid milestones.",
+          "A purported anomaly concerns a different contract, time period or support package."
+        ],
+        "probability": null,
+        "probabilityReason": "No representative resolved-outcome training cohort or validated temporal calibration exists. This is a preregistered institutional research question.",
+        "requiredData": [
+          "Exact contract identifier",
+          "Public milestone schedule",
+          "Scope-comparable pricing",
+          "Certified aggregate payment and acceptance record"
+        ]
+      },
+      "updatedAt": "2026-10-07"
+    },
+    {
+      "id": "radar-national:case:psb-writeoffs",
+      "title": "National / Delhi–Mumbai: reconcile write-offs with recovery cohorts",
+      "cityIds": [
+        "delhi",
+        "mumbai"
+      ],
+      "stateCodes": [
+        "DL",
+        "MH"
+      ],
+      "sectors": [
+        "loans",
+        "administration"
+      ],
+      "question": "Which public records can distinguish accounting write-offs, legally waived liabilities, settlements and actual recovery?",
+      "summary": "A July 20 parliamentary reply answers a 15-year corporate-loan question using 12 FY rows for a different RBI reporting category. Delhi and Mumbai denote national policy and banking administration; the amounts are not city allocations.",
+      "status": "documented-development",
+      "sourceIds": [
+        "radar-national:source:psb-answer"
+      ],
+      "observations": [
+        {
+          "text": "FY 2025–26 provisional Large–Industry & Services domestic figures are ₹15,213 crore written off and ₹4,456 crore actual recoveries. These annual flows are not a matched vintage.",
+          "sourceIds": [
+            "radar-national:source:psb-answer"
+          ]
+        },
+        {
+          "text": "Separately, the March 31,2026 CRILC snapshot counts 1,249 borrowers with total written-off amounts of₹100 crore or more, totaling₹4,19,380 crore across all borrower types.",
+          "sourceIds": [
+            "radar-national:source:psb-answer"
+          ]
+        },
+        {
+          "text": "The reply cites section 45 E confidentiality for borrower-level CRILC information; it does not supply names that can be joined to a minister or beneficiary.",
+          "sourceIds": [
+            "radar-national:source:psb-answer"
+          ]
+        }
+      ],
+      "counterevidence": [
+        {
+          "text": "The reply says write-off is an accounting procedure and borrower liabilities persist. Actual debt forgiveness, negotiated settlement and insolvency haircut need their own orders and cash records.",
+          "sourceIds": [
+            "radar-national:source:psb-answer"
+          ]
+        },
+        {
+          "text": "Recoveries during a year can concern earlier write-offs; ratios of the two annual columns do not establish cohort recovery performance or personal benefit.",
+          "sourceIds": [
+            "radar-national:source:psb-answer"
+          ]
+        }
+      ],
+      "nextRecords": [
+        {
+          "record": "Nonprovisional FY 2025–26 aggregate table and definitions",
+          "holder": "RBI / Department of Financial Services",
+          "purpose": "Track revisions without silently mixing categories or time bases."
+        },
+        {
+          "record": "Lawfully public NCLT resolution orders, admitted claims and realized creditor distributions for an exactly identified borrower",
+          "holder": "NCLT / insolvency professional public notices / creditor annual reports",
+          "purpose": "Build case-specific recoveries; no attempt to obtain confidential CRILC borrower data."
+        }
+      ],
+      "entities": [
+        {
+          "id": "radar-national:entity:dfs",
+          "label": "Department of Financial Services",
+          "kind": "institution",
+          "role": "Ministry answering Parliament",
+          "sourceIds": [
+            "radar-national:source:psb-answer"
+          ]
+        },
+        {
+          "id": "radar-national:entity:rbi",
+          "label": "Reserve Bank of India",
+          "kind": "institution",
+          "role": "Named provider of aggregate banking information",
+          "sourceIds": [
+            "radar-national:source:psb-answer"
+          ]
+        }
+      ],
+      "links": [
+        {
+          "id": "radar-national:link:rbi-dfs-data",
+          "from": "radar-national:entity:rbi",
+          "to": "radar-national:entity:dfs",
+          "kind": "oversight",
+          "label": "Aggregate reporting supplied for the parliamentary answer; no money transfer implied",
+          "sourceIds": [
+            "radar-national:source:psb-answer"
+          ],
+          "status": "documented"
+        }
+      ],
+      "scenario": {
+        "target": "RBI or DFS publishes a nonprovisional FY 2025–26 update of the same domestic Large–Industry & Services write-off/recovery categories by 2027-04-05.",
+        "horizonDays": 180,
+        "evaluationAt": "2027-04-05",
+        "baseline": "The retained July 20 table labels FY 2025–26 provisional and provides no matched-vintage recovery cohort.",
+        "triggers": [
+          "A later annual report or parliamentary answer repeats the same definitions and revises the provisional figures."
+        ],
+        "alternatives": [
+          "Category changes can explain differences without lost recoveries.",
+          "A later publication may revise one measure only; missing matched cohorts prevent the proposed comparison."
+        ],
+        "falsifiers": [
+          "Reconciled tables show category-consistent figures and explain revisions.",
+          "A claim of a waiver lacks any legal discharge order and is only a write-off entry."
+        ],
+        "probability": null,
+        "probabilityReason": "No representative resolved-outcome training cohort or validated temporal calibration exists. This is a preregistered institutional research question.",
+        "requiredData": [
+          "Same-perimeter nonprovisional aggregates",
+          "Vintage-matched recoveries if evaluating a recovery rate",
+          "Exact borrower identity and legal order for case-specific forgiveness"
+        ]
+      },
+      "updatedAt": "2026-10-07"
+    },
+    {
+      "id": "radar-national:case:fdi-control",
+      "title": "National / Delhi: verify beneficial-control reporting after the FDI rule change",
+      "cityIds": [
+        "delhi"
+      ],
+      "stateCodes": [
+        "DL"
+      ],
+      "sectors": [
+        "foreign-investment",
+        "resources",
+        "administration"
+      ],
+      "question": "Do the revised investment reports preserve the ownership aggregation and effective-control tests required by the Gazette?",
+      "summary": "The August 21 government update reports 29 proposed investments worth₹4,895.65 crore under the revised framework. The public summary does not identify their investees. This is a national policy/control-monitoring case indexed at Delhi, not an allegation against those investors.",
+      "status": "documented-development",
+      "sourceIds": [
+        "radar-national:source:fdi-pn2",
+        "radar-national:source:fdi-gazette",
+        "radar-national:source:fdi-clarification",
+        "radar-national:source:fdi-cabinet"
+      ],
+      "observations": [
+        {
+          "text": "The Gazette notification dated May 1 was published May 2,2026, with commencement on publication; PN 2 itself deferred commencement to FEMA notification.",
+          "sourceIds": [
+            "radar-national:source:fdi-pn2",
+            "radar-national:source:fdi-gazette"
+          ]
+        },
+        {
+          "text": "Cumulative direct/indirect rights, control over the investor and ultimate effective control over the investee remain explicit tests. A small nominal shareholding alone does not decide the route.",
+          "sourceIds": [
+            "radar-national:source:fdi-gazette"
+          ]
+        },
+        {
+          "text": "The reported₹4,895.65 crore is proposed FDI across 29 reports as ofAugust 20, not certified incoming cash or expenditure.",
+          "sourceIds": [
+            "radar-national:source:fdi-clarification"
+          ]
+        }
+      ],
+      "counterevidence": [
+        {
+          "text": "Government states the purpose is clarity and faster lawful investment; the framework retains sector caps, control tests, reporting and prior approval for covered ownership changes.",
+          "sourceIds": [
+            "radar-national:source:fdi-cabinet",
+            "radar-national:source:fdi-gazette"
+          ]
+        },
+        {
+          "text": "The Gazette expressly treats multilateral banks/funds of which India is a member differently for this rule. A World Bank or similar connection alone is not evidence of a prohibited route.",
+          "sourceIds": [
+            "radar-national:source:fdi-gazette"
+          ]
+        }
+      ],
+      "nextRecords": [
+        {
+          "record": "Public aggregated reporting compliance, receipt/conversion and approval statistics under the amended framework",
+          "holder": "DPIIT / RBI / Department of Economic Affairs",
+          "purpose": "Distinguish proposed amounts from realized investment and assess documented reporting controls."
+        },
+        {
+          "record": "For any named public investee: exact legal identity, dated public ownership/control filings and applicable approval or reporting record",
+          "holder": "Investee public disclosures / MCA public filings / DPIIT published orders",
+          "purpose": "Only admit a company-level concern after a specific documented mismatch; do not infer misconduct from nationality or offshore jurisdiction."
+        }
+      ],
+      "entities": [
+        {
+          "id": "radar-national:entity:dpiit",
+          "label": "DPIIT",
+          "kind": "institution",
+          "role": "Policy and investment reporting authority",
+          "sourceIds": [
+            "radar-national:source:fdi-pn2",
+            "radar-national:source:fdi-clarification"
+          ]
+        },
+        {
+          "id": "radar-national:entity:dea",
+          "label": "Department of Economic Affairs",
+          "kind": "institution",
+          "role": "Gazette notification issuer",
+          "sourceIds": [
+            "radar-national:source:fdi-gazette"
+          ]
+        },
+        {
+          "id": "radar-national:entity:fdi-policy",
+          "label": "FEMA NDI amended rule 6 (2026)",
+          "kind": "policy",
+          "role": "National investment ownership/control rule",
+          "sourceIds": [
+            "radar-national:source:fdi-gazette"
+          ]
+        }
+      ],
+      "links": [
+        {
+          "id": "radar-national:link:dpiit-policy",
+          "from": "radar-national:entity:dpiit",
+          "to": "radar-national:entity:fdi-policy",
+          "kind": "policy",
+          "label": "PN 2 policy change and subsequent public reporting summary",
+          "sourceIds": [
+            "radar-national:source:fdi-pn2",
+            "radar-national:source:fdi-clarification"
+          ],
+          "status": "documented"
+        },
+        {
+          "id": "radar-national:link:dea-policy",
+          "from": "radar-national:entity:dea",
+          "to": "radar-national:entity:fdi-policy",
+          "kind": "policy",
+          "label": "Notification S.O.2174(E), datedMay 1; Gazette publicationMay 2",
+          "sourceIds": [
+            "radar-national:source:fdi-gazette"
+          ],
+          "status": "documented"
+        }
+      ],
+      "scenario": {
+        "target": "A public government update distinguishes reported proposals from realized FDI under this specific amended framework by 2027-04-05.",
+        "horizonDays": 180,
+        "evaluationAt": "2027-04-05",
+        "baseline": "29 reports/₹4,895.65 crore proposed as ofAugust 20; no investee-level identities or realization totals retained.",
+        "triggers": [
+          "A later DPIIT/RBI report publishes realized amounts and consistent regime-specific counts."
+        ],
+        "alternatives": [
+          "Long implementation lags can explain proposal/receipt differences.",
+          "Confidentiality may limit investee detail; nonpublication does not establish evasion."
+        ],
+        "falsifiers": [
+          "Same-regime aggregate data reconcile reported proposals, withdrawals and actual receipts.",
+          "A proposed company-level theory fails exact-identity or effective-control checks."
+        ],
+        "probability": null,
+        "probabilityReason": "No representative resolved-outcome training cohort or validated temporal calibration exists. This is a preregistered institutional research question.",
+        "requiredData": [
+          "Regime-specific data definition and reporting date",
+          "Realization versus proposal status",
+          "Public control/ownership and approval evidence before company-level allegations"
+        ]
+      },
+      "updatedAt": "2026-10-07"
+    }
+  ],
+  "actors": [
+    {
+      "id": "radar-national:actor:narendra-modi",
+      "label": "Narendra Modi",
+      "kind": "public-official",
+      "identityNote": "Public decision-role entry only, not a biography or misconduct score. This packet verifies the specific cabinet event and does not claim to cover all prior allegations.",
+      "sourceIds": [
+        "radar-national:source:fdi-cabinet"
+      ],
+      "timeline": [
+        {
+          "date": "2026-03-10",
+          "label": "Chaired Cabinet that approved the investment-policy changes",
+          "category": "decision",
+          "sourceIds": [
+            "radar-national:source:fdi-cabinet"
+          ],
+          "outcome": "Policy approval announced; later commencement and operative wording are separately bound to the Gazette.",
+          "limitations": [
+            "Chairing Cabinet is institutional context, not proof of a benefit to any investor or person."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "radar-national:actor:pankaj-chaudhary",
+      "label": "Pankaj Chaudhary",
+      "kind": "public-official",
+      "identityNote": "Exactly named Minister of State answering UQ 120; public parliamentary role only. No conclusion about influence over individual loan accounts.",
+      "sourceIds": [
+        "radar-national:source:psb-answer"
+      ],
+      "timeline": [
+        {
+          "date": "2026-07-20",
+          "label": "Answered the loan-waiver/write-off question in Lok Sabha",
+          "category": "decision",
+          "sourceIds": [
+            "radar-national:source:psb-answer"
+          ],
+          "outcome": "Provided RBI reporting categories and confidentiality boundary; did not disclose borrower names.",
+          "limitations": [
+            "A ministerial answer is not independent verification of every underlying bank record."
+          ]
+        }
+      ]
+    }
+  ]
+}

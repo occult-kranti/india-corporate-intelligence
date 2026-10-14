@@ -1,0 +1,48 @@
+.procurement-trail { min-width: 0; margin: 20px 0; }
+.pt-scope, .pt-note { color: var(--color-text-muted); font-size: 11px; line-height: 1.55; }
+.pt-scope { border-left: 2px solid var(--color-accent); padding-left: 10px; }
+.pt-cohort { margin: 10px 0; padding: 12px; border: 1px solid var(--color-border); background: var(--color-bg-elevated, #14181c); }
+.pt-cohort > strong { display: block; color: var(--color-text); font-family: var(--font-mono, monospace); font-size: 19px; font-weight: 500; line-height: 1.4; }
+.pt-cohort p { margin: 7px 0; }
+.pt-cohort-label { color: var(--color-text-muted); text-transform: uppercase; letter-spacing: .08em; font-size: 10px; }
+.pt-metrics { display: grid; gap: 10px; margin: 15px 0 8px; }
+.pt-metrics div { display: grid; gap: 3px; }
+.pt-metrics dt { color: var(--color-text-secondary); font-size: 11px; }
+.pt-metrics dd { margin: 0; font: 12px/1.5 var(--font-mono, monospace); color: var(--color-text); }
+.pt-caution { border-left: 2px solid var(--color-amber, #d7a752); padding-left: 9px; color: var(--color-text-secondary); font-size: 11px; }
+.pt-stages { margin: 12px 0 20px; padding: 0; list-style: none; counter-reset: stage; }
+.pt-stages li { position: relative; padding: 0 0 18px 29px; counter-increment: stage; }
+.pt-stages li::before { content: counter(stage, decimal-leading-zero); position: absolute; left: 0; top: 0; font: 10px/1.8 var(--font-mono, monospace); color: var(--color-text-muted); }
+.pt-stages li:not(:last-child)::after { content: ''; position: absolute; top: 21px; bottom: 3px; left: 6px; border-left: 1px dashed var(--color-border); }
+.pt-stages strong, .pt-stages span { display: block; }
+.pt-stages strong { font-size: 12px; font-weight: 600; }
+.pt-stages span { margin-top: 5px; font-size: 11px; color: var(--color-text-secondary); line-height: 1.6; }
+.pt-stages .pt-stage-value { font-family: var(--font-mono, monospace); color: var(--color-text); }
+.pt-details { border-top: 1px solid var(--color-border); padding: 12px 0; font-size: 12px; line-height: 1.65; }
+.pt-details summary { cursor: pointer; color: var(--color-text); font-weight: 600; padding-right: 10px; }
+.pt-details summary:focus-visible, .pt-row-link:focus-visible, .pt-lineage button:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 4px; }
+.pt-details code, .pt-labels strong { overflow-wrap: anywhere; }
+.pt-details ul { padding-left: 18px; }
+.pt-details .pt-labels { list-style: none; padding: 0; margin: 12px 0; }
+.pt-labels li { border-left: 2px solid var(--color-border); padding: 7px 10px; margin: 10px 0; }
+.pt-labels strong, .pt-labels span { display: block; }
+.pt-labels strong { font-size: 12px; font-weight: 500; }
+.pt-labels span { font-size: 11px; color: var(--color-text-muted); margin-top: 4px; }
+.pt-lineage { padding-left: 17px; }
+.pt-lineage li { margin: 14px 0; padding-left: 3px; }
+.pt-lineage button { padding: 0; border: 0; background: none; text-align: left; color: var(--color-accent); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; font: inherit; }
+.pt-lineage span { display: block; margin: 6px 0; color: var(--color-text-secondary); font-size: 11px; }
+.pt-lineage a { color: var(--color-text-muted); font-size: 11px; }
+.pt-lineage a svg { display: inline; vertical-align: middle; }
+.pt-guided-entry { padding: 14px; border: 1px solid var(--color-border); margin: 18px 0; background: var(--color-bg-card, #12171b); min-width: 0; }
+.pt-guided-entry > strong { display: block; font-size: 13px; line-height: 1.6; }
+.pt-guided-entry > p:not(.iw-overline) { font-size: 11px; line-height: 1.7; color: var(--color-text-secondary); }
+.pt-row-link { display: inline-flex; align-items: center; gap: 6px; margin-top: 9px; font-size: 11px; color: var(--color-accent); text-decoration: underline; text-underline-offset: 3px; white-space: normal; }
+.pt-row-link svg { flex-shrink: 0; }
+.pt-audit-entry { margin: 18px 0; padding: 14px; border: 1px solid var(--color-border); min-width: 0; }
+.pt-audit-entry > strong { display: block; font-size: 13px; }
+.pt-audit-entry p { color: var(--color-text-secondary); font-size: 11px; line-height: 1.7; }
+.pt-audit-entry .pt-audit-findings { list-style: none; padding: 0; }
+.pt-audit-findings li { margin: 14px 0; }
+.pt-audit-findings .pt-row-link { display: inline; font-size: 12px; }
+.pt-audit-findings .pt-row-link svg { display: inline; vertical-align: middle; margin-left: 5px; }

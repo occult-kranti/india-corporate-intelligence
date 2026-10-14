@@ -1,0 +1,55 @@
+{
+  "retrievedAt": "2026-10-07",
+  "eventWindow": [
+    "2011-10-06",
+    "2026-10-06"
+  ],
+  "notice": "Original HTML, indexed extraction and failed original responses are different artifact types. No successfully downloaded CAG/ADB PDF bytes are claimed.",
+  "sources": {
+    "ov-src-uk-cag": {
+      "method": "official-origin indexed extraction",
+      "text": "uk-report.indexed-fulltext.txt",
+      "originalStatus": 503,
+      "originalReceipt": "uk-full-original-failure.receipt.json",
+      "completeIndexedText": true
+    },
+    "ov-src-uk-index": {
+      "method": "official publication page indexed extraction",
+      "artifact": "uk-publication.indexed.json"
+    },
+    "ov-src-adb-completion": {
+      "method": "official-origin indexed extraction",
+      "text": "adb-completion.indexed-fulltext.txt",
+      "originalStatus": 403,
+      "originalReceipt": "adb-completion.receipt.json",
+      "completeIndexedText": true
+    },
+    "ov-src-ts-cag": {
+      "method": "official-origin capped indexed extraction",
+      "text": "ts-finance.indexed-fulltext.txt",
+      "originalStatus": 503,
+      "originalReceipt": "ts-finance.receipt.json",
+      "completeIndexedText": false,
+      "limitation": "300000 character cap; full cited Box 2.4 and notes55\u201357 read"
+    },
+    "ov-src-ts-moa": {
+      "method": "direct original HTML",
+      "originalStatus": 200,
+      "originalReceipt": "tsphcl-moa.receipt.json",
+      "original": "tsphcl-moa.html"
+    },
+    "ov-src-bihar-cag": {
+      "method": "official-origin indexed extraction",
+      "text": "bihar-pmkisan.indexed-fulltext.txt",
+      "originalStatus": 503,
+      "originalReceipt": "bihar-pmkisan.receipt.json",
+      "completeIndexedText": true
+    },
+    "ov-src-pib-recovery": {
+      "method": "direct original HTML",
+      "originalStatus": 200,
+      "originalReceipt": "pib-recovery.receipt.json",
+      "original": "pib-recovery.html"
+    }
+  }
+}

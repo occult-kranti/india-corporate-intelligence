@@ -1,0 +1,115 @@
+{
+  "retrievedAt": "2026-10-07",
+  "artifacts": [
+    {
+      "sourceId": "bmc-budget",
+      "url": "https://www.mcgm.gov.in/irj/go/km/docs/documents/MCGM%20Department%20List/Chief%20Accountant%20%28Finance%29/Budget/Budget%20Estimate%202025-2026/1-%20MC%27s%20Speech/BUDGET%20A,B,G/ENGLISH%20SPEECH.pdf",
+      "retrievedAt": "2026-10-07",
+      "retrievalClass": "official-original-pdf",
+      "httpStatus": 200,
+      "artifact": "research/raw/metro-spending/public-finance-evidence/bmc-budget-2025.pdf",
+      "bytes": 9601151,
+      "sha256": "8d208541787d809309f70a4c319a43df69c97d0690bf675851c98d08729f545f"
+    },
+    {
+      "sourceId": "delhi-budget",
+      "url": "https://jmkresearch.com/wp-content/uploads/2026/03/DELHI-GOVERNMENT.pdf",
+      "retrievedAt": "2026-10-07",
+      "retrievalClass": "government-pdf-on-mirror",
+      "httpStatus": 200,
+      "artifact": "research/raw/metro-spending/public-finance-evidence/delhi-budget-2025-mirror.pdf",
+      "bytes": 885036,
+      "sha256": "8b050e7dd7891ca968413abbe9be7659e1543b1bf11dc67c31147db69506bece"
+    },
+    {
+      "sourceId": "djb-court",
+      "url": "https://courtkutchehry.com/judgments/anil-kumar-aggarwal-vs-directorate-of-enforcement",
+      "retrievedAt": "2026-10-07",
+      "retrievalClass": "court-judgment-transcription-extracted-from-legal-mirror",
+      "httpStatus": 200,
+      "artifact": "research/raw/metro-spending/public-finance-evidence/djb-court-mirror.txt",
+      "bytes": 81722,
+      "sha256": "cae8f958204a2b574c65b19de76c8d85f4f8634fe9d976750e58c116e9925312"
+    },
+    {
+      "sourceId": "khichdi-court",
+      "url": "https://courtkutchehry.com/judgments/suraj-satish-chavan-appellant-hash-directorate-of-enforcement-anr-respondent",
+      "retrievedAt": "2026-10-07",
+      "retrievalClass": "court-judgment-transcription-extracted-from-legal-mirror",
+      "httpStatus": 200,
+      "artifact": "research/raw/metro-spending/public-finance-evidence/khichdi-court-mirror.txt",
+      "bytes": 52175,
+      "sha256": "173fb2ac5de5bff4ba39901ef0438b6522a039033fcd51189fbd7ff343bf0db6"
+    },
+    {
+      "sourceId": "tender-index",
+      "url": "https://tender.sarthaksidhant.com/",
+      "retrievedAt": "2026-10-07",
+      "retrievalClass": "independent-mirror-index-html",
+      "httpStatus": 200,
+      "artifact": "research/raw/metro-spending/public-finance-evidence/tender-index.html",
+      "bytes": 22037,
+      "sha256": "684f4598426b59288a9c1e25fcef8f54f042281e43b680444e6661def14fe264"
+    },
+    {
+      "sourceId": "cag-cpa",
+      "url": "https://cag.gov.in/uploads/download_audit_report/2024/8_Chapter-4-Availability-of-Drugs,-Medicines,-Equipment-and-other-Consumables-067c18f351b7ff5.72721616.pdf",
+      "retrievedAt": "2026-10-07",
+      "retrievalClass": "official-host-indexed-extract-not-original-pdf",
+      "httpStatus": null,
+      "artifact": "research/raw/metro-spending/public-finance-evidence/cag-delhi-drugs-indexed.txt",
+      "bytes": 5887,
+      "sha256": "e779fef96b7652d4a63aeed20f7ba7167bf9c6fa8e713106751c529ca5045a5f"
+    },
+    {
+      "sourceId": "cag-cpa",
+      "url": "https://cag.gov.in/uploads/download_audit_report/2024/8_Chapter-4-Availability-of-Drugs,-Medicines,-Equipment-and-other-Consumables-067c18f351b7ff5.72721616.pdf",
+      "retrievedAt": "2026-10-07",
+      "retrievalClass": "official-host-indexed-extract-not-original-pdf",
+      "httpStatus": null,
+      "artifact": "research/raw/metro-spending/public-finance-evidence/cag-delhi-cpa-indexed.txt",
+      "bytes": 1850,
+      "sha256": "28edcb3d3ad816915c2533d1a925fd477c839038c85becc1b303d6633091e7d7"
+    }
+  ],
+  "failedAccesses": [
+    {
+      "url": "https://finance.delhi.gov.in/sites/default/files/Finance/marquee-files/budget_speech_english_0.pdf",
+      "status": 503
+    },
+    {
+      "url": "https://finance.delhi.gov.in/sites/default/files/Finance/marquee-files/budget_speech_english.pdf",
+      "status": 503
+    },
+    {
+      "url": "https://cag.gov.in/uploads/download_audit_report/2024/8_Chapter-4-Availability-of-Drugs,-Medicines,-Equipment-and-other-Consumables-067c18f351b7ff5.72721616.pdf",
+      "status": 503
+    },
+    {
+      "url": "https://www.cag.gov.in/uploads/download_audit_report/2024/8_Chapter-4-Availability-of-Drugs,-Medicines,-Equipment-and-other-Consumables-067c18f351b7ff5.72721616.pdf",
+      "status": 503
+    },
+    {
+      "url": "https://bombayhighcourt.nic.in/writereaddata/data/judgements/2025/233100041412024_7.pdf",
+      "status": 503
+    },
+    {
+      "url": "https://bombayhighcourt.gov.in/writereaddata/data/judgements/2025/233100041412024_7.pdf",
+      "status": 404
+    },
+    {
+      "url": "https://indiankanoon.org/doc/76881707/",
+      "status": 403
+    },
+    {
+      "url": "https://mirror.s3.surf/aoc_tenders.db",
+      "status": 403,
+      "note": "CONNECT tunnel failure, not an origin-status claim"
+    }
+  ],
+  "notes": [
+    "Legal mirror full HTML is not archived; extracted government judgment text has site chrome removed.",
+    "The indexed Indian Kanoon header artifact is a corroboration-only excerpt, not the full judgment.",
+    "HTTP error bodies were not admitted as documents. CAG indexed text not relabeled original PDF."
+  ]
+}

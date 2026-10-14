@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 1,
+  "verifiedAt": "2026-10-07T22:32:46.785418+00:00",
+  "checks": {
+    "dataAndForecastTests": 38,
+    "sharedGeographyBrowserAssertions": 310,
+    "typescript": "passed",
+    "forecastRegistry": "matches actual source-backed scenarios; probability null and unresolved outcomes"
+  },
+  "candidateIndexSha256": "a1b4149a2a13d9acad6e434f64c8af6b0ad66f7a2153cf658ba151cc9a6edb48",
+  "files": [
+    {
+      "path": "src/data/researchRadar.ts",
+      "sha256": "003fdc45228ea7182daf4a4bc76cdd108436e60aebd0b87a19ad4efc084ad38b"
+    },
+    {
+      "path": "scripts/research-radar/load.mjs",
+      "sha256": "0fa953d7dbc663694fdc1d221f72fd7bbdd5c5da7d9294e9118d7c11a76d8435"
+    },
+    {
+      "path": "scripts/research-radar/validate.mjs",
+      "sha256": "25d7dd407d39d79505ebf18d2704cce7102493aa613d8aec5ae14b92edcfb4b6"
+    },
+    {
+      "path": "scripts/research-radar/forecast.mjs",
+      "sha256": "e200916c6306b4e2a82cc9b6f7cdb72c4b7a07912258d629621e60d1a7d4eb3b"
+    },
+    {
+      "path": "scripts/research-radar/forecast-registry.mjs",
+      "sha256": "c2633a856d26df762894fd06f9d172a9ef72db1c8445555c1a0ca9bb6a49b416"
+    },
+    {
+      "path": "scripts/research-radar/evidence.test.mjs",
+      "sha256": "79b8b0c508bdd462972d50f39e8774cf677a694facb4dfc053933c7932bf902e"
+    },
+    {
+      "path": "scripts/research-radar/integration.test.mjs",
+      "sha256": "79efd113c1c60fe3c687ea19c00433fe848c7191ef08107f6f525ee1c5c2db1d"
+    },
+    {
+      "path": "scripts/research-radar/challenge.test.mjs",
+      "sha256": "705371279e27e741e05f7a35c46d0b55a30a6a44fff36d3e93cb41615236ef00"
+    },
+    {
+      "path": "scripts/investigation/browser.mjs",
+      "sha256": "9fc7844b5d803929c920964b83f903f20fcd42d3cc01010674fc927aabdb071f"
+    },
+    {
+      "path": "research/research-radar/forecast-registry.json",
+      "sha256": "61af2a735f791e737b2d3202a96b59e212482ebc60d730d8534915a12db3acf6"
+    },
+    {
+      "path": "research/raw/research-radar/north.json",
+      "sha256": "93c7a8d6e888ebba9cae1cc27e69dc1c5791ea3034f4aa9d84183d8581a13694"
+    },
+    {
+      "path": "research/raw/research-radar/west.json",
+      "sha256": "820024ec4f30893cf7a38056064062b91bf544b94a884dee8650774254036154"
+    },
+    {
+      "path": "research/raw/research-radar/south-east.json",
+      "sha256": "bf1b00181dca7d7634f64df3946a39c47bec5cdd075882421210af34138ceacb"
+    },
+    {
+      "path": "research/raw/research-radar/national.json",
+      "sha256": "a3447b3188f851302ac08f0846de756b71cc8bdbbcaaba78a6826e5603adf679"
+    },
+    {
+      "path": "research/raw/research-radar/coverage.json",
+      "sha256": "4ed9dc8b2d907b025d8493577c08353ddad31682d93cc95624984383dde9d72c"
+    }
+  ],
+  "interpretation": "Passing fixtures validate software semantics, source references and score arithmetic, not the truth of allegations, national coverage or predictive calibration."
+}

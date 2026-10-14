@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "countryFilter": "IN",
+  "total": 1117,
+  "pages": [
+    {
+      "url": "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=500&os=0&fl=id,project_name,boardapprovaldate,closingdate,status,borrower,impagency,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,totalcommamt,url",
+      "path": "research/research-radar/next-model/worldbank-baseline/projects-0.json",
+      "sha256": "c868cf115a88d914d82e61a58fe5e23136e699afd3e46cd2f2ec3027e5247c99",
+      "bytes": 672256,
+      "records": 500,
+      "total": 1117,
+      "retrievedAt": "2026-10-08T17:21:08.174834+00:00",
+      "httpStatus": 200,
+      "responseHeaders": {
+        "Date": "Thu, 08 Oct 2026 17:21:08 GMT",
+        "ETag": "W/\"a4200-U8HAjY/ExewUv8oPvBxuj2KrsFU\""
+      }
+    },
+    {
+      "url": "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=500&os=500&fl=id,project_name,boardapprovaldate,closingdate,status,borrower,impagency,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,totalcommamt,url",
+      "path": "research/research-radar/next-model/worldbank-baseline/projects-500.json",
+      "sha256": "afc6243746168daa8b73f2657c1c3bcd23c993e76a67cc60306dc1f1a04fb66a",
+      "bytes": 411848,
+      "records": 500,
+      "total": 1117,
+      "retrievedAt": "2026-10-08T17:21:09.086626+00:00",
+      "httpStatus": 200,
+      "responseHeaders": {
+        "Date": "Thu, 08 Oct 2026 17:21:09 GMT",
+        "ETag": "W/\"648c8-sW09nVM7M5gANvL4AHS9QYm9wPk\""
+      }
+    },
+    {
+      "url": "https://search.worldbank.org/api/v3/projects?format=json&countrycode_exact=IN&rows=500&os=1000&fl=id,project_name,boardapprovaldate,closingdate,status,borrower,impagency,curr_total_commitment,curr_ibrd_commitment,curr_ida_commitment,totalcommamt,url",
+      "path": "research/research-radar/next-model/worldbank-baseline/projects-1000.json",
+      "sha256": "f435ef82ae847adc3c638974148cd49e30bd6a1bb553c6fbe29cf013ffbcff13",
+      "bytes": 108067,
+      "records": 117,
+      "total": 1117,
+      "retrievedAt": "2026-10-08T17:21:10.141057+00:00",
+      "httpStatus": 200,
+      "responseHeaders": {
+        "Date": "Thu, 08 Oct 2026 17:21:10 GMT",
+        "ETag": "W/\"1a623-uZcO3Bzb3672VB3ejoeVSRTpayw\""
+      }
+    }
+  ],
+  "capturedFrom": "2026-10-08T17:21:08.174834+00:00",
+  "capturedThrough": "2026-10-08T17:21:10.141057+00:00",
+  "atomicSnapshotGuaranteed": false,
+  "limitation": "Three paginated public API responses checked for stable total and unique IDs; the API does not promise transactional consistency."
+}

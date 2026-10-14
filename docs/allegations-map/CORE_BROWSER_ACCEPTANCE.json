@@ -1,0 +1,116 @@
+{
+  "verifiedAt": "2026-10-07T08:03:21.884089+00:00",
+  "baseUrl": "http://127.0.0.1:5184",
+  "buildDirectory": "dist-allegations-release",
+  "indexSha256": "dbef3c193404b34586ecce5f9523b95afd8b2bfb7589a8ff3efc4c002b1bc5d7",
+  "chromium": "/usr/bin/chromium",
+  "execution": "Five gates run sequentially; no overlapping core browser processes.",
+  "results": [
+    {
+      "script": "scripts/atlas-expansion/browser.mjs",
+      "result": "passed",
+      "checks": 58,
+      "log": "network.log"
+    },
+    {
+      "script": "scripts/atlas-expansion/integration-browser.mjs",
+      "result": "passed",
+      "checks": 72,
+      "log": "integration.log"
+    },
+    {
+      "script": "scripts/atlas-expansion/code-audit.mjs",
+      "result": "passed",
+      "checks": 38,
+      "log": "code-audit.log"
+    },
+    {
+      "script": "scripts/smoke.mjs",
+      "result": "passed",
+      "routeSurfaceLoads": 158,
+      "distinctRoutes": 79,
+      "log": "smoke.log"
+    },
+    {
+      "script": "scripts/graph-viewport.mjs",
+      "result": "passed",
+      "checks": 60,
+      "log": "viewport.log"
+    }
+  ],
+  "failures": [],
+  "artifacts": [
+    {
+      "path": "/tmp/allegations-core-browser/code-audit/acceptance.json",
+      "bytes": 2847,
+      "sha256": "48575f44a5bb65e4f4b13cdfea4e3b026f1cf66224efd807e108acbe2451cf6e"
+    },
+    {
+      "path": "/tmp/allegations-core-browser/code-audit/mobile-reader.png",
+      "bytes": 61784,
+      "sha256": "aa95920622c559266500737f7fe01d5d5a3ce9fa2e1a22e46788f692207bb015"
+    },
+    {
+      "path": "/tmp/allegations-core-browser/code-audit.log",
+      "bytes": 89,
+      "sha256": "23ca8da5c45088739819a423919eb82e378ff38db567e79b315c70feaa6dc5f2"
+    },
+    {
+      "path": "/tmp/allegations-core-browser/integration/acceptance.json",
+      "bytes": 3119,
+      "sha256": "7205dd8584d66ae37d1cd8626af0be131d6b9c6d2ba2488ea6dcdbc0ec4b4b9d"
+    },
+    {
+      "path": "/tmp/allegations-core-browser/integration/home-320.png",
+      "bytes": 106904,
+      "sha256": "295d0a6119452a8dce1463d0aedfb193fd1d63bbea748c57ae353660399f1184"
+    },
+    {
+      "path": "/tmp/allegations-core-browser/integration/home-390.png",
+      "bytes": 119376,
+      "sha256": "ecb313bd9ca43eaeb036b7e2f3b5c1fa1d634c546d1b7e3dd4b20fd599497f96"
+    },
+    {
+      "path": "/tmp/allegations-core-browser/integration/home-768.png",
+      "bytes": 156819,
+      "sha256": "c0861de10bce34ad8d18503c45a073b519afd7c15ea5837abbe34e6e81a6acaf"
+    },
+    {
+      "path": "/tmp/allegations-core-browser/integration/home-desktop.png",
+      "bytes": 406535,
+      "sha256": "cab3038daadb64c8b7654ddf1a737b6e508c7554633e839cc88ae44b6e269bd3"
+    },
+    {
+      "path": "/tmp/allegations-core-browser/integration.log",
+      "bytes": 79,
+      "sha256": "d4b5cf009f6010b18832c72ccbeaf1a2a1f608bcc3708ef30df6b8ae72564c93"
+    },
+    {
+      "path": "/tmp/allegations-core-browser/network/evidence-mobile.png",
+      "bytes": 52011,
+      "sha256": "899acf8ce7e4206d0d804961859b85036c53d3565a2a73dcd2c23706b878a6e7"
+    },
+    {
+      "path": "/tmp/allegations-core-browser/network/network-desktop.png",
+      "bytes": 355303,
+      "sha256": "fd01b4c2cb901de23a6500b1dea025a41c6a2c699a298099a897544f89d2f054"
+    },
+    {
+      "path": "/tmp/allegations-core-browser/network.log",
+      "bytes": 53,
+      "sha256": "9676b46cad1a80f2707e32c4d6add42f849eb1073e9ec99ddd292cde0358b0a9"
+    },
+    {
+      "path": "/tmp/allegations-core-browser/smoke.log",
+      "bytes": 7268,
+      "sha256": "e2b42b894518c8b9707ce92755dcd1bce0b0770bbb546a48e594a53cedac8093"
+    },
+    {
+      "path": "/tmp/allegations-core-browser/viewport.log",
+      "bytes": 5085,
+      "sha256": "253584eb5a5e17d2e9f51be9a1e4c6bee0d672d0511b2182feaa66066359c0b2"
+    }
+  ],
+  "harnessChange": "scripts/atlas-expansion/browser.mjs accepts ATLAS_ARTIFACTS; default path retained, new artifacts written only under /tmp. No application edits.",
+  "artifactRetention": "Logs and fresh screenshots are local-only under /tmp/allegations-core-browser; this committed summary preserves results and SHA-256 receipts without replacing historical screenshot artifacts."
+}
