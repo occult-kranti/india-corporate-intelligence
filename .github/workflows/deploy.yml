@@ -84,6 +84,7 @@ jobs:
       # underscore. The build does not currently emit any, but it costs one line
       # and the failure mode is a silently missing asset.
       - name: Publish to gh-pages
+        if: ${{ false }} # Paused while preserving the existing published branch.
         run: |
           set -euo pipefail
           # Read the subject from git rather than interpolating the event payload,
@@ -103,6 +104,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Where it landed
+        if: ${{ false }}
         run: |
           echo "Deployed ${GITHUB_SHA::7} to gh-pages."
           echo "https://${GITHUB_REPOSITORY_OWNER}.github.io/${GITHUB_REPOSITORY#*/}/"
