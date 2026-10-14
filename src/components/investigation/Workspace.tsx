@@ -272,9 +272,13 @@ export default function Workspace({ children, routeTitle, routeKey }: WorkspaceP
 
   // Enter an explicitly requested mobile dossier at its reading origin. Lazy
   // routes can arrive later; user interaction cancels the pending focus move.
+  // Energy selection links own their canvas/margin destination. An origin move
+  // here would race that route's scroll and push its selected canvas off screen.
   useEffect(() => {
     const container = dossierContent.current;
     if (surface !== 'dossier' || !container || location.hash || !window.matchMedia('(max-width: 767px)').matches) return;
+    const hasEnergyDestination = (params: URLSearchParams) => routeKey === '/energy' && ['claim', 'sel', 'path'].some(key => Boolean(params.get(key)));
+    if (hasEnergyDestination(latestParams())) return;
     let stopped = false;
     let frame: number | undefined;
     const events = ['pointerdown', 'keydown', 'wheel', 'touchstart'] as const;
@@ -294,7 +298,7 @@ export default function Workspace({ children, routeTitle, routeKey }: WorkspaceP
         const active = document.activeElement;
         const hasDossierFocus = active && container!.contains(active) && active !== container && active !== heading;
         stop();
-        if (!heading.isConnected || current.pathname !== routeKey || current.searchParams.get('iw_view') !== 'dossier' || hasDossierFocus) return;
+        if (!heading.isConnected || current.pathname !== routeKey || current.searchParams.get('iw_view') !== 'dossier' || hasDossierFocus || hasEnergyDestination(current.searchParams)) return;
         if (!heading.hasAttribute('tabindex')) heading.tabIndex = -1;
         heading.focus({ preventScroll: true });
         heading.scrollIntoView({ block: 'start', behavior: 'auto' });
