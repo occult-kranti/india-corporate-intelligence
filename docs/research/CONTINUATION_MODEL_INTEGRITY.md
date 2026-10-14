@@ -30,3 +30,11 @@ All commands completed successfully:
 - `npm run test:game-theory`: 8 tests passed.
 
 Local command logs: `/tmp/icip-model-validate.log` and `/tmp/icip-model-tests.log`. Browser/build verification is coordinated by the parent integration task.
+
+## GitHub Actions checkout-path correction
+
+PR validation exposed a path-rebasing defect when the current checkout repeats the repository name, as in `/home/runner/work/india-corporate-intelligence/india-corporate-intelligence/`. The verifier had interpreted a current absolute snapshot path as a historical workspace receipt and split at the first repository-name marker, inserting an extra directory. The exact historical snapshot bytes were present; no receipt or digest was wrong.
+
+`repo_path` now first makes current absolute paths relative to the actual checkout root. Only paths outside that root use the historical workspace-marker rebasing. Final resolved-path containment and every artifact SHA-256 check remain unchanged. The new regression creates a real temporary directory with the duplicated checkout structure, verifies current absolute, repository-relative and historical receipt paths resolve to the same exact snapshot, and confirms traversal and snapshot tampering are rejected.
+
+Verification: all 20 offline-verifier tests pass, and `npm run validate:radar:next` passes. Log: `/tmp/icip-model-ci-path-validation.log`. No graph, model, training or evaluation artifact was modified by this correction.

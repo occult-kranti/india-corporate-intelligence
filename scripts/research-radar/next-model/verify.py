@@ -43,14 +43,15 @@ def repo_path(value):
     """Rebase historical absolute workspace receipts for GitHub Actions checkouts."""
     path = Path(value)
     if path.is_absolute():
-        marker = '/india-corporate-intelligence/'
-        if marker in str(path):
-            path = Path(str(path).split(marker, 1)[1])
-        else:
-            try:
-                path = path.relative_to(ROOT)
-            except ValueError as exc:
+        # A CI checkout may repeat the repository name in its absolute path.
+        # Prefer the actual current root before rebasing old workspace receipts.
+        try:
+            path = path.relative_to(ROOT)
+        except ValueError as exc:
+            marker = '/india-corporate-intelligence/'
+            if marker not in str(path):
                 raise ValueError(f'Path is outside repository: {value}') from exc
+            path = Path(str(path).split(marker, 1)[1])
     result = (ROOT / path).resolve()
     fail(result.is_relative_to(ROOT), f'Path escapes repository: {value}')
     return result

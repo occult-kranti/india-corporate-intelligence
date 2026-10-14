@@ -156,6 +156,25 @@ class HistoricalGraphBindingTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'Invalid historical graph digest'):
             v.bound_artifact_path(str(self.current), '../snapshot', allow_graph_snapshot=True)
 
+    def test_repeated_repository_name_in_ci_root_preserves_exact_graph_binding(self):
+        root = self.root / 'home/runner/work/india-corporate-intelligence/india-corporate-intelligence'
+        data = root / 'research/research-radar/next-model'
+        snapshots = data / 'graph-snapshots'; snapshots.mkdir(parents=True)
+        current = data / 'graph-data.json'; current.write_bytes(self.current.read_bytes())
+        snapshot = snapshots / f'{self.digest}.json'; snapshot.write_bytes(self.raw)
+        relative = 'research/research-radar/next-model/graph-data.json'
+        historical = f'/workspace/india-corporate-intelligence/{relative}'
+        with patch.object(v, 'ROOT', root), patch.object(v, 'DATA', data):
+            for name in [str(current), relative, historical]:
+                self.assertEqual(v.repo_path(name), current)
+                self.assertEqual(v.bound_artifact_path(name, self.digest, allow_graph_snapshot=True), snapshot)
+            self.assertEqual(v.repo_path(str(snapshot)), snapshot)
+            with self.assertRaisesRegex(ValueError, 'escapes repository'):
+                v.repo_path(str(root / '../../escape'))
+            snapshot.write_text('tampered snapshot')
+            with self.assertRaisesRegex(ValueError, 'snapshot hash changed'):
+                v.bound_artifact_path(str(current), self.digest, allow_graph_snapshot=True)
+
 
 @unittest.skipUnless((v.RUN / 'training-receipt.json').exists(), 'Executed training receipt not yet present')
 class ExecutedArtifactMutationTests(unittest.TestCase):
