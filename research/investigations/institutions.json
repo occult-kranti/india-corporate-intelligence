@@ -1,0 +1,313 @@
+{
+  "cases": [
+    {
+      "id": "inst-pmjay-controls",
+      "title": "PM-JAY: beneficiary and claim controls flagged by CAG",
+      "sector": "Welfare / healthcare",
+      "status": "documented",
+      "summary": "CAG's 2023 performance audit identified weaknesses in PM-JAY registration and claims systems for September 2018–March 2021.",
+      "finding": "CAG recorded 749,820 beneficiaries against one placeholder mobile number and ₹6.97 crore paid across 3,903 claims involving 3,446 patients previously marked dead. These are audit anomalies, not an adjudicated theft total. The Health Ministry replied that mobile numbers do not determine eligibility, and delayed pre-authorisation and parent–child card use can explain some mortality and overlapping-treatment records. CAG rejected the generic back-dating explanation for its flagged earlier-death cases and called for investigation.",
+      "limitation": "Responsibility spans NHA, state health agencies and hospitals. Neither the audit nor the ministry's general explanation settles every disputed claim. No evidence inspected establishes a minister-directed conspiracy. Remediation needs claim-level verification.",
+      "sources": [
+        "inst-cag-pmjay-2023",
+        "inst-mohfw-pmjay-response"
+      ],
+      "entities": [
+        "National Health Authority",
+        "Ministry of Health and Family Welfare",
+        "State Health Agencies",
+        "Empanelled hospitals"
+      ],
+      "hypotheses": [
+        {
+          "question": "Did weak validation permit payment for services that were not delivered?",
+          "prediction": "A blinded sample would contain paid claims lacking contemporaneous admission, procedure and discharge evidence after legitimate delayed-entry and shared-card cases are excluded.",
+          "alternative": "Data-entry errors, emergency treatment and family-card rules generate apparently impossible records despite actual treatment.",
+          "falsifier": "Independent chart review reconciles the flagged dates, patient identities and services, with no excess unsupported claims over matched controls.",
+          "records": "De-identified claim ledger; timestamped authorisation and mortality logs; sampled hospital charts; recovery and de-empanelment orders; CAG action-taken notes."
+        }
+      ]
+    },
+    {
+      "id": "inst-pmkvy-monitoring",
+      "title": "PMKVY: reused training evidence and unreliable inspections",
+      "sector": "Welfare / skills",
+      "status": "documented",
+      "summary": "CAG Report 20 of 2025 documents weaknesses in the first three phases of the flagship skills programme.",
+      "finding": "In its RPL-BICE monitoring review, CAG found 45 inspection reports reusing photographs for different trainings and 80 instances of inspectors recorded at locations in different states on the same day. The ministry cited shared logins, upload problems and image mix-ups; it reported recovery requests for 24 batches and June 2025 changes introducing individual logins and real-time geotagged photographs. CAG found the old arrangements defeated independent monitoring.",
+      "limitation": "These findings concern tested records and identified processes, not every certificate or the entire programme expenditure. Reused evidence is a serious control failure; central political direction and personal enrichment have not been established by the inspected report.",
+      "sources": [
+        "inst-cag-pmkvy-2025"
+      ],
+      "entities": [
+        "Ministry of Skill Development and Entrepreneurship",
+        "National Skill Development Corporation",
+        "Sector Skill Councils",
+        "Training providers"
+      ],
+      "hypotheses": [
+        {
+          "question": "Did payment and certification incentives reward reported volume despite unverifiable training?",
+          "prediction": "Providers with suspect evidence would receive milestone payments while independent trainee confirmation or employment verification disproportionately fails.",
+          "alternative": "Real training occurred but shared credentials, weak archives and clerical uploads corrupted the monitoring trail.",
+          "falsifier": "Independent trainee and employer checks, original metadata and reconciled payment records substantiate the disputed batches.",
+          "records": "Batch-level payment and recovery ledgers; original geotagged images; individual inspector logs; consent-based trainee callbacks; employer confirmations; post-2025 re-audit."
+        }
+      ]
+    },
+    {
+      "id": "inst-pegasus-oversight",
+      "title": "Pegasus: surveillance allegations and the accountability gap",
+      "sector": "Surveillance / accountability",
+      "status": "allegation",
+      "summary": "The Supreme Court ordered an independent technical inquiry in October 2021; the identity and legal authority of any Indian operator remain unresolved in the inspected material.",
+      "finding": "The 2021 order found the Union's limited affidavit inadequate and held that national security did not eliminate judicial review. It established an expert committee. An April 2025 hearing report describes five of 29 examined devices with suspicious malware but no committee confirmation that it was Pegasus; petitioners were still seeking disclosure. This does not establish who deployed spyware.",
+      "limitation": "The full technical report was not inspected. The observer's case page was last updated July 2025; a final 2026 docket status was not verified. A target list, infection finding, operator attribution and unlawful targeting are separate evidentiary questions.",
+      "sources": [
+        "inst-sc-pegasus-2021",
+        "inst-sco-pegasus-2025",
+        "inst-sco-pegasus-status"
+      ],
+      "entities": [
+        "Union of India",
+        "Supreme Court of India",
+        "Court-appointed technical committee",
+        "NSO Group"
+      ],
+      "hypotheses": [
+        {
+          "question": "Was surveillance used beyond legally authorised security purposes?",
+          "prediction": "Independently authenticated infections would align with operator procurement, authorisations and audit logs showing non-security targeting or missing lawful approval.",
+          "alternative": "Foreign operators, lawful security investigations, unrelated malware or incorrect attribution could explain parts of the record.",
+          "falsifier": "Credible forensic re-analysis disproves infections, or independently supervised records establish a different operator and lawful scope for the specific cases.",
+          "records": "Redacted technical report; chain-of-custody forensic results; procurement and authorisation records released lawfully; independent oversight findings. Do not expose victims' device contents."
+        }
+      ]
+    },
+    {
+      "id": "inst-ed-bansal",
+      "title": "ED arrest safeguards: Pankaj Bansal judgment",
+      "sector": "Enforcement / judiciary",
+      "status": "documented",
+      "summary": "On 3 October 2023, the Supreme Court invalidated Pankaj and Basant Bansal's arrests and criticised ED's handling of the case.",
+      "finding": "The Court found the agency failed the required standards of fairness in this case and required written grounds of arrest to be supplied. It emphasised that a remand court must independently check PMLA Section 19 compliance; an unlawful arrest cannot be validated by routine remand.",
+      "limitation": "The decision concerns arrest legality and agency conduct in a particular case. It neither acquits every accused of underlying offences nor proves party-directed selective enforcement. A population study would need all comparable cases, including those against government supporters.",
+      "sources": [
+        "inst-sc-bansal-2023"
+      ],
+      "entities": [
+        "Directorate of Enforcement",
+        "Supreme Court of India",
+        "Pankaj Bansal",
+        "Basant Bansal",
+        "Remand courts"
+      ],
+      "hypotheses": [
+        {
+          "question": "Do institutional incentives encourage custody before a defensible arrest record is complete?",
+          "prediction": "A representative cohort would show repeated missing written grounds, weak remand scrutiny and reversals concentrated in identifiable offices or periods.",
+          "alternative": "A small number of officers made errors during evolving procedural interpretation rather than a coordinated campaign.",
+          "falsifier": "A complete, independently coded cohort shows durable compliance and no disproportionate pattern after controlling for offence and case stage.",
+          "records": "Public arrest-challenge judgments; written-ground service receipts where lawfully disclosed; remand orders; agency compliance circulars; disciplinary outcomes; complete case denominators."
+        }
+      ]
+    },
+    {
+      "id": "inst-newsclick-arrest",
+      "title": "NewsClick: UAPA arrest and remand held invalid",
+      "sector": "Police / press freedom",
+      "status": "documented",
+      "summary": "The Supreme Court's 15 May 2024 judgment invalidated Prabir Purkayastha's arrest and remand because required grounds were not provided in time.",
+      "finding": "The Court distinguished generic reasons from personal grounds of arrest, rejected subsequent remand as a cure, and ordered release subject to the trial court's bond conditions. It noted later insertions in the remand order while explicitly allowing that they might have been made without harmful intent. It declined to decide the underlying allegations.",
+      "limitation": "This concerns FIR 224/2023 and procedural rights, not an acquittal or a finding of fabricated foreign influence. The separate 2020 EOW/PMLA proceedings and FEMA adjudication require separate records. Political direction cannot be inferred from agency hierarchy alone.",
+      "sources": [
+        "inst-sc-purkayastha-2024"
+      ],
+      "entities": [
+        "Delhi Police Special Cell",
+        "Prabir Purkayastha",
+        "NewsClick",
+        "Supreme Court of India",
+        "Remand court"
+      ],
+      "hypotheses": [
+        {
+          "question": "Were procedural shortcuts used to obtain detention before effective legal challenge?",
+          "prediction": "Authenticated timestamps would show grounds and counsel access systematically following rather than preceding completed remand decisions in comparable cases.",
+          "alternative": "Hasty scheduling and recordkeeping failures explain the sequence without central coordination.",
+          "falsifier": "Independent timestamps establish timely meaningful disclosure and counsel access across the comparator cohort; no persistent post-judgment pattern remains.",
+          "records": "Arrest and service timestamps; counsel notification records; original remand record; compliance circulars; comparable UAPA arrest-challenge decisions, coded without partisan selection."
+        }
+      ]
+    },
+    {
+      "id": "inst-newsclick-predicate",
+      "title": "NewsClick: 2020 FIR and linked PMLA case quashed in 2026",
+      "sector": "Enforcement / foreign funding",
+      "status": "documented",
+      "summary": "The Delhi High Court's 29 May 2026 judgment quashed FIR 116/2020 and the linked ECIR/14/HIU/2020.",
+      "finding": "In paragraphs 124–132 the Court concluded that the allegations did not disclose the invoked offences; an agreement alone did not establish criminal conspiracy without an illegal objective or means. Without the predicate case, the connected PMLA proceedings could not survive. The judgment is distinct from the 2024 UAPA arrest ruling.",
+      "limitation": "LawChakra reported an ED appeal on 11 October 2026, citing Diary 63217/2026; its official docket and any stay were not inspected. Do not describe the litigation as finally closed or this ruling as disposing of UAPA or FEMA proceedings. Earlier party submissions in the judgment must not be mistaken for holdings.",
+      "sources": [
+        "inst-dhc-newsclick-2026",
+        "inst-newsclick-appeal-report"
+      ],
+      "entities": [
+        "Delhi Police Economic Offences Wing",
+        "Directorate of Enforcement",
+        "Delhi High Court",
+        "PPK NewsClick Studio Private Limited",
+        "Prabir Purkayastha"
+      ],
+      "hypotheses": [
+        {
+          "question": "Was the initial financial investigation sustained without a legally sufficient predicate offence?",
+          "prediction": "Contemporaneous case-review records would show continued coercive steps despite known deficiencies in the offence elements and no new supporting material.",
+          "alternative": "Investigators genuinely but incorrectly interpreted financial rules or expected evidence that did not materialise.",
+          "falsifier": "Appellate review identifies a legally sustainable predicate supported by contemporaneous evidence, or records demonstrate prompt correction when deficiencies became clear.",
+          "records": "Certified High Court judgment; official appeal docket and orders; initial complaint and referral; dated legal-review notes lawfully disclosed; coercive-action chronology."
+        }
+      ]
+    },
+    {
+      "id": "inst-demolition-process",
+      "title": "Punitive demolition: Supreme Court's nationwide safeguards",
+      "sector": "Police / local administration / judiciary",
+      "status": "documented",
+      "summary": "On 13 November 2024, the Supreme Court set nationwide safeguards against arbitrary demolition of homes and other structures.",
+      "finding": "The Court rejected executive punishment through demolition and discussed selective targeting as capable of supporting a rebuttable inference of improper motive. It required notice, hearing, reasoned orders, time for challenge, and documented demolition, with exceptions for specified public-place encroachments and court-ordered demolition. It warned of personal restitution liability for violations.",
+      "limitation": "The judgment supplies legal standards; it does not establish that every demolition is unlawful or centrally directed. Land-use enforcement is chiefly a state and local function, and each case needs its own law, notices and evidence. Later compliance has not been comprehensively measured.",
+      "sources": [
+        "inst-sc-demolition-2024"
+      ],
+      "entities": [
+        "Supreme Court of India",
+        "State governments",
+        "Municipal authorities",
+        "District magistrates",
+        "Police"
+      ],
+      "hypotheses": [
+        {
+          "question": "Are building rules applied selectively as extra-judicial punishment?",
+          "prediction": "Properties associated with recently accused people face unusually fast demolition while nearby matched violations persist, with weak notice or appeal access.",
+          "alternative": "Pre-existing enforcement schedules, distinct land categories or court orders explain the timing and different treatment.",
+          "falsifier": "Pre-dated notices, uniform comparable enforcement and valid exception records account for the observed actions.",
+          "records": "Municipal notice and demolition registers; court orders; land classifications; dated maps and imagery; matched nearby enforcement records; hearing minutes; restitution and contempt outcomes."
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "inst-cag-pmjay-2023",
+      "title": "CAG Report 11 of 2023: Performance Audit of AB-PMJAY",
+      "url": "https://d7i5wg8xwe4hf.cloudfront.net/uploads/download_audit_report/2023/Report-No.-11-of-2023_PA-on-PMJAY_English-PDF-A-064d22bab2b83b5.38721048.pdf",
+      "publisher": "Comptroller and Auditor General of India",
+      "date": "2023",
+      "access": "full-text",
+      "supports": "Beneficiary validation (para 3.6.5, printed p.19); mortality claim flags (para 5.8.2.8, printed pp.53–54); agency replies. Official report linked from CAG report page.",
+      "accessedAt": "2026-10-14"
+    },
+    {
+      "id": "inst-mohfw-pmjay-response",
+      "title": "Ministry response to media interpretations of PM-JAY audit",
+      "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=1949844&lang=2&reg=3",
+      "publisher": "Ministry of Health and Family Welfare / PIB",
+      "date": "2023-08-17",
+      "access": "full-text",
+      "supports": "Official explanations for delayed pre-authorisation, parent–child card use and non-mandatory mobile numbers. Agency response, not independent verification.",
+      "accessedAt": "2026-10-14"
+    },
+    {
+      "id": "inst-cag-pmkvy-2025",
+      "title": "CAG Report 20 of 2025: Skill Development under PMKVY",
+      "url": "https://d7i5wg8xwe4hf.cloudfront.net/uploads/download_audit_report/2025/Report-No.-20-of-2025_PA-PMKVY_English-PDF-A-06943abec463479.68516873.pdf",
+      "publisher": "Comptroller and Auditor General of India",
+      "date": "2025-12-18",
+      "access": "full-text",
+      "supports": "First three phases, 2015–22; paras 3.8.3.1–3.8.3.2, printed pp.58–61, reused photographs, multiple-state inspection records, ministry explanations and 2025 changes.",
+      "accessedAt": "2026-10-14"
+    },
+    {
+      "id": "inst-sc-pegasus-2021",
+      "title": "Manohar Lal Sharma v Union of India: technical committee order",
+      "url": "https://www.livelaw.in/pdf_upload/pegasus-order-supreme-court-403008.pdf",
+      "publisher": "Supreme Court of India (judgment reproduced by LiveLaw)",
+      "date": "2021-10-27",
+      "access": "full-text",
+      "supports": "Paras 45–55: inadequate limited affidavit, national-security scrutiny, independent technical inquiry. Does not decide operator attribution.",
+      "accessedAt": "2026-10-14"
+    },
+    {
+      "id": "inst-sco-pegasus-2025",
+      "title": "Pegasus hearing: petitioners seek disclosure of sealed report",
+      "url": "https://www.scobserver.in/reports/pegasus-spyware-probe-day-8-petitioners-demand-revelation-of-sealed-cover-report/",
+      "publisher": "Supreme Court Observer",
+      "date": "2025-04-29",
+      "access": "full-text",
+      "supports": "Reported hearing; committee did not confirm Pegasus in five malware-positive devices among 29 examined; disclosure contested. Secondary report, not access to sealed technical report.",
+      "accessedAt": "2026-10-14"
+    },
+    {
+      "id": "inst-sco-pegasus-status",
+      "title": "Pegasus Spyware Probe case overview",
+      "url": "https://www.scobserver.in/cases/manohar-lal-sharma-v-union-of-india-pegasus-spyware-probe-case-background/",
+      "publisher": "Supreme Court Observer",
+      "date": "2025-07-16",
+      "access": "full-text",
+      "supports": "Page last-updated July 2025 labels case pending; not a certified October 2026 docket check.",
+      "accessedAt": "2026-10-14"
+    },
+    {
+      "id": "inst-sc-bansal-2023",
+      "title": "Pankaj Bansal v Union of India, 2023 INSC 866",
+      "url": "https://api.sci.gov.in/supremecourt/2023/30275/30275_2023_16_1501_47281_Judgement_03-Oct-2023.pdf",
+      "publisher": "Supreme Court of India",
+      "date": "2023-10-03",
+      "access": "full-text",
+      "supports": "Arrest invalidation; written grounds; duty of remand court; case-specific criticism of ED conduct, especially para20 and concluding directions.",
+      "accessedAt": "2026-10-14"
+    },
+    {
+      "id": "inst-sc-purkayastha-2024",
+      "title": "Prabir Purkayastha v State (NCT of Delhi), 2024 INSC 414",
+      "url": "https://api.sci.gov.in/supremecourt/2023/42896/42896_2023_3_1503_53250_Judgement_15-May-2024.pdf",
+      "publisher": "Supreme Court of India",
+      "date": "2024-05-15",
+      "access": "full-text",
+      "supports": "Paras38–50: grounds of arrest, remand timing and invalidation; para39 allows non-malicious explanation for insertions; para44 reserves merits.",
+      "accessedAt": "2026-10-14"
+    },
+    {
+      "id": "inst-dhc-newsclick-2026",
+      "title": "PPK NewsClick Studio v State of NCT of Delhi, W.P.(CRL.)1130/2021 and connected petitions",
+      "url": "https://delhihighcourt.nic.in/app/showFileJudgment/NBK29052026CRLW11302021_190914.pdf",
+      "publisher": "Delhi High Court",
+      "date": "2026-05-29",
+      "access": "full-text",
+      "supports": "Paras124–132: absence of disclosed offence, insufficient conspiracy allegation, quashing of FIR116/2020 and ECIR14/HIU/2020. Read holdings separately from submissions.",
+      "accessedAt": "2026-10-14"
+    },
+    {
+      "id": "inst-newsclick-appeal-report",
+      "title": "ED challenges Delhi High Court NewsClick ruling",
+      "url": "https://lawchakra.in/supreme-court/newsclick-laundering-case/",
+      "publisher": "LawChakra",
+      "date": "2026-10-11",
+      "access": "full-text",
+      "supports": "Reports appeal Diary63217/2026, reportedly filed October10. Official appellate docket not inspected; no claim of appellate disposition.",
+      "accessedAt": "2026-10-14"
+    },
+    {
+      "id": "inst-sc-demolition-2024",
+      "title": "In Re: Directions in the Matter of Demolition of Structures, 2024 INSC 866",
+      "url": "https://api.sci.gov.in/supremecourt/2022/12239/12239_2022_2_1501_57147_Judgement_13-Nov-2024.pdf",
+      "publisher": "Supreme Court of India",
+      "date": "2024-11-13",
+      "access": "full-text",
+      "supports": "Paras82–94: rebuttable selective-enforcement inference, prohibition of collective punishment, procedural safeguards, exceptions and official liability.",
+      "accessedAt": "2026-10-14"
+    }
+  ]
+}

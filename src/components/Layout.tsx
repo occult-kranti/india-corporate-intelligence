@@ -36,6 +36,14 @@ import { EDGES } from '../graph/data';
 
 const navGroups: { label: string; items: { path: string; label: string; icon: typeof Map }[] }[] = [
   {
+    label: 'Investigate',
+    items: [
+      { path: '/investigations', label: 'Investigation network', icon: Network },
+      { path: '/leads', label: 'Unresolved leads', icon: Telescope },
+      { path: '/game-theory', label: 'Game theory lab', icon: Crosshair },
+    ],
+  },
+  {
     label: 'Markets',
     items: [
       { path: '/', label: 'Dashboard', icon: LayoutDashboard },

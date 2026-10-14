@@ -216,3 +216,18 @@ If you change any of these, change **all** the listed sites together.
 | Registered ≠ operational HQ | `companies.ts`, `market-cartographer` agent, `/map`, `/company/:id`, `/geograph` |
 | The two Ambani groups never merge | `conglomerates.ts` type shape, `promote.mjs` structural guard, `/conglomerates`, energy `RECONCILIATION.json` refused merges |
 | Index membership is an id join | `src/data/indices.ts`, `validate.mjs` §4, every page that shows membership |
+
+## October 2026 addition: investigation workspace
+
+| Path | Role |
+|---|---|
+| `src/pages/Investigations.tsx`, `/investigations` | Public subjects, dossiers and cited-source provenance map; filters, ledger and exports |
+| `src/pages/Leads.tsx`, `/leads` | Proposed tests, alternatives, falsifiers and local saved questions |
+| `src/pages/GameTheory.tsx`, `/game-theory` | Assumed incentives and case-linked evidence worksheets |
+| `src/components/investigations/*`, `src/investigations.css` | New workspace rendering; no changes to canonical corporate identity resolution |
+| `src/data/investigations.ts`, `research/investigations/*.json` | 21 selected dossiers and 42 source records; inspected access depth and limitations |
+| `src/data/strategicModels.ts` | Pure hypothetical utility model and generic institutional roles |
+| `scripts/validate-investigations.mjs`, `scripts/game-theory.test.mjs`, `scripts/pages/investigations.test.mjs` | Provenance/schema, arithmetic and browser interaction gates |
+| `docs/research/INVESTIGATION_PROTOCOL.md`, `INVESTIGATION_REVIEW.md`, `GAME_THEORY.md` | Research performed, future acquisitions, skeptical review and model limits |
+| `docs/design/INVESTIGATIONS.md` | New surface design and accessibility approach |
+| `public/fonts/*` | Self-hosted OFL fonts and licenses |

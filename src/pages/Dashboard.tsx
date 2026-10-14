@@ -57,6 +57,17 @@ export default function Dashboard() {
         </Byline>
       </header>
 
+      <section className="my-6 border border-accent/30 bg-accent/5 p-5" aria-label="New investigation workspace">
+        <p className="font-mono text-[11px] uppercase tracking-wider text-accent">Investigation workspace · October 2026</p>
+        <h2 className="font-serif text-2xl mt-2">Follow a claim from incentive to evidence.</h2>
+        <p className="text-sm text-text-secondary mt-2 max-w-3xl">Explore public funding, political finance, energy, procurement and institutional accountability. Open a dossier, inspect its counterevidence, and identify the record that could resolve it.</p>
+        <div className="flex flex-wrap gap-4 mt-4 text-sm">
+          <Link to="/investigations" className="text-accent underline underline-offset-4">Open investigation network →</Link>
+          <Link to="/leads" className="underline underline-offset-4">Unresolved leads</Link>
+          <Link to="/game-theory" className="underline underline-offset-4">Game theory lab</Link>
+        </div>
+      </section>
+
       <StatGrid
         items={[
           { value: fmtCr(totalMcap), label: `recorded listed market cap${unpriced ? ` · ${unpriced} companies unpriced, so this is a floor` : ''}` },

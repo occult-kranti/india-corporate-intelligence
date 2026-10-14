@@ -51,6 +51,9 @@ jobs:
       - name: Data integrity
         run: npm run validate
 
+      - name: Game theory model checks
+        run: npm run test:game-theory
+
       - name: Typecheck and build
         run: npm run build
 
@@ -67,6 +70,9 @@ jobs:
       # graph is unusable.
       - name: Graph viewport gate
         run: npm run viewport
+
+      - name: Investigation interaction checks
+        run: npm run test:investigations
 
       # Publishing by pushing the build to `gh-pages`, rather than via the
       # actions/deploy-pages artifact flow, because Pages on this repository is

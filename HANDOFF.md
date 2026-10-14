@@ -169,10 +169,11 @@ what is worth doing next:
 
 1. **Full award population.** Every coal and mining award 2019–24 against every
    donor, with a date-shuffled control holding donation volume fixed. This is the
-   one piece of work that unblocks the motif engine, settles the quid-pro-quo
-   question in *both* directions, and is computable from public data today. Nobody
-   has published it. The fleets confirm the gap: **per-block bidder counts are not
-   published**; the Ministry publishes only single-bid allocations.
+   work needed to test the motif engine against an adequate reference class.
+   An association alone cannot settle quid pro quo. The earlier novelty claim
+   ('Nobody has published it') was not established by an exhaustive literature review.
+   The prior fleet did not retrieve a complete per-block bidder-count population;
+   that is an acquisition gap, not proof that no such records exist.
 2. **Coal India and mining-PSU CSR destinations 2019–24.** Still open. The fleet
    found no itemised destination list: the MoC annual report's PSU chapter is an
    image-only PDF and CIL's CSR table renders client-side. The annexures are the
@@ -181,8 +182,10 @@ what is worth doing next:
    in the fleet's `voids` array:
    - ICIJ Offshore Leaks entries for Vinod Adani — the database returned nothing
      readable through the proxy.
-   - PM CARES after FY2022-23 — no audited statement for FY2023-24 or FY2024-25 as
-     at 25 Sep 2026, and no CAG audit exists.
+   - PM CARES correction (14 Oct 2026): the official About index now lists audited
+     accounts through FY2024-25, and that PDF has been visually inspected. The
+     earlier assertion of no later statements is superseded. Reconcile the newer
+     scanned accounts into the historical numerical ledger before updating totals.
    - Bank-wise DBT share, float and fee income — the largest intermediary in the
      DBT flow, with no split published for SBI, Bank of Baroda or the RRBs.
    - Lokniti-CSDS cross-tabs by beneficiary status — booth- or constituency-level
@@ -298,3 +301,41 @@ of those they concern. No node adjudicates a quid pro quo.
 The **documented void** — the largest beneficiaries in the case-study graph carrying
 no traceable political donations at all — is rendered as loudly as any flow. A graph
 that can only show what exists systematically overstates the case. Keep it that way.
+
+## Investigation workspace release — 14 October 2026
+
+New routes `/investigations`, `/leads`, `/game-theory` provide a public-source research desk.
+The reviewed corpus contains 21 dossiers, 42 source records and 21 explicit hypotheses.
+It is a selected case collection, not a full administrative census or a list of proven conspiracies.
+
+Read `docs/research/INVESTIGATION_PROTOCOL.md` for performed work, acquisition gaps,
+agent contract and prioritized continuation. Read `docs/research/INVESTIGATION_REVIEW.md`
+for the independent AI review sample and unresolved limitations. The data live in
+`research/investigations/{funding,procurement,institutions}.json`; the UI imports them
+through `src/data/investigations.ts`. The validator checks provenance references,
+required alternatives/falsifiers, access-depth labels and stable identifiers.
+
+The new graph depicts subjects → dossiers → sources. Subject tags are references in
+case records, not identity-resolved new financial or command edges in the national graph.
+Browser-local saved leads and worksheets are personal working state, exported explicitly;
+there is no backend crawler, account sync or unattended monitoring.
+
+Corrections are substantive: PM CARES FY2024–25 accounts are available, and the old ledger
+is now explicitly historical. SEC release26554 supports proposed consent judgments,
+not verified approval/payment; the old Atlas edge is retained with a new superseding
+correction. Criminal proceedings remain defendant- and count-specific. The FY2024–25 PM CARES
+statement and comparative FY2023–24 column are now transcribed in exact rupees: 34 amount
+cells match the independent AI transcription, all cash reconciliations pass, and null dashes
+are preserved. Referenced audit notes and the separate opinion, project-delivery records,
+full donor/tender joins and complete current dockets remain acquisition work.
+
+The existing font families are now served locally with their SIL OFL licenses; no Google
+Fonts request is needed. New regression tests cover filter/deep-link behavior, exports,
+saved leads, model arithmetic, worksheet persistence and mobile page overflow. Existing
+build/graph gates remain in place.
+
+Release verification: the full `check` completed with 30 assembler/merge tests, 8 model tests,
+49 route smoke variants, graph viewport checks and 142/157 page acceptance tests passing
+(15 documented welfare skips). After the numerical extension, the build, source/account
+validators and all 6 investigation/PM CARES browser tests passed. The remaining 500 kB chunk
+warning and unconfirmed fiftieth SENSEX50 member predate this update.

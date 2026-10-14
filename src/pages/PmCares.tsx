@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
+import PmCaresAccounts from '../components/PmCaresAccounts';
 import {
   Kicker, PageTitle, Standfirst, Byline, Section, Callout, StatGrid, DataTable,
   Prose, Footnote,
@@ -14,18 +15,7 @@ import {
 const cr = (v: number | undefined | null) =>
   v == null ? '—' : `₹${v.toLocaleString('en-IN', { maximumFractionDigits: 2 })} cr`;
 
-/**
- * PM CARES — a fund.
- *
- * The centre is a flow ledger with financial years as columns and the unpublished
- * years drawn as holes rather than omitted. But the page does not open with it,
- * because the investigation's own headline is that a CONTROL governs everything
- * said here: the 1948 PMNRF, administered from the same office, is identical on the
- * two properties most often presented as PM CARES-specific.
- *
- * An unusual property that a comparable institution also has is a fact about the
- * category, not about the institution. So the control leads.
- */
+/** Current signed statement first; dated historical research retained below. */
 export default function PmCares() {
   const cov = useMemo(() => coverage(), []);
   const completeness = useMemo(() => statementCompleteness(), []);
@@ -59,24 +49,33 @@ export default function PmCares() {
 
   return (
     <div className="max-w-[1180px]">
-      <Kicker>PM CARES · a fund</Kicker>
-      <PageTitle>What the record establishes, and what a control does to it</PageTitle>
+      <Kicker>PM CARES · financial record</Kicker>
+      <PageTitle>Published accounts and the questions that remain</PageTitle>
       <Standfirst>
-        Two claims are made about this fund more often than any others: that it was created to
-        escape the Right to Information Act, and that its accounts have gone dark. Both were
-        tested against the only proper comparator — the 1948 Prime Minister's National Relief
-        Fund, run from the same office — and neither survived. What does survive is narrower,
-        better sourced, and largely unreported.
+        Compare the fund’s disclosures with the records needed to trace contributions and
+        delivery. The latest statement and its comparative year are transcribed and reconciled below;
+        the earlier research is retained in a separately dated historical section.
       </Standfirst>
+      <Callout label="Record correction · 14 October 2026" tone="warn">
+        The official website now lists audited Receipt and Payment Accounts through FY2024–25.
+        The earlier claim that publication stopped at FY2022–23 is superseded.{' '}
+        <a href="https://pmcares.gov.in/en/web/page/about_us" target="_blank" rel="noreferrer" className="underline">Current official index</a>
+        {' · '}<a href="https://pmcares.gov.in/assets/donation/pdf/Audited_Statement_2024_25.pdf" target="_blank" rel="noreferrer" className="underline">FY2024–25 statement</a>
+        {' · '}<Link to="/investigations?q=PM%20CARES" className="underline">Updated investigation dossiers</Link>.
+        {' '}The historical section’s counts, gaps and comparator conclusions belong to the archived {PM_AS_OF} extraction.
+        Shared practices with PMNRF alone do not
+        establish whether either fund’s transparency is adequate.
+      </Callout>
+      <PmCaresAccounts />
       <Byline>
-        {cov.published} of {cov.elapsed} elapsed financial years published · as of {PM_AS_OF}
+        Historical extraction: {cov.published} of {cov.elapsed} recorded financial years · {PM_AS_OF}
       </Byline>
 
       <div className="mt-6">
         <DenominatorStrip
           asOf={PM_AS_OF}
           facts={[
-            { n: cov.published, of: cov.elapsed, label: 'financial years published' },
+            { n: cov.published, of: cov.elapsed, label: 'years in archived extraction' },
             { n: completeness.withAuditorsReport, of: cov.published, label: 'with an auditor’s report' },
             { n: Number(agg.namedDisbursementHeadsAcrossFourYears ?? 0), label: 'named payment heads' },
             { n: Number(agg.recipientNamesPublished ?? 0), label: 'recipients named' },
@@ -84,7 +83,7 @@ export default function PmCares() {
         />
       </div>
 
-      <Section title="The control governs this page" note="Run first, because it decides what the rest of the evidence can mean">
+      <Section title="Historical comparator: PMNRF" note={`Earlier analysis · ${PM_AS_OF} · shared practices do not establish adequate transparency`}>
         <Callout label={`Comparator: ${PM_CONTROL.comparator}`} tone="bottomline">
           {PMCARES.headline}
         </Callout>
@@ -136,9 +135,8 @@ export default function PmCares() {
         </div>
         <p className="text-[13px] text-text-muted mt-3 max-w-[74ch] leading-relaxed">
           Identical on {identical} of {PM_CONTROL.resultsIdentical.length} properties tested. A
-          property shared with the comparator cannot be evidence about PM CARES specifically — it
-          is evidence about how relief funds administered from the Prime Minister's Office are
-          run, which is a different and much older question.
+          shared property weakens a claim that the practice is unique to PM CARES. It does not
+          resolve whether the practice impedes accountability in either fund.
         </p>
       </Section>
 
@@ -209,8 +207,8 @@ export default function PmCares() {
       </Section>
 
       <Section
-        title="The ledger, with the holes drawn"
-        note="Unpublished years are rendered, not omitted — the gap in the series is the most informative thing in it"
+        title="Historical ledger · extraction through FY2022–23"
+        note="Unfilled rows are gaps in this extraction. The current official index includes FY2023–24 and FY2024–25."
       >
         <div className="space-y-2">
           {PM_FINANCIALS.map((f) => {
@@ -261,7 +259,7 @@ export default function PmCares() {
                         as blank space reads as a year with no money, which is a false
                         statement — this reads as a year with no statement. */}
                     <span className="flex-1 max-w-[300px] h-4 rounded-sm border border-dashed border-amber/50" />
-                    <span className="font-mono text-[11.5px] text-amber">not published</span>
+                    <span className="font-mono text-[11.5px] text-amber">not in this extraction</span>
                     {f.daysOverdue != null && (
                       <span className="font-mono text-[10.5px] text-text-muted ml-auto">
                         {f.daysOverdue} days past the comparable prior-year publication
@@ -280,7 +278,7 @@ export default function PmCares() {
             { value: cr(Number(agg.totalPaymentsCr)), label: 'payments over the same period' },
             {
               value: cr(Number(agg.closingBalanceAt31Mar2023Cr)),
-              label: 'closing balance at 31 Mar 2023 — the last published figure',
+              label: 'closing balance at 31 Mar 2023 — historical extracted figure',
               tone: 'accent',
             },
             {
@@ -291,13 +289,13 @@ export default function PmCares() {
           ]}
         />
 
-        <Callout label="Published is not the same as readable" tone="warn">
-          Every one of the {completeness.years} published years is a single-page Receipts and
+        <Callout label="Completeness of the historical extraction" tone="warn">
+          The {completeness.years} years examined in the archived extraction contain Receipts and
           Payments Account. Each references accompanying notes — and{' '}
           <strong className="text-text">
             none of the {completeness.years} publishes them
           </strong>
-          . No auditor's report and no balance sheet has been published for any year. Across all
+          . The archived extraction did not include a separate auditor’s report or balance sheet. Across these
           four statements there are {String(agg.namedDisbursementHeadsAcrossFourYears)} named
           payment heads, {String(agg.recipientNamesPublished)} named recipients and{' '}
           {String(agg.transactionDatesPublished)} transaction dates. The same is true of the
