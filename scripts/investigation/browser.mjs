@@ -124,6 +124,12 @@ try {
         await page.goto(`${base}/#${route}`);
         const article = page.locator(research.marker);
         await article.waitFor({ timeout: 45000 });
+        // A hash navigation can resolve while the prior lazy route still owns
+        // this shared article class. Wait for this route's actual content, not
+        // merely a marker that its predecessor also uses.
+        await page.waitForFunction(({ marker, heading }) =>
+          document.querySelector(`${marker} h1`)?.textContent?.replace(/\s+/gu, ' ').trim() === heading,
+        research, { timeout: 45000 });
         check(await article.count() === 1, `${route}: one independent research surface`);
         check(await page.locator('[data-investigation-workspace]').count() === 0, `${route}: research page retains its own workflow`);
         const heading = (await article.getByRole('heading', { level: 1 }).textContent()).replace(/\s+/gu, ' ').trim();
