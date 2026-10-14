@@ -24,7 +24,9 @@ export const TIER_LINE = 'tier: reported (dataset-only; portal agreement unknown
  */
 export const FINDINGS = 'text-[15px] leading-relaxed font-normal text-text-secondary';
 
-export const MONO_NOTE = 'font-mono text-[11px] text-text-muted leading-relaxed';
+// Source URLs, timestamps and file identifiers are meaningful unbroken values,
+// but their visual line wrapping must not widen a narrow dossier reading surface.
+export const MONO_NOTE = 'font-mono text-[11px] text-text-muted leading-relaxed [overflow-wrap:anywhere]';
 
 /** Counts: en-IN grouping, the page's number convention. */
 export const fmt = (n: number) => n.toLocaleString('en-IN');

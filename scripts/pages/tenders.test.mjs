@@ -796,10 +796,13 @@ ac('AC-07 — Quality comes before any rate, in DOM order', () => withPage('D', 
   await openNational(page);
   const r = await page.evaluate(() => {
     const sec = __t.sec(); const caveat = document.getElementById('cppp-caveat');
-    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+    // The full tender article is the route under review. Atlas context records
+    // outside this dossier have their own provenance and are not CPPP rates.
+    const route = sec.closest('article');
+    const walker = document.createTreeWalker(route, NodeFilter.SHOW_TEXT);
     let pct = null; let n;
     while ((n = walker.nextNode())) { if (n.nodeValue.includes('%')) { pct = n.parentElement; break; } }
-    const firstH3 = document.querySelector('h3'); const firstTable = document.querySelector('table');
+    const firstH3 = route.querySelector('h3'); const firstTable = route.querySelector('table');
     // Decorative link icons are not quantitative charts. The data chart still
     // has to follow the quality section and retain its accessible image role.
     const q = document.getElementById('cppp-quality'); const rt = document.getElementById('cppp-rates'); const svg = sec.querySelector('svg[role="img"]');
@@ -815,7 +818,7 @@ ac('AC-07 — Quality comes before any rate, in DOM order', () => withPage('D', 
   assert.ok(r.h3InSec, `the first h3 ("${r.h3}") is not inside SEC`);
   // The §3.0 head has no table; the first h3 belongs to it, so it precedes #cppp-quality.
   assert.ok(r.h3BeforeQuality, `the first h3 ("${r.h3}") does not precede #cppp-quality`);
-  assert.ok(r.firstTableIsQuality, 'the first table in the document is not [data-twin="quality"]');
+  assert.ok(r.firstTableIsQuality, 'the first table in the tender dossier is not [data-twin="quality"]');
   assert.ok(r.qBeforeRates, '#cppp-quality does not precede #cppp-rates');
   assert.ok(r.ratesBeforeSvg, '#cppp-rates does not precede the first data chart in SEC');
 }));
@@ -2351,6 +2354,10 @@ ac('AC-72 — Provenance footer matches provenance.json', () => withPage('D', as
 
 ac('AC-73 — The head link moves focus to the section heading', () => withPage('D', async (page) => {
   await load(page, ROUTE, { section: false });
+  // Start at the existing focusable dossier entry, then traverse by real Tab.
+  // Counting atlas rail/map controls before the route made an old 80-step limit
+  // fail even though the head link was keyboard reachable (at global Tab 93).
+  await page.locator('.iw-dossier-content').focus();
   let found = false;
   for (let i = 0; i < 80 && !found; i += 1) {
     await page.keyboard.press('Tab');
@@ -2650,8 +2657,9 @@ ac('AC-85 — Innocent readings, the gaps panel and the captions are full size o
     const cap = __t.deepest(document.getElementById('cppp-rates') ?? sec, c1); const cap2 = __t.deepest(document.getElementById('cppp-rates') ?? sec, c2);
     for (const c of [cap, cap2]) if (c) els.push(c);
     const bad = els.filter((el) => !__t.visible(el) || parseFloat(getComputedStyle(el).fontSize) < 14 || el.closest('details')).map((el) => `${el.tagName} "${el.textContent.trim().slice(0, 40)}" ${getComputedStyle(el).fontSize}`);
-    const jumpLinks = [...sec.querySelectorAll('a[href*="#cppp-"]')].filter((a) => !a.closest('[data-twin], [data-gap], caption'));
-    const jump = jumpLinks[0]?.closest('nav, ul, ol, div') ?? null;
+    // The verification sentence also links to a subsection. Inspect the actual
+    // named jump navigation, not that sentence's enclosing body div.
+    const jump = sec.querySelector('nav[aria-label="In this section"]');
     return { count: els.length, cap: !!cap && !!cap2, bad, jump: jump ? { sw: jump.scrollWidth, cw: jump.clientWidth } : null };
   }, [RATES_CAPTION_1, RATES_CAPTION_2]);
   assert.ok(r.count, 'no [data-innocent] or [data-gap] in SEC');
