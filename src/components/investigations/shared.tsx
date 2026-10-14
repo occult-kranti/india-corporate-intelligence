@@ -40,6 +40,7 @@ export function InvestigationNav({ active }: { active: 'network' | 'leads' }) {
     <Link className={active === 'network' ? 'is-active' : ''} to="/investigations" aria-current={active === 'network' ? 'page' : undefined}>Investigation network</Link>
     <Link className={active === 'leads' ? 'is-active' : ''} to="/leads" aria-current={active === 'leads' ? 'page' : undefined}>Unresolved leads</Link>
     <Link to="/game-theory">Game theory lab <ArrowUpRight size={14} aria-hidden="true" /></Link>
+    <Link to="/research-program">Research program <ArrowUpRight size={14} aria-hidden="true" /></Link>
   </nav>;
 }
 

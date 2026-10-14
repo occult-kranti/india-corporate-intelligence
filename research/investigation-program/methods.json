@@ -1,0 +1,437 @@
+{
+  "schemaVersion": 1,
+  "sources": [
+    {
+      "id": "method-unesco-sbi",
+      "title": "Story-Based Inquiry: A Manual for Investigative Journalists, second edition",
+      "url": "https://www.storybasedinquiry.com/manual2",
+      "publisher": "UNESCO / Mark Lee Hunter and contributors",
+      "accessedAt": "2026-10-14",
+      "sourceType": "manual",
+      "accessDepth": "full-text",
+      "supports": "Provisional hypotheses, event chronology and source-linked editorial checking.",
+      "limitations": "Actual 188-page PDF obtained from author-linked public download. Read selected chapter 2, 3 and 8 passages, not the whole book. PDF frontmatter says 2026; author landing page says 2025.",
+      "sourceFamily": "unesco-storybasedinquiry"
+    },
+    {
+      "id": "method-berkeley",
+      "title": "Berkeley Protocol on Digital Open Source Investigations",
+      "url": "https://humanrights.berkeley.edu/wp-content/uploads/archive/2024/02/Berkeley-Protocol.pdf",
+      "publisher": "OHCHR / UC Berkeley Human Rights Center",
+      "accessedAt": "2026-10-14",
+      "sourceType": "manual",
+      "accessDepth": "full-text",
+      "supports": "Preservation and verification of source, digital item and content; independent corroboration.",
+      "limitations": "Read selected preservation, verification, analysis and bias paragraphs, especially 161–200. Human-rights protocol; its procedural safeguards do not establish any allegation here.",
+      "sourceFamily": "ohchr-berkeley"
+    },
+    {
+      "id": "method-whatif",
+      "title": "Causal Inference: What If — January 2025 revision",
+      "url": "https://miguelhernan.org/s/hernanrobins_WhatIf_2jan25.pdf",
+      "publisher": "Miguel A. Hernán / James M. Robins, author-hosted book",
+      "accessedAt": "2026-10-14",
+      "sourceType": "scholarly-book",
+      "accessDepth": "full-text",
+      "supports": "Distinguishing confounding from selection bias; conditions for identifying causal effects.",
+      "limitations": "Read selected chapters 7 and 8 in the full author PDF. No causal effect estimated for this project. Book examples are mainly epidemiological.",
+      "sourceFamily": "hernan-robins"
+    },
+    {
+      "id": "method-gijn",
+      "title": "A Guide to Fact-Checking Investigative Stories",
+      "url": "https://gijn.org/resource/guide-to-fact-checking-investigative-stories/",
+      "publisher": "GIJN / Nils Hanson",
+      "accessedAt": "2026-10-14",
+      "sourceType": "professional-guide",
+      "accessDepth": "full-text",
+      "supports": "Line-by-line checking, contrary evidence and attention to the narrative frame.",
+      "limitations": "Professional practice guidance, not a controlled validation study. Published responses can be checked; contacting subjects requires authorization.",
+      "sourceFamily": "gijn-hanson",
+      "publishedAt": "2021-11-03"
+    },
+    {
+      "id": "method-opensanctions-pairs",
+      "title": "OpenSanctions Pairs: Large-Scale Entity Matching with LLMs",
+      "url": "https://arxiv.org/html/2603.11051v1",
+      "publisher": "Smith, Sesodia, Lindenberg and Schroeder de Witt / arXiv",
+      "accessedAt": "2026-10-14",
+      "sourceType": "preprint",
+      "accessDepth": "full-text",
+      "supports": "Pairwise entity matching evaluation and errors involving identifiers, scripts and incomplete records.",
+      "limitations": "Read dataset, matching, evaluation and limitation sections. Candidate pairs are selected by blocking; labels reflect analyst decisions. Pairwise results do not validate entire graphs or Indian registries.",
+      "sourceFamily": "opensanctions-pairs-research"
+    },
+    {
+      "id": "method-reflect",
+      "title": "Time to Reflect: Can We Trust LLM Judges for Evidence-based Research Agents?",
+      "url": "https://arxiv.org/html/2605.19196v1",
+      "publisher": "Wang and coauthors / arXiv",
+      "accessedAt": "2026-10-14",
+      "sourceType": "preprint",
+      "accessDepth": "full-text",
+      "supports": "Testing evaluators with controlled errors in research trajectories and evidence use.",
+      "limitations": "Read task construction, judge setup and limitations. Synthetic perturbations do not cover all naturally occurring failures; no local benchmark reproduced.",
+      "sourceFamily": "reflect-research",
+      "publishedAt": "2026-05-18"
+    },
+    {
+      "id": "method-agent-reliability",
+      "title": "Towards a Science of AI Agent Reliability, version 3",
+      "url": "https://arxiv.org/html/2602.16666v3",
+      "publisher": "Rabanser and coauthors / arXiv",
+      "accessedAt": "2026-10-14",
+      "sourceType": "preprint",
+      "accessDepth": "full-text",
+      "supports": "Reliability dimensions beyond average task success: consistency, robustness, predictability and failure severity.",
+      "limitations": "Read abstract, framework and evaluation overview, not every appendix. Results concern the studied tasks and models; they do not establish reliability for this investigation.",
+      "sourceFamily": "agent-reliability-research",
+      "publishedAt": "2026-06-02"
+    },
+    {
+      "id": "method-conspiracy-psychology",
+      "title": "The Psychology of Conspiracy Theories",
+      "url": "https://kar.kent.ac.uk/61995/1/Douglas%20Sutton%20Cichocka%202017.pdf",
+      "publisher": "Douglas, Sutton and Cichocka / Current Directions in Psychological Science",
+      "accessedAt": "2026-10-14",
+      "sourceType": "peer-reviewed-review",
+      "accessDepth": "full-text",
+      "supports": "Review of epistemic, existential and social motives relevant to investigator self-scrutiny.",
+      "limitations": "Read the article text in the author repository PDF. Population-level research cannot diagnose individuals or decide whether a particular allegation is true.",
+      "sourceFamily": "douglas-sutton-cichocka"
+    },
+    {
+      "id": "method-icij-faq",
+      "title": "Offshore Leaks Database: Frequently Asked Questions",
+      "url": "https://offshoreleaks.icij.org/pages/faq",
+      "publisher": "International Consortium of Investigative Journalists",
+      "accessedAt": "2026-10-14",
+      "sourceType": "dataset-documentation",
+      "accessDepth": "full-text",
+      "supports": "Dataset-specific coverage, transformations, duplicate identities and derived similar-name/address links.",
+      "limitations": "Read FAQ sections on coverage, transformations and interpretation. Database presence is not evidence of an offence; records are historical and incomplete.",
+      "sourceFamily": "icij-offshoreleaks"
+    },
+    {
+      "id": "method-bods",
+      "title": "Beneficial Ownership Data Standard 0.4: Key Concepts",
+      "url": "https://standard.openownership.org/en/latest/primer/concepts.html",
+      "publisher": "Open Ownership / Open Data Services",
+      "accessedAt": "2026-10-14",
+      "sourceType": "standard",
+      "accessDepth": "full-text",
+      "supports": "Separating source assertions from real-world facts and keeping dated, append-only ownership statements.",
+      "limitations": "Read concepts page, not complete schema or jurisdictional ownership law. A conforming record can still contain an inaccurate declaration.",
+      "sourceFamily": "openownership-bods"
+    },
+    {
+      "id": "method-os-statements",
+      "title": "OpenSanctions: Statement Data Model",
+      "url": "https://www.opensanctions.org/docs/statements/",
+      "publisher": "OpenSanctions",
+      "accessedAt": "2026-10-14",
+      "sourceType": "technical-documentation",
+      "accessDepth": "full-text",
+      "supports": "Field-level source lineage and separate source and canonical identifiers.",
+      "limitations": "Read full page. First/last observed dates are pipeline observations; they need not be the dates a relationship legally began or ended. Licensing must be checked before reuse.",
+      "sourceFamily": "opensanctions-documentation"
+    },
+    {
+      "id": "method-os-identifiers",
+      "title": "OpenSanctions: Identifiers and Deduplication",
+      "url": "https://www.opensanctions.org/docs/identifiers/",
+      "publisher": "OpenSanctions",
+      "accessedAt": "2026-10-14",
+      "sourceType": "technical-documentation",
+      "accessDepth": "full-text",
+      "supports": "Canonical ID changes, merge/split history and limits of consolidated profiles.",
+      "limitations": "Read full page. Vendor documentation describes its system, not validated accuracy for a local importer; software openness and dataset permissions differ.",
+      "sourceFamily": "opensanctions-documentation"
+    },
+    {
+      "id": "method-process-tracing",
+      "title": "Process Tracing: From Metaphor to Analytic Tool, chapter 1",
+      "url": "https://www.cambridge.org/core/books/process-tracing/process-tracing/A2843D39550F9A39377768A88D266A82",
+      "publisher": "Andrew Bennett / Jeffrey T. Checkel, Cambridge University Press",
+      "accessedAt": "2026-10-14",
+      "sourceType": "scholarly-book-chapter",
+      "accessDepth": "index-only",
+      "supports": "Publisher summary identifies competing causal mechanisms as the book chapter’s concern.",
+      "limitations": "Publisher summary and bibliographic record read only. SFU working-paper link denied access and another author chapter timed out; no claim to have read those chapters.",
+      "sourceFamily": "bennett-checkel",
+      "publishedAt": "2014-11-05"
+    },
+    {
+      "id": "method-conspiracy-epistemology",
+      "title": "Suspicious conspiracy theories",
+      "url": "https://link.springer.com/article/10.1007/s11229-022-03602-4",
+      "publisher": "M R. X. Dentith / Synthese",
+      "publishedAt": "2022-05-31",
+      "accessedAt": "2026-10-14",
+      "sourceType": "peer-reviewed-philosophy",
+      "accessDepth": "full-text",
+      "supports": "Distinguishing reasons to prioritize investigation from evidence that establishes or refutes a particular theory.",
+      "limitations": "Publisher full text opened; introduction and sections 6–8 inspected. A philosophical argument in an active debate, not an empirical accuracy benchmark or endorsement of a current allegation.",
+      "sourceFamily": "dentith-epistemology"
+    }
+  ],
+  "methods": [
+    {
+      "id": "opposing-hypotheses",
+      "title": "Opposing hypotheses and discriminating observations",
+      "category": "Research design",
+      "purpose": "Turn a suspicion into a question that can lose against an ordinary or alternative explanation.",
+      "steps": [
+        "Define actor, action, relevant period, alleged mechanism and the exact observation requiring explanation.",
+        "Before broad searching, write at least one plausible lawful explanation, a competing misconduct mechanism and an error or missing-record explanation.",
+        "For each hypothesis specify an observable consequence, a contrary observation, and whether a public record should exist and be discoverable.",
+        "Record what evidence changed the assessment. Preserve rejected hypotheses; do not explain away every contrary fact as concealment."
+      ],
+      "failureModes": [
+        "Vague allegations that cannot fail",
+        "Treating missing evidence as confirmation without a discoverability argument",
+        "Using psychology to dismiss a specific documented claim"
+      ],
+      "requiredOutputs": [
+        "Question and scope",
+        "Hypothesis-by-observation matrix",
+        "Revision and rejected-lead log"
+      ],
+      "sourceIds": [
+        "method-unesco-sbi",
+        "method-conspiracy-psychology",
+        "method-conspiracy-epistemology"
+      ],
+      "status": "established",
+      "benchmarkLimits": "Procedural safeguard; this project has not benchmarked its effect on investigative accuracy."
+    },
+    {
+      "id": "provenance-authentication",
+      "title": "Source, item and content verification",
+      "category": "Evidence handling",
+      "purpose": "Keep exactly what was acquired separate from what the investigator inferred.",
+      "steps": [
+        "Log requested and final URL, publisher, retrieval time, response status and actual access depth; treat an index as an index.",
+        "Where permitted, preserve acquired bytes with SHA-256, MIME type and version; keep extraction/OCR as separate derivatives with tool versions.",
+        "Inspect the cited passage or table in context, including page numbering, units, footnotes and scope.",
+        "Assign a source family to dependent reproductions. Multiple copies of the same filing count as one evidentiary origin.",
+        "Describe authenticity, factual accuracy and completeness separately; official publication does not automatically settle all three."
+      ],
+      "failureModes": [
+        "Calling snippets full text",
+        "Hashing a derivative while claiming it is the original",
+        "Citation laundering through copied articles"
+      ],
+      "requiredOutputs": [
+        "Acquisition manifest",
+        "Claim-to-page ledger",
+        "Source-family map",
+        "Transformation log"
+      ],
+      "sourceIds": [
+        "method-berkeley"
+      ],
+      "status": "established",
+      "benchmarkLimits": "Procedural safeguard; this project has not benchmarked its effect on investigative accuracy."
+    },
+    {
+      "id": "entity-resolution",
+      "title": "Reversible entity resolution",
+      "category": "Graph construction",
+      "purpose": "Prevent same-name records and changing corporate roles from creating false bridges.",
+      "steps": [
+        "Retain raw names, source IDs, jurisdiction and valid time before normalization or transliteration.",
+        "Generate candidate matches, then adjudicate using identifiers and corroborating attributes; keep contradictions and an unresolved option.",
+        "Review the entire proposed cluster, including incompatible identifiers and simultaneous roles, before merging.",
+        "Version every merge and split. Test held-out names, scripts, source families and periods rather than reusing all training examples."
+      ],
+      "failureModes": [
+        "Name-only or shared-address joins",
+        "Treating a score as an identity fact",
+        "Pairwise matches creating an inconsistent cluster"
+      ],
+      "requiredOutputs": [
+        "Candidate match ledger",
+        "Accepted, rejected and unresolved decisions",
+        "Cluster checks",
+        "Versioned alias map"
+      ],
+      "sourceIds": [
+        "method-opensanctions-pairs",
+        "method-os-identifiers"
+      ],
+      "status": "emerging",
+      "benchmarkLimits": "Pairwise benchmark results are not full-pipeline or network accuracy. The current literature informs design; this project has not reproduced a benchmark."
+    },
+    {
+      "id": "typed-temporal-paths",
+      "title": "Typed and dated connection paths",
+      "category": "Graph interpretation",
+      "purpose": "Make each visible connection say exactly what a source establishes.",
+      "steps": [
+        "Represent assertions with a precise predicate such as director-of, shareholding, award-to or paid-to; preserve source wording.",
+        "Keep event date, assertion date, filing date, retrieval date and valid interval distinct. Store partial dates as intervals, not invented days.",
+        "Test whether every edge in a proposed mechanism has the required date overlap, direction and legal entity identity.",
+        "Display unresolved bridge edges as questions. A path via an intermediary or registered agent does not itself establish control or money flow."
+      ],
+      "failureModes": [
+        "Ownership inferred from directorship",
+        "Current role applied retrospectively",
+        "Derived similarity edge promoted to documented relationship"
+      ],
+      "requiredOutputs": [
+        "Assertion ledger",
+        "Time-compatible path certificate",
+        "Missing-bridge list"
+      ],
+      "sourceIds": [
+        "method-bods",
+        "method-icij-faq",
+        "method-os-statements"
+      ],
+      "status": "established",
+      "benchmarkLimits": "Procedural safeguard; this project has not benchmarked its effect on investigative accuracy."
+    },
+    {
+      "id": "cohort-causal-design",
+      "title": "Comparison cohorts and causal identification",
+      "category": "Causal analysis",
+      "purpose": "Distinguish selected examples from evidence of a systematic differential outcome.",
+      "steps": [
+        "Define unit, population, period, exposure, outcome and inclusion rule before selecting notable cases.",
+        "Acquire the eligible denominator, including unsuccessful bids, unexposed firms and records with missing outcomes; report coverage by stratum.",
+        "Draw a causal diagram separately from the entity graph, including common causes and the process deciding which records become visible.",
+        "Check temporal order, comparability, overlap and outcome measurement before estimating effects. Choose controls from the mechanism rather than predictive convenience.",
+        "If identification assumptions or data coverage cannot be defended, report descriptive associations and an acquisition plan instead of a causal estimate."
+      ],
+      "failureModes": [
+        "Winner-only samples",
+        "Selection on investigated or highly publicized cases",
+        "Controlling for consequences of the alleged influence"
+      ],
+      "requiredOutputs": [
+        "Cohort manifest",
+        "Missingness and coverage table",
+        "Causal assumptions",
+        "Descriptive result or identified estimand"
+      ],
+      "sourceIds": [
+        "method-whatif"
+      ],
+      "status": "established",
+      "benchmarkLimits": "Procedural safeguard; this project has not benchmarked its effect on investigative accuracy."
+    },
+    {
+      "id": "strategic-mechanism-test",
+      "title": "Strategic predictions as acquisition tests",
+      "category": "Hypothesis generation",
+      "purpose": "Use incentives to identify discriminating records without treating a plausible story as proof.",
+      "steps": [
+        "List institutional roles, available lawful choices, information and incentives using public evidence; label unknown payoffs.",
+        "Compare a compliant process, administrative failure and a hypothetical abuse at a high level; do not produce operational instructions for wrongdoing.",
+        "Derive different expected records for each model, then seek both supporting and contradicting records.",
+        "Identify the exact rule and jurisdiction from a current authoritative text before saying conduct would violate it. Distinguish allegation, finding and final disposition."
+      ],
+      "failureModes": [
+        "Invented payoffs presented as equilibrium",
+        "Motive treated as action",
+        "Retrospective prediction fitted to a known outcome"
+      ],
+      "requiredOutputs": [
+        "Assumption register",
+        "Prediction/record matrix",
+        "Rule and procedural-status ledger"
+      ],
+      "sourceIds": [
+        "method-unesco-sbi",
+        "method-whatif"
+      ],
+      "status": "experimental",
+      "benchmarkLimits": "This is a proposed synthesis for record acquisition, not a calibrated game-theoretic model or a method proven to discover conspiracies."
+    },
+    {
+      "id": "blind-evidence-review",
+      "title": "Independent evidence review",
+      "category": "Quality control",
+      "purpose": "Give reviewers a chance to find wrong joins, unsupported wording and omitted context.",
+      "steps": [
+        "A coordinator provides a fresh reviewer raw records and neutral questions, without the claimant agent’s proposed conclusion.",
+        "Require the reviewer to reconstruct cited amounts, dates and predicates and identify what each record cannot support.",
+        "Compare the independent result with the draft and resolve disagreements against records, retaining unresolved disputes.",
+        "Run a separate line-by-line review of public language, including allegation status, contrary material, scope and published responses."
+      ],
+      "failureModes": [
+        "Role-play critics inheriting the same conclusion",
+        "Judging prose quality instead of evidence sufficiency",
+        "Calling agents independent sources"
+      ],
+      "requiredOutputs": [
+        "Independent reconstruction",
+        "Disagreement log",
+        "Publication claim check"
+      ],
+      "sourceIds": [
+        "method-gijn",
+        "method-reflect"
+      ],
+      "status": "emerging",
+      "benchmarkLimits": "Context separation reduces one source of anchoring but does not make models statistically independent or guarantee error detection."
+    },
+    {
+      "id": "reliability-challenges",
+      "title": "Failure-oriented agent evaluation",
+      "category": "Agent evaluation",
+      "purpose": "Measure whether the workflow catches important errors under modest perturbation.",
+      "steps": [
+        "Create a held-out packet with a known source locator error, conflicting entity identifier, unit error or superseded document.",
+        "Keep the expected result outside the worker’s prompt. Ask it to perform the ordinary research task.",
+        "Score missed errors, false accusations, unsupported joins, source fidelity and appropriate abstention separately from task completion.",
+        "Repeat only to address a concrete reliability risk; report the small sample and avoid an overall accuracy claim."
+      ],
+      "failureModes": [
+        "Evaluating only fluent final reports",
+        "Leaking expected answers into the review prompt",
+        "Synthetic success generalized to unseen cases"
+      ],
+      "requiredOutputs": [
+        "Raw test packet",
+        "Expected-result key held by evaluator",
+        "Failure matrix and fixes"
+      ],
+      "sourceIds": [
+        "method-reflect",
+        "method-agent-reliability"
+      ],
+      "status": "experimental",
+      "benchmarkLimits": "A local forward test is a smoke test. Neither these preprints nor a handful of tests establish investigative accuracy across sectors."
+    },
+    {
+      "id": "bounded-acquisition",
+      "title": "Bounded acquisition and explicit gaps",
+      "category": "Research operations",
+      "purpose": "Turn an unresolved claim into a reproducible next record search.",
+      "steps": [
+        "Choose the record with the highest ability to distinguish hypotheses; name its expected custodian, period and fields.",
+        "Enumerate official indexes and public links, search precise titles and variants, and log accessible, unavailable and irrelevant results.",
+        "Stop when the specified link set and query variants are exhausted or a decisive record resolves the question; state the boundary of the search.",
+        "Draft an optional formal request if needed, but send no message, request or login action without authorization."
+      ],
+      "failureModes": [
+        "Claiming absence across all records from a limited search",
+        "Repeating broad searches without a new test",
+        "Using inaccessible records as if read"
+      ],
+      "requiredOutputs": [
+        "Acquisition log",
+        "Exact unresolved field",
+        "Next job with measurable success criteria"
+      ],
+      "sourceIds": [
+        "method-berkeley",
+        "method-unesco-sbi"
+      ],
+      "status": "established",
+      "benchmarkLimits": "Procedural safeguard; this project has not benchmarked its effect on investigative accuracy."
+    }
+  ]
+}

@@ -1,0 +1,413 @@
+{
+  "schema": "forward-test-example/1",
+  "partialExample": true,
+  "coverage": "Representative contract-shaped records only; the Markdown memo contains the complete claims, candidates, requests and review.",
+  "synthetic": true,
+  "createdAt": "2026-10-14T21:14:31Z",
+  "packetArtifact": {
+    "localPath": "/tmp/skill-forward-packet.md",
+    "sha256": "43bef58a15b88e4a3296f87a0a5daee1071cc18e2499b33cf8b60fd5a1571550",
+    "hashScope": "Supplied packet bytes only; not any described underlying original."
+  },
+  "sourceCatalog": {
+    "R1": "Port authority award register description",
+    "R2": "GB company register snapshot description",
+    "R3": "IE company register snapshot description",
+    "R4": "Civil Society Ledger article description",
+    "R5": "National Wire reproduction description",
+    "R6": "Authority fiscal2021 budget table description",
+    "R7": "Archived government adviser directory description",
+    "R8": "Authority response description"
+  },
+  "sourceRecords": [
+    {
+      "sourceId": "R4",
+      "title": "Supplied synthetic packet record R4: Civil Society Ledger article description",
+      "publisher": "Supplied synthetic packet",
+      "requestedUrl": null,
+      "finalUrl": null,
+      "publishedAt": null,
+      "accessedAt": "2026-10-14T21:14:31Z",
+      "accessResult": "supplied-packet-description-read; underlying-original-not-acquired",
+      "accessDepth": "full-text",
+      "sourceFamily": "CSL-reporting-chain",
+      "localOriginal": null,
+      "sha256": null,
+      "mimeType": "text/markdown",
+      "version": null,
+      "licenseOrAccessLimit": "Synthetic supplied packet; underlying-source access/terms unknown",
+      "derivatives": [],
+      "limitations": "Full text means all of packet record R4 only, not the underlying article or payment statement.",
+      "describedOriginal": {
+        "publisher": "Civil Society Ledger",
+        "publishedAt": "2024-06-10"
+      },
+      "inspectedSections": [
+        "R4, all three sentences"
+      ],
+      "claimFamilyOverrides": {
+        "award": "R1-award-register",
+        "payment": "unseen-payment-statement-via-R4",
+        "procurement-question": "R4-question"
+      }
+    }
+  ],
+  "claimRecords": [
+    {
+      "claimId": "C6",
+      "text": "R4 reports that a June2024 payment statement lists £3 million paid under P-81; R5 reproduces that report.",
+      "kind": "attributed-allegation",
+      "scope": "Attributed transaction report in the supplied fictional packet; no accusation of illegality.",
+      "subjectIds": [
+        "contract:P-81"
+      ],
+      "eventDateOrInterval": null,
+      "financialPeriod": null,
+      "amountOriginal": "£3 million",
+      "currency": "GBP",
+      "scale": 1000000,
+      "amountStage": "payment",
+      "sourceIds": [
+        "R4",
+        "R5"
+      ],
+      "locators": [
+        "R4, sentence 2",
+        "R5, sentences 2–3"
+      ],
+      "shortExtract": "a June2024 payment statement lists £3 million paid under P-81",
+      "supports": "One article chain reports a payment figure associated with P-81.",
+      "cannotEstablish": "Actual transaction dates, payer/payee, cumulative scope, receipt, tax basis, remaining liability or improper conduct.",
+      "contraryEvidence": [
+        {
+          "sourceId": "R5",
+          "note": "Explicit reproduction, not a second independent confirmation."
+        }
+      ],
+      "sourceFamilies": [
+        "unseen-payment-statement-via-R4"
+      ],
+      "hypothesisIds": [
+        "H1",
+        "H3"
+      ],
+      "reviewStatus": "unreviewed",
+      "updatedAt": "2026-10-14T21:14:31Z",
+      "supersedes": null,
+      "reviewMode": "self-check",
+      "reviewNote": "Self-checked against the packet; no independent verifier. The contract enum lacks self-check.",
+      "statementDate": "2024-06",
+      "statementDatePrecision": "month"
+    }
+  ],
+  "entities": [
+    {
+      "entityId": "org:GB-07110001",
+      "type": "organization",
+      "rawNames": [
+        "Orion Systems Ltd"
+      ],
+      "normalizedAliases": [],
+      "jurisdiction": "GB",
+      "sourceIds": [
+        "R1",
+        "R2"
+      ],
+      "scopedIdentifiers": [
+        {
+          "scheme": "company-register",
+          "jurisdiction": "GB",
+          "value": "07110001",
+          "original": "GB-07110001"
+        }
+      ],
+      "knownIntervals": [],
+      "conflicts": []
+    },
+    {
+      "entityId": "org:IE-614201",
+      "type": "organization",
+      "rawNames": [
+        "Orion Systems Limited"
+      ],
+      "normalizedAliases": [],
+      "jurisdiction": "IE",
+      "sourceIds": [
+        "R3"
+      ],
+      "scopedIdentifiers": [
+        {
+          "scheme": "company-register",
+          "jurisdiction": "IE",
+          "value": "614201",
+          "original": "IE-614201"
+        }
+      ],
+      "knownIntervals": [],
+      "conflicts": []
+    },
+    {
+      "entityId": "person:R2",
+      "type": "person",
+      "rawNames": [
+        "Mira Cole"
+      ],
+      "normalizedAliases": [],
+      "jurisdiction": null,
+      "sourceIds": [
+        "R2"
+      ],
+      "scopedIdentifiers": [],
+      "knownIntervals": [
+        {
+          "role": "director-of org:GB-07110001",
+          "validFrom": "2023-09-01",
+          "validTo": null,
+          "snapshotDate": "2024-06-01"
+        }
+      ],
+      "conflicts": []
+    },
+    {
+      "entityId": "person:R7",
+      "type": "person",
+      "rawNames": [
+        "Mira Cole"
+      ],
+      "normalizedAliases": [],
+      "jurisdiction": null,
+      "sourceIds": [
+        "R7"
+      ],
+      "scopedIdentifiers": [],
+      "knownIntervals": [
+        {
+          "role": "unpaid-adviser-to org:government-office",
+          "validFrom": "2023-05-01",
+          "validTo": null,
+          "archiveDate": "2024-06-01"
+        }
+      ],
+      "conflicts": []
+    },
+    {
+      "entityId": "org:government-office",
+      "type": "organization",
+      "rawNames": [
+        "Government office maintaining the adviser directory; unnamed"
+      ],
+      "normalizedAliases": [],
+      "jurisdiction": null,
+      "sourceIds": [
+        "R7"
+      ],
+      "scopedIdentifiers": [],
+      "knownIntervals": [],
+      "conflicts": []
+    }
+  ],
+  "candidateDecisions": [
+    {
+      "leftId": "org:GB-07110001",
+      "rightId": "org:IE-614201",
+      "blockingReason": "Similar corporate names",
+      "supportingAttributes": [
+        "Orion Systems; Ltd/Limited variation"
+      ],
+      "conflictingAttributes": [
+        "Distinct jurisdiction-scoped registration IDs: GB-07110001 and IE-614201"
+      ],
+      "decision": "rejected",
+      "decisionReason": "Reject same-legal-entity merge; corporate affiliation is a different unresolved question.",
+      "reviewer": "single-context worker self-check",
+      "reviewedAt": "2026-10-14T21:14:31Z",
+      "sourceLocators": [
+        "R1",
+        "R2",
+        "R3"
+      ],
+      "priorDecision": null
+    },
+    {
+      "leftId": "person:R2",
+      "rightId": "person:R7",
+      "blockingReason": "Exact name string",
+      "supportingAttributes": [
+        "Mira Cole"
+      ],
+      "conflictingAttributes": [],
+      "decision": "unresolved",
+      "decisionReason": "No common person identifier or official identity cross-reference. Missing attributes are not contradictions.",
+      "reviewer": "single-context worker self-check",
+      "reviewedAt": "2026-10-14T21:14:31Z",
+      "sourceLocators": [
+        "R2",
+        "R7"
+      ],
+      "priorDecision": null
+    }
+  ],
+  "datedAssertions": [
+    {
+      "assertionId": "A2",
+      "subjectId": "person:R2",
+      "predicate": "director-of",
+      "objectIdOrValue": "org:GB-07110001",
+      "sourceId": "R2",
+      "sourceFamily": "GB-register-role",
+      "locator": "R2, sentence 3",
+      "originalWording": "Director Mira Cole appointed 2023-09-01.",
+      "validFrom": "2023-09-01",
+      "validTo": null,
+      "eventDate": "2023-09-01",
+      "assertedAt": "2024-06-01",
+      "publishedAt": null,
+      "accessedAt": "2026-10-14T21:14:31Z",
+      "sourceStatus": "supplied-synthetic-register-description",
+      "interpretation": "Director appointment; not ownership or a 2021 role. Unknown cessation; no status claimed after snapshot.",
+      "supersedes": null,
+      "assertedAtKind": "snapshot-date",
+      "sourceAuthenticated": false
+    }
+  ],
+  "amounts": [
+    {
+      "amountId": "amount:R4:payment",
+      "payerId": null,
+      "payeeId": null,
+      "amountOriginal": "£3 million",
+      "amountNormalized": 3000000,
+      "currency": "GBP",
+      "scale": 1000000,
+      "stage": "payment",
+      "period": null,
+      "taxBasis": null,
+      "cashOrAccrual": null,
+      "parentAmountId": null,
+      "sourceLocator": "R4, sentence 2; reproduced by R5",
+      "transactionId": null,
+      "reversalOf": null,
+      "notes": "Attributed report only. Contract P-81 association does not identify the payee. Do not add to the award or infer outstanding liability.",
+      "contractId": "contract:P-81",
+      "statementDate": "2024-06",
+      "paymentEventDate": null,
+      "evidentiaryStatus": "attributed"
+    }
+  ],
+  "pathCertificates": [
+    {
+      "pathId": "PC1",
+      "claim": "Candidate later affiliation between the P-81 supplier and the government adviser",
+      "asOf": "2024-06-01",
+      "requiredPredicates": [
+        "director-of",
+        "same-person-as",
+        "unpaid-adviser-to"
+      ],
+      "hops": [
+        {
+          "fromId": "org:GB-07110001",
+          "toId": "person:R2",
+          "predicate": "director-of",
+          "traversal": "inverse",
+          "literalSourceSupport": "Director Mira Cole appointed 2023-09-01.",
+          "sourceIds": [
+            "R2"
+          ],
+          "status": "documented",
+          "scope": "Supplied snapshot description only",
+          "requiredDateOverlap": "Role present in the 2024-06-01 snapshot; exact cessation unknown",
+          "contraryRecord": null,
+          "nextCheck": "Obtain appointment and cessation history."
+        },
+        {
+          "fromId": "person:R2",
+          "toId": "person:R7",
+          "predicate": "same-person-as",
+          "traversal": "symmetric",
+          "literalSourceSupport": "Both supplied records use the name Mira Cole; no linking identifier.",
+          "sourceIds": [
+            "R2",
+            "R7"
+          ],
+          "status": "unresolved",
+          "scope": "Person identity candidate only",
+          "requiredDateOverlap": "Identity join must be resolved; each role keeps its own dates",
+          "contraryRecord": null,
+          "nextCheck": "Obtain official public cross-reference or distinguishing identity attributes."
+        },
+        {
+          "fromId": "person:R7",
+          "toId": "org:government-office",
+          "predicate": "unpaid-adviser-to",
+          "traversal": "forward",
+          "literalSourceSupport": "Mira Cole, unpaid adviser appointed 2023-05-01.",
+          "sourceIds": [
+            "R7"
+          ],
+          "status": "documented",
+          "scope": "Supplied archived directory description only",
+          "requiredDateOverlap": "Role reported in archive dated 2024-06-01; exact cessation unknown",
+          "contraryRecord": null,
+          "nextCheck": "Obtain appointment, cessation and remit records."
+        }
+      ],
+      "entityDecisions": [
+        {
+          "leftId": "person:R2",
+          "rightId": "person:R7",
+          "decision": "unresolved"
+        }
+      ],
+      "timeCompatibility": {
+        "laterAffiliation": "Compatible with the two June2024 descriptions if identity is resolved; no continuous or present-day role inferred.",
+        "awardInfluence": "Known appointments in 2023 postdate the 2021-03-10 award; earlier roles/intervention remain unestablished."
+      },
+      "amountCompatibility": "Not a money path; no payment-to-adviser evidence.",
+      "sourceFamilies": [
+        "GB-register-role",
+        "adviser-directory"
+      ],
+      "missingBridges": [
+        "Official person identity bridge",
+        "For a 2021 mechanism: contemporaneous supplier connection and award-decision involvement"
+      ],
+      "alternativeExplanation": "Different people share a name; alternatively one person acquired both roles after the award.",
+      "conclusion": "No completed identity-resolved supplier-to-adviser path and no established 2021 influence mechanism.",
+      "reviewStatus": "self-check",
+      "contraryEvidence": [
+        {
+          "sourceId": "R8",
+          "text": "Authority states no adviser participated; underlying scores/declarations absent."
+        }
+      ]
+    }
+  ],
+  "extensionsUsed": [
+    "describedOriginal",
+    "inspectedSections",
+    "claimFamilyOverrides",
+    "reviewMode",
+    "reviewNote",
+    "statementDate",
+    "statementDatePrecision",
+    "assertedAtKind",
+    "sourceAuthenticated",
+    "contractId",
+    "paymentEventDate",
+    "evidentiaryStatus",
+    "contraryEvidence on path"
+  ],
+  "conventions": {
+    "null": "Unknown, not zero, false or proof of ongoing status.",
+    "documented": "Explicitly stated by a supplied packet description; originals not authenticated.",
+    "normalization": "No algorithmic matcher, similarity scores, thresholds or automated merges used.",
+    "sourceDependence": "R5 reproduces R4; R4 award assertion cites R1; source family depends on the claim."
+  },
+  "revisionLog": [
+    {
+      "at": "2026-10-14T21:14:31Z",
+      "action": "Initial synthetic-record review; no earlier version superseded."
+    }
+  ]
+}

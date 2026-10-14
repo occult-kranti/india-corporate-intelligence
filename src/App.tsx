@@ -56,6 +56,7 @@ const MediaView = lazy(() => import('./pages/MediaView'));
 const Search = lazy(() => import('./pages/Search'));
 const Watchlist = lazy(() => import('./pages/Watchlist'));
 const Investigations = lazy(() => import('./pages/Investigations'));
+const ResearchProgram = lazy(() => import('./pages/ResearchProgram'));
 const Leads = lazy(() => import('./pages/Leads'));
 const GameTheory = lazy(() => import('./pages/GameTheory'));
 const FollowTheMoney = lazy(() => import('./pages/FollowTheMoney'));
@@ -149,6 +150,7 @@ function App() {
                     <Route path="/investigations" element={<Investigations />} />
                     <Route path="/leads" element={<Leads />} />
                     <Route path="/game-theory" element={<GameTheory />} />
+                    <Route path="/research-program" element={<ResearchProgram />} />
                   </Routes>
                 </Suspense>
               }

@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "generatedBy": "research/investigation-program/raw/resources-welfare/analyze.py",
+  "inputSha256": {
+    "pmuy-csr-extract.json": "7d42f2fca79c64a71c3ae6ee8acfca022225dba1b5045dc90c6b12c10013d809",
+    "coal-auction-extract.json": "8e87073f6958d08c20b39175bb5ea1f41aee9670a0cc0d51bccf80c6e5ecc1d8",
+    "pmuy-refill-extract.json": "fcd254f49c92e73993efa740c57086fd1eac311f16f9a0e4ea5c4b2913c49e51"
+  },
+  "csr": {
+    "unit": "INR crore",
+    "asOf": "2019-03-31",
+    "contributed": "548.54",
+    "pmuyUse": "226.69",
+    "previousBplSchemeUse": "60.00",
+    "totalUse": "286.69",
+    "idleBalance": "261.85",
+    "unexplainedArithmeticResidual": "0.00",
+    "idleSharePercent": "47.74",
+    "interpretation": "Historical idle balance reconciles exactly after the separate previous-BPL transfer. It is not missing money and is not a current balance."
+  },
+  "coal": {
+    "auctionRows": 11,
+    "qualifiedBidderEntries": 60,
+    "sumIndependentQualifiedEntries": 39,
+    "zeroBidActionEntries": 12,
+    "bidActions": 2938,
+    "interpretation": "Descriptive totals for CAG's selected related-entry subset, not unique companies and not an estimate of collusion prevalence. All 11 source bid-action totals reconcile."
+  },
+  "refills": {
+    "stateUtCount": 36,
+    "completeYear": "FY2024-25",
+    "statesWithLowerPmuyThanNonPmuy": 36,
+    "pmuyBelowThreeCylinders": [
+      "Meghalaya",
+      "Chhattisgarh"
+    ],
+    "largestCompleteYearGaps": [
+      {
+        "state": "Meghalaya",
+        "gap2024_25": "4.92"
+      },
+      {
+        "state": "Chhattisgarh",
+        "gap2024_25": "4.08"
+      },
+      {
+        "state": "Tripura",
+        "gap2024_25": "3.76"
+      },
+      {
+        "state": "Chandigarh",
+        "gap2024_25": "3.66"
+      },
+      {
+        "state": "Jharkhand",
+        "gap2024_25": "3.19"
+      }
+    ],
+    "nationalPmuy": "4.47",
+    "nationalNonPmuy": "6.64",
+    "nationalGap": "2.17",
+    "nationalPmuyShareOfNonPmuyPercent": "67.32",
+    "interpretation": "Official aggregate differences, not matched households or a causal effect. FY2025-26 columns are preserved only as the source's April-January annualised projection; no full-year trend is calculated from them."
+  }
+}

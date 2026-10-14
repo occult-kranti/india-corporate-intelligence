@@ -100,6 +100,9 @@ jobs:
       - name: Coordination hypothesis provenance and inference guards
         run: npm run validate:hypotheses && npm run test:hypotheses
 
+      - name: Research program provenance and relation guards
+        run: npm run validate:research-program && npm run test:research-program
+
       - name: Typecheck and build
         run: npm run build
 
@@ -110,6 +113,9 @@ jobs:
       # wait on, or have reaped out from under it.
       - name: Headless render smoke test
         run: npm run smoke
+
+      - name: Cross-sector research program workflow
+        run: npm run test:research-program:browser
 
       - name: Funding investigation map, sources and research workflow
         run: npm run test:funding:browser

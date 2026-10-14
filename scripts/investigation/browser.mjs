@@ -51,7 +51,16 @@ const dedicatedRoutes = new Map([
   ['/funding-investigations', { marker: '[data-funding-desk]', workflow: 'funding-investigations' }],
   ['/hypothesis-lab', { marker: '[data-hypothesis-desk]', workflow: 'hypothesis-lab' }],
 ]);
-const sharedRoutes = routes.filter(route => !dedicatedRoutes.has(route));
+// These research pages deliberately have no geographic workspace. Keep them in
+// route acceptance with their own real controls instead of requiring a map they
+// never declare. Their full record/export workflows have separate browser tests.
+const researchRoutes = new Map([
+  ['/investigations', { marker: 'article.inv-page', heading: 'The investigation network.', control: '[aria-label="Filter investigation cases"]' }],
+  ['/leads', { marker: 'article.inv-page', heading: 'Unresolved leads.', control: '[aria-label="Investigation sequence"]' }],
+  ['/game-theory', { marker: 'article.gt-page', heading: 'Test the incentives.Then test the story.', control: '[aria-label="Institutional role"]' }],
+  ['/research-program', { marker: '.rp-desk', heading: 'Follow a claim.Test every connection.', control: '[aria-label="Research desk views"]' }],
+]);
+const sharedRoutes = routes.filter(route => !dedicatedRoutes.has(route) && !researchRoutes.has(route));
 const binary = process.env.PLAYWRIGHT_CHROMIUM_PATH ?? '/usr/bin/chromium';
 const browser = await chromium.launch({ ...(existsSync(binary) ? { executablePath: binary } : {}) });
 const context = await browser.newContext({ viewport: { width: 1440, height: 1000 }, acceptDownloads: true, reducedMotion: 'reduce' });
@@ -108,8 +117,22 @@ async function run(name, task) {
 }
 
 try {
-  await run('Every registered route opens its declared 36-state geographic surface', async () => {
+  await run('Every registered route opens its declared geographic or research surface', async () => {
     for (const route of routes) {
+      const research = researchRoutes.get(route);
+      if (research) {
+        await page.goto(`${base}/#${route}`);
+        const article = page.locator(research.marker);
+        await article.waitFor({ timeout: 45000 });
+        check(await article.count() === 1, `${route}: one independent research surface`);
+        check(await page.locator('[data-investigation-workspace]').count() === 0, `${route}: research page retains its own workflow`);
+        const heading = (await article.getByRole('heading', { level: 1 }).textContent()).replace(/\s+/gu, ' ').trim();
+        check(heading === research.heading, `${route}: exact page heading ${heading}`);
+        check(await article.locator(research.control).count() === 1, `${route}: declared research controls are present`);
+        check((await article.innerText()).length > 150, `${route}: research content is rendered`);
+        await overflow(route);
+        continue;
+      }
       const dedicated = dedicatedRoutes.get(route);
       if (dedicated) {
         await page.goto(`${base}/#${route}`);

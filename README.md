@@ -432,9 +432,15 @@ MIT.
 
 ### Investigation workspace (October 2026)
 
-- [Investigation network](https://occult-kranti.github.io/india-corporate-intelligence/#/investigations): 22 selected dossiers with 51 cited sources, record status, responses and limitations. The graph shows source provenance, not guilt.
-- [Unresolved leads](https://occult-kranti.github.io/india-corporate-intelligence/#/leads): 21 predictions with alternative explanations, falsifiers and records needed to test them.
+- [Investigation network](https://occult-kranti.github.io/india-corporate-intelligence/#/investigations): 22 selected dossiers with 52 cited sources, record status, responses and limitations. The graph shows source provenance, not guilt.
+- [Unresolved leads](https://occult-kranti.github.io/india-corporate-intelligence/#/leads): 23 predictions with alternative explanations, falsifiers and records needed to test them.
 - [PM CARES accounts](https://occult-kranti.github.io/india-corporate-intelligence/#/pmcares): FY2024–25 and FY2023–24 comparative figures, exact cash reconciliation and downloadable verified transcription.
 - [Game theory lab](https://occult-kranti.github.io/india-corporate-intelligence/#/game-theory): assumed payoffs, sensitivity and locally saved/exportable evidence worksheets.
 
 See [research scope and roadmap](docs/research/INVESTIGATION_PROTOCOL.md) and [independent AI review](docs/research/INVESTIGATION_REVIEW.md). No complete tender–donation event study or administration-wide conspiracy finding is claimed. New source data are validated with `npm run validate:investigations`; run `npm run test:game-theory` and `npm run test:investigations` for targeted checks.
+
+### Cross-sector research program
+
+[Open the research program](https://occult-kranti.github.io/india-corporate-intelligence/#/research-program) for 56 typed documentary relationships, 16 follow-up leads, 17 sector coverage entries, six historical cases and nine methods. Its 57 cited records retain source families, reading depth, page locators and acquisition checksums where available. This supplements the earlier dossier collection; these counts are not an administrative population.
+
+The page provides evidence inspection, filtered exports, a bounded path explorer and browser-local plans with revision history. See the [parent audit](docs/research/PROGRAM_PARENT_AUDIT.md) and [methods review](docs/research/INVESTIGATION_METHODS_REVIEW.md). Run `npm run validate:research-program`, `npm run test:research-program` and, after building, `npm run test:research-program:browser`.

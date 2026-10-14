@@ -432,7 +432,7 @@ that can only show what exists systematically overstates the case. Keep it that 
 ## Investigation workspace release — 14 October 2026
 
 New routes `/investigations`, `/leads`, `/game-theory` provide a public-source research desk.
-The reviewed corpus now contains 22 dossiers, 51 source records and 22 explicit hypotheses. The initial review covered 21 dossiers; the continuation audit added the amended US lobbying disclosures.
+The reviewed corpus now contains 22 dossiers, 52 source records and 23 explicit hypotheses. The initial review covered 21 dossiers; the continuation audit added the amended US lobbying disclosures.
 It is a selected case collection, not a full administrative census or a list of proven conspiracies.
 
 Read `docs/research/INVESTIGATION_PROTOCOL.md` for performed work, acquisition gaps,
@@ -515,3 +515,9 @@ Publication status: automatic approval review rejected the attempted default-
 branch push because it would resume production deployment without explicit
 authorization. Prepare a draft review PR and obtain approval for its merge and
 deployment; do not interpret successful paused deployment jobs as publication.
+
+## Academic research program continuation — 14 October 2026
+
+The `/research-program` route imports exactly five files under `research/investigation-program/`: political-funding, resources-welfare, justice-procurement, proven-cases and methods. The adapter fails closed on invalid schemas or dangling references. Raw extracts and reproducible scripts in subdirectories are not bundled into the application. Read `docs/research/PROGRAM_PARENT_AUDIT.md` for primary-source checks, acquisition failures, analytical limits and release verification.
+
+Retained inventory: 57 sources, 54 entities, 56 relations, 16 leads, 17 coverage entries, 6 historical cases and 9 methods. Existing-entity crosswalks require exact resolved registry IDs; matching names do not join records. Amount stages and relation statuses remain explicit. Plans live only in the browser and may be exported. The three `research-program` validation/test commands are required in both CI and deployment. The legacy route acceptance now declares the four independent research routes explicitly while preserving every existing geographic route check.
