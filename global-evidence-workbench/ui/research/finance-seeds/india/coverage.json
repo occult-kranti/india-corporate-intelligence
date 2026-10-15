@@ -1,0 +1,85 @@
+{
+  "as_of": "2026-10-15",
+  "country_code": "IN",
+  "seed_cases": 7,
+  "population_covered": "Purposive seven-case process sample, 2019–2026; three closed, one buyer-approved, three cancelled attempts.",
+  "denominator_known": false,
+  "global_or_all_india_claim_permitted": false,
+  "included_sectors": [
+    "banking",
+    "aviation",
+    "steel",
+    "recycling",
+    "electronics",
+    "petroleum"
+  ],
+  "not_covered": [
+    "Complete 1991-onward central/state privatization universe",
+    "Minority OFS/IPO and public-sector-to-public-sector transfers",
+    "Airport/port/road concessions and PPPs",
+    "Resource licences and beneficial ownership beyond seed-specific statements",
+    "All acquisition loans, syndicate members, security packages and disbursements",
+    "NGO grants and venture-capital links absent transaction-specific source bridges"
+  ],
+  "country_roadmap": [
+    {
+      "priority": 1,
+      "job": "DIPAM transaction population by financial year",
+      "custodian": "DIPAM annual reports and receipts tables",
+      "fields": [
+        "asset",
+        "sale type",
+        "announced/closed/cancelled dates",
+        "seller",
+        "buyer",
+        "cash received",
+        "source locator"
+      ],
+      "success": "Reconciled denominator with minority and public-to-public sales tagged separately."
+    },
+    {
+      "priority": 1,
+      "job": "IDBI completion and financing",
+      "custodian": "IDBI/LIC exchange filings, Fairfax issuer filings, DIPAM and RBI public records",
+      "fields": [
+        "SPA",
+        "regulatory decisions",
+        "closing",
+        "receipt split",
+        "lenders",
+        "facility commitment",
+        "drawdown",
+        "security",
+        "guarantor"
+      ],
+      "success": "Signed/closed evidence plus separate cash-flow stages, or explicit unresolved items."
+    },
+    {
+      "priority": 2,
+      "job": "Historical completed sales",
+      "custodian": "DIPAM/CAG and issuer filings",
+      "targets": [
+        "BALCO",
+        "Hindustan Zinc",
+        "VSNL",
+        "Modern Foods",
+        "IPCL"
+      ],
+      "success": "Date-specific buyer chains, amounts, ministers and competing valuations with responses."
+    },
+    {
+      "priority": 2,
+      "job": "State and concession cohort",
+      "custodian": "State finance departments, AAI, port authorities, NHAI and regulators",
+      "success": "Contract ownership distinguished from concession operating rights and sector liberalization."
+    },
+    {
+      "priority": 3,
+      "job": "Global ownership and finance joins",
+      "custodian": "Jurisdiction registries, securities filings, public lender/project databases",
+      "success": "Registration-ID matched and date-overlapping edges; missing payment hops remain unknown."
+    }
+  ],
+  "missing_data_rule": "Unknown is not zero. Rejected, unavailable and conflicting records remain visible. No cross-currency or mixed-stage grand total.",
+  "review": "Self-check; independent blind source reconstruction not yet performed."
+}

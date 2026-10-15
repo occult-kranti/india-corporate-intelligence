@@ -1,0 +1,54 @@
+{
+  "reviewed_at": "2026-10-14T23:13:40Z",
+  "scope": "Historical publication-change leads; no removed private content reproduced and no mirror bytes retrieved",
+  "records": [
+    {
+      "id": "CHG-001",
+      "original_record_id": "EFTA00000468",
+      "dataset": 1,
+      "classification": "reported_temporary_withdrawal_and_restoration",
+      "before_reference": {"date": "2025-12-19", "source": "https://apnews.com/article/9290fcaad1cb6fcb1cbc1befabc01994", "observation": "AP reports files were available Friday and absent Saturday; not our own captured before state"},
+      "after_reference": {"date": "2025-12-21", "source": "https://time.com/7342104/epstein-files-trump-doj-redactions-backlash/", "observation": "December 22 report identifies record ID and cites DOJ saying image restored after review"},
+      "publisher_explanation": "DOJ said victim-protection review found no evidence victims were depicted and it reposted the image unchanged; explanation attributed through reporting, not independently proven",
+      "original_sha256": null,
+      "replacement_sha256": null,
+      "current_live_state": "not checked",
+      "byte_identity": "unknown",
+      "content_summary": "A photograph; no image or private-person details retained",
+      "causal_inference": "No inference of concealment motive or criminality",
+      "next_check": "Obtain dated custodian publication log or permitted redacted version metadata; verify byte identity only with authorized versions"
+    },
+    {
+      "id": "CHG-002",
+      "original_record_id": "EFTA00053963",
+      "dataset": 9,
+      "classification": "unverified_historical_unavailability_lead",
+      "before_reference": {"date": null, "source": "https://github.com/rhowardstone/Epstein-research/blob/main/institutional/DOJ_DOCUMENT_REMOVAL_AUDIT.md", "observation": "Author says local original copy existed; acquisition date/hash not independently established here"},
+      "after_reference": {"date": "2026-02-21", "source": "https://github.com/rhowardstone/Epstein-research/blob/main/institutional/DOJ_DOCUMENT_REMOVAL_AUDIT.md", "observation": "Author reports manual 404 check for this institutional-log record"},
+      "publisher_explanation": "No item-specific explanation verified",
+      "original_sha256": null,
+      "replacement_sha256": null,
+      "current_live_state": "not checked",
+      "byte_identity": "unknown",
+      "content_summary": "Institutional operations log; no inmate identifiers or contents retained",
+      "causal_inference": "404 could reflect removal, migration, gate, CDN or URL mismatch; report uses an AI-assisted corpus and corrected false positives",
+      "next_check": "Custodian status and release/version manifest needed; do not obtain removed private information through a mirror"
+    },
+    {
+      "id": "CHG-003",
+      "original_record_id": "EFTA00339454",
+      "dataset": null,
+      "classification": "unverified_reprocessing_and_redaction_lead",
+      "before_reference": {"date": "2026-01-30", "date_precision": "report-level baseline, not exact item capture", "source": "https://github.com/rhowardstone/epstein-research/blob/main/institutional/DOJ_DOCUMENT_ALTERATION_FORENSICS.md", "observation": "Author compares archived release with later DOJ-hosted version; archived PDF not accessed here"},
+      "after_reference": {"date": "2026-03-05", "date_precision": "report update, not exact item capture", "source": "https://github.com/rhowardstone/epstein-research/blob/main/institutional/DOJ_DOCUMENT_ALTERATION_FORENSICS.md", "observation": "Author reports simultaneous visual privacy redactions, OCR differences and restoration of previously redacted sender text"},
+      "publisher_explanation": "No item-specific custodian explanation verified",
+      "original_sha256": null,
+      "replacement_sha256": null,
+      "current_live_state": "not checked",
+      "byte_identity": "unknown",
+      "content_summary": "Scheduling record; no removed contact details, names of private persons, or birthdays retained",
+      "causal_inference": "Change may combine privacy correction and technical reprocessing; classifier labels are not evidence of intent or illegality",
+      "next_check": "Permitted pair of appropriately redacted versions plus exact capture times, byte hashes, rendered-page and text-layer diffs; obtain custodian change rationale"
+    }
+  ]
+}

@@ -1,0 +1,1018 @@
+{
+  "as_of": "2026-10-15",
+  "jurisdiction": "India",
+  "country_code": "IN",
+  "cases": [
+    {
+      "id": "IN-IDBI-2022",
+      "name": "IDBI Bank strategic sale",
+      "jurisdiction": "India",
+      "country_code": "IN",
+      "sector": "Banking",
+      "transaction_type": "strategic_equity_sale",
+      "status": "bidding",
+      "status_stage": "strategic_buyer_approved_no_definitive_agreement",
+      "status_as_of": "2026-10-14",
+      "research_as_of": "2026-10-15",
+      "sellers": [
+        {
+          "entity_id": "in_goi",
+          "stake_offered_percent": 30.48
+        },
+        {
+          "entity_id": "in_lic",
+          "stake_offered_percent": 30.24
+        }
+      ],
+      "buyer": {
+        "entity_id": "ca_10955230",
+        "role": "approved_bidder"
+      },
+      "stake_percent": 60.72,
+      "events": [
+        {
+          "date": "2021-05-05",
+          "event": "CCEA in-principle approval",
+          "status": "announced",
+          "source_ids": [
+            "IN-S28"
+          ]
+        },
+        {
+          "date": "2022-10-07",
+          "event": "EOI / PIM issued",
+          "status": "bidding",
+          "source_ids": [
+            "IN-S21"
+          ]
+        },
+        {
+          "date": "2026-01-08",
+          "event": "Initial bids invited; subsequently rejected below reserve",
+          "status": "bidding",
+          "source_ids": [
+            "IN-S01"
+          ]
+        },
+        {
+          "date": "2026-05-18",
+          "event": "Best-offer bids invited",
+          "status": "bidding",
+          "source_ids": [
+            "IN-S01"
+          ]
+        },
+        {
+          "date": "2026-10-14",
+          "event": "Strategic buyer approved",
+          "status": "bidding",
+          "source_ids": [
+            "IN-S01"
+          ]
+        },
+        {
+          "date": "2026-10-14",
+          "event": "Buyer states no binding definitive agreements",
+          "status": "bidding",
+          "source_ids": [
+            "IN-S02"
+          ]
+        }
+      ],
+      "amounts": [
+        {
+          "value": "52878.0806181",
+          "currency": "INR",
+          "unit": "crore",
+          "unit_multiplier": 10000000,
+          "base_currency_value": "528780806181.0000000",
+          "type": "purchase_consideration",
+          "stage": "winning_bid_approved",
+          "scope": "Combined GoI and LIC 60.72% stake; not government-only receipts",
+          "amount_date": "2026-10-14",
+          "source_ids": [
+            "IN-S01"
+          ],
+          "fx_conversion": null
+        }
+      ],
+      "institutional_responsibility": [
+        {
+          "person": "Nirmala Sitharaman",
+          "role": "Union Minister for Finance and Corporate Affairs",
+          "event_date": "2026-10-14",
+          "date_basis": "Dated source context; not necessarily the date of an individual vote.",
+          "source_ids": [
+            "IN-S27"
+          ],
+          "scope": "Dated portfolio holder only; individual vote/attendance not established."
+        },
+        {
+          "person": "Narendra Modi",
+          "role": "Prime Minister; chair of CCEA at original approval",
+          "event_date": "2021-05-05",
+          "date_basis": "Dated source context; not necessarily the date of an individual vote.",
+          "source_ids": [
+            "IN-S28"
+          ],
+          "scope": "Specific 2021 institutional role; no personal allegation."
+        }
+      ],
+      "government": {
+        "name": "Union Government of India",
+        "jurisdiction": "IN",
+        "context": "Roles relate to the dated transaction, not personal responsibility for wrongdoing."
+      },
+      "ownership": [
+        "IN-R01",
+        "IN-R02",
+        "IN-R03",
+        "IN-R04",
+        "IN-R05",
+        "IN-R06",
+        "IN-R07",
+        "IN-R08"
+      ],
+      "financing": [
+        {
+          "type": "funding_plan",
+          "stage": "proposed",
+          "description": "Cash on hand, existing credit sources and potential asset sales.",
+          "lender_ids": [],
+          "commitment_amount": null,
+          "disbursed_amount": null,
+          "source_ids": [
+            "IN-S02"
+          ]
+        }
+      ],
+      "missing_joins": [
+        "Executed agreement, conditions precedent, regulatory approvals and closing/receipt evidence",
+        "Named acquisition lenders, commitment amounts, drawn amounts, guarantees, securities and debt covenants",
+        "Full valuation reports, comparable-bank set, adjustments, authority/timing of methodology revision",
+        "Intermediate ownership layers between Fairfax and purchaser; updated voting positions after 2026-03-06",
+        "NGO, VC or resource-project funding paths: no such transaction-specific edges established"
+      ],
+      "source_ids": [
+        "IN-S01",
+        "IN-S02",
+        "IN-S03",
+        "IN-S19",
+        "IN-S21",
+        "IN-S27",
+        "IN-S28"
+      ],
+      "review_status": "source_read_and_self_checked",
+      "legal_finding": null,
+      "coverage_note": "Seed case, not a population estimate. Later ownership changes require separate dated records.",
+      "valuation": {
+        "currency": "INR",
+        "unit": "per_share",
+        "initial_reserve": "94.42",
+        "later_benchmark": "75.99",
+        "winning_bid": "81",
+        "valuation_accounts_date": "2026-03-31",
+        "source_ids": [
+          "IN-S01",
+          "IN-S19"
+        ],
+        "interpretation": "Government-reported change in comparator; not independently replicated or a finding of undervaluation."
+      },
+      "regulatory_note": {
+        "text": "IDBI was already classified as a private-sector bank for regulatory purposes after LIC acquired control in 2019. That classification is distinct from the unclosed Fairfax sale.",
+        "source_ids": [
+          "IN-S21"
+        ],
+        "date": "2019-01-21"
+      },
+      "conditional_retained_stakes": [
+        {
+          "entity_id": "in_goi",
+          "percent": 15
+        },
+        {
+          "entity_id": "in_lic",
+          "percent": 19
+        }
+      ]
+    },
+    {
+      "id": "IN-AIRINDIA-2021",
+      "name": "Air India privatization",
+      "jurisdiction": "India",
+      "country_code": "IN",
+      "sector": "Aviation",
+      "transaction_type": "strategic_equity_sale",
+      "status": "closed",
+      "status_stage": "shares_transferred_and_cash_received",
+      "status_as_of": "2022-01-27",
+      "research_as_of": "2026-10-15",
+      "sellers": [
+        {
+          "entity_id": "in_goi",
+          "stake_offered_percent": 100
+        }
+      ],
+      "buyer": {
+        "entity_id": "in_talace",
+        "role": "acquirer"
+      },
+      "stake_percent": 100,
+      "events": [
+        {
+          "date": "2021-10-08",
+          "event": "Winning bid announced",
+          "status": "bidding",
+          "source_ids": [
+            "IN-S05"
+          ]
+        },
+        {
+          "date": "2021-10-11",
+          "event": "Letter of Intent issued",
+          "status": "bidding",
+          "source_ids": [
+            "IN-S04"
+          ]
+        },
+        {
+          "date": "2021-10-25",
+          "event": "Share Purchase Agreement signed",
+          "status": "signed",
+          "source_ids": [
+            "IN-S04"
+          ]
+        },
+        {
+          "date": "2022-01-27",
+          "event": "Completion and cash receipt",
+          "status": "closed",
+          "source_ids": [
+            "IN-S04"
+          ]
+        }
+      ],
+      "amounts": [
+        {
+          "value": "18000",
+          "currency": "INR",
+          "unit": "crore",
+          "unit_multiplier": 10000000,
+          "base_currency_value": "180000000000",
+          "type": "enterprise_value",
+          "stage": "winning_bid_approved",
+          "scope": "Equity cash plus retained AI/AIXL debt; do not add components to this total",
+          "amount_date": "2021-10-08",
+          "source_ids": [
+            "IN-S05"
+          ],
+          "fx_conversion": null
+        },
+        {
+          "value": "2700",
+          "currency": "INR",
+          "unit": "crore",
+          "unit_multiplier": 10000000,
+          "base_currency_value": "27000000000",
+          "type": "equity_cash_proceeds",
+          "stage": "received",
+          "scope": "Government consideration",
+          "amount_date": "2022-01-27",
+          "source_ids": [
+            "IN-S04"
+          ],
+          "fx_conversion": null
+        },
+        {
+          "value": "15300",
+          "currency": "INR",
+          "unit": "crore",
+          "unit_multiplier": 10000000,
+          "base_currency_value": "153000000000",
+          "type": "retained_debt",
+          "stage": "at_closing",
+          "scope": "Debt remaining in AI and AIXL, not cash received by government",
+          "amount_date": "2022-01-27",
+          "source_ids": [
+            "IN-S04"
+          ],
+          "fx_conversion": null
+        }
+      ],
+      "institutional_responsibility": [
+        {
+          "person": "Amit Shah",
+          "role": "Home Affairs and Cooperation",
+          "event_date": "2021-10-08",
+          "date_basis": "Dated source context; not necessarily the date of an individual vote.",
+          "source_ids": [
+            "IN-S05"
+          ],
+          "scope": "Named member of approving institutional mechanism; no individual culpability inferred."
+        },
+        {
+          "person": "Nirmala Sitharaman",
+          "role": "Finance and Corporate Affairs",
+          "event_date": "2021-10-08",
+          "date_basis": "Dated source context; not necessarily the date of an individual vote.",
+          "source_ids": [
+            "IN-S05"
+          ],
+          "scope": "Named member of approving institutional mechanism; no individual culpability inferred."
+        },
+        {
+          "person": "Piyush Goyal",
+          "role": "Commerce and Industry",
+          "event_date": "2021-10-08",
+          "date_basis": "Dated source context; not necessarily the date of an individual vote.",
+          "source_ids": [
+            "IN-S05"
+          ],
+          "scope": "Named member of approving institutional mechanism; no individual culpability inferred."
+        },
+        {
+          "person": "Jyotiraditya Scindia",
+          "role": "Civil Aviation",
+          "event_date": "2021-10-08",
+          "date_basis": "Dated source context; not necessarily the date of an individual vote.",
+          "source_ids": [
+            "IN-S05"
+          ],
+          "scope": "Named member of approving institutional mechanism; no individual culpability inferred."
+        }
+      ],
+      "government": {
+        "name": "Union Government of India",
+        "jurisdiction": "IN",
+        "context": "Roles relate to the dated transaction, not personal responsibility for wrongdoing."
+      },
+      "ownership": [
+        "IN-R09",
+        "IN-R10"
+      ],
+      "financing": [
+        {
+          "type": "post_acquisition_refinancing_advisory",
+          "stage": "advisory_reported",
+          "adviser_entity_id": "in_sbicaps",
+          "named_bank_entity_id": "in_sbi",
+          "amount": {
+            "value": "14000",
+            "currency": "INR",
+            "unit": "crore",
+            "unit_multiplier": 10000000,
+            "base_currency_value": "140000000000",
+            "type": "refinancing_and_additional_funding_advisory_scope",
+            "stage": "advisory_reported",
+            "scope": "FY2022–23 loans covered by advisory; neither acquisition cash nor independently verified disbursement",
+            "amount_date": null,
+            "source_ids": [
+              "IN-S18"
+            ],
+            "fx_conversion": null
+          },
+          "commitment_amount": null,
+          "disbursed_amount": null,
+          "source_ids": [
+            "IN-S18"
+          ]
+        }
+      ],
+      "missing_joins": [
+        "Executed acquisition financing facilities and drawdown records",
+        "Dated Tata Sons ultimate ownership/trust interests at closing",
+        "Separate later Air India restructurings and shareholder changes"
+      ],
+      "source_ids": [
+        "IN-S04",
+        "IN-S05",
+        "IN-S18"
+      ],
+      "review_status": "source_read_and_self_checked",
+      "legal_finding": null,
+      "coverage_note": "Seed case, not a population estimate. Later ownership changes require separate dated records.",
+      "transaction_scope": {
+        "Air India": 100,
+        "Air India Express": 100,
+        "AISATS": 50
+      }
+    },
+    {
+      "id": "IN-NINL-2022",
+      "name": "Neelachal Ispat Nigam privatization",
+      "jurisdiction": "India",
+      "country_code": "IN",
+      "sector": "Steel and iron ore",
+      "transaction_type": "strategic_equity_sale",
+      "status": "closed",
+      "status_stage": "shares_transferred_enterprise_value_paid",
+      "status_as_of": "2022-07-04",
+      "research_as_of": "2026-10-15",
+      "sellers": [
+        {
+          "entity_id": "in_mmtc"
+        },
+        {
+          "entity_id": "in_nmdc"
+        },
+        {
+          "entity_id": "in_bhel"
+        },
+        {
+          "entity_id": "in_mecon"
+        },
+        {
+          "entity_id": "in_omc"
+        },
+        {
+          "entity_id": "in_ipicol"
+        }
+      ],
+      "buyer": {
+        "entity_id": "in_tslp",
+        "role": "acquirer"
+      },
+      "stake_percent": 93.71,
+      "events": [
+        {
+          "date": "2022-01-31",
+          "event": "Winning bid approved",
+          "status": "bidding",
+          "source_ids": [
+            "IN-S07"
+          ]
+        },
+        {
+          "date": "2022-02-02",
+          "event": "Letter of Award",
+          "status": "bidding",
+          "source_ids": [
+            "IN-S06"
+          ]
+        },
+        {
+          "date": "2022-03-10",
+          "event": "SPA signed",
+          "status": "signed",
+          "source_ids": [
+            "IN-S06"
+          ]
+        },
+        {
+          "date": "2022-07-04",
+          "event": "Transfer completed and enterprise value paid",
+          "status": "closed",
+          "source_ids": [
+            "IN-S06"
+          ]
+        }
+      ],
+      "amounts": [
+        {
+          "value": "12100",
+          "currency": "INR",
+          "unit": "crore",
+          "unit_multiplier": 10000000,
+          "base_currency_value": "121000000000",
+          "type": "enterprise_value",
+          "stage": "paid",
+          "scope": "Includes settlement of employee/creditor/seller dues and equity; not all central-government revenue",
+          "amount_date": "2022-07-04",
+          "source_ids": [
+            "IN-S06"
+          ],
+          "fx_conversion": null
+        }
+      ],
+      "institutional_responsibility": [
+        {
+          "person": "Nitin Gadkari",
+          "role": "Road Transport and Highways",
+          "event_date": "2022-01-31",
+          "date_basis": "Dated source context; not necessarily the date of an individual vote.",
+          "source_ids": [
+            "IN-S07"
+          ],
+          "scope": "Named member of approving institutional mechanism; no individual culpability inferred."
+        },
+        {
+          "person": "Nirmala Sitharaman",
+          "role": "Finance and Corporate Affairs",
+          "event_date": "2022-01-31",
+          "date_basis": "Dated source context; not necessarily the date of an individual vote.",
+          "source_ids": [
+            "IN-S07"
+          ],
+          "scope": "Named member of approving institutional mechanism; no individual culpability inferred."
+        },
+        {
+          "person": "Piyush Goyal",
+          "role": "Commerce and Industry; Consumer Affairs, Food and Public Distribution; Textiles",
+          "event_date": "2022-01-31",
+          "date_basis": "Dated source context; not necessarily the date of an individual vote.",
+          "source_ids": [
+            "IN-S07"
+          ],
+          "scope": "Named member of approving institutional mechanism; no individual culpability inferred."
+        }
+      ],
+      "government": {
+        "name": "Union Government of India",
+        "jurisdiction": "IN",
+        "context": "Roles relate to the dated transaction, not personal responsibility for wrongdoing.",
+        "additional_jurisdiction": "Odisha state PSUs are selling shareholders; GoI did not directly own NINL."
+      },
+      "ownership": [
+        "IN-R11",
+        "IN-R12"
+      ],
+      "financing": [
+        {
+          "type": "parent_preference_share_subscription",
+          "stage": "subscription_reported",
+          "funder_entity_id": "in_tata_steel",
+          "recipient_entity_id": "in_tslp",
+          "amounts": [
+            {
+              "value": "1000",
+              "currency": "INR",
+              "unit": "crore",
+              "unit_multiplier": 10000000,
+              "base_currency_value": "10000000000",
+              "type": "preference_share_subscription",
+              "stage": "subscribed",
+              "scope": "Growth including NINL; not exclusively assigned to purchase",
+              "amount_date": "2022-03-17",
+              "source_ids": [
+                "IN-S26"
+              ],
+              "fx_conversion": null
+            },
+            {
+              "value": "11700",
+              "currency": "INR",
+              "unit": "crore",
+              "unit_multiplier": 10000000,
+              "base_currency_value": "117000000000",
+              "type": "preference_share_subscription",
+              "stage": "subscribed",
+              "scope": "Growth including NINL; not a bank loan",
+              "amount_date": "2022-03-30",
+              "source_ids": [
+                "IN-S26"
+              ],
+              "fx_conversion": null
+            }
+          ],
+          "bank_lender_ids": [],
+          "disbursed_loan_amount": null,
+          "source_ids": [
+            "IN-S26"
+          ]
+        }
+      ],
+      "missing_joins": [
+        "Seller-wise cash waterfall and debt settlements",
+        "Underlying bank facilities and disbursements funding Tata Steel/TSLP",
+        "Odisha government approval instruments and dated state ministers",
+        "Resource licence boundaries, reserve methodology and renewal conditions"
+      ],
+      "source_ids": [
+        "IN-S06",
+        "IN-S07",
+        "IN-S26"
+      ],
+      "review_status": "source_read_and_self_checked",
+      "legal_finding": null,
+      "coverage_note": "Seed case, not a population estimate. Later ownership changes require separate dated records.",
+      "resource_context": {
+        "description": "Buyer report describes approximately 2,500 acres for future growth and about 100 million tonnes of iron ore reserves. These are issuer statements, not an independently verified resource estimate.",
+        "source_ids": [
+          "IN-S26"
+        ],
+        "statement_period": "FY2021–22"
+      }
+    },
+    {
+      "id": "IN-FSNL-2024",
+      "name": "Ferro Scrap Nigam privatization",
+      "jurisdiction": "India",
+      "country_code": "IN",
+      "sector": "Steel services and recycling",
+      "transaction_type": "strategic_equity_sale",
+      "status": "closed",
+      "status_stage": "management_transferred_proceeds_received",
+      "status_as_of": "2025-01-21",
+      "research_as_of": "2026-10-15",
+      "sellers": [
+        {
+          "entity_id": "in_mstc",
+          "stake_offered_percent": 100
+        }
+      ],
+      "buyer": {
+        "entity_id": "jp_konoike",
+        "role": "acquirer"
+      },
+      "stake_percent": 100,
+      "events": [
+        {
+          "date": "2024-09-19",
+          "event": "Winning bid approved",
+          "status": "bidding",
+          "source_ids": [
+            "IN-S08"
+          ]
+        },
+        {
+          "date": "2025-01-21",
+          "event": "Acquisition completed; seller confirms receipt",
+          "status": "closed",
+          "source_ids": [
+            "IN-S09",
+            "IN-S10"
+          ]
+        }
+      ],
+      "amounts": [
+        {
+          "value": "320",
+          "currency": "INR",
+          "unit": "crore",
+          "unit_multiplier": 10000000,
+          "base_currency_value": "3200000000",
+          "type": "equity_sale_proceeds",
+          "stage": "received",
+          "scope": "Paid to MSTC; not equivalent to direct GoI disinvestment receipts",
+          "amount_date": "2025-01-21",
+          "source_ids": [
+            "IN-S09"
+          ],
+          "fx_conversion": null
+        }
+      ],
+      "institutional_responsibility": [
+        {
+          "person": "Nitin Gadkari",
+          "role": "Road Transport and Highways",
+          "event_date": "2024-09-19",
+          "date_basis": "Dated source context; not necessarily the date of an individual vote.",
+          "source_ids": [
+            "IN-S08"
+          ],
+          "scope": "Named member of approving institutional mechanism; no individual culpability inferred."
+        },
+        {
+          "person": "Nirmala Sitharaman",
+          "role": "Finance",
+          "event_date": "2024-09-19",
+          "date_basis": "Dated source context; not necessarily the date of an individual vote.",
+          "source_ids": [
+            "IN-S08"
+          ],
+          "scope": "Named member of approving institutional mechanism; no individual culpability inferred."
+        },
+        {
+          "person": "H. D. Kumaraswamy",
+          "role": "Steel",
+          "event_date": "2024-09-19",
+          "date_basis": "Dated source context; not necessarily the date of an individual vote.",
+          "source_ids": [
+            "IN-S08"
+          ],
+          "scope": "Named member of approving institutional mechanism; no individual culpability inferred."
+        }
+      ],
+      "government": {
+        "name": "Union Government of India",
+        "jurisdiction": "IN",
+        "context": "Roles relate to the dated transaction, not personal responsibility for wrongdoing."
+      },
+      "ownership": [
+        "IN-R13"
+      ],
+      "financing": [],
+      "missing_joins": [
+        "Executed SPA date and payment ledger",
+        "Buyer acquisition funding and named lenders",
+        "Konoike shareholder/beneficial-interest snapshot at closing"
+      ],
+      "source_ids": [
+        "IN-S08",
+        "IN-S09",
+        "IN-S10"
+      ],
+      "review_status": "source_read_and_self_checked",
+      "legal_finding": null,
+      "coverage_note": "Seed case, not a population estimate. Later ownership changes require separate dated records."
+    },
+    {
+      "id": "IN-CEL-2021",
+      "name": "Central Electronics attempted privatization",
+      "jurisdiction": "India",
+      "country_code": "IN",
+      "sector": "Electronics and solar equipment",
+      "transaction_type": "strategic_equity_sale",
+      "status": "cancelled",
+      "status_stage": "buyer_disqualified_transaction_terminated",
+      "status_as_of": "2022-09-28",
+      "research_as_of": "2026-10-15",
+      "sellers": [
+        {
+          "entity_id": "in_goi",
+          "stake_offered_percent": 100
+        }
+      ],
+      "buyer": {
+        "entity_id": "in_nandal",
+        "role": "former_selected_bidder"
+      },
+      "stake_percent": 100,
+      "events": [
+        {
+          "date": "2021-11-29",
+          "event": "Highest bid approved",
+          "status": "bidding",
+          "source_ids": [
+            "IN-S11"
+          ]
+        },
+        {
+          "date": "2022-09-28",
+          "event": "Bidder disqualified; current transaction terminated",
+          "status": "cancelled",
+          "source_ids": [
+            "IN-S12"
+          ]
+        }
+      ],
+      "amounts": [
+        {
+          "value": "210.006",
+          "currency": "INR",
+          "unit": "crore",
+          "unit_multiplier": 10000000,
+          "base_currency_value": "2100060000.000",
+          "type": "equity_bid",
+          "stage": "approved_then_excluded",
+          "scope": "INR 2,100,060,000 proposed price; no sale receipt established",
+          "amount_date": "2021-11-29",
+          "source_ids": [
+            "IN-S11"
+          ],
+          "fx_conversion": null
+        }
+      ],
+      "institutional_responsibility": [
+        {
+          "person": "Nitin Gadkari",
+          "role": "Road Transport and Highways",
+          "event_date": "2021-11-29",
+          "date_basis": "Dated source context; not necessarily the date of an individual vote.",
+          "source_ids": [
+            "IN-S11"
+          ],
+          "scope": "Named member of approving institutional mechanism; no individual culpability inferred."
+        },
+        {
+          "person": "Nirmala Sitharaman",
+          "role": "Finance and Corporate Affairs",
+          "event_date": "2021-11-29",
+          "date_basis": "Dated source context; not necessarily the date of an individual vote.",
+          "source_ids": [
+            "IN-S11"
+          ],
+          "scope": "Named member of approving institutional mechanism; no individual culpability inferred."
+        },
+        {
+          "person": "Jitendra Singh",
+          "role": "Minister of State (Independent Charge), Science and Technology",
+          "event_date": "2021-11-29",
+          "date_basis": "Dated source context; not necessarily the date of an individual vote.",
+          "source_ids": [
+            "IN-S11"
+          ],
+          "scope": "Named member of approving institutional mechanism; no individual culpability inferred."
+        }
+      ],
+      "government": {
+        "name": "Union Government of India",
+        "jurisdiction": "IN",
+        "context": "Roles relate to the dated transaction, not personal responsibility for wrongdoing."
+      },
+      "ownership": [],
+      "financing": [],
+      "missing_joins": [
+        "Original show-cause response and underlying NCLAT proceeding for any legal conclusions",
+        "Bidder ownership and financing at bid date",
+        "Any subsequent separate sale process, outside this terminated-process record"
+      ],
+      "source_ids": [
+        "IN-S11",
+        "IN-S12"
+      ],
+      "review_status": "source_read_and_self_checked",
+      "legal_finding": null,
+      "coverage_note": "Seed case, not a population estimate. Later ownership changes require separate dated records.",
+      "response_context": "DIPAM says it examined allegations and found merit in only one disqualification issue; no broad corruption conclusion is made."
+    },
+    {
+      "id": "IN-PAWANHANS-2022",
+      "name": "Pawan Hans attempted privatization",
+      "jurisdiction": "India",
+      "country_code": "IN",
+      "sector": "Helicopter services",
+      "transaction_type": "strategic_equity_sale",
+      "status": "cancelled",
+      "status_stage": "consortium_disqualified_eoi_annulled",
+      "status_as_of": "2023-07-03",
+      "research_as_of": "2026-10-15",
+      "sellers": [
+        {
+          "entity_id": "in_goi",
+          "stake_offered_percent": 51
+        },
+        {
+          "entity_id": "in_ongc",
+          "stake_offered_percent": 49,
+          "scope": "Separate willingness to sell on same terms; not included in 51% bid price"
+        }
+      ],
+      "buyer": {
+        "entity_id": "in_star9",
+        "role": "former_selected_bidder"
+      },
+      "stake_percent": 51,
+      "events": [
+        {
+          "date": "2022-04-29",
+          "event": "Highest bid approved",
+          "status": "bidding",
+          "source_ids": [
+            "IN-S13"
+          ]
+        },
+        {
+          "date": "2023-07-03",
+          "event": "Consortium disqualified; current EOI annulled",
+          "status": "cancelled",
+          "source_ids": [
+            "IN-S14"
+          ]
+        }
+      ],
+      "amounts": [
+        {
+          "value": "211.14",
+          "currency": "INR",
+          "unit": "crore",
+          "unit_multiplier": 10000000,
+          "base_currency_value": "2111400000.00",
+          "type": "equity_bid",
+          "stage": "approved_then_excluded",
+          "scope": "51% GoI stake only; not 100% enterprise value or receipts",
+          "amount_date": "2022-04-29",
+          "source_ids": [
+            "IN-S13"
+          ],
+          "fx_conversion": null
+        }
+      ],
+      "institutional_responsibility": [
+        {
+          "person": "Nitin Gadkari",
+          "role": "Road Transport and Highways",
+          "event_date": "2022-04-29",
+          "date_basis": "Dated source context; not necessarily the date of an individual vote.",
+          "source_ids": [
+            "IN-S13"
+          ],
+          "scope": "Named member of approving institutional mechanism; no individual culpability inferred."
+        },
+        {
+          "person": "Nirmala Sitharaman",
+          "role": "Finance and Corporate Affairs",
+          "event_date": "2022-04-29",
+          "date_basis": "Dated source context; not necessarily the date of an individual vote.",
+          "source_ids": [
+            "IN-S13"
+          ],
+          "scope": "Named member of approving institutional mechanism; no individual culpability inferred."
+        },
+        {
+          "person": "Jyotiraditya Scindia",
+          "role": "Civil Aviation",
+          "event_date": "2022-04-29",
+          "date_basis": "Dated source context; not necessarily the date of an individual vote.",
+          "source_ids": [
+            "IN-S13"
+          ],
+          "scope": "Named member of approving institutional mechanism; no individual culpability inferred."
+        }
+      ],
+      "government": {
+        "name": "Union Government of India",
+        "jurisdiction": "IN",
+        "context": "Roles relate to the dated transaction, not personal responsibility for wrongdoing."
+      },
+      "ownership": [
+        "IN-R14",
+        "IN-R15",
+        "IN-R16"
+      ],
+      "financing": [],
+      "missing_joins": [
+        "Consortium percentages, legal domicile and ownership identifiers",
+        "Original NCLT/NCLAT orders and current procedural status of separate case before legal characterization",
+        "Any later distinct sale process"
+      ],
+      "source_ids": [
+        "IN-S13",
+        "IN-S14"
+      ],
+      "review_status": "source_read_and_self_checked",
+      "legal_finding": null,
+      "coverage_note": "Seed case, not a population estimate. Later ownership changes require separate dated records.",
+      "response_context": "DIPAM records adverse insolvency orders concerning a consortium member and a show-cause opportunity. This is a bidder-disqualification record, not a conviction or finding against ministers."
+    },
+    {
+      "id": "IN-BPCL-2020",
+      "name": "BPCL strategic-sale EOI process",
+      "jurisdiction": "India",
+      "country_code": "IN",
+      "sector": "Petroleum refining and marketing",
+      "transaction_type": "strategic_equity_sale",
+      "status": "cancelled",
+      "status_stage": "eoi_process_called_off",
+      "status_as_of": "2022-05-26",
+      "research_as_of": "2026-10-15",
+      "sellers": [
+        {
+          "entity_id": "in_goi",
+          "stake_offered_percent": 52.98
+        }
+      ],
+      "buyer": null,
+      "stake_percent": 52.98,
+      "events": [
+        {
+          "date": "2019-11-20",
+          "event": "CCEA in-principle approval (53.29% stated then)",
+          "status": "announced",
+          "source_ids": [
+            "IN-S15"
+          ]
+        },
+        {
+          "date": "2020-03-07",
+          "event": "EOI for 52.98%",
+          "status": "bidding",
+          "source_ids": [
+            "IN-S25"
+          ]
+        },
+        {
+          "date": "2022-05-26",
+          "event": "Existing EOI process called off",
+          "status": "cancelled",
+          "source_ids": [
+            "IN-S25"
+          ]
+        }
+      ],
+      "amounts": [],
+      "institutional_responsibility": [
+        {
+          "person": "Narendra Modi",
+          "role": "Prime Minister, chair of CCEA",
+          "event_date": "2019-11-20",
+          "date_basis": "Dated source context; not necessarily the date of an individual vote.",
+          "source_ids": [
+            "IN-S15"
+          ],
+          "scope": "Chair named in original in-principle approval; no personal culpability implied."
+        }
+      ],
+      "government": {
+        "name": "Union Government of India",
+        "jurisdiction": "IN",
+        "context": "Roles relate to the dated transaction, not personal responsibility for wrongdoing."
+      },
+      "ownership": [],
+      "financing": [],
+      "missing_joins": [
+        "Full bidder population, withdrawals and any later separate process",
+        "Exact contemporaneous minister roster at EOI cancellation",
+        "Distinguish BPCL sale from its separate NRL-to-public-sector sale",
+        "No buyer price, purchase lender or sale receipt established"
+      ],
+      "source_ids": [
+        "IN-S15",
+        "IN-S25"
+      ],
+      "review_status": "source_read_and_self_checked",
+      "legal_finding": null,
+      "coverage_note": "Seed case, not a population estimate. Later ownership changes require separate dated records."
+    }
+  ]
+}

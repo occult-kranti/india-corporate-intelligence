@@ -444,3 +444,9 @@ See [research scope and roadmap](docs/research/INVESTIGATION_PROTOCOL.md) and [i
 [Open the research program](https://occult-kranti.github.io/india-corporate-intelligence/#/research-program) for 56 typed documentary relationships, 16 follow-up leads, 17 sector coverage entries, six historical cases and nine methods. Its 57 cited records retain source families, reading depth, page locators and acquisition checksums where available. This supplements the earlier dossier collection; these counts are not an administrative population.
 
 The page provides evidence inspection, filtered exports, a bounded path explorer and browser-local plans with revision history. See the [parent audit](docs/research/PROGRAM_PARENT_AUDIT.md) and [methods review](docs/research/INVESTIGATION_METHODS_REVIEW.md). Run `npm run validate:research-program`, `npm run test:research-program` and, after building, `npm run test:research-program:browser`.
+
+## Connected global workbench
+
+[Global Evidence Workbench](https://occult-kranti.github.io/india-corporate-intelligence/global-workbench/) and [ProtestAtlas](https://occult-kranti.github.io/protest-atlas/) are linked research workspaces. The global workbench is a dated October 14, 2026 snapshot, not a live synchronization of either repository. Existing India routes and datasets remain separate and unchanged.
+
+The reviewed source packets, pinned inputs, schemas and replay scripts are in `global-evidence-workbench/`. `npm run build` builds both India and the global subpath. Run `npm ci --prefix global-evidence-workbench/ui`, then `npm run test:global-workbench` for all 76 inherited corpus/UI tests plus hosting integration guards. Read `global-evidence-workbench/HOSTING.md` before updating the snapshot.

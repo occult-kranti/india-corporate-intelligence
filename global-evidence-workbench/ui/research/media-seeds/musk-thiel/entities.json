@@ -1,0 +1,1058 @@
+[
+  {
+    "id": "MT-E-MUSK",
+    "name": "Elon Musk",
+    "type": "person",
+    "country": null,
+    "country_code": null,
+    "sector": [
+      "automotive",
+      "space",
+      "AI",
+      "social media",
+      "infrastructure",
+      "neurotechnology"
+    ],
+    "summary": "Executive and beneficial-owner relationships are dated individually.",
+    "source_ids": [
+      "MT-M-S01",
+      "MT-M-S02",
+      "MT-M-S03"
+    ],
+    "registry_id": null,
+    "identity_status": "resolved_by_named_primary_record"
+  },
+  {
+    "id": "MT-E-TESLA",
+    "name": "Tesla, Inc.",
+    "type": "company",
+    "country": "US",
+    "country_code": "US",
+    "sector": [
+      "automotive",
+      "energy",
+      "AI",
+      "robotics"
+    ],
+    "summary": "US public issuer; CIK 1318605.",
+    "source_ids": [
+      "MT-M-S01"
+    ],
+    "registry_id": "SEC CIK 1318605",
+    "identity_status": "resolved_by_named_primary_record",
+    "geo_scope": {
+      "basis": "jurisdiction",
+      "label": "US: Texas incorporation and Austin principal executive office",
+      "source_ids": [
+        "MT-M-S01"
+      ],
+      "locator": "Form 10-K/A cover",
+      "precision": "country_only"
+    },
+    "location": {
+      "lat": 39,
+      "lon": -98,
+      "basis": "jurisdiction",
+      "label": "United States country reference. Source context: US: Texas incorporation and Austin principal executive office",
+      "precision": "schematic country reference; not headquarters coordinates or an operating footprint",
+      "source_ids": [
+        "MT-M-S01"
+      ],
+      "locator": "Form 10-K/A cover"
+    }
+  },
+  {
+    "id": "MT-E-SPACEX",
+    "name": "Space Exploration Technologies Corp.",
+    "type": "company",
+    "country": "US",
+    "country_code": "US",
+    "sector": [
+      "space launch",
+      "satellite connectivity",
+      "AI",
+      "aerospace"
+    ],
+    "summary": "SpaceX; prospectus and contracts separately identify launch, connectivity and acquired AI activities.",
+    "source_ids": [
+      "MT-M-S03",
+      "MT-M-S04",
+      "MT-T-S03"
+    ],
+    "registry_id": "SEC CIK 1181412",
+    "identity_status": "resolved_by_named_primary_record",
+    "geo_scope": {
+      "basis": "jurisdiction",
+      "label": "US: Starbase, Texas principal executive office",
+      "source_ids": [
+        "MT-M-S03"
+      ],
+      "locator": "Prospectus issuer identification and registered office",
+      "precision": "country_only"
+    },
+    "aliases": [
+      "SpaceX"
+    ],
+    "location": {
+      "lat": 39,
+      "lon": -98,
+      "basis": "jurisdiction",
+      "label": "United States country reference. Source context: US: Starbase, Texas principal executive office",
+      "precision": "schematic country reference; not headquarters coordinates or an operating footprint",
+      "source_ids": [
+        "MT-M-S03"
+      ],
+      "locator": "Prospectus issuer identification and registered office"
+    }
+  },
+  {
+    "id": "MT-E-XAI-HOLDINGS",
+    "name": "X.AI Holdings Corp.",
+    "type": "holding_company",
+    "country": null,
+    "country_code": null,
+    "sector": [
+      "AI",
+      "social media"
+    ],
+    "summary": "Parent created in the March 2025 X/xAI transaction; acquired by SpaceX in February 2026.",
+    "source_ids": [
+      "MT-M-S01"
+    ],
+    "registry_id": null,
+    "identity_status": "resolved_by_named_primary_record"
+  },
+  {
+    "id": "MT-E-XAI",
+    "name": "X.AI Corp.",
+    "type": "company",
+    "country": null,
+    "country_code": null,
+    "sector": [
+      "AI"
+    ],
+    "summary": "AI company; distinguish this legal name at event from later branding.",
+    "source_ids": [
+      "MT-M-S01",
+      "MT-M-S08"
+    ],
+    "registry_id": null,
+    "identity_status": "resolved_by_named_primary_record"
+  },
+  {
+    "id": "MT-E-X",
+    "name": "X Corp.",
+    "type": "company",
+    "country": null,
+    "country_code": null,
+    "sector": [
+      "social media",
+      "advertising"
+    ],
+    "summary": "Social-media company following Twitter; not identical to 2022 merger parent.",
+    "source_ids": [
+      "MT-M-S01"
+    ],
+    "registry_id": null,
+    "identity_status": "resolved_by_named_primary_record"
+  },
+  {
+    "id": "MT-E-XHOLDINGSI",
+    "name": "X Holdings I, Inc.",
+    "type": "holding_company",
+    "country": null,
+    "country_code": null,
+    "sector": [
+      "social media"
+    ],
+    "summary": "2022 Twitter acquisition parent, majority-owned and controlled by Musk at closing.",
+    "source_ids": [
+      "MT-M-S05"
+    ],
+    "registry_id": null,
+    "identity_status": "resolved_by_named_primary_record"
+  },
+  {
+    "id": "MT-E-TWITTER",
+    "name": "Twitter, Inc.",
+    "type": "company",
+    "country": null,
+    "country_code": null,
+    "sector": [
+      "social media",
+      "advertising"
+    ],
+    "summary": "Historical public issuer; shares canceled at the October 2022 merger.",
+    "source_ids": [
+      "MT-M-S05"
+    ],
+    "registry_id": "SEC CIK 1418091",
+    "identity_status": "resolved_by_named_primary_record"
+  },
+  {
+    "id": "MT-E-BORING",
+    "name": "The Boring Company",
+    "type": "company",
+    "country": null,
+    "country_code": null,
+    "sector": [
+      "tunneling",
+      "transport infrastructure",
+      "technology"
+    ],
+    "summary": "Musk-founded tunneling company with separately announced funding and infrastructure partnerships.",
+    "source_ids": [
+      "MT-M-S01",
+      "MT-M-S09",
+      "MT-T-S03"
+    ],
+    "registry_id": null,
+    "identity_status": "resolved_by_named_primary_record",
+    "aliases": [
+      "Boring Company"
+    ]
+  },
+  {
+    "id": "MT-E-NEURALINK",
+    "name": "Neuralink Corp.",
+    "type": "company",
+    "country": null,
+    "country_code": null,
+    "sector": [
+      "brain-computer interfaces",
+      "medical devices",
+      "technology"
+    ],
+    "summary": "Musk founder/CEO role documented; personal ownership percentage not acquired.",
+    "source_ids": [
+      "MT-M-S01",
+      "MT-T-S03"
+    ],
+    "registry_id": null,
+    "identity_status": "resolved_by_named_primary_record",
+    "aliases": [
+      "Neuralink"
+    ]
+  },
+  {
+    "id": "MT-E-SOLARCITY",
+    "name": "SolarCity Corporation",
+    "type": "company",
+    "country": null,
+    "country_code": null,
+    "sector": [
+      "solar installation"
+    ],
+    "summary": "Acquired by Tesla in November 2016.",
+    "source_ids": [
+      "MT-M-S11"
+    ],
+    "registry_id": null,
+    "identity_status": "resolved_by_named_primary_record"
+  },
+  {
+    "id": "MT-E-NASA",
+    "name": "National Aeronautics and Space Administration",
+    "type": "public_body",
+    "country": "US",
+    "country_code": "US",
+    "sector": [
+      "civil space"
+    ],
+    "summary": "Commercial crew contracting agency.",
+    "source_ids": [
+      "MT-M-S06"
+    ],
+    "registry_id": null,
+    "identity_status": "resolved_by_named_primary_record",
+    "geo_scope": {
+      "basis": "jurisdiction",
+      "label": "United States federal agency",
+      "source_ids": [
+        "MT-M-S06"
+      ],
+      "locator": "NASA agency release",
+      "precision": "country_only"
+    },
+    "location": {
+      "lat": 39,
+      "lon": -98,
+      "basis": "jurisdiction",
+      "label": "United States country reference. Source context: United States federal agency",
+      "precision": "schematic country reference; not headquarters coordinates or an operating footprint",
+      "source_ids": [
+        "MT-M-S06"
+      ],
+      "locator": "NASA agency release"
+    }
+  },
+  {
+    "id": "MT-E-USSF",
+    "name": "US Space Force",
+    "type": "public_body",
+    "country": "US",
+    "country_code": "US",
+    "sector": [
+      "defense",
+      "space"
+    ],
+    "summary": "National Security Space Launch procurement.",
+    "source_ids": [
+      "MT-M-S07"
+    ],
+    "registry_id": null,
+    "identity_status": "resolved_by_named_primary_record",
+    "geo_scope": {
+      "basis": "jurisdiction",
+      "label": "United States military service",
+      "source_ids": [
+        "MT-M-S07"
+      ],
+      "locator": "US Space Force program description",
+      "precision": "country_only"
+    },
+    "location": {
+      "lat": 39,
+      "lon": -98,
+      "basis": "jurisdiction",
+      "label": "United States country reference. Source context: United States military service",
+      "precision": "schematic country reference; not headquarters coordinates or an operating footprint",
+      "source_ids": [
+        "MT-M-S07"
+      ],
+      "locator": "US Space Force program description"
+    }
+  },
+  {
+    "id": "MT-E-DOD",
+    "name": "US Department of Defense (name at July 2025 award)",
+    "type": "public_body",
+    "country": "US",
+    "country_code": "US",
+    "sector": [
+      "defense",
+      "AI"
+    ],
+    "summary": "Contract counterparty as named in xAI July 2025 announcement.",
+    "source_ids": [
+      "MT-M-S08"
+    ],
+    "registry_id": null,
+    "identity_status": "resolved_by_named_primary_record",
+    "geo_scope": {
+      "basis": "jurisdiction",
+      "label": "United States department as named in July 2025 announcement",
+      "source_ids": [
+        "MT-M-S08"
+      ],
+      "locator": "Contract-counterparty description",
+      "precision": "country_only"
+    },
+    "location": {
+      "lat": 39,
+      "lon": -98,
+      "basis": "jurisdiction",
+      "label": "United States country reference. Source context: United States department as named in July 2025 announcement",
+      "precision": "schematic country reference; not headquarters coordinates or an operating footprint",
+      "source_ids": [
+        "MT-M-S08"
+      ],
+      "locator": "Contract-counterparty description"
+    }
+  },
+  {
+    "id": "MT-E-SEQUOIA",
+    "name": "Sequoia Capital",
+    "type": "fund_manager",
+    "country": null,
+    "country_code": null,
+    "sector": [
+      "venture capital"
+    ],
+    "summary": "Co-led The Boring Company Series C; specific fund vehicle not disclosed here.",
+    "source_ids": [
+      "MT-M-S10"
+    ],
+    "registry_id": null,
+    "identity_status": "resolved_by_named_primary_record"
+  },
+  {
+    "id": "MT-E-VYCAPITAL",
+    "name": "Vy Capital",
+    "type": "fund_manager",
+    "country": null,
+    "country_code": null,
+    "sector": [
+      "venture capital"
+    ],
+    "summary": "Co-led The Boring Company Series C; specific fund vehicle not disclosed here.",
+    "source_ids": [
+      "MT-M-S10"
+    ],
+    "registry_id": null,
+    "identity_status": "resolved_by_named_primary_record"
+  },
+  {
+    "id": "MT-E-UAE-ROUND",
+    "name": "UAE and affiliated investment entities (announced group)",
+    "type": "unresolved_investor_group",
+    "country": "AE",
+    "country_code": "AE",
+    "sector": [
+      "sovereign investment"
+    ],
+    "summary": "Issuer-named Series D lead group; not resolved to exact legal entities.",
+    "source_ids": [
+      "MT-M-S09"
+    ],
+    "registry_id": null,
+    "identity_status": "resolved_by_named_primary_record",
+    "geo_scope": {
+      "basis": "jurisdiction",
+      "label": "UAE and affiliated entities: announced investor group, legal entities unresolved",
+      "source_ids": [
+        "MT-M-S09"
+      ],
+      "locator": "Funding announcement lead investors",
+      "precision": "country_only"
+    },
+    "location": {
+      "lat": 24,
+      "lon": 54,
+      "basis": "jurisdiction",
+      "label": "United Arab Emirates country reference. Source context: UAE and affiliated entities: announced investor group, legal entities unresolved",
+      "precision": "schematic country reference; not headquarters coordinates or an operating footprint",
+      "source_ids": [
+        "MT-M-S09"
+      ],
+      "locator": "Funding announcement lead investors"
+    }
+  },
+  {
+    "id": "MT-E-AMERICAPAC",
+    "name": "America PAC",
+    "type": "political_committee",
+    "country": "US",
+    "country_code": "US",
+    "sector": [
+      "election spending"
+    ],
+    "summary": "FEC C00879510, independent-expenditure-only political committee.",
+    "source_ids": [
+      "MT-M-S12",
+      "MT-M-S13"
+    ],
+    "registry_id": "FEC C00879510",
+    "identity_status": "resolved_by_named_primary_record",
+    "geo_scope": {
+      "basis": "jurisdiction",
+      "label": "United States federal political committee registration",
+      "source_ids": [
+        "MT-M-S12"
+      ],
+      "locator": "FEC committee C00879510",
+      "precision": "country_only"
+    },
+    "location": {
+      "lat": 39,
+      "lon": -98,
+      "basis": "jurisdiction",
+      "label": "United States country reference. Source context: United States federal political committee registration",
+      "precision": "schematic country reference; not headquarters coordinates or an operating footprint",
+      "source_ids": [
+        "MT-M-S12"
+      ],
+      "locator": "FEC committee C00879510"
+    }
+  },
+  {
+    "id": "MT-E-USAINC",
+    "name": "United States of America Inc.",
+    "type": "company",
+    "country": null,
+    "country_code": null,
+    "sector": [
+      "petition payment services"
+    ],
+    "summary": "PAC identifies it as check processor; exact registered entity and corporate control not resolved in this packet.",
+    "source_ids": [
+      "MT-M-S13",
+      "MT-M-S14"
+    ],
+    "registry_id": null,
+    "identity_status": "resolved_by_named_primary_record"
+  },
+  {
+    "id": "MT-E-MUSK-TRUST",
+    "name": "Elon Musk Revocable Trust",
+    "type": "trust",
+    "country": null,
+    "country_code": null,
+    "sector": [
+      "investment holdings"
+    ],
+    "summary": "Trust and individual are kept as separate named transaction counterparties.",
+    "source_ids": [
+      "MT-M-S02",
+      "MT-M-S13"
+    ],
+    "registry_id": null,
+    "identity_status": "resolved_by_named_primary_record"
+  },
+  {
+    "id": "MT-E-RBGPAC",
+    "name": "RBG PAC",
+    "type": "political_committee",
+    "country": "US",
+    "country_code": "US",
+    "sector": [
+      "election spending"
+    ],
+    "summary": "Federal political committee; source report identifies its receipts and independent expenditures.",
+    "source_ids": [
+      "MT-M-S18",
+      "MT-M-S19"
+    ],
+    "geo_scope": {
+      "basis": "jurisdiction",
+      "label": "United States federal political committee registration",
+      "source_ids": [
+        "MT-M-S18"
+      ],
+      "locator": "Form 3X committee identification",
+      "precision": "country_only"
+    },
+    "location": {
+      "lat": 39,
+      "lon": -98,
+      "basis": "jurisdiction",
+      "label": "United States country reference. Source context: United States federal political committee registration",
+      "precision": "schematic country reference; not headquarters coordinates or an operating footprint",
+      "source_ids": [
+        "MT-M-S18"
+      ],
+      "locator": "Form 3X committee identification"
+    }
+  },
+  {
+    "id": "MT-E-WESTERN-CREATIVE",
+    "name": "Western Creative Group LLC",
+    "type": "vendor",
+    "country": null,
+    "country_code": null,
+    "sector": [
+      "political media",
+      "digital advertising",
+      "printing"
+    ],
+    "summary": "Named Schedule E payee in RBG PAC filing; no ownership inference.",
+    "source_ids": [
+      "MT-M-S18"
+    ]
+  },
+  {
+    "id": "MT-E-IMGE",
+    "name": "IMGE LLC",
+    "type": "vendor",
+    "country": null,
+    "country_code": null,
+    "sector": [
+      "texting services",
+      "political communications"
+    ],
+    "summary": "Named America PAC vendor; service wording comes from selected filing rows.",
+    "source_ids": [
+      "MT-M-S17"
+    ]
+  },
+  {
+    "id": "MT-E-PUSH-DIGITAL",
+    "name": "Push Digital LLC",
+    "type": "vendor",
+    "country": null,
+    "country_code": null,
+    "sector": [
+      "digital consulting",
+      "digital media"
+    ],
+    "summary": "Named America PAC vendor; no ownership or personal control inference.",
+    "source_ids": [
+      "MT-M-S17"
+    ]
+  },
+  {
+    "id": "MT-E-THIEL",
+    "name": "Peter Thiel",
+    "type": "person",
+    "country": null,
+    "sector": [
+      "venture_capital"
+    ],
+    "summary": "Person identified consistently through SEC biographies, official company releases and FEC donor name/employer.",
+    "source_ids": [
+      "MT-T-S01",
+      "MT-T-S02",
+      "MT-T-S06",
+      "MT-T-S07",
+      "MT-T-S08"
+    ],
+    "geo_scope": null
+  },
+  {
+    "id": "MT-E-PALANTIR",
+    "name": "Palantir Technologies Inc.",
+    "type": "company",
+    "country": "US",
+    "sector": [
+      "enterprise_software"
+    ],
+    "summary": "SEC registrant CIK 1321655; 2026 proxy is the ownership snapshot source.",
+    "source_ids": [
+      "MT-T-S01"
+    ],
+    "identifiers": {
+      "sec_cik": "0001321655"
+    },
+    "geo_scope": {
+      "basis": "jurisdiction",
+      "label": "United States — Delaware corporation",
+      "source_ids": [
+        "MT-T-S01"
+      ],
+      "locator": "Questions and Answers, Why am I receiving these materials?, p. 1: Delaware corporation"
+    },
+    "location": {
+      "lat": 39,
+      "lon": -98,
+      "basis": "jurisdiction",
+      "label": "United States country reference. Source context: United States — Delaware corporation",
+      "precision": "schematic country reference; not headquarters coordinates or an operating footprint",
+      "source_ids": [
+        "MT-T-S01"
+      ],
+      "locator": "Questions and Answers, Why am I receiving these materials?, p. 1: Delaware corporation"
+    }
+  },
+  {
+    "id": "MT-E-FOUNDERS-FUND",
+    "name": "Founders Fund",
+    "type": "investment_firm",
+    "country": null,
+    "sector": [
+      "venture_capital"
+    ],
+    "summary": "Firm-level portfolio is distinct from Peter Thiel’s personal beneficial ownership.",
+    "source_ids": [
+      "MT-T-S02",
+      "MT-T-S03"
+    ],
+    "geo_scope": null
+  },
+  {
+    "id": "MT-E-THIEL-CAPITAL",
+    "name": "Thiel Capital",
+    "type": "investment_firm",
+    "country": null,
+    "sector": [
+      "investment_management"
+    ],
+    "summary": "Thiel’s presidency is disclosed in Palantir’s 2026 proxy; exact ownership structure not reconstructed.",
+    "source_ids": [
+      "MT-T-S01"
+    ],
+    "geo_scope": null
+  },
+  {
+    "id": "MT-E-META",
+    "name": "Meta Platforms, Inc.",
+    "type": "company",
+    "country": "US",
+    "sector": [
+      "social_media"
+    ],
+    "summary": "Facebook is a historical name/brand appearing in the Founders Fund portfolio; Thiel’s board tenure ended in 2022.",
+    "source_ids": [
+      "MT-T-S01",
+      "MT-T-S04",
+      "MT-T-S05"
+    ],
+    "identifiers": {
+      "sec_cik": "0001326801"
+    },
+    "aliases": [
+      "Facebook"
+    ],
+    "geo_scope": {
+      "basis": "jurisdiction",
+      "label": "United States — Delaware corporation",
+      "source_ids": [
+        "MT-T-S05"
+      ],
+      "locator": "Information About the Annual Meeting, opening paragraph: Delaware corporation"
+    },
+    "location": {
+      "lat": 39,
+      "lon": -98,
+      "basis": "jurisdiction",
+      "label": "United States country reference. Source context: United States — Delaware corporation",
+      "precision": "schematic country reference; not headquarters coordinates or an operating footprint",
+      "source_ids": [
+        "MT-T-S05"
+      ],
+      "locator": "Information About the Annual Meeting, opening paragraph: Delaware corporation"
+    }
+  },
+  {
+    "id": "MT-E-RUMBLE",
+    "name": "Rumble",
+    "type": "company_or_platform",
+    "country": null,
+    "sector": [
+      "video",
+      "cloud_services"
+    ],
+    "summary": "Historical 2021 investment announcement; current RUM Group legal structure and Thiel stake not reconstructed.",
+    "source_ids": [
+      "MT-T-S06"
+    ],
+    "geo_scope": null
+  },
+  {
+    "id": "MT-E-NARYA",
+    "name": "Narya Capital",
+    "type": "investment_firm",
+    "country": null,
+    "sector": [
+      "venture_capital"
+    ],
+    "summary": "Named lead investor in Rumble’s 2021 financing announcement.",
+    "source_ids": [
+      "MT-T-S06"
+    ],
+    "geo_scope": null
+  },
+  {
+    "id": "MT-E-JD-VANCE",
+    "name": "J.D. Vance",
+    "type": "person",
+    "country": null,
+    "sector": [
+      "politics"
+    ],
+    "summary": "2022 Ohio Senate candidate and named Narya co-founder in the 2021 Rumble announcement.",
+    "source_ids": [
+      "MT-T-S06",
+      "MT-T-S14",
+      "MT-T-S16"
+    ],
+    "identifiers": {
+      "fec_candidate_id": "S2OH00436"
+    },
+    "geo_scope": null
+  },
+  {
+    "id": "MT-E-BLAKE-MASTERS",
+    "name": "Blake Masters",
+    "type": "person",
+    "country": null,
+    "sector": [
+      "politics"
+    ],
+    "summary": "2022 Arizona Senate candidate identified in FEC reported supportive expenditure.",
+    "source_ids": [
+      "MT-T-S13"
+    ],
+    "identifiers": {
+      "fec_candidate_id": "S2AZ00372"
+    },
+    "geo_scope": null
+  },
+  {
+    "id": "MT-E-PROTECT-OHIO",
+    "name": "Protect Ohio Values PAC (POV PAC)",
+    "type": "political_committee",
+    "country": "US",
+    "sector": [
+      "elections"
+    ],
+    "summary": "FEC C00770495; hybrid PAC with non-contribution account; unauthorized committee distinct from a candidate committee. Registered as IE-only in February 2021; changed to hybrid in November 2021.",
+    "source_ids": [
+      "MT-T-S08",
+      "MT-T-S12",
+      "MT-T-S16"
+    ],
+    "identifiers": {
+      "fec_committee_id": "C00770495"
+    },
+    "geo_scope": {
+      "basis": "jurisdiction",
+      "label": "United States — FEC-registered federal political committee",
+      "source_ids": [
+        "MT-T-S12"
+      ],
+      "locator": "FEC committee overview heading, committee ID and classification; scope is federal electoral jurisdiction, not incorporation location"
+    },
+    "location": {
+      "lat": 39,
+      "lon": -98,
+      "basis": "jurisdiction",
+      "label": "United States country reference. Source context: United States — FEC-registered federal political committee",
+      "precision": "schematic country reference; not headquarters coordinates or an operating footprint",
+      "source_ids": [
+        "MT-T-S12"
+      ],
+      "locator": "FEC committee overview heading, committee ID and classification; scope is federal electoral jurisdiction, not incorporation location"
+    }
+  },
+  {
+    "id": "MT-E-SAVING-ARIZONA",
+    "name": "Saving Arizona PAC",
+    "type": "political_committee",
+    "country": "US",
+    "sector": [
+      "elections"
+    ],
+    "summary": "FEC C00777185; independent-expenditure-only PAC, unauthorized committee.",
+    "source_ids": [
+      "MT-T-S07",
+      "MT-T-S11"
+    ],
+    "identifiers": {
+      "fec_committee_id": "C00777185"
+    },
+    "geo_scope": {
+      "basis": "jurisdiction",
+      "label": "United States — FEC-registered federal political committee",
+      "source_ids": [
+        "MT-T-S11"
+      ],
+      "locator": "FEC committee overview heading, committee ID and classification; scope is federal electoral jurisdiction, not incorporation location"
+    },
+    "location": {
+      "lat": 39,
+      "lon": -98,
+      "basis": "jurisdiction",
+      "label": "United States country reference. Source context: United States — FEC-registered federal political committee",
+      "precision": "schematic country reference; not headquarters coordinates or an operating footprint",
+      "source_ids": [
+        "MT-T-S11"
+      ],
+      "locator": "FEC committee overview heading, committee ID and classification; scope is federal electoral jurisdiction, not incorporation location"
+    }
+  },
+  {
+    "id": "MT-E-PLTR-HOLDINGS",
+    "name": "PLTR Holdings LLC",
+    "type": "holding_company",
+    "country": null,
+    "sector": [
+      "investment_holding"
+    ],
+    "summary": "Record holder identified in Palantir proxy footnote 9; Thiel named sole beneficial owner.",
+    "source_ids": [
+      "MT-T-S01"
+    ],
+    "geo_scope": null
+  },
+  {
+    "id": "MT-E-STS-HOLDINGS-II",
+    "name": "STS Holdings II LLC",
+    "type": "holding_company",
+    "country": null,
+    "sector": [
+      "investment_holding"
+    ],
+    "summary": "Record holder identified in Palantir proxy footnote 9; Thiel named sole beneficial owner.",
+    "source_ids": [
+      "MT-T-S01"
+    ],
+    "geo_scope": null
+  },
+  {
+    "id": "MT-E-RIVENDELL-7",
+    "name": "Rivendell 7 LLC",
+    "type": "holding_company",
+    "country": null,
+    "sector": [
+      "investment_holding"
+    ],
+    "summary": "Record holder identified in Palantir proxy footnote 9; Thiel named sole beneficial owner.",
+    "source_ids": [
+      "MT-T-S01"
+    ],
+    "geo_scope": null
+  },
+  {
+    "id": "MT-E-RIVENDELL-25",
+    "name": "Rivendell 25 LLC",
+    "type": "holding_company",
+    "country": null,
+    "sector": [
+      "investment_holding"
+    ],
+    "summary": "Record holder identified in Palantir proxy footnote 9; Thiel named sole beneficial owner.",
+    "source_ids": [
+      "MT-T-S01"
+    ],
+    "geo_scope": null
+  },
+  {
+    "id": "MT-E-PALANTIR-FOUNDER-ARRANGEMENT",
+    "name": "Palantir founder voting arrangement",
+    "type": "voting_arrangement",
+    "country": null,
+    "sector": [
+      "corporate_governance"
+    ],
+    "summary": "Collective founder arrangement including Karp, Cohen and Thiel; distinct from Thiel alone.",
+    "source_ids": [
+      "MT-T-S01"
+    ],
+    "geo_scope": null
+  },
+  {
+    "id": "MT-E-ALEX-KARP",
+    "name": "Alexander Karp",
+    "type": "person",
+    "country": null,
+    "sector": [
+      "technology"
+    ],
+    "summary": "Palantir co-founder and participant in founder voting arrangements.",
+    "source_ids": [
+      "MT-T-S01"
+    ],
+    "geo_scope": null
+  },
+  {
+    "id": "MT-E-STEPHEN-COHEN",
+    "name": "Stephen Cohen",
+    "type": "person",
+    "country": null,
+    "sector": [
+      "technology"
+    ],
+    "summary": "Palantir co-founder and participant in founder voting arrangements.",
+    "source_ids": [
+      "MT-T-S01"
+    ],
+    "geo_scope": null
+  },
+  {
+    "id": "MT-E-ABCELLERA",
+    "name": "AbCellera Biologics Inc.",
+    "type": "company",
+    "country": null,
+    "sector": [
+      "biotechnology"
+    ],
+    "summary": "Thiel’s historical 2020–2024 directorship appears in his 2026 SEC biography.",
+    "source_ids": [
+      "MT-T-S01"
+    ],
+    "geo_scope": null
+  },
+  {
+    "id": "MT-E-PAYPAL-HISTORICAL",
+    "name": "PayPal, Inc. (historical company)",
+    "type": "company",
+    "country": null,
+    "sector": [
+      "payments"
+    ],
+    "summary": "Company co-founded by Thiel; his CEO/president/chairman roles ended with eBay’s 2002 acquisition per SEC biography. Do not treat as current PayPal Holdings ownership.",
+    "source_ids": [
+      "MT-T-S01"
+    ],
+    "geo_scope": null
+  },
+  {
+    "id": "MT-E-ANDURIL",
+    "name": "Anduril",
+    "type": "company_or_brand",
+    "country": null,
+    "sector": [
+      "defense_technology"
+    ],
+    "summary": "Listed on Founders Fund’s portfolio; personal ownership by Thiel and current stake are not established.",
+    "source_ids": [
+      "MT-T-S03",
+      "MT-T-S20"
+    ],
+    "geo_scope": null
+  },
+  {
+    "id": "MT-E-STRIPE",
+    "name": "Stripe",
+    "type": "company_or_brand",
+    "country": null,
+    "sector": [
+      "payments"
+    ],
+    "summary": "Listed on Founders Fund’s portfolio; personal ownership by Thiel and current stake are not established.",
+    "source_ids": [
+      "MT-T-S03",
+      "MT-T-S19"
+    ],
+    "geo_scope": null
+  },
+  {
+    "id": "MT-E-GENERAL-MATTER",
+    "name": "General Matter, Inc.",
+    "type": "company_or_brand",
+    "country": null,
+    "sector": [
+      "nuclear_energy"
+    ],
+    "summary": "Listed on Founders Fund’s portfolio; personal ownership by Thiel and current stake are not established.",
+    "source_ids": [
+      "MT-T-S03",
+      "MT-T-S18"
+    ],
+    "geo_scope": null
+  },
+  {
+    "id": "MT-E-FLOCK",
+    "name": "Flock Safety",
+    "type": "company_or_brand",
+    "country": null,
+    "sector": [
+      "public_safety_technology",
+      "surveillance"
+    ],
+    "summary": "Listed on Founders Fund’s portfolio; personal ownership by Thiel and current stake are not established.",
+    "source_ids": [
+      "MT-T-S03",
+      "MT-T-S17"
+    ],
+    "geo_scope": null
+  },
+  {
+    "id": "MT-E-SPOTIFY",
+    "name": "Spotify",
+    "type": "company_or_brand",
+    "country": null,
+    "sector": [
+      "media"
+    ],
+    "summary": "Listed on Founders Fund’s portfolio; personal ownership by Thiel and current stake are not established.",
+    "source_ids": [
+      "MT-T-S03"
+    ],
+    "geo_scope": null
+  },
+  {
+    "id": "MT-E-THE-ATHLETIC",
+    "name": "The Athletic",
+    "type": "company_or_brand",
+    "country": null,
+    "sector": [
+      "media"
+    ],
+    "summary": "Listed on Founders Fund’s portfolio; personal ownership by Thiel and current stake are not established.",
+    "source_ids": [
+      "MT-T-S03"
+    ],
+    "geo_scope": null
+  }
+]

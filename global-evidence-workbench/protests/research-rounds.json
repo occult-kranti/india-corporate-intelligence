@@ -1,0 +1,56 @@
+[
+  {
+    "round": 1,
+    "name": "Source collection and denominator audit",
+    "decision": "Preserve 84 inherited episodes separately. Add 22 opened sources and 13 supplementary records without claiming all baseline sources rechecked.",
+    "source_window": "2025-02-12 through 2026-10-14 publications, plus undated union context; historical protest context back to July 2024",
+    "coverage": "249 country/territory roster; 123 city rows; 12 countries with selected supplemental checks, three previously missing countries represented.",
+    "limits": "No exhaustive global city roster, population denominator, or ongoing-activity guarantee."
+  },
+  {
+    "round": 2,
+    "name": "Candidate connections and alternative explanations",
+    "decision": "Keep 16 typed target/case edges, one narrow shared-organization association and two non-causal comparisons. No finance or hidden-direction edge supported.",
+    "competing_explanations": [
+      {
+        "hypothesis": "Independent local grievances",
+        "expected": "Distinct demands, national negotiations and different responses",
+        "observed": "Education funding, election administration, forest policy, pay bargaining and international solidarity differ."
+      },
+      {
+        "hypothesis": "Cross-event public organizational participation",
+        "expected": "Same named public organization in independent event reporting",
+        "observed": "Greenpeace Africa named in Nairobi and Cape Town reporting; financial coordination not established."
+      },
+      {
+        "hypothesis": "Apparent cross-border wave partly due to source selection",
+        "expected": "English-language and highly visible city overrepresentation",
+        "observed": "Supplement predominantly English; two Spanish sources, limited local-language coverage."
+      }
+    ]
+  },
+  {
+    "round": 3,
+    "name": "Falsification and provenance review",
+    "decision": "Retain EC response, union disavowal of rioters, employer/union dispute perspectives, government energy rationale and UN procedural caveats adjacent to claims.",
+    "corrections": [
+      "Pune overview publication date removed as event date.",
+      "Bangladesh named killing precise date removed; period retained.",
+      "Nepal letter classified as allegations, not finding.",
+      "National New Zealand strike not assigned automatically to capital.",
+      "Unopened Kenya alternative not counted as corroboration.",
+      "City reference points not treated as event locations.",
+      "Direct CEC episode-to-court documentary edge replaced with court-scoped context plus reported bridge."
+    ],
+    "rejected_join_ids": [
+      "pr-reject-coordination",
+      "pr-reject-albania",
+      "pr-reject-kenya-date",
+      "pr-reject-nz-dateline",
+      "pr-reject-violence",
+      "pr-reject-bd-np-procedure",
+      "pr-reject-absence"
+    ],
+    "review_status": "Independent peer confirmed primary October9 order and caught scope overjoin; corrected with separate judicial protest-context node and attributed reporting bridge."
+  }
+]

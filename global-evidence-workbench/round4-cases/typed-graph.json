@@ -1,0 +1,322 @@
+{
+  "as_of": "2026-10-14",
+  "nodes": [
+    {
+      "id": "DCG",
+      "name": "Daphne Caruana Galizia",
+      "type": "person"
+    },
+    {
+      "id": "FENECH",
+      "name": "Yorgen Fenech",
+      "type": "person"
+    },
+    {
+      "id": "RA",
+      "name": "Robert Agius",
+      "type": "person"
+    },
+    {
+      "id": "JV",
+      "name": "Jamie Vella",
+      "type": "person"
+    },
+    {
+      "id": "KUC",
+      "name": "Ján Kuciak",
+      "type": "person"
+    },
+    {
+      "id": "KOC",
+      "name": "Marián Kočner",
+      "type": "person"
+    },
+    {
+      "id": "ZS",
+      "name": "Alena Zsuzsová",
+      "type": "person"
+    },
+    {
+      "id": "MTCASE",
+      "name": "Daphne-related proceedings (multiple dockets)",
+      "type": "case_family",
+      "docket_id": null
+    },
+    {
+      "id": "SKCASE",
+      "name": "Kuciak-related proceedings (docket identifier unresolved)",
+      "type": "case_family",
+      "docket_id": null
+    },
+    {
+      "id": "EG",
+      "name": "ElectroGas Malta Ltd",
+      "type": "company",
+      "registry_id": null
+    },
+    {
+      "id": "GEM",
+      "name": "GEM Holdings Ltd",
+      "type": "company",
+      "registry_id": "60349",
+      "registry_jurisdiction": "Malta",
+      "id_source": "M6",
+      "id_locator": "Glossary Shareholder, printed p590"
+    },
+    {
+      "id": "SPV",
+      "name": "Siemens Project Ventures GmbH",
+      "type": "company",
+      "registry_id": "HRB 5812",
+      "registry_jurisdiction": "Amtsgericht Fürth, Germany",
+      "id_source": "M6",
+      "id_locator": "Glossary Shareholder, printed p590"
+    },
+    {
+      "id": "SOC",
+      "name": "Socar Trading SA",
+      "type": "company",
+      "registry_id": "CHE-113.990.112",
+      "registry_jurisdiction": "Switzerland",
+      "id_source": "M6",
+      "id_locator": "Glossary Shareholder, printed p590"
+    },
+    {
+      "id": "ENEM",
+      "name": "Enemalta Corporation",
+      "type": "public_body"
+    },
+    {
+      "id": "MTSTATE",
+      "name": "Maltese State",
+      "type": "state"
+    },
+    {
+      "id": "17B",
+      "name": "17 Black",
+      "type": "company"
+    },
+    {
+      "id": "MAYOR",
+      "name": "Mayor Trans",
+      "type": "company"
+    },
+    {
+      "id": "ORION",
+      "name": "Orion Engineering",
+      "type": "company"
+    },
+    {
+      "id": "OLAF",
+      "name": "European Anti-Fraud Office",
+      "type": "public_body"
+    },
+    {
+      "id": "SKAGRI",
+      "name": "Slovak agricultural direct-payment investigations 2013–2019",
+      "type": "administrative_case"
+    },
+    {
+      "id": "MTPRO",
+      "name": "Valletta post-acquittal protest September 2026",
+      "type": "protest_episode"
+    },
+    {
+      "id": "SKPRO",
+      "name": "Slovakia anniversary rallies 21 February 2025",
+      "type": "protest_episode"
+    },
+    {
+      "id": "MT27_2022",
+      "name": "Republic of Malta v Agius et al., indictment 27/2022",
+      "type": "criminal_case",
+      "docket_id": "Att T’Akkuża 27/2022",
+      "judgment_record_id": "158266",
+      "source_id": "M3"
+    },
+    {
+      "id": "MTFENECH",
+      "name": "Yorgen Fenech murder-related proceedings (docket identifier unresolved)",
+      "type": "proceeding_unresolved_identifier",
+      "docket_id": null
+    }
+  ],
+  "edges": [
+    {
+      "id": "E01",
+      "source": "FENECH",
+      "target": "MTFENECH",
+      "predicate": "acquitted_first_instance",
+      "claim_id": "C01",
+      "epistemic_status": "adjudicated",
+      "as_of": "2026-10-14",
+      "valid_from": null,
+      "valid_to": null
+    },
+    {
+      "id": "E02",
+      "source": "FENECH",
+      "target": "MTFENECH",
+      "predicate": "acquittal_under_prosecution_appeal",
+      "claim_id": "C02",
+      "epistemic_status": "reported_procedure",
+      "as_of": "2026-10-14",
+      "valid_from": null,
+      "valid_to": null
+    },
+    {
+      "id": "E03",
+      "source": "RA",
+      "target": "MT27_2022",
+      "predicate": "conviction_upheld",
+      "claim_id": "C03",
+      "epistemic_status": "adjudicated",
+      "as_of": "2026-10-14",
+      "valid_from": null,
+      "valid_to": null
+    },
+    {
+      "id": "E04",
+      "source": "JV",
+      "target": "MT27_2022",
+      "predicate": "conviction_upheld",
+      "claim_id": "C03",
+      "epistemic_status": "adjudicated",
+      "as_of": "2026-10-14",
+      "valid_from": null,
+      "valid_to": null
+    },
+    {
+      "id": "E05",
+      "source": "MTSTATE",
+      "target": "DCG",
+      "predicate": "inquiry_found_failure_to_protect",
+      "claim_id": "C04",
+      "epistemic_status": "public_inquiry_finding",
+      "as_of": "2026-10-14",
+      "valid_from": null,
+      "valid_to": null
+    },
+    {
+      "id": "E06",
+      "source": "GEM",
+      "target": "EG",
+      "predicate": "historical_shareholder",
+      "claim_id": "C05",
+      "epistemic_status": "documentary",
+      "as_of": "2026-10-14",
+      "valid_from": null,
+      "valid_to": null
+    },
+    {
+      "id": "E07",
+      "source": "SPV",
+      "target": "EG",
+      "predicate": "historical_shareholder",
+      "claim_id": "C05",
+      "epistemic_status": "documentary",
+      "as_of": "2026-10-14",
+      "valid_from": null,
+      "valid_to": null
+    },
+    {
+      "id": "E08",
+      "source": "SOC",
+      "target": "EG",
+      "predicate": "historical_shareholder",
+      "claim_id": "C05",
+      "epistemic_status": "documentary",
+      "as_of": "2026-10-14",
+      "valid_from": null,
+      "valid_to": null
+    },
+    {
+      "id": "E09",
+      "source": "MAYOR",
+      "target": "17B",
+      "predicate": "receipt_reported_by_FIAU_via_PACE",
+      "claim_id": "C07",
+      "epistemic_status": "attributed",
+      "as_of": "2026-10-14",
+      "valid_from": null,
+      "valid_to": null
+    },
+    {
+      "id": "E10",
+      "source": "ORION",
+      "target": "17B",
+      "predicate": "receipt_reported_by_FIAU_via_PACE",
+      "claim_id": "C07",
+      "epistemic_status": "attributed",
+      "as_of": "2026-10-14",
+      "valid_from": null,
+      "valid_to": null
+    },
+    {
+      "id": "E11",
+      "source": "MTPRO",
+      "target": "MTCASE",
+      "predicate": "responded_to_acquittal",
+      "claim_id": "C09",
+      "epistemic_status": "reported",
+      "as_of": "2026-10-14",
+      "valid_from": null,
+      "valid_to": null
+    },
+    {
+      "id": "E12",
+      "source": "KOC",
+      "target": "SKCASE",
+      "predicate": "accused_in_retrial",
+      "claim_id": "C11",
+      "epistemic_status": "reported_procedure",
+      "as_of": "2026-10-14",
+      "valid_from": null,
+      "valid_to": null
+    },
+    {
+      "id": "E13",
+      "source": "ZS",
+      "target": "SKCASE",
+      "predicate": "accused_in_retrial",
+      "claim_id": "C11",
+      "epistemic_status": "reported_procedure",
+      "as_of": "2026-10-14",
+      "valid_from": null,
+      "valid_to": null
+    },
+    {
+      "id": "E14",
+      "source": "OLAF",
+      "target": "SKAGRI",
+      "predicate": "issued_administrative_findings",
+      "claim_id": "C14",
+      "epistemic_status": "official",
+      "as_of": "2026-10-14",
+      "valid_from": null,
+      "valid_to": null
+    },
+    {
+      "id": "E15",
+      "source": "SKPRO",
+      "target": "KUC",
+      "predicate": "commemorated",
+      "claim_id": "C15",
+      "epistemic_status": "reported",
+      "as_of": "2026-10-14",
+      "valid_from": null,
+      "valid_to": null
+    }
+  ],
+  "rendering_rule": "Use status-specific edge styling. Never collapse acquittal, pending accusation, inquiry responsibility and conviction. Claims carry amounts and limitations. No generic linked-to edges.",
+  "research_groups": [
+    {
+      "id": "MTCASE",
+      "members": [
+        "MT27_2022",
+        "MTFENECH"
+      ],
+      "basis": "Separate proceedings concerning Daphne Caruana Galizia; no shared docket asserted."
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+import fs from 'node:fs';
+import { execFileSync } from 'node:child_process';
+const cwd = new URL('../global-evidence-workbench/ui/', import.meta.url);
+for (const script of ['build.mjs', 'standalone.mjs', 'standalone-finance.mjs', 'standalone-media.mjs']) execFileSync(process.execPath, [`scripts/${script}`], {cwd, stdio:'inherit'});
+const target = new URL('../dist/global-workbench/', import.meta.url);
+fs.mkdirSync(target, {recursive:true});
+fs.cpSync(new URL('dist/', cwd), target, {recursive:true});
+console.log('Built global workbench at dist/global-workbench/');

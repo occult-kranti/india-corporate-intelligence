@@ -1,0 +1,148 @@
+[
+  {
+    "id": "E-D01",
+    "documentId": "DOJ_LIBRARY_SECTION_COURT_RECORDS",
+    "url": "https://www.justice.gov/epstein/doj-disclosures",
+    "observedAt": "2026-10-14",
+    "observationType": "MOVED",
+    "sourceIds": [
+      "E-S02"
+    ],
+    "accessDepth": "Current official index statement read; historical page snapshot absent",
+    "beforeSnapshotPath": null,
+    "afterSnapshotPath": null,
+    "officialExplanation": "DOJ states previously released files from the former Court Records section/page were consolidated here.",
+    "concealmentHypothesis": null,
+    "alternativeExplanations": [
+      "Reindexing and section consolidation",
+      "Individual file paths may have changed; not checked"
+    ],
+    "limitations": [
+      "Section-level publisher statement, not a per-file migration verified by hashes",
+      "Old URL not independently captured",
+      "No proof that any underlying file was deleted or changed",
+      "No intent inference"
+    ],
+    "beforeSha256": null,
+    "afterSha256": null,
+    "observationBasis": "PUBLISHER_REPORTED_SECTION_CONSOLIDATION",
+    "displayLabel": "PUBLISHER_REPORTED_SECTION_CONSOLIDATION"
+  },
+  {
+    "id": "E-D02",
+    "documentId": "DOJ_LIBRARY_SECTION_FOIA",
+    "url": "https://www.justice.gov/epstein/doj-disclosures",
+    "observedAt": "2026-10-14",
+    "observationType": "MOVED",
+    "sourceIds": [
+      "E-S02"
+    ],
+    "accessDepth": "Current official index statement read; historical page snapshot absent",
+    "beforeSnapshotPath": null,
+    "afterSnapshotPath": null,
+    "officialExplanation": "DOJ states previously released files from the former FOIA section/page were consolidated here.",
+    "concealmentHypothesis": null,
+    "alternativeExplanations": [
+      "Reindexing and section consolidation",
+      "Individual file paths may have changed; not checked"
+    ],
+    "limitations": [
+      "Section-level publisher statement, not a per-file migration verified by hashes",
+      "Old URL not independently captured",
+      "No proof that any underlying file was deleted or changed",
+      "No intent inference"
+    ],
+    "beforeSha256": null,
+    "afterSha256": null,
+    "observationBasis": "PUBLISHER_REPORTED_SECTION_CONSOLIDATION",
+    "displayLabel": "PUBLISHER_REPORTED_SECTION_CONSOLIDATION"
+  },
+  {
+    "id": "E-D03",
+    "documentId": "DOJ_LIBRARY_SECTION_PRIOR_DOJ_DISCLOSURES",
+    "url": "https://www.justice.gov/epstein/doj-disclosures",
+    "observedAt": "2026-10-14",
+    "observationType": "MOVED",
+    "sourceIds": [
+      "E-S02"
+    ],
+    "accessDepth": "Current official index statement read; historical page snapshot absent",
+    "beforeSnapshotPath": null,
+    "afterSnapshotPath": null,
+    "officialExplanation": "DOJ states previously released files from the former Prior DOJ Disclosures section/page were consolidated here.",
+    "concealmentHypothesis": null,
+    "alternativeExplanations": [
+      "Reindexing and section consolidation",
+      "Individual file paths may have changed; not checked"
+    ],
+    "limitations": [
+      "Section-level publisher statement, not a per-file migration verified by hashes",
+      "Old URL not independently captured",
+      "No proof that any underlying file was deleted or changed",
+      "No intent inference"
+    ],
+    "beforeSha256": null,
+    "afterSha256": null,
+    "observationBasis": "PUBLISHER_REPORTED_SECTION_CONSOLIDATION",
+    "displayLabel": "PUBLISHER_REPORTED_SECTION_CONSOLIDATION"
+  },
+  {
+    "id": "E-D04",
+    "documentId": "DOJ_FEB2_2026_CORRECTION_BATCH_UNSPECIFIED",
+    "url": "https://abcnews.com/US/epstein-files-doj-thousand-documents-mistakenly-identified-victims/story?id=129787942",
+    "observedAt": "2026-10-14",
+    "eventDate": "2026-02-02",
+    "observationType": "WITHDRAWN",
+    "sourceIds": [
+      "E-S10"
+    ],
+    "accessDepth": "ABC article read; attribution to DOJ letter, not direct verification of individual removals",
+    "beforeSnapshotPath": null,
+    "afterSnapshotPath": null,
+    "officialExplanation": "ABC attributes to the DOJ letter temporary removal for further redaction following victim-privacy concerns.",
+    "concealmentHypothesis": null,
+    "alternativeExplanations": [
+      "Privacy correction",
+      "Technical or human redaction error, as DOJ reportedly stated"
+    ],
+    "limitations": [
+      "Underlying letter docket number not acquired",
+      "No per-document identifiers or before/after bytes retained",
+      "Reported official explanation not independently proven for every withdrawn item",
+      "This is a report of withdrawal, not a finding of concealment",
+      "Removed identifying material must not be recovered or republished"
+    ],
+    "beforeSha256": null,
+    "afterSha256": null,
+    "observationBasis": "REPORTED_WITHDRAWAL",
+    "displayLabel": "REPORTED_WITHDRAWAL"
+  },
+  {
+    "id": "E-D05",
+    "documentId": "DOJ_DATASET_1_LAST_INDEX_PAGE",
+    "url": "https://www.justice.gov/epstein/doj-disclosures/data-set-1-files?page=62",
+    "observedAt": "2026-10-14",
+    "observationType": "ACCESS_DENIED",
+    "sourceIds": [
+      "E-S02"
+    ],
+    "accessDepth": "Last link followed from dataset first index; web tool returned HTTP 403",
+    "beforeSnapshotPath": null,
+    "afterSnapshotPath": null,
+    "officialExplanation": null,
+    "concealmentHypothesis": null,
+    "alternativeExplanations": [
+      "Access-control or CDN behavior",
+      "Tool retrieval limitation"
+    ],
+    "limitations": [
+      "Index-page access failure, not a PDF removal",
+      "No repeated or circumvention requests made",
+      "HTTP 403 cannot establish removal, replacement or intent"
+    ],
+    "beforeSha256": null,
+    "afterSha256": null,
+    "observationBasis": "DIRECT_TOOL_HTTP_STATUS",
+    "displayLabel": "DIRECT_TOOL_HTTP_STATUS"
+  }
+]
