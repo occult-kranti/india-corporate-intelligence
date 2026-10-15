@@ -1,5 +1,5 @@
 /* The archive board: working paper above quiet cartography. Evidence colors remain semantic. */
-.case-board-page { --board-paper:#f7f3e9; --board-ink:#23342f; --board-muted:#66736b; --board-line:#c8cfc1; --board-wool:#985141; color:var(--board-ink); background:#eeede3; min-height:100%; padding:40px 34px 0; font-size:13px; }
+.case-board-page { position:relative; --board-paper:#f7f3e9; --board-ink:#23342f; --board-muted:#66736b; --board-line:#c8cfc1; --board-wool:#985141; color:var(--board-ink); background:#eeede3; min-height:100%; padding:40px 34px 0; font-size:13px; }
 .case-board-page button,.case-board-page a { -webkit-tap-highlight-color:transparent; }
 .case-board-page button { cursor:pointer; }
 .case-board-page button:disabled { cursor:not-allowed; opacity:.5; }

@@ -80,6 +80,8 @@ The first PR8 CI run stopped at the existing media offline assertion because dir
 
 The first rendered review was a hold. The revised batch adds explicit accessible names to From/To/Purpose selectors, uses measured tutorial placement with a 20px anchor gap, raises key evidence metadata to 12px and at least 4.5:1 contrast, waits for stable URL/DOM/pressed-state agreement before List captures, and requires real page roots rather than loading headings. A successful wool-thread capture is mandatory. `layout-diagnostics.json` records viewport/root geometry, computed metadata contrast and tutorial geometry before assertions; it must establish whether the earlier empty dark area was true document overflow. No assertion is weakened to hide these findings.
 
+The next CI run ([38805728422](https://github.com/occult-kranti/india-corporate-intelligence/actions/runs/38805728422), head `dcc15d06eebb719f5df5685cc1df33d17c85a4ec`) confirmed genuine root scroll overflow: the document measured 1254px while body, root and shell remained 1000px; large boards amplified the same defect. Its strict root-height check correctly prevented final capture acceptance. The board now establishes a local positioning context for absolutely positioned screen-reader labels/import controls, so they remain inside the main scroller rather than contributing to document overflow. The unchanged runtime gate must validate this correction.
+
 ## Defects identified and corrected during this review
 
 Model fixes have executed regression tests. Most UI scenarios ran in CI, but the exact revised build still requires a complete pass and renewed visual review.

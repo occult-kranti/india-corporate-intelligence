@@ -75,6 +75,44 @@ const assertBoardRootHeight = metrics => {
   const roots = metrics.elements.filter(row => ['document', 'body', '#root', '.site-shell', '.site-workspace'].includes(row.name));
   ok(roots.every(row => !row.missing && row.scrollHeight <= metrics.viewport.height + 1 && row.rect.height <= metrics.viewport.height + 1), `Board stays within its viewport shell; only main may scroll: ${JSON.stringify(metrics)}`);
 };
+const assertBoardScrollContainment = async (page, label) => {
+  const main = page.locator('main');
+  const originalScroll = await main.evaluate(element => element.scrollTop);
+  try {
+    await main.evaluate(element => element.scrollTo({ top: 0, behavior: 'instant' })); await renderedFrames(page);
+    const hiddenControls = await page.evaluate(() => {
+      const board = document.querySelector('.case-board-page');
+      return ['.board-toolbar input.sr-only[aria-label="Import a board backup"]', '.board-next > label.sr-only[for="board-falsifier"]'].map(selector => {
+        const element = board.querySelector(selector);
+        if (!element) return { selector, missing: true };
+        const rect = element.getBoundingClientRect();
+        return { selector, position: getComputedStyle(element).position, containedByBoard: element.offsetParent === board,
+          offsetParent: element.offsetParent?.className ?? null, rect: { top: rect.top, bottom: rect.bottom, width: rect.width, height: rect.height } };
+      });
+    });
+    layoutDiagnostics.push({ label: `${label}-hidden-controls`, url: page.url(), hiddenControls });
+    const before = await measureLayout(page, `${label}-before-scroll`);
+    ok(hiddenControls.length === 2 && hiddenControls.every(control => !control.missing && control.position === 'absolute' && control.containedByBoard), `${label}: hidden import input and falsifier label use the board as their containing block: ${JSON.stringify(hiddenControls)}`);
+    const mainMetrics = before.elements.find(row => row.name === 'main');
+    ok(mainMetrics.scrollHeight > mainMetrics.clientHeight && ['auto', 'scroll'].includes(mainMetrics.overflowY), `${label}: retained board content uses the main scroll container`);
+    assertBoardRootHeight(before);
+    const bounds = await main.boundingBox(); assert.ok(bounds);
+    await page.mouse.move(bounds.x + bounds.width - 30, bounds.y + bounds.height / 2); await page.mouse.wheel(0, 400);
+    await eventually(async () => await main.evaluate(element => element.scrollTop) > 0, `${label}: wheel scroll advances main`);
+    await renderedFrames(page);
+    const afterWheel = await measureLayout(page, `${label}-after-main-wheel`);
+    ok(afterWheel.windowScroll.y === 0 && afterWheel.elements.filter(row => ['document', 'body', '#root'].includes(row.name)).every(row => row.scrollTop === 0), `${label}: scrolling main does not move window or root: ${JSON.stringify(afterWheel)}`);
+    assertBoardRootHeight(afterWheel);
+    await main.evaluate(element => element.scrollTo({ top: element.scrollHeight, behavior: 'instant' })); await renderedFrames(page);
+    await page.mouse.wheel(0, 400); await renderedFrames(page);
+    const atBottom = await measureLayout(page, `${label}-wheel-at-main-bottom`);
+    ok(atBottom.windowScroll.y === 0 && atBottom.elements.filter(row => ['document', 'body', '#root'].includes(row.name)).every(row => row.scrollTop === 0), `${label}: wheel at main's bottom cannot reveal blank document space: ${JSON.stringify(atBottom)}`);
+    assertBoardRootHeight(atBottom);
+  } finally {
+    await main.evaluate((element, top) => element.scrollTo({ top, behavior: 'instant' }), originalScroll);
+    await renderedFrames(page);
+  }
+};
 const assertReadableMetadata = async (page, label) => {
   const rows = await page.evaluate(() => {
     const parse = color => {
@@ -194,6 +232,7 @@ try {
   for (const width of [1280, 1600]) {
     await scenario(`empty-board-${width}`, {}, async page => {
       await openBoard(page); await noOverflow(page, `${width}px empty board`);
+      await assertBoardScrollContainment(page, `${width}px empty board`);
       ok(await page.locator('.board-empty').isVisible(), 'Empty board offers a real first-record action');
       ok(await page.getByRole('button', { name: 'Connect pins', exact: true }).isDisabled(), 'Cannot connect fewer than two pins');
       const opener = page.getByRole('button', { name: 'Find your first record', exact: true }); await opener.click();
@@ -402,6 +441,7 @@ try {
       assert.deepEqual(await storage(page, CASEBOOK_KEY), beforeArrange); checkCount += 1;
       const positions = await page.locator('.board-pin').evaluateAll(cards => cards.map(card => `${card.style.left}:${card.style.top}`));
       ok(new Set(positions).size === 250, 'All 250 cards have distinct default positions'); await noOverflow(page, `${width}px full canvas`);
+      await assertBoardScrollContainment(page, `${width}px 250-pin board`);
       await page.locator('.board-toolbar').getByRole('button', { name: 'List', exact: true }).click();
       await settledBoardMode(page, 'list');
       ok(new URL(page.url()).hash.includes('view=list'), 'List mode persists in URL'); ok(await page.locator('.board-pin').count() === 250, 'List exposes every pin'); await noOverflow(page, `${width}px full list`);
