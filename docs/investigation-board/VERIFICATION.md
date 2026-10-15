@@ -5,7 +5,7 @@ Last checked: 15 October 2026 (UTC).
 ## Status
 
 - **Passed:** 31 focused board model, storage, component-DOM and route-retention tests.
-- **Passed:** 10 existing casebook and dossier-navigation tests, plus 29 tutorial tests (70 total in the final combined invocation). Tutorial/component DOM tests simulate the DOM and do not prove browser geometry or native focus containment.
+- **Passed:** 10 existing casebook and dossier-navigation tests, plus 32 tutorial tests (73 total in the final combined invocation). Tutorial/component DOM tests simulate the DOM and do not prove browser geometry or native focus containment.
 - **Passed:** TypeScript `--noEmit --incremental false` against the current working tree.
 - **Passed:** Node syntax check of the Playwright acceptance script.
 - **Not run:** Board browser interaction, rendered-layout and screenshot acceptance. The local execution environment does not permit launching Chromium. The retained atlas audit also requires Chromium and is BLOCKED here, not a browser pass. Browser and screenshot checks are prepared for the CI runner.
@@ -22,6 +22,7 @@ The tests establish the stated model/storage contracts. They do not establish th
 - `scripts/board/legacy-routes.json`: fixed inventory of the 60 pre-board route patterns.
 - `scripts/board/load.mjs`: bundles the existing TypeScript modules for Node tests; it does not rewrite production code.
 - `scripts/board/browser.mjs`: deferred Playwright acceptance suite, including both 1280px and 1600px desktop sizes.
+- `scripts/tutorial/offline.test.mjs`: all three independent standalone generators embed real research, archive styling and working Help without runtime fetches, and rebuild deterministically.
 
 ## Executed checks
 
@@ -31,7 +32,7 @@ node --check scripts/board/browser.mjs
 ./node_modules/.bin/tsc --noEmit --incremental false
 ```
 
-The final combined test invocation passed **70/70**, with no skipped or TODO tests. The Playwright browser script received a syntax check only. DOM fixtures use mocked native dialog/geometry APIs and must not be treated as rendered browser QA.
+The final combined test invocation passed **73/73**, with no skipped or TODO tests. The Playwright browser script received a syntax check only. DOM fixtures use mocked native dialog/geometry APIs and must not be treated as rendered browser QA.
 
 ### Model and preservation coverage
 
@@ -70,6 +71,10 @@ The following checks completed in the same working tree:
 - The 27th command, `test:atlas:audit`, exited 1 because its code-audit wrapper launches Chromium and hit the known socket permission failure. It is **BLOCKED**. No browser success is inferred from any preceding non-browser checks, and that denied launch must not be retried locally.
 
 These are working-tree checks, not a record of CI passing for a published commit.
+
+## CI integration correction
+
+The first PR8 CI run stopped at the existing media offline assertion because direct standalone generation left the new Help script external. The root production post-pass had embedded it, but the independent exporter path did not. A shared inlining helper now runs in all three generators and the root post-pass. The original assertion is unchanged. Full global-workbench tests now pass: 50 Python, 83 UI and 3 integration tests, plus 32 tutorial tests. Three new regressions execute each direct generator, render research and Help with runtime fetch disabled, and check byte-identical rebuilds. Final-head CI and rendered desktop review are still required.
 
 ## Defects identified and corrected during this review
 

@@ -2,6 +2,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { inlineTutorialAssets } from '../../global-evidence-workbench/ui/scripts/inline-tutorial.mjs';
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const ui = path.join(root, 'global-evidence-workbench/ui');
 const catalog = JSON.parse(fs.readFileSync(path.join(root, 'src/tutorial/catalog.json'), 'utf8'));
@@ -15,18 +16,10 @@ if (process.argv.includes('--check')) {
   console.log('Prepared static tutorial content.');
 }
 if (process.argv.includes('--inline-dist')) {
-  const css = fs.readFileSync(path.join(ui, 'src/tutorial.css'), 'utf8');
-  const js = fs.readFileSync(path.join(ui, 'src/tutorial.js'), 'utf8').replace(/^import[^\n]+\n/, '');
-  const inline = content.replace('export const', 'const') + '\n' + js;
   for (const filename of ['fieldwork-offline.html', 'finance-offline.html', 'media-offline.html']) {
     const file = path.join(ui, 'dist', filename);
     if (!fs.existsSync(file)) throw Error(`Build standalone exports before tutorial inlining: ${file}`);
-    let html = fs.readFileSync(file, 'utf8');
-    html = html.replace('<link rel="stylesheet" href="./src/tutorial.css">', () => `<style>${css}</style>`)
-      .replace('<script type="module" src="./src/tutorial.js"></script>', () => `<script type="module">${inline.replaceAll('</script', '<\\/script')}</script>`);
-    // Parent's coherent static theme is new; inline it for real offline parity.
-    const archive = path.join(ui, 'src/archive.css');
-    if (html.includes('href="./src/archive.css"') && fs.existsSync(archive)) html = html.replace('<link rel="stylesheet" href="./src/archive.css">', () => `<style>${fs.readFileSync(archive,'utf8')}</style>`);
+    const html = inlineTutorialAssets(fs.readFileSync(file, 'utf8'));
     fs.writeFileSync(file, html);
   }
   console.log('Inlined tutorial assets in all three standalone exports.');
