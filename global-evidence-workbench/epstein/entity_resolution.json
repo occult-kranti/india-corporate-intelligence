@@ -1,0 +1,53 @@
+{
+  "resolved": [
+    {
+      "id": "DB_RESPONDENTS",
+      "display": "Deutsche Bank (respondents collectively)",
+      "members": [
+        "Deutsche Bank AG",
+        "Deutsche Bank AG New York Branch",
+        "Deutsche Bank Trust Company of the Americas"
+      ],
+      "source_id": "E-S03",
+      "locator": "PDF p1",
+      "resolution": "Exact caption; group node only, no claim these are one legal entity"
+    },
+    {
+      "id": "SOUTHERN_TRUST",
+      "display": "Southern Trust Company Inc.",
+      "source_id": "E-S03",
+      "locator": "PDF p8 paragraph 24",
+      "resolution": "Regulatory-order name; registry ID not acquired"
+    },
+    {
+      "id": "SOUTHERN_FINANCIAL",
+      "display": "Southern Financial LLC",
+      "source_id": "E-S03",
+      "locator": "PDF p8 paragraph 24",
+      "resolution": "Regulatory-order name; registry ID not acquired"
+    },
+    {
+      "id": "JPMC_BANK",
+      "display": "JPMorgan Chase Bank, N.A.",
+      "source_id": "E-S04",
+      "locator": "PDF p189",
+      "resolution": "Named operating bank; not silently merged with JPMorgan Chase & Co."
+    }
+  ],
+  "unresolved": [
+    {
+      "label": "US BANK-1",
+      "source_id": "E-S03",
+      "locator": "PDF p6 paragraphs 16-18",
+      "candidate": null,
+      "decision": "Do not infer unnamed institution from external familiarity; no graph join"
+    },
+    {
+      "label": "RELATIONSHIP MANAGER-1",
+      "source_id": "E-S03",
+      "locator": "PDF p6 paragraphs 17-18",
+      "candidate": null,
+      "decision": "Anonymized employee label retained; no name inference"
+    }
+  ]
+}

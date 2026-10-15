@@ -27,6 +27,12 @@ jobs:
 
       - run: npm ci
 
+      - name: Install global workbench test dependencies
+        run: npm ci --prefix global-evidence-workbench/ui
+
+      - name: Global workbench provenance, model and integration guards
+        run: npm run test:global-workbench
+
       # The site is only worth publishing if it passes the same gates CI runs.
       # Deploying past a red build would put unsourced or unrenderable content
       # live, which is the one failure this project cannot absorb.

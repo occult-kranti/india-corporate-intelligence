@@ -1,0 +1,36 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> global-evidence-workbench@1.0.0 test:all
+> node --test tests/*.test.mjs
+
+✔ full dataset loads, sources and scope visible (393.401505ms)
+✔ all view buttons switch correctly (398.16514ms)
+✔ search empty and reset restores records (408.688591ms)
+✔ relation evidence opens its own source inspector (314.229953ms)
+✔ research ledger categories and advanced filters work (322.108554ms)
+✔ HTML injection and executable source links remain inert (200.190908ms)
+✔ empty dataset is usable and fetch failure visible (30.781756ms)
+✔ form controls have labels and visual controls support keyboard (190.8262ms)
+✔ source-family disclosure and inherited status survive import (184.110467ms)
+✔ document-change ledger does not imply concealment (185.371269ms)
+✔ standalone export embeds safe data without runtime network dependency (445.905078ms)
+✔ merged reporting updates and source-reported intervals remain visible (188.230173ms)
+✔ all typed relations have inspectable records and valid sources (2.897143ms)
+✔ unknown protest start is never replaced by observation date (0.352765ms)
+✔ year filter matches recorded/observed years, not retrieval or implied intervals (0.959925ms)
+✔ missing coordinates are never synthesized from country (0.173523ms)
+✔ invalid coordinates rejected (0.173764ms)
+✔ filters retain undated only when explicitly enabled (0.261246ms)
+✔ safe links and finite globe projection (0.214174ms)
+✔ filters cannot invent network links from proximity (0.120874ms)
+✔ country codes and names normalize across collections without duplicate countries (0.281357ms)
+✔ individual city filter can find multi-city events without inventing location (0.385705ms)
+✔ event/publication/retrieval metadata preserves event year without converting publication to event (0.182026ms)
+ℹ tests 23
+ℹ suites 0
+ℹ pass 23
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3737.516779

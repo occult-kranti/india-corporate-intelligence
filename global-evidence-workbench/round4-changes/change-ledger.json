@@ -1,0 +1,98 @@
+{
+  "reviewed_date": "2026-10-14",
+  "records": [
+    {
+      "id": "R4-CHG-01",
+      "prior_record_id": "E-D04",
+      "document_id": "1:20-cr-00330-PAE docket 848",
+      "classification": "PRIMARY_DOCUMENT_REPORTED_BATCH_WITHDRAWAL_AND_REDACTION_WORKFLOW",
+      "event_date": "2026-02-02",
+      "source_ids": [
+        "R4-S01"
+      ],
+      "before_record_ids": null,
+      "after_record_ids": null,
+      "before": "DOJ describes publication on January 30, 2026.",
+      "after": "DOJ says several thousands of documents and media taken down; future reposting uses same Bates numbers.",
+      "reason": "DOJ attributes exposure of victim-identifying information to technical or human error; privacy correction and search-metadata cleansing.",
+      "current_status": "Letter directly read; no item-level removal/restoration manifest or current state verified.",
+      "statement_vs_observation": "Directly observed letter text; underlying withdrawal counts and causes remain custodian claims.",
+      "limitations": [
+        "No individual PDF identifiers in this batch account.",
+        "An intended 24\u201336 hour reposting window is not evidence that every file was restored.",
+        "RECAP is a public court-document repository, not the court custodian itself."
+      ],
+      "before_sha256": null,
+      "after_sha256": null,
+      "byte_comparison": "NOT_PERFORMED_NO_ORIGINAL_BYTES",
+      "intent_conclusion": "NOT_ESTABLISHED"
+    },
+    {
+      "id": "R4-CHG-02",
+      "prior_record_id": null,
+      "document_id": "6861-Amendment-20210405-3",
+      "classification": "DOCUMENTED_ADDITIVE_FILING_AMENDMENT",
+      "event_date": "2021-04-05",
+      "underlying_event_date": "2020-08-26",
+      "source_ids": [
+        "R4-S02",
+        "R4-S03",
+        "R4-S04",
+        "R4-S07"
+      ],
+      "before_record_ids": [
+        "6861-Registration-Statement-20200827-1",
+        "6861-Short-Form-20200827-2"
+      ],
+      "after_record_ids": [
+        "6861-Amendment-20210405-3"
+      ],
+      "before": "Initial filing item 10(c) appendix and individual short form item 15 omit the specified 2020 contribution.",
+      "after": "Separate amendment adds a USD 1,000 event contribution to Hindus of Georgia PAC dated August 26, 2020 to both filings.",
+      "reason": "Registrant explicitly corrects a deficiency; no further explanation of why the contribution was omitted.",
+      "current_status": "Original filings and amendment separately listed and text-readable at official custodian.",
+      "statement_vs_observation": "Documentary fact of amendment and table difference; contribution itself is registrant-reported.",
+      "limitations": [
+        "Not a deleted or overwritten PDF.",
+        "Does not establish foreign-source funding, unlawful contribution, intentional omission or agency enforcement.",
+        "Screenshot extraction of original forms failed with cache miss; comparison uses extracted tables plus explicit amendment language."
+      ],
+      "before_sha256": null,
+      "after_sha256": null,
+      "byte_comparison": "NOT_PERFORMED_NO_ORIGINAL_BYTES",
+      "intent_conclusion": "NOT_ESTABLISHED"
+    },
+    {
+      "id": "R4-CHG-03",
+      "prior_record_id": null,
+      "document_id": "6861-Amendment-20200902-1",
+      "classification": "DOCUMENTED_STATUS_CHANGE_AMENDMENT",
+      "event_date": "2020-09-02",
+      "underlying_event_date": "2020-08-31",
+      "source_ids": [
+        "R4-S05",
+        "R4-S06",
+        "R4-S07"
+      ],
+      "before_record_ids": [
+        "6861-Short-Form-20200827-6"
+      ],
+      "after_record_ids": [
+        "6861-Amendment-20200902-1"
+      ],
+      "before": "August 27 short form lists Anugula as OFBJP-USA president and BJP as foreign principal.",
+      "after": "September 2 amendment reports resignation effective August 31 and ending services under this registration.",
+      "reason": "Registrant-reported resignation and termination of connection.",
+      "current_status": "Original and amendment separately listed and text-readable at official custodian.",
+      "statement_vs_observation": "Directly read dated filings; underlying resignation not independently verified.",
+      "limitations": [
+        "A prospective/status update, not demonstrated falsification of the original.",
+        "Does not establish deletion, severance of all personal relationships or motives."
+      ],
+      "before_sha256": null,
+      "after_sha256": null,
+      "byte_comparison": "NOT_PERFORMED_NO_ORIGINAL_BYTES",
+      "intent_conclusion": "NOT_ESTABLISHED"
+    }
+  ]
+}

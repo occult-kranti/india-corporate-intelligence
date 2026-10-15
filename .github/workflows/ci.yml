@@ -27,6 +27,12 @@ jobs:
 
       - run: npm ci
 
+      - name: Install global workbench test dependencies
+        run: npm ci --prefix global-evidence-workbench/ui
+
+      - name: Global workbench provenance, model and integration guards
+        run: npm run test:global-workbench
+
       # Extraction → resolution → grounding → assembly over research/raw.
       # Fails only on a record that would violate the provenance invariant;
       # weakly-identified entities are quarantined, which is the gate working.

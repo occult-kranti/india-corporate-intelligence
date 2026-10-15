@@ -1,0 +1,260 @@
+[
+  {
+    "id": "pr-target-in-cec",
+    "source": "pr-in-electoral-oct2026",
+    "target": "pr-ent-gyanesh",
+    "from_id": "pr-in-electoral-oct2026",
+    "to_id": "pr-ent-gyanesh",
+    "type": "demands_resignation_of",
+    "date": "2026-10-07",
+    "claim": "Protesters demanded the chief election commissioner resign.",
+    "sourceIds": [
+      "pr-in-toi-1007"
+    ],
+    "claim_type": "attributed report",
+    "response": "EC said final decisions were unanimous despite internal disagreements, as reported.",
+    "limitations": "Relationship does not establish financing, hidden control, criminal liability or causation."
+  },
+  {
+    "id": "pr-role-cec",
+    "source": "pr-ent-gyanesh",
+    "target": "pr-ent-eci",
+    "from_id": "pr-ent-gyanesh",
+    "to_id": "pr-ent-eci",
+    "type": "holds_public_office_in",
+    "date": "2026-10-07",
+    "claim": "Gyanesh Kumar is identified as Chief Election Commissioner.",
+    "sourceIds": [
+      "pr-in-toi-1007"
+    ],
+    "claim_type": "attributed report",
+    "response": null,
+    "limitations": "Relationship does not establish financing, hidden control, criminal liability or causation."
+  },
+  {
+    "id": "pr-target-in-eci",
+    "source": "pr-in-electoral-oct2026",
+    "target": "pr-ent-eci",
+    "from_id": "pr-in-electoral-oct2026",
+    "to_id": "pr-ent-eci",
+    "type": "contests_institutional_process",
+    "date": "2026-10-07",
+    "claim": "Protest concerns include electoral-roll revision and collective decision-making.",
+    "sourceIds": [
+      "pr-in-toi-1007"
+    ],
+    "claim_type": "attributed report",
+    "response": "Misconduct is contested; reported EC explanation retained.",
+    "limitations": "Relationship does not establish financing, hidden control, criminal liability or causation."
+  },
+  {
+    "id": "pr-action-police",
+    "source": "pr-ent-delhi-police",
+    "target": "pr-in-electoral-oct2026",
+    "from_id": "pr-ent-delhi-police",
+    "to_id": "pr-in-electoral-oct2026",
+    "type": "detained_then_released_participants",
+    "date": "2026-10-07",
+    "claim": "Opposition MPs were detained and subsequently released.",
+    "sourceIds": [
+      "pr-in-toi-1007"
+    ],
+    "claim_type": "attributed report",
+    "response": "Police alleged personnel were assaulted. No guilt inferred.",
+    "limitations": "Relationship does not establish financing, hidden control, criminal liability or causation."
+  },
+  {
+    "id": "pr-case-link",
+    "source": "pr-context-delhi-proposed-1009",
+    "target": "pr-case-63560",
+    "from_id": "pr-context-delhi-proposed-1009",
+    "to_id": "pr-case-63560",
+    "type": "associated_public_transport_litigation",
+    "date": "2026-10-09",
+    "claim": "October 9 court order expressly references proposed protesters when examining transport restrictions.",
+    "sourceIds": [
+      "pr-in-sc-order-1009"
+    ],
+    "claim_type": "documentary fact",
+    "response": null,
+    "limitations": "Order itself does not identify the CEC movement or October 7 MPs; counsel expressly disclaimed representing proposed organizers."
+  },
+  {
+    "id": "pr-court-issued",
+    "source": "pr-ent-sci",
+    "target": "pr-case-63560",
+    "from_id": "pr-ent-sci",
+    "to_id": "pr-case-63560",
+    "type": "issued_order_in",
+    "date": "2026-10-09",
+    "claim": "Supreme Court ordered against outright transport prohibition while allowing regulated services.",
+    "sourceIds": [
+      "pr-in-sc-order-1009"
+    ],
+    "claim_type": "documentary fact",
+    "response": null,
+    "limitations": "Relationship does not establish financing, hidden control, criminal liability or causation."
+  },
+  {
+    "id": "pr-order-police",
+    "source": "pr-case-63560",
+    "target": "pr-ent-delhi-police",
+    "from_id": "pr-case-63560",
+    "to_id": "pr-ent-delhi-police",
+    "type": "requires_compliance_report_from",
+    "date": "2026-10-09",
+    "claim": "Order paragraph 11 requests Delhi Police (Traffic) compliance report.",
+    "sourceIds": [
+      "pr-in-sc-order-1009"
+    ],
+    "claim_type": "documentary fact",
+    "response": null,
+    "limitations": "Order does not establish subsequent compliance or contempt."
+  },
+  {
+    "id": "pr-order-dmrc",
+    "source": "pr-case-63560",
+    "target": "pr-ent-dmrc",
+    "from_id": "pr-case-63560",
+    "to_id": "pr-ent-dmrc",
+    "type": "requires_compliance_report_from",
+    "date": "2026-10-09",
+    "claim": "Order paragraph 11 also requests DMRC compliance report.",
+    "sourceIds": [
+      "pr-in-sc-order-1009"
+    ],
+    "claim_type": "documentary fact",
+    "response": null,
+    "limitations": "No implication that DMRC financed or organized protests."
+  },
+  {
+    "id": "pr-case-eci",
+    "source": "pr-ent-eci",
+    "target": "pr-case-eci-decision",
+    "from_id": "pr-ent-eci",
+    "to_id": "pr-case-eci-decision",
+    "type": "respondent_in_reported_challenge",
+    "date": "2026-10-05",
+    "claim": "Reporting says Supreme Court sought ECI response to alleged unilateral decision-making.",
+    "sourceIds": [
+      "pr-in-nie-1005"
+    ],
+    "claim_type": "attributed report",
+    "response": "Court declined interim suspension and had not examined merits.",
+    "limitations": "Relationship does not establish financing, hidden control, criminal liability or causation."
+  },
+  {
+    "id": "pr-case-law",
+    "source": "pr-ent-law-ministry",
+    "target": "pr-case-eci-decision",
+    "from_id": "pr-ent-law-ministry",
+    "to_id": "pr-case-eci-decision",
+    "type": "response_requested_in_reported_challenge",
+    "date": "2026-10-05",
+    "claim": "Reporting says Law Ministry response was requested.",
+    "sourceIds": [
+      "pr-in-nie-1005"
+    ],
+    "claim_type": "attributed report",
+    "response": null,
+    "limitations": "Not the same docket as transport litigation; original case identity still needed."
+  },
+  {
+    "id": "pr-target-ke",
+    "source": "pr-ke-forests-20261006",
+    "target": "pr-ent-kenya-env",
+    "from_id": "pr-ke-forests-20261006",
+    "to_id": "pr-ent-kenya-env",
+    "type": "petitions_for_policy_action",
+    "date": "2026-10-06",
+    "claim": "Forest defenders sought government action against deforestation.",
+    "sourceIds": [
+      "pr-ke-k24-1006"
+    ],
+    "claim_type": "attributed report",
+    "response": "Ministerial substantive response not established.",
+    "limitations": "Relationship does not establish financing, hidden control, criminal liability or causation."
+  },
+  {
+    "id": "pr-target-nz",
+    "source": "pr-nz-firefighters-20261007",
+    "target": "pr-ent-fenz",
+    "from_id": "pr-nz-firefighters-20261007",
+    "to_id": "pr-ent-fenz",
+    "type": "collective_bargaining_counterparty",
+    "date": "2026-10-07",
+    "claim": "Strike occurred in NZPFU bargaining dispute with Fire and Emergency.",
+    "sourceIds": [
+      "pr-nz-fenz-1007",
+      "pr-nz-union-context"
+    ],
+    "claim_type": "attributed report",
+    "response": "Employer seeks facilitation; union criticizes staffing and equipment.",
+    "limitations": "Relationship does not establish financing, hidden control, criminal liability or causation."
+  },
+  {
+    "id": "pr-target-be",
+    "source": "pr-be-budget-20261009",
+    "target": "pr-ent-belgium-gov",
+    "from_id": "pr-be-budget-20261009",
+    "to_id": "pr-ent-belgium-gov",
+    "type": "opposes_budget_measures",
+    "date": "2026-10-09",
+    "claim": "Unions opposed federal budget plans.",
+    "sourceIds": [
+      "pr-be-bt-1009"
+    ],
+    "claim_type": "attributed report",
+    "response": "No verified budget reversal.",
+    "limitations": "Relationship does not establish financing, hidden control, criminal liability or causation."
+  },
+  {
+    "id": "pr-target-za-event",
+    "source": "pr-za-energy-20261013",
+    "target": "pr-ent-aew",
+    "from_id": "pr-za-energy-20261013",
+    "to_id": "pr-ent-aew",
+    "type": "protests_industry_event",
+    "date": "2026-10-13",
+    "claim": "Campaigners opposed new oil and gas exploration promoted around conference.",
+    "sourceIds": [
+      "pr-za-ap-1013",
+      "pr-za-gp-1013"
+    ],
+    "claim_type": "attributed report",
+    "response": "Government presents natural gas as complementary to renewables and energy security.",
+    "limitations": "Relationship does not establish financing, hidden control, criminal liability or causation."
+  },
+  {
+    "id": "pr-target-za-chamber",
+    "source": "pr-za-energy-20261013",
+    "target": "pr-ent-african-energy-chamber",
+    "from_id": "pr-za-energy-20261013",
+    "to_id": "pr-ent-african-energy-chamber",
+    "type": "criticizes_named_public_campaign",
+    "date": "2026-10-13",
+    "claim": "Greenpeace says its action responded to Chamber promotion of drilling.",
+    "sourceIds": [
+      "pr-za-gp-1013"
+    ],
+    "claim_type": "participant attribution",
+    "response": null,
+    "limitations": "No financing relationship inferred. Chamber promotion and organizer account not independently audited here."
+  },
+  {
+    "id": "pr-context-bridge-reported",
+    "source": "pr-in-electoral-oct2026",
+    "target": "pr-context-delhi-proposed-1009",
+    "from_id": "pr-in-electoral-oct2026",
+    "to_id": "pr-context-delhi-proposed-1009",
+    "type": "reported_episode_context_association",
+    "date": "2026-10-11",
+    "claim": "Supreme Court Observer describes the October 11 proceedings as concerning CEC protests and links the October 9 transport order.",
+    "sourceIds": [
+      "pr-in-sco-1011"
+    ],
+    "claim_type": "attributed legal reporting; not identified by order alone",
+    "response": null,
+    "limitations": "Context bridge does not establish identical participants, representation, common organizers or a single legal docket for all electoral disputes."
+  }
+]

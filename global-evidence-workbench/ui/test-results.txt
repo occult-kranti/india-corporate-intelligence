@@ -1,0 +1,38 @@
+
+> global-evidence-workbench@1.0.0 test:all
+> node --test tests/*.test.mjs
+
+✔ full dataset loads, sources and scope visible (418.399601ms)
+✔ all view buttons switch correctly (409.656055ms)
+✔ search empty and reset restores records (437.610284ms)
+✔ relation evidence opens its own source inspector (383.278581ms)
+✔ research ledger categories and advanced filters work (356.809302ms)
+✔ HTML injection and executable source links remain inert (257.803105ms)
+✔ empty dataset is usable and fetch failure visible (33.54305ms)
+✔ form controls have labels and visual controls support keyboard (245.910994ms)
+✔ source-family disclosure and inherited status survive import (248.139126ms)
+✔ document-change ledger does not imply concealment (284.458496ms)
+✔ standalone export embeds safe data without runtime network dependency (476.921118ms)
+✔ merged reporting updates and source-reported intervals remain visible (320.863074ms)
+✔ Round4 relation inspector preserves limitations and exact supporting claim (413.071164ms)
+✔ Round4 document changes expose before/after accounts without fabricated hashes (239.322378ms)
+✔ discovery-only claims cannot support displayed network relations (0.335659ms)
+✔ all typed relations have inspectable records and valid sources (2.286026ms)
+✔ unknown protest start is never replaced by observation date (0.232672ms)
+✔ year filter matches recorded/observed years, not retrieval or implied intervals (0.649975ms)
+✔ missing coordinates are never synthesized from country (0.166603ms)
+✔ invalid coordinates rejected (0.203358ms)
+✔ filters retain undated only when explicitly enabled (0.238682ms)
+✔ safe links and finite globe projection (0.286385ms)
+✔ filters cannot invent network links from proximity (0.120392ms)
+✔ country codes and names normalize across collections without duplicate countries (0.240725ms)
+✔ individual city filter can find multi-city events without inventing location (0.29007ms)
+✔ event/publication/retrieval metadata preserves event year without converting publication to event (0.260225ms)
+ℹ tests 26
+ℹ suites 0
+ℹ pass 26
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4872.58332

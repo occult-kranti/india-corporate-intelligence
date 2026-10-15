@@ -1,0 +1,2 @@
+# Fieldwork design
+Mode: Operate / Read. Editorial research instrument. Cream paper, petrol-blue geographic canvas, muted teal evidence accents, warm amber map markers. Large two-line serif opening, compact native controls, persistent provenance rail. Geography never establishes a relationship. The record register is the accessible equivalent of visual views. Open questions appear in a separate research ledger. Mobile stacks the inspector below the workspace; reduced motion by default through no animation.
