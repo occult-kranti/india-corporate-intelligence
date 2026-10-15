@@ -1,0 +1,698 @@
+{
+  "schema_version": "global-finance-typed-graph-v1",
+  "as_of": "2026-10-15",
+  "nodes": [
+    {
+      "id": "GF-NSW",
+      "name": "New South Wales Government",
+      "type": "public_body",
+      "country_code": "AU",
+      "registry_id": null,
+      "identity_status": "named_in_case_primary_record_not_global_registry_resolved",
+      "source_ids": [
+        "GF-S05",
+        "GF-S06",
+        "GF-S20"
+      ]
+    },
+    {
+      "id": "GF-AUSGRID",
+      "name": "Ausgrid lease interest",
+      "type": "asset",
+      "country_code": "AU",
+      "registry_id": null,
+      "identity_status": "named_in_case_primary_record_not_global_registry_resolved",
+      "source_ids": [
+        "GF-S05",
+        "GF-S06",
+        "GF-S20"
+      ]
+    },
+    {
+      "id": "GF-AU-CONSORTIUM",
+      "name": "IFM Investors / AustralianSuper consortium",
+      "type": "consortium",
+      "country_code": "AU",
+      "registry_id": null,
+      "identity_status": "named_in_case_primary_record_not_global_registry_resolved",
+      "source_ids": [
+        "GF-S05",
+        "GF-S06",
+        "GF-S20"
+      ]
+    },
+    {
+      "id": "GF-HRADF",
+      "name": "HRADF",
+      "type": "public_body",
+      "country_code": "GR",
+      "registry_id": null,
+      "identity_status": "named_in_case_primary_record_not_global_registry_resolved",
+      "source_ids": [
+        "GF-S07"
+      ]
+    },
+    {
+      "id": "GF-COSCO-HK-2016",
+      "name": "COSCO (Hong Kong) Group Limited",
+      "type": "company",
+      "country_code": "HK",
+      "registry_id": null,
+      "identity_status": "named_in_case_primary_record_not_global_registry_resolved",
+      "source_ids": [
+        "GF-S07"
+      ]
+    },
+    {
+      "id": "GF-PPA",
+      "name": "Piraeus Port Authority S.A.",
+      "type": "company",
+      "country_code": "GR",
+      "registry_id": null,
+      "identity_status": "named_in_case_primary_record_not_global_registry_resolved",
+      "source_ids": [
+        "GF-S07"
+      ]
+    },
+    {
+      "id": "GF-SA-GOV",
+      "name": "Government of Saudi Arabia",
+      "type": "public_body",
+      "country_code": "SA",
+      "registry_id": null,
+      "identity_status": "named_in_case_primary_record_not_global_registry_resolved",
+      "source_ids": [
+        "GF-S10"
+      ]
+    },
+    {
+      "id": "GF-ARAMCO",
+      "name": "Saudi Arabian Oil Company",
+      "type": "company",
+      "country_code": "SA",
+      "registry_id": null,
+      "identity_status": "named_in_case_primary_record_not_global_registry_resolved",
+      "source_ids": [
+        "GF-S10"
+      ]
+    },
+    {
+      "id": "GF-IFC",
+      "name": "International Finance Corporation",
+      "type": "multilateral_institution",
+      "country_code": null,
+      "registry_id": null,
+      "identity_status": "named_in_case_primary_record_not_global_registry_resolved",
+      "source_ids": [
+        "GF-S12",
+        "GF-S13",
+        "GF-S17"
+      ]
+    },
+    {
+      "id": "GF-GPE",
+      "name": "Global Partnership for Ethiopia BV",
+      "type": "company",
+      "country_code": null,
+      "registry_id": null,
+      "identity_status": "named_in_case_primary_record_not_global_registry_resolved",
+      "source_ids": [
+        "GF-S12",
+        "GF-S13"
+      ]
+    },
+    {
+      "id": "GF-STE",
+      "name": "Safaricom Telecommunications Ethiopia PLC",
+      "type": "company",
+      "country_code": "ET",
+      "registry_id": null,
+      "identity_status": "named_in_case_primary_record_not_global_registry_resolved",
+      "source_ids": [
+        "GF-S12",
+        "GF-S13"
+      ]
+    },
+    {
+      "id": "GF-MIGA",
+      "name": "MIGA",
+      "type": "multilateral_institution",
+      "country_code": null,
+      "registry_id": null,
+      "identity_status": "named_in_case_primary_record_not_global_registry_resolved",
+      "source_ids": [
+        "GF-S12"
+      ]
+    },
+    {
+      "id": "GF-ECA",
+      "name": "Ethiopian Communications Authority",
+      "type": "public_body",
+      "country_code": "ET",
+      "registry_id": null,
+      "identity_status": "named_in_case_primary_record_not_global_registry_resolved",
+      "source_ids": [
+        "GF-S13"
+      ]
+    },
+    {
+      "id": "GF-ET-GUARANTEE-INVESTORS",
+      "name": "Vodafone, Vodacom, Safaricom and BII investment exposures",
+      "type": "defined_financing_group",
+      "country_code": null,
+      "registry_id": null,
+      "identity_status": "named_in_case_primary_record_not_global_registry_resolved",
+      "source_ids": [
+        "GF-S12"
+      ]
+    },
+    {
+      "id": "GF-ZM-MOF",
+      "name": "Zambia Ministry of Finance and National Planning",
+      "type": "public_body",
+      "country_code": "ZM",
+      "registry_id": null,
+      "identity_status": "named_in_case_primary_record_not_global_registry_resolved",
+      "source_ids": [
+        "GF-S15"
+      ]
+    },
+    {
+      "id": "GF-ZCCM",
+      "name": "ZCCM Investments Holdings Plc",
+      "type": "company",
+      "country_code": "ZM",
+      "registry_id": "119540000771",
+      "identity_status": "named_in_case_primary_record_not_global_registry_resolved",
+      "registry_source_id": "GF-S15",
+      "source_ids": [
+        "GF-S15",
+        "GF-S16"
+      ]
+    },
+    {
+      "id": "GF-GLENCORE",
+      "name": "Glencore International AG",
+      "type": "company",
+      "country_code": null,
+      "registry_id": null,
+      "identity_status": "named_in_case_primary_record_not_global_registry_resolved",
+      "source_ids": [
+        "GF-S15"
+      ]
+    },
+    {
+      "id": "GF-IRH",
+      "name": "International Resources Holding RSC Ltd",
+      "type": "company",
+      "country_code": null,
+      "registry_id": null,
+      "identity_status": "named_in_case_primary_record_not_global_registry_resolved",
+      "source_ids": [
+        "GF-S15"
+      ]
+    },
+    {
+      "id": "GF-DELTA",
+      "name": "Delta Mining Limited",
+      "type": "company",
+      "country_code": null,
+      "registry_id": null,
+      "identity_status": "named_in_case_primary_record_not_global_registry_resolved",
+      "source_ids": [
+        "GF-S15"
+      ]
+    },
+    {
+      "id": "GF-MOPANI",
+      "name": "Mopani Copper Mines plc",
+      "type": "company",
+      "country_code": "ZM",
+      "registry_id": null,
+      "identity_status": "named_in_case_primary_record_not_global_registry_resolved",
+      "source_ids": [
+        "GF-S15",
+        "GF-S16"
+      ]
+    },
+    {
+      "id": "GF-JANNGO-FUND",
+      "name": "Janngo Capital Startup Fund",
+      "type": "fund",
+      "country_code": "FR",
+      "registry_id": null,
+      "identity_status": "named_in_case_primary_record_not_global_registry_resolved",
+      "source_ids": [
+        "GF-S17"
+      ]
+    },
+    {
+      "id": "GF-JANNGO-MANAGER",
+      "name": "Janngo Capital Partners",
+      "type": "fund_manager",
+      "country_code": "FR",
+      "registry_id": null,
+      "identity_status": "named_in_case_primary_record_not_global_registry_resolved",
+      "source_ids": [
+        "GF-S17"
+      ]
+    },
+    {
+      "id": "GF-BA",
+      "name": "Fatoumata Bâ",
+      "type": "person",
+      "country_code": null,
+      "registry_id": null,
+      "identity_status": "named_in_case_primary_record_not_global_registry_resolved",
+      "source_ids": [
+        "GF-S17"
+      ]
+    },
+    {
+      "id": "GF-GATES-FOUNDATION",
+      "name": "Gates Foundation",
+      "type": "foundation",
+      "country_code": null,
+      "registry_id": null,
+      "identity_status": "named_in_case_primary_record_not_global_registry_resolved",
+      "source_ids": [
+        "GF-S18",
+        "GF-S19"
+      ]
+    },
+    {
+      "id": "GF-GAVI",
+      "name": "Gavi, the Vaccine Alliance",
+      "type": "organization",
+      "country_code": null,
+      "registry_id": null,
+      "identity_status": "named_in_case_primary_record_not_global_registry_resolved",
+      "source_ids": [
+        "GF-S18",
+        "GF-S19"
+      ]
+    },
+    {
+      "id": "GF-GATES",
+      "name": "Bill Gates",
+      "type": "person",
+      "country_code": null,
+      "registry_id": null,
+      "identity_status": "named_in_case_primary_record_not_global_registry_resolved",
+      "source_ids": [
+        "GF-S18"
+      ]
+    },
+    {
+      "id": "GF-BR-GOV",
+      "name": "Federal Government of Brazil",
+      "type": "public_body",
+      "country_code": "BR",
+      "registry_id": null,
+      "identity_status": "named_in_case_primary_record_not_global_registry_resolved",
+      "source_ids": [
+        "GF-S01",
+        "GF-S04"
+      ]
+    },
+    {
+      "id": "GF-ELETROBRAS",
+      "name": "Eletrobras",
+      "type": "company",
+      "country_code": "BR",
+      "registry_id": null,
+      "identity_status": "named_in_case_primary_record_not_global_registry_resolved",
+      "source_ids": [
+        "GF-S01",
+        "GF-S04"
+      ]
+    },
+    {
+      "id": "GF-BNDES",
+      "name": "BNDES",
+      "type": "public_bank",
+      "country_code": "BR",
+      "registry_id": null,
+      "identity_status": "named_in_case_primary_record_not_global_registry_resolved",
+      "source_ids": [
+        "GF-S01"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "id": "GF-E01",
+      "s": "GF-NSW",
+      "t": "GF-AU-CONSORTIUM",
+      "predicate": "granted_partial_long_term_lease",
+      "tier": "documented",
+      "case_id": "GF-AU-AUSGRID-2016",
+      "source_ids": [
+        "GF-S05",
+        "GF-S06",
+        "GF-S20"
+      ],
+      "event_date": "2016-12",
+      "valid_from": "2016-12",
+      "valid_to": null,
+      "temporal_scope": "dated_assertion_not_current_continuity",
+      "amount_id": null,
+      "percent": 50.4,
+      "asset_id": "GF-AUSGRID",
+      "duration_years": 99
+    },
+    {
+      "id": "GF-E02",
+      "s": "GF-HRADF",
+      "t": "GF-COSCO-HK-2016",
+      "predicate": "sold_company_shares",
+      "tier": "documented",
+      "case_id": "GF-GR-PIRAEUS-2016",
+      "source_ids": [
+        "GF-S07"
+      ],
+      "event_date": "2016-08-10",
+      "valid_from": "2016-08-10",
+      "valid_to": null,
+      "temporal_scope": "dated_assertion_not_current_continuity",
+      "amount_id": "GF-A05",
+      "target_company": "GF-PPA",
+      "percent": 51
+    },
+    {
+      "id": "GF-E03",
+      "s": "GF-SA-GOV",
+      "t": "GF-ARAMCO",
+      "predicate": "direct_shareholding",
+      "tier": "documented",
+      "case_id": "GF-SA-ARAMCO-2024",
+      "source_ids": [
+        "GF-S10"
+      ],
+      "event_date": "2024-06-11",
+      "valid_from": null,
+      "valid_to": null,
+      "temporal_scope": "dated_assertion_not_current_continuity",
+      "amount_id": null,
+      "percent": 81.48,
+      "snapshot_date": "2024-06-11"
+    },
+    {
+      "id": "GF-E04",
+      "s": "GF-IFC",
+      "t": "GF-STE",
+      "predicate": "approved_A_loan",
+      "tier": "documented",
+      "case_id": "GF-ET-SAFARICOM-2023",
+      "source_ids": [
+        "GF-S13"
+      ],
+      "event_date": "2023-01-12",
+      "valid_from": "2023-01-12",
+      "valid_to": null,
+      "temporal_scope": "dated_assertion_not_current_continuity",
+      "amount_id": "GF-A11",
+      "project_id": "45197"
+    },
+    {
+      "id": "GF-E05",
+      "s": "GF-IFC",
+      "t": "GF-GPE",
+      "predicate": "announced_equity_investment",
+      "tier": "documented",
+      "case_id": "GF-ET-SAFARICOM-2023",
+      "source_ids": [
+        "GF-S12"
+      ],
+      "event_date": "2023-06-08",
+      "valid_from": "2023-06-08",
+      "valid_to": null,
+      "temporal_scope": "dated_assertion_not_current_continuity",
+      "amount_id": "GF-A10",
+      "amount_reconciliation_status": "unresolved"
+    },
+    {
+      "id": "GF-E06",
+      "s": "GF-ECA",
+      "t": "GF-STE",
+      "predicate": "granted_telecommunication_license",
+      "tier": "documented",
+      "case_id": "GF-ET-SAFARICOM-2023",
+      "source_ids": [
+        "GF-S13"
+      ],
+      "event_date": "2021-07-09",
+      "valid_from": "2021-07-09",
+      "valid_to": null,
+      "temporal_scope": "dated_assertion_not_current_continuity",
+      "amount_id": null
+    },
+    {
+      "id": "GF-E07",
+      "s": "GF-GPE",
+      "t": "GF-STE",
+      "predicate": "all_but_one_share_ownership",
+      "tier": "documented",
+      "case_id": "GF-ET-SAFARICOM-2023",
+      "source_ids": [
+        "GF-S13"
+      ],
+      "event_date": "2023-11-04",
+      "valid_from": null,
+      "valid_to": null,
+      "temporal_scope": "dated_assertion_not_current_continuity",
+      "amount_id": null,
+      "snapshot_date": "2023-11-04"
+    },
+    {
+      "id": "GF-E08",
+      "s": "GF-MIGA",
+      "t": "GF-ET-GUARANTEE-INVESTORS",
+      "predicate": "announced_guarantee_cover",
+      "tier": "documented",
+      "case_id": "GF-ET-SAFARICOM-2023",
+      "source_ids": [
+        "GF-S12"
+      ],
+      "event_date": "2023-06-08",
+      "valid_from": "2023-06-08",
+      "valid_to": null,
+      "temporal_scope": "dated_assertion_not_current_continuity",
+      "amount_id": "GF-A12",
+      "project_company": "GF-STE"
+    },
+    {
+      "id": "GF-E09",
+      "s": "GF-ZM-MOF",
+      "t": "GF-ZCCM",
+      "predicate": "government_loan_facility",
+      "tier": "documented",
+      "case_id": "GF-ZM-MOPANI-2024",
+      "source_ids": [
+        "GF-S15"
+      ],
+      "event_date": "2024-03-20",
+      "valid_from": "2024-03-20",
+      "valid_to": null,
+      "temporal_scope": "dated_assertion_not_current_continuity",
+      "amount_id": "GF-A19",
+      "purpose": "Glencore covenant settlement supporting Mopani transaction",
+      "interest_percent": 0,
+      "tenor_years": 15
+    },
+    {
+      "id": "GF-E10",
+      "s": "GF-ZCCM",
+      "t": "GF-GLENCORE",
+      "predicate": "reported_upfront_payment",
+      "tier": "documented",
+      "case_id": "GF-ZM-MOPANI-2024",
+      "source_ids": [
+        "GF-S15"
+      ],
+      "event_date": "2024-03",
+      "valid_from": "2024-03",
+      "valid_to": null,
+      "temporal_scope": "dated_assertion_not_current_continuity",
+      "amount_id": "GF-A20"
+    },
+    {
+      "id": "GF-E11",
+      "s": "GF-IRH",
+      "t": "GF-DELTA",
+      "predicate": "wholly_owned_subsidiary",
+      "tier": "documented",
+      "case_id": "GF-ZM-MOPANI-2024",
+      "source_ids": [
+        "GF-S15"
+      ],
+      "event_date": "2024-03-21",
+      "valid_from": null,
+      "valid_to": null,
+      "temporal_scope": "dated_assertion_not_current_continuity",
+      "amount_id": null,
+      "percent": 100,
+      "snapshot_date": "2024-03-21"
+    },
+    {
+      "id": "GF-E12",
+      "s": "GF-DELTA",
+      "t": "GF-MOPANI",
+      "predicate": "shareholding",
+      "tier": "documented",
+      "case_id": "GF-ZM-MOPANI-2024",
+      "source_ids": [
+        "GF-S15"
+      ],
+      "event_date": "2024-03-20",
+      "valid_from": "2024-03-20",
+      "valid_to": null,
+      "temporal_scope": "dated_assertion_not_current_continuity",
+      "amount_id": null,
+      "percent": 51
+    },
+    {
+      "id": "GF-E13",
+      "s": "GF-ZCCM",
+      "t": "GF-MOPANI",
+      "predicate": "retained_shareholding",
+      "tier": "documented",
+      "case_id": "GF-ZM-MOPANI-2024",
+      "source_ids": [
+        "GF-S15",
+        "GF-S16"
+      ],
+      "event_date": "2024-03-20",
+      "valid_from": "2024-03-20",
+      "valid_to": null,
+      "temporal_scope": "dated_assertion_not_current_continuity",
+      "amount_id": null,
+      "percent": 49
+    },
+    {
+      "id": "GF-E14",
+      "s": "GF-IFC",
+      "t": "GF-JANNGO-FUND",
+      "predicate": "investment_status_recorded",
+      "tier": "documented",
+      "case_id": "GF-FR-JANNGO-2024",
+      "source_ids": [
+        "GF-S17"
+      ],
+      "event_date": "2024-10-18",
+      "valid_from": "2024-10-18",
+      "valid_to": null,
+      "temporal_scope": "dated_assertion_not_current_continuity",
+      "amount_id": null,
+      "project_id": "46342",
+      "amount_reconciliation_status": "unresolved_no_amount_attached"
+    },
+    {
+      "id": "GF-E15",
+      "s": "GF-JANNGO-MANAGER",
+      "t": "GF-JANNGO-FUND",
+      "predicate": "fund_manager",
+      "tier": "documented",
+      "case_id": "GF-FR-JANNGO-2024",
+      "source_ids": [
+        "GF-S17"
+      ],
+      "event_date": "2024-10-23",
+      "valid_from": null,
+      "valid_to": null,
+      "temporal_scope": "dated_assertion_not_current_continuity",
+      "amount_id": null,
+      "snapshot_date": "2024-10-23"
+    },
+    {
+      "id": "GF-E16",
+      "s": "GF-BA",
+      "t": "GF-JANNGO-MANAGER",
+      "predicate": "named_owner_of_manager",
+      "tier": "documented",
+      "case_id": "GF-FR-JANNGO-2024",
+      "source_ids": [
+        "GF-S17"
+      ],
+      "event_date": "2024-10-23",
+      "valid_from": null,
+      "valid_to": null,
+      "temporal_scope": "dated_assertion_not_current_continuity",
+      "amount_id": null,
+      "percent": null,
+      "not_established": "Ultimate beneficial ownership of fund or portfolio companies",
+      "snapshot_date": "2024-10-23"
+    },
+    {
+      "id": "GF-E17",
+      "s": "GF-GATES-FOUNDATION",
+      "t": "GF-GAVI",
+      "predicate": "charitable_pledge",
+      "tier": "documented",
+      "case_id": "GF-US-GAVI-2025",
+      "source_ids": [
+        "GF-S18",
+        "GF-S19"
+      ],
+      "event_date": "2025-06-24",
+      "valid_from": "2025-06-24",
+      "valid_to": null,
+      "temporal_scope": "dated_assertion_not_current_continuity",
+      "amount_id": "GF-A25",
+      "financial_period": "2026–2030",
+      "is_privatization": false
+    },
+    {
+      "id": "GF-E18",
+      "s": "GF-GATES",
+      "t": "GF-GATES-FOUNDATION",
+      "predicate": "chair_role",
+      "tier": "documented",
+      "case_id": "GF-US-GAVI-2025",
+      "source_ids": [
+        "GF-S18"
+      ],
+      "event_date": "2025-06-24",
+      "valid_from": null,
+      "valid_to": null,
+      "temporal_scope": "dated_assertion_not_current_continuity",
+      "amount_id": null,
+      "not_established": "Ownership of Gavi or personal receipt of pledge funds",
+      "snapshot_date": "2025-06-24"
+    },
+    {
+      "id": "GF-E19",
+      "s": "GF-BR-GOV",
+      "t": "GF-ELETROBRAS",
+      "predicate": "authorized_state_control_dilution",
+      "tier": "documented",
+      "case_id": "GF-BR-ELETROBRAS-2022",
+      "source_ids": [
+        "GF-S01",
+        "GF-S04"
+      ],
+      "event_date": "2022-05-20",
+      "valid_from": "2022-05-20",
+      "valid_to": null,
+      "temporal_scope": "dated_assertion_not_current_continuity",
+      "amount_id": null
+    },
+    {
+      "id": "GF-E20",
+      "s": "GF-BNDES",
+      "t": "GF-ELETROBRAS",
+      "predicate": "assigned_privatization_structuring_role",
+      "tier": "documented",
+      "case_id": "GF-BR-ELETROBRAS-2022",
+      "source_ids": [
+        "GF-S01"
+      ],
+      "event_date": "2021-04-27",
+      "valid_from": "2021-04-27",
+      "valid_to": null,
+      "temporal_scope": "dated_assertion_not_current_continuity",
+      "amount_id": null
+    }
+  ],
+  "note": "Additive global graph; precise predicates and currency-aware amount references. Do not force amounts into legacy INR-crore a field. Graph is not a causal model."
+}

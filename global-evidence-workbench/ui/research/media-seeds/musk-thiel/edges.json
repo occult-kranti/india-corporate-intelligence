@@ -1,0 +1,1316 @@
+[
+  {
+    "id": "MT-M-E01",
+    "from": "MT-E-MUSK",
+    "to": "MT-E-TESLA",
+    "type": "executive_role",
+    "status": "dated",
+    "date": "2026-04-30",
+    "date_precision": "day",
+    "summary": "Tesla lists Musk as CEO since October 2008 and director since April 2004.",
+    "source_ids": [
+      "MT-M-S01"
+    ],
+    "caveat": "Role is not a quantified ownership or voting-control claim."
+  },
+  {
+    "id": "MT-M-E02",
+    "from": "MT-E-MUSK",
+    "to": "MT-E-TESLA",
+    "type": "beneficial_ownership",
+    "status": "dated",
+    "date": "2025-12-31",
+    "date_precision": "day",
+    "summary": "Tesla reports 717,112,739 beneficial shares (20.3%): 413,152,109 trust-held shares plus 303,960,630 exercisable-option shares.",
+    "source_ids": [
+      "MT-M-S01"
+    ],
+    "caveat": "Snapshot and SEC-rule denominator; excludes forfeited 96m interim award and 423,743,904 performance shares without dispositive/voting control. Do not label 20.3% current voting power.",
+    "ownership_pct": 20.3,
+    "share_count": 717112739,
+    "ownership_basis": "SEC beneficial-ownership calculation, including exercisable options; not unrestricted voting power",
+    "date_basis": "ownership_snapshot"
+  },
+  {
+    "id": "MT-M-E03",
+    "from": "MT-E-MUSK",
+    "to": "MT-E-TESLA",
+    "type": "equity_award_exercise",
+    "status": "dated",
+    "date": "2026-06-16",
+    "date_precision": "day",
+    "summary": "Musk exercised 303,960,630 option shares; Tesla withheld 17,531,857 for exercise price via net settlement.",
+    "source_ids": [
+      "MT-M-S02"
+    ],
+    "caveat": "Not an open-market sale. Form 4 totals include 423,743,904 restricted performance shares under voting agreement. No updated percentage inferred.",
+    "share_count": 303960630
+  },
+  {
+    "id": "MT-M-E04",
+    "from": "MT-E-MUSK",
+    "to": "MT-E-SPACEX",
+    "type": "beneficial_ownership",
+    "status": "dated",
+    "date": "2026-05-01",
+    "date_precision": "day",
+    "summary": "SpaceX prospectus lists 849,494,440 Class A and 5,569,053,075 Class B beneficial shares, with 85.1% pre-offering combined voting power under SEC-rule calculation.",
+    "source_ids": [
+      "MT-M-S03"
+    ],
+    "caveat": "Includes 350m exercisable-option Class B shares and performance-restricted stock. Summary actual-vote figure differs because it excludes options. No October 2026 or post-closing percentage asserted.",
+    "voting_pct": 85.1,
+    "voting_basis": "Pre-offering SEC-rule beneficial ownership including 350m exercisable Class B options; not actual October 2026 votes",
+    "date_basis": "May 1 2026 prospectus snapshot"
+  },
+  {
+    "id": "MT-M-E05",
+    "from": "MT-E-SPACEX",
+    "to": "MT-E-XAI-HOLDINGS",
+    "type": "acquisition",
+    "status": "closed",
+    "date": "2026-02-02",
+    "date_precision": "day",
+    "summary": "SpaceX acquired X.AI Holdings, which became its wholly owned subsidiary.",
+    "source_ids": [
+      "MT-M-S01",
+      "MT-M-S04"
+    ],
+    "caveat": "This is the disclosed corporate chain; no assertion that every lower-tier legal entity persisted unchanged afterward.",
+    "ownership_pct": 100
+  },
+  {
+    "id": "MT-M-E06",
+    "from": "MT-E-XAI-HOLDINGS",
+    "to": "MT-E-X",
+    "type": "ownership",
+    "status": "dated",
+    "date": "2025-03",
+    "date_precision": "month",
+    "summary": "X became a wholly owned subsidiary of the new X.AI Holdings parent in March 2025.",
+    "source_ids": [
+      "MT-M-S01"
+    ],
+    "caveat": "Historical structure at transaction; not proof of a personal 100% Musk stake.",
+    "ownership_pct": 100
+  },
+  {
+    "id": "MT-M-E07",
+    "from": "MT-E-XAI-HOLDINGS",
+    "to": "MT-E-XAI",
+    "type": "ownership",
+    "status": "dated",
+    "date": "2025-03",
+    "date_precision": "month",
+    "summary": "xAI became a wholly owned subsidiary of the new X.AI Holdings parent in March 2025.",
+    "source_ids": [
+      "MT-M-S01"
+    ],
+    "caveat": "Historical structure at transaction; later brand and legal reorganization must be checked.",
+    "ownership_pct": 100
+  },
+  {
+    "id": "MT-M-E08",
+    "from": "MT-E-TESLA",
+    "to": "MT-E-SPACEX",
+    "type": "investment",
+    "status": "closed",
+    "date": "2026-03-12",
+    "date_precision": "day",
+    "summary": "Tesla completed an approximately $2.00bn investment in SpaceX Class A stock after its xAI investment right converted in the merger.",
+    "source_ids": [
+      "MT-M-S01"
+    ],
+    "caveat": "Corporate Tesla investment, not a personal Musk purchase; resulting percentage not given.",
+    "amount": 2000000000,
+    "currency": "USD",
+    "amount_stage": "completed_equity_investment"
+  },
+  {
+    "id": "MT-M-E09",
+    "from": "MT-E-MUSK",
+    "to": "MT-E-XHOLDINGSI",
+    "type": "control",
+    "status": "historical",
+    "date": "2022-10-27",
+    "date_precision": "day",
+    "summary": "Musk’s closing Schedule 13D states X Holdings I was majority-owned and controlled by him.",
+    "source_ids": [
+      "MT-M-S05"
+    ],
+    "caveat": "No exact ownership percentage; later structures differ."
+  },
+  {
+    "id": "MT-M-E10",
+    "from": "MT-E-XHOLDINGSI",
+    "to": "MT-E-TWITTER",
+    "type": "acquisition",
+    "status": "closed",
+    "date": "2022-10-27",
+    "date_precision": "day",
+    "summary": "Twitter survived the merger as wholly owned subsidiary of X Holdings I; public common shares converted into $54.20 cash consideration.",
+    "source_ids": [
+      "MT-M-S05"
+    ],
+    "caveat": "Per-share merger consideration is not a total transaction value or current stake.",
+    "ownership_pct": 100,
+    "amount": 54.2,
+    "currency": "USD",
+    "amount_stage": "per_share_merger_consideration",
+    "unit": "USD per share"
+  },
+  {
+    "id": "MT-M-E11",
+    "from": "MT-E-MUSK",
+    "to": "MT-E-BORING",
+    "type": "founder_role",
+    "status": "dated",
+    "date": "2026-04-30",
+    "date_precision": "day",
+    "summary": "Tesla identifies Musk as The Boring Company founder.",
+    "source_ids": [
+      "MT-M-S01"
+    ],
+    "caveat": "Founder role does not specify ownership or control percentage."
+  },
+  {
+    "id": "MT-M-E12",
+    "from": "MT-E-MUSK",
+    "to": "MT-E-NEURALINK",
+    "type": "executive_role",
+    "status": "dated",
+    "date": "2026-04-30",
+    "date_precision": "day",
+    "summary": "Tesla identifies Musk as Neuralink founder and CEO.",
+    "source_ids": [
+      "MT-M-S01"
+    ],
+    "caveat": "Private shareholding percentage not verified."
+  },
+  {
+    "id": "MT-M-E13",
+    "from": "MT-E-TESLA",
+    "to": "MT-E-SOLARCITY",
+    "type": "acquisition",
+    "status": "closed",
+    "date": "2016-11-21",
+    "date_precision": "day",
+    "summary": "Tesla completed its acquisition of SolarCity.",
+    "source_ids": [
+      "MT-M-S11"
+    ],
+    "caveat": "Historical acquisition, not a present separate personal stake."
+  },
+  {
+    "id": "MT-M-E14",
+    "from": "MT-E-NASA",
+    "to": "MT-E-SPACEX",
+    "type": "contract",
+    "status": "historical",
+    "date": "2022-08-31",
+    "date_precision": "day",
+    "summary": "NASA awarded a $1,436,438,446 modification for five commercial-crew missions and related services.",
+    "source_ids": [
+      "MT-M-S06"
+    ],
+    "caveat": "Award value, not payment; cumulative CCtCap value $4,927,306,350 already includes this modification.",
+    "amount": 1436438446,
+    "currency": "USD",
+    "amount_stage": "contract_modification_award"
+  },
+  {
+    "id": "MT-M-E15",
+    "from": "MT-E-USSF",
+    "to": "MT-E-SPACEX",
+    "type": "contract",
+    "status": "dated",
+    "date": "2025-04",
+    "date_precision": "month",
+    "summary": "CRS records a Phase 3 Lane 2 launch contract anticipated at up to $5.9bn for SpaceX.",
+    "source_ids": [
+      "MT-M-S07"
+    ],
+    "caveat": "Government summary; not paid amount; multi-provider procurement included ULA and Blue Origin. No donation-to-award causation established.",
+    "amount": 5900000000,
+    "currency": "USD",
+    "amount_stage": "anticipated_contract_value_rounded"
+  },
+  {
+    "id": "MT-M-E16",
+    "from": "MT-E-DOD",
+    "to": "MT-E-XAI",
+    "type": "contract",
+    "status": "reported",
+    "date": "2025-07-14",
+    "date_precision": "day",
+    "summary": "xAI announced a Department of Defense contract with a $200m ceiling.",
+    "source_ids": [
+      "MT-M-S08"
+    ],
+    "caveat": "Issuer report of ceiling, not evidence $200m obligated or paid; not election administration.",
+    "amount": 200000000,
+    "currency": "USD",
+    "amount_stage": "contract_ceiling"
+  },
+  {
+    "id": "MT-M-E17",
+    "from": "MT-E-SEQUOIA",
+    "to": "MT-E-BORING",
+    "type": "investment",
+    "status": "historical",
+    "date": "2022-04-21",
+    "date_precision": "day",
+    "summary": "Sequoia announced it co-led The Boring Company Series C.",
+    "source_ids": [
+      "MT-M-S10"
+    ],
+    "caveat": "Fund vehicle, allocated amount, stake and current retention undisclosed."
+  },
+  {
+    "id": "MT-M-E18",
+    "from": "MT-E-VYCAPITAL",
+    "to": "MT-E-BORING",
+    "type": "investment",
+    "status": "historical",
+    "date": "2022-04-21",
+    "date_precision": "day",
+    "summary": "Sequoia identified Vy Capital as Series C co-lead.",
+    "source_ids": [
+      "MT-M-S10"
+    ],
+    "caveat": "Fund vehicle, allocated amount, stake and current retention undisclosed."
+  },
+  {
+    "id": "MT-M-E19",
+    "from": "MT-E-UAE-ROUND",
+    "to": "MT-E-BORING",
+    "type": "investment",
+    "status": "reported",
+    "date": "2026-09-09",
+    "date_precision": "day",
+    "summary": "The Boring Company announced a $3bn Series D led by UAE and affiliated investment entities, at $23bn valuation.",
+    "source_ids": [
+      "MT-M-S09"
+    ],
+    "caveat": "$3bn is the whole round, not the lead-group allocation. Exact legal investors and stakes unresolved.",
+    "round_amount": 3000000000,
+    "currency": "USD",
+    "amount_stage": "announced_total_round_not_edge_amount"
+  },
+  {
+    "id": "MT-M-E20",
+    "from": "MT-E-USAINC",
+    "to": "MT-E-AMERICAPAC",
+    "type": "service",
+    "status": "reported",
+    "date": null,
+    "date_precision": "unknown",
+    "summary": "America PAC says United States of America Inc. processes petition-related checks on its behalf.",
+    "source_ids": [
+      "MT-M-S14"
+    ],
+    "caveat": "Publicly stated service; no signed vendor contract or fee agreed here. No corporate-control inference."
+  },
+  {
+    "id": "MT-M-E21",
+    "from": "MT-E-MUSK",
+    "to": "MT-E-AMERICAPAC",
+    "type": "donation",
+    "status": "dated",
+    "date": "2025-02-18",
+    "date_precision": "day",
+    "summary": "America PAC midyear filing records a $4.2m Musk contribution, transaction SA11A.76.",
+    "source_ids": [
+      "MT-M-S13"
+    ],
+    "caveat": "Selected filing row, not all-cycle total; later amendments not reconciled.",
+    "amount": 4200000,
+    "currency": "USD",
+    "amount_stage": "reported_receipt"
+  },
+  {
+    "id": "MT-M-E22",
+    "from": "MT-E-USAINC",
+    "to": "MT-E-AMERICAPAC",
+    "type": "in_kind_contribution",
+    "status": "dated",
+    "date": "2025-06-30",
+    "date_precision": "day",
+    "summary": "America PAC records $27,072,484 of in-kind petition incentives from United States of America Inc., SA11A.196.",
+    "source_ids": [
+      "MT-M-S13"
+    ],
+    "caveat": "Matching Musk partner attribution SA11A.197 and Schedule B SB21B.196 describe the same in-kind item; do not add them or reverse into a separate payment.",
+    "amount": 27072484,
+    "currency": "USD",
+    "amount_stage": "in_kind_receipt_not_cash",
+    "dedup_group": "MT-AMERICA-SA11A196-197-SB21B196"
+  },
+  {
+    "id": "MT-M-E23",
+    "from": "MT-E-MUSK",
+    "to": "MT-E-AMERICAPAC",
+    "type": "contribution_attribution",
+    "status": "dated",
+    "date": "2025-06-30",
+    "date_precision": "day",
+    "summary": "The same $27,072,484 in-kind petition item is attributed to Musk in SA11A.197.",
+    "source_ids": [
+      "MT-M-S13"
+    ],
+    "caveat": "Attribution of MT-M-E22, not an additional donation or cash transfer.",
+    "amount": 27072484,
+    "currency": "USD",
+    "amount_stage": "memo_partnership_attribution_non_additive",
+    "dedup_group": "MT-AMERICA-SA11A196-197-SB21B196"
+  },
+  {
+    "id": "MT-M-E24",
+    "from": "MT-E-MUSK",
+    "to": "MT-E-MUSK-TRUST",
+    "type": "trustee_role",
+    "status": "dated",
+    "date": "2026-06-17",
+    "date_precision": "day",
+    "summary": "Musk’s Tesla Form 4 identifies him as trustee of the Elon Musk Revocable Trust.",
+    "source_ids": [
+      "MT-M-S02"
+    ],
+    "caveat": "Trustee relation only; no automatic assignment of all trust assets as current personal cash."
+  },
+  {
+    "id": "MT-M-E25",
+    "from": "MT-E-MUSK",
+    "to": "MT-E-AMERICAPAC",
+    "type": "donation",
+    "status": "dated",
+    "date": "2024",
+    "date_precision": "year",
+    "summary": "The FEC processed query returns 15 non-memo cash receipt rows from Musk totaling $197.55m in July–November 2024.",
+    "source_ids": [
+      "MT-M-S16"
+    ],
+    "caveat": "This is this committee/query and data snapshot only, not total Musk political spending. Full latest-report amendment chain not independently reconciled.",
+    "amount": 197550000,
+    "currency": "USD",
+    "amount_stage": "processed_cash_receipts_sum",
+    "transaction_ids": [
+      "SA11A.44",
+      "SA11A.43",
+      "SA11A.42",
+      "SA11A.41",
+      "SA11A.40",
+      "SA11A.39",
+      "SA11A.38",
+      "SA11A.29",
+      "SA11A.27",
+      "SA11A.28",
+      "SA11A.24",
+      "SA11A.23",
+      "SA11A.22",
+      "SA11A.21",
+      "SA11A.20"
+    ],
+    "dedup_group": "MT-AMERICA-2024-MUSK-CASH"
+  },
+  {
+    "id": "MT-M-E26",
+    "from": "MT-E-MUSK",
+    "to": "MT-E-AMERICAPAC",
+    "type": "in_kind_contribution",
+    "status": "dated",
+    "date": "2024-11-25",
+    "date_precision": "day",
+    "summary": "The query separately identifies $112,036.50 of Musk in-kind travel, SA11A.48.",
+    "source_ids": [
+      "MT-M-S16"
+    ],
+    "caveat": "Included within non-memo receipts but not cash. Do not add it twice to any inclusive receipt total.",
+    "amount": 112036.5,
+    "currency": "USD",
+    "amount_stage": "processed_in_kind_receipt",
+    "transaction_ids": [
+      "SA11A.48"
+    ],
+    "dedup_group": "MT-AMERICA-2024-MUSK-DIRECT-INKIND"
+  },
+  {
+    "id": "MT-M-E27",
+    "from": "MT-E-MUSK",
+    "to": "MT-E-AMERICAPAC",
+    "type": "contribution_attribution",
+    "status": "dated",
+    "date": "2024",
+    "date_precision": "year",
+    "summary": "Ten memorandum rows attribute $52,092,949.98 of partnership in-kind contributions to Musk in November–December 2024.",
+    "source_ids": [
+      "MT-M-S16"
+    ],
+    "caveat": "Attributions, not an additional cash transfer; do not add to underlying partnership receipt rows. They are separate from the 15 cash rows and one direct in-kind row.",
+    "amount": 52092949.98,
+    "currency": "USD",
+    "amount_stage": "processed_memo_partnership_attributions_non_additive",
+    "transaction_ids": [
+      "SA11A.75",
+      "SA11A.71",
+      "SA11A.63",
+      "SA11A.61",
+      "SA11A.59",
+      "SA11A.58",
+      "SA11A.57",
+      "SA11A.56",
+      "SA11A.55",
+      "SA11A.47"
+    ],
+    "dedup_group": "MT-AMERICA-2024-MUSK-PARTNERSHIP-ATTRIBUTIONS"
+  },
+  {
+    "id": "MT-M-E28",
+    "from": "MT-E-AMERICAPAC",
+    "to": "MT-E-X",
+    "type": "vendor_payment",
+    "status": "dated",
+    "date": "2024-10-28",
+    "date_precision": "day",
+    "summary": "America PAC reported $40,000 to X Corp. for LICENSING SERVICE, Schedule B transaction SB.89.",
+    "source_ids": [
+      "MT-M-S17"
+    ],
+    "caveat": "A reported PAC operating payment. The filing does not establish advertising targeting, vote administration, electoral impact or terms of a signed contract.",
+    "amount": 40000,
+    "currency": "USD",
+    "amount_stage": "reported_operating_disbursement",
+    "transaction_ids": [
+      "SB.89"
+    ]
+  },
+  {
+    "id": "MT-M-E29",
+    "from": "MT-E-MUSK-TRUST",
+    "to": "MT-E-RBGPAC",
+    "type": "donation",
+    "status": "dated",
+    "date": "2024-10-24",
+    "date_precision": "day",
+    "summary": "RBG PAC reported receiving $20.5m from the Elon Musk Revocable Trust, SA11AI.4115.",
+    "source_ids": [
+      "MT-M-S18"
+    ],
+    "caveat": "Trust is the named donor. Separate from America PAC and from a later reported $8,727 refund; selected original report, amendment chain not fully reconciled.",
+    "amount": 20500000,
+    "currency": "USD",
+    "amount_stage": "reported_gross_receipt",
+    "transaction_ids": [
+      "SA11AI.4115"
+    ]
+  },
+  {
+    "id": "MT-M-E30",
+    "from": "MT-E-RBGPAC",
+    "to": "MT-E-WESTERN-CREATIVE",
+    "type": "independent_expenditure",
+    "status": "dated",
+    "date": "2024-10",
+    "date_precision": "month",
+    "summary": "RBG PAC reported five independent expenditures through Western Creative Group LLC totaling $20,476,000: digital media, text messages, printing/postage and digital production, supporting Donald Trump.",
+    "source_ids": [
+      "MT-M-S18"
+    ],
+    "caveat": "Schedule E reports disbursement or obligation, not necessarily cash paid on dissemination date. This is a vendor expenditure chain, not a direct candidate contribution, signed contract, or proof of electoral effect.",
+    "amount": 20476000,
+    "currency": "USD",
+    "amount_stage": "reported_independent_expenditure_disbursement_or_obligation",
+    "transaction_ids": [
+      "SE.4103",
+      "SE.4105",
+      "SE.4106",
+      "SE.4107",
+      "SE.4117"
+    ]
+  },
+  {
+    "id": "MT-M-E31",
+    "from": "MT-E-RBGPAC",
+    "to": "MT-E-MUSK-TRUST",
+    "type": "contribution_refund",
+    "status": "dated",
+    "date": "2025-01-13",
+    "date_precision": "day",
+    "summary": "RBG PAC reported an $8,727 contribution refund to the Musk trust, SB28A.4133.",
+    "source_ids": [
+      "MT-M-S19"
+    ],
+    "caveat": "Keep as a later-period refund; does not erase the $20.5m gross receipt.",
+    "amount": 8727,
+    "currency": "USD",
+    "amount_stage": "reported_contribution_refund",
+    "transaction_ids": [
+      "SB28A.4133"
+    ]
+  },
+  {
+    "id": "MT-M-E32",
+    "from": "MT-E-AMERICAPAC",
+    "to": "MT-E-IMGE",
+    "type": "vendor_payment",
+    "status": "dated",
+    "date": "2024-10-17",
+    "date_precision": "day",
+    "summary": "America PAC reported $43,980.20 to IMGE LLC for TEXTING SERVICE, SB.169.",
+    "source_ids": [
+      "MT-M-S17"
+    ],
+    "caveat": "Selected operating-disbursement row, not all vendor spend, signed contract or evidence of voter targeting or electoral effect.",
+    "amount": 43980.2,
+    "currency": "USD",
+    "amount_stage": "reported_operating_disbursement",
+    "transaction_ids": [
+      "SB.169"
+    ]
+  },
+  {
+    "id": "MT-M-E33",
+    "from": "MT-E-AMERICAPAC",
+    "to": "MT-E-PUSH-DIGITAL",
+    "type": "vendor_payment",
+    "status": "dated",
+    "date": "2024-10-18",
+    "date_precision": "day",
+    "summary": "America PAC reported $17,200 to Push Digital LLC for DIGITAL CONSULTING, SB.46.",
+    "source_ids": [
+      "MT-M-S17"
+    ],
+    "caveat": "Selected operating-disbursement row, not all vendor spend or a signed contract.",
+    "amount": 17200,
+    "currency": "USD",
+    "amount_stage": "reported_operating_disbursement",
+    "transaction_ids": [
+      "SB.46"
+    ]
+  },
+  {
+    "id": "MT-M-E34",
+    "from": "MT-E-AMERICAPAC",
+    "to": "MT-E-PUSH-DIGITAL",
+    "type": "independent_expenditure",
+    "status": "dated",
+    "date": "2024-10-19",
+    "date_precision": "day",
+    "summary": "America PAC reported a $519,166.68 digital-media independent expenditure through Push Digital, SE24.793, supporting Donald Trump; dissemination was October 18.",
+    "source_ids": [
+      "MT-M-S17"
+    ],
+    "caveat": "Disbursement/obligation date differs from dissemination. Selected row, not all vendor spend; no targeting detail or electoral effect established.",
+    "amount": 519166.68,
+    "currency": "USD",
+    "amount_stage": "reported_independent_expenditure_disbursement_or_obligation",
+    "transaction_ids": [
+      "SE24.793"
+    ],
+    "dissemination_date": "2024-10-18"
+  },
+  {
+    "id": "MT-T-E01",
+    "from": "MT-E-THIEL",
+    "to": "MT-E-PALANTIR",
+    "type": "co_founder_and_chairman",
+    "status": "documented",
+    "date": "2026-04-06",
+    "date_precision": "day",
+    "summary": "Chairman since 2003; current in the 2026 proxy snapshot.",
+    "source_ids": [
+      "MT-T-S01"
+    ],
+    "caveat": "",
+    "valid_from": "2003",
+    "valid_to": null,
+    "claim_ids": [
+      "MT-T-C01"
+    ]
+  },
+  {
+    "id": "MT-T-E02",
+    "from": "MT-E-THIEL",
+    "to": "MT-E-FOUNDERS-FUND",
+    "type": "partner",
+    "status": "documented",
+    "date": "2026-10-15",
+    "date_precision": "day",
+    "summary": "Partner on current official biography; since 2005 in SEC biography.",
+    "source_ids": [
+      "MT-T-S01",
+      "MT-T-S02"
+    ],
+    "caveat": "Does not establish sole ownership or unilateral investment control.",
+    "valid_from": "2005",
+    "valid_to": null,
+    "claim_ids": [
+      "MT-T-C01"
+    ]
+  },
+  {
+    "id": "MT-T-E03",
+    "from": "MT-E-THIEL",
+    "to": "MT-E-THIEL-CAPITAL",
+    "type": "president",
+    "status": "documented",
+    "date": "2026-04-06",
+    "date_precision": "day",
+    "summary": "President since 2011 per SEC biography.",
+    "source_ids": [
+      "MT-T-S01"
+    ],
+    "caveat": "Exact beneficial ownership not reconstructed.",
+    "valid_from": "2011",
+    "claim_ids": [
+      "MT-T-C01"
+    ]
+  },
+  {
+    "id": "MT-T-E04",
+    "from": "MT-E-THIEL",
+    "to": "MT-E-PALANTIR",
+    "type": "declared_beneficial_ownership",
+    "status": "documented",
+    "date": "2026-04-06",
+    "date_precision": "day",
+    "summary": "Class A 68,871,556; Class B 29,128,444; Class F 335,000. Table states 7.9% votes excluding Class F.",
+    "source_ids": [
+      "MT-T-S01"
+    ],
+    "caveat": "7.9% excludes Class F voting power. Class ownership percentages are not an overall economic percentage. Snapshot only.",
+    "voting_pct": 7.9,
+    "shares_by_class": {
+      "A": 68871556,
+      "B": 29128444,
+      "F": 335000
+    },
+    "class_ownership_pct": {
+      "A": 3,
+      "B": 29.1,
+      "F": 33.3
+    },
+    "claim_ids": [
+      "MT-T-C02"
+    ],
+    "voting_basis": "Excludes Class F voting power",
+    "date_basis": "April 6 2026 ownership snapshot"
+  },
+  {
+    "id": "MT-T-E050",
+    "from": "MT-E-THIEL",
+    "to": "MT-E-PALANTIR-FOUNDER-ARRANGEMENT",
+    "type": "participant_in_voting_arrangement",
+    "status": "documented",
+    "date": "2026-04-06",
+    "date_precision": "day",
+    "summary": "Named founder participating in voting arrangements.",
+    "source_ids": [
+      "MT-T-S01"
+    ],
+    "caveat": "Participation does not assign all collective votes to this person.",
+    "claim_ids": [
+      "MT-T-C03"
+    ]
+  },
+  {
+    "id": "MT-T-E051",
+    "from": "MT-E-ALEX-KARP",
+    "to": "MT-E-PALANTIR-FOUNDER-ARRANGEMENT",
+    "type": "participant_in_voting_arrangement",
+    "status": "documented",
+    "date": "2026-04-06",
+    "date_precision": "day",
+    "summary": "Named founder participating in voting arrangements.",
+    "source_ids": [
+      "MT-T-S01"
+    ],
+    "caveat": "Participation does not assign all collective votes to this person.",
+    "claim_ids": [
+      "MT-T-C03"
+    ]
+  },
+  {
+    "id": "MT-T-E052",
+    "from": "MT-E-STEPHEN-COHEN",
+    "to": "MT-E-PALANTIR-FOUNDER-ARRANGEMENT",
+    "type": "participant_in_voting_arrangement",
+    "status": "documented",
+    "date": "2026-04-06",
+    "date_precision": "day",
+    "summary": "Named founder participating in voting arrangements.",
+    "source_ids": [
+      "MT-T-S01"
+    ],
+    "caveat": "Participation does not assign all collective votes to this person.",
+    "claim_ids": [
+      "MT-T-C03"
+    ]
+  },
+  {
+    "id": "MT-T-E06",
+    "from": "MT-E-PALANTIR-FOUNDER-ARRANGEMENT",
+    "to": "MT-E-PALANTIR",
+    "type": "collective_voting_power",
+    "status": "documented",
+    "date": "2026-04-06",
+    "date_precision": "day",
+    "summary": "Founder Total in proxy voting table.",
+    "source_ids": [
+      "MT-T-S01"
+    ],
+    "caveat": "Collective founder total, not one individual’s personal voting percentage.",
+    "voting_pct": 49.999999,
+    "claim_ids": [
+      "MT-T-C03"
+    ],
+    "voting_basis": "Collective founder arrangement, not Peter Thiel individually",
+    "date_basis": "April 6 2026 ownership snapshot"
+  },
+  {
+    "id": "MT-T-E070",
+    "from": "MT-E-THIEL",
+    "to": "MT-E-PLTR-HOLDINGS",
+    "type": "sole_beneficial_owner",
+    "status": "documented",
+    "date": "2026-04-06",
+    "date_precision": "day",
+    "summary": "Named sole beneficial owner of this LLC.",
+    "source_ids": [
+      "MT-T-S01"
+    ],
+    "caveat": "",
+    "claim_ids": [
+      "MT-T-C040"
+    ]
+  },
+  {
+    "id": "MT-T-E080",
+    "from": "MT-E-PLTR-HOLDINGS",
+    "to": "MT-E-PALANTIR",
+    "type": "record_shareholder",
+    "status": "documented",
+    "date": "2026-04-06",
+    "date_precision": "day",
+    "summary": "20,823,993 Class A and 0 Class B shares held of record.",
+    "source_ids": [
+      "MT-T-S01"
+    ],
+    "caveat": "These shares are included in Thiel’s aggregate beneficial ownership; do not add again.",
+    "shares_by_class": {
+      "A": 20823993,
+      "B": 0
+    },
+    "claim_ids": [
+      "MT-T-C040"
+    ]
+  },
+  {
+    "id": "MT-T-E071",
+    "from": "MT-E-THIEL",
+    "to": "MT-E-STS-HOLDINGS-II",
+    "type": "sole_beneficial_owner",
+    "status": "documented",
+    "date": "2026-04-06",
+    "date_precision": "day",
+    "summary": "Named sole beneficial owner of this LLC.",
+    "source_ids": [
+      "MT-T-S01"
+    ],
+    "caveat": "",
+    "claim_ids": [
+      "MT-T-C041"
+    ]
+  },
+  {
+    "id": "MT-T-E081",
+    "from": "MT-E-STS-HOLDINGS-II",
+    "to": "MT-E-PALANTIR",
+    "type": "record_shareholder",
+    "status": "documented",
+    "date": "2026-04-06",
+    "date_precision": "day",
+    "summary": "13,733,625 Class A and 26,165,483 Class B shares held of record.",
+    "source_ids": [
+      "MT-T-S01"
+    ],
+    "caveat": "These shares are included in Thiel’s aggregate beneficial ownership; do not add again.",
+    "shares_by_class": {
+      "A": 13733625,
+      "B": 26165483
+    },
+    "claim_ids": [
+      "MT-T-C041"
+    ]
+  },
+  {
+    "id": "MT-T-E072",
+    "from": "MT-E-THIEL",
+    "to": "MT-E-RIVENDELL-7",
+    "type": "sole_beneficial_owner",
+    "status": "documented",
+    "date": "2026-04-06",
+    "date_precision": "day",
+    "summary": "Named sole beneficial owner of this LLC.",
+    "source_ids": [
+      "MT-T-S01"
+    ],
+    "caveat": "",
+    "claim_ids": [
+      "MT-T-C042"
+    ]
+  },
+  {
+    "id": "MT-T-E082",
+    "from": "MT-E-RIVENDELL-7",
+    "to": "MT-E-PALANTIR",
+    "type": "record_shareholder",
+    "status": "documented",
+    "date": "2026-04-06",
+    "date_precision": "day",
+    "summary": "34,260,451 Class A and 0 Class B shares held of record.",
+    "source_ids": [
+      "MT-T-S01"
+    ],
+    "caveat": "These shares are included in Thiel’s aggregate beneficial ownership; do not add again.",
+    "shares_by_class": {
+      "A": 34260451,
+      "B": 0
+    },
+    "claim_ids": [
+      "MT-T-C042"
+    ]
+  },
+  {
+    "id": "MT-T-E073",
+    "from": "MT-E-THIEL",
+    "to": "MT-E-RIVENDELL-25",
+    "type": "sole_beneficial_owner",
+    "status": "documented",
+    "date": "2026-04-06",
+    "date_precision": "day",
+    "summary": "Named sole beneficial owner of this LLC.",
+    "source_ids": [
+      "MT-T-S01"
+    ],
+    "caveat": "",
+    "claim_ids": [
+      "MT-T-C043"
+    ]
+  },
+  {
+    "id": "MT-T-E083",
+    "from": "MT-E-RIVENDELL-25",
+    "to": "MT-E-PALANTIR",
+    "type": "record_shareholder",
+    "status": "documented",
+    "date": "2026-04-06",
+    "date_precision": "day",
+    "summary": "53,487 Class A and 2,962,961 Class B shares held of record.",
+    "source_ids": [
+      "MT-T-S01"
+    ],
+    "caveat": "These shares are included in Thiel’s aggregate beneficial ownership; do not add again.",
+    "shares_by_class": {
+      "A": 53487,
+      "B": 2962961
+    },
+    "claim_ids": [
+      "MT-T-C043"
+    ]
+  },
+  {
+    "id": "MT-T-E09",
+    "from": "MT-E-THIEL",
+    "to": "MT-E-META",
+    "type": "historical_director",
+    "status": "historical",
+    "date": "2022-02-07",
+    "date_precision": "day",
+    "summary": "Board member from 2005 to 2022.",
+    "source_ids": [
+      "MT-T-S01",
+      "MT-T-S04"
+    ],
+    "caveat": "No current Meta governance role established.",
+    "valid_from": "2005-04",
+    "valid_to": "2022",
+    "claim_ids": [
+      "MT-T-C05"
+    ],
+    "date_basis": "retirement_announcement",
+    "evidence_status": "documented"
+  },
+  {
+    "id": "MT-T-E10",
+    "from": "MT-E-THIEL",
+    "to": "MT-E-META",
+    "type": "historical_declared_beneficial_ownership",
+    "status": "historical",
+    "date": "2022-03-31",
+    "date_precision": "day",
+    "summary": "13,893 Class A beneficial shares, including 946 releasable RSUs; no Class B; under 1% voting power.",
+    "source_ids": [
+      "MT-T-S05"
+    ],
+    "caveat": "Historical snapshot; not a current stake or control claim.",
+    "shares_by_class": {
+      "A": 13893,
+      "B": 0
+    },
+    "voting_pct_upper_bound": 1,
+    "claim_ids": [
+      "MT-T-C06"
+    ],
+    "evidence_status": "documented"
+  },
+  {
+    "id": "MT-T-E11",
+    "from": "MT-E-THIEL",
+    "to": "MT-E-RUMBLE",
+    "type": "historical_investor",
+    "status": "historical",
+    "date": "2021-05-19",
+    "date_precision": "day",
+    "summary": "Named investor in announced 2021 financing.",
+    "source_ids": [
+      "MT-T-S06"
+    ],
+    "caveat": "Amount and ownership percentage undisclosed; current stake and control unverified.",
+    "claim_ids": [
+      "MT-T-C07"
+    ],
+    "evidence_status": "documented"
+  },
+  {
+    "id": "MT-T-E12",
+    "from": "MT-E-NARYA",
+    "to": "MT-E-RUMBLE",
+    "type": "historical_lead_investor",
+    "status": "historical",
+    "date": "2021-05-19",
+    "date_precision": "day",
+    "summary": "Narya led the announced financing.",
+    "source_ids": [
+      "MT-T-S06"
+    ],
+    "caveat": "No current stake or separate ownership by each partner inferred.",
+    "claim_ids": [
+      "MT-T-C07"
+    ],
+    "evidence_status": "documented"
+  },
+  {
+    "id": "MT-T-E13",
+    "from": "MT-E-JD-VANCE",
+    "to": "MT-E-NARYA",
+    "type": "historical_co_founder",
+    "status": "historical",
+    "date": "2021-05-19",
+    "date_precision": "day",
+    "summary": "Rumble described Narya as co-founded by J.D. Vance and Colin Greenspon.",
+    "source_ids": [
+      "MT-T-S06"
+    ],
+    "caveat": "Historical affiliation; not a current management-role assertion.",
+    "evidence_status": "documented"
+  },
+  {
+    "id": "MT-T-E200",
+    "from": "MT-E-FOUNDERS-FUND",
+    "to": "MT-E-SPACEX",
+    "type": "official_portfolio_listing",
+    "status": "documented_portfolio_listing",
+    "date": "2026-10-15",
+    "date_precision": "day",
+    "summary": "SpaceX appears on Founders Fund’s official portfolio page.",
+    "source_ids": [
+      "MT-T-S03"
+    ],
+    "caveat": "Listing date is observation date, not investment date. Current stake, fund vehicle, percentage and Thiel personal ownership are unknown."
+  },
+  {
+    "id": "MT-T-E201",
+    "from": "MT-E-FOUNDERS-FUND",
+    "to": "MT-E-ANDURIL",
+    "type": "official_portfolio_listing",
+    "status": "documented_portfolio_listing",
+    "date": "2026-10-15",
+    "date_precision": "day",
+    "summary": "Anduril appears on Founders Fund’s official portfolio page.",
+    "source_ids": [
+      "MT-T-S03",
+      "MT-T-S20"
+    ],
+    "caveat": "Listing date is observation date, not investment date. Current stake, fund vehicle, percentage and Thiel personal ownership are unknown."
+  },
+  {
+    "id": "MT-T-E202",
+    "from": "MT-E-FOUNDERS-FUND",
+    "to": "MT-E-STRIPE",
+    "type": "official_portfolio_listing",
+    "status": "documented_portfolio_listing",
+    "date": "2026-10-15",
+    "date_precision": "day",
+    "summary": "Stripe appears on Founders Fund’s official portfolio page.",
+    "source_ids": [
+      "MT-T-S03",
+      "MT-T-S19"
+    ],
+    "caveat": "Listing date is observation date, not investment date. Current stake, fund vehicle, percentage and Thiel personal ownership are unknown."
+  },
+  {
+    "id": "MT-T-E203",
+    "from": "MT-E-FOUNDERS-FUND",
+    "to": "MT-E-NEURALINK",
+    "type": "official_portfolio_listing",
+    "status": "documented_portfolio_listing",
+    "date": "2026-10-15",
+    "date_precision": "day",
+    "summary": "Neuralink appears on Founders Fund’s official portfolio page.",
+    "source_ids": [
+      "MT-T-S03"
+    ],
+    "caveat": "Listing date is observation date, not investment date. Current stake, fund vehicle, percentage and Thiel personal ownership are unknown."
+  },
+  {
+    "id": "MT-T-E204",
+    "from": "MT-E-FOUNDERS-FUND",
+    "to": "MT-E-BORING",
+    "type": "official_portfolio_listing",
+    "status": "documented_portfolio_listing",
+    "date": "2026-10-15",
+    "date_precision": "day",
+    "summary": "Boring Company appears on Founders Fund’s official portfolio page.",
+    "source_ids": [
+      "MT-T-S03"
+    ],
+    "caveat": "Listing date is observation date, not investment date. Current stake, fund vehicle, percentage and Thiel personal ownership are unknown."
+  },
+  {
+    "id": "MT-T-E205",
+    "from": "MT-E-FOUNDERS-FUND",
+    "to": "MT-E-GENERAL-MATTER",
+    "type": "official_portfolio_listing",
+    "status": "documented_portfolio_listing",
+    "date": "2026-10-15",
+    "date_precision": "day",
+    "summary": "General Matter, Inc. appears on Founders Fund’s official portfolio page.",
+    "source_ids": [
+      "MT-T-S03",
+      "MT-T-S18"
+    ],
+    "caveat": "Listing date is observation date, not investment date. Current stake, fund vehicle, percentage and Thiel personal ownership are unknown."
+  },
+  {
+    "id": "MT-T-E206",
+    "from": "MT-E-FOUNDERS-FUND",
+    "to": "MT-E-FLOCK",
+    "type": "official_portfolio_listing",
+    "status": "documented_portfolio_listing",
+    "date": "2026-10-15",
+    "date_precision": "day",
+    "summary": "Flock Safety appears on Founders Fund’s official portfolio page.",
+    "source_ids": [
+      "MT-T-S03",
+      "MT-T-S17"
+    ],
+    "caveat": "Listing date is observation date, not investment date. Current stake, fund vehicle, percentage and Thiel personal ownership are unknown."
+  },
+  {
+    "id": "MT-T-E207",
+    "from": "MT-E-FOUNDERS-FUND",
+    "to": "MT-E-SPOTIFY",
+    "type": "official_portfolio_listing",
+    "status": "documented_portfolio_listing",
+    "date": "2026-10-15",
+    "date_precision": "day",
+    "summary": "Spotify appears on Founders Fund’s official portfolio page.",
+    "source_ids": [
+      "MT-T-S03"
+    ],
+    "caveat": "Listing date is observation date, not investment date. Current stake, fund vehicle, percentage and Thiel personal ownership are unknown."
+  },
+  {
+    "id": "MT-T-E208",
+    "from": "MT-E-FOUNDERS-FUND",
+    "to": "MT-E-THE-ATHLETIC",
+    "type": "official_portfolio_listing",
+    "status": "documented_portfolio_listing",
+    "date": "2026-10-15",
+    "date_precision": "day",
+    "summary": "The Athletic appears on Founders Fund’s official portfolio page.",
+    "source_ids": [
+      "MT-T-S03"
+    ],
+    "caveat": "Listing date is observation date, not investment date. Current stake, fund vehicle, percentage and Thiel personal ownership are unknown."
+  },
+  {
+    "id": "MT-T-E210",
+    "from": "MT-E-FOUNDERS-FUND",
+    "to": "MT-E-META",
+    "type": "official_portfolio_listing",
+    "status": "documented_portfolio_listing",
+    "date": "2026-10-15",
+    "date_precision": "day",
+    "summary": "Listed under the historical name Facebook.",
+    "source_ids": [
+      "MT-T-S03"
+    ],
+    "caveat": "Does not establish a current stake or personal Thiel ownership."
+  },
+  {
+    "id": "MT-T-E211",
+    "from": "MT-E-FOUNDERS-FUND",
+    "to": "MT-E-PALANTIR",
+    "type": "official_portfolio_listing",
+    "status": "documented_portfolio_listing",
+    "date": "2026-10-15",
+    "date_precision": "day",
+    "summary": "Palantir appears in the portfolio.",
+    "source_ids": [
+      "MT-T-S03"
+    ],
+    "caveat": "Do not merge the firm-level listing with Thiel’s separately disclosed personal beneficial holdings."
+  },
+  {
+    "id": "MT-T-E22",
+    "from": "MT-E-FOUNDERS-FUND",
+    "to": "MT-E-FLOCK",
+    "type": "financing_round_participant",
+    "status": "documented",
+    "date": "2025-03-13",
+    "date_precision": "day",
+    "summary": "Founders Fund named among participants in Flock’s announced financing.",
+    "source_ids": [
+      "MT-T-S17"
+    ],
+    "caveat": "Investor’s amount and percentage undisclosed. $275 million is the whole round, not this edge amount.",
+    "round_total_usd": 275000000,
+    "claim_ids": [
+      "MT-T-C08"
+    ]
+  },
+  {
+    "id": "MT-T-E23",
+    "from": "MT-E-THIEL",
+    "to": "MT-E-ABCELLERA",
+    "type": "historical_director",
+    "status": "historical",
+    "date": "2026-04-06",
+    "date_precision": "day",
+    "summary": "Board service from 2020 to 2024 disclosed in 2026 biography.",
+    "source_ids": [
+      "MT-T-S01"
+    ],
+    "caveat": "Not a current role or ownership claim.",
+    "valid_from": "2020",
+    "valid_to": "2024",
+    "date_basis": "SEC_biography_snapshot_describing_historical_role",
+    "evidence_status": "documented"
+  },
+  {
+    "id": "MT-T-E24",
+    "from": "MT-E-THIEL",
+    "to": "MT-E-PAYPAL-HISTORICAL",
+    "type": "historical_co_founder_and_executive",
+    "status": "historical",
+    "date": "2026-04-06",
+    "date_precision": "day",
+    "summary": "Co-founded in 1998; CEO, president and chairman 2000–2002.",
+    "source_ids": [
+      "MT-T-S01"
+    ],
+    "caveat": "Historical company/roles; no current PayPal Holdings stake inferred.",
+    "valid_from": "1998",
+    "valid_to": "2002",
+    "date_basis": "SEC_biography_snapshot_describing_historical_role",
+    "evidence_status": "documented"
+  },
+  {
+    "id": "MT-T-E30-C00777185",
+    "from": "MT-E-THIEL",
+    "to": "MT-E-SAVING-ARIZONA",
+    "type": "reported_political_contribution",
+    "status": "documented",
+    "date": "2022-10-20",
+    "date_precision": "day",
+    "summary": "5 reported receipts totaling $20,000,000 in the 2022 federal cycle.",
+    "source_ids": [
+      "MT-T-S07",
+      "MT-T-S09"
+    ],
+    "caveat": "Committee receipts, not money paid directly to a candidate. No control, coordination or causal election effect inferred.",
+    "amount": 20000000,
+    "currency": "USD",
+    "amount_stage": "committee_reported_receipt",
+    "transaction_ids": [
+      "SA11A.5784",
+      "SA11A.5774",
+      "SA11A.5655",
+      "SA11A.4547",
+      "SA11AI.4126"
+    ],
+    "valid_from": "2021-04-23",
+    "valid_to": "2022-10-20",
+    "date_basis": "last_reported_receipt_in_covered_interval"
+  },
+  {
+    "id": "MT-T-E30-C00770495",
+    "from": "MT-E-THIEL",
+    "to": "MT-E-PROTECT-OHIO",
+    "type": "reported_political_contribution",
+    "status": "documented",
+    "date": "2022-04-25",
+    "date_precision": "day",
+    "summary": "3 reported receipts totaling $15,000,000 in the 2022 federal cycle.",
+    "source_ids": [
+      "MT-T-S08",
+      "MT-T-S10"
+    ],
+    "caveat": "Committee receipts, not money paid directly to a candidate. No control, coordination or causal election effect inferred.",
+    "amount": 15000000,
+    "currency": "USD",
+    "amount_stage": "committee_reported_receipt",
+    "transaction_ids": [
+      "A12ABEBDFA4AE4488A48",
+      "A1385380858DB42C7BA2",
+      "A073FE9702C494C39A40"
+    ],
+    "valid_from": "2021-03-12",
+    "valid_to": "2022-04-25",
+    "date_basis": "last_reported_receipt_in_covered_interval"
+  },
+  {
+    "id": "MT-T-E31-C00777185",
+    "from": "MT-E-SAVING-ARIZONA",
+    "to": "MT-E-BLAKE-MASTERS",
+    "type": "reported_independent_expenditure_support",
+    "status": "documented",
+    "date": "2022-11-08",
+    "date_precision": "day",
+    "summary": "FEC Schedule E sample reports support for the named 2022 Senate candidate.",
+    "source_ids": [
+      "MT-T-S13"
+    ],
+    "caveat": "Sample only; no spending total represented. Not a direct transfer to the candidate. Committee reporting alone does not independently prove absence of coordination.",
+    "sample_transaction_id": "SE24.6537",
+    "sample_image_number": "202211099546748472"
+  },
+  {
+    "id": "MT-T-E31-C00770495",
+    "from": "MT-E-PROTECT-OHIO",
+    "to": "MT-E-JD-VANCE",
+    "type": "reported_independent_expenditure_support",
+    "status": "documented",
+    "date": "2022-11-02",
+    "date_precision": "day",
+    "summary": "FEC Schedule E sample reports support for the named 2022 Senate candidate.",
+    "source_ids": [
+      "MT-T-S14"
+    ],
+    "caveat": "Sample only; no spending total represented. Not a direct transfer to the candidate. Committee reporting alone does not independently prove absence of coordination.",
+    "sample_transaction_id": "EF0BF1D17C6504EA3905",
+    "sample_image_number": "202211029546697733"
+  }
+]

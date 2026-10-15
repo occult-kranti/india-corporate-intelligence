@@ -148,6 +148,8 @@ function Navigation({ query, onNavigate, label }: { query: string; onNavigate?: 
       <div className="nav-group">
         <p className="nav-group-label">Connected research</p>
         <a className="site-nav-link" href="./global-workbench/" onClick={onNavigate}><Globe2 size={16} aria-hidden="true" /><span>Global evidence workbench</span></a>
+        <a className="site-nav-link" href="./global-workbench/finance.html" onClick={onNavigate}><Coins size={16} aria-hidden="true" /><span>Public assets &amp; finance</span></a>
+        <a className="site-nav-link" href="./global-workbench/media.html" onClick={onNavigate}><Newspaper size={16} aria-hidden="true" /><span>Media &amp; power</span></a>
         <a className="site-nav-link" href="https://occult-kranti.github.io/protest-atlas/" onClick={onNavigate}><Map size={16} aria-hidden="true" /><span>ProtestAtlas</span></a>
       </div>
       {groups.map((group) => (

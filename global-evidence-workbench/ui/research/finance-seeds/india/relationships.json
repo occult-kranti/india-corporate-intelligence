@@ -1,0 +1,367 @@
+{
+  "relationships": [
+    {
+      "id": "IN-R01",
+      "from_entity_id": "ca_fairfax",
+      "predicate": "wholly_owns",
+      "to_entity_id": "ca_10955230",
+      "statement_date": "2026-10-14",
+      "valid_from": null,
+      "valid_to": null,
+      "percent": 100,
+      "status": "documented",
+      "source_ids": [
+        "IN-S01",
+        "IN-S02"
+      ],
+      "scope": "Government names the purchaser and parent; Fairfax describes its selected purchaser as wholly owned. Any intermediate legal holding layers remain unverified.",
+      "case_ids": [
+        "IN-IDBI-2022"
+      ],
+      "directness": "unspecified"
+    },
+    {
+      "id": "IN-R02",
+      "from_entity_id": "ca_10955230",
+      "predicate": "approved_bidder_for",
+      "to_entity_id": "in_idbi",
+      "statement_date": "2026-10-14",
+      "valid_from": null,
+      "valid_to": null,
+      "percent": 60.72,
+      "status": "conditional",
+      "source_ids": [
+        "IN-S01",
+        "IN-S02"
+      ],
+      "scope": "No definitive agreement or transfer established.",
+      "case_ids": [
+        "IN-IDBI-2022"
+      ],
+      "directness": "as_stated"
+    },
+    {
+      "id": "IN-R03",
+      "from_entity_id": "person_prem_watsa",
+      "predicate": "controls",
+      "to_entity_id": "ca_sixty_two",
+      "statement_date": "2026-03-06",
+      "valid_from": null,
+      "valid_to": null,
+      "percent": null,
+      "status": "documented",
+      "source_ids": [
+        "IN-S03"
+      ],
+      "scope": "Specific disclosed relationship; not evidence of money movement or improper conduct.",
+      "case_ids": [
+        "IN-IDBI-2022"
+      ],
+      "directness": "as_stated"
+    },
+    {
+      "id": "IN-R04",
+      "from_entity_id": "ca_sixty_two",
+      "predicate": "holds_voting_rights_in",
+      "to_entity_id": "ca_fairfax",
+      "statement_date": "2026-03-06",
+      "valid_from": null,
+      "valid_to": null,
+      "percent": 41.9,
+      "status": "documented",
+      "source_ids": [
+        "IN-S03"
+      ],
+      "scope": "Specific disclosed relationship; not evidence of money movement or improper conduct.",
+      "case_ids": [
+        "IN-IDBI-2022"
+      ],
+      "directness": "as_stated"
+    },
+    {
+      "id": "IN-R05",
+      "from_entity_id": "person_prem_watsa",
+      "predicate": "aggregate_owned_or_controlled_voting_rights_in",
+      "to_entity_id": "ca_fairfax",
+      "statement_date": "2026-03-06",
+      "valid_from": null,
+      "valid_to": null,
+      "percent": 43.3,
+      "status": "documented",
+      "source_ids": [
+        "IN-S03"
+      ],
+      "scope": "Includes Sixty Two and Watsa personal holdings; not economic-equity percentage or an IDBI interest.",
+      "case_ids": [
+        "IN-IDBI-2022"
+      ],
+      "directness": "as_stated"
+    },
+    {
+      "id": "IN-R06",
+      "from_entity_id": "ca_fairfax",
+      "predicate": "proposes_contributing_interest_in",
+      "to_entity_id": "in_digit_life",
+      "statement_date": "2026-10-14",
+      "valid_from": null,
+      "valid_to": null,
+      "percent": null,
+      "status": "conditional",
+      "source_ids": [
+        "IN-S02"
+      ],
+      "scope": "Contribution to IDBI proposed; ownership percentage and approvals not established here.",
+      "case_ids": [
+        "IN-IDBI-2022"
+      ],
+      "directness": "as_stated"
+    },
+    {
+      "id": "IN-R07",
+      "from_entity_id": "ca_fairfax",
+      "predicate": "proposes_contributing_interest_in",
+      "to_entity_id": "in_digit_general",
+      "statement_date": "2026-10-14",
+      "valid_from": null,
+      "valid_to": null,
+      "percent": null,
+      "status": "conditional",
+      "source_ids": [
+        "IN-S02"
+      ],
+      "scope": "Contribution to IDBI proposed; distinct from purchase consideration.",
+      "case_ids": [
+        "IN-IDBI-2022"
+      ],
+      "directness": "as_stated"
+    },
+    {
+      "id": "IN-R08",
+      "from_entity_id": "ca_fairfax_india",
+      "predicate": "proposes_contributing_interest_in",
+      "to_entity_id": "in_iifl_capital",
+      "statement_date": "2026-10-14",
+      "valid_from": null,
+      "valid_to": null,
+      "percent": null,
+      "status": "conditional",
+      "source_ids": [
+        "IN-S02"
+      ],
+      "scope": "Separate proposed contribution to IDBI, not acquisition finance disbursement.",
+      "case_ids": [
+        "IN-IDBI-2022"
+      ],
+      "directness": "as_stated"
+    },
+    {
+      "id": "IN-R09",
+      "from_entity_id": "in_tata_sons",
+      "predicate": "wholly_owns",
+      "to_entity_id": "in_talace",
+      "statement_date": "2022-01-27",
+      "valid_from": null,
+      "valid_to": null,
+      "percent": 100,
+      "status": "documented",
+      "source_ids": [
+        "IN-S04"
+      ],
+      "scope": "Specific disclosed relationship; not evidence of money movement or improper conduct.",
+      "case_ids": [
+        "IN-AIRINDIA-2021"
+      ],
+      "directness": "as_stated"
+    },
+    {
+      "id": "IN-R10",
+      "from_entity_id": "in_talace",
+      "predicate": "acquired_equity_in",
+      "to_entity_id": "in_air_india",
+      "statement_date": "2022-01-27",
+      "valid_from": null,
+      "valid_to": null,
+      "percent": 100,
+      "status": "documented",
+      "source_ids": [
+        "IN-S04"
+      ],
+      "scope": "Specific disclosed relationship; not evidence of money movement or improper conduct.",
+      "case_ids": [
+        "IN-AIRINDIA-2021"
+      ],
+      "directness": "as_stated"
+    },
+    {
+      "id": "IN-R11",
+      "from_entity_id": "in_tata_steel",
+      "predicate": "holds_equity_in",
+      "to_entity_id": "in_tslp",
+      "statement_date": "2022-03-31",
+      "valid_from": null,
+      "valid_to": null,
+      "percent": 74.91,
+      "status": "documented",
+      "source_ids": [
+        "IN-S26"
+      ],
+      "scope": "Reported FY2021–22 shareholding snapshot; not a current 2026 ownership assertion.",
+      "case_ids": [
+        "IN-NINL-2022"
+      ],
+      "directness": "as_stated"
+    },
+    {
+      "id": "IN-R12",
+      "from_entity_id": "in_tslp",
+      "predicate": "acquired_equity_in",
+      "to_entity_id": "in_ninl",
+      "statement_date": "2022-07-04",
+      "valid_from": null,
+      "valid_to": null,
+      "percent": 93.71,
+      "status": "documented",
+      "source_ids": [
+        "IN-S06"
+      ],
+      "scope": "Specific disclosed relationship; not evidence of money movement or improper conduct.",
+      "case_ids": [
+        "IN-NINL-2022"
+      ],
+      "directness": "as_stated"
+    },
+    {
+      "id": "IN-R13",
+      "from_entity_id": "jp_konoike",
+      "predicate": "acquired_equity_in",
+      "to_entity_id": "in_fsnl",
+      "statement_date": "2025-01-21",
+      "valid_from": null,
+      "valid_to": null,
+      "percent": 100,
+      "status": "documented",
+      "source_ids": [
+        "IN-S10"
+      ],
+      "scope": "Specific disclosed relationship; not evidence of money movement or improper conduct.",
+      "case_ids": [
+        "IN-FSNL-2024"
+      ],
+      "directness": "as_stated"
+    },
+    {
+      "id": "IN-R14",
+      "from_entity_id": "in_star9",
+      "predicate": "consortium_includes",
+      "to_entity_id": "in_big_charter",
+      "statement_date": "2022-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "percent": null,
+      "status": "documented",
+      "source_ids": [
+        "IN-S13"
+      ],
+      "scope": "Specific disclosed relationship; not evidence of money movement or improper conduct.",
+      "case_ids": [
+        "IN-PAWANHANS-2022"
+      ],
+      "directness": "as_stated"
+    },
+    {
+      "id": "IN-R15",
+      "from_entity_id": "in_star9",
+      "predicate": "consortium_includes",
+      "to_entity_id": "in_maharaja_aviation",
+      "statement_date": "2022-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "percent": null,
+      "status": "documented",
+      "source_ids": [
+        "IN-S13"
+      ],
+      "scope": "Specific disclosed relationship; not evidence of money movement or improper conduct.",
+      "case_ids": [
+        "IN-PAWANHANS-2022"
+      ],
+      "directness": "as_stated"
+    },
+    {
+      "id": "IN-R16",
+      "from_entity_id": "in_star9",
+      "predicate": "consortium_includes",
+      "to_entity_id": "agof",
+      "statement_date": "2022-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "percent": null,
+      "status": "documented",
+      "source_ids": [
+        "IN-S13"
+      ],
+      "scope": "Specific disclosed relationship; not evidence of money movement or improper conduct.",
+      "case_ids": [
+        "IN-PAWANHANS-2022"
+      ],
+      "directness": "as_stated"
+    },
+    {
+      "id": "IN-R17",
+      "from_entity_id": "in_sbicaps",
+      "predicate": "financial_adviser_to",
+      "to_entity_id": "in_sbi",
+      "statement_date": "2023",
+      "valid_from": null,
+      "valid_to": null,
+      "percent": null,
+      "status": "documented",
+      "source_ids": [
+        "IN-S18"
+      ],
+      "scope": "Air India refinancing and additional funding advisory, FY2022–23. Does not establish drawdown.",
+      "case_ids": [
+        "IN-AIRINDIA-2021"
+      ],
+      "directness": "as_stated"
+    },
+    {
+      "id": "IN-R18",
+      "from_entity_id": "in_tata_steel",
+      "predicate": "subscribed_preference_shares_of",
+      "to_entity_id": "in_tslp",
+      "statement_date": "2022-03-17",
+      "valid_from": null,
+      "valid_to": null,
+      "percent": null,
+      "status": "documented",
+      "source_ids": [
+        "IN-S26"
+      ],
+      "scope": "INR 1,000 crore; reported completed subscription for growth including NINL.",
+      "case_ids": [
+        "IN-NINL-2022"
+      ],
+      "directness": "as_stated"
+    },
+    {
+      "id": "IN-R19",
+      "from_entity_id": "in_tata_steel",
+      "predicate": "subscribed_preference_shares_of",
+      "to_entity_id": "in_tslp",
+      "statement_date": "2022-03-30",
+      "valid_from": null,
+      "valid_to": null,
+      "percent": null,
+      "status": "documented",
+      "source_ids": [
+        "IN-S26"
+      ],
+      "scope": "INR 11,700 crore; reported completed subscription for growth including NINL.",
+      "case_ids": [
+        "IN-NINL-2022"
+      ],
+      "directness": "as_stated"
+    }
+  ]
+}

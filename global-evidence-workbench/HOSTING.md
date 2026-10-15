@@ -2,7 +2,7 @@
 
 The public application is built at `/india-corporate-intelligence/global-workbench/` by the existing India `npm run build` and gated Pages deployment. Ordinary links connect it to India and ProtestAtlas; no route is replaced, no new cross-dataset identity joins are inferred, and no live data synchronization is claimed.
 
-This source package was imported from the reviewed October 14 delivery ZIP. The original `DELIVERY_MANIFEST.json` remains the receipt for that delivery, not a checksum of hosting/navigation/accessibility edits. Generated `ui/dist` is rebuilt instead of committed. The original README's no-publication statement describes the pre-hosting delivery. Current hosting is documented here.
+This source package was imported from the reviewed October 14 delivery ZIP. The original `DELIVERY_MANIFEST.json` remains the receipt for that delivery, not a checksum of hosting/navigation/accessibility edits. `ui/artifact-sha256.txt` also records the original October 14 delivery. Its offline-HTML hash does not describe regenerated hosting builds or the later finance/media additions; neither receipt is a current-source integrity manifest. Generated `ui/dist` is rebuilt instead of committed. The original README's no-publication statement describes the pre-hosting delivery. Current hosting is documented here.
 
 The canonical dataset is `ui/public/data/dataset.json`, byte-identical to `integration/staging/dataset-round4.json`. Reproduce with `python3 assemble_round4.py` from `integration/`; review and validate any changed sources before replacing the canonical UI dataset. Do not use the legacy baseline assemblers to overwrite it. Counts: 237 records, 150 typed relations, 305 sources, 11 document-change cases.
 
