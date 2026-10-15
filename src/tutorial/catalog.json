@@ -1,0 +1,1734 @@
+{
+  "version": 1,
+  "reviewedAt": "2026-10-15",
+  "guides": [
+    {
+      "id": "board",
+      "path": "/board",
+      "title": "Investigation board",
+      "group": "Workspace",
+      "modules": [],
+      "features": [
+        {
+          "title": "Start with a question",
+          "body": "Name the CASEBOOK for the investigation you are working on. The board shares the existing local casebook, so pins and analyst notes remain available in the other research views.",
+          "selector": ".board-case-heading"
+        },
+        {
+          "title": "Find and place evidence",
+          "body": "Choose Pin a record, search a name, institution or question, and press Search. Results include records, identities and relationships. Pin record adds an existing item with its original source references; Show 30 more expands the search. Up to 250 pins can be kept.",
+          "selector": "[data-tour=\"board-search\"]"
+        },
+        {
+          "title": "Read the source beside the claim",
+          "body": "Open a pin to inspect its evidence tier, recorded status, date basis, amounts, responses, competing explanations, geography and source ledger. Your analyst note stays separate. Remove this pin removes the saved reference, never the underlying source record.",
+          "selector": ".board-pin-content, [data-tour=\"board-sources\"][open]"
+        },
+        {
+          "title": "Arrange the material your way",
+          "body": "Drag a pin by its grip, or focus the grip and use arrow keys; Shift moves farther. The inspector also has Move pin buttons. Pin positions organize your research and are not geographic locations.",
+          "selector": ".board-pin-grip"
+        },
+        {
+          "title": "Connect pins with a testable question",
+          "body": "After pinning at least two items, choose Connect pins. Select From, To and Purpose: Question, Compare, Counter-evidence to check or Follow-up. Write what you would check, then Add thread. A wool thread is your analytical annotation, not a verified relationship.",
+          "selector": "[data-tour=\"board-tools\"]"
+        },
+        {
+          "title": "Distinguish sourced links from your threads",
+          "body": "The Sourced links between pinned identities checkbox shows existing documentary relationships where both endpoints are pinned. The connection ledger labels these separately from Analyst threads. Inspect sources opens the original edge; Remove thread removes only your annotation.",
+          "selector": ".board-legend"
+        },
+        {
+          "title": "Choose a comfortable reading view",
+          "body": "Board lays out the pins; List shows every pin in reading order. Arrange resets positions while keeping threads and notes. Depth changes presentation only. The canvas initially shows 60 pins and Show 60 more expands it; List contains every saved pin.",
+          "selector": "[data-tour=\"board-tools\"]"
+        },
+        {
+          "title": "Write down what would change your mind",
+          "body": "Use the question-closing field to name the evidence that would resolve or disprove your idea. Notes & exports opens the full Casebook: question, falsifier, per-record notes, saved views, JSON export and reading-brief export. These notes are user-entered research.",
+          "selector": ".board-next"
+        },
+        {
+          "title": "Keep a portable backup",
+          "body": "Export downloads the pins, source references, analyst notes and board layout. Restore reads a supported JSON backup and merges it while retaining existing pins, notes, question and positions. Local browser storage is not a cloud backup; export before clearing it.",
+          "selector": "[data-tour=\"board-tools\"]"
+        },
+        {
+          "title": "Keep the wider work available",
+          "body": "Explore the atlas opens geographic investigation. The navigation keeps every specialist register, source ledger and saved research view available. Public assets & finance contains the separate, source-bound Fairfax / IDBI exercise.",
+          "selector": "[data-tour=\"board-nav\"], .board-heading-actions"
+        }
+      ]
+    },
+    {
+      "id": "dashboard",
+      "path": "/",
+      "title": "Research overview",
+      "group": "Explore",
+      "modules": [
+        "Dashboard.tsx"
+      ],
+      "features": [
+        {
+          "title": "Choose a starting point",
+          "body": "The overview links to the shared investigation workspace, education, water and food, public works and the corporate record."
+        },
+        {
+          "title": "Open the full register",
+          "body": "Use a section link to open its specialist page. Shared workspace filters may narrow what you see; the dossier view exposes the original page."
+        },
+        {
+          "title": "Read the scope",
+          "body": "Each collection is a dated, partial register. A count describes the retained dataset, not all activity in India."
+        }
+      ],
+      "aliases": [
+        "/investigate"
+      ]
+    },
+    {
+      "id": "search",
+      "path": "/search",
+      "title": "Find an entity",
+      "group": "Explore",
+      "modules": [
+        "Search.tsx"
+      ],
+      "features": [
+        {
+          "title": "Search by a known identifier",
+          "body": "Enter at least two characters of a company, ticker, ISIN, minister, group, state or alias. Search matches literal text.",
+          "selector": "input[type=\"search\"], input[placeholder*=\"ticker\"]"
+        },
+        {
+          "title": "Choose the right kind of result",
+          "body": "Results are grouped into companies, ministers, conglomerates, states and graph entities. Follow the relevant result to its profile."
+        },
+        {
+          "title": "Keep identities separate",
+          "body": "A similar name is not a verified identity match. Check identifiers and source context before treating two records as the same person or company."
+        }
+      ]
+    },
+    {
+      "id": "map",
+      "path": "/map",
+      "title": "Listed-company map",
+      "group": "Explore",
+      "modules": [
+        "MapExplorer.tsx"
+      ],
+      "features": [
+        {
+          "title": "Choose what the color means",
+          "body": "Switch between listed market cap, listed-company count, public-sector share, state GSDP and sector concentration. Read each metric’s definition."
+        },
+        {
+          "title": "Narrow the comparison",
+          "body": "Use exchange, index, sector, scale and marker controls to compare a defined population. Select a state to inspect it."
+        },
+        {
+          "title": "Use the underlying records",
+          "body": "Open a state or company from the map and table. Headquarters and registration geography do not establish where money was spent."
+        }
+      ]
+    },
+    {
+      "id": "state",
+      "path": "/states/:code",
+      "title": "State profile",
+      "group": "Explore",
+      "modules": [
+        "StateProfile.tsx"
+      ],
+      "features": [
+        {
+          "title": "Read the selected state",
+          "body": "The profile brings together the listed companies, industrial structure and political representation retained for this state."
+        },
+        {
+          "title": "Open a company or related register",
+          "body": "Follow linked company names and related research sections to inspect the underlying record."
+        },
+        {
+          "title": "Keep the denominator",
+          "body": "State totals describe the included companies and dated data. Missing records and headquarters concentration do not prove local economic impact."
+        }
+      ],
+      "examplePath": "/states/mh"
+    },
+    {
+      "id": "company",
+      "path": "/company/:id",
+      "title": "Company profile",
+      "group": "Explore",
+      "modules": [
+        "CompanyProfile.tsx"
+      ],
+      "features": [
+        {
+          "title": "Confirm the company",
+          "body": "Check its name, ticker or ISIN and profile sources before following its group and sector links."
+        },
+        {
+          "title": "Track a company locally",
+          "body": "Use “+ track” to add this company to the Watchlist. The tracked button removes it. This is local to this browser; it does not subscribe you to live alerts.",
+          "selector": "button"
+        },
+        {
+          "title": "Inspect the dated record",
+          "body": "Read source dates, ownership, location and the linked relationships. A recorded snapshot does not guarantee the same position today."
+        }
+      ],
+      "examplePath": "/company/reliance-industries"
+    },
+    {
+      "id": "network",
+      "path": "/network",
+      "title": "Connection graph",
+      "group": "Explore",
+      "modules": [
+        "NetworkView.tsx"
+      ],
+      "features": [
+        {
+          "title": "Choose a layer",
+          "body": "Everything combines the case-study and national layers. Case study, Political and Capital narrow the graph."
+        },
+        {
+          "title": "Inspect an actual edge",
+          "body": "Use graph filters for evidence tier, family and relationship type. Table view offers the same retained data without relying on the visualization."
+        },
+        {
+          "title": "Check a path against its baseline",
+          "body": "Enter names in the Path finder. A short path or high-degree hub reflects graph structure; it does not establish coordination.",
+          "selector": "#pf-from"
+        }
+      ]
+    },
+    {
+      "id": "geograph",
+      "path": "/geograph",
+      "title": "Geographic network",
+      "group": "Explore",
+      "modules": [
+        "GeoGraph.tsx"
+      ],
+      "features": [
+        {
+          "title": "Choose geography and a layer",
+          "body": "Use mode and layer controls, entity search and year boundaries to narrow this network. Unknown dates and placements keep their stated limits."
+        },
+        {
+          "title": "Explore a neighborhood",
+          "body": "Select an entity, set Focus hops, pin or unpin it and inspect a relationship. Clear focus returns to the wider network.",
+          "selector": "[aria-label=\"Focus hops\"]"
+        },
+        {
+          "title": "Use the readable alternative",
+          "body": "Show table view to read the edges, copy the link to preserve this view or reset the filters. Spatial proximity is not an evidence link."
+        }
+      ]
+    },
+    {
+      "id": "cabinet",
+      "path": "/cabinet",
+      "title": "Union cabinet",
+      "group": "Institutions",
+      "modules": [
+        "Cabinet.tsx"
+      ],
+      "features": [
+        {
+          "title": "Filter the dated roster",
+          "body": "Choose a minister rank. Select a state on the representation map and use clear to remove the state focus."
+        },
+        {
+          "title": "Read portfolio and sources",
+          "body": "The roster records ministers, ministries and regulatory reach. Party composition and changes are tied to the dataset’s as-of date."
+        },
+        {
+          "title": "Distinguish authority from conduct",
+          "body": "Holding a portfolio or chairing an institution does not establish a personal decision, attendance, vote or wrongdoing."
+        }
+      ]
+    },
+    {
+      "id": "tenders",
+      "path": "/tenders",
+      "title": "Government awards",
+      "group": "Registers",
+      "modules": [
+        "Tenders.tsx"
+      ],
+      "features": [
+        {
+          "title": "Choose scope and view",
+          "body": "Use Scope for centre, states or both, then View for ledger, map or graph. Search by winner, project or awarding body.",
+          "selector": "[aria-label=\"Scope\"]"
+        },
+        {
+          "title": "Inspect disclosure before concentration",
+          "body": "Read bidder-count and value coverage. A missing bidder count is unknown competition, not a single-bid award."
+        },
+        {
+          "title": "Open the national procurement trail",
+          "body": "The linked CPPP section has its own filters and provenance. A tender notice, award and payment are different stages; repeated notices need identity and date checks."
+        }
+      ]
+    },
+    {
+      "id": "resources",
+      "path": "/resources",
+      "title": "Natural resources",
+      "group": "Registers",
+      "modules": [
+        "Resources.tsx"
+      ],
+      "features": [
+        {
+          "title": "Find a resource record",
+          "body": "Filter by block, winner or basin. Compare the available allocation and resource registers.",
+          "selector": "input[placeholder*=\"block\"]"
+        },
+        {
+          "title": "Read the allocation terms",
+          "body": "Open linked companies and source citations. Preserve resource type, award mechanism, date and recorded amount basis."
+        },
+        {
+          "title": "Stop at the source boundary",
+          "body": "A resource award does not by itself establish extraction, revenue received, market power or improper influence."
+        }
+      ]
+    },
+    {
+      "id": "conglomerates",
+      "path": "/conglomerates",
+      "title": "Conglomerates",
+      "group": "Companies",
+      "modules": [
+        "Conglomerates.tsx"
+      ],
+      "features": [
+        {
+          "title": "Compare the recorded groups",
+          "body": "Choose a group and compare its listed entities, sectors and recorded market cap."
+        },
+        {
+          "title": "Inspect footprint and deep dive",
+          "body": "The footprint selector changes the group shown on the map. Open a group for its entity, contract, capital and flow records."
+        },
+        {
+          "title": "Keep coverage explicit",
+          "body": "A group with no deep entity map is a research gap. Map positions and aggregate size are not findings about conduct."
+        }
+      ]
+    },
+    {
+      "id": "group",
+      "path": "/conglomerates/:id",
+      "title": "Group deep dive",
+      "group": "Companies",
+      "modules": [
+        "GroupDeepDive.tsx",
+        "AdaniDeepDive.tsx",
+        "RelianceDeepDive.tsx"
+      ],
+      "features": [
+        {
+          "title": "Choose a record family",
+          "body": "Switch between entities, contracts, capital and flows. The ownership tree, maps and tables link back to the same dated records."
+        },
+        {
+          "title": "Inspect legal identity",
+          "body": "Read registry identifiers, parent relationships, ownership measures and source citations. Intermediate holding layers may remain unresolved."
+        },
+        {
+          "title": "Recognize a coverage gap",
+          "body": "Groups without a built deep dataset show a comparative summary and a visible gap. The former Adani and Reliance page modules are superseded by this shared route."
+        }
+      ],
+      "examplePath": "/conglomerates/reliance"
+    },
+    {
+      "id": "atlas",
+      "path": "/atlas",
+      "title": "Money-trail atlas",
+      "group": "Methods",
+      "modules": [
+        "Atlas.tsx"
+      ],
+      "features": [
+        {
+          "title": "Read the case-study network",
+          "body": "Inspect the sourced, tiered entities and relationships. The atlas is a bounded case-study graph."
+        },
+        {
+          "title": "Expand a motif",
+          "body": "Open a motif row to see its note, census and evidence limits. Read the integrity check when shown."
+        },
+        {
+          "title": "Treat a pattern as a test",
+          "body": "A motif is an arrangement in the retained graph. Its existence does not establish secret coordination or a new allegation."
+        }
+      ]
+    },
+    {
+      "id": "patterns",
+      "path": "/patterns",
+      "title": "Pattern discipline",
+      "group": "Methods",
+      "modules": [
+        "Patterns.tsx"
+      ],
+      "features": [
+        {
+          "title": "Read the reasoning checks",
+          "body": "This reading guide covers base rates, large-network coincidences and the consequences of trying many possible tests."
+        },
+        {
+          "title": "Expand a trap",
+          "body": "Open a row under “The ten traps” for the corrective and how the app applies it. The expanded state is reversible."
+        },
+        {
+          "title": "Use the checklist",
+          "body": "Run the final checklist before publishing a network-derived claim. Historical adjudicated examples do not transfer a verdict to a new case."
+        }
+      ]
+    },
+    {
+      "id": "evidence",
+      "path": "/evidence",
+      "title": "Evidence audit",
+      "group": "Methods",
+      "modules": [
+        "EvidenceAudit.tsx"
+      ],
+      "features": [
+        {
+          "title": "Read the evidence tiers",
+          "body": "Compare each tier’s requirements, limitations and the claims assigned to it."
+        },
+        {
+          "title": "Follow the supporting record",
+          "body": "Use the citations and linked cases to inspect the actual source rather than relying on a colored badge."
+        },
+        {
+          "title": "Keep a claim bounded",
+          "body": "A documented source may establish that a statement was made without proving the underlying allegation."
+        }
+      ]
+    },
+    {
+      "id": "base-rates",
+      "path": "/base-rates",
+      "title": "Base rates",
+      "group": "Methods",
+      "modules": [
+        "BaseRates.tsx"
+      ],
+      "features": [
+        {
+          "title": "Start with the comparison population",
+          "body": "Read the denominator and date before evaluating an overlap, donation or contract concentration."
+        },
+        {
+          "title": "Inspect the tender ledger",
+          "body": "Follow the source-backed entries and portfolio timing. The ledger marks timing without turning it into personal responsibility."
+        },
+        {
+          "title": "Ask what evidence would discriminate",
+          "body": "The final open tests distinguish ordinary large-network overlap from relationships that would carry additional information."
+        }
+      ]
+    },
+    {
+      "id": "interlocks",
+      "path": "/interlocks",
+      "title": "Interlocked office-holders",
+      "group": "Methods",
+      "modules": [
+        "Interlocks.tsx"
+      ],
+      "features": [
+        {
+          "title": "Set the role threshold",
+          "body": "Choose the minimum recorded roles to narrow the office-holder list. Counts remain tied to the included groups."
+        },
+        {
+          "title": "Inspect cross-group roles",
+          "body": "Read the recorded roles and their sources. A common name needs an identity basis before records can be combined."
+        },
+        {
+          "title": "Use the false-positive example",
+          "body": "The surname-coincidence section demonstrates why shared surnames are not family, political or business links."
+        }
+      ]
+    },
+    {
+      "id": "motifs",
+      "path": "/motifs",
+      "title": "Motif engine",
+      "group": "Methods",
+      "modules": [
+        "Motifs.tsx"
+      ],
+      "features": [
+        {
+          "title": "Choose the graph scope",
+          "body": "Switch between the atlas and control scope before interpreting the template counts."
+        },
+        {
+          "title": "Expand a template",
+          "body": "A template reveals its pattern, null-model comparison, ordinary explanation and kill condition."
+        },
+        {
+          "title": "Check the symmetry test",
+          "body": "Some graphs are too small or too star-shaped to test. “Untestable” is a limitation, not a negative result."
+        }
+      ]
+    },
+    {
+      "id": "prospector",
+      "path": "/prospector",
+      "title": "Prospector",
+      "group": "Methods",
+      "modules": [
+        "Prospector.tsx"
+      ],
+      "features": [
+        {
+          "title": "Read a candidate mechanism",
+          "body": "Each candidate identifies the structure or record worth investigating and what the current data can support."
+        },
+        {
+          "title": "Follow the evidence and next test",
+          "body": "Use the supporting links and proposed checks to move from a candidate to a testable question."
+        },
+        {
+          "title": "Keep prioritization separate from proof",
+          "body": "A promising research lead is neither a verified finding nor a probability of wrongdoing."
+        }
+      ]
+    },
+    {
+      "id": "desk",
+      "path": "/desk",
+      "title": "Investigative desk",
+      "group": "Methods",
+      "modules": [
+        "Desk.tsx"
+      ],
+      "features": [
+        {
+          "title": "Read established and unestablished side by side",
+          "body": "Each assembled item states both what the retained records establish and what they do not."
+        },
+        {
+          "title": "Follow a source or linked dossier",
+          "body": "Open the relevant evidence rather than treating the desk’s summary as a new independent source."
+        },
+        {
+          "title": "Choose the next record",
+          "body": "The workflow and next steps prioritize missing identifiers, bidder coverage and other records that unblock a check."
+        }
+      ]
+    },
+    {
+      "id": "capture",
+      "path": "/capture",
+      "title": "Capture pathways",
+      "group": "Methods",
+      "modules": [
+        "Capture.tsx"
+      ],
+      "features": [
+        {
+          "title": "Compare mechanisms with traces",
+          "body": "Each pathway begins with a possible mechanism, the documentary trace it would leave and the observed record."
+        },
+        {
+          "title": "Filter by verdict",
+          "body": "Use All or a verdict category to inspect the matching pathways. Empty categories are disabled."
+        },
+        {
+          "title": "Read the limits",
+          "body": "Verdicts apply to the stated test and data. They do not establish a person’s hidden motives or make an allegation true by association."
+        }
+      ]
+    },
+    {
+      "id": "allocation",
+      "path": "/allocation",
+      "title": "Allocation graph",
+      "group": "Registers",
+      "modules": [
+        "Allocation.tsx"
+      ],
+      "features": [
+        {
+          "title": "Read the base rate first",
+          "body": "The opening counts explain how often winners recur across the four included registers."
+        },
+        {
+          "title": "Set the overlap threshold",
+          "body": "Change the minimum number of registers to narrow the graph. The winner-list toggle expands or reduces the visible list."
+        },
+        {
+          "title": "Check identifiers and sources",
+          "body": "A winner label without a verified legal identifier may not support a cross-register identity join. Repeated wins alone do not establish misconduct."
+        }
+      ]
+    },
+    {
+      "id": "pmcares",
+      "path": "/pmcares",
+      "title": "PM CARES accounts",
+      "group": "Registers",
+      "modules": [
+        "PmCares.tsx"
+      ],
+      "features": [
+        {
+          "title": "Read the account coverage",
+          "body": "Compare published statement years, audit lag, completeness and the dated review boundary."
+        },
+        {
+          "title": "Inspect accounts and citations",
+          "body": "Read each amount’s year, accounting label and source. Follow the ledger for the underlying statements."
+        },
+        {
+          "title": "Keep receipts and spending separate",
+          "body": "Missing detail is a disclosure gap. Do not add overlapping accounting entries or infer a recipient without a traced record."
+        }
+      ]
+    },
+    {
+      "id": "energy",
+      "path": "/energy",
+      "title": "Energy power map",
+      "group": "Registers",
+      "modules": [
+        "Energy.tsx"
+      ],
+      "features": [
+        {
+          "title": "Find an entity or claim",
+          "body": "Search entities, claims and source titles. Active filters are visible and can be cleared.",
+          "selector": "[aria-label=\"Search entities, claims and source titles\"]"
+        },
+        {
+          "title": "Inspect the power map",
+          "body": "Choose a graph node or relation and read its typed, sourced context. Reset graph filters if a prior selection hides results."
+        },
+        {
+          "title": "Read what is missing",
+          "body": "Open “What the record does not contain” and Sources. Power-sector proximity or ownership is not a payment trail."
+        }
+      ]
+    },
+    {
+      "id": "welfare",
+      "path": "/welfare",
+      "title": "Distribution funds",
+      "group": "Registers",
+      "modules": [
+        "Welfare.tsx"
+      ],
+      "features": [
+        {
+          "title": "Find a scheme",
+          "body": "Search by scheme, alias or person, then narrow category, evidence tier, party, metric, level and year.",
+          "selector": "[aria-label=\"Search schemes by name, alias or person\"]"
+        },
+        {
+          "title": "Choose the comparison view",
+          "body": "Use View and Metric to compare like quantities. Preserve units, periods and administrative levels."
+        },
+        {
+          "title": "Read the missing record",
+          "body": "The final coverage section states what was not retained. A budget, allocation, disbursement and benefit received cannot be treated as the same number."
+        }
+      ]
+    },
+    {
+      "id": "finance",
+      "path": "/finance",
+      "title": "Finance & lenders",
+      "group": "Registers",
+      "modules": [
+        "Finance.tsx"
+      ],
+      "features": [
+        {
+          "title": "Choose a finance lens",
+          "body": "Move among the loan, capital and association registers. Search by name, alias, project or place.",
+          "selector": "[aria-label=\"Find in the three registers\"]"
+        },
+        {
+          "title": "Inspect a record and connections",
+          "body": "Open record reveals the selected entry; Show connections displays its retained relationships. Lender and holder actions narrow the corresponding lens."
+        },
+        {
+          "title": "Switch to tables or share the view",
+          "body": "Table view provides a readable alternative. Copy link preserves URL filters. An association or capital holding is not itself a paid loan."
+        }
+      ]
+    },
+    {
+      "id": "security",
+      "path": "/security",
+      "title": "Security spending",
+      "group": "Registers",
+      "modules": [
+        "Security.tsx"
+      ],
+      "features": [
+        {
+          "title": "Read the programme and spending scope",
+          "body": "Compare the retained security-spending records at their stated year, jurisdiction and accounting stage."
+        },
+        {
+          "title": "Follow the contract or source",
+          "body": "Use the linked records and citations to verify the named buyer, supplier and purpose."
+        },
+        {
+          "title": "Preserve the evidence boundary",
+          "body": "An announcement or procurement amount is not proof of delivery, operational use or a completed payment."
+        }
+      ]
+    },
+    {
+      "id": "education",
+      "path": "/education",
+      "title": "Education funding",
+      "group": "Registers",
+      "modules": [
+        "Education.tsx"
+      ],
+      "features": [
+        {
+          "title": "Choose place and funding scope",
+          "body": "Filter state, locality, topic, funding channel, management type and institution level; submit Search. Reset filters restores the full retained register.",
+          "selector": "[aria-label=\"Search the education register\"]"
+        },
+        {
+          "title": "Move between evidence sections",
+          "body": "Jump to Documents & news, Funding routes, Questions to investigate or School counts. Show more expands the relevant list.",
+          "selector": "[aria-label=\"On this education page\"]"
+        },
+        {
+          "title": "Save or export the working view",
+          "body": "Save a source locally, show Saved only, Copy link or Export CSV. Exports retain source context; they are not a complete census."
+        },
+        {
+          "title": "Compare like school counts",
+          "body": "Read management, geography, period and coverage notes. Counts and population change alone do not establish why a school closed."
+        }
+      ]
+    },
+    {
+      "id": "water",
+      "path": "/water",
+      "title": "Water & food security",
+      "group": "Registers",
+      "modules": [
+        "Water.tsx"
+      ],
+      "features": [
+        {
+          "title": "Choose place and subject",
+          "body": "Search by place and topic, select a subject lens and food-chain stage, then read the filtered source list.",
+          "selector": "[aria-label=\"Search water and food records\"]"
+        },
+        {
+          "title": "Follow the dated sections",
+          "body": "Move among sources, observations, research leads and public tools. Expand records or use their original-source links."
+        },
+        {
+          "title": "Keep event and validity dates",
+          "body": "Weather and hazard bulletins are historical records, not live conditions. Food-chain stages organize evidence; they do not trace a shipment by themselves."
+        }
+      ]
+    },
+    {
+      "id": "public-works",
+      "path": "/public-works",
+      "title": "Roads & public works",
+      "group": "Registers",
+      "modules": [
+        "PublicWorks.tsx"
+      ],
+      "features": [
+        {
+          "title": "Set the sector and location",
+          "body": "Choose a sector lens, place and search terms to narrow the public-works evidence.",
+          "selector": "[aria-label=\"Search public works evidence\"]"
+        },
+        {
+          "title": "Inspect stages and comparisons",
+          "body": "The procurement stages, repeat-work checks, rules and source sections keep notices, contracts, delivery and payments separate."
+        },
+        {
+          "title": "Compare records carefully",
+          "body": "A repeated contractor or similar notice does not establish repeat physical work. Compare identity, location, scope and date before making that claim."
+        }
+      ]
+    },
+    {
+      "id": "competition",
+      "path": "/competition",
+      "title": "Bidder counts",
+      "group": "Methods",
+      "modules": [
+        "Competition.tsx"
+      ],
+      "features": [
+        {
+          "title": "Read the correction first",
+          "body": "The opening correction states which earlier claims did not survive review. Later sections use the revised basis."
+        },
+        {
+          "title": "Compare distributions and jurisdictions",
+          "body": "Read bidder-count distributions, value comparisons and the two-state comparison with their denominators."
+        },
+        {
+          "title": "Check provenance and gaps",
+          "body": "Inspect file provenance, byte counts, digests and missing fields. This selected coverage is not a national competition rate."
+        }
+      ]
+    },
+    {
+      "id": "provenance",
+      "path": "/provenance",
+      "title": "Provenance ledger",
+      "group": "Methods",
+      "modules": [
+        "Provenance.tsx"
+      ],
+      "features": [
+        {
+          "title": "Trace a claim to its source",
+          "body": "The ledger records source identity, access depth and the boundaries of retained evidence."
+        },
+        {
+          "title": "Inspect original material",
+          "body": "Follow the source link and locator. A source URL, search snippet and an actually inspected original have different evidentiary strength."
+        },
+        {
+          "title": "Check independence",
+          "body": "Repeated references to the same source family are not independent corroboration. A retrieval failure does not establish concealment."
+        }
+      ]
+    },
+    {
+      "id": "method",
+      "path": "/method",
+      "title": "How this is built",
+      "group": "Methods",
+      "modules": [
+        "Method.tsx"
+      ],
+      "features": [
+        {
+          "title": "Read the four invariants",
+          "body": "The methodology explains evidence tiers, the data pipeline, bounded research roles and the app’s refusals."
+        },
+        {
+          "title": "Check live integrity",
+          "body": "The integrity section runs against the merged graph on page load. A passed structural check does not verify every source assertion."
+        },
+        {
+          "title": "Keep the snapshot date",
+          "body": "Use Data as-of dates before describing a figure as current. The app is a dated research collection, not a live feed."
+        }
+      ]
+    },
+    {
+      "id": "industries",
+      "path": "/industries",
+      "title": "Industry comparison",
+      "group": "Companies",
+      "modules": [
+        "IndustryView.tsx"
+      ],
+      "features": [
+        {
+          "title": "Select a sector",
+          "body": "Use a sector button or an All sectors row to change the companies being compared."
+        },
+        {
+          "title": "Inspect the company table and map",
+          "body": "Compare recorded market cap, listed-firm HHI, the largest firm’s share and registration locations. Open a company for its sources."
+        },
+        {
+          "title": "Keep market boundaries clear",
+          "body": "HHI here concerns included listed firms and recorded market cap. It is not a comprehensive product-market competition finding."
+        }
+      ]
+    },
+    {
+      "id": "political",
+      "path": "/political",
+      "title": "Political donations",
+      "group": "Institutions",
+      "modules": [
+        "PoliticalView.tsx"
+      ],
+      "features": [
+        {
+          "title": "Read the donation register",
+          "body": "Inspect the recorded donor, recipient, amount, period and disclosure source."
+        },
+        {
+          "title": "Follow linked entities and sources",
+          "body": "Use the available group or company links to check identities and the source trail."
+        },
+        {
+          "title": "Do not infer a quid pro quo",
+          "body": "A disclosed donation establishes that dated political contribution. A contract, decision or personal benefit requires its own evidence."
+        }
+      ]
+    },
+    {
+      "id": "media",
+      "path": "/media",
+      "title": "Media ownership",
+      "group": "Registers",
+      "modules": [
+        "MediaView.tsx"
+      ],
+      "features": [
+        {
+          "title": "Inspect ownership before ratings",
+          "body": "Compare owner groups, cross-media holdings and the outlet register. Each proportion states its denominator."
+        },
+        {
+          "title": "Read outlet-level sources",
+          "body": "Follow owner and source links. Any lean rating is tied to the named rater and date, not asserted as an objective property."
+        },
+        {
+          "title": "Read rejected sources and gaps",
+          "body": "The page explains why a single ideological bar would overstate the evidence. Ownership does not establish editorial instruction."
+        }
+      ]
+    },
+    {
+      "id": "watchlist",
+      "path": "/watchlist",
+      "title": "Local watchlist",
+      "group": "Saved work",
+      "modules": [
+        "Watchlist.tsx"
+      ],
+      "features": [
+        {
+          "title": "Review tracked companies",
+          "body": "Companies added with “+ track” on their profile appear here. Open a company to return to its details."
+        },
+        {
+          "title": "Manage your local research",
+          "body": "Use the available remove or untrack controls for a tracked company. The page also shows open research questions."
+        },
+        {
+          "title": "Know where it is saved",
+          "body": "This watchlist uses this browser’s local storage. It is not a cloud backup, live monitoring subscription or automatic notification service."
+        }
+      ]
+    },
+    {
+      "id": "investigations",
+      "path": "/investigations",
+      "title": "Investigation network",
+      "group": "Investigations",
+      "modules": [
+        "Investigations.tsx"
+      ],
+      "features": [
+        {
+          "title": "Set the investigation scope",
+          "body": "Use the shared dossier filters to choose the records in this view."
+        },
+        {
+          "title": "Switch between Network and Source ledger",
+          "body": "Inspect connections visually or open a record from the readable ledger. Both refer to the retained dossier data.",
+          "selector": "[aria-label=\"Choose display\"]"
+        },
+        {
+          "title": "Read claim, status and response",
+          "body": "An allegation, response, legal development and adjudicated finding remain different record types. Graph layout does not rank culpability."
+        }
+      ]
+    },
+    {
+      "id": "leads",
+      "path": "/leads",
+      "title": "Unresolved leads",
+      "group": "Investigations",
+      "modules": [
+        "Leads.tsx"
+      ],
+      "features": [
+        {
+          "title": "Choose the research scope",
+          "body": "Filter by dossier or show all dossiers. Saved on this device narrows the view to locally saved leads."
+        },
+        {
+          "title": "Save a question to revisit",
+          "body": "Use the lead’s save control to toggle its local saved state. It does not send or publish the question."
+        },
+        {
+          "title": "Read all four checks",
+          "body": "For every hypothesis, read what would fit, rival explanations, what would defeat it and which records to obtain."
+        }
+      ]
+    },
+    {
+      "id": "game-theory",
+      "path": "/game-theory",
+      "title": "Game theory lab",
+      "group": "Investigations",
+      "modules": [
+        "GameTheory.tsx"
+      ],
+      "features": [
+        {
+          "title": "Choose an institutional role",
+          "body": "Select a role and case, then set the assumptions in the worksheet.",
+          "selector": "[aria-label=\"Institutional role\"]"
+        },
+        {
+          "title": "Test assumptions, not hidden intent",
+          "body": "Compare lawful strategy and an abuse hypothesis. Reset assumptions returns to the supplied defaults."
+        },
+        {
+          "title": "Preserve a test plan",
+          "body": "Capture plan revision records the current worksheet; Export scenario JSON keeps revisions and evidence. A scenario outcome is not a forecast or a finding of motive."
+        }
+      ]
+    },
+    {
+      "id": "research-program",
+      "path": "/research-program",
+      "title": "Research program",
+      "group": "Investigations",
+      "modules": [
+        "ResearchProgram.tsx"
+      ],
+      "features": [
+        {
+          "title": "Search the relation ledger",
+          "body": "Filter recorded text by sector, status, relation or endpoint. Previous and Next page through the retained relations.",
+          "selector": "[aria-label=\"Search recorded text\"]"
+        },
+        {
+          "title": "Inspect an exact connection or path",
+          "body": "Open a relation in the evidence inspector, or choose Path start, Path destination and Traversal. Reading an edge backward does not reverse a payment."
+        },
+        {
+          "title": "Use disconfirming tests",
+          "body": "Review limits, alternatives, responses, research coverage and method examples. Historical findings suggest tests; their accusations do not transfer to another case."
+        }
+      ]
+    },
+    {
+      "id": "follow-the-money",
+      "path": "/follow-the-money",
+      "title": "Follow the money",
+      "group": "Investigations",
+      "modules": [
+        "FollowTheMoney.tsx"
+      ],
+      "features": [
+        {
+          "title": "Find a case or entity",
+          "body": "Search retained evidence or NSE securities. Choose a casefile from the map or index.",
+          "selector": "[aria-label=\"Search collection\"]"
+        },
+        {
+          "title": "Follow one documented step",
+          "body": "Select a relation in the case network, inspect the source, response and limits, then return to the selected evidence or case."
+        },
+        {
+          "title": "Keep the case and evidence",
+          "body": "Save a case or selected evidence to the local Casebook, copy Share view or download Evidence JSON."
+        },
+        {
+          "title": "Stop at missing steps",
+          "body": "Read other explanations and the next document to seek. Ownership, context and a traced payment are distinct edges."
+        }
+      ]
+    },
+    {
+      "id": "money-trails",
+      "path": "/money-trails",
+      "title": "Trace investigations",
+      "group": "Investigations",
+      "modules": [
+        "MoneyTrails.tsx"
+      ],
+      "features": [
+        {
+          "title": "Select a reviewed trail",
+          "body": "Choose the investigation, view and graph scope. The retained trail is bounded by its stated place and time.",
+          "selector": "[aria-label=\"Choose money-trail investigation\"]"
+        },
+        {
+          "title": "Read payer, payee and stage",
+          "body": "Inspect each documentary hop, amount, instrument and source. A missing transaction path is visibly left open."
+        },
+        {
+          "title": "Export and challenge",
+          "body": "Export the complete evidence packet; read rival explanations and what would change the conclusion. Context links do not complete a missing cash path."
+        }
+      ]
+    },
+    {
+      "id": "research-radar",
+      "path": "/research-radar",
+      "title": "Research radar",
+      "group": "Investigations",
+      "modules": [
+        "ResearchRadar.tsx"
+      ],
+      "features": [
+        {
+          "title": "Choose a place and research scope",
+          "body": "Search contracts, institutions or records; narrow city, sector, state, publication window and evidence status.",
+          "selector": "[aria-label=\"Search radar research\"]"
+        },
+        {
+          "title": "Inspect a question on the map",
+          "body": "Zoom, reset or choose a matching case, then inspect the exact source location and source-linked relationship graph."
+        },
+        {
+          "title": "Read challenges and chronology",
+          "body": "Compare what the records say with counter-evidence and dated developments. Acquisition gaps remain visible."
+        },
+        {
+          "title": "Export the research packet",
+          "body": "The packet preserves the selected evidence and limits. Testable future outcomes are open questions, not validated predictive accuracy."
+        }
+      ]
+    },
+    {
+      "id": "model-lab",
+      "path": "/model-lab",
+      "title": "Evidence model lab",
+      "group": "Investigations",
+      "modules": [
+        "ModelLab.tsx"
+      ],
+      "features": [
+        {
+          "title": "Choose a lab section",
+          "body": "Use Model lab sections, filter saved questions and open a retained question or finding.",
+          "selector": "[aria-label=\"Model lab sections\"]"
+        },
+        {
+          "title": "Inspect retrieved evidence",
+          "body": "Switch visualization or graph depth. The evidence reader shows source location, identity basis, financial stage and response."
+        },
+        {
+          "title": "Read the evaluation before the score",
+          "body": "Saved final evaluation, promotion decision and reproducible training show the actual measured scope. Retrieval relevance is not truth."
+        },
+        {
+          "title": "Track observations separately",
+          "body": "Search World Bank projects and read the observation register. Resolution is an observed outcome, not proof that an earlier model predicted it."
+        }
+      ]
+    },
+    {
+      "id": "funding-investigations",
+      "path": "/funding-investigations",
+      "title": "Funding investigations",
+      "group": "Investigations",
+      "modules": [
+        "FundingInvestigations.tsx",
+        "FundingSearches.tsx"
+      ],
+      "features": [
+        {
+          "title": "Find a research file",
+          "body": "Choose track, evidence status or search terms, then select a file. Map and Network organize the same retained case.",
+          "selector": "[aria-label=\"Find a funding research file\"]"
+        },
+        {
+          "title": "Read each relationship stage",
+          "body": "Inspect what the record supports, its stopping point, competing explanations and the institutional decision analysis."
+        },
+        {
+          "title": "Search across the wider corpus",
+          "body": "The research sections include fixed cross-sector questions, source candidates, path demonstrations and an identity review queue. Lexical scores are not proof."
+        },
+        {
+          "title": "Export or continue the research",
+          "body": "Export research packet preserves the case. The next-record backlog identifies acquisition work; repeated labels remain separate until identity is verified."
+        }
+      ]
+    },
+    {
+      "id": "hypothesis-lab",
+      "path": "/hypothesis-lab",
+      "title": "Coordination hypotheses",
+      "group": "Investigations",
+      "modules": [
+        "HypothesisLab.tsx"
+      ],
+      "features": [
+        {
+          "title": "Choose a hypothesis file",
+          "body": "Filter by research theme, current assessment or query; select the case and use Map or Network.",
+          "selector": "[aria-label=\"Find a hypothesis file\"]"
+        },
+        {
+          "title": "Separate proposition from record",
+          "body": "Compare what is established, what remains unestablished, rival explanations, rules, powers and chronology."
+        },
+        {
+          "title": "Inspect and export",
+          "body": "Open a source reader for its exact locator and limits, or Export research packet. Missing connections remain research questions, never invented factual edges."
+        }
+      ]
+    },
+    {
+      "id": "allegations",
+      "path": "/allegations",
+      "title": "Allegations atlas",
+      "group": "Investigations",
+      "modules": [
+        "Allegations.tsx"
+      ],
+      "features": [
+        {
+          "title": "Choose the evidence scope",
+          "body": "Search a company, case or connection, then use Filters for category, place and sector. Map and Network offer two views.",
+          "selector": "[aria-label=\"Find a company, case or connection\"]"
+        },
+        {
+          "title": "Inspect the record and response",
+          "body": "Open Show index or a map entry to read the selected claim, finding or outcome and the procedural response."
+        },
+        {
+          "title": "Explore city spending context",
+          "body": "Delhi and Mumbai views include Budgets & contracts. These financial context records do not by themselves support a specific allegation."
+        },
+        {
+          "title": "Export with limitations",
+          "body": "Export evidence retains claims and responses. Review geographic precision, legal status and what the map can establish before drawing a conclusion."
+        }
+      ]
+    },
+    {
+      "id": "international-finance",
+      "path": "/international-finance",
+      "title": "International finance",
+      "group": "Registers",
+      "modules": [
+        "InvestigationDossier.tsx"
+      ],
+      "features": [
+        {
+          "title": "Choose the workspace or dossier",
+          "body": "The international finance workspace offers the shared place, layer, date and evidence-tier filters. Open Dossier for its retained record list."
+        },
+        {
+          "title": "Read and save a record",
+          "body": "Inspect the record’s type, date, sources and evidence limits. Save to casebook keeps a local research reference; Show 24 more records expands the list."
+        },
+        {
+          "title": "Keep the stage and coverage",
+          "body": "This is a partial source-backed register. An announcement, allegation, official response, commitment and completed payment or legal finding must keep their own status."
+        }
+      ]
+    },
+    {
+      "id": "defence-trade",
+      "path": "/defence-trade",
+      "title": "Defence trade",
+      "group": "Registers",
+      "modules": [
+        "InvestigationDossier.tsx"
+      ],
+      "features": [
+        {
+          "title": "Choose the workspace or dossier",
+          "body": "The defence trade workspace offers the shared place, layer, date and evidence-tier filters. Open Dossier for its retained record list."
+        },
+        {
+          "title": "Read and save a record",
+          "body": "Inspect the record’s type, date, sources and evidence limits. Save to casebook keeps a local research reference; Show 24 more records expands the list."
+        },
+        {
+          "title": "Keep the stage and coverage",
+          "body": "This is a partial source-backed register. An announcement, allegation, official response, commitment and completed payment or legal finding must keep their own status."
+        }
+      ]
+    },
+    {
+      "id": "health",
+      "path": "/health",
+      "title": "Health & hospitals",
+      "group": "Registers",
+      "modules": [
+        "InvestigationDossier.tsx"
+      ],
+      "features": [
+        {
+          "title": "Choose the workspace or dossier",
+          "body": "The health & hospitals workspace offers the shared place, layer, date and evidence-tier filters. Open Dossier for its retained record list."
+        },
+        {
+          "title": "Read and save a record",
+          "body": "Inspect the record’s type, date, sources and evidence limits. Save to casebook keeps a local research reference; Show 24 more records expands the list."
+        },
+        {
+          "title": "Keep the stage and coverage",
+          "body": "This is a partial source-backed register. An announcement, allegation, official response, commitment and completed payment or legal finding must keep their own status."
+        }
+      ]
+    },
+    {
+      "id": "ngo",
+      "path": "/ngo",
+      "title": "NGOs & foundations",
+      "group": "Registers",
+      "modules": [
+        "InvestigationDossier.tsx"
+      ],
+      "features": [
+        {
+          "title": "Choose the workspace or dossier",
+          "body": "The ngos & foundations workspace offers the shared place, layer, date and evidence-tier filters. Open Dossier for its retained record list."
+        },
+        {
+          "title": "Read and save a record",
+          "body": "Inspect the record’s type, date, sources and evidence limits. Save to casebook keeps a local research reference; Show 24 more records expands the list."
+        },
+        {
+          "title": "Keep the stage and coverage",
+          "body": "This is a partial source-backed register. An announcement, allegation, official response, commitment and completed payment or legal finding must keep their own status."
+        }
+      ]
+    },
+    {
+      "id": "disaster-relief",
+      "path": "/disaster-relief",
+      "title": "Disaster relief",
+      "group": "Registers",
+      "modules": [
+        "InvestigationDossier.tsx"
+      ],
+      "features": [
+        {
+          "title": "Choose the workspace or dossier",
+          "body": "The disaster relief workspace offers the shared place, layer, date and evidence-tier filters. Open Dossier for its retained record list."
+        },
+        {
+          "title": "Read and save a record",
+          "body": "Inspect the record’s type, date, sources and evidence limits. Save to casebook keeps a local research reference; Show 24 more records expands the list."
+        },
+        {
+          "title": "Keep the stage and coverage",
+          "body": "This is a partial source-backed register. An announcement, allegation, official response, commitment and completed payment or legal finding must keep their own status."
+        }
+      ]
+    },
+    {
+      "id": "transport",
+      "path": "/transport",
+      "title": "Transport & railways",
+      "group": "Registers",
+      "modules": [
+        "InvestigationDossier.tsx"
+      ],
+      "features": [
+        {
+          "title": "Choose the workspace or dossier",
+          "body": "The transport & railways workspace offers the shared place, layer, date and evidence-tier filters. Open Dossier for its retained record list."
+        },
+        {
+          "title": "Read and save a record",
+          "body": "Inspect the record’s type, date, sources and evidence limits. Save to casebook keeps a local research reference; Show 24 more records expands the list."
+        },
+        {
+          "title": "Keep the stage and coverage",
+          "body": "This is a partial source-backed register. An announcement, allegation, official response, commitment and completed payment or legal finding must keep their own status."
+        }
+      ]
+    },
+    {
+      "id": "public-funds",
+      "path": "/public-funds",
+      "title": "Public funds",
+      "group": "Registers",
+      "modules": [
+        "InvestigationDossier.tsx"
+      ],
+      "features": [
+        {
+          "title": "Choose the workspace or dossier",
+          "body": "The public funds workspace offers the shared place, layer, date and evidence-tier filters. Open Dossier for its retained record list."
+        },
+        {
+          "title": "Read and save a record",
+          "body": "Inspect the record’s type, date, sources and evidence limits. Save to casebook keeps a local research reference; Show 24 more records expands the list."
+        },
+        {
+          "title": "Keep the stage and coverage",
+          "body": "This is a partial source-backed register. An announcement, allegation, official response, commitment and completed payment or legal finding must keep their own status."
+        }
+      ]
+    },
+    {
+      "id": "policy",
+      "path": "/policy",
+      "title": "Laws & policy",
+      "group": "Registers",
+      "modules": [
+        "InvestigationDossier.tsx"
+      ],
+      "features": [
+        {
+          "title": "Choose the workspace or dossier",
+          "body": "The laws & policy workspace offers the shared place, layer, date and evidence-tier filters. Open Dossier for its retained record list."
+        },
+        {
+          "title": "Read and save a record",
+          "body": "Inspect the record’s type, date, sources and evidence limits. Save to casebook keeps a local research reference; Show 24 more records expands the list."
+        },
+        {
+          "title": "Keep the stage and coverage",
+          "body": "This is a partial source-backed register. An announcement, allegation, official response, commitment and completed payment or legal finding must keep their own status."
+        }
+      ]
+    },
+    {
+      "id": "public-records",
+      "path": "/public-records",
+      "title": "Public records",
+      "group": "Registers",
+      "modules": [
+        "InvestigationDossier.tsx"
+      ],
+      "features": [
+        {
+          "title": "Choose the workspace or dossier",
+          "body": "The public records workspace offers the shared place, layer, date and evidence-tier filters. Open Dossier for its retained record list."
+        },
+        {
+          "title": "Read and save a record",
+          "body": "Inspect the record’s type, date, sources and evidence limits. Save to casebook keeps a local research reference; Show 24 more records expands the list."
+        },
+        {
+          "title": "Keep the stage and coverage",
+          "body": "This is a partial source-backed register. An announcement, allegation, official response, commitment and completed payment or legal finding must keep their own status."
+        }
+      ]
+    },
+    {
+      "id": "justice",
+      "path": "/justice",
+      "title": "Justice & oversight",
+      "group": "Registers",
+      "modules": [
+        "InvestigationDossier.tsx"
+      ],
+      "features": [
+        {
+          "title": "Choose the workspace or dossier",
+          "body": "The justice & oversight workspace offers the shared place, layer, date and evidence-tier filters. Open Dossier for its retained record list."
+        },
+        {
+          "title": "Read and save a record",
+          "body": "Inspect the record’s type, date, sources and evidence limits. Save to casebook keeps a local research reference; Show 24 more records expands the list."
+        },
+        {
+          "title": "Keep the stage and coverage",
+          "body": "This is a partial source-backed register. An announcement, allegation, official response, commitment and completed payment or legal finding must keep their own status."
+        }
+      ]
+    },
+    {
+      "id": "debt",
+      "path": "/debt",
+      "title": "Debt & recovery",
+      "group": "Registers",
+      "modules": [
+        "InvestigationDossier.tsx"
+      ],
+      "features": [
+        {
+          "title": "Choose the workspace or dossier",
+          "body": "The debt & recovery workspace offers the shared place, layer, date and evidence-tier filters. Open Dossier for its retained record list."
+        },
+        {
+          "title": "Read and save a record",
+          "body": "Inspect the record’s type, date, sources and evidence limits. Save to casebook keeps a local research reference; Show 24 more records expands the list."
+        },
+        {
+          "title": "Keep the stage and coverage",
+          "body": "This is a partial source-backed register. An announcement, allegation, official response, commitment and completed payment or legal finding must keep their own status."
+        }
+      ]
+    }
+  ],
+  "staticGuides": [
+    {
+      "id": "global",
+      "title": "Global evidence workbench",
+      "path": "./global-workbench/index.html",
+      "group": "Connected workbenches",
+      "features": [
+        {
+          "title": "Search a defined collection",
+          "body": "Search an event, institution, place or record; narrow Collection, Country and City. More filters reveals year, evidence, status, sector and undated records.",
+          "selector": "#filters"
+        },
+        {
+          "title": "Choose a readable view",
+          "body": "Globe and Flat map show supplied locations. Network shows retained relationships around a chosen Focus entity. Table provides the full readable record list.",
+          "selector": ".viewbar"
+        },
+        {
+          "title": "Inspect the provenance",
+          "body": "Select a record to read the source trail, date, status and limitations in the inspector. A location is not a relationship.",
+          "selector": "#inspector"
+        },
+        {
+          "title": "Keep the unfinished work visible",
+          "body": "Explore Research queue, Coverage gaps, Rejected joins, Document changes and Counterhypotheses. Missing evidence does not establish concealment.",
+          "selector": ".ledger"
+        }
+      ]
+    },
+    {
+      "id": "finance-global",
+      "title": "Public assets & finance",
+      "path": "./global-workbench/finance.html",
+      "group": "Connected workbenches",
+      "features": [
+        {
+          "title": "Find a transaction",
+          "body": "Search the collection; filter Collection, Country and Party role. More filters reveals dated stage, evidence and sector controls.",
+          "selector": "#filters"
+        },
+        {
+          "title": "Read transaction stage",
+          "body": "Choose a case from the register. Approval, signed agreement, closing and receipts are different stages; preserve the record’s date.",
+          "selector": "#records"
+        },
+        {
+          "title": "Compare views without inventing links",
+          "body": "Switch Globe, Flat map, Network or Table. Network focus selects an entity; the source-backed edge type determines what a line means.",
+          "selector": ".viewbar"
+        },
+        {
+          "title": "Inspect ownership, funding and sources",
+          "body": "The inspector separates legal ownership, voting rights, proposed funding, consideration and evidence gaps. Unknown lenders remain unknown.",
+          "selector": "#inspector"
+        },
+        {
+          "title": "Use the research ledger",
+          "body": "Read Research queue, Coverage gaps, Rejected joins and Counterhypotheses before treating a missing step as a finding.",
+          "selector": ".ledger"
+        }
+      ]
+    },
+    {
+      "id": "media-global",
+      "title": "Media & power",
+      "path": "./global-workbench/media.html",
+      "group": "Connected workbenches",
+      "features": [
+        {
+          "title": "Choose a relationship and period",
+          "body": "Search a publisher, investor or committee; choose Country / jurisdiction, Relationship and Sector. Date & status opens event-date controls.",
+          "selector": "#filters"
+        },
+        {
+          "title": "Compare geographic and relationship views",
+          "body": "Globe and Flat map show stated HQ or jurisdiction, not influence. Network focuses an entity. Table includes relationships and entity locations.",
+          "selector": ".viewbar"
+        },
+        {
+          "title": "Inspect a relationship or entity",
+          "body": "Select the Relationship register or Entity profiles. Read ownership and voting measures, date, source trail and the limits on each link.",
+          "selector": "#inspector"
+        },
+        {
+          "title": "Read the gaps",
+          "body": "Research gaps, Country coverage and Reading the graph distinguish unresearched places from negative findings. A political contribution does not establish an election contract.",
+          "selector": ".ledger"
+        }
+      ]
+    }
+  ],
+  "caseStudy": {
+    "id": "fairfax-idbi",
+    "title": "Fairfax / IDBI: read a transaction carefully",
+    "caseId": "IN-IDBI-2022",
+    "statusAsOf": "2026-10-14",
+    "researchAsOf": "2026-10-15",
+    "provenance": "Existing retained case; primary records previously read and self-checked. Tutorial implementation has not independently audited or re-fetched those records.",
+    "sources": [
+      {
+        "id": "IN-S01",
+        "title": "Government Approves Strategic Restructuring of IDBI Bank Ltd.",
+        "publisher": "PIB / Ministry of Finance",
+        "publication_date": "2026-10-14",
+        "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2323318&lang=1&reg=48",
+        "locator": "Release 2323318; paragraphs 3–18",
+        "access_depth": "original_read",
+        "limitations": "Publisher statement establishes what was disclosed, not an independent audit."
+      },
+      {
+        "id": "IN-S02",
+        "title": "Fairfax declared strategic buyer; proposed Digit and IIFL Capital contributions",
+        "publisher": "Fairfax Financial Holdings / Fairfax India",
+        "publication_date": "2026-10-14",
+        "url": "https://www.fairfax.ca/press-releases/fairfax-declared-strategic-buyer-in-auction-to-acquire-interest-in-idbi-bank-plans-to-contribute-digit-insurance-and-iifl-capital-to-idbi-bank-2026-10-14/",
+        "locator": "Opening paragraphs; purchase funding paragraph; Transactions Conditional",
+        "access_depth": "web_original_read",
+        "limitations": "Publisher statement establishes what was disclosed, not an independent audit."
+      },
+      {
+        "id": "IN-S03",
+        "title": "Management Proxy Circular 2026",
+        "publisher": "Fairfax Financial Holdings",
+        "publication_date": "2026-03-06",
+        "url": "https://www.fairfax.ca/wp-content/uploads/2026/03/FFH_Fairfax-Financial-Management_Proxy_Circular-2026-191881.pdf",
+        "locator": "Printed page 2 / PDF page 2: Voting Shares and Principal Holders",
+        "access_depth": "web_original_read",
+        "limitations": "Publisher statement establishes what was disclosed, not an independent audit."
+      },
+      {
+        "id": "IN-S19",
+        "title": "FAQs on Strategic Restructuring of IDBI Bank Ltd.",
+        "publisher": "PIB / Ministry of Finance",
+        "publication_date": "2026-10-14",
+        "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2323320",
+        "locator": "Release 2323320, Q3, Q5–Q13",
+        "access_depth": "original_read",
+        "limitations": "Publisher statement establishes what was disclosed, not an independent audit."
+      }
+    ],
+    "steps": [
+      {
+        "title": "A reported case, ready to examine",
+        "body": "This exercise uses the already-reported Fairfax / IDBI strategic-sale case, IN-IDBI-2022. It teaches how to read the existing record; it does not present a new discovery. Status is the retained 14 October 2026 snapshot, researched 15 October. Later developments need separate evidence.",
+        "sourceIds": [
+          "IN-S01",
+          "IN-S02"
+        ],
+        "tryLabel": "Find IDBI in the finance register",
+        "selector": "#search"
+      },
+      {
+        "title": "Approval is not a completed sale",
+        "body": "The retained case records the selected-buyer approval on 14 October 2026. Fairfax’s announcement says “no binding definitive agreements”. The record therefore remains at bidding / approved-buyer stage; it does not establish title transfer or proceeds received.",
+        "sourceIds": [
+          "IN-S01",
+          "IN-S02"
+        ],
+        "claimIds": [
+          "IN-C01"
+        ],
+        "question": "Which record would establish a completed sale?",
+        "answers": [
+          "The selected-buyer approval alone",
+          "An executed closing / transfer record with conditions met",
+          "A line linking the buyer and bank"
+        ],
+        "correct": 1,
+        "explanation": "A closing or transfer record is needed. Approval and a graph edge preserve their own narrower stage."
+      },
+      {
+        "title": "Separate the sellers and the price",
+        "body": "The approved scope is 60.72%: Government of India 30.48% and LIC 30.24%. The retained consideration is INR 52,878.0806181 crore for that combined stake. It is not all central-government revenue and is not a verified cash receipt.",
+        "sourceIds": [
+          "IN-S01",
+          "IN-S19"
+        ],
+        "claimIds": [
+          "IN-C02"
+        ],
+        "question": "Can this whole amount be called government cash received?",
+        "answers": [
+          "Yes, because a buyer was approved",
+          "No; it covers both sellers and receipts are not established"
+        ],
+        "correct": 1,
+        "explanation": "Both scope and stage matter: the price covers GoI and LIC, and approval does not establish receipts."
+      },
+      {
+        "title": "Voting power has its own denominator",
+        "body": "The 6 March 2026 Fairfax proxy records Sixty Two’s voting rights at 41.9% and Watsa’s aggregate owned or controlled voting rights at 43.3%. The aggregate includes Sixty Two and personal holdings. Do not add these percentages or convert them into economic equity or a personal IDBI holding.",
+        "sourceIds": [
+          "IN-S03"
+        ],
+        "claimIds": [
+          "IN-C05"
+        ],
+        "question": "What do these percentages describe?",
+        "answers": [
+          "A dated voting-rights snapshot at Fairfax",
+          "Watsa’s personal economic stake in IDBI",
+          "Two independent percentages to add"
+        ],
+        "correct": 0,
+        "explanation": "They are overlapping voting measures in a dated Fairfax proxy, not an IDBI ownership calculation."
+      },
+      {
+        "title": "A funding plan is not a drawdown",
+        "body": "Fairfax described expected cash, existing credit and potential asset sales. The record supplies no named acquisition lender, committed facility amount or drawdown. Proposed Digit and IIFL Capital contributions are separate proposed transactions, not completed IDBI assets or purchase-price payments.",
+        "sourceIds": [
+          "IN-S02"
+        ],
+        "claimIds": [
+          "IN-C04",
+          "IN-C06"
+        ],
+        "question": "What does the retained funding paragraph establish?",
+        "answers": [
+          "A specific bank paid the purchase price",
+          "An attributed forward-looking funding plan",
+          "The proposed contributions are already completed"
+        ],
+        "correct": 1,
+        "explanation": "The paragraph describes a plan. Commitment documents, named lenders and drawn amounts would be needed for a financed cash path."
+      },
+      {
+        "title": "Test the changed valuation comparator",
+        "body": "The government-reported figures are INR 94.42 per share for the initial reserve, INR 75.99 for the later benchmark and INR 81 for the winning bid. A changed comparator is already reported; the dataset has not independently reproduced fair value. Obtain full valuation reports, comparable-bank choices, adjustments and the authority and timing of the revision before deciding whether the price was too low.",
+        "sourceIds": [
+          "IN-S01",
+          "IN-S19"
+        ],
+        "claimIds": [
+          "IN-C03"
+        ],
+        "question": "What is the defensible next step?",
+        "answers": [
+          "Label the change proof of corruption",
+          "Compare the actual valuation methods and competing explanations",
+          "Infer a hidden lender from shared ownership"
+        ],
+        "correct": 1,
+        "explanation": "The test needs the underlying valuation methods and records. The public figures alone do not establish undervaluation or motive."
+      },
+      {
+        "title": "Keep the question open and testable",
+        "body": "A bounded conclusion: a strategic buyer was approved in the retained snapshot, while agreements, closing, receipts, acquisition finance and an independently replicated valuation remain unestablished. Your next task is to obtain the missing records, preserve contrary evidence and update the status only when the source supports it.",
+        "sourceIds": [
+          "IN-S01",
+          "IN-S02",
+          "IN-S03",
+          "IN-S19"
+        ]
+      }
+    ]
+  }
+}

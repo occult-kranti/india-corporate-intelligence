@@ -1,114 +1,68 @@
 ---
-name: ICIP Public Record Atlas
-description: A geographic workspace for source-led research into India's institutions and public money.
+name: ICIP Evidence Archive
+description: Source-led investigation board and complete public-record workbench.
 colors:
-  ocean: "#071c24"
-  elevated: "#102a34"
-  surface: "#17343e"
-  surface-hover: "#20444e"
-  land: "#123642"
-  boundary: "#739f9e"
-  selection: "#a9d6c1"
-  action: "#b0d8c4"
-  paper: "#e8e4d8"
-  paper-ink: "#182c32"
-  text: "#f1eee4"
-  text-secondary: "#bdcdce"
-  text-muted: "#9eb5b9"
-  focus: "#e7bd76"
+  navigation: "#20352d"
+  working-desk: "#eeede3"
+  map: "#d8decf"
+  paper: "#f8f5eb"
+  ink: "#23342f"
+  analyst-wool: "#985141"
+  brass-pin: "#b99a60"
+  action: "#344f40"
+  focus: "#bf7d43"
 typography:
-  page-title:
-    fontFamily: "Inter, system-ui, sans-serif"
-    fontSize: "clamp(29px, 3vw, 44px)"
-    fontWeight: 550
-    lineHeight: 1.14
-    letterSpacing: "-0.035em"
-  case-title:
-    fontFamily: "Playfair Display, Georgia, serif"
-    fontSize: "clamp(20px, 1.8vw, 25px)"
-    fontWeight: 500
-    lineHeight: 1.38
-    letterSpacing: "-0.02em"
-  body:
-    fontFamily: "Inter, system-ui, sans-serif"
-    fontSize: "13px"
-    lineHeight: 1.7
-  measurement:
-    fontFamily: "IBM Plex Mono, ui-monospace, monospace"
-    fontSize: "11px"
-    lineHeight: 1.6
-rounded:
-  control: "6px"
-  record: "9px"
-spacing:
-  compact: "8px"
-  control: "12px"
-  panel: "24px"
-  section: "40px"
-components:
-  navigation-selected:
-    backgroundColor: "#b3d5c4"
-    textColor: "#132b32"
-    rounded: "{rounded.control}"
-    padding: "10px 9px"
-  source-expanded:
-    backgroundColor: "{colors.paper}"
-    textColor: "{colors.paper-ink}"
-    rounded: "{rounded.record}"
-    padding: "23px"
+  operation: "Inter, system-ui, sans-serif"
+  evidence: "Georgia, serif"
+  metadata: "IBM Plex Mono, ui-monospace, monospace"
 ---
 
-# Design System: ICIP Public Record Atlas
+# ICIP Evidence Archive
 
-## Overview
+## Direction and authority
 
-**Creative North Star: “The Public Record Atlas”**
+The user requested a desktop-first replacement visual world across the application: an investigation board with pins, wool threads, a soft map and depth, with all pages and features retained. The new world is a working archive. Dark green navigation frames pale sage cartography and ivory paper. Brass pins and oxblood analyst wool make working relationships tangible without making them factual.
 
-The map is the principal working surface. A committed petrol palette keeps cartographic layers continuous across the application; jade marks selection, and warm paper gives opened evidence a distinct reading plane. The user explicitly rejected the preceding uniform, compressed map-and-card interface and authorized the replacement world across all routes.
+This is an operating research tool. Source-backed records, dates, status, limits, alternative explanations and export remain primary. Art direction cannot change an evidence tier or imply a relationship. The review is an AI-assisted synthesis of published HCI, information-design, art and ethical-persuasion work; no named expert participated.
 
-This is an operating product. Familiar links, selects, range controls, tables and buttons carry the interaction. Spatial depth, readable source material and a clear distinction between sectors supply character; invented instruments or decorative statistics do not. Product truth remains in `PRODUCT.md`, and route-specific strategy lives in `.design/atlas-brief.md`.
+## Entry points
 
-## Colors
+- `#/board`: the new freely arranged evidence board and source-reading plane.
+- `#/` and `#/investigate`: the retained geographic investigation workspace.
+- Every existing specialist route, original dossier, saved filter and profile deep link stays available.
+- Global evidence, public-assets finance and media-power keep their existing specialized static workspaces, with the archive theme and common guide/navigation affordances.
 
-The token frontmatter and CSS are the source of truth. `src/index.css` provides global Tailwind-compatible colors; `src/components/investigation/shell.css` exposes the `--atlas-*` tokens to shared map, network and reading components.
+## Materials and semantics
 
-Petrol is the spatial canvas and navigation material. Jade identifies an active place, selected control or available action. Paper and its own dark ink support close reading. The warm focus ring remains clearly visible on either material. Existing evidence-tier colors retain their declared meanings; selection color never implies guilt, reliability or severity.
+The map is the lowest plane. Threads sit above it, source slips above threads, and the readable inspector above the working surface. Optional depth changes shadows; it never tilts body text or encodes significance. Subtle paper rotation is decorative and does not affect record order.
 
-## Typography
+Free board positions do not encode geographic location. Thread length, thickness, card placement and shadow have no evidential meaning. The underlay uses the existing current 36-unit LGD/BharatMaps asset and retains its attribution and boundary limitations.
 
-Locally hosted Inter is the operational voice: controls, page titles and navigation. Locally hosted Playfair Display distinguishes case/source titles from the surrounding controls. IBM Plex Mono is reserved for dates, coordinates, stable IDs and numerical comparisons. Body copy normally measures 65–78 characters; long URLs and source titles must wrap.
+User-created wool threads have an explicit purpose: question, compare, counter-evidence to check or follow-up. A separate sourced layer draws only exact existing registry relationships between pinned entities. Original documented/reported/self-reported/alleged/analytic line patterns remain. No proximity, shared appearance or similar-name join is created.
 
-Titles use an explicit 22–44px hierarchy rather than one uniformly small label. Small controls and citation metadata are denser, but mobile text inputs remain at least 16px. Repeated ornamental eyebrows are avoided; meaningful evidence type, record date and source labels remain visible.
+The original evidence-tier, node-family and node-shape encodings remain frozen. New archive colors apply to materials and interaction state, never to guilt, influence or source reliability.
 
-## Layout
+## Layout and typography
 
-At 1280px and above, a 168px labeled sector rail frames the work surface. At 1024–1279px the rail is 80px. Below 1024px a horizontally scrolling 47px sector bar replaces it, and the active route is brought into view. The masthead is 64px, reducing to 60px below 640px. `--atlas-shell-height` includes both masthead and the mobile sector bar.
+At wide desktop sizes a 208px labeled cabinet and 64px masthead frame the main scrolling workspace. Dense registers remain available; the reading plane grows as needed. Smaller windows retain accessible stacked fallbacks without a device lockout. This request does not claim a separately researched phone redesign.
 
-Main remains the page scroll container. The national and sector map views place a large map beside a source/case dock, with time controls attached to the geographic workspace. Narrow screens place the map and evidence in a continuous vertical flow. Legacy dossiers remain deliberate reading views within the same shell; comparison tables may scroll locally.
+The board's opening uses a restrained serif hierarchy, with source titles on paper, operational sans-serif controls and monospaced dates/counts. Existing analytical pages inherit archive tokens through the shared shell. Native tables, selects, links and buttons remain recognizable.
 
-## Elevation & Depth
+The full navigation catalog is searchable and includes all original static routes, Allegations, connected global apps and plain-language aliases. Ctrl/Cmd+K opens it. Profile routes are reached through their existing entity/state/group links. Page navigation and record search remain distinct.
 
-Depth distinguishes work planes. Shared elevated material uses `0 18px 48px -20px #000c, 0 5px 12px -5px #0006`; compact controls use `0 3px 8px #0003`. The navigation casts a directional shadow into the work surface. The cartographic surface may use actual geometry and a restrained measuring grid; paper and navigation do not receive decorative grain or repeated stripes.
+## Interaction contract
 
-3D height, node position, shadows, camera position and relative visual size are not evidential quantities unless an explicit data encoding and legend say so. Flat views and accessible records remain available.
+- Pin the source, inspect it, form a testable question and preserve the account.
+- Drag handles have arrow-key movement, Shift+arrow larger steps, and click-only movement buttons in the inspector.
+- Arrangement never deletes records, notes or threads. List view exposes every saved pin.
+- Browser-local Casebook persistence is shared with the existing evidence workspace; the company Watchlist remains separately labeled.
+- Exports carry full source context and board layout. Restore is additive, capacity-checked and preserves existing notes/questions/positions.
+- Modal popups use native dialog focus containment, Escape and restoration to their initiator.
+- No first-load blocking tutorial. Help offers page guides, searchable features, a resumable cross-page intro and an explicitly already-reported Fairfax/IDBI exercise. The static apps have their own local popups.
+- Reduced motion disables optional movement. All actions have text labels or accessible names; source tiers are not color-only.
 
-## Shapes
+## Truth and verification
 
-Controls use restrained 5–6px rounding. Expanded source material uses a 9px reading surface. Source registers favor continuous rows and fine rules over equal card grids. Icons use the existing Lucide stroke family; geography is sourced geometry rather than an illustrative approximation.
+Published design resources and their concrete application are recorded in `docs/investigation-board/DESIGN_REVIEW.md`. Route/features are recorded in `FEATURE_INVENTORY.md`. Implementation limits, including separate static-app persistence, are explicit in `IMPLEMENTATION.md`.
 
-## Components
-
-The navigation library is a native modal dialog with filtered groups, a named close control, Escape support and focus restoration. The atlas rail, all-register library and mobile sector bar expose the same route system. The skip link targets the main content region.
-
-All hover, selected and focus states use visible tonal or outline changes. Selection remains legible without color alone through `aria-current` or `aria-pressed`. Browser text selection, caret, scrollbars, tabular figures and underline offsets belong to the same palette.
-
-The signature transition belongs to spatial navigation and evidence opening. The library has one short 280ms movement using `cubic-bezier(.16,1,.3,1)`. Reduced-motion preferences disable animation, transitions and smooth scrolling throughout the shell.
-
-## Do's and Don'ts
-
-- Keep the actual source, date, stage, geographic basis and response close to the claim.
-- Preserve saved research, URL context, legacy dossiers and keyboard paths.
-- Label national context, unknown location and approximate location honestly.
-- Do not use connectivity or map prominence as an allegation ranking.
-- Do not turn absence of retained evidence into an absence-of-activity claim.
-- Do not claim participant research or cross-browser/accessibility certification from AI review or Chromium checks. Verification evidence belongs in `.design/atlas-report.md`.
+Verification results belong in `VERIFICATION.md`. Passing data/model/type/build checks is not a substitute for visual, keyboard or browser testing. No cross-browser or full-accessibility certification is claimed. The previous visual brief is archived in this directory for traceability.
