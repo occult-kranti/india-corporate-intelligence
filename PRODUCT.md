@@ -30,3 +30,11 @@ The current redesign is explicitly authorized across all pages. Its evaluation i
 The public-funding research desk adds reviewed case files, institutional decision reconstructions, competing explanations and a visible acquisition backlog across the historical window 2011–2026. It preserves the existing sector atlas, provides exact-stage source-linked case graphs and exports, and exposes retrieval failures and unapproved identity candidates. The window describes research scope, not complete annual or national coverage. No new forecasting accuracy or private motive is inferred.
 
 The coordination-hypothesis desk examines selected decisions of the Modi Union administrations (2014–2026). It separates source-attributed relationships from optional unproved questions, preserves rules in force and rival explanations, and shows the records needed to discriminate among them. Institutional scenarios are retrospective qualitative analysis; no secret intent, guilt probability, exhaustive coverage or newly trained forecasting model is implied.
+
+## Investigation-board redesign, 15 October 2026
+
+The latest request prioritizes desktop research: a pin-and-wool investigation board over a soft map, with meaningful visual depth, intuitive navigation and opt-in contextual popup tutorials across all existing pages. This replaces the earlier atlas-only visual direction while preserving the atlas, original dossiers and every established research workflow. A smaller-window fallback remains available; it does not imply a separately validated mobile design.
+
+The new `#/board` operates on the existing browser-local Casebook. Pins retain sources and original qualifiers. User-created threads are typed analyst annotations and never become sourced graph assertions. Existing source-backed edges remain a separately labeled layer. Source data, legal status and financial stages are not rewritten for onboarding.
+
+The tutorial's Fairfax/IDBI example is a source-bound, already-reported evidence exercise. It distinguishes regulatory approval from completed sale, voting rights from equity, proposed funding from cash paid, and dated valuation changes. It claims no secret plot, unique discovery or newly proven misconduct. The global/finance/media applications retain their specialized features and do not imply a shared Casebook if one is not implemented there.

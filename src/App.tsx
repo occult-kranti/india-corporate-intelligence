@@ -2,6 +2,7 @@ import { HashRouter, Routes, Route } from 'react-router-dom';
 import { Suspense, lazy } from 'react';
 import Layout from './components/Layout';
 import { DataProvider } from './context/DataContext';
+import { TutorialProvider } from './tutorial';
 
 /**
  * Routes are lazily loaded.
@@ -16,6 +17,7 @@ import { DataProvider } from './context/DataContext';
  * workspace owns the default landing surface and only mounts a route dossier
  * when the reader explicitly opens it.
  */
+const InvestigationBoard = lazy(() => import('./components/board/InvestigationBoard'));
 const Dashboard = lazy(() => import('./pages/Dashboard'));
 
 const MapExplorer = lazy(() => import('./pages/MapExplorer'));
@@ -84,6 +86,7 @@ function App() {
   return (
     <DataProvider>
       <HashRouter>
+        <TutorialProvider>
         <Routes>
           <Route element={<Layout />}>
             <Route
@@ -92,6 +95,7 @@ function App() {
                 <Suspense fallback={<RouteFallback />}>
                   <Routes>
                     <Route path="/" element={<Dashboard />} />
+                    <Route path="/board" element={<InvestigationBoard />} />
                     <Route path="/investigate" element={<Dashboard />} />
                     <Route path="/follow-the-money" element={<FollowTheMoney />} />
                     <Route path="/money-trails" element={<MoneyTrails />} />
@@ -157,6 +161,7 @@ function App() {
             />
           </Route>
         </Routes>
+        </TutorialProvider>
       </HashRouter>
     </DataProvider>
   );

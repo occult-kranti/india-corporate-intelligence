@@ -1,3 +1,4 @@
+import { inlineTutorialAssets } from './inline-tutorial.mjs';
 import fs from 'node:fs';
 const read=p=>fs.readFileSync(p,'utf8');
 const data=JSON.parse(read('public/data/finance.json'));
@@ -8,4 +9,4 @@ const load="const response=await fetch('./public/data/finance.json');if(!respons
 if(!app.includes(load))throw Error('Finance loader changed; review standalone export');
 app=app.replace(load,`const payload=${JSON.stringify(data).replaceAll('<','\\u003c')};`);
 let html=read('finance.html').replace('<link rel="stylesheet" href="./src/style.css">',()=>`<style>${read('src/style.css')}</style>`).replace('<link rel="stylesheet" href="./src/finance.css">',()=>`<style>${read('src/finance.css')}</style>`).replace('<link rel="stylesheet" href="./src/media-nav.css">',()=>`<style>${read('src/media-nav.css')}</style>`).replace('<script type="module" src="./src/finance-app.js"></script>',()=>`<script type="module">${model}\n${finance}\n${app}</script>`).replace('href="./index.html"','href="./fieldwork-offline.html"').replace('href="./finance.html"','href="./finance-offline.html"').replace('href="./media.html"','href="./media-offline.html"');
-fs.mkdirSync('dist',{recursive:true});fs.writeFileSync('dist/finance-offline.html',html);console.log('Created finance-offline.html');
+fs.mkdirSync('dist',{recursive:true});fs.writeFileSync('dist/finance-offline.html',inlineTutorialAssets(html));console.log('Created finance-offline.html');

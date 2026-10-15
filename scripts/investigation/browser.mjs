@@ -55,6 +55,7 @@ const dedicatedRoutes = new Map([
 // route acceptance with their own real controls instead of requiring a map they
 // never declare. Their full record/export workflows have separate browser tests.
 const researchRoutes = new Map([
+  ['/board', { marker: '.case-board-page', heading: 'Follow the record.Build your case.', control: '[data-tour="board-tools"]' }],
   ['/investigations', { marker: 'article.inv-page', heading: 'The investigation network.', control: '[aria-label="Filter investigation cases"]' }],
   ['/leads', { marker: 'article.inv-page', heading: 'Unresolved leads.', control: '[aria-label="Investigation sequence"]' }],
   ['/game-theory', { marker: 'article.gt-page', heading: 'Test the incentives.Then test the story.', control: '[aria-label="Institutional role"]' }],

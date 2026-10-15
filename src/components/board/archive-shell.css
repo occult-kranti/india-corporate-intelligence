@@ -1,0 +1,125 @@
+/* Shared archive frame. Existing tier hues, glyphs and data encodings are untouched. */
+.archive-shell { --atlas-ocean:#172c29; --atlas-land:#29453b; --atlas-boundary:#8da292; --atlas-jade:#ced8b8; --atlas-paper:#f5f1e5; --atlas-ink:#2a3e30; --atlas-muted:#b9c7b4; --atlas-line:#42584a; --atlas-header-height:64px; --atlas-shell-height:64px; }
+.archive-shell .iw-navigation-rail { background:#20352d; box-shadow:4px 0 15px #0b1f2520; }
+.archive-shell .iw-rail-brand { background:#20352d; border-bottom:1px solid #48604365; color:#f4efdc; }
+.archive-shell .iw-rail-brand>svg { color:#d5c9a7; }
+.archive-shell .iw-rail-brand strong { color:#c5ae79; }
+.archive-shell .iw-rail-brand>small { font:8px var(--font-mono); color:#9cae91; letter-spacing:.07em; }
+.archive-shell .iw-rail-link { color:#b7c5ad; border-radius:3px; }
+.archive-shell .iw-rail-link>svg { color:#9caf8c; }
+.archive-shell .iw-rail-link:hover { background:#304b37; color:#f5efdd; }
+.archive-shell .iw-rail-link.is-active { background:#e1e4ce; color:#30422d; box-shadow:0 2px 4px #07150b20; }
+.archive-shell .iw-rail-link.is-active>svg { color:#566c44; }
+.archive-shell .atlas-primary-routes { border-color:#4c644060; }
+.archive-shell .atlas-rail-label { color:#859b75; font-size:9px; letter-spacing:.04em; }
+.archive-shell .atlas-rail-footer { background:#1c3028; border-color:#4a624365; }
+.archive-shell .iw-rail-more { background:#30462f; color:#d4ddc3; border-radius:3px; }
+.archive-shell .atlas-rail-method { color:#acbd9c; }
+.archive-shell .site-masthead { background:#f5f3e9; border-bottom:1px solid #ced4c4; color:#334832; }
+.archive-shell .masthead-context { color:#8b9781; font-size:11px; }
+.archive-shell .masthead-context>a { color:#728363; font-size:11px; }
+.archive-shell .masthead-context>a:hover { color:#2d502c; }
+.archive-shell .masthead-current { color:#3e5539; font-size:11px; }
+.archive-shell .masthead-search { background:transparent; color:#526a49; padding:8px 11px; border:1px solid #ced5c4; border-radius:4px; }
+.archive-shell .masthead-search:hover { background:#e4e9d9; color:#2b4a26; }
+.archive-shell .masthead-method { color:#728365; font-size:10px; }
+.archive-shell .iw-all-lenses-button { color:#536d45; border-color:#c5d0b8; }
+.archive-board-shortcut { display:flex; align-items:center; gap:6px; font-size:11px; color:#576d49; }
+.archive-shell .mobile-brand .site-brand strong { color:#374f31; }
+.archive-shell .mobile-brand .site-brand small { color:#738767; }
+.archive-shell .mobile-brand .site-brand-mark { color:#6d8757; }
+.archive-shell .mobile-nav-dialog { background:#20382d; border:1px solid #526b4660; }
+.archive-shell .mobile-nav-dialog::backdrop { background:#12261dcc; }
+.archive-shell .mobile-nav-dialog .nav-search { background:#172d22; border-color:#597449; }
+.archive-shell .mobile-nav-dialog .nav-group-label { color:#a2b58c; border-color:#4d6543; }
+.archive-shell .mobile-nav-dialog .site-nav-link.is-active { background:#d7dfc2; color:#2d4528; }
+.archive-shell .mobile-nav-dialog .site-nav-link:hover { background:#3c5632; }
+.archive-shell .atlas-evidence-dock { background:#203b31; }
+.archive-shell .iw-dossier-content { background:#1a342b; }
+.archive-shell .iw-dossier-content .iw-dossier-note { background:#2f4937; }
+.archive-shell .iw-dossier-content :where(.card-surface,.bg-bg-card) { background:#274431; border-color:#46613c; }
+.archive-shell .iw-dossier-content .editorial-table th { background:#304c38; }
+.archive-shell .iw-dossier-content .editorial-table tr:hover td { background:#34533a; }
+.archive-shell .iw-workspace-footer { background:#1c3228; border-color:#3d5634; }
+.archive-shell .atlas-mobile-sectors { background:#284231; }
+.archive-shell .atlas-mobile-sectors a { color:#bccaad; }
+.archive-shell .atlas-mobile-sectors a.active { background:#3b5638; color:#f1f1db; border-color:#c6d1ac; }
+.archive-shell :where(button,a,input,select,textarea,summary):focus-visible { outline-color:#bf7d43; }
+.archive-connected-links { border-bottom:1px solid #4c644060; padding-bottom:13px; }
+@media(min-width:1280px) { .archive-shell .iw-navigation-rail { width:208px; flex-basis:208px; } .archive-shell .iw-navigation-rail nav { padding:19px 14px; } .archive-shell .iw-rail-link { min-height:37px; padding:8px 9px; font-size:10px; gap:9px; } .archive-shell .iw-rail-brand { padding-inline:22px; } .archive-shell .iw-rail-brand>span { font:25px Georgia,serif; } .archive-shell .iw-rail-brand>small { margin-left:3px; } .archive-shell .atlas-rail-label { margin-top:21px; } }
+@media(max-width:1023px) { .archive-shell { --atlas-shell-height:111px; } .archive-board-shortcut { display:none; } }
+@media(max-width:639px) { .archive-shell { --atlas-header-height:60px; --atlas-shell-height:107px; } }
+@media(prefers-reduced-motion:reduce) { .archive-shell *,.archive-shell *::before,.archive-shell *::after { animation:none!important; transition:none!important; scroll-behavior:auto!important; } }
+.archive-shell .tutorial-launcher { color:#567146; border-color:#c6d0ba; background:transparent; font-size:11px; }
+.archive-shell .tutorial-launcher:hover { background:#e3ead8; }
+@media(max-width:1200px) { .archive-shell .masthead-actions { gap:10px; } .archive-board-shortcut { display:none; } }
+.archive-shell { --color-bg:#172c29; --color-bg-elevated:#213b30; --color-bg-card:#294735; --color-bg-card-hover:#35543e; --color-text:#f5f0e0; --color-text-secondary:#c6d2ba; --color-text-muted:#a9bd99; --color-border:rgba(190,209,166,.18); --color-border-light:rgba(190,209,166,.32); --color-accent:#d1d9b5; --color-accent-hover:#e6ebd0; --color-accent-dim:#82966d; }
+
+/* Each independent research surface participates in the same archive palette.
+   These are presentation tokens only: financial stages, tiers, map placement,
+   network direction and chart series keep their original semantic encodings. */
+.archive-shell .fm-page { --fm-ink:#f5f0e0; --fm-muted:#bdccb3; --fm-line:#4a604c; --fm-soft:#304a36; --fm-paper:#223b2e; --fm-accent:#ddc18b; --fm-green:#c6d6b1; --color-border:#4a604c; --color-border-light:#6a805c; --color-text-muted:#bdccb3; --color-bg-elevated:#20392c; --color-bg-card:#2a4431; background:#172c24; }
+.archive-shell .money-trails { --mt-ink:#f5f0e0; --mt-muted:#bdccb3; --mt-line:#4a604c; --mt-gold:#ddc18b; --mt-dark:#172c24; }
+.archive-shell .research-radar { --rr-ink:#30452d; --rr-cream:#f3f0e5; --rr-muted:#5b7051; --rr-border:#bdc8af; --rr-dark:#20372c; }
+.archive-shell .model-lab { --ml-ink:#30452d; --ml-muted:#5b7051; --ml-line:#cbd1bc; --ml-paper:#f5f1e5; --ml-teal:#4d7045; --ml-mint:#dbe3c8; --ml-gold:#ddc18b; border-radius:4px; box-shadow:0 8px 18px #102b1914; }
+.archive-shell .funding-desk { --fi-paper:#f5f1e5; --fi-ink:#30452d; --fi-muted:#5b7051; --fi-line:#cbd1bc; --fi-green:#46643d; }
+.archive-shell .hypothesis-desk { --hl-paper:#f5f1e5; --hl-ink:#30452d; --hl-muted:#5b7051; --hl-line:#cbd1bc; --hl-petrol:#20372c; --hl-jade:#c5d8ad; }
+.archive-shell .allegations-atlas { --al-ink:#f5f0e0; --al-muted:#bdccb3; --al-border:#4a604c; background:#172c24; }
+.archive-shell .rp-desk { --rp-ink:#f5f0e0; --rp-muted:#bdccb3; --rp-line:#4a604c; --rp-panel:#263f2f; --rp-jade:#c5d8ad; background:#172c24; }
+.archive-shell .fm-header,
+.archive-shell .fm-command,
+.archive-shell .mt-command,
+.archive-shell .al-command,
+.archive-shell .rr-header,
+.archive-shell .ml-hero { background:#20372c; background-image:none; border-color:#506546; }
+.archive-shell .fm-search,
+.archive-shell .fm-toolbar,
+.archive-shell .mt-controls,
+.archive-shell .al-toolbar,
+.archive-shell .al-filters,
+.archive-shell .rr-stat-strip,
+.archive-shell .hl-filters,
+.archive-shell .rp-filters { background:#2a4330; border-color:#506546; }
+.archive-shell .fm-case-index,
+.archive-shell .fm-map-panel,
+.archive-shell .fm-case-brief,
+.archive-shell .mt-path,
+.archive-shell .mt-path-header,
+.archive-shell .mt-hypothesis>header,
+.archive-shell .al-record-index { background:#20392d; background-image:none; border-color:#506546; }
+.archive-shell .fm-page input,
+.archive-shell .fm-page select,
+.archive-shell .mt-trail-select select,
+.archive-shell .al-toolbar form,
+.archive-shell .al-toolbar select,
+.archive-shell .al-filters select,
+.archive-shell .hl-filters select,
+.archive-shell .hl-filters input,
+.archive-shell .rp-desk input,
+.archive-shell .rp-desk select,
+.archive-shell .rp-desk textarea { background:#172e23; border-color:#68815c; }
+.archive-shell .rr-filterbar,
+.archive-shell .rr-scope-bar,
+.archive-shell .rr-case-index>header { background:#e3e7d6; border-color:#b8c4a7; }
+.archive-shell .rr-case-index,
+.archive-shell .hl-reading { background:#f5f1e5; }
+.archive-shell .hl-reading { border-radius:4px; box-shadow:0 8px 18px #102b1914; }
+.archive-shell .mt-review,
+.archive-shell .mt-footnote,
+.archive-shell .al-reading-notes { background:#192f24; }
+.archive-shell .gt-page select,
+.archive-shell .gt-page textarea { background:#172e23; border-color:#68815c; }
+.archive-shell .gt-panel,
+.archive-shell .gt-test-plan { background:#243c2d; border-color:#506546; }
+.archive-shell .inv-hero-note,
+.archive-shell .inv-lead-card { border-color:#506546; }
+/* Shared Workspace surfaces serve every sector page and parameterized dossier. */
+.archive-shell .iw-panel-heading,
+.archive-shell .iw-record-list>li,
+.archive-shell .iw-evidence-ledger,
+.archive-shell .iw-evidence-panel,
+.archive-shell .iw-casebook { border-color:#4a604c; }
+.archive-shell .iw-evidence-ledger,
+.archive-shell .iw-casebook { background:#20392d; }
+.archive-shell .iw-record-list button:hover,
+.archive-shell .iw-record-list button[aria-pressed=true] { background:#345039; }

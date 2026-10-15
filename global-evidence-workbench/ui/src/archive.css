@@ -1,0 +1,56 @@
+/* Shared material language with the India case board. No evidence tier is remapped. */
+:root { --paper:#efeee4; --ink:#293d31; --muted:#66745f; --line:#c9d1bf; --teal:#3d6645; --night:#213b2f; --accent:#dbc594; }
+body { background:var(--paper); color:var(--ink); }
+body>header { background:#21372d; border-bottom:0; color:#e5e9d6; height:72px; }
+body>header .brand-mark { color:#c5b17d; }
+body>header .edition { color:#a7bc95; border-color:#657753; }
+body>header #snapshot { color:#a8bd95; font-size:10px; }
+.section-nav { background:#f7f5e9; border-bottom:1px solid #c4d0b8; max-width:none; padding:14px 4vw; gap:30px; }
+.section-nav a { color:#5b7250; font-size:12px; }
+.section-nav [aria-current=page] { color:#2a472c; text-decoration-color:#9ba87b; text-underline-offset:8px; text-decoration-thickness:2px; }
+.connected-research { padding:12px 4vw; font-size:11px; border-color:#d0d6c4; gap:22px; color:#78866b; }
+.connected-research a { text-decoration:none; }
+.connected-research a:hover { color:#3f633f; text-decoration:underline; }
+.connected-research a[href='../#/board'] { color:#385d35; font-weight:600; }
+main { max-width:1700px; }
+.intro { padding-top:38px; }
+.eyebrow { color:#7a8b68; font-size:9px; }
+h1 { font-size:clamp(38px,4vw,58px); }
+h1 em { color:#718564; }
+.dek { font-size:14px; line-height:1.7; max-width:56ch; }
+#stats { padding:16px 0 8px; gap:28px; }
+#stats strong { color:#526c44; font-size:31px; }
+#stats span { color:#7a886b; font-size:10px; }
+#filters { padding:20px 0; }
+#filters input,#filters select,#advanced select,#advanced input { background:#faf8ef; border-color:#c1cdb6; color:#355331; border-radius:4px; }
+#filters label,#advanced label { color:#6d805f; font-size:10px; }
+button { border-color:#c0ccb3; border-radius:4px; }
+button:hover { background:#dce5d2; }
+.workspace { border:1px solid #becbb2; box-shadow:0 8px 20px -12px #40562e32; border-radius:5px; overflow:hidden; }
+.viewbar { background:#e1e7d7; }
+.viewbar button[aria-pressed=true],.ledger nav button[aria-pressed=true] { background:#35533b; color:#f4f3df; }
+#geo-view { background:#213b2f; }
+.map-heading { color:#d2ddc0; }
+.map-heading span:last-child,#geo-note { color:#a8bc97; }
+#inspector { background:#faf6ea; box-shadow:-7px 0 20px -15px #253d1d50; }
+.inspector-heading { color:#6d8159; font-size:9px; }
+#detail h2 { font-size:28px; color:#344a31; }
+#detail p,#detail li { color:#607054; font-size:13px; line-height:1.75; }
+#detail h3 { color:#526b41; font-size:10px; }
+.source { color:#3a653e; padding:14px 0; }
+.source small { color:#7d8b6f; font-size:10px; }
+.record { background:#f2f1e6; padding-block:16px; }
+.record:hover,.record[aria-pressed=true] { background:#e3ead8; }
+.record[aria-pressed=true] { box-shadow:inset 3px 0 #547249; }
+.record strong { font-size:12px; }
+.record small { color:#7c896d; }
+.record-index { color:#879577; }
+.ledger-header h2 { font-size:31px; color:#3b5031; }
+.ledger-item { border-top-color:#b1c29e; }
+.ledger-item h3 { color:#445c36; font-size:21px; }
+.ledger-item p { font-size:13px; line-height:1.75; }
+.coverage-summary { background:#e1e8d6; border-left-color:#789360; }
+.principles { background:#e7eadb; padding:17px 20px; }
+.principles p { font-size:12px; }
+th { background:#dfe6d5; color:#5e784d; }
+@media(prefers-reduced-motion:reduce) { *,*::before,*::after { animation:none!important; transition:none!important; scroll-behavior:auto!important; } }

@@ -19,7 +19,8 @@ test('connected workspaces use ordinary links and subpath-relative assets',()=>{
  assert.ok(html.includes('src="./src/app.js"'));
  assert.ok(read('ui/src/app.js').includes("fetch('./public/data/dataset.json')"));
  const layout=fs.readFileSync(new URL('../src/components/Layout.tsx',import.meta.url),'utf8');
- assert.ok(layout.includes('href="./global-workbench/"'));
+ assert.ok(layout.includes("href: './global-workbench/'") || layout.includes('href="./global-workbench/"'));
+ assert.ok(layout.includes('href={href}') || layout.includes('href="./global-workbench/"'), 'configured research URLs render as ordinary anchors');
 });
 test('published source tree excludes acquired raw originals and credentials',()=>{
  for(const path of fs.readdirSync(root,{recursive:true})) {

@@ -43,7 +43,17 @@ export function pinCasebookItem(kind: CasebookKind, id: string): boolean {
   publish({ ...book, pins: [...book.pins, { kind, id, addedAt: new Date().toISOString(), note: '' }] });
   return true;
 }
-function updateBook(patch: Partial<Pick<CasebookData, 'title' | 'question' | 'falsifier'>>) { publish({ ...getSnapshot().book, ...patch }); }
+export function unpinCasebookItem(kind: CasebookKind, id: string) {
+  const { book } = getSnapshot();
+  publish({ ...book, pins: book.pins.filter(pin => pin.kind !== kind || pin.id !== id) });
+}
+export function updateCasebookNote(kind: CasebookKind, id: string, note: string) {
+  const { book } = getSnapshot();
+  publish({ ...book, pins: book.pins.map(pin => pin.kind === kind && pin.id === id ? { ...pin, note: note.slice(0, 12000) } : pin) });
+}
+export function getCasebookData() { return getSnapshot().book; }
+export function importCasebookData(incoming: CasebookData) { publish(mergeCasebooks(getSnapshot().book, incoming)); }
+export function updateBook(patch: Partial<Pick<CasebookData, 'title' | 'question' | 'falsifier'>>) { publish({ ...getSnapshot().book, ...patch }); }
 function download(content: string, extension: string, type: string, title: string) {
   const url = URL.createObjectURL(new Blob([content], { type }));
   const link = document.createElement('a'); link.href = url;

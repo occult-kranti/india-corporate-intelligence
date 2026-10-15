@@ -109,6 +109,9 @@ jobs:
       - name: Research program provenance and relation guards
         run: npm run validate:research-program && npm run test:research-program
 
+      - name: Investigation board and tutorial regression guards
+        run: npm run test:board && npm run test:tutorial
+
       - name: Typecheck and build
         run: npm run build
 
@@ -119,6 +122,20 @@ jobs:
       # wait on, or have reaped out from under it.
       - name: Headless render smoke test
         run: npm run smoke
+
+      - name: Investigation board interactions and retained routes
+        run: npm run test:board:browser
+        env:
+          BOARD_ALLOW_BROWSER: "1"
+          BOARD_ARTIFACTS: /tmp/investigation-board-review
+
+      - name: Preserve investigation board review artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: investigation-board-review
+          path: /tmp/investigation-board-review
+          if-no-files-found: ignore
 
       - name: Cross-sector research program workflow
         run: npm run test:research-program:browser
