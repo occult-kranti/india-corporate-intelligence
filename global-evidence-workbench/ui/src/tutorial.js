@@ -15,14 +15,14 @@ const safe = input => {
   return out;
 };
 let state; try {state=safe(JSON.parse(localStorage.getItem(KEY)||'null'));} catch {state=safe(null);}
-let mode='help',current=guide,index=0,opener=null,target=null,storageBlocked=false;
+let mode='help',current=guide,index=0,opener=null,target=null,storageBlocked=false,positioner=null;
 const launcher=document.createElement('button');launcher.type='button';launcher.className='fw-tutorial-launcher';launcher.textContent='?  Help';launcher.dataset.tutorialLauncher='';launcher.setAttribute('aria-label','Open help and page tutorials');
 const nav=document.querySelector('.section-nav');(nav||document.body).append(launcher);
 const dialog=document.createElement('dialog');dialog.className='fw-tutorial-dialog';dialog.dataset.tutorialUi='';dialog.setAttribute('aria-labelledby','fw-tutorial-title');document.body.append(dialog);
 const save=status=>{state.tours[current.id]={step:index,status};state.lastTour=current.id;try{localStorage.setItem(KEY,JSON.stringify(state));}catch{storageBlocked=true;}};
-function removeHighlight(){target?.removeAttribute('data-tutorial-highlight');target=null;}
+function removeHighlight(){positioner?.stop();positioner=null;target?.removeAttribute('data-tutorial-highlight');target=null;}
 function findTarget(selector){if(!selector)return null;try{return [...document.querySelectorAll(selector)].find(el=>!el.closest('[data-tutorial-ui]')&&el.getBoundingClientRect().height>0&&el.getBoundingClientRect().width>0)||null;}catch{return null;}}
-function highlight(){removeHighlight();if(mode!=='tour')return;target=findTarget(current.steps[index].selector);target?.setAttribute('data-tutorial-highlight','true');}
+function highlight(){removeHighlight();if(mode!=='tour')return;const resolve=()=>{const next=findTarget(current.steps[index].selector);if(next!==target){target?.removeAttribute('data-tutorial-highlight');target=next;target?.setAttribute('data-tutorial-highlight','true');}return target;};positioner=tutorialContent.watchPosition(dialog,resolve,tutorialContent.getPlacement);}
 function focusTitle(){requestAnimationFrame(()=>dialog.querySelector('h2')?.focus({preventScroll:true}));}
 function show(){if(!dialog.open){opener=document.activeElement;dialog.showModal();}render();focusTitle();}
 function close(restore=true){if(mode==='tour')save('paused');removeHighlight();dialog.close();if(restore)(opener?.isConnected?opener:launcher).focus({preventScroll:true});}

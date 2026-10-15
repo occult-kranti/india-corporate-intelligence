@@ -1,9 +1,10 @@
-import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
+import { createContext, useCallback, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { ArrowLeft, ArrowRight, BookOpen, CircleHelp, ExternalLink, Play, RotateCcw, Search, X } from 'lucide-react';
 import { caseStudy, caseTour, findTour, guideForPath, guides, independentPaths, introTour, sources, staticGuides, tourLengths, workspaceGuide, type PageGuide, type TutorialStep } from './catalog';
 import { emptyProgress, guideDestination, matchesHelpQuery, readProgress, STORAGE_KEY, updateProgress, type TutorialProgress, type TutorialStatus } from './model';
+import { getTutorialPlacement, watchTutorialPosition } from './placement.mjs';
 import './tutorial.css';
 
 type Mode = 'closed' | 'help' | 'tour' | 'complete';
@@ -85,7 +86,7 @@ export function TutorialProvider({ children, floatingLauncher = true }: { childr
 
   // Native dialog gives background inertness and focus containment. Restore to the
   // actual initiator only if it survives a cross-page tour; otherwise use Help.
-  useEffect(() => {
+  useLayoutEffect(() => {
     const dialog = dialogRef.current; if (!dialog) return;
     if (mode !== 'closed') {
       if (!dialog.open) dialog.showModal();
@@ -102,17 +103,20 @@ export function TutorialProvider({ children, floatingLauncher = true }: { childr
 
   // Route modules load lazily. Observe only while showing a step and remove every
   // highlight on dismissal; absence of a target never blocks reading the guide.
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (mode !== 'tour') { setTargetAvailable(false); return; }
     let target: HTMLElement | null = null;
+    let positioner: ReturnType<typeof watchTutorialPosition> | undefined;
     const check = () => {
       const next = visibleTarget(step.selector);
       if (target !== next) { target?.removeAttribute('data-tutorial-highlight'); target = next; target?.setAttribute('data-tutorial-highlight', 'true'); }
       setTargetAvailable(Boolean(next));
+      positioner?.update();
     };
     check();
+    if (dialogRef.current) positioner = watchTutorialPosition(dialogRef.current, () => target, getTutorialPlacement);
     const observer = new MutationObserver(check); observer.observe(document.body, { subtree: true, childList: true });
-    return () => { observer.disconnect(); target?.removeAttribute('data-tutorial-highlight'); };
+    return () => { observer.disconnect(); positioner?.stop(); target?.removeAttribute('data-tutorial-highlight'); };
   }, [mode, step.selector, stepIndex, location.pathname, location.search]);
 
   const move = (delta: number) => {

@@ -88,6 +88,40 @@ test('board component preserves work through removal, re-pin and a concurrent de
         }
       });
     }
+    await t.test('thread selectors retain exact explicit accessible names regardless of option text', async () => {
+      await click(button('Connect pins')); const form = document.querySelector('.board-thread-form'); assert.ok(form);
+      const selects = [...form.querySelectorAll('select')]; assert.equal(selects.length, 3);
+      for (const [index, name] of ['From', 'To', 'Purpose'].entries()) {
+        const select = selects[index];
+        assert.equal(select.getAttribute('aria-label'), name, `${name} must have an exact explicit name`);
+        assert.equal(select.getAttribute('aria-labelledby'), null, 'A separate naming reference must not override the explicit name');
+        assert.ok(select.options.length > 1, 'Real option content is present');
+        assert.notEqual(select.labels[0].textContent.trim(), name, 'Wrapping-label fallback includes option text and cannot support the exact-name contract');
+      }
+    });
+    await t.test('thread form rejects self-links, creates a typed annotation and rejects duplicate endpoints', async () => {
+      const selectValue = async (name, value) => {
+        const select = document.querySelector(`.board-thread-form select[aria-label="${name}"]`); assert.ok(select, name);
+        await handle.act(async () => { select.value = value; select.dispatchEvent(new Event('change', { bubbles: true })); }); await tick();
+        assert.equal(select.getAttribute('aria-label'), name, 'Accessible name stays stable after selection');
+      };
+      const beforeBook = localStorage.getItem(CASEBOOK), initialThreads = state(BOARD).threads.length;
+      await selectValue('From', 'record:unknown-a'); await selectValue('To', 'record:unknown-a'); await selectValue('Purpose', 'counter-evidence');
+      await click(button('Add thread'));
+      assert.match(document.querySelector('.board-status').textContent, /Choose two different pinned records/); assert.equal(state(BOARD).threads.length, initialThreads);
+      await selectValue('To', 'record:unknown-b');
+      const note = document.querySelector('.board-thread-note input');
+      await handle.act(async () => { Object.getOwnPropertyDescriptor(w.HTMLInputElement.prototype, 'value').set.call(note, 'Check the final order before making an inference.'); note.dispatchEvent(new Event('input', { bubbles: true })); }); await tick();
+      await click(button('Add thread'));
+      assert.equal(document.querySelector('.board-thread-form'), null); assert.equal(state(BOARD).threads.length, initialThreads + 1);
+      const created = state(BOARD).threads.at(-1); assert.equal(created.type, 'counter-evidence'); assert.equal(created.from, 'record:unknown-a'); assert.equal(created.to, 'record:unknown-b'); assert.equal(created.note, 'Check the final order before making an inference.');
+      assert.match(document.querySelector('.board-connection-ledger').textContent, /Analyst/); assert.equal(localStorage.getItem(CASEBOOK), beforeBook);
+      await click(button('Connect pins')); await click(button('Add thread'));
+      assert.match(document.querySelector('.board-status').textContent, /already on your board/); assert.equal(state(BOARD).threads.length, initialThreads + 1);
+      await click(button('Cancel'));
+      const createdRow = [...document.querySelectorAll('.board-connection-ledger>div')].find(row => row.textContent.includes(created.note)); assert.ok(createdRow);
+      await click(createdRow.querySelector('button')); assert.equal(state(BOARD).threads.length, initialThreads); assert.equal(state(BOARD).threads[0].note, currentLayout.threads[0].note);
+    });
     await t.test('unreadable casebook storage cannot trigger automatic loss of intact board positions', async () => {
       const before = localStorage.getItem(BOARD); localStorage.setItem(CASEBOOK, '{malformed');
       await handle.act(async () => w.dispatchEvent(new w.StorageEvent('storage', { key: CASEBOOK, newValue: '{malformed' }))); await tick();

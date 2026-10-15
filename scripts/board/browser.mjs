@@ -47,16 +47,74 @@ if (!base) {
   base = `http://127.0.0.1:${server.address().port}`;
 }
 const binary = process.env.PLAYWRIGHT_CHROMIUM_PATH;
-let browser; const results = []; let checkCount = 0; const screenshots = [];
+let browser; const results = []; let checkCount = 0; const screenshots = []; const layoutDiagnostics = [];
 const expectedScreenshots = [
   ...[1280, 1600].flatMap(width => ['board-empty', 'board-picker', 'board-populated', 'board-list', 'retained-atlas', 'retained-education-dossier', 'retained-money-trails', 'retained-research-program', 'static-index', 'static-index-help', 'static-finance', 'static-finance-help', 'static-media', 'static-media-help'].map(name => `${name}-${width}.png`)),
-  'board-inspector-1280.png', 'board-help-1280.png', 'board-tutorial-1280.png',
+  'board-inspector-1280.png', 'board-help-1280.png', 'board-tutorial-1280.png', 'board-threads-1280.png',
+  'board-tutorial-mobile-390.png',
 ];
-const capture = async (page, name, fullPage = false) => {
-  const path = resolve(output, name); await page.screenshot({ path, fullPage });
-  assert.ok(statSync(path).size > 0, `Screenshot is nonempty: ${name}`);
-  screenshots.push({ name, bytes: statSync(path).size, viewport: page.viewportSize(), url: page.url() });
+const renderedFrames = page => page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+const measureLayout = async (page, label) => {
+  const metrics = await page.evaluate(() => {
+    const measure = (element, name) => {
+      if (!element) return { name, missing: true };
+      const rect = element.getBoundingClientRect(), style = getComputedStyle(element);
+      return { name, clientHeight: element.clientHeight, scrollHeight: element.scrollHeight, offsetHeight: element.offsetHeight, scrollTop: element.scrollTop,
+        rect: { x: rect.x, y: rect.y, width: rect.width, height: rect.height, top: rect.top, bottom: rect.bottom },
+        overflow: style.overflow, overflowX: style.overflowX, overflowY: style.overflowY, position: style.position, display: style.display, height: style.height, minHeight: style.minHeight };
+    };
+    return { viewport: { width: innerWidth, height: innerHeight }, windowScroll: { x: scrollX, y: scrollY },
+      elements: [[document.documentElement, 'document'], [document.body, 'body'], [document.querySelector('#root'), '#root'], [document.querySelector('.site-shell'), '.site-shell'], [document.querySelector('.site-workspace'), '.site-workspace'], [document.querySelector('main'), 'main']].map(([element, name]) => measure(element, name)),
+      bodyChildren: [...document.body.children].filter(element => getComputedStyle(element).display !== 'none').map(element => measure(element, `${element.tagName.toLowerCase()}${element.id ? `#${element.id}` : ''}${element.className ? `.${String(element.className).trim().replace(/\s+/gu, '.')}` : ''}`)) };
+  });
+  const entry = { label, url: page.url(), ...metrics }; layoutDiagnostics.push(entry);
+  writeFileSync(resolve(output, 'layout-diagnostics.json'), `${JSON.stringify(layoutDiagnostics, null, 2)}\n`);
+  return entry;
 };
+const assertBoardRootHeight = metrics => {
+  const roots = metrics.elements.filter(row => ['document', 'body', '#root', '.site-shell', '.site-workspace'].includes(row.name));
+  ok(roots.every(row => !row.missing && row.scrollHeight <= metrics.viewport.height + 1 && row.rect.height <= metrics.viewport.height + 1), `Board stays within its viewport shell; only main may scroll: ${JSON.stringify(metrics)}`);
+};
+const assertReadableMetadata = async (page, label) => {
+  const rows = await page.evaluate(() => {
+    const parse = color => {
+      const values = color.match(/[\d.]+/gu)?.map(Number) ?? [];
+      if (values.length < 3 || !color.startsWith('rgb')) throw new Error(`Unsupported computed color in contrast check: ${color}`);
+      return { rgb: values.slice(0, 3), alpha: values[3] ?? 1 };
+    };
+    const over = (foreground, background) => foreground.rgb.map((value, i) => value * foreground.alpha + background[i] * (1 - foreground.alpha));
+    const luminance = color => color.map(value => { const channel = value / 255; return channel <= 0.04045 ? channel / 12.92 : ((channel + 0.055) / 1.055) ** 2.4; }).reduce((sum, value, i) => sum + value * [0.2126, 0.7152, 0.0722][i], 0);
+    return [...document.querySelectorAll('.board-picker-count,.board-facts dt,.board-source-list span,.board-source-list small,.board-pin-date')].filter(element => {
+      const rect = element.getBoundingClientRect(), style = getComputedStyle(element); return rect.width > 0 && rect.height > 0 && style.visibility !== 'hidden';
+    }).map(element => {
+      const ancestors = []; for (let node = element; node; node = node.parentElement) ancestors.unshift(node);
+      const background = ancestors.reduce((color, node) => over(parse(getComputedStyle(node).backgroundColor), color), [255, 255, 255]);
+      const style = getComputedStyle(element), foreground = over(parse(style.color), background), a = luminance(foreground), b = luminance(background);
+      return { selector: element.className || element.tagName.toLowerCase(), text: element.textContent.trim().slice(0, 90), fontSize: Number.parseFloat(style.fontSize), color: style.color, background, contrast: (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05) };
+    });
+  });
+  if (rows.length) {
+    ok(rows.every(row => row.fontSize >= 12), `${label}: populated evidence metadata is at least 12px: ${JSON.stringify(rows.filter(row => row.fontSize < 12))}`);
+    ok(rows.every(row => row.contrast >= 4.5), `${label}: populated evidence metadata has at least 4.5:1 text contrast: ${JSON.stringify(rows.filter(row => row.contrast < 4.5))}`);
+    layoutDiagnostics.push({ label, url: page.url(), metadataReadability: rows });
+  }
+};
+const capture = async (page, name) => {
+  await page.evaluate(() => document.fonts.ready); await renderedFrames(page);
+  const visibleLoading = await page.locator('main').evaluateAll(roots => roots.flatMap(root => [...root.querySelectorAll('p,h1,h2,[role="status"],.skeleton,.animate-pulse,[data-loading="true"],[aria-busy="true"]')].filter(element => {
+    const style = getComputedStyle(element), rect = element.getBoundingClientRect();
+    const pending = /^(?:loading|loading[.]{3}|loading…)$/iu.test(element.textContent.trim()) || element.matches('.skeleton,.animate-pulse,[data-loading="true"],[aria-busy="true"]');
+    return pending && style.display !== 'none' && style.visibility !== 'hidden' && rect.width > 0 && rect.height > 0 && rect.bottom > 0 && rect.top < innerHeight;
+  }).map(element => ({ tag: element.tagName, className: element.className, text: element.textContent.trim().slice(0, 150) }))));
+  ok(visibleLoading.length === 0, `Screenshot contains resolved content rather than a loading placeholder: ${name}: ${JSON.stringify(visibleLoading)}`);
+  await assertReadableMetadata(page, name);
+  const metrics = await measureLayout(page, name);
+  if (new URL(page.url()).hash.split('?')[0] === '#/board') assertBoardRootHeight(metrics);
+  const path = resolve(output, name); await page.screenshot({ path, fullPage: false });
+  assert.ok(statSync(path).size > 0, `Screenshot is nonempty: ${name}`);
+  screenshots.push({ name, bytes: statSync(path).size, viewport: page.viewportSize(), url: page.url(), layoutDiagnostic: metrics.label });
+};
+
 const ok = (condition, message) => { assert.ok(condition, message); checkCount += 1; };
 const eventually = async (check, message, timeout = 10000) => {
   const start = Date.now();
@@ -68,6 +126,35 @@ const stylePosition = card => card.evaluate(element => ({ x: Number.parseFloat(e
 const noOverflow = async (page, label) => {
   const widths = await page.evaluate(() => [document.documentElement, document.querySelector('main'), document.querySelector('.case-board-page')].filter(Boolean).map(element => ({ className: element.className, client: element.clientWidth, scroll: element.scrollWidth })));
   ok(widths.every(row => row.scroll <= row.client + 1), `${label}: no page/main/board horizontal overflow: ${JSON.stringify(widths)}`);
+};
+const settledBoardMode = async (page, mode) => {
+  const state = () => page.evaluate(() => {
+    const toolbar = document.querySelector('.board-toolbar'), buttons = [...(toolbar?.querySelectorAll('button') ?? [])];
+    const pressed = name => buttons.find(button => button.textContent.trim() === name)?.getAttribute('aria-pressed');
+    const params = new URLSearchParams(location.hash.split('?')[1] ?? '');
+    return { urlList: params.get('view') === 'list', stageList: document.querySelector('.board-stage')?.classList.contains('is-list'), boardPressed: pressed('Board'), listPressed: pressed('List') };
+  });
+  const matches = current => current.urlList === (mode === 'list') && current.stageList === (mode === 'list') && current.boardPressed === String(mode === 'board') && current.listPressed === String(mode === 'list');
+  await eventually(async () => matches(await state()), `URL, stage and pressed controls settle in ${mode} mode`);
+  await renderedFrames(page); ok(matches(await state()), `${mode} mode remains settled after two rendered frames`);
+};
+const tutorialTargetGeometry = async (page, label, requireNonintersection = true) => {
+  const dialog = page.locator('.tutorial-dialog[data-mode="tour"]');
+  await page.locator('[data-tutorial-highlight="true"]').waitFor({ state: 'visible' });
+  await eventually(async () => ['left', 'right', 'top', 'bottom', 'fallback'].includes(await dialog.getAttribute('data-placement')), `${label}: measured tutorial placement is ready`);
+  await renderedFrames(page);
+  const geometry = await page.evaluate(() => {
+    const rect = element => { const value = element.getBoundingClientRect(); return { left: value.left, right: value.right, top: value.top, bottom: value.bottom, width: value.width, height: value.height }; };
+    const popup = document.querySelector('.tutorial-dialog'), target = document.querySelector('[data-tutorial-highlight="true"]');
+    return { popup: rect(popup), target: rect(target), targetText: target.textContent.trim(), placement: popup.dataset.placement, viewport: { width: innerWidth, height: innerHeight } };
+  });
+  const { popup, target, viewport } = geometry;
+  const overlap = Math.min(popup.right, target.right) > Math.max(popup.left, target.left) && Math.min(popup.bottom, target.bottom) > Math.max(popup.top, target.top);
+  const spaceFits = target.left - 20 >= popup.width + 12 || viewport.width - target.right - 20 >= popup.width + 12 || target.top - 20 >= popup.height + 12 || viewport.height - target.bottom - 20 >= popup.height + 12;
+  ok(geometry.targetText === 'Pin a record', `${label}: step 2 highlights its intended control`);
+  ok(popup.left >= -1 && popup.top >= -1 && popup.right <= viewport.width + 1 && popup.bottom <= viewport.height + 1, `${label}: tutorial popup remains inside viewport: ${JSON.stringify(geometry)}`);
+  ok((!requireNonintersection && !spaceFits) || !overlap, `${label}: tutorial popup does not cover its target where it can fit: ${JSON.stringify(geometry)}`);
+  layoutDiagnostics.push({ label, url: page.url(), tutorialGeometry: { ...geometry, overlap, spaceFits } });
 };
 const openBoard = async (page, query = '') => {
   await page.goto(`${base}/#/board${query}`); await page.locator('#board-title').waitFor({ timeout: 60000 });
@@ -83,7 +170,7 @@ const download = async page => {
   return JSON.parse(readFileSync(await (await pending).path(), 'utf8'));
 };
 async function scenario(name, seed, work, options = {}) {
-  const context = await browser.newContext({ viewport: { width: options.width ?? 1280, height: 1000 }, acceptDownloads: true, reducedMotion: 'reduce' });
+  const context = await browser.newContext({ viewport: { width: options.width ?? 1280, height: options.height ?? 1000 }, acceptDownloads: true, reducedMotion: 'reduce' });
   const errors = [];
   await context.addInitScript(({ seed, casebookKey, layoutKey }) => {
     if (!sessionStorage.getItem('board-acceptance-initialized')) {
@@ -97,6 +184,7 @@ async function scenario(name, seed, work, options = {}) {
     await work(page, context); ok(errors.length === 0, `No uncaught runtime exceptions: ${errors.join(' | ')}`);
     results.push({ name, status: 'passed' }); console.log(`PASS ${name}`);
   } catch (error) {
+    await measureLayout(page, `${name}-failure`).catch(() => {});
     await page.screenshot({ path: resolve(output, `${name.replace(/[^a-z0-9]+/giu, '-')}-failure.png`), fullPage: true }).catch(() => {});
     results.push({ name, status: 'failed', message: error.message, url: page.url(), runtimeErrors: errors }); console.error(`FAIL ${name}: ${error.message}`);
   } finally { await context.close(); }
@@ -115,7 +203,7 @@ try {
       for (let i = 0; i < 8; i += 1) { await page.keyboard.press('Tab'); ok(await dialog.evaluate(element => element.contains(document.activeElement)), 'Search dialog contains keyboard focus'); }
       await page.keyboard.press('Escape'); await dialog.waitFor({ state: 'hidden' });
       await eventually(() => opener.evaluate(element => element === document.activeElement), 'Picker Escape returns focus to actual empty-state initiator');
-      await capture(page, `board-empty-${width}.png`, true);
+      await capture(page, `board-empty-${width}.png`);
     }, { width });
   }
 
@@ -218,6 +306,12 @@ try {
     ok((await page.locator('.board-status').innerText()).includes('already'), 'Duplicate typed endpoint connection is rejected');
     ok((await storage(page, BOARD_LAYOUT_KEY)).threads.length === 1, 'Duplicate rejection keeps exactly one thread');
     await form.getByRole('button', { name: 'Cancel', exact: true }).click();
+    const secondPinGrip = page.locator('.board-pin-grip').nth(1); await secondPinGrip.focus();
+    await page.keyboard.press('Shift+ArrowRight'); await page.keyboard.press('Shift+ArrowRight'); await page.keyboard.press('Shift+ArrowDown');
+    await eventually(async () => await page.locator('.board-wool-thread').count() === 1, 'The saved analyst annotation renders one wool thread');
+    ok((await page.locator('.board-legend').innerText()).includes('Depth and proximity carry no evidential meaning.'), 'Visible legend distinguishes arrangement from evidence');
+    await page.locator('.board-stage').evaluate(element => element.scrollIntoView({ block: 'start', behavior: 'instant' }));
+    await capture(page, 'board-threads-1280.png');
     const packet = await download(page); const analyst = packet.boardLayout.threads[0];
     ok(!packet.relationships.some(row => row.id === analyst.id), 'Analyst thread does not enter source relationships');
     ok(packet.limitations.some(text => text.includes('not source assertions')), 'Export explains analyst-vs-source semantics');
@@ -309,9 +403,11 @@ try {
       const positions = await page.locator('.board-pin').evaluateAll(cards => cards.map(card => `${card.style.left}:${card.style.top}`));
       ok(new Set(positions).size === 250, 'All 250 cards have distinct default positions'); await noOverflow(page, `${width}px full canvas`);
       await page.locator('.board-toolbar').getByRole('button', { name: 'List', exact: true }).click();
+      await settledBoardMode(page, 'list');
       ok(new URL(page.url()).hash.includes('view=list'), 'List mode persists in URL'); ok(await page.locator('.board-pin').count() === 250, 'List exposes every pin'); await noOverflow(page, `${width}px full list`);
-      await page.locator('.board-toolbar').getByRole('button', { name: 'Board', exact: true }).click(); await page.goBack();
-      await page.locator('.board-stage.is-list').waitFor(); ok(await page.locator('.board-pin').count() === 250, 'Back restores list mode with all saved pins');
+      await page.locator('.board-toolbar').getByRole('button', { name: 'Board', exact: true }).click();
+      await settledBoardMode(page, 'board'); await page.goBack();
+      await settledBoardMode(page, 'list'); await page.locator('.board-stage.is-list').waitFor(); ok(await page.locator('.board-pin').count() === 250, 'Back restores list mode with all saved pins');
       await capture(page, `board-list-${width}.png`);
     }, { width });
   }
@@ -345,6 +441,7 @@ try {
     await capture(page, 'board-help-1280.png');
     await dialog.getByRole('button', { name: 'Guide this page', exact: true }).click();
     ok(await dialog.getAttribute('data-mode') === 'tour', 'Board-specific guide opens'); await dialog.getByRole('button', { name: 'Next', exact: true }).click();
+    await tutorialTargetGeometry(page, 'board-step-2-1280');
     await capture(page, 'board-tutorial-1280.png');
     await page.keyboard.press('Escape'); await dialog.waitFor({ state: 'hidden' });
     await eventually(() => launcher.evaluate(element => element === document.activeElement), 'Escape restores Help focus');
@@ -365,13 +462,22 @@ try {
     ok(motion.every(style => style.animation === 'none' && style.transition.split(',').every(value => Number.parseFloat(value) === 0) && style.scroll !== 'smooth'), 'Reduced-motion board disables motion and smooth scrolling');
   });
 
+  await scenario('tutorial-mobile-target-remains-readable', {}, async page => {
+    await openBoard(page); await page.getByRole('button', { name: 'Open help, page guides and tutorials', exact: true }).click();
+    const dialog = page.locator('.tutorial-dialog'); await dialog.getByRole('button', { name: 'Guide this page', exact: true }).click();
+    await dialog.getByRole('button', { name: 'Next', exact: true }).click();
+    await tutorialTargetGeometry(page, 'board-step-2-mobile-390', false);
+    await capture(page, 'board-tutorial-mobile-390.png');
+    await page.keyboard.press('Escape'); await dialog.waitFor({ state: 'hidden' });
+  }, { width: 390, height: 844 });
+
   for (const width of [1280, 1600]) {
     await scenario(`representative-retained-react-desktop-${width}`, {}, async page => {
       for (const [name, route, ready] of [
         ['atlas', '/investigate', '[data-investigation-workspace]'],
         ['education-dossier', '/education?iw_view=dossier', '.iw-dossier-content h1'],
-        ['money-trails', '/money-trails', 'main h1'],
-        ['research-program', '/research-program', 'main h1'],
+        ['money-trails', '/money-trails', '.money-trails h1'],
+        ['research-program', '/research-program', '.rp-desk h1'],
       ]) {
         await page.goto(`${base}/#${route}`); await page.locator(ready).first().waitFor({ timeout: 60000 });
         await page.evaluate(() => document.fonts.ready); await noOverflow(page, `${width}px retained ${name}`);
@@ -405,14 +511,15 @@ try {
       await eventually(async () => (await page.locator('main').innerText()).trim().length > 50 && !(await page.locator('main').innerText()).trim().match(/^Loading…?$/u), `Retained route renders content: ${route}`, 60000);
       ok(await page.locator('.case-board-page').count() === 0, `Legacy route is not replaced by board: ${route}`);
     }
-    await openBoard(page); await page.locator('.board-toolbar').getByRole('button', { name: 'List', exact: true }).click(); await page.goBack();
-    await eventually(async () => !(new URL(page.url()).hash.includes('view=list')), 'Back restores board query state');
+    await openBoard(page); await page.locator('.board-toolbar').getByRole('button', { name: 'List', exact: true }).click(); await settledBoardMode(page, 'list'); await page.goBack();
+    await settledBoardMode(page, 'board'); await eventually(async () => !(new URL(page.url()).hash.includes('view=list')), 'Back restores board query state');
   });
 } finally {
   if (browser) await browser.close();
   if (server) await new Promise(done => server.close(done));
   const missingArtifacts = expectedScreenshots.filter(name => !screenshots.some(row => row.name === name) || !existsSync(resolve(output, name)) || statSync(resolve(output, name)).size === 0);
   results.push({ name: 'required-desktop-screenshot-artifacts', status: missingArtifacts.length ? 'failed' : 'passed', missingArtifacts });
+  writeFileSync(resolve(output, 'layout-diagnostics.json'), `${JSON.stringify(layoutDiagnostics, null, 2)}\n`);
   const manifest = { generatedAt: new Date().toISOString(), expected: expectedScreenshots, captured: screenshots, missing: missingArtifacts };
   writeFileSync(resolve(output, 'screenshots.json'), `${JSON.stringify(manifest, null, 2)}\n`);
   const report = { generatedAt: new Date().toISOString(), base, screenshotCount: screenshots.length, expectedScreenshotCount: expectedScreenshots.length, passed: results.length > 0 && results.every(row => row.status === 'passed'), scenarios: results.length, checks: checkCount, results };

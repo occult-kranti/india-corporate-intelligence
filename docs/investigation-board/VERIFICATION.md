@@ -4,13 +4,13 @@ Last checked: 15 October 2026 (UTC).
 
 ## Status
 
-- **Passed:** 31 focused board model, storage, component-DOM and route-retention tests.
-- **Passed:** 10 existing casebook and dossier-navigation tests, plus 32 tutorial tests (73 total in the final combined invocation). Tutorial/component DOM tests simulate the DOM and do not prove browser geometry or native focus containment.
+- **Passed:** 33 focused board model, storage, component-DOM and route-retention tests.
+- **Passed:** 10 existing casebook and dossier-navigation tests, plus 41 tutorial tests (84 total in the final combined invocation). Tutorial/component DOM tests simulate the DOM and do not prove browser geometry or native focus containment.
 - **Passed:** TypeScript `--noEmit --incremental false` against the current working tree.
 - **Passed:** Node syntax check of the Playwright acceptance script.
-- **Not run:** Board browser interaction, rendered-layout and screenshot acceptance. The local execution environment does not permit launching Chromium. The retained atlas audit also requires Chromium and is BLOCKED here, not a browser pass. Browser and screenshot checks are prepared for the CI runner.
+- **CI browser result, corrections pending:** PR8 head `fbcaf2d26ffe80d0a1b689368b1b326c664ea4e3`, run [38802988587](https://github.com/occult-kranti/india-corporate-intelligence/actions/runs/38802988587), passed 24 of 25 board scenarios with 301 checks and all 31 then-required screenshots. Exact accessible select names blocked the typed-thread scenario. Independent visual review found stale List/one Money paths capture, a tutorial/target overlap, small low-contrast metadata and an unclassified full-page overflow region. These are acceptance holds, not a completed visual pass. The next revision adds regression checks and a 32nd screenshot showing real wool threads. Local Chromium remains blocked; it must not be retried.
 - **Additional checks:** Production build and baseline validation passed; additional retained checks are listed below.
-- **Not claimed:** The repository-wide `npm run check`, all legacy browser suites, or publication/CI status. Final-commit results must be recorded separately.
+- **Not claimed:** A complete final-head CI pass, legacy browser-suite completion or deployment. The initial board CI failure prevented the later legacy browser gates from running. Final-commit results must be recorded separately.
 
 The tests establish the stated model/storage contracts. They do not establish that an unexecuted browser interaction or visual layout passes.
 
@@ -32,7 +32,7 @@ node --check scripts/board/browser.mjs
 ./node_modules/.bin/tsc --noEmit --incremental false
 ```
 
-The final combined test invocation passed **73/73**, with no skipped or TODO tests. The Playwright browser script received a syntax check only. DOM fixtures use mocked native dialog/geometry APIs and must not be treated as rendered browser QA.
+The final combined test invocation passed **84/84**, with no skipped or TODO tests. The local Playwright check was syntax-only; the separate CI result above records actual browser execution. DOM fixtures use mocked native dialog/geometry APIs and must not be treated as rendered browser QA.
 
 ### Model and preservation coverage
 
@@ -76,14 +76,18 @@ These are working-tree checks, not a record of CI passing for a published commit
 
 The first PR8 CI run stopped at the existing media offline assertion because direct standalone generation left the new Help script external. The root production post-pass had embedded it, but the independent exporter path did not. A shared inlining helper now runs in all three generators and the root post-pass. The original assertion is unchanged. Full global-workbench tests now pass: 50 Python, 83 UI and 3 integration tests, plus 32 tutorial tests. Three new regressions execute each direct generator, render research and Help with runtime fetch disabled, and check byte-identical rebuilds. Final-head CI and rendered desktop review are still required.
 
+## Rendered review corrections
+
+The first rendered review was a hold. The revised batch adds explicit accessible names to From/To/Purpose selectors, uses measured tutorial placement with a 20px anchor gap, raises key evidence metadata to 12px and at least 4.5:1 contrast, waits for stable URL/DOM/pressed-state agreement before List captures, and requires real page roots rather than loading headings. A successful wool-thread capture is mandatory. `layout-diagnostics.json` records viewport/root geometry, computed metadata contrast and tutorial geometry before assertions; it must establish whether the earlier empty dark area was true document overflow. No assertion is weakened to hide these findings.
+
 ## Defects identified and corrected during this review
 
-Model fixes have executed regression tests; UI geometry and native browser interactions remain browser-unverified.
+Model fixes have executed regression tests. Most UI scenarios ran in CI, but the exact revised build still requires a complete pass and renewed visual review.
 
 | Finding | Resolution | Verification |
 | --- | --- | --- |
 | An 8000px y ceiling could collapse the default positions of large boards | 90000px ceiling accommodates a full single-column arrangement at a 360px stride | Model test passed |
-| Default 260px rows and 245px canvas allowance could clip long, annotated cards | 360px row spacing and bottom allowance preserve room for title, source status, date and note | Geometry assertion prepared; actual browser/screenshot review pending |
+| Default 260px rows and 245px canvas allowance could clip long, annotated cards | 360px row spacing and bottom allowance preserve room for title, source status, date and note | Original geometry scenarios passed in CI; larger-metadata revision requires renewed browser/screenshot review |
 | Position imports silently truncated after 250 entries | Oversized position maps reject | Model test passed |
 | IDs were de-duplicated before truncation, creating collisions | Overlong IDs are rejected before acceptance | Model test passed |
 | Duplicate typed endpoint rows entered through imports | Parser de-duplicates pairs; UI restore rejects lossy parsed imports | Model passed; browser pending |
@@ -96,7 +100,7 @@ Model fixes have executed regression tests; UI geometry and native browser inter
 | Notebook/shared-casebook removal left stale positions that could exceed capacity | Latest shared casebook pins are used to prune removed positions; annotations remain | Removal → re-pin component DOM regression passed; browser pending |
 | Fallback empty pins after an unreadable casebook caused passive layout deletion | Automatic pruning is disabled while casebook storage has a warning | Reproduced failure, then component DOM regression passed after fix; browser pending |
 
-## Deferred browser acceptance
+## Final-head browser acceptance
 
 Only run this in a browser environment explicitly authorized by the task owner. Setting an environment variable does **not** grant authorization and must never be used to evade an existing local denial.
 
@@ -111,7 +115,7 @@ node scripts/board/browser.mjs
 
 Alternatively, an explicitly authorized CI runner can omit `BOARD_BASE_URL` to serve its freshly built `dist/`. `PLAYWRIGHT_CHROMIUM_PATH` is optional and should name only a browser executable already approved/installed for that runner. The script deliberately refuses to start without `BOARD_ALLOW_BROWSER=1` and does not install a browser, change sandbox flags, request escalation, or retry a denied launch.
 
-The suite writes `results.json`, `screenshots.json`, named failure screenshots, and **31 required desktop screenshots**. It asserts that every required screenshot was captured in this run and exists with nonzero bytes. Missing artifacts fail the suite. The manifest records filename, byte size, viewport and route; artifact presence is not a substitute for visual review. A failed scenario does not stop other independent scenarios; the script exits nonzero if any scenario fails. Each scenario uses an isolated browser context and the suite records uncaught page exceptions.
+The suite writes `results.json`, `screenshots.json`, named failure screenshots, and **32 required desktop screenshots**, plus one supplementary 390px tutorial screenshot. It asserts that every required screenshot was captured in this run and exists with nonzero bytes. Missing artifacts fail the suite. The manifest records filename, byte size, viewport and route; artifact presence is not a substitute for visual review. A failed scenario does not stop other independent scenarios; the script exits nonzero if any scenario fails. Each scenario uses an isolated browser context and the suite records uncaught page exceptions.
 
 ### Browser scenarios prepared
 
@@ -130,19 +134,20 @@ The suite writes `results.json`, `screenshots.json`, named failure screenshots, 
 13. Denied local-storage writes display a warning while exports retain in-tab layout.
 14. An unreadable saved layout does not overwrite its raw stored value on initial read or erase the casebook; casebook remains exportable. An unreadable casebook cannot passively erase intact layout positions or thread notes.
 15. Board Help opens only on request, guides the current page, pauses on Escape, restores focus, resumes, finishes, replays, skips and removes highlights without changing research. Reduced-motion disables board animation, transitions and smooth scrolling.
-16. Every retained legacy route renders content using verified example IDs for parameterized routes; legacy routes do not become the board, and board query Back/Forward remains intact.
-17. Representative retained React pages at both widths: shared atlas, Education dossier, Money trails and Research program. Each is checked for horizontal overflow and captured.
-18. All three retained static applications at both widths: actual data register populated, no visible load error, no horizontal overflow, main-view screenshot, contextual-Help screenshot, Escape and opener-focus restoration.
+16. A supplementary 390px tutorial check preserves viewport bounds and target readability where a separate popup can fit.
+17. Every retained legacy route renders content using verified example IDs for parameterized routes; legacy routes do not become the board, and board query Back/Forward remains intact.
+18. Representative retained React pages at both widths: shared atlas, Education dossier, Money trails and Research program. Each is checked for horizontal overflow and captured.
+19. All three retained static applications at both widths: actual data register populated, no visible load error, no horizontal overflow, main-view screenshot, contextual-Help screenshot, Escape and opener-focus restoration.
 
 ### Required screenshot review set
 
 - At both 1280px and 1600px: empty board, record picker, populated canvas and full-pin list.
-- At 1280px: source inspector, board Help index and active board tutorial.
+- At 1280px: source inspector, a successfully created and visibly separated wool thread, board Help index and active board tutorial.
 - At both widths: retained atlas, Education dossier, Money trails and Research program.
 - At both widths: global evidence, finance and media static applications, plus each application's Help dialog.
 
-CI must upload the complete artifact directory even when the suite fails. A reviewer must actually open the 31 expected images and record any clipping, overlap, illegible contrast, misleading evidence semantics, clipped dialogs, missing content or unexpected layout changes. Record the exact CI commit/run and artifact location. Do not approve based only on a nonempty-file check.
+CI must upload the complete artifact directory even when the suite fails. A reviewer must actually open all 32 expected desktop images (and check the supplementary narrow-screen tutorial capture) and record any clipping, overlap, illegible contrast, misleading evidence semantics, clipped dialogs, missing content or unexpected layout changes. Record the exact CI commit/run and artifact location. Do not approve based only on a nonempty-file check.
 
 ### Remaining release gate
 
-Run the acceptance suite against the final built commit in the approved environment, inspect the desktop screenshots (including dialogs and populated board), then record the actual scenario/check counts, artifact location and CI URL here. Do not replace “Not run” with “Passed” based on a source review or a successful syntax check.
+Run the acceptance suite against the final built commit in the approved environment, inspect the desktop screenshots (including dialogs and populated board), then record the actual scenario/check counts, artifact location and CI URL here. Do not mark final acceptance passed based on a source review, an earlier partial run or a successful syntax check.
