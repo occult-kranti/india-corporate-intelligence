@@ -4,8 +4,8 @@ Last checked: 15 October 2026 (UTC).
 
 ## Status
 
-- **Passed:** 33 focused board model, storage, component-DOM and route-retention tests.
-- **Passed:** 10 existing casebook and dossier-navigation tests, plus 41 tutorial tests (84 total in the final combined invocation). Tutorial/component DOM tests simulate the DOM and do not prove browser geometry or native focus containment.
+- **Passed:** 34 focused board model, storage, component-DOM and route-retention tests.
+- **Passed:** 10 existing casebook and dossier-navigation tests, plus 41 tutorial tests (85 total in the final combined invocation). Tutorial/component DOM tests simulate the DOM and do not prove browser geometry or native focus containment.
 - **Passed:** TypeScript `--noEmit --incremental false` against the current working tree.
 - **Passed:** Node syntax check of the Playwright acceptance script.
 - **CI browser result, corrections pending:** PR8 head `fbcaf2d26ffe80d0a1b689368b1b326c664ea4e3`, run [38802988587](https://github.com/occult-kranti/india-corporate-intelligence/actions/runs/38802988587), passed 24 of 25 board scenarios with 301 checks and all 31 then-required screenshots. Exact accessible select names blocked the typed-thread scenario. Independent visual review found stale List/one Money paths capture, a tutorial/target overlap, small low-contrast metadata and an unclassified full-page overflow region. These are acceptance holds, not a completed visual pass. The next revision adds regression checks and a 32nd screenshot showing real wool threads. Local Chromium remains blocked; it must not be retried.
@@ -32,7 +32,7 @@ node --check scripts/board/browser.mjs
 ./node_modules/.bin/tsc --noEmit --incremental false
 ```
 
-The final combined test invocation passed **84/84**, with no skipped or TODO tests. The local Playwright check was syntax-only; the separate CI result above records actual browser execution. DOM fixtures use mocked native dialog/geometry APIs and must not be treated as rendered browser QA.
+The final combined test invocation passed **85/85**, with no skipped or TODO tests. The local Playwright check was syntax-only; the separate CI result above records actual browser execution. DOM fixtures use mocked native dialog/geometry APIs and must not be treated as rendered browser QA.
 
 ### Model and preservation coverage
 
@@ -153,3 +153,8 @@ CI must upload the complete artifact directory even when the suite fails. A revi
 ### Remaining release gate
 
 Run the acceptance suite against the final built commit in the approved environment, inspect the desktop screenshots (including dialogs and populated board), then record the actual scenario/check counts, artifact location and CI URL here. Do not mark final acceptance passed based on a source review, an earlier partial run or a successful syntax check.
+
+
+## Legacy dynamic route-inventory correction
+
+On head `96201679bf9bdc099fce334ae4c71fe6bf490565`, CI run 38807588556 passed the new board suite (26 scenarios, 436 checks, all 33 images) and independent visual review cleared the corrected states. A later shared-investigation browser gate exposed an inventory omission: its dynamic App route scan included `/board`, but its independent-surface map did not, so it incorrectly waited for a geographic Workspace and Dossier there. The board is now registered with its real heading, surface marker and toolbar contract. Every original route assertion is retained; a focused source regression guards the added declaration. This revision changes tests/documentation only and still requires complete exact-head CI before merge.

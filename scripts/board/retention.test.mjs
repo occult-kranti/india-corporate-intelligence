@@ -17,6 +17,17 @@ test('all 60 original route patterns survive and /board is additive', () => {
   assert.match(shell, /location\.pathname === '\/board' \? <Outlet \/>/u);
 });
 
+test('legacy dynamic browser inventory checks the board as its declared independent surface', () => {
+  const acceptance = read('scripts/investigation/browser.mjs');
+  const researchMap = acceptance.split('const researchRoutes = new Map([')[1]?.split(']);')[0];
+  assert.ok(researchMap, 'Independent route inventory remains present');
+  assert.ok(researchMap.includes(`['/board', { marker: '.case-board-page', heading: 'Follow the record.Build your case.', control: '[data-tour="board-tools"]' }]`));
+  for (const route of ['/investigations', '/leads', '/game-theory', '/research-program']) assert.ok(researchMap.includes(`['${route}',`), route);
+  assert.ok(board.includes('className="case-board-page"'));
+  assert.ok(board.includes('data-tour="board-tools"'));
+  assert.ok(board.includes('Follow the record.<br /><em>Build your case.</em>'));
+});
+
 test('legacy shared workspace and independent route families retain their rendering paths', () => {
   for (const route of ['/investigations', '/leads', '/game-theory', '/research-program', '/follow-the-money', '/money-trails', '/research-radar', '/model-lab', '/funding-investigations', '/hypothesis-lab', '/allegations']) assert.ok(shell.includes(`'${route}'`), route);
   assert.match(shell, /<Workspace routeTitle=\{routeTitle\} routeKey=\{location\.pathname\}><Outlet \/><\/Workspace>/u);
