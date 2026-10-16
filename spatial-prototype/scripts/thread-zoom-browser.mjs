@@ -4,6 +4,7 @@
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { createServer } from 'node:http';
+import { inflateSync, gzipSync } from 'node:zlib';
 import { readFile, mkdir, realpath, writeFile } from 'node:fs/promises';
 import { dirname, extname, isAbsolute, join, relative, resolve, sep } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
@@ -115,27 +116,184 @@ export function clipSegment(a, b, width, height) {
   }
   return [[a[0] + lo * dx, a[1] + lo * dy], [a[0] + hi * dx, a[1] + hi * dy]];
 }
+/** Portable, serialized pixel analysis. Expected points are the original draw's projected
+ * centerline in CSS coordinates, never a line fitted to the observed changed pixels.
+ * A pixel footprint contributes at most one device pixel at each edge; .25 CSS px
+ * is the explicit projection/sample tolerance. No candidate raster tunes this bound. */
+export function analyzePathRaster(a, b, expected) {
+  const encode = pixels => { let text = ''; for (let i = 0; i < pixels.length; i += 4096) text += String.fromCharCode(...pixels.subarray(i, i + 4096)); return btoa(text); };
+  const quantile = (values, q) => { const sorted = [...values].sort((x,y) => x-y); return sorted.length ? sorted[Math.floor((sorted.length - 1) * q)] : 0; };
+  const mask = new Uint8Array(a.width * a.height), magnitude = new Float32Array(mask.length);
+  let changedPixels = 0, minX = a.width, minY = a.height, maxX = -1, maxY = -1;
+  const columns = new Set(), rows = new Set();
+  for (let i = 0; i < a.pixels.length; i += 4) {
+    const delta = Math.max(...[0,1,2].map(c => Math.abs(a.pixels[i+c] - b.pixels[i+c])));
+    magnitude[i/4] = delta; if (delta < 2) continue;
+    mask[i/4] = 1; const x = i/4 % a.width, y = Math.floor(i/4/a.width); changedPixels++;
+    minX = Math.min(minX,x); maxX = Math.max(maxX,x); minY = Math.min(minY,y); maxY = Math.max(maxY,y); columns.add(x); rows.add(y);
+  }
+  const major = maxX-minX >= maxY-minY ? {values:columns,lo:minX,hi:maxX,scale:a.sx} : {values:rows,lo:minY,hi:maxY,scale:a.sy};
+  let gap = 0, maxGap = 0; for (let i=major.lo;i<=major.hi;i++) { gap=major.values.has(i)?0:gap+1;maxGap=Math.max(maxGap,gap); }
+  const spanCss = changedPixels ? Math.hypot((maxX-minX+1)/a.sx,(maxY-minY+1)/a.sy) : 0;
+  const result = { changedPixels, spanCss, coverage:changedPixels?major.values.size/(major.hi-major.lo+1):0,
+    maxGapCss:maxGap/major.scale, meanWidthCss:spanCss?changedPixels/(a.sx*a.sy)/spanCss:0,
+    changedColumns:columns.size, changedRows:rows.size, bounds:changedPixels?{minX,minY,maxX,maxY}:null,
+    roi:{x:a.x,y:a.y,width:a.width,height:a.height,sx:a.sx,sy:a.sy,cssLeft:a.cssLeft,cssTop:a.cssTop},
+    beforeRgbaBase64: encode(a.pixels), afterRgbaBase64: encode(b.pixels),
+    sampleMethod:'native readPixels immediately before/after the exact original thread draw' };
+  if (!expected?.points?.length || !Number.isFinite(expected.nominalWidthCss)) return {...result,path:{error:'Missing original projected path or source-derived width'}};
+  const aaCss = 1 / Math.min(a.sx,a.sy), projectionToleranceCss = .25;
+  const nominal = expected.nominalWidthCss, upper = nominal + 2*aaCss + 2*projectionToleranceCss;
+  const lower = Math.max(.4, nominal * (expected.kind === 'atlas' ? Math.cos(Math.PI/5) : 1) - 2*aaCss - 2*projectionToleranceCss);
+  const corridor = nominal/2 + aaCss + projectionToleranceCss, step = .5 / Math.max(a.sx,a.sy);
+  const widthCss = a.width/a.sx, heightCss=a.height/a.sy, inset=corridor+1;
+  const labels=new Int32Array(mask.length),componentSizes=[];
+  for(let start=0;start<mask.length;start++)if(mask[start]&&!labels[start]) {
+    const label=componentSizes.length+1,queue=[start];labels[start]=label;let size=0;
+    for(let head=0;head<queue.length;head++){const index=queue[head],x=index%a.width,y=Math.floor(index/a.width);size++;
+      for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++){if((!dx&&!dy)||x+dx<0||x+dx>=a.width||y+dy<0||y+dy>=a.height)continue;const next=(y+dy)*a.width+x+dx;if(mask[next]&&!labels[next]){labels[next]=label;queue.push(next);}}}
+    componentSizes.push(size);
+  }
+  const groups=new Map();
+  const points=expected.points.map(p=>[p[0]-a.cssLeft,p[1]-a.cssTop,p[2]??null]);
+  const samplePixel=(x,y)=>{const px=Math.floor(x*a.sx),py=a.height-1-Math.floor(y*a.sy);return px>=0&&px<a.width&&py>=0&&py<a.height?py*a.width+px:-1;};
+  const intended = distance => { if (!expected.dash?.period) return true; let phase=((distance%expected.dash.period)+expected.dash.period)%expected.dash.period;
+    return expected.dash.stops.findIndex(stop=>phase<stop)%2 === 0; };
+  // Clip each original segment before sampling, so huge zoom-19 offscreen endpoints
+  // cannot create millions of samples or a changed-pixel-dependent denominator.
+  const clip=(p,q)=>{let lo=0,hi=1;const dx=q[0]-p[0],dy=q[1]-p[1];for(const [v,w]of[[-dx,p[0]-inset],[dx,widthCss-inset-p[0]],[-dy,p[1]-inset],[dy,heightCss-inset-p[1]]]){if(!v){if(w<0)return null;continue;}const t=w/v;if(v<0)lo=Math.max(lo,t);else hi=Math.min(hi,t);if(lo>hi)return null;}return [lo,hi];};
+  const samples=[], widths=[], contrasts=[], offsets=[]; let totalLength=0, missing=0, longestMissing=0, supportedLength=0, expectedLength=0;
+  for(let s=1;s<points.length;s++) {
+    const p=points[s-1],q=points[s],dx=q[0]-p[0],dy=q[1]-p[1],length=Math.hypot(dx,dy),range=clip(p,q);if(!length||!range)continue;
+    const [lo,hi]=range, count=Math.max(1,Math.ceil((hi-lo)*length/step)), weight=(hi-lo)*length/count; totalLength+=(hi-lo)*length;
+    for(let j=0;j<count;j++) {
+      const t=lo+(hi-lo)*(j+.5)/count,x=p[0]+dx*t,y=p[1]+dy*t,d=p[2]!==null&&q[2]!==null?p[2]+(q[2]-p[2])*t:0;
+      if(!intended(d)){missing=0;continue;}expectedLength+=weight;
+      const groupKey=expected.dash?.period?`${Math.floor(d/expected.dash.period)}:${expected.dash.stops.findIndex(stop=>((d%expected.dash.period)+expected.dash.period)%expected.dash.period<stop)}`:'solid';
+      if(!groups.has(groupKey))groups.set(groupKey,{expected:0,components:new Map()});const group=groups.get(groupKey);group.expected+=weight;
+      const nx=-dy/length,ny=dx/length, seen=new Set(),active=[];
+      // Scan a wide perpendicular interval as well as the acceptance corridor:
+      // otherwise an 80px smear is silently clipped down into a plausible width.
+      const scan=Math.min(64,Math.max(16,corridor*4));
+      for(let offset=-scan;offset<=scan;offset+=step){const index=samplePixel(x+nx*offset,y+ny*offset);if(index<0||seen.has(index))continue;seen.add(index);if(mask[index])active.push({offset,index});}
+      const near=active.filter(v=>Math.abs(v.offset)<=corridor), has=near.length>0;
+      const width=active.length?Math.max(...active.map(v=>v.offset))-Math.min(...active.map(v=>v.offset))+1/Math.max(a.sx,a.sy):0;
+      const contrast=near.length?Math.max(...near.map(v=>magnitude[v.index])):0;
+      if(has){for(const label of new Set(near.map(v=>labels[v.index])))group.components.set(label,(group.components.get(label)??0)+weight);supportedLength+=weight;missing=0;widths.push(width);contrasts.push(contrast);offsets.push(Math.min(...near.map(v=>Math.abs(v.offset))));}else{missing+=weight;longestMissing=Math.max(longestMissing,missing);}
+      samples.push({x:x+a.cssLeft,y:y+a.cssTop,supported:has,widthCss:width,contrast,maxGapCss:missing});
+    }
+  }
+  const connectedCoverage=groups.size?Math.min(...[...groups.values()].map(group=>Math.max(0,...group.components.values())/group.expected)):0;
+  result.path={connectedCoverage,componentCount:componentSizes.length,largestComponentPixels:Math.max(0,...componentSizes),expectedArcCss:expectedLength,clippedArcCss:totalLength,coverage:expectedLength?supportedLength/expectedLength:0,maxMissingArcCss:longestMissing,
+    nominalWidthCss:nominal,widthEnvelopeCss:{min:lower,max:upper},antiAliasEdgeToleranceCss:aaCss,projectionToleranceCss,
+    widthCss:{p10:quantile(widths,.1),p50:quantile(widths,.5),p90:quantile(widths,.9),max:quantile(widths,1)},
+    contrast255:{p10:quantile(contrasts,.1),p50:quantile(contrasts,.5),p90:quantile(contrasts,.9)},
+    centerOffsetCss:{p50:quantile(offsets,.5),p90:quantile(offsets,.9)},samples};
+  return result;
+}
+
+export function assertPathEvidence(raster, label) {
+  const p=raster?.path;
+  assert.ok(p&&!p.error, `${label}: missing original-path raster analysis`);
+  assert.ok(p.expectedArcCss>=16 && p.coverage>=.8 && p.maxMissingArcCss<=4,
+    `${label}: expected-path support failed (arc=${p.expectedArcCss?.toFixed(2)}, coverage=${p.coverage?.toFixed(3)}, gap=${p.maxMissingArcCss?.toFixed(2)})`);
+  assert.ok(p.connectedCoverage>=.8,`${label}: expected dash/solid interval is split across disconnected components`);
+  assert.ok(p.widthCss.p10>=p.widthEnvelopeCss.min && p.widthCss.p90<=p.widthEnvelopeCss.max && p.widthCss.max<=p.widthEnvelopeCss.max+1,
+    `${label}: local width outside source-derived envelope (p10=${p.widthCss.p10.toFixed(2)}, p90=${p.widthCss.p90.toFixed(2)}, max=${p.widthCss.max.toFixed(2)}, allowed=${p.widthEnvelopeCss.min.toFixed(2)}..${p.widthEnvelopeCss.max.toFixed(2)})`);
+  // 8/255 is a declared minimum useful digital contrast (not an opacity estimate).
+  // Per-path maxima avoid confusing antialiased edge pixels with the ribbon core.
+  assert.ok(p.contrast255.p10>=4 && p.contrast255.p50>=8, `${label}: displayed thread contrast is below the explicit 8/255 core floor`);
+}
+
 export function assertRasterEvidence(row, label) {
-  assert.ok(row && row.draws.length, `${label}: exact thread had no native draw submission`);
+  assert.ok(row?.draws?.length, `${label}: exact thread had no native draw submission`);
   const samples = row.draws.filter(draw => draw.nativePositionBufferMatched === true && draw.raster && !draw.raster.error);
   assert.ok(samples.length, `${label}: no native before/after raster sample`);
+  // Preserve every original substantive raster floor. Raw pixels stay in the artifact,
+  // never in thrown errors / CI logs (one failed capture can contain megabytes).
   assert.ok(samples.some(({ raster: r }) => r.changedPixels >= 8 && r.spanCss >= 16 && r.meanWidthCss >= .4 && r.coverage >= .8 && r.maxGapCss <= 4),
-    `${label}: native draw did not produce a continuous readable raster strip: ${JSON.stringify(samples.map(d => d.raster))}`);
+    `${label}: native draw did not produce a continuous readable raster strip (${samples.length} samples; inspect report raw pixels)`);
   assert.ok(row.canvas.width > 0 && row.canvas.height > 0 && row.buffer.width > 0 && row.buffer.height > 0, `${label}: missing canvas/buffer bounds`);
   assert.equal(row.contextLost, false, `${label}: native context lost`);
+  const frames=(row.frames??[]).filter(frame=>frame.complete&&frame.poseKey===row.finalPoseKey);
+  assert.ok(frames.length>=3, `${label}: need three complete frames at the final settled pose`);
+  assert.equal(row.frames.at(-1)?.poseKey,row.finalPoseKey,`${label}: last complete frame is stale`);
+  // Every sampled settled frame is checked, not the first successful draw or an
+  // arbitrary first-eight cap. Zero incremental redundant overdraw is allowed only
+  // when another original draw in that SAME complete frame survives visibly.
+  for(const frame of frames) {
+    const final=frame.finalCanvas;
+    assert.ok(final&&!final.error,`${label}: final canvas unavailable at frame ${frame.token}: ${final?.error??'missing'}`);
+    assert.equal(final.poseKey,row.finalPoseKey,`${label}: final canvas has stale pose`);
+    assert.equal(final.meshUuid,row.meshUuid,`${label}: final canvas source mesh changed`);
+    assert.equal(final.defaultFramebuffer,true,`${label}: final strip was not sampled from the default canvas`);
+    const draw=row.draws.find(d=>d.drawId===final.sourceDrawId);
+    assert.ok(draw?.nativePositionBufferMatched&&draw.poseKey===frame.poseKey,`${label}: final strip is not tied to an original matching-pose native draw`);
+    assert.ok(Number.isSafeInteger(draw.programId)&&Number.isSafeInteger(draw.positionBufferId),`${label}: native program/position-buffer identity missing`);
+    assert.equal(final.programId,draw.programId,`${label}: final native program identity changed`);
+    if(row.kind==='atlas'){assert.equal(draw.material?.type,'MeshStandardMaterial',`${label}: original wool material family changed`);assert.equal(draw.material.opacity,.9,`${label}: original material opacity changed`);assert.equal(draw.nativeOpacity,Math.fround(.9),`${label}: native opacity uniform changed`);}
+    if(row.kind==='atlas')assert.ok(frame.drawIds.includes(draw.drawId),`${label}: atlas frame reused an earlier successful draw`);
+    else assert.ok(frame.composites.some(c=>c.textureId===draw.textureId&&c.defaultFramebuffer),`${label}: exact case texture was not sampled by this frame's default-canvas composite`);
+    assertPathEvidence(draw.raster,`${label} original draw`);
+    assertPathEvidence(final.raster,`${label} final frame ${frame.token}`);
+  }
+  assert.ok(row.screenshotEvidence&&!row.screenshotEvidence.error,`${label}: final displayed screenshot crossing is unavailable`);
+  assertPathEvidence(row.screenshotEvidence.raster,`${label} displayed screenshot`);
+}
+
+export function assertComparableZoomEvidence(rows) {
+  const comparable=rows.filter(row=>row.kind==='atlas'&&row.pose.pitch===0&&row.pose.bearing===0);
+  for(let i=1;i<comparable.length;i++) {
+    const a=comparable[0],b=comparable[i],x=a.frames?.at(-1)?.finalCanvas?.raster?.path,y=b.frames?.at(-1)?.finalCanvas?.raster?.path;
+    assert.ok(x&&y,'Comparable zoom captures lack final path measurements');
+    // The intended radius is constant in CSS. Two independently quantized pixel
+    // edges plus each capture's declared projection allowance bound the deviation.
+    const allowance=x.antiAliasEdgeToleranceCss+y.antiAliasEdgeToleranceCss+x.projectionToleranceCss+y.projectionToleranceCss;
+    assert.ok(Math.abs(x.widthCss.p50-y.widthCss.p50)<=allowance,`Top-down z${b.pose.zoom}: median width changed beyond the two-frame pixel/projection envelope`);
+    const ratio=y.contrast255.p50/x.contrast255.p50;
+    b.comparableZoom={referenceZoom:a.pose.zoom,widthMedianDeviationCss:y.widthCss.p50-x.widthCss.p50,widthDeviationAllowanceCss:allowance,contrastMedianRatio:ratio,
+      contrastMeaning:'Displayed local contrast; not an opacity estimate. Background and shading receipts remain separate.'};
+    // No opacity inference is made from cross-zoom backgrounds/shading. Each
+    // original and final strip still must meet the absolute contrast floor, and
+    // final color must agree with the very same frame's native contribution.
+  }
+}
+
+export const ATLAS_SOURCE_FIXTURE = Object.freeze({ id:'legacy:source:8c9d47878789e779', url:'https://www.pib.gov.in/Pressreleaseshare.aspx?PRID=1573010' });
+export async function loadAtlasSourceReference(root=ROOT) {
+  const directory=join(root,'public/data/registry'),manifest=JSON.parse(await readFile(join(directory,'manifest.json'),'utf8'));
+  const matches={};const receipts=[];
+  for(const [kind,id]of [['relationships',ATLAS_EDGE],['sources',ATLAS_SOURCE_FIXTURE.id]]) {
+    for(const chunk of manifest.arrays.find(group=>group.key===kind).chunks) {
+      const bytes=await readFile(join(directory,chunk.file));assert.equal(sha256(bytes),chunk.sha256,'Accepted atlas reference chunk failed integrity');
+      const match=JSON.parse(bytes).find(record=>record.id===id);if(match){assert.equal(matches[kind],undefined,'Duplicate original source reference');matches[kind]=match;receipts.push({file:chunk.file,sha256:chunk.sha256});}
+    }
+  }
+  assert.deepEqual(matches.relationships?.sourceIds,[ATLAS_SOURCE_FIXTURE.id],'Pinned original atlas source IDs changed');
+  assert.equal(matches.sources?.url,ATLAS_SOURCE_FIXTURE.url,'Pinned original atlas source URL changed');
+  return {edgeId:ATLAS_EDGE,sourceId:ATLAS_SOURCE_FIXTURE.id,url:ATLAS_SOURCE_FIXTURE.url,receipts};
+}
+export function assertExactSourceLinks(actual, expected, label) {
+  assert.ok(expected.length,`${label}: missing accepted source expectations`);
+  assert.deepEqual(actual.map(link=>link.sourceId),expected.map(link=>link.sourceId),`${label}: exact source IDs changed`);
+  assert.deepEqual(actual.map(link=>link.href),expected.map(link=>link.href),`${label}: exact source URLs are missing or changed`);
+  for(const link of actual){const url=new URL(link.href);assert.equal(url.protocol,'https:',`${label}: source link is not HTTPS`);assert.ok(!url.username&&!url.password,`${label}: credential-bearing source URL`);}
 }
 export function recordCheck(report, label, work, diagnostic = false) {
   try { work(); report.checks.push({ label, status: 'passed' }); }
   catch (error) { report.checks.push({ label, status: diagnostic === 'live' ? 'live-diagnostic-failure' : diagnostic ? 'baseline-diagnostic-failure' : 'failed', message: error.message }); }
 }
 
-/** Serialized with addInitScript. Only native GL methods and the official read-only
- * Three observer are wrapped. Upload-array identity maps a real GPU buffer back to
+/** Serialized with addInitScript. Native GL methods, rAF timestamps and the official read-only
+ * Three observer are observed without changing callback arguments or draw behavior. Upload-array identity maps a real GPU buffer back to
  * the original mesh. No renderer methods, factual arrays, uniforms or matrices are patched. */
-export function installThreadZoomProbe({ atlasEdge, caseEdge }) {
+export function installThreadZoomProbe({ atlasEdge, caseEdge, atlasSourceCount = 1 }) {
   const scenes = [], contexts = [], renderers = [], buffers = new WeakMap(), shaderSources = new WeakMap(), programSources = new WeakMap();
   const nativeGetContext = HTMLCanvasElement.prototype.getContext;
-  const state = { active: null, captures: {}, errors: [], versions: [], contexts: [], renderers: 0, inputs: [] };
+  const state = { active: null, captures: {}, errors: [], versions: [], contexts: [], renderers: 0, inputs: [], programs: {}, frameTimestamp: null };
+  const originalRAF = window.requestAnimationFrame.bind(window);
+  window.requestAnimationFrame = callback => originalRAF(timestamp => { state.frameTimestamp = timestamp; return callback(timestamp); });
+  const poseKey = snap => JSON.stringify([snap?.pose, snap?.canvas, snap?.caseView, snap?.kind === 'case' ? snap?.geometry?.points : null]);
   const observer = new EventTarget();
   observer.addEventListener('register', event => state.versions.push(event.detail.revision));
   observer.addEventListener('observe', event => {
@@ -212,80 +370,170 @@ export function installThreadZoomProbe({ atlasEdge, caseEdge }) {
     if (contexts.some(row => row.gl === gl)) return;
     if (!(gl instanceof WebGL2RenderingContext)) throw new Error('Native zoom probe requires real WebGL2');
     const native = {};
-    for (let proto = gl; proto && proto !== Object.prototype; proto = Object.getPrototypeOf(proto))
-      for (const name of Object.getOwnPropertyNames(proto)) if (!(name in native)) { const descriptor = Object.getOwnPropertyDescriptor(proto, name); if (typeof descriptor?.value === 'function') native[name] = descriptor.value.bind(gl); }
-    const row = { gl, canvas, native }; contexts.push(row);
-    const debug = native.getExtension('WEBGL_debug_renderer_info');
-    state.contexts.push({ version: native.getParameter(gl.VERSION), renderer: native.getParameter(debug ? debug.UNMASKED_RENDERER_WEBGL : gl.RENDERER) });
-    gl.bufferData = function (target, data, ...rest) {
-      const value = native.bufferData(target, data, ...rest);
-      if (ArrayBuffer.isView(data)) buffers.set(data, native.getParameter(target === gl.ARRAY_BUFFER ? gl.ARRAY_BUFFER_BINDING : gl.ELEMENT_ARRAY_BUFFER_BINDING));
-      return value;
-    };
-    gl.bufferSubData = function (target, offset, data, ...rest) {
-      const value = native.bufferSubData(target, offset, data, ...rest);
-      if (ArrayBuffer.isView(data)) buffers.set(data, native.getParameter(target === gl.ARRAY_BUFFER ? gl.ARRAY_BUFFER_BINDING : gl.ELEMENT_ARRAY_BUFFER_BINDING));
-      return value;
-    };
-    gl.shaderSource = function (shader, source) { shaderSources.set(shader, String(source)); return native.shaderSource(shader, source); };
-    gl.attachShader = function (program, shader) { programSources.set(program, [...(programSources.get(program) ?? []), shaderSources.get(shader) ?? '']); return native.attachShader(program, shader); };
-    function readRegion(kind) {
-      const viewport = Array.from(native.getParameter(gl.VIEWPORT));
-      const defaultTarget = native.getParameter(gl.DRAW_FRAMEBUFFER_BINDING) === null;
-      if ((kind === 'atlas') !== defaultTarget) throw new Error('Thread drew into the wrong native framebuffer');
-      if (native.getParameter(gl.READ_FRAMEBUFFER_BINDING) !== native.getParameter(gl.DRAW_FRAMEBUFFER_BINDING)) throw new Error('Probe refuses to change framebuffer bindings for readback');
-      const box = kind === 'atlas' ? rect(canvas) : rect(document.querySelector('[data-case-surface]'));
-      const sx = viewport[2] / box.width, sy = viewport[3] / box.height;
-      const width = Math.min(viewport[2], Math.max(1, Math.ceil(160 * sx))), height = Math.min(viewport[3], Math.max(1, Math.ceil(128 * sy)));
-      const x = viewport[0] + Math.floor((viewport[2] - width) / 2), y = viewport[1] + Math.floor((viewport[3] - height) / 2);
-      // Existing host contract uses ordinary tightly packed reads. Never mutate GL state.
-      for (const name of ['PACK_ROW_LENGTH', 'PACK_SKIP_PIXELS', 'PACK_SKIP_ROWS']) if (native.getParameter(gl[name]) !== 0) throw new Error(`Unexpected ${name}`);
-      if (native.getParameter(gl.PIXEL_PACK_BUFFER_BINDING)) throw new Error('Unexpected pixel pack buffer');
-      const pixels = new Uint8Array(width * height * 4);
-      native.readPixels(x, y, width, height, gl.RGBA, gl.UNSIGNED_BYTE, pixels);
-      return { pixels, width, height, x, y, sx, sy };
+    for (let proto=gl;proto&&proto!==Object.prototype;proto=Object.getPrototypeOf(proto))
+      for(const name of Object.getOwnPropertyNames(proto))if(!(name in native)){const descriptor=Object.getOwnPropertyDescriptor(proto,name);if(typeof descriptor?.value==='function')native[name]=descriptor.value.bind(gl);}
+    const row={gl,canvas,native};contexts.push(row);
+    const ids=new WeakMap();let nextId=1;const id=value=>{if(!value)return null;if(!ids.has(value))ids.set(value,nextId++);return ids.get(value);};
+    const debug=native.getExtension('WEBGL_debug_renderer_info');state.contexts.push({version:native.getParameter(gl.VERSION),renderer:native.getParameter(debug?debug.UNMASKED_RENDERER_WEBGL:gl.RENDERER)});
+    gl.bufferData=function(target,data,...rest){const value=native.bufferData(target,data,...rest);if(ArrayBuffer.isView(data))buffers.set(data,native.getParameter(target===gl.ARRAY_BUFFER?gl.ARRAY_BUFFER_BINDING:gl.ELEMENT_ARRAY_BUFFER_BINDING));return value;};
+    gl.bufferSubData=function(target,offset,data,...rest){const value=native.bufferSubData(target,offset,data,...rest);if(ArrayBuffer.isView(data))buffers.set(data,native.getParameter(target===gl.ARRAY_BUFFER?gl.ARRAY_BUFFER_BINDING:gl.ELEMENT_ARRAY_BUFFER_BINDING));return value;};
+    gl.shaderSource=function(shader,source){shaderSources.set(shader,String(source));return native.shaderSource(shader,source);};
+    gl.attachShader=function(program,shader){programSources.set(program,[...(programSources.get(program)??[]),shaderSources.get(shader)??'']);return native.attachShader(program,shader);};
+    let textureUnit=native.getParameter(gl.ACTIVE_TEXTURE)-gl.TEXTURE0;
+    const textures=new Map([[textureUnit,native.getParameter(gl.TEXTURE_BINDING_2D)]]);
+    gl.activeTexture=function(unit){const result=native.activeTexture(unit);textureUnit=unit-gl.TEXTURE0;return result;};
+    gl.bindTexture=function(target,texture){const result=native.bindTexture(target,texture);if(target===gl.TEXTURE_2D)textures.set(textureUnit,texture);return result;};
+    const uniform=(program,name)=>{const loc=native.getUniformLocation(program,name);if(loc===null)return null;const value=native.getUniform(program,loc);return ArrayBuffer.isView(value)?Array.from(value):value;};
+    function readRegion(kind, finalCanvas=false) {
+      const viewport=Array.from(native.getParameter(gl.VIEWPORT)),defaultTarget=native.getParameter(gl.DRAW_FRAMEBUFFER_BINDING)===null;
+      if((finalCanvas||kind==='atlas')!==defaultTarget)throw new Error('Thread drew into the wrong native framebuffer');
+      if(native.getParameter(gl.READ_FRAMEBUFFER_BINDING)!==native.getParameter(gl.DRAW_FRAMEBUFFER_BINDING))throw new Error('Probe refuses to change framebuffer bindings for readback');
+      const box=kind==='atlas'?rect(canvas):rect(document.querySelector('[data-case-surface]')),canvasBox=rect(canvas);
+      const sx=defaultTarget?gl.drawingBufferWidth/canvasBox.width:viewport[2]/box.width,sy=defaultTarget?gl.drawingBufferHeight/canvasBox.height:viewport[3]/box.height;
+      const available=defaultTarget?[gl.drawingBufferWidth,gl.drawingBufferHeight]:viewport.slice(2);
+      const width=Math.min(available[0],Math.max(1,Math.ceil(160*sx))),height=Math.min(available[1],Math.max(1,Math.ceil(128*sy)));
+      const originX=defaultTarget?(box.x-canvasBox.x)*sx:viewport[0],originY=defaultTarget?gl.drawingBufferHeight-(box.y-canvasBox.y+box.height)*sy:viewport[1];
+      const x=Math.round(originX+box.width*sx/2-width/2),y=Math.round(originY+box.height*sy/2-height/2);
+      if(x<0||y<0||x+width>available[0]+(defaultTarget?0:viewport[0])||y+height>available[1]+(defaultTarget?0:viewport[1]))throw new Error('Expected crossing ROI leaves framebuffer');
+      for(const name of ['PACK_ROW_LENGTH','PACK_SKIP_PIXELS','PACK_SKIP_ROWS'])if(native.getParameter(gl[name])!==0)throw new Error(`Unexpected ${name}`);
+      if(native.getParameter(gl.PIXEL_PACK_BUFFER_BINDING))throw new Error('Unexpected pixel pack buffer');
+      const pixels=new Uint8Array(width*height*4);native.readPixels(x,y,width,height,gl.RGBA,gl.UNSIGNED_BYTE,pixels);
+      return {pixels,width,height,x,y,sx,sy,cssLeft:(x-originX)/sx,cssTop:box.height-(y-originY+height)/sy,viewport};
     }
-    function rasterDelta(a, b) {
-      const encode = pixels => { let text = ''; for (let i = 0; i < pixels.length; i += 4096) text += String.fromCharCode(...pixels.subarray(i, i + 4096)); return btoa(text); };
-      let changedPixels = 0, minX = a.width, minY = a.height, maxX = -1, maxY = -1;
-      const columns = new Set(), rows = new Set();
-      for (let i = 0; i < a.pixels.length; i += 4) {
-        if (Math.max(...[0, 1, 2].map(c => Math.abs(a.pixels[i + c] - b.pixels[i + c]))) < 2) continue;
-        const x = (i / 4) % a.width, y = Math.floor(i / 4 / a.width); changedPixels++;
-        minX = Math.min(minX, x); maxX = Math.max(maxX, x); minY = Math.min(minY, y); maxY = Math.max(maxY, y); columns.add(x); rows.add(y);
+    const encode=pixels=>{let text='';for(let i=0;i<pixels.length;i+=4096)text+=String.fromCharCode(...pixels.subarray(i,i+4096));return btoa(text);};
+    function rasterDelta(a,b,expected){return window.__threadZoomAnalyze(a,b,expected);}
+    const transform=(m,p)=>[0,1,2,3].map(r=>m[r]*p[0]+m[4+r]*p[1]+m[8+r]*p[2]+m[12+r]*(p[3]??1));
+    function expectedPath(kind,mesh,program,region) {
+      if(kind==='case') {
+        const geometry=caseGeometry(mesh),d=mesh.geometry.attributes.distanceAlong.array;
+        const points=geometry.points.map((p,i)=>[...p,d[Math.min(i*4,d.length-1)]]);
+        const period=uniform(program,'period')??0,count=uniform(program,'count')??0,stops=Array.from({length:count},(_,i)=>uniform(program,`stops[${i}]`));
+        return {kind,points,nominalWidthCss:1.5,dash:{period,stops},provenance:'original case ribbon position and distanceAlong arrays; matched native position buffer',board:geometry.board};
       }
-      const major = maxX - minX >= maxY - minY ? { values: columns, lo: minX, hi: maxX, scale: a.sx } : { values: rows, lo: minY, hi: maxY, scale: a.sy };
-      let gap = 0, maxGap = 0; for (let i = major.lo; i <= major.hi; i++) { gap = major.values.has(i) ? 0 : gap + 1; maxGap = Math.max(maxGap, gap); }
-      const coverage = changedPixels ? major.values.size / (major.hi - major.lo + 1) : 0;
-      const spanCss = changedPixels ? Math.hypot((maxX - minX + 1) / a.sx, (maxY - minY + 1) / a.sy) : 0;
-      return { changedPixels, spanCss, coverage, maxGapCss: maxGap / major.scale, meanWidthCss: spanCss ? changedPixels / (a.sx * a.sy) / spanCss : 0,
-        changedColumns: columns.size, changedRows: rows.size, roi: { x: a.x, y: a.y, width: a.width, height: a.height },
-        bounds: changedPixels ? { minX, minY, maxX, maxY } : null, beforeRgbaBase64: encode(a.pixels), afterRgbaBase64: encode(b.pixels), sampleMethod: 'native readPixels immediately before/after the exact original thread draw' };
+      const curve=mesh.geometry.parameters?.path,modelView=uniform(program,'modelViewMatrix'),projection=uniform(program,'projectionMatrix'),lift=uniform(program,'uThreadLift');
+      if(!curve||!modelView||!projection||!Number.isFinite(lift))throw new Error('Original atlas projection/lift receipt is unavailable');
+      const parameters=mesh.geometry.parameters,radius=parameters.radius/.001,box=rect(canvas),frame=mesh.userData.threadProjection;
+      // One retained source yields radius 0.85 + min(5,max(1,1)) * .25.
+      // Verify the geometric parameter, rather than estimating width from pixels.
+      if(Math.abs(radius-(.85+Math.min(5,Math.max(1,atlasSourceCount))*.25))>1e-10||parameters.tubularSegments!==48||parameters.radialSegments!==5)throw new Error('Original source-count tube geometry contract changed');
+      const precise=Boolean(mesh.geometry.attributes.aThreadClip);
+      let matrix=projection,revision=null,ringMapping='original shared TubeGeometry rings';
+      if(precise) {
+        if(!frame||!Object.isFrozen(frame)||!Object.isFrozen(frame.matrix)||frame.matrix.length!==16||!frame.matrix.every(Number.isFinite))throw new Error('Missing immutable original double projection receipt');
+        if(!projection.every((v,i)=>v===Math.fround(frame.matrix[i]))||lift!==Math.fround(frame.lift)||uniform(program,'uThreadRadius')!==Math.fround(frame.radius))throw new Error('Original projection receipt does not match actual native uniforms');
+        if(modelView.some((v,i)=>v!==(i%5===0?1:0)))throw new Error('Unexpected nonidentity original atlas model-view transform');
+        matrix=frame.matrix;revision=frame.revision;ringMapping='48 original segments; two duplicate original 6-vertex rings per segment';
+        for(const name of ['aThreadClip','aThreadRadial','position','normal']) {
+          const attribute=mesh.geometry.attributes[name],location=native.getAttribLocation(program,name);
+          if(!attribute||location<0||buffers.get(attribute.array)!==native.getVertexAttrib(location,gl.VERTEX_ATTRIB_ARRAY_BUFFER_BINDING))throw new Error(`Original ${name} native buffer identity is missing`);
+        }
+        const center=mesh.geometry.attributes.aTubeCenter,uv=mesh.geometry.attributes.uv,index=mesh.geometry.index;
+        if(center.count!==576||index.count!==1440||buffers.get(index.array)!==native.getParameter(gl.ELEMENT_ARRAY_BUFFER_BINDING))throw new Error('Original segmented tube native index/vertex identity changed');
+        for(let segment=0;segment<48;segment++)for(let end=0;end<2;end++) {
+          const p=curve.getPointAt((segment+end)/48);
+          for(let radial=0;radial<=5;radial++){const v=(segment*2+end)*6+radial;
+            if(center.getX(v)!==Math.fround(p.x)||center.getY(v)!==Math.fround(p.y)||center.getZ(v)!==Math.fround(p.z)||uv.getX(v)!==Math.fround((segment+end)/48)||uv.getY(v)!==Math.fround(radial/5))throw new Error('Original segment/ring path mapping changed');}
+          if(end===0)for(let side=0;side<5;side++){const a=segment*12+side,b=a+6,indices=[a,b,a+1,b,b+1,a+1];for(let j=0;j<6;j++)if(index.array[segment*30+side*6+j]!==indices[j])throw new Error('Original segment topology changed');}
+        }
+      }
+      const original=curve.getSpacedPoints(48),project=p=>{const c=transform(matrix,transform(modelView,p));return [(c[0]/c[3]+1)*box.width/2,(1-c[1]/c[3])*box.height/2];};
+      const points=original.map(p=>project([p.x,p.y,p.z*(precise?frame.lift:lift),1]));
+      // Oblique/perspective projected diameter is bounded from the original tube's
+      // cross-section at the actual center crossing; top-down uses source CSS size.
+      let nominalWidthCss=2*radius;
+      if(hostPose()?.pitch||hostPose()?.bearing) {
+        const center=original[24],normal=curve.computeFrenetFrames(48,false).normals[24],binormal=curve.computeFrenetFrames(48,false).binormals[24],worldRadius=parameters.radius*(precise?frame.radius:uniform(program,'uThreadRadius'));
+        const c=project([center.x,center.y,center.z*(precise?frame.lift:lift),1]);let projectedRadius=0;
+        for(let side=0;side<32;side++){const angle=side/32*Math.PI*2,offset=[0,1,2].map((_,axis)=>(normal.getComponent(axis)*Math.cos(angle)+binormal.getComponent(axis)*Math.sin(angle))*worldRadius);
+          const p=project([center.x+offset[0],center.y+offset[1],center.z*(precise?frame.lift:lift)+offset[2],1]);projectedRadius=Math.max(projectedRadius,Math.hypot(p[0]-c[0],p[1]-c[1]));}
+        nominalWidthCss=2*projectedRadius;
+      }
+      return {kind,points,nominalWidthCss,sourceRadiusCss:radius,sourceCount:atlasSourceCount,radialSegments:parameters.radialSegments,
+        projectionMatrix:matrix,nativeProjectionMatrix:projection,modelViewMatrix:modelView,lift:precise?frame.lift:lift,revision,ringMapping,
+        provenance:precise?'original TubeGeometry.parameters.path projected independently through immutable double matrix/lift; native uniforms and all original segment/ring/index identities verified':'original TubeGeometry.parameters.path projected through observed legacy native draw uniforms'};
+
     }
-    for (const method of ['drawArrays', 'drawElements', 'drawArraysInstanced', 'drawElementsInstanced']) {
-      gl[method] = function (...args) {
-        const active = state.active, capture = active && state.captures[active.name];
-        let matched = false, before = null, record = null;
-        if (active && capture.draws.length < 8) {
+    // The final pixel is counted only when it retains the exact original draw's
+    // contribution. For the case pass, bilinear texture sampling and the shader's
+    // standard linear-sRGB transfer are reproduced before comparing canvas pixels.
+    function survivingContribution(source,final,convert) {
+      const a={...final,pixels:new Uint8Array(final.pixels.length)},b={...final,pixels:new Uint8Array(final.pixels.length)};
+      const sample=(region,x,y,c)=>{const fx=(x-region.cssLeft)*region.sx-.5,fy=region.height-(y-region.cssTop)*region.sy-.5;
+        const x0=Math.floor(fx),y0=Math.floor(fy),tx=fx-x0,ty=fy-y0;
+        const at=(px,py)=>region.pixels[(Math.max(0,Math.min(region.height-1,py))*region.width+Math.max(0,Math.min(region.width-1,px)))*4+c];
+        return (at(x0,y0)*(1-tx)+at(x0+1,y0)*tx)*(1-ty)+(at(x0,y0+1)*(1-tx)+at(x0+1,y0+1)*tx)*ty;};
+      const channel=v=>convert?255*(v/255<=.0031308?12.92*v/255:1.055*(v/255)**(1/2.4)-.055):v;
+      let sourcePixels=0,retainedPixels=0;
+      for(let y=0;y<final.height;y++)for(let x=0;x<final.width;x++) {
+        const i=(y*final.width+x)*4,cx=final.cssLeft+(x+.5)/final.sx,cy=final.cssTop+(final.height-y-.5)/final.sy;
+        const before=[0,1,2].map(c=>channel(sample(source.before,cx,cy,c))),after=[0,1,2].map(c=>channel(sample(source.after,cx,cy,c)));
+        const changed=Math.max(...before.map((v,c)=>Math.abs(v-after[c])))>=2;
+        const retained=changed&&Math.max(...after.map((v,c)=>Math.abs(v-final.pixels[i+c])))<=8;
+        if(changed)sourcePixels++;if(retained)retainedPixels++;
+        for(let c=0;c<3;c++){a.pixels[i+c]=before[c];b.pixels[i+c]=retained?final.pixels[i+c]:before[c];}a.pixels[i+3]=b.pixels[i+3]=255;
+      }
+      return {raster:rasterDelta(a,b,source.expected),sourcePixels,retainedPixels,canvasRgbaBase64:encode(final.pixels),colorAgreementTolerance255:8,
+        transfer:convert?'bilinear original FBO texture; standard linear-sRGB to canvas sRGB':'same default-framebuffer original draw'};
+    }
+    let pending=null,lastCaseSource=null;
+    function frameFor(capture) {
+      const token=state.frameTimestamp??performance.now();let frame=capture.frames.at(-1);
+      if(!frame||frame.token!==token){frame={token,drawIds:[],composites:[],complete:false};capture.frames.push(frame);}
+      return frame;
+    }
+    function finish(frame,capture,kind) {
+      try {
+        const snap=snapshot(kind);frame.snapshot=snap;frame.poseKey=poseKey(snap);frame.complete=true;
+        const sources=frame.drawIds.map(index=>capture.draws[index]).filter(draw=>draw._source);
+        const usable=sources.filter(draw=>draw.raster?.changedPixels>0&&draw.poseKey===frame.poseKey);
+        const sourceRecord=usable.sort((a,b)=>(b.raster.path?.coverage??0)-(a.raster.path?.coverage??0))[0]??(kind==='case'?lastCaseSource:null)??sources.at(-1);
+        if(!sourceRecord){frame.finalCanvas={error:'No original native source draw for this complete frame'};return;}
+        if(sourceRecord.poseKey!==frame.poseKey){frame.finalCanvas={error:'Native source draw pose does not match the complete frame'};return;}
+        if(kind==='case'&&!frame.composites.some(c=>c.textureId===sourceRecord.textureId)){frame.finalCanvas={error:'Original case target texture was not composited into this default canvas frame'};return;}
+        const final=readRegion(kind,true);frame.finalCanvas={...survivingContribution(sourceRecord._source,final,kind==='case'),sourceDrawId:sourceRecord.drawId,
+          meshUuid:sourceRecord.meshUuid,programId:sourceRecord.programId,textureId:sourceRecord.textureId,defaultFramebuffer:true,viewport:final.viewport,poseKey:frame.poseKey};
+      }catch(error){frame.finalCanvas={error:String(error)};}
+    }
+    for(const method of ['drawArrays','drawElements','drawArraysInstanced','drawElementsInstanced']) {
+      gl[method]=function(...args) {
+        const active=state.active,capture=active&&state.captures[active.name];let before=null,record=null,frame=null,composite=null,matched=false;
+        if(active) {
+          frame=frameFor(capture);
           try {
-            const program = native.getParameter(gl.CURRENT_PROGRAM), sources = (programSources.get(program) ?? []).join('\n');
-            const mesh = active.kind === 'atlas' ? atlasMesh() : caseMeshes().mesh;
-            const position = program && native.getAttribLocation(program, 'position');
-            const actualBuffer = position >= 0 ? native.getVertexAttrib(position, gl.VERTEX_ATTRIB_ARRAY_BUFFER_BINDING) : null;
-            matched = Boolean(mesh && actualBuffer && buffers.get(mesh.geometry.attributes.position.array) === actualBuffer &&
-              (active.kind === 'atlas' ? sources.includes('uThreadRadius') : sources.includes('distanceAlong') && sources.includes('uniform float stops[8]')));
-            if (matched) {
-              const snap = snapshot(active.kind); Object.assign(capture, snap);
-              record = { method, args: [...args], nativePositionBufferMatched: true, shaderKind: active.kind, viewport: Array.from(native.getParameter(gl.VIEWPORT)) };
-              try { before = readRegion(active.kind); } catch (error) { record.raster = { error: String(error) }; }
+            const program=native.getParameter(gl.CURRENT_PROGRAM),sources=(programSources.get(program)??[]).join('\n');
+            const mesh=active.kind==='atlas'?atlasMesh():caseMeshes().mesh,position=program&&native.getAttribLocation(program,'position');
+            const actualBuffer=position>=0?native.getVertexAttrib(position,gl.VERTEX_ATTRIB_ARRAY_BUFFER_BINDING):null;
+            matched=Boolean(mesh&&actualBuffer&&buffers.get(mesh.geometry.attributes.position.array) === actualBuffer&&
+              (active.kind==='atlas'?sources.includes('uThreadRadius'):sources.includes('distanceAlong')&&sources.includes('uniform float stops[8]')));
+            if(matched) {
+              const snap=snapshot(active.kind),framebuffer=native.getParameter(gl.DRAW_FRAMEBUFFER_BINDING);
+              record={drawId:capture.draws.length,frameToken:frame.token,method,args:[...args],nativePositionBufferMatched:true,shaderKind:active.kind,
+                meshUuid:mesh.uuid,material:{type:mesh.material.type,opacity:mesh.material.opacity,color:mesh.material.color?.toArray()??null},nativeOpacity:uniform(program,'opacity'),poseKey:poseKey(snap),snapshot:snap,programId:id(program),positionBufferId:id(actualBuffer),framebufferId:id(framebuffer),viewport:Array.from(native.getParameter(gl.VIEWPORT))};
+              if(!state.programs[id(program)])state.programs[id(program)]={sources:programSources.get(program)};
+              if(framebuffer)record.textureId=id(native.getFramebufferAttachmentParameter(gl.DRAW_FRAMEBUFFER,gl.COLOR_ATTACHMENT0,gl.FRAMEBUFFER_ATTACHMENT_OBJECT_NAME));
+              try{before=readRegion(active.kind);record.expected=expectedPath(active.kind,mesh,program,before);}catch(error){record.expectedError=String(error);if(!before)record.raster={error:String(error)};}
+            } else if(active.kind==='case'&&native.getParameter(gl.DRAW_FRAMEBUFFER_BINDING)===null&&sources.includes('uniform sampler2D map')&&sources.includes('texture2D(map,vUv)')) {
+              const unit=uniform(program,'map'),texture=textures.get(unit);
+              composite={frameToken:frame.token,programId:id(program),textureId:id(texture),samplerUnit:unit,defaultFramebuffer:true,viewport:Array.from(native.getParameter(gl.VIEWPORT)),method,args:[...args]};
+              if(!state.programs[id(program)])state.programs[id(program)]={sources:programSources.get(program)};
             }
-          } catch (error) { state.errors.push(String(error)); }
+          }catch(error){state.errors.push(String(error));}
         }
         // Exactly one original call, with unchanged arguments, even if observation fails.
         const result = native[method](...args);
-        if (matched && record) {
-          if (before) try { record.raster = rasterDelta(before, readRegion(active.kind)); } catch (error) { record.raster = { error: String(error) }; }
-          capture.draws.push(record);
+        if(matched&&record) {
+          if(before)try{const after=readRegion(active.kind);record.raster=rasterDelta(before,after,record.expected);
+            Object.defineProperty(record,'_source',{value:{before,after,expected:record.expected},enumerable:false});
+          }catch(error){record.raster={error:String(error)};}
+          capture.draws.push(record);frame.drawIds.push(record.drawId);if(active.kind==='case'&&record.raster?.changedPixels>0)lastCaseSource=record;
+        }
+        if(composite)frame.composites.push(composite);
+        if(active) {
+          pending={frame,capture,kind:active.kind};
+          // Microtasks run after the complete renderer callback and its state restore.
+          // Repeated callbacks sharing an rAF timestamp overwrite only that frame's
+          // final readback, so later overlays/disappearance cannot leave an early pass.
+          queueMicrotask(()=>{if(pending?.frame===frame){finish(frame,capture,active.kind);pending=null;}});
         }
         return result;
       };
@@ -297,7 +545,8 @@ export function installThreadZoomProbe({ atlasEdge, caseEdge }) {
     return context;
   };
   window.__threadZoomProbe = Object.freeze({
-    arm(name, kind) { state.active = { name, kind }; state.captures[name] = { ...snapshot(kind), draws: [] }; },
+    arm(name, kind) { state.active = { name, kind }; state.captures[name] = { ...snapshot(kind), draws: [], frames: [] }; },
+    finish(name, kind) { const capture=state.captures[name], fresh=snapshot(kind); state.active=null; Object.assign(capture,fresh,{finalPoseKey:poseKey(fresh)}); return capture; },
     stop() { state.active = null; },
     snapshot,
     report() { return JSON.parse(JSON.stringify({ ...state, active: null })); },
@@ -381,6 +630,40 @@ async function centerAtlas(page, destination = CROSSING_CENTER) {
   }
   throw new Error(`Could not center the original crossing: ${JSON.stringify(await pose(page))}`);
 }
+/** Chromium screenshots are lossless, noninterlaced 8-bit RGB/RGBA PNGs. Decode
+ * only that explicit contract, with built-in zlib, without a new runtime package. */
+export function decodeScreenshotPng(bytes) {
+  assert.equal(bytes.subarray(0,8).toString('hex'),'89504e470d0a1a0a');
+  let width,height,channels;const chunks=[];
+  for(let offset=8;offset<bytes.length;){const size=bytes.readUInt32BE(offset),type=bytes.subarray(offset+4,offset+8).toString();assert.ok(offset+12+size<=bytes.length,'Truncated PNG');const data=bytes.subarray(offset+8,offset+8+size);
+    if(type==='IHDR'){width=data.readUInt32BE(0);height=data.readUInt32BE(4);assert.equal(data[8],8);assert.ok([2,6].includes(data[9]));assert.equal(data[12],0);channels=data[9]===6?4:3;}
+    if(type==='IDAT')chunks.push(data);offset+=12+size;if(type==='IEND')break;}
+  assert.ok(width>0&&height>0&&channels);const raw=inflateSync(Buffer.concat(chunks)),stride=width*channels;
+  assert.equal(raw.length,(stride+1)*height);const scan=Buffer.alloc(stride*height),pixels=Buffer.alloc(width*height*4);
+  const paeth=(a,b,c)=>{const p=a+b-c,pa=Math.abs(p-a),pb=Math.abs(p-b),pc=Math.abs(p-c);return pa<=pb&&pa<=pc?a:pb<=pc?b:c;};
+  for(let y=0;y<height;y++){const filter=raw[y*(stride+1)];assert.ok(filter<=4,'Unsupported PNG filter');for(let x=0;x<stride;x++){const left=x>=channels?scan[y*stride+x-channels]:0,up=y?scan[(y-1)*stride+x]:0,prior=y&&x>=channels?scan[(y-1)*stride+x-channels]:0;
+      const prediction=[0,left,up,Math.floor((left+up)/2),paeth(left,up,prior)][filter];scan[y*stride+x]=(raw[y*(stride+1)+x+1]+prediction)&255;}
+    for(let x=0;x<width;x++){for(let c=0;c<3;c++)pixels[(y*width+x)*4+c]=scan[y*stride+x*channels+c];pixels[(y*width+x)*4+3]=channels===4?scan[y*stride+x*channels+3]:255;}}
+  return {width,height,pixels};
+}
+async function verifyScreenshotCrossing(row,output) {
+  const last=row.frames?.at(-1),final=last?.finalCanvas,source=row.draws.find(draw=>draw.drawId===final?.sourceDrawId);
+  if(!final?.raster?.roi||!source?.expected){row.screenshotEvidence={error:'No final native source to compare with screenshot'};return;}
+  try {
+    const png=decodeScreenshotPng(await readFile(join(output,row.screenshot.filename))),roi=final.raster.roi,box=row.kind==='case'?row.geometry.board:row.canvas;
+    const before=Buffer.from(final.raster.beforeRgbaBase64,'base64'),after=Buffer.from(final.raster.afterRgbaBase64,'base64'),canvas=Buffer.from(final.canvasRgbaBase64,'base64');
+    const screenshot=Buffer.alloc(before.length),retained=Buffer.from(before),scale=png.width/row.screenshot.viewport.width;
+    for(let y=0;y<roi.height;y++)for(let x=0;x<roi.width;x++) {
+      const i=(y*roi.width+x)*4,sx=Math.floor((box.x+roi.cssLeft+(x+.5)/roi.sx)*scale),sy=Math.floor((box.y+roi.cssTop+(roi.height-y-.5)/roi.sy)*scale);
+      if(sx<0||sy<0||sx>=png.width||sy>=png.height)continue;const j=(sy*png.width+sx)*4;png.pixels.copy(screenshot,i,j,j+4);
+      if(Math.max(...[0,1,2].map(c=>Math.abs(after[i+c]-before[i+c])))>=2&&Math.max(...[0,1,2].map(c=>Math.abs(screenshot[i+c]-canvas[i+c])))<=8)screenshot.copy(retained,i,i,i+4);
+    }
+    const a={...roi,pixels:before},b={...roi,pixels:retained};
+    row.screenshotEvidence={raster:analyzePathRaster(a,b,source.expected),screenshotRgbaBase64:screenshot.toString('base64'),frameToken:last.token,sourceDrawId:source.drawId,
+      method:'Lossless screenshot ROI agrees with exact final default-canvas native contribution at the same CSS crossing',colorAgreementTolerance255:8};
+  }catch(error){row.screenshotEvidence={error:String(error)};}
+}
+
 async function screenshot(page, directory, name, requireCanvas = true) {
   const filename = `${name}.png`; await page.screenshot({ path: join(directory, filename), fullPage: true });
   const png = await readFile(join(directory, filename));
@@ -392,29 +675,36 @@ async function screenshot(page, directory, name, requireCanvas = true) {
 }
 async function captureAtlas(page, output, name, orient = true) {
   await page.evaluate(name => window.__threadZoomProbe.arm(name, 'atlas'), name);
-  // Natural no-op orientation command requests a normal host render.
-  if (orient) await page.getByRole('button', { name: 'Top-down orientation', exact: true }).click();
-  else {
-    // A one-pixel real viewport resize requests redraw without overwriting the oblique pose.
-    const viewport = page.viewportSize(); await page.setViewportSize({ ...viewport, width: viewport.width + 1 });
-    await page.setViewportSize(viewport);
+  // Three separate normal host redraws establish subsequent settled frames. The
+  // original target camera is never assigned or injected by the observer.
+  for(let check=0;check<3;check++) {
+    if (orient) await page.getByRole('button', { name: 'Top-down orientation', exact: true }).click();
+    else {
+      const viewport = page.viewportSize(); await page.setViewportSize({ ...viewport, width: viewport.width + 1 });
+      await page.setViewportSize(viewport);
+    }
+    await delay(160);
   }
-  await delay(160);
-  const image = await screenshot(page, output, name), capture = await page.evaluate(name => {
-    const report = window.__threadZoomProbe.report(); window.__threadZoomProbe.stop();
-    return { ...window.__threadZoomProbe.snapshot('atlas'), ...report.captures[name] };
-  }, name);
-  return { ...capture, screenshot: image };
+  const image = await screenshot(page, output, name);
+  const capture = await page.evaluate(name => window.__threadZoomProbe.finish(name, 'atlas'), name);
+  const row={ ...capture, screenshot: image };await verifyScreenshotCrossing(row,output);return row;
 }
 async function inspectAtlasClick(page, point) {
   assert.equal(await page.evaluate(({ x, y }) => document.elementFromPoint(x, y) === document.querySelector('.webgl-host canvas'), point), true, 'Crossing click must hit the real map canvas, never a DOM label');
   await page.mouse.click(point.x, point.y);
   await page.getByRole('complementary', { name: 'Evidence reading panel' }).waitFor({ state: 'visible', timeout: 5000 });
-  const object = JSON.parse(await page.locator('.evidence-inspector .retained-metadata pre').textContent());
+  const panel=page.locator('.evidence-inspector'),object=JSON.parse(await panel.locator('.retained-metadata pre').textContent());
   assert.equal(object.id, ATLAS_EDGE, 'Crossing click selected a different original object');
-  assert.ok(object.sourceIds?.length, 'Selected original edge lost source access');
+  assert.deepEqual(object.sourceIds,[ATLAS_SOURCE_FIXTURE.id],'Selected original edge source IDs changed');
+  const ids=[...new Set([...object.sourceIds,...object.geography.flatMap(g=>g.sourceIds)])];
+  assert.deepEqual(ids,[ATLAS_SOURCE_FIXTURE.id],'Selected original source trail changed');
+  const cards=panel.locator('section').filter({has:page.getByRole('heading',{name:'Source trail',exact:true})}).locator('.source-card');
+  assert.equal(await cards.count(),ids.length,'Selected source trail is incomplete');
+  const links=await cards.locator(':scope > a').evaluateAll(elements=>elements.map(a=>({href:a.getAttribute('href'),text:a.textContent,rel:a.getAttribute('rel')})));
+  const actual=links.map((link,i)=>({...link,sourceId:ids[i]}));
+  assertExactSourceLinks(actual,[{sourceId:ATLAS_SOURCE_FIXTURE.id,href:ATLAS_SOURCE_FIXTURE.url}],'Selected atlas source trail');
   await page.getByRole('button', { name: 'Close reading panel', exact: true }).click();
-  return { id: object.id, sourceIds: object.sourceIds };
+  return { id: object.id, sourceIds: object.sourceIds, sourceLinks:actual };
 }
 async function runAtlas(page, output, report) {
   const diagnostic = report.mode === 'baseline-diagnostic';
@@ -441,7 +731,7 @@ async function runAtlas(page, output, report) {
       if (zoom >= 5.9) assert.equal(row.geometry?.bothEndpointsOffscreen, true, 'Crossing fixture did not put both endpoints offscreen');
       assert.ok(row.screenshot.bytes > 1000, 'Missing screenshot evidence');
     });
-    await writeFile(join(output, 'report.partial.json'), `${JSON.stringify(report, null, 2)}\n`);
+    await writeRasterReport(report,output,'report.partial.json');
     if ([5.9, 6, 8, 19].includes(zoom)) {
       const box = row.canvas;
       try { report.clicks.push({ zoom, ...await inspectAtlasClick(page, { x: box.x + box.width / 2, y: box.y + box.height / 2 }) }); selected = true; report.checks.push({ label: `${label}: exact crossing click`, status: 'passed' }); }
@@ -466,7 +756,7 @@ async function runAtlas(page, output, report) {
   recordCheck(report, 'atlas oblique nonzero-bearing native raster', () => { assertRasterEvidence(oblique, 'oblique'); assert.ok(oblique.pose.pitch >= 35 && Math.abs(oblique.pose.bearing) >= 20); }, diagnostic);
   await page.getByRole('button', { name: 'Top-down orientation', exact: true }).click();
   await setAtlasZoom(page, 5.9); await centerAtlas(page);
-  await writeFile(join(output, 'report.partial.json'), `${JSON.stringify(report, null, 2)}\n`);
+  await writeRasterReport(report,output,'report.partial.json');
 }
 
 async function runNarrowAtlas(page, output, report) {
@@ -497,8 +787,32 @@ async function runLive(page, output, report) {
     const row = await captureAtlas(page, output, `public-live-z${String(zoom).replace('.', '_')}`); report.atlas.push(row);
     try { assertRasterEvidence(row, `public live z${zoom}`); report.checks.push({ label: `public live z${zoom}: native observation`, status: 'live-diagnostic-observed' }); }
     catch (error) { report.checks.push({ label: `public live z${zoom}: native observation`, status: 'live-diagnostic-failure', message: error.message }); }
-    await writeFile(join(output, 'report.partial.json'), `${JSON.stringify(report, null, 2)}\n`);
+    await writeRasterReport(report,output,'report.partial.json');
   }
+}
+
+async function inspectCaseSources(page,file,openDialog=false) {
+  const edge=file.edges.find(row=>row.id===CASE_EDGE),claim=file.claims.find(row=>row.claimId===edge.claimId);
+  assert.deepEqual(claim.sourceIds,['source:india-ambani:ambani:s1'],'Pinned Ambani source mapping changed');
+  const expected=claim.sourceIds.map(sourceId=>({sourceId,href:file.sources.find(source=>source.id===sourceId).url}));
+  assert.equal(expected[0].href,'https://www.ril.com/sites/default/files/2025-04/SHP31032025.pdf');
+  const article=page.locator(`[data-reader-scroll="workspace-evidence"] article[data-claim-id=${JSON.stringify(claim.claimId)}]`);
+  assert.equal(await article.count(),1,'Exact selected-claim reader is missing');
+  const hrefs=await article.locator(':scope > .ocd-evidence-content > .ocd-sources > li > a').evaluateAll(links=>links.map(link=>link.getAttribute('href')));
+  const actual=hrefs.map((href,i)=>({sourceId:claim.sourceIds[i],href}));
+  assertExactSourceLinks(actual,expected,'Exact selected case claim source links');
+  assert.ok((await article.textContent()).includes(`Claim reference: ${claim.claimId}`),'Selected reader claim identity changed');
+  let dialogLinks=null;
+  if(openDialog) {
+    await page.locator('[data-case-workspace]').getByRole('button',{name:`Inspect selected claim ${claim.number}: ${claim.proposedLabel}`,exact:true}).click();
+    const dialog=page.locator('[data-case-source-dialog]');await dialog.waitFor({state:'visible'});
+    const content=dialog.locator('[data-reader-scroll="case-evidence"] > .ocd-evidence-content');
+    assert.ok((await content.textContent()).includes(`Claim reference: ${claim.claimId}`),'Selected source dialog opened another claim');
+    const urls=await content.locator(':scope > .ocd-sources > li > a').evaluateAll(links=>links.map(link=>link.getAttribute('href')));
+    dialogLinks=urls.map((href,i)=>({sourceId:claim.sourceIds[i],href}));assertExactSourceLinks(dialogLinks,expected,'Exact selected claim source dialog');
+    await dialog.getByRole('button',{name:'Close sources',exact:true}).click();
+  }
+  return {edgeId:edge.id,claimId:claim.claimId,sourceLinks:actual,dialogLinks};
 }
 
 async function runCase(page, output, report) {
@@ -542,9 +856,10 @@ async function runCase(page, output, report) {
     await dragSurface(page, '[data-case-surface]', [dx * scale, dy * scale], `case center correction ${i}`);
   }
   await page.evaluate(() => window.__threadZoomProbe.arm('case-max-zoom', 'case'));
-  await surface.focus(); await surface.press('+'); await delay(100);
-  const row = await page.evaluate(() => { const r = window.__threadZoomProbe.report().captures['case-max-zoom']; window.__threadZoomProbe.stop(); return r; });
-  row.screenshot = await screenshot(page, output, 'case-max-zoom'); report.case.push(row);
+  await surface.focus();
+  for(let check=0;check<3;check++){await surface.press('+');await delay(160);}
+  const row = await page.evaluate(() => window.__threadZoomProbe.finish('case-max-zoom','case'));
+  row.screenshot = await screenshot(page, output, 'case-max-zoom'); await verifyScreenshotCrossing(row,output); report.case.push(row);
   recordCheck(report, 'case max-zoom native exact-edge raster and crossing', () => {
     assertRasterEvidence(row, 'case max zoom'); assert.equal(row.edgeId, CASE_EDGE); assert.equal(row.meshUuid, initial.meshUuid, 'Original case GPU geometry identity changed');
     const length = points => points.slice(1).reduce((sum, p, i) => sum + Math.hypot(p[0] - points[i][0], p[1] - points[i][1]), 0);
@@ -556,12 +871,16 @@ async function runCase(page, output, report) {
     assert.ok(row.draws.every(draw => draw.viewport[2] <= 1024 && draw.viewport[3] <= 1024 && draw.viewport[2] * draw.viewport[3] <= 786432));
   });
   const g = row.geometry, mid = g.points[Math.floor(g.points.length / 2)];
-  await page.mouse.click(g.board.x + mid[0], g.board.y + mid[1]);
+  const clickPoint={x:g.board.x+mid[0],y:g.board.y+mid[1]};
+  assert.equal(await page.evaluate(point=>document.elementFromPoint(point.x,point.y)===document.querySelector('[data-case-surface]'),clickPoint),true,'Case crossing click must hit the real case input surface');
+  const displayed=row.frames.at(-1)?.finalCanvas?.raster?.path?.samples??[];
+  assert.ok(displayed.some(p=>p.supported&&Math.hypot(p.x-mid[0],p.y-mid[1])<=2),'Case click is not on the measured final visible crossing');
+  await page.mouse.click(clickPoint.x,clickPoint.y);
   await until(async () => await caseWorkspace(page).getAttribute('data-case-selection') === CASE_EDGE, 'Case crossing click did not select the exact original ID');
   const selected = caseWorkspace(page).locator(`[data-edge-id=${JSON.stringify(CASE_EDGE)}]`);
   assert.equal(await selected.getByRole('button').first().getAttribute('aria-pressed'), 'true');
-  assert.ok(await caseWorkspace(page).locator('[data-reader-scroll="workspace-evidence"] a[href^="https://"]').count(), 'Case sources are unavailable after crossing selection');
-  report.clicks.push({ kind: 'case', id: CASE_EDGE, sourceAccess: true, resultView: await caseWorkspace(page).getAttribute('data-case-view') });
+  const sourceAccess=await inspectCaseSources(page,file,true);
+  report.clicks.push({ kind: 'case', id: CASE_EDGE, sourceAccess: true, ...sourceAccess, resultView: await caseWorkspace(page).getAttribute('data-case-view'),inputTarget:'exact data-case-surface',measuredVisiblePoint:clickPoint });
   // Explicit readable fallback has its own result; it cannot satisfy a native ribbon check.
   if (await caseWorkspace(page).getAttribute('data-case-view') === 'scene') {
     await surface.focus();
@@ -570,12 +889,34 @@ async function runCase(page, output, report) {
   await until(async () => await caseWorkspace(page).getAttribute('data-case-view') === 'list', 'Selected offscreen endpoints did not enter the explicit readable fallback', 8000);
   report.caseFallback = { continuityEvidence: 'Native case ribbon continuity was observed before this deliberate reader transition; the reader is not a rendering pass.', mode: 'list', notice: await caseWorkspace(page).locator('[data-case-auto-fallback-notice]').textContent(), selection: await caseWorkspace(page).getAttribute('data-case-selection') };
   assert.ok(report.caseFallback.notice?.trim()); assert.equal(report.caseFallback.selection, CASE_EDGE);
-  assert.ok(await caseWorkspace(page).locator('[data-reader-scroll="workspace-evidence"] a[href^="https://"]').count());
+  report.caseFallback.sourceAccess=await inspectCaseSources(page,file);
   await caseWorkspace(page).getByRole('button', { name: 'Close workspace', exact: true }).click();
   await until(async () => await caseWorkspace(page).count() === 0, 'Case did not close');
   const after = await pose(page); assert.deepEqual(after, before, 'Case camera leaked into atlas pose');
   const restored = await captureAtlas(page, output, 'atlas-after-case'); report.atlas.push(restored);
   recordCheck(report, 'atlas raster after case handoff', () => assertRasterEvidence(restored, 'after case'), report.mode === 'baseline-diagnostic');
+}
+
+/** Raw readbacks are losslessly retained once per SHA-256, outside verbose JSON.
+ * This removes repeated base64 from partial/final/observer copies without discarding
+ * any frame, pixel or receipt. Each reference carries both raw and gzip sizes. */
+export async function writeRasterReport(report,output,filename='report.json') {
+  const directory=join(output,'pixels');await mkdir(directory,{recursive:true});
+  const receipts=new Map((report.rawRasterArtifacts?.files??[]).map(row=>[row.sha256,row]));
+  async function visit(value) {
+    if(!value||typeof value!=='object')return;
+    for(const [key,child]of Object.entries(value)) {
+      if(key.endsWith('RgbaBase64')&&typeof child==='string') {
+        const bytes=Buffer.from(child,'base64'),hash=sha256(bytes);let receipt=receipts.get(hash);
+        if(!receipt){const compressed=gzipSync(bytes),file=`pixels/${hash}.rgba.gz`;await writeFile(join(output,file),compressed);receipt={file,encoding:'gzip',layout:'RGBA unsigned bytes; bottom-up native rows unless screenshot receipt says otherwise',sha256:hash,bytes:bytes.length,compressedBytes:compressed.length};receipts.set(hash,receipt);}
+        value[key.slice(0,-6)]={...receipt};delete value[key];
+      }else if(key!=='rawRasterArtifacts')await visit(child);
+    }
+  }
+  await visit(report);
+  report.rawRasterArtifacts={method:'Lossless content-addressed native/screenshot RGBA; no sampling or evidence loss',files:[...receipts.values()],uniqueFiles:receipts.size,
+    bytes:[...receipts.values()].reduce((sum,row)=>sum+row.bytes,0),compressedBytes:[...receipts.values()].reduce((sum,row)=>sum+row.compressedBytes,0)};
+  await writeFile(join(output,filename),`${JSON.stringify(report,null,2)}\n`);
 }
 
 async function startServer(dist) {
@@ -607,11 +948,12 @@ export async function main(args = process.argv.slice(2), env = process.env) {
   if (mode !== 'live-diagnostic') for (const file of ['src/registry.json', 'src/semanticZoom.ts', 'src/case-data/reviewed-transport.json', 'src/threadGeometry.ts', 'src/scene.ts']) report.sourceHashes[file] = sha256(await readFile(join(ROOT, file)));
   let browser, server, page; const assetReads = [];
   try {
+    if(mode!=='live-diagnostic')report.atlasSourceReference=await loadAtlasSourceReference();
     const serving = mode === 'live-diagnostic' ? { origin: new URL(LIVE_ATLAS_URL).origin } : await startServer(join(ROOT, 'dist')); server = serving.server;
     browser = await chromium.launch({ headless: true, args: ['--use-gl=angle','--use-angle=swiftshader','--enable-unsafe-swiftshader'] });
     report.browserVersion = browser.version();
     const context = await browser.newContext({ viewport: { width: 800, height: 500 }, deviceScaleFactor: 1, reducedMotion: 'reduce' });
-    await context.addInitScript(installThreadZoomProbe, { atlasEdge: ATLAS_EDGE, caseEdge: CASE_EDGE });
+    await context.addInitScript({ content: `window.__threadZoomAnalyze = ${analyzePathRaster.toString()}; (${installThreadZoomProbe.toString()})(${JSON.stringify({atlasEdge:ATLAS_EDGE,caseEdge:CASE_EDGE})});` });
     page = await context.newPage(); navigationReports.set(page, report.navigation); page.setDefaultTimeout(15000); page.on('pageerror', error => report.errors.push(error.message));
     page.on('response', response => {
       if (!response.url().startsWith(`${serving.origin}${PREFIX}`) || !/\.js(?:\?|$)/.test(response.url())) return;
@@ -625,6 +967,7 @@ export async function main(args = process.argv.slice(2), env = process.env) {
     else {
     await runAtlas(page, output, report);
     await runNarrowAtlas(page, output, report);
+    recordCheck(report,'comparable top-down zoom local width and contrast',()=>assertComparableZoomEvidence(report.atlas),mode==='baseline-diagnostic');
     // Nongeographic case gets a comfortably readable independent viewport.
     await page.setViewportSize({ width: 1440, height: 1000 }); await delay(200);
     await runCase(page, output, report);
@@ -644,8 +987,8 @@ export async function main(args = process.argv.slice(2), env = process.env) {
     if (browser) await browser.close().catch(error => report.errors.push(`Browser cleanup: ${error}`)); if (server) await new Promise(resolveClosed => server.close(resolveClosed));
     for (const [file, hash] of Object.entries(report.sourceHashes)) assert.equal(sha256(await readFile(join(ROOT, file))), hash, `${file}: browser review mutated source`);
     report.finishedAt = new Date().toISOString(); report.status = diagnosticStatus(mode, report.checks);
-    await writeFile(join(output, 'report.json'), `${JSON.stringify(report, null, 2)}\n`);
-    await writeFile(join(output, 'summary.md'), `# Thread zoom native review\n\nStatus: ${report.status}\n\n${report.renderer}\n\n${report.checks.map(c => `- ${c.status}: ${c.label}${c.message ? `: ${c.message.split('\n')[0]}` : ''}`).join('\n')}\n\nScreenshots and per-draw readback evidence are in report.json. Baseline diagnostic failures never count as candidate passes. Existing full gates remain mandatory.\n`);
+    await writeRasterReport(report,output);
+    await writeFile(join(output, 'summary.md'), `# Thread zoom native review\n\nStatus: ${report.status}\n\n${report.renderer}\n\n${report.checks.map(c => `- ${c.status}: ${c.label}${c.message ? `: ${c.message.split('\n')[0]}` : ''}`).join('\n')}\n\nScreenshots, per-draw readback references and content-addressed lossless pixels/ files are retained with report.json. Baseline diagnostic failures never count as candidate passes. Existing full gates remain mandatory.\n`);
   }
   assert.equal(report.status === 'failed', false, `Native thread zoom review failed; inspect ${output}/report.json`);
   return report;

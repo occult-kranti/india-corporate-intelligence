@@ -34,6 +34,7 @@ import { WORLD_CAMERA_BOUNDS } from "./mapBounds";
 import { easedProgress } from "./cameraMath";
 import {
   makeScreenThreadGeometry,
+  projectScreenThreadGeometry,
   constrainThreadMaterial,
   threadProjectionScale,
   threadRadiusPixels,
@@ -253,6 +254,7 @@ export class EvidenceWorld {
   private lastTravelFrame = 0;
   private lastJourneyEmit = 0;
   private pendingCommand: CameraCommand | null = null;
+  private threadProjectionRevision = 0;
   private threadRadiusUniform = { value: 1 };
   private threadLiftUniform = { value: 1 };
   constructor(
@@ -971,14 +973,21 @@ export class EvidenceWorld {
     const projection = threadProjectionScale(this.map.getZoom());
     this.threadRadiusUniform.value = projection.radius;
     this.threadLiftUniform.value = projection.lift;
-    for (const mesh of this.curveGroup.children) {
-      (mesh as THREE.Mesh).visible = true;
-      const material = (mesh as THREE.Mesh).material as THREE.MeshStandardMaterial;
-      material.opacity = THREAD_OPACITY;
-    }
+    const threadFrame = Object.freeze({
+      matrix: Object.freeze([...this.camera.projectionMatrix.elements]),
+      radius: projection.radius, lift: projection.lift,
+      revision: ++this.threadProjectionRevision,
+    });
     // Every geographic boundary resets Three's logical state AND its default-target viewport.
     // The case offscreen pass may have changed both, including after MapLibre resizes.
     try {
+      for (const mesh of this.curveGroup.children) {
+        projectScreenThreadGeometry((mesh as THREE.Mesh).geometry, threadFrame);
+        mesh.userData.threadProjection = threadFrame;
+        (mesh as THREE.Mesh).visible = true;
+        const material = (mesh as THREE.Mesh).material as THREE.MeshStandardMaterial;
+        material.opacity = THREAD_OPACITY;
+      }
       this.renderer.resetState();
       this.renderer.setRenderTarget(null);
       const gl = this.renderer.getContext(), ratio = this.renderer.getPixelRatio();

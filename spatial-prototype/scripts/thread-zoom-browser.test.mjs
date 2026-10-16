@@ -1,16 +1,19 @@
 /** Portable contract/model checks only. Never launches a browser or WebGL. */
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFile } from 'node:fs/promises';
+import { readFile, mkdtemp, rm } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import { createRequire } from 'node:module';
 import { runInNewContext } from 'node:vm';
 import { build } from 'esbuild';
+import { deflateSync, gunzipSync } from 'node:zlib';
 import { ATLAS_EDGE, CASE_EDGE, CROSSING_CENTER, REQUIRED_ZOOMS, BASELINE_COMMIT,
   requireAuthorizedCI, parseMode, mercator, panDelta, clipSegment, assertRasterEvidence, recordCheck,
-  installThreadZoomProbe, dragOffsets, findClearGesture, navigationSnapshot, atlasCenterReached, ATLAS_CENTER_ERROR_PX } from './thread-zoom-browser.mjs';
+  installThreadZoomProbe, dragOffsets, findClearGesture, navigationSnapshot, atlasCenterReached, ATLAS_CENTER_ERROR_PX,
+  analyzePathRaster, assertPathEvidence, assertExactSourceLinks, decodeScreenshotPng, loadAtlasSourceReference, writeRasterReport } from './thread-zoom-browser.mjs';
 
 const path = fileURLToPath(new URL('./thread-zoom-browser.mjs', import.meta.url));
 const source = await readFile(path, 'utf8');
@@ -160,8 +163,20 @@ test('independent screen clipping keeps crossings with both endpoints outside', 
   assert.equal(clipSegment([-5, -5], [105, -5], 100, 40), null);
   assert.deepEqual(clipSegment([30, 20], [30, 20], 100, 40), [[30,20],[30,20]]);
 });
-const raster = () => ({ canvas: { width:800, height:500 }, buffer: { width:800, height:500 }, contextLost:false,
-  draws:[{ nativePositionBufferMatched:true, raster:{ changedPixels:180, spanCss:128, meanWidthCss:1.4, coverage:.99, maxGapCss:1 } }] });
+function portableStrip(paint=region=>paintRect(region,0,160,63,65),expected={kind:'atlas',points:[[-100,64],[260,64]],nominalWidthCss:2.2}) {
+  const region=()=>({pixels:new Uint8Array(160*128*4),width:160,height:128,x:320,y:186,sx:1,sy:1,cssLeft:0,cssTop:0});
+  const before=region(),after=region();paint(after);return analyzePathRaster(before,after,expected);
+}
+function paintRect(region,x0,x1,y0,y1,contrast=100) {
+  for(let y=y0;y<y1;y++)for(let x=x0;x<x1;x++)for(let c=0;c<3;c++)region.pixels[(y*region.width+x)*4+c]=contrast;
+}
+function rasterFrames(rasters) {
+  const draws=rasters.map((raster,i)=>({drawId:i,nativePositionBufferMatched:true,raster,poseKey:'settled',meshUuid:'original',programId:1,positionBufferId:2,material:{type:'MeshStandardMaterial',opacity:.9},nativeOpacity:Math.fround(.9)}));
+  return {kind:'atlas',meshUuid:'original',finalPoseKey:'settled',canvas:{width:800,height:500},buffer:{width:800,height:500},contextLost:false,draws,
+    frames:draws.map(draw=>({token:draw.drawId,complete:true,poseKey:'settled',drawIds:[draw.drawId],composites:[],finalCanvas:{raster:draw.raster,sourceDrawId:draw.drawId,poseKey:'settled',meshUuid:'original',programId:1,defaultFramebuffer:true}})),
+    screenshotEvidence:{raster:rasters.at(-1)}};
+}
+const raster=()=>{const r=portableStrip();return rasterFrames([r,r,r]);};
 test('native pixel acceptance rejects visible meshes, draw counts and extreme-width collapse', () => {
   assert.doesNotThrow(() => assertRasterEvidence(raster(), 'portable acceptance fixture'));
   const empty = raster(); empty.draws = []; empty.meshVisibleDiagnosticOnly = true; assert.throws(() => assertRasterEvidence(empty, 'zero actual draws'));
@@ -185,7 +200,7 @@ test('native observer keeps original GL calls, factual data and renderer untouch
   assert.match(probe, /'observe'/); assert.match(probe, /'register'/); assert.match(probe, /uThreadRadius/);
   assert.doesNotMatch(probe, /renderer\.render\s*=|onBeforeRender\s*=|\.uniforms\.[^;]+\s*=|\.position\.set|native\.draw\w+\(/);
   assert.doesNotMatch(probe, /bindFramebuffer\(|pixelStorei\(|clearColor\(|colorMask\(/);
-  assert.match(probe, /readPixels immediately before\/after the exact original thread draw/);
+  assert.match(source, /readPixels immediately before\/after the exact original thread draw/);
 });
 test('case review proves accepted-source mesh identity, max zoom, sources and explicit fallback separately', () => {
   assert.match(source, /Case mesh is not the accepted original edge/); assert.match(source, /row\.meshUuid, initial\.meshUuid/);
@@ -228,4 +243,101 @@ test('integer native input convergence is bounded independently from strict rast
   assert.match(source, /maxAxisErrorCssPixels: ATLAS_CENTER_ERROR_PX/);
   // Changed navigation does not convert absent pixels or a missing centerline into a pass.
   assert.throws(() => assertRasterEvidence({ samples: [] }, 'missing raster'));
+});
+
+test('original-path support rejects every audited disconnected/truncated/thick/faint counterexample', () => {
+  assert.doesNotThrow(()=>assertPathEvidence(portableStrip(),'control'));
+  const negatives={
+    disconnected:r=>{paintRect(r,0,80,40,42);paintRect(r,80,160,80,82);},
+    short_survivor:r=>paintRect(r,72,88,63,65),
+    disconnected_on_path:r=>{paintRect(r,0,79,63,65);paintRect(r,81,160,63,65);},
+    eighty_pixel_smear:r=>paintRect(r,0,160,24,104),
+    two_of_255_contrast:r=>paintRect(r,0,160,63,65,2),
+    displaced_centerline:r=>paintRect(r,0,160,71,73),
+    absent:()=>{},
+  };
+  for(const [name,paint]of Object.entries(negatives)) {
+    const candidate=portableStrip(paint);assert.throws(()=>assertPathEvidence(candidate,name),name);
+    assert.throws(()=>assertRasterEvidence(rasterFrames([candidate,candidate,candidate]),name),name);
+  }
+});
+test('later absent, stale, missing-composite and hidden screenshot frames cannot borrow an early pass',()=>{
+  const good=portableStrip(),absent=portableStrip(()=>{});
+  assert.throws(()=>assertRasterEvidence(rasterFrames([good,absent,absent]),'early good late absent'));
+  const lastMissing=raster();lastMissing.frames.at(-1).finalCanvas={error:'late draw absent'};assert.throws(()=>assertRasterEvidence(lastMissing,'late missing'));
+  const stale=raster();stale.frames.at(-1).poseKey='earlier';assert.throws(()=>assertRasterEvidence(stale,'stale pose'));
+  const hidden=raster();hidden.screenshotEvidence.raster=absent;assert.throws(()=>assertRasterEvidence(hidden,'hidden in screenshot'));
+  const caseRow=raster();caseRow.kind='case';caseRow.draws.forEach(d=>d.textureId=3);assert.throws(()=>assertRasterEvidence(caseRow,'FBO without canvas composite'));
+  caseRow.frames.forEach(f=>f.composites=[{textureId:4,defaultFramebuffer:true}]);assert.throws(()=>assertRasterEvidence(caseRow,'wrong native composite texture'));
+  caseRow.frames.forEach(f=>f.composites=[{textureId:3,defaultFramebuffer:true}]);assert.doesNotThrow(()=>assertRasterEvidence(caseRow,'exact original texture composite'));
+});
+test('redundant same-frame zero-delta overdraw is not itself a disappearance',()=>{
+  const row=raster(),absent=portableStrip(()=>{});
+  row.draws.push({drawId:3,nativePositionBufferMatched:true,raster:absent,poseKey:'settled'});row.frames[0].drawIds.push(3);
+  assert.doesNotThrow(()=>assertRasterEvidence(row,'one visible original contribution survives redundant overdraw'));
+  assert.doesNotMatch(installThreadZoomProbe.toString(),/capture\.draws\.length < 8/);
+});
+test('native final-frame provenance and precise original-path projection stay observation-only',()=>{
+  const probe=installThreadZoomProbe.toString();
+  assert.match(probe,/frameTimestamp = timestamp/);assert.match(probe,/queueMicrotask/);
+  assert.match(probe,/getFramebufferAttachmentParameter/);assert.match(probe,/textureId===sourceRecord\.textureId/);
+  assert.match(probe,/frame\.matrix/);assert.match(probe,/curve\.getSpacedPoints\(48\)/);
+  assert.match(probe,/Original segment\/ring path mapping changed/);assert.match(probe,/ELEMENT_ARRAY_BUFFER_BINDING/);
+  assert.match(probe,/aThreadRadial/);assert.match(probe,/nativeProjectionMatrix:projection/);
+  assert.match(source,/verifyScreenshotCrossing/);assert.match(source,/displayed\.some\(p=>p\.supported/);
+  assert.doesNotMatch(probe,/\.getSpacedPoints\(48\)\.map\(p=>.*aThreadClip/);
+});
+test('source access requires exact IDs and usable URLs, not an unrelated HTTPS anchor',()=>{
+  const expected=[{sourceId:'selected-source',href:'https://source.example/original.pdf'}];
+  assert.doesNotThrow(()=>assertExactSourceLinks(expected,expected,'selected'));
+  for(const actual of [[],[{sourceId:'other-source',href:expected[0].href}],[{sourceId:'selected-source',href:null}],[{sourceId:'selected-source',href:'https://unrelated.example/'}]])assert.throws(()=>assertExactSourceLinks(actual,expected,'selected'));
+  assert.match(source,/Source trail/);assert.match(source,/article\[data-claim-id=/);assert.match(source,/Inspect selected claim/);
+  assert.doesNotMatch(source,/workspace-evidence.*a\[href\^=/);
+});
+test('PNG screenshot decoder preserves RGB/RGBA pixels and every standard filter',()=>{
+  const chunk=(name,data)=>{const result=Buffer.alloc(12+data.length);result.writeUInt32BE(data.length);result.write(name,4);data.copy(result,8);return result;};
+  for(const channels of [3,4]) {
+    const width=3,height=5,stride=width*channels,scan=Buffer.from(Array.from({length:stride*height},(_,i)=>(i*19+7)%256)),raw=Buffer.alloc((stride+1)*height);
+    const paeth=(a,b,c)=>{const p=a+b-c,pa=Math.abs(p-a),pb=Math.abs(p-b),pc=Math.abs(p-c);return pa<=pb&&pa<=pc?a:pb<=pc?b:c;};
+    for(let y=0;y<height;y++){raw[y*(stride+1)]=y;for(let x=0;x<stride;x++){const a=x>=channels?scan[y*stride+x-channels]:0,b=y?scan[(y-1)*stride+x]:0,c=y&&x>=channels?scan[(y-1)*stride+x-channels]:0;raw[y*(stride+1)+x+1]=(scan[y*stride+x]-[0,a,b,Math.floor((a+b)/2),paeth(a,b,c)][y])&255;}}
+    const header=Buffer.alloc(13);header.writeUInt32BE(width);header.writeUInt32BE(height,4);header[8]=8;header[9]=channels===4?6:2;
+    const png=Buffer.concat([Buffer.from('89504e470d0a1a0a','hex'),chunk('IHDR',header),chunk('IDAT',deflateSync(raw)),chunk('IEND',Buffer.alloc(0))]),decoded=decodeScreenshotPng(png);
+    assert.equal(decoded.width,width);assert.equal(decoded.height,height);
+    for(let i=0;i<width*height;i++)for(let c=0;c<4;c++)assert.equal(decoded.pixels[i*4+c],c===3&&channels===3?255:scan[i*channels+c]);
+  }
+});
+
+
+test('accepted original atlas source reference is integrity-checked independently of the DOM',async()=>{
+  const reference=await loadAtlasSourceReference();
+  assert.equal(reference.sourceId,'legacy:source:8c9d47878789e779');
+  assert.equal(reference.url,'https://www.pib.gov.in/Pressreleaseshare.aspx?PRID=1573010');
+  assert.equal(reference.receipts.length,2);
+});
+
+
+test('raw artifact persistence deduplicates losslessly without dropping any frame or screenshot',async()=>{
+  const directory=await mkdtemp(join(tmpdir(),'native-pixels-'));
+  try {
+    const bytes=Buffer.from([0,1,2,255,127,128,129,255]),encoded=bytes.toString('base64');
+    const report={draws:[{beforeRgbaBase64:encoded,afterRgbaBase64:encoded}],frames:[{canvasRgbaBase64:encoded}],screenshot:{screenshotRgbaBase64:encoded}};
+    await writeRasterReport(report,directory);
+    assert.equal(report.rawRasterArtifacts.uniqueFiles,1);assert.equal(report.draws.length,1);assert.equal(report.frames.length,1);
+    assert.deepEqual(gunzipSync(await readFile(join(directory,report.draws[0].beforeRgba.file))),bytes);
+    assert.equal(report.frames[0].canvasRgba.sha256,report.screenshot.screenshotRgba.sha256);
+    assert.doesNotMatch(await readFile(join(directory,'report.json'),'utf8'),/RgbaBase64/);
+  }finally{await rm(directory,{recursive:true,force:true});}
+});
+
+
+test('gap/continuity analysis respects intended dash intervals and rejects missing dash cores',()=>{
+  const expected={kind:'case',points:[[0,64,0],[160,64,160]],nominalWidthCss:1.5,dash:{period:16,stops:[8,16]}};
+  const dashed=portableStrip(r=>{for(let x=0;x<160;x+=16)paintRect(r,x,x+8,63,65);},expected);
+  assert.doesNotThrow(()=>assertPathEvidence(dashed,'intended dashes'));
+  const missing=portableStrip(r=>{for(let x=0;x<160;x+=32)paintRect(r,x,x+8,63,65);},expected);
+  assert.throws(()=>assertPathEvidence(missing,'missing intended dash intervals'));
+});
+test('failed raster messages remain concise and never include raw pixels',()=>{
+  const row=raster();row.draws.forEach(draw=>draw.raster.changedPixels=0);
+  try{assertRasterEvidence(row,'absence');assert.fail('Expected failure');}catch(error){assert.ok(error.message.length<500);assert.doesNotMatch(error.message,/RgbaBase64/);}
 });
