@@ -27,11 +27,11 @@ const keyFor = (edge, anchors = display.anchors) => JSON.stringify([
 ]);
 
 test('full factual corpus produces exact geographic counts while the full registry remains intact', () => {
-  assert.equal(factual.nodes.length, 7857);
-  assert.equal(factual.edges.length, 4201);
+  assert.equal(factual.nodes.length, 7853);
+  assert.equal(factual.edges.length, 4197);
   assert.equal(display.anchors.size, 3856);
   assert.equal(display.groups.size, 42);
-  assert.equal(display.candidates.length, 764);
+  assert.equal(display.candidates.length, 763);
   assert.equal(display.rendered.length, 60);
   assert.equal(MAX_THREAD_MESHES, 60);
   assert.equal([...display.groups.values()].reduce((count, group) => count + group.records.length, 0), 3856);
@@ -160,7 +160,7 @@ test('factual held exclusion survives display grouping while every held item rem
     assert.notEqual(edge.relationship.status, 'not-drawn');
   }
   assert.equal(original.held.length, 316);
-  assert.equal(original.records.filter(record => isHeldItem(original, record.id)).length, 229);
+  assert.equal(original.records.filter(record => isHeldItem(original, record.id)).length, 233);
   assert.equal(complete.nodes.length, 8086);
 });
 

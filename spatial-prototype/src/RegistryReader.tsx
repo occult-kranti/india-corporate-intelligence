@@ -190,7 +190,7 @@ export default function RegistryReader({
               <p>
                 {source.publisher} · {source.publishedAt ?? "Date unknown"}
               </p>
-              <p>{sourceCitationCorrection(source.id)?.reason ?? source.summary}</p>
+              <p>{source.summary}</p>
               {sourceCitationCorrection(source.id) ? <p className="notice">{sourceCitationCorrection(source.id)?.sourceDateNotice}</p> : null}
               <details>
                 <summary>Source locator and limitations</summary>

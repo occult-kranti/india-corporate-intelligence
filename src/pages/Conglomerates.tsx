@@ -14,6 +14,7 @@ import {
   type Group,
 } from '../data/conglomerates';
 import { buildNationalGraph } from '../graph/build';
+import { foreignPartnerPresentations } from '../data/jioOwnershipCorrections';
 import type { StateCode } from '../graph/schema';
 
 /**
@@ -157,13 +158,32 @@ function GroupCard({ g, open, onToggle }: { g: Group; open: boolean; onToggle: (
                 <div>
                   <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-text-muted mb-2">Foreign partners</p>
                   <ul className="space-y-2">
-                    {g.foreignPartners.map((f) => (
-                      <li key={f.name + f.entity} className="text-[13.5px]">
-                        <strong className="text-text">{f.name}</strong>{' '}
-                        <span className="text-text-muted">({f.country})</span>
-                        <span className="block text-text-muted text-[12.5px]">
-                          {f.stake} — {f.entity}
-                        </span>
+                    {foreignPartnerPresentations(g).map(({partner:f,correction}) => (
+                      <li key={f.name + f.entity} className="text-[13.5px] min-w-0 break-words" data-jio-ownership-hold={correction?.id}>
+                        {correction ? (
+                          <>
+                            <strong className="text-text">{correction.displayTitle}</strong>
+                            <p className="text-text-muted text-[12.5px] mt-1">{correction.summary}</p>
+                            <p className="text-amber text-[12px] mt-1">{correction.notice}</p>
+                            <p className="text-text-muted text-[12px] mt-1">{correction.temporalLimitation}</p>
+                            <p className="text-text-muted text-[11.5px] mt-1">{correction.sourceDateBasis}</p>
+                            <ul className="text-[12px] mt-1 space-y-1" aria-label={`${f.name} retained source closure`}>
+                              {correction.sources.map(({original:source}) => (
+                                <li key={source.id}><a href={source.url} target="_blank" rel="noreferrer" className="text-accent underline">{source.title}</a></li>
+                              ))}
+                            </ul>
+                            <details className="text-text-muted text-[12px] mt-2">
+                              <summary className="cursor-pointer">Superseded audit wording</summary>
+                              <p>{f.name} ({f.country}): {f.stake} — {f.entity}</p>
+                            </details>
+                          </>
+                        ) : (
+                          <>
+                            <strong className="text-text">{f.name}</strong>{' '}
+                            <span className="text-text-muted">({f.country})</span>
+                            <span className="block text-text-muted text-[12.5px]">{f.stake} — {f.entity}</span>
+                          </>
+                        )}
                       </li>
                     ))}
                   </ul>

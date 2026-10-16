@@ -22,7 +22,7 @@ export function buildNarrationTranscript(
   parts.push(
     `${new Set(item.sourceIds).size} distinct retained source records.`,
   );
-  if ("amounts" in item)
+  if ("amounts" in item && (!correction || correction.graphEligible))
     for (const amount of item.amounts)
       parts.push(
         `Amount: ${amount.currency} ${amount.value} ${amount.unit}. Accounting stage: ${amount.stage}. Period: ${amount.period}.`,

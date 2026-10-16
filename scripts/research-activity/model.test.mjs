@@ -8,25 +8,25 @@ const rejects=fn=>assert.equal(validateSnapshot(mutate(fn)).valid,false);
 test('dated snapshot distinguishes live base, deployment and reader-review work',()=>{
  assert.deepEqual(validateSnapshot(source),{valid:true,errors:[]});
  assert.equal(source.tasks.find(t=>t.id==='base-release').status,'completed');
- assert.equal(source.tasks.find(t=>t.id==='historical-tutorial').status,'review-pending');
- assert.deepEqual(counts(source.tasks),{planned:1,running:0,'review-pending':6,blocked:1,completed:1});
+ assert.equal(source.tasks.find(t=>t.id==='historical-tutorial').status,'completed');
+ assert.deepEqual(counts(source.tasks),{planned:1,running:0,'review-pending':5,blocked:1,completed:2});
 });
 test('all status lanes filter without mutating source',()=>{
  for(const status of STATUSES)assert.equal(selectTasks(source.tasks,{status}).length,counts(source.tasks)[status]);
  assert.equal(selectTasks(source.tasks).length,9);
 });
 test('search is case-insensitive and spans question, role, action and evidence',()=>{
- for(const query of ['PR11','  pr11  ','Release verification','new deployment'])assert.ok(selectTasks(source.tasks,{query}).some(t=>t.id==='historical-tutorial'));
- assert.equal(selectTasks(source.tasks,{status:'completed',query:'PR11'}).length,0);
+ for(const query of ['PR11','  pr11  ','Release verification','published reader'])assert.ok(selectTasks(source.tasks,{query}).some(t=>t.id==='historical-tutorial'));
+ assert.equal(selectTasks(source.tasks,{status:'completed',query:'PR11'}).length,1);
  assert.equal(selectTasks(source.tasks,{query:'no such task exists'}).length,0);
 });
 test('unknown statuses and duplicate IDs rejected',()=>{rejects(d=>d.tasks[0].status='done');rejects(d=>d.tasks[1].id=d.tasks[0].id);});
 test('completion without reviewed evidence is rejected',()=>{
- rejects(d=>delete d.tasks[0].completion);rejects(d=>d.tasks[1].status='completed');
+ rejects(d=>delete d.tasks[0].completion);rejects(d=>d.tasks[2].status='completed');
  rejects(d=>d.tasks[0].completion.evidenceIndex=99);rejects(d=>d.tasks[0].completion.evidenceIndex=1);
  rejects(d=>d.tasks[0].completion.note='');rejects(d=>delete d.tasks[0].evidence[0].url);
  rejects(d=>d.tasks[0].completion.verifiedAt=new Date(Date.parse(d.tasks[0].lastChecked)+1000).toISOString().replace('.000',''));
- rejects(d=>d.tasks[1].completion=d.tasks[0].completion);
+ rejects(d=>d.tasks[2].completion=d.tasks[0].completion);
 });
 test('private project links and extra fields rejected at every level',()=>{
  rejects(d=>d.privateNotes='secret');rejects(d=>d.tasks[0].privateProjectLink='https://chatgpt.com/c/private');
@@ -66,15 +66,15 @@ test('UI avoids HTML injection sinks, remote dependencies and disabled private s
 test('four simple display groups preserve internal review and hold states',()=>{
  assert.deepEqual(GROUPS,['completed','working','planned','blocked']);
  assert.deepEqual(GROUPS.map(group=>GROUP_LABELS[group]),['Done','Working on','Next','Blocked']);
- assert.deepEqual(groupCounts(source.tasks),{completed:1,working:6,planned:1,blocked:1});
- assert.deepEqual(selectTasks(source.tasks,{status:'working'}).map(task=>task.id),['historical-tutorial','source-reviews','research-methods','repository-audit','cross-border-finance','public-program-records']);
+ assert.deepEqual(groupCounts(source.tasks),{completed:2,working:5,planned:1,blocked:1});
+ assert.deepEqual(selectTasks(source.tasks,{status:'working'}).map(task=>task.id),['source-reviews','research-methods','repository-audit','cross-border-finance','public-program-records']);
  assert.equal(statusGroup('running'),'working');
  assert.equal(statusGroup('review-pending'),'working');
  assert.equal(statusGroup('blocked'),'blocked');
  assert.equal(groupCounts([{status:'running'},{status:'review-pending'}]).working,2);
 });
 test('review checkpoint remains dated, candidate-only and non-live',()=>{
- assert.equal(source.asOf,'2026-10-16T06:43:06Z');
+ assert.equal(source.asOf,'2026-10-16T09:12:40Z');
  assert.equal(source.tasks.length,9);
  assert.equal(source.tasks.filter(task=>task.status==='running').length,0);
  const release=source.tasks.find(task=>task.id==='base-release');
@@ -84,16 +84,16 @@ test('review checkpoint remains dated, candidate-only and non-live',()=>{
  const next=source.tasks.find(task=>task.id==='historical-tutorial');
  assert.match(next.summary,/PR11 merged at 81b0e3b9/);
  assert.match(next.summary,/all three exact-head CI gates and assistant screenshot review/);
- assert.match(next.summary,/deployment is pending/);
- assert.equal(next.completion,undefined);
+ assert.match(next.summary,/deployment and published reader, guide, activity and navigation were verified/);
+ assert.equal(next.completion.verifiedAt,'2026-10-16T07:03:10Z');
  const readers=source.tasks.find(task=>task.id==='source-reviews');
  assert.match(readers.summary,/reader-only publication approval/);
- assert.match(readers.summary,/223 spatial tests/);
- assert.match(readers.summary,/actual release-head browser review is pending/);
- assert.match(readers.summary,/Raw baseline bytes and all graph\/path holds remain intact/);
+ assert.match(readers.summary,/PR12 merged at 3032fd73/);
+ assert.match(readers.summary,/deployment is still running at this checkpoint/);
+ assert.match(readers.summary,/Raw baseline bytes and all research graph\/path holds remain intact/);
  const profiles=source.tasks.find(task=>task.id==='cross-border-finance');
- assert.match(profiles.summary,/17 selected billionaire and public-office case packets/);
- assert.match(profiles.summary,/14-profile, 50-claim reader projection/);
+ assert.match(profiles.summary,/20 selected billionaire and public-office case packets/);
+ assert.match(profiles.summary,/19-profile, 72-claim reader projection/);
  assert.match(profiles.summary,/Modi is a public-office profile/);
  assert.match(profiles.summary,/not complete worldwide mapping/);
  assert.equal(profiles.completion,undefined);

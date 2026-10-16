@@ -1,0 +1,394 @@
+[
+  {
+    "schemaVersion": 1,
+    "id": "progressive-c040-reporting-scope-2026-10-16",
+    "subjectLabel": "Progressive / BJP",
+    "displayTitle": "Progressive → BJP: reported FY2024–25 donation",
+    "reviewedAt": "2026-10-16",
+    "status": "source-scope-correction",
+    "graphEligible": true,
+    "pathEligible": true,
+    "baselineCanonicalSha256": "048f89ffd008a498212ff2ac71d4413aef09b138a50ab77f336a23fec4722064",
+    "reviewReceiptSha256": "f408a070b431e3ee20001066e7c7ff44e5aea839f5b123416986e31023a83911",
+    "targetIds": [
+      "legacy:relationship:money:c040|progressive|direct|bjp",
+      "legacy:record:money:c040|progressive|direct|bjp"
+    ],
+    "sourceId": "legacy:source:c0f76c1ca80ae75e",
+    "sourceIds": [
+      "legacy:source:c0f76c1ca80ae75e",
+      "legacy:source:76336a2de709ed45",
+      "legacy:source:832b0fd9a4fc1a23"
+    ],
+    "sourceUrl": "https://adrindia.org/sites/default/files/Updated_Eng_Analysis_of_Contribution_reports_of_Electoral_trusts_FY_2024-25_0.pdf",
+    "sourceTitle": "ADR — Analysis of Contribution Reports of Electoral Trusts FY 2024-25 (13 Feb 2026, updated PDF)",
+    "sourceDisplayedUpdatedAt": null,
+    "sourcePublishedAt": null,
+    "sourceDateBasis": "Retained source dates unchanged. This review does not establish exact payment dates.",
+    "sourceDateNotice": "Read retained source metadata; no payment date is inferred from publication or a fiscal-year boundary.",
+    "label": "Progressive → BJP: reported FY2024–25 donation",
+    "summary": "Retained reporting describes approximately ₹757.62 crore from Progressive Electoral Trust to BJP in FY2024–25. Exact payment dates and the adjacent subsidy chronology have not been independently verified in this review. This record does not establish company-to-party earmarking or causation.",
+    "reason": "The unsupported BJP-only aggregate and two-entry parenthetical is withdrawn. Exact payment dates and adjacent subsidy chronology remain unverified in this review.",
+    "findings": [
+      "The existing reported amount is retained without a new exact-rupee precision claim or independent reconciliation.",
+      "c040 and the separate 20dec4ae onward report are potentially overlapping sourced assertions; they are not established as two separate payments and must not be added.",
+      "Adjacent subsidy amounts and chronology are not independently certified by this review."
+    ],
+    "amount": null,
+    "relatedClaimStatus": "Other recipients, including the retained INC record, remain separate. No shared-observation identity group or new transaction is admitted.",
+    "interpretationNotice": "Reported FY2024–25 context only. Exact payment dates, duplicate identity and political causation remain unresolved; preserve non-addition across potentially overlapping reports.",
+    "entityPresentationId": null,
+    "supersededEntitySentence": null,
+    "entityReplacementSentence": null,
+    "expectedItems": [
+      {
+        "id": "legacy:relationship:money:c040|progressive|direct|bjp",
+        "originalId": "money:c040|progressive|direct|bjp",
+        "namespace": "legacy",
+        "from": "legacy:entity:progressive",
+        "to": "legacy:entity:bjp",
+        "kind": "direct",
+        "label": "Progressive → BJP ₹757.62 cr (Apr 2024)",
+        "tier": "documented",
+        "status": "retained-claim",
+        "statusAsOf": null,
+        "fromDate": "2024-04-01",
+        "toDate": "2025-03-31",
+        "dateBasis": "Original window: 2024-04-01 to 2025-03-31. Only calendar-valid exact dates enter the range filter.",
+        "sourceIds": [
+          "legacy:source:c0f76c1ca80ae75e",
+          "legacy:source:76336a2de709ed45",
+          "legacy:source:832b0fd9a4fc1a23"
+        ],
+        "domains": [
+          "energy"
+        ],
+        "layers": [
+          "funding"
+        ],
+        "geography": [
+          {
+            "scope": "unknown",
+            "stateCodes": [],
+            "localityIds": [],
+            "basis": "unknown",
+            "note": "The retained record does not establish project or service geography.",
+            "sourceIds": [
+              "legacy:source:c0f76c1ca80ae75e",
+              "legacy:source:76336a2de709ed45",
+              "legacy:source:832b0fd9a4fc1a23"
+            ]
+          }
+        ],
+        "route": "/energy",
+        "summary": "Progressive Electoral Trust gave ₹757.62 cr to BJP (₹834.97 cr in two donations per BJP's report) in April 2024, weeks after the Cabinet's 29 Feb 2024 approval of two Tata semiconductor units with ~₹44,203 cr central subsidy.",
+        "limitations": [
+          "A retained link is not evidence of improper influence. Read the original source and any counter-evidence."
+        ],
+        "alternativeExplanations": [],
+        "falsifier": null,
+        "responseIds": [],
+        "recordIds": [
+          "legacy:record:money:c040|progressive|direct|bjp"
+        ],
+        "amounts": [
+          {
+            "value": 757.6205,
+            "currency": "INR",
+            "unit": "crore",
+            "stage": "direct — as labelled by the original claim; not independently reclassified",
+            "period": "2024-04-01 to 2025-03-31"
+          }
+        ]
+      },
+      {
+        "kind": "relationship-record",
+        "tier": "documented",
+        "status": "retained-claim",
+        "statusAsOf": null,
+        "fromDate": "2024-04-01",
+        "toDate": "2025-03-31",
+        "dateBasis": "Original window: 2024-04-01 to 2025-03-31. Only calendar-valid exact dates enter the range filter.",
+        "entityIds": [
+          "legacy:entity:progressive",
+          "legacy:entity:bjp"
+        ],
+        "relationshipIds": [
+          "legacy:relationship:money:c040|progressive|direct|bjp"
+        ],
+        "period": "Original window: 2024-04-01 to 2025-03-31. Only calendar-valid exact dates enter the range filter.",
+        "response": "Consult linked counter-evidence and the original source; absence of a recorded response is not acceptance.",
+        "alternativeExplanations": [],
+        "falsifier": null,
+        "amounts": [
+          {
+            "value": 757.6205,
+            "currency": "INR",
+            "unit": "crore",
+            "stage": "direct — as labelled by the original claim; not independently reclassified",
+            "period": "2024-04-01 to 2025-03-31"
+          }
+        ],
+        "limitations": [
+          "A retained link is not evidence of improper influence. Read the original source and any counter-evidence."
+        ],
+        "id": "legacy:record:money:c040|progressive|direct|bjp",
+        "originalId": "money:c040|progressive|direct|bjp",
+        "namespace": "legacy",
+        "title": "Progressive Electoral Trust · Progressive → BJP ₹757.62 cr (Apr 2024) · BJP",
+        "summary": "Progressive Electoral Trust gave ₹757.62 cr to BJP (₹834.97 cr in two donations per BJP's report) in April 2024, weeks after the Cabinet's 29 Feb 2024 approval of two Tata semiconductor units with ~₹44,203 cr central subsidy.",
+        "sourceIds": [
+          "legacy:source:c0f76c1ca80ae75e",
+          "legacy:source:76336a2de709ed45",
+          "legacy:source:832b0fd9a4fc1a23"
+        ],
+        "domains": [
+          "energy"
+        ],
+        "layers": [
+          "funding"
+        ],
+        "geography": [
+          {
+            "scope": "unknown",
+            "stateCodes": [],
+            "localityIds": [],
+            "basis": "unknown",
+            "note": "The retained record does not establish project or service geography.",
+            "sourceIds": [
+              "legacy:source:c0f76c1ca80ae75e",
+              "legacy:source:76336a2de709ed45",
+              "legacy:source:832b0fd9a4fc1a23"
+            ]
+          }
+        ],
+        "route": "/energy"
+      }
+    ],
+    "expectedSources": [
+      {
+        "id": "legacy:source:c0f76c1ca80ae75e",
+        "originalId": "https://adrindia.org/sites/default/files/Updated_Eng_Analysis_of_Contribution_reports_of_Electoral_trusts_FY_2024-25_0.pdf",
+        "namespace": "legacy",
+        "title": "ADR — Analysis of Contribution Reports of Electoral Trusts FY 2024-25 (13 Feb 2026, updated PDF)",
+        "url": "https://adrindia.org/sites/default/files/Updated_Eng_Analysis_of_Contribution_reports_of_Electoral_trusts_FY_2024-25_0.pdf",
+        "publisher": "See retained source",
+        "publishedAt": null,
+        "retrievedAt": null,
+        "locator": "Existing corpus citation; exact page/date may not be recorded",
+        "summary": "ADR — Analysis of Contribution Reports of Electoral Trusts FY 2024-25 (13 Feb 2026, updated PDF)",
+        "tier": "reported",
+        "limitations": [
+          "Citation inherited from the existing registry; its claim retains the original evidence tier. Publication and retrieval dates were not re-inferred."
+        ]
+      },
+      {
+        "id": "legacy:source:76336a2de709ed45",
+        "originalId": "https://adrindia.org/sites/default/files/English_Analysis_of_donations_declared_by_National_Parties_FY_2024-25.pdf",
+        "namespace": "legacy",
+        "title": "ADR — Analysis of donations declared by National Parties FY 2024-25 (26 Mar 2026, PDF)",
+        "url": "https://adrindia.org/sites/default/files/English_Analysis_of_donations_declared_by_National_Parties_FY_2024-25.pdf",
+        "publisher": "See retained source",
+        "publishedAt": null,
+        "retrievedAt": null,
+        "locator": "Existing corpus citation; exact page/date may not be recorded",
+        "summary": "ADR — Analysis of donations declared by National Parties FY 2024-25 (26 Mar 2026, PDF)",
+        "tier": "reported",
+        "limitations": [
+          "Citation inherited from the existing registry; its claim retains the original evidence tier. Publication and retrieval dates were not re-inferred."
+        ]
+      },
+      {
+        "id": "legacy:source:832b0fd9a4fc1a23",
+        "originalId": "https://scroll.in/article/1088771/how-tata-group-became-bjps-biggest-donor-weeks-after-modi-cabinet-cleared-its-semiconductor-units",
+        "namespace": "legacy",
+        "title": "Scroll, 27 Nov 2025, 'How Tata Group became BJP's biggest donor weeks after Modi cabinet cleared its semiconductor units' (Progressive Electoral Trust ₹758 cr to BJP, Apr 2024)",
+        "url": "https://scroll.in/article/1088771/how-tata-group-became-bjps-biggest-donor-weeks-after-modi-cabinet-cleared-its-semiconductor-units",
+        "publisher": "See retained source",
+        "publishedAt": null,
+        "retrievedAt": null,
+        "locator": "Existing corpus citation; exact page/date may not be recorded",
+        "summary": "Scroll, 27 Nov 2025, 'How Tata Group became BJP's biggest donor weeks after Modi cabinet cleared its semiconductor units' (Progressive Electoral Trust ₹758 cr to BJP, Apr 2024)",
+        "tier": "reported",
+        "limitations": [
+          "Citation inherited from the existing registry; its claim retains the original evidence tier. Publication and retrieval dates were not re-inferred."
+        ]
+      }
+    ]
+  },
+  {
+    "schemaVersion": 1,
+    "id": "progressive-upstream-stage-hold-2026-10-16",
+    "subjectLabel": "Tata / Progressive",
+    "displayTitle": "Tata / Progressive · upstream amount held",
+    "reviewedAt": "2026-10-16",
+    "status": "source-scope-correction",
+    "graphEligible": false,
+    "pathEligible": false,
+    "baselineCanonicalSha256": "048f89ffd008a498212ff2ac71d4413aef09b138a50ab77f336a23fec4722064",
+    "reviewReceiptSha256": "f408a070b431e3ee20001066e7c7ff44e5aea839f5b123416986e31023a83911",
+    "targetIds": [
+      "legacy:relationship:e1f6b96bef1be1d5|tata|trust|progressive",
+      "legacy:record:e1f6b96bef1be1d5|tata|trust|progressive"
+    ],
+    "sourceId": "legacy:source:e60251502d318e5e",
+    "sourceIds": [
+      "legacy:source:e60251502d318e5e"
+    ],
+    "sourceUrl": "https://m.thewire.in/article/politics/in-2024-25-bjp-got-rs-959-crore-from-electoral-trusts-tata-group-alone-contributed-rs-757-crore",
+    "sourceTitle": "Wire trust",
+    "sourceDisplayedUpdatedAt": null,
+    "sourcePublishedAt": null,
+    "sourceDateBasis": "Retained source dates unchanged. This review does not establish exact payment dates.",
+    "sourceDateNotice": "Read retained source metadata; no payment date is inferred from publication or a fiscal-year boundary.",
+    "label": "Tata / Progressive · upstream amount held",
+    "summary": "This retained Tata-to-Progressive record carries an amount labeled for an onward BJP distribution. It does not establish the upstream amount, which remains excluded from totals and money paths. The original record remains available for audit.",
+    "reason": "The retained upstream amount is labeled for an onward party distribution; its upstream numeric and path use is unsupported.",
+    "findings": [
+      "No exact upstream replacement amount, zero amount, donor count or company-to-party earmarking is established by this correction.",
+      "c040 and the separate 20dec4ae onward report are potentially overlapping sourced assertions; they are not established as two separate payments and must not be added.",
+      "Adjacent subsidy amounts and chronology are not independently certified by this review."
+    ],
+    "amount": null,
+    "relatedClaimStatus": "Other recipients, including the retained INC record, remain separate. No shared-observation identity group or new transaction is admitted.",
+    "interpretationNotice": "Original values remain audit material. The upstream amount is excluded from factual numeric and path use; no replacement aggregate is substituted.",
+    "entityPresentationId": null,
+    "supersededEntitySentence": null,
+    "entityReplacementSentence": null,
+    "expectedItems": [
+      {
+        "id": "legacy:relationship:e1f6b96bef1be1d5|tata|trust|progressive",
+        "originalId": "e1f6b96bef1be1d5|tata|trust|progressive",
+        "namespace": "legacy",
+        "from": "legacy:entity:tata",
+        "to": "legacy:entity:progressive",
+        "kind": "trust",
+        "label": "₹757.6cr → BJP FY25",
+        "tier": "documented",
+        "status": "retained-claim",
+        "statusAsOf": null,
+        "fromDate": null,
+        "toDate": null,
+        "dateBasis": "Original window: unknown to unknown. Only calendar-valid exact dates enter the range filter.",
+        "sourceIds": [
+          "legacy:source:e60251502d318e5e"
+        ],
+        "domains": [
+          "governance"
+        ],
+        "layers": [
+          "funding"
+        ],
+        "geography": [
+          {
+            "scope": "unknown",
+            "stateCodes": [],
+            "localityIds": [],
+            "basis": "unknown",
+            "note": "The retained record does not establish project or service geography.",
+            "sourceIds": [
+              "legacy:source:e60251502d318e5e"
+            ]
+          }
+        ],
+        "route": "/political",
+        "summary": "Tata Sons ₹308cr + TCS ₹218cr into the pool.",
+        "limitations": [
+          "A retained link is not evidence of improper influence. Read the original source and any counter-evidence."
+        ],
+        "alternativeExplanations": [],
+        "falsifier": null,
+        "responseIds": [],
+        "recordIds": [
+          "legacy:record:e1f6b96bef1be1d5|tata|trust|progressive"
+        ],
+        "amounts": [
+          {
+            "value": 757.6,
+            "currency": "INR",
+            "unit": "crore",
+            "stage": "trust — as labelled by the original claim; not independently reclassified",
+            "period": "Read original claim period"
+          }
+        ]
+      },
+      {
+        "kind": "relationship-record",
+        "tier": "documented",
+        "status": "retained-claim",
+        "statusAsOf": null,
+        "fromDate": null,
+        "toDate": null,
+        "dateBasis": "Original window: unknown to unknown. Only calendar-valid exact dates enter the range filter.",
+        "entityIds": [
+          "legacy:entity:tata",
+          "legacy:entity:progressive"
+        ],
+        "relationshipIds": [
+          "legacy:relationship:e1f6b96bef1be1d5|tata|trust|progressive"
+        ],
+        "period": "Original window: unknown to unknown. Only calendar-valid exact dates enter the range filter.",
+        "response": "Consult linked counter-evidence and the original source; absence of a recorded response is not acceptance.",
+        "alternativeExplanations": [],
+        "falsifier": null,
+        "amounts": [
+          {
+            "value": 757.6,
+            "currency": "INR",
+            "unit": "crore",
+            "stage": "trust — as labelled by the original claim; not independently reclassified",
+            "period": "Read original claim period"
+          }
+        ],
+        "limitations": [
+          "A retained link is not evidence of improper influence. Read the original source and any counter-evidence."
+        ],
+        "id": "legacy:record:e1f6b96bef1be1d5|tata|trust|progressive",
+        "originalId": "e1f6b96bef1be1d5|tata|trust|progressive",
+        "namespace": "legacy",
+        "title": "Tata Group · ₹757.6cr → BJP FY25 · Progressive Electoral Trust",
+        "summary": "Tata Sons ₹308cr + TCS ₹218cr into the pool.",
+        "sourceIds": [
+          "legacy:source:e60251502d318e5e"
+        ],
+        "domains": [
+          "governance"
+        ],
+        "layers": [
+          "funding"
+        ],
+        "geography": [
+          {
+            "scope": "unknown",
+            "stateCodes": [],
+            "localityIds": [],
+            "basis": "unknown",
+            "note": "The retained record does not establish project or service geography.",
+            "sourceIds": [
+              "legacy:source:e60251502d318e5e"
+            ]
+          }
+        ],
+        "route": "/political"
+      }
+    ],
+    "expectedSources": [
+      {
+        "id": "legacy:source:e60251502d318e5e",
+        "originalId": "https://m.thewire.in/article/politics/in-2024-25-bjp-got-rs-959-crore-from-electoral-trusts-tata-group-alone-contributed-rs-757-crore",
+        "namespace": "legacy",
+        "title": "Wire trust",
+        "url": "https://m.thewire.in/article/politics/in-2024-25-bjp-got-rs-959-crore-from-electoral-trusts-tata-group-alone-contributed-rs-757-crore",
+        "publisher": "See retained source",
+        "publishedAt": null,
+        "retrievedAt": null,
+        "locator": "Existing corpus citation; exact page/date may not be recorded",
+        "summary": "Wire trust",
+        "tier": "reported",
+        "limitations": [
+          "Citation inherited from the existing registry; its claim retains the original evidence tier. Publication and retrieval dates were not re-inferred."
+        ]
+      }
+    ]
+  }
+]

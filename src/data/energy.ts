@@ -23,7 +23,7 @@ import {
   ENERGY_GAPS,
   ENERGY_IDENTITY,
   ENERGY_META,
-} from '../graph/energy.generated';
+} from '../graph/energyEffective';
 import { NODES as ATLAS_NODES } from '../graph/data';
 import { COMPANIES, type Company } from './companies';
 import { GROUPS } from './conglomerates';

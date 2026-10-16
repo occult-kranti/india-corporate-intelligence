@@ -5,7 +5,7 @@ import { GROUPS, type Group } from '../data/conglomerates';
 import { NODES, EDGES } from '../graph/data';
 import { buildNationalGraph } from '../graph/build';
 import { mergeFleet } from '../graph/mergeFleet';
-import { ENERGY_NODES, ENERGY_EDGES } from '../graph/energy.generated';
+import { ENERGY_NODES, ENERGY_EDGES } from '../graph/energyEffective';
 import { WELFARE_ENTITIES, WELFARE_SCHEME_NODES, WELFARE_CLAIMS } from '../data/welfare.generated';
 import { FINANCE_NODES, FINANCE_EDGES } from '../graph/finance.generated';
 import { NGO_NODES, NGO_EDGES } from '../graph/ngo.generated';

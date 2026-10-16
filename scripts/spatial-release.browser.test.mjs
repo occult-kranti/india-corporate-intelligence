@@ -140,7 +140,7 @@ test('activity navigation and four simple groups are additive CI requirements', 
 });
 
 test('combined release requires both original and served/offline global correction scopes',()=>{
-  for(const required of ['exact-source-corrections-across-original-and-global','original-political-two-qualified-scope-holds','fieldwork-offline.html','HELD SOURCE SCOPE','Denies wrongdoing','report.scenarios.length === 7'])assert.ok(source.includes(required),required);
+  for(const required of ['exact-source-corrections-across-original-and-global','original-political-two-qualified-scope-holds','fieldwork-offline.html','HELD SOURCE SCOPE','Denies wrongdoing','report.scenarios.length === 8'])assert.ok(source.includes(required),required);
   assert.match(source,/for \(const offline of \[false,true\]\)/);
   assert.match(source,/#\/political\?iw_view=dossier/);
   assert.match(source,/page\.locator\('\.iw-dossier-content'\)/);
@@ -154,3 +154,5 @@ test('global correction interactions target the visible record list instead of h
   assert.ok(text.includes("getByRole('heading', { name: new RegExp(label) }).waitFor()"));
   assert.ok(!text.includes('page.locator(`[data-record=${JSON.stringify(id)}]`).first().click()'));
 });
+
+test('new source-scope combined case covers original partner and energy readers plus served/offline upstream hold',()=>{for(const required of ['qualified-jio-and-progressive-original-global','data-jio-ownership-hold','original-energy-c040-qualified-report','progressive-upstream-hold','does not establish the upstream amount'])assert.ok(source.includes(required),required);});

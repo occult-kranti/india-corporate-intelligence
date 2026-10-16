@@ -1,0 +1,607 @@
+[
+  {
+    "schemaVersion": 1,
+    "reviewedAt": "2026-10-16",
+    "status": "source-scope-correction",
+    "baselineCanonicalSha256": "048f89ffd008a498212ff2ac71d4413aef09b138a50ab77f336a23fec4722064",
+    "reviewReceiptSha256": "d98f534579db9cc67da0e3241441eac8d5b13124a6391c1a8ff93aef5f2199e5",
+    "recommendationsSha256": "b6460ea0ae6f7d9c8a6b6554c1aea19babe077834d22c1ce2038e24e4f0a16db",
+    "sourceDisplayedUpdatedAt": "Not established",
+    "sourcePublishedAt": null,
+    "sourceDateBasis": "Dates are source-qualified in the correction; original metadata is unchanged.",
+    "amount": null,
+    "relatedClaimStatus": "Adjacent procurement details, trust amounts and money:c040 are outside this correction and retain their prior review status.",
+    "entityPresentationId": "legacy:entity:leap",
+    "supersededEntitySentence": null,
+    "entityReplacementSentence": null,
+    "id": "inherited-leap-absence-scope-2026-10-16",
+    "subjectLabel": "Leap India",
+    "graphEligible": false,
+    "pathEligible": false,
+    "targetIds": [
+      "legacy:relationship:d28b0cf3ca30f78d|leap|direct|bjp",
+      "legacy:record:d28b0cf3ca30f78d|leap|direct|bjp"
+    ],
+    "sourceId": "legacy:source:13901e3164a09875",
+    "sourceUrl": "https://www.business-standard.com/amp/industry/news/govt-defends-fci-silo-awards-says-contracts-were-bid-competitively-126060301218_1.html",
+    "sourceTitle": "BS bidder counts",
+    "sourceDateNotice": "Source scope is limited to the cited procurement or electoral-trust report; universal non-donation is not established.",
+    "label": "Political donation history unverified",
+    "summary": "The cited report concerns competitive FCI silo bidding, not political-payment coverage. It does not establish zero donations or a BJP-specific funding relationship.",
+    "reason": "The cited procurement report does not audit political giving.",
+    "findings": [
+      "Does not establish: A secret payment",
+      "Does not establish: No payment occurred",
+      "Does not establish: A policy-design cause proved by an absence",
+      "Does not establish: Happzee is merely an alias"
+    ],
+    "interpretationNotice": "No funding relationship, zero-valued payment or causal conclusion is established.",
+    "expectedItems": [
+      {
+        "id": "legacy:entity:leap",
+        "originalId": "leap",
+        "namespace": "legacy",
+        "label": "Leap India",
+        "type": "company",
+        "family": "capital",
+        "resolved": true,
+        "identityBasis": "Existing canonical registry ID and retained source record; no name-based identity merge is performed by this adapter.",
+        "sourceIds": [
+          "legacy:source:13901e3164a09875"
+        ],
+        "domains": [
+          "governance"
+        ],
+        "layers": [
+          "organisations"
+        ],
+        "geography": [
+          {
+            "scope": "state",
+            "stateCodes": [
+              "TS"
+            ],
+            "localityIds": [],
+            "basis": "state-association",
+            "note": "Legacy state tag has mixed semantics; it is an association, not a verified asset or service location.",
+            "sourceIds": [
+              "legacy:source:13901e3164a09875"
+            ]
+          }
+        ],
+        "route": "/political",
+        "summary": "FCI silo logistics Won 38/48 Phase-2 FCI silo bundles (~₹6,173cr) under Joshi. ZERO political footprint anywhere — the key negative: the 2nd-biggest silo winner paid nothing, pointing cause at policy design not donations.",
+        "limitations": [
+          "Inherited entity facts retain their original historical scope; linked claims must be read with their own dates and responses."
+        ]
+      },
+      {
+        "id": "legacy:relationship:d28b0cf3ca30f78d|leap|direct|bjp",
+        "originalId": "d28b0cf3ca30f78d|leap|direct|bjp",
+        "namespace": "legacy",
+        "from": "legacy:entity:leap",
+        "to": "legacy:entity:bjp",
+        "kind": "direct",
+        "label": "₹0 — no footprint",
+        "tier": "documented",
+        "status": "retained-claim",
+        "statusAsOf": null,
+        "fromDate": null,
+        "toDate": null,
+        "dateBasis": "Original window: unknown to unknown. Only calendar-valid exact dates enter the range filter.",
+        "sourceIds": [
+          "legacy:source:13901e3164a09875"
+        ],
+        "domains": [
+          "governance"
+        ],
+        "layers": [
+          "funding"
+        ],
+        "geography": [
+          {
+            "scope": "unknown",
+            "stateCodes": [],
+            "localityIds": [],
+            "basis": "unknown",
+            "note": "The retained record does not establish project or service geography.",
+            "sourceIds": [
+              "legacy:source:13901e3164a09875"
+            ]
+          }
+        ],
+        "route": "/political",
+        "summary": "The ₹6,173cr silo winner has no traceable political giving — the analytic key: benefit ≠ payment.",
+        "limitations": [
+          "A retained link is not evidence of improper influence. Read the original source and any counter-evidence."
+        ],
+        "alternativeExplanations": [],
+        "falsifier": null,
+        "responseIds": [],
+        "recordIds": [
+          "legacy:record:d28b0cf3ca30f78d|leap|direct|bjp"
+        ],
+        "amounts": []
+      },
+      {
+        "kind": "relationship-record",
+        "tier": "documented",
+        "status": "retained-claim",
+        "statusAsOf": null,
+        "fromDate": null,
+        "toDate": null,
+        "dateBasis": "Original window: unknown to unknown. Only calendar-valid exact dates enter the range filter.",
+        "entityIds": [
+          "legacy:entity:leap",
+          "legacy:entity:bjp"
+        ],
+        "relationshipIds": [
+          "legacy:relationship:d28b0cf3ca30f78d|leap|direct|bjp"
+        ],
+        "period": "Original window: unknown to unknown. Only calendar-valid exact dates enter the range filter.",
+        "response": "Consult linked counter-evidence and the original source; absence of a recorded response is not acceptance.",
+        "alternativeExplanations": [],
+        "falsifier": null,
+        "amounts": [],
+        "limitations": [
+          "A retained link is not evidence of improper influence. Read the original source and any counter-evidence."
+        ],
+        "id": "legacy:record:d28b0cf3ca30f78d|leap|direct|bjp",
+        "originalId": "d28b0cf3ca30f78d|leap|direct|bjp",
+        "namespace": "legacy",
+        "title": "Leap India · ₹0 — no footprint · BJP",
+        "summary": "The ₹6,173cr silo winner has no traceable political giving — the analytic key: benefit ≠ payment.",
+        "sourceIds": [
+          "legacy:source:13901e3164a09875"
+        ],
+        "domains": [
+          "governance"
+        ],
+        "layers": [
+          "funding"
+        ],
+        "geography": [
+          {
+            "scope": "unknown",
+            "stateCodes": [],
+            "localityIds": [],
+            "basis": "unknown",
+            "note": "The retained record does not establish project or service geography.",
+            "sourceIds": [
+              "legacy:source:13901e3164a09875"
+            ]
+          }
+        ],
+        "route": "/political"
+      }
+    ],
+    "expectedSource": {
+      "id": "legacy:source:13901e3164a09875",
+      "originalId": "https://www.business-standard.com/amp/industry/news/govt-defends-fci-silo-awards-says-contracts-were-bid-competitively-126060301218_1.html",
+      "namespace": "legacy",
+      "title": "BS bidder counts",
+      "url": "https://www.business-standard.com/amp/industry/news/govt-defends-fci-silo-awards-says-contracts-were-bid-competitively-126060301218_1.html",
+      "publisher": "See retained source",
+      "publishedAt": null,
+      "retrievedAt": null,
+      "locator": "Existing corpus citation; exact page/date may not be recorded",
+      "summary": "BS bidder counts",
+      "tier": "reported",
+      "limitations": [
+        "Citation inherited from the existing registry; its claim retains the original evidence tier. Publication and retrieval dates were not re-inferred."
+      ]
+    },
+    "fields": {
+      "legacy:entity:leap": {
+        "summary": "FCI silo logistics Won 38/48 Phase-2 FCI silo bundles (~₹6,173cr) under Joshi. Political donation history is unverified; the cited procurement report does not establish non-donation."
+      },
+      "legacy:relationship:d28b0cf3ca30f78d|leap|direct|bjp": {
+        "title": "Leap India · Political donation history unverified",
+        "summary": "The cited report concerns competitive FCI silo bidding, not political-payment coverage. It does not establish zero donations or a BJP-specific funding relationship."
+      },
+      "legacy:record:d28b0cf3ca30f78d|leap|direct|bjp": {
+        "title": "Leap India · Political donation history unverified",
+        "summary": "The cited report concerns competitive FCI silo bidding, not political-payment coverage. It does not establish zero donations or a BJP-specific funding relationship."
+      }
+    }
+  },
+  {
+    "schemaVersion": 1,
+    "reviewedAt": "2026-10-16",
+    "status": "source-scope-correction",
+    "baselineCanonicalSha256": "048f89ffd008a498212ff2ac71d4413aef09b138a50ab77f336a23fec4722064",
+    "reviewReceiptSha256": "d98f534579db9cc67da0e3241441eac8d5b13124a6391c1a8ff93aef5f2199e5",
+    "recommendationsSha256": "b6460ea0ae6f7d9c8a6b6554c1aea19babe077834d22c1ce2038e24e4f0a16db",
+    "sourceDisplayedUpdatedAt": "Not established",
+    "sourcePublishedAt": null,
+    "sourceDateBasis": "Dates are source-qualified in the correction; original metadata is unchanged.",
+    "amount": null,
+    "relatedClaimStatus": "Adjacent procurement details, trust amounts and money:c040 are outside this correction and retain their prior review status.",
+    "entityPresentationId": "legacy:entity:sarda",
+    "supersededEntitySentence": null,
+    "entityReplacementSentence": null,
+    "id": "inherited-sarda-absence-scope-2026-10-16",
+    "subjectLabel": "Sarda Energy",
+    "graphEligible": true,
+    "pathEligible": true,
+    "targetIds": [
+      "legacy:relationship:95bc13ffc3aa7ef5|coal|award|sarda",
+      "legacy:record:95bc13ffc3aa7ef5|coal|award|sarda"
+    ],
+    "sourceId": "legacy:source:49b577d8d1b87a28",
+    "sourceUrl": "https://coal.gov.in/sites/default/files/2020-12/Result-of-e-auction-for-coal-mines-under-11th-Tranche_0.pdf",
+    "sourceTitle": "T1 results",
+    "sourceDateNotice": "Ministry of Coal e-auction result, page 2 row 19: closing date 9 November 2020 and 66.75% closing bid. The percentage is not an already-paid revenue transfer.",
+    "label": "66.75% closing bid",
+    "summary": "The Ministry of Coal result lists Sarda Energy and Minerals Limited's 66.75% revenue-share closing bid for Gare Palma IV/7 on 9 November 2020. This procurement result makes no finding about political donations.",
+    "reason": "Remove the unsupported no-donation interpretation; retain the source-qualified closing bid.",
+    "findings": [
+      "Does not establish: 2020 bid caused 2023 purchases",
+      "Does not establish: 2023 purchase bought the 2020 award",
+      "Does not establish: A 66.75% bid is an already-paid revenue share",
+      "Does not establish: Purchase date equals redemption date",
+      "Does not establish: Ordinary political giving proves misconduct"
+    ],
+    "interpretationNotice": "The existing procurement relationship remains; no political purchase, recipient or causal relationship is admitted.",
+    "expectedItems": [
+      {
+        "id": "legacy:entity:sarda",
+        "originalId": "sarda",
+        "namespace": "legacy",
+        "label": "Sarda Energy",
+        "type": "company",
+        "family": "capital",
+        "resolved": true,
+        "identityBasis": "Existing canonical registry ID and retained source record; no name-based identity merge is performed by this adapter.",
+        "sourceIds": [
+          "legacy:source:49b577d8d1b87a28"
+        ],
+        "domains": [
+          "governance"
+        ],
+        "layers": [
+          "organisations"
+        ],
+        "geography": [
+          {
+            "scope": "state",
+            "stateCodes": [
+              "CG"
+            ],
+            "localityIds": [],
+            "basis": "state-association",
+            "note": "Legacy state tag has mixed semantics; it is an association, not a verified asset or service location.",
+            "sourceIds": [
+              "legacy:source:49b577d8d1b87a28"
+            ]
+          }
+        ],
+        "route": "/political",
+        "summary": "minerals Won Gare Palma IV/7 at a record 66.75% revenue share. Electoral bonds: not found — a winner who didn't pay.",
+        "limitations": [
+          "Inherited entity facts retain their original historical scope; linked claims must be read with their own dates and responses."
+        ]
+      },
+      {
+        "id": "legacy:relationship:95bc13ffc3aa7ef5|coal|award|sarda",
+        "originalId": "95bc13ffc3aa7ef5|coal|award|sarda",
+        "namespace": "legacy",
+        "from": "legacy:entity:coal",
+        "to": "legacy:entity:sarda",
+        "kind": "award",
+        "label": "record 66.75% bid",
+        "tier": "documented",
+        "status": "retained-claim",
+        "statusAsOf": null,
+        "fromDate": null,
+        "toDate": null,
+        "dateBasis": "Original window: unknown to unknown. Only calendar-valid exact dates enter the range filter.",
+        "sourceIds": [
+          "legacy:source:49b577d8d1b87a28"
+        ],
+        "domains": [
+          "governance"
+        ],
+        "layers": [
+          "procurement"
+        ],
+        "geography": [
+          {
+            "scope": "unknown",
+            "stateCodes": [],
+            "localityIds": [],
+            "basis": "unknown",
+            "note": "The retained record does not establish project or service geography.",
+            "sourceIds": [
+              "legacy:source:49b577d8d1b87a28"
+            ]
+          }
+        ],
+        "route": "/political",
+        "summary": "Gare Palma IV/7 — a winner who paid the highest share and gave no donations.",
+        "limitations": [
+          "A retained link is not evidence of improper influence. Read the original source and any counter-evidence."
+        ],
+        "alternativeExplanations": [],
+        "falsifier": null,
+        "responseIds": [],
+        "recordIds": [
+          "legacy:record:95bc13ffc3aa7ef5|coal|award|sarda"
+        ],
+        "amounts": []
+      },
+      {
+        "kind": "relationship-record",
+        "tier": "documented",
+        "status": "retained-claim",
+        "statusAsOf": null,
+        "fromDate": null,
+        "toDate": null,
+        "dateBasis": "Original window: unknown to unknown. Only calendar-valid exact dates enter the range filter.",
+        "entityIds": [
+          "legacy:entity:coal",
+          "legacy:entity:sarda"
+        ],
+        "relationshipIds": [
+          "legacy:relationship:95bc13ffc3aa7ef5|coal|award|sarda"
+        ],
+        "period": "Original window: unknown to unknown. Only calendar-valid exact dates enter the range filter.",
+        "response": "Consult linked counter-evidence and the original source; absence of a recorded response is not acceptance.",
+        "alternativeExplanations": [],
+        "falsifier": null,
+        "amounts": [],
+        "limitations": [
+          "A retained link is not evidence of improper influence. Read the original source and any counter-evidence."
+        ],
+        "id": "legacy:record:95bc13ffc3aa7ef5|coal|award|sarda",
+        "originalId": "95bc13ffc3aa7ef5|coal|award|sarda",
+        "namespace": "legacy",
+        "title": "Coal & Mines Ministry · record 66.75% bid · Sarda Energy",
+        "summary": "Gare Palma IV/7 — a winner who paid the highest share and gave no donations.",
+        "sourceIds": [
+          "legacy:source:49b577d8d1b87a28"
+        ],
+        "domains": [
+          "governance"
+        ],
+        "layers": [
+          "procurement"
+        ],
+        "geography": [
+          {
+            "scope": "unknown",
+            "stateCodes": [],
+            "localityIds": [],
+            "basis": "unknown",
+            "note": "The retained record does not establish project or service geography.",
+            "sourceIds": [
+              "legacy:source:49b577d8d1b87a28"
+            ]
+          }
+        ],
+        "route": "/political"
+      }
+    ],
+    "expectedSource": {
+      "id": "legacy:source:49b577d8d1b87a28",
+      "originalId": "https://coal.gov.in/sites/default/files/2020-12/Result-of-e-auction-for-coal-mines-under-11th-Tranche_0.pdf",
+      "namespace": "legacy",
+      "title": "T1 results",
+      "url": "https://coal.gov.in/sites/default/files/2020-12/Result-of-e-auction-for-coal-mines-under-11th-Tranche_0.pdf",
+      "publisher": "See retained source",
+      "publishedAt": null,
+      "retrievedAt": null,
+      "locator": "Existing corpus citation; exact page/date may not be recorded",
+      "summary": "T1 results",
+      "tier": "reported",
+      "limitations": [
+        "Citation inherited from the existing registry; its claim retains the original evidence tier. Publication and retrieval dates were not re-inferred."
+      ]
+    },
+    "fields": {
+      "legacy:entity:sarda": {
+        "summary": "minerals The Ministry of Coal result lists Sarda Energy and Minerals Limited’s 66.75% revenue-share closing bid for Gare Palma IV/7 on 9 November 2020."
+      },
+      "legacy:relationship:95bc13ffc3aa7ef5|coal|award|sarda": {
+        "title": "66.75% closing bid",
+        "summary": "The Ministry of Coal result lists Sarda Energy and Minerals Limited's 66.75% revenue-share closing bid for Gare Palma IV/7 on 9 November 2020. This procurement result makes no finding about political donations."
+      },
+      "legacy:record:95bc13ffc3aa7ef5|coal|award|sarda": {
+        "title": "Coal & Mines Ministry · 66.75% closing bid · Sarda Energy",
+        "summary": "The Ministry of Coal result lists Sarda Energy and Minerals Limited's 66.75% revenue-share closing bid for Gare Palma IV/7 on 9 November 2020. This procurement result makes no finding about political donations."
+      }
+    }
+  },
+  {
+    "schemaVersion": 1,
+    "reviewedAt": "2026-10-16",
+    "status": "source-scope-correction",
+    "baselineCanonicalSha256": "048f89ffd008a498212ff2ac71d4413aef09b138a50ab77f336a23fec4722064",
+    "reviewReceiptSha256": "d98f534579db9cc67da0e3241441eac8d5b13124a6391c1a8ff93aef5f2199e5",
+    "recommendationsSha256": "b6460ea0ae6f7d9c8a6b6554c1aea19babe077834d22c1ce2038e24e4f0a16db",
+    "sourceDisplayedUpdatedAt": "Not established",
+    "sourcePublishedAt": null,
+    "sourceDateBasis": "Dates are source-qualified in the correction; original metadata is unchanged.",
+    "amount": null,
+    "relatedClaimStatus": "Adjacent procurement details, trust amounts and money:c040 are outside this correction and retain their prior review status.",
+    "entityPresentationId": "legacy:entity:tata",
+    "supersededEntitySentence": null,
+    "entityReplacementSentence": null,
+    "id": "inherited-tata-absence-scope-2026-10-16",
+    "subjectLabel": "Tata Group",
+    "graphEligible": true,
+    "pathEligible": true,
+    "targetIds": [],
+    "sourceId": "legacy:source:e60251502d318e5e",
+    "sourceUrl": "https://m.thewire.in/article/politics/in-2024-25-bjp-got-rs-959-crore-from-electoral-trusts-tata-group-alone-contributed-rs-757-crore",
+    "sourceTitle": "Wire trust",
+    "sourceDateNotice": "Source scope is limited to the cited procurement or electoral-trust report; universal non-donation is not established.",
+    "label": "Categorical bond-absence clause withdrawn",
+    "summary": "The retained source documents electoral-trust giving. It does not establish a complete bond-purchase history for every Tata-associated entity.",
+    "reason": "The electoral-trust report does not establish a complete bond-purchase history.",
+    "findings": [
+      "Does not establish: A single TATA keyword search covers all group firms",
+      "Does not establish: Trust giving proves no bond purchases",
+      "Does not establish: Every group firm is the same legal donor",
+      "Does not establish: A corporate contribution to a pooled trust was earmarked to one party",
+      "Does not establish: Proximity to subsidies establishes an exchange"
+    ],
+    "interpretationNotice": "Only the universal never-bought-bonds clause is withdrawn; adjacent trust claims and amounts are not re-approved.",
+    "expectedItems": [
+      {
+        "id": "legacy:entity:tata",
+        "originalId": "tata",
+        "namespace": "legacy",
+        "label": "Tata Group",
+        "type": "company",
+        "family": "capital",
+        "resolved": true,
+        "identityBasis": "Existing canonical registry ID and retained source record; no name-based identity merge is performed by this adapter.",
+        "sourceIds": [
+          "legacy:source:e60251502d318e5e"
+        ],
+        "domains": [
+          "governance"
+        ],
+        "layers": [
+          "organisations"
+        ],
+        "geography": [
+          {
+            "scope": "state",
+            "stateCodes": [
+              "MH"
+            ],
+            "localityIds": [],
+            "basis": "state-association",
+            "note": "Legacy state tag has mixed semantics; it is an association, not a verified asset or service location.",
+            "sourceIds": [
+              "legacy:source:e60251502d318e5e"
+            ]
+          }
+        ],
+        "route": "/political",
+        "summary": "power · software Never bought bonds — but Progressive Electoral Trust → BJP ₹757.6cr FY25 (Tata Sons ₹308cr + TCS ₹218cr). PM CARES ~₹500cr. #1 PM Surya Ghar rooftop installer.",
+        "limitations": [
+          "Inherited entity facts retain their original historical scope; linked claims must be read with their own dates and responses."
+        ]
+      }
+    ],
+    "expectedSource": {
+      "id": "legacy:source:e60251502d318e5e",
+      "originalId": "https://m.thewire.in/article/politics/in-2024-25-bjp-got-rs-959-crore-from-electoral-trusts-tata-group-alone-contributed-rs-757-crore",
+      "namespace": "legacy",
+      "title": "Wire trust",
+      "url": "https://m.thewire.in/article/politics/in-2024-25-bjp-got-rs-959-crore-from-electoral-trusts-tata-group-alone-contributed-rs-757-crore",
+      "publisher": "See retained source",
+      "publishedAt": null,
+      "retrievedAt": null,
+      "locator": "Existing corpus citation; exact page/date may not be recorded",
+      "summary": "Wire trust",
+      "tier": "reported",
+      "limitations": [
+        "Citation inherited from the existing registry; its claim retains the original evidence tier. Publication and retrieval dates were not re-inferred."
+      ]
+    },
+    "fields": {
+      "legacy:entity:tata": {
+        "summary": "power · software Progressive Electoral Trust → BJP ₹757.6cr FY25 (Tata Sons ₹308cr + TCS ₹218cr). PM CARES ~₹500cr. #1 PM Surya Ghar rooftop installer."
+      }
+    }
+  },
+  {
+    "schemaVersion": 1,
+    "reviewedAt": "2026-10-16",
+    "status": "source-scope-correction",
+    "baselineCanonicalSha256": "048f89ffd008a498212ff2ac71d4413aef09b138a50ab77f336a23fec4722064",
+    "reviewReceiptSha256": "d98f534579db9cc67da0e3241441eac8d5b13124a6391c1a8ff93aef5f2199e5",
+    "recommendationsSha256": "b6460ea0ae6f7d9c8a6b6554c1aea19babe077834d22c1ce2038e24e4f0a16db",
+    "sourceDisplayedUpdatedAt": "Not established",
+    "sourcePublishedAt": null,
+    "sourceDateBasis": "Dates are source-qualified in the correction; original metadata is unchanged.",
+    "amount": null,
+    "relatedClaimStatus": "Adjacent procurement details, trust amounts and money:c040 are outside this correction and retain their prior review status.",
+    "entityPresentationId": "legacy:entity:progressive",
+    "supersededEntitySentence": null,
+    "entityReplacementSentence": null,
+    "id": "inherited-progressive-absence-scope-2026-10-16",
+    "subjectLabel": "Progressive Electoral Trust",
+    "graphEligible": true,
+    "pathEligible": true,
+    "targetIds": [],
+    "sourceId": "legacy:source:e60251502d318e5e",
+    "sourceUrl": "https://m.thewire.in/article/politics/in-2024-25-bjp-got-rs-959-crore-from-electoral-trusts-tata-group-alone-contributed-rs-757-crore",
+    "sourceTitle": "Wire trust",
+    "sourceDateNotice": "Source scope is limited to the cited procurement or electoral-trust report; universal non-donation is not established.",
+    "label": "Categorical bond-absence clause withdrawn",
+    "summary": "The retained source documents electoral-trust giving. It does not establish a complete bond-purchase history for every Tata-associated entity.",
+    "reason": "The electoral-trust report does not establish a complete bond-purchase history.",
+    "findings": [
+      "Does not establish: A single TATA keyword search covers all group firms",
+      "Does not establish: Trust giving proves no bond purchases",
+      "Does not establish: Every group firm is the same legal donor",
+      "Does not establish: A corporate contribution to a pooled trust was earmarked to one party",
+      "Does not establish: Proximity to subsidies establishes an exchange"
+    ],
+    "interpretationNotice": "Only the universal never-bought-bonds clause is withdrawn; adjacent trust claims and amounts are not re-approved.",
+    "expectedItems": [
+      {
+        "id": "legacy:entity:progressive",
+        "originalId": "progressive",
+        "namespace": "legacy",
+        "label": "Progressive Electoral Trust",
+        "type": "trust",
+        "family": "recipient",
+        "resolved": true,
+        "identityBasis": "Existing canonical registry ID and retained source record; no name-based identity merge is performed by this adapter.",
+        "sourceIds": [
+          "legacy:source:e60251502d318e5e"
+        ],
+        "domains": [
+          "energy"
+        ],
+        "layers": [
+          "organisations"
+        ],
+        "geography": [
+          {
+            "scope": "unknown",
+            "stateCodes": [],
+            "localityIds": [],
+            "basis": "unknown",
+            "note": "The retained record does not establish project or service geography.",
+            "sourceIds": [
+              "legacy:source:e60251502d318e5e"
+            ]
+          }
+        ],
+        "route": "/energy",
+        "summary": "Tata vehicle Gave BJP ₹757.62cr FY25 (Tata Sons ₹308cr + TCS ₹218cr) — the Tata group never bought bonds.",
+        "limitations": [
+          "Inherited entity facts retain their original historical scope; linked claims must be read with their own dates and responses."
+        ]
+      }
+    ],
+    "expectedSource": {
+      "id": "legacy:source:e60251502d318e5e",
+      "originalId": "https://m.thewire.in/article/politics/in-2024-25-bjp-got-rs-959-crore-from-electoral-trusts-tata-group-alone-contributed-rs-757-crore",
+      "namespace": "legacy",
+      "title": "Wire trust",
+      "url": "https://m.thewire.in/article/politics/in-2024-25-bjp-got-rs-959-crore-from-electoral-trusts-tata-group-alone-contributed-rs-757-crore",
+      "publisher": "See retained source",
+      "publishedAt": null,
+      "retrievedAt": null,
+      "locator": "Existing corpus citation; exact page/date may not be recorded",
+      "summary": "Wire trust",
+      "tier": "reported",
+      "limitations": [
+        "Citation inherited from the existing registry; its claim retains the original evidence tier. Publication and retrieval dates were not re-inferred."
+      ]
+    },
+    "fields": {
+      "legacy:entity:progressive": {
+        "summary": "Tata vehicle Gave BJP ₹757.62cr FY25 (Tata Sons ₹308cr + TCS ₹218cr)."
+      }
+    }
+  }
+]
