@@ -110,6 +110,14 @@ test('mobile atlas Help stays visible and touch-sized beside the shrinking searc
  const app=fs.readFileSync(path.join(root,'src/App.tsx'),'utf8');
  assert.match(app,/<button\s+className="icon-button glass help-button"[\s\S]*?data-guide-launcher="atlas"/);
 });
+test('paper guide hover keeps dark text instead of inheriting the dark-theme white label',()=>{
+ const { parse }=require('postcss');
+ const css=parse(fs.readFileSync(path.join(root,'src/guidance/guidance.css'),'utf8'));
+ const rule=css.nodes.find(node=>node.type==='rule'&&node.selector==='.field-guide button:hover:not(:disabled)');
+ assert.ok(rule,'A more-specific guide hover rule must override the global button hover style');
+ const declarations=Object.fromEntries(rule.nodes.filter(node=>node.type==='decl').map(node=>[node.prop,node.value]));
+ assert.equal(declarations.color,'#29271f');assert.equal(declarations.background,'#e9dfc3');
+});
 test('renderer and integration expose no automatic research/camera/audio mutation ports',()=>{
  const source=fs.readFileSync(path.join(root,'src/guidance/GuidedTutorial.tsx'),'utf8');
  for(const forbidden of ['speechSynthesis','scrollIntoView','window.open','location.href =','setQuery(','setAreaFilter(','send("','pinCasebookItem','makeDownload'])assert.ok(!source.includes(forbidden),forbidden);

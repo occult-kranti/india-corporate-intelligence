@@ -6,6 +6,7 @@
 .field-guide-close { float: right; }
 .field-guide-actions { display: flex; flex-wrap: wrap; gap: .5rem; clear: both; margin-top: 1rem; }
 .field-guide button { min-height: 2.75rem; padding: .5rem .8rem; border: 1px solid #796f57; background: #fffaf0; color: #29271f; border-radius: .25rem; cursor: pointer; font: inherit; }
+.field-guide button:hover:not(:disabled) { background: #e9dfc3; color: #29271f; }
 .field-guide button:disabled { opacity: .5; cursor: default; }
 .field-guide :focus-visible { outline: 3px solid #12694c; outline-offset: 3px; }
 .field-guide-target { border-left: 3px solid #796f57; padding-left: .75rem; }
