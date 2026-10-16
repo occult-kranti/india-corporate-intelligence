@@ -90,6 +90,26 @@ test('server rendered initial dialog is named, described, closed and has manual 
  for(const label of ['Next','Back','Pause to try this','Skip','Restart','Close field guide'])assert.ok(html.includes(label));
  assert.ok(!html.includes('>Finish<'));assert.match(html,/tabindex="-1"/);
 });
+test('mobile atlas Help stays visible and touch-sized beside the shrinking search field',()=>{
+ const { parse }=require('postcss');
+ const css=parse(fs.readFileSync(path.join(root,'src/guidance/guidance.css'),'utf8'));
+ const mobile=css.nodes.find(node=>node.type==='atrule'&&node.name==='media'&&node.params==='(max-width: 480px)');
+ assert.ok(mobile,'An explicit mobile launcher rule is required');
+ const declarations=selector=>{
+  const rule=mobile.nodes.find(node=>node.type==='rule'&&node.selector===selector);
+  assert.ok(rule,`Missing scoped mobile rule: ${selector}`);
+  return Object.fromEntries(rule.nodes.filter(node=>node.type==='decl').map(node=>[node.prop,node.value]));
+ };
+ // The scoped selector must override styles.css's legacy .help-button hiding
+ // independent of stylesheet order, while retaining a real, focusable button.
+ const launcher=declarations('.evidence-app .top-tools .help-button[data-guide-launcher="atlas"]');
+ assert.equal(launcher.display,'inline-flex');assert.equal(launcher.flex,'0 0 44px');
+ assert.equal(launcher.width,'44px');assert.equal(launcher['min-height'],'44px');
+ assert.equal(declarations('.evidence-app .top-tools')['max-width'],'calc(100vw - 214px)');
+ assert.equal(declarations('.evidence-app .top-tools .search')['min-width'],'0');
+ const app=fs.readFileSync(path.join(root,'src/App.tsx'),'utf8');
+ assert.match(app,/<button\s+className="icon-button glass help-button"[\s\S]*?data-guide-launcher="atlas"/);
+});
 test('renderer and integration expose no automatic research/camera/audio mutation ports',()=>{
  const source=fs.readFileSync(path.join(root,'src/guidance/GuidedTutorial.tsx'),'utf8');
  for(const forbidden of ['speechSynthesis','scrollIntoView','window.open','location.href =','setQuery(','setAreaFilter(','send("','pinCasebookItem','makeDownload'])assert.ok(!source.includes(forbidden),forbidden);

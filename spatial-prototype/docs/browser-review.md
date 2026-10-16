@@ -80,3 +80,7 @@ From the package directory:
 - `npm run build`
 
 Actual browser-review status remains unverified until the GitHub Actions run for the published revision finishes. The script rejects ordinary local invocation before starting a server or browser.
+
+## Retained first-candidate failure evidence
+
+[Run 38843217469](https://github.com/occult-kranti/india-corporate-intelligence/actions/runs/38843217469) at `4eb3c406` passed 20 of 22 cases. Case 17 used a mistaken no-selection expectation: the retained App initializes the first original node, as case 12 already specifies. Its corrected fixture uses that same exact original selection and still compares every display count and edge ID. Case 22 exposed the legacy mobile CSS hiding Help below 480 pixels. The bounded repair keeps an explicit visible launcher; the regression requires a viewport-contained, uncovered target of at least 44 CSS pixels and actual touch-emulated taps to open and reopen it. Long historical sections are captured in overlapping viewport bands so every expanded qualification and source detail can be inspected, rather than only the first screenful. Neither failure is waived. The failed logs, DOM captures and screenshots remain in the run artifact; a new exact-head run is required.

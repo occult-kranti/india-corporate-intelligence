@@ -20,7 +20,7 @@ This key is independent of the existing Casebook, the old atlas tutorial key and
 
 ## Integration provenance
 
-The four files in `src/guidance/` are copied exactly from the approved atlas guidance manifest. `src/App.tsx` received only its minimal integration patch, after verifying its base SHA-256:
+The four files in `src/guidance/` began as exact copies of the approved atlas guidance manifest. A bounded mobile CSS repair subsequently keeps the existing Help launcher visible and touch-accessible after the first browser run exposed the legacy hidden-button rule. The guide model and renderer are unchanged. `src/App.tsx` received only its minimal integration patch, after verifying its base SHA-256:
 
 `7ea36d506979ac781d6b74c9e4860a640b0c001fd59cb3b5e200e85baf0737e8`
 
@@ -30,7 +30,7 @@ The resulting App SHA-256 is:
 
 ## Validation and limits
 
-Run `node --test scripts/guidance.test.mjs` for the 11 portable Node/server-rendering tests. They cover the 13-step catalog, transition boundaries and explicit completion, Skip/Restart, corrupt or blocked storage, Casebook/progress isolation, target classification, keyboard focus-index behavior, focus-return fallback, dialog attributes and controls, and the no-camera/audio/research-mutation integration boundary. Bundles are generated in unique temporary directories and cleaned up; imports resolve from this repository rather than a staging workspace.
+Run `node --test scripts/guidance.test.mjs` for the 12 portable Node/server-rendering tests. They cover the 13-step catalog, transition boundaries and explicit completion, Skip/Restart, corrupt or blocked storage, Casebook/progress isolation, target classification, keyboard focus-index behavior, focus-return fallback, dialog attributes and controls, the no-camera/audio/research-mutation integration boundary, and the mobile launcher CSS contract. Bundles are generated in unique temporary directories and cleaned up; imports resolve from this repository rather than a staging workspace.
 
 Run `npm test`, strict TypeScript, and both default and `VITE_HISTORICAL_REVIEW=true` production builds on the final combined candidate. The browser harness must verify actual native modal behavior, Tab/Shift+Tab/Escape, focus return, conditional targets, reload/denied-storage behavior, visual overlap and all 13 atlas notes on the exact review build. Node/server-rendering tests do not establish these browser results, screen-reader behavior or visual acceptance.
 

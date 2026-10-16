@@ -641,7 +641,15 @@ async function assertHistoricalBaseUnchanged(page, result, phase) {
     );
   }
   if (await page.locator(".webgl-host").count()) {
-    const display = await assertSemanticDisplay(page, result, fullScene, null);
+    // The retained App initializes selection to the first original node even
+    // while its inspector is closed. Keep the same baseline as case 12 rather
+    // than falsely expecting no selected endpoint detail behind this overlay.
+    const display = await assertSemanticDisplay(
+      page,
+      result,
+      fullScene,
+      fullScene.nodes[0].id,
+    );
     const originalEdges = new Set(
       fullRegistry.relationships.map((row) => row.id),
     );
@@ -906,16 +914,51 @@ async function assertHistoricalReader(page, result) {
 }
 
 async function captureHistoricalSection(page, result, locator, name) {
-  await locator.evaluate((element) =>
-    element.scrollIntoView({ block: "start" }),
-  );
-  await capture(page, result, name);
-  const filename = `${result.name}--${name}--reader.png`;
-  await historicalDialog(page).screenshot({
-    path: join(output, filename),
-    timeout: 10000,
+  const dimensions = await locator.evaluate((element) => {
+    const dialog = element.closest("dialog");
+    const outer = dialog.getBoundingClientRect();
+    const inner = element.getBoundingClientRect();
+    return {
+      top: inner.top - outer.top + dialog.scrollTop - dialog.clientTop,
+      height: inner.height,
+      viewport: dialog.clientHeight,
+      maxScroll: dialog.scrollHeight - dialog.clientHeight,
+    };
   });
-  result.screenshots.push(filename);
+  // Cover the entire expanded claim/source, not only its first screenful.
+  // Overlap leaves room for the sticky Close control without hiding qualifiers.
+  const stride = dimensions.viewport - 160;
+  assert.ok(stride > 200, "Historical reader viewport is too small for review");
+  const positions = [];
+  for (let offset = 0; offset < dimensions.height; offset += stride) {
+    positions.push(
+      Math.min(dimensions.maxScroll, Math.max(0, dimensions.top - 70 + offset)),
+    );
+  }
+  const unique = [...new Set(positions)];
+  assert.ok(
+    unique.length > 0 && unique.length <= 12,
+    "Historical section needs a bounded complete capture plan",
+  );
+  (result.historicalCaptureCoverage ??= []).push({
+    name,
+    ...dimensions,
+    stride,
+    positions: unique,
+  });
+  for (const [index, top] of unique.entries()) {
+    await historicalDialog(page).evaluate((element, value) => {
+      element.scrollTop = value;
+    }, top);
+    const part = index ? `${name}--part-${index + 1}` : name;
+    await capture(page, result, part);
+    const filename = `${result.name}--${part}--reader.png`;
+    await historicalDialog(page).screenshot({
+      path: join(output, filename),
+      timeout: 10000,
+    });
+    result.screenshots.push(filename);
+  }
 }
 
 async function assertHistoricalFocusReturned(page, result, phase) {
@@ -1240,6 +1283,7 @@ async function scenario(name, options, work) {
     context = await browser.newContext({
       viewport: options.viewport ?? viewport,
       deviceScaleFactor: 1,
+      hasTouch: options.touch === true,
       reducedMotion: options.reducedMotion ? "reduce" : "no-preference",
       acceptDownloads: true,
     });
@@ -3722,6 +3766,7 @@ try {
       query: "?dataset=preview&mode=reading",
       viewport: { width: 390, height: 844 },
       reducedMotion: true,
+      touch: true,
       budgetMs: 80000,
       beforeNavigation: (context) => installTutorialProbe(context, true),
     },
@@ -3731,8 +3776,35 @@ try {
       const before = await tutorialResearchState(page);
       const help = tutorialHelp(page);
       const dialog = tutorialDialog(page);
-      await help.focus();
-      await page.keyboard.press("Enter");
+      const launcher = await help.boundingBox();
+      assert.ok(await help.isVisible(), "Mobile Help must be visible");
+      assert.ok(await help.isEnabled(), "Mobile Help must be enabled");
+      assert.ok(
+        launcher &&
+          launcher.width >= 44 &&
+          launcher.height >= 44 &&
+          launcher.x >= 0 &&
+          launcher.y >= 0 &&
+          launcher.x + launcher.width <= 390 &&
+          launcher.y + launcher.height <= 844,
+        "Mobile Help must have a viewport-contained touch target of at least 44 CSS pixels",
+      );
+      assert.equal(
+        await help.evaluate((element) => {
+          const rect = element.getBoundingClientRect();
+          return element.contains(
+            document.elementFromPoint(
+              rect.x + rect.width / 2,
+              rect.y + rect.height / 2,
+            ),
+          );
+        }),
+        true,
+        "Another mobile control covers Help",
+      );
+      result.mobileHelpBounds = launcher;
+      await capture(page, result, "mobile-visible-touch-help-launcher");
+      await help.tap();
       await assertTutorialStep(page, result, 0);
       await capture(
         page,
@@ -3776,7 +3848,7 @@ try {
       );
       await page.keyboard.press("Escape");
       await assertTutorialFocusReturned(page);
-      await help.click();
+      await help.tap();
       await assertTutorialStep(page, result, 1);
       await assertTutorialUnchanged(
         page,
@@ -3799,7 +3871,7 @@ try {
       );
       await assertReaderOnly(page, result);
       result.notes.push(
-        "At 390×844 with reduced motion, malformed tutorial progress safely began at step one. Tutorial-only storage writes were deliberately denied; an honest warning appeared and in-tab progress survived Escape/reopen. Forward/reverse keyboard focus stayed in the native modal. Camera, audio, filters, selected evidence, original links and non-tutorial storage were unchanged. This is atlas preview-reading coverage, not an original-route tutorial result.",
+        "At 390×844 with reduced motion and touch emulation, a visible uncovered 44-pixel Help target opened and reopened the guide by tap. Malformed tutorial progress safely began at step one. Tutorial-only storage writes were deliberately denied; an honest warning appeared and in-tab progress survived Escape/reopen. Forward/reverse keyboard focus stayed in the native modal. Camera, audio, filters, selected evidence, original links and non-tutorial storage were unchanged. This is atlas preview-reading coverage, not an original-route tutorial result.",
       );
     },
   );
@@ -3841,7 +3913,7 @@ try {
       ? `Setup failed: ${report.setupError.split("\n")[0]}`
       : "",
     "Screenshots, DOM snapshots, traces, source export and per-scenario diagnostics are in the review artifact.",
-    "Software-rendered CI captures require human visual review. This is not a pixel approval, hardware FPS benchmark, or deployment.",
+    "Software-rendered CI captures require visual/interaction inspection. This is not a pixel approval, hardware FPS benchmark, or deployment.",
   ]
     .filter(Boolean)
     .join("\n");

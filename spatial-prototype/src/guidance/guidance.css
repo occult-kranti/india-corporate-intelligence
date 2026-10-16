@@ -9,4 +9,16 @@
 .field-guide button:disabled { opacity: .5; cursor: default; }
 .field-guide :focus-visible { outline: 3px solid #12694c; outline-offset: 3px; }
 .field-guide-target { border-left: 3px solid #796f57; padding-left: .75rem; }
+/* The legacy mobile layout hides Help. Keep the atlas launcher reachable by
+   touch and keyboard, alongside search rather than over the journey controls. */
+@media (max-width: 480px) {
+  .evidence-app .top-tools { max-width: calc(100vw - 214px); }
+  .evidence-app .top-tools .search { min-width: 0; }
+  .evidence-app .top-tools .help-button[data-guide-launcher="atlas"] {
+    display: inline-flex;
+    flex: 0 0 44px;
+    width: 44px;
+    min-height: 44px;
+  }
+}
 @media (prefers-reduced-motion: reduce) { .field-guide, .field-guide * { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
