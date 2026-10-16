@@ -150,6 +150,24 @@ const inspector = (page) =>
   page.getByRole("complementary", { name: "Evidence reading panel" });
 const journey = (page) => page.getByRole("region", { name: "Camera journey" });
 
+async function assertCameraControlsClearOfReader(page) {
+  const controls = page.getByRole("complementary", { name: "Camera controls" });
+  await controls.waitFor({ state: "visible" });
+  await inspector(page).waitFor({ state: "visible" });
+  await until(async () => {
+    const toolbar = await controls.boundingBox();
+    const reader = await inspector(page).boundingBox();
+    return Boolean(
+      toolbar &&
+      reader &&
+      (toolbar.x + toolbar.width <= reader.x ||
+        reader.x + reader.width <= toolbar.x ||
+        toolbar.y + toolbar.height <= reader.y ||
+        reader.y + reader.height <= toolbar.y),
+    );
+  }, "Camera controls overlap the open evidence reading panel");
+}
+
 async function capture(page, result, name) {
   const filename = `${result.name}--${name}.png`;
   await page.screenshot({
@@ -552,10 +570,19 @@ try {
   await scenario("01-overview-and-source-trail", {}, async (page, result) => {
     await assertSpatial(page);
     await assertCounts(page);
+    await until(async () => {
+      const radius = Number(
+        await page
+          .locator(".webgl-host")
+          .getAttribute("data-thread-radius-pixels"),
+      );
+      return Number.isFinite(radius) && radius > 0 && radius <= 2.1 + 1e-6;
+    }, "World-scale thread radius is missing or exceeds the 2.1 CSS-pixel cap");
     await capture(page, result, "overview-1440x1000");
     const edge = trailEdge.relationship;
     await page.getByRole("button", { name: "Start a source trail" }).click();
     await assertProvenance(page, edge);
+    await assertCameraControlsClearOfReader(page);
     await journey(page)
       .getByRole("button", { name: "Pause", exact: true })
       .waitFor();
@@ -747,12 +774,50 @@ try {
       await page.getByRole("button", { name: "Close lenses" }).click();
       await page.getByRole("button", { name: "Start a source trail" }).click();
       await assertProvenance(page, trailEdge.relationship);
-      await delay(250);
+      const destination = geography.getNodeAnchor(
+        preview.nodes.find((node) => node.id === trailEdge.to),
+      );
+      assert.ok(
+        destination,
+        "Source-trail destination has no retained geographic anchor",
+      );
+      await until(async () => {
+        const zoom = Number(
+          await page.locator(".webgl-host").getAttribute("data-zoom"),
+        );
+        return Math.abs(zoom - destination.focusZoom) < 0.06;
+      }, "Reduced-motion jump did not reach the source-qualified destination zoom");
       assert.equal(
         await journey(page).count(),
         0,
         "Reduced motion started an animated journey",
       );
+      assert.ok(
+        destination.focusZoom >= 6,
+        "The retained source-trail destination must exercise close-up thread suppression",
+      );
+      await until(
+        async () =>
+          (await page
+            .locator(".webgl-host")
+            .getAttribute("data-visible-threads")) === "0",
+        "Long-range threads remain visible at the close-up destination zoom",
+      );
+      await assertCameraControlsClearOfReader(page);
+      const destinationLabel = page
+        .locator(".world-label")
+        .filter({ hasText: destination.label });
+      await until(async () => {
+        if ((await destinationLabel.count()) !== 1) return false;
+        const host = await page.locator(".webgl-host").boundingBox();
+        const label = await destinationLabel.boundingBox();
+        return Boolean(
+          host &&
+          label &&
+          Math.abs(label.x + label.width / 2 - host.x - host.width / 2) < 40 &&
+          Math.abs(label.y + label.height / 2 - host.y - host.height / 2) < 70,
+        );
+      }, "Destination-area label did not move with the reduced-motion camera jump");
       await capture(page, result, "reduced-motion-destination");
     },
   );
@@ -822,6 +887,20 @@ try {
       );
       await reading.locator(".reading-card").first().click();
       await assertProvenance(page, expected.nodes[0].item);
+      assert.equal(
+        await inspector(page)
+          .getByRole("button", { name: "Find on felt", exact: true })
+          .isDisabled(),
+        true,
+        "Find on felt must be disabled when WebGL is unavailable",
+      );
+      assert.equal(
+        await page
+          .getByRole("button", { name: "Follow thread", exact: true })
+          .isDisabled(),
+        true,
+        "Follow thread must be disabled when WebGL is unavailable",
+      );
       result.notes.push(
         "WebGL was deliberately unavailable before application startup; the fallback is not counted as a spatial-rendering pass.",
       );
@@ -982,6 +1061,11 @@ try {
           40000,
         );
         await journey(page).waitFor({ state: "hidden" });
+        assert.equal(
+          await page.locator(".room-caption").isVisible(),
+          false,
+          "World-scale introduction still obscures city-scale buildings",
+        );
         const sameCanvas = await initialCanvas.evaluate(
           (element) => element === document.querySelector(".webgl-host canvas"),
         );

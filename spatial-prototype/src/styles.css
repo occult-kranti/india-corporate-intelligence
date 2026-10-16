@@ -1600,3 +1600,58 @@ svg {
     bottom: 103px;
   }
 }
+/* Keep the map and camera reachable while reading evidence. */
+.is-exploring .room-caption {
+  display: none;
+}
+.is-exploring .scene-overview {
+  top: 150px;
+}
+.is-exploring .unplaced-tray {
+  top: 245px;
+}
+.reader-open .camera-tools {
+  right: 415px;
+}
+.reader-open .reading-surface {
+  right: 420px;
+}
+.reader-open .record-grid {
+  grid-template-columns: repeat(2, minmax(180px, 1fr));
+}
+.graphics-unavailable .camera-tools,
+.graphics-unavailable .city-toggle {
+  display: none;
+}
+.notice details {
+  margin-top: 8px;
+  font-size: 10px;
+  overflow-wrap: anywhere;
+}
+@media (max-width: 1150px) {
+  .reader-open .camera-tools {
+    right: 370px;
+  }
+  .reader-open .reading-surface {
+    right: 380px;
+  }
+  .reader-open .record-grid {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 800px) {
+  .reader-open .camera-tools {
+    top: 145px;
+    bottom: auto;
+    right: 12px;
+  }
+  .reader-open .reading-surface {
+    right: 65px;
+  }
+  .is-exploring .scene-overview {
+    top: 143px;
+  }
+  .is-exploring .unplaced-tray {
+    top: 235px;
+  }
+}

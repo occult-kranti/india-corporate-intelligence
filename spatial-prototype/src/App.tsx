@@ -115,6 +115,7 @@ const HELP = [
 ];
 export default function App() {
   const [query, setQuery] = useState("");
+  const [exploring, setExploring] = useState(false);
   const [activeLayers, setActiveLayers] = useState<InvestigationLayer[]>([]);
   const [year, setYear] = useState(preview.yearRange[1]);
   const [undated, setUndated] = useState(true);
@@ -167,20 +168,18 @@ export default function App() {
       }),
     [query, activeLayers, year, undated],
   );
-  const send = useCallback(
-    (type: CameraCommand["type"], id?: string) =>
-      setCommand({ type, id, stamp: performance.now() }),
-    [],
-  );
+  const send = useCallback((type: CameraCommand["type"], id?: string) => {
+    if (type !== "stop") setExploring(true);
+    setCommand({ type, id, stamp: performance.now() });
+  }, []);
   const open = useCallback(
-    (id: string, kind: "node" | "edge") => {
+    (id: string, _kind: "node" | "edge") => {
       lastFocus.current =
         document.activeElement instanceof HTMLElement
           ? document.activeElement
           : null;
       setSelected(id);
       if (!inspectorLocked) setInspector(id);
-      if (kind === "node") send("focus", id);
     },
     [inspectorLocked, send],
   );
@@ -343,7 +342,7 @@ export default function App() {
   };
   return (
     <main
-      className={`evidence-app ${reading || failure ? "reading-active" : ""}`}
+      className={`evidence-app ${reading || failure ? "reading-active" : ""} ${item ? "reader-open" : ""} ${exploring ? "is-exploring" : ""} ${failure ? "graphics-unavailable" : ""}`}
     >
       <a className="skip-link" href="#record-list">
         Skip to records
@@ -359,6 +358,7 @@ export default function App() {
           onJourney={setJourney}
           onMetric={setMetric}
           onMapStatus={setMapStatus}
+          onInteraction={() => setExploring(true)}
           onFailure={(reason) => {
             setFailure(reason);
             setReading(true);
@@ -467,9 +467,15 @@ export default function App() {
             </div>
           </div>
           {failure && (
-            <p role="alert" className="notice">
-              3D is unavailable: {failure}
-            </p>
+            <div className="notice">
+              <p role="alert">
+                3D is unavailable. All retained records are available below.
+              </p>
+              <details>
+                <summary>Technical details</summary>
+                <p>{failure}</p>
+              </details>
+            </div>
           )}
           <div className="record-grid" id="record-list">
             {scene.nodes.map((node) => (
@@ -609,7 +615,7 @@ export default function App() {
         </button>
         <button
           onClick={() => travelEdge && follow(travelEdge)}
-          disabled={!travelEdge}
+          disabled={!travelEdge || Boolean(failure)}
         >
           <Play size={16} />
           <span>Follow thread</span>
@@ -1030,7 +1036,10 @@ export default function App() {
                 <span>{nodes.get(inspectionEdge.from)?.title}</span>
                 <ArrowRight size={16} />
                 <span>{nodes.get(inspectionEdge.to)?.title}</span>
-                <button onClick={() => follow(inspectionEdge)}>
+                <button
+                  disabled={Boolean(failure)}
+                  onClick={() => follow(inspectionEdge)}
+                >
                   <Play size={14} />
                   Follow this thread
                 </button>
@@ -1276,7 +1285,13 @@ export default function App() {
               Read aloud
             </button>
             {inspectionNode && (
-              <button onClick={() => send("focus", inspectionNode.id)}>
+              <button
+                disabled={Boolean(failure) || !inspectionAnchor}
+                onClick={() => {
+                  setReading(false);
+                  send("focus", inspectionNode.id);
+                }}
+              >
                 <Focus size={16} />
                 Find on felt
               </button>

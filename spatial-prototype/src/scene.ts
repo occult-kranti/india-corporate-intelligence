@@ -26,6 +26,13 @@ import type {
 import { feltMapStyle } from "./geoStyle";
 import { WORLD_CAMERA_BOUNDS } from "./mapBounds";
 import { easedProgress } from "./cameraMath";
+import {
+  makeScreenThreadGeometry,
+  constrainThreadMaterial,
+  threadProjectionScale,
+  threadRadiusPixels,
+  THREAD_HIDE_ZOOM,
+} from "./threadGeometry";
 setWorkerUrl(workerUrl);
 export const CATEGORY_COLORS: Record<string, string> = {
   funding: "#d3a752",
@@ -43,6 +50,7 @@ export interface WorldCallbacks {
   onMetric: (metric: SceneMetric) => void;
   onFailure: (reason: string) => void;
   onMapStatus?: (status: string) => void;
+  onInteraction?: () => void;
 }
 interface Pose {
   center: [number, number];
@@ -205,6 +213,9 @@ export class EvidenceWorld {
   private tileErrorCount = 0;
   private lastTravelFrame = 0;
   private lastJourneyEmit = 0;
+  private pendingCommand: CameraCommand | null = null;
+  private threadRadiusUniform = { value: 1 };
+  private threadLiftUniform = { value: 1 };
   constructor(
     private container: HTMLElement,
     data: PreviewData,
@@ -240,6 +251,7 @@ export class EvidenceWorld {
     this.map.on("load", this.onLoad);
     this.map.on("error", this.onError);
     this.map.on("move", this.onMove);
+    this.map.on("moveend", () => this.updateLabels(true));
     this.map.on("idle", () => {
       if (this.ready) {
         this.container.dataset.buildingFeatures = String(
@@ -332,6 +344,11 @@ export class EvidenceWorld {
     this.ready = true;
     this.setData(this.data);
     this.setCities(this.cities);
+    if (this.pendingCommand) {
+      const pending = this.pendingCommand;
+      this.pendingCommand = null;
+      this.command(pending);
+    }
     this.map.triggerRepaint();
   };
   private onError = (event: { error: { message: string } }) => {
@@ -356,6 +373,7 @@ export class EvidenceWorld {
     this.updateLabels();
   };
   private onInteract = (event: { originalEvent?: Event }) => {
+    if (event.originalEvent) this.cb.onInteraction?.();
     if (event.originalEvent && this.journey) {
       this.journey.paused = true;
       this.map.stop();
@@ -478,15 +496,20 @@ export class EvidenceWorld {
       if (!a || !b || Math.hypot(a.lng - b.lng, a.lat - b.lat) < 1e-8) continue;
       const curve = geographicCurve(a, b);
       this.curves.set(edge.id, curve);
-      const radius = 0.00065 * (1 + Math.min(edge.sourceCount, 5) * 0.22);
+
       const material = new THREE.MeshStandardMaterial({
         color: CATEGORY_COLORS[edge.relationship.layers[0]] ?? "#bcbea0",
         roughness: 1,
         transparent: true,
         opacity: 0.9,
       });
+      constrainThreadMaterial(
+        material,
+        this.threadRadiusUniform,
+        this.threadLiftUniform,
+      );
       const mesh = new THREE.Mesh(
-        new THREE.TubeGeometry(curve, 48, radius, 5, false),
+        makeScreenThreadGeometry(curve, edge.sourceCount),
         material,
       );
       mesh.userData.edgeId = edge.id;
@@ -583,7 +606,10 @@ export class EvidenceWorld {
     };
   }
   command(command: CameraCommand) {
-    if (!this.ready) return;
+    if (!this.ready) {
+      this.pendingCommand = command;
+      return;
+    }
     const anchor = command.id ? this.anchors.get(command.id) : null;
     const pose = this.pose();
     switch (command.type) {
@@ -757,7 +783,7 @@ export class EvidenceWorld {
     }
     const edge = this.data.edges.find((e) => e.id === this.selected),
       curve = edge ? this.curves.get(edge.id) : null;
-    if (edge && curve) {
+    if (edge && curve && this.map.getZoom() < THREAD_HIDE_ZOOM) {
       const point = curve.getPoint(0.5),
         ll = new MercatorCoordinate(point.x, point.y).toLngLat(),
         p = this.map.project(ll);
@@ -787,12 +813,18 @@ export class EvidenceWorld {
       const card = group.children[2];
       card.visible = this.map.getZoom() < 8;
     }
-    const opacity = Math.max(0, Math.min(0.95, (10 - this.map.getZoom()) / 3));
+    const projection = threadProjectionScale(this.map.getZoom());
+    this.threadRadiusUniform.value = projection.radius;
+    this.threadLiftUniform.value = projection.lift;
+    const opacity = Math.max(
+      0,
+      Math.min(0.95, (THREAD_HIDE_ZOOM - this.map.getZoom()) / 1.5),
+    );
     for (const mesh of this.curveGroup.children) {
-      (mesh as THREE.Mesh).visible = this.map.getZoom() < 10;
+      (mesh as THREE.Mesh).visible = this.map.getZoom() < THREAD_HIDE_ZOOM;
       const material = (mesh as THREE.Mesh)
         .material as THREE.MeshStandardMaterial;
-      material.opacity = mesh.userData.edgeId === this.selected ? 1 : opacity;
+      material.opacity = opacity;
     }
     this.renderer.resetState();
     this.renderer.render(this.scene, this.camera);
@@ -802,6 +834,15 @@ export class EvidenceWorld {
     this.container.dataset.drawCalls = String(this.renderer.info.render.calls);
     this.container.dataset.zoom = this.map.getZoom().toFixed(2);
     this.container.dataset.pitch = this.map.getPitch().toFixed(1);
+    this.container.dataset.threadRadiusPixels = String(
+      Math.max(
+        0,
+        ...this.data.edges.map((e) => threadRadiusPixels(e.sourceCount)),
+      ),
+    );
+    this.container.dataset.visibleThreads = String(
+      this.curveGroup.children.filter((mesh) => mesh.visible).length,
+    );
     this.container.dataset.centerLng = this.map.getCenter().lng.toFixed(6);
     this.container.dataset.centerLat = this.map.getCenter().lat.toFixed(6);
     const now = performance.now();

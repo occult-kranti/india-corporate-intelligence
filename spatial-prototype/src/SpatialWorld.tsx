@@ -18,6 +18,7 @@ interface Props {
   onMetric: (metric: SceneMetric) => void;
   onFailure: (reason: string) => void;
   onMapStatus: (status: string) => void;
+  onInteraction: () => void;
 }
 export default function SpatialWorld(props: Props) {
   const host = useRef<HTMLDivElement>(null);
@@ -35,6 +36,7 @@ export default function SpatialWorld(props: Props) {
         onMetric: (s) => latest.current.onMetric(s),
         onFailure: (s) => latest.current.onFailure(s),
         onMapStatus: (s) => latest.current.onMapStatus(s),
+        onInteraction: () => latest.current.onInteraction(),
       });
       world.current.setReducedMotion(latest.current.reducedMotion);
     } catch (error) {

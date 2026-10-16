@@ -32,7 +32,7 @@ The source reader is a DOM panel that remains upright and interactive during mot
 
 Seeded procedural fibers are map patterns, with different green tones for land and water. A bundled Natural Earth country layer supplies recognizable geometry independently of live tiles. The Three.js overlay supplies physical pin stems/heads, textured paper and low-poly source curves. Building footprints are native vector fill extrusions, not generated images or arbitrary miniatures. Actual tile geometry streams with zoom; height is approximate and is labelled accordingly.
 
-Paper cards hide at zoom 8; geographic threads fade by zoom 10; footprints appear at zoom 13 and rise from zoom 14 to 15. Pixel ratio is capped at 1.5 and adapts to 1.0 after low moving-frame samples. Balanced travel caps camera updates to 30 Hz. These are bounded implementation targets; screenshot review and measured performance are separate requirements.
+Paper cards hide at zoom 8; screen-normalized geographic threads fade by zoom 6; footprints appear at zoom 13 and rise from zoom 14 to 15. Pixel ratio is capped at 1.5 and adapts to 1.0 after low moving-frame samples. Balanced travel caps camera updates to 30 Hz. These are bounded implementation targets; screenshot review and measured performance are separate requirements.
 
 ## Precise-coordinate gap
 
