@@ -5,6 +5,7 @@ import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { readFile, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
+import { captureResourceCheckpoint, assertResourceCheckpointCoverage } from './resource-capture-policy.mjs';
 import { compactLifecycleObservation, caseLifecycleObservationInitSource } from './case-lifecycle-observation.mjs';
 import {
   loadCaseExpectation, caseWorkspace, caseSurface, caseRail, caseSourceDialog,
@@ -866,6 +867,7 @@ export async function runCaseGraphicsBrowserCases({ root, output, scenario, capt
       const comparison = assertLifecycleObservationParity(pair, { activeBaseline: activeLeaseBaselines.get(page) ?? null,
         retiredBaselines: retiredLeaseBaselines.get(page) ?? [], recovery });
       Object.assign(entry, comparison, { status: 'passed' });
+      await captureResourceCheckpoint(page, output, result, phase, entry);
       return pair.full;
     }
     try {
@@ -907,6 +909,7 @@ export async function runCaseGraphicsBrowserCases({ root, output, scenario, capt
     await checkpoint('timing-closed', result.caseGeographicRecovery.at(-1));
     assert.equal(result.caseResourceObservationChecks.length, 9);
     assert.ok(result.caseResourceObservationChecks.every(row => row.status === 'passed'));
+    assertResourceCheckpointCoverage(result);
     result.notes.push('Three warm-up cycles are disclosed separately; all thirty measured cycles open/close, select, change quality and detach/reattach the case layer. Every observed native resource kind must return to or below the warmed baseline, case-owned live handles must be zero, and renderer/context identities cannot grow. These are create/delete-handle observations, not GPU-memory residency. Compact transport observations retain the unchanged native oracles; warmed, cycle 1/15/30 and timing/recovery raw checkpoints independently compare full and compact data from the same instant.');
     } finally { lifecycleObservationPages.delete(page); }
   });
