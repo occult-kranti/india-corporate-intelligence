@@ -24,15 +24,15 @@ export function assertResourceBudget(elapsedMs, budgetMs) {
   assert.ok(Number.isFinite(elapsedMs) && elapsedMs >= 0 && elapsedMs <= budgetMs, `Resource work completed outside its ${budgetMs} ms deadline: ${elapsedMs} ms`);
 }
 export function traceOptionsForScenario(name) {
-  return { screenshots: true, snapshots: name !== RESOURCE_CAPTURE_SCENARIO, sources: true };
+  return { screenshots: name !== RESOURCE_CAPTURE_SCENARIO, snapshots: name !== RESOURCE_CAPTURE_SCENARIO, sources: true };
 }
 export async function startResourceCapture(context, name, output, result) {
   if (name !== RESOURCE_CAPTURE_SCENARIO) return;
   result.resourceCapture = {
-    version: 1, scenario: name, status: 'recording', startedAt: new Date().toISOString(),
+    version: 2, scenario: name, traceOptions: traceOptionsForScenario(name), status: 'recording', startedAt: new Date().toISOString(),
     trace: `${name}.trace.zip`, har: `${name}.network.har.zip`, checkpoints: [], networkEvents: [], webSockets: [],
     limitations: [
-      'Only scenario 46 omits automatic per-action DOM snapshots. Action timing, console, trace screenshots and action source files remain enabled.',
+      'Only scenario 46 omits automatic per-action DOM snapshots and automatic screenshot streaming. Action timing, console and action source files remain enabled; the nine explicit checkpoint PNGs and full final/failure PNG remain mandatory.',
       'Closed author shadow-root live state is rejected rather than silently omitted. User-agent control internals remain in CDP with exposed form state; arbitrary internal CSS/focus replay is not claimed.',
       'Nine explicit Chromium DOM snapshots plus failure/final evidence have lower temporal granularity than per-action replay. HTML and screenshots do not reconstruct every intermediate DOM state.',
       'The standalone full HAR contains request/response headers, timings and attached bodies. It is separate network evidence; Trace Viewer network linkage and trace-specific frame/monotonic metadata are not equivalent.',

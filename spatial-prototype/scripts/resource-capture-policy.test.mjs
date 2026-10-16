@@ -16,8 +16,8 @@ const main = await readFile(join(here, 'browser-review.mjs'), 'utf8');
 const graphics = await readFile(join(here, 'case-graphics-browser.mjs'), 'utf8');
 const helper = await readFile(join(here, 'resource-capture-policy.mjs'), 'utf8');
 
-test('only exact scenario46 changes automatic DOM tracing; screenshots and sources stay enabled', () => {
-  assert.deepEqual(traceOptionsForScenario(RESOURCE_CAPTURE_SCENARIO), { screenshots: true, snapshots: false, sources: true });
+test('only exact scenario46 omits automatic DOM and screenshot streaming; sources stay enabled', () => {
+  assert.deepEqual(traceOptionsForScenario(RESOURCE_CAPTURE_SCENARIO), { screenshots: false, snapshots: false, sources: true });
   for (const name of [...GRAPHICS_SCENARIOS.filter(row => row !== RESOURCE_CAPTURE_SCENARIO), '', undefined, null, '46', RESOURCE_CAPTURE_SCENARIO + '-other'])
     assert.deepEqual(traceOptionsForScenario(name), { screenshots: true, snapshots: true, sources: true });
   assert.ok(Object.isFrozen(RESOURCE_CAPTURE_PHASES)); assert.equal(RESOURCE_CAPTURE_PHASES.length, 9);

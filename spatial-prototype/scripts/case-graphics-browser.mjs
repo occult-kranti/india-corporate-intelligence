@@ -84,7 +84,7 @@ export function installCaseGraphicsProbe({ kinds, caseAssetPattern = '/attachSce
     : value && typeof value === 'object' ? (Object.getPrototypeOf(value) === Object.prototype ? Object.fromEntries(Object.entries(value).map(([key, child]) => [key, clone(child)])) : id(value)) : value;
   const keep = (list, value, limit = 1000) => { list.push(value); if (list.length > limit) list.shift(); };
   const caseAsset = new RegExp(caseAssetPattern), clock = () => performance.now();
-  const shared = { fault: null, challenge: null, pixelReads: false, contexts: [], renderers: [], errors: [], events: [], lost: [], restored: [], frameTimes: [], allPasses: 0 };
+  const shared = { fault: null, challenge: null, pixelReads: false, contexts: [], renderers: [], errors: [], events: [], lost: [], restored: [], frameTimes: [], timingProgress: null, allPasses: 0 };
   const observer = new EventTarget();
   observer.addEventListener('observe', event => {
     const renderer = event.detail;
@@ -324,7 +324,14 @@ export function installCaseGraphicsProbe({ kinds, caseAssetPattern = '/attachSce
     read() { return { ...shared, sequence, contexts: contexts.map(row => ({ ...shared.contexts.find(info => info.id === row.id), ...row.export() })), renderers: [...shared.renderers], canvasCount: document.querySelectorAll('canvas').length }; },
     identities() { return { contextIds: contexts.map(row => row.id), rendererIds: renderers.map(id), canvasIds: contexts.map(row => row.canvasId) }; },
     loseContext() { const row = contexts.find(item => item.canvas.isConnected); if (!row) throw new Error('No live context to lose'); const extension = row.native.getExtension('WEBGL_lose_context'); if (!extension) throw new Error('Required WEBGL_lose_context capability unavailable'); extension.loseContext(); return row.id; },
-    async frames(count, driveCase = false) { if (!Number.isInteger(count) || count < 2 || count > 180) throw new Error('Invalid bounded frame sample'); const times = []; for (let i = 0; i < count; i++) { times.push(await new Promise(resolve => requestAnimationFrame(resolve))); if (driveCase) { const surface = document.querySelector('[data-case-surface]'); if (!surface) throw new Error('Active frame sample lost its case surface'); surface.dispatchEvent(new KeyboardEvent('keydown', { key: 'Home', bubbles: true, cancelable: true })); } } const deltas = times.slice(1).map((value, i) => value - times[i]); keep(shared.frameTimes, deltas, 100); return deltas; },
+    async frames(count, driveCase = false) { if (!Number.isInteger(count) || count < 2 || count > 180) throw new Error('Invalid bounded frame sample'); const times = [];
+      // Additive diagnostics only: actual RAF/input sequence and result stay unchanged.
+      if (driveCase) shared.timingProgress = { requested: count, startedAtEpochMs: Date.now(), performanceTimeOrigin: performance.timeOrigin, completed: 0, complete: false, opportunities: [] };
+      for (let i = 0; i < count; i++) { times.push(await new Promise(resolve => requestAnimationFrame(resolve))); if (driveCase) { const surface = document.querySelector('[data-case-surface]'); if (!surface) throw new Error('Active frame sample lost its case surface'); surface.dispatchEvent(new KeyboardEvent('keydown', { key: 'Home', bubbles: true, cancelable: true }));
+        shared.timingProgress.opportunities.push({ ordinal: i + 1, animationFrameTime: times[i], observedAtEpochMs: Date.now() }); shared.timingProgress.completed = i + 1;
+      } } const deltas = times.slice(1).map((value, i) => value - times[i]); keep(shared.frameTimes, deltas, 100);
+      if (driveCase) { shared.timingProgress.complete = true; shared.timingProgress.completedAtEpochMs = Date.now(); }
+      return deltas; },
   };
 }
 
