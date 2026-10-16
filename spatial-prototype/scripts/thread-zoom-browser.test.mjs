@@ -4,9 +4,13 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import { dirname, join } from 'node:path';
+import { createRequire } from 'node:module';
+import { runInNewContext } from 'node:vm';
+import { build } from 'esbuild';
 import { ATLAS_EDGE, CASE_EDGE, CROSSING_CENTER, REQUIRED_ZOOMS, BASELINE_COMMIT,
   requireAuthorizedCI, parseMode, mercator, panDelta, clipSegment, assertRasterEvidence, recordCheck,
-  installThreadZoomProbe } from './thread-zoom-browser.mjs';
+  installThreadZoomProbe, dragOffsets, findClearGesture, navigationSnapshot } from './thread-zoom-browser.mjs';
 
 const path = fileURLToPath(new URL('./thread-zoom-browser.mjs', import.meta.url));
 const source = await readFile(path, 'utf8');
@@ -33,6 +37,121 @@ test('read-only camera math supplies natural drag deltas, not a hidden camera se
   assert.ok(panDelta([0, 0], [1, 0], 5)[0] < 0); assert.ok(panDelta([0, 0], [0, 1], 5)[1] > 0);
   assert.match(source, /page\.mouse\.wheel/); assert.match(source, /page\.mouse\.down/);
   assert.doesNotMatch(source, /\.jumpTo\(|\.setZoom\(|\.setState\(|setSelected\(|\.visible\s*=/);
+});
+test('every drag starts beyond both activation thresholds, including fractional corrections', () => {
+  for (const delta of [[.31,0],[0,-.31],[1,1],[-3,4],[12,0],[90,-80]]) {
+    const [activation, end] = dragOffsets(delta);
+    assert.ok(Math.abs(Math.hypot(...activation) - 12) < 1e-10);
+    assert.deepEqual(end, delta);
+    for (let i = 0; i < 2; i++) assert.ok(Math.abs(activation[i] + (end[i] - activation[i]) - delta[i]) < 1e-10);
+  }
+  for (const invalid of [[0,0],[NaN,0],[1,Infinity],[1]]) assert.throws(() => dragOffsets(invalid));
+  assert.match(source, /dragSurface\(page, '\[data-case-surface\]'/);
+  assert.match(source, /dragSurface\(page, '\.webgl-host canvas'/);
+  assert.match(source, /if \(Math\.hypot\(\.\.\.delta\) < \.3\) return/);
+  assert.match(source, /if \(Math\.hypot\(dx, dy\) < 1\) break/);
+});
+
+test('installed MapLibre drag handler suppresses short out-and-back clicks and preserves the net delta', async () => {
+  const require = createRequire(import.meta.url), root = dirname(require.resolve('maplibre-gl/package.json'));
+  assert.equal(JSON.parse(await readFile(join(root, 'package.json'), 'utf8')).version, '6.13.0');
+  assert.match(await readFile(join(root, 'src/ui/map.ts'), 'utf8'), /clickTolerance: 3,/);
+  const result = await build({ stdin: { contents: `export {DragHandler} from './src/ui/handler/drag_handler.ts'; export {DOM} from './src/util/dom.ts';`, resolveDir: root },
+    bundle: true, write: false, platform: 'node', format: 'esm', logLevel: 'silent',
+    plugins: [{ name: 'portable-click-suppression-spy', setup(builder) {
+      builder.onLoad({ filter: /\/util\/dom\.ts$/ }, () => ({ contents: 'export class DOM { static suppressed = 0; static suppressClick() { this.suppressed++; } }', loader: 'js' }));
+    } }] });
+  const { DragHandler, DOM } = await import(`data:text/javascript;base64,${Buffer.from(result.outputFiles[0].text).toString('base64')}`);
+  const point = ([x,y]) => ({ x, y, dist(other) { return Math.hypot(x - other.x, y - other.y); } });
+  const run = offsets => {
+    const sum = [0,0], before = DOM.suppressed;
+    const handler = new DragHandler({ clickTolerance: 3, enable: true, activateOnStart: true, assignEvents() {},
+      moveStateManager: { startMove() {}, endMove() {}, isValidStartEvent: () => true, isValidMoveEvent: () => true, isValidEndEvent: () => true },
+      move(a,b) { const delta = [b.x - a.x,b.y - a.y]; sum[0] += delta[0]; sum[1] += delta[1]; return { panDelta: delta }; } });
+    const event = { preventDefault() {} }; handler.dragStart(event, point([0,0]));
+    for (const offset of offsets) handler.dragMove(event, point(offset));
+    handler.dragEnd(event); return { sum, suppressed: DOM.suppressed - before };
+  };
+  assert.deepEqual(run([[1,1]]), { sum: [0,0], suppressed: 0 }, 'The old tiny correction is a click candidate');
+  for (const delta of [[.31,0],[1,1],[-2,0],[90,-80]]) {
+    const actual = run(dragOffsets(delta)); assert.equal(actual.suppressed, 1);
+    for (let i = 0; i < 2; i++) assert.ok(Math.abs(actual.sum[i] - delta[i]) < 1e-10);
+  }
+});
+
+test('actual case input keeps tiny corrective drags unselected and does not lose activation motion', async () => {
+  const { helpers } = await import('./case-unit/test-tools.mjs'), { load } = helpers('case-scene');
+  const { CaseInputAdapter, CaseController } = await load('integration-adapter.ts'), { getCaseCatalog } = await load('catalog-bridge.ts');
+  const file = getCaseCatalog().cases.find(row => row.id === 'case:india-ambani');
+  class Surface extends EventTarget {
+    style = { touchAction:'pan-y' }; capture = new Set(); clientHeight = 500;
+    getBoundingClientRect() { return { left:0,top:0 }; }
+    setPointerCapture(id) { this.capture.add(id); }
+    hasPointerCapture(id) { return this.capture.has(id); }
+    releasePointerCapture(id) { this.capture.delete(id); }
+  }
+  const fire = (surface, type, [x,y]) => {
+    const event = new Event(type, { cancelable:true });
+    for (const [key,value] of Object.entries({ pointerId:1,button:0,clientX:100+x,clientY:100+y })) Object.defineProperty(event,key,{ value });
+    surface.dispatchEvent(event);
+  };
+  const previousObserver = globalThis.ResizeObserver;
+  globalThis.ResizeObserver = class { observe() {} disconnect() {} };
+  try {
+    const run = offsets => {
+      const surface = new Surface(), canvas = new Surface(), document = new EventTarget(), media = new EventTarget(); media.matches = true;
+      document.hidden = false; document.defaultView = { performance:{ now:() => 0 }, matchMedia:() => media, requestAnimationFrame:() => 1, cancelAnimationFrame() {} }; surface.ownerDocument = document;
+      const controller = new CaseController(file), before = [...controller.state.camera.center]; let picks = 0;
+      const map = { getCenter:() => ({ lng:0,lat:0 }), getZoom:() => 4, getPitch:() => 0, getBearing:() => 0, stop() {}, jumpTo() {}, getCanvas:() => canvas };
+      const layer = { model:controller.model, setState() {}, resize() {}, fitSelectionPose:pose => pose, layoutAt:(x,y) => [x/100,y/100], pick() { picks++; return { kind:'node',id:file.nodes[0].id }; } };
+      const adapter = new CaseInputAdapter({ controller,layer,map,surface,opener:null,onState() {},onAmbiguousEdges() {},closeSourceDialog:() => false,onClose() {},onFailure(message) { throw new Error(message); },stopGeographicJourney() {},setWorkspaceActive() {} });
+      try {
+        adapter.setInteractionMode(true); fire(surface,'pointerdown',[0,0]);
+        for (const offset of offsets) fire(surface,'pointermove',offset);
+        fire(surface,'pointerup',offsets.at(-1));
+        return { picks, selection:controller.state.navigation.nodeId, delta:controller.state.camera.center.map((value,i) => value - before[i]) };
+      } finally { adapter.dispose(); }
+    };
+    assert.equal(run([[1,1]]).picks, 1, 'The old sub-threshold correction selects instead of panning');
+    for (const delta of [[.31,0],[1,1],[3,0],[-4,4],[80,-40]]) {
+      const actual = run(dragOffsets(delta)); assert.equal(actual.picks, 0); assert.equal(actual.selection, null);
+      for (let i = 0; i < 2; i++) assert.ok(Math.abs(actual.delta[i] + delta[i] / 100) < 1e-10);
+    }
+  } finally {
+    if (previousObserver === undefined) delete globalThis.ResizeObserver; else globalThis.ResizeObserver = previousObserver;
+  }
+});
+
+function scanGesture(clearAt, offsets = [], rect = { x:0,y:0,left:0,top:0,right:800,bottom:500,width:800,height:500 }, viewport = { width:800,height:500 }) {
+  const element = (tag, className) => ({ tagName:tag, id:'', getAttribute: name => name === 'class' ? className : null });
+  const surface = { ...element('CANVAS','real-surface'), getBoundingClientRect: () => rect }, blocker = element('BUTTON','real-overlay');
+  const document = { querySelector: () => surface, elementFromPoint: (x,y) => clearAt(x,y) ? surface : blocker };
+  const result = runInNewContext(`(${findClearGesture.toString()})`, { document, innerWidth:viewport.width, innerHeight:viewport.height })({ selector:'.webgl-host canvas', offsets });
+  return JSON.parse(JSON.stringify(result));
+}
+test('gesture search finds real clear paths beyond the six old center probes', () => {
+  const result = scanGesture((x,y) => x > 600 && x < 720 && y > 80 && y < 130, dragOffsets([40,0]));
+  assert.ok(result.plan); assert.ok(result.attempts > 6);
+  assert.ok(result.hitTargets.every(hit => hit.target.tag === 'CANVAS'));
+});
+test('clear starts cannot excuse blocked activation, endpoints or intermediate paths', () => {
+  const small = { x:0,y:0,left:0,top:0,right:100,bottom:100,width:100,height:100 };
+  assert.equal(scanGesture((x,y) => x >= 46 && x <= 54 && y >= 40 && y <= 60, dragOffsets([1,0]), small).plan, null);
+  const wide = { ...small, right:400, width:400 };
+  const crossed = scanGesture(x => x < 190 || x > 210, dragOffsets([280,0]), wide);
+  assert.equal(crossed.plan, null); assert.ok(crossed.blockedTargets.some(row => row.target.tag === 'BUTTON'));
+  assert.equal(scanGesture(() => false, dragOffsets([1,1])).plan, null);
+});
+test('gesture routes remain inside the actual clipped viewport and preserve failed target diagnostics', () => {
+  const result = scanGesture(() => true, dragOffsets([-40,30]), { x:-50,y:-20,left:-50,top:-20,right:750,bottom:480,width:800,height:500 }, { width:390,height:844 });
+  assert.ok(result.plan);
+  for (const point of [result.plan.start,...result.plan.points]) assert.ok(point.x >= 8 && point.x <= 382 && point.y >= 8 && point.y <= 472);
+  assert.match(source, /report\.failureNavigation = await page\.evaluate\(navigationSnapshot\)/);
+  assert.match(source, /navigationReports\.set\(page, report\.navigation\)/);
+  assert.match(source, /do not silently close it/);
+  assert.match(navigationSnapshot.toString(), /geographicPose/);
+  assert.match(navigationSnapshot.toString(), /caseSelection/);
+  assert.match(installThreadZoomProbe.toString(), /state\.inputs\.push\(row\)/);
 });
 test('independent screen clipping keeps crossings with both endpoints outside', () => {
   assert.deepEqual(clipSegment([-5, 20], [105, 20], 100, 40), [[0,20],[100,20]]);

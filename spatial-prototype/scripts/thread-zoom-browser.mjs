@@ -39,6 +39,65 @@ export function panDelta(center, destination, zoom) {
   const a = mercator(center), b = mercator(destination), scale = 512 * 2 ** zoom;
   return [(a[0] - b[0]) * scale, (a[1] - b[1]) * scale];
 }
+/** MapLibre 6.13 activates at 3 CSS px; CaseInputAdapter requires >5 px.
+ * Always activate with one deliberate 12 px move before the exact correction.
+ * A short correction returns along the same held drag, so it cannot be a click. */
+export function dragOffsets(delta) {
+  assert.ok(delta.length === 2 && delta.every(Number.isFinite), 'Invalid pointer delta');
+  const distance = Math.hypot(...delta);
+  assert.ok(distance > 0, 'A zero correction must not send a pointer gesture');
+  return [delta.map(value => value / distance * 12), [...delta]];
+}
+
+/** Serialized read-only DOM hit testing; no overlay dismissal, style or camera changes.
+ * Check the entire route, including its activation leg, against the exact input surface. */
+export function findClearGesture({ selector, offsets = [] }) {
+  const surface = document.querySelector(selector);
+  const describe = element => element ? { tag: element.tagName, id: element.id, class: element.getAttribute('class'), label: element.getAttribute('aria-label') } : null;
+  if (!surface) return { plan: null, selector, reason: 'Input surface is missing' };
+  const rect = surface.getBoundingClientRect(), inset = 8;
+  const bounds = { left: Math.max(0, rect.left) + inset, top: Math.max(0, rect.top) + inset,
+    right: Math.min(innerWidth, rect.right) - inset, bottom: Math.min(innerHeight, rect.bottom) - inset };
+  const blocked = new Map(); let attempts = 0, samples = 0;
+  const hit = point => {
+    samples++;
+    const target = document.elementFromPoint(point.x, point.y), clear = target === surface;
+    if (!clear) { const key = JSON.stringify(describe(target)); blocked.set(key, (blocked.get(key) ?? 0) + 1); }
+    return clear;
+  };
+  const inBounds = point => point.x >= bounds.left && point.x <= bounds.right && point.y >= bounds.top && point.y <= bounds.bottom;
+  const candidates = [[.5,.5],[.5,.6],[.7,.5],[.3,.5],[.65,.65],[.35,.65]].map(([x,y]) => ({ x: rect.x + rect.width * x, y: rect.y + rect.height * y }));
+  for (let y = bounds.top; y <= bounds.bottom; y += 16)
+    for (let x = bounds.left; x <= bounds.right; x += 16) candidates.push({ x, y });
+  for (const start of candidates) {
+    attempts++;
+    const points = [start, ...offsets.map(([x,y]) => ({ x: start.x + x, y: start.y + y }))];
+    if (!points.every(inBounds)) continue;
+    let clear = true;
+    for (let i = 0; clear && i < points.length; i++) {
+      const a = points[Math.max(0, i - 1)], b = points[i], steps = Math.max(1, Math.ceil(Math.hypot(b.x - a.x, b.y - a.y) / 4));
+      for (let step = 0; clear && step <= steps; step++) {
+        const x = a.x + (b.x - a.x) * step / steps, y = a.y + (b.y - a.y) * step / steps;
+        // A small clear corridor avoids sitting directly on a label/control boundary.
+        clear = [[0,0],[-3,0],[3,0],[0,-3],[0,3]].every(([dx,dy]) => hit({ x: x + dx, y: y + dy }));
+      }
+    }
+    if (clear) return { plan: { start, points: points.slice(1) }, selector, bounds, attempts, samples,
+      hitTargets: points.map(point => ({ ...point, target: describe(document.elementFromPoint(point.x, point.y)) })) };
+  }
+  return { plan: null, selector, bounds, attempts, samples, blockedTargets: [...blocked].map(([target,count]) => ({ target: JSON.parse(target), count })) };
+}
+
+/** Serialized diagnostic snapshot also survives a failure before the first GL checkpoint. */
+export function navigationSnapshot() {
+  const host = document.querySelector('.webgl-host'), inspector = document.querySelector('.evidence-inspector'), workspace = document.querySelector('[data-case-workspace]');
+  const parse = text => { try { return JSON.parse(text ?? 'null'); } catch { return text; } };
+  return { geographicPose: parse(host?.dataset.geographicPose), renderedEdgeIds: parse(host?.dataset.renderedEdgeIds),
+    inspector: inspector ? { metadata: parse(inspector.querySelector('.retained-metadata pre')?.textContent), rect: inspector.getBoundingClientRect().toJSON() } : null,
+    caseSelection: workspace?.dataset.caseSelection ?? null, caseView: workspace?.dataset.caseView ?? null,
+    canvas: host?.querySelector('canvas')?.getBoundingClientRect().toJSON() ?? null,
+    viewport: { width: innerWidth, height: innerHeight } };
+}
 export function clipSegment(a, b, width, height) {
   let lo = 0, hi = 1;
   const dx = b[0] - a[0], dy = b[1] - a[1];
@@ -70,7 +129,7 @@ export function recordCheck(report, label, work, diagnostic = false) {
 export function installThreadZoomProbe({ atlasEdge, caseEdge }) {
   const scenes = [], contexts = [], renderers = [], buffers = new WeakMap(), shaderSources = new WeakMap(), programSources = new WeakMap();
   const nativeGetContext = HTMLCanvasElement.prototype.getContext;
-  const state = { active: null, captures: {}, errors: [], versions: [], contexts: [], renderers: 0 };
+  const state = { active: null, captures: {}, errors: [], versions: [], contexts: [], renderers: 0, inputs: [] };
   const observer = new EventTarget();
   observer.addEventListener('register', event => state.versions.push(event.detail.revision));
   observer.addEventListener('observe', event => {
@@ -85,6 +144,18 @@ export function installThreadZoomProbe({ atlasEdge, caseEdge }) {
     try { return JSON.parse(document.querySelector('.webgl-host')?.dataset.geographicPose ?? 'null')?.pose ?? null; }
     catch { return null; }
   };
+  const inputTarget = element => element instanceof Element ? { tag: element.tagName, id: element.id,
+    class: element.getAttribute('class'), label: element.getAttribute('aria-label') } : null;
+  // Passive capture observes real input, including a click later suppressed by MapLibre.
+  // It never dispatches events, changes handlers or prevents their normal behavior.
+  for (const type of ['mousedown','mousemove','mouseup','click','wheel','keydown']) window.addEventListener(type, event => {
+    if (type === 'mousemove' && !event.buttons) return;
+    const row = { type, time: performance.now(), trusted: event.isTrusted, x: event.clientX ?? null, y: event.clientY ?? null,
+      buttons: event.buttons ?? null, key: event.key ?? null, deltaY: event.deltaY ?? null, target: inputTarget(event.target),
+      hitTarget: Number.isFinite(event.clientX) ? inputTarget(document.elementFromPoint(event.clientX, event.clientY)) : null, pose: hostPose() };
+    state.inputs.push(row);
+    queueMicrotask(() => { row.defaultPrevented = event.defaultPrevented; });
+  }, { capture: true, passive: true });
   const inside = (p, box) => p[0] >= 0 && p[0] <= box.width && p[1] >= 0 && p[1] <= box.height;
   function atlasMesh() {
     for (const scene of scenes) {
@@ -235,15 +306,45 @@ async function until(check, message, timeout = 20000) {
 async function pose(page) {
   return page.locator('.webgl-host').evaluate(element => JSON.parse(element.dataset.geographicPose).pose);
 }
+const navigationReports = new WeakMap();
+async function gesturePlan(page, selector, offsets, label) {
+  const receipt = { label, offsets, before: await page.evaluate(navigationSnapshot) };
+  navigationReports.get(page)?.push(receipt);
+  receipt.hitTest = await page.evaluate(findClearGesture, { selector, offsets });
+  assert.ok(receipt.hitTest.plan, `No unobstructed ${selector} gesture path: ${JSON.stringify(receipt.hitTest)}`);
+  return receipt;
+}
 async function clearMapPoint(page) {
-  return page.evaluate(() => {
-    const canvas = document.querySelector('.webgl-host canvas'), r = canvas.getBoundingClientRect();
-    for (const [fx, fy] of [[.5,.5],[.5,.6],[.7,.5],[.3,.5],[.65,.65],[.35,.65]]) {
-      const x = r.x + r.width * fx, y = r.y + r.height * fy;
-      if (document.elementFromPoint(x, y) === canvas) return { x, y };
-    }
-    throw new Error('No unobstructed canvas gesture point');
-  });
+  const receipt = await gesturePlan(page, '.webgl-host canvas', [], 'atlas wheel target');
+  return receipt.hitTest.plan.start;
+}
+async function dragSurface(page, selector, delta, label) {
+  const receipt = await gesturePlan(page, selector, dragOffsets(delta), label), { start, points } = receipt.hitTest.plan;
+  await page.mouse.move(start.x, start.y);
+  let pressed = false;
+  try {
+    await page.mouse.down(); pressed = true;
+    // One first move crosses both real handlers' activation thresholds. Splitting it
+    // into tiny steps would discard pre-activation motion in CaseInputAdapter.
+    await page.mouse.move(points[0].x, points[0].y);
+    await delay(40);
+    await page.mouse.move(points[1].x, points[1].y, { steps: Math.max(1, Math.ceil(Math.hypot(points[1].x - points[0].x, points[1].y - points[0].y) / 16)) });
+    // MapLibre's inertia buffer expires after 160 ms; allow a rendered frame first.
+    await delay(240);
+    receipt.releaseHit = await page.evaluate(({ selector, point }) => {
+      const hit = document.elementFromPoint(point.x, point.y);
+      return { point, clear: hit === document.querySelector(selector), target: hit ? { tag: hit.tagName, id: hit.id, class: hit.getAttribute('class'), label: hit.getAttribute('aria-label') } : null };
+    }, { selector, point: points[1] });
+    assert.equal(receipt.releaseHit.clear, true, 'Pointer release is obstructed; preserve the target diagnostics');
+  } finally {
+    if (pressed) await page.mouse.up();
+    await delay(80);
+    receipt.after = await page.evaluate(navigationSnapshot);
+  }
+  assert.equal(Boolean(receipt.after.inspector), Boolean(receipt.before.inspector), 'A navigation drag changed atlas reader visibility; do not silently close it');
+  assert.deepEqual(receipt.after.inspector?.metadata ?? null, receipt.before.inspector?.metadata ?? null, 'A navigation drag opened or changed the atlas reader; do not silently close it');
+  assert.equal(receipt.after.caseSelection, receipt.before.caseSelection, 'A navigation drag selected a case object');
+  assert.equal(receipt.after.caseView, receipt.before.caseView, 'A navigation drag changed the case view');
 }
 async function setAtlasZoom(page, requested) {
   const target = requested === 6 ? 6.0001 : requested;
@@ -266,11 +367,8 @@ async function centerAtlas(page, destination = CROSSING_CENTER) {
   for (let iteration = 0; iteration < 25; iteration++) {
     const p = await pose(page), delta = panDelta(p.center, destination, p.zoom);
     if (Math.hypot(...delta) < .3) return;
-    const scale = Math.min(1, 90 / Math.max(...delta.map(Math.abs))), start = await clearMapPoint(page);
-    await page.mouse.move(start.x, start.y); await page.mouse.down();
-    await page.mouse.move(start.x + delta[0] * scale, start.y + delta[1] * scale, { steps: 5 });
-    // A paused drag avoids inertia without modifying any map handler.
-    await delay(180); await page.mouse.up(); await delay(80);
+    const scale = Math.min(1, 90 / Math.max(...delta.map(Math.abs)));
+    await dragSurface(page, '.webgl-host canvas', delta.map(value => value * scale), `atlas center correction ${iteration}`);
   }
   throw new Error(`Could not center the original crossing: ${JSON.stringify(await pose(page))}`);
 }
@@ -349,7 +447,7 @@ async function runAtlas(page, output, report) {
   const reentry = await captureAtlas(page, output, 'atlas-reentry-z5_9'); report.atlas.push(reentry);
   recordCheck(report, 'atlas reentry native raster and exact original IDs', () => { assertRasterEvidence(reentry, 'reentry'); assert.deepEqual(reentry.visibleEdgeIds, selected ? selectedAreaIds : areaIds); }, diagnostic);
   // Pan the retained crossing away and back without using an endpoint-in-view gate.
-  const start = await clearMapPoint(page); await page.mouse.move(start.x, start.y); await page.mouse.down(); await page.mouse.move(start.x + 70, start.y + 35, { steps: 5 }); await delay(180); await page.mouse.up();
+  await dragSurface(page, '.webgl-host canvas', [70, 35], 'atlas deliberate pan away');
   await centerAtlas(page);
   const pan = await captureAtlas(page, output, 'atlas-pan-return'); report.atlas.push(pan);
   recordCheck(report, 'atlas pan-return raster and both offscreen endpoints', () => { assertRasterEvidence(pan, 'pan-return'); assert.equal(pan.geometry.bothEndpointsOffscreen, true); }, diagnostic);
@@ -406,6 +504,7 @@ async function runCase(page, output, report) {
   await surface.focus(); await surface.press('Home'); await delay(150);
   const initial = await page.evaluate(() => window.__threadZoomProbe.snapshot('case'));
   assert.ok(initial.geometry, 'No original case geometry at the normal fit pose');
+  assert.equal(initial.caseSelection, '', 'Case crossing fixture must start without a selected object');
   assert.deepEqual(initial.visibleEdgeIds, file.edges.slice(0, 4).map(edge => edge.id), 'Case draw/source order changed');
   // Verify the identity mapping against the accepted source layout at its known Home pose.
   const { build } = await import('esbuild');
@@ -427,8 +526,8 @@ async function runCase(page, output, report) {
     const row = await page.evaluate(() => window.__threadZoomProbe.snapshot('case')), g = row.geometry, mid = g.points[Math.floor(g.points.length / 2)];
     const dx = g.board.width / 2 - mid[0], dy = g.board.height / 2 - mid[1];
     if (Math.hypot(dx, dy) < 1) break;
-    const scale = Math.min(1, 80 / Math.max(Math.abs(dx), Math.abs(dy))), x = g.board.x + g.board.width / 2, y = g.board.y + g.board.height / 2;
-    await page.mouse.move(x, y); await page.mouse.down(); await page.mouse.move(x + dx * scale, y + dy * scale, { steps: 5 }); await page.mouse.up(); await delay(60);
+    const scale = Math.min(1, 80 / Math.max(Math.abs(dx), Math.abs(dy)));
+    await dragSurface(page, '[data-case-surface]', [dx * scale, dy * scale], `case center correction ${i}`);
   }
   await page.evaluate(() => window.__threadZoomProbe.arm('case-max-zoom', 'case'));
   await surface.focus(); await surface.press('+'); await delay(100);
@@ -492,7 +591,7 @@ export async function main(args = process.argv.slice(2), env = process.env) {
   const output = join(ROOT, 'thread-zoom-review', mode); await mkdir(output, { recursive: true });
   const report = { mode, baselineCommit: BASELINE_COMMIT, headCommit: mode === 'live-diagnostic' ? null : env.SPATIAL_HEAD_SHA ?? env.GITHUB_SHA ?? null, harnessCommit: env.SPATIAL_HARNESS_SHA ?? env.GITHUB_SHA ?? null,
     startedAt: new Date().toISOString(), renderer: 'Chromium / ANGLE SwiftShader, native WebGL calls and software rasterization; not consumer-device FPS',
-    checks: [], atlas: [], case: [], clicks: [], errors: [], screenshots: [], scriptAssets: [], sourceHashes: {} };
+    checks: [], atlas: [], case: [], clicks: [], errors: [], screenshots: [], scriptAssets: [], sourceHashes: {}, navigation: [] };
   if (mode !== 'live-diagnostic') for (const file of ['src/registry.json', 'src/semanticZoom.ts', 'src/case-data/reviewed-transport.json', 'src/threadGeometry.ts', 'src/scene.ts']) report.sourceHashes[file] = sha256(await readFile(join(ROOT, file)));
   let browser, server, page; const assetReads = [];
   try {
@@ -501,7 +600,7 @@ export async function main(args = process.argv.slice(2), env = process.env) {
     report.browserVersion = browser.version();
     const context = await browser.newContext({ viewport: { width: 800, height: 500 }, deviceScaleFactor: 1, reducedMotion: 'reduce' });
     await context.addInitScript(installThreadZoomProbe, { atlasEdge: ATLAS_EDGE, caseEdge: CASE_EDGE });
-    page = await context.newPage(); page.setDefaultTimeout(15000); page.on('pageerror', error => report.errors.push(error.message));
+    page = await context.newPage(); navigationReports.set(page, report.navigation); page.setDefaultTimeout(15000); page.on('pageerror', error => report.errors.push(error.message));
     page.on('response', response => {
       if (!response.url().startsWith(`${serving.origin}${PREFIX}`) || !/\.js(?:\?|$)/.test(response.url())) return;
       const asset = { url: response.url(), status: response.status(), sha256: null }; report.scriptAssets.push(asset);
@@ -524,7 +623,10 @@ export async function main(args = process.argv.slice(2), env = process.env) {
   finally {
     if (page && !page.isClosed()) {
       try { report.observer = await page.evaluate(() => window.__threadZoomProbe?.report() ?? null); } catch (error) { report.errors.push(`Observer persistence: ${error}`); }
-      if (report.checks.some(check => /failed|failure|unsupported/.test(check.status))) try { report.screenshots.push(await screenshot(page, output, 'failure-state', false)); } catch (error) { report.errors.push(`Failure screenshot: ${error}`); }
+      if (report.checks.some(check => /failed|failure|unsupported/.test(check.status))) {
+        try { report.failureNavigation = await page.evaluate(navigationSnapshot); } catch (error) { report.errors.push(`Failure navigation persistence: ${error}`); }
+        try { report.screenshots.push(await screenshot(page, output, 'failure-state', false)); } catch (error) { report.errors.push(`Failure screenshot: ${error}`); }
+      }
     }
     await Promise.allSettled(assetReads);
     if (browser) await browser.close().catch(error => report.errors.push(`Browser cleanup: ${error}`)); if (server) await new Promise(resolveClosed => server.close(resolveClosed));
