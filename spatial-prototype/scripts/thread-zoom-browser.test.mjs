@@ -10,7 +10,7 @@ import { runInNewContext } from 'node:vm';
 import { build } from 'esbuild';
 import { ATLAS_EDGE, CASE_EDGE, CROSSING_CENTER, REQUIRED_ZOOMS, BASELINE_COMMIT,
   requireAuthorizedCI, parseMode, mercator, panDelta, clipSegment, assertRasterEvidence, recordCheck,
-  installThreadZoomProbe, dragOffsets, findClearGesture, navigationSnapshot } from './thread-zoom-browser.mjs';
+  installThreadZoomProbe, dragOffsets, findClearGesture, navigationSnapshot, atlasCenterReached, ATLAS_CENTER_ERROR_PX } from './thread-zoom-browser.mjs';
 
 const path = fileURLToPath(new URL('./thread-zoom-browser.mjs', import.meta.url));
 const source = await readFile(path, 'utf8');
@@ -48,7 +48,7 @@ test('every drag starts beyond both activation thresholds, including fractional 
   for (const invalid of [[0,0],[NaN,0],[1,Infinity],[1]]) assert.throws(() => dragOffsets(invalid));
   assert.match(source, /dragSurface\(page, '\[data-case-surface\]'/);
   assert.match(source, /dragSurface\(page, '\.webgl-host canvas'/);
-  assert.match(source, /if \(Math\.hypot\(\.\.\.delta\) < \.3\) return/);
+  assert.match(source, /if \(atlasCenterReached\(delta\)\)/);
   assert.match(source, /if \(Math\.hypot\(dx, dy\) < 1\) break/);
 });
 
@@ -216,4 +216,16 @@ test('partial native receipts, raw raster samples, oblique pose and narrow captu
   assert.match(source, /width: 390, height: 844/); assert.match(source, /pixels, bytes: png\.length/);
   assert.match(source, /within the same selected state/);
   assert.match(source, /Crossing click must hit the real map canvas, never a DOM label/);
+});
+
+test('integer native input convergence is bounded independently from strict raster quality', () => {
+  assert.equal(ATLAS_CENTER_ERROR_PX, 1);
+  assert.equal(atlasCenterReached([0.5289056300977041, 0.006431765995139872]), true);
+  assert.equal(atlasCenterReached([-10.471094369846272, 0.006431765968129258]), false);
+  for (const dx of [-1, 0, 1]) for (const dy of [-1, 0, 1]) assert.equal(atlasCenterReached([dx,dy]), true);
+  for (const value of [[1.00001,0],[0,-1.00001],[NaN,0],[0,Infinity],[0]]) assert.equal(atlasCenterReached(value), false);
+  assert.match(source, /errorCssPixels: delta/);
+  assert.match(source, /maxAxisErrorCssPixels: ATLAS_CENTER_ERROR_PX/);
+  // Changed navigation does not convert absent pixels or a missing centerline into a pass.
+  assert.throws(() => assertRasterEvidence({ samples: [] }, 'missing raster'));
 });

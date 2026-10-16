@@ -12,6 +12,12 @@ import { setTimeout as delay } from 'node:timers/promises';
 export const ATLAS_EDGE = 'legacy:relationship:9e7654ec6cc7ec18|joshi|role|coal';
 export const CASE_EDGE = 'case:india-ambani:edge:1:1';
 export const CROSSING_CENTER = Object.freeze([76.329121982, 21.999570445240124]);
+// Chromium's recorded MouseEvent client coordinates are integer CSS pixels.
+// This is only fixture navigation accuracy, never a raster/picking threshold.
+export const ATLAS_CENTER_ERROR_PX = 1;
+export function atlasCenterReached(delta) {
+  return delta.length === 2 && delta.every(value => Number.isFinite(value) && Math.abs(value) <= ATLAS_CENTER_ERROR_PX);
+}
 export const REQUIRED_ZOOMS = Object.freeze([4.5, 5.9, 6, 8, 16, 17, 18, 19]);
 export const BASELINE_COMMIT = '85702ec5f553415e009a37e89d7333c96c952c66';
 export const LIVE_ATLAS_URL = 'https://occult-kranti.github.io/india-corporate-intelligence/spatial/';
@@ -366,7 +372,10 @@ async function setAtlasZoom(page, requested) {
 async function centerAtlas(page, destination = CROSSING_CENTER) {
   for (let iteration = 0; iteration < 25; iteration++) {
     const p = await pose(page), delta = panDelta(p.center, destination, p.zoom);
-    if (Math.hypot(...delta) < .3) return;
+    if (atlasCenterReached(delta)) {
+      navigationReports.get(page)?.push({ label: 'atlas center reached', pose: p, destination, errorCssPixels: delta, maxAxisErrorCssPixels: ATLAS_CENTER_ERROR_PX });
+      return;
+    }
     const scale = Math.min(1, 90 / Math.max(...delta.map(Math.abs)));
     await dragSurface(page, '.webgl-host canvas', delta.map(value => value * scale), `atlas center correction ${iteration}`);
   }
@@ -480,6 +489,9 @@ async function runLive(page, output, report) {
     return;
   }
   await page.getByRole('button', { name: 'Top-down orientation', exact: true }).click();
+  // Start the long world-to-city pan at the same ordinary overview zoom as
+  // candidate/baseline, rather than exhausting a city-scale 25-drag bound.
+  await setAtlasZoom(page, 4.5); await centerAtlas(page);
   for (const zoom of [5.9, 8]) {
     await setAtlasZoom(page, zoom); await centerAtlas(page);
     const row = await captureAtlas(page, output, `public-live-z${String(zoom).replace('.', '_')}`); report.atlas.push(row);
