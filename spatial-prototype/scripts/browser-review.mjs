@@ -1261,6 +1261,69 @@ async function notApplicable(name, reason) {
   console.log(`NOT APPLICABLE: ${name}: ${reason}`);
 }
 
+/** Check actual rendered styles for the current input capability. No CSS is forced. */
+async function assertGuideButtonContrast(page, result, phase, input = "normal") {
+  const dialog = tutorialDialog(page);
+  const next = dialog.getByRole("button", { name: "Next", exact: true });
+  const capabilities = await page.evaluate(() => ({
+    hover: matchMedia("(hover: hover)").matches,
+    pointer: matchMedia("(pointer: fine)").matches,
+    touchPoints: navigator.maxTouchPoints,
+  }));
+  if (input === "pointer-hover") {
+    assert.equal(capabilities.hover, true, "Pointer-hover coverage requires a hover-capable context");
+    await next.hover();
+    await until(() => next.evaluate(element => element.matches(":hover")),
+      "Desktop pointer never reached the Next hover state");
+  } else if (input === "focus") {
+    await next.focus();
+    assert.equal(await next.evaluate(element => document.activeElement === element), true,
+      "Guide focus contrast requires the Next button to actually be focused");
+  }
+      const buttonContrast = await dialog
+        .locator("button:not(:disabled)")
+        .evaluateAll((buttons) => {
+          const rgb = (value) => {
+            const parts = value.match(/[\d.]+/g).map(Number);
+            return [parts[0], parts[1], parts[2], parts[3] ?? 1];
+          };
+          const blend = (a, b) =>
+            a.slice(0, 3).map((v, i) => v * a[3] + b[i] * (1 - a[3]));
+          const luminance = (color) =>
+            color
+              .map((v) => {
+                const s = v / 255;
+                return s <= 0.04045 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4;
+              })
+              .reduce((sum, v, i) => sum + v * [0.2126, 0.7152, 0.0722][i], 0);
+          return buttons.map((button) => {
+            const style = getComputedStyle(button);
+            const paper = rgb(
+              getComputedStyle(button.closest("dialog")).backgroundColor,
+            );
+            const background = blend(rgb(style.backgroundColor), paper);
+            const foreground = blend(rgb(style.color), background);
+            const a = luminance(foreground),
+              b = luminance(background);
+            return {
+              label: button.textContent.trim(),
+              foreground: style.color,
+              background: style.backgroundColor,
+              hovered: button.matches(":hover"),
+              ratio: (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05),
+            };
+          });
+        });
+
+  result.guideButtonContrast ??= [];
+  result.guideButtonContrast.push({phase, input, capabilities, buttons: buttonContrast});
+  assert.ok(buttonContrast.every(row => row.ratio >= 4.5),
+    `Paper-guide button contrast is below 4.5:1 (${phase}): ${JSON.stringify(buttonContrast)}`);
+  if (input === "pointer-hover") assert.equal(
+    buttonContrast.find(row => row.label === "Next")?.hovered, true,
+    "The desktop contrast check must exercise the real Next hover state");
+}
+
 async function scenario(name, options, work) {
   const result = {
     name,
@@ -3578,6 +3641,9 @@ try {
       const dialog = tutorialDialog(page);
       await help.click();
       await assertTutorialStep(page, result, 0);
+      await assertGuideButtonContrast(page, result, "desktop initial buttons");
+      await assertGuideButtonContrast(page, result, "desktop actual Next hover", "pointer-hover");
+      await capture(page, result, "desktop-guide-verified-pointer-hover");
       await dialog.getByRole("button", { name: "Next", exact: true }).click();
       await assertTutorialStep(page, result, 1);
       await assertTutorialUnchanged(page, result, before, "Next");
@@ -3856,53 +3922,11 @@ try {
         before,
         "in-tab progress survives denied storage",
       );
-      // Exercise the actual pointer-hover rule too; touch browsers can retain
-      // this state after a tap, and behavior-only assertions missed its contrast.
-      await dialog.getByRole("button", { name: "Next", exact: true }).hover();
-      const buttonContrast = await dialog
-        .locator("button:not(:disabled)")
-        .evaluateAll((buttons) => {
-          const rgb = (value) => {
-            const parts = value.match(/[\d.]+/g).map(Number);
-            return [parts[0], parts[1], parts[2], parts[3] ?? 1];
-          };
-          const blend = (a, b) =>
-            a.slice(0, 3).map((v, i) => v * a[3] + b[i] * (1 - a[3]));
-          const luminance = (color) =>
-            color
-              .map((v) => {
-                const s = v / 255;
-                return s <= 0.04045 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4;
-              })
-              .reduce((sum, v, i) => sum + v * [0.2126, 0.7152, 0.0722][i], 0);
-          return buttons.map((button) => {
-            const style = getComputedStyle(button);
-            const paper = rgb(
-              getComputedStyle(button.closest("dialog")).backgroundColor,
-            );
-            const background = blend(rgb(style.backgroundColor), paper);
-            const foreground = blend(rgb(style.color), background);
-            const a = luminance(foreground),
-              b = luminance(background);
-            return {
-              label: button.textContent.trim(),
-              foreground: style.color,
-              background: style.backgroundColor,
-              hovered: button.matches(":hover"),
-              ratio: (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05),
-            };
-          });
-        });
-      assert.ok(
-        buttonContrast.every((row) => row.ratio >= 4.5),
-        `Paper-guide button text contrast is below 4.5:1: ${JSON.stringify(buttonContrast)}`,
-      );
-      assert.equal(
-        buttonContrast.find((row) => row.label === "Next")?.hovered,
-        true,
-        "The contrast check must exercise the Next hover state",
-      );
-      result.guideButtonContrast = buttonContrast;
+      // Coarse-pointer touch input does not promise a persistent :hover state.
+      // The desktop scenario separately requires actual hover; mobile retains
+      // normal/focus contrast, touch activation and all focus/navigation gates.
+      await assertGuideButtonContrast(page, result, "mobile after touch reopen");
+      await assertGuideButtonContrast(page, result, "mobile focused Next", "focus");
       await capture(page, result, "mobile-reopened-progress-and-save-warning");
       await dialog
         .getByRole("button", { name: "Restart", exact: true })
